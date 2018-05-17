@@ -1567,7 +1567,7 @@ var FwBrowse = (function () {
                     try {
                         var $td = jQuery(this).parent();
                         var $tr = $td.closest('tr');
-                        FwValidation.validationPeek($control, $td.data('validationname').slice(0, -10), $td.data('originalvalue'), $td.data('browsedatafield'), null);
+                        FwValidation.validationPeek($control, $td.data('validationname').slice(0, -10), $td.data('originalvalue'), $td.data('browsedatafield'), null, $td.data('originaltext'));
                     }
                     catch (ex) {
                         FwFunc.showError(ex);

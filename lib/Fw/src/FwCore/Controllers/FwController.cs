@@ -8,8 +8,7 @@ using System.Threading.Tasks;
 
 namespace FwCore.Controllers
 {
-    [Route("api/v1/[controller]")]
-    public class FwController : Controller  //todo: create FwController to inherit from
+    public class FwController : Controller
     {
         protected readonly FwApplicationConfig AppConfig;
         //------------------------------------------------------------------------------------

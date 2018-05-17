@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
@@ -38,6 +39,43 @@ namespace FwCore.Controllers
                 FwBusinessLogic l = CreateBusinessLogic(type, this.AppConfig, this.UserSession);
                 FwJsonDataTable dt = await l.BrowseAsync(browseRequest);
                 return new OkObjectResult(dt);
+            }
+            catch (Exception ex)
+            {
+                FwApiException jsonException = new FwApiException();
+                jsonException.StatusCode = StatusCodes.Status500InternalServerError;
+                jsonException.Message = ex.Message;
+                jsonException.StackTrace = ex.StackTrace;
+                return StatusCode(jsonException.StatusCode, jsonException);
+            }
+        }
+        //------------------------------------------------------------------------------------
+        public class DoExportExcelXlsxExportFileAsyncResult
+        {
+            public string downloadUrl = "";
+        }
+        protected virtual async Task<IActionResult> DoExportExcelXlsxFileAsync(BrowseRequest browseRequest, Type type, string worksheetName)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                FwBusinessLogic l = CreateBusinessLogic(type, this.AppConfig, this.UserSession);
+                FwJsonDataTable dt = await l.BrowseAsync(browseRequest);
+                string downloadasfilename = new string(worksheetName.Where(c =>char.IsLetterOrDigit(c)).ToArray()) + "_" + DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss");
+                string filename = this.UserSession.WebUsersId + "-" + downloadasfilename + "-" + Guid.NewGuid().ToString().Replace("-", string.Empty) + ".xlsx";
+                string directory = FwDownloadController.GetDownloadsDirectory();
+                string path = Path.Combine(directory, filename);
+
+                // Delete any existing excel files belonginng to this user
+                FwDownloadController.DeleteCurrentWebUserDownloads(this.UserSession.WebUsersId);
+
+                dt.ToExcelXlsxFile(worksheetName, path);
+                DoExportExcelXlsxExportFileAsyncResult result = new DoExportExcelXlsxExportFileAsyncResult();
+                result.downloadUrl = "api/v1/download/" + filename + "?downloadasfilename=" + downloadasfilename + ".xlsx";
+                return new OkObjectResult(result);
             }
             catch (Exception ex)
             {

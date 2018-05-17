@@ -154,22 +154,30 @@ class FwModule {
                                                             case 'DownloadExcelSubMenuItem':
                                                                 $submenuitem = FwMenu.addSubMenuBtn($submenugroup, nodeSubMenuItem.properties.caption, nodeSubMenuItem.id);
                                                                 $submenuitem.on('click', function () {
-                                                                    var webserviceurl, module, request;
                                                                     try {
-                                                                        module = window[controller].Module;
-                                                                        request = FwBrowse.getRequest($browse);
-                                                                        request.saveas = FwTabs.getTabByElement($browse).attr('data-caption');
-                                                                        request.module = module;
-                                                                        webserviceurl = 'services.ashx?path=/module/' + module + '/ExportBrowseXLSX';
-                                                                        FwAppData.jsonPost(true, webserviceurl, request, FwServices.defaultTimeout, function (response) {
-                                                                            var win, $iframe;
+                                                                        let module = window[controller].Module;
+                                                                        let apiurl = window[controller].apiurl;
+                                                                        let request = FwBrowse.getRequest($browse);
+
+                                                                        FwAppData.apiMethod(true, 'POST', `${apiurl}/exportexcelxlsx/${module}`, request, FwServices.defaultTimeout, function (response) {
                                                                             try {
-                                                                                $iframe = jQuery('<iframe style="display:none;" />');
-                                                                                jQuery('.application').append($iframe);
-                                                                                $iframe.attr('src', response.downloadurl);
-                                                                                setTimeout(function () {
-                                                                                    $iframe.remove();
-                                                                                }, 500);
+                                                                                //var $a = jQuery('<a>download</a>');
+                                                                                //$a.attr('href', applicationConfig.apiurl + response.downloadUrl);
+                                                                                //$a.hide();
+                                                                                //jQuery('.application').append($a);
+                                                                                //setTimeout(function () {
+                                                                                //    $a.click();
+                                                                                //    $a.remove();
+                                                                                //}, 500);
+
+                                                                                //var $iframe = jQuery('<iframe style="display:none;" />');
+                                                                                //jQuery('.application').append($iframe);
+                                                                                //$iframe.attr('src', applicationConfig.apiurl + response.downloadUrl);
+                                                                                //setTimeout(function () {
+                                                                                //    $iframe.remove();
+                                                                                //}, 500);
+
+                                                                                window.location.assign(applicationConfig.apiurl + response.downloadUrl);
                                                                             } catch (ex) {
                                                                                 FwFunc.showError(ex);
                                                                             }

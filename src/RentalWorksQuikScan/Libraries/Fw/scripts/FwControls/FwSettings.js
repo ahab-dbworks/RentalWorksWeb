@@ -344,6 +344,8 @@ FwSettings.renderModuleHtml = function ($control, title, moduleName, color, desc
     html.push('        <i class="material-icons heading-menu">more_vert</i>');
     html.push('        <div id="myDropdown" class="dropdown-content">')
     html.push('          <a class="new-row">New Item</a>');
+    html.push('          <a class="show-inactive">Show Inactive</a>');
+    html.push('          <a class="hide-inactive">Hide Inactive</a>');
     html.push('        </div>');
     html.push('      </h4>');
     html.push('      <small id="description" style="display:none;">' + description + '</small>');
@@ -363,9 +365,21 @@ FwSettings.renderModuleHtml = function ($control, title, moduleName, color, desc
 
     $settingsPageModules.on('click', '.new-row', function (e) {
         e.stopPropagation();
-        $settingsPageModules.find('.heading-menu').next().css('display', 'none');
+        jQuery(this).parent().hide();
         $body = $control.find('#' + moduleName + '.panel-body');
         FwSettings.newRow($body, $control, apiurl, $modulecontainer, moduleName, $settingsPageModules);
+    });
+
+    $settingsPageModules.on('click', '.show-inactive', function (e) {
+        e.stopPropagation();
+        $control.find('.inactive').parent().show();
+        jQuery(this).parent().hide();
+    });
+
+    $settingsPageModules.on('click', '.hide-inactive', function (e) {
+        e.stopPropagation();
+        $control.find('.inactive').parent().hide();
+        jQuery(this).parent().hide();
     });
 
     $settingsPageModules
@@ -409,7 +423,8 @@ FwSettings.renderModuleHtml = function ($control, title, moduleName, color, desc
                         //html.push('<label>' + row[moduleName] + '</label>');
                         for (var j = 0; j < browseKeys.length; j++) {
                             if (browseKeys[j] === 'Inactive' && response[i][browseKeys[j]] === true) {
-                                html.unshift('<div style="display:none;">');
+                                html[2] = '<div class="inactive row-heading" style="background-color:lightgray;">';
+                                //html.unshift('<div style="display:none;">');
                             }
                             if (browseKeys[j] === 'Inactive' || browseKeys[j] === 'Color') {
 
@@ -422,9 +437,9 @@ FwSettings.renderModuleHtml = function ($control, title, moduleName, color, desc
                                 html.push('          <label>' + response[i][browseKeys[j]] + '</label>');
                                 html.push('        </div>');
                                 html.push('      </div>');
-                                if (browseKeys[j] === 'Inactive' && response[i][browseKeys[j]] === true) {
-                                    html.push('</div>');
-                                }
+                                //if (browseKeys[j] === 'Inactive' && response[i][browseKeys[j]] === true) {
+                                //    html.push('</div>');
+                                //}
                             }
                         }
                         //html.push('      <div class="pull-right save"><i class="material-icons">save</i>Save</div>'); 
@@ -452,7 +467,7 @@ FwSettings.renderModuleHtml = function ($control, title, moduleName, color, desc
         .on('click', '.heading-menu', function (e) {
             e.stopPropagation();
             if (jQuery(this).next().css('display') === 'none') {
-                jQuery(this).next().css('display', 'block');
+                jQuery(this).next().css('display', 'flex');
             } else {
                 jQuery(this).next().css('display', 'none');
             }

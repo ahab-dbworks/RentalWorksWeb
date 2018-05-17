@@ -367,7 +367,7 @@ namespace FwStandard.DataLayer
                     {
                         prefix = ",";
                     }
-                    qry.AddColumn("", property.Name, sqlDataFieldAttribute.ModelType, sqlDataFieldAttribute.IsVisible, sqlDataFieldAttribute.IsPrimaryKey, false);
+                    qry.AddColumn(property.Name, property.Name, sqlDataFieldAttribute.ModelType, sqlDataFieldAttribute.IsVisible, sqlDataFieldAttribute.IsPrimaryKey, false);
                     sb.Append(prefix + " [" + TableAlias + "].[" + sqlColumnName + "] as [" + property.Name + "]");
                     colNo++;
                 }

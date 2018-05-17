@@ -1,5 +1,10 @@
-﻿using System;
+﻿using OfficeOpenXml;
+using OfficeOpenXml.Drawing;
+using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.IO;
+using System.Web;
 
 namespace FwStandard.SqlServer
 {
@@ -28,40 +33,6 @@ namespace FwStandard.SqlServer
                 return reverseColumnIndex;
             }
         }
-        //---------------------------------------------------------------------------------------------
-        //[JsonIgnore]
-        //public DataTable DebugDataTable
-        //{
-        //    get
-        //    {
-        //        DataTable dt;
-        //        DataRow row;
-
-        //        dt = new DataTable();
-        //        for (int colno = 0; colno < Columns.Count; colno++)
-        //        {
-        //            dt.Columns.Add(ColumnNameByIndex[colno], typeof(string));
-        //        }
-        //        for (int rowno = 0; rowno < Rows.Count; rowno++)
-        //        {
-        //            row = dt.NewRow();
-        //            for (int colno = 0; colno < Columns.Count; colno++)
-        //            {
-        //                if (Rows[rowno][colno] != null)
-        //                {
-        //                    row[colno] = Rows[rowno][colno].ToString();
-        //                }
-        //                else
-        //                {
-        //                    row[colno] = string.Empty;
-        //                }
-        //            }
-        //            dt.Rows.Add(row);
-        //        }
-
-        //        return dt;
-        //    }
-        //}
         //---------------------------------------------------------------------------------------------
         public FwJsonDataTable() : base()
         {
@@ -122,126 +93,89 @@ namespace FwStandard.SqlServer
         }
         //---------------------------------------------------------------------------------------------
         /// <summary>
-        /// It gives you back the url you can download the file from.
+        /// Writes the data table to a file in the Excel .xlsx format
         /// </summary>
         /// <returns>downloadurl</returns>
-        //public string ExportXLSX(string saveas)
-        //{
-        //    ExcelWorksheet worksheet;
-        //    string filename, path, downloadurl;
-        //    int worksheetcol=1,  colcount=0;
-        //    FwJsonDataTableColumn col;
-            
-        //    filename    = Guid.NewGuid().ToString().Replace("-", string.Empty) + ".xlsx";
-        //    path        = HttpContext.Current.Server.MapPath("~/App_Data/Temp/Downloads/" + filename);
-        //    downloadurl = VirtualPathUtility.ToAbsolute("~/fwdownload.ashx?filename=" + HttpUtility.UrlEncode(filename) + "&saveas=" + HttpUtility.UrlEncode(saveas) + "&asattachment=true");
-        //    using (ExcelPackage package = new ExcelPackage(new FileInfo(path)))
-        //    {
-        //        worksheet = package.Workbook.Worksheets.Add("Worksheet 1");
-        //        worksheetcol = 1;
-        //        for(int colno = 0; colno < this.Columns.Count; colno++)
-        //        {
-        //            col = this.Columns[colno];
-        //            if ((!col.IsUniqueId) && (col.IsVisible))
-        //            {
-        //                worksheet.Cells[1, worksheetcol].Value = this.Columns[colno].Name;
-        //                worksheet.Cells[1, worksheetcol].Style.Font.Bold = true;
-        //                worksheet.Cells[1, worksheetcol].Style.Border.Bottom.Style = OfficeOpenXml.Style.ExcelBorderStyle.Thin;
-        //                worksheetcol++;
-        //                colcount++;
-        //            }
-        //        }
-        //        worksheet.Cells[1, 1, 1, colcount].AutoFilter = true;
-        //        for(int rowno = 0; rowno < this.Rows.Count; rowno++)
-        //        {
-        //            worksheetcol = 1;
-        //            for(int colno = 0; colno < this.Columns.Count; colno++)
-        //            {
-        //                col = this.Columns[colno];
-        //                if ((!col.IsUniqueId) && (col.IsVisible))
-        //                {
-        //                    worksheet.Cells[rowno + 2, worksheetcol].Value = this.GetValue(rowno, colno).ToString();
-        //                    worksheetcol++;
-        //                }
-        //            }
-        //        }
-        //        worksheet.Cells[1, 1, this.Rows.Count + 1, this.Columns.Count].AutoFitColumns();
-        //        package.Save();
-        //    }
+        public void ToExcelXlsxFile(string worksheetName, string path)
+        {
+            using (ExcelPackage package = new ExcelPackage((new FileInfo(path))))
+            {
+                ExcelWorksheet worksheet = package.Workbook.Worksheets.Add(worksheetName);
+                this.FillExcelWorksheet(worksheet);
+                package.Save();
+            }
+        }
+        //---------------------------------------------------------------------------------------------
+        public void FillExcelWorksheet(ExcelWorksheet worksheet)
+        {
+            int worksheetcol = 1, colcount = 0;
+            FwJsonDataTableColumn col;
+            int maxRowHeight, imageHeight, maxColumnWidth, imageWidth;
 
-        //    return downloadurl;
-        //}
-        //---------------------------------------------------------------------------------------------    
-        //public void FillExcelWorksheet(ExcelWorksheet worksheet)
-        //{
-        //    int worksheetcol = 1, colcount = 0;
-        //    FwJsonDataTableColumn col;
-        //    int maxRowHeight, imageHeight, maxColumnWidth, imageWidth;
+            worksheetcol = 1;
+            for (int colno = 0; colno < this.Columns.Count; colno++)
+            {
+                col = this.Columns[colno];
+                if ((!col.IsUniqueId) && (col.IsVisible))
+                {
+                    worksheet.Cells[1, worksheetcol].Value = this.Columns[colno].Name;
+                    worksheet.Cells[1, worksheetcol].Style.Font.Bold = true;
+                    worksheet.Cells[1, worksheetcol].Style.Border.Bottom.Style = OfficeOpenXml.Style.ExcelBorderStyle.Thin;
+                    worksheetcol++;
+                    colcount++;
+                }
+            }
+            worksheet.Cells[1, 1, 1, colcount].AutoFilter = true;
+            for (int rowno = 0; rowno < this.Rows.Count; rowno++)
+            {
+                maxRowHeight = 0;
+                worksheetcol = 1;
+                for (int colno = 0; colno < this.Columns.Count; colno++)
+                {
+                    maxColumnWidth = 0;
+                    col = this.Columns[colno];
+                    if ((!col.IsUniqueId) && (col.IsVisible))
+                    {
+                       if (col.DataType == FwDataTypes.JpgDataUrl)
+                        {
+                            string base64img = this.GetValue(rowno, colno).ToString().Replace("data:image/jpg;base64,", "");
+                            if (!string.IsNullOrEmpty(base64img))
+                            {
+                                byte[] img = Convert.FromBase64String(base64img);
+                                using (Stream stream = new MemoryStream(img))
+                                {
+                                    Bitmap image = new Bitmap(stream);
+                                    ExcelPicture excelImage = null;
+                                    if (image != null)
+                                    {
+                                        imageWidth             = image.Width  / 4;
+                                        imageHeight            = image.Height / 4;
+                                        excelImage             = worksheet.Drawings.AddPicture(Guid.NewGuid().ToString(), image);
+                                        excelImage.From.Column = colno - 2;
+                                        excelImage.From.Row    = rowno + 1;
+                                        excelImage.SetSize(imageWidth, imageHeight);
 
-        //    worksheetcol = 1;
-        //    for (int colno = 0; colno < this.Columns.Count; colno++)
-        //    {
-        //        col = this.Columns[colno];
-        //        if ((!col.IsUniqueId) && (col.IsVisible))
-        //        {
-        //            worksheet.Cells[1, worksheetcol].Value = this.Columns[colno].Name;
-        //            worksheet.Cells[1, worksheetcol].Style.Font.Bold = true;
-        //            worksheet.Cells[1, worksheetcol].Style.Border.Bottom.Style = OfficeOpenXml.Style.ExcelBorderStyle.Thin;
-        //            worksheetcol++;
-        //            colcount++;
-        //        }
-        //    }
-        //    worksheet.Cells[1, 1, 1, colcount].AutoFilter = true;
-        //    for (int rowno = 0; rowno < this.Rows.Count; rowno++)
-        //    {
-        //        maxRowHeight = 0;
-        //        worksheetcol = 1;
-        //        for (int colno = 0; colno < this.Columns.Count; colno++)
-        //        {
-        //            maxColumnWidth = 0;
-        //            col = this.Columns[colno];
-        //            if ((!col.IsUniqueId) && (col.IsVisible))
-        //            {
-        //               if (col.DataType == FwSqlDataTypes.JpgDataUrl)
-        //                {
-        //                    string base64img = this.GetValue(rowno, colno).ToString().Replace("data:image/jpg;base64,", "");
-        //                    if (!string.IsNullOrEmpty(base64img))
-        //                    {
-        //                        byte[] img = Convert.FromBase64String(base64img);
-        //                        using (Stream stream = new MemoryStream(img))
-        //                        {
-        //                            Bitmap image = new Bitmap(stream);
-        //                            ExcelPicture excelImage = null;
-        //                            if (image != null)
-        //                            {
-        //                                imageWidth             = image.Width  / 4;
-        //                                imageHeight            = image.Height / 4;
-        //                                excelImage             = worksheet.Drawings.AddPicture(Guid.NewGuid().ToString(), image);
-        //                                excelImage.From.Column = colno - 2;
-        //                                excelImage.From.Row    = rowno + 1;
-        //                                excelImage.SetSize(imageWidth, imageHeight);
+                                        maxRowHeight                         = (maxRowHeight   < imageHeight) ? imageHeight : maxRowHeight;
+                                        maxColumnWidth                       = (maxColumnWidth < imageWidth)  ? imageWidth  : maxColumnWidth;
+                                        worksheet.Row(rowno + 2).Height      = maxRowHeight;
+                                        worksheet.Column(colno - 1).Width    = maxColumnWidth;
 
-        //                                maxRowHeight                         = (maxRowHeight   < imageHeight) ? imageHeight : maxRowHeight;
-        //                                maxColumnWidth                       = (maxColumnWidth < imageWidth)  ? imageWidth  : maxColumnWidth;
-        //                                worksheet.Row(rowno + 2).Height      = maxRowHeight;
-        //                                worksheet.Column(colno - 1).Width    = maxColumnWidth;
-
-        //                                excelImage.SetPosition(rowno + 1, 1, colno - 2, 1);
-        //                            }
-        //                        }
-        //                    }
-        //                    worksheetcol++;
-        //                }
-        //                else
-        //                {
-        //                    worksheet.Cells[rowno + 2, worksheetcol].Value = this.GetValue(rowno, colno).ToString();
-        //                    worksheetcol++;
-        //                }
-        //            }
-        //        }
-        //    }
-        //    worksheet.Cells[1, 1, this.Rows.Count + 1, this.Columns.Count].AutoFitColumns();
-        //}
+                                        excelImage.SetPosition(rowno + 1, 1, colno - 2, 1);
+                                    }
+                                }
+                            }
+                            worksheetcol++;
+                        }
+                        else
+                        {
+                            worksheet.Cells[rowno + 2, worksheetcol].Value = this.GetValue(rowno, colno).ToString();
+                            worksheetcol++;
+                        }
+                    }
+                }
+            }
+            worksheet.Cells[1, 1, this.Rows.Count + 1, this.Columns.Count].AutoFitColumns();
+        }
         //---------------------------------------------------------------------------------------------
         public List<object> NewRow()
         {
@@ -441,33 +375,7 @@ namespace FwStandard.SqlServer
                     row[indexRowTypeColumn] = newTotalRowType;
                     for (int sumcolno = 0; sumcolno < nameSumColumns.Length; sumcolno++)
                     {
-                        //FormatColumn(this.ColumnNameByIndex[sumcolno], Columns[indexSumColumns[sumcolno]].DataType);
                         FormatColumn(this.ColumnNameByIndex[indexSumColumns[sumcolno]], Columns[indexSumColumns[sumcolno]].DataType);  //justin 05/02/2018
-                        //switch (Columns[indexSumColumns[sumcolno]].DataType)
-                        //{
-                        //    case FwDataTypes.CurrencyString:
-                        //        row[indexSumColumns[sumcolno]] = FwConvert.ToCurrencyString(totals[sumcolno]);
-                        //        break;
-                        //    case FwDataTypes.CurrencyStringNoDollarSign:
-                        //        row[indexSumColumns[sumcolno]] = FwConvert.ToCurrencyStringNoDollarSign(totals[sumcolno]);
-                        //        break;
-                        //    case FwDataTypes.CurrencyStringNoDollarSignNoDecimalPlaces:
-                        //        row[indexSumColumns[sumcolno]] = FwConvert.ToCurrencyStringNoDollarSignNoDecimalPlaces(totals[sumcolno]);
-                        //        break;
-                        //    case FwDataTypes.Decimal:
-                        //        row[indexSumColumns[sumcolno]] = totals[sumcolno];
-                        //        break;
-                        //    case FwDataTypes.Integer:
-                        //        row[indexSumColumns[sumcolno]] = totals[sumcolno];
-                        //        break;
-                        //    case FwDataTypes.Percentage:
-                        //        row[indexSumColumns[sumcolno]] = FwConvert.ToCurrencyStringNoDollarSign(totals[sumcolno]) + "%";
-                        //        break;
-                        //    default:
-                        //        row[indexSumColumns[sumcolno]] = totals[sumcolno];
-                        //        break;
-
-                        //}
                         row[indexSumColumns[sumcolno]] = totals[sumcolno];  //justin 05/02/2018 (uncommented)
                     }
                     Rows.Insert(rowno + 1, row);

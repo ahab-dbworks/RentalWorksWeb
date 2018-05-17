@@ -48,11 +48,15 @@ var FwPopup = (function () {
         var $divOverlay = jQuery('#' + $divPopup.attr('data-baseid') + '-divOverlay').remove();
     };
     ;
-    FwPopup.renderPopup = function ($content, options) {
+    FwPopup.renderPopup = function ($content, options, title) {
         var html, $popup, ismodal = true;
         html = [];
         html.push('<div class="fwpopup">');
-        html.push('<div class="fwpopupbox"></div>');
+        html.push('<div class="fwpopupbox">');
+        if (title !== undefined) {
+            html.push('<div class="title">' + title + '</div>');
+        }
+        html.push('</div>');
         html.push('</div>');
         $popup = jQuery(html.join(''));
         $popup.find('.fwpopupbox').append($content);

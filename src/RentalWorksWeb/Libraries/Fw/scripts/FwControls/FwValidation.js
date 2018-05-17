@@ -235,7 +235,7 @@ FwValidation.init = function ($control) {
     });
     $control.find('.btnpeek').on('click', function (e) {
         try {
-            FwValidation.validationPeek($control, validationName.slice(0, -10), $valuefield.val(), $control.attr('data-datafield'), $object, $searchfield.val());
+            FwValidation.validationPeek($control, validationName.slice(0, -10), $valuefield.val(), $valuefield.parent().parent().attr('data-datafield'), $object, $searchfield.val());
             e.stopPropagation();
         } catch (ex) {
             FwFunc.showError(ex);

@@ -18,7 +18,7 @@ namespace FwStandard.SqlServer.Attributes
         public readonly bool Required;
         //public readonly bool IsCustomPrimaryKey;
         //---------------------------------------------------------------------------------------------------------------------------
-        public FwSqlDataFieldAttribute(string column = "", FwDataTypes modeltype = FwDataTypes.Text, string sqltype = "", bool identity = false, int maxlength = 0, int precision = 0, int scale = 0, bool isPrimaryKey = false, bool isPrimaryKeyOptional = false, bool isVisible = false, bool required = false/*, bool isCustomPrimaryKey = false*/)
+        public FwSqlDataFieldAttribute(string column = "", FwDataTypes modeltype = FwDataTypes.Text, string sqltype = "", bool identity = false, int maxlength = 0, int precision = 0, int scale = 0, bool isPrimaryKey = false, bool isPrimaryKeyOptional = false, bool isVisible = true, bool required = false/*, bool isCustomPrimaryKey = false*/)
         {
             ColumnName           = column;
             ModelType            = modeltype;
