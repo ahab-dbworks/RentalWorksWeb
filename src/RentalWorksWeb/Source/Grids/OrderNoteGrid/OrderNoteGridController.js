@@ -3,13 +3,12 @@ var OrderNoteGrid = (function () {
         this.Module = 'OrderNoteGrid';
         this.apiurl = 'api/v1/ordernote';
     }
-    OrderNoteGrid.prototype.generateRow = function ($control, $generatedtr) {
+    OrderNoteGrid.prototype.onRowNewMode = function ($control, $tr) {
         var today = new Date(Date.now()).toLocaleString().split(',')[0];
-        $generatedtr.find('.buttonbar').data('click', function ($tr) {
-            $generatedtr.find('.field[data-browsedatafield="NoteDate"] input.value').val(today);
-        });
+        $tr.find('[data-formdatafield="NoteDate"] input.value').val(today);
+        $tr.find('[data-formdatafield="NotesBy"] input.value').val();
+        $tr.find('[data-formdatafield="NotesBy"] input.text').val();
     };
-    ;
     return OrderNoteGrid;
 }());
 var OrderNoteGridController = new OrderNoteGrid();
