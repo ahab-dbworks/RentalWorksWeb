@@ -17,13 +17,13 @@ namespace WebApi.Modules.Home.Order
         [FwSqlDataField(column: "ordertype", modeltype: FwDataTypes.Text)]
         public string Type { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "locationid", modeltype: FwDataTypes.Text)]
+        [FwSqlDataField(column: "locationid", modeltype: FwDataTypes.Text, isVisible: false)]
         public string OfficeLocationId { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "officelocation", modeltype: FwDataTypes.Text)]
         public string OfficeLocation { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "warehouseid", modeltype: FwDataTypes.Text)]
+        [FwSqlDataField(column: "warehouseid", modeltype: FwDataTypes.Text, isVisible: false)]
         public string WarehouseId { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "warehouse", modeltype: FwDataTypes.Text)]
@@ -32,13 +32,13 @@ namespace WebApi.Modules.Home.Order
         [FwSqlDataField(column: "whcode", modeltype: FwDataTypes.Text)]
         public string WarehouseCode { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "departmentid", modeltype: FwDataTypes.Text)]
+        [FwSqlDataField(column: "departmentid", modeltype: FwDataTypes.Text, isVisible: false)]
         public string DepartmentId { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "department", modeltype: FwDataTypes.Text)]
         public string Department { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "customerid", modeltype: FwDataTypes.Text)]
+        [FwSqlDataField(column: "customerid", modeltype: FwDataTypes.Text, isVisible: false)]
         public string CustomerId { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "customer", modeltype: FwDataTypes.Text)]
@@ -47,7 +47,7 @@ namespace WebApi.Modules.Home.Order
         [FwSqlDataField(column: "custno", modeltype: FwDataTypes.Text)]
         public string CustomerNumber { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "dealid", modeltype: FwDataTypes.Text)]
+        [FwSqlDataField(column: "dealid", modeltype: FwDataTypes.Text, isVisible: false)]
         public string DealId { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "deal", modeltype: FwDataTypes.Text)]
@@ -68,13 +68,13 @@ namespace WebApi.Modules.Home.Order
         [FwSqlDataField(column: "statusdate", modeltype: FwDataTypes.Date)]
         public string StatusDate { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "agentid", modeltype: FwDataTypes.Text)]
+        [FwSqlDataField(column: "agentid", modeltype: FwDataTypes.Text, isVisible: false)]
         public string AgentId { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "agent", modeltype: FwDataTypes.Text)]
         public string Agent { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "projectmanagerid", modeltype: FwDataTypes.Text)]
+        [FwSqlDataField(column: "projectmanagerid", modeltype: FwDataTypes.Text, isVisible: false)]
         public string ProjectManagerId { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "projectmanager", modeltype: FwDataTypes.Text)]

@@ -21,6 +21,13 @@ namespace WebApi.Modules.Home.Order
         {
             return await DoBrowseAsync(browseRequest, typeof(OrderLogic));
         }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/order/exportexcelxlsx/filedownloadname 
+        [HttpPost("exportexcelxlsx/{fileDownloadName}")]
+        public async Task<IActionResult> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoExportExcelXlsxFileAsync(browseRequest, typeof(OrderLogic), "Orders");
+        }
         //------------------------------------------------------------------------------------
         // POST api/v1/order/copy/A0000001
         [HttpPost("copy/{id}")]

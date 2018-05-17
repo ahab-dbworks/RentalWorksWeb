@@ -30,6 +30,7 @@
   <ItemGroup>
     <Folder Include="Modules\Administrator\Designer\Services\" />
     <Folder Include="Modules\Reports\" />
+    <Folder Include="wwwroot\temp\downloads\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="6.2.2" />
