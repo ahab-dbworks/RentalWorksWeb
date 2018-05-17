@@ -117,7 +117,7 @@ class SearchInterface {
         } else {
             previewhtml.push('                      <div data-type="button" class="fwformcontrol addToOrder" style="width:120px; float:right; margin:15px;">Add to Quote</div>');
         }
-    
+
         previewhtml.push('            </div>');
         previewhtml.push('     </div>');
         previewhtml.push('</div>');
@@ -338,7 +338,7 @@ class SearchInterface {
             jQuery(e.currentTarget).addClass('selected');
             breadcrumb = $popup.find('#breadcrumbs .type');
             $popup.find("#breadcrumbs .category, #breadcrumbs .subcategory").empty();
-            $popup.find("#breadcrumbs .category, #breadcrumbs .subcategory").attr('data-value', '');  
+            $popup.find("#breadcrumbs .category, #breadcrumbs .subcategory").attr('data-value', '');
             breadcrumb.text(invType);
             breadcrumb.append('<div style="float:right;">&#160; &#160; &#47; &#160; &#160;</div>');
 
@@ -523,21 +523,21 @@ class SearchInterface {
 
     renderInventory($popup, response, isSubCategory) {
         var self = this,
-            descriptionIndex = response.ColumnIndex.Description,
-            thumbnailIndex = response.ColumnIndex.Thumbnail,
-            quantityAvailable = response.ColumnIndex.QuantityAvailable,
-            conflictDate = response.ColumnIndex.ConflictDate,
-            quantityIn = response.ColumnIndex.QuantityIn,
-            quantityQcRequired = response.ColumnIndex.QuantityQcRequired,
-            quantity = response.ColumnIndex.Quantity,
-            dailyRate = response.ColumnIndex.DailyRate,
+            descriptionIndex = response.ColumnIndex.Description - 1,
+            thumbnailIndex = response.ColumnIndex.Thumbnail - 2,
+            quantityAvailable = response.ColumnIndex.QuantityAvailable - 2,
+            conflictDate = response.ColumnIndex.ConflictDate - 2,
+            quantityIn = response.ColumnIndex.QuantityIn - 2,
+            quantityQcRequired = response.ColumnIndex.QuantityQcRequired - 2,
+            quantity = response.ColumnIndex.Quantity - 2,
+            dailyRate = response.ColumnIndex.DailyRate - 2,
             inventoryId = response.ColumnIndex.InventoryId,
-            thumbnail = response.ColumnIndex.Thumbnail,
-            appImageId = response.ColumnIndex.ImageId,
-            subCategoryIdIndex = response.ColumnIndex.SubCategoryId,
-            subCategoryIndex = response.ColumnIndex.SubCategory,
-            classificationIndex = response.ColumnIndex.Classification,
-            classificationColor = response.ColumnIndex.ClassificationColor;
+            thumbnail = response.ColumnIndex.Thumbnail - 2,
+            appImageId = response.ColumnIndex.ImageId - 2,
+            subCategoryIdIndex = response.ColumnIndex.SubCategoryId - 2,
+            subCategoryIndex = response.ColumnIndex.SubCategory - 2,
+            classificationIndex = response.ColumnIndex.Classification - 2,
+            classificationColor = response.ColumnIndex.ClassificationColor - 2;
 
         if (response.Rows.length == 0) {
             $popup.find('.inventory').append('<span style="font-weight: bold; font-size=1.3em">No Results</span>');
@@ -901,41 +901,58 @@ class SearchInterface {
             let cardContainer = jQuery(e.currentTarget).parents('.cardContainer').find('.card');
             let request: any = {};
             let inventoryId = jQuery(e.currentTarget).parents('.card').find('[data-datafield="InventoryId"] input').val();
-            request.uniqueids = {
-                PackageId: inventoryId
-            };
+            request = {
+                SessionId: id,
+                OrderId: id,
+                ParentId: inventoryId,
+                WarehouseId: warehouseId,
+                ShowAvailability: 'true',
+                FromDate: FwFormField.getValueByDataField($popup, 'FromDate'),
+                ToDate: FwFormField.getValueByDataField($popup, 'ToDate'),
+                ShowImages: 'true'
+            }
 
             var html = [];
             if (!(accessoryContainer.find('.accItem').length)) {
                 html.push('<div style="width:100%">');
-                html.push(' <div class="accList" style="font-size: 1.2em; color: blue; text-align:center; text-decoration: underline">Accessories</div>');
-                html.push('     <div style="width:50%; float:left;">Description</div>');
-                html.push('     <div style="width:10%; float:left;"> Qty </div>');
-                html.push('     <div style="width:10%; float:left;"> In </div>');
-                html.push('     <div style="width:10%; float:left;"> Avail</div>');
-                html.push('     <div style="width:10%; float:left;"> Conflict </div>');
-                html.push('     <div style="width:10%; float:left;"> Note</div>');
+                html.push(' <div class="accList" style="font-size: 1.2em; color: blue; text-align:center; text-decoration: underline; cursor:pointer;">Accessories</div>');
+                html.push('     <div style="width:50%; float:left; font-weight:bold;">Description</div>');
+                html.push('     <div style="text-align:center; width:12%; float:left; font-weight:bold;"> Qty </div>');
+                html.push('     <div style="text-align:center; width:12%; float:left; font-weight:bold;"> In </div>');
+                html.push('     <div style="text-align:center; width:12%; float:left; font-weight:bold;"> Avail</div>');
+                html.push('     <div style="text-align:center; width:12%; float:left; font-weight:bold;"> Conflict </div>');
+                //html.push('     <div style="width:10%; float:left; font-weight:bold;"> Note</div>');
                 html.push(' </div>');
                 html.push('</div>');
                 accessoryContainer.append(html.join(''));
 
-                FwAppData.apiMethod(true, 'POST', "api/v1/inventorypackageinventory/browse", request, FwServices.defaultTimeout, function onSuccess(response) {
-                    const descriptionIndex = response.ColumnIndex.Description;
-                    const qtyIndex = response.ColumnIndex.DefaultQuantity;
-                    let accHtml = [];
+                FwAppData.apiMethod(true, 'POST', "api/v1/inventorysearch/accessories", request, FwServices.defaultTimeout, function onSuccess(response) {
+                    const descriptionIndex = response.ColumnIndex.Description -1;
+                    const qtyIndex = response.ColumnIndex.Quantity - 2;
+                    const qtyInIndex = response.ColumnIndex.QuantityIn - 2;
+                    const qtyAvailIndex = response.ColumnIndex.QuantityAvailable - 2;
+                    const conflictIndex = response.ColumnIndex.ConflictDate - 2;
+                    const inventoryIdIndex = response.ColumnIndex.InventoryId;
 
                     for (var i = 0; i < response.Rows.length; i++) {
+                        let accHtml = [];
                         accHtml.push('<div class="accItem" style="width:100%">');
+                        accHtml.push('  <div data-control="FwFormField" style="display:none" data-type="text" data-datafield="InventoryId" class="fwcontrol fwformfield"></div>');
                         accHtml.push('  <div style="float:left; width:50%">' + response.Rows[i][descriptionIndex] + '</div>');
-                        accHtml.push('  <div style="float:left; width:10%">' + response.Rows[i][qtyIndex] + '</div>');
-                        accHtml.push('  <div style="float:left; width:10%">' + response.Rows[i][qtyIndex] + '</div>');//placeholders
-                        accHtml.push('  <div style="float:left; width:10%">' + response.Rows[i][qtyIndex] + '</div>');
-                        accHtml.push('  <div style="float:left; width:10%">' + response.Rows[i][qtyIndex] + '</div>');
-                        accHtml.push('  <div style="float:left; width:10%">' + response.Rows[i][qtyIndex] + '</div>');
+                        accHtml.push('  <div data-control="FwFormField" style="text-align:center; float:left; width:12%; padding:5px 10px 0 0;" data-type="number" data-datafield="AccQuantity" class="fwcontrol fwformfield"></div>');
+                        accHtml.push('  <div style="text-align:center; float:left; width:12%; padding-left:5px;">' + response.Rows[i][qtyInIndex] + '</div>');//placeholders
+                        accHtml.push('  <div style="text-align:center; float:left; width:12%; padding-left:5px;">' + response.Rows[i][qtyAvailIndex] + '</div>');
+                        accHtml.push('  <div style="text-align:center; float:left; width:12%; padding-left:5px;">' + response.Rows[i][conflictIndex] + '</div>');
                         accHtml.push('</div>');
-                    }
 
-                    accessoryContainer.append(accHtml.join(''));
+                        let item = accHtml.join('');
+                        accessoryContainer.append(item);
+                        let $acc = accessoryContainer.find('.accItem:last');
+                        FwConfirmation.addControls($acc, item);
+                        $popup.find('.accItem .fwformfield-caption').hide();
+                        FwFormField.setValueByDataField($acc, 'AccQuantity', response.Rows[i][qtyIndex]);
+                        FwFormField.setValueByDataField($acc, 'InventoryId', response.Rows[i][inventoryIdIndex]);
+                    }
                 }, null, null);
 
                 accessoryContainer.css({ 'float': 'left', 'height': 'auto', 'padding': '10px', 'margin-top': '20px', 'box-shadow': '0 4px 8px 0 rgba(0,0,0,0.2)', 'transition': '0.3s' });
@@ -943,6 +960,23 @@ class SearchInterface {
             } else {
                 accessoryContainer.slideToggle();
             }
+        });
+
+        $popup.on('change', '.accItem [data-datafield="AccQuantity"] input', function (e) {
+            let inventoryId = jQuery(e.currentTarget).parents('.accItem').find('[data-datafield="InventoryId"] input').val();
+            let quantity = jQuery(e.currentTarget).val();
+            let parentId = jQuery(e.currentTarget).parents('.cardContainer').find('.card [data-datafield="InventoryId"] input').val();
+            let accRequest: any = {};
+            accRequest = {
+                SessionId: id,
+                ParentId: parentId,
+                InventoryId: inventoryId,
+                WarehouseId: warehouseId,
+                Quantity: quantity
+            }
+            FwAppData.apiMethod(true, 'POST', "api/v1/inventorysearch", accRequest, FwServices.defaultTimeout, function onSuccess(response) {
+
+            }, null, null);
         });
 
         $popup.on('click', '.listbutton, .listgridbutton, .gridbutton', function (e) {
@@ -954,7 +988,7 @@ class SearchInterface {
             } else {
                 view = "GRID";
             };
-
+            $popup.find('#inventoryView').val(view);
             var viewrequest: any = {};
             var userId = JSON.parse(sessionStorage.getItem('userid'));
             viewrequest.UserId = userId.webusersid;
@@ -996,7 +1030,7 @@ class SearchInterface {
                 $popup.find('.inventory').empty();
                 SearchInterfaceController.renderInventory($popup, response, true);
             }, null, $searchpopup);
-            
+
         });
     };
 
