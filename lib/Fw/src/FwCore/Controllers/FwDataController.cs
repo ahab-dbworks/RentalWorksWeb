@@ -64,8 +64,9 @@ namespace FwCore.Controllers
             {
                 FwBusinessLogic l = CreateBusinessLogic(type, this.AppConfig, this.UserSession);
                 FwJsonDataTable dt = await l.BrowseAsync(browseRequest);
-                string downloadasfilename = new string(worksheetName.Where(c =>char.IsLetterOrDigit(c)).ToArray()) + "_" + DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss");
-                string filename = this.UserSession.WebUsersId + "-" + downloadasfilename + "-" + Guid.NewGuid().ToString().Replace("-", string.Empty) + ".xlsx";
+                string strippedWorksheetName = new string(worksheetName.Where(c =>char.IsLetterOrDigit(c)).ToArray());
+                string downloadFileName = strippedWorksheetName + "_" + DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss");
+                string filename = this.UserSession.WebUsersId + "_" + strippedWorksheetName + "_" + Guid.NewGuid().ToString().Replace("-", string.Empty) + "_xlsx";
                 string directory = FwDownloadController.GetDownloadsDirectory();
                 string path = Path.Combine(directory, filename);
 
@@ -74,7 +75,7 @@ namespace FwCore.Controllers
 
                 dt.ToExcelXlsxFile(worksheetName, path);
                 DoExportExcelXlsxExportFileAsyncResult result = new DoExportExcelXlsxExportFileAsyncResult();
-                result.downloadUrl = "api/v1/download/" + filename + "?downloadasfilename=" + downloadasfilename + ".xlsx";
+                result.downloadUrl = "api/v1/download/" + filename + "?downloadasfilename=" + downloadFileName + ".xlsx";
                 return new OkObjectResult(result);
             }
             catch (Exception ex)

@@ -2,7 +2,10 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace FwCore.Controllers
@@ -35,30 +38,30 @@ namespace FwCore.Controllers
         //------------------------------------------------------------------------------------
         protected virtual async Task<IActionResult> DoGetAsync(string fileName, string downloadAsFileName)
         {
-            await Task.CompletedTask;
-            if (fileName == null) return Content("The filename was not specified.");
-            var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/temp/downloads", fileName);
+            if (string.IsNullOrEmpty(fileName)) return BadRequest();
+            if (string.IsNullOrEmpty(downloadAsFileName)) return BadRequest();
+            string whitelistFileName = new string(fileName.Where(c => char.IsLetterOrDigit(c) || (c == '_')).ToArray());
+            if (fileName != whitelistFileName) return BadRequest();
+            string whitelistDownloadAsFileName = new string(downloadAsFileName.Where(c => char.IsLetterOrDigit(c) || c == '_'  || c == '-' || c == '.').ToArray());
+            if (downloadAsFileName != whitelistDownloadAsFileName) return BadRequest();
+            var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/temp/downloads", whitelistFileName);
             if (!System.IO.File.Exists(path)) return Content("The requested file does not exist on the server.");
             var ext = Path.GetExtension(path).ToLowerInvariant();
-            string contentType = string.Empty;
-            switch (ext)
+            var contentType = "";
+            if (whitelistFileName.EndsWith("_xlsx"))
             {
-                case ".txt": contentType = "text/plain"; break;
-                case ".pdf": contentType = "application/pdf"; break;
-                case ".doc": contentType = "application/vnd.ms-word"; break;
-                case ".docx": contentType = "application/vnd.ms-word"; break;
-                case ".xls": contentType = "application/vnd.ms-excel"; break;
-                case ".xlsx": contentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"; break;
-                case ".png": contentType = "image/png"; break;
-                case ".jpg": contentType = "image/jpeg"; break;
-                case ".jpeg": contentType = "image/jpeg"; break;
-                case ".gif": contentType = "image/gif"; break;
-                case ".csv": contentType = "text/csv"; break;
+                contentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
             }
+            else
+            {
+                return BadRequest();
+            }
+            if (!System.IO.File.Exists(path)) return BadRequest();
             // mv 2018-05-16 don't put a using block on FileStream, MVC will dispose of the stream when the result is returned
             FileStream stream = new FileStream(path, FileMode.Open, FileAccess.ReadWrite, FileShare.Delete, 4096, FileOptions.DeleteOnClose);
             var result = new FileStreamResult(stream, contentType);
-            result.FileDownloadName = (!string.IsNullOrEmpty(downloadAsFileName)) ? downloadAsFileName : fileName;
+            result.FileDownloadName = (!string.IsNullOrEmpty(whitelistDownloadAsFileName)) ? whitelistDownloadAsFileName : whitelistFileName;
+            await Task.CompletedTask;
             return result;
         }
         //------------------------------------------------------------------------------------

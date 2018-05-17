@@ -20,7 +20,7 @@ FwFormField_number.renderDesignerHtml = function($control, html) {
 };
 //---------------------------------------------------------------------------------
 FwFormField_number.renderRuntimeHtml = function($control, html) {
-    var min, max, digits, digitsoptinal, autogroup, rightalign;
+    var min, max, digits, digitsoptional, autogroup, rightalign;
     var isdesktop = jQuery('html').hasClass('desktop');
     var ismobile  = jQuery('html').hasClass('mobile');
     html.push('<div class="fwformfield-caption">' + $control.attr('data-caption') + '</div>');
