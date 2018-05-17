@@ -380,9 +380,9 @@ namespace WebApi.Modules.Home.Customer
         //[FwSqlDataField(column: "shipzip", modeltype: FwDataTypes.Text)]
         //public string ShipZipCode { get; set; }
         ////------------------------------------------------------------------------------------
-        //[FwSqlDataField(column: "inactive", modeltype: FwDataTypes.Boolean)]
-        //public bool? Inactive { get; set; }
-        ////------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "inactive", modeltype: FwDataTypes.Boolean)]
+        public bool? Inactive { get; set; }
+        //------------------------------------------------------------------------------------
         //[FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
         //public string DateStamp { get; set; }
         ////------------------------------------------------------------------------------------
