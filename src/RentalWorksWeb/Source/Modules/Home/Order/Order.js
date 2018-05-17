@@ -849,17 +849,17 @@ var Order = (function () {
         var periodDiscountColumn = $form.find('.' + gridType + 'grid [data-browsedatafield="PeriodDiscountAmount"]');
         var taxColumn = $form.find('.' + gridType + 'grid [data-browsedatafield="Tax"]');
         for (var i = 1; i < periodExtendedColumn.length; i++) {
-            var inputValueFromExtended = parseFloat(periodExtendedColumn.eq(i).attr('data-originalvalue'));
+            var inputValueFromExtended = +periodExtendedColumn.eq(i).attr('data-originalvalue');
             periodExtendedTotal += inputValueFromExtended;
-            periodExtendedTotal = periodExtendedTotal.toFixed(2);
-            var inputValueFromDiscount = parseFloat(periodDiscountColumn.eq(i).attr('data-originalvalue'));
+            var inputValueFromDiscount = +periodDiscountColumn.eq(i).attr('data-originalvalue');
             periodDiscountTotal += inputValueFromDiscount;
-            periodDiscountTotal = periodDiscountTotal.toFixed(2);
-            var inputValueFromTax = parseFloat(taxColumn.eq(i).attr('data-originalvalue'));
+            var inputValueFromTax = +taxColumn.eq(i).attr('data-originalvalue');
             taxTotal += inputValueFromTax;
-            taxTotal = taxTotal.toFixed(2);
         }
         ;
+        periodDiscountTotal = +periodDiscountTotal.toFixed(2);
+        periodExtendedTotal = +periodExtendedTotal.toFixed(2);
+        taxTotal = +taxTotal.toFixed(2);
         $form.find('.' + gridType + 'totals [data-totalfield="SubTotal"] input').val(periodExtendedTotal);
         $form.find('.' + gridType + 'totals [data-totalfield="Discount"] input').val(periodDiscountTotal);
         $form.find('.' + gridType + 'totals [data-totalfield="Tax"] input').val(taxTotal);

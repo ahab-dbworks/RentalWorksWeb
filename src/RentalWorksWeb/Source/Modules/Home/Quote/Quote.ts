@@ -902,20 +902,22 @@ class Quote {
 
         for (let i = 1; i < periodExtendedColumn.length; i++) {
             // PeriodExtended Column
-            let inputValueFromExtended: any = parseFloat(periodExtendedColumn.eq(i).attr('data-originalvalue'));
+            let inputValueFromExtended: any = +periodExtendedColumn.eq(i).attr('data-originalvalue');
             periodExtendedTotal += inputValueFromExtended;
-            periodExtendedTotal = periodExtendedTotal.toFixed(2);
 
             // PeriodDiscountAmount Column
-            let inputValueFromDiscount: any = parseFloat(periodDiscountColumn.eq(i).attr('data-originalvalue'));
+            let inputValueFromDiscount: any = +periodDiscountColumn.eq(i).attr('data-originalvalue');
             periodDiscountTotal += inputValueFromDiscount;
-            periodDiscountTotal = periodDiscountTotal.toFixed(2);
 
             // Tax Column
-            let inputValueFromTax: any = parseFloat(taxColumn.eq(i).attr('data-originalvalue'));
+            let inputValueFromTax: any = +taxColumn.eq(i).attr('data-originalvalue');
             taxTotal += inputValueFromTax;
-            taxTotal = taxTotal.toFixed(2);
         };
+
+        periodDiscountTotal = +periodDiscountTotal.toFixed(2);
+        periodExtendedTotal = +periodExtendedTotal.toFixed(2);
+        taxTotal = +taxTotal.toFixed(2);
+
         $form.find('.' + gridType + 'totals [data-totalfield="SubTotal"] input').val(periodExtendedTotal);
         $form.find('.' + gridType + 'totals [data-totalfield="Discount"] input').val(periodDiscountTotal);
         $form.find('.' + gridType + 'totals [data-totalfield="Tax"] input').val(taxTotal);

@@ -344,34 +344,6 @@ class Repair {
   };
 
   //----------------------------------------------------------------------------------------------
-  //events($form: JQuery): void {
-
-  //    $form.find('[data-name="RepairReleaseGrid"]').data('onselectedrowchanged', ($control: JQuery, $tr: JQuery) => {
-  //        try {
-  //            var buildingId = $form.find('div.fwformfield[data-datafield="BuildingId"] input').val();
-  //            var floorId = jQuery($tr.find('.column > .field')[0]).attr('data-originalvalue');
-
-  //            var $spaceGridControl: any;
-  //            $spaceGridControl = $form.find('[data-name="SpaceGrid"]');
-  //            $spaceGridControl.data('ondatabind', function (request) {
-  //                request.uniqueids = {
-  //                    BuildingId: buildingId,
-  //                    FloorId: floorId
-  //                }
-  //            })
-  //            $spaceGridControl.data('beforesave', function (request) {
-  //                request.BuildingId = buildingId;
-  //                request.FloorId = floorId;
-  //            });
-  //            FwBrowse.search($spaceGridControl);
-
-  //        } catch (ex) {
-  //            FwFunc.showError(ex);
-  //        }
-  //    });
-  //}
-
-  //----------------------------------------------------------------------------------------------
   saveForm = ($form: any, parameters: any) => {
       FwModule.saveForm(this.Module, $form, parameters);
   }
@@ -738,19 +710,21 @@ class Repair {
           // Only calculate billable items
           if (billableColumn.eq(i).attr('data-originalvalue') === "true") {
               // Extended Column
-              let inputValueFromExtended: any = parseFloat(extendedColumn.eq(i).attr('data-originalvalue'));
+              let inputValueFromExtended: any = +extendedColumn.eq(i).attr('data-originalvalue');
               totalSumFromExtended += inputValueFromExtended;
-              totalSumFromExtended = totalSumFromExtended.toFixed(2);
               // DiscountAmount Column
-              let inputValueFromDiscount: any = parseFloat(discountColumn.eq(i).attr('data-originalvalue'));
+              let inputValueFromDiscount: any = +discountColumn.eq(i).attr('data-originalvalue');
               totalSumFromDiscount += inputValueFromDiscount;
-              totalSumFromDiscount = totalSumFromDiscount.toFixed(2);
               // Tax Column
-              let inputValueFromTax: any = parseFloat(taxColumn.eq(i).attr('data-originalvalue'));
+              let inputValueFromTax: any = +taxColumn.eq(i).attr('data-originalvalue');
               totalSumFromTax += inputValueFromTax;
-              totalSumFromTax = totalSumFromTax.toFixed(2);
           }
       }
+
+      totalSumFromExtended = +totalSumFromExtended.toFixed(2);
+      totalSumFromDiscount = +totalSumFromDiscount.toFixed(2);
+      totalSumFromTax = +totalSumFromTax.toFixed(2);
+
       $form.find('.' + gridType + 'totals [data-totalfield="SubTotal"] input').val(totalSumFromExtended);
       $form.find('.' + gridType + 'totals [data-totalfield="Discount"] input').val(totalSumFromDiscount);
       $form.find('.' + gridType + 'totals [data-totalfield="SalesTax"] input').val(totalSumFromTax);
