@@ -20,11 +20,9 @@ namespace Web.Source.Reports
 
             qry = new FwSqlCommand(FwSqlConnection.RentalWorks, FwQueryTimeouts.Report);
             select = new FwSqlSelect();
-            select.Add("select top 1 *");
-            select.Add("from  picklistrpttitleview with (nolock)");
-            select.Add("where picklistid = @picklistid");
-            //select.Add("order by orderno, pickdate, rectypesequence, itemorder, masterno");
-            select.AddParameter("@picklistid", request.parameters.PickListId);
+            qry.AddColumn("officelocation", false, FwJsonDataTableColumn.DataTypes.Text);
+            select.Add("exec webgetorderprintheader @orderid = @order");
+            select.AddParameter("@order", request.parameters.OrderId);
 
             select.Parse();
             dtDetails = qry.QueryToFwJsonTable(select, true);
@@ -46,45 +44,36 @@ namespace Web.Source.Reports
         protected override string renderBodyHtml(string styletemplate, string bodytemplate, PrintOptions printOptions)
         {
             string html;
-            FwJsonDataTable dtPickListReport;
+            FwJsonDataTable dtPrintOrder;
             StringBuilder sb;
 
-            dtPickListReport = GetPickListReport();
+            dtPrintOrder = GetOrder();
      
             html = base.renderBodyHtml(styletemplate, bodytemplate, printOptions);
             sb          = new StringBuilder(base.renderBodyHtml(styletemplate, bodytemplate, printOptions));
-            sb.Replace("[TotalRows]", "Total Rows: " + dtPickListReport.Rows.Count);
+            sb.Replace("[TotalRows]", "Total Rows: " + dtPrintOrder.Rows.Count);
             html        = sb.ToString();
-            html = this.applyTableToTemplate(html, "details", dtPickListReport);
+            html = this.applyTableToTemplate(html, "details", dtPrintOrder);
 
             return html;
         }
         //---------------------------------------------------------------------------------------------
-        protected FwJsonDataTable GetPickListReport()
+        protected FwJsonDataTable GetOrder()
         {
             FwSqlSelect select;
             FwSqlCommand qry;
             FwJsonDataTable dtDetails;
 
             qry = new FwSqlCommand(FwSqlConnection.RentalWorks, FwQueryTimeouts.Report);
-            //qry.AddColumn("orderdate",       false, FwJsonDataTableColumn.DataTypes.Date);
-            //qry.AddColumn("estrentfrom",     false, FwJsonDataTableColumn.DataTypes.Date);
-            //qry.AddColumn("estrentto",       false, FwJsonDataTableColumn.DataTypes.Date);
-            //qry.AddColumn("billperiodstart", false, FwJsonDataTableColumn.DataTypes.Date);
-            //qry.AddColumn("billperiodend",   false, FwJsonDataTableColumn.DataTypes.Date);
-            //qry.AddColumn("contractdate",    false, FwJsonDataTableColumn.DataTypes.Date);
-            //qry.AddColumn("image",           false, FwJsonDataTableColumn.DataTypes.JpgDataUrl);
-            //qry.AddColumn("itemvalue",       false, FwJsonDataTableColumn.DataTypes.CurrencyStringNoDollarSign);
-
             select = new FwSqlSelect();
-            select.Add("select *");
-            select.Add("from  picklistrptview with (nolock)");
-            select.Add("where picklistid = @picklistid");
-            select.Add("order by orderno, pickdate, rectypesequence, itemorder, masterno");
-            select.AddParameter("@picklistid", request.parameters.PickListId);
+            select.Add("exec webgetorderprintdetails @orderid = orderId");
+            select.AddParameter("orderId", request.parameters.OrderId);
       
             select.Parse();
             dtDetails = qry.QueryToFwJsonTable(select, true);
+
+            dtDetails.InsertSubTotalRows("masterno", "rowtype", new string[] { "periodextended" });
+            dtDetails.InsertTotalRow("rowtype", "detail", "grandtotal", new string[] { "periodextended" });
 
             return dtDetails;
         }

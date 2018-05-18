@@ -1,6 +1,15 @@
-﻿/* Pick List Report */
+﻿/* Print Order */
 [applicationstylesheet]
 /*.body {page-break-after: always;}*/
+.body tbody tr[data-rowtype="masternofooter"] .total {
+    border-top: 2px solid black;
+}
+.body tbody tr[data-rowtype="masternofooter"],
+tr[data-rowtype="masternoheader"] {
+    background-color: #939393;
+    font-weight: bold;
+}
+
 .body tbody tr[data-rowtype="totals"] div{font-weight:bold;}
 .body .header {position:relative;}
 .body thead td {background-color: #cccccc; border: 1px solid black;}
