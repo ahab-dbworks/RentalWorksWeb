@@ -6,7 +6,7 @@ using WebApi.Data;
 using System.Collections.Generic;
 namespace WebApi.Modules.Home.Deal
 {
-    [FwSqlTable("dealview")]
+    [FwSqlTable("dealwebview")]
     public class DealLoader : DealBrowseLoader
     {
         //------------------------------------------------------------------------------------ 
@@ -204,6 +204,15 @@ namespace WebApi.Modules.Home.Deal
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "dealcreditavailable", modeltype: FwDataTypes.Integer)]
         public int? CreditAvailable { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "custcreditlimit", modeltype: FwDataTypes.Integer)]
+        public int? CustomerCreditLimit { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "custcreditbalance", modeltype: FwDataTypes.Integer)]
+        public int? CustomerCreditBalance { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "custcreditavailable", modeltype: FwDataTypes.Integer)]
+        public int? CustomerCreditAvailable { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "crresponfile", modeltype: FwDataTypes.Boolean)]
         public bool? CreditResponsiblePartyOnFile { get; set; }

@@ -4,7 +4,7 @@ using WebApi.Data;
 
 namespace WebApi.Modules.Home.Customer
 {
-    [FwSqlTable("customerview")]
+    [FwSqlTable("customerwebview")]
     public class CustomerLoader: CustomerBrowseLoader
     {
         //------------------------------------------------------------------------------------

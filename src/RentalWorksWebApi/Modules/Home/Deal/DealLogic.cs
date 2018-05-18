@@ -113,6 +113,12 @@ namespace WebApi.Modules.Home.Deal
         public int? CreditBalance { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
         public int? CreditAvailable { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public int? CustomerCreditLimit { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public int? CustomerCreditBalance { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public int? CustomerCreditAvailable { get; set; }
         public bool? CreditResponsiblePartyOnFile { get { return deal.CreditResponsiblePartyOnFile; } set { deal.CreditResponsiblePartyOnFile = value; } }
         public string CreditResponsibleParty { get { return deal.CreditResponsibleParty; } set { deal.CreditResponsibleParty = value; } }
         public bool? TradeReferencesVerified { get { return deal.TradeReferencesVerified; } set { deal.TradeReferencesVerified = value; } }

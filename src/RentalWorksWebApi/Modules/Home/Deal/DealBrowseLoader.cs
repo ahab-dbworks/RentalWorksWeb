@@ -6,7 +6,7 @@ using WebApi.Data;
 using System.Collections.Generic;
 namespace WebApi.Modules.Home.Deal
 {
-    [FwSqlTable("dealview")]
+    [FwSqlTable("dealwebbrowseview")]
     public class DealBrowseLoader : AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------ 
