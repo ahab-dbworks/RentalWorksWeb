@@ -411,8 +411,8 @@ var Order = (function () {
         FwBrowse.renderRuntimeHtml($orderItemGridMiscControl);
         var $allOrderItemGrid;
         var $allOrderItemGridControl;
-        $allOrderItemGrid = $form.find('.allgrid div[data-grid="OrderItemGrid"]');
-        $allOrderItemGridControl = jQuery(jQuery('#tmpl-grids-OrderItemGridBrowse').html());
+        $allOrderItemGrid = $form.find('.allgrid div[data-grid="OrderItemCombinedGrid"]');
+        $allOrderItemGridControl = jQuery(jQuery('#tmpl-grids-OrderItemCombinedGridBrowse').html());
         $allOrderItemGridControl.find('.allitem').attr('data-visible', true);
         $allOrderItemGrid.empty().append($allOrderItemGridControl);
         $allOrderItemGridControl.data('ondatabind', function (request) {
@@ -423,9 +423,6 @@ var Order = (function () {
         });
         $allOrderItemGridControl.data('beforesave', function (request) {
             request.OrderId = FwFormField.getValueByDataField($form, 'OrderId');
-        });
-        FwBrowse.addEventHandler($allOrderItemGridControl, 'afterdatabindcallback', function () {
-            _this.calculateOrderItemGridTotals($form, 'all');
         });
         FwBrowse.init($allOrderItemGridControl);
         FwBrowse.renderRuntimeHtml($allOrderItemGridControl);
@@ -883,7 +880,7 @@ var Order = (function () {
                 $form.find('.laborgrid').hide();
                 $form.find('.miscgrid').hide();
                 var $allOrderItemGrid;
-                $allOrderItemGrid = $form.find('.allgrid [data-name="OrderItemGrid"]');
+                $allOrderItemGrid = $form.find('.allgrid [data-name="OrderItemCombinedGrid"]');
                 FwBrowse.search($allOrderItemGrid);
             }
             else {

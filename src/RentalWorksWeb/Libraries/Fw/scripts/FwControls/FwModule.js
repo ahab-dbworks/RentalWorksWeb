@@ -354,37 +354,10 @@ var FwModule = (function () {
         if (sessionStorage.getItem('customFields') !== null) {
             var customFields = JSON.parse(sessionStorage.getItem('customFields'));
             if (customFields !== null && typeof customFields.length === 'number' && customFields.length > 0) {
+                var hasCustomFields = false;
                 for (var i = 0; i < customFields.length; i++) {
                     if (controller.slice(0, -10) === customFields[i]) {
-                        var customHtml = [];
-                        var customModule = customFields[i];
-                        $formTabControl = jQuery($form.find('.fwtabs'));
-                        customTabIds = FwTabs.addTab($formTabControl, 'Custom Fields', false, 'CUSTOM', false);
-                        FwAppData.apiMethod(true, 'GET', 'api/v1/customfield', null, FwServices.defaultTimeout, function onSuccess(response) {
-                            try {
-                                customHtml.push('<div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Custom Fields">');
-                                for (var j = 0; j < response.length; j++) {
-                                    if (customModule === response[j].ModuleName) {
-                                        customHtml.push('<div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
-                                        if (response[j].FieldSizeInPixels > 0) {
-                                            customHtml.push('<div data-control="FwFormField" data-customfield="true" data-type="' + response[j].ControlType + '" class="fwcontrol fwformfield" data-caption="' + response[j].FieldName + '" data-datafield="' + response[j].FieldName + '" data-digits="' + response[j].FloatDecimalDigits + '" style="width:' + response[j].FieldSizeInPixels + 'px;float:left;"></div>');
-                                        }
-                                        else {
-                                            customHtml.push('<div data-control="FwFormField" data-customfield="true" data-type="' + response[j].ControlType + '" class="fwcontrol fwformfield" data-caption="' + response[j].FieldName + '" data-datafield="' + response[j].FieldName + '" data-digits="' + response[j].FloatDecimalDigits + '"></div>');
-                                        }
-                                        customHtml.push('</div>');
-                                    }
-                                }
-                                customHtml.push('</div>');
-                                $customControl = jQuery(customHtml.join(''));
-                                FwControl.renderRuntimeControls($customControl.find('.fwcontrol').addBack());
-                                $formTabControl.find('#' + customTabIds.tabpageid).append($customControl);
-                                $form.data('fields', $form.find('.fwformfield[data-isuniqueid!="true"]'));
-                            }
-                            catch (ex) {
-                                FwFunc.showError(ex);
-                            }
-                        }, null, null);
+                        FwModule.loadCustomFields($form, customFields[i]);
                     }
                 }
             }
@@ -1227,6 +1200,36 @@ var FwModule = (function () {
         }, 0);
     };
     ;
+    FwModule.loadCustomFields = function ($form, customModuleName) {
+        var customHtml = [];
+        var $formTabControl = jQuery($form.find('.fwtabs'));
+        var customTabIds = FwTabs.addTab($formTabControl, 'Custom Fields', false, 'CUSTOM', false);
+        FwAppData.apiMethod(true, 'GET', 'api/v1/customfield', null, FwServices.defaultTimeout, function onSuccess(response) {
+            try {
+                customHtml.push('<div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Custom Fields">');
+                for (var j = 0; j < response.length; j++) {
+                    if (customModuleName === response[j].ModuleName) {
+                        customHtml.push('<div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
+                        if (response[j].FieldSizeInPixels > 0) {
+                            customHtml.push('<div data-control="FwFormField" data-customfield="true" data-type="' + response[j].ControlType + '" class="fwcontrol fwformfield" data-caption="' + response[j].FieldName + '" data-datafield="' + response[j].FieldName + '" data-digits="' + response[j].FloatDecimalDigits + '" style="width:' + response[j].FieldSizeInPixels + 'px;float:left;" data-digitsoptional="false"></div>');
+                        }
+                        else {
+                            customHtml.push('<div data-control="FwFormField" data-customfield="true" data-type="' + response[j].ControlType + '" class="fwcontrol fwformfield" data-caption="' + response[j].FieldName + '" data-datafield="' + response[j].FieldName + '" data-digits="' + response[j].FloatDecimalDigits + '" data-digitsoptional="false"></div>');
+                        }
+                        customHtml.push('</div>');
+                    }
+                }
+                customHtml.push('</div>');
+                var $customControl = jQuery(customHtml.join(''));
+                FwControl.renderRuntimeControls($customControl.find('.fwcontrol').addBack());
+                $formTabControl.find('#' + customTabIds.tabpageid).append($customControl);
+                $form.data('fields', $form.find('.fwformfield[data-isuniqueid!="true"]'));
+            }
+            catch (ex) {
+                FwFunc.showError(ex);
+            }
+        }, null, null);
+    };
     return FwModule;
 }());
 //# sourceMappingURL=FwModule.js.map

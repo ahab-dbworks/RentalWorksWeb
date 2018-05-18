@@ -494,8 +494,8 @@ class Quote {
 
         var $allOrderItemGrid;
         var $allOrderItemGridControl;
-        $allOrderItemGrid = $form.find('.allgrid div[data-grid="OrderItemGrid"]');
-        $allOrderItemGridControl = jQuery(jQuery('#tmpl-grids-OrderItemGridBrowse').html());
+        $allOrderItemGrid = $form.find('.allgrid div[data-grid="OrderItemCombinedGrid"]');
+        $allOrderItemGridControl = jQuery(jQuery('#tmpl-grids-OrderItemCombinedGridBrowse').html());
         $allOrderItemGridControl.find('.allitem').attr('data-visible', true);
         $allOrderItemGrid.empty().append($allOrderItemGridControl);
         $allOrderItemGridControl.data('ondatabind', function (request) {
@@ -508,9 +508,9 @@ class Quote {
             request.OrderId = FwFormField.getValueByDataField($form, 'QuoteId');
         }
         );
-        FwBrowse.addEventHandler($allOrderItemGridControl, 'afterdatabindcallback', () => {
-            this.calculateOrderItemGridTotals($form, 'all');
-        });
+        //FwBrowse.addEventHandler($allOrderItemGridControl, 'afterdatabindcallback', () => {
+        //    this.calculateOrderItemGridTotals($form, 'all');
+        //});
 
         FwBrowse.init($allOrderItemGridControl);
         FwBrowse.renderRuntimeHtml($allOrderItemGridControl);
@@ -946,7 +946,7 @@ class Quote {
                 $form.find('.combined').show();
                 $form.find('.notcombined').hide();
                 var $allOrderItemGrid;
-                $allOrderItemGrid = $form.find('.allgrid [data-name="OrderItemGrid"]');
+                $allOrderItemGrid = $form.find('.allgrid [data-name="OrderItemCombinedGrid"]');
                 FwBrowse.search($allOrderItemGrid);
             } else {
                 $form.find('.combined').hide();
