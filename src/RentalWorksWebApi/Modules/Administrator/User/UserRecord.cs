@@ -21,7 +21,7 @@ namespace WebApi.Modules.Administrator.User
         [FwSqlDataField(column: "loginname", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 30)]
         public string LoginName { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "password", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 20, required: true)]
+        [FwSqlDataField(column: "password", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 20)]
         public string Password { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "locationid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8, required: true)]

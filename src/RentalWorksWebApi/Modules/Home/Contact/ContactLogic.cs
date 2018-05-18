@@ -3,6 +3,7 @@ using FwStandard.BusinessLogic.Attributes;
 using FwStandard.SqlServer;
 using WebApi.Logic;
 using WebApi.Modules.Administrator.User;
+using WebLibrary;
 using static FwStandard.DataLayer.FwDataReadWriteRecord;
 
 namespace WebApi.Modules.Home.Contact
@@ -12,14 +13,21 @@ namespace WebApi.Modules.Home.Contact
         //------------------------------------------------------------------------------------
         ContactRecord contact = new ContactRecord();
         WebUserRecord webUser = new WebUserRecord();
+        UserRecord user = new UserRecord();
         ContactLoader contactLoader = new ContactLoader();
         public ContactLogic()
         {
             dataRecords.Add(contact);
+            dataRecords.Add(user);
             dataRecords.Add(webUser);
             dataLoader = contactLoader;
-            contact.AfterSave += Contact_AfterSave;
-            webUser.AfterSave += WebUser_AfterSave;
+
+            BeforeValidate += BeforeValidateContact;
+
+            contact.AfterSave += AfterSaveContact;
+            user.BeforeSave += BeforeSaveUser;
+            webUser.BeforeSave += BeforeSaveWebUser;
+            webUser.AfterSave += AfterSaveWebUser;
         }
         //------------------------------------------------------------------------------------
         [FwBusinessLogicField(isPrimaryKey: true)]
@@ -67,8 +75,13 @@ namespace WebApi.Modules.Home.Contact
         public string ZipCode { get { return contact.ZipCode; } set { contact.ZipCode = value; } }
         public string State { get { return contact.State; } set { contact.State = value; } }
 
+        //userRecord
+        public string UserId { get { return user.UserId; } set { user.UserId = value; } }
+
         // WebUserRecord
         public string WebUserId { get { return webUser.WebUserId; } set { webUser.WebUserId = value; } }
+        public string WebUserContactId { get { return webUser.ContactId; } set { webUser.ContactId = value; } }
+        public string WebUserUserId { get { return webUser.UserId; } set { webUser.UserId = value; } }
         public bool? WebAccess { get { return webUser.WebAccess; } set { webUser.WebAccess = value; } }
         public bool? LockAccount { get { return webUser.LockAccount; } set { webUser.LockAccount = value; } }
         public string WebPassword { get { return webUser.WebPassword; } set { webUser.WebPassword = value; } }
@@ -77,28 +90,58 @@ namespace WebApi.Modules.Home.Contact
         public bool? ChangePasswordAtNextLogin { get { return webUser.ChangePasswordAtNextLogin; } set { webUser.ChangePasswordAtNextLogin = value; } }
         public string PasswordLastUpdated { get { return webUser.PasswordLastUpdated; } set { webUser.PasswordLastUpdated = value; } }
         //------------------------------------------------------------------------------------
-        private void Contact_AfterSave(object sender, AfterSaveEventArgs e)
+        private void BeforeValidateContact(object sender, BeforeValidateEventArgs e)
         {
-            if ((e.SaveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smUpdate) && (e.SavePerformed) && (string.IsNullOrEmpty(webUser.WebUserId)))
+            if (e.SaveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smInsert)
             {
-                ContactLogic contact2 = new ContactLogic();
-                contact2.SetDependencies(AppConfig, UserSession);
-                object[] pk = GetPrimaryKeys();
-                bool b = contact2.LoadAsync<ContactLogic>(pk).Result;
-                using (FwSqlConnection conn = new FwSqlConnection(this.AppConfig.DatabaseSettings.ConnectionString))
+                //fields are required for a user - tempoarary
+                user.FirstName = "X";
+                user.LastName = "X";
+                user.LoginName = "X";
+                user.OfficeLocationId = "X";
+                user.WarehouseId = "X";
+                user.GroupId = "X";
+                user.DefaultDepartmentType = RwConstants.DEPARTMENT_TYPE_RENTAL;
+                user.RentalDepartmentId = "X";
+            }
+        }
+        //------------------------------------------------------------------------------------
+        private void AfterSaveContact(object sender, AfterSaveEventArgs e)
+        {
+            if ((e.SavePerformed) && (e.SaveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smUpdate))
+            {
+                if (string.IsNullOrEmpty(webUser.WebUserId))
                 {
-                    string webusersid = FwSqlCommand.GetDataAsync(conn, this.AppConfig.DatabaseSettings.QueryTimeout, "webusers", "contactid", contact2.ContactId, "webusersid").Result.ToString().TrimEnd();
-                    this.webUser.WebUserId = webusersid;
+                    ContactLogic contact2 = new ContactLogic();
+                    contact2.SetDependencies(AppConfig, UserSession);
+                    object[] pk = GetPrimaryKeys();
+                    bool b = contact2.LoadAsync<ContactLogic>(pk).Result;
+                    WebUserId = contact2.WebUserId;
                 }
             }
         }
         //------------------------------------------------------------------------------------
-        private void WebUser_AfterSave(object sender, AfterSaveEventArgs e)
+        private void BeforeSaveUser(object sender, BeforeSaveEventArgs e)
         {
-            if ((e.SaveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smInsert) && (e.SavePerformed))
+            if ((e.SaveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smInsert))
             {
-                this.WebUserId = webUser.WebUserId;
-                int i = SaveAsync().Result;
+                //fields are required for a user
+                user.FirstName = UserId;
+                user.LastName = UserId;
+                user.LoginName = UserId;
+                user.OfficeLocationId = UserId;
+                user.WarehouseId = UserId;
+                user.GroupId = UserId;
+                user.RentalDepartmentId = UserId;
+            }
+        }
+        //------------------------------------------------------------------------------------
+        private void BeforeSaveWebUser(object sender, BeforeSaveEventArgs e)
+        {
+            if ((e.SaveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smInsert))
+            {
+                WebUserUserId = UserId;
+                WebUserContactId = ContactId;
             }
         }
         //------------------------------------------------------------------------------------
