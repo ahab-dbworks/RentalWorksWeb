@@ -319,15 +319,14 @@ var Deal = (function () {
         $tr.find('.column > .field').each(function (i, e) {
             var $column = jQuery(e), id = $column.attr('data-browsedatafield'), value = $column.attr('data-originalvalue');
             if (value == undefined || null) {
-                jQuery('.' + id).find(':input').val(0);
+                jQuery("." + id).find(':input').val(0);
             }
             else {
-                jQuery('.' + id).find(':input').val(value);
+                jQuery("." + id).find(':input').val(value);
             }
         });
     };
     Deal.prototype.renderGrids = function ($form) {
-        console.log($form);
         var $resaleGrid, $resaleControl, $taxOptionGrid, $taxOptionControl, $contactGrid, $contactControl, $dealNoteGrid, $dealNoteControl, $vendorGrid, $vendorControl;
         $resaleGrid = $form.find('div[data-grid="CompanyResaleGrid"]');
         $resaleControl = jQuery(jQuery('#tmpl-grids-CompanyResaleGridBrowse').html());
