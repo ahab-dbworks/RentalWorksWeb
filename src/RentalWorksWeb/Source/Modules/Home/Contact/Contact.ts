@@ -1,17 +1,10 @@
 ﻿routes.push({ pattern: /^module\/contact$/, action: function (match: RegExpExecArray) { return ContactController.getModuleScreen(); } });
 
 class Contact {
-    Module: string;
-    apiurl: string;
-    caption: string;
-    ActiveView: string;
-
-    constructor() {
-        this.Module = 'Contact';
-        this.apiurl = 'api/v1/contact';
-        this.caption = 'Contact';
-        this.ActiveView = 'ALL';
-    }
+    Module: string = 'Contact';
+    apiurl: string = 'api/v1/contact';
+    caption: string = 'Contact';
+    ActiveView: string = 'ALL';
 
     getModuleScreen() {
         var me: Contact = this;
@@ -48,6 +41,28 @@ class Contact {
 
         $form = jQuery(jQuery('#tmpl-modules-' + this.Module + 'Form').html());
         $form = FwModule.openForm($form, mode);
+
+        if (mode === 'NEW') {
+            $form.find('.ifnew').attr('data-enabled', 'true');
+            const today = new Date(Date.now()).toLocaleString().split(',')[0];
+            
+            FwFormField.setValueByDataField($form, 'ActiveDate', today);
+
+            // Disable / Enable Inactive Date 
+            $form.find('[data-datafield="Inactive"] .fwformfield-value').on('change', function () {
+                var $this = jQuery(this);
+                if ($this.prop('checked') === true) {
+                    const today = new Date(Date.now()).toLocaleString().split(',')[0];
+                    FwFormField.enable($form.find('div[data-datafield="InactiveDate"]'));
+                    FwFormField.setValueByDataField($form, 'InactiveDate', today);
+                }
+                else {
+                    FwFormField.disable($form.find('div[data-datafield="InactiveDate"]'));
+                    FwFormField.setValueByDataField($form, 'InactiveDate', "");
+                }
+            });
+
+        }
 
         return $form;
     };
@@ -126,6 +141,20 @@ class Contact {
 
         $companyContactGrid = $form.find('[data-name="ContactCompanyGrid"]');
         FwBrowse.search($companyContactGrid);
+
+        // Disable / Enable Inactive Date 
+        $form.find('[data-datafield="Inactive"] .fwformfield-value').on('change', function () {
+            var $this = jQuery(this);
+            if ($this.prop('checked') === true) {
+                const today = new Date(Date.now()).toLocaleString().split(',')[0];
+                FwFormField.enable($form.find('div[data-datafield="InactiveDate"]'));
+                FwFormField.setValueByDataField($form, 'InactiveDate', today);
+            }
+            else {
+                FwFormField.disable($form.find('div[data-datafield="InactiveDate"]'));
+                FwFormField.setValueByDataField($form, 'InactiveDate', "");
+            }
+        });
     };
     //--------------------------------------------------------------------------------------------
 }

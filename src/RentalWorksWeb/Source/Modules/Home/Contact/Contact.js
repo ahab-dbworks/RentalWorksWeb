@@ -35,6 +35,23 @@ var Contact = (function () {
         var $form;
         $form = jQuery(jQuery('#tmpl-modules-' + this.Module + 'Form').html());
         $form = FwModule.openForm($form, mode);
+        if (mode === 'NEW') {
+            $form.find('.ifnew').attr('data-enabled', 'true');
+            var today = new Date(Date.now()).toLocaleString().split(',')[0];
+            FwFormField.setValueByDataField($form, 'ActiveDate', today);
+            $form.find('[data-datafield="Inactive"] .fwformfield-value').on('change', function () {
+                var $this = jQuery(this);
+                if ($this.prop('checked') === true) {
+                    var today_1 = new Date(Date.now()).toLocaleString().split(',')[0];
+                    FwFormField.enable($form.find('div[data-datafield="InactiveDate"]'));
+                    FwFormField.setValueByDataField($form, 'InactiveDate', today_1);
+                }
+                else {
+                    FwFormField.disable($form.find('div[data-datafield="InactiveDate"]'));
+                    FwFormField.setValueByDataField($form, 'InactiveDate', "");
+                }
+            });
+        }
         return $form;
     };
     ;
@@ -99,6 +116,18 @@ var Contact = (function () {
         var $companyContactGrid;
         $companyContactGrid = $form.find('[data-name="ContactCompanyGrid"]');
         FwBrowse.search($companyContactGrid);
+        $form.find('[data-datafield="Inactive"] .fwformfield-value').on('change', function () {
+            var $this = jQuery(this);
+            if ($this.prop('checked') === true) {
+                var today = new Date(Date.now()).toLocaleString().split(',')[0];
+                FwFormField.enable($form.find('div[data-datafield="InactiveDate"]'));
+                FwFormField.setValueByDataField($form, 'InactiveDate', today);
+            }
+            else {
+                FwFormField.disable($form.find('div[data-datafield="InactiveDate"]'));
+                FwFormField.setValueByDataField($form, 'InactiveDate', "");
+            }
+        });
     };
     ;
     return Contact;

@@ -400,16 +400,15 @@ class Deal {
         $tr.find('.column > .field').each((i, e) => {
             var $column = jQuery(e), id = $column.attr('data-browsedatafield'), value = $column.attr('data-originalvalue');
             if (value == undefined || null) {
-                jQuery('.' + id).find(':input').val(0);
+                jQuery(`.${id}`).find(':input').val(0);
             } else {
-                jQuery('.' + id).find(':input').val(value);
+                jQuery(`.${id}`).find(':input').val(value);
             }
 
         });
     }
 
     renderGrids($form: any) {
-        console.log($form);
         var $resaleGrid,
             $resaleControl,
             $taxOptionGrid,
