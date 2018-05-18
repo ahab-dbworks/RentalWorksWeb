@@ -523,21 +523,21 @@ class SearchInterface {
 
     renderInventory($popup, response, isSubCategory) {
         var self = this,
-            descriptionIndex = response.ColumnIndex.Description - 1,
-            thumbnailIndex = response.ColumnIndex.Thumbnail - 2,
-            quantityAvailable = response.ColumnIndex.QuantityAvailable - 2,
-            conflictDate = response.ColumnIndex.ConflictDate - 2,
-            quantityIn = response.ColumnIndex.QuantityIn - 2,
-            quantityQcRequired = response.ColumnIndex.QuantityQcRequired - 2,
-            quantity = response.ColumnIndex.Quantity - 2,
-            dailyRate = response.ColumnIndex.DailyRate - 2,
+            descriptionIndex = response.ColumnIndex.Description,
+            thumbnailIndex = response.ColumnIndex.Thumbnail,
+            quantityAvailable = response.ColumnIndex.QuantityAvailable,
+            conflictDate = response.ColumnIndex.ConflictDate,
+            quantityIn = response.ColumnIndex.QuantityIn,
+            quantityQcRequired = response.ColumnIndex.QuantityQcRequired,
+            quantity = response.ColumnIndex.Quantity,
+            dailyRate = response.ColumnIndex.DailyRate,
             inventoryId = response.ColumnIndex.InventoryId,
-            thumbnail = response.ColumnIndex.Thumbnail - 2,
-            appImageId = response.ColumnIndex.ImageId - 2,
-            subCategoryIdIndex = response.ColumnIndex.SubCategoryId - 2,
-            subCategoryIndex = response.ColumnIndex.SubCategory - 2,
-            classificationIndex = response.ColumnIndex.Classification - 2,
-            classificationColor = response.ColumnIndex.ClassificationColor - 2;
+            thumbnail = response.ColumnIndex.Thumbnail,
+            appImageId = response.ColumnIndex.ImageId,
+            subCategoryIdIndex = response.ColumnIndex.SubCategoryId,
+            subCategoryIndex = response.ColumnIndex.SubCategory,
+            classificationIndex = response.ColumnIndex.Classification,
+            classificationColor = response.ColumnIndex.ClassificationColor;
 
         if (response.Rows.length == 0) {
             $popup.find('.inventory').append('<span style="font-weight: bold; font-size=1.3em">No Results</span>');
@@ -766,11 +766,15 @@ class SearchInterface {
         var warehouseId = FwFormField.getValueByDataField($form, 'WarehouseId');
         var request: any = {};
         var self = this;
-        $popup.on('mouseenter', '.inventory > .card', function () {
-            jQuery(this).css('box-shadow', '0 10px 18px 0 rgba(0, 0, 0, 0.2)');
+        $popup.on('mouseenter', '.inventory > .cardContainer > .card', function (e) {
+            let selected = jQuery(e.currentTarget).hasClass('selected');
+
+            if (!selected) {
+                jQuery(this).css('box-shadow', '0 10px 18px 0 rgba(0, 0, 0, 0.2)');
+            }
         });
 
-        $popup.on('mouseleave', '.inventory > .card', function (e) {
+        $popup.on('mouseleave', '.inventory > .cardContainer > .card', function (e) {
             var selected = jQuery(e.currentTarget).hasClass('selected');
             if (selected) {
                 jQuery(e.currentTarget).css('box-shadow', '0 12px 20px 0 rgba(0,0,153,0.2)');
@@ -780,9 +784,9 @@ class SearchInterface {
 
         });
 
-        $popup.on('click', '.inventory > .card', function (e) {
-            $popup.find('.inventory > .card').removeClass('selected');
-            $popup.find('.inventory > .card').css('box-shadow', '0 4px 8px 0 rgba(0,0,0,0.2)');
+        $popup.on('click', '.inventory > .cardContainer > .card', function (e) {
+            $popup.find('.inventory > .cardContainer > .card').removeClass('selected');
+            $popup.find('.inventory > .cardContainer > .card').css('box-shadow', '0 4px 8px 0 rgba(0,0,0,0.2)');
 
             jQuery(e.currentTarget).addClass('selected');
 
@@ -802,7 +806,9 @@ class SearchInterface {
                 Quantity: quantity
             }
             FwAppData.apiMethod(true, 'POST', "api/v1/inventorysearch/", request, FwServices.defaultTimeout, function onSuccess(response) {
-                //self.refreshPreviewGrid($popup, id);
+                if (jQuery(e.currentTarget).parents('.cardContainer').find('.accContainer').css('display') != 'none') {
+                    self.refreshAccessoryQuantity($popup, id, warehouseId, inventoryId, e);
+                }
             }, null, $searchpopup);
 
         });
@@ -927,11 +933,11 @@ class SearchInterface {
                 accessoryContainer.append(html.join(''));
 
                 FwAppData.apiMethod(true, 'POST', "api/v1/inventorysearch/accessories", request, FwServices.defaultTimeout, function onSuccess(response) {
-                    const descriptionIndex = response.ColumnIndex.Description -1;
-                    const qtyIndex = response.ColumnIndex.Quantity - 2;
-                    const qtyInIndex = response.ColumnIndex.QuantityIn - 2;
-                    const qtyAvailIndex = response.ColumnIndex.QuantityAvailable - 2;
-                    const conflictIndex = response.ColumnIndex.ConflictDate - 2;
+                    const descriptionIndex = response.ColumnIndex.Description;
+                    const qtyIndex = response.ColumnIndex.Quantity;
+                    const qtyInIndex = response.ColumnIndex.QuantityIn;
+                    const qtyAvailIndex = response.ColumnIndex.QuantityAvailable;
+                    const conflictIndex = response.ColumnIndex.ConflictDate;
                     const inventoryIdIndex = response.ColumnIndex.InventoryId;
 
                     for (var i = 0; i < response.Rows.length; i++) {
@@ -940,7 +946,7 @@ class SearchInterface {
                         accHtml.push('  <div data-control="FwFormField" style="display:none" data-type="text" data-datafield="InventoryId" class="fwcontrol fwformfield"></div>');
                         accHtml.push('  <div style="float:left; width:50%">' + response.Rows[i][descriptionIndex] + '</div>');
                         accHtml.push('  <div data-control="FwFormField" style="text-align:center; float:left; width:12%; padding:5px 10px 0 0;" data-type="number" data-datafield="AccQuantity" class="fwcontrol fwformfield"></div>');
-                        accHtml.push('  <div style="text-align:center; float:left; width:12%; padding-left:5px;">' + response.Rows[i][qtyInIndex] + '</div>');//placeholders
+                        accHtml.push('  <div style="text-align:center; float:left; width:12%; padding-left:5px;">' + response.Rows[i][qtyInIndex] + '</div>');
                         accHtml.push('  <div style="text-align:center; float:left; width:12%; padding-left:5px;">' + response.Rows[i][qtyAvailIndex] + '</div>');
                         accHtml.push('  <div style="text-align:center; float:left; width:12%; padding-left:5px;">' + response.Rows[i][conflictIndex] + '</div>');
                         accHtml.push('</div>');
@@ -955,7 +961,7 @@ class SearchInterface {
                     }
                 }, null, null);
 
-                accessoryContainer.css({ 'float': 'left', 'height': 'auto', 'padding': '10px', 'margin-top': '20px', 'box-shadow': '0 4px 8px 0 rgba(0,0,0,0.2)', 'transition': '0.3s' });
+                accessoryContainer.css({ 'float': 'left', 'height': 'auto', 'padding': '10px', 'margin': '10px', 'box-shadow': '0 12px 20px 0 rgba(0,0,153,0.2)', 'transition': '0.3s' });
                 accessoryContainer.slideToggle();
             } else {
                 accessoryContainer.slideToggle();
@@ -1052,6 +1058,50 @@ class SearchInterface {
             FwBrowse.databindcallback($grid, response);
         }, null, $searchpopup);
     };
+
+    refreshAccessoryQuantity($popup, id, warehouseId, inventoryId, e) {
+        var request: any = {};
+        var accessoryContainer = jQuery(e.currentTarget).parents('.cardContainer').find('.accContainer');
+        request = {
+            SessionId: id,
+            OrderId: id,
+            ParentId: inventoryId,
+            WarehouseId: warehouseId,
+            ShowAvailability: 'true',
+            FromDate: FwFormField.getValueByDataField($popup, 'FromDate'),
+            ToDate: FwFormField.getValueByDataField($popup, 'ToDate'),
+            ShowImages: 'true'
+        }
+        jQuery(e.currentTarget).parents('.cardContainer').find('.accContainer .accItem').remove();
+        FwAppData.apiMethod(true, 'POST', "api/v1/inventorysearch/accessories", request, FwServices.defaultTimeout, function onSuccess(response) {
+            const descriptionIndex = response.ColumnIndex.Description;
+            const qtyIndex = response.ColumnIndex.Quantity;
+            const qtyInIndex = response.ColumnIndex.QuantityIn;
+            const qtyAvailIndex = response.ColumnIndex.QuantityAvailable;
+            const conflictIndex = response.ColumnIndex.ConflictDate;
+            const inventoryIdIndex = response.ColumnIndex.InventoryId;
+
+            for (var i = 0; i < response.Rows.length; i++) {
+                let accHtml = [];
+                accHtml.push('<div class="accItem" style="width:100%">');
+                accHtml.push('  <div data-control="FwFormField" style="display:none" data-type="text" data-datafield="InventoryId" class="fwcontrol fwformfield"></div>');
+                accHtml.push('  <div style="float:left; width:50%">' + response.Rows[i][descriptionIndex] + '</div>');
+                accHtml.push('  <div data-control="FwFormField" style="text-align:center; float:left; width:12%; padding:5px 10px 0 0;" data-type="number" data-datafield="AccQuantity" class="fwcontrol fwformfield"></div>');
+                accHtml.push('  <div style="text-align:center; float:left; width:12%; padding-left:5px;">' + response.Rows[i][qtyInIndex] + '</div>');
+                accHtml.push('  <div style="text-align:center; float:left; width:12%; padding-left:5px;">' + response.Rows[i][qtyAvailIndex] + '</div>');
+                accHtml.push('  <div style="text-align:center; float:left; width:12%; padding-left:5px;">' + response.Rows[i][conflictIndex] + '</div>');
+                accHtml.push('</div>');
+
+                let item = accHtml.join('');
+                accessoryContainer.append(item);
+                let $acc = accessoryContainer.find('.accItem:last');
+                FwConfirmation.addControls($acc, item);
+                $popup.find('.accItem .fwformfield-caption').hide();
+                FwFormField.setValueByDataField($acc, 'AccQuantity', response.Rows[i][qtyIndex]);
+                FwFormField.setValueByDataField($acc, 'InventoryId', response.Rows[i][inventoryIdIndex]);
+            }
+        }, null, null);
+    }
 }
 
 var SearchInterfaceController = new SearchInterface();
