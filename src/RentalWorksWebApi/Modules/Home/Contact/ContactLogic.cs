@@ -27,7 +27,6 @@ namespace WebApi.Modules.Home.Contact
             contact.AfterSave += AfterSaveContact;
             user.BeforeSave += BeforeSaveUser;
             webUser.BeforeSave += BeforeSaveWebUser;
-            webUser.AfterSave += AfterSaveWebUser;
         }
         //------------------------------------------------------------------------------------
         [FwBusinessLogicField(isPrimaryKey: true)]
