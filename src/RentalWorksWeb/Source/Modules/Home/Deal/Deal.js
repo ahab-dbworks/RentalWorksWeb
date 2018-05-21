@@ -128,8 +128,6 @@ var Deal = (function () {
         var list = ['CreditStatusId',
             'CreditStatusThrough',
             'CreditLimit',
-            'CreditAvailable',
-            'CreditBalance',
             'UnlimitedCredit',
             'CreditApplicationOnFile',
             'TradeReferencesVerifiedBy',
@@ -296,18 +294,22 @@ var Deal = (function () {
         }
     };
     Deal.prototype.transferDealAddressValues = function ($form) {
-        FwFormField.setValue($form, '.shipping_add1', FwFormField.getValueByDataField($form, 'Address1'));
-        FwFormField.setValue($form, '.shipping_add2', FwFormField.getValueByDataField($form, 'Address2'));
-        FwFormField.setValue($form, '.shipping_city', FwFormField.getValueByDataField($form, 'City'));
-        FwFormField.setValue($form, '.shipping_state', FwFormField.getValueByDataField($form, 'State'));
-        FwFormField.setValue($form, '.shipping_zip', FwFormField.getValueByDataField($form, 'ZipCode'));
-        FwFormField.setValue($form, 'div[data-displayfield="ShipCountry"]', FwFormField.getValueByDataField($form, 'CountryId'), FwFormField.getTextByDataField($form, 'CountryId'));
-        FwFormField.setValue($form, '.billing_add1', FwFormField.getValueByDataField($form, 'Address1'));
-        FwFormField.setValue($form, '.billing_add2', FwFormField.getValueByDataField($form, 'Address2'));
-        FwFormField.setValue($form, '.billing_city', FwFormField.getValueByDataField($form, 'City'));
-        FwFormField.setValue($form, '.billing_state', FwFormField.getValueByDataField($form, 'State'));
-        FwFormField.setValue($form, '.billing_zip', FwFormField.getValueByDataField($form, 'ZipCode'));
-        FwFormField.setValue($form, 'div[data-displayfield="BillToCountry"]', FwFormField.getValueByDataField($form, 'CountryId'), FwFormField.getTextByDataField($form, 'CountryId'));
+        if (FwFormField.getValue($form, '.billing_radio1') === 'DEAL') {
+            FwFormField.setValue($form, '.billing_add1', FwFormField.getValueByDataField($form, 'Address1'));
+            FwFormField.setValue($form, '.billing_add2', FwFormField.getValueByDataField($form, 'Address2'));
+            FwFormField.setValue($form, '.billing_city', FwFormField.getValueByDataField($form, 'City'));
+            FwFormField.setValue($form, '.billing_state', FwFormField.getValueByDataField($form, 'State'));
+            FwFormField.setValue($form, '.billing_zip', FwFormField.getValueByDataField($form, 'ZipCode'));
+            FwFormField.setValue($form, 'div[data-displayfield="BillToCountry"]', FwFormField.getValueByDataField($form, 'CountryId'), FwFormField.getTextByDataField($form, 'CountryId'));
+        }
+        if (FwFormField.getValue($form, '.shipping_address_type_radio') === 'PROJECT') {
+            FwFormField.setValue($form, '.shipping_add1', FwFormField.getValueByDataField($form, 'Address1'));
+            FwFormField.setValue($form, '.shipping_add2', FwFormField.getValueByDataField($form, 'Address2'));
+            FwFormField.setValue($form, '.shipping_city', FwFormField.getValueByDataField($form, 'City'));
+            FwFormField.setValue($form, '.shipping_state', FwFormField.getValueByDataField($form, 'State'));
+            FwFormField.setValue($form, '.shipping_zip', FwFormField.getValueByDataField($form, 'ZipCode'));
+            FwFormField.setValue($form, 'div[data-displayfield="ShipCountry"]', FwFormField.getValueByDataField($form, 'CountryId'), FwFormField.getTextByDataField($form, 'CountryId'));
+        }
     };
     Deal.prototype.disableFields = function ($form, fields) {
         fields.forEach(function (e, i) { FwFormField.disable($form.find('[data-datafield="' + e + '"]')); });
