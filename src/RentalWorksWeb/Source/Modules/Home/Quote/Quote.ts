@@ -742,8 +742,10 @@ class Quote {
     //----------------------------------------------------------------------------------------------
     toggleOrderItemView($form: any, event: any) {
     // Toggle between Detail and Summary view in all OrderItemGrid
-        let $element, $orderItemGrid, $orderItemGridControl, recType, gridName, isSummary, quoteId;
+        let $element, $orderItemGrid, recType, isSummary, quoteId;
         let request: any = {};
+
+        console.log('event: ', event)
 
         $element = jQuery(event.currentTarget)
         recType = $element.attr('data-rectype');
@@ -751,19 +753,15 @@ class Quote {
 
         if (recType === 'R') {
             $orderItemGrid = $form.find('.rentalgrid [data-name="OrderItemGrid"]');
-            gridName = 'rental';
         }
         if (recType === 'S') {
             $orderItemGrid = $form.find('.salesgrid [data-name="OrderItemGrid"]');
-            gridName = 'sales';
         }
         if (recType === 'L') {
             $orderItemGrid = $form.find('.laborgrid [data-name="OrderItemGrid"]');
-            gridName = 'labor';
         }
         if (recType === 'M') {
             $orderItemGrid = $form.find('.miscgrid [data-name="OrderItemGrid"]');
-            gridName = 'misc';
         }
 
         if (FwFormField.getValue($form, $element) === 'Summary') {
@@ -773,12 +771,7 @@ class Quote {
             isSummary = false;
         }
 
-        $orderItemGridControl = jQuery(jQuery('#tmpl-grids-OrderItemGridBrowse').html());
-        //$orderItemGridControl = $form.find('[data-name="OrderItemGrid"]');
-        //$orderItemGrid.empty().append($orderItemGridControl);
-
-
-        $orderItemGridControl.data('ondatabind', request => {
+        $orderItemGrid.data('ondatabind', request => {
             request.uniqueids = {
                 OrderId: quoteId,
                 Summary: isSummary,
@@ -788,20 +781,13 @@ class Quote {
             request.orderby = "RowNumber,RecTypeDisplay"
         });
 
-        $orderItemGridControl.data('beforesave', request => {
+        $orderItemGrid.data('beforesave', request => {
             request.OrderId = quoteId;
             request.RecType = recType;
             request.Summary = isSummary;
         });
 
-        FwBrowse.search($orderItemGridControl);
-
-        FwBrowse.addEventHandler($orderItemGridControl, 'afterdatabindcallback', () => {
-            this.calculateOrderItemGridTotals($form, gridName);
-        });
-
-        //FwBrowse.init($orderItemGridControl);
-        //FwBrowse.renderRuntimeHtml($orderItemGridControl);
+        FwBrowse.search($orderItemGrid);
     }
 
     //----------------------------------------------------------------------------------------------

@@ -1,3 +1,4 @@
+var _this = this;
 routes.push({ pattern: /^module\/order$/, action: function (match) { return OrderController.getModuleScreen(); } });
 routes.push({ pattern: /^module\/order\/(\w+)\/(\S+)/, action: function (match) { var filter = { datafield: match[1], search: match[2] }; return OrderController.getModuleScreen(filter); } });
 var Order = (function () {
@@ -800,27 +801,23 @@ var Order = (function () {
     };
     ;
     Order.prototype.toggleOrderItemView = function ($form, event) {
-        var _this = this;
-        var $element, $orderItemGrid, $orderItemGridControl, recType, gridName, isSummary, orderId;
+        var $element, $orderItemGrid, recType, isSummary, orderId;
         var request = {};
+        console.log('event: ', event);
         $element = jQuery(event.currentTarget);
         recType = $element.attr('data-rectype');
         orderId = FwFormField.getValueByDataField($form, 'OrderId');
         if (recType === 'R') {
             $orderItemGrid = $form.find('.rentalgrid [data-name="OrderItemGrid"]');
-            gridName = 'rental';
         }
         if (recType === 'S') {
             $orderItemGrid = $form.find('.salesgrid [data-name="OrderItemGrid"]');
-            gridName = 'sales';
         }
         if (recType === 'L') {
             $orderItemGrid = $form.find('.laborgrid [data-name="OrderItemGrid"]');
-            gridName = 'labor';
         }
         if (recType === 'M') {
             $orderItemGrid = $form.find('.miscgrid [data-name="OrderItemGrid"]');
-            gridName = 'misc';
         }
         if (FwFormField.getValue($form, $element) === 'Summary') {
             isSummary = true;
@@ -828,8 +825,7 @@ var Order = (function () {
         else {
             isSummary = false;
         }
-        $orderItemGridControl = jQuery(jQuery('#tmpl-grids-OrderItemGridBrowse').html());
-        $orderItemGridControl.data('ondatabind', function (request) {
+        $orderItemGrid.data('ondatabind', function (request) {
             request.uniqueids = {
                 OrderId: orderId,
                 Summary: isSummary,
@@ -838,15 +834,12 @@ var Order = (function () {
             request.pagesize = 9999;
             request.orderby = "RowNumber,RecTypeDisplay";
         });
-        $orderItemGridControl.data('beforesave', function (request) {
+        $orderItemGrid.data('beforesave', function (request) {
             request.OrderId = orderId;
             request.RecType = recType;
             request.Summary = isSummary;
         });
-        FwBrowse.search($orderItemGridControl);
-        FwBrowse.addEventHandler($orderItemGridControl, 'afterdatabindcallback', function () {
-            _this.calculateOrderItemGridTotals($form, gridName);
-        });
+        FwBrowse.search($orderItemGrid);
     };
     Order.prototype.calculateOrderItemGridTotals = function ($form, gridType) {
         var periodExtendedTotal = 0;
@@ -1015,6 +1008,16 @@ FwApplicationTree.clickEvents['{F2FD2F4C-1AB7-4627-9DD5-1C8DB96C5509}'] = functi
         $report.find('div.fwformfield[data-datafield="OrderId"] input').val(orderId);
         $report.find('div.fwformfield[data-datafield="OrderId"] .fwformfield-text').val(orderNumber);
         jQuery('.tab.submodule.active').find('.caption').html('Print Order');
+    }
+    catch (ex) {
+        FwFunc.showError(ex);
+    }
+};
+FwApplicationTree.clickEvents['{D27AD4E7-E924-47D1-AF6E-992B92F5A647}'] = function (event) {
+    var $form;
+    $form = jQuery(_this).closest('.fwform');
+    try {
+        OrderController.toggleOrderItemView($form, event);
     }
     catch (ex) {
         FwFunc.showError(ex);
