@@ -98,7 +98,9 @@ namespace WebApi.Modules.Home.InventorySearch
         [FwSqlDataField(column: "qty", modeltype: FwDataTypes.Decimal)]
         public decimal? Quantity { get; set; }
         //------------------------------------------------------------------------------------ 
-
+        [FwSqlDataField(column: "qtycolor", modeltype: FwDataTypes.OleToHtmlColor)]
+        public string QuantityColor { get; set; }
+        //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "appimageid", modeltype: FwDataTypes.Text)]
         public string ImageId { get; set; }
         //------------------------------------------------------------------------------------ 
