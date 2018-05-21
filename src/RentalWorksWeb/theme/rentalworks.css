@@ -76,5 +76,5 @@ div[data-controller="GroupController"] .grouptree li[data-property-id="apptree"]
 /***************************
 flexrow
 ***************************/
-.flexrow {display:flex;flex-wrap: wrap;/*max-width:60em;*/max-width:1200px;}
+.flexrow {display:flex;flex-wrap: wrap;/*max-width:60em;*/max-width:1440px;}
 .flexrow > * {flex:1 1 0;min-width:25px;/*min-width:16em;*//*max-width:24em;*/}
