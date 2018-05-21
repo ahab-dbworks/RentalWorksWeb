@@ -355,13 +355,13 @@ class Quote {
     }
     //----------------------------------------------------------------------------------------------
     renderFrames($form: any) {
-        var orderId;
+        let quoteId;
 
         $form.find('.frame input').css('width', '100%');
 
-        orderId = $form.find('div.fwformfield[data-datafield="QuoteId"] input').val();
+        quoteId = $form.find('div.fwformfield[data-datafield="QuoteId"] input').val();
 
-        FwAppData.apiMethod(true, 'GET', "api/v1/ordersummary/" + orderId, null, FwServices.defaultTimeout, function onSuccess(response) {
+        FwAppData.apiMethod(true, 'GET', `api/v1/ordersummary/${quoteId}`, null, FwServices.defaultTimeout, function onSuccess(response) {
             var key;
             for (key in response) {
                 if (response.hasOwnProperty(key)) {
@@ -628,8 +628,23 @@ class Quote {
             $form.find(".RentalDaysPerWeek").hide();
         }
 
+        // Bottom Line Total with Tax
+        $form.find('.bottom_line_total_tax').on('change', event => {
+            this.bottomLineTotalWithTaxChange($form, event);
+        });
+
+        // Bottom Line Discount
+        $form.find('.bottom_line_discount').on('change', event => {
+            this.bottomLineDiscountChange($form, event);
+        });
+
+        // Order Item Grid View
+        $form.find('.order_item_view_select').on('change', event => {
+            this.toggleOrderItemView($form, event);
+        });
+
         // RentalDaysPerWeek API POST
-        $form.find('.RentalDaysPerWeek').on('change', '.fwformfield-text, .fwformfield-value', function () {
+        $form.find('.RentalDaysPerWeek').on('change', '.fwformfield-text, .fwformfield-value', event => {
             let request: any = {};
             let quoteId = FwFormField.getValueByDataField($form, 'QuoteId');
             let daysperweek = FwFormField.getValueByDataField($form, 'RentalDaysPerWeek');
@@ -644,16 +659,16 @@ class Quote {
                 FwFunc.showError(response);
             }, $form);
         });
-    }
+
+    };
 
     //----------------------------------------------------------------------------------------------
-    bottomLineDiscountChange(element: any) {
+    bottomLineDiscountChange($form: any, event: any) {
         // DiscountPercent for all OrderItemGrid -- event listener in HTML element
-        let $element, $form, $orderItemGrid, quoteId, recType, discountPercent;
+        let $element, $orderItemGrid, quoteId, recType, discountPercent;
         let request: any = {};
 
-        $element = jQuery(element);
-        $form = jQuery($element).closest('.fwform');
+        $element = jQuery(event.currentTarget);
         recType = $element.attr('data-rectype');
         quoteId = FwFormField.getValueByDataField($form, 'QuoteId');
         discountPercent = $element.find('.fwformfield-value').val().slice(0, -1);
@@ -682,13 +697,12 @@ class Quote {
     };
 
     //----------------------------------------------------------------------------------------------
-    bottomLineTotalWithTaxChange(element: any) {
+    bottomLineTotalWithTaxChange($form: any, event: any) {
         // Total and Include Tax fields for all OrderItemGrid -- event listener in HTML element
-        let $form, $element, $orderItemGrid, recType, quoteId, total, includeTaxInTotal;
+        let $element, $orderItemGrid, recType, quoteId, total, includeTaxInTotal;
         let request: any = {};
 
-        $element = jQuery(element);
-        $form = jQuery($element).closest('.fwform');
+        $element = jQuery(event.currentTarget);
         recType = $element.attr('data-rectype');
         quoteId = FwFormField.getValueByDataField($form, 'QuoteId');
 
@@ -726,30 +740,33 @@ class Quote {
     };
 
     //----------------------------------------------------------------------------------------------
-    toggleOrderItemView(element: any) {
-        // Toggle for Detail or Summary view for all OrderItemGrid -- event listener in HTML element
-        let $element, $orderItemGrid, $orderItemGridControl, recType, $form, isSummary, quoteId;
+    toggleOrderItemView($form: any, event: any) {
+        let $element, $orderItemGrid, $orderItemGridControl, recType, gridName, isSummary, quoteId;
         let request: any = {};
 
-        $element = jQuery(element);
-        $form = jQuery($element).closest('.fwform');
+        $element = jQuery(event.currentTarget)
+
         recType = $element.attr('data-rectype');
         quoteId = FwFormField.getValueByDataField($form, 'QuoteId');
 
         if (recType === 'R') {
             $orderItemGrid = $form.find('.rentalgrid [data-name="OrderItemGrid"]');
+            gridName = 'rental';
         }
         if (recType === 'S') {
             $orderItemGrid = $form.find('.salesgrid [data-name="OrderItemGrid"]');
+            gridName = 'sales';
         }
         if (recType === 'L') {
             $orderItemGrid = $form.find('.laborgrid [data-name="OrderItemGrid"]');
+            gridName = 'sales';
         }
         if (recType === 'M') {
             $orderItemGrid = $form.find('.miscgrid [data-name="OrderItemGrid"]');
+            gridName = 'sales';
         }
 
-        if (FwFormField.getValue($form, '.detailsummaryview') === 'Summary') {
+        if (FwFormField.getValue($form, $element) === 'Summary') {
             isSummary = true;
         }
         else {
@@ -757,7 +774,9 @@ class Quote {
         }
 
         $orderItemGridControl = jQuery(jQuery('#tmpl-grids-OrderItemGridBrowse').html());
-        $orderItemGrid.empty().append($orderItemGridControl);
+        //$orderItemGridControl = $form.find('[data-name="OrderItemGrid"]');
+        //$orderItemGrid.empty().append($orderItemGridControl);
+
 
         $orderItemGridControl.data('ondatabind', request => {
             request.uniqueids = {
@@ -766,13 +785,23 @@ class Quote {
                 RecType: recType
             }
             request.pagesize = 9999;
+            request.orderby = "RowNumber,RecTypeDisplay"
         });
 
-        //FwAppData.apiMethod(true, 'POST', `api/v1/orderitem/${orderId}`, request, FwServices.defaultTimeout, function onSuccess(response) {
-        //    FwBrowse.search($orderItemGrid);
-        //}, function onError(response) {
-        //    FwFunc.showError(response);
-        //}, $form);
+        $orderItemGridControl.data('beforesave', request => {
+            request.OrderId = quoteId;
+            request.RecType = recType;
+            request.Summary = isSummary;
+        });
+
+        FwBrowse.search($orderItemGridControl);
+
+        FwBrowse.addEventHandler($orderItemGridControl, 'afterdatabindcallback', () => {
+            this.calculateOrderItemGridTotals($form, gridName);
+        });
+
+        //FwBrowse.init($orderItemGridControl);
+        //FwBrowse.renderRuntimeHtml($orderItemGridControl);
     }
 
     //----------------------------------------------------------------------------------------------
@@ -1026,5 +1055,6 @@ FwApplicationTree.clickEvents['{B20DDE47-A5D7-49A9-B980-8860CADBF7F6}'] = functi
         FwFunc.showError(ex);
     }
 };
+
 //-----------------------------------------------------------------------------------------------------
 var QuoteController = new Quote();

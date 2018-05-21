@@ -1,4 +1,3 @@
-var _this = this;
 routes.push({ pattern: /^module\/order$/, action: function (match) { return OrderController.getModuleScreen(); } });
 routes.push({ pattern: /^module\/order\/(\w+)\/(\S+)/, action: function (match) { var filter = { datafield: match[1], search: match[2] }; return OrderController.getModuleScreen(filter); } });
 var Order = (function () {
@@ -657,6 +656,7 @@ var Order = (function () {
     };
     ;
     Order.prototype.afterLoad = function ($form) {
+        var _this = this;
         var $orderItemGridRental = $form.find('.rentalgrid [data-name="OrderItemGrid"]');
         var $orderPickListGrid;
         $orderPickListGrid = $form.find('[data-name="OrderPickListGrid"]');
@@ -709,8 +709,16 @@ var Order = (function () {
         else {
             $form.find(".RentalDaysPerWeek").hide();
         }
-        $form.find('.RentalDaysPerWeek').on('change', '.fwformfield-text, .fwformfield-value', function (e) {
-            console.log(e);
+        $form.find('.bottom_line_total_tax').on('change', function (event) {
+            _this.bottomLineTotalWithTaxChange($form, event);
+        });
+        $form.find('.bottom_line_discount').on('change', function (event) {
+            _this.bottomLineDiscountChange($form, event);
+        });
+        $form.find('.order_item_view_select').on('change', function (event) {
+            _this.toggleOrderItemView($form, event);
+        });
+        $form.find('.RentalDaysPerWeek').on('change', '.fwformfield-text, .fwformfield-value', function (event) {
             var request = {};
             var orderId = FwFormField.getValueByDataField($form, 'OrderId');
             var daysperweek = FwFormField.getValueByDataField($form, 'RentalDaysPerWeek');
@@ -725,11 +733,10 @@ var Order = (function () {
         });
     };
     ;
-    Order.prototype.bottomLineDiscountChange = function (element) {
-        var $element, $form, $orderItemGrid, orderId, recType, discountPercent;
+    Order.prototype.bottomLineDiscountChange = function ($form, event) {
+        var $element, $orderItemGrid, orderId, recType, discountPercent;
         var request = {};
-        $element = jQuery(element);
-        $form = jQuery($element).closest('.fwform');
+        $element = jQuery(event.currentTarget);
         recType = $element.attr('data-rectype');
         orderId = FwFormField.getValueByDataField($form, 'OrderId');
         discountPercent = $element.find('.fwformfield-value').val().slice(0, -1);
@@ -755,11 +762,10 @@ var Order = (function () {
         }, $form);
     };
     ;
-    Order.prototype.bottomLineTotalWithTaxChange = function (element) {
-        var $form, $element, $orderItemGrid, recType, orderId, total, includeTaxInTotal;
+    Order.prototype.bottomLineTotalWithTaxChange = function ($form, event) {
+        var $element, $orderItemGrid, recType, orderId, total, includeTaxInTotal;
         var request = {};
-        $element = jQuery(element);
-        $form = jQuery($element).closest('.fwform');
+        $element = jQuery(event.currentTarget);
         recType = $element.attr('data-rectype');
         orderId = FwFormField.getValueByDataField($form, 'OrderId');
         if (recType === 'R') {
@@ -793,33 +799,36 @@ var Order = (function () {
         }, $form);
     };
     ;
-    Order.prototype.toggleOrderItemView = function (element) {
-        var $element, $orderItemGrid, $orderItemGridControl, recType, $form, isSummary, orderId;
+    Order.prototype.toggleOrderItemView = function ($form, event) {
+        var _this = this;
+        var $element, $orderItemGrid, $orderItemGridControl, recType, gridName, isSummary, orderId;
         var request = {};
-        $element = jQuery(element);
-        $form = jQuery($element).closest('.fwform');
+        $element = jQuery(event.currentTarget);
         recType = $element.attr('data-rectype');
         orderId = FwFormField.getValueByDataField($form, 'OrderId');
         if (recType === 'R') {
             $orderItemGrid = $form.find('.rentalgrid [data-name="OrderItemGrid"]');
+            gridName = 'rental';
         }
         if (recType === 'S') {
             $orderItemGrid = $form.find('.salesgrid [data-name="OrderItemGrid"]');
+            gridName = 'sales';
         }
         if (recType === 'L') {
             $orderItemGrid = $form.find('.laborgrid [data-name="OrderItemGrid"]');
+            gridName = 'sales';
         }
         if (recType === 'M') {
             $orderItemGrid = $form.find('.miscgrid [data-name="OrderItemGrid"]');
+            gridName = 'sales';
         }
-        if (FwFormField.getValue($form, '.detailsummaryview') === 'Summary') {
+        if (FwFormField.getValue($form, $element) === 'Summary') {
             isSummary = true;
         }
         else {
             isSummary = false;
         }
         $orderItemGridControl = jQuery(jQuery('#tmpl-grids-OrderItemGridBrowse').html());
-        $orderItemGrid.empty().append($orderItemGridControl);
         $orderItemGridControl.data('ondatabind', function (request) {
             request.uniqueids = {
                 OrderId: orderId,
@@ -834,9 +843,10 @@ var Order = (function () {
             request.RecType = recType;
             request.Summary = isSummary;
         });
-        FwBrowse.init($orderItemGridControl);
-        FwBrowse.renderRuntimeHtml($orderItemGridControl);
         FwBrowse.search($orderItemGridControl);
+        FwBrowse.addEventHandler($orderItemGridControl, 'afterdatabindcallback', function () {
+            _this.calculateOrderItemGridTotals($form, gridName);
+        });
     };
     Order.prototype.calculateOrderItemGridTotals = function ($form, gridType) {
         var periodExtendedTotal = 0;
@@ -1005,16 +1015,6 @@ FwApplicationTree.clickEvents['{F2FD2F4C-1AB7-4627-9DD5-1C8DB96C5509}'] = functi
         $report.find('div.fwformfield[data-datafield="OrderId"] input').val(orderId);
         $report.find('div.fwformfield[data-datafield="OrderId"] .fwformfield-text').val(orderNumber);
         jQuery('.tab.submodule.active').find('.caption').html('Print Order');
-    }
-    catch (ex) {
-        FwFunc.showError(ex);
-    }
-};
-FwApplicationTree.clickEvents['{D27AD4E7-E924-47D1-AF6E-992B92F5A647}'] = function (event) {
-    var $form;
-    $form = jQuery(_this).closest('.fwform');
-    try {
-        OrderController.toggleOrderItemView($form);
     }
     catch (ex) {
         FwFunc.showError(ex);
