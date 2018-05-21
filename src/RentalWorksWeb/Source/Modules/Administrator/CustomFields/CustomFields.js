@@ -39,16 +39,20 @@ var CustomFields = (function () {
         if (mode === 'NEW') {
             FwFormField.enable($form.find('.ifnew'));
         }
-        else {
-            FwFormField.disable($form.find('.ifnew'));
-        }
         var node = FwApplicationTree.getNodeById(FwApplicationTree.tree, '0A5F2584-D239-480F-8312-7C2B552A30BA');
         var modules = FwApplicationTree.getChildrenByType(node, 'Module');
+        var settingsModules = FwApplicationTree.getChildrenByType(node, 'SettingsModule');
         var allModules = [];
         for (var i = 0; i < modules.length; i++) {
             var moduleNav = modules[i].properties.controller.slice(0, -10);
             var moduleCaption = modules[i].properties.caption;
             allModules.push({ value: moduleNav, text: moduleCaption });
+        }
+        ;
+        for (var i = 0; i < settingsModules.length; i++) {
+            var settingsModuleNav = settingsModules[i].properties.controller.slice(0, -10);
+            var settingsModuleCaption = settingsModules[i].properties.caption;
+            allModules.push({ value: settingsModuleNav, text: settingsModuleCaption });
         }
         ;
         function compare(a, b) {
