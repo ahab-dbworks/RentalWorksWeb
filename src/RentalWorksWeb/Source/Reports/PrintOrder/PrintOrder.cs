@@ -14,18 +14,14 @@ namespace Web.Source.Reports
         //---------------------------------------------------------------------------------------------
         protected override string renderHeaderHtml(string styletemplate, string headertemplate, FwReport.PrintOptions printOptions)
         {
-            FwSqlSelect select;
             FwSqlCommand qry;
-            FwJsonDataTable dtDetails;
+            FwJsonDataTable dtHeader;
 
             qry = new FwSqlCommand(FwSqlConnection.RentalWorks, FwQueryTimeouts.Report);
-            select = new FwSqlSelect();
-            qry.AddColumn("officelocation", false, FwJsonDataTableColumn.DataTypes.Text);
-            select.Add("exec webgetorderprintheader @orderid = @order");
-            select.AddParameter("@order", request.parameters.OrderId);
+            qry.Add("exec webgetorderprintheader @orderid = @orderid");
+            qry.AddParameter("@orderid", request.parameters.OrderId);
+            dtHeader = qry.QueryToFwJsonTable(true);
 
-            select.Parse();
-            dtDetails = qry.QueryToFwJsonTable(select, true);
 
             StringBuilder sb;
             string html;
@@ -36,7 +32,7 @@ namespace Web.Source.Reports
       
 
             html = sb.ToString();
-            html = this.applyTableToTemplate(html, "header", dtDetails);
+            html = this.applyTableToTemplate(html, "header", dtHeader);
 
             return html;
         }
@@ -60,19 +56,15 @@ namespace Web.Source.Reports
         //---------------------------------------------------------------------------------------------
         protected FwJsonDataTable GetOrder()
         {
-            FwSqlSelect select;
             FwSqlCommand qry;
             FwJsonDataTable dtDetails;
 
             qry = new FwSqlCommand(FwSqlConnection.RentalWorks, FwQueryTimeouts.Report);
-            select = new FwSqlSelect();
-            select.Add("exec webgetorderprintdetails @orderid = orderId");
-            select.AddParameter("orderId", request.parameters.OrderId);
-      
-            select.Parse();
-            dtDetails = qry.QueryToFwJsonTable(select, true);
+            qry.Add("exec webgetorderprintdetails @orderid = @orderid");
+            qry.AddParameter("@orderid", request.parameters.OrderId);
+            dtDetails = qry.QueryToFwJsonTable(true);
 
-            dtDetails.InsertSubTotalRows("masterno", "rowtype", new string[] { "periodextended" });
+            dtDetails.InsertSubTotalRows("rectypedisplay", "rowtype", new string[] { "periodextended" });
             dtDetails.InsertTotalRow("rowtype", "detail", "grandtotal", new string[] { "periodextended" });
 
             return dtDetails;
