@@ -851,7 +851,6 @@ class Order {
                 FwFunc.showError(response);
             }, $form);
         });
-
     };
 
     //----------------------------------------------------------------------------------------------
@@ -867,15 +866,19 @@ class Order {
      
         if (recType === 'R') {
             $orderItemGrid = $form.find('.rentalgrid [data-name="OrderItemGrid"]');
+            FwFormField.setValueByDataField($form, 'PeriodRentalTotal', '');
         }
         if (recType === 'S') {
             $orderItemGrid = $form.find('.salesgrid [data-name="OrderItemGrid"]');
+            FwFormField.setValueByDataField($form, 'SalesTotal', '');
         }
         if (recType === 'L') {
             $orderItemGrid = $form.find('.laborgrid [data-name="OrderItemGrid"]');
+            FwFormField.setValueByDataField($form, 'PeriodLaborTotal', '');
         }
         if (recType === 'M') {
             $orderItemGrid = $form.find('.miscgrid [data-name="OrderItemGrid"]');
+            FwFormField.setValueByDataField($form, 'PeriodMiscTotal', '');
         }
         request.DiscountPercent = parseFloat(discountPercent);
         request.RecType = recType;
@@ -891,33 +894,47 @@ class Order {
     //----------------------------------------------------------------------------------------------
     bottomLineTotalWithTaxChange($form: any, event: any) {
     // Total and With Tax for all OrderItemGrid
-        let $element, $orderItemGrid, recType, orderId, total, includeTaxInTotal;
+        let $element, $orderItemGrid, recType, orderId, total, includeTaxInTotal, isWithTaxCheckbox;
         let request: any = {};
 
         $element = jQuery(event.currentTarget);
+
+        isWithTaxCheckbox = $element.attr('data-type') === 'checkbox';
         recType = $element.attr('data-rectype');
         orderId = FwFormField.getValueByDataField($form, 'OrderId');
 
-        if (recType === 'R') {
-            $orderItemGrid = $form.find('.rentalgrid [data-name="OrderItemGrid"]');
-            total = FwFormField.getValue($form, '.rentalOrderItemTotal');
-            includeTaxInTotal = FwFormField.getValue($form, '.rentalTotalWithTax');
-        }
-        if (recType === 'S') {
-            $orderItemGrid = $form.find('.salesgrid [data-name="OrderItemGrid"]');
-            total = FwFormField.getValue($form, '.salesOrderItemTotal');
-            includeTaxInTotal = FwFormField.getValue($form, '.salesTotalWithTax');
-        }
-        if (recType === 'L') {
-            $orderItemGrid = $form.find('.laborgrid [data-name="OrderItemGrid"]');
-            total = FwFormField.getValue($form, '.laborOrderItemTotal');
-            includeTaxInTotal = FwFormField.getValue($form, '.laborTotalWithTax');
-        }
-        if (recType === 'M') {
-            $orderItemGrid = $form.find('.miscgrid [data-name="OrderItemGrid"]');
-            total = FwFormField.getValue($form, '.miscOrderItemTotal');
-            includeTaxInTotal = FwFormField.getValue($form, '.miscTotalWithTax');
-        }
+            if (recType === 'R') {
+                $orderItemGrid = $form.find('.rentalgrid [data-name="OrderItemGrid"]');
+                total = FwFormField.getValue($form, '.rentalOrderItemTotal');
+                includeTaxInTotal = FwFormField.getValue($form, '.rentalTotalWithTax');
+                if (!isWithTaxCheckbox) {
+                    FwFormField.setValueByDataField($form, 'RentalDiscountPercent', '');
+                }
+            }
+            if (recType === 'S') {
+                $orderItemGrid = $form.find('.salesgrid [data-name="OrderItemGrid"]');
+                total = FwFormField.getValue($form, '.salesOrderItemTotal');
+                includeTaxInTotal = FwFormField.getValue($form, '.salesTotalWithTax');
+                if (!isWithTaxCheckbox) {
+                    FwFormField.setValueByDataField($form, 'SalesDiscountPercent', '');
+                }
+            }
+            if (recType === 'L') {
+                $orderItemGrid = $form.find('.laborgrid [data-name="OrderItemGrid"]');
+                total = FwFormField.getValue($form, '.laborOrderItemTotal');
+                includeTaxInTotal = FwFormField.getValue($form, '.laborTotalWithTax');
+                if (!isWithTaxCheckbox) {
+                    FwFormField.setValueByDataField($form, 'LaborDiscountPercent', '');
+                }
+            }
+            if (recType === 'M') {
+                $orderItemGrid = $form.find('.miscgrid [data-name="OrderItemGrid"]');
+                total = FwFormField.getValue($form, '.miscOrderItemTotal');
+                includeTaxInTotal = FwFormField.getValue($form, '.miscTotalWithTax');
+                if (!isWithTaxCheckbox) {
+                    FwFormField.setValueByDataField($form, 'MiscDiscountPercent', '');
+                }
+            }
 
         request.IncludeTaxInTotal = includeTaxInTotal;
         request.RecType = recType;

@@ -8,6 +8,7 @@ class Quote {
     ActiveView: string = 'ALL';
     DefaultOrderType: string;
     DefaultOrderTypeId: string;
+
     //----------------------------------------------------------------------------------------------
     getModuleScreen(filter?: { datafield: string, search: string }) {
         var screen, $browse;
@@ -666,7 +667,7 @@ class Quote {
 
     //----------------------------------------------------------------------------------------------
     bottomLineDiscountChange($form: any, event: any) {
-    // DiscountPercent for all OrderItemGrid
+        // DiscountPercent for all OrderItemGrid
         let $element, $orderItemGrid, quoteId, recType, discountPercent;
         let request: any = {};
 
@@ -677,15 +678,19 @@ class Quote {
 
         if (recType === 'R') {
             $orderItemGrid = $form.find('.rentalgrid [data-name="OrderItemGrid"]');
+            FwFormField.setValueByDataField($form, 'PeriodRentalTotal', '');
         }
         if (recType === 'S') {
             $orderItemGrid = $form.find('.salesgrid [data-name="OrderItemGrid"]');
+            FwFormField.setValueByDataField($form, 'SalesTotal', '');
         }
         if (recType === 'L') {
             $orderItemGrid = $form.find('.laborgrid [data-name="OrderItemGrid"]');
+            FwFormField.setValueByDataField($form, 'PeriodLaborTotal', '');
         }
         if (recType === 'M') {
             $orderItemGrid = $form.find('.miscgrid [data-name="OrderItemGrid"]');
+            FwFormField.setValueByDataField($form, 'PeriodMiscTotal', '');
         }
         request.DiscountPercent = parseFloat(discountPercent);
         request.RecType = recType;
@@ -700,11 +705,13 @@ class Quote {
 
     //----------------------------------------------------------------------------------------------
     bottomLineTotalWithTaxChange($form: any, event: any) {
-    // Total and With Tax for all OrderItemGrid
-        let $element, $orderItemGrid, recType, quoteId, total, includeTaxInTotal;
+        // Total and With Tax for all OrderItemGrid
+        let $element, $orderItemGrid, recType, quoteId, total, includeTaxInTotal, isWithTaxCheckbox;
         let request: any = {};
 
         $element = jQuery(event.currentTarget);
+
+        isWithTaxCheckbox = $element.attr('data-type') === 'checkbox';
         recType = $element.attr('data-rectype');
         quoteId = FwFormField.getValueByDataField($form, 'QuoteId');
 
@@ -712,21 +719,33 @@ class Quote {
             $orderItemGrid = $form.find('.rentalgrid [data-name="OrderItemGrid"]');
             total = FwFormField.getValue($form, '.rentalOrderItemTotal');
             includeTaxInTotal = FwFormField.getValue($form, '.rentalTotalWithTax');
+            if (!isWithTaxCheckbox) {
+                FwFormField.setValueByDataField($form, 'RentalDiscountPercent', '');
+            }
         }
         if (recType === 'S') {
             $orderItemGrid = $form.find('.salesgrid [data-name="OrderItemGrid"]');
             total = FwFormField.getValue($form, '.salesOrderItemTotal');
             includeTaxInTotal = FwFormField.getValue($form, '.salesTotalWithTax');
+            if (!isWithTaxCheckbox) {
+                FwFormField.setValueByDataField($form, 'SalesDiscountPercent', '');
+            }
         }
         if (recType === 'L') {
             $orderItemGrid = $form.find('.laborgrid [data-name="OrderItemGrid"]');
             total = FwFormField.getValue($form, '.laborOrderItemTotal');
             includeTaxInTotal = FwFormField.getValue($form, '.laborTotalWithTax');
+            if (!isWithTaxCheckbox) {
+                FwFormField.setValueByDataField($form, 'LaborDiscountPercent', '');
+            }
         }
         if (recType === 'M') {
             $orderItemGrid = $form.find('.miscgrid [data-name="OrderItemGrid"]');
             total = FwFormField.getValue($form, '.miscOrderItemTotal');
             includeTaxInTotal = FwFormField.getValue($form, '.miscTotalWithTax');
+            if (!isWithTaxCheckbox) {
+                FwFormField.setValueByDataField($form, 'MiscDiscountPercent', '');
+            }
         }
 
         request.IncludeTaxInTotal = includeTaxInTotal;
