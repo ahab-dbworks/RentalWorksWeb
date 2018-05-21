@@ -623,6 +623,14 @@ namespace FwStandard.BusinessLogic
         {
             bool isValid = true;
             validateMsg = "";
+
+            if (BeforeValidate != null)
+            {
+                BeforeValidateEventArgs args = new BeforeValidateEventArgs();
+                args.SaveMode = saveMode;
+                BeforeValidate(this, args);
+            }
+
             if (isValid)
             {
                 foreach (FwDataReadWriteRecord rec in dataRecords)
