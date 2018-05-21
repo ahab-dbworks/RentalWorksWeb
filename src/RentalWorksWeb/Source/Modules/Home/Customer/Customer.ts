@@ -248,6 +248,9 @@ class Customer {
         var $companyContactGrid: any = $form.find('[data-name="CompanyContactGrid"]');
         FwBrowse.search($companyContactGrid);
 
+        var $dealBrowse = $form.find('#DealBrowse');
+        FwBrowse.search($dealBrowse);
+
         if (FwFormField.getValue($form, 'div[data-datafield="UseDiscountTemplate"]') === true) {
             FwFormField.enable($form.find('.discount-validation'));
         };
@@ -261,31 +264,26 @@ class Customer {
         };
 
         //Billing Address Type Change
-        $form.find('.billing_address_type').on('change', $tr => {
+        $form.find('.billing_address_type').on('change', () => {
             this.addressTypeChange($form);
         });
 
         //Shipping Address Type Change
-        $form.find('.shipping_address_type').on('change', $tr => {
+        $form.find('.shipping_address_type').on('change', () => {
             this.addressTypeChange($form);
         });
 
-        //Customer Address Type Change
-        $form.find('.customer_address input').on('change', $tr => {
-            this.transferCustomerAddressValues($form);
+        //Customer Address Change
+        $form.find('.customer_address input').on('change', () => {
+            this.addressTypeChange($form);
         });
-
-        var $dealBrowse = $form.find('#DealBrowse');
-        FwBrowse.search($dealBrowse);
     }
 
     addressTypeChange($form) {
         if (FwFormField.getValue($form, '.billing_address_type') === 'CUSTOMER') {
-            // Clear input fields
+            // Values from Customer fields in general tab
             FwFormField.setValue($form, '.billing_att1', "");
             FwFormField.setValue($form, '.billing_att2', "");
-
-            // Values from Customer fields in general tab
             FwFormField.setValue($form, '.billing_add1', FwFormField.getValueByDataField($form, 'Address1'));
             FwFormField.setValue($form, '.billing_add2', FwFormField.getValueByDataField($form, 'Address2'));
             FwFormField.setValue($form, '.billing_city', FwFormField.getValueByDataField($form, 'City'));
@@ -303,18 +301,6 @@ class Customer {
             FwFormField.setValue($form, '.shipping_state', FwFormField.getValueByDataField($form, 'State'));
             FwFormField.setValue($form, '.shipping_zip', FwFormField.getValueByDataField($form, 'ZipCode'));
             FwFormField.setValue($form, 'div[data-displayfield="ShipCountry"]', FwFormField.getValueByDataField($form, 'CountryId'), FwFormField.getTextByDataField($form, 'CountryId'));
-        }
-    }
-
-    transferCustomerAddressValues($form) {
-        // Billing Tab
-        if (FwFormField.getValue($form, '.billing_address_type') === 'CUSTOMER') {
-            FwFormField.setValue($form, '.billing_add1', FwFormField.getValueByDataField($form, 'Address1'));
-            FwFormField.setValue($form, '.billing_add2', FwFormField.getValueByDataField($form, 'Address2'));
-            FwFormField.setValue($form, '.billing_city', FwFormField.getValueByDataField($form, 'City'));
-            FwFormField.setValue($form, '.billing_state', FwFormField.getValueByDataField($form, 'State'));
-            FwFormField.setValue($form, '.billing_zip', FwFormField.getValueByDataField($form, 'ZipCode'));
-            FwFormField.setValue($form, 'div[data-displayfield="BillToCountry"]', FwFormField.getValueByDataField($form, 'CountryId'), FwFormField.getTextByDataField($form, 'CountryId'));
         }
     }
 }
