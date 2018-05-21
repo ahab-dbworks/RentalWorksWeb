@@ -834,7 +834,7 @@ class Order {
             this.toggleOrderItemView($form, event);
         });
 
-        // RentalDaysPerWeek API POST
+        // RentalDaysPerWeek for Rental OrderItemGrid
         $form.find('.RentalDaysPerWeek').on('change', '.fwformfield-text, .fwformfield-value', event => {
             let request: any = {};
             let orderId = FwFormField.getValueByDataField($form, 'OrderId');
@@ -855,7 +855,7 @@ class Order {
 
     //----------------------------------------------------------------------------------------------
     bottomLineDiscountChange($form: any, event: any) {
-    // DiscountPercent for all OrderItemGrid -- event listener in HTML element
+    // DiscountPercent for all OrderItemGrid
         let $element, $orderItemGrid, orderId, recType, discountPercent;
         let request: any = {};
 
@@ -889,7 +889,7 @@ class Order {
 
     //----------------------------------------------------------------------------------------------
     bottomLineTotalWithTaxChange($form: any, event: any) {
-    // Total and Include Tax fields for all OrderItemGrid -- event listener in HTML element
+    // Total and With Tax for all OrderItemGrid
         let $element, $orderItemGrid, recType, orderId, total, includeTaxInTotal;
         let request: any = {};
 
@@ -932,11 +932,11 @@ class Order {
 
     //----------------------------------------------------------------------------------------------
     toggleOrderItemView($form: any, event: any) {
+    // Toggle between Detail and Summary view in all OrderItemGrid
         let $element, $orderItemGrid, $orderItemGridControl, recType, gridName, isSummary, orderId;
         let request: any = {};
 
         $element = jQuery(event.currentTarget)
-
         recType = $element.attr('data-rectype');
         orderId = FwFormField.getValueByDataField($form, 'OrderId');
 
@@ -950,11 +950,11 @@ class Order {
         }
         if (recType === 'L') {
             $orderItemGrid = $form.find('.laborgrid [data-name="OrderItemGrid"]');
-            gridName = 'sales';
+            gridName = 'labor';
         }
         if (recType === 'M') {
             $orderItemGrid = $form.find('.miscgrid [data-name="OrderItemGrid"]');
-            gridName = 'sales';
+            gridName = 'misc';
         }
 
         if (FwFormField.getValue($form, $element) === 'Summary') {

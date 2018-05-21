@@ -643,7 +643,7 @@ class Quote {
             this.toggleOrderItemView($form, event);
         });
 
-        // RentalDaysPerWeek API POST
+        // RentalDaysPerWeek for Rental OrderItemGrid
         $form.find('.RentalDaysPerWeek').on('change', '.fwformfield-text, .fwformfield-value', event => {
             let request: any = {};
             let quoteId = FwFormField.getValueByDataField($form, 'QuoteId');
@@ -653,7 +653,7 @@ class Quote {
             request.RecType = 'R';
             request.OrderId = quoteId;
 
-            FwAppData.apiMethod(true, 'POST', `api/v1/order/applybottomlinedaysperweek/`, request, FwServices.defaultTimeout, function onSuccess(response) {
+            FwAppData.apiMethod(true, 'POST', `api/v1/quote/applybottomlinedaysperweek/`, request, FwServices.defaultTimeout, function onSuccess(response) {
                 FwBrowse.search($orderItemGridRental);
             }, function onError(response) {
                 FwFunc.showError(response);
@@ -664,7 +664,7 @@ class Quote {
 
     //----------------------------------------------------------------------------------------------
     bottomLineDiscountChange($form: any, event: any) {
-        // DiscountPercent for all OrderItemGrid -- event listener in HTML element
+    // DiscountPercent for all OrderItemGrid
         let $element, $orderItemGrid, quoteId, recType, discountPercent;
         let request: any = {};
 
@@ -689,7 +689,7 @@ class Quote {
         request.RecType = recType;
         request.OrderId = quoteId;
 
-        FwAppData.apiMethod(true, 'POST', `api/v1/order/applybottomlinediscountpercent/`, request, FwServices.defaultTimeout, function onSuccess(response) {
+        FwAppData.apiMethod(true, 'POST', `api/v1/quote/applybottomlinediscountpercent/`, request, FwServices.defaultTimeout, function onSuccess(response) {
             FwBrowse.search($orderItemGrid);
         }, function onError(response) {
             FwFunc.showError(response);
@@ -698,7 +698,7 @@ class Quote {
 
     //----------------------------------------------------------------------------------------------
     bottomLineTotalWithTaxChange($form: any, event: any) {
-        // Total and Include Tax fields for all OrderItemGrid -- event listener in HTML element
+    // Total and With Tax for all OrderItemGrid
         let $element, $orderItemGrid, recType, quoteId, total, includeTaxInTotal;
         let request: any = {};
 
@@ -732,7 +732,7 @@ class Quote {
         request.OrderId = quoteId;
         request.Total = parseFloat(total);
 
-        FwAppData.apiMethod(true, 'POST', `api/v1/order/applybottomlinetotal/`, request, FwServices.defaultTimeout, function onSuccess(response) {
+        FwAppData.apiMethod(true, 'POST', `api/v1/quote/applybottomlinetotal/`, request, FwServices.defaultTimeout, function onSuccess(response) {
             FwBrowse.search($orderItemGrid);
         }, function onError(response) {
             FwFunc.showError(response);
@@ -741,11 +741,11 @@ class Quote {
 
     //----------------------------------------------------------------------------------------------
     toggleOrderItemView($form: any, event: any) {
+    // Toggle between Detail and Summary view in all OrderItemGrid
         let $element, $orderItemGrid, $orderItemGridControl, recType, gridName, isSummary, quoteId;
         let request: any = {};
 
         $element = jQuery(event.currentTarget)
-
         recType = $element.attr('data-rectype');
         quoteId = FwFormField.getValueByDataField($form, 'QuoteId');
 
@@ -759,11 +759,11 @@ class Quote {
         }
         if (recType === 'L') {
             $orderItemGrid = $form.find('.laborgrid [data-name="OrderItemGrid"]');
-            gridName = 'sales';
+            gridName = 'labor';
         }
         if (recType === 'M') {
             $orderItemGrid = $form.find('.miscgrid [data-name="OrderItemGrid"]');
-            gridName = 'sales';
+            gridName = 'misc';
         }
 
         if (FwFormField.getValue($form, $element) === 'Summary') {

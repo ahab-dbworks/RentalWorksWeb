@@ -816,11 +816,11 @@ var Order = (function () {
         }
         if (recType === 'L') {
             $orderItemGrid = $form.find('.laborgrid [data-name="OrderItemGrid"]');
-            gridName = 'sales';
+            gridName = 'labor';
         }
         if (recType === 'M') {
             $orderItemGrid = $form.find('.miscgrid [data-name="OrderItemGrid"]');
-            gridName = 'sales';
+            gridName = 'misc';
         }
         if (FwFormField.getValue($form, $element) === 'Summary') {
             isSummary = true;
