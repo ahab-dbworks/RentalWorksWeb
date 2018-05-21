@@ -1165,6 +1165,7 @@
     <Content Include="Source\Validations\ContactEventValidation\ContactEventValidationBrowse.htm" />
     <Content Include="Source\Validations\ContactTitleValidation\ContactTitleValidationBrowse.htm" />
     <Content Include="Source\Validations\BarCodeRangeValidation\BarCodeRangeValidationBrowse.htm" />
+    <Content Include="Source\Validations\QuoteValidation\QuoteValidationBrowse.htm" />
     <Content Include="Source\Validations\WarehouseCatalogValidation\WarehouseCatalogValidationBrowse.htm" />
     <Content Include="Source\Validations\RepairItemStatusValidation\RepairItemStatusValidationBrowse.htm" />
     <Content Include="Source\Validations\DocumentTypeValidation\DocumentTypeValidationBrowse.htm" />

@@ -294,6 +294,7 @@ class Order {
                 orderId = $form.find('div.fwformfield[data-datafield="OrderId"] input').val();
                 $report = RwPrintOrderController.openForm();
                 FwModule.openSubModuleTab($form, $report);
+                $report.find('.fwform-section[data-caption="Quote"]').css('display', 'none');
                 $report.find('div.fwformfield[data-datafield="OrderId"] input').val(orderId);
                 $report.find('div.fwformfield[data-datafield="OrderId"] .fwformfield-text').val(orderNumber);
                 jQuery('.tab.submodule.active').find('.caption').html('Print Order');
@@ -1171,6 +1172,7 @@ FwApplicationTree.clickEvents['{F2FD2F4C-1AB7-4627-9DD5-1C8DB96C5509}'] = functi
         orderId = $form.find('div.fwformfield[data-datafield="OrderId"] input').val();
         $report = RwPrintOrderController.openForm();
         FwModule.openSubModuleTab($form, $report);
+        $report.find('.fwform-section[data-caption="Quote"]').css('display', 'none');
         $report.find('div.fwformfield[data-datafield="OrderId"] input').val(orderId);
         $report.find('div.fwformfield[data-datafield="OrderId"] .fwformfield-text').val(orderNumber);
         jQuery('.tab.submodule.active').find('.caption').html('Print Order');

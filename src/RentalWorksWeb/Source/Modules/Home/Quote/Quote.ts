@@ -294,8 +294,10 @@ class Quote {
                 quoteId = $form.find('div.fwformfield[data-datafield="QuoteId"] input').val();
                 $report = RwPrintOrderController.openForm();
                 FwModule.openSubModuleTab($form, $report);
-                $report.find('div.fwformfield[data-datafield="OrderId"] input').val(quoteId);
-                $report.find('div.fwformfield[data-datafield="OrderId"] .fwformfield-text').val(quoteNumber);
+                $report.find('.fwform-section[data-caption="Order"]').css('display', 'none');
+                $report.find('div.fwformfield[data-datafield="QuoteId"] input').val(quoteId);
+                $report.find('div.fwformfield[data-datafield="QuoteId"] .fwformfield-text').val(quoteNumber);
+
                 jQuery('.tab.submodule.active').find('.caption').html('Print Quote');
             }
             catch (ex) {
@@ -1033,8 +1035,9 @@ FwApplicationTree.clickEvents['{B20DDE47-A5D7-49A9-B980-8860CADBF7F6}'] = functi
         quoteId = $form.find('div.fwformfield[data-datafield="QuoteId"] input').val();
         $report = RwPrintOrderController.openForm();
         FwModule.openSubModuleTab($form, $report);
-        $report.find('div.fwformfield[data-datafield="OrderId"] input').val(quoteId);
-        $report.find('div.fwformfield[data-datafield="OrderId"] .fwformfield-text').val(quoteNumber);
+        $report.find('.fwform-section[data-caption="Order"]').css('display', 'none');
+        $report.find('div.fwformfield[data-datafield="QuoteId"] input').val(quoteId);
+        $report.find('div.fwformfield[data-datafield="QuoteId"] .fwformfield-text').val(quoteNumber);
         jQuery('.tab.submodule.active').find('.caption').html('Print Quote');
     }
     catch (ex) {
