@@ -1,87 +1,118 @@
 ﻿<!-- Print Order -->
 
-<div style="width:1008px;overflow:hidden;padding-top:2px;font-family:Arial;">
-    {{#header}}
-    <!--<div>
-        <div class="alignleft">Warehouse: <strong>{{warehouse}}</strong></div>
-        <div class="aligncenter"><b>[company]</b></div>
-        <div class="alignright">Pick Number:</div>
-    </div>
-    <div>
-        <div class="alignleft">Delivery Type: <strong>{{delivertype}}</strong></div>
-        <div class="aligncenter">[LBLREPORTNAME]</div>
-        <div class="alignright"><strong>{{pickno}}</strong></div>
-    </div>
-    <div>
-        <div class="alignleft">Assigned To:</div>
-        <div class="aligncenter"><strong>Required By: {{requireddatetime}}</strong></div>
-        <div class="alignright">Order Number:</div>
-    </div>
-    <div>
-        <div class="alignleft">Pick Date/Time: <strong>{{pickdatetime}}</strong></div>
-        <div class="aligncenter"><strong>Target Ship: {{targetshipdate}}</strong></div>
-        <div class="alignright"><span style="font-family: 'Libre Barcode 39 Text', serif; font-size:50px;">*{{orderno}}*</span></div>
-    </div>-->
+<div style="width:1008px;overflow:hidden;padding:2px;font-family:Arial; font-size:14px;">
+  {{#header}}
 
-    <!--<table id="tblprintorderheader" class="body" style="margin: 0; padding: 0; width:1008px;">
-        <thead style="border-color:black;">
-            <tr>
-                <td>
-                    <div>Start Rental: {{estrentfrom}}</div>
-                </td>
+  <div style="width:100%; float:left;">
+    <div style="float:left; width:35%">LOGO</div>
+    <div style="float:left; width:30%; padding-top:2em; text-align:center; font-size:1.2em; font-weight:bold;">ORDER</div>
+    <div style="float:left; width:35%; padding-top:2em; text-align:center; ">
+      <div style="float:left; width:25%">
+        <div style="padding:.8em;"><strong>No:</strong></div>
+        <div style="padding:.5em;"><strong>Date:</strong></div>
+      </div>
+      <div style="float:left; width:75%">
+        <div style="padding: .8em; border: 2px solid black">{{orderno}}</div>
+        <div style="padding: .5em;">{{orderdate}}</div>
+      </div>
+    </div>
+  </div>
 
-                <td>
-                    <div>End Rental: {{estrentto}}</div>
-                </td>
-                <td></td>
-                <td></td>
-                </tr>
+  <div style="width:100%; float:left; border-bottom:2px solid black;">
+    <div style="float:left; width:50%">
+      <div>OFFICE</div>
+      <div>LOCATION</div>
+      <div>INFO</div>
+    </div>
+    <div style="float:left; width:50%">
+      <div style="float:left; font-weight:bold; width:30%">
+        <div>Order No:</div>
+        <div>Description:</div>
+        <div>Deal:</div>
+        <div>PO No:</div>
+        <div>Terms:</div>
+      </div>
+      <div style="float:left; width:70%;">
+        <div>{{orderno}}</div>
+        <div>{{description}}</div>
+        <div>{{deal}}</div>
+        <div>{{pono}}</div>
+        <div>{{terms}}    <span style="font-weight:bold;">Billing Cycle: {{billperiod}}</span></div>
+      </div>
+    </div>
+  </div>
 
-            <tr>
-                <td>
-                    <div>Order: {{orderno}}</div>
-                </td>
-                <td>
-                    <div>{{plorderdesc}}</div>
-                </td>
-                <td>
-                    <div>PO No: {{pono}}</div>
-                </td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>
-                    <div>Customer: {{custno}}</div>
-                </td>
-                <td>
-                    <div>{{customer}}</div>
-                </td>
-                <td></td>
-                <td>
-                    <div>Ext: {{phoneextension}}</div>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <div>Deal: {{dealno}}</div>
-                </td>
-                <td>
-                    <div>{{deal}}</div>
-                </td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>
-                    <div>Agent: {{agent}}</div>
-                </td>
-                <td></td>
-                <td></td>
-                <td></td>
-                </tr>
-        </thead>
-    </table>-->
-    {{/header}}
+  <div style="width:100%; float:left; border-bottom: 2px solid black;">
+    <div style="float:left; width:50%">
+      <div style="text-align:center; padding-top: 2px;font-weight:bold; margin-right:10px; border-bottom: 2px solid black;">Issued To</div>
+      <div style="padding-top: 2px;">{{issuedtocompany}}</div>
+      <div>{{issuedtoadd1}}</div>
+      <div>{{issuedtocity}}, {{issuedtostate}} {{issuedtozip}} {{issuedtocountry}}</div>
+      <div style="width:25%; float:left; font-weight:bold;">
+        <div>Phone No:</div>
+        <div>Fax No:</div>
+      </div>
+      <div style="float:left; width:75%;">
+        <div>{{issuedtophone}}</div>
+        <div>{{issuedtofax}}</div>
+      </div>
+    </div>
+    <div style="float:left; width:50%">
+      <div style="width:30%; float:left; font-weight:bold;">
+        <div>Usage Period:</div>
+        <div>Billing Period:</div>
+        <div>Agent:</div>
+        <div>Email:</div>
+        <div>Phone No:</div>
+      </div>
+      <div style="width:70%; float:left;">
+        <div>{{usagedatesandtimes}}</div>
+        <div>{{estrentfrom}} - {{estrentto}}</div>
+        <div>{{agent}}</div>
+        <div>{{agentemail}}</div>
+        <div>{{agentphone}}     <span style="font-weight:bold;">Ext:</span>{{agentphoneext}}</div>
+      </div>
+    </div>
+  </div>
+
+  <div style="float:left; width:100%;">
+    <div style="float:left; width:50%;">
+      <div style="text-align:center; padding-top: 2px;font-weight:bold; margin-right:10px; border-bottom: 2px solid black;">Outgoing (Deliver)</div>
+      <div><span style="font-weight:bold;">Attention:</span> {{outdeliveryattention}}</div>
+      <div>{{outdeliverylocation}}</div>
+      <div>{{outdeliveryadd1}} {{outdeliveryadd2}}</div>
+      <div>{{outdeliverycity}}, {{outdeliverystate}} {{outdeliveryzip}} {{outdeliverycountry}}</div>
+      <div style="width:100%;">
+        <div style="width:30%; font-weight:bold; float:left;">Phone:</div>
+        <div style="width:70%; float:left;">{{outdeliverycontactphone}}</div>
+      </div>
+      <div style="width:100%;">
+        <div style="width:30%; font-weight:bold; float:left;">Required By:</div>
+        <div style="width:70%; float:left;">{{outdeliveryrequiredbydate}}</div>
+      </div>
+    </div>
+    <div style="float:left; width:50%;">
+      <div style="text-align:center; padding-top: 2px;font-weight:bold; margin-right:10px; border-bottom: 2px solid black;">Incoming (Ship)</div>
+      <div><span style="font-weight:bold;">Attention:</span> {{indeliveryattention}}</div>
+      <div>{{indeliverylocation}}</div>
+      <div>{{indeliveryadd1}} {{indeliveryadd2}}</div>
+      <div>{{indeliverycity}}, {{indeliverystate}} {{indeliveryzip}} {{indeliverycountry}} </div>
+      <div style="width:100%;">
+        <div style="width:30%; font-weight:bold; float:left;">Contact:</div>
+        <div style="width:70%; float:left;">{{indeliverycontact}}</div>
+      </div>
+      <div style="width:100%;">
+        <div style="width:30%; font-weight:bold; float:left;">Phone:</div>
+        <div style="width:70%; float:left;">{{indeliverycontactphone}}</div>
+      </div>
+      <div style="width:100%;">
+        <div style="width:30%; font-weight:bold; float:left;">Required By:</div>
+        <div style="width:70%; float:left;">{{indeliveryrequiredbydate}}</div>
+      </div>
+
+    </div>
+  </div>
+  {{/header}}
 </div>
 
 
