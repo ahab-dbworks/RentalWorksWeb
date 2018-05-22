@@ -219,7 +219,6 @@ class Deal {
             'InsuranceCertification',
             'InsuranceCoverageProperty',
             'InsuranceCoveragePropertyDeductible',
-            'SecurityDepositAmount',
             'VehicleInsuranceCertification',
             'InsuranceCompany',
             'InsuranceCompanyAgent'];

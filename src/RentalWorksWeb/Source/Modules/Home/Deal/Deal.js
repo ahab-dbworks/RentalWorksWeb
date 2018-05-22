@@ -164,7 +164,6 @@ var Deal = (function () {
             'InsuranceCertification',
             'InsuranceCoverageProperty',
             'InsuranceCoveragePropertyDeductible',
-            'SecurityDepositAmount',
             'VehicleInsuranceCertification',
             'InsuranceCompany',
             'InsuranceCompanyAgent'];
