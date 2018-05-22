@@ -4,16 +4,21 @@ using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
 using System.Collections.Generic;
+using WebApi.Logic;
+
 namespace WebApi.Modules.Home.OrderContact
 {
     [FwSqlTable("dbo.funccompcontact2(@orderid,'F')")]
     public class OrderContactLoader : AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "orderid", modeltype: FwDataTypes.Text, isPrimaryKey: true)]
+        [FwSqlDataField(column: "ordercontactid", modeltype: FwDataTypes.Text, identity: true, isPrimaryKey: true)]
+        public string OrderContactId { get; set; } = "";
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "orderid", modeltype: FwDataTypes.Text)]
         public string OrderId { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "contactid", modeltype: FwDataTypes.Text, isPrimaryKey: true)]
+        [FwSqlDataField(column: "contactid", modeltype: FwDataTypes.Text)]
         public string ContactId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "namefml", modeltype: FwDataTypes.Text)]
@@ -21,6 +26,12 @@ namespace WebApi.Modules.Home.OrderContact
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "person", modeltype: FwDataTypes.Text)]
         public string NameLfm { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "person", modeltype: FwDataTypes.Text)]
+        public string Person { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "personcolor", modeltype: FwDataTypes.OleToHtmlColor)]
+        public string PersonColor { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "fname", modeltype: FwDataTypes.Text)]
         public string FirstName { get; set; }
@@ -38,10 +49,10 @@ namespace WebApi.Modules.Home.OrderContact
         public string OfficePhone { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "ext", modeltype: FwDataTypes.Text)]
-        public string Extension { get; set; }
+        public string OfficeExtension { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "cellular", modeltype: FwDataTypes.Text)]
-        public string Cellular { get; set; }
+        public string MobilePhone { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "email", modeltype: FwDataTypes.Text)]
         public string Email { get; set; }
@@ -100,6 +111,12 @@ namespace WebApi.Modules.Home.OrderContact
                     }
                 }
             }
+
+            if ((OrderId == null) || (OrderId.Equals(string.Empty)))
+            {
+                OrderId = AppFunc.GetStringDataAsync(AppConfig, "ordercontact", "ordercontactid", OrderContactId, "orderid").Result;    
+            }
+
 
             base.SetBaseSelectQuery(select, qry, customFields, request);
             select.Parse();

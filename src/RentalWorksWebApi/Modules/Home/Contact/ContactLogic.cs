@@ -109,13 +109,20 @@ namespace WebApi.Modules.Home.Contact
         {
             if ((e.SavePerformed) && (e.SaveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smUpdate))
             {
-                if (string.IsNullOrEmpty(webUser.WebUserId))
+                if ((string.IsNullOrEmpty(WebUserId)) || (string.IsNullOrEmpty(UserId)))
                 {
                     ContactLogic contact2 = new ContactLogic();
                     contact2.SetDependencies(AppConfig, UserSession);
                     object[] pk = GetPrimaryKeys();
                     bool b = contact2.LoadAsync<ContactLogic>(pk).Result;
-                    WebUserId = contact2.WebUserId;
+                    if (string.IsNullOrEmpty(WebUserId)) 
+                    {
+                        WebUserId = contact2.WebUserId;
+                    }
+                    if (string.IsNullOrEmpty(UserId))
+                    {
+                        UserId = contact2.UserId;
+                    }
                 }
             }
         }

@@ -139,6 +139,9 @@ namespace WebApi.Modules.Home.Contact
         [FwSqlDataField(column: "webusersid", modeltype: FwDataTypes.Text)]
         public string WebUserId { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "usersid", modeltype: FwDataTypes.Text)]
+        public string UserId { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "webpassword", modeltype: FwDataTypes.Text)]
         public string WebPassword { get; set; }
         //------------------------------------------------------------------------------------ 
