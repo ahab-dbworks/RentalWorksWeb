@@ -983,14 +983,12 @@ class Quote {
 
         FwAppData.apiMethod(true, 'GET', "api/v1/ordertype/" + orderType, null, FwServices.defaultTimeout, function onSuccess(response) {
             if (response.CombineActivityTabs === true) {
-                $form.find('.combined').show();
                 $form.find('.notcombined').hide();
                 var $allOrderItemGrid;
                 $allOrderItemGrid = $form.find('.allgrid [data-name="OrderItemGrid"]');
                 FwBrowse.search($allOrderItemGrid);
             } else {
                 $form.find('.combined').hide();
-                $form.find('.notcombined').show();
                 var $orderItemGridRental;
                 $orderItemGridRental = $form.find('.rentalgrid [data-name="OrderItemGrid"]');
                 FwBrowse.search($orderItemGridRental);

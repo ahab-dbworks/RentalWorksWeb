@@ -1059,7 +1059,6 @@ class Order {
 
         FwAppData.apiMethod(true, 'GET', "api/v1/ordertype/" + orderType, null, FwServices.defaultTimeout, function onSuccess(response) {
             if (response.CombineActivityTabs === true) {
-                $form.find('.allgrid').show();
                 $form.find('.rentalgrid').hide();
                 $form.find('.salesgrid').hide();
                 $form.find('.laborgrid').hide();
@@ -1069,10 +1068,6 @@ class Order {
                 FwBrowse.search($allOrderItemGrid);
             } else {
                 $form.find('.allgrid').hide();
-                $form.find('.rentalgrid').show();
-                $form.find('.salesgrid').show();
-                $form.find('.laborgrid').show();
-                $form.find('.miscgrid').show();
                 var $orderItemGridRental;
                 $orderItemGridRental = $form.find('.rentalgrid [data-name="OrderItemGrid"]');
                 FwBrowse.search($orderItemGridRental);
