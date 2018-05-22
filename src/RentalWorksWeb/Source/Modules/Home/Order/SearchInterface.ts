@@ -807,21 +807,17 @@ class SearchInterface {
                 Quantity: quantity
             }
 
-            var hasAccessories = jQuery(e.currentTarget).parents('.cardContainer').find('.accContainer div').hasClass('accItem');
             var $accContainer = jQuery(e.currentTarget).parents('.cardContainer').find('.accContainer');
             var $accButton = jQuery(e.currentTarget).parents('.card').find('.accList');
             var accessoryRefresh = $popup.find('.toggleAccessories input').prop('checked');
             FwAppData.apiMethod(true, 'POST', "api/v1/inventorysearch/", request, FwServices.defaultTimeout, function onSuccess(response) {
-                if (hasAccessories) { 
-                    if (!accessoryRefresh) {
+                if (!accessoryRefresh) {
                     if ($accContainer.css('display') == 'none') {
                         $accContainer.css('display', '');
                     }
-                        self.refreshAccessoryQuantity($popup, id, warehouseId, inventoryId, e);  
-                    }
-                    } else {
-                        $accButton.trigger('click');
-                    }
+                }
+                self.refreshAccessoryQuantity($popup, id, warehouseId, inventoryId, e);
+
             }, null, $searchpopup);
         });
 
@@ -918,121 +914,10 @@ class SearchInterface {
 
         $popup.on('click', '.accList', function (e) {
             let accessoryContainer = jQuery(e.currentTarget).parents('.cardContainer').find('.accContainer');
-            let cardContainer = jQuery(e.currentTarget).parents('.cardContainer').find('.card');
-            let request: any = {};
             let inventoryId = jQuery(e.currentTarget).parents('.card').find('[data-datafield="InventoryId"] input').val();
-            request = {
-                SessionId: id,
-                OrderId: id,
-                ParentId: inventoryId,
-                WarehouseId: warehouseId,
-                ShowAvailability: 'true',
-                FromDate: FwFormField.getValueByDataField($popup, 'FromDate'),
-                ToDate: FwFormField.getValueByDataField($popup, 'ToDate'),
-                ShowImages: 'true'
-            }
+            self.refreshAccessoryQuantity($popup, id, warehouseId, inventoryId, e);
+            accessoryContainer.slideToggle();
 
-            var html = [];
-            if (!(accessoryContainer.find('.accItem').length)) {
-                html.push('<div style="width:100%">');
-                html.push(' <div class="accList" style="font-size: 1.2em; color: blue; text-align:center; text-decoration: underline; cursor:pointer;">Accessories</div>');
-                html.push('     <div style="width:50%; float:left; font-weight:bold;">Description</div>');
-                html.push('     <div style="text-align:center; width:12%; float:left; font-weight:bold;"> Qty </div>');
-                html.push('     <div style="text-align:center; width:12%; float:left; font-weight:bold;"> In </div>');
-                html.push('     <div style="text-align:center; width:12%; float:left; font-weight:bold;"> Avail</div>');
-                html.push('     <div style="text-align:center; width:12%; float:left; font-weight:bold;"> Conflict </div>');
-                //html.push('     <div style="width:10%; float:left; font-weight:bold;"> Note</div>');
-                html.push(' </div>');
-                html.push('</div>');
-                accessoryContainer.append(html.join(''));
-
-                FwAppData.apiMethod(true, 'POST', "api/v1/inventorysearch/accessories", request, FwServices.defaultTimeout, function onSuccess(response) {
-                    const descriptionIndex = response.ColumnIndex.Description;
-                    const qtyIndex = response.ColumnIndex.Quantity;
-                    const qtyInIndex = response.ColumnIndex.QuantityIn;
-                    const qtyAvailIndex = response.ColumnIndex.QuantityAvailable;
-                    const conflictIndex = response.ColumnIndex.ConflictDate;
-                    const inventoryIdIndex = response.ColumnIndex.InventoryId;
-                    const descriptionColorIndex = response.ColumnIndex.DescriptionColor;
-                    const quantityColorIndex = response.ColumnIndex.QuantityColor;
-
-
-                    for (var i = 0; i < response.Rows.length; i++) {
-                        let accHtml = [];
-                        accHtml.push('<div class="accItem" style="width:100%">');
-                        accHtml.push('  <div data-control="FwFormField" style="display:none" data-type="text" data-datafield="InventoryId" class="fwcontrol fwformfield"></div>');
-                        accHtml.push('  <div style="float:left; width:50%; position:relative;"><div class="descriptionColor"></div>' + response.Rows[i][descriptionIndex] + '</div>');
-                        accHtml.push('  <div data-control="FwFormField" style="text-align:center; float:left; width:12%; padding:5px 10px 0 0; position:relative;" data-type="number" data-datafield="AccQuantity" class="fwcontrol fwformfield qtyColor"></div>');
-                        accHtml.push('  <div style="text-align:center; float:left; width:12%; padding-left:5px;">' + response.Rows[i][qtyInIndex] + '</div>');
-                        accHtml.push('  <div style="text-align:center; float:left; width:12%; padding-left:5px;">' + response.Rows[i][qtyAvailIndex] + '</div>');
-                        accHtml.push('  <div style="text-align:center; float:left; width:12%; padding-left:5px;">' + response.Rows[i][conflictIndex] + '</div>');
-                        accHtml.push('</div>');
-
-                        let item = accHtml.join('');
-                        accessoryContainer.append(item);
-                        let $acc = accessoryContainer.find('.accItem:last');
-                        FwConfirmation.addControls($acc, item);
-                        $popup.find('.accItem .fwformfield-caption').hide();
-                        FwFormField.setValueByDataField($acc, 'AccQuantity', response.Rows[i][qtyIndex]);
-                        FwFormField.setValueByDataField($acc, 'InventoryId', response.Rows[i][inventoryIdIndex]);
-
-
-                        let $descriptionColor = $acc.find('.descriptionColor');
-
-                        var desccolor;
-                        if (response.Rows[i][descriptionColorIndex] == "") {
-                            desccolor = 'transparent';
-                        } else {
-                            desccolor = response.Rows[i][descriptionColorIndex];
-                        };
-
-                        $descriptionColor.css({
-                            'border-left': '20px solid',
-                            'border-right': '20px solid transparent',
-                            'border-bottom': '20px solid transparent',
-                            'left': '0',
-                            'top': '0',
-                            'height': '0',
-                            'width': '0',
-                            'position': 'absolute',
-                            'right': '0px',
-                            'border-left-color': desccolor,
-                            'z-index': '2'
-                        });
-
-                        let $qty = $acc.find('[data-datafield="AccQuantity"]');
-                        $qty.append('<div class="quantityColor"></div>');
-                        var $quantityColorDiv = $qty.find('.quantityColor');
-                        var qtycolor;
-                        if (response.Rows[i][quantityColorIndex] == "") {
-                            qtycolor = 'transparent';
-                        } else {
-                            qtycolor = response.Rows[i][quantityColorIndex];
-                        };
-
-                        $quantityColorDiv.css({
-                            'border-left': '20px solid',
-                            'border-right': '20px solid transparent',
-                            'border-bottom': '20px solid transparent',
-                            'left': '0',
-                            'top': '6px',
-                            'height': '0',
-                            'width': '0',
-                            'position': 'absolute',
-                            'right': '0px',
-                            'border-left-color': qtycolor,
-                            'z-index': '2'
-                        });
-
-
-                    }
-                }, null, null);
-
-                accessoryContainer.css({ 'float': 'left', 'height': 'auto', 'padding': '10px', 'margin': '10px', 'box-shadow': '0 12px 20px 0 rgba(0,0,153,0.2)', 'transition': '0.3s' });
-                accessoryContainer.slideToggle();
-            } else {
-                accessoryContainer.slideToggle();
-            }
         });
 
         $popup.on('change', '.accItem [data-datafield="AccQuantity"] input', function (e) {
@@ -1106,12 +991,14 @@ class SearchInterface {
 
         });
 
-        $popup.on('click', '.toggleAccessories', function () {
-
+        $popup.on('click', '.toggleAccessories input', function () {
+            var accessoryRefresh = $popup.find('.toggleAccessories input').prop('checked');
+            if (accessoryRefresh) {
+                $popup.find('.accContainer').css('display', 'none');
+            }
         });
 
     };
-
 
     refreshPreviewGrid($popup, id) {
         var previewrequest: any = {};
@@ -1135,6 +1022,7 @@ class SearchInterface {
     refreshAccessoryQuantity($popup, id, warehouseId, inventoryId, e) {
         var request: any = {};
         var accessoryContainer = jQuery(e.currentTarget).parents('.cardContainer').find('.accContainer');
+
         request = {
             SessionId: id,
             OrderId: id,
@@ -1145,6 +1033,27 @@ class SearchInterface {
             ToDate: FwFormField.getValueByDataField($popup, 'ToDate'),
             ShowImages: 'true'
         }
+
+        var html = [];
+        if (!(accessoryContainer.find('.accItem').length)) {
+            html.push('<div style="width:100%">');
+            html.push(' <div class="accList" style="font-size: 1.2em; color: blue; text-align:center; text-decoration: underline; cursor:pointer;">Accessories</div>');
+            html.push('     <div style="width:50%; float:left; font-weight:bold;">Description</div>');
+            html.push('     <div style="text-align:center; width:12%; float:left; font-weight:bold;"> Qty </div>');
+            html.push('     <div style="text-align:center; width:12%; float:left; font-weight:bold;"> In </div>');
+            html.push('     <div style="text-align:center; width:12%; float:left; font-weight:bold;"> Avail</div>');
+            html.push('     <div style="text-align:center; width:12%; float:left; font-weight:bold;"> Conflict </div>');
+            //html.push('     <div style="width:10%; float:left; font-weight:bold;"> Note</div>');
+            html.push(' </div>');
+            html.push('</div>');
+            accessoryContainer.append(html.join(''));
+            accessoryContainer.css({ 'float': 'left', 'height': 'auto', 'padding': '10px', 'margin': '10px', 'box-shadow': '0 12px 20px 0 rgba(0,0,153,0.2)', 'transition': '0.3s' });
+            //accessoryContainer.slideToggle();
+        }
+        //else {
+        //    accessoryContainer.slideToggle();
+        //}
+
         jQuery(e.currentTarget).parents('.cardContainer').find('.accContainer .accItem').remove();
         FwAppData.apiMethod(true, 'POST', "api/v1/inventorysearch/accessories", request, FwServices.defaultTimeout, function onSuccess(response) {
             const descriptionIndex = response.ColumnIndex.Description;
@@ -1153,6 +1062,8 @@ class SearchInterface {
             const qtyAvailIndex = response.ColumnIndex.QuantityAvailable;
             const conflictIndex = response.ColumnIndex.ConflictDate;
             const inventoryIdIndex = response.ColumnIndex.InventoryId;
+            const descriptionColorIndex = response.ColumnIndex.DescriptionColor;
+            const quantityColorIndex = response.ColumnIndex.QuantityColor;
 
             for (var i = 0; i < response.Rows.length; i++) {
                 let accHtml = [];
@@ -1172,6 +1083,53 @@ class SearchInterface {
                 $popup.find('.accItem .fwformfield-caption').hide();
                 FwFormField.setValueByDataField($acc, 'AccQuantity', response.Rows[i][qtyIndex]);
                 FwFormField.setValueByDataField($acc, 'InventoryId', response.Rows[i][inventoryIdIndex]);
+
+                let $descriptionColor = $acc.find('.descriptionColor');
+
+                var desccolor;
+                if (response.Rows[i][descriptionColorIndex] == "") {
+                    desccolor = 'transparent';
+                } else {
+                    desccolor = response.Rows[i][descriptionColorIndex];
+                };
+
+                $descriptionColor.css({
+                    'border-left': '20px solid',
+                    'border-right': '20px solid transparent',
+                    'border-bottom': '20px solid transparent',
+                    'left': '0',
+                    'top': '0',
+                    'height': '0',
+                    'width': '0',
+                    'position': 'absolute',
+                    'right': '0px',
+                    'border-left-color': desccolor,
+                    'z-index': '2'
+                });
+
+                let $qty = $acc.find('[data-datafield="AccQuantity"]');
+                $qty.append('<div class="quantityColor"></div>');
+                var $quantityColorDiv = $qty.find('.quantityColor');
+                var qtycolor;
+                if (response.Rows[i][quantityColorIndex] == "") {
+                    qtycolor = 'transparent';
+                } else {
+                    qtycolor = response.Rows[i][quantityColorIndex];
+                };
+
+                $quantityColorDiv.css({
+                    'border-left': '20px solid',
+                    'border-right': '20px solid transparent',
+                    'border-bottom': '20px solid transparent',
+                    'left': '0',
+                    'top': '6px',
+                    'height': '0',
+                    'width': '0',
+                    'position': 'absolute',
+                    'right': '0px',
+                    'border-left-color': qtycolor,
+                    'z-index': '2'
+                });
             }
         }, null, null);
     }
