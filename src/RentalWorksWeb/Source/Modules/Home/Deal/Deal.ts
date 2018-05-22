@@ -55,7 +55,20 @@ class Deal {
             }
         });
 
-        
+        // If user updates general address info
+        $form.find('.deal_address input').on('change', $tr => {
+            this.transferDealAddressValues($form);
+        });
+
+        //Shipping Address Type Change
+        $form.find('.shipping_address_type_radio').on('change', $tr => {
+            this.shippingAddressTypeChange($form);
+        });
+        //Billing Address Type Change
+        $form.find('.billing_radio1').on('change', $tr => {
+            this.billingAddressTypeChange($form);
+        });
+
         $form.on('change', '.billing_use_discount_template input[type=checkbox]', (e) => {
             //this.useDiscountTemplate(jQuery(e.currentTarget).is(':checked'));            
             this.toggleBillingUseDiscount($form, jQuery(e.currentTarget).is(':checked'));
@@ -658,15 +671,9 @@ class Deal {
         this.disableInsurCompanyInfo($form);
         this.toggleTaxTabIfUseCustomer($form, FwFormField.getValueByDataField($form, 'UseCustomerTax'));
         this.toggleOptionsTabIfExcludeQuote($form, FwFormField.getValueByDataField($form, 'DisableQuoteOrderActivity'));
-
-        // Disable attention fields if use customer
-        if (FwFormField.getValue($form, '.billing_radio1') === 'CUSTOMER') {
-            FwFormField.disable($form.find('.billing_att1'));
-            FwFormField.disable($form.find('.billing_att2'));
-        }
-        if (FwFormField.getValue($form, '.shipping_address_type_radio') === 'CUSTOMER') {
-            FwFormField.disable($form.find('.shipping_att'));
-        }
+        this.billingAddressTypeChange($form);
+        this.shippingAddressTypeChange($form);
+        this.transferDealAddressValues($form);
 
         // Disable Tax grids if UseCustomerTax is selected on page load
         if (FwFormField.getValueByDataField($form, 'UseCustomerTax') === true) {
@@ -689,21 +696,6 @@ class Deal {
                 FwFormField.enable($form.find('div[data-name="CompanyResaleGrid"]'));
                 FwFormField.enable($form.find('div[data-name="CompanyTaxOptionGrid"]'));
             }
-        });
-
-        //Billing Address Type Change
-        $form.find('.billing_radio1').on('change', $tr => {
-            this.billingAddressTypeChange($form);
-        });
-
-        // If user updates general address info
-        $form.find('.deal_address input').on('change', $tr => {
-            this.transferDealAddressValues($form);
-        });
-
-        //Shipping Address Type Change
-        $form.find('.shipping_address_type_radio').on('change', $tr => {
-            this.shippingAddressTypeChange($form);
         });
     }
 }

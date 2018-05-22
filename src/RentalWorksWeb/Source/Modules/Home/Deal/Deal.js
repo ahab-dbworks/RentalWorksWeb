@@ -46,6 +46,15 @@ var Deal = (function () {
                 FwFunc.showError(ex);
             }
         });
+        $form.find('.deal_address input').on('change', function ($tr) {
+            _this.transferDealAddressValues($form);
+        });
+        $form.find('.shipping_address_type_radio').on('change', function ($tr) {
+            _this.shippingAddressTypeChange($form);
+        });
+        $form.find('.billing_radio1').on('change', function ($tr) {
+            _this.billingAddressTypeChange($form);
+        });
         $form.on('change', '.billing_use_discount_template input[type=checkbox]', function (e) {
             _this.toggleBillingUseDiscount($form, jQuery(e.currentTarget).is(':checked'));
         });
@@ -489,7 +498,6 @@ var Deal = (function () {
         FwModule.loadAudit($form, uniqueid);
     };
     Deal.prototype.afterLoad = function ($form) {
-        var _this = this;
         var $resaleGrid, $taxOptionGrid, $contactGrid, $dealNoteGrid, $vendorGrid;
         var $quoteBrowse = $form.find('#QuoteBrowse');
         FwBrowse.search($quoteBrowse);
@@ -519,13 +527,9 @@ var Deal = (function () {
         this.disableInsurCompanyInfo($form);
         this.toggleTaxTabIfUseCustomer($form, FwFormField.getValueByDataField($form, 'UseCustomerTax'));
         this.toggleOptionsTabIfExcludeQuote($form, FwFormField.getValueByDataField($form, 'DisableQuoteOrderActivity'));
-        if (FwFormField.getValue($form, '.billing_radio1') === 'CUSTOMER') {
-            FwFormField.disable($form.find('.billing_att1'));
-            FwFormField.disable($form.find('.billing_att2'));
-        }
-        if (FwFormField.getValue($form, '.shipping_address_type_radio') === 'CUSTOMER') {
-            FwFormField.disable($form.find('.shipping_att'));
-        }
+        this.billingAddressTypeChange($form);
+        this.shippingAddressTypeChange($form);
+        this.transferDealAddressValues($form);
         if (FwFormField.getValueByDataField($form, 'UseCustomerTax') === true) {
             FwFormField.disable($form.find('div[data-name="CompanyResaleGrid"]'));
             FwFormField.disable($form.find('div[data-name="CompanyTaxOptionGrid"]'));
@@ -544,15 +548,6 @@ var Deal = (function () {
                 FwFormField.enable($form.find('div[data-name="CompanyResaleGrid"]'));
                 FwFormField.enable($form.find('div[data-name="CompanyTaxOptionGrid"]'));
             }
-        });
-        $form.find('.billing_radio1').on('change', function ($tr) {
-            _this.billingAddressTypeChange($form);
-        });
-        $form.find('.deal_address input').on('change', function ($tr) {
-            _this.transferDealAddressValues($form);
-        });
-        $form.find('.shipping_address_type_radio').on('change', function ($tr) {
-            _this.shippingAddressTypeChange($form);
         });
     };
     return Deal;

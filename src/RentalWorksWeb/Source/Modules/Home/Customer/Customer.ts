@@ -47,6 +47,21 @@ class Customer {
                 FwFunc.showError(ex);
             }
         });
+
+        //Billing Address Type Change
+        $form.find('.billing_address_type').on('change', () => {
+            this.addressTypeChange($form);
+        });
+
+        //Shipping Address Type Change
+        $form.find('.shipping_address_type').on('change', () => {
+            this.addressTypeChange($form);
+        });
+
+        //Customer Address Change
+        $form.find('.customer_address input').on('change', () => {
+            this.addressTypeChange($form);
+        });
     }
 
     updateExternalInputsWithGridValues($tr: JQuery): void {
@@ -95,7 +110,6 @@ class Customer {
                 FwFormField.disable($form.find('.discount-validation'))
             }
         });
-
 
         $form.find('[data-datafield="DisableQuoteOrderActivity"] .fwformfield-value').on('change', function () {
             var $this = jQuery(this);
@@ -255,28 +269,7 @@ class Customer {
             FwFormField.enable($form.find('.discount-validation'));
         };
 
-        if (FwFormField.getValue($form, 'div[data-datafield="BillingAddressType"]') === 'OTHER') {
-            FwFormField.enable($form.find('.billingaddress'));
-        };
-
-        if (FwFormField.getValue($form, 'div[data-datafield="ShippingAddressType"]') === 'OTHER') {
-            FwFormField.enable($form.find('.shippingaddress'));
-        };
-
-        //Billing Address Type Change
-        $form.find('.billing_address_type').on('change', () => {
-            this.addressTypeChange($form);
-        });
-
-        //Shipping Address Type Change
-        $form.find('.shipping_address_type').on('change', () => {
-            this.addressTypeChange($form);
-        });
-
-        //Customer Address Change
-        $form.find('.customer_address input').on('change', () => {
-            this.addressTypeChange($form);
-        });
+        this.addressTypeChange($form);
     }
 
     addressTypeChange($form) {
@@ -302,6 +295,14 @@ class Customer {
             FwFormField.setValue($form, '.shipping_zip', FwFormField.getValueByDataField($form, 'ZipCode'));
             FwFormField.setValue($form, 'div[data-displayfield="ShipCountry"]', FwFormField.getValueByDataField($form, 'CountryId'), FwFormField.getTextByDataField($form, 'CountryId'));
         }
+
+        if (FwFormField.getValue($form, '.billing_address_type') === 'OTHER') {
+            FwFormField.enable($form.find('.billingaddress'));
+        };
+
+        if (FwFormField.getValue($form, '.shipping_address_type') === 'OTHER') {
+            FwFormField.enable($form.find('.shippingaddress'));
+        };
     }
 }
 var CustomerController = new Customer();

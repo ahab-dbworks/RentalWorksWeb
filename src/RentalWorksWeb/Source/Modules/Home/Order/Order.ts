@@ -10,6 +10,7 @@ class Order {
     ActiveView: string = 'ALL';
     DefaultOrderType: string;
     DefaultOrderTypeId: string;
+
     //----------------------------------------------------------------------------------------------
     getModuleScreen(filter?: any) {
         var self = this;
@@ -388,6 +389,7 @@ class Order {
         $orderItemGridRentalControl = jQuery(jQuery('#tmpl-grids-OrderItemGridBrowse').html());
         $orderItemGridRentalControl.find('.combined').data('visible', 'false');
         $orderItemGridRental.empty().append($orderItemGridRentalControl);
+        $orderItemGridRentalControl.data('rental_grid');
         $orderItemGridRentalControl.data('ondatabind', function (request) {
             request.uniqueids = {
                 OrderId: FwFormField.getValueByDataField($form, 'OrderId'),
@@ -765,6 +767,8 @@ class Order {
     //----------------------------------------------------------------------------------------------
     afterLoad($form) {
         var $orderItemGridRental = $form.find('.rentalgrid [data-name="OrderItemGrid"]');
+        $orderItemGridRental.data('rental_grid');
+
         var $orderPickListGrid;
         $orderPickListGrid = $form.find('[data-name="OrderPickListGrid"]');
         FwBrowse.search($orderPickListGrid);
@@ -1204,7 +1208,7 @@ FwApplicationTree.clickEvents['{F2FD2F4C-1AB7-4627-9DD5-1C8DB96C5509}'] = functi
 };
 
 //---------------------------------------------------------------------------------------------- 
-FwApplicationTree.clickEvents['{D27AD4E7-E924-47D1-AF6E-992B92F5A647}'] = event => {
+FwApplicationTree.clickEvents['{D27AD4E7-E924-47D1-AF6E-992B92F5A647}'] = function (event) {
     var $form;
     $form = jQuery(this).closest('.fwform');
 

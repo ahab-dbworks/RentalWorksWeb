@@ -1,4 +1,3 @@
-var _this = this;
 routes.push({ pattern: /^module\/order$/, action: function (match) { return OrderController.getModuleScreen(); } });
 routes.push({ pattern: /^module\/order\/(\w+)\/(\S+)/, action: function (match) { var filter = { datafield: match[1], search: match[2] }; return OrderController.getModuleScreen(filter); } });
 var Order = (function () {
@@ -332,6 +331,7 @@ var Order = (function () {
         $orderItemGridRentalControl = jQuery(jQuery('#tmpl-grids-OrderItemGridBrowse').html());
         $orderItemGridRentalControl.find('.combined').data('visible', 'false');
         $orderItemGridRental.empty().append($orderItemGridRentalControl);
+        $orderItemGridRentalControl.data('rental_grid');
         $orderItemGridRentalControl.data('ondatabind', function (request) {
             request.uniqueids = {
                 OrderId: FwFormField.getValueByDataField($form, 'OrderId'),
@@ -664,6 +664,7 @@ var Order = (function () {
     Order.prototype.afterLoad = function ($form) {
         var _this = this;
         var $orderItemGridRental = $form.find('.rentalgrid [data-name="OrderItemGrid"]');
+        $orderItemGridRental.data('rental_grid');
         var $orderPickListGrid;
         $orderPickListGrid = $form.find('[data-name="OrderPickListGrid"]');
         FwBrowse.search($orderPickListGrid);
@@ -1038,7 +1039,7 @@ FwApplicationTree.clickEvents['{F2FD2F4C-1AB7-4627-9DD5-1C8DB96C5509}'] = functi
 };
 FwApplicationTree.clickEvents['{D27AD4E7-E924-47D1-AF6E-992B92F5A647}'] = function (event) {
     var $form;
-    $form = jQuery(_this).closest('.fwform');
+    $form = jQuery(this).closest('.fwform');
     try {
         OrderController.toggleOrderItemView($form, event);
     }
