@@ -1069,8 +1069,8 @@ class SearchInterface {
                 let accHtml = [];
                 accHtml.push('<div class="accItem" style="width:100%">');
                 accHtml.push('  <div data-control="FwFormField" style="display:none" data-type="text" data-datafield="InventoryId" class="fwcontrol fwformfield"></div>');
-                accHtml.push('  <div style="float:left; width:50%">' + response.Rows[i][descriptionIndex] + '</div>');
-                accHtml.push('  <div data-control="FwFormField" style="text-align:center; float:left; width:12%; padding:5px 10px 0 0;" data-type="number" data-datafield="AccQuantity" class="fwcontrol fwformfield"></div>');
+                accHtml.push('  <div style="text-indent: 1em; float:left; width:50%; position:relative;"><div class="descriptionColor"></div>' + response.Rows[i][descriptionIndex] + '</div>');
+                accHtml.push('  <div data-control="FwFormField" style="text-align:center; float:left; width:12%; padding:5px 10px 0 0; position:relative;" data-type="number" data-datafield="AccQuantity" class="fwcontrol fwformfield qtyColor"></div>');
                 accHtml.push('  <div style="text-align:center; float:left; width:12%; padding-left:5px;">' + response.Rows[i][qtyInIndex] + '</div>');
                 accHtml.push('  <div style="text-align:center; float:left; width:12%; padding-left:5px;">' + response.Rows[i][qtyAvailIndex] + '</div>');
                 accHtml.push('  <div style="text-align:center; float:left; width:12%; padding-left:5px;">' + response.Rows[i][conflictIndex] + '</div>');
