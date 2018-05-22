@@ -275,8 +275,8 @@ class Customer {
     addressTypeChange($form) {
         if (FwFormField.getValue($form, '.billing_address_type') === 'CUSTOMER') {
             // Values from Customer fields in general tab
-            FwFormField.setValue($form, '.billing_att1', "");
-            FwFormField.setValue($form, '.billing_att2', "");
+            //FwFormField.setValue($form, '.billing_att1', "");
+            //FwFormField.setValue($form, '.billing_att2', "");
             FwFormField.setValue($form, '.billing_add1', FwFormField.getValueByDataField($form, 'Address1'));
             FwFormField.setValue($form, '.billing_add2', FwFormField.getValueByDataField($form, 'Address2'));
             FwFormField.setValue($form, '.billing_city', FwFormField.getValueByDataField($form, 'City'));
