@@ -302,7 +302,7 @@ namespace WebLibrary.Security
             AddGrid("Order Contact",                          "{33321573-EB0C-43BE-9C95-739A879FC81B}", lv1menuGrids.Id, "OrderContactGridController");
             AddGrid("Order Contract Note",                    "{2018FEB8-D15D-4F1C-B09D-9BCBD5491B52}", lv1menuGrids.Id, "RwOrderContractNoteGridController");
             AddGrid("Order Dates",                            "{D4B28F52-5C9D-4D8C-B58C-42924428DE93}", lv1menuGrids.Id, "RwOrderDatesGridController");
-            AddGrid("Order Item Combined",                    "{B8E0EFB5-F175-46DE-92A7-32B45E6942FC}", lv1menuGrids.Id, "OrderItemCombinedGridController");
+            // AddGrid("Order Item Combined",                    "{B8E0EFB5-F175-46DE-92A7-32B45E6942FC}", lv1menuGrids.Id, "OrderItemCombinedGridController");
             AddGrid("Order Item",                             "{C8A77000-43DD-4E49-A226-1E0DC4196F12}", lv1menuGrids.Id, "OrderItemGridController");
             AddGrid("Order Note",                             "{45573B9C-B39D-4975-BC36-4A41362E1AF0}", lv1menuGrids.Id, "RwOrderNoteGridController");
             AddGrid("Order Type Activity Dates",              "{0C7E7F68-50C8-45A0-B6CA-BE11223D7806}", lv1menuGrids.Id, "OrderTypeActivityDatesGridController");
