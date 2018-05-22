@@ -76,5 +76,12 @@ div[data-controller="GroupController"] .grouptree li[data-property-id="apptree"]
 /***************************
 flexrow
 ***************************/
-.flexrow {display:flex;flex-wrap: wrap;/*max-width:60em;*/max-width:1440px;}
+.flexrow {display:flex;flex-wrap: wrap;/*max-width:60em;*/max-width:1200px;}
 .flexrow > * {flex:1 1 0;min-width:25px;/*min-width:16em;*//*max-width:24em;*/}
+html.theme-material .fwform-section {margin:.3rem .9rem;}
+/*
+html.theme-material .fwformfield[data-type="text"] .fwformfield-control{border-top:none;border-right:none;border-left:none;border-bottom:1px solid #e1dfdf;}
+html.theme-material .fwformfield[data-type="validation"] .fwformfield-control{border-top:none;border-right:none;border-left:none;border-bottom:1px solid #e1dfdf;}
+html.theme-material .fwformfield[data-type="date"] .fwformfield-control{border-top:none;border-right:none;border-left:none;border-bottom:1px solid #e1dfdf;}
+html.theme-material .fwformfield[data-type="time"] .fwformfield-control{border-top:none;border-right:none;border-left:none;border-bottom:1px solid #e1dfdf;}
+    */
