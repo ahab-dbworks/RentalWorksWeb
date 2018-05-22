@@ -43,6 +43,66 @@ namespace WebApi.Logic
             }
         }
         //-----------------------------------------------------------------------------
+        public static async Task<FwDatabaseField[]> GetDataAsync(FwApplicationConfig appConfig, string tablename, string[] wherecolumns, string[] wherecolumnvalues, string[] selectcolumns)
+        {
+            FwDatabaseField[] results;
+
+            using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
+            {
+                FwSqlCommand qry = new FwSqlCommand(conn, appConfig.DatabaseSettings.QueryTimeout);
+                qry.Add("select top 1 ");
+                for (int c = 0; c < selectcolumns.Length; c++)
+                {
+                    qry.Add(selectcolumns[c]);
+                    if (c < (selectcolumns.Length - 1))
+                    {
+                        qry.Add(",");
+                    }
+                }
+                qry.Add("from " + tablename + " with (nolock)");
+
+                qry.Add("where ");
+                for (int c = 0; c < wherecolumns.Length; c++)
+                {
+                    qry.Add(wherecolumns[c] + " = @wherecolumnvalue" + c.ToString());
+                    if (c < (wherecolumns.Length-1))
+                    {
+                        qry.Add(" and ");
+                    }
+                }
+
+                for (int c = 0; c < wherecolumnvalues.Length; c++)
+                {
+                    qry.AddParameter("@wherecolumnvalue" + c.ToString(), wherecolumnvalues[c]);
+                }
+
+                await qry.ExecuteAsync();
+                results = new FwDatabaseField[selectcolumns.Length];  // array of nulls
+
+                if (qry.RowCount == 1)
+                {
+                    for (int c = 0; c < selectcolumns.Length; c++)
+                    {
+                        results[c] = qry.GetField(selectcolumns[c]);
+                    }
+                }
+            }
+
+            return results;
+        }
+        //-------------------------------------------------------------------------------------------------------
+        public static async Task<string[]> GetStringDataAsync(FwApplicationConfig appConfig, string tablename, string[] wherecolumns, string[] wherecolumnvalues, string[] selectcolumns)
+        {
+            FwDatabaseField[] results = await GetDataAsync(appConfig, tablename, wherecolumns, wherecolumnvalues, selectcolumns);
+            string[] resultsStr = new string[results.Length];
+
+            for (int c = 0; c < selectcolumns.Length; c++)
+            {
+                resultsStr[c] = (results[c] != null) ? results[c].ToString().TrimEnd() : string.Empty;
+            }
+            return resultsStr;
+        }
+        //-----------------------------------------------------------------------------
         public static async Task<FwDatabaseField> GetDataAsync(FwApplicationConfig appConfig, string tablename, string wherecolumn, string wherecolumnvalue, string selectcolumn)
         {
             FwDatabaseField result;
