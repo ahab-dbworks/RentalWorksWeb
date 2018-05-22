@@ -549,7 +549,8 @@ class Quote {
             };
         });
         $orderContactGridControl.data('beforesave', function (request) {
-            request.OrderId = FwFormField.getValueByDataField($form, 'QuoteId')
+            request.OrderId = FwFormField.getValueByDataField($form, 'QuoteId');
+            request.CompanyId = FwFormField.getValueByDataField($form, 'DealId');
         });
         FwBrowse.init($orderContactGridControl);
         FwBrowse.renderRuntimeHtml($orderContactGridControl);
