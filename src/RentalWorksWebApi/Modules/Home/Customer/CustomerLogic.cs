@@ -1,5 +1,7 @@
-﻿using FwStandard.BusinessLogic.Attributes;
+﻿using FwStandard.BusinessLogic;
+using FwStandard.BusinessLogic.Attributes;
 using WebApi.Logic;
+using WebLibrary;
 
 namespace WebApi.Modules.Home.Customer
 {
@@ -14,6 +16,8 @@ namespace WebApi.Modules.Home.Customer
             dataRecords.Add(customer);
             dataLoader = customerLoader;
             browseLoader = customerBrowseLoader;
+
+            //BeforeSave += BeforeSaveCustomer;
         }
         //------------------------------------------------------------------------------------
         [FwBusinessLogicField(isPrimaryKey: true)]
@@ -173,6 +177,35 @@ namespace WebApi.Modules.Home.Customer
         public bool? Inactive { get; set; }
         public string DateStamp { get { return customer.DateStamp; } set { customer.DateStamp = value; } }
         //------------------------------------------------------------------------------------
-    }
+        protected override bool Validate(TDataRecordSaveMode saveMode, ref string validateMsg)
+        {
+            bool isValid = true;
 
+            if (BillingAddressType != null)
+            {
+                if (!(BillingAddressType.Equals(RwConstants.BILLING_ADDRESS_TYPE_CUSTOMER) || BillingAddressType.Equals(RwConstants.BILLING_ADDRESS_TYPE_OTHER)))
+                {
+                    isValid = false;
+                    validateMsg = "Invalid Billing Address Type: " + BillingAddressType + ".  Acceptable values are " + RwConstants.BILLING_ADDRESS_TYPE_CUSTOMER + " or " + RwConstants.BILLING_ADDRESS_TYPE_OTHER;
+                }
+            }
+            return isValid;
+        }
+        //------------------------------------------------------------------------------------
+        //justin WIP
+        //public void BeforeSaveCustomer(object sender, BeforeSaveEventArgs e)
+        //{
+        //    if ((BillingAddressType != null) && (BillingAddressType.Equals(RwConstants.BILLING_ADDRESS_TYPE_CUSTOMER)))
+        //    {
+        //        BillToAddress1 = Address1;
+        //        BillToAddress2 = Address2;
+        //        BillToCity = City;
+        //        BillToState = State;
+        //        BillToCountry = Country;
+        //        BillToCountryId = CountryId;
+        //        BillToZipCode = ZipCode;
+        //    }
+        //}
+        //------------------------------------------------------------------------------------ 
+    }
 }
