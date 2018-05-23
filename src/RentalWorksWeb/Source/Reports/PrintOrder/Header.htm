@@ -3,26 +3,26 @@
 <div style="width:1008px;overflow:hidden;padding:2px;font-family:Arial; font-size:14px;">
   {{#header}}
 
-  <div style="width:100%; float:left;">
-    <div style="float:left; width:35%">LOGO</div>
-    <div style="float:left; width:30%; padding-top:2em; text-align:center; font-size:1.2em; font-weight:bold;">ORDER</div>
+  <div style="width:100%; float:left; margin-bottom:10px;">
+    <div style="float:left; width:35%; white-space:pre;">&#32;</div>
+    <div style="float:left; width:30%; padding-top:2em; text-align:center; font-size:1.2em; font-weight:bold;">[LBLREPORTNAME]</div>
     <div style="float:left; width:35%; padding-top:2em; text-align:center; ">
       <div style="float:left; width:25%">
-        <div style="padding:.8em;"><strong>No:</strong></div>
+        <div style="padding:.8em;"><strong style="font-size:16px;">No:</strong></div>
         <div style="padding:.5em;"><strong>Date:</strong></div>
       </div>
       <div style="float:left; width:75%">
-        <div style="padding: .8em; border: 2px solid black">{{orderno}}</div>
+        <div style="padding: .8em; border: 2px solid black"><span style="font-size:16px; font-weight:bold;">{{orderno}}</span></div>
         <div style="padding: .5em;">{{orderdate}}</div>
       </div>
     </div>
   </div>
 
-  <div style="width:100%; float:left; border-bottom:2px solid black;">
+  <div style="width:100%; float:left; padding-bottom:1em; border-bottom:2px solid black;">
     <div style="float:left; width:50%">
-      <div>OFFICE</div>
-      <div>LOCATION</div>
-      <div>INFO</div>
+      <div>{{locadd1}} {{locadd2}}</div>
+      <div>{{loccitystatezipcountry}}</div>
+      <div><span style="font-weight:bold;">Phone:</span> {{locphone}}</div>
     </div>
     <div style="float:left; width:50%">
       <div style="float:left; font-weight:bold; width:30%">
@@ -35,14 +35,14 @@
       <div style="float:left; width:70%;">
         <div>{{orderno}}</div>
         <div>{{description}}</div>
-        <div>{{deal}}</div>
+        <div>{{dealwithno}}</div>
         <div>{{pono}}</div>
-        <div>{{terms}}    <span style="font-weight:bold;">Billing Cycle: {{billperiod}}</span></div>
+        <div>{{terms}}    <span style="margin-left:10px; font-weight:bold;">Billing Cycle:</span> {{billperiod}}</div>
       </div>
     </div>
   </div>
 
-  <div style="width:100%; float:left; border-bottom: 2px solid black;">
+  <div style="width:100%; float:left; padding-bottom: 1em; border-bottom: 2px solid black;">
     <div style="float:left; width:50%">
       <div style="text-align:center; padding-top: 2px;font-weight:bold; margin-right:10px; border-bottom: 2px solid black;">Issued To</div>
       <div style="padding-top: 2px;">{{issuedtocompany}}</div>
@@ -70,12 +70,12 @@
         <div>{{estrentfrom}} - {{estrentto}}</div>
         <div>{{agent}}</div>
         <div>{{agentemail}}</div>
-        <div>{{agentphone}}     <span style="font-weight:bold;">Ext:</span>{{agentphoneext}}</div>
+        <div style="white-space:pre;">{{agentphone}}  <span style="font-weight:bold; margin-left:10px;">Ext:</span>{{agentphoneext}}</div>
       </div>
     </div>
   </div>
 
-  <div style="float:left; width:100%;">
+  <div style="float:left; width:100%; padding-bottom: 1em;">
     <div style="float:left; width:50%;">
       <div style="text-align:center; padding-top: 2px;font-weight:bold; margin-right:10px; border-bottom: 2px solid black;">Outgoing (Deliver)</div>
       <div><span style="font-weight:bold;">Attention:</span> {{outdeliveryattention}}</div>
@@ -97,15 +97,15 @@
       <div>{{indeliverylocation}}</div>
       <div>{{indeliveryadd1}} {{indeliveryadd2}}</div>
       <div>{{indeliverycity}}, {{indeliverystate}} {{indeliveryzip}} {{indeliverycountry}} </div>
-      <div style="width:100%;">
+      <div style="width:100%; float:left;">
         <div style="width:30%; font-weight:bold; float:left;">Contact:</div>
         <div style="width:70%; float:left;">{{indeliverycontact}}</div>
       </div>
-      <div style="width:100%;">
+      <div style="width:100%; float:left;">
         <div style="width:30%; font-weight:bold; float:left;">Phone:</div>
         <div style="width:70%; float:left;">{{indeliverycontactphone}}</div>
       </div>
-      <div style="width:100%;">
+      <div style="width:100%; float:left;">
         <div style="width:30%; font-weight:bold; float:left;">Required By:</div>
         <div style="width:70%; float:left;">{{indeliveryrequiredbydate}}</div>
       </div>

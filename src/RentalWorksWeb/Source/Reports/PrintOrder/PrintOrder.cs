@@ -19,17 +19,33 @@ namespace Web.Source.Reports
 
             qry = new FwSqlCommand(FwSqlConnection.RentalWorks, FwQueryTimeouts.Report);
             qry.Add("exec webgetorderprintheader @orderid = @orderid");
-            qry.AddParameter("@orderid", request.parameters.OrderId);
+
+            if (request.parameters.OrderId != "")
+            {
+                qry.AddParameter("@orderid", request.parameters.OrderId);
+            }
+            else
+            {
+                qry.AddParameter("@orderid", request.parameters.QuoteId);
+            }
             dtHeader = qry.QueryToFwJsonTable(true);
 
 
             StringBuilder sb;
             string html;
-      
+
             sb = new StringBuilder(base.renderHeaderHtml(styletemplate, headertemplate, printOptions));
 
-            sb.Replace("[LBLREPORTNAME]", getReportName());
-      
+            if (request.parameters.OrderId != "")
+            {
+                sb.Replace("[LBLREPORTNAME]", "ORDER");
+            }
+            else
+            {
+                sb.Replace("[LBLREPORTNAME]", "QUOTE");
+            }
+         
+
 
             html = sb.ToString();
             html = this.applyTableToTemplate(html, "header", dtHeader);
@@ -44,11 +60,11 @@ namespace Web.Source.Reports
             StringBuilder sb;
 
             dtPrintOrder = GetOrder();
-     
+
             html = base.renderBodyHtml(styletemplate, bodytemplate, printOptions);
-            sb          = new StringBuilder(base.renderBodyHtml(styletemplate, bodytemplate, printOptions));
+            sb = new StringBuilder(base.renderBodyHtml(styletemplate, bodytemplate, printOptions));
             sb.Replace("[TotalRows]", "Total Rows: " + dtPrintOrder.Rows.Count);
-            html        = sb.ToString();
+            html = sb.ToString();
             html = this.applyTableToTemplate(html, "details", dtPrintOrder);
 
             return html;
@@ -61,7 +77,15 @@ namespace Web.Source.Reports
 
             qry = new FwSqlCommand(FwSqlConnection.RentalWorks, FwQueryTimeouts.Report);
             qry.Add("exec webgetorderprintdetails @orderid = @orderid");
-            qry.AddParameter("@orderid", request.parameters.OrderId);
+
+            if (request.parameters.OrderId != "")
+            {
+                qry.AddParameter("@orderid", request.parameters.OrderId);
+            }
+            else
+            {
+                qry.AddParameter("@orderid", request.parameters.QuoteId);
+            }
             dtDetails = qry.QueryToFwJsonTable(true);
 
             dtDetails.InsertSubTotalRows("rectypedisplay", "rowtype", new string[] { "periodextended" });
@@ -77,7 +101,7 @@ namespace Web.Source.Reports
 
             if (!string.IsNullOrWhiteSpace(encryptedlist))
             {
-                values = encryptedlist.Split(new char[]{','}, StringSplitOptions.None);
+                values = encryptedlist.Split(new char[] { ',' }, StringSplitOptions.None);
                 for (int i = 0; i < values.Length; i++)
                 {
                     values[i] = FwCryptography.AjaxDecrypt(values[i]);
