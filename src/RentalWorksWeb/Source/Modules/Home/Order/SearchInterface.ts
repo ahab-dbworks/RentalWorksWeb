@@ -928,8 +928,10 @@ class SearchInterface {
 
         $popup.on('click', '.accList', function (e) {
             let accessoryContainer = jQuery(e.currentTarget).parents('.cardContainer').find('.accContainer');
-            let inventoryId = jQuery(e.currentTarget).parents('.card').find('[data-datafield="InventoryId"] input').val();
-            self.refreshAccessoryQuantity($popup, id, warehouseId, inventoryId, e);
+            if (!(accessoryContainer.find('.accList').length)) {
+                let inventoryId = jQuery(e.currentTarget).parents('.card').find('[data-datafield="InventoryId"] input').val();
+                self.refreshAccessoryQuantity($popup, id, warehouseId, inventoryId, e);
+            }
             accessoryContainer.slideToggle();
 
         });
@@ -1069,7 +1071,7 @@ class SearchInterface {
         }
 
         var html = [];
-        if (!(accessoryContainer.find('.accItem').length)) {
+        if (!(accessoryContainer.find('.accList').length)) {
             html.push('<div style="width:100%">');
             html.push(' <div class="accList" style="font-size: 1.2em; color: blue; text-align:center; text-decoration: underline; cursor:pointer;">Accessories</div>');
             html.push('     <div style="width:50%; float:left; font-weight:bold;">Description</div>');
