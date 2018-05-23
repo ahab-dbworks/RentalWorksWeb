@@ -557,6 +557,8 @@ class Quote {
         $orderContactGrid = $form.find('div[data-grid="OrderContactGrid"]');
         $orderContactGridControl = jQuery(jQuery('#tmpl-grids-OrderContactGridBrowse').html());
         $orderContactGrid.empty().append($orderContactGridControl);
+        $orderContactGridControl.find('div[data-datafield="IsOrderedBy"]').attr('data-caption', 'Quoted For');
+
         $orderContactGridControl.data('ondatabind', function (request) {
             request.uniqueids = {
                 OrderId: FwFormField.getValueByDataField($form, 'QuoteId')
@@ -611,7 +613,7 @@ class Quote {
         var $orderContactGrid;
         $orderContactGrid = $form.find('[data-name="OrderContactGrid"]');
         FwBrowse.search($orderContactGrid);
-
+       
         if ($pending === true) {
             FwFormField.disable($form.find('[data-datafield="PoNumber"]'));
             FwFormField.disable($form.find('[data-datafield="PoAmount"]'));
