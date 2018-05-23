@@ -35,13 +35,13 @@ class SearchInterface {
         searchhtml.push('                  <div data-value="P" data-caption="Parts" style="float:left; width:20%;"></div>');
         searchhtml.push('              </div>');
 
-        searchhtml.push('              <div id="inventoryType" style="word-wrap: break-word; width:10%; margin: 5px 0px 0px 5px; float:left;">');
+        searchhtml.push('              <div id="inventoryType" style="width:10%; margin: 5px 0px 0px 5px; float:left;">');
         searchhtml.push('              </div>');
 
-        searchhtml.push('             <div id="category" style="word-wrap: break-word; width:10%; margin: 5px 0px 0px 5px; float:left;">');
+        searchhtml.push('             <div id="category" style="width:10%; margin: 5px 0px 0px 5px; float:left;">');
         searchhtml.push('             </div>');
 
-        searchhtml.push('             <div id="subCategory" style="word-wrap: break-word; width:10%; margin: 5px 0px 0px 5px; float:left;">');
+        searchhtml.push('             <div id="subCategory" style="width:10%; margin: 5px 0px 0px 5px; float:left;">');
         searchhtml.push('             </div>');
 
         searchhtml.push('            <div style="width:65%; position:absolute; left: 35%; right: 5%;">')
@@ -328,11 +328,11 @@ class SearchInterface {
             for (let i = 0; i < response.Rows.length; i++) {
                 if (types.indexOf(response.Rows[i][inventoryTypeIndex]) == -1) {
                     types.push(response.Rows[i][inventoryTypeIndex]);
-                    $popup.find('#inventoryType').append('<ul style="cursor:pointer; padding:10px 10px 10px 15px; margin:1px;" data-value="' + response.Rows[i][inventoryTypeIdIndex] + '">' + response.Rows[i][inventoryTypeIndex] + '</ul>');
+                    $popup.find('#inventoryType').append('<ul class="fitText" style="cursor:pointer; padding:10px 10px 10px 15px; margin:1px;" data-value="' + response.Rows[i][inventoryTypeIdIndex] + '"><span>' + response.Rows[i][inventoryTypeIndex] + '</span></ul>');
                 }
             }
+            self.fitToParent('#inventoryType .fitText span');
         }, null, $searchpopup);
-
         self.typeOnClickEvents($popup, request, categoryType);
     }
 
@@ -397,11 +397,11 @@ class SearchInterface {
                 for (var i = 0; i < response.Rows.length; i++) {
                     if (categories.indexOf(response.Rows[i][categoryIndex]) == -1) {
                         categories.push(response.Rows[i][categoryIndex]);
-                        $popup.find('#category').append('<ul style="cursor:pointer; padding:10px 10px 10px 15px; margin:1px;" data-value="' + response.Rows[i][categoryIdIndex] + '">' + response.Rows[i][categoryIndex] + '</ul>');
+                        $popup.find('#category').append('<ul class="fitText" style="cursor:pointer; padding:10px 10px 10px 15px; margin:1px;" data-value="' + response.Rows[i][categoryIdIndex] + '"><span>' + response.Rows[i][categoryIndex] + '</span></ul>');
                     }
                 }
+                self.fitToParent('#category .fitText span');
             }, null, $searchpopup);
-
             self.categoryOnClickEvents($popup, request, categoryType);
         });
     }
@@ -471,10 +471,10 @@ class SearchInterface {
                 for (var i = 0; i < response.Rows.length; i++) {
                     if (subCategories.indexOf(response.Rows[i][subCategoryIndex]) == -1) {
                         subCategories.push(response.Rows[i][subCategoryIndex]);
-                        $popup.find('#subCategory').append('<ul style="cursor:pointer; padding:10px 10px 10px 15px; margin:1px;" data-value="' + response.Rows[i][subCategoryIdIndex] + '">' + response.Rows[i][subCategoryIndex] + '</ul>');
+                        $popup.find('#subCategory').append('<ul class="fitText" style="cursor:pointer; padding:10px 10px 10px 15px; margin:1px;" data-value="' + response.Rows[i][subCategoryIdIndex] + '"><span>' + response.Rows[i][subCategoryIndex] + '</span></ul>');
                     }
                 }
-
+                self.fitToParent('#subCategory .fitText span');
                 let hasSubCategories = false;
                 if (response.Rows.length > 0) {
                     hasSubCategories = true;
@@ -493,8 +493,6 @@ class SearchInterface {
                     $popup.find('.inventory').empty();
                 }
             }, null, $searchpopup);
-
-
             self.subCategoryOnClickEvents($popup, request);
         });
     };
@@ -755,9 +753,10 @@ class SearchInterface {
                 for (var i = 0; i < response.Rows.length; i++) {
                     if (categories.indexOf(response.Rows[i][categoryIndex]) == -1) {
                         categories.push(response.Rows[i][categoryIndex]);
-                        $popup.find('#category').append('<ul style="cursor:pointer; padding:10px 10px 10px 15px; margin:1px;" data-value="' + response.Rows[i][categoryIdIndex] + '">' + response.Rows[i][categoryIndex] + '</ul>');
+                        $popup.find('#category').append('<ul class="fitText" style="cursor:pointer; padding:10px 10px 10px 15px; margin:1px;" data-value="' + response.Rows[i][categoryIdIndex] + '"><span>' + response.Rows[i][categoryIndex] + '</span></ul>');
                     }
                 }
+                self.fitToParent('#category .fitText span');
             }, null, $searchpopup);
         })
 
@@ -1167,6 +1166,35 @@ class SearchInterface {
                 });
             }
         }, null, null);
+    }
+
+    fitToParent(selector) {
+        var numIter = 10;
+        var regexp = /\d+(\.\d+)?/;
+        var fontSize = function (elem) {
+            var match = elem.css('font-size').match(regexp);
+            var size = match == null ? 16 : parseFloat(match[0]);
+            return isNaN(size) ? 16 : size;
+        }
+        var test = jQuery(selector);
+        jQuery(selector).each(function () {
+            var elem = jQuery(this);
+            var parentWidth = elem.parent().width();
+            var parentHeight = elem.parent().height();
+            if (elem.width() > parentWidth || elem.height() > parentHeight) {
+                var maxSize = fontSize(elem), minSize = 0.1;
+                for (var i = 0; i < numIter; i++) {
+                    var currSize = (minSize + maxSize) / 2;
+                    elem.css('font-size', currSize);
+                    if (elem.width() > parentWidth || elem.height() > parentHeight) {
+                        maxSize = currSize;
+                    } else {
+                        minSize = currSize;
+                    }
+                }
+                elem.css('font-size', minSize);
+            }
+        });
     }
 }
 
