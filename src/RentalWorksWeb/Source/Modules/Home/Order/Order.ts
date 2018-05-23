@@ -495,31 +495,31 @@ class Order {
         FwBrowse.init($orderItemGridMiscControl);
         FwBrowse.renderRuntimeHtml($orderItemGridMiscControl);
 
-        var $allOrderItemGrid;
-        var $allOrderItemGridControl;
-        $allOrderItemGrid = $form.find('.allgrid div[data-grid="OrderItemGrid"]');
-        $allOrderItemGridControl = jQuery(jQuery('#tmpl-grids-OrderItemGridBrowse').html());
-        $allOrderItemGridControl.find('.allitem').attr('data-visible', 'true');
-        $allOrderItemGrid.empty().append($allOrderItemGridControl);
-        $allOrderItemGrid.addClass('A');
-        $allOrderItemGridControl.data('isSummary', false);
+        var $combinedOrderItemGrid;
+        var $combinedOrderItemGridControl;
+        $combinedOrderItemGrid = $form.find('.combinedgrid div[data-grid="OrderItemGrid"]');
+        $combinedOrderItemGridControl = jQuery(jQuery('#tmpl-grids-OrderItemGridBrowse').html());
+        $combinedOrderItemGridControl.find('.allitem').attr('data-visible', 'true');
+        $combinedOrderItemGrid.empty().append($combinedOrderItemGridControl);
+        $combinedOrderItemGrid.addClass('A');
+        $combinedOrderItemGridControl.data('isSummary', false);
 
-        $allOrderItemGridControl.data('ondatabind', function (request) {
+        $combinedOrderItemGridControl.data('ondatabind', function (request) {
             request.uniqueids = {
                 OrderId: FwFormField.getValueByDataField($form, 'OrderId')
             };
             request.pagesize = max;
         });
-        $allOrderItemGridControl.data('beforesave', function (request) {
+        $combinedOrderItemGridControl.data('beforesave', function (request) {
             request.OrderId = FwFormField.getValueByDataField($form, 'OrderId');
         }
         );
-        //FwBrowse.addEventHandler($allOrderItemGridControl, 'afterdatabindcallback', () => {
-        //    this.calculateOrderItemGridTotals($form, 'all');
-        //});
+        FwBrowse.addEventHandler($combinedOrderItemGridControl, 'afterdatabindcallback', () => {
+            this.calculateOrderItemGridTotals($form, 'combined');
+        });
 
-        FwBrowse.init($allOrderItemGridControl);
-        FwBrowse.renderRuntimeHtml($allOrderItemGridControl);
+        FwBrowse.init($combinedOrderItemGridControl);
+        FwBrowse.renderRuntimeHtml($combinedOrderItemGridControl);
 
         var $orderNoteGrid;
         var $orderNoteGridControl;
@@ -994,7 +994,7 @@ class Order {
             $orderItemGrid = $form.find('.miscgrid [data-name="OrderItemGrid"]');
         }
         //if (recType === 'A') {
-        //    $orderItemGrid = $form.find('.allgrid div[data-grid="OrderItemGrid"]');
+        //    $orderItemGrid = $form.find('.combinedgrid div[data-grid="OrderItemGrid"]');
         //}
 
         if ($orderItemGrid.data('isSummary') === false) {
@@ -1083,11 +1083,11 @@ class Order {
                 $form.find('.salesgrid').hide();
                 $form.find('.laborgrid').hide();
                 $form.find('.miscgrid').hide();
-                var $allOrderItemGrid;
-                $allOrderItemGrid = $form.find('.allgrid [data-name="OrderItemGrid"]');
-                FwBrowse.search($allOrderItemGrid);
+                var $combinedItemGrid;
+                $combinedItemGrid = $form.find('.combinedgrid [data-name="OrderItemGrid"]');
+                FwBrowse.search($combinedItemGrid);
             } else {
-                $form.find('.allgrid').hide();
+                $form.find('.combinedgrid').hide();
                 var $orderItemGridRental;
                 $orderItemGridRental = $form.find('.rentalgrid [data-name="OrderItemGrid"]');
                 FwBrowse.search($orderItemGridRental);
