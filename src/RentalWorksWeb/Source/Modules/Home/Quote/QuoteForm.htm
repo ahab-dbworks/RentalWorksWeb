@@ -112,7 +112,7 @@
           <!-- Summary Details -->
           <div class="flexrow">
             <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Summary">
-            <div class="flexrow" style="flex:1 1 1200px;">
+            <div class="flexrow">
               <div class="flexcolumn" style="text-align:center;flex:1 1 7%;">&#160;</div>
               <div class="flexcolumn" style="text-align:center;flex:1 1 7%;">Rental</div>
               <div class="flexcolumn" style="text-align:center;flex:1 1 7%;">Sales</div>
@@ -437,14 +437,20 @@
       </div>  
       <!-- RENTAL TAB -->
       <div data-type="tabpage" id="rentaltabpage" class="rentalgrid tabpage" data-tabid="rentaltab">
-        <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Rental Items">
-          <div class="flexrow" style="max-width:1800px;">
-            <div data-control="FwGrid" data-grid="OrderItemGrid" data-securitycaption="Rental Items"></div>
+        <div class="formpage">
+          <div class="formrow">
+            <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Rental Items">
+              <div class="wideflexrow">
+                <div data-control="FwGrid" data-grid="OrderItemGrid" data-securitycaption="Rental Items"></div>
+              </div>
+            </div>
           </div>
-        </div>
-        <div class="flexrow" style="max-width:1800px;">
+        <!-- Spacer section -->
+        <div class="wideflexrow">
           <div class="flexcolumn" style="flex:1 1 125px;">
-          </div>
+        </div>
+
+          <!-- Adjustments section -->
           <div class="flexcolumn" style="flex:1 1 300px;">
             <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Adjustments">
               <div class="flexrow">
@@ -454,7 +460,8 @@
                 <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield rentalTotalWithTax bottom_line_total_tax" data-caption="w/ Tax" data-rectype="R" data-datafield="PeriodRentalTotalIncludesTax" style="flex:1 1 75px;margin-top:10px;"></div>
               </div>
             </div>
-          </div>          
+          </div>     
+          <!-- Totals section -->
           <div class="flexcolumn rentaltotals" style="flex:1 1 550px;">
             <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Totals">
               <div class="flexrow">
@@ -468,10 +475,11 @@
           </div>
         </div>
       </div>
+      </div>
       <!-- SALES TAB -->
       <div data-type="tabpage" id="salestabpage" class="salesgrid tabpage" data-tabid="salestab">
         <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Sales Items">
-          <div class="flexrow" style="max-width:1800px;">
+          <div class="flexrow" style="max-width:none;">
             <div data-control="FwGrid" data-grid="OrderItemGrid" data-securitycaption="Sales Items"></div>
           </div>
         </div>
