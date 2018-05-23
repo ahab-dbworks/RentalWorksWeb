@@ -389,6 +389,9 @@ class Order {
         $orderItemGridRentalControl = jQuery(jQuery('#tmpl-grids-OrderItemGridBrowse').html());
         $orderItemGridRental.empty().append($orderItemGridRentalControl);
         $orderItemGridRentalControl.data('rental_grid');
+        $orderItemGridRentalControl.data('isSummary', false);
+        $orderItemGridRental.addClass('R');
+
         $orderItemGridRentalControl.data('ondatabind', function (request) {
             request.uniqueids = {
                 OrderId: FwFormField.getValueByDataField($form, 'OrderId'),
@@ -416,6 +419,9 @@ class Order {
         $orderItemGridSalesControl.find('div[data-datafield="PeriodDiscountAmount"]').attr('data-caption', 'Discount Amount');
         $orderItemGridSalesControl.find('div[data-datafield="PeriodExtended"]').attr('data-caption', 'Extended');
         $orderItemGridSales.empty().append($orderItemGridSalesControl);
+        $orderItemGridSales.addClass('S');
+        $orderItemGridSalesControl.data('isSummary', false);
+
         $orderItemGridSalesControl.data('ondatabind', function (request) {
             request.uniqueids = {
                 OrderId: FwFormField.getValueByDataField($form, 'OrderId'),
@@ -440,6 +446,9 @@ class Order {
         $orderItemGridLabor = $form.find('.laborgrid div[data-grid="OrderItemGrid"]');
         $orderItemGridLaborControl = jQuery(jQuery('#tmpl-grids-OrderItemGridBrowse').html());
         $orderItemGridLabor.empty().append($orderItemGridLaborControl);
+        $orderItemGridLabor.addClass('L');
+        $orderItemGridLaborControl.data('isSummary', false);
+
         $orderItemGridLaborControl.data('ondatabind', function (request) {
             request.uniqueids = {
                 OrderId: FwFormField.getValueByDataField($form, 'OrderId'),
@@ -464,6 +473,9 @@ class Order {
         $orderItemGridMisc = $form.find('.miscgrid div[data-grid="OrderItemGrid"]');
         $orderItemGridMiscControl = jQuery(jQuery('#tmpl-grids-OrderItemGridBrowse').html());
         $orderItemGridMisc.empty().append($orderItemGridMiscControl);
+        $orderItemGridMisc.addClass('M');
+        $orderItemGridMiscControl.data('isSummary', false);
+
         $orderItemGridMiscControl.data('ondatabind', function (request) {
             request.uniqueids = {
                 OrderId: FwFormField.getValueByDataField($form, 'OrderId'),
@@ -489,6 +501,9 @@ class Order {
         $allOrderItemGridControl = jQuery(jQuery('#tmpl-grids-OrderItemGridBrowse').html());
         $allOrderItemGridControl.find('.allitem').attr('data-visible', 'true');
         $allOrderItemGrid.empty().append($allOrderItemGridControl);
+        $allOrderItemGrid.addClass('A');
+        $allOrderItemGridControl.data('isSummary', false);
+
         $allOrderItemGridControl.data('ondatabind', function (request) {
             request.uniqueids = {
                 OrderId: FwFormField.getValueByDataField($form, 'OrderId')
@@ -913,7 +928,7 @@ class Order {
 
             if (recType === 'R') {
                 $orderItemGrid = $form.find('.rentalgrid [data-name="OrderItemGrid"]');
-                total = FwFormField.getValue($form, '.rentalOrderItemTotal');
+                total = FwFormField.getValueByDataField($form, 'PeriodRentalTotal');
                 includeTaxInTotal = FwFormField.getValue($form, '.rentalTotalWithTax');
                 if (!isWithTaxCheckbox) {
                     FwFormField.setValueByDataField($form, 'RentalDiscountPercent', '');
@@ -962,10 +977,8 @@ class Order {
         let $element, $orderItemGrid, recType, isSummary, orderId;
         let request: any = {};
 
-        console.log('event: ', event)
-
-        $element = jQuery(event.currentTarget)
-        recType = $element.attr('data-rectype');
+        $element = jQuery(event.currentTarget);
+        recType = $element.parentsUntil('.flexrow').eq(9).attr('class');
         orderId = FwFormField.getValueByDataField($form, 'OrderId');
 
         if (recType === 'R') {
@@ -980,14 +993,21 @@ class Order {
         if (recType === 'M') {
             $orderItemGrid = $form.find('.miscgrid [data-name="OrderItemGrid"]');
         }
+        //if (recType === 'A') {
+        //    $orderItemGrid = $form.find('.allgrid div[data-grid="OrderItemGrid"]');
+        //}
 
-        if (FwFormField.getValue($form, $element) === 'Summary') {
+        if ($orderItemGrid.data('isSummary') === false) {
             isSummary = true;
+            $orderItemGrid.data('isSummary', true);
+            $element.children().text('Detail View')
         }
         else {
             isSummary = false;
+            $orderItemGrid.data('isSummary', false);
+            $element.children().text('Summary View')
         }
-
+        
         $orderItemGrid.data('ondatabind', request => {
             request.uniqueids = {
                 OrderId: orderId,
