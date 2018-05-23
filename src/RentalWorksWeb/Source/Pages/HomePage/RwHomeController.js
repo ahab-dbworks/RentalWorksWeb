@@ -100,7 +100,7 @@ var RwHome = (function () {
         var settings = '<i id="' + apiname + 'settings" class="chart-settings material-icons">settings</i>';
         var fullscreen = '<i id="' + apiname + 'fullscreen" class="chart-settings material-icons">fullscreen</i>';
         var dataPointCount;
-        jQuery($control).append('<div data-chart="' + apiname + '" class="chart-container" style="width:' + width + ';"><canvas style="padding:5px;" id="' + apiname + '"></canvas><div class="toolbar">' + fullscreen + refresh + settings + '</div></div>');
+        jQuery($control).append('<div data-chart="' + apiname + '" class="chart-container" style="width:' + width + ';"><canvas style="display:inline-block;width:100%;padding:5px;" id="' + apiname + '"></canvas><div class="toolbar">' + fullscreen + refresh + settings + '</div></div>');
         self.buildWidgetSettings(jQuery($control).find('#' + apiname + 'settings'), userWidgetId);
         if (dataPoints > 0) {
             dataPointCount = dataPoints;
