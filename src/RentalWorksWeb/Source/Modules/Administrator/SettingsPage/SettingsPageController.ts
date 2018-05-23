@@ -38,12 +38,12 @@
             for (var i = 0; i < node.children.length; i++) {
                 if (node.children[i].properties.nodetype === 'SettingsModule') {
                     var moduleObj = [];
-                    moduleObj.push(node.children[i].properties.caption, node.children[i].properties.controller.slice(0, -10), node.children[i].properties.caption, j);
+                    moduleObj.push(node.children[i].properties.caption, node.children[i].properties.controller.slice(0, -10), node.children[i].properties.caption, node.children[i].properties.description);
                     moduleArray.push(moduleObj);
                 } else {                
                     for (var j = 0; j < node.children[i].children.length; j++) {
                         var moduleObj = [];
-                        moduleObj.push(node.children[i].children[j].properties.caption, node.children[i].children[j].properties.controller.slice(0, -10), node.children[i].properties.caption.slice(0, -9), j);
+                        moduleObj.push(node.children[i].children[j].properties.caption, node.children[i].children[j].properties.controller.slice(0, -10), node.children[i].properties.caption.slice(0, -9), node.children[i].children[j].properties.description);
                         moduleArray.push(moduleObj);
                     }
                 }
@@ -57,7 +57,7 @@
             //    }
             //}
             for (var k = 0; k < moduleArray.length; k++) {
-                FwSettings.renderModuleHtml($settings.find(".fwsettings"), moduleArray[k][0], moduleArray[k][1], modules[moduleArray[k][3]].properties.color, moduleArray[k][1], moduleArray[k][2]);
+                FwSettings.renderModuleHtml($settings.find(".fwsettings"), moduleArray[k][0], moduleArray[k][1], moduleArray[k][3], moduleArray[k][2]);
             }            
             
             //FwAppData.apiMethod(false, 'GET', applicationConfig.appbaseurl + applicationConfig.appvirtualdirectory + 'SettingsPage.json', null, null, function onSuccess(response) {
