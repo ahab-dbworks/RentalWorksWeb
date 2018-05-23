@@ -4,6 +4,7 @@ using WebApi.Data;
 using System.Threading.Tasks;
 using System.Data;
 using System.Reflection;
+using System;
 
 namespace WebApi.Modules.Home.InventorySearch
 {
@@ -134,8 +135,14 @@ namespace WebApi.Modules.Home.InventorySearch
                     qry.AddParameter("@classification", SqlDbType.NVarChar, ParameterDirection.Input, request.Classification);
                     qry.AddParameter("@searchtext", SqlDbType.NVarChar, ParameterDirection.Input, request.SearchText);
                     qry.AddParameter("@showavail", SqlDbType.NVarChar, ParameterDirection.Input, (request.ShowAvailability?"T":"F"));
-                    qry.AddParameter("@fromdate", SqlDbType.DateTime, ParameterDirection.Input, request.FromDate);
-                    qry.AddParameter("@todate", SqlDbType.DateTime, ParameterDirection.Input, request.ToDate);
+                    if ((request.FromDate != null) && (request.FromDate > DateTime.MinValue))
+                    {
+                        qry.AddParameter("@fromdate", SqlDbType.DateTime, ParameterDirection.Input, request.FromDate);
+                    }
+                    if ((request.ToDate != null) && (request.ToDate > DateTime.MinValue))
+                    {
+                        qry.AddParameter("@todate", SqlDbType.DateTime, ParameterDirection.Input, request.ToDate);
+                    }
                     qry.AddParameter("@showimages", SqlDbType.NVarChar, ParameterDirection.Input, (request.ShowImages?"T":"F"));
                     qry.AddParameter("@sortby", SqlDbType.NVarChar, ParameterDirection.Input, request.SortBy);
                     PropertyInfo[] propertyInfos = typeof(InventorySearchLoader).GetProperties();
@@ -166,8 +173,14 @@ namespace WebApi.Modules.Home.InventorySearch
                     qry.AddParameter("@parentid", SqlDbType.NVarChar, ParameterDirection.Input, request.ParentId);
                     qry.AddParameter("@warehouseid", SqlDbType.NVarChar, ParameterDirection.Input, request.WarehouseId);
                     qry.AddParameter("@showavail", SqlDbType.NVarChar, ParameterDirection.Input, (request.ShowAvailability ? "T" : "F"));
-                    qry.AddParameter("@fromdate", SqlDbType.DateTime, ParameterDirection.Input, request.FromDate);
-                    qry.AddParameter("@todate", SqlDbType.DateTime, ParameterDirection.Input, request.ToDate);
+                    if ((request.FromDate != null) && (request.FromDate > DateTime.MinValue))
+                    {
+                        qry.AddParameter("@fromdate", SqlDbType.DateTime, ParameterDirection.Input, request.FromDate);
+                    }
+                    if ((request.ToDate != null) && (request.ToDate > DateTime.MinValue))
+                    {
+                        qry.AddParameter("@todate", SqlDbType.DateTime, ParameterDirection.Input, request.ToDate);
+                    }
                     qry.AddParameter("@showimages", SqlDbType.NVarChar, ParameterDirection.Input, (request.ShowImages ? "T" : "F"));
                     PropertyInfo[] propertyInfos = typeof(InventorySearchLoader).GetProperties();
                     foreach (PropertyInfo propertyInfo in propertyInfos)
@@ -194,8 +207,14 @@ namespace WebApi.Modules.Home.InventorySearch
                 {
                     qry.AddParameter("@sessionid", SqlDbType.NVarChar, ParameterDirection.Input, request.SessionId);
                     qry.AddParameter("@showavail", SqlDbType.NVarChar, ParameterDirection.Input, (request.ShowAvailability ? "T" : "F"));
-                    qry.AddParameter("@fromdate", SqlDbType.DateTime, ParameterDirection.Input, request.FromDate);
-                    qry.AddParameter("@todate", SqlDbType.DateTime, ParameterDirection.Input, request.ToDate);
+                    if ((request.FromDate != null) && (request.FromDate > DateTime.MinValue))
+                    {
+                        qry.AddParameter("@fromdate", SqlDbType.DateTime, ParameterDirection.Input, request.FromDate);
+                    }
+                    if ((request.ToDate != null) && (request.ToDate > DateTime.MinValue))
+                    {
+                        qry.AddParameter("@todate", SqlDbType.DateTime, ParameterDirection.Input, request.ToDate);
+                    }
                     PropertyInfo[] propertyInfos = typeof(InventorySearchLoader).GetProperties();
                     foreach (PropertyInfo propertyInfo in propertyInfos)
                     {

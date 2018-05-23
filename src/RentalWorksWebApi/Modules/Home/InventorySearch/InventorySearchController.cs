@@ -105,7 +105,8 @@ namespace WebApi.Modules.Home.InventorySearch
                 return StatusCode(jsonException.StatusCode, jsonException);
             }
         }
-        //------------------------------------------------------------------------------------         // POST api/v1/inventorysearch 
+        //------------------------------------------------------------------------------------         
+        // POST api/v1/inventorysearch 
         [HttpPost]
         public async Task<IActionResult> PostAsync([FromBody]InventorySearchLogic l)
         {
