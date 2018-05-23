@@ -154,11 +154,15 @@ class SearchInterface {
         previewrequest = {
             SessionId: id,
             ShowAvailablity: true,
-            FromDate: toDate,
-            ShowImages: true,
-            ToDate: fromDate
+            ShowImages: true
         };
 
+        if (fromDate != "") {
+            previewrequest.FromDate = fromDate;
+        }
+        if (toDate != "") {
+            previewrequest.ToDate = toDate;
+        }
 
         FwAppData.apiMethod(true, 'POST', "api/v1/inventorysearch/preview", previewrequest, FwServices.defaultTimeout, function onSuccess(response) {
             FwBrowse.databindcallback($grid, response);
@@ -238,13 +242,18 @@ class SearchInterface {
                         AvailableFor: availableFor,
                         WarehouseId: warehouseId,
                         ShowAvailability: true,
-                        FromDate: fromDate,
-                        ToDate: toDate,
                         ShowImages: true,
                         SortBy: $popup.find('.sortby select').val(),
                         Classification: $popup.find('.select select').val(),
                         SearchText: $popup.find('[data-datafield="SearchBox"] input.fwformfield-value').val()
                     }
+                    if (fromDate != "") {
+                        request.FromDate = fromDate;
+                    }
+                    if (toDate != "") {
+                        request.ToDate = toDate;
+                    }
+
 
                     FwAppData.apiMethod(true, 'POST', "api/v1/inventorysearch/search", request, FwServices.defaultTimeout, function onSuccess(response) {
                         $popup.find('.inventory').empty();
@@ -263,12 +272,18 @@ class SearchInterface {
             AvailableFor: availableFor,
             WarehouseId: warehouseId,
             ShowAvailability: true,
-            FromDate: fromDate,
-            ToDate: toDate,
             SortBy: $popup.find('.sortby select').val(),
             Classification: $popup.find('.select select').val(),
             ShowImages: true
         }
+
+        if (fromDate != "") {
+            request.FromDate = fromDate;
+        }
+        if (toDate != "") {
+            request.ToDate = toDate;
+        }
+
 
         var userId = JSON.parse(sessionStorage.getItem('userid'));
         var $inventoryView = $popup.find('#inventoryView');
@@ -963,12 +978,21 @@ class SearchInterface {
                 AvailableFor: FwFormField.getValueByDataField($popup, 'InventoryType'),
                 WarehouseId: warehouseId,
                 ShowAvailability: true,
-                FromDate: FwFormField.getValueByDataField($popup, 'FromDate'),
-                ToDate: FwFormField.getValueByDataField($popup, 'ToDate'),
+               
                 SortBy: $popup.find('.sortby select').val(),
                 Classification: $popup.find('.select select').val(),
                 ShowImages: true
             }
+
+            var fromDate = FwFormField.getValueByDataField($popup, 'FromDate');
+            var toDate = FwFormField.getValueByDataField($popup, 'ToDate');
+            if (fromDate != "") {
+                request.FromDate = fromDate;
+            }
+            if (toDate != "") {
+                request.ToDate = toDate;
+            }
+
             let inventoryTypeId = $popup.find('#breadcrumbs .type').attr('data-value');
             let categoryId = $popup.find('#breadcrumbs .category').attr('data-value');
             let subCategoryId = $popup.find('#breadcrumbs .subcategory').attr('data-value');
@@ -1008,10 +1032,15 @@ class SearchInterface {
         previewrequest = {
             SessionId: id,
             ShowAvailablity: true,
-            FromDate: toDate,
-            ShowImages: true,
-            ToDate: fromDate
+            ShowImages: true
         };
+
+        if (fromDate != "") {
+            previewrequest.FromDate = fromDate;
+        }
+        if (toDate != "") {
+            previewrequest.ToDate = toDate;
+        }
 
         FwAppData.apiMethod(true, 'POST', "api/v1/inventorysearch/preview", previewrequest, FwServices.defaultTimeout, function onSuccess(response) {
             var $grid = $popup.find('[data-name="SearchPreviewGrid"]');
@@ -1022,16 +1051,22 @@ class SearchInterface {
     refreshAccessoryQuantity($popup, id, warehouseId, inventoryId, e) {
         var request: any = {};
         var accessoryContainer = jQuery(e.currentTarget).parents('.cardContainer').find('.accContainer');
-
+        var toDate = FwFormField.getValueByDataField($popup, 'ToDate');
+        var fromDate = FwFormField.getValueByDataField($popup, 'FromDate');
         request = {
             SessionId: id,
             OrderId: id,
             ParentId: inventoryId,
             WarehouseId: warehouseId,
             ShowAvailability: 'true',
-            FromDate: FwFormField.getValueByDataField($popup, 'FromDate'),
-            ToDate: FwFormField.getValueByDataField($popup, 'ToDate'),
             ShowImages: 'true'
+        }
+
+        if (fromDate != "") {
+            request.FromDate = fromDate;
+        }
+        if (toDate != "") {
+            request.ToDate = toDate;
         }
 
         var html = [];
