@@ -597,6 +597,23 @@ namespace WebApi.Modules.Home.Order
         [FwBusinessLogicField(isReadOnly: true)]
         public string RentalSaleTotalIncludesTax { get; set; }
 
+        [FwBusinessLogicField(isReadOnly: true)]
+        public decimal? CombinedDaysPerWeek { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public decimal? CombinedDiscountPercent { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public decimal? WeeklyCombinedTotal { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public decimal? MonthlyCombinedTotal { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public decimal? PeriodCombinedTotal { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string WeeklyCombinedTotalIncludesTax { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string MonthlyCombinedTotalIncludesTax { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string PeriodCombinedTotalIncludesTax { get; set; }
+
 
         //------------------------------------------------------------------------------------
 

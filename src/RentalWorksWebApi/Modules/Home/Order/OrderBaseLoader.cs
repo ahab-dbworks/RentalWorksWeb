@@ -900,6 +900,36 @@ namespace WebApi.Modules.Home.Order
         [FwSqlDataField(column: "rstotalinctax", modeltype: FwDataTypes.Text)]
         public string RentalSaleTotalIncludesTax { get; set; }
         //------------------------------------------------------------------------------------
+
+
+
+        [FwSqlDataField(column: "rentaldaysinwk", modeltype: FwDataTypes.Decimal)]
+        public decimal? CombinedDaysPerWeek { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "rentaldiscountpct", modeltype: FwDataTypes.Decimal)]
+        public decimal? CombinedDiscountPercent { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "weeklyrentaltotal", modeltype: FwDataTypes.Decimal)]
+        public decimal? WeeklyCombinedTotal { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "monthlyrentaltotal", modeltype: FwDataTypes.Decimal)]
+        public decimal? MonthlyCombinedTotal { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "periodrentaltotal", modeltype: FwDataTypes.Decimal)]
+        public decimal? PeriodCombinedTotal { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "weeklyrentaltotalinctax", modeltype: FwDataTypes.Text)]
+        public string WeeklyCombinedTotalIncludesTax { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "monthlyrentaltotalinctax", modeltype: FwDataTypes.Text)]
+        public string MonthlyCombinedTotalIncludesTax { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "periodrentaltotalinctax", modeltype: FwDataTypes.Text)]
+        public string PeriodCombinedTotalIncludesTax { get; set; }
+        //------------------------------------------------------------------------------------
+
+
+
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
         public string DateStamp { get; set; }
         //------------------------------------------------------------------------------------
