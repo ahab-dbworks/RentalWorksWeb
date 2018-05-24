@@ -322,45 +322,47 @@
             })
             .on('click', 'tbody .browsecontextmenu', function () {
                 try {
-                    var menuItemCount = 0;
-                    var $browsecontextmenu = jQuery(this);
-                    var $tr = $browsecontextmenu.closest('tr');
-                    //FwBrowse.unselectAllRows($control);
-                    //FwBrowse.selectRow($control, $tr, true);
-                    var $contextmenu = FwContextMenu.render('Options', 'bottomleft', $browsecontextmenu);
-                    //$contextmenu.data('beforedestroy', function () {
-                    //    FwBrowse.unselectRow($control, $tr);
-                    //});
-                    var controller = $control.attr('data-controller');
-                    if (typeof controller === 'undefined') {
-                        throw 'Attribute data-controller is not defined on Browse control.'
-                    }
-                    var nodeController = FwApplicationTree.getNodeByController(controller);
-                    if (nodeController !== null) {
-                        var deleteActions = FwApplicationTree.getChildrenByType(nodeController, 'DeleteMenuBarButton');
-                        if (deleteActions.length > 1) {
-                            throw 'Invalid Security Tree configuration.  Only 1 DeleteMenuBarButton is permitted on a Controller.';
+                    let $browse = jQuery(this).closest('.fwbrowse');
+                    if ($browse.attr('data-enabled') !== 'false') {
+                        var menuItemCount = 0;
+                        var $browsecontextmenu = jQuery(this);
+                        var $tr = $browsecontextmenu.closest('tr');
+                        //FwBrowse.unselectAllRows($control);
+                        //FwBrowse.selectRow($control, $tr, true);
+                        var $contextmenu = FwContextMenu.render('Options', 'bottomleft', $browsecontextmenu);
+                        //$contextmenu.data('beforedestroy', function () {
+                        //    FwBrowse.unselectRow($control, $tr);
+                        //});
+                        var controller = $control.attr('data-controller');
+                        if (typeof controller === 'undefined') {
+                            throw 'Attribute data-controller is not defined on Browse control.'
                         }
-                        if (deleteActions.length === 1 && deleteActions[0].properties['visible'] === 'T') {
-                            FwContextMenu.addMenuItem($contextmenu, 'Delete', function () {
-                                try {
-                                    var $tr = jQuery(this).closest('tr');
-                                    FwBrowse.deleteRow($control, $tr);
-                                } catch (ex) {
-                                    FwFunc.showError(ex);
-                                }
-                            });
-                            menuItemCount++;
+                        var nodeController = FwApplicationTree.getNodeByController(controller);
+                        if (nodeController !== null) {
+                            var deleteActions = FwApplicationTree.getChildrenByType(nodeController, 'DeleteMenuBarButton');
+                            if (deleteActions.length > 1) {
+                                throw 'Invalid Security Tree configuration.  Only 1 DeleteMenuBarButton is permitted on a Controller.';
+                            }
+                            if (deleteActions.length === 1 && deleteActions[0].properties['visible'] === 'T') {
+                                FwContextMenu.addMenuItem($contextmenu, 'Delete', function () {
+                                    try {
+                                        var $tr = jQuery(this).closest('tr');
+                                        FwBrowse.deleteRow($control, $tr);
+                                    } catch (ex) {
+                                        FwFunc.showError(ex);
+                                    }
+                                });
+                                menuItemCount++;
+                            }
                         }
-                    }
-                    if (menuItemCount === 0) {
-                        FwContextMenu.destroy($contextmenu);
+                        if (menuItemCount === 0) {
+                            FwContextMenu.destroy($contextmenu);
+                        }
                     }
                 } catch (ex) {
                     FwFunc.showError(ex);
                 }
-            })
-        ;
+            });
 
         //Events only attached when the API is not defined for the control.
         var controller = window[$control.attr('data-controller')];

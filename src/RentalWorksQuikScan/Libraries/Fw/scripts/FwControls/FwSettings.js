@@ -322,21 +322,16 @@ FwSettings.newRow = function ($body, $control, apiurl, $modulecontainer, moduleN
     });
 }
 //---------------------------------------------------------------------------------------------- 
-FwSettings.renderModuleHtml = function ($control, title, moduleName, color, description, menu) {
+FwSettings.renderModuleHtml = function ($control, title, moduleName, description, menu) {
     var html = [], $settingsPageModules, $rowBody, $modulecontainer, apiurl, $body, $form, browseKeys = [], rowId, screen = { 'moduleCaptions': {} }, filter = [];
 
     $modulecontainer = $control.find('#' + moduleName);
     apiurl = window[moduleName + 'Controller'].apiurl;
     $form = jQuery(jQuery('#tmpl-modules-' + moduleName + 'Form').html());
 
-    html.push('<div class="panel-group" id="' + description + '" >');
-    if (color) {
-        html.push('  <div class="panel panel-primary" style="border-color:' + color + '">');
-        html.push('    <div data-toggle="collapse" data-target="' + description + '" href="' + description + '" class="panel-heading" style="background-color:' + color + '">');
-    } else {
-        html.push('  <div class="panel panel-primary">');
-        html.push('    <div data-toggle="collapse" data-target="' + description + '" href="' + description + '" class="panel-heading">');
-    }
+    html.push('<div class="panel-group" id="' + moduleName + '" >');
+    html.push('  <div class="panel panel-primary">');
+    html.push('    <div data-toggle="collapse" data-target="' + moduleName + '" href="' + moduleName + '" class="panel-heading">');
     html.push('      <h4 class="panel-title">');
     html.push('        <a id="title" data-toggle="collapse">' + menu + ' - ' + title)
     html.push('          <i class="material-icons arrow-selector">keyboard_arrow_down</i>');
@@ -348,10 +343,15 @@ FwSettings.renderModuleHtml = function ($control, title, moduleName, color, desc
     html.push('          <a class="hide-inactive">Hide Inactive</a>');
     html.push('        </div>');
     html.push('      </h4>');
-    html.push('      <small id="description" style="display:none;">' + description + '</small>');
-    html.push('      <small>' + description + '</small>');
+    if (description === "") {
+        html.push('      <small id="description" style="display:none;">' + moduleName + '</small>');
+        html.push('      <small>' + moduleName + '</small>');
+    } else {
+        html.push('      <small id="description" style="display:none;">' + description + '</small>');
+        html.push('      <small>' + description + '</small>');
+    }
     html.push('    </div>');
-    html.push('    <div class="panel-collapse collapse" style="display:none; "><div class="panel-body" id="' + description + '"></div></div>');
+    html.push('    <div class="panel-collapse collapse" style="display:none; "><div class="panel-body" id="' + moduleName + '"></div></div>');
     html.push('  </div>');
     html.push('</div>');
     $settingsPageModules = jQuery(html.join(''));

@@ -393,40 +393,10 @@ class FwModule {
         if (sessionStorage.getItem('customFields') !== null) {
             let customFields = JSON.parse(sessionStorage.getItem('customFields'))
             if (customFields !== null && typeof customFields.length === 'number' && customFields.length > 0) {
+                let hasCustomFields = false;
                 for (var i = 0; i < customFields.length; i++) {
                     if (controller.slice(0, -10) === customFields[i]) {
-                        var customHtml = [];
-                        var customModule = customFields[i];
-
-                        $formTabControl = jQuery($form.find('.fwtabs'));
-                        customTabIds = FwTabs.addTab($formTabControl, 'Custom Fields', false, 'CUSTOM', false);
-
-                        FwAppData.apiMethod(true, 'GET', 'api/v1/customfield', null, FwServices.defaultTimeout, function onSuccess(response) {
-                            try {
-                                customHtml.push('<div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Custom Fields">')
-                                for (var j = 0; j < response.length; j++) {
-                                    if (customModule === response[j].ModuleName) {
-                                        customHtml.push('<div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
-                                        if (response[j].FieldSizeInPixels > 0) {
-                                            customHtml.push('<div data-control="FwFormField" data-customfield="true" data-type="' + response[j].ControlType + '" class="fwcontrol fwformfield" data-caption="' + response[j].FieldName + '" data-datafield="' + response[j].FieldName + '" data-digits="' + response[j].FloatDecimalDigits + '" style="width:' + response[j].FieldSizeInPixels + 'px;float:left;"></div>');
-                                        } else {
-                                            customHtml.push('<div data-control="FwFormField" data-customfield="true" data-type="' + response[j].ControlType + '" class="fwcontrol fwformfield" data-caption="' + response[j].FieldName + '" data-datafield="' + response[j].FieldName + '" data-digits="' + response[j].FloatDecimalDigits + '"></div>');
-                                        } 
-                                        customHtml.push('</div>');
-                                    }
-                                }
-                                customHtml.push('</div>')
-
-                                $customControl = jQuery(customHtml.join(''));
-                                FwControl.renderRuntimeControls($customControl.find('.fwcontrol').addBack());
-
-                                $formTabControl.find('#' + customTabIds.tabpageid).append($customControl);
-
-                                $form.data('fields', $form.find('.fwformfield[data-isuniqueid!="true"]'));                      
-                            } catch (ex) {
-                                FwFunc.showError(ex);
-                            }
-                        }, null, null);
+                        FwModule.loadCustomFields($form, customFields[i])
                     }
                 }
             }
@@ -464,7 +434,7 @@ class FwModule {
                     $this.removeClass('error');
                 }
             })
-            ;
+        ;
 
         // hide tabs based on security tree
         $tabcontrol = $form.find('.fwtabs');
@@ -645,11 +615,11 @@ class FwModule {
     //----------------------------------------------------------------------------------------------
     static saveForm(module: string, $form: JQuery, parameters: { closetab?: boolean; afterCloseForm?: Function; closeparent?: boolean; navigationpath?: string; }) {
         var $tabpage, $tab, isValid, request, controllername, controller;
-        $tabpage = $form.parent();
-        $tab = jQuery('#' + $tabpage.attr('data-tabid'));
-        isValid = FwModule.validateForm($form);
+        $tabpage       = $form.parent();
+        $tab           = jQuery('#' + $tabpage.attr('data-tabid'));
+        isValid        = FwModule.validateForm($form);
         controllername = $form.attr('data-controller');
-        controller = window[controllername];
+        controller     = window[controllername];
 
         if (isValid === true) {
             if (typeof controller.apiurl !== 'undefined') {
@@ -657,8 +627,8 @@ class FwModule {
             } else {
                 request = {
                     module: module,
-                    mode: $form.attr('data-mode'),
-                    ids: FwModule.getFormUniqueIds($form),
+                    mode:   $form.attr('data-mode'),
+                    ids:    FwModule.getFormUniqueIds($form),
                     fields: FwModule.getFormFields($form, false)
                 };
             }
@@ -1063,15 +1033,15 @@ class FwModule {
     static getFormFields($form: JQuery, getAllFieldsOverride: boolean) {
         var $fwformfields, fields, field;
 
-        fields = {};
+        fields         = {};
         fields._Custom = [];
-        $fwformfields = typeof $form.data('fields') !== 'undefined' ? $form.data('fields') : jQuery([]);
+        $fwformfields  = typeof $form.data('fields') !== 'undefined' ? $form.data('fields') : jQuery([]);
         $fwformfields.each(function (index, element) {
             var $fwformfield, originalValue, dataField, value, isValidDataField, getAllFields, isBlank, isCalculatedField;
 
-            $fwformfield = jQuery(element);
+            $fwformfield  = jQuery(element);
             originalValue = $fwformfield.attr('data-originalvalue');
-            dataField = $fwformfield.attr('data-datafield');
+            dataField     = $fwformfield.attr('data-datafield');
             if (typeof dataField === 'undefined') {
                 var formCaption = typeof $form.attr('data-caption') !== 'undefined' ? $form.attr('data-caption') : 'Unknown';
                 console.log('On Form: "' + formCaption + ' ", the attribute data-datafield is required on the fwformfield with the following html: ' + jQuery('div').append($fwformfield).html());
@@ -1079,22 +1049,22 @@ class FwModule {
             }
             value = FwFormField.getValue2($fwformfield);
 
-            isBlank = (dataField === '');
+            isBlank           = (dataField === '');
             isCalculatedField = (dataField[0] === '#') && (dataField[1] === '.');
-            isValidDataField = (!isBlank) && (!isCalculatedField);
-            getAllFields = ($form.attr('data-mode') === 'NEW') || getAllFieldsOverride;
+            isValidDataField  = (!isBlank) && (!isCalculatedField);
+            getAllFields      = ($form.attr('data-mode') === 'NEW') || getAllFieldsOverride;
 
             if ((isValidDataField) && ((getAllFields) || (originalValue !== value))) {
                 if ($fwformfield.data('customfield') !== undefined && $fwformfield.data('customfield') === true) {
                     field = {
-                        FieldName: dataField,
+                        FieldName:  dataField,
                         FieldValue: value
                     }
                     fields._Custom.push(field);
                 } else {
                     field = {
                         datafield: dataField,
-                        value: value
+                        value:     value
                     };
                     fields[dataField] = field;
                 }
@@ -1333,5 +1303,38 @@ class FwModule {
             }
         }, 0)
     };
+    //----------------------------------------------------------------------------------------------
+    static loadCustomFields($form, customModuleName) {
+        var customHtml = [];
+        var $formTabControl = jQuery($form.find('.fwtabs'));
+        var customTabIds = FwTabs.addTab($formTabControl, 'Custom Fields', false, 'CUSTOM', false);
+
+        FwAppData.apiMethod(true, 'GET', 'api/v1/customfield', null, FwServices.defaultTimeout, function onSuccess(response) {
+            try {
+                customHtml.push('<div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Custom Fields">')
+                for (var j = 0; j < response.length; j++) {
+                    if (customModuleName === response[j].ModuleName) {
+                        customHtml.push('<div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
+                        if (response[j].FieldSizeInPixels > 0) {
+                            customHtml.push('<div data-control="FwFormField" data-customfield="true" data-type="' + response[j].ControlType + '" class="fwcontrol fwformfield" data-caption="' + response[j].FieldName + '" data-datafield="' + response[j].FieldName + '" data-digits="' + response[j].FloatDecimalDigits + '" style="width:' + response[j].FieldSizeInPixels + 'px;float:left;" data-digitsoptional="false"></div>');
+                        } else {
+                            customHtml.push('<div data-control="FwFormField" data-customfield="true" data-type="' + response[j].ControlType + '" class="fwcontrol fwformfield" data-caption="' + response[j].FieldName + '" data-datafield="' + response[j].FieldName + '" data-digits="' + response[j].FloatDecimalDigits + '" data-digitsoptional="false"></div>');
+                        }
+                        customHtml.push('</div>');
+                    }
+                }
+                customHtml.push('</div>')
+
+                var $customControl = jQuery(customHtml.join(''));
+                FwControl.renderRuntimeControls($customControl.find('.fwcontrol').addBack());
+
+                $formTabControl.find('#' + customTabIds.tabpageid).append($customControl);
+
+                $form.data('fields', $form.find('.fwformfield[data-isuniqueid!="true"]'));
+            } catch (ex) {
+                FwFunc.showError(ex);
+            }
+        }, null, null);
+    }
     //----------------------------------------------------------------------------------------------
 }

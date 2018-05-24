@@ -20,16 +20,16 @@ FwFormField_text.renderRuntimeHtml = function($control, html) {
         if ($control.attr('data-enabled') === 'false') {
             html.push(' disabled="disabled"');
         }
-        if ((typeof $control.attr('data-maxlength') !== 'undefined') && ($control.attr('data-maxlength') != '')) {
+        if ((typeof $control.attr('data-maxlength') !== 'undefined') && ($control.attr('data-maxlength') !== '')) {
             html.push (' maxlength="' + $control.attr('data-maxlength') + '"');
         }
-        if ((typeof $control.attr('data-autocapitalize') !== 'undefined') && ($control.attr('data-autocapitalize') != '')) {
+        if ((typeof $control.attr('data-autocapitalize') !== 'undefined') && ($control.attr('data-autocapitalize') !== '')) {
             html.push (' autocapitalize="' + $control.attr('data-autocapitalize') + '"');
         }
-        if ((typeof $control.attr('data-autocorrect') !== 'undefined') && ($control.attr('data-autocorrect') != '')) {
+        if ((typeof $control.attr('data-autocorrect') !== 'undefined') && ($control.attr('data-autocorrect') !== '')) {
             html.push (' autocorrect="' + $control.attr('data-autocorrect') + '"');
         }
-        if ((sessionStorage.getItem('applicationsettings') != null) && (typeof JSON.parse(sessionStorage.getItem('applicationsettings')).webtouppercase != 'undefined') && (JSON.parse(sessionStorage.getItem('applicationsettings')).webtouppercase)) {
+        if ((sessionStorage.getItem('applicationsettings') !== null) && (typeof JSON.parse(sessionStorage.getItem('applicationsettings')).webtouppercase !== 'undefined') && (JSON.parse(sessionStorage.getItem('applicationsettings')).webtouppercase)) {
             html.push(' style="text-transform:uppercase"');
         }
         html.push(' />');

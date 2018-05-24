@@ -784,6 +784,7 @@ namespace FwStandard.Security
                                 case "SaveMenuBarButton":
                                 case "Tab":
                                 case "FormGrid":
+                                case "Controller":
                                 case "ControllerMethod":
                                     groupTreeNode.Properties["visible"] = secnode.Visible;
                                     break;
@@ -805,18 +806,6 @@ namespace FwStandard.Security
                     }
                 }
             }
-
-            return groupTree;
-        }
-        //---------------------------------------------------------------------------------------------
-        public FwSecurityTreeNode GetGroupsTreeSupportSite()
-        {
-            string jsonApplicationTree;
-            FwSecurityTreeNode groupTree;
-
-            jsonApplicationTree = Newtonsoft.Json.JsonConvert.SerializeObject(FwSecurityTree.Tree.System);
-            groupTree = Newtonsoft.Json.JsonConvert.DeserializeObject<FwSecurityTreeNode>(jsonApplicationTree);
-            groupTree.InitGroupSecurityTree(false);
 
             return groupTree;
         }
