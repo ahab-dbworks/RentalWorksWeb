@@ -16,10 +16,10 @@ namespace WebApi.Modules.Home.Pricing
         [FwSqlDataField(column: "masterid", isPrimaryKey: true, modeltype: FwDataTypes.Text)]
         public string MasterId { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "warehouseid",/* isPrimaryKey: true, isPrimaryKeyOptional: true,*/ modeltype: FwDataTypes.Text)]
+        [FwSqlDataField(column: "warehouseid", modeltype: FwDataTypes.Text)]
         public string WarehouseId { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "currencyid", /*isPrimaryKey: true, isPrimaryKeyOptional: true,*/ modeltype: FwDataTypes.Text)]
+        [FwSqlDataField(column: "currencyid",  modeltype: FwDataTypes.Text)]
         public string CurrencyId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "whcode", modeltype: FwDataTypes.Text)]
