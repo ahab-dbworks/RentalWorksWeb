@@ -88,6 +88,16 @@ var CustomFields = (function () {
             $form.find('.float').show();
         }
     };
+    CustomFields.prototype.afterSave = function ($form) {
+        FwAppData.apiMethod(true, 'GET', 'api/v1/custommodule/', null, FwServices.defaultTimeout, function onSuccess(response) {
+            var customFields = [];
+            for (var i = 0; i < response.length; i++) {
+                customFields.push(response[i].ModuleName);
+            }
+            sessionStorage.setItem('customFields', JSON.stringify(customFields));
+        }, null, null);
+        return $form;
+    };
     return CustomFields;
 }());
 var CustomFieldsController = new CustomFields();

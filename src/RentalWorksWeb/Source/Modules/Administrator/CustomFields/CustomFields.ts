@@ -119,6 +119,17 @@ class CustomFields {
         } 
 
     }
+    afterSave($form: any) {
+        FwAppData.apiMethod(true, 'GET', 'api/v1/custommodule/', null, FwServices.defaultTimeout, function onSuccess(response) {
+            var customFields = [];
+            for (var i = 0; i < response.length; i++) {
+                customFields.push(response[i].ModuleName);
+            }
+            sessionStorage.setItem('customFields', JSON.stringify(customFields));
+        }, null, null)
+
+        return $form;
+    }
 }
 
 var CustomFieldsController = new CustomFields();
