@@ -776,6 +776,10 @@ var Order = (function () {
             $orderItemGrid = $form.find('.miscgrid [data-name="OrderItemGrid"]');
             FwFormField.setValueByDataField($form, 'PeriodMiscTotal', '');
         }
+        if (recType === '') {
+            $orderItemGrid = $form.find('.combinedgrid [data-name="OrderItemGrid"]');
+            FwFormField.setValueByDataField($form, 'PeriodMiscTotal', '');
+        }
         request.DiscountPercent = parseFloat(discountPercent);
         request.RecType = recType;
         request.OrderId = orderId;
@@ -823,6 +827,14 @@ var Order = (function () {
             includeTaxInTotal = FwFormField.getValue($form, '.miscTotalWithTax');
             if (!isWithTaxCheckbox) {
                 FwFormField.setValueByDataField($form, 'MiscDiscountPercent', '');
+            }
+        }
+        if (recType === '') {
+            $orderItemGrid = $form.find('.combinedgrid [data-name="OrderItemGrid"]');
+            total = FwFormField.getValue($form, '.combinedOrderItemTotal');
+            includeTaxInTotal = FwFormField.getValue($form, '.combinedTotalWithTax');
+            if (!isWithTaxCheckbox) {
+                FwFormField.setValueByDataField($form, 'CombinedDiscountPercent', '');
             }
         }
         request.IncludeTaxInTotal = includeTaxInTotal;
