@@ -12825,7 +12825,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"SessionId\": \"H00032G8\",\n\t\"ShowAvailability\": true,\n\t\"FromDate\": \"04/01/2018\",\n\t\"ToDate\": \"05/01/2018\"\n}"
+							"raw": "{\n\t\"SessionId\": \"H00032G8\",\n\t\"ShowAvailability\": true,\n\t\"FromDate\": \"04/01/2018\"\n\t\t\"ToDate\": \"05/01/2018\"\n}"
 						},
 						"description": ""
 					},
@@ -19712,6 +19712,112 @@
 			]
 		},
 		{
+			"name": "Pricing",
+			"description": "",
+			"item": [
+				{
+					"name": "Pricing: Browse",
+					"request": {
+						"url": "http://localhost:57949/api/v1/pricing/browse",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"Warehouse\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": [],\n    \t\"uniqueids\": {\"MasterId\": \"D00BYU6Z\", \"WarehouseId\": \"B0029AY5\", \"CurrencyId\": \"\"}\n\t\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Pricing: Get One (Master/Warehouse/Currency)",
+					"request": {
+						"url": "http://localhost:57949/api/v1/pricing/D00BYU6Z/B0029AY5/A001TSXJ",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Pricing: Get One (Master/Warehouse)",
+					"request": {
+						"url": "http://localhost:57949/api/v1/pricing/D00BYU6Z/B0029AY5",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Pricing: Get Multiple (Master)",
+					"request": {
+						"url": "http://localhost:57949/api/v1/pricing/D00BYU6Z",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
 			"name": "Progress Meter",
 			"description": "",
 			"item": [
@@ -20899,6 +21005,31 @@
 						"body": {
 							"mode": "raw",
 							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Quote: Apply Bottom Line Total",
+					"request": {
+						"url": "http://localhost:57949/api/v1/quote/applybottomlinetotal",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"OrderId\": \"H00032G8\",\n\t\"RecType\": \"R\",\n\t\"Total\": 1200,\n\t\"IncludeTaxInTotal\": true\n}"
 						},
 						"description": ""
 					},
