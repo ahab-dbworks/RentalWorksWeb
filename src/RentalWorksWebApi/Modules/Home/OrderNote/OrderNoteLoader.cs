@@ -13,7 +13,7 @@ namespace WebApi.Modules.Home.OrderNote
         [FwSqlDataField(column: "ordernoteid", modeltype: FwDataTypes.Text, isPrimaryKey: true)]
         public string OrderNoteId { get; set; } = "";
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "orderid", modeltype: FwDataTypes.Text/*, isPrimaryKeyOptional: true*/)]
+        [FwSqlDataField(column: "orderid", modeltype: FwDataTypes.Text)]
         public string OrderId { get; set; } 
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "notedate", modeltype: FwDataTypes.Date)]

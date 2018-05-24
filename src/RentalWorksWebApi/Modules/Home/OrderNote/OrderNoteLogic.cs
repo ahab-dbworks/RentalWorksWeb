@@ -15,7 +15,6 @@ namespace WebApi.Modules.Home.OrderNote
             orderNote.AfterSave += OnAfterSaveOrderNote;
         }
         //------------------------------------------------------------------------------------ 
-        //[FwBusinessLogicField(isPrimaryKeyOptional: true)]
         [FwBusinessLogicField(isPrimaryKey: true)]
         public string OrderNoteId { get { return orderNote.OrderNoteId; } set { orderNote.OrderNoteId = value; } }
         public string OrderId { get { return orderNote.OrderId; } set { orderNote.OrderId = value; } }
