@@ -19,6 +19,7 @@ namespace FwStandard.SqlServer
         public bool EnablePaging {get;set;} = false;
         public int PageNo {get;set;} = 0;
         public int PageSize {get;set;} = 10;
+        public string RowNoFieldName = "rowno";
         public FwSqlConnection SqlConnection;
         public FwSqlCommand SqlCommand;
         public enum PagingCompatibilities { AutoDetect, PreSql2012, Sql2012 } // AutoDetect logic is handled in FwController, since the Database Connection info is dependency injected there
@@ -297,12 +298,14 @@ namespace FwStandard.SqlServer
                 {
                     sb.Append(line);
                 }
-                sb.AppendLine(") as rowno, *");
+                //sb.AppendLine(") as rowno, *");
+                sb.AppendLine(") as " + RowNoFieldName + " , *"); //justin 05/25/2018
                 sb.AppendLine("    from main_cte with (nolock), count_cte with (nolock)");
                 sb.AppendLine(")");
                 sb.AppendLine("select *");
                 sb.AppendLine("from paging_cte with (nolock)");
-                sb.AppendLine("where rowno between @fwrownostart and @fwrownoend");
+                //sb.AppendLine("where rowno between @fwrownostart and @fwrownoend");
+                sb.AppendLine("where " + RowNoFieldName + " between @fwrownostart and @fwrownoend");
             }
             if (!EnablePaging)
             {
