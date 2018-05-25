@@ -721,8 +721,11 @@ class Quote {
         request.RecType = recType;
         request.OrderId = quoteId;
 
+        $orderItemGrid.addClass('clicked');
+
         FwAppData.apiMethod(true, 'POST', `api/v1/quote/applybottomlinediscountpercent/`, request, FwServices.defaultTimeout, function onSuccess(response) {
             FwBrowse.search($orderItemGrid);
+            $orderItemGrid.removeClass('clicked');
         }, function onError(response) {
             FwFunc.showError(response);
         }, $form);
@@ -784,7 +787,7 @@ class Quote {
         request.IncludeTaxInTotal = includeTaxInTotal;
         request.RecType = recType;
         request.OrderId = quoteId;
-        request.Total = parseFloat(total);
+        request.Total = +total;
 
         FwAppData.apiMethod(true, 'POST', `api/v1/quote/applybottomlinetotal/`, request, FwServices.defaultTimeout, function onSuccess(response) {
             FwBrowse.search($orderItemGrid);

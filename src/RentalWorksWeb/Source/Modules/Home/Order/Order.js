@@ -674,6 +674,8 @@ var Order = (function () {
         $form.find(".frame .add-on").children().hide();
     };
     ;
+    Order.prototype.events = function ($form) {
+    };
     Order.prototype.afterLoad = function ($form) {
         var _this = this;
         var $orderItemGridRental = $form.find('.rentalgrid [data-name="OrderItemGrid"]');
@@ -783,7 +785,9 @@ var Order = (function () {
         request.DiscountPercent = parseFloat(discountPercent);
         request.RecType = recType;
         request.OrderId = orderId;
+        $form.addClass('clicked');
         FwAppData.apiMethod(true, 'POST', "api/v1/order/applybottomlinediscountpercent/", request, FwServices.defaultTimeout, function onSuccess(response) {
+            $form.removeClass('clicked');
             FwBrowse.search($orderItemGrid);
         }, function onError(response) {
             FwFunc.showError(response);
@@ -840,7 +844,7 @@ var Order = (function () {
         request.IncludeTaxInTotal = includeTaxInTotal;
         request.RecType = recType;
         request.OrderId = orderId;
-        request.Total = parseFloat(total);
+        request.Total = +total;
         FwAppData.apiMethod(true, 'POST', "api/v1/order/applybottomlinetotal/", request, FwServices.defaultTimeout, function onSuccess(response) {
             FwBrowse.search($orderItemGrid);
         }, function onError(response) {
@@ -1063,6 +1067,7 @@ FwApplicationTree.clickEvents['{F2FD2F4C-1AB7-4627-9DD5-1C8DB96C5509}'] = functi
 FwApplicationTree.clickEvents['{D27AD4E7-E924-47D1-AF6E-992B92F5A647}'] = function (event) {
     var $form;
     $form = jQuery(this).closest('.fwform');
+    console.log('form from order: ', $form);
     try {
         OrderController.toggleOrderItemView($form, event);
     }
