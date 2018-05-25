@@ -13,7 +13,7 @@ namespace WebApi.Modules.Settings.CustomerStatus
     //[ApiExplorerSettings(GroupName = "v1")]
     public class CustomerStatusController : AppDataController
     {
-        public CustomerStatusController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
+        public CustomerStatusController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(CustomerStatusLogic); }
         //------------------------------------------------------------------------------------
         // POST api/v1/customerstatus/browse
         /// <summary>
@@ -28,6 +28,13 @@ namespace WebApi.Modules.Settings.CustomerStatus
         public async Task<IActionResult> Browse([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest, typeof(CustomerStatusLogic));
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
+        [HttpPost("exportexcelxlsx/{fileDownloadName}")]
+        public async Task<IActionResult> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoExportExcelXlsxFileAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------
         // GET api/v1/customerstatus

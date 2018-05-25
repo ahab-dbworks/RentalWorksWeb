@@ -8,13 +8,20 @@ namespace WebApi.Modules.Settings.MarketType
     [Route("api/v1/[controller]")]
     public class MarketTypeController : AppDataController
     {
-        public MarketTypeController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
+        public MarketTypeController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(MarketTypeLogic); }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/markettype/browse 
         [HttpPost("browse")]
         public async Task<IActionResult> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest, typeof(MarketTypeLogic));
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
+        [HttpPost("exportexcelxlsx/{fileDownloadName}")]
+        public async Task<IActionResult> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoExportExcelXlsxFileAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
         // GET api/v1/markettype 

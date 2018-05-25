@@ -9,13 +9,20 @@ namespace WebApi.Modules.Settings.VehicleRating
     [Route("api/v1/[controller]")]
     public class VehicleRatingController : AppDataController
     {
-        public VehicleRatingController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
+        public VehicleRatingController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(VehicleRatingLogic); }
         //------------------------------------------------------------------------------------
         // POST api/v1/vehiclerating/browse
         [HttpPost("browse")]
         public async Task<IActionResult> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest, typeof(VehicleRatingLogic));
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
+        [HttpPost("exportexcelxlsx/{fileDownloadName}")]
+        public async Task<IActionResult> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoExportExcelXlsxFileAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------
         // GET api/v1/vehiclerating

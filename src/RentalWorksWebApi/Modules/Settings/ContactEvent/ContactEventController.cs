@@ -11,7 +11,7 @@ namespace WebApi.Modules.Settings.ContactEvent
     [Route("api/v1/[controller]")]
     public class ContactEventController : AppDataController
     {
-        public ContactEventController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
+        public ContactEventController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(ContactEventLogic); }
         //------------------------------------------------------------------------------------
         // POST api/v1/contactevent/browse
         [HttpPost("browse")]
@@ -19,6 +19,13 @@ namespace WebApi.Modules.Settings.ContactEvent
         public async Task<IActionResult> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest, typeof(ContactEventLogic));
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
+        [HttpPost("exportexcelxlsx/{fileDownloadName}")]
+        public async Task<IActionResult> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoExportExcelXlsxFileAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------
         // GET api/v1/contactevent

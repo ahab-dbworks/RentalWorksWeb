@@ -8,13 +8,20 @@ namespace WebApi.Modules.Settings.WallType
     [Route("api/v1/[controller]")]
     public class WallTypeController : AppDataController
     {
-        public WallTypeController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
+        public WallTypeController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(WallTypeLogic); }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/walltype/browse 
         [HttpPost("browse")]
         public async Task<IActionResult> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest, typeof(WallTypeLogic));
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
+        [HttpPost("exportexcelxlsx/{fileDownloadName}")]
+        public async Task<IActionResult> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoExportExcelXlsxFileAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
         // GET api/v1/walltype 

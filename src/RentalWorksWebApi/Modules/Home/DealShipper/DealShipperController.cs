@@ -8,13 +8,20 @@ namespace WebApi.Modules.Home.DealShipper
     [Route("api/v1/[controller]")]
     public class DealShipperController : AppDataController
     {
-        public DealShipperController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
+        public DealShipperController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(DealShipperLogic); }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/dealshipper/browse 
         [HttpPost("browse")]
         public async Task<IActionResult> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest, typeof(DealShipperLogic));
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
+        [HttpPost("exportexcelxlsx/{fileDownloadName}")]
+        public async Task<IActionResult> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoExportExcelXlsxFileAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
         // GET api/v1/dealshipper 

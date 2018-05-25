@@ -9,13 +9,20 @@ namespace WebApi.Modules.Settings.GeneratorTypeWarehouse
     [Route("api/v1/[controller]")]
     public class GeneratorTypeWarehouseController : AppDataController
     {
-        public GeneratorTypeWarehouseController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
+        public GeneratorTypeWarehouseController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(GeneratorTypeWarehouseLogic); }
         //------------------------------------------------------------------------------------
         // POST api/v1/generatortypewarehouse/browse
         [HttpPost("browse")]
         public async Task<IActionResult> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest, typeof(GeneratorTypeWarehouseLogic));
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
+        [HttpPost("exportexcelxlsx/{fileDownloadName}")]
+        public async Task<IActionResult> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoExportExcelXlsxFileAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------
         // GET api/v1/generatortypewarehouse

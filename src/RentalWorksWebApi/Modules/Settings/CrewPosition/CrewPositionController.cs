@@ -8,13 +8,20 @@ namespace WebApi.Modules.Settings.CrewPosition
     [Route("api/v1/[controller]")]
     public class CrewPositionController : AppDataController
     {
-        public CrewPositionController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
+        public CrewPositionController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(CrewPositionLogic); }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/crewposition/browse 
         [HttpPost("browse")]
         public async Task<IActionResult> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest, typeof(CrewPositionLogic));
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
+        [HttpPost("exportexcelxlsx/{fileDownloadName}")]
+        public async Task<IActionResult> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoExportExcelXlsxFileAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
         // GET api/v1/crewposition 

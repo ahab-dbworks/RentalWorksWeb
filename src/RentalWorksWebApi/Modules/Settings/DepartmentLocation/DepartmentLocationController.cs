@@ -8,13 +8,20 @@ namespace WebApi.Modules.Settings.DepartmentLocation
     [Route("api/v1/[controller]")]
     public class DepartmentLocationController : AppDataController
     {
-        public DepartmentLocationController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
+        public DepartmentLocationController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(DepartmentLocationLogic); }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/departmentlocation/browse 
         [HttpPost("browse")]
         public async Task<IActionResult> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest, typeof(DepartmentLocationLogic));
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
+        [HttpPost("exportexcelxlsx/{fileDownloadName}")]
+        public async Task<IActionResult> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoExportExcelXlsxFileAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
         // GET api/v1/departmentlocation 

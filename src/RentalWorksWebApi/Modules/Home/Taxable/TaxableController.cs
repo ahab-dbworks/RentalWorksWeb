@@ -13,13 +13,20 @@ namespace WebApi.Modules.Home.Taxable
     [Route("api/v1/[controller]")]
     public class TaxableController : AppDataController
     {
-        public TaxableController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
+        public TaxableController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(TaxableLogic); }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/taxable/browse 
         [HttpPost("browse")]
         public async Task<IActionResult> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest, typeof(TaxableLogic));
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
+        [HttpPost("exportexcelxlsx/{fileDownloadName}")]
+        public async Task<IActionResult> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoExportExcelXlsxFileAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
         // GET api/v1/taxable/B003MZ45/F01BQV9J   //masterid/locationid

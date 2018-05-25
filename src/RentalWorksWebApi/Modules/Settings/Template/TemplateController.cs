@@ -8,13 +8,20 @@ namespace WebApi.Modules.Settings.Template
     [Route("api/v1/[controller]")]
     public class TemplateController : AppDataController
     {
-        public TemplateController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
+        public TemplateController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(TemplateLogic); }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/template/browse 
         [HttpPost("browse")]
         public async Task<IActionResult> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest, typeof(TemplateLogic));
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
+        [HttpPost("exportexcelxlsx/{fileDownloadName}")]
+        public async Task<IActionResult> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoExportExcelXlsxFileAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
         // GET api/v1/template 

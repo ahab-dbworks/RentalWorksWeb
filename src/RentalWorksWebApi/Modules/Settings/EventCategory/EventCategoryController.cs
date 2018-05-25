@@ -10,7 +10,7 @@ namespace WebApi.Modules.Settings.EventCategory
     [Route("api/v1/[controller]")]
     public class EventCategoryController : AppDataController
     {
-        public EventCategoryController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
+        public EventCategoryController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(EventCategoryLogic); }
         //------------------------------------------------------------------------------------
         // POST api/v1/eventcategory/browse
         [HttpPost("browse")]
@@ -18,6 +18,13 @@ namespace WebApi.Modules.Settings.EventCategory
         public async Task<IActionResult> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest, typeof(EventCategoryLogic));
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
+        [HttpPost("exportexcelxlsx/{fileDownloadName}")]
+        public async Task<IActionResult> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoExportExcelXlsxFileAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------
         // GET api/v1/eventcategory

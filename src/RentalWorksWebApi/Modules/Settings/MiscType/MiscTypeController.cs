@@ -9,13 +9,20 @@ namespace WebApi.Modules.Settings.MiscType
     [Route("api/v1/[controller]")]
     public class MiscTypeController : AppDataController
     {
-        public MiscTypeController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
+        public MiscTypeController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(MiscTypeLogic); }
         //------------------------------------------------------------------------------------
         // POST api/v1/misctype/browse
         [HttpPost("browse")]
         public async Task<IActionResult> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest, typeof(MiscTypeLogic));
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
+        [HttpPost("exportexcelxlsx/{fileDownloadName}")]
+        public async Task<IActionResult> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoExportExcelXlsxFileAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------
         // GET api/v1/misctype

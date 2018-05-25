@@ -9,13 +9,20 @@ namespace WebApi.Modules.Settings.UserStatus
     [Route("api/v1/[controller]")]
     public class UserStatusController : AppDataController
     {
-        public UserStatusController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
+        public UserStatusController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(UserStatusLogic); }
         //------------------------------------------------------------------------------------
         // POST api/v1/userstatus/browse
         [HttpPost("browse")]
         public async Task<IActionResult> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest, typeof(UserStatusLogic));
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
+        [HttpPost("exportexcelxlsx/{fileDownloadName}")]
+        public async Task<IActionResult> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoExportExcelXlsxFileAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------
         // GET api/v1/userstatus

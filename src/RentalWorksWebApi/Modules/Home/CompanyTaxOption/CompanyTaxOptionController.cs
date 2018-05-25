@@ -9,13 +9,20 @@ namespace WebApi.Modules.Home.CompanyTaxOption
     [Route("api/v1/[controller]")]
     public class CompanyTaxOptionController : AppDataController
     {
-        public CompanyTaxOptionController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
+        public CompanyTaxOptionController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(CompanyTaxOptionLogic); }
         //------------------------------------------------------------------------------------
         // POST api/v1/companytaxoption/browse
         [HttpPost("browse")]
         public async Task<IActionResult> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest, typeof(CompanyTaxOptionLogic));
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
+        [HttpPost("exportexcelxlsx/{fileDownloadName}")]
+        public async Task<IActionResult> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoExportExcelXlsxFileAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------
         // GET api/v1/companytaxoption

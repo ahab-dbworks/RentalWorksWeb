@@ -9,13 +9,20 @@ namespace WebApi.Modules.Settings.Source
     [Route("api/v1/[controller]")]
     public class SourceController : AppDataController
     {
-        public SourceController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
+        public SourceController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(SourceLogic); }
         //------------------------------------------------------------------------------------
         // POST api/v1/source/browse
         [HttpPost("browse")]
         public async Task<IActionResult> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest, typeof(SourceLogic));
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
+        [HttpPost("exportexcelxlsx/{fileDownloadName}")]
+        public async Task<IActionResult> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoExportExcelXlsxFileAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------
         // GET api/v1/source

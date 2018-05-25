@@ -8,13 +8,20 @@ namespace WebApi.Modules.Home.OrderItem
     [Route("api/v1/[controller]")]
     public class OrderItemController : AppDataController
     {
-        public OrderItemController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
+        public OrderItemController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(OrderItemLogic); }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/orderitem/browse 
         [HttpPost("browse")]
         public async Task<IActionResult> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest, typeof(OrderItemLogic));
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
+        [HttpPost("exportexcelxlsx/{fileDownloadName}")]
+        public async Task<IActionResult> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoExportExcelXlsxFileAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
         //// GET api/v1/orderitem 

@@ -9,7 +9,7 @@ namespace WebApi.Modules.Utilities.ProgressMeter
     [Route("api/v1/[controller]")]
     public class ProgressMeterController : AppDataController
     {
-        public ProgressMeterController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
+        public ProgressMeterController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(ProgressMeterLogic); }
         //------------------------------------------------------------------------------------ 
         // GET api/v1/progressmeter/A0000001 
         [HttpGet("{id}")]

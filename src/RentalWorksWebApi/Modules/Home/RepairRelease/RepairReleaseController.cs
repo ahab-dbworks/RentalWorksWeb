@@ -8,13 +8,20 @@ namespace WebApi.Modules.Home.RepairRelease
     [Route("api/v1/[controller]")]
     public class RepairReleaseController : AppDataController
     {
-        public RepairReleaseController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
+        public RepairReleaseController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(RepairReleaseLogic); }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/repairrelease/browse 
         [HttpPost("browse")]
         public async Task<IActionResult> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest, typeof(RepairReleaseLogic));
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
+        [HttpPost("exportexcelxlsx/{fileDownloadName}")]
+        public async Task<IActionResult> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoExportExcelXlsxFileAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
         // GET api/v1/repairrelease 

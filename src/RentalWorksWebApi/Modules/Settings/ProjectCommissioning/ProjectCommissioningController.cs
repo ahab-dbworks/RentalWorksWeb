@@ -8,13 +8,20 @@ namespace WebApi.Modules.Settings.ProjectCommissioning
     [Route("api/v1/[controller]")]
     public class ProjectCommissioningController : AppDataController
     {
-        public ProjectCommissioningController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
+        public ProjectCommissioningController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(ProjectCommissioningLogic); }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/projectcommissioning/browse 
         [HttpPost("browse")]
         public async Task<IActionResult> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest, typeof(ProjectCommissioningLogic));
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
+        [HttpPost("exportexcelxlsx/{fileDownloadName}")]
+        public async Task<IActionResult> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoExportExcelXlsxFileAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
         // GET api/v1/projectcommissioning 

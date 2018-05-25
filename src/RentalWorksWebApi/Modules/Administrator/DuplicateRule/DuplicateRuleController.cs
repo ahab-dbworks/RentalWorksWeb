@@ -10,13 +10,20 @@ namespace WebApi.Modules.Administrator.DuplicateRule
     [Route("api/v1/[controller]")]
     public class DuplicateRuleController : AppDataController
     {
-        public DuplicateRuleController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
+        public DuplicateRuleController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(DuplicateRuleLogic); }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/duplicaterule/browse 
         [HttpPost("browse")]
         public async Task<IActionResult> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest, typeof(DuplicateRuleLogic));
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
+        [HttpPost("exportexcelxlsx/{fileDownloadName}")]
+        public async Task<IActionResult> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoExportExcelXlsxFileAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
         // GET api/v1/duplicaterule 

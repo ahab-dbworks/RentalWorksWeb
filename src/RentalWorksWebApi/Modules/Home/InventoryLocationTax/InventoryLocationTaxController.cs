@@ -8,13 +8,20 @@ namespace WebApi.Modules.Home.InventoryLocationTax
     [Route("api/v1/[controller]")]
     public class InventoryLocationTaxController : AppDataController
     {
-        public InventoryLocationTaxController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
+        public InventoryLocationTaxController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(InventoryLocationTaxLogic); }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/inventorylocationtax/browse 
         [HttpPost("browse")]
         public async Task<IActionResult> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest, typeof(InventoryLocationTaxLogic));
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
+        [HttpPost("exportexcelxlsx/{fileDownloadName}")]
+        public async Task<IActionResult> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoExportExcelXlsxFileAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
         // GET api/v1/inventorylocationtax 

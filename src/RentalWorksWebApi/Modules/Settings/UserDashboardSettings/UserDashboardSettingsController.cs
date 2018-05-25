@@ -11,7 +11,7 @@ namespace WebApi.Modules.Settings.UserDashboardSettings
     [Route("api/v1/[controller]")]
     public class UserDashboardSettingsController : AppDataController
     {
-        public UserDashboardSettingsController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
+        public UserDashboardSettingsController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(UserDashboardSettingsLogic); }
         //------------------------------------------------------------------------------------
         // GET api/v1/userdashboardsettings/A0000001
         [HttpGet("{id}")]

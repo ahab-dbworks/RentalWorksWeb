@@ -11,7 +11,7 @@ namespace WebApi.Modules.Settings.UserSearchSettings
     [Route("api/v1/[controller]")]
     public class UserSearchSettingsController : AppDataController
     {
-        public UserSearchSettingsController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
+        public UserSearchSettingsController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(UserSearchSettingsLogic); }
         //------------------------------------------------------------------------------------
         // GET api/v1/usersearchsettings/A0000001
         [HttpGet("{id}")]

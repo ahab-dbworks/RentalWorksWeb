@@ -46,7 +46,7 @@ namespace WebApi.Modules.Home.InventorySearch
     public class InventorySearchController : AppDataController
     {
         //------------------------------------------------------------------------------------ 
-        public InventorySearchController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
+        public InventorySearchController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(InventorySearchLogic); }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/inventorysearch/search
         [HttpPost("search")]

@@ -9,13 +9,20 @@ namespace WebApi.Modules.Home.VendorNote
     [Route("api/v1/[controller]")]
     public class VendorNoteController : AppDataController
     {
-        public VendorNoteController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
+        public VendorNoteController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(VendorNoteLogic); }
         //------------------------------------------------------------------------------------
         // POST api/v1/vendornote/browse
         [HttpPost("browse")]
         public async Task<IActionResult> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest, typeof(VendorNoteLogic));
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
+        [HttpPost("exportexcelxlsx/{fileDownloadName}")]
+        public async Task<IActionResult> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoExportExcelXlsxFileAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------
         // GET api/v1/vendornote

@@ -9,13 +9,20 @@ namespace WebApi.Modules.Settings.PoImportance
     [Route("api/v1/[controller]")]
     public class PoImportanceController : AppDataController
     {
-        public PoImportanceController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
+        public PoImportanceController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(PoImportanceLogic); }
         //------------------------------------------------------------------------------------
         // POST api/v1/poimportance/browse
         [HttpPost("browse")]
         public async Task<IActionResult> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest, typeof(PoImportanceLogic));
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
+        [HttpPost("exportexcelxlsx/{fileDownloadName}")]
+        public async Task<IActionResult> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoExportExcelXlsxFileAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------
         // GET api/v1/poimportance

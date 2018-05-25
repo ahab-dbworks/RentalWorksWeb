@@ -8,13 +8,20 @@ namespace WebApi.Modules.Settings.OrderTypeNote
     [Route("api/v1/[controller]")]
     public class OrderTypeNoteController : AppDataController
     {
-        public OrderTypeNoteController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
+        public OrderTypeNoteController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(OrderTypeNoteLogic); }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/ordertypenote/browse 
         [HttpPost("browse")]
         public async Task<IActionResult> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest, typeof(OrderTypeNoteLogic));
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
+        [HttpPost("exportexcelxlsx/{fileDownloadName}")]
+        public async Task<IActionResult> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoExportExcelXlsxFileAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
         // GET api/v1/ordertypenote 

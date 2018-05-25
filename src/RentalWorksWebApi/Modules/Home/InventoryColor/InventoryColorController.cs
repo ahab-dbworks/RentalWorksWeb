@@ -8,13 +8,20 @@ namespace WebApi.Modules.Home.InventoryColor
     [Route("api/v1/[controller]")]
     public class InventoryColorController : AppDataController
     {
-        public InventoryColorController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
+        public InventoryColorController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(InventoryColorLogic); }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/inventorycolor/browse 
         [HttpPost("browse")]
         public async Task<IActionResult> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest, typeof(InventoryColorLogic));
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
+        [HttpPost("exportexcelxlsx/{fileDownloadName}")]
+        public async Task<IActionResult> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoExportExcelXlsxFileAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
         // GET api/v1/inventorycolor 

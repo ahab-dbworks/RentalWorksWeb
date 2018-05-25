@@ -10,7 +10,7 @@ namespace WebApi.Modules.Settings.BlackoutStatus
     [Route("api/v1/[controller]")]
     public class BlackoutStatusController : AppDataController
     {
-        public BlackoutStatusController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
+        public BlackoutStatusController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(BlackoutStatusLogic); }
         //------------------------------------------------------------------------------------
         // POST api/v1/blackoutstatus/browse
         [HttpPost("browse")]
@@ -18,6 +18,13 @@ namespace WebApi.Modules.Settings.BlackoutStatus
         public async Task<IActionResult> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest, typeof(BlackoutStatusLogic));
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
+        [HttpPost("exportexcelxlsx/{fileDownloadName}")]
+        public async Task<IActionResult> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoExportExcelXlsxFileAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------
         // GET api/v1/blackoutstatus

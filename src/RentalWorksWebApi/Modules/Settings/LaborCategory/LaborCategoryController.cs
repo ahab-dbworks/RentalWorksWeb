@@ -9,13 +9,20 @@ namespace WebApi.Modules.Settings.LaborCategory
     [Route("api/v1/[controller]")]
     public class LaborCategoryController : AppDataController
     {
-        public LaborCategoryController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
+        public LaborCategoryController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(LaborCategoryLogic); }
         //------------------------------------------------------------------------------------
         // POST api/v1/laborcategory/browse
         [HttpPost("browse")]
         public async Task<IActionResult> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest, typeof(LaborCategoryLogic));
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
+        [HttpPost("exportexcelxlsx/{fileDownloadName}")]
+        public async Task<IActionResult> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoExportExcelXlsxFileAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------
         // GET api/v1/laborcategory

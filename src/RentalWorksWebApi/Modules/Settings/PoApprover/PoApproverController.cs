@@ -8,13 +8,20 @@ namespace WebApi.Modules.Settings.PoApprover
     [Route("api/v1/[controller]")]
     public class PoApproverController : AppDataController
     {
-        public PoApproverController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
+        public PoApproverController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(PoApproverLogic); }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/poapprover/browse 
         [HttpPost("browse")]
         public async Task<IActionResult> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest, typeof(PoApproverLogic));
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
+        [HttpPost("exportexcelxlsx/{fileDownloadName}")]
+        public async Task<IActionResult> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoExportExcelXlsxFileAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
         // GET api/v1/poapprover 

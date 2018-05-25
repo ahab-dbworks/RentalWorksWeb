@@ -9,13 +9,20 @@ namespace WebApi.Modules.Settings.OrganizationType
     [Route("api/v1/[controller]")]
     public class OrganizationTypeController : AppDataController
     {
-        public OrganizationTypeController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
+        public OrganizationTypeController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(OrganizationTypeLogic); }
         //------------------------------------------------------------------------------------
         // POST api/v1/organizationtype/browse
         [HttpPost("browse")]
         public async Task<IActionResult> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest, typeof(OrganizationTypeLogic));
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
+        [HttpPost("exportexcelxlsx/{fileDownloadName}")]
+        public async Task<IActionResult> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoExportExcelXlsxFileAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------
         // GET api/v1/organizationtype

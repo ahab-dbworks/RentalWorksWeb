@@ -8,13 +8,20 @@ namespace WebApi.Modules.Settings.PresentationLayer
     [Route("api/v1/[controller]")]
     public class PresentationLayerController : AppDataController
     {
-        public PresentationLayerController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
+        public PresentationLayerController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(PresentationLayerLogic); }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/presentationlayer/browse 
         [HttpPost("browse")]
         public async Task<IActionResult> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest, typeof(PresentationLayerLogic));
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
+        [HttpPost("exportexcelxlsx/{fileDownloadName}")]
+        public async Task<IActionResult> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoExportExcelXlsxFileAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
         // GET api/v1/presentationlayer 

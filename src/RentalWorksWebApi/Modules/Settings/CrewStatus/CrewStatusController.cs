@@ -10,7 +10,7 @@ namespace WebApi.Modules.Settings.CrewStatus
     [Route("api/v1/[controller]")]
     public class CrewStatusController : AppDataController
     {
-        public CrewStatusController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
+        public CrewStatusController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(CrewStatusLogic); }
         //------------------------------------------------------------------------------------
         // POST api/v1/crewstatus/browse
         [HttpPost("browse")]
@@ -18,6 +18,13 @@ namespace WebApi.Modules.Settings.CrewStatus
         public async Task<IActionResult> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest, typeof(CrewStatusLogic));
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
+        [HttpPost("exportexcelxlsx/{fileDownloadName}")]
+        public async Task<IActionResult> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoExportExcelXlsxFileAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------
         // GET api/v1/crewstatus

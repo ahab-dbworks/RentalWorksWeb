@@ -7,18 +7,25 @@ namespace WebApi.Modules.Home.ContactNote
 { 
 [Route("api/v1/[controller]")] 
 public class ContactNoteController : AppDataController 
-{ 
-public ContactNoteController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { } 
+{
+        public ContactNoteController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(ContactNoteLogic); }
 //------------------------------------------------------------------------------------ 
 // POST api/v1/contactnote/browse 
 [HttpPost("browse")] 
 public async Task<IActionResult> BrowseAsync([FromBody]BrowseRequest browseRequest) 
 { 
 return await DoBrowseAsync(browseRequest, typeof(ContactNoteLogic)); 
-} 
-//------------------------------------------------------------------------------------ 
-// GET api/v1/contactnote 
-[HttpGet] 
+}
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
+        [HttpPost("exportexcelxlsx/{fileDownloadName}")]
+        public async Task<IActionResult> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoExportExcelXlsxFileAsync(browseRequest);
+        }
+        //------------------------------------------------------------------------------------ 
+        // GET api/v1/contactnote 
+        [HttpGet] 
 public async Task<IActionResult> GetAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort) 
 { 
 return await DoGetAsync<ContactNoteLogic>(pageno, pagesize, sort, typeof(ContactNoteLogic)); 

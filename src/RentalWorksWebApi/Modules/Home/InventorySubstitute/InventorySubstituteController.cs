@@ -8,13 +8,20 @@ namespace WebApi.Modules.Home.InventorySubstitute
     [Route("api/v1/[controller]")]
     public class InventorySubstituteController : AppDataController
     {
-        public InventorySubstituteController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
+        public InventorySubstituteController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(InventorySubstituteLogic); }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/inventorysubstitute/browse 
         [HttpPost("browse")]
         public async Task<IActionResult> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest, typeof(InventorySubstituteLogic));
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
+        [HttpPost("exportexcelxlsx/{fileDownloadName}")]
+        public async Task<IActionResult> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoExportExcelXlsxFileAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
         // GET api/v1/inventorysubstitute 

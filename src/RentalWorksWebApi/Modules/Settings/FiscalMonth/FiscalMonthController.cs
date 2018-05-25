@@ -8,13 +8,20 @@ namespace WebApi.Modules.Settings.FiscalMonth
     [Route("api/v1/[controller]")]
     public class FiscalMonthController : AppDataController
     {
-        public FiscalMonthController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
+        public FiscalMonthController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(FiscalMonthLogic); }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/fiscalmonth/browse 
         [HttpPost("browse")]
         public async Task<IActionResult> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest, typeof(FiscalMonthLogic));
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
+        [HttpPost("exportexcelxlsx/{fileDownloadName}")]
+        public async Task<IActionResult> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoExportExcelXlsxFileAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
         // GET api/v1/fiscalmonth 

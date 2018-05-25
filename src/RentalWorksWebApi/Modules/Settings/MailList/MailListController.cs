@@ -9,13 +9,20 @@ namespace WebApi.Modules.Settings.MailList
     [Route("api/v1/[controller]")]
     public class MailListController : AppDataController
     {
-        public MailListController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
+        public MailListController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(MailListLogic); }
         //------------------------------------------------------------------------------------
         // POST api/v1/maillist/browse
         [HttpPost("browse")]
         public async Task<IActionResult> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest, typeof(MailListLogic));
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
+        [HttpPost("exportexcelxlsx/{fileDownloadName}")]
+        public async Task<IActionResult> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoExportExcelXlsxFileAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------
         // GET api/v1/maillist

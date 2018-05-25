@@ -10,7 +10,7 @@ namespace WebApi.Modules.Settings.FacilityStatus
     [Route("api/v1/[controller]")]
     public class FacilityStatusController : AppDataController
     {
-        public FacilityStatusController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
+        public FacilityStatusController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(FacilityStatusLogic); }
         //------------------------------------------------------------------------------------
         // POST api/v1/facilitystatus/browse
         [HttpPost("browse")]
@@ -18,6 +18,13 @@ namespace WebApi.Modules.Settings.FacilityStatus
         public async Task<IActionResult> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest, typeof(FacilityStatusLogic));
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
+        [HttpPost("exportexcelxlsx/{fileDownloadName}")]
+        public async Task<IActionResult> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoExportExcelXlsxFileAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------
         // GET api/v1/facilitystatus

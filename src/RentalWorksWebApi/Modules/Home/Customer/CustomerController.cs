@@ -9,13 +9,20 @@ namespace WebApi.Modules.Home.Customer
     [Route("api/v1/[controller]")]
     public class CustomerController : AppDataController
     {
-        public CustomerController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
+        public CustomerController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(CustomerLogic); }
         //------------------------------------------------------------------------------------
         // POST api/v1/customer/browse
         [HttpPost("browse")]
         public async Task<IActionResult> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest, typeof(CustomerLogic));
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
+        [HttpPost("exportexcelxlsx/{fileDownloadName}")]
+        public async Task<IActionResult> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoExportExcelXlsxFileAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------
         // GET api/v1/customer

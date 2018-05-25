@@ -9,13 +9,20 @@ namespace WebApi.Modules.Settings.VendorClass
     [Route("api/v1/[controller]")]
     public class VendorClassController : AppDataController
     {
-        public VendorClassController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
+        public VendorClassController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(VendorClassLogic); }
         //------------------------------------------------------------------------------------
         // POST api/v1/vendorclass/browse
         [HttpPost("browse")]
         public async Task<IActionResult> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest, typeof(VendorClassLogic));
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
+        [HttpPost("exportexcelxlsx/{fileDownloadName}")]
+        public async Task<IActionResult> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoExportExcelXlsxFileAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------
         // GET api/v1/vendorclass

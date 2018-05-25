@@ -8,13 +8,20 @@ namespace WebApi.Modules.Home.RepairCost
     [Route("api/v1/[controller]")]
     public class RepairCostController : AppDataController
     {
-        public RepairCostController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
+        public RepairCostController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(RepairCostLogic); }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/repaircost/browse 
         [HttpPost("browse")]
         public async Task<IActionResult> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest, typeof(RepairCostLogic));
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
+        [HttpPost("exportexcelxlsx/{fileDownloadName}")]
+        public async Task<IActionResult> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoExportExcelXlsxFileAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
         // GET api/v1/repaircost 

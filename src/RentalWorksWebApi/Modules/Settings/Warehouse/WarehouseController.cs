@@ -9,13 +9,20 @@ namespace WebApi.Modules.Settings.Warehouse
     [Route("api/v1/[controller]")]
     public class WarehouseController : AppDataController
     {
-        public WarehouseController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
+        public WarehouseController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(WarehouseLogic); }
         //------------------------------------------------------------------------------------
         // POST api/v1/customertype/browse
         [HttpPost("browse")]
         public async Task<IActionResult> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest, typeof(WarehouseLogic));
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
+        [HttpPost("exportexcelxlsx/{fileDownloadName}")]
+        public async Task<IActionResult> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoExportExcelXlsxFileAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------
         // GET api/v1/customertype

@@ -9,13 +9,20 @@ namespace WebApi.Modules.Settings.WardrobeSource
     [Route("api/v1/[controller]")]
     public class WardrobeSourceController : AppDataController
     {
-        public WardrobeSourceController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
+        public WardrobeSourceController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(WardrobeSourceLogic); }
         //------------------------------------------------------------------------------------
         // POST api/v1/wardrobesource/browse
         [HttpPost("browse")]
         public async Task<IActionResult> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest, typeof(WardrobeSourceLogic));
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
+        [HttpPost("exportexcelxlsx/{fileDownloadName}")]
+        public async Task<IActionResult> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoExportExcelXlsxFileAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------
         // GET api/v1/wardrobesource

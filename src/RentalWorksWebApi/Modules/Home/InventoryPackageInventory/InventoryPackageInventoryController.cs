@@ -8,13 +8,20 @@ namespace WebApi.Modules.Home.InventoryPackageInventory
     [Route("api/v1/[controller]")]
     public class InventoryPackageInventoryController : AppDataController
     {
-        public InventoryPackageInventoryController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
+        public InventoryPackageInventoryController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(InventoryPackageInventoryLogic); }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/inventorypackageinventory/browse 
         [HttpPost("browse")]
         public async Task<IActionResult> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest, typeof(InventoryPackageInventoryLogic));
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
+        [HttpPost("exportexcelxlsx/{fileDownloadName}")]
+        public async Task<IActionResult> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoExportExcelXlsxFileAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
         // GET api/v1/inventorypackageinventory 

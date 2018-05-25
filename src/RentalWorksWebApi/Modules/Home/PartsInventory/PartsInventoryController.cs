@@ -9,13 +9,20 @@ namespace WebApi.Modules.Home.PartsInventory
     [Route("api/v1/[controller]")]
     public class PartsInventoryController : AppDataController
     {
-        public PartsInventoryController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
+        public PartsInventoryController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(PartsInventoryLogic); }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/partsinventory/browse 
         [HttpPost("browse")]
         public async Task<IActionResult> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest, typeof(PartsInventoryLogic));
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
+        [HttpPost("exportexcelxlsx/{fileDownloadName}")]
+        public async Task<IActionResult> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoExportExcelXlsxFileAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
         // GET api/v1/partsinventory 

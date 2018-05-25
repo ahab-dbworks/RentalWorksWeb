@@ -9,13 +9,20 @@ namespace WebApi.Modules.Settings.ScheduleType
     [Route("api/v1/[controller]")]
     public class ScheduleTypeController : AppDataController
     {
-        public ScheduleTypeController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
+        public ScheduleTypeController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(ScheduleTypeLogic); }
         //------------------------------------------------------------------------------------
         // POST api/v1/scheduletype/browse
         [HttpPost("browse")]
         public async Task<IActionResult> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest, typeof(ScheduleTypeLogic));
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
+        [HttpPost("exportexcelxlsx/{fileDownloadName}")]
+        public async Task<IActionResult> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoExportExcelXlsxFileAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------
         // GET api/v1/scheduletype

@@ -8,13 +8,20 @@ namespace WebApi.Modules.Settings.OrderTypeContactTitle
     [Route("api/v1/[controller]")]
     public class OrderTypeContactTitleController : AppDataController
     {
-        public OrderTypeContactTitleController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
+        public OrderTypeContactTitleController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(OrderTypeContactTitleLogic); }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/ordertypecontacttitle/browse 
         [HttpPost("browse")]
         public async Task<IActionResult> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest, typeof(OrderTypeContactTitleLogic));
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
+        [HttpPost("exportexcelxlsx/{fileDownloadName}")]
+        public async Task<IActionResult> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoExportExcelXlsxFileAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
         // GET api/v1/ordertypecontacttitle 

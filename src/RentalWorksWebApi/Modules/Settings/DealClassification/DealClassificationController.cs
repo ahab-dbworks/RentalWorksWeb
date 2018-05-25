@@ -10,7 +10,7 @@ namespace WebApi.Modules.Settings.DealClassification
     [Route("api/v1/[controller]")]
     public class DealClassificationController : AppDataController
     {
-        public DealClassificationController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
+        public DealClassificationController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(DealClassificationLogic); }
         //------------------------------------------------------------------------------------
         // POST api/v1/customerstatus/browse
         [HttpPost("browse")]
@@ -18,6 +18,13 @@ namespace WebApi.Modules.Settings.DealClassification
         public async Task<IActionResult> Browse([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest, typeof(DealClassificationLogic));
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
+        [HttpPost("exportexcelxlsx/{fileDownloadName}")]
+        public async Task<IActionResult> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoExportExcelXlsxFileAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------
         // GET api/v1/customerstatus

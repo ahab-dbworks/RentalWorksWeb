@@ -14,13 +14,20 @@ namespace WebApi.Modules.Home.Quote
     [Route("api/v1/[controller]")]
     public class QuoteController : AppDataController
     {
-        public QuoteController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
+        public QuoteController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(QuoteLogic); }
         //------------------------------------------------------------------------------------
         // POST api/v1/quote/browse
         [HttpPost("browse")]
         public async Task<IActionResult> Browse([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest, typeof(QuoteLogic));
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
+        [HttpPost("exportexcelxlsx/{fileDownloadName}")]
+        public async Task<IActionResult> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoExportExcelXlsxFileAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------
         // POST api/v1/quote/copy/A0000001

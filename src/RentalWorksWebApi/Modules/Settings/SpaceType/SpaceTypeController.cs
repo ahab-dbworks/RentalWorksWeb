@@ -8,13 +8,20 @@ namespace WebApi.Modules.Settings.SpaceType
     [Route("api/v1/[controller]")]
     public class SpaceTypeController : AppDataController
     {
-        public SpaceTypeController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
+        public SpaceTypeController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(SpaceTypeLogic); }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/spacetype/browse 
         [HttpPost("browse")]
         public async Task<IActionResult> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest, typeof(SpaceTypeLogic));
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
+        [HttpPost("exportexcelxlsx/{fileDownloadName}")]
+        public async Task<IActionResult> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoExportExcelXlsxFileAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
         // GET api/v1/spacetype 

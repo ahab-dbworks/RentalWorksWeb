@@ -13,13 +13,20 @@ namespace WebApi.Modules.Home.PickListUtilityItem
     [Route("api/v1/[controller]")]
     public class PickListUtilityItemController : AppDataController
     {
-        public PickListUtilityItemController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
+        public PickListUtilityItemController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(PickListUtilityItemLogic); }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/picklistutilityitem/browse 
         [HttpPost("browse")]
         public async Task<IActionResult> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest, typeof(PickListUtilityItemLogic));
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
+        [HttpPost("exportexcelxlsx/{fileDownloadName}")]
+        public async Task<IActionResult> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoExportExcelXlsxFileAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/picklistutilityitem 

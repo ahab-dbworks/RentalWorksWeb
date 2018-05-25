@@ -9,13 +9,20 @@ namespace WebApi.Modules.Settings.LaborRate
     [Route("api/v1/[controller]")]
     public class LaborRateController : AppDataController
     {
-        public LaborRateController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
+        public LaborRateController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(LaborRateLogic); }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/laborrate/browse 
         [HttpPost("browse")]
         public async Task<IActionResult> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest, typeof(LaborRateLogic));
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
+        [HttpPost("exportexcelxlsx/{fileDownloadName}")]
+        public async Task<IActionResult> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoExportExcelXlsxFileAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
         // GET api/v1/laborrate 

@@ -10,7 +10,7 @@ namespace WebApi.Modules.Settings.DocumentType
     [Route("api/v1/[controller]")]
     public class DocumentTypeController : AppDataController
     {
-        public DocumentTypeController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
+        public DocumentTypeController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(DocumentTypeLogic); }
         //------------------------------------------------------------------------------------
         // POST api/v1/documenttype/browse
         [HttpPost("browse")]
@@ -18,6 +18,13 @@ namespace WebApi.Modules.Settings.DocumentType
         public async Task<IActionResult> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest, typeof(DocumentTypeLogic));
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
+        [HttpPost("exportexcelxlsx/{fileDownloadName}")]
+        public async Task<IActionResult> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoExportExcelXlsxFileAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------
         // GET api/v1/documenttype

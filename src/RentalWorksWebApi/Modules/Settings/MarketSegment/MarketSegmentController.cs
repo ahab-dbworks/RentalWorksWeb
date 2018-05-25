@@ -8,13 +8,20 @@ namespace WebApi.Modules.Settings.MarketSegment
     [Route("api/v1/[controller]")]
     public class MarketSegmentController : AppDataController
     {
-        public MarketSegmentController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
+        public MarketSegmentController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(MarketSegmentLogic); }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/marketsegment/browse 
         [HttpPost("browse")]
         public async Task<IActionResult> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest, typeof(MarketSegmentLogic));
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
+        [HttpPost("exportexcelxlsx/{fileDownloadName}")]
+        public async Task<IActionResult> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoExportExcelXlsxFileAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
         // GET api/v1/marketsegment 

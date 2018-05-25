@@ -9,13 +9,20 @@ namespace WebApi.Modules.Settings.ProductionType
     [Route("api/v1/[controller]")]
     public class ProductionTypeController : AppDataController
     {
-        public ProductionTypeController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
+        public ProductionTypeController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(ProductionTypeLogic); }
         //------------------------------------------------------------------------------------
         // POST api/v1/productiontype/browse
         [HttpPost("browse")]
         public async Task<IActionResult> Browse([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest, typeof(ProductionTypeLogic));
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
+        [HttpPost("exportexcelxlsx/{fileDownloadName}")]
+        public async Task<IActionResult> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoExportExcelXlsxFileAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------
         // GET api/v1/productiontype

@@ -10,7 +10,7 @@ namespace WebApi.Modules.Settings.InventoryCondition
     [Route("api/v1/[controller]")]
     public class InventoryConditionController : AppDataController
     {
-        public InventoryConditionController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
+        public InventoryConditionController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(InventoryConditionLogic); }
         //------------------------------------------------------------------------------------
         // POST api/v1/inventorycondition/browse
         [HttpPost("browse")]
@@ -18,6 +18,13 @@ namespace WebApi.Modules.Settings.InventoryCondition
         public async Task<IActionResult> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest, typeof(InventoryConditionLogic));
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
+        [HttpPost("exportexcelxlsx/{fileDownloadName}")]
+        public async Task<IActionResult> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoExportExcelXlsxFileAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------
         // GET api/v1/inventorycondition

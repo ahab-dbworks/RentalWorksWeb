@@ -8,13 +8,20 @@ namespace WebApi.Modules.Settings.WarehouseDepartment
     [Route("api/v1/[controller]")]
     public class WarehouseDepartmentController : AppDataController
     {
-        public WarehouseDepartmentController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
+        public WarehouseDepartmentController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(WarehouseDepartmentLogic); }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/warehousedepartment/browse 
         [HttpPost("browse")]
         public async Task<IActionResult> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest, typeof(WarehouseDepartmentLogic));
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
+        [HttpPost("exportexcelxlsx/{fileDownloadName}")]
+        public async Task<IActionResult> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoExportExcelXlsxFileAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
         // GET api/v1/warehousedepartment 

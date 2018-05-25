@@ -8,13 +8,20 @@ namespace WebApi.Modules.Settings.InventoryRank
     [Route("api/v1/[controller]")]
     public class InventoryRankController : AppDataController
     {
-        public InventoryRankController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
+        public InventoryRankController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(InventoryRankLogic); }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/inventoryrank/browse 
         [HttpPost("browse")]
         public async Task<IActionResult> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest, typeof(InventoryRankLogic));
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
+        [HttpPost("exportexcelxlsx/{fileDownloadName}")]
+        public async Task<IActionResult> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoExportExcelXlsxFileAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
         // GET api/v1/inventoryrank 

@@ -20,6 +20,13 @@ namespace WebApi.Modules.Administrator.Test
         //{
         //    return await DoBrowseAsync(browseRequest, typeof(TestLogic));
         //}
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
+        [HttpPost("exportexcelxlsx/{fileDownloadName}")]
+        public async Task<IActionResult> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoExportExcelXlsxFileAsync(browseRequest);
+        }
         ////------------------------------------------------------------------------------------ 
         // GET api/v1/test 
         [HttpGet]

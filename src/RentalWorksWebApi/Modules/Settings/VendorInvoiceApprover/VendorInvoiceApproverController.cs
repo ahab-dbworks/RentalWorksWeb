@@ -8,13 +8,20 @@ namespace WebApi.Modules.Settings.VendorInvoiceApprover
     [Route("api/v1/[controller]")]
     public class VendorInvoiceApproverController : AppDataController
     {
-        public VendorInvoiceApproverController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
+        public VendorInvoiceApproverController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(VendorInvoiceApproverLogic); }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/vendorinvoiceapprover/browse 
         [HttpPost("browse")]
         public async Task<IActionResult> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest, typeof(VendorInvoiceApproverLogic));
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
+        [HttpPost("exportexcelxlsx/{fileDownloadName}")]
+        public async Task<IActionResult> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoExportExcelXlsxFileAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
         // GET api/v1/vendorinvoiceapprover 

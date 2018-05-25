@@ -9,13 +9,20 @@ namespace WebApi.Modules.Settings.WardrobeCare
     [Route("api/v1/[controller]")]
     public class WardrobeCareController : AppDataController
     {
-        public WardrobeCareController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
+        public WardrobeCareController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(WardrobeCareLogic); }
         //------------------------------------------------------------------------------------
         // POST api/v1/wardrobecare/browse
         [HttpPost("browse")]
         public async Task<IActionResult> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest, typeof(WardrobeCareLogic));
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
+        [HttpPost("exportexcelxlsx/{fileDownloadName}")]
+        public async Task<IActionResult> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoExportExcelXlsxFileAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------
         // GET api/v1/wardrobecare

@@ -9,7 +9,7 @@ namespace WebApi.Modules.Settings.OfficeLocation
     [Route("api/v1/[controller]")]
     public class OfficeLocationController : AppDataController
     {
-        public OfficeLocationController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
+        public OfficeLocationController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(OfficeLocationLogic); }
         //------------------------------------------------------------------------------------
         // POST api/v1/Location/browse
         [HttpPost("browse")]
@@ -17,7 +17,14 @@ namespace WebApi.Modules.Settings.OfficeLocation
         {
             return await DoBrowseAsync(browseRequest, typeof(OfficeLocationLogic
                 ));
+        }        //------------------------------------------------------------------------------------ 
+        // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
+        [HttpPost("exportexcelxlsx/{fileDownloadName}")]
+        public async Task<IActionResult> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoExportExcelXlsxFileAsync(browseRequest);
         }
+
         //------------------------------------------------------------------------------------
         // GET api/v1/Location
         [HttpGet]

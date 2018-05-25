@@ -9,13 +9,20 @@ namespace WebApi.Modules.Settings.Region
     [Route("api/v1/[controller]")]
     public class RegionController : AppDataController
     {
-        public RegionController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
+        public RegionController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(RegionLogic); }
         //------------------------------------------------------------------------------------
         // POST api/v1/region/browse
         [HttpPost("browse")]
         public async Task<IActionResult> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest, typeof(RegionLogic));
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
+        [HttpPost("exportexcelxlsx/{fileDownloadName}")]
+        public async Task<IActionResult> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoExportExcelXlsxFileAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------
         // GET api/v1/region

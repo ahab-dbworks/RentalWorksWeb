@@ -13,7 +13,7 @@ namespace WebApi.Modules.Settings.VendorCatalog
     //[ApiExplorerSettings(GroupName = "v1")]
     public class VendorCatalogController : AppDataController
     {
-        public VendorCatalogController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
+        public VendorCatalogController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(VendorCatalogLogic); }
         //------------------------------------------------------------------------------------
         // POST api/v1/vendorcatalog/browse
         /// <summary>
@@ -28,6 +28,13 @@ namespace WebApi.Modules.Settings.VendorCatalog
         public async Task<IActionResult> Browse([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest, typeof(VendorCatalogLogic));
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
+        [HttpPost("exportexcelxlsx/{fileDownloadName}")]
+        public async Task<IActionResult> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoExportExcelXlsxFileAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------
         // GET api/v1/vendorcatalog

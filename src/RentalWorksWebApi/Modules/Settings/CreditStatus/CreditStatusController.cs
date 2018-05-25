@@ -10,7 +10,7 @@ namespace WebApi.Modules.Settings.CreditStatus
     [Route("api/v1/[controller]")]
     public class CreditStatusController : AppDataController
     {
-        public CreditStatusController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
+        public CreditStatusController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(CreditStatusLogic); }
         //------------------------------------------------------------------------------------
         // POST api/v1/creditstatus/browse
         [HttpPost("browse")]
@@ -18,6 +18,13 @@ namespace WebApi.Modules.Settings.CreditStatus
         public async Task<IActionResult> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest, typeof(CreditStatusLogic));
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
+        [HttpPost("exportexcelxlsx/{fileDownloadName}")]
+        public async Task<IActionResult> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoExportExcelXlsxFileAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------
         // GET api/v1/creditstatus

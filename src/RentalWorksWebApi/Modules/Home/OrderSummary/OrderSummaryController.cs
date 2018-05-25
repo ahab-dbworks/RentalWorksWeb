@@ -9,7 +9,7 @@ namespace WebApi.Modules.Home.OrderSummary
     [Route("api/v1/[controller]")]
     public class OrderSummaryController : AppDataController
     {
-        public OrderSummaryController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
+        public OrderSummaryController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(OrderSummaryLogic); }
         //------------------------------------------------------------------------------------
         // GET api/v1/ordersummary/A0000001
         [HttpGet("{id}")]

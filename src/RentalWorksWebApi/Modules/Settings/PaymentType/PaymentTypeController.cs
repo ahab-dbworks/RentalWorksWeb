@@ -9,13 +9,20 @@ namespace WebApi.Modules.Settings.PaymentType
     [Route("api/v1/[controller]")]
     public class PaymentTypeController : AppDataController
     {
-        public PaymentTypeController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
+        public PaymentTypeController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(PaymentTypeLogic); }
         //------------------------------------------------------------------------------------
         // POST api/v1/paymenttype/browse
         [HttpPost("browse")]
         public async Task<IActionResult> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest, typeof(PaymentTypeLogic));
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
+        [HttpPost("exportexcelxlsx/{fileDownloadName}")]
+        public async Task<IActionResult> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoExportExcelXlsxFileAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------
         // GET api/v1/paymenttype

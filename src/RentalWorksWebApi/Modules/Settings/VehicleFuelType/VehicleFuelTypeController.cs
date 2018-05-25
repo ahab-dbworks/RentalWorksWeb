@@ -9,13 +9,20 @@ namespace WebApi.Modules.Settings.VehicleFuelType
     [Route("api/v1/[controller]")]
     public class VehicleFuelTypeController : AppDataController
     {
-        public VehicleFuelTypeController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
+        public VehicleFuelTypeController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(VehicleFuelTypeLogic); }
         //------------------------------------------------------------------------------------
         // POST api/v1/vehiclefueltype/browse
         [HttpPost("browse")]
         public async Task<IActionResult> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest, typeof(VehicleFuelTypeLogic));
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
+        [HttpPost("exportexcelxlsx/{fileDownloadName}")]
+        public async Task<IActionResult> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoExportExcelXlsxFileAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------
         // GET api/v1/vehiclefueltype

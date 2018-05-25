@@ -13,22 +13,22 @@ namespace WebApi.Modules.Home.Order
     [Route("api/v1/[controller]")]
     public class OrderController : AppDataController
     {
-        public OrderController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
+        public OrderController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(OrderLogic); }
         //------------------------------------------------------------------------------------
         // POST api/v1/order/browse
         [HttpPost("browse")]
         public async Task<IActionResult> Browse([FromBody]BrowseRequest browseRequest)
         {
-            return await DoBrowseAsync(browseRequest, typeof(OrderLogic));
+            return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/order/exportexcelxlsx/filedownloadname 
+        // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
         [HttpPost("exportexcelxlsx/{fileDownloadName}")]
         public async Task<IActionResult> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
         {
-            return await DoExportExcelXlsxFileAsync(browseRequest, typeof(OrderLogic), "Orders");
+            return await DoExportExcelXlsxFileAsync(browseRequest);
         }
-        //------------------------------------------------------------------------------------
+        //------------------------------------------------------------------------------------ 
         // POST api/v1/order/copy/A0000001
         [HttpPost("copy/{id}")]
         public async Task<IActionResult> Copy([FromRoute]string id, [FromBody] QuoteOrderCopyRequest copyRequest)
@@ -68,7 +68,7 @@ namespace WebApi.Modules.Home.Order
                 jsonException.StackTrace = ex.StackTrace;
                 return StatusCode(jsonException.StatusCode, jsonException);
             }
-    }
+        }
         //------------------------------------------------------------------------------------
         // POST api/v1/order/applybottomlinedaysperweek
         [HttpPost("applybottomlinedaysperweek")]

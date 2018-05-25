@@ -23,7 +23,7 @@ namespace WebApi.Modules.Home.InventorySearchPreview
         //------------------------------------------------------------------------------------ 
 
 
-        public InventorySearchPreviewController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
+        public InventorySearchPreviewController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(InventorySearchPreviewLogic); }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/inventorysearchpreview/browse 
         [HttpPost("browse")]

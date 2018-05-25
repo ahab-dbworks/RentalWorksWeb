@@ -8,13 +8,20 @@ namespace WebApi.Modules.Settings.Holiday
     [Route("api/v1/[controller]")]
     public class HolidayController : AppDataController
     {
-        public HolidayController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
+        public HolidayController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(HolidayLogic); }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/holiday/browse 
         [HttpPost("browse")]
         public async Task<IActionResult> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest, typeof(HolidayLogic));
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
+        [HttpPost("exportexcelxlsx/{fileDownloadName}")]
+        public async Task<IActionResult> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoExportExcelXlsxFileAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
         // GET api/v1/holiday 

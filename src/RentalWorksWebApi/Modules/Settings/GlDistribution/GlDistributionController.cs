@@ -8,13 +8,20 @@ namespace WebApi.Modules.Settings.GlDistribution
     [Route("api/v1/[controller]")]
     public class GlDistributionController : AppDataController
     {
-        public GlDistributionController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
+        public GlDistributionController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(GlDistributionLogic); }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/gldistribution/browse 
         [HttpPost("browse")]
         public async Task<IActionResult> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest, typeof(GlDistributionLogic));
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
+        [HttpPost("exportexcelxlsx/{fileDownloadName}")]
+        public async Task<IActionResult> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoExportExcelXlsxFileAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
         // GET api/v1/gldistribution 

@@ -8,13 +8,20 @@ namespace WebApi.Modules.Administrator.CustomField
     [Route("api/v1/[controller]")]
     public class CustomFieldController : AppDataController
     {
-        public CustomFieldController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
+        public CustomFieldController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(CustomFieldLogic); }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/customfield/browse 
         [HttpPost("browse")]
         public async Task<IActionResult> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest, typeof(CustomFieldLogic));
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
+        [HttpPost("exportexcelxlsx/{fileDownloadName}")]
+        public async Task<IActionResult> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoExportExcelXlsxFileAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
         // GET api/v1/customfield 

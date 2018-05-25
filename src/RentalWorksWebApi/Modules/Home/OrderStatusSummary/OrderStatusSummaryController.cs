@@ -8,13 +8,20 @@ namespace WebApi.Modules.Home.OrderStatusSummary
     [Route("api/v1/[controller]")]
     public class OrderStatusSummaryController : AppDataController
     {
-        public OrderStatusSummaryController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
+        public OrderStatusSummaryController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(OrderStatusSummaryLogic); }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/orderstatussummary/browse 
         [HttpPost("browse")]
         public async Task<IActionResult> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest, typeof(OrderStatusSummaryLogic));
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
+        [HttpPost("exportexcelxlsx/{fileDownloadName}")]
+        public async Task<IActionResult> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoExportExcelXlsxFileAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
         //// GET api/v1/orderstatussummary 

@@ -10,7 +10,7 @@ namespace WebApi.Modules.Settings.Currency
     [Route("api/v1/[controller]")]
     public class CurrencyController : AppDataController
     {
-        public CurrencyController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
+        public CurrencyController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(CurrencyLogic); }
         //------------------------------------------------------------------------------------
         // POST api/v1/currency/browse
         [HttpPost("browse")]
@@ -19,6 +19,13 @@ namespace WebApi.Modules.Settings.Currency
         {
             System.Console.WriteLine("Currency Browse");
             return await DoBrowseAsync(browseRequest, typeof(CurrencyLogic));
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
+        [HttpPost("exportexcelxlsx/{fileDownloadName}")]
+        public async Task<IActionResult> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoExportExcelXlsxFileAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------
         // GET api/v1/currency

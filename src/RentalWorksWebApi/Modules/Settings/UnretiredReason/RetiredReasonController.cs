@@ -9,13 +9,20 @@ namespace WebApi.Modules.Settings.UnretiredReason
     [Route("api/v1/[controller]")]
     public class UnretiredReasonController : AppDataController
     {
-        public UnretiredReasonController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
+        public UnretiredReasonController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(UnretiredReasonLogic); }
         //------------------------------------------------------------------------------------
         // POST api/v1/unretiredreason/browse
         [HttpPost("browse")]
         public async Task<IActionResult> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest, typeof(UnretiredReasonLogic));
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
+        [HttpPost("exportexcelxlsx/{fileDownloadName}")]
+        public async Task<IActionResult> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoExportExcelXlsxFileAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------
         // GET api/v1/unretiredreason

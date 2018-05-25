@@ -10,7 +10,7 @@ namespace WebApi.Modules.Settings.GeneratorRating
     [Route("api/v1/[controller]")]
     public class GeneratorRatingController : AppDataController
     {
-        public GeneratorRatingController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
+        public GeneratorRatingController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(GeneratorRatingLogic); }
         //------------------------------------------------------------------------------------
         // POST api/v1/generatorrating/browse
         [HttpPost("browse")]
@@ -18,6 +18,13 @@ namespace WebApi.Modules.Settings.GeneratorRating
         public async Task<IActionResult> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest, typeof(GeneratorRatingLogic));
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
+        [HttpPost("exportexcelxlsx/{fileDownloadName}")]
+        public async Task<IActionResult> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoExportExcelXlsxFileAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------
         // GET api/v1/generatorrating

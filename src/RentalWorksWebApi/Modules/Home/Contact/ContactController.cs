@@ -13,7 +13,7 @@ namespace WebApi.Modules.Home.Contact
     [ApiExplorerSettings(GroupName = "v1")]
     public class ContactController : AppDataController
     {
-        public ContactController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
+        public ContactController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(ContactLogic); }
         //------------------------------------------------------------------------------------
         // POST api/v1/customerstatus/browse
         /// <summary>
@@ -30,6 +30,13 @@ namespace WebApi.Modules.Home.Contact
         public async Task<IActionResult> Browse([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest, typeof(ContactLogic));
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
+        [HttpPost("exportexcelxlsx/{fileDownloadName}")]
+        public async Task<IActionResult> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoExportExcelXlsxFileAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------
         // GET api/v1/customerstatus

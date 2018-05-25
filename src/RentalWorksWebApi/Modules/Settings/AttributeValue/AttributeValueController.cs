@@ -9,13 +9,20 @@ namespace WebApi.Modules.Settings.AttributeValue
     [Route("api/v1/[controller]")]
     public class AttributeValueController : AppDataController
     {
-        public AttributeValueController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
+        public AttributeValueController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(AttributeValueLogic); }
         //------------------------------------------------------------------------------------
         // POST api/v1/attributevalue/browse
         [HttpPost("browse")]
         public async Task<IActionResult> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest, typeof(AttributeValueLogic));
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
+        [HttpPost("exportexcelxlsx/{fileDownloadName}")]
+        public async Task<IActionResult> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoExportExcelXlsxFileAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------
         // GET api/v1/attributevalue

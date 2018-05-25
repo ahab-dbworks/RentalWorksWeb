@@ -9,13 +9,20 @@ namespace WebApi.Modules.Settings.RateWarehouse
     [Route("api/v1/[controller]")]
     public class RateWarehouseController : AppDataController
     {
-        public RateWarehouseController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
+        public RateWarehouseController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(RateWarehouseLogic); }
         //------------------------------------------------------------------------------------
         // POST api/v1/ratewarehouse/browse
         [HttpPost("browse")]
         public async Task<IActionResult> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest, typeof(RateWarehouseLogic));
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
+        [HttpPost("exportexcelxlsx/{fileDownloadName}")]
+        public async Task<IActionResult> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoExportExcelXlsxFileAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------
         // GET api/v1/ratewarehouse

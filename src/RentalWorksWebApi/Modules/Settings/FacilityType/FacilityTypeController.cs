@@ -9,13 +9,20 @@ namespace WebApi.Modules.Settings.FacilityType
     [Route("api/v1/[controller]")]
     public class FacilityTypeController : AppDataController
     {
-        public FacilityTypeController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
+        public FacilityTypeController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(FacilityTypeLogic); }
         //------------------------------------------------------------------------------------
         // POST api/v1/facilitytype/browse
         [HttpPost("browse")]
         public async Task<IActionResult> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest, typeof(FacilityTypeLogic));
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
+        [HttpPost("exportexcelxlsx/{fileDownloadName}")]
+        public async Task<IActionResult> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoExportExcelXlsxFileAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------
         // GET api/v1/facilitytype

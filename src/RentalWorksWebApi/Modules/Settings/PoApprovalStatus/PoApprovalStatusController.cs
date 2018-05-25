@@ -8,13 +8,20 @@ namespace WebApi.Modules.Settings.PoApprovalStatus
     [Route("api/v1/[controller]")]
     public class PoApprovalStatusController : AppDataController
     {
-        public PoApprovalStatusController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
+        public PoApprovalStatusController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(PoApprovalStatusLogic); }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/poapprovalstatus/browse 
         [HttpPost("browse")]
         public async Task<IActionResult> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest, typeof(PoApprovalStatusLogic));
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
+        [HttpPost("exportexcelxlsx/{fileDownloadName}")]
+        public async Task<IActionResult> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoExportExcelXlsxFileAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
         // GET api/v1/poapprovalstatus 

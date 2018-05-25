@@ -8,13 +8,20 @@ namespace WebApi.Modules.Home.Company
     [Route("api/v1/[controller]")]
     public class CompanyController : AppDataController
     {
-        public CompanyController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
+        public CompanyController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(CompanyLogic); }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/company/browse 
         [HttpPost("browse")]
         public async Task<IActionResult> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest, typeof(CompanyLogic));
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
+        [HttpPost("exportexcelxlsx/{fileDownloadName}")]
+        public async Task<IActionResult> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoExportExcelXlsxFileAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
         // GET api/v1/company 

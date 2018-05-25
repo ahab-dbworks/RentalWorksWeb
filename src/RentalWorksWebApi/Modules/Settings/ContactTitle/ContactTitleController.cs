@@ -10,7 +10,7 @@ namespace WebApi.Modules.Settings.ContactTitle
     [Route("api/v1/[controller]")]
     public class ContactTitleController : AppDataController
     {
-        public ContactTitleController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
+        public ContactTitleController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(ContactTitleLogic); }
         //------------------------------------------------------------------------------------
         // POST api/v1/contacttitle/browse
         [HttpPost("browse")]
@@ -18,6 +18,13 @@ namespace WebApi.Modules.Settings.ContactTitle
         public async Task<IActionResult> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest, typeof(ContactTitleLogic));
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
+        [HttpPost("exportexcelxlsx/{fileDownloadName}")]
+        public async Task<IActionResult> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoExportExcelXlsxFileAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------
         // GET api/v1/contacttitle

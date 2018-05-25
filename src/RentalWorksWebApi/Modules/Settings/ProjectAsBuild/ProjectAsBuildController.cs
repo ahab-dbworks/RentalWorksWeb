@@ -8,13 +8,20 @@ namespace WebApi.Modules.Settings.ProjectAsBuild
     [Route("api/v1/[controller]")]
     public class ProjectAsBuildController : AppDataController
     {
-        public ProjectAsBuildController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
+        public ProjectAsBuildController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(ProjectAsBuildLogic); }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/projectasbuild/browse 
         [HttpPost("browse")]
         public async Task<IActionResult> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest, typeof(ProjectAsBuildLogic));
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
+        [HttpPost("exportexcelxlsx/{fileDownloadName}")]
+        public async Task<IActionResult> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoExportExcelXlsxFileAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
         // GET api/v1/projectasbuild 

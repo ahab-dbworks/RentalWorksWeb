@@ -12,7 +12,7 @@ namespace WebApi.Modules.Settings.BillingCycle
     [Route("api/v1/[controller]")]
     public class BillingCycleController : AppDataController
     {
-        public BillingCycleController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
+        public BillingCycleController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(BillingCycleLogic); }
         //------------------------------------------------------------------------------------
         // POST api/v1/billingcycle/browse
         [HttpPost("browse")]
@@ -20,6 +20,13 @@ namespace WebApi.Modules.Settings.BillingCycle
         public async Task<IActionResult> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest, typeof(BillingCycleLogic));
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
+        [HttpPost("exportexcelxlsx/{fileDownloadName}")]
+        public async Task<IActionResult> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoExportExcelXlsxFileAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------
         // GET api/v1/billingcycle

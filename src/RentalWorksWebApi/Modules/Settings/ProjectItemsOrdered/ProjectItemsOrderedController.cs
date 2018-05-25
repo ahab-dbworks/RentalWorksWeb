@@ -8,13 +8,20 @@ namespace WebApi.Modules.Settings.ProjectItemsOrdered
     [Route("api/v1/[controller]")]
     public class ProjectItemsOrderedController : AppDataController
     {
-        public ProjectItemsOrderedController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
+        public ProjectItemsOrderedController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(ProjectItemsOrderedLogic); }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/projectitemsordered/browse 
         [HttpPost("browse")]
         public async Task<IActionResult> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest, typeof(ProjectItemsOrderedLogic));
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
+        [HttpPost("exportexcelxlsx/{fileDownloadName}")]
+        public async Task<IActionResult> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoExportExcelXlsxFileAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
         // GET api/v1/projectitemsordered 

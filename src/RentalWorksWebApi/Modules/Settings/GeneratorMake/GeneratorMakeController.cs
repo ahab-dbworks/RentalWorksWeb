@@ -9,13 +9,20 @@ namespace WebApi.Modules.Settings.GeneratorMake
     [Route("api/v1/[controller]")]
     public class GeneratorMakeController : AppDataController
     {
-        public GeneratorMakeController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
+        public GeneratorMakeController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(GeneratorMakeLogic); }
         //------------------------------------------------------------------------------------
         // POST api/v1/generatormake/browse
         [HttpPost("browse")]
         public async Task<IActionResult> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest, typeof(GeneratorMakeLogic));
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
+        [HttpPost("exportexcelxlsx/{fileDownloadName}")]
+        public async Task<IActionResult> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoExportExcelXlsxFileAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------
         // GET api/v1/generatormake

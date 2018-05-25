@@ -13,7 +13,7 @@ namespace WebApi.Modules.Home.CompanyTaxResale
     //[ApiExplorerSettings(GroupName = "v1")]
     public class CompanyTaxResaleController : AppDataController
     {
-        public CompanyTaxResaleController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
+        public CompanyTaxResaleController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(CompanyTaxResaleLogic); }
         //------------------------------------------------------------------------------------
         // POST api/v1/companytaxresale/browse
         /// <summary>
@@ -28,6 +28,13 @@ namespace WebApi.Modules.Home.CompanyTaxResale
         public async Task<IActionResult> Browse([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest, typeof(CompanyTaxResaleLogic));
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
+        [HttpPost("exportexcelxlsx/{fileDownloadName}")]
+        public async Task<IActionResult> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoExportExcelXlsxFileAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------
         // GET api/v1/companytaxresale

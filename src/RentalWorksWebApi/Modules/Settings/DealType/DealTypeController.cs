@@ -10,7 +10,7 @@ namespace WebApi.Modules.Settings.DealType
     [Route("api/v1/[controller]")]
     public class DealTypeController : AppDataController
     {
-        public DealTypeController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
+        public DealTypeController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(DealTypeLogic); }
         //------------------------------------------------------------------------------------
         // POST api/v1/dealtype/browse
         [HttpPost("browse")]
@@ -18,6 +18,13 @@ namespace WebApi.Modules.Settings.DealType
         public async Task<IActionResult> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest, typeof(DealTypeLogic));
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
+        [HttpPost("exportexcelxlsx/{fileDownloadName}")]
+        public async Task<IActionResult> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoExportExcelXlsxFileAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------
         // GET api/v1/dealtype

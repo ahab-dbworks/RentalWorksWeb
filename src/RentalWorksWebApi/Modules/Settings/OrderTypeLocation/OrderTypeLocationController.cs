@@ -8,13 +8,20 @@ namespace WebApi.Modules.Settings.OrderTypeLocation
     [Route("api/v1/[controller]")]
     public class OrderTypeLocationController : AppDataController
     {
-        public OrderTypeLocationController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
+        public OrderTypeLocationController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(OrderTypeLocationLogic); }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/ordertypelocation/browse 
         [HttpPost("browse")]
         public async Task<IActionResult> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest, typeof(OrderTypeLocationLogic));
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
+        [HttpPost("exportexcelxlsx/{fileDownloadName}")]
+        public async Task<IActionResult> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoExportExcelXlsxFileAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
         // GET api/v1/ordertypelocation 

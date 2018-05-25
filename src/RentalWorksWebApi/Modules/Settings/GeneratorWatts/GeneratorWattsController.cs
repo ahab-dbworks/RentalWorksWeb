@@ -10,7 +10,7 @@ namespace WebApi.Modules.Settings.GeneratorWatts
     [Route("api/v1/[controller]")]
     public class GeneratorWattsController : AppDataController
     {
-        public GeneratorWattsController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
+        public GeneratorWattsController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(GeneratorWattsLogic); }
         //------------------------------------------------------------------------------------
         // POST api/v1/generatorwatts/browse
         [HttpPost("browse")]
@@ -18,6 +18,13 @@ namespace WebApi.Modules.Settings.GeneratorWatts
         public async Task<IActionResult> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest, typeof(GeneratorWattsLogic));
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
+        [HttpPost("exportexcelxlsx/{fileDownloadName}")]
+        public async Task<IActionResult> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoExportExcelXlsxFileAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------
         // GET api/v1/generatorwatts

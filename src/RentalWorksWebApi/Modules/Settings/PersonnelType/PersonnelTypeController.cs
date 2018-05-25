@@ -9,13 +9,20 @@ namespace WebApi.Modules.Settings.PersonnelType
     [Route("api/v1/[controller]")]
     public class PersonnelTypeController : AppDataController
     {
-        public PersonnelTypeController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
+        public PersonnelTypeController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(PersonnelTypeLogic); }
         //------------------------------------------------------------------------------------
         // POST api/v1/personneltype/browse
         [HttpPost("browse")]
         public async Task<IActionResult> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest, typeof(PersonnelTypeLogic));
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
+        [HttpPost("exportexcelxlsx/{fileDownloadName}")]
+        public async Task<IActionResult> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoExportExcelXlsxFileAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------
         // GET api/v1/personneltype

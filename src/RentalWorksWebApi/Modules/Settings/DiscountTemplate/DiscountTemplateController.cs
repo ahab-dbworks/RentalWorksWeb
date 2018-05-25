@@ -8,13 +8,20 @@ namespace WebApi.Modules.Settings.DiscountTemplate
     [Route("api/v1/[controller]")]
     public class DiscountTemplateController : AppDataController
     {
-        public DiscountTemplateController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
+        public DiscountTemplateController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(DiscountTemplateLogic); }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/discounttemplate/browse 
         [HttpPost("browse")]
         public async Task<IActionResult> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest, typeof(DiscountTemplateLogic));
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
+        [HttpPost("exportexcelxlsx/{fileDownloadName}")]
+        public async Task<IActionResult> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoExportExcelXlsxFileAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
         // GET api/v1/discounttemplate 

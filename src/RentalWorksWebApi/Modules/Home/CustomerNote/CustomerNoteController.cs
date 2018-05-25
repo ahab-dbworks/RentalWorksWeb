@@ -11,13 +11,20 @@ namespace WebApi.Modules.Home.CustomerNote
     [Route("api/v1/[controller]")]
     public class CustomerNoteController : AppDataController
     {
-        public CustomerNoteController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
+        public CustomerNoteController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(CustomerNoteLogic); }
         //------------------------------------------------------------------------------------
         // POST api/v1/customernote/browse
         [HttpPost("browse")]
         public async Task<IActionResult> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest, typeof(CustomerNoteLogic));
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
+        [HttpPost("exportexcelxlsx/{fileDownloadName}")]
+        public async Task<IActionResult> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoExportExcelXlsxFileAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------
         // GET api/v1/customernote

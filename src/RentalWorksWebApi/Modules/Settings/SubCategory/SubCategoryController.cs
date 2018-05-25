@@ -9,13 +9,20 @@ namespace WebApi.Modules.Settings.SubCategory
     [Route("api/v1/[controller]")]
     public class SubCategoryController : AppDataController
     {
-        public SubCategoryController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
+        public SubCategoryController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(SubCategoryLogic); }
         //------------------------------------------------------------------------------------
         // POST api/v1/subcategory/browse
         [HttpPost("browse")]
         public async Task<IActionResult> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest, typeof(SubCategoryLogic));
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
+        [HttpPost("exportexcelxlsx/{fileDownloadName}")]
+        public async Task<IActionResult> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoExportExcelXlsxFileAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------
         // GET api/v1/subcategory

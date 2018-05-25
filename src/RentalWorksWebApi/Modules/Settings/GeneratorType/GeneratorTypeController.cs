@@ -9,13 +9,20 @@ namespace WebApi.Modules.Settings.GeneratorType
     [Route("api/v1/[controller]")]
     public class GeneratorTypeController : AppDataController
     {
-        public GeneratorTypeController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
+        public GeneratorTypeController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(GeneratorTypeLogic); }
         //------------------------------------------------------------------------------------
         // POST api/v1/generatortype/browse
         [HttpPost("browse")]
         public async Task<IActionResult> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest, typeof(GeneratorTypeLogic));
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
+        [HttpPost("exportexcelxlsx/{fileDownloadName}")]
+        public async Task<IActionResult> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoExportExcelXlsxFileAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------
         // GET api/v1/generatortype

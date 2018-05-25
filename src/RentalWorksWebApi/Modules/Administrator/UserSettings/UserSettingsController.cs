@@ -9,7 +9,7 @@ namespace WebApi.Modules.Administrator.UserSettings
     [Route("api/v1/[controller]")]
     public class UserSettingsController : AppDataController
     {
-        public UserSettingsController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
+        public UserSettingsController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(UserSettingsLogic); }
         //------------------------------------------------------------------------------------ 
         // GET api/v1/usersettings/A0000001 
         [HttpGet("{id}")]

@@ -9,13 +9,20 @@ namespace WebApi.Modules.Settings.LaborType
     [Route("api/v1/[controller]")]
     public class LaborTypeController : AppDataController
     {
-        public LaborTypeController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
+        public LaborTypeController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(LaborTypeLogic); }
         //------------------------------------------------------------------------------------
         // POST api/v1/labortype/browse
         [HttpPost("browse")]
         public async Task<IActionResult> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest, typeof(LaborTypeLogic));
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
+        [HttpPost("exportexcelxlsx/{fileDownloadName}")]
+        public async Task<IActionResult> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoExportExcelXlsxFileAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------
         // GET api/v1/labortype

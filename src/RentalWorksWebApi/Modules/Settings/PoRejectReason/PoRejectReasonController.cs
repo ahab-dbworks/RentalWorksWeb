@@ -8,13 +8,20 @@ namespace WebApi.Modules.Settings.PoRejectReason
     [Route("api/v1/[controller]")]
     public class PoRejectReasonController : AppDataController
     {
-        public PoRejectReasonController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
+        public PoRejectReasonController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(PoRejectReasonLogic); }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/porejectreason/browse 
         [HttpPost("browse")]
         public async Task<IActionResult> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest, typeof(PoRejectReasonLogic));
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
+        [HttpPost("exportexcelxlsx/{fileDownloadName}")]
+        public async Task<IActionResult> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoExportExcelXlsxFileAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
         // GET api/v1/porejectreason 

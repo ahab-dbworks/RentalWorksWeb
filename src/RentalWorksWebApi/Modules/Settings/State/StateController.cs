@@ -9,13 +9,20 @@ namespace WebApi.Modules.Settings.State
     [Route("api/v1/[controller]")]
     public class StateController : AppDataController
     {
-        public StateController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
+        public StateController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(StateLogic); }
         //------------------------------------------------------------------------------------
         // POST api/v1/State/browse
         [HttpPost("browse")]
         public async Task<IActionResult> Browse([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest, typeof(StateLogic));
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
+        [HttpPost("exportexcelxlsx/{fileDownloadName}")]
+        public async Task<IActionResult> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoExportExcelXlsxFileAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------
         // GET api/v1/State
