@@ -960,7 +960,6 @@ var FwModule = (function () {
     FwModule.getFormFields = function ($form, getAllFieldsOverride) {
         var $fwformfields, fields, field;
         fields = {};
-        fields._Custom = [];
         $fwformfields = typeof $form.data('fields') !== 'undefined' ? $form.data('fields') : jQuery([]);
         $fwformfields.each(function (index, element) {
             var $fwformfield, originalValue, dataField, value, isValidDataField, getAllFields, isBlank, isCalculatedField;
@@ -972,7 +971,7 @@ var FwModule = (function () {
                 console.log('On Form: "' + formCaption + ' ", the attribute data-datafield is required on the fwformfield with the following html: ' + jQuery('div').append($fwformfield).html());
                 throw 'Attribute data-datafield is missing on fwformfield element.';
             }
-            value = FwFormField.getValue2($fwformfield);
+            value = FwFormField.getValue2($fwformfield).toString();
             isBlank = (dataField === '');
             isCalculatedField = (dataField[0] === '#') && (dataField[1] === '.');
             isValidDataField = (!isBlank) && (!isCalculatedField);
@@ -983,6 +982,9 @@ var FwModule = (function () {
                         FieldName: dataField,
                         FieldValue: value
                     };
+                    if (typeof fields._Custom === 'undefined') {
+                        fields._Custom = [];
+                    }
                     fields._Custom.push(field);
                 }
                 else {

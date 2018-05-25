@@ -1,12 +1,13 @@
-using FwStandard.BusinessLogic; 
-using FwStandard.SqlServer; 
-using FwStandard.SqlServer.Attributes; 
-using WebApi.Data;
-namespace WebApi.Modules.Administrator.Group
+using FwStandard.DataLayer;
+using FwStandard.SqlServer;
+using FwStandard.SqlServer.Attributes;
+
+namespace FwCore.Modules.Administrator.Group
 {
     [FwSqlTable("groups")]
-    public class GroupRecord : AppDataReadWriteRecord
+    public class FwGroupRecord : FwDataReadWriteRecord
     {
+        public FwGroupRecord() : base() { }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "groupsid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8, isPrimaryKey: true)]
         public string GroupId { get; set; } = "";

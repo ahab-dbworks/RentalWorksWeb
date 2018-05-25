@@ -26,7 +26,7 @@ FwFormField_validation.renderRuntimeHtml = function ($control, html) {
     if (typeof $control.attr('data-placeholder') !== 'undefined') {
         html.push(' placeholder="' + $control.attr('data-placeholder') + '"');
     }
-    if ((sessionStorage.getItem('applicationsettings') != null) && (typeof JSON.parse(sessionStorage.getItem('applicationsettings')).webtouppercase != 'undefined') && (JSON.parse(sessionStorage.getItem('applicationsettings')).webtouppercase)) {
+    if ((sessionStorage.getItem('applicationsettings') !== null) && (typeof JSON.parse(sessionStorage.getItem('applicationsettings')).webtouppercase !== 'undefined') && (JSON.parse(sessionStorage.getItem('applicationsettings')).webtouppercase)) {
         html.push(' style="text-transform:uppercase"');
     }
     html.push(' />');
@@ -46,7 +46,7 @@ FwFormField_validation.renderRuntimeHtml = function ($control, html) {
         showPeek = ($control.attr('data-validationpeek') === 'true');
     }
     if (showPeek) {
-        html.push('<i class="material-icons btnpeek">more_horiz</i>')
+        html.push('<i class="material-icons btnpeek">more_horiz</i>');
     } 
 
     html.push('</div>');

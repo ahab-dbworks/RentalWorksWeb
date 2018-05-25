@@ -172,7 +172,7 @@ FwSettings.saveForm = function (module, $form, closetab, navigationpath, $contro
 //----------------------------------------------------------------------------------------------
 FwSettings.getCaptions = function (screen) {
     var node = FwApplicationTree.getNodeById(FwApplicationTree.tree, '730C9659-B33B-493E-8280-76A060A07DCE');
-    var modules = FwApplicationTree.getChildrenByType(node, 'Module');
+    var modules = FwApplicationTree.getChildrenByType(node, 'SettingsModule');
     for (var i = 0; i < modules.length; i++) {
         var moduleName = modules[i].properties.controller.slice(0, -10);
         var $form = jQuery(jQuery('#tmpl-modules-' + moduleName + 'Form').html());
@@ -322,21 +322,16 @@ FwSettings.newRow = function ($body, $control, apiurl, $modulecontainer, moduleN
     });
 }
 //---------------------------------------------------------------------------------------------- 
-FwSettings.renderModuleHtml = function ($control, title, moduleName, color, description, menu) {
+FwSettings.renderModuleHtml = function ($control, title, moduleName, description, menu) {
     var html = [], $settingsPageModules, $rowBody, $modulecontainer, apiurl, $body, $form, browseKeys = [], rowId, screen = { 'moduleCaptions': {} }, filter = [];
 
     $modulecontainer = $control.find('#' + moduleName);
     apiurl = window[moduleName + 'Controller'].apiurl;
     $form = jQuery(jQuery('#tmpl-modules-' + moduleName + 'Form').html());
 
-    html.push('<div class="panel-group" id="' + description + '" >');
-    if (color) {
-        html.push('  <div class="panel panel-primary" style="border-color:' + color + '">');
-        html.push('    <div data-toggle="collapse" data-target="' + description + '" href="' + description + '" class="panel-heading" style="background-color:' + color + '">');
-    } else {
-        html.push('  <div class="panel panel-primary">');
-        html.push('    <div data-toggle="collapse" data-target="' + description + '" href="' + description + '" class="panel-heading">');
-    }
+    html.push('<div class="panel-group" id="' + moduleName + '" >');
+    html.push('  <div class="panel panel-primary">');
+    html.push('    <div data-toggle="collapse" data-target="' + moduleName + '" href="' + moduleName + '" class="panel-heading">');
     html.push('      <h4 class="panel-title">');
     html.push('        <a id="title" data-toggle="collapse">' + menu + ' - ' + title)
     html.push('          <i class="material-icons arrow-selector">keyboard_arrow_down</i>');
@@ -344,12 +339,19 @@ FwSettings.renderModuleHtml = function ($control, title, moduleName, color, desc
     html.push('        <i class="material-icons heading-menu">more_vert</i>');
     html.push('        <div id="myDropdown" class="dropdown-content">')
     html.push('          <a class="new-row">New Item</a>');
+    html.push('          <a class="show-inactive">Show Inactive</a>');
+    html.push('          <a class="hide-inactive">Hide Inactive</a>');
     html.push('        </div>');
     html.push('      </h4>');
-    html.push('      <small id="description" style="display:none;">' + description + '</small>');
-    html.push('      <small>' + description + '</small>');
+    if (description === "") {
+        html.push('      <small id="description" style="display:none;">' + moduleName + '</small>');
+        html.push('      <small>' + moduleName + '</small>');
+    } else {
+        html.push('      <small id="description" style="display:none;">' + description + '</small>');
+        html.push('      <small>' + description + '</small>');
+    }
     html.push('    </div>');
-    html.push('    <div class="panel-collapse collapse" style="display:none; "><div class="panel-body" id="' + description + '"></div></div>');
+    html.push('    <div class="panel-collapse collapse" style="display:none; "><div class="panel-body" id="' + moduleName + '"></div></div>');
     html.push('  </div>');
     html.push('</div>');
     $settingsPageModules = jQuery(html.join(''));
@@ -363,9 +365,21 @@ FwSettings.renderModuleHtml = function ($control, title, moduleName, color, desc
 
     $settingsPageModules.on('click', '.new-row', function (e) {
         e.stopPropagation();
-        $settingsPageModules.find('.heading-menu').next().css('display', 'none');
+        jQuery(this).parent().hide();
         $body = $control.find('#' + moduleName + '.panel-body');
         FwSettings.newRow($body, $control, apiurl, $modulecontainer, moduleName, $settingsPageModules);
+    });
+
+    $settingsPageModules.on('click', '.show-inactive', function (e) {
+        e.stopPropagation();
+        $control.find('.inactive').parent().show();
+        jQuery(this).parent().hide();
+    });
+
+    $settingsPageModules.on('click', '.hide-inactive', function (e) {
+        e.stopPropagation();
+        $control.find('.inactive').parent().hide();
+        jQuery(this).parent().hide();
     });
 
     $settingsPageModules
@@ -409,7 +423,8 @@ FwSettings.renderModuleHtml = function ($control, title, moduleName, color, desc
                         //html.push('<label>' + row[moduleName] + '</label>');
                         for (var j = 0; j < browseKeys.length; j++) {
                             if (browseKeys[j] === 'Inactive' && response[i][browseKeys[j]] === true) {
-                                html.unshift('<div style="display:none;">');
+                                html[2] = '<div class="inactive row-heading" style="background-color:lightgray;">';
+                                //html.unshift('<div style="display:none;">');
                             }
                             if (browseKeys[j] === 'Inactive' || browseKeys[j] === 'Color') {
 
@@ -422,9 +437,9 @@ FwSettings.renderModuleHtml = function ($control, title, moduleName, color, desc
                                 html.push('          <label>' + response[i][browseKeys[j]] + '</label>');
                                 html.push('        </div>');
                                 html.push('      </div>');
-                                if (browseKeys[j] === 'Inactive' && response[i][browseKeys[j]] === true) {
-                                    html.push('</div>');
-                                }
+                                //if (browseKeys[j] === 'Inactive' && response[i][browseKeys[j]] === true) {
+                                //    html.push('</div>');
+                                //}
                             }
                         }
                         //html.push('      <div class="pull-right save"><i class="material-icons">save</i>Save</div>'); 
@@ -452,7 +467,7 @@ FwSettings.renderModuleHtml = function ($control, title, moduleName, color, desc
         .on('click', '.heading-menu', function (e) {
             e.stopPropagation();
             if (jQuery(this).next().css('display') === 'none') {
-                jQuery(this).next().css('display', 'block');
+                jQuery(this).next().css('display', 'flex');
             } else {
                 jQuery(this).next().css('display', 'none');
             }
@@ -473,6 +488,8 @@ FwSettings.renderModuleHtml = function ($control, title, moduleName, color, desc
                 $rowBody = $control.find('#' + recordData['ScheduleStatusId'] + '.panel-body');
             } else if (moduleName === 'FacilityRate' || moduleName === 'LaborRate' || moduleName === 'MiscRate') {
                 $rowBody = $control.find('#' + recordData['RateId'] + '.panel-body');
+            } else if (moduleName === 'OfficeLocation') {
+                $rowBody = $control.find('#' + recordData['LocationId'] + '.panel-body');
             } else {
                 $rowBody = $control.find('#' + recordData[moduleName + 'Id'] + '.panel-body');
             }
@@ -605,13 +622,13 @@ FwSettings.getHeaderView = function ($control) {
         var nodeLv1MenuItem = nodeApplication.children[lv1childno];
         if (nodeLv1MenuItem.properties.visible === 'T' && nodeLv1MenuItem.properties.caption === 'Settings') {
             switch (nodeLv1MenuItem.properties.nodetype) {
-                case 'Lv1ModuleMenu':
+                case 'Lv1SettingsMenu':
                     $menu = FwFileMenu.addMenu($view, nodeLv1MenuItem.properties.caption)
                     for (var lv2childno = 0; lv2childno < nodeLv1MenuItem.children.length; lv2childno++) {
                         var nodeLv2MenuItem = nodeLv1MenuItem.children[lv2childno];
                         if (nodeLv2MenuItem.properties.visible === 'T') {
                             switch (nodeLv2MenuItem.properties.nodetype) {
-                                case 'Lv2ModuleMenu':
+                                case 'SettingsMenu':
                                     dropDownMenuItems = [];
                                     for (var lv3childno = 0; lv3childno < nodeLv2MenuItem.children.length; lv3childno++) {
                                         var nodeLv3MenuItem = nodeLv2MenuItem.children[lv3childno];
@@ -621,7 +638,7 @@ FwSettings.getHeaderView = function ($control) {
                                     }
                                     FwSettings.generateDropDownModuleBtn($menu, $control, nodeLv2MenuItem.id, nodeLv2MenuItem.properties.caption, nodeLv2MenuItem.properties.iconurl, dropDownMenuItems);
                                     break;
-                                case 'Module':
+                                case 'SettingsModule':
                                     FwSettings.generateStandardModuleBtn($menu, $control, nodeLv2MenuItem.id, nodeLv2MenuItem.properties.caption, nodeLv2MenuItem.properties.modulenav, nodeLv2MenuItem.properties.iconurl, nodeLv2MenuItem.properties.controller.slice(0, -10));
                                     break;
                             }

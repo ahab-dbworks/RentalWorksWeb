@@ -194,6 +194,11 @@ var FwFormField = (function () {
         }
     };
     FwFormField.loadForm = function ($fwformfields, model) {
+        if (typeof model._Custom !== 'undefined' && model._Custom.length > 0 && model._Custom !== undefined) {
+            for (var i = 0; i < model._Custom.length; i++) {
+                model[model._Custom[i].FieldName] = model._Custom[i].FieldValue;
+            }
+        }
         $fwformfields.each(function (index, element) {
             var $fwformfield, datafield, displayfield, data_type, datafieldArray, table, field, caption, value, text;
             $fwformfield = jQuery(element);
@@ -442,7 +447,7 @@ var FwFormField = (function () {
         return controller;
     };
     FwFormField.getDataField = function ($parent, datafield) {
-        var $field = $parent.find('div[data-datafield="campus"]');
+        var $field = $parent.find("div[data-datafield=\"" + datafield + "\"]");
         return $field;
     };
     FwFormField.setValue = function ($parent, selector, value, text, firechangeevent) {

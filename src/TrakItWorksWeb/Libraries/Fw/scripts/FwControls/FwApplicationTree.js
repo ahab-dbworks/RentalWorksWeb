@@ -114,17 +114,17 @@ var FwApplicationTree = (function () {
     FwApplicationTree.getSecurityNodesRecursive = function (securitynodes, node, hidenewmenuoptionsbydefault) {
         var includenode, newNode, childno, visible, editable;
         visible = ((typeof node.properties.visible === 'string') &&
-            ((hidenewmenuoptionsbydefault !== 'T') && (node.properties.visible === 'F')) || ((hidenewmenuoptionsbydefault === 'T') && (node.properties.visible === 'T'))) ? node.properties.visible : null;
+            ((hidenewmenuoptionsbydefault !== true) && (node.properties.visible === 'F')) || ((hidenewmenuoptionsbydefault === true) && (node.properties.visible === 'T'))) ? node.properties.visible : null;
         editable = ((typeof node.properties.editable === 'string') && (node.properties.editable === 'F')) ? node.properties.editable : null;
         includenode = (visible !== null) || (editable !== null);
         if (includenode) {
             newNode = {
                 id: node.id
             };
-            if (visible != null) {
+            if (visible !== null) {
                 newNode.visible = visible;
             }
-            if (editable != null) {
+            if (editable !== null) {
                 newNode.editable = editable;
             }
             securitynodes.push(newNode);
@@ -144,7 +144,7 @@ var FwApplicationTree = (function () {
         if (node !== null) {
             var data_nodetype = node.properties.nodetype;
             var data_controller = node.properties.controller;
-            var isModule = ((typeof data_nodetype === 'string') && (data_nodetype === 'Module'));
+            var isModule = ((typeof data_nodetype === 'string') && (data_nodetype === 'Module' || data_nodetype === 'SettingsModule'));
             var isSubModule = ((typeof data_nodetype === 'string') && (data_nodetype === 'SubModule'));
             var isGrid = ((typeof data_nodetype === 'string') && (data_nodetype === 'Grid'));
             var foundController = ((typeof data_controller === 'string') && (data_controller.length > 0) && (data_controller === controller));

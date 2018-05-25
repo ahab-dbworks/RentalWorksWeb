@@ -1,12 +1,13 @@
-using FwStandard.BusinessLogic.Attributes; 
-using WebApi.Logic;
-namespace WebApi.Modules.Administrator.Group
+using FwStandard.BusinessLogic;
+using FwStandard.BusinessLogic.Attributes;
+
+namespace FwCore.Modules.Administrator.Group
 {
-    public class GroupLogic : AppBusinessLogic
+    public class FwGroupLogic : FwBusinessLogic
     {
         //------------------------------------------------------------------------------------ 
-        GroupRecord group = new GroupRecord();
-        public GroupLogic()
+        FwGroupRecord group = new FwGroupRecord();
+        public FwGroupLogic() : base()
         {
             dataRecords.Add(group);
         }

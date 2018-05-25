@@ -25,12 +25,12 @@ FwValidation.init = function ($control) {
                 apiurl: $validationbrowse.attr('data-apiurl')
             };
         } else {
-            var controller = window[$validationbrowse.attr('data-name') + 'Controller'];
-            if (typeof controller.Module === 'undefined') {
-                controller.Module = $validationbrowse.attr('data-name');
+            var controllerObj = window[$validationbrowse.attr('data-name') + 'Controller'];
+            if (typeof controllerObj.Module === 'undefined') {
+                controllerObj.Module = $validationbrowse.attr('data-name');
             }
-            if (typeof controller.apiurl === 'undefined') {
-                controller.apiurl = $validationbrowse.attr('data-apiurl');
+            if (typeof controllerObj.apiurl === 'undefined') {
+                controllerObj.apiurl = $validationbrowse.attr('data-apiurl');
             }
         }
     } else if ((typeof $validationbrowse.attr('data-name') !== 'undefined') && (typeof window[$validationbrowse.attr('data-name') + 'Controller'] === 'undefined')) {
@@ -158,8 +158,8 @@ FwValidation.init = function ($control) {
 
     var focusValidationSearchBox = function ($validationbrowse) {
         setTimeout(function () {
-            var $searchBox = $validationbrowse.find('thead td[data-visible="true"]:first-child .search input');
-            $searchBox.focus();
+            var $searchBox = $validationbrowse.find('.search input:visible');
+            $searchBox.eq(0).focus();
         }, 400);
     };
 
@@ -235,7 +235,7 @@ FwValidation.init = function ($control) {
     });
     $control.find('.btnpeek').on('click', function (e) {
         try {
-            FwValidation.validationPeek($control, validationName.slice(0, -10), $valuefield.val(), $valuefield.parent().parent().attr('data-datafield'), $object);
+            FwValidation.validationPeek($control, validationName.slice(0, -10), $valuefield.val(), $valuefield.parent().parent().attr('data-datafield'), $object, $searchfield.val());
             e.stopPropagation();
         } catch (ex) {
             FwFunc.showError(ex);
@@ -348,7 +348,7 @@ FwValidation.hideValidateButtonLoadingIcon = function ($btnvalidate) {
     $btnvalidate.find('.icon-validation').css('background-image', 'url(' + applicationConfig.appbaseurl + applicationConfig.appvirtualdirectory + 'theme/fwimages/icons/128/browsesearch.001.png)');
 };
 //---------------------------------------------------------------------------------
-FwValidation.validationPeek = function ($control, validationName, validationId, validationDatafield, $object) {
+FwValidation.validationPeek = function ($control, validationName, validationId, validationDatafield, $object, title) {
     var $popupForm;
     var $object = ($control.closest('.fwbrowse[data-controller!=""]').length > 0) ? $control.closest('.fwbrowse[data-controller!=""]') : $control.closest('.fwform[data-controller!=""]');
     var $validationbrowse = jQuery(jQuery('#tmpl-validations-' + validationName + 'ValidationBrowse').html());
@@ -368,7 +368,7 @@ FwValidation.validationPeek = function ($control, validationName, validationId, 
             FwModule.loadForm(validationName, $popupForm);
             //FwModule.setFormReadOnly($popupForm);
 
-            FwPopup.showPopup(FwPopup.renderPopup($popupForm));
+            FwPopup.showPopup(FwPopup.renderPopup($popupForm, undefined, title));
 
             jQuery(document).find('.fwpopup').on('click', function (e) {
                 e = e || window.event;

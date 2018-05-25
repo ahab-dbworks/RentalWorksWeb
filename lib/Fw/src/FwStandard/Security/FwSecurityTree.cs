@@ -792,6 +792,8 @@ namespace FwStandard.Security
                                     groupTreeNode.Properties["visible"] = secnode.Visible;
                                     groupTreeNode.Properties["editable"] = secnode.Editable;
                                     break;
+                                case "System":
+                                case "Application":
                                 case "Browse":
                                 case "Form":
                                 case "Components":

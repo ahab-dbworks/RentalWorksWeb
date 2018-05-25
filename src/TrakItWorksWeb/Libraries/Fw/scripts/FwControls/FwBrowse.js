@@ -203,46 +203,8 @@ var FwBrowse = (function () {
         })
             .on('click', 'table thead tr td .field div.search .searchclear', function (e) {
             try {
-                var $this;
-                $this = jQuery(this);
-                if ($this.siblings('input').val() != '') {
-                    $this.siblings('input').val('').change();
-                    $this.removeClass('visible');
-                }
-            }
-            catch (ex) {
-                FwFunc.showError(ex);
-            }
-        })
-            .on('mouseenter', 'table thead tr td .field div.search', function () {
-            try {
-                var $this;
-                $this = jQuery(this);
-                if ($this.find('input').val() != '') {
-                    $this.find('.searchclear').addClass('visible');
-                }
-            }
-            catch (ex) {
-                FwFunc.showError(ex);
-            }
-        })
-            .on('mouseleave', 'table thead tr td .field div.search', function () {
-            try {
-                var $this;
-                $this = jQuery(this);
-                if (!$this.find('input').is(':focus')) {
-                    $this.find('.searchclear').removeClass('visible');
-                }
-            }
-            catch (ex) {
-                FwFunc.showError(ex);
-            }
-        })
-            .on('blur', 'table thead tr td .field div.search input', function () {
-            try {
-                var $this;
-                $this = jQuery(this);
-                $this.siblings('.searchclear').removeClass('visible');
+                var $this = jQuery(this);
+                $this.siblings('input').val('').change();
             }
             catch (ex) {
                 FwFunc.showError(ex);
@@ -320,6 +282,13 @@ var FwBrowse = (function () {
         })
             .on('change', '.runtime thead .search > input', function (e) {
             try {
+                var $this = jQuery(this);
+                if ($this.val() === '') {
+                    $this.siblings('.searchclear').removeClass('visible');
+                }
+                else if ($this.val() !== '') {
+                    $this.siblings('.searchclear').addClass('visible');
+                }
                 FwBrowse.search($control);
             }
             catch (ex) {
@@ -346,78 +315,84 @@ var FwBrowse = (function () {
                 FwFunc.showError(ex);
             }
         })
-            .on('change', '.field[data-formnoduplicate="true"]', function () {
-            var $field, value, originalvalue, $form, formuniqueids, formfields, request = {};
-            $field = jQuery(this);
-            $field.removeClass('error');
-            $form = $control.closest('.fwform');
-            formuniqueids = FwModule.getFormUniqueIds($form);
-            formfields = FwModule.getFormFields($form, true);
-            value = $field.find('input.value').val().toUpperCase();
-            originalvalue = ((typeof $field.attr('data-originalvalue') != 'undefined') ? $field.attr('data-originalvalue').toUpperCase() : '');
-            if ((typeof $control.attr('data-name') !== 'undefined') && (value != originalvalue)) {
-                request.module = $control.attr('data-name');
-                request.table = $field.attr('data-formdatafield').split('.')[0];
-                request.fields = {};
-                request.fields[$field.attr('data-formdatafield')] = { datafield: $field.attr('data-formdatafield'), value: $field.find('input.value').val(), type: $field.attr('data-formdatatype') };
-                request.miscfields = jQuery.extend({}, formuniqueids, formfields);
-                FwServices.grid.method(request, $control.attr('data-name'), 'ValidateDuplicate', $control, function (response) {
-                    try {
-                        if (response.duplicate == true) {
-                            $field.addClass('error');
-                            FwNotification.renderNotification('ERROR', 'Duplicate ' + $field.attr('data-caption') + '(s) are not allowed.');
-                        }
-                    }
-                    catch (ex) {
-                        FwFunc.showError(ex);
-                    }
-                }, function (errorMessage) {
-                    try {
-                        FwFunc.showError(errorMessage);
-                    }
-                    catch (ex) {
-                        FwFunc.showError(ex);
-                    }
-                });
-            }
-        })
             .on('click', 'tbody .browsecontextmenu', function () {
             try {
-                var menuItemCount = 0;
-                var $browsecontextmenu = jQuery(this);
-                var $tr = $browsecontextmenu.closest('tr');
-                var $contextmenu = FwContextMenu.render('Options', 'bottomleft', $browsecontextmenu);
-                var controller = $control.attr('data-controller');
-                if (typeof controller === 'undefined') {
-                    throw 'Attribute data-controller is not defined on Browse control.';
-                }
-                var nodeController = FwApplicationTree.getNodeByController(controller);
-                if (nodeController !== null) {
-                    var deleteActions = FwApplicationTree.getChildrenByType(nodeController, 'DeleteMenuBarButton');
-                    if (deleteActions.length > 1) {
-                        throw 'Invalid Security Tree configuration.  Only 1 DeleteMenuBarButton is permitted on a Controller.';
+                var $browse = jQuery(this).closest('.fwbrowse');
+                if ($browse.attr('data-enabled') !== 'false') {
+                    var menuItemCount = 0;
+                    var $browsecontextmenu = jQuery(this);
+                    var $tr = $browsecontextmenu.closest('tr');
+                    var $contextmenu = FwContextMenu.render('Options', 'bottomleft', $browsecontextmenu);
+                    var controller = $control.attr('data-controller');
+                    if (typeof controller === 'undefined') {
+                        throw 'Attribute data-controller is not defined on Browse control.';
                     }
-                    if (deleteActions.length === 1 && deleteActions[0].properties['visible'] === 'T') {
-                        FwContextMenu.addMenuItem($contextmenu, 'Delete', function () {
-                            try {
-                                var $tr = jQuery(this).closest('tr');
-                                FwBrowse.deleteRow($control, $tr);
-                            }
-                            catch (ex) {
-                                FwFunc.showError(ex);
-                            }
-                        });
-                        menuItemCount++;
+                    var nodeController = FwApplicationTree.getNodeByController(controller);
+                    if (nodeController !== null) {
+                        var deleteActions = FwApplicationTree.getChildrenByType(nodeController, 'DeleteMenuBarButton');
+                        if (deleteActions.length > 1) {
+                            throw 'Invalid Security Tree configuration.  Only 1 DeleteMenuBarButton is permitted on a Controller.';
+                        }
+                        if (deleteActions.length === 1 && deleteActions[0].properties['visible'] === 'T') {
+                            FwContextMenu.addMenuItem($contextmenu, 'Delete', function () {
+                                try {
+                                    var $tr = jQuery(this).closest('tr');
+                                    FwBrowse.deleteRow($control, $tr);
+                                }
+                                catch (ex) {
+                                    FwFunc.showError(ex);
+                                }
+                            });
+                            menuItemCount++;
+                        }
                     }
-                }
-                if (menuItemCount === 0) {
-                    FwContextMenu.destroy($contextmenu);
+                    if (menuItemCount === 0) {
+                        FwContextMenu.destroy($contextmenu);
+                    }
                 }
             }
             catch (ex) {
                 FwFunc.showError(ex);
             }
         });
+        var controller = window[$control.attr('data-controller')];
+        if (($control.attr('data-type') == 'Grid') && (typeof controller.apiurl === 'undefined')) {
+            $control.on('change', '.field[data-formnoduplicate="true"]', function () {
+                var $field, value, originalvalue, $form, formuniqueids, formfields, request = {};
+                $field = jQuery(this);
+                $field.removeClass('error');
+                $form = $control.closest('.fwform');
+                formuniqueids = FwModule.getFormUniqueIds($form);
+                formfields = FwModule.getFormFields($form, true);
+                value = $field.find('input.value').val().toUpperCase();
+                originalvalue = ((typeof $field.attr('data-originalvalue') != 'undefined') ? $field.attr('data-originalvalue').toUpperCase() : '');
+                if ((typeof $control.attr('data-name') !== 'undefined') && (value != originalvalue)) {
+                    request.module = $control.attr('data-name');
+                    request.table = $field.attr('data-formdatafield').split('.')[0];
+                    request.fields = {};
+                    request.fields[$field.attr('data-formdatafield')] = { datafield: $field.attr('data-formdatafield'), value: $field.find('input.value').val(), type: $field.attr('data-formdatatype') };
+                    request.miscfields = jQuery.extend({}, formuniqueids, formfields);
+                    FwServices.grid.method(request, $control.attr('data-name'), 'ValidateDuplicate', $control, function (response) {
+                        try {
+                            if (response.duplicate == true) {
+                                $field.addClass('error');
+                                FwNotification.renderNotification('ERROR', 'Duplicate ' + $field.attr('data-caption') + '(s) are not allowed.');
+                            }
+                        }
+                        catch (ex) {
+                            FwFunc.showError(ex);
+                        }
+                    }, function (errorMessage) {
+                        try {
+                            FwFunc.showError(errorMessage);
+                        }
+                        catch (ex) {
+                            FwFunc.showError(ex);
+                        }
+                    });
+                }
+            });
+        }
         if ((($control.attr('data-type') == 'Grid') || ($control.attr('data-type') == 'Validation')) && (typeof $control.attr('data-controller') !== 'undefined') && ($control.attr('data-controller') !== '')) {
             var controller;
             controller = $control.attr('data-controller');
@@ -1524,7 +1499,7 @@ var FwBrowse = (function () {
                     }
                     var cellcolor = $field.attr('data-cellcolor');
                     if (typeof cellcolor !== 'undefined') {
-                        $td.css('text-indent', '10px');
+                        $td.children().css('padding-left', '10px');
                         if ((cellcolor.length > 0) && ((dtRow[dt.ColumnIndex[cellcolor]]) !== null) && ((dtRow[dt.ColumnIndex[cellcolor]]) != "")) {
                             if (typeof dt.ColumnIndex[cellcolor] !== 'number') {
                                 throw 'FwBrowse.databindcallback: cellcolor: "column ' + cellcolor + '" was not returned by the web service.';
@@ -1595,7 +1570,7 @@ var FwBrowse = (function () {
                     try {
                         var $td = jQuery(this).parent();
                         var $tr = $td.closest('tr');
-                        FwValidation.validationPeek($control, $td.data('validationname').slice(0, -10), $td.data('originalvalue'), $td.data('browsedatafield'), null);
+                        FwValidation.validationPeek($control, $td.data('validationname').slice(0, -10), $td.data('originalvalue'), $td.data('browsedatafield'), null, $td.data('originaltext'));
                     }
                     catch (ex) {
                         FwFunc.showError(ex);
