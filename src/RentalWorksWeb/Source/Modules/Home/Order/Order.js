@@ -425,7 +425,8 @@ var Order = (function () {
         var $combinedOrderItemGridControl;
         $combinedOrderItemGrid = $form.find('.combinedgrid div[data-grid="OrderItemGrid"]');
         $combinedOrderItemGridControl = jQuery(jQuery('#tmpl-grids-OrderItemGridBrowse').html());
-        $combinedOrderItemGridControl.find('.allitem').attr('data-visible', 'true');
+        $combinedOrderItemGridControl.find('.combined').attr('data-visible', 'true');
+        $combinedOrderItemGridControl.find('.individual').attr('data-visible', 'false');
         $combinedOrderItemGrid.empty().append($combinedOrderItemGridControl);
         $combinedOrderItemGrid.addClass('A');
         $combinedOrderItemGridControl.data('isSummary', false);
@@ -1085,9 +1086,13 @@ FwApplicationTree.clickEvents['{F2FD2F4C-1AB7-4627-9DD5-1C8DB96C5509}'] = functi
 FwApplicationTree.clickEvents['{D27AD4E7-E924-47D1-AF6E-992B92F5A647}'] = function (event) {
     var $form;
     $form = jQuery(this).closest('.fwform');
-    console.log('form from order: ', $form);
     try {
-        OrderController.toggleOrderItemView($form, event);
+        if ($form.attr('data-controller') === 'OrderController') {
+            OrderController.toggleOrderItemView($form, event);
+        }
+        else {
+            QuoteController.toggleOrderItemView($form, event);
+        }
     }
     catch (ex) {
         FwFunc.showError(ex);

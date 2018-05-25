@@ -1129,11 +1129,15 @@ FwApplicationTree.clickEvents['{B20DDE47-A5D7-49A9-B980-8860CADBF7F6}'] = functi
 
 //---------------------------------------------------------------------------------------------- 
 FwApplicationTree.clickEvents['{D27AD4E7-E924-47D1-AF6E-992B92F5A647}'] = function (event) {
-    var $form;
+    let $form;
     $form = jQuery(this).closest('.fwform');
 
     try {
-        QuoteController.toggleOrderItemView($form, event);
+        if ($form.attr('data-controller') === 'QuoteController') {
+            QuoteController.toggleOrderItemView($form, event);
+        } else {
+            OrderController.toggleOrderItemView($form, event);
+        }
     }
     catch (ex) {
         FwFunc.showError(ex);
