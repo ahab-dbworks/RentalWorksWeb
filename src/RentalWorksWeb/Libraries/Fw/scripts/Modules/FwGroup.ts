@@ -231,56 +231,56 @@
 
             $caption = jQuery('<div class="caption">');
             nodedescription = '';
-            switch (node.properties.nodetype) {
-                case 'System':
-                //case 'Application':
-                case 'Browse':
-                case 'Form':
-                case 'Components':
-                case 'MenuBar':
-                case 'Lv1SubModulesMenu':
-                case 'Lv1GridsMenu':
-                case 'SubMenu':
-                case 'Lv1SettingsMenu':
-                case 'SettingsMenu':
-                    nodedescription = '';
-                    break;
-                case 'Lv1ModuleMenu':
-                    nodedescription = 'Menu: ';
-                    break;
-                case 'Lv2ModuleMenu':
-                    nodedescription = 'Menu: ';
-                    break;
-                case 'SubModule':
-                    nodedescription = 'SubModule: ';
-                    break;
-                case 'SubMenuGroup':
-                    nodedescription = 'Menu: ';
-                    break;
-                case 'SubMenuItem':
-                case 'DownloadExcelSubMenuItem':
-                    nodedescription = 'MenuItem: ';
-                    break;
-                case 'NewMenuBarButton':
-                case 'ViewMenuBarButton':
-                case 'EditMenuBarButton':
-                case 'DeleteMenuBarButton':
-                case 'SaveMenuBarButton':
-                    nodedescription = 'MenuBarButton: ';
-                    break;
-                case 'FormGrid':
-                    nodedescription = 'Grid: ';
-                    break;
-                case 'SettingsModule':
-                    nodedescription = 'Setting: ';
-                    break;
-                case 'ControllerMethod':
-                    nodedescription = 'Method: ';
-                    break;
-                default:
-                    nodedescription = node.properties.nodetype + ': '
-                    break;
-            }
+            //switch (node.properties.nodetype) {
+            //    case 'System':
+            //    //case 'Application':
+            //    case 'Browse':
+            //    case 'Form':
+            //    case 'Components':
+            //    case 'MenuBar':
+            //    case 'Lv1SubModulesMenu':
+            //    case 'Lv1GridsMenu':
+            //    case 'SubMenu':
+            //    case 'Lv1SettingsMenu':
+            //    case 'SettingsMenu':
+            //        nodedescription = '';
+            //        break;
+            //    case 'Lv1ModuleMenu':
+            //        nodedescription = 'Menu: ';
+            //        break;
+            //    case 'Lv2ModuleMenu':
+            //        nodedescription = 'Menu: ';
+            //        break;
+            //    case 'SubModule':
+            //        nodedescription = 'SubModule: ';
+            //        break;
+            //    case 'SubMenuGroup':
+            //        nodedescription = 'Menu: ';
+            //        break;
+            //    case 'SubMenuItem':
+            //    case 'DownloadExcelSubMenuItem':
+            //        nodedescription = 'MenuItem: ';
+            //        break;
+            //    case 'NewMenuBarButton':
+            //    case 'ViewMenuBarButton':
+            //    case 'EditMenuBarButton':
+            //    case 'DeleteMenuBarButton':
+            //    case 'SaveMenuBarButton':
+            //        nodedescription = 'MenuBarButton: ';
+            //        break;
+            //    case 'FormGrid':
+            //        nodedescription = 'Grid: ';
+            //        break;
+            //    case 'SettingsModule':
+            //        nodedescription = 'Setting: ';
+            //        break;
+            //    case 'ControllerMethod':
+            //        nodedescription = 'Method: ';
+            //        break;
+            //    default:
+            //        nodedescription = node.properties.nodetype + ': '
+            //        break;
+            //}
             $caption.text(nodedescription + node.properties.caption);
             $content.append($caption);
 

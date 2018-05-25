@@ -40,7 +40,24 @@ div[data-controller="GroupController"] .grouptree li[data-property-visible="T"] 
 div[data-controller="GroupController"] .grouptree li[data-property-visible="T"][data-property-editable="T"] > .content > .iconeditable {background-image:url('../fwimages/icons/128/securitytree-editable-true.001.png');}
 div[data-controller="GroupController"] .grouptree li[data-property-editable="F"] > .content > .caption {color:#ff0000;}
 
-div[data-controller="GroupController"] .grouptree .caption {float:left;font-size:.7em;height:1em;line-height:1em;padding:0 3px 0 3px;}
+div[data-controller="GroupController"] .grouptree .caption {float:left;font-size:.7em;padding:0 .3em 0 .3em;}
+
+div[data-controller="GroupController"] .grouptree li > .content > .caption::before {font-size:.8em;color:#0000ff;}
+div[data-controller="GroupController"] .grouptree li[data-property-nodetype="Application"] > .content > .caption::before {content:'Application: ';}
+div[data-controller="GroupController"] .grouptree li[data-property-nodetype="Lv1ModuleMenu"] > .content > .caption::before {content:'Group: ';}
+div[data-controller="GroupController"] .grouptree li[data-property-nodetype="Lv2ModuleMenu"] > .content > .caption::before {content:'Group: ';}
+div[data-controller="GroupController"] .grouptree li[data-property-nodetype="Module"] > .content > .caption::before {content:'Module: ';}
+div[data-controller="GroupController"] .grouptree li[data-property-nodetype="NewMenuBarButton"] > .content > .caption::before {content:'MenuItem: ';}
+div[data-controller="GroupController"] .grouptree li[data-property-nodetype="ViewMenuBarButton"] > .content > .caption::before {content:'MenuItem: ';}
+div[data-controller="GroupController"] .grouptree li[data-property-nodetype="EditMenuBarButton"] > .content > .caption::before {content:'MenuItem: ';}
+div[data-controller="GroupController"] .grouptree li[data-property-nodetype="DeleteMenuBarButton"] > .content > .caption::before {content:'MenuItem: ';}
+div[data-controller="GroupController"] .grouptree li[data-property-nodetype="SaveMenuBarButton"] > .content > .caption::before {content:'MenuItem: ';}
+div[data-controller="GroupController"] .grouptree li[data-property-nodetype="DownloadExcelSubMenuItem"] > .content > .caption::before {content:'MenuItem: ';}
+div[data-controller="GroupController"] .grouptree li[data-property-nodetype="SubModule"] > .content > .caption::before {content:'SubModule: ';}
+div[data-controller="GroupController"] .grouptree li[data-property-nodetype="SubMenuGroup"] > .content > .caption::before {content:'Group: ';}
+div[data-controller="GroupController"] .grouptree li[data-property-nodetype="Grid"] > .content > .caption::before {content:'Grid: ';}
+div[data-controller="GroupController"] .grouptree li[data-property-nodetype="Controller"] > .content > .caption::before {content:'Controller: ';}
+div[data-controller="GroupController"] .grouptree li[data-property-nodetype="ControllerMethod"] > .content > .caption::before {content:'Method: ';}
 
 div[data-controller="GroupController"] .grouptree li[data-haschildren="F"] {list-style-type:none;}
 div[data-controller="GroupController"] .grouptree li[data-expanded="F"] > .childrencontainer {display:none;}
