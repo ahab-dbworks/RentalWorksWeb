@@ -90,6 +90,7 @@
                                                 sessionStorage.setItem('authToken',          responseOriginalApi.authToken);
                                                 sessionStorage.setItem('fullname',           responseOriginalApi.webUser.fullname);
                                                 sessionStorage.setItem('name',               responseOriginalApi.webUser.name);  //justin 05/06/2018
+                                                sessionStorage.setItem('usersid',            responseOriginalApi.webUser.usersid);  //justin 05/25/2018  //C4E0E7F6-3B1C-4037-A50C-9825EDB47F44
                                                 sessionStorage.setItem('browsedefaultrows',  responseOriginalApi.webUser.browsedefaultrows);
                                                 sessionStorage.setItem('applicationtheme',   responseOriginalApi.webUser.applicationtheme);
                                                 sessionStorage.setItem('lastLoggedIn',       new Date().toLocaleTimeString());

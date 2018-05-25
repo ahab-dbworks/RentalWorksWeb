@@ -89,6 +89,7 @@ var Base = (function () {
                                             sessionStorage.setItem('authToken', responseOriginalApi.authToken);
                                             sessionStorage.setItem('fullname', responseOriginalApi.webUser.fullname);
                                             sessionStorage.setItem('name', responseOriginalApi.webUser.name);
+                                            sessionStorage.setItem('usersid', responseOriginalApi.webUser.usersid);
                                             sessionStorage.setItem('browsedefaultrows', responseOriginalApi.webUser.browsedefaultrows);
                                             sessionStorage.setItem('applicationtheme', responseOriginalApi.webUser.applicationtheme);
                                             sessionStorage.setItem('lastLoggedIn', new Date().toLocaleTimeString());
