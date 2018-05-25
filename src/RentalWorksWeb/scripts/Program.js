@@ -22,8 +22,18 @@ var Program = (function (_super) {
 }(FwApplication));
 var program = new Program();
 jQuery(function () {
-    program.load();
-    program.loadDefaultPage();
+    function start() {
+        program.load();
+        program.loadDefaultPage();
+    }
+    if (applicationConfig.debugMode) {
+        setTimeout(function () {
+            start();
+        }, 1000);
+    }
+    else {
+        start();
+    }
 });
 routes.push({ pattern: /^module\/country$/, action: function (match) { return CountryController.getModuleScreen(); } });
 routes.push({ pattern: /^module\/state$/, action: function (match) { return StateController.getModuleScreen(); } });

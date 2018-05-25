@@ -12,8 +12,17 @@
 var program: Program = new Program();
 //---------------------------------------------------------------------------------
 jQuery(function () {
-    program.load();
-    program.loadDefaultPage();
+    function start() {
+        program.load();
+        program.loadDefaultPage();
+    }
+    if (applicationConfig.debugMode) {
+        setTimeout(function () {
+            start();
+        }, 1000);
+    } else {
+        start();
+    }
 });
 //---------------------------------------------------------------------------------
 //---------------------------------------------------------------------------------
