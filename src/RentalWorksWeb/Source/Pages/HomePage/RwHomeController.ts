@@ -162,7 +162,7 @@
                 var $confirmation = FwConfirmation.renderConfirmation(text, '');
                 var $cancel = FwConfirmation.addButton($confirmation, 'Close', true);
                 var html = [];
-                html.push('<div data-chart="' + apiname + '" class="chart-container"><canvas style="padding:5px;" id="' + apiname + 'fullscreen"></canvas></div>');
+                html.push('<div data-chart="' + apiname + '" class="chart-container" style="overflow:hidden;"><canvas style="padding:5px;" id="' + apiname + 'fullscreen"></canvas></div>');
                 FwConfirmation.addControls($confirmation, html.join(''));
                 $confirmation.find('.fwconfirmationbox').css('width', '80%')
 
@@ -170,12 +170,16 @@
 
                 FwAppData.apiMethod(true, 'GET', 'api/v1/widget/loadbyname/' + apiname + '/' + dataPointCount, {}, FwServices.defaultTimeout, function onSuccess(response) {
                     try {
+                        response.options.responsive = true;
                         if (type !== '') {
                             response.type = type
                         }
                         if (response.type === 'pie') {
                             delete response.options.legend;
                             delete response.options.scales;
+                        }
+                        if (response.type !== 'pie') {
+                            response.options.scales.xAxes[0].ticks.autoSkip = false;
                         }
                         var chart = new Chart(widgetfullscreen, response);
                         jQuery(widgetfullscreen).on('click', function (evt) {
