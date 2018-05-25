@@ -765,8 +765,6 @@
     <Content Include="Source\Grids\MasterItem\MasterItemBrowse.htm" />
     <Content Include="Source\Modules\Administrator\DuplicateRules\DuplicateRulesBrowse.htm" />
     <Content Include="Source\Modules\Administrator\DuplicateRules\DuplicateRulesForm.htm" />
-    <Content Include="Source\Modules\Administrator\Group\GroupBrowse.htm" />
-    <Content Include="Source\Modules\Administrator\Group\GroupForm.htm" />
     <Content Include="Source\Modules\Administrator\Integration\Integration.css" />
     <Content Include="Source\Modules\Administrator\Integration\RwIntegrationController.js" />
     <Content Include="Source\Modules\Administrator\Integration\IntegrationForm.htm" />

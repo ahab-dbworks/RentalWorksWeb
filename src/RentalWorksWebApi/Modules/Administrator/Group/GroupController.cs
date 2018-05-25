@@ -4,11 +4,12 @@ using Microsoft.Extensions.Options;
 using WebApi.Controllers; 
 using System.Threading.Tasks;
 using FwStandard.Security;
+using FwCore.Modules.Administrator.Group;
 
 namespace WebApi.Modules.Administrator.Group
 {
     [Route("api/v1/[controller]")]
-    public class GroupController : AppDataController
+    public class GroupController : FwGroupController
     {
         public GroupController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
         //------------------------------------------------------------------------------------ 
@@ -16,35 +17,35 @@ namespace WebApi.Modules.Administrator.Group
         [HttpPost("browse")]
         public async Task<IActionResult> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
-            return await DoBrowseAsync(browseRequest, typeof(GroupLogic));
+            return await DoBrowseAsync(browseRequest, typeof(FwGroupLogic));
         }
         //------------------------------------------------------------------------------------ 
         // GET api/v1/group 
         [HttpGet]
         public async Task<IActionResult> GetAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
-            return await DoGetAsync<GroupLogic>(pageno, pagesize, sort, typeof(GroupLogic));
+            return await DoGetAsync<FwGroupLogic>(pageno, pagesize, sort, typeof(FwGroupLogic));
         }
         //------------------------------------------------------------------------------------ 
         // GET api/v1/group/A0000001 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetAsync([FromRoute]string id)
         {
-            return await DoGetAsync<GroupLogic>(id, typeof(GroupLogic));
+            return await DoGetAsync<FwGroupLogic>(id, typeof(FwGroupLogic));
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/group 
         [HttpPost]
-        public async Task<IActionResult> PostAsync([FromBody]GroupLogic l)
+        public async Task<IActionResult> PostAsync([FromBody]FwGroupLogic l)
         {
-            return await DoPostAsync<GroupLogic>(l);
+            return await DoPostAsync<FwGroupLogic>(l);
         }
         //------------------------------------------------------------------------------------ 
         // DELETE api/v1/group/A0000001 
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id, typeof(GroupLogic));
+            return await DoDeleteAsync(id, typeof(FwGroupLogic));
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/group/validateduplicate 
@@ -59,18 +60,7 @@ namespace WebApi.Modules.Administrator.Group
         [HttpGet("applicationtree/{id}")]
         public async Task<IActionResult> GetApplicationTree([FromRoute]string id)
         {
-            //return await DoGetAsync<GroupLogic>(id, typeof(GroupLogic));
-       
-            //const string METHOD_NAME = "FwGroup.getApplicationTree";
-            FwSecurityTreeNode groupTree;
-            //string groupsid;
-
-            //FwValidate.TestPropertyDefined(METHOD_NAME, request, "groupsid");
-            //groupsid = FwCryptography.AjaxDecrypt(request.groupsid);
-            groupTree = Task.Run<FwSecurityTreeNode>(async () => await FwSecurityTree.Tree.GetGroupsTreeAsync(id, false)).Result;
-
-            //response.applicationtree = groupTree;
-            return new OkObjectResult(groupTree);
+            return await DoGetApplicationTree(id);
         }
         //---------------------------------------------------------------------------------------------
 
