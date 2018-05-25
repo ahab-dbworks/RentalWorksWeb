@@ -12,7 +12,7 @@ namespace WebLibrary.Security
         //---------------------------------------------------------------------------------------------
         public SecurityTree(SqlServerConfig sqlServerConfig, string currentApplicationId) : base(sqlServerConfig, currentApplicationId)
         {
-            var system = AddSystem("Application", "{4AC8B3C9-A2C2-4085-8F7F-EE005CCEB535}");
+            var system = AddSystem("Applications", "{4AC8B3C9-A2C2-4085-8F7F-EE005CCEB535}");
             BuildRentalWorksWebTree(system);
             BuildTrakItWorksWebTree(system);
             BuildRentalWorksWebApiTree(system);
@@ -41,6 +41,7 @@ namespace WebLibrary.Security
             var lv1menuBilling       = AddLv1ModuleMenu("Billing",         "{9BC99BDA-4C94-4D7D-8C22-31CA5205B1AA}", application.Id);
             var lv1menuReports       = AddLv1ModuleMenu("Reports",         "{7FEC9D55-336E-44FE-AE01-96BF7B74074C}", application.Id);
             var lv1menuUtilities     = AddLv1ModuleMenu("Utilities",       "{81609B0E-4B1F-4C13-8BE0-C1948557B82D}", application.Id);
+            var lv1menuSettings      = AddLvl1SettingsMenu("Settings",        "{730C9659-B33B-493E-8280-76A060A07DCE}", application.Id);
             var lv1menuAdministrator = AddLv1ModuleMenu("Administrator",   "{F188CB01-F627-4DD3-9B91-B6486F0977DC}", application.Id);
             var lv1menuSubModules    = AddLv1SubModulesMenu("Sub-Modules", "{B8E34B04-EB99-4068-AD9E-BDC32D02967A}", application.Id);
             var lv1menuGrids         = AddLv1GridsMenu("Grids",            "{43765919-4291-49DD-BE76-F69AA12B13E8}", application.Id);
@@ -65,8 +66,6 @@ namespace WebLibrary.Security
             AddModule("Repair Order",     "{2BD0DC82-270E-4B86-A9AA-DD0461A0186A}", lv1menuWarehouse.Id, "RepairController",          "module/repair",          homeiconbaseurl + "placeholder.png");
            
             //Settings 
-
-            var lv1menuSettings      = AddLvl1SettingsMenu("Settings",        "{730C9659-B33B-493E-8280-76A060A07DCE}", application.Id);
             var lv2menuAccountingSettings   = AddSettingsMenu("Accounting Settings",         "{BAF9A442-BA44-4DD1-9119-905C1A8FF199}", lv1menuSettings.Id,                                                                                        settingsiconbaseurl + "placeholder.png");
                                                      AddSettingsModule("Chart of Accounts",           "{F03CA227-99EE-42EF-B615-94540DCB21B3}", lv2menuAccountingSettings.Id,   "GlAccountController",                 "module/glaccount",                 settingsiconbaseurl + "placeholder.png", description: "Asset, Income, Liability, and Expense Accounts for tracking revenue and expenses.");
                                                      AddSettingsModule("G/L Distribution",            "{7C249F59-B5E3-4DAE-933D-38D30858CF7C}", lv2menuAccountingSettings.Id,   "GlDistributionController",            "module/gldistribution",            settingsiconbaseurl + "placeholder.png", description: "Accounts to use for Accounts Receivable, Receipts, Payables, etc.");

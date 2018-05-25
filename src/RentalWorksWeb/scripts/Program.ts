@@ -1,5 +1,4 @@
-﻿//var program, ScannerDevice, LineaScanner;
-class Program extends FwApplication {
+﻿class Program extends FwApplication {
     //---------------------------------------------------------------------------------
     constructor() {
         super();
@@ -174,7 +173,6 @@ routes.push({ pattern: /^module\/contract$/, action: function (match: RegExpExec
 //Reports                                             
 routes.push({ pattern: /^module\/dealoutstanding/, action: function (match: RegExpExecArray) { return RwDealOutstandingController.getModuleScreen(); } });
 routes.push({ pattern: /^module\/invoicesummaryreport/, action: function (match: RegExpExecArray) { return RwInvoiceSummaryReportController.getModuleScreen(); } });
-
 
 //Utilities Modules                                   
 routes.push({ pattern: /^module\/chargeprocessing/, action: function (match: RegExpExecArray) { return RwChargeProcessingController.getModuleScreen(); } });

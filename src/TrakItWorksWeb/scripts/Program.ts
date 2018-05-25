@@ -175,7 +175,6 @@ routes.push({ pattern: /^module\/contract$/, action: function (match: RegExpExec
 routes.push({ pattern: /^module\/dealoutstanding/, action: function (match: RegExpExecArray) { return RwDealOutstandingController.getModuleScreen(); } });
 routes.push({ pattern: /^module\/invoicesummaryreport/, action: function (match: RegExpExecArray) { return RwInvoiceSummaryReportController.getModuleScreen(); } });
 
-
 //Utilities Modules                                   
 routes.push({ pattern: /^module\/chargeprocessing/, action: function (match: RegExpExecArray) { return RwChargeProcessingController.getModuleScreen(); } });
 routes.push({ pattern: /^module\/receiptprocessing/, action: function (match: RegExpExecArray) { return RwReceiptProcessingController.getModuleScreen(); } });
