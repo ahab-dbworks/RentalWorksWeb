@@ -514,7 +514,8 @@ class Quote {
         var $allOrderItemGridControl;
         $allOrderItemGrid = $form.find('.combinedgrid div[data-grid="OrderItemGrid"]');
         $allOrderItemGridControl = jQuery(jQuery('#tmpl-grids-OrderItemGridBrowse').html());
-        $allOrderItemGridControl.find('.allitem').attr('data-visible', 'true');
+        $allOrderItemGridControl.find('.combined').attr('data-visible', 'true');
+        $allOrderItemGridControl.find('.individual').attr('data-visible', 'false');
         $allOrderItemGrid.empty().append($allOrderItemGridControl);
         $allOrderItemGrid.addClass('A');
         $allOrderItemGridControl.data('isSummary', false);
