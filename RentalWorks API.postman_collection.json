@@ -12859,6 +12859,87 @@
 			]
 		},
 		{
+			"name": "Inventory Search Preview",
+			"description": "",
+			"item": [
+				{
+					"name": "Inventory Search Preview: Browse",
+					"request": {
+						"url": "http://localhost:57949/api/v1/inventorysearchpreview/browse",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"Description\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": [],\n\t\t\"SessionId\": \"H00032G8\",\n\t\t\"ShowAvailability\": true,\n     \t\"FromDate\": \"04/01/2018\",\n\t\t\"ToDate\": \"05/01/2018\"\n\t\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Inventory Search Preview: Update",
+					"request": {
+						"url": "http://localhost:57949/api/v1/inventorysearchpreview",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t \"Id\": \"2373\",\n\t \"Quantity\": 1.5\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Inventory Search Preview: Delete",
+					"request": {
+						"url": "http://localhost:57949/api/v1/inventorysearchpreview/2373",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
 			"name": "Item",
 			"description": "",
 			"item": [
