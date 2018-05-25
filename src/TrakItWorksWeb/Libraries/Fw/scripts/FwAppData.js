@@ -158,7 +158,7 @@ var FwAppData = (function () {
         return request.requestid;
     };
     ;
-    FwAppData.apiMethod = function (requiresAuthToken, method, url, request, timeoutSeconds, onSuccess, onError, $elementToBlock) {
+    FwAppData.apiMethod = function (requiresAuthToken, method, url, request, timeoutSeconds, onSuccess, onError, $elementToBlock, progressBarSessionId) {
         var $overlay;
         var isdesktop = jQuery('html').hasClass('desktop');
         var ismobile = jQuery('html').hasClass('mobile');
@@ -188,7 +188,12 @@ var FwAppData = (function () {
             beforeSend: function (jqXHR, settings) {
                 if (isdesktop || (ismobile && ($elementToBlock !== null))) {
                     if ((typeof $elementToBlock === 'object') && ($elementToBlock !== null)) {
-                        $overlay = FwOverlay.showPleaseWaitOverlay($elementToBlock, settings.context.requestid);
+                        if (progressBarSessionId !== undefined) {
+                            $overlay = FwOverlay.showProgressBarOverlay($elementToBlock, progressBarSessionId);
+                        }
+                        else {
+                            $overlay = FwOverlay.showPleaseWaitOverlay($elementToBlock, settings.context.requestid);
+                        }
                     }
                 }
                 else if (ismobile) {

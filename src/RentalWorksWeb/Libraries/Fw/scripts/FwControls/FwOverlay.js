@@ -19,6 +19,61 @@ var FwOverlay = (function () {
         $appendToElement.css('position', 'relative').append($moduleoverlay);
         return $moduleoverlay;
     };
+    FwOverlay.showProgressBarOverlay = function ($appendToElement, progressBarSessionId) {
+        var html, $moduleoverlay, maxZIndex, progressCompleted, caption, percentage, handle, currentStep, totalSteps, fullurl;
+        var request = {};
+        var url = "api/v1/progressmeter/" + progressBarSessionId;
+        fullurl = applicationConfig.apiurl + url;
+        progressCompleted = false;
+        html = [];
+        var ajaxOptions = {
+            method: 'GET',
+            url: fullurl,
+            contentType: 'application/json',
+            dataType: 'json',
+            headers: {
+                Authorization: 'Bearer ' + sessionStorage.getItem('apiToken')
+            },
+            context: {
+                requestid: FwAppData.generateUUID()
+            },
+        };
+        html.push("<div class=\"progress_bar\">");
+        html.push("<progress max=\"\" value=\"0\"><span class=\"progress_span\">0</span></progress>");
+        html.push("<div class=\"progress_bar_text\"></div>");
+        html.push("<div class=\"progress_bar_caption\"></div>");
+        html.push("</div>");
+        $moduleoverlay = jQuery("<div class=\"\">");
+        $moduleoverlay.css('z-index', maxZIndex);
+        maxZIndex = FwFunc.getMaxZ('*');
+        $moduleoverlay.html(html.join(''));
+        $moduleoverlay.on('click', function () {
+            $moduleoverlay.addClass('clicked');
+        });
+        $appendToElement.css('position', 'relative').append($moduleoverlay);
+        handle = setInterval(function () {
+            jQuery.ajax(ajaxOptions)
+                .done(function (response) {
+                caption = response.Caption;
+                currentStep = response.CurrentStep;
+                totalSteps = response.TotalSteps;
+                percentage = Math.floor((currentStep / totalSteps) * 100);
+                $moduleoverlay.find('progress').val(currentStep);
+                $moduleoverlay.find('progress').attr('max', totalSteps);
+                $moduleoverlay.find('.progress_bar_text').text(percentage + "%");
+                $moduleoverlay.find('.progress_span').text(percentage + "%");
+                $moduleoverlay.find('.progress_bar_caption').text(caption);
+                if (currentStep === totalSteps) {
+                    progressCompleted = true;
+                    if (progressCompleted) {
+                        clearInterval(handle);
+                        handle = 0;
+                    }
+                }
+            });
+        }, 500);
+        return $moduleoverlay;
+    };
     FwOverlay.showErrorOverlay = function ($appendToElement) {
         var html, overlayid, overlaycount;
         overlayid = FwControl.generateControlId('overlay');

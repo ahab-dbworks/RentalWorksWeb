@@ -56,3 +56,52 @@ html.theme-material .fwformfield[data-type="validation"] .fwformfield-control{bo
 html.theme-material .fwformfield[data-type="date"] .fwformfield-control{border-top:none;border-right:none;border-left:none;border-bottom:1px solid #e1dfdf;}
 html.theme-material .fwformfield[data-type="time"] .fwformfield-control{border-top:none;border-right:none;border-left:none;border-bottom:1px solid #e1dfdf;}
     */
+
+/***************************
+ProgressBar
+***************************/
+
+/* Reset the default appearance */
+progress[value]::-webkit-progress-value {
+    background-image:
+        -webkit-linear-gradient(-45deg, transparent 33%, rgba(0, 0, 0, .1) 33%, rgba(0, 0, 0, .1) 66%, transparent 66%),
+        -webkit-linear-gradient(top, rgba(255, 255, 255, .25), rgba(0, 0, 0, .25)),
+        -webkit-linear-gradient(left, #335EC4, #1F71F4);
+    border-radius: 45px;
+    background-size: 35px 20px, 100% 100%, 100% 100%;
+}
+
+progress::-webkit-progress-bar {
+    background-image:
+        -webkit-linear-gradient(-45deg, transparent 33%, rgba(0, 0, 0, .1) 33%, rgba(0, 0, 0, .1) 66%, transparent 66%),
+        -webkit-linear-gradient(top, rgba(255, 255, 255, .25), rgba(0, 0, 0, .25)),
+        -webkit-linear-gradient(left, #333, #666);
+    border-radius: 45px;
+    background-size: 35px 20px, 100% 100%, 100% 100%
+}
+
+progress {
+    width: 100%;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    width: 300px;
+    height: 20px;
+    font-family: 'Material Icons';
+}
+
+.progress_bar {
+    position: fixed;
+    left: 42%;
+    top: 42%;
+    z-index: 100;
+    text-align: center;
+}
+
+progress::-webkit-progress-value {
+    background-image:
+	   -webkit-linear-gradient(-45deg, transparent 33%, rgba(0, 0, 0, .1) 33%, rgba(0,0, 0, .1) 66%, transparent 66%),
+	   -webkit-linear-gradient(top, rgba(255, 255, 255, .25),  rgba(0, 0, 0, .25)),
+	   -webkit-linear-gradient(left, #09c, #f44);
+    border-radius: 5px; 
+    background-size: 35px 20px, 100% 100%, 100% 100%;
+}

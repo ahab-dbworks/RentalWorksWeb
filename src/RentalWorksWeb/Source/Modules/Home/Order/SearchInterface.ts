@@ -907,7 +907,7 @@ class SearchInterface {
                 FwBrowse.search($orderItemGridLabor);
                 var $orderItemGridMisc = $form.find('.miscgrid [data-name="OrderItemGrid"]');
                 FwBrowse.search($orderItemGridMisc);
-            }, null, $searchpopup);
+            }, null, $searchpopup, id);
         });
 
         $popup.on('click', '.listbutton', function () {
