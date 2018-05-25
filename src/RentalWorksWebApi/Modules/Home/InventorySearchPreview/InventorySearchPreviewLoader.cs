@@ -5,18 +5,25 @@ using System.Threading.Tasks;
 using System.Data;
 using System.Reflection;
 using System;
+using static WebApi.Modules.Home.InventorySearchPreview.InventorySearchPreviewController;
 
-namespace WebApi.Modules.Home.InventorySearch
+namespace WebApi.Modules.Home.InventorySearchPreview
 {
     [FwSqlTable("inventoryview")]
-    public class InventorySearchLoader : AppDataLoadRecord
+    public class InventorySearchPreviewLoader : AppDataLoadRecord
     {
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "id", modeltype: FwDataTypes.Text, isPrimaryKey: true)]
+        public string Id { get; set; } = "";
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "warehouseid", modeltype: FwDataTypes.Text)]
         public string WarehouseId { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "masterid", modeltype: FwDataTypes.Text, isPrimaryKey: true)]
-        public string InventoryId { get; set; } = "";
+        [FwSqlDataField(column: "parentid", modeltype: FwDataTypes.Text)]
+        public string ParentId { get; set; } 
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "masterid", modeltype: FwDataTypes.Text)]
+        public string InventoryId { get; set; } 
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "availfor", modeltype: FwDataTypes.Text)]
         public string AvailFor { get; set; }
@@ -117,61 +124,15 @@ namespace WebApi.Modules.Home.InventorySearch
 
 
         //------------------------------------------------------------------------------------ 
-        public async Task<FwJsonDataTable> SearchAsync(InventorySearchRequest request)
+        public async Task<FwJsonDataTable> PreviewAsync(InventorySearchPreviewBrowseRequest request)
         {
             FwJsonDataTable dt = null;
 
             using (FwSqlConnection conn = new FwSqlConnection(this.AppConfig.DatabaseSettings.ConnectionString))
             {
-                using (FwSqlCommand qry = new FwSqlCommand(conn, "getinventorysearch", this.AppConfig.DatabaseSettings.QueryTimeout))
+                using (FwSqlCommand qry = new FwSqlCommand(conn, "getinventorysearchpreview", this.AppConfig.DatabaseSettings.QueryTimeout))
                 {
                     qry.AddParameter("@sessionid", SqlDbType.NVarChar, ParameterDirection.Input, request.SessionId);
-                    qry.AddParameter("@orderid", SqlDbType.NVarChar, ParameterDirection.Input, request.OrderId);
-                    qry.AddParameter("@availfor", SqlDbType.NVarChar, ParameterDirection.Input, request.AvailableFor);
-                    qry.AddParameter("@warehouseid", SqlDbType.NVarChar, ParameterDirection.Input, request.WarehouseId);
-                    qry.AddParameter("@inventorydepartmentid", SqlDbType.NVarChar, ParameterDirection.Input, request.InventoryTypeId);
-                    qry.AddParameter("@categoryid", SqlDbType.NVarChar, ParameterDirection.Input, request.CategoryId);
-                    qry.AddParameter("@subcategoryid", SqlDbType.NVarChar, ParameterDirection.Input, request.SubCategoryId);
-                    qry.AddParameter("@classification", SqlDbType.NVarChar, ParameterDirection.Input, request.Classification);
-                    qry.AddParameter("@searchtext", SqlDbType.NVarChar, ParameterDirection.Input, request.SearchText);
-                    qry.AddParameter("@showavail", SqlDbType.NVarChar, ParameterDirection.Input, (request.ShowAvailability?"T":"F"));
-                    if ((request.FromDate != null) && (request.FromDate > DateTime.MinValue))
-                    {
-                        qry.AddParameter("@fromdate", SqlDbType.DateTime, ParameterDirection.Input, request.FromDate);
-                    }
-                    if ((request.ToDate != null) && (request.ToDate > DateTime.MinValue))
-                    {
-                        qry.AddParameter("@todate", SqlDbType.DateTime, ParameterDirection.Input, request.ToDate);
-                    }
-                    qry.AddParameter("@showimages", SqlDbType.NVarChar, ParameterDirection.Input, (request.ShowImages?"T":"F"));
-                    qry.AddParameter("@sortby", SqlDbType.NVarChar, ParameterDirection.Input, request.SortBy);
-                    PropertyInfo[] propertyInfos = typeof(InventorySearchLoader).GetProperties();
-                    foreach (PropertyInfo propertyInfo in propertyInfos)
-                    {
-                        FwSqlDataFieldAttribute sqlDataFieldAttribute = propertyInfo.GetCustomAttribute<FwSqlDataFieldAttribute>();
-                        if (sqlDataFieldAttribute != null)
-                        {
-                            qry.AddColumn(sqlDataFieldAttribute.ColumnName, propertyInfo.Name, sqlDataFieldAttribute.ModelType, sqlDataFieldAttribute.IsVisible, sqlDataFieldAttribute.IsPrimaryKey, false);
-                        }
-                    }
-                    dt = await qry.QueryToFwJsonTableAsync(false, 0);
-                }
-            }
-            return dt;
-        }
-        //------------------------------------------------------------------------------------
-        public async Task<FwJsonDataTable> SearchAccessoriesAsync(InventorySearchAccessoriesRequest request)
-        {
-            FwJsonDataTable dt = null;
-
-            using (FwSqlConnection conn = new FwSqlConnection(this.AppConfig.DatabaseSettings.ConnectionString))
-            {
-                using (FwSqlCommand qry = new FwSqlCommand(conn, "getinventorysearchaccessories", this.AppConfig.DatabaseSettings.QueryTimeout))
-                {
-                    qry.AddParameter("@sessionid", SqlDbType.NVarChar, ParameterDirection.Input, request.SessionId);
-                    qry.AddParameter("@orderid", SqlDbType.NVarChar, ParameterDirection.Input, request.OrderId);
-                    qry.AddParameter("@parentid", SqlDbType.NVarChar, ParameterDirection.Input, request.ParentId);
-                    qry.AddParameter("@warehouseid", SqlDbType.NVarChar, ParameterDirection.Input, request.WarehouseId);
                     qry.AddParameter("@showavail", SqlDbType.NVarChar, ParameterDirection.Input, (request.ShowAvailability ? "T" : "F"));
                     if ((request.FromDate != null) && (request.FromDate > DateTime.MinValue))
                     {
@@ -181,8 +142,7 @@ namespace WebApi.Modules.Home.InventorySearch
                     {
                         qry.AddParameter("@todate", SqlDbType.DateTime, ParameterDirection.Input, request.ToDate);
                     }
-                    qry.AddParameter("@showimages", SqlDbType.NVarChar, ParameterDirection.Input, (request.ShowImages ? "T" : "F"));
-                    PropertyInfo[] propertyInfos = typeof(InventorySearchLoader).GetProperties();
+                    PropertyInfo[] propertyInfos = typeof(InventorySearchPreviewLoader).GetProperties();
                     foreach (PropertyInfo propertyInfo in propertyInfos)
                     {
                         FwSqlDataFieldAttribute sqlDataFieldAttribute = propertyInfo.GetCustomAttribute<FwSqlDataFieldAttribute>();
@@ -197,7 +157,6 @@ namespace WebApi.Modules.Home.InventorySearch
             return dt;
         }
         //------------------------------------------------------------------------------------
-
 
     }
 }

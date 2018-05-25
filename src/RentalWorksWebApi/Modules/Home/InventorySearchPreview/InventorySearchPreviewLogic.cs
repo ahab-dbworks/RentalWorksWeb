@@ -6,16 +6,18 @@ using WebApi.Logic;
 using static FwStandard.DataLayer.FwDataReadWriteRecord;
 using System.Threading.Tasks;
 using FwStandard.SqlServer;
+using WebApi.Modules.Home.InventorySearch;
+using static WebApi.Modules.Home.InventorySearchPreview.InventorySearchPreviewController;
 
-namespace WebApi.Modules.Home.InventorySearch
+namespace WebApi.Modules.Home.InventorySearchPreview
 {
-    public class InventorySearchLogic : AppBusinessLogic
+    public class InventorySearchPreviewLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------ 
-        protected InventorySearchRecord inventorySearch= new InventorySearchRecord();
-        protected InventorySearchLoader inventorySearchLoader = new InventorySearchLoader();
+        protected InventorySearchPreviewRecord inventorySearch= new InventorySearchPreviewRecord();
+        protected InventorySearchPreviewLoader inventorySearchLoader = new InventorySearchPreviewLoader();
 
-        public InventorySearchLogic() : base()
+        public InventorySearchPreviewLogic() : base()
         {
             dataRecords.Add(inventorySearch);
             dataLoader = inventorySearchLoader;
@@ -26,34 +28,20 @@ namespace WebApi.Modules.Home.InventorySearch
 
         //------------------------------------------------------------------------------------ 
         [FwBusinessLogicField(isPrimaryKey: true)]
+        public string Id { get { return inventorySearch.Id; } set { inventorySearch.Id = value; } }
         public string SessionId { get { return inventorySearch.SessionId; } set { inventorySearch.SessionId = value; } }
-        [FwBusinessLogicField(isPrimaryKey: true)]
+        public string ParentId { get { return inventorySearch.ParentId; } set { inventorySearch.ParentId = value; } }
         public string InventoryId { get { return inventorySearch.InventoryId; } set { inventorySearch.InventoryId = value; } }
-        [FwBusinessLogicField(isPrimaryKey: true)]
         public string WarehouseId { get { return inventorySearch.WarehouseId; } set { inventorySearch.WarehouseId = value; } }
         public decimal? Quantity { get { return inventorySearch.Quantity; } set { inventorySearch.Quantity = value; } }
         //------------------------------------------------------------------------------------
-        public async Task<FwJsonDataTable> SearchAsync(InventorySearchRequest request)
+        public async Task<FwJsonDataTable> PreviewAsync(InventorySearchPreviewBrowseRequest request)
         {
             FwJsonDataTable dt = null;
 
             inventorySearchLoader.UserSession = this.UserSession;
-            dt = await inventorySearchLoader.SearchAsync(request);
+            dt = await inventorySearchLoader.PreviewAsync(request);
             return dt;
-        }
-        //------------------------------------------------------------------------------------
-        public async Task<FwJsonDataTable> SearchAccessoriesAsync(InventorySearchAccessoriesRequest request)
-        {
-            FwJsonDataTable dt = null;
-
-            inventorySearchLoader.UserSession = this.UserSession;
-            dt = await inventorySearchLoader.SearchAccessoriesAsync(request);
-            return dt;
-        }
-        //------------------------------------------------------------------------------------
-        public async Task<bool> AddToAsync(InventorySearchRequest request)
-        {
-            return await inventorySearch.AddToAsync(request);
         }
         //------------------------------------------------------------------------------------
     }
