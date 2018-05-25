@@ -10,6 +10,7 @@ namespace WebLibrary.Security.Tree.RentalWorksWeb.Grids
         public override void BuildBranch(FwSecurityTree tree)
         {
             var nodeGridMenuBar = tree.AddMenuBar("{5F781FBE-3CA4-45B6-860F-B58B602FF826}", MODULEID);
+            tree.AddEditMenuBarButton("{C160E5CB-431F-4C70-B3B8-9E2A96A10EC1}", nodeGridMenuBar.Id);
         }
         //---------------------------------------------------------------------------------------------
     }
