@@ -369,8 +369,31 @@ class Quote {
             for (key in response) {
                 if (response.hasOwnProperty(key)) {
                     $form.find('[data-framedatafield="' + key + '"] input').val(response[key]);
+                    $form.find('[data-framedatafield="' + key + '"]').attr('data-originalvalue', response[key]);
                 }
             }
+
+            var $profitFrames = $form.find('.profitFrames .frame');
+            $profitFrames.each(function () {
+                var profit = parseFloat(jQuery(this).attr('data-originalvalue'));
+
+                if (profit > 0) {
+                    jQuery(this).find('input').css('background-color', '#A6D785');
+                } else if (profit < 0) {
+                    jQuery(this).find('input').css('background-color', '#ff9999');
+                }
+
+            });
+
+            var $totalFrames = $form.find('.totalColors input');
+            $totalFrames.each(function () {
+                var total = jQuery(this).val();
+                if (total != 0) {
+                    jQuery(this).css('background-color', '#ffffe5');
+                }
+            })
+
+
         }, null, null);
 
         FwFormField.disable($form.find('.frame'));
