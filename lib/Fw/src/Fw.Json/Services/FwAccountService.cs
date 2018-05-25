@@ -68,6 +68,7 @@ namespace Fw.Json.Services
                 usersid                             = (FwValidate.IsPropertyDefined(webUsersView, "usersid"))   ? webUsersView.usersid   : string.Empty;
                 session.security.webUser.usersid    = usersid;
                 tokenData.webUser.usersid           = usersid;
+                response.webUser.usersid            = usersid;  //justin 05/25/2018   //C4E0E7F6-3B1C-4037-A50C-9825EDB47F44
 
                 contactid                           = (FwValidate.IsPropertyDefined(webUsersView, "contactid")) ? webUsersView.contactid : string.Empty;
                 session.security.webUser.contactid  = contactid;
