@@ -62,7 +62,6 @@ class Program extends FwApplication {
                     }
                 }
             }
-            
         };
         setTimeout(function() {
             me.loadApplication();
@@ -83,22 +82,22 @@ class Program extends FwApplication {
                         window.screen.lockOrientation(<OrientationLockType | OrientationLockType[]>orientation);
                     }
                 }
-        
+
                 if (typeof DTDevices === 'object') {
                     DTDevices.barcodeSetScanBeep(true, [500,50]);
                     DTDevices.startListening();
                     DTDevices.registerListener('barcodeData', 'barcodeData_applicationjs', function(barcode, barcodeType) {
                         me.onBarcodeData(barcode);
                     });
-                    if (typeof localStorage.scanMode === 'undefined') {
+                    if (typeof localStorage.barcodeScanMode === 'undefined') {
                         localStorage.barcodeScanMode = 'MODE_SINGLE_SCAN';
                     }
                     DTDevices.barcodeSetScanMode(localStorage.barcodeScanMode);
                 }
-        
+
                 if (typeof TslReader === 'object') {
                     TslReader.startListening();
-                    //TslReader.registerListener('epcsReceived', 'epcsReceived_applicationjs', function(epcs) {   
+                    //TslReader.registerListener('epcsReceived', 'epcsReceived_applicationjs', function(epcs) {
                     //    me.onBarcodeData(epcs);
                     //});
                     TslReader.registerListener('barcodeReceived', 'barcodeReceived_applicationjs', function(barcode) {
@@ -157,8 +156,6 @@ class Program extends FwApplication {
                 setTimeout(function() {
                     me.loadApplication();
                 }, 0);
-
-
             }, false);
         }
     };
@@ -414,10 +411,8 @@ class Program extends FwApplication {
                 jQuery('#scanBarcodeView-txtBarcodeData').val('');
                 jQuery('#scanBarcodeView .clearbarcode').hide();
                 jQuery('#scanBarcodeView-txtBarcodeData').focus();
-                
-                setTimeout(function () {
-                    
-                }, 100);
+
+                setTimeout(function () { }, 100);
             });
         }
     };
@@ -463,7 +458,7 @@ class Program extends FwApplication {
                         } catch(ex) {
                             FwFunc.showError(ex);
                         }
-                    }, 
+                    },
                     function() {
                         try {
                             me.setDeviceConnectionState('DISCONNECTED');

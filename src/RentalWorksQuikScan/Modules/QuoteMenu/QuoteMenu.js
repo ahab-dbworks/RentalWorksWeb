@@ -228,6 +228,7 @@ RwQuoteMenu.getQuoteMenuScreen = function(viewModel, properties) {
         $fields = $neworder.find('.fwformfield');
         $fields.each(function(index) {
             var $field = jQuery(this);
+            $field.removeClass('error');
 
             if (($field.attr('data-required') == 'true') && ($field.attr('data-enabled') == 'true')) {
                 if ($field.find('.fwformfield-value').val() == '') {
@@ -237,9 +238,6 @@ RwQuoteMenu.getQuoteMenuScreen = function(viewModel, properties) {
             }
             if ($field.hasClass('error')) {
                 isvalid = false;
-            }
-            if (isvalid) {
-                $field.removeClass('error');
             }
         })
 

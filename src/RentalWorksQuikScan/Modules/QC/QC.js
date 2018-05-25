@@ -162,14 +162,14 @@ RwInventoryController.getQCScreen = function(viewModel, properties) {
         screen.$view.find('#qccontrol').fwmobilemodulecontrol('changeState', 0);
     };
     $item
-        .on('click', '.item-photo', function() {
+        .on('click', '.item-photo[data-status="empty"]', function () {
             var $this;
             $this = jQuery(this);
             try {
                 if (typeof navigator.camera !== 'undefined') {
                     navigator.camera.getPicture(
                         //success
-                        function(imageData) {
+                        function (imageData) {
                             var $image;
                             try {
                                 if ((typeof window.screen === 'object') && (typeof window.screen.lockOrientation === 'function')) {
@@ -181,38 +181,48 @@ RwInventoryController.getQCScreen = function(viewModel, properties) {
                                 $this.attr('data-status', 'image');
                                 $this.empty().append($image);
                                 $item.find('.pictures').append($item.addblankimage());
-                            } catch(ex) {
+                            } catch (ex) {
                                 FwFunc.showError(ex);
                             }
                         },
                         //error
-                        function(message) {
+                        function (message) {
                             try {
                                 if ((typeof window.screen === 'object') && (typeof window.screen.lockOrientation === 'function')) {
                                     window.screen.lockOrientation('portrait-primary');
                                 }
                                 FwNotification.renderNotification('ERROR', message);
-                            } catch(ex) {
+                            } catch (ex) {
                                 FwFunc.showError(ex);
                             }
                         },
                         {
-                            destinationType:    Camera.DestinationType.DATA_URL,
-                            sourceType:         Camera.PictureSourceType.CAMERA,
-                            allowEdit:          false,
+                            destinationType: Camera.DestinationType.DATA_URL,
+                            sourceType: Camera.PictureSourceType.CAMERA,
+                            allowEdit: false,
                             correctOrientation: true,
-                            encodingType:       Camera.EncodingType.JPEG,
-                            quality:            applicationConfig.photoQuality,
-                            targetWidth:        applicationConfig.photoWidth,
-                            targetHeight:       applicationConfig.photoHeight
+                            encodingType: Camera.EncodingType.JPEG,
+                            quality: applicationConfig.photoQuality,
+                            targetWidth: applicationConfig.photoWidth,
+                            targetHeight: applicationConfig.photoHeight
                         }
                     );
                 } else {
                     FwNotification.renderNotification('ERROR', 'Only supported on mobile devices');
                 }
-            } catch(ex) {
+            } catch (ex) {
                 FwFunc.showError(ex);
             }
+        })
+        .on('click', '.item-photo[data-status="image"]', function () {
+            var $this         = jQuery(this);
+            var $confirmation = FwConfirmation.renderConfirmation('Remove Image?', '');
+            var $remove       = FwConfirmation.addButton($confirmation, 'Remove', true);
+            var $cancel       = FwConfirmation.addButton($confirmation, 'Cancel', true);
+
+            $remove.on('click', function () {
+                $this.remove();
+            });
         })
     ;
 

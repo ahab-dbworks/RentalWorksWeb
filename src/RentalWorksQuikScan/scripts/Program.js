@@ -87,7 +87,7 @@ var Program = (function (_super) {
                     DTDevices.registerListener('barcodeData', 'barcodeData_applicationjs', function (barcode, barcodeType) {
                         me.onBarcodeData(barcode);
                     });
-                    if (typeof localStorage.scanMode === 'undefined') {
+                    if (typeof localStorage.barcodeScanMode === 'undefined') {
                         localStorage.barcodeScanMode = 'MODE_SINGLE_SCAN';
                     }
                     DTDevices.barcodeSetScanMode(localStorage.barcodeScanMode);
@@ -367,8 +367,7 @@ var Program = (function (_super) {
                 jQuery('#scanBarcodeView-txtBarcodeData').val('');
                 jQuery('#scanBarcodeView .clearbarcode').hide();
                 jQuery('#scanBarcodeView-txtBarcodeData').focus();
-                setTimeout(function () {
-                }, 100);
+                setTimeout(function () { }, 100);
             });
         }
     };

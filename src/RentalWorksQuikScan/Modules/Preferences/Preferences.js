@@ -70,7 +70,6 @@ RwAccountController.getPreferencesScreen = function(viewModel, properties) {
 
         if (typeof window.DTDevices === 'object' && typeof window.DTDevices.barcodeSetScanMode === 'function') {
             jQuery('.lineaprosettings').show();
-            ;
         }
     };
 

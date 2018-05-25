@@ -641,8 +641,9 @@ RwOrderController.getCheckInScreen = function(viewModel, properties) {
                 html.push('        <div class="value">{{masterno}}</div>');
                 html.push('      </div>');
                 if (model.barcode !== '') {
+                    var barcodecaption = (model.trackedby === 'SERIALNO') ? RwLanguages.translate('Serial No') : RwLanguages.translate('Barcode');
                     html.push('      <div class="datafield barcode">');
-                    html.push('        <div class="caption">' + RwLanguages.translate('Barcode') + ':</div>');
+                    html.push('        <div class="caption">' + barcodecaption + ':</div>');
                     html.push('        <div class="value">{{barcode}}</div>');
                     html.push('      </div>');
                 }
@@ -931,7 +932,7 @@ RwOrderController.getCheckInScreen = function(viewModel, properties) {
     $checkinserial.find('#serialcontroller').fwmobilemodulecontrol({
         buttons: [
             {
-                caption:     'Cancel',
+                caption:     'Back',
                 orientation: 'left',
                 icon:        '&#xE5CB;', //chevron_left
                 state:       0,

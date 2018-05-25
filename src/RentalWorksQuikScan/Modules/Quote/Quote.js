@@ -51,38 +51,35 @@ RwQuote.getQuoteScreen = function(viewModel, properties) {
     });
 
     screen.$btnsubmit = FwMobileMasterController.addFormControl(screen, RwLanguages.translate('Submit'), 'right', '&#xE161;', true, function() { //save
-        var request;
-            try {
-                request = {
-                    orderid: properties.orderid
-                };
-                if (sessionStorage.getItem('sessionLock') === 'true') {
-                    FwFunc.showMessage('Navigation is locked.');
-                } else {
-                    RwServices.quote.submitQuote(request, function (response) {
-                        try {
-                            if (response.submit.errno != 0) {
-                                FwFunc.showError(response.submit.errmsg);
-                            } else {
-                                var ordertypetext = (properties.ordertype == 'Q' ? RwLanguages.translate('Quote') : RwLanguages.translate('Order'));
-                                FwFunc.showMessage(ordertypetext + ' Submitted.', function() {
-                                    program.navigate('home/home');
-                                });
-                            }
-                        } catch (ex) {
-                            FwFunc.showError(ex);
+        try {
+            var request = {
+                orderid: properties.orderid
+            };
+            if (sessionStorage.getItem('sessionLock') === 'true') {
+                FwFunc.showMessage('Navigation is locked.');
+            } else {
+                RwServices.quote.submitQuote(request, function (response) {
+                    try {
+                        if (response.submit.errno != 0) {
+                            FwFunc.showError(response.submit.errmsg);
+                        } else {
+                            var ordertypetext = (properties.ordertype == 'Q' ? RwLanguages.translate('Quote') : RwLanguages.translate('Order'));
+                            FwFunc.showMessage(ordertypetext + ' Submitted.', function() {
+                                program.navigate('home/home');
+                            });
                         }
-                    });
-                }
-            } catch (ex) {
-                FwFunc.showError(ex);
+                    } catch (ex) {
+                        FwFunc.showError(ex);
+                    }
+                });
             }
+        } catch (ex) {
+            FwFunc.showError(ex);
+        }
     });
     
     if (sessionStorage.getItem('userType') == 'USER') {
-        var $moduleLock;
-        
-        $moduleLock = jQuery('<div id="moduleLock"><img src="' + applicationConfig.appbaseurl + applicationConfig.appvirtualdirectory + 'theme/images/icons/128/lock_off.001.png" alt=""></div>');
+        var $moduleLock = jQuery('<div id="moduleLock"><img src="' + applicationConfig.appbaseurl + applicationConfig.appvirtualdirectory + 'theme/images/icons/128/lock_off.001.png" alt=""></div>');
         screen.$view.find('#module-controls').append($moduleLock);
         $moduleLock.on('click', function() {
             if(sessionStorage.getItem('sessionLock') === 'true') {
