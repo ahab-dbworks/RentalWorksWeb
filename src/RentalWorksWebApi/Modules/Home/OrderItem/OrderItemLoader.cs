@@ -26,8 +26,11 @@ namespace WebApi.Modules.Home.OrderItem
         [FwSqlDataField(column: "rectypedisplay", modeltype: FwDataTypes.Text)]
         public string RecTypeDisplay { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "ident", modeltype: FwDataTypes.Integer)]
+        [FwSqlDataField(column: "identseparateactivities", modeltype: FwDataTypes.Integer)]
         public int? RowNumber { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "identcombinedactivities", modeltype: FwDataTypes.Integer)]
+        public int? RowNumberCombined { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "masterid", modeltype: FwDataTypes.Text)]
         public string InventoryId { get; set; }
@@ -788,7 +791,7 @@ namespace WebApi.Modules.Home.OrderItem
         {
             useWithNoLock = false;
 
-            if ((OrderId == null) || (OrderId.Equals(string.Empty)))
+            if (string.IsNullOrEmpty(OrderId))
             {
                 if ((request != null) && (request.uniqueids != null))
                 {
@@ -800,9 +803,12 @@ namespace WebApi.Modules.Home.OrderItem
                 }
             }
 
-            if ((OrderId == null) ||(OrderId.Equals(string.Empty)))
+            if (string.IsNullOrEmpty(OrderId))
             {
-                OrderId = AppFunc.GetStringDataAsync(AppConfig, "masteritem", "masteritemid", OrderItemId, "orderid").Result;
+                if (!string.IsNullOrEmpty(OrderItemId))
+                {
+                    OrderId = AppFunc.GetStringDataAsync(AppConfig, "masteritem", "masteritemid", OrderItemId, "orderid").Result;
+                }
             }
 
             base.SetBaseSelectQuery(select, qry, customFields, request);
@@ -835,13 +841,10 @@ namespace WebApi.Modules.Home.OrderItem
             addFilterToSelect("OrderId", "orderid", select, request);
             addFilterToSelect("RecType", "rectype", select, request);
 
-            if (!OrderId.Equals(string.Empty))
+            if (!string.IsNullOrEmpty(OrderId))
             {
                 select.AddParameter("@orderid", OrderId);
             }
-
-
-
 
         }
         //------------------------------------------------------------------------------------ 
