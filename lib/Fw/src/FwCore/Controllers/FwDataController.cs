@@ -16,6 +16,7 @@ namespace FwCore.Controllers
     [Route("api/v1/[controller]")]
     public abstract class FwDataController : FwController  
     {
+        protected Type logicType = null;
         //------------------------------------------------------------------------------------
         public FwDataController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
         //------------------------------------------------------------------------------------
@@ -28,7 +29,7 @@ namespace FwCore.Controllers
             return bl;
         }
         //------------------------------------------------------------------------------------
-        protected virtual async Task<IActionResult> DoBrowseAsync(BrowseRequest browseRequest, Type type)
+        protected virtual async Task<IActionResult> DoBrowseAsync(BrowseRequest browseRequest, Type type = null)
         {
             if (!ModelState.IsValid)
             {
@@ -36,6 +37,11 @@ namespace FwCore.Controllers
             }
             try
             {
+                if (type == null)
+                {
+                    type = logicType;
+                }
+
                 FwBusinessLogic l = CreateBusinessLogic(type, this.AppConfig, this.UserSession);
                 FwJsonDataTable dt = await l.BrowseAsync(browseRequest);
                 return new OkObjectResult(dt);
@@ -54,7 +60,8 @@ namespace FwCore.Controllers
         {
             public string downloadUrl = "";
         }
-        protected virtual async Task<IActionResult> DoExportExcelXlsxFileAsync(BrowseRequest browseRequest, Type type, string worksheetName)
+        //------------------------------------------------------------------------------------
+        protected virtual async Task<IActionResult> DoExportExcelXlsxFileAsync(BrowseRequest browseRequest, Type type = null, string worksheetName = "")
         {
             if (!ModelState.IsValid)
             {
@@ -62,6 +69,17 @@ namespace FwCore.Controllers
             }
             try
             {
+                if (type == null)
+                {
+                    type = logicType;
+                }
+
+                if (string.IsNullOrEmpty(worksheetName))
+                {
+                    string moduleName = type.Name.Replace("Logic", "");
+                    worksheetName = moduleName;
+                }
+
                 FwBusinessLogic l = CreateBusinessLogic(type, this.AppConfig, this.UserSession);
                 FwJsonDataTable dt = await l.BrowseAsync(browseRequest);
                 string strippedWorksheetName = new string(worksheetName.Where(c =>char.IsLetterOrDigit(c)).ToArray());
@@ -88,7 +106,7 @@ namespace FwCore.Controllers
             }
         }
         //------------------------------------------------------------------------------------
-        protected virtual async Task<IActionResult> DoGetAsync<T>(int pageno, int pagesize, string sort, Type type)
+        protected virtual async Task<IActionResult> DoGetAsync<T>(int pageno, int pagesize, string sort, Type type = null)
         {
             if (!ModelState.IsValid)
             {
@@ -96,6 +114,11 @@ namespace FwCore.Controllers
             }
             try
             {
+                if (type == null)
+                {
+                    type = logicType;
+                }
+
                 BrowseRequest request = new BrowseRequest();
                 request.pageno = 0;
                 request.pagesize = 0;
@@ -117,7 +140,7 @@ namespace FwCore.Controllers
             }
         }
         //------------------------------------------------------------------------------------
-        protected virtual async Task<IActionResult> DoGetAsync<T>(string id, Type type)
+        protected virtual async Task<IActionResult> DoGetAsync<T>(string id, Type type = null)
         {
             if (!ModelState.IsValid)
             {
@@ -125,6 +148,11 @@ namespace FwCore.Controllers
             }
             try
             {
+                if (type == null)
+                {
+                    type = logicType;
+                }
+
                 string[] ids = id.Split('~');
                 FwBusinessLogic l = CreateBusinessLogic(type, this.AppConfig, this.UserSession);
                 if (await l.LoadAsync<T>(ids))
@@ -196,7 +224,7 @@ namespace FwCore.Controllers
             }
         }
         //------------------------------------------------------------------------------------
-        protected virtual async Task<IActionResult> DoSaveFormAsync<T>(SaveFormRequest request, Type type)
+        protected virtual async Task<IActionResult> DoSaveFormAsync<T>(SaveFormRequest request, Type type = null)
         {
             try
             {
@@ -204,6 +232,12 @@ namespace FwCore.Controllers
                 {
                     return BadRequest(ModelState);
                 }
+
+                if (type == null)
+                {
+                    type = logicType;
+                }
+
                 FwBusinessLogic logic = CreateBusinessLogic(type, this.AppConfig, this.UserSession);
 
                 //populate the parent formfields from the request
@@ -274,10 +308,16 @@ namespace FwCore.Controllers
             }
         }
         //------------------------------------------------------------------------------------
-        protected virtual async Task<IActionResult> DoDeleteAsync(string id, Type type)
+        protected virtual async Task<IActionResult> DoDeleteAsync(string id, Type type = null)
         {
             try
             {
+
+                if (type == null)
+                {
+                    type = logicType;
+                }
+
                 string[] ids = id.Split('~');
                 FwBusinessLogic l = CreateBusinessLogic(type, this.AppConfig, this.UserSession);
                 l.SetPrimaryKeys(ids);
@@ -294,7 +334,7 @@ namespace FwCore.Controllers
             }
         }
         //------------------------------------------------------------------------------------
-        protected virtual async Task<IActionResult> DoValidateDuplicateAsync(ValidateDuplicateRequest request)
+        protected virtual async Task<IActionResult> DoValidateDuplicateAsync(ValidateDuplicateRequest request)  //05/25/2018 justin - I think this can be removed now
         {
             IActionResult result = new OkObjectResult(true);
             await Task.CompletedTask; // get rid of the no async call warning
