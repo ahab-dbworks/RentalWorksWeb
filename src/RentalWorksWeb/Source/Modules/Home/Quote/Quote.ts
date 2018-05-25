@@ -842,7 +842,7 @@ class Quote {
         if (recType === 'M') {
             $orderItemGrid = $form.find('.miscgrid [data-name="OrderItemGrid"]');
         }
-        if (recType === 'A') {
+        if (recType === '') {
             $orderItemGrid = $form.find('.combinedgrid div[data-grid="OrderItemGrid"]');
         }
 
@@ -1044,12 +1044,22 @@ class Quote {
 
         FwAppData.apiMethod(true, 'GET', "api/v1/ordertype/" + orderType, null, FwServices.defaultTimeout, function onSuccess(response) {
             if (response.CombineActivityTabs === true) {
-                $form.find('.notcombined').hide();
+                $form.find('.notcombined').css('display', 'none');
+                $form.find('.notcombinedtab').css('display', 'none');
+                if ($form.find('.combined').css('display') === 'none') {
+                    $form.find('.combined').css('display', 'block');
+                    $form.find('.combinedtab').css('display', 'flex');
+                }
                 var $allOrderItemGrid;
                 $allOrderItemGrid = $form.find('.combinedgrid [data-name="OrderItemGrid"]');
                 FwBrowse.search($allOrderItemGrid);
             } else {
-                $form.find('.combined').hide();
+                $form.find('.combined').css('display', 'none');
+                $form.find('.combinedtab').css('display', 'none');
+                if ($form.find('.notcombined').css('display') === 'none') {
+                    $form.find('.notcombined').css('display', 'block');
+                    $form.find('.notcombinedtab').css('display', 'flex');
+                }
                 var $orderItemGridRental;
                 $orderItemGridRental = $form.find('.rentalgrid [data-name="OrderItemGrid"]');
                 FwBrowse.search($orderItemGridRental);
@@ -1089,6 +1099,9 @@ class Quote {
             }
         }, null, null);
     };
+    afterSave($form) {
+
+    }
 }
 //-----------------------------------------------------------------------------------------------------
 FwApplicationTree.clickEvents['{B918C711-32D7-4470-A8E5-B88AB5712863}'] = function (event) {

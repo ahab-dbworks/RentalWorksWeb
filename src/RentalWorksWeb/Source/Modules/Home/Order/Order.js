@@ -951,16 +951,23 @@ var Order = (function () {
         }
         FwAppData.apiMethod(true, 'GET', "api/v1/ordertype/" + orderType, null, FwServices.defaultTimeout, function onSuccess(response) {
             if (response.CombineActivityTabs === true) {
-                $form.find('.rentalgrid').hide();
-                $form.find('.salesgrid').hide();
-                $form.find('.laborgrid').hide();
-                $form.find('.miscgrid').hide();
-                var $combinedItemGrid;
-                $combinedItemGrid = $form.find('.combinedgrid [data-name="OrderItemGrid"]');
-                FwBrowse.search($combinedItemGrid);
+                $form.find('.notcombined').css('display', 'none');
+                $form.find('.notcombinedtab').css('display', 'none');
+                if ($form.find('.combined').css('display') === 'none') {
+                    $form.find('.combined').css('display', 'block');
+                    $form.find('.combinedtab').css('display', 'flex');
+                }
+                var $allOrderItemGrid;
+                $allOrderItemGrid = $form.find('.combinedgrid [data-name="OrderItemGrid"]');
+                FwBrowse.search($allOrderItemGrid);
             }
             else {
-                $form.find('.combinedgrid').hide();
+                $form.find('.combined').css('display', 'none');
+                $form.find('.combinedtab').css('display', 'none');
+                if ($form.find('.notcombined').css('display') === 'none') {
+                    $form.find('.notcombined').css('display', 'block');
+                    $form.find('.notcombinedtab').css('display', 'flex');
+                }
                 var $orderItemGridRental;
                 $orderItemGridRental = $form.find('.rentalgrid [data-name="OrderItemGrid"]');
                 FwBrowse.search($orderItemGridRental);
