@@ -1,18 +1,16 @@
 var FwApplication = (function () {
     function FwApplication() {
         this.screens = [];
-        setTimeout(function () {
-            var $templates = jQuery('script[data-ajaxload="true"]');
-            $templates.each(function () {
-                if (jQuery(this).attr("src")) {
-                    jQuery.ajax(jQuery(this).attr("src"), {
-                        async: true,
-                        context: this,
-                        success: function (data) { jQuery(this).html(data); }
-                    });
-                }
-            });
-        }, 2000);
+        var $templates = jQuery('script[data-ajaxload="true"]');
+        $templates.each(function () {
+            if (jQuery(this).attr("src")) {
+                jQuery.ajax(jQuery(this).attr("src"), {
+                    async: true,
+                    context: this,
+                    success: function (data) { jQuery(this).html(data); }
+                });
+            }
+        });
     }
     FwApplication.prototype.pushScreen = function (screen) {
         var me, applicationContainer, viewAnimationContainer, $previousView;

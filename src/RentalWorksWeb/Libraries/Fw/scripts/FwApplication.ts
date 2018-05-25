@@ -8,22 +8,20 @@
     audioError:        HTMLAudioElement;
     //---------------------------------------------------------------------------------
     constructor() {
-        setTimeout(function() {
-            // inline templates when debugging by ajaxing for the src url
-            var $templates = jQuery('script[data-ajaxload="true"]');
-            $templates.each(function () {
-                if (jQuery(this).attr("src")) {
-                    jQuery.ajax(
-                        jQuery(this).attr("src"),
-                        {
-                            async: true,
-                            context: this,
-                            success: function (data) { jQuery(this).html(data); }
-                        }
-                    );
-                }
-            });
-        }, 2000);
+        // inline templates when debugging by ajaxing for the src url
+        var $templates = jQuery('script[data-ajaxload="true"]');
+        $templates.each(function () {
+            if (jQuery(this).attr("src")) {
+                jQuery.ajax(
+                    jQuery(this).attr("src"),
+                    {
+                        async: true,
+                        context: this,
+                        success: function (data) { jQuery(this).html(data); }
+                    }
+                );
+            }
+        });
     }
     //---------------------------------------------------------------------------------
     pushScreen(screen) {
