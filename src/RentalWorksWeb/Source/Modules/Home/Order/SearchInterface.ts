@@ -853,14 +853,21 @@ class SearchInterface {
             }
             FwAppData.apiMethod(true, 'POST', "api/v1/inventorysearch/addto", request, FwServices.defaultTimeout, function onSuccess(response) {
                 FwPopup.destroyPopup(jQuery(document).find('.fwpopup'));
-                var $orderItemGridRental = $form.find('.rentalgrid [data-name="OrderItemGrid"]');
-                FwBrowse.search($orderItemGridRental);
-                var $orderItemGridSales = $form.find('.salesgrid [data-name="OrderItemGrid"]');
-                FwBrowse.search($orderItemGridSales);
-                var $orderItemGridLabor = $form.find('.laborgrid [data-name="OrderItemGrid"]');
-                FwBrowse.search($orderItemGridLabor);
-                var $orderItemGridMisc = $form.find('.miscgrid [data-name="OrderItemGrid"]');
-                FwBrowse.search($orderItemGridMisc);
+                var $combinedGrid = $form.find('.combinedgrid [data-name="OrderItemGrid"]'),
+                    $orderItemGridRental = $form.find('.rentalgrid [data-name="OrderItemGrid"]'),
+                    $orderItemGridSales = $form.find('.salesgrid [data-name="OrderItemGrid"]'),
+                    $orderItemGridLabor = $form.find('.laborgrid [data-name="OrderItemGrid"]'),
+                    $orderItemGridMisc = $form.find('.miscgrid [data-name="OrderItemGrid"]');
+                if ($form.find('.combinedtab').css('display') != 'none') {
+                    FwBrowse.search($combinedGrid);
+                }
+                
+                if ($form.find('.notcombinedtab').css('display') != 'none') {
+                    FwBrowse.search($orderItemGridRental);
+                    FwBrowse.search($orderItemGridMisc);
+                    FwBrowse.search($orderItemGridLabor);
+                    FwBrowse.search($orderItemGridSales);
+                }
             }, null, $searchpopup, id);
         });
 
