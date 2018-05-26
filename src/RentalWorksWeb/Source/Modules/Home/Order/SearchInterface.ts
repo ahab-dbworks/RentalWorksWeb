@@ -15,11 +15,10 @@ class SearchInterface {
         var $popupHtml = html.join('');
         var $popup = FwPopup.renderPopup($popupHtml, { ismodal: true });
         FwPopup.showPopup($popup);
-        //FwConfirmation.addControls($popup, $popupHtml);
 
         var searchhtml = [];
         searchhtml.push('<div id="searchFormHtml" class="fwform fwcontrol">');
-        searchhtml.push('<div id="inventoryView" style="display:none"></div>');
+        searchhtml.push('   <div id="inventoryView" style="display:none"></div>');
         searchhtml.push('     <div id="breadcrumbs" class="fwmenu default" style="width:100%;height:2em; padding-left: 20px;">');
         searchhtml.push('         <div class="type" style="float:left; cursor: pointer; font-weight: bold;"></div>');
         searchhtml.push('         <div class="category" style="float:left; cursor: pointer; font-weight: bold;"></div>');
@@ -37,10 +36,8 @@ class SearchInterface {
 
         searchhtml.push('              <div id="inventoryType" style="width:10%; margin: 5px 0px 0px 5px; float:left;">');
         searchhtml.push('              </div>');
-
         searchhtml.push('             <div id="category" style="width:10%; margin: 5px 0px 0px 5px; float:left;">');
         searchhtml.push('             </div>');
-
         searchhtml.push('             <div id="subCategory" style="width:10%; margin: 5px 0px 0px 5px; float:left;">');
         searchhtml.push('             </div>');
 
@@ -50,13 +47,11 @@ class SearchInterface {
         searchhtml.push('                      <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield fwformcontrol" data-caption="Est. Stop" data-datafield="ToDate" style="width:120px;float:left;"></div>');
         searchhtml.push('                      <div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield fwformcontrol select" data-caption="Select" data-datafield="" style="width:150px;float:left;"></div>');
         searchhtml.push('                      <div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield fwformcontrol sortby" data-caption="Sort By" data-datafield="" style="width:180px;float:left;"></div>');
-        //searchhtml.push('                      <div data-type="button" class="fwformcontrol preview" style="width:70px; float:left; margin:15px;">Preview</div>');
         if (type == 'Order') {
             searchhtml.push('                      <div data-type="button" class="fwformcontrol addToOrder" style="width:120px; float:left; margin:15px;">Add to Order</div>');
         } else {
             searchhtml.push('                      <div data-type="button" class="fwformcontrol addToOrder" style="width:120px; float:left; margin:15px;">Add to Quote</div>');
         }
-
         searchhtml.push('                  </div>');
         searchhtml.push('                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
         searchhtml.push('                      <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Search" data-datafield="SearchBox" style="width:570px; float:left;"></div>');
@@ -71,8 +66,8 @@ class SearchInterface {
         searchhtml.push('                 </div>');
         searchhtml.push('            </div>');
 
-        searchhtml.push('            </div>');
-        searchhtml.push('            </div>');
+        searchhtml.push('  </div>');
+        searchhtml.push('</div>');
         var $searchform = searchhtml.join('');
 
         var formid = program.uniqueId(8);
@@ -80,11 +75,7 @@ class SearchInterface {
         var $moduleTabControl = jQuery('#searchTabs');
         var newtabids = FwTabs.addTab($moduleTabControl, 'Search', false, 'FORM', true);
         $moduleTabControl.find('#' + newtabids.tabpageid).append(jQuery($searchform));
-        //FwTabs.init($moduleTabControl);
         var $fwcontrols = jQuery($searchform).find('.fwcontrol');
-        //FwControl.init($fwcontrols);
-        //FwControl.renderRuntimeHtml($fwcontrols);
-        //FwControl.setIds($fwcontrols, formid);
         var $searchTabControl = jQuery('#searchFormHtml');
         FwConfirmation.addControls($searchTabControl, $searchform);
 
@@ -118,7 +109,6 @@ class SearchInterface {
         } else {
             previewhtml.push('                      <div data-type="button" class="fwformcontrol addToOrder" style="width:120px; float:right; margin:15px;">Add to Quote</div>');
         }
-
         previewhtml.push('            </div>');
         previewhtml.push('     </div>');
         previewhtml.push('</div>');
@@ -127,7 +117,6 @@ class SearchInterface {
         var newtabids2 = FwTabs.addTab($moduleTabControl, 'Preview', false, 'FORM', false);
         $moduleTabControl.find('#' + newtabids2.tabpageid).append(jQuery($previewform));
         FwTabs.init($moduleTabControl);
-        //var $fwcontrols = jQuery($previewform).find('.fwcontrol');
         var $previewTabControl = jQuery('#previewHtml');
         FwConfirmation.addControls($previewTabControl, $previewform);
 
@@ -146,6 +135,10 @@ class SearchInterface {
         $previewGrid = $previewTabControl.find('[data-grid="SearchPreviewGrid"]');
         $previewGridControl = jQuery(jQuery('#tmpl-grids-SearchPreviewGridBrowse').html());
         $previewGrid.empty().append($previewGridControl);
+        $previewGridControl.data('ondatabind', function (request) {
+            request.SessionId = id;
+        });
+
         FwBrowse.init($previewGridControl);
         FwBrowse.renderRuntimeHtml($previewGridControl);
         var $grid = $previewTabControl.find('[data-name="SearchPreviewGrid"]');
@@ -156,18 +149,15 @@ class SearchInterface {
             ShowAvailablity: true,
             ShowImages: true
         };
-
         if (fromDate != "") {
             previewrequest.FromDate = fromDate;
         }
         if (toDate != "") {
             previewrequest.ToDate = toDate;
         }
-
-        FwAppData.apiMethod(true, 'POST', "api/v1/inventorysearch/preview", previewrequest, FwServices.defaultTimeout, function onSuccess(response) {
+        FwAppData.apiMethod(true, 'POST', "api/v1/inventorysearchpreview/browse", previewrequest, FwServices.defaultTimeout, function onSuccess(response) {
             FwBrowse.databindcallback($grid, response);
         }, null, $previewTabControl);
-
 
         $popup.find('.close-modal').one('click', function (e) {
             FwPopup.destroyPopup($popup);
@@ -224,9 +214,7 @@ class SearchInterface {
             }
             request.AvailableFor = availableFor;
             self.populateTypeMenu($popup, inventoryTypeRequest, categoryType, request);
-
         });
-
 
         var $searchpopup = jQuery('#searchpopup');
         var $descriptionField = $popup.find('[data-datafield="SearchBox"] input.fwformfield-value');
@@ -254,7 +242,6 @@ class SearchInterface {
                         request.ToDate = toDate;
                     }
 
-
                     FwAppData.apiMethod(true, 'POST', "api/v1/inventorysearch/search", request, FwServices.defaultTimeout, function onSuccess(response) {
                         $popup.find('.inventory').empty();
                         SearchInterfaceController.renderInventory($popup, response, false);
@@ -276,14 +263,12 @@ class SearchInterface {
             Classification: $popup.find('.select select').val(),
             ShowImages: true
         }
-
         if (fromDate != "") {
             request.FromDate = fromDate;
         }
         if (toDate != "") {
             request.ToDate = toDate;
         }
-
 
         var userId = JSON.parse(sessionStorage.getItem('userid'));
         var $inventoryView = $popup.find('#inventoryView');
@@ -294,7 +279,6 @@ class SearchInterface {
                 $inventoryView.val('GRID');
             }
         }, null, null);
-
 
         this.populateTypeMenu($popup, inventoryTypeRequest, categoryType, request);
         this.breadCrumbs($popup, $form, request);
@@ -345,7 +329,6 @@ class SearchInterface {
             $popup.find('#inventoryType ul').css({
                 'background-color': '',
                 'color': 'black',
-                //'border-left': '0px white',
                 'box-shadow': '0 0px 0px 0 rgba(0, 0, 0, 0.2)'
             });
 
@@ -358,12 +341,10 @@ class SearchInterface {
             breadcrumb.text(invType);
             breadcrumb.append('<div style="float:right;">&#160; &#160; &#47; &#160; &#160;</div>');
 
-            jQuery(e.currentTarget).css({ 'background-color': '#bdbdbd', 'color': 'white',/* 'border-left': '5px solid #939393', */'box-shadow': '0 6px 14px 0 rgba(0, 0, 0, 0.2)' });
+            jQuery(e.currentTarget).css({ 'background-color': '#bdbdbd', 'color': 'white', 'box-shadow': '0 6px 14px 0 rgba(0, 0, 0, 0.2)' });
             inventoryTypeId = jQuery(e.currentTarget).attr('data-value');
             breadcrumb.attr('data-value', inventoryTypeId);
 
-            //delete request.SubCategoryId;
-            //delete request.CategoryId;
             switch (categoryType) {
                 case 'misccategory':
                     typeRequest.uniqueids = {
@@ -380,7 +361,6 @@ class SearchInterface {
                         InventoryTypeId: inventoryTypeId
                     }
                     break;
-
             }
             typeRequest.searchfieldoperators = ["<>"];
             typeRequest.searchfields = ["Inactive"];
@@ -415,7 +395,6 @@ class SearchInterface {
             $popup.find('#category ul').css({
                 'background-color': '',
                 'color': 'black',
-                //'border-left': '0px white',
                 'box-shadow': '0 0px 0px 0 rgba(0, 0, 0, 0.2)'
             });
 
@@ -427,7 +406,7 @@ class SearchInterface {
             $popup.find("#breadcrumbs .subcategory").attr('data-value', '');
             breadcrumb.text(category);
             breadcrumb.append('<div style="float:right;">&#160; &#160; &#47; &#160; &#160;</div>');
-            jQuery(e.currentTarget).css({ 'background-color': '#bdbdbd', 'color': 'white', /*'border-left': '5px solid #939393',*/ 'box-shadow': '0 6px 14px 0 rgba(0, 0, 0, 0.2)' });
+            jQuery(e.currentTarget).css({ 'background-color': '#bdbdbd', 'color': 'white', 'box-shadow': '0 6px 14px 0 rgba(0, 0, 0, 0.2)' });
             categoryId = jQuery(e.currentTarget).attr('data-value');
             inventoryTypeId = $popup.find('#breadcrumbs .type').attr('data-value');
             breadcrumb.attr('data-value', categoryId);
@@ -457,7 +436,6 @@ class SearchInterface {
             }
 
             //load sub-categories list
-
             delete request.SubCategoryId;
             request.CategoryId = categoryId;
             request.InventoryTypeId = inventoryTypeId;
@@ -506,7 +484,6 @@ class SearchInterface {
             $popup.find('#subCategory ul').css({
                 'background-color': '',
                 'color': 'black',
-                //'border-left': '0px white',
                 'box-shadow': '0 0px 0px 0 rgba(0, 0, 0, 0.2)'
             });
 
@@ -517,7 +494,7 @@ class SearchInterface {
             breadcrumb.text(subCategory);
             subCategoryId = jQuery(e.currentTarget).attr('data-value');
             breadcrumb.attr('data-value', subCategoryId);
-            jQuery(e.currentTarget).css({ 'background-color': '#bdbdbd', 'color': 'white', /*'border-left': '5px solid #939393',*/ 'box-shadow': '0 6px 14px 0 rgba(0, 0, 0, 0.2)' });
+            jQuery(e.currentTarget).css({ 'background-color': '#bdbdbd', 'color': 'white', 'box-shadow': '0 6px 14px 0 rgba(0, 0, 0, 0.2)' });
 
             categoryId = $popup.find('#breadcrumbs .category').attr('data-value');
             inventoryTypeId = $popup.find('#breadcrumbs .type').attr('data-value');
@@ -558,7 +535,6 @@ class SearchInterface {
         }
 
         for (var i = 0; i < response.Rows.length; i++) {
-
             var html = [];
             html.push('<div class="cardContainer">');
             html.push('<div class="card">');
@@ -664,10 +640,8 @@ class SearchInterface {
             cardContainer = $inventory.find('.cardContainer');
         switch (viewType) {
             case 'GRID':
-                //cardContainer.css({ 'float': 'left', 'width': 'auto' });
                 allWH.hide();
                 $inventory.css({ 'cursor': 'pointer', 'width': '225px', 'height': '315px', 'float': 'left', 'padding': '10px', 'margin': '8px', 'position': 'relative' });
-                //card.css({ 'cursor': 'pointer', 'width': '225px', 'height': '315px', 'float': 'left', 'padding': '10px', 'margin': '8px',  });
                 descContainer.css({ 'width': '', 'float': '' });
                 description.css({ 'height': '15%', 'width': '', 'padding-top': '', 'padding-bottom': '5px', 'float': '' });
                 imageFrame.show();
@@ -681,18 +655,14 @@ class SearchInterface {
                 rate.css({ 'float': 'left', 'padding-top': '20px', 'width': '90px', 'position': 'absolute', 'bottom': '10px' });
                 quantity.css({ 'float': 'right', 'width': '90px', 'position': 'absolute', 'bottom': '10px', 'right': '10px' });
                 quantityContainer.css({ 'float': 'right' });
-                //accessoryContainer.css({ 'float': 'left', 'width': '225px', 'height': 'auto', 'padding-top': '20px', 'box-shadow': '0 4px 8px 0 rgba(0,0,0,0.2)', 'transition':'0.3s' });
                 //$inventory.removeClass('listView', 'listGridView');
                 //$inventory.addClass('gridView');
                 break;
             case 'LIST':
-                //cardContainer.css({ 'float': 'left', 'width': 'auto' });
                 $inventory.css({ 'cursor': 'pointer', 'width': '95%', 'height': 'auto', 'float': 'left', 'padding': '10px', 'margin': '8px', 'position': 'relative' });
-                //card.css({ 'cursor': 'pointer', 'width': '95%', 'height': 'auto', 'float': 'left', 'padding': '10px', 'margin': '8px', 'position': 'relative' });
                 descContainer.css({ 'width': '', 'float': '' });
                 description.css({ 'float': 'left', 'padding-top': '15px', 'width': '35%', 'padding-bottom': '' });
                 imageFrame.hide();
-                //image.css({ 'max-height': '100%', 'max-width': '100%', 'width': 'auto', 'height': 'auto', 'position': 'absolute', 'top': '0', 'bottom': '0', 'left': '0', 'right': '0', 'margin': 'auto' });
                 quantityAvailable.css({ 'float': 'left', 'width': '75px' });
                 conflictDate.css({ 'float': 'left', 'width': '90px' });
                 allWH.show();
@@ -709,7 +679,6 @@ class SearchInterface {
             case 'HYBRID':
                 //cardContainer.css({ 'float': 'left', 'width': 'auto' });
                 $inventory.css({ 'cursor': 'pointer', 'width': '95%', 'height': 'auto', 'float': 'left', 'padding': '10px', 'margin': '8px', 'position': 'relative' });
-                //card.css({ 'cursor': 'pointer', 'width': '95%', 'height': 'auto', 'float': 'left', 'padding': '10px', 'margin': '8px', 'position': 'relative' });
                 descContainer.css({ 'width': '40%', 'float': 'left' });
                 description.css({ 'float': 'right', 'padding-top': '15px', 'width': '75%', 'padding-bottom': '' });
                 imageFrame.show();
@@ -783,7 +752,6 @@ class SearchInterface {
         var self = this;
         $popup.on('mouseenter', '.inventory > .cardContainer > .card', function (e) {
             let selected = jQuery(e.currentTarget).hasClass('selected');
-
             if (!selected) {
                 jQuery(this).css('box-shadow', '0 10px 18px 0 rgba(0, 0, 0, 0.2)');
             }
@@ -796,18 +764,14 @@ class SearchInterface {
             } else {
                 jQuery(e.currentTarget).css('box-shadow', '0 4px 8px 0 rgba(0,0,0,0.2)');
             }
-
         });
 
         $popup.on('click', '.inventory > .cardContainer > .card', function (e) {
             $popup.find('.inventory > .cardContainer > .card').removeClass('selected');
             $popup.find('.inventory > .cardContainer > .card').css('box-shadow', '0 4px 8px 0 rgba(0,0,0,0.2)');
-
             jQuery(e.currentTarget).addClass('selected');
-
             jQuery(e.currentTarget).css('box-shadow', '0 12px 20px 0 rgba(0,0,153,0.2)');
         });
-
 
         var $searchpopup = jQuery('#searchpopup');
         $popup.on('change', '.inventory [data-datafield="Quantity"] input', function (e) {
@@ -831,11 +795,8 @@ class SearchInterface {
                     }
                 }
                 self.refreshAccessoryQuantity($popup, id, warehouseId, inventoryId, e);
-
             }, null, $searchpopup);
         });
-
-
 
         $popup.on('click', '.tab[data-caption="Preview"]', function () {
             self.refreshPreviewGrid($popup, id);
@@ -845,40 +806,33 @@ class SearchInterface {
             var $confirmation, $cancel;
             var image = jQuery(e.currentTarget).attr('src');
             var imageId = jQuery(e.currentTarget).attr('data-value');
-
             $confirmation = FwConfirmation.renderConfirmation('Image Viewer', '<div style="white-space:pre;">\n' +
                 '<img src="' + applicationConfig.appbaseurl + applicationConfig.appvirtualdirectory + 'fwappimage.ashx?method=GetAppImage&appimageid=' + imageId + '&thumbnail=false' + '\" data-value="' + imageId + '" alt="No Image" class="image" style="max-width:100%;">');
-
             $cancel = FwConfirmation.addButton($confirmation, 'Close');
         });
 
         var highlight = {
-            //'border-left': '6px solid #bdbdbd',
             'box-shadow': '0 6px 14px 0 rgba(0, 0, 0, 0.2)'
         }
 
         var unhighlight = {
-            //'border-left': '0px white',
             'box-shadow': '0 0px 0px 0 rgba(0, 0, 0, 0.2)'
         }
         $popup.on('mouseenter', '#inventoryType ul, #category ul, #subCategory ul', function (e) {
             var selected = jQuery(e.currentTarget).hasClass('selected');
-
             if (selected) {
                 jQuery(e.currentTarget).css({
-                    //'border-left': '6px solid #939393',
                     'box-shadow': '0 6px 14px 0 rgba(0, 0, 0, 0.2)'
                 })
             } else {
                 jQuery(e.currentTarget).css(highlight);
             }
-
         });
 
         $popup.on('mouseleave', '#inventoryType ul, #category ul, #subCategory ul', function (e) {
             var selected = jQuery(e.currentTarget).hasClass('selected');
             if (selected) {
-                jQuery(e.currentTarget).css({ 'background-color': '#bdbdbd', 'color': 'white', /*'border-left': '6px solid #939393', */'box-shadow': '0 6px 14px 0 rgba(0, 0, 0, 0.2)' })
+                jQuery(e.currentTarget).css({ 'background-color': '#bdbdbd', 'color': 'white', 'box-shadow': '0 6px 14px 0 rgba(0, 0, 0, 0.2)' })
             } else {
                 jQuery(e.currentTarget).css(unhighlight)
             }
@@ -925,7 +879,6 @@ class SearchInterface {
             self.listGridView($inventory, 'GRID');
         });
 
-
         $popup.on('click', '.accList', function (e) {
             let accessoryContainer = jQuery(e.currentTarget).parents('.cardContainer').find('.accContainer');
             if (!(accessoryContainer.find('.accList').length)) {
@@ -933,7 +886,6 @@ class SearchInterface {
                 self.refreshAccessoryQuantity($popup, id, warehouseId, inventoryId, e);
             }
             accessoryContainer.slideToggle();
-
         });
 
         $popup.on('change', '.accItem [data-datafield="AccQuantity"] input', function (e) {
@@ -949,7 +901,6 @@ class SearchInterface {
                 Quantity: quantity
             }
             FwAppData.apiMethod(true, 'POST', "api/v1/inventorysearch", accRequest, FwServices.defaultTimeout, function onSuccess(response) {
-
             }, null, null);
         });
 
@@ -969,7 +920,6 @@ class SearchInterface {
             viewrequest.SearchModePreference = view;
             FwAppData.apiMethod(true, 'POST', "api/v1/usersearchsettings/", viewrequest, FwServices.defaultTimeout, function onSuccess(response) {
             }, null, null);
-
         });
 
         $popup.on('change', '.select, .sortby', function (e) {
@@ -979,25 +929,22 @@ class SearchInterface {
                 AvailableFor: FwFormField.getValueByDataField($popup, 'InventoryType'),
                 WarehouseId: warehouseId,
                 ShowAvailability: true,
-               
                 SortBy: $popup.find('.sortby select').val(),
                 Classification: $popup.find('.select select').val(),
                 ShowImages: true
             }
-
-            var fromDate = FwFormField.getValueByDataField($popup, 'FromDate');
-            var toDate = FwFormField.getValueByDataField($popup, 'ToDate');
+            let fromDate = FwFormField.getValueByDataField($popup, 'FromDate');
+            let toDate = FwFormField.getValueByDataField($popup, 'ToDate');
+            let inventoryTypeId = $popup.find('#breadcrumbs .type').attr('data-value');
+            let categoryId = $popup.find('#breadcrumbs .category').attr('data-value');
+            let subCategoryId = $popup.find('#breadcrumbs .subcategory').attr('data-value');
+            let searchQuery = $popup.find('[data-datafield="SearchBox"] input').val();
             if (fromDate != "") {
                 request.FromDate = fromDate;
             }
             if (toDate != "") {
                 request.ToDate = toDate;
             }
-
-            let inventoryTypeId = $popup.find('#breadcrumbs .type').attr('data-value');
-            let categoryId = $popup.find('#breadcrumbs .category').attr('data-value');
-            let subCategoryId = $popup.find('#breadcrumbs .subcategory').attr('data-value');
-
             if (inventoryTypeId != "") {
                 request.InventoryTypeId = inventoryTypeId;
             }
@@ -1007,13 +954,13 @@ class SearchInterface {
             if (subCategoryId != "") {
                 request.SubCategoryId = subCategoryId;
             }
-
-
+            if (searchQuery != "") {
+                request.SearchText = searchQuery;
+            }
             FwAppData.apiMethod(true, 'POST', "api/v1/inventorysearch/search", request, FwServices.defaultTimeout, function onSuccess(response) {
                 $popup.find('.inventory').empty();
                 SearchInterfaceController.renderInventory($popup, response, true);
             }, null, $searchpopup);
-
         });
 
         $popup.on('click', '.toggleAccessories input', function () {
@@ -1022,7 +969,6 @@ class SearchInterface {
                 $popup.find('.accContainer').css('display', 'none');
             }
         });
-
     };
 
     refreshPreviewGrid($popup, id) {
@@ -1035,18 +981,18 @@ class SearchInterface {
             ShowAvailablity: true,
             ShowImages: true
         };
-
         if (fromDate != "") {
             previewrequest.FromDate = fromDate;
         }
         if (toDate != "") {
             previewrequest.ToDate = toDate;
         }
-
-        FwAppData.apiMethod(true, 'POST', "api/v1/inventorysearch/preview", previewrequest, FwServices.defaultTimeout, function onSuccess(response) {
+        FwAppData.apiMethod(true, 'POST', "api/v1/inventorysearchpreview/browse", previewrequest, FwServices.defaultTimeout, function onSuccess(response) {
             var $grid = $popup.find('[data-name="SearchPreviewGrid"]');
             FwBrowse.databindcallback($grid, response);
         }, null, $searchpopup);
+
+
     };
 
     refreshAccessoryQuantity($popup, id, warehouseId, inventoryId, e) {
@@ -1062,14 +1008,12 @@ class SearchInterface {
             ShowAvailability: 'true',
             ShowImages: 'true'
         }
-
         if (fromDate != "") {
             request.FromDate = fromDate;
         }
         if (toDate != "") {
             request.ToDate = toDate;
         }
-
         var html = [];
         if (!(accessoryContainer.find('.accList').length)) {
             html.push('<div style="width:100%">');
@@ -1079,27 +1023,22 @@ class SearchInterface {
             html.push('     <div style="text-align:center; width:12%; float:left; font-weight:bold;"> In </div>');
             html.push('     <div style="text-align:center; width:12%; float:left; font-weight:bold;"> Avail</div>');
             html.push('     <div style="text-align:center; width:12%; float:left; font-weight:bold;"> Conflict </div>');
-            //html.push('     <div style="width:10%; float:left; font-weight:bold;"> Note</div>');
             html.push(' </div>');
             html.push('</div>');
             accessoryContainer.append(html.join(''));
             accessoryContainer.css({ 'float': 'left', 'height': 'auto', 'padding': '10px', 'margin': '10px', 'box-shadow': '0 12px 20px 0 rgba(0,0,153,0.2)', 'transition': '0.3s' });
-            //accessoryContainer.slideToggle();
         }
-        //else {
-        //    accessoryContainer.slideToggle();
-        //}
 
         jQuery(e.currentTarget).parents('.cardContainer').find('.accContainer .accItem').remove();
         FwAppData.apiMethod(true, 'POST', "api/v1/inventorysearch/accessories", request, FwServices.defaultTimeout, function onSuccess(response) {
-            const descriptionIndex = response.ColumnIndex.Description;
-            const qtyIndex = response.ColumnIndex.Quantity;
-            const qtyInIndex = response.ColumnIndex.QuantityIn;
-            const qtyAvailIndex = response.ColumnIndex.QuantityAvailable;
-            const conflictIndex = response.ColumnIndex.ConflictDate;
-            const inventoryIdIndex = response.ColumnIndex.InventoryId;
-            const descriptionColorIndex = response.ColumnIndex.DescriptionColor;
-            const quantityColorIndex = response.ColumnIndex.QuantityColor;
+            const descriptionIndex = response.ColumnIndex.Description,
+                  qtyIndex = response.ColumnIndex.Quantity,
+                  qtyInIndex = response.ColumnIndex.QuantityIn,
+                  qtyAvailIndex = response.ColumnIndex.QuantityAvailable,
+                  conflictIndex = response.ColumnIndex.ConflictDate,
+                  inventoryIdIndex = response.ColumnIndex.InventoryId,
+                  descriptionColorIndex = response.ColumnIndex.DescriptionColor,
+                  quantityColorIndex = response.ColumnIndex.QuantityColor;
 
             for (var i = 0; i < response.Rows.length; i++) {
                 let accHtml = [];

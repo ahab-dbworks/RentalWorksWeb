@@ -1,7 +1,7 @@
 var SearchPreviewGrid = (function () {
     function SearchPreviewGrid() {
         this.Module = 'SearchPreviewGrid';
-        this.apiurl = 'api/v1/inventorysearch/preview';
+        this.apiurl = 'api/v1/inventorysearchpreview';
     }
     return SearchPreviewGrid;
 }());
