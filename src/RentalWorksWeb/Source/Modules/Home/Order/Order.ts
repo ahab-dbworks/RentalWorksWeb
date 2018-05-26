@@ -935,7 +935,7 @@ class Order {
         }
         if (recType === '') {
             $orderItemGrid = $form.find('.combinedgrid [data-name="OrderItemGrid"]');
-            FwFormField.setValueByDataField($form, 'PeriodMiscTotal', '');
+            FwFormField.setValueByDataField($form, 'PeriodCombinedTotal', '');
         }
         request.DiscountPercent = parseFloat(discountPercent);
         request.RecType = recType;
@@ -1039,9 +1039,9 @@ class Order {
         if (recType === 'M') {
             $orderItemGrid = $form.find('.miscgrid [data-name="OrderItemGrid"]');
         }
-        //if (recType === 'A') {
-        //    $orderItemGrid = $form.find('.combinedgrid div[data-grid="OrderItemGrid"]');
-        //}
+        if (recType === '') {
+            $orderItemGrid = $form.find('.combinedgrid div[data-grid="OrderItemGrid"]');
+        }
 
         if ($orderItemGrid.data('isSummary') === false) {
             isSummary = true;

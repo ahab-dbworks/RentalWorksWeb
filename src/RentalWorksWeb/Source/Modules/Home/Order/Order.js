@@ -803,7 +803,7 @@ var Order = (function () {
         }
         if (recType === '') {
             $orderItemGrid = $form.find('.combinedgrid [data-name="OrderItemGrid"]');
-            FwFormField.setValueByDataField($form, 'PeriodMiscTotal', '');
+            FwFormField.setValueByDataField($form, 'PeriodCombinedTotal', '');
         }
         request.DiscountPercent = parseFloat(discountPercent);
         request.RecType = recType;
@@ -892,6 +892,9 @@ var Order = (function () {
         }
         if (recType === 'M') {
             $orderItemGrid = $form.find('.miscgrid [data-name="OrderItemGrid"]');
+        }
+        if (recType === '') {
+            $orderItemGrid = $form.find('.combinedgrid div[data-grid="OrderItemGrid"]');
         }
         if ($orderItemGrid.data('isSummary') === false) {
             isSummary = true;
