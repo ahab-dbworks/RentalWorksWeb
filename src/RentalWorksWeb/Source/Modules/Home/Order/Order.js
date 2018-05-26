@@ -158,6 +158,10 @@ var Order = (function () {
             var warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
             var office = JSON.parse(sessionStorage.getItem('location'));
             var department = JSON.parse(sessionStorage.getItem('department'));
+            var usersid = sessionStorage.getItem('usersid');
+            var name_1 = sessionStorage.getItem('name');
+            FwFormField.setValue($form, 'div[data-datafield="ProjectManagerId"]', usersid, name_1);
+            FwFormField.setValue($form, 'div[data-datafield="AgentId"]', usersid, name_1);
             FwFormField.setValueByDataField($form, 'PickDate', date[0]);
             FwFormField.setValueByDataField($form, 'EstimatedStartDate', date[0]);
             FwFormField.setValueByDataField($form, 'EstimatedStopDate', date[0]);

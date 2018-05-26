@@ -183,9 +183,10 @@ class Order {
             var office = JSON.parse(sessionStorage.getItem('location'));
             var department = JSON.parse(sessionStorage.getItem('department'));
 
-            //const userid = JSON.parse(sessionStorage.getItem('userid'));
-            //const user = sessionStorage.getItem('fullname'); 
-            //FwFormField.setValue($form, 'div[data-datafield="ProjectManagerId"]', userid.webusersid,  user);
+            const usersid = sessionStorage.getItem('usersid');  // J. Pace 5/25/18  C4E0E7F6-3B1C-4037-A50C-9825EDB47F44
+            const name = sessionStorage.getItem('name');
+            FwFormField.setValue($form, 'div[data-datafield="ProjectManagerId"]', usersid, name);
+            FwFormField.setValue($form, 'div[data-datafield="AgentId"]', usersid, name);
 
             FwFormField.setValueByDataField($form, 'PickDate', date[0]);
             FwFormField.setValueByDataField($form, 'EstimatedStartDate', date[0]);

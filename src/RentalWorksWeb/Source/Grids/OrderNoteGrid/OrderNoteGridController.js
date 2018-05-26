@@ -5,7 +5,11 @@ var OrderNoteGrid = (function () {
     }
     OrderNoteGrid.prototype.onRowNewMode = function ($control, $tr) {
         var today = new Date(Date.now()).toLocaleString().split(',')[0];
+        var usersid = sessionStorage.getItem('usersid');
+        var name = sessionStorage.getItem('name');
         $tr.find('[data-formdatafield="NoteDate"] input.value').val(today);
+        $tr.find('[data-browsedisplayfield="UserName"] input.value').val(usersid);
+        $tr.find('[data-browsedisplayfield="UserName"] input.text').val(name);
     };
     return OrderNoteGrid;
 }());
