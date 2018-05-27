@@ -2,7 +2,6 @@
 declare var FwAudit:       any;
 declare var FwCharge:      any;
 declare var FwContextMenu: any;
-declare var FwGridMenu:    any;
 declare var FwLanguages:   any;
 declare var FwMenu:        any;
 declare var FwSecurity:    any;
