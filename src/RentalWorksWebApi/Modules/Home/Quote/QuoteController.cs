@@ -69,10 +69,45 @@ namespace WebApi.Modules.Home.Quote
                 jsonException.StackTrace = ex.StackTrace;
                 return StatusCode(jsonException.StatusCode, jsonException);
             }
+        }
+        //------------------------------------------------------------------------------------        
+        // POST api/v1/quote/createorder/A0000001
+        [HttpPost("createorder/{id}")]
+        public async Task<IActionResult> CreateOrder([FromRoute]string id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                string[] ids = id.Split('~');
+                QuoteLogic quote = new QuoteLogic();
+                quote.SetDependencies(AppConfig, UserSession);
+                if (await quote.LoadAsync<QuoteLogic>(ids))
+                {
+                    OrderLogic order = (OrderLogic)await quote.QuoteToOrderASync<OrderBaseLogic>();
+                    return new OkObjectResult(order);
+                }
+                else
+                {
+                    return NotFound();
+                }
+            }
+            catch (Exception ex)
+            {
+                FwApiException jsonException = new FwApiException();
+                jsonException.StatusCode = StatusCodes.Status500InternalServerError;
+                jsonException.Message = ex.Message;
+                jsonException.StackTrace = ex.StackTrace;
+                return StatusCode(jsonException.StatusCode, jsonException);
+            }
 
 
 
         }
+
+
         //------------------------------------------------------------------------------------        
         // POST api/v1/order/applybottomlinedaysperweek
         [HttpPost("applybottomlinedaysperweek")]

@@ -5,6 +5,7 @@ using System;
 using WebLibrary;
 using WebApi.Logic;
 using FwStandard.SqlServer;
+using System.Threading.Tasks;
 
 namespace WebApi.Modules.Home.Quote
 {
@@ -66,5 +67,18 @@ namespace WebApi.Modules.Home.Quote
             }
         }
         //------------------------------------------------------------------------------------    
+        public async Task<OrderLogic> QuoteToOrderASync<T>()
+        {
+            string orderId = await dealOrder.QuoteToOrder();
+            string[] keys = { orderId };
+
+            OrderLogic l = new OrderLogic();
+            l.AppConfig = AppConfig;
+            l.UserSession = UserSession;
+            bool x = await l.LoadAsync<OrderLogic>(keys);
+
+            return l;
+        }
+        //------------------------------------------------------------------------------------
     }
 }

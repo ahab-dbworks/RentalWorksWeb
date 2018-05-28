@@ -32,12 +32,13 @@
 						"header": [
 							{
 								"key": "Content-Type",
-								"value": "application/json"
+								"value": "application/json",
+								"description": ""
 							}
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\n\t\"UserName\": \"a\",\n\t\"Password\": \"a\"\n}"
+							"raw": "{\n\n\t\"UserName\": \"justindbw\",\n\t\"Password\": \"jhjh11\"\n}"
 						},
 						"description": ""
 					},
@@ -14924,7 +14925,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"OrderId\": \"H00032G8\",\n\t\"RecType\": \"R\",\n\t\"DiscountPercent\": 20\n}"
+							"raw": "{\"DiscountPercent\":40,\"OrderId\":\"H00032FP\"}"
 						},
 						"description": ""
 					},
@@ -15136,7 +15137,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"RowNumber\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": [],\n    \t\"uniqueids\": {\"OrderId\":\"H00032G8\", \"RecType\":\"R\", \"Summary\": true}\n}"
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"ItemOrder\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": [],\n    \t\"uniqueids\": {\"OrderId\":\"H00033CR\", \"RecType\":\"R\", \"Summary\": true}\n}"
 						},
 						"description": ""
 					},
@@ -21111,6 +21112,31 @@
 						"body": {
 							"mode": "raw",
 							"raw": "{\n\t\"OrderId\": \"H00032G8\",\n\t\"RecType\": \"R\",\n\t\"Total\": 1200,\n\t\"IncludeTaxInTotal\": true\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Quote: Create Order",
+					"request": {
+						"url": "http://localhost:57949/api/v1/quote/createorder/H00033JN",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
 						},
 						"description": ""
 					},
