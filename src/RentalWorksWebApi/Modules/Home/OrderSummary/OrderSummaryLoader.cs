@@ -274,10 +274,10 @@ namespace WebApi.Modules.Home.OrderSummary
         [FwSqlDataField(column: "ownedvalue", modeltype: FwDataTypes.Decimal)]
         public decimal? ValueOwned { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "replacement", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "subreplacement", modeltype: FwDataTypes.Decimal)]
         public decimal? ReplacementCostSubs { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "value", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "subvalue", modeltype: FwDataTypes.Decimal)]
         public decimal? ValueSubs { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "weightlbs", modeltype: FwDataTypes.Integer)]
