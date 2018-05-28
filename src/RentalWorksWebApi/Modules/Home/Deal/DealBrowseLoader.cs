@@ -43,9 +43,30 @@ namespace WebApi.Modules.Home.Deal
         [FwSqlDataField(column: "ratetype", modeltype: FwDataTypes.Text)]
         public string DefaultRate { get; set; }
         //------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "securitydepositamt", modeltype: FwDataTypes.Decimal)]
-        //public decimal? SecurityDepositAmount { get; set; }
-        ////------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "billperiodid", modeltype: FwDataTypes.Text)]
+        public string BillingCycleId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "billperiod", modeltype: FwDataTypes.Text)]
+        public string BillingCycle { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "paytermsid", modeltype: FwDataTypes.Text)]
+        public string PaymentTermsId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "payterms", modeltype: FwDataTypes.Text)]
+        public string PaymentTerms { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "paytypeid", modeltype: FwDataTypes.Text)]
+        public string PaymentTypeId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "paytype", modeltype: FwDataTypes.Text)]
+        public string PaymentType { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "currencyid", modeltype: FwDataTypes.Text)]
+        public string CurrencyId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "currencycode", modeltype: FwDataTypes.Text)]
+        public string CurrencyCode { get; set; }
+        //------------------------------------------------------------------------------------ 
         protected override void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequest request = null)
         {
             base.SetBaseSelectQuery(select, qry, customFields, request);

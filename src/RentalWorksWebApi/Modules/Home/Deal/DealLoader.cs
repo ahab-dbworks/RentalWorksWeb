@@ -82,32 +82,14 @@ namespace WebApi.Modules.Home.Deal
         [FwSqlDataField(column: "dealstatusid", modeltype: FwDataTypes.Text)]
         public string DealStatusId { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "dealstatus", modeltype: FwDataTypes.Text)]
-        public string DealStatus { get; set; }
-        //------------------------------------------------------------------------------------ 
+        //[FwSqlDataField(column: "dealstatus", modeltype: FwDataTypes.Text)]
+        //public string DealStatus { get; set; }
+        ////------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "statusasof", modeltype: FwDataTypes.Date)]
         public string StatusAsOf { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "expwrapdate", modeltype: FwDataTypes.Date)]
         public string ExpectedWrapDate { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "billperiodid", modeltype: FwDataTypes.Text)]
-        public string BillingCycleId { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "billperiod", modeltype: FwDataTypes.Text)]
-        public string BillingCycle { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "paytermsid", modeltype: FwDataTypes.Text)]
-        public string PaymentTermsId { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "payterms", modeltype: FwDataTypes.Text)]
-        public string PaymentTerms { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "paytypeid", modeltype: FwDataTypes.Text)]
-        public string PaymentTypeId { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "paytype", modeltype: FwDataTypes.Text)]
-        public string PaymentType { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "usecustomerdiscount", modeltype: FwDataTypes.Boolean)]
         public bool? UseCustomerDiscount { get; set; }
