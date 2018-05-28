@@ -14709,6 +14709,37 @@
 			]
 		},
 		{
+			"name": "Office Location",
+			"description": "",
+			"item": [
+				{
+					"name": "Office Location: Get Many",
+					"request": {
+						"url": "http://localhost:57949/api/v1/officelocation",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
 			"name": "Order",
 			"description": "",
 			"item": [
@@ -31215,14 +31246,139 @@
 			]
 		},
 		{
-			"name": "Office Location",
+			"name": "Work Week",
 			"description": "",
 			"item": [
 				{
-					"name": "Office Location: Get Many",
+					"name": "Work Week: Get Many",
 					"request": {
-						"url": "http://localhost:57949/api/v1/officelocation",
+						"url": "http://localhost:57949/api/v1/workweek",
 						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Work Week: Browse",
+					"request": {
+						"url": "http://localhost:57949/api/v1/workweek/browse",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"FromDate\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": []\n\t\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Work Week: Get One",
+					"request": {
+						"url": "http://localhost:57949/api/v1/workweek/31",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Work Week: Insert",
+					"request": {
+						"url": "http://localhost:57949/api/v1/workweek",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"Field1\": \"1\",\n    \"Field2\": \"2\",\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Work Week: Update",
+					"request": {
+						"url": "http://localhost:57949/api/v1/workweek",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"_Custom\": [],\n    \"WorkWeekId\": \"31\",\n    \"FromDate\": \"12/27/2016\",\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Work Week: Delete",
+					"request": {
+						"url": "http://localhost:57949/api/v1/workweek/31",
+						"method": "DELETE",
 						"header": [
 							{
 								"key": "Authorization",
