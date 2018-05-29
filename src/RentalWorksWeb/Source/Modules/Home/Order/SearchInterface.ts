@@ -846,11 +846,12 @@ class SearchInterface {
             jQuery(e.currentTarget).css({ 'color': 'black' });
         });
 
-        $popup.on('click', '.addToOrder', function () {
+        $popup.one('click', '.addToOrder', function () {
             var request = {
                 OrderId: id,
                 SessionId: id
             }
+            $popup.find('.addToOrder').css('cursor', 'wait');
             FwAppData.apiMethod(true, 'POST', "api/v1/inventorysearch/addto", request, FwServices.defaultTimeout, function onSuccess(response) {
                 FwPopup.destroyPopup(jQuery(document).find('.fwpopup'));
                 var $combinedGrid = $form.find('.combinedgrid [data-name="OrderItemGrid"]'),
