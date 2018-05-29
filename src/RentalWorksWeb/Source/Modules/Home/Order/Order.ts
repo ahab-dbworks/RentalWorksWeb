@@ -201,6 +201,10 @@ class Order {
             FwFormField.setValue($form, 'div[data-datafield="WarehouseId"]', warehouse.warehouseid, warehouse.warehouse);
 
             $form.find('div[data-datafield="PendingPo"] input').prop('checked', true);
+            $form.find('div[data-datafield="Rental"] input').prop('checked', true);
+            $form.find('div[data-datafield="Sales"] input').prop('checked', true);
+            $form.find('div[data-datafield="Miscellaneous"] input').prop('checked', true);
+            $form.find('div[data-datafield="Labor"] input').prop('checked', true);
             FwFormField.disable($form.find('[data-datafield="PoNumber"]'));
             FwFormField.disable($form.find('[data-datafield="PoAmount"]'));
 
