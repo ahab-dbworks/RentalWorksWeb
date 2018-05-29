@@ -10,7 +10,7 @@ namespace Web.Source.Reports
     class PrintOrder : RwReport
     {
         //---------------------------------------------------------------------------------------------
-        protected override string getReportName() { return "Print Order"; }
+        protected override string getReportName() { return "Print"; }
         //---------------------------------------------------------------------------------------------
         protected override string renderHeaderHtml(string styletemplate, string headertemplate, FwReport.PrintOptions printOptions)
         {
