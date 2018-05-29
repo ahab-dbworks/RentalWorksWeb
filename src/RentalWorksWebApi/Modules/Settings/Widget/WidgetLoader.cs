@@ -19,6 +19,15 @@ namespace WebApi.Modules.Settings.Widget
         [FwSqlDataField(column: "apiname", modeltype: FwDataTypes.Text)]
         public string ApiName { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "sql", modeltype: FwDataTypes.Text)]
+        public string Sql { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "counterfieldname", modeltype: FwDataTypes.Text)]
+        public string CounterFieldName { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "labelfieldname", modeltype: FwDataTypes.Text)]
+        public string LabelFieldName { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "clickpath", modeltype: FwDataTypes.Text)]
         public string ClickPath { get; set; }
         //------------------------------------------------------------------------------------ 

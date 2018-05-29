@@ -112,18 +112,29 @@ namespace WebApi.Modules.Settings.Widget
         public WidgetOptions options { get; set; }
         public int dataPoints { get; set; }
 
-        protected string sql { get; set; }
-        protected string counterFieldName { get; set; }
-        protected string labelFieldName { get; set; }
-        protected string backgroundColorFieldName { get; set; } = "backgroundcolor";
-        protected string borderColorFieldName { get; set; } = "bordercolor";
-        protected double opacity { get; set; } = 0.4;
+        public string sql { get; set; }
+        public string counterFieldName { get; set; }
+        public string labelFieldName { get; set; }
+        public string backgroundColorFieldName { get; set; } = "backgroundcolor";
+        public string borderColorFieldName { get; set; } = "bordercolor";
+        public double opacity { get; set; } = 0.4;
 
+        //rentalworks-specific values
+        public string locationId = "";
+        public string warehouseId = "";
+        public string departmentId = "";
 
         public Widget()
         {
             data = new WidgetData();
             options = new WidgetOptions();
+        }
+
+        public Widget(string sql, string counterFieldName, string labelFieldName) : base()
+        {
+            this.sql = sql;
+            this.counterFieldName = counterFieldName;
+            this.labelFieldName = labelFieldName;
         }
 
         public void SetDbConfig(SqlServerConfig dbConfig)
@@ -140,13 +151,54 @@ namespace WebApi.Modules.Settings.Widget
 
             using (FwSqlConnection conn = new FwSqlConnection(_dbConfig.ConnectionString))
             {
+                bool paramsAdded = false;
                 FwSqlCommand qry = new FwSqlCommand(conn, _dbConfig.QueryTimeout);
                 qry.Add(sql);
                 if (dataPoints != 0)
                 {
+                    if (paramsAdded)
+                    {
+                        qry.Add(",");
+                    }
                     qry.Add(" @datapoints = @datapoints");
                     qry.AddParameter("@datapoints", dataPoints);
+                    paramsAdded = true;
                 }
+
+                if (!string.IsNullOrEmpty(locationId))
+                {
+                    if (paramsAdded)
+                    {
+                        qry.Add(",");
+                    }
+                    qry.Add(" @locationid = @locationid");
+                    qry.AddParameter("@locationid", locationId);
+                    paramsAdded = true;
+                }
+
+
+                if (!string.IsNullOrEmpty(warehouseId))
+                {
+                    if (paramsAdded)
+                    {
+                        qry.Add(",");
+                    }
+                    qry.Add(" @warehouseid = @warehouseid");
+                    qry.AddParameter("@warehouseid", warehouseId);
+                    paramsAdded = true;
+                }
+
+                if (!string.IsNullOrEmpty(departmentId))
+                {
+                    if (paramsAdded)
+                    {
+                        qry.Add(",");
+                    }
+                    qry.Add(" @departmentid = @departmentid");
+                    qry.AddParameter("@departmentid", departmentId);
+                    paramsAdded = true;
+                }
+
                 qry.AddColumn(counterFieldName);
                 qry.AddColumn(labelFieldName);
                 qry.AddColumn(backgroundColorFieldName);

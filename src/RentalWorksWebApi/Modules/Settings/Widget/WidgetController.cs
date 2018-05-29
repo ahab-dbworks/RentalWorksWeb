@@ -5,6 +5,7 @@ using WebApi.Controllers;
 using System.Threading.Tasks;
 using System;
 using Microsoft.AspNetCore.Http;
+using WebApi.Logic;
 
 namespace WebApi.Modules.Settings.Widget
 {
@@ -64,9 +65,9 @@ namespace WebApi.Modules.Settings.Widget
         //------------------------------------------------------------------------------------ 
         // GET api/v1/widget/loadbyname/ordersbystatus
         [HttpGet("loadbyname/{widgetApiName}")]
-        public async Task<IActionResult> LoadByName([FromRoute]string widgetApiName)
+        public async Task<IActionResult> LoadByName([FromRoute]string widgetApiName, int dataPoints, string locationId, string warehouseId, string departmentId)
         {
-            return await DoGetWidget(widgetApiName);
+            return await DoGetWidget(widgetApiName, dataPoints: dataPoints, locationId: locationId);
         }
         //------------------------------------------------------------------------------------
         [HttpGet("loadbyname/{widgetApiName}/{dataPoints}")]
@@ -75,52 +76,35 @@ namespace WebApi.Modules.Settings.Widget
             return await DoGetWidget(widgetApiName, dataPoints);
         }
         //------------------------------------------------------------------------------------
-        private async Task<IActionResult> DoGetWidget(string widgetName, int dataPoints=0)
+        private async Task<IActionResult> DoGetWidget(string widgetName, int dataPoints = 0, string locationId = "", string warehouseId = "", string departmentId = "")
         {
             try
             {
-                Widget w = null;
-                switch (widgetName)
+                string widgetId = await AppFunc.GetStringDataAsync(AppConfig, "widget", "apiname", widgetName, "widgetid");
+
+                WidgetLogic l = new WidgetLogic();
+                l.SetDependencies(AppConfig, UserSession);
+                l.WidgetId = widgetId;
+                await l.LoadAsync<WidgetLogic>();
+                Widget w = new Widget();
+                if (widgetName.Equals("billingbyagentbymonth"))
                 {
-                    case "quotesbystatus":
-                        w = new WidgetQuotesByStatus();
-                        break;
-                    case "ordersbystatus":
-                        w = new WidgetOrdersByStatus();
-                        break;
-                    case "ordersbyagent":
-                        w = new WidgetOrdersByAgent();
-                        break;
-                    case "dealsbytype":
-                        w = new WidgetDealsByType();
-                        break;
-                    case "customersbytype":
-                        w = new WidgetCustomersByType();
-                        break;
-                    case "repairsbywarehouse":
-                        w = new WidgetRepairsByWarehouse();
-                        break;
-                    case "billingbyagentbymonth":
-                        w = new WidgetBillingByAgentByMonth();
-                        break;
-                    default:
-                        w = null;
-                        break;
-                }
-                if (w == null)
-                {
-                    FwApiException widgetException = new FwApiException();
-                    widgetException.StatusCode = StatusCodes.Status500InternalServerError;
-                    widgetException.Message = "Invalid widget name: " + widgetName;
-                    return StatusCode(widgetException.StatusCode, widgetException);
+                    w = new WidgetBillingByAgentByMonth();
                 }
                 else
                 {
-                    w.SetDbConfig(this.AppConfig.DatabaseSettings);
-                    w.dataPoints = dataPoints;
-                    bool b = w.LoadAsync().Result;
-                    return new OkObjectResult(w);
+                    w.options.title.text = l.Widget;
+                    w.options.title.fontSize = 20;
+                    w.type = l.DefaultType;
+                    w.sql = l.Sql;
+                    w.counterFieldName = l.CounterFieldName;
+                    w.labelFieldName = l.LabelFieldName;
                 }
+                w.SetDbConfig(this.AppConfig.DatabaseSettings);
+                w.dataPoints = dataPoints;
+                w.locationId = locationId;
+                bool b = w.LoadAsync().Result;
+                return new OkObjectResult(w);
             }
             catch (Exception ex)
             {
