@@ -614,7 +614,7 @@ class Quote {
         var $form;
         $form = $grid.closest('.fwform');
         var officeLocationId = FwFormField.getValueByDataField($form, 'OfficeLocationId');
-        console.log('in');
+
         request.uniqueids = {
             LocationId: officeLocationId
         }
@@ -1128,10 +1128,16 @@ FwApplicationTree.clickEvents['{B918C711-32D7-4470-A8E5-B88AB5712863}'] = functi
 }
 //-----------------------------------------------------------------------------------------------------
 FwApplicationTree.clickEvents['{BC3B1A5E-7270-4547-8FD1-4D14F505D452}'] = function (event) {
-    let search = new SearchInterface();
-    let $form = jQuery(this).closest('.fwform');
-    let quoteId = FwFormField.getValueByDataField($form, 'QuoteId');
-    let $popup = search.renderSearchPopup($form, quoteId, 'Quote');
+    let search, $form, quoteId, $popup;
+    $form = jQuery(this).closest('.fwform');
+    quoteId = FwFormField.getValueByDataField($form, 'QuoteId');
+
+    if (quoteId == "") {
+        FwNotification.renderNotification('WARNING', 'Please save the record before performing this function');
+    } else {
+        search = new SearchInterface();
+        $popup = search.renderSearchPopup($form, quoteId, 'Quote');
+    }
 }
 //-----------------------------------------------------------------------------------------------------
 FwApplicationTree.clickEvents['{B20DDE47-A5D7-49A9-B980-8860CADBF7F6}'] = function (e) {

@@ -1083,10 +1083,16 @@ FwApplicationTree.clickEvents['{CF245A59-3336-42BC-8CCB-B88807A9D4EA}'] = functi
     }
 };
 FwApplicationTree.clickEvents['{B2D127C6-A1C2-4697-8F3B-9A678F3EAEEE}'] = function (e) {
-    var search = new SearchInterface();
-    var $form = jQuery(this).closest('.fwform');
-    var orderId = FwFormField.getValueByDataField($form, 'OrderId');
-    var $popup = search.renderSearchPopup($form, orderId, 'Order');
+    var saveButton, search, $form, orderId, $popup;
+    $form = jQuery(this).closest('.fwform');
+    orderId = FwFormField.getValueByDataField($form, 'OrderId');
+    if (orderId == "") {
+        FwNotification.renderNotification('WARNING', 'Please save the record before performing this function');
+    }
+    else {
+        search = new SearchInterface();
+        $popup = search.renderSearchPopup($form, orderId, 'Order');
+    }
 };
 FwApplicationTree.clickEvents['{F2FD2F4C-1AB7-4627-9DD5-1C8DB96C5509}'] = function (e) {
     var $form, $report, orderNumber, orderId;

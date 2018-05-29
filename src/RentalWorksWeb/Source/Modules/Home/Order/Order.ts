@@ -1258,10 +1258,16 @@ FwApplicationTree.clickEvents['{CF245A59-3336-42BC-8CCB-B88807A9D4EA}'] = functi
 
 //----------------------------------------------------------------------------------------------
 FwApplicationTree.clickEvents['{B2D127C6-A1C2-4697-8F3B-9A678F3EAEEE}'] = function (e) {
-    let search = new SearchInterface();
-    let $form = jQuery(this).closest('.fwform');
-    let orderId = FwFormField.getValueByDataField($form, 'OrderId');
-    let $popup = search.renderSearchPopup($form, orderId, 'Order');
+    let search, $form, orderId, $popup;
+    $form = jQuery(this).closest('.fwform');
+    orderId = FwFormField.getValueByDataField($form, 'OrderId');
+
+    if (orderId == "") {
+        FwNotification.renderNotification('WARNING', 'Please save the record before performing this function');
+    } else {
+     search = new SearchInterface();
+     $popup = search.renderSearchPopup($form, orderId, 'Order');
+    }
 };
 
 //----------------------------------------------------------------------------------------------
