@@ -813,7 +813,8 @@
       <div data-type="tabpage" id="delivershiptabpage" class="tabpage" data-tabid="delivershiptab">
         <div class="flexpage">
           <div class="flexrow">
-            <div class="flexcolumn" style="flex:1 1 600px;">
+            <div class="flexcolumn" style="flex:1 1 550px;">
+              <!-- Outgoing -->
               <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Outgoing">
                 <div class="flexrow">
                   <div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield outtype" data-caption="Type" data-datafield="OutDeliveryDeliveryType" style="flex:1 1 150px;"></div>
@@ -873,7 +874,8 @@
                 </div>
               </div>
             </div>
-            <div class="flexcolumn" style="flex:1 1 600px;">
+            <div class="flexcolumn" style="flex:1 1 550px;">
+              <!-- Incoming -->
               <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Incoming">
                 <div class="flexrow">
                   <div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield intype" data-caption="Type" data-datafield="InDeliveryDeliveryType" style="flex:1 1 150px;"></div>
@@ -895,11 +897,10 @@
               <div class="flexrow">
                 <div class="flexcolumn" style="width:25%;flex:0 1 auto;">
                   <div data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield" data-caption="Address" data-datafield="InDeliveryAddressType">
-                    <div data-value="DEAL" data-caption="Deal"></div>
-                    <div data-value="OTHER" data-caption="Other"></div>
-                    <div data-value="VENUE" data-caption="Venue"></div>
-                    <div data-value="WAREHOUSE" data-caption="Warehouse"></div>
-                  </div>
+                  <div data-value="DEAL" data-caption="Deal"></div>
+                  <div data-value="OTHER" data-caption="Other"></div>
+                  <div data-value="VENUE" data-caption="Venue"></div>
+                  <div data-value="WAREHOUSE" data-caption="Warehouse"></div>
                 </div>
                 <div class="flexcolumn" style="width:75%;">
                   <div class="flexrow">
@@ -931,11 +932,38 @@
                     <div data-control="FwFormField" data-type="textarea" class="fwcontrol fwformfield" data-caption="Notes" data-datafield="InDeliveryDeliveryNotes"></div>
                   </div>
                 </div>
+                <div class="flexrow">
+                  <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Attention" data-datafield="InDeliveryToAttention"></div>
+                </div>
+                <div class="flexrow">
+                  <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Address" data-datafield="InDeliveryToAddress1"></div>
+                </div>
+                <div class="flexrow">
+                  <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="" data-datafield="InDeliveryToAddress2"></div>
+                </div>
+                <div class="flexrow">
+                  <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="City" data-datafield="InDeliveryToCity"></div>
+                </div>
+                <div class="flexrow">
+                  <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="State/Province" data-datafield="InDeliveryToState"></div>
+                  <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Zip/Postal" data-datafield="InDeliveryToZipCode"></div>
+                </div>
+                <div class="flexrow">
+                  <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Country" data-validationname="CountryValidation" data-datafield="InDeliveryToCountryId" data-browsedisplayfield="InDeliveryToCountry"></div>
+                </div>
+                <div class="flexrow">
+                  <div data-control="FwFormField" data-type="textarea" class="fwcontrol fwformfield" data-caption="Cross Streets" data-datafield="InDeliveryToCrossStreets"></div>
+                </div>
+                <div class="flexrow">
+                  <div data-control="FwFormField" data-type="textarea" class="fwcontrol fwformfield" data-caption="Notes" data-datafield="InDeliveryDeliveryNotes"></div>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
+    </div>
+
       <!-- CONTACTS TAB -->
       <div data-type="tabpage" id="contactstabpage" class="tabpage" data-tabid="contactstab">
         <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Contacts">
