@@ -924,29 +924,32 @@ var Order = (function () {
         FwBrowse.search($orderItemGrid);
     };
     Order.prototype.calculateOrderItemGridTotals = function ($form, gridType) {
-        var periodExtendedTotal = 0;
-        var periodDiscountTotal = 0;
-        var taxTotal = 0;
+        var subTotal, discount, salesTax, grossTotal, total;
+        var periodExtendedTotal = new Decimal(0);
+        var periodDiscountTotal = new Decimal(0);
+        var taxTotal = new Decimal(0);
         var periodExtendedColumn = $form.find('.' + gridType + 'grid [data-browsedatafield="PeriodExtended"]');
         var periodDiscountColumn = $form.find('.' + gridType + 'grid [data-browsedatafield="PeriodDiscountAmount"]');
         var taxColumn = $form.find('.' + gridType + 'grid [data-browsedatafield="Tax"]');
         for (var i = 1; i < periodExtendedColumn.length; i++) {
             var inputValueFromExtended = +periodExtendedColumn.eq(i).attr('data-originalvalue');
-            periodExtendedTotal += inputValueFromExtended;
+            periodExtendedTotal = periodExtendedTotal.plus(inputValueFromExtended);
             var inputValueFromDiscount = +periodDiscountColumn.eq(i).attr('data-originalvalue');
-            periodDiscountTotal += inputValueFromDiscount;
+            periodDiscountTotal = periodDiscountTotal.plus(inputValueFromDiscount);
             var inputValueFromTax = +taxColumn.eq(i).attr('data-originalvalue');
-            taxTotal += inputValueFromTax;
+            taxTotal = taxTotal.plus(inputValueFromTax);
         }
         ;
-        periodDiscountTotal = +periodDiscountTotal.toFixed(2);
-        periodExtendedTotal = +periodExtendedTotal.toFixed(2);
-        taxTotal = +taxTotal.toFixed(2);
-        $form.find('.' + gridType + 'totals [data-totalfield="SubTotal"] input').val(periodExtendedTotal);
-        $form.find('.' + gridType + 'totals [data-totalfield="Discount"] input').val(periodDiscountTotal);
-        $form.find('.' + gridType + 'totals [data-totalfield="Tax"] input').val(taxTotal);
-        $form.find('.' + gridType + 'totals [data-totalfield="GrossTotal"] input').val(periodExtendedTotal + periodDiscountTotal);
-        $form.find('.' + gridType + 'totals [data-totalfield="Total"] input').val(periodExtendedTotal + taxTotal);
+        subTotal = periodExtendedTotal.toFixed(2);
+        discount = periodDiscountTotal.toFixed(2);
+        salesTax = taxTotal.toFixed(2);
+        grossTotal = periodExtendedTotal.plus(periodDiscountTotal).toFixed(2);
+        total = taxTotal.plus(periodExtendedTotal).toFixed(2);
+        $form.find('.' + gridType + 'totals [data-totalfield="SubTotal"] input').val(subTotal);
+        $form.find('.' + gridType + 'totals [data-totalfield="Discount"] input').val(discount);
+        $form.find('.' + gridType + 'totals [data-totalfield="Tax"] input').val(salesTax);
+        $form.find('.' + gridType + 'totals [data-totalfield="GrossTotal"] input').val(grossTotal);
+        $form.find('.' + gridType + 'totals [data-totalfield="Total"] input').val(total);
     };
     ;
     Order.prototype.dynamicColumns = function ($form) {

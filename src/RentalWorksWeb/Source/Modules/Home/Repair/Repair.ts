@@ -698,38 +698,41 @@ class Repair {
 
   //----------------------------------------------------------------------------------------------
   calculateTotals($form: any, gridType: string) {
+      let subTotal, discount, salesTax, grossTotal, total;
+      let totalSumFromExtended = new Decimal(0);
+      let totalSumFromDiscount = new Decimal(0);
+      let totalSumFromTax = new Decimal(0);
       const billableColumn: any = $form.find('.' + gridType + 'grid [data-browsedatafield="Billable"]');
       const extendedColumn: any = $form.find('.' + gridType + 'grid [data-browsedatafield="Extended"]');
       const discountColumn: any = $form.find('.' + gridType + 'grid [data-browsedatafield="DiscountAmount"]');
       const taxColumn: any = $form.find('.' + gridType + 'grid [data-browsedatafield="Tax"]');
-      let totalSumFromExtended: any = 0;
-      let totalSumFromDiscount: any = 0;
-      let totalSumFromTax: any = 0;
 
       for (let i = 1; i < billableColumn.length; i++) {
           // Only calculate billable items
           if (billableColumn.eq(i).attr('data-originalvalue') === "true") {
               // Extended Column
               let inputValueFromExtended: any = +extendedColumn.eq(i).attr('data-originalvalue');
-              totalSumFromExtended += inputValueFromExtended;
+              totalSumFromExtended = totalSumFromExtended.plus(inputValueFromExtended);
               // DiscountAmount Column
               let inputValueFromDiscount: any = +discountColumn.eq(i).attr('data-originalvalue');
-              totalSumFromDiscount += inputValueFromDiscount;
+              totalSumFromDiscount = totalSumFromDiscount.plus(inputValueFromDiscount);
               // Tax Column
               let inputValueFromTax: any = +taxColumn.eq(i).attr('data-originalvalue');
-              totalSumFromTax += inputValueFromTax;
+              totalSumFromTax = totalSumFromTax.plus(inputValueFromTax);
           }
       }
 
-      totalSumFromExtended = +totalSumFromExtended.toFixed(2);
-      totalSumFromDiscount = +totalSumFromDiscount.toFixed(2);
-      totalSumFromTax = +totalSumFromTax.toFixed(2);
+      subTotal = totalSumFromExtended.toFixed(2);
+      discount = totalSumFromDiscount.toFixed(2);
+      salesTax = totalSumFromTax.toFixed(2);
+      grossTotal = totalSumFromExtended.plus(totalSumFromDiscount).toFixed(2);
+      total = totalSumFromTax.plus(totalSumFromExtended).toFixed(2);
 
-      $form.find('.' + gridType + 'totals [data-totalfield="SubTotal"] input').val(totalSumFromExtended);
-      $form.find('.' + gridType + 'totals [data-totalfield="Discount"] input').val(totalSumFromDiscount);
-      $form.find('.' + gridType + 'totals [data-totalfield="SalesTax"] input').val(totalSumFromTax);
-      $form.find('.' + gridType + 'totals [data-totalfield="GrossTotal"] input').val(totalSumFromExtended + totalSumFromDiscount);
-      $form.find('.' + gridType + 'totals [data-totalfield="Total"] input').val(totalSumFromTax + totalSumFromExtended);
+      $form.find('.' + gridType + 'totals [data-totalfield="SubTotal"] input').val(subTotal);
+      $form.find('.' + gridType + 'totals [data-totalfield="Discount"] input').val(discount);
+      $form.find('.' + gridType + 'totals [data-totalfield="SalesTax"] input').val(salesTax);
+      $form.find('.' + gridType + 'totals [data-totalfield="GrossTotal"] input').val(grossTotal);
+      $form.find('.' + gridType + 'totals [data-totalfield="Total"] input').val(total);
   };
 
   //----------------------------------------------------------------------------------------------
