@@ -710,6 +710,7 @@ class Order {
             FwFormField.disable($yes);
             $yes.text('Copying...');
             $yes.off('click');
+            var $confirmationbox = jQuery('.fwconfirmationbox');
             FwAppData.apiMethod(true, 'POST', 'api/v1/Order/copy/' + orderId, request, FwServices.defaultTimeout, function onSuccess(response) {
                 FwNotification.renderNotification('SUCCESS', 'Order Successfully Copied');
                 FwConfirmation.destroyConfirmation($confirmation);
@@ -730,7 +731,7 @@ class Order {
                 FwFunc.showError(response);
                 FwFormField.enable($confirmation.find('.fwformfield'));
                 FwFormField.enable($yes);
-            }, $form);
+                }, $confirmationbox);
         };
     };
 

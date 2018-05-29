@@ -612,6 +612,7 @@ var Order = (function () {
             FwFormField.disable($yes);
             $yes.text('Copying...');
             $yes.off('click');
+            var $confirmationbox = jQuery('.fwconfirmationbox');
             FwAppData.apiMethod(true, 'POST', 'api/v1/Order/copy/' + orderId, request, FwServices.defaultTimeout, function onSuccess(response) {
                 FwNotification.renderNotification('SUCCESS', 'Order Successfully Copied');
                 FwConfirmation.destroyConfirmation($confirmation);
@@ -631,7 +632,7 @@ var Order = (function () {
                 FwFunc.showError(response);
                 FwFormField.enable($confirmation.find('.fwformfield'));
                 FwFormField.enable($yes);
-            }, $form);
+            }, $confirmationbox);
         }
         ;
     };

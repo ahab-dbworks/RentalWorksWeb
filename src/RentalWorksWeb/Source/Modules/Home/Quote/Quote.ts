@@ -642,7 +642,7 @@ class Quote {
         var $orderContactGrid;
         $orderContactGrid = $form.find('[data-name="OrderContactGrid"]');
         FwBrowse.search($orderContactGrid);
-       
+
         if ($pending === true) {
             FwFormField.disable($form.find('[data-datafield="PoNumber"]'));
             FwFormField.disable($form.find('[data-datafield="PoAmount"]'));
@@ -827,7 +827,7 @@ class Quote {
 
     //----------------------------------------------------------------------------------------------
     toggleOrderItemView($form: any, event: any) {
-    // Toggle between Detail and Summary view in all OrderItemGrid
+        // Toggle between Detail and Summary view in all OrderItemGrid
         let $element, $orderItemGrid, recType, isSummary, quoteId;
         let request: any = {};
 
@@ -973,7 +973,7 @@ class Quote {
             FwFormField.disable($yes);
             $yes.text('Copying...');
             $yes.off('click');
-
+            var $confirmationbox = jQuery('.fwconfirmationbox');
             FwAppData.apiMethod(true, 'POST', 'api/v1/quote/copy/' + quoteId, request, FwServices.defaultTimeout, function onSuccess(response) {
                 FwNotification.renderNotification('SUCCESS', 'Quote Successfully Copied');
                 FwConfirmation.destroyConfirmation($confirmation);
@@ -994,7 +994,7 @@ class Quote {
                 FwFunc.showError(response);
                 FwFormField.enable($confirmation.find('.fwformfield'));
                 FwFormField.enable($yes);
-            }, $form);
+                }, $confirmationbox);
         };
     }
     //----------------------------------------------------------------------------------------------
@@ -1161,6 +1161,42 @@ FwApplicationTree.clickEvents['{D27AD4E7-E924-47D1-AF6E-992B92F5A647}'] = functi
         FwFunc.showError(ex);
     }
 };
-
 //-----------------------------------------------------------------------------------------------------
+FwApplicationTree.clickEvents['{E265DFD0-380F-4E8C-BCFD-FA5DCBA4A654}'] = function (event) {
+    let $form, quoteNumber;
+    $form = jQuery(this).closest('.fwform');
+    quoteNumber = FwFormField.getValueByDataField($form, 'QuoteNumber');
+    var $confirmation, $yes, $no;
+
+    $confirmation = FwConfirmation.renderConfirmation('Create Order', '');
+    $confirmation.find('.fwconfirmationbox').css('width', '450px');
+    var html = [];
+    html.push('<div class="fwform" data-controller="none" style="background-color: transparent;">');
+    html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
+    html.push('    <div>Create Order for Quote ' + quoteNumber + '?</div>');
+    html.push('  </div>');
+    html.push('</div>');
+
+    FwConfirmation.addControls($confirmation, html.join(''));
+
+    $yes = FwConfirmation.addButton($confirmation, 'Create Order', false);
+    $no = FwConfirmation.addButton($confirmation, 'Cancel');
+
+    $yes.on('click', createOrder);
+    var $confirmationbox = jQuery('.fwconfirmationbox');
+    function createOrder() {
+        var quoteId = FwFormField.getValueByDataField($form, 'QuoteId');
+        FwAppData.apiMethod(true, 'POST', "api/v1/quote/createorder/" + quoteId, null, FwServices.defaultTimeout, function onSuccess(response) {
+            FwNotification.renderNotification('SUCCESS', 'Order Successfully Created.');
+            FwConfirmation.destroyConfirmation($confirmation);
+            let uniqueids: any = {};
+            uniqueids.OrderId = response.OrderId;
+            var $orderform = OrderController.loadForm(uniqueids);
+            FwModule.openModuleTab($orderform, "", true, 'FORM', true);
+
+            FwModule.refreshForm($form, QuoteController);
+        }, null, $confirmationbox);
+    }
+
+}
 var QuoteController = new Quote();
