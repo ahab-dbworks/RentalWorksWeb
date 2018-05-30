@@ -31,6 +31,7 @@ namespace WebApi.Modules.Home.InventorySearch
         public string InventoryId { get { return inventorySearch.InventoryId; } set { inventorySearch.InventoryId = value; } }
         [FwBusinessLogicField(isPrimaryKey: true)]
         public string WarehouseId { get { return inventorySearch.WarehouseId; } set { inventorySearch.WarehouseId = value; } }
+        public string ParentId { get { return inventorySearch.ParentId; } set { inventorySearch.ParentId = value; } }
         public decimal? Quantity { get { return inventorySearch.Quantity; } set { inventorySearch.Quantity = value; } }
         //------------------------------------------------------------------------------------
         public async Task<FwJsonDataTable> SearchAsync(InventorySearchRequest request)
