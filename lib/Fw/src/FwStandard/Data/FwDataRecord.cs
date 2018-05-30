@@ -469,6 +469,10 @@ namespace FwStandard.DataLayer
                         {
                             doUpper = false;
                         }
+                        if (searchField.EndsWith("no"))
+                        {
+                            doUpper = false;
+                        }
 
                         //justin 05/30/2018 temporary - if searching for a number (ie. QuoteNumber, InvoiceNumber), don't perform a contains search
                         bool containsSearch = true;
