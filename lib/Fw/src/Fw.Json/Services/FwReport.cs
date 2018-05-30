@@ -134,7 +134,8 @@ namespace Fw.Json.Services
             }
             else
             {
-                throw new Exception("Excel download is not available for this report.  Contact Database Works if you need this functionality.");
+                //throw new Exception("Excel download is not available for this report.  Contact Database Works if you need this functionality.");
+                throw new Exception("Excel download is not available for this report."); //justin 05/30/2018 removed text per Terry
             }
         }
         //---------------------------------------------------------------------------------------------
