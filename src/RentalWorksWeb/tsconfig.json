@@ -29,5 +29,10 @@
   "exclude": [
     "node_modules",
     "wwwroot"
+  ],
+  "include": [
+    "Libraries/**/*.ts",
+    "scripts/**/*.ts",
+    "Source/**/*.ts"
   ]
 }

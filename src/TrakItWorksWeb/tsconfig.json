@@ -31,7 +31,7 @@
     "wwwroot"
   ],
   "include": [
-    "Libraries/Fw/**/*.ts",
+    "Libraries/**/*.ts",
     "scripts/**/*.ts",
     "Source/**/*.ts",
     "../RentalWorksWeb/Source/**/*.ts"
