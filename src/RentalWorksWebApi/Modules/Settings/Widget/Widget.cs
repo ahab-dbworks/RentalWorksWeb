@@ -99,7 +99,7 @@ namespace WebApi.Modules.Settings.Widget
             title = new WidgetTitle();
             legend = new WidgetLegend();
             scales = new WidgetScales();
-            responsive = false;
+            responsive = true;
             maintainAspectRatio = true;
         }
     }
