@@ -8,7 +8,7 @@ using Newtonsoft.Json;
 
 namespace WebApi.Modules.Administrator.UserSettings
 {
-    [FwSqlTable("webusers")]
+    [FwSqlTable("dbo.funcwebusersettings2(@webusersid)")]
     public class UserSettingsLoader : AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------ 
@@ -30,15 +30,6 @@ namespace WebApi.Modules.Administrator.UserSettings
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
         public string DateStamp { get; set; }
         //------------------------------------------------------------------------------------ 
-        [JsonIgnore]
-        public override string TableName
-        {
-            get
-            {
-                return "dbo.funcwebusersettings()";
-            }
-        }
-        //------------------------------------------------------------------------------------ 
         protected override void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequest request = null)
         {
             useWithNoLock = false;
@@ -48,6 +39,13 @@ namespace WebApi.Modules.Administrator.UserSettings
             //addFilterToSelect("LocationId", "locationid", select, request);
             //addFilterToSelect("WarehouseId", "warehouseid", select, request);
             //addFilterToSelect("GroupId", "groupsid", select, request);
+
+            if (!string.IsNullOrEmpty(UserId))
+            {
+                select.AddParameter("@webusersid", UserId);
+            }
+
+
         }
         //------------------------------------------------------------------------------------ 
     }
