@@ -45,6 +45,31 @@ namespace WebApi.Modules.Home.Quote
                     Status = RwConstants.QUOTE_STATUS_ACTIVE;
                 }
             }
+            else // (updating)
+            {
+                QuoteLogic l2 = new QuoteLogic();
+                l2.SetDependencies(AppConfig, UserSession);
+                l2.QuoteId = QuoteId;
+                bool b = l2.LoadAsync<QuoteLogic>().Result;
+
+                if (DealId != null) // user has supplied a Deal value in this update
+                {
+                    if (DealId.Equals(string.Empty))
+                    {
+                        Status = RwConstants.QUOTE_STATUS_PROSPECT;
+                    }
+                    else
+                    {
+                        Status = RwConstants.QUOTE_STATUS_ACTIVE;
+                    }
+                    if (!Status.Equals(l2.Status))
+                    {
+                        StatusDate = FwConvert.ToString(DateTime.Today);
+                    }
+
+                }
+            }
+
         }
         //------------------------------------------------------------------------------------ 
         public override void OnAfterSaveDealOrder(object sender, AfterSaveEventArgs e)
