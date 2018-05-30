@@ -415,16 +415,14 @@ FwSettings.renderModuleHtml = function ($control, title, moduleName, description
 
                     for (var i = 0; i < response.length; i++) {
                         var html = [], $moduleRows;
-                        html.push('<div class="panel-record">')
+                        html.push('<div class="panel-record">');
                         html.push('  <div class="panel panel-info container-fluid">');
                         html.push('    <div class="row-heading">');
-                        html.push('      <i class="material-icons record-selector">keyboard_arrow_down</i>')
-                        //html.push('<label>' + moduleName + '</label>')
-                        //html.push('<label>' + row[moduleName] + '</label>');
+                        html.push('      <i class="material-icons record-selector">keyboard_arrow_down</i>');
                         for (var j = 0; j < browseKeys.length; j++) {
                             if (browseKeys[j] === 'Inactive' && response[i][browseKeys[j]] === true) {
+                                html[1] = '<div class="panel panel-info container-fluid" style="display:none;">';
                                 html[2] = '<div class="inactive row-heading" style="background-color:lightgray;">';
-                                //html.unshift('<div style="display:none;">');
                             }
                             if (browseKeys[j] === 'Inactive' || browseKeys[j] === 'Color') {
 
