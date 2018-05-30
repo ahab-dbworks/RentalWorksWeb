@@ -893,6 +893,9 @@ class Order {
             this.toggleOrderItemView($form, event);
         });
 
+        // Disable withTax checkboxes if Total field is 0.00
+        this.disableWithTaxCheckbox($form);
+ 
         // RentalDaysPerWeek for Rental OrderItemGrid
         $form.find('.RentalDaysPerWeek').on('change', '.fwformfield-text, .fwformfield-value', event => {
             let request: any = {};
@@ -912,6 +915,35 @@ class Order {
     };
 
     //----------------------------------------------------------------------------------------------
+    disableWithTaxCheckbox($form: any) {
+        if (FwFormField.getValueByDataField($form, 'PeriodRentalTotal') === '0.00') {
+            FwFormField.disable($form.find('div[data-datafield="PeriodRentalTotalIncludesTax"]'));
+        } else {
+            FwFormField.enable($form.find('div[data-datafield="PeriodRentalTotalIncludesTax"]'));
+        }
+        if (FwFormField.getValueByDataField($form, 'SalesTotal') === '0.00') {
+            FwFormField.disable($form.find('div[data-datafield="SalesTotalIncludesTax"]'));
+        } else {
+            FwFormField.enable($form.find('div[data-datafield="SalesTotalIncludesTax"]'));
+        }
+        if (FwFormField.getValueByDataField($form, 'PeriodLaborTotal') === '0.00') {
+            FwFormField.disable($form.find('div[data-datafield="PeriodLaborTotalIncludesTax"]'));
+        } else {
+            FwFormField.enable($form.find('div[data-datafield="PeriodLaborTotalIncludesTax"]'));
+        }
+        if (FwFormField.getValueByDataField($form, 'PeriodMiscTotal') === '0.00') {
+            FwFormField.disable($form.find('div[data-datafield="PeriodMiscTotalIncludesTax"]'));
+        } else {
+            FwFormField.enable($form.find('div[data-datafield="PeriodMiscTotalIncludesTax"]'));
+        }
+        if (FwFormField.getValueByDataField($form, 'PeriodCombinedTotal') === '0.00') {
+            FwFormField.disable($form.find('div[data-datafield="PeriodCombinedTotalIncludesTax"]'));
+        } else {
+            FwFormField.enable($form.find('div[data-datafield="PeriodCombinedTotalIncludesTax"]'));
+        }
+    }
+
+    //----------------------------------------------------------------------------------------------
     bottomLineDiscountChange($form: any, event: any) {
     // DiscountPercent for all OrderItemGrid
         let $element, $orderItemGrid, orderId, recType, discountPercent;
@@ -925,32 +957,33 @@ class Order {
         if (recType === 'R') {
             $orderItemGrid = $form.find('.rentalgrid [data-name="OrderItemGrid"]');
             FwFormField.setValueByDataField($form, 'PeriodRentalTotal', '');
+            FwFormField.disable($form.find('div[data-datafield="PeriodRentalTotalIncludesTax"]'));
         }
         if (recType === 'S') {
             $orderItemGrid = $form.find('.salesgrid [data-name="OrderItemGrid"]');
             FwFormField.setValueByDataField($form, 'SalesTotal', '');
+            FwFormField.disable($form.find('div[data-datafield="SalesTotalIncludesTax"]'));
         }
         if (recType === 'L') {
             $orderItemGrid = $form.find('.laborgrid [data-name="OrderItemGrid"]');
             FwFormField.setValueByDataField($form, 'PeriodLaborTotal', '');
+            FwFormField.disable($form.find('div[data-datafield="PeriodLaborTotalIncludesTax"]'));
         }
         if (recType === 'M') {
             $orderItemGrid = $form.find('.miscgrid [data-name="OrderItemGrid"]');
             FwFormField.setValueByDataField($form, 'PeriodMiscTotal', '');
+            FwFormField.disable($form.find('div[data-datafield="PeriodMiscTotalIncludesTax"]'));
         }
         if (recType === '') {
             $orderItemGrid = $form.find('.combinedgrid [data-name="OrderItemGrid"]');
             FwFormField.setValueByDataField($form, 'PeriodCombinedTotal', '');
+            FwFormField.disable($form.find('div[data-datafield="PeriodCombinedTotalIncludesTax"]'));
         }
         request.DiscountPercent = parseFloat(discountPercent);
         request.RecType = recType;
         request.OrderId = orderId;
 
-        $form.addClass('clicked');
-
-
         FwAppData.apiMethod(true, 'POST', `api/v1/order/applybottomlinediscountpercent/`, request, FwServices.defaultTimeout, function onSuccess(response) {
-            $form.removeClass('clicked');
             FwBrowse.search($orderItemGrid);
         }, function onError(response) {
             FwFunc.showError(response);
@@ -976,6 +1009,11 @@ class Order {
                 if (!isWithTaxCheckbox) {
                     FwFormField.setValueByDataField($form, 'RentalDiscountPercent', '');
                 }
+                if (total === '0.00') {
+                    FwFormField.disable($form.find('div[data-datafield="PeriodRentalTotalIncludesTax"]'));
+                } else {
+                    FwFormField.enable($form.find('div[data-datafield="PeriodRentalTotalIncludesTax"]'));
+                }
             }
             if (recType === 'S') {
                 $orderItemGrid = $form.find('.salesgrid [data-name="OrderItemGrid"]');
@@ -983,6 +1021,11 @@ class Order {
                 includeTaxInTotal = FwFormField.getValue($form, '.salesTotalWithTax');
                 if (!isWithTaxCheckbox) {
                     FwFormField.setValueByDataField($form, 'SalesDiscountPercent', '');
+                }
+                if (total === '0.00') {
+                    FwFormField.disable($form.find('div[data-datafield="SalesTotalIncludesTax"]'));
+                } else {
+                    FwFormField.enable($form.find('div[data-datafield="SalesTotalIncludesTax"]'));
                 }
             }
             if (recType === 'L') {
@@ -992,6 +1035,11 @@ class Order {
                 if (!isWithTaxCheckbox) {
                     FwFormField.setValueByDataField($form, 'LaborDiscountPercent', '');
                 }
+                if (total === '0.00') {
+                    FwFormField.disable($form.find('div[data-datafield="PeriodLaborTotalIncludesTax"]'));
+                } else {
+                    FwFormField.enable($form.find('div[data-datafield="PeriodLaborTotalIncludesTax"]'));
+                }
             }
             if (recType === 'M') {
                 $orderItemGrid = $form.find('.miscgrid [data-name="OrderItemGrid"]');
@@ -1000,6 +1048,11 @@ class Order {
                 if (!isWithTaxCheckbox) {
                     FwFormField.setValueByDataField($form, 'MiscDiscountPercent', '');
                 }
+                if (total === '0.00') {
+                    FwFormField.disable($form.find('div[data-datafield="PeriodMiscTotalIncludesTax"]'));
+                } else {
+                    FwFormField.enable($form.find('div[data-datafield="PeriodMiscTotalIncludesTax"]'));
+                }
             }
             if (recType === '') {
                 $orderItemGrid = $form.find('.combinedgrid [data-name="OrderItemGrid"]');
@@ -1007,6 +1060,11 @@ class Order {
                 includeTaxInTotal = FwFormField.getValue($form, '.combinedTotalWithTax');
                 if (!isWithTaxCheckbox) {
                     FwFormField.setValueByDataField($form, 'CombinedDiscountPercent', '');
+                }
+                if (total === '0.00') {
+                    FwFormField.disable($form.find('div[data-datafield="PeriodCombinedTotalIncludesTax"]'));
+                } else {
+                    FwFormField.enable($form.find('div[data-datafield="PeriodCombinedTotalIncludesTax"]'));
                 }
             }
 
