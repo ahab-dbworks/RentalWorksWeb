@@ -123,7 +123,7 @@
         }
 
         jQuery($control).on('click', '#' + apiname + 'refresh', function () {
-            FwAppData.apiMethod(true, 'GET', `api/v1/widget/loadbyname/${apiname}/dataPoints=${dataPointCount}&locationId=${JSON.parse(sessionStorage.location).locationid}&warehouseId=${JSON.parse(sessionStorage.warehouse).warehouseid}&departmentId=${JSON.parse(sessionStorage.department).departmentid}`, {}, FwServices.defaultTimeout, function onSuccess(response) {
+            FwAppData.apiMethod(true, 'GET', `api/v1/widget/loadbyname/${apiname}?dataPoints=${dataPointCount}&locationId=${JSON.parse(sessionStorage.location).locationid}&warehouseId=${JSON.parse(sessionStorage.warehouse).warehouseid}&departmentId=${JSON.parse(sessionStorage.department).departmentid}`, {}, FwServices.defaultTimeout, function onSuccess(response) {
                 try {
                     if (type !== '') {
                         response.type = type
@@ -168,7 +168,7 @@
 
                 var widgetfullscreen = $confirmation.find('#' + apiname + 'fullscreen');  
 
-                FwAppData.apiMethod(true, 'GET', `api/v1/widget/loadbyname/${apiname}/dataPoints=${dataPointCount}&locationId=${JSON.parse(sessionStorage.location).locationid}&warehouseId=${JSON.parse(sessionStorage.warehouse).warehouseid}&departmentId=${JSON.parse(sessionStorage.department).departmentid}`, {}, FwServices.defaultTimeout, function onSuccess(response) {
+                FwAppData.apiMethod(true, 'GET', `api/v1/widget/loadbyname/${apiname}?dataPoints=${dataPointCount}&locationId=${JSON.parse(sessionStorage.location).locationid}&warehouseId=${JSON.parse(sessionStorage.warehouse).warehouseid}&departmentId=${JSON.parse(sessionStorage.department).departmentid}`, {}, FwServices.defaultTimeout, function onSuccess(response) {
                     try {
                         response.options.responsive = true;
                         if (type !== '') {
@@ -201,7 +201,7 @@
             }
         })
 
-        FwAppData.apiMethod(true, 'GET', `api/v1/widget/loadbyname/${apiname}/dataPoints=${dataPointCount}&locationId=${JSON.parse(sessionStorage.location).locationid}&warehouseId=${JSON.parse(sessionStorage.warehouse).warehouseid}&departmentId=${JSON.parse(sessionStorage.department).departmentid}`, {}, FwServices.defaultTimeout, function onSuccess(response) {
+        FwAppData.apiMethod(true, 'GET', `api/v1/widget/loadbyname/${apiname}?dataPoints=${dataPointCount}&locationId=${JSON.parse(sessionStorage.location).locationid}&warehouseId=${JSON.parse(sessionStorage.warehouse).warehouseid}&departmentId=${JSON.parse(sessionStorage.department).departmentid}`, {}, FwServices.defaultTimeout, function onSuccess(response) {
             try {
                 if (type !== '') {
                     response.type = type

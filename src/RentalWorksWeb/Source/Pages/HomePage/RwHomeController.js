@@ -106,7 +106,7 @@ var RwHome = (function () {
             dataPointCount = dataPoints;
         }
         jQuery($control).on('click', '#' + apiname + 'refresh', function () {
-            FwAppData.apiMethod(true, 'GET', "api/v1/widget/loadbyname/" + apiname + "/dataPoints=" + dataPointCount + "&locationId=" + JSON.parse(sessionStorage.location).locationid + "&warehouseId=" + JSON.parse(sessionStorage.warehouse).warehouseid + "&departmentId=" + JSON.parse(sessionStorage.department).departmentid, {}, FwServices.defaultTimeout, function onSuccess(response) {
+            FwAppData.apiMethod(true, 'GET', "api/v1/widget/loadbyname/" + apiname + "?dataPoints=" + dataPointCount + "&locationId=" + JSON.parse(sessionStorage.location).locationid + "&warehouseId=" + JSON.parse(sessionStorage.warehouse).warehouseid + "&departmentId=" + JSON.parse(sessionStorage.department).departmentid, {}, FwServices.defaultTimeout, function onSuccess(response) {
                 try {
                     if (type !== '') {
                         response.type = type;
@@ -147,7 +147,7 @@ var RwHome = (function () {
                 FwConfirmation.addControls($confirmation, html.join(''));
                 $confirmation.find('.fwconfirmationbox').css('width', '80%');
                 var widgetfullscreen = $confirmation.find('#' + apiname + 'fullscreen');
-                FwAppData.apiMethod(true, 'GET', "api/v1/widget/loadbyname/" + apiname + "/dataPoints=" + dataPointCount + "&locationId=" + JSON.parse(sessionStorage.location).locationid + "&warehouseId=" + JSON.parse(sessionStorage.warehouse).warehouseid + "&departmentId=" + JSON.parse(sessionStorage.department).departmentid, {}, FwServices.defaultTimeout, function onSuccess(response) {
+                FwAppData.apiMethod(true, 'GET', "api/v1/widget/loadbyname/" + apiname + "?dataPoints=" + dataPointCount + "&locationId=" + JSON.parse(sessionStorage.location).locationid + "&warehouseId=" + JSON.parse(sessionStorage.warehouse).warehouseid + "&departmentId=" + JSON.parse(sessionStorage.department).departmentid, {}, FwServices.defaultTimeout, function onSuccess(response) {
                     try {
                         response.options.responsive = true;
                         if (type !== '') {
@@ -180,7 +180,7 @@ var RwHome = (function () {
                 FwFunc.showError(ex);
             }
         });
-        FwAppData.apiMethod(true, 'GET', "api/v1/widget/loadbyname/" + apiname + "/dataPoints=" + dataPointCount + "&locationId=" + JSON.parse(sessionStorage.location).locationid + "&warehouseId=" + JSON.parse(sessionStorage.warehouse).warehouseid + "&departmentId=" + JSON.parse(sessionStorage.department).departmentid, {}, FwServices.defaultTimeout, function onSuccess(response) {
+        FwAppData.apiMethod(true, 'GET', "api/v1/widget/loadbyname/" + apiname + "?dataPoints=" + dataPointCount + "&locationId=" + JSON.parse(sessionStorage.location).locationid + "&warehouseId=" + JSON.parse(sessionStorage.warehouse).warehouseid + "&departmentId=" + JSON.parse(sessionStorage.department).departmentid, {}, FwServices.defaultTimeout, function onSuccess(response) {
             try {
                 if (type !== '') {
                     response.type = type;
