@@ -218,6 +218,8 @@ namespace WebLibrary.Security
                                                      AddSettingsModule("Wardrobe Source",             "{6709D1A1-3319-435C-BF0E-15D2602575B0}", lv2menuWardrobeSettings.Id,     "WardrobeSourceController",            "module/wardrobesource",            settingsiconbaseurl + "placeholder.png");
                                                      AddSettingsModule("Warehouse",                   "{931D3E75-68CB-4280-B12F-9A955444AA0C}", lv1menuSettings.Id,             "WarehouseController",                 "module/warehouse",                 settingsiconbaseurl + "placeholder.png");
                                                      AddSettingsModule("Widget",                      "{0CAF7264-D1FB-46EC-96B9-68D242985812}", lv1menuSettings.Id,             "WidgetController",                    "module/widget",                    settingsiconbaseurl + "placeholder.png");
+                                                     AddSettingsModule("Work Week",                   "{AF91AE34-ADED-4A5A-BD03-113ED817F575}", lv1menuSettings.Id,             "WorkWeekController",                  "module/workweek",                  settingsiconbaseurl + "placeholder.png");
+
 
             //Reports
 
