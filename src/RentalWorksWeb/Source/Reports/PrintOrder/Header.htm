@@ -4,7 +4,7 @@
   {{#header}}
 
   <div style="width:100%; float:left; margin-bottom:10px;">
-    <div style="float:left; width:35%; white-space:pre;">&#32;</div>
+    <div style="float:left; width:35%; white-space:pre;">[CLIENTLOGO]</div>
     <div style="float:left; width:30%; padding-top:2em; text-align:center; font-size:1.2em; font-weight:bold;">[LBLREPORTNAME]</div>
     <div style="float:left; width:35%; padding-top:2em; text-align:center; ">
       <div style="float:left; width:25%">
@@ -67,7 +67,7 @@
       </div>
       <div style="width:70%; float:left;">
         <div>{{usagedatesandtimes}}</div>
-        <div>{{estrentfrom}} - {{estrentto}}</div>
+        <div>{{billingdates}}</div>
         <div>{{agent}}</div>
         <div>{{agentemail}}</div>
         <div style="white-space:pre;">{{agentphone}}  <span style="font-weight:bold; margin-left:10px;">Ext:</span>{{agentphoneext}}</div>
@@ -77,7 +77,7 @@
 
   <div style="float:left; width:100%; padding-bottom: 1em;">
     <div style="float:left; width:50%;">
-      <div style="text-align:center; padding-top: 2px;font-weight:bold; margin-right:10px; border-bottom: 2px solid black;">Outgoing (Deliver)</div>
+      <div style="text-align:center; padding-top: 2px;font-weight:bold; margin-right:10px; border-bottom: 2px solid black;">Outgoing ({{outdeliverytype}})</div>
       <div><span style="font-weight:bold;">Attention:</span> {{outdeliveryattention}}</div>
       <div>{{outdeliverylocation}}</div>
       <div>{{outdeliveryadd1}} {{outdeliveryadd2}}</div>
@@ -88,11 +88,11 @@
       </div>
       <div style="width:100%;">
         <div style="width:30%; font-weight:bold; float:left;">Required By:</div>
-        <div style="width:70%; float:left;">{{outdeliveryrequiredbydate}}</div>
+        <div style="width:70%; float:left;">{{outdeliveryrequiredbydatetime}}</div>
       </div>
     </div>
     <div style="float:left; width:50%;">
-      <div style="text-align:center; padding-top: 2px;font-weight:bold; margin-right:10px; border-bottom: 2px solid black;">Incoming (Ship)</div>
+      <div style="text-align:center; padding-top: 2px;font-weight:bold; margin-right:10px; border-bottom: 2px solid black;">Incoming ({{indeliverytype}})</div>
       <div><span style="font-weight:bold;">Attention:</span> {{indeliveryattention}}</div>
       <div>{{indeliverylocation}}</div>
       <div>{{indeliveryadd1}} {{indeliveryadd2}}</div>
@@ -107,7 +107,7 @@
       </div>
       <div style="width:100%; float:left;">
         <div style="width:30%; font-weight:bold; float:left;">Required By:</div>
-        <div style="width:70%; float:left;">{{indeliveryrequiredbydate}}</div>
+        <div style="width:70%; float:left;">{{indeliveryrequiredbydatetime}}</div>
       </div>
 
     </div>

@@ -3,7 +3,9 @@ using Fw.Json.SqlServer;
 using Fw.Json.Utilities;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Text;
+using System.Web;
 
 namespace Web.Source.Reports
 {
@@ -32,7 +34,7 @@ namespace Web.Source.Reports
 
 
             StringBuilder sb;
-            string html;
+            string html, dataUrl;
 
             sb = new StringBuilder(base.renderHeaderHtml(styletemplate, headertemplate, printOptions));
 
@@ -44,11 +46,16 @@ namespace Web.Source.Reports
             {
                 sb.Replace("[LBLREPORTNAME]", "QUOTE");
             }
-         
 
+            //Image image = Image.FromFile(HttpContext.Current.Server.MapPath("~/App_Data/Client/4WallLogo.png"));
+            //float printwidth = (image.Width / image.HorizontalResolution);
+            dataUrl = GetDataURL(HttpContext.Current.Server.MapPath("~/App_Data/Client/4WallLogo.png"));
+            sb.Replace("[CLIENTLOGO]", "<img class=\"clientlogo\" src=\"" + dataUrl + "\" style=\"margin-left: 30px; width:1.225in;\" />");
 
             html = sb.ToString();
             html = this.applyTableToTemplate(html, "header", dtHeader);
+
+         
 
             return html;
         }

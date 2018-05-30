@@ -158,6 +158,7 @@
     <Content Include="ApplicationConfig.js" />
     <Content Include="ApplicationConfig.sample.js" />
     <Content Include="ApplicationConfig.test.js" />
+    <Content Include="App_Data\Client\4WallLogo.png" />
     <Content Include="App_Data\Client\ReportLogo.png" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
