@@ -1396,8 +1396,8 @@
     <Exec Command="robocopy &quot;$(FwApplicationDirectory)\Libraries\ckeditor&quot; &quot;$(FwDeploymentDirectory)\Libraries\ckeditor&quot; /MIR /NFL /NDL /NJH /NJS /NP" ContinueOnError="false" IgnoreExitCode="true" />
     <MakeDir Directories="$(FwDeploymentDirectory)\Libraries\codemirror" Condition="!Exists('$(FwDeploymentDirectory)\Libraries\codemirror')" ContinueOnError="false" />
     <Exec Command="robocopy &quot;$(FwApplicationDirectory)\Libraries\codemirror&quot; &quot;$(FwDeploymentDirectory)\Libraries\codemirror&quot; /MIR /NFL /NDL /NJH /NJS /NP" ContinueOnError="false" IgnoreExitCode="true" />
-    <MakeDir Directories="$(FwDeploymentDirectory)\Libraries\DayPilotPro\scripts" Condition="!Exists('$(FwDeploymentDirectory)\Libraries\DayPilotPro\scripts')" ContinueOnError="false" />
-    <Exec Command="xcopy &quot;$(FwApplicationDirectory)\Libraries\DayPilotPro\scripts\daypilot-all.min.js&quot; &quot;$(FwDeploymentDirectory)\Libraries\DayPilotPro\scripts\&quot; /e" ContinueOnError="false" IgnoreExitCode="false" />
+    <MakeDir Directories="$(FwDeploymentDirectory)\Libraries\decimal.js" Condition="!Exists('$(FwDeploymentDirectory)\Libraries\decimal.js')" ContinueOnError="false" />
+    <Exec Command="robocopy &quot;$(FwApplicationDirectory)\Libraries\decimal.js&quot; &quot;$(FwDeploymentDirectory)\Libraries\decimal.js&quot; /MIR /NFL /NDL /NJH /NJS /NP" ContinueOnError="false" IgnoreExitCode="true" />
     <MakeDir Directories="$(FwDeploymentDirectory)\source" Condition="!Exists('$(FwDeploymentDirectory)\source')" ContinueOnError="false" />
     <MakeDir Directories="$(FwDeploymentDirectory)\source\reports" Condition="!Exists('$(FwDeploymentDirectory)\source\reports')" ContinueOnError="false" />
     <MakeDir Directories="$(FwDeploymentDirectory)\source\reports\application" Condition="!Exists('$(FwDeploymentDirectory)\source\reports\application')" ContinueOnError="false" />
