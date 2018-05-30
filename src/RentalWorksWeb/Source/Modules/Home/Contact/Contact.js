@@ -37,12 +37,11 @@ var Contact = (function () {
         $form = FwModule.openForm($form, mode);
         if (mode === 'NEW') {
             $form.find('.ifnew').attr('data-enabled', 'true');
-            var today = new Date(Date.now()).toLocaleString().split(',')[0];
-            FwFormField.setValueByDataField($form, 'ActiveDate', today);
+            var today_1 = FwFunc.getDate();
+            FwFormField.setValueByDataField($form, 'ActiveDate', today_1);
             $form.find('[data-datafield="Inactive"] .fwformfield-value').on('change', function () {
                 var $this = jQuery(this);
                 if ($this.prop('checked') === true) {
-                    var today_1 = new Date(Date.now()).toLocaleString().split(',')[0];
                     FwFormField.enable($form.find('div[data-datafield="InactiveDate"]'));
                     FwFormField.setValueByDataField($form, 'InactiveDate', today_1);
                 }
@@ -119,7 +118,7 @@ var Contact = (function () {
         $form.find('[data-datafield="Inactive"] .fwformfield-value').on('change', function () {
             var $this = jQuery(this);
             if ($this.prop('checked') === true) {
-                var today = new Date(Date.now()).toLocaleString().split(',')[0];
+                var today = FwFunc.getDate();
                 FwFormField.enable($form.find('div[data-datafield="InactiveDate"]'));
                 FwFormField.setValueByDataField($form, 'InactiveDate', today);
             }

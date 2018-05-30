@@ -219,7 +219,7 @@ class Repair {
           $form.find('.completeestimate').hide();
           $form.find('.releasesection').hide();
 
-          const today = new Date(Date.now()).toLocaleString().split(',')[0];
+          const today = FwFunc.getDate();
           const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
           const office = JSON.parse(sessionStorage.getItem('location'));
           const department = JSON.parse(sessionStorage.getItem('department'));

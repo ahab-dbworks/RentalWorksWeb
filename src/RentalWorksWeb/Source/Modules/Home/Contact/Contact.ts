@@ -44,7 +44,7 @@ class Contact {
 
         if (mode === 'NEW') {
             $form.find('.ifnew').attr('data-enabled', 'true');
-            const today = new Date(Date.now()).toLocaleString().split(',')[0];
+            const today = FwFunc.getDate();
             
             FwFormField.setValueByDataField($form, 'ActiveDate', today);
 
@@ -52,7 +52,6 @@ class Contact {
             $form.find('[data-datafield="Inactive"] .fwformfield-value').on('change', function () {
                 var $this = jQuery(this);
                 if ($this.prop('checked') === true) {
-                    const today = new Date(Date.now()).toLocaleString().split(',')[0];
                     FwFormField.enable($form.find('div[data-datafield="InactiveDate"]'));
                     FwFormField.setValueByDataField($form, 'InactiveDate', today);
                 }
@@ -146,7 +145,7 @@ class Contact {
         $form.find('[data-datafield="Inactive"] .fwformfield-value').on('change', function () {
             var $this = jQuery(this);
             if ($this.prop('checked') === true) {
-                const today = new Date(Date.now()).toLocaleString().split(',')[0];
+                const today = FwFunc.getDate();
                 FwFormField.enable($form.find('div[data-datafield="InactiveDate"]'));
                 FwFormField.setValueByDataField($form, 'InactiveDate', today);
             }

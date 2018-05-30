@@ -4,7 +4,7 @@ var VendorNoteGrid = (function () {
         this.apiurl = 'api/v1/vendornote';
     }
     VendorNoteGrid.prototype.onRowNewMode = function ($control, $tr) {
-        var today = new Date(Date.now()).toLocaleString().split(',')[0];
+        var today = FwFunc.getDate();
         var usersid = sessionStorage.getItem('usersid');
         var name = sessionStorage.getItem('name');
         $tr.find('[data-formdatafield="NoteDate"] input.value').val(today);

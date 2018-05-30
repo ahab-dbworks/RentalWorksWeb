@@ -179,8 +179,7 @@ class Quote {
         if (mode === 'NEW') {
             $form.find('.ifnew').attr('data-enabled', 'true')
 
-            var today = new Date(Date.now()).toLocaleString();
-            var date = today.split(',');
+            var today = FwFunc.getDate();
             var warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
             var office = JSON.parse(sessionStorage.getItem('location'));
             var department = JSON.parse(sessionStorage.getItem('department'));
@@ -190,9 +189,9 @@ class Quote {
             FwFormField.setValue($form, 'div[data-datafield="ProjectManagerId"]', usersid, name);
             FwFormField.setValue($form, 'div[data-datafield="AgentId"]', usersid, name);
 
-            FwFormField.setValueByDataField($form, 'PickDate', date[0]);
-            FwFormField.setValueByDataField($form, 'EstimatedStartDate', date[0]);
-            FwFormField.setValueByDataField($form, 'EstimatedStopDate', date[0]);
+            FwFormField.setValueByDataField($form, 'PickDate', today);
+            FwFormField.setValueByDataField($form, 'EstimatedStartDate', today);
+            FwFormField.setValueByDataField($form, 'EstimatedStopDate', today);
             FwFormField.setValueByDataField($form, 'VersionNumber', 1);
 
             $form.find('div[data-datafield="DealId"]').attr('data-required', false);

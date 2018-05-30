@@ -153,8 +153,7 @@ var Order = (function () {
         $form.find('.contract').append($submoduleContractBrowse);
         if (mode === 'NEW') {
             $form.find('.ifnew').attr('data-enabled', 'true');
-            var today = new Date(Date.now()).toLocaleString();
-            var date = today.split(',');
+            var today = FwFunc.getDate();
             var warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
             var office = JSON.parse(sessionStorage.getItem('location'));
             var department = JSON.parse(sessionStorage.getItem('department'));
@@ -162,9 +161,9 @@ var Order = (function () {
             var name_1 = sessionStorage.getItem('name');
             FwFormField.setValue($form, 'div[data-datafield="ProjectManagerId"]', usersid, name_1);
             FwFormField.setValue($form, 'div[data-datafield="AgentId"]', usersid, name_1);
-            FwFormField.setValueByDataField($form, 'PickDate', date[0]);
-            FwFormField.setValueByDataField($form, 'EstimatedStartDate', date[0]);
-            FwFormField.setValueByDataField($form, 'EstimatedStopDate', date[0]);
+            FwFormField.setValueByDataField($form, 'PickDate', today);
+            FwFormField.setValueByDataField($form, 'EstimatedStartDate', today);
+            FwFormField.setValueByDataField($form, 'EstimatedStopDate', today);
             $form.find('div[data-datafield="PickTime"]').attr('data-required', false);
             $form.find('div[data-datafield="EstimatedStartTime"]').attr('data-required', false);
             $form.find('div[data-datafield="EstimatedStopTime"]').attr('data-required', false);
