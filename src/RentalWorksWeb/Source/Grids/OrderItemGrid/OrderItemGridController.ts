@@ -13,8 +13,52 @@
             var warehouse = FwFormField.getTextByDataField($form, 'WarehouseId');
             var warehouseId = FwFormField.getValueByDataField($form, 'WarehouseId');
             let warehouseCode = $form.find('[data-datafield="WarehouseCode"] input').val();
+            let inventoryId = $generatedtr.find('div[data-browsedatafield="InventoryId"] input').val();
+            let officeLocationId = FwFormField.getValueByDataField($form, 'OfficeLocationId');
+            let rateType = $form.find('[data-datafield="RateType"] input').val();
+            let inventoryType = $generatedtr.find('[data-browsedatafield="InventoryId"]').attr('data-validationname');
+            let discountPercent, daysPerWeek;
 
+            daysPerWeek = FwFormField.getValueByDataField($form, 'RentalDaysPerWeek');
+
+            switch (inventoryType) {
+                case 'RentalInventoryValidation':
+                    discountPercent = FwFormField.getValueByDataField($form, 'RentalDiscountPercent');
+                    break;
+                case 'SalesInventoryValidation':
+                    discountPercent = FwFormField.getValueByDataField($form, 'SalesDiscountPercent');
+                    break;
+                case 'LaborRateValidation':
+                    discountPercent = FwFormField.getValueByDataField($form, 'LaborDiscountPercent');
+                    break;
+                case 'MiscRateValidation':
+                    discountPercent = FwFormField.getValueByDataField($form, 'MiscDiscountPercent');
+                    break;
+
+            }
             if ($generatedtr.hasClass("newmode")) {
+
+                FwAppData.apiMethod(true, 'GET', "api/v1/pricing/" + inventoryId + "/" + warehouseId, null, FwServices.defaultTimeout, function onSuccess(response) {
+                    switch (rateType) {
+                        case 'DAILY':
+                            $generatedtr.find('[data-browsedatafield="Price"] input').val(response[0].DailyRate);
+                            break;
+                        case 'WEEKLY':
+                            $generatedtr.find('[data-browsedatafield="Price"] input').val(response[0].WeeklyRate);
+                            break;
+                        case 'MONTHLY':
+                            $generatedtr.find('[data-browsedatafield="Price"] input').val(response[0].MonthlyRate);
+                            break;
+                    }
+                }, null, $form);
+
+                FwAppData.apiMethod(true, 'GET', "api/v1/taxable/" + inventoryId + "/" + officeLocationId, null, FwServices.defaultTimeout, function onSuccess(response) {
+                
+                    if (response[0].Taxable) {
+                        $generatedtr.find('.field[data-browsedatafield="Taxable"] input').prop('checked', 'true');
+                    }
+                }, null, $form);
+
                 $generatedtr.find('.field[data-browsedatafield="Description"] input').val($tr.find('.field[data-browsedatafield="Description"]').attr('data-originalvalue'));
                 if ($form[0].dataset.controller !== "TemplateController") {
                     $generatedtr.find('.field[data-browsedatafield="FromDate"] input').val(fromDate);
@@ -26,6 +70,8 @@
                 $generatedtr.find('.field[data-browsedatafield="ReturnToWarehouseId"] input').val(warehouseId);
                 $generatedtr.find('.field[data-browsedatafield="WarehouseId"] input.text').val(warehouseCode);
                 $generatedtr.find('.field[data-browsedatafield="ReturnToWarehouseId"] input.text').val(warehouseCode);
+                $generatedtr.find('.field[data-browsedatafield="DiscountPercent"] input').val(discountPercent);
+                $generatedtr.find('.field[data-browsedatafield="DaysPerWeek"] input').val(daysPerWeek);
             }
         });
     };
