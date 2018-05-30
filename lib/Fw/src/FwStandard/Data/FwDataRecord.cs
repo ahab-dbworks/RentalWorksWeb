@@ -469,6 +469,15 @@ namespace FwStandard.DataLayer
                         {
                             doUpper = false;
                         }
+
+                        //justin 05/30/2018 temporary - if searching for a number (ie. QuoteNumber, InvoiceNumber), don't perform a contains search
+                        bool containsSearch = true;
+                        if (searchField.EndsWith("no"))
+                        {
+                            containsSearch = false;
+                        }
+
+
                         if (doUpper)
                         {
                             searchField = "upper(" + searchField + ")";
@@ -476,10 +485,10 @@ namespace FwStandard.DataLayer
 
                         if (request.searchfieldoperators[i] == "like")
                         {
-
                             string searchcondition = conditionConjunction + searchField + " like " + parameterName;
                             select.Add(searchcondition);
-                            select.AddParameter(parameterName, "%" + request.searchfieldvalues[i].ToUpper() + "%");
+                            //select.AddParameter(parameterName, "%" + request.searchfieldvalues[i].ToUpper() + "%");
+                            select.AddParameter(parameterName, (containsSearch?"%":"") + request.searchfieldvalues[i].ToUpper() + "%");
                         }
                         else if (request.searchfieldoperators[i] == "=" || request.searchfieldoperators[i] == "<>")
                         {
