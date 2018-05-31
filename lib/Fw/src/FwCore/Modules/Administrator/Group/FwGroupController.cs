@@ -12,7 +12,7 @@ namespace FwCore.Modules.Administrator.Group
     {
         public FwGroupController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
         //------------------------------------------------------------------------------------ 
-        public async Task<IActionResult> DoGetApplicationTree([FromRoute]string id)
+        protected async Task<IActionResult> DoGetApplicationTree([FromRoute]string id)
         {
             FwSecurityTreeNode groupTree = await FwSecurityTree.Tree.GetGroupsTreeAsync(id, false);
             return new OkObjectResult(groupTree);
