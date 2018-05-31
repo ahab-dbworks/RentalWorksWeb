@@ -346,6 +346,8 @@ class Repair {
   //----------------------------------------------------------------------------------------------
   saveForm = ($form: any, parameters: any) => {
       FwModule.saveForm(this.Module, $form, parameters);
+      $form.find('.completeestimate').show();
+      $form.find('.releasesection').show();
   }
 
   //----------------------------------------------------------------------------------------------
