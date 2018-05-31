@@ -134,7 +134,7 @@ namespace WebApi.Modules.Settings.Crew
         public bool? WebAdministrator { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "changepasswordatlogin", modeltype: FwDataTypes.Boolean)]
-        public bool? ChangePasswordAtLogin { get; set; }
+        public bool? ChangePasswordAtNextLogin { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "expireflg", modeltype: FwDataTypes.Boolean)]
         public bool? ExpirePassword { get; set; }
