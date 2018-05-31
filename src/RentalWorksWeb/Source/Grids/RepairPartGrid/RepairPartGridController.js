@@ -11,6 +11,8 @@ var RepairPartGrid = (function () {
             $generatedtr.find('.field[data-browsedisplayfield="Warehouse"] input.text').val(warehouse);
             $generatedtr.find('.field[data-browsedatafield="WarehouseId"] input.value').val(warehouseId);
             $generatedtr.find('.field[data-browsedatafield="Quantity"] input').val("1");
+            $generatedtr.find('.field[data-browsedatafield="Billable"] input').prop('checked', true);
+            ;
         });
     };
     ;

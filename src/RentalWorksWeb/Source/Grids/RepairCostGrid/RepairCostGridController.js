@@ -8,6 +8,8 @@ var RepairCostGrid = (function () {
             $generatedtr.find('.field[data-browsedatafield="Description"] input').val($tr.find('.field[data-browsedatafield="Description"]').attr('data-originalvalue'));
             $generatedtr.find('.field[data-browsedatafield="Unit"] input').val($tr.find('.field[data-browsedatafield="Unit"]').attr('data-originalvalue'));
             $generatedtr.find('.field[data-browsedatafield="Quantity"] input').val("1");
+            $generatedtr.find('.field[data-browsedatafield="Billable"] input').prop('checked', true);
+            ;
         });
     };
     ;
