@@ -1,5 +1,6 @@
 Last Updated 05/31/2018
 ===================================================
+Navigate to the "build" directory: <repo root>\build, Delete all files and directories
 GitKraken: confirm that you are on local\develop branch
 Stash any unstaged changes (or Stage, Commit, and Push)
 Modify version.txt file in the root of the Web project
