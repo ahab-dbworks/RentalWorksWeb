@@ -8,6 +8,7 @@ class Quote {
     ActiveView: string = 'ALL';
     DefaultOrderType: string;
     DefaultOrderTypeId: string;
+    CombineActivity: string;
 
     //----------------------------------------------------------------------------------------------
     getModuleScreen(filter?: { datafield: string, search: string }) {
@@ -172,6 +173,7 @@ class Quote {
     //----------------------------------------------------------------------------------------------
     openForm(mode: string, parentModuleInfo?: any) {
         var $form;
+        var self = this;
 
         $form = jQuery(jQuery('#tmpl-modules-' + this.Module + 'Form').html());
         $form = FwModule.openForm($form, mode);
@@ -261,6 +263,10 @@ class Quote {
             } else {
                 FwFormField.disable($form.find('[data-datafield="NoChargeReason"]'));
             }
+        });
+
+        $form.find('div[data-datafield="OrderTypeId"]').data('onchange', function ($tr) {
+            self.CombineActivity = $tr.find('.field[data-browsedatafield="CombineActivityTabs"]').attr('data-originalvalue');
         });
 
         FwFormField.disable($form.find('[data-datafield="RentalTaxRate1"]'));
@@ -1120,20 +1126,12 @@ class Quote {
             if (response.CombineActivityTabs === true) {
                 $form.find('.notcombined').css('display', 'none');
                 $form.find('.notcombinedtab').css('display', 'none');
-                if ($form.find('.combined').css('display') === 'none') {
-                    $form.find('.combined').css('display', 'block');
-                    $form.find('.combinedtab').css('display', 'flex');
-                }
                 var $allOrderItemGrid;
                 $allOrderItemGrid = $form.find('.combinedgrid [data-name="OrderItemGrid"]');
                 FwBrowse.search($allOrderItemGrid);
             } else {
                 $form.find('.combined').css('display', 'none');
                 $form.find('.combinedtab').css('display', 'none');
-                if ($form.find('.notcombined').css('display') === 'none') {
-                    $form.find('.notcombined').css('display', 'block');
-                    $form.find('.notcombinedtab').css('display', 'flex');
-                }
                 var $orderItemGridRental;
                 $orderItemGridRental = $form.find('.rentalgrid [data-name="OrderItemGrid"]');
                 FwBrowse.search($orderItemGridRental);
@@ -1173,8 +1171,17 @@ class Quote {
             }
         }, null, null);
     };
-    afterSave($form) {
 
+    afterSave($form) {
+        if (this.CombineActivity === 'true') {
+            $form.find('.combined').css('display', 'block');
+            $form.find('.combinedtab').css('display', 'flex');
+            $form.find('.generaltab').click();
+        } else {
+            $form.find('.notcombined').css('display', 'block');
+            $form.find('.notcombinedtab').css('display', 'flex');
+            $form.find('.generaltab').click();
+        }
     }
 }
 //-----------------------------------------------------------------------------------------------------
