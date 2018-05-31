@@ -98,7 +98,7 @@ var FwFunc = (function () {
     FwFunc.getMaxZ = function (selector) {
         return Math.max.apply(null, jQuery(selector).map(function () {
             var z;
-            return isNaN(z = parseInt(jQuery(this).css("z-index"), 10)) ? 0 : z;
+            return isNaN(z = parseInt(jQuery(this).css("z-index"), 10)) ? 1 : z;
         }));
     };
     FwFunc.round = function (num, decimalplaces) {

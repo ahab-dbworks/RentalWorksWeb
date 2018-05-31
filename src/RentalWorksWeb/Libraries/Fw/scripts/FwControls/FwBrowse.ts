@@ -203,24 +203,24 @@
                     FwFunc.showError(ex);
                 }
             })
-            .on('click', 'table thead tr td .field div.search .searchclear', function (e) {
+            .on('click', 'table thead tr td .field div.search .searchclear', function (e: JQuery.Event) {
                 try {
+                    e.stopPropagation();
                     var $this = jQuery(this);
                     $this.siblings('input').val('').change();
                 } catch (ex) {
                     FwFunc.showError(ex);
                 }
             })
-            .on('click', '.designer thead > tr > td.addcolumn', function () { // Designer: Add a column
-                var $thAddColumn;
+            .on('click', '.designer thead > tr > td.addcolumn', function (e: JQuery.Event) { // Designer: Add a column
                 try {
-                    $thAddColumn = jQuery(this);
+                    let $thAddColumn = jQuery(this);
                     FwBrowse.addDesignerColumn($control, $thAddColumn, 'auto', true);
                 } catch (ex) {
                     FwFunc.showError(ex);
                 }
             })
-            .on('click', '.designer thead .columnhandle .delete', function () { // Designer: Delete a column
+            .on('click', '.designer thead .columnhandle .delete', function (e: JQuery.Event) { // Designer: Delete a column
                 var $delete, $th, $ths, $thead, thIndex, thAddColumnIndex, $trs, $tr, $tds;
                 try {
                     $delete = jQuery(this);
@@ -315,12 +315,14 @@
                     FwFunc.showError(ex);
                 }
             })
-            .on('click', '.runtime tfoot .pager div.btnRefresh', function () {
+            .on('click', '.runtime tfoot .pager div.btnRefresh', function (e: JQuery.Event) {
                 try {
+                    e.stopPropagation();
                     FwBrowse.databind($control);
                 } catch (ex) {
                     FwFunc.showError(ex);
                 }
+<<<<<<< develop
             })
             .on('click', 'tbody .browsecontextmenu', function () {
                 try {
@@ -365,6 +367,8 @@
                 } catch (ex) {
                     FwFunc.showError(ex);
                 }
+=======
+>>>>>>> Auto-save grid Set OrderItemGrid data-refreshaftersave="true"
             });
 
         //Events only attached when the API is not defined for the control.
@@ -1216,6 +1220,7 @@
                             var $rowactions = FwGridMenu.addSubMenuGroup($submenucolumn, 'Actions', '');
                             if (nodeDeleteAction !== null && nodeDeleteAction.properties['visible'] === 'T') {
                                 var $submenuitem = FwGridMenu.addSubMenuBtn($rowactions, 'Delete Selected', nodeDeleteAction.id);
+<<<<<<< develop
                                 $submenuitem.on('click', function () {
                                     if ($browse.attr('data-enabled') !== 'false') {
                                         try {
@@ -1236,6 +1241,26 @@
                                             }
                                         } catch (ex) {
                                             FwFunc.showError(ex);
+=======
+                                $submenuitem.on('click', function (e: JQuery.Event) {
+                                    try {
+                                        e.stopPropagation();
+                                        var $selectedCheckBoxes = $control.find('.cbselectrow:checked');
+                                        if ($selectedCheckBoxes.length === 0) {
+                                            FwFunc.showMessage('Select one or more rows to delete!');
+                                        } else {
+                                            var $confirmation = FwConfirmation.yesNo('Delete Record' + ($selectedCheckBoxes.length > 1 ? 's' : ''), 'Delete ' + $selectedCheckBoxes.length + ' record' + ($selectedCheckBoxes.length > 1 ? 's' : '') + '?', function onyes() {
+                                                try {
+                                                    let lastCheckBoxIndex = $selectedCheckBoxes.length - 1;
+                                                    for (let i = 0; i < $selectedCheckBoxes.length; i++) {
+                                                        let $tr = $selectedCheckBoxes.eq(i).closest('tr');
+                                                        FwBrowse.deleteRecord($control, $tr, i === lastCheckBoxIndex);
+                                                    }
+                                                } catch (ex) {
+                                                    FwFunc.showError(ex);
+                                                }
+                                            }, function onno() { });
+>>>>>>> Auto-save grid Set OrderItemGrid data-refreshaftersave="true"
                                         }
                                     } else {
                                         FwFunc.showMessage('This grid is disabled.');
@@ -1252,7 +1277,14 @@
                                             var gridSubMenuItem = gridSubMenuGroup.children[gridSubMenuItemIndex];
                                             if ((gridSubMenuItem && gridSubMenuItem.properties.nodetype === 'SubMenuItem') && (gridSubMenuItem.properties.visible === 'T')) {
                                                 var $submenuitem = FwGridMenu.addSubMenuBtn($optiongroup, gridSubMenuItem.properties.caption, gridSubMenuItem.id);
-                                                $submenuitem.on('click', FwApplicationTree.clickEvents['{' + gridSubMenuItem.id + '}']);
+                                                $submenuitem.on('click', function (e: JQuery.Event) {
+                                                    try {
+                                                        e.stopPropagation();
+                                                        FwApplicationTree.clickEvents['{' + gridSubMenuItem.id + '}'](e);
+                                                    } catch (ex) {
+                                                        FwFunc.showError(ex);
+                                                    }
+                                                });
                                             }
                                         }
                                     }
@@ -1267,12 +1299,12 @@
                         if (hasNew) {
                             var $new = FwGridMenu.addStandardBtn($menu, FwLanguages.translate('New'), gridNewMenuBarButton.id);
                             $new.attr('data-type', 'NewButton');
-                            $new.on('click', function () {
-                                var $form, mode;
+                            $new.on('click', function (e: JQuery.Event) {
                                 try {
-                                    $form = $control.closest('.fwform');
-                                    mode = $form.attr('data-mode');
-                                    if ($control.attr('data-enabled') != 'false') {
+                                    e.stopPropagation();
+                                    let $form = $control.closest('.fwform');
+                                    let mode = $form.attr('data-mode');
+                                    if ($control.attr('data-enabled') !== 'false') {
                                         if ((mode === 'EDIT') || ($new.closest('.fwconfirmation').length > 0)) {
                                             if (typeof $new.data('onclick') === 'function') {
                                                 $new.data('onclick')($control);
@@ -1294,12 +1326,12 @@
                         //if (hasEdit) {
                         //    var $edit = FwGridMenu.addStandardBtn($menu, FwLanguages.translate('Edit'), gridEditMenuBarButton.id);
                         //    $edit.attr('data-type', 'EditButton');
-                        //    $edit.on('click', function() {
-                        //        var $tr;
+                        //    $edit.on('click', function(e: JQuery.Event) {
                         //        try {
+                        //            e.stopPropagation();
                         //            if ($control.attr('data-enabled') != 'false') {
                         //                if (!$edit.hasClass('disabled')) {
-                        //                    $tr = $control.find('table > tbody > tr.selected');
+                        //                    let $tr = $control.find('table > tbody > tr.selected');
                         //                    if ($tr.length > 0) {
                         //                        FwBrowse.setRowEditMode($control, $tr);
                         //                    }
@@ -1316,12 +1348,12 @@
                         //if (hasDelete) {
                         //    var $delete = FwGridMenu.addStandardBtn($menu, FwLanguages.translate('Delete'), gridDeleteMenuBarButton.id);
                         //    $delete.attr('data-type', 'DeleteButton');
-                        //    $delete.on('click', function() {
-                        //        var $tr;
+                        //    $delete.on('click', function(e: JQuery.Event) {
                         //        try {
+                        //            e.stopPropagation();
                         //            if ($control.attr('data-enabled') != 'false') {
                         //                if (!$delete.hasClass('disabled')) {
-                        //                    $tr = $control.find('table > tbody > tr.selected');
+                        //                    let $tr = $control.find('table > tbody > tr.selected');
                         //                    FwBrowse.deleteRow($control, $tr);
                         //                }
                         //            }
@@ -1335,9 +1367,10 @@
                         if (hasSave) {
                             var $save = FwGridMenu.addStandardBtn($menu, FwLanguages.translate('Save'));
                             $save.attr('data-type', 'SaveButton');
-                            $save.css('display', 'none').on('click', function () {
+                            $save.css('display', 'none').on('click', function (e: JQuery.Event) {
                                 try {
-                                    var $tr = $control.find('table > tbody > tr.editrow');
+                                    e.stopPropagation();
+                                    let $tr = $control.find('table > tbody > tr.editrow');
                                     FwBrowse.saveRow($control, $tr);
                                 } catch (ex) {
                                     FwFunc.showError(ex);
@@ -1349,9 +1382,10 @@
                         if (hasCancel) {
                             var $cancel = FwGridMenu.addStandardBtn($menu, 'Cancel');
                             $cancel.attr('data-type', 'CancelButton');
-                            $cancel.css('display', 'none').on('click', function () {
+                            $cancel.css('display', 'none').on('click', function (e: JQuery.Event) {
                                 try {
-                                    var $tr = $control.find('table > tbody > tr.editrow');
+                                    e.stopPropagation();
+                                    let $tr = $control.find('table > tbody > tr.editrow');
                                     FwBrowse.cancelEditMode($control, $tr);
                                 } catch (ex) {
                                     FwFunc.showError(ex);
@@ -1542,6 +1576,7 @@
     }
     //---------------------------------------------------------------------------------
     static databind($control) {
+        jQuery(window).off('click.FwBrowse'); // remove the auto-save click event from window
         var request, caption;
         if ($control.length > 0) {
             request = FwBrowse.getRequest($control);
@@ -1771,50 +1806,92 @@
                 //});
                 // put a Grid row into edit mode when a user clicks on a table cell
 
-                $trs
-                    .on('click', function (e) {
-                        try {
-                            var $td = jQuery(this);
-                            var $tr = $td.closest('tr');
-                            if (!$tr.hasClass('selected')) {
-                                FwBrowse.selectRow($control, $tr, true);
-                                if (typeof $control.data('onselectedrowchanged') === 'function') {
-                                    $control.data('onselectedrowchanged')($control, $tr);
-                                }
-                            }
-                        } catch (ex) {
-                            FwFunc.showError(ex);
-                        }
-                    })
-                    .on('click', '.btnpeek', function (e) {
-                        try {
-                            var $td = jQuery(this).parent();
-                            var $tr = $td.closest('tr');
-                            FwValidation.validationPeek($control, $td.data('validationname').slice(0, -10), $td.data('originalvalue'), $td.data('browsedatafield'), null, $td.data('originaltext'));
-                        } catch (ex) {
-                            FwFunc.showError(ex)
-                        }
+                $control.find('tbody tr').on('click', function (e: JQuery.Event) {
+                    try {
                         e.stopPropagation();
-                    })
-                    .on('click', '.editablefield', function (e) {
-                        try {
-                            var $td = jQuery(this);
-                            var $tr = $td.closest('tr');
-                            if (!$tr.hasClass('selected')) {
-                                FwBrowse.selectRow($control, $tr, true);
-                                if (typeof $control.data('onselectedrowchanged') === 'function') {
-                                    $control.data('onselectedrowchanged')($control, $tr);
+                        var $td = jQuery(this);
+                        var $tr = $td.closest('tr');
+                        if (!$tr.hasClass('selected')) {
+                            FwBrowse.selectRow($control, $tr, true);
+                            if (typeof $control.data('onselectedrowchanged') === 'function') {
+                                $control.data('onselectedrowchanged')($control, $tr);
+                            }
+                        }
+                    } catch (ex) {
+                        FwFunc.showError(ex);
+                    }
+                });
+                $control.find('tbody .browsecontextmenu').on('click', function (e: JQuery.Event) {
+                    try {
+                        e.stopPropagation();
+                        let $browse = jQuery(this).closest('.fwbrowse');
+                        if ($browse.attr('data-enabled') !== 'false') {
+                            var menuItemCount = 0;
+                            var $browsecontextmenu = jQuery(this);
+                            var $tr = $browsecontextmenu.closest('tr');
+                            //FwBrowse.unselectAllRows($control);
+                            //FwBrowse.selectRow($control, $tr, true);
+                            var $contextmenu = FwContextMenu.render('Options', 'bottomleft', $browsecontextmenu);
+                            //$contextmenu.data('beforedestroy', function () {
+                            //    FwBrowse.unselectRow($control, $tr);
+                            //});
+                            var controller = $control.attr('data-controller');
+                            if (typeof controller === 'undefined') {
+                                throw 'Attribute data-controller is not defined on Browse control.'
+                            }
+                            var nodeController = FwApplicationTree.getNodeByController(controller);
+                            if (nodeController !== null) {
+                                var deleteActions = FwApplicationTree.getChildrenByType(nodeController, 'DeleteMenuBarButton');
+                                if (deleteActions.length > 1) {
+                                    throw 'Invalid Security Tree configuration.  Only 1 DeleteMenuBarButton is permitted on a Controller.';
+                                }
+                                if (deleteActions.length === 1 && deleteActions[0].properties['visible'] === 'T') {
+                                    FwContextMenu.addMenuItem($contextmenu, 'Delete', function () {
+                                        try {
+                                            var $tr = jQuery(this).closest('tr');
+                                            FwBrowse.deleteRow($control, $tr);
+                                        } catch (ex) {
+                                            FwFunc.showError(ex);
+                                        }
+                                    });
+                                    menuItemCount++;
                                 }
                             }
-                            if ($control.attr('data-type') === 'Grid' && $control.attr('data-enabled') !== 'false' && !$tr.hasClass('editmode')) {
-                                FwBrowse.setRowEditMode($control, $tr);
-                                $td.find('.value').focus();
+                            if (menuItemCount === 0) {
+                                FwContextMenu.destroy($contextmenu);
                             }
-                        } catch (ex) {
-                            FwFunc.showError(ex);
                         }
-                    })
-                    ;
+                    } catch (ex) {
+                        FwFunc.showError(ex);
+                    }
+                });
+                $control.find('tbody tr .btnpeek').on('click', function (e: JQuery.Event) {
+                    try {
+                        let $td = jQuery(this).parent();
+                        FwValidation.validationPeek($control, $td.data('validationname').slice(0, -10), $td.data('originalvalue'), $td.data('browsedatafield'), null, $td.data('originaltext'));
+                    } catch (ex) {
+                        FwFunc.showError(ex)
+                    }
+                    e.stopPropagation();
+                });
+                $control.find('tbody tr .editablefield').on('click', function (e) {
+                    try {
+                        var $td = jQuery(this);
+                        var $tr = $td.closest('tr');
+                        if (!$tr.hasClass('selected')) {
+                            FwBrowse.selectRow($control, $tr, true);
+                            if (typeof $control.data('onselectedrowchanged') === 'function') {
+                                $control.data('onselectedrowchanged')($control, $tr);
+                            }
+                        }
+                        if ($control.attr('data-type') === 'Grid' && $control.attr('data-enabled') !== 'false' && !$tr.hasClass('editmode')) {
+                            FwBrowse.setRowEditMode($control, $tr);
+                            $td.find('.value').focus();
+                        }
+                    } catch (ex) {
+                        FwFunc.showError(ex);
+                    }
+                });
                 //$trs.on('focusout', function (e) {
                 //    try {
 
@@ -1954,8 +2031,9 @@
                 $control.find('.runtime tbody > tr').on('dblclick', onrowdblclick);
             }
             $control.find('.runtime tfoot > tr > td > .pager div.buttons .btnFirstPage')
-                .on('click', function () {
+                .on('click', function (e: JQuery.Event) {
                     try {
+                        e.stopPropagation();
                         var $btnFirstPage = jQuery(this);
                         if ($btnFirstPage.attr('data-enabled') === 'true') {
                             $control.attr('data-pageno', '1');
@@ -1967,8 +2045,9 @@
                 })
                 ;
             $control.find('.runtime tfoot > tr > td > .pager div.buttons .btnPreviousPage')
-                .on('click', function () {
+                .on('click', function (e: JQuery.Event) {
                     try {
+                        e.stopPropagation();
                         FwBrowse.prevPage($control);
                     } catch (ex) {
                         FwFunc.showError(ex);
@@ -2003,8 +2082,9 @@
                 })
                 ;
             $control.find('.runtime tfoot > tr > td > .pager div.buttons .btnNextPage')
-                .on('click', function () {
+                .on('click', function (e: JQuery.Event) {
                     try {
+                        e.stopPropagation();
                         FwBrowse.nextPage($control);
                     } catch (ex) {
                         FwFunc.showError(ex);
@@ -2012,8 +2092,9 @@
                 })
                 ;
             $control.find('.runtime tfoot > tr > td > .pager div.buttons .btnLastPage')
-                .on('click', function () {
+                .on('click', function (e: JQuery.Event) {
                     try {
+                        e.stopPropagation();
                         var $btnLastPage = jQuery(this);
                         if ($btnLastPage.attr('data-enabled') === 'true') {
                             var pageno = FwBrowse.getTotalPages($control);
@@ -2142,11 +2223,13 @@
     }
     //---------------------------------------------------------------------------------
     static setRowNewMode($control, $tr) {
+        FwBrowse.setNewOrEditRow($control, $tr);
+        this.autoSave($control, $tr);
         var $fields, $inputs;
         $control.attr('data-mode', 'EDIT');
         $control.find('.gridmenu .buttonbar div[data-type="NewButton"]').hide();
-        $control.find('.gridmenu .buttonbar div[data-type="EditButton"]').hide();
-        $control.find('.gridmenu .buttonbar div[data-type="DeleteButton"]').hide();
+        //$control.find('.gridmenu .buttonbar div[data-type="EditButton"]').hide();
+        //$control.find('.gridmenu .buttonbar div[data-type="DeleteButton"]').hide();
 
         $fields = $tr.find('.field');
         $fields.each(function (index, element) {
@@ -2174,11 +2257,10 @@
     }
     //---------------------------------------------------------------------------------
     static setRowViewMode($control, $tr) {
-        var $trEditModeRows = $control.find('tbody tr.editmode');
+        jQuery(window).off('click.FwBrowse');
         $tr.find('.divsaverow').remove();
         $tr.find('.divcancelsaverow').remove();
         $tr.removeClass('editmode').removeClass('editrow').addClass('viewmode');
-        var $table = $tr.closest('table');
         //$control.find('.gridmenu .buttonbar div[data-type="EditButton"]').show();
         //$control.find('.gridmenu .buttonbar div[data-type="DeleteButton"]').show();
         //$control.find('.gridmenu .buttonbar div[data-type="SaveButton"]').hide();
@@ -2189,7 +2271,9 @@
             FwBrowse.setFieldViewMode($control, $field, $tr);
         });
 
-        if ($trEditModeRows.length <= 1) {
+        let $trEditModeRows = $control.find('tbody tr.editmode');
+        if ($trEditModeRows.length === 0) {
+            $control.find('thead .tdselectrow .divselectrow').show();
             $control.find('.gridmenu .buttonbar div[data-type="NewButton"]').show();
             $control.find('tbody .divselectrow').show();
             $control.find('tbody .browsecontextmenu').show();
@@ -2237,16 +2321,44 @@
         }
     }
     //---------------------------------------------------------------------------------
+    // trigger an auto-save on any rows in new or edit mode
+    static autoSave($control: JQuery, $trToExclude: JQuery) {
+        let $trsNewMode = $control.find('tr.newmode').not($trToExclude);
+        for (let i = 0; i < $trsNewMode.length; i++) {
+            let $trNewMode = $trsNewMode.eq(i);
+            $trNewMode.removeClass('newmode');
+            FwBrowse.saveRow($control, $trNewMode);
+        }
+        let $trsEditMode = $control.find('tr.editmode').not($trToExclude);
+        for (let i = 0; i < $trsEditMode.length; i++) {
+            let $trEditMode = $trsEditMode.eq(i);
+            FwBrowse.saveRow($control, $trEditMode);
+        }
+    };
+    //---------------------------------------------------------------------------------
+    static setNewOrEditRow($control, $tr) {
+        $control.find('thead .tdselectrow .divselectrow').hide();
+        jQuery(window)
+            .off('click.FwBrowse')
+            .one('click.FwBrowse', function (e) {
+                try {
+                    FwBrowse.saveRow($control, $tr);
+                } catch (ex) {
+                    FwFunc.showError(ex);
+                }
+            });
+    }
+    //---------------------------------------------------------------------------------
     static setRowEditMode($control, $tr) {
-        var $table, $inputs;
+        FwBrowse.setNewOrEditRow($control, $tr);
         $control.attr('data-mode', 'EDIT');
         $tr.removeClass('viewmode').addClass('editmode').addClass('editrow');
-        $table = $tr.closest('table');
+
+        FwBrowse.autoSave($control, $tr);
+
         $control.find('.gridmenu .buttonbar div[data-type="NewButton"]').hide();
-        $control.find('.gridmenu .buttonbar div[data-type="EditButton"]').hide();
-        $control.find('.gridmenu .buttonbar div[data-type="DeleteButton"]').hide();
-        //$control.find('.gridmenu .buttonbar div[data-type="SaveButton"]').show();
-        //$control.find('.gridmenu .buttonbar div[data-type="CancelButton"]').show();
+        //$control.find('.gridmenu .buttonbar div[data-type="EditButton"]').hide();
+        //$control.find('.gridmenu .buttonbar div[data-type="DeleteButton"]').hide();
 
         if (($control.attr('data-type') == 'Grid') && (typeof $control.attr('data-controller') !== 'undefined') && ($control.attr('data-controller') !== '')) {
             var controller;
@@ -2266,7 +2378,7 @@
                 FwBrowse.setFieldEditMode($control, $field, $tr);
             }
         });
-        $inputs = $tr.find('input[type!="hidden"]:visible,select:visible,textarea:visible');
+        let $inputs = $tr.find('input[type!="hidden"]:visible,select:visible,textarea:visible');
         if ($inputs.length > 0) {
             $inputs.eq(0).select();
         }
@@ -2459,120 +2571,124 @@
     }
     //----------------------------------------------------------------------------------------------
     static saveRow($control, $tr) {
-        var fields, rowuniqueids, rowfields, formuniqueids, formfields, $form, isvalid = true, miscfields;
+        let isvalid = true;
+        if (FwBrowse.isRowModified($control, $tr)) {
+            var fields, rowuniqueids, rowfields, formuniqueids, formfields, $form, miscfields;
 
-        var name = $control.attr('data-name');
-        var mode = $tr.hasClass('newmode') ? 'Insert' : $tr.hasClass('editmode') ? 'Update' : '';
-        if (typeof $control.attr('data-name') === 'undefined') {
-            throw 'Attrtibute data-name is missing on the Browser controller with html: ' + $control[0].outerHTML;
-        }
-        var controller = window[$control.attr('data-name') + 'Controller'];
-        if (typeof controller === 'undefined') {
-            throw 'Controller: ' + $control.attr('data-name') + ' is not defined';
-        }
-        if (mode === '') throw 'FwBrowse.saveRow: Invalid mode';
-        isvalid = FwBrowse.validateRow($control, $tr);
-        if (isvalid) {
-            var isUsingWebApi = FwBrowse.isUsingWebApi($control);
-            var request;
-            $form = $control.closest('.fwform');
-            if (isUsingWebApi) {
-                // set request for web api
-                var allparentformfields = FwModule.getWebApiFields($form, true);
-                var parentformfields = {};
-                var whitelistedFields = (typeof $control.attr('data-parentformdatafields') !== 'undefined') ? $control.attr('data-parentformdatafields') : '';
-                if (whitelistedFields.length > 0) {
-                    whitelistedFields = whitelistedFields.split(',');
-                    for (var fieldname in allparentformfields) {
-                        for (var i = 0; i < whitelistedFields.length; i++) {
-                            var whitelistedField = whitelistedFields[i];
-                            var indexOfEquals = whitelistedField.indexOf('=');
-                            if (indexOfEquals === -1) {
-                                if (fieldname === whitelistedFields[i]) {
-                                    parentformfields[fieldname] = allparentformfields[fieldname];
-                                }
-                            } else {
-                                var apiName = whitelistedField.substr(0, indexOfEquals - 1);
-                                var parentFormFieldName = whitelistedField.substr(indexOfEquals);
-                                if (fieldname === apiName) {
-                                    parentformfields[fieldname] = allparentformfields[fieldname];
+            var name = $control.attr('data-name');
+            var mode = $tr.hasClass('newmode') ? 'Insert' : $tr.hasClass('editmode') ? 'Update' : '';
+            if (typeof $control.attr('data-name') === 'undefined') {
+                throw 'Attrtibute data-name is missing on the Browser controller with html: ' + $control[0].outerHTML;
+            }
+            var controller = window[$control.attr('data-name') + 'Controller'];
+            if (typeof controller === 'undefined') {
+                throw 'Controller: ' + $control.attr('data-name') + ' is not defined';
+            }
+            if (mode === '') throw 'FwBrowse.saveRow: Invalid mode';
+            isvalid = FwBrowse.validateRow($control, $tr);
+            if (isvalid) {
+                var isUsingWebApi = FwBrowse.isUsingWebApi($control);
+                var request;
+                $form = $control.closest('.fwform');
+                if (isUsingWebApi) {
+                    // set request for web api
+                    var allparentformfields = FwModule.getWebApiFields($form, true);
+                    var parentformfields = {};
+                    var whitelistedFields = (typeof $control.attr('data-parentformdatafields') !== 'undefined') ? $control.attr('data-parentformdatafields') : '';
+                    if (whitelistedFields.length > 0) {
+                        whitelistedFields = whitelistedFields.split(',');
+                        for (var fieldname in allparentformfields) {
+                            for (var i = 0; i < whitelistedFields.length; i++) {
+                                var whitelistedField = whitelistedFields[i];
+                                var indexOfEquals = whitelistedField.indexOf('=');
+                                if (indexOfEquals === -1) {
+                                    if (fieldname === whitelistedFields[i]) {
+                                        parentformfields[fieldname] = allparentformfields[fieldname];
+                                    }
+                                } else {
+                                    var apiName = whitelistedField.substr(0, indexOfEquals - 1);
+                                    var parentFormFieldName = whitelistedField.substr(indexOfEquals);
+                                    if (fieldname === apiName) {
+                                        parentformfields[fieldname] = allparentformfields[fieldname];
+                                    }
                                 }
                             }
                         }
                     }
-                }
 
-                var gridfields = FwBrowse.getWebApiRowFields($control, $tr);
-                request = jQuery.extend({}, parentformfields, gridfields);
+                    var gridfields = FwBrowse.getWebApiRowFields($control, $tr);
+                    request = jQuery.extend({}, parentformfields, gridfields);
+                    if (typeof $control.data('beforesave') === 'function') {
+                        $control.data('beforesave')(request);
+                    }
+                }
+                else {
+                    // set request for old api
+                    rowuniqueids = FwBrowse.getRowFormUniqueIds($control, $tr);
+                    rowfields = FwBrowse.getRowFormDataFields($control, $tr, false);
+                    miscfields = FwBrowse.getRowFormDataFields($control, $tr, true);
+                    if ($form.length > 0) {
+                        formuniqueids = FwModule.getFormUniqueIds($form);
+                        formfields = FwModule.getFormFields($form, true);
+                    }
+                    // remove any uniqueids that are in the fields in NEW mode only
+                    if (mode === 'Insert') {
+                        for (var rowfield in rowfields) {
+                            for (var rowuniqueid in rowuniqueids) {
+                                if (rowfield === rowuniqueid) {
+                                    delete rowuniqueids[rowuniqueid];
+                                }
+                            }
+                        }
+                    }
+                    request = {
+                        module: name,
+                        mode: mode == 'Insert' ? 'NEW' : 'EDIT',
+                        ids: rowuniqueids,
+                        fields: rowfields,
+                        miscfields: miscfields
+                    };
+                    if ($form.length > 0) {
+                        request.miscfields = jQuery.extend({}, request.miscfields, formuniqueids);
+                        request.miscfields = jQuery.extend({}, request.miscfields, formfields);
+                    }
+                }
                 if (typeof $control.data('beforesave') === 'function') {
                     $control.data('beforesave')(request);
                 }
-            }
-            else {
-                // set request for old api
-                rowuniqueids = FwBrowse.getRowFormUniqueIds($control, $tr);
-                rowfields = FwBrowse.getRowFormDataFields($control, $tr, false);
-                miscfields = FwBrowse.getRowFormDataFields($control, $tr, true);
-                if ($form.length > 0) {
-                    formuniqueids = FwModule.getFormUniqueIds($form);
-                    formfields = FwModule.getFormFields($form, true);
+                if (typeof controller.apiurl === 'undefined') {
+                    mode = 'Save';
                 }
-                // remove any uniqueids that are in the fields in NEW mode only
-                if (mode === 'Insert') {
-                    for (var rowfield in rowfields) {
-                        for (var rowuniqueid in rowuniqueids) {
-                            if (rowfield === rowuniqueid) {
-                                delete rowuniqueids[rowuniqueid];
-                            }
+                FwServices.grid.method(request, name, mode, $control, function (response) {
+                    // if the server reloaded the fields, then databind them into the row
+                    var $fields = $tr.find('.field');
+                    for (var fieldno = 0; fieldno < $fields.length; fieldno++) {
+                        var $field = $fields.eq(fieldno);
+                        if (typeof $field.attr('data-formdatafield') !== 'undefined' && typeof response[$field.attr('data-formdatafield')] !== 'undefined') {
+                            $field.attr('data-originalvalue', response[$field.attr('data-formdatafield')]);
                         }
                     }
-                }
-                request = {
-                    module: name,
-                    mode: mode == 'Insert' ? 'NEW' : 'EDIT',
-                    ids: rowuniqueids,
-                    fields: rowfields,
-                    miscfields: miscfields
-                };
-                if ($form.length > 0) {
-                    request.miscfields = jQuery.extend({}, request.miscfields, formuniqueids);
-                    request.miscfields = jQuery.extend({}, request.miscfields, formfields);
-                }
-            }
-            if (typeof $control.data('beforesave') === 'function') {
-                $control.data('beforesave')(request);
-            }
-            if (typeof controller.apiurl === 'undefined') {
-                mode = 'Save';
-            }
-            FwServices.grid.method(request, name, mode, $control, function (response) {
-                // if the server reloaded the fields, then databind them into the row
-                var $fields = $tr.find('.field');
-                for (var fieldno = 0; fieldno < $fields.length; fieldno++) {
-                    var $field = $fields.eq(fieldno);
-                    if (typeof $field.attr('data-formdatafield') !== 'undefined' && typeof response[$field.attr('data-formdatafield')] !== 'undefined') {
-                        $field.attr('data-originalvalue', response[$field.attr('data-formdatafield')]);
-                    }
-                }
 
-                FwBrowse.setRowViewMode($control, $tr);
-                if ($control.find('tbody tr.editmode').length === 0) {
-                    FwBrowse.search($control);
-                }
-                $control.attr('data-mode', 'VIEW');
-                if (($control.attr('data-type') === 'Grid') && (typeof $control.data('aftersave') === 'function')) {
-                    $control.data('aftersave')($control, $tr);
-                }
-                else if (($control.attr('data-type') === 'Grid') && (typeof $control.attr('data-controller') !== 'undefined') && ($control.attr('data-controller') !== '')) {
-                    var controller;
-                    controller = $control.attr('data-controller');
-                    if (typeof window[controller] === 'undefined') throw 'Missing javascript module: ' + controller;
-                    if (typeof window[controller]['afterSave'] === 'function') {
-                        window[controller]['afterSave']($control, $tr);
+                    FwBrowse.setRowViewMode($control, $tr);
+                    if ($control.attr('data-refreshaftersave') === 'true') {
+                        FwBrowse.search($control);
                     }
-                }
-            });
+                    $control.attr('data-mode', 'VIEW');
+                    if (($control.attr('data-type') === 'Grid') && (typeof $control.data('aftersave') === 'function')) {
+                        $control.data('aftersave')($control, $tr);
+                    }
+                    else if (($control.attr('data-type') === 'Grid') && (typeof $control.attr('data-controller') !== 'undefined') && ($control.attr('data-controller') !== '')) {
+                        var controller;
+                        controller = $control.attr('data-controller');
+                        if (typeof window[controller] === 'undefined') throw 'Missing javascript module: ' + controller;
+                        if (typeof window[controller]['afterSave'] === 'function') {
+                            window[controller]['afterSave']($control, $tr);
+                        }
+                    }
+                });
+            }
         }
+
 
         return isvalid;
     }
@@ -2598,24 +2714,28 @@
             $cancel = FwConfirmation.addButton($confirmation, 'Cancel');
 
             $ok.on('click', function () {
-                FwBrowse.deleteRecord($control, $tr);
+                try {
+                    FwBrowse.deleteRecord($control, $tr, true);
+                } catch (ex) {
+                    FwFunc.showError(ex);
+                }
             });
         }
     }
     //----------------------------------------------------------------------------------------------
-    static deleteRecord($control, $tr) {
-        var rowuniqueids, formuniqueids, name, $form, candelete, miscfields;
-        miscfields = {};
-        name = $control.attr('data-name');
-        $form = $control.closest('.fwform');
-        rowuniqueids = FwBrowse.getRowFormUniqueIds($control, $tr);
+    static deleteRecord($control: JQuery, $tr: JQuery, refreshAfterDelete: boolean) {
+        FwBrowse.autoSave($control, $tr);
+        let miscfields = {};
+        let name = $control.attr('data-name');
+        let $form = $control.closest('.fwform');
+        let rowuniqueids = FwBrowse.getRowFormUniqueIds($control, $tr);
         var request: any = {
             module: name,
             ids: rowuniqueids,
             miscfields: miscfields
         };
         if ($form.length > 0) {
-            formuniqueids = ($form.length > 0) ? FwModule.getFormUniqueIds($form) : [];
+            let formuniqueids = ($form.length > 0) ? FwModule.getFormUniqueIds($form) : [];
             request.miscfields = jQuery.extend({}, miscfields, formuniqueids);
         }
         FwServices.grid.method(request, name, 'Delete', $control, function (response) {
@@ -2624,14 +2744,15 @@
                 $control.data('afterdelete')($control, $tr);
             }
             else if (($control.attr('data-type') == 'Grid') && (typeof $control.attr('data-controller') !== 'undefined') && ($control.attr('data-controller') !== '')) {
-                var controller;
-                controller = $control.attr('data-controller');
+                let controller = $control.attr('data-controller');
                 if (typeof window[controller] === 'undefined') throw 'Missing javascript module: ' + controller;
                 if (typeof window[controller]['afterDelete'] === 'function') {
                     window[controller]['afterDelete']($control, $tr);
                 }
             }
-            FwBrowse.search($control);
+            if (refreshAfterDelete) {
+                FwBrowse.search($control);
+            }
         });
     }
     //---------------------------------------------------------------------------------

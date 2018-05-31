@@ -146,7 +146,8 @@
     static getMaxZ(selector: string) : number {
         return Math.max.apply(null, jQuery(selector).map(function () {
             let z;
-            return isNaN(z = parseInt(jQuery(this).css("z-index"), 10)) ? 0 : z;
+            // mv 2018-05-29 - I bumped the starting value from 0 to 1 because the checkbox has an ::after element with z-index 1 that it doesn't seem to find.
+            return isNaN(z = parseInt(jQuery(this).css("z-index"), 10)) ? 1 : z;
         }));
     }
     //---------------------------------------------------------------------------------

@@ -242,7 +242,7 @@ html.theme-material .fwbrowse[data-type="Browse"] table tfoot tr.pagerrow .pager
 html.theme-material .fwbrowse[data-type="Grid"] {border: 1px solid #BDBDBD; margin: .5rem .5rem 1rem .5rem; background-color: #F5F5F5;}
 html.theme-material .fwbrowse[data-type="Grid"] .browsecaption {color:#212121;border-bottom:1px solid rgba(0,0,0,.2);background-color: #9e9e9e;}
 html.theme-material .fwbrowse[data-type="Grid"][data-mode="EDIT"] .browsecaption {background-color:#4caf50;}
-html.theme-material .fwbrowse[data-type="Grid"] table tbody tr td.column {border:1px solid #e0e0e0;height:32px;}
+html.theme-material .fwbrowse[data-type="Grid"] table tbody tr td.column {border:1px solid #e0e0e0;height:2em;}
 html.theme-material .fwbrowse[data-type="Grid"] table tbody tr td.column:first-of-type {border-left: 0;}
 html.theme-material .fwbrowse[data-type="Grid"] table tbody tr td.column:last-of-type {border-right: 0;}
 html.theme-material .fwbrowse[data-type="Grid"] table tbody tr.editrow .editablefield {background-color:#FFFFFF;}
