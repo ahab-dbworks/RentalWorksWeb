@@ -247,6 +247,16 @@ class Quote {
                 FwFormField.enable($form.find('[data-datafield="PoNumber"]'));
                 FwFormField.enable($form.find('[data-datafield="PoAmount"]'));
             }
+        }); 
+
+        $form.find('[data-datafield="BillToAddressDifferentFromIssuedToAddress"] .fwformfield-value').on('change', function () {
+            var $this = jQuery(this);
+            if ($this.prop('checked') === true) {
+                FwFormField.enable($form.find('.differentaddress'));
+            }
+            else {
+                FwFormField.disable($form.find('.differentaddress'));
+            }
         });
 
         $form.find('div[data-datafield="EstimatedStartTime"]').attr('data-required', false);

@@ -211,6 +211,15 @@ var Order = (function () {
                 FwFormField.enable($form.find('[data-datafield="PoAmount"]'));
             }
         });
+        $form.find('[data-datafield="BillToAddressDifferentFromIssuedToAddress"] .fwformfield-value').on('change', function () {
+            var $this = jQuery(this);
+            if ($this.prop('checked') === true) {
+                FwFormField.enable($form.find('.differentaddress'));
+            }
+            else {
+                FwFormField.disable($form.find('.differentaddress'));
+            }
+        });
         $form.find('div[data-datafield="DealId"]').data('onchange', function ($tr) {
             FwFormField.setValue($form, 'div[data-datafield="DealNumber"]', $tr.find('.field[data-browsedatafield="DealNumber"]').attr('data-originalvalue'));
         });
