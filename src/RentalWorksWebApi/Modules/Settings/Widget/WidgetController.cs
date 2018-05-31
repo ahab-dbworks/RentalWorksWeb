@@ -70,12 +70,6 @@ namespace WebApi.Modules.Settings.Widget
             return await DoGetWidget(widgetApiName, dataPoints: dataPoints, locationId: locationId);
         }
         //------------------------------------------------------------------------------------
-        [HttpGet("loadbyname/{widgetApiName}/{dataPoints}")]
-        public async Task<IActionResult> LoadByName([FromRoute]string widgetApiName, [FromRoute]int dataPoints)
-        {
-            return await DoGetWidget(widgetApiName, dataPoints);
-        }
-        //------------------------------------------------------------------------------------
         private async Task<IActionResult> DoGetWidget(string widgetName, int dataPoints = 0, string locationId = "", string warehouseId = "", string departmentId = "")
         {
             try
