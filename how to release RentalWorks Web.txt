@@ -16,7 +16,7 @@ zip the RentalWorksWeb and RentalWorksWebApi directories together (7zip).  (File
 Upload zip file to ftp or web server.
 Updating Web: find the target directory, delete all except App_Data directory, Application.config, and ApplicationConfig.js.
 Updating Api: find the target directory: delete all except appsettings.json
-Copy over the new deliverable files.
+Copy over the new deliverable files. (Do not copy the App_Data directory to the target.)
 
 Note about Web Demo:
 WebDemo is hosted on TSDEMO
