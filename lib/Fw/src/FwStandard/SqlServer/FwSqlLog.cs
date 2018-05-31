@@ -398,7 +398,8 @@ namespace FwStandard.SqlServer
 
             sql.Insert(0, "--" + Counter.ToString() + "\n");
 
-            //Console.WriteLine(sql);
+            WriteToConsole(sql.ToString());
+
         }
 
         public FwSqlLogEntry(SqlCommand command) : this(string.Empty, command)
@@ -420,11 +421,20 @@ namespace FwStandard.SqlServer
         {
             StopTime = DateTime.Now;
             //Console.WriteLine("--" + Counter.ToString() + " completed in " + GetExecutionTime());
+            WriteToConsole("completed", true);
+        }
+        public void WriteToConsole(string str, bool includeDuration = false)
+        {
+            if (includeDuration)
+            {
+                str = "--" + str  + " in " + GetExecutionTime();
+            }
+            //Console.WriteLine(str);  //justin 05/31/2018 commented for release
         }
 
         public string GetExecutionTime()
         {
-            return StopTime.Subtract(StartTime).TotalMilliseconds.ToString();
+            return DateTime.Now.Subtract(StartTime).TotalMilliseconds.ToString();
         }
     }
     

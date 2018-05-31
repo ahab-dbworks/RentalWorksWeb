@@ -1050,7 +1050,7 @@ namespace FwStandard.SqlServer
 
                 using (SqlDataReader reader = await this.sqlCommand.ExecuteReaderAsync())
                 {
-                    this.sqlLogEntry.Stop();
+                    this.sqlLogEntry.WriteToConsole("query opened", true);
                     if (!includeAllColumns)
                     {
                         dt.Columns = columns;
@@ -1160,6 +1160,7 @@ namespace FwStandard.SqlServer
                     {
                         dt.TotalRows = dt.Rows.Count;
                     }
+                    this.sqlLogEntry.Stop();
                 }
             }
             finally
