@@ -283,6 +283,20 @@ var Order = (function () {
                 FwFunc.showError(ex);
             }
         });
+        $form.find('.allFrames').css('display', 'none');
+        $form.find('.hideFrames').css('display', 'none');
+        $form.find('.expandArrow').on('click', function (e) {
+            $form.find('.hideFrames').toggle();
+            $form.find('.expandFrames').toggle();
+            $form.find('.allFrames').toggle();
+            $form.find('.totalRowFrames').toggle();
+            if ($form.find('.summarySection').css('flex') != '0 1 65%') {
+                $form.find('.summarySection').css('flex', '0 1 65%');
+            }
+            else {
+                $form.find('.summarySection').css('flex', '');
+            }
+        });
         return $form;
     };
     ;

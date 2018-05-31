@@ -329,6 +329,21 @@ class Order {
             }
         });
 
+
+        $form.find('.allFrames').css('display', 'none');
+        $form.find('.hideFrames').css('display', 'none');
+        $form.find('.expandArrow').on('click', e => {
+            $form.find('.hideFrames').toggle();
+            $form.find('.expandFrames').toggle();
+            $form.find('.allFrames').toggle();
+            $form.find('.totalRowFrames').toggle();
+            if ($form.find('.summarySection').css('flex') != '0 1 65%') {
+                $form.find('.summarySection').css('flex', '0 1 65%');
+            } else {
+                $form.find('.summarySection').css('flex', '');
+            }
+        });
+
         return $form;
     };
 
@@ -791,6 +806,7 @@ class Order {
         var orderId;
         orderId = FwFormField.getValueByDataField($form, 'OrderId'),
             $form.find('.frame input').css('width', '100%');
+       
         FwAppData.apiMethod(true, 'GET', "api/v1/ordersummary/" + orderId, null, FwServices.defaultTimeout, function onSuccess(response) {
             var key;
             for (key in response) {
