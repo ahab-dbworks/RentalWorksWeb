@@ -45,9 +45,6 @@ namespace WebApi.Modules.Settings.OrderType
         [FwSqlDataField(column: "managementservicebasedon", modeltype: FwDataTypes.Text)]
         public string ManagementAndServiceFeeBasedOn { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "combineactivitytabs", modeltype: FwDataTypes.Boolean)]
-        public bool? CombineActivityTabs { get; set; }
-        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "combinetabseparateitems", modeltype: FwDataTypes.Boolean)]
         public bool? Combinetabseparateitems { get; set; }
         //------------------------------------------------------------------------------------ 

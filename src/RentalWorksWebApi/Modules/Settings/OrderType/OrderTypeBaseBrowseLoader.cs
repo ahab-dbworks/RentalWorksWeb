@@ -10,6 +10,9 @@ namespace WebApi.Modules.Settings.OrderType
     public class OrderTypeBaseBrowseLoader : AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "combineactivitytabs", modeltype: FwDataTypes.Boolean)]
+        public bool? CombineActivityTabs { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "inactive", modeltype: FwDataTypes.Boolean)]
         public bool? Inactive { get; set; }
         //------------------------------------------------------------------------------------ 
