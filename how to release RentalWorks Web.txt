@@ -1,0 +1,24 @@
+Last Updated 05/31/2018
+===================================================
+GitKraken: confirm that you are on local\develop branch
+Stash any unstaged changes (or Stage, Commit, and Push)
+Modify version.txt file in the root of the Web project
+Change build mode to Release - Any CPU
+Rebuild Solution
+Publish WebAPI:
+	Right-click WebApi project file --> Publish
+	Publish to this folder: <repo root>\build\RentalWorksWebApi
+	(The first time you do this, you need to setup the folder and define a Profile to use next time. When doing so, click "Advanced Options" and select "Remove Additional Files at Destination")
+	Click Publish
+Stage, Commit, and Push assembly/version files, provide Description similar to "web: v2018.1.1.X"
+Navigate to the "build" directory: <repo root>\build
+zip the RentalWorksWeb and RentalWorksWebApi directories together (7zip).  (File naming convention: RentalWorksWeb_2018_001_12.zip)
+Upload zip file to ftp or web server.
+Updating Web: find the target directory, delete all except App_Data directory, Application.config, and ApplicationConfig.js.
+Updating Api: find the target directory: delete all except appsettings.json
+Copy over the new deliverable files.
+
+Note about Web Demo:
+WebDemo is hosted on TSDEMO
+	webdemo.rentalworks.net
+	webapidemo.rentalworks.net
