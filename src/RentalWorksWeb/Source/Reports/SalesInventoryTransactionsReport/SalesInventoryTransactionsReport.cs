@@ -113,7 +113,7 @@ namespace Web.Source.Reports
 
             }
 
-            dtDetails.InsertSubTotalRows("masterno", "rowtype", new string[] { "qtyordered" });
+            //dtDetails.InsertSubTotalRows("masterno", "rowtype", new string[] { "qtyordered" });  //justin 05/31/2018 removed to prevent dictionary error
 
             return dtDetails;
         }
