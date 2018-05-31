@@ -518,6 +518,10 @@ FwSettings.renderModuleHtml = function ($control, title, moduleName, description
                 }
             }
 
+            if ($form.find('.fwappimage')[0]) {
+                FwAppImage.getAppImages($form.find('.fwappimage'))
+            }
+
             if (typeof window[moduleName + 'Controller']['afterLoad'] === 'function') {
                 window[moduleName + 'Controller']['afterLoad']($form);
             }
