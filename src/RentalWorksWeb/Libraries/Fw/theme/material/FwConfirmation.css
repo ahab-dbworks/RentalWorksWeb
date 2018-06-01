@@ -35,8 +35,8 @@ html.theme-material.flexbox .FwPopup-divPopup {}
 html.theme-material .fwpopup {background-color:rgba(0,0,0,0.5);position:fixed;top:0;left:0;bottom:0;right:0;}
 html.theme-material.no-flexbox .fwpopup {-webkit-transform-style:flat;-moz-transform-style:flat;transform-style:flat;}
 html.theme-material.flexbox .fwpopup {display:flex;justify-content:center;align-items:center;}
-html.theme-material.no-flexbox .fwpopup .title {color:#fafafa;background-color: #2196f3;font-size: 1.1em;padding:.8em;}
-html.theme-material.flexbox .fwpopup .title {color:#fafafa;background-color: #2196f3;font-size: 1.1em;padding:.8em;}
+html.theme-material.no-flexbox .fwpopup .popuptitle {color:#fafafa;background-color: #2196f3;font-size: 1.1em;padding:.8em;}
+html.theme-material.flexbox .fwpopup .popuptitle {color:#fafafa;background-color: #2196f3;font-size: 1.1em;padding:.8em;}
 html.theme-material.no-flexbox .fwpopupbox {position:absolute;top:50%;left:50%;-webkit-transform:translate(-50%, -50%);transform:translate(-50%, -50%);}
 
 /*#region Default Theme*/
