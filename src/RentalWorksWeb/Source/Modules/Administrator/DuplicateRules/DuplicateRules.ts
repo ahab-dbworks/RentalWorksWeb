@@ -50,7 +50,9 @@ class DuplicateRules {
         }
 
         var node = FwApplicationTree.getNodeById(FwApplicationTree.tree, '0A5F2584-D239-480F-8312-7C2B552A30BA');
-        var modules = FwApplicationTree.getChildrenByType(node, 'Module');
+        let mainModules = FwApplicationTree.getChildrenByType(node, 'Module');
+        let settingsModules = FwApplicationTree.getChildrenByType(node, 'SettingsModule')
+        let modules = mainModules.concat(settingsModules);
         var allModules = [];
         for (var i = 0; i < modules.length; i++) {
             var moduleNav = modules[i].properties.controller.slice(0, -10);
@@ -64,6 +66,7 @@ class DuplicateRules {
                 allModules.push({ value: moduleNav, text: moduleCaption, apiurl: moduleUrl });
             } 
         };
+       
 
         //Sort modules
         function compare(a, b) {

@@ -38,7 +38,9 @@ var DuplicateRules = (function () {
             FwFormField.disable($form.find('.ifnew'));
         }
         var node = FwApplicationTree.getNodeById(FwApplicationTree.tree, '0A5F2584-D239-480F-8312-7C2B552A30BA');
-        var modules = FwApplicationTree.getChildrenByType(node, 'Module');
+        var mainModules = FwApplicationTree.getChildrenByType(node, 'Module');
+        var settingsModules = FwApplicationTree.getChildrenByType(node, 'SettingsModule');
+        var modules = mainModules.concat(settingsModules);
         var allModules = [];
         for (var i = 0; i < modules.length; i++) {
             var moduleNav = modules[i].properties.controller.slice(0, -10);
