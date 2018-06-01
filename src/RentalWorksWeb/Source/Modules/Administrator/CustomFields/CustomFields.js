@@ -35,6 +35,9 @@ var CustomFields = (function () {
             if ($this.prop('checked') === true && $this.val() === 'customvaluesnumeric') {
                 $form.find('.float').show();
             }
+            else {
+                $form.find('.float').hide();
+            }
         });
         if (mode === 'NEW') {
             FwFormField.enable($form.find('.ifnew'));

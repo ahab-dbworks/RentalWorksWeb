@@ -51,6 +51,8 @@ class CustomFields {
 
             if ($this.prop('checked') === true && $this.val() === 'customvaluesnumeric') {
                 $form.find('.float').show();
+            } else {
+                $form.find('.float').hide();
             }
         })
 

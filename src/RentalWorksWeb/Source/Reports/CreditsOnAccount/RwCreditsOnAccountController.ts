@@ -54,6 +54,7 @@ class RwCreditsOnAccount {
         //        FwFunc.showError(ex);
         //    }
         //});
+        FwFormField.setValue($form, 'div[data-datafield="IncludeRemainingBalance"]', 'T')
 
 
     };

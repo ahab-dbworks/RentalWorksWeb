@@ -38,6 +38,7 @@ var RwCreditsOnAccount = (function () {
         FwReport.load($form, this.ModuleOptions.ReportOptions);
         var appOptions = program.getApplicationOptions();
         var request = { method: "LoadForm" };
+        FwFormField.setValue($form, 'div[data-datafield="IncludeRemainingBalance"]', 'T');
     };
     ;
     return RwCreditsOnAccount;
