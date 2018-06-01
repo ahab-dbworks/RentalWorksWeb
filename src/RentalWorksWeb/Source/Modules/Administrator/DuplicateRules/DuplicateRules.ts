@@ -104,12 +104,13 @@ class DuplicateRules {
 
     getFields($form: JQuery): void {
         $form.find('div.modules').on("change", function () {
-            var moduleName = jQuery(this).find(':selected').val();
-            var request = {
+            let moduleName, moduleUrl, request;
+            moduleName = jQuery(this).find(':selected').val();
+            moduleUrl = jQuery(this).find(':selected').attr('data-apiurl');
+            request = {
                 module: moduleName,
                 top: 1
             };
-            var moduleUrl = jQuery(this).find(":selected").attr('data-apiurl');
 
             FwAppData.apiMethod(true, 'POST', `${moduleUrl}/browse`, request, FwServices.defaultTimeout, function onSuccess(response) {
                 var fieldColumns = response.Columns;
