@@ -44,6 +44,7 @@ class Quote {
 
         return screen;
     }
+
     //----------------------------------------------------------------------------------------------
     openBrowse() {
         var self = this;
@@ -80,6 +81,7 @@ class Quote {
 
         return $browse;
     }
+
     //----------------------------------------------------------------------------------------------
     addBrowseMenuItems($menuObject: any) {
         var self = this;
@@ -170,6 +172,7 @@ class Quote {
         $locationView = FwMenu.addViewBtn($menuObject, 'Location', viewLocation);
         return $menuObject;
     }
+
     //----------------------------------------------------------------------------------------------
     openForm(mode: string, parentModuleInfo?: any) {
         var $form;
@@ -350,6 +353,7 @@ class Quote {
 
         return $form;
     }
+
     //----------------------------------------------------------------------------------------------
     loadForm(uniqueids: any) {
         var $form;
@@ -360,6 +364,7 @@ class Quote {
 
         return $form;
     }
+
     //----------------------------------------------------------------------------------------------
     beforeValidateOutShipVia($browse, $grid, request) {
         var validationName = request.module;
@@ -373,6 +378,7 @@ class Quote {
                 break;
         }
     }
+
     //----------------------------------------------------------------------------------------------
     beforeValidateInShipVia($browse, $grid, request) {
         var validationName = request.module;
@@ -386,6 +392,7 @@ class Quote {
                 break;
         }
     }
+
     //----------------------------------------------------------------------------------------------
     beforeValidateCarrier($browse, $grid, request) {
         var validationName = request.module;
@@ -398,6 +405,32 @@ class Quote {
                 break;
         }
     }
+
+    //----------------------------------------------------------------------------------------------
+    beforeValidateMarketSegment($browse, $grid, request) {
+        const validationName = request.module;
+        const marketTypeValue = jQuery($grid.find('[data-validationname="MarketTypeValidation"] input')).val();
+        const marketSegmentValue = jQuery($grid.find('[data-validationname="MarketSegmentValidation"] input')).val();
+
+        switch (validationName) {
+            case 'MarketSegmentValidation':
+                if (marketTypeValue !== "") {
+                    request.uniqueids = {
+                        MarketTypeId: marketTypeValue,
+                    };
+                    break;
+                }
+            case 'MarketSegmentJobValidation':
+                if (marketSegmentValue !== "") {
+                    request.uniqueids = {
+                        MarketTypeId: marketTypeValue,
+                        MarketSegmentId: marketSegmentValue,
+                    };
+                    break;
+                }
+        };
+    };
+
     //----------------------------------------------------------------------------------------------
     renderFrames($form: any) {
         let quoteId;
@@ -441,17 +474,20 @@ class Quote {
         FwFormField.disable($form.find('.frame'));
 
         $form.find(".frame .add-on").children().hide();
-    }
+    };
+
     //----------------------------------------------------------------------------------------------
     saveForm($form: any, parameters: any) {
         FwModule.saveForm(this.Module, $form, parameters);
-    }
+    };
+
     //----------------------------------------------------------------------------------------------
     loadAudit($form: any) {
         var uniqueid;
         uniqueid = $form.find('div.fwformfield[data-datafield="QuoteId"] input').val();
         FwModule.loadAudit($form, uniqueid);
-    }
+    };
+
     //----------------------------------------------------------------------------------------------
     renderGrids($form: any) {
         var $orderStatusHistoryGrid: any;
@@ -641,7 +677,8 @@ class Quote {
         jQuery($form.find('.salesgrid .valtype')).attr('data-validationname', 'SalesInventoryValidation');
         jQuery($form.find('.laborgrid .valtype')).attr('data-validationname', 'LaborRateValidation');
         jQuery($form.find('.miscgrid .valtype')).attr('data-validationname', 'MiscRateValidation');
-    }
+    };
+
     //----------------------------------------------------------------------------------------------
     beforeValidate($browse, $grid, request) {
         var $form;
@@ -651,7 +688,8 @@ class Quote {
         request.uniqueids = {
             LocationId: officeLocationId
         }
-    }
+    };
+
     //----------------------------------------------------------------------------------------------
     afterLoad($form: any, mode: string) {
         var $orderStatusHistoryGrid: any;
@@ -733,6 +771,15 @@ class Quote {
             this.toggleOrderItemView($form, event);
         });
 
+        $form.find('[data-datafield="MarketTypeId"] input').on('change', event => {
+            FwFormField.setValueByDataField($form, 'MarketSegmentId', '');
+            FwFormField.setValueByDataField($form, 'MarketSegmentJobId', '');
+        });
+
+        $form.find('[data-datafield="MarketSegmentId"] input').on('change', event => {
+            FwFormField.setValueByDataField($form, 'MarketSegmentJobId', '');
+        });
+
         // Disable withTax checkboxes if Total field is 0.00
         this.disableWithTaxCheckbox($form);
 
@@ -782,7 +829,7 @@ class Quote {
         } else {
             FwFormField.enable($form.find('div[data-datafield="PeriodCombinedTotalIncludesTax"]'));
         }
-    }
+    };
 
     //----------------------------------------------------------------------------------------------
     bottomLineDiscountChange($form: any, event: any) {
@@ -975,7 +1022,7 @@ class Quote {
         });
 
         FwBrowse.search($orderItemGrid);
-    }
+    };
 
     //----------------------------------------------------------------------------------------------
     copyQuote($form) {
@@ -1092,7 +1139,7 @@ class Quote {
                 FwFormField.enable($yes);
                 }, $confirmationbox);
         };
-    }
+    };
 
     //----------------------------------------------------------------------------------------------
     calculateOrderItemGridTotals($form: any, gridType: string) {
@@ -1207,7 +1254,8 @@ class Quote {
             $form.find('.generaltab').click();
         }
     }
-}
+};
+
 //-----------------------------------------------------------------------------------------------------
 FwApplicationTree.clickEvents['{B918C711-32D7-4470-A8E5-B88AB5712863}'] = function (event) {
     var $form
@@ -1218,7 +1266,8 @@ FwApplicationTree.clickEvents['{B918C711-32D7-4470-A8E5-B88AB5712863}'] = functi
     catch (ex) {
         FwFunc.showError(ex);
     }
-}
+};
+
 //-----------------------------------------------------------------------------------------------------
 FwApplicationTree.clickEvents['{BC3B1A5E-7270-4547-8FD1-4D14F505D452}'] = function (event) {
     let search, $form, quoteId, $popup;
@@ -1231,7 +1280,8 @@ FwApplicationTree.clickEvents['{BC3B1A5E-7270-4547-8FD1-4D14F505D452}'] = functi
         search = new SearchInterface();
         $popup = search.renderSearchPopup($form, quoteId, 'Quote');
     }
-}
+};
+
 //-----------------------------------------------------------------------------------------------------
 FwApplicationTree.clickEvents['{B20DDE47-A5D7-49A9-B980-8860CADBF7F6}'] = function (e) {
     var $form, $report, quoteNumber, quoteId;
@@ -1267,6 +1317,7 @@ FwApplicationTree.clickEvents['{D27AD4E7-E924-47D1-AF6E-992B92F5A647}'] = functi
         FwFunc.showError(ex);
     }
 };
+
 //-----------------------------------------------------------------------------------------------------
 FwApplicationTree.clickEvents['{E265DFD0-380F-4E8C-BCFD-FA5DCBA4A654}'] = function (event) {
     let $form, quoteNumber;
@@ -1304,5 +1355,7 @@ FwApplicationTree.clickEvents['{E265DFD0-380F-4E8C-BCFD-FA5DCBA4A654}'] = functi
         }, null, $confirmationbox);
     }
 
-}
+};
+
+//-----------------------------------------------------------------------------------------------------
 var QuoteController = new Quote();

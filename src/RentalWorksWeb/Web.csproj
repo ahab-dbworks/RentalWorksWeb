@@ -784,6 +784,7 @@
     <Content Include="Source\Validations\ContactEventValidation\ContactEventValidationBrowse.htm" />
     <Content Include="Source\Validations\ContactTitleValidation\ContactTitleValidationBrowse.htm" />
     <Content Include="Source\Validations\BarCodeRangeValidation\BarCodeRangeValidationBrowse.htm" />
+    <Content Include="Source\Validations\MarketSegmentJobValidation\MarketSegmentJobValidationBrowse.htm" />
     <Content Include="Source\Validations\MarketSegmentValidation\MarketSegmentValidationBrowse.htm" />
     <Content Include="Source\Validations\MarketTypeValidation\MarketTypeValidationBrowse.htm" />
     <Content Include="Source\Validations\QuoteValidation\QuoteValidationBrowse.htm" />

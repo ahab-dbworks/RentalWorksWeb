@@ -560,6 +560,30 @@ var Order = (function () {
         };
     };
     ;
+    Order.prototype.beforeValidateMarketSegment = function ($browse, $grid, request) {
+        var validationName = request.module;
+        var marketTypeValue = jQuery($grid.find('[data-validationname="MarketTypeValidation"] input')).val();
+        var marketSegmentValue = jQuery($grid.find('[data-validationname="MarketSegmentValidation"] input')).val();
+        switch (validationName) {
+            case 'MarketSegmentValidation':
+                if (marketTypeValue !== "") {
+                    request.uniqueids = {
+                        MarketTypeId: marketTypeValue,
+                    };
+                    break;
+                }
+            case 'MarketSegmentJobValidation':
+                if (marketSegmentValue !== "") {
+                    request.uniqueids = {
+                        MarketTypeId: marketTypeValue,
+                        MarketSegmentId: marketSegmentValue,
+                    };
+                    break;
+                }
+        }
+        ;
+    };
+    ;
     Order.prototype.loadAudit = function ($form) {
         var uniqueid = FwFormField.getValueByDataField($form, 'OrderId');
         FwModule.loadAudit($form, uniqueid);
@@ -797,6 +821,13 @@ var Order = (function () {
         });
         $form.find('.order_item_view_select').on('change', function (event) {
             _this.toggleOrderItemView($form, event);
+        });
+        $form.find('[data-datafield="MarketTypeId"] input').on('change', function (event) {
+            FwFormField.setValueByDataField($form, 'MarketSegmentId', '');
+            FwFormField.setValueByDataField($form, 'MarketSegmentJobId', '');
+        });
+        $form.find('[data-datafield="MarketSegmentId"] input').on('change', function (event) {
+            FwFormField.setValueByDataField($form, 'MarketSegmentJobId', '');
         });
         this.disableWithTaxCheckbox($form);
         $form.find('.RentalDaysPerWeek').on('change', '.fwformfield-text, .fwformfield-value', function (event) {

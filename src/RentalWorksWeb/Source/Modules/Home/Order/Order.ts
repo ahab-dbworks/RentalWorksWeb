@@ -72,7 +72,6 @@ class Order {
 
         }, null, null);
 
-
         return $browse;
     };
 
@@ -301,7 +300,6 @@ class Order {
             { value: 'PICK UP', text: 'Customer Pick Up' }
         ], true);
 
-
         FwFormField.loadItems($form.find('.intype'), [
             { value: 'DELIVER', text: 'Deliver' },
             { value: 'SHIP', text: 'Ship' },
@@ -328,7 +326,6 @@ class Order {
                 FwFunc.showError(ex);
             }
         });
-
 
         $form.find('.allFrames').css('display', 'none');
         $form.find('.hideFrames').css('display', 'none');
@@ -651,6 +648,31 @@ class Order {
     };
 
     //----------------------------------------------------------------------------------------------
+    beforeValidateMarketSegment($browse, $grid, request) {
+        const validationName = request.module;
+        const marketTypeValue = jQuery($grid.find('[data-validationname="MarketTypeValidation"] input')).val();
+        const marketSegmentValue = jQuery($grid.find('[data-validationname="MarketSegmentValidation"] input')).val();
+
+        switch (validationName) {
+            case 'MarketSegmentValidation':
+                if (marketTypeValue !== "") {
+                    request.uniqueids = {
+                        MarketTypeId: marketTypeValue,
+                    };
+                    break;
+                }
+            case 'MarketSegmentJobValidation':
+                if (marketSegmentValue !== "") {
+                    request.uniqueids = {
+                        MarketTypeId: marketTypeValue,
+                        MarketSegmentId: marketSegmentValue,
+                    };
+                    break;
+                }
+        };
+    };
+
+    //----------------------------------------------------------------------------------------------
     loadAudit($form) {
         var uniqueid = FwFormField.getValueByDataField($form, 'OrderId');
         FwModule.loadAudit($form, uniqueid);
@@ -926,6 +948,15 @@ class Order {
         // Order Item Grid View
         $form.find('.order_item_view_select').on('change', event => {
             this.toggleOrderItemView($form, event);
+        });
+
+        $form.find('[data-datafield="MarketTypeId"] input').on('change', event => {
+            FwFormField.setValueByDataField($form, 'MarketSegmentId', '');
+            FwFormField.setValueByDataField($form, 'MarketSegmentJobId', '');
+        });
+
+        $form.find('[data-datafield="MarketSegmentId"] input').on('change', event => {
+            FwFormField.setValueByDataField($form, 'MarketSegmentJobId', '');
         });
 
         // Disable withTax checkboxes if Total field is 0.00
