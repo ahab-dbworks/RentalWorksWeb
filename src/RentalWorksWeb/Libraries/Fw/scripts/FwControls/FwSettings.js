@@ -479,9 +479,9 @@ FwSettings.renderModuleHtml = function ($control, title, moduleName, description
             recordData = jQuery(this).parent().parent().data('recorddata');
             moduleName = jQuery(this).closest('div.panel-group')[0].id;
             moduleId = jQuery(this).closest('div.panel-group').data('id');
-            
+
             $rowBody = $control.find('#' + recordData[moduleId] + '.panel-body');
-           
+
             $form = jQuery(jQuery('#tmpl-modules-' + moduleName + 'Form').html());
             if ($rowBody.is(':empty')) {
                 $rowBody.append($form);

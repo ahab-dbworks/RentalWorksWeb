@@ -12,7 +12,7 @@ FwSettings.renderRuntimeHtml = function ($control) {
     //html.push('<div class="settingsmenu">');
     //html.push('</div>')
     html.push('  <div class="input-group pull-right">');
-    html.push('    <input type="text" id="settingsSearch" class="form-control" placeholder="Search...">');
+    html.push('    <input type="text" id="settingsSearch" class="form-control" placeholder="Search..." autofocus>');
     html.push('    <span class="input-group-addon">');
     html.push('      <i class="material-icons">search</i>');
     html.push('    </span>');
@@ -322,14 +322,14 @@ FwSettings.newRow = function ($body, $control, apiurl, $modulecontainer, moduleN
     });
 }
 //---------------------------------------------------------------------------------------------- 
-FwSettings.renderModuleHtml = function ($control, title, moduleName, description, menu) {
+FwSettings.renderModuleHtml = function ($control, title, moduleName, description, menu, moduleId) {
     var html = [], $settingsPageModules, $rowBody, $modulecontainer, apiurl, $body, $form, browseKeys = [], rowId, screen = { 'moduleCaptions': {} }, filter = [];
 
     $modulecontainer = $control.find('#' + moduleName);
     apiurl = window[moduleName + 'Controller'].apiurl;
     $form = jQuery(jQuery('#tmpl-modules-' + moduleName + 'Form').html());
 
-    html.push('<div class="panel-group" id="' + moduleName + '" >');
+    html.push('<div class="panel-group" id="' + moduleName + '" data-id="' + moduleId + '">');
     html.push('  <div class="panel panel-primary">');
     html.push('    <div data-toggle="collapse" data-target="' + moduleName + '" href="' + moduleName + '" class="panel-heading">');
     html.push('      <h4 class="panel-title">');
@@ -415,16 +415,14 @@ FwSettings.renderModuleHtml = function ($control, title, moduleName, description
 
                     for (var i = 0; i < response.length; i++) {
                         var html = [], $moduleRows;
-                        html.push('<div class="panel-record">')
+                        html.push('<div class="panel-record">');
                         html.push('  <div class="panel panel-info container-fluid">');
                         html.push('    <div class="row-heading">');
-                        html.push('      <i class="material-icons record-selector">keyboard_arrow_down</i>')
-                        //html.push('<label>' + moduleName + '</label>')
-                        //html.push('<label>' + row[moduleName] + '</label>');
+                        html.push('      <i class="material-icons record-selector">keyboard_arrow_down</i>');
                         for (var j = 0; j < browseKeys.length; j++) {
                             if (browseKeys[j] === 'Inactive' && response[i][browseKeys[j]] === true) {
+                                html[1] = '<div class="panel panel-info container-fluid" style="display:none;">';
                                 html[2] = '<div class="inactive row-heading" style="background-color:lightgray;">';
-                                //html.unshift('<div style="display:none;">');
                             }
                             if (browseKeys[j] === 'Inactive' || browseKeys[j] === 'Color') {
 
@@ -477,22 +475,12 @@ FwSettings.renderModuleHtml = function ($control, title, moduleName, description
     $control
         .unbind().on('click', '.row-heading', function (e) {
             e.stopPropagation();
-            var formKeys = [], formData = [], recordData, $rowBody, $form, moduleName;
+            var formKeys = [], formData = [], recordData, $rowBody, $form, moduleName, moduleId;
             recordData = jQuery(this).parent().parent().data('recorddata');
-
             moduleName = jQuery(this).closest('div.panel-group')[0].id;
+            moduleId = jQuery(this).closest('div.panel-group').data('id');
 
-            if (moduleName === 'FacilityCategory' || moduleName === 'PartsCategory' || moduleName === 'RentalCategory' || moduleName === 'SalesCategory' || moduleName === 'LaborCategory' || moduleName === 'MiscCategory') {
-                $rowBody = $control.find('#' + recordData['InventoryCategoryId'] + '.panel-body');
-            } else if (moduleName === 'FacilityScheduleStatus' || moduleName === 'CrewScheduleStatus' || moduleName === 'VehicleScheduleStatus') {
-                $rowBody = $control.find('#' + recordData['ScheduleStatusId'] + '.panel-body');
-            } else if (moduleName === 'FacilityRate' || moduleName === 'LaborRate' || moduleName === 'MiscRate') {
-                $rowBody = $control.find('#' + recordData['RateId'] + '.panel-body');
-            } else if (moduleName === 'OfficeLocation') {
-                $rowBody = $control.find('#' + recordData['LocationId'] + '.panel-body');
-            } else {
-                $rowBody = $control.find('#' + recordData[moduleName + 'Id'] + '.panel-body');
-            }
+            $rowBody = $control.find('#' + recordData[moduleId] + '.panel-body');
 
             $form = jQuery(jQuery('#tmpl-modules-' + moduleName + 'Form').html());
             if ($rowBody.is(':empty')) {
@@ -518,6 +506,10 @@ FwSettings.renderModuleHtml = function ($control, title, moduleName, description
                         }
                     }
                 }
+            }
+
+            if ($form.find('.fwappimage')[0]) {
+                FwAppImage.getAppImages($form.find('.fwappimage'))
             }
 
             if (typeof window[moduleName + 'Controller']['afterLoad'] === 'function') {

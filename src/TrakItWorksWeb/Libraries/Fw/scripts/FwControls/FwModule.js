@@ -971,12 +971,19 @@ var FwModule = (function () {
                 console.log('On Form: "' + formCaption + ' ", the attribute data-datafield is required on the fwformfield with the following html: ' + jQuery('div').append($fwformfield).html());
                 throw 'Attribute data-datafield is missing on fwformfield element.';
             }
-            value = FwFormField.getValue2($fwformfield).toString();
+            value = FwFormField.getValue2($fwformfield);
+            var value2 = value;
+            if (typeof value === 'number' || typeof value === 'boolean') {
+                value2 = value.toString();
+            }
+            else if (typeof value === 'object') {
+                value2 = JSON.stringify(value);
+            }
             isBlank = (dataField === '');
             isCalculatedField = (dataField[0] === '#') && (dataField[1] === '.');
             isValidDataField = (!isBlank) && (!isCalculatedField);
             getAllFields = ($form.attr('data-mode') === 'NEW') || getAllFieldsOverride;
-            if ((isValidDataField) && ((getAllFields) || (originalValue !== value))) {
+            if ((isValidDataField) && ((getAllFields) || (originalValue !== value2))) {
                 if ($fwformfield.data('customfield') !== undefined && $fwformfield.data('customfield') === true) {
                     field = {
                         FieldName: dataField,

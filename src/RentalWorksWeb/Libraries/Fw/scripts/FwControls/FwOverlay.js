@@ -54,15 +54,35 @@ var FwOverlay = (function () {
         handle = setInterval(function () {
             jQuery.ajax(ajaxOptions)
                 .done(function (response) {
-                caption = response.Caption;
-                currentStep = response.CurrentStep;
-                totalSteps = response.TotalSteps;
-                percentage = Math.floor((currentStep / totalSteps) * 100);
-                $moduleoverlay.find('progress').val(currentStep);
-                $moduleoverlay.find('progress').attr('max', totalSteps);
-                $moduleoverlay.find('.progress_bar_text').text(percentage + "%");
-                $moduleoverlay.find('.progress_span').text(percentage + "%");
-                $moduleoverlay.find('.progress_bar_caption').text(caption);
+                if (response) {
+                    try {
+                        if (isNaN(response.CurrentStep)) {
+                            caption = 'Processing...';
+                            currentStep = 50;
+                            totalSteps = 100;
+                            percentage = Math.floor((currentStep / totalSteps) * 100);
+                            $moduleoverlay.find('progress').val(currentStep);
+                            $moduleoverlay.find('progress').attr('max', totalSteps);
+                            $moduleoverlay.find('.progress_bar_text').text(percentage + "%");
+                            $moduleoverlay.find('.progress_span').text(percentage + "%");
+                            $moduleoverlay.find('.progress_bar_caption').text(caption);
+                        }
+                        else {
+                            caption = response.Caption;
+                            currentStep = parseInt(response.CurrentStep);
+                            totalSteps = parseInt(response.TotalSteps);
+                            percentage = Math.floor((currentStep / totalSteps) * 100);
+                            $moduleoverlay.find('progress').val(currentStep);
+                            $moduleoverlay.find('progress').attr('max', totalSteps);
+                            $moduleoverlay.find('.progress_bar_text').text(percentage + "%");
+                            $moduleoverlay.find('.progress_span').text(percentage + "%");
+                            $moduleoverlay.find('.progress_bar_caption').text(caption);
+                        }
+                    }
+                    catch (ex) {
+                        FwFunc.showError(ex);
+                    }
+                }
                 if (currentStep === totalSteps) {
                     progressCompleted = true;
                     if (progressCompleted) {

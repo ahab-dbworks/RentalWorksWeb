@@ -54,7 +54,7 @@ var FwPopup = (function () {
         html.push('<div class="fwpopup">');
         html.push('<div class="fwpopupbox">');
         if (title !== undefined) {
-            html.push('<div class="title">' + title + '</div>');
+            html.push('<div class="popuptitle">' + title + '</div>');
         }
         html.push('</div>');
         html.push('</div>');
