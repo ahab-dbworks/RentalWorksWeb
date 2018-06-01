@@ -54,7 +54,12 @@ var RwHome = (function () {
                         { value: 'pie', text: 'Pie' }
                     ], true);
                     $confirmation.find('div[data-datafield="DefaultDataPoints"] input').val(response.DataPoints);
-                    FwFormField.setValue($confirmation, '.widgettype', response.WidgetType);
+                    if (response.WidgetType !== '') {
+                        FwFormField.setValue($confirmation, '.widgettype', response.WidgetType);
+                    }
+                    else {
+                        FwFormField.setValue($confirmation, '.widgettype', response.DefaultType);
+                    }
                 }, null, null);
                 $select.on('click', function () {
                     try {
