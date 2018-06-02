@@ -32,6 +32,9 @@
     //----------------------------------------------------------------------------------------------
     static showProgressBarOverlay($appendToElement, progressBarSessionId) {
         let html, $moduleoverlay, maxZIndex, progressCompleted, caption, percentage, handle, currentStep, totalSteps, fullurl;
+        currentStep = 0;
+        totalSteps = 100;
+
         let request: any = {};
         let url = `api/v1/progressmeter/${progressBarSessionId}`;
 
@@ -76,15 +79,14 @@
                         try {
                             if (isNaN(response.CurrentStep)) {
                                 caption = 'Processing...';
-                                currentStep = 50;
-                                totalSteps = 100;
+                                currentStep += 5;
                                 percentage = Math.floor((currentStep / totalSteps) * 100);
-
                                 $moduleoverlay.find('progress').val(currentStep);
                                 $moduleoverlay.find('progress').attr('max', totalSteps);
                                 $moduleoverlay.find('.progress_bar_text').text(`${percentage}%`);
                                 $moduleoverlay.find('.progress_span').text(`${percentage}%`);
                                 $moduleoverlay.find('.progress_bar_caption').text(caption);
+                      
                             } else {
                                 caption = response.Caption;
                                 currentStep = parseInt(response.CurrentStep);
@@ -99,8 +101,17 @@
                             }
                         }
                         catch (ex) {
-                            FwFunc.showError(ex);
+                            console.log('showProgressBarOverlay error: ', ex)
                         }
+                    } else {
+                        caption = 'Processing...';
+                        currentStep += 5;
+                        percentage = Math.floor((currentStep / totalSteps) * 100);
+                        $moduleoverlay.find('progress').val(currentStep);
+                        $moduleoverlay.find('progress').attr('max', totalSteps);
+                        $moduleoverlay.find('.progress_bar_text').text(`${percentage}%`);
+                        $moduleoverlay.find('.progress_span').text(`${percentage}%`);
+                        $moduleoverlay.find('.progress_bar_caption').text(caption);
                     }
 
                     if (currentStep === totalSteps) {
