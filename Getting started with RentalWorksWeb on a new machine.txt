@@ -33,8 +33,3 @@ Create a new Application.config file in the root of the Web project.  Copy the s
           <Server>(local)\sqlXXX</Server> 
           <Database>rentalworksXXX</Database>
 Create a new ApplicationConfig.js file in in the root of the Web project.  Copy the sample file
-
-Web project
-Web tab , "Create Application"
-
-
