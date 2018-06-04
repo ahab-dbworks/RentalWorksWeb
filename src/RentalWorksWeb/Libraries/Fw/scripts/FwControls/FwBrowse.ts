@@ -1186,7 +1186,8 @@
                 break;
         }
         if ((typeof $control.attr('data-controller') !== 'undefined') && ($control.attr('data-controller') !== '')) {
-            var controller;
+            var controller, $browse;
+            $browse = $control.closest('.fwbrowse');
             controller = $control.attr('data-controller');
             if (typeof window[controller] === 'undefined') throw 'Missing javascript module: ' + controller;
             if (($control.attr('data-type') === 'Grid') && (typeof window[controller]['addGridSubMenu'] === 'function')) {
@@ -1212,24 +1213,28 @@
                             if (nodeDeleteAction !== null && nodeDeleteAction.properties['visible'] === 'T') {
                                 var $submenuitem = FwGridMenu.addSubMenuBtn($rowactions, 'Delete Selected', nodeDeleteAction.id);
                                 $submenuitem.on('click', function () {
-                                    try {
-                                        var $trs = $control.find('.cbselectrow:checked');
-                                        if ($trs.length === 0) {
-                                            FwFunc.showMessage('Select one or more rows to delete!');
-                                        } else {
-                                            var $confirmation = FwConfirmation.yesNo('Delete Record' + ($trs.length > 1 ? 's' : ''), 'Delete ' + $trs.length + ' record' + ($trs.length > 1 ? 's' : '') + '?', function onyes() {
-                                                $trs.each(function (index, element) {
-                                                    try {
-                                                        var $tr = jQuery(this).closest('tr');
-                                                        FwBrowse.deleteRecord($control, $tr);
-                                                    } catch (ex) {
-                                                        FwFunc.showError(ex);
-                                                    }
-                                                });
-                                            }, function onno() { });
+                                    if ($browse.attr('data-enabled') !== 'false') {
+                                        try {
+                                            var $trs = $control.find('.cbselectrow:checked');
+                                            if ($trs.length === 0) {
+                                                FwFunc.showMessage('Select one or more rows to delete!');
+                                            } else {
+                                                var $confirmation = FwConfirmation.yesNo('Delete Record' + ($trs.length > 1 ? 's' : ''), 'Delete ' + $trs.length + ' record' + ($trs.length > 1 ? 's' : '') + '?', function onyes() {
+                                                    $trs.each(function (index, element) {
+                                                        try {
+                                                            var $tr = jQuery(this).closest('tr');
+                                                            FwBrowse.deleteRecord($control, $tr);
+                                                        } catch (ex) {
+                                                            FwFunc.showError(ex);
+                                                        }
+                                                    });
+                                                }, function onno() { });
+                                            }
+                                        } catch (ex) {
+                                            FwFunc.showError(ex);
                                         }
-                                    } catch (ex) {
-                                        FwFunc.showError(ex);
+                                    } else {
+                                        FwFunc.showMessage('This grid is disabled.');
                                     }
                                 });
                             }

@@ -53,27 +53,23 @@
             .on('click', '.icon', function (e) {
                 var $this, $browse, maxZIndex;
                 $this = jQuery(this);
-                $browse = $this.closest('.fwbrowse');
                 e.preventDefault();
+                if (!$this.parent().hasClass('active')) {
+                    maxZIndex = FwFunc.getMaxZ('*');
+                    $this.parent().find('.submenu').css('z-index', maxZIndex + 1);
+                    $this.parent().addClass('active');
 
-                if ($browse.attr('data-enabled') !== 'false') {
-                    if (!$this.parent().hasClass('active')) {
-                        maxZIndex = FwFunc.getMaxZ('*');
-                        $this.parent().find('.submenu').css('z-index', maxZIndex + 1);
-                        $this.parent().addClass('active');
-
-                        jQuery(document).one('click', function closeMenu(e) {
-                            if ($this.parent().has(e.target).length === 0) {
-                                $this.parent().removeClass('active');
-                                $this.parent().find('.submenu').css('z-index', '0');
-                            } else if ($this.parent().hasClass('active')) {
-                                jQuery(document).one('click', closeMenu);
-                            }
-                        });
-                    } else {
-                        $this.parent().removeClass('active');
-                        $this.parent().find('.submenu').css('z-index', '0');
-                    }
+                    jQuery(document).one('click', function closeMenu(e) {
+                        if ($this.parent().has(e.target).length === 0) {
+                            $this.parent().removeClass('active');
+                            $this.parent().find('.submenu').css('z-index', '0');
+                        } else if ($this.parent().hasClass('active')) {
+                            jQuery(document).one('click', closeMenu);
+                        }
+                    });
+                } else {
+                    $this.parent().removeClass('active');
+                    $this.parent().find('.submenu').css('z-index', '0');
                 }
             })
             .on('click', '.submenu-btn', function () {
