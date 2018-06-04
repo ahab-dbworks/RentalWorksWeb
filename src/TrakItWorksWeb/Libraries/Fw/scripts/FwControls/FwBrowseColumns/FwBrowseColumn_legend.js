@@ -8,6 +8,11 @@ FwBrowseColumn_legend.getFieldValue = function($browse, $tr, $field, field, orig
     
 };
 //---------------------------------------------------------------------------------
+FwBrowseColumn_legend.isModified = function ($browse, $tr, $field) {
+    var isModified = false;
+    return isModified;
+};
+//---------------------------------------------------------------------------------
 FwBrowseColumn_legend.setFieldViewMode = function($browse, $field, $tr, html) {
     var color;
     var originalvalue = (typeof $field.attr('data-originalvalue')  === 'string') ? $field.attr('data-originalvalue') : '';

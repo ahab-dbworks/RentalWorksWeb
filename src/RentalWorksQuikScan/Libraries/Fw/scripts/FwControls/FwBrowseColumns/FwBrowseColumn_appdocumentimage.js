@@ -33,6 +33,11 @@ FwBrowseColumn_appdocumentimage.getFieldValue = function($browse, $tr, $field, f
     }
 };
 //---------------------------------------------------------------------------------
+FwBrowseColumn_appdocumentimage.isModified = function ($browse, $tr, $field) {
+    var isModified = typeof $field.attr('data-ismodified') === 'string' && $field.attr('data-ismodified') === 'true';
+    return isModified;
+};
+//---------------------------------------------------------------------------------
 FwBrowseColumn_appdocumentimage.setFieldViewMode = function($browse, $field, $tr, html) {
     var $adiContainer;
     var appimageid     = typeof $field.attr('data-originalvalue')  === 'string' ? $field.attr('data-originalvalue') : '';

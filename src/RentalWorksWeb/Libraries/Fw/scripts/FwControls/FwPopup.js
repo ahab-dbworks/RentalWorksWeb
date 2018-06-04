@@ -57,8 +57,12 @@ var FwPopup = (function () {
         html.push('<div class="fwpopup">');
         html.push('<div class="fwpopupbox" style="position:relative;">');
         if (title !== undefined) {
+<<<<<<< develop
             html.push('<div class="popuptitle">' + title + '</div>');
             html.push('<div class="close-modal" style="display:flex; position:absolute; top:10px; right:15px; cursor:pointer;"><i class="material-icons">clear</i><div class="btn-text">Close</div></div>');
+=======
+            html.push('<div class="title">' + title + '</div>');
+>>>>>>> Updates Fw
         }
         html.push('</div>');
         html.push('</div>');

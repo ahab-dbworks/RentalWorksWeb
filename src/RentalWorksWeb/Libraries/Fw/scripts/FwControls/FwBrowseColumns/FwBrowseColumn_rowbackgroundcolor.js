@@ -15,6 +15,11 @@ FwBrowseColumn_rowbackgroundcolor.getFieldValue = function($browse, $tr, $field,
     
 };
 //---------------------------------------------------------------------------------
+FwBrowseColumn_rowbackgroundcolor.isModified = function ($browse, $tr, $field) {
+    var isModified = false;
+    return isModified;
+};
+//---------------------------------------------------------------------------------
 FwBrowseColumn_rowbackgroundcolor.setFieldViewMode = function($browse, $field, $tr, html) {
     $tr
         .addClass('rowbackgroundcolor')

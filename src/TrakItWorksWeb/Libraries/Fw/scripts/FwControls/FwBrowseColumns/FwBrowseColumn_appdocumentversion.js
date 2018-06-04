@@ -8,6 +8,11 @@ FwBrowseColumn_appdocumentversion.getFieldValue = function($browse, $tr, $field,
     
 };
 //---------------------------------------------------------------------------------
+FwBrowseColumn_appdocumentversion.isModified = function ($browse, $tr, $field) {
+    var isModified = false;
+    return isModified;
+};
+//---------------------------------------------------------------------------------
 FwBrowseColumn_appdocumentversion.setFieldViewMode = function($browse, $field, $tr, html) {
     var $control, $tr, $uniqueid1field, $documenttypeidfield, $documenttypefield, version, documenttype, hidecolreviewed, hidecolexpired;
     

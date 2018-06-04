@@ -8,6 +8,11 @@ FwBrowseColumn_rowtextcolor.getFieldValue = function($browse, $tr, $field, field
     
 };
 //---------------------------------------------------------------------------------
+FwBrowseColumn_rowtextcolor.isModified = function ($browse, $tr, $field) {
+    var isModified = false;
+    return isModified;
+};
+//---------------------------------------------------------------------------------
 FwBrowseColumn_rowtextcolor.setFieldViewMode = function($browse, $field, $tr, html) {
     $tr
         .addClass('rowtextcolor')

@@ -17,6 +17,16 @@ FwBrowseColumn_validation.getFieldValue = function ($browse, $tr, $field, field,
     }
 };
 //---------------------------------------------------------------------------------
+FwBrowseColumn_validation.isModified = function ($browse, $tr, $field) {
+    var isModified = false;
+    let originalValue = $field.attr('data-originalvalue');
+    if (($tr.hasClass('editmode')) || ($tr.hasClass('newmode'))) {
+        let currentValue = $field.find('input.value').val();
+        isModified = currentValue !== originalValue;
+    }
+    return isModified;
+};
+//---------------------------------------------------------------------------------
 FwBrowseColumn_validation.setFieldViewMode = function ($browse, $field, $tr, html) {
     var originaltext = (typeof $field.attr('data-originaltext') === 'string') ? $field.attr('data-originaltext') : '';
     var showPeek = false;

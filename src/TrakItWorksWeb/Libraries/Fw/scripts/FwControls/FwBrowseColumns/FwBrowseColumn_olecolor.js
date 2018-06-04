@@ -8,6 +8,11 @@ FwBrowseColumn_olecolor.getFieldValue = function($browse, $tr, $field, field, or
     
 };
 //---------------------------------------------------------------------------------
+FwBrowseColumn_olecolor.isModified = function ($browse, $tr, $field) {
+    var isModified = false;
+    return isModified;
+};
+//---------------------------------------------------------------------------------
 FwBrowseColumn_olecolor.setFieldViewMode = function($browse, $field, $tr, html) {
     var color;
     var originalvalue = (typeof $field.attr('data-originalvalue')  === 'string') ? $field.attr('data-originalvalue') : '';

@@ -16,6 +16,11 @@ FwBrowseColumn_appimage.getFieldValue = function($browse, $tr, $field, field, or
     
 };
 //---------------------------------------------------------------------------------
+FwBrowseColumn_appimage.isModified = function ($browse, $tr, $field) {
+    var isModified = false;
+    return isModified;
+};
+//---------------------------------------------------------------------------------
 FwBrowseColumn_appimage.setFieldViewMode = function($browse, $field, $tr, html) {
     FwBrowseColumn_appimage.setFieldEditMode($browse, $field, $tr, html);
 };

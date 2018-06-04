@@ -10,6 +10,16 @@ FwBrowseColumn_note.getFieldValue = function($browse, $tr, $field, field, origin
     }
 };
 //---------------------------------------------------------------------------------
+FwBrowseColumn_note.isModified = function ($browse, $tr, $field) {
+    var isModified = false;
+    let originalValue = $field.attr('data-originalvalue');
+    if (($tr.hasClass('editmode')) || ($tr.hasClass('newmode'))) {
+        let currentValue = $field.find('textarea.value').val();
+        isModified = currentValue !== originalValue;
+    }
+    return isModified;
+};
+//---------------------------------------------------------------------------------
 FwBrowseColumn_note.setFieldViewMode = function($browse, $field, $tr, html) {
     var $noteImage, $noteTextArea, $notePopup, $notePopupControl, $notePopupHtml;
     var originalvalue  = (typeof $field.attr('data-originalvalue')  === 'string') ? $field.attr('data-originalvalue') : '';

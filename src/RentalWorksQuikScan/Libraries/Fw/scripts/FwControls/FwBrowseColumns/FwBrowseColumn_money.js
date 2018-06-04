@@ -9,10 +9,29 @@ FwBrowseColumn_money.getFieldValue = function($browse, $tr, $field, field, origi
         var $value = $field.find('input.value');
         if ($value.length > 0) {
             field.value = $field.find('input.value').inputmask('unmaskedvalue');
+            if (field.value === '') {
+                field.value = originalvalue.replace('$', '');
+            } else if (field.value === '0.00') {
+                field.value = '0';
+            }
         } else {
             field.value = originalvalue.replace('$', '');
         }
     }
+};
+//---------------------------------------------------------------------------------
+FwBrowseColumn_money.isModified = function ($browse, $tr, $field) {
+    var isModified = false;
+    if (($tr.hasClass('editmode')) || ($tr.hasClass('newmode'))) {
+        var $value = $field.find('input.value');
+        let currentValue = $field.find('input.value').inputmask('unmaskedvalue');
+        let originalValue = $field.attr('data-originalvalue');
+        if (currentValue === '0.00') {
+            currentValue = '0';
+        }
+        isModified = currentValue !== originalValue;
+    }
+    return isModified;
 };
 //---------------------------------------------------------------------------------
 FwBrowseColumn_money.setFieldViewMode = function($browse, $field, $tr, html) {
@@ -41,4 +60,5 @@ FwBrowseColumn_money.setFieldEditMode = function($browse, $field, $tr, html) {
         $field.find('input.value').val('$0.00');
     }
 };
+
 //---------------------------------------------------------------------------------

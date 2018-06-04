@@ -387,13 +387,13 @@ var FwBrowse = (function () {
     };
     FwBrowse.setSelectedIndex = function ($control, selectedindex) {
         $control.attr('data-selectedindex', selectedindex);
-        var $trsEditRow = $control.find('tbody tr.editrow');
-        $trsEditRow.each(function (index, element) {
-            var $trEditRow = jQuery(element);
-            if (!FwBrowse.isRowModified($control, $trEditRow)) {
-                FwBrowse.cancelEditMode($control, $trEditRow);
-            }
-        });
+    };
+    FwBrowse.getSelectedRowMode = function ($control) {
+        var selectedRowMode = typeof $control.data('selectedrowmode') === 'string' ? $control.data('selectedrowmode') : '';
+        return selectedRowMode;
+    };
+    FwBrowse.setSelectedRowMode = function ($control, mode) {
+        $control.data('selectedrowmode', mode);
     };
     FwBrowse.isRowModified = function ($control, $tr) {
         if (!$tr.hasClass('editrow')) {
@@ -401,17 +401,19 @@ var FwBrowse = (function () {
         }
         var $fields = $tr.find('.field[data-formdatafield][data-formreadonly!="true"]');
         var isRowUnmodified = true;
-        $fields.each(function (index, element) {
-            var $field = jQuery(element);
-            var field = {};
+        for (var i = 0; i < $fields.length; i++) {
+            var $field = $fields.eq(i);
+            $field;
+            var field = { datafield: $field.attr('data-browsedatafield'), value: '' };
             if (typeof window['FwBrowseColumn_' + $field.attr('data-formdatatype')] !== 'undefined') {
-                window['FwBrowseColumn_' + $field.attr('data-formdatatype')].getFieldValue($control, $tr, $field, field, $field.attr('data-originalvalue'));
+                var isModifiedFunction = window['FwBrowseColumn_' + $field.attr('data-formdatatype')].isModified;
+                var isFieldUnmodified = !isModifiedFunction($control, $tr, $field, field, $field.attr('data-originalvalue'));
+                isRowUnmodified = isRowUnmodified && isFieldUnmodified;
+                if (isRowUnmodified === false) {
+                    break;
+                }
             }
-            var $inputValue = $field.find('.value');
-            if ($inputValue.length > 0) {
-                isRowUnmodified = isRowUnmodified && $inputValue.val() === $field.attr('data-originalvalue');
-            }
-        });
+        }
         return !isRowUnmodified;
     };
     FwBrowse.getSelectedRow = function ($control) {
@@ -1876,7 +1878,19 @@ var FwBrowse = (function () {
                 var selectedindex = FwBrowse.getSelectedIndex($control);
                 var rowcount = FwBrowse.getRowCount($control);
                 if (rowcount > FwBrowse.getSelectedIndex($control) && selectedindex !== -1) {
-                    FwBrowse.selectRowByIndex($control, selectedindex);
+                    var $tr_1 = FwBrowse.selectRowByIndex($control, selectedindex);
+                    var selectedRowMode = FwBrowse.getSelectedRowMode($control);
+                    switch (selectedRowMode) {
+                        case 'view':
+                            FwBrowse.setRowViewMode($control, $tr_1);
+                            break;
+                        case 'new':
+                            FwBrowse.setRowNewMode($control, $tr_1);
+                            break;
+                        case 'edit':
+                            FwBrowse.setRowEditMode($control, $tr_1);
+                            break;
+                    }
                 }
                 else if (rowcount < selectedindex) {
                     var lastrowindex = rowcount - 1;
@@ -1965,7 +1979,6 @@ var FwBrowse = (function () {
     };
     FwBrowse.setRowNewMode = function ($control, $tr) {
         FwBrowse.setNewOrEditRow($control, $tr);
-        this.autoSave($control, $tr);
         var $fields, $inputs;
         $control.attr('data-mode', 'EDIT');
         $control.find('.gridmenu .buttonbar div[data-type="NewButton"]').hide();
@@ -2041,7 +2054,6 @@ var FwBrowse = (function () {
         var $trsNewMode = $control.find('tr.newmode').not($trToExclude);
         for (var i = 0; i < $trsNewMode.length; i++) {
             var $trNewMode = $trsNewMode.eq(i);
-            $trNewMode.removeClass('newmode');
             FwBrowse.saveRow($control, $trNewMode);
         }
         var $trsEditMode = $control.find('tr.editmode').not($trToExclude);
@@ -2052,23 +2064,29 @@ var FwBrowse = (function () {
     };
     ;
     FwBrowse.setNewOrEditRow = function ($control, $tr) {
-        $control.find('thead .tdselectrow .divselectrow').hide();
-        jQuery(window)
-            .off('click.FwBrowse')
-            .one('click.FwBrowse', function (e) {
-            try {
-                FwBrowse.saveRow($control, $tr);
-            }
-            catch (ex) {
-                FwFunc.showError(ex);
-            }
-        });
+        if (typeof $control.attr('data-autosave') !== 'undefined' && $control.attr('data-autosave') === 'true') {
+            FwBrowse.autoSave($control, $tr);
+            $control.find('thead .tdselectrow .divselectrow').hide();
+            jQuery(window)
+                .off('click.FwBrowse')
+                .on('click.FwBrowse', function (e) {
+                try {
+                    var specifiedElement = document.getElementById('a');
+                    var isClickInsideGrid = $control.get(0).contains(e.target);
+                    if (!isClickInsideGrid) {
+                        FwBrowse.saveRow($control, $tr);
+                    }
+                }
+                catch (ex) {
+                    FwFunc.showError(ex);
+                }
+            });
+        }
     };
     FwBrowse.setRowEditMode = function ($control, $tr) {
         FwBrowse.setNewOrEditRow($control, $tr);
         $control.attr('data-mode', 'EDIT');
         $tr.removeClass('viewmode').addClass('editmode').addClass('editrow');
-        FwBrowse.autoSave($control, $tr);
         $control.find('.gridmenu .buttonbar div[data-type="NewButton"]').hide();
         if (($control.attr('data-type') == 'Grid') && (typeof $control.attr('data-controller') !== 'undefined') && ($control.attr('data-controller') !== '')) {
             var controller;
@@ -2360,9 +2378,6 @@ var FwBrowse = (function () {
                         }
                     }
                     FwBrowse.setRowViewMode($control, $tr);
-                    if ($control.attr('data-refreshaftersave') === 'true') {
-                        FwBrowse.search($control);
-                    }
                     $control.attr('data-mode', 'VIEW');
                     if (($control.attr('data-type') === 'Grid') && (typeof $control.data('aftersave') === 'function')) {
                         $control.data('aftersave')($control, $tr);
@@ -2376,8 +2391,14 @@ var FwBrowse = (function () {
                             window[controller]['afterSave']($control, $tr);
                         }
                     }
+                    if ($control.attr('data-autosave') && $control.attr('data-refreshaftersave') === 'true') {
+                        FwBrowse.search($control);
+                    }
                 });
             }
+        }
+        else {
+            FwBrowse.cancelEditMode($control, $tr);
         }
         return isvalid;
     };

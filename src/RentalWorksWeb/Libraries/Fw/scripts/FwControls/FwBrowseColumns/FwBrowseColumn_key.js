@@ -10,6 +10,16 @@ FwBrowseColumn_key.getFieldValue = function($browse, $tr, $field, field, origina
     }
 };
 //---------------------------------------------------------------------------------
+FwBrowseColumn_key.isModified = function ($browse, $tr, $field) {
+    var isModified = false;
+    let originalValue = $field.attr('data-originalvalue');
+    if (($tr.hasClass('editmode')) || ($tr.hasClass('newmode'))) {
+        let currentValue = $field.html();
+        isModified = currentValue !== originalValue;
+    }
+    return isModified;
+};
+//---------------------------------------------------------------------------------
 FwBrowseColumn_key.setFieldViewMode = function($browse, $field, $tr, html) {
     var originalvalue = (typeof $field.attr('data-originalvalue')  === 'string') ? $field.attr('data-originalvalue') : '';
     $field.html(originalvalue);

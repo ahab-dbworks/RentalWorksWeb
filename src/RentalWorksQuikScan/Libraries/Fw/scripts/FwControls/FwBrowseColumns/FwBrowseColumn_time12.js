@@ -9,6 +9,11 @@ FwBrowseColumn_time12.getFieldValue = function($browse, $tr, $field, field, orig
     $field.html(originalvalue);
 };
 //---------------------------------------------------------------------------------
+FwBrowseColumn_time12.isModified = function ($browse, $tr, $field) {
+    var isModified = false;
+    return isModified;
+};
+//---------------------------------------------------------------------------------
 FwBrowseColumn_time12.setFieldViewMode = function($browse, $field, $tr, html) {
     var time;
     var originalvalue = (typeof $field.attr('data-originalvalue')  === 'string') ? $field.attr('data-originalvalue') : '';

@@ -17,6 +17,24 @@ FwBrowseColumn_checkbox.getFieldValue = function($browse, $tr, $field, field, or
     }
 };
 //---------------------------------------------------------------------------------
+FwBrowseColumn_checkbox.isModified = function ($browse, $tr, $field) {
+    var isModified = false;
+    var controller = FwBrowse.getController($browse);
+    let originalValue = $field.attr('data-originalvalue');
+    if (typeof controller.apiurl !== 'undefined') {
+        if ($tr.hasClass('editmode') || $tr.hasClass('newmode')) {
+            let currentValue = $field.find('input').is(':checked').toString();
+            isModified = currentValue !== originalValue;
+        }
+    } else {
+        if ($tr.hasClass('editmode') || $tr.hasClass('newmode')) {
+            let currentValue = ($field.find('input').is(':checked') ? 'T' : 'F');
+            isModified = currentValue !== originalValue;
+        }
+    }
+    return isModified;
+};
+//---------------------------------------------------------------------------------
 FwBrowseColumn_checkbox.setFieldViewMode = function($browse, $field, $tr, html) {
     var checked = false;
     var originalvalue = (typeof $field.attr('data-originalvalue')  === 'string') ? $field.attr('data-originalvalue') : '';

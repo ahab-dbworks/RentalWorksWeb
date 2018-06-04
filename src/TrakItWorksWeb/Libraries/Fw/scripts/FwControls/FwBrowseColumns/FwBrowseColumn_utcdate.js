@@ -8,6 +8,11 @@ FwBrowseColumn_utcdate.getFieldValue = function($browse, $tr, $field, field, ori
     
 };
 //---------------------------------------------------------------------------------
+FwBrowseColumn_utcdate.isModified = function ($browse, $tr, $field) {
+    var isModified = false;
+    return isModified;
+};
+//---------------------------------------------------------------------------------
 FwBrowseColumn_utcdate.setFieldViewMode = function($browse, $field, $tr, html) {
     var originalvalue = (typeof $field.attr('data-originalvalue')  === 'string') ? $field.attr('data-originalvalue') : '';
     $field.html(originalvalue);

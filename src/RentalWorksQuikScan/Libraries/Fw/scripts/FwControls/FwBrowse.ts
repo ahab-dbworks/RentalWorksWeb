@@ -447,7 +447,7 @@
         $control.attr('data-totalpages', totalpages);
     }
     //---------------------------------------------------------------------------------
-    static getSelectedIndex($control) {
+    static getSelectedIndex($control: JQuery): number {
         return parseInt($control.attr('data-selectedindex'));
     }
     //---------------------------------------------------------------------------------
@@ -455,32 +455,47 @@
         $control.attr('data-selectedindex', selectedindex);
 
         //cancel any unmodified rows in edit mode
-        var $trsEditRow = $control.find('tbody tr.editrow');
-        $trsEditRow.each(function (index, element) {
-            var $trEditRow = jQuery(element);
-            if (!FwBrowse.isRowModified($control, $trEditRow)) {
-                FwBrowse.cancelEditMode($control, $trEditRow);
-            }
-        });
+        //var $trsEditRow = $control.find('tbody tr.editrow');
+        //$trsEditRow.each(function (index, element) {
+        //    var $trEditRow = jQuery(element);
+        //    if (!FwBrowse.isRowModified($control, $trEditRow)) {
+        //        FwBrowse.cancelEditMode($control, $trEditRow);
+        //    }
+        //});
     }
     //---------------------------------------------------------------------------------
-    static isRowModified($control, $tr) {
+    static getSelectedRowMode($control: JQuery): string {
+        let selectedRowMode: string = typeof $control.data('selectedrowmode') === 'string' ? $control.data('selectedrowmode') : '';
+        return selectedRowMode;
+    }
+    //---------------------------------------------------------------------------------
+    static setSelectedRowMode($control: JQuery, mode: string): void {
+        $control.data('selectedrowmode', mode);
+    }
+    //---------------------------------------------------------------------------------
+    static isRowModified($control: JQuery, $tr: JQuery) {
         if (!$tr.hasClass('editrow')) {
             return false;
         }
         var $fields = $tr.find('.field[data-formdatafield][data-formreadonly!="true"]');
         var isRowUnmodified = true;
-        $fields.each(function (index, element) {
-            var $field = jQuery(element);
-            var field = {};
+        for (let i = 0; i < $fields.length; i++) {
+            var $field = $fields.eq(i);
+            $field
+            var field = {datafield: $field.attr('data-browsedatafield'), value: ''};
             if (typeof window['FwBrowseColumn_' + $field.attr('data-formdatatype')] !== 'undefined') {
-                window['FwBrowseColumn_' + $field.attr('data-formdatatype')].getFieldValue($control, $tr, $field, field, $field.attr('data-originalvalue'));
+                let isModifiedFunction = window['FwBrowseColumn_' + $field.attr('data-formdatatype')].isModified;
+                let isFieldUnmodified = !isModifiedFunction($control, $tr, $field, field, $field.attr('data-originalvalue'));
+                isRowUnmodified = isRowUnmodified && isFieldUnmodified;
+                //var $inputValue = $field.find('.value');
+                //if ($inputValue.length > 0) {
+                //    isRowUnmodified = isRowUnmodified && $inputValue.val() === $field.attr('data-originalvalue');
+                //}
+                if (isRowUnmodified === false) {
+                    break;
+                }
             }
-            var $inputValue = $field.find('.value');
-            if ($inputValue.length > 0) {
-                isRowUnmodified = isRowUnmodified && $inputValue.val() === $field.attr('data-originalvalue');
-            }
-        });
+        }
         return !isRowUnmodified;
     }
     //---------------------------------------------------------------------------------
@@ -492,7 +507,7 @@
         return FwBrowse.getSelectedRow($control).index();
     }
     //---------------------------------------------------------------------------------
-    static getRows($control) {
+    static getRows($control: JQuery): JQuery {
         return $control.find('tbody tr');
     }
     //---------------------------------------------------------------------------------
@@ -1575,6 +1590,18 @@
     //---------------------------------------------------------------------------------
     static databind($control) {
         jQuery(window).off('click.FwBrowse'); // remove the auto-save click event from window
+
+        // save the rows in editmode
+        //let $trsEditMode = $control.find('tbody tr.editmode')
+        //$control.data('$trseditmode', $trsEditMode);
+        ////if ($tr.hasClass('newmode')) {
+        ////    FwBrowse.setSelectedRowMode($control, 'new');
+        ////} else if ($tr.hasClass('editmode')) {
+        ////    FwBrowse.setSelectedRowMode($control, 'edit');
+        ////} else if ($tr.hasClass('viewmode')) {
+        ////    FwBrowse.setSelectedRowMode($control, 'view');
+        ////}
+        
         var request, caption;
         if ($control.length > 0) {
             request = FwBrowse.getRequest($control);
@@ -2094,7 +2121,19 @@
                 var selectedindex = FwBrowse.getSelectedIndex($control);
                 var rowcount = FwBrowse.getRowCount($control);
                 if (rowcount > FwBrowse.getSelectedIndex($control) && selectedindex !== -1) {
-                    FwBrowse.selectRowByIndex($control, selectedindex);
+                    let $tr = FwBrowse.selectRowByIndex($control, selectedindex);
+                    let selectedRowMode = FwBrowse.getSelectedRowMode($control);
+                    switch (selectedRowMode) {
+                        case 'view':
+                            FwBrowse.setRowViewMode($control, $tr);
+                            break;
+                        case 'new':
+                            FwBrowse.setRowNewMode($control, $tr);
+                            break;
+                        case 'edit':
+                            FwBrowse.setRowEditMode($control, $tr);
+                            break;
+                    }
                 } else if (rowcount < selectedindex) {
                     var lastrowindex = rowcount - 1;
                     FwBrowse.selectRowByIndex($control, lastrowindex);
@@ -2191,7 +2230,6 @@
     //---------------------------------------------------------------------------------
     static setRowNewMode($control, $tr) {
         FwBrowse.setNewOrEditRow($control, $tr);
-        this.autoSave($control, $tr);
         var $fields, $inputs;
         $control.attr('data-mode', 'EDIT');
         $control.find('.gridmenu .buttonbar div[data-type="NewButton"]').hide();
@@ -2293,7 +2331,7 @@
         let $trsNewMode = $control.find('tr.newmode').not($trToExclude);
         for (let i = 0; i < $trsNewMode.length; i++) {
             let $trNewMode = $trsNewMode.eq(i);
-            $trNewMode.removeClass('newmode');
+            //$trNewMode.removeClass('newmode');
             FwBrowse.saveRow($control, $trNewMode);
         }
         let $trsEditMode = $control.find('tr.editmode').not($trToExclude);
@@ -2303,26 +2341,30 @@
         }
     };
     //---------------------------------------------------------------------------------
-    static setNewOrEditRow($control, $tr) {
-        $control.find('thead .tdselectrow .divselectrow').hide();
-        jQuery(window)
-            .off('click.FwBrowse')
-            .one('click.FwBrowse', function (e) {
-                try {
-                    FwBrowse.saveRow($control, $tr);
-                } catch (ex) {
-                    FwFunc.showError(ex);
-                }
-            });
+    static setNewOrEditRow($control: JQuery, $tr: JQuery) {
+        if (typeof $control.attr('data-autosave') !== 'undefined' && $control.attr('data-autosave') === 'true') {
+            FwBrowse.autoSave($control, $tr);
+            $control.find('thead .tdselectrow .divselectrow').hide();
+            jQuery(window)
+                .off('click.FwBrowse')
+                .on('click.FwBrowse', function (e) {
+                    try {
+                        var specifiedElement = document.getElementById('a');
+                        let isClickInsideGrid = $control.get(0).contains(e.target);
+                        if (!isClickInsideGrid) {
+                            FwBrowse.saveRow($control, $tr);
+                        }
+                    } catch (ex) {
+                        FwFunc.showError(ex);
+                    }
+                });
+        }
     }
     //---------------------------------------------------------------------------------
     static setRowEditMode($control, $tr) {
         FwBrowse.setNewOrEditRow($control, $tr);
         $control.attr('data-mode', 'EDIT');
         $tr.removeClass('viewmode').addClass('editmode').addClass('editrow');
-
-        FwBrowse.autoSave($control, $tr);
-
         $control.find('.gridmenu .buttonbar div[data-type="NewButton"]').hide();
         //$control.find('.gridmenu .buttonbar div[data-type="EditButton"]').hide();
         //$control.find('.gridmenu .buttonbar div[data-type="DeleteButton"]').hide();
@@ -2637,9 +2679,6 @@
                     }
 
                     FwBrowse.setRowViewMode($control, $tr);
-                    if ($control.attr('data-refreshaftersave') === 'true') {
-                        FwBrowse.search($control);
-                    }
                     $control.attr('data-mode', 'VIEW');
                     if (($control.attr('data-type') === 'Grid') && (typeof $control.data('aftersave') === 'function')) {
                         $control.data('aftersave')($control, $tr);
@@ -2652,10 +2691,14 @@
                             window[controller]['afterSave']($control, $tr);
                         }
                     }
+                    if ($control.attr('data-autosave') && $control.attr('data-refreshaftersave') === 'true') {
+                        FwBrowse.search($control);
+                    }
                 });
             }
+        } else {
+            FwBrowse.cancelEditMode($control, $tr);
         }
-
 
         return isvalid;
     }
