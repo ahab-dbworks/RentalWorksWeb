@@ -55,63 +55,49 @@
             },
         };
 
-        html.push(`<div class="progress_bar">`);
         html.push(`<progress max="" value="0"><span class="progress_span">0</span></progress>`);
         html.push(`<div class="progress_bar_text"></div>`);
         html.push(`<div class="progress_bar_caption"></div>`);
-        html.push(`</div>`);
 
-        $moduleoverlay = jQuery(`<div class="">`);
-        $moduleoverlay.css('z-index', maxZIndex);
-        maxZIndex = FwFunc.getMaxZ('*');
+        $moduleoverlay = jQuery(`<div class="progress_bar">`);
         $moduleoverlay.html(html.join(''));
-
-        $moduleoverlay.on('click', function () {
-            $moduleoverlay.addClass('clicked');
-        });
-
         $appendToElement.css('position', 'relative').append($moduleoverlay);
+
+        $moduleoverlay.hide();
 
         handle = setInterval(() => {
             jQuery.ajax(ajaxOptions)
                 .done(response => {
-                    if (response) {
-                        try {
-                            if (isNaN(response.CurrentStep)) {
-                                caption = 'Processing...';
-                                currentStep += 5;
-                                percentage = Math.floor((currentStep / totalSteps) * 100);
-                                $moduleoverlay.find('progress').val(currentStep);
-                                $moduleoverlay.find('progress').attr('max', totalSteps);
-                                $moduleoverlay.find('.progress_bar_text').text(`${percentage}%`);
-                                $moduleoverlay.find('.progress_span').text(`${percentage}%`);
-                                $moduleoverlay.find('.progress_bar_caption').text(caption);
-                      
-                            } else {
-                                caption = response.Caption;
-                                currentStep = parseInt(response.CurrentStep);
-                                totalSteps = parseInt(response.TotalSteps);
-                                percentage = Math.floor((currentStep / totalSteps) * 100);
+                    if (currentStep >= 1) {
+                        $moduleoverlay.show();
+                    }
 
-                                $moduleoverlay.find('progress').val(currentStep);
-                                $moduleoverlay.find('progress').attr('max', totalSteps);
-                                $moduleoverlay.find('.progress_bar_text').text(`${percentage}%`);
-                                $moduleoverlay.find('.progress_span').text(`${percentage}%`);
-                                $moduleoverlay.find('.progress_bar_caption').text(caption);
-                            }
+                    try {
+                        if (isNaN(response.CurrentStep) || undefined) {
+                            caption = 'Processing...';
+                            currentStep += 5;
+                            percentage = Math.floor((currentStep / totalSteps) * 100);
+                            $moduleoverlay.find('progress').val(currentStep);
+                            $moduleoverlay.find('progress').attr('max', totalSteps);
+                            $moduleoverlay.find('.progress_bar_text').text(`${percentage}%`);
+                            $moduleoverlay.find('.progress_span').text(`${percentage}%`);
+                            $moduleoverlay.find('.progress_bar_caption').text(caption);
+
+                        } else {
+                            caption = response.Caption;
+                            currentStep = parseInt(response.CurrentStep);
+                            totalSteps = parseInt(response.TotalSteps);
+                            percentage = Math.floor((currentStep / totalSteps) * 100);
+
+                            $moduleoverlay.find('progress').val(currentStep);
+                            $moduleoverlay.find('progress').attr('max', totalSteps);
+                            $moduleoverlay.find('.progress_bar_text').text(`${percentage}%`);
+                            $moduleoverlay.find('.progress_span').text(`${percentage}%`);
+                            $moduleoverlay.find('.progress_bar_caption').text(caption);
                         }
-                        catch (ex) {
-                            console.log('showProgressBarOverlay error: ', ex)
-                        }
-                    } else {
-                        caption = 'Processing...';
-                        currentStep += 5;
-                        percentage = Math.floor((currentStep / totalSteps) * 100);
-                        $moduleoverlay.find('progress').val(currentStep);
-                        $moduleoverlay.find('progress').attr('max', totalSteps);
-                        $moduleoverlay.find('.progress_bar_text').text(`${percentage}%`);
-                        $moduleoverlay.find('.progress_span').text(`${percentage}%`);
-                        $moduleoverlay.find('.progress_bar_caption').text(caption);
+                    }
+                    catch (ex) {
+                        console.log('showProgressBarOverlay error: ', ex)
                     }
 
                     if (currentStep === totalSteps) {
