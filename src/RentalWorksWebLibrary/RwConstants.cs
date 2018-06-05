@@ -40,6 +40,10 @@ namespace WebLibrary
         public const string SEARCH_MODE_PREFERENCE_HYBRID = "HYBRID";
         public const string SEARCH_MODE_PREFERENCE_GRID = "GRID";
 
+        //DELIVERY
+        public const string ONLINE_DELIVERY_STATUS_PARTIAL = "PARTIAL";
+        public const string ONLINE_DELIVERY_STATUS_COMPLETE = "COMPLETE";
+
 
 
         //REPAIR

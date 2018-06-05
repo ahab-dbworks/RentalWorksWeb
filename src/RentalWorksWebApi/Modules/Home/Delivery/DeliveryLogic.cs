@@ -1,5 +1,10 @@
+using FwStandard.BusinessLogic;
 using FwStandard.BusinessLogic.Attributes;
+using System.Reflection;
+using System.Text;
 using WebApi.Logic;
+using WebLibrary;
+
 namespace WebApi.Modules.Home.Delivery
 {
     public class DeliveryLogic : AppBusinessLogic
@@ -80,5 +85,17 @@ namespace WebApi.Modules.Home.Delivery
         public string OnlineOrderStatus { get { return delivery.OnlineOrderStatus; } set { delivery.OnlineOrderStatus = value; } }
         public string DateStamp { get { return delivery.DateStamp; } set { delivery.DateStamp = value; } }
         //------------------------------------------------------------------------------------ 
+        protected override bool Validate(TDataRecordSaveMode saveMode, ref string validateMsg)
+        {
+            bool isValid = true;
+            if (isValid)
+            {
+                PropertyInfo property = typeof(DeliveryLogic).GetProperty(nameof(DeliveryLogic.OnlineOrderStatus));
+                string[] acceptableValues = { RwConstants.ONLINE_DELIVERY_STATUS_PARTIAL, RwConstants.ONLINE_DELIVERY_STATUS_COMPLETE };
+                isValid = IsValidStringValue(property, acceptableValues, ref validateMsg);
+            }
+            return isValid;
+        }
+        //------------------------------------------------------------------------------------
     }
 }

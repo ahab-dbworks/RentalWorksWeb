@@ -1,5 +1,6 @@
 ﻿using FwStandard.BusinessLogic;
 using FwStandard.BusinessLogic.Attributes;
+using System.Reflection;
 using WebApi.Logic;
 using WebLibrary;
 
@@ -180,14 +181,11 @@ namespace WebApi.Modules.Home.Customer
         protected override bool Validate(TDataRecordSaveMode saveMode, ref string validateMsg)
         {
             bool isValid = true;
-
-            if (BillingAddressType != null)
+            if (isValid)
             {
-                if (!(BillingAddressType.Equals(RwConstants.BILLING_ADDRESS_TYPE_CUSTOMER) || BillingAddressType.Equals(RwConstants.BILLING_ADDRESS_TYPE_OTHER)))
-                {
-                    isValid = false;
-                    validateMsg = "Invalid Billing Address Type: " + BillingAddressType + ".  Acceptable values are " + RwConstants.BILLING_ADDRESS_TYPE_CUSTOMER + " or " + RwConstants.BILLING_ADDRESS_TYPE_OTHER;
-                }
+                PropertyInfo property = typeof(CustomerLogic).GetProperty(nameof(CustomerLogic.BillingAddressType));
+                string[] acceptableValues = { RwConstants.BILLING_ADDRESS_TYPE_CUSTOMER, RwConstants.BILLING_ADDRESS_TYPE_OTHER };
+                isValid = IsValidStringValue(property, acceptableValues, ref validateMsg);
             }
             return isValid;
         }
