@@ -612,6 +612,36 @@ namespace FwStandard.BusinessLogic
             return isValid;
         }
         //------------------------------------------------------------------------------------
+        protected virtual bool IsValidStringValue(PropertyInfo property, string[] acceptableValues, ref string validateMsg, bool nullAcceptable = true)
+        {
+            bool isValidValue = false;
+            string value = property.GetValue(this).ToString();
+            if (value == null)
+            {
+                isValidValue = (nullAcceptable);
+                if (!isValidValue)
+                {
+                    validateMsg = property.Name + " cannot be NULL.";
+                }
+            }
+            else
+            {
+                for (int i = 0; i < acceptableValues.Length; i++)
+                {
+                    if (value.Equals(acceptableValues[i]))
+                    {
+                        isValidValue = true;
+                        break;
+                    }
+                }
+                if (!isValidValue)
+                {
+                    validateMsg = "Invalid " + property.Name + ": " + value + ".  Acceptable values are " + string.Join(",", acceptableValues);
+                }
+            }
+            return isValidValue;
+        }
+        //------------------------------------------------------------------------------------ 
         protected virtual bool Validate(TDataRecordSaveMode saveMode, ref string validateMsg)
         {
             //override this method on a derived class to implement custom validation logic
