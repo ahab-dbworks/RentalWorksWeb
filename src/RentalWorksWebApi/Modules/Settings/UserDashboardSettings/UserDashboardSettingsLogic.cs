@@ -67,7 +67,7 @@ namespace WebApi.Modules.Settings.UserDashboardSettings
             using (FwSqlConnection conn = new FwSqlConnection(_dbConfig.ConnectionString))
             {
                 FwSqlCommand qry = new FwSqlCommand(conn, _dbConfig.QueryTimeout);
-                qry.Add("exec getwebuserdashboardsettings '" + UserId + "'"); // todo: fix sql injection
+                qry.Add("exec getwebuserdashboardsettings @webusersid ");
                 qry.AddColumn("webuserswidgetid");    //0
                 qry.AddColumn("widgetid");            //1
                 qry.AddColumn("widget");              //2
@@ -78,6 +78,7 @@ namespace WebApi.Modules.Settings.UserDashboardSettings
                 qry.AddColumn("defaultdatapoints");   //7
                 qry.AddColumn("datapoints");          //8
                 qry.AddColumn("orderby");             //9
+                qry.AddParameter("@webusersid", UserId);
                 FwJsonDataTable table = await qry.QueryToFwJsonTableAsync(true);
                 for (int r = 0; r < table.Rows.Count; r++)
                 {
@@ -122,10 +123,6 @@ namespace WebApi.Modules.Settings.UserDashboardSettings
             UserDashboardSetting wPrev = null;
             UserWidgetLogic uw = null;
 
-            if ((WidgetsPerRow == null) || (WidgetsPerRow <= 0))
-            {
-                WidgetsPerRow = 2;
-            }
             WebUserRecord webUser = new WebUserRecord();
             webUser.SetDependencies(AppConfig, UserSession);
             webUser.WebUserId = UserId;
