@@ -1,8 +1,8 @@
-using FwStandard.DataLayer; 
-using FwStandard.Models; 
-using FwStandard.SqlServer; 
-using FwStandard.SqlServer.Attributes; 
-using WebApi.Data; 
+using FwStandard.DataLayer;
+using FwStandard.Models;
+using FwStandard.SqlServer;
+using FwStandard.SqlServer.Attributes;
+using WebApi.Data;
 using Newtonsoft.Json;
 using WebApi.Logic;
 using System.Collections.Generic;
@@ -198,22 +198,22 @@ namespace WebApi.Modules.Home.OrderItem
         public decimal? AverageWeeklyExtended { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "averageweeklyextendednodisc", modeltype: FwDataTypes.Decimal)]
-        public decimal? AverageWeeklyExtendedNoDiscount{ get; set; }
+        public decimal? AverageWeeklyExtendedNoDiscount { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "episodes", modeltype: FwDataTypes.Integer)]
         public int? Episodes { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "episodediscountamt", modeltype: FwDataTypes.Decimal)]
-        public decimal? EpisodeDiscountAmount{ get; set; }
+        public decimal? EpisodeDiscountAmount { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "episodeextended", modeltype: FwDataTypes.Decimal)]
         public decimal? EpisodeExtended { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "monthlyextendednodisc", modeltype: FwDataTypes.Decimal)]
-        public decimal? MonthlyExtendedNoDiscount{ get; set; }
+        public decimal? MonthlyExtendedNoDiscount { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "monthlydiscountamt", modeltype: FwDataTypes.Decimal)]
-        public decimal? MonthlyDiscountAmount{ get; set; }
+        public decimal? MonthlyDiscountAmount { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "monthlyextended", modeltype: FwDataTypes.Decimal)]
         public decimal? MonthlyExtended { get; set; }
@@ -222,7 +222,7 @@ namespace WebApi.Modules.Home.OrderItem
         public decimal? MonthlyCostExtended { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "periodextendednodisc", modeltype: FwDataTypes.Decimal)]
-        public decimal? PeriodExtendedNoDiscount{ get; set; }
+        public decimal? PeriodExtendedNoDiscount { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "periodcostextended", modeltype: FwDataTypes.Decimal)]
         public decimal? PeriodCostExtended { get; set; }
@@ -841,10 +841,7 @@ namespace WebApi.Modules.Home.OrderItem
             addFilterToSelect("OrderId", "orderid", select, request);
             addFilterToSelect("RecType", "rectype", select, request);
 
-            if (!string.IsNullOrEmpty(OrderId))
-            {
-                select.AddParameter("@orderid", OrderId);
-            }
+            select.AddParameter("@orderid", OrderId);
 
         }
         //------------------------------------------------------------------------------------ 
