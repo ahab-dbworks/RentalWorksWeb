@@ -70,6 +70,73 @@ namespace WebApi.Modules.Home.Order
             }
         }
         //------------------------------------------------------------------------------------
+        // POST api/v1/order/cancel/A0000001
+        [HttpPost("cancel/{id}")]
+        public async Task<IActionResult> CancelOrder([FromRoute]string id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                string[] ids = id.Split('~');
+                OrderLogic Order = new OrderLogic();
+                Order.SetDependencies(AppConfig, UserSession);
+                if (await Order.LoadAsync<OrderLogic>(ids))
+                {
+                    await Order.CancelOrderASync();
+                    return new OkObjectResult(Order);
+                }
+                else
+                {
+                    return NotFound();
+                }
+            }
+            catch (Exception ex)
+            {
+                FwApiException jsonException = new FwApiException();
+                jsonException.StatusCode = StatusCodes.Status500InternalServerError;
+                jsonException.Message = ex.Message;
+                jsonException.StackTrace = ex.StackTrace;
+                return StatusCode(jsonException.StatusCode, jsonException);
+            }
+        }
+        //------------------------------------------------------------------------------------       
+        // POST api/v1/order/uncancel/A0000001
+        [HttpPost("uncancel/{id}")]
+        public async Task<IActionResult> UncancelOrder([FromRoute]string id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                string[] ids = id.Split('~');
+                OrderLogic Order = new OrderLogic();
+                Order.SetDependencies(AppConfig, UserSession);
+                if (await Order.LoadAsync<OrderLogic>(ids))
+                {
+                    await Order.UncancelOrderASync();
+                    return new OkObjectResult(Order);
+                }
+                else
+                {
+                    return NotFound();
+                }
+            }
+            catch (Exception ex)
+            {
+                FwApiException jsonException = new FwApiException();
+                jsonException.StatusCode = StatusCodes.Status500InternalServerError;
+                jsonException.Message = ex.Message;
+                jsonException.StackTrace = ex.StackTrace;
+                return StatusCode(jsonException.StatusCode, jsonException);
+            }
+        }
+        //------------------------------------------------------------------------------------     
+
         // POST api/v1/order/applybottomlinedaysperweek
         [HttpPost("applybottomlinedaysperweek")]
         public async Task<IActionResult> ApplyBottomLineDaysPerWeek([FromBody] BottomLineDaysPerWeekRequest request)
@@ -193,13 +260,13 @@ namespace WebApi.Modules.Home.Order
             return await DoPostAsync<OrderLogic>(l);
         }
         //------------------------------------------------------------------------------------
-        // DELETE api/v1/order/A0000001
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteAsync([FromRoute]string id)
-        {
-            return await DoDeleteAsync(id, typeof(OrderLogic));
-        }
-        //------------------------------------------------------------------------------------
+        //// DELETE api/v1/order/A0000001
+        //[HttpDelete("{id}")]
+        //public async Task<IActionResult> DeleteAsync([FromRoute]string id)
+        //{
+        //    return await DoDeleteAsync(id, typeof(OrderLogic));
+        //}
+        ////------------------------------------------------------------------------------------
         // POST api/v1/order/validateduplicate
         [HttpPost("validateduplicate")]
         public async Task<IActionResult> ValidateDuplicateAsync([FromBody]ValidateDuplicateRequest request)

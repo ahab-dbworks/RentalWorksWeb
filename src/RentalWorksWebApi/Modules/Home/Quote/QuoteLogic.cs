@@ -105,5 +105,19 @@ namespace WebApi.Modules.Home.Quote
             return l;
         }
         //------------------------------------------------------------------------------------
+        public async Task<QuoteLogic> CancelQuoteASync()
+        {
+            await dealOrder.CancelQuote();
+            await LoadAsync<QuoteLogic>();
+            return this;
+        }
+        //------------------------------------------------------------------------------------
+        public async Task<QuoteLogic> UncancelQuoteASync()
+        {
+            await dealOrder.UncancelQuote();
+            await LoadAsync<QuoteLogic>();
+            return this;
+        }
+        //------------------------------------------------------------------------------------    
     }
 }

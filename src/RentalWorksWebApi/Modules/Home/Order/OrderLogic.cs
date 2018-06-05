@@ -2,6 +2,7 @@
 using FwStandard.BusinessLogic.Attributes;
 using FwStandard.SqlServer;
 using System;
+using System.Threading.Tasks;
 using WebApi.Logic;
 using WebLibrary;
 
@@ -57,6 +58,20 @@ namespace WebApi.Modules.Home.Order
                 }
 
             }
+        }
+        //------------------------------------------------------------------------------------    
+        public async Task<OrderLogic> CancelOrderASync()
+        {
+            await dealOrder.CancelOrder();
+            await LoadAsync<OrderLogic>();
+            return this;
+        }
+        //------------------------------------------------------------------------------------
+        public async Task<OrderLogic> UncancelOrderASync()
+        {
+            await dealOrder.UncancelOrder();
+            await LoadAsync<OrderLogic>();
+            return this;
         }
         //------------------------------------------------------------------------------------    
     }

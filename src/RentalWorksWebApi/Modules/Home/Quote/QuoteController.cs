@@ -102,13 +102,74 @@ namespace WebApi.Modules.Home.Quote
                 jsonException.StackTrace = ex.StackTrace;
                 return StatusCode(jsonException.StatusCode, jsonException);
             }
-
-
-
         }
-
-
         //------------------------------------------------------------------------------------        
+        // POST api/v1/quote/cancel/A0000001
+        [HttpPost("cancel/{id}")]
+        public async Task<IActionResult> CancelQuote([FromRoute]string id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                string[] ids = id.Split('~');
+                QuoteLogic quote = new QuoteLogic();
+                quote.SetDependencies(AppConfig, UserSession);
+                if (await quote.LoadAsync<QuoteLogic>(ids))
+                {
+                    await quote.CancelQuoteASync();
+                    return new OkObjectResult(quote);
+                }
+                else
+                {
+                    return NotFound();
+                }
+            }
+            catch (Exception ex)
+            {
+                FwApiException jsonException = new FwApiException();
+                jsonException.StatusCode = StatusCodes.Status500InternalServerError;
+                jsonException.Message = ex.Message;
+                jsonException.StackTrace = ex.StackTrace;
+                return StatusCode(jsonException.StatusCode, jsonException);
+            }
+        }
+        //------------------------------------------------------------------------------------       
+        // POST api/v1/quote/uncancel/A0000001
+        [HttpPost("uncancel/{id}")]
+        public async Task<IActionResult> UncancelQuote([FromRoute]string id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                string[] ids = id.Split('~');
+                QuoteLogic quote = new QuoteLogic();
+                quote.SetDependencies(AppConfig, UserSession);
+                if (await quote.LoadAsync<QuoteLogic>(ids))
+                {
+                    await quote.UncancelQuoteASync();
+                    return new OkObjectResult(quote);
+                }
+                else
+                {
+                    return NotFound();
+                }
+            }
+            catch (Exception ex)
+            {
+                FwApiException jsonException = new FwApiException();
+                jsonException.StatusCode = StatusCodes.Status500InternalServerError;
+                jsonException.Message = ex.Message;
+                jsonException.StackTrace = ex.StackTrace;
+                return StatusCode(jsonException.StatusCode, jsonException);
+            }
+        }
+        //------------------------------------------------------------------------------------       
         // POST api/v1/order/applybottomlinedaysperweek
         [HttpPost("applybottomlinedaysperweek")]
         public async Task<IActionResult> ApplyBottomLineDaysPerWeek([FromBody] BottomLineDaysPerWeekRequest request)
@@ -232,13 +293,13 @@ namespace WebApi.Modules.Home.Quote
             return await DoPostAsync<QuoteLogic>(l);
         }
         //------------------------------------------------------------------------------------
-        // DELETE api/v1/quote/A0000001
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteAsync([FromRoute]string id)
-        {
-            return await DoDeleteAsync(id, typeof(QuoteLogic));
-        }
-        //------------------------------------------------------------------------------------
+        //// DELETE api/v1/quote/A0000001
+        //[HttpDelete("{id}")]
+        //public async Task<IActionResult> DeleteAsync([FromRoute]string id)
+        //{
+        //    return await DoDeleteAsync(id, typeof(QuoteLogic));
+        //}
+        ////------------------------------------------------------------------------------------
         // POST api/v1/quote/validateduplicate
         [HttpPost("validateduplicate")]
         public async Task<IActionResult> ValidateDuplicateAsync([FromBody]ValidateDuplicateRequest request)
