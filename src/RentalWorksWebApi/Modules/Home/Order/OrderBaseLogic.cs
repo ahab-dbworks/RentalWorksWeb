@@ -301,7 +301,7 @@ namespace WebApi.Modules.Home.Order
 
 
 
-        public string OutDeliveryId { get { return dealOrder.OutDeliveryId; } set { dealOrder.OutDeliveryId = value; } }
+        public string OutDeliveryId { get { return dealOrder.OutDeliveryId; } set { dealOrder.OutDeliveryId = value; outDelivery.DeliveryId = value; } }
         //public string OrderId { get { return outDelivery.OrderId; } set { outDelivery.OrderId = value; } }
         public string OutDeliveryDeliveryType { get { return outDelivery.DeliveryType; } set { outDelivery.DeliveryType = value; } }
         public string OutDeliveryRequiredDate { get { return outDelivery.RequiredDate; } set { outDelivery.RequiredDate = value; } }
@@ -370,7 +370,7 @@ namespace WebApi.Modules.Home.Order
 
 
 
-        public string InDeliveryId { get { return dealOrder.InDeliveryId; } set { dealOrder.InDeliveryId = value; } }
+        public string InDeliveryId { get { return dealOrder.InDeliveryId; } set { dealOrder.InDeliveryId = value; inDelivery.DeliveryId = value; } }
         //public string OrderId { get { return inDelivery.OrderId; } set { inDelivery.OrderId = value; } }
         public string InDeliveryDeliveryType { get { return inDelivery.DeliveryType; } set { inDelivery.DeliveryType = value; } }
         public string InDeliveryRequiredDate { get { return inDelivery.RequiredDate; } set { inDelivery.RequiredDate = value; } }
@@ -615,11 +615,9 @@ namespace WebApi.Modules.Home.Order
         public string PeriodCombinedTotalIncludesTax { get; set; }
 
 
-        //------------------------------------------------------------------------------------
-
-
         public string DateStamp { get { return dealOrder.DateStamp; } set { dealOrder.DateStamp = value; dealOrderDetail.DateStamp = value; } }
         //------------------------------------------------------------------------------------
+
         public void TaxAssignPrimaryKeys(object sender, EventArgs e)
         {
             ((TaxRecord)sender).TaxId = tmpTaxId;
@@ -663,13 +661,13 @@ namespace WebApi.Modules.Home.Order
                 {
                     tax.TaxId = l2.TaxId;
                 }
-                if ((outDelivery.DeliveryId == null) || (outDelivery.DeliveryId.Equals(string.Empty)))
+                if (string.IsNullOrEmpty(OutDeliveryId))
                 {
-                    outDelivery.DeliveryId = l2.OutDeliveryId;
+                    OutDeliveryId = l2.OutDeliveryId;
                 }
-                if ((inDelivery.DeliveryId == null) || (inDelivery.DeliveryId.Equals(string.Empty)))
+                if (string.IsNullOrEmpty(InDeliveryId))
                 {
-                    inDelivery.DeliveryId = l2.InDeliveryId;
+                    InDeliveryId = l2.InDeliveryId;
                 }
             }
         }
