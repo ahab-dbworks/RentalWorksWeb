@@ -76,24 +76,85 @@
         });
 
         $generatedtr.find('div[data-browsedatafield="FromDate"]').on('change', 'input.value', function ($tr) {
-            console.log("test");
+            calculateExtended('Extended');
         });
         $generatedtr.find('div[data-browsedatafield="ToDate"]').on('change', 'input.value', function ($tr) {
-            console.log("test");
+            calculateExtended('Extended');
         });
         $generatedtr.find('div[data-browsedatafield="QuantityOrdered"]').on('change', 'input.value', function ($tr) {
-            console.log("test");
+            calculateExtended('Extended');
         });
         $generatedtr.find('div[data-browsedatafield="Price"]').on('change', 'input.value', function ($tr) {
-            console.log("test");
+            calculateExtended('Extended');
         });
         $generatedtr.find('div[data-browsedatafield="DaysPerWeek"]').on('change', 'input.value', function ($tr) {
-            console.log("test");
+            calculateExtended('Extended');
         });
         $generatedtr.find('div[data-browsedatafield="DiscountPercent"]').on('change', 'input.value', function ($tr) {
-            console.log("test");
+            calculateExtended('Extended');
         });
-    };
+        $generatedtr.find('div[data-browsedatafield="UnitExtended"]').on('change', 'input.value', function ($tr) {
+            calculateExtended('Discount');
+        });
+        $generatedtr.find('div[data-browsedatafield="WeeklyExtended"]').on('change', 'input.value', function ($tr) {
+            calculateExtended('Discount');
+        });
+        $generatedtr.find('div[data-browsedatafield="MonthlyExtended"]').on('change', 'input.value', function ($tr) {
+            calculateExtended('Discount');
+        });
+        $generatedtr.find('div[data-browsedatafield="PeriodExtended"]').on('change', 'input.value', function ($tr) {
+            calculateExtended('Discount');
+        });
+
+
+        function calculateExtended(calculatedColumn) {
+            let rateType, fromDate, toDate, quantity, rate, daysPerWeek, discountPercent, weeklyExtended;
+            rateType = $form.find('[data-datafield="RateType"] input').val();
+            fromDate = $generatedtr.find('.field[data-browsedatafield="FromDate"] input').val();
+            toDate = $generatedtr.find('.field[data-browsedatafield="ToDate"] input').val();
+            quantity = $generatedtr.find('.field[data-browsedatafield="QuantityOrdered"] input').val();
+            rate = $generatedtr.find('.field[data-browsedatafield="Price"]').attr('data-originalvalue');
+            daysPerWeek = $generatedtr.find('.field[data-browsedatafield="DaysPerWeek"] input').val();
+            discountPercent = $generatedtr.find('.field[data-browsedatafield="DiscountPercent"] input').val();
+            weeklyExtended = $generatedtr.find('.field[data-browsedatafield="WeeklyExtended"]').attr('data-originalvalue');
+
+            let apiurl = "api/v1/orderitem/calculateextended?RateType="
+                + rateType
+                + "&FromDate="
+                + fromDate
+                + "&ToDate="
+                + toDate
+                + "&Quantity="
+                + quantity
+                + "&Rate="
+                + rate
+                + "&DaysPerWeek="
+                + daysPerWeek
+            if (calculatedColumn == 'Extended') {
+                apiurl += "&DiscountPercent=" + discountPercent;
+
+                FwAppData.apiMethod(true, 'GET', apiurl, null, FwServices.defaultTimeout, function onSuccess(response) {
+                    $generatedtr.find('.field[data-browsedatafield="WeeklyExtended"] input').val(response.WeeklyExtended);
+                    $generatedtr.find('.field[data-browsedatafield="WeeklyDiscount"] input').val(response.WeeklyDiscount);
+                    $generatedtr.find('.field[data-browsedatafield="MonthlyExtended"] input').val(response.MonthlyExtended);
+                    $generatedtr.find('.field[data-browsedatafield="MonthlyDiscount"] input').val(response.MonthlyDiscount);
+                    $generatedtr.find('.field[data-browsedatafield="PeriodExtended"] input').val(response.PeriodExtended);
+                    $generatedtr.find('.field[data-browsedatafield="PeriodDiscount"] input').val(response.PeriodDiscount);
+                }, null, $form);
+            }
+            if (calculatedColumn == 'Discount') {
+                apiurl += "&WeeklyExtended=" + weeklyExtended;
+            }
+            
+           
+        }
+
+
+
+     };
+
+
+   
 }
 
 FwApplicationTree.clickEvents['{77E511EC-5463-43A0-9C5D-B54407C97B15}'] = function (e) {
@@ -120,22 +181,22 @@ FwApplicationTree.clickEvents['{77E511EC-5463-43A0-9C5D-B54407C97B15}'] = functi
     search = new SearchInterface();
 
     if ($form.attr('data-controller') === 'OrderController') {
-        if (orderId == "") {
+        orderId = FwFormField.getValueByDataField($form, 'OrderId');
+        if (orderId == '') {
             FwNotification.renderNotification('WARNING', 'Please save the record before performing this function');
         } else {
-            orderId = FwFormField.getValueByDataField($form, 'OrderId');
             $popup = search.renderSearchPopup($form, orderId, 'Order', gridInventoryType);
         }
     } else {
-        if (quoteId == "") {
+        quoteId = FwFormField.getValueByDataField($form, 'QuoteId');
+        if (quoteId == '') {
             FwNotification.renderNotification('WARNING', 'Please save the record before performing this function');
         } else {
-            quoteId = FwFormField.getValueByDataField($form, 'QuoteId');
             $popup = search.renderSearchPopup($form, quoteId, 'Quote', gridInventoryType);
         }
 
     };
 }
 
-    var OrderItemGridController = new OrderItemGrid();
+var OrderItemGridController = new OrderItemGrid();
 //----------------------------------------------------------------------------------------------
