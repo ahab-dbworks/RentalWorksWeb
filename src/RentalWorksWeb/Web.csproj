@@ -788,6 +788,7 @@
     <Content Include="Source\Validations\MarketSegmentValidation\MarketSegmentValidationBrowse.htm" />
     <Content Include="Source\Validations\MarketTypeValidation\MarketTypeValidationBrowse.htm" />
     <Content Include="Source\Validations\QuoteValidation\QuoteValidationBrowse.htm" />
+    <Content Include="Source\Validations\RecTypeValidation\RecTypeValidationBrowse.htm" />
     <Content Include="Source\Validations\WarehouseCatalogValidation\WarehouseCatalogValidationBrowse.htm" />
     <Content Include="Source\Validations\RepairItemStatusValidation\RepairItemStatusValidationBrowse.htm" />
     <Content Include="Source\Validations\DocumentTypeValidation\DocumentTypeValidationBrowse.htm" />
