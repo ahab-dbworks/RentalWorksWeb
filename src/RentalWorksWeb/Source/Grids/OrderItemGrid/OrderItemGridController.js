@@ -67,21 +67,65 @@ var OrderItemGrid = (function () {
                 $generatedtr.find('.field[data-browsedatafield="DaysPerWeek"] input').val(daysPerWeek);
             }
         });
-        $generatedtr.find('div[data-browsedatafield="FromDate"]').on('change', 'input', function ($tr) {
+        $generatedtr.find('div[data-browsedatafield="FromDate"]').on('change', 'input.value', function ($tr) {
+            console.log("test");
         });
-        $generatedtr.find('div[data-browsedatafield="ToDate"]').on('change', 'input', function ($tr) {
+        $generatedtr.find('div[data-browsedatafield="ToDate"]').on('change', 'input.value', function ($tr) {
+            console.log("test");
         });
-        $generatedtr.find('div[data-browsedatafield="QuantityOrdered"]').on('change', 'input', function ($tr) {
+        $generatedtr.find('div[data-browsedatafield="QuantityOrdered"]').on('change', 'input.value', function ($tr) {
+            console.log("test");
         });
-        $generatedtr.find('div[data-browsedatafield="Rate"]').on('change', 'input', function ($tr) {
+        $generatedtr.find('div[data-browsedatafield="Price"]').on('change', 'input.value', function ($tr) {
+            console.log("test");
         });
-        $generatedtr.find('div[data-browsedatafield="DaysPerWeek"]').on('change', 'input', function ($tr) {
+        $generatedtr.find('div[data-browsedatafield="DaysPerWeek"]').on('change', 'input.value', function ($tr) {
+            console.log("test");
         });
-        $generatedtr.find('div[data-browsedatafield="DiscountPercent"]').on('change', 'input', function ($tr) {
+        $generatedtr.find('div[data-browsedatafield="DiscountPercent"]').on('change', 'input.value', function ($tr) {
+            console.log("test");
         });
     };
     ;
     return OrderItemGrid;
 }());
+FwApplicationTree.clickEvents['{77E511EC-5463-43A0-9C5D-B54407C97B15}'] = function (e) {
+    var grid = jQuery(e.currentTarget).parents('[data-control="FwGrid"]');
+    var search, $form, orderId, quoteId, $popup;
+    $form = jQuery(this).closest('.fwform');
+    var gridInventoryType;
+    if (grid.hasClass('R')) {
+        gridInventoryType = 'Rental';
+    }
+    if (grid.hasClass('S')) {
+        gridInventoryType = 'Sales';
+    }
+    if (grid.hasClass('L')) {
+        gridInventoryType = 'Labor';
+    }
+    if (grid.hasClass('M')) {
+        gridInventoryType = 'Misc';
+    }
+    search = new SearchInterface();
+    if ($form.attr('data-controller') === 'OrderController') {
+        if (orderId == "") {
+            FwNotification.renderNotification('WARNING', 'Please save the record before performing this function');
+        }
+        else {
+            orderId = FwFormField.getValueByDataField($form, 'OrderId');
+            $popup = search.renderSearchPopup($form, orderId, 'Order', gridInventoryType);
+        }
+    }
+    else {
+        if (quoteId == "") {
+            FwNotification.renderNotification('WARNING', 'Please save the record before performing this function');
+        }
+        else {
+            quoteId = FwFormField.getValueByDataField($form, 'QuoteId');
+            $popup = search.renderSearchPopup($form, quoteId, 'Quote', gridInventoryType);
+        }
+    }
+    ;
+};
 var OrderItemGridController = new OrderItemGrid();
 //# sourceMappingURL=OrderItemGridController.js.map

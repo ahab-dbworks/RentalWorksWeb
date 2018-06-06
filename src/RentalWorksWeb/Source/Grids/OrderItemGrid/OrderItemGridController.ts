@@ -2,10 +2,10 @@
     Module: string = 'OrderItemGrid';
     apiurl: string = 'api/v1/orderitem';
 
-     generateRow($control, $generatedtr) {
-         var $form = $control.closest('.fwform');
+    generateRow($control, $generatedtr) {
+        var $form = $control.closest('.fwform');
         $generatedtr.find('div[data-browsedatafield="InventoryId"]').data('onchange', function ($tr) {
-           
+
             if ($form[0].dataset.controller !== "TemplateController") {
                 var toDate = FwFormField.getValueByDataField($form, 'EstimatedStopDate');
                 var fromDate = FwFormField.getValueByDataField($form, 'EstimatedStartDate');
@@ -53,7 +53,7 @@
                 }, null, $form);
 
                 FwAppData.apiMethod(true, 'GET', "api/v1/taxable/" + inventoryId + "/" + officeLocationId, null, FwServices.defaultTimeout, function onSuccess(response) {
-                
+
                     if (response[0].Taxable) {
                         $generatedtr.find('.field[data-browsedatafield="Taxable"] input').prop('checked', 'true');
                     }
@@ -74,29 +74,68 @@
                 $generatedtr.find('.field[data-browsedatafield="DaysPerWeek"] input').val(daysPerWeek);
             }
         });
-        
-         $generatedtr.find('div[data-browsedatafield="FromDate"]').on('change', 'input', function ($tr) {
-             
-         });
-         $generatedtr.find('div[data-browsedatafield="ToDate"]').on('change', 'input', function ($tr) {
-        
-         });
-         $generatedtr.find('div[data-browsedatafield="QuantityOrdered"]').on('change', 'input', function ($tr) {
-           
-         });
-         $generatedtr.find('div[data-browsedatafield="Rate"]').on('change', 'input', function ($tr) {
-            
-         });
-         $generatedtr.find('div[data-browsedatafield="DaysPerWeek"]').on('change', 'input', function ($tr) {
-          
-         });
-         $generatedtr.find('div[data-browsedatafield="DiscountPercent"]').on('change', 'input', function ($tr) {
 
-         });
-     };
-
-
+        $generatedtr.find('div[data-browsedatafield="FromDate"]').on('change', 'input.value', function ($tr) {
+            console.log("test");
+        });
+        $generatedtr.find('div[data-browsedatafield="ToDate"]').on('change', 'input.value', function ($tr) {
+            console.log("test");
+        });
+        $generatedtr.find('div[data-browsedatafield="QuantityOrdered"]').on('change', 'input.value', function ($tr) {
+            console.log("test");
+        });
+        $generatedtr.find('div[data-browsedatafield="Price"]').on('change', 'input.value', function ($tr) {
+            console.log("test");
+        });
+        $generatedtr.find('div[data-browsedatafield="DaysPerWeek"]').on('change', 'input.value', function ($tr) {
+            console.log("test");
+        });
+        $generatedtr.find('div[data-browsedatafield="DiscountPercent"]').on('change', 'input.value', function ($tr) {
+            console.log("test");
+        });
+    };
 }
 
-var OrderItemGridController = new OrderItemGrid();
+FwApplicationTree.clickEvents['{77E511EC-5463-43A0-9C5D-B54407C97B15}'] = function (e) {
+    let grid = jQuery(e.currentTarget).parents('[data-control="FwGrid"]');
+
+    let search, $form, orderId, quoteId, $popup;
+    $form = jQuery(this).closest('.fwform');
+
+    let gridInventoryType;
+
+    if (grid.hasClass('R')) {
+        gridInventoryType = 'Rental';
+    }
+    if (grid.hasClass('S')) {
+        gridInventoryType = 'Sales';
+    }
+    if (grid.hasClass('L')) {
+        gridInventoryType = 'Labor';
+    }
+    if (grid.hasClass('M')) {
+        gridInventoryType = 'Misc';
+    }
+
+    search = new SearchInterface();
+
+    if ($form.attr('data-controller') === 'OrderController') {
+        if (orderId == "") {
+            FwNotification.renderNotification('WARNING', 'Please save the record before performing this function');
+        } else {
+            orderId = FwFormField.getValueByDataField($form, 'OrderId');
+            $popup = search.renderSearchPopup($form, orderId, 'Order', gridInventoryType);
+        }
+    } else {
+        if (quoteId == "") {
+            FwNotification.renderNotification('WARNING', 'Please save the record before performing this function');
+        } else {
+            quoteId = FwFormField.getValueByDataField($form, 'QuoteId');
+            $popup = search.renderSearchPopup($form, quoteId, 'Quote', gridInventoryType);
+        }
+
+    };
+}
+
+    var OrderItemGridController = new OrderItemGrid();
 //----------------------------------------------------------------------------------------------

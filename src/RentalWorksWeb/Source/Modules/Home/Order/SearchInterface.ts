@@ -1,5 +1,5 @@
 class SearchInterface {
-    renderSearchPopup($form, id, type) {
+    renderSearchPopup($form, id, type, gridInventoryType?) {
         var self = this;
 
         var html = [];
@@ -166,16 +166,48 @@ class SearchInterface {
         });
 
         var inventoryTypeRequest: any = {};
-
         inventoryTypeRequest.uniqueids = {
             Rental: true
         }
         inventoryTypeRequest.searchfieldoperators = ["<>"];
         inventoryTypeRequest.searchfields = ["Inactive"];
         inventoryTypeRequest.searchfieldvalues = ["T"];
-
         var categoryType = 'rentalcategory',
             availableFor = FwFormField.getValueByDataField($popup, 'InventoryType');
+
+        if (gridInventoryType != "") {
+            let inventoryType = $popup.find('[data-datafield="InventoryType"]');
+            switch (gridInventoryType) {
+                case 'Rental':
+                    inventoryTypeRequest.uniqueids = {
+                        Rental: true
+                    }
+                    categoryType = 'rentalcategory';
+                    inventoryType.find('[value="R"]').prop('checked', true);
+                    break;
+                case 'Sales':
+                    inventoryTypeRequest.uniqueids = {
+                        Sales: true
+                    }
+                    categoryType = 'salescategory';
+                    inventoryType.find('[value="S"]').prop('checked', true);
+                    break;
+                case 'Labor':
+                    inventoryTypeRequest.uniqueids = {
+                        Labor: true
+                    }
+                    categoryType = 'laborcategory';
+                    inventoryType.find('[value="L"]').prop('checked', true);
+                    break;
+                case 'Misc':
+                    inventoryTypeRequest.uniqueids = {
+                        Misc: true
+                    }
+                    categoryType = 'misccategory';
+                    inventoryType.find('[value="M"]').prop('checked', true);
+                    break;
+            }
+        }
 
         $popup.find('[data-type="radio"]').on('change', function () {
             availableFor = $popup.find('[data-type="radio"] input:checked').val();
@@ -310,6 +342,7 @@ class SearchInterface {
 
             var types = [];
             var inventoryTypeColumn = $popup.find('#inventoryType');
+            inventoryTypeColumn.empty();
             for (let i = 0; i < response.Rows.length; i++) {
                 if (types.indexOf(response.Rows[i][inventoryTypeIndex]) == -1) {
                     types.push(response.Rows[i][inventoryTypeIndex]);
