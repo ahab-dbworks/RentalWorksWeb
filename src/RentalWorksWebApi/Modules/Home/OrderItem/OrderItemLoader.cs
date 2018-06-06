@@ -242,6 +242,9 @@ namespace WebApi.Modules.Home.OrderItem
         [FwSqlDataField(column: "variancepct", modeltype: FwDataTypes.Decimal)]
         public decimal? VariancePercent { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "locked", modeltype: FwDataTypes.Boolean)]
+        public bool? Locked { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "taxable", modeltype: FwDataTypes.Boolean)]
         public bool? Taxable { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -357,9 +360,6 @@ namespace WebApi.Modules.Home.OrderItem
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "returntowarehouseidsummary", modeltype: FwDataTypes.Text)]
         //public string Returntowarehouseidsummary { get; set; }
-        ////------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "locked", modeltype: FwDataTypes.Boolean)]
-        //public bool? Locked { get; set; }
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "manualbillflg", modeltype: FwDataTypes.Boolean)]
         //public bool? Manualbillflg { get; set; }

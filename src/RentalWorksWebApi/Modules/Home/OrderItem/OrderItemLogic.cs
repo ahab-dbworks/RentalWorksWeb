@@ -157,7 +157,7 @@ namespace WebApi.Modules.Home.OrderItem
 
 
 
-
+        public bool? Locked { get { return orderItem.Locked; } set { orderItem.Locked = value; } }
         public bool? Taxable { get { return orderItem.Taxable; } set { orderItem.Taxable = value; } }
 
         public string WarehouseId { get { return orderItem.WarehouseId; } set { orderItem.WarehouseId = value; } }
@@ -245,7 +245,6 @@ namespace WebApi.Modules.Home.OrderItem
         //public string ReturntowarehouseId { get { return orderItem.ReturntowarehouseId; } set { orderItem.ReturntowarehouseId = value; } }
         //[FwBusinessLogicField(isReadOnly: true)]
         //public string Returntowarehouseidsummary { get; set; }
-        //public bool? Locked { get { return orderItem.Locked; } set { orderItem.Locked = value; } }
         //public bool? Taxable { get { return orderItem.Taxable; } set { orderItem.Taxable = value; } }
         //public bool? Manualbillflg { get { return orderItem.Manualbillflg; } set { orderItem.Manualbillflg = value; } }
         //public string UnitId { get { return orderItem.UnitId; } set { orderItem.UnitId = value; } }
@@ -590,13 +589,27 @@ namespace WebApi.Modules.Home.OrderItem
                 OriginalParentId = oiOrig.ParentId;
                 OriginalQuantityOrdered = oiOrig.QuantityOrdered;
 
-                if (OriginalItemClass != null)
+                if (oiOrig.Locked.Value)
                 {
-                    if ((OriginalItemClass.Equals(RwConstants.INVENTORY_CLASSIFICATION_KIT)) || (OriginalItemClass.Equals(RwConstants.INVENTORY_CLASSIFICATION_COMPLETE)))
+                    Price = oiOrig.Price;
+                    Price2 = oiOrig.Price2;
+                    Price3 = oiOrig.Price3;
+                    Price4 = oiOrig.Price4;
+                    Price5 = oiOrig.Price5;
+                    DiscountPercent = oiOrig.DiscountPercent;
+                    DaysPerWeek = oiOrig.DaysPerWeek;
+                }
+
+                if (QuantityOrdered != null)
+                {
+                    if (OriginalItemClass != null)
                     {
-                        if (OriginalQuantityOrdered != QuantityOrdered)
+                        if ((OriginalItemClass.Equals(RwConstants.INVENTORY_CLASSIFICATION_KIT)) || (OriginalItemClass.Equals(RwConstants.INVENTORY_CLASSIFICATION_COMPLETE)))
                         {
-                            bool b2 = AppFunc.UpdatePackageQuantities(AppConfig, UserSession, this).Result;
+                            if (OriginalQuantityOrdered != QuantityOrdered)
+                            {
+                                bool b2 = AppFunc.UpdatePackageQuantities(AppConfig, UserSession, this).Result;
+                            }
                         }
                     }
                 }

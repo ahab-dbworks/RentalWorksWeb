@@ -102,6 +102,9 @@ namespace WebApi.Modules.Home.MasterItem
         [FwSqlDataField(column: "discountpct", modeltype: FwDataTypes.Decimal, sqltype: "numeric", precision: 16, scale: 10)]
         public decimal? DiscountPercent { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "locked", modeltype: FwDataTypes.Boolean, sqltype: "char")]
+        public bool? Locked { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "taxable", modeltype: FwDataTypes.Boolean, sqltype: "char")]
         public bool? Taxable { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -125,9 +128,6 @@ namespace WebApi.Modules.Home.MasterItem
 
         //[FwSqlDataField(column: "repairid", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 8)]
         //public string RepairId { get; set; }
-        ////------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "locked", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        //public bool? Locked { get; set; }
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "orgmasteritemid", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 8)]
         //public string OrgmasteritemId { get; set; }
