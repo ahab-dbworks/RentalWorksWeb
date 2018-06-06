@@ -9,6 +9,7 @@ using FwCore.Modules.Administrator.Group;
 namespace WebApi.Modules.Administrator.Group
 {
     [Route("api/v1/[controller]")]
+    [ApiExplorerSettings(GroupName = "administrator-v1")]
     public class GroupController : FwGroupController
     {
         public GroupController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(FwGroupLogic); }
