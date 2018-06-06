@@ -2980,5 +2980,13 @@ namespace WebApi.Modules.Settings.OrderType
         public string DateStamp { get; set; }
         //------------------------------------------------------------------------------------ 
 
+
+
+        public List<string> CombinedShowFields { get; set; }
+        public List<string> RentalShowFields { get; set; }
+        public List<string> SalesShowFields { get; set; }
+        public List<string> MiscShowFields { get; set; }
+        public List<string> LaborShowFields { get; set; }
+
     }
 }
