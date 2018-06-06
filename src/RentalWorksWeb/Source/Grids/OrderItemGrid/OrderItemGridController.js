@@ -4,8 +4,8 @@ var OrderItemGrid = (function () {
         this.apiurl = 'api/v1/orderitem';
     }
     OrderItemGrid.prototype.generateRow = function ($control, $generatedtr) {
+        var $form = $control.closest('.fwform');
         $generatedtr.find('div[data-browsedatafield="InventoryId"]').data('onchange', function ($tr) {
-            var $form = $control.closest('.fwform');
             if ($form[0].dataset.controller !== "TemplateController") {
                 var toDate = FwFormField.getValueByDataField($form, 'EstimatedStopDate');
                 var fromDate = FwFormField.getValueByDataField($form, 'EstimatedStartDate');
@@ -66,6 +66,18 @@ var OrderItemGrid = (function () {
                 $generatedtr.find('.field[data-browsedatafield="DiscountPercent"] input').val(discountPercent);
                 $generatedtr.find('.field[data-browsedatafield="DaysPerWeek"] input').val(daysPerWeek);
             }
+        });
+        $generatedtr.find('div[data-browsedatafield="FromDate"]').on('change', 'input', function ($tr) {
+        });
+        $generatedtr.find('div[data-browsedatafield="ToDate"]').on('change', 'input', function ($tr) {
+        });
+        $generatedtr.find('div[data-browsedatafield="QuantityOrdered"]').on('change', 'input', function ($tr) {
+        });
+        $generatedtr.find('div[data-browsedatafield="Rate"]').on('change', 'input', function ($tr) {
+        });
+        $generatedtr.find('div[data-browsedatafield="DaysPerWeek"]').on('change', 'input', function ($tr) {
+        });
+        $generatedtr.find('div[data-browsedatafield="DiscountPercent"]').on('change', 'input', function ($tr) {
         });
     };
     ;
