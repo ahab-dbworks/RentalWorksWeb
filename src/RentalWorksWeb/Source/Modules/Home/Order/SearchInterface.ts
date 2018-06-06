@@ -416,6 +416,11 @@ class SearchInterface {
                         categoryColumn.append('<ul class="fitText" style="cursor:pointer; padding:10px 10px 10px 15px; margin:1px;" data-value="' + response.Rows[i][categoryIdIndex] + '"><span>' + response.Rows[i][categoryIndex] + '</span></ul>');
                     }
                 }
+
+                if (response.Rows.length == 1) {
+                    $popup.find("#category > ul").trigger('click');
+                }
+
                 self.fitToParent('#category .fitText span');
             }, null, $searchpopup);
             self.categoryOnClickEvents($popup, request, categoryType);
@@ -489,6 +494,11 @@ class SearchInterface {
                         subCategoryColumn.append('<ul class="fitText" style="cursor:pointer; padding:10px 10px 10px 15px; margin:1px;" data-value="' + response.Rows[i][subCategoryIdIndex] + '"><span>' + response.Rows[i][subCategoryIndex] + '</span></ul>');
                     }
                 }
+
+                if (response.Rows.length == 1) {
+                    $popup.find("#subCategory > ul").trigger('click');
+                }
+
                 self.fitToParent('#subCategory .fitText span');
                 let hasSubCategories = false;
                 if (response.Rows.length > 0) {
