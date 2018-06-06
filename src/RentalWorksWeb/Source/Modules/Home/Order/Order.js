@@ -238,11 +238,6 @@ var Order = (function () {
         FwFormField.disable($form.find('[data-datafield="RentalTaxRate1"]'));
         FwFormField.disable($form.find('[data-datafield="SalesTaxRate1"]'));
         FwFormField.disable($form.find('[data-datafield="LaborTaxRate1"]'));
-        $form.find('div[data-datafield="TaxOptionId"]').data('onchange', function ($tr) {
-            FwFormField.setValue($form, 'div[data-datafield="RentalTaxRate1"]', $tr.find('.field[data-browsedatafield="RentalTaxRate1"]').attr('data-originalvalue'));
-            FwFormField.setValue($form, 'div[data-datafield="SalesTaxRate1"]', $tr.find('.field[data-browsedatafield="SalesTaxRate1"]').attr('data-originalvalue'));
-            FwFormField.setValue($form, 'div[data-datafield="LaborTaxRate1"]', $tr.find('.field[data-browsedatafield="LaborTaxRate1"]').attr('data-originalvalue'));
-        });
         $form.find('div[data-datafield="DealId"]').data('onchange', function ($tr) {
             var type = $tr.find('.field[data-browsedatafield="DefaultRate"]').attr('data-originalvalue');
             FwFormField.setValueByDataField($form, 'RateType', type);
@@ -297,6 +292,7 @@ var Order = (function () {
                 $form.find('.summarySection').css('flex', '');
             }
         });
+        this.events($form);
         return $form;
     };
     ;
@@ -368,7 +364,6 @@ var Order = (function () {
         $orderItemGridRental = $form.find('.rentalgrid div[data-grid="OrderItemGrid"]');
         $orderItemGridRentalControl = jQuery(jQuery('#tmpl-grids-OrderItemGridBrowse').html());
         $orderItemGridRental.empty().append($orderItemGridRentalControl);
-        $orderItemGridRentalControl.data('rental_grid');
         $orderItemGridRentalControl.data('isSummary', false);
         $orderItemGridRental.addClass('R');
         $orderItemGridRentalControl.data('ondatabind', function (request) {
@@ -757,11 +752,50 @@ var Order = (function () {
     };
     ;
     Order.prototype.events = function ($form) {
-    };
-    Order.prototype.afterLoad = function ($form) {
         var _this = this;
-        var $orderItemGridRental = $form.find('.rentalgrid [data-name="OrderItemGrid"]');
-        $orderItemGridRental.data('rental_grid');
+        $form.find('div[data-datafield="TaxOptionId"]').data('onchange', function ($tr) {
+            FwFormField.setValue($form, 'div[data-datafield="RentalTaxRate1"]', $tr.find('.field[data-browsedatafield="RentalTaxRate1"]').attr('data-originalvalue'));
+            FwFormField.setValue($form, 'div[data-datafield="SalesTaxRate1"]', $tr.find('.field[data-browsedatafield="SalesTaxRate1"]').attr('data-originalvalue'));
+            FwFormField.setValue($form, 'div[data-datafield="LaborTaxRate1"]', $tr.find('.field[data-browsedatafield="LaborTaxRate1"]').attr('data-originalvalue'));
+        });
+        $form.find('div[data-datafield="MarketSegmentJobId"]').data('onchange', function ($tr) {
+            FwFormField.setValue($form, 'div[data-datafield="MarketTypeId"]', $tr.find('.field[data-browsedatafield="MarketTypeId"]').attr('data-originalvalue'), $tr.find('.field[data-browsedatafield="MarketType"]').attr('data-originalvalue'));
+            FwFormField.setValue($form, 'div[data-datafield="MarketSegmentId"]', $tr.find('.field[data-browsedatafield="MarketSegmentId"]').attr('data-originalvalue'), $tr.find('.field[data-browsedatafield="MarketSegment"]').attr('data-originalvalue'));
+        });
+        $form.find('div[data-datafield="MarketSegmentId"]').data('onchange', function ($tr) {
+            FwFormField.setValue($form, 'div[data-datafield="MarketTypeId"]', $tr.find('.field[data-browsedatafield="MarketTypeId"]').attr('data-originalvalue'), $tr.find('.field[data-browsedatafield="MarketType"]').attr('data-originalvalue'));
+            FwFormField.setValue($form, 'div[data-datafield="MarketSegmentJobId"]', $tr.find('.field[data-browsedatafield="MarketSegmentJobId"]').attr('data-originalvalue'), $tr.find('.field[data-browsedatafield="MarketSegmentJob"]').attr('data-originalvalue'));
+        });
+        $form.find('[data-datafield="MarketTypeId"] input').on('change', function (event) {
+            FwFormField.setValueByDataField($form, 'MarketSegmentId', '');
+            FwFormField.setValueByDataField($form, 'MarketSegmentJobId', '');
+        });
+        $form.find('[data-datafield="MarketSegmentId"] input').on('change', function (event) {
+            FwFormField.setValueByDataField($form, 'MarketSegmentJobId', '');
+        });
+        $form.find('.bottom_line_total_tax').on('change', function (event) {
+            _this.bottomLineTotalWithTaxChange($form, event);
+        });
+        $form.find('.bottom_line_discount').on('change', function (event) {
+            _this.bottomLineDiscountChange($form, event);
+        });
+        $form.find('.RentalDaysPerWeek').on('change', '.fwformfield-text, .fwformfield-value', function (event) {
+            var request = {};
+            var $orderItemGridRental = $form.find('.rentalgrid [data-name="OrderItemGrid"]');
+            var orderId = FwFormField.getValueByDataField($form, 'OrderId');
+            var daysperweek = FwFormField.getValueByDataField($form, 'RentalDaysPerWeek');
+            request.DaysPerWeek = parseFloat(daysperweek);
+            request.RecType = 'R';
+            request.OrderId = orderId;
+            FwAppData.apiMethod(true, 'POST', "api/v1/order/applybottomlinedaysperweek/", request, FwServices.defaultTimeout, function onSuccess(response) {
+                FwBrowse.search($orderItemGridRental);
+            }, function onError(response) {
+                FwFunc.showError(response);
+            }, $form);
+        });
+    };
+    ;
+    Order.prototype.afterLoad = function ($form) {
         var $orderPickListGrid;
         $orderPickListGrid = $form.find('[data-name="OrderPickListGrid"]');
         FwBrowse.search($orderPickListGrid);
@@ -813,36 +847,7 @@ var Order = (function () {
         else {
             $form.find(".RentalDaysPerWeek").hide();
         }
-        $form.find('.bottom_line_total_tax').on('change', function (event) {
-            _this.bottomLineTotalWithTaxChange($form, event);
-        });
-        $form.find('.bottom_line_discount').on('change', function (event) {
-            _this.bottomLineDiscountChange($form, event);
-        });
-        $form.find('.order_item_view_select').on('change', function (event) {
-            _this.toggleOrderItemView($form, event);
-        });
-        $form.find('[data-datafield="MarketTypeId"] input').on('change', function (event) {
-            FwFormField.setValueByDataField($form, 'MarketSegmentId', '');
-            FwFormField.setValueByDataField($form, 'MarketSegmentJobId', '');
-        });
-        $form.find('[data-datafield="MarketSegmentId"] input').on('change', function (event) {
-            FwFormField.setValueByDataField($form, 'MarketSegmentJobId', '');
-        });
         this.disableWithTaxCheckbox($form);
-        $form.find('.RentalDaysPerWeek').on('change', '.fwformfield-text, .fwformfield-value', function (event) {
-            var request = {};
-            var orderId = FwFormField.getValueByDataField($form, 'OrderId');
-            var daysperweek = FwFormField.getValueByDataField($form, 'RentalDaysPerWeek');
-            request.DaysPerWeek = parseFloat(daysperweek);
-            request.RecType = 'R';
-            request.OrderId = orderId;
-            FwAppData.apiMethod(true, 'POST', "api/v1/order/applybottomlinedaysperweek/", request, FwServices.defaultTimeout, function onSuccess(response) {
-                FwBrowse.search($orderItemGridRental);
-            }, function onError(response) {
-                FwFunc.showError(response);
-            }, $form);
-        });
     };
     ;
     Order.prototype.disableWithTaxCheckbox = function ($form) {

@@ -275,11 +275,7 @@ class Order {
         FwFormField.disable($form.find('[data-datafield="SalesTaxRate1"]'));
         FwFormField.disable($form.find('[data-datafield="LaborTaxRate1"]'));
 
-        $form.find('div[data-datafield="TaxOptionId"]').data('onchange', function ($tr) {
-            FwFormField.setValue($form, 'div[data-datafield="RentalTaxRate1"]', $tr.find('.field[data-browsedatafield="RentalTaxRate1"]').attr('data-originalvalue'));
-            FwFormField.setValue($form, 'div[data-datafield="SalesTaxRate1"]', $tr.find('.field[data-browsedatafield="SalesTaxRate1"]').attr('data-originalvalue'));
-            FwFormField.setValue($form, 'div[data-datafield="LaborTaxRate1"]', $tr.find('.field[data-browsedatafield="LaborTaxRate1"]').attr('data-originalvalue'));
-        });
+       
 
         $form.find('div[data-datafield="DealId"]').data('onchange', function ($tr) {
             var type = $tr.find('.field[data-browsedatafield="DefaultRate"]').attr('data-originalvalue');
@@ -289,7 +285,7 @@ class Order {
             FwFormField.setValue($form, 'div[data-datafield="PaymentTermsId"]', $tr.find('.field[data-browsedatafield="PaymentTermsId"]').attr('data-originalvalue'), $tr.find('.field[data-browsedatafield="PaymentTerms"]').attr('data-originalvalue'));
             FwFormField.setValue($form, 'div[data-datafield="PaymentTypeId"]', $tr.find('.field[data-browsedatafield="PaymentTypeId"]').attr('data-originalvalue'), $tr.find('.field[data-browsedatafield="PaymentType"]').attr('data-originalvalue'));
             FwFormField.setValue($form, 'div[data-datafield="CurrencyId"]', $tr.find('.field[data-browsedatafield="CurrencyId"]').attr('data-originalvalue'), $tr.find('.field[data-browsedatafield="Currency"]').attr('data-originalvalue'));
-        })
+        });
 
         $form.find('div[data-datafield="EstimatedStartTime"]').attr('data-required', false);
         $form.find('div[data-datafield="EstimatedStopTime"]').attr('data-required', false);    
@@ -340,6 +336,8 @@ class Order {
                 $form.find('.summarySection').css('flex', '');
             }
         });
+
+        this.events($form);
 
         return $form;
     };
@@ -424,7 +422,6 @@ class Order {
         $orderItemGridRental = $form.find('.rentalgrid div[data-grid="OrderItemGrid"]');
         $orderItemGridRentalControl = jQuery(jQuery('#tmpl-grids-OrderItemGridBrowse').html());
         $orderItemGridRental.empty().append($orderItemGridRentalControl);
-        $orderItemGridRentalControl.data('rental_grid');
         $orderItemGridRentalControl.data('isSummary', false);
         $orderItemGridRental.addClass('R');
 
@@ -868,14 +865,60 @@ class Order {
 
     //----------------------------------------------------------------------------------------------
     events($form: any) {
+        //Populate xax info fields with validation
+        $form.find('div[data-datafield="TaxOptionId"]').data('onchange', function ($tr) {
+            FwFormField.setValue($form, 'div[data-datafield="RentalTaxRate1"]', $tr.find('.field[data-browsedatafield="RentalTaxRate1"]').attr('data-originalvalue'));
+            FwFormField.setValue($form, 'div[data-datafield="SalesTaxRate1"]', $tr.find('.field[data-browsedatafield="SalesTaxRate1"]').attr('data-originalvalue'));
+            FwFormField.setValue($form, 'div[data-datafield="LaborTaxRate1"]', $tr.find('.field[data-browsedatafield="LaborTaxRate1"]').attr('data-originalvalue'));
+        });
+        //MarketSegmentValidations
+        $form.find('div[data-datafield="MarketSegmentJobId"]').data('onchange', $tr => {
+            FwFormField.setValue($form, 'div[data-datafield="MarketTypeId"]', $tr.find('.field[data-browsedatafield="MarketTypeId"]').attr('data-originalvalue'), $tr.find('.field[data-browsedatafield="MarketType"]').attr('data-originalvalue'));
+            FwFormField.setValue($form, 'div[data-datafield="MarketSegmentId"]', $tr.find('.field[data-browsedatafield="MarketSegmentId"]').attr('data-originalvalue'), $tr.find('.field[data-browsedatafield="MarketSegment"]').attr('data-originalvalue'));
+        });
+        //MarketSegmentValidations
+        $form.find('div[data-datafield="MarketSegmentId"]').data('onchange', $tr => {
+            FwFormField.setValue($form, 'div[data-datafield="MarketTypeId"]', $tr.find('.field[data-browsedatafield="MarketTypeId"]').attr('data-originalvalue'), $tr.find('.field[data-browsedatafield="MarketType"]').attr('data-originalvalue'));
+            FwFormField.setValue($form, 'div[data-datafield="MarketSegmentJobId"]', $tr.find('.field[data-browsedatafield="MarketSegmentJobId"]').attr('data-originalvalue'), $tr.find('.field[data-browsedatafield="MarketSegmentJob"]').attr('data-originalvalue'));
+        });
+        // This must be below the MarketSegment Validation behavaviors
+        $form.find('[data-datafield="MarketTypeId"] input').on('change', event => {
+            FwFormField.setValueByDataField($form, 'MarketSegmentId', '');
+            FwFormField.setValueByDataField($form, 'MarketSegmentJobId', '');
+        });
+        // This must be below the MarketSegment Validation behavaviors
+        $form.find('[data-datafield="MarketSegmentId"] input').on('change', event => {
+            FwFormField.setValueByDataField($form, 'MarketSegmentJobId', '');
+        });
+        // Bottom Line Total with Tax
+        $form.find('.bottom_line_total_tax').on('change', event => {
+            this.bottomLineTotalWithTaxChange($form, event);
+        });
+        // Bottom Line Discount
+        $form.find('.bottom_line_discount').on('change', event => {
+            this.bottomLineDiscountChange($form, event);
+        });
+        // RentalDaysPerWeek for Rental OrderItemGrid
+        $form.find('.RentalDaysPerWeek').on('change', '.fwformfield-text, .fwformfield-value', event => {
+            let request: any = {};
+            let $orderItemGridRental = $form.find('.rentalgrid [data-name="OrderItemGrid"]');
+            let orderId = FwFormField.getValueByDataField($form, 'OrderId');
+            let daysperweek = FwFormField.getValueByDataField($form, 'RentalDaysPerWeek');
 
-    }
+            request.DaysPerWeek = parseFloat(daysperweek);
+            request.RecType = 'R';
+            request.OrderId = orderId;
+
+            FwAppData.apiMethod(true, 'POST', `api/v1/order/applybottomlinedaysperweek/`, request, FwServices.defaultTimeout, function onSuccess(response) {
+                FwBrowse.search($orderItemGridRental);
+            }, function onError(response) {
+                FwFunc.showError(response);
+            }, $form);
+        });
+    };
 
     //----------------------------------------------------------------------------------------------
     afterLoad($form) {
-        var $orderItemGridRental = $form.find('.rentalgrid [data-name="OrderItemGrid"]');
-        $orderItemGridRental.data('rental_grid');
-
         var $orderPickListGrid;
         $orderPickListGrid = $form.find('[data-name="OrderPickListGrid"]');
         FwBrowse.search($orderPickListGrid);
@@ -934,50 +977,8 @@ class Order {
         } else {
             $form.find(".RentalDaysPerWeek").hide();
         }
-
-        // Bottom Line Total with Tax
-        $form.find('.bottom_line_total_tax').on('change', event => {
-            this.bottomLineTotalWithTaxChange($form, event);
-        });
-
-        // Bottom Line Discount
-        $form.find('.bottom_line_discount').on('change', event => {
-            this.bottomLineDiscountChange($form, event);
-        });
-
-        // Order Item Grid View
-        $form.find('.order_item_view_select').on('change', event => {
-            this.toggleOrderItemView($form, event);
-        });
-
-        $form.find('[data-datafield="MarketTypeId"] input').on('change', event => {
-            FwFormField.setValueByDataField($form, 'MarketSegmentId', '');
-            FwFormField.setValueByDataField($form, 'MarketSegmentJobId', '');
-        });
-
-        $form.find('[data-datafield="MarketSegmentId"] input').on('change', event => {
-            FwFormField.setValueByDataField($form, 'MarketSegmentJobId', '');
-        });
-
         // Disable withTax checkboxes if Total field is 0.00
         this.disableWithTaxCheckbox($form);
- 
-        // RentalDaysPerWeek for Rental OrderItemGrid
-        $form.find('.RentalDaysPerWeek').on('change', '.fwformfield-text, .fwformfield-value', event => {
-            let request: any = {};
-            let orderId = FwFormField.getValueByDataField($form, 'OrderId');
-            let daysperweek = FwFormField.getValueByDataField($form, 'RentalDaysPerWeek');
-         
-            request.DaysPerWeek = parseFloat(daysperweek);
-            request.RecType = 'R';
-            request.OrderId = orderId;
-
-            FwAppData.apiMethod(true, 'POST', `api/v1/order/applybottomlinedaysperweek/`, request, FwServices.defaultTimeout, function onSuccess(response) {
-                FwBrowse.search($orderItemGridRental);
-            }, function onError(response) {
-                FwFunc.showError(response);
-            }, $form);
-        });
     };
 
     //----------------------------------------------------------------------------------------------

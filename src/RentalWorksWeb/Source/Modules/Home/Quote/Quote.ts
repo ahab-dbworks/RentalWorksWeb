@@ -286,12 +286,6 @@ class Quote {
         FwFormField.disable($form.find('[data-datafield="SalesTaxRate1"]'));
         FwFormField.disable($form.find('[data-datafield="LaborTaxRate1"]'));
 
-        $form.find('div[data-datafield="TaxOptionId"]').data('onchange', function ($tr) {
-            FwFormField.setValue($form, 'div[data-datafield="RentalTaxRate1"]', $tr.find('.field[data-browsedatafield="RentalTaxRate1"]').attr('data-originalvalue'));
-            FwFormField.setValue($form, 'div[data-datafield="SalesTaxRate1"]', $tr.find('.field[data-browsedatafield="SalesTaxRate1"]').attr('data-originalvalue'));
-            FwFormField.setValue($form, 'div[data-datafield="LaborTaxRate1"]', $tr.find('.field[data-browsedatafield="LaborTaxRate1"]').attr('data-originalvalue'));
-        });
-
         $form.find('div[data-datafield="DealId"]').data('onchange', function ($tr) {
             var type = $tr.find('.field[data-browsedatafield="DefaultRate"]').attr('data-originalvalue');
             FwFormField.setValueByDataField($form, 'RateType', type);
@@ -307,7 +301,6 @@ class Quote {
             { value: 'SHIP', text: 'Ship' },
             { value: 'PICK UP', text: 'Customer Pick Up' }
         ], true);
-
 
         FwFormField.loadItems($form.find('.intype'), [
             { value: 'DELIVER', text: 'Deliver' },
@@ -350,6 +343,8 @@ class Quote {
                 $form.find('.summarySection').css('flex', '');
             }
         });
+
+        this.events($form);
 
         return $form;
     }
@@ -698,7 +693,6 @@ class Quote {
         $orderStatusHistoryGrid = $form.find('[data-name="OrderStatusHistoryGrid"]');
         FwBrowse.search($orderStatusHistoryGrid);
 
-
         var $orderItemGridRental;
         $orderItemGridRental = $form.find('.rentalgrid [data-name="OrderItemGrid"]');
         FwBrowse.search($orderItemGridRental);
@@ -739,7 +733,6 @@ class Quote {
         } else {
             FwFormField.enable($form.find('[data-datafield="NoChargeReason"]'));
         }
-
         // Display weeks or month field in billing tab
         if (FwFormField.getValueByDataField($form, 'RateType') === 'MONTHLY') {
             $form.find(".BillingWeeks").hide();
@@ -748,14 +741,43 @@ class Quote {
             $form.find(".BillingMonths").hide();
             $form.find(".BillingWeeks").show();
         }
-
         // Display D/W field in rental
         if (FwFormField.getValueByDataField($form, 'RateType') === 'DAILY') {
             $form.find(".RentalDaysPerWeek").show();
         } else {
             $form.find(".RentalDaysPerWeek").hide();
         }
+        // Disable withTax checkboxes if Total field is 0.00
+        this.disableWithTaxCheckbox($form);
+    };
 
+    //----------------------------------------------------------------------------------------------
+    events($form: any) {
+        //Populate xax info fields with validation
+        $form.find('div[data-datafield="TaxOptionId"]').data('onchange', function ($tr) {
+            FwFormField.setValue($form, 'div[data-datafield="RentalTaxRate1"]', $tr.find('.field[data-browsedatafield="RentalTaxRate1"]').attr('data-originalvalue'));
+            FwFormField.setValue($form, 'div[data-datafield="SalesTaxRate1"]', $tr.find('.field[data-browsedatafield="SalesTaxRate1"]').attr('data-originalvalue'));
+            FwFormField.setValue($form, 'div[data-datafield="LaborTaxRate1"]', $tr.find('.field[data-browsedatafield="LaborTaxRate1"]').attr('data-originalvalue'));
+        });
+        //MarketSegmentValidations
+        $form.find('div[data-datafield="MarketSegmentJobId"]').data('onchange', $tr => {
+            FwFormField.setValue($form, 'div[data-datafield="MarketTypeId"]', $tr.find('.field[data-browsedatafield="MarketTypeId"]').attr('data-originalvalue'), $tr.find('.field[data-browsedatafield="MarketType"]').attr('data-originalvalue'));
+            FwFormField.setValue($form, 'div[data-datafield="MarketSegmentId"]', $tr.find('.field[data-browsedatafield="MarketSegmentId"]').attr('data-originalvalue'), $tr.find('.field[data-browsedatafield="MarketSegment"]').attr('data-originalvalue'));
+        });
+        //MarketSegmentValidations
+        $form.find('div[data-datafield="MarketSegmentId"]').data('onchange', $tr => {
+            FwFormField.setValue($form, 'div[data-datafield="MarketTypeId"]', $tr.find('.field[data-browsedatafield="MarketTypeId"]').attr('data-originalvalue'), $tr.find('.field[data-browsedatafield="MarketType"]').attr('data-originalvalue'));
+            FwFormField.setValue($form, 'div[data-datafield="MarketSegmentJobId"]', $tr.find('.field[data-browsedatafield="MarketSegmentJobId"]').attr('data-originalvalue'), $tr.find('.field[data-browsedatafield="MarketSegmentJob"]').attr('data-originalvalue'));
+        });
+        // This must be below the MarketSegment Validation behavaviors
+        $form.find('[data-datafield="MarketTypeId"] input').on('change', event => {
+            FwFormField.setValueByDataField($form, 'MarketSegmentId', '');
+            FwFormField.setValueByDataField($form, 'MarketSegmentJobId', '');
+        });
+        // This must be below the MarketSegment Validation behavaviors
+        $form.find('[data-datafield="MarketSegmentId"] input').on('change', event => {
+            FwFormField.setValueByDataField($form, 'MarketSegmentJobId', '');
+        });
         // Bottom Line Total with Tax
         $form.find('.bottom_line_total_tax').on('change', event => {
             this.bottomLineTotalWithTaxChange($form, event);
@@ -779,10 +801,6 @@ class Quote {
         $form.find('[data-datafield="MarketSegmentId"] input').on('change', event => {
             FwFormField.setValueByDataField($form, 'MarketSegmentJobId', '');
         });
-
-        // Disable withTax checkboxes if Total field is 0.00
-        this.disableWithTaxCheckbox($form);
-
         // RentalDaysPerWeek for Rental OrderItemGrid
         $form.find('.RentalDaysPerWeek').on('change', '.fwformfield-text, .fwformfield-value', event => {
             let request: any = {};
@@ -800,7 +818,7 @@ class Quote {
             }, $form);
         });
 
-    };
+    }
 
     //----------------------------------------------------------------------------------------------
     disableWithTaxCheckbox($form: any) {
