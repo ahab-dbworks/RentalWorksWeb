@@ -22040,7 +22040,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"OrderId\": \"00008L8G\",\n    \"OrderItemId\": \"00008L90\",\n      \"Notes\": \"DEF note\",\n}"
+							"raw": "{\n    \"OrderId\": \"I000006P\",\n    \"OrderItemId\": \"I000006Z\",\n    \"Bold\": true\n\n}"
 						},
 						"url": {
 							"raw": "http://localhost:57949/api/v1/orderitem",
@@ -22925,7 +22925,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"Description\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": [],\n    \t\"uniqueids\":{\"OrderId\":\"00003NB8\",\"RecType\":\"R\"}\n\t\n}"
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"Description\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": [],\n    \t\"uniqueids\":{\"OrderId\":\"F01R0988\",\"RecType\":\"S\"}\n\t\n}"
 						},
 						"url": {
 							"raw": "http://localhost:57949/api/v1/orderstatusdetail/browse",
@@ -25007,6 +25007,219 @@
 								"v1",
 								"paymenttype",
 								"00003AN7"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Personal Event",
+			"description": null,
+			"item": [
+				{
+					"name": "Personal Event: Get Many",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/personalevent",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"personalevent"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Personal Event: Browse",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"EventDate\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": [],\n    \t\"uniqueids\": {\"ContactId\": \"D00HHO5Q\"}\n\t\n}"
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/personalevent/browse",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"personalevent",
+								"browse"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Personal Event: Get One",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/personalevent/I00000FX",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"personalevent",
+								"I00000FX"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Personal Event: Insert",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"_Custom\": [],\n    \"ContactId\": \"D00HHO5Q\",\n    \"ContactEventId\": \"I00000FW\",\n    \"EventDate\": \"01/01/1951\",\n    \"RecordTitle\": \"\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/personalevent",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"personalevent"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Personal Event: Update",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"PersonalEventId\": \"I00000FZ\",\n    \"EventDate\": \"09/09/1959\",\n}"
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/personalevent",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"personalevent"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Personal Event: Delete",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/personalevent/I00000FZ",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"personalevent",
+								"I00000FZ"
 							]
 						}
 					},
@@ -30486,7 +30699,7 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "http://localhost:57949/api/v1/quote/F00V26E9",
+							"raw": "http://localhost:57949/api/v1/quote/I000006P",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -30496,7 +30709,7 @@
 								"api",
 								"v1",
 								"quote",
-								"F00V26E9"
+								"I000006P"
 							]
 						}
 					},
