@@ -3,6 +3,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using WebApi.Controllers;
 using System.Threading.Tasks;
+using System;
+using Microsoft.AspNetCore.Http;
+
 namespace WebApi.Modules.Home.RepairPart
 {
     [Route("api/v1/[controller]")]
@@ -59,5 +62,47 @@ namespace WebApi.Modules.Home.RepairPart
             return await DoValidateDuplicateAsync(request);
         }
         //------------------------------------------------------------------------------------ 
+
+        public class RepairPartExtended
+        {
+            public Decimal? Quantity;
+            public Decimal? Rate;
+            public Decimal? DiscountAmount;
+            public Decimal? Extended;
+            public Decimal? ExtendedUnrounded;
+        }
+
+        // GET api/v1/repairpart/calculateextended
+        [HttpGet("calculateextended")]
+        public IActionResult CalculateExtended(Decimal? Quantity, Decimal? Rate, Decimal? DiscountAmount)
+        {
+            try
+            {
+                RepairPartExtended extended = new RepairPartExtended();
+                extended.Quantity = Quantity;
+                extended.Rate = Rate;
+                extended.DiscountAmount = DiscountAmount;
+
+                //calculate extended here
+                extended.ExtendedUnrounded = ((extended.Quantity * extended.Rate) - extended.DiscountAmount);
+                extended.Extended = Math.Round(extended.ExtendedUnrounded.Value, 2);
+
+
+                return new OkObjectResult(extended);
+            }
+            catch (Exception ex)
+            {
+                FwApiException jsonException = new FwApiException();
+                jsonException.StatusCode = StatusCodes.Status500InternalServerError;
+                jsonException.Message = ex.Message;
+                jsonException.StackTrace = ex.StackTrace;
+                return StatusCode(jsonException.StatusCode, jsonException);
+            }
+        }
+        //------------------------------------------------------------------------------------ 
+
+
+
+
     }
 }
