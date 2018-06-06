@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace FwCore.Modules.Administrator.Group
 {
     [Route("api/v1/[controller]")]
-    public class FwGroupController : FwDataController
+    public abstract class FwGroupController : FwDataController
     {
         public FwGroupController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
         //------------------------------------------------------------------------------------ 

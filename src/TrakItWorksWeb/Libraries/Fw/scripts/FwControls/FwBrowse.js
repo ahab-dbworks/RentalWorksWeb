@@ -1547,12 +1547,22 @@ var FwBrowse = (function () {
                         }
                     }
                     FwBrowse.setFieldViewMode($control, $field, $tr);
+                    var AFTER_RENDER_FIELD = 'afterrenderfield';
+                    if (typeof $control.data(AFTER_RENDER_FIELD) === 'function') {
+                        var funcAfterRenderField = ($control.data(AFTER_RENDER_FIELD));
+                        funcAfterRenderField($tr, $td, $field, dt, rowIndex, dtColIndex);
+                    }
                 }
                 if (((typeof dt.ColumnIndex['inactive'] === 'number') && (dt.Rows[rowIndex][dt.ColumnIndex['inactive']] === 'T')) ||
                     ((typeof dt.ColumnIndex['Inactive'] === 'number') && (dt.Rows[rowIndex][dt.ColumnIndex['Inactive']] === true))) {
                     $tr.addClass('inactive');
                 }
                 $tbody.append($tr);
+                var AFTER_RENDER_ROW = 'afterrenderrow';
+                if (typeof $control.data(AFTER_RENDER_ROW) === 'function') {
+                    var funcAfterRenderRow = $control.data(AFTER_RENDER_ROW);
+                    funcAfterRenderRow($tr, dt, rowIndex);
+                }
             }
             if ($control.attr('data-type') === 'Grid') {
                 var $trs = $control.find('tbody tr');
@@ -2483,6 +2493,12 @@ var FwBrowse = (function () {
     };
     FwBrowse.setAfterDeleteCallback = function ($control, callback) {
         $control.data('afterdelete', callback);
+    };
+    FwBrowse.setAfterRenderRowCallback = function ($control, callback) {
+        $control.data('afterrenderrow', callback);
+    };
+    FwBrowse.setAfterRenderFieldCallback = function ($control, callback) {
+        $control.data('afterrenderfield', callback);
     };
     return FwBrowse;
 }());

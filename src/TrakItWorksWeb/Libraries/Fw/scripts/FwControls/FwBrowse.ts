@@ -1684,6 +1684,13 @@
                     }
 
                     FwBrowse.setFieldViewMode($control, $field, $tr);
+
+                    // if you want to dynamically change something on a .field or td:
+                    const AFTER_RENDER_FIELD = 'afterrenderfield';
+                    if (typeof $control.data(AFTER_RENDER_FIELD) === 'function') {
+                        let funcAfterRenderField: ($tr: JQuery, $td: JQuery, $field: JQuery, dt: any, rowIndex: number, colIndex: number) => void = ($control.data(AFTER_RENDER_FIELD));
+                        funcAfterRenderField($tr, $td, $field, dt, rowIndex, dtColIndex);
+                    }
                 }
 
                 if (((typeof dt.ColumnIndex['inactive'] === 'number') && (dt.Rows[rowIndex][dt.ColumnIndex['inactive']] === 'T')) ||
@@ -1691,6 +1698,13 @@
                     $tr.addClass('inactive');
                 }
                 $tbody.append($tr);
+
+                // if you want to dynamically change something on a tr:
+                const AFTER_RENDER_ROW = 'afterrenderrow';
+                if (typeof $control.data(AFTER_RENDER_ROW) === 'function') {
+                    let funcAfterRenderRow: ($tr: JQuery, dt: any, rowIndex: number) => void = $control.data(AFTER_RENDER_ROW);
+                    funcAfterRenderRow($tr, dt, rowIndex);
+                }
             }
 
             if ($control.attr('data-type') === 'Grid') {
@@ -2736,6 +2750,14 @@
     //---------------------------------------------------------------------------------
     static setAfterDeleteCallback($control: JQuery, callback: ($browse: JQuery, $tr: JQuery) => void) {
         $control.data('afterdelete', callback);
+    }
+    //---------------------------------------------------------------------------------
+    static setAfterRenderRowCallback = function($control: JQuery, callback: ($tr: JQuery, dt: any, rowIndex: number) => void) {
+        $control.data('afterrenderrow', callback);
+    }
+    //---------------------------------------------------------------------------------
+    static setAfterRenderFieldCallback = function($control: JQuery, callback: ($tr: JQuery, $td: JQuery, $field: JQuery, dt: any, rowIndex: number, colIndex: number) => void) {
+        $control.data('afterrenderfield', callback);
     }
     //---------------------------------------------------------------------------------
 }
