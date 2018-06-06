@@ -105,6 +105,9 @@ namespace WebApi.Modules.Home.MasterItem
         [FwSqlDataField(column: "locked", modeltype: FwDataTypes.Boolean, sqltype: "char")]
         public bool? Locked { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "bold", modeltype: FwDataTypes.Boolean, sqltype: "char")]
+        public bool? Bold { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "taxable", modeltype: FwDataTypes.Boolean, sqltype: "char")]
         public bool? Taxable { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -179,9 +182,6 @@ namespace WebApi.Modules.Home.MasterItem
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "ldoutcontractid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
         //public string LdoutcontractId { get; set; }
-        ////------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "bold", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        //public bool? Bold { get; set; }
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "countryoforiginid", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 8)]
         //public string CountryoforiginId { get; set; }

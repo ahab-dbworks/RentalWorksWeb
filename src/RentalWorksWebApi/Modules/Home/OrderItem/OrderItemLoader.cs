@@ -245,6 +245,9 @@ namespace WebApi.Modules.Home.OrderItem
         [FwSqlDataField(column: "locked", modeltype: FwDataTypes.Boolean)]
         public bool? Locked { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "bold", modeltype: FwDataTypes.Boolean)]
+        public bool? Bold { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "taxable", modeltype: FwDataTypes.Boolean)]
         public bool? Taxable { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -477,9 +480,6 @@ namespace WebApi.Modules.Home.OrderItem
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "countryoforigin", modeltype: FwDataTypes.Text)]
         //public string Countryoforigin { get; set; }
-        ////------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "bold", modeltype: FwDataTypes.Boolean)]
-        //public bool? Bold { get; set; }
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "excludefromquikpaydiscount", modeltype: FwDataTypes.Boolean)]
         //public bool? Excludefromquikpaydiscount { get; set; }

@@ -157,6 +157,7 @@ namespace WebApi.Modules.Home.OrderItem
 
 
 
+        public bool? Bold { get { return orderItem.Bold; } set { orderItem.Bold = value; } }
         public bool? Locked { get { return orderItem.Locked; } set { orderItem.Locked = value; } }
         public bool? Taxable { get { return orderItem.Taxable; } set { orderItem.Taxable = value; } }
 
@@ -314,7 +315,6 @@ namespace WebApi.Modules.Home.OrderItem
         //public string CountryoforiginId { get { return orderItem.CountryoforiginId; } set { orderItem.CountryoforiginId = value; } }
         //[FwBusinessLogicField(isReadOnly: true)]
         //public string Countryoforigin { get; set; }
-        //public bool? Bold { get { return orderItem.Bold; } set { orderItem.Bold = value; } }
         //public bool? Excludefromquikpaydiscount { get { return orderItem.Excludefromquikpaydiscount; } set { orderItem.Excludefromquikpaydiscount = value; } }
         //[FwBusinessLogicField(isReadOnly: true)]
         //public int? Availcolor { get; set; }
