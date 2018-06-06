@@ -44,8 +44,9 @@ class Repair {
   openBrowse = () => {
       let $browse: JQuery = FwBrowse.loadBrowseFromTemplate(this.Module);
       $browse = FwModule.openBrowse($browse);
+      const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
 
-      this.ActiveView = 'WarehouseId=ALL';
+      this.ActiveView = `WarehouseId=${warehouse.warehouseid}`;
 
       $browse.data('ondatabind', request => {
           request.activeview = this.ActiveView;
@@ -150,10 +151,10 @@ class Repair {
   addBrowseMenuItems = ($menuObject: any) => {
       let self = this;
       const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
-      const $all: JQuery = FwMenu.generateDropDownViewBtn('ALL Warehouses', true);
-      const $userWarehouse: JQuery = FwMenu.generateDropDownViewBtn(warehouse.warehouse, false);
+      const $userWarehouse: JQuery = FwMenu.generateDropDownViewBtn(warehouse.warehouse, true);
+      const $all: JQuery = FwMenu.generateDropDownViewBtn('ALL Warehouses', false);
       let view = [];
-      view[0] = 'WarehouseId=ALL';
+      view[0] = `WarehouseId=${warehouse.warehouseid}`;
 
       $all.on('click', function() {
           let $browse;
@@ -166,14 +167,14 @@ class Repair {
       $userWarehouse.on('click', function() {
           let $browse;
           $browse = jQuery(this).closest('.fwbrowse');
-          self.ActiveView = 'WarehouseId=' + warehouse.warehouseid;
+          self.ActiveView = `WarehouseId=${warehouse.warehouseid}`;
 
           FwBrowse.search($browse);      
       });
       
       let viewSubItems: Array<JQuery> = [];
-      viewSubItems.push($all);
       viewSubItems.push($userWarehouse);
+      viewSubItems.push($all);
 
       let $view;
       $view = FwMenu.addViewBtn($menuObject, 'Warehouse', viewSubItems);
