@@ -1688,7 +1688,7 @@
                     // if you want to dynamically change something on a .field or td:
                     const AFTER_RENDER_FIELD = 'afterrenderfield';
                     if (typeof $control.data(AFTER_RENDER_FIELD) === 'function') {
-                        let funcAfterRenderField: ($tr: JQuery, $td: JQuery, $field: JQuery, dt: any, rowIndex: number, colIndex: number) => void = ($control.data(AFTER_RENDER_FIELD));
+                        let funcAfterRenderField: ($tr: JQuery, $td: JQuery, $field: JQuery, dt: FwJsonDataTable, rowIndex: number, colIndex: number) => void = ($control.data(AFTER_RENDER_FIELD));
                         funcAfterRenderField($tr, $td, $field, dt, rowIndex, dtColIndex);
                     }
                 }
@@ -1702,7 +1702,7 @@
                 // if you want to dynamically change something on a tr:
                 const AFTER_RENDER_ROW = 'afterrenderrow';
                 if (typeof $control.data(AFTER_RENDER_ROW) === 'function') {
-                    let funcAfterRenderRow: ($tr: JQuery, dt: any, rowIndex: number) => void = $control.data(AFTER_RENDER_ROW);
+                    let funcAfterRenderRow: ($tr: JQuery, dt: FwJsonDataTable, rowIndex: number) => void = $control.data(AFTER_RENDER_ROW);
                     funcAfterRenderRow($tr, dt, rowIndex);
                 }
             }
