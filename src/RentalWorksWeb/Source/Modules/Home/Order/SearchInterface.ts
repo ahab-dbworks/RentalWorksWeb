@@ -309,10 +309,11 @@ class SearchInterface {
             }
 
             var types = [];
+            var inventoryTypeColumn = $popup.find('#inventoryType');
             for (let i = 0; i < response.Rows.length; i++) {
                 if (types.indexOf(response.Rows[i][inventoryTypeIndex]) == -1) {
                     types.push(response.Rows[i][inventoryTypeIndex]);
-                    $popup.find('#inventoryType').append('<ul class="fitText" style="cursor:pointer; padding:10px 10px 10px 15px; margin:1px;" data-value="' + response.Rows[i][inventoryTypeIdIndex] + '"><span>' + response.Rows[i][inventoryTypeIndex] + '</span></ul>');
+                    inventoryTypeColumn.append('<ul class="fitText" style="cursor:pointer; padding:10px 10px 10px 15px; margin:1px;" data-value="' + response.Rows[i][inventoryTypeIdIndex] + '"><span>' + response.Rows[i][inventoryTypeIndex] + '</span></ul>');
                 }
             }
             self.fitToParent('#inventoryType .fitText span');
@@ -336,8 +337,10 @@ class SearchInterface {
             $popup.find('#inventoryType ul').removeClass('selected');
             jQuery(e.currentTarget).addClass('selected');
             breadcrumb = $popup.find('#breadcrumbs .type');
-            $popup.find("#breadcrumbs .category, #breadcrumbs .subcategory").empty();
-            $popup.find("#breadcrumbs .category, #breadcrumbs .subcategory").attr('data-value', '');
+
+            var categoryBreadCrumbs = $popup.find("#breadcrumbs .category, #breadcrumbs .subcategory");
+            categoryBreadCrumbs.empty();
+            categoryBreadCrumbs.attr('data-value', '');
             breadcrumb.text(invType);
             breadcrumb.append('<div style="float:right;">&#160; &#160; &#47; &#160; &#160;</div>');
 
@@ -373,11 +376,11 @@ class SearchInterface {
                 $popup.find('.inventory').empty();
 
                 var categories = [];
-
+                let categoryColumn = $popup.find('#category');
                 for (var i = 0; i < response.Rows.length; i++) {
                     if (categories.indexOf(response.Rows[i][categoryIndex]) == -1) {
                         categories.push(response.Rows[i][categoryIndex]);
-                        $popup.find('#category').append('<ul class="fitText" style="cursor:pointer; padding:10px 10px 10px 15px; margin:1px;" data-value="' + response.Rows[i][categoryIdIndex] + '"><span>' + response.Rows[i][categoryIndex] + '</span></ul>');
+                        categoryColumn.append('<ul class="fitText" style="cursor:pointer; padding:10px 10px 10px 15px; margin:1px;" data-value="' + response.Rows[i][categoryIdIndex] + '"><span>' + response.Rows[i][categoryIndex] + '</span></ul>');
                     }
                 }
                 self.fitToParent('#category .fitText span');
@@ -446,10 +449,11 @@ class SearchInterface {
                 $popup.find('#subCategory').empty();
 
                 let subCategories = [];
+                let subCategoryColumn = $popup.find('#subCategory');
                 for (var i = 0; i < response.Rows.length; i++) {
                     if (subCategories.indexOf(response.Rows[i][subCategoryIndex]) == -1) {
                         subCategories.push(response.Rows[i][subCategoryIndex]);
-                        $popup.find('#subCategory').append('<ul class="fitText" style="cursor:pointer; padding:10px 10px 10px 15px; margin:1px;" data-value="' + response.Rows[i][subCategoryIdIndex] + '"><span>' + response.Rows[i][subCategoryIndex] + '</span></ul>');
+                        subCategoryColumn.append('<ul class="fitText" style="cursor:pointer; padding:10px 10px 10px 15px; margin:1px;" data-value="' + response.Rows[i][subCategoryIdIndex] + '"><span>' + response.Rows[i][subCategoryIndex] + '</span></ul>');
                     }
                 }
                 self.fitToParent('#subCategory .fitText span');
@@ -554,7 +558,6 @@ class SearchInterface {
             html.push('<div data-control="FwFormField" data-type="number" data-datafield="QuantityQcRequired" data-caption="QC" class="fwcontrol fwformfield" data-enabled="false"></div>');
             html.push('</div>');
             html.push('<div class="accessories" style="width:80px;">');
-            var test = response.Rows[i][classificationIndex];
             if (response.Rows[i][classificationIndex] == "K" || response.Rows[i][classificationIndex] == "C") {
                 html.push('<div class="accList">Accessories</div>');
             }
@@ -719,10 +722,11 @@ class SearchInterface {
                 $popup.find('#category, #subCategory').empty();
 
                 var categories = [];
+                let categoryColumn = $popup.find('#category');
                 for (var i = 0; i < response.Rows.length; i++) {
                     if (categories.indexOf(response.Rows[i][categoryIndex]) == -1) {
                         categories.push(response.Rows[i][categoryIndex]);
-                        $popup.find('#category').append('<ul class="fitText" style="cursor:pointer; padding:10px 10px 10px 15px; margin:1px;" data-value="' + response.Rows[i][categoryIdIndex] + '"><span>' + response.Rows[i][categoryIndex] + '</span></ul>');
+                        categoryColumn.append('<ul class="fitText" style="cursor:pointer; padding:10px 10px 10px 15px; margin:1px;" data-value="' + response.Rows[i][categoryIdIndex] + '"><span>' + response.Rows[i][categoryIndex] + '</span></ul>');
                     }
                 }
                 self.fitToParent('#category .fitText span');
