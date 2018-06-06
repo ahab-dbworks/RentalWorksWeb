@@ -22092,6 +22092,136 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "Order Item: Calculate Extended",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/orderitem/calculateextended?RateType=DAILY&FromDate=05/01/2018&ToDate=05/20/2018&Quantity=5&Rate=10.25&DaysPerWeek=1.25&DiscountPercent=20",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"orderitem",
+								"calculateextended"
+							],
+							"query": [
+								{
+									"key": "RateType",
+									"value": "DAILY"
+								},
+								{
+									"key": "FromDate",
+									"value": "05/01/2018"
+								},
+								{
+									"key": "ToDate",
+									"value": "05/20/2018"
+								},
+								{
+									"key": "Quantity",
+									"value": "5"
+								},
+								{
+									"key": "Rate",
+									"value": "10.25"
+								},
+								{
+									"key": "DaysPerWeek",
+									"value": "1.25"
+								},
+								{
+									"key": "DiscountPercent",
+									"value": "20"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Order Item: Calculate Discount Percent",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/orderitem/calculatediscountpercent?RateType=DAILY&FromDate=05/01/2018&ToDate=05/20/2018&Quantity=5&Rate=10.25&DaysPerWeek=1.25&WeeklyExtended=25.25",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"orderitem",
+								"calculatediscountpercent"
+							],
+							"query": [
+								{
+									"key": "RateType",
+									"value": "DAILY"
+								},
+								{
+									"key": "FromDate",
+									"value": "05/01/2018"
+								},
+								{
+									"key": "ToDate",
+									"value": "05/20/2018"
+								},
+								{
+									"key": "Quantity",
+									"value": "5"
+								},
+								{
+									"key": "Rate",
+									"value": "10.25"
+								},
+								{
+									"key": "DaysPerWeek",
+									"value": "1.25"
+								},
+								{
+									"key": "WeeklyExtended",
+									"value": "25.25"
+								}
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
@@ -30944,6 +31074,138 @@
 			]
 		},
 		{
+			"name": "Order Item Record Type",
+			"description": null,
+			"item": [
+				{
+					"name": "Order Item Record Type: Get Many",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/orderitemrectype",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"orderitemrectype"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Order Item Record Type: Browse",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"RecType\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": []\n\t\n}"
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/orderitemrectype/browse",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"orderitemrectype",
+								"browse"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Order Item Record Type: Get One",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/orderitemrectype/R",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"orderitemrectype",
+								"R"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "34306ff6-9539-4681-add4-b3ecbece71eb",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "5562f010-fd5f-48ed-86b0-8ce7cdaa4bd3",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
 			"name": "Rate Warehouse",
 			"description": null,
 			"item": [
@@ -32576,6 +32838,55 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "Repair Cost: Calculate Extended",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/repaircost/calculateextended?Quantity=3.25&Rate=10.59&DiscountAmount=5.25",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"repaircost",
+								"calculateextended"
+							],
+							"query": [
+								{
+									"key": "Quantity",
+									"value": "3.25"
+								},
+								{
+									"key": "Rate",
+									"value": "10.59"
+								},
+								{
+									"key": "DiscountAmount",
+									"value": "5.25"
+								}
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
@@ -32785,6 +33096,55 @@
 								"v1",
 								"repairpart",
 								"000090T0"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Repair Part: Calculate Extended",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/repairpart/calculateextended?Quantity=3.25&Rate=10.59&DiscountAmount=5.25",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"repairpart",
+								"calculateextended"
+							],
+							"query": [
+								{
+									"key": "Quantity",
+									"value": "3.25"
+								},
+								{
+									"key": "Rate",
+									"value": "10.59"
+								},
+								{
+									"key": "DiscountAmount",
+									"value": "5.25"
+								}
 							]
 						}
 					},
