@@ -346,7 +346,7 @@ class SearchInterface {
             for (let i = 0; i < response.Rows.length; i++) {
                 if (types.indexOf(response.Rows[i][inventoryTypeIndex]) == -1) {
                     types.push(response.Rows[i][inventoryTypeIndex]);
-                    inventoryTypeColumn.append('<ul class="fitText" style="cursor:pointer; padding:10px 10px 10px 15px; margin:1px;" data-value="' + response.Rows[i][inventoryTypeIdIndex] + '"><span>' + response.Rows[i][inventoryTypeIndex] + '</span></ul>');
+                    inventoryTypeColumn.append('<ul class="fitText" style="cursor:pointer; padding:5px 5px 5px 10px; margin:1px;" data-value="' + response.Rows[i][inventoryTypeIdIndex] + '"><span>' + response.Rows[i][inventoryTypeIndex] + '</span></ul>');
                 }
             }
             self.fitToParent('#inventoryType .fitText span');
@@ -377,7 +377,7 @@ class SearchInterface {
             breadcrumb.text(invType);
             breadcrumb.append('<div style="float:right;">&#160; &#160; &#47; &#160; &#160;</div>');
 
-            jQuery(e.currentTarget).css({ 'background-color': '#bdbdbd', 'color': 'white', 'box-shadow': '0 6px 14px 0 rgba(0, 0, 0, 0.2)' });
+            jQuery(e.currentTarget).css({ 'background-color': '#bdbdbd', 'color': 'white', 'box-shadow': '0 3px 7px 0 rgba(0, 0, 0, 0.2)' });
             inventoryTypeId = jQuery(e.currentTarget).attr('data-value');
             breadcrumb.attr('data-value', inventoryTypeId);
 
@@ -413,7 +413,7 @@ class SearchInterface {
                 for (var i = 0; i < response.Rows.length; i++) {
                     if (categories.indexOf(response.Rows[i][categoryIndex]) == -1) {
                         categories.push(response.Rows[i][categoryIndex]);
-                        categoryColumn.append('<ul class="fitText" style="cursor:pointer; padding:10px 10px 10px 15px; margin:1px;" data-value="' + response.Rows[i][categoryIdIndex] + '"><span>' + response.Rows[i][categoryIndex] + '</span></ul>');
+                        categoryColumn.append('<ul class="fitText" style="cursor:pointer; padding:5px 5px 5px 10px; margin:1px;" data-value="' + response.Rows[i][categoryIdIndex] + '"><span>' + response.Rows[i][categoryIndex] + '</span></ul>');
                     }
                 }
 
@@ -447,7 +447,7 @@ class SearchInterface {
             $popup.find("#breadcrumbs .subcategory").attr('data-value', '');
             breadcrumb.text(category);
             breadcrumb.append('<div style="float:right;">&#160; &#160; &#47; &#160; &#160;</div>');
-            jQuery(e.currentTarget).css({ 'background-color': '#bdbdbd', 'color': 'white', 'box-shadow': '0 6px 14px 0 rgba(0, 0, 0, 0.2)' });
+            jQuery(e.currentTarget).css({ 'background-color': '#bdbdbd', 'color': 'white', 'box-shadow': '0 3px 7px 0 rgba(0, 0, 0, 0.2)' });
             categoryId = jQuery(e.currentTarget).attr('data-value');
             inventoryTypeId = $popup.find('#breadcrumbs .type').attr('data-value');
             breadcrumb.attr('data-value', categoryId);
@@ -491,7 +491,7 @@ class SearchInterface {
                 for (var i = 0; i < response.Rows.length; i++) {
                     if (subCategories.indexOf(response.Rows[i][subCategoryIndex]) == -1) {
                         subCategories.push(response.Rows[i][subCategoryIndex]);
-                        subCategoryColumn.append('<ul class="fitText" style="cursor:pointer; padding:10px 10px 10px 15px; margin:1px;" data-value="' + response.Rows[i][subCategoryIdIndex] + '"><span>' + response.Rows[i][subCategoryIndex] + '</span></ul>');
+                        subCategoryColumn.append('<ul class="fitText" style="cursor:pointer; padding:5px 5px 5px 10px; margin:1px;" data-value="' + response.Rows[i][subCategoryIdIndex] + '"><span>' + response.Rows[i][subCategoryIndex] + '</span></ul>');
                     }
                 }
 
@@ -541,7 +541,7 @@ class SearchInterface {
             breadcrumb.text(subCategory);
             subCategoryId = jQuery(e.currentTarget).attr('data-value');
             breadcrumb.attr('data-value', subCategoryId);
-            jQuery(e.currentTarget).css({ 'background-color': '#bdbdbd', 'color': 'white', 'box-shadow': '0 6px 14px 0 rgba(0, 0, 0, 0.2)' });
+            jQuery(e.currentTarget).css({ 'background-color': '#bdbdbd', 'color': 'white', 'box-shadow': '0 3px 7px 0 rgba(0, 0, 0, 0.2)' });
 
             categoryId = $popup.find('#breadcrumbs .category').attr('data-value');
             inventoryTypeId = $popup.find('#breadcrumbs .type').attr('data-value');
@@ -592,7 +592,8 @@ class SearchInterface {
             html.push('<div class="invimage">');
             html.push('<img src="' + response.Rows[i][thumbnail] + '" data-value="' + response.Rows[i][appImageId] + '" alt="Image" class="image">');
             html.push('</div>');
-            html.push('</div>')
+            html.push('</div>');
+            html.push('<div data-control="FwFormField" data-type="number" data-datafield="Quantity" data-caption="Qty" class="fwcontrol fwformfield"></div>');
             html.push('<div data-control="FwFormField" data-type="number" data-datafield="QuantityAvailable" data-caption="Available" class="fwcontrol fwformfield" data-datafield="QuantityAvailable" data-enabled="false"></div>');
             html.push('<div data-control="FwFormField" data-type="text" data-caption="Conflict Date" data-datafield="ConflictDate" class="fwcontrol fwformfield" data-enabled="false"></div>');
             html.push('<div data-control="FwFormField" data-type="text" data-caption="All WH" data-datafield="AllWH" class="fwcontrol fwformfield" data-enabled="false"></div>');
@@ -609,7 +610,6 @@ class SearchInterface {
             }
             html.push('</div>');
             html.push('<div data-control="FwFormField" data-type="number" data-digits="2" data-datafield="DailyRate" data-caption="Rate" class="fwcontrol fwformfield rate" data-enabled="false"></div>');
-            html.push('<div data-control="FwFormField" data-type="number" data-datafield="Quantity" data-caption="Qty" class="fwcontrol fwformfield"></div>');
             html.push('</div>');
 
             if (response.Rows[i][classificationIndex] == "K" || response.Rows[i][classificationIndex] == "C") {
@@ -658,7 +658,7 @@ class SearchInterface {
         var $inventory = $popup.find('div.card');
 
         var css = {
-            'box-shadow': '0 4px 8px 0 rgba(0,0,0,0.2)',
+            'box-shadow': '0 2px 4px 0 rgba(0,0,0,0.2)',
             'transition': '0.3s'
         }
         $inventory.css(css);
@@ -705,7 +705,7 @@ class SearchInterface {
                 //$inventory.addClass('gridView');
                 break;
             case 'LIST':
-                $inventory.css({ 'cursor': 'pointer', 'width': '95%', 'height': 'auto', 'float': 'left', 'padding': '10px', 'margin': '8px', 'position': 'relative' });
+                $inventory.css({ 'cursor': 'pointer', 'width': '95%', 'height': 'auto', 'float': 'left', 'padding': '5px', 'margin': '5px', 'position': 'relative' });
                 descContainer.css({ 'width': '', 'float': '' });
                 description.css({ 'float': 'left', 'padding-top': '15px', 'width': '35%', 'padding-bottom': '' });
                 imageFrame.hide();
@@ -717,14 +717,14 @@ class SearchInterface {
                 quantityQcRequired.css({ 'float': 'left', 'width': '45px' });
                 accessories.css({ 'float': 'left', 'padding': '20px 15px 10px 15px', 'font-size': '.9em', 'color': 'blue' });
                 rate.css({ 'float': 'left', 'width': '90px', 'padding-top': '', 'position': '', 'bottom': '', 'right': '' });
-                quantity.css({ 'float': 'right', 'width': '90px', 'position': '', 'bottom': '', 'right': '' });
+                quantity.css({ 'float': 'left', 'width': '90px', 'position': '', 'bottom': '', 'right': '' });
                 quantityContainer.css({ 'float': 'left' });
                 //$inventory.removeClass('gridView', 'listGridView');
                 //$inventory.addClass('listView');
                 break;
             case 'HYBRID':
                 //cardContainer.css({ 'float': 'left', 'width': 'auto' });
-                $inventory.css({ 'cursor': 'pointer', 'width': '95%', 'height': 'auto', 'float': 'left', 'padding': '10px', 'margin': '8px', 'position': 'relative' });
+                $inventory.css({ 'cursor': 'pointer', 'width': '95%', 'height': 'auto', 'float': 'left', 'padding': '5px', 'margin': '5px', 'position': 'relative' });
                 descContainer.css({ 'width': '40%', 'float': 'left' });
                 description.css({ 'float': 'right', 'padding-top': '15px', 'width': '75%', 'padding-bottom': '' });
                 imageFrame.show();
@@ -738,7 +738,7 @@ class SearchInterface {
                 quantityQcRequired.css({ 'float': 'left', 'width': '45px' });
                 accessories.css({ 'float': 'left', 'padding': '20px 15px 10px 15px', 'font-size': '.9em', 'color': 'blue' });
                 rate.css({ 'float': 'left', 'width': '80px', 'padding-top': '', 'position': '', 'bottom': '', 'right': '' });
-                quantity.css({ 'float': 'right', 'width': '80px', 'position': '', 'bottom': '', 'right': '' });
+                quantity.css({ 'float': 'left', 'width': '80px', 'position': '', 'bottom': '', 'right': '' });
                 quantityContainer.css({ 'float': 'left' });
                 //$inventory.removeClass('listView', 'gridView');
                 //$inventory.addClass('listGridView');
@@ -769,7 +769,7 @@ class SearchInterface {
                 for (var i = 0; i < response.Rows.length; i++) {
                     if (categories.indexOf(response.Rows[i][categoryIndex]) == -1) {
                         categories.push(response.Rows[i][categoryIndex]);
-                        categoryColumn.append('<ul class="fitText" style="cursor:pointer; padding:10px 10px 10px 15px; margin:1px;" data-value="' + response.Rows[i][categoryIdIndex] + '"><span>' + response.Rows[i][categoryIndex] + '</span></ul>');
+                        categoryColumn.append('<ul class="fitText" style="cursor:pointer; padding:5px 5px 5px 10px; margin:1px;" data-value="' + response.Rows[i][categoryIdIndex] + '"><span>' + response.Rows[i][categoryIndex] + '</span></ul>');
                     }
                 }
                 self.fitToParent('#category .fitText span');
@@ -801,24 +801,24 @@ class SearchInterface {
         $popup.on('mouseenter', '.inventory > .cardContainer > .card', function (e) {
             let selected = jQuery(e.currentTarget).hasClass('selected');
             if (!selected) {
-                jQuery(this).css('box-shadow', '0 10px 18px 0 rgba(0, 0, 0, 0.2)');
+                jQuery(this).css('box-shadow', '0 5px 9px 0 rgba(0, 0, 0, 0.2)');
             }
         });
 
         $popup.on('mouseleave', '.inventory > .cardContainer > .card', function (e) {
             var selected = jQuery(e.currentTarget).hasClass('selected');
             if (selected) {
-                jQuery(e.currentTarget).css('box-shadow', '0 12px 20px 0 rgba(0,0,153,0.2)');
+                jQuery(e.currentTarget).css('box-shadow', '0 6px 10px 0 rgba(0,0,153,0.2)');
             } else {
-                jQuery(e.currentTarget).css('box-shadow', '0 4px 8px 0 rgba(0,0,0,0.2)');
+                jQuery(e.currentTarget).css('box-shadow', '0 2px 4px 0 rgba(0,0,0,0.2)');
             }
         });
 
         $popup.on('click', '.inventory > .cardContainer > .card', function (e) {
             $popup.find('.inventory > .cardContainer > .card').removeClass('selected');
-            $popup.find('.inventory > .cardContainer > .card').css('box-shadow', '0 4px 8px 0 rgba(0,0,0,0.2)');
+            $popup.find('.inventory > .cardContainer > .card').css('box-shadow', '0 2px 4px 0 rgba(0,0,0,0.2)');
             jQuery(e.currentTarget).addClass('selected');
-            jQuery(e.currentTarget).css('box-shadow', '0 12px 20px 0 rgba(0,0,153,0.2)');
+            jQuery(e.currentTarget).css('box-shadow', '0 6px 10px 0 rgba(0,0,153,0.2)');
         });
 
         var $searchpopup = jQuery('#searchpopup');
@@ -868,7 +868,7 @@ class SearchInterface {
         });
 
         var highlight = {
-            'box-shadow': '0 6px 14px 0 rgba(0, 0, 0, 0.2)'
+            'box-shadow': '0 3px 7px 0 rgba(0, 0, 0, 0.2)'
         }
 
         var unhighlight = {
@@ -878,7 +878,7 @@ class SearchInterface {
             var selected = jQuery(e.currentTarget).hasClass('selected');
             if (selected) {
                 jQuery(e.currentTarget).css({
-                    'box-shadow': '0 6px 14px 0 rgba(0, 0, 0, 0.2)'
+                    'box-shadow': '0 3px 7px 0 rgba(0, 0, 0, 0.2)'
                 })
             } else {
                 jQuery(e.currentTarget).css(highlight);
@@ -888,7 +888,7 @@ class SearchInterface {
         $popup.on('mouseleave', '#inventoryType ul, #category ul, #subCategory ul', function (e) {
             var selected = jQuery(e.currentTarget).hasClass('selected');
             if (selected) {
-                jQuery(e.currentTarget).css({ 'background-color': '#bdbdbd', 'color': 'white', 'box-shadow': '0 6px 14px 0 rgba(0, 0, 0, 0.2)' })
+                jQuery(e.currentTarget).css({ 'background-color': '#bdbdbd', 'color': 'white', 'box-shadow': '0 3px 7px 0 rgba(0, 0, 0, 0.2)' })
             } else {
                 jQuery(e.currentTarget).css(unhighlight)
             }
@@ -1105,7 +1105,7 @@ class SearchInterface {
             html.push(' </div>');
             html.push('</div>');
             accessoryContainer.append(html.join(''));
-            accessoryContainer.css({ 'float': 'left', 'height': 'auto', 'padding': '10px', 'margin': '10px', 'box-shadow': '0 12px 20px 0 rgba(0,0,153,0.2)', 'transition': '0.3s' });
+            accessoryContainer.css({ 'float': 'left', 'height': 'auto', 'padding': '10px', 'margin': '10px', 'box-shadow': '0 6px 10px 0 rgba(0,0,153,0.2)', 'transition': '0.3s' });
         }
 
         jQuery(e.currentTarget).parents('.cardContainer').find('.accContainer .accItem').remove();
