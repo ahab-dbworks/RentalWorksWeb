@@ -321,6 +321,8 @@ class Repair {
           $form.find(".frame .add-on").children().hide();
       }
 
+      this.events($form);
+
       return $form;
   };
 
@@ -388,6 +390,23 @@ class Repair {
       FwFormField.disable($form.find('div[data-datafield="AvailFor"]'));
       FwFormField.disable($form.find('div[data-datafield="RepairType"]'));           
       FwFormField.disable($form.find('div[data-datafield="PendingRepair"]'));
+  };
+
+  //----------------------------------------------------------------------------------------------
+  events($form) {
+    // Sales or Rent Order
+    $form.find('.repairavailforradio').on('change', $tr => {
+        if (FwFormField.getValueByDataField($form, 'RepairType') === 'OWNED') {
+            if (FwFormField.getValue($form, '.repairavailforradio') === 'S') {
+                $form.find('.icodesales').show();
+                $form.find('.icoderental').hide();
+            }
+            else {
+                $form.find('.icodesales').hide();
+                $form.find('.icoderental').show();
+            }
+        }
+    });
   };
 
   //----------------------------------------------------------------------------------------------

@@ -218,38 +218,6 @@ class Quote {
             $form.find(".frame .add-on").children().hide();
         }
 
-        //RateType change affecting billing tab weeks or months
-        $form.find('.RateType').on('change', $tr => {
-            if (FwFormField.getValueByDataField($form, 'RateType') === 'MONTHLY') {
-                $form.find(".BillingWeeks").hide();
-                $form.find(".BillingMonths").show();
-            } else {
-                $form.find(".BillingMonths").hide();
-                $form.find(".BillingWeeks").show();
-            }
-        });
-
-        //RateType change affecting DaysPerWeek field in rental tab
-        $form.find('.RateType').on('change', $tr => {
-            if (FwFormField.getValueByDataField($form, 'RateType') === 'DAILY') {
-                $form.find(".RentalDaysPerWeek").show();
-            } else {
-                $form.find(".RentalDaysPerWeek").hide();
-            }
-        });
-
-        $form.find('[data-datafield="PendingPo"] .fwformfield-value').on('change', function () {
-            var $this = jQuery(this);
-            if ($this.prop('checked') === true) {
-                FwFormField.disable($form.find('[data-datafield="PoNumber"]'));
-                FwFormField.disable($form.find('[data-datafield="PoAmount"]'));
-            }
-            else {
-                FwFormField.enable($form.find('[data-datafield="PoNumber"]'));
-                FwFormField.enable($form.find('[data-datafield="PoAmount"]'));
-            }
-        });
-
         $form.find('[data-datafield="BillToAddressDifferentFromIssuedToAddress"] .fwformfield-value').on('change', function () {
             var $this = jQuery(this);
             if ($this.prop('checked') === true) {
@@ -846,24 +814,54 @@ class Quote {
         $form.find('.bottom_line_total_tax').on('change', event => {
             this.bottomLineTotalWithTaxChange($form, event);
         });
-
         // Bottom Line Discount
         $form.find('.bottom_line_discount').on('change', event => {
             this.bottomLineDiscountChange($form, event);
         });
-
         // Order Item Grid View
         $form.find('.order_item_view_select').on('change', event => {
             this.toggleOrderItemView($form, event);
         });
-
         $form.find('[data-datafield="MarketTypeId"] input').on('change', event => {
             FwFormField.setValueByDataField($form, 'MarketSegmentId', '');
             FwFormField.setValueByDataField($form, 'MarketSegmentJobId', '');
         });
-
         $form.find('[data-datafield="MarketSegmentId"] input').on('change', event => {
             FwFormField.setValueByDataField($form, 'MarketSegmentJobId', '');
+        });
+        //RateType change affecting billing tab weeks or months
+        $form.find('.RateType').on('change', $tr => {
+            if (FwFormField.getValueByDataField($form, 'RateType') === 'MONTHLY') {
+                $form.find(".BillingWeeks").hide();
+                $form.find(".BillingMonths").show();
+            } else {
+                $form.find(".BillingMonths").hide();
+                $form.find(".BillingWeeks").show();
+            }
+        });
+        //RateType change affecting DaysPerWeek field in rental tab
+        $form.find('.RateType').on('change', $tr => {
+            if (FwFormField.getValueByDataField($form, 'RateType') === 'DAILY') {
+                $form.find(".RentalDaysPerWeek").show();
+            } else {
+                $form.find(".RentalDaysPerWeek").hide();
+            }
+        });
+        // PickDate Validations
+        $form.find('.pick_date_validation').on('changeDate', event => {
+            this.checkDateRangeForPick($form, event);
+        });
+        // Pending PO
+        $form.find('[data-datafield="PendingPo"] .fwformfield-value').on('change', function () {
+            var $this = jQuery(this);
+            if ($this.prop('checked') === true) {
+                FwFormField.disable($form.find('[data-datafield="PoNumber"]'));
+                FwFormField.disable($form.find('[data-datafield="PoAmount"]'));
+            }
+            else {
+                FwFormField.enable($form.find('[data-datafield="PoNumber"]'));
+                FwFormField.enable($form.find('[data-datafield="PoAmount"]'));
+            }
         });
         // RentalDaysPerWeek for Rental OrderItemGrid
         $form.find('.RentalDaysPerWeek').on('change', '.fwformfield-text, .fwformfield-value', event => {
@@ -882,7 +880,30 @@ class Quote {
                 FwFunc.showError(response);
             }, $form);
         });
+    };
 
+    //----------------------------------------------------------------------------------------------
+    checkDateRangeForPick($form, event) {
+        let $element;
+        $element = jQuery(event.currentTarget);
+
+        let parsedPickDate = Date.parse(FwFormField.getValueByDataField($form, 'PickDate'));
+        let parsedFromDate = Date.parse(FwFormField.getValueByDataField($form, 'EstimatedStartDate'));
+        let parsedToDate = Date.parse(FwFormField.getValueByDataField($form, 'EstimatedStopDate'));
+
+        if ($element.attr('data-datafield') === 'EstimatedStartDate') {
+            if (parsedFromDate < parsedPickDate) {
+                FwNotification.renderNotification('WARNING', "Your chosen 'From Date' is less than 'Pick Date'.");
+            }
+        }
+        else {
+            if (parsedToDate < parsedFromDate) {
+                FwNotification.renderNotification('WARNING', "Your chosen 'To Date' is less than 'From Date'.");
+            }
+            else if (parsedToDate < parsedPickDate) {
+                FwNotification.renderNotification('WARNING', "Your chosen 'To Date' is less than 'Pick Date'.");
+            }
+        }
     }
 
     //----------------------------------------------------------------------------------------------
