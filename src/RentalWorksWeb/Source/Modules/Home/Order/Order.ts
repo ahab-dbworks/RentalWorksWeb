@@ -266,6 +266,11 @@ class Order {
             { value: 'SHIP', text: 'Ship' },
             { value: 'PICK UP', text: 'Customer Pick Up' }
         ], true);
+
+        FwFormField.loadItems($form.find('.online'), [
+            { value: 'PARTIAL', text: 'Partial' },
+            { value: 'COMPLETE', text: 'Complete' }
+        ], true);
 		
         if (typeof parentModuleInfo !== 'undefined') { 
             FwFormField.setValue($form, 'div[data-datafield="DealId"]', parentModuleInfo.DealId, parentModuleInfo.Deal); 
