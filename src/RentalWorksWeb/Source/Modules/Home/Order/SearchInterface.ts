@@ -841,7 +841,10 @@ class SearchInterface {
                         $accContainer.css('display', '');
                     }
                 }
-                self.refreshAccessoryQuantity($popup, id, warehouseId, inventoryId, e);
+ 
+                if ($accContainer.length > 0) {
+                    self.refreshAccessoryQuantity($popup, id, warehouseId, inventoryId, e);
+                }
             }, null, $searchpopup);
         });
 
@@ -893,31 +896,46 @@ class SearchInterface {
             jQuery(e.currentTarget).css({ 'color': 'black' });
         });
 
-        $popup.one('click', '.addToOrder', function () {
-            var request = {
-                OrderId: id,
-                SessionId: id
-            }
-            $popup.find('.addToOrder').css('cursor', 'wait');
-            FwAppData.apiMethod(true, 'POST', "api/v1/inventorysearch/addto", request, FwServices.defaultTimeout, function onSuccess(response) {
-                FwPopup.destroyPopup(jQuery(document).find('.fwpopup'));
-                var $combinedGrid = $form.find('.combinedgrid [data-name="OrderItemGrid"]'),
-                    $orderItemGridRental = $form.find('.rentalgrid [data-name="OrderItemGrid"]'),
-                    $orderItemGridSales = $form.find('.salesgrid [data-name="OrderItemGrid"]'),
-                    $orderItemGridLabor = $form.find('.laborgrid [data-name="OrderItemGrid"]'),
-                    $orderItemGridMisc = $form.find('.miscgrid [data-name="OrderItemGrid"]');
-                if ($form.find('.combinedtab').css('display') != 'none') {
-                    FwBrowse.search($combinedGrid);
-                }
-                
-                if ($form.find('.notcombinedtab').css('display') != 'none') {
-                    FwBrowse.search($orderItemGridRental);
-                    FwBrowse.search($orderItemGridMisc);
-                    FwBrowse.search($orderItemGridLabor);
-                    FwBrowse.search($orderItemGridSales);
-                }
-            }, null, $searchpopup, id);
+        $popup.one('click', '.addToOrder', e => {
+            self.refreshPreviewGrid($popup, id);
+            addToOrder();
         });
+
+        function addToOrder() {
+            let previewGridHasItems = $popup.find('[data-grid="SearchPreviewGrid"] tbody').children().length > 0;
+            if (!previewGridHasItems) {
+                FwNotification.renderNotification('WARNING', 'No items have been added.');
+                $popup.one('click', '.addToOrder', e => {
+                    self.refreshPreviewGrid($popup, id);
+                    addToOrder();
+                });
+
+            } else {
+                var request = {
+                    OrderId: id,
+                    SessionId: id
+                }
+                $popup.find('.addToOrder').css('cursor', 'wait');
+                FwAppData.apiMethod(true, 'POST', "api/v1/inventorysearch/addto", request, FwServices.defaultTimeout, function onSuccess(response) {
+                    FwPopup.destroyPopup(jQuery(document).find('.fwpopup'));
+                    var $combinedGrid = $form.find('.combinedgrid [data-name="OrderItemGrid"]'),
+                        $orderItemGridRental = $form.find('.rentalgrid [data-name="OrderItemGrid"]'),
+                        $orderItemGridSales = $form.find('.salesgrid [data-name="OrderItemGrid"]'),
+                        $orderItemGridLabor = $form.find('.laborgrid [data-name="OrderItemGrid"]'),
+                        $orderItemGridMisc = $form.find('.miscgrid [data-name="OrderItemGrid"]');
+                    if ($form.find('.combinedtab').css('display') != 'none') {
+                        FwBrowse.search($combinedGrid);
+                    }
+
+                    if ($form.find('.notcombinedtab').css('display') != 'none') {
+                        FwBrowse.search($orderItemGridRental);
+                        FwBrowse.search($orderItemGridMisc);
+                        FwBrowse.search($orderItemGridLabor);
+                        FwBrowse.search($orderItemGridSales);
+                    }
+                }, null, $searchpopup, id);
+            }
+        }
 
         $popup.on('click', '.listbutton', function () {
             let $inventory = $popup.find('div.card');
@@ -1087,13 +1105,13 @@ class SearchInterface {
         jQuery(e.currentTarget).parents('.cardContainer').find('.accContainer .accItem').remove();
         FwAppData.apiMethod(true, 'POST', "api/v1/inventorysearch/accessories", request, FwServices.defaultTimeout, function onSuccess(response) {
             const descriptionIndex = response.ColumnIndex.Description,
-                  qtyIndex = response.ColumnIndex.Quantity,
-                  qtyInIndex = response.ColumnIndex.QuantityIn,
-                  qtyAvailIndex = response.ColumnIndex.QuantityAvailable,
-                  conflictIndex = response.ColumnIndex.ConflictDate,
-                  inventoryIdIndex = response.ColumnIndex.InventoryId,
-                  descriptionColorIndex = response.ColumnIndex.DescriptionColor,
-                  quantityColorIndex = response.ColumnIndex.QuantityColor;
+                qtyIndex = response.ColumnIndex.Quantity,
+                qtyInIndex = response.ColumnIndex.QuantityIn,
+                qtyAvailIndex = response.ColumnIndex.QuantityAvailable,
+                conflictIndex = response.ColumnIndex.ConflictDate,
+                inventoryIdIndex = response.ColumnIndex.InventoryId,
+                descriptionColorIndex = response.ColumnIndex.DescriptionColor,
+                quantityColorIndex = response.ColumnIndex.QuantityColor;
 
             for (var i = 0; i < response.Rows.length; i++) {
                 let accHtml = [];
