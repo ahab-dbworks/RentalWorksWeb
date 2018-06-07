@@ -2,9 +2,10 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 
-namespace RentalWorksWebApi.Controllers
+namespace RentalWorksWebApi.Modules.Administrator.Designer
 {
     [Route("api/v1/designer")]
+    [ApiExplorerSettings(GroupName = "administrator-v1")]
     public class DesignerController : Controller
     {
         [HttpGet("createmodule")]

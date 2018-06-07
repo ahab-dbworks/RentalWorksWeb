@@ -6,7 +6,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System.Threading.Tasks;
 
-namespace WebApi.Controllers
+namespace WebApi.Modules.Utilities.Download
 {
     [Route("api/v1/[controller]")]
     [AllowAnonymous]
