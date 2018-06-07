@@ -794,6 +794,7 @@ class SearchInterface {
     };
 
     events($popup, $form, id) {
+        let hasItemInGrids = false;
         var warehouseId = FwFormField.getValueByDataField($form, 'WarehouseId');
         var request: any = {};
         var self = this;
@@ -832,6 +833,10 @@ class SearchInterface {
                 Quantity: quantity
             }
 
+            if (quantity > 0) {
+                hasItemInGrids = true;
+            }
+
             var $accContainer = jQuery(e.currentTarget).parents('.cardContainer').find('.accContainer');
             var $accButton = jQuery(e.currentTarget).parents('.card').find('.accList');
             var accessoryRefresh = $popup.find('.toggleAccessories input').prop('checked');
@@ -841,7 +846,7 @@ class SearchInterface {
                         $accContainer.css('display', '');
                     }
                 }
- 
+
                 if ($accContainer.length > 0) {
                     self.refreshAccessoryQuantity($popup, id, warehouseId, inventoryId, e);
                 }
@@ -896,26 +901,25 @@ class SearchInterface {
             jQuery(e.currentTarget).css({ 'color': 'black' });
         });
 
-        $popup.one('click', '.addToOrder', e => {
-            self.refreshPreviewGrid($popup, id);
-            addToOrder();
-        });
-
-        function addToOrder() {
-            let previewGridHasItems = $popup.find('[data-grid="SearchPreviewGrid"] tbody').children().length > 0;
-            if (!previewGridHasItems) {
-                FwNotification.renderNotification('WARNING', 'No items have been added.');
-                $popup.one('click', '.addToOrder', e => {
-                    self.refreshPreviewGrid($popup, id);
+        $popup.on('click', '.addToOrder', e => {
+            if (!hasItemInGrids) {
+                let previewGridHasItems = $popup.find('[data-grid="SearchPreviewGrid"] tbody').children().length > 0;
+                if (!previewGridHasItems) {
+                    FwNotification.renderNotification('WARNING', 'No items have been added.');
+                } else {
                     addToOrder();
-                });
-
+                }
             } else {
+                addToOrder();
+            }
+
+            function addToOrder() {
                 var request = {
                     OrderId: id,
                     SessionId: id
                 }
                 $popup.find('.addToOrder').css('cursor', 'wait');
+                $popup.off('click', '.addToOrder');
                 FwAppData.apiMethod(true, 'POST', "api/v1/inventorysearch/addto", request, FwServices.defaultTimeout, function onSuccess(response) {
                     FwPopup.destroyPopup(jQuery(document).find('.fwpopup'));
                     var $combinedGrid = $form.find('.combinedgrid [data-name="OrderItemGrid"]'),
@@ -935,7 +939,7 @@ class SearchInterface {
                     }
                 }, null, $searchpopup, id);
             }
-        }
+        });
 
         $popup.on('click', '.listbutton', function () {
             let $inventory = $popup.find('div.card');

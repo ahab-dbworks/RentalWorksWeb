@@ -350,6 +350,7 @@ var Order = (function () {
                 }
             });
         }
+        ;
         this.events($form);
         return $form;
     };
