@@ -113,10 +113,10 @@
             fromDate = $generatedtr.find('.field[data-browsedatafield="FromDate"] input').val();
             toDate = $generatedtr.find('.field[data-browsedatafield="ToDate"] input').val();
             quantity = $generatedtr.find('.field[data-browsedatafield="QuantityOrdered"] input').val();
-            rate = $generatedtr.find('.field[data-browsedatafield="Price"]').attr('data-originalvalue');
+            rate = $generatedtr.find('.field[data-browsedatafield="Price"] input').val();
             daysPerWeek = $generatedtr.find('.field[data-browsedatafield="DaysPerWeek"] input').val();
             discountPercent = $generatedtr.find('.field[data-browsedatafield="DiscountPercent"] input').val();
-            weeklyExtended = $generatedtr.find('.field[data-browsedatafield="WeeklyExtended"]').attr('data-originalvalue');
+            weeklyExtended = $generatedtr.find('.field[data-browsedatafield="WeeklyExtended"] input').val();
 
             let apiurl = "api/v1/orderitem/calculateextended?RateType="
                 + rateType
@@ -127,12 +127,11 @@
                 + "&Quantity="
                 + quantity
                 + "&Rate="
-                + rate
+                + (+(rate.substring(1).replace(',', '')))
                 + "&DaysPerWeek="
                 + daysPerWeek
             if (calculatedColumn == 'Extended') {
                 apiurl += "&DiscountPercent=" + discountPercent;
-
                 FwAppData.apiMethod(true, 'GET', apiurl, null, FwServices.defaultTimeout, function onSuccess(response) {
                     $generatedtr.find('.field[data-browsedatafield="WeeklyExtended"] input').val(response.WeeklyExtended);
                     $generatedtr.find('.field[data-browsedatafield="WeeklyDiscount"] input').val(response.WeeklyDiscount);
@@ -143,14 +142,9 @@
                 }, null, $form);
             }
             if (calculatedColumn == 'Discount') {
-                apiurl += "&WeeklyExtended=" + weeklyExtended;
+                apiurl += "&WeeklyExtended=" + (+weeklyExtended.substring(1).replace(',', ''));
             }
-            
-           
         }
-
-
-
      };
 
 
