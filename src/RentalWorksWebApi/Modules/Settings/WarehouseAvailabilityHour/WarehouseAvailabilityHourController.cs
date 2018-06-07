@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 namespace WebApi.Modules.Settings.WarehouseAvailabilityHour
 {
     [Route("api/v1/[controller]")]
+    [ApiExplorerSettings(GroupName = "settings-v1")]
     public class WarehouseAvailabilityHourController : AppDataController
     {
         public WarehouseAvailabilityHourController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(WarehouseAvailabilityHourLogic); }

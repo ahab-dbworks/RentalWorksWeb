@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 namespace WebApi.Modules.Utilities.ProgressMeter
 {
     [Route("api/v1/[controller]")]
+    [ApiExplorerSettings(GroupName = "utilities-v1")]
     public class ProgressMeterController : AppDataController
     {
         public ProgressMeterController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(ProgressMeterLogic); }

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 namespace WebApi.Modules.Settings.OrderSetNo
 {
     [Route("api/v1/[controller]")]
+    [ApiExplorerSettings(GroupName = "settings-v1")]
     public class OrderSetNoController : AppDataController
     {
         public OrderSetNoController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(OrderSetNoLogic); }

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 namespace WebApi.Modules.Settings.RateLocationTax
 {
     [Route("api/v1/[controller]")]
+    [ApiExplorerSettings(GroupName = "settings-v1")]
     public class RateLocationTaxController : AppDataController
     {
         public RateLocationTaxController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(RateLocationTaxLogic); }

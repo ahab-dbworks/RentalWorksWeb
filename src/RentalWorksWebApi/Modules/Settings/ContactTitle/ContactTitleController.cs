@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 namespace WebApi.Modules.Settings.ContactTitle
 {
     [Route("api/v1/[controller]")]
+    [ApiExplorerSettings(GroupName = "settings-v1")]
     public class ContactTitleController : AppDataController
     {
         public ContactTitleController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(ContactTitleLogic); }

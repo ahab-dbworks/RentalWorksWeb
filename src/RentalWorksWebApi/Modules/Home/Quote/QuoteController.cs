@@ -12,6 +12,7 @@ namespace WebApi.Modules.Home.Quote
 {
 
     [Route("api/v1/[controller]")]
+    [ApiExplorerSettings(GroupName = "home-v1")]
     public class QuoteController : AppDataController
     {
         public QuoteController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(QuoteLogic); }

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 namespace WebApi.Modules.Settings.PoApprover
 {
     [Route("api/v1/[controller]")]
+    [ApiExplorerSettings(GroupName = "settings-v1")]
     public class PoApproverController : AppDataController
     {
         public PoApproverController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(PoApproverLogic); }

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 namespace WebApi.Modules.Home.InventoryLocationTax
 {
     [Route("api/v1/[controller]")]
+    [ApiExplorerSettings(GroupName = "home-v1")]
     public class InventoryLocationTaxController : AppDataController
     {
         public InventoryLocationTaxController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(InventoryLocationTaxLogic); }

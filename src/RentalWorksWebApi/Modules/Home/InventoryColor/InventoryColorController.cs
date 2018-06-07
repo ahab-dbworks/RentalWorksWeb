@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 namespace WebApi.Modules.Home.InventoryColor
 {
     [Route("api/v1/[controller]")]
+    [ApiExplorerSettings(GroupName = "home-v1")]
     public class InventoryColorController : AppDataController
     {
         public InventoryColorController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(InventoryColorLogic); }

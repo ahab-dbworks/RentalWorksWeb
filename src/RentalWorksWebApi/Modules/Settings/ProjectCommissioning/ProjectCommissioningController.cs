@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 namespace WebApi.Modules.Settings.ProjectCommissioning
 {
     [Route("api/v1/[controller]")]
+    [ApiExplorerSettings(GroupName = "settings-v1")]
     public class ProjectCommissioningController : AppDataController
     {
         public ProjectCommissioningController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(ProjectCommissioningLogic); }

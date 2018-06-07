@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 namespace WebApi.Modules.Settings.FacilityRate
 {
     [Route("api/v1/[controller]")]
+    [ApiExplorerSettings(GroupName = "settings-v1")]
     public class FacilityRateController : AppDataController
     {
         public FacilityRateController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(FacilityRateLogic); }

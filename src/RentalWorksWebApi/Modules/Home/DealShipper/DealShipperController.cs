@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 namespace WebApi.Modules.Home.DealShipper
 {
     [Route("api/v1/[controller]")]
+    [ApiExplorerSettings(GroupName = "home-v1")]
     public class DealShipperController : AppDataController
     {
         public DealShipperController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(DealShipperLogic); }

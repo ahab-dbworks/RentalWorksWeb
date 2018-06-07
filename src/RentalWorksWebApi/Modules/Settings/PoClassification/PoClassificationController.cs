@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 namespace WebApi.Modules.Settings.PoClassification
 {
     [Route("api/v1/[controller]")]
+    [ApiExplorerSettings(GroupName = "settings-v1")]
     public class PoClassificationController : AppDataController
     {
         public PoClassificationController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(PoClassificationLogic); }

@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Http;
 namespace WebApi.Modules.Settings.UserDashboardSettings
 {
     [Route("api/v1/[controller]")]
+    [ApiExplorerSettings(GroupName = "settings-v1")]
     public class UserDashboardSettingsController : AppDataController
     {
         public UserDashboardSettingsController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(UserDashboardSettingsLogic); }

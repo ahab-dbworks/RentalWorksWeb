@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 namespace WebApi.Modules.Settings.FacilityStatus
 {
     [Route("api/v1/[controller]")]
+    [ApiExplorerSettings(GroupName = "settings-v1")]
     public class FacilityStatusController : AppDataController
     {
         public FacilityStatusController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(FacilityStatusLogic); }

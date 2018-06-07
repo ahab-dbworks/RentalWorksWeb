@@ -10,6 +10,7 @@ using WebApi.Controllers;
 namespace WebApi.Modules.Settings.BillingCycle
 {
     [Route("api/v1/[controller]")]
+    [ApiExplorerSettings(GroupName = "settings-v1")]
     public class BillingCycleController : AppDataController
     {
         public BillingCycleController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(BillingCycleLogic); }

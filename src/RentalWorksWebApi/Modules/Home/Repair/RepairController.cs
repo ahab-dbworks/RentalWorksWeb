@@ -10,6 +10,7 @@ using WebApi.Logic;
 namespace WebApi.Modules.Home.Repair
 {
     [Route("api/v1/[controller]")]
+    [ApiExplorerSettings(GroupName = "home-v1")]
     public class RepairController : AppDataController
     {
         public RepairController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(RepairLogic); }

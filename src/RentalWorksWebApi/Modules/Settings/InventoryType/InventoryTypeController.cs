@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 namespace WebApi.Modules.Settings.InventoryType
 {
     [Route("api/v1/[controller]")]
+    [ApiExplorerSettings(GroupName = "settings-v1")]
     public class InventoryTypeController : AppDataController
     {
         public InventoryTypeController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(InventoryTypeLogic); }

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 namespace WebApi.Modules.Home.Address
 {
     [Route("api/v1/[controller]")]
+    [ApiExplorerSettings(GroupName = "home-v1")]
     public class AddressController : AppDataController
     {
         public AddressController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(AddressLogic); }

@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 namespace WebApi.Modules.Settings.RepairItemStatus
 {
     [Route("api/v1/[controller]")]
+    [ApiExplorerSettings(GroupName = "settings-v1")]
     public class RepairItemStatusController : AppDataController
     {
         public RepairItemStatusController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(RepairItemStatusLogic); }

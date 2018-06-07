@@ -10,7 +10,7 @@ using WebApi.Controllers;
 namespace WebApi.Modules.Home.CompanyTaxResale
 {
     [Route("api/v1/[controller]")]
-    //[ApiExplorerSettings(GroupName = "v1")]
+    [ApiExplorerSettings(GroupName = "home-v1")]
     public class CompanyTaxResaleController : AppDataController
     {
         public CompanyTaxResaleController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(CompanyTaxResaleLogic); }

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 namespace WebApi.Modules.Home.ItemQc
 {
     [Route("api/v1/[controller]")]
+    [ApiExplorerSettings(GroupName = "home-v1")]
     public class ItemQcController : AppDataController
     {
         public ItemQcController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(ItemQcLogic); }

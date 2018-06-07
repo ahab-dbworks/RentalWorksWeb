@@ -8,6 +8,7 @@ using FwStandard.Modules.Administrator.DuplicateRule;
 namespace WebApi.Modules.Administrator.DuplicateRule
 {
     [Route("api/v1/[controller]")]
+    [ApiExplorerSettings(GroupName = "administrator-v1")]
     public class DuplicateRuleController : AppDataController
     {
         public DuplicateRuleController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(DuplicateRuleLogic); }

@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 namespace WebApi.Modules.Settings.WardrobeLabel
 {
     [Route("api/v1/[controller]")]
+    [ApiExplorerSettings(GroupName = "settings-v1")]
     public class WardrobeLabelController : AppDataController
     {
         public WardrobeLabelController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(WardrobeLabelLogic); }

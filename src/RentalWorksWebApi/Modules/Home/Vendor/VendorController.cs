@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 namespace WebApi.Modules.Home.Vendor
 {
     [Route("api/v1/[controller]")]
+    [ApiExplorerSettings(GroupName = "home-v1")]
     public class VendorController : AppDataController
     {
         public VendorController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(VendorLogic); }

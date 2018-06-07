@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Http;
 namespace WebApi.Modules.Home.OrderItem
 {
     [Route("api/v1/[controller]")]
+    [ApiExplorerSettings(GroupName = "home-v1")]
     public class OrderItemController : AppDataController
     {
         public OrderItemController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(OrderItemLogic); }

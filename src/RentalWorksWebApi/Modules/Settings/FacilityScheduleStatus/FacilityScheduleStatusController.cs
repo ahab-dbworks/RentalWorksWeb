@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 namespace WebApi.Modules.Settings.FacilityScheduleStatus
 {
     [Route("api/v1/[controller]")]
+    [ApiExplorerSettings(GroupName = "settings-v1")]
     public class FacilityScheduleStatusController : AppDataController
     {
         public FacilityScheduleStatusController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(FacilityScheduleStatusLogic); }

@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 namespace WebApi.Modules.Settings.DealClassification
 {
     [Route("api/v1/[controller]")]
+    [ApiExplorerSettings(GroupName = "settings-v1")]
     public class DealClassificationController : AppDataController
     {
         public DealClassificationController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(DealClassificationLogic); }

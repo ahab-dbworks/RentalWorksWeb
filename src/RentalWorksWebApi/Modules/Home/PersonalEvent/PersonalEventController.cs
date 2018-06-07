@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 namespace WebApi.Modules.Home.PersonalEvent
 {
     [Route("api/v1/[controller]")]
+    [ApiExplorerSettings(GroupName = "home-v1")]
     public class PersonalEventController : AppDataController
     {
         public PersonalEventController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(PersonalEventLogic); }

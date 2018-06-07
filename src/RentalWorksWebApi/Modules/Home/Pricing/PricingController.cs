@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Http;
 namespace WebApi.Modules.Home.Pricing
 {
     [Route("api/v1/[controller]")]
+    [ApiExplorerSettings(GroupName = "home-v1")]
     public class PricingController : AppDataController
     {
         public PricingController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(PricingLogic); }

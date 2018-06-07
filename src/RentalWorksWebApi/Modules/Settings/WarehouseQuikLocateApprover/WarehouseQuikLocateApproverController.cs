@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 namespace WebApi.Modules.Settings.WarehouseQuikLocateApprover
 {
     [Route("api/v1/[controller]")]
+    [ApiExplorerSettings(GroupName = "settings-v1")]
     public class WarehouseQuikLocateApproverController : AppDataController
     {
         public WarehouseQuikLocateApproverController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(WarehouseQuikLocateApproverLogic); }

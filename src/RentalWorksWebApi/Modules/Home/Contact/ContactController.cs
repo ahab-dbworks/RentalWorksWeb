@@ -10,7 +10,7 @@ using WebApi.Controllers;
 namespace WebApi.Modules.Home.Contact
 {
     [Route("api/v1/[controller]")]
-    [ApiExplorerSettings(GroupName = "v1")]
+    [ApiExplorerSettings(GroupName = "home-v1")]
     public class ContactController : AppDataController
     {
         public ContactController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(ContactLogic); }

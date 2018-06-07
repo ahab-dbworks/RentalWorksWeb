@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 namespace WebApi.Modules.Home.Company
 {
     [Route("api/v1/[controller]")]
+    [ApiExplorerSettings(GroupName = "home-v1")]
     public class CompanyController : AppDataController
     {
         public CompanyController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(CompanyLogic); }

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 namespace WebApi.Modules.Settings.BarCodeRange
 {
     [Route("api/v1/[controller]")]
+    [ApiExplorerSettings(GroupName = "settings-v1")]
     public class BarCodeRangeController : AppDataController
     {
         public BarCodeRangeController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(BarCodeRangeLogic); }

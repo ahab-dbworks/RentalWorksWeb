@@ -10,6 +10,7 @@ using WebApi.Controllers;
 namespace WebApi.Modules.Settings.CustomerStatus
 {
     [Route("api/v1/[controller]")]
+    [ApiExplorerSettings(GroupName = "settings-v1")]
     //[ApiExplorerSettings(GroupName = "v1")]
     public class CustomerStatusController : AppDataController
     {

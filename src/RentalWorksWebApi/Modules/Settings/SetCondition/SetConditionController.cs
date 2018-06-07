@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 namespace WebApi.Modules.Settings.SetCondition
 {
     [Route("api/v1/[controller]")]
+    [ApiExplorerSettings(GroupName = "settings-v1")]
     public class SetConditionController : AppDataController
     {
         public SetConditionController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(SetConditionLogic); }

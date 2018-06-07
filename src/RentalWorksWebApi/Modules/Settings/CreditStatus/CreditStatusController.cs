@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 namespace WebApi.Modules.Settings.CreditStatus
 {
     [Route("api/v1/[controller]")]
+    [ApiExplorerSettings(GroupName = "settings-v1")]
     public class CreditStatusController : AppDataController
     {
         public CreditStatusController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(CreditStatusLogic); }

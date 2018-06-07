@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Http;
 namespace WebApi.Modules.Settings.UserSearchSettings
 {
     [Route("api/v1/[controller]")]
+    [ApiExplorerSettings(GroupName = "settings-v1")]
     public class UserSearchSettingsController : AppDataController
     {
         public UserSearchSettingsController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(UserSearchSettingsLogic); }

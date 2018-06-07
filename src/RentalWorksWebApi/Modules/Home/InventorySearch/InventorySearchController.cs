@@ -43,6 +43,7 @@ namespace WebApi.Modules.Home.InventorySearch
     //------------------------------------------------------------------------------------ 
 
     [Route("api/v1/[controller]")]
+    [ApiExplorerSettings(GroupName = "home-v1")]
     public class InventorySearchController : AppDataController
     {
         //------------------------------------------------------------------------------------ 

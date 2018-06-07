@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 namespace WebApi.Modules.Home.InventoryWarehouse
 {
     [Route("api/v1/[controller]")]
+    [ApiExplorerSettings(GroupName = "home-v1")]
     public class InventoryWarehouseController : AppDataController
     {
         public InventoryWarehouseController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(InventoryWarehouseLogic); }

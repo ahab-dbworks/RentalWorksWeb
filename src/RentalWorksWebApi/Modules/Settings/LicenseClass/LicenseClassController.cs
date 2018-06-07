@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 namespace WebApi.Modules.Settings.LicenseClass
 {
     [Route("api/v1/[controller]")]
+    [ApiExplorerSettings(GroupName = "settings-v1")]
     public class LicenseClassController : AppDataController
     {
         public LicenseClassController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(LicenseClassLogic); }

@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 namespace WebApi.Modules.Home.VendorNote
 {
     [Route("api/v1/[controller]")]
+    [ApiExplorerSettings(GroupName = "home-v1")]
     public class VendorNoteController : AppDataController
     {
         public VendorNoteController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(VendorNoteLogic); }

@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 namespace WebApi.Modules.Settings.SetOpening
 {
     [Route("api/v1/[controller]")]
+    [ApiExplorerSettings(GroupName = "settings-v1")]
     public class SetOpeningController : AppDataController
     {
         public SetOpeningController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(SetOpeningLogic); }

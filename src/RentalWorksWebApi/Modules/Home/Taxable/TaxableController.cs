@@ -11,6 +11,7 @@ using FwStandard.BusinessLogic;
 namespace WebApi.Modules.Home.Taxable
 {
     [Route("api/v1/[controller]")]
+    [ApiExplorerSettings(GroupName = "home-v1")]
     public class TaxableController : AppDataController
     {
         public TaxableController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(TaxableLogic); }

@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 namespace WebApi.Modules.Settings.EventCategory
 {
     [Route("api/v1/[controller]")]
+    [ApiExplorerSettings(GroupName = "settings-v1")]
     public class EventCategoryController : AppDataController
     {
         public EventCategoryController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(EventCategoryLogic); }

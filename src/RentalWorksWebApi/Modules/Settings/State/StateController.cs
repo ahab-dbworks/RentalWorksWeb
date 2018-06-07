@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 namespace WebApi.Modules.Settings.State
 {
     [Route("api/v1/[controller]")]
+    [ApiExplorerSettings(GroupName = "settings-v1")]
     public class StateController : AppDataController
     {
         public StateController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(StateLogic); }

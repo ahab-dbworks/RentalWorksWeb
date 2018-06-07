@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Http;
 namespace WebApi.Modules.Administrator.Test
 {
     [Route("api/v1/[controller]")]
+    [ApiExplorerSettings(GroupName = "administrator-v1")]
     public class TestController : AppDataController
     {
         public TestController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }

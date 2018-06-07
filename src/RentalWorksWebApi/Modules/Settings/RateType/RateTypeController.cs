@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 namespace WebApi.Modules.Settings.RateType
 {
     [Route("api/v1/[controller]")]
+    [ApiExplorerSettings(GroupName = "settings-v1")]
     public class RateTypeController : AppDataController
     {
         public RateTypeController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(RateTypeLogic); }

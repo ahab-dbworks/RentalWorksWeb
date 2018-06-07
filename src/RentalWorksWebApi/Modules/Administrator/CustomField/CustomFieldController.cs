@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 namespace WebApi.Modules.Administrator.CustomField
 {
     [Route("api/v1/[controller]")]
+    [ApiExplorerSettings(GroupName = "administrator-v1")]
     public class CustomFieldController : AppDataController
     {
         public CustomFieldController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(CustomFieldLogic); }

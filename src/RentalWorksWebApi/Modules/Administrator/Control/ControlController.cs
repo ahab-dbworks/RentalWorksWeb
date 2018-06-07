@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 namespace WebApi.Modules.Administrator.Control
 {
     [Route("api/v1/[controller]")]
+    [ApiExplorerSettings(GroupName = "administrator-v1")]
     public class ControlController : AppDataController
     {
         public ControlController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(ControlLogic); }

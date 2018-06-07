@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 namespace WebApi.Modules.Home.DealNote
 {
     [Route("api/v1/[controller]")]
+    [ApiExplorerSettings(GroupName = "home-v1")]
     public class DealNoteController : AppDataController
     {
         public DealNoteController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(DealNoteLogic); }

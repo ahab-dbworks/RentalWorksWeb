@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 namespace WebApi.Modules.Administrator.UserSettings
 {
     [Route("api/v1/[controller]")]
+    [ApiExplorerSettings(GroupName = "administrator-v1")]
     public class UserSettingsController : AppDataController
     {
         public UserSettingsController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(UserSettingsLogic); }

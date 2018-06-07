@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 namespace WebApi.Modules.Home.InventoryMaterial
 {
     [Route("api/v1/[controller]")]
+    [ApiExplorerSettings(GroupName = "home-v1")]
     public class InventoryMaterialController : AppDataController
     {
         public InventoryMaterialController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(InventoryMaterialLogic); }

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 namespace WebApi.Modules.Settings.Floor
 {
     [Route("api/v1/[controller]")]
+    [ApiExplorerSettings(GroupName = "settings-v1")]
     public class FloorController : AppDataController
     {
         public FloorController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(FloorLogic); }

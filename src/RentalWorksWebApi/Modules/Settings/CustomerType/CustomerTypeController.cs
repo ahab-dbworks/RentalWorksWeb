@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 namespace WebApi.Modules.Settings.CustomerType
 {
     [Route("api/v1/[controller]")]
+    [ApiExplorerSettings(GroupName = "settings-v1")]
     public class CustomerTypeController : AppDataController
     {
         public CustomerTypeController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(CustomerTypeLogic); }

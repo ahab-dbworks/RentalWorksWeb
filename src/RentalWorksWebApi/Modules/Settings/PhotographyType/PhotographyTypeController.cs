@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 namespace WebApi.Modules.Settings.PhotographyType
 {
     [Route("api/v1/[controller]")]
+    [ApiExplorerSettings(GroupName = "settings-v1")]
     public class PhotographyTypeController : AppDataController
     {
         public PhotographyTypeController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(PhotographyTypeLogic); }

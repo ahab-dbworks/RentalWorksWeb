@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 namespace WebApi.Modules.Settings.PaymentTerms
 {
     [Route("api/v1/[controller]")]
+    [ApiExplorerSettings(GroupName = "settings-v1")]
     public class PaymentTermsController : AppDataController
     {
         public PaymentTermsController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(PaymentTermsLogic); }

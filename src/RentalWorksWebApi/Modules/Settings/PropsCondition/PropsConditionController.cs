@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 namespace WebApi.Modules.Settings.PropsCondition
 {
     [Route("api/v1/[controller]")]
+    [ApiExplorerSettings(GroupName = "settings-v1")]
     public class PropsConditionController : AppDataController
     {
         public PropsConditionController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(PropsConditionLogic); }

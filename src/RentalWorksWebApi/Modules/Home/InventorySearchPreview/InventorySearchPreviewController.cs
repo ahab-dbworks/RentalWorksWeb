@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Http;
 namespace WebApi.Modules.Home.InventorySearchPreview
 {
     [Route("api/v1/[controller]")]
+    [ApiExplorerSettings(GroupName = "home-v1")]
     public class InventorySearchPreviewController : AppDataController
     {
 

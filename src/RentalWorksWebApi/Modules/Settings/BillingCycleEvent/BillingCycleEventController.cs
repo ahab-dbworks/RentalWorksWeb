@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 namespace WebApi.Modules.Settings.BillingCycleEvent
 {
     [Route("api/v1/[controller]")]
+    [ApiExplorerSettings(GroupName = "settings-v1")]
     public class BillingCycleEventController : AppDataController
     {
         public BillingCycleEventController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(BillingCycleEventLogic); }

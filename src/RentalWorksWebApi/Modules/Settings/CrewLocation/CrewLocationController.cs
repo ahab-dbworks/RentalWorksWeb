@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 namespace WebApi.Modules.Settings.CrewLocation
 {
     [Route("api/v1/[controller]")]
+    [ApiExplorerSettings(GroupName = "settings-v1")]
     public class CrewLocationController : AppDataController
     {
         public CrewLocationController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(CrewLocationLogic); }

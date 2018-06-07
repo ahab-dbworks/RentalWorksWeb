@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Http;
 namespace WebApi.Modules.Home.RepairPart
 {
     [Route("api/v1/[controller]")]
+    [ApiExplorerSettings(GroupName = "home-v1")]
     public class RepairPartController : AppDataController
     {
         public RepairPartController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(RepairPartLogic); }

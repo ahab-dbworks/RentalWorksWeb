@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 namespace WebApi.Modules.Settings.VehicleModel
 {
     [Route("api/v1/[controller]")]
+    [ApiExplorerSettings(GroupName = "settings-v1")]
     public class VehicleModelController : AppDataController
     {
         public VehicleModelController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(VehicleModelLogic); }

@@ -11,6 +11,7 @@ using System.Collections.Generic;
 namespace WebApi.Modules.Home.PickListUtilityItem
 {
     [Route("api/v1/[controller]")]
+    [ApiExplorerSettings(GroupName = "home-v1")]
     public class PickListUtilityItemController : AppDataController
     {
         public PickListUtilityItemController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(PickListUtilityItemLogic); }

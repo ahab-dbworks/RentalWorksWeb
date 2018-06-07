@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 namespace WebApi.Modules.Settings.FiscalYear
 {
     [Route("api/v1/[controller]")]
+    [ApiExplorerSettings(GroupName = "settings-v1")]
     public class FiscalYearController : AppDataController
     {
         public FiscalYearController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(FiscalYearLogic); }

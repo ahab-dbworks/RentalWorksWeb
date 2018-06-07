@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 namespace WebApi.Modules.Administrator.CustomModule
 {
     [Route("api/v1/[controller]")]
+    [ApiExplorerSettings(GroupName = "administrator-v1")]
     public class CustomModuleController : AppDataController
     {
         public CustomModuleController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(CustomModuleLogic); }

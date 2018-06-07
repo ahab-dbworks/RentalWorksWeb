@@ -10,6 +10,7 @@ using System.Text;
 namespace WebApi.Modules.Settings.OrderType
 {
     [Route("api/v1/[controller]")]
+    [ApiExplorerSettings(GroupName = "settings-v1")]
     public class OrderTypeController : AppDataController
     {
         public OrderTypeController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(OrderTypeLogic); }

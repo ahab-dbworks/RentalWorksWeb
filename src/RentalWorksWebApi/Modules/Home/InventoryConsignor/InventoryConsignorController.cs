@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 namespace WebApi.Modules.Home.InventoryConsignor
 {
     [Route("api/v1/[controller]")]
+    [ApiExplorerSettings(GroupName = "home-v1")]
     public class InventoryConsignorController : AppDataController
     {
         public InventoryConsignorController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(InventoryConsignorLogic); }

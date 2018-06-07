@@ -10,6 +10,7 @@ using WebApi.Logic;
 namespace WebApi.Modules.Settings.Widget
 {
     [Route("api/v1/[controller]")]
+    [ApiExplorerSettings(GroupName = "settings-v1")]
     public class WidgetController : AppDataController
     {
         public WidgetController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(WidgetLogic); }

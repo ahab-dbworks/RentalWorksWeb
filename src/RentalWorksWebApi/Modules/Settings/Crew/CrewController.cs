@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 namespace WebApi.Modules.Settings.Crew
 {
     [Route("api/v1/[controller]")]
+    [ApiExplorerSettings(GroupName = "settings-v1")]
     public class CrewController : AppDataController
     {
         public CrewController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(CrewLogic); }

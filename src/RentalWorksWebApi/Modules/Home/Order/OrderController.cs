@@ -11,6 +11,7 @@ using WebApi.Modules.Home.Quote;
 namespace WebApi.Modules.Home.Order
 {
     [Route("api/v1/[controller]")]
+    [ApiExplorerSettings(GroupName = "home-v1")]
     public class OrderController : AppDataController
     {
         public OrderController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(OrderLogic); }

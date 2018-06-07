@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 namespace WebApi.Modules.Home.CustomerNote
 {
     [Route("api/v1/[controller]")]
+    [ApiExplorerSettings(GroupName = "home-v1")]
     public class CustomerNoteController : AppDataController
     {
         public CustomerNoteController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(CustomerNoteLogic); }

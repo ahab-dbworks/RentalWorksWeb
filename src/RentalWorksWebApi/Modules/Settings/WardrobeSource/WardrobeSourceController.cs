@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 namespace WebApi.Modules.Settings.WardrobeSource
 {
     [Route("api/v1/[controller]")]
+    [ApiExplorerSettings(GroupName = "settings-v1")]
     public class WardrobeSourceController : AppDataController
     {
         public WardrobeSourceController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(WardrobeSourceLogic); }

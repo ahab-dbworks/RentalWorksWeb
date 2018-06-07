@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 namespace WebApi.Modules.Reports.PickListReport
 {
     [Route("api/v1/[controller]")]
+    [ApiExplorerSettings(GroupName = "reports-v1")]
     public class PickListReportController : AppDataController
     {
         public PickListReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(PickListReportLogic); }

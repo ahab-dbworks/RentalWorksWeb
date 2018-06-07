@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 namespace WebApi.Modules.Settings.DealType
 {
     [Route("api/v1/[controller]")]
+    [ApiExplorerSettings(GroupName = "settings-v1")]
     public class DealTypeController : AppDataController
     {
         public DealTypeController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(DealTypeLogic); }

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 namespace WebApi.Modules.Settings.WallDescription
 {
     [Route("api/v1/[controller]")]
+    [ApiExplorerSettings(GroupName = "settings-v1")]
     public class WallDescriptionController : AppDataController
     {
         public WallDescriptionController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(WallDescriptionLogic); }

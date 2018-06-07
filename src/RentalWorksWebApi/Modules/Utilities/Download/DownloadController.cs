@@ -10,6 +10,7 @@ namespace WebApi.Controllers
 {
     [Route("api/v1/[controller]")]
     [AllowAnonymous]
+    [ApiExplorerSettings(GroupName = "utilities-v1")]
     public class DownloadController : FwDownloadController
     {
         public DownloadController(IOptions<FwApplicationConfig> appConfig): base(appConfig) { }

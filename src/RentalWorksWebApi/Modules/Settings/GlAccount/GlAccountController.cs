@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 namespace WebApi.Modules.Settings.GlAccount
 {
     [Route("api/v1/[controller]")]
+    [ApiExplorerSettings(GroupName = "settings-v1")]
     public class GlAccountController : AppDataController
     {
         public GlAccountController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(GlAccountLogic); }

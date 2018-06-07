@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 namespace WebApi.Modules.Settings.Currency
 {
     [Route("api/v1/[controller]")]
+    [ApiExplorerSettings(GroupName = "settings-v1")]
     public class CurrencyController : AppDataController
     {
         public CurrencyController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(CurrencyLogic); }

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 namespace WebApi.Modules.Settings.SpaceRate
 {
     [Route("api/v1/[controller]")]
+    [ApiExplorerSettings(GroupName = "settings-v1")]
     public class SpaceRateController : AppDataController
     {
         public SpaceRateController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(SpaceRateLogic); }

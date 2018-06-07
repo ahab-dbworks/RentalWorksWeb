@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 namespace WebApi.Modules.Settings.PoType
 {
     [Route("api/v1/[controller]")]
+    [ApiExplorerSettings(GroupName = "settings-v1")]
     public class PoTypeController : AppDataController
     {
         public PoTypeController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(PoTypeLogic); }

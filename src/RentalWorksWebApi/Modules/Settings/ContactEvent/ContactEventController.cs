@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 namespace WebApi.Modules.Settings.ContactEvent
 {
     [Route("api/v1/[controller]")]
+    [ApiExplorerSettings(GroupName = "settings-v1")]
     public class ContactEventController : AppDataController
     {
         public ContactEventController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(ContactEventLogic); }

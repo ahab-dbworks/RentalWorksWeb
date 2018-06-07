@@ -10,7 +10,7 @@ using WebApi.Controllers;
 namespace WebApi.Modules.Settings.VendorCatalog
 {
     [Route("api/v1/[controller]")]
-    //[ApiExplorerSettings(GroupName = "v1")]
+    [ApiExplorerSettings(GroupName = "settings-v1")]
     public class VendorCatalogController : AppDataController
     {
         public VendorCatalogController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(VendorCatalogLogic); }

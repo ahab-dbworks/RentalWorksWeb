@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 namespace WebApi.Modules.Settings.Attribute
 {
     [Route("api/v1/[controller]")]
+    [ApiExplorerSettings(GroupName = "settings-v1")]
     public class AttributeController : AppDataController
     {
         public AttributeController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(AttributeLogic); }

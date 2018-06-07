@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 namespace WebApi.Modules.Settings.Country
 {
     [Route("api/v1/[controller]")]
+    [ApiExplorerSettings(GroupName = "settings-v1")]
     public class CountryController : AppDataController
     {
         public CountryController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(CountryLogic); }

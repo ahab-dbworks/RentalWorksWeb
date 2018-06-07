@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 namespace WebApi.Modules.Settings.TermsConditions
 {
     [Route("api/v1/[controller]")]
+    [ApiExplorerSettings(GroupName = "settings-v1")]
     public class TermsConditionsController : AppDataController
     {
         public TermsConditionsController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(TermsConditionsLogic); }

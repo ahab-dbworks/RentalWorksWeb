@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 namespace WebApi.Modules.Home.PickList
 {
     [Route("api/v1/[controller]")]
+    [ApiExplorerSettings(GroupName = "home-v1")]
     public class PickListController : AppDataController
     {
         public PickListController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(PickListLogic); }

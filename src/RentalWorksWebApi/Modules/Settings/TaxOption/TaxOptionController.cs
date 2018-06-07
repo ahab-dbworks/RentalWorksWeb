@@ -10,6 +10,7 @@ using WebApi.Controllers;
 namespace WebApi.Modules.Settings.TaxOption
 {
     [Route("api/v1/[controller]")]
+    [ApiExplorerSettings(GroupName = "settings-v1")]
     public class TaxOptionController : AppDataController
     {
         public TaxOptionController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(TaxOptionLogic); }

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 namespace WebApi.Modules.Settings.WarehouseCatalog
 {
     [Route("api/v1/[controller]")]
+    [ApiExplorerSettings(GroupName = "settings-v1")]
     public class WarehouseCatalogController : AppDataController
     {
         public WarehouseCatalogController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(WarehouseCatalogLogic); }
