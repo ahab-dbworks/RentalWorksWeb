@@ -316,6 +316,40 @@ var Order = (function () {
                 FwFormField.setValueByDataField($form, 'InDeliveryToCrossStreets', FwFormField.getValueByDataField($form, 'OutDeliveryToCrossStreets'));
             }
         });
+        if (!self.CombineActivity) {
+            $form.find('[data-datafield="Rental"] input').on('change', function (e) {
+                if (jQuery(e.currentTarget).prop('checked')) {
+                    $form.find('[data-type="tab"][data-caption="Rental"]').show();
+                }
+                else {
+                    $form.find('[data-type="tab"][data-caption="Rental"]').hide();
+                }
+            });
+            $form.find('[data-datafield="Sales"] input').on('change', function (e) {
+                if (jQuery(e.currentTarget).prop('checked')) {
+                    $form.find('[data-type="tab"][data-caption="Sales"]').show();
+                }
+                else {
+                    $form.find('[data-type="tab"][data-caption="Sales"]').hide();
+                }
+            });
+            $form.find('[data-datafield="Miscellaneous"] input').on('change', function (e) {
+                if (jQuery(e.currentTarget).prop('checked')) {
+                    $form.find('[data-type="tab"][data-caption="Misc"]').show();
+                }
+                else {
+                    $form.find('[data-type="tab"][data-caption="Misc"]').hide();
+                }
+            });
+            $form.find('[data-datafield="Labor"] input').on('change', function (e) {
+                if (jQuery(e.currentTarget).prop('checked')) {
+                    $form.find('[data-type="tab"][data-caption="Labor"]').show();
+                }
+                else {
+                    $form.find('[data-type="tab"][data-caption="Labor"]').hide();
+                }
+            });
+        }
         this.events($form);
         return $form;
     };
