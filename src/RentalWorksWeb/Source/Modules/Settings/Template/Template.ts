@@ -42,8 +42,7 @@
         var $form;
 
         $form = jQuery(jQuery('#tmpl-modules-' + this.Module + 'Form').html());
-        $form = FwModule.openForm($form, mode);
-
+        $form = FwModule.openForm($form, mode); 
 
         return $form;
     }
@@ -182,31 +181,6 @@
         $form.find('div.fwformfield[data-datafield="TemplateId"] input').val(uniqueids.TemplateId);
         FwModule.loadForm(this.Module, $form);
 
-        $form.find('.rectype .fwformfield').on('change', function (e) {
-            var rectype = jQuery(e.currentTarget).attr('data-datafield');
-            switch (rectype) {
-                case 'Rental':
-                    $form.find('.rental').toggle();
-                    break;
-                case 'Sales':
-                    $form.find('.sales').toggle();
-                    break;
-                case 'Facilities':
-                    $form.find('.facilities').toggle();
-                    break;
-                case 'Transportation':
-                    $form.find('.transportation').toggle();
-                    break;
-                case 'Labor':
-                    $form.find('.labor').toggle();
-                    break;
-                case 'Miscellaneous':
-                    $form.find('.miscellaneous').toggle();
-                    break;
-
-            }
-        })
-
         return $form;
     }
 
@@ -259,6 +233,36 @@
         }
 
         jQuery($form.find('[data-grid="OrderItemGrid"] [data-browsedatafield="FromDate"], [data-browsedatafield="ToDate"], [data-browsedatafield="BillablePeriods"], [data-browsedatafield="SubQuantity"], [data-browsedatafield="AvailableQuantity"]')).parent().hide();
+
+        $form.find('.rectype [data-datafield="Rental"] input').on('change', e => {
+            if (jQuery(e.currentTarget).prop('checked')) {
+                $form.find('[data-type="tab"][data-caption="Rental"]').show();
+            } else {
+                $form.find('[data-type="tab"][data-caption="Rental"]').hide();
+            }
+        });
+        $form.find('[data-datafield="Sales"] input').on('change', e => {
+            if (jQuery(e.currentTarget).prop('checked')) {
+                $form.find('[data-type="tab"][data-caption="Sales"]').show();
+            } else {
+                $form.find('[data-type="tab"][data-caption="Sales"]').hide();
+            }
+        });
+        $form.find('[data-datafield="Miscellaneous"] input').on('change', e => {
+            if (jQuery(e.currentTarget).prop('checked')) {
+                $form.find('[data-type="tab"][data-caption="Misc"]').show();
+            } else {
+                $form.find('[data-type="tab"][data-caption="Misc"]').hide();
+            }
+        });
+        $form.find('[data-datafield="Labor"] input').on('change', e => {
+            if (jQuery(e.currentTarget).prop('checked')) {
+                $form.find('[data-type="tab"][data-caption="Labor"]').show();
+            } else {
+                $form.find('[data-type="tab"][data-caption="Labor"]').hide();
+            }
+        });
+
     }
 }
 
