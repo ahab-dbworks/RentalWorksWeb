@@ -843,7 +843,8 @@ class SearchInterface {
             FwAppData.apiMethod(true, 'POST', "api/v1/inventorysearch/", request, FwServices.defaultTimeout, function onSuccess(response) {
                 if (!accessoryRefresh) {
                     if ($accContainer.css('display') == 'none') {
-                        $accContainer.css('display', '');
+                        $popup.find('.accContainer').not($accContainer).slideUp();
+                        $accContainer.slideToggle();
                     }
                 }
 
@@ -962,6 +963,7 @@ class SearchInterface {
                 let inventoryId = jQuery(e.currentTarget).parents('.card').find('[data-datafield="InventoryId"] input').val();
                 self.refreshAccessoryQuantity($popup, id, warehouseId, inventoryId, e);
             }
+            $popup.find('.accContainer').not(accessoryContainer).slideUp();
             accessoryContainer.slideToggle();
         });
 
