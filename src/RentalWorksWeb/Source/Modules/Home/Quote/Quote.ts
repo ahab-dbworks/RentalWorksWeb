@@ -780,8 +780,8 @@ class Quote {
 
     //----------------------------------------------------------------------------------------------
     events($form: any) {
-        //Populate xax info fields with validation
-        $form.find('div[data-datafield="TaxOptionId"]').data('onchange', function ($tr) {
+        //Populate tax info fields with validation
+        $form.find('div[data-datafield="TaxOptionId"]').data('onchange', $tr => {
             FwFormField.setValue($form, 'div[data-datafield="RentalTaxRate1"]', $tr.find('.field[data-browsedatafield="RentalTaxRate1"]').attr('data-originalvalue'));
             FwFormField.setValue($form, 'div[data-datafield="SalesTaxRate1"]', $tr.find('.field[data-browsedatafield="SalesTaxRate1"]').attr('data-originalvalue'));
             FwFormField.setValue($form, 'div[data-datafield="LaborTaxRate1"]', $tr.find('.field[data-browsedatafield="LaborTaxRate1"]').attr('data-originalvalue'));
@@ -831,6 +831,7 @@ class Quote {
         // RentalDaysPerWeek for Rental OrderItemGrid
         $form.find('.RentalDaysPerWeek').on('change', '.fwformfield-text, .fwformfield-value', event => {
             let request: any = {};
+            let $orderItemGridRental = $form.find('.rentalgrid [data-name="OrderItemGrid"]');
             let quoteId = FwFormField.getValueByDataField($form, 'QuoteId');
             let daysperweek = FwFormField.getValueByDataField($form, 'RentalDaysPerWeek');
 

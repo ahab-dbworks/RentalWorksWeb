@@ -892,8 +892,8 @@ class Order {
 
     //----------------------------------------------------------------------------------------------
     events($form: any) {
-        //Populate xax info fields with validation
-        $form.find('div[data-datafield="TaxOptionId"]').data('onchange', function ($tr) {
+        //Populate tax info fields with validation
+        $form.find('div[data-datafield="TaxOptionId"]').data('onchange', $tr => {
             FwFormField.setValue($form, 'div[data-datafield="RentalTaxRate1"]', $tr.find('.field[data-browsedatafield="RentalTaxRate1"]').attr('data-originalvalue'));
             FwFormField.setValue($form, 'div[data-datafield="SalesTaxRate1"]', $tr.find('.field[data-browsedatafield="SalesTaxRate1"]').attr('data-originalvalue'));
             FwFormField.setValue($form, 'div[data-datafield="LaborTaxRate1"]', $tr.find('.field[data-browsedatafield="LaborTaxRate1"]').attr('data-originalvalue'));
@@ -941,6 +941,10 @@ class Order {
             }, function onError(response) {
                 FwFunc.showError(response);
             }, $form);
+        });
+        // PickDate Validations
+        $form.find('.pick_date_validation').on('change', event => {
+            this.checkDateRangeForPick($form);
         });
     };
 
@@ -1007,6 +1011,18 @@ class Order {
         // Disable withTax checkboxes if Total field is 0.00
         this.disableWithTaxCheckbox($form);
     };
+
+    //----------------------------------------------------------------------------------------------
+    checkDateRangeForPick($form) {
+        let parsedPickDate = Date.parse(FwFormField.getValueByDataField($form, 'PickDate'));
+        let parsedFromDate = Date.parse(FwFormField.getValueByDataField($form, 'EstimatedStartDate'));
+        let parsedToDate = Date.parse(FwFormField.getValueByDataField($form, 'EstimatedStopDate'));
+
+        if (parsedToDate < parsedFromDate) {
+            alert("Your chosen 'To Date' is less than 'From Date'.")
+        }
+
+    }
 
     //----------------------------------------------------------------------------------------------
     disableWithTaxCheckbox($form: any) {

@@ -817,6 +817,9 @@ var Order = (function () {
                 FwFunc.showError(response);
             }, $form);
         });
+        $form.find('.pick_date_validation').on('change', function (event) {
+            _this.checkDateRangeForPick($form);
+        });
     };
     ;
     Order.prototype.afterLoad = function ($form) {
@@ -874,6 +877,14 @@ var Order = (function () {
         this.disableWithTaxCheckbox($form);
     };
     ;
+    Order.prototype.checkDateRangeForPick = function ($form) {
+        var parsedPickDate = Date.parse(FwFormField.getValueByDataField($form, 'PickDate'));
+        var parsedFromDate = Date.parse(FwFormField.getValueByDataField($form, 'EstimatedStartDate'));
+        var parsedToDate = Date.parse(FwFormField.getValueByDataField($form, 'EstimatedStopDate'));
+        if (parsedToDate < parsedFromDate) {
+            alert("Your chosen 'To Date' is less than 'From Date'.");
+        }
+    };
     Order.prototype.disableWithTaxCheckbox = function ($form) {
         if (FwFormField.getValueByDataField($form, 'PeriodRentalTotal') === '0.00') {
             FwFormField.disable($form.find('div[data-datafield="PeriodRentalTotalIncludesTax"]'));
