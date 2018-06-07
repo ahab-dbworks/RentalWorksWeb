@@ -475,10 +475,11 @@ FwSettings.renderModuleHtml = function ($control, title, moduleName, description
     $control
         .unbind().on('click', '.row-heading', function (e) {
             e.stopPropagation();
-            var formKeys = [], formData = [], recordData, $rowBody, $form, moduleName, moduleId;
+            var formKeys = [], formData = [], recordData, $rowBody, $form, moduleName, moduleId, uniqueids = {};
             recordData = jQuery(this).parent().parent().data('recorddata');
             moduleName = jQuery(this).closest('div.panel-group')[0].id;
             moduleId = jQuery(this).closest('div.panel-group').data('id');
+            uniqueids[moduleId] = recordData[moduleId];
 
             $rowBody = $control.find('#' + recordData[moduleId] + '.panel-body');
 
@@ -506,9 +507,13 @@ FwSettings.renderModuleHtml = function ($control, title, moduleName, description
                         }
                     }
                 }
+                if (typeof window[moduleName + 'Controller']['loadForm'] === 'function') {
+                    window[moduleName + 'Controller']['loadForm'](uniqueids);
+                }
+
             }
 
-            if ($form.find('.fwappimage')[0]) {
+            if ($form.find('.fwappimage')[0] && $form.find('.images').is(':empty')) {
                 FwAppImage.getAppImages($form.find('.fwappimage'))
             }
 
