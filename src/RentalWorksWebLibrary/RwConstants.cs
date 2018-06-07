@@ -40,6 +40,16 @@ namespace WebLibrary
         public const string SEARCH_MODE_PREFERENCE_HYBRID = "HYBRID";
         public const string SEARCH_MODE_PREFERENCE_GRID = "GRID";
 
+        public const string RATE_TYPE_DAILY = "DAILY";
+        public const string RATE_TYPE_WEEKLY = "WEEKLY";
+        public const string RATE_TYPE_3WEEK = "3WEEK";
+        public const string RATE_TYPE_MONTHLY = "MONTHLY";
+
+        public const string RECTYPE_RENT = "R";
+        public const string RECTYPE_SALE = "S";
+        public const string RECTYPE_MISC = "M";
+        public const string RECTYPE_LABOR = "L";
+
         //DELIVERY
         public const string ONLINE_DELIVERY_STATUS_PARTIAL = "PARTIAL";
         public const string ONLINE_DELIVERY_STATUS_COMPLETE = "COMPLETE";

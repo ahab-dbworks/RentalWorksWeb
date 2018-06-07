@@ -98,8 +98,9 @@ var OrderItemGrid = (function () {
             calculateExtended('Discount');
         });
         function calculateExtended(calculatedColumn) {
-            var rateType, fromDate, toDate, quantity, rate, daysPerWeek, discountPercent, weeklyExtended;
+            var rateType, recType, fromDate, toDate, quantity, rate, daysPerWeek, discountPercent, weeklyExtended;
             rateType = $form.find('[data-datafield="RateType"] input').val();
+            recType = $generatedtr.find('.field[data-browsedatafield="RecType"] input').val();
             fromDate = $generatedtr.find('.field[data-browsedatafield="FromDate"] input').val();
             toDate = $generatedtr.find('.field[data-browsedatafield="ToDate"] input').val();
             quantity = $generatedtr.find('.field[data-browsedatafield="QuantityOrdered"] input').val();
@@ -109,6 +110,8 @@ var OrderItemGrid = (function () {
             weeklyExtended = $generatedtr.find('.field[data-browsedatafield="WeeklyExtended"] input').val();
             var apiurl = "api/v1/orderitem/calculateextended?RateType="
                 + rateType
+                + "&RecType="
+                + recType
                 + "&FromDate="
                 + fromDate
                 + "&ToDate="
@@ -123,11 +126,11 @@ var OrderItemGrid = (function () {
                 apiurl += "&DiscountPercent=" + discountPercent;
                 FwAppData.apiMethod(true, 'GET', apiurl, null, FwServices.defaultTimeout, function onSuccess(response) {
                     $generatedtr.find('.field[data-browsedatafield="WeeklyExtended"] input').val(response.WeeklyExtended);
-                    $generatedtr.find('.field[data-browsedatafield="WeeklyDiscount"] input').val(response.WeeklyDiscount);
+                    $generatedtr.find('.field[data-browsedatafield="WeeklyDiscountAmount"] input').val(response.WeeklyDiscount);
                     $generatedtr.find('.field[data-browsedatafield="MonthlyExtended"] input').val(response.MonthlyExtended);
-                    $generatedtr.find('.field[data-browsedatafield="MonthlyDiscount"] input').val(response.MonthlyDiscount);
+                    $generatedtr.find('.field[data-browsedatafield="MonthlyDiscountAmount"] input').val(response.MonthlyDiscount);
                     $generatedtr.find('.field[data-browsedatafield="PeriodExtended"] input').val(response.PeriodExtended);
-                    $generatedtr.find('.field[data-browsedatafield="PeriodDiscount"] input').val(response.PeriodDiscount);
+                    $generatedtr.find('.field[data-browsedatafield="PeriodDiscountAmount"] input').val(response.PeriodDiscount);
                 }, null, $form);
             }
             if (calculatedColumn == 'Discount') {

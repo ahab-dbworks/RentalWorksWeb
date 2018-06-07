@@ -5,6 +5,7 @@ using WebApi.Controllers;
 using System.Threading.Tasks;
 using System;
 using Microsoft.AspNetCore.Http;
+using WebLibrary;
 
 namespace WebApi.Modules.Home.OrderItem
 {
@@ -64,48 +65,155 @@ namespace WebApi.Modules.Home.OrderItem
         }
         //------------------------------------------------------------------------------------ 
 
-        public class OrderItemExtended
+        private class OrderItemExtended
         {
             public string RateType;
+            public string RecType;
             public DateTime? FromDate;
             public DateTime? ToDate;
+            public DateTime? BillingFromDate;
+            public DateTime? BillingToDate;
             public Decimal? Quantity;
             public Decimal? Rate;
+            public Decimal? Rate2;
+            public Decimal? Rate3;
+            public Decimal? Rate4;
+            public Decimal? Rate5;
             public Decimal? DaysPerWeek;
             public Decimal? DiscountPercent;
-            public Decimal? WeeklyExtended;
+            public int? Days;
+            public int? Weeks;
+            public int? Months;
+            public Decimal? BillablePeriods;
+            public Decimal? UnitDiscount;
+            public Decimal? UnitExtended;
             public Decimal? WeeklyDiscount;
-            public Decimal? MonthlyExtended;
+            public Decimal? WeeklyExtended;
             public Decimal? MonthlyDiscount;
-            public Decimal? PeriodExtended;
+            public Decimal? MonthlyExtended;
             public Decimal? PeriodDiscount;
+            public Decimal? PeriodExtended;
+
+            public void CalculateExtendeds()
+            {
+                Days = null;
+                Weeks = null;
+                Months = null;
+                BillablePeriods = 1;
+
+                DateTime? fromDate = (BillingFromDate > FromDate ? BillingFromDate : FromDate);
+                DateTime? toDate = (BillingToDate < ToDate ? BillingToDate : ToDate);
+
+                if ((fromDate != null) && (fromDate != DateTime.MinValue) && (toDate != null) && (toDate != DateTime.MinValue))
+                {
+                    Days = ((((toDate.Value) - (fromDate.Value)).Days) + 1);
+                    Weeks = (int)Math.Ceiling((decimal)Days / 7);
+                    Months = 0;
+
+                    DateTime theDate = toDate.Value;
+                    while (theDate > fromDate.Value)
+                    {
+                        Months++;
+                        theDate = theDate.AddMonths(-1);
+                    }
+                }
+
+                UnitDiscount = Rate * (DiscountPercent / 100);
+                UnitExtended = Rate * ((100 - DiscountPercent) / 100);
+
+                if (RecType.Equals(RwConstants.RECTYPE_RENT))
+                {
+                    if (RateType.Equals(RwConstants.RATE_TYPE_DAILY))
+                    {
+                        Decimal? FirstWeekBillableDays = 0;
+                        Decimal? PeriodBillableDays = 0;
+                        if (Days > 0)
+                        {
+                            bool isFirstWeek = true;
+                            DateTime theDate = fromDate.Value;
+                            Decimal? daysThisWeek = 0;
+                            while (theDate <= toDate.Value)
+                            {
+                                daysThisWeek = (((toDate.Value - theDate).Days) + 1);
+                                daysThisWeek = Math.Min(DaysPerWeek.Value, daysThisWeek.Value);
+                                if (isFirstWeek)
+                                {
+                                    FirstWeekBillableDays = daysThisWeek.Value;
+                                }
+                                PeriodBillableDays += daysThisWeek.Value;
+                                theDate = theDate.AddDays(7);
+                                isFirstWeek = false;
+                            }
+                        }
+                        BillablePeriods = PeriodBillableDays;
+
+                        WeeklyDiscount = Quantity * Rate * FirstWeekBillableDays * (DiscountPercent / 100);
+                        WeeklyExtended = Quantity * Rate * FirstWeekBillableDays * ((100 - DiscountPercent) / 100);
+
+                        PeriodDiscount = Quantity * Rate * PeriodBillableDays * (DiscountPercent / 100);
+                        PeriodExtended = Quantity * Rate * PeriodBillableDays * ((100 - DiscountPercent) / 100);
+
+                    }
+                    else if (RateType.Equals(RwConstants.RATE_TYPE_WEEKLY))
+                    {
+                        BillablePeriods = Weeks;
+
+                        WeeklyDiscount = Quantity * Rate * (DiscountPercent / 100);
+                        WeeklyExtended = Quantity * Rate * ((100 - DiscountPercent) / 100);
+
+                        PeriodDiscount = BillablePeriods * WeeklyDiscount;
+                        PeriodExtended = BillablePeriods * WeeklyExtended;
+                    }
+                    else if (RateType.Equals(RwConstants.RATE_TYPE_3WEEK))
+                    {
+                        throw new Exception($"RateType: {RateType} not programmed yet.");
+                    }
+                    else if (RateType.Equals(RwConstants.RATE_TYPE_MONTHLY))
+                    {
+                        BillablePeriods = Months;
+
+                        MonthlyDiscount = Quantity * Rate * (DiscountPercent / 100);
+                        MonthlyExtended = Quantity * Rate * ((100 - DiscountPercent) / 100);
+
+                        PeriodDiscount = BillablePeriods * MonthlyDiscount;
+                        PeriodExtended = BillablePeriods * MonthlyExtended;
+                    }
+                    else
+                    {
+                        throw new Exception($"Invalid RateType: {RateType}.");
+                    }
+                }
+                else if ((RecType.Equals(RwConstants.RECTYPE_SALE)) || (RecType.Equals(RwConstants.RECTYPE_MISC)) || (RecType.Equals(RwConstants.RECTYPE_LABOR)))
+                {
+                    WeeklyDiscount = MonthlyDiscount = PeriodDiscount = Quantity * Rate * (DiscountPercent / 100);
+                    WeeklyExtended = MonthlyExtended = PeriodExtended = Quantity * Rate * ((100 - DiscountPercent) / 100);
+                }
+            }
         }
 
         // GET api/v1/orderitem/calculateextended
         [HttpGet("calculateextended")]
-        public IActionResult CalculateExtended(string RateType, DateTime? FromDate, DateTime? ToDate, Decimal? Quantity, Decimal? Rate, Decimal? DaysPerWeek, Decimal? DiscountPercent)
+        public IActionResult CalculateExtended(string RateType, string RecType, DateTime? FromDate, DateTime? ToDate, DateTime? BillingFromDate, DateTime? BillingToDate, Decimal? Quantity, Decimal? Rate, Decimal? Rate2, Decimal? Rate3, Decimal? Rate4, Decimal? Rate5, Decimal? DaysPerWeek, Decimal? DiscountPercent)
         {
             try
             {
-                OrderItemExtended extended = new OrderItemExtended();
-                extended.RateType = RateType;
-                extended.FromDate = FromDate;
-                extended.ToDate = ToDate;
-                extended.Quantity = Quantity;
-                extended.Rate = Rate;
-                extended.DaysPerWeek = DaysPerWeek;
-                extended.DiscountPercent = DiscountPercent;
-
-                //calculate extendeds here
-                extended.WeeklyExtended = 1;
-                extended.WeeklyDiscount = 1.5M;
-                extended.MonthlyExtended = 2;
-                extended.MonthlyDiscount = 2.5M;
-                extended.PeriodExtended = 3;
-                extended.PeriodDiscount = 3.5M;
-
-
-                return new OkObjectResult(extended);
+                OrderItemExtended e = new OrderItemExtended();
+                e.RateType = RateType;
+                e.RecType = RecType;
+                e.FromDate = FromDate;
+                e.ToDate = ToDate;
+                e.BillingFromDate = BillingFromDate;
+                e.BillingToDate = BillingToDate;
+                e.Quantity = Quantity;
+                e.Rate = Rate;
+                e.Rate2 = Rate2;
+                e.Rate3 = Rate3;
+                e.Rate4 = Rate4;
+                e.Rate5 = Rate5;
+                e.DaysPerWeek = DaysPerWeek;
+                e.DiscountPercent = DiscountPercent;
+                e.CalculateExtendeds();
+                return new OkObjectResult(e);
             }
             catch (Exception ex)
             {
