@@ -292,6 +292,30 @@ var Order = (function () {
                 $form.find('.summarySection').css('flex', '');
             }
         });
+        $form.find('.copy').on('click', function (e) {
+            var $confirmation, $yes, $no;
+            $confirmation = FwConfirmation.renderConfirmation('Confirm Copy', '');
+            var html = [];
+            html.push('<div class="flexrow">Copy Outgoing Address into Incoming Address?</div>');
+            FwConfirmation.addControls($confirmation, html.join(''));
+            $yes = FwConfirmation.addButton($confirmation, 'Copy', false);
+            $no = FwConfirmation.addButton($confirmation, 'Cancel');
+            $yes.on('click', copyAddress);
+            var $confirmationbox = jQuery('.fwconfirmationbox');
+            function copyAddress() {
+                FwNotification.renderNotification('SUCCESS', 'Address Successfully Copied.');
+                FwConfirmation.destroyConfirmation($confirmation);
+                FwFormField.setValueByDataField($form, 'InDeliveryToLocation', FwFormField.getValueByDataField($form, 'OutDeliveryToLocation'));
+                FwFormField.setValueByDataField($form, 'InDeliveryToAttention', FwFormField.getValueByDataField($form, 'OutDeliveryToAttention'));
+                FwFormField.setValueByDataField($form, 'InDeliveryToAddress1', FwFormField.getValueByDataField($form, 'OutDeliveryToAddress1'));
+                FwFormField.setValueByDataField($form, 'InDeliveryToAddress2', FwFormField.getValueByDataField($form, 'OutDeliveryToAddress2'));
+                FwFormField.setValueByDataField($form, 'InDeliveryToCity', FwFormField.getValueByDataField($form, 'OutDeliveryToCity'));
+                FwFormField.setValueByDataField($form, 'InDeliveryToState', FwFormField.getValueByDataField($form, 'OutDeliveryToState'));
+                FwFormField.setValueByDataField($form, 'InDeliveryToZipCode', FwFormField.getValueByDataField($form, 'OutDeliveryToZipCode'));
+                FwFormField.setValueByDataField($form, 'InDeliveryToCountryId', FwFormField.getValueByDataField($form, 'OutDeliveryToCountryId'), FwFormField.getTextByDataField($form, 'OutDeliveryToCountryId'));
+                FwFormField.setValueByDataField($form, 'InDeliveryToCrossStreets', FwFormField.getValueByDataField($form, 'OutDeliveryToCrossStreets'));
+            }
+        });
         this.events($form);
         return $form;
     };
