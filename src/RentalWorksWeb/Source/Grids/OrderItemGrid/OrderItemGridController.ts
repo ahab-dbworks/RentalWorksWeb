@@ -106,7 +106,6 @@
             calculateExtended('Discount');
         });
 
-
         function calculateExtended(calculatedColumn) {
             let rateType, recType, fromDate, toDate, quantity, rate, daysPerWeek, discountPercent, weeklyExtended;
             rateType = $form.find('[data-datafield="RateType"] input').val();
@@ -149,9 +148,6 @@
             }
         }
      };
-
-
-   
 }
 
 FwApplicationTree.clickEvents['{77E511EC-5463-43A0-9C5D-B54407C97B15}'] = function (e) {
@@ -191,7 +187,6 @@ FwApplicationTree.clickEvents['{77E511EC-5463-43A0-9C5D-B54407C97B15}'] = functi
         } else {
             $popup = search.renderSearchPopup($form, quoteId, 'Quote', gridInventoryType);
         }
-
     };
 }
 
