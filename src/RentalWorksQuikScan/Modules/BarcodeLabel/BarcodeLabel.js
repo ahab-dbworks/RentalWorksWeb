@@ -124,7 +124,7 @@ RwBarcodeLabel.getModuleScreen = function (viewModel, properties) {
                 return screen.$view.find('.page-menu');
             },
             init: function () {
-                if (typeof window.runningInCordova !== 'undefined' && window.runningInCordova === true) {
+                if (typeof program.runningInCordova !== 'undefined' && program.runningInCordova === true) {
                     this.getElement().find('.miManageBarcodeLabels').hide();
                 }
                 screen.$view.find('.miBarcodeLabel').on('click', function () {

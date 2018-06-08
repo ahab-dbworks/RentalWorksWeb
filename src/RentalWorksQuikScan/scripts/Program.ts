@@ -8,6 +8,7 @@ class Program extends FwApplication {
     onScanBarcode:      (data: string, type?: string) => void;
     localstorageprefix: string;
     localstorageitems:  object;
+    runningInCordova:   boolean = false;
     //---------------------------------------------------------------------------------
     constructor() {
         super();
@@ -69,7 +70,7 @@ class Program extends FwApplication {
 
         if (typeof document.addEventListener !== 'undefined') {
             document.addEventListener('deviceready', function (){
-                runningInCordova = true;
+                me.runningInCordova = true;
                 if ((typeof window.screen === 'object') && (typeof window.screen.lockOrientation === 'function')) {
                     var orientation = localStorage.getItem('orientation');
                     if (typeof orientation !== 'string') {

@@ -34,4 +34,3 @@ declare var Exchange:              any;
 
 declare var DTDevices:        any;
 declare var TslReader:        any;
-declare var runningInCordova: boolean;

@@ -197,14 +197,14 @@ RwInventoryController.getQCScreen = function(viewModel, properties) {
                             }
                         },
                         {
-                            destinationType: Camera.DestinationType.DATA_URL,
-                            sourceType: Camera.PictureSourceType.CAMERA,
-                            allowEdit: false,
+                            destinationType:    Camera.DestinationType.DATA_URL,
+                            sourceType:         Camera.PictureSourceType.CAMERA,
+                            allowEdit:          false,
                             correctOrientation: true,
-                            encodingType: Camera.EncodingType.JPEG,
-                            quality: applicationConfig.photoQuality,
-                            targetWidth: applicationConfig.photoWidth,
-                            targetHeight: applicationConfig.photoHeight
+                            encodingType:       Camera.EncodingType.JPEG,
+                            quality:            applicationConfig.photoQuality,
+                            targetWidth:        applicationConfig.photoWidth,
+                            targetHeight:       applicationConfig.photoHeight
                         }
                     );
                 } else {

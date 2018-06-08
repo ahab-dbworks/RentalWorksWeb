@@ -13,6 +13,7 @@ var Program = (function (_super) {
     __extends(Program, _super);
     function Program() {
         var _this = _super.call(this) || this;
+        _this.runningInCordova = false;
         var me;
         me = _this;
         FwApplicationTree.currentApplicationId = '8D0A5ECF-72D2-4428-BDC8-7E3CC56EDD3A';
@@ -67,7 +68,7 @@ var Program = (function (_super) {
         }, 2000);
         if (typeof document.addEventListener !== 'undefined') {
             document.addEventListener('deviceready', function () {
-                runningInCordova = true;
+                me.runningInCordova = true;
                 if ((typeof window.screen === 'object') && (typeof window.screen.lockOrientation === 'function')) {
                     var orientation = localStorage.getItem('orientation');
                     if (typeof orientation !== 'string') {
