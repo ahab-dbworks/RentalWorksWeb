@@ -166,7 +166,7 @@
                 apiurl += "&WeeklyExtended=" + (+weeklyExtended.substring(1).replace(',', ''));
                 FwAppData.apiMethod(true, 'GET', apiurl, null, FwServices.defaultTimeout, function onSuccess(response) {
                     $generatedtr.find('.field[data-browsedatafield="DiscountPercent"] input').val(response.DiscountPercent);
-                    $generatedtr.find('.field[data-browsedatafield="DiscountPercent"] input').text('1');
+                    $generatedtr.find('.field[data-browsedatafield="DiscountPercentDisplay"] input').val(response.DiscountPercent);
                 }, null, null);
             }
         }
