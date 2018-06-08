@@ -131,7 +131,7 @@ var OrderItemGrid = (function () {
                     $generatedtr.find('.field[data-browsedatafield="MonthlyDiscountAmount"] input').val(response.MonthlyDiscount);
                     $generatedtr.find('.field[data-browsedatafield="PeriodExtended"] input').val(response.PeriodExtended);
                     $generatedtr.find('.field[data-browsedatafield="PeriodDiscountAmount"] input').val(response.PeriodDiscount);
-                }, null, $form);
+                }, null, null);
             }
             if (calculatedColumn == 'Discount') {
                 apiurl += "&WeeklyExtended=" + (+weeklyExtended.substring(1).replace(',', ''));
