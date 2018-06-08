@@ -97,6 +97,18 @@ var OrderItemGrid = (function () {
         $generatedtr.find('div[data-browsedatafield="PeriodExtended"]').on('change', 'input.value', function ($tr) {
             calculateExtended('Discount');
         });
+        $generatedtr.find('div[data-browsedatafield="UnitDiscountAmount"]').on('change', 'input.value', function ($tr) {
+            calculateExtended('Discount');
+        });
+        $generatedtr.find('div[data-browsedatafield="WeeklyDiscountAmount"]').on('change', 'input.value', function ($tr) {
+            calculateExtended('Discount');
+        });
+        $generatedtr.find('div[data-browsedatafield="MonthlyDiscountAmount"]').on('change', 'input.value', function ($tr) {
+            calculateExtended('Discount');
+        });
+        $generatedtr.find('div[data-browsedatafield="PeriodDiscountAmount"]').on('change', 'input.value', function ($tr) {
+            calculateExtended('Discount');
+        });
         function calculateExtended(calculatedColumn) {
             var rateType, recType, fromDate, toDate, quantity, rate, daysPerWeek, discountPercent, weeklyExtended;
             rateType = $form.find('[data-datafield="RateType"] input').val();
@@ -108,20 +120,27 @@ var OrderItemGrid = (function () {
             daysPerWeek = $generatedtr.find('.field[data-browsedatafield="DaysPerWeek"] input').val();
             discountPercent = $generatedtr.find('.field[data-browsedatafield="DiscountPercent"] input').val();
             weeklyExtended = $generatedtr.find('.field[data-browsedatafield="WeeklyExtended"] input').val();
-            var apiurl = "api/v1/orderitem/calculateextended?RateType="
-                + rateType
-                + "&RecType="
-                + recType
-                + "&FromDate="
-                + fromDate
-                + "&ToDate="
-                + toDate
-                + "&Quantity="
-                + quantity
-                + "&Rate="
-                + (+(rate.substring(1).replace(',', '')))
-                + "&DaysPerWeek="
-                + daysPerWeek;
+            var apiurl = "api/v1/orderitem/";
+            if (calculatedColumn == "Extended") {
+                apiurl += "calculateextended?RateType=";
+            }
+            else if (calculatedColumn == "Discount") {
+                apiurl += "calculatediscountpercent?RateType=";
+            }
+            apiurl +=
+                rateType
+                    + "&RecType="
+                    + recType
+                    + "&FromDate="
+                    + fromDate
+                    + "&ToDate="
+                    + toDate
+                    + "&Quantity="
+                    + quantity
+                    + "&Rate="
+                    + (+(rate.substring(1).replace(',', '')))
+                    + "&DaysPerWeek="
+                    + daysPerWeek;
             if (calculatedColumn == 'Extended') {
                 apiurl += "&DiscountPercent=" + discountPercent;
                 FwAppData.apiMethod(true, 'GET', apiurl, null, FwServices.defaultTimeout, function onSuccess(response) {
@@ -137,6 +156,7 @@ var OrderItemGrid = (function () {
                 apiurl += "&WeeklyExtended=" + (+weeklyExtended.substring(1).replace(',', ''));
                 FwAppData.apiMethod(true, 'GET', apiurl, null, FwServices.defaultTimeout, function onSuccess(response) {
                     $generatedtr.find('.field[data-browsedatafield="DiscountPercent"] input').val(response.DiscountPercent);
+                    $generatedtr.find('.field[data-browsedatafield="DiscountPercent"] input').text('1');
                 }, null, null);
             }
         }
