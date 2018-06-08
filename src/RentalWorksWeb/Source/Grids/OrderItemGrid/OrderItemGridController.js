@@ -135,6 +135,9 @@ var OrderItemGrid = (function () {
             }
             if (calculatedColumn == 'Discount') {
                 apiurl += "&WeeklyExtended=" + (+weeklyExtended.substring(1).replace(',', ''));
+                FwAppData.apiMethod(true, 'GET', apiurl, null, FwServices.defaultTimeout, function onSuccess(response) {
+                    $generatedtr.find('.field[data-browsedatafield="DiscountPercent"] input').val(response.DiscountPercent);
+                }, null, null);
             }
         }
     };
