@@ -115,7 +115,7 @@ namespace WebApi.Modules.Home.DealOrder
         [FwSqlDataField(column: "billperiodend", modeltype: FwDataTypes.Date, sqltype: "datetime")]
         public string BillingEndDate { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "billingdates", modeltype: FwDataTypes.Text , sqltype: "billingdates", maxlength: 10)]
+        [FwSqlDataField(column: "billingdates", modeltype: FwDataTypes.Text, sqltype: "billingdates", maxlength: 10)]
         public string DetermineQuantitiesToBillBasedOn { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "billperiodid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 08)]
@@ -297,21 +297,33 @@ namespace WebApi.Modules.Home.DealOrder
             return success;
         }
         //-------------------------------------------------------------------------------------------------------
-        public async Task<bool> ApplyBottomLineTotal(string recType, decimal total, bool taxIncluded)
+        public async Task<bool> ApplyBottomLineTotal(string recType, string totalType, decimal total, bool taxIncluded)
         {
             bool success = false;
             if (OrderId != null)
             {
                 using (FwSqlConnection conn = new FwSqlConnection(this.AppConfig.DatabaseSettings.ConnectionString))
                 {
+
+                    // W (weekly), M (monthly), E (episode), or P (period)
+
+                    if (totalType == null)
+                    {
+                        totalType = RwConstants.TOTAL_TYPE_PERIOD;
+                    }
+                    if ((!totalType.Equals(RwConstants.TOTAL_TYPE_WEEKLY)) && (!totalType.Equals(RwConstants.TOTAL_TYPE_MONTHLY)) && (!totalType.Equals(RwConstants.TOTAL_TYPE_EPISODIC)))
+                    {
+                        totalType = RwConstants.TOTAL_TYPE_PERIOD;
+                    }
+
                     FwSqlCommand qry = new FwSqlCommand(conn, "updateadjustmenttotal", this.AppConfig.DatabaseSettings.QueryTimeout);
                     qry.AddParameter("@orderid", SqlDbType.NVarChar, ParameterDirection.Input, OrderId);
                     qry.AddParameter("@rectype", SqlDbType.NVarChar, ParameterDirection.Input, recType);
                     qry.AddParameter("@activity", SqlDbType.NVarChar, ParameterDirection.Input, "");
                     qry.AddParameter("@episodeid", SqlDbType.NVarChar, ParameterDirection.Input, "");
                     qry.AddParameter("@issub", SqlDbType.NVarChar, ParameterDirection.Input, "F");
-                    qry.AddParameter("@totaltype", SqlDbType.NVarChar, ParameterDirection.Input, "P");  // W (weekly), M (monthly), E (episode), or P (period)
-                    qry.AddParameter("@taxincluded", SqlDbType.NVarChar, ParameterDirection.Input, (taxIncluded?"T":"F"));
+                    qry.AddParameter("@totaltype", SqlDbType.NVarChar, ParameterDirection.Input, totalType);
+                    qry.AddParameter("@taxincluded", SqlDbType.NVarChar, ParameterDirection.Input, (taxIncluded ? "T" : "F"));
                     qry.AddParameter("@newtotal", SqlDbType.Decimal, ParameterDirection.Input, total);
                     qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, UserSession.UsersId);
                     await qry.ExecuteNonQueryAsync(true);

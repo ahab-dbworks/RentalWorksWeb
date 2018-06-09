@@ -255,7 +255,7 @@ namespace WebApi.Modules.Home.Quote
                 l.SetDependencies(AppConfig, UserSession);
                 if (await l.LoadAsync<QuoteLogic>(ids))
                 {
-                    bool applied = await l.ApplyBottomLineTotal(request.RecType, request.Total, request.IncludeTaxInTotal.Value);
+                    bool applied = await l.ApplyBottomLineTotal(request.RecType, request.TotalType, request.Total, request.IncludeTaxInTotal.Value);
                     return new OkObjectResult(true);
                 }
                 else

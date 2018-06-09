@@ -50,6 +50,12 @@ namespace WebLibrary
         public const string RECTYPE_MISC = "M";
         public const string RECTYPE_LABOR = "L";
 
+        public const string TOTAL_TYPE_WEEKLY = "W";
+        public const string TOTAL_TYPE_MONTHLY = "M";
+        public const string TOTAL_TYPE_EPISODIC = "E";
+        public const string TOTAL_TYPE_PERIOD = "P";
+        
+
         //DELIVERY
         public const string ONLINE_DELIVERY_STATUS_PARTIAL = "PARTIAL";
         public const string ONLINE_DELIVERY_STATUS_COMPLETE = "COMPLETE";
@@ -124,6 +130,7 @@ namespace WebLibrary
     {
         public string OrderId;
         public string RecType;
+        public string TotalType;
         public decimal Total;
         public bool? IncludeTaxInTotal;
     }

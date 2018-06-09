@@ -783,9 +783,9 @@ namespace WebApi.Modules.Home.Order
             return success;
         }
         //------------------------------------------------------------------------------------
-        public async Task<bool> ApplyBottomLineTotal(string recType, decimal total, bool taxIncluded)
+        public async Task<bool> ApplyBottomLineTotal(string recType, string totalType, decimal total, bool taxIncluded)
         {
-            bool success = await dealOrder.ApplyBottomLineTotal(recType, total, taxIncluded);
+            bool success = await dealOrder.ApplyBottomLineTotal(recType, totalType, total, taxIncluded);
             return success;
         }
         //------------------------------------------------------------------------------------
