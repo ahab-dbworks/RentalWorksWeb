@@ -3,10 +3,18 @@ var RepairPartGrid = (function () {
         this.Module = 'RepairPartGrid';
         this.apiurl = 'api/v1/repairpart';
     }
-    RepairPartGrid.prototype.generateRow = function ($control, $generatedtr, $form) {
+    RepairPartGrid.prototype.generateRow = function ($control, $generatedtr) {
+        var $form = $control.closest('.fwform');
         var warehouse = JSON.parse(sessionStorage.getItem('warehouse')).warehouse;
         var warehouseId = JSON.parse(sessionStorage.getItem('warehouse')).warehouseid;
         $generatedtr.find('div[data-browsedatafield="InventoryId"]').data('onchange', function ($tr) {
+            var inventoryId = $generatedtr.find('div[data-browsedatafield="InventoryId"] input').val();
+            if ($generatedtr.hasClass("newmode")) {
+                FwAppData.apiMethod(true, 'GET', "api/v1/pricing/" + inventoryId + "/" + warehouseId, null, FwServices.defaultTimeout, function onSuccess(response) {
+                    console.log(response);
+                    $generatedtr.find('.field[data-browsedatafield="Price"] input').val(response[0].Price);
+                }, null, $form);
+            }
             $generatedtr.find('.field[data-browsedatafield="Description"] input').val($tr.find('.field[data-browsedatafield="Description"]').attr('data-originalvalue'));
             $generatedtr.find('.field[data-browsedisplayfield="Warehouse"] input.text').val(warehouse);
             $generatedtr.find('.field[data-browsedatafield="WarehouseId"] input.value').val(warehouseId);
