@@ -176,10 +176,6 @@ class Order {
         $submoduleContractBrowse = this.openContractBrowse($form);
         $form.find('.contract').append($submoduleContractBrowse);
 
-        if ($form.data('data-hasBeenCanceled') === false) {
-            console.log('false')
-        }
-
         if (mode === 'NEW') {
             $form.find('.ifnew').attr('data-enabled', 'true');
             $form.find('.OrderId').attr('data-hasBeenCanceled', 'false');
@@ -1044,13 +1040,7 @@ class Order {
             $form.find(".BillingMonths").hide();
             $form.find(".BillingWeeks").show();
         }
-
-        if (FwFormField.getValueByDataField($form, 'Status') === 'CANCELLED') {
-            $form.data('hasBeenCancelled', true);
-        } else {
-            $form.data('hasBeenCancelled', false);
-        }
-        console.log($form.data('hasBeenCancelled'), 'hascanceld')
+        
         // Display D/W field in rental
         if (FwFormField.getValueByDataField($form, 'RateType') === 'DAILY') {
             $form.find(".RentalDaysPerWeek").show();
@@ -1354,6 +1344,95 @@ class Order {
         $form.find('.' + gridType + 'totals [data-totalfield="Total"] input').val(total);
     };
 
+    //----------------------------------------------------------------------------------------------
+    cancelUncancelOrder($form: any) {
+        let $confirmation, $yes, $no, orderId, orderStatus, self;
+        self = this;
+        orderId = FwFormField.getValueByDataField($form, 'OrderId');
+        orderStatus = FwFormField.getValueByDataField($form, 'Status');
+
+        if (orderId != null) {
+            if (orderStatus === "CANCELLED") {
+                $confirmation = FwConfirmation.renderConfirmation('Cancel', '');
+                $confirmation.find('.fwconfirmationbox').css('width', '450px');
+                let html = [];
+                html.push('<div class="fwform" data-controller="none" style="background-color: transparent;">');
+                html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
+                html.push('    <div>Would you like to un-cancel this Order?</div>');
+                html.push('  </div>');
+                html.push('</div>');
+
+                FwConfirmation.addControls($confirmation, html.join(''));
+                $yes = FwConfirmation.addButton($confirmation, 'Un-Cancel Order', false);
+                $no = FwConfirmation.addButton($confirmation, 'Cancel');
+
+                $yes.on('click', uncancelOrder);
+            }
+            else {
+                $confirmation = FwConfirmation.renderConfirmation('Cancel', '');
+                $confirmation.find('.fwconfirmationbox').css('width', '450px');
+                let html = [];
+                html.push('<div class="fwform" data-controller="none" style="background-color: transparent;">');
+                html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
+                html.push('    <div>Would you like to cancel this Order?</div>');
+                html.push('  </div>');
+                html.push('</div>');
+
+                FwConfirmation.addControls($confirmation, html.join(''));
+                $yes = FwConfirmation.addButton($confirmation, 'Cancel Order', false);
+                $no = FwConfirmation.addButton($confirmation, 'Cancel');
+
+                $yes.on('click', cancelOrder);
+            }
+        }
+        else {
+            throw new Error("Please select an Order to perform this action.");
+        }
+
+        function cancelOrder() {
+            let request: any = {};
+
+            FwFormField.disable($confirmation.find('.fwformfield'));
+            FwFormField.disable($yes);
+            $yes.text('Canceling...');
+            $yes.off('click');
+
+            FwAppData.apiMethod(true, 'POST', `api/v1/order/cancel/${orderId}`, request, FwServices.defaultTimeout, function onSuccess(response) {
+                FwNotification.renderNotification('SUCCESS', 'Order Successfully Canceled');
+                FwConfirmation.destroyConfirmation($confirmation);
+                FwModule.refreshForm($form, self);
+            }, function onError(response) {
+                $yes.on('click', cancelOrder);
+                $yes.text('Cancel');
+                FwFunc.showError(response);
+                FwFormField.enable($confirmation.find('.fwformfield'));
+                FwFormField.enable($yes);
+                FwModule.refreshForm($form, self);
+            }, $form);
+        };
+
+        function uncancelOrder() {
+            let request: any = {};
+
+            FwFormField.disable($confirmation.find('.fwformfield'));
+            FwFormField.disable($yes);
+            $yes.text('Retrieving...');
+            $yes.off('click');
+
+            FwAppData.apiMethod(true, 'POST', `api/v1/order/uncancel/${orderId}`, request, FwServices.defaultTimeout, function onSuccess(response) {
+                FwNotification.renderNotification('SUCCESS', 'Order Successfully Retrieved');
+                FwConfirmation.destroyConfirmation($confirmation);
+                FwModule.refreshForm($form, self);
+            }, function onError(response) {
+                $yes.on('click', uncancelOrder);
+                $yes.text('Cancel');
+                FwFunc.showError(response);
+                FwFormField.enable($confirmation.find('.fwformfield'));
+                FwFormField.enable($yes);
+                FwModule.refreshForm($form, self);
+                }, $form);
+        };
+    };
 
     //----------------------------------------------------------------------------------------------
     dynamicColumns($form) {
@@ -1482,6 +1561,19 @@ FwApplicationTree.clickEvents['{E25CB084-7E7F-4336-9512-36B7271AC151}'] = functi
         FwFunc.showError(ex);
     }
 };
+//----------------------------------------------------------------------------------------------
+//Form Cancel Option
+FwApplicationTree.clickEvents['{6B644862-9030-4D42-A29B-30C8DAC29D3E}'] = function (event) {
+    let $form
+    $form = jQuery(this).closest('.fwform');
+
+    try {
+        OrderController.cancelUncancelOrder($form);
+    }
+    catch (ex) {
+        FwFunc.showError(ex);
+    }
+};
 
 //----------------------------------------------------------------------------------------------
 FwApplicationTree.clickEvents['{CF245A59-3336-42BC-8CCB-B88807A9D4EA}'] = function (e) {
@@ -1550,37 +1642,50 @@ FwApplicationTree.clickEvents['{D27AD4E7-E924-47D1-AF6E-992B92F5A647}'] = functi
         FwFunc.showError(ex);
     }
 };
-//cancelUncancelOrder() { };
+
 //---------------------------------------------------------------------------------
 //Browse Cancel Option
 FwApplicationTree.clickEvents['{DAE6DC23-A2CA-4E36-8214-72351C4E1449}'] = function (event) {
-    var $browse, $element;
-    $element = jQuery(event.currentTarget)
+    let $confirmation, $yes, $no, $browse, orderId, orderStatus;
+
+    $browse = jQuery(this).closest('.fwbrowse');
+    orderId = $browse.find('.selected [data-browsedatafield="OrderId"]').attr('data-originalvalue');
+    orderStatus = $browse.find('.selected [data-formdatafield="Status"]').attr('data-originalvalue');
+
     try {
-        $browse = jQuery(this).closest('.fwbrowse');
-        const OrderId = $browse.find('.selected [data-browsedatafield="OrderId"]').attr('data-originalvalue');
-        const isCanceled = $browse.find('.selected [data-formdatafield="Status"]').attr('data-originalvalue');
+        if (orderId != null) {
+            if (orderStatus === "CANCELLED") {
+                $confirmation = FwConfirmation.renderConfirmation('Cancel', '');
+                $confirmation.find('.fwconfirmationbox').css('width', '450px');
+                let html = [];
+                html.push('<div class="fwform" data-controller="none" style="background-color: transparent;">');
+                html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
+                html.push('    <div>Would you like to un-cancel this Order?</div>');
+                html.push('  </div>');
+                html.push('</div>');
 
-        console.log('orderid: ', OrderId)
-        console.log('hascancel: ', $element.attr('data-securityid'))
+                FwConfirmation.addControls($confirmation, html.join(''));
+                $yes = FwConfirmation.addButton($confirmation, 'Un-Cancel Order', false);
+                $no = FwConfirmation.addButton($confirmation, 'Cancel');
 
-        if (OrderId != null) {
-            var self = this;
-            let $confirmation, $yes, $no;
-            $confirmation = FwConfirmation.renderConfirmation('Cancel', '');
-            $confirmation.find('.fwconfirmationbox').css('width', '450px');
-            let html = [];
-            html.push('<div class="fwform" data-controller="none" style="background-color: transparent;">');
-            html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
-            html.push('    <div>Would you like to cancel this Order?</div>');
-            html.push('  </div>');
-            html.push('</div>');
+                $yes.on('click', uncancelOrder);
+            }
+            else {
+                $confirmation = FwConfirmation.renderConfirmation('Cancel', '');
+                $confirmation.find('.fwconfirmationbox').css('width', '450px');
+                let html = [];
+                html.push('<div class="fwform" data-controller="none" style="background-color: transparent;">');
+                html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
+                html.push('    <div>Would you like to cancel this Order?</div>');
+                html.push('  </div>');
+                html.push('</div>');
 
-            FwConfirmation.addControls($confirmation, html.join(''));
-            $yes = FwConfirmation.addButton($confirmation, 'Cancel Order', false);
-            $no = FwConfirmation.addButton($confirmation, 'Cancel');
+                FwConfirmation.addControls($confirmation, html.join(''));
+                $yes = FwConfirmation.addButton($confirmation, 'Cancel Order', false);
+                $no = FwConfirmation.addButton($confirmation, 'Cancel');
 
-            $yes.on('click', cancelOrder);
+                $yes.on('click', cancelOrder);
+            }
 
             function cancelOrder() {
                 let request: any = {};
@@ -1590,9 +1695,8 @@ FwApplicationTree.clickEvents['{DAE6DC23-A2CA-4E36-8214-72351C4E1449}'] = functi
                 $yes.text('Canceling...');
                 $yes.off('click');
 
-                FwAppData.apiMethod(true, 'POST', `api/v1/order/cancel/${OrderId}`, request, FwServices.defaultTimeout, function onSuccess(response) {
+                FwAppData.apiMethod(true, 'POST', `api/v1/order/cancel/${orderId}`, request, FwServices.defaultTimeout, function onSuccess(response) {
                     FwNotification.renderNotification('SUCCESS', 'Order Successfully Canceled');
-
                     FwConfirmation.destroyConfirmation($confirmation);
                     FwBrowse.databind($browse);
                 }, function onError(response) {
@@ -1603,17 +1707,37 @@ FwApplicationTree.clickEvents['{DAE6DC23-A2CA-4E36-8214-72351C4E1449}'] = functi
                     FwFormField.enable($yes);
                     FwBrowse.databind($browse);
                 }, $browse);
+            };
 
+            function uncancelOrder() {
+                let request: any = {};
+
+                FwFormField.disable($confirmation.find('.fwformfield'));
+                FwFormField.disable($yes);
+                $yes.text('Retrieving...');
+                $yes.off('click');
+
+                FwAppData.apiMethod(true, 'POST', `api/v1/order/uncancel/${orderId}`, request, FwServices.defaultTimeout, function onSuccess(response) {
+                    FwNotification.renderNotification('SUCCESS', 'Order Successfully Retrieved');
+                    FwConfirmation.destroyConfirmation($confirmation);
+                    FwBrowse.databind($browse);
+                }, function onError(response) {
+                    $yes.on('click', uncancelOrder);
+                    $yes.text('Cancel');
+                    FwFunc.showError(response);
+                    FwFormField.enable($confirmation.find('.fwformfield'));
+                    FwFormField.enable($yes);
+                    FwBrowse.databind($browse);
+                }, $browse);
             };
         } else {
-            throw new Error("Please select an Order to cancel.");
+            throw new Error("Please select an Order to perform this action.");
         }
     }
     catch (ex) {
         FwFunc.showError(ex);
     }
 };
-
 
 //----------------------------------------------------------------------------------------------
 var OrderController = new Order();

@@ -912,6 +912,96 @@ class Quote {
     };
 
     //----------------------------------------------------------------------------------------------
+    cancelUncancelQuote($form: any) {
+        let $confirmation, $yes, $no, quoteId, quoteStatus, self;
+        self = this;
+        quoteId = FwFormField.getValueByDataField($form, 'QuoteId');
+        quoteStatus = FwFormField.getValueByDataField($form, 'Status');
+
+        if (quoteId != null) {
+            if (quoteStatus === "CANCELLED") {
+                $confirmation = FwConfirmation.renderConfirmation('Cancel', '');
+                $confirmation.find('.fwconfirmationbox').css('width', '450px');
+                let html = [];
+                html.push('<div class="fwform" data-controller="none" style="background-color: transparent;">');
+                html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
+                html.push('    <div>Would you like to un-cancel this Quote?</div>');
+                html.push('  </div>');
+                html.push('</div>');
+
+                FwConfirmation.addControls($confirmation, html.join(''));
+                $yes = FwConfirmation.addButton($confirmation, 'Un-Cancel Quote', false);
+                $no = FwConfirmation.addButton($confirmation, 'Cancel');
+
+                $yes.on('click', uncancelQuote);
+            }
+            else {
+                $confirmation = FwConfirmation.renderConfirmation('Cancel', '');
+                $confirmation.find('.fwconfirmationbox').css('width', '450px');
+                let html = [];
+                html.push('<div class="fwform" data-controller="none" style="background-color: transparent;">');
+                html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
+                html.push('    <div>Would you like to cancel this Quote?</div>');
+                html.push('  </div>');
+                html.push('</div>');
+
+                FwConfirmation.addControls($confirmation, html.join(''));
+                $yes = FwConfirmation.addButton($confirmation, 'Cancel Quote', false);
+                $no = FwConfirmation.addButton($confirmation, 'Cancel');
+
+                $yes.on('click', cancelQuote);
+            }
+        }
+        else {
+            throw new Error("Please select a Quote to perform this action.");
+        }
+
+        function cancelQuote() {
+            let request: any = {};
+
+            FwFormField.disable($confirmation.find('.fwformfield'));
+            FwFormField.disable($yes);
+            $yes.text('Canceling...');
+            $yes.off('click');
+
+            FwAppData.apiMethod(true, 'POST', `api/v1/quote/cancel/${quoteId}`, request, FwServices.defaultTimeout, function onSuccess(response) {
+                FwNotification.renderNotification('SUCCESS', 'Quote Successfully Canceled');
+                FwConfirmation.destroyConfirmation($confirmation);
+                FwModule.refreshForm($form, self);
+            }, function onError(response) {
+                $yes.on('click', cancelQuote);
+                $yes.text('Cancel');
+                FwFunc.showError(response);
+                FwFormField.enable($confirmation.find('.fwformfield'));
+                FwFormField.enable($yes);
+                FwModule.refreshForm($form, self);
+            }, $form);
+        };
+
+        function uncancelQuote() {
+            let request: any = {};
+
+            FwFormField.disable($confirmation.find('.fwformfield'));
+            FwFormField.disable($yes);
+            $yes.text('Retrieving...');
+            $yes.off('click');
+
+            FwAppData.apiMethod(true, 'POST', `api/v1/quote/uncancel/${quoteId}`, request, FwServices.defaultTimeout, function onSuccess(response) {
+                FwNotification.renderNotification('SUCCESS', 'Quote Successfully Retrieved');
+                FwConfirmation.destroyConfirmation($confirmation);
+                FwModule.refreshForm($form, self);
+            }, function onError(response) {
+                $yes.on('click', uncancelQuote);
+                $yes.text('Cancel');
+                FwFunc.showError(response);
+                FwFormField.enable($confirmation.find('.fwformfield'));
+                FwFormField.enable($yes);
+                FwModule.refreshForm($form, self);
+            }, $form);
+        };
+    };
+
+    //----------------------------------------------------------------------------------------------
     checkDateRangeForPick($form, event) {
         let $element, parsedPickDate, parsedFromDate, parsedToDate;
         $element = jQuery(event.currentTarget);
@@ -1463,6 +1553,20 @@ FwApplicationTree.clickEvents['{D27AD4E7-E924-47D1-AF6E-992B92F5A647}'] = functi
     }
 };
 
+//----------------------------------------------------------------------------------------------
+//Form Cancel Option
+FwApplicationTree.clickEvents['{BF633873-8A40-4BD6-8ED8-3EAC27059C84}'] = function (event) {
+    let $form
+    $form = jQuery(this).closest('.fwform');
+
+    try {
+        QuoteController.cancelUncancelQuote($form);
+    }
+    catch (ex) {
+        FwFunc.showError(ex);
+    }
+};
+
 //-----------------------------------------------------------------------------------------------------
 FwApplicationTree.clickEvents['{E265DFD0-380F-4E8C-BCFD-FA5DCBA4A654}'] = function (event) {
     let $form, quoteNumber;
@@ -1499,7 +1603,102 @@ FwApplicationTree.clickEvents['{E265DFD0-380F-4E8C-BCFD-FA5DCBA4A654}'] = functi
             FwModule.refreshForm($form, QuoteController);
         }, null, $confirmationbox);
     }
+};
 
+//---------------------------------------------------------------------------------
+//Browse Cancel Option
+FwApplicationTree.clickEvents['{78ACB73C-23DD-46F0-B179-0571BAD3A17D}'] = function (event) {
+    let $confirmation, $yes, $no, $browse, quoteId, quoteStatus;
+
+    $browse = jQuery(this).closest('.fwbrowse');
+    quoteId = $browse.find('.selected [data-browsedatafield="QuoteId"]').attr('data-originalvalue');
+    quoteStatus = $browse.find('.selected [data-formdatafield="Status"]').attr('data-originalvalue');
+
+    try {
+        if (quoteId != null) {
+            if (quoteStatus === "CANCELLED") {
+                $confirmation = FwConfirmation.renderConfirmation('Cancel', '');
+                $confirmation.find('.fwconfirmationbox').css('width', '450px');
+                let html = [];
+                html.push('<div class="fwform" data-controller="none" style="background-color: transparent;">');
+                html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
+                html.push('    <div>Would you like to un-cancel this Quote?</div>');
+                html.push('  </div>');
+                html.push('</div>');
+
+                FwConfirmation.addControls($confirmation, html.join(''));
+                $yes = FwConfirmation.addButton($confirmation, 'Un-Cancel Quote', false);
+                $no = FwConfirmation.addButton($confirmation, 'Cancel');
+
+                $yes.on('click', uncancelQuote);
+            }
+            else {
+                $confirmation = FwConfirmation.renderConfirmation('Cancel', '');
+                $confirmation.find('.fwconfirmationbox').css('width', '450px');
+                let html = [];
+                html.push('<div class="fwform" data-controller="none" style="background-color: transparent;">');
+                html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
+                html.push('    <div>Would you like to cancel this Quote?</div>');
+                html.push('  </div>');
+                html.push('</div>');
+
+                FwConfirmation.addControls($confirmation, html.join(''));
+                $yes = FwConfirmation.addButton($confirmation, 'Cancel Quote', false);
+                $no = FwConfirmation.addButton($confirmation, 'Cancel');
+
+                $yes.on('click', cancelQuote);
+            }
+
+            function cancelQuote() {
+                let request: any = {};
+
+                FwFormField.disable($confirmation.find('.fwformfield'));
+                FwFormField.disable($yes);
+                $yes.text('Canceling...');
+                $yes.off('click');
+
+                FwAppData.apiMethod(true, 'POST', `api/v1/quote/cancel/${quoteId}`, request, FwServices.defaultTimeout, function onSuccess(response) {
+                    FwNotification.renderNotification('SUCCESS', 'Quote Successfully Canceled');
+                    FwConfirmation.destroyConfirmation($confirmation);
+                    FwBrowse.databind($browse);
+                }, function onError(response) {
+                    $yes.on('click', cancelQuote);
+                    $yes.text('Cancel');
+                    FwFunc.showError(response);
+                    FwFormField.enable($confirmation.find('.fwformfield'));
+                    FwFormField.enable($yes);
+                    FwBrowse.databind($browse);
+                }, $browse);
+            };
+
+            function uncancelQuote() {
+                let request: any = {};
+
+                FwFormField.disable($confirmation.find('.fwformfield'));
+                FwFormField.disable($yes);
+                $yes.text('Retrieving...');
+                $yes.off('click');
+
+                FwAppData.apiMethod(true, 'POST', `api/v1/quote/uncancel/${quoteId}`, request, FwServices.defaultTimeout, function onSuccess(response) {
+                    FwNotification.renderNotification('SUCCESS', 'Quote Successfully Retrieved');
+                    FwConfirmation.destroyConfirmation($confirmation);
+                    FwBrowse.databind($browse);
+                }, function onError(response) {
+                    $yes.on('click', uncancelQuote);
+                    $yes.text('Cancel');
+                    FwFunc.showError(response);
+                    FwFormField.enable($confirmation.find('.fwformfield'));
+                    FwFormField.enable($yes);
+                    FwBrowse.databind($browse);
+                }, $browse);
+            };
+        } else {
+            throw new Error("Please select a Quote to perform this action.");
+        }
+    }
+    catch (ex) {
+        FwFunc.showError(ex);
+    }
 };
 
 //-----------------------------------------------------------------------------------------------------
