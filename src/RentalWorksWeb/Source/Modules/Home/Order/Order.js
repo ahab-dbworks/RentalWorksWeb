@@ -152,8 +152,13 @@ var Order = (function () {
         $form.find('.picklist').append($submodulePickListBrowse);
         $submoduleContractBrowse = this.openContractBrowse($form);
         $form.find('.contract').append($submoduleContractBrowse);
+        if ($form.data('data-hasBeenCanceled') === false) {
+            console.log('false');
+        }
         if (mode === 'NEW') {
             $form.find('.ifnew').attr('data-enabled', 'true');
+            $form.find('.OrderId').attr('data-hasBeenCanceled', 'false');
+            $form.data('data-hasBeenCanceled', false);
             var today = FwFunc.getDate();
             var warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
             var office = JSON.parse(sessionStorage.getItem('location'));
@@ -910,6 +915,13 @@ var Order = (function () {
             $form.find(".BillingMonths").hide();
             $form.find(".BillingWeeks").show();
         }
+        if (FwFormField.getValueByDataField($form, 'Status') === 'CANCELLED') {
+            $form.data('hasBeenCancelled', true);
+        }
+        else {
+            $form.data('hasBeenCancelled', false);
+        }
+        console.log($form.data('hasBeenCancelled'), 'hascanceld');
         if (FwFormField.getValueByDataField($form, 'RateType') === 'DAILY') {
             $form.find(".RentalDaysPerWeek").show();
         }
@@ -920,23 +932,35 @@ var Order = (function () {
     };
     ;
     Order.prototype.checkDateRangeForPick = function ($form, event) {
-        var $element;
+        var $element, parsedPickDate, parsedFromDate, parsedToDate;
         $element = jQuery(event.currentTarget);
-        var parsedPickDate = Date.parse(FwFormField.getValueByDataField($form, 'PickDate'));
-        var parsedFromDate = Date.parse(FwFormField.getValueByDataField($form, 'EstimatedStartDate'));
-        var parsedToDate = Date.parse(FwFormField.getValueByDataField($form, 'EstimatedStopDate'));
-        if ($element.attr('data-datafield') === 'EstimatedStartDate') {
-            if (parsedFromDate < parsedPickDate) {
-                FwNotification.renderNotification('WARNING', "Your chosen 'From Date' is less than 'Pick Date'.");
-            }
+        parsedPickDate = Date.parse(FwFormField.getValueByDataField($form, 'PickDate'));
+        parsedFromDate = Date.parse(FwFormField.getValueByDataField($form, 'EstimatedStartDate'));
+        parsedToDate = Date.parse(FwFormField.getValueByDataField($form, 'EstimatedStopDate'));
+        if ($element.attr('data-datafield') === 'EstimatedStartDate' && parsedFromDate < parsedPickDate) {
+            $form.find('div[data-datafield="EstimatedStartDate"]').addClass('error');
+            FwNotification.renderNotification('WARNING', "Your chosen 'From Date' is before 'Pick Date'.");
+        }
+        else if ($element.attr('data-datafield') === 'PickDate' && parsedFromDate < parsedPickDate) {
+            $form.find('div[data-datafield="PickDate"]').addClass('error');
+            FwNotification.renderNotification('WARNING', "Your chosen 'Pick Date' is after 'From Date'.");
+        }
+        else if ($element.attr('data-datafield') === 'PickDate' && parsedToDate < parsedPickDate) {
+            $form.find('div[data-datafield="PickDate"]').addClass('error');
+            FwNotification.renderNotification('WARNING', "Your chosen 'Pick Date' is after 'To Date'.");
+        }
+        else if (parsedToDate < parsedFromDate) {
+            $form.find('div[data-datafield="EstimatedStopDate"]').addClass('error');
+            FwNotification.renderNotification('WARNING', "Your chosen 'To Date' is before 'From Date'.");
+        }
+        else if (parsedToDate < parsedPickDate) {
+            $form.find('div[data-datafield="EstimatedStopDate"]').addClass('error');
+            FwNotification.renderNotification('WARNING', "Your chosen 'To Date' is before 'Pick Date'.");
         }
         else {
-            if (parsedToDate < parsedFromDate) {
-                FwNotification.renderNotification('WARNING', "Your chosen 'To Date' is less than 'From Date'.");
-            }
-            else if (parsedToDate < parsedPickDate) {
-                FwNotification.renderNotification('WARNING', "Your chosen 'To Date' is less than 'Pick Date'.");
-            }
+            $form.find('div[data-datafield="PickDate"]').removeClass('error');
+            $form.find('div[data-datafield="EstimatedStartDate"]').removeClass('error');
+            $form.find('div[data-datafield="EstimatedStopDate"]').removeClass('error');
         }
     };
     Order.prototype.disableWithTaxCheckbox = function ($form) {
@@ -1345,6 +1369,58 @@ FwApplicationTree.clickEvents['{D27AD4E7-E924-47D1-AF6E-992B92F5A647}'] = functi
         }
         else {
             QuoteController.toggleOrderItemView($form, event);
+        }
+    }
+    catch (ex) {
+        FwFunc.showError(ex);
+    }
+};
+FwApplicationTree.clickEvents['{DAE6DC23-A2CA-4E36-8214-72351C4E1449}'] = function (event) {
+    var $browse, repairId;
+    try {
+        $browse = jQuery(this).closest('.fwbrowse');
+        var OrderId_1 = $browse.find('.selected [data-browsedatafield="OrderId"]').attr('data-originalvalue');
+        var isCanceled = $browse.find('.selected [data-datafield="Status"]').attr('data-originalvalue');
+        console.log('orderid: ', OrderId_1);
+        console.log('hascancel: ', isCanceled);
+        if (OrderId_1 != null) {
+            var self = this;
+            var $confirmation_1, $yes_1, $no = void 0;
+            $confirmation_1 = FwConfirmation.renderConfirmation('Cancel', '');
+            $confirmation_1.find('.fwconfirmationbox').css('width', '450px');
+            var html = [];
+            html.push('<div class="fwform" data-controller="none" style="background-color: transparent;">');
+            html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
+            html.push('    <div>Would you like to cancel this Order?</div>');
+            html.push('  </div>');
+            html.push('</div>');
+            FwConfirmation.addControls($confirmation_1, html.join(''));
+            $yes_1 = FwConfirmation.addButton($confirmation_1, 'Cancel Order', false);
+            $no = FwConfirmation.addButton($confirmation_1, 'Cancel');
+            $yes_1.on('click', cancelOrder);
+            function cancelOrder() {
+                var request = {};
+                FwFormField.disable($confirmation_1.find('.fwformfield'));
+                FwFormField.disable($yes_1);
+                $yes_1.text('Canceling...');
+                $yes_1.off('click');
+                FwAppData.apiMethod(true, 'POST', "api/v1/order/cancel/" + OrderId_1, request, FwServices.defaultTimeout, function onSuccess(response) {
+                    FwNotification.renderNotification('SUCCESS', 'Order Successfully Canceled');
+                    FwConfirmation.destroyConfirmation($confirmation_1);
+                    FwBrowse.databind($browse);
+                }, function onError(response) {
+                    $yes_1.on('click', cancelOrder);
+                    $yes_1.text('Cancel');
+                    FwFunc.showError(response);
+                    FwFormField.enable($confirmation_1.find('.fwformfield'));
+                    FwFormField.enable($yes_1);
+                    FwBrowse.databind($browse);
+                }, $browse);
+            }
+            ;
+        }
+        else {
+            throw new Error("Please select an Order to cancel.");
         }
     }
     catch (ex) {

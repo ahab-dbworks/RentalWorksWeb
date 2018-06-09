@@ -884,54 +884,37 @@ class Quote {
 
     //----------------------------------------------------------------------------------------------
     checkDateRangeForPick($form, event) {
-        let $element;
+        let $element, parsedPickDate, parsedFromDate, parsedToDate;
         $element = jQuery(event.currentTarget);
 
-        let parsedPickDate = Date.parse(FwFormField.getValueByDataField($form, 'PickDate'));
-        let parsedFromDate = Date.parse(FwFormField.getValueByDataField($form, 'EstimatedStartDate'));
-        let parsedToDate = Date.parse(FwFormField.getValueByDataField($form, 'EstimatedStopDate'));
+        parsedPickDate = Date.parse(FwFormField.getValueByDataField($form, 'PickDate'));
+        parsedFromDate = Date.parse(FwFormField.getValueByDataField($form, 'EstimatedStartDate'));
+        parsedToDate = Date.parse(FwFormField.getValueByDataField($form, 'EstimatedStopDate'));
 
-        if ($element.attr('data-datafield') === 'EstimatedStartDate') {
-            if (parsedFromDate < parsedPickDate) {
-                FwNotification.renderNotification('WARNING', "Your chosen 'From Date' is less than 'Pick Date'.");
-            }
+        if ($element.attr('data-datafield') === 'EstimatedStartDate' && parsedFromDate < parsedPickDate) {
+            $form.find('div[data-datafield="EstimatedStartDate"]').addClass('error');
+            FwNotification.renderNotification('WARNING', "Your chosen 'From Date' is before 'Pick Date'.");
+        }
+        else if ($element.attr('data-datafield') === 'PickDate' && parsedFromDate < parsedPickDate) {
+            $form.find('div[data-datafield="PickDate"]').addClass('error');
+            FwNotification.renderNotification('WARNING', "Your chosen 'Pick Date' is after 'From Date'.");
+        }
+        else if ($element.attr('data-datafield') === 'PickDate' && parsedToDate < parsedPickDate) {
+            $form.find('div[data-datafield="PickDate"]').addClass('error');
+            FwNotification.renderNotification('WARNING', "Your chosen 'Pick Date' is after 'To Date'.");
+        }
+        else if (parsedToDate < parsedFromDate) {
+            $form.find('div[data-datafield="EstimatedStopDate"]').addClass('error');
+            FwNotification.renderNotification('WARNING', "Your chosen 'To Date' is before 'From Date'.");
+        }
+        else if (parsedToDate < parsedPickDate) {
+            $form.find('div[data-datafield="EstimatedStopDate"]').addClass('error');
+            FwNotification.renderNotification('WARNING', "Your chosen 'To Date' is before 'Pick Date'.");
         }
         else {
-            if (parsedToDate < parsedFromDate) {
-                FwNotification.renderNotification('WARNING', "Your chosen 'To Date' is less than 'From Date'.");
-            }
-            else if (parsedToDate < parsedPickDate) {
-                FwNotification.renderNotification('WARNING', "Your chosen 'To Date' is less than 'Pick Date'.");
-            }
-        }
-    }
-
-    //----------------------------------------------------------------------------------------------
-    disableWithTaxCheckbox($form: any) {
-        if (FwFormField.getValueByDataField($form, 'PeriodRentalTotal') === '0.00') {
-            FwFormField.disable($form.find('div[data-datafield="PeriodRentalTotalIncludesTax"]'));
-        } else {
-            FwFormField.enable($form.find('div[data-datafield="PeriodRentalTotalIncludesTax"]'));
-        }
-        if (FwFormField.getValueByDataField($form, 'SalesTotal') === '0.00') {
-            FwFormField.disable($form.find('div[data-datafield="SalesTotalIncludesTax"]'));
-        } else {
-            FwFormField.enable($form.find('div[data-datafield="SalesTotalIncludesTax"]'));
-        }
-        if (FwFormField.getValueByDataField($form, 'PeriodLaborTotal') === '0.00') {
-            FwFormField.disable($form.find('div[data-datafield="PeriodLaborTotalIncludesTax"]'));
-        } else {
-            FwFormField.enable($form.find('div[data-datafield="PeriodLaborTotalIncludesTax"]'));
-        }
-        if (FwFormField.getValueByDataField($form, 'PeriodMiscTotal') === '0.00') {
-            FwFormField.disable($form.find('div[data-datafield="PeriodMiscTotalIncludesTax"]'));
-        } else {
-            FwFormField.enable($form.find('div[data-datafield="PeriodMiscTotalIncludesTax"]'));
-        }
-        if (FwFormField.getValueByDataField($form, 'PeriodCombinedTotal') === '0.00') {
-            FwFormField.disable($form.find('div[data-datafield="PeriodCombinedTotalIncludesTax"]'));
-        } else {
-            FwFormField.enable($form.find('div[data-datafield="PeriodCombinedTotalIncludesTax"]'));
+            $form.find('div[data-datafield="PickDate"]').removeClass('error');
+            $form.find('div[data-datafield="EstimatedStartDate"]').removeClass('error');
+            $form.find('div[data-datafield="EstimatedStopDate"]').removeClass('error');
         }
     };
 
