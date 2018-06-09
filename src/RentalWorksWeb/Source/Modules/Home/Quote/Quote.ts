@@ -948,6 +948,35 @@ class Quote {
     };
 
     //----------------------------------------------------------------------------------------------
+    disableWithTaxCheckbox($form: any) {
+        if (FwFormField.getValueByDataField($form, 'PeriodRentalTotal') === '0.00') {
+            FwFormField.disable($form.find('div[data-datafield="PeriodRentalTotalIncludesTax"]'));
+        } else {
+            FwFormField.enable($form.find('div[data-datafield="PeriodRentalTotalIncludesTax"]'));
+        }
+        if (FwFormField.getValueByDataField($form, 'SalesTotal') === '0.00') {
+            FwFormField.disable($form.find('div[data-datafield="SalesTotalIncludesTax"]'));
+        } else {
+            FwFormField.enable($form.find('div[data-datafield="SalesTotalIncludesTax"]'));
+        }
+        if (FwFormField.getValueByDataField($form, 'PeriodLaborTotal') === '0.00') {
+            FwFormField.disable($form.find('div[data-datafield="PeriodLaborTotalIncludesTax"]'));
+        } else {
+            FwFormField.enable($form.find('div[data-datafield="PeriodLaborTotalIncludesTax"]'));
+        }
+        if (FwFormField.getValueByDataField($form, 'PeriodMiscTotal') === '0.00') {
+            FwFormField.disable($form.find('div[data-datafield="PeriodMiscTotalIncludesTax"]'));
+        } else {
+            FwFormField.enable($form.find('div[data-datafield="PeriodMiscTotalIncludesTax"]'));
+        }
+        if (FwFormField.getValueByDataField($form, 'PeriodCombinedTotal') === '0.00') {
+            FwFormField.disable($form.find('div[data-datafield="PeriodCombinedTotalIncludesTax"]'));
+        } else {
+            FwFormField.enable($form.find('div[data-datafield="PeriodCombinedTotalIncludesTax"]'));
+        }
+    }
+
+    //----------------------------------------------------------------------------------------------
     bottomLineDiscountChange($form: any, event: any) {
         // DiscountPercent for all OrderItemGrid
         let $element, $orderItemGrid, quoteId, recType, discountPercent;

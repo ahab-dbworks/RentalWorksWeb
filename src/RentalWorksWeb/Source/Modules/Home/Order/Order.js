@@ -1376,13 +1376,14 @@ FwApplicationTree.clickEvents['{D27AD4E7-E924-47D1-AF6E-992B92F5A647}'] = functi
     }
 };
 FwApplicationTree.clickEvents['{DAE6DC23-A2CA-4E36-8214-72351C4E1449}'] = function (event) {
-    var $browse, repairId;
+    var $browse, $element;
+    $element = jQuery(event.currentTarget);
     try {
         $browse = jQuery(this).closest('.fwbrowse');
         var OrderId_1 = $browse.find('.selected [data-browsedatafield="OrderId"]').attr('data-originalvalue');
-        var isCanceled = $browse.find('.selected [data-datafield="Status"]').attr('data-originalvalue');
+        var isCanceled = $browse.find('.selected [data-formdatafield="Status"]').attr('data-originalvalue');
         console.log('orderid: ', OrderId_1);
-        console.log('hascancel: ', isCanceled);
+        console.log('hascancel: ', $element.attr('data-securityid'));
         if (OrderId_1 != null) {
             var self = this;
             var $confirmation_1, $yes_1, $no = void 0;
