@@ -568,8 +568,8 @@ namespace WebApi.Modules.Home.OrderItem
             {
                 if ((InventoryId != null) && (!InventoryId.Equals(string.Empty)))
                 {
-                    string itemClass = AppFunc.GetStringDataAsync(AppConfig, "master", "masterid", InventoryId, "class").Result;
-                    if ((itemClass.Equals(RwConstants.INVENTORY_CLASSIFICATION_KIT)) || (itemClass.Equals(RwConstants.INVENTORY_CLASSIFICATION_COMPLETE)))
+                    ItemClass = AppFunc.GetStringDataAsync(AppConfig, "master", "masterid", InventoryId, "class").Result;
+                    if ((ItemClass.Equals(RwConstants.INVENTORY_CLASSIFICATION_KIT)) || (ItemClass.Equals(RwConstants.INVENTORY_CLASSIFICATION_COMPLETE)))
                     {
                         OrderItemId = AppFunc.InsertPackage(AppConfig, UserSession, this).Result;
                         e.PerformSave = false;
