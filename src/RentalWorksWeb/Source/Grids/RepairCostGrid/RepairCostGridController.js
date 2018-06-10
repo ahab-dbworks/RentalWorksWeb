@@ -17,8 +17,22 @@ var RepairCostGrid = (function () {
             $generatedtr.find('.field[data-browsedatafield="Unit"] input').val($tr.find('.field[data-browsedatafield="Unit"]').attr('data-originalvalue'));
             $generatedtr.find('.field[data-browsedatafield="Quantity"] input').val("1");
             $generatedtr.find('.field[data-browsedatafield="Billable"] input').prop('checked', true);
-            ;
+            console.log($generatedtr.find('.field[data-browsedatafield="Quantity"] input').val());
         });
+        $control.find('.field_to_calc_extended').on('change', 'input.value', function ($tr) {
+            calculateExtended($tr);
+        });
+        function calculateExtended($tr) {
+            var quantityValue, rateValue, discountValue, url;
+            quantityValue = $generatedtr.find('.field[data-browsedatafield="Quantity"] input').val();
+            rateValue = $generatedtr.find('.field[data-browsedatafield="Rate"] input').val();
+            discountValue = $generatedtr.find('.field[data-browsedatafield="DiscountAmount"] input').val();
+            url = "api/v1/repaircost/calculateextended?Quantity=" + quantityValue + "&Rate=" + rateValue + "&DiscountAmount=" + discountValue;
+            FwAppData.apiMethod(true, 'GET', url, null, FwServices.defaultTimeout, function onSuccess(response) {
+                $generatedtr.find('.field[data-browsedatafield="PeriodExtended"] input').val(response.Extended);
+            }, null, null);
+            console.log(quantityValue, rateValue, discountValue);
+        }
     };
     ;
     return RepairCostGrid;
