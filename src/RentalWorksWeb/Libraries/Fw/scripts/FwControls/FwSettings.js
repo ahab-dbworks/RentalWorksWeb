@@ -484,18 +484,20 @@ FwSettings.renderModuleHtml = function ($control, title, moduleName, description
             $rowBody = $control.find('#' + recordData[moduleId] + '.panel-body');
 
             $form = jQuery(jQuery('#tmpl-modules-' + moduleName + 'Form').html());
-            if ($rowBody.is(':empty')) {
-                $rowBody.append($form);
-                FwModule.openForm($form, 'EDIT');
-                $form.find('div[data-type="NewMenuBarButton"]').off();
 
+            $form.data('afterLoadCustomFields', function () {
                 for (var key in recordData) {
                     for (var i = 0; i < filter.length; i++) {
                         if (filter[i] === key) {
-                            $form.find('[data-datafield="' + key + '"]').css({ 'background': 'yellow' })
+                            $form.find('[data-datafield="' + key + '"]').css({ 'background': 'yellow' });
                         }
                     };
-                    var value = recordData[key];
+                    if (key === '_Custom') {
+                        var value = recordData[key][0]['FieldValue'];
+                        key = recordData[key][0]['FieldName'];
+                    } else {
+                        var value = recordData[key];
+                    }
                     var $field = $form.find('[data-datafield="' + key + '"]');
                     var displayfield = $field.attr('data-displayfield');
                     if ($field.length > 0) {
@@ -511,23 +513,31 @@ FwSettings.renderModuleHtml = function ($control, title, moduleName, description
                     window[moduleName + 'Controller']['loadForm'](uniqueids);
                 }
 
-            }
+                if ($rowBody.is(':empty')) {
+                    $rowBody.append($form);
+                    $form.find('div[data-type="NewMenuBarButton"]').off();
+                }
 
-            if ($form.find('.fwappimage')[0] && $form.find('.images').is(':empty')) {
-                FwAppImage.getAppImages($form.find('.fwappimage'))
-            }
+                if ($form.find('.fwappimage')[0] && $form.find('.images').is(':empty')) {
+                    FwAppImage.getAppImages($form.find('.fwappimage'))
+                }
 
-            if (typeof window[moduleName + 'Controller']['afterLoad'] === 'function') {
-                window[moduleName + 'Controller']['afterLoad']($form);
-            }
+                if (typeof window[moduleName + 'Controller']['afterLoad'] === 'function') {
+                    window[moduleName + 'Controller']['afterLoad']($form);
+                }
 
-            if ($rowBody.css('display') === 'none' || $rowBody.css('display') === undefined) {
-                $rowBody.parent().find('.record-selector').html('keyboard_arrow_up');
-                $rowBody.show("fast");
-            } else {
-                $rowBody.parent().find('.record-selector').html('keyboard_arrow_down');
-                $rowBody.hide("fast");
-            }
+                if ($rowBody.css('display') === 'none' || $rowBody.css('display') === undefined) {
+                    $rowBody.parent().find('.record-selector').html('keyboard_arrow_up');
+                    $rowBody.show("fast");
+                } else {
+                    $rowBody.parent().find('.record-selector').html('keyboard_arrow_down');
+                    $rowBody.hide("fast");
+                }
+            });
+
+            FwModule.openForm($form, 'EDIT');
+
+            
         })
         .on('click', '.save', function (e) {
             e.stopPropagation();

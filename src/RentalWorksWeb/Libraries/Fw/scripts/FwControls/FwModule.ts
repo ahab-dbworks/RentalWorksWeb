@@ -396,7 +396,7 @@ class FwModule {
                 let hasCustomFields = false;
                 for (var i = 0; i < customFields.length; i++) {
                     if (controller.slice(0, -10) === customFields[i]) {
-                        FwModule.loadCustomFields($form, customFields[i])
+                        FwModule.loadCustomFields($form, customFields[i]);
                     }
                 }
             }
@@ -1339,6 +1339,9 @@ class FwModule {
                 $formTabControl.find('#' + customTabIds.tabpageid).append($customControl);
 
                 $form.data('fields', $form.find('.fwformfield[data-isuniqueid!="true"]'));
+                if (typeof $form.data('afterLoadCustomFields') !== 'undefined' && typeof $form.data('afterLoadCustomFields') === 'function') {
+                    $form.data('afterLoadCustomFields')();
+                }
             } catch (ex) {
                 FwFunc.showError(ex);
             }

@@ -1233,6 +1233,9 @@ var FwModule = (function () {
                 FwControl.renderRuntimeControls($customControl.find('.fwcontrol').addBack());
                 $formTabControl.find('#' + customTabIds.tabpageid).append($customControl);
                 $form.data('fields', $form.find('.fwformfield[data-isuniqueid!="true"]'));
+                if (typeof $form.data('afterLoadCustomFields') !== 'undefined' && typeof $form.data('afterLoadCustomFields') === 'function') {
+                    $form.data('afterLoadCustomFields')();
+                }
             }
             catch (ex) {
                 FwFunc.showError(ex);
