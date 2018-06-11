@@ -712,6 +712,7 @@ class SearchInterface {
                 $inventory.find('span, br').show();
                 allWH.hide();
                 jQuery('#columnDescriptions').hide();
+                jQuery('.accColumns').show();
                 $inventory.css({ 'cursor': 'pointer', 'width': '225px', 'height': '265px', 'float': 'left', 'padding': '10px', 'margin': '8px', 'position': 'relative' });
                 descContainer.css({ 'width': '', 'float': '' });
                 description.css({ 'height': '15%', 'width': '', 'padding-top': '', 'padding-bottom': '15px', 'float': '' });
@@ -730,6 +731,7 @@ class SearchInterface {
                 //$inventory.addClass('gridView');
                 break;
             case 'LIST':
+                jQuery('.accColumns').hide();
                 $inventory.find('span, br').hide();
                 jQuery('#columnDescriptions').show();
                 $inventory.css({ 'cursor': 'pointer', 'width': '95%', 'height': 'auto', 'float': 'left', 'padding': '5px', 'margin': '5px', 'position': 'relative' });
@@ -752,6 +754,7 @@ class SearchInterface {
             case 'HYBRID':
                 //cardContainer.css({ 'float': 'left', 'width': 'auto' });
                 $inventory.find('span, br').hide();
+                jQuery('.accColumns').hide();
                 jQuery('#columnDescriptions').show();
                 $inventory.css({ 'cursor': 'pointer', 'width': '95%', 'height': 'auto', 'float': 'left', 'padding': '5px', 'margin': '5px', 'position': 'relative' });
                 descContainer.css({ 'width': '40%', 'float': 'left' });
@@ -1124,15 +1127,23 @@ class SearchInterface {
         }
 
         accessoryContainer.css({ 'float': 'left', 'height': 'auto', 'padding': '5px', 'margin': '5px', 'box-shadow': '0 6px 10px 0 rgba(0,0,153,0.2)', 'transition': '0.3s' });
-        //var html = [];
-        //if (!(accessoryContainer.find('.accList').length)) {
-        //    html.push('<div style="width:100%">');
-        //    html.push(' <div class="accList"></div>');
-        //    html.push(' </div>');
-        //    html.push('</div>');
-        //    accessoryContainer.append(html.join(''));
-           
-        //}
+        var html = [];
+        if (!(accessoryContainer.find('.accList').length)) {
+            html.push('<div class="accColumns" style="width:100%; display:none;">');
+            html.push(' <div class="accList"></div>');
+            html.push('                           <div style="float:left; width:40%;">&#160;</div>');
+            html.push('                           <div style="float:left; width:7%; text-align:center; font-weight:bold;">Qty</div>');
+            html.push('                           <div style="float:left; width:7%; text-align:center; font-weight:bold;">Available</div>');
+            html.push('                           <div style="float:left; width:9%; text-align:center; font-weight:bold;">Conflict Date</div>');
+            html.push('                           <div style="float:left; width:7%; text-align:center; font-weight:bold;">All WH</div>');
+            html.push('                           <div style="float:left; width:7%; text-align:center; font-weight:bold;">In</div>');
+            html.push('                           <div style="float:left; width:7%; text-align:center; font-weight:bold;">QC</div>');
+            html.push('                           <div style="float:left; width:7%; text-align:center; font-weight:bold;">&#160;</div>');
+            html.push('                           <div style="float:left; width:7%; text-align:center; font-weight:bold;">Rate</div>');
+            html.push(' </div>');
+            html.push('</div>');
+            accessoryContainer.append(html.join(''));
+        }
 
         jQuery(e.currentTarget).parents('.cardContainer').find('.accContainer .accItem').remove();
         FwAppData.apiMethod(true, 'POST', "api/v1/inventorysearch/accessories", request, FwServices.defaultTimeout, function onSuccess(response) {
