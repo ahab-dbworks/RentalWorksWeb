@@ -98,6 +98,24 @@ class Contact {
         FwBrowse.init($contactNoteGridControl);
         FwBrowse.renderRuntimeHtml($contactNoteGridControl);
 
+        // Personal Event Grid
+        var $contactPersonalEventGrid: any;
+        var $contactPersonalEventGridControl: any;
+
+        $contactPersonalEventGrid = $form.find('div[data-grid="ContactPersonalEventGrid"]');
+        $contactPersonalEventGridControl = jQuery(jQuery('#tmpl-grids-ContactPersonalEventGridBrowse').html());
+        $contactPersonalEventGrid.empty().append($contactPersonalEventGridControl);
+        $contactPersonalEventGridControl.data('ondatabind', function (request) {
+            request.uniqueids = {
+                ContactId: $form.find('div.fwformfield[data-datafield="ContactId"] input').val()
+            };
+        })
+        $contactPersonalEventGridControl.data('beforesave', function (request) {
+            request.ContactId = FwFormField.getValueByDataField($form, 'ContactId');
+        });
+        FwBrowse.init($contactPersonalEventGridControl);
+        FwBrowse.renderRuntimeHtml($contactPersonalEventGridControl);
+
         //Company Contact grid
         var $companyContactGrid: any;
         var $companyContactGridControl: any;
@@ -135,6 +153,11 @@ class Contact {
 
         $contactNoteGrid = $form.find('[data-name="ContactNoteGrid"]');
         FwBrowse.search($contactNoteGrid);
+
+        var $contactPersonalEventGrid: any;
+
+        $contactPersonalEventGrid = $form.find('[data-name="ContactPersonalEventGrid"]');
+        FwBrowse.search($contactPersonalEventGrid);
 
         var $companyContactGrid: any;
 

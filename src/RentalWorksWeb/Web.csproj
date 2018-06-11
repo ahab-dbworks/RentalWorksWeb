@@ -208,7 +208,6 @@
     <Content Include="Source\Grids\ContactEmailHistoryGrid\ContactEmailHistoryGridController.js" />
     <Content Include="Source\Grids\ContactNoteGrid\ContactNoteGridBrowse.htm" />
     <Content Include="Source\Grids\ContactPersonalEventGrid\ContactPersonalEventGridBrowse.htm" />
-    <Content Include="Source\Grids\ContactPersonalEventGrid\ContactPersonalEventGridController.js" />
     <Content Include="Source\Grids\InventoryCompleteGrid\InventoryCompleteGridBrowse.htm" />
     <Content Include="Source\Grids\InventoryContainerGrid\InventoryContainerGridBrowse.htm" />
     <Content Include="Source\Grids\AttributeValueGrid\AttributeValueGridBrowse.htm" />
@@ -270,6 +269,7 @@
     <Content Include="Source\Grids\RateLocationTaxGrid\RateLocationTaxGridBrowse.htm" />
     <Content Include="Source\Grids\SubCategoryGrid\SubCategoryGridBrowse.htm" />
     <TypeScriptCompile Include="scripts\Global.ts" />
+    <TypeScriptCompile Include="Source\Grids\ContactPersonalEventGrid\ContactPersonalEventGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\OrderContactGrid\OrderContactGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\CompanyContactGrid\CompanyContactGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\ContactCompanyGrid\ContactCompanyGridController.ts" />
