@@ -475,26 +475,29 @@ FwSettings.renderModuleHtml = function ($control, title, moduleName, description
     $control
         .unbind().on('click', '.row-heading', function (e) {
             e.stopPropagation();
-            var formKeys = [], formData = [], recordData, $rowBody, $form, moduleName, moduleId;
+            var formKeys = [], formData = [], recordData, $rowBody, $form, moduleName, moduleId, uniqueids = {};
             recordData = jQuery(this).parent().parent().data('recorddata');
             moduleName = jQuery(this).closest('div.panel-group')[0].id;
             moduleId = jQuery(this).closest('div.panel-group').data('id');
+            uniqueids[moduleId] = recordData[moduleId];
 
             $rowBody = $control.find('#' + recordData[moduleId] + '.panel-body');
 
             $form = jQuery(jQuery('#tmpl-modules-' + moduleName + 'Form').html());
-            if ($rowBody.is(':empty')) {
-                $rowBody.append($form);
-                FwModule.openForm($form, 'EDIT');
-                $form.find('div[data-type="NewMenuBarButton"]').off();
 
+            $form.data('afterLoadCustomFields', function () {
                 for (var key in recordData) {
                     for (var i = 0; i < filter.length; i++) {
                         if (filter[i] === key) {
-                            $form.find('[data-datafield="' + key + '"]').css({ 'background': 'yellow' })
+                            $form.find('[data-datafield="' + key + '"]').css({ 'background': 'yellow' });
                         }
                     };
-                    var value = recordData[key];
+                    if (key === '_Custom') {
+                        var value = recordData[key][0]['FieldValue'];
+                        key = recordData[key][0]['FieldName'];
+                    } else {
+                        var value = recordData[key];
+                    }
                     var $field = $form.find('[data-datafield="' + key + '"]');
                     var displayfield = $field.attr('data-displayfield');
                     if ($field.length > 0) {
@@ -506,23 +509,35 @@ FwSettings.renderModuleHtml = function ($control, title, moduleName, description
                         }
                     }
                 }
-            }
+                if (typeof window[moduleName + 'Controller']['loadForm'] === 'function') {
+                    window[moduleName + 'Controller']['loadForm'](uniqueids);
+                }
 
-            if ($form.find('.fwappimage')[0]) {
-                FwAppImage.getAppImages($form.find('.fwappimage'))
-            }
+                if ($rowBody.is(':empty')) {
+                    $rowBody.append($form);
+                    $form.find('div[data-type="NewMenuBarButton"]').off();
+                }
 
-            if (typeof window[moduleName + 'Controller']['afterLoad'] === 'function') {
-                window[moduleName + 'Controller']['afterLoad']($form);
-            }
+                if ($form.find('.fwappimage')[0] && $form.find('.images').is(':empty')) {
+                    FwAppImage.getAppImages($form.find('.fwappimage'))
+                }
 
-            if ($rowBody.css('display') === 'none' || $rowBody.css('display') === undefined) {
-                $rowBody.parent().find('.record-selector').html('keyboard_arrow_up');
-                $rowBody.show("fast");
-            } else {
-                $rowBody.parent().find('.record-selector').html('keyboard_arrow_down');
-                $rowBody.hide("fast");
-            }
+                if (typeof window[moduleName + 'Controller']['afterLoad'] === 'function') {
+                    window[moduleName + 'Controller']['afterLoad']($form);
+                }
+
+                if ($rowBody.css('display') === 'none' || $rowBody.css('display') === undefined) {
+                    $rowBody.parent().find('.record-selector').html('keyboard_arrow_up');
+                    $rowBody.show("fast");
+                } else {
+                    $rowBody.parent().find('.record-selector').html('keyboard_arrow_down');
+                    $rowBody.hide("fast");
+                }
+            });
+
+            FwModule.openForm($form, 'EDIT');
+
+
         })
         .on('click', '.save', function (e) {
             e.stopPropagation();

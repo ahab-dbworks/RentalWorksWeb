@@ -537,7 +537,7 @@ FwSettings.renderModuleHtml = function ($control, title, moduleName, description
 
             FwModule.openForm($form, 'EDIT');
 
-            
+
         })
         .on('click', '.save', function (e) {
             e.stopPropagation();

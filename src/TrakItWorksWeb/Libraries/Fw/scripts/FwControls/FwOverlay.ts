@@ -32,7 +32,7 @@
     //----------------------------------------------------------------------------------------------
     static showProgressBarOverlay($appendToElement, progressBarSessionId) {
         let html, $moduleoverlay, maxZIndex, progressCompleted, caption, percentage, handle, currentStep, totalSteps, fullurl;
-        currentStep = 0;
+        currentStep = 100;
         totalSteps = 100;
 
         let request: any = {};
@@ -55,32 +55,23 @@
             },
         };
 
-        html.push(`<progress max="" value="0"><span class="progress_span">0</span></progress>`);
+        html.push(`<progress max="100" value="100"><span class="progress_span">0</span></progress>`);
         html.push(`<div class="progress_bar_text"></div>`);
-        html.push(`<div class="progress_bar_caption"></div>`);
+        html.push(`<div class="progress_bar_caption">Initiating your request...</div>`);
 
         $moduleoverlay = jQuery(`<div class="progress_bar">`);
         $moduleoverlay.html(html.join(''));
         $appendToElement.css('position', 'relative').append($moduleoverlay);
 
-        $moduleoverlay.hide();
-
         handle = setInterval(() => {
             jQuery.ajax(ajaxOptions)
                 .done(response => {
-                    if (currentStep >= 1) {
-                        $moduleoverlay.show();
-                    }
-
                     try {
                         if (isNaN(response.CurrentStep) || undefined) {
                             caption = 'Processing...';
-                            currentStep += 5;
-                            percentage = Math.floor((currentStep / totalSteps) * 100);
-                            $moduleoverlay.find('progress').val(currentStep);
-                            $moduleoverlay.find('progress').attr('max', totalSteps);
-                            $moduleoverlay.find('.progress_bar_text').text(`${percentage}%`);
-                            $moduleoverlay.find('.progress_span').text(`${percentage}%`);
+                            currentStep += 2.5;
+                            $moduleoverlay.find('progress').val(100);
+                            $moduleoverlay.find('progress').attr('max', 100);
                             $moduleoverlay.find('.progress_bar_caption').text(caption);
 
                         } else {

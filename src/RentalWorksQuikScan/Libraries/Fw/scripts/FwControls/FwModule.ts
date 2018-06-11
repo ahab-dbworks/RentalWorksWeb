@@ -396,7 +396,7 @@ class FwModule {
                 let hasCustomFields = false;
                 for (var i = 0; i < customFields.length; i++) {
                     if (controller.slice(0, -10) === customFields[i]) {
-                        FwModule.loadCustomFields($form, customFields[i])
+                        FwModule.loadCustomFields($form, customFields[i]);
                     }
                 }
             }
@@ -434,7 +434,7 @@ class FwModule {
                     $this.removeClass('error');
                 }
             })
-        ;
+            ;
 
         // hide tabs based on security tree
         $tabcontrol = $form.find('.fwtabs');
@@ -615,11 +615,11 @@ class FwModule {
     //----------------------------------------------------------------------------------------------
     static saveForm(module: string, $form: JQuery, parameters: { closetab?: boolean; afterCloseForm?: Function; closeparent?: boolean; navigationpath?: string; }) {
         var $tabpage, $tab, isValid, request, controllername, controller;
-        $tabpage       = $form.parent();
-        $tab           = jQuery('#' + $tabpage.attr('data-tabid'));
-        isValid        = FwModule.validateForm($form);
+        $tabpage = $form.parent();
+        $tab = jQuery('#' + $tabpage.attr('data-tabid'));
+        isValid = FwModule.validateForm($form);
         controllername = $form.attr('data-controller');
-        controller     = window[controllername];
+        controller = window[controllername];
 
         if (isValid === true) {
             if (typeof controller.apiurl !== 'undefined') {
@@ -627,8 +627,8 @@ class FwModule {
             } else {
                 request = {
                     module: module,
-                    mode:   $form.attr('data-mode'),
-                    ids:    FwModule.getFormUniqueIds($form),
+                    mode: $form.attr('data-mode'),
+                    ids: FwModule.getFormUniqueIds($form),
                     fields: FwModule.getFormFields($form, false)
                 };
             }
@@ -1033,14 +1033,14 @@ class FwModule {
     static getFormFields($form: JQuery, getAllFieldsOverride: boolean) {
         var $fwformfields, fields, field;
 
-        fields         = {};
-        $fwformfields  = typeof $form.data('fields') !== 'undefined' ? $form.data('fields') : jQuery([]);
+        fields = {};
+        $fwformfields = typeof $form.data('fields') !== 'undefined' ? $form.data('fields') : jQuery([]);
         $fwformfields.each(function (index, element) {
             var $fwformfield, originalValue, dataField, value, isValidDataField, getAllFields, isBlank, isCalculatedField;
 
-            $fwformfield  = jQuery(element);
+            $fwformfield = jQuery(element);
             originalValue = $fwformfield.attr('data-originalvalue');
-            dataField     = $fwformfield.attr('data-datafield');
+            dataField = $fwformfield.attr('data-datafield');
             if (typeof dataField === 'undefined') {
                 var formCaption = typeof $form.attr('data-caption') !== 'undefined' ? $form.attr('data-caption') : 'Unknown';
                 console.log('On Form: "' + formCaption + ' ", the attribute data-datafield is required on the fwformfield with the following html: ' + jQuery('div').append($fwformfield).html());
@@ -1054,15 +1054,15 @@ class FwModule {
                 value2 = JSON.stringify(value);
             }
 
-            isBlank           = (dataField === '');
+            isBlank = (dataField === '');
             isCalculatedField = (dataField[0] === '#') && (dataField[1] === '.');
-            isValidDataField  = (!isBlank) && (!isCalculatedField);
-            getAllFields      = ($form.attr('data-mode') === 'NEW') || getAllFieldsOverride;
+            isValidDataField = (!isBlank) && (!isCalculatedField);
+            getAllFields = ($form.attr('data-mode') === 'NEW') || getAllFieldsOverride;
 
             if ((isValidDataField) && ((getAllFields) || (originalValue !== value2))) {
                 if ($fwformfield.data('customfield') !== undefined && $fwformfield.data('customfield') === true) {
                     field = {
-                        FieldName:  dataField,
+                        FieldName: dataField,
                         FieldValue: value
                     }
                     if (typeof fields._Custom === 'undefined') {
@@ -1072,7 +1072,7 @@ class FwModule {
                 } else {
                     field = {
                         datafield: dataField,
-                        value:     value
+                        value: value
                     };
                     fields[dataField] = field;
                 }
@@ -1339,6 +1339,9 @@ class FwModule {
                 $formTabControl.find('#' + customTabIds.tabpageid).append($customControl);
 
                 $form.data('fields', $form.find('.fwformfield[data-isuniqueid!="true"]'));
+                if (typeof $form.data('afterLoadCustomFields') !== 'undefined' && typeof $form.data('afterLoadCustomFields') === 'function') {
+                    $form.data('afterLoadCustomFields')();
+                }
             } catch (ex) {
                 FwFunc.showError(ex);
             }

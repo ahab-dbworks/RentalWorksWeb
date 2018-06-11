@@ -1,15 +1,15 @@
 ﻿FwBrowseColumn_time = {};
 //---------------------------------------------------------------------------------
-FwBrowseColumn_time.databindfield = function($browse, $field, dt, dtRow, $tr) {
-    
+FwBrowseColumn_time.databindfield = function ($browse, $field, dt, dtRow, $tr) {
+
 };
 //---------------------------------------------------------------------------------
-FwBrowseColumn_time.getFieldValue = function($browse, $tr, $field, field, originalvalue) {
-    
+FwBrowseColumn_time.getFieldValue = function ($browse, $tr, $field, field, originalvalue) {
+
 };
 //---------------------------------------------------------------------------------
-FwBrowseColumn_time.setFieldViewMode = function($browse, $field, $tr, html) {
-    var originalvalue = (typeof $field.attr('data-originalvalue')  === 'string') ? $field.attr('data-originalvalue') : '';
+FwBrowseColumn_time.setFieldViewMode = function ($browse, $field, $tr, html) {
+    var originalvalue = (typeof $field.attr('data-originalvalue') === 'string') ? $field.attr('data-originalvalue') : '';
     $field.html(originalvalue);
 };
 //---------------------------------------------------------------------------------
