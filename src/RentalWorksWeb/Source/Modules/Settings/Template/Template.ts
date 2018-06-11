@@ -234,6 +234,16 @@
 
         jQuery($form.find('[data-grid="OrderItemGrid"] [data-browsedatafield="FromDate"], [data-browsedatafield="ToDate"], [data-browsedatafield="BillablePeriods"], [data-browsedatafield="SubQuantity"], [data-browsedatafield="AvailableQuantity"]')).parent().hide();
 
+        let rentalTab = $form.find('[data-type="tab"][data-caption="Rental"]')
+            , salesTab = $form.find('[data-type="tab"][data-caption="Sales"]')
+            , miscTab = $form.find('[data-type="tab"][data-caption="Misc"]')
+            , laborTab = $form.find('[data-type="tab"][data-caption="Labor"]');
+
+        $form.find('[data-datafield="Rental"] input').prop('checked') ? rentalTab.show() : rentalTab.hide();
+        $form.find('[data-datafield="Sales"] input').prop('checked') ? salesTab.show() : salesTab.hide();
+        $form.find('[data-datafield="Miscellaneous"] input').prop('checked') ? miscTab.show() : miscTab.hide();
+        $form.find('[data-datafield="Labor"] input').prop('checked') ? laborTab.show() : laborTab.hide();
+
         $form.find('.rectype [data-datafield="Rental"] input').on('change', e => {
             if (jQuery(e.currentTarget).prop('checked')) {
                 $form.find('[data-type="tab"][data-caption="Rental"]').show();

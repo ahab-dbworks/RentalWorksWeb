@@ -293,41 +293,6 @@ var Order = (function () {
                 $form.find('.btn[data-type="SaveMenuBarButton"]').removeClass('disabled');
             }
         });
-        if (!self.CombineActivity) {
-            $form.find('[data-datafield="Rental"] input').on('change', function (e) {
-                if (jQuery(e.currentTarget).prop('checked')) {
-                    $form.find('[data-type="tab"][data-caption="Rental"]').show();
-                }
-                else {
-                    $form.find('[data-type="tab"][data-caption="Rental"]').hide();
-                }
-            });
-            $form.find('[data-datafield="Sales"] input').on('change', function (e) {
-                if (jQuery(e.currentTarget).prop('checked')) {
-                    $form.find('[data-type="tab"][data-caption="Sales"]').show();
-                }
-                else {
-                    $form.find('[data-type="tab"][data-caption="Sales"]').hide();
-                }
-            });
-            $form.find('[data-datafield="Miscellaneous"] input').on('change', function (e) {
-                if (jQuery(e.currentTarget).prop('checked')) {
-                    $form.find('[data-type="tab"][data-caption="Misc"]').show();
-                }
-                else {
-                    $form.find('[data-type="tab"][data-caption="Misc"]').hide();
-                }
-            });
-            $form.find('[data-datafield="Labor"] input').on('change', function (e) {
-                if (jQuery(e.currentTarget).prop('checked')) {
-                    $form.find('[data-type="tab"][data-caption="Labor"]').show();
-                }
-                else {
-                    $form.find('[data-type="tab"][data-caption="Labor"]').hide();
-                }
-            });
-        }
-        ;
         this.events($form);
         return $form;
     };
@@ -919,6 +884,46 @@ var Order = (function () {
             $form.find(".RentalDaysPerWeek").hide();
         }
         this.disableWithTaxCheckbox($form);
+        var rentalTab = $form.find('[data-type="tab"][data-caption="Rental"]'), salesTab = $form.find('[data-type="tab"][data-caption="Sales"]'), miscTab = $form.find('[data-type="tab"][data-caption="Misc"]'), laborTab = $form.find('[data-type="tab"][data-caption="Labor"]');
+        $form.find('[data-datafield="Rental"] input').prop('checked') ? rentalTab.show() : rentalTab.hide();
+        $form.find('[data-datafield="Sales"] input').prop('checked') ? salesTab.show() : salesTab.hide();
+        $form.find('[data-datafield="Miscellaneous"] input').prop('checked') ? miscTab.show() : miscTab.hide();
+        $form.find('[data-datafield="Labor"] input').prop('checked') ? laborTab.show() : laborTab.hide();
+        if (!(this.CombineActivity)) {
+            $form.find('[data-datafield="Rental"] input').on('change', function (e) {
+                if (jQuery(e.currentTarget).prop('checked')) {
+                    $form.find('[data-type="tab"][data-caption="Rental"]').show();
+                }
+                else {
+                    $form.find('[data-type="tab"][data-caption="Rental"]').hide();
+                }
+            });
+            $form.find('[data-datafield="Sales"] input').on('change', function (e) {
+                if (jQuery(e.currentTarget).prop('checked')) {
+                    $form.find('[data-type="tab"][data-caption="Sales"]').show();
+                }
+                else {
+                    $form.find('[data-type="tab"][data-caption="Sales"]').hide();
+                }
+            });
+            $form.find('[data-datafield="Miscellaneous"] input').on('change', function (e) {
+                if (jQuery(e.currentTarget).prop('checked')) {
+                    $form.find('[data-type="tab"][data-caption="Misc"]').show();
+                }
+                else {
+                    $form.find('[data-type="tab"][data-caption="Misc"]').hide();
+                }
+            });
+            $form.find('[data-datafield="Labor"] input').on('change', function (e) {
+                if (jQuery(e.currentTarget).prop('checked')) {
+                    $form.find('[data-type="tab"][data-caption="Labor"]').show();
+                }
+                else {
+                    $form.find('[data-type="tab"][data-caption="Labor"]').hide();
+                }
+            });
+        }
+        ;
     };
     ;
     Order.prototype.checkDateRangeForPick = function ($form, event) {
