@@ -24,9 +24,12 @@ var PrintOrder = (function () {
         return screen;
     };
     ;
-    PrintOrder.prototype.openForm = function () {
+    PrintOrder.prototype.openForm = function (type) {
         var $form;
         $form = FwReport.getFrontEnd('Rw', this.Module, 'tmpl-reports-' + this.Module + 'FrontEnd');
+        if (type == 'Quote') {
+            $form.attr('data-caption', 'Print Quote');
+        }
         $form.data('getexportrequest', function (request) {
             request.parameters = FwReport.getParameters($form);
             return request;
