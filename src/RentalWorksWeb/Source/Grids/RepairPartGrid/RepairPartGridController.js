@@ -31,16 +31,11 @@ var RepairPartGrid = (function () {
             var priceValue = $generatedtr.find('.field[data-browsedatafield="Price"] input').val();
             priceValue = +priceValue.substring(1).replace(',', '');
             var discountValue = $generatedtr.find('.field[data-browsedatafield="DiscountAmount"] input').val();
-            discountValue = discountValue.substring(1).replace(',', '');
+            discountValue = +discountValue.substring(1).replace(',', '');
             url = "api/v1/repairpart/calculateextended?Quantity=" + quantityValue + "&Rate=" + priceValue + "&DiscountAmount=" + discountValue;
             FwAppData.apiMethod(true, 'GET', url, null, FwServices.defaultTimeout, function onSuccess(response) {
-                console.log('resExt: ', response.Extended);
-                console.log('fieldval: ', $control.find('.extended fieldvalue').val());
-                console.log('fieldval: ', $generatedtr.find('.extended').val());
-                console.log('fieldval: ', $control.find('.extended input').val());
-                $control.find('.field[data-browsedatafield="Extended"] fieldvalue').val(response.Extended);
+                $generatedtr.find('.field[data-browsedatafield="Extended"]').text("$" + response.Extended);
             }, null, null);
-            console.log('all 3: ', quantityValue, priceValue, discountValue);
         }
     };
     ;

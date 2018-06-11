@@ -17,21 +17,21 @@ var RepairCostGrid = (function () {
             $generatedtr.find('.field[data-browsedatafield="Unit"] input').val($tr.find('.field[data-browsedatafield="Unit"]').attr('data-originalvalue'));
             $generatedtr.find('.field[data-browsedatafield="Quantity"] input').val("1");
             $generatedtr.find('.field[data-browsedatafield="Billable"] input').prop('checked', true);
-            console.log($generatedtr.find('.field[data-browsedatafield="Quantity"] input').val());
         });
-        $control.find('.field_to_calc_extended').on('change', 'input.value', function ($tr) {
-            calculateExtended($tr);
+        $generatedtr.find('.field_to_calc_extended').on('change', 'input.value', function ($tr) {
+            calculateExtended();
         });
-        function calculateExtended($tr) {
-            var quantityValue, rateValue, discountValue, url;
-            quantityValue = $generatedtr.find('.field[data-browsedatafield="Quantity"] input').val();
-            rateValue = $generatedtr.find('.field[data-browsedatafield="Rate"] input').val();
-            discountValue = $generatedtr.find('.field[data-browsedatafield="DiscountAmount"] input').val();
+        function calculateExtended() {
+            var quantityValue, url;
+            quantityValue = $generatedtr.find('[data-browsedatafield="Quantity"] input.value').val();
+            var rateValue = $generatedtr.find('.field[data-browsedatafield="Rate"] input').val();
+            rateValue = +rateValue.substring(1).replace(',', '');
+            var discountValue = $generatedtr.find('.field[data-browsedatafield="DiscountAmount"] input').val();
+            discountValue = +discountValue.substring(1).replace(',', '');
             url = "api/v1/repaircost/calculateextended?Quantity=" + quantityValue + "&Rate=" + rateValue + "&DiscountAmount=" + discountValue;
             FwAppData.apiMethod(true, 'GET', url, null, FwServices.defaultTimeout, function onSuccess(response) {
-                $generatedtr.find('.field[data-browsedatafield="PeriodExtended"] input').val(response.Extended);
+                $generatedtr.find('.field[data-browsedatafield="Extended"]').text("$" + response.Extended);
             }, null, null);
-            console.log(quantityValue, rateValue, discountValue);
         }
     };
     ;
