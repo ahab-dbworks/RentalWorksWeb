@@ -20,7 +20,7 @@ namespace WebApi.Modules.Home.Quote
         public string QuoteDate { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "versionno", modeltype: FwDataTypes.Integer)]
-        public int VersionNumber { get; set; }
+        public int? VersionNumber { get; set; }
         //------------------------------------------------------------------------------------
         protected override void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequest request = null)
         {

@@ -101,7 +101,7 @@ namespace WebApi.Modules.Home.DealOrder
         public string ReferenceNumber { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "versionno", modeltype: FwDataTypes.Integer, sqltype: "numeric")]
-        public int VersionNumber { get; set; }
+        public int? VersionNumber { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "agentid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 08)]
         public string AgentId { get; set; }
@@ -180,7 +180,7 @@ namespace WebApi.Modules.Home.DealOrder
         public bool? InGroup { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "summaryinvoicegroup", modeltype: FwDataTypes.Integer, sqltype: "numeric")]
-        public int GroupNumber { get; set; }
+        public int? GroupNumber { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "termsconditionsid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 08)]
         public string TermsConditionsId { get; set; }
@@ -427,6 +427,24 @@ namespace WebApi.Modules.Home.DealOrder
                 using (FwSqlConnection conn = new FwSqlConnection(this.AppConfig.DatabaseSettings.ConnectionString))
                 {
                     FwSqlCommand qry = new FwSqlCommand(conn, "quotenewver", this.AppConfig.DatabaseSettings.QueryTimeout);
+                    qry.AddParameter("@orderid", SqlDbType.NVarChar, ParameterDirection.Input, OrderId);
+                    qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, UserSession.UsersId);
+                    qry.AddParameter("@neworderid", SqlDbType.NVarChar, ParameterDirection.Output);
+                    await qry.ExecuteNonQueryAsync(true);
+                    newId = qry.GetParameter("@neworderid").ToString();
+                }
+            }
+            return newId;
+        }
+        //-------------------------------------------------------------------------------------------------------
+        public async Task<string> CreateSnapshot()
+        {
+            string newId = "";
+            if ((OrderId != null) && (Type.Equals(RwConstants.ORDER_TYPE_ORDER)))
+            {
+                using (FwSqlConnection conn = new FwSqlConnection(this.AppConfig.DatabaseSettings.ConnectionString))
+                {
+                    FwSqlCommand qry = new FwSqlCommand(conn, "ordersnapshot", this.AppConfig.DatabaseSettings.QueryTimeout);
                     qry.AddParameter("@orderid", SqlDbType.NVarChar, ParameterDirection.Input, OrderId);
                     qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, UserSession.UsersId);
                     qry.AddParameter("@neworderid", SqlDbType.NVarChar, ParameterDirection.Output);

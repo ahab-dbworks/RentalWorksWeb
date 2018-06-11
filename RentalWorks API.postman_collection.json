@@ -21597,6 +21597,42 @@
 					"response": []
 				},
 				{
+					"name": "Orders: Create Snapshot",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/order/createsnapshot/I00000JM",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"order",
+								"createsnapshot",
+								"I00000JM"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "Orders: Apply Bottom Line Days Per Week",
 					"request": {
 						"method": "POST",
@@ -22112,7 +22148,7 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "http://localhost:57949/api/v1/orderitem/calculateextended?RateType=DAILY&FromDate=05/01/2018&ToDate=05/20/2018&Quantity=5&Rate=10.25&DaysPerWeek=1.25&DiscountPercent=20",
+							"raw": "http://localhost:57949/api/v1/orderitem/calculateextended?RateType=WEEKLY&RecType=R&FromDate=06/05/2018&ToDate=06/20/2018&Quantity=3&Rate=12&DaysPerWeek=0&DiscountPercent=5",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -22127,31 +22163,35 @@
 							"query": [
 								{
 									"key": "RateType",
-									"value": "DAILY"
+									"value": "WEEKLY"
+								},
+								{
+									"key": "RecType",
+									"value": "R"
 								},
 								{
 									"key": "FromDate",
-									"value": "05/01/2018"
+									"value": "06/05/2018"
 								},
 								{
 									"key": "ToDate",
-									"value": "05/20/2018"
+									"value": "06/20/2018"
 								},
 								{
 									"key": "Quantity",
-									"value": "5"
+									"value": "3"
 								},
 								{
 									"key": "Rate",
-									"value": "10.25"
+									"value": "12"
 								},
 								{
 									"key": "DaysPerWeek",
-									"value": "1.25"
+									"value": "0"
 								},
 								{
 									"key": "DiscountPercent",
-									"value": "20"
+									"value": "5"
 								}
 							]
 						}
@@ -22177,7 +22217,7 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "http://localhost:57949/api/v1/orderitem/calculatediscountpercent?RateType=DAILY&FromDate=05/01/2018&ToDate=05/20/2018&Quantity=5&Rate=10.25&DaysPerWeek=1.25&WeeklyExtended=25.25",
+							"raw": "http://localhost:57949/api/v1/orderitem/calculatediscountpercent?RateType=WEEKLY&RecType=R&FromDate=06/05/2018&ToDate=06/20/2018&Quantity=3&Rate=12&DaysPerWeek=0&PeriodExtended=100",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -22192,31 +22232,35 @@
 							"query": [
 								{
 									"key": "RateType",
-									"value": "DAILY"
+									"value": "WEEKLY"
+								},
+								{
+									"key": "RecType",
+									"value": "R"
 								},
 								{
 									"key": "FromDate",
-									"value": "05/01/2018"
+									"value": "06/05/2018"
 								},
 								{
 									"key": "ToDate",
-									"value": "05/20/2018"
+									"value": "06/20/2018"
 								},
 								{
 									"key": "Quantity",
-									"value": "5"
+									"value": "3"
 								},
 								{
 									"key": "Rate",
-									"value": "10.25"
+									"value": "12"
 								},
 								{
 									"key": "DaysPerWeek",
-									"value": "1.25"
+									"value": "0"
 								},
 								{
-									"key": "WeeklyExtended",
-									"value": "25.25"
+									"key": "PeriodExtended",
+									"value": "100"
 								}
 							]
 						}
@@ -22857,6 +22901,47 @@
 								"v1",
 								"ordersetno",
 								"00003EXS"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Order Snapshot",
+			"description": null,
+			"item": [
+				{
+					"name": "Order Snapshot: Browse",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"OrderDescription\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": [],\n    \t\"uniqueids\": {\"OrderId\":\"I00000JM\"}\n\t\n}"
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/ordersnapshot/browse",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"ordersnapshot",
+								"browse"
 							]
 						}
 					},
@@ -30956,6 +31041,42 @@
 								"quote",
 								"uncancel",
 								"I000006P"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Quote: Create New Version",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/quote/createnewversion/I00001P0",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"quote",
+								"createnewversion",
+								"I00001P0"
 							]
 						}
 					},

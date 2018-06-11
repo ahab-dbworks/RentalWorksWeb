@@ -25,10 +25,9 @@ namespace WebApi.Modules.Home.Quote
         //------------------------------------------------------------------------------------
         [FwBusinessLogicField(isPrimaryKey: true)]
         public string QuoteId { get { return dealOrder.OrderId; } set { dealOrder.OrderId = value; dealOrderDetail.OrderId = value; } }
-        [FwBusinessLogicField(isRecordTitle: true)]
         public string QuoteNumber { get { return dealOrder.OrderNumber; } set { dealOrder.OrderNumber = value; } }
         public string QuoteDate { get { return dealOrder.OrderDate; } set { dealOrder.OrderDate = value; } }
-        public int VersionNumber { get { return dealOrder.VersionNumber; } set { dealOrder.VersionNumber = value; } }
+        public int? VersionNumber { get { return dealOrder.VersionNumber; } set { dealOrder.VersionNumber = value; } }
         //------------------------------------------------------------------------------------
         public void OnBeforeSave(object sender, BeforeSaveEventArgs e)
         {
@@ -128,8 +127,6 @@ namespace WebApi.Modules.Home.Quote
             bool x = await l.LoadAsync<QuoteLogic>(keys);
 
             return l;
-
-
         }
         //------------------------------------------------------------------------------------
     }

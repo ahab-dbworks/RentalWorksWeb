@@ -49,7 +49,6 @@ namespace WebApi.Modules.Home.Order
 
         }
         //------------------------------------------------------------------------------------
-        [FwBusinessLogicField(isRecordTitle: true)]
         public string Description { get { return dealOrder.Description; } set { dealOrder.Description = value; } }
         //------------------------------------------------------------------------------------
         public string OfficeLocationId { get { return dealOrder.OfficeLocationId; } set { dealOrder.OfficeLocationId = value; } }
@@ -257,7 +256,7 @@ namespace WebApi.Modules.Home.Order
         public bool? RoundTripRentals { get { return dealOrderDetail.RoundTripRentals; } set { dealOrderDetail.RoundTripRentals = value; } }
 
         public bool? InGroup { get { return dealOrder.InGroup; } set { dealOrder.InGroup = value; } }
-        public int GroupNumber { get { return dealOrder.GroupNumber; } set { dealOrder.GroupNumber = value; } }
+        public int? GroupNumber { get { return dealOrder.GroupNumber; } set { dealOrder.GroupNumber = value; } }
 
 
         //------------------------------------------------------------------------------------
@@ -614,6 +613,9 @@ namespace WebApi.Modules.Home.Order
         [FwBusinessLogicField(isReadOnly: true)]
         public string PeriodCombinedTotalIncludesTax { get; set; }
 
+        [FwBusinessLogicField(isReadOnly: true, isRecordTitle: true)]
+        public string QuoteOrderTitle { get; set; }
+        //------------------------------------------------------------------------------------
 
         public string DateStamp { get { return dealOrder.DateStamp; } set { dealOrder.DateStamp = value; dealOrderDetail.DateStamp = value; } }
         //------------------------------------------------------------------------------------

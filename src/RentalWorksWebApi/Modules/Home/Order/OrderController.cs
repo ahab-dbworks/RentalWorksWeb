@@ -137,7 +137,39 @@ namespace WebApi.Modules.Home.Order
             }
         }
         //------------------------------------------------------------------------------------     
-
+        // POST api/v1/quote/createsnapshot/A0000001
+        [HttpPost("createsnapshot/{id}")]
+        public async Task<IActionResult> CreateSnapshot([FromRoute]string id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                string[] ids = id.Split('~');
+                OrderLogic order = new OrderLogic();
+                order.SetDependencies(AppConfig, UserSession);
+                if (await order.LoadAsync<OrderLogic>(ids))
+                {
+                    OrderLogic newVersion = await order.CreateSnapshotASync();
+                    return new OkObjectResult(newVersion);
+                }
+                else
+                {
+                    return NotFound();
+                }
+            }
+            catch (Exception ex)
+            {
+                FwApiException jsonException = new FwApiException();
+                jsonException.StatusCode = StatusCodes.Status500InternalServerError;
+                jsonException.Message = ex.Message;
+                jsonException.StackTrace = ex.StackTrace;
+                return StatusCode(jsonException.StatusCode, jsonException);
+            }
+        }
+        //------------------------------------------------------------------------------------        
         // POST api/v1/order/applybottomlinedaysperweek
         [HttpPost("applybottomlinedaysperweek")]
         public async Task<IActionResult> ApplyBottomLineDaysPerWeek([FromBody] BottomLineDaysPerWeekRequest request)

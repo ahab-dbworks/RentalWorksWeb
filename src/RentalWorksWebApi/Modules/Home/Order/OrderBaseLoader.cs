@@ -930,6 +930,10 @@ namespace WebApi.Modules.Home.Order
 
 
 
+        [FwSqlDataField(column: "quoteordertitle", modeltype: FwDataTypes.Text)]
+        public string QuoteOrderTitle { get; set; }
+        //------------------------------------------------------------------------------------
+
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
         public string DateStamp { get; set; }
         //------------------------------------------------------------------------------------

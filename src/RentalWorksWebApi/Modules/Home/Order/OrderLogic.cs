@@ -25,7 +25,6 @@ namespace WebApi.Modules.Home.Order
         [FwBusinessLogicField(isPrimaryKey: true)]
         public string OrderId { get { return dealOrder.OrderId; } set { dealOrder.OrderId = value; dealOrderDetail.OrderId = value; } }
         //------------------------------------------------------------------------------------
-        [FwBusinessLogicField(isRecordTitle: true)]
         public string OrderNumber { get { return dealOrder.OrderNumber; } set { dealOrder.OrderNumber = value; } }
         //------------------------------------------------------------------------------------
         public string OrderDate { get { return dealOrder.OrderDate; } set { dealOrder.OrderDate = value; } }
@@ -74,5 +73,17 @@ namespace WebApi.Modules.Home.Order
             return this;
         }
         //------------------------------------------------------------------------------------    
+        public async Task<OrderLogic> CreateSnapshotASync()
+        {
+            string newOrderId = await dealOrder.CreateSnapshot();
+
+            string[] keys = { newOrderId };
+            OrderLogic l = new OrderLogic();
+            l.SetDependencies(AppConfig, UserSession);
+            bool x = await l.LoadAsync<OrderLogic>(keys);
+
+            return l;
+        }
+        //------------------------------------------------------------------------------------
     }
 }
