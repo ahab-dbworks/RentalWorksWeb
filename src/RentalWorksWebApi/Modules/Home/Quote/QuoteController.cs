@@ -104,6 +104,40 @@ namespace WebApi.Modules.Home.Quote
                 return StatusCode(jsonException.StatusCode, jsonException);
             }
         }
+
+        //------------------------------------------------------------------------------------        
+        // POST api/v1/quote/createnewversion/A0000001
+        [HttpPost("createnewversion/{id}")]
+        public async Task<IActionResult> CreateNewVersion([FromRoute]string id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                string[] ids = id.Split('~');
+                QuoteLogic quote = new QuoteLogic();
+                quote.SetDependencies(AppConfig, UserSession);
+                if (await quote.LoadAsync<QuoteLogic>(ids))
+                {
+                    QuoteLogic newVersion = await quote.CreateNewVersionASync();
+                    return new OkObjectResult(newVersion);
+                }
+                else
+                {
+                    return NotFound();
+                }
+            }
+            catch (Exception ex)
+            {
+                FwApiException jsonException = new FwApiException();
+                jsonException.StatusCode = StatusCodes.Status500InternalServerError;
+                jsonException.Message = ex.Message;
+                jsonException.StackTrace = ex.StackTrace;
+                return StatusCode(jsonException.StatusCode, jsonException);
+            }
+        }
         //------------------------------------------------------------------------------------        
         // POST api/v1/quote/cancel/A0000001
         [HttpPost("cancel/{id}")]

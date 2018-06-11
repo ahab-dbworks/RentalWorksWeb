@@ -419,5 +419,23 @@ namespace WebApi.Modules.Home.DealOrder
             return success;
         }
         //-------------------------------------------------------------------------------------------------------
+        public async Task<string> CreateNewVersion()
+        {
+            string newId = "";
+            if ((OrderId != null) && (Type.Equals(RwConstants.ORDER_TYPE_QUOTE)))
+            {
+                using (FwSqlConnection conn = new FwSqlConnection(this.AppConfig.DatabaseSettings.ConnectionString))
+                {
+                    FwSqlCommand qry = new FwSqlCommand(conn, "quotenewver", this.AppConfig.DatabaseSettings.QueryTimeout);
+                    qry.AddParameter("@orderid", SqlDbType.NVarChar, ParameterDirection.Input, OrderId);
+                    qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, UserSession.UsersId);
+                    qry.AddParameter("@neworderid", SqlDbType.NVarChar, ParameterDirection.Output);
+                    await qry.ExecuteNonQueryAsync(true);
+                    newId = qry.GetParameter("@neworderid").ToString();
+                }
+            }
+            return newId;
+        }
+        //-------------------------------------------------------------------------------------------------------
     }
 }

@@ -98,8 +98,7 @@ namespace WebApi.Modules.Home.Quote
             string[] keys = { orderId };
 
             OrderLogic l = new OrderLogic();
-            l.AppConfig = AppConfig;
-            l.UserSession = UserSession;
+            l.SetDependencies(AppConfig, UserSession);
             bool x = await l.LoadAsync<OrderLogic>(keys);
 
             return l;
@@ -119,5 +118,19 @@ namespace WebApi.Modules.Home.Quote
             return this;
         }
         //------------------------------------------------------------------------------------    
+        public async Task<QuoteLogic> CreateNewVersionASync()
+        {
+            string newQuoteId = await dealOrder.CreateNewVersion();
+
+            string[] keys = { newQuoteId };
+            QuoteLogic l = new QuoteLogic();
+            l.SetDependencies(AppConfig, UserSession);
+            bool x = await l.LoadAsync<QuoteLogic>(keys);
+
+            return l;
+
+
+        }
+        //------------------------------------------------------------------------------------
     }
 }
