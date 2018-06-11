@@ -55,12 +55,5 @@ namespace WebApi.Modules.Administrator.DuplicateRule
             return await DoDeleteAsync(id, typeof(DuplicateRuleLogic));
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/duplicaterule/validateduplicate 
-        [HttpPost("validateduplicate")]
-        public async Task<IActionResult> ValidateDuplicateAsync([FromBody]ValidateDuplicateRequest request)
-        {
-            return await DoValidateDuplicateAsync(request);
-        }
-        //------------------------------------------------------------------------------------ 
     }
 }

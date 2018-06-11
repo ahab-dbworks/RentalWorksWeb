@@ -53,12 +53,5 @@ namespace WebApi.Modules.Settings.DiscountItem
             return await DoDeleteAsync(id, typeof(DiscountItemLogic));
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/discountitem/validateduplicate 
-        [HttpPost("validateduplicate")]
-        public async Task<IActionResult> ValidateDuplicateAsync([FromBody]ValidateDuplicateRequest request)
-        {
-            return await DoValidateDuplicateAsync(request);
-        }
-        //------------------------------------------------------------------------------------ 
     }
 }

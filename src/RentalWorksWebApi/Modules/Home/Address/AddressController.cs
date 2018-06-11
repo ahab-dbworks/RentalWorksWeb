@@ -53,12 +53,5 @@ namespace WebApi.Modules.Home.Address
             return await DoDeleteAsync(id, typeof(AddressLogic));
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/address/validateduplicate 
-        [HttpPost("validateduplicate")]
-        public async Task<IActionResult> ValidateDuplicateAsync([FromBody]ValidateDuplicateRequest request)
-        {
-            return await DoValidateDuplicateAsync(request);
-        }
-        //------------------------------------------------------------------------------------ 
     }
 }

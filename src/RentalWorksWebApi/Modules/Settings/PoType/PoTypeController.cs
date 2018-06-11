@@ -53,12 +53,5 @@ namespace WebApi.Modules.Settings.PoType
             return await DoDeleteAsync(id, typeof(PoTypeLogic));
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/potype/validateduplicate 
-        [HttpPost("validateduplicate")]
-        public async Task<IActionResult> ValidateDuplicateAsync([FromBody]ValidateDuplicateRequest request)
-        {
-            return await DoValidateDuplicateAsync(request);
-        }
-        //------------------------------------------------------------------------------------ 
     }
 }

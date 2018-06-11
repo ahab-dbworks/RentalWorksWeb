@@ -53,12 +53,5 @@ namespace WebApi.Modules.Settings.GlDistribution
             return await DoDeleteAsync(id, typeof(GlDistributionLogic));
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/gldistribution/validateduplicate 
-        [HttpPost("validateduplicate")]
-        public async Task<IActionResult> ValidateDuplicateAsync([FromBody]ValidateDuplicateRequest request)
-        {
-            return await DoValidateDuplicateAsync(request);
-        }
-        //------------------------------------------------------------------------------------ 
     }
 }

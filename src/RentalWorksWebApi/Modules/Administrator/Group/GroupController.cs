@@ -56,13 +56,6 @@ namespace WebApi.Modules.Administrator.Group
             return await DoDeleteAsync(id, typeof(FwGroupLogic));
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/group/validateduplicate 
-        [HttpPost("validateduplicate")]
-        public async Task<IActionResult> ValidateDuplicateAsync([FromBody]ValidateDuplicateRequest request)
-        {
-            return await DoValidateDuplicateAsync(request);
-        }
-        //------------------------------------------------------------------------------------ 
 
         // GET api/v1/group/applicationtree/A0000001 
         [HttpGet("applicationtree/{id}")]

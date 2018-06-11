@@ -54,12 +54,5 @@ namespace WebApi.Modules.Settings.InventoryAdjustmentReason
             return await DoDeleteAsync(id, typeof(InventoryAdjustmentReasonLogic));
         }
         //------------------------------------------------------------------------------------
-        // POST api/v1/inventoryadjustmentreason/validateduplicate
-        [HttpPost("validateduplicate")]
-        public async Task<IActionResult> ValidateDuplicateAsync([FromBody]ValidateDuplicateRequest request)
-        {
-            return await DoValidateDuplicateAsync(request);
-        }
-        //------------------------------------------------------------------------------------
     }
 }

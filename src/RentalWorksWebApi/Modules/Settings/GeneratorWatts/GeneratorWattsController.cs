@@ -60,13 +60,6 @@ namespace WebApi.Modules.Settings.GeneratorWatts
             return await DoDeleteAsync(id, typeof(GeneratorWattsLogic));
         }
         //------------------------------------------------------------------------------------
-        // POST api/v1/generatorwatts/validateduplicate
-        [HttpPost("validateduplicate")]
-        [Authorize(Policy = "")]
-        public async Task<IActionResult> ValidateDuplicateAsync(ValidateDuplicateRequest request)
-        {
-            return await DoValidateDuplicateAsync(request);
-        }
         //------------------------------------------------------------------------------------
     }
 }

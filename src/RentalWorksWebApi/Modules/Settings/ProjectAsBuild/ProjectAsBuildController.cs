@@ -53,12 +53,5 @@ namespace WebApi.Modules.Settings.ProjectAsBuild
             return await DoDeleteAsync(id, typeof(ProjectAsBuildLogic));
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/projectasbuild/validateduplicate 
-        [HttpPost("validateduplicate")]
-        public async Task<IActionResult> ValidateDuplicateAsync([FromBody]ValidateDuplicateRequest request)
-        {
-            return await DoValidateDuplicateAsync(request);
-        }
-        //------------------------------------------------------------------------------------ 
     }
 }

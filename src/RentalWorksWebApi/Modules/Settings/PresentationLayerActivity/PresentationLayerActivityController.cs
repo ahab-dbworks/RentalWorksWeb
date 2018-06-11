@@ -53,12 +53,5 @@ namespace WebApi.Modules.Settings.PresentationLayerActivity
             return await DoDeleteAsync(id, typeof(PresentationLayerActivityLogic));
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/presentationlayeractivity/validateduplicate 
-        [HttpPost("validateduplicate")]
-        public async Task<IActionResult> ValidateDuplicateAsync([FromBody]ValidateDuplicateRequest request)
-        {
-            return await DoValidateDuplicateAsync(request);
-        }
-        //------------------------------------------------------------------------------------ 
     }
 }

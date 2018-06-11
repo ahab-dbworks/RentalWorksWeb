@@ -53,12 +53,5 @@ namespace WebApi.Modules.Settings.OrderSetNo
             return await DoDeleteAsync(id, typeof(OrderSetNoLogic));
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/ordersetno/validateduplicate 
-        [HttpPost("validateduplicate")]
-        public async Task<IActionResult> ValidateDuplicateAsync([FromBody]ValidateDuplicateRequest request)
-        {
-            return await DoValidateDuplicateAsync(request);
-        }
-        //------------------------------------------------------------------------------------ 
     }
 }

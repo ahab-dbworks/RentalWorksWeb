@@ -54,12 +54,5 @@ namespace WebApi.Modules.Settings.VehicleMake
             return await DoDeleteAsync(id, typeof(VehicleMakeLogic));
         }
         //------------------------------------------------------------------------------------
-        // POST api/v1/vehiclemake/validateduplicate
-        [HttpPost("validateduplicate")]
-        public async Task<IActionResult> ValidateDuplicateAsync([FromBody]ValidateDuplicateRequest request)
-        {
-            return await DoValidateDuplicateAsync(request);
-        }
-    //------------------------------------------------------------------------------------
 }
 }

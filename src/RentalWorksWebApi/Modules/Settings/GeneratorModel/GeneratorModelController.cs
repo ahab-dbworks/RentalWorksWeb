@@ -54,12 +54,5 @@ namespace WebApi.Modules.Settings.GeneratorModel
             return await DoDeleteAsync(id, typeof(GeneratorModelLogic));
         }
         //------------------------------------------------------------------------------------
-        // POST api/v1/generatormodel/validateduplicate
-        [HttpPost("validateduplicate")]
-        public async Task<IActionResult> ValidateDuplicateAsync([FromBody]ValidateDuplicateRequest request)
-        {
-            return await DoValidateDuplicateAsync(request);
-        }
-    //------------------------------------------------------------------------------------
 }
 }

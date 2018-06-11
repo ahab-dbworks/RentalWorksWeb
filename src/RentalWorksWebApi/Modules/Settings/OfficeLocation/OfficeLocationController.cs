@@ -55,12 +55,5 @@ namespace WebApi.Modules.Settings.OfficeLocation
             return await DoDeleteAsync(id, typeof(OfficeLocationLogic));
         }
         //------------------------------------------------------------------------------------
-        // POST api/v1/Location/validateduplicate
-        [HttpPost("validateduplicate")]
-        public async Task<IActionResult> ValidateDuplicateAsync([FromBody]ValidateDuplicateRequest request)
-        {
-            return await DoValidateDuplicateAsync(request);
-        }
-        //------------------------------------------------------------------------------------
     }
 }

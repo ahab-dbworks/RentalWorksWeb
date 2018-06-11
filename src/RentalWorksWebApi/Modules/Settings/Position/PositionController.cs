@@ -54,12 +54,5 @@ namespace WebApi.Modules.Settings.Position
             return await DoDeleteAsync(id, typeof(PositionLogic));
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/position/validateduplicate 
-        [HttpPost("validateduplicate")]
-        public async Task<IActionResult> ValidateDuplicateAsync([FromBody]ValidateDuplicateRequest request)
-        {
-            return await DoValidateDuplicateAsync(request);
-        }
-        //------------------------------------------------------------------------------------ 
     }
 } 

@@ -54,12 +54,5 @@ namespace WebApi.Modules.Home.VendorNote
             return await DoDeleteAsync(id, typeof(VendorNoteLogic));
         }
         //------------------------------------------------------------------------------------
-        // POST api/v1/vendornote/validateduplicate
-        [HttpPost("validateduplicate")]
-        public async Task<IActionResult> ValidateDuplicateAsync([FromBody]ValidateDuplicateRequest request)
-        {
-            return await DoValidateDuplicateAsync(request);
-        }
-        //------------------------------------------------------------------------------------
     }
 }

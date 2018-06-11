@@ -60,13 +60,6 @@ namespace WebApi.Modules.Settings.DealType
             return await DoDeleteAsync(id, typeof(DealTypeLogic));
         }
         //------------------------------------------------------------------------------------
-        // POST api/v1/dealtype/validateduplicate
-        [HttpPost("validateduplicate")]
-        [Authorize(Policy = "{43FCAEE3-57AF-440B-9BF2-BE36E13D9356}")]
-        public async Task<IActionResult> ValidateDuplicate([FromBody]ValidateDuplicateRequest request)
-        {
-            return await DoValidateDuplicateAsync(request);
-        }
         //------------------------------------------------------------------------------------
     }
 }

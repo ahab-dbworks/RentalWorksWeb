@@ -53,12 +53,5 @@ namespace WebApi.Modules.Settings.MarketType
             return await DoDeleteAsync(id, typeof(MarketTypeLogic));
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/markettype/validateduplicate 
-        [HttpPost("validateduplicate")]
-        public async Task<IActionResult> ValidateDuplicateAsync([FromBody]ValidateDuplicateRequest request)
-        {
-            return await DoValidateDuplicateAsync(request);
-        }
-        //------------------------------------------------------------------------------------ 
     }
 }

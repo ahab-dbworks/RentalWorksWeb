@@ -53,12 +53,5 @@ namespace WebApi.Modules.Settings.PoRejectReason
             return await DoDeleteAsync(id, typeof(PoRejectReasonLogic));
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/porejectreason/validateduplicate 
-        [HttpPost("validateduplicate")]
-        public async Task<IActionResult> ValidateDuplicateAsync([FromBody]ValidateDuplicateRequest request)
-        {
-            return await DoValidateDuplicateAsync(request);
-        }
-        //------------------------------------------------------------------------------------ 
     }
 } 

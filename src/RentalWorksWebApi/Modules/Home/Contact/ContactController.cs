@@ -78,13 +78,6 @@ namespace WebApi.Modules.Home.Contact
             return await DoDeleteAsync(id, typeof(ContactLogic));
         }
         //------------------------------------------------------------------------------------
-        // POST api/v1/customerstatus/validateduplicate
-        [HttpPost("validateduplicate")]
-        //[ApiExplorerSettings(IgnoreApi=true)]
-        public async Task<IActionResult> ValidateDuplicateAsync([FromBody]ValidateDuplicateRequest request)
-        {
-            return await DoValidateDuplicateAsync(request);
-        }
         //------------------------------------------------------------------------------------
     }
 }

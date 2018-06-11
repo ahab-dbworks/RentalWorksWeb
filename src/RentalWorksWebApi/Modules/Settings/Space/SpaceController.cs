@@ -53,12 +53,5 @@ namespace WebApi.Modules.Settings.Space
             return await DoDeleteAsync(id, typeof(SpaceLogic));
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/space/validateduplicate 
-        [HttpPost("validateduplicate")]
-        public async Task<IActionResult> ValidateDuplicateAsync([FromBody]ValidateDuplicateRequest request)
-        {
-            return await DoValidateDuplicateAsync(request);
-        }
-        //------------------------------------------------------------------------------------ 
     }
 }

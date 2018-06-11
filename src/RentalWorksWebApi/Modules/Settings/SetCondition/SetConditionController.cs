@@ -60,10 +60,5 @@ namespace WebApi.Modules.Settings.SetCondition
             return await DoDeleteAsync(id, typeof(SetConditionLogic));
         }
         //------------------------------------------------------------------------------------
-        // POST api/v1/setscondition/validateduplicate
-        [HttpPost("validateduplicate")]
-        [Authorize(Policy = "")]
-        public async Task<IActionResult> ValidateDuplicateAsync([FromBody]ValidateDuplicateRequest request) => await DoValidateDuplicateAsync(request);
-        //------------------------------------------------------------------------------------
     }
 }

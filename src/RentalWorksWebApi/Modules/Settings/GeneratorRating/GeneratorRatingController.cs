@@ -60,13 +60,6 @@ namespace WebApi.Modules.Settings.GeneratorRating
             return await DoDeleteAsync(id, typeof(GeneratorRatingLogic));
         }
         //------------------------------------------------------------------------------------
-        // POST api/v1/generatorrating/validateduplicate
-        [HttpPost("validateduplicate")]
-        [Authorize(Policy = "{63D65189-639E-450E-964A-06566FA671DB}")]
-        public async Task<IActionResult> ValidateDuplicateAsync([FromBody]ValidateDuplicateRequest request)
-        {
-            return await DoValidateDuplicateAsync(request);
-        }
     //------------------------------------------------------------------------------------
 }
 }

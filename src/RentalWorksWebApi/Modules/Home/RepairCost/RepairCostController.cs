@@ -56,13 +56,6 @@ namespace WebApi.Modules.Home.RepairCost
             return await DoDeleteAsync(id, typeof(RepairCostLogic));
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/repaircost/validateduplicate 
-        [HttpPost("validateduplicate")]
-        public async Task<IActionResult> ValidateDuplicateAsync([FromBody]ValidateDuplicateRequest request)
-        {
-            return await DoValidateDuplicateAsync(request);
-        }
-        //------------------------------------------------------------------------------------ 
 
         public class RepairCostExtended
         {

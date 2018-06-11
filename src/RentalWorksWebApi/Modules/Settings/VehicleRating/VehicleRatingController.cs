@@ -54,12 +54,5 @@ namespace WebApi.Modules.Settings.VehicleRating
             return await DoDeleteAsync(id, typeof(VehicleRatingLogic));
         }
         //------------------------------------------------------------------------------------
-        // POST api/v1/vehiclerating/validateduplicate
-        [HttpPost("validateduplicate")]
-        public async Task<IActionResult> ValidateDuplicateAsync([FromBody]ValidateDuplicateRequest request)
-        {
-            return await DoValidateDuplicateAsync(request);
-        }
-    //------------------------------------------------------------------------------------
 }
 }

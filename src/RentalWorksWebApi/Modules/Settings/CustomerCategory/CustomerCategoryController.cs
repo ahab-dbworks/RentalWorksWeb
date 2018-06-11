@@ -60,13 +60,6 @@ namespace WebApi.Modules.Settings.CustomerCategory
             return await DoDeleteAsync(id, typeof(CustomerCategoryLogic));
         }
         //------------------------------------------------------------------------------------
-        // POST api/v1/CustomerCategory/validateduplicate
-        [HttpPost("validateduplicate")]
-        [Authorize(Policy = "")]
-        public async Task<IActionResult> ValidateDuplicateAsync([FromBody]ValidateDuplicateRequest request)
-        {
-            return await DoValidateDuplicateAsync(request);
-        }
         //------------------------------------------------------------------------------------
     }
 }

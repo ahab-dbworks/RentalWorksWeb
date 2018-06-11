@@ -76,13 +76,6 @@ namespace WebApi.Modules.Settings.BillingCycle
             return await DoDeleteAsync(id, typeof(BillingCycleLogic));
         }
         //------------------------------------------------------------------------------------
-        // POST api/v1/billingcycle/validateduplicate
-        [HttpPost("validateduplicate")]
-        [Authorize(Policy = "{76A5F7AC-2489-4A50-9120-2376BAB3D75A}")]
-        public async Task<IActionResult> ValidateDuplicateAsync([FromBody]ValidateDuplicateRequest request)
-        {
-            return await DoValidateDuplicateAsync(request);
-        }
         //------------------------------------------------------------------------------------
     }
 }

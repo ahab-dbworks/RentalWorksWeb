@@ -60,13 +60,6 @@ namespace WebApi.Modules.Settings.CreditStatus
             return await DoDeleteAsync(id, typeof(CreditStatusLogic));
         }
         //------------------------------------------------------------------------------------
-        // POST api/v1/creditstatus/validateduplicate
-        [HttpPost("validateduplicate")]
-        [Authorize(Policy = "")]
-        public async Task<IActionResult> ValidateDuplicateAsync([FromBody]ValidateDuplicateRequest request)
-        {
-            return await DoValidateDuplicateAsync(request);
-        }
         //------------------------------------------------------------------------------------
     }
 }

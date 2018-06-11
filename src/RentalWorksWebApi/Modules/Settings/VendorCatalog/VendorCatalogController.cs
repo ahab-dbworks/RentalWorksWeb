@@ -84,14 +84,5 @@ namespace WebApi.Modules.Settings.VendorCatalog
             return await DoDeleteAsync(id, typeof(VendorCatalogLogic));
         }
         //------------------------------------------------------------------------------------
-        // POST api/v1/vendorcatalog/validateduplicate
-        [HttpPost("validateduplicate")]
-        [Authorize(Policy = "{D212CE16-E6D8-4EBE-8ACD-4F9C086E1F03}")]
-        //[ApiExplorerSettings(IgnoreApi=true)]
-        public async Task<IActionResult> ValidateDuplicateAsync([FromBody]ValidateDuplicateRequest request)
-        {
-            return await DoValidateDuplicateAsync(request);
-        }
-        //------------------------------------------------------------------------------------
     }
 }

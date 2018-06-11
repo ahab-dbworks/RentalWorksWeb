@@ -335,12 +335,5 @@ namespace WebApi.Modules.Home.Quote
         //    return await DoDeleteAsync(id, typeof(QuoteLogic));
         //}
         ////------------------------------------------------------------------------------------
-        // POST api/v1/quote/validateduplicate
-        [HttpPost("validateduplicate")]
-        public async Task<IActionResult> ValidateDuplicateAsync([FromBody]ValidateDuplicateRequest request)
-        {
-            return await DoValidateDuplicateAsync(request);
-        }
-        //------------------------------------------------------------------------------------
     }
 }

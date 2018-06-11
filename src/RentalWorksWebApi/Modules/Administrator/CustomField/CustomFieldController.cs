@@ -53,12 +53,5 @@ namespace WebApi.Modules.Administrator.CustomField
             return await DoDeleteAsync(id, typeof(CustomFieldLogic));
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/customfield/validateduplicate 
-        [HttpPost("validateduplicate")]
-        public async Task<IActionResult> ValidateDuplicateAsync([FromBody]ValidateDuplicateRequest request)
-        {
-            return await DoValidateDuplicateAsync(request);
-        }
-        //------------------------------------------------------------------------------------ 
     }
 }

@@ -53,12 +53,5 @@ namespace WebApi.Modules.Settings.WarehouseAvailabilityHour
             return await DoDeleteAsync(id, typeof(WarehouseAvailabilityHourLogic));
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/warehouseavailabilityhour/validateduplicate 
-        [HttpPost("validateduplicate")]
-        public async Task<IActionResult> ValidateDuplicateAsync([FromBody]ValidateDuplicateRequest request)
-        {
-            return await DoValidateDuplicateAsync(request);
-        }
-        //------------------------------------------------------------------------------------ 
     }
 }

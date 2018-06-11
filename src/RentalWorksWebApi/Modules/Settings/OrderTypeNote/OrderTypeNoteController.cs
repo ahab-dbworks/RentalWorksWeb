@@ -53,12 +53,5 @@ namespace WebApi.Modules.Settings.OrderTypeNote
             return await DoDeleteAsync(id, typeof(OrderTypeNoteLogic));
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/ordertypenote/validateduplicate 
-        [HttpPost("validateduplicate")]
-        public async Task<IActionResult> ValidateDuplicateAsync([FromBody]ValidateDuplicateRequest request)
-        {
-            return await DoValidateDuplicateAsync(request);
-        }
-        //------------------------------------------------------------------------------------ 
     }
 }

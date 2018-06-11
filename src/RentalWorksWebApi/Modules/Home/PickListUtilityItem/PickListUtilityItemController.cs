@@ -82,12 +82,5 @@ namespace WebApi.Modules.Home.PickListUtilityItem
             }
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/picklistutilityitem/validateduplicate 
-        [HttpPost("validateduplicate")]
-        public async Task<IActionResult> ValidateDuplicateAsync([FromBody]ValidateDuplicateRequest request)
-        {
-            return await DoValidateDuplicateAsync(request);
-        }
-        //------------------------------------------------------------------------------------ 
     }
 }

@@ -53,12 +53,5 @@ namespace WebApi.Modules.Settings.CrewLocation
             return await DoDeleteAsync(id, typeof(CrewLocationLogic));
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/crewlocation/validateduplicate 
-        [HttpPost("validateduplicate")]
-        public async Task<IActionResult> ValidateDuplicateAsync([FromBody]ValidateDuplicateRequest request)
-        {
-            return await DoValidateDuplicateAsync(request);
-        }
-        //------------------------------------------------------------------------------------ 
     }
 }

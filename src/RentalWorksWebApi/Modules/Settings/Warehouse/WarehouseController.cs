@@ -54,12 +54,5 @@ namespace WebApi.Modules.Settings.Warehouse
             return await DoDeleteAsync(id, typeof(WarehouseLogic));
         }
         //------------------------------------------------------------------------------------
-        // POST api/v1/customertype/validateduplicate
-        [HttpPost("validateduplicate")]
-        public async Task<IActionResult> ValidateDuplicate([FromBody]ValidateDuplicateRequest request)
-        {
-            return await DoValidateDuplicateAsync(request);
-        }
-        //------------------------------------------------------------------------------------
     }
 }

@@ -54,12 +54,5 @@ namespace WebApi.Modules.Settings.PaymentTerms
             return await DoDeleteAsync(id, typeof(PaymentTermsLogic));
         }
         //------------------------------------------------------------------------------------
-        // POST api/v1/paymentterms/validateduplicate
-        [HttpPost("validateduplicate")]
-        public async Task<IActionResult> ValidateDuplicateAsync([FromBody]ValidateDuplicateRequest request)
-        {
-            return await DoValidateDuplicateAsync(request);
-        }
-        //------------------------------------------------------------------------------------
     }
 }

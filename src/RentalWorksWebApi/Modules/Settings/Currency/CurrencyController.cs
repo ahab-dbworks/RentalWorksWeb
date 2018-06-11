@@ -61,13 +61,6 @@ namespace WebApi.Modules.Settings.Currency
             return await DoDeleteAsync(id, typeof(CurrencyLogic));
         }
         //------------------------------------------------------------------------------------
-        // POST api/v1/currency/validateduplicate
-        [HttpPost("validateduplicate")]
-        [Authorize(Policy = "")]
-        public async Task<IActionResult> ValidateDuplicateAsync(ValidateDuplicateRequest request)
-        {
-            return await DoValidateDuplicateAsync(request);
-        }
         //------------------------------------------------------------------------------------
     }
 }

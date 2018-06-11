@@ -53,12 +53,5 @@ namespace WebApi.Modules.Settings.OrderTypeLocation
             return await DoDeleteAsync(id, typeof(OrderTypeLocationLogic));
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/ordertypelocation/validateduplicate 
-        [HttpPost("validateduplicate")]
-        public async Task<IActionResult> ValidateDuplicateAsync([FromBody]ValidateDuplicateRequest request)
-        {
-            return await DoValidateDuplicateAsync(request);
-        }
-        //------------------------------------------------------------------------------------ 
     }
 }

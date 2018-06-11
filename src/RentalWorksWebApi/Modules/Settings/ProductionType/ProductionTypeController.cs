@@ -54,12 +54,5 @@ namespace WebApi.Modules.Settings.ProductionType
             return await DoDeleteAsync(id, typeof(ProductionTypeLogic));
         }
         //------------------------------------------------------------------------------------
-        // POST api/v1/productiontype/validateduplicate
-        [HttpPost("validateduplicate")]
-        public async Task<IActionResult> ValidateDuplicateAsync([FromBody]ValidateDuplicateRequest request)
-        {
-            return await DoValidateDuplicateAsync(request);
-        }
-        //------------------------------------------------------------------------------------
     }
 }

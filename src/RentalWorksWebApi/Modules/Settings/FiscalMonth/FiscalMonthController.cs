@@ -53,12 +53,5 @@ namespace WebApi.Modules.Settings.FiscalMonth
             return await DoDeleteAsync(id, typeof(FiscalMonthLogic));
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/fiscalmonth/validateduplicate 
-        [HttpPost("validateduplicate")]
-        public async Task<IActionResult> ValidateDuplicateAsync([FromBody]ValidateDuplicateRequest request)
-        {
-            return await DoValidateDuplicateAsync(request);
-        }
-        //------------------------------------------------------------------------------------ 
     }
 }

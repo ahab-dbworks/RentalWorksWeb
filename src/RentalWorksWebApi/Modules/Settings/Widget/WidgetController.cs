@@ -57,13 +57,6 @@ namespace WebApi.Modules.Settings.Widget
             return await DoDeleteAsync(id, typeof(WidgetLogic));
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/widget/validateduplicate 
-        [HttpPost("validateduplicate")]
-        public async Task<IActionResult> ValidateDuplicateAsync([FromBody]ValidateDuplicateRequest request)
-        {
-            return await DoValidateDuplicateAsync(request);
-        }
-        //------------------------------------------------------------------------------------ 
         // GET api/v1/widget/loadbyname/ordersbystatus
         [HttpGet("loadbyname/{widgetApiName}")]
         public async Task<IActionResult> LoadByName([FromRoute]string widgetApiName, int dataPoints, string locationId, string warehouseId, string departmentId)

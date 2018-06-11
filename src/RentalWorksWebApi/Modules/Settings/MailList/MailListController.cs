@@ -54,12 +54,5 @@ namespace WebApi.Modules.Settings.MailList
             return await DoDeleteAsync(id, typeof(MailListLogic));
         }
         //------------------------------------------------------------------------------------
-        // POST api/v1/maillist/validateduplicate
-        [HttpPost("validateduplicate")]
-        public async Task<IActionResult> ValidateDuplicateAsync(ValidateDuplicateRequest request)
-        {
-            return await DoValidateDuplicateAsync(request);
-        }
-        //------------------------------------------------------------------------------------
     }
 }

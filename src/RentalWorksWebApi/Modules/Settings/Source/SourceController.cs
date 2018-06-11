@@ -54,12 +54,5 @@ namespace WebApi.Modules.Settings.Source
             return await DoDeleteAsync(id, typeof(SourceLogic));
         }
         //------------------------------------------------------------------------------------
-        // POST api/v1/source/validateduplicate
-        [HttpPost("validateduplicate")]
-        public async Task<IActionResult> ValidateDuplicateAsync([FromBody]ValidateDuplicateRequest request)
-        {
-            return await DoValidateDuplicateAsync(request);
-        }
-        //------------------------------------------------------------------------------------
     }
 }

@@ -54,12 +54,5 @@ namespace WebApi.Modules.Settings.LaborType
             return await DoDeleteAsync(id, typeof(LaborTypeLogic));
         }
         //------------------------------------------------------------------------------------
-        // POST api/v1/labortype/validateduplicate
-        [HttpPost("validateduplicate")]
-        public async Task<IActionResult> ValidateDuplicateAsync([FromBody]ValidateDuplicateRequest request)
-        {
-            return await DoValidateDuplicateAsync(request);
-        }
-        //------------------------------------------------------------------------------------
     }
 }

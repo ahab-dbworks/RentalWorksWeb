@@ -53,12 +53,5 @@ namespace WebApi.Modules.Settings.WallType
             return await DoDeleteAsync(id, typeof(WallTypeLogic));
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/walltype/validateduplicate 
-        [HttpPost("validateduplicate")]
-        public async Task<IActionResult> ValidateDuplicateAsync([FromBody]ValidateDuplicateRequest request)
-        {
-            return await DoValidateDuplicateAsync(request);
-        }
-        //------------------------------------------------------------------------------------ 
     }
 }

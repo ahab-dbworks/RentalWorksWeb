@@ -53,12 +53,5 @@ namespace WebApi.Modules.Settings.RateType
         //    return await DoDeleteAsync(id, typeof(RateTypeLogic));
         //}
         ////------------------------------------------------------------------------------------ 
-        //// POST api/v1/ratetype/validateduplicate 
-        //[HttpPost("validateduplicate")]
-        //public async Task<IActionResult> ValidateDuplicateAsync([FromBody]ValidateDuplicateRequest request)
-        //{
-        //    return await DoValidateDuplicateAsync(request);
-        //}
-        //------------------------------------------------------------------------------------ 
     }
 }

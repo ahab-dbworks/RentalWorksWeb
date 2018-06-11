@@ -54,12 +54,5 @@ namespace WebApi.Modules.Settings.GeneratorTypeWarehouse
             return await DoDeleteAsync(id, typeof(GeneratorTypeWarehouseLogic));
         }
         //------------------------------------------------------------------------------------
-        // POST api/v1/generatortypewarehouse/validateduplicate
-        [HttpPost("validateduplicate")]
-        public async Task<IActionResult> ValidateDuplicateAsync([FromBody]ValidateDuplicateRequest request)
-        {
-            return await DoValidateDuplicateAsync(request);
-        }
-        //------------------------------------------------------------------------------------
     }
 }

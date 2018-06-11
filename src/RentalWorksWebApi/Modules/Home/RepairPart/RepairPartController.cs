@@ -56,13 +56,6 @@ namespace WebApi.Modules.Home.RepairPart
             return await DoDeleteAsync(id, typeof(RepairPartLogic));
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/repairpart/validateduplicate 
-        [HttpPost("validateduplicate")]
-        public async Task<IActionResult> ValidateDuplicateAsync([FromBody]ValidateDuplicateRequest request)
-        {
-            return await DoValidateDuplicateAsync(request);
-        }
-        //------------------------------------------------------------------------------------ 
 
         public class RepairPartExtended
         {

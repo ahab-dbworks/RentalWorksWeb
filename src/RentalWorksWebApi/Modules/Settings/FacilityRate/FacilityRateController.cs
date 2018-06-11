@@ -54,12 +54,5 @@ namespace WebApi.Modules.Settings.FacilityRate
             return await DoDeleteAsync(id, typeof(FacilityRateLogic));
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/facilityrate/validateduplicate 
-        [HttpPost("validateduplicate")]
-        public async Task<IActionResult> ValidateDuplicateAsync([FromBody]ValidateDuplicateRequest request)
-        {
-            return await DoValidateDuplicateAsync(request);
-        }
-        //------------------------------------------------------------------------------------ 
     }
 } 

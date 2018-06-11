@@ -54,12 +54,5 @@ namespace WebApi.Modules.Settings.LaborRate
             return await DoDeleteAsync(id, typeof(LaborRateLogic));
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/laborrate/validateduplicate 
-        [HttpPost("validateduplicate")]
-        public async Task<IActionResult> ValidateDuplicateAsync([FromBody]ValidateDuplicateRequest request)
-        {
-            return await DoValidateDuplicateAsync(request);
-        }
-        //------------------------------------------------------------------------------------ 
     }
 } 

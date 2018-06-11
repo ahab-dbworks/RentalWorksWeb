@@ -54,12 +54,5 @@ namespace WebApi.Modules.Settings.VehicleScheduleStatus
             return await DoDeleteAsync(id, typeof(VehicleScheduleStatusLogic));
         }
         //------------------------------------------------------------------------------------
-        // POST api/v1/vehicleschedulestatus/validateduplicate
-        [HttpPost("validateduplicate")]
-        public async Task<IActionResult> ValidateDuplicateAsync([FromBody]ValidateDuplicateRequest request)
-        {
-            return await DoValidateDuplicateAsync(request);
-        }
-        //------------------------------------------------------------------------------------
     }
 }

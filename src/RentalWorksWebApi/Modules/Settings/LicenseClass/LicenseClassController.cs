@@ -54,12 +54,5 @@ namespace WebApi.Modules.Settings.LicenseClass
             return await DoDeleteAsync(id, typeof(LicenseClassLogic));
         }
         //------------------------------------------------------------------------------------
-        // POST api/v1/licenseclass/validateduplicate
-        [HttpPost("validateduplicate")]
-        public async Task<IActionResult> ValidateDuplicateAsync([FromBody]ValidateDuplicateRequest request)
-        {
-            return await DoValidateDuplicateAsync(request);
-        }
-    //------------------------------------------------------------------------------------
 }
 }

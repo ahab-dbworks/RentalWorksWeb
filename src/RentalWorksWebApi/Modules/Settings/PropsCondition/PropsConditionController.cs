@@ -60,10 +60,5 @@ namespace WebApi.Modules.Settings.PropsCondition
             return await DoDeleteAsync(id, typeof(PropsConditionLogic));
         }
         //------------------------------------------------------------------------------------
-        // POST api/v1/propscondition/validateduplicate
-        [HttpPost("validateduplicate")]
-        [Authorize(Policy = "")]
-        public async Task<IActionResult> ValidateDuplicateAsync([FromBody]ValidateDuplicateRequest request) => await DoValidateDuplicateAsync(request);
-        //------------------------------------------------------------------------------------
     }
 }

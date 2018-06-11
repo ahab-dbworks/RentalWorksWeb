@@ -60,13 +60,6 @@ namespace WebApi.Modules.Settings.ContactTitle
             return await DoDeleteAsync(id, typeof(ContactTitleLogic));
         }
         //------------------------------------------------------------------------------------
-        // POST api/v1/contacttitle/validateduplicate
-        [HttpPost("validateduplicate")]
-        [Authorize(Policy = "{48FAF20E-04C5-4A6B-ABAA-21F2A30395E1}")]
-        public async Task<IActionResult> ValidateDuplicateAsync(ValidateDuplicateRequest request)
-        {
-            return await DoValidateDuplicateAsync(request);
-        }
         //------------------------------------------------------------------------------------
     }
 }

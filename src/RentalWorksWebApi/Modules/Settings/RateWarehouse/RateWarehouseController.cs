@@ -54,12 +54,5 @@ namespace WebApi.Modules.Settings.RateWarehouse
             return await DoDeleteAsync(id, typeof(RateWarehouseLogic));
         }
         //------------------------------------------------------------------------------------
-        // POST api/v1/ratewarehouse/validateduplicate
-        [HttpPost("validateduplicate")]
-        public async Task<IActionResult> ValidateDuplicateAsync([FromBody]ValidateDuplicateRequest request)
-        {
-            return await DoValidateDuplicateAsync(request);
-        }
-        //------------------------------------------------------------------------------------
     }
 }

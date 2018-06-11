@@ -54,12 +54,5 @@ namespace WebApi.Modules.Settings.PhotographyType
             return await DoDeleteAsync(id, typeof(PhotographyTypeLogic));
         }
         //------------------------------------------------------------------------------------
-        // POST api/v1/photographytype/validateduplicate
-        [HttpPost("validateduplicate")]
-        public async Task<IActionResult> ValidateDuplicateAsync(ValidateDuplicateRequest request)
-        {
-            return await DoValidateDuplicateAsync(request);
-        }
-        //------------------------------------------------------------------------------------
     }
 }

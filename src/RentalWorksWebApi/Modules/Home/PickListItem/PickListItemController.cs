@@ -53,12 +53,5 @@ namespace WebApi.Modules.Home.PickListItem
             return await DoDeleteAsync(id, typeof(PickListItemLogic));
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/picklistitem/validateduplicate 
-        [HttpPost("validateduplicate")]
-        public async Task<IActionResult> ValidateDuplicateAsync([FromBody]ValidateDuplicateRequest request)
-        {
-            return await DoValidateDuplicateAsync(request);
-        }
-        //------------------------------------------------------------------------------------ 
     }
 }

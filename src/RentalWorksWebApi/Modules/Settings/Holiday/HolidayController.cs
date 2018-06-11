@@ -53,12 +53,5 @@ namespace WebApi.Modules.Settings.Holiday
             return await DoDeleteAsync(id, typeof(HolidayLogic));
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/holiday/validateduplicate 
-        [HttpPost("validateduplicate")]
-        public async Task<IActionResult> ValidateDuplicateAsync([FromBody]ValidateDuplicateRequest request)
-        {
-            return await DoValidateDuplicateAsync(request);
-        }
-        //------------------------------------------------------------------------------------ 
     }
 }

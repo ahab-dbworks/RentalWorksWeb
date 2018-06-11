@@ -54,12 +54,5 @@ namespace WebApi.Modules.Home.DealNote
             return await DoDeleteAsync(id, typeof(DealNoteLogic));
         }
         //------------------------------------------------------------------------------------
-        // POST api/v1/dealnote/validateduplicate
-        [HttpPost("validateduplicate")]
-        public async Task<IActionResult> ValidateDuplicateAsync([FromBody]ValidateDuplicateRequest request)
-        {
-            return await DoValidateDuplicateAsync(request);
-        }
-        //------------------------------------------------------------------------------------
     }
 }

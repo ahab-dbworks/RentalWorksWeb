@@ -53,12 +53,5 @@ namespace WebApi.Modules.Settings.ProjectItemsOrdered
             return await DoDeleteAsync(id, typeof(ProjectItemsOrderedLogic));
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/projectitemsordered/validateduplicate 
-        [HttpPost("validateduplicate")]
-        public async Task<IActionResult> ValidateDuplicateAsync([FromBody]ValidateDuplicateRequest request)
-        {
-            return await DoValidateDuplicateAsync(request);
-        }
-        //------------------------------------------------------------------------------------ 
     }
 }

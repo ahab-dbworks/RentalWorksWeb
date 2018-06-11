@@ -53,12 +53,5 @@ namespace WebApi.Modules.Settings.EventType
             return await DoDeleteAsync(id, typeof(EventTypeLogic));
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/eventtype/validateduplicate 
-        [HttpPost("validateduplicate")]
-        public async Task<IActionResult> ValidateDuplicateAsync([FromBody]ValidateDuplicateRequest request)
-        {
-            return await DoValidateDuplicateAsync(request);
-        }
-        //------------------------------------------------------------------------------------ 
     }
 }

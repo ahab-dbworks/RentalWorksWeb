@@ -57,12 +57,5 @@ namespace WebApi.Modules.Home.CompanyTaxOption
             return await DoDeleteAsync(id, typeof(CompanyTaxOptionLogic));
         }
         //------------------------------------------------------------------------------------
-        // POST api/v1/companytaxoption/validateduplicate
-        [HttpPost("validateduplicate")]
-        public async Task<IActionResult> ValidateDuplicateAsync(ValidateDuplicateRequest request)
-        {
-            return await DoValidateDuplicateAsync(request);
-        }
-        //------------------------------------------------------------------------------------
     }
 }

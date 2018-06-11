@@ -54,12 +54,5 @@ namespace WebApi.Modules.Settings.LaborCategory
             return await DoDeleteAsync(id, typeof(LaborCategoryLogic));
         }
         //------------------------------------------------------------------------------------
-        // POST api/v1/laborcategory/validateduplicate
-        [HttpPost("validateduplicate")]
-        public async Task<IActionResult> ValidateDuplicateAsync([FromBody]ValidateDuplicateRequest request)
-        {
-            return await DoValidateDuplicateAsync(request);
-        }
-        //------------------------------------------------------------------------------------
     }
 }

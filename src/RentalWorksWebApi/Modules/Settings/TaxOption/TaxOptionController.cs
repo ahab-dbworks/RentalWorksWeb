@@ -62,13 +62,6 @@ namespace WebApi.Modules.Settings.TaxOption
             return await DoDeleteAsync(id, typeof(TaxOptionLogic));
         }
         //------------------------------------------------------------------------------------
-        // POST api/v1/taxoption/validateduplicate
-        [HttpPost("validateduplicate")]
-        [Authorize(Policy = "{27EDAA20-C1E1-4687-9A17-32D7E812A17E}")]
-        public async Task<IActionResult> ValidateDuplicateAsync([FromBody]ValidateDuplicateRequest request)
-        {
-            return await DoValidateDuplicateAsync(request);
-        }
         //------------------------------------------------------------------------------------
         // POST api/v1/taxoption/A0000001/forcerates
         [HttpPost("{id}/forcerates")]

@@ -53,12 +53,5 @@ namespace WebApi.Modules.Home.Item
         //    return await DoDeleteAsync(id, typeof(ItemLogic));
         //}
         ////------------------------------------------------------------------------------------ 
-        // POST api/v1/item/validateduplicate 
-        [HttpPost("validateduplicate")]
-        public async Task<IActionResult> ValidateDuplicateAsync([FromBody]ValidateDuplicateRequest request)
-        {
-            return await DoValidateDuplicateAsync(request);
-        }
-        //------------------------------------------------------------------------------------ 
     }
 }

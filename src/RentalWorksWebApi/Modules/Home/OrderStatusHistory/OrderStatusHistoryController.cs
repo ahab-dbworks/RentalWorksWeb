@@ -53,12 +53,5 @@ namespace WebApi.Modules.Home.OrderStatusHistory
         //    return await DoDeleteAsync(id, typeof(OrderStatusHistoryLogic));
         //}
         ////------------------------------------------------------------------------------------ 
-        // POST api/v1/orderstatushistory/validateduplicate 
-        [HttpPost("validateduplicate")]
-        public async Task<IActionResult> ValidateDuplicateAsync([FromBody]ValidateDuplicateRequest request)
-        {
-            return await DoValidateDuplicateAsync(request);
-        }
-        //------------------------------------------------------------------------------------ 
     }
 }

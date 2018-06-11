@@ -60,13 +60,6 @@ namespace WebApi.Modules.Settings.EventCategory
             return await DoDeleteAsync(id, typeof(EventCategoryLogic));
         }
         //------------------------------------------------------------------------------------
-        // POST api/v1/eventcategory/validateduplicate
-        [HttpPost("validateduplicate")]
-        [Authorize(Policy = "{138C6D9F-5B58-4619-A4E5-AE7C11EA51CB}")]
-        public async Task<IActionResult> ValidateDuplicateAsync(ValidateDuplicateRequest request)
-        {
-            return await DoValidateDuplicateAsync(request);
-        }
         //------------------------------------------------------------------------------------
     }
 }

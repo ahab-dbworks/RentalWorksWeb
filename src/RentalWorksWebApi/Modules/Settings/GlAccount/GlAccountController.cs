@@ -54,12 +54,5 @@ namespace WebApi.Modules.Settings.GlAccount
             return await DoDeleteAsync(id, typeof(GlAccountLogic));
         }
         //------------------------------------------------------------------------------------
-        // POST api/v1/glaccount/validateduplicate
-        [HttpPost("validateduplicate")]
-        public async Task<IActionResult> ValidateDuplicateAsync([FromBody]ValidateDuplicateRequest request)
-        {
-            return await DoValidateDuplicateAsync(request);
-        }
-        //------------------------------------------------------------------------------------
     }
 }

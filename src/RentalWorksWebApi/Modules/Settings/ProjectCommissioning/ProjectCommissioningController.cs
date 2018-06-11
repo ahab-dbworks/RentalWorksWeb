@@ -53,12 +53,5 @@ namespace WebApi.Modules.Settings.ProjectCommissioning
             return await DoDeleteAsync(id, typeof(ProjectCommissioningLogic));
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/projectcommissioning/validateduplicate 
-        [HttpPost("validateduplicate")]
-        public async Task<IActionResult> ValidateDuplicateAsync([FromBody]ValidateDuplicateRequest request)
-        {
-            return await DoValidateDuplicateAsync(request);
-        }
-        //------------------------------------------------------------------------------------ 
     }
 }

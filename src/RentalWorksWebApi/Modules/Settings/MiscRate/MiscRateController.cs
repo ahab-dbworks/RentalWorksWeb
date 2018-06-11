@@ -54,12 +54,5 @@ namespace WebApi.Modules.Settings.MiscRate
             return await DoDeleteAsync(id, typeof(MiscRateLogic));
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/miscrate/validateduplicate 
-        [HttpPost("validateduplicate")]
-        public async Task<IActionResult> ValidateDuplicateAsync([FromBody]ValidateDuplicateRequest request)
-        {
-            return await DoValidateDuplicateAsync(request);
-        }
-        //------------------------------------------------------------------------------------ 
     }
 } 

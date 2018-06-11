@@ -53,12 +53,5 @@ namespace WebApi.Modules.Settings.SapVendorInvoiceStatus
             return await DoDeleteAsync(id, typeof(SapVendorInvoiceStatusLogic));
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/sapvendorinvoicestatus/validateduplicate 
-        [HttpPost("validateduplicate")]
-        public async Task<IActionResult> ValidateDuplicateAsync([FromBody]ValidateDuplicateRequest request)
-        {
-            return await DoValidateDuplicateAsync(request);
-        }
-        //------------------------------------------------------------------------------------ 
     }
 }

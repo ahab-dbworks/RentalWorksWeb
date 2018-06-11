@@ -53,12 +53,5 @@ namespace WebApi.Modules.Settings.InventoryRank
             return await DoDeleteAsync(id, typeof(InventoryRankLogic));
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/inventoryrank/validateduplicate 
-        [HttpPost("validateduplicate")]
-        public async Task<IActionResult> ValidateDuplicateAsync([FromBody]ValidateDuplicateRequest request)
-        {
-            return await DoValidateDuplicateAsync(request);
-        }
-        //------------------------------------------------------------------------------------ 
     }
 }

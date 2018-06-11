@@ -53,12 +53,5 @@ namespace WebApi.Modules.Settings.VendorInvoiceApprover
             return await DoDeleteAsync(id, typeof(VendorInvoiceApproverLogic));
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/vendorinvoiceapprover/validateduplicate 
-        [HttpPost("validateduplicate")]
-        public async Task<IActionResult> ValidateDuplicateAsync([FromBody]ValidateDuplicateRequest request)
-        {
-            return await DoValidateDuplicateAsync(request);
-        }
-        //------------------------------------------------------------------------------------ 
     }
 }

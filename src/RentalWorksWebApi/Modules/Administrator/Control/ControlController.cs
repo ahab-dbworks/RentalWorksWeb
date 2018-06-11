@@ -54,12 +54,5 @@ namespace WebApi.Modules.Administrator.Control
             return await DoDeleteAsync(id, typeof(ControlLogic));
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/control/validateduplicate 
-        [HttpPost("validateduplicate")]
-        public async Task<IActionResult> ValidateDuplicateAsync([FromBody]ValidateDuplicateRequest request)
-        {
-            return await DoValidateDuplicateAsync(request);
-        }
-        //------------------------------------------------------------------------------------ 
     }
 }

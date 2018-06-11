@@ -53,12 +53,5 @@ namespace WebApi.Modules.Home.InventoryColor
             return await DoDeleteAsync(id, typeof(InventoryColorLogic));
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/inventorycolor/validateduplicate 
-        [HttpPost("validateduplicate")]
-        public async Task<IActionResult> ValidateDuplicateAsync([FromBody]ValidateDuplicateRequest request)
-        {
-            return await DoValidateDuplicateAsync(request);
-        }
-        //------------------------------------------------------------------------------------ 
     }
 }

@@ -54,12 +54,5 @@ namespace WebApi.Modules.Settings.PoImportance
             return await DoDeleteAsync(id, typeof(PoImportanceLogic));
         }
         //------------------------------------------------------------------------------------
-        // POST api/v1/poimportance/validateduplicate
-        [HttpPost("validateduplicate")]
-        public async Task<IActionResult> ValidateDuplicateAsync([FromBody]ValidateDuplicateRequest request)
-        {
-            return await DoValidateDuplicateAsync(request);
-        }
-        //------------------------------------------------------------------------------------
     }
 }

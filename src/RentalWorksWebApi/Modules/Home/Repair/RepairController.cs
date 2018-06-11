@@ -225,12 +225,5 @@ namespace WebApi.Modules.Home.Repair
             return await DoDeleteAsync(id, typeof(RepairLogic));
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/repair/validateduplicate 
-        [HttpPost("validateduplicate")]
-        public async Task<IActionResult> ValidateDuplicateAsync([FromBody]ValidateDuplicateRequest request)
-        {
-            return await DoValidateDuplicateAsync(request);
-        }
-        //------------------------------------------------------------------------------------ 
     }
 }

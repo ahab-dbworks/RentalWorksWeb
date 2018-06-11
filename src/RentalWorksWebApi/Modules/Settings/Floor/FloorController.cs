@@ -53,12 +53,5 @@ namespace WebApi.Modules.Settings.Floor
             return await DoDeleteAsync(id, typeof(FloorLogic));
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/floor/validateduplicate 
-        [HttpPost("validateduplicate")]
-        public async Task<IActionResult> ValidateDuplicateAsync([FromBody]ValidateDuplicateRequest request)
-        {
-            return await DoValidateDuplicateAsync(request);
-        }
-        //------------------------------------------------------------------------------------ 
     }
 }

@@ -54,12 +54,5 @@ namespace WebApi.Modules.Settings.OrganizationType
             return await DoDeleteAsync(id, typeof(OrganizationTypeLogic));
         }
         //------------------------------------------------------------------------------------
-        // POST api/v1/organizationtype/validateduplicate
-        [HttpPost("validateduplicate")]
-        public async Task<IActionResult> ValidateDuplicateAsync(ValidateDuplicateRequest request)
-        {
-            return await DoValidateDuplicateAsync(request);
-        }
-        //------------------------------------------------------------------------------------
     }
 }

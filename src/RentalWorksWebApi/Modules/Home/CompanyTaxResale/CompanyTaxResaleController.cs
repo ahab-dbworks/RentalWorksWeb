@@ -84,14 +84,5 @@ namespace WebApi.Modules.Home.CompanyTaxResale
             return await DoDeleteAsync(id, typeof(CompanyTaxResaleLogic));
         }
         //------------------------------------------------------------------------------------
-        // POST api/v1/companytaxresale/validateduplicate
-        [HttpPost("validateduplicate")]
-        [Authorize(Policy = "{D212CE16-E6D8-4EBE-8ACD-4F9C086E1F03}")]
-        //[ApiExplorerSettings(IgnoreApi=true)]
-        public async Task<IActionResult> ValidateDuplicateAsync([FromBody]ValidateDuplicateRequest request)
-        {
-            return await DoValidateDuplicateAsync(request);
-        }
-        //------------------------------------------------------------------------------------
     }
 }

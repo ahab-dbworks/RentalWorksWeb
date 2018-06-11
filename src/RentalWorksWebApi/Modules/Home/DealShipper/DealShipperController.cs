@@ -53,12 +53,5 @@ namespace WebApi.Modules.Home.DealShipper
             return await DoDeleteAsync(id, typeof(DealShipperLogic));
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/dealshipper/validateduplicate 
-        [HttpPost("validateduplicate")]
-        public async Task<IActionResult> ValidateDuplicateAsync([FromBody]ValidateDuplicateRequest request)
-        {
-            return await DoValidateDuplicateAsync(request);
-        }
-        //------------------------------------------------------------------------------------ 
     }
 }

@@ -53,12 +53,5 @@ namespace WebApi.Modules.Home.OrderStatusSummary
         //    return await DoDeleteAsync(id, typeof(OrderStatusSummaryLogic));
         //}
         ////------------------------------------------------------------------------------------ 
-        //// POST api/v1/orderstatussummary/validateduplicate 
-        //[HttpPost("validateduplicate")]
-        //public async Task<IActionResult> ValidateDuplicateAsync([FromBody]ValidateDuplicateRequest request)
-        //{
-        //    return await DoValidateDuplicateAsync(request);
-        //}
-        ////------------------------------------------------------------------------------------ 
     }
 }

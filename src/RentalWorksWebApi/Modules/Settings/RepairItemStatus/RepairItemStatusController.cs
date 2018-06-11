@@ -54,12 +54,5 @@ namespace WebApi.Modules.Settings.RepairItemStatus
             return await DoDeleteAsync(id, typeof(RepairItemStatusLogic));
         }
         //------------------------------------------------------------------------------------
-        // POST api/v1/repairitemstatus/validateduplicate
-        [HttpPost("validateduplicate")]
-        public async Task<IActionResult> ValidateDuplicateAsync([FromBody]ValidateDuplicateRequest request)
-        {
-            return await DoValidateDuplicateAsync(request);
-        }
-        //------------------------------------------------------------------------------------
     }
 }

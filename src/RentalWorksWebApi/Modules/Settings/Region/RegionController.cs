@@ -54,12 +54,5 @@ namespace WebApi.Modules.Settings.Region
             return await DoDeleteAsync(id, typeof(RegionLogic));
         }
         //------------------------------------------------------------------------------------
-        // POST api/v1/region/validateduplicate
-        [HttpPost("validateduplicate")]
-        public async Task<IActionResult> ValidateDuplicateAsync(ValidateDuplicateRequest request)
-        {
-            return await DoValidateDuplicateAsync(request);
-        }
-        //------------------------------------------------------------------------------------
     }
 }

@@ -60,13 +60,6 @@ namespace WebApi.Modules.Settings.Country
             return await DoDeleteAsync(id, typeof(CountryLogic));
         }
         //------------------------------------------------------------------------------------
-        // POST api/v1/Country/validateduplicate
-        [HttpPost("validateduplicate")]
-        [Authorize(Policy = "")]
-        public async Task<IActionResult> ValidateDuplicateAsync([FromBody]ValidateDuplicateRequest request)
-        {
-            return await DoValidateDuplicateAsync(request);
-        }
         //------------------------------------------------------------------------------------
     }
 }

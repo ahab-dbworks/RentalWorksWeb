@@ -53,12 +53,5 @@ namespace WebApi.Modules.Settings.InventoryGroupInventory
             return await DoDeleteAsync(id, typeof(InventoryGroupInventoryLogic));
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/inventorygroupinventory/validateduplicate 
-        [HttpPost("validateduplicate")]
-        public async Task<IActionResult> ValidateDuplicateAsync([FromBody]ValidateDuplicateRequest request)
-        {
-            return await DoValidateDuplicateAsync(request);
-        }
-        //------------------------------------------------------------------------------------ 
     }
 }

@@ -53,12 +53,5 @@ namespace WebApi.Modules.Home.RentalInventory
             return await DoDeleteAsync(id, typeof(RentalInventoryLogic));
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/rentalinventory/validateduplicate 
-        [HttpPost("validateduplicate")]
-        public async Task<IActionResult> ValidateDuplicateAsync([FromBody]ValidateDuplicateRequest request)
-        {
-            return await DoValidateDuplicateAsync(request);
-        }
-        //------------------------------------------------------------------------------------ 
     }
 } 

@@ -53,12 +53,5 @@ namespace WebApi.Modules.Home.ContactNote
             return await DoDeleteAsync(id, typeof(ContactNoteLogic));
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/contactnote/validateduplicate 
-        [HttpPost("validateduplicate")]
-        public async Task<IActionResult> ValidateDuplicateAsync([FromBody]ValidateDuplicateRequest request)
-        {
-            return await DoValidateDuplicateAsync(request);
-        }
-        //------------------------------------------------------------------------------------ 
     }
 }

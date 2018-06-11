@@ -53,12 +53,5 @@ namespace WebApi.Modules.Settings.OrderTypeDateType
             return await DoDeleteAsync(id, typeof(OrderTypeDateTypeLogic));
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/ordertypedatetype/validateduplicate 
-        [HttpPost("validateduplicate")]
-        public async Task<IActionResult> ValidateDuplicateAsync([FromBody]ValidateDuplicateRequest request)
-        {
-            return await DoValidateDuplicateAsync(request);
-        }
-        //------------------------------------------------------------------------------------ 
     }
 }

@@ -60,13 +60,6 @@ namespace WebApi.Modules.Settings.FacilityStatus
             return await DoDeleteAsync(id, typeof(FacilityStatusLogic));
         }
         //------------------------------------------------------------------------------------
-        // POST api/v1/facilitystatus/validateduplicate
-        [HttpPost("validateduplicate")]
-        [Authorize(Policy = "{149F4190-E046-4FB3-94CD-3F4C727C511D}")]
-        public async Task<IActionResult> ValidateDuplicateAsync([FromBody]ValidateDuplicateRequest request)
-        {
-            return await DoValidateDuplicateAsync(request);
-        }
         //------------------------------------------------------------------------------------
     }
 }

@@ -60,10 +60,5 @@ namespace WebApi.Modules.Settings.InventoryCondition
             return await DoDeleteAsync(id, typeof(InventoryConditionLogic));
         }
         //------------------------------------------------------------------------------------
-        // POST api/v1/inventorycondition/validateduplicate
-        [HttpPost("validateduplicate")]
-        [Authorize(Policy = "")]
-        public async Task<IActionResult> ValidateDuplicateAsync([FromBody]ValidateDuplicateRequest request) => await DoValidateDuplicateAsync(request);
-        //------------------------------------------------------------------------------------
     }
 }

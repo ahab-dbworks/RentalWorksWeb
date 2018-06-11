@@ -53,12 +53,5 @@ namespace WebApi.Modules.Settings.WarehouseInventoryType
         //    return await DoDeleteAsync(id, typeof(WarehouseInventoryTypeLogic));
         //}
         ////------------------------------------------------------------------------------------ 
-        // POST api/v1/warehouseinventorytype/validateduplicate 
-        [HttpPost("validateduplicate")]
-        public async Task<IActionResult> ValidateDuplicateAsync([FromBody]ValidateDuplicateRequest request)
-        {
-            return await DoValidateDuplicateAsync(request);
-        }
-        //------------------------------------------------------------------------------------ 
     }
 }

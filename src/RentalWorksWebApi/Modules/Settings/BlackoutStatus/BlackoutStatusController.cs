@@ -60,13 +60,6 @@ namespace WebApi.Modules.Settings.BlackoutStatus
             return await DoDeleteAsync(id, typeof(BlackoutStatusLogic));
         }
         //------------------------------------------------------------------------------------
-        // POST api/v1/blackoutstatus/validateduplicate
-        [HttpPost("validateduplicate")]
-        [Authorize(Policy = "{278A4455-2772-4E7A-A207-F0CD4283FDA2}")]
-        public async Task<IActionResult> ValidateDuplicateAsync([FromBody]ValidateDuplicateRequest request)
-        {
-            return await DoValidateDuplicateAsync(request);
-        }
         //------------------------------------------------------------------------------------
     }
 }

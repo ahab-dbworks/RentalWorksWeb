@@ -54,12 +54,5 @@ namespace WebApi.Modules.Settings.ShipVia
             return await DoDeleteAsync(id, typeof(ShipViaLogic));
         }
         //------------------------------------------------------------------------------------
-        // POST api/v1/shipvia/validateduplicate
-        [HttpPost("validateduplicate")]
-        public async Task<IActionResult> ValidateDuplicateAsync([FromBody]ValidateDuplicateRequest request)
-        {
-            return await DoValidateDuplicateAsync(request);
-        }
-        //------------------------------------------------------------------------------------
     }
 }

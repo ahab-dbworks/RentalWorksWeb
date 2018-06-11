@@ -53,12 +53,5 @@ namespace WebApi.Modules.Home.InventoryAttributeValue
             return await DoDeleteAsync(id, typeof(InventoryAttributeValueLogic));
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/inventoryattributevalue/validateduplicate 
-        [HttpPost("validateduplicate")]
-        public async Task<IActionResult> ValidateDuplicateAsync([FromBody]ValidateDuplicateRequest request)
-        {
-            return await DoValidateDuplicateAsync(request);
-        }
-        //------------------------------------------------------------------------------------ 
     }
 }

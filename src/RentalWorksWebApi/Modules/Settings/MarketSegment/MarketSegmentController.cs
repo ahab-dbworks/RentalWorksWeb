@@ -53,12 +53,5 @@ namespace WebApi.Modules.Settings.MarketSegment
             return await DoDeleteAsync(id, typeof(MarketSegmentLogic));
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/marketsegment/validateduplicate 
-        [HttpPost("validateduplicate")]
-        public async Task<IActionResult> ValidateDuplicateAsync([FromBody]ValidateDuplicateRequest request)
-        {
-            return await DoValidateDuplicateAsync(request);
-        }
-        //------------------------------------------------------------------------------------ 
     }
 }

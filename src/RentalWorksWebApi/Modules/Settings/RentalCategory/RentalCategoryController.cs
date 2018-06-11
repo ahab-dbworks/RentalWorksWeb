@@ -54,12 +54,5 @@ namespace WebApi.Modules.Settings.RentalCategory
             return await DoDeleteAsync(id, typeof(RentalCategoryLogic));
         }
         //------------------------------------------------------------------------------------
-        // POST api/v1/rentalcategory/validateduplicate
-        [HttpPost("validateduplicate")]
-        public async Task<IActionResult> ValidateDuplicateAsync([FromBody]ValidateDuplicateRequest request)
-        {
-            return await DoValidateDuplicateAsync(request);
-        }
-        //------------------------------------------------------------------------------------
     }
 }

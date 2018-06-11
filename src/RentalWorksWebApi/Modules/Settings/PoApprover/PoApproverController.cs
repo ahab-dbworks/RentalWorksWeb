@@ -53,12 +53,5 @@ namespace WebApi.Modules.Settings.PoApprover
             return await DoDeleteAsync(id, typeof(PoApproverLogic));
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/poapprover/validateduplicate 
-        [HttpPost("validateduplicate")]
-        public async Task<IActionResult> ValidateDuplicateAsync([FromBody]ValidateDuplicateRequest request)
-        {
-            return await DoValidateDuplicateAsync(request);
-        }
-        //------------------------------------------------------------------------------------ 
     }
 }

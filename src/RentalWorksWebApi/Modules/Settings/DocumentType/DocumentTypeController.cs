@@ -60,13 +60,6 @@ namespace WebApi.Modules.Settings.DocumentType
             return await DoDeleteAsync(id, typeof(DocumentTypeLogic));
         }
         //------------------------------------------------------------------------------------
-        // POST api/v1/documenttype/validateduplicate
-        [HttpPost("validateduplicate")]
-        [Authorize(Policy = "{276E8939-070A-4876-AE25-EF41C352C845}")]
-        public async Task<IActionResult> ValidateDuplicateAsync(ValidateDuplicateRequest request)
-        {
-            return await DoValidateDuplicateAsync(request);
-        }
         //------------------------------------------------------------------------------------
     }
 }

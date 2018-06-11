@@ -54,12 +54,5 @@ namespace WebApi.Modules.Settings.WardrobeGender
             return await DoDeleteAsync(id, typeof(WardrobeGenderLogic));
         }
         //------------------------------------------------------------------------------------
-        // POST api/v1/wardrobegender/validateduplicate
-        [HttpPost("validateduplicate")]
-        public async Task<IActionResult> ValidateDuplicateAsync([FromBody]ValidateDuplicateRequest request)
-        {
-            return await DoValidateDuplicateAsync(request);
-        }
-        //------------------------------------------------------------------------------------
     }
 }

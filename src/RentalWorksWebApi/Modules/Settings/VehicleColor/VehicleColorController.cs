@@ -54,12 +54,5 @@ namespace WebApi.Modules.Settings.VehicleColor
             return await DoDeleteAsync(id, typeof(VehicleColorLogic));
         }
         //------------------------------------------------------------------------------------
-        // POST api/v1/vehiclecolor/validateduplicate
-        [HttpPost("validateduplicate")]
-        public async Task<IActionResult> ValidateDuplicateAsync([FromBody]ValidateDuplicateRequest request)
-        {
-            return await DoValidateDuplicateAsync(request);
-        }
-        //------------------------------------------------------------------------------------
     }
 }

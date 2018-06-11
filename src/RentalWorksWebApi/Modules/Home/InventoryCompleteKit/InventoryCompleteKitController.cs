@@ -53,12 +53,5 @@ namespace WebApi.Modules.Home.InventoryCompleteKit
         //    return await DoDeleteAsync(id, typeof(InventoryCompleteKitLogic));
         //}
         ////------------------------------------------------------------------------------------ 
-        //// POST api/v1/inventorycompletekit/validateduplicate 
-        //[HttpPost("validateduplicate")]
-        //public async Task<IActionResult> ValidateDuplicateAsync([FromBody]ValidateDuplicateRequest request)
-        //{
-        //    return await DoValidateDuplicateAsync(request);
-        //}
-        //------------------------------------------------------------------------------------ 
     }
 }

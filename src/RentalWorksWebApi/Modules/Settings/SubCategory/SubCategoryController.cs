@@ -54,12 +54,5 @@ namespace WebApi.Modules.Settings.SubCategory
             return await DoDeleteAsync(id, typeof(SubCategoryLogic));
         }
         //------------------------------------------------------------------------------------
-        // POST api/v1/subcategory/validateduplicate
-        [HttpPost("validateduplicate")]
-        public async Task<IActionResult> ValidateDuplicateAsync([FromBody]ValidateDuplicateRequest request)
-        {
-            return await DoValidateDuplicateAsync(request);
-        }
-        //------------------------------------------------------------------------------------
     }
 }

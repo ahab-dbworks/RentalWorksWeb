@@ -54,12 +54,5 @@ namespace WebApi.Modules.Settings.PersonnelType
             return await DoDeleteAsync(id, typeof(PersonnelTypeLogic));
         }
         //------------------------------------------------------------------------------------
-        // POST api/v1/personneltype/validateduplicate
-        [HttpPost("validateduplicate")]
-        public async Task<IActionResult> ValidateDuplicateAsync(ValidateDuplicateRequest request)
-        {
-            return await DoValidateDuplicateAsync(request);
-        }
-        //------------------------------------------------------------------------------------
     }
 }

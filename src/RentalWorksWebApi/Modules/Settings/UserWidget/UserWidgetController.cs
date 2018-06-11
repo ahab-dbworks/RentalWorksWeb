@@ -53,12 +53,5 @@ namespace WebApi.Modules.Settings.WebUserWidget
             return await DoDeleteAsync(id, typeof(UserWidgetLogic));
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/userwidget/validateduplicate 
-        [HttpPost("validateduplicate")]
-        public async Task<IActionResult> ValidateDuplicateAsync([FromBody]ValidateDuplicateRequest request)
-        {
-            return await DoValidateDuplicateAsync(request);
-        }
-        //------------------------------------------------------------------------------------ 
     }
 }

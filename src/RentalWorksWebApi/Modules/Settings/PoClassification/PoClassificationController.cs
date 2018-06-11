@@ -54,12 +54,5 @@ namespace WebApi.Modules.Settings.PoClassification
             return await DoDeleteAsync(id, typeof(PoClassificationLogic));
         }
         //------------------------------------------------------------------------------------
-        // POST api/v1/poclassification/validateduplicate
-        [HttpPost("validateduplicate")]
-        public async Task<IActionResult> ValidateDuplicateAsync([FromBody]ValidateDuplicateRequest request)
-        {
-            return await DoValidateDuplicateAsync(request);
-        }
-        //------------------------------------------------------------------------------------
     }
 }

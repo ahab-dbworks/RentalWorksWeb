@@ -60,13 +60,6 @@ namespace WebApi.Modules.Settings.GeneratorFuelType
             return await DoDeleteAsync(id, typeof(GeneratorFuelTypeLogic));
         }
         //------------------------------------------------------------------------------------
-        // POST api/v1/generatorfueltype/validateduplicate
-        [HttpPost("validateduplicate")]
-        [Authorize(Policy = "{A3BBBC9C-0447-440C-A19D-927CA3559DD3}")]
-        public async Task<IActionResult> ValidateDuplicateAsync([FromBody]ValidateDuplicateRequest request)
-        {
-            return await DoValidateDuplicateAsync(request);
-        }
         //------------------------------------------------------------------------------------
     }
 }

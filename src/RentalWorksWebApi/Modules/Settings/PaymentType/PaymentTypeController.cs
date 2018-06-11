@@ -54,12 +54,5 @@ namespace WebApi.Modules.Settings.PaymentType
             return await DoDeleteAsync(id, typeof(PaymentTypeLogic));
         }
         //------------------------------------------------------------------------------------
-        // POST api/v1/paymenttype/validateduplicate
-        [HttpPost("validateduplicate")]
-        public async Task<IActionResult> ValidateDuplicateAsync([FromBody]ValidateDuplicateRequest request)
-        {
-            return await DoValidateDuplicateAsync(request);
-        }
-        //------------------------------------------------------------------------------------
     }
 }

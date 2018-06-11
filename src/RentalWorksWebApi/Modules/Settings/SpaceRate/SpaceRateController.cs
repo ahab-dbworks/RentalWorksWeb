@@ -53,12 +53,5 @@ namespace WebApi.Modules.Settings.SpaceRate
             return await DoDeleteAsync(id, typeof(SpaceRateLogic));
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/spacerate/validateduplicate 
-        [HttpPost("validateduplicate")]
-        public async Task<IActionResult> ValidateDuplicateAsync([FromBody]ValidateDuplicateRequest request)
-        {
-            return await DoValidateDuplicateAsync(request);
-        }
-        //------------------------------------------------------------------------------------ 
     }
 }

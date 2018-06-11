@@ -60,13 +60,6 @@ namespace WebApi.Modules.Settings.DiscountReason
             return await DoDeleteAsync(id, typeof(DiscountReasonLogic));
         }
         //------------------------------------------------------------------------------------
-        // POST api/v1/discountreason/validateduplicate
-        [HttpPost("validateduplicate")]
-        [Authorize(Policy = "")]
-        public async Task<IActionResult> ValidateDuplicateAsync([FromBody]ValidateDuplicateRequest request)
-        {
-            return await DoValidateDuplicateAsync(request);
-        }
         //------------------------------------------------------------------------------------
     }
 }

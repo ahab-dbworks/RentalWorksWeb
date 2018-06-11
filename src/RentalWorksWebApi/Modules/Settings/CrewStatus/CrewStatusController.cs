@@ -60,13 +60,6 @@ namespace WebApi.Modules.Settings.CrewStatus
             return await DoDeleteAsync(id, typeof(CrewStatusLogic));
         }
         //------------------------------------------------------------------------------------
-        // POST api/v1/crewstatus/validateduplicate
-        [HttpPost("validateduplicate")]
-        [Authorize(Policy = "")]
-        public async Task<IActionResult> ValidateDuplicateAsync([FromBody]ValidateDuplicateRequest request)
-        {
-            return await DoValidateDuplicateAsync(request);
-        }
         //------------------------------------------------------------------------------------
     }
 }

@@ -54,12 +54,5 @@ namespace WebApi.Modules.Settings.WardrobePeriod
             return await DoDeleteAsync(id, typeof(WardrobePeriodLogic));
         }
         //------------------------------------------------------------------------------------
-        // POST api/v1/wardrobeperiod/validateduplicate
-        [HttpPost("validateduplicate")]
-        public async Task<IActionResult> ValidateDuplicateAsync([FromBody]ValidateDuplicateRequest request)
-        {
-            return await DoValidateDuplicateAsync(request);
-        }
-        //------------------------------------------------------------------------------------
     }
 }

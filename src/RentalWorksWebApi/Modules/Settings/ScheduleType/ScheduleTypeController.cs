@@ -54,12 +54,5 @@ namespace WebApi.Modules.Settings.ScheduleType
             return await DoDeleteAsync(id, typeof(ScheduleTypeLogic));
         }
         //------------------------------------------------------------------------------------
-        // POST api/v1/scheduletype/validateduplicate
-        [HttpPost("validateduplicate")]
-        public async Task<IActionResult> ValidateDuplicateAsync(ValidateDuplicateRequest request)
-        {
-            return await DoValidateDuplicateAsync(request);
-        }
-        //------------------------------------------------------------------------------------
     }
 }

@@ -131,12 +131,5 @@ namespace WebApi.Modules.Home.InventorySearch
             }
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/inventorysearch/validateduplicate 
-        [HttpPost("validateduplicate")]
-        public async Task<IActionResult> ValidateDuplicateAsync([FromBody]ValidateDuplicateRequest request)
-        {
-            return await DoValidateDuplicateAsync(request);
-        }
-        //------------------------------------------------------------------------------------ 
     }
 }

@@ -53,12 +53,5 @@ namespace WebApi.Modules.Settings.ProjectDropShipItems
             return await DoDeleteAsync(id, typeof(ProjectDropShipItemsLogic));
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/projectdropshipitems/validateduplicate 
-        [HttpPost("validateduplicate")]
-        public async Task<IActionResult> ValidateDuplicateAsync([FromBody]ValidateDuplicateRequest request)
-        {
-            return await DoValidateDuplicateAsync(request);
-        }
-        //------------------------------------------------------------------------------------ 
     }
 }

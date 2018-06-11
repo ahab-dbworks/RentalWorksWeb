@@ -54,12 +54,5 @@ namespace WebApi.Modules.Settings.RetiredReason
             return await DoDeleteAsync(id, typeof(RetiredReasonLogic));
         }
         //------------------------------------------------------------------------------------
-        // POST api/v1/retiredreason/validateduplicate
-        [HttpPost("validateduplicate")]
-        public async Task<IActionResult> ValidateDuplicateAsync([FromBody]ValidateDuplicateRequest request)
-        {
-            return await DoValidateDuplicateAsync(request);
-        }
-        //------------------------------------------------------------------------------------
     }
 }

@@ -60,10 +60,5 @@ namespace WebApi.Modules.Settings.WardrobeCondition
             return await DoDeleteAsync(id, typeof(WardrobeConditionLogic));
         }
         //------------------------------------------------------------------------------------
-        // POST api/v1/wardrobecondition/validateduplicate
-        [HttpPost("validateduplicate")]
-        [Authorize(Policy = "")]
-        public async Task<IActionResult> ValidateDuplicateAsync([FromBody]ValidateDuplicateRequest request) => await DoValidateDuplicateAsync(request);
-        //------------------------------------------------------------------------------------
     }
 }

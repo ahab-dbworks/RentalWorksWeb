@@ -54,12 +54,5 @@ namespace WebApi.Modules.Settings.TermsConditions
             return await DoDeleteAsync(id, typeof(TermsConditionsLogic));
         }
         //------------------------------------------------------------------------------------
-        // POST api/v1/termsconditions/validateduplicate
-        [HttpPost("validateduplicate")]
-        public async Task<IActionResult> ValidateDuplicateAsync([FromBody]ValidateDuplicateRequest request)
-        {
-            return await DoValidateDuplicateAsync(request);
-        }
-        //------------------------------------------------------------------------------------
     }
 }

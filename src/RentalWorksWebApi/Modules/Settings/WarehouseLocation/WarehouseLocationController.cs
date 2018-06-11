@@ -53,12 +53,5 @@ namespace WebApi.Modules.Settings.WarehouseLocation
             return await DoDeleteAsync(id, typeof(WarehouseLocationLogic));
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/warehouselocation/validateduplicate 
-        [HttpPost("validateduplicate")]
-        public async Task<IActionResult> ValidateDuplicateAsync([FromBody]ValidateDuplicateRequest request)
-        {
-            return await DoValidateDuplicateAsync(request);
-        }
-        //------------------------------------------------------------------------------------ 
     }
 }

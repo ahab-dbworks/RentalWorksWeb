@@ -300,12 +300,5 @@ namespace WebApi.Modules.Home.Order
         //    return await DoDeleteAsync(id, typeof(OrderLogic));
         //}
         ////------------------------------------------------------------------------------------
-        // POST api/v1/order/validateduplicate
-        [HttpPost("validateduplicate")]
-        public async Task<IActionResult> ValidateDuplicateAsync([FromBody]ValidateDuplicateRequest request)
-        {
-            return await DoValidateDuplicateAsync(request);
-        }
-        //------------------------------------------------------------------------------------
     }
 }

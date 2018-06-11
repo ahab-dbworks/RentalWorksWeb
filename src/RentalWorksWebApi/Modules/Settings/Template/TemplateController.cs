@@ -53,12 +53,5 @@ namespace WebApi.Modules.Settings.Template
             return await DoDeleteAsync(id, typeof(TemplateLogic));
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/template/validateduplicate 
-        [HttpPost("validateduplicate")]
-        public async Task<IActionResult> ValidateDuplicateAsync([FromBody]ValidateDuplicateRequest request)
-        {
-            return await DoValidateDuplicateAsync(request);
-        }
-        //------------------------------------------------------------------------------------ 
     }
 }

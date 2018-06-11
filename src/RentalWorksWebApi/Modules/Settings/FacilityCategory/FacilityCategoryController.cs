@@ -54,12 +54,5 @@ namespace WebApi.Modules.Settings.FacilityCategory
             return await DoDeleteAsync(id, typeof(FacilityCategoryLogic));
         }
         //------------------------------------------------------------------------------------
-        // POST api/v1/facilitycategory/validateduplicate
-        [HttpPost("validateduplicate")]
-        public async Task<IActionResult> ValidateDuplicateAsync([FromBody]ValidateDuplicateRequest request)
-        {
-            return await DoValidateDuplicateAsync(request);
-        }
-        //------------------------------------------------------------------------------------
     }
 }

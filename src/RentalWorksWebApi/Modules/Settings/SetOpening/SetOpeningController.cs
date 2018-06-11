@@ -54,12 +54,5 @@ namespace WebApi.Modules.Settings.SetOpening
             return await DoDeleteAsync(id, typeof(SetOpeningLogic));
         }
         //------------------------------------------------------------------------------------
-        // POST api/v1/setopening/validateduplicate
-        [HttpPost("validateduplicate")]
-        public async Task<IActionResult> ValidateDuplicateAsync([FromBody]ValidateDuplicateRequest request)
-        {
-            return await DoValidateDuplicateAsync(request);
-        }
-        //------------------------------------------------------------------------------------
     }
 }

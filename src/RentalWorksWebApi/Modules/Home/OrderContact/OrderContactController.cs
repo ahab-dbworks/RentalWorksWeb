@@ -53,12 +53,5 @@ namespace WebApi.Modules.Home.OrderContact
             return await DoDeleteAsync(id, typeof(OrderContactLogic));
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/ordercontact/validateduplicate 
-        [HttpPost("validateduplicate")]
-        public async Task<IActionResult> ValidateDuplicateAsync([FromBody]ValidateDuplicateRequest request)
-        {
-            return await DoValidateDuplicateAsync(request);
-        }
-        //------------------------------------------------------------------------------------ 
     }
 }

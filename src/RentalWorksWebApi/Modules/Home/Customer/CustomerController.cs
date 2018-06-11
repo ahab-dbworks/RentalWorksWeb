@@ -54,12 +54,5 @@ namespace WebApi.Modules.Home.Customer
             return await DoDeleteAsync(id, typeof(CustomerLogic));
         }
         //------------------------------------------------------------------------------------
-        // POST api/v1/customer/validateduplicate
-        [HttpPost("validateduplicate")]
-        public async Task<IActionResult> ValidateDuplicateAsync(ValidateDuplicateRequest request)
-        {
-            return await DoValidateDuplicateAsync(request);
-        }
-        //------------------------------------------------------------------------------------
     }
 }

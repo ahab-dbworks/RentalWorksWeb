@@ -85,14 +85,5 @@ namespace WebApi.Modules.Settings.CustomerStatus
             return await DoDeleteAsync(id, typeof(CustomerStatusLogic));
         }
         //------------------------------------------------------------------------------------
-        // POST api/v1/customerstatus/validateduplicate
-        [HttpPost("validateduplicate")]
-        [Authorize(Policy = "{D212CE16-E6D8-4EBE-8ACD-4F9C086E1F03}")]
-        //[ApiExplorerSettings(IgnoreApi=true)]
-        public async Task<IActionResult> ValidateDuplicateAsync([FromBody]ValidateDuplicateRequest request)
-        {
-            return await DoValidateDuplicateAsync(request);
-        }
-        //------------------------------------------------------------------------------------
     }
 }

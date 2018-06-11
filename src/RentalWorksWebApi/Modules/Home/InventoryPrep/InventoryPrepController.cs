@@ -53,12 +53,5 @@ namespace WebApi.Modules.Home.InventoryPrep
             return await DoDeleteAsync(id, typeof(InventoryPrepLogic));
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/inventoryprep/validateduplicate 
-        [HttpPost("validateduplicate")]
-        public async Task<IActionResult> ValidateDuplicateAsync([FromBody]ValidateDuplicateRequest request)
-        {
-            return await DoValidateDuplicateAsync(request);
-        }
-        //------------------------------------------------------------------------------------ 
     }
 }

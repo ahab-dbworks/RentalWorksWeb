@@ -60,10 +60,5 @@ namespace WebApi.Modules.Settings.CoverLetter
             return await DoDeleteAsync(id, typeof(CoverLetterLogic));
         }
         //------------------------------------------------------------------------------------
-        // POST api/v1/coverletter/validateduplicate
-        [HttpPost("validateduplicate")]
-        [Authorize(Policy = "")]
-        public async Task<IActionResult> ValidateDuplicateAsync([FromBody]ValidateDuplicateRequest request) => await DoValidateDuplicateAsync(request);
-        //------------------------------------------------------------------------------------
     }
 }
