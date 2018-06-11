@@ -623,7 +623,7 @@ class SearchInterface {
             html.push('</div>');
 
             if (response.Rows[i][classificationIndex] == "K" || response.Rows[i][classificationIndex] == "C") {
-                html.push('<div class="accContainer" data-classification="' + response.Rows[i][classificationIndex] + '" style="float:left; width:90%; display:none">');
+                html.push('<div class="accContainer" data-classification="' + response.Rows[i][classificationIndex] + '" style="float:left; width:95%; display:none">');
 
                 html.push('</div>');
             }
@@ -872,7 +872,7 @@ class SearchInterface {
             FwAppData.apiMethod(true, 'POST', "api/v1/inventorysearch/", request, FwServices.defaultTimeout, function onSuccess(response) {
                 if (!accessoryRefresh) {
                     if ($accContainer.css('display') == 'none') {
-                        $popup.find('.accContainer').not($accContainer).slideUp();
+                        $popup.find('.accContainer').not($accContainer).hide();
                         $accContainer.slideToggle();
                     }
                 }
@@ -992,7 +992,7 @@ class SearchInterface {
                 let inventoryId = jQuery(e.currentTarget).parents('.card').find('[data-datafield="InventoryId"] input').val();
                 self.refreshAccessoryQuantity($popup, id, warehouseId, inventoryId, e);
             }
-            $popup.find('.accContainer').not(accessoryContainer).slideUp();
+            $popup.find('.accContainer').not(accessoryContainer).hide();
             accessoryContainer.slideToggle();
         });
 
@@ -1122,20 +1122,17 @@ class SearchInterface {
         if (toDate != "") {
             request.ToDate = toDate;
         }
-        var html = [];
-        if (!(accessoryContainer.find('.accList').length)) {
-            html.push('<div style="width:100%">');
-            html.push(' <div class="accList" style="font-size: 1.2em; color: blue; text-align:center; text-decoration: underline; cursor:pointer;">Accessories</div>');
-            html.push('     <div style="width:50%; float:left; font-weight:bold;">Description</div>');
-            html.push('     <div style="text-align:center; width:12%; float:left; font-weight:bold;"> Qty </div>');
-            html.push('     <div style="text-align:center; width:12%; float:left; font-weight:bold;"> In </div>');
-            html.push('     <div style="text-align:center; width:12%; float:left; font-weight:bold;"> Avail</div>');
-            html.push('     <div style="text-align:center; width:12%; float:left; font-weight:bold;"> Conflict </div>');
-            html.push(' </div>');
-            html.push('</div>');
-            accessoryContainer.append(html.join(''));
-            accessoryContainer.css({ 'float': 'left', 'height': 'auto', 'padding': '10px', 'margin': '10px', 'box-shadow': '0 6px 10px 0 rgba(0,0,153,0.2)', 'transition': '0.3s' });
-        }
+
+        accessoryContainer.css({ 'float': 'left', 'height': 'auto', 'padding': '5px', 'margin': '5px', 'box-shadow': '0 6px 10px 0 rgba(0,0,153,0.2)', 'transition': '0.3s' });
+        //var html = [];
+        //if (!(accessoryContainer.find('.accList').length)) {
+        //    html.push('<div style="width:100%">');
+        //    html.push(' <div class="accList"></div>');
+        //    html.push(' </div>');
+        //    html.push('</div>');
+        //    accessoryContainer.append(html.join(''));
+           
+        //}
 
         jQuery(e.currentTarget).parents('.cardContainer').find('.accContainer .accItem').remove();
         FwAppData.apiMethod(true, 'POST', "api/v1/inventorysearch/accessories", request, FwServices.defaultTimeout, function onSuccess(response) {
@@ -1150,26 +1147,36 @@ class SearchInterface {
 
             for (var i = 0; i < response.Rows.length; i++) {
                 let accHtml = [];
-                accHtml.push('<div class="accItem" style="width:100%">');
-                accHtml.push('  <div data-control="FwFormField" style="display:none" data-type="text" data-datafield="InventoryId" class="fwcontrol fwformfield"></div>');
-                accHtml.push('  <div style="text-indent: 1em; float:left; width:50%; position:relative;"><div class="descriptionColor"></div>' + response.Rows[i][descriptionIndex] + '</div>');
-                accHtml.push('  <div data-control="FwFormField" style="text-align:center; float:left; width:12%; padding:5px 10px 0 0; position:relative;" data-type="number" data-datafield="AccQuantity" class="fwcontrol fwformfield qtyColor"></div>');
-                accHtml.push('  <div style="text-align:center; float:left; width:12%; padding-left:5px;">' + response.Rows[i][qtyInIndex] + '</div>');
-                accHtml.push('  <div style="text-align:center; float:left; width:12%; padding-left:5px;">' + response.Rows[i][qtyAvailIndex] + '</div>');
-                accHtml.push('  <div style="text-align:center; float:left; width:12%; padding-left:5px;">' + response.Rows[i][conflictIndex] + '</div>');
+                accHtml.push('<div class="accItem" style="width:100%; float:left; padding:2px 0px;">');
+                accHtml.push('  <div data-control="FwFormField" data-type="key" data-datafield="InventoryId" data-caption="InventoryId" class="fwcontrol fwformfield" data-isuniqueid="true" data-enabled="false" style="display:none"><input value="' + response.Rows[i][inventoryIdIndex] + '"></input></div>');
+                //accHtml.push('  <div data-control="FwFormField" style="display:none" data-type="text" data-datafield="InventoryId" class="fwcontrol fwformfield"></div>');
+                accHtml.push('  <div style="float:left; width:40%; position:relative;"><div class="descriptionColor"></div>' + response.Rows[i][descriptionIndex] + '</div>');
+                accHtml.push('  <div data-control="FwFormField" data-type="number" data-datafield="AccQuantity" data-caption="Qty" class="fwcontrol fwformfield" style="text-align:center; float:left; width:7%;"><input style="width:80%; text-align:right; padding:5px;" value="' + response.Rows[i][qtyIndex] + '"></div>');
+                accHtml.push('  <div style="text-align:center; float:left; width:7%;">' + response.Rows[i][qtyAvailIndex] + '</div>');
+                accHtml.push('  <div data-datafield="ConflictDate" style="text-align:center; float:left; width:9%;"></div>');
+                accHtml.push('  <div style="text-align:center; float:left; width:7%; white-space:pre;">&#160;</div>');
+                accHtml.push('  <div style="text-align:center; float:left; width:7%;">' + response.Rows[i][qtyInIndex] + '</div>');
+                accHtml.push('  <div style="text-align:center; float:left; width:7%; white-space:pre;">&#160;</div>');
+                accHtml.push('  <div style="text-align:center; float:left; width:7%; white-space:pre;">&#160;</div>');
+                accHtml.push('  <div style="text-align:center; float:left; width:7%; white-space:pre;">&#160;</div>');
                 accHtml.push('</div>');
 
                 let item = accHtml.join('');
                 accessoryContainer.append(item);
                 let $acc = accessoryContainer.find('.accItem:last');
-                FwConfirmation.addControls($acc, item);
+                //FwConfirmation.addControls($acc, item);
                 $popup.find('.accItem .fwformfield-caption').hide();
-                FwFormField.setValueByDataField($acc, 'AccQuantity', response.Rows[i][qtyIndex]);
-                FwFormField.setValueByDataField($acc, 'InventoryId', response.Rows[i][inventoryIdIndex]);
+                //FwFormField.setValueByDataField($acc, 'AccQuantity', response.Rows[i][qtyIndex]);
+                //FwFormField.setValueByDataField($acc, 'InventoryId', response.Rows[i][inventoryIdIndex]);
+
+                if (response.Rows[i][conflictIndex] == "") {
+                    response.Rows[i][conflictIndex] = 'N/A'
+                }
+                $acc.find('[data-datafield="ConflictDate"]').append(response.Rows[i][conflictIndex]);
 
                 let $descriptionColor = $acc.find('.descriptionColor');
 
-                var desccolor;
+                let desccolor;
                 if (response.Rows[i][descriptionColorIndex] == "") {
                     desccolor = 'transparent';
                 } else {
