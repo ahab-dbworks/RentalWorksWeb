@@ -1,8 +1,8 @@
-﻿class SettingsPage {
+﻿class Settings {
     Module: string;
 
     constructor() {
-        this.Module = 'SettingsPage';
+        this.Module = 'Settings';
     }
 
     getModuleScreen() {
@@ -12,7 +12,7 @@
         var self = this;
 
         combinedViewModel = {
-            captionPageTitle: "SettingsPage"
+            captionPageTitle: "Settings"
         };
         //combinedViewModel.htmlPageBody = Mustache.render(jQuery('#tmpl-modules-' + this.Module).html(), combinedViewModel);
 
@@ -131,4 +131,4 @@
     }
 }
 
-var SettingsPageController = new SettingsPage();
+var SettingsController = new Settings();

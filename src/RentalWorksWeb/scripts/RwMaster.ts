@@ -4,6 +4,7 @@
         var $usercontrol = FwFileMenu.UserControl_render($context);
 
         this.buildDashboard($context);
+        this.buildSettings($context);
         this.buildOfficeLocation($context);
 
         // Add SystemBarControl: User Name
@@ -233,6 +234,18 @@
         });
 
         FwFileMenu.UserControl_addSystemBarControl('dashboard', $dashboard, $usercontrol)
+    }
+    //----------------------------------------------------------------------------------------------
+    buildSettings($usercontrol: JQuery<HTMLElement>) {
+        var $settings, $userControl;
+
+        $settings = jQuery('<i class="material-icons dashboard">settings</i>');
+
+        $settings.on('click', function () {
+            try { program.navigate('module/settings'); } catch (ex) { FwFunc.showError(ex); }
+        });
+
+        FwFileMenu.UserControl_addSystemBarControl('dashboard', $settings, $usercontrol)
     }
     //----------------------------------------------------------------------------------------------
 }

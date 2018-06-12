@@ -182,7 +182,7 @@ routes.push({ pattern: /^module\/integration/, action: function (match) { return
 routes.push({ pattern: /^module\/user/, action: function (match) { return UserController.getModuleScreen(); } });
 routes.push({ pattern: /^module\/customfields/, action: function (match) { return CustomFieldsController.getModuleScreen(); } });
 routes.push({ pattern: /^module\/duplicaterules/, action: function (match) { return DuplicateRulesController.getModuleScreen(); } });
-routes.push({ pattern: /^module\/settingspage$/, action: function (match) { return SettingsPageController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/settings$/, action: function (match) { return SettingsController.getModuleScreen(); } });
 routes.push({ pattern: /^module\/designer$/, action: function (match) { return DesignerController.loadDesigner(); } });
 routes.push({ pattern: /^module\/example/, action: function (match) { return RwExampleController.getModuleScreen(); } });
 routes.push({

@@ -1,14 +1,14 @@
-var SettingsPage = (function () {
-    function SettingsPage() {
-        this.Module = 'SettingsPage';
+var Settings = (function () {
+    function Settings() {
+        this.Module = 'Settings';
     }
-    SettingsPage.prototype.getModuleScreen = function () {
+    Settings.prototype.getModuleScreen = function () {
         var combinedViewModel;
         var screen = {};
         var $settings = {};
         var self = this;
         combinedViewModel = {
-            captionPageTitle: "SettingsPage"
+            captionPageTitle: "Settings"
         };
         screen.$view = FwModule.getModuleControl(this.Module + "Controller");
         screen.properties = {};
@@ -60,13 +60,13 @@ var SettingsPage = (function () {
         };
         return screen;
     };
-    SettingsPage.prototype.openSettings = function () {
+    Settings.prototype.openSettings = function () {
         var $settings = {};
         $settings = jQuery(jQuery('#tmpl-modules-' + this.Module).html());
         FwControl.renderRuntimeControls($settings.find(".fwsettings"));
         return $settings;
     };
-    return SettingsPage;
+    return Settings;
 }());
-var SettingsPageController = new SettingsPage();
-//# sourceMappingURL=SettingsPageController.js.map
+var SettingsController = new Settings();
+//# sourceMappingURL=SettingsController.js.map

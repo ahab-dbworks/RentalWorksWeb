@@ -439,8 +439,8 @@
     <Content Include="Source\Modules\Home\Contract\ContractForm.htm" />
     <Content Include="Source\Modules\Home\Vendor\VendorBrowse.htm" />
     <Content Include="Source\Modules\Home\Vendor\VendorForm.htm" />
-    <Content Include="Source\Modules\Administrator\SettingsPage\SettingsPage.css" />
-    <Content Include="Source\Modules\Administrator\SettingsPage\SettingsPage.htm" />
+    <Content Include="Source\Modules\Administrator\Settings\SettingsPage.css" />
+    <Content Include="Source\Modules\Administrator\Settings\Settings.htm" />
     <Content Include="Source\Modules\Settings\Attribute\AttributeBrowse.htm" />
     <Content Include="Source\Modules\Settings\Attribute\AttributeForm.htm" />
     <Content Include="Source\Modules\Settings\Crew\CrewBrowse.htm" />
@@ -1268,7 +1268,7 @@
     <TypeScriptCompile Include="Source\Modules\Settings\DiscountReason\DiscountReason.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\InventoryStatus\InventoryStatus.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\InventoryAdjustmentReason\InventoryAdjustmentReason.ts" />
-    <TypeScriptCompile Include="Source\Modules\Administrator\SettingsPage\SettingsPageController.ts" />
+    <TypeScriptCompile Include="Source\Modules\Administrator\Settings\SettingsController.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\Region\Region.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\ContactEvent\ContactEvent.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\ContactTitle\ContactTitle.ts" />

@@ -195,7 +195,7 @@ routes.push({ pattern: /^module\/integration/, action: function (match: RegExpEx
 routes.push({ pattern: /^module\/user/, action: function (match: RegExpExecArray) { return UserController.getModuleScreen(); } });
 routes.push({ pattern: /^module\/customfields/, action: function (match: RegExpExecArray) { return CustomFieldsController.getModuleScreen(); } });
 routes.push({ pattern: /^module\/duplicaterules/, action: function (match: RegExpExecArray) { return DuplicateRulesController.getModuleScreen(); } });
-routes.push({ pattern: /^module\/settingspage$/, action: function (match: RegExpExecArray) { return SettingsPageController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/settings$/, action: function (match: RegExpExecArray) { return SettingsController.getModuleScreen(); } });
 routes.push({ pattern: /^module\/designer$/, action: function (match: RegExpExecArray) { return DesignerController.loadDesigner(); } });
 //Exports                                             
 routes.push({ pattern: /^module\/example/, action: function (match: RegExpExecArray) { return RwExampleController.getModuleScreen(); } });
