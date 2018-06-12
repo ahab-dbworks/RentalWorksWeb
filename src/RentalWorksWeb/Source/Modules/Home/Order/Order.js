@@ -894,34 +894,34 @@ var Order = (function () {
         this.disableWithTaxCheckbox($form);
         $form.find('[data-datafield="Rental"] input').on('change', function (e) {
             if (jQuery(e.currentTarget).prop('checked')) {
-                $form.find('[data-type="tab"][data-caption="Rental"]').show();
+                rentalTab.show();
             }
             else {
-                $form.find('[data-type="tab"][data-caption="Rental"]').hide();
+                rentalTab.hide();
             }
         });
         $form.find('[data-datafield="Sales"] input').on('change', function (e) {
             if (jQuery(e.currentTarget).prop('checked')) {
-                $form.find('[data-type="tab"][data-caption="Sales"]').show();
+                salesTab.show();
             }
             else {
-                $form.find('[data-type="tab"][data-caption="Sales"]').hide();
+                salesTab.hide();
             }
         });
         $form.find('[data-datafield="Miscellaneous"] input').on('change', function (e) {
             if (jQuery(e.currentTarget).prop('checked')) {
-                $form.find('[data-type="tab"][data-caption="Misc"]').show();
+                miscTab.show();
             }
             else {
-                $form.find('[data-type="tab"][data-caption="Misc"]').hide();
+                miscTab.hide();
             }
         });
         $form.find('[data-datafield="Labor"] input').on('change', function (e) {
             if (jQuery(e.currentTarget).prop('checked')) {
-                $form.find('[data-type="tab"][data-caption="Labor"]').show();
+                laborTab.show();
             }
             else {
-                $form.find('[data-type="tab"][data-caption="Labor"]').hide();
+                laborTab.hide();
             }
         });
         var rentalTab = $form.find('[data-type="tab"][data-caption="Rental"]'), salesTab = $form.find('[data-type="tab"][data-caption="Sales"]'), miscTab = $form.find('[data-type="tab"][data-caption="Misc"]'), laborTab = $form.find('[data-type="tab"][data-caption="Labor"]');
@@ -1434,12 +1434,13 @@ FwApplicationTree.clickEvents['{B2D127C6-A1C2-4697-8F3B-9A678F3EAEEE}'] = functi
     }
 };
 FwApplicationTree.clickEvents['{F2FD2F4C-1AB7-4627-9DD5-1C8DB96C5509}'] = function (e) {
-    var $form, $report, orderNumber, orderId;
+    var $form, $report, orderNumber, orderId, recordTitle;
     try {
         $form = jQuery(this).closest('.fwform');
         orderNumber = $form.find('div.fwformfield[data-datafield="OrderNumber"] input').val();
         orderId = $form.find('div.fwformfield[data-datafield="OrderId"] input').val();
-        $report = RwPrintOrderController.openForm();
+        recordTitle = jQuery('.tabs .active[data-tabtype="FORM"] .caption').text();
+        $report = RwPrintOrderController.openForm('Order', recordTitle);
         FwModule.openSubModuleTab($form, $report);
         $report.find('.fwform-section[data-caption="Quote"]').css('display', 'none');
         $report.find('div.fwformfield[data-datafield="OrderId"] input').val(orderId);

@@ -248,6 +248,40 @@ class Quote {
             self.CombineActivity = $tr.find('.field[data-browsedatafield="CombineActivityTabs"]').attr('data-originalvalue');
         });
 
+        let rentalTab = $form.find('[data-type="tab"][data-caption="Rental"]')
+            , salesTab = $form.find('[data-type="tab"][data-caption="Sales"]')
+            , miscTab = $form.find('[data-type="tab"][data-caption="Misc"]')
+            , laborTab = $form.find('[data-type="tab"][data-caption="Labor"]');
+
+        $form.find('[data-datafield="Rental"] input').on('change', e => {
+                if (jQuery(e.currentTarget).prop('checked')) {
+                    rentalTab.show();
+                } else {
+                    rentalTab.hide();
+                }
+        });
+        $form.find('[data-datafield="Sales"] input').on('change', e => {
+                if (jQuery(e.currentTarget).prop('checked')) {
+                    salesTab.show();
+                } else {
+                    salesTab.hide();
+                }
+        });
+        $form.find('[data-datafield="Miscellaneous"] input').on('change', e => {
+                if (jQuery(e.currentTarget).prop('checked')) {
+                    miscTab.show();
+                } else {
+                    miscTab.hide();
+                }
+        });
+        $form.find('[data-datafield="Labor"] input').on('change', e => {
+                if (jQuery(e.currentTarget).prop('checked')) {
+                    laborTab.show();
+                } else {
+                    laborTab.hide();
+                }
+        });
+
         FwFormField.disable($form.find('[data-datafield="RentalTaxRate1"]'));
         FwFormField.disable($form.find('[data-datafield="SalesTaxRate1"]'));
         FwFormField.disable($form.find('[data-datafield="LaborTaxRate1"]'));
@@ -769,37 +803,7 @@ class Quote {
         $form.find('[data-datafield="Sales"] input').prop('checked') ? salesTab.show() : salesTab.hide();
         $form.find('[data-datafield="Miscellaneous"] input').prop('checked') ? miscTab.show() : miscTab.hide();
         $form.find('[data-datafield="Labor"] input').prop('checked') ? laborTab.show() : laborTab.hide();
-
-        if (this.CombineActivity == 'false') {
-            $form.find('[data-datafield="Rental"] input').on('change', e => {
-                if (jQuery(e.currentTarget).prop('checked')) {
-                    rentalTab.show();
-                } else {
-                    rentalTab.hide();
-                }
-            });
-            $form.find('[data-datafield="Sales"] input').on('change', e => {
-                if (jQuery(e.currentTarget).prop('checked')) {
-                    salesTab.show();
-                } else {
-                    salesTab.hide();
-                }
-            });
-            $form.find('[data-datafield="Miscellaneous"] input').on('change', e => {
-                if (jQuery(e.currentTarget).prop('checked')) {
-                    miscTab.show();
-                } else {
-                    miscTab.hide();
-                }
-            });
-            $form.find('[data-datafield="Labor"] input').on('change', e => {
-                if (jQuery(e.currentTarget).prop('checked')) {
-                    laborTab.show();
-                } else {
-                    laborTab.hide();
-                }
-            });
-        };
+  
     };
 
     //----------------------------------------------------------------------------------------------
@@ -1409,7 +1413,8 @@ class Quote {
             $laborGrid = $form.find('.laborgrid [data-name="OrderItemGrid"]'),
             $miscGrid = $form.find('.miscgrid [data-name="OrderItemGrid"]'),
             fields = jQuery($rentalGrid).find('thead tr.fieldnames > td.column > div.field'),
-            fieldNames = [];
+            fieldNames = [],
+            self = this;
 
         for (var i = 3; i < fields.length; i++) {
             var name = jQuery(fields[i]).attr('data-mappedfield');
@@ -1510,12 +1515,13 @@ FwApplicationTree.clickEvents['{BC3B1A5E-7270-4547-8FD1-4D14F505D452}'] = functi
 //-----------------------------------------------------------------------------------------------------
 //Print Quote 
 FwApplicationTree.clickEvents['{B20DDE47-A5D7-49A9-B980-8860CADBF7F6}'] = function (e) {
-    var $form, $report, quoteNumber, quoteId;
+    var $form, $report, quoteNumber, quoteId, recordTitle;
     try {
         $form = jQuery(this).closest('.fwform');
         quoteNumber = $form.find('div.fwformfield[data-datafield="QuoteNumber"] input').val();
         quoteId = $form.find('div.fwformfield[data-datafield="QuoteId"] input').val();
-        $report = RwPrintOrderController.openForm('Quote');
+        recordTitle = jQuery('.tabs .active[data-tabtype="FORM"] .caption').text();
+        $report = RwPrintOrderController.openForm('Quote', recordTitle);
         FwModule.openSubModuleTab($form, $report);
         $report.find('.fwform-section[data-caption="Order"]').css('display', 'none');
         $report.find('div.fwformfield[data-datafield="QuoteId"] input').val(quoteId);
