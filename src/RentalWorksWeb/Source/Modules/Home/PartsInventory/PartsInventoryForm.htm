@@ -15,44 +15,52 @@
       <div data-type="tab" id="profitlosstab" class="tab" data-tabpageid="profitlosstabpage" data-caption="Profit / Loss"></div>
     </div>
     <div class="tabpages">
-      <!-- Parts Item tab -->
+      <!-- PARTS ITEM TAB -->
       <div data-type="tabpage" id="partsitemtabpage" class="tabpage" data-tabid="partsitemtab">
-        <div class="formpage">
-          <div class="formrow">
-            <div class="formcolumn" style="width:1030px;">
+        <div class="flexpage">
+          <div class="flexrow">
+            <div class="flexcolumn" style="flex:1 1 750px;">
               <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Parts Inventory">
-                <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                  <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="I-Code" data-datafield="ICode" data-required="true" style="float:left;width:125px;"></div>
-                  <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Description" data-datafield="Description" data-required="true" style="float:left;width:500px;"></div>
+                <div class="flexrow">
+                  <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="I-Code" data-datafield="ICode" data-required="true" style="flex:1 1 125px;"></div>
+                  <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Description" data-datafield="Description" data-required="true" style="flex:1 1 500px;"></div>
+                </div>
+                <div class="flexrow">
+                  <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Inventory Type" data-formbeforevalidate="beforeValidate" data-datafield="InventoryTypeId" data-displayfield="InventoryType" data-validationname="InventoryTypeValidation" data-required="true" style="flex:1 1 200px;"></div>
+                  <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Category" data-formbeforevalidate="beforeValidate" data-datafield="CategoryId" data-displayfield="Category" data-validationname="PartsCategoryValidation" data-required="true" style="flex:1 1 200px;"></div>
+                  <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield subcategory" data-caption="Sub-Category" data-formbeforevalidate="beforeValidate" data-datafield="SubCategoryId" data-displayfield="SubCategory" data-validationname="SubCategoryValidation" style="flex:1 1 200px;"></div>
+                </div>
+                <div class="flexrow">
+                  <!--
+                  <div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield" data-caption="Classification" data-datafield="Classification" style="flex:1 1 150px;"></div>
+                  <div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield" data-caption="Tracked By" data-datafield="TrackedBy" style="flex:1 1 150px;"></div>
+                  -->
+                  <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Unit" data-datafield="UnitId" data-displayfield="Unit" data-validationname="UnitValidation" data-required="true" style="flex:1 1 75px;"></div>
+                  <div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield rank" data-caption="Rank" data-datafield="Rank" style="flex:1 1 75px;"></div>
+                  <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Inactive" data-datafield="Inactive" style="flex:1 1 75px;margin-top:10px;margin-left:15px;"></div>
                 </div>
               </div>
             </div>
-            <div class="formcolumn" style="width:175px;padding-left:1px;">
-              <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Status">
-                <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                  <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Inactive" data-datafield="Inactive" style="width:125px;"></div>
+            <div class="flexcolumn" style="flex:1 1 300px;">
+              <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Image">
+                <div class="flexrow">
+                  <div data-control="FwAppImage" data-type="" class="fwcontrol fwappimage contactphoto" data-caption="Image" data-uniqueid1field="InventoryId" data-description="" data-rectype="F" style="max-height:160px;overflow:hidden;"></div>
                 </div>
               </div>
             </div>
           </div>
-          <div class="formrow">
-            <div class="formcolumn" style="width:1300px;">
-              <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Type / Category">
-                <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                  <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Inventory Type" data-formbeforevalidate="beforeValidate" data-datafield="InventoryTypeId" data-displayfield="InventoryType" data-validationname="InventoryTypeValidation" data-required="true" style="float:left;width:320px;"></div>
-                  <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Category"  data-formbeforevalidate="beforeValidate" data-datafield="CategoryId" data-displayfield="Category" data-validationname="PartsCategoryValidation" data-required="true" style="float:left;width:320px;"></div>
-                  <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield subcategory" data-caption="Sub-Category"  data-formbeforevalidate="beforeValidate" data-datafield="SubCategoryId" data-displayfield="SubCategory" data-validationname="SubCategoryValidation" style="float:left;width:320px;"></div>
-                  <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Unit" data-datafield="UnitId" data-displayfield="Unit" data-validationname="UnitValidation" data-required="true" style="float:left;width:100px;"></div>
-                  <div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield rank" data-caption="Rank" data-datafield="Rank" style="float:left;width:75px;"></div>
-                </div>
+          <div class="flexrow">
+            <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Warehouse">
+              <div class="wideflexrow">
+                <div data-control="FwGrid" data-grid="SalesInventoryWarehouseGrid" data-securitycaption="Parts Inventory Warehouse"></div>
               </div>
             </div>
           </div>
-          <div class="formrow">
-            <div class="formcolumn" style="max-width:250px;padding-left:1px;">
+          <div class="flexrow">
+            <div class="flexcolumn" style="flex:1 1 250px;">
               <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Classification">
-                <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                  <div data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield" data-caption="Class" data-datafield="Classification" data-enabled="false" style="width:280px;">
+                <div class="flexrow">
+                  <div data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield" data-caption="Class" data-datafield="Classification" data-enabled="false" style="flex:1 1 280px;">
                     <div data-value="I" class="itemradio" data-caption="Item"></div>
                     <div data-value="A" class="accessoryradio" data-caption="Accessory"></div>
                     <div data-value="C" class="completeradio" data-caption="Complete"></div>
@@ -63,70 +71,63 @@
                 </div>
               </div>
             </div>
-            <div class="formcolumn" style="width:350px;padding-left:1px;">
+            <div class="flexcolumn" style="flex:1 1 350px;">
               <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Tracked By">
-                <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                  <div data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield" data-caption="Tracked By" data-datafield="TrackedBy" style="width:280px;">
+                <div class="flexrow">
+                  <div data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield" data-caption="Tracked By" data-datafield="TrackedBy" style="flex:1 1 280px;">
                     <div data-value="QUANTITY" data-caption="Quantity"></div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-          <div class="formrow">
-            <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Warehouse">
-              <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                <div data-control="FwGrid" data-grid="SalesInventoryWarehouseGrid" data-securitycaption="Parts Inventory Warehouse"></div>
-              </div>
-            </div>
-          </div>
         </div>
       </div>
-      <!-- Completes / Kits tab -->
+      <!-- COMPLETES / KITS TAB -->
       <div data-type="tabpage" id="completeskitstabpage" class="tabpage" data-tabid="completeskitstab">
-        <div class="formpage">
-          <div class="formrow">
+        <div class="flexpage">
+          <div class="flexrow">
             <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Completes / Kits">
-              <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+              <div class="flexrow">
                 <div data-control="FwGrid" data-grid="InventoryCompleteKitGrid" data-securitycaption="Inventory Complete Kit"></div>
               </div>
             </div>
           </div>
-          <div class="formrow">
-            <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Options" style="width:375px;">
-              <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Print and Display in Summary mode when Rate is $0.00" data-datafield="DisplayInSummaryModeWhenRateIsZero" style="width:350px;"></div>
+          <div class="flexrow">
+            <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Options" style="flex:0 1 450px;">
+              <div class="flexrow">
+                <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Print and Display in Summary mode when Rate is $0.00" data-datafield="DisplayInSummaryModeWhenRateIsZero"></div>
               </div>
             </div>
           </div>
         </div>
       </div>
-      <!-- Substitutes tab -->
+      <!-- SUBSTITUTES TAB -->
       <div data-type="tabpage" id="substitutestabpage" class="tabpage" data-tabid="substitutestab">
-        <div class="formpage">
-          <div class="formrow">
-            <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Substitute Items" style="width:750px">
-              <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+        <div class="flexpage">
+          <div class="flexrow">
+            <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Substitute Items">
+              <div class="flexrow">
                 <div data-control="FwGrid" data-grid="PartsInventorySubstituteGrid" data-securitycaption="Inventory Substitute"></div>
               </div>
             </div>
           </div>
         </div>
       </div>
-      <!-- Compatability tab -->
+      <!-- COMPATABILITY TAB -->
       <div data-type="tabpage" id="compatabilitytabpage" class="tabpage" data-tabid="compatabilitytab">
-        <div class="formpage">
-          <div class="formrow">
-            <div class="formcolumn" style="width:450px;">
+        <div class="flexpage">
+          <div class="flexrow">
+            <div class="flexcolumn" style="flex:1 1 525px;">
               <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Compatibility">
-                <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                <div class="flexrow">
                   <div data-control="FwGrid" data-grid="PartsInventoryCompatibilityGrid" data-securitycaption="Inventory Compatibility"></div>
                 </div>
               </div>
             </div>
-            <div class="formcolumn" style="width:855px;padding-left:1px;">
+            <div class="flexcolumn" style="flex:1 1 525px;">
               <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Image">
-                <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                <div class="flexrow">
                   <div class="fwcontrol fwappimage" data-control="FwAppImage" data-type="" data-uniqueid1field="InventoryId" data-description="" data-rectype="F" style="min-height:425px;"></div>
                 </div>
               </div>
@@ -279,90 +280,96 @@
           </div>
         </div>
       </div>
-      <!-- Prep tab -->
+      <!-- PREP TAB -->
       <div data-type="tabpage" id="preptabpage" class="tabpage" data-tabid="preptab">
-        <div class="formpage">
-          <div class="formrow">
-            <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Prep Charges" style="width:1000px;">
-              <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+        <div class="flexpage">
+          <div class="flexrow">
+            <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Prep Charges">
+              <div class="flexrow">
                 <div data-control="FwGrid" data-grid="InventoryPrepGrid" data-securitycaption="Inventory Prep"></div>
               </div>
             </div>
           </div>
         </div>
       </div>
-      <!-- Attributes tab -->
+      <!-- ATTRIBUTES TAB -->
       <div data-type="tabpage" id="attributestabpage" class="tabpage" data-tabid="attributestab">
-        <div class="formpage">
-          <div class="formrow">
-            <div class="formcolumn" style="width:450px;">
-              <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Attributes">
-                <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                  <div data-control="FwGrid" data-grid="InventoryAttributeValueGrid" data-securitycaption="Inventory Attribute Value"></div>
-                  <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Copy Attributes to Quote/Order as a Note" data-datafield="CopyAttributesAsNote" style="width:275px;margin-top:5px;"></div>
+        <div class="flexpage">
+          <div class="flexrow">
+            <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Attributes">
+              <div class="flexrow">
+                <div data-control="FwGrid" data-grid="InventoryAttributeValueGrid" data-securitycaption="Inventory Attribute Value" style="flex:0 1 650px;"></div>
+              </div>
+              <div class="flexrow">
+                <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Options" style="flex:0 1 450px;">
+                  <div class="flexrow">
+                    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Copy Attributes to Quote/Order as a Note" data-datafield="CopyAttributesAsNote" style="flex:1 1 275px;"></div>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-      <!-- Tax tab -->
+      <!-- TAX TAB -->
       <div data-type="tabpage" id="taxtabpage" class="tabpage" data-tabid="taxtab">
-        <div class="formpage">
-          <div class="formrow">
-            <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Tax" style="width:450px;">
-              <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+        <div class="flexpage">
+          <div class="flexrow">
+            <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Tax" style="flex:0 1 650px;">
+              <div class="flexrow">
                 <div data-control="FwGrid" data-grid="ItemLocationTaxGrid" data-securitycaption="Item Location Tax"></div>
               </div>
             </div>
           </div>
         </div>
       </div>
-      <!-- Notes tab -->
+      <!-- NOTES TAB -->
       <div data-type="tabpage" id="notestabpage" class="tabpage" data-tabid="notestab">
-        <div class="formpage">
-          <div class="formrow">
-            <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Extended Note" style="width:925px;">
-              <div data-control="FwFormField" data-type="textarea" class="fwcontrol fwformfield" data-caption="Notes" data-datafield="Note" style="width:900px;"></div>
+        <div class="flexpage">
+          <div class="flexrow">
+            <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Extended Note" style="flex:1 1 925px;">
+              <div data-control="FwFormField" data-type="textarea" class="fwcontrol fwformfield" data-caption="Notes" data-datafield="Note"></div>
             </div>
           </div>
-          <div class="formrow">
-            <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Print On" style="width:925px;">
-              <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Quote" data-datafield="PrintNoteOnQuote" style="float:left;width:100px;"></div>
-                <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Order" data-datafield="PrintNoteOnOrder" style="float:left;width:125px;"></div>
-                <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Pick List" data-datafield="PrintNoteOnPickList" style="float:left;width:150px;"></div>
-                <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Out Contract" data-datafield="PrintNoteOnOutContract" style="float:left;width:150px;"></div>
-                <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Return List" data-datafield="PrintNoteOnReturnList" style="float:left;width:125px;"></div>
-                <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="In Contract" data-datafield="PrintNoteOnInContract" style="float:left;width:125px;"></div>
-                <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Invoice" data-datafield="PrintNoteOnInvoice" style="float:left;width:125px;"></div>
+          <div class="flexrow">
+            <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Print On" style="flex:1 1 925px;">
+              <div class="flexrow">
+                <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Quote" data-datafield="PrintNoteOnQuote" style="flex:0 1 14%;"></div>
+                <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Order" data-datafield="PrintNoteOnOrder" style="flex:0 1 14%;"></div>
+                <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Pick List" data-datafield="PrintNoteOnPickList" style="flex:0 1 14%;"></div>
+                <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Out Contract" data-datafield="PrintNoteOnOutContract" style="flex:0 1 14%;"></div>
+                <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Return List" data-datafield="PrintNoteOnReturnList" style="flex:0 1 14%;"></div>
+                <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="In Contract" data-datafield="PrintNoteOnInContract" style="flex:0 1 14%;"></div>
+                <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Invoice" data-datafield="PrintNoteOnInvoice" style="flex:0 1 14%;"></div>
               </div>
-              <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="PO" data-datafield="PrintNoteOnPO" style="float:left;width:100px;"></div>
-                <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Receive List" data-datafield="PrintNoteOnPoReceiveList" style="float:left;width:125px;"></div>
-                <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Receive Contract" data-datafield="PrintNoteOnReceiveContract" style="float:left;width:150px;"></div>
-                <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Return List" data-datafield="PrintNoteOnPoReturnList" style="float:left;width:150px;"></div>
-                <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Return Contract" data-datafield="PrintNoteOnReturnContract" style="float:left;width:125px;"></div>
+              <div class="flexrow">
+                <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="PO" data-datafield="PrintNoteOnPO" style="flex:0 1 14%;"></div>
+                <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Receive List" data-datafield="PrintNoteOnPoReceiveList" style="flex:0 1 14%;"></div>
+                <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Receive Contract" data-datafield="PrintNoteOnReceiveContract" style="flex:0 1 14%;"></div>
+                <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Return List" data-datafield="PrintNoteOnPoReturnList" style="flex:0 1 14%;"></div>
+                <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Return Contract" data-datafield="PrintNoteOnReturnContract" style="flex:0 1 14%;"></div>
               </div>
             </div>
           </div>
-          <div class="formrow">
-            <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Copy Notes" style="width:375px;">
-              <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Automatically Copy Inventory Notes to Quote/Order" data-datafield="AutoCopyNotesToQuoteOrder" style="width:350px;margin-top:0px;"></div>
+          <div class="flexrow">
+            <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Copy Notes" style="flex:0 1 425px;">
+              <div class="flexrow">
+                <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Automatically Copy Inventory Notes to Quote/Order" data-datafield="AutoCopyNotesToQuoteOrder" style="flex:1 1 350px;margin-top:0px;"></div>
               </div>
             </div>
           </div>
         </div>
       </div>
-      <!-- Profit & Loss tab -->
+      <!-- PROFIT & LOSS TAB -->
       <div data-type="tabpage" id="profitlosstabpage" class="tabpage" data-tabid="profitlosstab">
-        <div class="formpage">
-          <div class="formrow">
-            <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Profit &amp; Loss Report" style="width:500px;">
-              <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Override Category for Profit &amp; Loss Report" data-datafield="OverrideProfitAndLossCategory" style="width:350px;margin-top:0px;"></div>
-                <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield category" data-caption="Category" data-datafield="ProfitAndLossCategoryId" data-displayfield="ProfitAndLossCategory" data-validationname="PartsCategoryValidation" data-enabled="false" style="width:350px;"></div>
+        <div class="flexpage">
+          <div class="flexrow">
+            <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Profit &amp; Loss Report" style="flex:0 1 500px;">
+              <div class="flexrow">
+                <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Override Category for Profit &amp; Loss Report" data-datafield="OverrideProfitAndLossCategory" style="flex:0 1 350px;margin-top:0px;"></div>
+              </div>
+              <div class="flexrow">
+                <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield category" data-caption="Category" data-datafield="ProfitAndLossCategoryId" data-displayfield="ProfitAndLossCategory" data-validationname="PartsCategoryValidation" data-enabled="false" style="flex:0 1 350px;"></div>
               </div>
             </div>
           </div>
