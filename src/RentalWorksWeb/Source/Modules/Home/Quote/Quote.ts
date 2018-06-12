@@ -523,6 +523,9 @@ class Quote {
         FwBrowse.addEventHandler($orderItemGridRentalControl, 'afterdatabindcallback', () => {
             this.calculateOrderItemGridTotals($form, 'rental');
 
+            let rentalItems = $form.find('.rentalgrid tbody').children();
+            rentalItems.length > 0 ? FwFormField.disable($form.find('[data-datafield="Rental"]')) : FwFormField.enable($form.find('[data-datafield="Rental"]'));
+
         });
         FwBrowse.init($orderItemGridRentalControl);
         FwBrowse.renderRuntimeHtml($orderItemGridRentalControl);
@@ -551,6 +554,8 @@ class Quote {
         });
         FwBrowse.addEventHandler($orderItemGridSalesControl, 'afterdatabindcallback', () => {
             this.calculateOrderItemGridTotals($form, 'sales');
+            let salesItems = $form.find('.salesgrid tbody').children();
+            salesItems.length > 0 ? FwFormField.disable($form.find('[data-datafield="Sales"]')) : FwFormField.enable($form.find('[data-datafield="Sales"]'));
         });
         FwBrowse.init($orderItemGridSalesControl);
         FwBrowse.renderRuntimeHtml($orderItemGridSalesControl);
@@ -577,6 +582,8 @@ class Quote {
         });
         FwBrowse.addEventHandler($orderItemGridLaborControl, 'afterdatabindcallback', () => {
             this.calculateOrderItemGridTotals($form, 'labor');
+            let laborItems = $form.find('.laborgrid tbody').children();
+            laborItems.length > 0 ? FwFormField.disable($form.find('[data-datafield="Labor"]')) : FwFormField.enable($form.find('[data-datafield="Labor"]'));
         });
         FwBrowse.init($orderItemGridLaborControl);
         FwBrowse.renderRuntimeHtml($orderItemGridLaborControl);
@@ -602,6 +609,9 @@ class Quote {
         });
         FwBrowse.addEventHandler($orderItemGridMiscControl, 'afterdatabindcallback', () => {
             this.calculateOrderItemGridTotals($form, 'misc');
+
+            let miscItems = $form.find('.miscgrid tbody').children();
+            miscItems.length > 0 ? FwFormField.disable($form.find('[data-datafield="Miscellaneous"]')) : FwFormField.enable($form.find('[data-datafield="Miscellaneous"]'));
         });
         FwBrowse.init($orderItemGridMiscControl);
         FwBrowse.renderRuntimeHtml($orderItemGridMiscControl);
@@ -760,7 +770,7 @@ class Quote {
         $form.find('[data-datafield="Miscellaneous"] input').prop('checked') ? miscTab.show() : miscTab.hide();
         $form.find('[data-datafield="Labor"] input').prop('checked') ? laborTab.show() : laborTab.hide();
 
-        if (!(this.CombineActivity)) {
+        if (this.CombineActivity == 'false') {
             $form.find('[data-datafield="Rental"] input').on('change', e => {
                 if (jQuery(e.currentTarget).prop('checked')) {
                     rentalTab.show();

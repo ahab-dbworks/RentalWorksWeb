@@ -380,6 +380,8 @@ var Order = (function () {
         });
         FwBrowse.addEventHandler($orderItemGridRentalControl, 'afterdatabindcallback', function () {
             _this.calculateOrderItemGridTotals($form, 'rental');
+            var rentalItems = $form.find('.rentalgrid tbody').children();
+            rentalItems.length > 0 ? FwFormField.disable($form.find('[data-datafield="Rental"]')) : FwFormField.enable($form.find('[data-datafield="Rental"]'));
         });
         FwBrowse.init($orderItemGridRentalControl);
         FwBrowse.renderRuntimeHtml($orderItemGridRentalControl);
@@ -406,6 +408,8 @@ var Order = (function () {
         });
         FwBrowse.addEventHandler($orderItemGridSalesControl, 'afterdatabindcallback', function () {
             _this.calculateOrderItemGridTotals($form, 'sales');
+            var salesItems = $form.find('.salesgrid tbody').children();
+            salesItems.length > 0 ? FwFormField.disable($form.find('[data-datafield="Sales"]')) : FwFormField.enable($form.find('[data-datafield="Sales"]'));
         });
         FwBrowse.init($orderItemGridSalesControl);
         FwBrowse.renderRuntimeHtml($orderItemGridSalesControl);
@@ -429,6 +433,8 @@ var Order = (function () {
         });
         FwBrowse.addEventHandler($orderItemGridLaborControl, 'afterdatabindcallback', function () {
             _this.calculateOrderItemGridTotals($form, 'labor');
+            var laborItems = $form.find('.laborgrid tbody').children();
+            laborItems.length > 0 ? FwFormField.disable($form.find('[data-datafield="Labor"]')) : FwFormField.enable($form.find('[data-datafield="Labor"]'));
         });
         FwBrowse.init($orderItemGridLaborControl);
         FwBrowse.renderRuntimeHtml($orderItemGridLaborControl);
@@ -452,6 +458,8 @@ var Order = (function () {
         });
         FwBrowse.addEventHandler($orderItemGridMiscControl, 'afterdatabindcallback', function () {
             _this.calculateOrderItemGridTotals($form, 'misc');
+            var miscItems = $form.find('.miscgrid tbody').children();
+            miscItems.length > 0 ? FwFormField.disable($form.find('[data-datafield="Miscellaneous"]')) : FwFormField.enable($form.find('[data-datafield="Miscellaneous"]'));
         });
         FwBrowse.init($orderItemGridMiscControl);
         FwBrowse.renderRuntimeHtml($orderItemGridMiscControl);
@@ -884,46 +892,43 @@ var Order = (function () {
             $form.find(".RentalDaysPerWeek").hide();
         }
         this.disableWithTaxCheckbox($form);
+        $form.find('[data-datafield="Rental"] input').on('change', function (e) {
+            if (jQuery(e.currentTarget).prop('checked')) {
+                $form.find('[data-type="tab"][data-caption="Rental"]').show();
+            }
+            else {
+                $form.find('[data-type="tab"][data-caption="Rental"]').hide();
+            }
+        });
+        $form.find('[data-datafield="Sales"] input').on('change', function (e) {
+            if (jQuery(e.currentTarget).prop('checked')) {
+                $form.find('[data-type="tab"][data-caption="Sales"]').show();
+            }
+            else {
+                $form.find('[data-type="tab"][data-caption="Sales"]').hide();
+            }
+        });
+        $form.find('[data-datafield="Miscellaneous"] input').on('change', function (e) {
+            if (jQuery(e.currentTarget).prop('checked')) {
+                $form.find('[data-type="tab"][data-caption="Misc"]').show();
+            }
+            else {
+                $form.find('[data-type="tab"][data-caption="Misc"]').hide();
+            }
+        });
+        $form.find('[data-datafield="Labor"] input').on('change', function (e) {
+            if (jQuery(e.currentTarget).prop('checked')) {
+                $form.find('[data-type="tab"][data-caption="Labor"]').show();
+            }
+            else {
+                $form.find('[data-type="tab"][data-caption="Labor"]').hide();
+            }
+        });
         var rentalTab = $form.find('[data-type="tab"][data-caption="Rental"]'), salesTab = $form.find('[data-type="tab"][data-caption="Sales"]'), miscTab = $form.find('[data-type="tab"][data-caption="Misc"]'), laborTab = $form.find('[data-type="tab"][data-caption="Labor"]');
         $form.find('[data-datafield="Rental"] input').prop('checked') ? rentalTab.show() : rentalTab.hide();
         $form.find('[data-datafield="Sales"] input').prop('checked') ? salesTab.show() : salesTab.hide();
         $form.find('[data-datafield="Miscellaneous"] input').prop('checked') ? miscTab.show() : miscTab.hide();
         $form.find('[data-datafield="Labor"] input').prop('checked') ? laborTab.show() : laborTab.hide();
-        if (!(this.CombineActivity)) {
-            $form.find('[data-datafield="Rental"] input').on('change', function (e) {
-                if (jQuery(e.currentTarget).prop('checked')) {
-                    $form.find('[data-type="tab"][data-caption="Rental"]').show();
-                }
-                else {
-                    $form.find('[data-type="tab"][data-caption="Rental"]').hide();
-                }
-            });
-            $form.find('[data-datafield="Sales"] input').on('change', function (e) {
-                if (jQuery(e.currentTarget).prop('checked')) {
-                    $form.find('[data-type="tab"][data-caption="Sales"]').show();
-                }
-                else {
-                    $form.find('[data-type="tab"][data-caption="Sales"]').hide();
-                }
-            });
-            $form.find('[data-datafield="Miscellaneous"] input').on('change', function (e) {
-                if (jQuery(e.currentTarget).prop('checked')) {
-                    $form.find('[data-type="tab"][data-caption="Misc"]').show();
-                }
-                else {
-                    $form.find('[data-type="tab"][data-caption="Misc"]').hide();
-                }
-            });
-            $form.find('[data-datafield="Labor"] input').on('change', function (e) {
-                if (jQuery(e.currentTarget).prop('checked')) {
-                    $form.find('[data-type="tab"][data-caption="Labor"]').show();
-                }
-                else {
-                    $form.find('[data-type="tab"][data-caption="Labor"]').hide();
-                }
-            });
-        }
-        ;
     };
     ;
     Order.prototype.checkDateRangeForPick = function ($form, event) {

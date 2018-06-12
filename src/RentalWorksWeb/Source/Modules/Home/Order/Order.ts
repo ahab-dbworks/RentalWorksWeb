@@ -228,6 +228,37 @@ class Order {
 
         $form.find('div[data-datafield="OrderTypeId"]').data('onchange', function ($tr) {
             self.CombineActivity = $tr.find('.field[data-browsedatafield="CombineActivityTabs"]').attr('data-originalvalue');
+
+            //if (self.CombineActivity == 'false') {
+            //    $form.find('[data-datafield="Rental"] input').on('change', e => {
+            //        if (jQuery(e.currentTarget).prop('checked')) {
+            //            $form.find('[data-type="tab"][data-caption="Rental"]').show();
+            //        } else {
+            //            $form.find('[data-type="tab"][data-caption="Rental"]').hide();
+            //        }
+            //    });
+            //    $form.find('[data-datafield="Sales"] input').on('change', e => {
+            //        if (jQuery(e.currentTarget).prop('checked')) {
+            //            $form.find('[data-type="tab"][data-caption="Sales"]').show();
+            //        } else {
+            //            $form.find('[data-type="tab"][data-caption="Sales"]').hide();
+            //        }
+            //    });
+            //    $form.find('[data-datafield="Miscellaneous"] input').on('change', e => {
+            //        if (jQuery(e.currentTarget).prop('checked')) {
+            //            $form.find('[data-type="tab"][data-caption="Misc"]').show();
+            //        } else {
+            //            $form.find('[data-type="tab"][data-caption="Misc"]').hide();
+            //        }
+            //    });
+            //    $form.find('[data-datafield="Labor"] input').on('change', e => {
+            //        if (jQuery(e.currentTarget).prop('checked')) {
+            //            $form.find('[data-type="tab"][data-caption="Labor"]').show();
+            //        } else {
+            //            $form.find('[data-type="tab"][data-caption="Labor"]').hide();
+            //        }
+            //    });
+            //};
         });
 
         $form.find('[data-datafield="NoCharge"] .fwformfield-value').on('change', function () {
@@ -439,6 +470,9 @@ class Order {
         );
         FwBrowse.addEventHandler($orderItemGridRentalControl, 'afterdatabindcallback', () => {
             this.calculateOrderItemGridTotals($form, 'rental');
+
+            let rentalItems = $form.find('.rentalgrid tbody').children();
+            rentalItems.length > 0 ? FwFormField.disable($form.find('[data-datafield="Rental"]')) : FwFormField.enable($form.find('[data-datafield="Rental"]'));
         });
 
         FwBrowse.init($orderItemGridRentalControl);
@@ -468,6 +502,9 @@ class Order {
         });
         FwBrowse.addEventHandler($orderItemGridSalesControl, 'afterdatabindcallback', () => {
             this.calculateOrderItemGridTotals($form, 'sales');
+
+            let salesItems = $form.find('.salesgrid tbody').children();
+            salesItems.length > 0 ? FwFormField.disable($form.find('[data-datafield="Sales"]')) : FwFormField.enable($form.find('[data-datafield="Sales"]'));
         });
 
         FwBrowse.init($orderItemGridSalesControl);
@@ -495,6 +532,9 @@ class Order {
         });
         FwBrowse.addEventHandler($orderItemGridLaborControl, 'afterdatabindcallback', () => {
             this.calculateOrderItemGridTotals($form, 'labor');
+
+            let laborItems = $form.find('.laborgrid tbody').children();
+            laborItems.length > 0 ? FwFormField.disable($form.find('[data-datafield="Labor"]')) : FwFormField.enable($form.find('[data-datafield="Labor"]'));
         });
 
         FwBrowse.init($orderItemGridLaborControl);
@@ -521,8 +561,13 @@ class Order {
             request.RecType = 'M';
         }
         );
+
         FwBrowse.addEventHandler($orderItemGridMiscControl, 'afterdatabindcallback', () => {
             this.calculateOrderItemGridTotals($form, 'misc');
+
+             let miscItems = $form.find('.miscgrid tbody').children();
+            miscItems.length > 0 ? FwFormField.disable($form.find('[data-datafield="Miscellaneous"]')) : FwFormField.enable($form.find('[data-datafield="Miscellaneous"]'));
+
         });
 
         FwBrowse.init($orderItemGridMiscControl);
@@ -1018,6 +1063,35 @@ class Order {
         // Disable withTax checkboxes if Total field is 0.00
         this.disableWithTaxCheckbox($form);
 
+        $form.find('[data-datafield="Rental"] input').on('change', e => {
+            if (jQuery(e.currentTarget).prop('checked')) {
+                $form.find('[data-type="tab"][data-caption="Rental"]').show();
+            } else {
+                $form.find('[data-type="tab"][data-caption="Rental"]').hide();
+            }
+        });
+        $form.find('[data-datafield="Sales"] input').on('change', e => {
+            if (jQuery(e.currentTarget).prop('checked')) {
+                $form.find('[data-type="tab"][data-caption="Sales"]').show();
+            } else {
+                $form.find('[data-type="tab"][data-caption="Sales"]').hide();
+            }
+        });
+        $form.find('[data-datafield="Miscellaneous"] input').on('change', e => {
+            if (jQuery(e.currentTarget).prop('checked')) {
+                $form.find('[data-type="tab"][data-caption="Misc"]').show();
+            } else {
+                $form.find('[data-type="tab"][data-caption="Misc"]').hide();
+            }
+        });
+        $form.find('[data-datafield="Labor"] input').on('change', e => {
+            if (jQuery(e.currentTarget).prop('checked')) {
+                $form.find('[data-type="tab"][data-caption="Labor"]').show();
+            } else {
+                $form.find('[data-type="tab"][data-caption="Labor"]').hide();
+            }
+        });
+
         let rentalTab = $form.find('[data-type="tab"][data-caption="Rental"]')
             , salesTab = $form.find('[data-type="tab"][data-caption="Sales"]')
             , miscTab = $form.find('[data-type="tab"][data-caption="Misc"]')
@@ -1026,38 +1100,7 @@ class Order {
         $form.find('[data-datafield="Rental"] input').prop('checked') ? rentalTab.show() : rentalTab.hide();
         $form.find('[data-datafield="Sales"] input').prop('checked') ? salesTab.show() : salesTab.hide();
         $form.find('[data-datafield="Miscellaneous"] input').prop('checked') ? miscTab.show() : miscTab.hide();
-        $form.find('[data-datafield="Labor"] input').prop('checked') ? laborTab.show() : laborTab.hide();
-
-        if (!(this.CombineActivity)) {
-            $form.find('[data-datafield="Rental"] input').on('change', e => {
-                if (jQuery(e.currentTarget).prop('checked')) {
-                    $form.find('[data-type="tab"][data-caption="Rental"]').show();
-                } else {
-                    $form.find('[data-type="tab"][data-caption="Rental"]').hide();
-                }
-            });
-            $form.find('[data-datafield="Sales"] input').on('change', e => {
-                if (jQuery(e.currentTarget).prop('checked')) {
-                    $form.find('[data-type="tab"][data-caption="Sales"]').show();
-                } else {
-                    $form.find('[data-type="tab"][data-caption="Sales"]').hide();
-                }
-            });
-            $form.find('[data-datafield="Miscellaneous"] input').on('change', e => {
-                if (jQuery(e.currentTarget).prop('checked')) {
-                    $form.find('[data-type="tab"][data-caption="Misc"]').show();
-                } else {
-                    $form.find('[data-type="tab"][data-caption="Misc"]').hide();
-                }
-            });
-            $form.find('[data-datafield="Labor"] input').on('change', e => {
-                if (jQuery(e.currentTarget).prop('checked')) {
-                    $form.find('[data-type="tab"][data-caption="Labor"]').show();
-                } else {
-                    $form.find('[data-type="tab"][data-caption="Labor"]').hide();
-                }
-            });
-        };
+        $form.find('[data-datafield="Labor"] input').prop('checked') ? laborTab.show() : laborTab.hide(); 
     };
 
     //----------------------------------------------------------------------------------------------
