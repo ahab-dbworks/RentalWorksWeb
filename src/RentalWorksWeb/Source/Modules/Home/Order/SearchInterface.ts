@@ -1168,7 +1168,7 @@ class SearchInterface {
                 accHtml.push('  <div data-control="FwFormField" data-type="key" data-datafield="InventoryId" data-caption="InventoryId" class="fwcontrol fwformfield" data-isuniqueid="true" data-enabled="false" style="display:none"><input value="' + response.Rows[i][inventoryIdIndex] + '"></input></div>');
                 //accHtml.push('  <div data-control="FwFormField" style="display:none" data-type="text" data-datafield="InventoryId" class="fwcontrol fwformfield"></div>');
                 accHtml.push('  <div style="float:left; width:40%; position:relative; text-indent:1em;"><div class="descriptionColor"></div>' + response.Rows[i][descriptionIndex] + '</div>');
-                accHtml.push('  <div data-control="FwFormField" data-type="number" data-datafield="AccQuantity" data-caption="Qty" class="fwcontrol fwformfield" style="text-align:center; float:left; width:7%;"><input style="width:80%; text-align:right; padding:5px;" value="' + response.Rows[i][qtyIndex] + '"></div>');
+                accHtml.push('  <div data-control="FwFormField" data-type="number" data-datafield="AccQuantity" data-caption="Qty" class="fwcontrol fwformfield" style="position:relative; text-align:center; float:left; width:7%;"><input style="width:80%; text-align:right; padding:5px;" value="' + response.Rows[i][qtyIndex] + '"></div>');
                 accHtml.push('  <div style="text-align:center; float:left; width:7%;">' + response.Rows[i][qtyAvailIndex] + '</div>');
                 accHtml.push('  <div data-datafield="ConflictDate" style="text-align:center; float:left; width:9%;"></div>');
                 accHtml.push('  <div style="text-align:center; float:left; width:7%; white-space:pre;">&#160;</div>');
@@ -1228,8 +1228,8 @@ class SearchInterface {
                     'border-left': '20px solid',
                     'border-right': '20px solid transparent',
                     'border-bottom': '20px solid transparent',
-                    'left': '0',
-                    'top': '6px',
+                    'left': '4px',
+                    'top': '0',
                     'height': '0',
                     'width': '0',
                     'position': 'absolute',
