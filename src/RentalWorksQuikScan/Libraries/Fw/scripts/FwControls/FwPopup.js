@@ -52,13 +52,19 @@ var FwPopup = (function () {
         var html, $popup, ismodal = true;
         html = [];
         html.push('<div class="fwpopup">');
-        html.push('<div class="fwpopupbox">');
+        html.push('<div class="fwpopupbox" style="position:relative;">');
         if (title !== undefined) {
             html.push('<div class="popuptitle">' + title + '</div>');
+            html.push('<div class="close-modal" style="display:flex; position:absolute; top:10px; right:15px; cursor:pointer;"><i class="material-icons">clear</i><div class="btn-text">Close</div></div>');
         }
         html.push('</div>');
         html.push('</div>');
         $popup = jQuery(html.join(''));
+        $popup.find('.close-modal').one('click', function (e) {
+            FwPopup.destroyPopup(jQuery(document).find('.fwpopup'));
+            jQuery(document).find('.fwpopup').off('click');
+            jQuery(document).off('keydown');
+        });
         $popup.find('.fwpopupbox').append($content);
         if (typeof options === 'object') {
             if (typeof options.ismodal === 'boolean') {

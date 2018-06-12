@@ -358,8 +358,6 @@ FwValidation.validationPeek = function ($control, validationName, validationId, 
         if (validationId !== '') {
             $popupForm = jQuery(jQuery('#tmpl-modules-' + validationName + 'Form').html());
             $popupForm = FwModule.openForm($popupForm, 'EDIT');
-
-            $popupForm.append('<div class="close-modal" style="display:flex; position:absolute; top:10px; right:15px; cursor:pointer;"><i class="material-icons">clear</i><div class="btn-text">Close</div></div>')
             $popupForm.find('.btnpeek').remove();
             $popupForm.css({ 'background-color': 'white', 'box-shadow': '0 25px 44px rgba(0, 0, 0, 0.30), 0 20px 15px rgba(0, 0, 0, 0.22)', 'width': '60vw', 'height': '60vh', 'overflow': 'scroll', 'position': 'relative' });
 
@@ -379,13 +377,7 @@ FwValidation.validationPeek = function ($control, validationName, validationId, 
                     jQuery(document).off('keydown');
                     jQuery(document).find('.fwpopup').off('click');
                 }
-            });
-
-            $popupForm.find('.close-modal').one('click', function (e) {
-                FwPopup.destroyPopup(jQuery(document).find('.fwpopup'));
-                jQuery(document).find('.fwpopup').off('click');
-                jQuery(document).off('keydown');
-            })
+            });            
 
             jQuery(document).on('keydown', function (e) {
                 var code = e.keyCode || e.which;
