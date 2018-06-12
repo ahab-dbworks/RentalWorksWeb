@@ -24,11 +24,14 @@ var PrintOrder = (function () {
         return screen;
     };
     ;
-    PrintOrder.prototype.openForm = function (type) {
+    PrintOrder.prototype.openForm = function (type, recordTitle) {
         var $form;
         $form = FwReport.getFrontEnd('Rw', this.Module, 'tmpl-reports-' + this.Module + 'FrontEnd');
         if (type == 'Quote') {
-            $form.attr('data-caption', 'Print Quote');
+            $form.attr('data-caption', 'Quote ' + recordTitle);
+        }
+        else if (type == 'Order') {
+            $form.attr('data-caption', 'Order ' + recordTitle);
         }
         $form.data('getexportrequest', function (request) {
             request.parameters = FwReport.getParameters($form);
