@@ -4,12 +4,8 @@
 
     generateRow($control, $generatedtr) {
         var $form = $control.closest('.fwform');
-        $generatedtr.find('div[data-browsedatafield="InventoryId"]').data('onchange', function ($tr) {
 
-            if ($form[0].dataset.controller !== "TemplateController") {
-                var toDate = FwFormField.getValueByDataField($form, 'EstimatedStopDate');
-                var fromDate = FwFormField.getValueByDataField($form, 'EstimatedStartDate');
-            }
+        $generatedtr.find('div[data-browsedatafield="InventoryId"]').data('onchange', function ($tr) {
             var warehouse = FwFormField.getTextByDataField($form, 'WarehouseId');
             var warehouseId = FwFormField.getValueByDataField($form, 'WarehouseId');
             let warehouseCode = $form.find('[data-datafield="WarehouseCode"] input').val();
@@ -36,8 +32,8 @@
                     break;
 
             }
+            console.log($generatedtr.hasClass("newmode"))
             if ($generatedtr.hasClass("newmode")) {
-
                 FwAppData.apiMethod(true, 'GET', "api/v1/pricing/" + inventoryId + "/" + warehouseId, null, FwServices.defaultTimeout, function onSuccess(response) {
                     switch (rateType) {
                         case 'DAILY':
@@ -53,17 +49,12 @@
                 }, null, $form);
 
                 FwAppData.apiMethod(true, 'GET', "api/v1/taxable/" + inventoryId + "/" + officeLocationId, null, FwServices.defaultTimeout, function onSuccess(response) {
-
                     if (response[0].Taxable) {
                         $generatedtr.find('.field[data-browsedatafield="Taxable"] input').prop('checked', 'true');
                     }
                 }, null, $form);
 
                 $generatedtr.find('.field[data-browsedatafield="Description"] input').val($tr.find('.field[data-browsedatafield="Description"]').attr('data-originalvalue'));
-                if ($form[0].dataset.controller !== "TemplateController") {
-                    $generatedtr.find('.field[data-browsedatafield="FromDate"] input').val(fromDate);
-                    $generatedtr.find('.field[data-browsedatafield="ToDate"] input').val(toDate);
-                }
                 $generatedtr.find('.field[data-browsedatafield="QuantityOrdered"] input').val("1");
                 $generatedtr.find('.field[data-browsedatafield="SubQuantity"] input').val("0");
                 $generatedtr.find('.field[data-browsedatafield="WarehouseId"] input').val(warehouseId);
@@ -72,6 +63,29 @@
                 $generatedtr.find('.field[data-browsedatafield="ReturnToWarehouseId"] input.text').val(warehouseCode);
                 $generatedtr.find('.field[data-browsedatafield="DiscountPercent"] input').val(discountPercent);
                 $generatedtr.find('.field[data-browsedatafield="DaysPerWeek"] input').val(daysPerWeek);
+
+                var grid = $generatedtr.parents('[data-grid="OrderItemGrid"]');
+                if ($form[0].dataset.controller !== "TemplateController") {
+                    var toDate = FwFormField.getValueByDataField($form, 'EstimatedStopDate');
+                    var fromDate = FwFormField.getValueByDataField($form, 'EstimatedStartDate');
+                    var pickDate = FwFormField.getValueByDataField($form, 'PickDate');
+                };
+
+                if (grid.hasClass('R')) {
+                    $generatedtr.find('.field[data-browsedatafield="RecType"] input').val("R");
+                } else if (grid.hasClass('S')) {
+                    $generatedtr.find('.field[data-browsedatafield="RecType"] input').val("S");
+                } else if (grid.hasClass('M')) {
+                    $generatedtr.find('.field[data-browsedatafield="RecType"] input').val("M");
+                } else if (grid.hasClass('L')) {
+                    $generatedtr.find('.field[data-browsedatafield="RecType"] input').val("L");
+                }
+
+                if ($form[0].dataset.controller !== "TemplateController") {
+                    $generatedtr.find('.field[data-browsedatafield="FromDate"] input').val(fromDate);
+                    $generatedtr.find('.field[data-browsedatafield="ToDate"] input').val(toDate);
+                    $generatedtr.find('.field[data-browsedatafield="PickDate"] input').val(pickDate);
+                }
             }
         });
 
@@ -117,7 +131,7 @@
         $generatedtr.find('div[data-browsedatafield="PeriodDiscountAmount"]').on('change', 'input.value', function ($tr) {
             calculateExtended('Discount');
         });
-     
+
         function calculateExtended(calculatedColumn) {
             let rateType, recType, fromDate, toDate, quantity, rate, daysPerWeek, discountPercent, weeklyExtended;
             rateType = $form.find('[data-datafield="RateType"] input').val();
@@ -134,11 +148,11 @@
 
             if (calculatedColumn == "Extended") {
                 apiurl += "calculateextended?RateType="
-            } else if (calculatedColumn =="Discount") {
+            } else if (calculatedColumn == "Discount") {
                 apiurl += "calculatediscountpercent?RateType="
             }
-                apiurl +=
-                 rateType
+            apiurl +=
+                rateType
                 + "&RecType="
                 + recType
                 + "&FromDate="
@@ -170,7 +184,7 @@
                 }, null, null);
             }
         }
-     };
+    };
 }
 
 FwApplicationTree.clickEvents['{77E511EC-5463-43A0-9C5D-B54407C97B15}'] = function (e) {
