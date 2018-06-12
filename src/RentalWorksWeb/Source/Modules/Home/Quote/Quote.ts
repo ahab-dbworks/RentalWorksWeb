@@ -755,6 +755,30 @@ class Quote {
         var $orderContactGrid;
         $orderContactGrid = $form.find('[data-name="OrderContactGrid"]');
         FwBrowse.search($orderContactGrid);
+        var $allOrderItemGrid;
+        $allOrderItemGrid = $form.find('.combinedgrid [data-name="OrderItemGrid"]');
+        FwBrowse.search($allOrderItemGrid);
+        var $orderItemGridRental;
+        $orderItemGridRental = $form.find('.rentalgrid [data-name="OrderItemGrid"]');
+        FwBrowse.search($orderItemGridRental);
+        var $orderItemGridSales;
+        $orderItemGridSales = $form.find('.salesgrid [data-name="OrderItemGrid"]');
+        FwBrowse.search($orderItemGridSales);
+        var $orderItemGridLabor;
+        $orderItemGridLabor = $form.find('.laborgrid [data-name="OrderItemGrid"]');
+        FwBrowse.search($orderItemGridLabor);
+        var $orderItemGridMisc;
+        $orderItemGridMisc = $form.find('.miscgrid [data-name="OrderItemGrid"]');
+        FwBrowse.search($orderItemGridMisc);
+
+        var rate = FwFormField.getValueByDataField($form, 'RateType');
+        if (rate === '3WEEK') {
+            $allOrderItemGrid.find('.3week').parent().show();
+            $allOrderItemGrid.find('.price').find('.caption').text('Week 1 Rate');
+            $orderItemGridRental.find('.3week').parent().show();
+            $orderItemGridRental.find('.price').find('.caption').text('Week 1 Rate');
+        }
+
 
         if ($pending === true) {
             FwFormField.disable($form.find('[data-datafield="PoNumber"]'));
@@ -1427,24 +1451,9 @@ class Quote {
             if (response.CombineActivityTabs === true) {
                 $form.find('.notcombined').css('display', 'none');
                 $form.find('.notcombinedtab').css('display', 'none');
-                var $allOrderItemGrid;
-                $allOrderItemGrid = $form.find('.combinedgrid [data-name="OrderItemGrid"]');
-                FwBrowse.search($allOrderItemGrid);
             } else {
                 $form.find('.combined').css('display', 'none');
                 $form.find('.combinedtab').css('display', 'none');
-                var $orderItemGridRental;
-                $orderItemGridRental = $form.find('.rentalgrid [data-name="OrderItemGrid"]');
-                FwBrowse.search($orderItemGridRental);
-                var $orderItemGridSales;
-                $orderItemGridSales = $form.find('.salesgrid [data-name="OrderItemGrid"]');
-                FwBrowse.search($orderItemGridSales);
-                var $orderItemGridLabor;
-                $orderItemGridLabor = $form.find('.laborgrid [data-name="OrderItemGrid"]');
-                FwBrowse.search($orderItemGridLabor);
-                var $orderItemGridMisc;
-                $orderItemGridMisc = $form.find('.miscgrid [data-name="OrderItemGrid"]');
-                FwBrowse.search($orderItemGridMisc);
             }
             var hiddenRentals = fieldNames.filter(function (field) {
                 return !this.has(field)
