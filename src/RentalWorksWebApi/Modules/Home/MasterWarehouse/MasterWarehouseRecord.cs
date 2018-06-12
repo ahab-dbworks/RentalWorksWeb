@@ -60,7 +60,7 @@ namespace WebApi.Modules.Home.MasterWarehouse
         public decimal? DefaultCost { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "cost", modeltype: FwDataTypes.Decimal, sqltype: "numeric", precision: 11, scale: 3)]
-        public decimal? AverageCost { get; set; }
+        public decimal? Cost { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "reorderpoint", modeltype: FwDataTypes.Integer, sqltype: "numeric")]
         public int? ReorderPoint { get; set; }

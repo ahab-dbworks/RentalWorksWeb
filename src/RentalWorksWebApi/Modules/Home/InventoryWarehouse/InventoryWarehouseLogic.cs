@@ -26,7 +26,7 @@ namespace WebApi.Modules.Home.InventoryWarehouse
         public decimal? Retail { get { return masterWarehouse.Retail; } set { masterWarehouse.Retail = value; } }
         public decimal? Price { get { return masterWarehouse.Price; } set { masterWarehouse.Price = value; } }
         public decimal? DefaultCost { get { return masterWarehouse.DefaultCost; } set { masterWarehouse.DefaultCost = value; } }
-        public decimal? AverageCost { get { return masterWarehouse.AverageCost; } set { masterWarehouse.AverageCost = value; } }
+        public decimal? AverageCost { get { return masterWarehouse.Cost; } set { masterWarehouse.Cost = value; } }
         [FwBusinessLogicField(isReadOnly: true)]
         public decimal? MarkupPercent { get; set; }
         public int? ReorderPoint { get { return masterWarehouse.ReorderPoint; } set { masterWarehouse.ReorderPoint = value; } }
