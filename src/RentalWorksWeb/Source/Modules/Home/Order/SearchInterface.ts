@@ -60,7 +60,7 @@ class SearchInterface {
         searchhtml.push('                      <div data-type="button" class="fwformcontrol gridbutton" style="margin: 12px 6px 12px 6px; padding:0px 7px 0px 7px;"><i class="material-icons" style="margin-top: 5px;">&#xE8F0;</i></div>');
         searchhtml.push('                      <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield fwformcontrol toggleAccessories" data-caption="Disable Accessory Refresh" style="width:200px;"></div>');
         searchhtml.push('                         <div id="columnDescriptions" style="width:95%; padding:5px; margin:5px; display:none">');
-        searchhtml.push('                           <div style="float:left; width:40%;">&#160;</div>');
+        searchhtml.push('                           <div style="float:left; width:40%; text-align:center; font-weight:bold;">Description</div>');
         searchhtml.push('                           <div style="float:left; width:7%; text-align:center; font-weight:bold;">Qty</div>');
         searchhtml.push('                           <div style="float:left; width:7%; text-align:center; font-weight:bold;">Available</div>');
         searchhtml.push('                           <div style="float:left; width:9%; text-align:center; font-weight:bold;">Conflict Date</div>');
@@ -995,6 +995,9 @@ class SearchInterface {
                 let inventoryId = jQuery(e.currentTarget).parents('.card').find('[data-datafield="InventoryId"] input').val();
                 self.refreshAccessoryQuantity($popup, id, warehouseId, inventoryId, e);
             }
+            if ((jQuery('#inventoryView').val()) == 'GRID') {
+                jQuery('.accColumns').show();
+            }
             $popup.find('.accContainer').not(accessoryContainer).hide();
             accessoryContainer.slideToggle();
         });
@@ -1131,7 +1134,7 @@ class SearchInterface {
         if (!(accessoryContainer.find('.accList').length)) {
             html.push('<div class="accColumns" style="width:100%; display:none;">');
             html.push(' <div class="accList"></div>');
-            html.push('                           <div style="float:left; width:40%;">&#160;</div>');
+            html.push('                           <div style="float:left; width:40%; text-align:center; font-weight:bold">Description</div>');
             html.push('                           <div style="float:left; width:7%; text-align:center; font-weight:bold;">Qty</div>');
             html.push('                           <div style="float:left; width:7%; text-align:center; font-weight:bold;">Available</div>');
             html.push('                           <div style="float:left; width:9%; text-align:center; font-weight:bold;">Conflict Date</div>');
@@ -1143,6 +1146,9 @@ class SearchInterface {
             html.push(' </div>');
             html.push('</div>');
             accessoryContainer.append(html.join(''));
+        }
+        if ((jQuery('#inventoryView').val()) == 'GRID') {
+            jQuery('.accColumns').show();
         }
 
         jQuery(e.currentTarget).parents('.cardContainer').find('.accContainer .accItem').remove();
@@ -1161,7 +1167,7 @@ class SearchInterface {
                 accHtml.push('<div class="accItem" style="width:100%; float:left; padding:2px 0px;">');
                 accHtml.push('  <div data-control="FwFormField" data-type="key" data-datafield="InventoryId" data-caption="InventoryId" class="fwcontrol fwformfield" data-isuniqueid="true" data-enabled="false" style="display:none"><input value="' + response.Rows[i][inventoryIdIndex] + '"></input></div>');
                 //accHtml.push('  <div data-control="FwFormField" style="display:none" data-type="text" data-datafield="InventoryId" class="fwcontrol fwformfield"></div>');
-                accHtml.push('  <div style="float:left; width:40%; position:relative;"><div class="descriptionColor"></div>' + response.Rows[i][descriptionIndex] + '</div>');
+                accHtml.push('  <div style="float:left; width:40%; position:relative; text-indent:1em;"><div class="descriptionColor"></div>' + response.Rows[i][descriptionIndex] + '</div>');
                 accHtml.push('  <div data-control="FwFormField" data-type="number" data-datafield="AccQuantity" data-caption="Qty" class="fwcontrol fwformfield" style="text-align:center; float:left; width:7%;"><input style="width:80%; text-align:right; padding:5px;" value="' + response.Rows[i][qtyIndex] + '"></div>');
                 accHtml.push('  <div style="text-align:center; float:left; width:7%;">' + response.Rows[i][qtyAvailIndex] + '</div>');
                 accHtml.push('  <div data-datafield="ConflictDate" style="text-align:center; float:left; width:9%;"></div>');
