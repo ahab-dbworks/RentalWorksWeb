@@ -793,8 +793,6 @@ class Quote {
         $form.find(".totals .add-on").hide();
         $form.find('.totals input').css('text-align', 'right');
 
-        FwFormField.disable($form.find('[data-caption="Weeks"]'));
-
         var noChargeValue = FwFormField.getValueByDataField($form, 'NoCharge');
         if (noChargeValue == false) {
             FwFormField.disable($form.find('[data-datafield="NoChargeReason"]'));
@@ -898,6 +896,11 @@ class Quote {
         $form.find('.order_item_view_select').on('change', event => {
             this.toggleOrderItemView($form, event);
         });
+        // Billing Weeks or Month field change
+        $form.find('.week_or_month_field').on('change', event => {
+            this.adjustBillingEndDate($form, event);
+        });
+        // Market Type Change
         $form.find('[data-datafield="MarketTypeId"] input').on('change', event => {
             FwFormField.setValueByDataField($form, 'MarketSegmentId', '');
             FwFormField.setValueByDataField($form, 'MarketSegmentJobId', '');
@@ -926,6 +929,10 @@ class Quote {
         // PickDate Validations
         $form.find('.pick_date_validation').on('changeDate', event => {
             this.checkDateRangeForPick($form, event);
+        });
+        // BillingDate Change
+        $form.find('.billing_date').on('changeDate', event => {
+            this.adjustBillingEndDate($form, event);
         });
         // Pending PO
         $form.find('[data-datafield="PendingPo"] .fwformfield-value').on('change', function () {
@@ -956,6 +963,24 @@ class Quote {
                 FwFunc.showError(response);
             }, $form);
         });
+    };
+
+    //----------------------------------------------------------------------------------------------
+    adjustBillingEndDate($form, event) {
+        let newEndDate, daysToAdd, monthValue, weeksValue, billingStartDate;
+        billingStartDate = FwFormField.getValueByDataField($form, 'BillingStartDate')
+        monthValue = FwFormField.getValueByDataField($form, 'BillingMonths');
+        weeksValue = FwFormField.getValueByDataField($form, 'BillingWeeks')
+
+        if (FwFormField.getValueByDataField($form, 'RateType') === 'MONTHLY') {
+            newEndDate = FwFunc.getDate(billingStartDate, null, monthValue)
+            FwFormField.setValueByDataField($form, 'BillingEndDate', newEndDate);
+        }
+        else {
+            daysToAdd = +(weeksValue * 7) - 1;
+            newEndDate = FwFunc.getDate(billingStartDate, daysToAdd);
+            FwFormField.setValueByDataField($form, 'BillingEndDate', newEndDate);
+        }
     };
 
     //----------------------------------------------------------------------------------------------
@@ -1395,6 +1420,43 @@ class Quote {
     };
 
     //----------------------------------------------------------------------------------------------
+    createNewVersionQuote($form, event) {
+        let quoteNumber, quoteId;
+        quoteNumber = FwFormField.getValueByDataField($form, 'QuoteNumber');
+        quoteId = FwFormField.getValueByDataField($form, 'QuoteId');
+        var $confirmation, $yes, $no;
+
+        $confirmation = FwConfirmation.renderConfirmation('Create New Version', '');
+        $confirmation.find('.fwconfirmationbox').css('width', '450px');
+        var html = [];
+        html.push('<div class="fwform" data-controller="none" style="background-color: transparent;">');
+        html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
+        html.push(`    <div>Create New Version for Quote ${quoteNumber}?</div>`);
+        html.push('  </div>');
+        html.push('</div>');
+
+        FwConfirmation.addControls($confirmation, html.join(''));
+
+        $yes = FwConfirmation.addButton($confirmation, 'Create New Version', false);
+        $no = FwConfirmation.addButton($confirmation, 'Cancel');
+
+        $yes.on('click', createNewVersion);
+        var $confirmationbox = jQuery('.fwconfirmationbox');
+        function createNewVersion() {
+            FwAppData.apiMethod(true, 'POST', `api/v1/quote/createnewversion/${quoteId}`, null, FwServices.defaultTimeout, function onSuccess(response) {
+                FwNotification.renderNotification('SUCCESS', 'New Version Successfully Created.');
+                FwConfirmation.destroyConfirmation($confirmation);
+                let uniqueids: any = {};
+                uniqueids.QuoteId = response.QuoteId;
+                var $quoteform = QuoteController.loadForm(uniqueids);
+                FwModule.openModuleTab($quoteform, "", true, 'FORM', true);
+
+                FwModule.refreshForm($form, QuoteController);
+            }, null, $confirmationbox);
+        }
+    };
+
+    //----------------------------------------------------------------------------------------------
     calculateOrderItemGridTotals($form: any, gridType: string) {
         let subTotal, discount, salesTax, grossTotal, total;
         let periodExtendedTotal = new Decimal(0);
@@ -1554,6 +1616,19 @@ FwApplicationTree.clickEvents['{D27AD4E7-E924-47D1-AF6E-992B92F5A647}'] = functi
         } else {
             OrderController.toggleOrderItemView($form, event);
         }
+    }
+    catch (ex) {
+        FwFunc.showError(ex);
+    }
+};
+
+//---------------------------------------------------------------------------------------------- 
+FwApplicationTree.clickEvents['{F79F8C21-66DF-4458-BBEB-E19B2BFCAEAA}'] = function (event) {
+    let $form;
+    $form = jQuery(this).closest('.fwform');
+
+    try {
+        QuoteController.createNewVersionQuote($form, event);
     }
     catch (ex) {
         FwFunc.showError(ex);
