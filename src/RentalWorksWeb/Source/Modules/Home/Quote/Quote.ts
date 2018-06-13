@@ -973,13 +973,21 @@ class Quote {
         weeksValue = FwFormField.getValueByDataField($form, 'BillingWeeks')
 
         if (FwFormField.getValueByDataField($form, 'RateType') === 'MONTHLY') {
-            newEndDate = FwFunc.getDate(billingStartDate, null, monthValue)
-            FwFormField.setValueByDataField($form, 'BillingEndDate', newEndDate);
+            if (monthValue !== '0') {
+                FwAppData.apiMethod(true, 'GET', `api/v1/datefunctions/addmonths?Date=${billingStartDate}&Months=${monthValue}`, null, FwServices.defaultTimeout, function onSuccess(response) {
+                    newEndDate = FwFunc.getDate(response, -1)
+                    FwFormField.setValueByDataField($form, 'BillingEndDate', newEndDate);
+                }, function onError(response) {
+                    FwFunc.showError(response);
+                }, $form);
+            }
         }
         else {
-            daysToAdd = +(weeksValue * 7) - 1;
-            newEndDate = FwFunc.getDate(billingStartDate, daysToAdd);
-            FwFormField.setValueByDataField($form, 'BillingEndDate', newEndDate);
+            if (weeksValue !== '0') {
+                daysToAdd = +(weeksValue * 7) - 1;
+                newEndDate = FwFunc.getDate(billingStartDate, daysToAdd);
+                FwFormField.setValueByDataField($form, 'BillingEndDate', newEndDate);
+            }
         }
     };
 

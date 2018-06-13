@@ -940,9 +940,7 @@ class Order {
         // Billing Weeks or Month field change
         $form.find('.week_or_month_field').on('change', event => {
             this.adjustBillingEndDate($form, event);
-
         });
-
         // RentalDaysPerWeek for Rental OrderItemGrid
         $form.find('.RentalDaysPerWeek').on('change', '.fwformfield-text, .fwformfield-value', event => {
             let request: any = {};
@@ -1169,13 +1167,21 @@ class Order {
         weeksValue = FwFormField.getValueByDataField($form, 'BillingWeeks')
 
         if (FwFormField.getValueByDataField($form, 'RateType') === 'MONTHLY') {
-            newEndDate = FwFunc.getDate(billingStartDate, monthValue)
-            FwFormField.setValueByDataField($form, 'BillingEndDate', newEndDate);
+            if (monthValue !== '0') {
+                FwAppData.apiMethod(true, 'GET', `api/v1/datefunctions/addmonths?Date=${billingStartDate}&Months=${monthValue}`, null, FwServices.defaultTimeout, function onSuccess(response) {
+                    newEndDate = FwFunc.getDate(response, -1)
+                    FwFormField.setValueByDataField($form, 'BillingEndDate', newEndDate);
+                }, function onError(response) {
+                    FwFunc.showError(response);
+                }, $form);
+            }
         }
         else {
-            daysToAdd = +(weeksValue * 7) - 1;
-            newEndDate = FwFunc.getDate(billingStartDate, daysToAdd);
-            FwFormField.setValueByDataField($form, 'BillingEndDate', newEndDate);
+            if (weeksValue !== '0') {
+                daysToAdd = +(weeksValue * 7) - 1;
+                newEndDate = FwFunc.getDate(billingStartDate, daysToAdd);
+                FwFormField.setValueByDataField($form, 'BillingEndDate', newEndDate);
+            }
         }
     };
 
