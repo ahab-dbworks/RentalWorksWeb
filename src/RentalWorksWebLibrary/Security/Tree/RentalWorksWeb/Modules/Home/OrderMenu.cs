@@ -31,6 +31,7 @@ namespace WebLibrary.Security.Tree.RentalWorksWeb.Modules.Settings
             tree.AddSubMenuItem("Order Status", "{CF245A59-3336-42BC-8CCB-B88807A9D4EA}", nodeFormOptions.Id);
             tree.AddSubMenuItem("Search", "{B2D127C6-A1C2-4697-8F3B-9A678F3EAEEE}", nodeFormOptions.Id);
             tree.AddSubMenuItem("Print Order", "{F2FD2F4C-1AB7-4627-9DD5-1C8DB96C5509}", nodeFormOptions.Id);
+            tree.AddSubMenuItem("Create Snapshot", "{AB1D12DC-40F6-4DF2-B405-54A0C73149EA}", nodeFormOptions.Id);
             tree.AddSubMenuItem("Cancel / Uncancel", "{6B644862-9030-4D42-A29B-30C8DAC29D3E}", nodeFormOptions.Id);
         }
         //---------------------------------------------------------------------------------------------

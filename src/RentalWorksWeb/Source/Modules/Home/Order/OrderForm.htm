@@ -691,10 +691,10 @@
         <div class="flexrow">
           <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Billing Period">
             <div class="flexrow">
-              <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="Start" data-datafield="BillingStartDate" style="flex:1 1 150px;"></div>
-              <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="Stop" data-datafield="BillingEndDate" style="flex:1 1 150px;"></div>
-              <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield BillingWeeks" data-caption="Weeks" data-datafield="BillingWeeks" style="flex:1 1 150px;" data-formreadonly="true"></div>
-              <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield BillingMonths" data-caption="Months" data-datafield="BillingMonths" data-enabled="false" style="flex:1 1 150px;" data-formreadonly="true"></div>
+              <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield billing_date" data-caption="Start" data-datafield="BillingStartDate" style="flex:1 1 150px;"></div>
+              <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield billing_date" data-caption="Stop" data-datafield="BillingEndDate" style="flex:1 1 150px;"></div>
+              <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield BillingWeeks week_or_month_field" data-caption="Weeks" data-datafield="BillingWeeks" style="flex:1 1 150px;"></div>
+              <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield BillingMonths week_or_month_field" data-caption="Months" data-datafield="BillingMonths" style="flex:1 1 150px;"></div>
               <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="Delay Billing Search Until" data-datafield="DelayBillingSearchUntil" style="flex:1 1 150px;"></div>
               <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Lock Billing Dates" data-datafield="LockBillingDates" style="flex:1 1 150px;padding-left:25px;margin-top:10px;"></div>
             </div>
@@ -1035,6 +1035,11 @@
         <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Order Status History">
           <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
             <div data-control="FwGrid" data-grid="OrderStatusHistoryGrid" data-securitycaption="Order Status History"></div>
+          </div>
+        </div>
+        <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Order Snapshot">
+          <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+            <div data-control="FwGrid" data-grid="OrderSnapshotGrid" data-securitycaption="Order Snapshot"></div>
           </div>
         </div>
       </div>

@@ -448,6 +448,19 @@ class Order {
         FwBrowse.init($orderStatusHistoryGridControl);
         FwBrowse.renderRuntimeHtml($orderStatusHistoryGridControl);
 
+        var $orderSnapshotGrid;
+        var $orderSnapshotGridControl;
+        $orderSnapshotGrid = $form.find('div[data-grid="OrderSnapshotGrid"]');
+        $orderSnapshotGridControl = jQuery(jQuery('#tmpl-grids-OrderSnapshotGridBrowse').html());
+        $orderSnapshotGrid.empty().append($orderSnapshotGridControl);
+        $orderSnapshotGridControl.data('ondatabind', function (request) {
+            request.uniqueids = {
+                OrderId: FwFormField.getValueByDataField($form, 'OrderId')
+            };
+        });
+        FwBrowse.init($orderSnapshotGridControl);
+        FwBrowse.renderRuntimeHtml($orderSnapshotGridControl);
+
         var $orderItemGridRental;
         var $orderItemGridRentalControl;
         $orderItemGridRental = $form.find('.rentalgrid div[data-grid="OrderItemGrid"]');
@@ -943,6 +956,12 @@ class Order {
         $form.find('.bottom_line_discount').on('change', event => {
             this.bottomLineDiscountChange($form, event);
         });
+        // Billing Weeks or Month field change
+        $form.find('.week_or_month_field').on('change', event => {
+            this.adjustBillingEndDate($form, event);
+
+        });
+
         // RentalDaysPerWeek for Rental OrderItemGrid
         $form.find('.RentalDaysPerWeek').on('change', '.fwformfield-text, .fwformfield-value', event => {
             let request: any = {};
@@ -998,6 +1017,10 @@ class Order {
         $form.find('.pick_date_validation').on('changeDate', event => {
             this.checkDateRangeForPick($form, event);
         });
+        // BillingDate Change
+        $form.find('.billing_date').on('changeDate', event => {
+            this.adjustBillingEndDate($form, event);
+        });
     };
 
     //----------------------------------------------------------------------------------------------
@@ -1007,7 +1030,10 @@ class Order {
         FwBrowse.search($orderPickListGrid);
         var $orderStatusHistoryGrid;
         $orderStatusHistoryGrid = $form.find('[data-name="OrderStatusHistoryGrid"]');
-        FwBrowse.search($orderStatusHistoryGrid);        
+        FwBrowse.search($orderStatusHistoryGrid);
+        var $orderSnapshotGrid;
+        $orderSnapshotGrid = $form.find('[data-name="OrderSnapshotGrid"]');
+        FwBrowse.search($orderSnapshotGrid);
         var $orderNoteGrid;
         $orderNoteGrid = $form.find('[data-name="OrderNoteGrid"]');
         FwBrowse.search($orderNoteGrid);
@@ -1058,8 +1084,6 @@ class Order {
         this.dynamicColumns($form);
         $form.find(".totals .add-on").hide();
         $form.find('.totals input').css('text-align', 'right');
-
-        FwFormField.disable($form.find('[data-caption="Weeks"]'));
 
         var noChargeValue = FwFormField.getValueByDataField($form, 'NoCharge');
         if (noChargeValue == false) {
@@ -1124,6 +1148,24 @@ class Order {
         $form.find('[data-datafield="Sales"] input').prop('checked') ? salesTab.show() : salesTab.hide();
         $form.find('[data-datafield="Miscellaneous"] input').prop('checked') ? miscTab.show() : miscTab.hide();
         $form.find('[data-datafield="Labor"] input').prop('checked') ? laborTab.show() : laborTab.hide(); 
+    };
+
+    //----------------------------------------------------------------------------------------------
+    adjustBillingEndDate($form, event) {
+        let newEndDate, daysToAdd, monthValue, weeksValue, billingStartDate;
+        billingStartDate = FwFormField.getValueByDataField($form, 'BillingStartDate')
+        monthValue = FwFormField.getValueByDataField($form, 'BillingMonths');
+        weeksValue = FwFormField.getValueByDataField($form, 'BillingWeeks')
+
+        if (FwFormField.getValueByDataField($form, 'RateType') === 'MONTHLY') {
+            newEndDate = FwFunc.getDate(billingStartDate, null, monthValue)
+            FwFormField.setValueByDataField($form, 'BillingEndDate', newEndDate);
+        }
+        else {
+            daysToAdd = +(weeksValue * 7) - 1;
+            newEndDate = FwFunc.getDate(billingStartDate, daysToAdd);
+            FwFormField.setValueByDataField($form, 'BillingEndDate', newEndDate);
+        }
     };
 
     //----------------------------------------------------------------------------------------------
@@ -1420,6 +1462,60 @@ class Order {
     };
 
     //----------------------------------------------------------------------------------------------
+    createSnapshotOrder($form, event) {
+        let orderNumber, orderId, $orderSnapshotGrid;
+        orderNumber = FwFormField.getValueByDataField($form, 'OrderNumber');
+        orderId = FwFormField.getValueByDataField($form, 'OrderId');
+        $orderSnapshotGrid = $form.find('[data-name="OrderSnapshotGrid"]');
+
+        let $confirmation, $yes, $no;
+
+        $confirmation = FwConfirmation.renderConfirmation('Create Snapshot', '');
+        $confirmation.find('.fwconfirmationbox').css('width', '450px');
+        let html = [];
+        html.push('<div class="fwform" data-controller="none" style="background-color: transparent;">');
+        html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
+        html.push(`    <div>Create a snapshot for Order ${orderNumber}?</div>`);
+        html.push('  </div>');
+        html.push('</div>');
+
+        FwConfirmation.addControls($confirmation, html.join(''));
+
+        $yes = FwConfirmation.addButton($confirmation, 'Create Snapshot', false);
+        $no = FwConfirmation.addButton($confirmation, 'Cancel');
+
+        $yes.on('click', createSnapshot);
+        let $confirmationbox = jQuery('.fwconfirmationbox');
+        function createSnapshot() {
+            FwAppData.apiMethod(true, 'POST', `api/v1/order/createsnapshot/${orderId}`, null, FwServices.defaultTimeout, function onSuccess(response) {
+                FwNotification.renderNotification('SUCCESS', 'Snapshot Successfully Created.');
+                FwConfirmation.destroyConfirmation($confirmation);
+
+                $orderSnapshotGrid.data('ondatabind', request => {
+                    request.uniqueids = {
+                        OrderId: orderId,
+                    }
+                    request.pagesize = 10;
+                    request.orderby = "OrderDescription"
+                });
+
+                $orderSnapshotGrid.data('beforesave', request => {
+                    request.OrderId = orderId;
+                });
+
+                FwBrowse.search($orderSnapshotGrid);
+                //let uniqueids: any = {};
+                //uniqueids.OrderId = response.OrderId;
+                //let $orderform = QuoteController.loadForm(uniqueids);
+                //FwModule.openModuleTab($orderform, "", true, 'FORM', true);
+
+                //FwModule.refreshForm($form, OrderController);
+            }, null, $confirmationbox);
+        }
+
+    }
+
+    //----------------------------------------------------------------------------------------------
     cancelUncancelOrder($form: any) {
         let $confirmation, $yes, $no, orderId, orderStatus, self;
         self = this;
@@ -1571,6 +1667,18 @@ class Order {
             $form.find('.notcombinedtab').css('display', 'flex');
             $form.find('.generaltab').click();
         }
+    }
+};
+
+FwApplicationTree.clickEvents['{AB1D12DC-40F6-4DF2-B405-54A0C73149EA}'] = function (event) {
+    let $form;
+    $form = jQuery(this).closest('.fwform');
+
+    try {
+        OrderController.createSnapshotOrder($form, event);
+    }
+    catch (ex) {
+        FwFunc.showError(ex);
     }
 };
 
