@@ -180,6 +180,7 @@
     <Content Include="Source\Grids\ContactCompanyGrid\ContactCompanyGridBrowse.htm" />
     <Content Include="Source\Grids\CrewPositionGrid\CrewPositionGridBrowse.htm" />
     <Content Include="Source\Grids\OrderItemCombinedGrid\OrderItemCombinedGridBrowse.htm" />
+    <Content Include="Source\Grids\SingleRateWarehouseGrid\SingleRateWarehouseGridBrowse.htm" />
     <Content Include="Source\Grids\SearchPreviewGrid\SearchPreviewGridBrowse.htm" />
     <Content Include="Source\Grids\PartsInventoryCompatibilityGrid\PartsInventoryCompatibilityGridBrowse.htm" />
     <Content Include="Source\Grids\PartsInventorySubstituteGrid\PartsInventorySubstituteGridBrowse.htm" />
@@ -276,6 +277,7 @@
     <TypeScriptCompile Include="Source\Grids\ContactNoteGrid\ContactNoteGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\CrewPositionGrid\CrewPositionGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\OrderItemCombinedGrid\OrderItemCombinedGridController.ts" />
+    <TypeScriptCompile Include="Source\Grids\SingleRateWarehouseGrid\SingleRateWarehouseGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\SearchPreviewGrid\SearchPreviewGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\PartsInventoryCompatibilityGrid\PartsInventoryCompatibilityGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\PartsInventorySubstituteGrid\PartsInventorySubstituteGridController.ts" />

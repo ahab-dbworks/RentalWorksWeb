@@ -306,6 +306,7 @@ namespace WebLibrary.Security
             // AddGrid("Order Item Combined",                    "{B8E0EFB5-F175-46DE-92A7-32B45E6942FC}", lv1menuGrids.Id, "OrderItemCombinedGridController");
             AddGrid("Order Item",                             "{C8A77000-43DD-4E49-A226-1E0DC4196F12}", lv1menuGrids.Id, "OrderItemGridController");
             AddGrid("Order Note",                             "{45573B9C-B39D-4975-BC36-4A41362E1AF0}", lv1menuGrids.Id, "RwOrderNoteGridController");
+            AddGrid("Order Snapshot",                         "{4259A144-C7C8-4382-BAB9-9FFA278AF294}", lv1menuGrids.Id, "OrderSnapshotGridController");
             AddGrid("Order Type Activity Dates",              "{0C7E7F68-50C8-45A0-B6CA-BE11223D7806}", lv1menuGrids.Id, "OrderTypeActivityDatesGridController");
             AddGrid("Order Type Cover Letter",                "{7521D3CC-FF1C-44F5-8F93-9272B6CADC64}", lv1menuGrids.Id, "OrderTypeCoverLetterGridController");
             AddGrid("Order Type Invoice Export",              "{B24187E9-6B1D-4717-B9C2-F95C5543AE45}", lv1menuGrids.Id, "OrderTypeInvoiceExportGridController");
@@ -331,6 +332,7 @@ namespace WebLibrary.Security
             AddGrid("Vehicle Make Model",                     "{C10EC66E-AA26-4BF6-93BF-35307715FE44}", lv1menuGrids.Id, "VehicleMakeModelGridController");
             AddGrid("Vendor Note",                            "{60704925-2642-4864-A5E8-272313978CE3}", lv1menuGrids.Id, "VendorNoteGridController");
             AddGrid("Sales Inventory Warehouse",              "{85ED5C98-37AF-4A68-B97B-68EE253A1FD4}", lv1menuGrids.Id, "SalesInventoryWarehouseGridController");
+            AddGrid("Single Rate Warehouse",                  "{0E4E4B5D-5905-4BD5-AC57-2DE047EFEB5B}", lv1menuGrids.Id, "SingleRateWarehouseGridController");
             AddGrid("Space",                                  "{BF54AEF8-BECB-4069-A1E3-3FEA27301AE8}", lv1menuGrids.Id, "SpaceGridController");
             AddGrid("Space Rate",                             "{F0A6AFE7-3A31-4D2D-BC37-702D785C3734}", lv1menuGrids.Id, "SpaceRateGridController");
             AddGrid("Space Warehouse Rate",                   "{0F264871-A72C-48F7-9A6C-891208F52AD1}", lv1menuGrids.Id, "SpaceWarehouseRateGridController");
