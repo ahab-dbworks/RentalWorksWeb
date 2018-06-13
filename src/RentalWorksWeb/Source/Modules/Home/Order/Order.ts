@@ -228,38 +228,9 @@ class Order {
 
         $form.find('div[data-datafield="OrderTypeId"]').data('onchange', function ($tr) {
             self.CombineActivity = $tr.find('.field[data-browsedatafield="CombineActivityTabs"]').attr('data-originalvalue');
-
-            //if (self.CombineActivity == 'false') {
-            //    $form.find('[data-datafield="Rental"] input').on('change', e => {
-            //        if (jQuery(e.currentTarget).prop('checked')) {
-            //            $form.find('[data-type="tab"][data-caption="Rental"]').show();
-            //        } else {
-            //            $form.find('[data-type="tab"][data-caption="Rental"]').hide();
-            //        }
-            //    });
-            //    $form.find('[data-datafield="Sales"] input').on('change', e => {
-            //        if (jQuery(e.currentTarget).prop('checked')) {
-            //            $form.find('[data-type="tab"][data-caption="Sales"]').show();
-            //        } else {
-            //            $form.find('[data-type="tab"][data-caption="Sales"]').hide();
-            //        }
-            //    });
-            //    $form.find('[data-datafield="Miscellaneous"] input').on('change', e => {
-            //        if (jQuery(e.currentTarget).prop('checked')) {
-            //            $form.find('[data-type="tab"][data-caption="Misc"]').show();
-            //        } else {
-            //            $form.find('[data-type="tab"][data-caption="Misc"]').hide();
-            //        }
-            //    });
-            //    $form.find('[data-datafield="Labor"] input').on('change', e => {
-            //        if (jQuery(e.currentTarget).prop('checked')) {
-            //            $form.find('[data-type="tab"][data-caption="Labor"]').show();
-            //        } else {
-            //            $form.find('[data-type="tab"][data-caption="Labor"]').hide();
-            //        }
-            //    });
-            //};
+            $form.find('[data-datafield="CombineActivity"] input').val(self.CombineActivity);
         });
+
 
         $form.find('[data-datafield="NoCharge"] .fwformfield-value').on('change', function () {
             var $this = jQuery(this);
@@ -368,6 +339,16 @@ class Order {
                 $form.find('.btn[data-type="SaveMenuBarButton"]').removeClass('disabled');
             }
         });
+
+        $form.find(".weeklyType").show();
+        $form.find(".monthlyType").hide();
+        $form.find(".periodType input").prop('checked', true);
+
+        $form.find(".totalType input").on('change', e => {
+            let gridType = jQuery(e.currentTarget).parents('.totalType').attr('data-gridtype');
+            this.calculateOrderItemGridTotals($form, gridType);
+        });
+
         this.events($form);
 
         return $form;
@@ -997,6 +978,36 @@ class Order {
                 $form.find(".RentalDaysPerWeek").hide();
             }
         });
+
+
+        $form.find('.RateType').on('change', $tr => {
+            let rateType = FwFormField.getValueByDataField($form, 'RateType');
+            switch (rateType) {
+                case 'DAILY':
+                    $form.find(".weeklyType").show();
+                    $form.find(".monthlyType").hide();
+                    break;
+                case 'WEEKLY':
+                    $form.find(".weeklyType").show();
+                    $form.find(".monthlyType").hide();
+                    break;
+                case '3WEEK':
+                    $form.find(".weeklyType").show();
+                    $form.find(".monthlyType").hide();
+                    break;
+                case 'MONTHLY':
+                    $form.find(".weeklyType").hide();
+                    $form.find(".monthlyType").show();
+                    break;
+                default:
+                    $form.find(".weeklyType").show();
+                    $form.find(".monthlyType").hide();
+                    break;
+            }
+
+
+        });
+
         // Pending PO
         $form.find('[data-datafield="PendingPo"] .fwformfield-value').on('change', function () {
             var $this = jQuery(this);
@@ -1158,7 +1169,7 @@ class Order {
         weeksValue = FwFormField.getValueByDataField($form, 'BillingWeeks')
 
         if (FwFormField.getValueByDataField($form, 'RateType') === 'MONTHLY') {
-            newEndDate = FwFunc.getDate(billingStartDate, null, monthValue)
+            newEndDate = FwFunc.getDate(billingStartDate, monthValue)
             FwFormField.setValueByDataField($form, 'BillingEndDate', newEndDate);
         }
         else {
@@ -1283,7 +1294,7 @@ class Order {
     //----------------------------------------------------------------------------------------------
     bottomLineTotalWithTaxChange($form: any, event: any) {
     // Total and With Tax for all OrderItemGrid
-        let $element, $orderItemGrid, recType, orderId, total, includeTaxInTotal, isWithTaxCheckbox;
+        let $element, $orderItemGrid, recType, orderId, total, includeTaxInTotal, isWithTaxCheckbox, totalType;
         let request: any = {};
 
         $element = jQuery(event.currentTarget);
@@ -1296,6 +1307,7 @@ class Order {
                 $orderItemGrid = $form.find('.rentalgrid [data-name="OrderItemGrid"]');
                 total = FwFormField.getValueByDataField($form, 'PeriodRentalTotal');
                 includeTaxInTotal = FwFormField.getValue($form, '.rentalTotalWithTax');
+                totalType = $form.find('.rentalgrid .totalType input:checked').val();
                 if (!isWithTaxCheckbox) {
                     FwFormField.setValueByDataField($form, 'RentalDiscountPercent', '');
                 }
@@ -1322,6 +1334,7 @@ class Order {
                 $orderItemGrid = $form.find('.laborgrid [data-name="OrderItemGrid"]');
                 total = FwFormField.getValue($form, '.laborOrderItemTotal');
                 includeTaxInTotal = FwFormField.getValue($form, '.laborTotalWithTax');
+                totalType = $form.find('.laborgrid .totalType input:checked').val();
                 if (!isWithTaxCheckbox) {
                     FwFormField.setValueByDataField($form, 'LaborDiscountPercent', '');
                 }
@@ -1335,6 +1348,7 @@ class Order {
                 $orderItemGrid = $form.find('.miscgrid [data-name="OrderItemGrid"]');
                 total = FwFormField.getValue($form, '.miscOrderItemTotal');
                 includeTaxInTotal = FwFormField.getValue($form, '.miscTotalWithTax');
+                totalType = $form.find('.miscgrid .totalType input:checked').val();
                 if (!isWithTaxCheckbox) {
                     FwFormField.setValueByDataField($form, 'MiscDiscountPercent', '');
                 }
@@ -1348,6 +1362,7 @@ class Order {
                 $orderItemGrid = $form.find('.combinedgrid [data-name="OrderItemGrid"]');
                 total = FwFormField.getValue($form, '.combinedOrderItemTotal');
                 includeTaxInTotal = FwFormField.getValue($form, '.combinedTotalWithTax');
+                totalType = $form.find('.combinedgrid .totalType input:checked').val();
                 if (!isWithTaxCheckbox) {
                     FwFormField.setValueByDataField($form, 'CombinedDiscountPercent', '');
                 }
@@ -1358,6 +1373,7 @@ class Order {
                 }
             }
 
+        request.TotalType = totalType;
         request.IncludeTaxInTotal = includeTaxInTotal;
         request.RecType = recType;
         request.OrderId = orderId;
@@ -1428,31 +1444,45 @@ class Order {
 
     //----------------------------------------------------------------------------------------------
     calculateOrderItemGridTotals($form: any, gridType: string) {
-        let subTotal, discount, salesTax, grossTotal, total;
-        let periodExtendedTotal = new Decimal(0);
-        let periodDiscountTotal = new Decimal(0);
+        let subTotal, discount, salesTax, grossTotal, total, rateType;
+        let extendedTotal = new Decimal(0);
+        let discountTotal = new Decimal(0);
         let taxTotal = new Decimal(0);
-        const periodExtendedColumn: any = $form.find('.' + gridType + 'grid [data-browsedatafield="PeriodExtended"]');
-        const periodDiscountColumn: any = $form.find('.' + gridType + 'grid [data-browsedatafield="PeriodDiscountAmount"]');
+
+        let rateValue = $form.find('.' + gridType + 'grid .totalType input:checked').val();
+        switch (rateValue) {
+            case 'W':
+                rateType = 'Weekly';
+                break;
+            case 'P':
+                rateType = 'Period';
+                break;
+            case 'M':
+                rateType = 'Monthly';
+                break;
+
+        }
+        const extendedColumn: any = $form.find('.' + gridType + 'grid [data-browsedatafield="' + rateType +'Extended"]');
+        const discountColumn: any = $form.find('.' + gridType + 'grid [data-browsedatafield="' + rateType + 'DiscountAmount"]');
         const taxColumn: any = $form.find('.' + gridType + 'grid [data-browsedatafield="Tax"]');
 
-        for (let i = 1; i < periodExtendedColumn.length; i++) {
-            // PeriodExtended Column
-            let inputValueFromExtended: any = +periodExtendedColumn.eq(i).attr('data-originalvalue');
-            periodExtendedTotal = periodExtendedTotal.plus(inputValueFromExtended);
-            // PeriodDiscountAmount Column
-            let inputValueFromDiscount: any = +periodDiscountColumn.eq(i).attr('data-originalvalue');
-            periodDiscountTotal = periodDiscountTotal.plus(inputValueFromDiscount);
+        for (let i = 1; i < extendedColumn.length; i++) {
+            // Extended Column
+            let inputValueFromExtended: any = +extendedColumn.eq(i).attr('data-originalvalue');
+            extendedTotal = extendedTotal.plus(inputValueFromExtended);
+            // DiscountAmount Column
+            let inputValueFromDiscount: any = +discountColumn.eq(i).attr('data-originalvalue');
+            discountTotal = discountTotal.plus(inputValueFromDiscount);
             // Tax Column
             let inputValueFromTax: any = +taxColumn.eq(i).attr('data-originalvalue');
             taxTotal = taxTotal.plus(inputValueFromTax);
         };
 
-        subTotal = periodExtendedTotal.toFixed(2);
-        discount = periodDiscountTotal.toFixed(2);
+        subTotal = extendedTotal.toFixed(2);
+        discount = discountTotal.toFixed(2);
         salesTax = taxTotal.toFixed(2);
-        grossTotal = periodExtendedTotal.plus(periodDiscountTotal).toFixed(2);
-        total = taxTotal.plus(periodExtendedTotal).toFixed(2);
+        grossTotal = extendedTotal.plus(discountTotal).toFixed(2);
+        total = taxTotal.plus(extendedTotal).toFixed(2);
 
         $form.find('.' + gridType + 'totals [data-totalfield="SubTotal"] input').val(subTotal);
         $form.find('.' + gridType + 'totals [data-totalfield="Discount"] input').val(discount);
@@ -1623,6 +1653,8 @@ class Order {
         }
 
         FwAppData.apiMethod(true, 'GET', "api/v1/ordertype/" + orderType, null, FwServices.defaultTimeout, function onSuccess(response) {
+            $form.find('[data-datafield="CombineActivity"] input').val(response.CombineActivityTabs);
+        
             if (response.CombineActivityTabs === true) {
                 $form.find('.notcombined').css('display', 'none');
                 $form.find('.notcombinedtab').css('display', 'none');
