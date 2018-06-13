@@ -33,7 +33,6 @@ RwServices.inventory.qcstatusrfid                      = function(request, doneC
 RwServices.order.cancelContract                        = function(request, doneCallback) {RwAppData.jsonPost(true,  'services.ashx?path=/order/cancelcontract',                        request, doneCallback);};
 RwServices.order.checkInItem                           = function(request, doneCallback) {RwAppData.jsonPost(true,  'services.ashx?path=/order/checkinitem',                           request, doneCallback);};
 RwServices.order.completeQCItem                        = function(request, doneCallback) {RwAppData.jsonPost(true,  'services.ashx?path=/inventory/completeqcitem',                    request, doneCallback);};
-RwServices.order.createContract                        = function(request, doneCallback) {RwAppData.jsonPost(true,  'services.ashx?path=/order/createcontract',                        request, doneCallback);};
 RwServices.order.createInContract                      = function(request, doneCallback) {RwAppData.jsonPost(true,  'services.ashx?path=/order/createincontract',                      request, doneCallback);};
 RwServices.order.createNewInContractAndSuspend         = function(request, doneCallback) {RwAppData.jsonPost(true,  'services.ashx?path=/order/createnewincontractandsuspend',         request, doneCallback);};
 RwServices.order.createOutContract                     = function(request, doneCallback) {RwAppData.jsonPost(true,  'services.ashx?path=/order/createoutcontract',                     request, doneCallback);};

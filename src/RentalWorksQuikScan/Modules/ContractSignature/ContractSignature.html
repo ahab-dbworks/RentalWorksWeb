@@ -1,9 +1,55 @@
-﻿<div id="contractSignatureView" class="view" style="display:none;">
-  <div id="contractSignatureView-buttons" class="panel center">
-    <div>
-      <span id="contractSignatureView-btnClear" class="button default clearButton">{{captionClearSignature}}</span>
+﻿<div id="contractSignature" class="view">
+
+  <div id="cs-printimagecapture">
+    <div id="printimagecaptureecontroller"></div>
+    <div id="printimagecapture">
+      <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+        <div data-control="FwFormField" class="fwcontrol fwformfield" data-caption="Customer Print Name" data-type="text" data-datafield="printname" />
+      </div>
+      <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+        <div class="signaturecapture" data-status="empty">
+          <i class="material-icons">add_a_photo</i>
+          <div>Capture Signature</div>
+        </div>
+      </div>
+      <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+        <div class="imagecaption">Image Capture</div>
+        <div class="pictures"></div>
+      </div>
+    </div>
+    <div id="pic-signaturecapture">
+      <canvas id="pic-signaturecapture-canvasSignature" class="pad" width="546" height="150"></canvas>
+      <input type="hidden" name="output" class="output">
+      <div class="buttons">
+        <span id="pic-signaturecapture-clear" class="button default clearButton">Clear Signature</span>
+      </div>
+    </div>
+    <div id="pic-email">
+      <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow" style="display:flex;">
+        <div data-control="FwFormField" class="fwcontrol fwformfield" data-caption="To" data-type="text" data-datafield="to" style="flex:1 0 auto;" />
+        <i class="material-icons emailsearch to">search</i>
+      </div>
+      <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow" style="display:flex;">
+        <div data-control="FwFormField" class="fwcontrol fwformfield" data-caption="CC" data-type="text" data-datafield="cc" style="flex:1 0 auto;" />
+        <i class="material-icons emailsearch cc">search</i>
+      </div>
+      <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+        <div data-control="FwFormField" class="fwcontrol fwformfield" data-caption="Subject" data-type="text" data-datafield="subject" />
+      </div>
+      <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+        <div data-control="FwFormField" class="fwcontrol fwformfield" data-caption="Body" data-type="textarea" data-datafield="body" />
+      </div>
+    </div>
+    <div id="pic-emailto"></div>
+  </div>
+
+  <div id="cs-signaturecapture">
+    <div id="signaturecaptureecontroller"></div>
+    <canvas id="signaturecapture-canvasSignature" class="pad" width="546" height="150"></canvas>
+    <input type="hidden" name="output" class="output">
+    <div class="buttons">
+      <span id="signaturecapture-clear" class="button default clearButton">{{captionClearSignature}}</span>
     </div>
   </div>
-  <canvas id="contractSignatureView-canvasSignature" class="pad" width="546" height="150"></canvas>
-  <input type="hidden" name="output" class="output">
+
 </div>

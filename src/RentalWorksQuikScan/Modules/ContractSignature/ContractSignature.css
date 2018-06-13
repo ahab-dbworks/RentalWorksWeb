@@ -1,6 +1,26 @@
-﻿#contractSignatureView-canvasSignature {background-color:#ffffff;border-radius:3px;margin:2px;}
-#contractSignatureView .signature {margin:0 0 0 5px;}
-#contractSignatureView-btnClear {margin:5px 5px;}
-#contractSignatureView-btnCancel {margin:5px 5px;}
-#contractSignatureView-btnCreateContract {margin:5px 5px;}
-#contractSignatureView-buttons {display:none;}
+﻿#contractSignature #cs-printimagecapture {display:none;}
+#contractSignature #cs-printimagecapture #printimagecapture {padding: 5px;background-color: #FAFAFA;}
+#contractSignature #cs-printimagecapture #printimagecapture .signaturecapture {color: #212121;border: 1px dashed;text-align: center;}
+#contractSignature #cs-printimagecapture #printimagecapture .signaturecapture[data-status="empty"] {padding:20px;cursor:pointer;}
+#contractSignature #cs-printimagecapture #printimagecapture .signaturecapture[data-status="image"] {background-color:#ffffff;}
+#contractSignature #cs-printimagecapture #printimagecapture .imagecaption {color: #212121;background-color: #81D4FA;font-size: 22px;padding: 5px;}
+#contractSignature #cs-printimagecapture #printimagecapture .pictures {display:flex;flex-wrap:wrap;color: #212121;background-color: #B3E5FC;}
+#contractSignature #cs-printimagecapture #printimagecapture .pictures .contract-photo {height: 98px;width: 98px;cursor: pointer;margin:5px;}
+#contractSignature #cs-printimagecapture #printimagecapture .pictures .contract-photo[data-status="empty"] {border:1px dashed;}
+#contractSignature #cs-printimagecapture #printimagecapture .pictures .contract-photo[data-status="image"] {border:1px solid;}
+#contractSignature #cs-printimagecapture #printimagecapture .pictures .contract-photo i {padding:38px;}
+#contractSignature #cs-printimagecapture #printimagecapture .pictures .contract-photo img {height:98px;width:98px;}
+#contractSignature #cs-printimagecapture #pic-signaturecapture {display:none;} 
+#contractSignature #cs-printimagecapture #pic-signaturecapture .buttons {display:none;}
+#contractSignature #cs-printimagecapture #pic-email {display:none;padding: 5px;background-color: #FAFAFA;}
+#contractSignature #cs-printimagecapture #pic-email .emailsearch {color: #212121;font-size: 46px;margin-top: 20px;background-color: #BDBDBD;border: 1px solid #9E9E9E;cursor: pointer;}
+#contractSignature #cs-printimagecapture #pic-emailto {display:none;padding: 5px;background-color: #FAFAFA;}
+#contractSignature #cs-printimagecapture #pic-emailto .record {color: #212121;padding: 5px 0;border-bottom: 1px solid;cursor:pointer;}
+#contractSignature #cs-printimagecapture #pic-emailto .record:active {background-color: #E0E0E0;}
+#contractSignature #cs-printimagecapture #pic-emailto .record .data {display:flex;}
+#contractSignature #cs-printimagecapture #pic-emailto .record .data .caption {flex:0 0 64px;}
+
+#contractSignature #cs-signaturecapture {display:none;}
+#contractSignature #cs-signaturecapture #signaturecapture-canvasSignature {background-color:#ffffff;border-radius:3px;margin:2px;cursor:crosshair;}
+#contractSignature #cs-signaturecapture .buttons {display:none;}
+#contractSignature #cs-signaturecapture .buttons #signaturecapture-clear {display:none;margin:5px 5px;}

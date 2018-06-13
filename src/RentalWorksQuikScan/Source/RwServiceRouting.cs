@@ -180,11 +180,6 @@ namespace RentalWorksQuikScan.Source
                 ),
                 new FwJsonRequestAction(
                     roles: new string[]{RwUserRoles.RentalWorksUser},
-                    isMatch: delegate(string requestPath, string applicationPath) { return Regex.IsMatch(requestPath, GetRegexString("/order/createcontract", applicationPath)); },
-                    onMatch: delegate(dynamic request, dynamic response, dynamic session) { RwService.CreateContract(request, response, session); }
-                ),
-                new FwJsonRequestAction(
-                    roles: new string[]{RwUserRoles.RentalWorksUser},
                     isMatch: delegate(string requestPath, string applicationPath) { return Regex.IsMatch(requestPath, GetRegexString("/order/createnewincontractandsuspend", applicationPath)); },
                     onMatch: delegate(dynamic request, dynamic response, dynamic session) { RwService.CreateNewInContractAndSuspend(request, response, session); }
                 ),

@@ -149,40 +149,6 @@ namespace RentalWorksQuikScan.Source
             }
         }
         //---------------------------------------------------------------------------------------------
-        public static void CreateContract(dynamic request, dynamic response, dynamic session)
-        {
-            const string METHOD_NAME = "CreateContract";
-            string usersid, contracttype, contractid, orderid, responsiblepersonid, uniqueid1, uniqueid2, uniqueid3, description, rectype, extension, base64image;
-            FwSqlConnection conn;
-
-            FwValidate.TestIsNullOrEmpty(METHOD_NAME, "usersid", session.security.webUser.usersid);
-            FwValidate.TestPropertyDefined(METHOD_NAME, request, "contractType");
-            FwValidate.TestPropertyDefined(METHOD_NAME, request, "contractId");
-            FwValidate.TestPropertyDefined(METHOD_NAME, request, "orderId");
-            FwValidate.TestPropertyDefined(METHOD_NAME, request, "responsiblePersonId");
-            FwValidate.TestPropertyDefined(METHOD_NAME, request, "signatureImage");
-            conn                = FwSqlConnection.RentalWorks;
-            usersid             = session.security.webUser.usersid;
-            contracttype        = request.contractType;
-            contractid          = request.contractId;
-            orderid             = request.orderId;
-            responsiblepersonid = request.responsiblePersonId;
-            
-            // Create the contract
-            response.webCreateContract = RwAppData.WebCreateContract(conn, usersid, contracttype, contractid, orderid, responsiblepersonid);
-            
-            uniqueid1   = response.webCreateContract.contractId;
-            uniqueid2   = string.Empty;
-            uniqueid3   = string.Empty;
-            description = "CONTRACT_SIGNATURE";
-            rectype     = string.Empty;
-            extension   = "JPG";
-            base64image = request.signatureImage;
-            
-            // insert the signature image
-            FwSqlData.InsertAppImage(conn, uniqueid1, uniqueid2, uniqueid3, description, rectype, extension, base64image);
-        }
-        //---------------------------------------------------------------------------------------------
         public static void CreateNewInContractAndSuspend(dynamic request, dynamic response, dynamic session)
         {
             const string METHOD_NAME = "CreateNewInContractAndSuspend";    

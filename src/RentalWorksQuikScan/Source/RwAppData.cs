@@ -58,61 +58,7 @@ namespace RentalWorksQuikScan.Source
             qry.AddParameter("@departmentid", departmentId);
             qry.Execute();
             result.useresponsibleperson = qry.GetField("useresponsibleperson").ToBoolean();
-            
-            return result;
-        }
-        //----------------------------------------------------------------------------------------------------
-        public static dynamic WebCreateContract(FwSqlConnection conn, string usersid, string contracttype,  string contractid,  string orderId, string responsiblePersonId)
-        {
-            dynamic result;
-            FwSqlCommand sp, qryUpdateDealOrderDetail, qryUpdateContract;
 
-            FwSqlCommand qryInputByUser;
-            string inputbyusersid, namefml;
-            if (!string.IsNullOrEmpty(contractid)) {
-                qryInputByUser = new FwSqlCommand(conn);
-                qryInputByUser.Add("select c.inputbyusersid, u.namefml");
-                qryInputByUser.Add("from contract c join usersview u on (c.inputbyusersid = u.usersid)");
-                qryInputByUser.Add("where contractid = @contractid");
-                qryInputByUser.AddParameter("@contractid", contractid);
-                qryInputByUser.Execute();
-                inputbyusersid = qryInputByUser.GetField("inputbyusersid").ToString().TrimEnd();
-                namefml = qryInputByUser.GetField("namefml").ToString().TrimEnd();
-                if (usersid != inputbyusersid) {
-                    throw new Exception("Only the session owner " + namefml + " can create a contract.");
-                }
-            }
-
-            sp = new FwSqlCommand(conn, "dbo.webcreatecontract");
-            sp.AddParameter("@contracttype", contracttype);
-            sp.AddParameter("@contractid",   SqlDbType.NVarChar, ParameterDirection.InputOutput, contractid);
-            sp.AddParameter("@orderid",      orderId);
-            sp.AddParameter("@usersid",      usersid);
-            sp.AddParameter("@status",       SqlDbType.Int,      ParameterDirection.Output);
-            sp.AddParameter("@msg",          SqlDbType.NVarChar, ParameterDirection.Output);
-            sp.Execute();
-            result = new ExpandoObject();
-            result.contractId = sp.GetParameter("@contractid").ToString().TrimEnd();
-            result.status     = sp.GetParameter("@status").ToInt32();
-            result.msg        = sp.GetParameter("@msg").ToString().TrimEnd();
-            if ((contracttype == RwAppData.CONTRACT_TYPE_OUT) && (!string.IsNullOrEmpty(responsiblePersonId)))
-            {
-                qryUpdateDealOrderDetail = new FwSqlCommand(conn);
-                qryUpdateDealOrderDetail.Add("update dealorderdetail");
-                qryUpdateDealOrderDetail.Add("set responsiblepersonid = @responsiblepersonid");
-                qryUpdateDealOrderDetail.Add("where orderid        = @orderid");
-                qryUpdateDealOrderDetail.AddParameter("@responsiblepersonid", responsiblePersonId);
-                qryUpdateDealOrderDetail.AddParameter("@orderid", orderId);
-                qryUpdateDealOrderDetail.ExecuteNonQuery();
-
-                qryUpdateContract = new FwSqlCommand(conn);
-                qryUpdateContract.Add("update contract");
-                qryUpdateContract.Add("set responsiblepersonid = @responsiblepersonid");
-                qryUpdateContract.Add("where contractId        = @contractId");
-                qryUpdateContract.AddParameter("@responsiblepersonid", responsiblePersonId);
-                qryUpdateContract.AddParameter("@contractId",          result.contractId);
-                qryUpdateContract.ExecuteNonQuery();
-            }
             return result;
         }
         //----------------------------------------------------------------------------------------------------
@@ -1463,8 +1409,8 @@ namespace RentalWorksQuikScan.Source
             sp.AddParameter("@notes",   notes);
             sp.AddParameter("@contractid", SqlDbType.NVarChar, ParameterDirection.Output);
             sp.Execute();
-            result = new ExpandoObject();
-            result.contractId    = sp.GetParameter("@contractid").ToString().Trim();
+            result            = new ExpandoObject();
+            result.contractId = sp.GetParameter("@contractid").ToString().Trim();
             return result;
         }
         //----------------------------------------------------------------------------------------------------
@@ -1473,16 +1419,16 @@ namespace RentalWorksQuikScan.Source
             dynamic result;
             FwSqlCommand sp;
             sp = new FwSqlCommand(conn, "dbo.createincontract");
-            sp.AddParameter("@orderid", orderid);
-            sp.AddParameter("@dealid", dealid);
+            sp.AddParameter("@orderid",      orderid);
+            sp.AddParameter("@dealid",       dealid);
             sp.AddParameter("@departmentid", departmentid);
-            sp.AddParameter("@usersid",   usersid);
-            sp.AddParameter("@contractid", SqlDbType.NVarChar, ParameterDirection.Output);
+            sp.AddParameter("@usersid",      usersid);
+            sp.AddParameter("@contractid",   SqlDbType.NVarChar, ParameterDirection.Output);
             sp.Execute();
-            result = new ExpandoObject();
-            result.contractId    = sp.GetParameter("@contractid").ToString().Trim();
-            result.sessionNo     = RwAppData.GetSessionNo(conn:       FwSqlConnection.RentalWorks
-                                                        , contractId: result.contractId);
+            result            = new ExpandoObject();
+            result.contractId = sp.GetParameter("@contractid").ToString().Trim();
+            result.sessionNo  = RwAppData.GetSessionNo(conn:       FwSqlConnection.RentalWorks,
+                                                       contractId: result.contractId);
             return result;
         }
         //----------------------------------------------------------------------------------------------------
@@ -1491,14 +1437,14 @@ namespace RentalWorksQuikScan.Source
             dynamic result;
             FwSqlCommand sp;
             sp = new FwSqlCommand(conn, "dbo.createreceivecontract");
-            sp.AddParameter("@poid", poid);
-            sp.AddParameter("@usersid",   usersid);
+            sp.AddParameter("@poid",       poid);
+            sp.AddParameter("@usersid",    usersid);
             sp.AddParameter("@contractid", SqlDbType.NVarChar, ParameterDirection.Output);
             sp.Execute();
-            result = new ExpandoObject();
-            result.contractId    = sp.GetParameter("@contractid").ToString().Trim();
-            result.sessionNo     = RwAppData.GetSessionNo(conn:       FwSqlConnection.RentalWorks
-                                                        , contractId: result.contractId);
+            result            = new ExpandoObject();
+            result.contractId = sp.GetParameter("@contractid").ToString().Trim();
+            result.sessionNo  = RwAppData.GetSessionNo(conn:       FwSqlConnection.RentalWorks,
+                                                       contractId: result.contractId);
             return result;
         }
         //----------------------------------------------------------------------------------------------------
@@ -1511,10 +1457,10 @@ namespace RentalWorksQuikScan.Source
             sp.AddParameter("@usersid",   usersid);
             sp.AddParameter("@contractid", SqlDbType.NVarChar, ParameterDirection.Output);
             sp.Execute();
-            result = new ExpandoObject();
-            result.contractId    = sp.GetParameter("@contractid").ToString().Trim();
-            result.sessionNo     = RwAppData.GetSessionNo(conn:       FwSqlConnection.RentalWorks
-                                                        , contractId: result.contractId);
+            result            = new ExpandoObject();
+            result.contractId = sp.GetParameter("@contractid").ToString().Trim();
+            result.sessionNo  = RwAppData.GetSessionNo(conn:       FwSqlConnection.RentalWorks,
+                                                       contractId: result.contractId);
             return result;
         }
         //----------------------------------------------------------------------------------------------------
@@ -1523,7 +1469,7 @@ namespace RentalWorksQuikScan.Source
             FwSqlCommand qry;
             qry = new FwSqlCommand(conn);
             qry.Add("update contract");
-            qry.Add("set forcedsuspend = 'G'"); //created from guns  
+            qry.Add("set forcedsuspend = 'G'"); //created from guns
             qry.Add("where  contractid = @contractid");
             qry.AddParameter("@contractid", contractid);
             qry.Execute();

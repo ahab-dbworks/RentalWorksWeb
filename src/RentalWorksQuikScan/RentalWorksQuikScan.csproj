@@ -427,6 +427,7 @@
     </Compile>
     <Compile Include="Modules\BarcodeLabel\BarcodeLabel.cs" />
     <Compile Include="Modules\CheckInMenu\CheckInMenu.cs" />
+    <Compile Include="Modules\ContractSignature\ContractSignature.cs" />
     <Compile Include="Modules\Exchange\ExchangeDm.cs" />
     <Compile Include="Modules\Exchange\ExchangeModels.cs" />
     <Compile Include="Modules\Exchange\ExchangeValidDlg.cs" />
