@@ -341,6 +341,7 @@ FwSettings.renderModuleHtml = function ($control, title, moduleName, description
     html.push('          <a class="new-row">New Item</a>');
     html.push('          <a class="show-inactive">Show Inactive</a>');
     html.push('          <a class="hide-inactive">Hide Inactive</a>');
+    html.push('          <a class="pop-out">Pop Out Module</a>');
     html.push('        </div>');
     html.push('      </h4>');
     if (description === "") {
@@ -379,6 +380,12 @@ FwSettings.renderModuleHtml = function ($control, title, moduleName, description
     $settingsPageModules.on('click', '.hide-inactive', function (e) {
         e.stopPropagation();
         $control.find('.inactive').parent().hide();
+        jQuery(this).parent().hide();
+    });
+
+    $settingsPageModules.on('click', '.pop-out', function(e) {
+        e.stopPropagation();
+        program.popOutURL('#/module/' + moduleName);
         jQuery(this).parent().hide();
     });
 
