@@ -91,6 +91,9 @@ namespace WebLibrary
         public const string INVENTORY_SORT_BY_INVENTORY_MANAGEMENT = "INVENTORY";
 
 
+        public const string RATE_TYPE_SINGLE = "SINGLE";
+        public const string RATE_TYPE_RECURRING = "RECURRING";
+
 
         //ADDRESSES
         public const string ADDRESS_TYPE_BILLING = "BILL";

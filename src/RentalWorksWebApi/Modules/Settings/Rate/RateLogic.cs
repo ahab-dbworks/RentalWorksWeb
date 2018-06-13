@@ -1,6 +1,8 @@
+using FwStandard.BusinessLogic;
 using FwStandard.BusinessLogic.Attributes; 
 using WebApi.Logic;
 using WebApi.Modules.Home.Master;
+using WebLibrary;
 
 namespace WebApi.Modules.Settings.Rate
 {
