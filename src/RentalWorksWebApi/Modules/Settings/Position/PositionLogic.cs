@@ -31,10 +31,7 @@ namespace WebApi.Modules.Settings.Position
 
             if (saveMode.Equals(TDataRecordSaveMode.smInsert))
             {
-                if (string.IsNullOrEmpty(RateType))
-                {
-                    RateType = RwConstants.RATE_TYPE_RECURRING;
-                }
+                RateType = RwConstants.RATE_TYPE_RECURRING;
             }
             else
             {
