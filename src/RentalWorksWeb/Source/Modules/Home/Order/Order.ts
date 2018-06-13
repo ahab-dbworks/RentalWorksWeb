@@ -1119,44 +1119,51 @@ class Order {
         // Disable withTax checkboxes if Total field is 0.00
         this.disableWithTaxCheckbox($form);
 
-        $form.find('[data-datafield="Rental"] input').on('change', e => {
-            if (jQuery(e.currentTarget).prop('checked')) {
-                rentalTab.show();
-            } else {
-                rentalTab.hide();
-            }
-        });
-        $form.find('[data-datafield="Sales"] input').on('change', e => {
-            if (jQuery(e.currentTarget).prop('checked')) {
-                salesTab.show();
-            } else {
-                salesTab.hide();
-            }
-        });
-        $form.find('[data-datafield="Miscellaneous"] input').on('change', e => {
-            if (jQuery(e.currentTarget).prop('checked')) {
-                miscTab.show();
-            } else {
-                miscTab.hide();
-            }
-        });
-        $form.find('[data-datafield="Labor"] input').on('change', e => {
-            if (jQuery(e.currentTarget).prop('checked')) {
-                laborTab.show();
-            } else {
-                laborTab.hide();
-            }
-        });
 
         let rentalTab = $form.find('[data-type="tab"][data-caption="Rental"]')
             , salesTab = $form.find('[data-type="tab"][data-caption="Sales"]')
             , miscTab = $form.find('[data-type="tab"][data-caption="Misc"]')
             , laborTab = $form.find('[data-type="tab"][data-caption="Labor"]');
-
-        $form.find('[data-datafield="Rental"] input').prop('checked') ? rentalTab.show() : rentalTab.hide();
-        $form.find('[data-datafield="Sales"] input').prop('checked') ? salesTab.show() : salesTab.hide();
-        $form.find('[data-datafield="Miscellaneous"] input').prop('checked') ? miscTab.show() : miscTab.hide();
-        $form.find('[data-datafield="Labor"] input').prop('checked') ? laborTab.show() : laborTab.hide(); 
+        $form.find('[data-datafield="Rental"] input').on('change', e => {
+            let combineActivity = $form.find('[data-datafield="CombineActivity"] input').val();
+            if (combineActivity == 'false') {
+            if (jQuery(e.currentTarget).prop('checked')) {
+                rentalTab.show();
+            } else {
+                rentalTab.hide();
+                }
+            }
+        });
+        $form.find('[data-datafield="Sales"] input').on('change', e => {
+            let combineActivity = $form.find('[data-datafield="CombineActivity"] input').val();
+            if (combineActivity == 'false') {
+                if (jQuery(e.currentTarget).prop('checked')) {
+                    salesTab.show();
+                } else {
+                    salesTab.hide();
+                }
+            }
+        });
+        $form.find('[data-datafield="Miscellaneous"] input').on('change', e => {
+            let combineActivity = $form.find('[data-datafield="CombineActivity"] input').val();
+            if (combineActivity == 'false') {
+                if (jQuery(e.currentTarget).prop('checked')) {
+                    miscTab.show();
+                } else {
+                    miscTab.hide();
+                }
+            }
+        });
+        $form.find('[data-datafield="Labor"] input').on('change', e => {
+            let combineActivity = $form.find('[data-datafield="CombineActivity"] input').val();
+            if (combineActivity == 'false') {
+                if (jQuery(e.currentTarget).prop('checked')) {
+                    laborTab.show();
+                } else {
+                    laborTab.hide();
+                }
+            }
+        });
     };
 
     //----------------------------------------------------------------------------------------------
@@ -1660,7 +1667,18 @@ class Order {
 
         FwAppData.apiMethod(true, 'GET', "api/v1/ordertype/" + orderType, null, FwServices.defaultTimeout, function onSuccess(response) {
             $form.find('[data-datafield="CombineActivity"] input').val(response.CombineActivityTabs);
-        
+
+            let rentalTab = $form.find('[data-type="tab"][data-caption="Rental"]')
+                , salesTab = $form.find('[data-type="tab"][data-caption="Sales"]')
+                , miscTab = $form.find('[data-type="tab"][data-caption="Misc"]')
+                , laborTab = $form.find('[data-type="tab"][data-caption="Labor"]');
+            if (response.CombineActivityTabs === false) {
+                $form.find('[data-datafield="Rental"] input').prop('checked') ? rentalTab.show() : rentalTab.hide();
+                $form.find('[data-datafield="Sales"] input').prop('checked') ? salesTab.show() : salesTab.hide();
+                $form.find('[data-datafield="Miscellaneous"] input').prop('checked') ? miscTab.show() : miscTab.hide();
+                $form.find('[data-datafield="Labor"] input').prop('checked') ? laborTab.show() : laborTab.hide();
+            }
+
             if (response.CombineActivityTabs === true) {
                 $form.find('.notcombined').css('display', 'none');
                 $form.find('.notcombinedtab').css('display', 'none');
