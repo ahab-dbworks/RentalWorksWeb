@@ -42,6 +42,21 @@
 /src/RentalWorksWeb/theme/fwfonts/*
 /src/RentalWorksWeb/theme/fwimages/*
 
+/src/RwQBO/App_Data/Temp/
+/src/RwQBO/app_scripts.json
+/src/RwQBO/Application.config
+/src/RwQBO/ApplicationConfig.js
+/src/RwQBO/FwApplicationSchema.config
+/src/RwQBO/index.htm
+/src/RwQBO/scripts/_references.js
+/src/RwQBO/Source/Modules/Home/**/*.js
+/src/RwQBO/Source/Modules/Home/**/*.js.map
+/src/RwQBO/Source/Modules/Settings/**/*.js
+/src/RwQBO/Source/Modules/Settings/**/*.js.map
+/src/RwQBO/theme/fwcursors/*
+/src/RwQBO/theme/fwfonts/*
+/src/RwQBO/theme/fwimages/*
+
 /src/RentalWorksWebApi/appsettings.json
 
 /src/*/Properties/PublishProfiles/

@@ -1,0 +1,65 @@
+﻿/***************************
+GroupController
+***************************/
+div[data-controller="GroupController"] .editgrouptree {}
+div[data-controller="GroupController"] .editgrouptree > .title {text-align:center;}
+div[data-controller="GroupController"] .previewgrouptree {margin:0 0 0 60px;}
+div[data-controller="GroupController"] .previewgrouptree > .title {text-align:center;}
+div[data-controller="GroupController"] .grouptree {cursor:default;margin:0;padding:0;}
+div[data-controller="GroupController"] .grouptree ul {margin:0 0 0 .3em;padding:0;border-left: 1px dotted #777777;}
+div[data-controller="GroupController"] .grouptree li {margin:1px 0 0 1.25em;padding:0;list-style-type:none;display:block;}
+div[data-controller="GroupController"] .grouptree .content {overflow:hidden;background-color:rgba(100,100,100,.1);border:1px solid rgba(100,100,100,.3);padding:.3em .13em;}
+
+div[data-controller="GroupController"] .grouptree .iconexpander {float:left;cursor:pointer;margin:.1em .1em 0 -0.27em;font-size: 1.3em;visibility:hidden;}
+div[data-controller="GroupController"] .grouptree li[data-expanded="T"] > .iconexpander {visibility:visible;}
+div[data-controller="GroupController"] .grouptree li[data-expanded="T"] > .iconexpander::before {content:'expand_more';}
+div[data-controller="GroupController"] .grouptree li[data-expanded="F"] > .iconexpander {visibility:visible;}
+div[data-controller="GroupController"] .grouptree li[data-expanded="F"] > .iconexpander::before {content:'chevron_right';}
+
+div[data-controller="GroupController"] .grouptree .nodetypeicon {float:left;display:none;}
+div[data-controller="GroupController"] .grouptree .nodetypeicon::before {content:'folder';}
+div[data-controller="GroupController"] .grouptree li[data-property-nodetype="System"] .nodetypeicon::before {content:'folder';color:#4caf50;}
+div[data-controller="GroupController"] .grouptree li[data-property-nodetype="Application"] .nodetypeicon::before {content:'folder';color:#4caf50;}
+div[data-controller="GroupController"] .grouptree li[data-property-nodetype="Lv1ModuleMenu"] .nodetypeicon::before {content:'folder';color:#673ab7;}
+div[data-controller="GroupController"] .grouptree li[data-property-nodetype="Module"] .nodetypeicon::before {content:'web_asset';}
+
+div[data-controller="GroupController"] .grouptree .icon {float:left;margin:3px 6px 3px 0;width:16px;height:16px;background-size:cover;background-repeat:no-repeat;display:none;}
+div[data-controller="GroupController"] .grouptree li[data-property-nodetype="Tab"] > .icon,
+div[data-controller="GroupController"] .grouptree li[data-property-nodetype="Lv1ModuleMenu"] > .icon {background-image:url('../fwimages/icons/128/securitytree-tab.001.png');display:block;}
+div[data-controller="GroupController"] .grouptree li[data-property-nodetype="Lv1SettingsMenu"] > .icon {background-image:url('../fwimages/icons/128/securitytree-tab.001.png');display:block;}
+
+div[data-controller="GroupController"] .grouptree .iconvisible {float:left;cursor:pointer;font-size:1em;color: #0097A7;}
+div[data-controller="GroupController"] .grouptree .iconvisible::before {content:'check_box_outline';}
+div[data-controller="GroupController"] .grouptree li[data-property-visible="T"] > .content > .iconvisible::before {content:'check_box';}
+div[data-controller="GroupController"] .grouptree li[data-property-visible="F"] {opacity:0.2;}
+div[data-controller="GroupController"] .grouptree li[data-property-visible="F"] li[data-property-visible="F"] {opacity:1;}
+div[data-controller="GroupController"] .grouptree li[data-property-visible="T"] {opacity:1;}
+
+div[data-controller="GroupController"] .grouptree .iconeditable {float:left;margin:0 1px 0 1px;width:16px;height:16px;background-size:cover;background-repeat:no-repeat;background-image:url('fwimages/icons/128/securitytree-editable-false.001.png');}
+div[data-controller="GroupController"] .grouptree li[data-property-visible="T"] > .content > .iconeditable {cursor:pointer;}
+div[data-controller="GroupController"] .grouptree li[data-property-visible="T"][data-property-editable="T"] > .content > .iconeditable {background-image:url('../fwimages/icons/128/securitytree-editable-true.001.png');}
+div[data-controller="GroupController"] .grouptree li[data-property-editable="F"] > .content > .caption {color:#ff0000;}
+
+div[data-controller="GroupController"] .grouptree .caption {float:left;font-size:.7em;padding:0 .3em 0 .3em;}
+
+div[data-controller="GroupController"] .grouptree li > .content > .caption::before {font-size:.8em;color:#0000ff;}
+div[data-controller="GroupController"] .grouptree li[data-property-nodetype="Application"] > .content > .caption::before {content:'Application: ';}
+div[data-controller="GroupController"] .grouptree li[data-property-nodetype="Lv1ModuleMenu"] > .content > .caption::before {content:'Group: ';}
+div[data-controller="GroupController"] .grouptree li[data-property-nodetype="Lv2ModuleMenu"] > .content > .caption::before {content:'Group: ';}
+div[data-controller="GroupController"] .grouptree li[data-property-nodetype="Module"] > .content > .caption::before {content:'Module: ';}
+div[data-controller="GroupController"] .grouptree li[data-property-nodetype="NewMenuBarButton"] > .content > .caption::before {content:'MenuItem: ';}
+div[data-controller="GroupController"] .grouptree li[data-property-nodetype="ViewMenuBarButton"] > .content > .caption::before {content:'MenuItem: ';}
+div[data-controller="GroupController"] .grouptree li[data-property-nodetype="EditMenuBarButton"] > .content > .caption::before {content:'MenuItem: ';}
+div[data-controller="GroupController"] .grouptree li[data-property-nodetype="DeleteMenuBarButton"] > .content > .caption::before {content:'MenuItem: ';}
+div[data-controller="GroupController"] .grouptree li[data-property-nodetype="SaveMenuBarButton"] > .content > .caption::before {content:'MenuItem: ';}
+div[data-controller="GroupController"] .grouptree li[data-property-nodetype="DownloadExcelSubMenuItem"] > .content > .caption::before {content:'MenuItem: ';}
+div[data-controller="GroupController"] .grouptree li[data-property-nodetype="SubModule"] > .content > .caption::before {content:'SubModule: ';}
+div[data-controller="GroupController"] .grouptree li[data-property-nodetype="SubMenuGroup"] > .content > .caption::before {content:'Group: ';}
+div[data-controller="GroupController"] .grouptree li[data-property-nodetype="Grid"] > .content > .caption::before {content:'Grid: ';}
+div[data-controller="GroupController"] .grouptree li[data-property-nodetype="Controller"] > .content > .caption::before {content:'Controller: ';}
+div[data-controller="GroupController"] .grouptree li[data-property-nodetype="ControllerMethod"] > .content > .caption::before {content:'Method: ';}
+
+div[data-controller="GroupController"] .grouptree li[data-haschildren="F"] {list-style-type:none;}
+div[data-controller="GroupController"] .grouptree li[data-expanded="F"] > .childrencontainer {display:none;}
+div[data-controller="GroupController"] .grouptree li[data-property-id="apptree"] > .content > .iconvisible {display:none;}
+div[data-controller="GroupController"] .grouptree li[data-property-id="apptree"] > .content > .iconeditable {display:none;}
