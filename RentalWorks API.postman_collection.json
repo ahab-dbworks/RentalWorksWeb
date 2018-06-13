@@ -31631,7 +31631,7 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "http://localhost:57949/api/v1/ratewarehouse/00001965~0000000H",
+							"raw": "http://localhost:57949/api/v1/ratewarehouse/B0041Z1N~B0029AY5",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -31641,7 +31641,7 @@
 								"api",
 								"v1",
 								"ratewarehouse",
-								"00001965~0000000H"
+								"B0041Z1N~B0029AY5"
 							]
 						}
 					},
@@ -46110,6 +46110,102 @@
 								"v1",
 								"workweek",
 								"31"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Date Functions",
+			"description": null,
+			"item": [
+				{
+					"name": "Add Days",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/datefunctions/adddays?Date=05/11/2018&Days=-1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"datefunctions",
+								"adddays"
+							],
+							"query": [
+								{
+									"key": "Date",
+									"value": "05/11/2018"
+								},
+								{
+									"key": "Days",
+									"value": "-1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add Months",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/datefunctions/addmonths?Date=05/11/2018&Months=2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"datefunctions",
+								"addmonths"
+							],
+							"query": [
+								{
+									"key": "Date",
+									"value": "05/11/2018"
+								},
+								{
+									"key": "Months",
+									"value": "2"
+								}
 							]
 						}
 					},
