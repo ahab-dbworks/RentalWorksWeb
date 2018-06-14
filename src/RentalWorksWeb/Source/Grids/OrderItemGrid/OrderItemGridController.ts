@@ -2,6 +2,33 @@
     Module: string = 'OrderItemGrid';
     apiurl: string = 'api/v1/orderitem';
 
+     onRowNewMode($control: JQuery, $tr: JQuery) {
+         const $form = $control.closest('.fwform');
+
+         const grid = $tr.parents('[data-grid="OrderItemGrid"]');
+         if ($form[0].dataset.controller !== "TemplateController") {
+             var toDate = FwFormField.getValueByDataField($form, 'EstimatedStopDate');
+             var fromDate = FwFormField.getValueByDataField($form, 'EstimatedStartDate');
+             var pickDate = FwFormField.getValueByDataField($form, 'PickDate');
+         };
+
+         if (grid.hasClass('R')) {
+             $tr.find('.field[data-browsedatafield="RecType"] input').val("R");
+         } else if (grid.hasClass('S')) {
+             $tr.find('.field[data-browsedatafield="RecType"] input').val("S");
+         } else if (grid.hasClass('M')) {
+             $tr.find('.field[data-browsedatafield="RecType"] input').val("M");
+         } else if (grid.hasClass('L')) {
+             $tr.find('.field[data-browsedatafield="RecType"] input').val("L");
+         }
+
+         if ($form[0].dataset.controller !== "TemplateController") {
+             $tr.find('.field[data-browsedatafield="FromDate"] input').val(fromDate);
+             $tr.find('.field[data-browsedatafield="ToDate"] input').val(toDate);
+             $tr.find('.field[data-browsedatafield="PickDate"] input').val(pickDate);
+         }
+     }
+
     generateRow($control, $generatedtr) {
         var $form = $control.closest('.fwform');
 
@@ -63,29 +90,6 @@
                 $generatedtr.find('.field[data-browsedatafield="ReturnToWarehouseId"] input.text').val(warehouseCode);
                 $generatedtr.find('.field[data-browsedatafield="DiscountPercent"] input').val(discountPercent);
                 $generatedtr.find('.field[data-browsedatafield="DaysPerWeek"] input').val(daysPerWeek);
-
-                var grid = $generatedtr.parents('[data-grid="OrderItemGrid"]');
-                if ($form[0].dataset.controller !== "TemplateController") {
-                    var toDate = FwFormField.getValueByDataField($form, 'EstimatedStopDate');
-                    var fromDate = FwFormField.getValueByDataField($form, 'EstimatedStartDate');
-                    var pickDate = FwFormField.getValueByDataField($form, 'PickDate');
-                };
-
-                if (grid.hasClass('R')) {
-                    $generatedtr.find('.field[data-browsedatafield="RecType"] input').val("R");
-                } else if (grid.hasClass('S')) {
-                    $generatedtr.find('.field[data-browsedatafield="RecType"] input').val("S");
-                } else if (grid.hasClass('M')) {
-                    $generatedtr.find('.field[data-browsedatafield="RecType"] input').val("M");
-                } else if (grid.hasClass('L')) {
-                    $generatedtr.find('.field[data-browsedatafield="RecType"] input').val("L");
-                }
-
-                if ($form[0].dataset.controller !== "TemplateController") {
-                    $generatedtr.find('.field[data-browsedatafield="FromDate"] input').val(fromDate);
-                    $generatedtr.find('.field[data-browsedatafield="ToDate"] input').val(toDate);
-                    $generatedtr.find('.field[data-browsedatafield="PickDate"] input').val(pickDate);
-                }
             }
         });
 
