@@ -38,7 +38,8 @@ namespace WebApi.Modules.Settings.OrderType
             browseLoader = orderTypeBrowseLoader;
 
             orderType.AfterSave += OnAfterSaveOrderType;
-            finalLandDOrderTypeFields.AfterSave += OnAfterSaveFinalLandDFields;
+
+            AfterSave += OnAfterSaveOrderTypeLogic;
 
         }
         //------------------------------------------------------------------------------------ 
@@ -59,7 +60,7 @@ namespace WebApi.Modules.Settings.OrderType
 
         //rental fields
         [JsonIgnore]
-        public string RentalOrderTypeFieldsId { get { return rentalOrderTypeFields.OrderTypeFieldsId; } set { rentalOrderTypeFields.OrderTypeFieldsId = value; } }
+        public string RentalOrderTypeFieldsId { get { return rentalOrderTypeFields.OrderTypeFieldsId; } set { orderType.RentalOrderTypeFieldsId = value; rentalOrderTypeFields.OrderTypeFieldsId = value; } }
         //public bool? RentalShowOrderNumber { get { return rentalOrderTypeFields.ShowOrderNumber; } set { rentalOrderTypeFields.ShowOrderNumber = value; } }
         public bool? RentalShowICode { get { return rentalOrderTypeFields.ShowICode; } set { rentalOrderTypeFields.ShowICode = value; } }
         public int? RentalICodeWidth { get { return rentalOrderTypeFields.ICodeWidth; } set { rentalOrderTypeFields.ICodeWidth = value; } }
@@ -123,7 +124,7 @@ namespace WebApi.Modules.Settings.OrderType
 
         //sales fields
         [JsonIgnore]
-        public string SalesOrderTypeFieldsId { get { return salesOrderTypeFields.OrderTypeFieldsId; } set { salesOrderTypeFields.OrderTypeFieldsId = value; } }
+        public string SalesOrderTypeFieldsId { get { return salesOrderTypeFields.OrderTypeFieldsId; } set { orderType.SalesOrderTypeFieldsId = value; salesOrderTypeFields.OrderTypeFieldsId = value; } }
         //public bool? SalesShowOrderNumber { get { return salesOrderTypeFields.ShowOrderNumber; } set { salesOrderTypeFields.ShowOrderNumber = value; } }
         public bool? SalesShowICode { get { return salesOrderTypeFields.ShowICode; } set { salesOrderTypeFields.ShowICode = value; } }
         public int? SalesICodeWidth { get { return salesOrderTypeFields.ICodeWidth; } set { salesOrderTypeFields.ICodeWidth = value; } }
@@ -188,7 +189,7 @@ namespace WebApi.Modules.Settings.OrderType
 
         //facilities fields
         [JsonIgnore]
-        public string FacilityOrderTypeFieldsId { get { return spaceOrderTypeFields.OrderTypeFieldsId; } set { spaceOrderTypeFields.OrderTypeFieldsId = value; } }
+        public string FacilityOrderTypeFieldsId { get { return spaceOrderTypeFields.OrderTypeFieldsId; } set { orderType.FacilityOrderTypeFieldsId = value; spaceOrderTypeFields.OrderTypeFieldsId = value; } }
         //public bool? FacilityShowOrderNumber { get { return spaceOrderTypeFields.ShowOrderNumber; } set { spaceOrderTypeFields.ShowOrderNumber = value; } }
         //public bool? FacilityShowRepairOrderNumber { get { return spaceOrderTypeFields.ShowRepairOrderNumber; } set { spaceOrderTypeFields.ShowRepairOrderNumber = value; } }
         //public bool? FacilityShowICode { get { return spaceOrderTypeFields.ShowICode; } set { spaceOrderTypeFields.ShowICode = value; } }
@@ -264,7 +265,7 @@ namespace WebApi.Modules.Settings.OrderType
 
         //transportation fields
         [JsonIgnore]
-        public string VehicleOrderTypeFieldsId { get { return vehicleOrderTypeFields.OrderTypeFieldsId; } set { vehicleOrderTypeFields.OrderTypeFieldsId = value; } }
+        public string VehicleOrderTypeFieldsId { get { return vehicleOrderTypeFields.OrderTypeFieldsId; } set { orderType.VehicleOrderTypeFieldsId = value; vehicleOrderTypeFields.OrderTypeFieldsId = value; } }
         //public bool? VehicleShowOrderNumber { get { return vehicleOrderTypeFields.ShowOrderNumber; } set { vehicleOrderTypeFields.ShowOrderNumber = value; } }
         //public bool? VehicleShowRepairOrderNumber { get { return vehicleOrderTypeFields.ShowRepairOrderNumber; } set { vehicleOrderTypeFields.ShowRepairOrderNumber = value; } }
         //public bool? VehicleShowICode { get { return vehicleOrderTypeFields.ShowICode; } set { vehicleOrderTypeFields.ShowICode = value; } }
@@ -338,7 +339,7 @@ namespace WebApi.Modules.Settings.OrderType
 
         //labor/crew fields
         [JsonIgnore]
-        public string LaborOrderTypeFieldsId { get { return laborOrderTypeFields.OrderTypeFieldsId; } set { laborOrderTypeFields.OrderTypeFieldsId = value; } }
+        public string LaborOrderTypeFieldsId { get { return laborOrderTypeFields.OrderTypeFieldsId; } set { orderType.LaborOrderTypeFieldsId = value; laborOrderTypeFields.OrderTypeFieldsId = value; } }
         //public bool? LaborShowOrderNumber { get { return laborOrderTypeFields.ShowOrderNumber; } set { laborOrderTypeFields.ShowOrderNumber = value; } }
         //public bool? LaborShowRepairOrderNumber { get { return laborOrderTypeFields.ShowRepairOrderNumber; } set { laborOrderTypeFields.ShowRepairOrderNumber = value; } }
         public bool? LaborShowICode { get { return laborOrderTypeFields.ShowICode; } set { laborOrderTypeFields.ShowICode = value; } }
@@ -408,7 +409,7 @@ namespace WebApi.Modules.Settings.OrderType
 
         //misc fields
         [JsonIgnore]
-        public string MiscOrderTypeFieldsId { get { return miscOrderTypeFields.OrderTypeFieldsId; } set { miscOrderTypeFields.OrderTypeFieldsId = value; } }
+        public string MiscOrderTypeFieldsId { get { return miscOrderTypeFields.OrderTypeFieldsId; } set { orderType.MiscOrderTypeFieldsId = value; miscOrderTypeFields.OrderTypeFieldsId = value; } }
         //public bool? MiscShowOrderNumber { get { return miscOrderTypeFields.ShowOrderNumber; } set { miscOrderTypeFields.ShowOrderNumber = value; } }
         //public bool? MiscShowRepairOrderNumber { get { return miscOrderTypeFields.ShowRepairOrderNumber; } set { miscOrderTypeFields.ShowRepairOrderNumber = value; } }
         public bool? MiscShowICode { get { return miscOrderTypeFields.ShowICode; } set { miscOrderTypeFields.ShowICode = value; } }
@@ -478,7 +479,7 @@ namespace WebApi.Modules.Settings.OrderType
 
         //rental sale
         [JsonIgnore]
-        public string RentalSaleOrderTypeFieldsId { get { return rentalSaleOrderTypeFields.OrderTypeFieldsId; } set { rentalSaleOrderTypeFields.OrderTypeFieldsId = value; } }
+        public string RentalSaleOrderTypeFieldsId { get { return rentalSaleOrderTypeFields.OrderTypeFieldsId; } set { orderType.RentalSaleOrderTypeFieldsId = value; rentalSaleOrderTypeFields.OrderTypeFieldsId = value; } }
         //public bool? RentalSaleShowOrderNumber { get { return rentalSaleOrderTypeFields.ShowOrderNumber; } set { rentalSaleOrderTypeFields.ShowOrderNumber = value; } }
         //public bool? RentalSaleShowRepairOrderNumber { get { return rentalSaleOrderTypeFields.ShowRepairOrderNumber; } set { rentalSaleOrderTypeFields.ShowRepairOrderNumber = value; } }
         public bool? RentalSaleShowBarCode { get { return rentalSaleOrderTypeFields.ShowBarCode; } set { rentalSaleOrderTypeFields.ShowBarCode = value; } }
@@ -556,7 +557,7 @@ namespace WebApi.Modules.Settings.OrderType
 
         //finalld
         [JsonIgnore]
-        public string FinalLandDOrderTypeFieldsId { get { return finalLandDOrderTypeFields.OrderTypeFieldsId; } set { finalLandDOrderTypeFields.OrderTypeFieldsId = value; } }
+        public string FinalLandDOrderTypeFieldsId { get { return finalLandDOrderTypeFields.OrderTypeFieldsId; } set { orderType.FinalLdOrderTypeFieldsId = value; finalLandDOrderTypeFields.OrderTypeFieldsId = value; } }
         public bool? FinalLandDShowOrderNumber { get { return finalLandDOrderTypeFields.ShowOrderNumber; } set { finalLandDOrderTypeFields.ShowOrderNumber = value; } }
         //public bool? FinalLandDShowRepairOrderNumber { get { return finalLandDOrderTypeFields.ShowRepairOrderNumber; } set { finalLandDOrderTypeFields.ShowRepairOrderNumber = value; } }
         public bool? FinalLandDShowBarCode { get { return finalLandDOrderTypeFields.ShowBarCode; } set { finalLandDOrderTypeFields.ShowBarCode = value; } }
@@ -1004,7 +1005,7 @@ namespace WebApi.Modules.Settings.OrderType
         //------------------------------------------------------------------------------------ 
         public void OnAfterSaveOrderType(object sender, AfterSaveEventArgs e)
         {
-            if ((e.SaveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smUpdate) && (e.SavePerformed) && (rentalOrderTypeFields.OrderTypeFieldsId.Equals(string.Empty)))
+            if ((e.SaveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smUpdate) && (e.SavePerformed))// && (rentalOrderTypeFields.OrderTypeFieldsId.Equals(string.Empty)))
             {
                 OrderTypeLogic l2 = new OrderTypeLogic();
                 l2.AppConfig = orderType.AppConfig;
@@ -1021,7 +1022,7 @@ namespace WebApi.Modules.Settings.OrderType
             }
         }
         //------------------------------------------------------------------------------------   
-        public void OnAfterSaveFinalLandDFields(object sender, AfterSaveEventArgs e)
+        public void OnAfterSaveOrderTypeLogic(object sender, AfterSaveEventArgs e)
         {
             if ((e.SaveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smInsert) && (e.SavePerformed))
             {

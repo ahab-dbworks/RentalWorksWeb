@@ -116,15 +116,6 @@ namespace WebApi.Modules.Settings.OrderType
         [FwSqlDataField(column: "quikpayexcludesubs", modeltype: FwDataTypes.Boolean, sqltype: "char")]
         public bool? Quikpayexcludesubs { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "rentalordertypefieldsid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
-        public string RentalordertypefieldsId { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "salesordertypefieldsid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
-        public string SalesordertypefieldsId { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "spaceordertypefieldsid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
-        public string SpaceordertypefieldsId { get; set; }
-        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "subrentalordertypefieldsid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
         public string SubrentalordertypefieldsId { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -134,29 +125,14 @@ namespace WebApi.Modules.Settings.OrderType
         [FwSqlDataField(column: "purchaseordertypefieldsid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
         public string PurchaseordertypefieldsId { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "laborordertypefieldsid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
-        public string LaborordertypefieldsId { get; set; }
-        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "sublaborordertypefieldsid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
         public string SublaborordertypefieldsId { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "miscordertypefieldsid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
-        public string MiscordertypefieldsId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "submiscordertypefieldsid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
         public string SubmiscordertypefieldsId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "repairordertypefieldsid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
         public string RepairordertypefieldsId { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "vehicleordertypefieldsid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
-        public string VehicleordertypefieldsId { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "rentalsaleordertypefieldsid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
-        public string RentalsaleordertypefieldsId { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "ldordertypefieldsid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
-        public string LdordertypefieldsId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "fromtime", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 5)]
         public string Fromtime { get; set; }
@@ -211,6 +187,30 @@ namespace WebApi.Modules.Settings.OrderType
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "selectrentalsaleprice", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 2)]
         public string Selectrentalsaleprice { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "rentalordertypefieldsid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
+        public string RentalOrderTypeFieldsId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "salesordertypefieldsid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
+        public string SalesOrderTypeFieldsId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "laborordertypefieldsid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
+        public string LaborOrderTypeFieldsId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "miscordertypefieldsid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
+        public string MiscOrderTypeFieldsId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "spaceordertypefieldsid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
+        public string FacilityOrderTypeFieldsId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "vehicleordertypefieldsid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
+        public string VehicleOrderTypeFieldsId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "rentalsaleordertypefieldsid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
+        public string RentalSaleOrderTypeFieldsId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "ldordertypefieldsid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
+        public string FinalLdOrderTypeFieldsId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "inactive", modeltype: FwDataTypes.Boolean, sqltype: "char")]
         public bool? Inactive { get; set; }
