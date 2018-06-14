@@ -269,7 +269,7 @@ namespace WebApi.Modules.Home.OrderItem
                 {
                     if (RateType.Equals(RwConstants.RATE_TYPE_DAILY))
                     {
-                        if ((Quantity * Rate * DaysPerWeek) == 0)
+                        if ((Quantity == 0) || (Rate == 0) || (DaysPerWeek == 0))
                         {
                             throw new Exception("Cannot determine Discount Percent because Quantity * Rate * DaysPerWeek is zero.");
                         }
@@ -291,12 +291,20 @@ namespace WebApi.Modules.Home.OrderItem
                             {
                                 DiscountPercent = ((100 * WeeklyDiscount) / (Quantity * Rate * FirstWeekBillableDays));
                             }
+                            else if (UnitExtended != null)
+                            {
+                                DiscountPercent = (100 - ((100 * UnitExtended) / (Rate * FirstWeekBillableDays)));
+                            }
+                            else if (UnitDiscount != null)
+                            {
+                                DiscountPercent = ((100 * UnitDiscount) / (Rate * FirstWeekBillableDays));
+                            }
                             CalculateExtendeds();
                         }
                     }
                     else if (RateType.Equals(RwConstants.RATE_TYPE_WEEKLY))
                     {
-                        if ((Quantity * Rate) == 0)
+                        if ((Quantity == 0) || (Rate == 0))
                         {
                             throw new Exception("Cannot determine Discount Percent because Quantity * Rate is zero.");
                         }
@@ -318,6 +326,14 @@ namespace WebApi.Modules.Home.OrderItem
                             {
                                 DiscountPercent = ((100 * WeeklyDiscount) / (Quantity * Rate));
                             }
+                            else if (UnitExtended != null)
+                            {
+                                DiscountPercent = (100 - ((100 * UnitExtended) / Rate));
+                            }
+                            else if (UnitDiscount != null)
+                            {
+                                DiscountPercent = ((100 * UnitDiscount) / Rate);
+                            }
                             CalculateExtendeds();
                         }
                     }
@@ -327,7 +343,7 @@ namespace WebApi.Modules.Home.OrderItem
                     }
                     else if (RateType.Equals(RwConstants.RATE_TYPE_MONTHLY))
                     {
-                        if ((Quantity * Rate) == 0)
+                        if ((Quantity == 0) || (Rate == 0))
                         {
                             throw new Exception("Cannot determine Discount Percent because Quantity * Rate is zero.");
                         }
@@ -349,6 +365,14 @@ namespace WebApi.Modules.Home.OrderItem
                             {
                                 DiscountPercent = ((100 * MonthlyDiscount) / (Quantity * Rate));
                             }
+                            else if (UnitExtended != null)
+                            {
+                                DiscountPercent = (100 - ((100 * UnitExtended) / Rate));
+                            }
+                            else if (UnitDiscount != null)
+                            {
+                                DiscountPercent = ((100 * UnitDiscount) / Rate);
+                            }
                             CalculateExtendeds();
                         }
                     }
@@ -359,7 +383,7 @@ namespace WebApi.Modules.Home.OrderItem
                 }
                 else if ((RecType.Equals(RwConstants.RECTYPE_SALE)) || (RecType.Equals(RwConstants.RECTYPE_MISC)) || (RecType.Equals(RwConstants.RECTYPE_LABOR)))
                 {
-                    if ((Quantity * Rate) == 0)
+                    if ((Quantity == 0) || (Rate == 0))
                     {
                         throw new Exception("Cannot determine Discount Percent because Quantity * Rate is zero.");
                     }
@@ -372,6 +396,14 @@ namespace WebApi.Modules.Home.OrderItem
                         else if (PeriodDiscount != null)
                         {
                             DiscountPercent = ((100 * PeriodDiscount) / (Quantity * Rate));
+                        }
+                        else if (UnitExtended != null)
+                        {
+                            DiscountPercent = (100 - ((100 * UnitExtended) / Rate));
+                        }
+                        else if (UnitDiscount != null)
+                        {
+                            DiscountPercent = ((100 * UnitDiscount) / Rate);
                         }
                         CalculateExtendeds();
                     }
