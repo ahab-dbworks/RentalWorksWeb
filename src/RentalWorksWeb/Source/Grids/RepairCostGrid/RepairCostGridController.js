@@ -30,7 +30,7 @@ var RepairCostGrid = (function () {
             discountValue = +discountValue.substring(1).replace(',', '');
             url = "api/v1/repaircost/calculateextended?Quantity=" + quantityValue + "&Rate=" + rateValue + "&DiscountAmount=" + discountValue;
             FwAppData.apiMethod(true, 'GET', url, null, FwServices.defaultTimeout, function onSuccess(response) {
-                $generatedtr.find('.field[data-browsedatafield="Extended"]').text("$" + response.Extended);
+                $generatedtr.find('.field[data-browsedatafield="Extended"] input').val(response.Extended);
             }, null, null);
         }
     };

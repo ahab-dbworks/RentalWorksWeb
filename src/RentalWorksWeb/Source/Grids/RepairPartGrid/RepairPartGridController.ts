@@ -38,7 +38,7 @@
             url = `api/v1/repairpart/calculateextended?Quantity=${quantityValue}&Rate=${priceValue}&DiscountAmount=${discountValue}`;
 
             FwAppData.apiMethod(true, 'GET', url, null, FwServices.defaultTimeout, function onSuccess(response) {
-                $generatedtr.find('.field[data-browsedatafield="Extended"]').text(`$${response.Extended}`);
+                $generatedtr.find('.field[data-browsedatafield="Extended"] input').val(response.Extended);
             }, null, null);
         }
     };
