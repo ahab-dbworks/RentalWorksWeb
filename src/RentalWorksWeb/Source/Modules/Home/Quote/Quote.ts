@@ -195,6 +195,8 @@ class Quote {
             FwFormField.setValueByDataField($form, 'PickDate', today);
             FwFormField.setValueByDataField($form, 'EstimatedStartDate', today);
             FwFormField.setValueByDataField($form, 'EstimatedStopDate', today);
+            FwFormField.setValueByDataField($form, 'BillingWeeks', '0');
+            FwFormField.setValueByDataField($form, 'BillingMonths', '0');
             FwFormField.setValueByDataField($form, 'VersionNumber', 1);
 
             $form.find('div[data-datafield="DealId"]').attr('data-required', false);
@@ -896,10 +898,6 @@ class Quote {
         $form.find('.order_item_view_select').on('change', event => {
             this.toggleOrderItemView($form, event);
         });
-        // Billing Weeks or Month field change
-        $form.find('.week_or_month_field').on('change', event => {
-            this.adjustBillingEndDate($form, event);
-        });
         // Market Type Change
         $form.find('[data-datafield="MarketTypeId"] input').on('change', event => {
             FwFormField.setValueByDataField($form, 'MarketSegmentId', '');
@@ -931,8 +929,18 @@ class Quote {
             this.checkDateRangeForPick($form, event);
         });
         // BillingDate Change
-        $form.find('.billing_date').on('changeDate', event => {
+        $form.find('.billing_start_date').on('changeDate', event => {
             this.adjustBillingEndDate($form, event);
+        });
+        // BillingDate Change
+        $form.find('.billing_end_date').on('changeDate', event => {
+            this.adjustWeekorMonthBillingField($form, event);
+        });
+        // Billing Weeks or Month field change
+        $form.find('.week_or_month_field').keypress(event => {
+            if (event.which == 13) {
+                this.adjustBillingEndDate($form, event);
+            }
         });
         // Pending PO
         $form.find('[data-datafield="PendingPo"] .fwformfield-value').on('change', function () {
@@ -968,9 +976,9 @@ class Quote {
     //----------------------------------------------------------------------------------------------
     adjustBillingEndDate($form, event) {
         let newEndDate, daysToAdd, monthValue, weeksValue, billingStartDate;
-        billingStartDate = FwFormField.getValueByDataField($form, 'BillingStartDate')
+        billingStartDate = FwFormField.getValueByDataField($form, 'BillingStartDate');
         monthValue = FwFormField.getValueByDataField($form, 'BillingMonths');
-        weeksValue = FwFormField.getValueByDataField($form, 'BillingWeeks')
+        weeksValue = FwFormField.getValueByDataField($form, 'BillingWeeks');
 
         if (FwFormField.getValueByDataField($form, 'RateType') === 'MONTHLY') {
             if (monthValue !== '0') {
@@ -987,6 +995,30 @@ class Quote {
                 daysToAdd = +(weeksValue * 7) - 1;
                 newEndDate = FwFunc.getDate(billingStartDate, daysToAdd);
                 FwFormField.setValueByDataField($form, 'BillingEndDate', newEndDate);
+            }
+        }
+    };
+
+    //----------------------------------------------------------------------------------------------
+    adjustWeekorMonthBillingField($form, event) {
+        let monthValue, daysBetweenDates, weeksValue, parsedBillingStartDate, parsedBillingEndDate;
+        parsedBillingStartDate = Date.parse(FwFormField.getValueByDataField($form, 'BillingStartDate'));
+        parsedBillingEndDate = Date.parse(FwFormField.getValueByDataField($form, 'BillingEndDate'));
+        monthValue = FwFormField.getValueByDataField($form, 'BillingMonths');
+        weeksValue = FwFormField.getValueByDataField($form, 'BillingWeeks');
+
+        daysBetweenDates = (parsedBillingEndDate - parsedBillingStartDate) / 86400000; // 1 day has 86400000ms
+
+        if (FwFormField.getValueByDataField($form, 'RateType') === 'MONTHLY') {
+            if (monthValue !== '0') {
+                monthValue = Math.ceil(daysBetweenDates / 30);
+                FwFormField.setValueByDataField($form, 'BillingMonths', monthValue);
+            }
+
+        } else {
+            if (weeksValue !== '0') {
+                weeksValue = Math.ceil(daysBetweenDates / 7);
+                FwFormField.setValueByDataField($form, 'BillingWeeks', weeksValue);
             }
         }
     };

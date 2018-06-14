@@ -168,6 +168,8 @@ var Order = (function () {
             FwFormField.setValueByDataField($form, 'PickDate', today);
             FwFormField.setValueByDataField($form, 'EstimatedStartDate', today);
             FwFormField.setValueByDataField($form, 'EstimatedStopDate', today);
+            FwFormField.setValueByDataField($form, 'BillingWeeks', '0');
+            FwFormField.setValueByDataField($form, 'BillingMonths', '0');
             $form.find('div[data-datafield="PickTime"]').attr('data-required', false);
             $form.find('div[data-datafield="EstimatedStartTime"]').attr('data-required', false);
             $form.find('div[data-datafield="EstimatedStopTime"]').attr('data-required', false);
@@ -809,9 +811,6 @@ var Order = (function () {
         $form.find('.bottom_line_discount').on('change', function (event) {
             _this.bottomLineDiscountChange($form, event);
         });
-        $form.find('.week_or_month_field').on('change', function (event) {
-            _this.adjustBillingEndDate($form, event);
-        });
         $form.find('.RentalDaysPerWeek').on('change', '.fwformfield-text, .fwformfield-value', function (event) {
             var request = {};
             var $orderItemGridRental = $form.find('.rentalgrid [data-name="OrderItemGrid"]');
@@ -886,8 +885,16 @@ var Order = (function () {
         $form.find('.pick_date_validation').on('changeDate', function (event) {
             _this.checkDateRangeForPick($form, event);
         });
-        $form.find('.billing_date').on('changeDate', function (event) {
+        $form.find('.billing_start_date').on('changeDate', function (event) {
             _this.adjustBillingEndDate($form, event);
+        });
+        $form.find('.billing_end_date').on('changeDate', function (event) {
+            _this.adjustWeekorMonthBillingField($form, event);
+        });
+        $form.find('.week_or_month_field').keypress(function (event) {
+            if (event.which == 13) {
+                _this.adjustBillingEndDate($form, event);
+            }
         });
     };
     ;
@@ -1035,6 +1042,27 @@ var Order = (function () {
                 daysToAdd = +(weeksValue * 7) - 1;
                 newEndDate = FwFunc.getDate(billingStartDate, daysToAdd);
                 FwFormField.setValueByDataField($form, 'BillingEndDate', newEndDate);
+            }
+        }
+    };
+    ;
+    Order.prototype.adjustWeekorMonthBillingField = function ($form, event) {
+        var monthValue, daysBetweenDates, weeksValue, parsedBillingStartDate, parsedBillingEndDate;
+        parsedBillingStartDate = Date.parse(FwFormField.getValueByDataField($form, 'BillingStartDate'));
+        parsedBillingEndDate = Date.parse(FwFormField.getValueByDataField($form, 'BillingEndDate'));
+        monthValue = FwFormField.getValueByDataField($form, 'BillingMonths');
+        weeksValue = FwFormField.getValueByDataField($form, 'BillingWeeks');
+        daysBetweenDates = (parsedBillingEndDate - parsedBillingStartDate) / 86400000;
+        if (FwFormField.getValueByDataField($form, 'RateType') === 'MONTHLY') {
+            if (monthValue !== '0') {
+                monthValue = Math.ceil(daysBetweenDates / 30);
+                FwFormField.setValueByDataField($form, 'BillingMonths', monthValue);
+            }
+        }
+        else {
+            if (weeksValue !== '0') {
+                weeksValue = Math.ceil(daysBetweenDates / 7);
+                FwFormField.setValueByDataField($form, 'BillingWeeks', weeksValue);
             }
         }
     };
