@@ -200,6 +200,19 @@ var Order = (function () {
         $form.find('div[data-datafield="OrderTypeId"]').data('onchange', function ($tr) {
             self.CombineActivity = $tr.find('.field[data-browsedatafield="CombineActivityTabs"]').attr('data-originalvalue');
             $form.find('[data-datafield="CombineActivity"] input').val(self.CombineActivity);
+            var rentalTab = $form.find('[data-type="tab"][data-caption="Rental"]'), salesTab = $form.find('[data-type="tab"][data-caption="Sales"]'), miscTab = $form.find('[data-type="tab"][data-caption="Misc"]'), laborTab = $form.find('[data-type="tab"][data-caption="Labor"]');
+            var combineActivity = $form.find('[data-datafield="CombineActivity"] input').val();
+            if (combineActivity == "true") {
+                $form.find('.notcombinedtab').hide();
+                $form.find('.combinedtab').show();
+            }
+            else if (combineActivity == "false") {
+                $form.find('.combinedtab').hide();
+                $form.find('[data-datafield="Rental"] input').prop('checked') ? rentalTab.show() : rentalTab.hide();
+                $form.find('[data-datafield="Sales"] input').prop('checked') ? salesTab.show() : salesTab.hide();
+                $form.find('[data-datafield="Miscellaneous"] input').prop('checked') ? miscTab.show() : miscTab.hide();
+                $form.find('[data-datafield="Labor"] input').prop('checked') ? laborTab.show() : laborTab.hide();
+            }
         });
         $form.find('[data-datafield="NoCharge"] .fwformfield-value').on('change', function () {
             var $this = jQuery(this);
