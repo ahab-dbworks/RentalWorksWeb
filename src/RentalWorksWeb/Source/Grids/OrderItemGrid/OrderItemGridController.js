@@ -101,7 +101,7 @@ var OrderItemGrid = (function () {
         $generatedtr.find('div[data-browsedatafield="DaysPerWeek"]').on('change', 'input.value', function ($tr) {
             calculateExtended('Extended');
         });
-        $generatedtr.find('div[data-browsedatafield="DiscountPercent"]').on('change', 'input.value', function ($tr) {
+        $generatedtr.find('div[data-browsedatafield="DiscountPercentDisplay"]').on('change', 'input.value', function ($tr) {
             calculateExtended('Extended', 'DiscountPercent');
         });
         $generatedtr.find('div[data-browsedatafield="UnitExtended"]').on('change', 'input.value', function ($tr) {
@@ -137,7 +137,12 @@ var OrderItemGrid = (function () {
             quantity = $generatedtr.find('.field[data-browsedatafield="QuantityOrdered"] input').val();
             rate = $generatedtr.find('.field[data-browsedatafield="Price"] input').val();
             daysPerWeek = $generatedtr.find('.field[data-browsedatafield="DaysPerWeek"] input').val();
-            discountPercent = $generatedtr.find('.field[data-browsedatafield="DiscountPercent"] input').val();
+            if (field == "DiscountPercent") {
+                discountPercent = $generatedtr.find('.field[data-browsedatafield="DiscountPercentDisplay"] input').val();
+            }
+            else {
+                discountPercent = $generatedtr.find('.field[data-browsedatafield="DiscountPercent"] input').val();
+            }
             weeklyExtended = $generatedtr.find('.field[data-browsedatafield="WeeklyExtended"] input').val();
             unitExtended = $generatedtr.find('.field[data-browsedatafield="UnitExtended"] input').val();
             periodExtended = $generatedtr.find('.field[data-browsedatafield="PeriodExtended"] input').val();
@@ -170,12 +175,14 @@ var OrderItemGrid = (function () {
             if (type == 'Extended') {
                 apiurl += "&DiscountPercent=" + discountPercent;
                 FwAppData.apiMethod(true, 'GET', apiurl, null, FwServices.defaultTimeout, function onSuccess(response) {
+                    $generatedtr.find('.field[data-browsedatafield="UnitExtended"] input').val(response.UnitExtended);
+                    $generatedtr.find('.field[data-browsedatafield="UnitDiscountAmount"] input').val(response.UnitDiscountAmount);
                     $generatedtr.find('.field[data-browsedatafield="WeeklyExtended"] input').val(response.WeeklyExtended);
-                    $generatedtr.find('.field[data-browsedatafield="WeeklyDiscountAmount"] input').val(response.WeeklyDiscount);
+                    $generatedtr.find('.field[data-browsedatafield="WeeklyDiscountAmount"] input').val(response.WeeklyDiscountAmount);
                     $generatedtr.find('.field[data-browsedatafield="MonthlyExtended"] input').val(response.MonthlyExtended);
-                    $generatedtr.find('.field[data-browsedatafield="MonthlyDiscountAmount"] input').val(response.MonthlyDiscount);
+                    $generatedtr.find('.field[data-browsedatafield="MonthlyDiscountAmount"] input').val(response.MonthlyDiscountAmount);
                     $generatedtr.find('.field[data-browsedatafield="PeriodExtended"] input').val(response.PeriodExtended);
-                    $generatedtr.find('.field[data-browsedatafield="PeriodDiscountAmount"] input').val(response.PeriodDiscount);
+                    $generatedtr.find('.field[data-browsedatafield="PeriodDiscountAmount"] input').val(response.PeriodDiscountAmount);
                 }, null, null);
             }
             if (type == 'Discount') {
@@ -212,10 +219,10 @@ var OrderItemGrid = (function () {
                     $generatedtr.find('.field[data-browsedatafield="UnitExtended"] input').val(response.UnitExtended);
                     $generatedtr.find('.field[data-browsedatafield="PeriodExtended"] input').val(response.PeriodExtended);
                     $generatedtr.find('.field[data-browsedatafield="MonthlyExtended"] input').val(response.MonthlyExtended);
-                    $generatedtr.find('.field[data-browsedatafield="UnitDiscountAmount"] input').val(response.UnitDiscount);
-                    $generatedtr.find('.field[data-browsedatafield="WeeklyDiscountAmount"] input').val(response.WeeklyDiscount);
-                    $generatedtr.find('.field[data-browsedatafield="MonthlyDiscountAmount"] input').val(response.MonthlyDiscount);
-                    $generatedtr.find('.field[data-browsedatafield="PeriodDiscountAmount"] input').val(response.PeriodDiscount);
+                    $generatedtr.find('.field[data-browsedatafield="UnitDiscountAmount"] input').val(response.UnitDiscountAmount);
+                    $generatedtr.find('.field[data-browsedatafield="WeeklyDiscountAmount"] input').val(response.WeeklyDiscountAmount);
+                    $generatedtr.find('.field[data-browsedatafield="MonthlyDiscountAmount"] input').val(response.MonthlyDiscountAmount);
+                    $generatedtr.find('.field[data-browsedatafield="PeriodDiscountAmount"] input').val(response.PeriodDiscountAmount);
                 }, null, null);
             }
         }

@@ -82,13 +82,13 @@ namespace WebApi.Modules.Home.OrderItem
             public int? Weeks;
             public int? Months;
             public Decimal? BillablePeriods;
-            public Decimal? UnitDiscount;
+            public Decimal? UnitDiscountAmount;
             public Decimal? UnitExtended;
-            public Decimal? WeeklyDiscount;
+            public Decimal? WeeklyDiscountAmount;
             public Decimal? WeeklyExtended;
-            public Decimal? MonthlyDiscount;
+            public Decimal? MonthlyDiscountAmount;
             public Decimal? MonthlyExtended;
-            public Decimal? PeriodDiscount;
+            public Decimal? PeriodDiscountAmount;
             public Decimal? PeriodExtended;
 
             //------------------------------------------------------------------------------------ 
@@ -173,7 +173,7 @@ namespace WebApi.Modules.Home.OrderItem
             {
                 UpdateDaysWeeksMonths();
 
-                UnitDiscount = Rate * (DiscountPercent / 100);
+                UnitDiscountAmount = Rate * (DiscountPercent / 100);
                 UnitExtended = Rate * ((100 - DiscountPercent) / 100);
 
                 if (RecType.Equals(RwConstants.RECTYPE_RENT))
@@ -182,10 +182,10 @@ namespace WebApi.Modules.Home.OrderItem
                     {
                         BillablePeriods = PeriodBillableDays;
 
-                        WeeklyDiscount = Quantity * Rate * FirstWeekBillableDays * (DiscountPercent / 100);
+                        WeeklyDiscountAmount = Quantity * Rate * FirstWeekBillableDays * (DiscountPercent / 100);
                         WeeklyExtended = Quantity * Rate * FirstWeekBillableDays * ((100 - DiscountPercent) / 100);
 
-                        PeriodDiscount = Quantity * Rate * PeriodBillableDays * (DiscountPercent / 100);
+                        PeriodDiscountAmount = Quantity * Rate * PeriodBillableDays * (DiscountPercent / 100);
                         PeriodExtended = Quantity * Rate * PeriodBillableDays * ((100 - DiscountPercent) / 100);
 
                     }
@@ -193,10 +193,10 @@ namespace WebApi.Modules.Home.OrderItem
                     {
                         BillablePeriods = Weeks;
 
-                        WeeklyDiscount = Quantity * Rate * (DiscountPercent / 100);
+                        WeeklyDiscountAmount = Quantity * Rate * (DiscountPercent / 100);
                         WeeklyExtended = Quantity * Rate * ((100 - DiscountPercent) / 100);
 
-                        PeriodDiscount = BillablePeriods * WeeklyDiscount;
+                        PeriodDiscountAmount = BillablePeriods * WeeklyDiscountAmount;
                         PeriodExtended = BillablePeriods * WeeklyExtended;
                     }
                     else if (RateType.Equals(RwConstants.RATE_TYPE_3WEEK))
@@ -207,10 +207,10 @@ namespace WebApi.Modules.Home.OrderItem
                     {
                         BillablePeriods = Months;
 
-                        MonthlyDiscount = Quantity * Rate * (DiscountPercent / 100);
+                        MonthlyDiscountAmount = Quantity * Rate * (DiscountPercent / 100);
                         MonthlyExtended = Quantity * Rate * ((100 - DiscountPercent) / 100);
 
-                        PeriodDiscount = BillablePeriods * MonthlyDiscount;
+                        PeriodDiscountAmount = BillablePeriods * MonthlyDiscountAmount;
                         PeriodExtended = BillablePeriods * MonthlyExtended;
                     }
                     else
@@ -220,38 +220,38 @@ namespace WebApi.Modules.Home.OrderItem
                 }
                 else if ((RecType.Equals(RwConstants.RECTYPE_SALE)) || (RecType.Equals(RwConstants.RECTYPE_MISC)) || (RecType.Equals(RwConstants.RECTYPE_LABOR)))
                 {
-                    WeeklyDiscount = MonthlyDiscount = PeriodDiscount = Quantity * Rate * (DiscountPercent / 100);
+                    WeeklyDiscountAmount = MonthlyDiscountAmount = PeriodDiscountAmount = Quantity * Rate * (DiscountPercent / 100);
                     WeeklyExtended = MonthlyExtended = PeriodExtended = Quantity * Rate * ((100 - DiscountPercent) / 100);
                 }
 
 
-                if (UnitDiscount.HasValue)
+                if (UnitDiscountAmount.HasValue)
                 {
-                    UnitDiscount = Math.Round(UnitDiscount.Value, 2);
+                    UnitDiscountAmount = Math.Round(UnitDiscountAmount.Value, 2);
                 }
                 if (UnitExtended.HasValue)
                 {
                     UnitExtended = Math.Round(UnitExtended.Value, 2);
                 }
-                if (WeeklyDiscount.HasValue)
+                if (WeeklyDiscountAmount.HasValue)
                 {
-                    WeeklyDiscount = Math.Round(WeeklyDiscount.Value, 2);
+                    WeeklyDiscountAmount = Math.Round(WeeklyDiscountAmount.Value, 2);
                 }
                 if (WeeklyExtended.HasValue)
                 {
                     WeeklyExtended = Math.Round(WeeklyExtended.Value, 2);
                 }
-                if (MonthlyDiscount.HasValue)
+                if (MonthlyDiscountAmount.HasValue)
                 {
-                    MonthlyDiscount = Math.Round(MonthlyDiscount.Value, 2);
+                    MonthlyDiscountAmount = Math.Round(MonthlyDiscountAmount.Value, 2);
                 }
                 if (MonthlyExtended.HasValue)
                 {
                     MonthlyExtended = Math.Round(MonthlyExtended.Value, 2);
                 }
-                if (PeriodDiscount.HasValue)
+                if (PeriodDiscountAmount.HasValue)
                 {
-                    PeriodDiscount = Math.Round(PeriodDiscount.Value, 2);
+                    PeriodDiscountAmount = Math.Round(PeriodDiscountAmount.Value, 2);
                 }
                 if (PeriodExtended.HasValue)
                 {
@@ -279,25 +279,25 @@ namespace WebApi.Modules.Home.OrderItem
                             {
                                 DiscountPercent = (100 - ((100 * PeriodExtended) / (Quantity * Rate * BillablePeriods)));
                             }
-                            else if (PeriodDiscount != null)
+                            else if (PeriodDiscountAmount != null)
                             {
-                                DiscountPercent = ((100 * PeriodDiscount) / (Quantity * Rate * BillablePeriods));
+                                DiscountPercent = ((100 * PeriodDiscountAmount) / (Quantity * Rate * BillablePeriods));
                             }
                             else if (WeeklyExtended != null)
                             {
                                 DiscountPercent = (100 - ((100 * WeeklyExtended) / (Quantity * Rate * FirstWeekBillableDays)));
                             }
-                            else if (WeeklyDiscount != null)
+                            else if (WeeklyDiscountAmount != null)
                             {
-                                DiscountPercent = ((100 * WeeklyDiscount) / (Quantity * Rate * FirstWeekBillableDays));
+                                DiscountPercent = ((100 * WeeklyDiscountAmount) / (Quantity * Rate * FirstWeekBillableDays));
                             }
                             else if (UnitExtended != null)
                             {
                                 DiscountPercent = (100 - ((100 * UnitExtended) / (Rate * FirstWeekBillableDays)));
                             }
-                            else if (UnitDiscount != null)
+                            else if (UnitDiscountAmount != null)
                             {
-                                DiscountPercent = ((100 * UnitDiscount) / (Rate * FirstWeekBillableDays));
+                                DiscountPercent = ((100 * UnitDiscountAmount) / (Rate * FirstWeekBillableDays));
                             }
                             CalculateExtendeds();
                         }
@@ -314,25 +314,25 @@ namespace WebApi.Modules.Home.OrderItem
                             {
                                 DiscountPercent = (100 - ((100 * PeriodExtended) / (Quantity * Rate * BillablePeriods)));
                             }
-                            else if (PeriodDiscount != null)
+                            else if (PeriodDiscountAmount != null)
                             {
-                                DiscountPercent = ((100 * PeriodDiscount) / (Quantity * Rate * BillablePeriods));
+                                DiscountPercent = ((100 * PeriodDiscountAmount) / (Quantity * Rate * BillablePeriods));
                             }
                             else if (WeeklyExtended != null)
                             {
                                 DiscountPercent = (100 - ((100 * WeeklyExtended) / (Quantity * Rate)));
                             }
-                            else if (WeeklyDiscount != null)
+                            else if (WeeklyDiscountAmount != null)
                             {
-                                DiscountPercent = ((100 * WeeklyDiscount) / (Quantity * Rate));
+                                DiscountPercent = ((100 * WeeklyDiscountAmount) / (Quantity * Rate));
                             }
                             else if (UnitExtended != null)
                             {
                                 DiscountPercent = (100 - ((100 * UnitExtended) / Rate));
                             }
-                            else if (UnitDiscount != null)
+                            else if (UnitDiscountAmount != null)
                             {
-                                DiscountPercent = ((100 * UnitDiscount) / Rate);
+                                DiscountPercent = ((100 * UnitDiscountAmount) / Rate);
                             }
                             CalculateExtendeds();
                         }
@@ -353,25 +353,25 @@ namespace WebApi.Modules.Home.OrderItem
                             {
                                 DiscountPercent = (100 - ((100 * PeriodExtended) / (Quantity * Rate * BillablePeriods)));
                             }
-                            else if (PeriodDiscount != null)
+                            else if (PeriodDiscountAmount != null)
                             {
-                                DiscountPercent = ((100 * PeriodDiscount) / (Quantity * Rate * BillablePeriods));
+                                DiscountPercent = ((100 * PeriodDiscountAmount) / (Quantity * Rate * BillablePeriods));
                             }
                             else if (MonthlyExtended != null)
                             {
                                 DiscountPercent = (100 - ((100 * MonthlyExtended) / (Quantity * Rate)));
                             }
-                            else if (MonthlyDiscount != null)
+                            else if (MonthlyDiscountAmount != null)
                             {
-                                DiscountPercent = ((100 * MonthlyDiscount) / (Quantity * Rate));
+                                DiscountPercent = ((100 * MonthlyDiscountAmount) / (Quantity * Rate));
                             }
                             else if (UnitExtended != null)
                             {
                                 DiscountPercent = (100 - ((100 * UnitExtended) / Rate));
                             }
-                            else if (UnitDiscount != null)
+                            else if (UnitDiscountAmount != null)
                             {
-                                DiscountPercent = ((100 * UnitDiscount) / Rate);
+                                DiscountPercent = ((100 * UnitDiscountAmount) / Rate);
                             }
                             CalculateExtendeds();
                         }
@@ -393,17 +393,17 @@ namespace WebApi.Modules.Home.OrderItem
                         {
                             DiscountPercent = (100 - ((100 * PeriodExtended) / (Quantity * Rate)));
                         }
-                        else if (PeriodDiscount != null)
+                        else if (PeriodDiscountAmount != null)
                         {
-                            DiscountPercent = ((100 * PeriodDiscount) / (Quantity * Rate));
+                            DiscountPercent = ((100 * PeriodDiscountAmount) / (Quantity * Rate));
                         }
                         else if (UnitExtended != null)
                         {
                             DiscountPercent = (100 - ((100 * UnitExtended) / Rate));
                         }
-                        else if (UnitDiscount != null)
+                        else if (UnitDiscountAmount != null)
                         {
-                            DiscountPercent = ((100 * UnitDiscount) / Rate);
+                            DiscountPercent = ((100 * UnitDiscountAmount) / Rate);
                         }
                         CalculateExtendeds();
                     }
@@ -450,7 +450,7 @@ namespace WebApi.Modules.Home.OrderItem
         // GET api/v1/orderitem/calculatediscountpercent
         [HttpGet("calculatediscountpercent")]
         public IActionResult CalculateDiscountPercent(string RateType, string RecType, DateTime? FromDate, DateTime? ToDate, DateTime? BillingFromDate, DateTime? BillingToDate, Decimal? Quantity, Decimal? Rate, Decimal? Rate2, Decimal? Rate3, Decimal? Rate4, Decimal? Rate5, Decimal? DaysPerWeek, Decimal? DiscountPercent,
-                                                      Decimal? UnitDiscount, Decimal? UnitExtended, Decimal? WeeklyDiscount, Decimal? WeeklyExtended, Decimal? MonthlyDiscount, Decimal? MonthlyExtended, Decimal? PeriodDiscount, Decimal? PeriodExtended)
+                                                      Decimal? UnitDiscountAmount, Decimal? UnitExtended, Decimal? WeeklyDiscountAmount, Decimal? WeeklyExtended, Decimal? MonthlyDiscountAmount, Decimal? MonthlyExtended, Decimal? PeriodDiscountAmount, Decimal? PeriodExtended)
         {
             try
             {
@@ -469,13 +469,13 @@ namespace WebApi.Modules.Home.OrderItem
                 e.Rate5 = Rate5;
                 e.DaysPerWeek = DaysPerWeek;
                 e.DiscountPercent = DiscountPercent;
-                e.UnitDiscount = UnitDiscount;
+                e.UnitDiscountAmount = UnitDiscountAmount;
                 e.UnitExtended = UnitExtended;
-                e.WeeklyDiscount = WeeklyDiscount;
+                e.WeeklyDiscountAmount = WeeklyDiscountAmount;
                 e.WeeklyExtended = WeeklyExtended;
-                e.MonthlyDiscount = MonthlyDiscount;
+                e.MonthlyDiscountAmount = MonthlyDiscountAmount;
                 e.MonthlyExtended = MonthlyExtended;
-                e.PeriodDiscount = PeriodDiscount;
+                e.PeriodDiscountAmount = PeriodDiscountAmount;
                 e.PeriodExtended = PeriodExtended;
                 e.CalculateDiscountPercent();
                 return new OkObjectResult(e);
