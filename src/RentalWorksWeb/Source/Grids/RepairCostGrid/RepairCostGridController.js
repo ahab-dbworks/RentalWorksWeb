@@ -21,6 +21,11 @@ var RepairCostGrid = (function () {
         $generatedtr.find('.field_to_calc_extended').on('change', 'input.value', function ($tr) {
             calculateExtended();
         });
+        $generatedtr.find('.field[data-browsedatafield="Extended"]').keypress(function (event) {
+            if (event.which == 13) {
+                calculateDiscount(event);
+            }
+        });
         function calculateExtended() {
             var quantityValue, url;
             quantityValue = $generatedtr.find('[data-browsedatafield="Quantity"] input.value').val();
@@ -33,6 +38,19 @@ var RepairCostGrid = (function () {
                 $generatedtr.find('.field[data-browsedatafield="Extended"] input').val(response.Extended);
             }, null, null);
         }
+        ;
+        function calculateDiscount(event) {
+            var quantityValue, discountValue;
+            quantityValue = $generatedtr.find('[data-browsedatafield="Quantity"] input.value').val();
+            var rateValue = $generatedtr.find('.field[data-browsedatafield="Rate"] input').val();
+            rateValue = +rateValue.substring(1).replace(',', '');
+            var extendedValue = $generatedtr.find('.field[data-browsedatafield="Extended"] input').val();
+            extendedValue = +extendedValue.substring(1).replace(',', '');
+            console.log(quantityValue, rateValue, extendedValue);
+            discountValue = extendedValue - (quantityValue * rateValue);
+            $generatedtr.find('.field[data-browsedatafield="DiscountAmount"] input').val(discountValue);
+        }
+        ;
     };
     ;
     return RepairCostGrid;

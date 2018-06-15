@@ -23,6 +23,11 @@
         $generatedtr.find('.field_to_calc_extended').on('change', 'input.value', $tr => {
             calculateExtended();
         });
+        $generatedtr.find('.field[data-browsedatafield="Extended"]').keypress(event => {
+            if (event.which == 13) {
+                calculateDiscount(event);
+            }
+        });
 
         function calculateExtended() {
             let quantityValue, url;  
@@ -36,7 +41,19 @@
             FwAppData.apiMethod(true, 'GET', url, null, FwServices.defaultTimeout, function onSuccess(response) {
                 $generatedtr.find('.field[data-browsedatafield="Extended"] input').val(response.Extended);
             }, null, null);
-        }
+        };
+
+        function calculateDiscount(event) {
+            let quantityValue, discountValue;
+            quantityValue = $generatedtr.find('[data-browsedatafield="Quantity"] input.value').val();
+            let rateValue = $generatedtr.find('.field[data-browsedatafield="Rate"] input').val();
+            rateValue = +rateValue.substring(1).replace(',', '');
+            let extendedValue = $generatedtr.find('.field[data-browsedatafield="Extended"] input').val();
+            extendedValue = +extendedValue.substring(1).replace(',', '');
+            console.log(quantityValue, rateValue, extendedValue)
+            discountValue = extendedValue - (quantityValue * rateValue);
+            $generatedtr.find('.field[data-browsedatafield="DiscountAmount"] input').val(discountValue);
+        };
     };
 }
 
