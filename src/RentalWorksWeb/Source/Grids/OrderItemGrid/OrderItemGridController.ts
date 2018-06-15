@@ -188,6 +188,7 @@
                 apiurl += "&DiscountPercent=" + discountPercent;
 
                 FwAppData.apiMethod(true, 'GET', apiurl, null, FwServices.defaultTimeout, function onSuccess(response) {
+                    $generatedtr.find('.field[data-browsedatafield="DiscountPercent"] input').val(response.DiscountPercent);
                     $generatedtr.find('.field[data-browsedatafield="UnitExtended"] input').val(response.UnitExtended);
                     $generatedtr.find('.field[data-browsedatafield="UnitDiscountAmount"] input').val(response.UnitDiscountAmount);
                     $generatedtr.find('.field[data-browsedatafield="WeeklyExtended"] input').val(response.WeeklyExtended);
