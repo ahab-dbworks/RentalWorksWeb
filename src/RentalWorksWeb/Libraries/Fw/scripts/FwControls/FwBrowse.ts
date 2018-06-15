@@ -1042,6 +1042,7 @@
                     html.push('<div class="fwbrowsebutton btnClear">Clear</div>');
                     html.push('<div class="fwbrowsebutton btnViewSelection" style="display:none;">View Selection</div>');
                     html.push('<div class="fwbrowsebutton btnCancel">Cancel</div>');
+                    html.push('<div class="fwbrowsebutton btnNew">New</div>'); 
                     $customvalidationbuttons = $control.find('.customvalidationbuttons');
                     if ($customvalidationbuttons.length > 0) {
                         FwControl.renderRuntimeControls($customvalidationbuttons.find('.fwcontrol'));
