@@ -773,7 +773,9 @@ class Quote {
         var rate = FwFormField.getValueByDataField($form, 'RateType');
         if (rate === '3WEEK') {
             $allOrderItemGrid.find('.3week').parent().show();
+            $allOrderItemGrid.find('.3week').parent().show();
             $allOrderItemGrid.find('.price').find('.caption').text('Week 1 Rate');
+            $orderItemGridRental.find('.3week').parent().show();
             $orderItemGridRental.find('.3week').parent().show();
             $orderItemGridRental.find('.price').find('.caption').text('Week 1 Rate');
         }
@@ -1645,7 +1647,7 @@ class Quote {
                 $form.find('.combined').css('display', 'none');
                 $form.find('.combinedtab').css('display', 'none');
             }
-            var hiddenRentals = fieldNames.filter(function (field) {
+            var hiddenRentals : Array<string> = fieldNames.filter(function (field) {
                 return !this.has(field)
             }, new Set(response.RentalShowFields))
             var hiddenSales = fieldNames.filter(function (field) {
@@ -1668,6 +1670,9 @@ class Quote {
             }
             for (var l = 0; l < hiddenMisc.length; l++) {
                 jQuery($miscGrid.find('[data-mappedfield="' + hiddenMisc[l] + '"]')).parent().hide();
+            }
+            if (!hiddenRentals.includes('WeeklyExtended')) {
+                $rentalGrid.find('.3weekextended').parent.show();
             }
         }, null, null);
     };

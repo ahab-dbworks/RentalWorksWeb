@@ -947,8 +947,10 @@ var Order = (function () {
         var rate = FwFormField.getValueByDataField($form, 'RateType');
         if (rate === '3WEEK') {
             $allOrderItemGrid.find('.3week').parent().show();
+            $allOrderItemGrid.find('.weekextended').parent().hide();
             $allOrderItemGrid.find('.price').find('.caption').text('Week 1 Rate');
             $orderItemGridRental.find('.3week').parent().show();
+            $orderItemGridRental.find('.weekextended').parent().hide();
             $orderItemGridRental.find('.price').find('.caption').text('Week 1 Rate');
             FwBrowse.search($allOrderItemGrid);
             FwBrowse.search($orderItemGridRental);
@@ -1532,6 +1534,9 @@ var Order = (function () {
             }
             for (var l = 0; l < hiddenMisc.length; l++) {
                 jQuery($miscGrid.find('[data-mappedfield="' + hiddenMisc[l] + '"]')).parent().hide();
+            }
+            if (!hiddenRentals.includes('WeeklyExtended')) {
+                $rentalGrid.find('.3weekextended').parent.show();
             }
         }, null, null);
     };
