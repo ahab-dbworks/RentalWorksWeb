@@ -19,7 +19,7 @@ namespace FwCore.Controllers
     {
         private readonly FwApplicationConfig _appConfig;
         private readonly ILogger _logger;
-        private readonly JsonSerializerSettings _serializerSettings;
+        //private readonly JsonSerializerSettings _serializerSettings;
         //---------------------------------------------------------------------------------------------
         public FwJwtController(IOptions<FwApplicationConfig> appConfig, ILoggerFactory loggerFactory)
         {
@@ -28,10 +28,10 @@ namespace FwCore.Controllers
 
             _logger = loggerFactory.CreateLogger<FwJwtController>();
 
-            _serializerSettings = new JsonSerializerSettings
-            {
-                Formatting = Formatting.Indented
-            };
+            //_serializerSettings = new JsonSerializerSettings
+            //{
+            //    Formatting = Formatting.Indented
+            //};
         }
         //---------------------------------------------------------------------------------------------
         protected virtual async Task<IActionResult> DoPost([FromBody] FwStandard.Models.FwApplicationUser user)
@@ -73,8 +73,8 @@ namespace FwCore.Controllers
                 response.expires_in   = (int)_appConfig.JwtIssuerOptions.ValidFor.TotalSeconds;
             }
 
-            var json = JsonConvert.SerializeObject(response, _serializerSettings);
-            return new OkObjectResult(json);
+            //var json = JsonConvert.SerializeObject(response, _serializerSettings);
+            return new OkObjectResult(response);
         }
         //---------------------------------------------------------------------------------------------
         private static void ThrowIfInvalidOptions(FwJwtIssuerOptions options)

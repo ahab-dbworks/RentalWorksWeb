@@ -49,7 +49,10 @@ var FwPopup = (function () {
     };
     ;
     FwPopup.renderPopup = function ($content, options, title) {
-        var html, $popup, ismodal = true;
+        var html, $popup, ismodal = true, isNewValidation = false;
+        if ($content.data('afterSaveNewValidation') !== 'undefined' && typeof $content.data('afterSaveNewValidation') === 'function') {
+            isNewValidation = true;
+        }
         html = [];
         html.push('<div class="fwpopup">');
         html.push('<div class="fwpopupbox" style="position:relative;">');
@@ -60,9 +63,15 @@ var FwPopup = (function () {
         html.push('</div>');
         html.push('</div>');
         $popup = jQuery(html.join(''));
+        if (isNewValidation) {
+            $popup.addClass('new-validation');
+        }
         $popup.find('.close-modal').one('click', function (e) {
-            FwPopup.destroyPopup(jQuery(document).find('.fwpopup'));
-            jQuery(document).find('.fwpopup').off('click');
+            if (isNewValidation) {
+                $content.data('afterSaveNewValidation')();
+            }
+            FwPopup.destroyPopup(jQuery(this).closest('.fwpopup'));
+            jQuery(this).closest('.fwpopup').off('click');
             jQuery(document).off('keydown');
         });
         $popup.find('.fwpopupbox').append($content);

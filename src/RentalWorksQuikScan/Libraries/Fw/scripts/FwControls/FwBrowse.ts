@@ -2752,11 +2752,11 @@
         $control.data('afterdelete', callback);
     }
     //---------------------------------------------------------------------------------
-    static setAfterRenderRowCallback = function($control: JQuery, callback: ($tr: JQuery, dt: any, rowIndex: number) => void) {
+    static setAfterRenderRowCallback = function ($control: JQuery, callback: ($tr: JQuery, dt: any, rowIndex: number) => void) {
         $control.data('afterrenderrow', callback);
     }
     //---------------------------------------------------------------------------------
-    static setAfterRenderFieldCallback = function($control: JQuery, callback: ($tr: JQuery, $td: JQuery, $field: JQuery, dt: any, rowIndex: number, colIndex: number) => void) {
+    static setAfterRenderFieldCallback = function ($control: JQuery, callback: ($tr: JQuery, $td: JQuery, $field: JQuery, dt: any, rowIndex: number, colIndex: number) => void) {
         $control.data('afterrenderfield', callback);
     }
     //---------------------------------------------------------------------------------
