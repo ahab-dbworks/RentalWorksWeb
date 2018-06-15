@@ -4,10 +4,10 @@ using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
 using System.Collections.Generic;
-namespace WebApi.Modules.Administrator.User
+namespace WebApi.Modules.Administrator.Person
 {
     [FwSqlTable("webusersview")]
-    public class UserLoader : UserBrowseLoader
+    public class PersonLoader : PersonBrowseLoader
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "barcode", modeltype: FwDataTypes.Text)]

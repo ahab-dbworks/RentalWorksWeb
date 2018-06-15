@@ -4,10 +4,10 @@ using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes; 
 using WebApi.Data; 
 using System.Collections.Generic;
-namespace WebApi.Modules.Administrator.User
+namespace WebApi.Modules.Administrator.Person
 {
     [FwSqlTable("webusersview")]
-    public class UserBrowseLoader : AppDataLoadRecord
+    public class PersonBrowseLoader : AppDataLoadRecord
     {
         [FwSqlDataField(column: "usersid", modeltype: FwDataTypes.Text, isPrimaryKey: true)]
         public string UserId { get; set; } = "";
@@ -30,14 +30,14 @@ namespace WebApi.Modules.Administrator.User
         [FwSqlDataField(column: "lastname", modeltype: FwDataTypes.Text)]
         public string LastName { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "email", modeltype: FwDataTypes.Text)]
+        public string Email { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "groupsid", modeltype: FwDataTypes.Text)]
         public string GroupId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "groups", modeltype: FwDataTypes.Text)]
         public string GroupName { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "email", modeltype: FwDataTypes.Text)]
-        public string Email { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "locationid", modeltype: FwDataTypes.Text)]
         public string OfficeLocationId { get; set; }
@@ -65,7 +65,7 @@ namespace WebApi.Modules.Administrator.User
             base.SetBaseSelectQuery(select, qry, customFields, request);
             select.Parse();
             select.AddWhere("(username > '')");
-            select.AddWhere("(groupsid > '')");
+            select.AddWhere("(email > '')");
             addFilterToSelect("LocationId", "locationid", select, request); 
             addFilterToSelect("WarehouseId", "warehouseid", select, request); 
             addFilterToSelect("GroupId", "groupsid", select, request);
