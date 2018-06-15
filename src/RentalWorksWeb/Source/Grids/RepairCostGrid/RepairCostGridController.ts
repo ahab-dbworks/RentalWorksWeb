@@ -50,7 +50,7 @@
             rateValue = +rateValue.substring(1).replace(',', '');
             let extendedValue = $generatedtr.find('.field[data-browsedatafield="Extended"] input').val();
             extendedValue = +extendedValue.substring(1).replace(',', '');
-            discountValue = extendedValue - (quantityValue * rateValue);
+            discountValue = (quantityValue * rateValue) - extendedValue;
             $generatedtr.find('.field[data-browsedatafield="DiscountAmount"] input').val(discountValue);
         };
     };
