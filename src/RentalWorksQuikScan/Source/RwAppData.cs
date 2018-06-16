@@ -3664,14 +3664,14 @@ namespace RentalWorksQuikScan.Source
                 qry.AddParameter("@usersid",         usersid);
                 qry.AddParameter("@bctype",          bctype);        //O=Order, T=Transfer, P=Package Truck
                 qry.AddParameter("@containeritemid", containeritemid);
-                qry.AddParameter("@orderid",            SqlDbType.Char,    ParameterDirection.InputOutput, orderid);       //input/output
-                qry.AddParameter("@dealid",             SqlDbType.Char,    ParameterDirection.InputOutput, dealid);        //input/output
-                qry.AddParameter("@departmentid",       SqlDbType.Char,    ParameterDirection.InputOutput, departmentid);  //input/output
+                qry.AddParameter("@orderid",            orderid);     
+                qry.AddParameter("@dealid",             dealid);      
+                qry.AddParameter("@departmentid",       departmentid);
                 qry.AddParameter("@masterid",           SqlDbType.Char,    ParameterDirection.Output);
                 qry.AddParameter("@warehouseid",        SqlDbType.Char,    ParameterDirection.Output);
                 qry.AddParameter("@ordertranid",        SqlDbType.Int,     ParameterDirection.Output);
                 qry.AddParameter("@internalchar",       SqlDbType.Char,    ParameterDirection.Output);
-                qry.AddParameter("@masteritemid",       SqlDbType.Char,    ParameterDirection.Output, masteritemid);  //input/output
+                qry.AddParameter("@masteritemid",       SqlDbType.Char,    ParameterDirection.InputOutput, masteritemid);  //input/output
                 qry.AddParameter("@parentid",           SqlDbType.Char,    ParameterDirection.Output);
                 qry.AddParameter("@rentalitemid",       SqlDbType.Char,    ParameterDirection.InputOutput, rentalitemid);  //input/output
                 qry.AddParameter("@vendorid",           SqlDbType.Char,    ParameterDirection.Output);
@@ -3680,23 +3680,35 @@ namespace RentalWorksQuikScan.Source
                 qry.AddParameter("@vendor",             SqlDbType.Char,    ParameterDirection.Output);
                 qry.AddParameter("@orderno",            SqlDbType.VarChar, ParameterDirection.Output);
                 qry.AddParameter("@orderdesc",          SqlDbType.VarChar, ParameterDirection.Output);
+                qry.AddParameter("@packageid",          SqlDbType.Char,    ParameterDirection.Output);
                 qry.AddParameter("@packageitemid",      SqlDbType.Char,    ParameterDirection.Output);
                 qry.AddParameter("@itemclass",          SqlDbType.VarChar, ParameterDirection.Output);
                 qry.AddParameter("@nestedmasteritemid", SqlDbType.Char,    ParameterDirection.Output);
                 qry.AddParameter("@orderby",            SqlDbType.VarChar, ParameterDirection.Output);
+                qry.AddParameter("@pendingrepairid",    SqlDbType.Char,    ParameterDirection.Output);
+                qry.AddParameter("@outputorderid",      SqlDbType.Char,    ParameterDirection.Output);
+                qry.AddParameter("@outputmasteritemid", SqlDbType.Char,    ParameterDirection.Output);
+                qry.AddParameter("@outputdealid",       SqlDbType.Char,    ParameterDirection.Output);
+                qry.AddParameter("@outputdepartmentid", SqlDbType.Char,    ParameterDirection.Output);
+                qry.AddParameter("@outputrentalitemid", SqlDbType.Char,    ParameterDirection.Output);
+                qry.AddParameter("@canswap", SqlDbType.Char, ParameterDirection.Output);
+                qry.AddParameter("@autoswap", SqlDbType.Char, ParameterDirection.Output);
+                qry.AddParameter("@exchangecontractid", SqlDbType.Char, ParameterDirection.Output);
+                qry.AddParameter("@retiredid", SqlDbType.Char, ParameterDirection.Output);
+
                 qry.AddParameter("@msg",                SqlDbType.VarChar, ParameterDirection.Output);
                 qry.AddParameter("@status",             SqlDbType.Decimal, ParameterDirection.Output);
                 qry.Execute();
-                result.orderid            = qry.GetParameter("@orderid").ToString().TrimEnd();
-                result.dealid             = qry.GetParameter("@dealid").ToString().TrimEnd();
-                result.departmentid       = qry.GetParameter("@departmentid").ToString().TrimEnd();
+                result.orderid            = qry.GetParameter("@outputorderid").ToString().TrimEnd();
+                result.dealid             = qry.GetParameter("@outputdealid").ToString().TrimEnd();
+                result.departmentid       = qry.GetParameter("@outputdepartmentid").ToString().TrimEnd();
                 result.masterid           = qry.GetParameter("@masterid").ToString().TrimEnd();
                 result.warehouseid        = qry.GetParameter("@warehouseid").ToString().TrimEnd();
                 result.ordertranid        = qry.GetParameter("@ordertranid").ToInt32();
                 result.internalchar       = qry.GetParameter("@internalchar").ToString().TrimEnd();
-                result.masteritemid       = qry.GetParameter("@masteritemid").ToString().TrimEnd();
+                result.masteritemid       = qry.GetParameter("@outputmasteritemid").ToString().TrimEnd();
                 result.parentid           = qry.GetParameter("@parentid").ToString().TrimEnd();
-                result.rentalitemid       = qry.GetParameter("@rentalitemid").ToString().TrimEnd();
+                result.rentalitemid       = qry.GetParameter("@outputrentalitemid").ToString().TrimEnd();
                 result.vendorid           = qry.GetParameter("@vendorid").ToString().TrimEnd();
                 result.masterno           = qry.GetParameter("@masterno").ToString().TrimEnd();
                 result.description        = qry.GetParameter("@description").ToString().TrimEnd();
