@@ -989,17 +989,15 @@ class Quote {
         });
         // BillingDate Change
         $form.find('.billing_start_date').on('changeDate', event => {
-            this.adjustBillingEndDate($form, event);
+            this.adjustWeekorMonthBillingField($form, event);
         });
         // BillingDate Change
         $form.find('.billing_end_date').on('changeDate', event => {
             this.adjustWeekorMonthBillingField($form, event);
         });
         // Billing Weeks or Month field change
-        $form.find('.week_or_month_field').keypress(event => {
-            if (event.which == 13) {
-                this.adjustBillingEndDate($form, event);
-            }
+        $form.find('.week_or_month_field').on('change', event => {
+            this.adjustBillingEndDate($form, event);
         });
         // Pending PO
         $form.find('[data-datafield="PendingPo"] .fwformfield-value').on('change', function () {
@@ -1034,27 +1032,38 @@ class Quote {
 
     //----------------------------------------------------------------------------------------------
     adjustBillingEndDate($form, event) {
-        let newEndDate, daysToAdd, monthValue, weeksValue, billingStartDate;
+        let newEndDate, daysToAdd, parsedBillingStartDate, parsedBillingEndDate, monthValue, weeksValue, billingStartDate;
+        parsedBillingStartDate = Date.parse(FwFormField.getValueByDataField($form, 'BillingStartDate'));
+        parsedBillingEndDate = Date.parse(FwFormField.getValueByDataField($form, 'BillingEndDate'));
         billingStartDate = FwFormField.getValueByDataField($form, 'BillingStartDate');
         monthValue = FwFormField.getValueByDataField($form, 'BillingMonths');
         weeksValue = FwFormField.getValueByDataField($form, 'BillingWeeks');
 
-        if (FwFormField.getValueByDataField($form, 'RateType') === 'MONTHLY') {
-            if (monthValue !== '0') {
-                FwAppData.apiMethod(true, 'GET', `api/v1/datefunctions/addmonths?Date=${billingStartDate}&Months=${monthValue}`, null, FwServices.defaultTimeout, function onSuccess(response) {
-                    newEndDate = FwFunc.getDate(response, -1)
+        if (!isNaN(parsedBillingStartDate)) { // only if StartDate is defined
+            if (FwFormField.getValueByDataField($form, 'RateType') === 'MONTHLY') {
+                if (!isNaN(monthValue) && monthValue !== '0') {
+                    FwAppData.apiMethod(true, 'GET', `api/v1/datefunctions/addmonths?Date=${billingStartDate}&Months=${monthValue}`, null, FwServices.defaultTimeout, function onSuccess(response) {
+                        newEndDate = FwFunc.getDate(response, -1)
+                        FwFormField.setValueByDataField($form, 'BillingEndDate', newEndDate);
+                    }, function onError(response) {
+                        FwFunc.showError(response);
+                    }, $form);
+                }
+            }
+            else {
+                if (!isNaN(weeksValue) && weeksValue !== '0') {
+                    daysToAdd = +(weeksValue * 7) - 1;
+                    newEndDate = FwFunc.getDate(billingStartDate, daysToAdd);
                     FwFormField.setValueByDataField($form, 'BillingEndDate', newEndDate);
-                }, function onError(response) {
-                    FwFunc.showError(response);
-                }, $form);
+                }
             }
         }
-        else {
-            if (weeksValue !== '0') {
-                daysToAdd = +(weeksValue * 7) - 1;
-                newEndDate = FwFunc.getDate(billingStartDate, daysToAdd);
-                FwFormField.setValueByDataField($form, 'BillingEndDate', newEndDate);
-            }
+
+        if (parsedBillingEndDate < parsedBillingStartDate) {
+            FwNotification.renderNotification('WARNING', "Your chosen 'To Date' is before 'From Date'.");
+            $form.find('div[data-datafield="BillingEndDate"]').addClass('error');
+        } else {
+            $form.find('div[data-datafield="BillingEndDate"]').removeClass('error');
         }
     };
 
@@ -1065,20 +1074,27 @@ class Quote {
         parsedBillingEndDate = Date.parse(FwFormField.getValueByDataField($form, 'BillingEndDate'));
         monthValue = FwFormField.getValueByDataField($form, 'BillingMonths');
         weeksValue = FwFormField.getValueByDataField($form, 'BillingWeeks');
-
         daysBetweenDates = (parsedBillingEndDate - parsedBillingStartDate) / 86400000; // 1 day has 86400000ms
 
-        if (FwFormField.getValueByDataField($form, 'RateType') === 'MONTHLY') {
-            if (monthValue !== '0') {
+        if (!isNaN(parsedBillingStartDate)) { // only if StartDate is defined
+            if (FwFormField.getValueByDataField($form, 'RateType') === 'MONTHLY') {
                 monthValue = Math.ceil(daysBetweenDates / 30);
-                FwFormField.setValueByDataField($form, 'BillingMonths', monthValue);
-            }
-
-        } else {
-            if (weeksValue !== '0') {
+                if (!isNaN(monthValue) && monthValue !== '0') {
+                    FwFormField.setValueByDataField($form, 'BillingMonths', monthValue);
+                }
+            } else {
                 weeksValue = Math.ceil(daysBetweenDates / 7);
-                FwFormField.setValueByDataField($form, 'BillingWeeks', weeksValue);
+                if (!isNaN(weeksValue) && weeksValue !== '0') {
+                    FwFormField.setValueByDataField($form, 'BillingWeeks', weeksValue);
+                } 
             }
+        }
+
+        if (parsedBillingEndDate < parsedBillingStartDate) {
+            FwNotification.renderNotification('WARNING', "Your chosen 'To Date' is before 'From Date'.");
+            $form.find('div[data-datafield="BillingEndDate"]').addClass('error');
+        } else {
+            $form.find('div[data-datafield="BillingEndDate"]').removeClass('error');
         }
     };
 

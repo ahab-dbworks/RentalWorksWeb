@@ -11,7 +11,6 @@ var RepairPartGrid = (function () {
             var inventoryId = $generatedtr.find('div[data-browsedatafield="InventoryId"] input').val();
             if ($generatedtr.hasClass("newmode")) {
                 FwAppData.apiMethod(true, 'GET', "api/v1/pricing/" + inventoryId + "/" + warehouseId, null, FwServices.defaultTimeout, function onSuccess(response) {
-                    console.log(response);
                     $generatedtr.find('.field[data-browsedatafield="Price"] input').val(response[0].Price);
                 }, null, $form);
             }
