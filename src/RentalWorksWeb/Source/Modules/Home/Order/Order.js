@@ -559,74 +559,169 @@ var Order = (function () {
         jQuery($form.find('.miscgrid .valtype')).attr('data-validationname', 'MiscRateValidation');
     };
     ;
-    Order.prototype.beforeValidateOutShipVia = function ($browse, $grid, request) {
-        var validationName = request.module;
-        var outDeliveryCarrierId = jQuery($grid.find('[data-datafield="OutDeliveryCarrierId"] input')).val();
-        switch (validationName) {
-            case 'ShipViaValidation':
-                request.uniqueids = {
-                    VendorId: outDeliveryCarrierId
-                };
-                break;
-        }
-    };
-    Order.prototype.beforeValidateInShipVia = function ($browse, $grid, request) {
-        var validationName = request.module;
-        var inDeliveryCarrierId = jQuery($grid.find('[data-datafield="InDeliveryCarrierId"] input')).val();
-        switch (validationName) {
-            case 'ShipViaValidation':
-                request.uniqueids = {
-                    VendorId: inDeliveryCarrierId
-                };
-                break;
-        }
-    };
-    Order.prototype.beforeValidateCarrier = function ($browse, $grid, request) {
-        var validationName = request.module;
-        switch (validationName) {
-            case 'VendorValidation':
-                request.uniqueids = {
-                    Freight: true
-                };
-                break;
-        }
-    };
-    Order.prototype.beforeValidate = function ($browse, $grid, request) {
-        var $form;
-        $form = $grid.closest('.fwform');
-        var officeLocationId = FwFormField.getValueByDataField($form, 'OfficeLocationId');
-        request.uniqueids = {
-            LocationId: officeLocationId
-        };
-    };
-    ;
-    Order.prototype.beforeValidateMarketSegment = function ($browse, $grid, request) {
-        var validationName = request.module;
-        var marketTypeValue = jQuery($grid.find('[data-validationname="MarketTypeValidation"] input')).val();
-        var marketSegmentValue = jQuery($grid.find('[data-validationname="MarketSegmentValidation"] input')).val();
-        switch (validationName) {
-            case 'MarketSegmentValidation':
-                if (marketTypeValue !== "") {
-                    request.uniqueids = {
-                        MarketTypeId: marketTypeValue,
-                    };
-                    break;
-                }
-            case 'MarketSegmentJobValidation':
-                if (marketSegmentValue !== "") {
-                    request.uniqueids = {
-                        MarketTypeId: marketTypeValue,
-                        MarketSegmentId: marketSegmentValue,
-                    };
-                    break;
-                }
-        }
-        ;
-    };
-    ;
     Order.prototype.loadAudit = function ($form) {
         var uniqueid = FwFormField.getValueByDataField($form, 'OrderId');
         FwModule.loadAudit($form, uniqueid);
+    };
+    ;
+    Order.prototype.renderFrames = function ($form) {
+        var orderId;
+        orderId = FwFormField.getValueByDataField($form, 'OrderId'),
+            $form.find('.frame input').css('width', '100%');
+        FwAppData.apiMethod(true, 'GET', "api/v1/ordersummary/" + orderId, null, FwServices.defaultTimeout, function onSuccess(response) {
+            var key;
+            for (key in response) {
+                if (response.hasOwnProperty(key)) {
+                    $form.find('[data-framedatafield="' + key + '"] input').val(response[key]);
+                    $form.find('[data-framedatafield="' + key + '"]').attr('data-originalvalue', response[key]);
+                }
+            }
+            var $profitFrames = $form.find('.profitframes .frame');
+            $profitFrames.each(function () {
+                var profit = parseFloat(jQuery(this).attr('data-originalvalue'));
+                if (profit > 0) {
+                    jQuery(this).find('input').css('background-color', '#A6D785');
+                }
+                else if (profit < 0) {
+                    jQuery(this).find('input').css('background-color', '#ff9999');
+                }
+            });
+            var $totalFrames = $form.find('.totalColors input');
+            $totalFrames.each(function () {
+                var total = jQuery(this).val();
+                if (total != 0) {
+                    jQuery(this).css('background-color', '#ffffe5');
+                }
+            });
+        }, null, null);
+        FwFormField.disable($form.find('.frame'));
+        $form.find(".frame .add-on").children().hide();
+    };
+    ;
+    Order.prototype.afterLoad = function ($form) {
+        var $orderPickListGrid;
+        $orderPickListGrid = $form.find('[data-name="OrderPickListGrid"]');
+        FwBrowse.search($orderPickListGrid);
+        var $orderStatusHistoryGrid;
+        $orderStatusHistoryGrid = $form.find('[data-name="OrderStatusHistoryGrid"]');
+        FwBrowse.search($orderStatusHistoryGrid);
+        var $orderSnapshotGrid;
+        $orderSnapshotGrid = $form.find('[data-name="OrderSnapshotGrid"]');
+        FwBrowse.search($orderSnapshotGrid);
+        var $orderNoteGrid;
+        $orderNoteGrid = $form.find('[data-name="OrderNoteGrid"]');
+        FwBrowse.search($orderNoteGrid);
+        var $orderContactGrid;
+        $orderContactGrid = $form.find('[data-name="OrderContactGrid"]');
+        FwBrowse.search($orderContactGrid);
+        var $allOrderItemGrid;
+        $allOrderItemGrid = $form.find('.combinedgrid [data-name="OrderItemGrid"]');
+        var $orderItemGridRental;
+        $orderItemGridRental = $form.find('.rentalgrid [data-name="OrderItemGrid"]');
+        var $orderItemGridSales;
+        $orderItemGridSales = $form.find('.salesgrid [data-name="OrderItemGrid"]');
+        FwBrowse.search($orderItemGridSales);
+        var $orderItemGridLabor;
+        $orderItemGridLabor = $form.find('.laborgrid [data-name="OrderItemGrid"]');
+        FwBrowse.search($orderItemGridLabor);
+        var $orderItemGridMisc;
+        $orderItemGridMisc = $form.find('.miscgrid [data-name="OrderItemGrid"]');
+        FwBrowse.search($orderItemGridMisc);
+        var $pickListBrowse = $form.find('#PickListBrowse');
+        FwBrowse.search($pickListBrowse);
+        var $contractBrowse = $form.find('#ContractBrowse');
+        FwBrowse.search($contractBrowse);
+        var rate = FwFormField.getValueByDataField($form, 'RateType');
+        if (rate === '3WEEK') {
+            $allOrderItemGrid.find('.3week').parent().show();
+            $allOrderItemGrid.find('.weekextended').parent().hide();
+            $allOrderItemGrid.find('.price').find('.caption').text('Week 1 Rate');
+            $orderItemGridRental.find('.3week').parent().show();
+            $orderItemGridRental.find('.weekextended').parent().hide();
+            $orderItemGridRental.find('.price').find('.caption').text('Week 1 Rate');
+            FwBrowse.search($allOrderItemGrid);
+            FwBrowse.search($orderItemGridRental);
+        }
+        var $pending = $form.find('div.fwformfield[data-datafield="PendingPo"] input').prop('checked');
+        if ($pending === true) {
+            FwFormField.disable($form.find('[data-datafield="PoNumber"]'));
+            FwFormField.disable($form.find('[data-datafield="PoAmount"]'));
+        }
+        else {
+            FwFormField.enable($form.find('[data-datafield="PoNumber"]'));
+            FwFormField.enable($form.find('[data-datafield="PoAmount"]'));
+        }
+        this.renderFrames($form);
+        this.dynamicColumns($form);
+        $form.find(".totals .add-on").hide();
+        $form.find('.totals input').css('text-align', 'right');
+        var noChargeValue = FwFormField.getValueByDataField($form, 'NoCharge');
+        if (noChargeValue == false) {
+            FwFormField.disable($form.find('[data-datafield="NoChargeReason"]'));
+        }
+        else {
+            FwFormField.enable($form.find('[data-datafield="NoChargeReason"]'));
+        }
+        if (FwFormField.getValueByDataField($form, 'RateType') === 'MONTHLY') {
+            $form.find(".BillingWeeks").hide();
+            $form.find(".BillingMonths").show();
+        }
+        else {
+            $form.find(".BillingMonths").hide();
+            $form.find(".BillingWeeks").show();
+        }
+        if (FwFormField.getValueByDataField($form, 'RateType') === 'DAILY') {
+            $form.find(".RentalDaysPerWeek").show();
+        }
+        else {
+            $form.find(".RentalDaysPerWeek").hide();
+        }
+        this.disableWithTaxCheckbox($form);
+        var rentalTab = $form.find('[data-type="tab"][data-caption="Rental"]'), salesTab = $form.find('[data-type="tab"][data-caption="Sales"]'), miscTab = $form.find('[data-type="tab"][data-caption="Misc"]'), laborTab = $form.find('[data-type="tab"][data-caption="Labor"]');
+        $form.find('[data-datafield="Rental"] input').on('change', function (e) {
+            var combineActivity = $form.find('[data-datafield="CombineActivity"] input').val();
+            if (combineActivity == 'false') {
+                if (jQuery(e.currentTarget).prop('checked')) {
+                    rentalTab.show();
+                }
+                else {
+                    rentalTab.hide();
+                }
+            }
+        });
+        $form.find('[data-datafield="Sales"] input').on('change', function (e) {
+            var combineActivity = $form.find('[data-datafield="CombineActivity"] input').val();
+            if (combineActivity == 'false') {
+                if (jQuery(e.currentTarget).prop('checked')) {
+                    salesTab.show();
+                }
+                else {
+                    salesTab.hide();
+                }
+            }
+        });
+        $form.find('[data-datafield="Miscellaneous"] input').on('change', function (e) {
+            var combineActivity = $form.find('[data-datafield="CombineActivity"] input').val();
+            if (combineActivity == 'false') {
+                if (jQuery(e.currentTarget).prop('checked')) {
+                    miscTab.show();
+                }
+                else {
+                    miscTab.hide();
+                }
+            }
+        });
+        $form.find('[data-datafield="Labor"] input').on('change', function (e) {
+            var combineActivity = $form.find('[data-datafield="CombineActivity"] input').val();
+            if (combineActivity == 'false') {
+                if (jQuery(e.currentTarget).prop('checked')) {
+                    laborTab.show();
+                }
+                else {
+                    laborTab.hide();
+                }
+            }
+        });
     };
     ;
     Order.prototype.copyOrder = function ($form) {
@@ -762,38 +857,69 @@ var Order = (function () {
         });
     };
     ;
-    Order.prototype.renderFrames = function ($form) {
-        var orderId;
-        orderId = FwFormField.getValueByDataField($form, 'OrderId'),
-            $form.find('.frame input').css('width', '100%');
-        FwAppData.apiMethod(true, 'GET', "api/v1/ordersummary/" + orderId, null, FwServices.defaultTimeout, function onSuccess(response) {
-            var key;
-            for (key in response) {
-                if (response.hasOwnProperty(key)) {
-                    $form.find('[data-framedatafield="' + key + '"] input').val(response[key]);
-                    $form.find('[data-framedatafield="' + key + '"]').attr('data-originalvalue', response[key]);
+    Order.prototype.beforeValidateOutShipVia = function ($browse, $grid, request) {
+        var validationName = request.module;
+        var outDeliveryCarrierId = jQuery($grid.find('[data-datafield="OutDeliveryCarrierId"] input')).val();
+        switch (validationName) {
+            case 'ShipViaValidation':
+                request.uniqueids = {
+                    VendorId: outDeliveryCarrierId
+                };
+                break;
+        }
+    };
+    Order.prototype.beforeValidateInShipVia = function ($browse, $grid, request) {
+        var validationName = request.module;
+        var inDeliveryCarrierId = jQuery($grid.find('[data-datafield="InDeliveryCarrierId"] input')).val();
+        switch (validationName) {
+            case 'ShipViaValidation':
+                request.uniqueids = {
+                    VendorId: inDeliveryCarrierId
+                };
+                break;
+        }
+    };
+    Order.prototype.beforeValidateCarrier = function ($browse, $grid, request) {
+        var validationName = request.module;
+        switch (validationName) {
+            case 'VendorValidation':
+                request.uniqueids = {
+                    Freight: true
+                };
+                break;
+        }
+    };
+    Order.prototype.beforeValidate = function ($browse, $grid, request) {
+        var $form;
+        $form = $grid.closest('.fwform');
+        var officeLocationId = FwFormField.getValueByDataField($form, 'OfficeLocationId');
+        request.uniqueids = {
+            LocationId: officeLocationId
+        };
+    };
+    ;
+    Order.prototype.beforeValidateMarketSegment = function ($browse, $grid, request) {
+        var validationName = request.module;
+        var marketTypeValue = jQuery($grid.find('[data-validationname="MarketTypeValidation"] input')).val();
+        var marketSegmentValue = jQuery($grid.find('[data-validationname="MarketSegmentValidation"] input')).val();
+        switch (validationName) {
+            case 'MarketSegmentValidation':
+                if (marketTypeValue !== "") {
+                    request.uniqueids = {
+                        MarketTypeId: marketTypeValue,
+                    };
+                    break;
                 }
-            }
-            var $profitFrames = $form.find('.profitframes .frame');
-            $profitFrames.each(function () {
-                var profit = parseFloat(jQuery(this).attr('data-originalvalue'));
-                if (profit > 0) {
-                    jQuery(this).find('input').css('background-color', '#A6D785');
+            case 'MarketSegmentJobValidation':
+                if (marketSegmentValue !== "") {
+                    request.uniqueids = {
+                        MarketTypeId: marketTypeValue,
+                        MarketSegmentId: marketSegmentValue,
+                    };
+                    break;
                 }
-                else if (profit < 0) {
-                    jQuery(this).find('input').css('background-color', '#ff9999');
-                }
-            });
-            var $totalFrames = $form.find('.totalColors input');
-            $totalFrames.each(function () {
-                var total = jQuery(this).val();
-                if (total != 0) {
-                    jQuery(this).css('background-color', '#ffffe5');
-                }
-            });
-        }, null, null);
-        FwFormField.disable($form.find('.frame'));
-        $form.find(".frame .add-on").children().hide();
+        }
+        ;
     };
     ;
     Order.prototype.events = function ($form) {
@@ -899,164 +1025,58 @@ var Order = (function () {
             _this.checkDateRangeForPick($form, event);
         });
         $form.find('.billing_start_date').on('changeDate', function (event) {
-            _this.adjustBillingEndDate($form, event);
+            _this.adjustWeekorMonthBillingField($form, event);
         });
         $form.find('.billing_end_date').on('changeDate', function (event) {
             _this.adjustWeekorMonthBillingField($form, event);
         });
-        $form.find('.week_or_month_field').keypress(function (event) {
-            if (event.which == 13) {
-                _this.adjustBillingEndDate($form, event);
-            }
-        });
-    };
-    ;
-    Order.prototype.afterLoad = function ($form) {
-        var $orderPickListGrid;
-        $orderPickListGrid = $form.find('[data-name="OrderPickListGrid"]');
-        FwBrowse.search($orderPickListGrid);
-        var $orderStatusHistoryGrid;
-        $orderStatusHistoryGrid = $form.find('[data-name="OrderStatusHistoryGrid"]');
-        FwBrowse.search($orderStatusHistoryGrid);
-        var $orderSnapshotGrid;
-        $orderSnapshotGrid = $form.find('[data-name="OrderSnapshotGrid"]');
-        FwBrowse.search($orderSnapshotGrid);
-        var $orderNoteGrid;
-        $orderNoteGrid = $form.find('[data-name="OrderNoteGrid"]');
-        FwBrowse.search($orderNoteGrid);
-        var $orderContactGrid;
-        $orderContactGrid = $form.find('[data-name="OrderContactGrid"]');
-        FwBrowse.search($orderContactGrid);
-        var $allOrderItemGrid;
-        $allOrderItemGrid = $form.find('.combinedgrid [data-name="OrderItemGrid"]');
-        var $orderItemGridRental;
-        $orderItemGridRental = $form.find('.rentalgrid [data-name="OrderItemGrid"]');
-        var $orderItemGridSales;
-        $orderItemGridSales = $form.find('.salesgrid [data-name="OrderItemGrid"]');
-        FwBrowse.search($orderItemGridSales);
-        var $orderItemGridLabor;
-        $orderItemGridLabor = $form.find('.laborgrid [data-name="OrderItemGrid"]');
-        FwBrowse.search($orderItemGridLabor);
-        var $orderItemGridMisc;
-        $orderItemGridMisc = $form.find('.miscgrid [data-name="OrderItemGrid"]');
-        FwBrowse.search($orderItemGridMisc);
-        var $pickListBrowse = $form.find('#PickListBrowse');
-        FwBrowse.search($pickListBrowse);
-        var $contractBrowse = $form.find('#ContractBrowse');
-        FwBrowse.search($contractBrowse);
-        var rate = FwFormField.getValueByDataField($form, 'RateType');
-        if (rate === '3WEEK') {
-            $allOrderItemGrid.find('.3week').parent().show();
-            $allOrderItemGrid.find('.weekextended').parent().hide();
-            $allOrderItemGrid.find('.price').find('.caption').text('Week 1 Rate');
-            $orderItemGridRental.find('.3week').parent().show();
-            $orderItemGridRental.find('.weekextended').parent().hide();
-            $orderItemGridRental.find('.price').find('.caption').text('Week 1 Rate');
-            FwBrowse.search($allOrderItemGrid);
-            FwBrowse.search($orderItemGridRental);
-        }
-        var $pending = $form.find('div.fwformfield[data-datafield="PendingPo"] input').prop('checked');
-        if ($pending === true) {
-            FwFormField.disable($form.find('[data-datafield="PoNumber"]'));
-            FwFormField.disable($form.find('[data-datafield="PoAmount"]'));
-        }
-        else {
-            FwFormField.enable($form.find('[data-datafield="PoNumber"]'));
-            FwFormField.enable($form.find('[data-datafield="PoAmount"]'));
-        }
-        this.renderFrames($form);
-        this.dynamicColumns($form);
-        $form.find(".totals .add-on").hide();
-        $form.find('.totals input').css('text-align', 'right');
-        var noChargeValue = FwFormField.getValueByDataField($form, 'NoCharge');
-        if (noChargeValue == false) {
-            FwFormField.disable($form.find('[data-datafield="NoChargeReason"]'));
-        }
-        else {
-            FwFormField.enable($form.find('[data-datafield="NoChargeReason"]'));
-        }
-        if (FwFormField.getValueByDataField($form, 'RateType') === 'MONTHLY') {
-            $form.find(".BillingWeeks").hide();
-            $form.find(".BillingMonths").show();
-        }
-        else {
-            $form.find(".BillingMonths").hide();
-            $form.find(".BillingWeeks").show();
-        }
-        if (FwFormField.getValueByDataField($form, 'RateType') === 'DAILY') {
-            $form.find(".RentalDaysPerWeek").show();
-        }
-        else {
-            $form.find(".RentalDaysPerWeek").hide();
-        }
-        this.disableWithTaxCheckbox($form);
-        var rentalTab = $form.find('[data-type="tab"][data-caption="Rental"]'), salesTab = $form.find('[data-type="tab"][data-caption="Sales"]'), miscTab = $form.find('[data-type="tab"][data-caption="Misc"]'), laborTab = $form.find('[data-type="tab"][data-caption="Labor"]');
-        $form.find('[data-datafield="Rental"] input').on('change', function (e) {
-            var combineActivity = $form.find('[data-datafield="CombineActivity"] input').val();
-            if (combineActivity == 'false') {
-                if (jQuery(e.currentTarget).prop('checked')) {
-                    rentalTab.show();
-                }
-                else {
-                    rentalTab.hide();
-                }
-            }
-        });
-        $form.find('[data-datafield="Sales"] input').on('change', function (e) {
-            var combineActivity = $form.find('[data-datafield="CombineActivity"] input').val();
-            if (combineActivity == 'false') {
-                if (jQuery(e.currentTarget).prop('checked')) {
-                    salesTab.show();
-                }
-                else {
-                    salesTab.hide();
-                }
-            }
-        });
-        $form.find('[data-datafield="Miscellaneous"] input').on('change', function (e) {
-            var combineActivity = $form.find('[data-datafield="CombineActivity"] input').val();
-            if (combineActivity == 'false') {
-                if (jQuery(e.currentTarget).prop('checked')) {
-                    miscTab.show();
-                }
-                else {
-                    miscTab.hide();
-                }
-            }
-        });
-        $form.find('[data-datafield="Labor"] input').on('change', function (e) {
-            var combineActivity = $form.find('[data-datafield="CombineActivity"] input').val();
-            if (combineActivity == 'false') {
-                if (jQuery(e.currentTarget).prop('checked')) {
-                    laborTab.show();
-                }
-                else {
-                    laborTab.hide();
-                }
-            }
+        $form.find('.week_or_month_field').on('change', function (event) {
+            _this.adjustBillingEndDate($form, event);
         });
     };
     ;
     Order.prototype.adjustBillingEndDate = function ($form, event) {
-        var newEndDate, daysToAdd, monthValue, weeksValue, billingStartDate;
+        var newEndDate, daysToAdd, parsedBillingStartDate, daysBetweenDates, parsedBillingEndDate, monthValue, weeksValue, billingStartDate;
+        parsedBillingStartDate = Date.parse(FwFormField.getValueByDataField($form, 'BillingStartDate'));
+        parsedBillingEndDate = Date.parse(FwFormField.getValueByDataField($form, 'BillingEndDate'));
         billingStartDate = FwFormField.getValueByDataField($form, 'BillingStartDate');
+        daysBetweenDates = (parsedBillingEndDate - parsedBillingStartDate) / 86400000;
         monthValue = FwFormField.getValueByDataField($form, 'BillingMonths');
         weeksValue = FwFormField.getValueByDataField($form, 'BillingWeeks');
-        if (FwFormField.getValueByDataField($form, 'RateType') === 'MONTHLY') {
-            if (monthValue !== '0') {
-                FwAppData.apiMethod(true, 'GET', "api/v1/datefunctions/addmonths?Date=" + billingStartDate + "&Months=" + monthValue, null, FwServices.defaultTimeout, function onSuccess(response) {
-                    newEndDate = FwFunc.getDate(response, -1);
+        if (!isNaN(parsedBillingStartDate)) {
+            if (FwFormField.getValueByDataField($form, 'RateType') === 'MONTHLY') {
+                if (!isNaN(monthValue) && monthValue !== '0' && Math.sign(monthValue) !== -1 && Math.sign(monthValue) !== -0) {
+                    FwAppData.apiMethod(true, 'GET', "api/v1/datefunctions/addmonths?Date=" + billingStartDate + "&Months=" + monthValue, null, FwServices.defaultTimeout, function onSuccess(response) {
+                        newEndDate = FwFunc.getDate(response, -1);
+                        FwFormField.setValueByDataField($form, 'BillingEndDate', newEndDate);
+                        parsedBillingStartDate = Date.parse(FwFormField.getValueByDataField($form, 'BillingStartDate'));
+                        parsedBillingEndDate = Date.parse(FwFormField.getValueByDataField($form, 'BillingEndDate'));
+                        daysBetweenDates = (parsedBillingEndDate - parsedBillingStartDate) / 86400000;
+                    }, function onError(response) {
+                        FwFunc.showError(response);
+                    }, $form);
+                }
+            }
+            else {
+                if (!isNaN(weeksValue) && weeksValue !== '0' && Math.sign(weeksValue) !== -1 && Math.sign(weeksValue) !== -0) {
+                    daysToAdd = +(weeksValue * 7) - 1;
+                    newEndDate = FwFunc.getDate(billingStartDate, daysToAdd);
                     FwFormField.setValueByDataField($form, 'BillingEndDate', newEndDate);
-                }, function onError(response) {
-                    FwFunc.showError(response);
-                }, $form);
+                    parsedBillingStartDate = Date.parse(FwFormField.getValueByDataField($form, 'BillingStartDate'));
+                    parsedBillingEndDate = Date.parse(FwFormField.getValueByDataField($form, 'BillingEndDate'));
+                    daysBetweenDates = (parsedBillingEndDate - parsedBillingStartDate) / 86400000;
+                }
             }
         }
-        else {
-            if (weeksValue !== '0') {
-                daysToAdd = +(weeksValue * 7) - 1;
-                newEndDate = FwFunc.getDate(billingStartDate, daysToAdd);
-                FwFormField.setValueByDataField($form, 'BillingEndDate', newEndDate);
+        if (!isNaN(daysBetweenDates)) {
+            if (Math.sign(daysBetweenDates) >= 0) {
+                $form.find('div[data-datafield="BillingEndDate"]').removeClass('error');
+            }
+            else {
+                FwNotification.renderNotification('WARNING', "Your chosen 'To Date' is before 'From Date'.");
+                $form.find('div[data-datafield="BillingEndDate"]').addClass('error');
+                FwFormField.setValueByDataField($form, 'BillingWeeks', '0');
+                FwFormField.setValueByDataField($form, 'BillingMonths', '0');
             }
         }
     };
@@ -1068,16 +1088,41 @@ var Order = (function () {
         monthValue = FwFormField.getValueByDataField($form, 'BillingMonths');
         weeksValue = FwFormField.getValueByDataField($form, 'BillingWeeks');
         daysBetweenDates = (parsedBillingEndDate - parsedBillingStartDate) / 86400000;
-        if (FwFormField.getValueByDataField($form, 'RateType') === 'MONTHLY') {
-            if (monthValue !== '0') {
+        if (!isNaN(parsedBillingStartDate)) {
+            if (FwFormField.getValueByDataField($form, 'RateType') === 'MONTHLY') {
                 monthValue = Math.ceil(daysBetweenDates / 30);
-                FwFormField.setValueByDataField($form, 'BillingMonths', monthValue);
+                if (!isNaN(monthValue) && monthValue !== '0' && Math.sign(monthValue) !== -1 && Math.sign(monthValue) !== -0) {
+                    FwFormField.setValueByDataField($form, 'BillingMonths', monthValue);
+                    parsedBillingStartDate = Date.parse(FwFormField.getValueByDataField($form, 'BillingStartDate'));
+                    parsedBillingEndDate = Date.parse(FwFormField.getValueByDataField($form, 'BillingEndDate'));
+                    daysBetweenDates = (parsedBillingEndDate - parsedBillingStartDate) / 86400000;
+                }
+                else if (daysBetweenDates === 0) {
+                    FwFormField.setValueByDataField($form, 'BillingMonths', '0');
+                }
+            }
+            else {
+                weeksValue = Math.ceil(daysBetweenDates / 7);
+                if (!isNaN(weeksValue) && weeksValue !== '0' && Math.sign(weeksValue) !== -1 && Math.sign(weeksValue) !== -0) {
+                    FwFormField.setValueByDataField($form, 'BillingWeeks', weeksValue);
+                    parsedBillingStartDate = Date.parse(FwFormField.getValueByDataField($form, 'BillingStartDate'));
+                    parsedBillingEndDate = Date.parse(FwFormField.getValueByDataField($form, 'BillingEndDate'));
+                    daysBetweenDates = (parsedBillingEndDate - parsedBillingStartDate) / 86400000;
+                }
+                else if (daysBetweenDates === 0) {
+                    FwFormField.setValueByDataField($form, 'BillingWeeks', '0');
+                }
             }
         }
-        else {
-            if (weeksValue !== '0') {
-                weeksValue = Math.ceil(daysBetweenDates / 7);
-                FwFormField.setValueByDataField($form, 'BillingWeeks', weeksValue);
+        if (!isNaN(daysBetweenDates)) {
+            if (Math.sign(daysBetweenDates) >= 0) {
+                $form.find('div[data-datafield="BillingEndDate"]').removeClass('error');
+            }
+            else {
+                FwNotification.renderNotification('WARNING', "Your chosen 'To Date' is before 'From Date'.");
+                $form.find('div[data-datafield="BillingEndDate"]').addClass('error');
+                FwFormField.setValueByDataField($form, 'BillingWeeks', '0');
+                FwFormField.setValueByDataField($form, 'BillingMonths', '0');
             }
         }
     };
@@ -1114,6 +1159,7 @@ var Order = (function () {
             $form.find('div[data-datafield="EstimatedStopDate"]').removeClass('error');
         }
     };
+    ;
     Order.prototype.disableWithTaxCheckbox = function ($form) {
         if (FwFormField.getValueByDataField($form, 'PeriodRentalTotal') === '0.00') {
             FwFormField.disable($form.find('div[data-datafield="PeriodRentalTotalIncludesTax"]'));
@@ -1146,6 +1192,7 @@ var Order = (function () {
             FwFormField.enable($form.find('div[data-datafield="PeriodCombinedTotalIncludesTax"]'));
         }
     };
+    ;
     Order.prototype.bottomLineDiscountChange = function ($form, event) {
         var $element, $orderItemGrid, orderId, recType, discountPercent;
         var request = {};
@@ -1328,6 +1375,7 @@ var Order = (function () {
         });
         FwBrowse.search($orderItemGrid);
     };
+    ;
     Order.prototype.calculateOrderItemGridTotals = function ($form, gridType) {
         var subTotal, discount, salesTax, grossTotal, total, rateType;
         var extendedTotal = new Decimal(0);
@@ -1406,6 +1454,7 @@ var Order = (function () {
             }, null, $confirmationbox);
         }
     };
+    ;
     Order.prototype.cancelUncancelOrder = function ($form) {
         var $confirmation, $yes, $no, orderId, orderStatus, self;
         self = this;

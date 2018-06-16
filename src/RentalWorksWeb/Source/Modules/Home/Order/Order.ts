@@ -652,229 +652,9 @@ class Order {
     };
 
     //----------------------------------------------------------------------------------------------
-    beforeValidateOutShipVia($browse, $grid, request) {
-        var validationName = request.module;
-        var outDeliveryCarrierId = jQuery($grid.find('[data-datafield="OutDeliveryCarrierId"] input')).val();
-
-        switch (validationName) {
-            case 'ShipViaValidation':
-                request.uniqueids = {
-                    VendorId: outDeliveryCarrierId
-                };
-                break;
-        }
-    }
-
-    beforeValidateInShipVia($browse, $grid, request) {
-        var validationName = request.module;
-        var inDeliveryCarrierId = jQuery($grid.find('[data-datafield="InDeliveryCarrierId"] input')).val();
-
-        switch (validationName) {
-            case 'ShipViaValidation':
-                request.uniqueids = {
-                    VendorId: inDeliveryCarrierId
-                };
-                break;
-        }
-    }
-
-    beforeValidateCarrier($browse, $grid, request) {
-        var validationName = request.module;
-
-        switch (validationName) {
-            case 'VendorValidation':
-                request.uniqueids = {
-                    Freight: true
-                };
-                break;
-        }
-    }
-
-    //----------------------------------------------------------------------------------------------
-    beforeValidate($browse, $grid, request) {
-        var $form;
-        $form = $grid.closest('.fwform');
-        var officeLocationId = FwFormField.getValueByDataField($form, 'OfficeLocationId');
-
-        request.uniqueids = {
-            LocationId: officeLocationId
-        }
-    };
-
-    //----------------------------------------------------------------------------------------------
-    beforeValidateMarketSegment($browse, $grid, request) {
-        const validationName = request.module;
-        const marketTypeValue = jQuery($grid.find('[data-validationname="MarketTypeValidation"] input')).val();
-        const marketSegmentValue = jQuery($grid.find('[data-validationname="MarketSegmentValidation"] input')).val();
-
-        switch (validationName) {
-            case 'MarketSegmentValidation':
-                if (marketTypeValue !== "") {
-                    request.uniqueids = {
-                        MarketTypeId: marketTypeValue,
-                    };
-                    break;
-                }
-            case 'MarketSegmentJobValidation':
-                if (marketSegmentValue !== "") {
-                    request.uniqueids = {
-                        MarketTypeId: marketTypeValue,
-                        MarketSegmentId: marketSegmentValue,
-                    };
-                    break;
-                }
-        };
-    };
-
-    //----------------------------------------------------------------------------------------------
     loadAudit($form) {
         var uniqueid = FwFormField.getValueByDataField($form, 'OrderId');
         FwModule.loadAudit($form, uniqueid);
-    };
-
-    //----------------------------------------------------------------------------------------------
-    copyOrder($form) {
-        var $confirmation, $yes, $no;
-
-        $confirmation = FwConfirmation.renderConfirmation('Copy Order', '');
-        $confirmation.find('.fwconfirmationbox').css('width', '450px');
-        var html = [];
-        html.push('<div class="fwform" data-controller="none" style="background-color: transparent;">');
-        html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
-        html.push('    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Type" data-datafield="" style="width:90px;float:left;"></div>');
-        html.push('    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Deal" data-datafield="" style="width:340px; float:left;"></div>');
-        html.push('  </div>');
-        html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
-        html.push('    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="No" data-datafield="" style="width:90px; float:left;"></div>');
-        html.push('    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Description" data-datafield="" style="width:340px;float:left;"></div>');
-        html.push('  </div>');
-        html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
-        html.push('    <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="New Deal" data-datafield="CopyToDealId" data-browsedisplayfield="Deal" data-validationname="DealValidation"></div>');
-        html.push('  </div>');
-        html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
-        html.push('    <div data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield" data-caption="Copy To" data-datafield="">');
-        html.push('      <div data-value="Q" data-caption="Quote"> </div>');
-        html.push('    <div data-value="O" data-caption="Order"> </div></div><br>');
-        html.push('    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Copy Rates & Prices" data-datafield="CopyRatesFromInventory"></div>');
-        html.push('    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Copy Dates" data-datafield="CopyDates"></div>');
-        html.push('    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Copy Line Item Notes" data-datafield="CopyLineItemNotes"></div>');
-        html.push('    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Combine Subs" data-datafield="CombineSubs"></div>');
-        html.push('    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Copy Documents" data-datafield="CopyDocuments"></div>');
-        html.push('</div>');
-
-        var copyConfirmation = html.join('');
-        var orderId = FwFormField.getValueByDataField($form, 'OrderId');
-
-        FwConfirmation.addControls($confirmation, html.join(''));
-
-        var orderNumber, deal, description, dealId;
-        $confirmation.find('div[data-caption="Type"] input').val(this.Module);
-        orderNumber = FwFormField.getValueByDataField($form, this.Module + 'Number');
-        $confirmation.find('div[data-caption="No"] input').val(orderNumber);
-        deal = $form.find('[data-datafield="DealId"] input.fwformfield-text').val();
-        $confirmation.find('div[data-caption="Deal"] input').val(deal);
-        description = FwFormField.getValueByDataField($form, 'Description');
-        $confirmation.find('div[data-caption="Description"] input').val(description);
-        $confirmation.find('div[data-datafield="CopyToDealId"] input.fwformfield-text').val(deal);
-        dealId = $form.find('[data-datafield="DealId"] input.fwformfield-value').val();
-        $confirmation.find('div[data-datafield="CopyToDealId"] input.fwformfield-value').val(dealId);
-
-        FwFormField.disable($confirmation.find('div[data-caption="Type"]'));
-        FwFormField.disable($confirmation.find('div[data-caption="No"]'));
-        FwFormField.disable($confirmation.find('div[data-caption="Deal"]'));
-        FwFormField.disable($confirmation.find('div[data-caption="Description"]'));
-
-        $confirmation.find('div[data-datafield="CopyRatesFromInventory"] input').prop('checked', true);
-        $confirmation.find('div[data-datafield="CopyDates"] input').prop('checked', true);
-        $confirmation.find('div[data-datafield="CopyLineItemNotes"] input').prop('checked', true);
-        $confirmation.find('div[data-datafield="CombineSubs"] input').prop('checked', true);
-        $confirmation.find('div[data-datafield="CopyDocuments"] input').prop('checked', true);
-
-        $yes = FwConfirmation.addButton($confirmation, 'Copy', false);
-        $no = FwConfirmation.addButton($confirmation, 'Cancel');
-
-        $yes.on('click', makeACopy);
-
-        function makeACopy() {
-
-            var request: any = {};
-            request.CopyToType = $confirmation.find('[data-type="radio"] input:checked').val();
-            request.CopyToDealId = FwFormField.getValueByDataField($confirmation, 'CopyToDealId');
-            request.CopyRatesFromInventory = FwFormField.getValueByDataField($confirmation, 'CopyRatesFromInventory');
-            request.CopyDates = FwFormField.getValueByDataField($confirmation, 'CopyDates');
-            request.CopyLineItemNotes = FwFormField.getValueByDataField($confirmation, 'CopyLineItemNotes');
-            request.CombineSubs = FwFormField.getValueByDataField($confirmation, 'CombineSubs');
-            request.CopyDocuments = FwFormField.getValueByDataField($confirmation, 'CopyDocuments');
-
-            if (request.CopyRatesFromInventory == "T") {
-                request.CopyRatesFromInventory = "False"
-            };
-
-            for (var key in request) {
-                if (request.hasOwnProperty(key)) {
-                    if (request[key] == "T") {
-                        request[key] = "True";
-                    } else if (request[key] == "F") {
-                        request[key] = "False";
-                    }
-                }
-            };
-
-            FwFormField.disable($confirmation.find('.fwformfield'));
-            FwFormField.disable($yes);
-            $yes.text('Copying...');
-            $yes.off('click');
-            var $confirmationbox = jQuery('.fwconfirmationbox');
-            FwAppData.apiMethod(true, 'POST', 'api/v1/Order/copy/' + orderId, request, FwServices.defaultTimeout, function onSuccess(response) {
-                FwNotification.renderNotification('SUCCESS', 'Order Successfully Copied');
-                FwConfirmation.destroyConfirmation($confirmation);
-
-                var uniqueids: any = {};
-                if (request.CopyToType == "O") {
-                    uniqueids.OrderId = response.OrderId;
-                    var $form = OrderController.loadForm(uniqueids);
-                } else if (request.CopyToType == "Q") {
-                    uniqueids.QuoteId = response.QuoteId;
-                    var $form = QuoteController.loadForm(uniqueids);
-                }
-                FwModule.openModuleTab($form, "", true, 'FORM', true)
-
-            }, function onError(response) {
-                $yes.on('click', makeACopy);
-                $yes.text('Copy');
-                FwFunc.showError(response);
-                FwFormField.enable($confirmation.find('.fwformfield'));
-                FwFormField.enable($yes);
-                }, $confirmationbox);
-        };
-    };
-
-    //----------------------------------------------------------------------------------------------
-    cancelPickList(pickListId, pickListNumber, $form) {
-        var $confirmation, $yes, $no;
-        var orderId = FwFormField.getValueByDataField($form, 'OrderId');
-        $confirmation = FwConfirmation.renderConfirmation('Cancel Pick List', '<div style="white-space:pre;">\n' +
-            'Cancel Pick List ' + pickListNumber + '?</div>');
-        $yes = FwConfirmation.addButton($confirmation, 'Yes', false);
-        $no = FwConfirmation.addButton($confirmation, 'No');
-        $yes.on('click', function () {
-            FwAppData.apiMethod(true, 'DELETE', 'api/v1/picklist/' + pickListId, {}, FwServices.defaultTimeout, function onSuccess(response) {
-                try {
-                    FwNotification.renderNotification('SUCCESS', 'Pick List Cancelled');
-                    FwConfirmation.destroyConfirmation($confirmation);
-                    var $pickListGridControl = $form.find('[data-name="OrderPickListGrid"]');
-                    $pickListGridControl.data('ondatabind', function (request) {
-                        request.uniqueids = {
-                            OrderId: orderId
-                        };
-                    });
-                    FwBrowse.search($pickListGridControl);
-                }
-                catch (ex) {
-                    FwFunc.showError(ex);
-                }
-            }, null, $form);
-        });
     };
 
     //----------------------------------------------------------------------------------------------
@@ -918,139 +698,6 @@ class Order {
         FwFormField.disable($form.find('.frame'));
 
         $form.find(".frame .add-on").children().hide();
-    };
-
-    //----------------------------------------------------------------------------------------------
-    events($form: any) {
-        //Populate tax info fields with validation
-        $form.find('div[data-datafield="TaxOptionId"]').data('onchange', $tr => {
-            FwFormField.setValue($form, 'div[data-datafield="RentalTaxRate1"]', $tr.find('.field[data-browsedatafield="RentalTaxRate1"]').attr('data-originalvalue'));
-            FwFormField.setValue($form, 'div[data-datafield="SalesTaxRate1"]', $tr.find('.field[data-browsedatafield="SalesTaxRate1"]').attr('data-originalvalue'));
-            FwFormField.setValue($form, 'div[data-datafield="LaborTaxRate1"]', $tr.find('.field[data-browsedatafield="LaborTaxRate1"]').attr('data-originalvalue'));
-        });
-        //MarketSegmentValidations
-        $form.find('div[data-datafield="MarketSegmentJobId"]').data('onchange', $tr => {
-            FwFormField.setValue($form, 'div[data-datafield="MarketTypeId"]', $tr.find('.field[data-browsedatafield="MarketTypeId"]').attr('data-originalvalue'), $tr.find('.field[data-browsedatafield="MarketType"]').attr('data-originalvalue'));
-            FwFormField.setValue($form, 'div[data-datafield="MarketSegmentId"]', $tr.find('.field[data-browsedatafield="MarketSegmentId"]').attr('data-originalvalue'), $tr.find('.field[data-browsedatafield="MarketSegment"]').attr('data-originalvalue'));
-        });
-        //MarketSegmentValidations
-        $form.find('div[data-datafield="MarketSegmentId"]').data('onchange', $tr => {
-            FwFormField.setValue($form, 'div[data-datafield="MarketTypeId"]', $tr.find('.field[data-browsedatafield="MarketTypeId"]').attr('data-originalvalue'), $tr.find('.field[data-browsedatafield="MarketType"]').attr('data-originalvalue'));
-            FwFormField.setValue($form, 'div[data-datafield="MarketSegmentJobId"]', $tr.find('.field[data-browsedatafield="MarketSegmentJobId"]').attr('data-originalvalue'), $tr.find('.field[data-browsedatafield="MarketSegmentJob"]').attr('data-originalvalue'));
-        });
-        // This must be below the MarketSegment Validation behavaviors
-        $form.find('[data-datafield="MarketTypeId"] input').on('change', event => {
-            FwFormField.setValueByDataField($form, 'MarketSegmentId', '');
-            FwFormField.setValueByDataField($form, 'MarketSegmentJobId', '');
-        });
-        // This must be below the MarketSegment Validation behavaviors
-        $form.find('[data-datafield="MarketSegmentId"] input').on('change', event => {
-            FwFormField.setValueByDataField($form, 'MarketSegmentJobId', '');
-        });
-        // Bottom Line Total with Tax
-        $form.find('.bottom_line_total_tax').on('change', event => {
-            this.bottomLineTotalWithTaxChange($form, event);
-        });
-        // Bottom Line Discount
-        $form.find('.bottom_line_discount').on('change', event => {
-            this.bottomLineDiscountChange($form, event);
-        });
-        // RentalDaysPerWeek for Rental OrderItemGrid
-        $form.find('.RentalDaysPerWeek').on('change', '.fwformfield-text, .fwformfield-value', event => {
-            let request: any = {};
-            let $orderItemGridRental = $form.find('.rentalgrid [data-name="OrderItemGrid"]');
-            let orderId = FwFormField.getValueByDataField($form, 'OrderId');
-            let daysperweek = FwFormField.getValueByDataField($form, 'RentalDaysPerWeek');
-
-            request.DaysPerWeek = parseFloat(daysperweek);
-            request.RecType = 'R';
-            request.OrderId = orderId;
-
-            FwAppData.apiMethod(true, 'POST', `api/v1/order/applybottomlinedaysperweek/`, request, FwServices.defaultTimeout, function onSuccess(response) {
-                FwBrowse.search($orderItemGridRental);
-            }, function onError(response) {
-                FwFunc.showError(response);
-            }, $form);
-        });
-        //RateType change affecting billing tab weeks or months
-        $form.find('.RateType').on('change', $tr => {
-            if (FwFormField.getValueByDataField($form, 'RateType') === 'MONTHLY') {
-                $form.find(".BillingWeeks").hide();
-                $form.find(".BillingMonths").show();
-            } else {
-                $form.find(".BillingMonths").hide();
-                $form.find(".BillingWeeks").show();
-            }
-        });
-        //RateType change affecting DaysPerWeek field in rental tab
-        $form.find('.RateType').on('change', $tr => {
-            if (FwFormField.getValueByDataField($form, 'RateType') === 'DAILY') {
-                $form.find(".RentalDaysPerWeek").show();
-            } else {
-                $form.find(".RentalDaysPerWeek").hide();
-            }
-        });
-
-        $form.find('.RateType').on('change', $tr => {
-            let rateType = FwFormField.getValueByDataField($form, 'RateType');
-            switch (rateType) {
-                case 'DAILY':
-                    $form.find(".weeklyType").show();
-                    $form.find(".monthlyType").hide();
-                    break;
-                case 'WEEKLY':
-                    $form.find(".weeklyType").show();
-                    $form.find(".monthlyType").hide();
-                    break;
-                case '3WEEK':
-                    $form.find(".weeklyType").show();
-                    $form.find(".monthlyType").hide();
-                    break;
-                case 'MONTHLY':
-                    $form.find(".weeklyType").hide();
-                    $form.find(".monthlyType").show();
-                    break;
-                default:
-                    $form.find(".weeklyType").show();
-                    $form.find(".monthlyType").hide();
-                    break;
-            }
-        });
-
-        // Pending PO
-        $form.find('[data-datafield="PendingPo"] .fwformfield-value').on('change', function () {
-            var $this = jQuery(this);
-            if ($this.prop('checked') === true) {
-                FwFormField.disable($form.find('[data-datafield="PoNumber"]'));
-                FwFormField.disable($form.find('[data-datafield="PoAmount"]'));
-            }
-            else {
-                FwFormField.enable($form.find('[data-datafield="PoNumber"]'));
-                FwFormField.enable($form.find('[data-datafield="PoAmount"]'));
-            }
-        });
-        // Deal Number
-        $form.find('div[data-datafield="DealId"]').data('onchange', function ($tr) {
-            FwFormField.setValue($form, 'div[data-datafield="DealNumber"]', $tr.find('.field[data-browsedatafield="DealNumber"]').attr('data-originalvalue'));
-        });
-        // PickDate Validations
-        $form.find('.pick_date_validation').on('changeDate', event => {
-            this.checkDateRangeForPick($form, event);
-        });
-        // BillingDate Change
-        $form.find('.billing_start_date').on('changeDate', event => {
-            this.adjustBillingEndDate($form, event);
-        });
-        // BillingDate Change
-        $form.find('.billing_end_date').on('changeDate', event => {
-            this.adjustWeekorMonthBillingField($form, event);
-        });
-        // Billing Weeks or Month field change
-        $form.find('.week_or_month_field').keypress(event => {
-            if (event.which == 13) {
-                this.adjustBillingEndDate($form, event);
-            }
-        });
     };
 
     //----------------------------------------------------------------------------------------------
@@ -1189,27 +836,402 @@ class Order {
     };
 
     //----------------------------------------------------------------------------------------------
-    adjustBillingEndDate($form, event) {
-        let newEndDate, daysToAdd, monthValue, weeksValue, billingStartDate;
-        billingStartDate = FwFormField.getValueByDataField($form, 'BillingStartDate')
-        monthValue = FwFormField.getValueByDataField($form, 'BillingMonths');
-        weeksValue = FwFormField.getValueByDataField($form, 'BillingWeeks')
+    copyOrder($form) {
+        var $confirmation, $yes, $no;
 
-        if (FwFormField.getValueByDataField($form, 'RateType') === 'MONTHLY') {
-            if (monthValue !== '0') {
-                FwAppData.apiMethod(true, 'GET', `api/v1/datefunctions/addmonths?Date=${billingStartDate}&Months=${monthValue}`, null, FwServices.defaultTimeout, function onSuccess(response) {
-                    newEndDate = FwFunc.getDate(response, -1)
+        $confirmation = FwConfirmation.renderConfirmation('Copy Order', '');
+        $confirmation.find('.fwconfirmationbox').css('width', '450px');
+        var html = [];
+        html.push('<div class="fwform" data-controller="none" style="background-color: transparent;">');
+        html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
+        html.push('    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Type" data-datafield="" style="width:90px;float:left;"></div>');
+        html.push('    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Deal" data-datafield="" style="width:340px; float:left;"></div>');
+        html.push('  </div>');
+        html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
+        html.push('    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="No" data-datafield="" style="width:90px; float:left;"></div>');
+        html.push('    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Description" data-datafield="" style="width:340px;float:left;"></div>');
+        html.push('  </div>');
+        html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
+        html.push('    <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="New Deal" data-datafield="CopyToDealId" data-browsedisplayfield="Deal" data-validationname="DealValidation"></div>');
+        html.push('  </div>');
+        html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
+        html.push('    <div data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield" data-caption="Copy To" data-datafield="">');
+        html.push('      <div data-value="Q" data-caption="Quote"> </div>');
+        html.push('    <div data-value="O" data-caption="Order"> </div></div><br>');
+        html.push('    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Copy Rates & Prices" data-datafield="CopyRatesFromInventory"></div>');
+        html.push('    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Copy Dates" data-datafield="CopyDates"></div>');
+        html.push('    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Copy Line Item Notes" data-datafield="CopyLineItemNotes"></div>');
+        html.push('    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Combine Subs" data-datafield="CombineSubs"></div>');
+        html.push('    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Copy Documents" data-datafield="CopyDocuments"></div>');
+        html.push('</div>');
+
+        var copyConfirmation = html.join('');
+        var orderId = FwFormField.getValueByDataField($form, 'OrderId');
+
+        FwConfirmation.addControls($confirmation, html.join(''));
+
+        var orderNumber, deal, description, dealId;
+        $confirmation.find('div[data-caption="Type"] input').val(this.Module);
+        orderNumber = FwFormField.getValueByDataField($form, this.Module + 'Number');
+        $confirmation.find('div[data-caption="No"] input').val(orderNumber);
+        deal = $form.find('[data-datafield="DealId"] input.fwformfield-text').val();
+        $confirmation.find('div[data-caption="Deal"] input').val(deal);
+        description = FwFormField.getValueByDataField($form, 'Description');
+        $confirmation.find('div[data-caption="Description"] input').val(description);
+        $confirmation.find('div[data-datafield="CopyToDealId"] input.fwformfield-text').val(deal);
+        dealId = $form.find('[data-datafield="DealId"] input.fwformfield-value').val();
+        $confirmation.find('div[data-datafield="CopyToDealId"] input.fwformfield-value').val(dealId);
+
+        FwFormField.disable($confirmation.find('div[data-caption="Type"]'));
+        FwFormField.disable($confirmation.find('div[data-caption="No"]'));
+        FwFormField.disable($confirmation.find('div[data-caption="Deal"]'));
+        FwFormField.disable($confirmation.find('div[data-caption="Description"]'));
+
+        $confirmation.find('div[data-datafield="CopyRatesFromInventory"] input').prop('checked', true);
+        $confirmation.find('div[data-datafield="CopyDates"] input').prop('checked', true);
+        $confirmation.find('div[data-datafield="CopyLineItemNotes"] input').prop('checked', true);
+        $confirmation.find('div[data-datafield="CombineSubs"] input').prop('checked', true);
+        $confirmation.find('div[data-datafield="CopyDocuments"] input').prop('checked', true);
+
+        $yes = FwConfirmation.addButton($confirmation, 'Copy', false);
+        $no = FwConfirmation.addButton($confirmation, 'Cancel');
+
+        $yes.on('click', makeACopy);
+
+        function makeACopy() {
+
+            var request: any = {};
+            request.CopyToType = $confirmation.find('[data-type="radio"] input:checked').val();
+            request.CopyToDealId = FwFormField.getValueByDataField($confirmation, 'CopyToDealId');
+            request.CopyRatesFromInventory = FwFormField.getValueByDataField($confirmation, 'CopyRatesFromInventory');
+            request.CopyDates = FwFormField.getValueByDataField($confirmation, 'CopyDates');
+            request.CopyLineItemNotes = FwFormField.getValueByDataField($confirmation, 'CopyLineItemNotes');
+            request.CombineSubs = FwFormField.getValueByDataField($confirmation, 'CombineSubs');
+            request.CopyDocuments = FwFormField.getValueByDataField($confirmation, 'CopyDocuments');
+
+            if (request.CopyRatesFromInventory == "T") {
+                request.CopyRatesFromInventory = "False"
+            };
+
+            for (var key in request) {
+                if (request.hasOwnProperty(key)) {
+                    if (request[key] == "T") {
+                        request[key] = "True";
+                    } else if (request[key] == "F") {
+                        request[key] = "False";
+                    }
+                }
+            };
+
+            FwFormField.disable($confirmation.find('.fwformfield'));
+            FwFormField.disable($yes);
+            $yes.text('Copying...');
+            $yes.off('click');
+            var $confirmationbox = jQuery('.fwconfirmationbox');
+            FwAppData.apiMethod(true, 'POST', 'api/v1/Order/copy/' + orderId, request, FwServices.defaultTimeout, function onSuccess(response) {
+                FwNotification.renderNotification('SUCCESS', 'Order Successfully Copied');
+                FwConfirmation.destroyConfirmation($confirmation);
+
+                var uniqueids: any = {};
+                if (request.CopyToType == "O") {
+                    uniqueids.OrderId = response.OrderId;
+                    var $form = OrderController.loadForm(uniqueids);
+                } else if (request.CopyToType == "Q") {
+                    uniqueids.QuoteId = response.QuoteId;
+                    var $form = QuoteController.loadForm(uniqueids);
+                }
+                FwModule.openModuleTab($form, "", true, 'FORM', true)
+
+            }, function onError(response) {
+                $yes.on('click', makeACopy);
+                $yes.text('Copy');
+                FwFunc.showError(response);
+                FwFormField.enable($confirmation.find('.fwformfield'));
+                FwFormField.enable($yes);
+            }, $confirmationbox);
+        };
+    };
+
+    //----------------------------------------------------------------------------------------------
+    cancelPickList(pickListId, pickListNumber, $form) {
+        var $confirmation, $yes, $no;
+        var orderId = FwFormField.getValueByDataField($form, 'OrderId');
+        $confirmation = FwConfirmation.renderConfirmation('Cancel Pick List', '<div style="white-space:pre;">\n' +
+            'Cancel Pick List ' + pickListNumber + '?</div>');
+        $yes = FwConfirmation.addButton($confirmation, 'Yes', false);
+        $no = FwConfirmation.addButton($confirmation, 'No');
+        $yes.on('click', function () {
+            FwAppData.apiMethod(true, 'DELETE', 'api/v1/picklist/' + pickListId, {}, FwServices.defaultTimeout, function onSuccess(response) {
+                try {
+                    FwNotification.renderNotification('SUCCESS', 'Pick List Cancelled');
+                    FwConfirmation.destroyConfirmation($confirmation);
+                    var $pickListGridControl = $form.find('[data-name="OrderPickListGrid"]');
+                    $pickListGridControl.data('ondatabind', function (request) {
+                        request.uniqueids = {
+                            OrderId: orderId
+                        };
+                    });
+                    FwBrowse.search($pickListGridControl);
+                }
+                catch (ex) {
+                    FwFunc.showError(ex);
+                }
+            }, null, $form);
+        });
+    };
+
+    //----------------------------------------------------------------------------------------------
+    beforeValidateOutShipVia($browse, $grid, request) {
+        var validationName = request.module;
+        var outDeliveryCarrierId = jQuery($grid.find('[data-datafield="OutDeliveryCarrierId"] input')).val();
+
+        switch (validationName) {
+            case 'ShipViaValidation':
+                request.uniqueids = {
+                    VendorId: outDeliveryCarrierId
+                };
+                break;
+        }
+    }
+
+    beforeValidateInShipVia($browse, $grid, request) {
+        var validationName = request.module;
+        var inDeliveryCarrierId = jQuery($grid.find('[data-datafield="InDeliveryCarrierId"] input')).val();
+
+        switch (validationName) {
+            case 'ShipViaValidation':
+                request.uniqueids = {
+                    VendorId: inDeliveryCarrierId
+                };
+                break;
+        }
+    }
+
+    beforeValidateCarrier($browse, $grid, request) {
+        var validationName = request.module;
+
+        switch (validationName) {
+            case 'VendorValidation':
+                request.uniqueids = {
+                    Freight: true
+                };
+                break;
+        }
+    }
+
+    //----------------------------------------------------------------------------------------------
+    beforeValidate($browse, $grid, request) {
+        var $form;
+        $form = $grid.closest('.fwform');
+        var officeLocationId = FwFormField.getValueByDataField($form, 'OfficeLocationId');
+
+        request.uniqueids = {
+            LocationId: officeLocationId
+        }
+    };
+
+    //----------------------------------------------------------------------------------------------
+    beforeValidateMarketSegment($browse, $grid, request) {
+        const validationName = request.module;
+        const marketTypeValue = jQuery($grid.find('[data-validationname="MarketTypeValidation"] input')).val();
+        const marketSegmentValue = jQuery($grid.find('[data-validationname="MarketSegmentValidation"] input')).val();
+
+        switch (validationName) {
+            case 'MarketSegmentValidation':
+                if (marketTypeValue !== "") {
+                    request.uniqueids = {
+                        MarketTypeId: marketTypeValue,
+                    };
+                    break;
+                }
+            case 'MarketSegmentJobValidation':
+                if (marketSegmentValue !== "") {
+                    request.uniqueids = {
+                        MarketTypeId: marketTypeValue,
+                        MarketSegmentId: marketSegmentValue,
+                    };
+                    break;
+                }
+        };
+    };
+
+    //----------------------------------------------------------------------------------------------
+    events($form: any) {
+        // All event listeners can be placed here and invoked in openForm
+
+        //Populate tax info fields with validation
+        $form.find('div[data-datafield="TaxOptionId"]').data('onchange', $tr => {
+            FwFormField.setValue($form, 'div[data-datafield="RentalTaxRate1"]', $tr.find('.field[data-browsedatafield="RentalTaxRate1"]').attr('data-originalvalue'));
+            FwFormField.setValue($form, 'div[data-datafield="SalesTaxRate1"]', $tr.find('.field[data-browsedatafield="SalesTaxRate1"]').attr('data-originalvalue'));
+            FwFormField.setValue($form, 'div[data-datafield="LaborTaxRate1"]', $tr.find('.field[data-browsedatafield="LaborTaxRate1"]').attr('data-originalvalue'));
+        });
+        //MarketSegmentValidations
+        $form.find('div[data-datafield="MarketSegmentJobId"]').data('onchange', $tr => {
+            FwFormField.setValue($form, 'div[data-datafield="MarketTypeId"]', $tr.find('.field[data-browsedatafield="MarketTypeId"]').attr('data-originalvalue'), $tr.find('.field[data-browsedatafield="MarketType"]').attr('data-originalvalue'));
+            FwFormField.setValue($form, 'div[data-datafield="MarketSegmentId"]', $tr.find('.field[data-browsedatafield="MarketSegmentId"]').attr('data-originalvalue'), $tr.find('.field[data-browsedatafield="MarketSegment"]').attr('data-originalvalue'));
+        });
+        //MarketSegmentValidations
+        $form.find('div[data-datafield="MarketSegmentId"]').data('onchange', $tr => {
+            FwFormField.setValue($form, 'div[data-datafield="MarketTypeId"]', $tr.find('.field[data-browsedatafield="MarketTypeId"]').attr('data-originalvalue'), $tr.find('.field[data-browsedatafield="MarketType"]').attr('data-originalvalue'));
+            FwFormField.setValue($form, 'div[data-datafield="MarketSegmentJobId"]', $tr.find('.field[data-browsedatafield="MarketSegmentJobId"]').attr('data-originalvalue'), $tr.find('.field[data-browsedatafield="MarketSegmentJob"]').attr('data-originalvalue'));
+        });
+        // This must be below the MarketSegment Validation behavaviors
+        $form.find('[data-datafield="MarketTypeId"] input').on('change', event => {
+            FwFormField.setValueByDataField($form, 'MarketSegmentId', '');
+            FwFormField.setValueByDataField($form, 'MarketSegmentJobId', '');
+        });
+        // This must be below the MarketSegment Validation behavaviors
+        $form.find('[data-datafield="MarketSegmentId"] input').on('change', event => {
+            FwFormField.setValueByDataField($form, 'MarketSegmentJobId', '');
+        });
+        // Bottom Line Total with Tax
+        $form.find('.bottom_line_total_tax').on('change', event => {
+            this.bottomLineTotalWithTaxChange($form, event);
+        });
+        // Bottom Line Discount
+        $form.find('.bottom_line_discount').on('change', event => {
+            this.bottomLineDiscountChange($form, event);
+        });
+        // RentalDaysPerWeek for Rental OrderItemGrid
+        $form.find('.RentalDaysPerWeek').on('change', '.fwformfield-text, .fwformfield-value', event => {
+            let request: any = {};
+            let $orderItemGridRental = $form.find('.rentalgrid [data-name="OrderItemGrid"]');
+            let orderId = FwFormField.getValueByDataField($form, 'OrderId');
+            let daysperweek = FwFormField.getValueByDataField($form, 'RentalDaysPerWeek');
+
+            request.DaysPerWeek = parseFloat(daysperweek);
+            request.RecType = 'R';
+            request.OrderId = orderId;
+
+            FwAppData.apiMethod(true, 'POST', `api/v1/order/applybottomlinedaysperweek/`, request, FwServices.defaultTimeout, function onSuccess(response) {
+                FwBrowse.search($orderItemGridRental);
+            }, function onError(response) {
+                FwFunc.showError(response);
+            }, $form);
+        });
+        //RateType change affecting billing tab weeks or months
+        $form.find('.RateType').on('change', $tr => {
+            if (FwFormField.getValueByDataField($form, 'RateType') === 'MONTHLY') {
+                $form.find(".BillingWeeks").hide();
+                $form.find(".BillingMonths").show();
+            } else {
+                $form.find(".BillingMonths").hide();
+                $form.find(".BillingWeeks").show();
+            }
+        });
+        //RateType change affecting DaysPerWeek field in rental tab
+        $form.find('.RateType').on('change', $tr => {
+            if (FwFormField.getValueByDataField($form, 'RateType') === 'DAILY') {
+                $form.find(".RentalDaysPerWeek").show();
+            } else {
+                $form.find(".RentalDaysPerWeek").hide();
+            }
+        });
+
+        $form.find('.RateType').on('change', $tr => {
+            let rateType = FwFormField.getValueByDataField($form, 'RateType');
+            switch (rateType) {
+                case 'DAILY':
+                    $form.find(".weeklyType").show();
+                    $form.find(".monthlyType").hide();
+                    break;
+                case 'WEEKLY':
+                    $form.find(".weeklyType").show();
+                    $form.find(".monthlyType").hide();
+                    break;
+                case '3WEEK':
+                    $form.find(".weeklyType").show();
+                    $form.find(".monthlyType").hide();
+                    break;
+                case 'MONTHLY':
+                    $form.find(".weeklyType").hide();
+                    $form.find(".monthlyType").show();
+                    break;
+                default:
+                    $form.find(".weeklyType").show();
+                    $form.find(".monthlyType").hide();
+                    break;
+            }
+        });
+
+        // Pending PO
+        $form.find('[data-datafield="PendingPo"] .fwformfield-value').on('change', function () {
+            var $this = jQuery(this);
+            if ($this.prop('checked') === true) {
+                FwFormField.disable($form.find('[data-datafield="PoNumber"]'));
+                FwFormField.disable($form.find('[data-datafield="PoAmount"]'));
+            }
+            else {
+                FwFormField.enable($form.find('[data-datafield="PoNumber"]'));
+                FwFormField.enable($form.find('[data-datafield="PoAmount"]'));
+            }
+        });
+        // Deal Number
+        $form.find('div[data-datafield="DealId"]').data('onchange', function ($tr) {
+            FwFormField.setValue($form, 'div[data-datafield="DealNumber"]', $tr.find('.field[data-browsedatafield="DealNumber"]').attr('data-originalvalue'));
+        });
+        // PickDate Validations
+        $form.find('.pick_date_validation').on('changeDate', event => {
+            this.checkDateRangeForPick($form, event);
+        });
+        // BillingDate Change
+        $form.find('.billing_start_date').on('changeDate', event => {
+            this.adjustWeekorMonthBillingField($form, event);
+        });
+        // BillingDate Change
+        $form.find('.billing_end_date').on('changeDate', event => {
+            this.adjustWeekorMonthBillingField($form, event);
+        });
+        // Billing Weeks or Month field change
+        $form.find('.week_or_month_field').on('change', event => {
+            this.adjustBillingEndDate($form, event);
+        });
+    };
+
+    //----------------------------------------------------------------------------------------------
+    adjustBillingEndDate($form, event) {
+        let newEndDate, daysToAdd, parsedBillingStartDate, daysBetweenDates, parsedBillingEndDate, monthValue, weeksValue, billingStartDate;
+        parsedBillingStartDate = Date.parse(FwFormField.getValueByDataField($form, 'BillingStartDate'));
+        parsedBillingEndDate = Date.parse(FwFormField.getValueByDataField($form, 'BillingEndDate'));
+        billingStartDate = FwFormField.getValueByDataField($form, 'BillingStartDate');
+        daysBetweenDates = (parsedBillingEndDate - parsedBillingStartDate) / 86400000; // 1 day has 86400000ms
+        monthValue = FwFormField.getValueByDataField($form, 'BillingMonths');
+        weeksValue = FwFormField.getValueByDataField($form, 'BillingWeeks');
+
+        if (!isNaN(parsedBillingStartDate)) { // only if StartDate is defined
+            if (FwFormField.getValueByDataField($form, 'RateType') === 'MONTHLY') {
+                if (!isNaN(monthValue) && monthValue !== '0' && Math.sign(monthValue) !== -1 && Math.sign(monthValue) !== -0) {
+                    FwAppData.apiMethod(true, 'GET', `api/v1/datefunctions/addmonths?Date=${billingStartDate}&Months=${monthValue}`, null, FwServices.defaultTimeout, function onSuccess(response) {
+                        newEndDate = FwFunc.getDate(response, -1)
+                        FwFormField.setValueByDataField($form, 'BillingEndDate', newEndDate);
+                        parsedBillingStartDate = Date.parse(FwFormField.getValueByDataField($form, 'BillingStartDate'));
+                        parsedBillingEndDate = Date.parse(FwFormField.getValueByDataField($form, 'BillingEndDate'));
+                        daysBetweenDates = (parsedBillingEndDate - parsedBillingStartDate) / 86400000; // 1 day has 86400000ms
+                    }, function onError(response) {
+                        FwFunc.showError(response);
+                    }, $form);
+                }
+            }
+            else {
+                if (!isNaN(weeksValue) && weeksValue !== '0' && Math.sign(weeksValue) !== -1 && Math.sign(weeksValue) !== -0) {
+                    daysToAdd = +(weeksValue * 7) - 1;
+                    newEndDate = FwFunc.getDate(billingStartDate, daysToAdd);
                     FwFormField.setValueByDataField($form, 'BillingEndDate', newEndDate);
-                }, function onError(response) {
-                    FwFunc.showError(response);
-                }, $form);
+                    parsedBillingStartDate = Date.parse(FwFormField.getValueByDataField($form, 'BillingStartDate'));
+                    parsedBillingEndDate = Date.parse(FwFormField.getValueByDataField($form, 'BillingEndDate'));
+                    daysBetweenDates = (parsedBillingEndDate - parsedBillingStartDate) / 86400000; // 1 day has 86400000ms
+                }
             }
         }
-        else {
-            if (weeksValue !== '0') {
-                daysToAdd = +(weeksValue * 7) - 1;
-                newEndDate = FwFunc.getDate(billingStartDate, daysToAdd);
-                FwFormField.setValueByDataField($form, 'BillingEndDate', newEndDate);
+
+        if (!isNaN(daysBetweenDates)) {
+            if (Math.sign(daysBetweenDates) >= 0) {
+                $form.find('div[data-datafield="BillingEndDate"]').removeClass('error');
+            } else {
+                FwNotification.renderNotification('WARNING', "Your chosen 'To Date' is before 'From Date'.");
+                $form.find('div[data-datafield="BillingEndDate"]').addClass('error');
+                FwFormField.setValueByDataField($form, 'BillingWeeks', '0');
+                FwFormField.setValueByDataField($form, 'BillingMonths', '0');
             }
         }
     };
@@ -1221,19 +1243,39 @@ class Order {
         parsedBillingEndDate = Date.parse(FwFormField.getValueByDataField($form, 'BillingEndDate'));
         monthValue = FwFormField.getValueByDataField($form, 'BillingMonths');
         weeksValue = FwFormField.getValueByDataField($form, 'BillingWeeks');
-
         daysBetweenDates = (parsedBillingEndDate - parsedBillingStartDate) / 86400000; // 1 day has 86400000ms
 
-        if (FwFormField.getValueByDataField($form, 'RateType') === 'MONTHLY') {
-            if (monthValue !== '0') {
+        if (!isNaN(parsedBillingStartDate)) { // only if StartDate is defined
+            if (FwFormField.getValueByDataField($form, 'RateType') === 'MONTHLY') {
                 monthValue = Math.ceil(daysBetweenDates / 30);
-                FwFormField.setValueByDataField($form, 'BillingMonths', monthValue);
-            }
-
-        } else {
-            if (weeksValue !== '0') {
+                if (!isNaN(monthValue) && monthValue !== '0' && Math.sign(monthValue) !== -1 && Math.sign(monthValue) !== -0) {
+                    FwFormField.setValueByDataField($form, 'BillingMonths', monthValue);
+                    parsedBillingStartDate = Date.parse(FwFormField.getValueByDataField($form, 'BillingStartDate'));
+                    parsedBillingEndDate = Date.parse(FwFormField.getValueByDataField($form, 'BillingEndDate'));
+                    daysBetweenDates = (parsedBillingEndDate - parsedBillingStartDate) / 86400000; // 1 day has 86400000ms
+                } else if (daysBetweenDates === 0) {
+                    FwFormField.setValueByDataField($form, 'BillingMonths', '0');
+                }
+            } else {
                 weeksValue = Math.ceil(daysBetweenDates / 7);
-                FwFormField.setValueByDataField($form, 'BillingWeeks', weeksValue);
+                if (!isNaN(weeksValue) && weeksValue !== '0' && Math.sign(weeksValue) !== -1 && Math.sign(weeksValue) !== -0) {
+                    FwFormField.setValueByDataField($form, 'BillingWeeks', weeksValue);
+                    parsedBillingStartDate = Date.parse(FwFormField.getValueByDataField($form, 'BillingStartDate'));
+                    parsedBillingEndDate = Date.parse(FwFormField.getValueByDataField($form, 'BillingEndDate'));
+                    daysBetweenDates = (parsedBillingEndDate - parsedBillingStartDate) / 86400000; // 1 day has 86400000ms
+                } else if (daysBetweenDates === 0) {
+                    FwFormField.setValueByDataField($form, 'BillingWeeks', '0');
+                }
+            }
+        }
+        if (!isNaN(daysBetweenDates)) {
+            if (Math.sign(daysBetweenDates) >= 0) {
+                $form.find('div[data-datafield="BillingEndDate"]').removeClass('error');
+            } else {
+                FwNotification.renderNotification('WARNING', "Your chosen 'To Date' is before 'From Date'.");
+                $form.find('div[data-datafield="BillingEndDate"]').addClass('error');
+                FwFormField.setValueByDataField($form, 'BillingWeeks', '0');
+                FwFormField.setValueByDataField($form, 'BillingMonths', '0');
             }
         }
     };
@@ -1272,7 +1314,7 @@ class Order {
             $form.find('div[data-datafield="EstimatedStartDate"]').removeClass('error');
             $form.find('div[data-datafield="EstimatedStopDate"]').removeClass('error');
         }
-    }
+    };
 
     //----------------------------------------------------------------------------------------------
     disableWithTaxCheckbox($form: any) {
@@ -1301,7 +1343,7 @@ class Order {
         } else {
             FwFormField.enable($form.find('div[data-datafield="PeriodCombinedTotalIncludesTax"]'));
         }
-    }
+    };
 
     //----------------------------------------------------------------------------------------------
     bottomLineDiscountChange($form: any, event: any) {
@@ -1499,7 +1541,7 @@ class Order {
         });
 
         FwBrowse.search($orderItemGrid);
-    }
+    };
 
     //----------------------------------------------------------------------------------------------
     calculateOrderItemGridTotals($form: any, gridType: string) {
@@ -1593,16 +1635,9 @@ class Order {
                 });
 
                 FwBrowse.search($orderSnapshotGrid);
-                //let uniqueids: any = {};
-                //uniqueids.OrderId = response.OrderId;
-                //let $orderform = QuoteController.loadForm(uniqueids);
-                //FwModule.openModuleTab($orderform, "", true, 'FORM', true);
-
-                //FwModule.refreshForm($form, OrderController);
             }, null, $confirmationbox);
         }
-
-    }
+    };
 
     //----------------------------------------------------------------------------------------------
     cancelUncancelOrder($form: any) {
@@ -1775,6 +1810,7 @@ class Order {
     }
 };
 
+//---------------------------------------------------------------------------------
 FwApplicationTree.clickEvents['{AB1D12DC-40F6-4DF2-B405-54A0C73149EA}'] = function (event) {
     let $form;
     $form = jQuery(this).closest('.fwform');
@@ -1834,6 +1870,7 @@ FwApplicationTree.clickEvents['{E25CB084-7E7F-4336-9512-36B7271AC151}'] = functi
         FwFunc.showError(ex);
     }
 };
+
 //----------------------------------------------------------------------------------------------
 //Form Cancel Option
 FwApplicationTree.clickEvents['{6B644862-9030-4D42-A29B-30C8DAC29D3E}'] = function (event) {
