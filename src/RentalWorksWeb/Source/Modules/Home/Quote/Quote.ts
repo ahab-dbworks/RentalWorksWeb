@@ -850,10 +850,6 @@ class Quote {
         $form.find('.bottom_line_discount').on('change', event => {
             this.bottomLineDiscountChange($form, event);
         });
-        // Order Item Grid View
-        $form.find('.order_item_view_select').on('change', event => {
-            this.toggleOrderItemView($form, event);
-        });
         // Market Type Change
         $form.find('[data-datafield="MarketTypeId"] input').on('change', event => {
             FwFormField.setValueByDataField($form, 'MarketSegmentId', '');
@@ -1527,6 +1523,110 @@ class Quote {
     };
 
     //----------------------------------------------------------------------------------------------
+    orderItemGridLockUnlock($browse: any, event: any) {
+        let $confirmation, $yes, $no, quoteId, orderItemId, lockedStatus;
+
+        quoteId = $browse.find('.selected [data-browsedatafield="OrderId"]').attr('data-originalvalue');
+        orderItemId = $browse.find('.selected [data-formdatafield="OrderItemId"]').attr('data-originalvalue');
+        lockedStatus = $browse.find('.selected [data-formdatafield="Locked"]').attr('data-originalvalue');
+
+        console.log(lockedStatus)
+
+        if (quoteId != null) {
+            if (lockedStatus === "true") {
+                $confirmation = FwConfirmation.renderConfirmation('Unlock', '');
+                $confirmation.find('.fwconfirmationbox').css('width', '450px');
+                let html = [];
+                html.push('<div class="fwform" data-controller="none" style="background-color: transparent;">');
+                html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
+                html.push('    <div>Would you like to unlock this item?</div>');
+                html.push('  </div>');
+                html.push('</div>');
+
+                FwConfirmation.addControls($confirmation, html.join(''));
+                $yes = FwConfirmation.addButton($confirmation, 'Unlock Item', false);
+                $no = FwConfirmation.addButton($confirmation, 'Cancel');
+
+                $yes.on('click', unlockItem);
+            } else {
+                $confirmation = FwConfirmation.renderConfirmation('Cancel', '');
+                $confirmation.find('.fwconfirmationbox').css('width', '450px');
+                let html = [];
+                html.push('<div class="fwform" data-controller="none" style="background-color: transparent;">');
+                html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
+                html.push('    <div>Would you like to lock this Item?</div>');
+                html.push('  </div>');
+                html.push('</div>');
+
+                FwConfirmation.addControls($confirmation, html.join(''));
+                $yes = FwConfirmation.addButton($confirmation, 'Lock Item', false);
+                $no = FwConfirmation.addButton($confirmation, 'Cancel');
+
+                $yes.on('click', lockItem);
+
+            }
+        } else {
+            throw new Error("Please select an Item to perform this action.");
+        }
+        
+        function lockItem() {
+            let request: any = {};
+
+            FwFormField.disable($confirmation.find('.fwformfield'));
+            FwFormField.disable($yes);
+            $yes.text('Locking Item...');
+            $yes.off('click');
+
+            request = {
+                OrderId: quoteId,
+                OrderItemId: orderItemId,
+                Locked: true,
+            }
+
+            FwAppData.apiMethod(true, 'POST', `api/v1/orderitem`, request, FwServices.defaultTimeout, function onSuccess(response) {
+                FwNotification.renderNotification('SUCCESS', 'Item Successfully Locked');
+                FwConfirmation.destroyConfirmation($confirmation);
+                FwBrowse.databind($browse);
+            }, function onError(response) {
+                $yes.on('click', lockItem);
+                $yes.text('Cancel');
+                FwFunc.showError(response);
+                FwFormField.enable($confirmation.find('.fwformfield'));
+                FwFormField.enable($yes);
+                FwBrowse.databind($browse);
+            }, $browse);
+        };
+
+        function unlockItem() {
+            let request: any = {};
+
+            FwFormField.disable($confirmation.find('.fwformfield'));
+            FwFormField.disable($yes);
+            $yes.text('Unlocking...');
+            $yes.off('click');
+
+            request = {
+                OrderId: quoteId,
+                OrderItemId: orderItemId,
+                Locked: false,
+            }
+
+            FwAppData.apiMethod(true, 'POST', `api/v1/orderitem`, request, FwServices.defaultTimeout, function onSuccess(response) {
+                FwNotification.renderNotification('SUCCESS', 'Item Successfully Unlocked');
+                FwConfirmation.destroyConfirmation($confirmation);
+                FwBrowse.databind($browse);
+            }, function onError(response) {
+                $yes.on('click', unlockItem);
+                $yes.text('Cancel');
+                FwFunc.showError(response);
+                FwFormField.enable($confirmation.find('.fwformfield'));
+                FwFormField.enable($yes);
+                FwBrowse.databind($browse);
+            }, $browse);
+        };
+    };
+
+    //----------------------------------------------------------------------------------------------
     calculateOrderItemGridTotals($form: any, gridType: string) {
         let subTotal, discount, salesTax, grossTotal, total, rateType;
         let extendedTotal = new Decimal(0);
@@ -1955,6 +2055,26 @@ FwApplicationTree.clickEvents['{78ACB73C-23DD-46F0-B179-0571BAD3A17D}'] = functi
             };
         } else {
             throw new Error("Please select a Quote to perform this action.");
+        }
+    }
+    catch (ex) {
+        FwFunc.showError(ex);
+    }
+};
+
+//---------------------------------------------------------------------------------
+//OrderItemGrid Lock Selected
+FwApplicationTree.clickEvents['{BC467EF9-F255-4F51-A6F2-57276D8824A3}'] = function (event) {
+    let $browse, $form;
+
+    $browse = jQuery(this).closest('.fwbrowse');
+    $form = jQuery(this).closest('.fwform');
+    
+    try {
+        if ($form.attr('data-controller') === 'QuoteController') {
+            QuoteController.orderItemGridLockUnlock($browse, event);
+        } else {
+            OrderController.orderItemGridLockUnlock($browse, event);
         }
     }
     catch (ex) {
