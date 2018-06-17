@@ -1217,6 +1217,96 @@ var Order = (function () {
         ;
     };
     ;
+    Order.prototype.orderItemGridBoldUnbold = function ($browse, event) {
+        var $confirmation, $yes, $no, orderId, orderItemId, boldStatus;
+        orderId = $browse.find('.selected [data-browsedatafield="OrderId"]').attr('data-originalvalue');
+        orderItemId = $browse.find('.selected [data-formdatafield="OrderItemId"]').attr('data-originalvalue');
+        boldStatus = $browse.find('.selected [data-formdatafield="Bold"]').attr('data-originalvalue');
+        if (orderId != null) {
+            if (boldStatus === "true") {
+                $confirmation = FwConfirmation.renderConfirmation('Unbold', '');
+                $confirmation.find('.fwconfirmationbox').css('width', '450px');
+                var html = [];
+                html.push('<div class="fwform" data-controller="none" style="background-color: transparent;">');
+                html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
+                html.push('    <div>Would you like to remove bold for this item?</div>');
+                html.push('  </div>');
+                html.push('</div>');
+                FwConfirmation.addControls($confirmation, html.join(''));
+                $yes = FwConfirmation.addButton($confirmation, 'Unbold Item', false);
+                $no = FwConfirmation.addButton($confirmation, 'Cancel');
+                $yes.on('click', unboldItem);
+            }
+            else {
+                $confirmation = FwConfirmation.renderConfirmation('Cancel', '');
+                $confirmation.find('.fwconfirmationbox').css('width', '450px');
+                var html = [];
+                html.push('<div class="fwform" data-controller="none" style="background-color: transparent;">');
+                html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
+                html.push('    <div>Would you like to bold this Item?</div>');
+                html.push('  </div>');
+                html.push('</div>');
+                FwConfirmation.addControls($confirmation, html.join(''));
+                $yes = FwConfirmation.addButton($confirmation, 'Bold Item', false);
+                $no = FwConfirmation.addButton($confirmation, 'Cancel');
+                $yes.on('click', boldItem);
+            }
+        }
+        else {
+            throw new Error("Please select an Item to perform this action.");
+        }
+        function boldItem() {
+            var request = {};
+            FwFormField.disable($confirmation.find('.fwformfield'));
+            FwFormField.disable($yes);
+            $yes.text('Bolding Item...');
+            $yes.off('click');
+            request = {
+                OrderId: orderId,
+                OrderItemId: orderItemId,
+                Bold: true,
+            };
+            FwAppData.apiMethod(true, 'POST', "api/v1/orderitem", request, FwServices.defaultTimeout, function onSuccess(response) {
+                FwNotification.renderNotification('SUCCESS', 'Success');
+                FwConfirmation.destroyConfirmation($confirmation);
+                FwBrowse.databind($browse);
+            }, function onError(response) {
+                $yes.on('click', boldItem);
+                $yes.text('Cancel');
+                FwFunc.showError(response);
+                FwFormField.enable($confirmation.find('.fwformfield'));
+                FwFormField.enable($yes);
+                FwBrowse.databind($browse);
+            }, $browse);
+        }
+        ;
+        function unboldItem() {
+            var request = {};
+            FwFormField.disable($confirmation.find('.fwformfield'));
+            FwFormField.disable($yes);
+            $yes.text('Removing...');
+            $yes.off('click');
+            request = {
+                OrderId: orderId,
+                OrderItemId: orderItemId,
+                Bold: false,
+            };
+            FwAppData.apiMethod(true, 'POST', "api/v1/orderitem", request, FwServices.defaultTimeout, function onSuccess(response) {
+                FwNotification.renderNotification('SUCCESS', 'Bold Removed');
+                FwConfirmation.destroyConfirmation($confirmation);
+                FwBrowse.databind($browse);
+            }, function onError(response) {
+                $yes.on('click', unboldItem);
+                $yes.text('Cancel');
+                FwFunc.showError(response);
+                FwFormField.enable($confirmation.find('.fwformfield'));
+                FwFormField.enable($yes);
+                FwBrowse.databind($browse);
+            }, $browse);
+        }
+        ;
+    };
+    ;
     Order.prototype.checkDateRangeForPick = function ($form, event) {
         var $element, parsedPickDate, parsedFromDate, parsedToDate;
         $element = jQuery(event.currentTarget);
@@ -1813,6 +1903,22 @@ FwApplicationTree.clickEvents['{BC467EF9-F255-4F51-A6F2-57276D8824A3}'] = functi
         }
         else {
             QuoteController.orderItemGridLockUnlock($browse, event);
+        }
+    }
+    catch (ex) {
+        FwFunc.showError(ex);
+    }
+};
+FwApplicationTree.clickEvents['{E2DF5CB4-CD18-42A0-AE7C-18C18E6C4646}'] = function (event) {
+    var $browse, $form;
+    $browse = jQuery(this).closest('.fwbrowse');
+    $form = jQuery(this).closest('.fwform');
+    try {
+        if ($form.attr('data-controller') === 'OrderController') {
+            OrderController.orderItemGridBoldUnbold($browse, event);
+        }
+        else {
+            QuoteController.orderItemGridBoldUnbold($browse, event);
         }
     }
     catch (ex) {
