@@ -110,11 +110,11 @@ FwBrowseColumn_appdocumentimage.setFieldViewMode = function($browse, $field, $tr
                             dlg.push('      <div data-datafield="from" data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="From" data-enabled="false"></div>');
                             dlg.push('    </div>');
                             dlg.push('    <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
-                            dlg.push('      <div data-datafield="tousers" data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield" data-caption="To (lookup)" data-validationname="WebUsersEmailValidation" data-hasselectall="false" style="float:left;box-sizing:border-box;width:20%;"></div>');
+                            dlg.push('      <div data-datafield="tousers" data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield" data-caption="To (lookup)" data-validationname="PersonValidation" data-hasselectall="false" style="float:left;box-sizing:border-box;width:20%;"></div>');
                             dlg.push('      <div data-datafield="to" data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="To" data-enabled="true" style="float:left;box-sizing:border-box;width:80%;"></div>');
                             dlg.push('    </div>');
                             dlg.push('    <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
-                            dlg.push('      <div data-datafield="ccusers" data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield" data-caption="CC (lookup)" data-validationname="WebUsersEmailValidation"  data-hasselectall="false" style="float:left;box-sizing:border-box;width:20%;"></div>');
+                            dlg.push('      <div data-datafield="ccusers" data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield" data-caption="CC (lookup)" data-validationname="PersonValidation"  data-hasselectall="false" style="float:left;box-sizing:border-box;width:20%;"></div>');
                             dlg.push('      <div data-datafield="cc" data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="CC" data-enabled="true" style="float:left;box-sizing:border-box;width:80%;"></div>');
                             dlg.push('    </div>');
                             dlg.push('    <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');

@@ -63,7 +63,7 @@ FwValidation.init = function ($control) {
                 }
             }
         }
-        
+
         if (typeof $control.data('beforevalidate') === 'function') {
             if ($object.attr('data-type') === 'Grid') {
                 $control.data('beforevalidate')($validationbrowse, $object.closest('.fwform'), request, $control.attr('data-formdatafield'));
@@ -233,10 +233,17 @@ FwValidation.init = function ($control) {
             FwFunc.showError(ex);
         }
     });
-    $control.find('.btnpeek').on('click', function (e) {
+    $validationbrowse.find('.validationbuttons .btnNew').on('click', function () {
+        var $this = jQuery(this);
+        try {
+            FwValidation.newValidation($control, validationName.slice(0, -10), $object, $this, $valuefield, $btnvalidate);
+        } catch (ex) {
+            FwFunc.showError(ex);
+        }
+    });
+    $control.find('.btnpeek').on('click', function () {
         try {
             FwValidation.validationPeek($control, validationName.slice(0, -10), $valuefield.val(), $valuefield.parent().parent().attr('data-datafield'), $object, $searchfield.val());
-            e.stopPropagation();
         } catch (ex) {
             FwFunc.showError(ex);
         }
@@ -358,8 +365,6 @@ FwValidation.validationPeek = function ($control, validationName, validationId, 
         if (validationId !== '') {
             $popupForm = jQuery(jQuery('#tmpl-modules-' + validationName + 'Form').html());
             $popupForm = FwModule.openForm($popupForm, 'EDIT');
-
-            $popupForm.append('<div class="close-modal" style="display:flex; position:absolute; top:10px; right:15px; cursor:pointer;"><i class="material-icons">clear</i><div class="btn-text">Close</div></div>')
             $popupForm.find('.btnpeek').remove();
             $popupForm.css({ 'background-color': 'white', 'box-shadow': '0 25px 44px rgba(0, 0, 0, 0.30), 0 20px 15px rgba(0, 0, 0, 0.22)', 'width': '60vw', 'height': '60vh', 'overflow': 'scroll', 'position': 'relative' });
 
@@ -380,12 +385,6 @@ FwValidation.validationPeek = function ($control, validationName, validationId, 
                     jQuery(document).find('.fwpopup').off('click');
                 }
             });
-
-            $popupForm.find('.close-modal').one('click', function (e) {
-                FwPopup.destroyPopup(jQuery(document).find('.fwpopup'));
-                jQuery(document).find('.fwpopup').off('click');
-                jQuery(document).off('keydown');
-            })
 
             jQuery(document).on('keydown', function (e) {
                 var code = e.keyCode || e.which;
@@ -413,4 +412,62 @@ FwValidation.validationPeek = function ($control, validationName, validationId, 
     catch (ex) {
         FwFunc.showError(ex);
     }
-}
+};
+//---------------------------------------------------------------------------------
+FwValidation.newValidation = function ($control, validationName, $object, $this, $valuefield, $btnvalidate) {
+    var $popupForm;
+    var $object = ($control.closest('.fwbrowse[data-controller!=""]').length > 0) ? $control.closest('.fwbrowse[data-controller!=""]') : $control.closest('.fwform[data-controller!=""]');
+    var $validationbrowse = $this.closest('div[data-control="FwBrowse"][data-type="Validation"]');
+
+    try {
+        $popupForm = jQuery(jQuery('#tmpl-modules-' + validationName + 'Form').html());
+        $popupForm = FwModule.openForm($popupForm, 'NEW');
+        $popupForm.find('.btnpeek').remove();
+        $popupForm.css({ 'background-color': 'white', 'box-shadow': '0 25px 44px rgba(0, 0, 0, 0.30), 0 20px 15px rgba(0, 0, 0, 0.22)', 'width': '60vw', 'height': '60vh', 'overflow': 'scroll', 'position': 'relative' });
+
+        $popupForm.data('afterSaveNewValidation', function () {
+            FwValidation.validate(validationName, $valuefield, '', $btnvalidate, $validationbrowse, false);
+        })
+
+        FwPopup.showPopup(FwPopup.renderPopup($popupForm, undefined, 'New ' + validationName));
+
+        jQuery(document).find('.fwpopup.new-validation').on('click', function (e) {
+            e = e || window.event;
+            if (e.target.outerHTML === '<i class="material-icons"></i>' || e.target.outerHTML === '<div class="btn-text">Save</div>') {
+
+            } else {
+                FwPopup.destroyPopup(this);
+                jQuery(document).off('keydown');
+                jQuery(document).find('.fwpopup').off('click');
+                FwValidation.validate(validationName, $valuefield, '', $btnvalidate, $validationbrowse, false);
+            }
+        });
+
+        jQuery(document).on('keydown', function (e) {
+            var code = e.keyCode || e.which;
+            if (code === 27) { //ESC Key  
+                try {
+                    FwPopup.destroyPopup(jQuery(document).find('.fwpopup'));
+                    jQuery(document).find('.fwpopup').off('click');
+                    jQuery(document).off('keydown');
+                    FwValidation.validate(validationName, $valuefield, '', $btnvalidate, $validationbrowse, false);
+                } catch (ex) {
+                    FwFunc.showError(ex);
+                }
+            }
+        });
+
+        jQuery(document).find('.fwpopupbox').on('click', function (e) {
+            e = e || window.event;
+            if (e.target.outerHTML === '<i class="material-icons"></i>' || e.target.outerHTML === '<div class="btn-text">Save</div>') {
+
+            } else {
+                e.stopImmediatePropagation();
+            }
+        });
+    }
+    catch (ex) {
+        FwFunc.showError(ex);
+    }
+};
+//---------------------------------------------------------------------------------

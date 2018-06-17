@@ -427,11 +427,13 @@ class FwModule {
                 FwModule.checkDuplicate($form, $this);
             })
             .on('change', '.fwformfield[data-required="true"].error', function () {
-                var $this, value;
+                var $this, value, errorTab;
                 $this = jQuery(this);
                 value = FwFormField.getValue2($this);
+                errorTab = $this.closest('.tabpage').attr('data-tabid');
                 if (value != '') {
                     $this.removeClass('error');
+                    $this.parents('.fwcontrol .fwtabs').find('#' + errorTab).removeClass('error')
                 }
             })
             ;
@@ -680,6 +682,7 @@ class FwModule {
                             $parenttab.find('.delete').click();
                         }
                     }
+                    $form.find('.error').removeClass('error')
                     FwNotification.renderNotification('SUCCESS', 'Record saved.');
                 } else if (response.saved === true) {
                     if (parameters.closetab === false) {
@@ -1147,8 +1150,10 @@ class FwModule {
 
             if (($field.attr('data-required') == 'true') && ($field.attr('data-enabled') == 'true')) {
                 if ($field.find('.fwformfield-value').val() == '') {
+                    var errorTab = $field.closest('.tabpage').attr('data-tabid');
                     isvalid = false;
                     $field.addClass('error');
+                    $field.parents('.fwcontrol .fwtabs').find('#' + errorTab).addClass('error')
                 } else if ($field.find('.fwformfield-value').val() != '') {
                     $field.removeClass('error');
                 }

@@ -49,16 +49,31 @@ var FwPopup = (function () {
     };
     ;
     FwPopup.renderPopup = function ($content, options, title) {
-        var html, $popup, ismodal = true;
+        var html, $popup, ismodal = true, isNewValidation = false;
+        if ($content.data('afterSaveNewValidation') !== 'undefined' && typeof $content.data('afterSaveNewValidation') === 'function') {
+            isNewValidation = true;
+        }
         html = [];
         html.push('<div class="fwpopup">');
-        html.push('<div class="fwpopupbox">');
+        html.push('<div class="fwpopupbox" style="position:relative;">');
         if (title !== undefined) {
             html.push('<div class="popuptitle">' + title + '</div>');
+            html.push('<div class="close-modal" style="display:flex; position:absolute; top:10px; right:15px; cursor:pointer;"><i class="material-icons">clear</i><div class="btn-text">Close</div></div>');
         }
         html.push('</div>');
         html.push('</div>');
         $popup = jQuery(html.join(''));
+        if (isNewValidation) {
+            $popup.addClass('new-validation');
+        }
+        $popup.find('.close-modal').one('click', function (e) {
+            if (isNewValidation) {
+                $content.data('afterSaveNewValidation')();
+            }
+            FwPopup.destroyPopup(jQuery(this).closest('.fwpopup'));
+            jQuery(this).closest('.fwpopup').off('click');
+            jQuery(document).off('keydown');
+        });
         $popup.find('.fwpopupbox').append($content);
         if (typeof options === 'object') {
             if (typeof options.ismodal === 'boolean') {

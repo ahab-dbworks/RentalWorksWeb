@@ -488,7 +488,7 @@ FwEPS.onExpressErrorCode = function(response) {
         FwEPS.$txtTransactionID.html(response.Express.Transaction.TransactionID);
     }
     FwEPS.$Response.show();
-    FwPopup.position(FwEPS.creditCardSalePopup);
+    //FwPopup.position(FwEPS.creditCardSalePopup);
 };
 //---------------------------------------------------------------------------------
 //FwEPS.creditCardSale = function(transactionID, referenceNumber, ticketNumber, transactionAmount, accountNumber) {
@@ -615,7 +615,7 @@ FwEPS.creditCardSaleResponse = function(response) {
     //FwEPS.$txtTicketNumber.html(response.Express.Transaction.ReferenceNumber);
     FwEPS.$txtTicketNumber.html(response.request.ticketnumber);
     FwEPS.$Response.show();
-    FwPopup.position(FwEPS.creditCardSalePopup);
+    //FwPopup.position(FwEPS.creditCardSalePopup);
 };
 //---------------------------------------------------------------------------------
 FwEPS.creditCardFullReversal = function(applicationname, applicationversion, accountid, accounttoken, acceptorid, terminalid, referencenumber, ticketnumber, 
@@ -725,7 +725,7 @@ FwEPS.creditCardReversalResponse = function(response) {
     FwEPS.$txtTransactionID.attr('data-ticketno',    response.Express.Transaction.ReferenceNumber);
     FwEPS.$txtTicketNumber.html(response.Express.Transaction.ReferenceNumber);
     FwEPS.$Response.show();
-    FwPopup.position(FwEPS.creditCardSalePopup);
+    //FwPopup.position(FwEPS.creditCardSalePopup);
 };
 //---------------------------------------------------------------------------------
 FwEPS.onEPSDeviceCardReaderError= function(event) {

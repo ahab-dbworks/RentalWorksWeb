@@ -1042,6 +1042,7 @@
                     html.push('<div class="fwbrowsebutton btnClear">Clear</div>');
                     html.push('<div class="fwbrowsebutton btnViewSelection" style="display:none;">View Selection</div>');
                     html.push('<div class="fwbrowsebutton btnCancel">Cancel</div>');
+                    html.push('<div class="fwbrowsebutton btnNew">New</div>'); 
                     $customvalidationbuttons = $control.find('.customvalidationbuttons');
                     if ($customvalidationbuttons.length > 0) {
                         FwControl.renderRuntimeControls($customvalidationbuttons.find('.fwcontrol'));
@@ -2752,11 +2753,11 @@
         $control.data('afterdelete', callback);
     }
     //---------------------------------------------------------------------------------
-    static setAfterRenderRowCallback = function($control: JQuery, callback: ($tr: JQuery, dt: any, rowIndex: number) => void) {
+    static setAfterRenderRowCallback = function ($control: JQuery, callback: ($tr: JQuery, dt: any, rowIndex: number) => void) {
         $control.data('afterrenderrow', callback);
     }
     //---------------------------------------------------------------------------------
-    static setAfterRenderFieldCallback = function($control: JQuery, callback: ($tr: JQuery, $td: JQuery, $field: JQuery, dt: any, rowIndex: number, colIndex: number) => void) {
+    static setAfterRenderFieldCallback = function ($control: JQuery, callback: ($tr: JQuery, $td: JQuery, $field: JQuery, dt: any, rowIndex: number, colIndex: number) => void) {
         $control.data('afterrenderfield', callback);
     }
     //---------------------------------------------------------------------------------
