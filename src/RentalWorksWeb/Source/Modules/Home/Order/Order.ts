@@ -750,18 +750,25 @@ class Order {
             $orderItemGridRental.find('.3week').parent().show();
             $orderItemGridRental.find('.weekextended').parent().hide();
             $orderItemGridRental.find('.price').find('.caption').text('Week 1 Rate');
-            FwBrowse.search($allOrderItemGrid);
-            FwBrowse.search($orderItemGridRental);
         }
-
-        var $pending = $form.find('div.fwformfield[data-datafield="PendingPo"] input').prop('checked');
-        if ($pending === true) {
-            FwFormField.disable($form.find('[data-datafield="PoNumber"]'));
-            FwFormField.disable($form.find('[data-datafield="PoAmount"]'));
+        // Display weeks or month field in billing tab
+        if (rate === 'MONTHLY') {
+            $form.find(".BillingWeeks").hide();
+            $form.find(".BillingMonths").show();
+        } else {
+            $form.find(".BillingMonths").hide();
+            $form.find(".BillingWeeks").show();
         }
-        else {
-            FwFormField.enable($form.find('[data-datafield="PoNumber"]'));
-            FwFormField.enable($form.find('[data-datafield="PoAmount"]'));
+        // Display D/W field in rental
+        if (rate === 'DAILY') {
+            $form.find(".RentalDaysPerWeek").show();
+            $allOrderItemGrid.find('.dw').parent().show();
+            $orderItemGridRental.find('.dw').parent().show();
+            $orderItemGridSales.find('.dw').parent().show();
+            $orderItemGridLabor.find('.dw').parent().show();
+            $orderItemGridMisc.find('.dw').parent().show();
+        } else {
+            $form.find(".RentalDaysPerWeek").hide();
         }
 
         this.renderFrames($form);
@@ -1063,6 +1070,11 @@ class Order {
     //----------------------------------------------------------------------------------------------
     events($form: any) {
         // All event listeners can be placed here and invoked in openForm
+        let weeklyType = $form.find(".weeklyType");
+        let monthlyType = $form.find(".monthlyType");
+        let rentalDaysPerWeek = $form.find(".RentalDaysPerWeek");
+        let billingMonths = $form.find(".BillingMonths");
+        let billingWeeks = $form.find(".BillingWeeks");
 
         //Populate tax info fields with validation
         $form.find('div[data-datafield="TaxOptionId"]').data('onchange', $tr => {
@@ -1114,47 +1126,67 @@ class Order {
                 FwFunc.showError(response);
             }, $form);
         });
-        //RateType change affecting billing tab weeks or months
-        $form.find('.RateType').on('change', $tr => {
-            if (FwFormField.getValueByDataField($form, 'RateType') === 'MONTHLY') {
-                $form.find(".BillingWeeks").hide();
-                $form.find(".BillingMonths").show();
-            } else {
-                $form.find(".BillingMonths").hide();
-                $form.find(".BillingWeeks").show();
-            }
-        });
-        //RateType change affecting DaysPerWeek field in rental tab
-        $form.find('.RateType').on('change', $tr => {
-            if (FwFormField.getValueByDataField($form, 'RateType') === 'DAILY') {
-                $form.find(".RentalDaysPerWeek").show();
-            } else {
-                $form.find(".RentalDaysPerWeek").hide();
-            }
-        });
+        ////RateType change affecting billing tab weeks or months
+        //$form.find('.RateType').on('change', $tr => {
+        //    if (FwFormField.getValueByDataField($form, 'RateType') === 'MONTHLY') {
+        //        $form.find(".BillingWeeks").hide();
+        //        $form.find(".BillingMonths").show();
+        //    } else {
+        //        $form.find(".BillingMonths").hide();
+        //        $form.find(".BillingWeeks").show();
+        //    }
+        //});
+        ////RateType change affecting DaysPerWeek field in rental tab
+        //$form.find('.RateType').on('change', $tr => {
+        //    if (FwFormField.getValueByDataField($form, 'RateType') === 'DAILY') {
+        //        $form.find(".RentalDaysPerWeek").show();
+        //    } else {
+        //        $form.find(".RentalDaysPerWeek").hide();
+        //    }
+        //});
 
         $form.find('.RateType').on('change', $tr => {
             let rateType = FwFormField.getValueByDataField($form, 'RateType');
             switch (rateType) {
                 case 'DAILY':
-                    $form.find(".weeklyType").show();
-                    $form.find(".monthlyType").hide();
+                    weeklyType.show();
+                    monthlyType.hide();
+                    rentalDaysPerWeek.show();
+                    billingMonths.hide();
+                    billingWeeks.show();
+                    $form.find('.combinedgrid [data-name="OrderItemGrid"]').parent().show();
+                    $form.find('.rentalgrid [data-name="OrderItemGrid"]').parent().show();
+                    $form.find('.salesgrid [data-name="OrderItemGrid"]').parent().show();
+                    $form.find('.laborgrid [data-name="OrderItemGrid"]').parent().show();
+                    $form.find('.miscgrid [data-name="OrderItemGrid"]').parent().show();
                     break;
                 case 'WEEKLY':
-                    $form.find(".weeklyType").show();
-                    $form.find(".monthlyType").hide();
+                    weeklyType.show();
+                    monthlyType.hide();
+                    rentalDaysPerWeek.hide();
+                    billingMonths.hide();
+                    billingWeeks.show();
                     break;
                 case '3WEEK':
-                    $form.find(".weeklyType").show();
-                    $form.find(".monthlyType").hide();
+                    weeklyType.show();
+                    monthlyType.hide();
+                    rentalDaysPerWeek.hide();
+                    billingMonths.hide();
+                    billingWeeks.show();
                     break;
                 case 'MONTHLY':
-                    $form.find(".weeklyType").hide();
-                    $form.find(".monthlyType").show();
+                    weeklyType.hide();
+                    monthlyType.show();
+                    rentalDaysPerWeek.hide();
+                    billingWeeks.hide();
+                    billingMonths.show();
                     break;
                 default:
-                    $form.find(".weeklyType").show();
-                    $form.find(".monthlyType").hide();
+                    weeklyType.show();
+                    monthlyType.hide();
+                    rentalDaysPerWeek.show();
+                    billingMonths.hide();
+                    billingWeeks.show();
                     break;
             }
         });

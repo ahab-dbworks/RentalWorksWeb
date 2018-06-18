@@ -643,17 +643,25 @@ var Order = (function () {
             $orderItemGridRental.find('.3week').parent().show();
             $orderItemGridRental.find('.weekextended').parent().hide();
             $orderItemGridRental.find('.price').find('.caption').text('Week 1 Rate');
-            FwBrowse.search($allOrderItemGrid);
-            FwBrowse.search($orderItemGridRental);
         }
-        var $pending = $form.find('div.fwformfield[data-datafield="PendingPo"] input').prop('checked');
-        if ($pending === true) {
-            FwFormField.disable($form.find('[data-datafield="PoNumber"]'));
-            FwFormField.disable($form.find('[data-datafield="PoAmount"]'));
+        if (rate === 'MONTHLY') {
+            $form.find(".BillingWeeks").hide();
+            $form.find(".BillingMonths").show();
         }
         else {
-            FwFormField.enable($form.find('[data-datafield="PoNumber"]'));
-            FwFormField.enable($form.find('[data-datafield="PoAmount"]'));
+            $form.find(".BillingMonths").hide();
+            $form.find(".BillingWeeks").show();
+        }
+        if (rate === 'DAILY') {
+            $form.find(".RentalDaysPerWeek").show();
+            $allOrderItemGrid.find('.dw').parent().show();
+            $orderItemGridRental.find('.dw').parent().show();
+            $orderItemGridSales.find('.dw').parent().show();
+            $orderItemGridLabor.find('.dw').parent().show();
+            $orderItemGridMisc.find('.dw').parent().show();
+        }
+        else {
+            $form.find(".RentalDaysPerWeek").hide();
         }
         this.renderFrames($form);
         this.dynamicColumns($form);
@@ -928,6 +936,11 @@ var Order = (function () {
     ;
     Order.prototype.events = function ($form) {
         var _this = this;
+        var weeklyType = $form.find(".weeklyType");
+        var monthlyType = $form.find(".monthlyType");
+        var rentalDaysPerWeek = $form.find(".RentalDaysPerWeek");
+        var billingMonths = $form.find(".BillingMonths");
+        var billingWeeks = $form.find(".BillingWeeks");
         $form.find('div[data-datafield="TaxOptionId"]').data('onchange', function ($tr) {
             FwFormField.setValue($form, 'div[data-datafield="RentalTaxRate1"]', $tr.find('.field[data-browsedatafield="RentalTaxRate1"]').attr('data-originalvalue'));
             FwFormField.setValue($form, 'div[data-datafield="SalesTaxRate1"]', $tr.find('.field[data-browsedatafield="SalesTaxRate1"]').attr('data-originalvalue'));
@@ -969,45 +982,47 @@ var Order = (function () {
             }, $form);
         });
         $form.find('.RateType').on('change', function ($tr) {
-            if (FwFormField.getValueByDataField($form, 'RateType') === 'MONTHLY') {
-                $form.find(".BillingWeeks").hide();
-                $form.find(".BillingMonths").show();
-            }
-            else {
-                $form.find(".BillingMonths").hide();
-                $form.find(".BillingWeeks").show();
-            }
-        });
-        $form.find('.RateType').on('change', function ($tr) {
-            if (FwFormField.getValueByDataField($form, 'RateType') === 'DAILY') {
-                $form.find(".RentalDaysPerWeek").show();
-            }
-            else {
-                $form.find(".RentalDaysPerWeek").hide();
-            }
-        });
-        $form.find('.RateType').on('change', function ($tr) {
             var rateType = FwFormField.getValueByDataField($form, 'RateType');
             switch (rateType) {
                 case 'DAILY':
-                    $form.find(".weeklyType").show();
-                    $form.find(".monthlyType").hide();
+                    weeklyType.show();
+                    monthlyType.hide();
+                    rentalDaysPerWeek.show();
+                    billingMonths.hide();
+                    billingWeeks.show();
+                    $form.find('.combinedgrid [data-name="OrderItemGrid"]').parent().show();
+                    $form.find('.rentalgrid [data-name="OrderItemGrid"]').parent().show();
+                    $form.find('.salesgrid [data-name="OrderItemGrid"]').parent().show();
+                    $form.find('.laborgrid [data-name="OrderItemGrid"]').parent().show();
+                    $form.find('.miscgrid [data-name="OrderItemGrid"]').parent().show();
                     break;
                 case 'WEEKLY':
-                    $form.find(".weeklyType").show();
-                    $form.find(".monthlyType").hide();
+                    weeklyType.show();
+                    monthlyType.hide();
+                    rentalDaysPerWeek.hide();
+                    billingMonths.hide();
+                    billingWeeks.show();
                     break;
                 case '3WEEK':
-                    $form.find(".weeklyType").show();
-                    $form.find(".monthlyType").hide();
+                    weeklyType.show();
+                    monthlyType.hide();
+                    rentalDaysPerWeek.hide();
+                    billingMonths.hide();
+                    billingWeeks.show();
                     break;
                 case 'MONTHLY':
-                    $form.find(".weeklyType").hide();
-                    $form.find(".monthlyType").show();
+                    weeklyType.hide();
+                    monthlyType.show();
+                    rentalDaysPerWeek.hide();
+                    billingWeeks.hide();
+                    billingMonths.show();
                     break;
                 default:
-                    $form.find(".weeklyType").show();
-                    $form.find(".monthlyType").hide();
+                    weeklyType.show();
+                    monthlyType.hide();
+                    rentalDaysPerWeek.show();
+                    billingMonths.hide();
+                    billingWeeks.show();
                     break;
             }
         });
