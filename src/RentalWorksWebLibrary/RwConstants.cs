@@ -19,12 +19,15 @@ namespace WebLibrary
         public const string DEPARTMENT_TYPE_LABOR = "L";
 
 
-        //QOTE/ORDER
+        //MODULES
         public const string MODULE_QUOTE = "QUOTE";
         public const string MODULE_REPAIR = "REPAIR";
+        public const string MODULE_PROJECT = "PROJECT";
 
+        //QOTE/ORDER
         public const string ORDER_TYPE_QUOTE = "Q";
         public const string ORDER_TYPE_ORDER = "O";
+        public const string ORDER_TYPE_PROJECT = "PROJECT";
 
         public const string QUOTE_STATUS_PROSPECT = "PROSPECT";
         public const string QUOTE_STATUS_ACTIVE = "ACTIVE";
@@ -60,6 +63,10 @@ namespace WebLibrary
         public const string ONLINE_DELIVERY_STATUS_PARTIAL = "PARTIAL";
         public const string ONLINE_DELIVERY_STATUS_COMPLETE = "COMPLETE";
 
+        //PROJECT
+        public const string PROJECT_STATUS_NEW = "NEW";
+        public const string PROJECT_STATUS_ACTIVE = "ACTIVE";
+        public const string PROJECT_STATUS_CLOSED = "CLOSED";
 
 
         //REPAIR

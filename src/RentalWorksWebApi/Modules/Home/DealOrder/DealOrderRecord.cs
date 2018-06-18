@@ -1,5 +1,6 @@
 ﻿using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
+using System;
 using System.Data;
 using System.Threading.Tasks;
 using WebApi.Data;
@@ -192,6 +193,9 @@ namespace WebApi.Modules.Home.DealOrder
         public string InDeliveryId { get; set; }
         //------------------------------------------------------------------------------------
 
+        [FwSqlDataField(column: "whfromnotes", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 255)]
+        public string FromWarehouseNotes { get; set; }
+        //------------------------------------------------------------------------------------
 
 
 
@@ -224,7 +228,21 @@ namespace WebApi.Modules.Home.DealOrder
         //-------------------------------------------------------------------------------------------------------
         public async Task<bool> SetNumber()
         {
-            OrderNumber = await AppFunc.GetNextCounterAsync(AppConfig, UserSession, RwConstants.MODULE_QUOTE);
+            string moduleName = "";
+            if ((Type.Equals(RwConstants.ORDER_TYPE_QUOTE)) || (Type.Equals(RwConstants.ORDER_TYPE_ORDER)))
+            {
+                moduleName = RwConstants.MODULE_QUOTE;
+            }
+            else if (Type.Equals(RwConstants.ORDER_TYPE_PROJECT))
+            {
+                moduleName = RwConstants.MODULE_PROJECT;
+            }
+            else 
+            {
+                throw new Exception("Invalid Type " + Type + " in DealOrderRecord.SetNumber");
+            }
+            OrderNumber = await AppFunc.GetNextCounterAsync(AppConfig, UserSession, moduleName);
+
             return true;
         }
         //-------------------------------------------------------------------------------------------------------

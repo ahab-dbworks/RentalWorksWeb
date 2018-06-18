@@ -1,0 +1,202 @@
+using FwStandard.DataLayer;
+using FwStandard.Models;
+using FwStandard.SqlServer;
+using FwStandard.SqlServer.Attributes;
+using WebApi.Data;
+using System.Collections.Generic;
+namespace WebApi.Modules.Home.Project
+{
+    [FwSqlTable("projectview")]
+    public class ProjectLoader : AppDataLoadRecord
+    {
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "projectid", modeltype: FwDataTypes.Text, isPrimaryKey: true)]
+        public string ProjectId { get; set; } = "";
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "project", modeltype: FwDataTypes.Text)]
+        public string Project { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "locationid", modeltype: FwDataTypes.Text)]
+        public string OfficeLocationId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "location", modeltype: FwDataTypes.Text)]
+        public string OfficeLocation { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "departmentid", modeltype: FwDataTypes.Text)]
+        public string DepartmentId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "department", modeltype: FwDataTypes.Text)]
+        public string Department { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "dealid", modeltype: FwDataTypes.Text)]
+        public string DealId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "deal", modeltype: FwDataTypes.Text)]
+        public string Deal { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "status", modeltype: FwDataTypes.Text)]
+        public string Status { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "statusdate", modeltype: FwDataTypes.Date)]
+        public string StatusDate { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "projectmanagerid", modeltype: FwDataTypes.Text)]
+        public string ProjectManagerId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "projectmanager", modeltype: FwDataTypes.Text)]
+        public string ProjectManager { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "agentid", modeltype: FwDataTypes.Text)]
+        public string AgentId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "agent", modeltype: FwDataTypes.Text)]
+        public string Agent { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "prcontact", modeltype: FwDataTypes.Text)]
+        public string PrimaryContact { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "requestedby", modeltype: FwDataTypes.Text)]
+        public string RequestedBy { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "salesrepresentativecontactid", modeltype: FwDataTypes.Text)]
+        public string SalesRepresentativeId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "salesrepresentative", modeltype: FwDataTypes.Text)]
+        public string SalesRepresentative { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "projectdescription", modeltype: FwDataTypes.Text)]
+        public string ProjectDescription { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "rental", modeltype: FwDataTypes.Boolean)]
+        public bool? Rental { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "sales", modeltype: FwDataTypes.Boolean)]
+        public bool? Sales { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "space", modeltype: FwDataTypes.Boolean)]
+        public bool? Facilities { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "labor", modeltype: FwDataTypes.Boolean)]
+        public bool? Labor { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "misc", modeltype: FwDataTypes.Boolean)]
+        public bool? Miscellaneous { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "vehicle", modeltype: FwDataTypes.Boolean)]
+        public bool? Transportation { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "rentalsale", modeltype: FwDataTypes.Boolean)]
+        public bool? RentalSale { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "pickdate", modeltype: FwDataTypes.Date)]
+        public string PickDate { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "picktime", modeltype: FwDataTypes.Text)]
+        public string PickTime { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "estrentfrom", modeltype: FwDataTypes.Date)]
+        public string EstimatedStartDate { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "estfromtime", modeltype: FwDataTypes.Text)]
+        public string EstimatedStartTime { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "estrentto", modeltype: FwDataTypes.Date)]
+        public string EstimatedStopDate { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "esttotime", modeltype: FwDataTypes.Text)]
+        public string EstimatedStopTime { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "projectno", modeltype: FwDataTypes.Text)]
+        public string ProjectNumber { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "inactive", modeltype: FwDataTypes.Boolean)]
+        public bool? Inactive { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
+        public string DateStamp { get; set; }
+        //------------------------------------------------------------------------------------ 
+        protected override void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequest request = null)
+        {
+            base.SetBaseSelectQuery(select, qry, customFields, request);
+            select.Parse();
+            addFilterToSelect("OfficeLocationId", "locationid", select, request);
+            addFilterToSelect("WarehouseId", "warehouseid", select, request);
+            addFilterToSelect("DealId", "dealid", select, request);
+            addFilterToSelect("CustomerId", "customerid", select, request);
+
+
+            if ((request != null) && (request.activeview != null))
+            {
+                //switch (request.activeview)
+                //{
+                //    case "PROSPECT":
+                //        select.AddWhere("(status = @orderstatus)");
+                //        select.AddParameter("@orderstatus", "PROSPECT");
+                //        break;
+                //    case "RESERVED":
+                //        select.AddWhere("(status = @orderstatus)");
+                //        select.AddParameter("@orderstatus", "RESERVED");
+                //        break;
+                //    case "CONFIRMED":
+                //        select.AddWhere("(status = @orderstatus)");
+                //        select.AddParameter("@orderstatus", "CONFIRMED");
+                //        break;
+                //    case "HOLD":
+                //        select.AddWhere("(status = @orderstatus)");
+                //        select.AddParameter("@orderstatus", "HOLD");
+                //        break;
+                //    case "ORDERED":
+                //        select.AddWhere("(status = @orderstatus)");
+                //        select.AddParameter("@orderstatus", "ORDERED");
+                //        break;
+                //    case "ACTIVE":
+                //        select.AddWhere("(status = @orderstatus)");
+                //        select.AddParameter("@orderstatus", "ACTIVE");
+                //        break;
+                //    case "COMPLETE":
+                //        select.AddWhere("(status = @orderstatus)");
+                //        select.AddParameter("@orderstatus", "COMPLETE");
+                //        break;
+                //    case "CLOSED":
+                //        select.AddWhere("(status = @orderstatus)");
+                //        select.AddParameter("@orderstatus", "CLOSED");
+                //        break;
+                //    case "CANCELLED":
+                //        select.AddWhere("(status = @orderstatus)");
+                //        select.AddParameter("@orderstatus", "CANCELLED");
+                //        break;
+                //    case "ALL":
+                //        break;
+                //}
+
+                if (request.activeview.Contains("WarehouseId="))
+                {
+                    string whId = request.activeview.Replace("WarehouseId=", "");
+                    if (!whId.Equals("ALL"))
+                    {
+                        select.AddWhere("(warehouseid = @whid)");
+                        select.AddParameter("@whid", whId);
+                    }
+                }
+
+                string locId = "ALL";
+                if (request.activeview.Contains("OfficeLocationId="))
+                {
+                    locId = request.activeview.Replace("OfficeLocationId=", "");
+                }
+                else if (request.activeview.Contains("LocationId="))
+                {
+                    locId = request.activeview.Replace("LocationId=", "");
+                }
+                if (!locId.Equals("ALL"))
+                {
+                    select.AddWhere("(locationid = @locid)");
+                    select.AddParameter("@locid", locId);
+                }
+
+            }
+
+        }
+        //------------------------------------------------------------------------------------ 
+    }
+}
