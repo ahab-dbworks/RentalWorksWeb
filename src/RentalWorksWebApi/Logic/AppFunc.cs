@@ -4,6 +4,7 @@ using FwStandard.SqlServer;
 using System.Data;
 using System.Threading.Tasks;
 using WebApi.Modules.Home.OrderItem;
+using WebApi.Modules.Home.RepairPart;
 
 namespace WebApi.Logic
 {
@@ -344,6 +345,25 @@ namespace WebApi.Logic
                 success = true;
             }
             return success;
+        }
+        //-------------------------------------------------------------------------------------------------------
+        public static async Task<string> InsertRepairPackage(FwApplicationConfig appConfig, FwUserSession userSession, RepairPartLogic rpi)
+        {
+            string newRepairPartId = "";
+            using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
+            {
+                FwSqlCommand qry = new FwSqlCommand(conn, "insertrepairpackage", appConfig.DatabaseSettings.QueryTimeout);
+                qry.AddParameter("@repairid", SqlDbType.NVarChar, ParameterDirection.Input, rpi.RepairId);
+                qry.AddParameter("@masterid", SqlDbType.NVarChar, ParameterDirection.Input, rpi.InventoryId);
+                qry.AddParameter("@warehouseid", SqlDbType.NVarChar, ParameterDirection.Input, rpi.WarehouseId);
+                qry.AddParameter("@catalogid", SqlDbType.NVarChar, ParameterDirection.Input, "");
+                qry.AddParameter("@packagetype", SqlDbType.NVarChar, ParameterDirection.Input, rpi.ItemClass);
+                qry.AddParameter("@qty", SqlDbType.NVarChar, ParameterDirection.Input, rpi.Quantity);
+                qry.AddParameter("@primaryrepairpartid", SqlDbType.NVarChar, ParameterDirection.Output);
+                await qry.ExecuteNonQueryAsync(true);
+                newRepairPartId = qry.GetParameter("@primaryrepairpartid").ToString();
+            }
+            return newRepairPartId;
         }
         //-------------------------------------------------------------------------------------------------------
     }

@@ -2,11 +2,14 @@
   <div class="column" data-width="0" data-visible="false">
     <div class="field" data-isuniqueid="true" data-caption="RepairPartId" data-datafield="RepairPartId" data-datatype="key"></div>
   </div>
+  <div class="column" data-width="0" data-visible="false">
+    <div class="field" data-datafield="ItemOrder" data-datatype="text" data-formreadonly="true" data-sort="asc"></div>
+  </div>
   <div class="column" data-width="100px" data-visible="true">
-    <div class="field valtype" data-caption="I-Code" data-datafield="InventoryId" data-browsedisplayfield="ICode" data-datatype="validation" data-validationname="PartsInventoryValidation" style="white-space: pre;"></div>
+    <div class="field valtype" data-caption="I-Code" data-datafield="InventoryId" data-browsedisplayfield="ICode" data-datatype="validation" data-validationname="PartsInventoryValidation" data-cellcolor="ICodeColor" style="white-space: pre;"></div>
   </div>
   <div class="column" data-width="auto" data-visible="true" style="min-width:250px;max-width:unset;">
-    <div class="field" data-caption="Description" data-datafield="Description" data-datatype="text" data-sort="asc"></div>
+    <div class="field" data-caption="Description" data-datafield="Description" data-datatype="text" data-cellcolor="DescriptionColor" data-sort="off"></div>
   </div>
   <div class="column" data-width="100px" data-visible="true">
     <div class="field field_to_calc_extended" data-caption="Quantity" data-datafield="Quantity" data-datatype="number"></div>
