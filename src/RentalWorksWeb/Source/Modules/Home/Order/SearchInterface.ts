@@ -13,7 +13,7 @@ class SearchInterface {
         html.push('     <div class="close-modal" style="display:flex; position:absolute; top:10px; right:15px; cursor:pointer;"><i class="material-icons">clear</i><div class="btn-text">Close</div></div>');
         html.push('</div>');
         var $popupHtml = html.join('');
-        var $popup = FwPopup.renderPopup($popupHtml, { ismodal: true });
+        var $popup = FwPopup.renderPopup(jQuery($popupHtml), { ismodal: true });
         FwPopup.showPopup($popup);
 
         var searchhtml = [];
@@ -637,13 +637,16 @@ class SearchInterface {
             $inventoryContainer.append(item);
             let $card = $popup.find('#inventory > div:last');
 
+            if (response.Rows[i][quantity] != 0) {
+                $card.find('[data-datafield="Quantity"] input').css('background-color', '#c5eefb');
+            }
+
             $card.find('[data-datafield="QuantityAvailable"]').append(response.Rows[i][quantityAvailable]);
             if (response.Rows[i][conflictDate] == "") {
                 response.Rows[i][conflictDate] = 'N/A'
             }
             $card.find('[data-datafield="ConflictDate"]').append(response.Rows[i][conflictDate]);
            
-
             $card.find('[data-datafield="QuantityIn"]').append(response.Rows[i][quantityIn]);
             $card.find('[data-datafield="QuantityQcRequired"]').append(response.Rows[i][quantityQcRequired]);
             let rate = Number(response.Rows[i][dailyRate]).toFixed(2);
@@ -847,8 +850,9 @@ class SearchInterface {
 
         var $searchpopup = jQuery('#searchpopup');
         $popup.on('change', '#inventory [data-datafield="Quantity"] input', function (e) {
-            var quantity = jQuery(e.currentTarget).val();
-            var inventoryId = jQuery(e.currentTarget).parents('.card').find('[data-datafield="InventoryId"] input').val();
+            var element = jQuery(e.currentTarget);
+            var quantity = element.val();
+            var inventoryId = element.parents('.card').find('[data-datafield="InventoryId"] input').val();
             var request = {
                 OrderId: id,
                 SessionId: id,
@@ -861,8 +865,14 @@ class SearchInterface {
                 hasItemInGrids = true;
             }
 
-            var $accContainer = jQuery(e.currentTarget).parents('.cardContainer').find('.accContainer');
-            var $accButton = jQuery(e.currentTarget).parents('.card').find('.accList');
+            if (quantity != 0) {
+                element.css('background-color', '#c5eefb');
+            } else {
+                element.css('background-color', 'white');
+            }
+
+            var $accContainer = element.parents('.cardContainer').find('.accContainer');
+            var $accButton = element.parents('.card').find('.accList');
             var accessoryRefresh = $popup.find('.toggleAccessories input').prop('checked');
             FwAppData.apiMethod(true, 'POST', "api/v1/inventorysearch/", request, FwServices.defaultTimeout, function onSuccess(response) {
                 if (!accessoryRefresh) {
@@ -995,9 +1005,11 @@ class SearchInterface {
         });
 
         $popup.on('change', '.accItem [data-datafield="AccQuantity"] input', function (e) {
-            let inventoryId = jQuery(e.currentTarget).parents('.accItem').find('[data-datafield="InventoryId"] input').val();
-            let quantity = jQuery(e.currentTarget).val();
-            let parentId = jQuery(e.currentTarget).parents('.cardContainer').find('.card [data-datafield="InventoryId"] input').val();
+            const element = jQuery(e.currentTarget),
+                  inventoryId = element.parents('.accItem').find('[data-datafield="InventoryId"] input').val(),
+                  quantity = element.val(),
+                  parentId = element.parents('.cardContainer').find('.card [data-datafield="InventoryId"] input').val();
+
             let accRequest: any = {};
             accRequest = {
                 SessionId: id,
@@ -1006,8 +1018,16 @@ class SearchInterface {
                 WarehouseId: warehouseId,
                 Quantity: quantity
             }
+
+            if (quantity != 0) {
+                element.css('background-color', '#c5eefb');
+            } else {
+                element.css('background-color', 'white');
+            }
+
             FwAppData.apiMethod(true, 'POST', "api/v1/inventorysearch", accRequest, FwServices.defaultTimeout, function onSuccess(response) {
             }, null, null);
+
         });
 
         $popup.on('click', '.listbutton, .listgridbutton, .gridbutton', function (e) {
@@ -1173,6 +1193,10 @@ class SearchInterface {
                 accessoryContainer.append(item);
                 let $acc = accessoryContainer.find('.accItem:last');
                 $popup.find('.accItem .fwformfield-caption').hide();
+
+                if (response.Rows[i][qtyIndex] != 0) {
+                    $acc.find('[data-datafield="AccQuantity"] input').css('background-color', '#c5eefb');
+                }
 
                 if (response.Rows[i][conflictIndex] == "") {
                     response.Rows[i][conflictIndex] = 'N/A'
