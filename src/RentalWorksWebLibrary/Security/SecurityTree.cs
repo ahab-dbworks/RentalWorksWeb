@@ -53,8 +53,9 @@ namespace WebLibrary.Security
             AddModule("Deal",             "{C67AD425-5273-4F80-A452-146B2008B41C}", lv1menuAgent.Id, "DealController",            "module/deal",            homeiconbaseurl + "placeholder.png");
             AddModule("Vendor",           "{AE4884F4-CB21-4D10-A0B5-306BD0883F19}", lv1menuAgent.Id, "VendorController",          "module/vendor",          homeiconbaseurl + "placeholder.png");
             AddModule("Contact",          "{3F803517-618A-41C0-9F0B-2C96B8BDAFC4}", lv1menuAgent.Id, "ContactController",         "module/contact",         homeiconbaseurl + "placeholder.png");
+            AddModule("Project",          "{C6C8167A-C3B5-4915-8290-4520AF7EDB35}", lv1menuAgent.Id, "ProjectController",         "module/project",         homeiconbaseurl + "placeholder.png");
 
-            
+
             AddModule("Rental Inventory", "{FCDB4C86-20E7-489B-A8B7-D22EE6F85C06}", lv1menuWarehouse.Id, "RentalInventoryController", "module/rentalinventory", homeiconbaseurl + "placeholder.png");
             AddModule("Sales Inventory",  "{B0CF2E66-CDF8-4E58-8006-49CA68AE38C2}", lv1menuWarehouse.Id, "SalesInventoryController",  "module/salesinventory",  homeiconbaseurl + "placeholder.png");
             AddModule("Parts Inventory",  "{351B8A09-7778-4F06-A6A2-ED0920A5C360}", lv1menuWarehouse.Id, "PartsInventoryController",  "module/partsinventory",  homeiconbaseurl + "placeholder.png");
