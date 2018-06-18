@@ -95,7 +95,7 @@ var SalesInventory = (function () {
     };
     ;
     SalesInventory.prototype.openForm = function (mode) {
-        var $form;
+        var $form, $rank;
         $form = jQuery(jQuery('#tmpl-modules-' + this.Module + 'Form').html());
         $form = FwModule.openForm($form, mode);
         $form.find('[data-datafield="OverrideProfitAndLossCategory"] .fwformfield-value').on('change', function () {
@@ -119,6 +119,13 @@ var SalesInventory = (function () {
                 $form.find('.wardrobetab').hide();
             }
         });
+        $rank = $form.find('.rank');
+        FwFormField.loadItems($rank, [
+            { value: 'A', text: 'A' },
+            { value: 'B', text: 'B' },
+            { value: 'C', text: 'C' },
+            { value: 'D', text: 'D' }
+        ], true);
         $form.find('div[data-datafield="CategoryId"]').data('onchange', function ($tr) {
             FwFormField.disable($form.find('.subcategory'));
             if ($tr.find('.field[data-browsedatafield="SubCategoryCount"]').attr('data-originalvalue') > 0) {

@@ -121,7 +121,7 @@ class PartsInventory {
 
     //----------------------------------------------------------------------------------------------
     openForm = (mode: string) => {
-        let $form;
+        let $form, $rank;
 
         $form = jQuery(jQuery('#tmpl-modules-' + this.Module + 'Form').html());
         $form = FwModule.openForm($form, mode);
@@ -139,6 +139,14 @@ class PartsInventory {
         if (mode === 'NEW') {
             FwFormField.enable($form.find('[data-datafield="Classification"]'));
         };
+
+        $rank = $form.find('.rank');
+        FwFormField.loadItems($rank, [
+            { value: 'A', text: 'A' },
+            { value: 'B', text: 'B' },
+            { value: 'C', text: 'C' },
+            { value: 'D', text: 'D' }
+        ], true);
 
         $form.find('div[data-datafield="InventoryTypeId"]').data('onchange', $tr => {
             if ($tr.find('.field[data-browsedatafield="Wardrobe"]').attr('data-originalvalue') === 'true') {

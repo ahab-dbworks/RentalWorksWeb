@@ -111,7 +111,7 @@ class SalesInventory {
 
     //----------------------------------------------------------------------------------------------
     openForm(mode: string) {
-        var $form;
+        var $form, $rank;
 
         $form = jQuery(jQuery('#tmpl-modules-' + this.Module + 'Form').html());
         $form = FwModule.openForm($form, mode);
@@ -137,6 +137,14 @@ class SalesInventory {
                 $form.find('.wardrobetab').hide();
             }
         });
+
+        $rank = $form.find('.rank');
+        FwFormField.loadItems($rank, [
+            { value: 'A', text: 'A' },
+            { value: 'B', text: 'B' },
+            { value: 'C', text: 'C' },
+            { value: 'D', text: 'D' }
+        ], true);
 
         $form.find('div[data-datafield="CategoryId"]').data('onchange', function ($tr) {
             FwFormField.disable($form.find('.subcategory'));
