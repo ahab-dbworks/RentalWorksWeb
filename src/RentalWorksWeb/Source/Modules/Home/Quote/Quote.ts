@@ -698,10 +698,10 @@ class Quote {
         var rate = FwFormField.getValueByDataField($form, 'RateType');
         if (rate === '3WEEK') {
             $allOrderItemGrid.find('.3week').parent().show();
-            $allOrderItemGrid.find('.3week').parent().show();
+            $allOrderItemGrid.find('.weekextended').parent().hide();
             $allOrderItemGrid.find('.price').find('.caption').text('Week 1 Rate');
             $orderItemGridRental.find('.3week').parent().show();
-            $orderItemGridRental.find('.3week').parent().show();
+            $orderItemGridRental.find('.weekextended').parent().hide();
             $orderItemGridRental.find('.price').find('.caption').text('Week 1 Rate');
         }
 
