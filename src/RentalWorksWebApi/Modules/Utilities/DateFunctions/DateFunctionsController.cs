@@ -55,5 +55,33 @@ namespace WebApi.Modules.Administrator.Test
             }
         }
         //------------------------------------------------------------------------------------ 
+        // GET api/v1/datefunctions/numberofmonths 
+        [HttpGet("numberofmonths")]
+        public IActionResult NumberOfMonths(DateTime fromDate, DateTime toDate)
+        {
+            try
+            {
+                int numberOfMonths = 0;
+
+                DateTime theDate = fromDate;
+                while (toDate >= theDate)
+                {
+                    theDate = theDate.AddMonths(1);
+                    numberOfMonths++;
+                }
+
+                return new OkObjectResult(numberOfMonths);
+
+            }
+            catch (Exception ex)
+            {
+                FwApiException jsonException = new FwApiException();
+                jsonException.StatusCode = StatusCodes.Status500InternalServerError;
+                jsonException.Message = ex.Message;
+                jsonException.StackTrace = ex.StackTrace;
+                return StatusCode(jsonException.StatusCode, jsonException);
+            }
+        }
+        //------------------------------------------------------------------------------------ 
     }
 }
