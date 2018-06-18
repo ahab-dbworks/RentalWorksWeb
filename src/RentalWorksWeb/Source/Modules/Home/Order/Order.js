@@ -255,16 +255,20 @@ var Order = (function () {
             FwFormField.setValue($form, 'div[data-datafield="DealId"]', parentModuleInfo.DealId, parentModuleInfo.Deal);
         }
         $form.find('.print').on('click', function (e) {
-            var $report, orderNumber, orderId;
+            var $report, orderNumber, orderId, recordTitle, printOrderTab;
             try {
                 orderNumber = $form.find('div.fwformfield[data-datafield="OrderNumber"] input').val();
                 orderId = $form.find('div.fwformfield[data-datafield="OrderId"] input').val();
+                recordTitle = jQuery('.tabs .active[data-tabtype="FORM"] .caption').text();
                 $report = RwPrintOrderController.openForm();
                 FwModule.openSubModuleTab($form, $report);
                 $report.find('.fwform-section[data-caption="Quote"]').css('display', 'none');
                 $report.find('div.fwformfield[data-datafield="OrderId"] input').val(orderId);
                 $report.find('div.fwformfield[data-datafield="OrderId"] .fwformfield-text').val(orderNumber);
                 jQuery('.tab.submodule.active').find('.caption').html('Print Order');
+                printOrderTab = jQuery('.tab.submodule.active');
+                printOrderTab.find('.caption').html('Print Order');
+                printOrderTab.attr('data-caption', 'Order ' + recordTitle);
             }
             catch (ex) {
                 FwFunc.showError(ex);
@@ -1874,20 +1878,10 @@ FwApplicationTree.clickEvents['{B2D127C6-A1C2-4697-8F3B-9A678F3EAEEE}'] = functi
     }
 };
 FwApplicationTree.clickEvents['{F2FD2F4C-1AB7-4627-9DD5-1C8DB96C5509}'] = function (e) {
-    var $form, $report, orderNumber, orderId, recordTitle, printOrderTab;
+    var $form;
     try {
         $form = jQuery(this).closest('.fwform');
-        orderNumber = $form.find('div.fwformfield[data-datafield="OrderNumber"] input').val();
-        orderId = $form.find('div.fwformfield[data-datafield="OrderId"] input').val();
-        recordTitle = jQuery('.tabs .active[data-tabtype="FORM"] .caption').text();
-        $report = RwPrintOrderController.openForm();
-        FwModule.openSubModuleTab($form, $report);
-        $report.find('.fwform-section[data-caption="Quote"]').css('display', 'none');
-        $report.find('div.fwformfield[data-datafield="OrderId"] input').val(orderId);
-        $report.find('div.fwformfield[data-datafield="OrderId"] .fwformfield-text').val(orderNumber);
-        printOrderTab = jQuery('.tab.submodule.active');
-        printOrderTab.find('.caption').html('Print Order');
-        printOrderTab.attr('data-caption', 'Order ' + recordTitle);
+        $form.find('.print').trigger('click');
     }
     catch (ex) {
         FwFunc.showError(ex);

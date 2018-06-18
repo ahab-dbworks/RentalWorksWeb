@@ -304,17 +304,21 @@ class Quote {
         }
 
         $form.find('.print').on('click', e => {
-            var $report, quoteNumber, quoteId;
+            var $report, quoteNumber, quoteId, recordTitle, printQuoteTab;
             try {
                 quoteNumber = $form.find('div.fwformfield[data-datafield="QuoteNumber"] input').val();
                 quoteId = $form.find('div.fwformfield[data-datafield="QuoteId"] input').val();
+                recordTitle = jQuery('.tabs .active[data-tabtype="FORM"] .caption').text();
                 $report = RwPrintOrderController.openForm();
                 FwModule.openSubModuleTab($form, $report);
                 $report.find('.fwform-section[data-caption="Order"]').css('display', 'none');
                 $report.find('div.fwformfield[data-datafield="QuoteId"] input').val(quoteId);
                 $report.find('div.fwformfield[data-datafield="QuoteId"] .fwformfield-text').val(quoteNumber);
-
                 jQuery('.tab.submodule.active').find('.caption').html('Print Quote');
+
+                printQuoteTab = jQuery('.tab.submodule.active');
+                printQuoteTab.find('.caption').html('Print Quote');
+                printQuoteTab.attr('data-caption', 'Quote ' + recordTitle);
             }
             catch (ex) {
                 FwFunc.showError(ex);
@@ -1966,20 +1970,10 @@ FwApplicationTree.clickEvents['{BC3B1A5E-7270-4547-8FD1-4D14F505D452}'] = functi
 //-----------------------------------------------------------------------------------------------------
 //Print Quote 
 FwApplicationTree.clickEvents['{B20DDE47-A5D7-49A9-B980-8860CADBF7F6}'] = function (e) {
-    var $form, $report, quoteNumber, quoteId, recordTitle, printQuoteTab;
+
     try {
-        $form = jQuery(this).closest('.fwform');
-        quoteNumber = $form.find('div.fwformfield[data-datafield="QuoteNumber"] input').val();
-        quoteId = $form.find('div.fwformfield[data-datafield="QuoteId"] input').val();
-        recordTitle = jQuery('.tabs .active[data-tabtype="FORM"] .caption').text();
-        $report = RwPrintOrderController.openForm();
-        FwModule.openSubModuleTab($form, $report);
-        $report.find('.fwform-section[data-caption="Order"]').css('display', 'none');
-        $report.find('div.fwformfield[data-datafield="QuoteId"] input').val(quoteId);
-        $report.find('div.fwformfield[data-datafield="QuoteId"] .fwformfield-text').val(quoteNumber);
-        printQuoteTab = jQuery('.tab.submodule.active');
-        printQuoteTab.find('.caption').html('Print Quote');
-        printQuoteTab.attr('data-caption', 'Quote ' + recordTitle);
+        var $form = jQuery(this).closest('.fwform');
+        $form.find('.print').trigger('click');
     }
     catch (ex) {
         FwFunc.showError(ex);
