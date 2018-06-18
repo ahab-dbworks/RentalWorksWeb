@@ -429,7 +429,7 @@ FwValidation.newValidation = function ($control, validationName, $object, $this,
             FwValidation.validate(validationName, $valuefield, '', $btnvalidate, $validationbrowse, false);
         })
 
-        FwPopup.showPopup(FwPopup.renderPopup($popupForm, undefined, 'New ' + validationName));
+        FwPopup.showPopup(FwPopup.renderPopup($popupForm, undefined, 'New ' + $control.attr('data-caption')));
 
         jQuery(document).find('.fwpopup.new-validation').on('click', function (e) {
             e = e || window.event;
