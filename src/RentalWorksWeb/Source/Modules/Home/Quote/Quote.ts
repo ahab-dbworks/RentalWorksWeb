@@ -1009,7 +1009,7 @@ class Quote {
         
         if (!isNaN(parsedBillingStartDate)) { // only if StartDate is defined
             if (FwFormField.getValueByDataField($form, 'RateType') === 'MONTHLY') {
-                monthValue = Math.ceil(daysBetweenDates / 30);
+                monthValue = Math.ceil(daysBetweenDates / 31);
                 if (!isNaN(monthValue) && monthValue !== '0' && Math.sign(monthValue) !== -1 && Math.sign(monthValue) !== -0) {
                     FwFormField.setValueByDataField($form, 'BillingMonths', monthValue);
                     parsedBillingStartDate = Date.parse(FwFormField.getValueByDataField($form, 'BillingStartDate'));
