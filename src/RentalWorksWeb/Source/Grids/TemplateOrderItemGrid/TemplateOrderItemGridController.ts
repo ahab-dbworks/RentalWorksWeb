@@ -1,18 +1,19 @@
-var OrderItemCombinedGrid = (function () {
-    function OrderItemCombinedGrid() {
-        this.Module = 'OrderItemCombinedGrid';
-        this.apiurl = 'api/v1/orderitem';
-    }
-    OrderItemCombinedGrid.prototype.generateRow = function ($control, $generatedtr) {
+﻿﻿class TemplateOrderItemGrid {
+    Module: string = 'TemplateOrderItemGrid';
+    apiurl: string = 'api/v1/orderitem';
+
+    generateRow($control, $generatedtr) {
         $generatedtr.find('div[data-browsedatafield="InventoryId"]').data('onchange', function ($tr) {
             var $form = $control.closest('.fwform');
+
             if ($form[0].dataset.controller !== "TemplateController") {
                 var toDate = FwFormField.getValueByDataField($form, 'EstimatedStopDate');
                 var fromDate = FwFormField.getValueByDataField($form, 'EstimatedStartDate');
             }
             var warehouse = FwFormField.getTextByDataField($form, 'WarehouseId');
             var warehouseId = FwFormField.getValueByDataField($form, 'WarehouseId');
-            var warehouseCode = $form.find('[data-datafield="WarehouseCode"] input').val();
+            let warehouseCode = $form.find('[data-datafield="WarehouseCode"] input').val();
+
             if ($generatedtr.hasClass("newmode")) {
                 $generatedtr.find('.field[data-browsedatafield="Description"] input').val($tr.find('.field[data-browsedatafield="Description"]').attr('data-originalvalue'));
                 if ($form[0].dataset.controller !== "TemplateController") {
@@ -28,8 +29,7 @@ var OrderItemCombinedGrid = (function () {
             }
         });
     };
-    ;
-    return OrderItemCombinedGrid;
-}());
-var OrderItemCombinedGridController = new OrderItemCombinedGrid();
-//# sourceMappingURL=OrderItemCombinedGridController.js.map
+}
+
+var TemplateOrderItemGridController = new TemplateOrderItemGrid();
+//----------------------------------------------------------------------------------------------

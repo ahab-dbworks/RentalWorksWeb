@@ -656,7 +656,6 @@ var Order = (function () {
             $form.find(".RentalDaysPerWeek").show();
             $allOrderItemGrid.find('.dw').parent().show();
             $orderItemGridRental.find('.dw').parent().show();
-            $orderItemGridSales.find('.dw').parent().show();
             $orderItemGridLabor.find('.dw').parent().show();
             $orderItemGridMisc.find('.dw').parent().show();
         }

@@ -1,19 +1,18 @@
-﻿﻿class OrderItemCombinedGrid {
-    Module: string = 'OrderItemCombinedGrid';
-    apiurl: string = 'api/v1/orderitem';
-
-    generateRow($control, $generatedtr) {
+var TemplateOrderItemGrid = (function () {
+    function TemplateOrderItemGrid() {
+        this.Module = 'TemplateOrderItemGrid';
+        this.apiurl = 'api/v1/orderitem';
+    }
+    TemplateOrderItemGrid.prototype.generateRow = function ($control, $generatedtr) {
         $generatedtr.find('div[data-browsedatafield="InventoryId"]').data('onchange', function ($tr) {
             var $form = $control.closest('.fwform');
-
             if ($form[0].dataset.controller !== "TemplateController") {
                 var toDate = FwFormField.getValueByDataField($form, 'EstimatedStopDate');
                 var fromDate = FwFormField.getValueByDataField($form, 'EstimatedStartDate');
             }
             var warehouse = FwFormField.getTextByDataField($form, 'WarehouseId');
             var warehouseId = FwFormField.getValueByDataField($form, 'WarehouseId');
-            let warehouseCode = $form.find('[data-datafield="WarehouseCode"] input').val();
-
+            var warehouseCode = $form.find('[data-datafield="WarehouseCode"] input').val();
             if ($generatedtr.hasClass("newmode")) {
                 $generatedtr.find('.field[data-browsedatafield="Description"] input').val($tr.find('.field[data-browsedatafield="Description"]').attr('data-originalvalue'));
                 if ($form[0].dataset.controller !== "TemplateController") {
@@ -29,7 +28,8 @@
             }
         });
     };
-}
-
-var OrderItemCombinedGridController = new OrderItemCombinedGrid();
-//----------------------------------------------------------------------------------------------
+    ;
+    return TemplateOrderItemGrid;
+}());
+var TemplateOrderItemGridController = new TemplateOrderItemGrid();
+//# sourceMappingURL=TemplateOrderItemGridController.js.map

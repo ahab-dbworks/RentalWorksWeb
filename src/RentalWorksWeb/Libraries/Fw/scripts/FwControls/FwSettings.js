@@ -248,7 +248,6 @@ FwSettings.getRows = function ($body, $control, apiurl, $modulecontainer, module
                     $rowBody.append($form);
                     FwModule.openForm($form, 'EDIT');
 
-
                     for (var key in recordData) {
                         var value = recordData[key];
                         var $field = $form.find('[data-datafield="' + key + '"]');
