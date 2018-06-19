@@ -390,7 +390,7 @@ FwSettings.renderModuleHtml = function ($control, title, moduleName, description
 
     $settingsPageModules
         .on('click', '.panel-heading', function (e) {
-            var $this, moduleName, $browse, $modulecontainer, apiurl, $body, browseCaptions =[], browseKeys = [], rowId, formKeys = [], keys, $settings;
+            var $this, moduleName, $browse, $modulecontainer, apiurl, $body, browseData = [], browseKeys = [], rowId, formKeys = [], keys, $settings;
 
             $this = jQuery(this);
             moduleName = $this.closest('.panel-group').attr('id');
@@ -407,11 +407,16 @@ FwSettings.renderModuleHtml = function ($control, title, moduleName, description
                     for (var i = 1; i < keys.length; i++) {
                         var Key = jQuery(keys[i]).attr('data-datafield');
                         browseKeys.push(Key);
+                        var fieldData = {};
                         if ($browse.find('div[data-datafield="' + Key + '"]').data('caption') !== undefined) {
-                            browseCaptions.push($browse.find('div[data-datafield="' + Key + '"]').data('caption'));
+                            fieldData['caption'] = $browse.find('div[data-datafield="' + Key + '"]').data('caption');
                         } else {
-                            browseCaptions.push(Key);
-                        }
+                            fieldData['caption'] = Key;
+                        };
+
+                        fieldData['datatype'] = $browse.find('div[data-datafield="' + Key + '"]').data('datatype');
+                        browseData.push(fieldData)
+
                         if (i === 1 && Key !== 'Inactive' || i === 2 && jQuery(keys[1]).attr('data-datafield') === 'Inactive') {
                             for (var k = 0; k < response.length - 1; k++) {
                                 for (var l = 0, sorted; l < response.length - 1; l++) {
@@ -431,20 +436,32 @@ FwSettings.renderModuleHtml = function ($control, title, moduleName, description
                         html.push('  <div class="panel panel-info container-fluid">');
                         html.push('    <div class="row-heading">');
                         html.push('      <i class="material-icons record-selector">keyboard_arrow_down</i>');
-                        for (var j = 0; j < browseCaptions.length; j++) {
-                            if (browseCaptions[j] === 'Inactive' && response[i][browseCaptions[j]] === true) {
+                        for (var j = 0; j < browseData.length; j++) {
+                            if (browseData[j]['caption'] === 'Inactive' && response[i][browseData[j]['caption']] === true) {
                                 html[1] = '<div class="panel panel-info container-fluid" style="display:none;">';
                                 html[2] = '<div class="inactive row-heading" style="background-color:lightgray;">';
                             }
-                            if (browseCaptions[j] === 'Inactive' || browseCaptions[j] === 'Color') {
+                            if (browseData[j]['caption'] === 'Inactive' || browseData[j]['caption'] === 'Color') {
 
                             } else {
                                 html.push('      <div style="width:100%;padding-left: inherit;">');
                                 html.push('        <div class="fwcontrol fwcontainer fwform-fieldrow" data-type="fieldrow">');
-                                html.push('          <label style="font-weight:800;">' + browseCaptions[j] + '</label>');
+                                html.push('          <label style="font-weight:800;">' + browseData[j]['caption'] + '</label>');
                                 html.push('        </div>');
-                                html.push('        <div class="fwcontrol fwcontainer fwform-fieldrow" data-type="fieldrow">');
-                                html.push('          <label>' + response[i][browseKeys[j]] + '</label>');
+
+                                if (browseData[j]['datatype'] === 'checkbox') {
+                                    html.push('        <div class="fwcontrol fwcontainer fwform-fieldrow" data-type="fieldrow" style="width:50px;">');
+                                    if (response[i][browseKeys[j]]) {
+                                        html.push('<div class="checkboxwrapper"><input class="value" type="checkbox" disabled="disabled" style="box-sizing:border-box;pointer-events:none;" checked><label></label></div>');
+                                    } else {
+                                        html.push('<div class="checkboxwrapper"><input class="value" type="checkbox" disabled="disabled" style="box-sizing:border-box;pointer-events:none;"><label></label></div>');
+                                    }
+
+                                } else {
+                                    html.push('    <div class="fwcontrol fwcontainer fwform-fieldrow" data-type="fieldrow">');
+                                    html.push('    <label>' + response[i][browseKeys[j]] + '</label>');
+                                }
+
                                 html.push('        </div>');
                                 html.push('      </div>');
                                 //if (browseKeys[j] === 'Inactive' && response[i][browseKeys[j]] === true) {
