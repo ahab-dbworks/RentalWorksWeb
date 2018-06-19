@@ -615,8 +615,8 @@ namespace FwStandard.BusinessLogic
         protected virtual bool IsValidStringValue(PropertyInfo property, string[] acceptableValues, ref string validateMsg, bool nullAcceptable = true)
         {
             bool isValidValue = false;
-            string value = property.GetValue(this).ToString();
-            if (value == null)
+            object valueObj = property.GetValue(this);
+            if (valueObj == null)
             {
                 isValidValue = (nullAcceptable);
                 if (!isValidValue)
@@ -626,9 +626,10 @@ namespace FwStandard.BusinessLogic
             }
             else
             {
+                string valueStr = valueObj.ToString();
                 for (int i = 0; i < acceptableValues.Length; i++)
                 {
-                    if (value.Equals(acceptableValues[i]))
+                    if (valueStr.Equals(acceptableValues[i]))
                     {
                         isValidValue = true;
                         break;
@@ -636,7 +637,7 @@ namespace FwStandard.BusinessLogic
                 }
                 if (!isValidValue)
                 {
-                    validateMsg = "Invalid " + property.Name + ": " + value + ".  Acceptable values are " + string.Join(",", acceptableValues);
+                    validateMsg = "Invalid " + property.Name + ": " + valueStr + ".  Acceptable values are " + string.Join(",", acceptableValues);
                 }
             }
             return isValidValue;
