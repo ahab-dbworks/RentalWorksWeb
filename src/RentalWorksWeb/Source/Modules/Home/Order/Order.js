@@ -1101,7 +1101,9 @@ var Order = (function () {
     };
     ;
     Order.prototype.adjustWeekorMonthBillingField = function ($form, event) {
-        var monthValue, daysBetweenDates, weeksValue, parsedBillingStartDate, parsedBillingEndDate;
+        var monthValue, daysBetweenDates, billingStartDate, billingEndDate, weeksValue, parsedBillingStartDate, parsedBillingEndDate;
+        billingStartDate = FwFormField.getValueByDataField($form, 'BillingStartDate');
+        billingEndDate = FwFormField.getValueByDataField($form, 'BillingEndDate');
         parsedBillingStartDate = Date.parse(FwFormField.getValueByDataField($form, 'BillingStartDate'));
         parsedBillingEndDate = Date.parse(FwFormField.getValueByDataField($form, 'BillingEndDate'));
         monthValue = FwFormField.getValueByDataField($form, 'BillingMonths');
@@ -1111,10 +1113,15 @@ var Order = (function () {
             if (FwFormField.getValueByDataField($form, 'RateType') === 'MONTHLY') {
                 monthValue = Math.ceil(daysBetweenDates / 31);
                 if (!isNaN(monthValue) && monthValue !== '0' && Math.sign(monthValue) !== -1 && Math.sign(monthValue) !== -0) {
-                    FwFormField.setValueByDataField($form, 'BillingMonths', monthValue);
-                    parsedBillingStartDate = Date.parse(FwFormField.getValueByDataField($form, 'BillingStartDate'));
-                    parsedBillingEndDate = Date.parse(FwFormField.getValueByDataField($form, 'BillingEndDate'));
-                    daysBetweenDates = (parsedBillingEndDate - parsedBillingStartDate) / 86400000;
+                    FwAppData.apiMethod(true, 'GET', "api/v1/datefunctions/numberofmonths?FromDate=" + billingStartDate + "&ToDate=" + billingEndDate, null, FwServices.defaultTimeout, function onSuccess(response) {
+                        monthValue = response;
+                        FwFormField.setValueByDataField($form, 'BillingMonths', monthValue);
+                        parsedBillingStartDate = Date.parse(FwFormField.getValueByDataField($form, 'BillingStartDate'));
+                        parsedBillingEndDate = Date.parse(FwFormField.getValueByDataField($form, 'BillingEndDate'));
+                        daysBetweenDates = (parsedBillingEndDate - parsedBillingStartDate) / 86400000;
+                    }, function onError(response) {
+                        FwFunc.showError(response);
+                    }, $form);
                 }
                 else if (daysBetweenDates === 0) {
                     FwFormField.setValueByDataField($form, 'BillingMonths', '0');
