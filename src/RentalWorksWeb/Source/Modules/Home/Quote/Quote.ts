@@ -1279,7 +1279,7 @@ class Quote {
 
         if (recType === 'R') {
             $orderItemGrid = $form.find('.rentalgrid [data-name="OrderItemGrid"]');
-            total = FwFormField.getValue($form, '.salesOrderItemTotal:visible');
+            total = FwFormField.getValue($form, '.rentalOrderItemTotal:visible');
             includeTaxInTotal = FwFormField.getValue($form, '.rentalTotalWithTax:visible');
             totalType = $form.find('.rentalgrid .totalType input:checked').val();
             if (!isWithTaxCheckbox) {
