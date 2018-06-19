@@ -236,7 +236,7 @@ FwValidation.init = function ($control) {
     $validationbrowse.find('.validationbuttons .btnNew').on('click', function () {
         var $this = jQuery(this);
         try {
-            FwValidation.newValidation($control, validationName.slice(0, -10), $object, $this, $valuefield, $btnvalidate);
+            FwValidation.newValidation($control, validationName.slice(0, -10), $object, $this, $valuefield, $btnvalidate, $validationbrowse.attr('data-caption'));
         } catch (ex) {
             FwFunc.showError(ex);
         }
@@ -414,7 +414,7 @@ FwValidation.validationPeek = function ($control, validationName, validationId, 
     }
 };
 //---------------------------------------------------------------------------------
-FwValidation.newValidation = function ($control, validationName, $object, $this, $valuefield, $btnvalidate) {
+FwValidation.newValidation = function ($control, validationName, $object, $this, $valuefield, $btnvalidate, title) {
     var $popupForm;
     var $object = ($control.closest('.fwbrowse[data-controller!=""]').length > 0) ? $control.closest('.fwbrowse[data-controller!=""]') : $control.closest('.fwform[data-controller!=""]');
     var $validationbrowse = $this.closest('div[data-control="FwBrowse"][data-type="Validation"]');
@@ -429,7 +429,7 @@ FwValidation.newValidation = function ($control, validationName, $object, $this,
             FwValidation.validate(validationName, $valuefield, '', $btnvalidate, $validationbrowse, false);
         })
 
-        FwPopup.showPopup(FwPopup.renderPopup($popupForm, undefined, 'New ' + $control.attr('data-caption')));
+        FwPopup.showPopup(FwPopup.renderPopup($popupForm, undefined, 'New ' + title));
 
         jQuery(document).find('.fwpopup.new-validation').on('click', function (e) {
             e = e || window.event;
