@@ -110,6 +110,7 @@ namespace WebApi.Modules.Home.OrderItem
         [FwBusinessLogicField(isReadOnly: true)]
         public decimal? WeeklyCostExtended { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
+        public decimal? WeeklyTax { get; set; }
         public decimal? Week2Extended { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
         public decimal? Week3Extended { get; set; }
@@ -138,6 +139,7 @@ namespace WebApi.Modules.Home.OrderItem
         [FwBusinessLogicField(isReadOnly: true)]
         public decimal? MonthlyCostExtended { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
+        public decimal? MonthlyTax { get; set; }
         public decimal? PeriodExtendedNoDiscount { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
         public decimal? PeriodCostExtended { get; set; }
@@ -146,7 +148,7 @@ namespace WebApi.Modules.Home.OrderItem
         [FwBusinessLogicField(isReadOnly: true)]
         public decimal? PeriodExtended { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
-        public decimal? Tax { get; set; }
+        public decimal? PeriodTax { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
         public decimal? PeriodVarianceExtended { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]

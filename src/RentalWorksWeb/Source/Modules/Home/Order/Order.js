@@ -1594,7 +1594,7 @@ var Order = (function () {
         }
         var extendedColumn = $form.find('.' + gridType + 'grid [data-browsedatafield="' + rateType + 'Extended"]');
         var discountColumn = $form.find('.' + gridType + 'grid [data-browsedatafield="' + rateType + 'DiscountAmount"]');
-        var taxColumn = $form.find('.' + gridType + 'grid [data-browsedatafield="Tax"]');
+        var taxColumn = $form.find('.' + gridType + 'grid [data-browsedatafield="' + rateType + 'Tax"]');
         for (var i = 1; i < extendedColumn.length; i++) {
             var inputValueFromExtended = +extendedColumn.eq(i).attr('data-originalvalue');
             extendedTotal = extendedTotal.plus(inputValueFromExtended);

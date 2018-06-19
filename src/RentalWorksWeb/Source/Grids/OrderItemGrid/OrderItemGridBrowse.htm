@@ -128,8 +128,14 @@
   <div class="column" data-width="100px" data-visible="true">
     <div class="field PeriodExtended" data-caption="Period Extended" data-datafield="PeriodExtended" data-datatype="money" data-sort="none" data-mappedfield="PeriodExtended"></div>
   </div>
-  <div class="column" data-width="50px" data-visible="false">
-    <div class="field OrderItemGridTax" data-caption="Tax" data-datafield="Tax" data-datatype="money" data-sort="none"></div>
+  <div class="column flexcolumn" data-width="auto" data-visible="false">
+    <div class="field OrderItemGridTax" data-caption="Weekly Tax" data-datafield="WeeklyTax" data-datatype="money" data-sort="off"></div>
+  </div>
+  <div class="column flexcolumn" data-width="auto" data-visible="false">
+    <div class="field OrderItemGridTax" data-caption="Monthly Tax" data-datafield="MonthlyTax" data-datatype="money" data-sort="off"></div>
+  </div>
+  <div class="column flexcolumn" data-width="auto" data-visible="false">
+    <div class="field OrderItemGridTax" data-caption="Period Tax" data-datafield="PeriodTax" data-datatype="money" data-sort="off"></div>
   </div>
   <div class="column" data-width="40px" data-visible="true">
     <div class="field" data-caption="Tax" data-datafield="Taxable" data-datatype="checkbox" data-sort="none" data-mappedfield="Taxable"></div>

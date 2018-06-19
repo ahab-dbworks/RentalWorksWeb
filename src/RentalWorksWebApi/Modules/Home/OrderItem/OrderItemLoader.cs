@@ -179,6 +179,9 @@ namespace WebApi.Modules.Home.OrderItem
         [FwSqlDataField(column: "weeklycostextended", modeltype: FwDataTypes.Decimal)]
         public decimal? WeeklyCostExtended { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "weeklytax", modeltype: FwDataTypes.Decimal)]
+        public decimal? WeeklyTax { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "week2extended", modeltype: FwDataTypes.Decimal)]
         public decimal? Week2Extended { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -221,6 +224,9 @@ namespace WebApi.Modules.Home.OrderItem
         [FwSqlDataField(column: "monthlycostextended", modeltype: FwDataTypes.Decimal)]
         public decimal? MonthlyCostExtended { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "monthlytax", modeltype: FwDataTypes.Decimal)]
+        public decimal? MonthlyTax { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "periodextendednodisc", modeltype: FwDataTypes.Decimal)]
         public decimal? PeriodExtendedNoDiscount { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -233,8 +239,8 @@ namespace WebApi.Modules.Home.OrderItem
         [FwSqlDataField(column: "periodextended", modeltype: FwDataTypes.Decimal)]
         public decimal? PeriodExtended { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "tax", modeltype: FwDataTypes.Decimal)]
-        public decimal? Tax { get; set; }
+        [FwSqlDataField(column: "periodtax", modeltype: FwDataTypes.Decimal)]
+        public decimal? PeriodTax { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "periodvarianceextended", modeltype: FwDataTypes.Decimal)]
         public decimal? PeriodVarianceExtended { get; set; }

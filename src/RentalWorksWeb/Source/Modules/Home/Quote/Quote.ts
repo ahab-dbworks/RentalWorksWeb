@@ -1772,7 +1772,7 @@ class Quote {
 
         const extendedColumn: any = $form.find('.' + gridType + 'grid [data-browsedatafield="' + rateType + 'Extended"]');
         const discountColumn: any = $form.find('.' + gridType + 'grid [data-browsedatafield="' + rateType + 'DiscountAmount"]');
-        const taxColumn: any = $form.find('.' + gridType + 'grid [data-browsedatafield="Tax"]');
+        const taxColumn: any = $form.find('.' + gridType + 'grid [data-browsedatafield="' + rateType + 'Tax"]');
 
         for (let i = 1; i < extendedColumn.length; i++) {
             // Extended Column
