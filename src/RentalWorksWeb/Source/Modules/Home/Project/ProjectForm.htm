@@ -11,9 +11,9 @@
             <div class="flexcolumn" style="flex: 1 1 300px;">
               <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Project">
                 <div class="flexrow">
-                  <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="No" data-datafield="ProjectNumber" style="flex: 1 0 150px;"></div>
-                  <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Project" data-datafield="Project" style="flex: 1 0 150px;"></div>
-                  <div data-control="FwFormField" data-type="textarea" class="fwcontrol fwformfield" data-caption="Description" data-datafield="ProjectDescription" style="flex: 1 0 350px;" data-height="170px;"></div>
+                  <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Project No." data-datafield="ProjectNumber" data-enabled="false" style="flex: 0 0 100px;"></div>
+                  <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Project" data-datafield="Project" data-required="true" style="flex: 1 0 150px;"></div>
+                  <div data-control="FwFormField" data-type="textarea" class="fwcontrol fwformfield" data-caption="Description" data-datafield="ProjectDescription" data-required="true" style="flex: 1 0 350px;" data-height="170px;"></div>
                 </div>
               </div>
             </div>
@@ -23,8 +23,8 @@
                   <div data-control="FwFormField" data-type="validation" data-validationname="DealValidation" class="fwcontrol fwformfield" data-caption="Deal" data-datafield="DealId" data-displayfield="Deal" style="flex:1 0 250px;"></div>
                   <div data-control="FwFormField" data-type="validation" data-validationname="UserValidation" class="fwcontrol fwformfield" data-caption="Agent" data-datafield="AgentId" data-displayfield="Agent" style="flex:1 0 250px;"></div>
                   <div data-control="FwFormField" data-type="validation" data-validationname="UserValidation" class="fwcontrol fwformfield" data-caption="Project Manager" data-datafield="ProjectManagerId" data-displayfield="ProjectManager" style="flex:1 0 250px;"></div>
-                  <div data-control="FwFormField" data-type="validation" data-validationname="ContactValidation" class="fwcontrol fwformfield" data-caption="Sales Representative" data-datafield="SalesRepresentative" data-displayfield="SalesRepresentativeId" style="flex:1 0 250px;"></div>
-                  <div data-control="FwFormField" data-type="validation" data-validationname="DepartmentValidation" class="fwcontrol fwformfield" data-caption="Company Department" data-datafield="DepartmentId" data-displayfield="Department" style="flex:1 0 250px;"></div>
+                  <div data-control="FwFormField" data-type="validation" data-validationname="ContactValidation" class="fwcontrol fwformfield" data-caption="Sales Representative" data-datafield="SalesRepresentativeId" data-displayfield="SalesRepresentative" style="flex:1 0 250px;"></div>
+                  <div data-control="FwFormField" data-type="validation" data-validationname="DepartmentValidation" class="fwcontrol fwformfield" data-caption="Company Department" data-required="true" data-datafield="DepartmentId" data-displayfield="Department" style="flex:1 0 250px;"></div>
                 </div>
               </div>
             </div>
@@ -32,6 +32,7 @@
               <div class="flexrow">
                 <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Office Location">
                   <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Office Location" data-datafield="OfficeLocationId" data-displayfield="OfficeLocation" data-validationname="OfficeLocationValidation" data-enabled="false" style="flex:1 1 175px;"></div>
+                  <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Warehouse" data-datafield="WarehouseId" data-displayfield="Warehouse" data-validationname="WarehouseValidation" data-enabled="false" style="flex:1 1 175px;"></div>
                 </div>
               </div>
               <div class="flexrow">

@@ -88,6 +88,7 @@ class Project {
 
         if (mode === 'NEW') {
             const office = JSON.parse(sessionStorage.getItem('location')),
+                  warehouse = JSON.parse(sessionStorage.getItem('warehouse')),
                   today = FwFunc.getDate(),
                   usersid = sessionStorage.getItem('usersid'),
                   name = sessionStorage.getItem('name'),
@@ -102,7 +103,8 @@ class Project {
             FwFormField.setValue($form, 'div[data-datafield="DepartmentId"]', department.departmentid, department.department);
             FwFormField.setValueByDataField($form, 'Status', 'NEW');
             FwFormField.setValueByDataField($form, 'StatusDate', today);
-
+            FwFormField.setValue($form, 'div[data-datafield="WarehouseId"]', warehouse.warehouseid, warehouse.warehouse);
+ 
             $form.find('.activityCheckboxes div > input').prop('checked', true);
         }
 
