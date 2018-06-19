@@ -1,6 +1,7 @@
 using FwStandard.BusinessLogic;
 using FwStandard.BusinessLogic.Attributes;
 using FwStandard.SqlServer;
+using Newtonsoft.Json;
 using System;
 using System.Reflection;
 using WebApi.Logic;
@@ -22,14 +23,20 @@ namespace WebApi.Modules.Home.Project
             dataRecords.Add(projectDetail);
             dataLoader = projectLoader;
 
+            Type = RwConstants.ORDER_TYPE_PROJECT;
+
+
             BeforeValidate += BeforeValidateProject;
             BeforeSave += OnBeforeSave;
             project.BeforeSave += OnBeforeSaveProjectRecord;
             project.AfterSave += OnAfterSaveProjectRecord;
         }
         //------------------------------------------------------------------------------------ 
-        public string ProjectId { get { return project.OrderId; } set { project.OrderId = value; } }
+        [FwBusinessLogicField(isPrimaryKey: true)]
+        public string ProjectId { get { return project.OrderId; } set { project.OrderId = value; projectDetail.OrderId = value; } }
+        [FwBusinessLogicField(isRecordTitle: true)]
         public string ProjectNumber { get { return project.OrderNumber; } set { project.OrderNumber = value; } }
+        [FwBusinessLogicField(isRecordTitle: true)]
         public string Project { get { return project.Description; } set { project.Description = value; } }
         public string OfficeLocationId { get { return project.OfficeLocationId; } set { project.OfficeLocationId = value; } }
         [FwBusinessLogicField(isReadOnly: true)]
@@ -52,7 +59,6 @@ namespace WebApi.Modules.Home.Project
         public string PrimaryContact { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
         public string RequestedBy { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
         public string SalesRepresentativeId { get { return projectDetail.SalesRepresentativeId; } set { projectDetail.SalesRepresentativeId = value; } }
         [FwBusinessLogicField(isReadOnly: true)]
         public string SalesRepresentative { get; set; }
@@ -72,6 +78,9 @@ namespace WebApi.Modules.Home.Project
         public string EstimatedStopDate { get { return project.EstimatedStopDate; } set { project.EstimatedStopDate = value; } }
         public string EstimatedStopTime { get { return project.EstimatedStopTime; } set { project.EstimatedStopTime = value; } }
         public bool? Inactive { get; set;}
+        [JsonIgnore]
+        public string Type { get { return project.Type; } set { project.Type = value; } }
+        //------------------------------------------------------------------------------------
         public string DateStamp { get { return project.DateStamp; } set { project.DateStamp = value; } }
         //------------------------------------------------------------------------------------ 
         private void BeforeValidateProject(object sender, BeforeValidateEventArgs e)
