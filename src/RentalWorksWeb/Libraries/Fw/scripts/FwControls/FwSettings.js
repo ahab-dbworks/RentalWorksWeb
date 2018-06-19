@@ -505,7 +505,7 @@ FwSettings.renderModuleHtml = function ($control, title, moduleName, description
                 for (var key in recordData) {
                     for (var i = 0; i < filter.length; i++) {
                         if (filter[i] === key) {
-                            $form.find('[data-datafield="' + key + '"]').css({ 'background': 'yellow' })
+                            $form.find('[data-datafield="' + key + '"]').find('.fwformfield-caption').css({ 'background': 'yellow' });
                         }
                     };
                     var value = recordData[key];
@@ -542,7 +542,7 @@ FwSettings.renderModuleHtml = function ($control, title, moduleName, description
                 for (var key in recordData) {
                     for (var i = 0; i < filter.length; i++) {
                         if (filter[i] === key) {
-                            $form.find('[data-datafield="' + key + '"]').css({ 'background': 'yellow' });
+                            $form.find('[data-datafield="' + key + '"]').find('.fwformfield-caption').css({ 'background': 'yellow' });
                         }
                     };
                     if (key === '_Custom') {
