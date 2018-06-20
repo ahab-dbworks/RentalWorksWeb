@@ -4,9 +4,11 @@ using FwStandard.SqlServer;
 using Newtonsoft.Json;
 using System;
 using System.Reflection;
+using System.Threading.Tasks;
 using WebApi.Logic;
 using WebApi.Modules.Home.DealOrder;
 using WebApi.Modules.Home.DealOrderDetail;
+using WebApi.Modules.Home.Quote;
 using WebLibrary;
 
 namespace WebApi.Modules.Home.Project
@@ -81,7 +83,7 @@ namespace WebApi.Modules.Home.Project
         public string EstimatedStopDate { get { return project.EstimatedStopDate; } set { project.EstimatedStopDate = value; } }
         public string EstimatedStopTime { get { return project.EstimatedStopTime; } set { project.EstimatedStopTime = value; } }
         public bool? CcPrimaryApproverWhenEmailingBackupApprover { get { return projectDetail.CcPrimaryApproverWhenEmailingBackupApprover; } set { projectDetail.CcPrimaryApproverWhenEmailingBackupApprover = value; } }
-        public bool? Inactive { get; set;}
+        public bool? Inactive { get; set; }
         [JsonIgnore]
         public string Type { get { return project.Type; } set { project.Type = value; } }
         //------------------------------------------------------------------------------------
@@ -104,7 +106,7 @@ namespace WebApi.Modules.Home.Project
             if (isValid)
             {
                 PropertyInfo property = typeof(ProjectLogic).GetProperty(nameof(ProjectLogic.Status));
-                string[] acceptableValues = { RwConstants.PROJECT_STATUS_NEW , RwConstants.PROJECT_STATUS_ACTIVE, RwConstants.PROJECT_STATUS_CLOSED };
+                string[] acceptableValues = { RwConstants.PROJECT_STATUS_NEW, RwConstants.PROJECT_STATUS_ACTIVE, RwConstants.PROJECT_STATUS_CLOSED };
                 isValid = IsValidStringValue(property, acceptableValues, ref validateMsg);
             }
             return isValid;
@@ -168,5 +170,18 @@ namespace WebApi.Modules.Home.Project
             }
         }
         //------------------------------------------------------------------------------------        
+        public async Task<QuoteLogic> CreateQuoteAsync()
+        {
+            string newQuoteId = await project.CreateQuoteFromProject();
+            string[] keys = { newQuoteId };
+
+            QuoteLogic q = new QuoteLogic();
+            q.AppConfig = AppConfig;
+            q.UserSession = UserSession;
+            bool x = await q.LoadAsync<QuoteLogic>(keys);
+            return q;
+
+        }
+        //------------------------------------------------------------------------------------
     }
 }

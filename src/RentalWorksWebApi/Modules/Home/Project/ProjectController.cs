@@ -3,6 +3,10 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using WebApi.Controllers;
 using System.Threading.Tasks;
+using WebApi.Modules.Home.Quote;
+using Microsoft.AspNetCore.Http;
+using System;
+
 namespace WebApi.Modules.Home.Project
 {
     [Route("api/v1/[controller]")]
@@ -53,5 +57,38 @@ namespace WebApi.Modules.Home.Project
             return await DoDeleteAsync(id);
         }
         //------------------------------------------------------------------------------------ 
+        // POST api/v1/project/createquote/A0000001
+        [HttpPost("createquote/{id}")]
+        public async Task<IActionResult> CreateQuote([FromRoute]string id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                string[] ids = id.Split('~');
+                ProjectLogic l = new ProjectLogic();
+                l.SetDependencies(AppConfig, UserSession);
+                if (await l.LoadAsync<ProjectLogic>(ids))
+                {
+                    QuoteLogic lCopy = await l.CreateQuoteAsync();
+                    return new OkObjectResult(lCopy);
+                }
+                else
+                {
+                    return NotFound();
+                }
+            }
+            catch (Exception ex)
+            {
+                FwApiException jsonException = new FwApiException();
+                jsonException.StatusCode = StatusCodes.Status500InternalServerError;
+                jsonException.Message = ex.Message;
+                jsonException.StackTrace = ex.StackTrace;
+                return StatusCode(jsonException.StatusCode, jsonException);
+            }
+        }
+        //------------------------------------------------------------------------------------      
     }
 }
