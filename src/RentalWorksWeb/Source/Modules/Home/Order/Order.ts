@@ -1859,7 +1859,7 @@ class Order {
         $form.find('.' + gridType + 'totals [data-totalfield="GrossTotal"] input').val(grossTotal);
         $form.find('.' + gridType + 'totals [data-totalfield="Total"] input').val(total);
 
-        $form.find('.' + gridType + 'Adjustments .' + gridType + 'OrderItemTotal:visible input').val(total);
+        //$form.find('.' + gridType + 'Adjustments .' + gridType + 'OrderItemTotal:visible input').val(total);
     };
 
     //----------------------------------------------------------------------------------------------

@@ -1637,7 +1637,6 @@ var Order = (function () {
         $form.find('.' + gridType + 'totals [data-totalfield="Tax"] input').val(salesTax);
         $form.find('.' + gridType + 'totals [data-totalfield="GrossTotal"] input').val(grossTotal);
         $form.find('.' + gridType + 'totals [data-totalfield="Total"] input').val(total);
-        $form.find('.' + gridType + 'Adjustments .' + gridType + 'OrderItemTotal:visible input').val(total);
     };
     ;
     Order.prototype.createSnapshotOrder = function ($form, event) {
