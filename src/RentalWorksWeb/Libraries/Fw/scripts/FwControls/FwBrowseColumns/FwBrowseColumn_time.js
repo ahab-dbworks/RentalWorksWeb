@@ -5,7 +5,9 @@ FwBrowseColumn_time.databindfield = function ($browse, $field, dt, dtRow, $tr) {
 };
 //---------------------------------------------------------------------------------
 FwBrowseColumn_time.getFieldValue = function ($browse, $tr, $field, field, originalvalue) {
-
+    if (($tr.hasClass('editmode')) || ($tr.hasClass('newmode'))) {
+        field.value = $field.find('input.value').val();
+    }
 };
 //---------------------------------------------------------------------------------
 FwBrowseColumn_time.setFieldViewMode = function ($browse, $field, $tr, html) {
@@ -16,13 +18,11 @@ FwBrowseColumn_time.setFieldViewMode = function ($browse, $field, $tr, html) {
 FwBrowseColumn_time.setFieldEditMode = function ($browse, $field, $tr, html) {
     var timepickerTimeFormat, inputmaskTimeFormat;
     var originalvalue = (typeof $field.attr('data-originalvalue') === 'string') ? $field.attr('data-originalvalue') : '';
-    html.push('<div class="fwformfield-control">');
-    html.push('<input class="value" type="text" autocapitalize="none"');
+    html.push('<input class="value" type="text"');
     if ($browse.attr('data-enabled') === 'false') {
         html.push(' disabled="disabled"');
     }
     html.push(' />');
-    html.push('</div>');
     if ($field.attr('data-timeformat') === '24') {
         timepickerTimeFormat = 'H:i:s';
         inputmaskTimeFormat = 'hh:mm';

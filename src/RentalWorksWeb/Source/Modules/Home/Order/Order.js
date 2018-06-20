@@ -635,8 +635,10 @@ var Order = (function () {
         FwBrowse.search($orderContactGrid);
         var $allOrderItemGrid;
         $allOrderItemGrid = $form.find('.combinedgrid [data-name="OrderItemGrid"]');
+        FwBrowse.search($allOrderItemGrid);
         var $orderItemGridRental;
         $orderItemGridRental = $form.find('.rentalgrid [data-name="OrderItemGrid"]');
+        FwBrowse.search($orderItemGridRental);
         var $orderItemGridSales;
         $orderItemGridSales = $form.find('.salesgrid [data-name="OrderItemGrid"]');
         FwBrowse.search($orderItemGridSales);
