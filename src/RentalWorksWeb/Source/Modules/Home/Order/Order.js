@@ -1137,7 +1137,7 @@ var Order = (function () {
                         daysBetweenDates = (parsedBillingEndDate - parsedBillingStartDate) / 86400000;
                     }, function onError(response) {
                         FwFunc.showError(response);
-                    }, $form);
+                    }, null);
                 }
                 else if (daysBetweenDates === 0) {
                     FwFormField.setValueByDataField($form, 'BillingMonths', '0');

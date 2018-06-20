@@ -1061,7 +1061,7 @@ class Quote {
                         daysBetweenDates = (parsedBillingEndDate - parsedBillingStartDate) / 86400000; // 1 day has 86400000ms
                     }, function onError(response) {
                         FwFunc.showError(response);
-                    }, $form);
+                    }, null);
                 } else if (daysBetweenDates === 0) {
                     FwFormField.setValueByDataField($form, 'BillingMonths', '0');
                 }
