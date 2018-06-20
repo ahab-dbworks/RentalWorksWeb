@@ -115,6 +115,9 @@ namespace WebApi.Modules.Home.Project
         [FwSqlDataField(column: "projectno", modeltype: FwDataTypes.Text)]
         public string ProjectNumber { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "poccprimarywhenemailbackup", modeltype: FwDataTypes.Boolean)]
+        public bool? CcPrimaryApproverWhenEmailingBackupApprover { get; set; }
+        //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "inactive", modeltype: FwDataTypes.Boolean)]
         public bool? Inactive { get; set; }
         //------------------------------------------------------------------------------------

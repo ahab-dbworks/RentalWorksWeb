@@ -90,10 +90,20 @@ namespace WebApi.Modules.Settings.PoApprover
         //------------------------------------------------------------------------------------ 
         protected override void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequest request = null)
         {
+            string projectFilterId = "";
+            if ((request != null) && (request.uniqueids != null))
+            {
+                IDictionary<string, object> uniqueIds = ((IDictionary<string, object>)request.uniqueids);
+                if (uniqueIds.ContainsKey("ProjectId"))
+                {
+                    projectFilterId = uniqueIds["ProjectId"].ToString();
+                }
+            }
+
             base.SetBaseSelectQuery(select, qry, customFields, request);
             select.Parse();
-            //select.AddWhere("(xxxtype = 'ABCDEF')"); 
-            //addFilterToSelect("UniqueId", "uniqueid", select, request); 
+            select.AddWhere("projectid = @projectid");
+            select.AddParameter("@projectid", projectFilterId);
         }
         //------------------------------------------------------------------------------------ 
     }

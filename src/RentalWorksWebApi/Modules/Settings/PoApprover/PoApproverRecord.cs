@@ -17,7 +17,7 @@ namespace WebApi.Modules.Settings.PoApprover
         [FwSqlDataField(column: "departmentid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
         public string DepartmentId { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "usersid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
+        [FwSqlDataField(column: "usersid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8, required: true)]
         public string UsersId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "backupflg", modeltype: FwDataTypes.Boolean, sqltype: "char")]
@@ -26,7 +26,7 @@ namespace WebApi.Modules.Settings.PoApprover
         [FwSqlDataField(column: "limitflg", modeltype: FwDataTypes.Boolean, sqltype: "char")]
         public bool? HasLimit { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "approleid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
+        [FwSqlDataField(column: "approleid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8, required: true)]
         public string AppRoleId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "limitlabor", modeltype: FwDataTypes.Decimal, sqltype: "numeric", precision: 12, scale: 2)]

@@ -50,6 +50,9 @@ namespace WebApi.Modules.Home.DealOrderDetail
         [FwSqlDataField(column: "marketsegmentjobid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 08)]
         public string MarketSegmentJobId { get; set; }
         //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "poccprimarywhenemailbackup", modeltype: FwDataTypes.Boolean, sqltype: "char", maxlength: 1)]
+        public bool? CcPrimaryApproverWhenEmailingBackupApprover { get; set; }
+        //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
         public string DateStamp { get; set; }
         //------------------------------------------------------------------------------------

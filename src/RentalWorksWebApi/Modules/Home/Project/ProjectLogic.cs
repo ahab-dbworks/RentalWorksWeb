@@ -80,6 +80,7 @@ namespace WebApi.Modules.Home.Project
         public string EstimatedStartTime { get { return project.EstimatedStartTime; } set { project.EstimatedStartTime = value; } }
         public string EstimatedStopDate { get { return project.EstimatedStopDate; } set { project.EstimatedStopDate = value; } }
         public string EstimatedStopTime { get { return project.EstimatedStopTime; } set { project.EstimatedStopTime = value; } }
+        public bool? CcPrimaryApproverWhenEmailingBackupApprover { get { return projectDetail.CcPrimaryApproverWhenEmailingBackupApprover; } set { projectDetail.CcPrimaryApproverWhenEmailingBackupApprover = value; } }
         public bool? Inactive { get; set;}
         [JsonIgnore]
         public string Type { get { return project.Type; } set { project.Type = value; } }
