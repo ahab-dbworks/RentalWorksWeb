@@ -7,9 +7,12 @@
 
          const grid = $tr.parents('[data-grid="OrderItemGrid"]');
          if ($form[0].dataset.controller !== "TemplateController") {
-             var toDate = FwFormField.getValueByDataField($form, 'EstimatedStopDate');
-             var fromDate = FwFormField.getValueByDataField($form, 'EstimatedStartDate');
              var pickDate = FwFormField.getValueByDataField($form, 'PickDate');
+             var pickTime = FwFormField.getValueByDataField($form, 'PickTime');
+             var fromDate = FwFormField.getValueByDataField($form, 'EstimatedStartDate');
+             var fromTime = FwFormField.getValueByDataField($form, 'EstimatedStartTime');
+             var toDate = FwFormField.getValueByDataField($form, 'EstimatedStopDate');
+             var toTime = FwFormField.getValueByDataField($form, 'EstimatedStopTime');
          };
 
          if (grid.hasClass('R')) {
@@ -23,9 +26,12 @@
          }
 
          if ($form[0].dataset.controller !== "TemplateController") {
-             $tr.find('.field[data-browsedatafield="FromDate"] input').val(fromDate);
-             $tr.find('.field[data-browsedatafield="ToDate"] input').val(toDate);
              $tr.find('.field[data-browsedatafield="PickDate"] input').val(pickDate);
+             $tr.find('.field[data-browsedatafield="PickTime"] input').val(pickTime);
+             $tr.find('.field[data-browsedatafield="FromDate"] input').val(fromDate);
+             $tr.find('.field[data-browsedatafield="FromTime"] input').val(fromTime);
+             $tr.find('.field[data-browsedatafield="ToDate"] input').val(toDate);
+             $tr.find('.field[data-browsedatafield="ToTime"] input').val(toTime);
          }
      }
 
