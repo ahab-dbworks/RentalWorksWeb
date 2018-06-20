@@ -345,6 +345,59 @@ var FwBrowse = (function () {
                             });
                             menuItemCount++;
                         }
+                        if (controller === 'OrderItemGridController') {
+                            var isLocked = void 0, isBold = void 0;
+                            isLocked = $control.find('.selected [data-formdatafield="Locked"]').attr('data-originalvalue');
+                            isBold = $control.find('.selected [data-formdatafield="Bold"]').attr('data-originalvalue');
+                            if (isLocked === 'true') {
+                                FwContextMenu.addMenuItem($contextmenu, 'Unlock', function () {
+                                    try {
+                                        var $tr = jQuery(this).closest('tr');
+                                        FwBrowse.lockRowOrderItemGrid($control, $tr);
+                                        menuItemCount++;
+                                    }
+                                    catch (ex) {
+                                        FwFunc.showError(ex);
+                                    }
+                                });
+                            }
+                            if (isBold === 'true') {
+                                FwContextMenu.addMenuItem($contextmenu, 'Unbold', function () {
+                                    try {
+                                        var $tr = jQuery(this).closest('tr');
+                                        FwBrowse.boldRowOrderItemGrid($control, $tr);
+                                        menuItemCount++;
+                                    }
+                                    catch (ex) {
+                                        FwFunc.showError(ex);
+                                    }
+                                });
+                            }
+                            if (isBold === 'false') {
+                                FwContextMenu.addMenuItem($contextmenu, 'Bold', function () {
+                                    try {
+                                        var $tr = jQuery(this).closest('tr');
+                                        FwBrowse.boldRowOrderItemGrid($control, $tr);
+                                        menuItemCount++;
+                                    }
+                                    catch (ex) {
+                                        FwFunc.showError(ex);
+                                    }
+                                });
+                            }
+                            if (isLocked === 'false') {
+                                FwContextMenu.addMenuItem($contextmenu, 'Lock', function () {
+                                    try {
+                                        var $tr = jQuery(this).closest('tr');
+                                        FwBrowse.lockRowOrderItemGrid($control, $tr);
+                                        menuItemCount++;
+                                    }
+                                    catch (ex) {
+                                        FwFunc.showError(ex);
+                                    }
+                                });
+                            }
+                        }
                     }
                     if (menuItemCount === 0) {
                         FwContextMenu.destroy($contextmenu);
@@ -2313,6 +2366,186 @@ var FwBrowse = (function () {
         }
         return isvalid;
     };
+    FwBrowse.boldRowOrderItemGrid = function ($control, $tr) {
+        var $confirmation, $yes, $no, quoteId, orderItemId, boldStatus;
+        quoteId = $control.find('.selected [data-browsedatafield="OrderId"]').attr('data-originalvalue');
+        orderItemId = $control.find('.selected [data-formdatafield="OrderItemId"]').attr('data-originalvalue');
+        boldStatus = $control.find('.selected [data-formdatafield="Bold"]').attr('data-originalvalue');
+        if (quoteId != null) {
+            if (boldStatus === "true") {
+                $confirmation = FwConfirmation.renderConfirmation('Unbold', '');
+                $confirmation.find('.fwconfirmationbox').css('width', '450px');
+                var html = [];
+                html.push('<div class="fwform" data-controller="none" style="background-color: transparent;">');
+                html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
+                html.push('    <div>Would you like to remove bold for this item?</div>');
+                html.push('  </div>');
+                html.push('</div>');
+                FwConfirmation.addControls($confirmation, html.join(''));
+                $yes = FwConfirmation.addButton($confirmation, 'Unbold Item', false);
+                $no = FwConfirmation.addButton($confirmation, 'Cancel');
+                $yes.on('click', unboldItem);
+            }
+            else {
+                $confirmation = FwConfirmation.renderConfirmation('Cancel', '');
+                $confirmation.find('.fwconfirmationbox').css('width', '450px');
+                var html = [];
+                html.push('<div class="fwform" data-controller="none" style="background-color: transparent;">');
+                html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
+                html.push('    <div>Would you like to bold this Item?</div>');
+                html.push('  </div>');
+                html.push('</div>');
+                FwConfirmation.addControls($confirmation, html.join(''));
+                $yes = FwConfirmation.addButton($confirmation, 'Bold Item', false);
+                $no = FwConfirmation.addButton($confirmation, 'Cancel');
+                $yes.on('click', boldItem);
+            }
+        }
+        else {
+            throw new Error("Please select an Item to perform this action.");
+        }
+        function boldItem() {
+            var request = {};
+            FwFormField.disable($confirmation.find('.fwformfield'));
+            FwFormField.disable($yes);
+            $yes.text('Bolding Item...');
+            $yes.off('click');
+            request = {
+                OrderId: quoteId,
+                OrderItemId: orderItemId,
+                Bold: true,
+            };
+            FwAppData.apiMethod(true, 'POST', "api/v1/orderitem", request, FwServices.defaultTimeout, function onSuccess(response) {
+                FwNotification.renderNotification('SUCCESS', 'Success');
+                FwConfirmation.destroyConfirmation($confirmation);
+                FwBrowse.databind($control);
+            }, function onError(response) {
+                $yes.on('click', boldItem);
+                $yes.text('Cancel');
+                FwFunc.showError(response);
+                FwFormField.enable($confirmation.find('.fwformfield'));
+                FwFormField.enable($yes);
+                FwBrowse.databind($control);
+            }, $control);
+        }
+        ;
+        function unboldItem() {
+            var request = {};
+            FwFormField.disable($confirmation.find('.fwformfield'));
+            FwFormField.disable($yes);
+            $yes.text('Removing...');
+            $yes.off('click');
+            request = {
+                OrderId: quoteId,
+                OrderItemId: orderItemId,
+                Bold: false,
+            };
+            FwAppData.apiMethod(true, 'POST', "api/v1/orderitem", request, FwServices.defaultTimeout, function onSuccess(response) {
+                FwNotification.renderNotification('SUCCESS', 'Bold Removed');
+                FwConfirmation.destroyConfirmation($confirmation);
+                FwBrowse.databind($control);
+            }, function onError(response) {
+                $yes.on('click', unboldItem);
+                $yes.text('Cancel');
+                FwFunc.showError(response);
+                FwFormField.enable($confirmation.find('.fwformfield'));
+                FwFormField.enable($yes);
+                FwBrowse.databind($control);
+            }, $control);
+        }
+        ;
+    };
+    ;
+    FwBrowse.lockRowOrderItemGrid = function ($control, $tr) {
+        var $confirmation, $yes, $no, quoteId, orderItemId, lockedStatus;
+        quoteId = $control.find('.selected [data-browsedatafield="OrderId"]').attr('data-originalvalue');
+        orderItemId = $control.find('.selected [data-formdatafield="OrderItemId"]').attr('data-originalvalue');
+        lockedStatus = $control.find('.selected [data-formdatafield="Locked"]').attr('data-originalvalue');
+        if (quoteId != null) {
+            if (lockedStatus === "true") {
+                $confirmation = FwConfirmation.renderConfirmation('Unlock', '');
+                $confirmation.find('.fwconfirmationbox').css('width', '450px');
+                var html = [];
+                html.push('<div class="fwform" data-controller="none" style="background-color: transparent;">');
+                html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
+                html.push('    <div>Would you like to unlock this item?</div>');
+                html.push('  </div>');
+                html.push('</div>');
+                FwConfirmation.addControls($confirmation, html.join(''));
+                $yes = FwConfirmation.addButton($confirmation, 'Unlock Item', false);
+                $no = FwConfirmation.addButton($confirmation, 'Cancel');
+                $yes.on('click', unlockItem);
+            }
+            else {
+                $confirmation = FwConfirmation.renderConfirmation('Cancel', '');
+                $confirmation.find('.fwconfirmationbox').css('width', '450px');
+                var html = [];
+                html.push('<div class="fwform" data-controller="none" style="background-color: transparent;">');
+                html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
+                html.push('    <div>Would you like to lock this Item?</div>');
+                html.push('  </div>');
+                html.push('</div>');
+                FwConfirmation.addControls($confirmation, html.join(''));
+                $yes = FwConfirmation.addButton($confirmation, 'Lock Item', false);
+                $no = FwConfirmation.addButton($confirmation, 'Cancel');
+                $yes.on('click', lockItem);
+            }
+        }
+        else {
+            throw new Error("Please select an Item to perform this action.");
+        }
+        function lockItem() {
+            var request = {};
+            FwFormField.disable($confirmation.find('.fwformfield'));
+            FwFormField.disable($yes);
+            $yes.text('Locking Item...');
+            $yes.off('click');
+            request = {
+                OrderId: quoteId,
+                OrderItemId: orderItemId,
+                Locked: true,
+            };
+            FwAppData.apiMethod(true, 'POST', "api/v1/orderitem", request, FwServices.defaultTimeout, function onSuccess(response) {
+                FwNotification.renderNotification('SUCCESS', 'Item Successfully Locked');
+                FwConfirmation.destroyConfirmation($confirmation);
+                FwBrowse.databind($control);
+            }, function onError(response) {
+                $yes.on('click', lockItem);
+                $yes.text('Cancel');
+                FwFunc.showError(response);
+                FwFormField.enable($confirmation.find('.fwformfield'));
+                FwFormField.enable($yes);
+                FwBrowse.databind($control);
+            }, $control);
+        }
+        ;
+        function unlockItem() {
+            var request = {};
+            FwFormField.disable($confirmation.find('.fwformfield'));
+            FwFormField.disable($yes);
+            $yes.text('Unlocking...');
+            $yes.off('click');
+            request = {
+                OrderId: quoteId,
+                OrderItemId: orderItemId,
+                Locked: false,
+            };
+            FwAppData.apiMethod(true, 'POST', "api/v1/orderitem", request, FwServices.defaultTimeout, function onSuccess(response) {
+                FwNotification.renderNotification('SUCCESS', 'Item Successfully Unlocked');
+                FwConfirmation.destroyConfirmation($confirmation);
+                FwBrowse.databind($control);
+            }, function onError(response) {
+                $yes.on('click', unlockItem);
+                $yes.text('Cancel');
+                FwFunc.showError(response);
+                FwFormField.enable($confirmation.find('.fwformfield'));
+                FwFormField.enable($yes);
+                FwBrowse.databind($control);
+            }, $control);
+        }
+        ;
+    };
+    ;
     FwBrowse.deleteRow = function ($control, $tr) {
         var rowuniqueids, formuniqueids, name, $form, $confirmation, $ok, $cancel, candelete, miscfields;
         candelete = true;

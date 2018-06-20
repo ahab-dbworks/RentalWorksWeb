@@ -1054,7 +1054,7 @@ class Quote {
                 monthValue = Math.ceil(daysBetweenDates / 31);
                 if (!isNaN(monthValue) && monthValue !== '0' && Math.sign(monthValue) !== -1 && Math.sign(monthValue) !== -0) {
                     FwAppData.apiMethod(true, 'GET', `api/v1/datefunctions/numberofmonths?FromDate=${billingStartDate}&ToDate=${billingEndDate}`, null, FwServices.defaultTimeout, function onSuccess(response) {
-                        monthValue = response
+                        monthValue = response;
                         FwFormField.setValueByDataField($form, 'BillingMonths', monthValue);
                         parsedBillingStartDate = Date.parse(FwFormField.getValueByDataField($form, 'BillingStartDate'));
                         parsedBillingEndDate = Date.parse(FwFormField.getValueByDataField($form, 'BillingEndDate'));
@@ -1678,8 +1678,6 @@ class Quote {
         quoteId = $browse.find('.selected [data-browsedatafield="OrderId"]').attr('data-originalvalue');
         orderItemId = $browse.find('.selected [data-formdatafield="OrderItemId"]').attr('data-originalvalue');
         lockedStatus = $browse.find('.selected [data-formdatafield="Locked"]').attr('data-originalvalue');
-
-        console.log(lockedStatus)
 
         if (quoteId != null) {
             if (lockedStatus === "true") {

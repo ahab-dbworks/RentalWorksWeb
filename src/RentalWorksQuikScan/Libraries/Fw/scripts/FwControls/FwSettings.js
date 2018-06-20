@@ -248,7 +248,6 @@ FwSettings.getRows = function ($body, $control, apiurl, $modulecontainer, module
                     $rowBody.append($form);
                     FwModule.openForm($form, 'EDIT');
 
-
                     for (var key in recordData) {
                         var value = recordData[key];
                         var $field = $form.find('[data-datafield="' + key + '"]');
@@ -391,13 +390,14 @@ FwSettings.renderModuleHtml = function ($control, title, moduleName, description
 
     $settingsPageModules
         .on('click', '.panel-heading', function (e) {
-            var $this, moduleName, $modulecontainer, apiurl, $body, browseKeys = [], rowId, formKeys = [], keys, $settings;
+            var $this, moduleName, $browse, $modulecontainer, apiurl, $body, browseData = [], browseKeys = [], rowId, formKeys = [], keys, $settings;
 
             $this = jQuery(this);
             moduleName = $this.closest('.panel-group').attr('id');
+            $browse = jQuery(jQuery('#tmpl-modules-' + moduleName + 'Browse').html());
             $modulecontainer = $control.find('#' + moduleName);
             apiurl = window[moduleName + 'Controller'].apiurl;
-            $body = $control.find('#' + moduleName + '.panel-body')
+            $body = $control.find('#' + moduleName + '.panel-body');
             if ($body.is(':empty')) {
                 FwAppData.apiMethod(true, 'GET', applicationConfig.appbaseurl + applicationConfig.appvirtualdirectory + apiurl, null, null, function onSuccess(response) {
                     $settings = jQuery(jQuery('#tmpl-modules-' + moduleName + 'Browse').html());
@@ -407,6 +407,16 @@ FwSettings.renderModuleHtml = function ($control, title, moduleName, description
                     for (var i = 1; i < keys.length; i++) {
                         var Key = jQuery(keys[i]).attr('data-datafield');
                         browseKeys.push(Key);
+                        var fieldData = {};
+                        if ($browse.find('div[data-datafield="' + Key + '"]').data('caption') !== undefined) {
+                            fieldData['caption'] = $browse.find('div[data-datafield="' + Key + '"]').data('caption');
+                        } else {
+                            fieldData['caption'] = Key;
+                        };
+
+                        fieldData['datatype'] = $browse.find('div[data-datafield="' + Key + '"]').data('datatype');
+                        browseData.push(fieldData)
+
                         if (i === 1 && Key !== 'Inactive' || i === 2 && jQuery(keys[1]).attr('data-datafield') === 'Inactive') {
                             for (var k = 0; k < response.length - 1; k++) {
                                 for (var l = 0, sorted; l < response.length - 1; l++) {
@@ -426,20 +436,32 @@ FwSettings.renderModuleHtml = function ($control, title, moduleName, description
                         html.push('  <div class="panel panel-info container-fluid">');
                         html.push('    <div class="row-heading">');
                         html.push('      <i class="material-icons record-selector">keyboard_arrow_down</i>');
-                        for (var j = 0; j < browseKeys.length; j++) {
-                            if (browseKeys[j] === 'Inactive' && response[i][browseKeys[j]] === true) {
+                        for (var j = 0; j < browseData.length; j++) {
+                            if (browseData[j]['caption'] === 'Inactive' && response[i][browseData[j]['caption']] === true) {
                                 html[1] = '<div class="panel panel-info container-fluid" style="display:none;">';
                                 html[2] = '<div class="inactive row-heading" style="background-color:lightgray;">';
                             }
-                            if (browseKeys[j] === 'Inactive' || browseKeys[j] === 'Color') {
+                            if (browseData[j]['caption'] === 'Inactive' || browseData[j]['caption'] === 'Color') {
 
                             } else {
                                 html.push('      <div style="width:100%;padding-left: inherit;">');
                                 html.push('        <div class="fwcontrol fwcontainer fwform-fieldrow" data-type="fieldrow">');
-                                html.push('          <label style="font-weight:800;">' + browseKeys[j] + '</label>');
+                                html.push('          <label style="font-weight:800;">' + browseData[j]['caption'] + '</label>');
                                 html.push('        </div>');
-                                html.push('        <div class="fwcontrol fwcontainer fwform-fieldrow" data-type="fieldrow">');
-                                html.push('          <label>' + response[i][browseKeys[j]] + '</label>');
+
+                                if (browseData[j]['datatype'] === 'checkbox') {
+                                    html.push('        <div class="fwcontrol fwcontainer fwform-fieldrow" data-type="fieldrow" style="width:50px;">');
+                                    if (response[i][browseKeys[j]]) {
+                                        html.push('<div class="checkboxwrapper"><input class="value" type="checkbox" disabled="disabled" style="box-sizing:border-box;pointer-events:none;" checked><label></label></div>');
+                                    } else {
+                                        html.push('<div class="checkboxwrapper"><input class="value" type="checkbox" disabled="disabled" style="box-sizing:border-box;pointer-events:none;"><label></label></div>');
+                                    }
+
+                                } else {
+                                    html.push('    <div class="fwcontrol fwcontainer fwform-fieldrow" data-type="fieldrow">');
+                                    html.push('    <label>' + response[i][browseKeys[j]] + '</label>');
+                                }
+
                                 html.push('        </div>');
                                 html.push('      </div>');
                                 //if (browseKeys[j] === 'Inactive' && response[i][browseKeys[j]] === true) {
@@ -500,7 +522,7 @@ FwSettings.renderModuleHtml = function ($control, title, moduleName, description
                 for (var key in recordData) {
                     for (var i = 0; i < filter.length; i++) {
                         if (filter[i] === key) {
-                            $form.find('[data-datafield="' + key + '"]').css({ 'background': 'yellow' })
+                            $form.find('[data-datafield="' + key + '"]').find('.fwformfield-caption').css({ 'background': 'yellow' });
                         }
                     };
                     var value = recordData[key];
@@ -537,7 +559,7 @@ FwSettings.renderModuleHtml = function ($control, title, moduleName, description
                 for (var key in recordData) {
                     for (var i = 0; i < filter.length; i++) {
                         if (filter[i] === key) {
-                            $form.find('[data-datafield="' + key + '"]').css({ 'background': 'yellow' });
+                            $form.find('[data-datafield="' + key + '"]').find('.fwformfield-caption').css({ 'background': 'yellow' });
                         }
                     };
                     if (key === '_Custom') {
