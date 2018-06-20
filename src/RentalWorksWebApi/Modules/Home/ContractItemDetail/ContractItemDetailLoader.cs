@@ -25,9 +25,15 @@ namespace WebApi.Modules.Home.ContractItemDetail
         [FwSqlDataField(column: "masternodisplay", modeltype: FwDataTypes.Text)]
         public string ICodeDisplay { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "masternocolor", modeltype: FwDataTypes.OleToHtmlColor)]
+        public string ICodeColor { get; set; }
+        //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "description", modeltype: FwDataTypes.Text)]
         public string Description { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "descriptioncolor", modeltype: FwDataTypes.OleToHtmlColor)]
+        public string DescriptionColor { get; set; }
+        //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "quantity", modeltype: FwDataTypes.Decimal)]
         public decimal? Quantity { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -46,6 +52,9 @@ namespace WebApi.Modules.Home.ContractItemDetail
         [FwSqlDataField(column: "vendor", modeltype: FwDataTypes.Text)]
         public string Vendor { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "vendorcolor", modeltype: FwDataTypes.OleToHtmlColor)]
+        public string VendorColor { get; set; }
+        //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "masterid", modeltype: FwDataTypes.Text)]
         public string InventoryId { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -91,6 +100,9 @@ namespace WebApi.Modules.Home.ContractItemDetail
         [FwSqlDataField(column: "username", modeltype: FwDataTypes.Text)]
         public string UserName { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "transactiondatetime", modeltype: FwDataTypes.DateTime)]
+        public string TransactionDateTime { get; set; }
+        //------------------------------------------------------------------------------------  
         [FwSqlDataField(column: "parentid", modeltype: FwDataTypes.Text)]
         public string ParentId { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -106,6 +118,9 @@ namespace WebApi.Modules.Home.ContractItemDetail
         [FwSqlDataField(column: "containerbarcode", modeltype: FwDataTypes.Text)]
         public string ContainerBarCode { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "consignment", modeltype: FwDataTypes.Boolean)]
+        public bool? IsConsignment { get; set; }
+        //------------------------------------------------------------------------------------  
         [FwSqlDataField(column: "consignorid", modeltype: FwDataTypes.Text)]
         public string ConsignorId { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -132,6 +147,9 @@ namespace WebApi.Modules.Home.ContractItemDetail
 
             addFilterToSelect("ContractId", "contractid", select, request);
             select.AddParameter("@contractid", ContractId);
+
+            addFilterToSelect("RecType", "rectype", select, request);
+
 
         }
         //------------------------------------------------------------------------------------ 

@@ -15,8 +15,10 @@ namespace WebApi.Modules.Home.ContractItemSummary
         public string OrderId { get; set; }
         public string OrderItemId { get; set; }
         public string ICode { get; set; }
+        public string ICodeColor { get; set; }
         public string ICodeDisplay { get; set; }
         public string Description { get; set; }
+        public string DescriptionColor { get; set; }
         public decimal? Quantity { get; set; }
         public string TrackedBy { get; set; }
         public string CategoryId { get; set; }

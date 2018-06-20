@@ -25,9 +25,15 @@ namespace WebApi.Modules.Home.ContractItemSummary
         [FwSqlDataField(column: "masternodisplay", modeltype: FwDataTypes.Text)]
         public string ICodeDisplay { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "masternocolor", modeltype: FwDataTypes.OleToHtmlColor)]
+        public string ICodeColor { get; set; }
+        //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "description", modeltype: FwDataTypes.Text)]
         public string Description { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "descriptioncolor", modeltype: FwDataTypes.OleToHtmlColor)]
+        public string DescriptionColor { get; set; }
+        //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "quantity", modeltype: FwDataTypes.Decimal)]
         public decimal? Quantity { get; set; }
         //------------------------------------------------------------------------------------ 
