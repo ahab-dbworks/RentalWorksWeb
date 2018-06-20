@@ -4,6 +4,8 @@ using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes; 
 using WebApi.Data; 
 using System.Collections.Generic;
+using WebLibrary;
+
 namespace WebApi.Modules.Home.Master
 {
     [FwSqlTable("inventoryview")]
@@ -117,6 +119,7 @@ namespace WebApi.Modules.Home.Master
             base.SetBaseSelectQuery(select, qry, customFields, request);
             select.Parse();
             //select.AddWhere("(xxxtype = 'ABCDEF')"); 
+            addFilterToSelect("AvailFor", "availfor", select, request); 
             addFilterToSelect("TrackedBy", "trackedby", select, request); 
             addFilterToSelect("Classification", "class", select, request);
             addFilterToSelect("InventoryTypeId", "inventorydepartmentid", select, request);
@@ -129,31 +132,31 @@ namespace WebApi.Modules.Home.Master
                 {
                     case "ITEM":
                         select.AddWhere("(class = @classification)");
-                        select.AddParameter("@classification", "I");
+                        select.AddParameter("@classification", RwConstants.INVENTORY_CLASSIFICATION_ITEM);
                         break;
                     case "ACCESSORY":
                         select.AddWhere("(class = @classification)");
-                        select.AddParameter("@classification", "A");
+                        select.AddParameter("@classification", RwConstants.INVENTORY_CLASSIFICATION_ACCESSORY);
                         break;
                     case "COMPLETE":
                         select.AddWhere("(class = @classification)");
-                        select.AddParameter("@classification", "C");
+                        select.AddParameter("@classification", RwConstants.INVENTORY_CLASSIFICATION_COMPLETE);
                         break;
                     case "KIT":
                         select.AddWhere("(class = @classification)");
-                        select.AddParameter("@classification", "K");
+                        select.AddParameter("@classification", RwConstants.INVENTORY_CLASSIFICATION_KIT);
                         break;
                     case "KITSET":
                         select.AddWhere("(class = @classification)");
-                        select.AddParameter("@classification", "K");
+                        select.AddParameter("@classification", RwConstants.INVENTORY_CLASSIFICATION_KIT);
                         break;
                     case "MISC":
                         select.AddWhere("(class = @classification)");
-                        select.AddParameter("@classification", "M");
+                        select.AddParameter("@classification", RwConstants.INVENTORY_CLASSIFICATION_MISCELLAENOUS);
                         break;
                     case "CONTAINER":
                         select.AddWhere("(class = @classification)");
-                        select.AddParameter("@classification", "N");
+                        select.AddParameter("@classification", RwConstants.INVENTORY_CLASSIFICATION_CONTAINER);
                         break;
                     case "ALL":
                         break;
@@ -161,7 +164,10 @@ namespace WebApi.Modules.Home.Master
             }
 
 
-        }
-        //------------------------------------------------------------------------------------ 
+
+
+
     }
+    //------------------------------------------------------------------------------------ 
+}
 }

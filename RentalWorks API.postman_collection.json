@@ -2994,7 +2994,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"OrderBy\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": [],\n    \t\"uniqueids\": {\"ContractId\": \"F01QZN1V\"}\n\t\n}"
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"OrderBy\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": [],\n    \t\"uniqueids\": {\"ContractId\": \"F01QZN1V\", \"RecType\": \"S\"}\n\t\n}"
 						},
 						"url": {
 							"raw": "http://localhost:57949/api/v1/contractitemdetail/browse",
@@ -12029,6 +12029,47 @@
 								"v1",
 								"formdesign",
 								"00003EGF"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "General Item",
+			"description": null,
+			"item": [
+				{
+					"name": "General Item: Browse",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"Description\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": [],\n        \"uniqueids\": {\"InventoryTypeId\": \"B005L3OF\", \"CategoryId\": \"B003PMWG\", \"SubCategoryId\": \"F018W4WL\"}\n\t\n}"
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/generalitem/browse",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"generalitem",
+								"browse"
 							]
 						}
 					},

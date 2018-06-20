@@ -48,9 +48,9 @@ namespace WebLibrary
         public const string RATE_TYPE_3WEEK = "3WEEK";
         public const string RATE_TYPE_MONTHLY = "MONTHLY";
 
-        public const string RECTYPE_RENT = "R";
+        public const string RECTYPE_RENTAL = "R";
         public const string RECTYPE_SALE = "S";
-        public const string RECTYPE_MISC = "M";
+        public const string RECTYPE_MISCELLANEOUS = "M";
         public const string RECTYPE_LABOR = "L";
 
         public const string TOTAL_TYPE_WEEKLY = "W";
@@ -91,6 +91,11 @@ namespace WebLibrary
 
         public const string INVENTORY_CLASSIFICATION_KIT = "K";
         public const string INVENTORY_CLASSIFICATION_COMPLETE = "C";
+        public const string INVENTORY_CLASSIFICATION_CONTAINER = "N";
+        public const string INVENTORY_CLASSIFICATION_ITEM = "I";
+        public const string INVENTORY_CLASSIFICATION_ACCESSORY = "A";
+        public const string INVENTORY_CLASSIFICATION_MISCELLAENOUS = "M";
+        
 
         public const string INVENTORY_SORT_BY_ICODE = "ICODE";
         public const string INVENTORY_SORT_BY_DESCRIPTION = "DESCRIPTION";
