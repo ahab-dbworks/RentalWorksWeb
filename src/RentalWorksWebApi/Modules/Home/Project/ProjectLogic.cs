@@ -41,6 +41,9 @@ namespace WebApi.Modules.Home.Project
         public string OfficeLocationId { get { return project.OfficeLocationId; } set { project.OfficeLocationId = value; } }
         [FwBusinessLogicField(isReadOnly: true)]
         public string OfficeLocation { get; set; }
+        public string WarehouseId { get { return project.WarehouseId; } set { project.WarehouseId = value; } }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string Warehouse { get; set; }
         public string DepartmentId { get { return project.DepartmentId; } set { project.DepartmentId = value; } }
         [FwBusinessLogicField(isReadOnly: true)]
         public string Department { get; set; }
