@@ -121,7 +121,7 @@ namespace WebApi.Modules.Home.OrderContact
             base.SetBaseSelectQuery(select, qry, customFields, request);
             select.Parse();
 
-            addFilterToSelect("OrderId", "orderid", select, request);
+            //addFilterToSelect("OrderId", "orderid", select, request);
 
             if (!OrderId.Equals(string.Empty))
             {
