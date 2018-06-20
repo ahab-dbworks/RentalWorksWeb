@@ -375,30 +375,36 @@ class Quote {
         $form.find(".totalType input").on('change', e => {
             const $target = jQuery(e.currentTarget),
                 gridType = $target.parents('.totalType').attr('data-gridtype'),
-                rateType = $target.val();
+                rateType = $target.val(),
+                adjustmentsPeriod = $form.find('.' + gridType + 'AdjustmentsPeriod'),
+                adjustmentsWeekly = $form.find('.' + gridType + 'AdjustmentsWeekly'),
+                adjustmentsMonthly = $form.find('.' + gridType + 'AdjustmentsMonthly');
 
             switch (rateType) {
                 case 'W':
-                    $form.find('.' + gridType + 'AdjustmentsPeriod').hide();
-                    $form.find('.' + gridType + 'AdjustmentsWeekly').show();
+                    adjustmentsPeriod.hide();
+                    adjustmentsWeekly.show();
                     break;
                 case 'M':
-                    $form.find('.' + gridType + 'AdjustmentsPeriod').hide();
-                    $form.find('.' + gridType + 'AdjustmentsMonthly').show();
+                    adjustmentsPeriod.hide();
+                    adjustmentsMonthly.show();
                     break;
                 case 'P':
-                    $form.find('.' + gridType + 'AdjustmentsWeekly').hide();
-                    $form.find('.' + gridType + 'AdjustmentsMonthly').hide();
-                    $form.find('.' + gridType + 'AdjustmentsPeriod').show();
+                    adjustmentsWeekly.hide();
+                    adjustmentsMonthly.hide();
+                    adjustmentsPeriod.show();
                     break;
+            }
+
+            let total = FwFormField.getValue($form, '.' + gridType + 'OrderItemTotal:visible');
+            if (total === '0.00') {
+                FwFormField.disable($form.find('.' + gridType + 'TotalWithTax:visible'));
+            } else {
+                FwFormField.enable($form.find('.' + gridType + 'TotalWithTax:visible'));
             }
 
             this.calculateOrderItemGridTotals($form, gridType);
         });
-
-        //$form.find('div[data-datafield="CombineActivity"]').data('onchange', $tr => {
-           
-        //});
 
         this.events($form);
 
@@ -1820,8 +1826,6 @@ class Quote {
         $form.find('.' + gridType + 'totals [data-totalfield="Tax"] input').val(salesTax);
         $form.find('.' + gridType + 'totals [data-totalfield="GrossTotal"] input').val(grossTotal);
         $form.find('.' + gridType + 'totals [data-totalfield="Total"] input').val(total);
-
-        //$form.find('.' + gridType + 'Adjustments .' + gridType + 'OrderItemTotal:visible input').val(total);
     };
 
     //----------------------------------------------------------------------------------------------

@@ -318,21 +318,28 @@ var Order = (function () {
         $form.find(".monthlyType").hide();
         $form.find(".periodType input").prop('checked', true);
         $form.find(".totalType input").on('change', function (e) {
-            var $target = jQuery(e.currentTarget), gridType = $target.parents('.totalType').attr('data-gridtype'), rateType = $target.val();
+            var $target = jQuery(e.currentTarget), gridType = $target.parents('.totalType').attr('data-gridtype'), rateType = $target.val(), adjustmentsPeriod = $form.find('.' + gridType + 'AdjustmentsPeriod'), adjustmentsWeekly = $form.find('.' + gridType + 'AdjustmentsWeekly'), adjustmentsMonthly = $form.find('.' + gridType + 'AdjustmentsMonthly');
             switch (rateType) {
                 case 'W':
-                    $form.find('.' + gridType + 'AdjustmentsPeriod').hide();
-                    $form.find('.' + gridType + 'AdjustmentsWeekly').show();
+                    adjustmentsPeriod.hide();
+                    adjustmentsWeekly.show();
                     break;
                 case 'M':
-                    $form.find('.' + gridType + 'AdjustmentsPeriod').hide();
-                    $form.find('.' + gridType + 'AdjustmentsMonthly').show();
+                    adjustmentsPeriod.hide();
+                    adjustmentsMonthly.show();
                     break;
                 case 'P':
-                    $form.find('.' + gridType + 'AdjustmentsWeekly').hide();
-                    $form.find('.' + gridType + 'AdjustmentsMonthly').hide();
-                    $form.find('.' + gridType + 'AdjustmentsPeriod').show();
+                    adjustmentsWeekly.hide();
+                    adjustmentsMonthly.hide();
+                    adjustmentsPeriod.show();
                     break;
+            }
+            var total = FwFormField.getValue($form, '.' + gridType + 'OrderItemTotal:visible');
+            if (total === '0.00') {
+                FwFormField.disable($form.find('.' + gridType + 'TotalWithTax:visible'));
+            }
+            else {
+                FwFormField.enable($form.find('.' + gridType + 'TotalWithTax:visible'));
             }
             _this.calculateOrderItemGridTotals($form, gridType);
         });
