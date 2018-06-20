@@ -22352,6 +22352,138 @@
 			]
 		},
 		{
+			"name": "Order Item Record Type",
+			"description": null,
+			"item": [
+				{
+					"name": "Order Item Record Type: Get Many",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/orderitemrectype",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"orderitemrectype"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Order Item Record Type: Browse",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"RecType\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": []\n\t\n}"
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/orderitemrectype/browse",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"orderitemrectype",
+								"browse"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Order Item Record Type: Get One",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/orderitemrectype/R",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"orderitemrectype",
+								"R"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "34306ff6-9539-4681-add4-b3ecbece71eb",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "5562f010-fd5f-48ed-86b0-8ce7cdaa4bd3",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
 			"name": "Order Location",
 			"description": null,
 			"item": [
@@ -31993,11 +32125,11 @@
 			]
 		},
 		{
-			"name": "Order Item Record Type",
+			"name": "Rank",
 			"description": null,
 			"item": [
 				{
-					"name": "Order Item Record Type: Get Many",
+					"name": "Rank: Get Many",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -32015,7 +32147,7 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "http://localhost:57949/api/v1/orderitemrectype",
+							"raw": "http://localhost:57949/api/v1/rank",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -32024,14 +32156,14 @@
 							"path": [
 								"api",
 								"v1",
-								"orderitemrectype"
+								"rank"
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "Order Item Record Type: Browse",
+					"name": "Rank: Browse",
 					"request": {
 						"method": "POST",
 						"header": [
@@ -32046,10 +32178,10 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"RecType\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": []\n\t\n}"
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"Rank\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": []\n\t\n}"
 						},
 						"url": {
-							"raw": "http://localhost:57949/api/v1/orderitemrectype/browse",
+							"raw": "http://localhost:57949/api/v1/rank/browse",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -32058,7 +32190,7 @@
 							"path": [
 								"api",
 								"v1",
-								"orderitemrectype",
+								"rank",
 								"browse"
 							]
 						}
@@ -32066,7 +32198,7 @@
 					"response": []
 				},
 				{
-					"name": "Order Item Record Type: Get One",
+					"name": "Rank: Get One",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -32084,7 +32216,7 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "http://localhost:57949/api/v1/orderitemrectype/R",
+							"raw": "http://localhost:57949/api/v1/rank/B",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -32093,8 +32225,8 @@
 							"path": [
 								"api",
 								"v1",
-								"orderitemrectype",
-								"R"
+								"rank",
+								"B"
 							]
 						}
 					},
