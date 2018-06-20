@@ -282,14 +282,16 @@ var FwBrowse = (function () {
         })
             .on('change', '.runtime thead .search > input', function (e) {
             try {
-                var $this = jQuery(this);
-                if ($this.val() === '') {
-                    $this.siblings('.searchclear').removeClass('visible');
+                if (($control.attr('data-type') != 'Validation') || (jQuery('html').hasClass('mobile'))) {
+                    var $this = jQuery(this);
+                    if ($this.val() === '') {
+                        $this.siblings('.searchclear').removeClass('visible');
+                    }
+                    else if ($this.val() !== '') {
+                        $this.siblings('.searchclear').addClass('visible');
+                    }
+                    FwBrowse.search($control);
                 }
-                else if ($this.val() !== '') {
-                    $this.siblings('.searchclear').addClass('visible');
-                }
-                FwBrowse.search($control);
             }
             catch (ex) {
                 FwFunc.showError(ex);
@@ -1517,6 +1519,34 @@ var FwBrowse = (function () {
                                 'border-top-style': 'none',
                             };
                             $td.addClass('cellColor').css(css);
+                        }
+                    }
+                    var halfcellcolor = $field.attr('data-halfcellcolor');
+                    if (typeof halfcellcolor !== 'undefined') {
+                        $td.children().css('padding-left', '10px');
+                        if ((halfcellcolor.length > 0) && ((dtRow[dt.ColumnIndex[halfcellcolor]]) !== null) && ((dtRow[dt.ColumnIndex[halfcellcolor]]) != "")) {
+                            if (typeof dt.ColumnIndex[halfcellcolor] !== 'number') {
+                                throw 'FwBrowse.databindcallback: halfcellcolor: "column ' + halfcellcolor + '" was not returned by the web service.';
+                            }
+                            var css_1 = {
+                                'position': 'relative',
+                                'background': 'linear-gradient(to bottom, ' + dtRow[dt.ColumnIndex[halfcellcolor]] + ', rgba(255, 255, 255, 0)50%)'
+                            };
+                            $td.css(css_1);
+                        }
+                    }
+                    var fullcellcolor = $field.attr('data-fullcellcolor');
+                    if (typeof fullcellcolor !== 'undefined') {
+                        $td.children().css('padding-left', '10px');
+                        if ((fullcellcolor.length > 0) && ((dtRow[dt.ColumnIndex[fullcellcolor]]) !== null) && ((dtRow[dt.ColumnIndex[fullcellcolor]]) != "")) {
+                            if (typeof dt.ColumnIndex[fullcellcolor] !== 'number') {
+                                throw 'FwBrowse.databindcallback: fullcellcolor: "column ' + fullcellcolor + '" was not returned by the web service.';
+                            }
+                            var css_2 = {
+                                'position': 'relative',
+                                'background': 'linear-gradient(to bottom, ' + dtRow[dt.ColumnIndex[fullcellcolor]] + ', rgba(255, 255, 255, 0))'
+                            };
+                            $td.css(css_2);
                         }
                     }
                     var browsecellbackgroundcolorfield = $field.attr('data-browsecellbackgroundcolorfield');

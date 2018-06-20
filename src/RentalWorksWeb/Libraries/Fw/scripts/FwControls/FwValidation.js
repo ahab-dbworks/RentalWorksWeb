@@ -241,6 +241,18 @@ FwValidation.init = function ($control) {
             FwFunc.showError(ex);
         }
     });
+
+    $validationbrowse.find('input[type="text"]').on('keydown', function (e) {
+        var code = e.keyCode || e.which;
+        try {
+            if (code === 13) { //Enter Key
+                FwValidation.validate(validationName, $valuefield, $searchfield, $btnvalidate, $validationbrowse, false);
+                e.preventDefault();
+            }
+        } catch (ex) {
+            FwFunc.showError(ex);
+        }
+    });
     $control.find('.btnpeek').on('click', function () {
         try {
             FwValidation.validationPeek($control, validationName.slice(0, -10), $valuefield.val(), $valuefield.parent().parent().attr('data-datafield'), $object, $searchfield.val());
