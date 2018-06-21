@@ -27,10 +27,7 @@ namespace FwStandard.Reporting
             try
             {
                 var page = await browser.NewPageAsync();
-                //await page.GoToAsync(urlHtmlReport);
                 await page.SetContentAsync(htmlBodyTemplate);
-                //var result = page.GetContentAsync();
-                //SaveHtmlToDB(result);
                 PdfOptions pdfOptions = new PdfOptions();
                 pdfOptions.DisplayHeaderFooter = true;
                 pdfOptions.HeaderTemplate = htmlHeaderTemplate;

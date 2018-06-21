@@ -2034,6 +2034,7 @@ var FwBrowse = (function () {
         $fields = $tr.find('.field');
         $fields.each(function (index, element) {
             var $field = jQuery(element);
+            $field.attr('data-originalvalue', '');
             if ($field.attr('data-formreadonly') === 'true') {
                 FwBrowse.setFieldViewMode($control, $field, $tr);
             }
@@ -2120,9 +2121,8 @@ var FwBrowse = (function () {
                 .off('click.FwBrowse')
                 .on('click.FwBrowse', function (e) {
                 try {
-                    var specifiedElement = document.getElementById('a');
-                    var isClickInsideGrid = $control.get(0).contains(e.target);
-                    if (!isClickInsideGrid) {
+                    var isClickInsideTbody = $control.find('.tablewrapper tbody').get(0).contains(e.target);
+                    if (!isClickInsideTbody) {
                         FwBrowse.saveRow($control, $tr);
                     }
                 }
