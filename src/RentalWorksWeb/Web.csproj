@@ -794,6 +794,7 @@
     <Content Include="Source\Validations\MarketTypeValidation\MarketTypeValidationBrowse.htm" />
     <Content Include="Source\Validations\QuoteValidation\QuoteValidationBrowse.htm" />
     <Content Include="Source\Validations\RecTypeValidation\RecTypeValidationBrowse.htm" />
+    <Content Include="Source\Validations\GeneralItemValidation\GeneralItemValidationBrowse.htm" />
     <Content Include="Source\Validations\WarehouseCatalogValidation\WarehouseCatalogValidationBrowse.htm" />
     <Content Include="Source\Validations\RepairItemStatusValidation\RepairItemStatusValidationBrowse.htm" />
     <Content Include="Source\Validations\DocumentTypeValidation\DocumentTypeValidationBrowse.htm" />
@@ -1083,6 +1084,7 @@
     </Content>
     <TypeScriptCompile Include="Source\Validations\CompanyValidation\CompanyValidationController.ts" />
     <TypeScriptCompile Include="Source\Validations\PartsInventoryValidation\PartsInventoryValidationController.ts" />
+    <TypeScriptCompile Include="Source\Validations\GeneralItemValidation\GeneralItemValidationController.ts" />
     <TypeScriptCompile Include="Source\Validations\RentalInventoryValidation\RentalInventoryValidationController.ts" />
     <TypeScriptCompile Include="Source\Validations\SalesInventoryValidation\SalesInventoryValidationController.ts" />
   </ItemGroup>

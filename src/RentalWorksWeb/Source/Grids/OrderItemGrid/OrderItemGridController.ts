@@ -35,6 +35,35 @@
          }
      }
 
+     beforeValidateItem = function ($browse, $grid, request, datafield, $tr) {
+         var rate = $tr.find('div[data-browsedatafield="RecType"] input.value').val();
+
+         if (rate !== null) {
+             switch (rate) {
+                 case 'R':
+                     request.uniqueIds = {
+                         AvailFor: 'R'
+                     };
+                     break;
+                 case 'S':
+                     request.uniqueIds = {
+                         AvailFor: 'S'
+                     };
+                     break;
+                 case 'M':
+                     request.uniqueIds = {
+                         AvailFor: 'M'
+                     };
+                     break;
+                 case 'L':
+                     request.uniqueIds = {
+                         AvailFor: 'L'
+                     };
+                     break;
+             }
+         }
+     };
+
     generateRow($control, $generatedtr) {
         var $form = $control.closest('.fwform');
 
@@ -247,7 +276,7 @@
                 }, null, null);
             }
         }
-    };
+     };
 }
 
 FwApplicationTree.clickEvents['{77E511EC-5463-43A0-9C5D-B54407C97B15}'] = function (e) {

@@ -2,6 +2,33 @@ var OrderItemGrid = (function () {
     function OrderItemGrid() {
         this.Module = 'OrderItemGrid';
         this.apiurl = 'api/v1/orderitem';
+        this.beforeValidateItem = function ($browse, $grid, request, datafield, $tr) {
+            var rate = $tr.find('div[data-browsedatafield="RecType"] input.value').val();
+            if (rate !== null) {
+                switch (rate) {
+                    case 'R':
+                        request.uniqueIds = {
+                            AvailFor: 'R'
+                        };
+                        break;
+                    case 'S':
+                        request.uniqueIds = {
+                            AvailFor: 'S'
+                        };
+                        break;
+                    case 'M':
+                        request.uniqueIds = {
+                            AvailFor: 'M'
+                        };
+                        break;
+                    case 'L':
+                        request.uniqueIds = {
+                            AvailFor: 'L'
+                        };
+                        break;
+                }
+            }
+        };
     }
     OrderItemGrid.prototype.onRowNewMode = function ($control, $tr) {
         var $form = $control.closest('.fwform');
