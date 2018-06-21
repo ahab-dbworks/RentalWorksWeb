@@ -80,3 +80,7 @@ sync_RentalWorksWeb_to_TrakItWorksWeb\.ps1\.log
 /src/TrakItWorksWeb/theme/fwcursors/*
 /src/TrakItWorksWeb/theme/fwfonts/*
 /src/TrakItWorksWeb/theme/fwimages/*
+
+src/RentalWorksWebApi/\.local-chromium/
+
+src/RentalWorksWebApi/wwwroot/temp/

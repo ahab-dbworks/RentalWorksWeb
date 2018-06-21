@@ -44,7 +44,6 @@ var Program = (function (_super) {
         if (applicationConfig.debugMode) {
             me.forceReloadCss();
         }
-        FastClick.attach(document.body);
         me.setScanTarget('#scanBarcodeView-txtBarcodeData');
         me.onBarcodeData = function (barcode, barcodeType) {
             if (typeof me.onScanBarcode === 'function') {

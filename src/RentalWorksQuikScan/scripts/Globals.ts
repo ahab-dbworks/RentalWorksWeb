@@ -25,6 +25,7 @@ declare var RwSelectPhyInv:        any;
 declare var RwQuoteMenu:           any;
 declare var RwQuote:               any;
 declare var RwRoutes:              any;
+declare var RwServices:            any;
 declare var RwRFID:                any;
 declare var TimeLog:               any;
 declare var ReceiveOnSet:          any;

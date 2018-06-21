@@ -34,10 +34,13 @@ namespace WebApi.Modules.Home.Contract
         //------------------------------------------------------------------------------------ 
         // GET api/v1/contract/A0000001 
         [HttpGet("{id}")]
+        [ProducesResponseType(200, Type = typeof(ContractLogic))]
+        [ProducesResponseType(404)]
         public async Task<IActionResult> GetAsync([FromRoute]string id)
         {
             return await DoGetAsync<ContractLogic>(id, typeof(ContractLogic));
         }
+
         //------------------------------------------------------------------------------------ 
         // POST api/v1/contract 
         [HttpPost]

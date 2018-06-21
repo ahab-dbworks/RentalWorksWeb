@@ -1,0 +1,230 @@
+/*@import url('https://fonts.googleapis.com/css?family=Lato|Roboto|Open+Sans');*/
+html {
+  height: 100%; }
+
+body {
+  font-family: Arial, sans-serif;
+  /*font-family: 'Roboto', sans-serif;*/
+  font-size: 12px;
+  height: 100%; }
+
+@media only screen {
+  .parameters {
+    display: block; } }
+
+@media only print {
+  .parameters {
+    display: none; } }
+
+.flexfield-50 {
+  display: flex;
+  height: 16px;
+  line-height: 16px; }
+  .flexfield-50 .caption {
+    flex: 0 0 50px;
+    height: 16px;
+    line-height: 16px;
+    font-size: 1em;
+    font-weight: bold;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis; }
+  .flexfield-50 .value {
+    flex: 1 1 0;
+    height: 16px;
+    line-height: 16px;
+    font-size: 1em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis; }
+
+.flexfield-75 {
+  display: flex;
+  height: 16px;
+  line-height: 16px; }
+  .flexfield-75 .caption {
+    flex: 0 0 75px;
+    height: 16px;
+    line-height: 16px;
+    font-size: 1em;
+    font-weight: bold;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis; }
+  .flexfield-75 .value {
+    flex: 1 1 0;
+    height: 16px;
+    line-height: 16px;
+    font-size: 1em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis; }
+
+.flexfield-85 {
+  display: flex;
+  height: 16px;
+  line-height: 16px; }
+  .flexfield-85 .caption {
+    flex: 0 0 85px;
+    height: 16px;
+    line-height: 16px;
+    font-size: 1em;
+    font-weight: bold;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis; }
+  .flexfield-85 .value {
+    flex: 1 1 0;
+    height: 16px;
+    line-height: 16px;
+    font-size: 1em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis; }
+
+.flexfield-150 {
+  display: flex;
+  height: 16px;
+  line-height: 16px; }
+  .flexfield-150 .caption {
+    flex: 0 0 150px;
+    height: 16px;
+    line-height: 16px;
+    font-size: 1em;
+    font-weight: bold;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis; }
+  .flexfield-150 .value {
+    flex: 1 1 0;
+    height: 16px;
+    line-height: 16px;
+    font-size: 1em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis; }
+
+.label {
+  height: 16px;
+  line-height: 16px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 1em; }
+
+.BillingStartDate {
+  text-align: center;
+  border-bottom: 1px solid #000000;
+  padding: 40px 0 0 0; }
+
+.IssuedTo .IssuedToCaption {
+  text-align: center;
+  border-bottom: 1px solid #000000;
+  font-size: 1em;
+  font-weight: bold; }
+
+.IssuedTo .add1, .IssuedTo .add2, .IssuedTo .add3 {
+  height: 16px;
+  line-height: 16px;
+  font-size: 1em; }
+
+.IssuedTo .phone {
+  margin: 20px 0 0 0; }
+
+#tblRentalItems {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0 0 0; }
+  #tblRentalItems colgroup .ICode {
+    width: 150px; }
+  #tblRentalItems colgroup .Description {
+    width: 100%; }
+  #tblRentalItems colgroup .QtyOrdered {
+    width: 100px; }
+  #tblRentalItems colgroup .Out {
+    width: 100px; }
+  #tblRentalItems colgroup .TotalOut {
+    width: 100px; }
+  #tblRentalItems thead tr.columnheadings th {
+    font-weight: bold;
+    padding: 5px;
+    white-space: nowrap;
+    border-top: 1px solid #000000;
+    border-bottom: 1px solid #000000; }
+  #tblRentalItems thead tr.columnheadings .ICode {
+    border-left: 1px solid #000000;
+    text-align: left; }
+  #tblRentalItems thead tr.columnheadings .Description {
+    width: 100%;
+    text-align: left; }
+  #tblRentalItems thead tr.columnheadings .QtyOrdered {
+    width: 150px;
+    text-align: right; }
+  #tblRentalItems thead tr.columnheadings .Out {
+    width: 150px;
+    text-align: right; }
+  #tblRentalItems thead tr.columnheadings .TotalOut {
+    width: 150px;
+    text-align: right;
+    border-right: 1px solid #000000; }
+  #tblRentalItems thead tr.caption {
+    text-align: center;
+    font-size: 1.5em;
+    font-weight: bold; }
+  #tblRentalItems tbody td {
+    white-space: nowrap;
+    padding: 2px 5px;
+    font-size: .9em; }
+  #tblRentalItems tbody .QtyOrdered {
+    text-align: right; }
+  #tblRentalItems tbody .Out {
+    text-align: right; }
+  #tblRentalItems tbody .TotalOut {
+    text-align: right; }
+
+#pagecontainer {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  max-width: 768px; }
+  #pagecontainer #pageHeader {
+    flex: 0 0 auto; }
+  #pagecontainer #contractHeader {
+    flex: 0 0 auto; }
+  #pagecontainer #rentalItems {
+    flex: 1 1 1px; }
+  #pagecontainer #receivedBy {
+    flex: 0 0 auto; }
+  #pagecontainer #pageFooter {
+    flex: 0 0 auto;
+    margin: 16px 0 0 0; }
+
+@media screen {
+  #pagecontainer #header, #pagecontainer #footer {
+    width: auto !important; } }
+
+@media print {
+  #pagecontainer #pageHeader {
+    display: none; }
+  #pagecontainer #pageFooter {
+    display: none; } }
+
+fieldset {
+  border: 1px solid #000000;
+  height: 200px; }
+  fieldset legend {
+    text-align: center;
+    font-weight: bold; }
+
+.receivedbyfield {
+  width: 150px;
+  page-break-inside: avoid; }
+  .receivedbyfield .value {
+    border-bottom: 1px solid #000000;
+    white-space: nowrap; }
+  .receivedbyfield .caption {
+    white-space: nowrap; }

@@ -46,7 +46,7 @@ class Program extends FwApplication {
         if (applicationConfig.debugMode) {
             me.forceReloadCss();
         }
-        FastClick.attach(document.body);
+        //FastClick.attach(document.body);
         
         me.setScanTarget('#scanBarcodeView-txtBarcodeData');
         me.onBarcodeData = function(barcode, barcodeType) {

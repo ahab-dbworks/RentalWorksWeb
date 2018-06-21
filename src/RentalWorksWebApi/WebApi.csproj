@@ -10,6 +10,7 @@
     <FwApplicationDirectory>$(AppSolutionDir)\src\RentalWorksWebApi</FwApplicationDirectory>
     <AssemblyName>WebApi</AssemblyName>
     <RootNamespace>WebApi</RootNamespace>
+    <TypeScriptToolsVersion>2.8</TypeScriptToolsVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -23,13 +24,38 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="wwwroot\NewFolder\**" />
+    <Content Remove="wwwroot\NewFolder\**" />
+    <EmbeddedResource Remove="wwwroot\NewFolder\**" />
+    <None Remove="wwwroot\NewFolder\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Remove="appsettings.Development.json" />
     <Content Remove="appsettings.json" />
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="Modules\Reports\ContractReport\index.html" />
+    <None Remove="Modules\Reports\ContractReport\script.ts" />
+    <None Remove="Modules\Reports\ContractReport\style.scss" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Modules\Reports\ContractReport\index.html">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <TypeScriptCompile Include="Modules\Reports\ContractReport\script.ts">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </TypeScriptCompile>
+    <Content Include="Modules\Reports\ContractReport\style.scss">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="Modules\Administrator\Designer\Services\" />
-    <Folder Include="Modules\Reports\" />
+    <Folder Include="wwwroot\lib\" />
     <Folder Include="wwwroot\temp\downloads\" />
   </ItemGroup>
   <ItemGroup>
@@ -55,6 +81,9 @@
     <ProjectReference Include="..\..\lib\Fw\src\FwStandard\FwStandard.csproj" />
     <ProjectReference Include="..\RentalWorksWebLibrary\WebLibrary.csproj" />
   </ItemGroup>
+  <Target Name="MyPreCompileTarget" BeforeTargets="Build">
+    <Exec Command="npm run gulp" />
+  </Target>
   <!--copies the Xml documentation file-->
   <Target Name="CopyDocumentationFile" AfterTargets="ComputeFilesToPublish">
     <ItemGroup>

@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Contract Report</title>
+  <link type="text/css" rel="stylesheet" href="style.css" />
+
+  <!-- Please note that the script tags below contain HTML templates for the library Handlebars which renders an object onto an html template -->
+  
+  <!-- Chrome will only use inline styles in the PDF Header template -->
+  <script id="headerTemplate" type="text/html">
+    <div id="header" style="width:768px; height: auto; box-sizing: border-box; overflow: hidden; font-size: 12px; display:flex;">
+      <div style="flex:0 0 140px">
+
+      </div>
+      <div style="flex: 1 1 0; font-size: 18px; text-align: center; font-weight: bold; white-space: nowrap;">OUT CONTRACT</div>
+      <div style="flex: 0 0 140px">
+        <div style="display:flex;">
+          <div style="flex: 0 0 40px; font-weight: bold; height:2em; line-height:2em;">No:</div>
+          <div style="flex: 1 1 0; border:1px solid #000000; height:2em; line-height:2em; box-sizing: border-box; text-align: center; white-space:nowrap;">{{ContractNumber}}</div>
+        </div>
+        <div style="display:flex;">
+          <div style="flex: 0 0 40px; font-weight: bold;">Date:</div>
+          <div style="flex: 1 1 0; white-space:nowrap;">{{ContractDate}}</div>
+        </div>
+        <div style="display:flex;">
+          <div style="flex: 0 0 40px; font-weight: bold;">Time:</div>
+          <div style="flex: 1 1 0; white-space:nowrap;">{{ContractTime}}</div>
+        </div>
+      </div>
+
+    </div>
+  </script>
+
+  <script id="outContractView" type="text/html">
+    <div style="display:flex;">
+      <div style="flex:1 1 0;">
+        <div>
+          <div class="label">{{Deal}}</div>
+          <div class="label">{{DealObj.BillToAddress1}}</div>
+          <div class="label">{{DealObj.BillToAddress2}}</div>
+          <div class="label">{{DealObj.City}}, {{DealObj.State}} {{DealObj.ZipCode}}</div>
+        </div>
+        <div class="flexfield-50">
+          <div class="caption">Phone:</div>
+          <div class="value">{{DealObj.Phone}}</div>
+        </div>
+        <div class="flexfield-50">
+          <div class="caption">Fax:</div>
+          <div class="value">{{DealObj.Fax}}</div>
+        </div>
+      </div>
+      <div style="flex:1 1 0;">
+        <div class="flexfield-85">
+          <div class="caption">Order No:</div>
+          <div class="value">{{a}}</div>
+        </div>
+        <div class="flexfield-85">
+          <div class="caption">Description:</div>
+          <div class="value">{{OrderDescription}}</div>
+        </div>
+        <div class="flexfield-85">
+          <div class="caption">Deal:</div>
+          <div class="value">{{Deal}}</div>
+        </div>
+        <div class="flexfield-85">
+          <div class="caption">PO No:</div>
+          <div class="value">{{PurchaseOrderNumber}}</div>
+        </div>
+        <div style="display:flex;">
+          <div style="flex:0 0 100px; font-weight:bold;">Terms:</div>
+          <div style="flex:1 1 0;">{{DealObj.PaymentTerms}}</div>
+          <div style="flex:0 0 100px; font-weight:bold;">Billing Cycle:</div>
+          <div style="flex:1 1 0;">{{DealObj.BillingCycle}}</div>
+        </div>
+      </div>
+    </div>
+    <div class="BillingStartDate"><span style="font-weight:bold;">Billing Start Date:</span> {{BillingDate}}</div>
+    <div style="display:flex;">
+      <div class="IssuedTo" style="flex: 1 1 0; padding: 0 50px 0 0;">
+        <div class="IssuedToCaption">Issued To</div>
+        <div class="add1">{{a}}</div>
+        <div class="add2">{{a}}</div>
+        <div class="add3">{{a}}</div>
+        <div class="flexfield-75">
+          <div class="caption">Phone No:</div>
+          <div class="value">{{DealObj.Phone}}</div>
+        </div>
+        <div class="flexfield-75">
+          <div class="caption">Fax No:</div>
+          <div class="value">{{DealObj.Fax}}</div>
+        </div>
+      </div>
+      <div style="flex: 1 1 0;">
+        <div class="flexfield-150">
+          <div class="caption" style="flex-basis:150px;">Usage Period:</div>
+          <div class="value">{{a}}</div>
+        </div>
+        <div class="flexfield-150">
+          <div class="caption" style="flex-basis:150px;">Billing Period:</div>
+          <div class="value">{{a}}</div>
+        </div>
+        <div class="flexfield-150">
+          <div class="caption" style="flex-basis:150px;">Agent:</div>
+          <div class="value">{{a}}</div>
+        </div>
+        <div class="flexfield-150">
+          <div class="caption" style="flex-basis:150px;">Email:</div>
+          <div class="value">{{a}}</div>
+        </div>
+      </div>
+    </div>
+  </script>
+
+  <script id="rentalItemsTemplate" type="text/html">
+    <table id="tblRentalItems">
+      <colgroup>
+        <col class="ICode">
+        <col class="Description">
+        <col class="QtyOrdered">
+        <col class="Out">
+        <col class="TotalOut">
+      </colgroup>
+      <thead>
+        <tr class="columnheadings">
+          <th class="ICode">I-Code</th>
+          <th class="Description">Description</th>
+          <th class="QtyOrdered">Qty Ordered</th>
+          <th class="Out">Out</th>
+          <th class="TotalOut">Total Out</th>
+        </tr>
+        <tr class="caption">
+          <th colspan="5">RENTAL</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each RentalItems}}
+        <tr>
+          <td class="ICode">{{ICode}}</td>
+          <td class="Description">{{Description}}</td>
+          <td class="QtyOrdered">{{QtyOrdered}}</td>
+          <td class="Out">{{Out}}</td>
+          <td class="TotalOut">{{TotalOut}}</td>
+        </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  </script>
+
+  <script id="receivedByTemplate" type="text/html">
+    <fieldset>
+      <legend>RECEIVED BY</legend>
+      <div>
+        <div style="display:flex">
+          <div class="receivedbyfield">
+            <div class="value"><img src="{{a}}" /></div>
+            <div class="caption">SIGNATURE</div>
+          </div>
+          <div class="receivedbyfield">
+            <div class="value">{{a}}</div>
+            <div class="caption">PRINT NAME</div>
+          </div>
+        </div>
+        <div>
+          <div class="receivedbyfield">
+            <div class="value">{{a}}</div>
+            <div class="caption">DATE</div>
+          </div>
+        </div>
+      </div>
+    </fieldset>
+  </script>
+
+  <!-- Only use inline styles in the footerTemplate -->
+  <script id="footerTemplate" type="text/html">
+    <div id="footer" style="width:768px; height:auto; box-sizing: border-box; font-size:9px; display:flex;">
+      <div style="flex:0 0 140px"></div>
+      <div style="flex: 1 1 0; text-align:center; font-size:12px; font-weight:bold;">{{ContractNumber}}</div>
+      <div style="flex:0 0 140px; text-align:right;">Page <span class="pageNumber"></span> of <span class="totalPages"></span></div>
+    </div>
+  </script>
+
+</head>
+<body>
+  <div id="pagecontainer">
+    <div id="pageHeader"></div>
+    <div id="contractHeader"></div>
+    <div id="rentalItems"></div>
+    <div id="receivedBy"></div>
+    <div id="pageFooter"></div>
+  </div>
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.11/handlebars.js"></script>
+  <!--<script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>-->
+  <script src="script.js"></script>
+</body>
+</html>

@@ -48,9 +48,13 @@ namespace FwCore.Controllers
             if (!System.IO.File.Exists(path)) return Content("The requested file does not exist on the server.");
             var ext = Path.GetExtension(path).ToLowerInvariant();
             var contentType = "";
-            if (whitelistFileName.EndsWith("_xlsx"))
+            if (whitelistFileName.EndsWith("_xlsx") || whitelistFileName.EndsWith(".xlsx"))
             {
                 contentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+            }
+            else if (whitelistFileName.EndsWith("_html") || whitelistFileName.EndsWith(".html"))
+            {
+                contentType = "text/html";
             }
             else
             {

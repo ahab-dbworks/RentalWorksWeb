@@ -27,10 +27,10 @@
       "es7"
     ]
   },
-  "exclude": [
-    "node_modules",
-    "wwwroot"
-  ],
+  //"exclude": [
+  //  "node_modules",
+  //  "wwwroot"
+  //],
   "include": [
     "Libraries/**/*.ts",
     "scripts/**/*.ts",
