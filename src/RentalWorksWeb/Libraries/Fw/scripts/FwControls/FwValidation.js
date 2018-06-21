@@ -253,6 +253,7 @@ FwValidation.init = function ($control) {
             FwFunc.showError(ex);
         }
     });
+
     $control.find('.btnpeek').on('click', function () {
         try {
             FwValidation.validationPeek($control, validationName.slice(0, -10), $valuefield.val(), $valuefield.parent().parent().attr('data-datafield'), $object, $searchfield.val());

@@ -278,13 +278,15 @@
             })
             .on('change', '.runtime thead .search > input', function (e) { // Runtime: Enter a search text into a columns searchbox
                 try {
-                    var $this = jQuery(this);
-                    if ($this.val() === '') {
-                        $this.siblings('.searchclear').removeClass('visible');
-                    } else if ($this.val() !== '') {
-                        $this.siblings('.searchclear').addClass('visible');
+                    if (($control.attr('data-type') != 'Validation') || (jQuery('html').hasClass('mobile'))) {
+                        var $this = jQuery(this);
+                        if ($this.val() === '') {
+                            $this.siblings('.searchclear').removeClass('visible');
+                        } else if ($this.val() !== '') {
+                            $this.siblings('.searchclear').addClass('visible');
+                        }
+                        FwBrowse.search($control);
                     }
-                    FwBrowse.search($control);
                 } catch (ex) {
                     FwFunc.showError(ex);
                 }
@@ -320,7 +322,6 @@
                 } catch (ex) {
                     FwFunc.showError(ex);
                 }
-<<<<<<< develop
             })
             .on('click', 'tbody .browsecontextmenu', function () {
                 try {
@@ -365,8 +366,6 @@
                 } catch (ex) {
                     FwFunc.showError(ex);
                 }
-=======
->>>>>>> Auto-save grid Set OrderItemGrid data-refreshaftersave="true"
             });
 
         //Events only attached when the API is not defined for the control.
@@ -1233,47 +1232,29 @@
                             var $rowactions = FwGridMenu.addSubMenuGroup($submenucolumn, 'Actions', '');
                             if (nodeDeleteAction !== null && nodeDeleteAction.properties['visible'] === 'T') {
                                 var $submenuitem = FwGridMenu.addSubMenuBtn($rowactions, 'Delete Selected', nodeDeleteAction.id);
-<<<<<<< develop
-                                $submenuitem.on('click', function () {
+                                $submenuitem.on('click', function (e: JQuery.Event) {
                                     if ($browse.attr('data-enabled') !== 'false') {
                                         try {
-                                            var $trs = $control.find('.cbselectrow:checked');
-                                            if ($trs.length === 0) {
+                                            e.stopPropagation();
+                                            var $selectedCheckBoxes = $control.find('.cbselectrow:checked');
+                                            if ($selectedCheckBoxes.length === 0) {
                                                 FwFunc.showMessage('Select one or more rows to delete!');
                                             } else {
-                                                var $confirmation = FwConfirmation.yesNo('Delete Record' + ($trs.length > 1 ? 's' : ''), 'Delete ' + $trs.length + ' record' + ($trs.length > 1 ? 's' : '') + '?', function onyes() {
-                                                    $trs.each(function (index, element) {
-                                                        try {
-                                                            var $tr = jQuery(this).closest('tr');
-                                                            FwBrowse.deleteRecord($control, $tr);
-                                                        } catch (ex) {
-                                                            FwFunc.showError(ex);
+                                                var $confirmation = FwConfirmation.yesNo('Delete Record' + ($selectedCheckBoxes.length > 1 ? 's' : ''), 'Delete ' + $selectedCheckBoxes.length + ' record' + ($selectedCheckBoxes.length > 1 ? 's' : '') + '?', function onyes() {
+                                                    try {
+                                                        let lastCheckBoxIndex = $selectedCheckBoxes.length - 1;
+                                                        for (let i = 0; i < $selectedCheckBoxes.length; i++) {
+                                                            let $tr = $selectedCheckBoxes.eq(i).closest('tr');
+                                                            FwBrowse.deleteRecord($control, $tr, i === lastCheckBoxIndex);
                                                         }
-                                                    });
+                                                    } catch (ex) {
+                                                        FwFunc.showError(ex);
+                                                    }
                                                 }, function onno() { });
+                                                    
                                             }
                                         } catch (ex) {
                                             FwFunc.showError(ex);
-=======
-                                $submenuitem.on('click', function (e: JQuery.Event) {
-                                    try {
-                                        e.stopPropagation();
-                                        var $selectedCheckBoxes = $control.find('.cbselectrow:checked');
-                                        if ($selectedCheckBoxes.length === 0) {
-                                            FwFunc.showMessage('Select one or more rows to delete!');
-                                        } else {
-                                            var $confirmation = FwConfirmation.yesNo('Delete Record' + ($selectedCheckBoxes.length > 1 ? 's' : ''), 'Delete ' + $selectedCheckBoxes.length + ' record' + ($selectedCheckBoxes.length > 1 ? 's' : '') + '?', function onyes() {
-                                                try {
-                                                    let lastCheckBoxIndex = $selectedCheckBoxes.length - 1;
-                                                    for (let i = 0; i < $selectedCheckBoxes.length; i++) {
-                                                        let $tr = $selectedCheckBoxes.eq(i).closest('tr');
-                                                        FwBrowse.deleteRecord($control, $tr, i === lastCheckBoxIndex);
-                                                    }
-                                                } catch (ex) {
-                                                    FwFunc.showError(ex);
-                                                }
-                                            }, function onno() { });
->>>>>>> Auto-save grid Set OrderItemGrid data-refreshaftersave="true"
                                         }
                                     } else {
                                         FwFunc.showMessage('This grid is disabled.');
@@ -1709,7 +1690,7 @@
                             if (typeof dt.ColumnIndex[cellcolor] !== 'number') {
                                 throw 'FwBrowse.databindcallback: cellcolor: "column ' + cellcolor + '" was not returned by the web service.';
                             }
-                            var css = {
+                            let css = {
                                 'position': 'relative',
                                 'border-top-color': dtRow[dt.ColumnIndex[cellcolor]],
                                 'border-top-style': 'none',
@@ -1718,6 +1699,37 @@
                             $td.addClass('cellColor').css(css);
                         }
                     }
+
+                    var halfcellcolor = $field.attr('data-halfcellcolor');
+                    if (typeof halfcellcolor !== 'undefined') {
+                        $td.children().css('padding-left', '10px');
+                        if ((halfcellcolor.length > 0) && ((dtRow[dt.ColumnIndex[halfcellcolor]]) !== null) && ((dtRow[dt.ColumnIndex[halfcellcolor]]) != "")) {
+                            if (typeof dt.ColumnIndex[halfcellcolor] !== 'number') {
+                                throw 'FwBrowse.databindcallback: halfcellcolor: "column ' + halfcellcolor + '" was not returned by the web service.';
+                            }
+                            let css = {
+                                'position': 'relative',
+                                'background': 'linear-gradient(to bottom, ' + dtRow[dt.ColumnIndex[halfcellcolor]] + ', rgba(255, 255, 255, 0)50%)'
+                            };
+                            $td.css(css);
+                        }
+                    }
+
+                    var fullcellcolor = $field.attr('data-fullcellcolor');
+                    if (typeof fullcellcolor !== 'undefined') {
+                        $td.children().css('padding-left', '10px');
+                        if ((fullcellcolor.length > 0) && ((dtRow[dt.ColumnIndex[fullcellcolor]]) !== null) && ((dtRow[dt.ColumnIndex[fullcellcolor]]) != "")) {
+                            if (typeof dt.ColumnIndex[fullcellcolor] !== 'number') {
+                                throw 'FwBrowse.databindcallback: fullcellcolor: "column ' + fullcellcolor + '" was not returned by the web service.';
+                            }
+                            let css = {
+                                'position': 'relative',
+                                'background': 'linear-gradient(to bottom, ' + dtRow[dt.ColumnIndex[fullcellcolor]] + ', rgba(255, 255, 255, 0))'
+                            }
+                            $td.css(css);
+                        }
+                    }
+
                     var browsecellbackgroundcolorfield = $field.attr('data-browsecellbackgroundcolorfield');
                     if ((typeof browsecellbackgroundcolorfield !== 'undefined') && (browsecellbackgroundcolorfield.length > 0)) {
                         if (typeof dt.ColumnIndex[browsecellbackgroundcolorfield] !== 'number') {
@@ -1870,8 +1882,8 @@
                 });
                 $control.find('tbody tr .editablefield').on('click', function (e) {
                     try {
-                        var $td = jQuery(this);
-                        var $tr = $td.closest('tr');
+                        var $field = jQuery(this);
+                        var $tr = $field.closest('tr');
                         if (!$tr.hasClass('selected')) {
                             FwBrowse.selectRow($control, $tr, true);
                             if (typeof $control.data('onselectedrowchanged') === 'function') {
@@ -1880,7 +1892,7 @@
                         }
                         if ($control.attr('data-type') === 'Grid' && $control.attr('data-enabled') !== 'false' && !$tr.hasClass('editmode')) {
                             FwBrowse.setRowEditMode($control, $tr);
-                            $td.find('.value').focus();
+                            $field.find('.value').focus();
                         }
                     } catch (ex) {
                         FwFunc.showError(ex);

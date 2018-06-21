@@ -21,11 +21,8 @@ var FwOverlay = (function () {
     };
     FwOverlay.showProgressBarOverlay = function ($appendToElement, progressBarSessionId) {
         var html, $moduleoverlay, maxZIndex, progressCompleted, caption, percentage, handle, currentStep, totalSteps, fullurl;
-<<<<<<< develop
         currentStep = 100;
         totalSteps = 100;
-=======
->>>>>>> Updates Fw
         var request = {};
         var url = "api/v1/progressmeter/" + progressBarSessionId;
         fullurl = applicationConfig.apiurl + url;
@@ -52,7 +49,6 @@ var FwOverlay = (function () {
         handle = setInterval(function () {
             jQuery.ajax(ajaxOptions)
                 .done(function (response) {
-<<<<<<< develop
                 try {
                     if (isNaN(response.CurrentStep) || undefined) {
                         caption = 'Processing...';
@@ -76,17 +72,6 @@ var FwOverlay = (function () {
                 catch (ex) {
                     console.log('showProgressBarOverlay error: ', ex);
                 }
-=======
-                caption = response.Caption;
-                currentStep = response.CurrentStep;
-                totalSteps = response.TotalSteps;
-                percentage = Math.floor((currentStep / totalSteps) * 100);
-                $moduleoverlay.find('progress').val(currentStep);
-                $moduleoverlay.find('progress').attr('max', totalSteps);
-                $moduleoverlay.find('.progress_bar_text').text(percentage + "%");
-                $moduleoverlay.find('.progress_span').text(percentage + "%");
-                $moduleoverlay.find('.progress_bar_caption').text(caption);
->>>>>>> Updates Fw
                 if (currentStep === totalSteps) {
                     progressCompleted = true;
                     if (progressCompleted) {

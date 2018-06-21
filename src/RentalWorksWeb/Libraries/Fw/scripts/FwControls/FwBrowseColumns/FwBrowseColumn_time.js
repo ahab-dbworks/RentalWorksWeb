@@ -4,12 +4,6 @@ FwBrowseColumn_time.databindfield = function ($browse, $field, dt, dtRow, $tr) {
 
 };
 //---------------------------------------------------------------------------------
-<<<<<<< develop
-FwBrowseColumn_time.getFieldValue = function ($browse, $tr, $field, field, originalvalue) {
-    if (($tr.hasClass('editmode')) || ($tr.hasClass('newmode'))) {
-        field.value = $field.find('input.value').val();
-    }
-=======
 FwBrowseColumn_time.getFieldValue = function($browse, $tr, $field, field, originalvalue) {
     if (($tr.hasClass('editmode')) || ($tr.hasClass('newmode'))) {
         var $value = $field.find('input.value');
@@ -29,11 +23,10 @@ FwBrowseColumn_time.isModified = function ($browse, $tr, $field) {
         isModified = currentValue !== originalValue;
     }
     return isModified;
->>>>>>> Updates Fw
 };
 //---------------------------------------------------------------------------------
-FwBrowseColumn_time.setFieldViewMode = function ($browse, $field, $tr, html) {
-    var originalvalue = (typeof $field.attr('data-originalvalue') === 'string') ? $field.attr('data-originalvalue') : '';
+FwBrowseColumn_time.setFieldViewMode = function($browse, $field, $tr, html) {
+    var originalvalue = (typeof $field.attr('data-originalvalue')  === 'string') ? $field.attr('data-originalvalue') : '';
     $field.html(originalvalue);
 };
 //---------------------------------------------------------------------------------

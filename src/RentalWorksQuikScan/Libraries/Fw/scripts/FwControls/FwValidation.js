@@ -46,9 +46,9 @@ FwValidation.init = function ($control) {
     //$validationbrowse.attr('data-name', validationName);
     $validationbrowse.data('ondatabind', function (request) {
         var $btnvalidate = $validationbrowse.data('$btnvalidate');
+        var $tr = $btnvalidate.closest('tr');
         request.module = validationName;
         if ($object.attr('data-type') === 'Grid') {
-            var $tr = $btnvalidate.closest('tr');
             var datafields = FwBrowse.getRowFormDataFields($object, $tr, false);
             request.filterfields = {};
             for (var key in datafields) {
@@ -66,26 +66,26 @@ FwValidation.init = function ($control) {
 
         if (typeof $control.data('beforevalidate') === 'function') {
             if ($object.attr('data-type') === 'Grid') {
-                $control.data('beforevalidate')($validationbrowse, $object.closest('.fwform'), request, $control.attr('data-formdatafield'));
+                $control.data('beforevalidate')($validationbrowse, $object.closest('.fwform'), request, $control.attr('data-formdatafield'), $tr);
             } else {
-                $control.data('beforevalidate')($validationbrowse, $object, request, $control.attr('data-datafield'));
+                $control.data('beforevalidate')($validationbrowse, $object, request, $control.attr('data-datafield'), $tr);
             }
         }
         // This was the old way: if you define a data-formbeforevalidate data-attribute on the validation it will call that method instead.
         else if ((typeof controller === 'string') && (typeof window[controller] !== 'undefined') && (typeof window[controller][formbeforevalidate] === 'function')) {
             if ($object.attr('data-type') === 'Grid') {
-                window[controller][formbeforevalidate]($validationbrowse, $object.closest('.fwform'), request, $control.attr('data-formdatafield'));
+                window[controller][formbeforevalidate]($validationbrowse, $object.closest('.fwform'), request, $control.attr('data-formdatafield'), $tr);
             } else {
-                window[controller][formbeforevalidate]($validationbrowse, $object, request, $control.attr('data-datafield'));
+                window[controller][formbeforevalidate]($validationbrowse, $object, request, $control.attr('data-datafield'), $tr);
             }
         }
         // The new way: you declare the following function in your Module or Grid controller
         // beforeValidate(datafield: String, request: any, $validationbrowse: JQuery, $form: JQuery) { }
         else if ((typeof $object.attr('data-name') === 'string') && (typeof window[$object.attr('data-name') + 'Controller'] !== 'undefined') && (typeof window[$object.attr('data-name') + 'Controller']['beforeValidate'] === 'function')) {
             if ($object.attr('data-type') === 'Grid') {
-                window[$object.attr('data-name') + 'Controller']['beforeValidate']($control.attr('data-datafield'), request, $validationbrowse, $object.closest('.fwform'));
+                window[$object.attr('data-name') + 'Controller']['beforeValidate']($control.attr('data-datafield'), request, $validationbrowse, $object.closest('.fwform'), $tr);
             } else {
-                window[$object.attr('data-name') + 'Controller']['beforeValidate']($control.attr('data-datafield'), request, $validationbrowse, $object);
+                window[$object.attr('data-name') + 'Controller']['beforeValidate']($control.attr('data-datafield'), request, $validationbrowse, $object, $tr);
             }
         }
     });
@@ -241,6 +241,19 @@ FwValidation.init = function ($control) {
             FwFunc.showError(ex);
         }
     });
+
+    $validationbrowse.find('input[type="text"]').on('keydown', function (e) {
+        var code = e.keyCode || e.which;
+        try {
+            if (code === 13) { //Enter Key
+                FwValidation.validate(validationName, $valuefield, $searchfield, $btnvalidate, $validationbrowse, false);
+                e.preventDefault();
+            }
+        } catch (ex) {
+            FwFunc.showError(ex);
+        }
+    });
+
     $control.find('.btnpeek').on('click', function () {
         try {
             FwValidation.validationPeek($control, validationName.slice(0, -10), $valuefield.val(), $valuefield.parent().parent().attr('data-datafield'), $object, $searchfield.val());
