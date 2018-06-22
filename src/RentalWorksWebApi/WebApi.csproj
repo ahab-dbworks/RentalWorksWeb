@@ -82,6 +82,7 @@
     <ProjectReference Include="..\RentalWorksWebLibrary\WebLibrary.csproj" />
   </ItemGroup>
   <Target Name="MyPreCompileTarget" BeforeTargets="Build">
+    <Exec Command="npm install" />
     <Exec Command="npm run gulp" />
   </Target>
   <!--copies the Xml documentation file-->
