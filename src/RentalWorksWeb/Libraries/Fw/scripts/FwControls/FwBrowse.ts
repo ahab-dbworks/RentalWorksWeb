@@ -545,6 +545,11 @@
         return rowcount;
     }
     //---------------------------------------------------------------------------------
+    static getTotalRowCount($control: JQuery) {
+        let totalRowCount = $control.data('totalRowCount');
+        return totalRowCount;
+    }
+    //---------------------------------------------------------------------------------
     /** Select the prev row in the browse control. This will load the previous page if necessary.
         @param {object} $control - The browse control
     */
@@ -1631,13 +1636,14 @@
     }
     //---------------------------------------------------------------------------------
     static databindcallback($control, dt) {
-        var i, $tbody, htmlPager, columnIndex, dtCol, rowIndex, scrollerCol, rowClass, columns, onrowdblclick, $ths, $pager, pageSize, controlType, $fields;
+        var i, $tbody, htmlPager, columnIndex, dtCol, rowIndex, scrollerCol, rowClass, columns, onrowdblclick, $ths, $pager, pageSize, totalRowCount, controlType, $fields;
         try {
             //FwOverlay.hideOverlay($control);
 
             FwBrowse.setGridBrowseMode($control);
             pageSize = FwBrowse.getPageSize($control);
             FwBrowse.setTotalPages($control, dt.TotalPages);
+            totalRowCount = $control.data('totalRowCount', dt.TotalRows);
 
             var nodeModule = FwApplicationTree.getNodeByController($control.attr('data-controller'));
             var nodeEdit = FwApplicationTree.getNodeByFuncRecursive(nodeModule, {}, function (node, args2) {

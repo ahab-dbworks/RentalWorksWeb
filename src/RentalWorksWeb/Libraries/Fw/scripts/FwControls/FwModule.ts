@@ -155,34 +155,80 @@ class FwModule {
                                                                 $submenuitem = FwMenu.addSubMenuBtn($submenugroup, nodeSubMenuItem.properties.caption, nodeSubMenuItem.id);
                                                                 $submenuitem.on('click', function () {
                                                                     try {
+                                                                        let $confirmation, $yes, $no, totalNumberofRows, totalPages, pageSize, userDefinedNumberofRows;
                                                                         let module = window[controller].Module;
                                                                         let apiurl = window[controller].apiurl;
                                                                         let request = FwBrowse.getRequest($browse);
 
-                                                                        FwAppData.apiMethod(true, 'POST', `${apiurl}/exportexcelxlsx/${module}`, request, FwServices.defaultTimeout, function (response) {
-                                                                            try {
-                                                                                //var $a = jQuery('<a>download</a>');
-                                                                                //$a.attr('href', applicationConfig.apiurl + response.downloadUrl);
-                                                                                //$a.hide();
-                                                                                //jQuery('.application').append($a);
-                                                                                //setTimeout(function () {
-                                                                                //    $a.click();
-                                                                                //    $a.remove();
-                                                                                //}, 500);
+                                                                        $confirmation = FwConfirmation.renderConfirmation('Export to Excel Workbook', '');
+                                                                        $confirmation.find('.fwconfirmationbox').css('width', '450px');
+                                                                        totalNumberofRows = FwBrowse.getTotalRowCount($browse);
 
-                                                                                //var $iframe = jQuery('<iframe style="display:none;" />');
-                                                                                //jQuery('.application').append($iframe);
-                                                                                //$iframe.attr('src', applicationConfig.apiurl + response.downloadUrl);
-                                                                                //setTimeout(function () {
-                                                                                //    $iframe.remove();
-                                                                                //}, 500);
+                                                                        let html = [];
+                                                                        html.push('<div class="fwform" data-controller="none" style="background-color: transparent;">');
+                                                                        html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
+                                                                        html.push('    <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield user-defined-records" data-caption="Enter number" data-datafield="" style="width:100px;float:left;"></div>');
+                                                                        html.push('  </div>');
+                                                                        html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
+                                                                        html.push(`    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield all-records" data-caption="Export all ${totalNumberofRows} Records" data-datafield="" style="float:left;width:100px;"></div>`);
+                                                                        html.push('  </div>');
+                                                                        html.push('</div>');
 
-                                                                                window.location.assign(applicationConfig.apiurl + response.downloadUrl);
-                                                                            } catch (ex) {
-                                                                                FwFunc.showError(ex);
+                                                                        FwConfirmation.addControls($confirmation, html.join(''));
+                                                                        $yes = FwConfirmation.addButton($confirmation, 'Export', false);
+                                                                        $no = FwConfirmation.addButton($confirmation, 'Cancel');
+
+                                                                        $confirmation.find('.user-defined-records input').val(request.pagesize);
+                                                                        userDefinedNumberofRows = +$confirmation.find('.user-defined-records input').val();
+
+                                                                        $confirmation.find('.all-records input').on('change', function () {
+                                                                            var $this = jQuery(this);
+                                                                            if ($this.prop('checked') === true) {
+                                                                                $confirmation.find('.user-defined-records input').val("");
+                                                                                FwFormField.disable($confirmation.find('.user-defined-records'));
                                                                             }
-                                                                        }, null, null);
-                                                                        FwNotification.renderNotification('INFO', 'Downloading Excel Workbook...');
+                                                                            else {
+                                                                                $confirmation.find('.user-defined-records input').val(request.pagesize);
+                                                                                FwFormField.enable($confirmation.find('.user-defined-records'));
+                                                                            }
+                                                                        });
+
+                                                                        $yes.on('click', () => {
+                                                                            if ($confirmation.find('.all-records input').prop('checked') === true) {
+                                                                                userDefinedNumberofRows = totalNumberofRows;
+                                                                            } else {
+                                                                                userDefinedNumberofRows = +$confirmation.find('.user-defined-records input').val();
+                                                                            }
+
+                                                                            request.pagesize = userDefinedNumberofRows
+
+                                                                            FwAppData.apiMethod(true, 'POST', `${apiurl}/exportexcelxlsx/${module}`, request, FwServices.defaultTimeout, function (response) {
+                                                                                try {
+                                                                                    //var $a = jQuery('<a>download</a>');
+                                                                                    //$a.attr('href', applicationConfig.apiurl + response.downloadUrl);
+                                                                                    //$a.hide();
+                                                                                    //jQuery('.application').append($a);
+                                                                                    //setTimeout(function () {
+                                                                                    //    $a.click();
+                                                                                    //    $a.remove();
+                                                                                    //}, 500);
+
+                                                                                    //var $iframe = jQuery('<iframe style="display:none;" />');
+                                                                                    //jQuery('.application').append($iframe);
+                                                                                    //$iframe.attr('src', applicationConfig.apiurl + response.downloadUrl);
+                                                                                    //setTimeout(function () {
+                                                                                    //    $iframe.remove();
+                                                                                    //}, 500);
+
+                                                                                    window.location.assign(applicationConfig.apiurl + response.downloadUrl);
+                                                                                } catch (ex) {
+                                                                                    FwFunc.showError(ex);
+                                                                                }
+                                                                            }, null, null);
+                                                                            FwConfirmation.destroyConfirmation($confirmation);
+
+                                                                            FwNotification.renderNotification('INFO', 'Downloading Excel Workbook...');
+                                                                        });
                                                                     } catch (ex) {
                                                                         FwFunc.showError(ex);
                                                                     }

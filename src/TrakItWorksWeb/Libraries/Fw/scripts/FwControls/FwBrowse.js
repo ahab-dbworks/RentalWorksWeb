@@ -497,6 +497,10 @@ var FwBrowse = (function () {
         var rowcount = $rows.length;
         return rowcount;
     };
+    FwBrowse.getTotalRowCount = function ($control) {
+        var totalRowCount = $control.data('totalRowCount');
+        return totalRowCount;
+    };
     FwBrowse.selectPrevRow = function ($control, afterrowselected) {
         var $selectedrow = FwBrowse.getSelectedRow($control);
         var pageno = FwBrowse.getPageNo($control);
@@ -1477,11 +1481,12 @@ var FwBrowse = (function () {
         }
     };
     FwBrowse.databindcallback = function ($control, dt) {
-        var i, $tbody, htmlPager, columnIndex, dtCol, rowIndex, scrollerCol, rowClass, columns, onrowdblclick, $ths, $pager, pageSize, controlType, $fields;
+        var i, $tbody, htmlPager, columnIndex, dtCol, rowIndex, scrollerCol, rowClass, columns, onrowdblclick, $ths, $pager, pageSize, totalRowCount, controlType, $fields;
         try {
             FwBrowse.setGridBrowseMode($control);
             pageSize = FwBrowse.getPageSize($control);
             FwBrowse.setTotalPages($control, dt.TotalPages);
+            totalRowCount = $control.data('totalRowCount', dt.TotalRows);
             var nodeModule = FwApplicationTree.getNodeByController($control.attr('data-controller'));
             var nodeEdit = FwApplicationTree.getNodeByFuncRecursive(nodeModule, {}, function (node, args2) {
                 return (node.properties.nodetype === 'EditMenuBarButton');
