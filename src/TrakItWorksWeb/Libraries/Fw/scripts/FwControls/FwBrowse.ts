@@ -2299,8 +2299,8 @@
         if ($trEditModeRows.length === 0) {
             $control.find('thead .tdselectrow .divselectrow').show();
             $control.find('.gridmenu .buttonbar div[data-type="NewButton"]').show();
-            $control.find('tbody .divselectrow').show();
-            $control.find('tbody .browsecontextmenu').show();
+            $control.find('tbody tr.editmode .divselectrow').show();
+            $control.find('tbody tr.editmode .browsecontextmenu').show();
         }
     }
     //---------------------------------------------------------------------------------
