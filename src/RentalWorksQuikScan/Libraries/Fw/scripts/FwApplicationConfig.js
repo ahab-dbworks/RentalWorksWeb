@@ -8,6 +8,10 @@ var FwApplicationConfig = (function () {
         this.ajaxTimeoutSeconds = 300;
         this.version = '';
         this.apiurl = '';
+        this.defaultPeek = false;
+        this.photoQuality = 100;
+        this.photoWidth = 1024;
+        this.photoHeight = 1024;
     }
     return FwApplicationConfig;
 }());

@@ -2944,4 +2944,13 @@
         $control.data('afterrenderfield', callback);
     }
     //---------------------------------------------------------------------------------
+    static setFieldValue($control: JQuery, $tr: JQuery, datafield: string, value: string) {
+        let $field = $tr.find(`.field[data-datafield="${datafield}"]`);
+        let datatype = $field.attr('data-datatype');
+        if ($tr.hasClass('newmode')) {
+            $field.attr('data-originalvalue', value);
+        }
+        (<any>window)[`FwBrowseColumnn_${datatype}`].setFieldValue($control, $tr, datafield);
+    }
+    //---------------------------------------------------------------------------------
 }

@@ -20,6 +20,10 @@
         }
     }
     //---------------------------------------------------------------------------------
+    setFieldValue($browse: JQuery, $tr: JQuery, $field: JQuery, value: string) {
+        throw 'Not Implemented!';
+    }
+    //---------------------------------------------------------------------------------
     isModified($browse: JQuery, $tr: JQuery, $field: JQuery) {
         var isModified = false;
         if (($tr.hasClass('editmode')) || ($tr.hasClass('newmode'))) {

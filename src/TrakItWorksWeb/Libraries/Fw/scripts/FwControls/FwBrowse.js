@@ -2644,6 +2644,14 @@ var FwBrowse = (function () {
     FwBrowse.setAfterDeleteCallback = function ($control, callback) {
         $control.data('afterdelete', callback);
     };
+    FwBrowse.setFieldValue = function ($control, $tr, datafield, value) {
+        var $field = $tr.find(".field[data-datafield=\"" + datafield + "\"]");
+        var datatype = $field.attr('data-datatype');
+        if ($tr.hasClass('newmode')) {
+            $field.attr('data-originalvalue', value);
+        }
+        window["FwBrowseColumnn_" + datatype].setFieldValue($control, $tr, datafield);
+    };
     FwBrowse.setAfterRenderRowCallback = function ($control, callback) {
         $control.data('afterrenderrow', callback);
     };

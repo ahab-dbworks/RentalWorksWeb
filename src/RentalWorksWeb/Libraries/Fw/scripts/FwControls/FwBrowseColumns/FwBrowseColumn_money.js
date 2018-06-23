@@ -20,6 +20,9 @@ var FwBrowseColumn_moneyClass = (function () {
             }
         }
     };
+    FwBrowseColumn_moneyClass.prototype.setFieldValue = function ($browse, $tr, $field, value) {
+        throw 'Not Implemented!';
+    };
     FwBrowseColumn_moneyClass.prototype.isModified = function ($browse, $tr, $field) {
         var isModified = false;
         if (($tr.hasClass('editmode')) || ($tr.hasClass('newmode'))) {
