@@ -15,8 +15,9 @@ var ApplicationConfig = (function () {
         this.photoWidth = 1024;
         this.photoHeight = 1024;
         this.photoQuality = 100;
-        this.iPodPhotoQuality = 100;
+        this.iPodPhotoQualit = 100;
         this.iPhonePhotoQuality = 100;
+        this.defaultPeek = false;
     }
     return ApplicationConfig;
 }());
