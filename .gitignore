@@ -3,6 +3,11 @@
 /packages/
 *.user
 
+/src/*/Properties/PublishProfiles/
+
+/TestResult.xml
+sync_RentalWorksWeb_to_TrakItWorksWeb\.ps1\.log
+
 /lib/Fw/packages/
 /lib/Fw/.vs/
 /lib/Fw/src/*/obj/
@@ -58,13 +63,9 @@
 /src/RwQBO/theme/fwimages/*
 
 /src/RentalWorksWebApi/appsettings.json
-
-/src/*/Properties/PublishProfiles/
-
-/TestResult.xml
-
-
-sync_RentalWorksWeb_to_TrakItWorksWeb\.ps1\.log
+/src/RentalWorksWebApi/\.local-chromium/
+/src/RentalWorksWebApi/wwwroot/temp/
+/src/RentalWorksWebApi/node_modules/
 
 /src/TrakItWorksWeb/App_Data/Temp/
 /src/TrakItWorksWeb/app_scripts.json
@@ -81,6 +82,3 @@ sync_RentalWorksWeb_to_TrakItWorksWeb\.ps1\.log
 /src/TrakItWorksWeb/theme/fwfonts/*
 /src/TrakItWorksWeb/theme/fwimages/*
 
-src/RentalWorksWebApi/\.local-chromium/
-
-src/RentalWorksWebApi/wwwroot/temp/
