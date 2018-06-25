@@ -6869,7 +6869,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t \"CustomFieldId\":\"00002WPC\",\n\t \"Field1\":\"1\"\n}"
+							"raw": "{\n        \"CustomFieldId\": \"I000023C\",\n        \"ShowInBrowse\": true\n}"
 						},
 						"url": {
 							"raw": "http://localhost:57949/api/v1/customfield",
@@ -21577,41 +21577,6 @@
 					"response": []
 				},
 				{
-					"name": "Order: Delete",
-					"request": {
-						"method": "DELETE",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "{{jwttoken}}"
-							},
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n   \"orderId\": \"000011KO\"\n}"
-						},
-						"url": {
-							"raw": "http://localhost:57949/api/v1/order/000011KO",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "57949",
-							"path": [
-								"api",
-								"v1",
-								"order",
-								"000011KO"
-							]
-						}
-					},
-					"response": []
-				},
-				{
 					"name": "Orders: Copy",
 					"request": {
 						"method": "POST",
@@ -31451,6 +31416,184 @@
 			]
 		},
 		{
+			"name": "Purchase Order",
+			"description": null,
+			"item": [
+				{
+					"name": "Purchase Order: Get Many",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/purchaseorder",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"purchaseorder"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Purchase Order: Browse",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"PurchaseOrderNumber\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": [],\n    \t\"uniqueids\": {\"IdField\": \"value\"}\n\t\n}"
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/purchaseorder/browse",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"purchaseorder",
+								"browse"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Purchase Order: Get One",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/purchaseorder/F002KFAU",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"purchaseorder",
+								"F002KFAU"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Purchase Order: Insert",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"Field1\": \"1\",\n    \"Field2\": \"2\",\n}"
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/purchaseorder",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"purchaseorder"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Purchase Order: Update",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t \"PurchaseOrderId\":\"00002WPC\",\n\t \"Field1\":\"1\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/purchaseorder",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"purchaseorder"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
 			"name": "Quote",
 			"description": null,
 			"item": [
@@ -31621,41 +31764,6 @@
 								"api",
 								"v1",
 								"quote"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Quote: Delete",
-					"request": {
-						"method": "DELETE",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "{{jwttoken}}"
-							},
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
-						"url": {
-							"raw": "http://localhost:57949/api/v1/quote/00003EOV",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "57949",
-							"path": [
-								"api",
-								"v1",
-								"quote",
-								"00003EOV"
 							]
 						}
 					},
