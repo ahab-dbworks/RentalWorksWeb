@@ -1686,6 +1686,7 @@ class Order {
                 total = FwFormField.getValue($form, '.rentalOrderItemTotal:visible');
                 includeTaxInTotal = FwFormField.getValue($form, '.rentalTotalWithTax:visible');
                 totalType = $form.find('.rentalgrid .totalType input:checked').val();
+                FwFormField.setValue($form, '.rentalAdjustments .rentalOrderItemTotal:hidden', '0.00');
                 if (!isWithTaxCheckbox) {
                     FwFormField.setValueByDataField($form, 'RentalDiscountPercent', '');
                 }
@@ -1713,6 +1714,7 @@ class Order {
                 total = FwFormField.getValue($form, '.laborOrderItemTotal:visible');
                 includeTaxInTotal = FwFormField.getValue($form, '.laborTotalWithTax:visible');
                 totalType = $form.find('.laborgrid .totalType input:checked').val();
+                FwFormField.setValue($form, '.laborAdjustments .laborOrderItemTotal:hidden', '0.00');
                 if (!isWithTaxCheckbox) {
                     FwFormField.setValueByDataField($form, 'LaborDiscountPercent', '');
                 }
@@ -1727,6 +1729,7 @@ class Order {
                 total = FwFormField.getValue($form, '.miscOrderItemTotal:visible');
                 includeTaxInTotal = FwFormField.getValue($form, '.miscTotalWithTax:visible');
                 totalType = $form.find('.miscgrid .totalType input:checked').val();
+                FwFormField.setValue($form, '.miscAdjustments .miscOrderItemTotal:hidden', '0.00');
                 if (!isWithTaxCheckbox) {
                     FwFormField.setValueByDataField($form, 'MiscDiscountPercent', '');
                 }
@@ -1741,6 +1744,7 @@ class Order {
                 total = FwFormField.getValue($form, '.combinedOrderItemTotal:visible');
                 includeTaxInTotal = FwFormField.getValue($form, '.combinedTotalWithTax:visible');
                 totalType = $form.find('.combinedgrid .totalType input:checked').val();
+                FwFormField.setValue($form, '.combinedAdjustments .combinedOrderItemTotal:hidden', '0.00');
                 if (!isWithTaxCheckbox) {
                     FwFormField.setValueByDataField($form, 'CombinedDiscountPercent', '');
                 }
@@ -1761,7 +1765,8 @@ class Order {
             FwBrowse.search($orderItemGrid);
         }, function onError(response) {
             FwFunc.showError(response);
-        }, $form);
+            }, $form);
+
     };
 
     //----------------------------------------------------------------------------------------------
@@ -1867,8 +1872,6 @@ class Order {
         $form.find('.' + gridType + 'totals [data-totalfield="Tax"] input').val(salesTax);
         $form.find('.' + gridType + 'totals [data-totalfield="GrossTotal"] input').val(grossTotal);
         $form.find('.' + gridType + 'totals [data-totalfield="Total"] input').val(total);
-
-        //$form.find('.' + gridType + 'Adjustments .' + gridType + 'OrderItemTotal:visible input').val(total);
     };
 
     //----------------------------------------------------------------------------------------------
