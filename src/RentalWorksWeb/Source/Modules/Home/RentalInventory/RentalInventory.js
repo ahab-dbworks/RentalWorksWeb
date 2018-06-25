@@ -103,7 +103,7 @@ var RentalInventory = (function () {
     };
     ;
     RentalInventory.prototype.openForm = function (mode) {
-        var $form, $rank, self;
+        var $form, self;
         self = this;
         $form = jQuery(jQuery('#tmpl-modules-' + this.Module + 'Form').html());
         $form = FwModule.openForm($form, mode);
@@ -138,13 +138,6 @@ var RentalInventory = (function () {
                 FwFormField.disable($form.find('[data-datafield="ProfitAndLossCategoryId"]'));
             }
         });
-        $rank = $form.find('.rank');
-        FwFormField.loadItems($rank, [
-            { value: 'A', text: 'A' },
-            { value: 'B', text: 'B' },
-            { value: 'C', text: 'C' },
-            { value: 'D', text: 'D' }
-        ], true);
         FwFormField.loadItems($form.find('.lamps'), [
             { value: '0', text: '0' },
             { value: '1', text: '1' },

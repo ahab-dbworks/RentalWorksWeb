@@ -115,7 +115,7 @@ class RentalInventory {
     };
 
     openForm(mode: string) {
-        var $form, $rank, self;
+        var $form, self;
 
         self = this;
         $form = jQuery(jQuery('#tmpl-modules-' + this.Module + 'Form').html());
@@ -143,7 +143,6 @@ class RentalInventory {
                 if ($this.prop('checked') === true && $this.val() === 'K') {
                     $form.find('.kittab').show();
                 }
-
             })
         };
 
@@ -156,14 +155,6 @@ class RentalInventory {
                 FwFormField.disable($form.find('[data-datafield="ProfitAndLossCategoryId"]'))
             }
         });
-
-        $rank = $form.find('.rank');
-        FwFormField.loadItems($rank, [
-            { value: 'A', text: 'A' },
-            { value: 'B', text: 'B' },
-            { value: 'C', text: 'C' },
-            { value: 'D', text: 'D' }
-        ], true);
 
         FwFormField.loadItems($form.find('.lamps'), [
             { value: '0', text: '0' },
@@ -250,7 +241,6 @@ class RentalInventory {
         var $wardrobeInventoryMaterialGridControl: any;
 
         var warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
-
 
         // load AttributeValue Grid
         $itemLocationTaxGrid = $form.find('div[data-grid="ItemLocationTaxGrid"]');

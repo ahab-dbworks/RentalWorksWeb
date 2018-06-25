@@ -95,7 +95,7 @@ var SalesInventory = (function () {
     };
     ;
     SalesInventory.prototype.openForm = function (mode) {
-        var $form, $rank;
+        var $form;
         $form = jQuery(jQuery('#tmpl-modules-' + this.Module + 'Form').html());
         $form = FwModule.openForm($form, mode);
         $form.find('[data-datafield="OverrideProfitAndLossCategory"] .fwformfield-value').on('change', function () {
@@ -119,13 +119,6 @@ var SalesInventory = (function () {
                 $form.find('.wardrobetab').hide();
             }
         });
-        $rank = $form.find('.rank');
-        FwFormField.loadItems($rank, [
-            { value: 'A', text: 'A' },
-            { value: 'B', text: 'B' },
-            { value: 'C', text: 'C' },
-            { value: 'D', text: 'D' }
-        ], true);
         $form.find('div[data-datafield="CategoryId"]').data('onchange', function ($tr) {
             FwFormField.disable($form.find('.subcategory'));
             if ($tr.find('.field[data-browsedatafield="SubCategoryCount"]').attr('data-originalvalue') > 0) {
@@ -138,17 +131,10 @@ var SalesInventory = (function () {
         return $form;
     };
     SalesInventory.prototype.loadForm = function (uniqueids) {
-        var $form, $rank;
+        var $form;
         $form = this.openForm('EDIT');
         $form.find('div.fwformfield[data-datafield="InventoryId"] input').val(uniqueids.InventoryId);
         FwModule.loadForm(this.Module, $form);
-        $rank = $form.find('.rank');
-        FwFormField.loadItems($rank, [
-            { value: 'A', text: 'A' },
-            { value: 'B', text: 'B' },
-            { value: 'C', text: 'C' },
-            { value: 'D', text: 'D' }
-        ], true);
         return $form;
     };
     SalesInventory.prototype.saveForm = function ($form, parameters) {
