@@ -28,11 +28,22 @@ namespace WebLibrary
         public const string ORDER_TYPE_QUOTE = "Q";
         public const string ORDER_TYPE_ORDER = "O";
         public const string ORDER_TYPE_PROJECT = "PROJECT";
+        public const string ORDER_TYPE_PURCHASE_ORDER = "C";
 
         public const string QUOTE_STATUS_PROSPECT = "PROSPECT";
+        public const string QUOTE_STATUS_RESERVED = "RESERVED";
         public const string QUOTE_STATUS_ACTIVE = "ACTIVE";
+        public const string QUOTE_STATUS_HOLD = "HOLD";
+        public const string QUOTE_STATUS_ORDERED = "ORDERED";
+        public const string QUOTE_STATUS_CANCELLED = "CANCELLED";
 
         public const string ORDER_STATUS_CONFIRMED = "CONFIRMED";
+        public const string ORDER_STATUS_ACTIVE = "ACTIVE";
+        public const string ORDER_STATUS_HOLD = "HOLD";
+        public const string ORDER_STATUS_COMPLETE = "COMPLETE";
+        public const string ORDER_STATUS_CLOSED = "CLOSED";
+        public const string ORDER_STATUS_CANCELLED = "CANCELLED";
+        public const string ORDER_STATUS_SNAPSHOT = "SNAPSHOT";
 
         public const string ORDER_STATUS_FILTER_STAGED_ONLY = "STAGEDONLY";
         public const string ORDER_STATUS_FILTER_NOT_YET_STAGED = "NOTYETSTAGED";
@@ -67,6 +78,16 @@ namespace WebLibrary
         public const string PROJECT_STATUS_NEW = "NEW";
         public const string PROJECT_STATUS_ACTIVE = "ACTIVE";
         public const string PROJECT_STATUS_CLOSED = "CLOSED";
+
+
+        //PURCHASE ORDER
+        public const string PURCHASE_ORDER_STATUS_NEW = "NEW";
+        public const string PURCHASE_ORDER_STATUS_OPEN = "OPEN";
+        public const string PURCHASE_ORDER_STATUS_RECEIVED = "RECEIVED";
+        public const string PURCHASE_ORDER_STATUS_COMPLETE = "COMPLETE";
+        public const string PURCHASE_ORDER_STATUS_CLOSED = "CLOSED";
+        public const string PURCHASE_ORDER_STATUS_VOID = "VOID";
+        public const string PURCHASE_ORDER_STATUS_SNAPSHOT = "SNAPSHOT";
 
 
         //REPAIR

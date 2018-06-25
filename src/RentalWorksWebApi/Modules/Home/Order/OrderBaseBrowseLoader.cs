@@ -4,6 +4,7 @@ using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
 using System.Collections.Generic;
 using WebApi.Data;
+using WebLibrary;
 
 namespace WebApi.Modules.Home.Order
 {
@@ -118,39 +119,39 @@ namespace WebApi.Modules.Home.Order
                 {
                     case "PROSPECT":
                         select.AddWhere("(status = @orderstatus)");
-                        select.AddParameter("@orderstatus", "PROSPECT");
+                        select.AddParameter("@orderstatus", RwConstants.QUOTE_STATUS_PROSPECT);
                         break;
                     case "RESERVED":
                         select.AddWhere("(status = @orderstatus)");
-                        select.AddParameter("@orderstatus", "RESERVED");
+                        select.AddParameter("@orderstatus", RwConstants.QUOTE_STATUS_RESERVED);
                         break;
                     case "CONFIRMED":
                         select.AddWhere("(status = @orderstatus)");
-                        select.AddParameter("@orderstatus", "CONFIRMED");
+                        select.AddParameter("@orderstatus", RwConstants.ORDER_STATUS_CONFIRMED);
                         break;
                     case "HOLD":
                         select.AddWhere("(status = @orderstatus)");
-                        select.AddParameter("@orderstatus", "HOLD");
+                        select.AddParameter("@orderstatus", RwConstants.ORDER_STATUS_HOLD);
                         break;
                     case "ORDERED":
                         select.AddWhere("(status = @orderstatus)");
-                        select.AddParameter("@orderstatus", "ORDERED");
+                        select.AddParameter("@orderstatus", RwConstants.QUOTE_STATUS_ORDERED);
                         break;
                     case "ACTIVE":
                         select.AddWhere("(status = @orderstatus)");
-                        select.AddParameter("@orderstatus", "ACTIVE");
+                        select.AddParameter("@orderstatus", RwConstants.ORDER_STATUS_ACTIVE);
                         break;
                     case "COMPLETE":
                         select.AddWhere("(status = @orderstatus)");
-                        select.AddParameter("@orderstatus", "COMPLETE");
+                        select.AddParameter("@orderstatus", RwConstants.ORDER_STATUS_COMPLETE);
                         break;
                     case "CLOSED":
                         select.AddWhere("(status = @orderstatus)");
-                        select.AddParameter("@orderstatus", "CLOSED");
+                        select.AddParameter("@orderstatus", RwConstants.ORDER_STATUS_CLOSED);
                         break;
                     case "CANCELLED":
                         select.AddWhere("(status = @orderstatus)");
-                        select.AddParameter("@orderstatus", "CANCELLED");
+                        select.AddParameter("@orderstatus", RwConstants.ORDER_STATUS_CANCELLED);
                         break;
                     case "ALL":
                         break;
