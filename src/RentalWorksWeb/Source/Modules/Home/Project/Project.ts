@@ -190,7 +190,7 @@ class Project {
         FwBrowse.search($poApproverGrid);
 
         var $projectNoteGrid;
-        $projectNoteGrid = $form.find('[data-name="ProjectNote"]');
+        $projectNoteGrid = $form.find('[data-name="ProjectNoteGrid"]');
         FwBrowse.search($projectNoteGrid);
     }
 }
