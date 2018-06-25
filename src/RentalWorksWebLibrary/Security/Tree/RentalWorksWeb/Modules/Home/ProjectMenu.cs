@@ -21,6 +21,8 @@ namespace WebLibrary.Security.Tree.RentalWorksWeb.Modules.Settings
             var nodeForm = tree.AddForm("{78816966-D5AB-404C-BBA8-26DFF78384AC}", MODULEID);
             var nodeFormMenuBar = tree.AddMenuBar("{F1DD9999-83A8-49B2-99EC-5C1457AE880E}", nodeForm.Id);
             var nodeFormSubMenu = tree.AddSubMenu("{BC94C13D-9EA3-45C8-945A-E9F525663BA7}", nodeFormMenuBar.Id);
+            var nodeFormOptions = tree.AddSubMenuGroup("Options", "{800A9968-D864-4D3C-B84C-2E19440594C8}", nodeFormSubMenu.Id);
+            tree.AddSubMenuItem("Create Quote", "{92B78408-298F-431C-A535-2ADC7C4DD2F7}", nodeFormOptions.Id);
             tree.AddSaveMenuBarButton("{C09D0277-7A7C-4DB7-B197-CD7C5C02A785}", nodeFormMenuBar.Id);
         }
 

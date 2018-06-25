@@ -88,11 +88,11 @@ class Project {
 
         if (mode === 'NEW') {
             const office = JSON.parse(sessionStorage.getItem('location')),
-                  warehouse = JSON.parse(sessionStorage.getItem('warehouse')),
-                  today = FwFunc.getDate(),
-                  usersid = sessionStorage.getItem('usersid'),
-                  name = sessionStorage.getItem('name'),
-                  department = JSON.parse(sessionStorage.getItem('department'));
+                warehouse = JSON.parse(sessionStorage.getItem('warehouse')),
+                today = FwFunc.getDate(),
+                usersid = sessionStorage.getItem('usersid'),
+                name = sessionStorage.getItem('name'),
+                department = JSON.parse(sessionStorage.getItem('department'));
 
             FwFormField.setValue($form, 'div[data-datafield="ProjectManagerId"]', usersid, name);
             FwFormField.setValue($form, 'div[data-datafield="AgentId"]', usersid, name);
@@ -104,7 +104,7 @@ class Project {
             FwFormField.setValueByDataField($form, 'Status', 'NEW');
             FwFormField.setValueByDataField($form, 'StatusDate', today);
             FwFormField.setValue($form, 'div[data-datafield="WarehouseId"]', warehouse.warehouseid, warehouse.warehouse);
- 
+
             $form.find('.activityCheckboxes div > input').prop('checked', true);
         }
 
@@ -129,9 +129,112 @@ class Project {
         FwModule.saveForm(this.Module, $form, parameters);
     }
 
-    afterLoad($form: any) {
+    renderGrids($form) {
+        var $orderContactGrid;
+        var $orderContactGridControl;
+        $orderContactGrid = $form.find('div[data-grid="OrderContactGrid"]');
+        $orderContactGridControl = jQuery(jQuery('#tmpl-grids-OrderContactGridBrowse').html());
+        $orderContactGrid.empty().append($orderContactGridControl);
+        $orderContactGridControl.data('ondatabind', function (request) {
+            request.uniqueids = {
+                OrderId: FwFormField.getValueByDataField($form, 'ProjectId')
+            };
+        });
+        $orderContactGridControl.data('beforesave', function (request) {
+            request.OrderId = FwFormField.getValueByDataField($form, 'ProjectId');
+            request.CompanyId = FwFormField.getValueByDataField($form, 'DealId');
+        });
+        FwBrowse.init($orderContactGridControl);
+        FwBrowse.renderRuntimeHtml($orderContactGridControl);
 
+        var $poApproverGrid;
+        var $poApproverGridControl;
+        $poApproverGrid = $form.find('div[data-grid="POApproverGrid"]');
+        $poApproverGridControl = jQuery(jQuery('#tmpl-grids-POApproverGridBrowse').html());
+        $poApproverGrid.empty().append($poApproverGridControl);
+        $poApproverGridControl.data('ondatabind', function (request) {
+            request.uniqueids = {
+                ProjectId: FwFormField.getValueByDataField($form, 'ProjectId')
+            };
+        });
+        $poApproverGridControl.data('beforesave', function (request) {
+            request.ProjectId = FwFormField.getValueByDataField($form, 'ProjectId');
+        });
+        FwBrowse.init($poApproverGridControl);
+        FwBrowse.renderRuntimeHtml($poApproverGridControl);
+
+        var $projectNoteGrid;
+        var $projectNoteGridControl;
+        $projectNoteGrid = $form.find('div[data-grid="ProjectNoteGrid"]');
+        $projectNoteGridControl = jQuery(jQuery('#tmpl-grids-ProjectNoteGridBrowse').html());
+        $projectNoteGrid.empty().append($projectNoteGridControl);
+        $projectNoteGridControl.data('ondatabind', function (request) {
+            request.uniqueids = {
+                ProjectId: FwFormField.getValueByDataField($form, 'ProjectId')
+            };
+        });
+        $projectNoteGridControl.data('beforesave', function (request) {
+            request.ProjectId = FwFormField.getValueByDataField($form, 'ProjectId');
+        });
+        FwBrowse.init($projectNoteGridControl);
+        FwBrowse.renderRuntimeHtml($projectNoteGridControl);
+    }
+
+    afterLoad($form: any) {
+        var $orderContactGrid;
+        $orderContactGrid = $form.find('[data-name="OrderContactGrid"]');
+        FwBrowse.search($orderContactGrid);
+
+        var $poApproverGrid;
+        $poApproverGrid = $form.find('[data-name="POApproverGrid"]');
+        FwBrowse.search($poApproverGrid);
+
+        var $projectNoteGrid;
+        $projectNoteGrid = $form.find('[data-name="ProjectNote"]');
+        FwBrowse.search($projectNoteGrid);
     }
 }
+
+FwApplicationTree.clickEvents['{92B78408-298F-431C-A535-2ADC7C4DD2F7}'] = function () {
+    const $form = jQuery(this).closest('.fwform'),
+        projectId = FwFormField.getValueByDataField($form, 'ProjectId');
+
+    if (projectId == "") {
+        FwNotification.renderNotification('WARNING', 'Please save the record before performing this function');
+    } else {
+        var $confirmation, $yes, $no;
+
+        $confirmation = FwConfirmation.renderConfirmation('Create Quote', '');
+        $confirmation.find('.fwconfirmationbox').css('width', '450px');
+        var html = [];
+        html.push('<div class="fwform" data-controller="none" style="background-color: transparent;">');
+        html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
+        html.push('    <div>Create a Quote?</div>');
+        html.push('  </div>');
+        html.push('</div>');
+
+        FwConfirmation.addControls($confirmation, html.join(''));
+
+        $yes = FwConfirmation.addButton($confirmation, 'Create Quote', false);
+        $no = FwConfirmation.addButton($confirmation, 'Cancel');
+
+        $yes.on('click', createQuote);
+        var $confirmationbox = jQuery('.fwconfirmationbox');
+        function createQuote() {
+          
+            FwAppData.apiMethod(true, 'POST', "api/v1/project/createquote/" + projectId, null, FwServices.defaultTimeout, function onSuccess(response) {
+                FwNotification.renderNotification('SUCCESS', 'Quote Successfully Created.');
+                FwConfirmation.destroyConfirmation($confirmation);
+                let uniqueids: any = {};
+                uniqueids.QuoteId = response.QuoteId;
+                var $quoteform = QuoteController.loadForm(uniqueids);
+                FwModule.openModuleTab($quoteform, "", true, 'FORM', true);
+
+                FwModule.refreshForm($form, ProjectController);
+            }, null, $confirmationbox);
+        }
+    }
+};
+
 
 var ProjectController = new Project();

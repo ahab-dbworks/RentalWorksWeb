@@ -316,9 +316,11 @@ namespace WebLibrary.Security
             AddGrid("Parts Inventory Compatibility",          "{97DC0D58-2968-47F4-970A-0889AEFDC63B}", lv1menuGrids.Id, "PartsInventoryCompatibilityGridController");
             AddGrid("Parts Inventory Substitute",             "{F9B0308B-EBFC-4B37-B812-27E16897B115}", lv1menuGrids.Id, "PartsInventorySubstituteGridController");
             AddGrid("Pick List Utility",                      "{0DAED562-2319-4569-AC4E-EF89198E54BC}", lv1menuGrids.Id, "PickListUtilityGridController");
+            AddGrid("PO Approver",                            "{314CEEC5-6E42-4539-BD10-8F680A0F70F4}", lv1menuGrids.Id, "POApproverGridController");
             AddGrid("Presentation Layer Activity",            "{AA12FF6E-DE89-4C9A-8DB6-E42542BB1689}", lv1menuGrids.Id, "PresentationLayerActivityGridController");
             AddGrid("Presentation Layer Activity Override",   "{ABA89B3D-AA83-4298-AAD4-AC5294BE7388}", lv1menuGrids.Id, "PresentationLayerActivityOverrideGridController");
             AddGrid("Presentation Layer Form",                "{88985C09-65AD-4480-830A-EFCE95C3940B}", lv1menuGrids.Id, "PresentationLayerFormGridController");
+            AddGrid("Project Note",                           "{686240FE-8276-4715-A7ED-44B4D4A7DC86}", lv1menuGrids.Id, "ProjectNoteGridController");
             AddGrid("Quik Entry Accessories Options",         "{27317105-BA68-417A-A592-86EEB977CA32}", lv1menuGrids.Id, "RwQuikEntryAccessoriesOptionsGridController");
             AddGrid("Quik Entry Category",                    "{01604AEC-2127-4756-BF92-3A340EF000E1}", lv1menuGrids.Id, "RwQuikEntryCategoryGridController");
             AddGrid("Quik Entry Department",                  "{2AC10F3D-FC50-4454-87C2-54ABBCCD08AB}", lv1menuGrids.Id, "RwQuikEntryDepartmentGridController");
@@ -368,6 +370,7 @@ namespace WebLibrary.Security
             AddGrid("Warehouse QuikLocate Approver",          "{597134F6-303E-4B69-A9B7-403082295AE1}", lv1menuGrids.Id, "WarehouseQuikLocateApproverGridController");
             AddGrid("Order Note",                             "{55248753-DF49-46E3-84AE-0532354F3550}", lv1menuGrids.Id, "OrderNoteGridController");
             AddGrid("Search Preview",                         "{A6C93317-0DDC-4781-9B01-2EFC78ECED40}", lv1menuGrids.Id, "SearchPreviewGridController");
+      
         }
 
         //---------------------------------------------------------------------------------------------
