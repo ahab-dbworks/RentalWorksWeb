@@ -258,7 +258,7 @@
 
 			this.input.val(formatted.value)
 				.attr('data-time', formatted.time)
-				.attr('value', formatted.value);
+				.attr('value', formatted.value).change();
 		},
 
 		resetSelected : function () {

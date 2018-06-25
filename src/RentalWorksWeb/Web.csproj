@@ -1183,7 +1183,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\Temp\Downloads\" />
-    <Folder Include="Libraries\" />
+    <Folder Include="Libraries\Fw\theme\" />
     <Folder Include="Source\Controls\" />
   </ItemGroup>
   <ItemGroup>
