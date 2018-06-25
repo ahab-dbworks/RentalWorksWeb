@@ -96,7 +96,7 @@ html.theme-material .fwbrowse table thead tr td .field .search .searchclear i {f
 
 #inventory input[type="number"] {
     -moz-appearance: textfield;
-}
+} 
 html.theme-material .fwbrowse table tbody tr.empty td {height:100px;}
 html.theme-material .fwbrowse table tbody tr td.cellColor::after {content: "";position: absolute;top: 0;left: 0;width: 0;height: 0;display: block;border-right: 20px solid transparent;border-bottom: 20px solid transparent;border-top: 20px solid;border-top-color: inherit;}  
 html.theme-material .fwbrowse table tbody tr td {vertical-align:top;text-align:left;-webkit-touch-callout: none;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;}

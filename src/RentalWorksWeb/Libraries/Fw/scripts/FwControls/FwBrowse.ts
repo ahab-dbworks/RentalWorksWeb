@@ -1724,7 +1724,7 @@
                                     'background': 'linear-gradient(to bottom, ' + dtRow[dt.ColumnIndex[halfcellcolor]] + ', rgba(255, 255, 255, 0)50%)'
                                 };
                             }
-                          
+
                             $td.children().css(css);
                         }
                     }
@@ -1743,9 +1743,9 @@
                                     'background': 'linear-gradient(to bottom, ' + dtRow[dt.ColumnIndex[fullcellcolor]] + ', rgba(245, 245, 245, 1))'
                                 }
                             } else {
-                            var css = {
-                                'position': 'relative',
-                                'background': 'linear-gradient(to bottom, ' + dtRow[dt.ColumnIndex[fullcellcolor]] + ', rgba(255, 255, 255, 0))'
+                                var css = {
+                                    'position': 'relative',
+                                    'background': 'linear-gradient(to bottom, ' + dtRow[dt.ColumnIndex[fullcellcolor]] + ', rgba(255, 255, 255, 0))'
                                 }
                             }
                             $td.children().css(css);
@@ -2315,8 +2315,8 @@
         if ($trEditModeRows.length === 0) {
             $control.find('thead .tdselectrow .divselectrow').show();
             $control.find('.gridmenu .buttonbar div[data-type="NewButton"]').show();
-            $control.find('tbody tr.editmode .divselectrow').show();
-            $control.find('tbody tr.editmode .browsecontextmenu').show();
+            $control.find('tbody .divselectrow').show();
+            $control.find('tbody .browsecontextmenu').show();
         }
     }
     //---------------------------------------------------------------------------------
