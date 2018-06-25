@@ -34,6 +34,9 @@ namespace WebApi.Modules.Administrator.CustomField
         [FwSqlDataField(column: "floatdecimaldigits", modeltype: FwDataTypes.Integer, sqltype: "int")]
         public int? FloatDecimalDigits { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "showinbrowse", modeltype: FwDataTypes.Boolean, sqltype: "char")]
+        public bool? ShowInBrowse { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime, sqltype: "datetime")]
         public string DateStamp { get; set; }
         //------------------------------------------------------------------------------------ 
