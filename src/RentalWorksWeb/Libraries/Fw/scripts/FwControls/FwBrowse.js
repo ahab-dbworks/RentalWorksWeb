@@ -1534,12 +1534,12 @@ var FwBrowse = (function () {
                             if (typeof dt.ColumnIndex[cellcolor] !== 'number') {
                                 throw 'FwBrowse.databindcallback: cellcolor: "column ' + cellcolor + '" was not returned by the web service.';
                             }
-                            var css = {
+                            var css_1 = {
                                 'position': 'relative',
                                 'border-top-color': dtRow[dt.ColumnIndex[cellcolor]],
                                 'border-top-style': 'none',
                             };
-                            $td.addClass('cellColor').css(css);
+                            $td.addClass('cellColor').css(css_1);
                         }
                     }
                     var halfcellcolor = $field.attr('data-halfcellcolor');
@@ -1549,11 +1549,19 @@ var FwBrowse = (function () {
                             if (typeof dt.ColumnIndex[halfcellcolor] !== 'number') {
                                 throw 'FwBrowse.databindcallback: halfcellcolor: "column ' + halfcellcolor + '" was not returned by the web service.';
                             }
-                            var css = {
-                                'position': 'relative',
-                                'background': 'linear-gradient(to bottom, ' + dtRow[dt.ColumnIndex[halfcellcolor]] + ', rgba(255, 255, 255, 0)50%)'
-                            };
-                            $td.css(css);
+                            if ($field.attr('data-formreadonly') === 'true') {
+                                var css = {
+                                    'position': 'relative',
+                                    'background': 'linear-gradient(to bottom, ' + dtRow[dt.ColumnIndex[halfcellcolor]] + ', rgba(245, 245, 245, 1)50%)'
+                                };
+                            }
+                            else {
+                                var css = {
+                                    'position': 'relative',
+                                    'background': 'linear-gradient(to bottom, ' + dtRow[dt.ColumnIndex[halfcellcolor]] + ', rgba(255, 255, 255, 0)50%)'
+                                };
+                            }
+                            $td.children().css(css);
                         }
                     }
                     var fullcellcolor = $field.attr('data-fullcellcolor');
@@ -1563,11 +1571,19 @@ var FwBrowse = (function () {
                             if (typeof dt.ColumnIndex[fullcellcolor] !== 'number') {
                                 throw 'FwBrowse.databindcallback: fullcellcolor: "column ' + fullcellcolor + '" was not returned by the web service.';
                             }
-                            var css = {
-                                'position': 'relative',
-                                'background': 'linear-gradient(to bottom, ' + dtRow[dt.ColumnIndex[fullcellcolor]] + ', rgba(255, 255, 255, 0))'
-                            };
-                            $td.css(css);
+                            if ($field.attr('data-formreadonly') === 'true') {
+                                var css = {
+                                    'position': 'relative',
+                                    'background': 'linear-gradient(to bottom, ' + dtRow[dt.ColumnIndex[fullcellcolor]] + ', rgba(245, 245, 245, 1))'
+                                };
+                            }
+                            else {
+                                var css = {
+                                    'position': 'relative',
+                                    'background': 'linear-gradient(to bottom, ' + dtRow[dt.ColumnIndex[fullcellcolor]] + ', rgba(255, 255, 255, 0))'
+                                };
+                            }
+                            $td.children().css(css);
                         }
                     }
                     var browsecellbackgroundcolorfield = $field.attr('data-browsecellbackgroundcolorfield');
