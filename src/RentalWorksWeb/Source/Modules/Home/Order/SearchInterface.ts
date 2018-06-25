@@ -60,8 +60,8 @@ class SearchInterface {
         searchhtml.push('                      <div data-type="button" class="fwformcontrol gridbutton" style="margin: 12px 6px 12px 6px; padding:0px 7px 0px 7px;"><i class="material-icons" style="margin-top: 5px;">&#xE8F0;</i></div>');
         searchhtml.push('                      <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield fwformcontrol toggleAccessories" data-caption="Disable Accessory Refresh" style="width:200px;"></div>');
         searchhtml.push('                         <div id="columnDescriptions" style="width:95%; padding:5px; margin:5px; display:none">');
-        searchhtml.push('                           <div style="float:left; width:40%; text-align:center; font-weight:bold;">Description</div>');
-        searchhtml.push('                           <div style="float:left; width:7%; text-align:center; font-weight:bold;">Qty</div>');
+        searchhtml.push('                           <div style="float:left; width:38%; text-align:center; font-weight:bold;">Description</div>');
+        searchhtml.push('                           <div style="float:left; width:9%; text-align:center; font-weight:bold;">Qty</div>');
         searchhtml.push('                           <div style="float:left; width:7%; text-align:center; font-weight:bold;">Available</div>');
         searchhtml.push('                           <div style="float:left; width:9%; text-align:center; font-weight:bold;">Conflict Date</div>');
         searchhtml.push('                           <div style="float:left; width:7%; text-align:center; font-weight:bold;">All WH</div>');
@@ -600,33 +600,40 @@ class SearchInterface {
         for (var i = 0; i < response.Rows.length; i++) {
             let html = [];
             html.push('<div class="cardContainer">');
-            html.push('<div class="card">');
-            html.push('<div class="cornerTriangle"></div>');
-            html.push('<div data-control="FwFormField" data-type="key" data-datafield="InventoryId" data-caption="InventoryId" class="fwcontrol fwformfield" data-isuniqueid="true" data-enabled="false"><input value="' + response.Rows[i][inventoryId] +'"></input></div>');
-            html.push('<div class="desccontainer">');
-            html.push('<div class="invdescription">' + response.Rows[i][descriptionIndex] + '</div>');
-            html.push('<div class="invimage">');
-            html.push('<img src="' + response.Rows[i][thumbnail] + '" data-value="' + response.Rows[i][appImageId] + '" alt="Image" class="image">');
-            html.push('</div>');
-            html.push('</div>');
-            html.push('<div data-control="FwFormField" data-type="number" data-datafield="Quantity" data-caption="Qty" class="fwcontrol fwformfield" style="text-align:center"><span style="text-decoration:underline; font-weight:bold; ">Qty</span><input style="width:80%; text-align:right; padding:5px;" value="' + response.Rows[i][quantity] +'"></div>');
-            html.push('<div data-control="FwFormField" data-type="number" data-datafield="QuantityAvailable" data-caption="Available" class="fwcontrol fwformfield" data-datafield="QuantityAvailable" data-enabled="false" style="text-align:center"><span style="text-decoration:underline; font-weight:bold;">Available</span></br></div>');
-            html.push('<div data-control="FwFormField" data-type="text" data-caption="Conflict Date" data-datafield="ConflictDate" class="fwcontrol fwformfield" data-enabled="false" style="text-align:center"><span style="text-decoration:underline; font-weight:bold;">Conflict</span></br></div>');
-            html.push('<div data-control="FwFormField" data-type="text" data-caption="All WH" data-datafield="AllWH" class="fwcontrol fwformfield" data-enabled="false" style="white-space:pre"><span style="text-decoration:underline; font-weight:bold;">All WH</span></br>&#160;</div>');
-            html.push('<div class="quantitycontainer">');
-            html.push('<div data-control="FwFormField" data-type="number" data-datafield="QuantityIn" data-caption="In" class="fwcontrol fwformfield" data-enabled="false" style="text-align:center"><span style="text-decoration:underline; font-weight:bold;">In</span></br></div>');
-            html.push('<div data-control="FwFormField" data-type="number" data-datafield="QuantityQcRequired" data-caption="QC" class="fwcontrol fwformfield" data-enabled="false" style="text-align:center"><span style="text-decoration:underline; font-weight:bold;">QC</span></br></div>');
-            html.push('</div>');
-            html.push('<div class="accessories" style="width:80px;">');
+            html.push('     <div class="card">');
+            html.push('         <div class="cornerTriangle"></div>');
+            html.push('         <div data-control="FwFormField" data-type="key" data-datafield="InventoryId" data-caption="InventoryId" class="fwcontrol fwformfield" data-isuniqueid="true" data-enabled="false"><input value="' + response.Rows[i][inventoryId] +'"></input></div>');
+            html.push('         <div class="desccontainer">');
+            html.push('             <div class="invdescription">' + response.Rows[i][descriptionIndex] + '</div>');
+            html.push('             <div class="invimage">');
+            html.push('                 <img src="' + response.Rows[i][thumbnail] + '" data-value="' + response.Rows[i][appImageId] + '" alt="Image" class="image">');
+            html.push('              </div>');
+            html.push('             </div>');
+            html.push('         <div data-control="FwFormField" data-type="number" data-datafield="Quantity" data-caption="Qty" class="fwcontrol fwformfield" style="text-align:center">');
+            html.push('              <span style="text-decoration:underline; font-weight:bold; ">Qty</span>');
+            html.push('              <div style="float:left; border:1px solid #bdbdbd;">');
+            html.push('                  <button class="decrementQuantity" tabindex="-1" style="padding: 5px 0px; float:left; width:25%; border:none;">-</button>');
+            html.push('                  <input type="number" style="padding: 5px 0px; float:left; width:50%; border:none; text-align:center;" value = "' + response.Rows[i][quantity] + '" > ');
+            html.push('                  <button class="incrementQuantity" tabindex="-1" style="padding: 5px 0px; float:left; width:25%; border:none;">+</button>');
+            html.push('              </div>');
+            html.push('         </div>');
+            html.push('         <div data-control="FwFormField" data-type="number" data-datafield="QuantityAvailable" data-caption="Available" class="fwcontrol fwformfield" data-datafield="QuantityAvailable" data-enabled="false" style="text-align:center"><span style="text-decoration:underline; font-weight:bold;">Available</span></br></div>');
+            html.push('         <div data-control="FwFormField" data-type="text" data-caption="Conflict Date" data-datafield="ConflictDate" class="fwcontrol fwformfield" data-enabled="false" style="text-align:center"><span style="text-decoration:underline; font-weight:bold;">Conflict</span></br></div>');
+            html.push('         <div data-control="FwFormField" data-type="text" data-caption="All WH" data-datafield="AllWH" class="fwcontrol fwformfield" data-enabled="false" style="white-space:pre"><span style="text-decoration:underline; font-weight:bold;">All WH</span></br>&#160;</div>');
+            html.push('         <div class="quantitycontainer">');
+            html.push('             <div data-control="FwFormField" data-type="number" data-datafield="QuantityIn" data-caption="In" class="fwcontrol fwformfield" data-enabled="false" style="text-align:center"><span style="text-decoration:underline; font-weight:bold;">In</span></br></div>');
+            html.push('             <div data-control="FwFormField" data-type="number" data-datafield="QuantityQcRequired" data-caption="QC" class="fwcontrol fwformfield" data-enabled="false" style="text-align:center"><span style="text-decoration:underline; font-weight:bold;">QC</span></br></div>');
+            html.push('         </div>');
+            html.push('         <div class="accessories" style="width:80px;">');
             if (response.Rows[i][classificationIndex] == "K" || response.Rows[i][classificationIndex] == "C") {
                 html.push('<div class="accList">Accessories</div>');
             }
             else {
                 html.push('<div>&#160;</div>');
             }
-            html.push('</div>');
-            html.push('<div data-control="FwFormField" data-type="number" data-digits="2" data-datafield="DailyRate" data-caption="Rate" class="fwcontrol fwformfield rate" data-enabled="false" style="text-align:center"><span style="text-decoration:underline; font-weight:bold;">Rate</span></br></div>');
-            html.push('</div>');
+            html.push('         </div>');
+            html.push('         <div data-control="FwFormField" data-type="number" data-digits="2" data-datafield="DailyRate" data-caption="Rate" class="fwcontrol fwformfield rate" data-enabled="false" style="text-align:center"><span style="text-decoration:underline; font-weight:bold;">Rate</span></br></div>');
+            html.push('     </div>');
             if (response.Rows[i][classificationIndex] == "K" || response.Rows[i][classificationIndex] == "C") {
                 html.push('<div class="accContainer" data-classification="' + response.Rows[i][classificationIndex] + '" style="float:left; width:95%; display:none">');
 
@@ -730,7 +737,7 @@ class SearchInterface {
                 $inventory.find('span, br').hide();
                 jQuery('#columnDescriptions').show();
                 $inventory.css({ 'cursor': 'pointer', 'width': '95%', 'height': 'auto', 'float': 'left', 'padding': '5px', 'margin': '5px', 'position': 'relative' });
-                descContainer.css({ 'width': '40%', 'float': '' });
+                descContainer.css({ 'width': '38%', 'float': '' });
                 description.css({ 'float': 'left', 'padding-top': '15px', 'width': '100%', 'padding-bottom': '' });
                 imageFrame.hide();
                 quantityAvailable.css({ 'float': 'left', 'width': '7%' });
@@ -741,7 +748,7 @@ class SearchInterface {
                 quantityQcRequired.css({ 'float': 'left', 'width': '50%' });
                 accessories.css({ 'float': 'left', 'padding': '', 'width': '7%', 'font-size': '.9em', 'color': 'blue' });
                 rate.css({ 'float': 'left', 'width': '7%', 'padding-top': '', 'position': '', 'bottom': '', 'right': '' });
-                quantity.css({ 'float': 'left', 'width': '7%', 'position': '', 'bottom': '', 'right': '' });
+                quantity.css({ 'float': 'left', 'width': '9%', 'position': '', 'bottom': '', 'right': '' });
                 quantityContainer.css({ 'float': 'left', 'width':'14%' });
                 //$inventory.removeClass('gridView', 'listGridView');
                 //$inventory.addClass('listView');
@@ -752,7 +759,7 @@ class SearchInterface {
                 jQuery('.accColumns').hide();
                 jQuery('#columnDescriptions').show();
                 $inventory.css({ 'cursor': 'pointer', 'width': '95%', 'height': 'auto', 'float': 'left', 'padding': '5px', 'margin': '5px', 'position': 'relative' });
-                descContainer.css({ 'width': '40%', 'float': 'left' });
+                descContainer.css({ 'width': '38%', 'float': 'left' });
                 description.css({ 'float': 'right', 'padding-top': '15px', 'width': '75%', 'padding-bottom': '' });
                 imageFrame.show();
                 imageFrame.css({ 'float': 'left', 'width': '25%', 'height': '70px', 'line-height': '100px', 'display': 'inline-block', 'position': 'relative' });
@@ -765,7 +772,7 @@ class SearchInterface {
                 quantityQcRequired.css({ 'float': 'left', 'width': '50%' });
                 accessories.css({ 'float': 'left', 'width': '7%', 'padding': '', 'font-size': '.9em', 'color': 'blue' });
                 rate.css({ 'float': 'left', 'width': '7%', 'padding-top': '', 'position': '', 'bottom': '', 'right': '' });
-                quantity.css({ 'float': 'left', 'width': '7%', 'position': '', 'bottom': '', 'right': '' });
+                quantity.css({ 'float': 'left', 'width': '9%', 'position': '', 'bottom': '', 'right': '' });
                 quantityContainer.css({ 'float': 'left', 'width': '14%' });
                 //$inventory.removeClass('listView', 'gridView');
                 //$inventory.addClass('listGridView');
@@ -1095,6 +1102,69 @@ class SearchInterface {
                 $popup.find('.accContainer').css('display', 'none');
             }
         });
+
+        $popup.on('click', '.incrementQuantity, .decrementQuantity', e => {
+            const $button = jQuery(e.currentTarget),
+                oldValue = $button.parent().find("input").val();
+
+            if ($button.text() == "+") {
+                var newVal = (+oldValue + 1);
+            } else {
+                if (oldValue > 0) {
+                    newVal = (+oldValue - 1);
+                } else {
+                    newVal = 0;
+                }
+            }
+            $button.parent().find("input").val(newVal).change();
+        });
+
+        if (jQuery('html').hasClass('desktop')) {
+            var interval = 0;
+            $popup
+                .on('mousedown', '.incrementQuantity, .decrementQuantity', e => {
+                    const $button = jQuery(e.currentTarget),
+                          oldValue = $button.parent().find("input").val(),
+                          $input = $button.parent().find("input");
+
+                    if ($button.text() == "+") {
+                        interval = setInterval(function () {
+                            increment();
+                        }, 300);
+                    } else {
+                        interval = setInterval(function () {
+                            decrement();
+                        }, 300)
+                    }
+
+                    let newValue = +oldValue;
+
+                    function increment() {
+                        $input.val(++newValue);
+                        if (!($input.hasClass('changed'))) {
+                            $input.addClass('changed');
+                        }
+                    }
+
+                    function decrement() {
+                        $input.val(--newValue);
+                        if (!($input.hasClass('changed'))) {
+                            $input.addClass('changed');
+                        }
+                    }
+                 })
+                .on('mouseup mouseleave', '.incrementQuantity, .decrementQuantity', e => {
+                    const $button = jQuery(e.currentTarget),
+                          $input = $button.parent().find("input");
+
+                    clearInterval(interval);
+                    if ($input.hasClass('changed')) {
+                        $input.removeClass('changed');
+                        $input.change();
+                       
+                    }
+                })
+        }
     };
 
     refreshPreviewGrid($popup, id) {
@@ -1146,8 +1216,8 @@ class SearchInterface {
         if (!(accessoryContainer.find('.accList').length)) {
             html.push('<div class="accColumns" style="width:100%; display:none;">');
             html.push(' <div class="accList"></div>');
-            html.push('                           <div style="float:left; width:40%; text-align:center; font-weight:bold">Description</div>');
-            html.push('                           <div style="float:left; width:7%; text-align:center; font-weight:bold;">Qty</div>');
+            html.push('                           <div style="float:left; width:38%; text-align:center; font-weight:bold">Description</div>');
+            html.push('                           <div style="float:left; width:9%; text-align:center; font-weight:bold;">Qty</div>');
             html.push('                           <div style="float:left; width:7%; text-align:center; font-weight:bold;">Available</div>');
             html.push('                           <div style="float:left; width:9%; text-align:center; font-weight:bold;">Conflict Date</div>');
             html.push('                           <div style="float:left; width:7%; text-align:center; font-weight:bold;">All WH</div>');
@@ -1176,17 +1246,23 @@ class SearchInterface {
 
             for (var i = 0; i < response.Rows.length; i++) {
                 let accHtml = [];
-                accHtml.push('<div class="accItem" style="width:100%; float:left; padding:2px 0px;">');
-                accHtml.push('  <div data-control="FwFormField" data-type="key" data-datafield="InventoryId" data-caption="InventoryId" class="fwcontrol fwformfield" data-isuniqueid="true" data-enabled="false" style="display:none"><input value="' + response.Rows[i][inventoryIdIndex] + '"></input></div>');
-                accHtml.push('  <div style="float:left; width:40%; position:relative; text-indent:1em;"><div class="descriptionColor"></div>' + response.Rows[i][descriptionIndex] + '</div>');
-                accHtml.push('  <div data-control="FwFormField" data-type="number" data-datafield="AccQuantity" data-caption="Qty" class="fwcontrol fwformfield" style="position:relative; text-align:center; float:left; width:7%;"><input style="width:80%; text-align:right; padding:5px;" value="' + response.Rows[i][qtyIndex] + '"></div>');
-                accHtml.push('  <div style="text-align:center; float:left; width:7%;">' + response.Rows[i][qtyAvailIndex] + '</div>');
-                accHtml.push('  <div data-datafield="ConflictDate" style="text-align:center; float:left; width:9%;"></div>');
-                accHtml.push('  <div style="text-align:center; float:left; width:7%; white-space:pre;">&#160;</div>');
-                accHtml.push('  <div style="text-align:center; float:left; width:7%;">' + response.Rows[i][qtyInIndex] + '</div>');
-                accHtml.push('  <div style="text-align:center; float:left; width:7%; white-space:pre;">&#160;</div>');
-                accHtml.push('  <div style="text-align:center; float:left; width:7%; white-space:pre;">&#160;</div>');
-                accHtml.push('  <div style="text-align:center; float:left; width:7%; white-space:pre;">&#160;</div>');
+                accHtml.push('<div class="accItem" style="width:100%; float:left; padding:5px 0px;">');
+                accHtml.push('      <div data-control="FwFormField" data-type="key" data-datafield="InventoryId" data-caption="InventoryId" class="fwcontrol fwformfield" data-isuniqueid="true" data-enabled="false" style="display:none"><input value="' + response.Rows[i][inventoryIdIndex] + '"></input></div>');
+                accHtml.push('      <div style="float:left; width:38%; position:relative; text-indent:1em;"><div class="descriptionColor"></div>' + response.Rows[i][descriptionIndex] + '</div>');
+                accHtml.push('      <div data-control="FwFormField" data-type="number" data-datafield="AccQuantity" data-caption="Qty" class="fwcontrol fwformfield" style="position:relative; text-align:center; float:left; width:9%;">');
+                accHtml.push('          <div style="float:left; border:1px solid #bdbdbd;">');
+                accHtml.push('              <button class="decrementQuantity" tabindex="-1" style="padding: 5px 0px; float:left; width:25%; border:none;">-</button>');
+                accHtml.push('              <input type="number" style="padding: 5px 0px; float:left; width:50%; border:none; text-align:center; " value="' + response.Rows[i][qtyIndex] + '">');
+                accHtml.push('              <button class="incrementQuantity" tabindex="-1" style="padding: 5px 0px; float:left; width:25%; border:none;">+</button>');
+                accHtml.push('          </div>');
+                accHtml.push('      </div>');
+                accHtml.push('      <div style="text-align:center; float:left; width:7%;">' + response.Rows[i][qtyAvailIndex] + '</div>');
+                accHtml.push('      <div data-datafield="ConflictDate" style="text-align:center; float:left; width:9%;"></div>');
+                accHtml.push('      <div style="text-align:center; float:left; width:7%; white-space:pre;">&#160;</div>');
+                accHtml.push('      <div style="text-align:center; float:left; width:7%;">' + response.Rows[i][qtyInIndex] + '</div>');
+                accHtml.push('      <div style="text-align:center; float:left; width:7%; white-space:pre;">&#160;</div>');
+                accHtml.push('      <div style="text-align:center; float:left; width:7%; white-space:pre;">&#160;</div>');
+                accHtml.push('      <div style="text-align:center; float:left; width:7%; white-space:pre;">&#160;</div>');
                 accHtml.push('</div>');
 
                 let item = accHtml.join('');
@@ -1240,14 +1316,16 @@ class SearchInterface {
                     'border-left': '20px solid',
                     'border-right': '20px solid transparent',
                     'border-bottom': '20px solid transparent',
-                    'left': '4px',
+                    'left': '25%',
                     'top': '0',
                     'height': '0',
                     'width': '0',
                     'position': 'absolute',
                     'right': '0px',
                     'border-left-color': qtycolor,
-                    'z-index': '2'
+                    'z-index': '2',
+                    'pointer-events': 'none',
+                    'margin-left': '3px'
                 });
             }
         }, null, null);
