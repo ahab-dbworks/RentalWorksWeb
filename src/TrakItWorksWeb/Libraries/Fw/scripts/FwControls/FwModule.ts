@@ -167,11 +167,18 @@ class FwModule {
                                                                         let html = [];
                                                                         html.push('<div class="fwform" data-controller="none" style="background-color: transparent;">');
                                                                         html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
-                                                                        html.push('    <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield user-defined-records" data-caption="Enter number" data-datafield="" style="width:100px;float:left;"></div>');
+                                                                        html.push(`    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield all-records" data-caption="Download all ${totalNumberofRows} Records" data-datafield="" style="float:left;width:100px;"></div>`);
                                                                         html.push('  </div>');
+                                                                        html.push(' <div class="formrow" style="width:100%;display:flex;align-content:flex-start; align-items:center">');
                                                                         html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
-                                                                        html.push(`    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield all-records" data-caption="Export all ${totalNumberofRows} Records" data-datafield="" style="float:left;width:100px;"></div>`);
+                                                                        html.push(`    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield user-defined-records" data-caption="" data-datafield="" style="float:left;width:30px;"></div>`);
                                                                         html.push('  </div>');
+                                                                        html.push('  <span style="margin:22px 0px 0px 0px;">First</span>');
+                                                                        html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow" style="margin:0px 0px 0px 0px;">');
+                                                                        html.push('    <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield user-defined-records" data-caption="" data-datafield="" style="width:80px;float:left;margin:0px 0px 0px 0px;"></div>');
+                                                                        html.push('  </div>');
+                                                                        html.push('  <span style="margin:22px 0px 0px 0px;">Records</span>');
+                                                                        html.push(' </div>');
                                                                         html.push('</div>');
 
                                                                         FwConfirmation.addControls($confirmation, html.join(''));
@@ -179,6 +186,8 @@ class FwModule {
                                                                         $no = FwConfirmation.addButton($confirmation, 'Cancel');
 
                                                                         $confirmation.find('.user-defined-records input').val(request.pagesize);
+                                                                        $confirmation.find('.all-records input').prop('checked', true);
+                                                                        FwFormField.disable($confirmation.find('.user-defined-records'));
                                                                         userDefinedNumberofRows = +$confirmation.find('.user-defined-records input').val();
 
                                                                         $confirmation.find('.all-records input').on('change', function () {
@@ -186,10 +195,24 @@ class FwModule {
                                                                             if ($this.prop('checked') === true) {
                                                                                 $confirmation.find('.user-defined-records input').val("");
                                                                                 FwFormField.disable($confirmation.find('.user-defined-records'));
+                                                                                $confirmation.find('.user-defined-records input').prop('checked', false);
                                                                             }
                                                                             else {
                                                                                 $confirmation.find('.user-defined-records input').val(request.pagesize);
                                                                                 FwFormField.enable($confirmation.find('.user-defined-records'));
+                                                                                $confirmation.find('.user-defined-records input').prop('checked', true);
+                                                                            }
+                                                                        });
+
+                                                                        $confirmation.find('.user-defined-records input').on('change', function () {
+                                                                            var $this = jQuery(this);
+                                                                            if ($this.prop('checked') === true) {
+                                                                                FwFormField.enable($confirmation.find('.user-defined-records'));
+                                                                                $confirmation.find('.all-records input').prop('checked', false);
+                                                                            }
+                                                                            else {
+                                                                                FwFormField.disable($confirmation.find('.user-defined-records'));
+                                                                                $confirmation.find('.all-records input').prop('checked', true);
                                                                             }
                                                                         });
 
