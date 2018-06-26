@@ -1173,7 +1173,9 @@ var FwBrowse = (function () {
                                                 $submenuitem.on('click', function (e) {
                                                     try {
                                                         e.stopPropagation();
-                                                        FwApplicationTree.clickEvents['{' + gridSubMenuItem.id + '}'](e);
+                                                        var securityid = jQuery(e.target).closest('.submenu-btn').attr('data-securityid');
+                                                        var func = FwApplicationTree.clickEvents['{' + securityid + '}'];
+                                                        func.apply(this, [e]);
                                                     }
                                                     catch (ex) {
                                                         FwFunc.showError(ex);
@@ -2091,8 +2093,8 @@ var FwBrowse = (function () {
         if ($trEditModeRows.length === 0) {
             $control.find('thead .tdselectrow .divselectrow').show();
             $control.find('.gridmenu .buttonbar div[data-type="NewButton"]').show();
-            $control.find('tbody .divselectrow').show();
-            $control.find('tbody .browsecontextmenu').show();
+            $control.find('tbody tr.editmode .divselectrow').show();
+            $control.find('tbody tr.editmode .browsecontextmenu').show();
         }
     };
     FwBrowse.setFieldViewMode = function ($control, $field, $tr) {

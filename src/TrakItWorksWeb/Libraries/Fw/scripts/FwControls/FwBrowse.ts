@@ -1279,7 +1279,9 @@
                                                 $submenuitem.on('click', function (e: JQuery.Event) {
                                                     try {
                                                         e.stopPropagation();
-                                                        FwApplicationTree.clickEvents['{' + gridSubMenuItem.id + '}'](e);
+                                                        let securityid = jQuery(e.target).closest('.submenu-btn').attr('data-securityid');
+                                                        let func = FwApplicationTree.clickEvents['{' + securityid + '}'];
+                                                        func.apply(this, [e]);
                                                     } catch (ex) {
                                                         FwFunc.showError(ex);
                                                     }
@@ -1713,11 +1715,19 @@
                             if (typeof dt.ColumnIndex[halfcellcolor] !== 'number') {
                                 throw 'FwBrowse.databindcallback: halfcellcolor: "column ' + halfcellcolor + '" was not returned by the web service.';
                             }
-                            let css = {
-                                'position': 'relative',
-                                'background': 'linear-gradient(to bottom, ' + dtRow[dt.ColumnIndex[halfcellcolor]] + ', rgba(255, 255, 255, 0)50%)'
-                            };
-                            $td.css(css);
+                            if ($field.attr('data-formreadonly') === 'true') {
+                                var css = {
+                                    'position': 'relative',
+                                    'background': 'linear-gradient(to bottom, ' + dtRow[dt.ColumnIndex[halfcellcolor]] + ', rgba(245, 245, 245, 1)50%)'
+                                };
+                            } else {
+                                var css = {
+                                    'position': 'relative',
+                                    'background': 'linear-gradient(to bottom, ' + dtRow[dt.ColumnIndex[halfcellcolor]] + ', rgba(255, 255, 255, 0)50%)'
+                                };
+                            }
+
+                            $td.children().css(css);
                         }
                     }
 
@@ -1728,11 +1738,19 @@
                             if (typeof dt.ColumnIndex[fullcellcolor] !== 'number') {
                                 throw 'FwBrowse.databindcallback: fullcellcolor: "column ' + fullcellcolor + '" was not returned by the web service.';
                             }
-                            let css = {
-                                'position': 'relative',
-                                'background': 'linear-gradient(to bottom, ' + dtRow[dt.ColumnIndex[fullcellcolor]] + ', rgba(255, 255, 255, 0))'
+
+                            if ($field.attr('data-formreadonly') === 'true') {
+                                var css = {
+                                    'position': 'relative',
+                                    'background': 'linear-gradient(to bottom, ' + dtRow[dt.ColumnIndex[fullcellcolor]] + ', rgba(245, 245, 245, 1))'
+                                }
+                            } else {
+                                var css = {
+                                    'position': 'relative',
+                                    'background': 'linear-gradient(to bottom, ' + dtRow[dt.ColumnIndex[fullcellcolor]] + ', rgba(255, 255, 255, 0))'
+                                }
                             }
-                            $td.css(css);
+                            $td.children().css(css);
                         }
                     }
 
