@@ -267,6 +267,8 @@ namespace WebLibrary.Security
             AddGrid("Contact Email History",                  "{DAA5E81D-353C-4AAA-88A8-B4E7046B5FF0}", lv1menuGrids.Id, "FwContactEmailHistoryGridController");
             AddGrid("Contact Note",                           "{A9CB5D4D-4AC0-46D4-A084-19039CF8C654}", lv1menuGrids.Id, "ContactNoteGridController");
             AddGrid("Contact Personal Event",                 "{96B55326-31BB-46C1-BD11-DE1201A8CB51}", lv1menuGrids.Id, "ContactPersonalEventGridController");
+            AddGrid("Contract Detail",                        "{30A4330D-516A-4B84-90FE-C8DDCC54DF02}", lv1menuGrids.Id, "ContractDetailGridController");
+            AddGrid("Contract Summary",                       "{D545110F-65B3-43B7-BAA8-334E35975881}", lv1menuGrids.Id, "ContractSummaryGridController");
             AddGrid("Crew Location",                          "{FFF47B06-017C-417B-A05B-AD8670126E06}", lv1menuGrids.Id, "CrewLocationGridController");
             AddGrid("Crew Position",                          "{C87470C4-6D8A-4040-A7EF-E9B393B583CA}", lv1menuGrids.Id, "CrewPositionGridController");
             AddGrid("Customer Note",                          "{50EB024E-6D9A-440A-8161-458A2E89EFB8}", lv1menuGrids.Id, "CustomerNoteGridController");
@@ -370,7 +372,9 @@ namespace WebLibrary.Security
             AddGrid("Warehouse QuikLocate Approver",          "{597134F6-303E-4B69-A9B7-403082295AE1}", lv1menuGrids.Id, "WarehouseQuikLocateApproverGridController");
             AddGrid("Order Note",                             "{55248753-DF49-46E3-84AE-0532354F3550}", lv1menuGrids.Id, "OrderNoteGridController");
             AddGrid("Search Preview",                         "{A6C93317-0DDC-4781-9B01-2EFC78ECED40}", lv1menuGrids.Id, "SearchPreviewGridController");
-      
+
+
+
         }
 
         //---------------------------------------------------------------------------------------------

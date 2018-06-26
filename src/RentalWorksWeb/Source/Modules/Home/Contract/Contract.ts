@@ -81,7 +81,6 @@ class Contract {
 
         $form = jQuery(jQuery('#tmpl-modules-' + this.Module + 'Form').html());
         $form = FwModule.openForm($form, mode);
-
         return $form;
     }
 
@@ -95,6 +94,49 @@ class Contract {
         return $form;
     }
 
+    renderGrids($form) {
+        var $contractSummaryGrid;
+        var $contractSummaryGridControl;
+        $contractSummaryGrid = $form.find('div[data-grid="ContractSummaryGrid"]');
+        $contractSummaryGridControl = jQuery(jQuery('#tmpl-grids-ContractSummaryGridBrowse').html());
+        $contractSummaryGrid.empty().append($contractSummaryGridControl);
+        $contractSummaryGridControl.data('ondatabind', function (request) {
+            request.uniqueids = {
+                ContractId: FwFormField.getValueByDataField($form, 'ContractId')
+            };
+        });
+        FwBrowse.init($contractSummaryGridControl);
+        FwBrowse.renderRuntimeHtml($contractSummaryGridControl);
+
+        var $contractRentalDetailGrid;
+        var $contractRentalDetailGridControl;
+        $contractRentalDetailGrid = $form.find('.rentaldetailgrid div[data-grid="ContractDetailGrid"]');
+        $contractRentalDetailGridControl = jQuery(jQuery('#tmpl-grids-ContractDetailGridBrowse').html());
+        $contractRentalDetailGrid.empty().append($contractRentalDetailGridControl);
+        $contractRentalDetailGridControl.data('ondatabind', function (request) {
+            request.uniqueids = {
+                ContractId: FwFormField.getValueByDataField($form, 'ContractId'),
+                RecType: "R"
+            };
+        });
+        FwBrowse.init($contractRentalDetailGridControl);
+        FwBrowse.renderRuntimeHtml($contractRentalDetailGridControl);
+
+        var $contractSalesDetailGrid;
+        var $contractSalesDetailGridControl;
+        $contractSalesDetailGrid = $form.find('.salesdetailgrid div[data-grid="ContractDetailGrid"]');
+        $contractSalesDetailGridControl = jQuery(jQuery('#tmpl-grids-ContractDetailGridBrowse').html());
+        $contractSalesDetailGrid.empty().append($contractSalesDetailGridControl);
+        $contractSalesDetailGridControl.data('ondatabind', function (request) {
+            request.uniqueids = {
+                ContractId: FwFormField.getValueByDataField($form, 'ContractId'),
+                RecType: "S"
+            };
+        });
+        FwBrowse.init($contractSalesDetailGridControl);
+        FwBrowse.renderRuntimeHtml($contractSalesDetailGridControl);
+    }
+
     saveForm($form: any, parameters: any) {
       FwModule.saveForm(this.Module, $form, parameters);
     }
@@ -106,6 +148,18 @@ class Contract {
     }
 
     afterLoad($form: any) {
+        var $contractSummaryGrid;
+        $contractSummaryGrid = $form.find('[data-name="ContractSummaryGrid"]');
+        FwBrowse.search($contractSummaryGrid);
+
+        var $contractRentalGrid;
+        $contractRentalGrid = $form.find('.rentaldetailgrid [data-name="ContractDetailGrid"]');
+        FwBrowse.search($contractRentalGrid);
+
+        var $contractSalesGrid;
+        $contractSalesGrid = $form.find('.salesdetailgrid [data-name="ContractDetailGrid"]');
+        FwBrowse.search($contractSalesGrid);
+
         var type = FwFormField.getValueByDataField($form, 'ContractType');
         var $billing = $form.find('[data-datafield="BillingDate"] .fwformfield-caption');
 
@@ -129,6 +183,18 @@ class Contract {
                 $billing.html('Billing Date');
                 break;
         }
+
+        let showSales = $form.find('[data-datafield="Sales"] input').val(),
+            showRental = $form.find('[data-datafield="Rental"] input').val();
+
+        if (showSales === 'false') {
+            $form.find('[data-type="tab"][data-caption="Sales Detail"]').hide();
+        }
+
+        if (showRental === 'false') {
+            $form.find('[data-type="tab"][data-caption="Rental Detail"]').hide();
+        }
+
 
 
     }
