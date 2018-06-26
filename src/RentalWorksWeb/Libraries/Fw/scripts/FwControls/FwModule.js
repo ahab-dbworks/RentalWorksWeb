@@ -156,7 +156,7 @@ var FwModule = (function () {
                                                                         html.push(' </div>');
                                                                         html.push('</div>');
                                                                         FwConfirmation.addControls($confirmation_1, html.join(''));
-                                                                        $yes = FwConfirmation.addButton($confirmation_1, 'Export', false);
+                                                                        $yes = FwConfirmation.addButton($confirmation_1, 'Download', false);
                                                                         $no = FwConfirmation.addButton($confirmation_1, 'Cancel');
                                                                         $confirmation_1.find('.user-defined-records input').val(request_1.pagesize);
                                                                         $confirmation_1.find('.all-records input').prop('checked', true);

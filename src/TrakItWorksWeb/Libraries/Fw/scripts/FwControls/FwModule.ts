@@ -182,7 +182,7 @@ class FwModule {
                                                                         html.push('</div>');
 
                                                                         FwConfirmation.addControls($confirmation, html.join(''));
-                                                                        $yes = FwConfirmation.addButton($confirmation, 'Export', false);
+                                                                        $yes = FwConfirmation.addButton($confirmation, 'Download', false);
                                                                         $no = FwConfirmation.addButton($confirmation, 'Cancel');
 
                                                                         $confirmation.find('.user-defined-records input').val(request.pagesize);
