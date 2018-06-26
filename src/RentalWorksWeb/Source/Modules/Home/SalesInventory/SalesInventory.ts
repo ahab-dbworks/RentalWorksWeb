@@ -24,7 +24,7 @@ class SalesInventory {
         };
 
         return screen;
-    }
+    };
 
     //----------------------------------------------------------------------------------------------
     openBrowse() {
@@ -45,7 +45,7 @@ class SalesInventory {
         FwBrowse.addLegend($browse, 'Container', '#ff8040');
 
         return $browse;
-    }
+    };
 
     //----------------------------------------------------------------------------------------------
     addBrowseMenuItems($menuObject: any) {
@@ -128,6 +128,22 @@ class SalesInventory {
 
         if (mode === 'NEW') {
             FwFormField.enable($form.find('[data-datafield="Classification"]'));
+
+            $form.find('div[data-datafield="Classification"] .fwformfield-value').on('change', function () {
+                var $this = jQuery(this);
+
+                $form.find('.completeskitstab').show();
+                $form.find('.completetab').hide();
+                $form.find('.kittab').hide();
+
+                if ($this.prop('checked') === true && $this.val() === 'C') {
+                    $form.find('.completetab').show();
+                    $form.find('.completeskitstab').hide();
+                }
+                if ($this.prop('checked') === true && $this.val() === 'K') {
+                    $form.find('.kittab').show();
+                }
+            })
         };
 
         $form.find('div[data-datafield="InventoryTypeId"]').data('onchange', function ($tr) {
@@ -148,7 +164,7 @@ class SalesInventory {
         });
 
         return $form;
-    }
+    };
 
     //----------------------------------------------------------------------------------------------
     loadForm(uniqueids: any) {
@@ -159,48 +175,54 @@ class SalesInventory {
         FwModule.loadForm(this.Module, $form);
 
         return $form;
-    }
+    };
 
     //----------------------------------------------------------------------------------------------
     saveForm($form: any, parameters: any) {
         FwModule.saveForm(this.Module, $form, parameters);
-    }
+    };
 
     //----------------------------------------------------------------------------------------------
     loadAudit($form: any) {
         var uniqueid;
         uniqueid = $form.find('div.fwformfield[data-datafield="InventoryId"] input').val();
         FwModule.loadAudit($form, uniqueid);
-    }
+    };
 
     //----------------------------------------------------------------------------------------------
     renderGrids($form: any) {
-        var $itemLocationTaxGrid: any;
-        var $itemLocationTaxGridControl: any;
-        var $salesInventoryWarehouseGrid: any;
-        var $salesInventoryWarehouseGridControl: any;
-        var $inventoryAvailabilityGrid: any;
-        var $inventoryAvailabilityGridControl: any;
-        var $inventoryConsignmentGrid: any;
-        var $inventoryConsignmentGridControl: any;
-        var $inventoryCompleteKitGrid: any;
-        var $inventoryCompleteKitGridControl: any;
-        var $inventorySubstituteGrid: any;
-        var $inventorySubstituteGridControl: any;
-        var $inventoryCompatibilityGrid: any;
-        var $inventoryCompatibilityGridControl: any;
-        var $inventoryQcGrid: any;
-        var $inventoryQcGridControl: any;
-        var $inventoryAttributeValueGrid: any;
-        var $inventoryAttributeValueGridControl: any;
-        var $inventoryVendorGrid: any;
-        var $inventoryVendorGridControl: any;
-        var $inventoryPrepGrid: any;
-        var $inventoryPrepGridControl: any;
-        var $wardrobeInventoryColorGrid: any;
-        var $wardrobeInventoryColorGridControl: any;
-        var $wardrobeInventoryMaterialGrid: any;
-        var $wardrobeInventoryMaterialGridControl: any;
+        let $itemLocationTaxGrid: any;
+        let $itemLocationTaxGridControl: any;
+        let $salesInventoryWarehouseGrid: any;
+        let $salesInventoryWarehouseGridControl: any;
+        let $inventoryAvailabilityGrid: any;
+        let $inventoryAvailabilityGridControl: any;
+        let $inventoryConsignmentGrid: any;
+        let $inventoryConsignmentGridControl: any;
+        let $inventoryCompleteKitGrid: any;
+        let $inventoryCompleteKitGridControl: any;
+        let $inventorySubstituteGrid: any;
+        let $inventorySubstituteGridControl: any;
+        let $inventoryCompatibilityGrid: any;
+        let $inventoryCompatibilityGridControl: any;
+        let $inventoryQcGrid: any;
+        let $inventoryQcGridControl: any;
+        let $inventoryAttributeValueGrid: any;
+        let $inventoryAttributeValueGridControl: any;
+        let $inventoryVendorGrid: any;
+        let $inventoryVendorGridControl: any;
+        let $inventoryPrepGrid: any;
+        let $inventoryPrepGridControl: any;
+        let $wardrobeInventoryColorGrid: any;
+        let $wardrobeInventoryColorGridControl: any;
+        let $wardrobeInventoryMaterialGrid: any;
+        let $wardrobeInventoryMaterialGridControl: any;
+        let $inventoryCompleteGrid: any;
+        let $inventoryCompleteGridControl: any;
+        let $inventoryKitGrid: any;
+        let $inventoryKitGridControl: any;
+
+        let warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
 
         // load AttributeValue Grid
         $itemLocationTaxGrid = $form.find('div[data-grid="ItemLocationTaxGrid"]');
@@ -372,23 +394,98 @@ class SalesInventory {
         });
         FwBrowse.init($wardrobeInventoryMaterialGridControl);
         FwBrowse.renderRuntimeHtml($wardrobeInventoryMaterialGridControl);
-    }
+
+        $inventoryCompleteGrid = $form.find('div[data-grid="InventoryCompleteGrid"]');
+        $inventoryCompleteGridControl = jQuery(jQuery('#tmpl-grids-InventoryCompleteGridBrowse').html());
+        $inventoryCompleteGrid.empty().append($inventoryCompleteGridControl);
+        $inventoryCompleteGridControl.data('ondatabind', function (request) {
+            request.uniqueids = {
+                PackageId: $form.find('div.fwformfield[data-datafield="InventoryId"] input').val(),
+                WarehouseId: warehouse.warehouseid
+            };
+        });
+        $inventoryCompleteGridControl.data('beforesave', function (request) {
+            request.PackageId = $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
+        });
+        //$inventoryCompleteGridControl.data('afterdatabindcallback', function ($control, dt) {
+        //    var orderByIndex = dt.ColumnIndex.OrderBy;
+        //    var inventoryIdIndex = dt.ColumnIndex.InventoryId
+        //    for (var i = 0; i < dt.Rows.length; i++) {
+        //        if (dt.Rows[i][orderByIndex] === 1 && dt.Rows[i][inventoryIdIndex] !== '') {
+        //            primaryRowIndex = i
+        //        }
+        //    }
+
+        //});
+        $inventoryCompleteGridControl.data('isfieldeditable', function ($field, dt, rowIndex) {
+            var primaryRowIndex;
+            if (primaryRowIndex === undefined) {
+                var orderByIndex = dt.ColumnIndex.OrderBy;
+                var inventoryIdIndex = dt.ColumnIndex.InventoryId
+                for (var i = 0; i < dt.Rows.length; i++) {
+                    if (dt.Rows[i][orderByIndex] === 1 && dt.Rows[i][inventoryIdIndex] !== '') {
+                        primaryRowIndex = i
+                    }
+                }
+            }
+            if (rowIndex === primaryRowIndex) {
+                return true;
+            } else {
+                return false;
+            }
+        });
+        FwBrowse.init($inventoryCompleteGridControl);
+        FwBrowse.renderRuntimeHtml($inventoryCompleteGridControl);
+
+        $inventoryKitGrid = $form.find('div[data-grid="InventoryKitGrid"]');
+        $inventoryKitGridControl = jQuery(jQuery('#tmpl-grids-InventoryKitGridBrowse').html());
+        $inventoryKitGrid.empty().append($inventoryKitGridControl);
+        $inventoryKitGridControl.data('ondatabind', function (request) {
+            request.uniqueids = {
+                PackageId: $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
+            };
+        });
+        $inventoryKitGridControl.data('beforesave', function (request) {
+            request.PackageId = $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
+        });
+        $inventoryKitGridControl.data('isfieldeditable', function ($field, dt, rowIndex) {
+            var primaryRowIndex;
+            if (primaryRowIndex === undefined) {
+                var orderByIndex = dt.ColumnIndex.OrderBy;
+                var inventoryIdIndex = dt.ColumnIndex.InventoryId
+                for (var i = 0; i < dt.Rows.length; i++) {
+                    if (dt.Rows[i][orderByIndex] === 1 && dt.Rows[i][inventoryIdIndex] !== '') {
+                        primaryRowIndex = i
+                    }
+                }
+            }
+            if (rowIndex === primaryRowIndex) {
+                return true;
+            } else {
+                return false;
+            }
+        });
+        FwBrowse.init($inventoryKitGridControl);
+        FwBrowse.renderRuntimeHtml($inventoryKitGridControl);
+    };
 
     //----------------------------------------------------------------------------------------------
     afterLoad($form: any) {
-        var $itemLocationTaxGrid: any;
-        var $salesInventoryWarehouseGrid: any;
-        var $inventoryAvailabilityGrid: any;
-        var $inventoryConsignmentGrid: any;
-        var $inventoryCompleteKitGrid: any;
-        var $inventorySubstituteGrid: any;
-        var $inventoryCompatibilityGrid: any;
-        var $inventoryQcGrid: any;
-        var $inventoryAttributeValueGrid: any;
-        var $inventoryVendorGrid: any;
-        var $inventoryPrepGrid: any;
-        var $wardrobeInventoryColorGrid: any;
-        var $wardrobeInventoryMaterialGrid: any;
+        let $itemLocationTaxGrid: any;
+        let $salesInventoryWarehouseGrid: any;
+        let $inventoryAvailabilityGrid: any;
+        let $inventoryConsignmentGrid: any;
+        let $inventoryCompleteKitGrid: any;
+        let $inventorySubstituteGrid: any;
+        let $inventoryCompatibilityGrid: any;
+        let $inventoryQcGrid: any;
+        let $inventoryAttributeValueGrid: any;
+        let $inventoryVendorGrid: any;
+        let $inventoryPrepGrid: any;
+        let $wardrobeInventoryColorGrid: any;
+        let $wardrobeInventoryMaterialGrid: any;
+        let $inventoryCompleteGrid: any;
+        let $inventoryKitGrid: any;
 
         $itemLocationTaxGrid = $form.find('[data-name="ItemLocationTaxGrid"]');
         FwBrowse.search($itemLocationTaxGrid);
@@ -416,6 +513,10 @@ class SalesInventory {
         FwBrowse.search($wardrobeInventoryColorGrid);
         $wardrobeInventoryMaterialGrid = $form.find('[data-name="WardrobeInventoryMaterialGrid"]');
         FwBrowse.search($wardrobeInventoryMaterialGrid);
+        $inventoryCompleteGrid = $form.find('[data-name="InventoryCompleteGrid"]');
+        FwBrowse.search($inventoryCompleteGrid);
+        $inventoryKitGrid = $form.find('[data-name="InventoryKitGrid"]');
+        FwBrowse.search($inventoryKitGrid);
 
         if (FwFormField.getValue($form, 'div[data-datafield="Classification"]') === 'I' || FwFormField.getValue($form, 'div[data-datafield="Classification"]') === 'A') {
             FwFormField.enable($form.find('[data-datafield="Classification"]'));
@@ -434,6 +535,7 @@ class SalesInventory {
         }
 
         if (FwFormField.getValue($form, 'div[data-datafield="Classification"]') === 'C') {
+            $form.find('.completetab').show();
             $form.find('.itemradio').hide();
             $form.find('.accessoryradio').hide();
             $form.find('.containerradio').hide();
@@ -441,6 +543,7 @@ class SalesInventory {
         }
 
         if (FwFormField.getValue($form, 'div[data-datafield="Classification"]') === 'K') {
+            $form.find('.kittab').show();
             $form.find('.itemradio').hide();
             $form.find('.accessoryradio').hide();
             $form.find('.containerradio').hide();
@@ -471,7 +574,7 @@ class SalesInventory {
         } else {
             FwFormField.disable($form.find('.subcategory'));
         }
-    }
+    };
 
     //----------------------------------------------------------------------------------------------
     beforeValidate($browse, $grid, request) {
@@ -497,8 +600,8 @@ class SalesInventory {
                 };
                 break;
         };
-    }
-}
+    };
+};
 
 //----------------------------------------------------------------------------------------------
-var SalesInventoryController = new SalesInventory();
+const SalesInventoryController = new SalesInventory();

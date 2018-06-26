@@ -21,6 +21,7 @@ var RentalInventory = (function () {
         };
         return screen;
     };
+    ;
     RentalInventory.prototype.openBrowse = function () {
         var self = this;
         var $browse = FwBrowse.loadBrowseFromTemplate(this.Module);
@@ -37,6 +38,7 @@ var RentalInventory = (function () {
         FwBrowse.addLegend($browse, 'Container', '#ff8040');
         return $browse;
     };
+    ;
     RentalInventory.prototype.addBrowseMenuItems = function ($menuObject) {
         var self = this;
         var $all = FwMenu.generateDropDownViewBtn('All', true);
@@ -164,6 +166,7 @@ var RentalInventory = (function () {
         });
         return $form;
     };
+    ;
     RentalInventory.prototype.loadForm = function (uniqueids) {
         var $form;
         $form = this.openForm('EDIT');
@@ -171,14 +174,17 @@ var RentalInventory = (function () {
         FwModule.loadForm(this.Module, $form);
         return $form;
     };
+    ;
     RentalInventory.prototype.saveForm = function ($form, parameters) {
         FwModule.saveForm(this.Module, $form, parameters);
     };
+    ;
     RentalInventory.prototype.loadAudit = function ($form) {
         var uniqueid;
         uniqueid = $form.find('div.fwformfield[data-datafield="InventoryId"] input').val();
         FwModule.loadAudit($form, uniqueid);
     };
+    ;
     RentalInventory.prototype.renderGrids = function ($form) {
         var $itemLocationTaxGrid;
         var $itemLocationTaxGridControl;
@@ -476,6 +482,7 @@ var RentalInventory = (function () {
         FwBrowse.init($wardrobeInventoryMaterialGridControl);
         FwBrowse.renderRuntimeHtml($wardrobeInventoryMaterialGridControl);
     };
+    ;
     RentalInventory.prototype.afterLoad = function ($form) {
         var self = this;
         var $itemLocationTaxGrid;
@@ -584,6 +591,7 @@ var RentalInventory = (function () {
             FwFormField.disable($form.find('.subcategory'));
         }
     };
+    ;
     RentalInventory.prototype.beforeValidate = function ($browse, $grid, request) {
         var validationName = request.module;
         var InventoryTypeValue = jQuery($grid.find('[data-validationname="InventoryTypeValidation"] input')).val();
@@ -609,7 +617,9 @@ var RentalInventory = (function () {
         }
         ;
     };
+    ;
     return RentalInventory;
 }());
+;
 var RentalInventoryController = new RentalInventory();
 //# sourceMappingURL=RentalInventory.js.map

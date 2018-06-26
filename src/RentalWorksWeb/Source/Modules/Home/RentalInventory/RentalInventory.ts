@@ -3,6 +3,7 @@ class RentalInventory {
     apiurl: string = 'api/v1/rentalinventory';
     ActiveView: string = 'ALL';
 
+    //----------------------------------------------------------------------------------------------
     getModuleScreen() {
         var screen, $browse;
 
@@ -23,8 +24,9 @@ class RentalInventory {
         };
 
         return screen;
-    }
+    };
 
+    //----------------------------------------------------------------------------------------------
     openBrowse() {
         var self = this;
         var $browse: JQuery = FwBrowse.loadBrowseFromTemplate(this.Module);
@@ -43,8 +45,9 @@ class RentalInventory {
         FwBrowse.addLegend($browse, 'Container', '#ff8040');
 
         return $browse;
-    }
+    };
 
+    //----------------------------------------------------------------------------------------------
     addBrowseMenuItems($menuObject: any) {
         var self = this;
         var $all: JQuery = FwMenu.generateDropDownViewBtn('All', true);
@@ -114,6 +117,7 @@ class RentalInventory {
         return $menuObject;
     };
 
+    //----------------------------------------------------------------------------------------------
     openForm(mode: string) {
         var $form, self;
 
@@ -182,8 +186,9 @@ class RentalInventory {
         });
 
         return $form;
-    }
+    };
 
+    //----------------------------------------------------------------------------------------------
     loadForm(uniqueids: any) {
         var $form;
 
@@ -192,18 +197,21 @@ class RentalInventory {
         FwModule.loadForm(this.Module, $form);
 
         return $form;
-    }
+    };
 
+    //----------------------------------------------------------------------------------------------
     saveForm($form: any, parameters: any) {
         FwModule.saveForm(this.Module, $form, parameters);
-    } 
+    }; 
 
+    //----------------------------------------------------------------------------------------------
     loadAudit($form: any) {
         var uniqueid;
         uniqueid = $form.find('div.fwformfield[data-datafield="InventoryId"] input').val();
         FwModule.loadAudit($form, uniqueid);
-    }
+    };
 
+    //----------------------------------------------------------------------------------------------
     renderGrids($form: any) {
         var $itemLocationTaxGrid: any;
         var $itemLocationTaxGridControl: any;
@@ -527,8 +535,9 @@ class RentalInventory {
         });
         FwBrowse.init($wardrobeInventoryMaterialGridControl);
         FwBrowse.renderRuntimeHtml($wardrobeInventoryMaterialGridControl);
-    }
+    };
 
+    //----------------------------------------------------------------------------------------------
     afterLoad($form: any) {
         var self = this;
         var $itemLocationTaxGrid: any;
@@ -643,8 +652,9 @@ class RentalInventory {
         } else {
             FwFormField.disable($form.find('.subcategory'));
         }
-    }
+    };
 
+    //----------------------------------------------------------------------------------------------
     beforeValidate($browse, $grid, request) {
         var validationName = request.module;
         var InventoryTypeValue = jQuery($grid.find('[data-validationname="InventoryTypeValidation"] input')).val();
@@ -669,8 +679,8 @@ class RentalInventory {
                 };
                 break;
         };
-    }
+    };
+};
 
-}
-
+//----------------------------------------------------------------------------------------------
 var RentalInventoryController = new RentalInventory();

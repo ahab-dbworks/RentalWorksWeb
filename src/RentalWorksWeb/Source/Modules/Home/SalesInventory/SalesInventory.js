@@ -21,6 +21,7 @@ var SalesInventory = (function () {
         };
         return screen;
     };
+    ;
     SalesInventory.prototype.openBrowse = function () {
         var self = this;
         var $browse = FwBrowse.loadBrowseFromTemplate(this.Module);
@@ -37,6 +38,7 @@ var SalesInventory = (function () {
         FwBrowse.addLegend($browse, 'Container', '#ff8040');
         return $browse;
     };
+    ;
     SalesInventory.prototype.addBrowseMenuItems = function ($menuObject) {
         var self = this;
         var $all = FwMenu.generateDropDownViewBtn('All Items', true);
@@ -109,6 +111,19 @@ var SalesInventory = (function () {
         });
         if (mode === 'NEW') {
             FwFormField.enable($form.find('[data-datafield="Classification"]'));
+            $form.find('div[data-datafield="Classification"] .fwformfield-value').on('change', function () {
+                var $this = jQuery(this);
+                $form.find('.completeskitstab').show();
+                $form.find('.completetab').hide();
+                $form.find('.kittab').hide();
+                if ($this.prop('checked') === true && $this.val() === 'C') {
+                    $form.find('.completetab').show();
+                    $form.find('.completeskitstab').hide();
+                }
+                if ($this.prop('checked') === true && $this.val() === 'K') {
+                    $form.find('.kittab').show();
+                }
+            });
         }
         ;
         $form.find('div[data-datafield="InventoryTypeId"]').data('onchange', function ($tr) {
@@ -130,6 +145,7 @@ var SalesInventory = (function () {
         });
         return $form;
     };
+    ;
     SalesInventory.prototype.loadForm = function (uniqueids) {
         var $form;
         $form = this.openForm('EDIT');
@@ -137,14 +153,17 @@ var SalesInventory = (function () {
         FwModule.loadForm(this.Module, $form);
         return $form;
     };
+    ;
     SalesInventory.prototype.saveForm = function ($form, parameters) {
         FwModule.saveForm(this.Module, $form, parameters);
     };
+    ;
     SalesInventory.prototype.loadAudit = function ($form) {
         var uniqueid;
         uniqueid = $form.find('div.fwformfield[data-datafield="InventoryId"] input').val();
         FwModule.loadAudit($form, uniqueid);
     };
+    ;
     SalesInventory.prototype.renderGrids = function ($form) {
         var $itemLocationTaxGrid;
         var $itemLocationTaxGridControl;
@@ -172,6 +191,11 @@ var SalesInventory = (function () {
         var $wardrobeInventoryColorGridControl;
         var $wardrobeInventoryMaterialGrid;
         var $wardrobeInventoryMaterialGridControl;
+        var $inventoryCompleteGrid;
+        var $inventoryCompleteGridControl;
+        var $inventoryKitGrid;
+        var $inventoryKitGridControl;
+        var warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
         $itemLocationTaxGrid = $form.find('div[data-grid="ItemLocationTaxGrid"]');
         $itemLocationTaxGridControl = jQuery(jQuery('#tmpl-grids-ItemLocationTaxGridBrowse').html());
         $itemLocationTaxGrid.empty().append($itemLocationTaxGridControl);
@@ -329,7 +353,71 @@ var SalesInventory = (function () {
         });
         FwBrowse.init($wardrobeInventoryMaterialGridControl);
         FwBrowse.renderRuntimeHtml($wardrobeInventoryMaterialGridControl);
+        $inventoryCompleteGrid = $form.find('div[data-grid="InventoryCompleteGrid"]');
+        $inventoryCompleteGridControl = jQuery(jQuery('#tmpl-grids-InventoryCompleteGridBrowse').html());
+        $inventoryCompleteGrid.empty().append($inventoryCompleteGridControl);
+        $inventoryCompleteGridControl.data('ondatabind', function (request) {
+            request.uniqueids = {
+                PackageId: $form.find('div.fwformfield[data-datafield="InventoryId"] input').val(),
+                WarehouseId: warehouse.warehouseid
+            };
+        });
+        $inventoryCompleteGridControl.data('beforesave', function (request) {
+            request.PackageId = $form.find('div.fwformfield[data-datafield="InventoryId"] input').val();
+        });
+        $inventoryCompleteGridControl.data('isfieldeditable', function ($field, dt, rowIndex) {
+            var primaryRowIndex;
+            if (primaryRowIndex === undefined) {
+                var orderByIndex = dt.ColumnIndex.OrderBy;
+                var inventoryIdIndex = dt.ColumnIndex.InventoryId;
+                for (var i = 0; i < dt.Rows.length; i++) {
+                    if (dt.Rows[i][orderByIndex] === 1 && dt.Rows[i][inventoryIdIndex] !== '') {
+                        primaryRowIndex = i;
+                    }
+                }
+            }
+            if (rowIndex === primaryRowIndex) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        });
+        FwBrowse.init($inventoryCompleteGridControl);
+        FwBrowse.renderRuntimeHtml($inventoryCompleteGridControl);
+        $inventoryKitGrid = $form.find('div[data-grid="InventoryKitGrid"]');
+        $inventoryKitGridControl = jQuery(jQuery('#tmpl-grids-InventoryKitGridBrowse').html());
+        $inventoryKitGrid.empty().append($inventoryKitGridControl);
+        $inventoryKitGridControl.data('ondatabind', function (request) {
+            request.uniqueids = {
+                PackageId: $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
+            };
+        });
+        $inventoryKitGridControl.data('beforesave', function (request) {
+            request.PackageId = $form.find('div.fwformfield[data-datafield="InventoryId"] input').val();
+        });
+        $inventoryKitGridControl.data('isfieldeditable', function ($field, dt, rowIndex) {
+            var primaryRowIndex;
+            if (primaryRowIndex === undefined) {
+                var orderByIndex = dt.ColumnIndex.OrderBy;
+                var inventoryIdIndex = dt.ColumnIndex.InventoryId;
+                for (var i = 0; i < dt.Rows.length; i++) {
+                    if (dt.Rows[i][orderByIndex] === 1 && dt.Rows[i][inventoryIdIndex] !== '') {
+                        primaryRowIndex = i;
+                    }
+                }
+            }
+            if (rowIndex === primaryRowIndex) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        });
+        FwBrowse.init($inventoryKitGridControl);
+        FwBrowse.renderRuntimeHtml($inventoryKitGridControl);
     };
+    ;
     SalesInventory.prototype.afterLoad = function ($form) {
         var $itemLocationTaxGrid;
         var $salesInventoryWarehouseGrid;
@@ -344,6 +432,8 @@ var SalesInventory = (function () {
         var $inventoryPrepGrid;
         var $wardrobeInventoryColorGrid;
         var $wardrobeInventoryMaterialGrid;
+        var $inventoryCompleteGrid;
+        var $inventoryKitGrid;
         $itemLocationTaxGrid = $form.find('[data-name="ItemLocationTaxGrid"]');
         FwBrowse.search($itemLocationTaxGrid);
         $salesInventoryWarehouseGrid = $form.find('[data-name="SalesInventoryWarehouseGrid"]');
@@ -370,6 +460,10 @@ var SalesInventory = (function () {
         FwBrowse.search($wardrobeInventoryColorGrid);
         $wardrobeInventoryMaterialGrid = $form.find('[data-name="WardrobeInventoryMaterialGrid"]');
         FwBrowse.search($wardrobeInventoryMaterialGrid);
+        $inventoryCompleteGrid = $form.find('[data-name="InventoryCompleteGrid"]');
+        FwBrowse.search($inventoryCompleteGrid);
+        $inventoryKitGrid = $form.find('[data-name="InventoryKitGrid"]');
+        FwBrowse.search($inventoryKitGrid);
         if (FwFormField.getValue($form, 'div[data-datafield="Classification"]') === 'I' || FwFormField.getValue($form, 'div[data-datafield="Classification"]') === 'A') {
             FwFormField.enable($form.find('[data-datafield="Classification"]'));
             $form.find('.completeradio').hide();
@@ -385,12 +479,14 @@ var SalesInventory = (function () {
             $form.find('.miscradio').hide();
         }
         if (FwFormField.getValue($form, 'div[data-datafield="Classification"]') === 'C') {
+            $form.find('.completetab').show();
             $form.find('.itemradio').hide();
             $form.find('.accessoryradio').hide();
             $form.find('.containerradio').hide();
             $form.find('.miscradio').hide();
         }
         if (FwFormField.getValue($form, 'div[data-datafield="Classification"]') === 'K') {
+            $form.find('.kittab').show();
             $form.find('.itemradio').hide();
             $form.find('.accessoryradio').hide();
             $form.find('.containerradio').hide();
@@ -420,6 +516,7 @@ var SalesInventory = (function () {
             FwFormField.disable($form.find('.subcategory'));
         }
     };
+    ;
     SalesInventory.prototype.beforeValidate = function ($browse, $grid, request) {
         var validationName = request.module;
         var InventoryTypeValue = jQuery($grid.find('[data-validationname="InventoryTypeValidation"] input')).val();
@@ -444,7 +541,9 @@ var SalesInventory = (function () {
         }
         ;
     };
+    ;
     return SalesInventory;
 }());
+;
 var SalesInventoryController = new SalesInventory();
 //# sourceMappingURL=SalesInventory.js.map

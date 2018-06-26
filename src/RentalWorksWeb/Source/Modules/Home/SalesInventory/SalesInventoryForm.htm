@@ -23,7 +23,9 @@
       <div data-type="tab" id="glaccountstab" class="tab" data-tabpageid="glaccountstabpage" data-caption="> G/L Accounts"></div> -->
       <div data-type="tab" id="wardrobetab" class="wardrobetab tab" data-tabpageid="wardrobetabpage" data-caption="Wardrobe" style="display:none;"></div>
       <div data-type="tab" id="availabilitytab" class="tab" data-tabpageid="availabilitytabpage" data-caption="Availability"></div>
-      <div data-type="tab" id="completeskitstab" class="tab" data-tabpageid="completeskitstabpage" data-caption="Completes / Kits"></div>
+      <div data-type="tab" id="completeskitstab" class="completeskitstab tab" data-tabpageid="completeskitstabpage" data-caption="Completes / Kits"></div>
+      <div data-type="tab" id="kittab" class="kittab tab" data-tabpageid="kittabpage" data-caption="Kit" style="display:none;"></div>
+      <div data-type="tab" id="completetab" class="completetab tab" data-tabpageid="completetabpage" data-caption="Complete" style="display:none;"></div>
       <div data-type="tab" id="substitutestab" class="tab" data-tabpageid="substitutestabpage" data-caption="Substitutes"></div>
       <div data-type="tab" id="compatabilitytab" class="tab" data-tabpageid="compatabilitytabpage" data-caption="Compatibility"></div>
       <!--<div data-type="tab" id="manufacturertab" class="tab" data-tabpageid="manufacturertabpage" data-caption="Manufacturer"></div>-->
@@ -820,6 +822,30 @@
             <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Options" style="flex:1 1 375px;">
               <div class="flexrow">
                 <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Print and Display in Summary mode when Rate is $0.00" data-datafield="DisplayInSummaryModeWhenRateIsZero" style="flex:1 1 350px;"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- COMPLETES TAB -->
+      <div data-type="tabpage" id="completetabpage" class="tabpage" data-tabid="completetab">
+        <div class="formpage">
+          <div class="formrow">
+            <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Complete">
+              <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                <div data-control="FwGrid" data-grid="InventoryCompleteGrid" data-securitycaption="Inventory Complete"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- KITS TAB -->
+      <div data-type="tabpage" id="kittabpage" class="tabpage" data-tabid="kittab">
+        <div class="formpage">
+          <div class="formrow">
+            <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Kit">
+              <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                <div data-control="FwGrid" data-grid="InventoryKitGrid" data-securitycaption="Inventory Kit"></div>
               </div>
             </div>
           </div>
