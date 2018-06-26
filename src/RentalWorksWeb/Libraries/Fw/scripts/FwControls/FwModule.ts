@@ -479,7 +479,9 @@ class FwModule {
                 errorTab = $this.closest('.tabpage').attr('data-tabid');
                 if (value != '') {
                     $this.removeClass('error');
-                    $this.parents('.fwcontrol .fwtabs').find('#' + errorTab).removeClass('error')
+                    if ($this.closest('.tabpage.active').has('.error').length === 0) {
+                        $this.parents('.fwcontrol .fwtabs').find('#' + errorTab).removeClass('error');
+                    }
                 }
             })
             ;
