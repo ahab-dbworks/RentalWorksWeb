@@ -163,6 +163,8 @@ class FwModule {
                                                                         $confirmation = FwConfirmation.renderConfirmation('Download Excel Workbook', '');
                                                                         $confirmation.find('.fwconfirmationbox').css('width', '450px');
                                                                         totalNumberofRows = FwBrowse.getTotalRowCount($browse);
+                                                                        totalNumberofRows = totalNumberofRows.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                                                                        
 
                                                                         let html = [];
                                                                         html.push('<div class="fwform" data-controller="none" style="background-color: transparent;">');
@@ -175,7 +177,7 @@ class FwModule {
                                                                         html.push('  </div>');
                                                                         html.push('  <span style="margin:22px 0px 0px 0px;">First</span>');
                                                                         html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow" style="margin:0px 0px 0px 0px;">');
-                                                                        html.push('    <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield user-defined-records" data-caption="" data-datafield="" style="width:80px;float:left;margin:0px 0px 0px 0px;"></div>');
+                                                                        html.push('    <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield user-defined-records-input" data-caption="" data-datafield="" style="width:80px;float:left;margin:0px 0px 0px 0px;"></div>');
                                                                         html.push('  </div>');
                                                                         html.push('  <span style="margin:22px 0px 0px 0px;">Records</span>');
                                                                         html.push(' </div>');
@@ -185,7 +187,7 @@ class FwModule {
                                                                         $yes = FwConfirmation.addButton($confirmation, 'Download', false);
                                                                         $no = FwConfirmation.addButton($confirmation, 'Cancel');
 
-                                                                        $confirmation.find('.user-defined-records input').val(request.pagesize);
+                                                                        $confirmation.find('.user-defined-records-input input').val(request.pagesize);
                                                                         $confirmation.find('.all-records input').prop('checked', true);
                                                                         userDefinedNumberofRows = +$confirmation.find('.user-defined-records input').val();
 
@@ -209,11 +211,16 @@ class FwModule {
                                                                             }
                                                                         });
 
+                                                                        $confirmation.find('.user-defined-records-input input').keypress(function () {
+                                                                            $confirmation.find('.user-defined-records input').prop('checked', true);
+                                                                            $confirmation.find('.all-records input').prop('checked', false);
+                                                                        });
+
                                                                         $yes.on('click', () => {
                                                                             if ($confirmation.find('.all-records input').prop('checked') === true) {
                                                                                 userDefinedNumberofRows = totalNumberofRows;
                                                                             } else {
-                                                                                userDefinedNumberofRows = +$confirmation.find('.user-defined-records input').val();
+                                                                                userDefinedNumberofRows = +$confirmation.find('.user-defined-records-input input').val();
                                                                             }
 
                                                                             request.pagesize = userDefinedNumberofRows

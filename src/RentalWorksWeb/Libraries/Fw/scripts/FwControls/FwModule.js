@@ -139,6 +139,7 @@ var FwModule = (function () {
                                                                         $confirmation_1 = FwConfirmation.renderConfirmation('Download Excel Workbook', '');
                                                                         $confirmation_1.find('.fwconfirmationbox').css('width', '450px');
                                                                         totalNumberofRows_1 = FwBrowse.getTotalRowCount($browse);
+                                                                        totalNumberofRows_1 = totalNumberofRows_1.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
                                                                         var html = [];
                                                                         html.push('<div class="fwform" data-controller="none" style="background-color: transparent;">');
                                                                         html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
@@ -150,7 +151,7 @@ var FwModule = (function () {
                                                                         html.push('  </div>');
                                                                         html.push('  <span style="margin:22px 0px 0px 0px;">First</span>');
                                                                         html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow" style="margin:0px 0px 0px 0px;">');
-                                                                        html.push('    <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield user-defined-records" data-caption="" data-datafield="" style="width:80px;float:left;margin:0px 0px 0px 0px;"></div>');
+                                                                        html.push('    <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield user-defined-records-input" data-caption="" data-datafield="" style="width:80px;float:left;margin:0px 0px 0px 0px;"></div>');
                                                                         html.push('  </div>');
                                                                         html.push('  <span style="margin:22px 0px 0px 0px;">Records</span>');
                                                                         html.push(' </div>');
@@ -158,7 +159,7 @@ var FwModule = (function () {
                                                                         FwConfirmation.addControls($confirmation_1, html.join(''));
                                                                         $yes = FwConfirmation.addButton($confirmation_1, 'Download', false);
                                                                         $no = FwConfirmation.addButton($confirmation_1, 'Cancel');
-                                                                        $confirmation_1.find('.user-defined-records input').val(request_1.pagesize);
+                                                                        $confirmation_1.find('.user-defined-records-input input').val(request_1.pagesize);
                                                                         $confirmation_1.find('.all-records input').prop('checked', true);
                                                                         userDefinedNumberofRows_1 = +$confirmation_1.find('.user-defined-records input').val();
                                                                         $confirmation_1.find('.all-records input').on('change', function () {
@@ -179,12 +180,16 @@ var FwModule = (function () {
                                                                                 $confirmation_1.find('.all-records input').prop('checked', true);
                                                                             }
                                                                         });
+                                                                        $confirmation_1.find('.user-defined-records-input input').keypress(function () {
+                                                                            $confirmation_1.find('.user-defined-records input').prop('checked', true);
+                                                                            $confirmation_1.find('.all-records input').prop('checked', false);
+                                                                        });
                                                                         $yes.on('click', function () {
                                                                             if ($confirmation_1.find('.all-records input').prop('checked') === true) {
                                                                                 userDefinedNumberofRows_1 = totalNumberofRows_1;
                                                                             }
                                                                             else {
-                                                                                userDefinedNumberofRows_1 = +$confirmation_1.find('.user-defined-records input').val();
+                                                                                userDefinedNumberofRows_1 = +$confirmation_1.find('.user-defined-records-input input').val();
                                                                             }
                                                                             request_1.pagesize = userDefinedNumberofRows_1;
                                                                             FwAppData.apiMethod(true, 'POST', apiurl_1 + "/exportexcelxlsx/" + module_1, request_1, FwServices.defaultTimeout, function (response) {
