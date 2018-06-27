@@ -28,6 +28,12 @@
 
     }
 
+    onRowNewMode($control: JQuery, $tr: JQuery) {
+        $tr.find('.limit input').css('background-color', '#f5f5f5');
+
+        
+    }
+
 }
 
 var POApproverGridController = new POApproverGrid();

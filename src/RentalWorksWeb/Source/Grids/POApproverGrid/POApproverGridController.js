@@ -26,6 +26,9 @@ var POApproverGrid = (function () {
             }
         });
     };
+    POApproverGrid.prototype.onRowNewMode = function ($control, $tr) {
+        $tr.find('.limit input').css('background-color', '#f5f5f5');
+    };
     return POApproverGrid;
 }());
 var POApproverGridController = new POApproverGrid();
