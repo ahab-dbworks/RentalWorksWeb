@@ -1888,7 +1888,7 @@ class Order {
         let html = [];
         html.push('<div class="fwform" data-controller="none" style="background-color: transparent;">');
         html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
-        html.push(`    <div>Create a snapshot for Order ${orderNumber}?</div>`);
+        html.push(`    <div>Create a Snapshot for Order ${orderNumber}?</div>`);
         html.push('  </div>');
         html.push('</div>');
 
