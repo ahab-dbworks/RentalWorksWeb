@@ -508,11 +508,9 @@ FwSettings.renderModuleHtml = function ($control, title, moduleName, description
             recordData = jQuery(this).parent().parent().data('recorddata');
             moduleName = jQuery(this).closest('div.panel-group')[0].id;
             $form = jQuery(jQuery('#tmpl-modules-' + moduleName + 'Form').html());
-            moduleId = jQuery($form.find('.fwformfield[data-isuniqueid="true"]')[0]).data('datafield');
+            moduleId = jQuery($form.find('.fwformfield[data-isuniqueid="true"]')[0]).data('datafield'); 
             uniqueids[moduleId] = recordData[moduleId];
-
-            $rowBody = $control.find('#' + recordData[moduleId] + '.panel-body');
-
+            $rowBody = $control.find('#' + recordData[moduleId] + '.panel-body');            
 
             if ($rowBody.is(':empty')) {
                 $rowBody.append($form);
