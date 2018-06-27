@@ -175,6 +175,7 @@
     <Content Include="Application.test.config" />
     <Content Include="packages.config" />
     <TypeScriptCompile Include="scripts\RwMaster.ts" />
+    <Content Include="Source\Grids\InventoryWarehouseStagingGrid\InventoryWarehouseStagingGridBrowse.htm" />
     <Content Include="Source\Grids\OrderContactGrid\OrderContactGridBrowse.htm" />
     <Content Include="Source\Grids\CompanyContactGrid\CompanyContactGridBrowse.htm" />
     <Content Include="Source\Grids\ContactCompanyGrid\ContactCompanyGridBrowse.htm" />
@@ -182,9 +183,9 @@
     <Content Include="Source\Grids\ContractSummaryGrid\ContractSummaryGridBrowse.htm" />
     <Content Include="Source\Grids\ContractDetailGrid\ContractDetailGridBrowse.htm" />
     <Content Include="Source\Grids\OrderSnapshotGrid\OrderSnapshotGridBrowse.htm" />
-    <Content Include="Source\Grids\OrderSnapshotGrid\OrderSnapshotGridController.js" />
     <Content Include="Source\Grids\ProjectNoteGrid\ProjectNoteGridBrowse.htm" />
     <Content Include="Source\Grids\POApproverGrid\POApproverGridBrowse.htm" />
+    <Content Include="Source\Grids\SalesInventoryCompatibilityGrid\SalesInventoryCompatibilityGridBrowse.htm" />
     <Content Include="Source\Grids\TemplateOrderItemGrid\TemplateOrderItemGridBrowse.htm" />
     <Content Include="Source\Grids\SingleRateWarehouseGrid\SingleRateWarehouseGridBrowse.htm" />
     <Content Include="Source\Grids\SearchPreviewGrid\SearchPreviewGridBrowse.htm" />
@@ -277,6 +278,7 @@
     <Content Include="Source\Grids\SubCategoryGrid\SubCategoryGridBrowse.htm" />
     <TypeScriptCompile Include="scripts\Global.ts" />
     <TypeScriptCompile Include="Source\Grids\ContactPersonalEventGrid\ContactPersonalEventGridController.ts" />
+    <TypeScriptCompile Include="Source\Grids\InventoryWarehouseStagingGrid\InventoryWarehouseStagingGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\OrderContactGrid\OrderContactGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\CompanyContactGrid\CompanyContactGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\ContactCompanyGrid\ContactCompanyGridController.ts" />
@@ -287,6 +289,7 @@
     <TypeScriptCompile Include="Source\Grids\OrderSnapshotGrid\OrderSnapshotGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\ProjectNoteGrid\ProjectNoteGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\POApproverGrid\POApproverGridController.ts" />
+    <TypeScriptCompile Include="Source\Grids\SalesInventoryCompatibilityGrid\SalesInventoryCompatibilityGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\TemplateOrderItemGrid\TemplateOrderItemGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\SingleRateWarehouseGrid\SingleRateWarehouseGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\SearchPreviewGrid\SearchPreviewGridController.ts" />
@@ -1167,7 +1170,6 @@
     <Content Include="tsconfig.json" />
     <Content Include="Source\Modules\Home\Order\Order.js.map" />
     <Content Include="Source\Modules\Home\Quote\Quote.js.map" />
-    <Content Include="Source\Grids\OrderSnapshotGrid\OrderSnapshotGridController.js.map" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
