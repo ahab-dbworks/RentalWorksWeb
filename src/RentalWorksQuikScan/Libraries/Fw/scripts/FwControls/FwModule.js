@@ -136,7 +136,7 @@ var FwModule = (function () {
                                                                         var module_1 = window[controller].Module;
                                                                         var apiurl_1 = window[controller].apiurl;
                                                                         var request_1 = FwBrowse.getRequest($browse);
-                                                                        $confirmation_1 = FwConfirmation.renderConfirmation('Export to Excel Workbook', '');
+                                                                        $confirmation_1 = FwConfirmation.renderConfirmation('Download Excel Workbook', '');
                                                                         $confirmation_1.find('.fwconfirmationbox').css('width', '450px');
                                                                         totalNumberofRows_1 = FwBrowse.getTotalRowCount($browse);
                                                                         var html = [];
@@ -160,29 +160,22 @@ var FwModule = (function () {
                                                                         $no = FwConfirmation.addButton($confirmation_1, 'Cancel');
                                                                         $confirmation_1.find('.user-defined-records input').val(request_1.pagesize);
                                                                         $confirmation_1.find('.all-records input').prop('checked', true);
-                                                                        FwFormField.disable($confirmation_1.find('.user-defined-records'));
                                                                         userDefinedNumberofRows_1 = +$confirmation_1.find('.user-defined-records input').val();
                                                                         $confirmation_1.find('.all-records input').on('change', function () {
                                                                             var $this = jQuery(this);
                                                                             if ($this.prop('checked') === true) {
-                                                                                $confirmation_1.find('.user-defined-records input').val("");
-                                                                                FwFormField.disable($confirmation_1.find('.user-defined-records'));
                                                                                 $confirmation_1.find('.user-defined-records input').prop('checked', false);
                                                                             }
                                                                             else {
-                                                                                $confirmation_1.find('.user-defined-records input').val(request_1.pagesize);
-                                                                                FwFormField.enable($confirmation_1.find('.user-defined-records'));
                                                                                 $confirmation_1.find('.user-defined-records input').prop('checked', true);
                                                                             }
                                                                         });
                                                                         $confirmation_1.find('.user-defined-records input').on('change', function () {
                                                                             var $this = jQuery(this);
                                                                             if ($this.prop('checked') === true) {
-                                                                                FwFormField.enable($confirmation_1.find('.user-defined-records'));
                                                                                 $confirmation_1.find('.all-records input').prop('checked', false);
                                                                             }
                                                                             else {
-                                                                                FwFormField.disable($confirmation_1.find('.user-defined-records'));
                                                                                 $confirmation_1.find('.all-records input').prop('checked', true);
                                                                             }
                                                                         });
