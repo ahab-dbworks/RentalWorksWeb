@@ -181,6 +181,8 @@
     <Content Include="Source\Grids\CrewPositionGrid\CrewPositionGridBrowse.htm" />
     <Content Include="Source\Grids\ContractSummaryGrid\ContractSummaryGridBrowse.htm" />
     <Content Include="Source\Grids\ContractDetailGrid\ContractDetailGridBrowse.htm" />
+    <Content Include="Source\Grids\OrderSnapshotGrid\OrderSnapshotGridBrowse.htm" />
+    <Content Include="Source\Grids\OrderSnapshotGrid\OrderSnapshotGridController.js" />
     <Content Include="Source\Grids\ProjectNoteGrid\ProjectNoteGridBrowse.htm" />
     <Content Include="Source\Grids\POApproverGrid\POApproverGridBrowse.htm" />
     <Content Include="Source\Grids\TemplateOrderItemGrid\TemplateOrderItemGridBrowse.htm" />
@@ -282,6 +284,7 @@
     <TypeScriptCompile Include="Source\Grids\CrewPositionGrid\CrewPositionGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\ContractSummaryGrid\ContractSummaryGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\ContractDetailGrid\ContractDetailGridController.ts" />
+    <TypeScriptCompile Include="Source\Grids\OrderSnapshotGrid\OrderSnapshotGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\ProjectNoteGrid\ProjectNoteGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\POApproverGrid\POApproverGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\TemplateOrderItemGrid\TemplateOrderItemGridController.ts" />
@@ -1164,6 +1167,7 @@
     <Content Include="tsconfig.json" />
     <Content Include="Source\Modules\Home\Order\Order.js.map" />
     <Content Include="Source\Modules\Home\Quote\Quote.js.map" />
+    <Content Include="Source\Grids\OrderSnapshotGrid\OrderSnapshotGridController.js.map" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
