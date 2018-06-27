@@ -1909,7 +1909,7 @@ class Order {
                         OrderId: orderId,
                     }
                     request.pagesize = 10;
-                    request.orderby = "OrderDescription"
+                    request.orderby = "OrderDate"
                 });
 
                 $orderSnapshotGrid.data('beforesave', request => {
