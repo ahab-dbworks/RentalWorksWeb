@@ -104,12 +104,22 @@ var Base = (function () {
                                             sessionStorage.setItem('department', JSON.stringify(responseOriginalApi.webUser.department));
                                             sessionStorage.setItem('userid', JSON.stringify(responseOriginalApi.webUser.webusersid));
                                             jQuery('html').removeClass('theme-material');
-                                            FwAppData.apiMethod(true, 'GET', 'api/v1/custommodule/', null, FwServices.defaultTimeout, function onSuccess(response) {
+                                            FwAppData.apiMethod(true, 'GET', 'api/v1/customfield/', null, FwServices.defaultTimeout, function onSuccess(response) {
                                                 var customFields = [];
+                                                var customFieldsBrowse = [];
                                                 for (var i = 0; i < response.length; i++) {
-                                                    customFields.push(response[i].ModuleName);
+                                                    if (!customFields.includes(response[i].ModuleName)) {
+                                                        customFields.push(response[i].ModuleName);
+                                                    }
+                                                    if (response[i].ShowInBrowse && !customFieldsBrowse.includes(response[i].ModuleName)) {
+                                                        customFieldsBrowse.push({
+                                                            'moduleName': response[i].ModuleName,
+                                                            'fieldName': response[i].FieldName
+                                                        });
+                                                    }
                                                 }
                                                 sessionStorage.setItem('customFields', JSON.stringify(customFields));
+                                                sessionStorage.setItem('customFieldsBrowse', JSON.stringify(customFieldsBrowse));
                                                 program.navigate('home');
                                             }, function onError(response) {
                                                 program.navigate('home');
