@@ -28,14 +28,14 @@ namespace WebApi.Modules.Settings.RepairItemStatus
         //------------------------------------------------------------------------------------
         // GET api/v1/repairitemstatus
         [HttpGet]
-        public async Task<IActionResult> GetAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
+        public async Task<IActionResult> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
             return await DoGetAsync<RepairItemStatusLogic>(pageno, pagesize, sort, typeof(RepairItemStatusLogic));
         }
         //------------------------------------------------------------------------------------
         // GET api/v1/repairitemstatus/A0000001
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetAsync([FromRoute]string id)
+        public async Task<IActionResult> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<RepairItemStatusLogic>(id, typeof(RepairItemStatusLogic));
         }

@@ -27,14 +27,14 @@ namespace WebApi.Modules.Settings.ProjectAsBuild
         //------------------------------------------------------------------------------------ 
         // GET api/v1/projectasbuild 
         [HttpGet]
-        public async Task<IActionResult> GetAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
+        public async Task<IActionResult> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
             return await DoGetAsync<ProjectAsBuildLogic>(pageno, pagesize, sort, typeof(ProjectAsBuildLogic));
         }
         //------------------------------------------------------------------------------------ 
         // GET api/v1/projectasbuild/A0000001 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetAsync([FromRoute]string id)
+        public async Task<IActionResult> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<ProjectAsBuildLogic>(id, typeof(ProjectAsBuildLogic));
         }

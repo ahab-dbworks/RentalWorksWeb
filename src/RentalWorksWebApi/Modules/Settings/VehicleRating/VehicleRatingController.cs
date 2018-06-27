@@ -28,14 +28,14 @@ namespace WebApi.Modules.Settings.VehicleRating
         //------------------------------------------------------------------------------------
         // GET api/v1/vehiclerating
         [HttpGet]
-        public async Task<IActionResult> GetAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
+        public async Task<IActionResult> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
             return await DoGetAsync<VehicleRatingLogic>(pageno, pagesize, sort, typeof(VehicleRatingLogic));
         }
         //------------------------------------------------------------------------------------
         // GET api/v1/vehiclerating/A0000001
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetAsync([FromRoute]string id)
+        public async Task<IActionResult> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<VehicleRatingLogic>(id, typeof(VehicleRatingLogic));
         }

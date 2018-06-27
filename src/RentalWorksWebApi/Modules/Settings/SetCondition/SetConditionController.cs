@@ -31,7 +31,7 @@ namespace WebApi.Modules.Settings.SetCondition
         // GET api/v1/setscondition
         [HttpGet]
         [Authorize(Policy = "")]
-        public async Task<IActionResult> GetAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
+        public async Task<IActionResult> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
             return await DoGetAsync<SetConditionLogic>(pageno, pagesize, sort, typeof(SetConditionLogic));
         }
@@ -39,7 +39,7 @@ namespace WebApi.Modules.Settings.SetCondition
         // GET api/v1/setscondition/A0000001
         [HttpGet("{id}")]
         [Authorize(Policy = "")]
-        public async Task<IActionResult> GetAsync([FromRoute]string id)
+        public async Task<IActionResult> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<SetConditionLogic>(id, typeof(SetConditionLogic));
         }

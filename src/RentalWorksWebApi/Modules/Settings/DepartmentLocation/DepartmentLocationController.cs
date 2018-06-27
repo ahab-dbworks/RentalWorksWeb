@@ -27,14 +27,14 @@ namespace WebApi.Modules.Settings.DepartmentLocation
         //------------------------------------------------------------------------------------ 
         // GET api/v1/departmentlocation 
         [HttpGet]
-        public async Task<IActionResult> GetAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
+        public async Task<IActionResult> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
             return await DoGetAsync<DepartmentLocationLogic>(pageno, pagesize, sort, typeof(DepartmentLocationLogic));
         }
         //------------------------------------------------------------------------------------ 
         // GET api/v1/departmentlocation/A0000001~A0000002   (departmentid~locationid)
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetAsync([FromRoute]string id)
+        public async Task<IActionResult> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<DepartmentLocationLogic>(id, typeof(DepartmentLocationLogic));
         }

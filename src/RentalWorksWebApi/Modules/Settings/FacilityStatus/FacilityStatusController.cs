@@ -31,7 +31,7 @@ namespace WebApi.Modules.Settings.FacilityStatus
         // GET api/v1/facilitystatus
         [HttpGet]
         [Authorize(Policy = "{6C73F07A-50C9-471D-84B6-3115B8495662}")]
-        public async Task<IActionResult> GetAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
+        public async Task<IActionResult> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
             return await DoGetAsync<FacilityStatusLogic>(pageno, pagesize, sort, typeof(FacilityStatusLogic));
         }
@@ -39,7 +39,7 @@ namespace WebApi.Modules.Settings.FacilityStatus
         // GET api/v1/facilitystatus/A0000001
         [HttpGet("{id}")]
         [Authorize(Policy = "{6206FA53-91F1-4B6E-BAC9-D02490571609}")]
-        public async Task<IActionResult> GetAsync([FromRoute]string id)
+        public async Task<IActionResult> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<FacilityStatusLogic>(id, typeof(FacilityStatusLogic));
         }

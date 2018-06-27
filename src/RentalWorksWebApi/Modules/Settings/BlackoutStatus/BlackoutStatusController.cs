@@ -31,7 +31,7 @@ namespace WebApi.Modules.Settings.BlackoutStatus
         // GET api/v1/blackoutstatus
         [HttpGet]
         [Authorize(Policy = "{C30C427F-F9DF-41D8-8569-14AD17680624}")]
-        public async Task<IActionResult> GetAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
+        public async Task<IActionResult> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
             return await DoGetAsync<BlackoutStatusLogic>(pageno, pagesize, sort, typeof(BlackoutStatusLogic));
         }
@@ -39,7 +39,7 @@ namespace WebApi.Modules.Settings.BlackoutStatus
         // GET api/v1/blackoutstatus/A0000001
         [HttpGet("{id}")]
         [Authorize(Policy = "{5B6C7CAF-E5E5-45CC-88DF-0AA132F61CE0}")]
-        public async Task<IActionResult> GetAsync([FromRoute]string id)
+        public async Task<IActionResult> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<BlackoutStatusLogic>(id, typeof(BlackoutStatusLogic));
         }

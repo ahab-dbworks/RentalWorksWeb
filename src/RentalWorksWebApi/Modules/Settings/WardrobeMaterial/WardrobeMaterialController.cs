@@ -27,14 +27,14 @@ namespace WebApi.Modules.Settings.WardrobeMaterial
         //------------------------------------------------------------------------------------ 
         // GET api/v1/wardrobematerial 
         [HttpGet]
-        public async Task<IActionResult> GetAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
+        public async Task<IActionResult> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
             return await DoGetAsync<WardrobeMaterialLogic>(pageno, pagesize, sort, typeof(WardrobeMaterialLogic));
         }
         //------------------------------------------------------------------------------------ 
         // GET api/v1/wardrobematerial/A0000001 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetAsync([FromRoute]string id)
+        public async Task<IActionResult> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<WardrobeMaterialLogic>(id, typeof(WardrobeMaterialLogic));
         }

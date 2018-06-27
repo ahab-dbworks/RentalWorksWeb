@@ -28,14 +28,14 @@ namespace WebApi.Modules.Settings.LaborType
         //------------------------------------------------------------------------------------
         // GET api/v1/labortype
         [HttpGet]
-        public async Task<IActionResult> GetAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
+        public async Task<IActionResult> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
             return await DoGetAsync<LaborTypeLogic>(pageno, pagesize, sort, typeof(LaborTypeLogic));
         }
         //------------------------------------------------------------------------------------
         // GET api/v1/labortype/A0000001
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetAsync([FromRoute]string id)
+        public async Task<IActionResult> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<LaborTypeLogic>(id, typeof(LaborTypeLogic));
         }

@@ -27,14 +27,14 @@ namespace WebApi.Modules.Home.OrderStatusHistory
         //------------------------------------------------------------------------------------ 
         // GET api/v1/orderstatushistory 
         [HttpGet]
-        public async Task<IActionResult> GetAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
+        public async Task<IActionResult> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
             return await DoGetAsync<OrderStatusHistoryLogic>(pageno, pagesize, sort, typeof(OrderStatusHistoryLogic));
         }
         //------------------------------------------------------------------------------------ 
         // GET api/v1/orderstatushistory/A0000001 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetAsync([FromRoute]string id)
+        public async Task<IActionResult> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<OrderStatusHistoryLogic>(id, typeof(OrderStatusHistoryLogic));
         }

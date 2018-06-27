@@ -31,7 +31,7 @@ namespace WebApi.Modules.Settings.DiscountReason
         // GET api/v1/discountreason
         [HttpGet]
         [Authorize(Policy = "")]
-        public async Task<IActionResult> GetAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
+        public async Task<IActionResult> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
             return await DoGetAsync<DiscountReasonLogic>(pageno, pagesize, sort, typeof(DiscountReasonLogic));
         }
@@ -39,7 +39,7 @@ namespace WebApi.Modules.Settings.DiscountReason
         // GET api/v1/discountreason/A0000001
         [HttpGet("{id}")]
         [Authorize(Policy = "")]
-        public async Task<IActionResult> GetAsync([FromRoute]string id)
+        public async Task<IActionResult> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<DiscountReasonLogic>(id, typeof(DiscountReasonLogic));
         }

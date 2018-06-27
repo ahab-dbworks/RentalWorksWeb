@@ -27,14 +27,14 @@ namespace WebApi.Modules.Settings.EventType
         //------------------------------------------------------------------------------------ 
         // GET api/v1/eventtype 
         [HttpGet]
-        public async Task<IActionResult> GetAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
+        public async Task<IActionResult> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
             return await DoGetAsync<EventTypeLogic>(pageno, pagesize, sort, typeof(EventTypeLogic));
         }
         //------------------------------------------------------------------------------------ 
         // GET api/v1/eventtype/A0000001 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetAsync([FromRoute]string id)
+        public async Task<IActionResult> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<EventTypeLogic>(id, typeof(EventTypeLogic));
         }

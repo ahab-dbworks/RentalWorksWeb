@@ -28,14 +28,14 @@ namespace WebApi.Modules.Settings.RateWarehouse
         //------------------------------------------------------------------------------------
         // GET api/v1/ratewarehouse
         [HttpGet]
-        public async Task<IActionResult> GetAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
+        public async Task<IActionResult> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
             return await DoGetAsync<RateWarehouseLogic>(pageno, pagesize, sort, typeof(RateWarehouseLogic));
         }
         //------------------------------------------------------------------------------------
         // GET api/v1/ratewarehouse/A0000001
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetAsync([FromRoute]string id)
+        public async Task<IActionResult> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<RateWarehouseLogic>(id, typeof(RateWarehouseLogic));
         }

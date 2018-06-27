@@ -27,7 +27,7 @@ namespace WebApi.Modules.Home.Contract
         //------------------------------------------------------------------------------------ 
         // GET api/v1/contract 
         [HttpGet]
-        public async Task<IActionResult> GetAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
+        public async Task<IActionResult> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
             return await DoGetAsync<ContractLogic>(pageno, pagesize, sort, typeof(ContractLogic));
         }
@@ -36,7 +36,7 @@ namespace WebApi.Modules.Home.Contract
         [HttpGet("{id}")]
         [ProducesResponseType(200, Type = typeof(ContractLogic))]
         [ProducesResponseType(404)]
-        public async Task<IActionResult> GetAsync([FromRoute]string id)
+        public async Task<IActionResult> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<ContractLogic>(id, typeof(ContractLogic));
         }

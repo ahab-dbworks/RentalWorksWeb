@@ -27,14 +27,14 @@ namespace WebApi.Modules.Settings.GlDistribution
         //------------------------------------------------------------------------------------ 
         // GET api/v1/gldistribution 
         [HttpGet]
-        public async Task<IActionResult> GetAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
+        public async Task<IActionResult> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
             return await DoGetAsync<GlDistributionLogic>(pageno, pagesize, sort, typeof(GlDistributionLogic));
         }
         //------------------------------------------------------------------------------------ 
         // GET api/v1/gldistribution/A0000001 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetAsync([FromRoute]string id)
+        public async Task<IActionResult> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<GlDistributionLogic>(id, typeof(GlDistributionLogic));
         }

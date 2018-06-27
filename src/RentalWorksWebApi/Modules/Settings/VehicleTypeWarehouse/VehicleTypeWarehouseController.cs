@@ -28,14 +28,14 @@ namespace WebApi.Modules.Settings.VehicleTypeWarehouse
         //------------------------------------------------------------------------------------
         // GET api/v1/vehicletypewarehouse
         [HttpGet]
-        public async Task<IActionResult> GetAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
+        public async Task<IActionResult> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
             return await DoGetAsync<VehicleTypeWarehouseLogic>(pageno, pagesize, sort, typeof(VehicleTypeWarehouseLogic));
         }
         //------------------------------------------------------------------------------------
         // GET api/v1/vehicletypewarehouse/A0000001
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetAsync([FromRoute]string id)
+        public async Task<IActionResult> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<VehicleTypeWarehouseLogic>(id, typeof(VehicleTypeWarehouseLogic));
         }

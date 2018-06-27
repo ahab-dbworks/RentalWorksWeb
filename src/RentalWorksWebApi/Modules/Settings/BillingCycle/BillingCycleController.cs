@@ -40,7 +40,7 @@ namespace WebApi.Modules.Settings.BillingCycle
         [SwaggerResponse(200, Type = typeof(List<BillingCycleLogic>))]
         [SwaggerResponse(500, Type = typeof(FwApiException))]
         [Authorize(Policy = "{6960FFCC-430A-4760-88C6-0F07FCFCF851}")]
-        public async Task<IActionResult> GetAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
+        public async Task<IActionResult> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
             return await DoGetAsync<BillingCycleLogic>(pageno, pagesize, sort, typeof(BillingCycleLogic));
         }
@@ -55,7 +55,7 @@ namespace WebApi.Modules.Settings.BillingCycle
         [SwaggerResponse(200, Type = typeof(BillingCycleLogic))]
         [SwaggerResponse(500, Type = typeof(FwApiException))]
         [Authorize(Policy = "{EC1DF66E-F686-4BF4-A61C-19CAF8FA3EE7}")]
-        public async Task<IActionResult> GetAsync([FromRoute]string id)
+        public async Task<IActionResult> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<BillingCycleLogic>(id, typeof(BillingCycleLogic));
         }

@@ -31,7 +31,7 @@ namespace WebApi.Modules.Settings.CreditStatus
         // GET api/v1/creditstatus
         [HttpGet]
         [Authorize(Policy = "")]
-        public async Task<IActionResult> GetAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
+        public async Task<IActionResult> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
             return await DoGetAsync<CreditStatusLogic>(pageno, pagesize, sort, typeof(CreditStatusLogic));
         }
@@ -39,7 +39,7 @@ namespace WebApi.Modules.Settings.CreditStatus
         // GET api/v1/creditstatus/A0000001
         [HttpGet("{id}")]
         [Authorize(Policy = "")]
-        public async Task<IActionResult> GetAsync([FromRoute]string id)
+        public async Task<IActionResult> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<CreditStatusLogic>(id, typeof(CreditStatusLogic));
         }

@@ -27,14 +27,14 @@ namespace WebApi.Modules.Settings.Space
         //------------------------------------------------------------------------------------ 
         // GET api/v1/space 
         [HttpGet]
-        public async Task<IActionResult> GetAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
+        public async Task<IActionResult> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
             return await DoGetAsync<SpaceLogic>(pageno, pagesize, sort, typeof(SpaceLogic));
         }
         //------------------------------------------------------------------------------------ 
         // GET api/v1/space/A0000001 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetAsync([FromRoute]string id)
+        public async Task<IActionResult> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<SpaceLogic>(id, typeof(SpaceLogic));
         }

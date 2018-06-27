@@ -54,7 +54,7 @@ namespace WebApi.Modules.Settings.CustomerStatus
         [SwaggerResponse(401, Type = typeof(string))]
         [SwaggerResponse(403, Type = typeof(string))]
         [SwaggerResponse(500, Type = typeof(FwApiException))]
-        public async Task<IActionResult> GetAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
+        public async Task<IActionResult> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
             return await DoGetAsync<CustomerStatusLogic>(pageno, pagesize, sort, typeof(CustomerStatusLogic));
         }
@@ -64,7 +64,7 @@ namespace WebApi.Modules.Settings.CustomerStatus
         [Authorize(Policy = "{FF697F23-9150-4252-8C58-A0063419B88E}")]
         [Produces(typeof(CustomerStatusLogic))]
         [SwaggerResponse(200, Type = typeof(CustomerStatusLogic))]
-        public async Task<IActionResult> GetAsync([FromRoute]string id)
+        public async Task<IActionResult> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<CustomerStatusLogic>(id, typeof(CustomerStatusLogic));
         }

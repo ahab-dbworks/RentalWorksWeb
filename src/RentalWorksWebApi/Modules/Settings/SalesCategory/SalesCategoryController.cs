@@ -28,14 +28,14 @@ namespace WebApi.Modules.Settings.SalesCategory
         //------------------------------------------------------------------------------------
         // GET api/v1/salescategory
         [HttpGet]
-        public async Task<IActionResult> GetAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
+        public async Task<IActionResult> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
             return await DoGetAsync<SalesCategoryLogic>(pageno, pagesize, sort, typeof(SalesCategoryLogic));
         }
         //------------------------------------------------------------------------------------
         // GET api/v1/salescategory/A0000001
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetAsync([FromRoute]string id)
+        public async Task<IActionResult> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<SalesCategoryLogic>(id, typeof(SalesCategoryLogic));
         }

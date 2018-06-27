@@ -27,14 +27,14 @@ namespace WebApi.Modules.Home.CompanyContact
         //------------------------------------------------------------------------------------ 
         // GET api/v1/companycontact 
         [HttpGet]
-        public async Task<IActionResult> GetAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
+        public async Task<IActionResult> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
             return await DoGetAsync<CompanyContactLogic>(pageno, pagesize, sort, typeof(CompanyContactLogic));
         }
         //------------------------------------------------------------------------------------ 
         // GET api/v1/companycontact/A0000001 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetAsync([FromRoute]string id)
+        public async Task<IActionResult> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<CompanyContactLogic>(id, typeof(CompanyContactLogic));
         }

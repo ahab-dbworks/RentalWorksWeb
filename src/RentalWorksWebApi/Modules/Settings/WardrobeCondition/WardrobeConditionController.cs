@@ -31,7 +31,7 @@ namespace WebApi.Modules.Settings.WardrobeCondition
         // GET api/v1/wardrobecondition
         [HttpGet]
         [Authorize(Policy = "")]
-        public async Task<IActionResult> GetAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
+        public async Task<IActionResult> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
             return await DoGetAsync<WardrobeConditionLogic>(pageno, pagesize, sort, typeof(WardrobeConditionLogic));
         }
@@ -39,7 +39,7 @@ namespace WebApi.Modules.Settings.WardrobeCondition
         // GET api/v1/wardrobecondition/A0000001
         [HttpGet("{id}")]
         [Authorize(Policy = "")]
-        public async Task<IActionResult> GetAsync([FromRoute]string id)
+        public async Task<IActionResult> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<WardrobeConditionLogic>(id, typeof(WardrobeConditionLogic));
         }

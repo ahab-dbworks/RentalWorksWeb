@@ -31,7 +31,7 @@ namespace WebApi.Modules.Settings.FacilityScheduleStatus
         // GET api/v1/facilityschedulestatus
         [HttpGet]
         [Authorize(Policy = "{196E7BFC-8E31-42E3-A776-4E8B2B66AD47}")]
-        public async Task<IActionResult> GetAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
+        public async Task<IActionResult> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
             return await DoGetAsync<FacilityScheduleStatusLogic>(pageno, pagesize, sort, typeof(FacilityScheduleStatusLogic));
         }
@@ -39,7 +39,7 @@ namespace WebApi.Modules.Settings.FacilityScheduleStatus
         // GET api/v1/facilityschedulestatus/A0000001
         [HttpGet("{id}")]
         [Authorize(Policy = "{17E60B4C-49C0-45DB-B9A5-1E7805A05AC2}")]
-        public async Task<IActionResult> GetAsync([FromRoute]string id)
+        public async Task<IActionResult> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<FacilityScheduleStatusLogic>(id, typeof(FacilityScheduleStatusLogic));
         }

@@ -53,7 +53,7 @@ namespace WebApi.Modules.Settings.VendorCatalog
         [SwaggerResponse(401, Type = typeof(string))]
         [SwaggerResponse(403, Type = typeof(string))]
         [SwaggerResponse(500, Type = typeof(FwApiException))]
-        public async Task<IActionResult> GetAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
+        public async Task<IActionResult> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
             return await DoGetAsync<VendorCatalogLogic>(pageno, pagesize, sort, typeof(VendorCatalogLogic));
         }
@@ -63,7 +63,7 @@ namespace WebApi.Modules.Settings.VendorCatalog
         [Authorize(Policy = "{FF697F23-9150-4252-8C58-A0063419B88E}")]
         [Produces(typeof(VendorCatalogLogic))]
         [SwaggerResponse(200, Type = typeof(VendorCatalogLogic))]
-        public async Task<IActionResult> GetAsync([FromRoute]string id)
+        public async Task<IActionResult> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<VendorCatalogLogic>(id, typeof(VendorCatalogLogic));
         }

@@ -28,14 +28,14 @@ namespace WebApi.Modules.Home.SalesInventory
         //------------------------------------------------------------------------------------ 
         // GET api/v1/salesinventory 
         [HttpGet]
-        public async Task<IActionResult> GetAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
+        public async Task<IActionResult> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
             return await DoGetAsync<SalesInventoryLogic>(pageno, pagesize, sort, typeof(SalesInventoryLogic));
         }
         //------------------------------------------------------------------------------------ 
         // GET api/v1/salesinventory/A0000001 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetAsync([FromRoute]string id)
+        public async Task<IActionResult> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<SalesInventoryLogic>(id, typeof(SalesInventoryLogic));
         }

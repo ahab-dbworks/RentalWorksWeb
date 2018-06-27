@@ -31,7 +31,7 @@ namespace WebApi.Modules.Settings.DealClassification
         // GET api/v1/customerstatus
         [HttpGet]
         [Authorize(Policy = "{EC95C419-BD71-46CB-8BF6-17CB1164552C}")]
-        public async Task<IActionResult> GetAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
+        public async Task<IActionResult> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
             return await DoGetAsync<DealClassificationLogic>(pageno, pagesize, sort, typeof(DealClassificationLogic));
         }
@@ -39,7 +39,7 @@ namespace WebApi.Modules.Settings.DealClassification
         // GET api/v1/customerstatus/A0000001
         [HttpGet("{id}")]
         [Authorize(Policy = "{73EEDAAC-6133-476A-837B-FCDAED43BDF7}")]
-        public async Task<IActionResult> GetAsync([FromRoute]string id)
+        public async Task<IActionResult> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<DealClassificationLogic>(id, typeof(DealClassificationLogic));
         }

@@ -16,7 +16,7 @@ namespace WebApi.Modules.Settings.UserDashboardSettings
         //------------------------------------------------------------------------------------
         // GET api/v1/userdashboardsettings/A0000001
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetAsync([FromRoute]string id)
+        public async Task<IActionResult> GetOneAsync([FromRoute]string id)
         {
             if (!ModelState.IsValid)
             {

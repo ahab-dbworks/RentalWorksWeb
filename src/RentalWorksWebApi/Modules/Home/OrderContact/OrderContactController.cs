@@ -27,14 +27,14 @@ namespace WebApi.Modules.Home.OrderContact
         //------------------------------------------------------------------------------------ 
         // GET api/v1/ordercontact 
         [HttpGet]
-        public async Task<IActionResult> GetAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
+        public async Task<IActionResult> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
             return await DoGetAsync<OrderContactLogic>(pageno, pagesize, sort, typeof(OrderContactLogic));
         }
         //------------------------------------------------------------------------------------ 
         // GET api/v1/ordercontact/A0000001 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetAsync([FromRoute]string id)
+        public async Task<IActionResult> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<OrderContactLogic>(id, typeof(OrderContactLogic));
         }

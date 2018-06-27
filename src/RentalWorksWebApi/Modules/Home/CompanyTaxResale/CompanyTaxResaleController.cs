@@ -53,7 +53,7 @@ namespace WebApi.Modules.Home.CompanyTaxResale
         [SwaggerResponse(401, Type = typeof(string))]
         [SwaggerResponse(403, Type = typeof(string))]
         [SwaggerResponse(500, Type = typeof(FwApiException))]
-        public async Task<IActionResult> GetAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
+        public async Task<IActionResult> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
             return await DoGetAsync<CompanyTaxResaleLogic>(pageno, pagesize, sort, typeof(CompanyTaxResaleLogic));
         }
@@ -63,7 +63,7 @@ namespace WebApi.Modules.Home.CompanyTaxResale
         [Authorize(Policy = "{FF697F23-9150-4252-8C58-A0063419B88E}")]
         [Produces(typeof(CompanyTaxResaleLogic))]
         [SwaggerResponse(200, Type = typeof(CompanyTaxResaleLogic))]
-        public async Task<IActionResult> GetAsync([FromRoute]string id)
+        public async Task<IActionResult> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<CompanyTaxResaleLogic>(id, typeof(CompanyTaxResaleLogic));
         }

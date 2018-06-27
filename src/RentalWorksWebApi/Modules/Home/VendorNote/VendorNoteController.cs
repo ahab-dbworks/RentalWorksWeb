@@ -28,14 +28,14 @@ namespace WebApi.Modules.Home.VendorNote
         //------------------------------------------------------------------------------------
         // GET api/v1/vendornote
         [HttpGet]
-        public async Task<IActionResult> GetAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
+        public async Task<IActionResult> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
             return await DoGetAsync<VendorNoteLogic>(pageno, pagesize, sort, typeof(VendorNoteLogic));
         }
         //------------------------------------------------------------------------------------
         // GET api/v1/vendornote/A0000001
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetAsync([FromRoute]string id)
+        public async Task<IActionResult> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<VendorNoteLogic>(id, typeof(VendorNoteLogic));
         }

@@ -28,14 +28,14 @@ namespace WebApi.Modules.Settings.GeneratorModel
         //------------------------------------------------------------------------------------
         // GET api/v1/generatormodel
         [HttpGet]
-        public async Task<IActionResult> GetAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
+        public async Task<IActionResult> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
             return await DoGetAsync<GeneratorModelLogic>(pageno, pagesize, sort, typeof(GeneratorModelLogic));
         }
         //------------------------------------------------------------------------------------
         // GET api/v1/generatormodel/A0000001
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetAsync([FromRoute]string id)
+        public async Task<IActionResult> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<GeneratorModelLogic>(id, typeof(GeneratorModelLogic));
         }

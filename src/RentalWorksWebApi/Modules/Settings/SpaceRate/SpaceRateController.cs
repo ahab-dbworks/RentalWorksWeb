@@ -27,14 +27,14 @@ namespace WebApi.Modules.Settings.SpaceRate
         //------------------------------------------------------------------------------------ 
         // GET api/v1/spacerate 
         [HttpGet]
-        public async Task<IActionResult> GetAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
+        public async Task<IActionResult> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
             return await DoGetAsync<SpaceRateLogic>(pageno, pagesize, sort, typeof(SpaceRateLogic));
         }
         //------------------------------------------------------------------------------------ 
         // GET api/v1/spacerate/A0000001 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetAsync([FromRoute]string id)
+        public async Task<IActionResult> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<SpaceRateLogic>(id, typeof(SpaceRateLogic));
         }

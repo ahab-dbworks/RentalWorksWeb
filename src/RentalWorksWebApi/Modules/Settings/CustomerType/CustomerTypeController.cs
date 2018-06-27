@@ -31,7 +31,7 @@ namespace WebApi.Modules.Settings.CustomerType
         // GET api/v1/customertype
         [HttpGet]
         [Authorize(Policy = "{38EC0AB9-BA14-429F-ACEE-F5F7A9130A7D}")]
-        public async Task<IActionResult> GetAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
+        public async Task<IActionResult> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
             return await DoGetAsync<CustomerTypeLogic>(pageno, pagesize, sort, typeof(CustomerTypeLogic));
         }
@@ -39,7 +39,7 @@ namespace WebApi.Modules.Settings.CustomerType
         // GET api/v1/customertype/A0000001
         [HttpGet("{id}")]
         [Authorize(Policy = "{B8EB8539-A5EE-4E9F-90A8-599BFB548988}")]
-        public async Task<IActionResult> GetAsync([FromRoute]string id)
+        public async Task<IActionResult> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<CustomerTypeLogic>(id, typeof(CustomerTypeLogic));
         }

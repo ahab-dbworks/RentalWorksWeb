@@ -27,7 +27,7 @@ namespace WebApi.Modules.Administrator.CustomModule
         //------------------------------------------------------------------------------------ 
         // GET api/v1/custommodule 
         [HttpGet]
-        public async Task<IActionResult> GetAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
+        public async Task<IActionResult> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
             return await DoGetAsync<CustomModuleLogic>(pageno, pagesize, sort, typeof(CustomModuleLogic));
         }

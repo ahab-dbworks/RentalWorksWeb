@@ -28,14 +28,14 @@ namespace WebApi.Modules.Settings.GlAccount
         //------------------------------------------------------------------------------------
         // GET api/v1/glaccount
         [HttpGet]
-        public async Task<IActionResult> GetAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
+        public async Task<IActionResult> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
             return await DoGetAsync<GlAccountLogic>(pageno, pagesize, sort, typeof(GlAccountLogic));
         }
         //------------------------------------------------------------------------------------
         // GET api/v1/glaccount/A0000001
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetAsync([FromRoute]string id)
+        public async Task<IActionResult> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<GlAccountLogic>(id, typeof(GlAccountLogic));
         }

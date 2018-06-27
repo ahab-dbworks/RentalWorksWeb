@@ -30,14 +30,14 @@ namespace WebApi.Modules.Administrator.Group
         //------------------------------------------------------------------------------------ 
         // GET api/v1/group 
         [HttpGet]
-        public async Task<IActionResult> GetAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
+        public async Task<IActionResult> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
             return await DoGetAsync<FwGroupLogic>(pageno, pagesize, sort, typeof(FwGroupLogic));
         }
         //------------------------------------------------------------------------------------ 
         // GET api/v1/group/A0000001 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetAsync([FromRoute]string id)
+        public async Task<IActionResult> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<FwGroupLogic>(id, typeof(FwGroupLogic));
         }

@@ -28,14 +28,14 @@ namespace WebApi.Modules.Administrator.Control
         //------------------------------------------------------------------------------------ 
         // GET api/v1/control 
         [HttpGet]
-        public async Task<IActionResult> GetAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
+        public async Task<IActionResult> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
             return await DoGetAsync<ControlLogic>(pageno, pagesize, sort, typeof(ControlLogic));
         }
         //------------------------------------------------------------------------------------ 
         // GET api/v1/control/A0000001 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetAsync([FromRoute]string id)
+        public async Task<IActionResult> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<ControlLogic>(id, typeof(ControlLogic));
         }

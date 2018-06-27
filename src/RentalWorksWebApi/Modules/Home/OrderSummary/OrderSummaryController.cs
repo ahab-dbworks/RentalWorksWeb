@@ -14,7 +14,7 @@ namespace WebApi.Modules.Home.OrderSummary
         //------------------------------------------------------------------------------------
         // GET api/v1/ordersummary/A0000001
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetAsync([FromRoute]string id)
+        public async Task<IActionResult> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<OrderSummaryLogic>(id, typeof(OrderSummaryLogic));
         }

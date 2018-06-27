@@ -27,14 +27,14 @@ namespace WebApi.Modules.Home.InventoryAttributeValue
         //------------------------------------------------------------------------------------ 
         // GET api/v1/inventoryattributevalue 
         [HttpGet]
-        public async Task<IActionResult> GetAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
+        public async Task<IActionResult> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
             return await DoGetAsync<InventoryAttributeValueLogic>(pageno, pagesize, sort, typeof(InventoryAttributeValueLogic));
         }
         //------------------------------------------------------------------------------------ 
         // GET api/v1/inventoryattributevalue/A0000001 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetAsync([FromRoute]string id)
+        public async Task<IActionResult> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<InventoryAttributeValueLogic>(id, typeof(InventoryAttributeValueLogic));
         }

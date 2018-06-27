@@ -27,14 +27,14 @@ namespace WebApi.Modules.Home.InventoryLocationTax
         //------------------------------------------------------------------------------------ 
         // GET api/v1/inventorylocationtax 
         [HttpGet]
-        public async Task<IActionResult> GetAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
+        public async Task<IActionResult> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
             return await DoGetAsync<InventoryLocationTaxLogic>(pageno, pagesize, sort, typeof(InventoryLocationTaxLogic));
         }
         //------------------------------------------------------------------------------------ 
         // GET api/v1/inventorylocationtax/A0000001 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetAsync([FromRoute]string id)
+        public async Task<IActionResult> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<InventoryLocationTaxLogic>(id, typeof(InventoryLocationTaxLogic));
         }

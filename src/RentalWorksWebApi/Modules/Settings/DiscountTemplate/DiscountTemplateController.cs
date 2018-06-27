@@ -27,14 +27,14 @@ namespace WebApi.Modules.Settings.DiscountTemplate
         //------------------------------------------------------------------------------------ 
         // GET api/v1/discounttemplate 
         [HttpGet]
-        public async Task<IActionResult> GetAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
+        public async Task<IActionResult> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
             return await DoGetAsync<DiscountTemplateLogic>(pageno, pagesize, sort, typeof(DiscountTemplateLogic));
         }
         //------------------------------------------------------------------------------------ 
         // GET api/v1/discounttemplate/A0000001 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetAsync([FromRoute]string id)
+        public async Task<IActionResult> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<DiscountTemplateLogic>(id, typeof(DiscountTemplateLogic));
         }

@@ -27,14 +27,14 @@ namespace WebApi.Modules.Settings.AppReportDesigner
         //------------------------------------------------------------------------------------ 
         // GET api/v1/appreportdesigner 
         [HttpGet]
-        public async Task<IActionResult> GetAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
+        public async Task<IActionResult> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
             return await DoGetAsync<AppReportDesignerLogic>(pageno, pagesize, sort, typeof(AppReportDesignerLogic));
         }
         //------------------------------------------------------------------------------------ 
         // GET api/v1/appreportdesigner/A0000001 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetAsync([FromRoute]string id)
+        public async Task<IActionResult> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<AppReportDesignerLogic>(id, typeof(AppReportDesignerLogic));
         }

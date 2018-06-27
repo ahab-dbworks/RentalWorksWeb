@@ -27,14 +27,14 @@ namespace WebApi.Modules.Settings.InventoryRank
         //------------------------------------------------------------------------------------ 
         // GET api/v1/inventoryrank 
         [HttpGet]
-        public async Task<IActionResult> GetAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
+        public async Task<IActionResult> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
             return await DoGetAsync<InventoryRankLogic>(pageno, pagesize, sort, typeof(InventoryRankLogic));
         }
         //------------------------------------------------------------------------------------ 
         // GET api/v1/inventoryrank/A0000001 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetAsync([FromRoute]string id)
+        public async Task<IActionResult> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<InventoryRankLogic>(id, typeof(InventoryRankLogic));
         }

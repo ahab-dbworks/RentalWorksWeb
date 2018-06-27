@@ -28,14 +28,14 @@ namespace WebApi.Modules.Settings.WardrobePeriod
         //------------------------------------------------------------------------------------
         // GET api/v1/wardrobeperiod
         [HttpGet]
-        public async Task<IActionResult> GetAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
+        public async Task<IActionResult> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
             return await DoGetAsync<WardrobePeriodLogic>(pageno, pagesize, sort, typeof(WardrobePeriodLogic));
         }
         //------------------------------------------------------------------------------------
         // GET api/v1/wardrobeperiod/A0000001
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetAsync([FromRoute]string id)
+        public async Task<IActionResult> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<WardrobePeriodLogic>(id, typeof(WardrobePeriodLogic));
         }

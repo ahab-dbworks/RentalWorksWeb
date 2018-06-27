@@ -309,14 +309,14 @@ namespace WebApi.Modules.Home.Quote
         //------------------------------------------------------------------------------------                
         // GET api/v1/quote
         [HttpGet]
-        public async Task<IActionResult> GetAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
+        public async Task<IActionResult> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
             return await DoGetAsync<QuoteLogic>(pageno, pagesize, sort, typeof(QuoteLogic));
         }
         //------------------------------------------------------------------------------------
         // GET api/v1/quote/A0000001
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetAsync([FromRoute]string id)
+        public async Task<IActionResult> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<QuoteLogic>(id, typeof(QuoteLogic));
         }

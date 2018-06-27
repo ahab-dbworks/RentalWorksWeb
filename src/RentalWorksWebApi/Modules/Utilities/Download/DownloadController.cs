@@ -17,7 +17,7 @@ namespace WebApi.Modules.Utilities.Download
         //------------------------------------------------------------------------------------
         // GET api/v1/download/filename
         [HttpGet("{filename}")]
-        public async Task<IActionResult> GetAsync([FromRoute] string filename, [FromQuery]string downloadasfilename)
+        public async Task<IActionResult> GetOneAsync([FromRoute] string filename, [FromQuery]string downloadasfilename)
         {
             return await base.DoGetAsync(filename, downloadasfilename);
         }

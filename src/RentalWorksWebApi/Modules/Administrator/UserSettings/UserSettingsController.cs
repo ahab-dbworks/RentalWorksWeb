@@ -14,7 +14,7 @@ namespace WebApi.Modules.Administrator.UserSettings
         //------------------------------------------------------------------------------------ 
         // GET api/v1/usersettings/A0000001 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetAsync([FromRoute]string id)  //id = webusersid
+        public async Task<IActionResult> GetOneAsync([FromRoute]string id)  //id = webusersid
         {
             return await DoGetAsync<UserSettingsLogic>(id, typeof(UserSettingsLogic));
         }

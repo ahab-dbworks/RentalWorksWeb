@@ -31,7 +31,7 @@ namespace WebApi.Modules.Settings.GeneratorRating
         // GET api/v1/generatorrating
         [HttpGet]
         [Authorize(Policy = "{D014CE24-1518-4022-9D66-E779DF284AB4}")]
-        public async Task<IActionResult> GetAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
+        public async Task<IActionResult> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
             return await DoGetAsync<GeneratorRatingLogic>(pageno, pagesize, sort, typeof(GeneratorRatingLogic));
         }
@@ -39,7 +39,7 @@ namespace WebApi.Modules.Settings.GeneratorRating
         // GET api/v1/generatorrating/A0000001
         [HttpGet("{id}")]
         [Authorize(Policy = "{10B3F329-73CE-4359-8DF2-CF86DF76C9E4}")]
-        public async Task<IActionResult> GetAsync([FromRoute]string id)
+        public async Task<IActionResult> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<GeneratorRatingLogic>(id, typeof(GeneratorRatingLogic));
         }

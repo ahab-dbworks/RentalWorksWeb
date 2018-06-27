@@ -32,7 +32,7 @@ namespace WebApi.Modules.Home.Pricing
         //------------------------------------------------------------------------------------ 
         // GET api/v1/pricing/D00BYU6Z/B0029AY5/A001TSXJ   //masterid/warehouseid/currencyid
         [HttpGet("{masterid}/{warehouseid}/{currencyid}")]
-        public async Task<IActionResult> GetAsync([FromRoute]string masterid, [FromRoute]string warehouseid, [FromRoute]string currencyid)
+        public async Task<IActionResult> GetOneAsync([FromRoute]string masterid, [FromRoute]string warehouseid, [FromRoute]string currencyid)
         {
             return await DoSpecialGetAsync<PricingLogic>(masterid, warehouseid, currencyid, typeof(PricingLogic));
 
@@ -40,14 +40,14 @@ namespace WebApi.Modules.Home.Pricing
         //------------------------------------------------------------------------------------ 
         // GET api/v1/pricing/D00BYU6Z/B0029AY5   //masterid/warehouseid
         [HttpGet("{masterid}/{warehouseid}")]
-        public async Task<IActionResult> GetAsync([FromRoute]string masterid, [FromRoute]string warehouseid)
+        public async Task<IActionResult> GetOneAsync([FromRoute]string masterid, [FromRoute]string warehouseid)
         {
             return await DoSpecialGetAsync<PricingLogic>(masterid, warehouseid, "", typeof(PricingLogic));
         }
         //------------------------------------------------------------------------------------ 
         // GET api/v1/pricing/D00BYU6Z    //masterid
         [HttpGet("{masterid}")]
-        public async Task<IActionResult> GetAsync([FromRoute]string masterid)
+        public async Task<IActionResult> GetOneAsync([FromRoute]string masterid)
         {
             return await DoSpecialGetAsync<PricingLogic>(masterid, "", "", typeof(PricingLogic));
         }

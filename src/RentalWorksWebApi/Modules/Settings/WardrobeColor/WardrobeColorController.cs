@@ -28,14 +28,14 @@ namespace WebApi.Modules.Settings.WardrobeColor
         //------------------------------------------------------------------------------------
         // GET api/v1/wardrobecolor
         [HttpGet]
-        public async Task<IActionResult> GetAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
+        public async Task<IActionResult> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
             return await DoGetAsync<WardrobeColorLogic>(pageno, pagesize, sort, typeof(WardrobeColorLogic));
         }
         //------------------------------------------------------------------------------------
         // GET api/v1/wardrobecolor/A0000001
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetAsync([FromRoute]string id)
+        public async Task<IActionResult> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<WardrobeColorLogic>(id, typeof(WardrobeColorLogic));
         }

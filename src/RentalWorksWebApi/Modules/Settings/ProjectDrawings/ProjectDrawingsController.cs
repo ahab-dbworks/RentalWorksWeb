@@ -27,14 +27,14 @@ namespace WebApi.Modules.Settings.ProjectDrawings
         //------------------------------------------------------------------------------------ 
         // GET api/v1/projectdrawings 
         [HttpGet]
-        public async Task<IActionResult> GetAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
+        public async Task<IActionResult> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
             return await DoGetAsync<ProjectDrawingsLogic>(pageno, pagesize, sort, typeof(ProjectDrawingsLogic));
         }
         //------------------------------------------------------------------------------------ 
         // GET api/v1/projectdrawings/A0000001 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetAsync([FromRoute]string id)
+        public async Task<IActionResult> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<ProjectDrawingsLogic>(id, typeof(ProjectDrawingsLogic));
         }

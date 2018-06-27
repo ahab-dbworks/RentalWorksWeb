@@ -27,14 +27,14 @@ namespace WebApi.Modules.Settings.PoType
         //------------------------------------------------------------------------------------ 
         // GET api/v1/potype 
         [HttpGet]
-        public async Task<IActionResult> GetAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
+        public async Task<IActionResult> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
             return await DoGetAsync<PoTypeLogic>(pageno, pagesize, sort, typeof(PoTypeLogic));
         }
         //------------------------------------------------------------------------------------ 
         // GET api/v1/potype/A0000001 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetAsync([FromRoute]string id)
+        public async Task<IActionResult> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<PoTypeLogic>(id, typeof(PoTypeLogic));
         }

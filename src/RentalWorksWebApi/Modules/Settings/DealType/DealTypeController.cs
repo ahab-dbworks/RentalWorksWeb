@@ -31,7 +31,7 @@ namespace WebApi.Modules.Settings.DealType
         // GET api/v1/dealtype
         [HttpGet]
         [Authorize(Policy = "{9862D27F-0B5C-4399-A238-DD306EC7C39C}")]
-        public async Task<IActionResult> GetAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
+        public async Task<IActionResult> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
             return await DoGetAsync<DealTypeLogic>(pageno, pagesize, sort, typeof(DealTypeLogic));
         }
@@ -39,7 +39,7 @@ namespace WebApi.Modules.Settings.DealType
         // GET api/v1/dealtype/A0000001
         [HttpGet("{id}")]
         [Authorize(Policy = "{7B6498F1-EC58-4627-9E71-67C689FB37A8}")]
-        public async Task<IActionResult> GetAsync([FromRoute]string id)
+        public async Task<IActionResult> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<DealTypeLogic>(id, typeof(DealTypeLogic));
         }

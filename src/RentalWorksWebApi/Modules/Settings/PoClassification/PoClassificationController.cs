@@ -28,14 +28,14 @@ namespace WebApi.Modules.Settings.PoClassification
         //------------------------------------------------------------------------------------
         // GET api/v1/poclassification
         [HttpGet]
-        public async Task<IActionResult> GetAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
+        public async Task<IActionResult> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
             return await DoGetAsync<PoClassificationLogic>(pageno, pagesize, sort, typeof(PoClassificationLogic));
         }
         //------------------------------------------------------------------------------------
         // GET api/v1/poclassification/A0000001
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetAsync([FromRoute]string id)
+        public async Task<IActionResult> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<PoClassificationLogic>(id, typeof(PoClassificationLogic));
         }

@@ -50,7 +50,7 @@ namespace WebApi.Modules.Home.Contact
         [Produces(typeof(List<ContactLogic>))]
         [SwaggerResponse(200, Type = typeof(List<ContactLogic>))]
         [SwaggerResponse(500, Type = typeof(FwApiException))]
-        public async Task<IActionResult> GetAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
+        public async Task<IActionResult> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
             return await DoGetAsync<ContactLogic>(pageno, pagesize, sort, typeof(ContactLogic));
         }
@@ -59,7 +59,7 @@ namespace WebApi.Modules.Home.Contact
         [HttpGet("{id}")]
         [Produces(typeof(ContactLogic))]
         [SwaggerResponse(200, Type = typeof(ContactLogic))]
-        public async Task<IActionResult> GetAsync([FromRoute]string id)
+        public async Task<IActionResult> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<ContactLogic>(id, typeof(ContactLogic));
         }

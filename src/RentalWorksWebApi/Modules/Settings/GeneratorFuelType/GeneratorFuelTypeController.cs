@@ -31,7 +31,7 @@ namespace WebApi.Modules.Settings.GeneratorFuelType
         // GET api/v1/generatorfueltype
         [HttpGet]
         [Authorize(Policy = "{9B922EC1-D8C9-492E-91F4-E234E6AFAC64}")]
-        public async Task<IActionResult> GetAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
+        public async Task<IActionResult> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
             return await DoGetAsync<GeneratorFuelTypeLogic>(pageno, pagesize, sort, typeof(GeneratorFuelTypeLogic));
         }
@@ -39,7 +39,7 @@ namespace WebApi.Modules.Settings.GeneratorFuelType
         // GET api/v1/generatorfueltype/A0000001
         [HttpGet("{id}")]
         [Authorize(Policy = "{BC15A1F5-FAB4-4A2B-AD04-F9B7E3462560}")]
-        public async Task<IActionResult> GetAsync([FromRoute]string id)
+        public async Task<IActionResult> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<GeneratorFuelTypeLogic>(id, typeof(GeneratorFuelTypeLogic));
         }

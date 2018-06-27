@@ -31,7 +31,7 @@ namespace WebApi.Modules.Settings.CrewScheduleStatus
         // GET api/v1/crewschedulestatus
         [HttpGet]
         [Authorize(Policy = "")]
-        public async Task<IActionResult> GetAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
+        public async Task<IActionResult> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
             return await DoGetAsync<CrewScheduleStatusLogic>(pageno, pagesize, sort, typeof(CrewScheduleStatusLogic));
         }
@@ -39,7 +39,7 @@ namespace WebApi.Modules.Settings.CrewScheduleStatus
         // GET api/v1/crewschedulestatus/A0000001
         [HttpGet("{id}")]
         [Authorize(Policy = "")]
-        public async Task<IActionResult> GetAsync([FromRoute]string id)
+        public async Task<IActionResult> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<CrewScheduleStatusLogic>(id, typeof(CrewScheduleStatusLogic));
         }

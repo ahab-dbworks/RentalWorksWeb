@@ -32,7 +32,7 @@ namespace WebApi.Modules.Home.Taxable
         //------------------------------------------------------------------------------------ 
         // GET api/v1/taxable/B003MZ45/F01BQV9J   //masterid/locationid
         [HttpGet("{masterid}/{locationid}")]
-        public async Task<IActionResult> GetAsync([FromRoute]string masterid, [FromRoute]string locationid)
+        public async Task<IActionResult> GetOneAsync([FromRoute]string masterid, [FromRoute]string locationid)
         {
             return await DoSpecialGetAsync<TaxableLogic>(masterid, locationid, typeof(TaxableLogic));
 
@@ -40,7 +40,7 @@ namespace WebApi.Modules.Home.Taxable
         //------------------------------------------------------------------------------------ 
         // GET api/v1/taxable/B003MZ45   //masterid
         [HttpGet("{masterid}")]
-        public async Task<IActionResult> GetAsync([FromRoute]string masterid)
+        public async Task<IActionResult> GetOneAsync([FromRoute]string masterid)
         {
             return await DoSpecialGetAsync<TaxableLogic>(masterid, "", typeof(TaxableLogic));
         }

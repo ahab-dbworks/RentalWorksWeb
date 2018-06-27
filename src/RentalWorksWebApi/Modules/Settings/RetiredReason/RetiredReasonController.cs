@@ -28,14 +28,14 @@ namespace WebApi.Modules.Settings.RetiredReason
         //------------------------------------------------------------------------------------
         // GET api/v1/retiredreason
         [HttpGet]
-        public async Task<IActionResult> GetAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
+        public async Task<IActionResult> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
             return await DoGetAsync<RetiredReasonLogic>(pageno, pagesize, sort, typeof(RetiredReasonLogic));
         }
         //------------------------------------------------------------------------------------
         // GET api/v1/retiredreason/A0000001
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetAsync([FromRoute]string id)
+        public async Task<IActionResult> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<RetiredReasonLogic>(id, typeof(RetiredReasonLogic));
         }
