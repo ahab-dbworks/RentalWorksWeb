@@ -107,6 +107,7 @@ FwValidation.init = function ($control) {
     if (typeof $control.data('oninit') === 'function') {
         $control.data('oninit')($control, $validationbrowse, $popup, $valuefield, $searchfield, $btnvalidate);
     }
+
     FwPopup.renderPopup($validationbrowse);
     $control.find('input[type="hidden"]').on('change', function () {
         try {
@@ -115,42 +116,43 @@ FwValidation.init = function ($control) {
             FwFunc.showError(ex);
         }
     });
-    $control.find('input[type="text"]').on('change', function () {
+
+    $control.find('input[type="text"]').on('change', e => {
         try {
             if ($searchfield.val().length === 0) {
                 $valuefield.val('').change();
             } else {
                 FwValidation.validate(validationName, $valuefield, $searchfield, $btnvalidate, $validationbrowse, true);
+                var $rows = FwBrowse.getRows($validationbrowse);
+                FwBrowse.selectRow($validationbrowse, $rows.first(), true)
             }
-
+            $validationbrowse.data('previousActiveElement', $searchfield);
             focusValidationSearchBox($validationbrowse);
-            closeValidationPopup($validationbrowse);
 
         } catch (ex) {
             FwFunc.showError(ex);
         }
     });
+
     $control.find('input[type="text"]').on('keydown', function (e) {
         var code = e.keyCode || e.which;
         try {
             if (code === 13) { //Enter Key
-                FwValidation.validate(validationName, $valuefield, $searchfield, $btnvalidate, $validationbrowse, true);
                 e.preventDefault();
-                return false;
+                $control.find('input[type="text"]').trigger('change');
             }
         } catch (ex) {
             FwFunc.showError(ex);
         }
     });
+
     $control.find('.btnvalidate').on('click', function () {
         try {
             if ((typeof $control.attr('data-enabled') !== 'string') || ($control.attr('data-enabled') !== 'false')) {
                 FwValidation.validate(validationName, $valuefield, $searchfield, $btnvalidate, $validationbrowse, false);
             }
-
+            $validationbrowse.data('previousActiveElement', $searchfield);
             focusValidationSearchBox($validationbrowse);
-            closeValidationPopup($validationbrowse);
-
         } catch (ex) {
             FwFunc.showError(ex);
         }
@@ -160,25 +162,37 @@ FwValidation.init = function ($control) {
         setTimeout(function () {
             var $searchBox = $validationbrowse.find('.search input:visible');
             $searchBox.eq(0).focus();
-        }, 400);
+        }, 1000);
     };
 
-    var closeValidationPopup = function ($validationbrowse) {
-        jQuery(document).one('keydown', function (e) {
-            var code = e.keyCode || e.which;
-            if (code === 27) { //ESC Key
+    var preserveFocus = function ($validationbrowse) {
+        var $previousActiveElement = $validationbrowse.data('previousActiveElement');
+        $previousActiveElement.focus();
+    }
+
+    $validationbrowse.on('keydown', e => {
+        var code = e.keyCode || e.which;
+        switch (code) {
+            case 27: //ESC key
                 try {
                     FwValidation.clearSearchCriteria($validationbrowse, $btnvalidate);
                     $popup = $validationbrowse.closest('.fwpopup');
                     FwPopup.detachPopup($popup);
-                    jQuery(document).off('keydown');
+
+                    preserveFocus($validationbrowse);
                 } catch (ex) {
                     FwFunc.showError(ex);
                 }
-            }
-        })
-    };
-
+                break;
+            case 38: //Up Arrow Key
+                FwBrowse.selectPrevRow($validationbrowse);
+                break;
+            case 40: //Down Arrow Key
+                FwBrowse.selectNextRow($validationbrowse);
+                break;
+        }
+    });
+ 
     $validationbrowse.data('onrowdblclick', function () {
         var $tr, originalcolor;
         try {
@@ -187,6 +201,7 @@ FwValidation.init = function ($control) {
             originalcolor = $searchfield.css('background-color');
             $searchfield.css('background-color', '#abcdef').animate({ backgroundColor: originalcolor }, 1500, function () { $searchfield.attr('style', '') });
             jQuery(document).off('keydown');
+            preserveFocus($validationbrowse);
         } catch (ex) {
             FwFunc.showError(ex);
         }
@@ -210,6 +225,7 @@ FwValidation.init = function ($control) {
             FwFunc.showError(ex);
         }
     });
+
     $validationbrowse.find('.validationbuttons .btnClear').on('click', function () {
         var uniqueid, $trGrid, $gridUniqueIdField;
         try {
@@ -223,6 +239,7 @@ FwValidation.init = function ($control) {
             FwFunc.showError(ex);
         }
     });
+
     $validationbrowse.find('.validationbuttons .btnCancel').on('click', function () {
         try {
             FwValidation.clearSearchCriteria($validationbrowse, $btnvalidate);
@@ -233,6 +250,7 @@ FwValidation.init = function ($control) {
             FwFunc.showError(ex);
         }
     });
+
     $validationbrowse.find('.validationbuttons .btnNew').on('click', function () {
         var $this = jQuery(this);
         try {
