@@ -355,6 +355,7 @@ var SalesInventory = (function () {
         FwBrowse.renderRuntimeHtml($wardrobeInventoryMaterialGridControl);
         $inventoryCompleteGrid = $form.find('div[data-grid="InventoryCompleteGrid"]');
         $inventoryCompleteGridControl = jQuery(jQuery('#tmpl-grids-InventoryCompleteGridBrowse').html());
+        $inventoryCompleteGridControl.find('div[data-datafield="InventoryId"]').attr('data-validationname', 'SalesInventoryValidation');
         $inventoryCompleteGrid.empty().append($inventoryCompleteGridControl);
         $inventoryCompleteGridControl.data('ondatabind', function (request) {
             request.uniqueids = {
