@@ -366,6 +366,7 @@ class PartsInventory {
 
         $inventoryKitGrid = $form.find('div[data-grid="InventoryKitGrid"]');
         $inventoryKitGridControl = jQuery(jQuery('#tmpl-grids-InventoryKitGridBrowse').html());
+        $inventoryKitGridControl.find('div[data-datafield="InventoryId"]').attr('data-validationname', 'PartsInventoryValidation');
         $inventoryKitGrid.empty().append($inventoryKitGridControl);
         $inventoryKitGridControl.data('ondatabind', function (request) {
             request.uniqueids = {
