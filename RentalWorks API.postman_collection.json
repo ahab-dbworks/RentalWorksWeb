@@ -6803,7 +6803,7 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "http://localhost:57949/api/v1/customfield/00002WPC",
+							"raw": "http://localhost:57949/api/v1/customfield/I000006Y",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -6813,7 +6813,7 @@
 								"api",
 								"v1",
 								"customfield",
-								"00002WPC"
+								"I000006Y"
 							]
 						}
 					},
@@ -6869,7 +6869,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n        \"CustomFieldId\": \"I000023C\",\n        \"ShowInBrowse\": true\n}"
+							"raw": "{\n        \"CustomFieldId\": \"I000006Y\",\n        \"ShowInBrowse\": true,\n        \"FieldSizeInPixels\": 225,\n        \"BrowseSizeInPixels\": 75\n    }"
 						},
 						"url": {
 							"raw": "http://localhost:57949/api/v1/customfield",
@@ -26735,7 +26735,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"UserName\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": [],\n    \t\"uniqueids\": {\"ProjectId\": 'F016W4QH\"}\n\t\n}"
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"UserName\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": [],\n    \t\"uniqueids\": {\"ProjectId\": \"F016W4QH\"}\n\t\n}"
 						},
 						"url": {
 							"raw": "http://localhost:57949/api/v1/poapprover/browse",
@@ -29712,6 +29712,219 @@
 			]
 		},
 		{
+			"name": "Project Contact",
+			"description": null,
+			"item": [
+				{
+					"name": "Project Contact: Get Many",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/projectcontact",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"projectcontact"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Project Contact: Browse",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"Person\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": [],\n    \t\"uniqueids\": {\"ProjectId\": \"F016W4QH\"}\n\t\n}"
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/projectcontact/browse",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"projectcontact",
+								"browse"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Project Contact: Get One",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/projectcontact/00002WPC",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"projectcontact",
+								"00002WPC"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Project Contact: Insert",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"Field1\": \"1\",\n    \"Field2\": \"2\",\n}"
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/projectcontact",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"projectcontact"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Project Contact: Update",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t \"ProjectContactId\":\"00002WPC\",\n\t \"Field1\":\"1\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/projectcontact",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"projectcontact"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Project Contact: Delete",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/projectcontact/00003EOV",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"projectcontact",
+								"00003EOV"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
 			"name": "Project Note",
 			"description": null,
 			"item": [
@@ -31685,7 +31898,7 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "http://localhost:57949/api/v1/quote/I000006P",
+							"raw": "http://localhost:57949/api/v1/quote/I00002O7",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -31695,7 +31908,7 @@
 								"api",
 								"v1",
 								"quote",
-								"I000006P"
+								"I00002O7"
 							]
 						}
 					},
