@@ -118,6 +118,8 @@ FwValidation.init = function ($control) {
     });
 
     $control.find('input[type="text"]').on('change', e => {
+        e.preventDefault();
+        e.stopImmediatePropagation();
         try {
             if ($searchfield.val().length === 0) {
                 $valuefield.val('').change();
@@ -129,18 +131,6 @@ FwValidation.init = function ($control) {
             $validationbrowse.data('previousActiveElement', $searchfield);
             focusValidationSearchBox($validationbrowse);
 
-        } catch (ex) {
-            FwFunc.showError(ex);
-        }
-    });
-
-    $control.find('input[type="text"]').on('keydown', function (e) {
-        var code = e.keyCode || e.which;
-        try {
-            if (code === 13) { //Enter Key
-                e.preventDefault();
-                $control.find('input[type="text"]').trigger('change');
-            }
         } catch (ex) {
             FwFunc.showError(ex);
         }
