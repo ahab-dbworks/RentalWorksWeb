@@ -27,7 +27,7 @@ namespace FwStandard.DataLayer
 
 
         [JsonIgnore]
-        public bool ForceSave { get { return forceSave; } set { forceSave = value;  } }
+        public bool ForceSave { get { return forceSave; } set { forceSave = value; } }
 
         [JsonIgnore]
         public bool ReloadOnSave { get { return reloadOnSave; } set { reloadOnSave = value; } }
@@ -480,8 +480,7 @@ namespace FwStandard.DataLayer
                         {
                             containsSearch = false;
                         }
-
-
+  
                         if (doUpper)
                         {
                             searchField = "upper(" + searchField + ")";
@@ -489,10 +488,19 @@ namespace FwStandard.DataLayer
 
                         if (request.searchfieldoperators[i] == "like")
                         {
-                            string searchcondition = conditionConjunction + searchField + " like " + parameterName;
+                            string searchcondition;
+                            if (request.searchfieldtypes[i] == "date")
+                            {
+                                searchcondition = conditionConjunction + searchField + " like (select CONVERT(datetime, " + parameterName + "))";
+                                select.AddParameter(parameterName, request.searchfieldvalues[i]);
+                            } else
+                            {
+                                searchcondition = conditionConjunction + searchField + " like " + parameterName;
+                                select.AddParameter(parameterName, (containsSearch ? "%" : "") + request.searchfieldvalues[i].ToUpper() + "%");
+                            }
+                  
                             select.Add(searchcondition);
                             //select.AddParameter(parameterName, "%" + request.searchfieldvalues[i].ToUpper() + "%");
-                            select.AddParameter(parameterName, (containsSearch?"%":"") + request.searchfieldvalues[i].ToUpper() + "%");
                         }
                         else if (request.searchfieldoperators[i] == "=" || request.searchfieldoperators[i] == "<>")
                         {
@@ -644,7 +652,7 @@ namespace FwStandard.DataLayer
             for (int i = 0; i < primaryKeyProperties.Count; i++)
             {
                 PropertyInfo pkProperty = primaryKeyProperties[i];
-                Type propertyType       = pkProperty.PropertyType;
+                Type propertyType = pkProperty.PropertyType;
 
                 if ((propertyType == typeof(int?)) || (propertyType == typeof(Int32)))
                 {
@@ -656,7 +664,7 @@ namespace FwStandard.DataLayer
                 }
                 else
                 {
-                    throw new Exception("Primary key property type not implemented for " +  propertyType.ToString() + ". [FwBusinessLogic.SetPrimaryKeys]");
+                    throw new Exception("Primary key property type not implemented for " + propertyType.ToString() + ". [FwBusinessLogic.SetPrimaryKeys]");
                 }
             }
             return await GetAsync<T>(customFields);
@@ -742,8 +750,9 @@ namespace FwStandard.DataLayer
                 if (uniqueIds.ContainsKey(filterFieldName))
                 {
                     select.AddWhere(databaseFieldName + " = @" + databaseFieldName);
-                    if (uniqueIds[filterFieldName] is bool) {
-                        select.AddParameter("@" + databaseFieldName, ((bool)uniqueIds[filterFieldName] ? "T": "F"));
+                    if (uniqueIds[filterFieldName] is bool)
+                    {
+                        select.AddParameter("@" + databaseFieldName, ((bool)uniqueIds[filterFieldName] ? "T" : "F"));
                     }
                     else
                     {
@@ -831,7 +840,7 @@ namespace FwStandard.DataLayer
         {
             object id = new object();
 
-            await Task.Run(() => { } );
+            await Task.Run(() => { });
 
             return id;
         }

@@ -4,7 +4,7 @@ html.theme-material .fwbrowse td {vertical-align:top;}
 html.theme-material .fwbrowse[data-type="Browse"] .browsefilter {padding:10px;background-color: #FAFAFA;}
 html.theme-material .fwbrowse[data-type="Browse"] table tfoot tr.pagerrow .pager {font-size:16px;}
 html.theme-material .fwbrowse[data-type="Browse"] table tfoot tr.pagerrow .pager div.btnRefresh {cursor:pointer;float:left;height:24px;padding:4px;}
-html.theme-material .fwbrowse[data-type="Browse"] table tfoot tr.pagerrow .pager div.buttons {display:inline-block;}
+html.theme-material .fwbrowse[data-type="Browse"] table tfoot tr.pagerrow .pager div.buttons {display:inline-block;}                        
 html.theme-material .fwbrowse[data-type="Browse"] table tfoot tr.pagerrow .pager div.buttons .button {cursor:pointer;float:left;padding:4px;height: 24px;}
 html.theme-material .fwbrowse[data-type="Browse"] table tfoot tr.pagerrow .pager div.buttons .button[data-enabled="false"] {opacity:.6;cursor:default;}
 html.theme-material .fwbrowse[data-type="Browse"] table tfoot tr.pagerrow .pager div.buttons .page {float:left;}
@@ -59,6 +59,19 @@ html.theme-material .fwbrowse[data-type="Grid"] table {font-size:14px;}*/
 
 /* thead */
 /*html.theme-material .fwbrowse table thead tr.fieldnames {border-bottom:1px solid #e0e0e0;}*/
+    html.theme-material .fwbrowse table thead tr td [data-browsedatatype="date"] .btndate {
+        color: #616161;
+        padding: 0;
+        font-size: 1.5em;
+        margin: auto 5px;
+        box-sizing: border-box;
+        cursor: pointer;
+    }
+html.theme-material.mobile .fwbrowse table thead tr td [data-browsedatatype="date"] i.btndate {
+    font-size: 2em;
+    flex: 0 0 32px;
+}
+
 html.theme-material .fwbrowse table thead tr td {padding:0;-webkit-touch-callout:none;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;background:#efefef;border-right: 1px solid #BDBDBD;border-bottom: 1px solid #BDBDBD;border-top: 1px solid #BDBDBD;}
 html.theme-material .fwbrowse table thead tr td:first-of-type {border-left: 0;}
 html.theme-material .fwbrowse table thead tr td:last-of-type {border-right: 0;}
