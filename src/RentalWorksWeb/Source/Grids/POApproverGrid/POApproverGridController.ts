@@ -8,9 +8,14 @@
         $generatedtr.find('div[data-browsedatafield="HasLimit"]').on('change', 'input.value', e => {
             var hasLimit = jQuery(e.currentTarget).prop('checked');
             if (hasLimit == false) {
-                $generatedtr.find('.limit input').css('background-color', '#f5f5f5');
+                $generatedtr.find('.limit input').prop('disabled', true)
+                  .css('background-color', '#F5F5F5');
+                $generatedtr.find('.limit')
+                    .parents('td').css('background-color', "#f5f5f5");
             } else {
-                $generatedtr.find('.limit input').css('background-color', '#FFFFFF');
+                $generatedtr.find('.limit input').prop('disabled', false)
+                    .css('background-color', '#FFFFFF');
+                $generatedtr.find('.limit').parents('td').css('background-color', "#FFFFFF");
             }
         });
 
@@ -19,19 +24,33 @@
             if ($field.attr('data-browsedatafield') === 'HasLimit') {
                 let limitChecked = $field.find('input').prop('checked');
                 if (!limitChecked) {
-                    $tr.find('.limit').css('background-color', '#f5f5f5');
+                    $tr.find('.limit input').prop('disabled', true);
+                    $tr.find('.limit').parents('td')
+                        .css('background-color', "#f5f5f5");
                 } else {
-                    $tr.find('.limit').css('background-color', '#FFFFFF');
+                    $tr.find('.limit input').prop('disabled', false)
+                    $tr.find('.limit').parents('td').css('background-color', "#FFFFFF");
                 }
             }
         });
+    }
 
+    afterRowEditMode($control, $tr) {
+        let $limitField = $tr.find('[data-browsedatafield="HasLimit"] input'),
+            hasLimit = $limitField.prop('checked');
+
+        if (!hasLimit) {
+            $tr.find('.limit input').prop('disabled', true)
+                .css('background-color', '#F5F5F5');
+        } else {
+            $tr.find('.limit input').prop('disabled', false)
+        }
     }
 
     onRowNewMode($control: JQuery, $tr: JQuery) {
-        $tr.find('.limit input').css('background-color', '#f5f5f5');
+        $tr.find('.limit input').prop('disabled', true)
+            .css('background-color', "#f5f5f5");
 
-        
     }
 
 }
