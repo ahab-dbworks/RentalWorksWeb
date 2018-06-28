@@ -13,6 +13,8 @@ namespace WebApi.Modules.Home.Master
         public MasterLogic()
         {
             dataRecords.Add(master);
+
+            master.BeforeSave += OnBeforeSaveMaster;
             master.AfterSave += OnAfterSaveMaster;
         }
         //------------------------------------------------------------------------------------ 
@@ -61,14 +63,23 @@ namespace WebApi.Modules.Home.Master
         public bool? PrintNoteOnPoReceiveList { get { return master.PrintNoteOnPoReceiveList; } set { master.PrintNoteOnPoReceiveList = value; } }
         public bool? PrintNoteOnPoReturnList { get { return master.PrintNoteOnPoReturnList; } set { master.PrintNoteOnPoReturnList = value; } }
 
-
-
-
-
-
-
         public bool? Inactive { get { return master.Inactive; } set { master.Inactive = value; } }
         public string DateStamp { get { return master.DateStamp; } set { master.DateStamp = value; } }
+        //------------------------------------------------------------------------------------ 
+        public void OnBeforeSaveMaster(object sender, BeforeSaveEventArgs e)
+        {
+
+            if (e.SaveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smInsert)
+            {
+                if (string.IsNullOrEmpty(ICode))
+                {
+                    //jh todo: need to make a single SP for this new ICode logic
+                    ICode = AppFunc.GetNextSystemCounterAsync(AppConfig, UserSession, "masterno").Result;
+                    string iCodePrefix = AppFunc.GetStringDataAsync(AppConfig, "syscontrol", "controlid", "1", "icodeprefix").Result;
+                    ICode = iCodePrefix.Trim() + ICode.PadLeft(6, '0');
+                }
+            }
+        }
         //------------------------------------------------------------------------------------ 
         public virtual void OnAfterSaveMaster(object sender, AfterSaveEventArgs e)
         {

@@ -144,7 +144,24 @@ namespace WebApi.Logic
             return result;
         }
         //-------------------------------------------------------------------------------------------------------
-        public static async Task<string> GetNextCounterAsync(FwApplicationConfig appConfig, FwUserSession userSession, string moduleName)
+        public static async Task<string> GetNextSystemCounterAsync(FwApplicationConfig appConfig, FwUserSession userSession, string counterColumnName)
+        {
+            string counter = "";
+            using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
+            {
+                FwSqlCommand qry = new FwSqlCommand(conn, "fw_getnextcounter", appConfig.DatabaseSettings.QueryTimeout);
+                qry.AddParameter("@tablename", SqlDbType.NVarChar, ParameterDirection.Input, "syscontrol");
+                qry.AddParameter("@columnname", SqlDbType.NVarChar, ParameterDirection.Input, counterColumnName);
+                qry.AddParameter("@uniqueid1name", SqlDbType.NVarChar, ParameterDirection.Input, "controlid");
+                qry.AddParameter("@uniqueid1valuestr", SqlDbType.NVarChar, ParameterDirection.Input, "1");
+                qry.AddParameter("@counter", SqlDbType.Int, ParameterDirection.Output);
+                await qry.ExecuteNonQueryAsync(true);
+                counter = qry.GetParameter("@counter").ToString().TrimEnd();
+            }
+            return counter;
+        }
+        //-------------------------------------------------------------------------------------------------------
+        public static async Task<string> GetNextModuleCounterAsync(FwApplicationConfig appConfig, FwUserSession userSession, string moduleName)
         {
             string counter = "";
             using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))

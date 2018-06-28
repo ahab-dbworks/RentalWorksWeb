@@ -989,7 +989,7 @@ public string DateStamp { get; set; }
             {
                 throw new Exception("Invalid Type " + Type + " in DealOrderRecord.SetNumber");
             }
-            OrderNumber = await AppFunc.GetNextCounterAsync(AppConfig, UserSession, moduleName);
+            OrderNumber = await AppFunc.GetNextModuleCounterAsync(AppConfig, UserSession, moduleName);
 
             return true;
         }
