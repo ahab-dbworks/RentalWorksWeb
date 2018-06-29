@@ -380,7 +380,7 @@ namespace FwStandard.DataLayer
                 int customFieldIndex = 1;
                 foreach (FwCustomField customField in customFields)
                 {
-                    columns[customField.FieldName] = customField.FieldName;
+                    //columns[customField.FieldName] = customField.FieldName;
                     bool customTableInQuery = false;
                     string customTableAlias = "";
                     foreach (FwCustomTable customTable in customTables)
@@ -398,9 +398,12 @@ namespace FwStandard.DataLayer
                         customTables.Add(new FwCustomTable(customField.CustomTableName, customTableAlias));
                         customTableIndex++;
                     }
+                    string customSqlFieldName = customTableAlias + "." + customField.CustomFieldName;
+                    columns[customField.FieldName] = customSqlFieldName;
 
                     qry.AddColumn("", customField.FieldName, FwDataTypes.Text, true, false, false);
-                    sb.Append(" ,[" + customField.FieldName + "] = " + customTableAlias + "." + customField.CustomFieldName);
+                    //sb.Append(" ,[" + customField.FieldName + "] = " + customTableAlias + "." + customField.CustomFieldName);
+                    sb.Append(" ,[" + customField.FieldName + "] = " + customSqlFieldName);
 
                     customFieldIndex++;
                 }
@@ -460,11 +463,18 @@ namespace FwStandard.DataLayer
                         {
                             conditionConjunction = "  and ";
                         }
-                        string parameterName = "@" + columns[request.searchfields[i]];
+                        string parameterName = "@" + columns[request.searchfields[i]].Replace('.', '_');
 
-                        // the upper function here will cause it to not use the index, this is not ideal
                         bool doUpper = true;
                         string searchField = columns[request.searchfields[i]];
+                        string searchFieldOperator = request.searchfieldoperators[i];
+                        string searchFieldValue = request.searchfieldvalues[i];
+                        string searchFieldType = "";
+                        if (request.searchfieldtypes.Length > i)
+                        {
+                            searchFieldType = request.searchfieldtypes[i];
+                        }
+
                         if (searchField.Equals("inactive"))
                         {
                             doUpper = false;
@@ -473,63 +483,52 @@ namespace FwStandard.DataLayer
                         {
                             doUpper = false;
                         }
-                        if (request.searchfieldtypes.Length > i)
+                        if ((searchFieldType.Equals("date")) || (searchFieldType.Equals("number")))
                         {
-                            if (request.searchfieldtypes[i].Equals("date"))
+                            doUpper = false;
+                            if (searchFieldOperator.Equals("like"))
                             {
-                                doUpper = false;
+                                searchFieldOperator = "=";
                             }
                         }
-
-
-                        //justin 05/30/2018 temporary - if searching for a number (ie. QuoteNumber, InvoiceNumber), don't perform a contains search
-                        //bool containsSearch = true;
-                        //if (searchField.EndsWith("no"))
-                        //{
-                        //    containsSearch = false;
-                        //}
 
                         if (doUpper)
                         {
                             searchField = "upper(" + searchField + ")";
                         }
 
-                        if (request.searchfieldoperators[i].Equals("like"))
+                        string searchcondition;
+                        if (searchFieldOperator.Equals("like"))
                         {
-                            string searchcondition;
-                            if ((request.searchfieldtypes.Length > i) && (request.searchfieldtypes[i].Equals("date")))
+                            searchcondition = conditionConjunction + searchField + " like " + parameterName;
+                            select.AddParameter(parameterName, "%" + searchFieldValue.ToUpper() + "%");
+                        }
+                        else if (searchFieldOperator.Equals("startswith"))
+                        {
+                            searchcondition = conditionConjunction + searchField + " like " + parameterName;
+                            select.AddParameter(parameterName, searchFieldValue.ToUpper() + "%");
+                        }
+                        else if (searchFieldOperator.Equals("=") || searchFieldOperator.Equals("<>"))
+                        {
+                            searchcondition = conditionConjunction + searchField + " " + searchFieldOperator + " " + parameterName;
+                            if (searchFieldType.Equals("date"))
                             {
-                                //searchcondition = conditionConjunction + searchField + " like (select CONVERT(datetime, " + parameterName + "))";
-                                //select.AddParameter(parameterName, request.searchfieldvalues[i]);
-                                searchcondition = conditionConjunction + searchField + " = " + parameterName;
-                                select.AddParameter(parameterName, SqlDbType.Date, ParameterDirection.Input, 0, FwConvert.ToDateTime(request.searchfieldvalues[i]));
+                                select.AddParameter(parameterName, SqlDbType.Date, ParameterDirection.Input, 0, FwConvert.ToDateTime(searchFieldValue));
+                            }
+                            else if (searchFieldType.Equals("number"))
+                            {
+                                select.AddParameter(parameterName, SqlDbType.Float, ParameterDirection.Input, 0, searchFieldValue);
                             }
                             else
                             {
-                                searchcondition = conditionConjunction + searchField + " like " + parameterName;
-                                select.AddParameter(parameterName, "%" + request.searchfieldvalues[i].ToUpper() + "%");
+                                select.AddParameter(parameterName, searchFieldValue.ToUpper());
                             }
-                  
-                            select.Add(searchcondition);
-                            //select.AddParameter(parameterName, "%" + request.searchfieldvalues[i].ToUpper() + "%");
-                        }
-                        else if (request.searchfieldoperators[i].Equals("startswith"))
-                        {
-                            string searchcondition;
-                            searchcondition = conditionConjunction + searchField + " like " + parameterName;
-                            select.AddParameter(parameterName, request.searchfieldvalues[i].ToUpper() + "%");
-                            select.Add(searchcondition);
-                        }
-                        else if (request.searchfieldoperators[i].Equals("=") || request.searchfieldoperators[i].Equals("<>"))
-                        {
-                            string searchcondition = conditionConjunction + searchField + " " + request.searchfieldoperators[i] + " " + parameterName;
-                            select.Add(searchcondition);
-                            select.AddParameter(parameterName, request.searchfieldvalues[i].ToUpper());
                         }
                         else
                         {
-                            throw new Exception("Invalid searchfieldoperator: " + request.searchfieldoperators[i]);
+                            throw new Exception("Invalid searchfieldoperator: " + searchFieldOperator);
                         }
+                        select.Add(searchcondition);
                     }
                 }
 
