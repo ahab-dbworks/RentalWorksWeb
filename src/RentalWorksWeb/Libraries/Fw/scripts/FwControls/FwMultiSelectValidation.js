@@ -62,7 +62,7 @@ FwMultiSelectValidation.init = function($control, validationName, $valuefield, $
             // onSuccess
             function(response) {
                 try {
-                    FwBrowse.databindcallback($browse, response.browse);
+                    FwBrowse.databindcallback($browse, response);
                 } catch (ex) {
                     FwFunc.showError(ex);
                 }

@@ -2644,6 +2644,21 @@ var FwBrowse = (function () {
     };
     FwBrowse.loadBrowseFromTemplate = function (modulename) {
         var $control = jQuery(jQuery('#tmpl-modules-' + modulename + 'Browse').html());
+        var customBrowse = JSON.parse(sessionStorage.getItem('customFieldsBrowse'));
+        var customBrowseHtml = [];
+        if (customBrowse !== 'undefined' && customBrowse.length > 0) {
+            for (var i = 0; i < customBrowse.length; i++) {
+                if (modulename === customBrowse[i].moduleName) {
+                    customBrowseHtml.push('<div class="column" data-width="50px" data-visible="true"><div class="field" data-caption="' + customBrowse[i].fieldName + '" data-datafield="' + customBrowse[i].fieldName + '" data-browsedatatype="text" data-sort="off"></div></div>');
+                }
+            }
+        }
+        if ($control.has('.spacer')) {
+            jQuery(customBrowseHtml.join('')).insertBefore($control.find('.spacer'));
+        }
+        else {
+            $control.append(customBrowseHtml.join(''));
+        }
         return $control;
     };
     FwBrowse.loadGridFromTemplate = function (modulename) {

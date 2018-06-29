@@ -415,6 +415,7 @@ FwSettings.renderModuleHtml = function ($control, title, moduleName, description
                         };
 
                         fieldData['datatype'] = $browse.find('div[data-datafield="' + Key + '"]').data('datatype');
+                        fieldData['datafield'] = Key
                         browseData.push(fieldData)
 
                         if (i === 1 && Key !== 'Inactive' || i === 2 && jQuery(keys[1]).attr('data-datafield') === 'Inactive') {
@@ -459,7 +460,7 @@ FwSettings.renderModuleHtml = function ($control, title, moduleName, description
 
                                 } else {
                                     html.push('    <div class="fwcontrol fwcontainer fwform-fieldrow" data-type="fieldrow">');
-                                    html.push('    <label>' + response[i][browseKeys[j]] + '</label>');
+                                    html.push('    <label data-datafield=' + browseData[j]['datafield'] + '>' + response[i][browseKeys[j]] + '</label>');
                                 }
 
                                 html.push('        </div>');
@@ -476,6 +477,7 @@ FwSettings.renderModuleHtml = function ($control, title, moduleName, description
                         html.push('</div>');
                         $moduleRows = jQuery(html.join(''));
                         $moduleRows.data('recorddata', response[i]);
+                        $moduleRows.data('browsedata', browseData);
                         $body.append($moduleRows);
                     }
 
@@ -507,12 +509,10 @@ FwSettings.renderModuleHtml = function ($control, title, moduleName, description
             var formKeys = [], formData = [], recordData, $rowBody, $form, moduleName, moduleId, uniqueids = {};
             recordData = jQuery(this).parent().parent().data('recorddata');
             moduleName = jQuery(this).closest('div.panel-group')[0].id;
-            moduleId = jQuery(this).closest('div.panel-group').data('id');
-            uniqueids[moduleId] = recordData[moduleId];
-
-            $rowBody = $control.find('#' + recordData[moduleId] + '.panel-body');
-
             $form = jQuery(jQuery('#tmpl-modules-' + moduleName + 'Form').html());
+            moduleId = jQuery($form.find('.fwformfield[data-isuniqueid="true"]')[0]).data('datafield'); 
+            uniqueids[moduleId] = recordData[moduleId];
+            $rowBody = $control.find('#' + recordData[moduleId] + '.panel-body');            
 
             if ($rowBody.is(':empty')) {
                 $rowBody.append($form);
@@ -580,6 +580,23 @@ FwSettings.renderModuleHtml = function ($control, title, moduleName, description
                     }
                 }
             });
+
+        })
+        .on('click', '.btn', function () {
+            var browsedata = jQuery(this).closest('.panel-record').data('browsedata');
+            var browsedatafields = [];
+            var record = jQuery(this).closest('.panel-record').find('.panel-info');
+            var $form = jQuery(this).closest('.panel-record').find('.fwform')
+
+            for (var i = 0; i < browsedata.length; i++) {
+                browsedatafields.push(browsedata[i].datafield);
+            }
+            for (var j = 0; j < browsedatafields.length; j++) {
+                if (jQuery(this).closest('.panel-record').find('.panel-info').find('label[data-datafield="' + browsedatafields[j] + '"]')) {
+                    jQuery(this).closest('.panel-record').find('.panel-info').find('label[data-datafield="' + browsedatafields[j] + '"]').text(FwFormField.getValueByDataField($form, browsedatafields[j]));
+                }
+            }
+
 
         })
         .on('click', '.save', function (e) {

@@ -481,7 +481,7 @@
         for (let i = 0; i < $fields.length; i++) {
             var $field = $fields.eq(i);
             $field
-            var field = {datafield: $field.attr('data-browsedatafield'), value: ''};
+            var field = { datafield: $field.attr('data-browsedatafield'), value: '' };
             if (typeof window['FwBrowseColumn_' + $field.attr('data-formdatatype')] !== 'undefined') {
                 let isModifiedFunction = window['FwBrowseColumn_' + $field.attr('data-formdatatype')].isModified;
                 let isFieldUnmodified = !isModifiedFunction($control, $tr, $field, field, $field.attr('data-originalvalue'));
@@ -1256,7 +1256,7 @@
                                                         FwFunc.showError(ex);
                                                     }
                                                 }, function onno() { });
-                                                    
+
                                             }
                                         } catch (ex) {
                                             FwFunc.showError(ex);
@@ -1589,7 +1589,7 @@
         ////} else if ($tr.hasClass('viewmode')) {
         ////    FwBrowse.setSelectedRowMode($control, 'view');
         ////}
-        
+
         var request, caption;
         if ($control.length > 0) {
             request = FwBrowse.getRequest($control);
@@ -2930,6 +2930,23 @@
     //---------------------------------------------------------------------------------
     static loadBrowseFromTemplate(modulename: string) {
         var $control = jQuery(jQuery('#tmpl-modules-' + modulename + 'Browse').html());
+        var customBrowse = JSON.parse(sessionStorage.getItem('customFieldsBrowse'));
+        var customBrowseHtml = [];
+
+        if (customBrowse !== 'undefined' && customBrowse.length > 0) {
+            for (var i = 0; i < customBrowse.length; i++) {
+                if (modulename === customBrowse[i].moduleName) {
+                    customBrowseHtml.push('<div class="column" data-width="50px" data-visible="true"><div class="field" data-caption="' + customBrowse[i].fieldName + '" data-datafield="' + customBrowse[i].fieldName + '" data-browsedatatype="text" data-sort="off"></div></div>');
+                }
+            }
+        }
+        if ($control.has('.spacer')) {
+            jQuery(customBrowseHtml.join('')).insertBefore($control.find('.spacer'));
+        } else {
+            $control.append(customBrowseHtml.join(''));
+
+        }
+
         return $control;
     }
     //---------------------------------------------------------------------------------
