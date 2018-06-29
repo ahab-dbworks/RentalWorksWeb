@@ -473,9 +473,12 @@ namespace FwStandard.DataLayer
                         {
                             doUpper = false;
                         }
-                        if (request.searchfieldtypes[i].Equals("date"))
+                        if (request.searchfieldtypes.Length > i)
                         {
-                            doUpper = false;
+                            if (request.searchfieldtypes[i].Equals("date"))
+                            {
+                                doUpper = false;
+                            }
                         }
 
 
@@ -494,7 +497,7 @@ namespace FwStandard.DataLayer
                         if (request.searchfieldoperators[i].Equals("like"))
                         {
                             string searchcondition;
-                            if (request.searchfieldtypes[i].Equals("date"))
+                            if ((request.searchfieldtypes.Length > i) && (request.searchfieldtypes[i].Equals("date")))
                             {
                                 //searchcondition = conditionConjunction + searchField + " like (select CONVERT(datetime, " + parameterName + "))";
                                 //select.AddParameter(parameterName, request.searchfieldvalues[i]);
