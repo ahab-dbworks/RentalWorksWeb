@@ -473,6 +473,11 @@ namespace FwStandard.DataLayer
                         {
                             doUpper = false;
                         }
+                        if (request.searchfieldtypes[i].Equals("date"))
+                        {
+                            doUpper = false;
+                        }
+
 
                         //justin 05/30/2018 temporary - if searching for a number (ie. QuoteNumber, InvoiceNumber), don't perform a contains search
                         //bool containsSearch = true;
@@ -480,36 +485,39 @@ namespace FwStandard.DataLayer
                         //{
                         //    containsSearch = false;
                         //}
-  
+
                         if (doUpper)
                         {
                             searchField = "upper(" + searchField + ")";
                         }
 
-                        if (request.searchfieldoperators[i] == "like")
+                        if (request.searchfieldoperators[i].Equals("like"))
                         {
                             string searchcondition;
-                            if (request.searchfieldtypes[i] == "date")
+                            if (request.searchfieldtypes[i].Equals("date"))
                             {
-                                searchcondition = conditionConjunction + searchField + " like (select CONVERT(datetime, " + parameterName + "))";
-                                select.AddParameter(parameterName, request.searchfieldvalues[i]);
-                            } else
+                                //searchcondition = conditionConjunction + searchField + " like (select CONVERT(datetime, " + parameterName + "))";
+                                //select.AddParameter(parameterName, request.searchfieldvalues[i]);
+                                searchcondition = conditionConjunction + searchField + " = " + parameterName;
+                                select.AddParameter(parameterName, SqlDbType.Date, ParameterDirection.Input, 0, FwConvert.ToDateTime(request.searchfieldvalues[i]));
+                            }
+                            else
                             {
                                 searchcondition = conditionConjunction + searchField + " like " + parameterName;
-                                select.AddParameter(parameterName, "%"+ request.searchfieldvalues[i].ToUpper() + "%");
+                                select.AddParameter(parameterName, "%" + request.searchfieldvalues[i].ToUpper() + "%");
                             }
                   
                             select.Add(searchcondition);
                             //select.AddParameter(parameterName, "%" + request.searchfieldvalues[i].ToUpper() + "%");
                         }
-                        else if (request.searchfieldoperators[i] == "startswith")
+                        else if (request.searchfieldoperators[i].Equals("startswith"))
                         {
                             string searchcondition;
                             searchcondition = conditionConjunction + searchField + " like " + parameterName;
                             select.AddParameter(parameterName, request.searchfieldvalues[i].ToUpper() + "%");
                             select.Add(searchcondition);
                         }
-                        else if (request.searchfieldoperators[i] == "=" || request.searchfieldoperators[i] == "<>")
+                        else if (request.searchfieldoperators[i].Equals("=") || request.searchfieldoperators[i].Equals("<>"))
                         {
                             string searchcondition = conditionConjunction + searchField + " " + request.searchfieldoperators[i] + " " + parameterName;
                             select.Add(searchcondition);
