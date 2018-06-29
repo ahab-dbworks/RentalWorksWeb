@@ -117,7 +117,8 @@
                                                         if (response[i].ShowInBrowse && !customFieldsBrowse.includes(response[i].ModuleName)) {
                                                             customFieldsBrowse.push({
                                                                 'moduleName': response[i].ModuleName,
-                                                                'fieldName': response[i].FieldName
+                                                                'fieldName': response[i].FieldName,
+                                                                'browsewidth': response[i].BrowseSizeInPixels
                                                             });
                                                         }
                                                     }

@@ -905,15 +905,8 @@ var FwBrowse = (function () {
                             html.push(' style="visibility:hidden;"');
                         }
                         html.push('>');
-                        if ($theadfield.attr('data-browsedatatype') === 'date') {
-                            html.push('<input class="value" type="text"/>');
-                            html.push('<i class="material-icons btndate" style="position:absolute; right:0px; top:5px;">&#xE8DF;</i>');
-                            html.push('<span class="searchclear" title="clear" style="right:20px;"><i class="material-icons">clear</i></span>');
-                        }
-                        else {
-                            html.push('<input type="text" />');
-                            html.push('<span class="searchclear" title="clear"><i class="material-icons">clear</i></span>');
-                        }
+                        html.push('<input type="text" />');
+                        html.push('<span class="searchclear" title="clear"><i class="material-icons">clear</i></span>');
                         html.push('</div>');
                         html.push('</div>');
                     }
@@ -978,16 +971,6 @@ var FwBrowse = (function () {
                 html = html.join('');
                 $control.html(html);
                 $control.attr('data-rendermode', 'runtime');
-                $control.find('.value').datepicker({
-                    endDate: (($control.attr('data-nofuture') == 'true') ? '+0d' : Infinity),
-                    autoclose: true,
-                    format: "mm/dd/yyyy",
-                    todayHighlight: true,
-                    todayBtn: 'linked'
-                }).off('focus');
-                $control.on('click', '.btndate', function (e) {
-                    jQuery(e.currentTarget).siblings('.value').datepicker('show');
-                });
                 $control.on('click', 'thead .cbselectrow', function () {
                     try {
                         var $this = jQuery(this);
@@ -1349,13 +1332,12 @@ var FwBrowse = (function () {
     FwBrowse.screenunload = function ($control) {
     };
     FwBrowse.getRequest = function ($control) {
-        var request, $fields, orderby, $field, $txtSearch, browsedatafield, value, sort, module, controller, fieldtype;
+        var request, $fields, orderby, $field, $txtSearch, browsedatafield, value, sort, module, controller;
         orderby = [];
         request = {
             module: '',
             searchfields: [],
             searchfieldoperators: [],
-            searchfieldtypes: [],
             searchfieldvalues: [],
             miscfields: !$control.closest('.fwform').length ? jQuery([]) : FwModule.getFormUniqueIds($control.closest('.fwform')),
             orderby: '',
@@ -1387,7 +1369,6 @@ var FwBrowse = (function () {
             $txtSearch = $field.find('> div.search > input');
             value = $txtSearch.val();
             sort = $field.attr('data-sort');
-            fieldtype = $field.attr('data-browsedatatype');
             if (typeof $field.attr('data-datafield') !== 'undefined') {
                 browsedatafield = $field.attr('data-datafield');
             }
@@ -1396,13 +1377,7 @@ var FwBrowse = (function () {
             }
             if (value.length > 0) {
                 request.searchfields.push(browsedatafield);
-                request.searchfieldtypes.push(fieldtype);
-                if ($field.attr('data-searchfieldoperators') === 'startswith') {
-                    request.searchfieldoperators.push('startswith');
-                }
-                else {
-                    request.searchfieldoperators.push('like');
-                }
+                request.searchfieldoperators.push('like');
                 request.searchfieldvalues.push(value);
             }
             if (sort === 'asc') {
@@ -2674,7 +2649,7 @@ var FwBrowse = (function () {
         if (customBrowse !== 'undefined' && customBrowse.length > 0) {
             for (var i = 0; i < customBrowse.length; i++) {
                 if (modulename === customBrowse[i].moduleName) {
-                    customBrowseHtml.push('<div class="column" data-width="50px" data-visible="true"><div class="field" data-caption="' + customBrowse[i].fieldName + '" data-datafield="' + customBrowse[i].fieldName + '" data-browsedatatype="text" data-sort="off"></div></div>');
+                    customBrowseHtml.push("<div class=\"column\" data-width=\"" + customBrowse[i].browsewidth + "px\" data-visible=\"true\"><div class=\"field\" data-caption=\"" + customBrowse[i].fieldName + "\" data-datafield=\"" + customBrowse[i].fieldName + "\" data-browsedatatype=\"text\" data-sort=\"off\"></div></div>");
                 }
             }
         }

@@ -46,6 +46,16 @@ class CustomFields {
         $form = jQuery(jQuery('#tmpl-modules-' + this.Module + 'Form').html());
         $form = FwModule.openForm($form, mode);
         
+        $form.find('div[data-datafield="ShowInBrowse"] input').on('change', function () {
+            var $this = jQuery(this);
+
+            if ($this.prop('checked') === true) {
+                $form.find('.browselength').show();
+            } else {
+                $form.find('.browselength').hide();
+            }
+        })
+
         $form.find('div[data-datafield="CustomTableName"] .fwformfield-value').on('change', function () {
             var $this = jQuery(this);
 
@@ -119,6 +129,10 @@ class CustomFields {
         if (FwFormField.getValueByDataField($form, 'CustomTableName') === 'customvaluesnumeric') {
             $form.find('.float').show();
         } 
+
+        if (FwFormField.getValueByDataField($form, 'ShowInBrowse')) {
+            $form.find('.browselength').show();
+        }
 
     }
     afterSave($form: any) {
