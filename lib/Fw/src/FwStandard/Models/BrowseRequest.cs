@@ -15,6 +15,7 @@ namespace FwStandard.Models
         public int pagesize { get; set; } = 0;
         public string[] searchfieldoperators { get; set; } = new string[0];
         public string[] searchfields { get; set; } = new string[0];
+        public string[] searchfieldtypes { get; set; } = new string[0];
         public string[] searchfieldvalues { get; set; } = new string[0];
         public dynamic uniqueids { get; set; } = new ExpandoObject();
         public dynamic boundids { get; set; } = new ExpandoObject();
