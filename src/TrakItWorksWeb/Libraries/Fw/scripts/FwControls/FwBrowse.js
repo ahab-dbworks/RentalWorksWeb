@@ -2649,7 +2649,7 @@ var FwBrowse = (function () {
         if (customBrowse !== 'undefined' && customBrowse.length > 0) {
             for (var i = 0; i < customBrowse.length; i++) {
                 if (modulename === customBrowse[i].moduleName) {
-                    customBrowseHtml.push('<div class="column" data-width="50px" data-visible="true"><div class="field" data-caption="' + customBrowse[i].fieldName + '" data-datafield="' + customBrowse[i].fieldName + '" data-browsedatatype="text" data-sort="off"></div></div>');
+                    customBrowseHtml.push("<div class=\"column\" data-width=\"" + customBrowse[i].browsewidth + "px\" data-visible=\"true\"><div class=\"field\" data-caption=\"" + customBrowse[i].fieldName + "\" data-datafield=\"" + customBrowse[i].fieldName + "\" data-browsedatatype=\"text\" data-sort=\"off\"></div></div>");
                 }
             }
         }
