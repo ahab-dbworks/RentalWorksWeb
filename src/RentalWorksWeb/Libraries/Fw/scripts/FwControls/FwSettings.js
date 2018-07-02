@@ -510,19 +510,24 @@ FwSettings.renderModuleHtml = function ($control, title, moduleName, description
             recordData = jQuery(this).parent().parent().data('recorddata');
             moduleName = jQuery(this).closest('div.panel-group')[0].id;
             $form = jQuery(jQuery('#tmpl-modules-' + moduleName + 'Form').html());
-            moduleId = jQuery($form.find('.fwformfield[data-isuniqueid="true"]')[0]).data('datafield'); 
+            moduleId = jQuery($form.find('.fwformfield[data-isuniqueid="true"]')[0]).data('datafield');
             uniqueids[moduleId] = recordData[moduleId];
-            $rowBody = $control.find('#' + recordData[moduleId] + '.panel-body');            
+            $rowBody = $control.find('#' + recordData[moduleId] + '.panel-body');
 
             if ($rowBody.is(':empty')) {
                 $rowBody.append($form);
                 FwModule.openForm($form, 'EDIT');
+                $form.find('.highlighted').removeClass('hightlighted');
                 $form.find('div[data-type="NewMenuBarButton"]').off();
 
                 for (var key in recordData) {
                     for (var i = 0; i < filter.length; i++) {
                         if (filter[i] === key) {
-                            $form.find('[data-datafield="' + key + '"]').find('.fwformfield-caption').css({ 'background': 'yellow' });
+                            if ($form.find('[data-datafield="' + key + '"]').attr('data-type') === 'checkbox') {
+                                $form.find('[data-datafield="' + key + '"]').addClass('hightlighted');
+                            } else {
+                                $form.find('[data-datafield="' + key + '"]').find('.fwformfield-caption').addClass('highlighted');
+                            }
                         }
                     };
                     var value = recordData[key];
@@ -537,6 +542,8 @@ FwSettings.renderModuleHtml = function ($control, title, moduleName, description
                         }
                     }
                 }
+            } else {
+                console.log($rowBody)
             }
 
             if ($form.find('.fwappimage')[0]) {
@@ -651,9 +658,11 @@ FwSettings.renderModuleHtml = function ($control, title, moduleName, description
                     }
                 }
                 for (var i = 0; i < results.length; i++) {
-                    $settings.filter(function () {
+                    var module = $settings.filter(function () {
                         return -1 != jQuery(this).text().toUpperCase().indexOf(results[i]);
-                    }).closest('div.panel-group').show()
+                    }).closest('div.panel-group');
+                    module.find('.highlighted').removeClass('highlighted');
+                    module.show();
                 }
                 $control.filter(function () {
                     return -1 != jQuery(this).text().toUpperCase().indexOf(val);

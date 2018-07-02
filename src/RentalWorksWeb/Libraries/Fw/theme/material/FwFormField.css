@@ -5,6 +5,7 @@ html.theme-material .fwformfield .fwdesignerhandle { background-color: lightgree
 html.theme-material [data-control="FwFormField"] {padding:0 5px;box-sizing:border-box;}
 
 html.theme-material .fwformfield .fwformfield-caption {font-size:.75em;height:1.2em;padding:.25em;color: #757575;cursor:default;-webkit-touch-callout: none;-webkit-user-select: none;-moz-user-select: none;-ms-user-select: none;user-select: none;white-space:nowrap;}
+html.theme-material .fwformfield .highlighted {background-color: yellow;}
 
 html.theme-material .fwformfield .fwformfield-control {display:flex;align-items:center;box-sizing:border-box;}
 html.theme-material.desktop .fwformfield .fwformfield-control {height:2em;}
