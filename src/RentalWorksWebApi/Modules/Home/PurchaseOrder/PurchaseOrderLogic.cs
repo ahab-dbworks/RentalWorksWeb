@@ -57,19 +57,22 @@ namespace WebApi.Modules.Home.PurchaseOrder
         public int? QuantityHolding { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
         public int? QuantityToBarCode { get; set; }
-        public bool? SubRent { get { return purchaseOrder.SubRent; } set { purchaseOrder.SubRent = value; } }
-        public bool? SubSale { get { return purchaseOrder.SubSale; } set { purchaseOrder.SubSale = value; } }
         public bool? Rental { get { return purchaseOrder.Rental; } set { purchaseOrder.Rental = value; } }
         public bool? Sales { get { return purchaseOrder.Sales; } set { purchaseOrder.Sales = value; } }
         public bool? Parts { get { return purchaseOrder.Parts; } set { purchaseOrder.Parts = value; } }
-        public bool? Repair { get { return purchaseOrder.Repair; } set { purchaseOrder.Repair = value; } }
-        public bool? Miscellaneous { get { return purchaseOrder.Miscellaneous; } set { purchaseOrder.Miscellaneous = value; } }
-        public bool? SubMiscellaneous { get { return purchaseOrder.SubMiscellaneous; } set { purchaseOrder.SubMiscellaneous = value; } }
         public bool? Labor { get { return purchaseOrder.Labor; } set { purchaseOrder.Labor = value; } }
-        public bool? SubLabor { get { return purchaseOrder.SubLabor; } set { purchaseOrder.SubLabor = value; } }
+        public bool? Miscellaneous { get { return purchaseOrder.Miscellaneous; } set { purchaseOrder.Miscellaneous = value; } }
         public bool? Vehicle { get { return purchaseOrder.Vehicle; } set { purchaseOrder.Vehicle = value; } }
+        public bool? SubRent { get { return purchaseOrder.SubRent; } set { purchaseOrder.SubRent = value; } }
+        public bool? SubSale { get { return purchaseOrder.SubSale; } set { purchaseOrder.SubSale = value; } }
+        public bool? SubLabor { get { return purchaseOrder.SubLabor; } set { purchaseOrder.SubLabor = value; } }
+        public bool? SubMiscellaneous { get { return purchaseOrder.SubMiscellaneous; } set { purchaseOrder.SubMiscellaneous = value; } }
         public bool? SubVehicle { get { return purchaseOrder.SubVehicle; } set { purchaseOrder.SubVehicle = value; } }
+        public bool? Repair { get { return purchaseOrder.Repair; } set { purchaseOrder.Repair = value; } }
         public bool? Consignment { get { return purchaseOrder.Consignment; } set { purchaseOrder.Consignment = value; } }
+        public string ConsignorAgreementId { get { return purchaseOrder.ConsignorAgreementId; } set { purchaseOrder.ConsignorAgreementId = value; } }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string ConsignorAgreementNumber { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
         public string OrderId { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
@@ -99,7 +102,6 @@ namespace WebApi.Modules.Home.PurchaseOrder
         public string BillingEndDate { get { return purchaseOrder.BillingEndDate; } set { purchaseOrder.BillingEndDate = value; } }
         [FwBusinessLogicField(isReadOnly: true)]
         public decimal? InvoicedAmount { get; set; }
-        public string ConsignorAgreementId { get { return purchaseOrder.ConsignorAgreementId; } set { purchaseOrder.ConsignorAgreementId = value; } }
         //[FwBusinessLogicField(isReadOnly: true)]
         //public decimal? WeeklyExtended { get; set; }
         //[FwBusinessLogicField(isReadOnly: true)]

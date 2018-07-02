@@ -141,6 +141,9 @@ namespace WebApi.Modules.Home.PurchaseOrder
         [FwSqlDataField(column: "consignoragreementid", modeltype: FwDataTypes.Text)]
         public string ConsignorAgreementId { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "agreementno", modeltype: FwDataTypes.Text)]
+        public string ConsignorAgreementNumber { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "weeklyextended", modeltype: FwDataTypes.Decimal)]
         public decimal? WeeklyExtended { get; set; }
         //------------------------------------------------------------------------------------ 
