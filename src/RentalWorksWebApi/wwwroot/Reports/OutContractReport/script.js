@@ -20,6 +20,7 @@ var Report = (function () {
                 .then(function (value) {
                 contract_1 = value;
                 contract_1.PrintTime = window.moment().format('YYYY-MM-DD h:mm:ss A');
+                contract_1.ContractTime = window.moment(contract_1.ContractTime, 'h:mm a').format('h:mm a');
             })
                 .catch(function (ex) {
                 console.log(ex);

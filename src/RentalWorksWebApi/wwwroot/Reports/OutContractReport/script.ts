@@ -21,6 +21,7 @@ class Report {
                 .then((value: OutContract) => {
                     contract = value;
                     contract.PrintTime = (<any>window).moment().format('YYYY-MM-DD h:mm:ss A');
+                    contract.ContractTime = (<any>window).moment(contract.ContractTime,'h:mm a').format('h:mm a');
                 })
                 .catch((ex) => {
                     console.log(ex);
