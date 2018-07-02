@@ -1609,7 +1609,6 @@ class Quote {
             FwAppData.apiMethod(true, 'POST', `api/v1/orderitem`, request, FwServices.defaultTimeout, function onSuccess(response) {
                 FwBrowse.databind($browse);
             }, function onError(response) {
-                boldItem();
                 FwFunc.showError(response);
                 FwBrowse.databind($browse);
             }, $browse);
@@ -1627,7 +1626,6 @@ class Quote {
             FwAppData.apiMethod(true, 'POST', `api/v1/orderitem`, request, FwServices.defaultTimeout, function onSuccess(response) {
                 FwBrowse.databind($browse);
             }, function onError(response) {
-                unboldItem();
                 FwFunc.showError(response);
                 FwBrowse.databind($browse);
             }, $browse);
@@ -1636,7 +1634,7 @@ class Quote {
 
     //----------------------------------------------------------------------------------------------
     orderItemGridLockUnlock($browse: any, event: any) {
-        let $confirmation, $yes, $no, quoteId, orderItemId, lockedStatus;
+        let quoteId, orderItemId, lockedStatus;
 
         quoteId = $browse.find('.selected [data-browsedatafield="OrderId"]').attr('data-originalvalue');
         orderItemId = $browse.find('.selected [data-formdatafield="OrderItemId"]').attr('data-originalvalue');
@@ -1644,36 +1642,9 @@ class Quote {
 
         if (quoteId != null) {
             if (lockedStatus === "true") {
-                $confirmation = FwConfirmation.renderConfirmation('Unlock', '');
-                $confirmation.find('.fwconfirmationbox').css('width', '450px');
-                let html = [];
-                html.push('<div class="fwform" data-controller="none" style="background-color: transparent;">');
-                html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
-                html.push('    <div>Would you like to unlock this item?</div>');
-                html.push('  </div>');
-                html.push('</div>');
-
-                FwConfirmation.addControls($confirmation, html.join(''));
-                $yes = FwConfirmation.addButton($confirmation, 'Unlock Item', false);
-                $no = FwConfirmation.addButton($confirmation, 'Cancel');
-
-                $yes.on('click', unlockItem);
+                unlockItem();
             } else {
-                $confirmation = FwConfirmation.renderConfirmation('Cancel', '');
-                $confirmation.find('.fwconfirmationbox').css('width', '450px');
-                let html = [];
-                html.push('<div class="fwform" data-controller="none" style="background-color: transparent;">');
-                html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
-                html.push('    <div>Would you like to lock this Item?</div>');
-                html.push('  </div>');
-                html.push('</div>');
-
-                FwConfirmation.addControls($confirmation, html.join(''));
-                $yes = FwConfirmation.addButton($confirmation, 'Lock Item', false);
-                $no = FwConfirmation.addButton($confirmation, 'Cancel');
-
-                $yes.on('click', lockItem);
-
+                lockItem();
             }
         } else {
             throw new Error("Please select an Item to perform this action.");
@@ -1681,12 +1652,7 @@ class Quote {
         
         function lockItem() {
             let request: any = {};
-
-            FwFormField.disable($confirmation.find('.fwformfield'));
-            FwFormField.disable($yes);
-            $yes.text('Locking Item...');
-            $yes.off('click');
-
+           
             request = {
                 OrderId: quoteId,
                 OrderItemId: orderItemId,
@@ -1694,26 +1660,15 @@ class Quote {
             }
 
             FwAppData.apiMethod(true, 'POST', `api/v1/orderitem`, request, FwServices.defaultTimeout, function onSuccess(response) {
-                FwNotification.renderNotification('SUCCESS', 'Item Successfully Locked');
-                FwConfirmation.destroyConfirmation($confirmation);
                 FwBrowse.databind($browse);
             }, function onError(response) {
-                $yes.on('click', lockItem);
-                $yes.text('Cancel');
                 FwFunc.showError(response);
-                FwFormField.enable($confirmation.find('.fwformfield'));
-                FwFormField.enable($yes);
                 FwBrowse.databind($browse);
             }, $browse);
         };
 
         function unlockItem() {
             let request: any = {};
-
-            FwFormField.disable($confirmation.find('.fwformfield'));
-            FwFormField.disable($yes);
-            $yes.text('Unlocking...');
-            $yes.off('click');
 
             request = {
                 OrderId: quoteId,
@@ -1722,15 +1677,9 @@ class Quote {
             }
 
             FwAppData.apiMethod(true, 'POST', `api/v1/orderitem`, request, FwServices.defaultTimeout, function onSuccess(response) {
-                FwNotification.renderNotification('SUCCESS', 'Item Successfully Unlocked');
-                FwConfirmation.destroyConfirmation($confirmation);
                 FwBrowse.databind($browse);
             }, function onError(response) {
-                $yes.on('click', unlockItem);
-                $yes.text('Cancel');
                 FwFunc.showError(response);
-                FwFormField.enable($confirmation.find('.fwformfield'));
-                FwFormField.enable($yes);
                 FwBrowse.databind($browse);
             }, $browse);
         };
