@@ -16,7 +16,7 @@ var OutContractReportClass = (function () {
             catch (ex) {
                 FwFunc.showError(ex);
             }
-        });
+        }, true, 60);
     };
     return OutContractReportClass;
 }());

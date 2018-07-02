@@ -17,7 +17,7 @@
             } catch (ex) {
                 FwFunc.showError(ex);
             }
-        });
+        }, true, 60);
     }
 }
 
