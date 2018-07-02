@@ -15,6 +15,8 @@ gulp.task("html", function ()
 
 gulp.task("js", function ()
 {
+    gulp.src(reportsSource + "**/*.ts")
+        .pipe(gulp.dest(reportsDest));
     gulp.src(reportsSource + "**/*.js")
         .pipe(gulp.dest(reportsDest));
     gulp.src(reportsSource + "**/*.js.map")

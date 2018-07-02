@@ -10,7 +10,7 @@ using System.Text;
 
 namespace RentalWorksQuikScan.Modules
 {
-    class ContractReport
+    class OutContractReport
     {
         //---------------------------------------------------------------------------------------------
         public class JwtResponse
@@ -20,21 +20,21 @@ namespace RentalWorksQuikScan.Modules
             public int expires_in = 300;
         }
 
-        public class ContractReportResponse
+        public class OutContractReportResponse
         {
             public string htmlReportDownloadUrl { get; set; } = string.Empty;
             public string pdfReportDownloadUrl { get; set; } = string.Empty;
         }
 
-
-        [FwJsonServiceMethod(RequiredParameters = "contractid")]
-        public void GeneratePdf(dynamic request, dynamic response, dynamic session)
+        [FwJsonServiceMethod(RequiredParameters = "contractid,from,to,subject,body")]
+        public void EmailPdf(dynamic request, dynamic response, dynamic session)
         {
-            string usersid         = RwAppData.GetUsersId(session);
-            string contractid      = request.contractid;
+            string usersid = RwAppData.GetUsersId(session);
+            string contractid = request.contractid;
+            string webApiBaseUrl = Fw.Json.ValueTypes.FwApplicationConfig.CurrentSite.WebApi.Url.TrimEnd(new char[] { '/' }) + "/"; // mv 2018-06-26 
 
             HttpClient client = new HttpClient();
-            client.BaseAddress = new Uri($"http://localhost:57949/");
+            client.BaseAddress = new Uri(webApiBaseUrl);
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
             string username = string.Empty;
@@ -64,15 +64,21 @@ namespace RentalWorksQuikScan.Modules
                 var jsonJwtResponse = apiJwtResponse.Content.ReadAsStringAsync().Result;
                 var jwtResponse = JsonConvert.DeserializeObject<JwtResponse>(jsonJwtResponse);
 
-                HttpRequestMessage requestContractReport = new HttpRequestMessage(HttpMethod.Post, $"api/v1/ContractReport/emailpdf/{contractid}");
+                HttpRequestMessage requestContractReport = new HttpRequestMessage(HttpMethod.Post, $"/api/v1/OutContractReport/emailpdf/{contractid}");
                 requestContractReport.Headers.Authorization = new AuthenticationHeaderValue("Bearer", jwtResponse.access_token);
-                requestContractReport.Content = new StringContent(string.Empty, Encoding.UTF8, "application/json");
+                EmailPdfRequest emailPdfRequest = new EmailPdfRequest();
+                emailPdfRequest.from = request.from;
+                emailPdfRequest.to = request.to;
+                emailPdfRequest.subject = request.subject;
+                emailPdfRequest.body = request.body;
+                string strEmailPdfRequest = JsonConvert.SerializeObject(emailPdfRequest);
+                requestContractReport.Content = new StringContent(strEmailPdfRequest, Encoding.UTF8, "application/json");
                 var apiHtmlReportResponse = client.SendAsync(requestContractReport).Result;
                 
                 if (apiHtmlReportResponse.IsSuccessStatusCode)
                 {
                     var jsonContractReportResponse = apiHtmlReportResponse.Content.ReadAsStringAsync().Result;
-                    var contractReportResponse = JsonConvert.DeserializeObject<ContractReportResponse>(jsonContractReportResponse);
+                    var contractReportResponse = JsonConvert.DeserializeObject<OutContractReportResponse>(jsonContractReportResponse);
                     response.html = contractReportResponse.htmlReportDownloadUrl;
                     response.pdf = contractReportResponse.pdfReportDownloadUrl;
                 }

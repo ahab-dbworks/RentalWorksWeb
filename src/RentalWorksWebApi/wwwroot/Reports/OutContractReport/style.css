@@ -1,12 +1,12 @@
-/*@import url('https://fonts.googleapis.com/css?family=Lato|Roboto|Open+Sans');*/
-html {
-  height: 100%; }
+@page {
+  margin: 130px 24px 96px 24px;
+  size: letter; }
 
 body {
   font-family: Arial, sans-serif;
-  /*font-family: 'Roboto', sans-serif;*/
   font-size: 12px;
-  height: 100%; }
+  margin: 0;
+  padding: 0; }
 
 @media only screen {
   .parameters {
@@ -105,7 +105,6 @@ body {
     text-overflow: ellipsis; }
 
 .label {
-  height: 16px;
   line-height: 16px;
   white-space: nowrap;
   overflow: hidden;
@@ -124,88 +123,81 @@ body {
   font-weight: bold; }
 
 .IssuedTo .add1, .IssuedTo .add2, .IssuedTo .add3 {
-  height: 16px;
   line-height: 16px;
   font-size: 1em; }
 
 .IssuedTo .phone {
   margin: 20px 0 0 0; }
 
-#tblRentalItems {
+.tblContractItems {
   width: 100%;
   border-collapse: collapse;
   margin: 20px 0 0 0; }
-  #tblRentalItems colgroup .ICode {
-    width: 150px; }
-  #tblRentalItems colgroup .Description {
-    width: 100%; }
-  #tblRentalItems colgroup .QtyOrdered {
-    width: 100px; }
-  #tblRentalItems colgroup .Out {
-    width: 100px; }
-  #tblRentalItems colgroup .TotalOut {
-    width: 100px; }
-  #tblRentalItems thead tr.columnheadings th {
+  .tblContractItems colgroup .ICode {
+    width: 60px; }
+  .tblContractItems colgroup .Description {
+    width: auto; }
+  .tblContractItems colgroup .QuantityOrdered {
+    width: 75px; }
+  .tblContractItems colgroup .QuantityOut {
+    width: 75px; }
+  .tblContractItems colgroup .TotalOut {
+    width: 75px; }
+  .tblContractItems thead tr.columnheadings th {
     font-weight: bold;
     padding: 5px;
     white-space: nowrap;
     border-top: 1px solid #000000;
     border-bottom: 1px solid #000000; }
-  #tblRentalItems thead tr.columnheadings .ICode {
+  .tblContractItems thead tr.columnheadings .ICode {
     border-left: 1px solid #000000;
     text-align: left; }
-  #tblRentalItems thead tr.columnheadings .Description {
-    width: 100%;
+  .tblContractItems thead tr.columnheadings .Description {
     text-align: left; }
-  #tblRentalItems thead tr.columnheadings .QtyOrdered {
-    width: 150px;
+  .tblContractItems thead tr.columnheadings .QuantityOrdered {
     text-align: right; }
-  #tblRentalItems thead tr.columnheadings .Out {
-    width: 150px;
+  .tblContractItems thead tr.columnheadings .QuantityOut {
     text-align: right; }
-  #tblRentalItems thead tr.columnheadings .TotalOut {
-    width: 150px;
-    text-align: right;
-    border-right: 1px solid #000000; }
-  #tblRentalItems thead tr.caption {
+  .tblContractItems thead tr.columnheadings .TotalOut {
+    text-align: right; }
+  .tblContractItems thead tr.caption {
     text-align: center;
     font-size: 1.5em;
     font-weight: bold; }
-  #tblRentalItems tbody td {
-    white-space: nowrap;
+  .tblContractItems tbody td {
     padding: 2px 5px;
     font-size: .9em; }
-  #tblRentalItems tbody .QtyOrdered {
+  .tblContractItems tbody .ICode {
+    white-space: pre;
+    text-align: left; }
+  .tblContractItems tbody .Description {
+    text-align: left; }
+  .tblContractItems tbody .QuantityOrdered {
     text-align: right; }
-  #tblRentalItems tbody .Out {
+  .tblContractItems tbody .QuantityOut {
     text-align: right; }
-  #tblRentalItems tbody .TotalOut {
+  .tblContractItems tbody .TotalOut {
     text-align: right; }
+  .tblContractItems tbody .Barcodes {
+    padding: 0 0 0 50px; }
+    .tblContractItems tbody .Barcodes .Barcodes-label {
+      font-weight: bold; }
+  .tblContractItems tbody tr.C td {
+    font-weight: bold; }
+
+.salesItems {
+  page-break-before: always; }
 
 #pagecontainer {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  display: flex;
-  flex-direction: column;
-  max-width: 768px; }
-  #pagecontainer #pageHeader {
-    flex: 0 0 auto; }
-  #pagecontainer #contractHeader {
-    flex: 0 0 auto; }
-  #pagecontainer #rentalItems {
-    flex: 1 1 1px; }
-  #pagecontainer #receivedBy {
-    flex: 0 0 auto; }
+  width: 768px; }
   #pagecontainer #pageFooter {
-    flex: 0 0 auto;
     margin: 16px 0 0 0; }
 
 @media screen {
   #pagecontainer #header, #pagecontainer #footer {
-    width: auto !important; } }
+    width: auto !important; }
+  #pageno {
+    /*visibility: hidden;*/ } }
 
 @media print {
   #pagecontainer #pageHeader {
@@ -215,16 +207,22 @@ body {
 
 fieldset {
   border: 1px solid #000000;
-  height: 200px; }
+  height: 120px; }
   fieldset legend {
     text-align: center;
     font-weight: bold; }
 
+.receivedBy {
+  page-break-inside: avoid;
+  margin: 16px 0 0 0; }
+
 .receivedbyfield {
-  width: 150px;
-  page-break-inside: avoid; }
+  flex: 0 1 50%;
+  margin: 0 8px; }
   .receivedbyfield .value {
     border-bottom: 1px solid #000000;
-    white-space: nowrap; }
+    white-space: nowrap;
+    height: 32px; }
   .receivedbyfield .caption {
-    white-space: nowrap; }
+    white-space: nowrap;
+    height: 16px; }

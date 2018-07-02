@@ -1,17 +1,20 @@
-﻿$line-height: 16px;
+﻿$page-width: 768px;
+$line-height: 16px;
 $normal-text: 1em;
 
-/*@import url('https://fonts.googleapis.com/css?family=Lato|Roboto|Open+Sans');*/
+@page {
+    margin: 130px 24px 96px 24px;
+    size: letter;
+}
 
 html {
-    height: 100%;
 }
 
 body {
     font-family: Arial, sans-serif;
-    /*font-family: 'Roboto', sans-serif;*/
     font-size: 12px;
-    height: 100%;
+    margin:0;
+    padding:0;
 }
 
 @media only screen {
@@ -71,7 +74,6 @@ body {
 }
 
 .label {
-    height: $line-height;
     line-height: $line-height;
     white-space: nowrap;
     overflow: hidden;
@@ -94,7 +96,6 @@ body {
     }
 
     .add1, .add2, .add3 {
-        height: $line-height;
         line-height: $line-height;
         font-size: $normal-text;
     }
@@ -108,30 +109,30 @@ body {
 }
 
 
-#tblRentalItems {
+.tblContractItems {
     width: 100%;
     border-collapse: collapse;
     margin: 20px 0 0 0;
 
     colgroup {
         .ICode {
-            width: 150px;
+            width: 60px;
         }
 
         .Description {
-            width: 100%;
+            width: auto;
         }
 
-        .QtyOrdered {
-            width: 100px;
+        .QuantityOrdered {
+            width: 75px;
         }
 
-        .Out {
-            width: 100px;
+        .QuantityOut {
+            width: 75px;
         }
 
         .TotalOut {
-            width: 100px;
+            width: 75px;
         }
     }
 
@@ -144,31 +145,26 @@ body {
                 border-top: 1px solid #000000;
                 border-bottom: 1px solid #000000;
             }
-                
+
             .ICode {
                 border-left: 1px solid #000000;
                 text-align: left;
             }
 
             .Description {
-                width: 100%;
                 text-align: left;
             }
 
-            .QtyOrdered {
-                width: 150px;
+            .QuantityOrdered {
                 text-align: right;
             }
 
-            .Out {
-                width: 150px;
+            .QuantityOut {
                 text-align: right;
             }
 
             .TotalOut {
-                width: 150px;
                 text-align: right;
-                border-right: 1px solid #000000;
             }
         }
 
@@ -181,59 +177,64 @@ body {
 
     tbody {
         td {
-            white-space: nowrap;
             padding: 2px 5px;
             font-size: .9em;
         }
 
         .ICode {
+            white-space: pre;
+            text-align: left;
         }
 
         .Description {
+            text-align: left;
         }
 
-        .QtyOrdered {
+        .QuantityOrdered {
             text-align: right;
         }
 
-        .Out {
+        .QuantityOut {
             text-align: right;
         }
 
         .TotalOut {
             text-align: right;
         }
+
+        .Barcodes {
+            padding:0 0 0 50px;
+            .Barcodes-label {
+                font-weight:bold;
+            }
+        }
+
+        tr.C {
+            td {
+                font-weight: bold;
+            }
+        }
     }
 }
 
+.rentalItems {
+    
+}
+
+.salesItems {
+    page-break-before:always;
+}
+
 #pagecontainer {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    display: flex;
-    flex-direction: column;
-    max-width: 768px;
+    width: $page-width;
 
     #pageHeader {
-        flex: 0 0 auto;
     }
 
-    #contractHeader {
-        flex: 0 0 auto;
-    }
-
-    #rentalItems {
-        flex: 1 1 1px;
-    }
-
-    #receivedBy {
-        flex: 0 0 auto
+    #contract {
     }
 
     #pageFooter {
-        flex: 0 0 auto;
         margin: $line-height 0 0 0;
     }
 }
@@ -243,6 +244,9 @@ body {
         #header, #footer {
             width: auto !important;
         }
+    }
+    #pageno {
+        /*visibility: hidden;*/
     }
 }
 
@@ -261,7 +265,7 @@ body {
 
 fieldset {
     border: 1px solid #000000;
-    height: 200px;
+    height: 120px;
 
     legend {
         text-align: center;
@@ -269,16 +273,23 @@ fieldset {
     }
 }
 
-.receivedbyfield {
-    width: 150px;
+.receivedBy {
     page-break-inside: avoid;
+    margin: $line-height 0 0 0;
+}
+
+.receivedbyfield {
+    flex: 0 1 50%;
+    margin: 0 $line-height/2;
 
     .value {
         border-bottom: 1px solid #000000;
         white-space: nowrap;
+        height: $line-height*2;
     }
 
     .caption {
         white-space: nowrap;
+        height: $line-height;
     }
 }

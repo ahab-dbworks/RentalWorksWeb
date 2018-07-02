@@ -9,33 +9,42 @@ using System;
 using System.Diagnostics;
 using FwStandard.Reporting;
 using System.Dynamic;
+using PuppeteerSharp;
+using PuppeteerSharp.Media;
 
 namespace WebApi.Modules.Reports.ContractReport
 {
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "reports-v1")]
-    public class ContractReportController : AppReportController
+    public class OutContractReportController : AppReportController
     {
-        public ContractReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
+        public OutContractReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
         //------------------------------------------------------------------------------------ 
         public class ContractReportResponse
         {
             public string htmlReportDownloadUrl { get; set; } = string.Empty;
             public string pdfReportDownloadUrl { get; set; } = string.Empty;
         }
-        
+
+        [HttpGet("{contractid}")]
+        public async Task<IActionResult> GetContract([FromRoute] string contractid)
+        {
+            OutContractReportRepository contractReportRepo = new OutContractReportRepository(this.AppConfig, this.UserSession);
+            var contractReport = await contractReportRepo.Get(contractid);
+            return new OkObjectResult(contractReport);
+        }
+
         // POST api/v1/contractreport/htmlreport/{contractid}
         [HttpPost("emailpdf/{contractid}")]
-        public async Task<IActionResult> EmailPdfAsync([FromRoute] string contractid)
+        public async Task<IActionResult> EmailPdfAsync([FromRoute] string contractid, [FromBody] EmailPdfRequest request)
         {
-            string baseUrl = "http://localhost:57949";
+            string baseUrl = this.GetFullyQualifiedBaseUrl();
             string guid = Guid.NewGuid().ToString().Replace("-", string.Empty);
-            string baseFileName = $"ContractReport_{this.UserSession.WebUsersId}_{guid}";
+            string baseFileName = $"OutContractReport_{this.UserSession.WebUsersId}_{guid}";
             string htmlFileName = $"{baseFileName}.html";
             string pathHtmlReport = Path.Combine(FwDownloadController.GetDownloadsDirectory(), htmlFileName);
             
             ContractReportResponse response = new ContractReportResponse();
-            //response.htmlReportDownloadUrl = $"api/v1/download/{fileName}?downloadasfilename=ContractReport_{contractid}_{DateTime.Now.ToString("yyyy-MM-dd_hh-mm-ss")}.html";
             response.htmlReportDownloadUrl = $"{baseUrl}/temp/downloads/{htmlFileName}";
 
             Uri uriHtmlReport = new Uri(pathHtmlReport);
@@ -43,13 +52,15 @@ namespace WebApi.Modules.Reports.ContractReport
             string pathPdfReport = Path.Combine(FwDownloadController.GetDownloadsDirectory(), pdfFileName);
             response.pdfReportDownloadUrl = $"{baseUrl}/temp/downloads/{pdfFileName}";
 
-            string apiToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJtaWtlLnVzZXIiLCJqdGkiOiIzZmNlNTc2MC0xNDNmLTQyM2QtYjAwNC1kNDgzZjZkMzZkZmEiLCJpYXQiOjE1Mjg0MjY0NTEsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL25hbWUiOiJtaWtlLnVzZXIiLCJodHRwOi8vd3d3LmRid29ya3MuY29tL2NsYWltcy93ZWJ1c2Vyc2lkIjoiQTAwMEszUEgiLCJodHRwOi8vd3d3LmRid29ya3MuY29tL2NsYWltcy91c2Vyc2lkIjoiQTAwMEszUEYiLCJodHRwOi8vd3d3LmRid29ya3MuY29tL2NsYWltcy9ncm91cHNpZCI6IjAwMDAwMDBCIiwiaHR0cDovL3d3dy5kYndvcmtzLmNvbS9jbGFpbXMvdXNlcnR5cGUiOiJVU0VSIiwibmJmIjoxNTI4NDI2NDUxLCJleHAiOjE3ODc2MjY0NTEsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6NTc5NDkiLCJhdWQiOiIqIn0.GJ1r6t3tYMZH8R-FOjKRR1l4A6YrQmcxEYImY-xA5n4";
+            string authorizationHeader = HttpContext.Request.Headers["Authorization"];
             dynamic parameters = new ExpandoObject();
             parameters.contractid = contractid;
-            await FwReport.GeneratePdfFromUrlAsync("/Reports/ContractReport/index.html", pathPdfReport, apiToken, baseUrl, parameters);
+            PdfOptions pdfOptions = new PdfOptions();
+            pdfOptions.DisplayHeaderFooter = true;
+            await FwReport.GeneratePdfFromUrlAsync($"{baseUrl}/Reports/OutContractReport/index.html", pathPdfReport, authorizationHeader, parameters, pdfOptions);
             if (System.IO.File.Exists(pathPdfReport))
             {
-                await FwReport.EmailPdfAsync("mike@dbworks.com", "mike@dbworks.com", "PDF Test Mail", $"In case you didn't get the attachment, you can view your pdf online: <a href=\"{response.pdfReportDownloadUrl}\">View Pdf</a>", pathPdfReport);
+                await FwReport.EmailPdfAsync(request.from, request.to, request.subject, request.body, pathPdfReport);
             }
 
             return new OkObjectResult(response);

@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Contract Report</title>
+  <link type="text/css" rel="stylesheet" href="style.css" />
+
+  <!-- Please note that the script tags below contain HTML templates for the library Handlebars which renders an object onto an html template -->
+  
+  <!-- Chrome will only use inline styles in the PDF Header template -->
+  <script id="headerTemplate" type="text/html">
+    <div id="header" style="width:558px; margin: 0 24px; box-sizing: border-box; font-size: 11px; display:flex;">
+      <div style="flex:0 0 140px">
+
+      </div>
+      <div style="flex: 1 1 0; font-size: 18px; text-align: center; font-weight: bold; white-space: nowrap;">OUT CONTRACT</div>
+      <div style="flex: 0 0 140px">
+        <div style="display:flex;">
+          <div style="flex: 0 0 40px; font-weight: bold; height:2em; line-height:2em;">No:</div>
+          <div style="flex: 1 1 0; border:1px solid #000000; height:2em; line-height:2em; box-sizing: border-box; text-align: center; white-space:nowrap;">{{ContractNumber}}</div>
+        </div>
+        <div style="display:flex;">
+          <div style="flex: 0 0 40px; font-weight: bold;">Date:</div>
+          <div style="flex: 1 1 0; white-space:nowrap;">{{ContractDate}}</div>
+        </div>
+        <div style="display:flex;">
+          <div style="flex: 0 0 40px; font-weight: bold;">Time:</div>
+          <div style="flex: 1 1 0; white-space:nowrap;">{{ContractTime}}</div>
+        </div>
+      </div>
+
+    </div>
+  </script>
+
+  <script id="outContractView" type="text/html">
+    <div style="display:flex;">
+      <div style="flex:1 1 0;">
+        <div>
+          <div class="label">{{LocationName}}</div>
+          <div class="label">{{LocationAddress1}}</div>
+          <div class="label">{{LocationAddress2}}</div>
+          <div class="label">{{LocationCity}}, {{LocationStateOrProvince}} {{LocationZipCode}}</div>
+          <div class="label">{{LocationCountry}}</div>
+        </div>
+        <div class="flexfield-50">
+          <div class="caption">Phone:</div>
+          <div class="value">{{LocationPhone}}</div>
+        </div>
+        {{#gt LocationFax.length 0}}
+        <div class="flexfield-50">
+          <div class="caption">Fax:</div>
+          <div class="value">{{LocationFax}}</div>
+        </div>
+        {{/gt}}
+        <div class="flexfield-50">
+          <div class="caption">Web:</div>
+          <div class="value">{{LocationUrl}}</div>
+        </div>
+        <div class="flexfield-50">
+          <div class="caption">Email:</div>
+          <div class="value">{{LocationEmail}}</div>
+        </div>
+      </div>
+      <div style="flex:1 1 0;">
+        <div class="flexfield-85">
+          <div class="caption">Order No:</div>
+          <div class="value">{{OrderNumber}}</div>
+        </div>
+        <div class="flexfield-85">
+          <div class="caption">Description:</div>
+          <div class="value">{{OrderDescription}}</div>
+        </div>
+        <div class="flexfield-85">
+          <div class="caption">Deal:</div>
+          <div class="value">{{Deal}}</div>
+        </div>
+        <div class="flexfield-85">
+          <div class="caption">PO No:</div>
+          <div class="value">{{PoNumber}}</div>
+        </div>
+        <div style="display:flex;">
+          <div style="flex:0 0 85px; font-weight:bold;">Terms:</div>
+          <div style="flex:1 1 0;">{{PaymentTerms}}</div>
+          <div style="flex:0 0 85px; font-weight:bold;">Billing Cycle:</div>
+          <div style="flex:1 1 0;">{{BillingCycle}}</div>
+        </div>
+      </div>
+    </div>
+    <div class="BillingStartDate"><span style="font-weight:bold;">Billing Start Date:</span> {{BillingStartDate}}</div>
+    <div style="display:flex;">
+      <div class="IssuedTo" style="flex: 1 1 0; padding: 0 50px 0 0;">
+        <div class="IssuedToCaption">Issued To</div>
+        <div class="add1">{{Deal}}</div>
+        <div class="add2">{{DealAddress1}}</div>
+        <div class="add3">{{DealAddress2}}</div>
+        <div class="add3">{{DealCity}}, {{DealStateOrProvince}} {{DealZipCode}}</div>
+        <div class="country">{{DealCountry}}</div>
+        <div class="flexfield-75">
+          <div class="caption">Phone No:</div>
+          <div class="value">{{DealPhone}}</div>
+        </div>
+        {{#gt DealFax.length 0}}
+        <div class="flexfield-75">
+          <div class="caption">Fax No:</div>
+          <div class="value">{{DealFax}}</div>
+        </div>
+        {{/gt}}
+      </div>
+      <div style="flex: 1 1 0;">
+        <div class="flexfield-150">
+          <div class="caption" style="flex-basis:150px;">Usage Period:</div>
+          <div class="value">{{EstimatedStartDate}} - {{EstimatedEndDate}}</div>
+        </div>
+        <div class="flexfield-150">
+          <div class="caption" style="flex-basis:150px;">Billing Period:</div>
+          <div class="value">{{BillingStartDate}} - {{BillingEndDate}}</div>
+        </div>
+        <div class="flexfield-150" style="margin: 16px 0 0 0;">
+          <div class="caption" style="flex-basis:150px;">Agent:</div>
+          <div class="value">{{Agent}}</div>
+        </div>
+        <div class="flexfield-150">
+          <div class="caption" style="flex-basis:150px;">Email:</div>
+          <div class="value">{{AgentEmail}}</div>
+        </div>
+      </div>
+    </div>
+
+    {{#gt RentalItems.length 0}}
+    <div class="rentalItems">
+      <table id="tblRentalItems" class="tblContractItems">
+        <colgroup>
+          <col class="ICode">
+          <col class="Description">
+          <col class="QuantityOrdered">
+          <col class="QuantityOut">
+          <col class="TotalOut">
+        </colgroup>
+        <thead>
+          <tr class="columnheadings">
+            <th class="ICode">I-Code</th>
+            <th class="Description">Description</th>
+            <th class="QuantityOrdered">Ordered</th>
+            <th class="QuantityOut">Out</th>
+            <th class="TotalOut">Total Out</th>
+          </tr>
+          <tr class="caption">
+            <th colspan="5">RENTAL</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#each RentalItems}}
+          <tr class="{{ItemClass}}">
+            <td class="ICode" style="background-color: {{ICodeColor}}">{{ICode}}</td>
+            <td class="Description" style="background-color: {{DescriptionColor}}">{{Description}}</td>
+            <td class="QuantityOrdered">{{QuantityOrdered}}</td>
+            <td class="QuantityOut">{{QuantityOut}}</td>
+            <td class="TotalOut">{{TotalOut}}</td>
+          </tr>
+          {{#gt Barcode.length 0}}
+          <tr>
+            <td colspan="5" class="Barcodes"><span class="Barcodes-label">Barcodes:</span> {{Barcode}}</td>
+          </tr>
+          {{/gt}}
+          {{/each}}
+        </tbody>
+      </table>
+    </div>
+    {{/gt}}
+
+    {{#gt SalesItems.length 0}}
+    <div class="salesItems">
+      <table id="tblSalesItems" class="tblContractItems">
+        <colgroup>
+          <col class="ICode">
+          <col class="Description">
+          <col class="QuantityOrdered">
+          <col class="QuantityOut">
+          <col class="TotalOut">
+        </colgroup>
+        <thead>
+          <tr class="columnheadings">
+            <th class="ICode">I-Code</th>
+            <th class="Description">Description</th>
+            <th class="QuantityOrdered">Ordered</th>
+            <th class="QuantityOut">Out</th>
+            <th class="TotalQuantity">Total Out</th>
+          </tr>
+          <tr class="caption">
+            <th colspan="5">SALES</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#each SalesItems}}
+          <tr class="{{ItemClass}}">
+            <td class="ICode" style="background-color: {{ICodeColor}}">{{ICode}}</td>
+            <td class="Description" style="background-color: {{DescriptionColor}}">{{Description}}</td>
+            <td class="QuantityOrdered">{{QuantityOrdered}}</td>
+            <td class="QuantityOut">{{QuantityOut}}</td>
+            <td class="TotalOut">{{TotalOut}}</td>
+          </tr>
+          {{#gt Barcode.length 0}}
+          <tr>
+            <td colspan="5" class="Barcodes"><span class="Barcodes-label">Barcodes:</span> {{Barcode}}</td>
+          </tr>
+          {{/gt}}>
+          {{/each}}
+        </tbody>
+      </table>
+    </div>
+    {{/gt}}
+
+    <div class="receivedBy">
+      <fieldset>
+        <legend>RECEIVED BY</legend>
+        <div>
+          <div style="display:flex">
+            <div class="receivedbyfield">
+              <div class="value"><img src="{{ReceivedBySignatureDataUrl}}" /></div>
+              <div class="caption">SIGNATURE</div>
+            </div>
+            <div class="receivedbyfield">
+              <div class="value">{{ReceivedBySignature}}</div>
+              <div class="caption">PRINT NAME</div>
+            </div>
+          </div>
+          <div style="display:flex">
+            <div class="receivedbyfield">
+              <div class="value">{{ReceivedByDate}}</div>
+              <div class="caption">DATE</div>
+            </div>
+            <div class="receivedbyfield"></div>
+          </div>
+        </div>
+      </fieldset>
+    </div>
+  </script>
+
+  <!-- Only use inline styles in the footerTemplate -->
+  <script id="footerTemplate" type="text/html">
+    <div id="footer" style="margin:0 24px; width: 558px; box-sizing: border-box; display:flex; font-size:12px;">
+      <div style="flex:0 0 140px; font-size: 9px;">{{PrintTime}}</div>
+      <div style="flex: 1 1 1px; text-align:center; font-weight:bold;">{{ContractNumber}}</div>
+      <div id="pageno" style="flex:0 0 140px; text-align:right; font-size: 9px">Page <span class="pageNumber"></span> of <span class="totalPages"></span></div>
+    </div>
+  </script>
+
+</head>
+<body>
+  <div id="pagecontainer">
+    <div id="pageHeader"></div>
+    <div id="contract"></div>
+    <div id="pageFooter"></div>
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="../_lib/jquery-3.3.1/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.11/handlebars.js"></script>
+  <script>!window.Handlebars && document.write(unescape('%3Cscript src="../_lib/handlebars-4.0.11/handlebars.js"%3E%3C/script%3E'))</script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
+  <script>!window.moment && document.write(unescape('%3Cscript src="../_lib/momentjs-2.22.2/moment.min.js"%3E%3C/script%3E'))</script>
+  <script src="script.js"></script>
+</body>
+</html>

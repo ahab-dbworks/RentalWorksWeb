@@ -438,7 +438,7 @@
     <Compile Include="Modules\BarcodeLabel\BarcodeLabel.cs" />
     <Compile Include="Modules\CheckInMenu\CheckInMenu.cs" />
     <Compile Include="Modules\ContractSignature\ContractSignature.cs" />
-    <Compile Include="Modules\ContractReport\ContractReport.cs" />
+    <Compile Include="Modules\OutContractReport\OutContractReport.cs" />
     <Compile Include="Modules\Exchange\ExchangeDm.cs" />
     <Compile Include="Modules\Exchange\ExchangeModels.cs" />
     <Compile Include="Modules\Exchange\ExchangeValidDlg.cs" />
@@ -509,7 +509,7 @@
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
   </ItemGroup>
   <ItemGroup>
-    <TypeScriptCompile Include="Modules\ContractReport\ContractReport.ts" />
+    <TypeScriptCompile Include="Modules\OutContractReport\OutContractReport.ts" />
     <TypeScriptCompile Include="scripts\DefaultApplicationConfig.ts" />
     <TypeScriptCompile Include="scripts\Globals.ts" />
     <TypeScriptCompile Include="scripts\Program.ts" />

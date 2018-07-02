@@ -12,6 +12,12 @@
     "types": [
       "jquery",
       "mustache"
+    ],
+    "lib": [
+      "dom",
+      "es2015",
+      "es5",
+      "es6"
     ]
   },
   "exclude": [
