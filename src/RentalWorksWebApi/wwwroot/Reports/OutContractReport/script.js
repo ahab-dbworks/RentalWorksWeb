@@ -16,7 +16,7 @@ var Report = (function () {
                 }
             });
             var contract_1 = new OutContract();
-            var contractPromise = this.apiGet("/api/v1/outcontractreport/" + parameters.contractid, authorizationHeader)
+            var contractPromise = RwAjax.apiGet("/api/v1/outcontractreport/" + parameters.contractid, authorizationHeader)
                 .then(function (value) {
                 contract_1 = value;
                 contract_1.PrintTime = window.moment().format('YYYY-MM-DD h:mm:ss A');
@@ -38,54 +38,10 @@ var Report = (function () {
             });
         }
         catch (err) {
-            me.logError('An error occured while rendering the report.', err);
+            RwAjax.logError('An error occured while rendering the report.', err);
             me.renderReportCompleted = true;
             me.renderReportFailed = true;
         }
-    };
-    Report.prototype.logError = function (message, err) {
-        console.log(message, err.message);
-    };
-    Report.prototype.apiGet = function (url, authorizationHeader) {
-        return new Promise(function (resolve, reject) {
-            var req = new XMLHttpRequest();
-            req.open('GET', url);
-            req.setRequestHeader('Authorization', authorizationHeader);
-            req.onload = function () {
-                if (req.status == 200) {
-                    resolve(JSON.parse(req.response));
-                }
-                else {
-                    reject(Error(req.statusText));
-                    console.log(req.responseText);
-                }
-            };
-            req.onerror = function () {
-                reject(Error("Network Error"));
-            };
-            req.send();
-        });
-    };
-    Report.prototype.apiPost = function (url, authorizationHeader, data) {
-        return new Promise(function (resolve, reject) {
-            var req = new XMLHttpRequest();
-            req.open('POST', url);
-            req.setRequestHeader('Authorization', authorizationHeader);
-            req.setRequestHeader('Content-Type', 'application/json');
-            req.onload = function () {
-                if (req.status == 200) {
-                    resolve(JSON.parse(req.response));
-                }
-                else {
-                    reject(Error(req.statusText));
-                    console.log(req.responseText);
-                }
-            };
-            req.onerror = function () {
-                reject(Error("Network Error"));
-            };
-            req.send(JSON.stringify(data));
-        });
     };
     Report.prototype.getHeaderHtml = function (model) {
         var template = jQuery('#headerTemplate').html();
