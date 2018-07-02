@@ -20,6 +20,17 @@ namespace FwStandard.SqlServer
             sqlConnection = new SqlConnection();
             sqlConnection.ConnectionString = connectionString;
         }
+
+        /// <summary>
+        /// Create a new FwSqlConnection.
+        /// </summary>
+        /// <param name="connectionString">The Connection String.</param>
+        /// <param name="multipleActiveResultsSets">Set this to true to enable multiple queries running in parallel on the same SqlConnection.  This has some additional overhead, so we only want to enable this when running multiple queries.</param>
+        public FwSqlConnection(string connectionString, bool multipleActiveResultsSets)
+        {
+            sqlConnection = new SqlConnection();
+            sqlConnection.ConnectionString = connectionString.TrimEnd(new char[] { ';' }) + ";MultipleActiveResultSets=True;";
+        }
         //---------------------------------------------------------------------------------------------
         public SqlConnection GetConnection()
         {

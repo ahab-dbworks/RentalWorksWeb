@@ -1239,6 +1239,16 @@ namespace FwStandard.SqlServer
                         data = 0.0m;
                     }
                     break;
+                case FwDataTypes.DecimalStringNoTrailingZeros:
+                    if (!reader.IsDBNull(columnIndex))
+                    {
+                        data = reader.GetDecimal(columnIndex).ToString("G29");
+                    }
+                    else
+                    {
+                        data = 0.0m.ToString("G29");
+                    }
+                    break;
                 case FwDataTypes.Boolean:
                     if (!reader.IsDBNull(columnIndex))
                     {
@@ -1416,7 +1426,6 @@ namespace FwStandard.SqlServer
         /// <summary>
         /// Renders to a javascript array of objects.  While easier to use from JavaScript that FwJsonDataTable, this will use a lot more bandwidth, because the column names are repeated with each row.  Uses the columns format the data that gets generated.  The only reason there is a second version of this function is because of concerns for breaking older code. This is a project for another day.
         /// </summary>
-        /// <param name="closeConnection">False will cause it to not close the connection.  Useful for transactions.</param>
         /// <returns></returns>
         public async Task<List<dynamic>> QueryToDynamicList2Async()
         {
@@ -1520,7 +1529,18 @@ namespace FwStandard.SqlServer
         /// <returns></returns>
         public async Task<List<T>> QueryToTypedListAsync<T>()
         {
-            var objs = await QueryToDynamicList2Async();
+            return await QueryToTypedListAsync<T>(true);
+        }
+        //------------------------------------------------------------------------------------
+        /// <summary>
+        /// Run a query and return a typed list, by using QueryToDynamicList2, and then serializing it to json than deserializing to the desired type
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="closeConnection">False will cause it to not close the connection.  Useful for transactions or parallel queries.</param>
+        /// <returns></returns>
+        public async Task<List<T>> QueryToTypedListAsync<T>(bool closeConnection)
+        {
+            var objs = await QueryToDynamicList2Async(closeConnection);
             string json = JsonConvert.SerializeObject(objs);
             List<T> results = JsonConvert.DeserializeObject<List<T>>(json);
             return results;
@@ -1533,7 +1553,18 @@ namespace FwStandard.SqlServer
         /// <returns></returns>
         public async Task<T> QueryToTypedObjectAsync<T>()
         {
-            var obj = await QueryToDynamicObject2Async();
+            return await QueryToTypedObjectAsync<T>(true);
+        }
+        //------------------------------------------------------------------------------------
+        /// <summary>
+        /// Run a query and return a typed object, by using QueryToDynamicObject2, and then serializing it to json than deserializing to the desired type
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="closeConnection">False will cause it to not close the connection.  Useful for transactions or parallel queries.</param>
+        /// <returns></returns>
+        public async Task<T> QueryToTypedObjectAsync<T>(bool closeConnection)
+        {
+            var obj = await QueryToDynamicObject2Async(closeConnection);
             string json = JsonConvert.SerializeObject(obj);
             T result = JsonConvert.DeserializeObject<T>(json);
             return result;
@@ -1545,10 +1576,19 @@ namespace FwStandard.SqlServer
         /// <returns></returns>
         public async Task<dynamic> QueryToDynamicObject2Async()
         {
+            return await QueryToDynamicObject2Async(true);
+        }
+        //------------------------------------------------------------------------------------
+        /// <summary>
+        /// Render a query as a JavaScript object using the column formatters
+        /// </summary>
+        /// <returns></returns>
+        public async Task<dynamic> QueryToDynamicObject2Async(bool closeConnection)
+        {
             dynamic result;
             List<dynamic> results;
 
-            results = await QueryToDynamicList2Async();
+            results = await QueryToDynamicList2Async(closeConnection);
             if (results.Count > 0)
             {
                 result = results[0];

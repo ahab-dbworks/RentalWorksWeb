@@ -11,6 +11,7 @@ namespace FwStandard.SqlServer
         DateTime,
         DateTimeOffset,
         Decimal,
+        DecimalStringNoTrailingZeros,
         Boolean,
         CurrencyString,
         CurrencyStringNoDollarSign,

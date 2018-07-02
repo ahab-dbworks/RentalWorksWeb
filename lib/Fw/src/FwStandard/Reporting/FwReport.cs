@@ -13,43 +13,42 @@ namespace FwStandard.Reporting
 {
     public class FwReport
     {
-        const int CHROMIUM_REVISION = 565530;
+        //const int CHROMIUM_REVISION = 565530;
+        const int CHROMIUM_REVISION = Downloader.DefaultRevision;
 
-        public async static Task GeneratePdfFromStringAsync(string htmlHeaderTemplate, string htmlBodyTemplate, string htmlFooterTemplate, string pdfOutputPath)
-        {
-            //var downloadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "temp" + Path.DirectorySeparatorChar + "");
-            //var downloader = new Downloader(downloadsFolder);
-            await Downloader.CreateDefault().DownloadRevisionAsync(CHROMIUM_REVISION);
-            var browser = await Puppeteer.LaunchAsync(new LaunchOptions
-            {
-                Headless = true,
-            }, CHROMIUM_REVISION);
-            try
-            {
-                var page = await browser.NewPageAsync();
-                await page.SetContentAsync(htmlBodyTemplate);
-                PdfOptions pdfOptions = new PdfOptions();
-                pdfOptions.DisplayHeaderFooter = true;
-                pdfOptions.HeaderTemplate = htmlHeaderTemplate;
-                pdfOptions.FooterTemplate = htmlFooterTemplate;
-                pdfOptions.Format = PaperFormat.Letter;
-                pdfOptions.Landscape = false;
-                pdfOptions.MarginOptions.Top = "96px";
-                pdfOptions.MarginOptions.Right = "24px";
-                pdfOptions.MarginOptions.Bottom = "96px";
-                pdfOptions.MarginOptions.Left = "24px";
-                await page.PdfAsync(pdfOutputPath, pdfOptions);
-            }
-            finally
-            {
-                browser.Dispose();
-            }
-        }
+        //public async static Task GeneratePdfFromStringAsync(string htmlHeaderTemplate, string htmlBodyTemplate, string htmlFooterTemplate, string pdfOutputPath)
+        //{
+        //    //var downloadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "temp" + Path.DirectorySeparatorChar + "");
+        //    //var downloader = new Downloader(downloadsFolder);
+        //    await Downloader.CreateDefault().DownloadRevisionAsync(CHROMIUM_REVISION);
+        //    var browser = await Puppeteer.LaunchAsync(new LaunchOptions
+        //    {
+        //        Headless = true,
+        //    }, CHROMIUM_REVISION);
+        //    try
+        //    {
+        //        var page = await browser.NewPageAsync();
+        //        await page.SetContentAsync(htmlBodyTemplate);
+        //        PdfOptions pdfOptions = new PdfOptions();
+        //        pdfOptions.DisplayHeaderFooter = true;
+        //        pdfOptions.HeaderTemplate = htmlHeaderTemplate;
+        //        pdfOptions.FooterTemplate = htmlFooterTemplate;
+        //        pdfOptions.Format = PaperFormat.Letter;
+        //        pdfOptions.Landscape = false;
+        //        pdfOptions.MarginOptions.Top = "96px";
+        //        pdfOptions.MarginOptions.Right = "24px";
+        //        pdfOptions.MarginOptions.Bottom = "96px";
+        //        pdfOptions.MarginOptions.Left = "24px";
+        //        await page.PdfAsync(pdfOutputPath, pdfOptions);
+        //    }
+        //    finally
+        //    {
+        //        browser.Dispose();
+        //    }
+        //}
 
-        public async static Task GeneratePdfFromUrlAsync(string reportUrl, string pdfOutputPath, string apiToken, string baseUrl, dynamic parameters)
+        public async static Task<string> GeneratePdfFromUrlAsync(string reportUrl, string pdfOutputPath, string authorizationHeader, dynamic parameters, PdfOptions pdfOptions)
         {
-            //var downloadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "temp" + Path.DirectorySeparatorChar + "");
-            //var downloader = new Downloader(downloadsFolder);
             await Downloader.CreateDefault().DownloadRevisionAsync(CHROMIUM_REVISION);
             using (var browser = await Puppeteer.LaunchAsync(new LaunchOptions { Headless = true }, CHROMIUM_REVISION))
             {
@@ -60,24 +59,21 @@ namespace FwStandard.Reporting
                     NavigationOptions navOptions = new NavigationOptions();
                     navOptions.WaitUntil = new WaitUntilNavigation[] { WaitUntilNavigation.Networkidle0 };
                     navOptions.Timeout = 3600; // 1 hour
-                    await page.GoToAsync(baseUrl + reportUrl, navOptions);
-                    //var renderReportResponse = await page.EvaluateExpressionAsync<FwRenderReportResponse>($"report.renderReport('{apiToken}', '{baseUrl}', '{primaryKey}')"); 
-                    var renderReportResponse = await page.EvaluateFunctionAsync("(apiToken, baseUrl, parameters) => (report.renderReport(apiToken, baseUrl, parameters))", apiToken, baseUrl, parameters);
-                    PdfOptions pdfOptions = new PdfOptions();
-                    pdfOptions.DisplayHeaderFooter = true;
-                    pdfOptions.Format = PaperFormat.Letter;
-                    pdfOptions.Landscape = false;
-                    pdfOptions.MarginOptions.Top = "96px";
-                    pdfOptions.MarginOptions.Right = "24px";
-                    pdfOptions.MarginOptions.Bottom = "96px";
-                    pdfOptions.MarginOptions.Left = "24px";
+                    await page.GoToAsync(reportUrl, navOptions);
+                    StringBuilder jsConsole = new StringBuilder();
+                    page.Console += delegate(object sender, ConsoleEventArgs e)
+                    {
+                        if (e.Message.Type == ConsoleType.Error)
+                        {
+                            jsConsole.AppendLine(e.Message.Text);
+                        }
+                    };
+                    var renderReportResponse = await page.EvaluateFunctionAsync("(authorizationHeader, parameters) => (report.renderReport(authorizationHeader, parameters))", authorizationHeader, parameters);
                     await page.WaitForFunctionAsync("() => (report.renderReportCompleted === true)");
                     pdfOptions.HeaderTemplate = await page.EvaluateExpressionAsync<string>("report.headerHtml");
                     pdfOptions.FooterTemplate = await page.EvaluateExpressionAsync<string>("report.footerHtml");
-                    //var pageHtml = page.GetContentAsync();
-                    //SaveHtmlToDB(pageHtml);
-
                     await page.PdfAsync(pdfOutputPath, pdfOptions);
+                    return jsConsole.ToString();
                 }
             }
         }

@@ -1,5 +1,6 @@
 ﻿using FwStandard.Models;
 using FwStandard.SqlServer;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Options;
@@ -23,6 +24,31 @@ namespace FwCore.Controllers
         {
             this.UserSession = new FwUserSession(this.User);
             return base.OnActionExecutionAsync(context, next);
+        }
+        //------------------------------------------------------------------------------------
+        /// <summary>
+        /// Uses the request to get the fully qualified base url without a trailing backslash
+        /// </summary>
+        /// <returns></returns>
+        public string GetFullyQualifiedBaseUrl()
+        {
+            string appPath = this.AppConfig.PublicBaseUrl;
+
+            if (string.IsNullOrEmpty(appPath))
+            {
+                //Formatting the fully qualified website url/name
+                appPath = string.Format("{0}://{1}{2}{3}",
+                            HttpContext.Request.Scheme,
+                            HttpContext.Request.Host.Host,
+                            HttpContext.Request.Host.Port == 80 ? string.Empty : ":" + HttpContext.Request.Host.Port,
+                            this.AppConfig.VirtualDirectory);
+            }
+            if (appPath.EndsWith("/"))
+            {
+                appPath = appPath.Substring(0, appPath.Length - 1);
+            }
+
+            return appPath;
         }
         //------------------------------------------------------------------------------------
     }

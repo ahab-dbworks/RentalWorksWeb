@@ -19,9 +19,14 @@ namespace FwCore.Controllers
             this.appConfig = appConfig.Value;
         }
         //------------------------------------------------------------------------------------
+        /// <summary>
+        /// Get the temporary downloads directory and creates it if it does not exst
+        /// </summary>
+        /// <returns></returns>
         public static string GetDownloadsDirectory()
         {
             string directory = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot" + Path.DirectorySeparatorChar + "temp" + Path.DirectorySeparatorChar + "downloads");
+            Directory.CreateDirectory(directory);
             return directory;
         }
         //------------------------------------------------------------------------------------
@@ -44,7 +49,7 @@ namespace FwCore.Controllers
             if (fileName != whitelistFileName) return BadRequest();
             string whitelistDownloadAsFileName = new string(downloadAsFileName.Where(c => char.IsLetterOrDigit(c) || c == '_'  || c == '-' || c == '.').ToArray());
             if (downloadAsFileName != whitelistDownloadAsFileName) return BadRequest();
-            var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/temp/downloads", whitelistFileName);
+            var path = Path.Combine(GetDownloadsDirectory(), whitelistFileName);
             if (!System.IO.File.Exists(path)) return Content("The requested file does not exist on the server.");
             var ext = Path.GetExtension(path).ToLowerInvariant();
             var contentType = "";

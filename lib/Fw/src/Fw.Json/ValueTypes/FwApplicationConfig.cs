@@ -160,6 +160,9 @@ namespace Fw.Json.ValueTypes
         [XmlArray("ApiAccessTokens")]
         [XmlArrayItem("Token")]
         public List<string> ApiAccessTokens {get;set;} = new List<string>();
+
+        [XmlElement("WebApi")]
+        public FwApplicationConfig_WebApi WebApi { get; set; } = new FwApplicationConfig_WebApi();
     }
 
     [XmlRoot("DatabaseConnection")]
@@ -210,6 +213,13 @@ namespace Fw.Json.ValueTypes
 
         [XmlElement("AuthPassword")]
         public string AuthPassword {get;set;} = string.Empty;
+    }
+
+    [XmlRoot("WebApi")]
+    public class FwApplicationConfig_WebApi
+    {
+        [XmlElement("Url")]
+        public string Url {get;set;} = string.Empty;
     }
 
     [XmlRoot("ApplicationSettings")]

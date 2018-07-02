@@ -2,6 +2,8 @@
 {
     public class FwApplicationConfig
     {
+        public string PublicBaseUrl { get; set; } = string.Empty;
+        public string VirtualDirectory { get; set; } = string.Empty;
         public SqlServerConfig DatabaseSettings { get; set; }
         public FwJwtIssuerOptions JwtIssuerOptions { get; set; }
     }
