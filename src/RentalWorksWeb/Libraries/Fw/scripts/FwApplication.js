@@ -144,6 +144,12 @@ var FwApplication = (function () {
         var newwindow = window.open(url, '', settings);
     };
     ;
+    FwApplication.prototype.popOutTab = function (url) {
+        var settings = 'scrollbars=yes,resizeable=yes,toolbar=no,status=no,menubar=no,directories=no,titlebar=no,location=yes,addressbar=yes';
+        var newwindow = window.open(url, '_blank');
+        newwindow.focus();
+    };
+    ;
     FwApplication.prototype.uniqueId = function (idlength) {
         var charstoformid = '_0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz'.split('');
         if (!idlength) {

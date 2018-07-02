@@ -384,7 +384,7 @@ FwSettings.renderModuleHtml = function ($control, title, moduleName, description
 
     $settingsPageModules.on('click', '.pop-out', function (e) {
         e.stopPropagation();
-        program.popOutURL('#/module/' + moduleName);
+        program.popOutTab('#/module/' + moduleName);
         jQuery(this).parent().hide();
     });
 

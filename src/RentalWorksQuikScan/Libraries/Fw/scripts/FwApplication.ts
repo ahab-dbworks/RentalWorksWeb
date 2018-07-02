@@ -169,6 +169,12 @@
         var newwindow = window.open(url, '', settings);
     };
     //---------------------------------------------------------------------------------
+    popOutTab(url) {
+        let settings: string = 'scrollbars=yes,resizeable=yes,toolbar=no,status=no,menubar=no,directories=no,titlebar=no,location=yes,addressbar=yes';
+        var newwindow = window.open(url, '_blank');
+        newwindow.focus();
+    };
+    //---------------------------------------------------------------------------------
     uniqueId(idlength) {
         var charstoformid = '_0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz'.split('');
         if (! idlength) {
