@@ -53,6 +53,7 @@ namespace WebLibrary.Security
             AddModule("Deal",             "{C67AD425-5273-4F80-A452-146B2008B41C}", lv1menuAgent.Id, "DealController",            "module/deal",            homeiconbaseurl + "placeholder.png");
             AddModule("Vendor",           "{AE4884F4-CB21-4D10-A0B5-306BD0883F19}", lv1menuAgent.Id, "VendorController",          "module/vendor",          homeiconbaseurl + "placeholder.png");
             AddModule("Contact",          "{3F803517-618A-41C0-9F0B-2C96B8BDAFC4}", lv1menuAgent.Id, "ContactController",         "module/contact",         homeiconbaseurl + "placeholder.png");
+            AddModule("Purchase Order",   "{67D8C8BB-CF55-4231-B4A2-BB308ADF18F0}", lv1menuAgent.Id, "PurchaseOrderController",   "module/purchaseorder",   homeiconbaseurl + "placeholder.png");
             AddModule("Project",          "{C6C8167A-C3B5-4915-8290-4520AF7EDB35}", lv1menuAgent.Id, "ProjectController",         "module/project",         homeiconbaseurl + "placeholder.png");
 
 
