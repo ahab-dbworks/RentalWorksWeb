@@ -176,6 +176,7 @@
     <Content Include="packages.config" />
     <TypeScriptCompile Include="scripts\RwMaster.ts" />
     <Content Include="Source\Grids\InventoryWarehouseStagingGrid\InventoryWarehouseStagingGridBrowse.htm" />
+    <Content Include="Source\Grids\ProjectContactGrid\ProjectContactGridBrowse.htm" />
     <Content Include="Source\Grids\OrderContactGrid\OrderContactGridBrowse.htm" />
     <Content Include="Source\Grids\CompanyContactGrid\CompanyContactGridBrowse.htm" />
     <Content Include="Source\Grids\ContactCompanyGrid\ContactCompanyGridBrowse.htm" />
@@ -279,6 +280,7 @@
     <TypeScriptCompile Include="scripts\Global.ts" />
     <TypeScriptCompile Include="Source\Grids\ContactPersonalEventGrid\ContactPersonalEventGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\InventoryWarehouseStagingGrid\InventoryWarehouseStagingGridController.ts" />
+    <TypeScriptCompile Include="Source\Grids\ProjectContactGrid\ProjectContactGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\OrderContactGrid\OrderContactGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\CompanyContactGrid\CompanyContactGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\ContactCompanyGrid\ContactCompanyGridController.ts" />

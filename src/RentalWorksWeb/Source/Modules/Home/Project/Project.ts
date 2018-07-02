@@ -130,22 +130,22 @@ class Project {
     }
 
     renderGrids($form) {
-        var $orderContactGrid;
-        var $orderContactGridControl;
-        $orderContactGrid = $form.find('div[data-grid="OrderContactGrid"]');
-        $orderContactGridControl = jQuery(jQuery('#tmpl-grids-OrderContactGridBrowse').html());
-        $orderContactGrid.empty().append($orderContactGridControl);
-        $orderContactGridControl.data('ondatabind', function (request) {
+        var $projectContactGrid;
+        var $projectContactGridControl;
+        $projectContactGrid = $form.find('div[data-grid="ProjectContactGrid"]');
+        $projectContactGridControl = jQuery(jQuery('#tmpl-grids-ProjectContactGridBrowse').html());
+        $projectContactGrid.empty().append($projectContactGridControl);
+        $projectContactGridControl.data('ondatabind', function (request) {
             request.uniqueids = {
-                OrderId: FwFormField.getValueByDataField($form, 'ProjectId')
+                ProjectId: FwFormField.getValueByDataField($form, 'ProjectId')
             };
         });
-        $orderContactGridControl.data('beforesave', function (request) {
-            request.OrderId = FwFormField.getValueByDataField($form, 'ProjectId');
+        $projectContactGridControl.data('beforesave', function (request) {
+            request.ProjectId = FwFormField.getValueByDataField($form, 'ProjectId');
             request.CompanyId = FwFormField.getValueByDataField($form, 'DealId');
         });
-        FwBrowse.init($orderContactGridControl);
-        FwBrowse.renderRuntimeHtml($orderContactGridControl);
+        FwBrowse.init($projectContactGridControl);
+        FwBrowse.renderRuntimeHtml($projectContactGridControl);
 
         var $poApproverGrid;
         var $poApproverGridControl;
@@ -181,9 +181,9 @@ class Project {
     }
 
     afterLoad($form: any) {
-        var $orderContactGrid;
-        $orderContactGrid = $form.find('[data-name="OrderContactGrid"]');
-        FwBrowse.search($orderContactGrid);
+        var $projectContactGrid;
+        $projectContactGrid = $form.find('[data-name="ProjectContactGrid"]');
+        FwBrowse.search($projectContactGrid);
 
         var $poApproverGrid;
         $poApproverGrid = $form.find('[data-name="POApproverGrid"]');
