@@ -1457,7 +1457,7 @@ class Order {
 
     //----------------------------------------------------------------------------------------------
     orderItemGridBoldUnbold($browse: any, event: any) {
-        let $confirmation, $yes, $no, orderId, orderItemId, boldStatus;
+        let orderId, orderItemId, boldStatus;
 
         orderId = $browse.find('.selected [data-browsedatafield="OrderId"]').attr('data-originalvalue');
         orderItemId = $browse.find('.selected [data-formdatafield="OrderItemId"]').attr('data-originalvalue');
@@ -1465,36 +1465,9 @@ class Order {
 
         if (orderId != null) {
             if (boldStatus === "true") {
-                $confirmation = FwConfirmation.renderConfirmation('Unbold', '');
-                $confirmation.find('.fwconfirmationbox').css('width', '450px');
-                let html = [];
-                html.push('<div class="fwform" data-controller="none" style="background-color: transparent;">');
-                html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
-                html.push('    <div>Would you like to remove bold for this item?</div>');
-                html.push('  </div>');
-                html.push('</div>');
-
-                FwConfirmation.addControls($confirmation, html.join(''));
-                $yes = FwConfirmation.addButton($confirmation, 'Unbold Item', false);
-                $no = FwConfirmation.addButton($confirmation, 'Cancel');
-
-                $yes.on('click', unboldItem);
+                unboldItem();
             } else {
-                $confirmation = FwConfirmation.renderConfirmation('Cancel', '');
-                $confirmation.find('.fwconfirmationbox').css('width', '450px');
-                let html = [];
-                html.push('<div class="fwform" data-controller="none" style="background-color: transparent;">');
-                html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
-                html.push('    <div>Would you like to bold this Item?</div>');
-                html.push('  </div>');
-                html.push('</div>');
-
-                FwConfirmation.addControls($confirmation, html.join(''));
-                $yes = FwConfirmation.addButton($confirmation, 'Bold Item', false);
-                $no = FwConfirmation.addButton($confirmation, 'Cancel');
-
-                $yes.on('click', boldItem);
-
+                boldItem();
             }
         } else {
             throw new Error("Please select an Item to perform this action.");
@@ -1503,11 +1476,6 @@ class Order {
         function boldItem() {
             let request: any = {};
 
-            FwFormField.disable($confirmation.find('.fwformfield'));
-            FwFormField.disable($yes);
-            $yes.text('Bolding Item...');
-            $yes.off('click');
-
             request = {
                 OrderId: orderId,
                 OrderItemId: orderItemId,
@@ -1515,26 +1483,16 @@ class Order {
             }
 
             FwAppData.apiMethod(true, 'POST', `api/v1/orderitem`, request, FwServices.defaultTimeout, function onSuccess(response) {
-                FwNotification.renderNotification('SUCCESS', 'Success');
-                FwConfirmation.destroyConfirmation($confirmation);
                 FwBrowse.databind($browse);
             }, function onError(response) {
-                $yes.on('click', boldItem);
-                $yes.text('Cancel');
+                boldItem();
                 FwFunc.showError(response);
-                FwFormField.enable($confirmation.find('.fwformfield'));
-                FwFormField.enable($yes);
                 FwBrowse.databind($browse);
             }, $browse);
         };
 
         function unboldItem() {
             let request: any = {};
-
-            FwFormField.disable($confirmation.find('.fwformfield'));
-            FwFormField.disable($yes);
-            $yes.text('Removing...');
-            $yes.off('click');
 
             request = {
                 OrderId: orderId,
@@ -1543,15 +1501,10 @@ class Order {
             }
 
             FwAppData.apiMethod(true, 'POST', `api/v1/orderitem`, request, FwServices.defaultTimeout, function onSuccess(response) {
-                FwNotification.renderNotification('SUCCESS', 'Bold Removed');
-                FwConfirmation.destroyConfirmation($confirmation);
                 FwBrowse.databind($browse);
             }, function onError(response) {
-                $yes.on('click', unboldItem);
-                $yes.text('Cancel');
+                unboldItem();
                 FwFunc.showError(response);
-                FwFormField.enable($confirmation.find('.fwformfield'));
-                FwFormField.enable($yes);
                 FwBrowse.databind($browse);
             }, $browse);
         };

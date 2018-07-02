@@ -67,6 +67,13 @@
     generateRow($control, $generatedtr) {
         var $form = $control.closest('.fwform');
 
+        // Bold Row
+        FwBrowse.setAfterRenderFieldCallback($control, ($tr: JQuery, $td: JQuery, $field: JQuery, dt: FwJsonDataTable, rowIndex: number, colIndex: number) => {
+            if ($tr.find('.order-item-bold').text() === 'true') {
+                $tr.css('font-weight', "bold");
+            }
+        });
+
         $generatedtr.find('div[data-browsedatafield="InventoryId"]').data('onchange', function ($tr) {
             var warehouse = FwFormField.getTextByDataField($form, 'WarehouseId');
             var warehouseId = FwFormField.getValueByDataField($form, 'WarehouseId');

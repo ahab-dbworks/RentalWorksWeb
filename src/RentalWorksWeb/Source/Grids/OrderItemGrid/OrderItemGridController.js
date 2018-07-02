@@ -65,6 +65,11 @@ var OrderItemGrid = (function () {
     };
     OrderItemGrid.prototype.generateRow = function ($control, $generatedtr) {
         var $form = $control.closest('.fwform');
+        FwBrowse.setAfterRenderFieldCallback($control, function ($tr, $td, $field, dt, rowIndex, colIndex) {
+            if ($tr.find('.order-item-bold').text() === 'true') {
+                $tr.css('font-weight', "bold");
+            }
+        });
         $generatedtr.find('div[data-browsedatafield="InventoryId"]').data('onchange', function ($tr) {
             var warehouse = FwFormField.getTextByDataField($form, 'WarehouseId');
             var warehouseId = FwFormField.getValueByDataField($form, 'WarehouseId');
