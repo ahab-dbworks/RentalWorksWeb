@@ -61,14 +61,13 @@ class SearchInterface {
         searchhtml.push('                      <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield fwformcontrol toggleAccessories" data-caption="Disable Accessory Refresh" style="width:200px;"></div>');
         searchhtml.push('                         <div id="columnDescriptions" style="width:95%; padding:5px; margin:5px; display:none">');
         searchhtml.push('                           <div style="float:left; width:38%; text-align:center; font-weight:bold;">Description</div>');
-        searchhtml.push('                           <div style="float:left; width:9%; text-align:center; font-weight:bold;">Qty</div>');
-        searchhtml.push('                           <div style="float:left; width:7%; text-align:center; font-weight:bold;">Available</div>');
-        searchhtml.push('                           <div style="float:left; width:9%; text-align:center; font-weight:bold;">Conflict Date</div>');
-        searchhtml.push('                           <div style="float:left; width:7%; text-align:center; font-weight:bold;">All WH</div>');
-        searchhtml.push('                           <div style="float:left; width:7%; text-align:center; font-weight:bold;">In</div>');
-        searchhtml.push('                           <div style="float:left; width:7%; text-align:center; font-weight:bold;">QC</div>');
-        searchhtml.push('                           <div style="float:left; width:7%; text-align:center; font-weight:bold;">&#160;</div>');
-        searchhtml.push('                           <div style="float:left; width:7%; text-align:center; font-weight:bold;">Rate</div>');
+        searchhtml.push('                           <div style="float:left; width:10%; text-align:center; font-weight:bold;">Qty</div>');
+        searchhtml.push('                           <div style="float:left; width:8%; text-align:center; font-weight:bold;">Available</div>');
+        searchhtml.push('                           <div style="float:left; width:10%; text-align:center; font-weight:bold;">Conflict Date</div>');
+        searchhtml.push('                           <div style="float:left; width:8%; text-align:center; font-weight:bold;">All WH</div>');
+        searchhtml.push('                           <div style="float:left; width:8%; text-align:center; font-weight:bold;">In</div>');
+        searchhtml.push('                           <div style="float:left; width:8%; text-align:center; font-weight:bold;">QC</div>');
+        searchhtml.push('                           <div style="float:left; width:8%; text-align:center; font-weight:bold;">Rate</div>');
         searchhtml.push('                            </div>');
         searchhtml.push('                 </div>');
         searchhtml.push('                 <div id="inventory" style="overflow:auto">');
@@ -602,7 +601,7 @@ class SearchInterface {
             html.push('<div class="cardContainer">');
             html.push('     <div class="card">');
             html.push('         <div class="cornerTriangle"></div>');
-            html.push('         <div data-control="FwFormField" data-type="key" data-datafield="InventoryId" data-caption="InventoryId" class="fwcontrol fwformfield" data-isuniqueid="true" data-enabled="false"><input value="' + response.Rows[i][inventoryId] +'"></input></div>');
+            html.push('         <div data-control="FwFormField" data-type="key" data-datafield="InventoryId" data-caption="InventoryId" class="fwcontrol fwformfield" data-isuniqueid="true" data-enabled="false"><input value="' + response.Rows[i][inventoryId] + '"></input></div>');
             html.push('         <div class="desccontainer">');
             html.push('             <div class="invdescription">' + response.Rows[i][descriptionIndex] + '</div>');
             html.push('             <div class="invimage">');
@@ -624,14 +623,14 @@ class SearchInterface {
             html.push('             <div data-control="FwFormField" data-type="number" data-datafield="QuantityIn" data-caption="In" class="fwcontrol fwformfield" data-enabled="false" style="text-align:center"><span style="text-decoration:underline; font-weight:bold;">In</span></br></div>');
             html.push('             <div data-control="FwFormField" data-type="number" data-datafield="QuantityQcRequired" data-caption="QC" class="fwcontrol fwformfield" data-enabled="false" style="text-align:center"><span style="text-decoration:underline; font-weight:bold;">QC</span></br></div>');
             html.push('         </div>');
-            html.push('         <div class="accessories" style="width:80px;">');
-            if (response.Rows[i][classificationIndex] == "K" || response.Rows[i][classificationIndex] == "C") {
-                html.push('<div class="accList">Accessories</div>');
-            }
-            else {
-                html.push('<div>&#160;</div>');
-            }
-            html.push('         </div>');
+            //html.push('         <div class="accessories" style="width:80px;">');
+            //if (response.Rows[i][classificationIndex] == "K" || response.Rows[i][classificationIndex] == "C") {
+            //    html.push('<div class="accList">Accessories</div>');
+            //}
+            //else {
+            //    html.push('<div>&#160;</div>');
+            //}
+            //html.push('         </div>');
             html.push('         <div data-control="FwFormField" data-type="number" data-digits="2" data-datafield="DailyRate" data-caption="Rate" class="fwcontrol fwformfield rate" data-enabled="false" style="text-align:center"><span style="text-decoration:underline; font-weight:bold;">Rate</span></br></div>');
             html.push('     </div>');
             if (response.Rows[i][classificationIndex] == "K" || response.Rows[i][classificationIndex] == "C") {
@@ -653,7 +652,7 @@ class SearchInterface {
                 response.Rows[i][conflictDate] = 'N/A'
             }
             $card.find('[data-datafield="ConflictDate"]').append(response.Rows[i][conflictDate]);
-           
+
             $card.find('[data-datafield="QuantityIn"]').append(response.Rows[i][quantityIn]);
             $card.find('[data-datafield="QuantityQcRequired"]').append(response.Rows[i][quantityQcRequired]);
             let rate = Number(response.Rows[i][dailyRate]).toFixed(2);
@@ -728,7 +727,7 @@ class SearchInterface {
                 accessories.css({ 'float': 'right', 'padding': '10px 5px 10px 0', 'width': '', 'font-size': '.9em', 'color': 'blue' });
                 rate.css({ 'float': 'left', 'padding-top': '20px', 'width': '90px', 'position': 'absolute', 'bottom': '10px' });
                 quantity.css({ 'float': 'right', 'width': '90px', 'position': 'absolute', 'bottom': '10px', 'right': '10px' });
-                quantityContainer.css({ 'float': 'right', 'width':'' });
+                quantityContainer.css({ 'float': 'right', 'width': '' });
                 //$inventory.removeClass('listView', 'listGridView');
                 //$inventory.addClass('gridView');
                 break;
@@ -740,16 +739,16 @@ class SearchInterface {
                 descContainer.css({ 'width': '38%', 'float': '' });
                 description.css({ 'float': 'left', 'padding-top': '15px', 'width': '100%', 'padding-bottom': '' });
                 imageFrame.hide();
-                quantityAvailable.css({ 'float': 'left', 'width': '7%' });
-                conflictDate.css({ 'float': 'left', 'width': '9%' });
+                quantityAvailable.css({ 'float': 'left', 'width': '8%' });
+                conflictDate.css({ 'float': 'left', 'width': '10%' });
                 allWH.show();
-                allWH.css({ 'float': 'left', 'width': '7%' });
+                allWH.css({ 'float': 'left', 'width': '8%' });
                 quantityIn.css({ 'float': 'left', 'width': '50%' });
                 quantityQcRequired.css({ 'float': 'left', 'width': '50%' });
-                accessories.css({ 'float': 'left', 'padding': '', 'width': '7%', 'font-size': '.9em', 'color': 'blue' });
-                rate.css({ 'float': 'left', 'width': '7%', 'padding-top': '', 'position': '', 'bottom': '', 'right': '' });
-                quantity.css({ 'float': 'left', 'width': '9%', 'position': '', 'bottom': '', 'right': '' });
-                quantityContainer.css({ 'float': 'left', 'width':'14%' });
+                accessories.css({ 'float': 'left', 'padding': '', 'width': '8%', 'font-size': '.9em', 'color': 'blue' });
+                rate.css({ 'float': 'left', 'width': '8%', 'padding-top': '', 'position': '', 'bottom': '', 'right': '' });
+                quantity.css({ 'float': 'left', 'width': '10%', 'position': '', 'bottom': '', 'right': '' });
+                quantityContainer.css({ 'float': 'left', 'width': '16%' });
                 //$inventory.removeClass('gridView', 'listGridView');
                 //$inventory.addClass('listView');
                 break;
@@ -764,16 +763,16 @@ class SearchInterface {
                 imageFrame.show();
                 imageFrame.css({ 'float': 'left', 'width': '25%', 'height': '70px', 'line-height': '100px', 'display': 'inline-block', 'position': 'relative' });
                 image.css({ 'max-height': '100%', 'max-width': '100%', 'width': 'auto', 'height': 'auto', 'position': 'absolute', 'top': '0', 'bottom': '0', 'left': '0', 'right': '0', 'margin': 'auto' });
-                quantityAvailable.css({ 'float': 'left', 'width': '7%' });
-                conflictDate.css({ 'float': 'left', 'width': '9%' });
+                quantityAvailable.css({ 'float': 'left', 'width': '8%' });
+                conflictDate.css({ 'float': 'left', 'width': '10%' });
                 allWH.show();
-                allWH.css({ 'float': 'left', 'width': '7%' });
+                allWH.css({ 'float': 'left', 'width': '8%' });
                 quantityIn.css({ 'float': 'left', 'width': '50%' });
                 quantityQcRequired.css({ 'float': 'left', 'width': '50%' });
-                accessories.css({ 'float': 'left', 'width': '7%', 'padding': '', 'font-size': '.9em', 'color': 'blue' });
-                rate.css({ 'float': 'left', 'width': '7%', 'padding-top': '', 'position': '', 'bottom': '', 'right': '' });
-                quantity.css({ 'float': 'left', 'width': '9%', 'position': '', 'bottom': '', 'right': '' });
-                quantityContainer.css({ 'float': 'left', 'width': '14%' });
+                accessories.css({ 'float': 'left', 'width': '8%', 'padding': '', 'font-size': '.9em', 'color': 'blue' });
+                rate.css({ 'float': 'left', 'width': '8%', 'padding-top': '', 'position': '', 'bottom': '', 'right': '' });
+                quantity.css({ 'float': 'left', 'width': '10%', 'position': '', 'bottom': '', 'right': '' });
+                quantityContainer.css({ 'float': 'left', 'width': '16%' });
                 //$inventory.removeClass('listView', 'gridView');
                 //$inventory.addClass('listGridView');
                 break;
@@ -849,14 +848,29 @@ class SearchInterface {
         });
 
         $popup.on('click', '#inventory > .cardContainer > .card', function (e) {
+            const $card = jQuery(e.currentTarget);
             $popup.find('#inventory > .cardContainer > .card').removeClass('selected');
             $popup.find('#inventory > .cardContainer > .card').css('box-shadow', '0 2px 4px 0 rgba(0,0,0,0.2)');
-            jQuery(e.currentTarget).addClass('selected');
-            jQuery(e.currentTarget).css('box-shadow', '0 6px 10px 0 rgba(0,0,153,0.2)');
+            $card.addClass('selected');
+            $card.css('box-shadow', '0 6px 10px 0 rgba(0,0,153,0.2)');
+
+            let accessoryContainer = $card.siblings('.accContainer');
+            if (accessoryContainer.length > 0) {
+                if (!(accessoryContainer.find('.accList').length)) {
+                    let inventoryId = $card.find('[data-datafield="InventoryId"] input').val();
+                    self.refreshAccessoryQuantity($popup, id, warehouseId, inventoryId, e);
+                }
+                if ((jQuery('#inventoryView').val()) == 'GRID') {
+                    jQuery('.accColumns').show();
+                }
+                $popup.find('.accContainer').not(accessoryContainer).hide();
+                accessoryContainer.slideToggle();
+            }
         });
 
         var $searchpopup = jQuery('#searchpopup');
         $popup.on('change', '#inventory [data-datafield="Quantity"] input', function (e) {
+            e.stopPropagation();
             var element = jQuery(e.currentTarget);
             var quantity = element.val();
             var inventoryId = element.parents('.card').find('[data-datafield="InventoryId"] input').val();
@@ -879,7 +893,6 @@ class SearchInterface {
             }
 
             var $accContainer = element.parents('.cardContainer').find('.accContainer');
-            var $accButton = element.parents('.card').find('.accList');
             var accessoryRefresh = $popup.find('.toggleAccessories input').prop('checked');
             FwAppData.apiMethod(true, 'POST', "api/v1/inventorysearch/", request, FwServices.defaultTimeout, function onSuccess(response) {
                 if (!accessoryRefresh) {
@@ -900,6 +913,7 @@ class SearchInterface {
         });
 
         $popup.on('click', '.image', function (e) {
+            e.stopPropagation();
             var $confirmation, $cancel;
             var image = jQuery(e.currentTarget).attr('src');
             var imageId = jQuery(e.currentTarget).attr('data-value');
@@ -998,24 +1012,11 @@ class SearchInterface {
             self.listGridView($inventory, 'GRID');
         });
 
-        $popup.on('click', '.accList', function (e) {
-            let accessoryContainer = jQuery(e.currentTarget).parents('.cardContainer').find('.accContainer');
-            if (!(accessoryContainer.find('.accList').length)) {
-                let inventoryId = jQuery(e.currentTarget).parents('.card').find('[data-datafield="InventoryId"] input').val();
-                self.refreshAccessoryQuantity($popup, id, warehouseId, inventoryId, e);
-            }
-            if ((jQuery('#inventoryView').val()) == 'GRID') {
-                jQuery('.accColumns').show();
-            }
-            $popup.find('.accContainer').not(accessoryContainer).hide();
-            accessoryContainer.slideToggle();
-        });
-
         $popup.on('change', '.accItem [data-datafield="AccQuantity"] input', function (e) {
             const element = jQuery(e.currentTarget),
-                  inventoryId = element.parents('.accItem').find('[data-datafield="InventoryId"] input').val(),
-                  quantity = element.val(),
-                  parentId = element.parents('.cardContainer').find('.card [data-datafield="InventoryId"] input').val();
+                inventoryId = element.parents('.accItem').find('[data-datafield="InventoryId"] input').val(),
+                quantity = element.val(),
+                parentId = element.parents('.cardContainer').find('.card [data-datafield="InventoryId"] input').val();
 
             let accRequest: any = {};
             accRequest = {
@@ -1104,6 +1105,7 @@ class SearchInterface {
         });
 
         $popup.on('click', '.incrementQuantity, .decrementQuantity', e => {
+            e.stopPropagation();
             const $button = jQuery(e.currentTarget),
                 oldValue = $button.parent().find("input").val();
 
@@ -1124,8 +1126,8 @@ class SearchInterface {
             $popup
                 .on('mousedown', '.incrementQuantity, .decrementQuantity', e => {
                     const $button = jQuery(e.currentTarget),
-                          oldValue = $button.parent().find("input").val(),
-                          $input = $button.parent().find("input");
+                        oldValue = $button.parent().find("input").val(),
+                        $input = $button.parent().find("input");
 
                     if ($button.text() == "+") {
                         interval = setInterval(function () {
@@ -1152,16 +1154,16 @@ class SearchInterface {
                             $input.addClass('changed');
                         }
                     }
-                 })
+                })
                 .on('mouseup mouseleave', '.incrementQuantity, .decrementQuantity', e => {
                     const $button = jQuery(e.currentTarget),
-                          $input = $button.parent().find("input");
+                        $input = $button.parent().find("input");
 
                     clearInterval(interval);
                     if ($input.hasClass('changed')) {
                         $input.removeClass('changed');
                         $input.change();
-                       
+
                     }
                 })
         }
@@ -1213,7 +1215,7 @@ class SearchInterface {
 
         accessoryContainer.css({ 'float': 'left', 'height': 'auto', 'padding': '5px', 'margin': '5px', 'box-shadow': '0 6px 10px 0 rgba(0,0,153,0.2)', 'transition': '0.3s' });
         var html = [];
-        if (!(accessoryContainer.find('.accList').length)) {
+        if (!(accessoryContainer.find('.accColumns').length)) {
             html.push('<div class="accColumns" style="width:100%; display:none;">');
             html.push(' <div class="accList"></div>');
             html.push('                           <div style="float:left; width:38%; text-align:center; font-weight:bold">Description</div>');
@@ -1225,7 +1227,6 @@ class SearchInterface {
             html.push('                           <div style="float:left; width:7%; text-align:center; font-weight:bold;">QC</div>');
             html.push('                           <div style="float:left; width:7%; text-align:center; font-weight:bold;">&#160;</div>');
             html.push('                           <div style="float:left; width:7%; text-align:center; font-weight:bold;">Rate</div>');
-            html.push(' </div>');
             html.push('</div>');
             accessoryContainer.append(html.join(''));
         }
