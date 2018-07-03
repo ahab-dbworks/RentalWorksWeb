@@ -28,6 +28,7 @@ namespace WebApi.Modules.Settings.Template
         public string WarehouseId { get { return template.WarehouseId; } set { template.WarehouseId = value; } }
         [FwBusinessLogicField(isReadOnly: true)]
         public string Warehouse { get; set; }
+        public string RateType { get { return template.RateType; } set { template.RateType = value; } }
         [JsonIgnore]
         public string Type { get { return template.Type; } set { template.Type = value; } }
         public bool? Rental { get { return template.Rental; } set { template.Rental = value; } }
