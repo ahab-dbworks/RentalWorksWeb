@@ -15,8 +15,16 @@ namespace FwStandard.SqlServer
         public DateTime StopTime   = DateTime.MinValue;
         public static int Counter = 0;
 
+        public static string HostMachineName = "";
+
         public FwSqlLogEntry(string label, SqlCommand command)
         {
+
+            if (string.IsNullOrEmpty(HostMachineName))
+            {
+                HostMachineName = System.Net.Dns.GetHostName();
+            }
+
             Counter++;
             StringBuilder sqlForHtml, sql;
             int maxParameterWidth = 0;
@@ -429,7 +437,12 @@ namespace FwStandard.SqlServer
             {
                 str = "--" + str  + " in " + GetExecutionTime();
             }
-            //Console.WriteLine(str);  //justin 05/31/2018 commented for release
+
+            //need to do this differently, such as fw_isinternalserver()
+            if (HostMachineName.Equals("JUSTIN6"))
+            {
+                Console.WriteLine(str);
+            }
         }
 
         public string GetExecutionTime()
