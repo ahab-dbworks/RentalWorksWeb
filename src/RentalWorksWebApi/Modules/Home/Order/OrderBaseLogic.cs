@@ -25,6 +25,7 @@ namespace WebApi.Modules.Home.Order
         protected DeliveryRecord inDelivery = new DeliveryRecord();
 
         private string tmpTaxId = "";
+        private OrderBaseLogic lOrig = null;
 
         //------------------------------------------------------------------------------------
         public OrderBaseLogic()
@@ -111,6 +112,8 @@ namespace WebApi.Modules.Home.Order
         public bool? Facilities { get { return dealOrder.Facilities; } set { dealOrder.Facilities = value; } }
         //------------------------------------------------------------------------------------ 
         public bool? Transportation { get { return dealOrder.Transportation; } set { dealOrder.Transportation = value; } }
+        //------------------------------------------------------------------------------------ 
+        public bool? RentalSale { get { return dealOrder.RentalSale; } set { dealOrder.RentalSale = value; } }
         //------------------------------------------------------------------------------------ 
 
 
@@ -625,6 +628,72 @@ namespace WebApi.Modules.Home.Order
             ((TaxRecord)sender).TaxId = tmpTaxId;
         }
         //------------------------------------------------------------------------------------ 
+        protected override bool Validate(TDataRecordSaveMode saveMode, ref string validateMsg)
+        {
+            bool isValid = true;
+            bool rental = false;
+            bool rentalsale = false;
+
+            if (saveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smInsert)
+            {
+                if (Rental.HasValue)
+                {
+                    rental = Rental.Value;
+                }
+                if (RentalSale.HasValue)
+                {
+                    rentalsale = RentalSale.Value;
+                }
+            }
+            else
+            {
+                if (Type.Equals(RwConstants.ORDER_TYPE_QUOTE))
+                {
+                    lOrig = new QuoteLogic();
+                }
+                else
+                {
+                    lOrig = new OrderLogic();
+                }
+                lOrig.SetDependencies(this.AppConfig, this.UserSession);
+                object[] pk = GetPrimaryKeys();
+                if (Type.Equals(RwConstants.ORDER_TYPE_QUOTE))
+                {
+                    bool b = lOrig.LoadAsync<QuoteLogic>(pk).Result;
+                }
+                else
+                {
+                    bool b = lOrig.LoadAsync<OrderLogic>(pk).Result;
+                }
+
+                if (Rental.HasValue)
+                {
+                    rental = Rental.Value;
+                }
+                else
+                {
+                    rental = lOrig.Rental.Value;
+                }
+                if (RentalSale.HasValue)
+                {
+                    rentalsale = RentalSale.Value;
+                }
+                else
+                {
+                    rentalsale = lOrig.RentalSale.Value;
+                }
+            }
+
+            if (rental && rentalsale)
+            {
+                isValid = false;
+                validateMsg = "Cannot have both Rental and RentalSale on the same Quote/Order.";
+            }
+
+
+            return isValid;
+        }
+        //------------------------------------------------------------------------------------
         public void OnBeforeSaveDealOrder(object sender, BeforeSaveEventArgs e)
         {
             if (e.SaveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smInsert)
@@ -640,36 +709,17 @@ namespace WebApi.Modules.Home.Order
             }
             else
             {
-                OrderBaseLogic l2 = null;
-                if (Type.Equals(RwConstants.ORDER_TYPE_QUOTE))
-                {
-                    l2 = new QuoteLogic();
-                }
-                else
-                {
-                    l2 = new OrderLogic();
-                }
-                l2.SetDependencies(this.AppConfig, this.UserSession);
-                object[] pk = GetPrimaryKeys();
-                if (Type.Equals(RwConstants.ORDER_TYPE_QUOTE))
-                {
-                    bool b = l2.LoadAsync<QuoteLogic>(pk).Result;
-                }
-                else
-                {
-                    bool b = l2.LoadAsync<OrderLogic>(pk).Result;
-                }
                 if ((tax.TaxId == null) || (tax.TaxId.Equals(string.Empty)))
                 {
-                    tax.TaxId = l2.TaxId;
+                    tax.TaxId = lOrig.TaxId;
                 }
                 if (string.IsNullOrEmpty(OutDeliveryId))
                 {
-                    OutDeliveryId = l2.OutDeliveryId;
+                    OutDeliveryId = lOrig.OutDeliveryId;
                 }
                 if (string.IsNullOrEmpty(InDeliveryId))
                 {
-                    InDeliveryId = l2.InDeliveryId;
+                    InDeliveryId = lOrig.InDeliveryId;
                 }
             }
         }

@@ -177,6 +177,16 @@ namespace WebApi.Modules.Home.OrderItem
         public string ParentId { get { return orderItem.ParentId; } set { orderItem.ParentId = value; } }
         public string ItemClass { get { return orderItem.ItemClass; } set { orderItem.ItemClass = value; } }
 
+        public string RetiredReasonId { get { return orderItem.RetiredReasonId; } set { orderItem.RetiredReasonId = value; } }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string RetiredReason { get; set; }
+        public string ItemId { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string BarCode { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string SerialNumber { get; set; }
+        //------------------------------------------------------------------------------------ 
+
         //[FwBusinessLogicField(isReadOnly: true)]
         //public string NotesmasteritemId { get; set; }
         //public string PrimarymasteritemId { get { return orderItem.PrimarymasteritemId; } set { orderItem.PrimarymasteritemId = value; } }
@@ -365,9 +375,6 @@ namespace WebApi.Modules.Home.OrderItem
         //[FwBusinessLogicField(isReadOnly: true)]
         //public bool? Hasitemdiscountschedule { get; set; }
         //public string LinkedmasteritemId { get { return orderItem.LinkedmasteritemId; } set { orderItem.LinkedmasteritemId = value; } }
-        //public string RetiredreasonId { get { return orderItem.RetiredreasonId; } set { orderItem.RetiredreasonId = value; } }
-        //[FwBusinessLogicField(isReadOnly: true)]
-        //public string Retiredreason { get; set; }
         //[FwBusinessLogicField(isReadOnly: true)]
         //public bool? Isprep { get; set; }
         //[FwBusinessLogicField(isReadOnly: true)]

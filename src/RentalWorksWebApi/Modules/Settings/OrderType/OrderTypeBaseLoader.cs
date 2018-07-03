@@ -2987,6 +2987,7 @@ namespace WebApi.Modules.Settings.OrderType
         public List<string> SalesShowFields { get; set; }
         public List<string> MiscShowFields { get; set; }
         public List<string> LaborShowFields { get; set; }
+        public List<string> RentalSaleShowFields { get; set; }
 
     }
 }

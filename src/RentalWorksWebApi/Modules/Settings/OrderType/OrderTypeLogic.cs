@@ -1001,6 +1001,41 @@ namespace WebApi.Modules.Settings.OrderType
             set { }
         }
 
+        [FwBusinessLogicField(isReadOnly: true)]
+        public List<string> RentalSaleShowFields
+        {
+            get
+            {
+                List<string> showFields = new List<string>();
+
+                if (RentalSaleShowBarCode == true) { showFields.Add("BarCode"); }
+                if (RentalSaleShowSerialNumber == true) { showFields.Add("SerialNumber"); }
+                if (RentalSaleShowICode == true) { showFields.Add("ICode"); }
+                if (RentalSaleShowDescription == true) { showFields.Add("Description"); }
+                if ((!(RentalSaleShowICode == true)) && (!(RentalSaleShowDescription == true))) { showFields.Add("ICode"); }
+                showFields.Add("QuantityOrdered");
+                if (RentalSaleShowPickDate == true) { showFields.Add("PickDate"); }
+                if (RentalSaleShowPickTime == true) { showFields.Add("PickTime"); }
+                if (RentalSaleShowAvailableQuantity == true) { showFields.Add("AvailableQuantity"); }
+                if (RentalSaleShowConflictDate == true) { showFields.Add("ConflictDate"); }
+                if (RentalSaleShowUnit == true) { showFields.Add("Unit"); }
+                if (RentalSaleShowRate == true) { showFields.Add("Rate"); }
+                if (RentalSaleShowDiscountPercent == true) { showFields.Add("DiscountPercent"); }
+                if (RentalSaleShowUnitDiscountAmount == true) { showFields.Add("UnitDiscountAmount"); }
+                if (RentalSaleShowUnitExtended == true) { showFields.Add("UnitExtended"); }
+                if (RentalSaleShowCost == true) { showFields.Add("UnitCost"); }
+                if (RentalSaleShowPeriodDiscountAmount == true) { showFields.Add("PeriodDiscountAmount"); }
+                if (RentalSaleShowPeriodExtended == true) { showFields.Add("PeriodExtended"); }
+                if (RentalSaleShowTaxable == true) { showFields.Add("Taxable"); }
+                if (RentalSaleShowWarehouse == true) { showFields.Add("Warehouse"); }
+                if (RentalSaleShowNotes == true) { showFields.Add("Notes"); }
+
+
+                return showFields;
+            }
+            set { }
+        }
+
         public string DateStamp { get { return orderType.DateStamp; } set { orderType.DateStamp = value; } }
         //------------------------------------------------------------------------------------ 
         public void OnAfterSaveOrderType(object sender, AfterSaveEventArgs e)

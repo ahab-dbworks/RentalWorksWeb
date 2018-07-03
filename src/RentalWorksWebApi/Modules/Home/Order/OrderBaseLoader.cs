@@ -28,6 +28,9 @@ namespace WebApi.Modules.Home.Order
         [FwSqlDataField(column: "vehicle", modeltype: FwDataTypes.Boolean)]
         public bool? Transportation { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "rentalsale", modeltype: FwDataTypes.Boolean)]
+        public bool? RentalSale { get; set; }
+        //------------------------------------------------------------------------------------ 
 
         [FwSqlDataField(column: "ordertypeid", modeltype: FwDataTypes.Text)]
         public string OrderTypeId { get; set; }

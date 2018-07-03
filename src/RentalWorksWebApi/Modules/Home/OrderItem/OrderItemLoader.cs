@@ -281,6 +281,21 @@ namespace WebApi.Modules.Home.OrderItem
         [FwSqlDataField(column: "itemclass", modeltype: FwDataTypes.Text)]
         public string ItemClass { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "retiredreasonid", modeltype: FwDataTypes.Text)]
+        public string RetiredReasonId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "retiredreason", modeltype: FwDataTypes.Text)]
+        public string RetiredReason { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "rentalitemid", modeltype: FwDataTypes.Text)]
+        public string ItemId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "barcode", modeltype: FwDataTypes.Text)]
+        public string BarCode { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "serialno", modeltype: FwDataTypes.Text)]
+        public string SerialNumber { get; set; }
+        //------------------------------------------------------------------------------------ 
 
 
 
@@ -454,12 +469,6 @@ namespace WebApi.Modules.Home.OrderItem
         //[FwSqlDataField(column: "vehicleno", modeltype: FwDataTypes.Text)]
         //public string Vehicleno { get; set; }
         ////------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "barcode", modeltype: FwDataTypes.Text)]
-        //public string Barcode { get; set; }
-        ////------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "serialno", modeltype: FwDataTypes.Text)]
-        //public string Serialno { get; set; }
-        ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "taxrate1", modeltype: FwDataTypes.Decimal)]
         //public decimal? Taxrate1 { get; set; }
         ////------------------------------------------------------------------------------------ 
@@ -544,9 +553,6 @@ namespace WebApi.Modules.Home.OrderItem
         //[FwSqlDataField(column: "ismultivendorinvoice", modeltype: FwDataTypes.Boolean)]
         //public bool? Ismultivendorinvoice { get; set; }
         ////------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "rentalitemid", modeltype: FwDataTypes.Text)]
-        //public string RentalitemId { get; set; }
-        ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "discountoverride", modeltype: FwDataTypes.Text)]
         //public string Discountoverride { get; set; }
         ////------------------------------------------------------------------------------------ 
@@ -558,12 +564,6 @@ namespace WebApi.Modules.Home.OrderItem
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "linkedmasteritemid", modeltype: FwDataTypes.Text)]
         //public string LinkedmasteritemId { get; set; }
-        ////------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "retiredreasonid", modeltype: FwDataTypes.Text)]
-        //public string RetiredreasonId { get; set; }
-        ////------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "retiredreason", modeltype: FwDataTypes.Text)]
-        //public string Retiredreason { get; set; }
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "isprep", modeltype: FwDataTypes.Boolean)]
         //public bool? Isprep { get; set; }

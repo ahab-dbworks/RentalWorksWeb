@@ -126,6 +126,12 @@ namespace WebApi.Modules.Home.MasterItem
         [FwSqlDataField(column: "itemclass", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 2)]
         public string ItemClass { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "retiredreasonid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
+        public string RetiredReasonId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "rentalitemid", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 8)]
+        public string ItemId { get; set; }
+        //------------------------------------------------------------------------------------ 
 
 
 
@@ -228,9 +234,6 @@ namespace WebApi.Modules.Home.MasterItem
         //[FwSqlDataField(column: "schedulestatusid", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 8)]
         //public string SchedulestatusId { get; set; }
         ////------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "rentalitemid", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 8)]
-        //public string RentalitemId { get; set; }
-        ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "spacetypeid", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 8)]
         //public string SpacetypeId { get; set; }
         ////------------------------------------------------------------------------------------ 
@@ -242,9 +245,6 @@ namespace WebApi.Modules.Home.MasterItem
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "availsequence", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 30)]
         //public string Availsequence { get; set; }
-        ////------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "retiredreasonid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
-        //public string RetiredreasonId { get; set; }
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "nestedmasteritemid", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 8)]
         //public string NestedmasteritemId { get; set; }
