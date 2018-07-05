@@ -972,6 +972,26 @@ namespace Web.Integration
                 newInvoice.Line.Add(newItem);
             }
 
+            //jh 07/05/2018 CAS-22432-SZCJ
+            //if (invoice.exporttaxaslineitem == "T")
+            //{
+            //    dynamic taxLineItem = new ExpandoObject();
+            //    taxLineItem.Id = j + 1;
+            //    taxLineItem.DetailType = "SalesItemLineDetail";
+            //    taxLineItem.SalesItemLineDetail = new ExpandoObject();
+            //    taxLineItem.SalesItemLineDetail.ItemRef = new ExpandoObject();
+            //    taxLineItem.SalesItemLineDetail.ItemRef.value = ValidateItem(invoice.taxitemcode).Id.Value;
+            //    taxLineItem.SalesItemLineDetail.Qty = 1;
+            //    taxLineItem.SalesItemLineDetail.UnitPrice = invoice.invoicetax;
+            //    taxLineItem.SalesItemLineDetail.TaxCodeRef = new ExpandoObject();
+            //    taxLineItem.SalesItemLineDetail.TaxCodeRef.value = "NON";
+            //    taxLineItem.Amount = invoice.invoicetax;
+
+            //    newInvoice.Line.Add(taxLineItem);
+
+            //    invoice.invoicetax = 0;   //?? need to zero-out the tax so it doesn't get re-exported to QBO in the tax area of the invoice
+            //}
+
             qbopost  = PostToQBO("invoice", newInvoice);
             _invoice = qbopost.JSONResponse.Invoice;
             Invoices.Add(_invoice);
@@ -1573,7 +1593,8 @@ namespace Web.Integration
 
             qry = new FwSqlCommand(conn);
             //qry.Add("select invoiceid, invoiceno, invoicedate, customer, billtoadd1, billtoadd2, billtocity, billtostate, billtozip, billtocountry, invoiceclass, pono, payterms, invoiceduedate, printnotes, taxitemcode, taxvendor, taxcountry, chgbatchno, invoicetotal");
-            qry.Add("select invoiceid, invoiceno, invoicedate, customer, billtoadd1, billtoadd2, billtocity, billtostate, billtozip, billtocountry, invoiceclass, pono, payterms, invoiceduedate, printnotes, taxitemcode, taxvendor, taxcountry, chgbatchno, invoicetotal, invoicetax");  //jh 06/22/2017 CAS-20810-L6T5
+            //qry.Add("select invoiceid, invoiceno, invoicedate, customer, billtoadd1, billtoadd2, billtocity, billtostate, billtozip, billtocountry, invoiceclass, pono, payterms, invoiceduedate, printnotes, taxitemcode, taxvendor, taxcountry, chgbatchno, invoicetotal, invoicetax");  //jh 06/22/2017 CAS-20810-L6T5
+            qry.Add("select invoiceid, invoiceno, invoicedate, customer, billtoadd1, billtoadd2, billtocity, billtostate, billtozip, billtocountry, invoiceclass, pono, payterms, invoiceduedate, printnotes, taxitemcode, taxvendor, taxcountry, chgbatchno, invoicetotal, invoicetax, exporttaxaslineitem");  //jh 07/05/2018 CAS-22432-SZCJ
             qry.Add("from invoiceview with (nolock)");
             qry.Add("where invoiceid = @invoiceid");
             qry.AddParameter("@invoiceid", invoiceid);
