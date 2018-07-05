@@ -1806,7 +1806,7 @@ var Order = (function () {
                 $form.find('[data-datafield="Sales"] input').prop('checked') ? salesTab.show() : salesTab.hide();
                 $form.find('[data-datafield="Miscellaneous"] input').prop('checked') ? miscTab.show() : miscTab.hide();
                 $form.find('[data-datafield="Labor"] input').prop('checked') ? laborTab.show() : laborTab.hide();
-                $form.find('[data-datafield="Used Sale"] input').prop('checked') ? usedSaleTab.show() : usedSaleTab.hide();
+                $form.find('[data-datafield="RentalSale"] input').prop('checked') ? usedSaleTab.show() : usedSaleTab.hide();
             }
             if (response.CombineActivityTabs === true) {
                 $form.find('.notcombined').css('display', 'none');

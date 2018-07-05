@@ -212,6 +212,8 @@ class Quote {
             $form.find('div[data-datafield="Sales"] input').prop('checked', true);
             $form.find('div[data-datafield="Miscellaneous"] input').prop('checked', true);
             $form.find('div[data-datafield="Labor"] input').prop('checked', true);
+            FwFormField.disable($form.find('[data-datafield="RentalSale"]')); 
+            $form.find('[data-type="tab"][data-caption="Used Sale"]').hide(); 
             FwFormField.disable($form.find('[data-datafield="PoNumber"]'));
             FwFormField.disable($form.find('[data-datafield="PoAmount"]'));
 
@@ -407,7 +409,7 @@ class Quote {
         });
 
         this.events($form);
-
+        this.activityCheckboxEvents($form, mode); 
         return $form;
     };
 
@@ -610,6 +612,28 @@ class Quote {
         FwBrowse.init($orderItemGridMiscControl);
         FwBrowse.renderRuntimeHtml($orderItemGridMiscControl);
 
+        var $orderItemGridUsedSale;
+        var $orderItemGridUsedSaleControl;
+        $orderItemGridUsedSale = $form.find('.usedsalegrid div[data-grid="OrderItemGrid"]');
+        $orderItemGridUsedSaleControl = jQuery(jQuery('#tmpl-grids-OrderItemGridBrowse').html());
+        $orderItemGridUsedSale.empty().append($orderItemGridUsedSaleControl);
+        $orderItemGridUsedSale.addClass('RS');
+        $orderItemGridUsedSaleControl.data('isSummary', false);
+
+        $orderItemGridUsedSaleControl.data('ondatabind', function (request) {
+            request.uniqueids = {
+                OrderId: FwFormField.getValueByDataField($form, 'QuoteId'),
+                RecType: 'RS'
+            };
+            request.pagesize = max;
+        });
+        $orderItemGridUsedSaleControl.data('beforesave', function (request) {
+            request.OrderId = FwFormField.getValueByDataField($form, 'QuoteId');
+            request.RecType = 'RS';
+        });
+        FwBrowse.init($orderItemGridUsedSaleControl);
+        FwBrowse.renderRuntimeHtml($orderItemGridUsedSaleControl); 
+
         var $allOrderItemGrid;
         var $allOrderItemGridControl;
         $allOrderItemGrid = $form.find('.combinedgrid div[data-grid="OrderItemGrid"]');
@@ -707,6 +731,9 @@ class Quote {
         var $allOrderItemGrid;
         $allOrderItemGrid = $form.find('.combinedgrid [data-name="OrderItemGrid"]');
         FwBrowse.search($allOrderItemGrid);
+        var $orderItemGridUsedSale;
+        $orderItemGridUsedSale = $form.find('.usedsalegrid [data-name="OrderItemGrid"]');
+        FwBrowse.search($orderItemGridUsedSale); 
 
         var rate = FwFormField.getValueByDataField($form, 'RateType');
         if (rate === '3WEEK') {
@@ -759,52 +786,126 @@ class Quote {
         // Disable withTax checkboxes if Total field is 0.00
         this.disableWithTaxCheckbox($form);
 
+        let rentalActivity = FwFormField.getValueByDataField($form, 'Rental'),
+            usedSaleActivity = FwFormField.getValueByDataField($form, 'RentalSale'),
+            usedSaleTab = $form.find('[data-type="tab"][data-caption="Used Sale"]');
+        if (rentalActivity) {
+            FwFormField.disable($form.find('[data-datafield="RentalSale"]'));
+            usedSaleTab.hide();
+        }
+
+        if (usedSaleActivity) {
+            FwFormField.disable($form.find('[data-datafield="Rental"]'));
+            usedSaleTab.show();
+        }
+    };
+    //---------------------------------------------------------------------------------------------
+    activityCheckboxEvents($form, mode) {
         const rentalTab = $form.find('[data-type="tab"][data-caption="Rental"]')
             , salesTab = $form.find('[data-type="tab"][data-caption="Sales"]')
             , miscTab = $form.find('[data-type="tab"][data-caption="Misc"]')
-            , laborTab = $form.find('[data-type="tab"][data-caption="Labor"]');
+            , laborTab = $form.find('[data-type="tab"][data-caption="Labor"]')
+            , usedSaleTab = $form.find('[data-type="tab"][data-caption="Used Sale"]');
         $form.find('[data-datafield="Rental"] input').on('change', e => {
-            let combineActivity = $form.find('[data-datafield="CombineActivity"] input').val();
-            if (combineActivity == 'false') {
+            if (mode == "NEW") {
                 if (jQuery(e.currentTarget).prop('checked')) {
                     rentalTab.show();
+                    FwFormField.disable($form.find('[data-datafield="RentalSale"]'));
                 } else {
                     rentalTab.hide();
+                    FwFormField.enable($form.find('[data-datafield="RentalSale"]'));
+                }
+            } else {
+                let combineActivity = $form.find('[data-datafield="CombineActivity"] input').val();
+                if (combineActivity == 'false') {
+                    if (jQuery(e.currentTarget).prop('checked')) {
+                        rentalTab.show();
+                        FwFormField.disable($form.find('[data-datafield="RentalSale"]'));
+                    } else {
+                        rentalTab.hide();
+                        FwFormField.enable($form.find('[data-datafield="RentalSale"]'));
+                    }
                 }
             }
         });
         $form.find('[data-datafield="Sales"] input').on('change', e => {
-            let combineActivity = $form.find('[data-datafield="CombineActivity"] input').val();
-            if (combineActivity == 'false') {
+            if (mode == "NEW") {
                 if (jQuery(e.currentTarget).prop('checked')) {
                     salesTab.show();
                 } else {
                     salesTab.hide();
                 }
+            } else {
+                let combineActivity = $form.find('[data-datafield="CombineActivity"] input').val();
+                if (combineActivity == 'false') {
+                    if (jQuery(e.currentTarget).prop('checked')) {
+                        salesTab.show();
+                    } else {
+                        salesTab.hide();
+                    }
+                }
             }
         });
         $form.find('[data-datafield="Miscellaneous"] input').on('change', e => {
-            let combineActivity = $form.find('[data-datafield="CombineActivity"] input').val();
-            if (combineActivity == 'false') {
+            if (mode == "NEW") {
                 if (jQuery(e.currentTarget).prop('checked')) {
                     miscTab.show();
                 } else {
                     miscTab.hide();
                 }
+            } else {
+                let combineActivity = $form.find('[data-datafield="CombineActivity"] input').val();
+                if (combineActivity == 'false') {
+                    if (jQuery(e.currentTarget).prop('checked')) {
+                        miscTab.show();
+                    } else {
+                        miscTab.hide();
+                    }
+                }
             }
         });
         $form.find('[data-datafield="Labor"] input').on('change', e => {
-            let combineActivity = $form.find('[data-datafield="CombineActivity"] input').val();
-            if (combineActivity == 'false') {
+            if (mode == "NEW") {
                 if (jQuery(e.currentTarget).prop('checked')) {
                     laborTab.show();
                 } else {
                     laborTab.hide();
                 }
+            } else {
+                let combineActivity = $form.find('[data-datafield="CombineActivity"] input').val();
+                if (combineActivity == 'false') {
+                    if (jQuery(e.currentTarget).prop('checked')) {
+                        laborTab.show();
+                    } else {
+                        laborTab.hide();
+                    }
+                }
             }
         });
-    };
 
+        $form.find('[data-datafield="RentalSale"] input').on('change', e => {
+            if (mode == "NEW") {
+                if (jQuery(e.currentTarget).prop('checked')) {
+                    usedSaleTab.show();
+                    FwFormField.disable($form.find('[data-datafield="Rental"]'));
+                } else {
+                    usedSaleTab.hide();
+                    FwFormField.enable($form.find('[data-datafield="Rental"]'));
+                }
+            } else {
+                let combineActivity = $form.find('[data-datafield="CombineActivity"] input').val();
+                if (combineActivity == 'false') {
+                    if (jQuery(e.currentTarget).prop('checked')) {
+                        usedSaleTab.show();
+                        FwFormField.disable($form.find('[data-datafield="Rental"]'));
+                    } else {
+                        usedSaleTab.hide();
+                        FwFormField.enable($form.find('[data-datafield="Rental"]'));
+                    }
+                }
+            }
+        });
+    }
     //----------------------------------------------------------------------------------------------
     disableWithTaxCheckbox($form: any) {
         if (FwFormField.getValueByDataField($form, 'PeriodRentalTotal') === '0.00') {
@@ -1741,6 +1842,7 @@ class Quote {
             $salesGrid = $form.find('.salesgrid [data-name="OrderItemGrid"]'),
             $laborGrid = $form.find('.laborgrid [data-name="OrderItemGrid"]'),
             $miscGrid = $form.find('.miscgrid [data-name="OrderItemGrid"]'),
+            $usedSaleGrid = $form.find('.usedsalegrid [data-name="OrderItemGrid"]'), 
             fields = jQuery($rentalGrid).find('thead tr.fieldnames > td.column > div.field'),
             fieldNames = [],
             self = this;
@@ -1758,12 +1860,14 @@ class Quote {
             const rentalTab = $form.find('[data-type="tab"][data-caption="Rental"]')
                 , salesTab = $form.find('[data-type="tab"][data-caption="Sales"]')
                 , miscTab = $form.find('[data-type="tab"][data-caption="Misc"]')
-                , laborTab = $form.find('[data-type="tab"][data-caption="Labor"]');
+                , laborTab = $form.find('[data-type="tab"][data-caption="Labor"]')
+                , usedSaleTab = $form.find('[data-type="tab"][data-caption="Used Sale"]');
             if (response.CombineActivityTabs === false) {
                 $form.find('[data-datafield="Rental"] input').prop('checked') ? rentalTab.show() : rentalTab.hide();
                 $form.find('[data-datafield="Sales"] input').prop('checked') ? salesTab.show() : salesTab.hide();
                 $form.find('[data-datafield="Miscellaneous"] input').prop('checked') ? miscTab.show() : miscTab.hide();
                 $form.find('[data-datafield="Labor"] input').prop('checked') ? laborTab.show() : laborTab.hide();
+                $form.find('[data-datafield="RentalSale"] input').prop('checked') ? usedSaleTab.show() : usedSaleTab.hide(); 
             }
 
             if (response.CombineActivityTabs === true) {
@@ -1785,6 +1889,9 @@ class Quote {
             var hiddenMisc = fieldNames.filter(function (field) {
                 return !this.has(field)
             }, new Set(response.MiscShowFields))
+            var hiddenUsedSale = fieldNames.filter(function (field) {
+                return !this.has(field)
+            }, new Set(response.RentalSaleShowFields)) 
             for (var i = 0; i < hiddenRentals.length; i++) {
                 jQuery($rentalGrid.find('[data-mappedfield="' + hiddenRentals[i] + '"]')).parent().hide();
             }
@@ -1797,6 +1904,9 @@ class Quote {
             for (var l = 0; l < hiddenMisc.length; l++) {
                 jQuery($miscGrid.find('[data-mappedfield="' + hiddenMisc[l] + '"]')).parent().hide();
             }
+            for (var l = 0; l < hiddenUsedSale.length; l++) {
+                jQuery($usedSaleGrid.find('[data-mappedfield="' + hiddenUsedSale[l] + '"]')).parent().hide();
+            } 
             if (!hiddenRentals.includes('WeeklyExtended')) {
                 $rentalGrid.find('.3weekextended').parent().show();
             }
