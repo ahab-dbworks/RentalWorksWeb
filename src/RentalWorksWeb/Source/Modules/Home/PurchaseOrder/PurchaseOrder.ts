@@ -164,7 +164,7 @@ class PurchaseOrder {
         var $form, $submodulePickListBrowse, $submoduleContractBrowse;
         var self = this;
 
-        $form = jQuery(jQuery('#tmpl-modules-OrderForm').html());
+        $form = jQuery(jQuery('#tmpl-modules-PurchaseOrderForm').html());
         $form = FwModule.openForm($form, mode);
 
         if (mode === 'NEW') {
@@ -259,7 +259,7 @@ class PurchaseOrder {
     loadForm(uniqueids) {
         var $form;
         $form = this.openForm('EDIT');
-        $form.find('div.fwformfield[data-datafield="PurchaseOrderId"] input').val(uniqueids.OrderId);
+        $form.find('div.fwformfield[data-datafield="PurchaseOrderId"] input').val(uniqueids.PurchaseOrderId);
         FwModule.loadForm(this.Module, $form);
 
         return $form;
