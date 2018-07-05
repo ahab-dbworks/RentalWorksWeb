@@ -68,7 +68,7 @@
         var $form = $control.closest('.fwform');
 
         // Bold Row
-        FwBrowse.setAfterRenderFieldCallback($control, ($tr: JQuery, $td: JQuery, $field: JQuery, dt: FwJsonDataTable, rowIndex: number, colIndex: number) => {
+        FwBrowse.setAfterRenderRowCallback($control, ($tr: JQuery, dt: FwJsonDataTable, rowIndex: number) => {
             if ($tr.find('.order-item-bold').text() === 'true') {
                 $tr.css('font-weight', "bold");
             }
@@ -84,7 +84,22 @@
                 let inventoryType = $generatedtr.find('[data-browsedatafield="InventoryId"]').attr('data-validationname');
                 let discountPercent, daysPerWeek;
 
-                daysPerWeek = FwFormField.getValueByDataField($form, 'RentalDaysPerWeek');
+        // Lock Fields
+        FwBrowse.setAfterRenderFieldCallback($control, ($tr: JQuery, $td: JQuery, $field: JQuery, dt: FwJsonDataTable, rowIndex: number, colIndex: number) => {
+            if ($tr.find('.order-item-lock').text() === 'true') {
+                $tr.find('.field-to-lock').css('background-color', "#f5f5f5");
+            }
+        });
+
+        $generatedtr.find('div[data-browsedatafield="InventoryId"]').data('onchange', function ($tr) {
+            var warehouse = FwFormField.getTextByDataField($form, 'WarehouseId');
+            var warehouseId = FwFormField.getValueByDataField($form, 'WarehouseId');
+            let warehouseCode = $form.find('[data-datafield="WarehouseCode"] input').val();
+            let inventoryId = $generatedtr.find('div[data-browsedatafield="InventoryId"] input').val();
+            let officeLocationId = FwFormField.getValueByDataField($form, 'OfficeLocationId');
+            let rateType = $form.find('[data-datafield="RateType"] input').val();
+            let inventoryType = $generatedtr.find('[data-browsedatafield="InventoryId"]').attr('data-validationname');
+            let discountPercent, daysPerWeek;
 
                 switch (inventoryType) {
                     case 'RentalInventoryValidation':
