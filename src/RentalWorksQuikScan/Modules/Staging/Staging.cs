@@ -469,6 +469,25 @@ namespace RentalWorksQuikScan.Modules
         }
         //---------------------------------------------------------------------------------------------
         [FwJsonServiceMethod(RequiredParameters = "orderid,masterid,masteritemid")]
+        public static void LoadSerialNumbers(dynamic request, dynamic response, dynamic session)
+        {
+            dynamic userLocation = RwAppData.GetUserLocation(FwSqlConnection.RentalWorks, session.security.webUser.usersid);
+            using (FwSqlCommand qry = new FwSqlCommand(FwSqlConnection.RentalWorks))
+            {
+                qry.Add("select *");
+                qry.Add("from funcserialmeterout(@orderid, @masterid, @warehouseid)");
+                qry.Add("where masteritemid = @masteritemid");
+                qry.Add("  and itemstatus <> 'O'");
+                qry.Add("order by mfgserial");
+                qry.AddParameter("@orderid", request.orderid);
+                qry.AddParameter("@masterid", request.masterid);
+                qry.AddParameter("@warehouseid", userLocation.warehouseId);
+                qry.AddParameter("@masteritemid", request.masteritemid);
+                response.funcserialmeterout = qry.QueryToDynamicList2();
+            }
+        }
+        //---------------------------------------------------------------------------------------------
+        [FwJsonServiceMethod(RequiredParameters = "orderid,masterid,masteritemid")]
         public static void funcserialmeterout(dynamic request, dynamic response, dynamic session)
         {
             dynamic userLocation = RwAppData.GetUserLocation(FwSqlConnection.RentalWorks, session.security.webUser.usersid);
@@ -495,18 +514,23 @@ namespace RentalWorksQuikScan.Modules
         {
             using (FwSqlCommand sp = new FwSqlCommand(FwSqlConnection.RentalWorks, "insertserialsession"))
             {
-                sp.AddParameter("@contractid", request.contractid);
-                sp.AddParameter("@orderid", request.orderid);
-                sp.AddParameter("@masteritemid", request.masteritemid);
-                sp.AddParameter("@rentalitemid", request.rentalitemid);
-                sp.AddParameter("@activitytype", "O");
-                sp.AddParameter("@internalchar", request.internalchar);
-                sp.AddParameter("@usersid", session.security.webUser.usersid);
-                sp.AddParameter("@meter", FwConvert.ToDecimal(request.meter));
-                sp.AddParameter("@toggledelete", FwConvert.LogicalToCharacter(request.toggledelete));
-                sp.AddParameter("@containeritemid", request.containeritemid);
+                sp.AddParameter("@contractid",             request.contractid);
+                sp.AddParameter("@orderid",                request.orderid);
+                sp.AddParameter("@masteritemid",           request.masteritemid);
+                sp.AddParameter("@rentalitemid",           request.rentalitemid);
+                sp.AddParameter("@activitytype",           "O");
+                sp.AddParameter("@internalchar",           request.internalchar);
+                sp.AddParameter("@usersid",                session.security.webUser.usersid);
+                sp.AddParameter("@meter",                  FwConvert.ToDecimal(request.meter));
+                sp.AddParameter("@toggledelete",           FwConvert.LogicalToCharacter(request.toggledelete));
+                sp.AddParameter("@containeritemid",        request.containeritemid);
                 sp.AddParameter("@containeroutcontractid", request.containeroutcontractid);
+                sp.AddParameter("@status",                 SqlDbType.Int,     ParameterDirection.Output);
+                sp.AddParameter("@msg",                    SqlDbType.VarChar, ParameterDirection.Output);
                 sp.Execute();
+
+                response.status        = sp.GetParameter("@status").ToInt32();
+                response.statusmessage = sp.GetParameter("@msg").ToString();
             }
         }
         //---------------------------------------------------------------------------------------------

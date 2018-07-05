@@ -42,7 +42,7 @@ RwOrderController.getContactSignatureScreen = function(viewModel, properties) {
                                 contractType:        properties.contract.contractType,
                                 orderId:             properties.contract.orderId,
                                 responsiblePersonId: properties.contract.responsiblePersonId,
-                                printname:           FwFormField.getValue($printimagecapture, '.div[data-datafield="printname"]'),
+                                printname:           FwFormField.getValue($printimagecapture, 'div[data-datafield="printname"]'),
                                 signatureImage:      signatureImage,
                                 images:              []
                             };

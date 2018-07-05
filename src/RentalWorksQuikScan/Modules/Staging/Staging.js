@@ -923,28 +923,37 @@ RwOrderController.getStagingScreen = function(viewModel, properties) {
                     masterid:     masterid,
                     masteritemid: masteritemid
                 };
-                RwServices.callMethod('Staging', 'funcserialmeterout', request, function(response) {
+                RwServices.callMethod('Staging', 'LoadSerialNumbers', request, function(response) {
                     try {
                         for(var i = 0; i < response.funcserialmeterout.length; i++) {
                             var $divSerialNo = jQuery('<div>')
                                 .addClass('serialnorow')
                                 .attr('data-masteritemid', response.funcserialmeterout[i].masteritemid)
                                 .attr('data-rentalitemid', response.funcserialmeterout[i].rentalitemid)
-                                .html('<div class="caption">Serial No:</div><div class="value">' + response.funcserialmeterout[i].mfgserial + '</div>')
+                                .html('<div class="flexrow"><div class="caption">Serial No:</div><div class="value">' + response.funcserialmeterout[i].mfgserial + '</div></div>')
                                 .click(function() {
                                     try {
-                                        var $this = jQuery(this);
-                                        var masteritemid = $this.attr('data-masteritemid');
-                                        var rentalitemid = $this.attr('data-rentalitemid');
-                                        var internalchar = '';
-                                        var meter = 0;
-                                        var toggledelete = true;
-                                        var containeritemid = '';       // mv 2016-12-12 not sure about this container code;
-                                        var containeroutcontractid = '';
-                                        screen.insertSerialSession(masteritemid, rentalitemid, internalchar, meter, toggledelete, containeritemid, containeroutcontractid, function() {
-                                            $this.toggleClass('selected');
-                                            screen.pages.selectserialno.funcserialfrm(masteritemid);
-                                        });
+                                        var remaining = parseInt(screen.$view.find('.qtyremainingoutwsuspend .value').html());
+                                        var $this     = jQuery(this);
+                                        if ((remaining !== 0) || $this.hasClass('selected')) {
+                                            var masteritemid           = $this.attr('data-masteritemid');
+                                            var rentalitemid           = $this.attr('data-rentalitemid');
+                                            var internalchar           = '';
+                                            var meter                  = 0;
+                                            var toggledelete           = true;
+                                            var containeritemid        = '';       // mv 2016-12-12 not sure about this container code;
+                                            var containeroutcontractid = '';
+                                            screen.insertSerialSession(masteritemid, rentalitemid, internalchar, meter, toggledelete, containeritemid, containeroutcontractid,
+                                                function() {
+                                                    $this.toggleClass('selected');
+                                                    screen.pages.selectserialno.funcserialfrm(masteritemid);
+                                                }, function (response) {
+                                                    $this.addClass('error');
+                                                    $this.find('.errormessage').remove();
+                                                    $this.append(jQuery('<div class="errormessage">').html(response.statusmessage));
+                                                }
+                                            );
+                                        }
                                     } catch(ex) {
                                         FwFunc.showError(ex);
                                     }
@@ -994,8 +1003,8 @@ RwOrderController.getStagingScreen = function(viewModel, properties) {
                 var $pageselectserialno = screen.pages.selectserialno.getElement();
                 //$pageselectserialno.find('.info').empty();
                 var request = {
-                    orderid: screen.getOrderId(),
-                    contractid: screen.getContractId(),
+                    orderid:      screen.getOrderId(),
+                    contractid:   screen.getContractId(),
                     masteritemid: masteritemid
                 };
                 RwServices.callMethod('Staging', 'funcserialfrm', request, function(response) {
@@ -1010,7 +1019,7 @@ RwOrderController.getStagingScreen = function(viewModel, properties) {
                             }
                             var html = [];
                             html.push('<div class="row1">');
-                            html.push('<div class="masterno">' + RwLanguages.translate('I-Code') + ': ' + response.funcserialfrm.masterno + '</div><div class="description">' + response.funcserialfrm.description + '</div>');
+                            html.push('  <div class="masterno">' + RwLanguages.translate('I-Code') + ': ' + response.funcserialfrm.masterno + '</div><div class="description">' + response.funcserialfrm.description + '</div>');
                             //html.push('  <div class="fsffield masterno"><div class="caption">' + RwLanguages.translate('I-Code') + ':</div><div class="value">' + response.funcserialfrm.masterno + '</div></div>');
                             //html.push('  <div class="fsffield description">' + response.funcserialfrm.description + '</div>');
                             html.push('</div>');
@@ -1129,12 +1138,12 @@ RwOrderController.getStagingScreen = function(viewModel, properties) {
                                     FwFormField.setValue($confirmation, 'div[data-datafield="meteroutvalue"]', parseFloat($this.html()));
                                     $ok.on('click', function () {
                                         try {
-                                            var masteritemid = $this.closest('.serialnorow').data('recorddata').masteritemid;
-                                            var rentalitemid = $this.closest('.serialnorow').data('recorddata').rentalitemid;
-                                            var internalchar = '';
-                                            var meter = FwFormField.getValue($confirmation, 'div[data-datafield="meteroutvalue"]');
-                                            var toggledelete = false;
-                                            var containeritemid = '';
+                                            var masteritemid           = $this.closest('.serialnorow').data('recorddata').masteritemid;
+                                            var rentalitemid           = $this.closest('.serialnorow').data('recorddata').rentalitemid;
+                                            var internalchar           = '';
+                                            var meter                  = FwFormField.getValue($confirmation, 'div[data-datafield="meteroutvalue"]');
+                                            var toggledelete           = false;
+                                            var containeritemid        = '';
                                             var containeroutcontractid = '';
                                             screen.insertSerialSession(masteritemid, rentalitemid, internalchar, meter, toggledelete, containeritemid, containeroutcontractid, function funcOnSuccess() {
                                                 FwConfirmation.destroyConfirmation($confirmation);
@@ -1165,25 +1174,29 @@ RwOrderController.getStagingScreen = function(viewModel, properties) {
         }
     };
 
-    screen.insertSerialSession = function(masteritemid, rentalitemid, internalchar, meter, toggledelete, containeritemid, containeroutcontractid, funcOnSuccess) {
+    screen.insertSerialSession = function(masteritemid, rentalitemid, internalchar, meter, toggledelete, containeritemid, containeroutcontractid, funcOnSuccess, funcOnError) {
         var request = {
-            contractid: screen.getContractId(), // mv 2016-12-13 this causes the serial item to immediately go into the OUT status rather than on suspended contract like I was expecting. RentalWorks is passing a blank for this.
-            //contractid: '',
-            orderid: screen.getOrderId(),
-            masteritemid: masteritemid,
-            rentalitemid: rentalitemid,
-            internalchar: internalchar,
-            meter: meter,
-            toggledelete: toggledelete,
-            containeritemid: containeritemid,
+            contractid:             screen.getContractId(), // mv 2016-12-13 this causes the serial item to immediately go into the OUT status rather than on suspended contract like I was expecting. RentalWorks is passing a blank for this.
+            //contractid:             '',
+            orderid:                screen.getOrderId(),
+            masteritemid:           masteritemid,
+            rentalitemid:           rentalitemid,
+            internalchar:           internalchar,
+            meter:                  meter,
+            toggledelete:           toggledelete,
+            containeritemid:        containeritemid,
             containeroutcontractid: containeroutcontractid
         };
-        RwServices.callMethod('Staging', 'InsertSerialSession', request, function(responseSelectSerialNo) {
-             try {
-                funcOnSuccess();
-             } catch(ex) {
+        RwServices.callMethod('Staging', 'InsertSerialSession', request, function(response) {
+            try {
+                if (response.status === 0) {
+                    funcOnSuccess();
+                } else {
+                    funcOnError(response);
+                }
+            } catch(ex) {
                 FwFunc.showError(ex);
-             }
+            }
         }, true);
     };
     
@@ -1211,12 +1224,12 @@ RwOrderController.getStagingScreen = function(viewModel, properties) {
         
         screen.renderPopupQty();
         jQuery('#staging-popupQty')
-            .data('responseStageItem', responseStageItem)
-            .data('code', responseStageItem.request.code)
-            .data('masterno',     responseStageItem.webStageItem.masterNo)
-            .data('masteritemid', responseStageItem.webStageItem.masterItemId)
-            .data('stageconsigned', (typeof responseStageItem.request.stageconsigned === 'boolean') ? responseStageItem.request.stageconsigned : false)
-            .data('consignorid', responseStageItem.request.consignorid)
+            .data('responseStageItem',    responseStageItem)
+            .data('code',                 responseStageItem.request.code)
+            .data('masterno',             responseStageItem.webStageItem.masterNo)
+            .data('masteritemid',         responseStageItem.webStageItem.masterItemId)
+            .data('stageconsigned',       (typeof responseStageItem.request.stageconsigned === 'boolean') ? responseStageItem.request.stageconsigned : false)
+            .data('consignorid',          responseStageItem.request.consignorid)
             .data('consignoragreementid', responseStageItem.request.consignoragreementid)
         ;
 
