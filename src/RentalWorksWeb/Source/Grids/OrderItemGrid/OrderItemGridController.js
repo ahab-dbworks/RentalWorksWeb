@@ -183,6 +183,38 @@ var OrderItemGrid = (function () {
                 calculateExtended('Discount', 'PeriodDiscountAmount');
             });
         }
+        if ($form.attr('data-controller') === 'TemplateController') {
+            $generatedtr.find('div[data-browsedatafield="InventoryId"]').data('onchange', function ($tr) {
+                var warehouse = FwFormField.getTextByDataField($form, 'WarehouseId');
+                var warehouseId = FwFormField.getValueByDataField($form, 'WarehouseId');
+                var warehouseCode = $form.find('[data-datafield="WarehouseCode"] input').val();
+                var inventoryId = $generatedtr.find('div[data-browsedatafield="InventoryId"] input').val();
+                var rateType = $form.find('[data-datafield="RateType"] input').val();
+                var inventoryType = $generatedtr.find('[data-browsedatafield="InventoryId"]').attr('data-validationname');
+                $generatedtr.find('.field[data-browsedatafield="Description"] input').val($tr.find('.field[data-browsedatafield="Description"]').attr('data-originalvalue'));
+                $generatedtr.find('.field[data-browsedatafield="QuantityOrdered"] input').val("1");
+                $generatedtr.find('.field[data-browsedatafield="SubQuantity"] input').val("0");
+                $generatedtr.find('.field[data-browsedatafield="WarehouseId"] input').val(warehouseId);
+                $generatedtr.find('.field[data-browsedatafield="ReturnToWarehouseId"] input').val(warehouseId);
+                $generatedtr.find('.field[data-browsedatafield="WarehouseId"] input.text').val(warehouseCode);
+                $generatedtr.find('.field[data-browsedatafield="ReturnToWarehouseId"] input.text').val(warehouseCode);
+                if ($generatedtr.hasClass("newmode")) {
+                    FwAppData.apiMethod(true, 'GET', "api/v1/pricing/" + inventoryId + "/" + warehouseId, null, FwServices.defaultTimeout, function onSuccess(response) {
+                        switch (rateType) {
+                            case 'DAILY':
+                                $generatedtr.find('[data-browsedatafield="Price"] input').val(response[0].DailyRate);
+                                break;
+                            case 'WEEKLY':
+                                $generatedtr.find('[data-browsedatafield="Price"] input').val(response[0].WeeklyRate);
+                                break;
+                            case 'MONTHLY':
+                                $generatedtr.find('[data-browsedatafield="Price"] input').val(response[0].MonthlyRate);
+                                break;
+                        }
+                    }, null, $form);
+                }
+            });
+        }
         function calculateExtended(type, field) {
             var rateType, recType, fromDate, toDate, quantity, rate, daysPerWeek, discountPercent, weeklyExtended, unitExtended, periodExtended, monthlyExtended, unitDiscountAmount, weeklyDiscountAmount, monthlyDiscountAmount, periodDiscountAmount;
             rateType = $form.find('[data-datafield="RateType"] input').val();

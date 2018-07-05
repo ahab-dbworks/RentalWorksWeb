@@ -2,67 +2,67 @@
     Module: string = 'OrderItemGrid';
     apiurl: string = 'api/v1/orderitem';
 
-     onRowNewMode($control: JQuery, $tr: JQuery) {
-         const $form = $control.closest('.fwform');
+    onRowNewMode($control: JQuery, $tr: JQuery) {
+        const $form = $control.closest('.fwform');
 
-         const grid = $tr.parents('[data-grid="OrderItemGrid"]');
-         if ($form[0].dataset.controller !== "TemplateController") {
-             var pickDate = FwFormField.getValueByDataField($form, 'PickDate');
-             var pickTime = FwFormField.getValueByDataField($form, 'PickTime');
-             var fromDate = FwFormField.getValueByDataField($form, 'EstimatedStartDate');
-             var fromTime = FwFormField.getValueByDataField($form, 'EstimatedStartTime');
-             var toDate = FwFormField.getValueByDataField($form, 'EstimatedStopDate');
-             var toTime = FwFormField.getValueByDataField($form, 'EstimatedStopTime');
-         };
+        const grid = $tr.parents('[data-grid="OrderItemGrid"]');
+        if ($form[0].dataset.controller !== "TemplateController") {
+            var pickDate = FwFormField.getValueByDataField($form, 'PickDate');
+            var pickTime = FwFormField.getValueByDataField($form, 'PickTime');
+            var fromDate = FwFormField.getValueByDataField($form, 'EstimatedStartDate');
+            var fromTime = FwFormField.getValueByDataField($form, 'EstimatedStartTime');
+            var toDate = FwFormField.getValueByDataField($form, 'EstimatedStopDate');
+            var toTime = FwFormField.getValueByDataField($form, 'EstimatedStopTime');
+        };
 
-         if (grid.hasClass('R')) {
-             $tr.find('.field[data-browsedatafield="RecType"] input').val("R");
-         } else if (grid.hasClass('S')) {
-             $tr.find('.field[data-browsedatafield="RecType"] input').val("S");
-         } else if (grid.hasClass('M')) {
-             $tr.find('.field[data-browsedatafield="RecType"] input').val("M");
-         } else if (grid.hasClass('L')) {
-             $tr.find('.field[data-browsedatafield="RecType"] input').val("L");
-         }
+        if (grid.hasClass('R')) {
+            $tr.find('.field[data-browsedatafield="RecType"] input').val("R");
+        } else if (grid.hasClass('S')) {
+            $tr.find('.field[data-browsedatafield="RecType"] input').val("S");
+        } else if (grid.hasClass('M')) {
+            $tr.find('.field[data-browsedatafield="RecType"] input').val("M");
+        } else if (grid.hasClass('L')) {
+            $tr.find('.field[data-browsedatafield="RecType"] input').val("L");
+        }
 
-         if ($form[0].dataset.controller !== "TemplateController") {
-             $tr.find('.field[data-browsedatafield="PickDate"] input').val(pickDate);
-             $tr.find('.field[data-browsedatafield="PickTime"] input').val(pickTime);
-             $tr.find('.field[data-browsedatafield="FromDate"] input').val(fromDate);
-             $tr.find('.field[data-browsedatafield="FromTime"] input').val(fromTime);
-             $tr.find('.field[data-browsedatafield="ToDate"] input').val(toDate);
-             $tr.find('.field[data-browsedatafield="ToTime"] input').val(toTime);
-         }
-     }
+        if ($form[0].dataset.controller !== "TemplateController") {
+            $tr.find('.field[data-browsedatafield="PickDate"] input').val(pickDate);
+            $tr.find('.field[data-browsedatafield="PickTime"] input').val(pickTime);
+            $tr.find('.field[data-browsedatafield="FromDate"] input').val(fromDate);
+            $tr.find('.field[data-browsedatafield="FromTime"] input').val(fromTime);
+            $tr.find('.field[data-browsedatafield="ToDate"] input').val(toDate);
+            $tr.find('.field[data-browsedatafield="ToTime"] input').val(toTime);
+        }
+    }
 
-     beforeValidateItem = function ($browse, $grid, request, datafield, $tr) {
-         var rate = $tr.find('div[data-browsedatafield="RecType"] input.value').val();
+    beforeValidateItem = function ($browse, $grid, request, datafield, $tr) {
+        var rate = $tr.find('div[data-browsedatafield="RecType"] input.value').val();
 
-         if (rate !== null) {
-             switch (rate) {
-                 case 'R':
-                     request.uniqueIds = {
-                         AvailFor: 'R'
-                     };
-                     break;
-                 case 'S':
-                     request.uniqueIds = {
-                         AvailFor: 'S'
-                     };
-                     break;
-                 case 'M':
-                     request.uniqueIds = {
-                         AvailFor: 'M'
-                     };
-                     break;
-                 case 'L':
-                     request.uniqueIds = {
-                         AvailFor: 'L'
-                     };
-                     break;
-             }
-         }
-     };
+        if (rate !== null) {
+            switch (rate) {
+                case 'R':
+                    request.uniqueIds = {
+                        AvailFor: 'R'
+                    };
+                    break;
+                case 'S':
+                    request.uniqueIds = {
+                        AvailFor: 'S'
+                    };
+                    break;
+                case 'M':
+                    request.uniqueIds = {
+                        AvailFor: 'M'
+                    };
+                    break;
+                case 'L':
+                    request.uniqueIds = {
+                        AvailFor: 'L'
+                    };
+                    break;
+            }
+        }
+    };
 
     generateRow($control, $generatedtr) {
         var $form = $control.closest('.fwform');
@@ -195,6 +195,41 @@
                 calculateExtended('Discount', 'PeriodDiscountAmount');
             });
         }
+        if ($form.attr('data-controller') === 'TemplateController') {
+            $generatedtr.find('div[data-browsedatafield="InventoryId"]').data('onchange', function ($tr) {
+                var warehouse = FwFormField.getTextByDataField($form, 'WarehouseId');
+                var warehouseId = FwFormField.getValueByDataField($form, 'WarehouseId');
+                let warehouseCode = $form.find('[data-datafield="WarehouseCode"] input').val();
+                let inventoryId = $generatedtr.find('div[data-browsedatafield="InventoryId"] input').val();
+                let rateType = $form.find('[data-datafield="RateType"] input').val();
+                let inventoryType = $generatedtr.find('[data-browsedatafield="InventoryId"]').attr('data-validationname');
+
+                $generatedtr.find('.field[data-browsedatafield="Description"] input').val($tr.find('.field[data-browsedatafield="Description"]').attr('data-originalvalue'));
+                $generatedtr.find('.field[data-browsedatafield="QuantityOrdered"] input').val("1");
+                $generatedtr.find('.field[data-browsedatafield="SubQuantity"] input').val("0");
+                $generatedtr.find('.field[data-browsedatafield="WarehouseId"] input').val(warehouseId);
+                $generatedtr.find('.field[data-browsedatafield="ReturnToWarehouseId"] input').val(warehouseId);
+                $generatedtr.find('.field[data-browsedatafield="WarehouseId"] input.text').val(warehouseCode);
+                $generatedtr.find('.field[data-browsedatafield="ReturnToWarehouseId"] input.text').val(warehouseCode);
+
+                if ($generatedtr.hasClass("newmode")) {
+                    FwAppData.apiMethod(true, 'GET', "api/v1/pricing/" + inventoryId + "/" + warehouseId, null, FwServices.defaultTimeout, function onSuccess(response) {
+                        switch (rateType) {
+                            case 'DAILY':
+                                $generatedtr.find('[data-browsedatafield="Price"] input').val(response[0].DailyRate);
+                                break;
+                            case 'WEEKLY':
+                                $generatedtr.find('[data-browsedatafield="Price"] input').val(response[0].WeeklyRate);
+                                break;
+                            case 'MONTHLY':
+                                $generatedtr.find('[data-browsedatafield="Price"] input').val(response[0].MonthlyRate);
+                                break;
+                        }
+                    }, null, $form);
+                }
+
+            });
+        }
 
         function calculateExtended(type, field?) {
             let rateType, recType, fromDate, toDate, quantity, rate, daysPerWeek, discountPercent, weeklyExtended, unitExtended, periodExtended,
@@ -301,7 +336,7 @@
                 }, null, null);
             }
         }
-     };
+    };
 }
 
 FwApplicationTree.clickEvents['{77E511EC-5463-43A0-9C5D-B54407C97B15}'] = function (e) {
