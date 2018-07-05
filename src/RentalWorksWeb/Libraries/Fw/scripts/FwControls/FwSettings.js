@@ -322,6 +322,8 @@ FwSettings.newRow = function ($body, $control, apiurl, $modulecontainer, moduleN
         FwSettings.getRows($body, $control, apiurl, $control.find('#' + moduleName), moduleName);
     });
 }
+//----------------------------------------------------------------------------------------------
+FwSettings.filter = [];
 //---------------------------------------------------------------------------------------------- 
 FwSettings.renderModuleHtml = function ($control, title, moduleName, description, menu, moduleId) {
     var html = [], $settingsPageModules, $rowBody, $modulecontainer, apiurl, $body, $form, browseKeys = [], rowId, screen = { 'moduleCaptions': {} }, filter = [];
@@ -396,9 +398,10 @@ FwSettings.renderModuleHtml = function ($control, title, moduleName, description
 
     $settingsPageModules
         .on('click', '.panel-heading', function (e) {
-            var $this, moduleName, $browse, $modulecontainer, apiurl, $body, browseData = [], browseKeys = [], rowId, formKeys = [], keys, $settings;
+            var $this, moduleName, $browse, $modulecontainer, apiurl, $body, browseData = [], browseKeys = [], rowId, formKeys = [], keys, $settings, $form;
 
             $this = jQuery(this);
+            console.log(FwSettings.filter);
             moduleName = $this.closest('.panel-group').attr('id');
             $browse = jQuery(jQuery('#tmpl-modules-' + moduleName + 'Browse').html());
             $modulecontainer = $control.find('#' + moduleName);
@@ -407,6 +410,7 @@ FwSettings.renderModuleHtml = function ($control, title, moduleName, description
             if ($body.is(':empty')) {
                 FwAppData.apiMethod(true, 'GET', applicationConfig.appbaseurl + applicationConfig.appvirtualdirectory + apiurl, null, null, function onSuccess(response) {
                     $settings = jQuery(jQuery('#tmpl-modules-' + moduleName + 'Browse').html());
+                    $form = jQuery(jQuery('#tmpl-modules-' + moduleName + 'Form').html());
                     keys = $settings.find('.field');
                     rowId = jQuery(keys[0]).attr('data-datafield');
 
@@ -436,6 +440,32 @@ FwSettings.renderModuleHtml = function ($control, title, moduleName, description
                             }
                         }
                     };
+
+                    if (FwSettings.filter !== 'undefined' && FwSettings.filter.length > 0) {
+                        var uniqueFilters = [];
+                        for (var j = 0; j < FwSettings.filter.length; j++) {
+                            if (uniqueFilters.indexOf(FwSettings.filter[j]) === -1) {
+                                uniqueFilters.push(FwSettings.filter[j]);
+                            }
+                        }
+
+                        for (var i = 0; i < uniqueFilters.length; i++) {
+                            var filterField = $form.find(`div[data-datafield="${uniqueFilters[i]}"]`);
+                            if (filterField.length > 0 && filterField.attr('data-type') !== 'key') {
+                                var filterData = {};
+                                if (filterField.attr('data-type') === 'validation') {
+                                    filterData['datafield'] = filterField.attr('data-displayfield');
+                                    browseKeys.push(filterField.attr('data-displayfield'));
+                                } else {
+                                    filterData['datafield'] = uniqueFilters[i];
+                                    browseKeys.push(uniqueFilters[i]);
+                                }
+                                filterData['caption'] = filterField.attr('data-caption');
+                                filterData['datatype'] = filterField.attr('data-type');
+                                browseData.push(filterData);
+                            }
+                        }
+                    }
 
                     for (var i = 0; i < response.length; i++) {
                         var html = [], $moduleRows;
@@ -642,12 +672,12 @@ FwSettings.renderModuleHtml = function ($control, title, moduleName, description
         if (e.which === 13) {
             e.preventDefault();
 
-            var $settings, val, $control;
+            var $settings, val, $module;
 
             FwSettings.getCaptions(screen);
             filter = [];
             $settings = jQuery('small#description');
-            $control = jQuery('a#title');
+            $module = jQuery('a#title');
             val = jQuery.trim(this.value).toUpperCase();
             if (val === "") {
                 $settings.closest('div.panel-group').show();
@@ -662,6 +692,7 @@ FwSettings.renderModuleHtml = function ($control, title, moduleName, description
                         }
                     }
                 }
+                FwSettings.filter = filter;
                 for (var i = 0; i < results.length; i++) {
                     var module = $settings.filter(function () {
                         return -1 != jQuery(this).text().toUpperCase().indexOf(results[i]);
@@ -669,7 +700,7 @@ FwSettings.renderModuleHtml = function ($control, title, moduleName, description
                     module.find('.highlighted').removeClass('highlighted');
                     module.show();
                 }
-                $control.filter(function () {
+                $module.filter(function () {
                     return -1 != jQuery(this).text().toUpperCase().indexOf(val);
                 }).closest('div.panel-group').show();
             }
