@@ -31803,6 +31803,172 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "Purchase Order: Start Receive Contract",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/purchaseorder/startreceivecontract/F01QYBVO",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"purchaseorder",
+								"startreceivecontract",
+								"F01QYBVO"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Purchase Order: Complete Receive Contract",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/purchaseorder/completereceivecontract/I00004V3",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"purchaseorder",
+								"completereceivecontract",
+								"I00004V3"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Purchase Order Receive Item",
+			"description": null,
+			"item": [
+				{
+					"name": "Purchase Order Receive Item: Browse",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"ItemOrder\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": [],\n    \t\"uniqueids\": {\"PurchaseOrderId\": \"F01QYBVO\", \"ContractId\": \"I00004V3\"}\n}"
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/purchaseorderreceiveitem/browse",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"purchaseorderreceiveitem",
+								"browse"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Purchase Order Receive Item: Receive Items",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"Field1\": \"1\",\n    \"Field2\": \"2\",\n}"
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/purchaseorderreceiveitem/receiveitems?contractId=I00004V3&purchaseOrderId=F01QYBVO&purchaseOrderItemId=XXXF01QYBWD&quantity=10",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"purchaseorderreceiveitem",
+								"receiveitems"
+							],
+							"query": [
+								{
+									"key": "contractId",
+									"value": "I00004V3"
+								},
+								{
+									"key": "purchaseOrderId",
+									"value": "F01QYBVO"
+								},
+								{
+									"key": "purchaseOrderItemId",
+									"value": "XXXF01QYBWD"
+								},
+								{
+									"key": "quantity",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
@@ -38323,7 +38489,7 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "http://localhost:57949/api/v1/template/00002WPC",
+							"raw": "http://localhost:57949/api/v1/template/B0048A2X",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -38333,7 +38499,7 @@
 								"api",
 								"v1",
 								"template",
-								"00002WPC"
+								"B0048A2X"
 							]
 						}
 					},

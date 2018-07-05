@@ -383,5 +383,48 @@ namespace WebApi.Logic
             return newRepairPartId;
         }
         //-------------------------------------------------------------------------------------------------------
+
+        public static async Task<TSpStatusReponse> ReceiveItem(FwApplicationConfig appConfig, FwUserSession userSession, string contractId, string purchaseOrderId, string purchaseOrderItemId, int quantity)
+        {
+            TSpStatusReponse response = new TSpStatusReponse();
+            using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
+            {
+                FwSqlCommand qry = new FwSqlCommand(conn, "receiveitem", appConfig.DatabaseSettings.QueryTimeout);
+                qry.AddParameter("@contractid", SqlDbType.NVarChar, ParameterDirection.Input, contractId);
+                qry.AddParameter("@orderid", SqlDbType.NVarChar, ParameterDirection.Input, purchaseOrderId);
+                qry.AddParameter("@masteritemid", SqlDbType.NVarChar, ParameterDirection.Input, purchaseOrderItemId);
+                qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, userSession.UsersId);
+                qry.AddParameter("@barcode", SqlDbType.NVarChar, ParameterDirection.Input, "");
+                qry.AddParameter("@qty", SqlDbType.Int, ParameterDirection.Input, quantity);
+                qry.AddParameter("@status", SqlDbType.Int, ParameterDirection.Output);
+                qry.AddParameter("@msg", SqlDbType.NVarChar, ParameterDirection.Output);
+                await qry.ExecuteNonQueryAsync(true);
+                response.success = (qry.GetParameter("@status").ToInt32() == 0);
+                response.msg = qry.GetParameter("@msg").ToString();
+            }
+            return response;
+        }
+        //-------------------------------------------------------------------------------------------------------
+
+        public static async Task<TSpStatusReponse> AssignContract(FwApplicationConfig appConfig, FwUserSession userSession, string contractId)
+        {
+            TSpStatusReponse response = new TSpStatusReponse();
+            using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
+            {
+                FwSqlCommand qry = new FwSqlCommand(conn, "assigncontract", appConfig.DatabaseSettings.QueryTimeout);
+                qry.AddParameter("@contractid", SqlDbType.NVarChar, ParameterDirection.Input, contractId);
+                //qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, userSession.UsersId);
+                //qry.AddParameter("@status", SqlDbType.Int, ParameterDirection.Output);
+                //qry.AddParameter("@msg", SqlDbType.NVarChar, ParameterDirection.Output);
+                await qry.ExecuteNonQueryAsync(true);
+                //response.success = (qry.GetParameter("@status").ToInt32() == 0);
+                //response.msg = qry.GetParameter("@msg").ToString();
+                response.success = true;
+                response.msg = "";
+            }
+            return response;
+        }
+        //-------------------------------------------------------------------------------------------------------
+
     }
 }

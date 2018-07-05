@@ -1,6 +1,8 @@
 using FwStandard.BusinessLogic.Attributes;
 using Newtonsoft.Json;
+using System.Threading.Tasks;
 using WebApi.Logic;
+using WebApi.Modules.Home.Contract;
 using WebApi.Modules.Home.DealOrder;
 using WebApi.Modules.Home.DealOrderDetail;
 using WebLibrary;
@@ -127,5 +129,17 @@ namespace WebApi.Modules.Home.PurchaseOrder
         [FwBusinessLogicField(isReadOnly: true)]
         public string CurrencyCode { get; set; }
         //------------------------------------------------------------------------------------ 
+        public async Task<string> CreateReceiveContract()
+        {
+            string contractId = await purchaseOrder.CreateReceiveContract();
+            //string[] keys = { contractId };
+
+            //ContractLogic c = new ContractLogic();
+            //c.SetDependencies(AppConfig, UserSession);
+            //bool x = await c.LoadAsync<ContractLogic>(keys);
+            //return c;
+            return contractId;
+        }
+        //------------------------------------------------------------------------------------
     }
 }

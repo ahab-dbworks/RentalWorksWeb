@@ -198,9 +198,9 @@ namespace WebApi.Modules.Home.DealOrder
         [FwSqlDataField(column: "whfromnotes", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 255)]
         public string FromWarehouseNotes { get; set; }
         //------------------------------------------------------------------------------------
-        
-            
-            
+
+
+
         // New Purchase Order fields    
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "requisitionno", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 16)]
@@ -988,7 +988,7 @@ public string DateStamp { get; set; }
             {
                 moduleName = RwConstants.MODULE_PROJECT;
             }
-            else 
+            else
             {
                 throw new Exception("Invalid Type " + Type + " in DealOrderRecord.SetNumber");
             }
@@ -1242,5 +1242,23 @@ public string DateStamp { get; set; }
             return newId;
         }
         //-------------------------------------------------------------------------------------------------------
+        public async Task<string> CreateReceiveContract()
+        {
+            string contractId = "";
+            if ((OrderId != null) && (Type.Equals(RwConstants.ORDER_TYPE_PURCHASE_ORDER)))
+            {
+                using (FwSqlConnection conn = new FwSqlConnection(this.AppConfig.DatabaseSettings.ConnectionString))
+                {
+                    FwSqlCommand qry = new FwSqlCommand(conn, "createreceivecontract", this.AppConfig.DatabaseSettings.QueryTimeout);
+                    qry.AddParameter("@poid", SqlDbType.NVarChar, ParameterDirection.Input, OrderId);
+                    qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, UserSession.UsersId);
+                    qry.AddParameter("@contractid", SqlDbType.NVarChar, ParameterDirection.Output);
+                    await qry.ExecuteNonQueryAsync(true);
+                    contractId = qry.GetParameter("@contractid").ToString();
+                }
+            }
+            return contractId;
+        }
+        //-------------------------------------------------------------------------------------------------------    
     }
 }
