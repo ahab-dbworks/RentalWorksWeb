@@ -28,6 +28,9 @@ namespace WebApi.Modules.Settings.Template
         [FwSqlDataField(column: "warehouse", modeltype: FwDataTypes.Text)]
         public string Warehouse { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "ratetype", modeltype: FwDataTypes.Text)]
+        public string RateType { get; set; }
+        //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "ordertype", modeltype: FwDataTypes.Text)]
         public string Type { get; set; }
         //------------------------------------------------------------------------------------
