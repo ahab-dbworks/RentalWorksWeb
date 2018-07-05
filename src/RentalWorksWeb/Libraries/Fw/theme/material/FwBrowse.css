@@ -89,6 +89,9 @@ html.theme-material .fwbrowse table thead tr td .field .search .searchclear i {f
 
 
 /* tbody */
+    html.theme-material .fwbrowse table tbody tr.selected td .cellgradient[data-formreadonly="true"]{
+        color: black;
+    }
 #inventory input[type="number"]::-webkit-outer-spin-button, #inventory input[type="number"]::-webkit-inner-spin-button {
     -webkit-appearance: none;
     margin: 0;

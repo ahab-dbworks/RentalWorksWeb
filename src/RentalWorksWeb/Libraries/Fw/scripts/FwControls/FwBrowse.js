@@ -1563,7 +1563,7 @@ var FwBrowse = (function () {
                                     'background': 'linear-gradient(to bottom, ' + dtRow[dt.ColumnIndex[halfcellcolor]] + ', rgba(255, 255, 255, 0)50%)'
                                 };
                             }
-                            $td.children().css(css);
+                            $td.children().css(css).addClass('cellgradient');
                         }
                     }
                     var fullcellcolor = $field.attr('data-fullcellcolor');
@@ -1585,7 +1585,7 @@ var FwBrowse = (function () {
                                     'background': 'linear-gradient(to bottom, ' + dtRow[dt.ColumnIndex[fullcellcolor]] + ', rgba(255, 255, 255, 0))'
                                 };
                             }
-                            $td.children().css(css);
+                            $td.children().css(css).addClass('cellgradient');
                         }
                     }
                     var browsecellbackgroundcolorfield = $field.attr('data-browsecellbackgroundcolorfield');

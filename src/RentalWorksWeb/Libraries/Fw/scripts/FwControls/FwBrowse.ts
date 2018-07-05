@@ -1727,7 +1727,7 @@
                                 };
                             }
 
-                            $td.children().css(css);
+                            $td.children().css(css).addClass('cellgradient');
                         }
                     }
 
@@ -1750,7 +1750,7 @@
                                     'background': 'linear-gradient(to bottom, ' + dtRow[dt.ColumnIndex[fullcellcolor]] + ', rgba(255, 255, 255, 0))'
                                 }
                             }
-                            $td.children().css(css);
+                            $td.children().css(css).addClass('cellgradient');
                         }
                     }
 
