@@ -25,5 +25,8 @@ namespace WebApi.Modules.Settings.PoType
             //addFilterToSelect("UniqueId", "uniqueid", select, request); 
         }
         //------------------------------------------------------------------------------------ 
+
+        public List<string> PurchaseShowFields { get; set; }
+
     }
 }

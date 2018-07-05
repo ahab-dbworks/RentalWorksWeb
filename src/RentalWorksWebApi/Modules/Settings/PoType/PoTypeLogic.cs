@@ -1,6 +1,7 @@
 using FwStandard.BusinessLogic;
 using FwStandard.BusinessLogic.Attributes;
 using Newtonsoft.Json;
+using System.Collections.Generic;
 using WebApi.Logic;
 using WebApi.Modules.Settings.OrderType;
 using WebApi.Modules.Settings.OrderTypeFields;
@@ -616,6 +617,41 @@ namespace WebApi.Modules.Settings.PoType
         public decimal? OrderBy { get { return poType.Orderby; } set { poType.Orderby = value; } }
         public bool? Inactive { get { return poType.Inactive; } set { poType.Inactive = value; } }
         public string DateStamp { get { return poType.DateStamp; } set { poType.DateStamp = value; } }
+
+
+
+
+        [FwBusinessLogicField(isReadOnly: true)]
+        public List<string> PurchaseShowFields
+        {
+            get
+            {
+                List<string> showFields = new List<string>();
+
+
+                if (PurchaseShowICode == true) { showFields.Add("ICode"); }
+                if (PurchaseShowDescription == true) { showFields.Add("Description"); }
+                if ((!(PurchaseShowICode == true)) && (!(PurchaseShowDescription == true))) { showFields.Add("ICode"); }
+                showFields.Add("QuantityOrdered");
+                if (PurchaseShowUnit == true) { showFields.Add("Unit"); }
+                if (PurchaseShowRate == true) { showFields.Add("Rate"); }
+                if (PurchaseShowDiscountPercent == true) { showFields.Add("DiscountPercent"); }
+                if (PurchaseShowUnitDiscountAmount == true) { showFields.Add("UnitDiscountAmount"); }
+                if (PurchaseShowUnitExtended == true) { showFields.Add("UnitExtended"); }
+                if (PurchaseShowPeriodDiscountAmount == true) { showFields.Add("PeriodDiscountAmount"); }
+                if (PurchaseShowPeriodExtended == true) { showFields.Add("PeriodExtended"); }
+                if (PurchaseShowTaxable == true) { showFields.Add("Taxable"); }
+                if (PurchaseShowWarehouse == true) { showFields.Add("Warehouse"); }
+                if (PurchaseShowNotes == true) { showFields.Add("Notes"); }
+
+
+                return showFields;
+            }
+            set { }
+        }
+
+
+
         //------------------------------------------------------------------------------------ 
         public void OnBeforeSave(object sender, BeforeSaveEventArgs e)
         {
