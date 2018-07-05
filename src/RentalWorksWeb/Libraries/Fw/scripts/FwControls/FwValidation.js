@@ -144,6 +144,7 @@ FwValidation.init = function ($control) {
         }
     });
 
+
     $control.find('.btnvalidate').on('click', function () {
         try {
             if ((typeof $control.attr('data-enabled') !== 'string') || ($control.attr('data-enabled') !== 'false')) {

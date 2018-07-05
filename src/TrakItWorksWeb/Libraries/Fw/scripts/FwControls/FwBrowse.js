@@ -905,7 +905,10 @@ var FwBrowse = (function () {
                             html.push(' style="visibility:hidden;"');
                         }
                         html.push('>');
-                        html.push('<input type="text" />');
+                        if ($control.attr('data-browsedatatype') === 'date') {
+                            html.push('<input type="text" />');
+                        }
+                        ;
                         html.push('<span class="searchclear" title="clear"><i class="material-icons">clear</i></span>');
                         html.push('</div>');
                         html.push('</div>');

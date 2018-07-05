@@ -239,14 +239,15 @@ FwSettings.getRows = function ($body, $control, apiurl, $modulecontainer, module
 
         $control
             .on('click', '.row-heading', function (e) {
-                var formKeys = [], formData = [], recordData, $rowBody, $form;
+                var formKeys = [], formData = [], recordData, $rowBody, $form, controller;
                 e.stopPropagation();
                 recordData = jQuery(this).parent().parent().data('recorddata');
                 $rowBody = $control.find('#' + recordData[moduleName + 'Id'] + '.panel-body');
                 $form = jQuery(jQuery('#tmpl-modules-' + moduleName + 'Form').html());
+                controller = $form.data('controller');
                 if ($rowBody.is(':empty')) {
+                    $form = window[controller].openForm('EDIT');
                     $rowBody.append($form);
-                    FwModule.openForm($form, 'EDIT');
 
                     for (var key in recordData) {
                         var value = recordData[key];
@@ -277,7 +278,7 @@ FwSettings.getRows = function ($body, $control, apiurl, $modulecontainer, module
 }
 //---------------------------------------------------------------------------------------------- 
 FwSettings.newRow = function ($body, $control, apiurl, $modulecontainer, moduleName, $modules) {
-    var $form, rowId, newRowHtml = [];
+    var $form, controller, rowId, newRowHtml = [];
 
     $form = jQuery(jQuery('#tmpl-modules-' + moduleName + 'Form').html());
 
@@ -302,10 +303,11 @@ FwSettings.newRow = function ($body, $control, apiurl, $modulecontainer, moduleN
         newRowHtml.push('  </div>');
         newRowHtml.push('</div>');
 
+        controller = $form.data('controller');
+        $form = window[controller].openForm('NEW');
         $body.prepend($form);
         $body.prepend(jQuery(newRowHtml.join('')));
 
-        FwModule.openForm($form, 'NEW');
         $form.find('.buttonbar').hide();
     }
 
@@ -365,7 +367,11 @@ FwSettings.renderModuleHtml = function ($control, title, moduleName, description
 
     $settingsPageModules.on('click', '.new-row', function (e) {
         e.stopPropagation();
-        jQuery(this).parent().hide();
+        if (jQuery(this).parent().find('.hidden').length === 0) {
+            jQuery(this).parent().find('div[data-mode="NEW"]').addClass('hidden').hide('fast');
+        } else {
+            jQuery(this).parent().find('div[data-mode="NEW"]').removeClass('hidden').show('fast');
+        }
         $body = $control.find('#' + moduleName + '.panel-body');
         FwSettings.newRow($body, $control, apiurl, $modulecontainer, moduleName, $settingsPageModules);
     });
@@ -384,7 +390,7 @@ FwSettings.renderModuleHtml = function ($control, title, moduleName, description
 
     $settingsPageModules.on('click', '.pop-out', function (e) {
         e.stopPropagation();
-        program.popOutURL('#/module/' + moduleName);
+        program.popOutTab('#/module/' + moduleName);
         jQuery(this).parent().hide();
     });
 
@@ -506,23 +512,29 @@ FwSettings.renderModuleHtml = function ($control, title, moduleName, description
     $control
         .unbind().on('click', '.row-heading', function (e) {
             e.stopPropagation();
-            var formKeys = [], formData = [], recordData, $rowBody, $form, moduleName, moduleId, uniqueids = {};
+            var formKeys = [], formData = [], recordData, $rowBody, $form, moduleName, moduleId, controller, uniqueids = {};
             recordData = jQuery(this).parent().parent().data('recorddata');
             moduleName = jQuery(this).closest('div.panel-group')[0].id;
             $form = jQuery(jQuery('#tmpl-modules-' + moduleName + 'Form').html());
-            moduleId = jQuery($form.find('.fwformfield[data-isuniqueid="true"]')[0]).data('datafield'); 
+            moduleId = jQuery($form.find('.fwformfield[data-isuniqueid="true"]')[0]).data('datafield');
             uniqueids[moduleId] = recordData[moduleId];
-            $rowBody = $control.find('#' + recordData[moduleId] + '.panel-body');            
+            $rowBody = $control.find('#' + recordData[moduleId] + '.panel-body');
+            controller = $form.data('controller');
 
             if ($rowBody.is(':empty')) {
+                $form = window[controller].openForm('EDIT');
                 $rowBody.append($form);
-                FwModule.openForm($form, 'EDIT');
+                $form.find('.highlighted').removeClass('hightlighted');
                 $form.find('div[data-type="NewMenuBarButton"]').off();
 
                 for (var key in recordData) {
                     for (var i = 0; i < filter.length; i++) {
                         if (filter[i] === key) {
-                            $form.find('[data-datafield="' + key + '"]').find('.fwformfield-caption').css({ 'background': 'yellow' });
+                            if ($form.find('[data-datafield="' + key + '"]').attr('data-type') === 'checkbox') {
+                                $form.find('[data-datafield="' + key + '"]').addClass('hightlighted');
+                            } else {
+                                $form.find('[data-datafield="' + key + '"]').find('.fwformfield-caption').addClass('highlighted');
+                            }
                         }
                     };
                     var value = recordData[key];
@@ -651,9 +663,11 @@ FwSettings.renderModuleHtml = function ($control, title, moduleName, description
                     }
                 }
                 for (var i = 0; i < results.length; i++) {
-                    $settings.filter(function () {
+                    var module = $settings.filter(function () {
                         return -1 != jQuery(this).text().toUpperCase().indexOf(results[i]);
-                    }).closest('div.panel-group').show()
+                    }).closest('div.panel-group');
+                    module.find('.highlighted').removeClass('highlighted');
+                    module.show();
                 }
                 $control.filter(function () {
                     return -1 != jQuery(this).text().toUpperCase().indexOf(val);

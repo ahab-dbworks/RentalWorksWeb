@@ -905,7 +905,10 @@ var FwBrowse = (function () {
                             html.push(' style="visibility:hidden;"');
                         }
                         html.push('>');
-                        html.push('<input type="text" />');
+                        if ($control.attr('data-browsedatatype') === 'date') {
+                            html.push('<input type="text" />');
+                        }
+                        ;
                         html.push('<span class="searchclear" title="clear"><i class="material-icons">clear</i></span>');
                         html.push('</div>');
                         html.push('</div>');
@@ -1563,7 +1566,7 @@ var FwBrowse = (function () {
                                     'background': 'linear-gradient(to bottom, ' + dtRow[dt.ColumnIndex[halfcellcolor]] + ', rgba(255, 255, 255, 0)50%)'
                                 };
                             }
-                            $td.children().css(css).addClass('cellgradient');
+                            $td.children().css(css);
                         }
                     }
                     var fullcellcolor = $field.attr('data-fullcellcolor');
@@ -1585,7 +1588,7 @@ var FwBrowse = (function () {
                                     'background': 'linear-gradient(to bottom, ' + dtRow[dt.ColumnIndex[fullcellcolor]] + ', rgba(255, 255, 255, 0))'
                                 };
                             }
-                            $td.children().css(css).addClass('cellgradient');
+                            $td.children().css(css);
                         }
                     }
                     var browsecellbackgroundcolorfield = $field.attr('data-browsecellbackgroundcolorfield');

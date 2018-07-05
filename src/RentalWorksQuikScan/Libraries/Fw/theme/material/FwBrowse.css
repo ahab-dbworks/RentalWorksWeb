@@ -58,6 +58,19 @@ html.theme-material .fwbrowse table {width:100%;border-collapse:collapse;border-
 html.theme-material .fwbrowse[data-type="Grid"] table {font-size:14px;}*/
 
 /* thead */
+html.theme-material .fwbrowse table thead tr td [data-browsedatatype="date"] .btndate {
+        color: #616161;
+        padding: 0;
+        font-size: 1.5em;
+        margin: auto 5px;
+        box-sizing: border-box;
+        cursor: pointer;
+    }
+
+html.theme-material.mobile .fwbrowse table thead tr td [data-browsedatatype="date"] i.btndate {
+    font-size: 2em;
+    flex: 0 0 32px;
+} 
 /*html.theme-material .fwbrowse table thead tr.fieldnames {border-bottom:1px solid #e0e0e0;}*/
 html.theme-material .fwbrowse table thead tr td {padding:0;-webkit-touch-callout:none;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;background:#efefef;border-right: 1px solid #BDBDBD;border-bottom: 1px solid #BDBDBD;border-top: 1px solid #BDBDBD;}
 html.theme-material .fwbrowse table thead tr td:first-of-type {border-left: 0;}
@@ -89,14 +102,13 @@ html.theme-material .fwbrowse table thead tr td .field .search .searchclear i {f
 
 
 /* tbody */
-#inventory input[type="number"]::-webkit-outer-spin-button, #inventory input[type="number"]::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-}
+#inventory input[type="number"]::-webkit-outer-spin-button, #inventory input[type="number"]::-webkit-inner-spin-button {-webkit-appearance: none;margin: 0;}
+#inventory input[type="number"] {-moz-appearance: textfield;}
 
-#inventory input[type="number"] {
-    -moz-appearance: textfield;
-} 
+/*Rules for disabled grid rows text color-profile while selected*/
+html.theme-material .fwbrowse table tbody tr.selected td .cellgradient[data-formreadonly="true"]{color: black;}
+html.theme-material .fwbrowse table tbody tr.selected td .field-to-lock[data-formreadonly="true"]{color: black;}
+
 html.theme-material .fwbrowse table tbody tr.empty td {height:100px;}
 html.theme-material .fwbrowse table tbody tr td.cellColor::after {content: "";position: absolute;top: 0;left: 0;width: 0;height: 0;display: block;border-right: 20px solid transparent;border-bottom: 20px solid transparent;border-top: 20px solid;border-top-color: inherit;}  
 html.theme-material .fwbrowse table tbody tr td {vertical-align:top;text-align:left;-webkit-touch-callout: none;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;}

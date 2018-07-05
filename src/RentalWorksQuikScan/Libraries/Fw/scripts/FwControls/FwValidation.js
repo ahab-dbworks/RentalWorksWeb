@@ -136,6 +136,15 @@ FwValidation.init = function ($control) {
         }
     });
 
+    $control.find('input[type="text"]').on('keydown', e => {
+        if (e.which === 13) {
+            const inputs = jQuery('.fwformfield[data-enabled="true"] input[type="text"]:visible');
+            let index = jQuery(inputs).index($searchfield) + 1;
+            inputs.eq(index).focus();
+        }
+    });
+
+
     $control.find('.btnvalidate').on('click', function () {
         try {
             if ((typeof $control.attr('data-enabled') !== 'string') || ($control.attr('data-enabled') !== 'false')) {
@@ -184,14 +193,18 @@ FwValidation.init = function ($control) {
     });
 
     $validationbrowse.data('onrowdblclick', function () {
-        var $tr, originalcolor;
+        var $tr, originalcolor, $rows;
         try {
             $tr = jQuery(this);
             FwValidation.selectRow($control, $tr, $valuefield, $searchfield, $btnvalidate, $validationbrowse);
             originalcolor = $searchfield.css('background-color');
             $searchfield.css('background-color', '#abcdef').animate({ backgroundColor: originalcolor }, 1500, function () { $searchfield.attr('style', '') });
             jQuery(document).off('keydown');
-            preserveFocus($validationbrowse);
+
+            $rows = $validationbrowse.find('table > tbody > tr');
+            if ($rows.length !== 1) {
+                preserveFocus($validationbrowse);
+            }
         } catch (ex) {
             FwFunc.showError(ex);
         }
