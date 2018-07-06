@@ -20,7 +20,7 @@ class Report {
             let contractPromise = RwAjax.apiGet<OutContract>(`/api/v1/outcontractreport/${parameters.contractid}`, authorizationHeader)
                 .then((value: OutContract) => {
                     contract = value;
-                    contract.PrintTime = (<any>window).moment().format('YYYY-MM-DD h:mm:ss A');
+                    contract.PrintTime = moment().format('YYYY-MM-DD h:mm:ss A');
                     contract.ContractTime = (<any>window).moment(contract.ContractTime,'h:mm a').format('h:mm a');
                 })
                 .catch((ex) => {

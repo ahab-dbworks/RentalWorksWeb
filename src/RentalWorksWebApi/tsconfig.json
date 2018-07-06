@@ -7,19 +7,7 @@
     "sourceMap": true,
     "target": "es5",
     "typeRoots": [
-      "./node_modules/@types",
-      "./node_modules/moment"
-    ],
-    "types": [
-      //"chart.js",
-      //"codemirror",
-      "handlebars",
-      "jquery",
-      "moment"
-      //"jqueryui",
-      //"materialize-css",
-      //"mustache",
-      //"pickadate"
+      "./node_modules/@types"
     ],
     "lib": [
       "dom",
@@ -28,11 +16,8 @@
       "es6"
     ]
   },
-  //"exclude": [
-  //  "node_modules",
-  //  "wwwroot"
-  //],
   "include": [
-    "Modules/Reports/**/*.ts"
+    "Modules/Reports/**/*.ts",
+    "./@types/moment/moment.d.ts" // mv 2018-07-06 for some reason this doesn't work in the typeRoots
   ]
 }
