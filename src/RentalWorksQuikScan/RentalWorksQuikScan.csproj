@@ -430,6 +430,7 @@
       <DependentUpon>Web.config</DependentUpon>
     </Content>
     <Content Include="tsconfig.json" />
+    <TypeScriptCompile Include="%40types\QuikScan\index.d.ts" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Global.asax.cs">
@@ -511,7 +512,6 @@
   <ItemGroup>
     <TypeScriptCompile Include="Modules\OutContractReport\OutContractReport.ts" />
     <TypeScriptCompile Include="scripts\DefaultApplicationConfig.ts" />
-    <TypeScriptCompile Include="scripts\Globals.ts" />
     <TypeScriptCompile Include="scripts\Program.ts" />
   </ItemGroup>
   <PropertyGroup>
