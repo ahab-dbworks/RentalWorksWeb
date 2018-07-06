@@ -697,6 +697,7 @@ class Quote {
         jQuery($form.find('.salesgrid .valtype')).attr('data-validationname', 'SalesInventoryValidation');
         jQuery($form.find('.laborgrid .valtype')).attr('data-validationname', 'LaborRateValidation');
         jQuery($form.find('.miscgrid .valtype')).attr('data-validationname', 'MiscRateValidation');
+        jQuery($form.find('.usedsalegrid .valtype')).attr('data-validationname', 'RentalInventoryValidation');
     };
 
     //----------------------------------------------------------------------------------------------
