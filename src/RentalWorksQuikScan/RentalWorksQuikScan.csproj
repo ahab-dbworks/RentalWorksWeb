@@ -229,7 +229,7 @@
     <Content Include="Modules\PrivacyPolicy\PrivacyPolicy.css" />
     <Content Include="Modules\PrivacyPolicy\PrivacyPolicy.js" />
     <Content Include="Modules\QC\QC.css" />
-    <Content Include="Modules\QC\QC.js" />
+    <TypeScriptCompile Include="Modules\QC\QC.ts" />
     <Content Include="Modules\QuoteMenu\QuoteMenu.css" />
     <Content Include="Modules\QuoteMenu\QuoteMenu.js" />
     <Content Include="Modules\Quote\Quote.css" />

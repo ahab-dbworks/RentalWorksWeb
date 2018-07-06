@@ -245,7 +245,7 @@ var Program = (function (_super) {
                         });
                         break;
                     case 'inventory/qc':
-                        screen = RwInventoryController.getQCScreen({}, {});
+                        screen = QC.getQCScreen({}, {});
                         break;
                     case 'transferout':
                         screen = RwOrderController.getStagingScreen({}, {

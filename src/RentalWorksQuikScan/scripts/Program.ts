@@ -286,7 +286,7 @@ class Program extends FwApplication {
                         });
                         break;
                     case 'inventory/qc':
-                        screen = RwInventoryController.getQCScreen({}, {});
+                        screen = QC.getQCScreen({}, {});
                         break;
                     case 'transferout':
                         screen = RwOrderController.getStagingScreen({}, {
