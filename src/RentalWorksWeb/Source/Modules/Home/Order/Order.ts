@@ -273,6 +273,7 @@ class Order {
             FwFormField.setValue($form, 'div[data-datafield="PaymentTermsId"]', $tr.find('.field[data-browsedatafield="PaymentTermsId"]').attr('data-originalvalue'), $tr.find('.field[data-browsedatafield="PaymentTerms"]').attr('data-originalvalue'));
             FwFormField.setValue($form, 'div[data-datafield="PaymentTypeId"]', $tr.find('.field[data-browsedatafield="PaymentTypeId"]').attr('data-originalvalue'), $tr.find('.field[data-browsedatafield="PaymentType"]').attr('data-originalvalue'));
             FwFormField.setValue($form, 'div[data-datafield="CurrencyId"]', $tr.find('.field[data-browsedatafield="CurrencyId"]').attr('data-originalvalue'), $tr.find('.field[data-browsedatafield="Currency"]').attr('data-originalvalue'));
+            FwFormField.setValue($form, 'div[data-datafield="DealNumber"]', $tr.find('.field[data-browsedatafield="DealNumber"]').attr('data-originalvalue'));
         });
 
         $form.find('div[data-datafield="EstimatedStartTime"]').attr('data-required', false);
@@ -1331,10 +1332,6 @@ class Order {
                 FwFormField.enable($form.find('[data-datafield="PoNumber"]'));
                 FwFormField.enable($form.find('[data-datafield="PoAmount"]'));
             }
-        });
-        // Deal Number
-        $form.find('div[data-datafield="DealId"]').data('onchange', function ($tr) {
-            FwFormField.setValue($form, 'div[data-datafield="DealNumber"]', $tr.find('.field[data-browsedatafield="DealNumber"]').attr('data-originalvalue'));
         });
         // PickDate Validations
         $form.find('.pick_date_validation').on('changeDate', event => {
