@@ -180,7 +180,7 @@ namespace WebApi.Modules.Home.OrderItem
         public string RetiredReasonId { get { return orderItem.RetiredReasonId; } set { orderItem.RetiredReasonId = value; } }
         [FwBusinessLogicField(isReadOnly: true)]
         public string RetiredReason { get; set; }
-        public string ItemId { get; set; }
+        public string ItemId { get { return orderItem.ItemId; } set { orderItem.ItemId = value; } }
         [FwBusinessLogicField(isReadOnly: true)]
         public string BarCode { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
