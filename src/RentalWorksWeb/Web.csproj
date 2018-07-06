@@ -167,6 +167,8 @@
     <Content Include="Integration\QBOIntegration\QBOIntegration.aspx" />
     <Content Include="Integration\QBOIntegration\QBOIntegration.css" />
     <Content Include="Integration\QBOIntegration\QBOIntegrationController.js" />
+    <TypeScriptCompile Include="%40types\Fw\index.d.ts" />
+    <TypeScriptCompile Include="%40types\Web\index.d.ts" />
     <TypeScriptCompile Include="scripts\DefaultApplicationConfig.ts" />
     <TypeScriptCompile Include="scripts\Program.ts" />
     <Content Include="scripts\RwLanguages.js" />
