@@ -108,3 +108,12 @@ progress::-webkit-progress-value {
     border-radius: 5px; 
     background-size: 35px 20px, 100% 100%, 100% 100%;
 }
+/* Removes default up and down arrows in input[type="number"] */
+#inventory input[type="number"]::-webkit-outer-spin-button, #inventory input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+#inventory input[type="number"] {
+    -moz-appearance: textfield;
+}
