@@ -13,6 +13,9 @@ namespace WebApi.Modules.Home.Item
         [FwSqlDataField(column: "rentalitemid", modeltype: FwDataTypes.Text, isPrimaryKey: true)]
         public string ItemId { get; set; } = "";
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "masterid", modeltype: FwDataTypes.Text)]
+        public string InventoryId { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "masterno", modeltype: FwDataTypes.Text)]
         public string ICode { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -39,6 +42,9 @@ namespace WebApi.Modules.Home.Item
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "rfid", modeltype: FwDataTypes.Text)]
         public string RfId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "warehouseid", modeltype: FwDataTypes.Text)]
+        public string WarehouseId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "warehouse", modeltype: FwDataTypes.Text)]
         public string Warehouse { get; set; }

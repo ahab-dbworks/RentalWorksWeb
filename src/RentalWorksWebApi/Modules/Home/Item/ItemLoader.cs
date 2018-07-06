@@ -10,12 +10,6 @@ namespace WebApi.Modules.Home.Item
     public class ItemLoader : ItemBrowseLoader
     {
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "masterid", modeltype: FwDataTypes.Text)]
-        public string InventoryId { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "warehouseid", modeltype: FwDataTypes.Text)]
-        public string WarehouseId { get; set; }
-        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "itemdesc", modeltype: FwDataTypes.Text)]
         public string ItemDescription { get; set; }
         //------------------------------------------------------------------------------------ 
