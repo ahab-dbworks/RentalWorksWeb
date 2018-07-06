@@ -1549,8 +1549,12 @@
             }
             if (value.length > 0) {
                 request.searchfields.push(browsedatafield);
-                  request.searchfieldtypes.push(fieldtype); 
-                request.searchfieldoperators.push('like');
+                request.searchfieldtypes.push(fieldtype);
+                if ($field.attr('data-searchfieldoperators') === 'startswith') {
+                    request.searchfieldoperators.push('startswith');
+                } else {
+                    request.searchfieldoperators.push('like');
+                } 
                 request.searchfieldvalues.push(value);
             }
             if (sort === 'asc') {
