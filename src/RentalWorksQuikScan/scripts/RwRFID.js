@@ -9,67 +9,88 @@ RwRFID.init = function() {
     if ((typeof window.TslReader === 'object') && (typeof applicationOptions.rfid !== 'undefined') && (applicationOptions.rfid.enabled)) {
         window.TslReader.isConnected(function isConnectedSuccess(result) {
             RwRFID.isConnected = result[1];
+            if (!RwRFID.isConnected) {
+                window.TslReader.connectDevice();
+            }
         });
     }
 };
 //----------------------------------------------------------------------------------------------
 RwRFID.registerEvents = function(callbackfunction) {
     var me = this;
-    if (RwRFID.isConnected) {
-        if (typeof window.TslReader !== 'undefined') {
-            window.TslReader.registerListener('epcsReceived', 'epcsReceived_rwrfidjs', function(epcs) {
-                callbackfunction(epcs);
-                if (jQuery('.tagCountPopup').length) {
-                    FwConfirmation.destroyConfirmation(jQuery('.tagCountPopup'));
+    if (typeof window.TslReader !== 'undefined') {
+        window.TslReader.registerListener('deviceConnected', 'deviceConnected_rwrfidjs', function() {
+            RwRFID.isConnected = true;
+            FwNotification.renderNotification('SUCCESS', 'RFID Reader Connected');
+        });
+        window.TslReader.registerListener('deviceDisconnected', 'deviceDisconnected_rwrfidjs', function() {
+            RwRFID.isConnected = false;
+            FwNotification.renderNotification('ERROR', 'RFID Reader Disconnected');
+        });
+        window.TslReader.registerListener('epcsReceived', 'epcsReceived_rwrfidjs', function (epcs) {
+            RwRFID.isConnected = true;
+            callbackfunction(epcs);
+            if (jQuery('.tagCountPopup').length) {
+                FwConfirmation.destroyConfirmation(jQuery('.tagCountPopup'));
+            }
+        });
+        window.TslReader.registerListener('epcReceived', 'epcReceived_rwrfidjs', function(epc, count) {
+            RwRFID.isConnected = true;
+            if (jQuery('.tagCountPopup').length) {
+                jQuery('.tagCount').html(count);
+                var epcs = $confirmation.data('epcs').push(epc);
+                jQuery('.rwrfid-epc').html(epcs.join('<br>'));
+            } else {
+                var $confirmation;
+                var html = [];
+                html.push('<div class="tagCount" style="color:black;font-weight:bold;text-align:center;font-size:100px;"></div>');
+                html.push('<div class="rwrfid-epc" style="text-align:center;"></div>');
+                $confirmation = FwConfirmation.renderConfirmation('Tags Scanned', html.join('\n'));
+                var $btnClose = FwConfirmation.addButton($confirmation, 'Close', true);
+                $confirmation.data('epcs', [epc]);
+                $confirmation.addClass('tagCountPopup');
+                $confirmation.find('.tagCount').html(count);
+                $confirmation.find('.epc').html(epc);
+                if (me.isPerformingSoftwareSinglePress) {
+                    var $btnstop = FwConfirmation.addButton($confirmation, 'Stop', true);
+                    $btnstop.on('click', function () {
+                        try {
+                            me.tslAbort();
+                        } catch (ex) {
+                            FwFunc.show(ex);
+                        }
+                    });
                 }
-            });
-            window.TslReader.registerListener('epcReceived', 'epcReceived_rwrfidjs', function(epc, count) {
-                if (jQuery('.tagCountPopup').length) {
-                    jQuery('.tagCount').html(count);
-                } else {
-                    var $confirmation;
-                    $confirmation = FwConfirmation.renderConfirmation('Tags Scanned', '<div class="tagCount" style="color:black;font-weight:bold;text-align:center;font-size:100px;"></div>');
-                    $confirmation.addClass('tagCountPopup');
-                    $confirmation.find('.tagCount').html(count);
-                    if (me.isPerformingSoftwareSinglePress) {
-                        var $btnstop = FwConfirmation.addButton($confirmation, 'Stop', true);
-                        $btnstop.on('click', function () {
-                            try {
-                                me.tslAbort();
-                            } catch (ex) {
-                                FwFunc.show(ex);
-                            }
-                        });
-                    }
-                }
-            });
-        }
+            }
+        });
+    }
 
-        if (typeof window.ZebraRFIDScanner !== 'undefined') {
-            window.ZebraRFIDScanner.registerListener('epcsReceived', 'epcsReceived_rwrfidjs', function(epcs) {
-                callbackfunction(epcs);
-                if (jQuery('.tagCountPopup').length) {
-                    FwConfirmation.destroyConfirmation(jQuery('.tagCountPopup'));
-                }
-            });
-            window.ZebraRFIDScanner.registerListener('epcReceived', 'epcReceived_rwrfidjs', function(epc, count) {
-                if (jQuery('.tagCountPopup').length) {
-                    jQuery('.tagCount').html(count);
-                } else {
-                    var $confirmation;
-                    $confirmation = FwConfirmation.renderConfirmation('Tags Scanned', '<div class="tagCount" style="color:black;font-weight:bold;text-align:center;font-size:100px;"></div>');
-                    $confirmation.addClass('tagCountPopup');
-                    $confirmation.find('.tagCount').html(count);
-                }
-            });
-        }
+    if (typeof window.ZebraRFIDScanner !== 'undefined') {
+        window.ZebraRFIDScanner.registerListener('epcsReceived', 'epcsReceived_rwrfidjs', function(epcs) {
+            callbackfunction(epcs);
+            if (jQuery('.tagCountPopup').length) {
+                FwConfirmation.destroyConfirmation(jQuery('.tagCountPopup'));
+            }
+        });
+        window.ZebraRFIDScanner.registerListener('epcReceived', 'epcReceived_rwrfidjs', function(epc, count) {
+            if (jQuery('.tagCountPopup').length) {
+                jQuery('.tagCount').html(count);
+            } else {
+                var $confirmation;
+                $confirmation = FwConfirmation.renderConfirmation('Tags Scanned', '<div class="tagCount" style="color:black;font-weight:bold;text-align:center;font-size:100px;"></div>');
+                $confirmation.addClass('tagCountPopup');
+                $confirmation.find('.tagCount').html(count);
+            }
+        });
     }
 };
 //----------------------------------------------------------------------------------------------
-RwRFID.unregisterEvents = function() {
-    if (RwRFID.isConnected) {
+RwRFID.unregisterEvents = function () {
+    if (typeof window.TslReader !== 'undefined') {
         window.TslReader.unregisterListener('epcsReceived', 'epcsReceived_rwrfidjs');
-        window.TslReader.unregisterListener('epcReceived',  'epcReceived_rwrfidjs');
+        window.TslReader.unregisterListener('epcReceived', 'epcReceived_rwrfidjs');
+        window.TslReader.unregisterListener('epcReceived', 'deviceConnected_rwrfidjs');
+        window.TslReader.unregisterListener('epcReceived', 'deviceDisconnected_rwrfidjs');
     }
 };
 //----------------------------------------------------------------------------------------------

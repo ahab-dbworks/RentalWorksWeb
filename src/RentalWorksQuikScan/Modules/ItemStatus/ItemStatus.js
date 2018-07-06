@@ -269,14 +269,16 @@ RwOrderController.getItemStatusScreen = function(viewModel, properties) {
     screen.load = function() {
         program.setScanTarget('.fwmobilecontrol-value');
         RwRFID.registerEvents(screen.rfidscan);
-        if (typeof window.TslReader !== 'undefined') {
-            window.TslReader.registerListener('deviceConnected', 'deviceConnected_rwordercontrollerjs_getItemStatusScreen', function() {
-                RwRFID.isConnected = true;
-            });
-            window.TslReader.registerListener('deviceDisconnected', 'deviceDisconnected_rwordercontrollerjs_getItemStatusScreen', function() {
-                RwRFID.isConnected = false;
-            });
-        }
+        //if (typeof window.TslReader !== 'undefined') {
+        //    window.TslReader.registerListener('deviceConnected', 'deviceConnected_rwordercontrollerjs_getItemStatusScreen', function() {
+        //        RwRFID.isConnected = true;
+        //        FwNotification.renderNotification('INFO', 'RFID Reader Connected');
+        //    });
+        //    window.TslReader.registerListener('deviceDisconnected', 'deviceDisconnected_rwordercontrollerjs_getItemStatusScreen', function() {
+        //        RwRFID.isConnected = false;
+        //        FwNotification.renderNotification('INFO', 'RFID Reader Disconnected');
+        //    });
+        //}
 
         //if (typeof window.ZebraRFIDScanner !== 'undefined') {
         //    ZebraRFIDScanner.registerListener('srfidEventCommunicationSessionEstablished', 'srfidEventCommunicationSessionEstablished_getItemStatusScreen', function() {
@@ -297,10 +299,10 @@ RwOrderController.getItemStatusScreen = function(viewModel, properties) {
             window.TslReader.unregisterListener('deviceDisconnected', 'deviceDisconnected_rwordercontrollerjs_getItemStatusScreen');
         }
         RwRFID.unregisterEvents();
-        if (typeof window.ZebraRFIDScanner !== 'undefined') {
-            window.ZebraRFIDScanner.unregisterListener('srfidEventCommunicationSessionEstablished', 'srfidEventCommunicationSessionEstablished_rwordercontrollerjs_getItemStatusScreen');
-            window.ZebraRFIDScanner.unregisterListener('srfidEventCommunicationSessionTerminated', 'srfidEventCommunicationSessionTerminated_rwordercontrollerjs_getItemStatusScreen');
-        }
+        //if (typeof window.ZebraRFIDScanner !== 'undefined') {
+        //    window.ZebraRFIDScanner.unregisterListener('srfidEventCommunicationSessionEstablished', 'srfidEventCommunicationSessionEstablished_rwordercontrollerjs_getItemStatusScreen');
+        //    window.ZebraRFIDScanner.unregisterListener('srfidEventCommunicationSessionTerminated', 'srfidEventCommunicationSessionTerminated_rwordercontrollerjs_getItemStatusScreen');
+        //}
     };
     
     return screen;
