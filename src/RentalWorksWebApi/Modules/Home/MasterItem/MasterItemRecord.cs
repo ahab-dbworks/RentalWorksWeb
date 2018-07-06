@@ -132,6 +132,9 @@ namespace WebApi.Modules.Home.MasterItem
         [FwSqlDataField(column: "rentalitemid", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 8)]
         public string ItemId { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "mfgpartno", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 40)]
+        public string ManufacturerPartNumber { get; set; }
+        //------------------------------------------------------------------------------------ 
 
 
 
@@ -200,9 +203,6 @@ namespace WebApi.Modules.Home.MasterItem
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "mfgmodel", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 15)]
         //public string Mfgmodel { get; set; }
-        ////------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "mfgpartno", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 40)]
-        //public string Mfgpartno { get; set; }
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "pomasteritemid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
         //public string PomasteritemId { get; set; }

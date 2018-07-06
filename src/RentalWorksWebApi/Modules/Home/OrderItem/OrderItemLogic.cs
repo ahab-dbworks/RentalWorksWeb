@@ -185,6 +185,9 @@ namespace WebApi.Modules.Home.OrderItem
         public string BarCode { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
         public string SerialNumber { get; set; }
+
+        public string ManufacturerPartNumber { get { return orderItem.ManufacturerPartNumber; } set { orderItem.ManufacturerPartNumber = value; } }
+
         //------------------------------------------------------------------------------------ 
 
         //[FwBusinessLogicField(isReadOnly: true)]

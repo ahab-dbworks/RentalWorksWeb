@@ -296,6 +296,9 @@ namespace WebApi.Modules.Home.OrderItem
         [FwSqlDataField(column: "serialno", modeltype: FwDataTypes.Text)]
         public string SerialNumber { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "mfgpartno", modeltype: FwDataTypes.Text)]
+        public string ManufacturerPartNumber { get; set; }
+        //------------------------------------------------------------------------------------ 
 
 
 
@@ -342,9 +345,6 @@ namespace WebApi.Modules.Home.OrderItem
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "rowtype", modeltype: FwDataTypes.Boolean)]
         //public bool? Rowtype { get; set; }
-        ////------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "mfgpartno", modeltype: FwDataTypes.Text)]
-        //public string Mfgpartno { get; set; }
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "inlocationqty", modeltype: FwDataTypes.Integer)]
         //public int? InlocationQuantity { get; set; }
