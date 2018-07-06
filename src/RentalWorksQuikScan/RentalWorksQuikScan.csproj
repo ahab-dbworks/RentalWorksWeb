@@ -511,7 +511,7 @@
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="Modules\OutContractReport\OutContractReport.ts" />
-    <TypeScriptCompile Include="scripts\DefaultApplicationConfig.ts" />
+    <Content Include="scripts\DefaultApplicationConfig.js" />
     <TypeScriptCompile Include="scripts\Program.ts" />
   </ItemGroup>
   <PropertyGroup>
