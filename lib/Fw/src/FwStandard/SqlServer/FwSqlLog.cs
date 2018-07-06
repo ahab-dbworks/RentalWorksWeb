@@ -9,14 +9,22 @@ namespace FwStandard.SqlServer
 {
     public class FwSqlLogEntry
     {
-        public string SqlForHtml   = string.Empty;
-        public string Sql          = string.Empty;
-        public DateTime StartTime  = DateTime.MinValue;
-        public DateTime StopTime   = DateTime.MinValue;
+        public string SqlForHtml = string.Empty;
+        public string Sql = string.Empty;
+        public DateTime StartTime = DateTime.MinValue;
+        public DateTime StopTime = DateTime.MinValue;
         public static int Counter = 0;
+
+        public static string HostMachineName = "";
 
         public FwSqlLogEntry(string label, SqlCommand command)
         {
+
+            if (string.IsNullOrEmpty(HostMachineName))
+            {
+                HostMachineName = System.Net.Dns.GetHostName();
+            }
+
             Counter++;
             StringBuilder sqlForHtml, sql;
             int maxParameterWidth = 0;
@@ -37,23 +45,23 @@ namespace FwStandard.SqlServer
             {
                 sqlForHtml.Append("declare<br/>  ");
                 sql.AppendLine("declare");
-                for(int i = 0; i < command.Parameters.Count; i++)
+                for (int i = 0; i < command.Parameters.Count; i++)
                 {
                     if (command.Parameters[i].ParameterName.Length > maxParameterWidth)
                     {
                         maxParameterWidth = command.Parameters[i].ParameterName.Length;
                     }
                 }
-                for(int i = 0; i < command.Parameters.Count; i++)
+                for (int i = 0; i < command.Parameters.Count; i++)
                 {
                     sql.Append("  ");
                     sqlForHtml.Append(command.Parameters[i].ParameterName.PadRight(maxParameterWidth, ' '));
                     sqlForHtml.Append(" ");
                     sql.Append(command.Parameters[i].ParameterName.PadRight(maxParameterWidth, ' '));
                     sql.Append(" ");
-                    switch(command.Parameters[i].SqlDbType)
+                    switch (command.Parameters[i].SqlDbType)
                     {
-                        case SqlDbType.BigInt: 
+                        case SqlDbType.BigInt:
                             sqlForHtml.Append("bigint");
                             sql.Append("bigint");
                             if ((command.Parameters[i].Value != null) && (!string.IsNullOrEmpty(command.Parameters[i].Value.ToString())))
@@ -62,7 +70,7 @@ namespace FwStandard.SqlServer
                                 sql.Append(" = " + command.Parameters[i].Value.ToString());
                             }
                             break;
-                        case SqlDbType.Binary: 
+                        case SqlDbType.Binary:
                             sqlForHtml.Append("binary(8000)");
                             sql.Append("binary(8000)");
                             if ((command.Parameters[i].Value != null) && (!string.IsNullOrEmpty(command.Parameters[i].Value.ToString())))
@@ -340,7 +348,7 @@ namespace FwStandard.SqlServer
 
                 sql.AppendLine("exec " + command.CommandText);
                 sqlForHtml.Append("exec " + command.CommandText + "<br/>  ");
-                for(int i = 0; i < command.Parameters.Count; i++)
+                for (int i = 0; i < command.Parameters.Count; i++)
                 {
                     sql.Append("  ");
 
@@ -362,7 +370,7 @@ namespace FwStandard.SqlServer
                         sql.Append(command.Parameters[i].ParameterName);
                     }
 
-                    if (i < command.Parameters.Count-1)
+                    if (i < command.Parameters.Count - 1)
                     {
                         sqlForHtml.Append(",");
                         sql.Append(",");
@@ -427,9 +435,14 @@ namespace FwStandard.SqlServer
         {
             if (includeDuration)
             {
-                str = "--" + str  + " in " + GetExecutionTime();
+                str = "--" + str + " in " + GetExecutionTime();
             }
-            //Console.WriteLine(str);  //justin 05/31/2018 commented for release
+            //need to do this differently, such as fw_isinternalserver() 
+            if (HostMachineName.Equals("JUSTIN6"))
+            {
+                Console.WriteLine(str);
+            }
+            //Console.WriteLine(str);  //justin 05/31/2018 commented for release 
         }
 
         public string GetExecutionTime()
@@ -437,9 +450,9 @@ namespace FwStandard.SqlServer
             return DateTime.Now.Subtract(StartTime).TotalMilliseconds.ToString();
         }
     }
-    
+
     public class FwSqlLog : List<FwSqlLogEntry>
-    {           
+    {
         //--------------------------------------------------------------------------------
         public string Render()
         {
@@ -454,7 +467,7 @@ namespace FwStandard.SqlServer
             log.AppendLine("<th>SQL</th>");
             log.AppendLine("</tr>");
             log.AppendLine("</thead>");
-            log.AppendLine("<tbody>");            
+            log.AppendLine("<tbody>");
             for (int i = 0; i < this.Count; i++)
             {
                 if (!isAlternateRow)
