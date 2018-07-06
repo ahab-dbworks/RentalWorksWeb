@@ -23,6 +23,8 @@
             $tr.find('.field[data-browsedatafield="RecType"] input').val("M");
         } else if (grid.hasClass('L')) {
             $tr.find('.field[data-browsedatafield="RecType"] input').val("L");
+        } else if (grid.hasClass('RS')) {
+            $tr.find('.field[data-browsedatafield="RecType"] input').val("RS");
         }
 
         if ($form[0].dataset.controller !== "TemplateController") {
@@ -62,7 +64,16 @@
                     break;
             }
         }
-    };
+     };
+
+     beforeValidateBarcode = function ($browse, $grid, request, datafield, $tr) {
+         let inventoryId = $tr.find('.field[data-browsedatafield="InventoryId"] input').val();
+         if (inventoryId != '') {
+             request.uniqueIds = {
+                 InventoryId: inventoryId
+             }
+         }
+     }
 
     generateRow($control, $generatedtr) {
         var $form = $control.closest('.fwform');
@@ -83,25 +94,36 @@
                 let rateType = $form.find('[data-datafield="RateType"] input').val();
                 let inventoryType = $generatedtr.find('[data-browsedatafield="InventoryId"]').attr('data-validationname');
                 let discountPercent, daysPerWeek;
-        });
+            });
 
-        // Lock Fields
-        FwBrowse.setAfterRenderFieldCallback($control, ($tr: JQuery, $td: JQuery, $field: JQuery, dt: FwJsonDataTable, rowIndex: number, colIndex: number) => {
-            if ($tr.find('.order-item-lock').text() === 'true') {
-                $tr.find('.field-to-lock').css('background-color', "#f5f5f5");
-                $tr.find('.field-to-lock').attr('data-formreadonly', 'true')
-            }
-        });
+            // Lock Fields
+            FwBrowse.setAfterRenderFieldCallback($control, ($tr: JQuery, $td: JQuery, $field: JQuery, dt: FwJsonDataTable, rowIndex: number, colIndex: number) => {
+                if ($tr.find('.order-item-lock').text() === 'true') {
+                    $tr.find('.field-to-lock').css('background-color', "#f5f5f5");
+                    $tr.find('.field-to-lock').attr('data-formreadonly', 'true')
+                }
+            });
 
-        $generatedtr.find('div[data-browsedatafield="InventoryId"]').data('onchange', function ($tr) {
-            var warehouse = FwFormField.getTextByDataField($form, 'WarehouseId');
-            var warehouseId = FwFormField.getValueByDataField($form, 'WarehouseId');
-            let warehouseCode = $form.find('[data-datafield="WarehouseCode"] input').val();
-            let inventoryId = $generatedtr.find('div[data-browsedatafield="InventoryId"] input').val();
-            let officeLocationId = FwFormField.getValueByDataField($form, 'OfficeLocationId');
-            let rateType = $form.find('[data-datafield="RateType"] input').val();
-            let inventoryType = $generatedtr.find('[data-browsedatafield="InventoryId"]').attr('data-validationname');
-            let discountPercent, daysPerWeek;
+
+            $generatedtr.find('div[data-browsedatafield="ItemId"]').data('onchange', function ($tr) {
+                $generatedtr.find('.field[data-browsedatafield="InventoryId"] input').val($tr.find('.field[data-browsedatafield="InventoryId"]').attr('data-originalvalue'));
+                $generatedtr.find('.field[data-browsedatafield="InventoryId"] input.text').val($tr.find('.field[data-browsedatafield="ICode"]').attr('data-originalvalue'));
+                $generatedtr.find('.field[data-browsedatafield="Description"] input').val($tr.find('.field[data-browsedatafield="Description"]').attr('data-originalvalue'));
+                $generatedtr.find('.field[data-browsedatafield="QuantityOrdered"] input').val("1");
+            });
+
+            $generatedtr.find('div[data-browsedatafield="InventoryId"]').data('onchange', function ($tr) {
+                var warehouse = FwFormField.getTextByDataField($form, 'WarehouseId');
+                var warehouseId = FwFormField.getValueByDataField($form, 'WarehouseId');
+                let warehouseCode = $form.find('[data-datafield="WarehouseCode"] input').val();
+                let inventoryId = $generatedtr.find('div[data-browsedatafield="InventoryId"] input').val();
+                let officeLocationId = FwFormField.getValueByDataField($form, 'OfficeLocationId');
+                let rateType = $form.find('[data-datafield="RateType"] input').val();
+                let inventoryType = $generatedtr.find('[data-browsedatafield="InventoryId"]').attr('data-validationname');
+                let discountPercent, daysPerWeek;
+
+                $generatedtr.find('.field[data-browsedatafield="ItemId"] input').val('');
+
 
                 switch (inventoryType) {
                     case 'RentalInventoryValidation':
