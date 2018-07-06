@@ -24,7 +24,7 @@ FwCharge.renderRuntimeHtml = function($control) {
     for (var i = 0; i < activeTemplate.fields.length; i++) {
         if (activeTemplate.fields[i].primary == 'T') {
             maxlength = activeTemplate.fields[i].maxlength;
-            html.push('<div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="' + activeTemplate.fields[i].caption + '" data-datafield="' + data_datafield + (i+1) + '" data-maxlength="' + maxlength + '" style="flex:' + maxlength + ' 0 auto;"></div>');
+            html.push('<div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="' + activeTemplate.fields[i].caption + '" data-datafield="' + data_datafield + (i+1) + '" data-maxlength="' + maxlength + '" style="flex:' + maxlength + ' 0 40px;"></div>');
         }
     }
 
@@ -63,7 +63,7 @@ FwCharge.rerenderRuntimeHtml = function($form, tables) {
             for (var i = 0; i < activeTemplate.fields.length; i++) {
                 if (activeTemplate.fields[i].primary == 'T') {
                     maxlength = activeTemplate.fields[i].maxlength;
-                    html.push('<div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="' + activeTemplate.fields[i].caption + '" data-datafield="' + data_datafield + (i+1) + '" data-maxlength="' + maxlength + '" style="flex:' + maxlength + ' 0 auto;"></div>');
+                    html.push('<div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="' + activeTemplate.fields[i].caption + '" data-datafield="' + data_datafield + (i+1) + '" data-maxlength="' + maxlength + '" style="flex:' + maxlength + ' 0 40px;"></div>');
                 }
             }
 

@@ -50,6 +50,9 @@ html.theme-material .fwbrowse table tbody tr.editrow .field[data-formdatatype="m
 html.theme-material .fwbrowse table tbody tr.editrow .field[data-formdatatype="text"]           input.value {font-size:.9em;} 
 html.theme-material .fwbrowse table tbody tr.editrow .field[data-formdatatype="validation"]     input.text  {font-size:.9em;} 
 html.theme-material .fwbrowse table tbody tr.editrow .field[data-formdatatype="number"]         input.value {font-size:.9em;} 
+
+/*Rules for disabled grid rows text color-profile while selected*/
+html.theme-material .fwbrowse table tbody tr.selected td .field-to-lock[data-formreadonly="true"]{color: black;}
 /*
 html.theme-material .fwformfield[data-type="text"] .fwformfield-control{border-top:none;border-right:none;border-left:none;border-bottom:1px solid #e1dfdf;}
 html.theme-material .fwformfield[data-type="validation"] .fwformfield-control{border-top:none;border-right:none;border-left:none;border-bottom:1px solid #e1dfdf;}

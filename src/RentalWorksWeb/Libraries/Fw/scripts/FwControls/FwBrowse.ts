@@ -1009,7 +1009,7 @@
                             html.push(' style="visibility:hidden;"');
                         }
                         html.push('>');
-
+                     
 
                         if ($theadfield.attr('data-browsedatatype') === 'date') {
                             html.push('<input class="value" type="text"/>');
@@ -1018,7 +1018,7 @@
                         } else {
                             html.push('<input type="text" />');
                             html.push('<span class="searchclear" title="clear"><i class="material-icons">clear</i></span>');
-                        }
+                        } 
 
                         html.push('</div>');
                         html.push('</div>');
@@ -1098,7 +1098,7 @@
 
                 $control.on('click', '.btndate', e => {
                     jQuery(e.currentTarget).siblings('.value').datepicker('show');
-                });
+                }); 
 
                 $control.on('click', 'thead .cbselectrow', function () {
                     try {
@@ -1540,7 +1540,7 @@
             $txtSearch = $field.find('> div.search > input');
             value = $txtSearch.val();
             sort = $field.attr('data-sort');
-            fieldtype = $field.attr('data-browsedatatype');
+            fieldtype = $field.attr('data-browsedatatype'); 
             if (typeof $field.attr('data-datafield') !== 'undefined') {
                 browsedatafield = $field.attr('data-datafield');
             }
@@ -1549,12 +1549,8 @@
             }
             if (value.length > 0) {
                 request.searchfields.push(browsedatafield);
-                request.searchfieldtypes.push(fieldtype);
-                if ($field.attr('data-searchfieldoperators') === 'startswith') {
-                    request.searchfieldoperators.push('startswith');
-                } else {
-                    request.searchfieldoperators.push('like');
-                }
+                  request.searchfieldtypes.push(fieldtype); 
+                request.searchfieldoperators.push('like');
                 request.searchfieldvalues.push(value);
             }
             if (sort === 'asc') {

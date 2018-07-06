@@ -143,7 +143,7 @@ FwFormField_combobox.initControl = function($control) {
         //}
         FwServices.validation.method(request, request.module, 'Browse', $control, function(response) {
             try {
-                if (typeof controller.apiurl !== 'undefined') {
+                if (typeof window[$validationbrowse.attr('data-name') + 'Controller'].apiurl !== 'undefined') {
                     FwFormField_combobox.databindcallback($control, $validationbrowse, response, validationName, $valuefield, $searchfield, $btnvalidate, $validationbrowse, controller);
                 } else {
                     FwFormField_combobox.databindcallback($control, $validationbrowse, response.browse, validationName, $valuefield, $searchfield, $btnvalidate, $validationbrowse, controller);

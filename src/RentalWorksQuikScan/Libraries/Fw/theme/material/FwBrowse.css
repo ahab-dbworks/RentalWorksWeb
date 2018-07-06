@@ -104,10 +104,7 @@ html.theme-material .fwbrowse table thead tr td .field .search .searchclear i {f
 /* tbody */
 #inventory input[type="number"]::-webkit-outer-spin-button, #inventory input[type="number"]::-webkit-inner-spin-button {-webkit-appearance: none;margin: 0;}
 #inventory input[type="number"] {-moz-appearance: textfield;}
-
-/*Rules for disabled grid rows text color-profile while selected*/
 html.theme-material .fwbrowse table tbody tr.selected td .cellgradient[data-formreadonly="true"]{color: black;}
-html.theme-material .fwbrowse table tbody tr.selected td .field-to-lock[data-formreadonly="true"]{color: black;}
 
 html.theme-material .fwbrowse table tbody tr.empty td {height:100px;}
 html.theme-material .fwbrowse table tbody tr td.cellColor::after {content: "";position: absolute;top: 0;left: 0;width: 0;height: 0;display: block;border-right: 20px solid transparent;border-bottom: 20px solid transparent;border-top: 20px solid;border-top-color: inherit;}  
