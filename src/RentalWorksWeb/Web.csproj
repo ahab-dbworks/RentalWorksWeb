@@ -279,7 +279,6 @@
     <Content Include="Source\Grids\ItemLocationTaxGrid\ItemLocationTaxGridBrowse.htm" />
     <Content Include="Source\Grids\RateLocationTaxGrid\RateLocationTaxGridBrowse.htm" />
     <Content Include="Source\Grids\SubCategoryGrid\SubCategoryGridBrowse.htm" />
-    <TypeScriptCompile Include="scripts\Global.ts" />
     <TypeScriptCompile Include="Source\Grids\ContactPersonalEventGrid\ContactPersonalEventGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\InventoryWarehouseStagingGrid\InventoryWarehouseStagingGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\ProjectContactGrid\ProjectContactGridController.ts" />
