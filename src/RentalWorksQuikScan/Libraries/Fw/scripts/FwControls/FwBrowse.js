@@ -2143,8 +2143,10 @@ var FwBrowse = (function () {
             }
             var $tdselectrow = $tr.find('.tdselectrow');
             $tdselectrow.find('.divsaverow').remove();
+            $tdselectrow.find('.divselectrow').show();
             var $browsecontextmenucell = $tr.find('.browsecontextmenucell');
             $browsecontextmenucell.find('.divcancelsaverow').remove();
+            $browsecontextmenucell.find('.browsecontextmenu').show();
             FwBrowse.setRowViewMode($control, $tr);
         }
     };

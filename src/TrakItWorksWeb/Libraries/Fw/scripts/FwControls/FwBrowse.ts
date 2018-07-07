@@ -2380,12 +2380,12 @@
             //hide save button
             var $tdselectrow = $tr.find('.tdselectrow');
             $tdselectrow.find('.divsaverow').remove();
-            //$tdselectrow.find('.divselectrow').show();
+            $tdselectrow.find('.divselectrow').show();
 
             //hide cancel button
             var $browsecontextmenucell = $tr.find('.browsecontextmenucell');
             $browsecontextmenucell.find('.divcancelsaverow').remove();
-            //$browsecontextmenucell.find('.browsecontextmenu').show();
+            $browsecontextmenucell.find('.browsecontextmenu').show();
 
             FwBrowse.setRowViewMode($control, $tr);
         }
