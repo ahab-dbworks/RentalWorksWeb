@@ -1,3 +1,11 @@
 ﻿.swagger-ui .topbar {
     background-color: #673AB7;
 }
+
+.swagger-ui .topbar .wrapper .link img{display:none;}
+.swagger-ui .topbar .wrapper .link span{display:none;}
+.swagger-ui .topbar .wrapper .link::after{content: 'RentalWorks API'}
+
+.download-url-wrapper .select-label span {color:#ffffff;}
+
+.information-container {display:none;}
