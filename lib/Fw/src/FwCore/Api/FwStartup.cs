@@ -224,6 +224,11 @@ namespace FwCore.Api
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
+                c.DocumentTitle = SystemName + " API";
+                if (File.Exists(Path.Combine(HostingEnvironment.ContentRootPath, "swagger-ui/custom.css")))
+                {
+                    c.InjectStylesheet("/swagger-ui/custom.css");
+                }
                 c.DocExpansion(DocExpansion.None);
                 c.SwaggerEndpoint(Configuration["ApplicationConfig:VirtualDirectory"] + "/swagger/accountservices-v1/swagger.json", SystemName + " Account Services API v1");
                 c.SwaggerEndpoint(Configuration["ApplicationConfig:VirtualDirectory"] + "/swagger/home-v1/swagger.json", SystemName + " Home API v1");

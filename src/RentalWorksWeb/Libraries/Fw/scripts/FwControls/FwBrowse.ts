@@ -1097,7 +1097,7 @@
                 }).off('focus');
 
                 $control.on('click', '.btndate', e => {
-                    jQuery(e.currentTarget).siblings('.value').datepicker('show');
+                    (<any>jQuery(e.currentTarget).siblings('.value')).datepicker('show');
                 }); 
 
                 $control.on('click', 'thead .cbselectrow', function () {

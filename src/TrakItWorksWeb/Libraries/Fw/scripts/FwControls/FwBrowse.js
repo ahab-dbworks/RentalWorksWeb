@@ -905,11 +905,15 @@ var FwBrowse = (function () {
                             html.push(' style="visibility:hidden;"');
                         }
                         html.push('>');
-                        if ($control.attr('data-browsedatatype') === 'date') {
-                            html.push('<input type="text" />');
+                        if ($theadfield.attr('data-browsedatatype') === 'date') {
+                            html.push('<input class="value" type="text"/>');
+                            html.push('<i class="material-icons btndate" style="position:absolute; right:0px; top:5px;">&#xE8DF;</i>');
+                            html.push('<span class="searchclear" title="clear" style="right:20px;"><i class="material-icons">clear</i></span>');
                         }
-                        ;
-                        html.push('<span class="searchclear" title="clear"><i class="material-icons">clear</i></span>');
+                        else {
+                            html.push('<input type="text" />');
+                            html.push('<span class="searchclear" title="clear"><i class="material-icons">clear</i></span>');
+                        }
                         html.push('</div>');
                         html.push('</div>');
                     }
@@ -974,6 +978,16 @@ var FwBrowse = (function () {
                 html = html.join('');
                 $control.html(html);
                 $control.attr('data-rendermode', 'runtime');
+                $control.find('.value').datepicker({
+                    endDate: (($control.attr('data-nofuture') == 'true') ? '+0d' : Infinity),
+                    autoclose: true,
+                    format: "mm/dd/yyyy",
+                    todayHighlight: true,
+                    todayBtn: 'linked'
+                }).off('focus');
+                $control.on('click', '.btndate', function (e) {
+                    jQuery(e.currentTarget).siblings('.value').datepicker('show');
+                });
                 $control.on('click', 'thead .cbselectrow', function () {
                     try {
                         var $this = jQuery(this);
@@ -1335,11 +1349,12 @@ var FwBrowse = (function () {
     FwBrowse.screenunload = function ($control) {
     };
     FwBrowse.getRequest = function ($control) {
-        var request, $fields, orderby, $field, $txtSearch, browsedatafield, value, sort, module, controller;
+        var request, $fields, orderby, $field, $txtSearch, browsedatafield, value, sort, module, controller, fieldtype;
         orderby = [];
         request = {
             module: '',
             searchfields: [],
+            searchfieldtypes: [],
             searchfieldoperators: [],
             searchfieldvalues: [],
             miscfields: !$control.closest('.fwform').length ? jQuery([]) : FwModule.getFormUniqueIds($control.closest('.fwform')),
@@ -1372,6 +1387,7 @@ var FwBrowse = (function () {
             $txtSearch = $field.find('> div.search > input');
             value = $txtSearch.val();
             sort = $field.attr('data-sort');
+            fieldtype = $field.attr('data-browsedatatype');
             if (typeof $field.attr('data-datafield') !== 'undefined') {
                 browsedatafield = $field.attr('data-datafield');
             }
@@ -1380,7 +1396,13 @@ var FwBrowse = (function () {
             }
             if (value.length > 0) {
                 request.searchfields.push(browsedatafield);
-                request.searchfieldoperators.push('like');
+                request.searchfieldtypes.push(fieldtype);
+                if ($field.attr('data-searchfieldoperators') === 'startswith') {
+                    request.searchfieldoperators.push('startswith');
+                }
+                else {
+                    request.searchfieldoperators.push('like');
+                }
                 request.searchfieldvalues.push(value);
             }
             if (sort === 'asc') {
@@ -1566,7 +1588,7 @@ var FwBrowse = (function () {
                                     'background': 'linear-gradient(to bottom, ' + dtRow[dt.ColumnIndex[halfcellcolor]] + ', rgba(255, 255, 255, 0)50%)'
                                 };
                             }
-                            $td.children().css(css);
+                            $td.children().css(css).addClass('cellgradient');
                         }
                     }
                     var fullcellcolor = $field.attr('data-fullcellcolor');
@@ -1588,7 +1610,7 @@ var FwBrowse = (function () {
                                     'background': 'linear-gradient(to bottom, ' + dtRow[dt.ColumnIndex[fullcellcolor]] + ', rgba(255, 255, 255, 0))'
                                 };
                             }
-                            $td.children().css(css);
+                            $td.children().css(css).addClass('cellgradient');
                         }
                     }
                     var browsecellbackgroundcolorfield = $field.attr('data-browsecellbackgroundcolorfield');

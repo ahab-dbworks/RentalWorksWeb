@@ -30,7 +30,7 @@ namespace FwCore.Controllers
         /// Uses the request to get the fully qualified base url without a trailing backslash
         /// </summary>
         /// <returns></returns>
-        public string GetFullyQualifiedBaseUrl()
+        protected string GetFullyQualifiedBaseUrl()
         {
             string appPath = this.AppConfig.PublicBaseUrl;
 
