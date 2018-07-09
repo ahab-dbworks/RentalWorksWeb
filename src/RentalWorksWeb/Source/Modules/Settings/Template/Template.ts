@@ -52,7 +52,8 @@
         var $orderItemGridRentalControl;
         $orderItemGridRental = $form.find('.rentalgrid div[data-grid="OrderItemGrid"]');
         $orderItemGridRentalControl = jQuery(jQuery('#tmpl-grids-OrderItemGridBrowse').html());
-        $orderItemGridRentalControl.find('.template').parent().attr('data-visible', false);
+        $orderItemGridRentalControl.find('.column').attr('data-visible', false);
+        $orderItemGridRentalControl.find('.template').parent().attr('data-visible', true);
         $orderItemGridRental.empty().append($orderItemGridRentalControl);
         $orderItemGridRentalControl.data('ondatabind', function (request) {
             request.uniqueids = {
@@ -73,7 +74,8 @@
         var $orderItemGridSalesControl;
         $orderItemGridSales = $form.find('.salesgrid div[data-grid="OrderItemGrid"]');
         $orderItemGridSalesControl = jQuery(jQuery('#tmpl-grids-OrderItemGridBrowse').html());
-        $orderItemGridSalesControl.find('.template').parent().attr('data-visible', false);
+        $orderItemGridSalesControl.find('.column').attr('data-visible', false);
+        $orderItemGridSalesControl.find('.template').parent().attr('data-visible', true);
         $orderItemGridSales.empty().append($orderItemGridSalesControl);
         $orderItemGridSalesControl.data('ondatabind', function (request) {
             request.uniqueids = {
@@ -94,7 +96,8 @@
         var $orderItemGridFacilitiesControl;
         $orderItemGridFacilities = $form.find('.facilitiesgrid div[data-grid="OrderItemGrid"]');
         $orderItemGridFacilitiesControl = jQuery(jQuery('#tmpl-grids-OrderItemGridBrowse').html());
-        $orderItemGridFacilitiesControl.find('.template').parent().attr('data-visible', false);
+        $orderItemGridFacilitiesControl.find('.column').attr('data-visible', false);
+        $orderItemGridFacilitiesControl.find('.template').parent().attr('data-visible', true);
         $orderItemGridFacilities.empty().append($orderItemGridFacilitiesControl);
         $orderItemGridFacilitiesControl.data('ondatabind', function (request) {
             request.uniqueids = {
@@ -133,7 +136,8 @@
         var $orderItemGridLaborControl;
         $orderItemGridLabor = $form.find('.laborgrid div[data-grid="OrderItemGrid"]');
         $orderItemGridLaborControl = jQuery(jQuery('#tmpl-grids-OrderItemGridBrowse').html());
-        $orderItemGridLaborControl.find('.template').parent().attr('data-visible', false);
+        $orderItemGridLaborControl.find('.column').attr('data-visible', false);
+        $orderItemGridLaborControl.find('.template').parent().attr('data-visible', true);
         $orderItemGridLabor.empty().append($orderItemGridLaborControl);
         $orderItemGridLaborControl.data('ondatabind', function (request) {
             request.uniqueids = {
@@ -153,7 +157,8 @@
         var $orderItemGridMiscControl;
         $orderItemGridMisc = $form.find('.miscgrid div[data-grid="OrderItemGrid"]');
         $orderItemGridMiscControl = jQuery(jQuery('#tmpl-grids-OrderItemGridBrowse').html());
-        $orderItemGridMiscControl.find('.template').parent().attr('data-visible', false);
+        $orderItemGridMiscControl.find('.column').attr('data-visible', false);
+        $orderItemGridMiscControl.find('.template').parent().attr('data-visible', true);
         $orderItemGridMisc.empty().append($orderItemGridMiscControl);
         $orderItemGridMiscControl.data('ondatabind', function (request) {
             request.uniqueids = {

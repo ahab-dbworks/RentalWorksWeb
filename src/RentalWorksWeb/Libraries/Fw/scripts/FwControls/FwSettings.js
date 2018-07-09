@@ -488,9 +488,9 @@ FwSettings.renderModuleHtml = function ($control, title, moduleName, description
                                 if (browseData[j]['datatype'] === 'checkbox') {
                                     html.push('        <div class="fwcontrol fwcontainer fwform-fieldrow" data-type="fieldrow" style="width:50px;">');
                                     if (response[i][browseKeys[j]]) {
-                                        html.push('<div class="checkboxwrapper"><input class="value" type="checkbox" disabled="disabled" style="box-sizing:border-box;pointer-events:none;" checked><label></label></div>');
+                                        html.push('<div class="checkboxwrapper"><input class="value" data-datafield="' + browseData[j]['datafield'] + '" type="checkbox" disabled="disabled" style="box-sizing:border-box;pointer-events:none;" checked><label></label></div>');
                                     } else {
-                                        html.push('<div class="checkboxwrapper"><input class="value" type="checkbox" disabled="disabled" style="box-sizing:border-box;pointer-events:none;"><label></label></div>');
+                                        html.push('<div class="checkboxwrapper"><input class="value" data-datafield="' + browseData[j]['datafield'] + '" type="checkbox" disabled="disabled" style="box-sizing:border-box;pointer-events:none;"><label></label></div>');
                                     }
 
                                 } else {
@@ -635,6 +635,9 @@ FwSettings.renderModuleHtml = function ($control, title, moduleName, description
             for (var j = 0; j < browsedatafields.length; j++) {
                 if (jQuery(this).closest('.panel-record').find('.panel-info').find('label[data-datafield="' + browsedatafields[j] + '"]')) {
                     jQuery(this).closest('.panel-record').find('.panel-info').find('label[data-datafield="' + browsedatafields[j] + '"]').text(FwFormField.getValueByDataField($form, browsedatafields[j]));
+                }
+                if (jQuery(this).closest('.panel-record').find('.panel-info').find('input[data-datafield="' + browsedatafields[j] + '"]')) {
+                    jQuery(this).closest('.panel-record').find('.panel-info').find('[data-datafield="' + browsedatafields[j] + '"]').prop('checked', FwFormField.getValueByDataField($form, browsedatafields[j]));
                 }
             }
 
