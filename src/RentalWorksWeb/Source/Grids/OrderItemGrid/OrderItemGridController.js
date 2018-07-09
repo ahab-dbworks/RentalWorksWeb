@@ -76,11 +76,6 @@ var OrderItemGrid = (function () {
     };
     OrderItemGrid.prototype.generateRow = function ($control, $generatedtr) {
         var $form = $control.closest('.fwform');
-        FwBrowse.setAfterRenderRowCallback($control, function ($tr, dt, rowIndex) {
-            if ($tr.find('.order-item-bold').text() === 'true') {
-                $tr.css('font-weight', "bold");
-            }
-        });
         if ($form.attr('data-controller') === 'OrderController' || $form.attr('data-controller') === 'QuoteController') {
             $generatedtr.find('div[data-browsedatafield="InventoryId"]').data('onchange', function ($tr) {
                 var warehouse = FwFormField.getTextByDataField($form, 'WarehouseId');
@@ -91,6 +86,11 @@ var OrderItemGrid = (function () {
                 var rateType = $form.find('[data-datafield="RateType"] input').val();
                 var inventoryType = $generatedtr.find('[data-browsedatafield="InventoryId"]').attr('data-validationname');
                 var discountPercent, daysPerWeek;
+            });
+            FwBrowse.setAfterRenderRowCallback($control, function ($tr, dt, rowIndex) {
+                if ($tr.find('.order-item-bold').text() === 'true') {
+                    $tr.css('font-weight', "bold");
+                }
             });
             FwBrowse.setAfterRenderFieldCallback($control, function ($tr, $td, $field, dt, rowIndex, colIndex) {
                 if ($tr.find('.order-item-lock').text() === 'true') {

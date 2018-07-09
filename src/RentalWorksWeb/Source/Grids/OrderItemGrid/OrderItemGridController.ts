@@ -78,12 +78,6 @@
     generateRow($control, $generatedtr) {
         var $form = $control.closest('.fwform');
 
-        // Bold Row
-        FwBrowse.setAfterRenderRowCallback($control, ($tr: JQuery, dt: FwJsonDataTable, rowIndex: number) => {
-            if ($tr.find('.order-item-bold').text() === 'true') {
-                $tr.css('font-weight', "bold");
-            }
-        });
         if ($form.attr('data-controller') === 'OrderController' || $form.attr('data-controller') === 'QuoteController') {
             $generatedtr.find('div[data-browsedatafield="InventoryId"]').data('onchange', function ($tr) {
                 var warehouse = FwFormField.getTextByDataField($form, 'WarehouseId');
@@ -96,6 +90,13 @@
                 let discountPercent, daysPerWeek;
             });
 
+            // Bold Row
+            FwBrowse.setAfterRenderRowCallback($control, ($tr: JQuery, dt: FwJsonDataTable, rowIndex: number) => {
+                if ($tr.find('.order-item-bold').text() === 'true') {
+                    $tr.css('font-weight', "bold");
+                }
+            });
+
             // Lock Fields
             FwBrowse.setAfterRenderFieldCallback($control, ($tr: JQuery, $td: JQuery, $field: JQuery, dt: FwJsonDataTable, rowIndex: number, colIndex: number) => {
                 if ($tr.find('.order-item-lock').text() === 'true') {
@@ -103,7 +104,6 @@
                     $tr.find('.field-to-lock').attr('data-formreadonly', 'true')
                 }
             });
-
 
             $generatedtr.find('div[data-browsedatafield="ItemId"]').data('onchange', function ($tr) {
                 $generatedtr.find('.field[data-browsedatafield="InventoryId"] input').val($tr.find('.field[data-browsedatafield="InventoryId"]').attr('data-originalvalue'));
@@ -123,7 +123,6 @@
                 let discountPercent, daysPerWeek;
 
                 $generatedtr.find('.field[data-browsedatafield="ItemId"] input').val('');
-
 
                 switch (inventoryType) {
                     case 'RentalInventoryValidation':

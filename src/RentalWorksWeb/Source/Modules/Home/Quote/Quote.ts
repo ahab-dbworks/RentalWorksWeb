@@ -1680,27 +1680,28 @@ class Quote {
 
     //----------------------------------------------------------------------------------------------
     orderItemGridBoldUnbold($browse: any, event: any) {
-        let quoteId, orderItemId, boldStatus;
+        let orderId, $selectedCheckBoxes;
+        orderId = $browse.find('.selected [data-browsedatafield="OrderId"]').attr('data-originalvalue');
+        $selectedCheckBoxes = $browse.find('.cbselectrow:checked');
 
-        quoteId = $browse.find('.selected [data-browsedatafield="OrderId"]').attr('data-originalvalue');
-        orderItemId = $browse.find('.selected [data-formdatafield="OrderItemId"]').attr('data-originalvalue');
-        boldStatus = $browse.find('.selected [data-formdatafield="Bold"]').attr('data-originalvalue');
+        for (let i = 0; i < $selectedCheckBoxes.length; i++) {
+            let orderItemId = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="OrderItemId"]').attr('data-originalvalue');
+            let orderId = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="OrderId"]').attr('data-originalvalue');
 
-        if (quoteId != null) {
-            if (boldStatus === "true") {
-                unboldItem();
-            } else {
-                boldItem();
+            if (orderId != null) {
+                if ($selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="Bold"]').attr('data-originalvalue') === 'true') {
+                    unboldItem(orderId, orderItemId);
+                } else {
+                    boldItem(orderId, orderItemId);
+                }
             }
-        } else {
-            throw new Error("Please select an Item to perform this action.");
         }
 
-        function boldItem() {
+        function boldItem(orderId, orderItemId) {
             let request: any = {};
-
+            
             request = {
-                OrderId: quoteId,
+                OrderId: orderId,
                 OrderItemId: orderItemId,
                 Bold: true,
             }
@@ -1713,11 +1714,11 @@ class Quote {
             }, $browse);
         };
 
-        function unboldItem() {
+        function unboldItem(orderId, orderItemId) {
             let request: any = {};
-
+            
             request = {
-                OrderId: quoteId,
+                OrderId: orderId,
                 OrderItemId: orderItemId,
                 Bold: false,
             }
@@ -1733,13 +1734,15 @@ class Quote {
 
     //----------------------------------------------------------------------------------------------
     orderItemGridLockUnlock($browse: any, event: any) {
-        let quoteId, orderItemId, lockedStatus;
+        let orderId, orderItemId, lockedStatus;
 
-        quoteId = $browse.find('.selected [data-browsedatafield="OrderId"]').attr('data-originalvalue');
+
+        orderId = $browse.find('.selected [data-browsedatafield="OrderId"]').attr('data-originalvalue');
         orderItemId = $browse.find('.selected [data-formdatafield="OrderItemId"]').attr('data-originalvalue');
         lockedStatus = $browse.find('.selected [data-formdatafield="Locked"]').attr('data-originalvalue');
+        console.log('ID', orderItemId)
 
-        if (quoteId != null) {
+        if (orderId != null) {
             if (lockedStatus === "true") {
                 unlockItem();
             } else {
@@ -1753,7 +1756,7 @@ class Quote {
             let request: any = {};
            
             request = {
-                OrderId: quoteId,
+                OrderId: orderId,
                 OrderItemId: orderItemId,
                 Locked: true,
             }
@@ -1770,7 +1773,7 @@ class Quote {
             let request: any = {};
 
             request = {
-                OrderId: quoteId,
+                OrderId: orderId,
                 OrderItemId: orderItemId,
                 Locked: false,
             }

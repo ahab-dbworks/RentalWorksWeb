@@ -1330,22 +1330,22 @@ var Order = (function () {
     };
     ;
     Order.prototype.orderItemGridBoldUnbold = function ($browse, event) {
-        var orderId, orderItemId, boldStatus;
+        var orderId, $selectedCheckBoxes;
         orderId = $browse.find('.selected [data-browsedatafield="OrderId"]').attr('data-originalvalue');
-        orderItemId = $browse.find('.selected [data-formdatafield="OrderItemId"]').attr('data-originalvalue');
-        boldStatus = $browse.find('.selected [data-formdatafield="Bold"]').attr('data-originalvalue');
-        if (orderId != null) {
-            if (boldStatus === "true") {
-                unboldItem();
-            }
-            else {
-                boldItem();
+        $selectedCheckBoxes = $browse.find('.cbselectrow:checked');
+        for (var i = 0; i < $selectedCheckBoxes.length; i++) {
+            var orderItemId = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="OrderItemId"]').attr('data-originalvalue');
+            var orderId_1 = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="OrderId"]').attr('data-originalvalue');
+            if (orderId_1 != null) {
+                if ($selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="Bold"]').attr('data-originalvalue') === 'true') {
+                    unboldItem(orderId_1, orderItemId);
+                }
+                else {
+                    boldItem(orderId_1, orderItemId);
+                }
             }
         }
-        else {
-            throw new Error("Please select an Item to perform this action.");
-        }
-        function boldItem() {
+        function boldItem(orderId, orderItemId) {
             var request = {};
             request = {
                 OrderId: orderId,
@@ -1360,7 +1360,7 @@ var Order = (function () {
             }, $browse);
         }
         ;
-        function unboldItem() {
+        function unboldItem(orderId, orderItemId) {
             var request = {};
             request = {
                 OrderId: orderId,

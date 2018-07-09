@@ -1506,23 +1506,24 @@ class Order {
 
     //----------------------------------------------------------------------------------------------
     orderItemGridBoldUnbold($browse: any, event: any) {
-        let orderId, orderItemId, boldStatus;
-
+        let orderId, $selectedCheckBoxes;
         orderId = $browse.find('.selected [data-browsedatafield="OrderId"]').attr('data-originalvalue');
-        orderItemId = $browse.find('.selected [data-formdatafield="OrderItemId"]').attr('data-originalvalue');
-        boldStatus = $browse.find('.selected [data-formdatafield="Bold"]').attr('data-originalvalue');
+        $selectedCheckBoxes = $browse.find('.cbselectrow:checked');
 
-        if (orderId != null) {
-            if (boldStatus === "true") {
-                unboldItem();
-            } else {
-                boldItem();
+        for (let i = 0; i < $selectedCheckBoxes.length; i++) {
+            let orderItemId = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="OrderItemId"]').attr('data-originalvalue');
+            let orderId = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="OrderId"]').attr('data-originalvalue');
+
+            if (orderId != null) {
+                if ($selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="Bold"]').attr('data-originalvalue') === 'true') {
+                    unboldItem(orderId, orderItemId);
+                } else {
+                    boldItem(orderId, orderItemId);
+                }
             }
-        } else {
-            throw new Error("Please select an Item to perform this action.");
         }
 
-        function boldItem() {
+        function boldItem(orderId, orderItemId) {
             let request: any = {};
 
             request = {
@@ -1539,7 +1540,7 @@ class Order {
             }, $browse);
         };
 
-        function unboldItem() {
+        function unboldItem(orderId, orderItemId) {
             let request: any = {};
 
             request = {
