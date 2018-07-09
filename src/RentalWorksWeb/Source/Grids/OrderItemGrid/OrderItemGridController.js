@@ -114,6 +114,7 @@ var OrderItemGrid = (function () {
                 var inventoryType = $generatedtr.find('[data-browsedatafield="InventoryId"]').attr('data-validationname');
                 var discountPercent, daysPerWeek;
                 $generatedtr.find('.field[data-browsedatafield="ItemId"] input').val('');
+                $generatedtr.find('.field[data-browsedatafield="Description"] input').val($tr.find('.field[data-browsedatafield="Description"]').attr('data-originalvalue'));
                 switch (inventoryType) {
                     case 'RentalInventoryValidation':
                         discountPercent = FwFormField.getValueByDataField($form, 'RentalDiscountPercent');
