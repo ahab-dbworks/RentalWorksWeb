@@ -26,6 +26,7 @@ namespace WebApi.Modules.Home.PurchaseOrder
 
         }
         //------------------------------------------------------------------------------------ 
+        [FwBusinessLogicField(isPrimaryKey: true)]
         public string PurchaseOrderId { get { return purchaseOrder.OrderId; } set { purchaseOrder.OrderId = value; } }
         [FwBusinessLogicField(isRecordTitle: true)]
         public string PurchaseOrderNumber { get { return purchaseOrder.OrderNumber; } set { purchaseOrder.OrderNumber = value; } }

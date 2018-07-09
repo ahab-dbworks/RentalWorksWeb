@@ -26,7 +26,7 @@ namespace WebApi.Modules.Administrator.CheckOut
     {
         public CheckOutController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/checkout/stageitem?orderid=A0000001&
+        // POST api/v1/checkout/stageitem
         [HttpPost("stageitem")]
         public async Task<IActionResult> StageItem([FromBody]StageItemRequest request)
         {

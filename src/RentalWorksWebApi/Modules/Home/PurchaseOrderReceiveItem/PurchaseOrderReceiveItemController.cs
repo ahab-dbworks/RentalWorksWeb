@@ -9,6 +9,15 @@ using Microsoft.AspNetCore.Http;
 
 namespace WebApi.Modules.Home.PurchaseOrderReceiveItem
 {
+    public class ReceiveItemRequest
+    {
+        public string ContractId;
+        public string PurchaseOrderId;
+        public string PurchaseOrderItemId;
+        public int Quantity;
+    }
+
+
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "home-v1")]
     public class PurchaseOrderReceiveItemController : AppDataController
@@ -61,7 +70,7 @@ namespace WebApi.Modules.Home.PurchaseOrderReceiveItem
 
         // POST api/v1/purchaseorderreceiveitem/receiveitems
         [HttpPost("receiveitems")]
-        public async Task<IActionResult> ReceiveItems(string contractId, string purchaseOrderId, string purchaseOrderItemId, int quantity)
+        public async Task<IActionResult> ReceiveItems([FromBody] ReceiveItemRequest request)
         {
             if (!ModelState.IsValid)
             {
@@ -69,25 +78,25 @@ namespace WebApi.Modules.Home.PurchaseOrderReceiveItem
             }
             try
             {
-                if (string.IsNullOrEmpty(contractId))
+                if (string.IsNullOrEmpty(request.ContractId))
                 {
                     throw new Exception("ContractId is required.");
                 }
-                else if (string.IsNullOrEmpty(purchaseOrderId))
+                else if (string.IsNullOrEmpty(request.PurchaseOrderId))
                 {
                     throw new Exception("PurchaseOrderId is required.");
                 }
-                else if (string.IsNullOrEmpty(purchaseOrderItemId))
+                else if (string.IsNullOrEmpty(request.PurchaseOrderItemId))
                 {
                     throw new Exception("PurchaseOrderItemId is required.");
                 }
-                else if (quantity == 0)
+                else if (request.Quantity == 0)
                 {
                     throw new Exception("Quantity cannot be zero.");
                 }
                 else
                 {
-                    TSpStatusReponse response = await AppFunc.ReceiveItem(AppConfig, UserSession, contractId, purchaseOrderId, purchaseOrderItemId, quantity);
+                    TSpStatusReponse response = await AppFunc.ReceiveItem(AppConfig, UserSession, request.ContractId, request.PurchaseOrderId, request.PurchaseOrderItemId, request.Quantity);
                     if (response.success)
                     {
                         return new OkObjectResult(true);

@@ -21,7 +21,6 @@ namespace WebApi.Home.CheckOut
 
 public class TStageItemReponse: TSpStatusReponse
     {
-        public int status;
         public string InventoryId;
         public string OrderItemId;
         public int QuantityStaged;

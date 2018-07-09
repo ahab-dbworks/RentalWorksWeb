@@ -10,6 +10,19 @@ using WebApi.Logic;
 
 namespace WebApi.Modules.Home.PurchaseOrder
 {
+
+
+    public class ReceiveContractRequest
+    {
+        public string PurchaseOrderId;
+    }
+
+    public class ReceiveContractResponse
+    {
+        public string ContractId;
+    }
+
+
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "home-v1")]
     public class PurchaseOrderController : AppDataController
@@ -59,8 +72,8 @@ namespace WebApi.Modules.Home.PurchaseOrder
         //}
         ////------------------------------------------------------------------------------------ 
         // POST api/v1/purchaseorder/startreceivecontract
-        [HttpPost("startreceivecontract/{id}")]
-        public async Task<IActionResult> StartReceiveContractAsync([FromRoute]string id)
+        [HttpPost("startreceivecontract")]
+        public async Task<IActionResult> StartReceiveContractAsync([FromBody]ReceiveContractRequest request)
         {
             if (!ModelState.IsValid)
             {
@@ -68,15 +81,15 @@ namespace WebApi.Modules.Home.PurchaseOrder
             }
             try
             {
-                string[] ids = id.Split('~');
                 PurchaseOrderLogic l = new PurchaseOrderLogic();
                 l.SetDependencies(this.AppConfig, this.UserSession);
-                if (await l.LoadAsync<PurchaseOrderLogic>(ids))
+                l.PurchaseOrderId = request.PurchaseOrderId;
+                if (await l.LoadAsync<PurchaseOrderLogic>())
                 {
-                    //ContractLogic contract = await l.CreateReceiveContract();
-                    //return new OkObjectResult(contract);
                     string ContractId = await l.CreateReceiveContract();
-                    return new OkObjectResult(ContractId);
+                    ReceiveContractResponse response = new ReceiveContractResponse();
+                    response.ContractId = ContractId;
+                    return new OkObjectResult(response);
                 }
                 else
                 {

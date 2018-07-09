@@ -11,6 +11,7 @@ namespace WebApi.Logic
 
     public class TSpStatusReponse
     {
+        public int status;
         public bool success;
         public string msg;
     }
