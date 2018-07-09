@@ -57,16 +57,17 @@ namespace WebLibrary.Security
             AddModule("Project",          "{C6C8167A-C3B5-4915-8290-4520AF7EDB35}", lv1menuAgent.Id, "ProjectController",         "module/project",         homeiconbaseurl + "placeholder.png");
 
 
-            AddModule("Rental Inventory", "{FCDB4C86-20E7-489B-A8B7-D22EE6F85C06}", lv1menuWarehouse.Id, "RentalInventoryController", "module/rentalinventory", homeiconbaseurl + "placeholder.png");
-            AddModule("Sales Inventory",  "{B0CF2E66-CDF8-4E58-8006-49CA68AE38C2}", lv1menuWarehouse.Id, "SalesInventoryController",  "module/salesinventory",  homeiconbaseurl + "placeholder.png");
-            AddModule("Parts Inventory",  "{351B8A09-7778-4F06-A6A2-ED0920A5C360}", lv1menuWarehouse.Id, "PartsInventoryController",  "module/partsinventory",  homeiconbaseurl + "placeholder.png");
-            AddModule("Asset",            "{1C45299E-F8DB-4AE4-966F-BE142295E3D6}", lv1menuWarehouse.Id, "AssetController",           "module/asset",           homeiconbaseurl + "placeholder.png");
-            AddModule("Order Status",     "{F6AE5BC1-865D-467B-A201-95C93F8E8D0B}", lv1menuWarehouse.Id, "OrderStatusController",     "module/orderstatus",     homeiconbaseurl + "placeholder.png");
-            AddModule("Pick List",        "{7B04E5D4-D079-4F3A-9CB0-844F293569ED}", lv1menuWarehouse.Id, "PickListController",        "module/picklist",        homeiconbaseurl + "placeholder.png");
-            AddModule("Create Pick List", "{5013C4FF-FC42-4EFE-AE9D-AAF6857F17B8}", null,                "CreatePickListController",  "module/createpicklist",  homeiconbaseurl + "placeholder.png");
-            AddModule("Contract",         "{6BBB8A0A-53FA-4E1D-89B3-8B184B233DEA}", lv1menuWarehouse.Id, "ContractController",        "module/contract",        homeiconbaseurl + "placeholder.png");
-            AddModule("Repair Order",     "{2BD0DC82-270E-4B86-A9AA-DD0461A0186A}", lv1menuWarehouse.Id, "RepairController",          "module/repair",          homeiconbaseurl + "placeholder.png");
-           
+            AddModule("Rental Inventory",        "{FCDB4C86-20E7-489B-A8B7-D22EE6F85C06}", lv1menuWarehouse.Id, "RentalInventoryController", "module/rentalinventory", homeiconbaseurl + "placeholder.png");
+            AddModule("Sales Inventory",         "{B0CF2E66-CDF8-4E58-8006-49CA68AE38C2}", lv1menuWarehouse.Id, "SalesInventoryController",  "module/salesinventory",  homeiconbaseurl + "placeholder.png");
+            AddModule("Parts Inventory",         "{351B8A09-7778-4F06-A6A2-ED0920A5C360}", lv1menuWarehouse.Id, "PartsInventoryController",  "module/partsinventory",  homeiconbaseurl + "placeholder.png");
+            AddModule("Asset",                   "{1C45299E-F8DB-4AE4-966F-BE142295E3D6}", lv1menuWarehouse.Id, "AssetController",           "module/asset",           homeiconbaseurl + "placeholder.png");
+            AddModule("Order Status",            "{F6AE5BC1-865D-467B-A201-95C93F8E8D0B}", lv1menuWarehouse.Id, "OrderStatusController",     "module/orderstatus",     homeiconbaseurl + "placeholder.png");
+            AddModule("Pick List",               "{7B04E5D4-D079-4F3A-9CB0-844F293569ED}", lv1menuWarehouse.Id, "PickListController",        "module/picklist",        homeiconbaseurl + "placeholder.png");
+            AddModule("Create Pick List",        "{5013C4FF-FC42-4EFE-AE9D-AAF6857F17B8}", null,                "CreatePickListController",  "module/createpicklist",  homeiconbaseurl + "placeholder.png");
+            AddModule("Contract",                "{6BBB8A0A-53FA-4E1D-89B3-8B184B233DEA}", lv1menuWarehouse.Id, "ContractController",        "module/contract",        homeiconbaseurl + "placeholder.png");
+            AddModule("Repair Order",            "{2BD0DC82-270E-4B86-A9AA-DD0461A0186A}", lv1menuWarehouse.Id, "RepairController",          "module/repair",          homeiconbaseurl + "placeholder.png");
+            AddModule("Receive From Vendor",     "{00539824-6489-4377-A291-EBFE26325FAD}", lv1menuWarehouse.Id, "ReceiveFromVendorController", "module/receivefromvendor", homeiconbaseurl + "placeholder.png");
+
             //Settings 
             var lv2menuAccountingSettings   = AddSettingsMenu("Accounting Settings",         "{BAF9A442-BA44-4DD1-9119-905C1A8FF199}", lv1menuSettings.Id,                                                                                        settingsiconbaseurl + "placeholder.png");
                                                      AddSettingsModule("Chart of Accounts",           "{F03CA227-99EE-42EF-B615-94540DCB21B3}", lv2menuAccountingSettings.Id,   "GlAccountController",                 "module/glaccount",                 settingsiconbaseurl + "placeholder.png", description: "Asset, Income, Liability, and Expense Accounts for tracking revenue and expenses.");
@@ -320,6 +321,7 @@ namespace WebLibrary.Security
             AddGrid("Parts Inventory Substitute",             "{F9B0308B-EBFC-4B37-B812-27E16897B115}", lv1menuGrids.Id, "PartsInventorySubstituteGridController");
             AddGrid("Pick List Utility",                      "{0DAED562-2319-4569-AC4E-EF89198E54BC}", lv1menuGrids.Id, "PickListUtilityGridController");
             AddGrid("PO Approver",                            "{314CEEC5-6E42-4539-BD10-8F680A0F70F4}", lv1menuGrids.Id, "POApproverGridController");
+            AddGrid("PO Receive Items",                       "{EF042B8D-23B8-4253-A6E8-11603E800629}", lv1menuGrids.Id, "POReceiveItemGridController");
             AddGrid("Presentation Layer Activity",            "{AA12FF6E-DE89-4C9A-8DB6-E42542BB1689}", lv1menuGrids.Id, "PresentationLayerActivityGridController");
             AddGrid("Presentation Layer Activity Override",   "{ABA89B3D-AA83-4298-AAD4-AC5294BE7388}", lv1menuGrids.Id, "PresentationLayerActivityOverrideGridController");
             AddGrid("Presentation Layer Form",                "{88985C09-65AD-4480-830A-EFCE95C3940B}", lv1menuGrids.Id, "PresentationLayerFormGridController");
