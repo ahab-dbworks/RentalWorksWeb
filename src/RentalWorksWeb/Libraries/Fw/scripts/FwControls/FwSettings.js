@@ -401,7 +401,6 @@ FwSettings.renderModuleHtml = function ($control, title, moduleName, description
             var $this, moduleName, $browse, $modulecontainer, apiurl, $body, browseData = [], browseKeys = [], rowId, formKeys = [], keys, $settings, $form;
 
             $this = jQuery(this);
-            console.log(FwSettings.filter);
             moduleName = $this.closest('.panel-group').attr('id');
             $browse = jQuery(jQuery('#tmpl-modules-' + moduleName + 'Browse').html());
             $modulecontainer = $control.find('#' + moduleName);
@@ -509,7 +508,7 @@ FwSettings.renderModuleHtml = function ($control, title, moduleName, description
                         //html.push('      <div class="pull-right save"><i class="material-icons">save</i>Save</div>'); 
                         html.push('    </div>');
                         html.push('  </div>');
-                        html.push('  <div class="panel-body" style="display:none;" id="' + response[i][rowId] + '" data-type="settings-row"></div>');
+                        html.push('  <div class="panel-body data-panel" style="display:none;" id="' + response[i][rowId] + '" data-type="settings-row"></div>');
                         html.push('</div>');
                         $moduleRows = jQuery(html.join(''));
                         $moduleRows.data('recorddata', response[i]);
@@ -671,6 +670,8 @@ FwSettings.renderModuleHtml = function ($control, title, moduleName, description
     $control.on('keypress', '#settingsSearch', function (e) {
         if (e.which === 13) {
             e.preventDefault();
+            jQuery(this).closest('.fwsettings').find('.data-panel:parent').parent().find('.row-heading').click();
+            jQuery(this).closest('.fwsettings').find('.data-panel:parent').empty();
 
             var $settings, val, $module;
 

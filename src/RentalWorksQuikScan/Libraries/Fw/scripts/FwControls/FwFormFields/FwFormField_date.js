@@ -64,6 +64,7 @@ FwFormField_date.renderRuntimeHtml = function($control, html) {
                 } else {
                     jQuery(this).datepicker('update');
                 }
+                this.focus();
             } catch(ex) {
                 FwFunc.showError(ex);
             }
