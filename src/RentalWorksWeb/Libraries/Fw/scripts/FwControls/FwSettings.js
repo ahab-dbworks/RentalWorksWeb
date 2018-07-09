@@ -553,14 +553,14 @@ FwSettings.renderModuleHtml = function ($control, title, moduleName, description
             if ($rowBody.is(':empty')) {
                 $form = window[controller].openForm('EDIT');
                 $rowBody.append($form);
-                $form.find('.highlighted').removeClass('hightlighted');
+                $form.find('.highlighted').removeClass('highlighted');
                 $form.find('div[data-type="NewMenuBarButton"]').off();
 
                 for (var key in recordData) {
                     for (var i = 0; i < filter.length; i++) {
                         if (filter[i] === key) {
                             if ($form.find('[data-datafield="' + key + '"]').attr('data-type') === 'checkbox') {
-                                $form.find('[data-datafield="' + key + '"] label').addClass('hightlighted');
+                                $form.find('[data-datafield="' + key + '"] label').addClass('highlighted');
                             } else {
                                 $form.find('[data-datafield="' + key + '"]').find('.fwformfield-caption').addClass('highlighted');
                             }
