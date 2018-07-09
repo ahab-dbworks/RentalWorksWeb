@@ -1453,23 +1453,25 @@ class Order {
 
     //----------------------------------------------------------------------------------------------
     orderItemGridLockUnlock($browse: any, event: any) {
-        let orderId, orderItemId, lockedStatus;
+        let orderId, $selectedCheckBoxes;
 
         orderId = $browse.find('.selected [data-browsedatafield="OrderId"]').attr('data-originalvalue');
-        orderItemId = $browse.find('.selected [data-formdatafield="OrderItemId"]').attr('data-originalvalue');
-        lockedStatus = $browse.find('.selected [data-formdatafield="Locked"]').attr('data-originalvalue');
+        $selectedCheckBoxes = $browse.find('.cbselectrow:checked');
 
-        if (orderId != null) {
-            if (lockedStatus === "true") {
-                unlockItem();
-            } else {
-                lockItem();
+        for (let i = 0; i < $selectedCheckBoxes.length; i++) {
+            let orderItemId = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="OrderItemId"]').attr('data-originalvalue');
+            let orderId = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="OrderId"]').attr('data-originalvalue');
+
+            if (orderId != null) {
+                if ($selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="Locked"]').attr('data-originalvalue') === 'true') {
+                    unlockItem(orderId, orderItemId);
+                } else {
+                    lockItem(orderId, orderItemId);
+                }
             }
-        } else {
-            throw new Error("Please select an Item to perform this action.");
         }
 
-        function lockItem() {
+        function lockItem(orderId, orderItemId) {
             let request: any = {};
 
             request = {
@@ -1486,7 +1488,7 @@ class Order {
             }, $browse);
         };
 
-        function unlockItem() {
+        function unlockItem(orderId, orderItemId) {
             let request: any = {};
 
             request = {

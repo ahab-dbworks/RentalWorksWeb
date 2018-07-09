@@ -1282,22 +1282,22 @@ var Order = (function () {
     };
     ;
     Order.prototype.orderItemGridLockUnlock = function ($browse, event) {
-        var orderId, orderItemId, lockedStatus;
+        var orderId, $selectedCheckBoxes;
         orderId = $browse.find('.selected [data-browsedatafield="OrderId"]').attr('data-originalvalue');
-        orderItemId = $browse.find('.selected [data-formdatafield="OrderItemId"]').attr('data-originalvalue');
-        lockedStatus = $browse.find('.selected [data-formdatafield="Locked"]').attr('data-originalvalue');
-        if (orderId != null) {
-            if (lockedStatus === "true") {
-                unlockItem();
-            }
-            else {
-                lockItem();
+        $selectedCheckBoxes = $browse.find('.cbselectrow:checked');
+        for (var i = 0; i < $selectedCheckBoxes.length; i++) {
+            var orderItemId = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="OrderItemId"]').attr('data-originalvalue');
+            var orderId_1 = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="OrderId"]').attr('data-originalvalue');
+            if (orderId_1 != null) {
+                if ($selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="Locked"]').attr('data-originalvalue') === 'true') {
+                    unlockItem(orderId_1, orderItemId);
+                }
+                else {
+                    lockItem(orderId_1, orderItemId);
+                }
             }
         }
-        else {
-            throw new Error("Please select an Item to perform this action.");
-        }
-        function lockItem() {
+        function lockItem(orderId, orderItemId) {
             var request = {};
             request = {
                 OrderId: orderId,
@@ -1312,7 +1312,7 @@ var Order = (function () {
             }, $browse);
         }
         ;
-        function unlockItem() {
+        function unlockItem(orderId, orderItemId) {
             var request = {};
             request = {
                 OrderId: orderId,
@@ -1335,13 +1335,13 @@ var Order = (function () {
         $selectedCheckBoxes = $browse.find('.cbselectrow:checked');
         for (var i = 0; i < $selectedCheckBoxes.length; i++) {
             var orderItemId = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="OrderItemId"]').attr('data-originalvalue');
-            var orderId_1 = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="OrderId"]').attr('data-originalvalue');
-            if (orderId_1 != null) {
+            var orderId_2 = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="OrderId"]').attr('data-originalvalue');
+            if (orderId_2 != null) {
                 if ($selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="Bold"]').attr('data-originalvalue') === 'true') {
-                    unboldItem(orderId_1, orderItemId);
+                    unboldItem(orderId_2, orderItemId);
                 }
                 else {
-                    boldItem(orderId_1, orderItemId);
+                    boldItem(orderId_2, orderItemId);
                 }
             }
         }
