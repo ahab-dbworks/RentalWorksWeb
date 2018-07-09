@@ -72,8 +72,8 @@
             <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Activity" style="flex:1 1 770px">
               <div class="flexrow">
                 <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Rental"     data-datafield="Rental" style="flex:1 1 100px;"></div>
-                <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Parts"          data-datafield="Parts"         style="flex:1 1 85px;"></div>
                 <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Sales"           data-datafield="Sales"          style="flex:1 1 85px;"></div>
+                <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Parts"          data-datafield="Parts"         style="flex:1 1 85px;"></div>
                 <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Miscellaneous"   data-datafield="Miscellaneous"  style="flex:1 1 120px;"></div>
                 <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Labor"           data-datafield="Labor"          style="flex:1 1 85px;"></div>
                 <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Vehicle"      data-datafield="Vehicle"     style="flex:1 1 85px;"></div>
@@ -119,7 +119,7 @@
         <div class="flexrow" style="max-width:1800px;">
           <div class="flexcolumn" style="flex:1 1 125px;">
           </div>
-          <div class="flexcolumn rentalAdjustments" style="flex:1 1 300px;">
+          <!--<div class="flexcolumn rentalAdjustments" style="flex:1 1 300px;">
             <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Adjustments">
               <div class="flexrow">
                 <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield totals RentalDaysPerWeek" data-caption="D/W" data-datafield="RentalDaysPerWeek" data-digits="2" data-digitsoptional="false" style="flex:1 1 50px;"></div>
@@ -132,7 +132,7 @@
                 <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield rentalTotalWithTax bottom_line_total_tax rentalAdjustmentsMonthly" data-caption="w/ Tax" data-rectype="R" data-datafield="MonthlyRentalTotalIncludesTax" style="flex:1 1 75px;margin-top:10px; display:none;"></div>
               </div>
             </div>
-          </div>
+          </div>-->
           <div class="flexcolumn rentaltotals" style="flex:1 1 550px;">
             <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Totals">
               <div class="flexrow">
@@ -184,7 +184,7 @@
         </div>
       </div>
       <!-- PART TAB -->
-      <div data-type="tabpage" id="parttabpage" class="tabpage" data-tabid="parttab" data-render="false">
+      <div data-type="tabpage" id="parttabpage" class=" partgrid tabpage" data-tabid="parttab" data-render="false">
         <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Parts Items">
           <div class="flexrow" style="max-width:1800px;">
             <div data-control="FwGrid" data-grid="OrderItemGrid" data-securitycaption="Parts Items"></div>
