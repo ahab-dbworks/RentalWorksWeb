@@ -175,12 +175,17 @@ class PurchaseOrder {
             var office = JSON.parse(sessionStorage.getItem('location'));
             var department = JSON.parse(sessionStorage.getItem('department'));
 
-            const usersid = sessionStorage.getItem('usersid');  // J. Pace 5/25/18  C4E0E7F6-3B1C-4037-A50C-9825EDB47F44
+            const usersid = sessionStorage.getItem('usersid');  // J. Pace 7/09/18  C4E0E7F6-3B1C-4037-A50C-9825EDB47F44
             const name = sessionStorage.getItem('name');
-            //FwFormField.setValue($form, 'div[data-datafield="ProjectManagerId"]', usersid, name);
-            //FwFormField.setValue($form, 'div[data-datafield="AgentId"]', usersid, name);
 
-            //FwFormField.setValueByDataField($form, 'PickDate', today);
+            $form.find('div[data-datafield="Rental"] input').prop('checked', true);
+            $form.find('div[data-datafield="Sales"] input').prop('checked', true);
+            $form.find('div[data-datafield="Parts"] input').prop('checked', true);
+            FwFormField.setValue($form, 'div[data-datafield="ProjectManagerId"]', usersid, name);
+            FwFormField.setValue($form, 'div[data-datafield="AgentId"]', usersid, name);
+            //$form.find('div[data-datafield="Labor"] input').prop('checked', true);
+
+            FwFormField.setValueByDataField($form, 'PurchaseOrderDate', today);
             //FwFormField.setValueByDataField($form, 'EstimatedStartDate', today);
             //FwFormField.setValueByDataField($form, 'EstimatedStopDate', today);
             //FwFormField.setValueByDataField($form, 'BillingWeeks', '0');
@@ -251,6 +256,7 @@ class PurchaseOrder {
         //});
 
         this.events($form);
+        this.activityCheckboxEvents($form, mode);
 
         return $form;
     };
@@ -282,6 +288,113 @@ class PurchaseOrder {
     //----------------------------------------------------------------------------------------------
     afterLoad($form) {};
 
+    //----------------------------------------------------------------------------------------------
+    activityCheckboxEvents($form, mode) {
+        const rentalTab = $form.find('[data-type="tab"][data-caption="Rental"]')
+            , salesTab = $form.find('[data-type="tab"][data-caption="Sales"]')
+            , partsTab = $form.find('[data-type="tab"][data-caption="Parts"]')
+            , miscTab = $form.find('[data-type="tab"][data-caption="Misc"]')
+            , laborTab = $form.find('[data-type="tab"][data-caption="Labor"]');
+        $form.find('[data-datafield="Rental"] input').on('change', e => {
+            if (mode == "NEW") {
+                if (jQuery(e.currentTarget).prop('checked')) {
+                    rentalTab.show();
+                    //FwFormField.disable($form.find('[data-datafield="RentalSale"]'));
+                } else {
+                    rentalTab.hide();
+                    //FwFormField.enable($form.find('[data-datafield="RentalSale"]'));
+                }
+            } else {
+                let combineActivity = $form.find('[data-datafield="CombineActivity"] input').val();
+                if (combineActivity == 'false') {
+                    if (jQuery(e.currentTarget).prop('checked')) {
+                        rentalTab.show();
+                        FwFormField.disable($form.find('[data-datafield="RentalSale"]'));
+                    } else {
+                        rentalTab.hide();
+                        FwFormField.enable($form.find('[data-datafield="RentalSale"]'));
+                    }
+                }
+            }
+        });
+        $form.find('[data-datafield="Sales"] input').on('change', e => {
+            if (mode == "NEW") {
+                if (jQuery(e.currentTarget).prop('checked')) {
+                    salesTab.show();
+                } else {
+                    salesTab.hide();
+                }
+            } else {
+                let combineActivity = $form.find('[data-datafield="CombineActivity"] input').val();
+                if (combineActivity == 'false') {
+                    if (jQuery(e.currentTarget).prop('checked')) {
+                        salesTab.show();
+                    } else {
+                        salesTab.hide();
+                    }
+                }
+            }
+        });
+        $form.find('[data-datafield="Miscellaneous"] input').on('change', e => {
+            if (mode == "NEW") {
+                if (jQuery(e.currentTarget).prop('checked')) {
+                    miscTab.show();
+                } else {
+                    miscTab.hide();
+                }
+            } else {
+                let combineActivity = $form.find('[data-datafield="CombineActivity"] input').val();
+                if (combineActivity == 'false') {
+                    if (jQuery(e.currentTarget).prop('checked')) {
+                        miscTab.show();
+                    } else {
+                        miscTab.hide();
+                    }
+                }
+            }
+        });
+        $form.find('[data-datafield="Labor"] input').on('change', e => {
+            if (mode == "NEW") {
+                if (jQuery(e.currentTarget).prop('checked')) {
+                    laborTab.show();
+                } else {
+                    laborTab.hide();
+                }
+            } else {
+                let combineActivity = $form.find('[data-datafield="CombineActivity"] input').val();
+                if (combineActivity == 'false') {
+                    if (jQuery(e.currentTarget).prop('checked')) {
+                        laborTab.show();
+                    } else {
+                        laborTab.hide();
+                    }
+                }
+            }
+        });
+
+        $form.find('[data-datafield="RentalSale"] input').on('change', e => {
+            if (mode == "NEW") {
+                if (jQuery(e.currentTarget).prop('checked')) {
+                    usedSaleTab.show();
+                    FwFormField.disable($form.find('[data-datafield="Rental"]'));
+                } else {
+                    usedSaleTab.hide();
+                    FwFormField.enable($form.find('[data-datafield="Rental"]'));
+                }
+            } else {
+                let combineActivity = $form.find('[data-datafield="CombineActivity"] input').val();
+                if (combineActivity == 'false') {
+                    if (jQuery(e.currentTarget).prop('checked')) {
+                        usedSaleTab.show();
+                        FwFormField.disable($form.find('[data-datafield="Rental"]'));
+                    } else {
+                        usedSaleTab.hide();
+                        FwFormField.enable($form.find('[data-datafield="Rental"]'));
+                    }
+                }
+            }
+        });
+    }
     //----------------------------------------------------------------------------------------------
     events($form: any) {};
 

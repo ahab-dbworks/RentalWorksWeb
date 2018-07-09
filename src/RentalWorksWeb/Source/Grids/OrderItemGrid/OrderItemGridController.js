@@ -148,7 +148,6 @@ var OrderItemGrid = (function () {
                             $generatedtr.find('.field[data-browsedatafield="Taxable"] input').prop('checked', 'true');
                         }
                     }, null, $form);
-                    $generatedtr.find('.field[data-browsedatafield="Description"] input').val($tr.find('.field[data-browsedatafield="Description"]').attr('data-originalvalue'));
                     $generatedtr.find('.field[data-browsedatafield="QuantityOrdered"] input').val("1");
                     $generatedtr.find('.field[data-browsedatafield="SubQuantity"] input').val("0");
                     $generatedtr.find('.field[data-browsedatafield="WarehouseId"] input').val(warehouseId);
