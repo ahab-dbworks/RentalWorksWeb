@@ -169,7 +169,7 @@ class PurchaseOrder {
 
         if (mode === 'NEW') {
             $form.find('.ifnew').attr('data-enabled', 'true');
-           
+
             var today = FwFunc.getDate();
             var warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
             var office = JSON.parse(sessionStorage.getItem('location'));
@@ -261,7 +261,7 @@ class PurchaseOrder {
 
         return $form;
     };
-    
+
     //----------------------------------------------------------------------------------------------
     loadForm(uniqueids) {
         var $form;
@@ -313,7 +313,7 @@ class PurchaseOrder {
             request.pagesize = maxPageSize;
         });
         $orderItemGridRentalControl.data('beforesave', request => {
-            request.OrderId = FwFormField.getValueByDataField($form, 'PurchaseOrderId'); 
+            request.OrderId = FwFormField.getValueByDataField($form, 'PurchaseOrderId');
             request.RecType = 'R';
         });
 
@@ -539,11 +539,26 @@ class PurchaseOrder {
     };
 
     //----------------------------------------------------------------------------------------------
-    events($form: any) {};
+    events($form: any) { };
 
     //----------------------------------------------------------------------------------------------
-    afterSave($form) {};
+    afterSave($form) { };
 };
-
+//----------------------------------------------------------------------------------------------
+FwApplicationTree.clickEvents['{4BB0AB54-641E-4638-89B4-0F9BFE88DF82}'] = function (e) {
+    var $form, $receiveFromVendorForm;
+    try {
+        $form = jQuery(this).closest('.fwform');
+        var mode = 'EDIT';
+        var purchaseOrderInfo: any = {};
+        purchaseOrderInfo.PurchaseOrderId = FwFormField.getValueByDataField($form, 'PurchaseOrderId');
+        purchaseOrderInfo.PurchaseOrderNumber = FwFormField.getValueByDataField($form, 'PurchaseOrderNumber');
+        $receiveFromVendorForm = ReceiveFromVendorController.openForm(mode, purchaseOrderInfo);
+        FwModule.openSubModuleTab($form, $receiveFromVendorForm);
+    }
+    catch (ex) {
+        FwFunc.showError(ex);
+    }
+};
 //----------------------------------------------------------------------------------------------
 const PurchaseOrderController = new PurchaseOrder();

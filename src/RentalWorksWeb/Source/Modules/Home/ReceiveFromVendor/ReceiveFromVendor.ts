@@ -55,6 +55,13 @@ class ReceiveFromVendor {
         });
 
         this.getItems($form);
+
+        if (typeof parentmoduleinfo !== 'undefined') {
+            $form.find('div[data-datafield="PurchaseOrderId"] input.fwformfield-value').val(parentmoduleinfo.PurchaseOrderId);
+            $form.find('div[data-datafield="PurchaseOrderId"] input.fwformfield-text').val(parentmoduleinfo.PurchaseOrderNumber);
+            $form.find('[data-datafield="PurchaseOrderId"] input').change();
+        }
+
         return $form;
     }
     //----------------------------------------------------------------------------------------------
