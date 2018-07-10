@@ -401,7 +401,7 @@ namespace FwStandard.DataLayer
                     string customSqlFieldName = customTableAlias + "." + customField.CustomFieldName;
                     columns[customField.FieldName] = customSqlFieldName;
 
-                    qry.AddColumn("", customField.FieldName, FwDataTypes.Text, true, false, false);
+                    qry.AddColumn(customField.FieldName, customField.FieldName, FwDataTypes.Text, true, false, false);
                     //sb.Append(" ,[" + customField.FieldName + "] = " + customTableAlias + "." + customField.CustomFieldName);
                     sb.Append(" ,[" + customField.FieldName + "] = " + customSqlFieldName);
 

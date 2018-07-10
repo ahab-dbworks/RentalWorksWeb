@@ -22,13 +22,18 @@ FwFormField_timepicker.renderRuntimeHtml = function($control, html) {
             html.push(' disabled="disabled"');
         }
         html.push(' />');
+        html.push('<i class="material-icons btntime">schedule</i>');
     html.push('</div>');
     $control.html(html.join(''));
     if ($control.attr('data-timeformat') === '24') {
-        $control.find('#timepicker').mdtimepicker({ format: 'hh:mm' });
+        $control.find('#timepicker').clockpicker({ autoclose: true, donetext: 'Done' });
     } else {
-        $control.find('#timepicker').mdtimepicker();
+        $control.find('#timepicker').clockpicker({autoclose: true, twelvehour: true, donetext: 'Done'});
     }
+    $control.find('.btntime').click(function (e) {
+        e.stopPropagation();
+        $control.find('#timepicker').clockpicker('show').clockpicker('toggleView', 'hours');
+    });
 };
 //---------------------------------------------------------------------------------
 FwFormField_timepicker.loadItems = function($control, items, hideEmptyItem) {
