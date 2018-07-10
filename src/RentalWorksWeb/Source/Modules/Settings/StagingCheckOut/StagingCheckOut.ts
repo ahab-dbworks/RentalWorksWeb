@@ -1,7 +1,7 @@
-﻿routes.push({ pattern: /^module\/checkout$/, action: function (match: RegExpExecArray) { return StagingCheckOutController.getModuleScreen(); } });
+﻿routes.push({ pattern: /^module\/checkout$/, action: function (match: RegExpExecArray) { return StagingCheckoutController.getModuleScreen(); } });
 
-class StagingCheckOut {
-    Module: string = 'StagingCheckOut';
+class StagingCheckout {
+    Module: string = 'StagingCheckout';
 
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
@@ -13,7 +13,7 @@ class StagingCheckOut {
         var $form = this.openForm('EDIT');
 
         screen.load = function () {
-            FwModule.openModuleTab($form, 'Staging / CheckOut', false, 'FORM', true);
+            FwModule.openModuleTab($form, 'Staging / Checkout', false, 'FORM', true);
         };
         screen.unload = function () {
         };
@@ -24,7 +24,7 @@ class StagingCheckOut {
     openForm(mode: string, parentmoduleinfo?) {
         var $form;
 
-        $form = jQuery(jQuery('#tmpl-modules-StagingCheckOutForm').html());
+        $form = jQuery(jQuery('#tmpl-modules-StagingCheckoutForm').html());
         $form = FwModule.openForm($form, mode);
 
         //$form.off('change keyup', '.fwformfield[data-isuniqueid!="true"][data-enabled="true"][data-datafield!=""]');
@@ -450,4 +450,4 @@ class StagingCheckOut {
     //----------------------------------------------------------------------------------------------
 
 }
-const StagingCheckOutController = new StagingCheckOut();
+const StagingCheckoutController = new StagingCheckout();

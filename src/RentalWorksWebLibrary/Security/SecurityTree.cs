@@ -62,7 +62,7 @@ namespace WebLibrary.Security
             AddModule("Parts Inventory",         "{351B8A09-7778-4F06-A6A2-ED0920A5C360}", lv1menuWarehouse.Id, "PartsInventoryController",  "module/partsinventory",  homeiconbaseurl + "placeholder.png");
             AddModule("Asset",                   "{1C45299E-F8DB-4AE4-966F-BE142295E3D6}", lv1menuWarehouse.Id, "AssetController",           "module/asset",           homeiconbaseurl + "placeholder.png");
             AddModule("Order Status",            "{F6AE5BC1-865D-467B-A201-95C93F8E8D0B}", lv1menuWarehouse.Id, "OrderStatusController",     "module/orderstatus",     homeiconbaseurl + "placeholder.png");
-            AddModule("Staging / Checkout",      "{C3B5EEC9-3654-4660-AD28-20DE8FF9044D}", lv1menuWarehouse.Id, "StagingCheckOutController", "module/checkout",        homeiconbaseurl + "placeholder.png");
+            AddModule("Staging / Checkout",      "{C3B5EEC9-3654-4660-AD28-20DE8FF9044D}", lv1menuWarehouse.Id, "StagingCheckoutController", "module/checkout",        homeiconbaseurl + "placeholder.png");
             AddModule("Pick List",               "{7B04E5D4-D079-4F3A-9CB0-844F293569ED}", lv1menuWarehouse.Id, "PickListController",        "module/picklist",        homeiconbaseurl + "placeholder.png");
             AddModule("Create Pick List",        "{5013C4FF-FC42-4EFE-AE9D-AAF6857F17B8}", null,                "CreatePickListController",  "module/createpicklist",  homeiconbaseurl + "placeholder.png");
             AddModule("Contract",                "{6BBB8A0A-53FA-4E1D-89B3-8B184B233DEA}", lv1menuWarehouse.Id, "ContractController",        "module/contract",        homeiconbaseurl + "placeholder.png");
