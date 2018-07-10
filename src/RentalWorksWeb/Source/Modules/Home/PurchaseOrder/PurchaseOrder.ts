@@ -546,4 +546,4 @@ class PurchaseOrder {
 };
 
 //----------------------------------------------------------------------------------------------
-var PurchaseOrderController = new PurchaseOrder();
+const PurchaseOrderController = new PurchaseOrder();
