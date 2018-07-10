@@ -39,6 +39,21 @@ class ReceiveFromVendor {
         FwFormField.setValueByDataField($form, 'Date', currentDate);
         FwFormField.setValueByDataField($form, 'Time', currentTime);
 
+        $form.find('.createcontract').on('click', e => {
+            let contractId = FwFormField.getValueByDataField($form, 'ContractId');
+            FwAppData.apiMethod(true, 'POST', "api/v1/purchaseorder/completereceivecontract/" + contractId, null, FwServices.defaultTimeout, function onSuccess(response) {
+                try {
+                    let contractInfo: any = {}, $contractForm;
+                    contractInfo.ContractId = contractId;
+                    $contractForm = ContractController.loadForm(contractInfo);
+                    FwModule.openSubModuleTab($form, $contractForm);
+                }
+                catch (ex) {
+                    FwFunc.showError(ex);
+                }
+            }, null, null);
+        });
+
         this.getItems($form);
         return $form;
     }
@@ -60,6 +75,8 @@ class ReceiveFromVendor {
                     $receiveItemsGridControl: any,
                     max = 9999;
 
+                FwFormField.setValueByDataField($form, 'ContractId', contractId);
+
                 $receiveItemsGridControl = $form.find('div[data-name="POReceiveItemGrid"]');
                 $receiveItemsGridControl.data('ondatabind', function (request) {
                     request.uniqueids = {
@@ -69,9 +86,6 @@ class ReceiveFromVendor {
                     request.pagesize = max;
                 })
                 FwBrowse.search($receiveItemsGridControl);
-
-
-
             }, null, null);
         });
     }
