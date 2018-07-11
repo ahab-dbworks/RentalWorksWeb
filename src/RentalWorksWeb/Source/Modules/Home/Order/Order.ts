@@ -2198,6 +2198,25 @@ FwApplicationTree.clickEvents['{CF245A59-3336-42BC-8CCB-B88807A9D4EA}'] = functi
 };
 
 //----------------------------------------------------------------------------------------------
+FwApplicationTree.clickEvents['{771DCE59-EB57-48B2-B189-177B414A4ED3}'] = function (event) {
+// Stage Item
+    let $form, $stagingCheckoutForm;
+    try {
+        $form = jQuery(this).closest('.fwform');
+        var mode = 'EDIT';
+        var orderInfo: any = {};
+        orderInfo.OrderId = FwFormField.getValueByDataField($form, 'OrderId');
+        orderInfo.OrderNumber = FwFormField.getValueByDataField($form, 'OrderNumber');
+        $stagingCheckoutForm = StagingCheckoutController.openForm(mode, orderInfo);
+        FwModule.openSubModuleTab($form, $stagingCheckoutForm);
+        jQuery('.tab.submodule.active').find('.caption').html('Stage Item');
+    }
+    catch (ex) {
+        FwFunc.showError(ex);
+    }
+};
+
+//----------------------------------------------------------------------------------------------
 FwApplicationTree.clickEvents['{B2D127C6-A1C2-4697-8F3B-9A678F3EAEEE}'] = function (e) {
     let search, $form, orderId, $popup;
     $form = jQuery(this).closest('.fwform');

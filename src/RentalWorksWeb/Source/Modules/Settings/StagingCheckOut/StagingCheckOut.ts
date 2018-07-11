@@ -21,7 +21,7 @@ class StagingCheckout {
         return screen;
     }
     //----------------------------------------------------------------------------------------------
-    openForm(mode: string, parentmoduleinfo?) {
+    openForm(mode: string, parentmoduleinfo?:any) {
         var $form;
 
         $form = jQuery(jQuery('#tmpl-modules-StagingCheckoutForm').html());
@@ -29,14 +29,15 @@ class StagingCheckout {
 
         //$form.off('change keyup', '.fwformfield[data-isuniqueid!="true"][data-enabled="true"][data-datafield!=""]');
 
-        //this.getOrder($form);
+        this.getOrder($form);
         //this.toggleView($form);
 
-        //if (typeof parentmoduleinfo !== 'undefined') {
-        //    $form.find('div[data-datafield="OrderId"] input.fwformfield-value').val(parentmoduleinfo.OrderId);
-        //    $form.find('div[data-datafield="OrderId"] input.fwformfield-text').val(parentmoduleinfo.OrderNumber);
-        //    jQuery($form.find('[data-datafield="OrderId"]')).trigger('change');
-        //}
+        if (typeof parentmoduleinfo !== null) {
+            $form.find('div[data-datafield="OrderId"] input.fwformfield-value').val(parentmoduleinfo.OrderId);
+            $form.find('div[data-datafield="OrderId"] input.fwformfield-text').val(parentmoduleinfo.OrderNumber);
+            FwFormField.setValueByDataField($form, 'Description', parentmoduleinfo.description);
+            jQuery($form.find('[data-datafield="OrderId"]')).trigger('change');
+        }
 
         //$form.find('.rentalview').hide();
         //$form.find('.salesview').hide();
@@ -47,112 +48,106 @@ class StagingCheckout {
         return $form;
     }
     //----------------------------------------------------------------------------------------------
-    //getOrder($form: JQuery): void {
-    //    var order = $form.find('[data-datafield="OrderId"]');
-    //    var max = 9999;
-    //    order.on('change', function () {
-    //        try {
-    //            $form.find('.toggle [data-value="Summary"] input').prop('checked', true);
-    //            $form.find('.summaryview').show();
-    //            var orderId = $form.find('[data-datafield="OrderId"] .fwformfield-value').val();
-    //            FwAppData.apiMethod(true, 'GET', "api/v1/order/" + orderId, null, FwServices.defaultTimeout, function onSuccess(response) {
-    //                FwFormField.setValueByDataField($form, 'Description', response.Description);
-    //                FwFormField.setValueByDataField($form, 'Deal', response.Deal);
-    //                FwFormField.setValueByDataField($form, 'Status', response.Status);
-    //                FwFormField.setValueByDataField($form, 'Warehouse', response.Warehouse);
-    //                FwFormField.setValueByDataField($form, 'PickDate', response.PickDate);
-    //                FwFormField.setValueByDataField($form, 'PickTime', response.PickTime);
-    //                FwFormField.setValueByDataField($form, 'EstimatedStartDate', response.EstimatedStartDate);
-    //                FwFormField.setValueByDataField($form, 'EstimatedStartTime', response.EstimatedStartTime);
-    //                FwFormField.setValueByDataField($form, 'EstimatedStopDate', response.EstimatedStopDate);
-    //                FwFormField.setValueByDataField($form, 'EstimatedStopTime', response.EstimatedStopTime);
+    getOrder($form: JQuery): void {
+        const order = $form.find('[data-datafield="OrderId"]');
+        const maxPageSize = 9999;
+        order.on('change', function () {
+            try {
+                var orderId = $form.find('[data-datafield="OrderId"] .fwformfield-value').val();
+                FwAppData.apiMethod(true, 'GET', "api/v1/order/" + orderId, null, FwServices.defaultTimeout, function onSuccess(response) {
+                    console.log('response: ', response)
+                    FwFormField.setValueByDataField($form, 'Description', response.Description);
+                    FwFormField.setValueByDataField($form, 'Status', response.Status);
+                    FwFormField.setValueByDataField($form, 'Warehouse', response.Warehouse);
+                    FwFormField.setValueByDataField($form, 'Location', response.Location);
+                    FwFormField.setValueByDataField($form, 'EstimatedStartDate', response.EstimatedStartDate);
+                    FwFormField.setValueByDataField($form, 'EstimatedStartTime', response.EstimatedStartTime);
+                    FwFormField.setValueByDataField($form, 'EstimatedStopDate', response.EstimatedStopDate);
+                    FwFormField.setValueByDataField($form, 'EstimatedStopTime', response.EstimatedStopTime);
 
-    //                var rental = response.Rental;
-    //                var sales = response.Sales;
-    //                if (rental === false && sales === false) {
-    //                    $form.find('div[data-value="Details"]').hide();
-    //                } else {
-    //                    $form.find('div[data-value="Details"]').show();
-    //                }
+                    var rental = response.Rental;
+                    var sales = response.Sales;
+                    if (rental === false && sales === false) {
+                        $form.find('div[data-value="Details"]').hide();
+                    } else {
+                        $form.find('div[data-value="Details"]').show();
+                    }
 
-    //                if (rental === true) {
-    //                    $form.find('.rentalview').show();
-    //                } else {
-    //                    $form.find('.rentalview').hide();
-    //                }
+                    if (rental === true) {
+                        $form.find('.rentalview').show();
+                    } else {
+                        $form.find('.rentalview').hide();
+                    }
 
-    //                if (sales === true) {
-    //                    $form.find('.salesview').show();
-    //                } else {
-    //                    $form.find('.salesview').hide();
-    //                }
+                    if (sales === true) {
+                        $form.find('.salesview').show();
+                    } else {
+                        $form.find('.salesview').hide();
+                    }
 
-    //                $form.find('.details').hide();
-    //            }, null, $form);
+                    $form.find('.details').hide();
+                }, null, $form);
 
-    //            var $orderStatusSummaryGridControl: any;
-    //            $orderStatusSummaryGridControl = $form.find('[data-name="OrderStatusSummaryGrid"]');
-    //            $orderStatusSummaryGridControl.data('ondatabind', function (request) {
-    //                request.uniqueids = {
-    //                    OrderId: orderId
-    //                }
-    //                request.pagesize = max;
-    //            })
-    //            FwBrowse.search($orderStatusSummaryGridControl);
+                var $orderStatusSummaryGridControl: any;
+                $orderStatusSummaryGridControl = $form.find('[data-name="OrderStatusSummaryGrid"]');
+                $orderStatusSummaryGridControl.data('ondatabind', function (request) {
+                    request.uniqueids = {
+                        OrderId: orderId
+                    }
+                    request.pagesize = maxPageSize;
+                })
+                FwBrowse.search($orderStatusSummaryGridControl);
 
-    //            var $orderStatusRentalDetailGridControl: any;
-    //            $orderStatusRentalDetailGridControl = $form.find('[data-name="OrderStatusRentalDetailGrid"]');
-    //            $orderStatusRentalDetailGridControl.data('ondatabind', function (request) {
-    //                request.uniqueids = {
-    //                    OrderId: orderId,
-    //                    RecType: "R"
-    //                }
-    //                request.pagesize = max;
-    //            })
-    //            FwBrowse.search($orderStatusRentalDetailGridControl);
+                var $orderStatusRentalDetailGridControl: any;
+                $orderStatusRentalDetailGridControl = $form.find('[data-name="OrderStatusRentalDetailGrid"]');
+                $orderStatusRentalDetailGridControl.data('ondatabind', function (request) {
+                    request.uniqueids = {
+                        OrderId: orderId,
+                        RecType: "R"
+                    }
+                    request.pagesize = maxPageSize;
+                })
+                FwBrowse.search($orderStatusRentalDetailGridControl);
 
-    //            var $orderStatusSalesDetailGridControl: any;
-    //            $orderStatusSalesDetailGridControl = $form.find('[data-name="OrderStatusSalesDetailGrid"]');
-    //            $orderStatusSalesDetailGridControl.data('ondatabind', function (request) {
-    //                request.uniqueids = {
-    //                    OrderId: orderId,
-    //                    RecType: "S"
-    //                }
-    //                request.pagesize = max;
-    //            })
-    //            FwBrowse.search($orderStatusSalesDetailGridControl);
+                var $orderStatusSalesDetailGridControl: any;
+                $orderStatusSalesDetailGridControl = $form.find('[data-name="OrderStatusSalesDetailGrid"]');
+                $orderStatusSalesDetailGridControl.data('ondatabind', function (request) {
+                    request.uniqueids = {
+                        OrderId: orderId,
+                        RecType: "S"
+                    }
+                    request.pagesize = maxPageSize;
+                })
+                FwBrowse.search($orderStatusSalesDetailGridControl);
 
+                setTimeout(function () {
+                    var $trs = $form.find('.ordersummarygrid tr.viewmode');
 
-    //            setTimeout(function () {
-    //                var $trs = $form.find('.ordersummarygrid tr.viewmode');
+                    var $contractpeek = $form.find('.outcontract, .incontract');
+                    $contractpeek.attr('data-browsedatafield', 'ContractId');
 
-    //                var $contractpeek = $form.find('.outcontract, .incontract');
-    //                $contractpeek.attr('data-browsedatafield', 'ContractId');
+                    for (var i = 0; i <= $trs.length; i++) {
+                        var $rectype = jQuery($trs[i]).find('[data-browsedatafield="RecTypeDisplay"]');
+                        var recvalue = $rectype.attr('data-originalvalue');
+                        var $validationfield = jQuery($trs[i]).find('[data-browsedatafield="InventoryId"]');
 
-    //                for (var i = 0; i <= $trs.length; i++) {
-    //                    var $rectype = jQuery($trs[i]).find('[data-browsedatafield="RecTypeDisplay"]');
-    //                    var recvalue = $rectype.attr('data-originalvalue');
-    //                    var $validationfield = jQuery($trs[i]).find('[data-browsedatafield="InventoryId"]');
-
-    //                    switch (recvalue) {
-    //                        case 'RENTAL':
-    //                            $validationfield.attr('data-validationname', 'RentalInventoryValidation');
-    //                            break;
-    //                        case 'SALES':
-    //                            $validationfield.attr('data-validationname', 'SalesInventoryValidation');
-    //                            break;
-    //                    }
-    //                }
-    //            }
-    //                , 2000);
-    //        }
-    //        catch (ex) {
-    //            FwFunc.showError(ex);
-    //        }
-
-
-    //    });
-    //}
+                        switch (recvalue) {
+                            case 'RENTAL':
+                                $validationfield.attr('data-validationname', 'RentalInventoryValidation');
+                                break;
+                            case 'SALES':
+                                $validationfield.attr('data-validationname', 'SalesInventoryValidation');
+                                break;
+                        }
+                    }
+                }
+                    , 2000);
+            }
+            catch (ex) {
+                FwFunc.showError(ex);
+            }
+        });
+    }
 
     //----------------------------------------------------------------------------------------------
     renderGrids($form: any) {
