@@ -40,7 +40,7 @@ var OrderItemGrid = (function () {
     }
     OrderItemGrid.prototype.onRowNewMode = function ($control, $tr) {
         var $form = $control.closest('.fwform');
-        var grid = $tr.parents('[data-grid="OrderItemGrid"]');
+        var $grid = $tr.parents('[data-grid="OrderItemGrid"]');
         if ($form[0].dataset.controller !== "TemplateController") {
             var pickDate = FwFormField.getValueByDataField($form, 'PickDate');
             var pickTime = FwFormField.getValueByDataField($form, 'PickTime');
@@ -50,28 +50,28 @@ var OrderItemGrid = (function () {
             var toTime = FwFormField.getValueByDataField($form, 'EstimatedStopTime');
         }
         ;
-        if (grid.hasClass('R')) {
-            $tr.find('.field[data-browsedatafield="RecType"] input').val("R");
+        if ($grid.hasClass('R')) {
+            FwBrowse.setFieldValue($grid, $tr, 'RecType', { value: 'R' });
         }
-        else if (grid.hasClass('S')) {
-            $tr.find('.field[data-browsedatafield="RecType"] input').val("S");
+        else if ($grid.hasClass('S')) {
+            FwBrowse.setFieldValue($grid, $tr, 'RecType', { value: 'S' });
         }
-        else if (grid.hasClass('M')) {
-            $tr.find('.field[data-browsedatafield="RecType"] input').val("M");
+        else if ($grid.hasClass('M')) {
+            FwBrowse.setFieldValue($grid, $tr, 'RecType', { value: 'M' });
         }
-        else if (grid.hasClass('L')) {
-            $tr.find('.field[data-browsedatafield="RecType"] input').val("L");
+        else if ($grid.hasClass('L')) {
+            FwBrowse.setFieldValue($grid, $tr, 'RecType', { value: 'L' });
         }
-        else if (grid.hasClass('RS')) {
-            $tr.find('.field[data-browsedatafield="RecType"] input').val("RS");
+        else if ($grid.hasClass('RS')) {
+            FwBrowse.setFieldValue($grid, $tr, 'RecType', { value: 'RS' });
         }
         if ($form[0].dataset.controller !== "TemplateController") {
-            $tr.find('.field[data-browsedatafield="PickDate"] input').val(pickDate);
-            $tr.find('.field[data-browsedatafield="PickTime"] input').val(pickTime);
-            $tr.find('.field[data-browsedatafield="FromDate"] input').val(fromDate);
-            $tr.find('.field[data-browsedatafield="FromTime"] input').val(fromTime);
-            $tr.find('.field[data-browsedatafield="ToDate"] input').val(toDate);
-            $tr.find('.field[data-browsedatafield="ToTime"] input').val(toTime);
+            FwBrowse.setFieldValue($grid, $tr, 'PickDate', { value: pickDate });
+            FwBrowse.setFieldValue($grid, $tr, 'PickTime', { value: pickTime });
+            FwBrowse.setFieldValue($grid, $tr, 'FromDate', { value: fromDate });
+            FwBrowse.setFieldValue($grid, $tr, 'FromTime', { value: fromTime });
+            FwBrowse.setFieldValue($grid, $tr, 'ToDate', { value: toDate });
+            FwBrowse.setFieldValue($grid, $tr, 'ToTime', { value: toTime });
         }
     };
     OrderItemGrid.prototype.generateRow = function ($control, $generatedtr) {
