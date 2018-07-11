@@ -1,6 +1,6 @@
-﻿class FwBrowseColumn_numberClass {
+﻿class FwBrowseColumn_numberClass implements IFwBrowseColumn {
     //---------------------------------------------------------------------------------
-    databindfield($browse, $field, dt, dtRow, $tr) {
+    databindfield($browse, $field, dt, dtRow, $tr): void {
     
     }
     //---------------------------------------------------------------------------------
@@ -10,11 +10,11 @@
         }
     }
     //---------------------------------------------------------------------------------
-    setFieldValue($browse: JQuery, $tr: JQuery, $field: JQuery, value: string) {
-        throw 'Not Implemented!';
+    setFieldValue($browse: JQuery, $tr: JQuery, $field: JQuery, data: FwBrowse_SetFieldValueData): void {
+        $field.find('input.value').val(data.value);
     }
     //---------------------------------------------------------------------------------
-    isModified($browse, $tr, $field) {
+    isModified($browse, $tr, $field): boolean {
         var isModified = false;
         let originalValue = $field.attr('data-originalvalue');
         if (($tr.hasClass('editmode')) || ($tr.hasClass('newmode'))) {
@@ -24,7 +24,7 @@
         return isModified;
     }
     //---------------------------------------------------------------------------------
-    setFieldViewMode($browse, $field, $tr, html) {
+    setFieldViewMode($browse, $tr, $field): void {
         var originalvalue = (typeof $field.attr('data-originalvalue')  === 'string') ? $field.attr('data-originalvalue') : '';
         $field.html(`<div class="fieldvalue">${originalvalue}</div>`);
 
@@ -39,8 +39,9 @@
         });
     }
     //---------------------------------------------------------------------------------
-    setFieldEditMode($browse, $field, $tr, html) {
+    setFieldEditMode($browse, $tr, $field): void {
         var originalvalue = (typeof $field.attr('data-originalvalue')  === 'string') ? $field.attr('data-originalvalue') : '';
+        let html = [];
         html.push('<input class="value" type="text"');
         if ($browse.attr('data-enabled') === 'false') {
             html.push(' disabled="disabled"');
@@ -52,9 +53,8 @@
             html.push(' max="'+ $browse.attr('data-maxvalue') + '"');
         }
         html.push(' />');
-        html = html.join('');
-        $field.html(html);
-        $field.find('input.value').val(originalvalue);
+        let htmlString = html.join('');
+        $field.html(htmlString);
         $field.find('input.value').inputmask("numeric", {
             //placeholder: '0',
             min:            ((typeof $browse.attr('data-minvalue') !== 'undefined') ? $browse.attr('data-minvalue') : undefined),
@@ -64,6 +64,7 @@
             groupSeparator: ',',
             autoGroup:      (((typeof $browse.attr('data-formatnumeric') !== 'undefined') && ($browse.attr('data-formatnumeric') == 'true')) ? true : false)
         });
+        this.setFieldValue($browse, $tr, $field, { value: originalvalue });
     }
     //---------------------------------------------------------------------------------
 }

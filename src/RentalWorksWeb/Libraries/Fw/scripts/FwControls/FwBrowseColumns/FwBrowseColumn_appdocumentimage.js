@@ -35,14 +35,15 @@ var FwBrowseColumn_appdocumentimageClass = (function () {
             field.filepath = $field.attr('data-filepath');
         }
     };
-    FwBrowseColumn_appdocumentimageClass.prototype.setFieldValue = function ($browse, $tr, $field, value) {
-        throw 'Not Implemented!';
+    FwBrowseColumn_appdocumentimageClass.prototype.setFieldValue = function ($browse, $tr, $field, data) {
+        throw 'FwBrowseColumn_appdocumentimage.setFieldValue: Not Implemented!';
     };
     FwBrowseColumn_appdocumentimageClass.prototype.isModified = function ($browse, $tr, $field) {
         var isModified = typeof $field.attr('data-ismodified') === 'string' && $field.attr('data-ismodified') === 'true';
         return isModified;
     };
-    FwBrowseColumn_appdocumentimageClass.prototype.setFieldViewMode = function ($browse, $field, $tr, html) {
+    FwBrowseColumn_appdocumentimageClass.prototype.setFieldViewMode = function ($browse, $tr, $field) {
+        var html = [];
         var $adiContainer;
         var appimageid = typeof $field.attr('data-originalvalue') === 'string' ? $field.attr('data-originalvalue') : '';
         var filename = typeof $field.attr('data-filename') === 'string' ? $field.attr('data-filename') : '';
@@ -252,15 +253,16 @@ var FwBrowseColumn_appdocumentimageClass = (function () {
         }
         return parameters;
     };
-    FwBrowseColumn_appdocumentimageClass.prototype.setFieldEditMode = function ($browse, $field, $tr, html) {
+    FwBrowseColumn_appdocumentimageClass.prototype.setFieldEditMode = function ($browse, $tr, $field) {
         var $adi_upload, $adi_progress, $adi_progressPopup;
+        var html = [];
         html.push('<div class="editappdocumentimage">');
         html.push('  <img class="previewicon" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" />');
         html.push('  <div class="appdocumentimageupload"><input type="file" /></div>');
         html.push('  <div class="droporpastefilewrapper"><div class="droporpastefile" contenteditable="true" data-placeholder="drag or paste..."></div></div>');
         html.push('</div>');
-        html = html.join('');
-        $adi_upload = jQuery(html)
+        var htmlString = html.join('');
+        $adi_upload = jQuery(htmlString)
             .on('paste', '.droporpastefile', function (event) {
             var items, file, isWebkit, $image, $form;
             try {

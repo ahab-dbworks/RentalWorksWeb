@@ -6,18 +6,18 @@ var FwBrowseColumn_utcdateClass = (function () {
     };
     FwBrowseColumn_utcdateClass.prototype.getFieldValue = function ($browse, $tr, $field, field, originalvalue) {
     };
-    FwBrowseColumn_utcdateClass.prototype.setFieldValue = function ($browse, $tr, $field, value) {
-        throw 'Not Implemented!';
+    FwBrowseColumn_utcdateClass.prototype.setFieldValue = function ($browse, $tr, $field, data) {
+        throw "FwBrowseColumn_utcdate.setFieldValue: setFieldValue is not supported on column: " + $field.attr('data-datafield');
     };
     FwBrowseColumn_utcdateClass.prototype.isModified = function ($browse, $tr, $field) {
         var isModified = false;
         return isModified;
     };
-    FwBrowseColumn_utcdateClass.prototype.setFieldViewMode = function ($browse, $field, $tr, html) {
+    FwBrowseColumn_utcdateClass.prototype.setFieldViewMode = function ($browse, $tr, $field) {
         var originalvalue = (typeof $field.attr('data-originalvalue') === 'string') ? $field.attr('data-originalvalue') : '';
         $field.html(originalvalue);
     };
-    FwBrowseColumn_utcdateClass.prototype.setFieldEditMode = function ($browse, $field, $tr, html) {
+    FwBrowseColumn_utcdateClass.prototype.setFieldEditMode = function ($browse, $tr, $field) {
     };
     return FwBrowseColumn_utcdateClass;
 }());

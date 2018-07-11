@@ -8,8 +8,8 @@ var FwBrowseColumn_textClass = (function () {
             field.value = $field.find('input.value').val();
         }
     };
-    FwBrowseColumn_textClass.prototype.setFieldValue = function ($browse, $tr, $field, value) {
-        throw 'Not Implemented!';
+    FwBrowseColumn_textClass.prototype.setFieldValue = function ($browse, $tr, $field, data) {
+        $field.find('input.value').val(data.value);
     };
     FwBrowseColumn_textClass.prototype.isModified = function ($browse, $tr, $field) {
         var isModified = false;
@@ -20,7 +20,7 @@ var FwBrowseColumn_textClass = (function () {
         }
         return isModified;
     };
-    FwBrowseColumn_textClass.prototype.setFieldViewMode = function ($browse, $field, $tr, html) {
+    FwBrowseColumn_textClass.prototype.setFieldViewMode = function ($browse, $tr, $field) {
         var originalvalue = (typeof $field.attr('data-originalvalue') === 'string') ? $field.attr('data-originalvalue') : '';
         $field.html(originalvalue);
         if (typeof $field.attr('data-rowclassmapping') !== 'undefined') {
@@ -30,9 +30,10 @@ var FwBrowseColumn_textClass = (function () {
             }
         }
     };
-    FwBrowseColumn_textClass.prototype.setFieldEditMode = function ($browse, $field, $tr, html) {
+    FwBrowseColumn_textClass.prototype.setFieldEditMode = function ($browse, $tr, $field) {
         var originalvalue = (typeof $field.attr('data-originalvalue') === 'string') ? $field.attr('data-originalvalue') : '';
         var formmaxlength = (typeof $field.attr('data-formmaxlength') === 'string') ? $field.attr('data-formmaxlength') : '';
+        var html = [];
         html.push('<input class="value" type="text"');
         if ($browse.attr('data-enabled') === 'false') {
             html.push(' disabled="disabled"');
@@ -41,9 +42,9 @@ var FwBrowseColumn_textClass = (function () {
             html.push(' maxlength="' + formmaxlength + '"');
         }
         html.push(' />');
-        html = html.join('');
-        $field.html(html);
-        $field.find('input.value').val(originalvalue);
+        var htmlString = html.join('');
+        $field.html(htmlString);
+        this.setFieldValue($browse, $tr, $field, { value: originalvalue });
     };
     return FwBrowseColumn_textClass;
 }());

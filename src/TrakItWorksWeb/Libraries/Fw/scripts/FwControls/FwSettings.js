@@ -401,7 +401,6 @@ FwSettings.renderModuleHtml = function ($control, title, moduleName, description
             var $this, moduleName, $browse, $modulecontainer, apiurl, $body, browseData = [], browseKeys = [], rowId, formKeys = [], keys, $settings, $form;
 
             $this = jQuery(this);
-            console.log(FwSettings.filter);
             moduleName = $this.closest('.panel-group').attr('id');
             $browse = jQuery(jQuery('#tmpl-modules-' + moduleName + 'Browse').html());
             $modulecontainer = $control.find('#' + moduleName);
@@ -489,9 +488,9 @@ FwSettings.renderModuleHtml = function ($control, title, moduleName, description
                                 if (browseData[j]['datatype'] === 'checkbox') {
                                     html.push('        <div class="fwcontrol fwcontainer fwform-fieldrow" data-type="fieldrow" style="width:50px;">');
                                     if (response[i][browseKeys[j]]) {
-                                        html.push('<div class="checkboxwrapper"><input class="value" type="checkbox" disabled="disabled" style="box-sizing:border-box;pointer-events:none;" checked><label></label></div>');
+                                        html.push('<div class="checkboxwrapper"><input class="value" data-datafield="' + browseData[j]['datafield'] + '" type="checkbox" disabled="disabled" style="box-sizing:border-box;pointer-events:none;" checked><label></label></div>');
                                     } else {
-                                        html.push('<div class="checkboxwrapper"><input class="value" type="checkbox" disabled="disabled" style="box-sizing:border-box;pointer-events:none;"><label></label></div>');
+                                        html.push('<div class="checkboxwrapper"><input class="value" data-datafield="' + browseData[j]['datafield'] + '" type="checkbox" disabled="disabled" style="box-sizing:border-box;pointer-events:none;"><label></label></div>');
                                     }
 
                                 } else {
@@ -509,7 +508,7 @@ FwSettings.renderModuleHtml = function ($control, title, moduleName, description
                         //html.push('      <div class="pull-right save"><i class="material-icons">save</i>Save</div>'); 
                         html.push('    </div>');
                         html.push('  </div>');
-                        html.push('  <div class="panel-body" style="display:none;" id="' + response[i][rowId] + '" data-type="settings-row"></div>');
+                        html.push('  <div class="panel-body data-panel" style="display:none;" id="' + response[i][rowId] + '" data-type="settings-row"></div>');
                         html.push('</div>');
                         $moduleRows = jQuery(html.join(''));
                         $moduleRows.data('recorddata', response[i]);
@@ -554,14 +553,14 @@ FwSettings.renderModuleHtml = function ($control, title, moduleName, description
             if ($rowBody.is(':empty')) {
                 $form = window[controller].openForm('EDIT');
                 $rowBody.append($form);
-                $form.find('.highlighted').removeClass('hightlighted');
+                $form.find('.highlighted').removeClass('highlighted');
                 $form.find('div[data-type="NewMenuBarButton"]').off();
 
                 for (var key in recordData) {
                     for (var i = 0; i < filter.length; i++) {
                         if (filter[i] === key) {
                             if ($form.find('[data-datafield="' + key + '"]').attr('data-type') === 'checkbox') {
-                                $form.find('[data-datafield="' + key + '"] label').addClass('hightlighted');
+                                $form.find('[data-datafield="' + key + '"] label').addClass('highlighted');
                             } else {
                                 $form.find('[data-datafield="' + key + '"]').find('.fwformfield-caption').addClass('highlighted');
                             }
@@ -637,6 +636,9 @@ FwSettings.renderModuleHtml = function ($control, title, moduleName, description
                 if (jQuery(this).closest('.panel-record').find('.panel-info').find('label[data-datafield="' + browsedatafields[j] + '"]')) {
                     jQuery(this).closest('.panel-record').find('.panel-info').find('label[data-datafield="' + browsedatafields[j] + '"]').text(FwFormField.getValueByDataField($form, browsedatafields[j]));
                 }
+                if (jQuery(this).closest('.panel-record').find('.panel-info').find('input[data-datafield="' + browsedatafields[j] + '"]')) {
+                    jQuery(this).closest('.panel-record').find('.panel-info').find('[data-datafield="' + browsedatafields[j] + '"]').prop('checked', FwFormField.getValueByDataField($form, browsedatafields[j]));
+                }
             }
 
 
@@ -671,6 +673,8 @@ FwSettings.renderModuleHtml = function ($control, title, moduleName, description
     $control.on('keypress', '#settingsSearch', function (e) {
         if (e.which === 13) {
             e.preventDefault();
+            jQuery(this).closest('.fwsettings').find('.data-panel:parent').parent().find('.row-heading').click();
+            jQuery(this).closest('.fwsettings').find('.data-panel:parent').empty();
 
             var $settings, val, $module;
 

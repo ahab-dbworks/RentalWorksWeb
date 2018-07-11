@@ -1,27 +1,28 @@
-﻿class FwBrowseColumn_comboboxClass {
+﻿class FwBrowseColumn_comboboxClass implements IFwBrowseColumn {
     //---------------------------------------------------------------------------------
-    databindfield($browse, $field, dt, dtRow, $tr) {
+    databindfield($browse, $field, dt, dtRow, $tr): void {
         var displayFieldValue = dtRow[dt.ColumnIndex[$field.attr('data-browsedisplayfield')]];
         $field.attr('data-originaltext', displayFieldValue);
     }
     //---------------------------------------------------------------------------------
-    getFieldUniqueId($browse, $tr, $field, uniqueid, originalvalue) {
+    getFieldUniqueId($browse, $tr, $field, uniqueid, originalvalue): void {
         if ($tr.hasClass('editmode')) {
             uniqueid.value = $field.find('input.value').val();
         }
     }
     //---------------------------------------------------------------------------------
-    getFieldValue($browse, $tr, $field, field, originalvalue) {
+    getFieldValue($browse, $tr, $field, field, originalvalue): void {
         if (($tr.hasClass('editmode')) || ($tr.hasClass('newmode'))) {
             field.value = $field.find('input.value').val();
         }
     }
     //---------------------------------------------------------------------------------
-    setFieldValue($browse: JQuery, $tr: JQuery, $field: JQuery, value: string) {
-        throw 'Not Implemented!';
+    setFieldValue($browse: JQuery, $tr: JQuery, $field: JQuery, data: FwBrowse_SetFieldValueData): void {
+        $field.find('.value').val(data.value);
+        $field.find('.text').val(data.text);
     }
     //---------------------------------------------------------------------------------
-    isModified($browse, $tr, $field) {
+    isModified($browse, $tr, $field): boolean {
         var isModified = false;
         let originalValue = $field.attr('data-originalvalue');
         if (($tr.hasClass('editmode')) || ($tr.hasClass('newmode'))) {
@@ -31,15 +32,16 @@
         return isModified;
     }
     //---------------------------------------------------------------------------------
-    setFieldViewMode($browse, $field, $tr, html) {
+    setFieldViewMode($browse, $tr, $field): void {
         var originaltext  = (typeof $field.attr('data-originaltext')   === 'string') ? $field.attr('data-originaltext') : '';
         $field.html(originaltext);
     }
     //---------------------------------------------------------------------------------
-    setFieldEditMode($browse, $field, $tr, html) {
+    setFieldEditMode($browse, $tr, $field): void {
         var validationName, validationFor, $valuefield, $textfield, $btnvalidate;
         var originalvalue = (typeof $field.attr('data-originalvalue')  === 'string') ? $field.attr('data-originalvalue') : '';
         var originaltext  = (typeof $field.attr('data-originaltext')   === 'string') ? $field.attr('data-originaltext') : '';
+        let html = [];
         html.push('<input class="value" type="hidden" />');
         html.push('<input class="text" type="text" autocapitalize="none"');
         if ($browse.attr('data-enabled') === 'false') {
@@ -47,12 +49,9 @@
         }
         html.push(' />');
         html.push('<i class="material-icons md-dark btnvalidate">&#xE5CF;</i>'); //expand_more
-
-
-        html = html.join('');
-        $field.html(html);
-        $field.find('.value').val(originalvalue);
-        $field.find('.text').val(originaltext); 
+        let htmlString = html.join('');
+        $field.html(htmlString);
+        this.setFieldValue($browse, $tr, $field, { value: originalvalue, text: originaltext });
         this.initControl($field);
     }
     //---------------------------------------------------------------------------------

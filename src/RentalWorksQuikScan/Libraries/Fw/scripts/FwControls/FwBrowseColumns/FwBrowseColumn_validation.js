@@ -18,8 +18,9 @@ var FwBrowseColumn_validationClass = (function () {
         }
     };
     ;
-    FwBrowseColumn_validationClass.prototype.setFieldValue = function ($browse, $tr, $field, value) {
-        throw 'Not Implemented!';
+    FwBrowseColumn_validationClass.prototype.setFieldValue = function ($browse, $tr, $field, data) {
+        $field.find('.value').val(data.value);
+        $field.find('.text').val(data.text);
     };
     FwBrowseColumn_validationClass.prototype.isModified = function ($browse, $tr, $field) {
         var isModified = false;
@@ -31,9 +32,10 @@ var FwBrowseColumn_validationClass = (function () {
         return isModified;
     };
     ;
-    FwBrowseColumn_validationClass.prototype.setFieldViewMode = function ($browse, $field, $tr, html) {
+    FwBrowseColumn_validationClass.prototype.setFieldViewMode = function ($browse, $tr, $field) {
         var originaltext = (typeof $field.attr('data-originaltext') === 'string') ? $field.attr('data-originaltext') : '';
         var showPeek = false;
+        var html = [];
         if (applicationConfig.defaultPeek === true) {
             showPeek = (!($field.attr('data-validationpeek') === 'false'));
         }
@@ -43,15 +45,16 @@ var FwBrowseColumn_validationClass = (function () {
         if (showPeek) {
             html.push('<div class="btnpeek"><i class="material-icons">more_horiz</i></div>');
         }
-        html = html.join('');
-        $field.html(originaltext + html);
+        var htmlString = html.join('');
+        $field.html(originaltext + htmlString);
     };
     ;
-    FwBrowseColumn_validationClass.prototype.setFieldEditMode = function ($browse, $field, $tr, html) {
+    FwBrowseColumn_validationClass.prototype.setFieldEditMode = function ($browse, $tr, $field) {
         var validationName, validationFor, $valuefield, $textfield, $btnvalidate;
         var originalvalue = (typeof $field.attr('data-originalvalue') === 'string') ? $field.attr('data-originalvalue') : '';
         var originaltext = (typeof $field.attr('data-originaltext') === 'string') ? $field.attr('data-originaltext') : '';
         var showPeek = false;
+        var html = [];
         html.push('<input class="value" type="hidden" />');
         html.push('<input class="text" type="text"');
         if ($browse.attr('data-enabled') === 'false') {
@@ -68,10 +71,9 @@ var FwBrowseColumn_validationClass = (function () {
         if (showPeek) {
             html.push('<div class="btnpeek"><i class="material-icons">more_horiz</i></div>');
         }
-        html = html.join('');
-        $field.html(html);
-        $field.find('.value').val(originalvalue);
-        $field.find('.text').val(originaltext);
+        var htmlString = html.join('');
+        $field.html(htmlString);
+        this.setFieldValue($browse, $tr, $field, { value: originalvalue, text: originaltext });
         FwValidation.init($field);
     };
     ;

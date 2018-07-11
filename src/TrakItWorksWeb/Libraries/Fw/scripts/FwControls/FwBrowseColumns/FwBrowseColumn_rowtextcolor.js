@@ -5,21 +5,22 @@ var FwBrowseColumn_rowtextcolorClass = (function () {
     };
     FwBrowseColumn_rowtextcolorClass.prototype.getFieldValue = function ($browse, $tr, $field, field, originalvalue) {
     };
-    FwBrowseColumn_rowtextcolorClass.prototype.setFieldValue = function ($browse, $tr, $field, value) {
-        throw 'Not Implemented!';
+    FwBrowseColumn_rowtextcolorClass.prototype.setFieldValue = function ($browse, $tr, $field, data) {
+        throw "FwBrowseColumn_rowtextcolor.setFieldValue: setFieldValue is not supported on column: " + $field.attr('data-datafield');
     };
     FwBrowseColumn_rowtextcolorClass.prototype.isModified = function ($browse, $tr, $field) {
         var isModified = false;
         return isModified;
     };
-    FwBrowseColumn_rowtextcolorClass.prototype.setFieldViewMode = function ($browse, $field, $tr, html) {
+    FwBrowseColumn_rowtextcolorClass.prototype.setFieldViewMode = function ($browse, $tr, $field) {
+        var originalValue = $field.attr('data-originalvalue');
         $tr
             .addClass('rowtextcolor')
             .css({
-            'color': $field.attr('data-originalvalue')
+            'color': originalValue
         });
     };
-    FwBrowseColumn_rowtextcolorClass.prototype.setFieldEditMode = function ($browse, $field, $tr, html) {
+    FwBrowseColumn_rowtextcolorClass.prototype.setFieldEditMode = function ($browse, $tr, $field) {
     };
     return FwBrowseColumn_rowtextcolorClass;
 }());

@@ -20,8 +20,13 @@ var FwBrowseColumn_moneyClass = (function () {
             }
         }
     };
-    FwBrowseColumn_moneyClass.prototype.setFieldValue = function ($browse, $tr, $field, value) {
-        throw 'Not Implemented!';
+    FwBrowseColumn_moneyClass.prototype.setFieldValue = function ($browse, $tr, $field, data) {
+        if ((data.value.length > 0) && (!isNaN(parseFloat(data.value)))) {
+            $field.find('input.value').val(parseFloat(data.value).toFixed(2));
+        }
+        else {
+            $field.find('input.value').val('$0.00');
+        }
     };
     FwBrowseColumn_moneyClass.prototype.isModified = function ($browse, $tr, $field) {
         var isModified = false;
@@ -33,7 +38,7 @@ var FwBrowseColumn_moneyClass = (function () {
         }
         return isModified;
     };
-    FwBrowseColumn_moneyClass.prototype.setFieldViewMode = function ($browse, $field, $tr, html) {
+    FwBrowseColumn_moneyClass.prototype.setFieldViewMode = function ($browse, $tr, $field) {
         var originalvalue = (typeof $field.attr('data-originalvalue') === 'string') ? $field.attr('data-originalvalue') : '';
         if ((originalvalue.length > 0) && (!isNaN(parseFloat(originalvalue)))) {
             $field.html('$' + window.numberWithCommas(parseFloat(originalvalue).toFixed(2)));
@@ -43,22 +48,18 @@ var FwBrowseColumn_moneyClass = (function () {
             $field.html('<div class="fieldvalue">$0.00</div>');
         }
     };
-    FwBrowseColumn_moneyClass.prototype.setFieldEditMode = function ($browse, $field, $tr, html) {
+    FwBrowseColumn_moneyClass.prototype.setFieldEditMode = function ($browse, $tr, $field) {
         var originalvalue = (typeof $field.attr('data-originalvalue') === 'string') ? $field.attr('data-originalvalue') : '';
+        var html = [];
         html.push('<input class="value" type="text"');
         if ($browse.attr('data-enabled') === 'false') {
             html.push(' disabled="disabled"');
         }
         html.push(' />');
-        html = html.join('');
-        $field.html(html);
+        var htmlString = html.join('');
+        $field.html(htmlString);
         $field.find('input.value').inputmask("currency");
-        if ((originalvalue.length > 0) && (!isNaN(parseFloat(originalvalue)))) {
-            $field.find('input.value').val(parseFloat(originalvalue).toFixed(2));
-        }
-        else {
-            $field.find('input.value').val('$0.00');
-        }
+        this.setFieldValue($browse, $tr, $field, { value: originalvalue });
     };
     return FwBrowseColumn_moneyClass;
 }());

@@ -1,7 +1,5 @@
 var FwBrowseColumn_rowbackgroundcolorClass = (function () {
     function FwBrowseColumn_rowbackgroundcolorClass() {
-        this.setFieldEditMode = function ($browse, $field, $tr, html) {
-        };
     }
     FwBrowseColumn_rowbackgroundcolorClass.prototype.databindfield = function ($browse, $field, dt, dtRow, $tr) {
         if ((typeof $field.attr('data-browserowbackgroundcolorfield') !== 'undefined') && ($field.attr('data-browserowbackgroundcolorfield').length > 0)) {
@@ -15,19 +13,22 @@ var FwBrowseColumn_rowbackgroundcolorClass = (function () {
     };
     FwBrowseColumn_rowbackgroundcolorClass.prototype.getFieldValue = function ($browse, $tr, $field, field, originalvalue) {
     };
-    FwBrowseColumn_rowbackgroundcolorClass.prototype.setFieldValue = function ($browse, $tr, $field, value) {
-        throw 'Not Implemented!';
+    FwBrowseColumn_rowbackgroundcolorClass.prototype.setFieldValue = function ($browse, $tr, $field, data) {
+        throw "FwBrowseColumn_rowbackgroundcolor.setFieldValue: setFieldValue is not supported on column: " + $field.attr('data-datafield');
     };
     FwBrowseColumn_rowbackgroundcolorClass.prototype.isModified = function ($browse, $tr, $field) {
         var isModified = false;
         return isModified;
     };
-    FwBrowseColumn_rowbackgroundcolorClass.prototype.setFieldViewMode = function ($browse, $field, $tr, html) {
+    FwBrowseColumn_rowbackgroundcolorClass.prototype.setFieldViewMode = function ($browse, $tr, $field) {
+        var originalValue = $field.attr('data-originalvalue');
         $tr
             .addClass('rowbackgroundcolor')
             .css({
-            'background-color': $field.attr('data-originalvalue')
+            'background-color': originalValue
         });
+    };
+    FwBrowseColumn_rowbackgroundcolorClass.prototype.setFieldEditMode = function ($browse, $tr, $field) {
     };
     return FwBrowseColumn_rowbackgroundcolorClass;
 }());

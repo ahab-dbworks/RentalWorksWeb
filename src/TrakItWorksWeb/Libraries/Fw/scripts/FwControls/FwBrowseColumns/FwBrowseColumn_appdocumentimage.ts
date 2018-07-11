@@ -1,6 +1,6 @@
-﻿class FwBrowseColumn_appdocumentimageClass {
+﻿class FwBrowseColumn_appdocumentimageClass implements IFwBrowseColumn {
     //---------------------------------------------------------------------------------
-    databindfield($browse, $field, dt, dtRow, $tr) {
+    databindfield($browse, $field, dt, dtRow, $tr): void {
         if (typeof dt.ColumnIndex[$field.attr('data-browseappdocumentidfield')] !== 'number') throw 'FwBrowseColumn_appdocumentimage.databindfield: ' + $field.attr('data-browseappdocumentidfield') + ' was not returned by the webservice.';
         if (typeof dt.ColumnIndex[$field.attr('data-browsefilenamefield')] !== 'number') throw 'FwBrowseColumn_appdocumentimage.databindfield: ' + $field.attr('data-browsefilenamefield') + ' was not returned by the webservice.';
         if (typeof dt.ColumnIndex[$field.attr('data-browsefileextensionfield')] !== 'number') throw 'FwBrowseColumn_appdocumentimage.databindfield: ' + $field.attr('data-browsefileextensionfield') + ' was not returned by the webservice.';
@@ -25,7 +25,7 @@
         $field.attr('data-ismodified', 'false');
     }
     //---------------------------------------------------------------------------------
-    getFieldValue($browse, $tr, $field, field, originalvalue) {
+    getFieldValue($browse, $tr, $field, field, originalvalue): void {
         field.ismodified = typeof $field.attr('data-ismodified') === 'string' && $field.attr('data-ismodified') === 'true';
         if (field.ismodified) {
             field.filedataurl = $field.data('filedataurl');
@@ -33,16 +33,17 @@
         }
     }
     //---------------------------------------------------------------------------------
-    setFieldValue($browse: JQuery, $tr: JQuery, $field: JQuery, value: string) {
-        throw 'Not Implemented!';
+    setFieldValue($browse: JQuery, $tr: JQuery, $field: JQuery, data: FwBrowse_SetFieldValueData): void {
+        throw 'FwBrowseColumn_appdocumentimage.setFieldValue: Not Implemented!';
     }
     //---------------------------------------------------------------------------------
-    isModified($browse, $tr, $field) {
+    isModified($browse, $tr, $field): boolean {
         var isModified = typeof $field.attr('data-ismodified') === 'string' && $field.attr('data-ismodified') === 'true';
         return isModified;
     }
     //---------------------------------------------------------------------------------
-    setFieldViewMode($browse, $field, $tr, html) {
+    setFieldViewMode($browse, $tr, $field): void {
+        let html = [];
         var $adiContainer;
         var appimageid = typeof $field.attr('data-originalvalue') === 'string' ? $field.attr('data-originalvalue') : '';
         var filename = typeof $field.attr('data-filename') === 'string' ? $field.attr('data-filename') : '';
@@ -226,7 +227,7 @@
         }
     }
     //---------------------------------------------------------------------------------
-    getParameters($form) {
+    getParameters($form): any {
         var isvalid, $fields, $field, parameters = null;
         isvalid = FwModule.validateForm($form);
         if (isvalid) {
@@ -245,15 +246,16 @@
         return parameters;
     }
     //---------------------------------------------------------------------------------
-    setFieldEditMode($browse, $field, $tr, html) {
+    setFieldEditMode($browse, $tr, $field): void {
         var $adi_upload, $adi_progress, $adi_progressPopup;
+        let html = [];
         html.push('<div class="editappdocumentimage">');
         html.push('  <img class="previewicon" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" />');
         html.push('  <div class="appdocumentimageupload"><input type="file" /></div>');
         html.push('  <div class="droporpastefilewrapper"><div class="droporpastefile" contenteditable="true" data-placeholder="drag or paste..."></div></div>');
         html.push('</div>');
-        html = html.join('');
-        $adi_upload = jQuery(html)
+        let htmlString = html.join('');
+        $adi_upload = jQuery(htmlString)
             .on('paste', '.droporpastefile', function (event) {
                 var items, file, isWebkit, $image, $form;
                 try {

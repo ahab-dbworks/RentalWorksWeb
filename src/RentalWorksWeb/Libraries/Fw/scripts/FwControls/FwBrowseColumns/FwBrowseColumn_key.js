@@ -8,8 +8,8 @@ var FwBrowseColumn_keyClass = (function () {
             field.value = $field.html();
         }
     };
-    FwBrowseColumn_keyClass.prototype.setFieldValue = function ($browse, $tr, $field, value) {
-        throw 'Not Implemented!';
+    FwBrowseColumn_keyClass.prototype.setFieldValue = function ($browse, $tr, $field, data) {
+        throw "FwBrowseColumn_key.setFieldValue: setFieldValue is not supported on column: " + $field.attr('data-datafield');
     };
     FwBrowseColumn_keyClass.prototype.isModified = function ($browse, $tr, $field) {
         var isModified = false;
@@ -20,11 +20,11 @@ var FwBrowseColumn_keyClass = (function () {
         }
         return isModified;
     };
-    FwBrowseColumn_keyClass.prototype.setFieldViewMode = function ($browse, $field, $tr, html) {
+    FwBrowseColumn_keyClass.prototype.setFieldViewMode = function ($browse, $tr, $field) {
         var originalvalue = (typeof $field.attr('data-originalvalue') === 'string') ? $field.attr('data-originalvalue') : '';
         $field.html(originalvalue);
     };
-    FwBrowseColumn_keyClass.prototype.setFieldEditMode = function ($browse, $field, $tr, html) {
+    FwBrowseColumn_keyClass.prototype.setFieldEditMode = function ($browse, $tr, $field) {
     };
     return FwBrowseColumn_keyClass;
 }());

@@ -7,16 +7,17 @@ var FwBrowseColumn_appdocumentversionClass = (function () {
     FwBrowseColumn_appdocumentversionClass.prototype.getFieldValue = function ($browse, $tr, $field, field, originalvalue) {
     };
     ;
-    FwBrowseColumn_appdocumentversionClass.prototype.setFieldValue = function ($browse, $tr, $field, value) {
-        throw 'Not Implemented!';
+    FwBrowseColumn_appdocumentversionClass.prototype.setFieldValue = function ($browse, $tr, $field, data) {
+        throw 'FwBrowseColumn_appdocumentversion.setFieldValue: Not Implemented!';
     };
     FwBrowseColumn_appdocumentversionClass.prototype.isModified = function ($browse, $tr, $field) {
         var isModified = false;
         return isModified;
     };
     ;
-    FwBrowseColumn_appdocumentversionClass.prototype.setFieldViewMode = function ($browse, $field, $tr, html) {
+    FwBrowseColumn_appdocumentversionClass.prototype.setFieldViewMode = function ($browse, $tr, $field) {
         var $control, $tr, $uniqueid1field, $documenttypeidfield, $documenttypefield, version, documenttype, hidecolreviewed, hidecolexpired;
+        var html = [];
         version = $field.attr('data-originalvalue');
         $uniqueid1field = $tr.find('.field[data-browsedatafield="uniqueid1"]');
         $documenttypeidfield = $tr.find('.field[data-browsedatafield="documenttypeid"]');
@@ -83,11 +84,11 @@ var FwBrowseColumn_appdocumentversionClass = (function () {
             $field.append($control);
         }
     };
-    FwBrowseColumn_appdocumentversionClass.prototype.setFieldEditMode = function ($browse, $field, $tr, html) {
-        var $control;
+    FwBrowseColumn_appdocumentversionClass.prototype.setFieldEditMode = function ($browse, $tr, $field) {
+        var html = [];
         html.push('<div class="editappdocumentversion"></div>');
-        html = html.join('\n');
-        $control = jQuery(html);
+        var htmlStr = html.join('\n');
+        var $control = jQuery(htmlStr);
         $field.empty().append($control);
     };
     ;

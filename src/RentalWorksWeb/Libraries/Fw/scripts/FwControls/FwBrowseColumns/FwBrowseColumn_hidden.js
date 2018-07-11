@@ -10,6 +10,9 @@ var FwBrowseColumn_hiddenClass = (function () {
         }
     };
     ;
+    FwBrowseColumn_hiddenClass.prototype.setFieldValue = function ($browse, $tr, $field, data) {
+        $field.html(data.value);
+    };
     FwBrowseColumn_hiddenClass.prototype.isModified = function ($browse, $tr, $field) {
         var isModified = false;
         var originalValue = $field.attr('data-originalvalue');
@@ -20,12 +23,12 @@ var FwBrowseColumn_hiddenClass = (function () {
         return isModified;
     };
     ;
-    FwBrowseColumn_hiddenClass.prototype.setFieldViewMode = function ($browse, $field, $tr, html) {
+    FwBrowseColumn_hiddenClass.prototype.setFieldViewMode = function ($browse, $tr, $field) {
         var originalvalue = (typeof $field.attr('data-originalvalue') === 'string') ? $field.attr('data-originalvalue') : '';
-        $field.html(originalvalue);
+        this.setFieldValue($browse, $tr, $field, { value: originalvalue });
     };
     ;
-    FwBrowseColumn_hiddenClass.prototype.setFieldEditMode = function ($browse, $field, $tr, html) {
+    FwBrowseColumn_hiddenClass.prototype.setFieldEditMode = function ($browse, $tr, $field) {
     };
     ;
     return FwBrowseColumn_hiddenClass;

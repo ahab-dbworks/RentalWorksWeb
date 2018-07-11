@@ -1,20 +1,20 @@
-﻿class FwBrowseColumn_textClass {
+﻿class FwBrowseColumn_textClass implements IFwBrowseColumn {
     //---------------------------------------------------------------------------------
-    databindfield($browse, $field, dt, dtRow, $tr) {
+    databindfield($browse, $field, dt, dtRow, $tr): void {
     
     }
     //---------------------------------------------------------------------------------
-    getFieldValue($browse, $tr, $field, field, originalvalue) {
+    getFieldValue($browse, $tr, $field, field, originalvalue): void {
         if (($tr.hasClass('editmode')) || ($tr.hasClass('newmode'))) {
             field.value = $field.find('input.value').val();
         }
     }
     //---------------------------------------------------------------------------------
-    setFieldValue($browse: JQuery, $tr: JQuery, $field: JQuery, value: string) {
-        throw 'Not Implemented!';
+    setFieldValue($browse: JQuery, $tr: JQuery, $field: JQuery, data: FwBrowse_SetFieldValueData): void {
+        $field.find('input.value').val(data.value);
     }
     //---------------------------------------------------------------------------------
-    isModified($browse, $tr, $field) {
+    isModified($browse, $tr, $field): boolean {
         var isModified = false;
         let originalValue = $field.attr('data-originalvalue');
         if (($tr.hasClass('editmode')) || ($tr.hasClass('newmode'))) {
@@ -24,7 +24,7 @@
         return isModified;
     }
     //---------------------------------------------------------------------------------
-    setFieldViewMode($browse, $field, $tr, html) {
+    setFieldViewMode($browse, $tr, $field): void {
         var originalvalue = (typeof $field.attr('data-originalvalue')  === 'string') ? $field.attr('data-originalvalue') : '';
         $field.html(originalvalue);
         // this only works if there is no spaces or other illegal css characters in the originalvalue
@@ -36,9 +36,10 @@
         }
     }
     //---------------------------------------------------------------------------------
-    setFieldEditMode($browse, $field, $tr, html) {
+    setFieldEditMode($browse, $tr, $field): void {
         var originalvalue = (typeof $field.attr('data-originalvalue')  === 'string') ? $field.attr('data-originalvalue') : '';
         var formmaxlength = (typeof $field.attr('data-formmaxlength')  === 'string') ? $field.attr('data-formmaxlength') : '';
+        let html = [];
         html.push('<input class="value" type="text"');
         if ($browse.attr('data-enabled') === 'false') {
             html.push(' disabled="disabled"');
@@ -47,9 +48,9 @@
             html.push(' maxlength="' + formmaxlength + '"');
         }
         html.push(' />');
-        html = html.join('');
-        $field.html(html);
-        $field.find('input.value').val(originalvalue);
+        let htmlString = html.join('');
+        $field.html(htmlString);
+        this.setFieldValue($browse, $tr, $field, { value: originalvalue });
     }
     //---------------------------------------------------------------------------------
 }

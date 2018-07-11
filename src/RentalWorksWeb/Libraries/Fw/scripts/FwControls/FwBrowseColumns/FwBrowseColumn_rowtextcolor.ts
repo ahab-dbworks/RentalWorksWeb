@@ -1,32 +1,32 @@
-﻿class FwBrowseColumn_rowtextcolorClass {
+﻿class FwBrowseColumn_rowtextcolorClass implements IFwBrowseColumn {
     //---------------------------------------------------------------------------------
-    databindfield($browse, $field, dt, dtRow, $tr) {
+    databindfield($browse, $field, dt, dtRow, $tr): void {
 
     }
     //---------------------------------------------------------------------------------
-    getFieldValue($browse, $tr, $field, field, originalvalue) {
+    getFieldValue($browse, $tr, $field, field, originalvalue): void {
 
     }
     //---------------------------------------------------------------------------------
-    setFieldValue($browse: JQuery, $tr: JQuery, $field: JQuery, value: string) {
-        throw 'Not Implemented!';
+    setFieldValue($browse: JQuery, $tr: JQuery, $field: JQuery, data: FwBrowse_SetFieldValueData): void {
+        throw `FwBrowseColumn_rowtextcolor.setFieldValue: setFieldValue is not supported on column: ${$field.attr('data-datafield')}`;
     }
     //---------------------------------------------------------------------------------
-    isModified($browse, $tr, $field) {
+    isModified($browse, $tr, $field): boolean {
         var isModified = false;
         return isModified;
     }
     //---------------------------------------------------------------------------------
-    setFieldViewMode($browse, $field, $tr, html) {
+    setFieldViewMode($browse, $tr, $field): void {
+        let originalValue = $field.attr('data-originalvalue');
         $tr
             .addClass('rowtextcolor')
             .css({
-                'color': $field.attr('data-originalvalue')
-            })
-            ;
+                'color': originalValue
+            });
     }
     //---------------------------------------------------------------------------------
-    setFieldEditMode($browse, $field, $tr, html) {
+    setFieldEditMode($browse, $tr, $field): void {
 
     }
     //---------------------------------------------------------------------------------

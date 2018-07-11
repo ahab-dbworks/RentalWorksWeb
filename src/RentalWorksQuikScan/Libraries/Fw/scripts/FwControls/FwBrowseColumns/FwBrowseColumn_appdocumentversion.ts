@@ -1,25 +1,25 @@
-﻿class FwBrowseColumn_appdocumentversionClass {
+﻿class FwBrowseColumn_appdocumentversionClass implements IFwBrowseColumn {
     //---------------------------------------------------------------------------------
-    databindfield($browse, $field, dt, dtRow, $tr) {
+    databindfield($browse, $field, dt, dtRow, $tr): void {
 
     };
     //---------------------------------------------------------------------------------
-    getFieldValue($browse, $tr, $field, field, originalvalue) {
+    getFieldValue($browse, $tr, $field, field, originalvalue): void {
 
     };
     //---------------------------------------------------------------------------------
-    setFieldValue($browse: JQuery, $tr: JQuery, $field: JQuery, value: string) {
-        throw 'Not Implemented!';
+    setFieldValue($browse: JQuery, $tr: JQuery, $field: JQuery, data: FwBrowse_SetFieldValueData): void {
+        throw 'FwBrowseColumn_appdocumentversion.setFieldValue: Not Implemented!';
     }
     //---------------------------------------------------------------------------------
-    isModified($browse, $tr, $field) {
+    isModified($browse, $tr, $field): boolean {
         var isModified = false;
         return isModified;
     };
     //---------------------------------------------------------------------------------
-    setFieldViewMode($browse, $field, $tr, html) {
+    setFieldViewMode($browse, $tr, $field): void {
         var $control, $tr, $uniqueid1field, $documenttypeidfield, $documenttypefield, version, documenttype, hidecolreviewed, hidecolexpired;
-
+        let html = [];
         version = $field.attr('data-originalvalue');
         $uniqueid1field = $tr.find('.field[data-browsedatafield="uniqueid1"]');
         $documenttypeidfield = $tr.find('.field[data-browsedatafield="documenttypeid"]');
@@ -85,11 +85,11 @@
         }
     }
     //---------------------------------------------------------------------------------
-    setFieldEditMode($browse, $field, $tr, html) {
-        var $control;
+    setFieldEditMode($browse, $tr, $field): void {
+        let html = [];
         html.push('<div class="editappdocumentversion"></div>');
-        html = html.join('\n');
-        $control = jQuery(html)
+        let htmlStr = html.join('\n');
+        let $control = jQuery(htmlStr)
         $field.empty().append($control);
     };
     //---------------------------------------------------------------------------------

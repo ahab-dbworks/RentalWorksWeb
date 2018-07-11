@@ -1,6 +1,6 @@
-﻿class FwBrowseColumn_rowbackgroundcolorClass {
+﻿class FwBrowseColumn_rowbackgroundcolorClass implements IFwBrowseColumn {
     //---------------------------------------------------------------------------------
-    databindfield($browse, $field, dt, dtRow, $tr) {
+    databindfield($browse, $field, dt, dtRow, $tr): void {
         if ((typeof $field.attr('data-browserowbackgroundcolorfield') !== 'undefined') && ($field.attr('data-browserowbackgroundcolorfield').length > 0)) {
             var color, colorColumnIndex;
             if (typeof dt.ColumnIndex[$field.attr('data-browserowbackgroundcolorfield')] !== 'number') {
@@ -11,29 +11,29 @@
         }
     }
     //---------------------------------------------------------------------------------
-    getFieldValue($browse, $tr, $field, field, originalvalue) {
+    getFieldValue($browse, $tr, $field, field, originalvalue): void {
 
     }
     //---------------------------------------------------------------------------------
-    setFieldValue($browse: JQuery, $tr: JQuery, $field: JQuery, value: string) {
-        throw 'Not Implemented!';
+    setFieldValue($browse: JQuery, $tr: JQuery, $field: JQuery, data: FwBrowse_SetFieldValueData): void {
+        throw `FwBrowseColumn_rowbackgroundcolor.setFieldValue: setFieldValue is not supported on column: ${$field.attr('data-datafield')}`; 
     }
     //---------------------------------------------------------------------------------
-    isModified($browse, $tr, $field) {
+    isModified($browse, $tr, $field): boolean {
         var isModified = false;
         return isModified;
     }
     //---------------------------------------------------------------------------------
-    setFieldViewMode($browse, $field, $tr, html) {
+    setFieldViewMode($browse, $tr, $field): void {
+        let originalValue = $field.attr('data-originalvalue');
         $tr
             .addClass('rowbackgroundcolor')
             .css({
-                'background-color': $field.attr('data-originalvalue')
-            })
-            ;
+                'background-color': originalValue
+            });
     }
     //---------------------------------------------------------------------------------
-    setFieldEditMode = function ($browse, $field, $tr, html) {
+    setFieldEditMode($browse, $tr, $field): void {
 
     }
     //---------------------------------------------------------------------------------

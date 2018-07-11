@@ -8,8 +8,8 @@ var FwBrowseColumn_phoneClass = (function () {
             field.value = $field.find('input.value').val();
         }
     };
-    FwBrowseColumn_phoneClass.prototype.setFieldValue = function ($browse, $tr, $field, value) {
-        throw 'Not Implemented!';
+    FwBrowseColumn_phoneClass.prototype.setFieldValue = function ($browse, $tr, $field, data) {
+        $field.find('input.value').val(data.value);
     };
     FwBrowseColumn_phoneClass.prototype.isModified = function ($browse, $tr, $field) {
         var isModified = false;
@@ -21,23 +21,24 @@ var FwBrowseColumn_phoneClass = (function () {
         return isModified;
     };
     ;
-    FwBrowseColumn_phoneClass.prototype.setFieldViewMode = function ($browse, $field, $tr, html) {
+    FwBrowseColumn_phoneClass.prototype.setFieldViewMode = function ($browse, $tr, $field) {
         var originalvalue = (typeof $field.attr('data-originalvalue') === 'string') ? $field.attr('data-originalvalue') : '';
         $field.html(originalvalue);
     };
-    FwBrowseColumn_phoneClass.prototype.setFieldEditMode = function ($browse, $field, $tr, html) {
+    FwBrowseColumn_phoneClass.prototype.setFieldEditMode = function ($browse, $tr, $field) {
         var originalvalue = (typeof $field.attr('data-originalvalue') === 'string') ? $field.attr('data-originalvalue') : '';
+        var html = [];
         html.push('<input class="value" type="text"');
         if ($browse.attr('data-enabled') === 'false') {
             html.push(' disabled="disabled"');
         }
         html.push(' />');
-        html = html.join('');
-        $field.html(html);
+        var htmlString = html.join('');
+        $field.html(htmlString);
         if ($field.attr('data-formreadonly') === 'false') {
             $field.find('input.value').inputmask('(999) 999-9999');
         }
-        $field.find('input.value').val(originalvalue);
+        this.setFieldValue($browse, $tr, $field, { value: originalvalue });
     };
     return FwBrowseColumn_phoneClass;
 }());

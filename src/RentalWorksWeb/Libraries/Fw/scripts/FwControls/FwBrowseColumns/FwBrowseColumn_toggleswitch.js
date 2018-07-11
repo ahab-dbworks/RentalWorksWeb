@@ -16,8 +16,17 @@ var FwBrowseColumn_toggleswitchClass = (function () {
             }
         }
     };
-    FwBrowseColumn_toggleswitchClass.prototype.setFieldValue = function ($browse, $tr, $field, value) {
-        throw 'Not Implemented!';
+    FwBrowseColumn_toggleswitchClass.prototype.setFieldValue = function ($browse, $tr, $field, data) {
+        var checked = false;
+        if (typeof data.value === 'string') {
+            if (data.value.toUpperCase() === 'T' || data.value.toUpperCase() === 'Y' || data.value.toUpperCase() === 'true') {
+                checked = true;
+            }
+        }
+        else if (typeof data.value === 'boolean') {
+            checked = data.value;
+        }
+        $field.find('input').prop('checked', checked);
     };
     FwBrowseColumn_toggleswitchClass.prototype.isModified = function ($browse, $tr, $field) {
         var isModified = false;
@@ -37,38 +46,40 @@ var FwBrowseColumn_toggleswitchClass = (function () {
         }
         return isModified;
     };
-    FwBrowseColumn_toggleswitchClass.prototype.setFieldViewMode = function ($browse, $field, $tr, html) {
+    FwBrowseColumn_toggleswitchClass.prototype.setFieldViewMode = function ($browse, $tr, $field) {
         var checked = false;
         var originalvalue = (typeof $field.attr('data-originalvalue') === 'string') ? $field.attr('data-originalvalue') : '';
+        var html = [];
         html.push('<div class="checkboxwrapper">');
         html.push('  <label class="switch">');
         html.push('    <input type="checkbox" disabled />');
         html.push('    <span class="slider"></span>');
         html.push('  </label>');
         html.push('</div>');
-        html = html.join('');
-        $field.html(html);
+        var htmlString = html.join('');
+        $field.html(htmlString);
         if (originalvalue === 'T' || originalvalue === 'Y' || originalvalue === 'true') {
             checked = true;
         }
         $field.find('input').prop('checked', checked);
     };
-    FwBrowseColumn_toggleswitchClass.prototype.setFieldEditMode = function ($browse, $field, $tr, html) {
+    FwBrowseColumn_toggleswitchClass.prototype.setFieldEditMode = function ($browse, $tr, $field) {
         var checked = false;
         var cbuniqueId = FwApplication.prototype.uniqueId(10);
         var originalvalue = (typeof $field.attr('data-originalvalue') === 'string') ? $field.attr('data-originalvalue') : '';
+        var html = [];
         html.push('<div class="checkboxwrapper">');
         html.push('  <label class="switch">');
         html.push('    <input type="checkbox" />');
         html.push('    <span class="slider"></span>');
         html.push('  </label>');
         html.push('</div>');
-        html = html.join('');
-        $field.html(html);
+        var htmlStr = html.join('');
+        $field.html(htmlStr);
         if (originalvalue === 'T' || originalvalue === 'Y' || originalvalue === 'true') {
             checked = true;
         }
-        $field.find('input').prop('checked', checked);
+        this.setFieldValue($browse, $tr, $field, { value: checked });
     };
     return FwBrowseColumn_toggleswitchClass;
 }());

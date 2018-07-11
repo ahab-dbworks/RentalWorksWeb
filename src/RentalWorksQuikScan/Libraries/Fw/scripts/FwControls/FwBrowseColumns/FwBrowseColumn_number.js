@@ -8,8 +8,8 @@ var FwBrowseColumn_numberClass = (function () {
             field.value = $field.find('input.value').val();
         }
     };
-    FwBrowseColumn_numberClass.prototype.setFieldValue = function ($browse, $tr, $field, value) {
-        throw 'Not Implemented!';
+    FwBrowseColumn_numberClass.prototype.setFieldValue = function ($browse, $tr, $field, data) {
+        $field.find('input.value').val(data.value);
     };
     FwBrowseColumn_numberClass.prototype.isModified = function ($browse, $tr, $field) {
         var isModified = false;
@@ -20,7 +20,7 @@ var FwBrowseColumn_numberClass = (function () {
         }
         return isModified;
     };
-    FwBrowseColumn_numberClass.prototype.setFieldViewMode = function ($browse, $field, $tr, html) {
+    FwBrowseColumn_numberClass.prototype.setFieldViewMode = function ($browse, $tr, $field) {
         var originalvalue = (typeof $field.attr('data-originalvalue') === 'string') ? $field.attr('data-originalvalue') : '';
         $field.html("<div class=\"fieldvalue\">" + originalvalue + "</div>");
         $field.find('.fieldvalue').inputmask("numeric", {
@@ -33,8 +33,9 @@ var FwBrowseColumn_numberClass = (function () {
             autoGroup: (((typeof $field.attr('data-formatnumeric') !== 'undefined') && ($field.attr('data-formatnumeric') == 'true')) ? true : false)
         });
     };
-    FwBrowseColumn_numberClass.prototype.setFieldEditMode = function ($browse, $field, $tr, html) {
+    FwBrowseColumn_numberClass.prototype.setFieldEditMode = function ($browse, $tr, $field) {
         var originalvalue = (typeof $field.attr('data-originalvalue') === 'string') ? $field.attr('data-originalvalue') : '';
+        var html = [];
         html.push('<input class="value" type="text"');
         if ($browse.attr('data-enabled') === 'false') {
             html.push(' disabled="disabled"');
@@ -46,9 +47,8 @@ var FwBrowseColumn_numberClass = (function () {
             html.push(' max="' + $browse.attr('data-maxvalue') + '"');
         }
         html.push(' />');
-        html = html.join('');
-        $field.html(html);
-        $field.find('input.value').val(originalvalue);
+        var htmlString = html.join('');
+        $field.html(htmlString);
         $field.find('input.value').inputmask("numeric", {
             min: ((typeof $browse.attr('data-minvalue') !== 'undefined') ? $browse.attr('data-minvalue') : undefined),
             max: ((typeof $browse.attr('data-maxvalue') !== 'undefined') ? $browse.attr('data-maxvalue') : undefined),
@@ -57,6 +57,7 @@ var FwBrowseColumn_numberClass = (function () {
             groupSeparator: ',',
             autoGroup: (((typeof $browse.attr('data-formatnumeric') !== 'undefined') && ($browse.attr('data-formatnumeric') == 'true')) ? true : false)
         });
+        this.setFieldValue($browse, $tr, $field, { value: originalvalue });
     };
     return FwBrowseColumn_numberClass;
 }());

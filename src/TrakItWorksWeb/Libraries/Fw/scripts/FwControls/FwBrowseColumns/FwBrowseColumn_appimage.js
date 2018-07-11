@@ -14,17 +14,17 @@ var FwBrowseColumn_appimageClass = (function () {
     };
     FwBrowseColumn_appimageClass.prototype.getFieldValue = function ($browse, $tr, $field, field, originalvalue) {
     };
-    FwBrowseColumn_appimageClass.prototype.setFieldValue = function ($browse, $tr, $field, value) {
-        throw 'Not Implemented!';
+    FwBrowseColumn_appimageClass.prototype.setFieldValue = function ($browse, $tr, $field, data) {
+        throw 'FwBrowseColumn_appimage.setFieldValue: Not Implemented!';
     };
     FwBrowseColumn_appimageClass.prototype.isModified = function ($browse, $tr, $field) {
         var isModified = false;
         return isModified;
     };
-    FwBrowseColumn_appimageClass.prototype.setFieldViewMode = function ($browse, $field, $tr, html) {
-        FwBrowseColumn_appimage.setFieldEditMode($browse, $field, $tr, html);
+    FwBrowseColumn_appimageClass.prototype.setFieldViewMode = function ($browse, $tr, $field) {
+        FwBrowseColumn_appimage.setFieldEditMode($browse, $tr, $field);
     };
-    FwBrowseColumn_appimageClass.prototype.setFieldEditMode = function ($browse, $field, $tr, html) {
+    FwBrowseColumn_appimageClass.prototype.setFieldEditMode = function ($browse, $tr, $field) {
         var $icon = null, $popup, $popupInner, $appimage, $fwformfields;
         if (!$tr.hasClass('newmode')) {
             if ($tr.hasClass('viewmode')) {
@@ -43,15 +43,16 @@ var FwBrowseColumn_appimageClass = (function () {
             if ($icon !== null) {
                 $icon.on('click', function (e) {
                     var uniqueid1, uniqueid2, uniqueid3;
+                    var html = [];
                     html.push('<div class="fwcontrol fwcontainer fwform" data-control="FwContainer" data-type="form" data-mode="VIEW">');
                     html.push('  <div data-control="FwFormField" data-type="key" class="fwcontrol fwformfield" data-isuniqueid="true" data-caption="" data-datafield="uniqueid1"></div>');
                     html.push('  <div data-control="FwFormField" data-type="key" class="fwcontrol fwformfield" data-isuniqueid="true" data-caption="" data-datafield="uniqueid2"></div>');
                     html.push('  <div data-control="FwFormField" data-type="key" class="fwcontrol fwformfield" data-isuniqueid="true" data-caption="" data-datafield="uniqueid3"></div>');
                     html.push('  <div class="fwcontrol fwappimage" data-control="FwAppImage" data-type="" data-uniqueid1field="uniqueid1" data-uniqueid2field="uniqueid2" data-uniqueid3field="uniqueid3" data-description="" data-rectype=""></div>');
                     html.push('</div>');
-                    html = html.join('');
+                    var htmlString = html.join('');
                     $popup = FwConfirmation.renderConfirmation('Documents', '');
-                    FwConfirmation.addControls($popup, html);
+                    FwConfirmation.addControls($popup, htmlString);
                     FwConfirmation.addButton($popup, 'Close', true);
                     $fwformfields = $popup.find('div[data-control="FwFormField"]');
                     FwControl.renderRuntimeControls($fwformfields);

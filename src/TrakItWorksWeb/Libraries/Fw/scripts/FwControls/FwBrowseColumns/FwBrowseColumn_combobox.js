@@ -15,8 +15,9 @@ var FwBrowseColumn_comboboxClass = (function () {
             field.value = $field.find('input.value').val();
         }
     };
-    FwBrowseColumn_comboboxClass.prototype.setFieldValue = function ($browse, $tr, $field, value) {
-        throw 'Not Implemented!';
+    FwBrowseColumn_comboboxClass.prototype.setFieldValue = function ($browse, $tr, $field, data) {
+        $field.find('.value').val(data.value);
+        $field.find('.text').val(data.text);
     };
     FwBrowseColumn_comboboxClass.prototype.isModified = function ($browse, $tr, $field) {
         var isModified = false;
@@ -27,14 +28,15 @@ var FwBrowseColumn_comboboxClass = (function () {
         }
         return isModified;
     };
-    FwBrowseColumn_comboboxClass.prototype.setFieldViewMode = function ($browse, $field, $tr, html) {
+    FwBrowseColumn_comboboxClass.prototype.setFieldViewMode = function ($browse, $tr, $field) {
         var originaltext = (typeof $field.attr('data-originaltext') === 'string') ? $field.attr('data-originaltext') : '';
         $field.html(originaltext);
     };
-    FwBrowseColumn_comboboxClass.prototype.setFieldEditMode = function ($browse, $field, $tr, html) {
+    FwBrowseColumn_comboboxClass.prototype.setFieldEditMode = function ($browse, $tr, $field) {
         var validationName, validationFor, $valuefield, $textfield, $btnvalidate;
         var originalvalue = (typeof $field.attr('data-originalvalue') === 'string') ? $field.attr('data-originalvalue') : '';
         var originaltext = (typeof $field.attr('data-originaltext') === 'string') ? $field.attr('data-originaltext') : '';
+        var html = [];
         html.push('<input class="value" type="hidden" />');
         html.push('<input class="text" type="text" autocapitalize="none"');
         if ($browse.attr('data-enabled') === 'false') {
@@ -42,10 +44,9 @@ var FwBrowseColumn_comboboxClass = (function () {
         }
         html.push(' />');
         html.push('<i class="material-icons md-dark btnvalidate">&#xE5CF;</i>');
-        html = html.join('');
-        $field.html(html);
-        $field.find('.value').val(originalvalue);
-        $field.find('.text').val(originaltext);
+        var htmlString = html.join('');
+        $field.html(htmlString);
+        this.setFieldValue($browse, $tr, $field, { value: originalvalue, text: originaltext });
         this.initControl($field);
     };
     FwBrowseColumn_comboboxClass.prototype.initControl = function ($control) {

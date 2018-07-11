@@ -10,8 +10,8 @@ var FwBrowseColumn_noteClass = (function () {
         }
     };
     ;
-    FwBrowseColumn_noteClass.prototype.setFieldValue = function ($browse, $tr, $field, value) {
-        throw 'Not Implemented!';
+    FwBrowseColumn_noteClass.prototype.setFieldValue = function ($browse, $tr, $field, data) {
+        $field.find('textarea').val(data.value);
     };
     FwBrowseColumn_noteClass.prototype.isModified = function ($browse, $tr, $field) {
         var isModified = false;
@@ -23,7 +23,7 @@ var FwBrowseColumn_noteClass = (function () {
         return isModified;
     };
     ;
-    FwBrowseColumn_noteClass.prototype.setFieldViewMode = function ($browse, $field, $tr, html) {
+    FwBrowseColumn_noteClass.prototype.setFieldViewMode = function ($browse, $tr, $field) {
         var $noteImage, $noteTextArea, $notePopup, $notePopupControl, $notePopupHtml;
         var originalvalue = (typeof $field.attr('data-originalvalue') === 'string') ? $field.attr('data-originalvalue') : '';
         if (originalvalue !== '') {
@@ -74,7 +74,7 @@ var FwBrowseColumn_noteClass = (function () {
         }
     };
     ;
-    FwBrowseColumn_noteClass.prototype.setFieldEditMode = function ($browse, $field, $tr, html) {
+    FwBrowseColumn_noteClass.prototype.setFieldEditMode = function ($browse, $tr, $field) {
         var $noteImage, $noteTextArea, $notePopup, $notePopupControl, $notePopupHtml;
         var originalvalue = (typeof $field.attr('data-originalvalue') === 'string') ? $field.attr('data-originalvalue') : '';
         var formmaxlength = (typeof $field.attr('data-formmaxlength') === 'string') ? $field.attr('data-formmaxlength') : '';

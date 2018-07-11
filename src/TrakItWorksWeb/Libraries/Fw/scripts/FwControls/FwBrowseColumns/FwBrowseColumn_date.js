@@ -9,8 +9,8 @@ var FwBrowseColumn_dateClass = (function () {
         }
     };
     ;
-    FwBrowseColumn_dateClass.prototype.setFieldValue = function ($browse, $tr, $field, value) {
-        $field.find('input.value').val(value);
+    FwBrowseColumn_dateClass.prototype.setFieldValue = function ($browse, $tr, $field, data) {
+        $field.find('input.value').val(data.value);
     };
     FwBrowseColumn_dateClass.prototype.isModified = function ($browse, $tr, $field) {
         var isModified = false;
@@ -21,17 +21,18 @@ var FwBrowseColumn_dateClass = (function () {
         }
         return isModified;
     };
-    FwBrowseColumn_dateClass.prototype.setFieldViewMode = function ($browse, $field, $tr, html) {
+    FwBrowseColumn_dateClass.prototype.setFieldViewMode = function ($browse, $tr, $field) {
         var originalvalue = (typeof $field.attr('data-originalvalue') === 'string') ? $field.attr('data-originalvalue') : '';
         $field.html(originalvalue);
     };
-    FwBrowseColumn_dateClass.prototype.setFieldEditMode = function ($browse, $field, $tr, html) {
+    FwBrowseColumn_dateClass.prototype.setFieldEditMode = function ($browse, $tr, $field) {
         var originalvalue = (typeof $field.attr('data-originalvalue') === 'string') ? $field.attr('data-originalvalue') : '';
+        var html = [];
         html.push('<input class="value" type="text" />');
         html.push('<div class="btndate"><i class="material-icons">&#xE8DF;</i></div>');
-        html = html.join('');
-        $field.html(html);
-        this.setFieldValue($browse, $tr, $field, originalvalue);
+        var htmlString = html.join('');
+        $field.html(htmlString);
+        this.setFieldValue($browse, $tr, $field, { value: originalvalue });
         $field.find('input.value').inputmask('mm/dd/yyyy');
         $field.find('input.value').datepicker({
             autoclose: true,

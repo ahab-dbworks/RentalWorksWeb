@@ -14,8 +14,8 @@ var FwBrowseColumn_timeClass = (function () {
             }
         }
     };
-    FwBrowseColumn_timeClass.prototype.setFieldValue = function ($browse, $tr, $field, value) {
-        throw 'Not Implemented!';
+    FwBrowseColumn_timeClass.prototype.setFieldValue = function ($browse, $tr, $field, data) {
+        $field.find('input.value').val(data.value);
     };
     FwBrowseColumn_timeClass.prototype.isModified = function ($browse, $tr, $field) {
         var isModified = false;
@@ -26,13 +26,14 @@ var FwBrowseColumn_timeClass = (function () {
         }
         return isModified;
     };
-    FwBrowseColumn_timeClass.prototype.setFieldViewMode = function ($browse, $field, $tr, html) {
+    FwBrowseColumn_timeClass.prototype.setFieldViewMode = function ($browse, $tr, $field) {
         var originalvalue = (typeof $field.attr('data-originalvalue') === 'string') ? $field.attr('data-originalvalue') : '';
         $field.html(originalvalue);
     };
-    FwBrowseColumn_timeClass.prototype.setFieldEditMode = function ($browse, $field, $tr, html) {
+    FwBrowseColumn_timeClass.prototype.setFieldEditMode = function ($browse, $tr, $field) {
         var timepickerTimeFormat, inputmaskTimeFormat;
         var originalvalue = (typeof $field.attr('data-originalvalue') === 'string') ? $field.attr('data-originalvalue') : '';
+        var html = [];
         html.push('<input class="value" type="text"');
         if ($browse.attr('data-enabled') === 'false') {
             html.push(' disabled="disabled"');
@@ -46,10 +47,10 @@ var FwBrowseColumn_timeClass = (function () {
             timepickerTimeFormat = 'h:i A';
             inputmaskTimeFormat = 'hh:mm t';
         }
-        html = html.join('');
-        $field.html(html);
+        var htmlString = html.join('');
+        $field.html(htmlString);
         $field.find('input.value').inputmask(inputmaskTimeFormat);
-        $field.find('input.value').val(originalvalue);
+        this.setFieldValue($browse, $tr, $field, { value: originalvalue });
     };
     return FwBrowseColumn_timeClass;
 }());

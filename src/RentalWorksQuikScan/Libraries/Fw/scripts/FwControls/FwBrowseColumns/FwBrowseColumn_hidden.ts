@@ -1,16 +1,20 @@
-﻿class FwBrowseColumn_hiddenClass {
+﻿class FwBrowseColumn_hiddenClass implements IFwBrowseColumn {
     //---------------------------------------------------------------------------------
-    databindfield($browse, $field, dt, dtRow, $tr) {
+    databindfield($browse, $field, dt, dtRow, $tr): void {
     
     };
     //---------------------------------------------------------------------------------
-    getFieldValue($browse, $tr, $field, field, originalvalue) {
+    getFieldValue($browse, $tr, $field, field, originalvalue): void {
         if (($tr.hasClass('editmode')) || ($tr.hasClass('newmode'))) {
             field.value = $field.find('input.value').val();
         }
     };
     //---------------------------------------------------------------------------------
-    isModified($browse, $tr, $field) {
+    setFieldValue($browse: JQuery, $tr: JQuery, $field: JQuery, data: FwBrowse_SetFieldValueData) {
+        $field.html(data.value);
+    }
+    //---------------------------------------------------------------------------------
+    isModified($browse, $tr, $field): boolean {
         var isModified = false;
         let originalValue = $field.attr('data-originalvalue');
         if (($tr.hasClass('editmode')) || ($tr.hasClass('newmode'))) {
@@ -20,12 +24,12 @@
         return isModified;
     };
     //---------------------------------------------------------------------------------
-    setFieldViewMode($browse, $field, $tr, html) {
-        var originalvalue = (typeof $field.attr('data-originalvalue')  === 'string') ? $field.attr('data-originalvalue') : '';
-        $field.html(originalvalue);
+    setFieldViewMode($browse, $tr, $field): void {
+        var originalvalue = (typeof $field.attr('data-originalvalue') === 'string') ? $field.attr('data-originalvalue') : '';
+        this.setFieldValue($browse, $tr, $field, { value: originalvalue });
     };
     //---------------------------------------------------------------------------------
-    setFieldEditMode($browse, $field, $tr, html) {
+    setFieldEditMode($browse, $tr, $field): void {
     
     };
     //---------------------------------------------------------------------------------
