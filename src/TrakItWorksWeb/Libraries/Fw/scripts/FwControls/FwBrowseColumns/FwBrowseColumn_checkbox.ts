@@ -89,9 +89,9 @@
         if ($field.data('data-checkthebox') === true) {
             $field.data('data-checkthebox', false);
             $field.find('input.value').prop('checked', true);
-            this.setFieldValue($browse, $tr, $field, true);
+            this.setFieldValue($browse, $tr, $field, { value: true });
         } else {
-            this.setFieldValue($browse, $tr, $field, originalvalue);
+            this.setFieldValue($browse, $tr, $field, { value: originalvalue });
         }
         
     }

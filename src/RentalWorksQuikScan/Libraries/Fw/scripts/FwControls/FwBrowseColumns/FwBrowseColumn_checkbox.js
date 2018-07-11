@@ -1,34 +1,34 @@
 var FwBrowseColumn_checkboxClass = (function () {
     function FwBrowseColumn_checkboxClass() {
-        this.getFieldValue = function ($browse, $tr, $field, field, originalvalue) {
-            if ($tr.hasClass('editmode') || $tr.hasClass('newmode')) {
-                field.value = $field.find('input').is(':checked');
-            }
-        };
-        this.getFieldValue2 = function ($browse, $tr, $field, originalvalue) {
-            var isChecked = false;
-            if ($tr.hasClass('editmode') || $tr.hasClass('newmode')) {
-                isChecked = $field.find('input').is(':checked');
-            }
-            else if ($tr.hasClass('viewmode')) {
-                isChecked = $field.attr('data-originalvalue').toUpperCase() === 'T' ||
-                    $field.attr('data-originalvalue').toUpperCase() === 'Y' ||
-                    $field.attr('data-originalvalue').toUpperCase() === 'true';
-            }
-            return isChecked;
-        };
     }
     FwBrowseColumn_checkboxClass.prototype.databindfield = function ($browse, $field, dt, dtRow, $tr) {
     };
-    FwBrowseColumn_checkboxClass.prototype.setFieldValue = function ($browse, $tr, $field, isChecked) {
+    FwBrowseColumn_checkboxClass.prototype.getFieldValue = function ($browse, $tr, $field, field, originalvalue) {
+        if ($tr.hasClass('editmode') || $tr.hasClass('newmode')) {
+            field.value = $field.find('input').is(':checked');
+        }
+    };
+    FwBrowseColumn_checkboxClass.prototype.getFieldValue2 = function ($browse, $tr, $field, originalvalue) {
+        var isChecked = false;
+        if ($tr.hasClass('editmode') || $tr.hasClass('newmode')) {
+            isChecked = $field.find('input').is(':checked');
+        }
+        else if ($tr.hasClass('viewmode')) {
+            isChecked = $field.attr('data-originalvalue').toUpperCase() === 'T' ||
+                $field.attr('data-originalvalue').toUpperCase() === 'Y' ||
+                $field.attr('data-originalvalue').toUpperCase() === 'true';
+        }
+        return isChecked;
+    };
+    FwBrowseColumn_checkboxClass.prototype.setFieldValue = function ($browse, $tr, $field, data) {
         var checked = false;
-        if (typeof isChecked === 'string') {
-            if (isChecked.toUpperCase() === 'T' || isChecked.toUpperCase() === 'Y' || isChecked.toUpperCase() === 'true') {
+        if (typeof data.value === 'string') {
+            if (data.value.toUpperCase() === 'T' || data.value.toUpperCase() === 'Y' || data.value.toUpperCase() === 'true') {
                 checked = true;
             }
         }
-        else if (typeof isChecked === 'boolean') {
-            checked = isChecked;
+        else if (typeof data.value === 'boolean') {
+            checked = data.value;
         }
         $field.find('input').prop('checked', checked);
     };
@@ -44,10 +44,10 @@ var FwBrowseColumn_checkboxClass = (function () {
     };
     FwBrowseColumn_checkboxClass.prototype.setFieldViewMode = function ($browse, $tr, $field) {
         var me = this;
-        var checked = false;
+        var originalCheckedValue = false;
         var originalvalue = (typeof $field.attr('data-originalvalue') === 'string') ? $field.attr('data-originalvalue') : '';
         if (originalvalue === 'T' || originalvalue === 'Y' || originalvalue === 'true') {
-            checked = true;
+            originalCheckedValue = true;
         }
         var html = [];
         html.push('<div class="checkboxwrapper">');
@@ -58,7 +58,7 @@ var FwBrowseColumn_checkboxClass = (function () {
         $checkboxwrapper.on('click', 'label', function (e) {
             try {
                 e.stopPropagation();
-                $field.data('data-checkthebox', !checked);
+                $field.data('data-checkthebox', !originalCheckedValue);
                 FwBrowse.setRowEditMode($browse, $tr);
             }
             catch (ex) {
@@ -66,7 +66,7 @@ var FwBrowseColumn_checkboxClass = (function () {
             }
         });
         $field.empty().append($checkboxwrapper);
-        $field.find('input').prop('checked', checked);
+        this.setFieldValue($browse, $tr, $field, { value: originalCheckedValue });
     };
     FwBrowseColumn_checkboxClass.prototype.setFieldEditMode = function ($browse, $tr, $field) {
         var checked = false;
@@ -86,10 +86,10 @@ var FwBrowseColumn_checkboxClass = (function () {
         if ($field.data('data-checkthebox') === true) {
             $field.data('data-checkthebox', false);
             $field.find('input.value').prop('checked', true);
-            this.setFieldValue($browse, $tr, $field, true);
+            this.setFieldValue($browse, $tr, $field, { value: true });
         }
         else {
-            this.setFieldValue($browse, $tr, $field, originalvalue);
+            this.setFieldValue($browse, $tr, $field, { value: originalvalue });
         }
     };
     return FwBrowseColumn_checkboxClass;
