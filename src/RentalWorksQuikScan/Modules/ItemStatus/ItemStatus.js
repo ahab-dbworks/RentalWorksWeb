@@ -3,23 +3,24 @@ RwOrderController.getItemStatusScreen = function(viewModel, properties) {
     var combinedViewModel, screen, applicationOptions, $error, $itemdetails, $rfiditems;
     applicationOptions = program.getApplicationOptions();
     combinedViewModel = jQuery.extend({
-      captionPageTitle:   RwLanguages.translate('Item Status'),
-      htmlScanBarcode:    RwPartialController.getScanBarcodeHtml({captionBarcodeICode:RwLanguages.translate('Bar Code / I-Code')}),
-      captionBC:          RwLanguages.translate('BC'),
-      captionAsOf:        RwLanguages.translate('As Of'),
-      captionBarcode:     RwLanguages.translate('Barcode'),
-      captionSerialNo:    RwLanguages.translate('Serial No'),
-      captionRFID:        RwLanguages.translate('RFID'),
-      captionICode:       RwLanguages.translate('I-Code'),
-      captionLastDeal:    RwLanguages.translate('Last Deal'),
-      captionLastOrder:   RwLanguages.translate('Last Order'),
-      captionDescription: RwLanguages.translate('Description'),
-      captionAisle:       RwLanguages.translate('Aisle'),
-      captionShelf:       RwLanguages.translate('Shelf'),
-      captionLastDealNo:  RwLanguages.translate('Last Deal No'),
-      captionLastOrderNo: RwLanguages.translate('Last Order No'),
-      captionScanButton:  RwLanguages.translate('Scan'),
-      captionRFIDButton:  RwLanguages.translate('RFID')
+        captionPageTitle:   RwLanguages.translate('Item Status'),
+        htmlScanBarcode:    RwPartialController.getScanBarcodeHtml({captionBarcodeICode:RwLanguages.translate('Bar Code / I-Code')}),
+        captionBC:          RwLanguages.translate('BC'),
+        captionAsOf:        RwLanguages.translate('As Of'),
+        captionBarcode:     RwLanguages.translate('Barcode'),
+        captionSerialNo:    RwLanguages.translate('Serial No'),
+        captionRFID:        RwLanguages.translate('RFID'),
+        captionICode:       RwLanguages.translate('I-Code'),
+        captionLastDeal:    RwLanguages.translate('Last Deal'),
+        captionLastOrder:   RwLanguages.translate('Last Order'),
+        captionDescription: RwLanguages.translate('Description'),
+        captionAisle:       RwLanguages.translate('Aisle'),
+        captionShelf:       RwLanguages.translate('Shelf'),
+        captionLastDealNo:  RwLanguages.translate('Last Deal No'),
+        captionLastOrderNo: RwLanguages.translate('Last Order No'),
+        captionScanButton:  RwLanguages.translate('Scan'),
+        captionRFIDButton:  RwLanguages.translate('RFID'),
+        captionVendor:      RwLanguages.translate('Vendor')
     }, viewModel);
     combinedViewModel.htmlPageBody = Mustache.render(jQuery('#tmpl-itemStatus').html(), combinedViewModel);
     screen = {};
@@ -151,6 +152,9 @@ RwOrderController.getItemStatusScreen = function(viewModel, properties) {
         $itemdetails.find('#is-trLastDeal').toggle(!itemdata.isICode);
         $itemdetails.find('#is-trLastOrderNo').toggle(!itemdata.isICode);
         $itemdetails.find('#is-trLastOrder').toggle(!itemdata.isICode);
+        $itemdetails.find('#is-txtBarcode').html(itemdata.barcode);
+        $itemdetails.find('#is-trVendor').toggle(itemdata.vendor != '');
+        $itemdetails.find('#is-txtVendor').html(itemdata.vendor);
 
         var $warehouse;
         $itemdetails.find('.is-warehouses').empty();
