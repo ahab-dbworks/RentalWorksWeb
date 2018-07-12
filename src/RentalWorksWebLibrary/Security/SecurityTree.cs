@@ -348,6 +348,7 @@ namespace WebLibrary.Security
             AddGrid("Space",                                  "{BF54AEF8-BECB-4069-A1E3-3FEA27301AE8}", lv1menuGrids.Id, "SpaceGridController");
             AddGrid("Space Rate",                             "{F0A6AFE7-3A31-4D2D-BC37-702D785C3734}", lv1menuGrids.Id, "SpaceRateGridController");
             AddGrid("Space Warehouse Rate",                   "{0F264871-A72C-48F7-9A6C-891208F52AD1}", lv1menuGrids.Id, "SpaceWarehouseRateGridController");
+            AddGrid("Staged Items",                           "{132DEBAB-45F6-4977-A1A8-BAE5AC152780}", lv1menuGrids.Id, "StagedItemGridController");
             AddGrid("Sub Category",                           "{070EBAE0-903E-48CE-9285-BDC3ECC07C68}", lv1menuGrids.Id, "SubCategoryGridController");
             AddGrid("Fiscal Year",                            "{F273F7A6-357E-4616-B84E-28D4C321ACF4}", lv1menuGrids.Id, "FiscalYearGridController");
             AddGrid("Fiscal Month",                           "{EB2DCCD4-0747-4055-87A4-0C60D811AFB5}", lv1menuGrids.Id, "FiscalMonthGridController");
