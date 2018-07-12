@@ -1,18 +1,21 @@
 ﻿routes.push({ pattern: /^module\/exchange/, action: function (match: RegExpExecArray) { return ExchangeController.getModuleScreen(); } });
 
 class Exchange {
-    static ContractId: any;
-    static ExchangeResponse: any;
+    ContractId: string;
+    ExchangeResponse: any;
     Module: string;
     apiurl: string;
 
     constructor() {
         this.Module = 'Exchange';
         this.apiurl = 'api/v1/exchange';
+        this.ContractId = '';
+        this.ExchangeResponse = {};
     }
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
         let screen: any = {};
+        let self = this;
         screen.$view = FwModule.getModuleControl(this.Module + 'Controller');
         screen.viewModel = {};
         screen.properties = {};
@@ -21,6 +24,7 @@ class Exchange {
 
         screen.load = function () {
             FwModule.openModuleTab($form, 'Exchange', false, 'FORM', true);
+            self.ContractId = '';
         };
         screen.unload = function () {
         };
@@ -34,6 +38,7 @@ class Exchange {
         let department = JSON.parse(sessionStorage.getItem('department'));
         let contractRequest = {};
         let exchangeRequest = {};
+        let self = this;
 
         $form = jQuery(jQuery('#tmpl-modules-' + this.Module + 'Form').html());
         $form = FwModule.openForm($form, mode);
@@ -58,7 +63,7 @@ class Exchange {
 
             try {
                 FwAppData.apiMethod(true, 'POST', "api/v1/exchange/startexchangecontract", contractRequest, FwServices.defaultTimeout, function onSuccess(response) {
-                    Exchange.ContractId = response.ContractId;
+                    self.ContractId = response.ContractId;
                 }, null, $form);
             } catch (ex) {
                 FwFunc.showError(ex);
@@ -71,7 +76,7 @@ class Exchange {
 
             try {
                 FwAppData.apiMethod(true, 'POST', "api/v1/exchange/startexchangecontract", contractRequest, FwServices.defaultTimeout, function onSuccess(response) {
-                    Exchange.ContractId = response.ContractId;
+                    self.ContractId = response.ContractId;
 
                     let $exchangeItemGridControl: any;
                     $exchangeItemGridControl = $form.find('[data-name="OrderStatusSummaryGrid"]');
@@ -90,7 +95,7 @@ class Exchange {
         $form.find('.in').data('onchange', function ($tr) {
             FwFormField.setValueByDataField($form, 'VendorIn', $tr.find('.field[data-browsedatafield="Vendor"]').attr('data-originalvalue'));
             if (FwFormField.getValueByDataField($form, 'RentalBarCodeOutId') !== '' || FwFormField.getValueByDataField($form, 'SalesBarCodeOutId') !== '') {
-                exchangeRequest['ContractId'] = Exchange.ContractId;
+                exchangeRequest['ContractId'] = self.ContractId;
                 exchangeRequest['InCode'] = $tr.find('.field[data-browsedatafield="InventoryId"]').attr('data-originalvalue');
 
                 if (FwFormField.getValueByDataField($form, 'RentalBarCodeOutId') !== '') {
@@ -101,7 +106,7 @@ class Exchange {
                 
                 try {
                     FwAppData.apiMethod(true, 'POST', "api/v1/exchange/exchangeitem", exchangeRequest, FwServices.defaultTimeout, function onSuccess(response) {
-                        Exchange.ExchangeResponse = response;
+                        self.ExchangeResponse = response;
                     }, null, $form);
                 } catch (ex) {
                     FwFunc.showError(ex);
@@ -112,7 +117,7 @@ class Exchange {
         $form.find('.out').data('onchange', function ($tr) {
             FwFormField.setValueByDataField($form, 'VendorIn', $tr.find('.field[data-browsedatafield="Vendor"]').attr('data-originalvalue'));
             if (FwFormField.getValueByDataField($form, 'RentalBarCodeInId') !== '' || FwFormField.getValueByDataField($form, 'SalesBarCodeInId') !== '') {
-                exchangeRequest['ContractId'] = Exchange.ContractId;
+                exchangeRequest['ContractId'] = self.ContractId;
                 exchangeRequest['OutCode'] = $tr.find('.field[data-browsedatafield="InventoryId"]').attr('data-originalvalue');
 
                 if (FwFormField.getValueByDataField($form, 'RentalBarCodeInId') !== '') {
@@ -123,7 +128,7 @@ class Exchange {
 
                 try {
                     FwAppData.apiMethod(true, 'POST', "api/v1/exchange/exchangeitem", exchangeRequest, FwServices.defaultTimeout, function onSuccess(response) {
-                        Exchange.ExchangeResponse = response;
+                        self.ExchangeResponse = response;
                     }, null, $form);
                 } catch (ex) {
                     FwFunc.showError(ex);
@@ -131,6 +136,25 @@ class Exchange {
             }
         });
 
+        $form.find('.createcontract').on('click', () => {
+            if (self.ContractId !== '') {
+                try {
+                    FwAppData.apiMethod(true, 'POST', "api/v1/exchange/completeexchangecontract/" + self.ContractId, {}, FwServices.defaultTimeout, function onSuccess(response) {
+                        let $contractForm = ContractController.loadForm({
+                            ContractId: response.ContractId
+                        });
+                        FwModule.openSubModuleTab($form, $contractForm);
+                    }, null, $form);
+                } catch (ex) {
+                    FwFunc.showError(ex);
+                }
+            } else {
+                let $confirmation = FwConfirmation.renderConfirmation('Error', 'Please select a valid order and/or bar code.');
+                let $cancel = FwConfirmation.addButton($confirmation, 'OK', true);
+                FwConfirmation.addControls($confirmation, '');
+            }
+
+        });
 
         return $form;
     }
@@ -138,13 +162,14 @@ class Exchange {
     renderGrids($form: any) {
         let $exchangeItemGrid: any;
         let $exchangeItemGridControl: any;
+        let self = this;
 
         $exchangeItemGrid = $form.find('div[data-grid="ExchangeItemGrid"]');
         $exchangeItemGridControl = jQuery(jQuery('#tmpl-grids-ExchangeItemGridBrowse').html());
         $exchangeItemGrid.empty().append($exchangeItemGridControl);
         $exchangeItemGridControl.data('ondatabind', function (request) {
             request.uniqueids = {
-                ContractId: Exchange.ContractId
+                ContractId: self.ContractId
             };
         })
         FwBrowse.init($exchangeItemGridControl);
