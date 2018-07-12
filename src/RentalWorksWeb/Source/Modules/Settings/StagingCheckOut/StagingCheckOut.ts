@@ -19,7 +19,8 @@ class StagingCheckout {
         };
 
         return screen;
-    }
+    };
+
     //----------------------------------------------------------------------------------------------
     openForm(mode: string, parentmoduleinfo?:any) {
         var $form;
@@ -27,14 +28,18 @@ class StagingCheckout {
         $form = jQuery(jQuery('#tmpl-modules-StagingCheckoutForm').html());
         $form = FwModule.openForm($form, mode);
 
+        let warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
+        FwFormField.setValue($form, 'div[data-datafield="WarehouseId"]', warehouse.warehouseid, warehouse.warehouse);
+
+
         //$form.off('change keyup', '.fwformfield[data-isuniqueid!="true"][data-enabled="true"][data-datafield!=""]');
 
-        this.getOrder($form);
-        //this.toggleView($form);
 
-        if (typeof parentmoduleinfo !== null) {
+        this.getOrder($form);
+        if (typeof parentmoduleinfo !== 'undefined') {
             $form.find('div[data-datafield="OrderId"] input.fwformfield-value').val(parentmoduleinfo.OrderId);
             $form.find('div[data-datafield="OrderId"] input.fwformfield-text').val(parentmoduleinfo.OrderNumber);
+            FwFormField.setValue($form, 'div[data-datafield="WarehouseId"]', parentmoduleinfo.WarehouseId, parentmoduleinfo.Warehouse);
             FwFormField.setValueByDataField($form, 'Description', parentmoduleinfo.description);
             jQuery($form.find('[data-datafield="OrderId"]')).trigger('change');
         }
@@ -45,80 +50,86 @@ class StagingCheckout {
         //$form.find('div[data-datafield="TaxOptionId"]').data('onchange', function ($tr) {
         //    FwFormField.setValue($form, 'div[data-datafield=""]', $tr.find('.field[data-browsedatafield="RentalTaxRate1"]').attr('data-originalvalue'));
         //});
+
+        this.events($form);
         return $form;
-    }
+    };
+
     //----------------------------------------------------------------------------------------------
     getOrder($form: JQuery): void {
         const order = $form.find('[data-datafield="OrderId"]');
         const maxPageSize = 9999;
         order.on('change', function () {
             try {
-                var orderId = $form.find('[data-datafield="OrderId"] .fwformfield-value').val();
+                let orderId = $form.find('[data-datafield="OrderId"] .fwformfield-value').val();
+                let warehouseId = FwFormField.getValueByDataField($form, 'WarehouseId');
+                console.log('warehouseIdgetORder: ', warehouseId)
                 FwAppData.apiMethod(true, 'GET', "api/v1/order/" + orderId, null, FwServices.defaultTimeout, function onSuccess(response) {
-                    console.log('response: ', response)
+                    console.log('res:', response)
                     FwFormField.setValueByDataField($form, 'Description', response.Description);
-                    FwFormField.setValueByDataField($form, 'Status', response.Status);
-                    FwFormField.setValueByDataField($form, 'Warehouse', response.Warehouse);
                     FwFormField.setValueByDataField($form, 'Location', response.Location);
-                    FwFormField.setValueByDataField($form, 'EstimatedStartDate', response.EstimatedStartDate);
-                    FwFormField.setValueByDataField($form, 'EstimatedStartTime', response.EstimatedStartTime);
-                    FwFormField.setValueByDataField($form, 'EstimatedStopDate', response.EstimatedStopDate);
-                    FwFormField.setValueByDataField($form, 'EstimatedStopTime', response.EstimatedStopTime);
+                    //FwFormField.setValueByDataField($form, 'WarehouseId', response.WarehouseId);
+                    //FwFormField.setValueByDataField($form, 'Status', response.Status);
+                    //FwFormField.setValueByDataField($form, 'EstimatedStartDate', response.EstimatedStartDate);
+                    //FwFormField.setValueByDataField($form, 'EstimatedStartTime', response.EstimatedStartTime);
+                    //FwFormField.setValueByDataField($form, 'EstimatedStopDate', response.EstimatedStopDate);
+                    //FwFormField.setValueByDataField($form, 'EstimatedStopTime', response.EstimatedStopTime);
 
-                    var rental = response.Rental;
-                    var sales = response.Sales;
-                    if (rental === false && sales === false) {
-                        $form.find('div[data-value="Details"]').hide();
-                    } else {
-                        $form.find('div[data-value="Details"]').show();
-                    }
+                    //var rental = response.Rental;
+                    //var sales = response.Sales;
+                    //if (rental === false && sales === false) {
+                    //    $form.find('div[data-value="Details"]').hide();
+                    //} else {
+                    //    $form.find('div[data-value="Details"]').show();
+                    //}
 
-                    if (rental === true) {
-                        $form.find('.rentalview').show();
-                    } else {
-                        $form.find('.rentalview').hide();
-                    }
+                    //if (rental === true) {
+                    //    $form.find('.rentalview').show();
+                    //} else {
+                    //    $form.find('.rentalview').hide();
+                    //}
 
-                    if (sales === true) {
-                        $form.find('.salesview').show();
-                    } else {
-                        $form.find('.salesview').hide();
-                    }
+                    //if (sales === true) {
+                    //    $form.find('.salesview').show();
+                    //} else {
+                    //    $form.find('.salesview').hide();
+                    //}
 
-                    $form.find('.details').hide();
+                    //$form.find('.details').hide();
                 }, null, $form);
 
-                var $orderStatusSummaryGridControl: any;
-                $orderStatusSummaryGridControl = $form.find('[data-name="OrderStatusSummaryGrid"]');
-                $orderStatusSummaryGridControl.data('ondatabind', function (request) {
-                    request.uniqueids = {
-                        OrderId: orderId
-                    }
-                    request.pagesize = maxPageSize;
-                })
-                FwBrowse.search($orderStatusSummaryGridControl);
-
-                var $orderStatusRentalDetailGridControl: any;
-                $orderStatusRentalDetailGridControl = $form.find('[data-name="OrderStatusRentalDetailGrid"]');
-                $orderStatusRentalDetailGridControl.data('ondatabind', function (request) {
+                var $stagedItemGridControl: any;
+                $stagedItemGridControl = $form.find('[data-name="StagedItemGrid"]');
+                $stagedItemGridControl.data('ondatabind', function (request) {
                     request.uniqueids = {
                         OrderId: orderId,
-                        RecType: "R"
+                        WarehouseId: warehouseId
                     }
                     request.pagesize = maxPageSize;
                 })
-                FwBrowse.search($orderStatusRentalDetailGridControl);
+                FwBrowse.search($stagedItemGridControl);
 
-                var $orderStatusSalesDetailGridControl: any;
-                $orderStatusSalesDetailGridControl = $form.find('[data-name="OrderStatusSalesDetailGrid"]');
-                $orderStatusSalesDetailGridControl.data('ondatabind', function (request) {
-                    request.uniqueids = {
-                        OrderId: orderId,
-                        RecType: "S"
-                    }
-                    request.pagesize = maxPageSize;
-                })
-                FwBrowse.search($orderStatusSalesDetailGridControl);
+                //var $orderStatusRentalDetailGridControl: any;
+                //$orderStatusRentalDetailGridControl = $form.find('[data-name="OrderStatusRentalDetailGrid"]');
+                //$orderStatusRentalDetailGridControl.data('ondatabind', function (request) {
+                //    request.uniqueids = {
+                //        OrderId: orderId,
+                //        RecType: "R"
+                //    }
+                //    request.pagesize = maxPageSize;
+                //})
+                //FwBrowse.search($orderStatusRentalDetailGridControl);
+
+                //var $orderStatusSalesDetailGridControl: any;
+                //$orderStatusSalesDetailGridControl = $form.find('[data-name="OrderStatusSalesDetailGrid"]');
+                //$orderStatusSalesDetailGridControl.data('ondatabind', function (request) {
+                //    request.uniqueids = {
+                //        OrderId: orderId,
+                //        RecType: "S"
+                //    }
+                //    request.pagesize = maxPageSize;
+                //})
+                //FwBrowse.search($orderStatusSalesDetailGridControl);
 
                 setTimeout(function () {
                     var $trs = $form.find('.ordersummarygrid tr.viewmode');
@@ -140,294 +151,99 @@ class StagingCheckout {
                                 break;
                         }
                     }
-                }
-                    , 2000);
+                }, 2000);
             }
             catch (ex) {
                 FwFunc.showError(ex);
             }
         });
-    }
+    };
 
     //----------------------------------------------------------------------------------------------
     renderGrids($form: any) {
-        var $orderStatusSummaryGrid: any;
-        var $orderStatusSummaryGridControl: any;
-        var orderId = $form.find('[data-datafield="OrderId"] .fwformfield-value').val();
-        var max = 9999;
+        let $stagedItemGrid: any;
+        let $stagedItemGridControl: any;
+        let orderId = $form.find('[data-datafield="OrderId"] .fwformfield-value').val();
+        let warehouseId = FwFormField.getValueByDataField($form, 'WarehouseId');
+        let maxPageSize = 9999;
 
-        $orderStatusSummaryGrid = $form.find('div[data-grid="OrderStatusSummaryGrid"]');
-        $orderStatusSummaryGridControl = jQuery(jQuery('#tmpl-grids-OrderStatusSummaryGridBrowse').html());
-        $orderStatusSummaryGrid.empty().append($orderStatusSummaryGridControl);
-        $orderStatusSummaryGridControl.data('ondatabind', function (request) {
-            request.uniqueids = {
-                OrderId: orderId
-            };
-            request.pagesize = max;
-        })
-        FwBrowse.init($orderStatusSummaryGridControl);
-        FwBrowse.renderRuntimeHtml($orderStatusSummaryGridControl);
-        this.addLegend($form, $orderStatusSummaryGrid);
-
-        var $orderStatusRentalDetailGrid: any;
-        var $orderStatusRentalDetailGridControl: any;
-        $orderStatusRentalDetailGrid = $form.find('div[data-grid="OrderStatusRentalDetailGrid"]');
-        $orderStatusRentalDetailGridControl = jQuery(jQuery('#tmpl-grids-OrderStatusRentalDetailGridBrowse').html());
-        $orderStatusRentalDetailGrid.empty().append($orderStatusRentalDetailGridControl);
-        $orderStatusRentalDetailGridControl.data('ondatabind', function (request) {
+        $stagedItemGrid = $form.find('div[data-grid="StagedItemGrid"]');
+        $stagedItemGridControl = jQuery(jQuery('#tmpl-grids-StagedItemGridBrowse').html());
+        $stagedItemGrid.empty().append($stagedItemGridControl);
+        $stagedItemGridControl.data('ondatabind', function (request) {
             request.uniqueids = {
                 OrderId: orderId,
-                RecType: "R"
+                WarehouseId: warehouseId
             };
-            request.pagesize = max;
+            request.pagesize = maxPageSize;
         })
-        FwBrowse.init($orderStatusRentalDetailGridControl);
-        FwBrowse.renderRuntimeHtml($orderStatusRentalDetailGridControl);
-        this.addLegend($form, $orderStatusRentalDetailGrid);
+        FwBrowse.init($stagedItemGridControl);
+        FwBrowse.renderRuntimeHtml($stagedItemGridControl);
+        this.addLegend($form, $stagedItemGrid);
+    };
 
-        var $orderStatusSalesDetailGrid: any;
-        var $orderStatusSalesDetailGridControl: any;
-        $orderStatusSalesDetailGrid = $form.find('div[data-grid="OrderStatusSalesDetailGrid"]');
-        $orderStatusSalesDetailGridControl = jQuery(jQuery('#tmpl-grids-OrderStatusSalesDetailGridBrowse').html());
-        $orderStatusSalesDetailGrid.empty().append($orderStatusSalesDetailGridControl);
-        $orderStatusSalesDetailGridControl.data('ondatabind', function (request) {
-            request.uniqueids = {
-                OrderId: orderId,
-                RecType: "S"
-            };
-            request.pagesize = max;
-        })
-        FwBrowse.init($orderStatusSalesDetailGridControl);
-        FwBrowse.renderRuntimeHtml($orderStatusSalesDetailGridControl);
-        this.addLegend($form, $orderStatusSalesDetailGrid);
-
-        var $filter = $form.find('.filter[data-type="radio"]');
-        $filter.on("change", function () {
-            var orderId = $form.find('[data-datafield="OrderId"] .fwformfield-value').val();
-            var filterValue = $form.find('.filter input[type="radio"]:checked').val().toUpperCase();
-
-            $orderStatusSummaryGridControl.data('ondatabind', function (request) {
-                request.uniqueids = {
-                    OrderId: orderId
-                };
-                request.pagesize = max;
-                request.filterfields = {
-                    Status: filterValue
-                }
-            })
-            FwBrowse.search($orderStatusSummaryGridControl);
-
-            $orderStatusRentalDetailGridControl.data('ondatabind', function (request) {
-                request.uniqueids = {
-                    OrderId: orderId,
-                    RecType: "R"
-                };
-                request.pagesize = max;
-                request.filterfields = {
-                    Status: filterValue
-                }
-            })
-            FwBrowse.search($orderStatusRentalDetailGridControl);
-
-            $orderStatusSalesDetailGridControl.data('ondatabind', function (request) {
-                request.uniqueids = {
-                    OrderId: orderId,
-                    RecType: "S"
-                };
-                request.pagesize = max;
-                request.filterfields = {
-                    Status: filterValue
-                }
-            })
-            FwBrowse.search($orderStatusSalesDetailGridControl);
-
-        });
-
-        var $filterValidations = $form.find('#filters [data-type="validation"] input.fwformfield-value');
-
-        $filterValidations.on("change", function () {
-            var orderId = $form.find('[data-datafield="OrderId"] .fwformfield-value').val();
-
-            var validationName = jQuery(jQuery(this).closest('[data-type="validation"]')).attr('data-validationname');
-
-            var InventoryTypeId = $form.find('[data-type="validation"][data-datafield="InventoryTypeId"] input.fwformfield-value').val();
-            var WarehouseId = $form.find('[data-type="validation"][data-datafield="WarehouseId"] input.fwformfield-value').val();
-            var CategoryId = $form.find('[data-type="validation"][data-datafield="CategoryId"] input.fwformfield-value').val();
-            var InventoryId = $form.find('[data-type="validation"][data-datafield="ICode"] input.fwformfield-value').val();
-            var SubCategoryId = $form.find('[data-type="validation"][data-datafield="SubCategoryId"] input.fwformfield-value').val();
-
-            $orderStatusSummaryGridControl.data('ondatabind', function (request) {
-                request.uniqueids = {
-                    OrderId: orderId
-                };
-                request.pagesize = max;
-                if (InventoryTypeId !== "") {
-                    var invObj = { InventoryTypeId: InventoryTypeId }
-                }
-                if (WarehouseId !== "") {
-                    var whObj = { WarehouseId: WarehouseId }
-                }
-                if (CategoryId !== "") {
-                    var catObj = { CategoryId: CategoryId }
-                }
-                if (InventoryId !== "") {
-                    var iObj = { InventoryId: InventoryId }
-                }
-                if (SubCategoryId !== "") {
-                    var subObj = { SubCategoryId: SubCategoryId }
-                }
-                request.filterfields = jQuery.extend(invObj, whObj, catObj, iObj, subObj);
-
-            })
-            FwBrowse.search($orderStatusSummaryGridControl);
-
-            $orderStatusRentalDetailGridControl.data('ondatabind', function (request) {
-                request.uniqueids = {
-                    OrderId: orderId,
-                    RecType: "R"
-                };
-                request.pagesize = max;
-                if (InventoryTypeId !== "") {
-                    var invObj = { InventoryTypeId: InventoryTypeId }
-                }
-                if (WarehouseId !== "") {
-                    var whObj = { WarehouseId: WarehouseId }
-                }
-                if (CategoryId !== "") {
-                    var catObj = { CategoryId: CategoryId }
-                }
-                if (InventoryId !== "") {
-                    var iObj = { InventoryId: InventoryId }
-                }
-                if (SubCategoryId !== "") {
-                    var subObj = { SubCategoryId: SubCategoryId }
-                }
-                request.filterfields = jQuery.extend(invObj, whObj, catObj, iObj, subObj);
-            })
-            FwBrowse.search($orderStatusRentalDetailGridControl);
-
-            $orderStatusSalesDetailGridControl.data('ondatabind', function (request) {
-                request.uniqueids = {
-                    OrderId: orderId,
-                    RecType: "S"
-                };
-                request.pagesize = max;
-                if (InventoryTypeId !== "") {
-                    var invObj = { InventoryTypeId: InventoryTypeId }
-                }
-                if (WarehouseId !== "") {
-                    var whObj = { WarehouseId: WarehouseId }
-                }
-                if (CategoryId !== "") {
-                    var catObj = { CategoryId: CategoryId }
-                }
-                if (InventoryId !== "") {
-                    var iObj = { InventoryId: InventoryId }
-                }
-                if (SubCategoryId !== "") {
-                    var subObj = { SubCategoryId: SubCategoryId }
-                }
-                request.filterfields = jQuery.extend(invObj, whObj, catObj, iObj, subObj);
-            })
-            FwBrowse.search($orderStatusSalesDetailGridControl);
-        });
-
-        var $textFilter = $form.find('#filters [data-type="text"] input.fwformfield-value');
-        $textFilter.on("blur", function () {
-            var orderId = $form.find('[data-datafield="OrderId"] .fwformfield-value').val();
-
-            var Description = $form.find('.textfilter[data-caption="Description"] input.fwformfield-value').val();
-            var BarCode = $form.find('.textfilter[data-caption^="Bar Code"] input.fwformfield-value').val();
-
-            $orderStatusSummaryGridControl.data('ondatabind', function (request) {
-                request.uniqueids = {
-                    OrderId: orderId
-                };
-                request.pagesize = max;
-                if (Description !== "" || null) {
-                    request.searchfieldoperators.push("like");
-                    request.searchfields.push("Description");
-                    request.searchfieldvalues.push(Description);
-                };
-
-                //justin 02/11/2018 (commmented - Bar Code column not present in data set)
-                //if (BarCode !== "" || null) {
-                //    request.searchfieldoperators.push("like");
-                //    request.searchfields.push("BarCode");
-                //    request.searchfieldvalues.push(BarCode);
-                //};
-
-
-            })
-            FwBrowse.search($orderStatusSummaryGridControl);
-
-            $orderStatusRentalDetailGridControl.data('ondatabind', function (request) {
-                request.uniqueids = {
-                    OrderId: orderId,
-                    RecType: "R"
-                };
-                request.pagesize = max;
-                if (Description !== "" || null) {
-                    request.searchfieldoperators.push("like");
-                    request.searchfields.push("Description");
-                    request.searchfieldvalues.push(Description);
-                };
-                if (BarCode !== "" || null) {
-                    request.searchfieldoperators.push("like");
-                    //request.searchfields.push("BarCode");
-                    request.searchfields.push("BarCodeSerialRfid");  //justin 02/11/2018 replaced with correct field name
-                    request.searchfieldvalues.push(BarCode);
-                };
-
-
-            })
-            FwBrowse.search($orderStatusRentalDetailGridControl);
-
-            $orderStatusSalesDetailGridControl.data('ondatabind', function (request) {
-                request.uniqueids = {
-                    OrderId: orderId,
-                    RecType: "S"
-                };
-                request.pagesize = max;
-                if (Description !== "" || null) {
-                    request.searchfieldoperators.push("like");
-                    request.searchfields.push("Description");
-                    request.searchfieldvalues.push(Description);
-                };
-                if (BarCode !== "" || null) {
-                    request.searchfieldoperators.push("like");
-                    //request.searchfields.push("BarCode");
-                    request.searchfields.push("BarCodeSerialRfid");  //justin 02/11/2018 replaced with correct field name
-                    request.searchfieldvalues.push(BarCode);
-                };
-
-            })
-            FwBrowse.search($orderStatusSalesDetailGridControl);
-
-        });
-
-    }
     //----------------------------------------------------------------------------------------------
     afterLoad($form: any) {
-    }
-    //----------------------------------------------------------------------------------------------
-    toggleView($form: any) {
-        var $toggle = $form.find('.toggle[data-type="radio"]');
-        $toggle.on("change", function () {
-            var view = $form.find('.toggle input[type="radio"]:checked').val();
-            switch (view) {
-                case 'Summary':
-                    $form.find('.summaryview').show();
-                    $form.find('.details').hide();
-                    break;
-                case 'Details':
-                    $form.find('.details').show();
-                    $form.find('.summaryview').hide();
-                    break;
-            }
+        let $stagedItemGrid;
+        $stagedItemGrid = $form.find('[data-name="StagedItemGrid"]');
+        FwBrowse.search($stagedItemGrid);
+    };
 
+    //----------------------------------------------------------------------------------------------
+    events($form: any) {
+
+        //BarCode / I-Code change
+        $form.find('[data-datafield="Code"] input').on('change', event => {
+            let code, orderId;
+            orderId = FwFormField.getValueByDataField($form, 'OrderId');
+            code = FwFormField.getValueByDataField($form, 'Code');
+            let request: any = {};
+            request = {
+                OrderId: orderId,
+                Code: code
+            }
+            FwAppData.apiMethod(true, 'POST', `api/v1/checkout/stageitem`, request, FwServices.defaultTimeout, function onSuccess(response) {
+                console.log(response)
+                FwFormField.setValueByDataField($form, 'ICode', response.InventoryStatus.ICode);
+                FwFormField.setValueByDataField($form, 'Description', response.InventoryStatus.Description);
+                FwFormField.setValueByDataField($form, 'QuantityOrdered', response.InventoryStatus.QuantityOrdered);
+                FwFormField.setValueByDataField($form, 'QuantitySub', response.InventoryStatus.QuantitySub);
+                FwFormField.setValueByDataField($form, 'QuantityOut', response.InventoryStatus.QuantityOut);
+                FwFormField.setValueByDataField($form, 'QuantityStaged', response.InventoryStatus.QuantityStaged);
+                FwFormField.setValueByDataField($form, 'QuantityRemaining', response.InventoryStatus.QuantityRemaining);
+
+            }, function onError(response) {
+                FwFunc.showError(response);
+            }, $form);
         });
-    }
+
+        //Quantity change
+        $form.find('[data-datafield="Quantity"] input').on('change', event => {
+            let code, orderId, quantity;
+            orderId = FwFormField.getValueByDataField($form, 'OrderId');
+            code = FwFormField.getValueByDataField($form, 'Code');
+            let request: any = {};
+            request = {
+                OrderId: orderId,
+                Code: code,
+                Quantity: quantity
+            }
+            FwAppData.apiMethod(true, 'POST', `api/v1/checkout/stageitem`, request, FwServices.defaultTimeout, function onSuccess(response) {
+                console.log(response)
+                FwFormField.setValueByDataField($form, 'ICode', response.InventoryStatus.ICode);
+                FwFormField.setValueByDataField($form, 'Description', response.InventoryStatus.Description);
+                FwFormField.setValueByDataField($form, 'QuantityOrdered', response.InventoryStatus.QuantityOrdered);
+                FwFormField.setValueByDataField($form, 'QuantitySub', response.InventoryStatus.QuantitySub);
+                FwFormField.setValueByDataField($form, 'QuantityOut', response.InventoryStatus.QuantityOut);
+                FwFormField.setValueByDataField($form, 'QuantityStaged', response.InventoryStatus.QuantityStaged);
+                FwFormField.setValueByDataField($form, 'QuantityRemaining', response.InventoryStatus.QuantityRemaining);
+
+            }, function onError(response) {
+                FwFunc.showError(response);
+            }, $form);
+        });
+    };
+
     //----------------------------------------------------------------------------------------------
     addLegend($form: any, $grid) {
         FwBrowse.addLegend($grid, 'Complete', '#8888ff');
@@ -441,8 +257,8 @@ class StagingCheckout {
         FwBrowse.addLegend($grid, 'Sales', '#ff0080');
         FwBrowse.addLegend($grid, 'Not Yet Staged or Still Out', '#ff0000');
         FwBrowse.addLegend($grid, 'Too Many Staged', '#00ff80');
-    }
-    //----------------------------------------------------------------------------------------------
+    };
 
+    //----------------------------------------------------------------------------------------------
 }
 const StagingCheckoutController = new StagingCheckout();
