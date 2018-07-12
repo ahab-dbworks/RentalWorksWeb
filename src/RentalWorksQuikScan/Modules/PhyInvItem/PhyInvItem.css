@@ -2,3 +2,10 @@
 #phyInvItemView-qty input {width:70px;margin:0 10px;text-align:center;}
 #phyInvItemView-add {width: 65px;margin:0 10px 0 0;font-size:14px;}
 #phyInvItemView-replace{width: 65px;font-size:14px;}
+
+#phyInvItemView .fwmobilecontrol-control {}
+#phyInvItemView .fwmobilecontrol-value {text-transform:uppercase;text-align:center;}
+#phyInvItemView .fwmobilecontrol-value::-webkit-input-placeholder {text-transform: none;}
+#phyInvItemView .fwmobilecontrol-value:-moz-placeholder {text-transform: none;}
+#phyInvItemView .fwmobilecontrol-value::-moz-placeholder {text-transform: none;}
+#phyInvItemView .fwmobilecontrol-value:-ms-input-placeholder {text-transform: none;}

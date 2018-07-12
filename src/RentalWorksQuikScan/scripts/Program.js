@@ -239,8 +239,8 @@ var Program = (function (_super) {
                     case 'utilities/exchange':
                         screen = Exchange.getModuleScreen({}, {});
                         break;
-                    case 'utilities/physicalinventory':
-                        screen = RwSelectPhyInv.getSelectPhyInvScreen({}, {
+                    case 'physicalinventory':
+                        screen = PhysicalInventory.gePhysicalInventoryScreen({}, {
                             moduleType: RwConstants.moduleTypes.PhyInv
                         });
                         break;

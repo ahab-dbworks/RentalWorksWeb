@@ -560,41 +560,6 @@ namespace RentalWorksQuikScan.Source
             return result;
         }
         //----------------------------------------------------------------------------------------------------
-        public static dynamic WebSelectPhyInv(FwSqlConnection conn, string usersId, string phyNo)
-        {
-            dynamic result;
-            FwSqlCommand sp;
-            sp = new FwSqlCommand(conn, "dbo.webselectphyinv");
-            sp.AddParameter("@physicalno",   phyNo);
-            sp.AddParameter("@usersid",      usersId);
-            sp.AddParameter("@physicalid",   SqlDbType.NVarChar, ParameterDirection.Output);
-            sp.AddParameter("@dealid",       SqlDbType.NVarChar, ParameterDirection.Output);
-            sp.AddParameter("@description",  SqlDbType.NVarChar, ParameterDirection.Output);
-            sp.AddParameter("@phystatus",    SqlDbType.NVarChar, ParameterDirection.Output);
-            sp.AddParameter("@scheduledate", SqlDbType.NVarChar, ParameterDirection.Output);
-            sp.AddParameter("@counttype",    SqlDbType.NVarChar, ParameterDirection.Output);
-            sp.AddParameter("@rectype",      SqlDbType.NVarChar, ParameterDirection.Output);
-            sp.AddParameter("@warehouse",    SqlDbType.NVarChar, ParameterDirection.Output);
-            sp.AddParameter("@department",   SqlDbType.NVarChar, ParameterDirection.Output);
-            sp.AddParameter("@status",       SqlDbType.Int,      ParameterDirection.Output);
-            sp.AddParameter("@msg",          SqlDbType.NVarChar, ParameterDirection.Output);
-            sp.Execute();
-            result = new ExpandoObject();
-            result.phyNo         = phyNo;
-            result.physicalId    = sp.GetParameter("@physicalid").ToString().TrimEnd();
-            result.dealId        = sp.GetParameter("@dealid").ToString().TrimEnd();
-            result.description   = sp.GetParameter("@description").ToString().TrimEnd();
-            result.phyStatus     = sp.GetParameter("@phystatus").ToString().TrimEnd();
-            result.scheduleDate  = sp.GetParameter("@scheduledate").ToString().TrimEnd();
-            result.counttype     = sp.GetParameter("@counttype").ToString().TrimEnd();
-            result.rectype       = sp.GetParameter("@rectype").ToString().TrimEnd();
-            result.warehouse     = sp.GetParameter("@warehouse").ToString().TrimEnd();
-            result.department    = sp.GetParameter("@department").ToString().TrimEnd();
-            result.status        = sp.GetParameter("@status").ToInt32();
-            result.msg           = sp.GetParameter("@msg").ToString().TrimEnd();
-            return result;
-        }
-        //----------------------------------------------------------------------------------------------------
         //public static dynamic WebStageItem(FwSqlConnection conn, string orderId, string code, string masterItemId, string usersId, decimal qty, bool addItemToOrder, bool addCompleteToOrder, bool releaseFromRepair, bool unstageMode)
         //{
         //    dynamic result;

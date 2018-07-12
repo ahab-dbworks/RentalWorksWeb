@@ -84,6 +84,7 @@ RwLanguages.captions = [
   , 'Continue...'
   , 'Continue'
   , 'Count'
+  , 'Count Type'
   , 'Create Container'
   , 'Create Contract'
   , 'Create New Set'

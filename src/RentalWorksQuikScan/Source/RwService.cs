@@ -166,16 +166,6 @@ namespace RentalWorksQuikScan.Source
             response.contract = RwAppData.CreateNewInContractAndSuspend(conn, orderid, dealid, departmentid, usersid);    
         }
         //---------------------------------------------------------------------------------------------
-        public static void SelectPhyInv(dynamic request, dynamic response, dynamic session)
-        {
-            const string METHOD_NAME = "SelectPhyInv";
-            FwValidate.TestIsNullOrEmpty(METHOD_NAME, "usersid", session.security.webUser.usersid);
-            FwValidate.TestPropertyDefined(METHOD_NAME, request, "phyNo");
-            response.webSelectPhyInv = RwAppData.WebSelectPhyInv(conn:    FwSqlConnection.RentalWorks
-                                                               , usersId: session.security.webUser.usersid
-                                                               , phyNo:   request.phyNo);
-        }
-        //---------------------------------------------------------------------------------------------
         public static void SelectRepairOrder(dynamic request, dynamic response, dynamic session)
         {
             const string METHOD_NAME = "SelectRepairOrder";

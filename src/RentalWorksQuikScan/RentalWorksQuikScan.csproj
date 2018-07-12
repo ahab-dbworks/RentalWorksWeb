@@ -125,10 +125,6 @@
       <Private>True</Private>
       <Private>True</Private>
     </Reference>
-    <Reference Include="System.Net.Http.WebRequest, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\System.Net.Http.2.0.20126.16343\lib\net40\System.Net.Http.WebRequest.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -242,8 +238,8 @@
     <Content Include="Modules\RepairOrder\RepairOrder.js" />
     <Content Include="Modules\SelectOrder\SelectOrder.css" />
     <Content Include="Modules\SelectOrder\SelectOrder.js" />
-    <Content Include="Modules\SelectPhyInv\SelectPhyInv.css" />
-    <Content Include="Modules\SelectPhyInv\SelectPhyInv.js" />
+    <Content Include="Modules\PhysicalInventory\PhysicalInventory.css" />
+    <Content Include="Modules\PhysicalInventory\PhysicalInventory.js" />
     <Content Include="Modules\SelectPO\SelectPO.css" />
     <Content Include="Modules\SelectPO\SelectPO.js" />
     <Content Include="Modules\Staging\Staging.css" />
@@ -410,7 +406,7 @@
     <Content Include="Modules\CheckIn\CheckIn.html" />
     <Content Include="Modules\ContractSignature\ContractSignature.html" />
     <Content Include="Modules\Staging\Staging.html" />
-    <Content Include="Modules\SelectPhyInv\SelectPhyInv.html" />
+    <Content Include="Modules\PhysicalInventory\PhysicalInventory.html" />
     <Content Include="Modules\SelectPO\SelectPO.html" />
     <Content Include="scripts\controllers\RwPartialController.js" />
     <Content Include="scripts\controllers\RwAccountController.js" />
@@ -443,6 +439,7 @@
     <Compile Include="Modules\Exchange\ExchangeDm.cs" />
     <Compile Include="Modules\Exchange\ExchangeModels.cs" />
     <Compile Include="Modules\Exchange\ExchangeValidDlg.cs" />
+    <Compile Include="Modules\PhysicalInventory\PhysicalInventory.cs" />
     <Compile Include="Modules\QC\QC.cs" />
     <Compile Include="Modules\TransferInMenu\TransferInMenu.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

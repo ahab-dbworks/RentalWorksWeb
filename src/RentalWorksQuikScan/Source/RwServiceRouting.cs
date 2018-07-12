@@ -150,11 +150,6 @@ namespace RentalWorksQuikScan.Source
                 ),
                 new FwJsonRequestAction(
                     roles: new string[]{RwUserRoles.RentalWorksUser},
-                    isMatch: delegate(string requestPath, string applicationPath) { return Regex.IsMatch(requestPath, GetRegexString("/inventory/selectphyinv", applicationPath)); },
-                    onMatch: delegate(dynamic request, dynamic response, dynamic session) { RwService.SelectPhyInv(request, response, session); }
-                ),
-                new FwJsonRequestAction(
-                    roles: new string[]{RwUserRoles.RentalWorksUser},
                     isMatch: delegate(string requestPath, string applicationPath) { return Regex.IsMatch(requestPath, GetRegexString("/inventory/selectrepairorder", applicationPath)); },
                     onMatch: delegate(dynamic request, dynamic response, dynamic session) { RwService.SelectRepairOrder(request, response, session); }
                 ),

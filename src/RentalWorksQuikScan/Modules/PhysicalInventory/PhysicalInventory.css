@@ -1,0 +1,15 @@
+﻿#physicalinventory .fwmobilecontrol-control {}
+#physicalinventory .fwmobilecontrol-value {text-transform:uppercase;text-align:center;}
+#physicalinventory .fwmobilecontrol-value::-webkit-input-placeholder {text-transform: none;}
+#physicalinventory .fwmobilecontrol-value:-moz-placeholder {text-transform: none;}
+#physicalinventory .fwmobilecontrol-value::-moz-placeholder {text-transform: none;}
+#physicalinventory .fwmobilecontrol-value:-ms-input-placeholder {text-transform: none;}
+
+#physicalinventory #pi-status {background-color: #f44336;padding: 10px;color: rgba(0,0,0,0.87);display: none;text-align: center;}
+
+#physicalinventory #pi-item {display:none;}
+#physicalinventory #pi-item .pi-item-description {font-size: 18px;background-color: #546e7a;padding: 5px;text-align: center;}
+#physicalinventory #pi-item .pi-item-details {background-color: #37474f;font-size: 14px;}
+#physicalinventory #pi-item .pi-item-detail {display:flex;border-bottom: 1px solid #757575;padding: 5px 10px;}
+#physicalinventory #pi-item .pi-item-detail .caption {flex: 0 0 160px;}
+#physicalinventory #pi-item .pi-item-detail .value {flex: 1 0 auto;}

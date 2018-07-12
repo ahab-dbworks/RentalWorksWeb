@@ -23,7 +23,6 @@ declare var RwLanguages: any;
 declare var RwOrderController: any;
 declare var RwPartialController: any;
 declare var RwSelectOrder: any;
-declare var RwSelectPhyInv: any;
 declare var RwSelectPO: any;
 declare var RwQuote: any;
 declare var RwQuoteMenu: any;
@@ -34,6 +33,7 @@ declare var RwServices: any;
 declare var AssetSetLocation: any;
 declare var AssignItems: any;
 declare var Exchange: any;
+declare var PhysicalInventory: any;
 declare var ReceiveOnSet: any;
 declare var TimeLog: any;
 

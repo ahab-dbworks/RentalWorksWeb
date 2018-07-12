@@ -18,7 +18,7 @@ RwInventoryController.getPhyInvItemScreen = function(viewModel, properties) {
     screen.$view.find('#phyInvItemView-qty').hide();
     
     screen.$view
-        .on('change', '#scanBarcodeView-txtBarcodeData', function() {
+        .on('change', '.fwmobilecontrol-value', function() {
             var $this, requestPhyCountItem;
             try {
                 $this = jQuery(this);
@@ -29,16 +29,16 @@ RwInventoryController.getPhyInvItemScreen = function(viewModel, properties) {
                 RwServices.order.phyCountItem(requestPhyCountItem, function(response) {
                     try {
                         properties.response = response;
-                        jQuery('#phyInvItemView-ICodeBarcode').html(response.webGetPhyItemInfo.masterNo + ((response.webGetPhyItemInfo.itemType == "NonBarCoded") ? "" : " (BC: " + response.request.code + ")"));
+                        jQuery('#phyInvItemView-ICodeBarcode').html(response.webGetPhyItemInfo.masterNo + ((response.webGetPhyItemInfo.itemType === "NonBarCoded") ? "" : " (BC: " + response.request.code + ")"));
                         jQuery('#phyInvItemView-master').html(response.webGetPhyItemInfo.master);
-                        jQuery('#phyInvItemView-genericMsgValue').html((((response.webGetPhyItemInfo.itemType == "BarCoded") && (response.webGetPhyItemInfo.status == 0)) ? response.webPhyCountItem.genericMsg : response.webGetPhyItemInfo.genericMsg));
-                        jQuery('#phyInvItemView-msgValue').html((((response.webGetPhyItemInfo.itemType == "BarCoded") && (response.webGetPhyItemInfo.status == 0)) ? response.webPhyCountItem.msg : response.webGetPhyItemInfo.msg));
-                        program.playStatus(response.webGetPhyItemInfo.status == 0);
+                        jQuery('#phyInvItemView-genericMsgValue').html((((response.webGetPhyItemInfo.itemType === "BarCoded") && (response.webGetPhyItemInfo.status === 0)) ? response.webPhyCountItem.genericMsg : response.webGetPhyItemInfo.genericMsg));
+                        jQuery('#phyInvItemView-msgValue').html((((response.webGetPhyItemInfo.itemType === "BarCoded") && (response.webGetPhyItemInfo.status === 0)) ? response.webPhyCountItem.msg : response.webGetPhyItemInfo.msg));
+                        program.playStatus(response.webGetPhyItemInfo.status === 0);
 
                         jQuery('#phyInvItemView-response').show();
                         jQuery('#phyInvItemView-genericMsg')
                             .toggle((applicationConfig.designMode) || (jQuery('#phyInvItemView-genericMsgValue').html().length > 0))
-                            .attr('class', ((response.webGetPhyItemInfo.status == 0) ? 'qssuccess' : 'qserror'))
+                            .attr('class', ((response.webGetPhyItemInfo.status === 0) ? 'qssuccess' : 'qserror'))
                         ;
                         jQuery('#phyInvItemView-msg')
                             .toggle((applicationConfig.designMode) || (jQuery('#phyInvItemView-msgValue').html().length > 0));
@@ -47,7 +47,7 @@ RwInventoryController.getPhyInvItemScreen = function(viewModel, properties) {
                         jQuery('#phyInvItemView-info')
                             .toggle((applicationConfig.designMode) || (response.webGetPhyItemInfo.status !== 301));
                         jQuery('#phyInvItemView-qty')
-                            .toggle((applicationConfig.designMode) || ((response.webGetPhyItemInfo.itemType == "NonBarCoded") && (response.webGetPhyItemInfo.status == 0)));
+                            .toggle((applicationConfig.designMode) || ((response.webGetPhyItemInfo.itemType === "NonBarCoded") && (response.webGetPhyItemInfo.status === 0)));
                         jQuery('#phyInvItemView-addReplace')
                             .toggle((applicationConfig.designMode) || (response.webGetPhyItemInfo.showAddRep));
                         jQuery('#phyInvItemView-submit')
@@ -80,11 +80,11 @@ RwInventoryController.getPhyInvItemScreen = function(viewModel, properties) {
                         try {
                             jQuery('#phyInvItemView-genericMsgValue').html(response.webPhyCountItem.genericMsg);
                             jQuery('#phyInvItemView-msgValue').html(response.webPhyCountItem.msg);
-                            program.playStatus(response.webPhyCountItem.status == 0);
+                            program.playStatus(response.webPhyCountItem.status === 0);
 
                             jQuery('#phyInvItemView-genericMsg')
                                 .toggle((applicationConfig.designMode) || (jQuery('#phyInvItemView-genericMsgValue').html().length > 0))
-                                .attr('class', ((response.webPhyCountItem.status == 0) ? 'qssuccess' : 'qserror'))
+                                .attr('class', ((response.webPhyCountItem.status === 0) ? 'qssuccess' : 'qserror'))
                             ;
                             jQuery('#phyInvItemView-msg')
                                 .toggle((applicationConfig.designMode) || (jQuery('#phyInvItemView-msgValue').html().length > 0));
@@ -122,11 +122,11 @@ RwInventoryController.getPhyInvItemScreen = function(viewModel, properties) {
                         try {
                             jQuery('#phyInvItemView-genericMsgValue').html(response.webPhyCountItem.genericMsg);
                             jQuery('#phyInvItemView-msgValue').html(response.webPhyCountItem.msg);
-                            program.playStatus(response.webPhyCountItem.status == 0);
+                            program.playStatus(response.webPhyCountItem.status === 0);
 
                             jQuery('#phyInvItemView-genericMsg')
                                 .toggle((applicationConfig.designMode) || (jQuery('#phyInvItemView-genericMsgValue').html().length > 0))
-                                .attr('class', ((response.webPhyCountItem.status == 0) ? 'qssuccess' : 'qserror'))
+                                .attr('class', ((response.webPhyCountItem.status === 0) ? 'qssuccess' : 'qserror'))
                             ;
                             jQuery('#phyInvItemView-msg')
                                 .toggle((applicationConfig.designMode) || (jQuery('#phyInvItemView-msgValue').html().length > 0));
@@ -147,9 +147,9 @@ RwInventoryController.getPhyInvItemScreen = function(viewModel, properties) {
     ;
 
     screen.load = function() {
-        program.setScanTarget('#scanBarcodeView-txtBarcodeData');
+        program.setScanTarget('.fwmobilecontrol-value');
         if (!Modernizr.touch) {
-            jQuery('#scanBarcodeView-txtBarcodeData').select();
+            jQuery('.fwmobilecontrol-value').select();
         }
     };
 
