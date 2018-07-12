@@ -63,7 +63,6 @@ class StagingCheckout {
             try {
                 let orderId = $form.find('[data-datafield="OrderId"] .fwformfield-value').val();
                 let warehouseId = FwFormField.getValueByDataField($form, 'WarehouseId');
-                console.log('warehouseIdgetORder: ', warehouseId)
                 FwAppData.apiMethod(true, 'GET', "api/v1/order/" + orderId, null, FwServices.defaultTimeout, function onSuccess(response) {
                     console.log('res:', response)
                     FwFormField.setValueByDataField($form, 'Description', response.Description);
@@ -205,7 +204,7 @@ class StagingCheckout {
             FwAppData.apiMethod(true, 'POST', `api/v1/checkout/stageitem`, request, FwServices.defaultTimeout, function onSuccess(response) {
                 console.log(response)
                 FwFormField.setValueByDataField($form, 'ICode', response.InventoryStatus.ICode);
-                FwFormField.setValueByDataField($form, 'Description', response.InventoryStatus.Description);
+                FwFormField.setValueByDataField($form, 'InventoryDescription', response.InventoryStatus.Description);
                 FwFormField.setValueByDataField($form, 'QuantityOrdered', response.InventoryStatus.QuantityOrdered);
                 FwFormField.setValueByDataField($form, 'QuantitySub', response.InventoryStatus.QuantitySub);
                 FwFormField.setValueByDataField($form, 'QuantityOut', response.InventoryStatus.QuantityOut);
