@@ -623,6 +623,23 @@ var OrderBase = (function () {
             }
             _this.calculateOrderItemGridTotals($form, gridType);
         });
+        $form.find('.allFrames').css('display', 'none');
+        $form.find('.hideFrames').css('display', 'none');
+        $form.find('.expandArrow').on('click', function (e) {
+            $form.find('.hideFrames').toggle();
+            $form.find('.expandFrames').toggle();
+            $form.find('.allFrames').toggle();
+            $form.find('.totalRowFrames').toggle();
+            if ($form.find('.summarySection').css('flex') != '0 1 65%') {
+                $form.find('.summarySection').css('flex', '0 1 65%');
+            }
+            else {
+                $form.find('.summarySection').css('flex', '');
+            }
+        });
+        $form.find(".weeklyType").show();
+        $form.find(".monthlyType").hide();
+        $form.find(".periodType input").prop('checked', true);
     };
     ;
     OrderBase.prototype.bottomLineDiscountChange = function ($form, event) {
@@ -940,6 +957,270 @@ var OrderBase = (function () {
                 FwFormField.setValueByDataField($form, 'BillingMonths', '0');
             }
         }
+    };
+    ;
+    OrderBase.prototype.orderItemGridLockUnlock = function ($browse, event) {
+        var orderId, $selectedCheckBoxes;
+        orderId = $browse.find('.selected [data-browsedatafield="OrderId"]').attr('data-originalvalue');
+        $selectedCheckBoxes = $browse.find('.cbselectrow:checked');
+        for (var i = 0; i < $selectedCheckBoxes.length; i++) {
+            var orderItemId = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="OrderItemId"]').attr('data-originalvalue');
+            var orderId_1 = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="OrderId"]').attr('data-originalvalue');
+            if (orderId_1 != null) {
+                if ($selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="Locked"]').attr('data-originalvalue') === 'true') {
+                    unlockItem(orderId_1, orderItemId);
+                }
+                else {
+                    lockItem(orderId_1, orderItemId);
+                }
+            }
+        }
+        function lockItem(orderId, orderItemId) {
+            var request = {};
+            request = {
+                OrderId: orderId,
+                OrderItemId: orderItemId,
+                Locked: true,
+            };
+            FwAppData.apiMethod(true, 'POST', "api/v1/orderitem", request, FwServices.defaultTimeout, function onSuccess(response) {
+                FwBrowse.databind($browse);
+            }, function onError(response) {
+                FwFunc.showError(response);
+                FwBrowse.databind($browse);
+            }, $browse);
+        }
+        ;
+        function unlockItem(orderId, orderItemId) {
+            var request = {};
+            request = {
+                OrderId: orderId,
+                OrderItemId: orderItemId,
+                Locked: false,
+            };
+            FwAppData.apiMethod(true, 'POST', "api/v1/orderitem", request, FwServices.defaultTimeout, function onSuccess(response) {
+                FwBrowse.databind($browse);
+            }, function onError(response) {
+                FwFunc.showError(response);
+                FwBrowse.databind($browse);
+            }, $browse);
+        }
+        ;
+    };
+    ;
+    OrderBase.prototype.orderItemGridBoldUnbold = function ($browse, event) {
+        var orderId, $selectedCheckBoxes;
+        orderId = $browse.find('.selected [data-browsedatafield="OrderId"]').attr('data-originalvalue');
+        $selectedCheckBoxes = $browse.find('.cbselectrow:checked');
+        for (var i = 0; i < $selectedCheckBoxes.length; i++) {
+            var orderItemId = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="OrderItemId"]').attr('data-originalvalue');
+            var orderId_2 = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="OrderId"]').attr('data-originalvalue');
+            if (orderId_2 != null) {
+                if ($selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="Bold"]').attr('data-originalvalue') === 'true') {
+                    unboldItem(orderId_2, orderItemId);
+                }
+                else {
+                    boldItem(orderId_2, orderItemId);
+                }
+            }
+        }
+        function boldItem(orderId, orderItemId) {
+            var request = {};
+            request = {
+                OrderId: orderId,
+                OrderItemId: orderItemId,
+                Bold: true,
+            };
+            FwAppData.apiMethod(true, 'POST', "api/v1/orderitem", request, FwServices.defaultTimeout, function onSuccess(response) {
+                FwBrowse.databind($browse);
+            }, function onError(response) {
+                FwFunc.showError(response);
+                FwBrowse.databind($browse);
+            }, $browse);
+        }
+        ;
+        function unboldItem(orderId, orderItemId) {
+            var request = {};
+            request = {
+                OrderId: orderId,
+                OrderItemId: orderItemId,
+                Bold: false,
+            };
+            FwAppData.apiMethod(true, 'POST', "api/v1/orderitem", request, FwServices.defaultTimeout, function onSuccess(response) {
+                FwBrowse.databind($browse);
+            }, function onError(response) {
+                FwFunc.showError(response);
+                FwBrowse.databind($browse);
+            }, $browse);
+        }
+        ;
+    };
+    ;
+    OrderBase.prototype.disableWithTaxCheckbox = function ($form) {
+        if (FwFormField.getValueByDataField($form, 'PeriodRentalTotal') === '0.00') {
+            FwFormField.disable($form.find('div[data-datafield="PeriodRentalTotalIncludesTax"]'));
+        }
+        else {
+            FwFormField.enable($form.find('div[data-datafield="PeriodRentalTotalIncludesTax"]'));
+        }
+        if (FwFormField.getValueByDataField($form, 'SalesTotal') === '0.00') {
+            FwFormField.disable($form.find('div[data-datafield="SalesTotalIncludesTax"]'));
+        }
+        else {
+            FwFormField.enable($form.find('div[data-datafield="SalesTotalIncludesTax"]'));
+        }
+        if (FwFormField.getValueByDataField($form, 'PeriodLaborTotal') === '0.00') {
+            FwFormField.disable($form.find('div[data-datafield="PeriodLaborTotalIncludesTax"]'));
+        }
+        else {
+            FwFormField.enable($form.find('div[data-datafield="PeriodLaborTotalIncludesTax"]'));
+        }
+        if (FwFormField.getValueByDataField($form, 'PeriodMiscTotal') === '0.00') {
+            FwFormField.disable($form.find('div[data-datafield="PeriodMiscTotalIncludesTax"]'));
+        }
+        else {
+            FwFormField.enable($form.find('div[data-datafield="PeriodMiscTotalIncludesTax"]'));
+        }
+        if (FwFormField.getValueByDataField($form, 'PeriodCombinedTotal') === '0.00') {
+            FwFormField.disable($form.find('div[data-datafield="PeriodCombinedTotalIncludesTax"]'));
+        }
+        else {
+            FwFormField.enable($form.find('div[data-datafield="PeriodCombinedTotalIncludesTax"]'));
+        }
+    };
+    ;
+    OrderBase.prototype.toggleOrderItemView = function ($form, event) {
+        var $element, $orderItemGrid, recType, isSummary, orderId, module;
+        var request = {};
+        module = this.Module;
+        $element = jQuery(event.currentTarget);
+        recType = $element.parentsUntil('.flexrow').eq(9).attr('class');
+        orderId = FwFormField.getValueByDataField($form, module + "Id");
+        if (recType === 'R') {
+            $orderItemGrid = $form.find('.rentalgrid [data-name="OrderItemGrid"]');
+        }
+        if (recType === 'S') {
+            $orderItemGrid = $form.find('.salesgrid [data-name="OrderItemGrid"]');
+        }
+        if (recType === 'L') {
+            $orderItemGrid = $form.find('.laborgrid [data-name="OrderItemGrid"]');
+        }
+        if (recType === 'M') {
+            $orderItemGrid = $form.find('.miscgrid [data-name="OrderItemGrid"]');
+        }
+        if (recType === '') {
+            $orderItemGrid = $form.find('.combinedgrid div[data-grid="OrderItemGrid"]');
+        }
+        if ($orderItemGrid.data('isSummary') === false) {
+            isSummary = true;
+            $orderItemGrid.data('isSummary', true);
+            $element.children().text('Detail View');
+        }
+        else {
+            isSummary = false;
+            $orderItemGrid.data('isSummary', false);
+            $element.children().text('Summary View');
+        }
+        $orderItemGrid.data('ondatabind', function (request) {
+            request.uniqueids = {
+                OrderId: orderId,
+                Summary: isSummary,
+                RecType: recType
+            };
+            request.pagesize = 9999;
+            request.orderby = "RowNumber,RecTypeDisplay";
+        });
+        $orderItemGrid.data('beforesave', function (request) {
+            request.OrderId = orderId;
+            request.RecType = recType;
+            request.Summary = isSummary;
+        });
+        FwBrowse.search($orderItemGrid);
+    };
+    ;
+    OrderBase.prototype.cancelUncancelOrder = function ($form) {
+        var $confirmation, $yes, $no, id, orderStatus, self, module;
+        self = this;
+        module = this.Module;
+        id = FwFormField.getValueByDataField($form, module + "Id");
+        orderStatus = FwFormField.getValueByDataField($form, 'Status');
+        if (id != null) {
+            if (orderStatus === "CANCELLED") {
+                $confirmation = FwConfirmation.renderConfirmation('Cancel', '');
+                $confirmation.find('.fwconfirmationbox').css('width', '450px');
+                var html = [];
+                html.push('<div class="fwform" data-controller="none" style="background-color: transparent;">');
+                html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
+                html.push("    <div>Would you like to un-cancel this " + module + "?</div>");
+                html.push('  </div>');
+                html.push('</div>');
+                FwConfirmation.addControls($confirmation, html.join(''));
+                $yes = FwConfirmation.addButton($confirmation, "Un-Cancel " + module, false);
+                $no = FwConfirmation.addButton($confirmation, 'Cancel');
+                $yes.on('click', uncancelOrder);
+            }
+            else {
+                $confirmation = FwConfirmation.renderConfirmation('Cancel', '');
+                $confirmation.find('.fwconfirmationbox').css('width', '450px');
+                var html = [];
+                html.push('<div class="fwform" data-controller="none" style="background-color: transparent;">');
+                html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
+                html.push("    <div>Would you like to cancel this " + module + "?</div>");
+                html.push('  </div>');
+                html.push('</div>');
+                FwConfirmation.addControls($confirmation, html.join(''));
+                $yes = FwConfirmation.addButton($confirmation, "Cancel " + module, false);
+                $no = FwConfirmation.addButton($confirmation, 'Cancel');
+                $yes.on('click', cancelOrder);
+            }
+        }
+        else {
+            if (module === 'Order') {
+                throw new Error("Please select an Order to perform this action.");
+            }
+            else if (module === 'Quote') {
+                throw new Error("Please select Quote to perform this action.");
+            }
+        }
+        function cancelOrder() {
+            var request = {};
+            FwFormField.disable($confirmation.find('.fwformfield'));
+            FwFormField.disable($yes);
+            $yes.text('Canceling...');
+            $yes.off('click');
+            FwAppData.apiMethod(true, 'POST', "api/v1/" + module + "/cancel/" + id, request, FwServices.defaultTimeout, function onSuccess(response) {
+                FwNotification.renderNotification('SUCCESS', module + " Successfully Canceled");
+                FwConfirmation.destroyConfirmation($confirmation);
+                FwModule.refreshForm($form, self);
+            }, function onError(response) {
+                $yes.on('click', cancelOrder);
+                $yes.text('Cancel');
+                FwFunc.showError(response);
+                FwFormField.enable($confirmation.find('.fwformfield'));
+                FwFormField.enable($yes);
+                FwModule.refreshForm($form, self);
+            }, $form);
+        }
+        ;
+        function uncancelOrder() {
+            var request = {};
+            FwFormField.disable($confirmation.find('.fwformfield'));
+            FwFormField.disable($yes);
+            $yes.text('Retrieving...');
+            $yes.off('click');
+            FwAppData.apiMethod(true, 'POST', "api/v1/" + module + "/uncancel/" + id, request, FwServices.defaultTimeout, function onSuccess(response) {
+                FwNotification.renderNotification('SUCCESS', module + " Successfully Retrieved");
+                FwConfirmation.destroyConfirmation($confirmation);
+                FwModule.refreshForm($form, self);
+            }, function onError(response) {
+                $yes.on('click', uncancelOrder);
+                $yes.text('Cancel');
+                FwFunc.showError(response);
+                FwFormField.enable($confirmation.find('.fwformfield'));
+                FwFormField.enable($yes);
+                FwModule.refreshForm($form, self);
+            }, $form);
+        }
+        ;
     };
     ;
     return OrderBase;

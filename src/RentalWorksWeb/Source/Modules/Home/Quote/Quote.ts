@@ -218,14 +218,12 @@ class Quote extends OrderBase{
             $form.find(".frame .add-on").children().hide();
         }
 
-
         $form.find('div[data-datafield="EstimatedStartTime"]').attr('data-required', false);
         $form.find('div[data-datafield="EstimatedStopTime"]').attr('data-required', false);
-
-       
         FwFormField.disable($form.find('[data-datafield="RentalTaxRate1"]'));
         FwFormField.disable($form.find('[data-datafield="SalesTaxRate1"]'));
         FwFormField.disable($form.find('[data-datafield="LaborTaxRate1"]'));
+
         FwFormField.loadItems($form.find('.outtype'), [
             { value: 'DELIVER', text: 'Deliver' },
             { value: 'SHIP', text: 'Ship' },
@@ -246,24 +244,6 @@ class Quote extends OrderBase{
         if (typeof parentModuleInfo !== 'undefined') {
             FwFormField.setValue($form, 'div[data-datafield="DealId"]', parentModuleInfo.DealId, parentModuleInfo.Deal);
         }
-
-        $form.find('.allFrames').css('display', 'none');
-        $form.find('.hideFrames').css('display', 'none');
-        $form.find('.expandArrow').on('click', e => {
-            $form.find('.hideFrames').toggle();
-            $form.find('.expandFrames').toggle();
-            $form.find('.allFrames').toggle();
-            $form.find('.totalRowFrames').toggle();
-            if ($form.find('.summarySection').css('flex') != '0 1 65%') {
-                $form.find('.summarySection').css('flex', '0 1 65%');
-            } else {
-                $form.find('.summarySection').css('flex', '');
-            }
-        });
-
-        $form.find(".weeklyType").show();
-        $form.find(".monthlyType").hide();
-        $form.find(".periodType input").prop('checked', true);
 
         this.events($form);
         this.activityCheckboxEvents($form, mode); 
@@ -613,37 +593,9 @@ class Quote extends OrderBase{
         }
     };
     //----------------------------------------------------------------------------------------------
-    disableWithTaxCheckbox($form: any) {
-        if (FwFormField.getValueByDataField($form, 'PeriodRentalTotal') === '0.00') {
-            FwFormField.disable($form.find('div[data-datafield="PeriodRentalTotalIncludesTax"]'));
-        } else {
-            FwFormField.enable($form.find('div[data-datafield="PeriodRentalTotalIncludesTax"]'));
-        }
-        if (FwFormField.getValueByDataField($form, 'SalesTotal') === '0.00') {
-            FwFormField.disable($form.find('div[data-datafield="SalesTotalIncludesTax"]'));
-        } else {
-            FwFormField.enable($form.find('div[data-datafield="SalesTotalIncludesTax"]'));
-        }
-        if (FwFormField.getValueByDataField($form, 'PeriodLaborTotal') === '0.00') {
-            FwFormField.disable($form.find('div[data-datafield="PeriodLaborTotalIncludesTax"]'));
-        } else {
-            FwFormField.enable($form.find('div[data-datafield="PeriodLaborTotalIncludesTax"]'));
-        }
-        if (FwFormField.getValueByDataField($form, 'PeriodMiscTotal') === '0.00') {
-            FwFormField.disable($form.find('div[data-datafield="PeriodMiscTotalIncludesTax"]'));
-        } else {
-            FwFormField.enable($form.find('div[data-datafield="PeriodMiscTotalIncludesTax"]'));
-        }
-        if (FwFormField.getValueByDataField($form, 'PeriodCombinedTotal') === '0.00') {
-            FwFormField.disable($form.find('div[data-datafield="PeriodCombinedTotalIncludesTax"]'));
-        } else {
-            FwFormField.enable($form.find('div[data-datafield="PeriodCombinedTotalIncludesTax"]'));
-        }
-    };
-
-    //----------------------------------------------------------------------------------------------
     events($form: any) {
         super.events($form);
+
         // Market Type Change
         $form.find('[data-datafield="MarketTypeId"] input').on('change', event => {
             FwFormField.setValueByDataField($form, 'MarketSegmentId', '');
@@ -652,150 +604,6 @@ class Quote extends OrderBase{
         $form.find('[data-datafield="MarketSegmentId"] input').on('change', event => {
             FwFormField.setValueByDataField($form, 'MarketSegmentJobId', '');
         });
-    };
-    //----------------------------------------------------------------------------------------------
-    cancelUncancelQuote($form: any) {
-        let $confirmation, $yes, $no, quoteId, quoteStatus, self;
-        self = this;
-        quoteId = FwFormField.getValueByDataField($form, 'QuoteId');
-        quoteStatus = FwFormField.getValueByDataField($form, 'Status');
-
-        if (quoteId != null) {
-            if (quoteStatus === "CANCELLED") {
-                $confirmation = FwConfirmation.renderConfirmation('Cancel', '');
-                $confirmation.find('.fwconfirmationbox').css('width', '450px');
-                let html = [];
-                html.push('<div class="fwform" data-controller="none" style="background-color: transparent;">');
-                html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
-                html.push('    <div>Would you like to un-cancel this Quote?</div>');
-                html.push('  </div>');
-                html.push('</div>');
-
-                FwConfirmation.addControls($confirmation, html.join(''));
-                $yes = FwConfirmation.addButton($confirmation, 'Un-Cancel Quote', false);
-                $no = FwConfirmation.addButton($confirmation, 'Cancel');
-
-                $yes.on('click', uncancelQuote);
-            }
-            else {
-                $confirmation = FwConfirmation.renderConfirmation('Cancel', '');
-                $confirmation.find('.fwconfirmationbox').css('width', '450px');
-                let html = [];
-                html.push('<div class="fwform" data-controller="none" style="background-color: transparent;">');
-                html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
-                html.push('    <div>Would you like to cancel this Quote?</div>');
-                html.push('  </div>');
-                html.push('</div>');
-
-                FwConfirmation.addControls($confirmation, html.join(''));
-                $yes = FwConfirmation.addButton($confirmation, 'Cancel Quote', false);
-                $no = FwConfirmation.addButton($confirmation, 'Cancel');
-
-                $yes.on('click', cancelQuote);
-            }
-        }
-        else {
-            throw new Error("Please select a Quote to perform this action.");
-        }
-
-        function cancelQuote() {
-            let request: any = {};
-
-            FwFormField.disable($confirmation.find('.fwformfield'));
-            FwFormField.disable($yes);
-            $yes.text('Canceling...');
-            $yes.off('click');
-
-            FwAppData.apiMethod(true, 'POST', `api/v1/quote/cancel/${quoteId}`, request, FwServices.defaultTimeout, function onSuccess(response) {
-                FwNotification.renderNotification('SUCCESS', 'Quote Successfully Canceled');
-                FwConfirmation.destroyConfirmation($confirmation);
-                FwModule.refreshForm($form, self);
-            }, function onError(response) {
-                $yes.on('click', cancelQuote);
-                $yes.text('Cancel');
-                FwFunc.showError(response);
-                FwFormField.enable($confirmation.find('.fwformfield'));
-                FwFormField.enable($yes);
-                FwModule.refreshForm($form, self);
-            }, $form);
-        };
-
-        function uncancelQuote() {
-            let request: any = {};
-
-            FwFormField.disable($confirmation.find('.fwformfield'));
-            FwFormField.disable($yes);
-            $yes.text('Retrieving...');
-            $yes.off('click');
-
-            FwAppData.apiMethod(true, 'POST', `api/v1/quote/uncancel/${quoteId}`, request, FwServices.defaultTimeout, function onSuccess(response) {
-                FwNotification.renderNotification('SUCCESS', 'Quote Successfully Retrieved');
-                FwConfirmation.destroyConfirmation($confirmation);
-                FwModule.refreshForm($form, self);
-            }, function onError(response) {
-                $yes.on('click', uncancelQuote);
-                $yes.text('Cancel');
-                FwFunc.showError(response);
-                FwFormField.enable($confirmation.find('.fwformfield'));
-                FwFormField.enable($yes);
-                FwModule.refreshForm($form, self);
-            }, $form);
-        };
-    };
-    //----------------------------------------------------------------------------------------------
-    toggleOrderItemView($form: any, event: any) {
-        // Toggle between Detail and Summary view in all OrderItemGrid
-        let $element, $orderItemGrid, recType, isSummary, quoteId;
-        let request: any = {};
-
-        $element = jQuery(event.currentTarget);
-        recType = $element.parentsUntil('.flexrow').eq(9).attr('class');
-        quoteId = FwFormField.getValueByDataField($form, 'QuoteId');
-
-        if (recType === 'R') {
-            $orderItemGrid = $form.find('.rentalgrid [data-name="OrderItemGrid"]');
-        }
-        if (recType === 'S') {
-            $orderItemGrid = $form.find('.salesgrid [data-name="OrderItemGrid"]');
-        }
-        if (recType === 'L') {
-            $orderItemGrid = $form.find('.laborgrid [data-name="OrderItemGrid"]');
-        }
-        if (recType === 'M') {
-            $orderItemGrid = $form.find('.miscgrid [data-name="OrderItemGrid"]');
-        }
-        if (recType === '') {
-            $orderItemGrid = $form.find('.combinedgrid div[data-grid="OrderItemGrid"]');
-        }
-
-        if ($orderItemGrid.data('isSummary') === false) {
-            isSummary = true;
-            $orderItemGrid.data('isSummary', true);
-            $element.children().text('Detail View')
-        }
-        else {
-            isSummary = false;
-            $orderItemGrid.data('isSummary', false);
-            $element.children().text('Summary View')
-        }
-
-        $orderItemGrid.data('ondatabind', request => {
-            request.uniqueids = {
-                OrderId: quoteId,
-                Summary: isSummary,
-                RecType: recType
-            }
-            request.pagesize = 9999;
-            request.orderby = "RowNumber,RecTypeDisplay"
-        });
-
-        $orderItemGrid.data('beforesave', request => {
-            request.OrderId = quoteId;
-            request.RecType = recType;
-            request.Summary = isSummary;
-        });
-
-        FwBrowse.search($orderItemGrid);
     };
     //----------------------------------------------------------------------------------------------
     createNewVersionQuote($form, event) {
@@ -832,115 +640,6 @@ class Quote extends OrderBase{
                 FwModule.refreshForm($form, QuoteController);
             }, null, $confirmationbox);
         }
-    };
-
-    //----------------------------------------------------------------------------------------------
-    orderItemGridBoldUnbold($browse: any, event: any) {
-        let orderId, $selectedCheckBoxes;
-        orderId = $browse.find('.selected [data-browsedatafield="OrderId"]').attr('data-originalvalue');
-        $selectedCheckBoxes = $browse.find('.cbselectrow:checked');
-
-        for (let i = 0; i < $selectedCheckBoxes.length; i++) {
-            let orderItemId = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="OrderItemId"]').attr('data-originalvalue');
-            let orderId = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="OrderId"]').attr('data-originalvalue');
-
-            if (orderId != null) {
-                if ($selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="Bold"]').attr('data-originalvalue') === 'true') {
-                    unboldItem(orderId, orderItemId);
-                } else {
-                    boldItem(orderId, orderItemId);
-                }
-            }
-        }
-
-        function boldItem(orderId, orderItemId) {
-            let request: any = {};
-            
-            request = {
-                OrderId: orderId,
-                OrderItemId: orderItemId,
-                Bold: true,
-            }
-
-            FwAppData.apiMethod(true, 'POST', `api/v1/orderitem`, request, FwServices.defaultTimeout, function onSuccess(response) {
-                FwBrowse.databind($browse);
-            }, function onError(response) {
-                FwFunc.showError(response);
-                FwBrowse.databind($browse);
-            }, $browse);
-        };
-
-        function unboldItem(orderId, orderItemId) {
-            let request: any = {};
-            
-            request = {
-                OrderId: orderId,
-                OrderItemId: orderItemId,
-                Bold: false,
-            }
-
-            FwAppData.apiMethod(true, 'POST', `api/v1/orderitem`, request, FwServices.defaultTimeout, function onSuccess(response) {
-                FwBrowse.databind($browse);
-            }, function onError(response) {
-                FwFunc.showError(response);
-                FwBrowse.databind($browse);
-            }, $browse);
-        };
-    };
-
-    //----------------------------------------------------------------------------------------------
-    orderItemGridLockUnlock($browse: any, event: any) {
-        let orderId, $selectedCheckBoxes;
-
-        orderId = $browse.find('.selected [data-browsedatafield="OrderId"]').attr('data-originalvalue');
-        $selectedCheckBoxes = $browse.find('.cbselectrow:checked');
-
-        for (let i = 0; i < $selectedCheckBoxes.length; i++) {
-            let orderItemId = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="OrderItemId"]').attr('data-originalvalue');
-            let orderId = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="OrderId"]').attr('data-originalvalue');
-
-            if (orderId != null) {
-                if ($selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="Locked"]').attr('data-originalvalue') === 'true') {
-                    unlockItem(orderId, orderItemId);
-                } else {
-                    lockItem(orderId, orderItemId);
-                }
-            }
-        }
-        
-        function lockItem(orderId, orderItemId) {
-            let request: any = {};
-           
-            request = {
-                OrderId: orderId,
-                OrderItemId: orderItemId,
-                Locked: true,
-            }
-
-            FwAppData.apiMethod(true, 'POST', `api/v1/orderitem`, request, FwServices.defaultTimeout, function onSuccess(response) {
-                FwBrowse.databind($browse);
-            }, function onError(response) {
-                FwFunc.showError(response);
-                FwBrowse.databind($browse);
-            }, $browse);
-        };
-
-        function unlockItem(orderId, orderItemId) {
-            let request: any = {};
-
-            request = {
-                OrderId: orderId,
-                OrderItemId: orderItemId,
-                Locked: false,
-            }
-
-            FwAppData.apiMethod(true, 'POST', `api/v1/orderitem`, request, FwServices.defaultTimeout, function onSuccess(response) {
-                FwBrowse.databind($browse);
-            }, function onError(response) {
-                FwFunc.showError(response);
-                FwBrowse.databind($browse);
-            }, $browse);
-        };
     };
     //----------------------------------------------------------------------------------------------
     afterSave($form) {
@@ -1033,7 +732,7 @@ FwApplicationTree.clickEvents['{BF633873-8A40-4BD6-8ED8-3EAC27059C84}'] = functi
     $form = jQuery(this).closest('.fwform');
 
     try {
-        QuoteController.cancelUncancelQuote($form);
+        QuoteController.cancelUncancelOrder($form);
     }
     catch (ex) {
         FwFunc.showError(ex);
