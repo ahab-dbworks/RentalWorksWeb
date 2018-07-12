@@ -177,6 +177,7 @@
     <Content Include="Application.test.config" />
     <Content Include="packages.config" />
     <TypeScriptCompile Include="scripts\RwMaster.ts" />
+    <Content Include="Source\Grids\ExchangeItemGrid\ExchangeItemGridBrowse.htm" />
     <Content Include="Source\Grids\InventoryWarehouseStagingGrid\InventoryWarehouseStagingGridBrowse.htm" />
     <Content Include="Source\Grids\POReceiveItemGrid\POReceiveItemGridBrowse.htm" />
     <Content Include="Source\Grids\ProjectContactGrid\ProjectContactGridBrowse.htm" />
@@ -281,6 +282,7 @@
     <Content Include="Source\Grids\RateLocationTaxGrid\RateLocationTaxGridBrowse.htm" />
     <Content Include="Source\Grids\SubCategoryGrid\SubCategoryGridBrowse.htm" />
     <TypeScriptCompile Include="Source\Grids\ContactPersonalEventGrid\ContactPersonalEventGridController.ts" />
+    <TypeScriptCompile Include="Source\Grids\ExchangeItemGrid\ExchangeItemGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\InventoryWarehouseStagingGrid\InventoryWarehouseStagingGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\POReceiveItemGrid\POReceiveItemGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\ProjectContactGrid\ProjectContactGridController.ts" />
@@ -410,6 +412,7 @@
     <Content Include="Source\Modules\Administrator\CustomFields\CustomFieldsForm.htm" />
     <Content Include="Source\Modules\Administrator\User\UserBrowse.htm" />
     <Content Include="Source\Modules\Administrator\User\UserForm.htm" />
+    <TypeScriptCompile Include="Source\Modules\Home\Exchange\Exchange.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\ReceiveFromVendor\ReceiveFromVendor.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\PurchaseOrder\PurchaseOrder.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\Project\Project.ts" />
@@ -421,6 +424,7 @@
     <TypeScriptCompile Include="Source\Modules\Home\Order\SearchInterface.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\Quote\Quote.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\Repair\Repair.ts" />
+    <Content Include="Source\Modules\Home\Exchange\ExchangeForm.htm" />
     <Content Include="Source\Modules\Home\ReceiveFromVendor\ReceiveFromVendorForm.htm" />
     <Content Include="Source\Modules\Home\PurchaseOrder\PurchaseOrderBrowse.htm" />
     <Content Include="Source\Modules\Home\PurchaseOrder\PurchaseOrderForm.htm" />

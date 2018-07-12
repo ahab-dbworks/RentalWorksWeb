@@ -67,6 +67,7 @@ namespace WebLibrary.Security
             AddModule("Create Pick List",        "{5013C4FF-FC42-4EFE-AE9D-AAF6857F17B8}", null,                "CreatePickListController",  "module/createpicklist",  homeiconbaseurl + "placeholder.png");
             AddModule("Contract",                "{6BBB8A0A-53FA-4E1D-89B3-8B184B233DEA}", lv1menuWarehouse.Id, "ContractController",        "module/contract",        homeiconbaseurl + "placeholder.png");
             AddModule("Repair Order",            "{2BD0DC82-270E-4B86-A9AA-DD0461A0186A}", lv1menuWarehouse.Id, "RepairController",          "module/repair",          homeiconbaseurl + "placeholder.png");
+            AddModule("Exchange",                "{2AEDB175-7998-48BC-B2C4-D4794BF65342}", lv1menuWarehouse.Id, "ExchangeController",        "module/exchange",        homeiconbaseurl + "placeholder.png");
             AddModule("Receive From Vendor",     "{00539824-6489-4377-A291-EBFE26325FAD}", lv1menuWarehouse.Id, "ReceiveFromVendorController", "module/receivefromvendor", homeiconbaseurl + "placeholder.png");
 
             //Settings 
@@ -282,6 +283,7 @@ namespace WebLibrary.Security
             AddGrid("Discount Item Sales",                    "{85AB2907-07FE-43CF-B16D-DDAE781F64ED}", lv1menuGrids.Id, "DiscountItemSalesGridController");
             AddGrid("Document Version",                       "{397FF02A-BF19-4C1F-8E5F-9DBE786D77EC}", lv1menuGrids.Id, "FwAppDocumentVersionGridController");
             AddGrid("Duplicate Rule Field",                   "{0B65E7C7-E661-466A-BBFA-D2A32FB03FF7}", lv1menuGrids.Id, "DuplicateRuleFieldGridController");
+            AddGrid("Exchange Item",                          "{B58D8E40-D6C1-45D4-97B8-18A1270822B9}", lv1menuGrids.Id, "ExchangeItemGridController");
             AddGrid("Floor",                                  "{472B5E4A-57BB-4DFB-AD6A-D0F71915124B}", lv1menuGrids.Id, "FloorGridController");
             AddGrid("Generator Make Model",                   "{12109673-165E-4620-8121-AF4259C7F367}", lv1menuGrids.Id, "GeneratorMakeModelGridController");
             AddGrid("Inventory Group Inventory",              "{2EE8822B-F83E-4D8B-B055-4DA5853080C8}", lv1menuGrids.Id, "InventoryGroupInvGridController");
