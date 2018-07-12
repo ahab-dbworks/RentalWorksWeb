@@ -1,8 +1,6 @@
-class RentalInventory {
+class RentalInventory extends InventoryBase {
     Module: string = 'RentalInventory';
     apiurl: string = 'api/v1/rentalinventory';
-    ActiveView: string = 'ALL';
-
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
         var screen, $browse;
@@ -150,16 +148,6 @@ class RentalInventory {
             })
         };
 
-        $form.find('[data-datafield="OverrideProfitAndLossCategory"] .fwformfield-value').on('change', function () {
-            var $this = jQuery(this);
-            if ($this.prop('checked') === true) {
-                FwFormField.enable($form.find('[data-datafield="ProfitAndLossCategoryId"]'))
-            }
-            else {
-                FwFormField.disable($form.find('[data-datafield="ProfitAndLossCategoryId"]'))
-            }
-        });
-
         FwFormField.loadItems($form.find('.lamps'), [
             { value: '0', text: '0' },
             { value: '1', text: '1' },
@@ -167,24 +155,7 @@ class RentalInventory {
             { value: '3', text: '3' },
             { value: '4', text: '4' }
         ], true);
-
-        $form.find('div[data-datafield="InventoryTypeId"]').data('onchange', function ($tr) {
-            if ($tr.find('.field[data-browsedatafield="Wardrobe"]').attr('data-originalvalue') === 'true') {
-                $form.find('.wardrobetab').show();
-            } else {
-                $form.find('.wardrobetab').hide();
-            }
-        });
-
-        $form.find('div[data-datafield="CategoryId"]').data('onchange', function ($tr) {
-            FwFormField.disable($form.find('.subcategory'));
-            if ($tr.find('.field[data-browsedatafield="SubCategoryCount"]').attr('data-originalvalue') > 0) {
-                FwFormField.enable($form.find('.subcategory'));
-            } else {
-                FwFormField.setValueByDataField($form, 'SubCategoryId', '')
-            }
-        });
-
+        this.events($form);
         return $form;
     };
 

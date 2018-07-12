@@ -414,6 +414,7 @@
     <Content Include="Source\Modules\Administrator\CustomFields\CustomFieldsForm.htm" />
     <Content Include="Source\Modules\Administrator\User\UserBrowse.htm" />
     <Content Include="Source\Modules\Administrator\User\UserForm.htm" />
+    <TypeScriptCompile Include="Source\Modules\-BaseModules\InventoryBase\InventoryBase.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\Exchange\Exchange.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\ReceiveFromVendor\ReceiveFromVendor.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\PurchaseOrder\PurchaseOrder.ts" />

@@ -1,8 +1,20 @@
-var SalesInventory = (function () {
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+var SalesInventory = (function (_super) {
+    __extends(SalesInventory, _super);
     function SalesInventory() {
-        this.Module = 'SalesInventory';
-        this.apiurl = 'api/v1/salesinventory';
-        this.ActiveView = 'ALL';
+        var _this = _super !== null && _super.apply(this, arguments) || this;
+        _this.Module = 'SalesInventory';
+        _this.apiurl = 'api/v1/salesinventory';
+        return _this;
     }
     SalesInventory.prototype.getModuleScreen = function () {
         var screen, $browse;
@@ -100,15 +112,6 @@ var SalesInventory = (function () {
         var $form;
         $form = jQuery(jQuery('#tmpl-modules-' + this.Module + 'Form').html());
         $form = FwModule.openForm($form, mode);
-        $form.find('[data-datafield="OverrideProfitAndLossCategory"] .fwformfield-value').on('change', function () {
-            var $this = jQuery(this);
-            if ($this.prop('checked') === true) {
-                FwFormField.enable($form.find('[data-datafield="ProfitAndLossCategoryId"]'));
-            }
-            else {
-                FwFormField.disable($form.find('[data-datafield="ProfitAndLossCategoryId"]'));
-            }
-        });
         if (mode === 'NEW') {
             FwFormField.enable($form.find('[data-datafield="Classification"]'));
             $form.find('div[data-datafield="Classification"] .fwformfield-value').on('change', function () {
@@ -126,23 +129,7 @@ var SalesInventory = (function () {
             });
         }
         ;
-        $form.find('div[data-datafield="InventoryTypeId"]').data('onchange', function ($tr) {
-            if ($tr.find('.field[data-browsedatafield="Wardrobe"]').attr('data-originalvalue') === 'true') {
-                $form.find('.wardrobetab').show();
-            }
-            else {
-                $form.find('.wardrobetab').hide();
-            }
-        });
-        $form.find('div[data-datafield="CategoryId"]').data('onchange', function ($tr) {
-            FwFormField.disable($form.find('.subcategory'));
-            if ($tr.find('.field[data-browsedatafield="SubCategoryCount"]').attr('data-originalvalue') > 0) {
-                FwFormField.enable($form.find('.subcategory'));
-            }
-            else {
-                FwFormField.setValueByDataField($form, 'SubCategoryId', '');
-            }
-        });
+        this.events($form);
         return $form;
     };
     ;
@@ -545,7 +532,7 @@ var SalesInventory = (function () {
     };
     ;
     return SalesInventory;
-}());
+}(InventoryBase));
 ;
 var SalesInventoryController = new SalesInventory();
 //# sourceMappingURL=SalesInventory.js.map

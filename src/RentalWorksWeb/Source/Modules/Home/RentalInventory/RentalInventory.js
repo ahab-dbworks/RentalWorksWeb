@@ -1,8 +1,20 @@
-var RentalInventory = (function () {
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+var RentalInventory = (function (_super) {
+    __extends(RentalInventory, _super);
     function RentalInventory() {
-        this.Module = 'RentalInventory';
-        this.apiurl = 'api/v1/rentalinventory';
-        this.ActiveView = 'ALL';
+        var _this = _super !== null && _super.apply(this, arguments) || this;
+        _this.Module = 'RentalInventory';
+        _this.apiurl = 'api/v1/rentalinventory';
+        return _this;
     }
     RentalInventory.prototype.getModuleScreen = function () {
         var screen, $browse;
@@ -131,15 +143,6 @@ var RentalInventory = (function () {
             });
         }
         ;
-        $form.find('[data-datafield="OverrideProfitAndLossCategory"] .fwformfield-value').on('change', function () {
-            var $this = jQuery(this);
-            if ($this.prop('checked') === true) {
-                FwFormField.enable($form.find('[data-datafield="ProfitAndLossCategoryId"]'));
-            }
-            else {
-                FwFormField.disable($form.find('[data-datafield="ProfitAndLossCategoryId"]'));
-            }
-        });
         FwFormField.loadItems($form.find('.lamps'), [
             { value: '0', text: '0' },
             { value: '1', text: '1' },
@@ -147,23 +150,7 @@ var RentalInventory = (function () {
             { value: '3', text: '3' },
             { value: '4', text: '4' }
         ], true);
-        $form.find('div[data-datafield="InventoryTypeId"]').data('onchange', function ($tr) {
-            if ($tr.find('.field[data-browsedatafield="Wardrobe"]').attr('data-originalvalue') === 'true') {
-                $form.find('.wardrobetab').show();
-            }
-            else {
-                $form.find('.wardrobetab').hide();
-            }
-        });
-        $form.find('div[data-datafield="CategoryId"]').data('onchange', function ($tr) {
-            FwFormField.disable($form.find('.subcategory'));
-            if ($tr.find('.field[data-browsedatafield="SubCategoryCount"]').attr('data-originalvalue') > 0) {
-                FwFormField.enable($form.find('.subcategory'));
-            }
-            else {
-                FwFormField.setValueByDataField($form, 'SubCategoryId', '');
-            }
-        });
+        this.events($form);
         return $form;
     };
     ;
@@ -619,7 +606,7 @@ var RentalInventory = (function () {
     };
     ;
     return RentalInventory;
-}());
+}(InventoryBase));
 ;
 var RentalInventoryController = new RentalInventory();
 //# sourceMappingURL=RentalInventory.js.map

@@ -1,8 +1,6 @@
-class SalesInventory {
+class SalesInventory extends InventoryBase {
     Module: string = 'SalesInventory';
     apiurl: string = 'api/v1/salesinventory';
-    ActiveView: string = 'ALL';
-
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
         var screen, $browse;
@@ -116,16 +114,6 @@ class SalesInventory {
         $form = jQuery(jQuery('#tmpl-modules-' + this.Module + 'Form').html());
         $form = FwModule.openForm($form, mode);
 
-        $form.find('[data-datafield="OverrideProfitAndLossCategory"] .fwformfield-value').on('change', function () {
-            var $this = jQuery(this);
-            if ($this.prop('checked') === true) {
-                FwFormField.enable($form.find('[data-datafield="ProfitAndLossCategoryId"]'));
-            }
-            else {
-                FwFormField.disable($form.find('[data-datafield="ProfitAndLossCategoryId"]'));
-            }
-        });
-
         if (mode === 'NEW') {
             FwFormField.enable($form.find('[data-datafield="Classification"]'));
 
@@ -145,24 +133,7 @@ class SalesInventory {
                 }
             })
         };
-
-        $form.find('div[data-datafield="InventoryTypeId"]').data('onchange', function ($tr) {
-            if ($tr.find('.field[data-browsedatafield="Wardrobe"]').attr('data-originalvalue') === 'true') {
-                $form.find('.wardrobetab').show();
-            } else {
-                $form.find('.wardrobetab').hide();
-            }
-        });
-
-        $form.find('div[data-datafield="CategoryId"]').data('onchange', function ($tr) {
-            FwFormField.disable($form.find('.subcategory'));
-            if ($tr.find('.field[data-browsedatafield="SubCategoryCount"]').attr('data-originalvalue') > 0) {
-                FwFormField.enable($form.find('.subcategory'));
-            } else {
-                FwFormField.setValueByDataField($form, 'SubCategoryId', '')
-            }
-        });
-
+        this.events($form);
         return $form;
     };
 
@@ -188,7 +159,6 @@ class SalesInventory {
         uniqueid = $form.find('div.fwformfield[data-datafield="InventoryId"] input').val();
         FwModule.loadAudit($form, uniqueid);
     };
-
     //----------------------------------------------------------------------------------------------
     renderGrids($form: any) {
         let $itemLocationTaxGrid: any;

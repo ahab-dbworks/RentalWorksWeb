@@ -1,11 +1,8 @@
 routes.push({ pattern: /^module\/partsinventory$/, action: function (match: RegExpExecArray) { return PartsInventoryController.getModuleScreen(); } });
-
 //----------------------------------------------------------------------------------------------
-class PartsInventory {
+class PartsInventory extends InventoryBase {
     Module: string = 'PartsInventory';
     apiurl: string = 'api/v1/partsinventory';
-    ActiveView: string  = 'ALL';
-
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
         let screen, $browse;
@@ -127,16 +124,6 @@ class PartsInventory {
         $form = jQuery(jQuery('#tmpl-modules-' + this.Module + 'Form').html());
         $form = FwModule.openForm($form, mode);
 
-        $form.find('[data-datafield="OverrideProfitAndLossCategory"] .fwformfield-value').on('change', function () {
-            let $this = jQuery(this);
-            if ($this.prop('checked') === true) {
-                FwFormField.enable($form.find('[data-datafield="ProfitAndLossCategoryId"]'));
-            }
-            else {
-                FwFormField.disable($form.find('[data-datafield="ProfitAndLossCategoryId"]'));
-            }
-        });
-
         if (mode === 'NEW') {
             FwFormField.enable($form.find('[data-datafield="Classification"]'));
 
@@ -156,24 +143,7 @@ class PartsInventory {
                 }
             })
         };
-
-        $form.find('div[data-datafield="InventoryTypeId"]').data('onchange', $tr => {
-            if ($tr.find('.field[data-browsedatafield="Wardrobe"]').attr('data-originalvalue') === 'true') {
-                $form.find('.wardrobetab').show();
-            } else {
-                $form.find('.wardrobetab').hide();
-            }
-        });
-
-        $form.find('div[data-datafield="CategoryId"]').data('onchange', $tr => {
-            FwFormField.disable($form.find('.subcategory'));
-            if ($tr.find('.field[data-browsedatafield="SubCategoryCount"]').attr('data-originalvalue') > 0) {
-                FwFormField.enable($form.find('.subcategory'));
-            } else {
-                FwFormField.setValueByDataField($form, 'SubCategoryId', '')
-            }
-        });
-
+        this.events($form);
         return $form;
     };
 
