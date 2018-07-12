@@ -38,7 +38,7 @@
     <RootNamespace>Web</RootNamespace>
     <AssemblyName>Web</AssemblyName>
     <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
-    <UseIISExpress>true</UseIISExpress>
+    <UseIISExpress>false</UseIISExpress>
     <IISExpressSSLPort />
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
@@ -420,6 +420,7 @@
     <TypeScriptCompile Include="Source\Modules\Home\Project\Project.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\StagingCheckout\StagingCheckout.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\WorkWeek\WorkWeek.ts" />
+    <TypeScriptCompile Include="Source\Modules\-BaseModules\OrderBase\OrderBase.ts" />
     <TypeScriptCompile Include="Source\Reports\PrintOrder\RwPrintOrderController.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\CreatePickList\CreatePickList.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\Order\Order.ts" />
@@ -1188,7 +1189,6 @@
     <Content Include="theme\fwfonts\materialicons\MaterialIcons-Regular.woff2" />
     <Content Include="Source\Grids\CompanyResaleGrid\CompanyResaleGridController.js.map" />
     <Content Include="tsconfig.json" />
-    <Content Include="Source\Modules\Home\Order\Order.js.map" />
     <Content Include="Source\Modules\Home\Quote\Quote.js.map" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

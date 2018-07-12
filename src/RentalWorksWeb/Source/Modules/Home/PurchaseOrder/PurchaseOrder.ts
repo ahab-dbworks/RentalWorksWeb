@@ -555,6 +555,7 @@ FwApplicationTree.clickEvents['{4BB0AB54-641E-4638-89B4-0F9BFE88DF82}'] = functi
         purchaseOrderInfo.PurchaseOrderNumber = FwFormField.getValueByDataField($form, 'PurchaseOrderNumber');
         $receiveFromVendorForm = ReceiveFromVendorController.openForm(mode, purchaseOrderInfo);
         FwModule.openSubModuleTab($form, $receiveFromVendorForm);
+        jQuery('.tab.submodule.active').find('.caption').html(purchaseOrderInfo.PurchaseOrderNumber); 
     }
     catch (ex) {
         FwFunc.showError(ex);

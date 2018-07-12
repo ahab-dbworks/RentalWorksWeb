@@ -111,20 +111,6 @@ class ReceiveFromVendor {
         FwBrowse.renderRuntimeHtml($receiveItemsGridControl);
     }
     //----------------------------------------------------------------------------------------------
-    addLegend($form: any, $grid) {
-        FwBrowse.addLegend($grid, 'Complete', '#8888ff');
-        FwBrowse.addLegend($grid, 'Kit', '#03d337');
-        FwBrowse.addLegend($grid, 'Exchange', '#a0cdb4');
-        FwBrowse.addLegend($grid, 'Sub Vendor', '#ffb18c');
-        FwBrowse.addLegend($grid, 'Consignor', '#8080ff');
-        FwBrowse.addLegend($grid, 'Truck', '#ffff00');
-        FwBrowse.addLegend($grid, 'Suspended', '#0000a0');
-        FwBrowse.addLegend($grid, 'Lost', '#ff8080');
-        FwBrowse.addLegend($grid, 'Sales', '#ff0080');
-        FwBrowse.addLegend($grid, 'Not Yet Staged or Still Out', '#ff0000');
-        FwBrowse.addLegend($grid, 'Too Many Staged', '#00ff80');
-    }
-    //----------------------------------------------------------------------------------------------
 
 }
 var ReceiveFromVendorController = new ReceiveFromVendor();
