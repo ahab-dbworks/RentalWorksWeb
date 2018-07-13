@@ -8,7 +8,7 @@
         const name = sessionStorage.getItem('name');
 
         FwBrowse.setFieldValue($control, $tr, 'NoteDate', { value: today });
-        FwBrowse.setFieldValue($control, $tr, 'UserName', { value: usersid, text: name });
+        FwBrowse.setFieldValue($control, $tr, 'UserId', { value: usersid, text: name });
     }
 }
 

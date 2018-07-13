@@ -7,9 +7,8 @@ var ProjectNoteGrid = (function () {
         var today = FwFunc.getDate();
         var usersid = sessionStorage.getItem('usersid');
         var name = sessionStorage.getItem('name');
-        $tr.find('[data-formdatafield="NoteDate"] input.value').val(today);
-        $tr.find('[data-browsedisplayfield="UserName"] input.value').val(usersid);
-        $tr.find('[data-browsedisplayfield="UserName"] input.text').val(name);
+        FwBrowse.setFieldValue($control, $tr, 'NoteDate', { value: today });
+        FwBrowse.setFieldValue($control, $tr, 'UserId', { value: usersid, text: name });
     };
     return ProjectNoteGrid;
 }());

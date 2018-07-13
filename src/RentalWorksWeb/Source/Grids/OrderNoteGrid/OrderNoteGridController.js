@@ -8,7 +8,7 @@ var OrderNoteGrid = (function () {
         var usersid = sessionStorage.getItem('usersid');
         var name = sessionStorage.getItem('name');
         FwBrowse.setFieldValue($control, $tr, 'NoteDate', { value: today });
-        FwBrowse.setFieldValue($control, $tr, 'UserName', { value: usersid, text: name });
+        FwBrowse.setFieldValue($control, $tr, 'UserId', { value: usersid, text: name });
     };
     return OrderNoteGrid;
 }());
