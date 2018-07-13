@@ -30,6 +30,8 @@ class StagingCheckout {
 
         let warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
         FwFormField.setValue($form, 'div[data-datafield="WarehouseId"]', warehouse.warehouseid, warehouse.warehouse);
+        $form.data('quantityError', false);
+
 
 
         //$form.off('change keyup', '.fwformfield[data-isuniqueid!="true"][data-enabled="true"][data-datafield!=""]');
@@ -213,9 +215,17 @@ class StagingCheckout {
 
             }, function onError(response) {
                 FwFunc.showError(response);
-                $form.find('div[data-datafield="Quantity"] input').focus();
+                $form.data('quantityError', true);
                 }, $form);
         });
+
+        $form.find('.fwconfirmation-button.default').on('click', event => {
+            alert(true)
+            $form.find('div[data-datafield="Quantity"] input').focus(); 
+
+        })
+
+        //$form.data('quantityError').on('change', event => { alert(true) })
 
         //Quantity change
         $form.find('[data-datafield="Quantity"] input').on('change', event => {
@@ -263,4 +273,4 @@ class StagingCheckout {
 
     //----------------------------------------------------------------------------------------------
 }
-const StagingCheckoutController = new StagingCheckout();
+var StagingCheckoutController = new StagingCheckout();

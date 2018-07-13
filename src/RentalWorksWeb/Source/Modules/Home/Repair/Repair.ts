@@ -98,18 +98,9 @@ class Repair {
       FwBrowse.addEventHandler($repairCostGridControl, 'afterdatabindcallback', () => {
           this.calculateTotals($form, 'cost');
       });
-      
-      $form.find('.costgridnumber').on('change', $tr => {
-         console.log("change in costgridnumber")
-      });
    
       FwBrowse.init($repairCostGridControl); 
       FwBrowse.renderRuntimeHtml($repairCostGridControl);
-
-      // Potentially can be used to update grid fields in real-time
-      //$repairCostGridControl.on('change', '[data-browsedatafield="DiscountAmount"] input.value', () => {
-      //  alert('test');
-      //});
 
       //----------------------------------------------------------------------------------------------
       $repairPartGrid = $form.find('div[data-grid="RepairPartGrid"]'); 
