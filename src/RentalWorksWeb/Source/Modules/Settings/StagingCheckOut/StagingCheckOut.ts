@@ -213,7 +213,8 @@ class StagingCheckout {
 
             }, function onError(response) {
                 FwFunc.showError(response);
-            }, $form);
+                $form.find('div[data-datafield="Quantity"] input').focus();
+                }, $form);
         });
 
         //Quantity change
@@ -221,6 +222,8 @@ class StagingCheckout {
             let code, orderId, quantity;
             orderId = FwFormField.getValueByDataField($form, 'OrderId');
             code = FwFormField.getValueByDataField($form, 'Code');
+            quantity = +FwFormField.getValueByDataField($form, 'Quantity');
+
             let request: any = {};
             request = {
                 OrderId: orderId,
