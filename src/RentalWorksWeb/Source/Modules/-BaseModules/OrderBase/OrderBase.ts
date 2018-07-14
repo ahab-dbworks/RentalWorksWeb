@@ -110,7 +110,7 @@ class OrderBase {
             for (var l = 0; l < hiddenUsedSale.length; l++) {
                 jQuery($usedSaleGrid.find('[data-mappedfield="' + hiddenUsedSale[l] + '"]')).parent().hide();
             }
-            if (!hiddenRentals.includes('WeeklyExtended')) {
+            if (hiddenRentals.indexOf('WeeklyExtended') === -1) {
                 $rentalGrid.find('.3weekextended').parent().show();
             }
         }, null, null);

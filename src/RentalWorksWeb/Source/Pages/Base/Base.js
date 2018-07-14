@@ -108,10 +108,10 @@ var Base = (function () {
                                                 var customFields = [];
                                                 var customFieldsBrowse = [];
                                                 for (var i = 0; i < response.length; i++) {
-                                                    if (!customFields.includes(response[i].ModuleName)) {
+                                                    if (customFields.indexOf(response[i].ModuleName) === -1) {
                                                         customFields.push(response[i].ModuleName);
                                                     }
-                                                    if (response[i].ShowInBrowse && !customFieldsBrowse.includes(response[i].ModuleName)) {
+                                                    if (response[i].ShowInBrowse && customFieldsBrowse.indexOf(response[i].ModuleName) === -1) {
                                                         customFieldsBrowse.push({
                                                             'moduleName': response[i].ModuleName,
                                                             'fieldName': response[i].FieldName,
