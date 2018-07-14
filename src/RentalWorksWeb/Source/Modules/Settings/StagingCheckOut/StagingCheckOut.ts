@@ -30,12 +30,8 @@ class StagingCheckout {
 
         let warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
         FwFormField.setValue($form, 'div[data-datafield="WarehouseId"]', warehouse.warehouseid, warehouse.warehouse);
-        $form.data('quantityError', false);
-
-
 
         //$form.off('change keyup', '.fwformfield[data-isuniqueid!="true"][data-enabled="true"][data-datafield!=""]');
-
 
         this.getOrder($form);
         if (typeof parentmoduleinfo !== 'undefined') {
@@ -213,19 +209,14 @@ class StagingCheckout {
                 FwFormField.setValueByDataField($form, 'QuantityStaged', response.InventoryStatus.QuantityStaged);
                 FwFormField.setValueByDataField($form, 'QuantityRemaining', response.InventoryStatus.QuantityRemaining);
 
+                if (response.InventoryStatus.QuantityOrdered === 0) {
+                    $form.find('div[data-datafield="Quantity"] input').focus(); 
+                }
+
             }, function onError(response) {
                 FwFunc.showError(response);
-                $form.data('quantityError', true);
                 }, $form);
         });
-
-        $form.find('.fwconfirmation-button.default').on('click', event => {
-            alert(true)
-            $form.find('div[data-datafield="Quantity"] input').focus(); 
-
-        })
-
-        //$form.data('quantityError').on('change', event => { alert(true) })
 
         //Quantity change
         $form.find('[data-datafield="Quantity"] input').on('change', event => {
