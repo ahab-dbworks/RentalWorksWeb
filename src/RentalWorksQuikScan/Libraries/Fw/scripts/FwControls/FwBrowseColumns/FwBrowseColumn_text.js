@@ -1,24 +1,26 @@
-class FwBrowseColumn_textClass {
-    databindfield($browse, $field, dt, dtRow, $tr) {
+var FwBrowseColumn_textClass = (function () {
+    function FwBrowseColumn_textClass() {
     }
-    getFieldValue($browse, $tr, $field, field, originalvalue) {
+    FwBrowseColumn_textClass.prototype.databindfield = function ($browse, $field, dt, dtRow, $tr) {
+    };
+    FwBrowseColumn_textClass.prototype.getFieldValue = function ($browse, $tr, $field, field, originalvalue) {
         if (($tr.hasClass('editmode')) || ($tr.hasClass('newmode'))) {
             field.value = $field.find('input.value').val();
         }
-    }
-    setFieldValue($browse, $tr, $field, data) {
+    };
+    FwBrowseColumn_textClass.prototype.setFieldValue = function ($browse, $tr, $field, data) {
         $field.find('input.value').val(data.value);
-    }
-    isModified($browse, $tr, $field) {
+    };
+    FwBrowseColumn_textClass.prototype.isModified = function ($browse, $tr, $field) {
         var isModified = false;
-        let originalValue = $field.attr('data-originalvalue');
+        var originalValue = $field.attr('data-originalvalue');
         if (($tr.hasClass('editmode')) || ($tr.hasClass('newmode'))) {
-            let currentValue = $field.find('input.value').val();
+            var currentValue = $field.find('input.value').val();
             isModified = currentValue !== originalValue;
         }
         return isModified;
-    }
-    setFieldViewMode($browse, $tr, $field) {
+    };
+    FwBrowseColumn_textClass.prototype.setFieldViewMode = function ($browse, $tr, $field) {
         var originalvalue = (typeof $field.attr('data-originalvalue') === 'string') ? $field.attr('data-originalvalue') : '';
         $field.html(originalvalue);
         if (typeof $field.attr('data-rowclassmapping') !== 'undefined') {
@@ -27,11 +29,11 @@ class FwBrowseColumn_textClass {
                 $tr.addClass(rowclassmapping[originalvalue]);
             }
         }
-    }
-    setFieldEditMode($browse, $tr, $field) {
+    };
+    FwBrowseColumn_textClass.prototype.setFieldEditMode = function ($browse, $tr, $field) {
         var originalvalue = (typeof $field.attr('data-originalvalue') === 'string') ? $field.attr('data-originalvalue') : '';
         var formmaxlength = (typeof $field.attr('data-formmaxlength') === 'string') ? $field.attr('data-formmaxlength') : '';
-        let html = [];
+        var html = [];
         html.push('<input class="value" type="text"');
         if ($browse.attr('data-enabled') === 'false') {
             html.push(' disabled="disabled"');
@@ -40,10 +42,11 @@ class FwBrowseColumn_textClass {
             html.push(' maxlength="' + formmaxlength + '"');
         }
         html.push(' />');
-        let htmlString = html.join('');
+        var htmlString = html.join('');
         $field.html(htmlString);
         this.setFieldValue($browse, $tr, $field, { value: originalvalue });
-    }
-}
+    };
+    return FwBrowseColumn_textClass;
+}());
 var FwBrowseColumn_text = new FwBrowseColumn_textClass();
 //# sourceMappingURL=FwBrowseColumn_text.js.map
