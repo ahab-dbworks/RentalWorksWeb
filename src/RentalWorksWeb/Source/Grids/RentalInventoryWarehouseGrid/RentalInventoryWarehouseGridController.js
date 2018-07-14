@@ -1,9 +1,8 @@
-var RentalInventoryWarehouseGrid = (function () {
-    function RentalInventoryWarehouseGrid() {
+class RentalInventoryWarehouseGrid {
+    constructor() {
         this.Module = 'RentalInventoryWarehouseGrid';
         this.apiurl = 'api/v1/inventorywarehouse';
     }
-    return RentalInventoryWarehouseGrid;
-}());
+}
 var RentalInventoryWarehouseGridController = new RentalInventoryWarehouseGrid();
 //# sourceMappingURL=RentalInventoryWarehouseGridController.js.map

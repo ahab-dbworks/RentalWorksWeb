@@ -1,1 +1,1 @@
-{"version":3,"file":"TiwAsset.js","sourceRoot":"","sources":["TiwAsset.ts"],"names":[],"mappings":";;;;;;;;;;AAAA;IAAuB,4BAAO;IAA9B;;IAQA,CAAC;IAAD,eAAC;AAAD,CAAC,AARD,CAAuB,OAAO,GAQ7B;AAEK,MAAO,CAAC,eAAe,GAAG,IAAI,QAAQ,EAAE,CAAC"}
+{"version":3,"file":"TiwAsset.js","sourceRoot":"","sources":["TiwAsset.ts"],"names":[],"mappings":"AAAA,cAAe,SAAQ,OAAO;CAQ7B;AAEK,MAAO,CAAC,eAAe,GAAG,IAAI,QAAQ,EAAE,CAAC"}

@@ -1,9 +1,9 @@
-var CustomerStatus = (function () {
-    function CustomerStatus() {
+class CustomerStatus {
+    constructor() {
         this.Module = 'CustomerStatus';
         this.apiurl = 'api/v1/customerstatus';
     }
-    CustomerStatus.prototype.getModuleScreen = function () {
+    getModuleScreen() {
         var screen, $browse;
         screen = {};
         screen.$view = FwModule.getModuleControl(this.Module + 'Controller');
@@ -19,37 +19,36 @@ var CustomerStatus = (function () {
             FwBrowse.screenunload($browse);
         };
         return screen;
-    };
-    CustomerStatus.prototype.openBrowse = function () {
+    }
+    openBrowse() {
         var $browse;
         $browse = jQuery(jQuery('#tmpl-modules-' + this.Module + 'Browse').html());
         $browse = FwModule.openBrowse($browse);
         return $browse;
-    };
-    CustomerStatus.prototype.openForm = function (mode) {
+    }
+    openForm(mode) {
         var $form;
         $form = jQuery(jQuery('#tmpl-modules-' + this.Module + 'Form').html());
         $form = FwModule.openForm($form, mode);
         return $form;
-    };
-    CustomerStatus.prototype.loadForm = function (uniqueids) {
+    }
+    loadForm(uniqueids) {
         var $form;
         $form = this.openForm('EDIT');
         $form.find('div.fwformfield[data-datafield="CustomerStatusId"] input').val(uniqueids.CustomerStatusId);
         FwModule.loadForm(this.Module, $form);
         return $form;
-    };
-    CustomerStatus.prototype.saveForm = function ($form, parameters) {
+    }
+    saveForm($form, parameters) {
         FwModule.saveForm(this.Module, $form, parameters);
-    };
-    CustomerStatus.prototype.loadAudit = function ($form) {
+    }
+    loadAudit($form) {
         var uniqueid;
         uniqueid = $form.find('div.fwformfield[data-datafield="CustomerStatusId"] input').val();
         FwModule.loadAudit($form, uniqueid);
-    };
-    CustomerStatus.prototype.afterLoad = function ($form) {
-    };
-    return CustomerStatus;
-}());
+    }
+    afterLoad($form) {
+    }
+}
 var CustomerStatusController = new CustomerStatus();
 //# sourceMappingURL=CustomerStatus.js.map

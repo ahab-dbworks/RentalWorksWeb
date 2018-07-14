@@ -1,25 +1,12 @@
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-var Program = (function (_super) {
-    __extends(Program, _super);
-    function Program() {
-        var _this = _super.call(this) || this;
+class Program extends FwApplication {
+    constructor() {
+        super();
         var me;
-        me = _this;
+        me = this;
         me.name = 'TrakItWorks';
         FwApplicationTree.currentApplicationId = 'D901DE93-EC22-45A1-BB4A-DD282CAF59FB';
-        return _this;
     }
-    return Program;
-}(FwApplication));
+}
 var program = new Program();
 jQuery(function () {
     program.load();
@@ -172,7 +159,7 @@ routes.push({ pattern: /^module\/integration/, action: function (match) { return
 routes.push({ pattern: /^module\/user/, action: function (match) { return UserController.getModuleScreen(); } });
 routes.push({ pattern: /^module\/customfields/, action: function (match) { return CustomFieldsController.getModuleScreen(); } });
 routes.push({ pattern: /^module\/duplicaterules/, action: function (match) { return DuplicateRulesController.getModuleScreen(); } });
-routes.push({ pattern: /^module\/settingspage$/, action: function (match) { return SettingsPageController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/settingspage$/, action: function (match) { return SettingsController.getModuleScreen(); } });
 routes.push({ pattern: /^module\/designer$/, action: function (match) { return DesignerController.loadDesigner(); } });
 routes.push({ pattern: /^module\/example/, action: function (match) { return RwExampleController.getModuleScreen(); } });
 routes.push({

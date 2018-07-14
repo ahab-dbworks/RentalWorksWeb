@@ -1,9 +1,8 @@
-var CrewPositionGrid = (function () {
-    function CrewPositionGrid() {
+class CrewPositionGrid {
+    constructor() {
         this.Module = 'CrewPositionGrid';
         this.apiurl = 'api/v1/crewposition';
     }
-    return CrewPositionGrid;
-}());
+}
 var CrewPositionGridController = new CrewPositionGrid();
 //# sourceMappingURL=CrewPositionGridController.js.map

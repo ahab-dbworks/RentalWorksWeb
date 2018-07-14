@@ -1,10 +1,10 @@
-var OrderContactGrid = (function () {
-    function OrderContactGrid() {
+class OrderContactGrid {
+    constructor() {
         this.Module = 'OrderContactGrid';
         this.apiurl = 'api/v1/ordercontact';
     }
-    OrderContactGrid.prototype.generateRow = function ($control, $generatedtr) {
-        var $form;
+    generateRow($control, $generatedtr) {
+        let $form;
         $form = $control.closest('.fwform');
         $generatedtr.find('div[data-browsedatafield="ContactId"]').data('onchange', function ($tr) {
             $generatedtr.find('.field[data-browsedatafield="ContactTitleId"] input.value').val($tr.find('.field[data-browsedatafield="ContactTitleId"]').attr('data-originalvalue'));
@@ -13,10 +13,10 @@ var OrderContactGrid = (function () {
             $generatedtr.find('.field[data-browsedatafield="Email"] input').val($tr.find('.field[data-browsedatafield="Email"]').attr('data-originalvalue'));
             $generatedtr.find('.field[data-browsedatafield="CompanyId"] input').val($form.find('div[data-datafield="DealId"]').attr('data-originalvalue'));
         });
-    };
+    }
     ;
-    OrderContactGrid.prototype.addLegend = function ($control) {
-        var $form;
+    addLegend($control) {
+        let $form;
         $form = $control.closest('.fwform');
         if ($form.attr('data-controller') === 'QuoteController') {
             FwBrowse.addLegend($control, 'Quoted For', '#00c400');
@@ -24,8 +24,7 @@ var OrderContactGrid = (function () {
         else {
             FwBrowse.addLegend($control, 'Ordered By', '#00c400');
         }
-    };
-    return OrderContactGrid;
-}());
+    }
+}
 var OrderContactGridController = new OrderContactGrid();
 //# sourceMappingURL=OrderContactGridController.js.map

@@ -1,5 +1,5 @@
-var DiscountItemMiscGrid = (function () {
-    function DiscountItemMiscGrid() {
+class DiscountItemMiscGrid {
+    constructor() {
         this.beforeValidate = function ($browse, $grid, request) {
             var validationName = request.module;
             if (validationName != null) {
@@ -32,13 +32,12 @@ var DiscountItemMiscGrid = (function () {
         this.Module = 'DiscountItemMiscGrid';
         this.apiurl = 'api/v1/discountitem';
     }
-    DiscountItemMiscGrid.prototype.generateRow = function ($control, $generatedtr) {
+    generateRow($control, $generatedtr) {
         $generatedtr.find('div[data-browsedatafield="InventoryId"]').data('onchange', function ($tr) {
             $generatedtr.find('.field[data-browsedatafield="Description"] input').val($tr.find('.field[data-browsedatafield="Description"]').attr('data-originalvalue'));
         });
-    };
+    }
     ;
-    return DiscountItemMiscGrid;
-}());
+}
 var DiscountItemMiscGridController = new DiscountItemMiscGrid();
 //# sourceMappingURL=DiscountItemMiscGridController.js.map

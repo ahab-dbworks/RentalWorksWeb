@@ -1,9 +1,8 @@
-var WarehouseDepartmentGrid = (function () {
-    function WarehouseDepartmentGrid() {
+class WarehouseDepartmentGrid {
+    constructor() {
         this.Module = 'WarehouseDepartment';
         this.apiurl = 'api/v1/warehousedepartment';
     }
-    return WarehouseDepartmentGrid;
-}());
+}
 var WarehouseDepartmentGridController = new WarehouseDepartmentGrid();
 //# sourceMappingURL=WarehouseDepartmentGridController.js.map

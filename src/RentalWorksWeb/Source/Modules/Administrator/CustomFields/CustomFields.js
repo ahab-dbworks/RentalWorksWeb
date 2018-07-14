@@ -1,9 +1,9 @@
-var CustomFields = (function () {
-    function CustomFields() {
+class CustomFields {
+    constructor() {
         this.Module = 'CustomFields';
         this.apiurl = 'api/v1/customfield';
     }
-    CustomFields.prototype.getModuleScreen = function () {
+    getModuleScreen() {
         var screen, $browse;
         screen = {};
         screen.$view = FwModule.getModuleControl(this.Module + 'Controller');
@@ -19,14 +19,14 @@ var CustomFields = (function () {
             FwBrowse.screenunload($browse);
         };
         return screen;
-    };
-    CustomFields.prototype.openBrowse = function () {
+    }
+    openBrowse() {
         var $browse;
         $browse = jQuery(jQuery('#tmpl-modules-' + this.Module + 'Browse').html());
         $browse = FwModule.openBrowse($browse);
         return $browse;
-    };
-    CustomFields.prototype.openForm = function (mode) {
+    }
+    openForm(mode) {
         var $form, $moduleSelect;
         $form = jQuery(jQuery('#tmpl-modules-' + this.Module + 'Form').html());
         $form = FwModule.openForm($form, mode);
@@ -78,32 +78,32 @@ var CustomFields = (function () {
         $moduleSelect = $form.find('.modules');
         FwFormField.loadItems($moduleSelect, allModules);
         return $form;
-    };
-    CustomFields.prototype.loadForm = function (uniqueids) {
+    }
+    loadForm(uniqueids) {
         var $form;
         $form = this.openForm('EDIT');
         $form.find('div.fwformfield[data-datafield="CustomFieldId"] input').val(uniqueids.CustomFieldId);
         FwModule.loadForm(this.Module, $form);
         return $form;
-    };
-    CustomFields.prototype.saveForm = function ($form, parameters) {
+    }
+    saveForm($form, parameters) {
         FwModule.saveForm(this.Module, $form, parameters);
         FwFormField.disable($form.find('.ifnew'));
-    };
-    CustomFields.prototype.loadAudit = function ($form) {
+    }
+    loadAudit($form) {
         var uniqueid;
         uniqueid = $form.find('div.fwformfield[data-datafield="CustomFieldId"] input').val();
         FwModule.loadAudit($form, uniqueid);
-    };
-    CustomFields.prototype.afterLoad = function ($form) {
+    }
+    afterLoad($form) {
         if (FwFormField.getValueByDataField($form, 'CustomTableName') === 'customvaluesnumeric') {
             $form.find('.float').show();
         }
         if (FwFormField.getValueByDataField($form, 'ShowInBrowse')) {
             $form.find('.browselength').show();
         }
-    };
-    CustomFields.prototype.afterSave = function ($form) {
+    }
+    afterSave($form) {
         FwAppData.apiMethod(true, 'GET', 'api/v1/custommodule/', null, FwServices.defaultTimeout, function onSuccess(response) {
             var customFields = [];
             for (var i = 0; i < response.length; i++) {
@@ -112,8 +112,7 @@ var CustomFields = (function () {
             sessionStorage.setItem('customFields', JSON.stringify(customFields));
         }, null, null);
         return $form;
-    };
-    return CustomFields;
-}());
+    }
+}
 var CustomFieldsController = new CustomFields();
 //# sourceMappingURL=CustomFields.js.map

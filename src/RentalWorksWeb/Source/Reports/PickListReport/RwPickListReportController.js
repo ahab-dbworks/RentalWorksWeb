@@ -1,6 +1,6 @@
 routes.push({ pattern: /^module\/picklistreport$/, action: function (match) { return RwPickListReportController.getModuleScreen(); } });
-var RwPickListReport = (function () {
-    function RwPickListReport() {
+class RwPickListReport {
+    constructor() {
         this.Module = 'PickListReport';
         this.ModuleOptions = {
             ReportOptions: {
@@ -9,7 +9,7 @@ var RwPickListReport = (function () {
         };
         this.ModuleOptions = jQuery.extend({}, FwReport.ModuleOptions, this.ModuleOptions);
     }
-    RwPickListReport.prototype.getModuleScreen = function () {
+    getModuleScreen() {
         var screen, $form;
         screen = {};
         screen.$view = FwModule.getModuleControl('Rw' + this.Module + 'Controller');
@@ -22,9 +22,9 @@ var RwPickListReport = (function () {
         screen.unload = function () {
         };
         return screen;
-    };
+    }
     ;
-    RwPickListReport.prototype.openForm = function () {
+    openForm() {
         var $form;
         $form = FwReport.getFrontEnd('Rw', this.Module, 'tmpl-reports-' + this.Module + 'FrontEnd');
         $form.data('getexportrequest', function (request) {
@@ -32,16 +32,15 @@ var RwPickListReport = (function () {
             return request;
         });
         return $form;
-    };
+    }
     ;
-    RwPickListReport.prototype.onLoadForm = function ($form) {
+    onLoadForm($form) {
         FwReport.load($form, this.ModuleOptions.ReportOptions);
         var appOptions = program.getApplicationOptions();
         var request = { method: "LoadForm" };
-    };
+    }
     ;
-    return RwPickListReport;
-}());
+}
 ;
 var RwPickListReportController = new RwPickListReport();
 //# sourceMappingURL=RwPickListReportController.js.map

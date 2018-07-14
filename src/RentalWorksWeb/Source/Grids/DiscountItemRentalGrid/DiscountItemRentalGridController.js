@@ -1,5 +1,5 @@
-var DiscountItemRentalGrid = (function () {
-    function DiscountItemRentalGrid() {
+class DiscountItemRentalGrid {
+    constructor() {
         this.beforeValidate = function ($browse, $grid, request) {
             var validationName = request.module;
             if (validationName != null) {
@@ -37,13 +37,12 @@ var DiscountItemRentalGrid = (function () {
         this.Module = 'DiscountItemRentalGrid';
         this.apiurl = 'api/v1/discountitem';
     }
-    DiscountItemRentalGrid.prototype.generateRow = function ($control, $generatedtr) {
+    generateRow($control, $generatedtr) {
         $generatedtr.find('div[data-browsedatafield="InventoryId"]').data('onchange', function ($tr) {
             $generatedtr.find('.field[data-browsedatafield="Description"] input').val($tr.find('.field[data-browsedatafield="Description"]').attr('data-originalvalue'));
         });
-    };
+    }
     ;
-    return DiscountItemRentalGrid;
-}());
+}
 var DiscountItemRentalGridController = new DiscountItemRentalGrid();
 //# sourceMappingURL=DiscountItemRentalGridController.js.map

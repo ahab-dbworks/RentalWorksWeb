@@ -1,9 +1,8 @@
-var PickListUtilityGrid = (function () {
-    function PickListUtilityGrid() {
+class PickListUtilityGrid {
+    constructor() {
         this.Module = 'PickListUtilityGrid';
         this.apiurl = 'api/v1/picklistutilityitem';
     }
-    return PickListUtilityGrid;
-}());
+}
 var PickListUtilityGridController = new PickListUtilityGrid();
 //# sourceMappingURL=PickListUtilityGridController.js.map

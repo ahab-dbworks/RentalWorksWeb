@@ -1,14 +1,14 @@
-var POReceiveItemGrid = (function () {
-    function POReceiveItemGrid() {
+class POReceiveItemGrid {
+    constructor() {
         this.Module = 'POReceiveItemGrid';
         this.apiurl = 'api/v1/purchaseorderreceiveitem';
     }
-    POReceiveItemGrid.prototype.generateRow = function ($control, $generatedtr) {
-        var $form = $control.closest('.fwform'), $quantityColumn = $generatedtr.find('.quantity');
-        FwBrowse.setAfterRenderRowCallback($control, function ($tr, dt, rowIndex) {
-            var originalquantity = $tr.find('[data-browsedatafield="Quantity"]').attr('data-originalvalue');
-            var $oldElement = $quantityColumn.find('div');
-            var html = [];
+    generateRow($control, $generatedtr) {
+        let $form = $control.closest('.fwform'), $quantityColumn = $generatedtr.find('.quantity');
+        FwBrowse.setAfterRenderRowCallback($control, ($tr, dt, rowIndex) => {
+            let originalquantity = $tr.find('[data-browsedatafield="Quantity"]').attr('data-originalvalue');
+            let $oldElement = $quantityColumn.find('div');
+            let html = [];
             html.push('<button class="decrementQuantity" tabindex="-1" style="padding: 5px 0px; float:left; width:25%; border:none;">-</button>');
             html.push('<input class="fieldvalue" type="number" style="height:1.5em; width:40px; text-align:center;" value="' + originalquantity + '">');
             html.push('<button class="incrementQuantity" tabindex="-1" style="padding: 5px 0px; float:left; width:25%; border:none;">+</button>');
@@ -56,8 +56,8 @@ var POReceiveItemGrid = (function () {
                 });
             }
             ;
-            $quantityColumn.on('change', '.fieldvalue', function (e) {
-                var request = {}, contractId = $tr.find('[data-browsedatafield="ContractId"]').attr('data-originalvalue'), itemId = $tr.find('[data-browsedatafield="PurchaseOrderItemId"]').attr('data-originalvalue'), poId = FwFormField.getValueByDataField($form, 'PurchaseOrderId'), newValue = jQuery(e.currentTarget).val(), oldValue = $tr.find('[data-browsedatafield="Quantity"]').attr('data-originalvalue'), quantity = Number(newValue) - Number(oldValue);
+            $quantityColumn.on('change', '.fieldvalue', e => {
+                let request = {}, contractId = $tr.find('[data-browsedatafield="ContractId"]').attr('data-originalvalue'), itemId = $tr.find('[data-browsedatafield="PurchaseOrderItemId"]').attr('data-originalvalue'), poId = FwFormField.getValueByDataField($form, 'PurchaseOrderId'), newValue = jQuery(e.currentTarget).val(), oldValue = $tr.find('[data-browsedatafield="Quantity"]').attr('data-originalvalue'), quantity = Number(newValue) - Number(oldValue);
                 request = {
                     ContractId: contractId,
                     PurchaseOrderItemId: itemId,
@@ -71,8 +71,7 @@ var POReceiveItemGrid = (function () {
                 }
             });
         });
-    };
-    return POReceiveItemGrid;
-}());
+    }
+}
 var POReceiveItemGridController = new POReceiveItemGrid();
 //# sourceMappingURL=POReceiveItemGridController.js.map

@@ -1,6 +1,6 @@
 routes.push({ pattern: /^module\/invoicesummaryreport$/, action: function (match) { return RwInvoiceSummaryReportController.getModuleScreen(); } });
-var RwInvoiceSummaryReport = (function () {
-    function RwInvoiceSummaryReport() {
+class RwInvoiceSummaryReport {
+    constructor() {
         this.Module = 'InvoiceSummaryReport';
         this.ModuleOptions = {
             ReportOptions: {
@@ -9,7 +9,7 @@ var RwInvoiceSummaryReport = (function () {
         };
         this.ModuleOptions = jQuery.extend({}, FwReport.ModuleOptions, this.ModuleOptions);
     }
-    RwInvoiceSummaryReport.prototype.getModuleScreen = function () {
+    getModuleScreen() {
         var screen, $form;
         screen = {};
         screen.$view = FwModule.getModuleControl('Rw' + this.Module + 'Controller');
@@ -22,9 +22,9 @@ var RwInvoiceSummaryReport = (function () {
         screen.unload = function () {
         };
         return screen;
-    };
+    }
     ;
-    RwInvoiceSummaryReport.prototype.openForm = function () {
+    openForm() {
         var $form;
         $form = FwReport.getFrontEnd('Rw', this.Module, 'tmpl-reports-' + this.Module + 'FrontEnd');
         $form.data('getexportrequest', function (request) {
@@ -32,24 +32,23 @@ var RwInvoiceSummaryReport = (function () {
             return request;
         });
         return $form;
-    };
+    }
     ;
-    RwInvoiceSummaryReport.prototype.onLoadForm = function ($form) {
+    onLoadForm($form) {
         FwReport.load($form, this.ModuleOptions.ReportOptions);
         var appOptions = program.getApplicationOptions();
         var request = { method: "LoadForm" };
         this.loadLists($form);
-        var department = JSON.parse(sessionStorage.getItem('department'));
-        var location = JSON.parse(sessionStorage.getItem('location'));
+        const department = JSON.parse(sessionStorage.getItem('department'));
+        const location = JSON.parse(sessionStorage.getItem('location'));
         FwFormField.setValue($form, 'div[data-datafield="DepartmentId"]', department.departmentid, department.department);
         FwFormField.setValue($form, 'div[data-datafield="OfficeLocationId"]', location.locationid, location.location);
-    };
+    }
     ;
-    RwInvoiceSummaryReport.prototype.loadLists = function ($form) {
+    loadLists($form) {
         FwFormField.loadItems($form.find('div[data-datafield="statuslist"]'), [{ value: "NEW", text: "New", selected: "T" }, { value: "RETURNED", text: "Returned", selected: "T" }, { value: "REVISED", text: "Revised", selected: "T" }, { value: "APPROVED", text: "Approved", selected: "T" }, { value: "PROCESSED", text: "Processed", selected: "T" }, { value: "CLOSED", text: "Closed", selected: "T" }, { value: "VOID", text: "Void", selected: "T" }]);
-    };
-    return RwInvoiceSummaryReport;
-}());
+    }
+}
 ;
 var RwInvoiceSummaryReportController = new RwInvoiceSummaryReport();
 //# sourceMappingURL=RwInvoiceSummaryReportController.js.map

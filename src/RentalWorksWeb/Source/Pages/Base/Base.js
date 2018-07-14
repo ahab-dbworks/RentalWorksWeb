@@ -1,7 +1,5 @@
-var Base = (function () {
-    function Base() {
-    }
-    Base.prototype.getDefaultScreen = function () {
+class Base {
+    getDefaultScreen() {
         var viewModel = {
             captionProgramTitle: 'RentalWorks',
             valueYear: new Date().getFullYear(),
@@ -21,9 +19,9 @@ var Base = (function () {
             .find('#programlogo').attr('src', 'theme/images/rentalworkslogo.png');
         ;
         return screen;
-    };
+    }
     ;
-    Base.prototype.getLoginScreen = function () {
+    getLoginScreen() {
         var viewModel = {
             captionPanelLogin: 'RentalWorks Login',
             captionEmail: RwLanguages.translate('E-mail / Username'),
@@ -175,9 +173,9 @@ var Base = (function () {
             }, 0);
         };
         return screen;
-    };
+    }
     ;
-    Base.prototype.getAboutScreen = function () {
+    getAboutScreen() {
         var viewModel = {};
         var properties = {};
         var screen = {};
@@ -188,9 +186,9 @@ var Base = (function () {
             .find('#programlogo').attr('src', 'theme/images/rentalworkslogo.png');
         ;
         return screen;
-    };
+    }
     ;
-    Base.prototype.getSupportScreen = function () {
+    getSupportScreen() {
         var viewModel = {};
         var properties = {};
         var screen = {};
@@ -198,9 +196,9 @@ var Base = (function () {
         screen.viewModel = viewModel;
         screen.properties = properties;
         return screen;
-    };
+    }
     ;
-    Base.prototype.getPasswordRecoveryScreen = function () {
+    getPasswordRecoveryScreen() {
         var viewModel = {};
         var properties = {};
         var screen = {};
@@ -208,9 +206,8 @@ var Base = (function () {
         screen.viewModel = viewModel;
         screen.properties = properties;
         return screen;
-    };
+    }
     ;
-    return Base;
-}());
+}
 var RwBaseController = new Base();
 //# sourceMappingURL=Base.js.map

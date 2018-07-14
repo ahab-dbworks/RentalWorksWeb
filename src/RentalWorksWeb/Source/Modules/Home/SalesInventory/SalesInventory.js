@@ -1,22 +1,10 @@
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-var SalesInventory = (function (_super) {
-    __extends(SalesInventory, _super);
-    function SalesInventory() {
-        var _this = _super !== null && _super.apply(this, arguments) || this;
-        _this.Module = 'SalesInventory';
-        _this.apiurl = 'api/v1/salesinventory';
-        return _this;
+class SalesInventory extends InventoryBase {
+    constructor() {
+        super(...arguments);
+        this.Module = 'SalesInventory';
+        this.apiurl = 'api/v1/salesinventory';
     }
-    SalesInventory.prototype.getModuleScreen = function () {
+    getModuleScreen() {
         var screen, $browse;
         screen = {};
         screen.$view = FwModule.getModuleControl(this.Module + 'Controller');
@@ -32,9 +20,9 @@ var SalesInventory = (function (_super) {
             FwBrowse.screenunload($browse);
         };
         return screen;
-    };
+    }
     ;
-    SalesInventory.prototype.openBrowse = function () {
+    openBrowse() {
         var self = this;
         var $browse = FwBrowse.loadBrowseFromTemplate(this.Module);
         $browse = FwModule.openBrowse($browse);
@@ -49,9 +37,9 @@ var SalesInventory = (function (_super) {
         FwBrowse.addLegend($browse, 'Misc', '#ff0080');
         FwBrowse.addLegend($browse, 'Container', '#ff8040');
         return $browse;
-    };
+    }
     ;
-    SalesInventory.prototype.addBrowseMenuItems = function ($menuObject) {
+    addBrowseMenuItems($menuObject) {
         var self = this;
         var $all = FwMenu.generateDropDownViewBtn('All Items', true);
         var $accessory = FwMenu.generateDropDownViewBtn('Accessory', false);
@@ -106,9 +94,9 @@ var SalesInventory = (function (_super) {
         var $view;
         $view = FwMenu.addViewBtn($menuObject, 'View', viewSubitems);
         return $menuObject;
-    };
+    }
     ;
-    SalesInventory.prototype.openForm = function (mode) {
+    openForm(mode) {
         var $form;
         $form = jQuery(jQuery('#tmpl-modules-' + this.Module + 'Form').html());
         $form = FwModule.openForm($form, mode);
@@ -131,58 +119,58 @@ var SalesInventory = (function (_super) {
         ;
         this.events($form);
         return $form;
-    };
+    }
     ;
-    SalesInventory.prototype.loadForm = function (uniqueids) {
+    loadForm(uniqueids) {
         var $form;
         $form = this.openForm('EDIT');
         $form.find('div.fwformfield[data-datafield="InventoryId"] input').val(uniqueids.InventoryId);
         FwModule.loadForm(this.Module, $form);
         return $form;
-    };
+    }
     ;
-    SalesInventory.prototype.saveForm = function ($form, parameters) {
+    saveForm($form, parameters) {
         FwModule.saveForm(this.Module, $form, parameters);
-    };
+    }
     ;
-    SalesInventory.prototype.loadAudit = function ($form) {
+    loadAudit($form) {
         var uniqueid;
         uniqueid = $form.find('div.fwformfield[data-datafield="InventoryId"] input').val();
         FwModule.loadAudit($form, uniqueid);
-    };
+    }
     ;
-    SalesInventory.prototype.renderGrids = function ($form) {
-        var $itemLocationTaxGrid;
-        var $itemLocationTaxGridControl;
-        var $salesInventoryWarehouseGrid;
-        var $salesInventoryWarehouseGridControl;
-        var $inventoryAvailabilityGrid;
-        var $inventoryAvailabilityGridControl;
-        var $inventoryConsignmentGrid;
-        var $inventoryConsignmentGridControl;
-        var $inventoryCompleteKitGrid;
-        var $inventoryCompleteKitGridControl;
-        var $inventorySubstituteGrid;
-        var $inventorySubstituteGridControl;
-        var $inventoryCompatibilityGrid;
-        var $inventoryCompatibilityGridControl;
-        var $inventoryQcGrid;
-        var $inventoryQcGridControl;
-        var $inventoryAttributeValueGrid;
-        var $inventoryAttributeValueGridControl;
-        var $inventoryVendorGrid;
-        var $inventoryVendorGridControl;
-        var $inventoryPrepGrid;
-        var $inventoryPrepGridControl;
-        var $wardrobeInventoryColorGrid;
-        var $wardrobeInventoryColorGridControl;
-        var $wardrobeInventoryMaterialGrid;
-        var $wardrobeInventoryMaterialGridControl;
-        var $inventoryCompleteGrid;
-        var $inventoryCompleteGridControl;
-        var $inventoryKitGrid;
-        var $inventoryKitGridControl;
-        var warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
+    renderGrids($form) {
+        let $itemLocationTaxGrid;
+        let $itemLocationTaxGridControl;
+        let $salesInventoryWarehouseGrid;
+        let $salesInventoryWarehouseGridControl;
+        let $inventoryAvailabilityGrid;
+        let $inventoryAvailabilityGridControl;
+        let $inventoryConsignmentGrid;
+        let $inventoryConsignmentGridControl;
+        let $inventoryCompleteKitGrid;
+        let $inventoryCompleteKitGridControl;
+        let $inventorySubstituteGrid;
+        let $inventorySubstituteGridControl;
+        let $inventoryCompatibilityGrid;
+        let $inventoryCompatibilityGridControl;
+        let $inventoryQcGrid;
+        let $inventoryQcGridControl;
+        let $inventoryAttributeValueGrid;
+        let $inventoryAttributeValueGridControl;
+        let $inventoryVendorGrid;
+        let $inventoryVendorGridControl;
+        let $inventoryPrepGrid;
+        let $inventoryPrepGridControl;
+        let $wardrobeInventoryColorGrid;
+        let $wardrobeInventoryColorGridControl;
+        let $wardrobeInventoryMaterialGrid;
+        let $wardrobeInventoryMaterialGridControl;
+        let $inventoryCompleteGrid;
+        let $inventoryCompleteGridControl;
+        let $inventoryKitGrid;
+        let $inventoryKitGridControl;
+        let warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
         $itemLocationTaxGrid = $form.find('div[data-grid="ItemLocationTaxGrid"]');
         $itemLocationTaxGridControl = jQuery(jQuery('#tmpl-grids-ItemLocationTaxGridBrowse').html());
         $itemLocationTaxGrid.empty().append($itemLocationTaxGridControl);
@@ -405,24 +393,24 @@ var SalesInventory = (function (_super) {
         });
         FwBrowse.init($inventoryKitGridControl);
         FwBrowse.renderRuntimeHtml($inventoryKitGridControl);
-    };
+    }
     ;
-    SalesInventory.prototype.afterLoad = function ($form) {
-        var $itemLocationTaxGrid;
-        var $salesInventoryWarehouseGrid;
-        var $inventoryAvailabilityGrid;
-        var $inventoryConsignmentGrid;
-        var $inventoryCompleteKitGrid;
-        var $inventorySubstituteGrid;
-        var $inventoryCompatibilityGrid;
-        var $inventoryQcGrid;
-        var $inventoryAttributeValueGrid;
-        var $inventoryVendorGrid;
-        var $inventoryPrepGrid;
-        var $wardrobeInventoryColorGrid;
-        var $wardrobeInventoryMaterialGrid;
-        var $inventoryCompleteGrid;
-        var $inventoryKitGrid;
+    afterLoad($form) {
+        let $itemLocationTaxGrid;
+        let $salesInventoryWarehouseGrid;
+        let $inventoryAvailabilityGrid;
+        let $inventoryConsignmentGrid;
+        let $inventoryCompleteKitGrid;
+        let $inventorySubstituteGrid;
+        let $inventoryCompatibilityGrid;
+        let $inventoryQcGrid;
+        let $inventoryAttributeValueGrid;
+        let $inventoryVendorGrid;
+        let $inventoryPrepGrid;
+        let $wardrobeInventoryColorGrid;
+        let $wardrobeInventoryMaterialGrid;
+        let $inventoryCompleteGrid;
+        let $inventoryKitGrid;
         $itemLocationTaxGrid = $form.find('[data-name="ItemLocationTaxGrid"]');
         FwBrowse.search($itemLocationTaxGrid);
         $salesInventoryWarehouseGrid = $form.find('[data-name="SalesInventoryWarehouseGrid"]');
@@ -504,9 +492,9 @@ var SalesInventory = (function (_super) {
         else {
             FwFormField.disable($form.find('.subcategory'));
         }
-    };
+    }
     ;
-    SalesInventory.prototype.beforeValidate = function ($browse, $grid, request) {
+    beforeValidate($browse, $grid, request) {
         var validationName = request.module;
         var InventoryTypeValue = jQuery($grid.find('[data-validationname="InventoryTypeValidation"] input')).val();
         var CategoryTypeId = jQuery($grid.find('[data-validationname="SalesCategoryValidation"] input')).val();
@@ -529,10 +517,9 @@ var SalesInventory = (function (_super) {
                 break;
         }
         ;
-    };
+    }
     ;
-    return SalesInventory;
-}(InventoryBase));
+}
 ;
-var SalesInventoryController = new SalesInventory();
+const SalesInventoryController = new SalesInventory();
 //# sourceMappingURL=SalesInventory.js.map

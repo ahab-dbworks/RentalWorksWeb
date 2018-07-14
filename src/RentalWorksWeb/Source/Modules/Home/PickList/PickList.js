@@ -1,11 +1,11 @@
 routes.push({ pattern: /^module\/picklist$/, action: function (match) { return PickListController.getModuleScreen(); } });
-var PickList = (function () {
-    function PickList() {
+class PickList {
+    constructor() {
         this.Module = 'PickList';
         this.apiurl = 'api/v1/picklist';
         this.ActiveView = 'ALL';
     }
-    PickList.prototype.getModuleScreen = function () {
+    getModuleScreen() {
         var self = this;
         var screen = {};
         screen.$view = FwModule.getModuleControl(this.Module + 'Controller');
@@ -21,9 +21,9 @@ var PickList = (function () {
             FwBrowse.screenunload($browse);
         };
         return screen;
-    };
+    }
     ;
-    PickList.prototype.openBrowse = function () {
+    openBrowse() {
         var self = this;
         var $browse = FwBrowse.loadBrowseFromTemplate(this.Module);
         $browse = FwModule.openBrowse($browse);
@@ -33,9 +33,9 @@ var PickList = (function () {
             request.activeview = self.ActiveView;
         });
         return $browse;
-    };
+    }
     ;
-    PickList.prototype.openForm = function (mode, parentmoduleinfo) {
+    openForm(mode, parentmoduleinfo) {
         var $form = FwModule.loadFormFromTemplate(this.Module);
         $form = FwModule.openForm($form, mode);
         $form.find('.printpicklist').on('click', function () {
@@ -55,19 +55,19 @@ var PickList = (function () {
             }
         });
         return $form;
-    };
+    }
     ;
-    PickList.prototype.loadForm = function (uniqueids) {
+    loadForm(uniqueids) {
         var $form = this.openForm('EDIT');
         FwFormField.setValueByDataField($form, 'PickListId', uniqueids.PickListId);
         FwModule.loadForm(this.Module, $form);
         return $form;
-    };
+    }
     ;
-    PickList.prototype.saveForm = function ($form, parameters) {
+    saveForm($form, parameters) {
         FwModule.saveForm(this.Module, $form, parameters);
-    };
-    PickList.prototype.addBrowseMenuItems = function ($menuObject) {
+    }
+    addBrowseMenuItems($menuObject) {
         var self = this;
         var warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
         var $allWarehouses = FwMenu.generateDropDownViewBtn('ALL', false);
@@ -90,9 +90,9 @@ var PickList = (function () {
         var $warehouseView;
         $warehouseView = FwMenu.addViewBtn($menuObject, 'Warehouse', viewWarehouse);
         return $menuObject;
-    };
+    }
     ;
-    PickList.prototype.renderGrids = function ($form) {
+    renderGrids($form) {
         var $pickListItemGrid = $form.find('div[data-grid="PickListItemGrid"]');
         var $pickListItemGridControl = jQuery(jQuery('#tmpl-grids-' + "PickListItemGrid" + 'Browse').html());
         $pickListItemGrid.empty().append($pickListItemGridControl);
@@ -103,9 +103,9 @@ var PickList = (function () {
         });
         FwBrowse.init($pickListItemGridControl);
         FwBrowse.renderRuntimeHtml($pickListItemGridControl);
-    };
+    }
     ;
-    PickList.prototype.cancelPickList = function (pickListId, pickListNumber) {
+    cancelPickList(pickListId, pickListNumber) {
         var $confirmation, $yes, $no, self;
         self = this;
         $confirmation = FwConfirmation.renderConfirmation('Cancel Pick List', '<div style="white-space:pre;">\n' +
@@ -137,15 +137,14 @@ var PickList = (function () {
                 }
             }, null, $confirmation);
         });
-    };
+    }
     ;
-    PickList.prototype.afterLoad = function ($form) {
+    afterLoad($form) {
         var $pickListItemGrid = $form.find('[data-name="PickListItemGrid"]');
         FwBrowse.search($pickListItemGrid);
-    };
+    }
     ;
-    return PickList;
-}());
+}
 var PickListController = new PickList();
 FwApplicationTree.clickEvents['{3BF7AEF3-BF52-4B8B-8324-910A92005B2B}'] = function (event) {
     var $form, pickListId, pickListNumber;

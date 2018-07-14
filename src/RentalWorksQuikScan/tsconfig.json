@@ -6,19 +6,15 @@
     "removeComments": true,
     "sourceMap": true,
     "target": "es5",
-    "typeRoots": [
-      "./node_modules/@types",
-      "./@types"
-    ],
     "lib": [
       "dom",
-      "es2015",
-      "es5",
+      //"es2015",
+      //"es5",
       "es6"
     ]
-  },
-  "exclude": [
-    "node_modules",
-    "wwwroot"
-  ]
+  }
+  //"exclude": [
+  //  "node_modules",
+  //  "wwwroot"
+  //]
 }

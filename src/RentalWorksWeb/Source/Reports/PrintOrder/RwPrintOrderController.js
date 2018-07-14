@@ -1,6 +1,6 @@
 routes.push({ pattern: /^module\/printorder$/, action: function (match) { return RwPrintOrderController.getModuleScreen(); } });
-var PrintOrder = (function () {
-    function PrintOrder() {
+class PrintOrder {
+    constructor() {
         this.Module = 'PrintOrder';
         this.ModuleOptions = {
             ReportOptions: {
@@ -9,7 +9,7 @@ var PrintOrder = (function () {
         };
         this.ModuleOptions = jQuery.extend({}, FwReport.ModuleOptions, this.ModuleOptions);
     }
-    PrintOrder.prototype.getModuleScreen = function () {
+    getModuleScreen() {
         var screen, $form;
         screen = {};
         screen.$view = FwModule.getModuleControl('Rw' + this.Module + 'Controller');
@@ -22,9 +22,9 @@ var PrintOrder = (function () {
         screen.unload = function () {
         };
         return screen;
-    };
+    }
     ;
-    PrintOrder.prototype.openForm = function () {
+    openForm() {
         var $form;
         $form = FwReport.getFrontEnd('Rw', this.Module, 'tmpl-reports-' + this.Module + 'FrontEnd');
         $form.data('getexportrequest', function (request) {
@@ -32,15 +32,14 @@ var PrintOrder = (function () {
             return request;
         });
         return $form;
-    };
+    }
     ;
-    PrintOrder.prototype.onLoadForm = function ($form) {
+    onLoadForm($form) {
         FwReport.load($form, this.ModuleOptions.ReportOptions);
         var appOptions = program.getApplicationOptions();
         var request = { method: "LoadForm" };
-    };
+    }
     ;
-    return PrintOrder;
-}());
+}
 var RwPrintOrderController = new PrintOrder();
 //# sourceMappingURL=RwPrintOrderController.js.map

@@ -168,6 +168,7 @@
     <Content Include="Integration\QBOIntegration\QBOIntegration.css" />
     <Content Include="Integration\QBOIntegration\QBOIntegrationController.js" />
     <TypeScriptCompile Include="%40types\Fw\index.d.ts" />
+    <TypeScriptCompile Include="%40types\JQuery\index.d.ts" />
     <TypeScriptCompile Include="%40types\Web\index.d.ts" />
     <TypeScriptCompile Include="scripts\DefaultApplicationConfig.ts" />
     <TypeScriptCompile Include="scripts\Program.ts" />
@@ -383,28 +384,8 @@
     <Content Include="Source\Grids\BillingCycleEventsGrid\BillingCycleEventsGridBrowse.htm" />
     <Content Include="Source\Grids\VehicleMakeModelGrid\VehicleMakeModelGridBrowse.htm" />
     <Content Include="Source\Grids\GeneratorMakeModelGrid\GeneratorMakeModelGridBrowse.htm" />
-    <Content Include="Source\Grids\OrderContractNote\OrderContractNoteBrowse.htm" />
-    <Content Include="Source\Grids\OrderContractNote\RwOrderContractNoteGridController.js" />
-    <Content Include="Source\Grids\OrderActivityDates\OrderActivityDatesBrowse.htm" />
-    <Content Include="Source\Grids\OrderActivityDates\RwOrderActivityDatesGridController.js" />
-    <Content Include="Source\Grids\OrderDates\OrderDatesBrowse.htm" />
-    <Content Include="Source\Grids\OrderDates\RwOrderDatesGridController.js" />
-    <Content Include="Source\Grids\QuikEntryAccessoriesOptions\QuikEntryAccessoriesOptionsBrowse.htm" />
-    <Content Include="Source\Grids\QuikEntryAccessoriesOptions\RwQuikEntryAccessoriesOptionsGridController.js" />
-    <Content Include="Source\Grids\QuikEntrySubCategory\QuikEntrySubCategoryBrowse.htm" />
-    <Content Include="Source\Grids\QuikEntrySubCategory\RwQuikEntrySubCategoryGridController.js" />
-    <Content Include="Source\Grids\QuikEntryCategory\QuikEntryCategoryBrowse.htm" />
-    <Content Include="Source\Grids\QuikEntryCategory\RwQuikEntryCategoryGridController.js" />
-    <Content Include="Source\Grids\QuikEntryDepartment\QuikEntryDepartmentBrowse.htm" />
-    <Content Include="Source\Grids\QuikEntryDepartment\RwQuikEntryDepartmentGridController.js" />
-    <Content Include="Source\Grids\QuikEntryItems\QuikEntryItemsBrowse.htm" />
-    <Content Include="Source\Grids\QuikEntryItems\RwQuikEntryItemsGridController.js" />
     <Content Include="Backup\OrderNote\OrderNoteBrowse.htm" />
     <Content Include="Backup\OrderNote\RwOrderNoteGridController.js" />
-    <Content Include="Source\Grids\Contact\ContactBrowse.htm" />
-    <Content Include="Source\Grids\Contact\RwContactGridController.js" />
-    <Content Include="Source\Grids\MasterItem\RwMasterItemGridController.js" />
-    <Content Include="Source\Grids\MasterItem\MasterItemBrowse.htm" />
     <Content Include="Source\Modules\Administrator\DuplicateRules\DuplicateRulesBrowse.htm" />
     <Content Include="Source\Modules\Administrator\DuplicateRules\DuplicateRulesForm.htm" />
     <Content Include="Source\Modules\Administrator\Integration\Integration.css" />
@@ -1381,6 +1362,7 @@
           <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
         </WebProjectProperties>
       </FlavorProperties>
+      <UserProperties tsconfig_1json__JSONSchema="6" />
     </VisualStudio>
   </ProjectExtensions>
   <Import Project="$(AppSolutionDir)\packages\NETStandard.Library.2.0.1\build\netstandard2.0\NETStandard.Library.targets" Condition="Exists('$(AppSolutionDir)\packages\NETStandard.Library.2.0.1\build\netstandard2.0\NETStandard.Library.targets')" />

@@ -1,9 +1,8 @@
-var InventoryCompleteKitGrid = (function () {
-    function InventoryCompleteKitGrid() {
+class InventoryCompleteKitGrid {
+    constructor() {
         this.Module = 'InventoryCompleteKitGrid';
         this.apiurl = 'api/v1/inventorycompletekit';
     }
-    return InventoryCompleteKitGrid;
-}());
+}
 var InventoryCompleteKitGridController = new InventoryCompleteKitGrid();
 //# sourceMappingURL=InventoryCompleteKitGridController.js.map

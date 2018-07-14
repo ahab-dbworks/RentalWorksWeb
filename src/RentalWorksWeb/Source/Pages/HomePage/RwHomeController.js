@@ -1,5 +1,5 @@
-var RwHome = (function () {
-    function RwHome() {
+class RwHome {
+    constructor() {
         this.Module = 'RwHome';
         this.charts = [];
         this.widgets = {};
@@ -8,7 +8,7 @@ var RwHome = (function () {
         this.billingbyagentbymonth = false;
         this.charts = [];
     }
-    RwHome.prototype.getHomeScreen = function () {
+    getHomeScreen() {
         var self = this;
         var applicationOptions = program.getApplicationOptions();
         var screen = {};
@@ -16,7 +16,7 @@ var RwHome = (function () {
         screen.load = function () {
             var redirectPath = sessionStorage.getItem('redirectPath');
             if (typeof redirectPath === 'string' && redirectPath.length > 0) {
-                setTimeout(function () {
+                setTimeout(() => {
                     sessionStorage.removeItem('redirectPath');
                     program.navigate(redirectPath);
                 }, 0);
@@ -26,9 +26,9 @@ var RwHome = (function () {
             }
         };
         return screen;
-    };
+    }
     ;
-    RwHome.prototype.buildWidgetSettings = function ($chartSettings, userWidgetId) {
+    buildWidgetSettings($chartSettings, userWidgetId) {
         var self = this;
         $chartSettings.on('click', function () {
             try {
@@ -86,8 +86,8 @@ var RwHome = (function () {
             }
         });
         return $chartSettings;
-    };
-    RwHome.prototype.loadSettings = function ($control) {
+    }
+    loadSettings($control) {
         var self = this;
         var $dashboard = $control.find('.programlogo');
         var userId = JSON.parse(sessionStorage.getItem('userid')).webusersid;
@@ -98,8 +98,8 @@ var RwHome = (function () {
                 }
             }
         }, null, $control);
-    };
-    RwHome.prototype.renderWidget = function ($control, apiname, type, chartpath, userWidgetId, width, text, dataPoints) {
+    }
+    renderWidget($control, apiname, type, chartpath, userWidgetId, width, text, dataPoints) {
         var self = this;
         var refresh = '<i id="' + apiname + 'refresh" class="chart-refresh material-icons">refresh</i>';
         var settings = '<i id="' + apiname + 'settings" class="chart-settings material-icons">settings</i>';
@@ -111,7 +111,7 @@ var RwHome = (function () {
             dataPointCount = dataPoints;
         }
         jQuery($control).on('click', '#' + apiname + 'refresh', function () {
-            FwAppData.apiMethod(true, 'GET', "api/v1/widget/loadbyname/" + apiname + "?dataPoints=" + dataPointCount + "&locationId=" + JSON.parse(sessionStorage.location).locationid + "&warehouseId=" + JSON.parse(sessionStorage.warehouse).warehouseid + "&departmentId=" + JSON.parse(sessionStorage.department).departmentid, {}, FwServices.defaultTimeout, function onSuccess(response) {
+            FwAppData.apiMethod(true, 'GET', `api/v1/widget/loadbyname/${apiname}?dataPoints=${dataPointCount}&locationId=${JSON.parse(sessionStorage.location).locationid}&warehouseId=${JSON.parse(sessionStorage.warehouse).warehouseid}&departmentId=${JSON.parse(sessionStorage.department).departmentid}`, {}, FwServices.defaultTimeout, function onSuccess(response) {
                 try {
                     if (type !== '') {
                         response.type = type;
@@ -152,7 +152,7 @@ var RwHome = (function () {
                 FwConfirmation.addControls($confirmation, html.join(''));
                 $confirmation.find('.fwconfirmationbox').css('width', '80%');
                 var widgetfullscreen = $confirmation.find('#' + apiname + 'fullscreen');
-                FwAppData.apiMethod(true, 'GET', "api/v1/widget/loadbyname/" + apiname + "?dataPoints=" + dataPointCount + "&locationId=" + JSON.parse(sessionStorage.location).locationid + "&warehouseId=" + JSON.parse(sessionStorage.warehouse).warehouseid + "&departmentId=" + JSON.parse(sessionStorage.department).departmentid, {}, FwServices.defaultTimeout, function onSuccess(response) {
+                FwAppData.apiMethod(true, 'GET', `api/v1/widget/loadbyname/${apiname}?dataPoints=${dataPointCount}&locationId=${JSON.parse(sessionStorage.location).locationid}&warehouseId=${JSON.parse(sessionStorage.warehouse).warehouseid}&departmentId=${JSON.parse(sessionStorage.department).departmentid}`, {}, FwServices.defaultTimeout, function onSuccess(response) {
                     try {
                         response.options.responsive = true;
                         if (type !== '') {
@@ -185,7 +185,7 @@ var RwHome = (function () {
                 FwFunc.showError(ex);
             }
         });
-        FwAppData.apiMethod(true, 'GET', "api/v1/widget/loadbyname/" + apiname + "?dataPoints=" + dataPointCount + "&locationId=" + JSON.parse(sessionStorage.location).locationid + "&warehouseId=" + JSON.parse(sessionStorage.warehouse).warehouseid + "&departmentId=" + JSON.parse(sessionStorage.department).departmentid, {}, FwServices.defaultTimeout, function onSuccess(response) {
+        FwAppData.apiMethod(true, 'GET', `api/v1/widget/loadbyname/${apiname}?dataPoints=${dataPointCount}&locationId=${JSON.parse(sessionStorage.location).locationid}&warehouseId=${JSON.parse(sessionStorage.warehouse).warehouseid}&departmentId=${JSON.parse(sessionStorage.department).departmentid}`, {}, FwServices.defaultTimeout, function onSuccess(response) {
             try {
                 if (type !== '') {
                     response.type = type;
@@ -215,10 +215,9 @@ var RwHome = (function () {
                 FwFunc.showError(ex);
             }
         }, null, jQuery(widgetcanvas));
-    };
+    }
     ;
-    return RwHome;
-}());
+}
 ;
 var RwHomeController = new RwHome();
 //# sourceMappingURL=RwHomeController.js.map

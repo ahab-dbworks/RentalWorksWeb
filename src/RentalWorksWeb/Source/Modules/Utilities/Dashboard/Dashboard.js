@@ -1,10 +1,9 @@
-var Dashboard = (function () {
-    function Dashboard() {
+class Dashboard {
+    constructor() {
     }
-    Dashboard.prototype.loadDashboard = function () {
+    loadDashboard() {
         program.navigate('home');
-    };
-    return Dashboard;
-}());
+    }
+}
 var DashboardController = new Dashboard();
 //# sourceMappingURL=Dashboard.js.map

@@ -1,10 +1,10 @@
 routes.push({ pattern: /^module\/dashboardsettings$/, action: function (match) { return DashboardSettingsController.getModuleScreen(); } });
-var DashboardSettings = (function () {
-    function DashboardSettings() {
+class DashboardSettings {
+    constructor() {
         this.Module = 'DashboardSettings';
         this.apiurl = 'api/v1/userdashboardsettings';
     }
-    DashboardSettings.prototype.getModuleScreen = function () {
+    getModuleScreen() {
         var screen = {};
         screen.$view = FwModule.getModuleControl(this.Module + 'Controller');
         screen.viewModel = {};
@@ -16,8 +16,8 @@ var DashboardSettings = (function () {
         screen.unload = function () {
         };
         return screen;
-    };
-    DashboardSettings.prototype.openForm = function (mode) {
+    }
+    openForm(mode) {
         var $form;
         var widgets = [];
         var userId = JSON.parse(sessionStorage.getItem('userid'));
@@ -32,11 +32,10 @@ var DashboardSettings = (function () {
             }
         });
         return $form;
-    };
-    DashboardSettings.prototype.saveForm = function ($form, parameters) {
+    }
+    saveForm($form, parameters) {
         FwModule.saveForm(this.Module, $form, parameters);
-    };
-    return DashboardSettings;
-}());
+    }
+}
 var DashboardSettingsController = new DashboardSettings();
 //# sourceMappingURL=DashboardSettings.js.map

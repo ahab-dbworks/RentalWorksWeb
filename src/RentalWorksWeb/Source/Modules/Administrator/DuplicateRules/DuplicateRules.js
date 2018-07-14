@@ -1,9 +1,9 @@
-var DuplicateRules = (function () {
-    function DuplicateRules() {
+class DuplicateRules {
+    constructor() {
         this.Module = 'DuplicateRules';
         this.apiurl = 'api/v1/duplicaterule';
     }
-    DuplicateRules.prototype.getModuleScreen = function () {
+    getModuleScreen() {
         var screen, $browse;
         screen = {};
         screen.$view = FwModule.getModuleControl(this.Module + 'Controller');
@@ -19,15 +19,15 @@ var DuplicateRules = (function () {
             FwBrowse.screenunload($browse);
         };
         return screen;
-    };
-    DuplicateRules.prototype.openBrowse = function () {
+    }
+    openBrowse() {
         var $browse;
         $browse = jQuery(jQuery('#tmpl-modules-' + this.Module + 'Browse').html());
         $browse = FwModule.openBrowse($browse);
         FwBrowse.addLegend($browse, 'User Defined Rule', '#00FF00');
         return $browse;
-    };
-    DuplicateRules.prototype.openForm = function (mode) {
+    }
+    openForm(mode) {
         var $form, $moduleSelect;
         $form = jQuery(jQuery('#tmpl-modules-' + this.Module + 'Form').html());
         $form = FwModule.openForm($form, mode);
@@ -38,9 +38,9 @@ var DuplicateRules = (function () {
             FwFormField.disable($form.find('.ifnew'));
         }
         var node = FwApplicationTree.getNodeById(FwApplicationTree.tree, '0A5F2584-D239-480F-8312-7C2B552A30BA');
-        var mainModules = FwApplicationTree.getChildrenByType(node, 'Module');
-        var settingsModules = FwApplicationTree.getChildrenByType(node, 'SettingsModule');
-        var modules = mainModules.concat(settingsModules);
+        let mainModules = FwApplicationTree.getChildrenByType(node, 'Module');
+        let settingsModules = FwApplicationTree.getChildrenByType(node, 'SettingsModule');
+        let modules = mainModules.concat(settingsModules);
         var allModules = [];
         for (var i = 0; i < modules.length; i++) {
             var moduleNav = modules[i].properties.controller.slice(0, -10);
@@ -68,32 +68,32 @@ var DuplicateRules = (function () {
         this.getFields($form);
         $form.find('[data-datafield="SystemRule"]').attr('data-required', false);
         return $form;
-    };
-    DuplicateRules.prototype.loadForm = function (uniqueids) {
+    }
+    loadForm(uniqueids) {
         var $form;
         $form = this.openForm('EDIT');
         $form.find('div.fwformfield[data-datafield="DuplicateRuleId"] input').val(uniqueids.DuplicateRuleId);
         FwModule.loadForm(this.Module, $form);
         return $form;
-    };
-    DuplicateRules.prototype.saveForm = function ($form, parameters) {
+    }
+    saveForm($form, parameters) {
         FwModule.saveForm(this.Module, $form, parameters);
-    };
-    DuplicateRules.prototype.getFields = function ($form) {
+    }
+    getFields($form) {
         $form.find('div.modules').on("change", function () {
-            var moduleName, moduleUrl, request;
+            let moduleName, moduleUrl, request;
             moduleName = jQuery(this).find(':selected').val();
             moduleUrl = jQuery(this).find(':selected').attr('data-apiurl');
             request = {
                 module: moduleName,
                 top: 1
             };
-            FwAppData.apiMethod(true, 'POST', moduleUrl + "/browse", request, FwServices.defaultTimeout, function onSuccess(response) {
+            FwAppData.apiMethod(true, 'POST', `${moduleUrl}/browse`, request, FwServices.defaultTimeout, function onSuccess(response) {
                 var fieldColumns = response.Columns;
                 var filteredColumns = fieldColumns.filter(function (obj) {
                     return obj.DataField !== 'DateStamp';
                 });
-                var fieldNamesOnly = filteredColumns.map(function (a) { return a.DataField; }).sort();
+                var fieldNamesOnly = filteredColumns.map(a => a.DataField).sort();
                 var sortedFields = fieldNamesOnly.sort(function (a, b) {
                     return a.toLowerCase().localeCompare(b.toLowerCase());
                 });
@@ -120,66 +120,65 @@ var DuplicateRules = (function () {
                 jQuery.each(separateFields, function (i, val) {
                     jQuery("input[name='" + val + "']").prop("checked", true);
                 });
-                $form.on('change', '[type="checkbox"]', function (e) {
+                $form.on('change', '[type="checkbox"]', e => {
                     var field = jQuery(e.currentTarget).attr('name');
                     if (separateFields.indexOf(field) === -1) {
                         separateFields.push(field);
                     }
                     else {
-                        separateFields = separateFields.filter(function (item) { return item !== field; });
+                        separateFields = separateFields.filter(item => { return item !== field; });
                     }
                     var joinFields = separateFields.join(',');
                     FwFormField.setValueByDataField($form, 'Fields', joinFields);
                 });
             }, null, $form);
         });
-    };
-    DuplicateRules.prototype.afterLoad = function ($form) {
+    }
+    afterLoad($form) {
         var moduleName = $form.find('.modules').attr('data-originalvalue');
         var moduleUrl = $form.find("select option[value='" + moduleName + "']").attr('data-apiurl');
         var request = {
             module: moduleName
         };
-        FwAppData.apiMethod(true, 'POST', moduleUrl + "/browse", request, FwServices.defaultTimeout, function onSuccess(response) {
+        FwAppData.apiMethod(true, 'POST', `${moduleUrl}/browse`, request, FwServices.defaultTimeout, function onSuccess(response) {
             var fieldColumns = response.Columns;
             var filteredColumns = fieldColumns.filter(function (obj) {
                 return obj.DataField !== 'DateStamp';
             });
-            var fieldNamesOnly = filteredColumns.map(function (a) { return a.DataField; }).sort();
+            var fieldNamesOnly = filteredColumns.map(a => a.DataField).sort();
             var sortedFields = fieldNamesOnly.sort(function (a, b) {
                 return a.toLowerCase().localeCompare(b.toLowerCase());
             });
             var fieldsHtml = [];
             var $fields = $form.find('.fields');
             for (var i = 0; i < sortedFields.length; i++) {
-                var uniqueId = FwApplication.prototype.uniqueId(10);
-                fieldsHtml.push("<div data-control=\"FwFormField\" data-type=\"checkbox\" class=\"fwcontrol fwformfield check SystemRuleTRUE\" data-enabled=\"true\" data-datafield=\"" + sortedFields[i] + "\" data-value=\"" + sortedFields[i] + "\" data-caption=\"" + sortedFields[i] + "\" style=\"float:left;width:300px;padding:10px;0px;\">");
-                fieldsHtml.push("<input id=\"" + uniqueId + "\" class=\"fwformfield-control fwformfield-value\" type=\"checkbox\" name=\"" + sortedFields[i] + "\"/>");
-                fieldsHtml.push("<label class=\"fwformfield-caption\" data-value=\"" + sortedFields[i] + "\" for=\"" + uniqueId + "\">" + sortedFields[i] + "</label></div>");
+                let uniqueId = FwApplication.prototype.uniqueId(10);
+                fieldsHtml.push(`<div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield check SystemRuleTRUE" data-enabled="true" data-datafield="${sortedFields[i]}" data-value="${sortedFields[i]}" data-caption="${sortedFields[i]}" style="float:left;width:300px;padding:10px;0px;">`);
+                fieldsHtml.push(`<input id="${uniqueId}" class="fwformfield-control fwformfield-value" type="checkbox" name="${sortedFields[i]}"/>`);
+                fieldsHtml.push(`<label class="fwformfield-caption" data-value="${sortedFields[i]}" for="${uniqueId}">${sortedFields[i]}</label></div>`);
             }
             $fields.empty().append(fieldsHtml.join(''));
-            var fields = $form.find('[data-datafield="Fields"]').attr('data-originalvalue');
+            let fields = $form.find('[data-datafield="Fields"]').attr('data-originalvalue');
             var separateFields = fields.split(",");
             jQuery.each(separateFields, function (i, val) {
                 jQuery("input[name='" + val + "']").prop("checked", true);
             });
-            $form.on('change', '[type="checkbox"]', function (e) {
-                var field = jQuery(e.currentTarget).attr('name');
+            $form.on('change', '[type="checkbox"]', e => {
+                let field = jQuery(e.currentTarget).attr('name');
                 if (separateFields.indexOf(field) === -1) {
                     separateFields.push(field);
                 }
                 else {
-                    separateFields = separateFields.filter(function (item) { return item !== field; });
+                    separateFields = separateFields.filter(item => { return item !== field; });
                 }
-                var joinFields = separateFields.join(',');
+                let joinFields = separateFields.join(',');
                 FwFormField.setValueByDataField($form, 'Fields', joinFields);
             });
             if (FwFormField.getValueByDataField($form, 'SystemRule') === 'true') {
                 FwFormField.toggle($form.find('.SystemRuleTRUE'), false);
             }
         }, null, $form);
-    };
-    return DuplicateRules;
-}());
+    }
+}
 var DuplicateRulesController = new DuplicateRules();
 //# sourceMappingURL=DuplicateRules.js.map

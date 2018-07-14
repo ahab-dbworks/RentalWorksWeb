@@ -1,9 +1,8 @@
-var LaborCategoryGrid = (function () {
-    function LaborCategoryGrid() {
+class LaborCategoryGrid {
+    constructor() {
         this.Module = 'LaborCategoryGrid';
         this.apiurl = 'api/v1/laborcategory';
     }
-    return LaborCategoryGrid;
-}());
+}
 var LaborCategoryGridController = new LaborCategoryGrid();
 //# sourceMappingURL=LaborCategoryGridController.js.map

@@ -1,22 +1,10 @@
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-var RentalInventory = (function (_super) {
-    __extends(RentalInventory, _super);
-    function RentalInventory() {
-        var _this = _super !== null && _super.apply(this, arguments) || this;
-        _this.Module = 'RentalInventory';
-        _this.apiurl = 'api/v1/rentalinventory';
-        return _this;
+class RentalInventory extends InventoryBase {
+    constructor() {
+        super(...arguments);
+        this.Module = 'RentalInventory';
+        this.apiurl = 'api/v1/rentalinventory';
     }
-    RentalInventory.prototype.getModuleScreen = function () {
+    getModuleScreen() {
         var screen, $browse;
         screen = {};
         screen.$view = FwModule.getModuleControl(this.Module + 'Controller');
@@ -32,9 +20,9 @@ var RentalInventory = (function (_super) {
             FwBrowse.screenunload($browse);
         };
         return screen;
-    };
+    }
     ;
-    RentalInventory.prototype.openBrowse = function () {
+    openBrowse() {
         var self = this;
         var $browse = FwBrowse.loadBrowseFromTemplate(this.Module);
         $browse = FwModule.openBrowse($browse);
@@ -49,9 +37,9 @@ var RentalInventory = (function (_super) {
         FwBrowse.addLegend($browse, 'Misc', '#ff0080');
         FwBrowse.addLegend($browse, 'Container', '#ff8040');
         return $browse;
-    };
+    }
     ;
-    RentalInventory.prototype.addBrowseMenuItems = function ($menuObject) {
+    addBrowseMenuItems($menuObject) {
         var self = this;
         var $all = FwMenu.generateDropDownViewBtn('All', true);
         var $item = FwMenu.generateDropDownViewBtn('Item', true);
@@ -114,9 +102,9 @@ var RentalInventory = (function (_super) {
         var $view;
         $view = FwMenu.addViewBtn($menuObject, 'View', viewSubitems);
         return $menuObject;
-    };
+    }
     ;
-    RentalInventory.prototype.openForm = function (mode) {
+    openForm(mode) {
         var $form, self;
         self = this;
         $form = jQuery(jQuery('#tmpl-modules-' + this.Module + 'Form').html());
@@ -152,27 +140,27 @@ var RentalInventory = (function (_super) {
         ], true);
         this.events($form);
         return $form;
-    };
+    }
     ;
-    RentalInventory.prototype.loadForm = function (uniqueids) {
+    loadForm(uniqueids) {
         var $form;
         $form = this.openForm('EDIT');
         $form.find('div.fwformfield[data-datafield="InventoryId"] input').val(uniqueids.InventoryId);
         FwModule.loadForm(this.Module, $form);
         return $form;
-    };
+    }
     ;
-    RentalInventory.prototype.saveForm = function ($form, parameters) {
+    saveForm($form, parameters) {
         FwModule.saveForm(this.Module, $form, parameters);
-    };
+    }
     ;
-    RentalInventory.prototype.loadAudit = function ($form) {
+    loadAudit($form) {
         var uniqueid;
         uniqueid = $form.find('div.fwformfield[data-datafield="InventoryId"] input').val();
         FwModule.loadAudit($form, uniqueid);
-    };
+    }
     ;
-    RentalInventory.prototype.renderGrids = function ($form) {
+    renderGrids($form) {
         var $itemLocationTaxGrid;
         var $itemLocationTaxGridControl;
         var $rentalInventoryWarehouseGrid;
@@ -468,9 +456,9 @@ var RentalInventory = (function (_super) {
         });
         FwBrowse.init($wardrobeInventoryMaterialGridControl);
         FwBrowse.renderRuntimeHtml($wardrobeInventoryMaterialGridControl);
-    };
+    }
     ;
-    RentalInventory.prototype.afterLoad = function ($form) {
+    afterLoad($form) {
         var self = this;
         var $itemLocationTaxGrid;
         var $rentalInventoryWarehouseGrid;
@@ -577,9 +565,9 @@ var RentalInventory = (function (_super) {
         else {
             FwFormField.disable($form.find('.subcategory'));
         }
-    };
+    }
     ;
-    RentalInventory.prototype.beforeValidate = function ($browse, $grid, request) {
+    beforeValidate($browse, $grid, request) {
         var validationName = request.module;
         var InventoryTypeValue = jQuery($grid.find('[data-validationname="InventoryTypeValidation"] input')).val();
         var CategoryTypeId = jQuery($grid.find('[data-validationname="RentalCategoryValidation"] input')).val();
@@ -603,10 +591,9 @@ var RentalInventory = (function (_super) {
                 break;
         }
         ;
-    };
+    }
     ;
-    return RentalInventory;
-}(InventoryBase));
+}
 ;
 var RentalInventoryController = new RentalInventory();
 //# sourceMappingURL=RentalInventory.js.map

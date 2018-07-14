@@ -1,9 +1,9 @@
-var CustomerType = (function () {
-    function CustomerType() {
+class CustomerType {
+    constructor() {
         this.Module = 'CustomerType';
         this.apiurl = 'api/v1/customertype';
     }
-    CustomerType.prototype.getModuleScreen = function () {
+    getModuleScreen() {
         var screen, $browse;
         screen = {};
         screen.$view = FwModule.getModuleControl(this.Module + 'Controller');
@@ -19,37 +19,36 @@ var CustomerType = (function () {
             FwBrowse.screenunload($browse);
         };
         return screen;
-    };
-    CustomerType.prototype.openBrowse = function () {
+    }
+    openBrowse() {
         var $browse;
         $browse = jQuery(jQuery('#tmpl-modules-' + this.Module + 'Browse').html());
         $browse = FwModule.openBrowse($browse);
         return $browse;
-    };
-    CustomerType.prototype.openForm = function (mode) {
+    }
+    openForm(mode) {
         var $form;
         $form = jQuery(jQuery('#tmpl-modules-' + this.Module + 'Form').html());
         $form = FwModule.openForm($form, mode);
         return $form;
-    };
-    CustomerType.prototype.loadForm = function (uniqueids) {
+    }
+    loadForm(uniqueids) {
         var $form;
         $form = this.openForm('EDIT');
         $form.find('div.fwformfield[data-datafield="CustomerTypeId"] input').val(uniqueids.CustomerTypeId);
         FwModule.loadForm(this.Module, $form);
         return $form;
-    };
-    CustomerType.prototype.saveForm = function ($form, parameters) {
+    }
+    saveForm($form, parameters) {
         FwModule.saveForm(this.Module, $form, parameters);
-    };
-    CustomerType.prototype.loadAudit = function ($form) {
+    }
+    loadAudit($form) {
         var uniqueid;
         uniqueid = $form.find('div.fwformfield[data-datafield="CustomerTypeId"] input').val();
         FwModule.loadAudit($form, uniqueid);
-    };
-    CustomerType.prototype.afterLoad = function ($form) {
-    };
-    return CustomerType;
-}());
+    }
+    afterLoad($form) {
+    }
+}
 var CustomerTypeController = new CustomerType();
 //# sourceMappingURL=CustomerType.js.map

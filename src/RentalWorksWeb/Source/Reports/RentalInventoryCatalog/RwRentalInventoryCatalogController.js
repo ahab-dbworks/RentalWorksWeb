@@ -1,6 +1,6 @@
 routes.push({ pattern: /^module\/rentalinventorycatalog$/, action: function (match) { return RwRentalInventoryCatalogController.getModuleScreen(); } });
-var RwRentalInventoryCatalog = (function () {
-    function RwRentalInventoryCatalog() {
+class RwRentalInventoryCatalog {
+    constructor() {
         this.Module = 'RentalInventoryCatalog';
         this.ModuleOptions = {
             ReportOptions: {
@@ -66,7 +66,7 @@ var RwRentalInventoryCatalog = (function () {
         };
         this.ModuleOptions = jQuery.extend({}, FwReport.ModuleOptions, this.ModuleOptions);
     }
-    RwRentalInventoryCatalog.prototype.getModuleScreen = function () {
+    getModuleScreen() {
         var screen, $form;
         screen = {};
         screen.$view = FwModule.getModuleControl('Rw' + this.Module + 'Controller');
@@ -79,9 +79,9 @@ var RwRentalInventoryCatalog = (function () {
         screen.unload = function () {
         };
         return screen;
-    };
+    }
     ;
-    RwRentalInventoryCatalog.prototype.openForm = function () {
+    openForm() {
         var $form;
         $form = FwReport.getFrontEnd('Rw', this.Module, 'tmpl-reports-' + this.Module + 'FrontEnd');
         $form.data('getexportrequest', function (request) {
@@ -89,25 +89,24 @@ var RwRentalInventoryCatalog = (function () {
             return request;
         });
         return $form;
-    };
+    }
     ;
-    RwRentalInventoryCatalog.prototype.onLoadForm = function ($form) {
+    onLoadForm($form) {
         var request, appOptions;
         FwReport.load($form, this.ModuleOptions.ReportOptions);
         appOptions = program.getApplicationOptions();
         request = { method: "LoadForm" };
         this.loadLists($form);
-        var warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
+        const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
         FwFormField.setValue($form, 'div[data-datafield="WarehouseId"]', warehouse.warehouseid, warehouse.warehouse);
-    };
+    }
     ;
-    RwRentalInventoryCatalog.prototype.loadLists = function ($form) {
+    loadLists($form) {
         FwFormField.loadItems($form.find('div[data-datafield="classificationlist"]'), [{ value: "I", text: "Item", selected: "T" }, { value: "A", text: "Accessory", selected: "T" }, { value: "C", text: "Complete", selected: "T" }, { value: "K", text: "Kit", selected: "T" }, { value: "N", text: "Container", selected: "T" }, { value: "M", text: "Miscellaneous", selected: "F" }]);
         FwFormField.loadItems($form.find('div[data-datafield="trackedbylist"]'), [{ value: "BARCODE", text: "Barcode", selected: "T" }, { value: "QUANTITY", text: "Quantity", selected: "T" }, { value: "SERIALNO", text: "Serial Number", selected: "T" }]);
         FwFormField.loadItems($form.find('div[data-datafield="ranklist"]'), [{ value: "A", text: "A", selected: "T" }, { value: "B", text: "B", selected: "T" }, { value: "C", text: "C", selected: "T" }, { value: "D", text: "D", selected: "T" }, { value: "E", text: "E", selected: "T" }, { value: "F", text: "F", selected: "T" }, { value: "G", text: "G", selected: "T" }]);
-    };
-    return RwRentalInventoryCatalog;
-}());
+    }
+}
 ;
 var RwRentalInventoryCatalogController = new RwRentalInventoryCatalog();
 //# sourceMappingURL=RwRentalInventoryCatalogController.js.map

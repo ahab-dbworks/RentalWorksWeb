@@ -1,25 +1,12 @@
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-var Program = (function (_super) {
-    __extends(Program, _super);
-    function Program() {
-        var _this = _super.call(this) || this;
+class Program extends FwApplication {
+    constructor() {
+        super();
         var me;
-        me = _this;
+        me = this;
         me.name = 'RentalWorks';
         FwApplicationTree.currentApplicationId = '0A5F2584-D239-480F-8312-7C2B552A30BA';
-        return _this;
     }
-    return Program;
-}(FwApplication));
+}
 var program = new Program();
 jQuery(function () {
     function start() {

@@ -1,30 +1,16 @@
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-var RwMaster = (function (_super) {
-    __extends(RwMaster, _super);
-    function RwMaster() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
-    RwMaster.prototype.getUserControl = function ($context) {
+class RwMaster extends WebMaster {
+    getUserControl($context) {
         var $usercontrol = FwFileMenu.UserControl_render($context);
         this.buildDashboard($context);
         this.buildSettings($context);
         this.buildOfficeLocation($context);
         var usertype = sessionStorage.getItem('userType');
         var username = sessionStorage.getItem('fullname');
-        var $controlUserName = jQuery("<div title=\"User Type: " + usertype + "\">" + username + "</div>");
+        var $controlUserName = jQuery(`<div title="User Type: ${usertype}">${username}</div>`);
         FwFileMenu.UserControl_addSystemBarControl('username', $controlUserName, $usercontrol);
-        var $miUserSettings = jQuery("<div>" + RwLanguages.translate('User Settings') + "</div>");
+        var $miUserSettings = jQuery(`<div>${RwLanguages.translate('User Settings')}</div>`);
         FwFileMenu.UserControl_addDropDownMenuItem('usersettings', $miUserSettings, $usercontrol);
-        $miUserSettings.on('click', function (event) {
+        $miUserSettings.on('click', (event) => {
             try {
                 program.getModule('module/usersettings');
             }
@@ -32,9 +18,9 @@ var RwMaster = (function (_super) {
                 FwFunc.showError(ex);
             }
         });
-        var $miSignOut = jQuery("<div>" + RwLanguages.translate('Sign Out') + "</div>");
+        var $miSignOut = jQuery(`<div>${RwLanguages.translate('Sign Out')}</div>`);
         FwFileMenu.UserControl_addDropDownMenuItem('signout', $miSignOut, $usercontrol);
-        $miSignOut.on('click', function (event) {
+        $miSignOut.on('click', (event) => {
             try {
                 program.navigate('logoff');
             }
@@ -42,8 +28,8 @@ var RwMaster = (function (_super) {
                 FwFunc.showError(ex);
             }
         });
-    };
-    RwMaster.prototype.buildOfficeLocationClassic = function ($userControl) {
+    }
+    buildOfficeLocationClassic($userControl) {
         var userlocation = JSON.parse(sessionStorage.getItem('location'));
         var userwarehouse = JSON.parse(sessionStorage.getItem('warehouse'));
         var userdepartment = JSON.parse(sessionStorage.getItem('department'));
@@ -126,16 +112,16 @@ var RwMaster = (function (_super) {
                 FwFunc.showError(ex);
             }
         });
-    };
-    RwMaster.prototype.buildOfficeLocation = function ($usercontrol) {
+    }
+    buildOfficeLocation($usercontrol) {
         var userlocation = JSON.parse(sessionStorage.getItem('location'));
         var userwarehouse = JSON.parse(sessionStorage.getItem('warehouse'));
         var userdepartment = JSON.parse(sessionStorage.getItem('department'));
         var userid = JSON.parse(sessionStorage.getItem('userid'));
         var html = [];
         html.push('<div class="officelocation">');
-        html.push("  <div class=\"locationcolor\" style= \"background-color:" + userlocation.locationcolor + "\" > </div>");
-        html.push("  <div class=\"value\">" + userlocation.location + "</div>");
+        html.push(`  <div class="locationcolor" style= "background-color:${userlocation.locationcolor}" > </div>`);
+        html.push(`  <div class="value">${userlocation.location}</div>`);
         html.push('</div>');
         var $officelocation = jQuery(html.join('\n'));
         FwFileMenu.UserControl_addSystemBarControl('officelocation', $officelocation, $usercontrol);
@@ -213,8 +199,8 @@ var RwMaster = (function (_super) {
                 FwFunc.showError(ex);
             }
         });
-    };
-    RwMaster.prototype.buildDashboard = function ($usercontrol) {
+    }
+    buildDashboard($usercontrol) {
         var $dashboard, $userControl;
         $dashboard = jQuery('<i class="material-icons dashboard">insert_chart</i>');
         $dashboard.on('click', function () {
@@ -226,8 +212,8 @@ var RwMaster = (function (_super) {
             }
         });
         FwFileMenu.UserControl_addSystemBarControl('dashboard', $dashboard, $usercontrol);
-    };
-    RwMaster.prototype.buildSettings = function ($usercontrol) {
+    }
+    buildSettings($usercontrol) {
         var $settings, $userControl;
         $settings = jQuery('<i class="material-icons dashboard">settings</i>');
         $settings.on('click', function () {
@@ -239,8 +225,7 @@ var RwMaster = (function (_super) {
             }
         });
         FwFileMenu.UserControl_addSystemBarControl('dashboard', $settings, $usercontrol);
-    };
-    return RwMaster;
-}(WebMaster));
+    }
+}
 var masterController = new RwMaster();
 //# sourceMappingURL=RwMaster.js.map

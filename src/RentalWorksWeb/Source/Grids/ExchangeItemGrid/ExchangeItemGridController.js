@@ -1,9 +1,8 @@
-var ExchangeItemGrid = (function () {
-    function ExchangeItemGrid() {
+class ExchangeItemGrid {
+    constructor() {
         this.Module = 'ExchangeItemGrid';
         this.apiurl = 'api/v1/exchangeitem';
     }
-    return ExchangeItemGrid;
-}());
+}
 var ExchangeItemGridController = new ExchangeItemGrid();
 //# sourceMappingURL=ExchangeItemGridController.js.map

@@ -1,8 +1,8 @@
-var Settings = (function () {
-    function Settings() {
+class Settings {
+    constructor() {
         this.Module = 'Settings';
     }
-    Settings.prototype.getModuleScreen = function () {
+    getModuleScreen() {
         var combinedViewModel;
         var screen = {};
         var $settings = {};
@@ -59,14 +59,13 @@ var Settings = (function () {
         screen.unload = function () {
         };
         return screen;
-    };
-    Settings.prototype.openSettings = function () {
+    }
+    openSettings() {
         var $settings = {};
         $settings = jQuery(jQuery('#tmpl-modules-' + this.Module).html());
         FwControl.renderRuntimeControls($settings.find(".fwsettings"));
         return $settings;
-    };
-    return Settings;
-}());
+    }
+}
 var SettingsController = new Settings();
 //# sourceMappingURL=SettingsController.js.map

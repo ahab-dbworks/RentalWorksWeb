@@ -1,9 +1,8 @@
-var RepairReleaseGrid = (function () {
-    function RepairReleaseGrid() {
+class RepairReleaseGrid {
+    constructor() {
         this.Module = 'RepairReleaseGrid';
         this.apiurl = 'api/v1/repairrelease';
     }
-    return RepairReleaseGrid;
-}());
+}
 var RepairReleaseGridController = new RepairReleaseGrid();
 //# sourceMappingURL=RepairReleaseGridController.js.map

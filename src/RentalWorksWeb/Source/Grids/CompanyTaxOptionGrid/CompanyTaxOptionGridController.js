@@ -1,9 +1,8 @@
-var CompanyTaxOptionGrid = (function () {
-    function CompanyTaxOptionGrid() {
+class CompanyTaxOptionGrid {
+    constructor() {
         this.Module = 'CompanyTaxOptionGrid';
         this.apiurl = 'api/v1/companytaxoption';
     }
-    return CompanyTaxOptionGrid;
-}());
+}
 var CompanyTaxOptionGridController = new CompanyTaxOptionGrid();
 //# sourceMappingURL=CompanyTaxOptionGridController.js.map

@@ -1,25 +1,13 @@
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
 routes.push({ pattern: /^module\/order$/, action: function (match) { return OrderController.getModuleScreen(); } });
 routes.push({ pattern: /^module\/order\/(\w+)\/(\S+)/, action: function (match) { var filter = { datafield: match[1], search: match[2] }; return OrderController.getModuleScreen(filter); } });
-var Order = (function (_super) {
-    __extends(Order, _super);
-    function Order() {
-        var _this = _super !== null && _super.apply(this, arguments) || this;
-        _this.Module = 'Order';
-        _this.apiurl = 'api/v1/order';
-        _this.caption = 'Order';
-        return _this;
+class Order extends OrderBase {
+    constructor() {
+        super(...arguments);
+        this.Module = 'Order';
+        this.apiurl = 'api/v1/order';
+        this.caption = 'Order';
     }
-    Order.prototype.getModuleScreen = function (filter) {
+    getModuleScreen(filter) {
         var screen = {};
         screen.$view = FwModule.getModuleControl(this.Module + 'Controller');
         screen.viewModel = {};
@@ -41,9 +29,9 @@ var Order = (function (_super) {
             FwBrowse.screenunload($browse);
         };
         return screen;
-    };
+    }
     ;
-    Order.prototype.openBrowse = function () {
+    openBrowse() {
         var self = this;
         var $browse = FwBrowse.loadBrowseFromTemplate(this.Module);
         $browse = FwModule.openBrowse($browse);
@@ -68,9 +56,9 @@ var Order = (function (_super) {
             self.DefaultOrderTypeId = response.DefaultOrderTypeId;
         }, null, null);
         return $browse;
-    };
+    }
     ;
-    Order.prototype.addBrowseMenuItems = function ($menuObject) {
+    addBrowseMenuItems($menuObject) {
         var self = this;
         var $all = FwMenu.generateDropDownViewBtn('All', true);
         var $confirmed = FwMenu.generateDropDownViewBtn('Confirmed', false);
@@ -152,9 +140,9 @@ var Order = (function (_super) {
         var $locationView;
         $locationView = FwMenu.addViewBtn($menuObject, 'Location', viewLocation);
         return $menuObject;
-    };
+    }
     ;
-    Order.prototype.openForm = function (mode, parentModuleInfo) {
+    openForm(mode, parentModuleInfo) {
         var $form, $submodulePickListBrowse, $submoduleContractBrowse;
         var self = this;
         $form = jQuery(jQuery('#tmpl-modules-OrderForm').html());
@@ -171,10 +159,10 @@ var Order = (function (_super) {
             var warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
             var office = JSON.parse(sessionStorage.getItem('location'));
             var department = JSON.parse(sessionStorage.getItem('department'));
-            var usersid = sessionStorage.getItem('usersid');
-            var name_1 = sessionStorage.getItem('name');
-            FwFormField.setValue($form, 'div[data-datafield="ProjectManagerId"]', usersid, name_1);
-            FwFormField.setValue($form, 'div[data-datafield="AgentId"]', usersid, name_1);
+            const usersid = sessionStorage.getItem('usersid');
+            const name = sessionStorage.getItem('name');
+            FwFormField.setValue($form, 'div[data-datafield="ProjectManagerId"]', usersid, name);
+            FwFormField.setValue($form, 'div[data-datafield="AgentId"]', usersid, name);
             FwFormField.setValueByDataField($form, 'PickDate', today);
             FwFormField.setValueByDataField($form, 'EstimatedStartDate', today);
             FwFormField.setValueByDataField($form, 'EstimatedStopDate', today);
@@ -225,9 +213,9 @@ var Order = (function (_super) {
         this.events($form);
         this.activityCheckboxEvents($form, mode);
         return $form;
-    };
+    }
     ;
-    Order.prototype.openPickListBrowse = function ($form) {
+    openPickListBrowse($form) {
         var $browse;
         $browse = PickListController.openBrowse();
         $browse.data('ondatabind', function (request) {
@@ -237,9 +225,9 @@ var Order = (function (_super) {
             };
         });
         return $browse;
-    };
+    }
     ;
-    Order.prototype.openContractBrowse = function ($form) {
+    openContractBrowse($form) {
         var $browse;
         $browse = ContractController.openBrowse();
         $browse.data('ondatabind', function (request) {
@@ -249,22 +237,21 @@ var Order = (function (_super) {
             };
         });
         return $browse;
-    };
+    }
     ;
-    Order.prototype.loadForm = function (uniqueids) {
+    loadForm(uniqueids) {
         var $form;
         $form = this.openForm('EDIT');
         $form.find('div.fwformfield[data-datafield="OrderId"] input').val(uniqueids.OrderId);
         FwModule.loadForm(this.Module, $form);
         return $form;
-    };
+    }
     ;
-    Order.prototype.saveForm = function ($form, parameters) {
+    saveForm($form, parameters) {
         FwModule.saveForm(this.Module, $form, parameters);
-    };
+    }
     ;
-    Order.prototype.renderGrids = function ($form) {
-        var _this = this;
+    renderGrids($form) {
         var $orderPickListGrid;
         var $orderPickListGridControl;
         var max = 9999;
@@ -320,9 +307,9 @@ var Order = (function (_super) {
             request.OrderId = FwFormField.getValueByDataField($form, 'OrderId');
             request.RecType = 'R';
         });
-        FwBrowse.addEventHandler($orderItemGridRentalControl, 'afterdatabindcallback', function () {
-            _this.calculateOrderItemGridTotals($form, 'rental');
-            var rentalItems = $form.find('.rentalgrid tbody').children();
+        FwBrowse.addEventHandler($orderItemGridRentalControl, 'afterdatabindcallback', () => {
+            this.calculateOrderItemGridTotals($form, 'rental');
+            let rentalItems = $form.find('.rentalgrid tbody').children();
             rentalItems.length > 0 ? FwFormField.disable($form.find('[data-datafield="Rental"]')) : FwFormField.enable($form.find('[data-datafield="Rental"]'));
         });
         FwBrowse.init($orderItemGridRentalControl);
@@ -348,9 +335,9 @@ var Order = (function (_super) {
             request.OrderId = FwFormField.getValueByDataField($form, 'OrderId');
             request.RecType = 'S';
         });
-        FwBrowse.addEventHandler($orderItemGridSalesControl, 'afterdatabindcallback', function () {
-            _this.calculateOrderItemGridTotals($form, 'sales');
-            var salesItems = $form.find('.salesgrid tbody').children();
+        FwBrowse.addEventHandler($orderItemGridSalesControl, 'afterdatabindcallback', () => {
+            this.calculateOrderItemGridTotals($form, 'sales');
+            let salesItems = $form.find('.salesgrid tbody').children();
             salesItems.length > 0 ? FwFormField.disable($form.find('[data-datafield="Sales"]')) : FwFormField.enable($form.find('[data-datafield="Sales"]'));
         });
         FwBrowse.init($orderItemGridSalesControl);
@@ -373,9 +360,9 @@ var Order = (function (_super) {
             request.OrderId = FwFormField.getValueByDataField($form, 'OrderId');
             request.RecType = 'L';
         });
-        FwBrowse.addEventHandler($orderItemGridLaborControl, 'afterdatabindcallback', function () {
-            _this.calculateOrderItemGridTotals($form, 'labor');
-            var laborItems = $form.find('.laborgrid tbody').children();
+        FwBrowse.addEventHandler($orderItemGridLaborControl, 'afterdatabindcallback', () => {
+            this.calculateOrderItemGridTotals($form, 'labor');
+            let laborItems = $form.find('.laborgrid tbody').children();
             laborItems.length > 0 ? FwFormField.disable($form.find('[data-datafield="Labor"]')) : FwFormField.enable($form.find('[data-datafield="Labor"]'));
         });
         FwBrowse.init($orderItemGridLaborControl);
@@ -398,9 +385,9 @@ var Order = (function (_super) {
             request.OrderId = FwFormField.getValueByDataField($form, 'OrderId');
             request.RecType = 'M';
         });
-        FwBrowse.addEventHandler($orderItemGridMiscControl, 'afterdatabindcallback', function () {
-            _this.calculateOrderItemGridTotals($form, 'misc');
-            var miscItems = $form.find('.miscgrid tbody').children();
+        FwBrowse.addEventHandler($orderItemGridMiscControl, 'afterdatabindcallback', () => {
+            this.calculateOrderItemGridTotals($form, 'misc');
+            let miscItems = $form.find('.miscgrid tbody').children();
             miscItems.length > 0 ? FwFormField.disable($form.find('[data-datafield="Miscellaneous"]')) : FwFormField.enable($form.find('[data-datafield="Miscellaneous"]'));
         });
         FwBrowse.init($orderItemGridMiscControl);
@@ -443,8 +430,8 @@ var Order = (function (_super) {
         $combinedOrderItemGridControl.data('beforesave', function (request) {
             request.OrderId = FwFormField.getValueByDataField($form, 'OrderId');
         });
-        FwBrowse.addEventHandler($combinedOrderItemGridControl, 'afterdatabindcallback', function () {
-            _this.calculateOrderItemGridTotals($form, 'combined');
+        FwBrowse.addEventHandler($combinedOrderItemGridControl, 'afterdatabindcallback', () => {
+            this.calculateOrderItemGridTotals($form, 'combined');
         });
         FwBrowse.init($combinedOrderItemGridControl);
         FwBrowse.renderRuntimeHtml($combinedOrderItemGridControl);
@@ -484,14 +471,14 @@ var Order = (function (_super) {
         jQuery($form.find('.laborgrid .valtype')).attr('data-validationname', 'LaborRateValidation');
         jQuery($form.find('.miscgrid .valtype')).attr('data-validationname', 'MiscRateValidation');
         jQuery($form.find('.usedsalegrid .valtype')).attr('data-validationname', 'RentalInventoryValidation');
-    };
+    }
     ;
-    Order.prototype.loadAudit = function ($form) {
+    loadAudit($form) {
         var uniqueid = FwFormField.getValueByDataField($form, 'OrderId');
         FwModule.loadAudit($form, uniqueid);
-    };
+    }
     ;
-    Order.prototype.afterLoad = function ($form) {
+    afterLoad($form) {
         var $orderPickListGrid;
         $orderPickListGrid = $form.find('[data-name="OrderPickListGrid"]');
         FwBrowse.search($orderPickListGrid);
@@ -582,7 +569,7 @@ var Order = (function (_super) {
             $form.find(".RentalDaysPerWeek").hide();
         }
         this.disableWithTaxCheckbox($form);
-        var rentalActivity = FwFormField.getValueByDataField($form, 'Rental'), usedSaleActivity = FwFormField.getValueByDataField($form, 'RentalSale'), usedSaleTab = $form.find('[data-type="tab"][data-caption="Used Sale"]');
+        let rentalActivity = FwFormField.getValueByDataField($form, 'Rental'), usedSaleActivity = FwFormField.getValueByDataField($form, 'RentalSale'), usedSaleTab = $form.find('[data-type="tab"][data-caption="Used Sale"]');
         if (rentalActivity) {
             FwFormField.disable($form.find('[data-datafield="RentalSale"]'));
             usedSaleTab.hide();
@@ -591,9 +578,9 @@ var Order = (function (_super) {
             FwFormField.disable($form.find('[data-datafield="Rental"]'));
             usedSaleTab.show();
         }
-    };
+    }
     ;
-    Order.prototype.cancelPickList = function (pickListId, pickListNumber, $form) {
+    cancelPickList(pickListId, pickListNumber, $form) {
         var $confirmation, $yes, $no;
         var orderId = FwFormField.getValueByDataField($form, 'OrderId');
         $confirmation = FwConfirmation.renderConfirmation('Cancel Pick List', '<div style="white-space:pre;">\n' +
@@ -618,47 +605,47 @@ var Order = (function (_super) {
                 }
             }, null, $form);
         });
-    };
+    }
     ;
-    Order.prototype.createSnapshotOrder = function ($form, event) {
-        var orderNumber, orderId, $orderSnapshotGrid;
+    createSnapshotOrder($form, event) {
+        let orderNumber, orderId, $orderSnapshotGrid;
         orderNumber = FwFormField.getValueByDataField($form, 'OrderNumber');
         orderId = FwFormField.getValueByDataField($form, 'OrderId');
         $orderSnapshotGrid = $form.find('[data-name="OrderSnapshotGrid"]');
-        var $confirmation, $yes, $no;
+        let $confirmation, $yes, $no;
         $confirmation = FwConfirmation.renderConfirmation('Create Snapshot', '');
         $confirmation.find('.fwconfirmationbox').css('width', '450px');
-        var html = [];
+        let html = [];
         html.push('<div class="fwform" data-controller="none" style="background-color: transparent;">');
         html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
-        html.push("    <div>Create a Snapshot for Order " + orderNumber + "?</div>");
+        html.push(`    <div>Create a Snapshot for Order ${orderNumber}?</div>`);
         html.push('  </div>');
         html.push('</div>');
         FwConfirmation.addControls($confirmation, html.join(''));
         $yes = FwConfirmation.addButton($confirmation, 'Create Snapshot', false);
         $no = FwConfirmation.addButton($confirmation, 'Cancel');
         $yes.on('click', createSnapshot);
-        var $confirmationbox = jQuery('.fwconfirmationbox');
+        let $confirmationbox = jQuery('.fwconfirmationbox');
         function createSnapshot() {
-            FwAppData.apiMethod(true, 'POST', "api/v1/order/createsnapshot/" + orderId, null, FwServices.defaultTimeout, function onSuccess(response) {
+            FwAppData.apiMethod(true, 'POST', `api/v1/order/createsnapshot/${orderId}`, null, FwServices.defaultTimeout, function onSuccess(response) {
                 FwNotification.renderNotification('SUCCESS', 'Snapshot Successfully Created.');
                 FwConfirmation.destroyConfirmation($confirmation);
-                $orderSnapshotGrid.data('ondatabind', function (request) {
+                $orderSnapshotGrid.data('ondatabind', request => {
                     request.uniqueids = {
                         OrderId: orderId,
                     };
                     request.pagesize = 10;
                     request.orderby = "OrderDate";
                 });
-                $orderSnapshotGrid.data('beforesave', function (request) {
+                $orderSnapshotGrid.data('beforesave', request => {
                     request.OrderId = orderId;
                 });
                 FwBrowse.search($orderSnapshotGrid);
             }, null, $confirmationbox);
         }
-    };
+    }
     ;
-    Order.prototype.afterSave = function ($form) {
+    afterSave($form) {
         if (this.CombineActivity === 'true') {
             $form.find('.combined').css('display', 'block');
             $form.find('.combinedtab').css('display', 'flex');
@@ -669,12 +656,11 @@ var Order = (function (_super) {
             $form.find('.notcombinedtab').css('display', 'flex');
             $form.find('.generaltab').click();
         }
-    };
-    return Order;
-}(OrderBase));
+    }
+}
 ;
 FwApplicationTree.clickEvents['{AB1D12DC-40F6-4DF2-B405-54A0C73149EA}'] = function (event) {
-    var $form;
+    let $form;
     $form = jQuery(this).closest('.fwform');
     try {
         OrderController.createSnapshotOrder($form, event);
@@ -724,7 +710,7 @@ FwApplicationTree.clickEvents['{E25CB084-7E7F-4336-9512-36B7271AC151}'] = functi
     }
 };
 FwApplicationTree.clickEvents['{6B644862-9030-4D42-A29B-30C8DAC29D3E}'] = function (event) {
-    var $form;
+    let $form;
     $form = jQuery(this).closest('.fwform');
     try {
         OrderController.cancelUncancelOrder($form);
@@ -750,7 +736,7 @@ FwApplicationTree.clickEvents['{CF245A59-3336-42BC-8CCB-B88807A9D4EA}'] = functi
     }
 };
 FwApplicationTree.clickEvents['{771DCE59-EB57-48B2-B189-177B414A4ED3}'] = function (event) {
-    var $form, $stagingCheckoutForm;
+    let $form, $stagingCheckoutForm;
     try {
         $form = jQuery(this).closest('.fwform');
         var mode = 'EDIT';
@@ -769,7 +755,7 @@ FwApplicationTree.clickEvents['{771DCE59-EB57-48B2-B189-177B414A4ED3}'] = functi
     }
 };
 FwApplicationTree.clickEvents['{B2D127C6-A1C2-4697-8F3B-9A678F3EAEEE}'] = function (e) {
-    var search, $form, orderId, $popup;
+    let search, $form, orderId, $popup;
     $form = jQuery(this).closest('.fwform');
     orderId = FwFormField.getValueByDataField($form, 'OrderId');
     if (orderId == "") {
@@ -791,7 +777,7 @@ FwApplicationTree.clickEvents['{F2FD2F4C-1AB7-4627-9DD5-1C8DB96C5509}'] = functi
     }
 };
 FwApplicationTree.clickEvents['{BC467EF9-F255-4F51-A6F2-57276D8824A3}'] = function (event) {
-    var $browse, $form;
+    let $browse, $form;
     $browse = jQuery(this).closest('.fwbrowse');
     $form = jQuery(this).closest('.fwform');
     try {
@@ -807,7 +793,7 @@ FwApplicationTree.clickEvents['{BC467EF9-F255-4F51-A6F2-57276D8824A3}'] = functi
     }
 };
 FwApplicationTree.clickEvents['{E2DF5CB4-CD18-42A0-AE7C-18C18E6C4646}'] = function (event) {
-    var $browse, $form;
+    let $browse, $form;
     $browse = jQuery(this).closest('.fwbrowse');
     $form = jQuery(this).closest('.fwform');
     try {
@@ -823,7 +809,7 @@ FwApplicationTree.clickEvents['{E2DF5CB4-CD18-42A0-AE7C-18C18E6C4646}'] = functi
     }
 };
 FwApplicationTree.clickEvents['{D27AD4E7-E924-47D1-AF6E-992B92F5A647}'] = function (event) {
-    var $form;
+    let $form;
     $form = jQuery(this).closest('.fwform');
     try {
         if ($form.attr('data-controller') === 'OrderController') {
@@ -838,7 +824,7 @@ FwApplicationTree.clickEvents['{D27AD4E7-E924-47D1-AF6E-992B92F5A647}'] = functi
     }
 };
 FwApplicationTree.clickEvents['{DAE6DC23-A2CA-4E36-8214-72351C4E1449}'] = function (event) {
-    var $confirmation, $yes, $no, $browse, orderId, orderStatus;
+    let $confirmation, $yes, $no, $browse, orderId, orderStatus;
     $browse = jQuery(this).closest('.fwbrowse');
     orderId = $browse.find('.selected [data-browsedatafield="OrderId"]').attr('data-originalvalue');
     orderStatus = $browse.find('.selected [data-formdatafield="Status"]').attr('data-originalvalue');
@@ -847,7 +833,7 @@ FwApplicationTree.clickEvents['{DAE6DC23-A2CA-4E36-8214-72351C4E1449}'] = functi
             if (orderStatus === "CANCELLED") {
                 $confirmation = FwConfirmation.renderConfirmation('Cancel', '');
                 $confirmation.find('.fwconfirmationbox').css('width', '450px');
-                var html = [];
+                let html = [];
                 html.push('<div class="fwform" data-controller="none" style="background-color: transparent;">');
                 html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
                 html.push('    <div>Would you like to un-cancel this Order?</div>');
@@ -861,7 +847,7 @@ FwApplicationTree.clickEvents['{DAE6DC23-A2CA-4E36-8214-72351C4E1449}'] = functi
             else {
                 $confirmation = FwConfirmation.renderConfirmation('Cancel', '');
                 $confirmation.find('.fwconfirmationbox').css('width', '450px');
-                var html = [];
+                let html = [];
                 html.push('<div class="fwform" data-controller="none" style="background-color: transparent;">');
                 html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
                 html.push('    <div>Would you like to cancel this Order?</div>');
@@ -873,12 +859,12 @@ FwApplicationTree.clickEvents['{DAE6DC23-A2CA-4E36-8214-72351C4E1449}'] = functi
                 $yes.on('click', cancelOrder);
             }
             function cancelOrder() {
-                var request = {};
+                let request = {};
                 FwFormField.disable($confirmation.find('.fwformfield'));
                 FwFormField.disable($yes);
                 $yes.text('Canceling...');
                 $yes.off('click');
-                FwAppData.apiMethod(true, 'POST', "api/v1/order/cancel/" + orderId, request, FwServices.defaultTimeout, function onSuccess(response) {
+                FwAppData.apiMethod(true, 'POST', `api/v1/order/cancel/${orderId}`, request, FwServices.defaultTimeout, function onSuccess(response) {
                     FwNotification.renderNotification('SUCCESS', 'Order Successfully Canceled');
                     FwConfirmation.destroyConfirmation($confirmation);
                     FwBrowse.databind($browse);
@@ -893,12 +879,12 @@ FwApplicationTree.clickEvents['{DAE6DC23-A2CA-4E36-8214-72351C4E1449}'] = functi
             }
             ;
             function uncancelOrder() {
-                var request = {};
+                let request = {};
                 FwFormField.disable($confirmation.find('.fwformfield'));
                 FwFormField.disable($yes);
                 $yes.text('Retrieving...');
                 $yes.off('click');
-                FwAppData.apiMethod(true, 'POST', "api/v1/order/uncancel/" + orderId, request, FwServices.defaultTimeout, function onSuccess(response) {
+                FwAppData.apiMethod(true, 'POST', `api/v1/order/uncancel/${orderId}`, request, FwServices.defaultTimeout, function onSuccess(response) {
                     FwNotification.renderNotification('SUCCESS', 'Order Successfully Retrieved');
                     FwConfirmation.destroyConfirmation($confirmation);
                     FwBrowse.databind($browse);

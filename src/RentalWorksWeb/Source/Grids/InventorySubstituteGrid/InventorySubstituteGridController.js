@@ -1,15 +1,14 @@
-var InventorySubstituteGrid = (function () {
-    function InventorySubstituteGrid() {
+class InventorySubstituteGrid {
+    constructor() {
         this.Module = 'InventorySubstituteGrid';
         this.apiurl = 'api/v1/inventorysubstitute';
     }
-    InventorySubstituteGrid.prototype.generateRow = function ($control, $generatedtr) {
+    generateRow($control, $generatedtr) {
         $generatedtr.find('div[data-browsedatafield="InventoryId"]').data('onchange', function ($tr) {
             $generatedtr.find('.field[data-browsedatafield="Description"]').text($tr.find('.field[data-browsedatafield="Description"]').attr('data-originalvalue'));
         });
-    };
+    }
     ;
-    return InventorySubstituteGrid;
-}());
+}
 var InventorySubstituteGridController = new InventorySubstituteGrid();
 //# sourceMappingURL=InventorySubstituteGridController.js.map

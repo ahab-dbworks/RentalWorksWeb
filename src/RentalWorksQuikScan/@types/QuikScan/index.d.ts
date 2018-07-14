@@ -1,18 +1,5 @@
-﻿declare var masterController: WebMaster;
-declare var FwAudit: any;
-declare var FwCharge: any;
-declare var FwContextMenu: any;
-declare var FwLanguages: any;
-declare var FwMenu: any;
-declare var FwMobileMasterController: any;
-declare var FwSecurity: any;
-declare var FwServices: any;
-declare var FwTabs: any;
-declare var FwValidation: any;
-
-declare var applicationConfig: any;
+﻿declare var applicationConfig: any;
 declare var FastClick: any;
-declare var cdvapp;
 
 declare var RwAccountController: any;
 declare var RwConstants: any;
@@ -37,5 +24,3 @@ declare var PhysicalInventory: any;
 declare var ReceiveOnSet: any;
 declare var TimeLog: any;
 
-declare var DTDevices: any;
-declare var TslReader: any;

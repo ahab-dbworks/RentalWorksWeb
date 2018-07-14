@@ -1,15 +1,14 @@
-var InventoryCompleteGrid = (function () {
-    function InventoryCompleteGrid() {
+class InventoryCompleteGrid {
+    constructor() {
         this.Module = 'InventoryCompleteGrid';
         this.apiurl = 'api/v1/inventorypackageinventory';
     }
-    InventoryCompleteGrid.prototype.generateRow = function ($control, $generatedtr) {
+    generateRow($control, $generatedtr) {
         $generatedtr.find('div[data-browsedatafield="InventoryId"]').data('onchange', function ($tr) {
             $generatedtr.find('.field[data-browsedatafield="Description"] input').val($tr.find('.field[data-browsedatafield="Description"]').attr('data-originalvalue'));
         });
-    };
+    }
     ;
-    return InventoryCompleteGrid;
-}());
+}
 var InventoryCompleteGridController = new InventoryCompleteGrid();
 //# sourceMappingURL=InventoryCompleteGridController.js.map

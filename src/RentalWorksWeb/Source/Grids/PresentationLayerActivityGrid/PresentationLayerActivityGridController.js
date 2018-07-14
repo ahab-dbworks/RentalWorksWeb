@@ -1,9 +1,8 @@
-var PresentationLayerActivityGrid = (function () {
-    function PresentationLayerActivityGrid() {
+class PresentationLayerActivityGrid {
+    constructor() {
         this.Module = 'PresentationLayerActivityGrid';
         this.apiurl = 'api/v1/presentationlayeractivity';
     }
-    return PresentationLayerActivityGrid;
-}());
+}
 var PresentationLayerActivityGridController = new PresentationLayerActivityGrid();
 //# sourceMappingURL=PresentationLayerActivityGridController.js.map

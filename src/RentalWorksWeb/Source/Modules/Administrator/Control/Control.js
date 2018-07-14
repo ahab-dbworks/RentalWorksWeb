@@ -1,9 +1,9 @@
-var Control = (function () {
-    function Control() {
+class Control {
+    constructor() {
         this.Module = 'Control';
         this.apiurl = 'api/v1/control';
     }
-    Control.prototype.getModuleScreen = function () {
+    getModuleScreen() {
         var screen, $browse;
         screen = {};
         screen.$view = FwModule.getModuleControl(this.Module + 'Controller');
@@ -19,14 +19,14 @@ var Control = (function () {
             FwBrowse.screenunload($browse);
         };
         return screen;
-    };
-    Control.prototype.openBrowse = function () {
+    }
+    openBrowse() {
         var $browse;
         $browse = jQuery(jQuery('#tmpl-modules-' + this.Module + 'Browse').html());
         $browse = FwModule.openBrowse($browse);
         return $browse;
-    };
-    Control.prototype.openForm = function (mode) {
+    }
+    openForm(mode) {
         var $form;
         $form = jQuery(jQuery('#tmpl-modules-' + this.Module + 'Form').html());
         $form = FwModule.openForm($form, mode);
@@ -37,25 +37,24 @@ var Control = (function () {
             FwFormField.disable($form.find('.ifnew'));
         }
         return $form;
-    };
-    Control.prototype.loadForm = function (uniqueids) {
+    }
+    loadForm(uniqueids) {
         var $form;
         $form = this.openForm('EDIT');
         $form.find('div.fwformfield[data-datafield="ControlId"] input').val(uniqueids.ControlId);
         FwModule.loadForm(this.Module, $form);
         return $form;
-    };
-    Control.prototype.saveForm = function ($form, parameters) {
+    }
+    saveForm($form, parameters) {
         FwModule.saveForm(this.Module, $form, parameters);
-    };
-    Control.prototype.loadAudit = function ($form) {
+    }
+    loadAudit($form) {
         var uniqueid;
         uniqueid = $form.find('div.fwformfield[data-datafield="ControlId"] input').val();
         FwModule.loadAudit($form, uniqueid);
-    };
-    Control.prototype.afterLoad = function ($form) {
-    };
-    return Control;
-}());
+    }
+    afterLoad($form) {
+    }
+}
 var ControlController = new Control();
 //# sourceMappingURL=Control.js.map

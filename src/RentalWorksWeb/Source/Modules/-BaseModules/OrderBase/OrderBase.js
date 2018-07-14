@@ -1,16 +1,16 @@
-var OrderBase = (function () {
-    function OrderBase() {
+class OrderBase {
+    constructor() {
         this.ActiveView = 'ALL';
     }
-    OrderBase.prototype.renderFrames = function ($form) {
-        var id = FwFormField.getValueByDataField($form, this.Module + "Id");
+    renderFrames($form) {
+        let id = FwFormField.getValueByDataField($form, `${this.Module}Id`);
         $form.find('.frame input').css('width', '100%');
-        FwAppData.apiMethod(true, 'GET', "api/v1/ordersummary/" + id, null, FwServices.defaultTimeout, function onSuccess(response) {
+        FwAppData.apiMethod(true, 'GET', `api/v1/ordersummary/${id}`, null, FwServices.defaultTimeout, function onSuccess(response) {
             var key;
             for (key in response) {
                 if (response.hasOwnProperty(key)) {
-                    $form.find("[data-framedatafield=\"" + key + "\"] input").val(response[key]);
-                    $form.find("[data-framedatafield=\"" + key + "\"]").attr('data-originalvalue', response[key]);
+                    $form.find(`[data-framedatafield="${key}"] input`).val(response[key]);
+                    $form.find(`[data-framedatafield="${key}"]`).attr('data-originalvalue', response[key]);
                 }
             }
             var $profitFrames = $form.find('.profitframes .frame');
@@ -33,9 +33,9 @@ var OrderBase = (function () {
         }, null, null);
         FwFormField.disable($form.find('.frame'));
         $form.find(".frame .add-on").children().hide();
-    };
+    }
     ;
-    OrderBase.prototype.dynamicColumns = function ($form) {
+    dynamicColumns($form) {
         var orderType = FwFormField.getValueByDataField($form, "OrderTypeId"), $rentalGrid = $form.find('.rentalgrid [data-name="OrderItemGrid"]'), $salesGrid = $form.find('.salesgrid [data-name="OrderItemGrid"]'), $laborGrid = $form.find('.laborgrid [data-name="OrderItemGrid"]'), $miscGrid = $form.find('.miscgrid [data-name="OrderItemGrid"]'), $usedSaleGrid = $form.find('.usedsalegrid [data-name="OrderItemGrid"]'), fields = jQuery($rentalGrid).find('thead tr.fieldnames > td.column > div.field'), fieldNames = [];
         for (var i = 3; i < fields.length; i++) {
             var name = jQuery(fields[i]).attr('data-mappedfield');
@@ -45,7 +45,7 @@ var OrderBase = (function () {
         }
         FwAppData.apiMethod(true, 'GET', "api/v1/ordertype/" + orderType, null, FwServices.defaultTimeout, function onSuccess(response) {
             $form.find('[data-datafield="CombineActivity"] input').val(response.CombineActivityTabs);
-            var rentalTab = $form.find('[data-type="tab"][data-caption="Rental"]'), salesTab = $form.find('[data-type="tab"][data-caption="Sales"]'), miscTab = $form.find('[data-type="tab"][data-caption="Misc"]'), laborTab = $form.find('[data-type="tab"][data-caption="Labor"]'), usedSaleTab = $form.find('[data-type="tab"][data-caption="Used Sale"]');
+            let rentalTab = $form.find('[data-type="tab"][data-caption="Rental"]'), salesTab = $form.find('[data-type="tab"][data-caption="Sales"]'), miscTab = $form.find('[data-type="tab"][data-caption="Misc"]'), laborTab = $form.find('[data-type="tab"][data-caption="Labor"]'), usedSaleTab = $form.find('[data-type="tab"][data-caption="Used Sale"]');
             if (response.CombineActivityTabs === false) {
                 $form.find('[data-datafield="Rental"] input').prop('checked') ? rentalTab.show() : rentalTab.hide();
                 $form.find('[data-datafield="Sales"] input').prop('checked') ? salesTab.show() : salesTab.hide();
@@ -95,11 +95,11 @@ var OrderBase = (function () {
                 $rentalGrid.find('.3weekextended').parent().show();
             }
         }, null, null);
-    };
+    }
     ;
-    OrderBase.prototype.activityCheckboxEvents = function ($form, mode) {
-        var rentalTab = $form.find('[data-type="tab"][data-caption="Rental"]'), salesTab = $form.find('[data-type="tab"][data-caption="Sales"]'), miscTab = $form.find('[data-type="tab"][data-caption="Misc"]'), laborTab = $form.find('[data-type="tab"][data-caption="Labor"]'), usedSaleTab = $form.find('[data-type="tab"][data-caption="Used Sale"]');
-        $form.find('[data-datafield="Rental"] input').on('change', function (e) {
+    activityCheckboxEvents($form, mode) {
+        let rentalTab = $form.find('[data-type="tab"][data-caption="Rental"]'), salesTab = $form.find('[data-type="tab"][data-caption="Sales"]'), miscTab = $form.find('[data-type="tab"][data-caption="Misc"]'), laborTab = $form.find('[data-type="tab"][data-caption="Labor"]'), usedSaleTab = $form.find('[data-type="tab"][data-caption="Used Sale"]');
+        $form.find('[data-datafield="Rental"] input').on('change', e => {
             if (mode == "NEW") {
                 if (jQuery(e.currentTarget).prop('checked')) {
                     rentalTab.show();
@@ -111,7 +111,7 @@ var OrderBase = (function () {
                 }
             }
             else {
-                var combineActivity = $form.find('[data-datafield="CombineActivity"] input').val();
+                let combineActivity = $form.find('[data-datafield="CombineActivity"] input').val();
                 if (combineActivity == 'false') {
                     if (jQuery(e.currentTarget).prop('checked')) {
                         rentalTab.show();
@@ -124,7 +124,7 @@ var OrderBase = (function () {
                 }
             }
         });
-        $form.find('[data-datafield="Sales"] input').on('change', function (e) {
+        $form.find('[data-datafield="Sales"] input').on('change', e => {
             if (mode == "NEW") {
                 if (jQuery(e.currentTarget).prop('checked')) {
                     salesTab.show();
@@ -134,7 +134,7 @@ var OrderBase = (function () {
                 }
             }
             else {
-                var combineActivity = $form.find('[data-datafield="CombineActivity"] input').val();
+                let combineActivity = $form.find('[data-datafield="CombineActivity"] input').val();
                 if (combineActivity == 'false') {
                     if (jQuery(e.currentTarget).prop('checked')) {
                         salesTab.show();
@@ -145,7 +145,7 @@ var OrderBase = (function () {
                 }
             }
         });
-        $form.find('[data-datafield="Miscellaneous"] input').on('change', function (e) {
+        $form.find('[data-datafield="Miscellaneous"] input').on('change', e => {
             if (mode == "NEW") {
                 if (jQuery(e.currentTarget).prop('checked')) {
                     miscTab.show();
@@ -155,7 +155,7 @@ var OrderBase = (function () {
                 }
             }
             else {
-                var combineActivity = $form.find('[data-datafield="CombineActivity"] input').val();
+                let combineActivity = $form.find('[data-datafield="CombineActivity"] input').val();
                 if (combineActivity == 'false') {
                     if (jQuery(e.currentTarget).prop('checked')) {
                         miscTab.show();
@@ -166,7 +166,7 @@ var OrderBase = (function () {
                 }
             }
         });
-        $form.find('[data-datafield="Labor"] input').on('change', function (e) {
+        $form.find('[data-datafield="Labor"] input').on('change', e => {
             if (mode == "NEW") {
                 if (jQuery(e.currentTarget).prop('checked')) {
                     laborTab.show();
@@ -176,7 +176,7 @@ var OrderBase = (function () {
                 }
             }
             else {
-                var combineActivity = $form.find('[data-datafield="CombineActivity"] input').val();
+                let combineActivity = $form.find('[data-datafield="CombineActivity"] input').val();
                 if (combineActivity == 'false') {
                     if (jQuery(e.currentTarget).prop('checked')) {
                         laborTab.show();
@@ -187,7 +187,7 @@ var OrderBase = (function () {
                 }
             }
         });
-        $form.find('[data-datafield="RentalSale"] input').on('change', function (e) {
+        $form.find('[data-datafield="RentalSale"] input').on('change', e => {
             if (mode == "NEW") {
                 if (jQuery(e.currentTarget).prop('checked')) {
                     usedSaleTab.show();
@@ -199,7 +199,7 @@ var OrderBase = (function () {
                 }
             }
             else {
-                var combineActivity = $form.find('[data-datafield="CombineActivity"] input').val();
+                let combineActivity = $form.find('[data-datafield="CombineActivity"] input').val();
                 if (combineActivity == 'false') {
                     if (jQuery(e.currentTarget).prop('checked')) {
                         usedSaleTab.show();
@@ -212,13 +212,13 @@ var OrderBase = (function () {
                 }
             }
         });
-    };
-    OrderBase.prototype.copyOrderOrQuote = function ($form) {
-        var $confirmation, $yes, $no, module;
+    }
+    copyOrderOrQuote($form) {
+        let $confirmation, $yes, $no, module;
         module = this.Module;
-        $confirmation = FwConfirmation.renderConfirmation("Copy " + module, '');
+        $confirmation = FwConfirmation.renderConfirmation(`Copy ${module}`, '');
         $confirmation.find('.fwconfirmationbox').css('width', '450px');
-        var html = [];
+        let html = [];
         html.push('<div class="fwform" data-controller="none" style="background-color: transparent;">');
         html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
         html.push('    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Type" data-datafield="" style="width:90px;float:left;"></div>');
@@ -241,12 +241,12 @@ var OrderBase = (function () {
         html.push('    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Combine Subs" data-datafield="CombineSubs"></div>');
         html.push('    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Copy Documents" data-datafield="CopyDocuments"></div>');
         html.push('</div>');
-        var copyConfirmation = html.join('');
-        var orderId = FwFormField.getValueByDataField($form, module + "Id");
+        let copyConfirmation = html.join('');
+        let orderId = FwFormField.getValueByDataField($form, `${module}Id`);
         FwConfirmation.addControls($confirmation, html.join(''));
-        var orderNumber, deal, description, dealId;
+        let orderNumber, deal, description, dealId;
         $confirmation.find('div[data-caption="Type"] input').val(module);
-        orderNumber = FwFormField.getValueByDataField($form, module + "Number");
+        orderNumber = FwFormField.getValueByDataField($form, `${module}Number`);
         $confirmation.find('div[data-caption="No"] input').val(orderNumber);
         deal = $form.find('[data-datafield="DealId"] input.fwformfield-text').val();
         $confirmation.find('div[data-caption="Deal"] input').val(deal);
@@ -268,7 +268,7 @@ var OrderBase = (function () {
         $no = FwConfirmation.addButton($confirmation, 'Cancel');
         $yes.on('click', makeACopy);
         function makeACopy() {
-            var request = {};
+            let request = {};
             request.CopyToType = $confirmation.find('[data-type="radio"] input:checked').val();
             request.CopyToDealId = FwFormField.getValueByDataField($confirmation, 'CopyToDealId');
             request.CopyRatesFromInventory = FwFormField.getValueByDataField($confirmation, 'CopyRatesFromInventory');
@@ -296,8 +296,8 @@ var OrderBase = (function () {
             $yes.text('Copying...');
             $yes.off('click');
             var $confirmationbox = jQuery('.fwconfirmationbox');
-            FwAppData.apiMethod(true, 'POST', "api/v1/" + module + "/copy/" + orderId, request, FwServices.defaultTimeout, function onSuccess(response) {
-                FwNotification.renderNotification('SUCCESS', module + " Successfully Copied");
+            FwAppData.apiMethod(true, 'POST', `api/v1/${module}/copy/${orderId}`, request, FwServices.defaultTimeout, function onSuccess(response) {
+                FwNotification.renderNotification('SUCCESS', `${module} Successfully Copied`);
                 FwConfirmation.destroyConfirmation($confirmation);
                 var uniqueids = {};
                 if (request.CopyToType == "O") {
@@ -318,10 +318,10 @@ var OrderBase = (function () {
             }, $confirmationbox);
         }
         ;
-    };
+    }
     ;
-    OrderBase.prototype.beforeValidateOutShipVia = function ($browse, $grid, request) {
-        var validationName = request.module, outDeliveryCarrierId = jQuery($grid.find('[data-datafield="OutDeliveryCarrierId"] input')).val();
+    beforeValidateOutShipVia($browse, $grid, request) {
+        let validationName = request.module, outDeliveryCarrierId = jQuery($grid.find('[data-datafield="OutDeliveryCarrierId"] input')).val();
         switch (validationName) {
             case 'ShipViaValidation':
                 request.uniqueids = {
@@ -329,11 +329,11 @@ var OrderBase = (function () {
                 };
                 break;
         }
-    };
+    }
     ;
-    OrderBase.prototype.beforeValidateInShipVia = function ($browse, $grid, request) {
-        var validationName = request.module;
-        var inDeliveryCarrierId = jQuery($grid.find('[data-datafield="InDeliveryCarrierId"] input')).val();
+    beforeValidateInShipVia($browse, $grid, request) {
+        let validationName = request.module;
+        let inDeliveryCarrierId = jQuery($grid.find('[data-datafield="InDeliveryCarrierId"] input')).val();
         switch (validationName) {
             case 'ShipViaValidation':
                 request.uniqueids = {
@@ -341,10 +341,10 @@ var OrderBase = (function () {
                 };
                 break;
         }
-    };
+    }
     ;
-    OrderBase.prototype.beforeValidateCarrier = function ($browse, $grid, request) {
-        var validationName = request.module;
+    beforeValidateCarrier($browse, $grid, request) {
+        let validationName = request.module;
         switch (validationName) {
             case 'VendorValidation':
                 request.uniqueids = {
@@ -352,20 +352,20 @@ var OrderBase = (function () {
                 };
                 break;
         }
-    };
+    }
     ;
-    OrderBase.prototype.beforeValidate = function ($browse, $grid, request) {
-        var $form = $grid.closest('.fwform');
+    beforeValidate($browse, $grid, request) {
+        let $form = $grid.closest('.fwform');
         var officeLocationId = FwFormField.getValueByDataField($form, 'OfficeLocationId');
         request.uniqueids = {
             LocationId: officeLocationId
         };
-    };
+    }
     ;
-    OrderBase.prototype.beforeValidateMarketSegment = function ($browse, $grid, request) {
-        var validationName = request.module;
-        var marketTypeValue = jQuery($grid.find('[data-validationname="MarketTypeValidation"] input')).val();
-        var marketSegmentValue = jQuery($grid.find('[data-validationname="MarketSegmentValidation"] input')).val();
+    beforeValidateMarketSegment($browse, $grid, request) {
+        const validationName = request.module;
+        const marketTypeValue = jQuery($grid.find('[data-validationname="MarketTypeValidation"] input')).val();
+        const marketSegmentValue = jQuery($grid.find('[data-validationname="MarketSegmentValidation"] input')).val();
         switch (validationName) {
             case 'MarketSegmentValidation':
                 if (marketTypeValue !== "") {
@@ -384,54 +384,53 @@ var OrderBase = (function () {
                 }
         }
         ;
-    };
+    }
     ;
-    OrderBase.prototype.events = function ($form) {
-        var _this = this;
-        var weeklyType = $form.find(".weeklyType");
-        var monthlyType = $form.find(".monthlyType");
-        var rentalDaysPerWeek = $form.find(".RentalDaysPerWeek");
-        var billingMonths = $form.find(".BillingMonths");
-        var billingWeeks = $form.find(".BillingWeeks");
-        $form.find('div[data-datafield="TaxOptionId"]').data('onchange', function ($tr) {
+    events($form) {
+        let weeklyType = $form.find(".weeklyType");
+        let monthlyType = $form.find(".monthlyType");
+        let rentalDaysPerWeek = $form.find(".RentalDaysPerWeek");
+        let billingMonths = $form.find(".BillingMonths");
+        let billingWeeks = $form.find(".BillingWeeks");
+        $form.find('div[data-datafield="TaxOptionId"]').data('onchange', $tr => {
             FwFormField.setValue($form, 'div[data-datafield="RentalTaxRate1"]', $tr.find('.field[data-browsedatafield="RentalTaxRate1"]').attr('data-originalvalue'));
             FwFormField.setValue($form, 'div[data-datafield="SalesTaxRate1"]', $tr.find('.field[data-browsedatafield="SalesTaxRate1"]').attr('data-originalvalue'));
             FwFormField.setValue($form, 'div[data-datafield="LaborTaxRate1"]', $tr.find('.field[data-browsedatafield="LaborTaxRate1"]').attr('data-originalvalue'));
         });
-        $form.find('div[data-datafield="MarketSegmentJobId"]').data('onchange', function ($tr) {
+        $form.find('div[data-datafield="MarketSegmentJobId"]').data('onchange', $tr => {
             FwFormField.setValue($form, 'div[data-datafield="MarketTypeId"]', $tr.find('.field[data-browsedatafield="MarketTypeId"]').attr('data-originalvalue'), $tr.find('.field[data-browsedatafield="MarketType"]').attr('data-originalvalue'));
             FwFormField.setValue($form, 'div[data-datafield="MarketSegmentId"]', $tr.find('.field[data-browsedatafield="MarketSegmentId"]').attr('data-originalvalue'), $tr.find('.field[data-browsedatafield="MarketSegment"]').attr('data-originalvalue'));
         });
-        $form.find('div[data-datafield="MarketSegmentId"]').data('onchange', function ($tr) {
+        $form.find('div[data-datafield="MarketSegmentId"]').data('onchange', $tr => {
             FwFormField.setValue($form, 'div[data-datafield="MarketTypeId"]', $tr.find('.field[data-browsedatafield="MarketTypeId"]').attr('data-originalvalue'), $tr.find('.field[data-browsedatafield="MarketType"]').attr('data-originalvalue'));
             FwFormField.setValue($form, 'div[data-datafield="MarketSegmentJobId"]', $tr.find('.field[data-browsedatafield="MarketSegmentJobId"]').attr('data-originalvalue'), $tr.find('.field[data-browsedatafield="MarketSegmentJob"]').attr('data-originalvalue'));
         });
-        $form.find('[data-datafield="MarketTypeId"] input').on('change', function (event) {
+        $form.find('[data-datafield="MarketTypeId"] input').on('change', event => {
             FwFormField.setValueByDataField($form, 'MarketSegmentId', '');
             FwFormField.setValueByDataField($form, 'MarketSegmentJobId', '');
         });
-        $form.find('[data-datafield="MarketSegmentId"] input').on('change', function (event) {
+        $form.find('[data-datafield="MarketSegmentId"] input').on('change', event => {
             FwFormField.setValueByDataField($form, 'MarketSegmentJobId', '');
         });
-        $form.find('.bottom_line_total_tax').on('change', function (event) {
-            _this.bottomLineTotalWithTaxChange($form, event);
+        $form.find('.bottom_line_total_tax').on('change', event => {
+            this.bottomLineTotalWithTaxChange($form, event);
         });
-        $form.find('.bottom_line_discount').on('change', function (event) {
-            _this.bottomLineDiscountChange($form, event);
+        $form.find('.bottom_line_discount').on('change', event => {
+            this.bottomLineDiscountChange($form, event);
         });
-        $form.find('.RentalDaysPerWeek').on('change', '.fwformfield-text, .fwformfield-value', function (event) {
-            var request = {}, $orderItemGridRental = $form.find('.rentalgrid [data-name="OrderItemGrid"]'), module = _this.Module, orderId = FwFormField.getValueByDataField($form, module + "Id"), daysperweek = FwFormField.getValueByDataField($form, 'RentalDaysPerWeek');
+        $form.find('.RentalDaysPerWeek').on('change', '.fwformfield-text, .fwformfield-value', event => {
+            let request = {}, $orderItemGridRental = $form.find('.rentalgrid [data-name="OrderItemGrid"]'), module = this.Module, orderId = FwFormField.getValueByDataField($form, `${module}Id`), daysperweek = FwFormField.getValueByDataField($form, 'RentalDaysPerWeek');
             request.DaysPerWeek = parseFloat(daysperweek);
             request.RecType = 'R';
             request.OrderId = orderId;
-            FwAppData.apiMethod(true, 'POST', "api/v1/" + module + "/applybottomlinedaysperweek/", request, FwServices.defaultTimeout, function onSuccess(response) {
+            FwAppData.apiMethod(true, 'POST', `api/v1/${module}/applybottomlinedaysperweek/`, request, FwServices.defaultTimeout, function onSuccess(response) {
                 FwBrowse.search($orderItemGridRental);
             }, function onError(response) {
                 FwFunc.showError(response);
             }, $form);
         });
-        $form.find('.RateType').on('change', function ($tr) {
-            var rateType = FwFormField.getValueByDataField($form, 'RateType');
+        $form.find('.RateType').on('change', $tr => {
+            let rateType = FwFormField.getValueByDataField($form, 'RateType');
             switch (rateType) {
                 case 'DAILY':
                     weeklyType.show();
@@ -486,17 +485,17 @@ var OrderBase = (function () {
                 FwFormField.enable($form.find('[data-datafield="PoAmount"]'));
             }
         });
-        $form.find('.pick_date_validation').on('changeDate', function (event) {
-            _this.checkDateRangeForPick($form, event);
+        $form.find('.pick_date_validation').on('changeDate', event => {
+            this.checkDateRangeForPick($form, event);
         });
-        $form.find('.billing_start_date').on('changeDate', function (event) {
-            _this.adjustWeekorMonthBillingField($form, event);
+        $form.find('.billing_start_date').on('changeDate', event => {
+            this.adjustWeekorMonthBillingField($form, event);
         });
-        $form.find('.billing_end_date').on('changeDate', function (event) {
-            _this.adjustWeekorMonthBillingField($form, event);
+        $form.find('.billing_end_date').on('changeDate', event => {
+            this.adjustWeekorMonthBillingField($form, event);
         });
-        $form.find('.week_or_month_field').on('change', function (event) {
-            _this.adjustBillingEndDate($form, event);
+        $form.find('.week_or_month_field').on('change', event => {
+            this.adjustBillingEndDate($form, event);
         });
         $form.find('[data-datafield="BillToAddressDifferentFromIssuedToAddress"] .fwformfield-value').on('change', function () {
             var $this = jQuery(this);
@@ -510,8 +509,8 @@ var OrderBase = (function () {
         $form.find('div[data-datafield="OrderTypeId"]').data('onchange', function ($tr) {
             this.CombineActivity = $tr.find('.field[data-browsedatafield="CombineActivityTabs"]').attr('data-originalvalue');
             $form.find('[data-datafield="CombineActivity"] input').val(this.CombineActivity);
-            var rentalTab = $form.find('[data-type="tab"][data-caption="Rental"]'), salesTab = $form.find('[data-type="tab"][data-caption="Sales"]'), miscTab = $form.find('[data-type="tab"][data-caption="Misc"]'), laborTab = $form.find('[data-type="tab"][data-caption="Labor"]');
-            var combineActivity = $form.find('[data-datafield="CombineActivity"] input').val();
+            let rentalTab = $form.find('[data-type="tab"][data-caption="Rental"]'), salesTab = $form.find('[data-type="tab"][data-caption="Sales"]'), miscTab = $form.find('[data-type="tab"][data-caption="Misc"]'), laborTab = $form.find('[data-type="tab"][data-caption="Labor"]');
+            let combineActivity = $form.find('[data-datafield="CombineActivity"] input').val();
             if (combineActivity == "true") {
                 $form.find('.notcombinedtab').hide();
                 $form.find('.combinedtab').show();
@@ -525,7 +524,7 @@ var OrderBase = (function () {
             }
         });
         $form.find('[data-datafield="NoCharge"] .fwformfield-value').on('change', function () {
-            var $this = jQuery(this);
+            let $this = jQuery(this);
             if ($this.prop('checked') === true) {
                 FwFormField.enable($form.find('[data-datafield="NoChargeReason"]'));
             }
@@ -543,12 +542,12 @@ var OrderBase = (function () {
             FwFormField.setValue($form, 'div[data-datafield="CurrencyId"]', $tr.find('.field[data-browsedatafield="CurrencyId"]').attr('data-originalvalue'), $tr.find('.field[data-browsedatafield="Currency"]').attr('data-originalvalue'));
             FwFormField.setValue($form, 'div[data-datafield="DealNumber"]', $tr.find('.field[data-browsedatafield="DealNumber"]').attr('data-originalvalue'));
         });
-        $form.find('.print').on('click', function (e) {
-            var $report, orderNumber, orderId, recordTitle, printTab, module, hideModule;
-            module = _this.Module;
+        $form.find('.print').on('click', e => {
+            let $report, orderNumber, orderId, recordTitle, printTab, module, hideModule;
+            module = this.Module;
             try {
-                orderNumber = $form.find("div.fwformfield[data-datafield=\"" + module + "Number\"] input").val();
-                orderId = $form.find("div.fwformfield[data-datafield=\"" + module + "Id\"] input").val();
+                orderNumber = $form.find(`div.fwformfield[data-datafield="${module}Number"] input`).val();
+                orderId = $form.find(`div.fwformfield[data-datafield="${module}Id"] input`).val();
                 recordTitle = jQuery('.tabs .active[data-tabtype="FORM"] .caption').text();
                 $report = RwPrintOrderController.openForm();
                 FwModule.openSubModuleTab($form, $report);
@@ -559,19 +558,19 @@ var OrderBase = (function () {
                     hideModule = 'Order';
                 }
                 ;
-                $report.find(".fwform-section[data-caption=\"" + hideModule + "\"]").css('display', 'none');
-                $report.find("div.fwformfield[data-datafield=\"" + module + "Id\"] input").val(orderId);
-                $report.find("div.fwformfield[data-datafield=\"" + module + "Id\"] .fwformfield-text").val(orderNumber);
-                jQuery('.tab.submodule.active').find('.caption').html("Print " + module);
+                $report.find(`.fwform-section[data-caption="${hideModule}"]`).css('display', 'none');
+                $report.find(`div.fwformfield[data-datafield="${module}Id"] input`).val(orderId);
+                $report.find(`div.fwformfield[data-datafield="${module}Id"] .fwformfield-text`).val(orderNumber);
+                jQuery('.tab.submodule.active').find('.caption').html(`Print ${module}`);
                 printTab = jQuery('.tab.submodule.active');
-                printTab.find('.caption').html("Print " + module);
-                printTab.attr('data-caption', module + " " + recordTitle);
+                printTab.find('.caption').html(`Print ${module}`);
+                printTab.attr('data-caption', `${module} ${recordTitle}`);
             }
             catch (ex) {
                 FwFunc.showError(ex);
             }
         });
-        $form.find('.copy').on('click', function (e) {
+        $form.find('.copy').on('click', e => {
             var $confirmation, $yes, $no;
             $confirmation = FwConfirmation.renderConfirmation('Confirm Copy', '');
             var html = [];
@@ -597,8 +596,8 @@ var OrderBase = (function () {
                 $form.find('.btn[data-type="SaveMenuBarButton"]').removeClass('disabled');
             }
         });
-        $form.find(".totalType input").on('change', function (e) {
-            var $target = jQuery(e.currentTarget), gridType = $target.parents('.totalType').attr('data-gridtype'), rateType = $target.val(), adjustmentsPeriod = $form.find('.' + gridType + 'AdjustmentsPeriod'), adjustmentsWeekly = $form.find('.' + gridType + 'AdjustmentsWeekly'), adjustmentsMonthly = $form.find('.' + gridType + 'AdjustmentsMonthly');
+        $form.find(".totalType input").on('change', e => {
+            let $target = jQuery(e.currentTarget), gridType = $target.parents('.totalType').attr('data-gridtype'), rateType = $target.val(), adjustmentsPeriod = $form.find('.' + gridType + 'AdjustmentsPeriod'), adjustmentsWeekly = $form.find('.' + gridType + 'AdjustmentsWeekly'), adjustmentsMonthly = $form.find('.' + gridType + 'AdjustmentsMonthly');
             switch (rateType) {
                 case 'W':
                     adjustmentsPeriod.hide();
@@ -614,18 +613,18 @@ var OrderBase = (function () {
                     adjustmentsPeriod.show();
                     break;
             }
-            var total = FwFormField.getValue($form, '.' + gridType + 'OrderItemTotal:visible');
+            let total = FwFormField.getValue($form, '.' + gridType + 'OrderItemTotal:visible');
             if (total === '0.00') {
                 FwFormField.disable($form.find('.' + gridType + 'TotalWithTax:visible'));
             }
             else {
                 FwFormField.enable($form.find('.' + gridType + 'TotalWithTax:visible'));
             }
-            _this.calculateOrderItemGridTotals($form, gridType);
+            this.calculateOrderItemGridTotals($form, gridType);
         });
         $form.find('.allFrames').css('display', 'none');
         $form.find('.hideFrames').css('display', 'none');
-        $form.find('.expandArrow').on('click', function (e) {
+        $form.find('.expandArrow').on('click', e => {
             $form.find('.hideFrames').toggle();
             $form.find('.expandFrames').toggle();
             $form.find('.allFrames').toggle();
@@ -640,15 +639,15 @@ var OrderBase = (function () {
         $form.find(".weeklyType").show();
         $form.find(".monthlyType").hide();
         $form.find(".periodType input").prop('checked', true);
-    };
+    }
     ;
-    OrderBase.prototype.bottomLineDiscountChange = function ($form, event) {
-        var $element, $orderItemGrid, orderId, recType, discountPercent, module;
-        var request = {};
+    bottomLineDiscountChange($form, event) {
+        let $element, $orderItemGrid, orderId, recType, discountPercent, module;
+        let request = {};
         module = this.Module;
         $element = jQuery(event.currentTarget);
         recType = $element.attr('data-rectype');
-        orderId = FwFormField.getValueByDataField($form, module + "Id");
+        orderId = FwFormField.getValueByDataField($form, `${module}Id`);
         discountPercent = $element.find('.fwformfield-value').val().slice(0, -1);
         if (recType === 'R') {
             $orderItemGrid = $form.find('.rentalgrid [data-name="OrderItemGrid"]');
@@ -678,21 +677,21 @@ var OrderBase = (function () {
         request.DiscountPercent = parseFloat(discountPercent);
         request.RecType = recType;
         request.OrderId = orderId;
-        FwAppData.apiMethod(true, 'POST', "api/v1/" + module + "/applybottomlinediscountpercent/", request, FwServices.defaultTimeout, function onSuccess(response) {
+        FwAppData.apiMethod(true, 'POST', `api/v1/${module}/applybottomlinediscountpercent/`, request, FwServices.defaultTimeout, function onSuccess(response) {
             FwBrowse.search($orderItemGrid);
         }, function onError(response) {
             FwFunc.showError(response);
         }, $form);
-    };
+    }
     ;
-    OrderBase.prototype.bottomLineTotalWithTaxChange = function ($form, event) {
-        var $element, $orderItemGrid, recType, orderId, total, includeTaxInTotal, isWithTaxCheckbox, totalType, module;
-        var request = {};
+    bottomLineTotalWithTaxChange($form, event) {
+        let $element, $orderItemGrid, recType, orderId, total, includeTaxInTotal, isWithTaxCheckbox, totalType, module;
+        let request = {};
         $element = jQuery(event.currentTarget);
         module = this.Module;
         isWithTaxCheckbox = $element.attr('data-type') === 'checkbox';
         recType = $element.attr('data-rectype');
-        orderId = FwFormField.getValueByDataField($form, module + "Id");
+        orderId = FwFormField.getValueByDataField($form, `${module}Id`);
         if (recType === 'R') {
             $orderItemGrid = $form.find('.rentalgrid [data-name="OrderItemGrid"]');
             total = FwFormField.getValue($form, '.rentalOrderItemTotal:visible');
@@ -776,19 +775,19 @@ var OrderBase = (function () {
         request.RecType = recType;
         request.OrderId = orderId;
         request.Total = +total;
-        FwAppData.apiMethod(true, 'POST', "api/v1/" + module + "/applybottomlinetotal/", request, FwServices.defaultTimeout, function onSuccess(response) {
+        FwAppData.apiMethod(true, 'POST', `api/v1/${module}/applybottomlinetotal/`, request, FwServices.defaultTimeout, function onSuccess(response) {
             FwBrowse.search($orderItemGrid);
         }, function onError(response) {
             FwFunc.showError(response);
         }, $form);
-    };
+    }
     ;
-    OrderBase.prototype.calculateOrderItemGridTotals = function ($form, gridType) {
-        var subTotal, discount, salesTax, grossTotal, total, rateType;
-        var extendedTotal = new Decimal(0);
-        var discountTotal = new Decimal(0);
-        var taxTotal = new Decimal(0);
-        var rateValue = $form.find('.' + gridType + 'grid .totalType input:checked').val();
+    calculateOrderItemGridTotals($form, gridType) {
+        let subTotal, discount, salesTax, grossTotal, total, rateType;
+        let extendedTotal = new Decimal(0);
+        let discountTotal = new Decimal(0);
+        let taxTotal = new Decimal(0);
+        let rateValue = $form.find('.' + gridType + 'grid .totalType input:checked').val();
         switch (rateValue) {
             case 'W':
                 rateType = 'Weekly';
@@ -800,15 +799,15 @@ var OrderBase = (function () {
                 rateType = 'Monthly';
                 break;
         }
-        var extendedColumn = $form.find('.' + gridType + 'grid [data-browsedatafield="' + rateType + 'Extended"]');
-        var discountColumn = $form.find('.' + gridType + 'grid [data-browsedatafield="' + rateType + 'DiscountAmount"]');
-        var taxColumn = $form.find('.' + gridType + 'grid [data-browsedatafield="' + rateType + 'Tax"]');
-        for (var i = 1; i < extendedColumn.length; i++) {
-            var inputValueFromExtended = +extendedColumn.eq(i).attr('data-originalvalue');
+        const extendedColumn = $form.find('.' + gridType + 'grid [data-browsedatafield="' + rateType + 'Extended"]');
+        const discountColumn = $form.find('.' + gridType + 'grid [data-browsedatafield="' + rateType + 'DiscountAmount"]');
+        const taxColumn = $form.find('.' + gridType + 'grid [data-browsedatafield="' + rateType + 'Tax"]');
+        for (let i = 1; i < extendedColumn.length; i++) {
+            let inputValueFromExtended = +extendedColumn.eq(i).attr('data-originalvalue');
             extendedTotal = extendedTotal.plus(inputValueFromExtended);
-            var inputValueFromDiscount = +discountColumn.eq(i).attr('data-originalvalue');
+            let inputValueFromDiscount = +discountColumn.eq(i).attr('data-originalvalue');
             discountTotal = discountTotal.plus(inputValueFromDiscount);
-            var inputValueFromTax = +taxColumn.eq(i).attr('data-originalvalue');
+            let inputValueFromTax = +taxColumn.eq(i).attr('data-originalvalue');
             taxTotal = taxTotal.plus(inputValueFromTax);
         }
         ;
@@ -822,10 +821,10 @@ var OrderBase = (function () {
         $form.find('.' + gridType + 'totals [data-totalfield="Tax"] input').val(salesTax);
         $form.find('.' + gridType + 'totals [data-totalfield="GrossTotal"] input').val(grossTotal);
         $form.find('.' + gridType + 'totals [data-totalfield="Total"] input').val(total);
-    };
+    }
     ;
-    OrderBase.prototype.checkDateRangeForPick = function ($form, event) {
-        var $element, parsedPickDate, parsedFromDate, parsedToDate;
+    checkDateRangeForPick($form, event) {
+        let $element, parsedPickDate, parsedFromDate, parsedToDate;
         $element = jQuery(event.currentTarget);
         parsedPickDate = Date.parse(FwFormField.getValueByDataField($form, 'PickDate'));
         parsedFromDate = Date.parse(FwFormField.getValueByDataField($form, 'EstimatedStartDate'));
@@ -855,10 +854,10 @@ var OrderBase = (function () {
             $form.find('div[data-datafield="EstimatedStartDate"]').removeClass('error');
             $form.find('div[data-datafield="EstimatedStopDate"]').removeClass('error');
         }
-    };
+    }
     ;
-    OrderBase.prototype.adjustBillingEndDate = function ($form, event) {
-        var newEndDate, daysToAdd, parsedBillingStartDate, daysBetweenDates, parsedBillingEndDate, monthValue, weeksValue, billingStartDate;
+    adjustBillingEndDate($form, event) {
+        let newEndDate, daysToAdd, parsedBillingStartDate, daysBetweenDates, parsedBillingEndDate, monthValue, weeksValue, billingStartDate;
         parsedBillingStartDate = Date.parse(FwFormField.getValueByDataField($form, 'BillingStartDate'));
         parsedBillingEndDate = Date.parse(FwFormField.getValueByDataField($form, 'BillingEndDate'));
         billingStartDate = FwFormField.getValueByDataField($form, 'BillingStartDate');
@@ -868,7 +867,7 @@ var OrderBase = (function () {
         if (!isNaN(parsedBillingStartDate)) {
             if (FwFormField.getValueByDataField($form, 'RateType') === 'MONTHLY') {
                 if (!isNaN(monthValue) && monthValue !== '0' && Math.sign(monthValue) !== -1 && Math.sign(monthValue) !== -0) {
-                    FwAppData.apiMethod(true, 'GET', "api/v1/datefunctions/addmonths?Date=" + billingStartDate + "&Months=" + monthValue, null, FwServices.defaultTimeout, function onSuccess(response) {
+                    FwAppData.apiMethod(true, 'GET', `api/v1/datefunctions/addmonths?Date=${billingStartDate}&Months=${monthValue}`, null, FwServices.defaultTimeout, function onSuccess(response) {
                         newEndDate = FwFunc.getDate(response, -1);
                         FwFormField.setValueByDataField($form, 'BillingEndDate', newEndDate);
                         parsedBillingStartDate = Date.parse(FwFormField.getValueByDataField($form, 'BillingStartDate'));
@@ -901,10 +900,10 @@ var OrderBase = (function () {
                 FwFormField.setValueByDataField($form, 'BillingMonths', '0');
             }
         }
-    };
+    }
     ;
-    OrderBase.prototype.adjustWeekorMonthBillingField = function ($form, event) {
-        var monthValue, daysBetweenDates, billingStartDate, billingEndDate, weeksValue, parsedBillingStartDate, parsedBillingEndDate;
+    adjustWeekorMonthBillingField($form, event) {
+        let monthValue, daysBetweenDates, billingStartDate, billingEndDate, weeksValue, parsedBillingStartDate, parsedBillingEndDate;
         billingStartDate = FwFormField.getValueByDataField($form, 'BillingStartDate');
         billingEndDate = FwFormField.getValueByDataField($form, 'BillingEndDate');
         parsedBillingStartDate = Date.parse(FwFormField.getValueByDataField($form, 'BillingStartDate'));
@@ -916,7 +915,7 @@ var OrderBase = (function () {
             if (FwFormField.getValueByDataField($form, 'RateType') === 'MONTHLY') {
                 monthValue = Math.ceil(daysBetweenDates / 31);
                 if (!isNaN(monthValue) && monthValue !== '0' && Math.sign(monthValue) !== -1 && Math.sign(monthValue) !== -0) {
-                    FwAppData.apiMethod(true, 'GET', "api/v1/datefunctions/numberofmonths?FromDate=" + billingStartDate + "&ToDate=" + billingEndDate, null, FwServices.defaultTimeout, function onSuccess(response) {
+                    FwAppData.apiMethod(true, 'GET', `api/v1/datefunctions/numberofmonths?FromDate=${billingStartDate}&ToDate=${billingEndDate}`, null, FwServices.defaultTimeout, function onSuccess(response) {
                         monthValue = response;
                         FwFormField.setValueByDataField($form, 'BillingMonths', monthValue);
                         parsedBillingStartDate = Date.parse(FwFormField.getValueByDataField($form, 'BillingStartDate'));
@@ -957,32 +956,32 @@ var OrderBase = (function () {
                 FwFormField.setValueByDataField($form, 'BillingMonths', '0');
             }
         }
-    };
+    }
     ;
-    OrderBase.prototype.orderItemGridLockUnlock = function ($browse, event) {
-        var orderId, $selectedCheckBoxes;
+    orderItemGridLockUnlock($browse, event) {
+        let orderId, $selectedCheckBoxes;
         orderId = $browse.find('.selected [data-browsedatafield="OrderId"]').attr('data-originalvalue');
         $selectedCheckBoxes = $browse.find('.cbselectrow:checked');
-        for (var i = 0; i < $selectedCheckBoxes.length; i++) {
-            var orderItemId = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="OrderItemId"]').attr('data-originalvalue');
-            var orderId_1 = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="OrderId"]').attr('data-originalvalue');
-            if (orderId_1 != null) {
+        for (let i = 0; i < $selectedCheckBoxes.length; i++) {
+            let orderItemId = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="OrderItemId"]').attr('data-originalvalue');
+            let orderId = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="OrderId"]').attr('data-originalvalue');
+            if (orderId != null) {
                 if ($selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="Locked"]').attr('data-originalvalue') === 'true') {
-                    unlockItem(orderId_1, orderItemId);
+                    unlockItem(orderId, orderItemId);
                 }
                 else {
-                    lockItem(orderId_1, orderItemId);
+                    lockItem(orderId, orderItemId);
                 }
             }
         }
         function lockItem(orderId, orderItemId) {
-            var request = {};
+            let request = {};
             request = {
                 OrderId: orderId,
                 OrderItemId: orderItemId,
                 Locked: true,
             };
-            FwAppData.apiMethod(true, 'POST', "api/v1/orderitem", request, FwServices.defaultTimeout, function onSuccess(response) {
+            FwAppData.apiMethod(true, 'POST', `api/v1/orderitem`, request, FwServices.defaultTimeout, function onSuccess(response) {
                 FwBrowse.databind($browse);
             }, function onError(response) {
                 FwFunc.showError(response);
@@ -991,13 +990,13 @@ var OrderBase = (function () {
         }
         ;
         function unlockItem(orderId, orderItemId) {
-            var request = {};
+            let request = {};
             request = {
                 OrderId: orderId,
                 OrderItemId: orderItemId,
                 Locked: false,
             };
-            FwAppData.apiMethod(true, 'POST', "api/v1/orderitem", request, FwServices.defaultTimeout, function onSuccess(response) {
+            FwAppData.apiMethod(true, 'POST', `api/v1/orderitem`, request, FwServices.defaultTimeout, function onSuccess(response) {
                 FwBrowse.databind($browse);
             }, function onError(response) {
                 FwFunc.showError(response);
@@ -1005,32 +1004,32 @@ var OrderBase = (function () {
             }, $browse);
         }
         ;
-    };
+    }
     ;
-    OrderBase.prototype.orderItemGridBoldUnbold = function ($browse, event) {
-        var orderId, $selectedCheckBoxes;
+    orderItemGridBoldUnbold($browse, event) {
+        let orderId, $selectedCheckBoxes;
         orderId = $browse.find('.selected [data-browsedatafield="OrderId"]').attr('data-originalvalue');
         $selectedCheckBoxes = $browse.find('.cbselectrow:checked');
-        for (var i = 0; i < $selectedCheckBoxes.length; i++) {
-            var orderItemId = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="OrderItemId"]').attr('data-originalvalue');
-            var orderId_2 = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="OrderId"]').attr('data-originalvalue');
-            if (orderId_2 != null) {
+        for (let i = 0; i < $selectedCheckBoxes.length; i++) {
+            let orderItemId = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="OrderItemId"]').attr('data-originalvalue');
+            let orderId = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="OrderId"]').attr('data-originalvalue');
+            if (orderId != null) {
                 if ($selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="Bold"]').attr('data-originalvalue') === 'true') {
-                    unboldItem(orderId_2, orderItemId);
+                    unboldItem(orderId, orderItemId);
                 }
                 else {
-                    boldItem(orderId_2, orderItemId);
+                    boldItem(orderId, orderItemId);
                 }
             }
         }
         function boldItem(orderId, orderItemId) {
-            var request = {};
+            let request = {};
             request = {
                 OrderId: orderId,
                 OrderItemId: orderItemId,
                 Bold: true,
             };
-            FwAppData.apiMethod(true, 'POST', "api/v1/orderitem", request, FwServices.defaultTimeout, function onSuccess(response) {
+            FwAppData.apiMethod(true, 'POST', `api/v1/orderitem`, request, FwServices.defaultTimeout, function onSuccess(response) {
                 FwBrowse.databind($browse);
             }, function onError(response) {
                 FwFunc.showError(response);
@@ -1039,13 +1038,13 @@ var OrderBase = (function () {
         }
         ;
         function unboldItem(orderId, orderItemId) {
-            var request = {};
+            let request = {};
             request = {
                 OrderId: orderId,
                 OrderItemId: orderItemId,
                 Bold: false,
             };
-            FwAppData.apiMethod(true, 'POST', "api/v1/orderitem", request, FwServices.defaultTimeout, function onSuccess(response) {
+            FwAppData.apiMethod(true, 'POST', `api/v1/orderitem`, request, FwServices.defaultTimeout, function onSuccess(response) {
                 FwBrowse.databind($browse);
             }, function onError(response) {
                 FwFunc.showError(response);
@@ -1053,9 +1052,9 @@ var OrderBase = (function () {
             }, $browse);
         }
         ;
-    };
+    }
     ;
-    OrderBase.prototype.disableWithTaxCheckbox = function ($form) {
+    disableWithTaxCheckbox($form) {
         if (FwFormField.getValueByDataField($form, 'PeriodRentalTotal') === '0.00') {
             FwFormField.disable($form.find('div[data-datafield="PeriodRentalTotalIncludesTax"]'));
         }
@@ -1086,15 +1085,15 @@ var OrderBase = (function () {
         else {
             FwFormField.enable($form.find('div[data-datafield="PeriodCombinedTotalIncludesTax"]'));
         }
-    };
+    }
     ;
-    OrderBase.prototype.toggleOrderItemView = function ($form, event) {
-        var $element, $orderItemGrid, recType, isSummary, orderId, module;
-        var request = {};
+    toggleOrderItemView($form, event) {
+        let $element, $orderItemGrid, recType, isSummary, orderId, module;
+        let request = {};
         module = this.Module;
         $element = jQuery(event.currentTarget);
         recType = $element.parentsUntil('.flexrow').eq(9).attr('class');
-        orderId = FwFormField.getValueByDataField($form, module + "Id");
+        orderId = FwFormField.getValueByDataField($form, `${module}Id`);
         if (recType === 'R') {
             $orderItemGrid = $form.find('.rentalgrid [data-name="OrderItemGrid"]');
         }
@@ -1120,7 +1119,7 @@ var OrderBase = (function () {
             $orderItemGrid.data('isSummary', false);
             $element.children().text('Summary View');
         }
-        $orderItemGrid.data('ondatabind', function (request) {
+        $orderItemGrid.data('ondatabind', request => {
             request.uniqueids = {
                 OrderId: orderId,
                 Summary: isSummary,
@@ -1129,46 +1128,46 @@ var OrderBase = (function () {
             request.pagesize = 9999;
             request.orderby = "RowNumber,RecTypeDisplay";
         });
-        $orderItemGrid.data('beforesave', function (request) {
+        $orderItemGrid.data('beforesave', request => {
             request.OrderId = orderId;
             request.RecType = recType;
             request.Summary = isSummary;
         });
         FwBrowse.search($orderItemGrid);
-    };
+    }
     ;
-    OrderBase.prototype.cancelUncancelOrder = function ($form) {
-        var $confirmation, $yes, $no, id, orderStatus, self, module;
+    cancelUncancelOrder($form) {
+        let $confirmation, $yes, $no, id, orderStatus, self, module;
         self = this;
         module = this.Module;
-        id = FwFormField.getValueByDataField($form, module + "Id");
+        id = FwFormField.getValueByDataField($form, `${module}Id`);
         orderStatus = FwFormField.getValueByDataField($form, 'Status');
         if (id != null) {
             if (orderStatus === "CANCELLED") {
                 $confirmation = FwConfirmation.renderConfirmation('Cancel', '');
                 $confirmation.find('.fwconfirmationbox').css('width', '450px');
-                var html = [];
+                let html = [];
                 html.push('<div class="fwform" data-controller="none" style="background-color: transparent;">');
                 html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
-                html.push("    <div>Would you like to un-cancel this " + module + "?</div>");
+                html.push(`    <div>Would you like to un-cancel this ${module}?</div>`);
                 html.push('  </div>');
                 html.push('</div>');
                 FwConfirmation.addControls($confirmation, html.join(''));
-                $yes = FwConfirmation.addButton($confirmation, "Un-Cancel " + module, false);
+                $yes = FwConfirmation.addButton($confirmation, `Un-Cancel ${module}`, false);
                 $no = FwConfirmation.addButton($confirmation, 'Cancel');
                 $yes.on('click', uncancelOrder);
             }
             else {
                 $confirmation = FwConfirmation.renderConfirmation('Cancel', '');
                 $confirmation.find('.fwconfirmationbox').css('width', '450px');
-                var html = [];
+                let html = [];
                 html.push('<div class="fwform" data-controller="none" style="background-color: transparent;">');
                 html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
-                html.push("    <div>Would you like to cancel this " + module + "?</div>");
+                html.push(`    <div>Would you like to cancel this ${module}?</div>`);
                 html.push('  </div>');
                 html.push('</div>');
                 FwConfirmation.addControls($confirmation, html.join(''));
-                $yes = FwConfirmation.addButton($confirmation, "Cancel " + module, false);
+                $yes = FwConfirmation.addButton($confirmation, `Cancel ${module}`, false);
                 $no = FwConfirmation.addButton($confirmation, 'Cancel');
                 $yes.on('click', cancelOrder);
             }
@@ -1182,13 +1181,13 @@ var OrderBase = (function () {
             }
         }
         function cancelOrder() {
-            var request = {};
+            let request = {};
             FwFormField.disable($confirmation.find('.fwformfield'));
             FwFormField.disable($yes);
             $yes.text('Canceling...');
             $yes.off('click');
-            FwAppData.apiMethod(true, 'POST', "api/v1/" + module + "/cancel/" + id, request, FwServices.defaultTimeout, function onSuccess(response) {
-                FwNotification.renderNotification('SUCCESS', module + " Successfully Canceled");
+            FwAppData.apiMethod(true, 'POST', `api/v1/${module}/cancel/${id}`, request, FwServices.defaultTimeout, function onSuccess(response) {
+                FwNotification.renderNotification('SUCCESS', `${module} Successfully Canceled`);
                 FwConfirmation.destroyConfirmation($confirmation);
                 FwModule.refreshForm($form, self);
             }, function onError(response) {
@@ -1202,13 +1201,13 @@ var OrderBase = (function () {
         }
         ;
         function uncancelOrder() {
-            var request = {};
+            let request = {};
             FwFormField.disable($confirmation.find('.fwformfield'));
             FwFormField.disable($yes);
             $yes.text('Retrieving...');
             $yes.off('click');
-            FwAppData.apiMethod(true, 'POST', "api/v1/" + module + "/uncancel/" + id, request, FwServices.defaultTimeout, function onSuccess(response) {
-                FwNotification.renderNotification('SUCCESS', module + " Successfully Retrieved");
+            FwAppData.apiMethod(true, 'POST', `api/v1/${module}/uncancel/${id}`, request, FwServices.defaultTimeout, function onSuccess(response) {
+                FwNotification.renderNotification('SUCCESS', `${module} Successfully Retrieved`);
                 FwConfirmation.destroyConfirmation($confirmation);
                 FwModule.refreshForm($form, self);
             }, function onError(response) {
@@ -1221,9 +1220,8 @@ var OrderBase = (function () {
             }, $form);
         }
         ;
-    };
+    }
     ;
-    return OrderBase;
-}());
+}
 var OrderBaseController = new OrderBase();
 //# sourceMappingURL=OrderBase.js.map

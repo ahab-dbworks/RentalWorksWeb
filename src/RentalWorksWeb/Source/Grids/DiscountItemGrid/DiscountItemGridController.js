@@ -1,9 +1,8 @@
-var DiscountItemGrid = (function () {
-    function DiscountItemGrid() {
+class DiscountItemGrid {
+    constructor() {
         this.Module = 'CustomerNoteGrid';
         this.apiurl = 'api/v1/discountitem';
     }
-    return DiscountItemGrid;
-}());
+}
 var DiscountItemGridController = new DiscountItemGrid();
 //# sourceMappingURL=DiscountItemGridController.js.map

@@ -1,15 +1,14 @@
-var ItemAttributeValueGrid = (function () {
-    function ItemAttributeValueGrid() {
+class ItemAttributeValueGrid {
+    constructor() {
         this.Module = 'ItemAttributeValueGrid';
         this.apiurl = 'api/v1/itemattributevalue';
     }
-    ItemAttributeValueGrid.prototype.init = function ($control) {
+    init($control) {
         $control.on('change', '[data-formdatafield="AttributeId"] input.value', function (e) {
             $control.find('[data-formdatafield="AttributeValueId"] input.value').val('');
             $control.find('[data-formdatafield="AttributeValueId"] input.text').val('');
         });
-    };
-    return ItemAttributeValueGrid;
-}());
+    }
+}
 var ItemAttributeValueGridController = new ItemAttributeValueGrid();
 //# sourceMappingURL=ItemAttributeValueGridController.js.map

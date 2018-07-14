@@ -1,6 +1,6 @@
 routes.push({ pattern: /^module\/creditsonaccount$/, action: function (match) { return RwCreditsOnAccountController.getModuleScreen(); } });
-var RwCreditsOnAccount = (function () {
-    function RwCreditsOnAccount() {
+class RwCreditsOnAccount {
+    constructor() {
         this.Module = 'CreditsOnAccount';
         this.ModuleOptions = {
             ReportOptions: {
@@ -9,7 +9,7 @@ var RwCreditsOnAccount = (function () {
         };
         this.ModuleOptions = jQuery.extend({}, FwReport.ModuleOptions, this.ModuleOptions);
     }
-    RwCreditsOnAccount.prototype.getModuleScreen = function () {
+    getModuleScreen() {
         var screen, $form;
         screen = {};
         screen.$view = FwModule.getModuleControl('Rw' + this.Module + 'Controller');
@@ -22,9 +22,9 @@ var RwCreditsOnAccount = (function () {
         screen.unload = function () {
         };
         return screen;
-    };
+    }
     ;
-    RwCreditsOnAccount.prototype.openForm = function () {
+    openForm() {
         var $form;
         $form = FwReport.getFrontEnd('Rw', this.Module, 'tmpl-reports-' + this.Module + 'FrontEnd');
         $form.data('getexportrequest', function (request) {
@@ -32,17 +32,16 @@ var RwCreditsOnAccount = (function () {
             return request;
         });
         return $form;
-    };
+    }
     ;
-    RwCreditsOnAccount.prototype.onLoadForm = function ($form) {
+    onLoadForm($form) {
         FwReport.load($form, this.ModuleOptions.ReportOptions);
         var appOptions = program.getApplicationOptions();
         var request = { method: "LoadForm" };
         FwFormField.setValue($form, 'div[data-datafield="IncludeRemainingBalance"]', 'T');
-    };
+    }
     ;
-    return RwCreditsOnAccount;
-}());
+}
 ;
 var RwCreditsOnAccountController = new RwCreditsOnAccount();
 //# sourceMappingURL=RwCreditsOnAccountController.js.map
