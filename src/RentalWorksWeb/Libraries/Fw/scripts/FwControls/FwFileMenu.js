@@ -1,7 +1,5 @@
-var FwFileMenu = (function () {
-    function FwFileMenu() {
-    }
-    FwFileMenu.init = function ($control) {
+class FwFileMenuClass {
+    init($control) {
         if ($control.attr('data-version') == '1') {
             $control
                 .on('click', '.file-menu', function (e) {
@@ -83,7 +81,7 @@ var FwFileMenu = (function () {
                     $control.find('.file-menus-wrapper .ddmodulebtn.active').removeClass('active');
                 }
             });
-            $control.on('click', '.usermenu', function (event) {
+            $control.on('click', '.usermenu', (event) => {
                 try {
                     var $usercontrol = jQuery('.usercontrol');
                     if (!$usercontrol.hasClass('active')) {
@@ -116,8 +114,8 @@ var FwFileMenu = (function () {
             });
             ;
         }
-    };
-    FwFileMenu.renderRuntimeHtml = function ($control) {
+    }
+    renderRuntimeHtml($control) {
         var html;
         $control.attr('data-rendermode', 'runtime');
         html = [];
@@ -129,8 +127,8 @@ var FwFileMenu = (function () {
             $control.find('.file-menus-wrapper').append('<i class="material-icons appmenu">&#xE5D2;</i>');
             $control.find('.file-menus-wrapper').append('<div class="file-menu-dropdown"></div>');
         }
-    };
-    FwFileMenu.UserControl_render = function ($view) {
+    }
+    UserControl_render($view) {
         var html = [];
         html.push('<div class="usercontrol">');
         html.push('  <div class="systembar"></div>');
@@ -138,17 +136,17 @@ var FwFileMenu = (function () {
         html.push('  <div class="user-dropdown">');
         html.push('    <div class="menuitems"></div>');
         html.push('    <div class="staticinfo">');
-        html.push("      <div class=\"copyright\">&copy; " + new Date().getFullYear().toString() + " Database Works, Inc.</div>");
-        html.push("      <div class=\"version\">" + applicationConfig.version + "</div>");
+        html.push(`      <div class="copyright">&copy; ${new Date().getFullYear().toString()} Database Works, Inc.</div>`);
+        html.push(`      <div class="version">${applicationConfig.version}</div>`);
         html.push('    </div>');
         html.push('  </div>');
         html.push('</div>');
         var htmlString = html.join('\n');
         var $control = jQuery(htmlString);
-        $control.on('click', '.menuitem', function () {
+        $control.on('click', '.menuitem', (e) => {
             try {
-                var $usercontrol = FwFileMenu.UserControl_getUserControl();
-                FwFileMenu.UserControl_hideDropDownMenu($usercontrol);
+                var $usercontrol = this.UserControl_getUserControl();
+                this.UserControl_hideDropDownMenu($usercontrol);
             }
             catch (ex) {
                 FwFunc.showError(ex);
@@ -156,70 +154,70 @@ var FwFileMenu = (function () {
         });
         $view.find('.user-controls').append($control);
         return $control;
-    };
-    FwFileMenu.UserControl_getUserControl = function () {
+    }
+    UserControl_getUserControl() {
         return jQuery('.usercontrol');
-    };
-    FwFileMenu.UserControl_getDropDownMenuItems = function ($usercontrol) {
-        $usercontrol = (typeof $usercontrol !== 'undefined') ? $usercontrol : FwFileMenu.UserControl_getUserControl();
+    }
+    UserControl_getDropDownMenuItems($usercontrol) {
+        $usercontrol = (typeof $usercontrol !== 'undefined') ? $usercontrol : this.UserControl_getUserControl();
         return $usercontrol.find('.user-dropdown .menuitems');
-    };
-    FwFileMenu.UserControl_getDropDownMenuItem = function (id, $usercontrol) {
-        $usercontrol = (typeof $usercontrol !== 'undefined') ? $usercontrol : FwFileMenu.UserControl_getUserControl();
-        return FwFileMenu.UserControl_getDropDownMenuItems($usercontrol).find(".menuitem[data-id=\"" + id + "\"]");
-    };
-    FwFileMenu.UserControl_addDropDownMenuItem = function (id, $control, $usercontrol) {
-        $usercontrol = (typeof $usercontrol !== 'undefined') ? $usercontrol : FwFileMenu.UserControl_getUserControl();
+    }
+    UserControl_getDropDownMenuItem(id, $usercontrol) {
+        $usercontrol = (typeof $usercontrol !== 'undefined') ? $usercontrol : this.UserControl_getUserControl();
+        return this.UserControl_getDropDownMenuItems($usercontrol).find(`.menuitem[data-id="${id}"]`);
+    }
+    UserControl_addDropDownMenuItem(id, $control, $usercontrol) {
+        $usercontrol = (typeof $usercontrol !== 'undefined') ? $usercontrol : this.UserControl_getUserControl();
         var $menuitem = $control.attr('data-id', id).addClass('menuitem');
-        FwFileMenu.UserControl_getDropDownMenuItems($usercontrol).append($menuitem);
-    };
-    FwFileMenu.UserControl_setMenuItemHtml = function ($usercontrol, id, html) {
-        $usercontrol = (typeof $usercontrol !== 'undefined') ? $usercontrol : FwFileMenu.UserControl_getUserControl();
-        FwFileMenu.UserControl_getDropDownMenuItem(id, $usercontrol).html(html);
-    };
-    FwFileMenu.UserControl_removeMenuItem = function ($usercontrol, id) {
-        $usercontrol = (typeof $usercontrol !== 'undefined') ? $usercontrol : FwFileMenu.UserControl_getUserControl();
-        FwFileMenu.UserControl_getDropDownMenuItem(id, $usercontrol).remove();
-    };
-    FwFileMenu.UserControl_toggleMenuItem = function (id, isVisible, $usercontrol) {
-        $usercontrol = (typeof $usercontrol !== 'undefined') ? $usercontrol : FwFileMenu.UserControl_getUserControl();
-        var $menuitem = FwFileMenu.UserControl_getDropDownMenuItem(id, $usercontrol);
+        this.UserControl_getDropDownMenuItems($usercontrol).append($menuitem);
+    }
+    UserControl_setMenuItemHtml($usercontrol, id, html) {
+        $usercontrol = (typeof $usercontrol !== 'undefined') ? $usercontrol : this.UserControl_getUserControl();
+        this.UserControl_getDropDownMenuItem(id, $usercontrol).html(html);
+    }
+    UserControl_removeMenuItem($usercontrol, id) {
+        $usercontrol = (typeof $usercontrol !== 'undefined') ? $usercontrol : this.UserControl_getUserControl();
+        this.UserControl_getDropDownMenuItem(id, $usercontrol).remove();
+    }
+    UserControl_toggleMenuItem(id, isVisible, $usercontrol) {
+        $usercontrol = (typeof $usercontrol !== 'undefined') ? $usercontrol : this.UserControl_getUserControl();
+        var $menuitem = this.UserControl_getDropDownMenuItem(id, $usercontrol);
         if (typeof isVisible === 'undefined') {
             isVisible = !$menuitem.is(':visible');
         }
         $menuitem.toggle(isVisible);
-    };
-    FwFileMenu.UserControl_hideDropDownMenu = function ($usercontrol) {
-        $usercontrol = (typeof $usercontrol !== 'undefined') ? $usercontrol : FwFileMenu.UserControl_getUserControl();
+    }
+    UserControl_hideDropDownMenu($usercontrol) {
+        $usercontrol = (typeof $usercontrol !== 'undefined') ? $usercontrol : this.UserControl_getUserControl();
         $usercontrol.removeClass('active');
         $usercontrol.find('.user-dropdown').css('z-index', '0');
-    };
-    FwFileMenu.UserControl_getSystemBar = function ($usercontrol) {
-        $usercontrol = (typeof $usercontrol !== 'undefined') ? $usercontrol : FwFileMenu.UserControl_getUserControl();
+    }
+    UserControl_getSystemBar($usercontrol) {
+        $usercontrol = (typeof $usercontrol !== 'undefined') ? $usercontrol : this.UserControl_getUserControl();
         return $usercontrol.find('.systembar');
-    };
-    FwFileMenu.UserControl_getSystemBarControl = function (id, $usercontrol) {
-        $usercontrol = (typeof $usercontrol !== 'undefined') ? $usercontrol : FwFileMenu.UserControl_getUserControl();
-        return $usercontrol.find(".systembarcontrol[data-id=" + id + "]");
-    };
-    FwFileMenu.UserControl_addSystemBarControl = function (id, $control, $usercontrol) {
-        $usercontrol = (typeof $usercontrol !== 'undefined') ? $usercontrol : FwFileMenu.UserControl_getUserControl();
+    }
+    UserControl_getSystemBarControl(id, $usercontrol) {
+        $usercontrol = (typeof $usercontrol !== 'undefined') ? $usercontrol : this.UserControl_getUserControl();
+        return $usercontrol.find(`.systembarcontrol[data-id=${id}]`);
+    }
+    UserControl_addSystemBarControl(id, $control, $usercontrol) {
+        $usercontrol = (typeof $usercontrol !== 'undefined') ? $usercontrol : this.UserControl_getUserControl();
         var $systembarcontrol = $control.attr('data-id', id).addClass('systembarcontrol');
-        FwFileMenu.UserControl_getSystemBar($usercontrol).append($systembarcontrol);
-    };
-    FwFileMenu.UserControl_setSystemBarControlHtml = function (id, html, $usercontrol) {
-        $usercontrol = (typeof $usercontrol !== 'undefined') ? $usercontrol : FwFileMenu.UserControl_getUserControl();
-        FwFileMenu.UserControl_getSystemBarControl(id, $usercontrol).html(html);
-    };
-    FwFileMenu.UserControl_removeSystemBarControl = function (id, $usercontrol) {
-        $usercontrol = (typeof $usercontrol !== 'undefined') ? $usercontrol : FwFileMenu.UserControl_getUserControl();
-        var $systembarcontrol = FwFileMenu.UserControl_getSystemBarControl(id, $usercontrol).remove();
-    };
-    FwFileMenu.addMenu = function ($control, caption) {
+        this.UserControl_getSystemBar($usercontrol).append($systembarcontrol);
+    }
+    UserControl_setSystemBarControlHtml(id, html, $usercontrol) {
+        $usercontrol = (typeof $usercontrol !== 'undefined') ? $usercontrol : this.UserControl_getUserControl();
+        this.UserControl_getSystemBarControl(id, $usercontrol).html(html);
+    }
+    UserControl_removeSystemBarControl(id, $usercontrol) {
+        $usercontrol = (typeof $usercontrol !== 'undefined') ? $usercontrol : this.UserControl_getUserControl();
+        var $systembarcontrol = this.UserControl_getSystemBarControl(id, $usercontrol).remove();
+    }
+    addMenu($control, caption) {
         try {
             var fileMenuHtml = [];
-            fileMenuHtml.push("<div class=\"file-menu\" data-caption=\"" + caption + "\">");
-            fileMenuHtml.push("  <div class=\"caption\">" + caption + "</div>");
+            fileMenuHtml.push(`<div class="file-menu" data-caption="${caption}">`);
+            fileMenuHtml.push(`  <div class="caption">${caption}</div>`);
             fileMenuHtml.push('  <div class="menu"></div>');
             fileMenuHtml.push('</div>');
             var $menu = jQuery(fileMenuHtml.join('\n'));
@@ -234,8 +232,8 @@ var FwFileMenu = (function () {
             FwFunc.showError(ex);
         }
         return $menu;
-    };
-    FwFileMenu.generateStandardModuleBtn = function ($menu, securityid, caption, modulenav, imgurl) {
+    }
+    generateStandardModuleBtn($menu, securityid, caption, modulenav, imgurl) {
         var $modulebtn, btnHtml, btnId, version;
         securityid = (typeof securityid === 'string') ? securityid : '';
         $modulebtn = jQuery();
@@ -243,8 +241,8 @@ var FwFileMenu = (function () {
             try {
                 btnId = 'btnModule' + securityid;
                 btnHtml = [];
-                btnHtml.push("<div id=\"" + btnId + "\" class=\"modulebtn\" data-securityid=\"" + securityid + "\">");
-                btnHtml.push("  <div class=\"modulebtn-text\">" + caption + "</div>");
+                btnHtml.push(`<div id="${btnId}" class="modulebtn" data-securityid="${securityid}">`);
+                btnHtml.push(`  <div class="modulebtn-text">${caption}</div>`);
                 btnHtml.push('</div>');
                 $modulebtn = $modulebtn.add(btnHtml.join(''));
             }
@@ -270,8 +268,8 @@ var FwFileMenu = (function () {
             }
         });
         $menu.find('.menu').append($modulebtn);
-    };
-    FwFileMenu.generateDropDownModuleBtn = function ($menu, securityid, caption, imgurl, subitems) {
+    }
+    generateDropDownModuleBtn($menu, securityid, caption, imgurl, subitems) {
         var $modulebtn, btnHtml, subitemHtml, $subitem, version;
         version = $menu.closest('.fwfilemenu').attr('data-version');
         securityid = (typeof securityid === 'string') ? securityid : '';
@@ -326,28 +324,7 @@ var FwFileMenu = (function () {
             throw 'FwRibbon.generateDropDownModuleBtn: ' + securityid + ' caption is not defined in translation';
         }
         $menu.find('.menu').append($modulebtn);
-    };
-    return FwFileMenu;
-}());
-var FileMenu;
-(function (FileMenu) {
-    var UserControlMenuItem = (function () {
-        function UserControlMenuItem() {
-            this.id = '';
-            this.caption = '';
-            this.cssclass = '';
-        }
-        return UserControlMenuItem;
-    }());
-    FileMenu.UserControlMenuItem = UserControlMenuItem;
-    var UserControlLink = (function () {
-        function UserControlLink() {
-            this.caption = '';
-            this.cssclass = '';
-            this.html = '';
-        }
-        return UserControlLink;
-    }());
-    FileMenu.UserControlLink = UserControlLink;
-})(FileMenu || (FileMenu = {}));
+    }
+}
+var FwFileMenu = new FwFileMenuClass();
 //# sourceMappingURL=FwFileMenu.js.map

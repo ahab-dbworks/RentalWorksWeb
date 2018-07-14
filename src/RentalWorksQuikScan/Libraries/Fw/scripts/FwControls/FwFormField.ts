@@ -1,6 +1,6 @@
-﻿class FwFormField {
+﻿class FwFormFieldClass {
     //---------------------------------------------------------------------------------
-    static init($control: JQuery) {
+     init($control: JQuery) {
         if (typeof $control.attr('data-isuniqueid') === 'undefined') {
             $control.attr('data-isuniqueid', 'false');
         }
@@ -35,7 +35,7 @@
         });
     }
     //---------------------------------------------------------------------------------
-    static getDroppableRegions(data_type: string) {
+     getDroppableRegions(data_type: string) {
         var selector;
 
         if ((typeof window['FwFormField_' + data_type] === 'object') &&
@@ -49,7 +49,7 @@
         return selector;
     }
     //---------------------------------------------------------------------------------
-    static getHtmlTag(data_type: string) {
+     getHtmlTag(data_type: string) {
         var template, html, properties, i;
 
         if ((typeof window['FwFormField_' + data_type] === 'object') &&
@@ -70,7 +70,7 @@
         return html;
     }
     //---------------------------------------------------------------------------------
-    static getDesignerProperties(data_type: string) {
+     getDesignerProperties(data_type: string) {
         var properties = [], propId, propClass, propDataControl, propDataType, propDataVersion, propDataCaption, propDataEnabled, propDataOriginalValue, propDataImageUrl, propDataField, propDataRequired, propDataMinValue, propDataMaxValue, propDataAutocomplete, propDataName, propWidth, propFloat;
 
         if ((typeof window['FwFormField_' + data_type] === 'object') &&
@@ -159,7 +159,7 @@
         return properties;
     }
     //---------------------------------------------------------------------------------
-    static renderDesignerHtml($control: JQuery) {
+     renderDesignerHtml($control: JQuery) {
         var data_type = $control.attr('data-type');
         $control.attr('data-rendermode', 'designer');
         var html = [];
@@ -169,7 +169,7 @@
         }
     }
     //---------------------------------------------------------------------------------
-    static renderRuntimeHtml($control: JQuery) {
+     renderRuntimeHtml($control: JQuery) {
         var data_type = $control.attr('data-type');
         $control.attr('data-rendermode', 'runtime');
         var html = [];
@@ -181,7 +181,7 @@
         $control.removeAttr('data-version');
     }
     //---------------------------------------------------------------------------------
-    static renderTemplateHtml($control: JQuery) {
+     renderTemplateHtml($control: JQuery) {
         var data_type = $control.attr('data-type');
         $control.attr('data-rendermode', 'template');
         var html = [];
@@ -198,7 +198,7 @@
         }
     }
     //---------------------------------------------------------------------------------
-    static loadItems($control: JQuery, items: any, hideEmptyItem?: boolean) {
+     loadItems($control: JQuery, items: any, hideEmptyItem?: boolean) {
         var data_type = $control.attr('data-type');
         if ((typeof window['FwFormField_' + data_type] === 'object') &&
             (typeof window['FwFormField_' + data_type].loadItems === 'function')) {
@@ -206,7 +206,7 @@
         }
     }
     //---------------------------------------------------------------------------------
-    static loadForm($fwformfields: JQuery, model: any) {
+     loadForm($fwformfields: JQuery, model: any) {
         if (typeof model._Custom !== 'undefined' && model._Custom.length > 0 && model._Custom !== undefined) {
             for (var i = 0; i < model._Custom.length; i++) {
                 model[model._Custom[i].FieldName] = model._Custom[i].FieldValue
@@ -276,7 +276,7 @@
         });
     }
     //---------------------------------------------------------------------------------
-    static bulkGetValues($controls: JQuery) {
+     bulkGetValues($controls: JQuery) {
         var $control, tables, value, originalvalue, datafield, datafieldArray, table, field;
         tables = {};
         $controls.each(function (index, element) {
@@ -305,15 +305,15 @@
         return tables;
     }
     //---------------------------------------------------------------------------------
-    static toggle($controls: JQuery, isEnabled: boolean) {
+     toggle($controls: JQuery, isEnabled: boolean) {
         if (isEnabled) {
-            FwFormField.enable($controls);
+            this.enable($controls);
         } else {
-            FwFormField.disable($controls);
+            this.disable($controls);
         }
     }
     //---------------------------------------------------------------------------------
-    static disable($controls: JQuery) {
+     disable($controls: JQuery) {
         $controls.each(function (index, element) {
             var $control, data_type;
             $control = jQuery(element);
@@ -329,7 +329,7 @@
         });
     }
     //---------------------------------------------------------------------------------
-    static enable($controls: JQuery) {
+     enable($controls: JQuery) {
         $controls.each(function (index, element) {
             var $control, data_type;
             $control = jQuery(element);
@@ -345,25 +345,25 @@
         });
     }
     //---------------------------------------------------------------------------------
-    static getValue($parent: JQuery, selector: string) {
+     getValue($parent: JQuery, selector: string) {
         var $fwformfield, value;
         $fwformfield = $parent.find(selector);
-        value = FwFormField.getValue2($fwformfield);
+        value = this.getValue2($fwformfield);
         return value;
     }
     //---------------------------------------------------------------------------------
-    static getValueByDataField($parent: JQuery, datafield: string) {
+     getValueByDataField($parent: JQuery, datafield: string) {
         var selector, value;
         selector = 'div[data-datafield="' + datafield + '"]';
         try {
-            value = FwFormField.getValue($parent, selector);
+            value = this.getValue($parent, selector);
         } catch (ex) {
-            throw 'FwFormField.getValueByDataField: Unable to get value for datafield: ' + datafield;
+            throw 'this.getValueByDataField: Unable to get value for datafield: ' + datafield;
         }
         return value;
     }
     //---------------------------------------------------------------------------------
-    static getValue2($fwformfield: JQuery) {
+     getValue2($fwformfield: JQuery) {
         var data_type, value, keys;
 
         data_type = $fwformfield.attr('data-type');
@@ -378,33 +378,33 @@
         return value;
     }
     //---------------------------------------------------------------------------------
-    static getValue3(parentselector: string, selector: string) {
+     getValue3(parentselector: string, selector: string) {
         var $parent, $fwformfield, value;
         $parent = jQuery(parentselector);
         $fwformfield = $parent.find(selector);
-        value = FwFormField.getValue2($fwformfield);
+        value = this.getValue2($fwformfield);
         return value;
     }
     //---------------------------------------------------------------------------------
-    static getTextByDataField($parent: JQuery, datafield: string) {
+     getTextByDataField($parent: JQuery, datafield: string) {
         var selector, value;
         selector = 'div[data-datafield="' + datafield + '"]';
         try {
-            value = FwFormField.getText($parent, selector);
+            value = this.getText($parent, selector);
         } catch (ex) {
             throw 'FwFormField.getValueByDataField: Unable to get value for datafield: ' + datafield;
         }
         return value;
     }
     //---------------------------------------------------------------------------------
-    static getText($parent: JQuery, selector: string) {
+     getText($parent: JQuery, selector: string) {
         var $fwformfield, value;
         $fwformfield = $parent.find(selector);
-        value = FwFormField.getText2($fwformfield);
+        value = this.getText2($fwformfield);
         return value;
     }
     //---------------------------------------------------------------------------------
-    static getText2($fwformfield: JQuery) {
+     getText2($fwformfield: JQuery) {
         var data_type, value, keys;
 
         data_type = $fwformfield.attr('data-type');
@@ -421,7 +421,7 @@
     //---------------------------------------------------------------------------------
     // text is optional
     // firechangeevent is optional
-    static setValue = function ($parent: JQuery, selector: string, value: string | number, text?: string | number, firechangeevent?: boolean) {
+     setValue = function ($parent: JQuery, selector: string, value: string | number, text?: string | number, firechangeevent?: boolean) {
         var $fwformfield, data_type, keys, $inputtext, $inputvalue;
         $fwformfield = $parent.find(selector);
         data_type = $fwformfield.attr('data-type');
@@ -433,7 +433,7 @@
         }
     }
     //---------------------------------------------------------------------------------
-    static setValue2($fwformfield: JQuery, value: string | number, text?: string | number, firechangeevent?: boolean) {
+     setValue2($fwformfield: JQuery, value: string | number, text?: string | number, firechangeevent?: boolean) {
         var data_type, keys, $inputtext, $inputvalue;
         data_type = $fwformfield.attr('data-type');
         if ($fwformfield.length === 0) throw 'FwFormField.setValue2: $fwformfield is empty';
@@ -444,13 +444,13 @@
         }
     }
     //---------------------------------------------------------------------------------
-    static setValueByDataField($parent: JQuery, datafield: string, value: string | number, text?: string | number, firechangeevent?: boolean) {
+     setValueByDataField($parent: JQuery, datafield: string, value: string | number, text?: string | number, firechangeevent?: boolean) {
         var selector;
         selector = 'div[data-datafield="' + datafield + '"]';
-        FwFormField.setValue($parent, selector, value, text, firechangeevent);
+        this.setValue($parent, selector, value, text, firechangeevent);
     }
     //---------------------------------------------------------------------------------
-    static onRemove($fwformfield: JQuery) {
+     onRemove($fwformfield: JQuery) {
         var data_type;
         data_type = $fwformfield.attr('data-type');
         if (typeof data_type === 'string') {
@@ -461,7 +461,7 @@
         }
     }
     //---------------------------------------------------------------------------------
-    static getControllerName($fwformfield: JQuery) {
+     getControllerName($fwformfield: JQuery) {
         var controllername = '';
         var $form = $fwformfield.closest('.fwform')
         if ($form.length > 0) {
@@ -478,8 +478,8 @@
         return controllername;
     }
     //---------------------------------------------------------------------------------
-    static getController($fwformfield: JQuery) {
-        var controllername = FwFormField.getControllerName($fwformfield);
+     getController($fwformfield: JQuery) {
+        var controllername = this.getControllerName($fwformfield);
         var controller = window[controllername];
         //if (typeof controller === 'undefined') { 
         //    throw 'There is no controller with the name: ' + controllername; 
@@ -487,9 +487,11 @@
         return controller;
     }
     //---------------------------------------------------------------------------------
-    static getDataField($parent: JQuery<HTMLElement>, datafield: string) {
+     getDataField($parent: JQuery<HTMLElement>, datafield: string) {
         var $field = $parent.find(`div[data-datafield="${datafield}"]`);
         return $field;
     }
     //---------------------------------------------------------------------------------
 }
+
+var FwFormField = new FwFormFieldClass();

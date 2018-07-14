@@ -305,7 +305,7 @@
             //        FwFunc.showError(ex);
             //    }
             //})
-            .on('change', '.runtime tfoot .pager select.pagesize', function () {
+            .on('change', '.runtime .pager select.pagesize', function () {
                 var $this, pagesize
                 try {
                     $this = jQuery(this);
@@ -316,7 +316,7 @@
                     FwFunc.showError(ex);
                 }
             })
-            .on('click', '.runtime tfoot .pager div.btnRefresh', function (e: JQuery.Event) {
+            .on('click', '.runtime .pager div.btnRefresh', function (e: JQuery.Event) {
                 try {
                     e.stopPropagation();
                     me.databind($control);
@@ -324,50 +324,134 @@
                     FwFunc.showError(ex);
                 }
             })
-            .on('click', 'tbody .browsecontextmenu', function () {
-                try {
-                    let $browse = jQuery(this).closest('.fwbrowse');
-                    if ($browse.attr('data-enabled') !== 'false') {
-                        var menuItemCount = 0;
-                        var $browsecontextmenu = jQuery(this);
-                        var $tr = $browsecontextmenu.closest('tr');
-                        //me.unselectAllRows($control);
-                        //me.selectRow($control, $tr, true);
-                        var $contextmenu = FwContextMenu.render('Options', 'bottomleft', $browsecontextmenu);
-                        //$contextmenu.data('beforedestroy', function () {
-                        //    me.unselectRow($control, $tr);
-                        //});
+            //.on('click', 'tbody .browsecontextmenu', function () {
+            //    try {
+            //        let $browse = jQuery(this).closest('.fwbrowse');
+            //        if ($browse.attr('data-enabled') !== 'false') {
+            //            var menuItemCount = 0;
+            //            var $browsecontextmenu = jQuery(this);
+            //            var $tr = $browsecontextmenu.closest('tr');
+            //            //me.unselectAllRows($control);
+            //            //me.selectRow($control, $tr, true);
+            //            var $contextmenu = FwContextMenu.render('Options', 'bottomleft', $browsecontextmenu);
+            //            //$contextmenu.data('beforedestroy', function () {
+            //            //    me.unselectRow($control, $tr);
+            //            //});
 
-                        var controller = $control.attr('data-controller');
-                        if (typeof controller === 'undefined') {
-                            throw 'Attribute data-controller is not defined on Browse control.'
+            //            var controller = $control.attr('data-controller');
+            //            if (typeof controller === 'undefined') {
+            //                throw 'Attribute data-controller is not defined on Browse control.'
+            //            }
+            //            var nodeController = FwApplicationTree.getNodeByController(controller);
+            //            if (nodeController !== null) {
+            //                var deleteActions = FwApplicationTree.getChildrenByType(nodeController, 'DeleteMenuBarButton');
+            //                if (deleteActions.length > 1) {
+            //                    throw 'Invalid Security Tree configuration.  Only 1 DeleteMenuBarButton is permitted on a Controller.';
+            //                }
+            //                if (deleteActions.length === 1 && deleteActions[0].properties['visible'] === 'T') {
+            //                    FwContextMenu.addMenuItem($contextmenu, 'Delete', function () {
+            //                        try {
+            //                            var $tr = jQuery(this).closest('tr');
+            //                            me.deleteRow($control, $tr);
+            //                        } catch (ex) {
+            //                            FwFunc.showError(ex);
+            //                        }
+            //                    });
+            //                    menuItemCount++;
+            //                }
+            //            }
+            //            if (menuItemCount === 0) {
+            //                FwContextMenu.destroy($contextmenu);
+            //            }
+            //        }
+            //    } catch (ex) {
+            //        FwFunc.showError(ex);
+            //    }
+            //});
+
+            $control
+                .on('click', '.runtime .pager div.buttons .btnFirstPage', function (e: JQuery.Event) {
+                    try {
+                        e.stopPropagation();
+                        var $btnFirstPage = jQuery(this);
+                        if ($btnFirstPage.attr('data-enabled') === 'true') {
+                            $control.attr('data-pageno', '1');
+                            me.databind($control);
                         }
-                        var nodeController = FwApplicationTree.getNodeByController(controller);
-                        if (nodeController !== null) {
-                            var deleteActions = FwApplicationTree.getChildrenByType(nodeController, 'DeleteMenuBarButton');
-                            if (deleteActions.length > 1) {
-                                throw 'Invalid Security Tree configuration.  Only 1 DeleteMenuBarButton is permitted on a Controller.';
-                            }
-                            if (deleteActions.length === 1 && deleteActions[0].properties['visible'] === 'T') {
-                                FwContextMenu.addMenuItem($contextmenu, 'Delete', function () {
-                                    try {
-                                        var $tr = jQuery(this).closest('tr');
-                                        me.deleteRow($control, $tr);
-                                    } catch (ex) {
-                                        FwFunc.showError(ex);
-                                    }
-                                });
-                                menuItemCount++;
-                            }
-                        }
-                        if (menuItemCount === 0) {
-                            FwContextMenu.destroy($contextmenu);
-                        }
+                    } catch (ex) {
+                        FwFunc.showError(ex);
                     }
-                } catch (ex) {
-                    FwFunc.showError(ex);
-                }
-            });
+                });
+            $control
+                .on('click', '.runtime .pager div.buttons .btnPreviousPage', function (e: JQuery.Event) {
+                    try {
+                        e.stopPropagation();
+                        me.prevPage($control);
+                    } catch (ex) {
+                        FwFunc.showError(ex);
+                    }
+                });
+            $control
+                .on('change', '.runtime .pager div.buttons .txtPageNo', function () {
+                    var pageno, originalpageno, originalpagenoStr, $txtPageNo, totalPages;
+                    try {
+                        $txtPageNo = jQuery(this);
+                        originalpagenoStr = $txtPageNo.val();
+                        if (!isNaN(originalpagenoStr)) {
+                            pageno = parseInt(originalpagenoStr);
+                            originalpageno = pageno;
+                            totalPages = parseInt($control.find('.runtime .pager div.buttons .txtTotalPages').html());
+                            pageno = (pageno >= 1) ? pageno : 1;
+                            pageno = (pageno <= totalPages) ? pageno : totalPages;
+                            if (pageno === originalpageno) {
+                                me.setPageNo($control, pageno);
+                                me.databind($control);
+                            } else {
+                                $control.find('.runtime .pager div.buttons .txtTotalPages').val(pageno);
+                            }
+                        } else {
+
+                        }
+                    } catch (ex) {
+                        $control.find('.runtime .pager div.buttons .txtTotalPages').val(originalpagenoStr);
+                        FwFunc.showError(ex);
+                    }
+                });
+            $control
+                .on('click', '.runtime .pager div.buttons .btnNextPage', function (e: JQuery.Event) {
+                    try {
+                        e.stopPropagation();
+                        me.nextPage($control);
+                    } catch (ex) {
+                        FwFunc.showError(ex);
+                    }
+                });
+            $control
+                .on('click', '.runtime .pager div.buttons .btnLastPage', function (e: JQuery.Event) {
+                    try {
+                        e.stopPropagation();
+                        var $btnLastPage = jQuery(this);
+                        if ($btnLastPage.attr('data-enabled') === 'true') {
+                            var pageno = me.getTotalPages($control);
+                            me.setPageNo($control, pageno);
+                            me.databind($control);
+                        }
+                    } catch (ex) {
+                        FwFunc.showError(ex);
+                    }
+                });
+            $control
+                .on('change', '.runtime .pager select.activeinactiveview', function () {
+                    var $selectActiveInactiveView, view;
+                    try {
+                        $selectActiveInactiveView = jQuery(this);
+                        view = $selectActiveInactiveView.val();
+                        $control.attr('data-activeinactiveview', view);
+                        me.search($control);
+                    } catch (ex) {
+                        FwFunc.showError(ex);
+                    }
+                });
 
         //Events only attached when the API is not defined for the control.
         var controller = window[$control.attr('data-controller')];
@@ -898,19 +982,18 @@
                 html.push('</tr>');
                 html.push('</thead>');
                 html.push('<tbody>');
-                for (var i = 1; i <= 10; i++) {
+                for (var rowno = 1; rowno <= 10; rowno++) {
                     html.push('<tr>');
                     html.push('<td class="addcolumn"></td>');
-                    $columns.each(function (index, column) {
+                    for (let colno = 0; colno < $columns.length; colno++) {
                         var $column, caption, browsedatafield, cssclass, browsedatatype, formdatafield, formdatatype, width, visible, $fields;
-                        $column = jQuery(column);
-                        width = $column.attr('data-width');
+                        let $column = $columns.eq(colno);
+                        let width = $column.attr('data-width');
                         visible = $column.attr('data-visible');
                         html.push('<td class="column">');
                         $fields = $column.find('> .field');
-                        $fields.each(function (index, field) {
-                            var $field;
-                            $field = jQuery(field);
+                        for (let fieldno = 0; fieldno < $fields.length; fieldno++) {
+                            let $field = $fields.eq(fieldno);
                             caption = $field.attr('data-caption');
                             cssclass = $field.attr('data-cssclass');
                             browsedatafield = $field.attr('data-browsedatafield');
@@ -918,12 +1001,38 @@
                             browsedatafield = $field.attr('data-formdatafield');
                             browsedatafield = $field.attr('data-formdatatype');
                             html.push('<div class="field ' + cssclass + '">');
-                            html.push(browsedatafield + i.toString());
+                            html.push(browsedatafield + rowno.toString());
                             html.push('</div>');
+                        }
+                        $fields.each(function (index, field) {
+                            
                         });
                         html.push('</td>');
                         html.push('<td class="addcolumn"></td>');
-                    });
+                    }
+                    //$columns.each(function (index, column) {
+                    //    var $column, caption, browsedatafield, cssclass, browsedatatype, formdatafield, formdatatype, width, visible, $fields;
+                    //    $column = jQuery(column);
+                    //    width = $column.attr('data-width');
+                    //    visible = $column.attr('data-visible');
+                    //    html.push('<td class="column">');
+                    //    $fields = $column.find('> .field');
+                    //    $fields.each(function (index, field) {
+                    //        var $field;
+                    //        $field = jQuery(field);
+                    //        caption = $field.attr('data-caption');
+                    //        cssclass = $field.attr('data-cssclass');
+                    //        browsedatafield = $field.attr('data-browsedatafield');
+                    //        browsedatatype = $field.attr('data-browsedatatype');
+                    //        browsedatafield = $field.attr('data-formdatafield');
+                    //        browsedatafield = $field.attr('data-formdatatype');
+                    //        html.push('<div class="field ' + cssclass + '">');
+                    //        html.push(browsedatafield + i.toString());
+                    //        html.push('</div>');
+                    //    });
+                    //    html.push('</td>');
+                    //    html.push('<td class="addcolumn"></td>');
+                    //});
                     html.push('</tr>');
                 }
                 html.push('</tbody>');
@@ -980,7 +1089,7 @@
                     var $column = $columns.eq(colno);
                     var width = $column.attr('data-width');
                     var visible = (typeof $column.attr('data-visible') !== 'undefined') ? ($column.attr('data-visible') === 'true') : true;
-                    html.push('<td class="column" data-width="' + width + '" data-visible="' + visible + '" style="width:' + width + ';');
+                    html.push('<td class="column" data-visible="' + visible + '" style="');
                     if (!visible) {
                         html.push('display:none;');
                     }
@@ -1037,7 +1146,7 @@
                 html.push('<tr class="empty">');
                 for (var colno = 0; colno < $columns.length; colno++) {
                     var $column = $columns.eq(colno);
-                    var width = $column.attr('data-width');
+                    //var width = $column.attr('data-width');
                     var visible = (typeof $column.attr('data-visible') !== 'undefined') ? ($column.attr('data-visible') === 'true') : true;
                     html.push('<td class="column"');
                     if (!visible) {
@@ -1048,28 +1157,19 @@
                 html.push('</tr>');
                 html.push('</tbody>');
 
-                html.push('<tfoot>');
-                colspan = $columns.filter('*[data-visible="true"]').length;
-                html.push('<tr class="spacerrow">');
-                html.push('<td colspan="' + (colspan + 2) + '">');
-                html.push('<div>&nbsp;</div>');
-                html.push('</td>');
-                html.push('</tr>');
+                //html.push('<tfoot>');
+                //colspan = $columns.filter('*[data-visible="true"]').length;
+                //html.push('<tr class="spacerrow">');
+                //html.push('<td colspan="' + (colspan + 2) + '">');
+                //html.push('<div>&nbsp;</div>');
+                //html.push('</td>');
+                //html.push('</tr>');
 
-                html.push('<tr class="legendrow" style="display:none;">');
-                html.push('<td colspan="' + (colspan + 2) + '">');
-                html.push('<div class="legend"></div>');
-                html.push('</td>');
-                html.push('</tr>');
-
-                html.push('<tr class="pagerrow">');
-                html.push('<td colspan="' + (colspan + 2) + '">');
-                html.push('<div class="pager"></div>');
-                html.push('</td>');
-                html.push('</tr>');
-                html.push('</tfoot>');
+                //html.push('</tfoot>');
                 html.push('</table>');
                 html.push('</div>');
+                html.push('<div class="legend" style="display:none;"></div>');
+                html.push('<div class="pager"></div>');
                 if ($control.attr('data-type') === 'Validation') {
                     html.push('<div class="validationbuttons">');
                     html.push('<div class="fwbrowsebutton btnSelect">Select</div>');
@@ -1089,6 +1189,81 @@
                 html = html.join('');
                 $control.html(html);
                 $control.attr('data-rendermode', 'runtime');
+
+                // build pager
+                let controlType = $control.attr('data-type');
+                let htmlPager = [];
+                switch (controlType) {
+                    case 'Browse':
+                        htmlPager.push('<div class="col1" style="width:33%;overflow:hidden;float:left;">');
+                        htmlPager.push('  <div class="btnRefresh" title="Refresh" tabindex="0"><i class="material-icons">&#xE5D5;</i></div>');
+                        htmlPager.push('  <div class="count"></div>');
+                        htmlPager.push('</div>');
+                        htmlPager.push('<div class="col2" style="width:34%;overflow:hidden;float:left;height:32px;text-align:center;">');
+                        htmlPager.push('  <div class="buttons">');
+                        htmlPager.push('    <div class="button btnFirstPage" disabled="disabled" data-enabled="false" title="First" alt="First"><i class="material-icons">&#xE5DC;</i></div>');
+                        htmlPager.push('    <div class="button btnPreviousPage" disabled="disabled" data-enabled="false" title="Previous" alt="Previous"><i class="material-icons">&#xE5CB;</i></div>');
+                        htmlPager.push('    <div class="page">');
+                        htmlPager.push('      <input class="txtPageNo" type="text" value="0" />');
+                        htmlPager.push('      <div class="of">of</div>');
+                        htmlPager.push('      <div class="txtTotalPages">0 row(s)</div>');
+                        htmlPager.push('    </div>');
+                        htmlPager.push('    <div class="button btnNextPage" disabled="disabled" data-enabled="false" title="Next" alt="Next"><i class="material-icons">&#xE5CC;</i></div>');
+                        htmlPager.push('    <div class="button btnLastPage" disabled="disabled" data-enabled="false" title="Last" alt="Last"><i class="material-icons">&#xE5DD;</i></div>');
+                        htmlPager.push('  </div>');
+                        htmlPager.push('</div>');
+                        htmlPager.push('<div class="col3" style="width:33%;overflow:hidden;float:left;">');
+                        htmlPager.push('  <div class="pagesize">');
+                        htmlPager.push('    <select class="pagesize">');
+                        htmlPager.push('      <option value="5">5</option>');
+                        htmlPager.push('      <option value="10">10</option>');
+                        htmlPager.push('      <option value="15">15</option>');
+                        htmlPager.push('      <option value="20">20</option>');
+                        htmlPager.push('      <option value="25">25</option>');
+                        htmlPager.push('      <option value="30">30</option>');
+                        htmlPager.push('      <option value="35">35</option>');
+                        htmlPager.push('      <option value="40">40</option>');
+                        htmlPager.push('      <option value="45">45</option>');
+                        htmlPager.push('      <option value="50">50</option>');
+                        htmlPager.push('      <option value="100">100</option>');
+                        htmlPager.push('      <option value="200">200</option>');
+                        htmlPager.push('      <option value="500">500</option>');
+                        htmlPager.push('      <option value="1000">1000</option>');
+                        //htmlPager.push('      <option value="0">All</option>');
+                        htmlPager.push('    </select>');
+                        htmlPager.push('    <span class="caption">rows per page</span>');
+                        htmlPager.push('  </div>');
+                        htmlPager.push('</div>');
+                        break;
+                    case 'Grid':
+                        htmlPager.push('<div class="btnRefresh" title="Refresh" tabindex="0"><i class="material-icons">&#xE5D5;</i></div>');
+                    case 'Validation':
+                        htmlPager.push('<div class="buttons" style="float:left;">');
+                        htmlPager.push('  <div class="button btnFirstPage" disabled="disabled" data-enabled="false" title="First" alt="First"><i class="material-icons">&#xE5DC;</i></div>');
+                        htmlPager.push('  <div class="button btnPreviousPage" disabled="disabled" data-enabled="false" title="Previous" alt="Previous"><i class="material-icons">&#xE5CB;</i></div>');
+                        htmlPager.push('  <input class="txtPageNo" style="display:none;" type="text" value="0"/>');
+                        htmlPager.push('  <span class="of" style="display:none;"> of </span>');
+                        htmlPager.push('  <span class="txtTotalPages" style="display:none;">0</span>');
+                        htmlPager.push('  <div class="button btnNextPage" disabled="disabled" data-enabled="false" title="Next" alt="Next"><i class="material-icons">&#xE5CC;</i></div>');
+                        htmlPager.push('  <div class="button btnLastPage" disabled="disabled" data-enabled="false" title="Last" alt="Last"><i class="material-icons">&#xE5DD;</i></div>');
+                        htmlPager.push('</div>');
+                        htmlPager.push('<div class="count">0 row(s)</div>');
+                        if ((controlType === 'Grid') && (typeof $control.attr('data-activeinactiveview') === 'string') && (FwSecurity.isUser())) {
+                            htmlPager.push('<div class="activeinactiveview" style="float:right;">');
+                            htmlPager.push('  <select class="activeinactiveview">');
+                            htmlPager.push('    <option value="active">Show Active</option>');
+                            htmlPager.push('    <option value="inactive">Show Inactive</option>');
+                            htmlPager.push('    <option value="all">Show All</option>');
+                            htmlPager.push('</div>');
+                        }
+                        break;
+                }
+                let htmlPagerStr = htmlPager.join('');
+                let $pager = $control.find('.runtime .pager');
+                $pager.html(htmlPagerStr);
+                $pager.find('select.pagesize').val($control.attr('data-pagesize'));
+                $pager.find('select.activeinactiveview').val($control.attr('data-activeinactiveview'));
+                $pager.show();
 
                 // mv 2018-07-08 this is really the wrong place for this.  This needs to be in one of the column files.  Need a way to edit the header html from the column files
                 (<any>$control.find('.value')).datepicker({
@@ -1447,6 +1622,7 @@
                 window[controller]['addLegend']($control);
             }
         }
+        //(<any>$control.find('.runtime > .tablewrapper > table')).colResizable();
         me.setGridBrowseMode($control);
     }
     //---------------------------------------------------------------------------------
@@ -1916,6 +2092,10 @@
                         e.stopPropagation();
                         let $browse = jQuery(this).closest('.fwbrowse');
                         if ($browse.attr('data-enabled') !== 'false') {
+                            let $fwcontextmenus = $browse.find('tbody .fwcontextmenu');
+                            for (let i = 0; i < $fwcontextmenus.length; i++) {
+                                FwContextMenu.destroy($fwcontextmenus.eq(i));
+                            }
                             var menuItemCount = 0;
                             var $browsecontextmenu = jQuery(this);
                             var $tr = $browsecontextmenu.closest('tr');
@@ -1994,221 +2174,82 @@
             }
 
             // set the spacer row height;
-            if (pageSize <= 15) {
-                $control.find('.runtime tfoot tr.spacerrow > td > div').height(25 * (pageSize - dt.Rows.length));
-            } else {
-                $control.find('.runtime tfoot tr.spacerrow > td > div').height(25 * (15 - dt.Rows.length));
-            }
+            //let spacerHeight = 0;
+            //if (pageSize <= 15) {
+            //    spacerHeight = 25 * (pageSize - dt.Rows.length);
+            //} else {
+            //    spacerHeight = 25 * (15 - dt.Rows.length);
+            //}
+            //if (spacerHeight > 0) {
+            //    $control.find('.runtime tfoot tr.spacerrow > td > div').show().height(spacerHeight);
+            //} else {
+            //    $control.find('.runtime tfoot tr.spacerrow > td > div').hide();
+            //}
 
-            // build pager
-            controlType = $control.attr('data-type');
-            htmlPager = [];
-            var rownostart = (((dt.PageNo * pageSize) - pageSize + 1) > 0) ? ((dt.PageNo * pageSize) - pageSize + 1) : 0;
-            var rownoend = (((dt.PageNo * pageSize) - pageSize + 1) > 0) ? (dt.PageNo * pageSize) - (pageSize - dt.Rows.length) : 0;
+            // update pager
+            let rownostart = (((dt.PageNo * pageSize) - pageSize + 1) > 0) ? ((dt.PageNo * pageSize) - pageSize + 1) : 0;
+            let rownoend = (((dt.PageNo * pageSize) - pageSize + 1) > 0) ? (dt.PageNo * pageSize) - (pageSize - dt.Rows.length) : 0;
+            if (dt.TotalPages > 1) {
+                if ((pageSize > 0) && (dt.PageNo > 1)) {
+                    $control.find('.pager .btnFirstPage')
+                        .attr('data-enabled', 'true')
+                        .prop('disabled', false);
+                    $control.find('.pager .btnPreviousPage')
+                        .attr('data-enabled', 'true')
+                        .prop('disabled', false);
+                } else {
+                    $control.find('.pager .btnFirstPage')
+                        .attr('data-enabled', 'false')
+                        .prop('disabled', true);
+                    $control.find('.pager .btnPreviousPage')
+                        .attr('data-enabled', 'false')
+                        .prop('disabled', true);
+                }
+                if (dt.TotalPages > 0) {
+                    $control.find('.txtPageNo').val(dt.PageNo);
+                } else {
+                    $control.find('.txtPageNo').val('0');
+                }
+                $control.find('.pager .txtTotalPages').text(dt.TotalPages);
+                if ((pageSize > 0) && (dt.TotalPages > 1) && (dt.PageNo < dt.TotalPages)) {
+                    $control.find('.pager .btnNextPage')
+                        .attr('data-enabled', 'true')
+                        .prop('disabled', false);
+                    $control.find('.pager .btnLastPage')
+                        .attr('data-enabled', 'true')
+                        .prop('disabled', false);
+                } else {
+                    $control.find('.pager .btnNextPage')
+                        .attr('data-enabled', 'false')
+                        .prop('disabled', true);
+                    $control.find('.pager .btnLastPage')
+                        .attr('data-enabled', 'false')
+                        .prop('disabled', true);
+                }
+            }
+            let controlType = $control.attr('data-type');
             switch (controlType) {
                 case 'Browse':
-                    htmlPager.push('<div class="col1" style="width:33%;overflow:hidden;float:left;">');
-                    htmlPager.push('<div class="btnRefresh" title="Refresh" tabindex="0">');
-                    htmlPager.push('<i class="material-icons">&#xE5D5;</i>');
-                    htmlPager.push('</div>');
                     if ((rownoend === 0) && (dt.TotalRows === 0)) {
-                        htmlPager.push('<div class="count">' + dt.TotalRows + ' rows</div>');
+                        $control.find('.pager .count').text(dt.TotalRows + ' rows');
                     } else {
                         if (dt.TotalPages == 1) {
-                            htmlPager.push('<div class="count">' + dt.TotalRows + ' rows</div>');
+                            $control.find('.pager .count').text(dt.TotalRows + ' rows');
                         } else {
-                            htmlPager.push('<div class="count">' + rownostart + ' to ' + rownoend + ' of ' + dt.TotalRows + ' rows</div>');
+                            $control.find('.pager .count').text(rownostart + ' to ' + rownoend + ' of ' + dt.TotalRows + ' rows');
                         }
                     }
-                    htmlPager.push('</div>');
-                    htmlPager.push('<div class="col2" style="width:34%;overflow:hidden;float:left;height:32px;text-align:center;">');
-                    if (dt.TotalPages > 1) {
-                        htmlPager.push('<div class="buttons">');
-                        if ((pageSize > 0) && (dt.PageNo > 1)) {
-                            htmlPager.push('<div tabindex="0" class="button btnFirstPage" data-enabled="true" title="First" alt="First"><i class="material-icons">&#xE5DC;</i></div>');
-                            htmlPager.push('<div tabindex="0" class="button btnPreviousPage" data-enabled="true" title="Previous" alt="Previous"><i class="material-icons">&#xE5CB;</i></div>');
-                        } else {
-                            htmlPager.push('<div class="button btnFirstPage" disabled="disabled" data-enabled="false" title="First" alt="First"><i class="material-icons">&#xE5DC;</i></div>');
-                            htmlPager.push('<div class="button btnPreviousPage" disabled="disabled" data-enabled="false" title="Previous" alt="Previous"><i class="material-icons">&#xE5CB;</i></div>');
-                        }
-                        htmlPager.push('<div class="page">');
-                        if (dt.TotalPages > 0) {
-                            htmlPager.push('<input class="txtPageNo" type="text" value="' + dt.PageNo + '" />');
-                        } else {
-                            htmlPager.push('<input class="txtPageNo" type="text" value="0" />');
-                        }
-                        htmlPager.push('<div class="of">of</div>');
-                        htmlPager.push('<div class="txtTotalPages">' + dt.TotalPages + '</div>');
-                        htmlPager.push('</div>');
-                        if ((pageSize > 0) && (dt.TotalPages > 1) && (dt.PageNo < dt.TotalPages)) {
-                            htmlPager.push('<div class="button btnNextPage" data-enabled="true" title="Next" alt="Next"><i class="material-icons">&#xE5CC;</i></div>');
-                            htmlPager.push('<div class="button btnLastPage" data-enabled="true" title="Last" alt="Last"><i class="material-icons">&#xE5DD;</i></div>');
-                        } else {
-                            htmlPager.push('<div class="button btnNextPage" disabled="disabled" data-enabled="false" title="Next" alt="Next"><i class="material-icons">&#xE5CC;</i></div>');
-                            htmlPager.push('<div class="button btnLastPage" disabled="disabled" data-enabled="false" title="Last" alt="Last"><i class="material-icons">&#xE5DD;</i></div>');
-                        }
-                        htmlPager.push('</div>');
-                    }
-                    htmlPager.push('</div>');
-                    htmlPager.push('<div class="col3" style="width:33%;overflow:hidden;float:left;">');
-                    htmlPager.push('<div class="pagesize">');
-                    htmlPager.push('<select class="pagesize">');
-                    htmlPager.push('<option value="5">5</option>');
-                    htmlPager.push('<option value="10">10</option>');
-                    htmlPager.push('<option value="15">15</option>');
-                    htmlPager.push('<option value="20">20</option>');
-                    htmlPager.push('<option value="25">25</option>');
-                    htmlPager.push('<option value="30">30</option>');
-                    htmlPager.push('<option value="35">35</option>');
-                    htmlPager.push('<option value="40">40</option>');
-                    htmlPager.push('<option value="45">45</option>');
-                    htmlPager.push('<option value="50">50</option>');
-                    htmlPager.push('<option value="100">100</option>');
-                    htmlPager.push('<option value="200">200</option>');
-                    htmlPager.push('<option value="500">500</option>');
-                    htmlPager.push('<option value="1000">1000</option>');
-                    //htmlPager.push('<option value="0">All</option>');
-                    htmlPager.push('</select>');
-                    htmlPager.push('<span class="caption">rows per page</span>');
-                    htmlPager.push('</div>');
-                    htmlPager.push('</div>');
                     break;
                 case 'Grid':
-                    htmlPager.push('<div class="btnRefresh" title="Refresh" tabindex="0">');
-                    htmlPager.push('<i class="material-icons">&#xE5D5;</i>');
-                    htmlPager.push('</div>');
                 case 'Validation':
-                    if (dt.TotalPages > 1) {
-                        htmlPager.push('<div class="buttons" style="float:left;">');
-                        if ((pageSize > 0) && (dt.PageNo > 1)) {
-                            htmlPager.push('<div tabindex="0" class="button btnFirstPage" data-enabled="true" title="First" alt="First"><i class="material-icons">&#xE5DC;</i></div>');
-                            htmlPager.push('<div tabindex="0" class="button btnPreviousPage" data-enabled="true" title="Previous" alt="Previous"><i class="material-icons">&#xE5CB;</i></div>');
-                        } else {
-                            htmlPager.push('<div class="button btnFirstPage" disabled="disabled" data-enabled="false" title="First" alt="First"><i class="material-icons">&#xE5DC;</i></div>');
-                            htmlPager.push('<div class="button btnPreviousPage" disabled="disabled" data-enabled="false" title="Previous" alt="Previous"><i class="material-icons">&#xE5CB;</i></div>');
-                        }
-                        htmlPager.push('<input class="txtPageNo" style="display:none;" type="text" value="' + dt.PageNo + '"/>');
-                        htmlPager.push('<span class="of" style="display:none;"> of </span>');
-                        htmlPager.push('<span class="txtTotalPages" style="display:none;">' + dt.TotalPages + '</span>');
-                        if ((pageSize > 0) && (dt.TotalPages > 1) && (dt.PageNo < dt.TotalPages)) {
-                            htmlPager.push('<div class="button btnNextPage" data-enabled="true" title="Next" alt="Next"><i class="material-icons">&#xE5CC;</i></div>');
-                            htmlPager.push('<div class="button btnLastPage" data-enabled="true" title="Last" alt="Last"><i class="material-icons">&#xE5DD;</i></div>');
-                        } else {
-                            htmlPager.push('<div class="button btnNextPage" disabled="disabled" data-enabled="false" title="Next" alt="Next"><i class="material-icons">&#xE5CC;</i></div>');
-                            htmlPager.push('<div class="button btnLastPage" disabled="disabled" data-enabled="false" title="Last" alt="Last"><i class="material-icons">&#xE5DD;</i></div>');
-                        }
-                        htmlPager.push('</div>');
-                    }
-                    htmlPager.push('<div class="count">' + dt.TotalRows + ' row(s)</div>');
-                    if ((controlType === 'Grid') && (typeof $control.attr('data-activeinactiveview') === 'string') && (FwSecurity.isUser())) {
-                        htmlPager.push('<div class="activeinactiveview" style="float:right;">');
-                        htmlPager.push('  <select class="activeinactiveview">');
-                        htmlPager.push('    <option value="active">Show Active</option>');
-                        htmlPager.push('    <option value="inactive">Show Inactive</option>');
-                        htmlPager.push('    <option value="all">Show All</option>');
-                        htmlPager.push('</div>');
-                    }
+                    $control.find('.pager .count').text(dt.TotalRows + ' row(s)');
                     break;
             }
-            htmlPager = htmlPager.join('');
-            $pager = $control.find('.runtime tfoot > tr > td > .pager');
-            $pager.html(htmlPager);
-            $pager.find('select.pagesize').val($control.attr('data-pagesize'));
-            $pager.find('select.activeinactiveview').val($control.attr('data-activeinactiveview'));
-            $pager.show();
 
             if ((typeof onrowdblclick !== 'undefined') && ($control.attr('data-multiselectvalidation') !== 'true')) {
                 $control.find('.runtime tbody > tr').on('dblclick', onrowdblclick);
             }
-            $control.find('.runtime tfoot > tr > td > .pager div.buttons .btnFirstPage')
-                .on('click', function (e: JQuery.Event) {
-                    try {
-                        e.stopPropagation();
-                        var $btnFirstPage = jQuery(this);
-                        if ($btnFirstPage.attr('data-enabled') === 'true') {
-                            $control.attr('data-pageno', '1');
-                            me.databind($control);
-                        }
-                    } catch (ex) {
-                        FwFunc.showError(ex);
-                    }
-                })
-                ;
-            $control.find('.runtime tfoot > tr > td > .pager div.buttons .btnPreviousPage')
-                .on('click', function (e: JQuery.Event) {
-                    try {
-                        e.stopPropagation();
-                        me.prevPage($control);
-                    } catch (ex) {
-                        FwFunc.showError(ex);
-                    }
-                })
-                ;
-            $control.find('.runtime tfoot > tr > td > .pager div.buttons .txtPageNo')
-                .on('change', function () {
-                    var pageno, originalpageno, originalpagenoStr, $txtPageNo, totalPages;
-                    try {
-                        $txtPageNo = jQuery(this);
-                        originalpagenoStr = $txtPageNo.val();
-                        if (!isNaN(originalpagenoStr)) {
-                            pageno = parseInt(originalpagenoStr);
-                            originalpageno = pageno;
-                            totalPages = parseInt($control.find('.runtime tfoot > tr > td > .pager div.buttons .txtTotalPages').html());
-                            pageno = (pageno >= 1) ? pageno : 1;
-                            pageno = (pageno <= totalPages) ? pageno : totalPages;
-                            if (pageno === originalpageno) {
-                                me.setPageNo($control, pageno);
-                                me.databind($control);
-                            } else {
-                                $control.find('.runtime tfoot > tr > td > .pager div.buttons .txtTotalPages').val(pageno);
-                            }
-                        } else {
 
-                        }
-                    } catch (ex) {
-                        $control.find('.runtime tfoot > tr > td > .pager div.buttons .txtTotalPages').val(originalpagenoStr);
-                        FwFunc.showError(ex);
-                    }
-                })
-                ;
-            $control.find('.runtime tfoot > tr > td > .pager div.buttons .btnNextPage')
-                .on('click', function (e: JQuery.Event) {
-                    try {
-                        e.stopPropagation();
-                        me.nextPage($control);
-                    } catch (ex) {
-                        FwFunc.showError(ex);
-                    }
-                })
-                ;
-            $control.find('.runtime tfoot > tr > td > .pager div.buttons .btnLastPage')
-                .on('click', function (e: JQuery.Event) {
-                    try {
-                        e.stopPropagation();
-                        var $btnLastPage = jQuery(this);
-                        if ($btnLastPage.attr('data-enabled') === 'true') {
-                            var pageno = me.getTotalPages($control);
-                            me.setPageNo($control, pageno);
-                            me.databind($control);
-                        }
-                    } catch (ex) {
-                        FwFunc.showError(ex);
-                    }
-                })
-                ;
-            $control.find('.runtime .pager select.activeinactiveview')
-                .on('change', function () {
-                    var $selectActiveInactiveView, view;
-                    try {
-                        $selectActiveInactiveView = jQuery(this);
-                        view = $selectActiveInactiveView.val();
-                        $control.attr('data-activeinactiveview', view);
-                        me.search($control);
-                    } catch (ex) {
-                        FwFunc.showError(ex);
-                    }
-                })
-                ;
             if ((typeof $control.attr('data-type') === 'string') && ($control.attr('data-type') === 'Validation')) {
                 FwValidation.validateSearchCallback($control);
             }
@@ -2253,11 +2294,10 @@
         $table = $control.find('table');
         $tr = jQuery('<tr>');
         $theadtds = $table.find('> thead > tr.fieldnames > td.column');
-        $theadtds.each(function (index, element) {
-            var $theadtd, $td, width, $fields;
-            $theadtd = jQuery(element);
-            $td = $theadtd.clone().empty();
-            $td.css({ 'min-width': width });
+        for (let i = 0; i < $theadtds.length; i++) {
+            let $theadtd = $theadtds.eq(i);
+            let $td = $theadtd.clone().empty();
+            //$td.css({ 'min-width': width });
             $tr.append($td);
             var $theadfields = $theadtd.children('.field');
             $theadfields.each(function (index, element) {
@@ -2266,7 +2306,7 @@
                 $field = $theadfield.clone().empty();
                 $td.append($field);
             });
-        });
+        }
 
         if (($control.attr('data-type') === 'Browse') && ($control.attr('data-hasmultirowselect') === 'true')) {
             var cbuniqueId = FwApplication.prototype.uniqueId(10);
@@ -2884,16 +2924,16 @@
     }
     //---------------------------------------------------------------------------------
     addLegend($control: JQuery, caption: string, color: string) {
-        var html, $legenditem;
-        $control.find('tr.legendrow').show();
-        html = [];
+        let html = [];
         html.push('<div class="legenditem">');
         html.push('  <div class="color" style="background-color:' + color + '"></div>');
         html.push('  <div class="caption">' + caption + '</div>');
         html.push('</div>');
-        html = html.join('\n');
-        $legenditem = jQuery(html);
-        $control.find('div.legend').append($legenditem);
+        let htmlString = html.join('\n');
+        let $legenditem = jQuery(htmlString);
+        let $legend = $control.find('.legend');
+        $legend.append($legenditem);
+        $legend.show();
     }
     //----------------------------------------------------------------------------------------------
     getGridData($object: JQuery, request: any, responseFunc: Function) {

@@ -1,9 +1,7 @@
-var FwBrowseColumn_timeClass = (function () {
-    function FwBrowseColumn_timeClass() {
+class FwBrowseColumn_timeClass {
+    databindfield($browse, $field, dt, dtRow, $tr) {
     }
-    FwBrowseColumn_timeClass.prototype.databindfield = function ($browse, $field, dt, dtRow, $tr) {
-    };
-    FwBrowseColumn_timeClass.prototype.getFieldValue = function ($browse, $tr, $field, field, originalvalue) {
+    getFieldValue($browse, $tr, $field, field, originalvalue) {
         if (($tr.hasClass('editmode')) || ($tr.hasClass('newmode'))) {
             var $value = $field.find('input.value');
             if ($value.length > 0) {
@@ -13,27 +11,27 @@ var FwBrowseColumn_timeClass = (function () {
                 field.value = originalvalue;
             }
         }
-    };
-    FwBrowseColumn_timeClass.prototype.setFieldValue = function ($browse, $tr, $field, data) {
+    }
+    setFieldValue($browse, $tr, $field, data) {
         $field.find('input.value').val(data.value);
-    };
-    FwBrowseColumn_timeClass.prototype.isModified = function ($browse, $tr, $field) {
+    }
+    isModified($browse, $tr, $field) {
         var isModified = false;
-        var originalValue = $field.attr('data-originalvalue');
+        let originalValue = $field.attr('data-originalvalue');
         if (($tr.hasClass('editmode')) || ($tr.hasClass('newmode'))) {
-            var currentValue = $field.find('input.value').val();
+            let currentValue = $field.find('input.value').val();
             isModified = currentValue !== originalValue;
         }
         return isModified;
-    };
-    FwBrowseColumn_timeClass.prototype.setFieldViewMode = function ($browse, $tr, $field) {
+    }
+    setFieldViewMode($browse, $tr, $field) {
         var originalvalue = (typeof $field.attr('data-originalvalue') === 'string') ? $field.attr('data-originalvalue') : '';
         $field.html(originalvalue);
-    };
-    FwBrowseColumn_timeClass.prototype.setFieldEditMode = function ($browse, $tr, $field) {
+    }
+    setFieldEditMode($browse, $tr, $field) {
         var timepickerTimeFormat, inputmaskTimeFormat;
         var originalvalue = (typeof $field.attr('data-originalvalue') === 'string') ? $field.attr('data-originalvalue') : '';
-        var html = [];
+        let html = [];
         html.push('<input class="value" type="text"');
         if ($browse.attr('data-enabled') === 'false') {
             html.push(' disabled="disabled"');
@@ -47,12 +45,11 @@ var FwBrowseColumn_timeClass = (function () {
             timepickerTimeFormat = 'h:i A';
             inputmaskTimeFormat = 'hh:mm t';
         }
-        var htmlString = html.join('');
+        let htmlString = html.join('');
         $field.html(htmlString);
         $field.find('input.value').inputmask(inputmaskTimeFormat);
         this.setFieldValue($browse, $tr, $field, { value: originalvalue });
-    };
-    return FwBrowseColumn_timeClass;
-}());
+    }
+}
 var FwBrowseColumn_time = new FwBrowseColumn_timeClass();
 //# sourceMappingURL=FwBrowseColumn_time.js.map

@@ -1,6 +1,6 @@
-﻿class FwFileMenu {
+﻿class FwFileMenuClass {
     //---------------------------------------------------------------------------------
-    static init($control) {
+    init($control) {
         if ($control.attr('data-version') == '1') {
             $control
                 .on('click', '.file-menu', function(e) {
@@ -112,7 +112,7 @@
         }
     }
     //---------------------------------------------------------------------------------
-    static renderRuntimeHtml($control) {
+    renderRuntimeHtml($control) {
         var html;
         $control.attr('data-rendermode', 'runtime');
         html = [];
@@ -128,7 +128,7 @@
         }
     }
     //---------------------------------------------------------------------------------
-    static UserControl_render($view: JQuery): JQuery {
+    UserControl_render($view: JQuery): JQuery {
         var html: string[] = [];
         html.push('<div class="usercontrol">');
         html.push('  <div class="systembar"></div>')
@@ -144,10 +144,10 @@
         var htmlString = html.join('\n');
         var $control = jQuery(htmlString);
 
-        $control.on('click', '.menuitem', function () {
+        $control.on('click', '.menuitem', (e) => {
             try {
-                var $usercontrol = FwFileMenu.UserControl_getUserControl();
-                FwFileMenu.UserControl_hideDropDownMenu($usercontrol);
+                var $usercontrol = this.UserControl_getUserControl();
+                this.UserControl_hideDropDownMenu($usercontrol);
             } catch (ex) {
                 FwFunc.showError(ex);
             }
@@ -158,78 +158,78 @@
         return $control;
     }
     //---------------------------------------------------------------------------------
-    static UserControl_getUserControl(): JQuery<HTMLElement> {
+    UserControl_getUserControl(): JQuery<HTMLElement> {
         return jQuery('.usercontrol');
     }
     //---------------------------------------------------------------------------------
-    static UserControl_getDropDownMenuItems($usercontrol?: JQuery<HTMLElement>): JQuery<HTMLElement> {
-        $usercontrol = (typeof $usercontrol !== 'undefined') ? $usercontrol : FwFileMenu.UserControl_getUserControl();
+    UserControl_getDropDownMenuItems($usercontrol?: JQuery<HTMLElement>): JQuery<HTMLElement> {
+        $usercontrol = (typeof $usercontrol !== 'undefined') ? $usercontrol : this.UserControl_getUserControl();
         return $usercontrol.find('.user-dropdown .menuitems');
     }
     //---------------------------------------------------------------------------------
-    static UserControl_getDropDownMenuItem(id: string, $usercontrol?: JQuery<HTMLElement>): JQuery<HTMLElement> {
-        $usercontrol = (typeof $usercontrol !== 'undefined') ? $usercontrol : FwFileMenu.UserControl_getUserControl();
-        return FwFileMenu.UserControl_getDropDownMenuItems($usercontrol).find(`.menuitem[data-id="${id}"]`);
+    UserControl_getDropDownMenuItem(id: string, $usercontrol?: JQuery<HTMLElement>): JQuery<HTMLElement> {
+        $usercontrol = (typeof $usercontrol !== 'undefined') ? $usercontrol : this.UserControl_getUserControl();
+        return this.UserControl_getDropDownMenuItems($usercontrol).find(`.menuitem[data-id="${id}"]`);
     }
     //---------------------------------------------------------------------------------
-    static UserControl_addDropDownMenuItem(id: string, $control: JQuery<HTMLElement>, $usercontrol?: JQuery<HTMLElement>) {
-        $usercontrol = (typeof $usercontrol !== 'undefined') ? $usercontrol : FwFileMenu.UserControl_getUserControl();
+    UserControl_addDropDownMenuItem(id: string, $control: JQuery<HTMLElement>, $usercontrol?: JQuery<HTMLElement>) {
+        $usercontrol = (typeof $usercontrol !== 'undefined') ? $usercontrol : this.UserControl_getUserControl();
         var $menuitem = $control.attr('data-id', id).addClass('menuitem'); 
-        FwFileMenu.UserControl_getDropDownMenuItems($usercontrol).append($menuitem);
+        this.UserControl_getDropDownMenuItems($usercontrol).append($menuitem);
     }
     //---------------------------------------------------------------------------------
-    static UserControl_setMenuItemHtml($usercontrol: JQuery<HTMLElement>, id: string, html: string) {
-        $usercontrol = (typeof $usercontrol !== 'undefined') ? $usercontrol : FwFileMenu.UserControl_getUserControl();
-        FwFileMenu.UserControl_getDropDownMenuItem(id, $usercontrol).html(html);
+    UserControl_setMenuItemHtml($usercontrol: JQuery<HTMLElement>, id: string, html: string) {
+        $usercontrol = (typeof $usercontrol !== 'undefined') ? $usercontrol : this.UserControl_getUserControl();
+        this.UserControl_getDropDownMenuItem(id, $usercontrol).html(html);
     }
     //---------------------------------------------------------------------------------
-    static UserControl_removeMenuItem($usercontrol: JQuery<HTMLElement>, id: string) {
-        $usercontrol = (typeof $usercontrol !== 'undefined') ? $usercontrol : FwFileMenu.UserControl_getUserControl();
-        FwFileMenu.UserControl_getDropDownMenuItem(id, $usercontrol).remove();
+    UserControl_removeMenuItem($usercontrol: JQuery<HTMLElement>, id: string) {
+        $usercontrol = (typeof $usercontrol !== 'undefined') ? $usercontrol : this.UserControl_getUserControl();
+        this.UserControl_getDropDownMenuItem(id, $usercontrol).remove();
     }
     //---------------------------------------------------------------------------------
-    static UserControl_toggleMenuItem(id: string, isVisible?: boolean, $usercontrol?: JQuery<HTMLElement>) {
-        $usercontrol = (typeof $usercontrol !== 'undefined') ? $usercontrol : FwFileMenu.UserControl_getUserControl();
-        var $menuitem = FwFileMenu.UserControl_getDropDownMenuItem(id, $usercontrol);
+    UserControl_toggleMenuItem(id: string, isVisible?: boolean, $usercontrol?: JQuery<HTMLElement>) {
+        $usercontrol = (typeof $usercontrol !== 'undefined') ? $usercontrol : this.UserControl_getUserControl();
+        var $menuitem = this.UserControl_getDropDownMenuItem(id, $usercontrol);
         if (typeof isVisible === 'undefined') {
             isVisible = !$menuitem.is(':visible');
         }
         $menuitem.toggle(isVisible);
     }
     //---------------------------------------------------------------------------------
-    static UserControl_hideDropDownMenu($usercontrol?: JQuery<HTMLElement>) {
-        $usercontrol = (typeof $usercontrol !== 'undefined') ? $usercontrol : FwFileMenu.UserControl_getUserControl();
+    UserControl_hideDropDownMenu($usercontrol?: JQuery<HTMLElement>) {
+        $usercontrol = (typeof $usercontrol !== 'undefined') ? $usercontrol : this.UserControl_getUserControl();
         $usercontrol.removeClass('active');
         $usercontrol.find('.user-dropdown').css('z-index', '0');
     }
     //---------------------------------------------------------------------------------
-    static UserControl_getSystemBar($usercontrol?: JQuery<HTMLElement>): JQuery<HTMLElement> {
-        $usercontrol = (typeof $usercontrol !== 'undefined') ? $usercontrol : FwFileMenu.UserControl_getUserControl();
+    UserControl_getSystemBar($usercontrol?: JQuery<HTMLElement>): JQuery<HTMLElement> {
+        $usercontrol = (typeof $usercontrol !== 'undefined') ? $usercontrol : this.UserControl_getUserControl();
         return $usercontrol.find('.systembar');
     }
     //---------------------------------------------------------------------------------
-    static UserControl_getSystemBarControl(id: string, $usercontrol?: JQuery<HTMLElement>): JQuery<HTMLElement> {
-        $usercontrol = (typeof $usercontrol !== 'undefined') ? $usercontrol : FwFileMenu.UserControl_getUserControl();
+    UserControl_getSystemBarControl(id: string, $usercontrol?: JQuery<HTMLElement>): JQuery<HTMLElement> {
+        $usercontrol = (typeof $usercontrol !== 'undefined') ? $usercontrol : this.UserControl_getUserControl();
         return $usercontrol.find(`.systembarcontrol[data-id=${id}]`);
     }
     //---------------------------------------------------------------------------------
-    static UserControl_addSystemBarControl(id: string, $control: JQuery<HTMLElement>, $usercontrol?: JQuery<HTMLElement>) {
-        $usercontrol = (typeof $usercontrol !== 'undefined') ? $usercontrol : FwFileMenu.UserControl_getUserControl();
+    UserControl_addSystemBarControl(id: string, $control: JQuery<HTMLElement>, $usercontrol?: JQuery<HTMLElement>) {
+        $usercontrol = (typeof $usercontrol !== 'undefined') ? $usercontrol : this.UserControl_getUserControl();
         var $systembarcontrol = $control.attr('data-id', id).addClass('systembarcontrol');
-        FwFileMenu.UserControl_getSystemBar($usercontrol).append($systembarcontrol);
+        this.UserControl_getSystemBar($usercontrol).append($systembarcontrol);
     }
     //---------------------------------------------------------------------------------
-    static UserControl_setSystemBarControlHtml(id: string, html: string, $usercontrol?: JQuery<HTMLElement>) {
-        $usercontrol = (typeof $usercontrol !== 'undefined') ? $usercontrol : FwFileMenu.UserControl_getUserControl();
-        FwFileMenu.UserControl_getSystemBarControl(id, $usercontrol).html(html);
+    UserControl_setSystemBarControlHtml(id: string, html: string, $usercontrol?: JQuery<HTMLElement>) {
+        $usercontrol = (typeof $usercontrol !== 'undefined') ? $usercontrol : this.UserControl_getUserControl();
+        this.UserControl_getSystemBarControl(id, $usercontrol).html(html);
     }
     //---------------------------------------------------------------------------------
-    static UserControl_removeSystemBarControl(id: string, $usercontrol?: JQuery<HTMLElement>) {
-        $usercontrol = (typeof $usercontrol !== 'undefined') ? $usercontrol : FwFileMenu.UserControl_getUserControl();
-        var $systembarcontrol = FwFileMenu.UserControl_getSystemBarControl(id, $usercontrol).remove();
+    UserControl_removeSystemBarControl(id: string, $usercontrol?: JQuery<HTMLElement>) {
+        $usercontrol = (typeof $usercontrol !== 'undefined') ? $usercontrol : this.UserControl_getUserControl();
+        var $systembarcontrol = this.UserControl_getSystemBarControl(id, $usercontrol).remove();
     }
     //---------------------------------------------------------------------------------
-    static addMenu($control, caption): JQuery<HTMLElement> {
+    addMenu($control, caption): JQuery<HTMLElement> {
         try {
             var fileMenuHtml = [];
             fileMenuHtml.push(`<div class="file-menu" data-caption="${caption}">`);
@@ -249,7 +249,7 @@
         return $menu;
     }
     //---------------------------------------------------------------------------------
-    static generateStandardModuleBtn($menu, securityid, caption, modulenav, imgurl) {
+    generateStandardModuleBtn($menu, securityid, caption, modulenav, imgurl) {
         var $modulebtn, btnHtml, btnId, version;
         securityid = (typeof securityid === 'string') ? securityid : '';
         $modulebtn = jQuery();
@@ -286,7 +286,7 @@
         $menu.find('.menu').append($modulebtn);
     }
     //---------------------------------------------------------------------------------
-    static generateDropDownModuleBtn($menu, securityid, caption, imgurl, subitems) {
+    generateDropDownModuleBtn($menu, securityid, caption, imgurl, subitems) {
         var $modulebtn, btnHtml, subitemHtml, $subitem, version;
     
         version    = $menu.closest('.fwfilemenu').attr('data-version');
@@ -341,20 +341,21 @@
     }
     //---------------------------------------------------------------------------------
 }
+var FwFileMenu = new FwFileMenuClass();
 
-namespace FileMenu {
-    export class UserControlMenuItem {
-        id: string = '';
-        caption: string = '';
-        cssclass: string = '';
-        click: (evt: JQuery.Event<HTMLElement, null>) => void;
-    }
+//namespace FileMenu {
+//    export class UserControlMenuItem {
+//        id: string = '';
+//        caption: string = '';
+//        cssclass: string = '';
+//        click: (evt: JQuery.Event<HTMLElement, null>) => void;
+//    }
 
-    export class UserControlLink {
-        caption: string = '';
-        cssclass: string = '';
-        click: (evt: JQuery.Event<HTMLElement, null>) => void;
-        html: string = '';
-    }
-}
+//    export class UserControlLink {
+//        caption: string = '';
+//        cssclass: string = '';
+//        click: (evt: JQuery.Event<HTMLElement, null>) => void;
+//        html: string = '';
+//    }
+//}
 

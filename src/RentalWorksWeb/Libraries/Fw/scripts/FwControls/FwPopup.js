@@ -1,7 +1,5 @@
-var FwPopup = (function () {
-    function FwPopup() {
-    }
-    FwPopup.attach = function ($control) {
+class FwPopup {
+    static attach($control) {
         var $divOverlay, $divCloseButton, $divPopup, baseId, baseIdStart, $appendTo;
         baseIdStart = 1;
         baseId = '';
@@ -23,9 +21,9 @@ var FwPopup = (function () {
         jQuery('.application').append($divOverlay);
         $divOverlay.append($divPopup);
         return $divPopup;
-    };
+    }
     ;
-    FwPopup.show = function ($divPopup) {
+    static show($divPopup) {
         var $divOverlay, maxZIndex;
         maxZIndex = FwFunc.getMaxZ('*');
         $divOverlay = jQuery('#' + $divPopup.attr('data-baseid') + '-divOverlay');
@@ -38,17 +36,17 @@ var FwPopup = (function () {
         else {
             $divOverlay.css('display', 'block');
         }
-    };
+    }
     ;
-    FwPopup.hide = function ($divPopup) {
+    static hide($divPopup) {
         jQuery('#' + $divPopup.attr('data-baseid') + '-divOverlay').hide();
-    };
+    }
     ;
-    FwPopup.destroy = function ($divPopup) {
+    static destroy($divPopup) {
         var $divOverlay = jQuery('#' + $divPopup.attr('data-baseid') + '-divOverlay').remove();
-    };
+    }
     ;
-    FwPopup.renderPopup = function ($content, options, title) {
+    static renderPopup($content, options, title) {
         var html, $popup, ismodal = true, isNewValidation = false;
         if ($content.data('afterSaveNewValidation') !== 'undefined' && typeof $content.data('afterSaveNewValidation') === 'function') {
             isNewValidation = true;
@@ -89,13 +87,13 @@ var FwPopup = (function () {
             });
         }
         return $popup;
-    };
+    }
     ;
-    FwPopup.destroyPopup = function ($popup) {
+    static destroyPopup($popup) {
         $popup.remove();
-    };
+    }
     ;
-    FwPopup.showPopup = function ($popup) {
+    static showPopup($popup) {
         var maxZIndex;
         maxZIndex = FwFunc.getMaxZ('*');
         $popup.css({
@@ -108,12 +106,11 @@ var FwPopup = (function () {
             $popup.css('display', 'block');
         }
         jQuery('#application').append($popup);
-    };
+    }
     ;
-    FwPopup.detachPopup = function ($control) {
+    static detachPopup($control) {
         $control.detach();
-    };
+    }
     ;
-    return FwPopup;
-}());
+}
 //# sourceMappingURL=FwPopup.js.map
