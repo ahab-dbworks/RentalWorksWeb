@@ -32027,6 +32027,77 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "Purchase Order: Start Return Contract",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"PurchaseOrderId\": \"F01QYBVO\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/purchaseorder/startreturncontract",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"purchaseorder",
+								"startreturncontract"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Purchase Order: Complete Return Contract",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/purchaseorder/completereturncontract/I000055F",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"purchaseorder",
+								"completereturncontract",
+								"I000055F"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
@@ -32050,7 +32121,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"ItemOrder\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": [],\n    \t\"uniqueids\": {\"PurchaseOrderId\": \"F01QYBVO\", \"ContractId\": \"I00004V3\"}\n}"
+							"raw": "{\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"ItemOrder\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": [],\n    \t\"uniqueids\": \n{ContractId: \"I000054D\", PurchaseOrderId: \"F01ELJJY\"}\n}"
 						},
 						"url": {
 							"raw": "http://localhost:57949/api/v1/purchaseorderreceiveitem/browse",
@@ -32099,6 +32170,82 @@
 								"v1",
 								"purchaseorderreceiveitem",
 								"receiveitems"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Purchase Order Return Item",
+			"description": null,
+			"item": [
+				{
+					"name": "Purchase Order Return Item: Browse",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"ItemOrder\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": [],\n    \t\"uniqueids\": \n{ContractId: \"I0000559\", PurchaseOrderId: \"F01QV8ME\"}\n}"
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/purchaseorderreturnitem/browse",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"purchaseorderreturnitem",
+								"browse"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Purchase Order Retur Item: Return Items",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"ContractId\": \"I0000559\",\n    \"PurchaseOrderId\": \"F01QV8ME\",\n    \"purchaseOrderItemId\": \"F01QV8Q3\",\n    \"Quantity\": 2\n}"
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/purchaseorderreturnitem/returnitems",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"purchaseorderreturnitem",
+								"returnitems"
 							]
 						}
 					},
