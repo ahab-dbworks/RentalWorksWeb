@@ -69,6 +69,7 @@ namespace WebLibrary.Security
             AddModule("Repair Order",            "{2BD0DC82-270E-4B86-A9AA-DD0461A0186A}", lv1menuWarehouse.Id, "RepairController",          "module/repair",          homeiconbaseurl + "placeholder.png");
             AddModule("Exchange",                "{2AEDB175-7998-48BC-B2C4-D4794BF65342}", lv1menuWarehouse.Id, "ExchangeController",        "module/exchange",        homeiconbaseurl + "placeholder.png");
             AddModule("Receive From Vendor",     "{00539824-6489-4377-A291-EBFE26325FAD}", lv1menuWarehouse.Id, "ReceiveFromVendorController", "module/receivefromvendor", homeiconbaseurl + "placeholder.png");
+            AddModule("Return To Vendor",        "{D54EAA01-A710-4F78-A1EE-5FC9EE9150D8}", lv1menuWarehouse.Id, "ReturnToVendorController",  "module/returntovendor", homeiconbaseurl + "placeholder.png");
 
             //Settings 
             var lv2menuAccountingSettings   = AddSettingsMenu("Accounting Settings",         "{BAF9A442-BA44-4DD1-9119-905C1A8FF199}", lv1menuSettings.Id,                                                                                        settingsiconbaseurl + "placeholder.png");
