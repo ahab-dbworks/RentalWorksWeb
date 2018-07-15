@@ -22,6 +22,16 @@ namespace WebApi.Modules.Home.PurchaseOrder
         public string ContractId;
     }
 
+    public class ReturnContractRequest
+    {
+        public string PurchaseOrderId;
+    }
+
+    public class ReturnContractResponse
+    {
+        public string ContractId;
+    }
+
 
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "home-v1")]
@@ -144,5 +154,80 @@ namespace WebApi.Modules.Home.PurchaseOrder
         }
         //------------------------------------------------------------------------------------       
 
+
+
+
+        // POST api/v1/purchaseorder/startreturncontract
+        [HttpPost("startreturncontract")]
+        public async Task<IActionResult> StartReturnContractAsync([FromBody]ReturnContractRequest request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                PurchaseOrderLogic l = new PurchaseOrderLogic();
+                l.SetDependencies(this.AppConfig, this.UserSession);
+                l.PurchaseOrderId = request.PurchaseOrderId;
+                if (await l.LoadAsync<PurchaseOrderLogic>())
+                {
+                    string ContractId = await l.CreateReturnContract();
+                    ReturnContractResponse response = new ReturnContractResponse();
+                    response.ContractId = ContractId;
+                    return new OkObjectResult(response);
+                }
+                else
+                {
+                    return NotFound();
+                }
+            }
+            catch (Exception ex)
+            {
+                FwApiException jsonException = new FwApiException();
+                jsonException.StatusCode = StatusCodes.Status500InternalServerError;
+                jsonException.Message = ex.Message;
+                jsonException.StackTrace = ex.StackTrace;
+                return StatusCode(jsonException.StatusCode, jsonException);
+            }
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/purchaseorder/completereturncontract
+        [HttpPost("completereturncontract/{id}")]
+        public async Task<IActionResult> CompleteReturnContractAsync([FromRoute]string id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+
+                TSpStatusReponse response = await AppFunc.AssignContract(AppConfig, UserSession, id);
+                if (response.success)
+                {
+
+                    ContractLogic contract = new ContractLogic();
+                    contract.SetDependencies(AppConfig, UserSession);
+                    contract.ContractId = id;
+                    bool x = await contract.LoadAsync<ContractLogic>();
+                    return new OkObjectResult(contract);
+                }
+                else
+                {
+                    throw new Exception(response.msg);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                FwApiException jsonException = new FwApiException();
+                jsonException.StatusCode = StatusCodes.Status500InternalServerError;
+                jsonException.Message = ex.Message;
+                jsonException.StackTrace = ex.StackTrace;
+                return StatusCode(jsonException.StatusCode, jsonException);
+            }
+        }
+        //------------------------------------------------------------------------------------    
     }
 }

@@ -133,14 +133,16 @@ namespace WebApi.Modules.Home.PurchaseOrder
         public async Task<string> CreateReceiveContract()
         {
             string contractId = await purchaseOrder.CreateReceiveContract();
-            //string[] keys = { contractId };
-
-            //ContractLogic c = new ContractLogic();
-            //c.SetDependencies(AppConfig, UserSession);
-            //bool x = await c.LoadAsync<ContractLogic>(keys);
-            //return c;
             return contractId;
         }
         //------------------------------------------------------------------------------------
+
+        public async Task<string> CreateReturnContract()
+        {
+            string contractId = await purchaseOrder.CreateReturnContract();
+            return contractId;
+        }
+        //------------------------------------------------------------------------------------
+
     }
 }
