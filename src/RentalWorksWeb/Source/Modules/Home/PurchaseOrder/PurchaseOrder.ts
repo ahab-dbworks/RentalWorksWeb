@@ -6,7 +6,7 @@ routes.push({ pattern: /^module\/purchaseorder\/(\w+)\/(\S+)/, action: function 
 class PurchaseOrder {
     Module: string = 'PurchaseOrder';
     apiurl: string = 'api/v1/PurchaseOrder';
-    caption: string = 'PurchaseOrder';
+    caption: string = 'Purchase Order';
     ActiveView: string = 'ALL';
 
     //----------------------------------------------------------------------------------------------
@@ -539,7 +539,12 @@ class PurchaseOrder {
     };
 
     //----------------------------------------------------------------------------------------------
-    events($form: any) { };
+    events($form: any) {
+        $form.find('div[data-datafield="VendorId"]').data('onchange', $tr => {
+            FwFormField.setValue($form, 'div[data-datafield="RateType"]', $tr.find('.field[data-formdatafield="DefaultRate"]').attr('data-originalvalue'));
+        });
+
+    };
 
     //----------------------------------------------------------------------------------------------
     afterSave($form) { };
