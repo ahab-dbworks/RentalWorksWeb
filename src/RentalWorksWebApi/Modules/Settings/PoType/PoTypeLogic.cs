@@ -640,6 +640,7 @@ namespace WebApi.Modules.Settings.PoType
                 if (PurchaseShowUnitExtended == true) { showFields.Add("UnitExtended"); }
                 if (PurchaseShowPeriodDiscountAmount == true) { showFields.Add("PeriodDiscountAmount"); }
                 if (PurchaseShowPeriodExtended == true) { showFields.Add("PeriodExtended"); }
+                if (PurchaseShowManufacturerPartNumber == true) { showFields.Add("ManufacturerPartNumber"); }
                 if (PurchaseShowTaxable == true) { showFields.Add("Taxable"); }
                 if (PurchaseShowWarehouse == true) { showFields.Add("Warehouse"); }
                 if (PurchaseShowNotes == true) { showFields.Add("Notes"); }
