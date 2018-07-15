@@ -1,4 +1,3 @@
-/// <reference path="../deal/deal.ts" />
 routes.push({ pattern: /^module\/purchaseorder$/, action: function (match: RegExpExecArray) { return PurchaseOrderController.getModuleScreen(); } });
 routes.push({ pattern: /^module\/purchaseorder\/(\w+)\/(\S+)/, action: function (match: RegExpExecArray) { var filter = { datafield: match[1], search: match[2] }; return PurchaseOrderController.getModuleScreen(filter); } });
 
@@ -167,6 +166,12 @@ class PurchaseOrder {
         $form = jQuery(jQuery('#tmpl-modules-PurchaseOrderForm').html());
         $form = FwModule.openForm($form, mode);
 
+        FwFormField.disable($form.find('[data-datafield="SubRent"]'));
+        FwFormField.disable($form.find('[data-datafield="SubSale"]'));
+        FwFormField.disable($form.find('[data-datafield="SubLabor"]'));
+        FwFormField.disable($form.find('[data-datafield="SubMiscellaneous"]'));
+        FwFormField.disable($form.find('[data-datafield="SubVehicle"]'));
+
         if (mode === 'NEW') {
             $form.find('.ifnew').attr('data-enabled', 'true');
 
@@ -184,7 +189,6 @@ class PurchaseOrder {
             FwFormField.setValue($form, 'div[data-datafield="ProjectManagerId"]', usersid, name);
             FwFormField.setValue($form, 'div[data-datafield="AgentId"]', usersid, name);
             //$form.find('div[data-datafield="Labor"] input').prop('checked', true);
-
             FwFormField.setValueByDataField($form, 'PurchaseOrderDate', today);
             alert(true)
             //FwFormField.setValueByDataField($form, 'EstimatedStartDate', today);
@@ -567,4 +571,4 @@ FwApplicationTree.clickEvents['{4BB0AB54-641E-4638-89B4-0F9BFE88DF82}'] = functi
     }
 };
 //----------------------------------------------------------------------------------------------
-const PurchaseOrderController = new PurchaseOrder();
+var PurchaseOrderController = new PurchaseOrder();
