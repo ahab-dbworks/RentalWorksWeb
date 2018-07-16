@@ -113,6 +113,20 @@ class RwHome {
         jQuery($control).on('click', '#' + apiname + 'refresh', function () {
             FwAppData.apiMethod(true, 'GET', `api/v1/widget/loadbyname/${apiname}?dataPoints=${dataPointCount}&locationId=${JSON.parse(sessionStorage.location).locationid}&warehouseId=${JSON.parse(sessionStorage.warehouse).warehouseid}&departmentId=${JSON.parse(sessionStorage.department).departmentid}`, {}, FwServices.defaultTimeout, function onSuccess(response) {
                 try {
+                    response.options.scales.yAxes[0].ticks.userCallback = function (value, index, values) {
+                        if (typeof value !== 'string' && value > 1) {
+                            value = value.toString();
+                            value = value.split(/(?=(?:...)*$)/);
+                            value = value.join(',');
+                            return value;
+                        }
+                        else if (value < 1) {
+                            return Math.round(value * 10) / 10;
+                        }
+                        else {
+                            return value;
+                        }
+                    };
                     if (type !== '') {
                         response.type = type;
                     }
@@ -122,6 +136,17 @@ class RwHome {
                     }
                     if (response.type !== 'pie') {
                         response.options.scales.xAxes[0].ticks.autoSkip = false;
+                        response.options.tooltips = {
+                            'callbacks': {
+                                'label': function (tooltipItem, data) {
+                                    var value = data.datasets[0].data[tooltipItem.index];
+                                    value = value.toString();
+                                    value = value.split(/(?=(?:...)*$)/);
+                                    value = value.join(',');
+                                    return value;
+                                }
+                            }
+                        };
                     }
                     if (response.data.labels.length > 10 && response.type !== 'pie') {
                         response.options.scales.xAxes[0].ticks.minRotation = 70;
@@ -155,6 +180,20 @@ class RwHome {
                 FwAppData.apiMethod(true, 'GET', `api/v1/widget/loadbyname/${apiname}?dataPoints=${dataPointCount}&locationId=${JSON.parse(sessionStorage.location).locationid}&warehouseId=${JSON.parse(sessionStorage.warehouse).warehouseid}&departmentId=${JSON.parse(sessionStorage.department).departmentid}`, {}, FwServices.defaultTimeout, function onSuccess(response) {
                     try {
                         response.options.responsive = true;
+                        response.options.scales.yAxes[0].ticks.userCallback = function (value, index, values) {
+                            if (typeof value !== 'string' && value > 1) {
+                                value = value.toString();
+                                value = value.split(/(?=(?:...)*$)/);
+                                value = value.join(',');
+                                return value;
+                            }
+                            else if (value < 1) {
+                                return Math.round(value * 10) / 10;
+                            }
+                            else {
+                                return value;
+                            }
+                        };
                         if (type !== '') {
                             response.type = type;
                         }
@@ -164,6 +203,17 @@ class RwHome {
                         }
                         if (response.type !== 'pie') {
                             response.options.scales.xAxes[0].ticks.autoSkip = false;
+                            response.options.tooltips = {
+                                'callbacks': {
+                                    'label': function (tooltipItem, data) {
+                                        var value = data.datasets[0].data[tooltipItem.index];
+                                        value = value.toString();
+                                        value = value.split(/(?=(?:...)*$)/);
+                                        value = value.join(',');
+                                        return value;
+                                    }
+                                }
+                            };
                         }
                         var chart = new Chart(widgetfullscreen, response);
                         jQuery(widgetfullscreen).on('click', function (evt) {
@@ -187,6 +237,20 @@ class RwHome {
         });
         FwAppData.apiMethod(true, 'GET', `api/v1/widget/loadbyname/${apiname}?dataPoints=${dataPointCount}&locationId=${JSON.parse(sessionStorage.location).locationid}&warehouseId=${JSON.parse(sessionStorage.warehouse).warehouseid}&departmentId=${JSON.parse(sessionStorage.department).departmentid}`, {}, FwServices.defaultTimeout, function onSuccess(response) {
             try {
+                response.options.scales.yAxes[0].ticks.userCallback = function (value, index, values) {
+                    if (typeof value !== 'string' && value > 1) {
+                        value = value.toString();
+                        value = value.split(/(?=(?:...)*$)/);
+                        value = value.join(',');
+                        return value;
+                    }
+                    else if (value < 1) {
+                        return Math.round(value * 10) / 10;
+                    }
+                    else {
+                        return value;
+                    }
+                };
                 if (type !== '') {
                     response.type = type;
                 }
@@ -196,6 +260,17 @@ class RwHome {
                 }
                 if (response.type !== 'pie') {
                     response.options.scales.xAxes[0].ticks.autoSkip = false;
+                    response.options.tooltips = {
+                        'callbacks': {
+                            'label': function (tooltipItem, data) {
+                                var value = data.datasets[0].data[tooltipItem.index];
+                                value = value.toString();
+                                value = value.split(/(?=(?:...)*$)/);
+                                value = value.join(',');
+                                return value;
+                            }
+                        }
+                    };
                 }
                 if (response.data.labels.length > 10 && response.type !== 'pie') {
                     response.options.scales.xAxes[0].ticks.minRotation = 70;
