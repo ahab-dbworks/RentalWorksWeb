@@ -27,7 +27,7 @@
         }
 
         if ($form[0].dataset.controller !== "TemplateController") {
-            FwBrowse.setFieldValue($grid, $tr, 'PickDate', { value: pickDate });
+            FwBrowse.setFieldValue($grid, $tr, 'PickDate', { value: pickDate }); 
             FwBrowse.setFieldValue($grid, $tr, 'PickTime', { value: pickTime });
             FwBrowse.setFieldValue($grid, $tr, 'FromDate', { value: fromDate });
             FwBrowse.setFieldValue($grid, $tr, 'FromTime', { value: fromTime });
