@@ -142,8 +142,8 @@ namespace WebApi.Modules.Home.Vendor
         //[FwSqlDataField(column: "ssdiscountrate", modeltype: FwDataTypes.Decimal)]
         //public decimal? DefaultSubSaleDiscountPercent { get; set; }
         ////------------------------------------------------------------------------------------
-        //[FwSqlDataField(column: "ratetype", modeltype: FwDataTypes.Text)]
-        //public string DefaultRate { get; set; }
+        [FwSqlDataField(column: "ratetype", modeltype: FwDataTypes.Text)]
+        public string DefaultRate { get; set; }
         ////------------------------------------------------------------------------------------
         //[FwSqlDataField(column: "billperiodid", modeltype: FwDataTypes.Text)]
         //public string BillingCycleId { get; set; }
