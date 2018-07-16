@@ -47,6 +47,16 @@ class ReceiveFromVendor {
                     contractInfo.ContractId = contractId;
                     $contractForm = ContractController.loadForm(contractInfo);
                     FwModule.openSubModuleTab($form, $contractForm);
+
+                    $form.find('.fwformfield').not('[data-type="date"], [data-type="time"]').find('input').val('');
+                    let $receiveItemsGridControl = $form.find('div[data-name="POReceiveItemGrid"]');
+                    $receiveItemsGridControl.data('ondatabind', function (request) {
+                        request.uniqueids = {
+                            ContractId: contractId
+                            , PurchaseOrderId: ''
+                        }
+                    })
+                    FwBrowse.search($receiveItemsGridControl);
                 }
                 catch (ex) {
                     FwFunc.showError(ex);
@@ -57,8 +67,7 @@ class ReceiveFromVendor {
         this.getItems($form);
 
         if (typeof parentmoduleinfo !== 'undefined') {
-            $form.find('div[data-datafield="PurchaseOrderId"] input.fwformfield-value').val(parentmoduleinfo.PurchaseOrderId);
-            $form.find('div[data-datafield="PurchaseOrderId"] input.fwformfield-text').val(parentmoduleinfo.PurchaseOrderNumber);
+            FwFormField.setValueByDataField($form, 'PurchaseOrderId', parentmoduleinfo.PurchaseOrderId, parentmoduleinfo.PurchaseOrderNumber);
             $form.find('[data-datafield="PurchaseOrderId"] input').change();
         }
 
