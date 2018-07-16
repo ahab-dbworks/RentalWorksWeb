@@ -81,9 +81,15 @@
                 }
 
                 if (quantity != 0) {
-                    FwAppData.apiMethod(true, 'POST', "api/v1/purchaseorderreceiveitem/receiveitems", request, FwServices.defaultTimeout, function onSuccess(response) {
-                        $tr.find('[data-browsedatafield="Quantity"]').attr('data-originalvalue', Number(newValue));
-                    }, null, null);
+                    FwAppData.apiMethod(true, 'POST', "api/v1/purchaseorderreceiveitem/receiveitems", request, FwServices.defaultTimeout,
+                        function onSuccess(response) {
+                            $tr.find('[data-browsedatafield="Quantity"]').attr('data-originalvalue', Number(newValue));
+                        },
+                        function onError(response) {
+                            FwFunc.showError(response);
+                            $tr.find('[data-browsedatafield="Quantity"] input').val(Number(oldValue));
+                        }
+                        , null);
                 }
             });
         });
