@@ -51,7 +51,7 @@ class ReceiveFromVendor {
                 catch (ex) {
                     FwFunc.showError(ex);
                 }
-            }, null, null);
+            }, null, $form);
         });
 
         this.getItems($form);
@@ -69,7 +69,7 @@ class ReceiveFromVendor {
         $form.find('[data-datafield="PurchaseOrderId"]').data('onchange', $tr => {
             let purchaseOrderId = $tr.find('[data-browsedatafield="PurchaseOrderId"]').attr('data-originalvalue');
 
-            FwFormField.setValueByDataField($form, 'Vendor', $tr.find('[data-browsedatafield="Vendor"]').attr('data-originalvalue'));
+            FwFormField.setValueByDataField($form, 'VendorId', $tr.find('[data-browsedatafield="VendorId"]').attr('data-originalvalue'), $tr.find('[data-browsedatafield="Vendor"]').attr('data-originalvalue'));
             FwFormField.setValueByDataField($form, 'ReferenceNumber', $tr.find('[data-browsedatafield="ReferenceNumber"]').attr('data-originalvalue'));
             FwFormField.setValueByDataField($form, 'Description', $tr.find('[data-browsedatafield="Description"]').attr('data-originalvalue'));
 
