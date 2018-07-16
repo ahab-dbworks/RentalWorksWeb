@@ -177,8 +177,8 @@
 		this.spanMinutes.click($.proxy(this.toggleView, this, 'minutes'));
 
 		// Show or toggle
-		input.on('focus.clockpicker click.clockpicker', $.proxy(this.show, this));
-		addon.on('click.clockpicker', $.proxy(this.toggle, this));
+		//input.on('focus.clockpicker click.clockpicker', $.proxy(this.show, this));
+		//addon.on('click.clockpicker', $.proxy(this.toggle, this));
 
 		// Build ticks
 		var tickTpl = $('<div class="clockpicker-tick"></div>'),
@@ -689,7 +689,7 @@
 		}
 
 		if (this.options.autoclose) {
-			this.input.trigger('blur');
+            this.input.focus();
 		}
 
 		raiseCallback(this.options.afterDone);
