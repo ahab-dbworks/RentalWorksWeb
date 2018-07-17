@@ -1100,7 +1100,8 @@
 				element.change();
 			}
 			if (this.o.autoclose && (!which || which === 'date')){
-				this.hide();
+                this.hide();
+                element.focus();
 			}
 		},
 
