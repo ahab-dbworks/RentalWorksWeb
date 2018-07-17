@@ -298,6 +298,7 @@ class FwBrowseClass {
                         $this.siblings('.searchclear').addClass('visible');
                     }
                     me.search($control);
+                    this.focus();
                 }
             }
             catch (ex) {
