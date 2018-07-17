@@ -91,6 +91,10 @@ var Program = (function (_super) {
                         localStorage.barcodeScanMode = 'MODE_SINGLE_SCAN';
                     }
                     DTDevices.barcodeSetScanMode(localStorage.barcodeScanMode);
+                    DTDevices.registerListener('connectionState', 'connectionState_applicationjs', function (connectionState) {
+                        me.setDeviceConnectionState(connectionState);
+                    });
+                    me.updateConnectionState();
                 }
                 if (typeof TslReader === 'object') {
                     TslReader.startListening();
@@ -107,10 +111,6 @@ var Program = (function (_super) {
                         RwRFID.isConnected = isConnected;
                     });
                 }
-                DTDevices.registerListener('connectionState', 'connectionState_applicationjs', function (connectionState) {
-                    me.setDeviceConnectionState(connectionState);
-                });
-                me.updateConnectionState();
                 setTimeout(function () {
                     me.loadApplication();
                 }, 0);

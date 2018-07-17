@@ -94,6 +94,13 @@ class Program extends FwApplication {
                         localStorage.barcodeScanMode = 'MODE_SINGLE_SCAN';
                     }
                     DTDevices.barcodeSetScanMode(localStorage.barcodeScanMode);
+
+                    //set the connection state when it changes
+                    DTDevices.registerListener('connectionState', 'connectionState_applicationjs', function(connectionState) {
+                        me.setDeviceConnectionState(connectionState);
+                    });
+                    // since the initial connection state event usually happens early in the page life cycle, we need to explicity query the value the first time
+                    me.updateConnectionState();
                 }
 
                 if (typeof TslReader === 'object') {
@@ -146,13 +153,6 @@ class Program extends FwApplication {
                 
                     //});
                 //}
-
-                //set the connection state when it changes
-                DTDevices.registerListener('connectionState', 'connectionState_applicationjs', function(connectionState) {
-                    me.setDeviceConnectionState(connectionState);
-                });
-                // since the initial connection state event usually happens early in the page life cycle, we need to explicity query the value the first time
-                me.updateConnectionState();
 
                 setTimeout(function() {
                     me.loadApplication();
