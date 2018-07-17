@@ -507,10 +507,9 @@ class OrderBase {
             }
         });
         $form.find('div[data-datafield="OrderTypeId"]').data('onchange', function ($tr) {
-            this.CombineActivity = $tr.find('.field[data-browsedatafield="CombineActivityTabs"]').attr('data-originalvalue');
-            $form.find('[data-datafield="CombineActivity"] input').val(this.CombineActivity);
+            let combineActivity = $tr.find('.field[data-browsedatafield="CombineActivityTabs"]').attr('data-originalvalue');
+            $form.find('[data-datafield="CombineActivity"] input').val(combineActivity);
             let rentalTab = $form.find('[data-type="tab"][data-caption="Rental"]'), salesTab = $form.find('[data-type="tab"][data-caption="Sales"]'), miscTab = $form.find('[data-type="tab"][data-caption="Misc"]'), laborTab = $form.find('[data-type="tab"][data-caption="Labor"]');
-            let combineActivity = $form.find('[data-datafield="CombineActivity"] input').val();
             if (combineActivity == "true") {
                 $form.find('.notcombinedtab').hide();
                 $form.find('.combinedtab').show();
