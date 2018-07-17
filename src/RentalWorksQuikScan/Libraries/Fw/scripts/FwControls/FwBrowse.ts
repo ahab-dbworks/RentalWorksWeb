@@ -287,6 +287,7 @@
                             $this.siblings('.searchclear').addClass('visible');
                         }
                         me.search($control);
+                        $this.focus();
                     }
                 } catch (ex) {
                     FwFunc.showError(ex);
@@ -1120,8 +1121,6 @@
                             html.push(' style="visibility:hidden;"');
                         }
                         html.push('>');
-                     
-
                         if ($theadfield.attr('data-browsedatatype') === 'date') {
                             html.push('<input class="value" type="text"/>');
                             html.push('<i class="material-icons btndate" style="position:absolute; right:0px; top:5px;">&#xE8DF;</i>');
@@ -1130,7 +1129,6 @@
                             html.push('<input type="text" />');
                             html.push('<span class="searchclear" title="clear"><i class="material-icons">clear</i></span>');
                         } 
-
                         html.push('</div>');
                         html.push('</div>');
                     };
