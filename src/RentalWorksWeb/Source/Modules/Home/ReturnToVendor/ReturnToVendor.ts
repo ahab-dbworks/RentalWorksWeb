@@ -38,24 +38,33 @@ class ReturnToVendor {
 
         $form.find('.createcontract').on('click', e => {
             let contractId = FwFormField.getValueByDataField($form, 'ContractId');
-            FwAppData.apiMethod(true, 'POST', "api/v1/purchaseorder/completereceivecontract/" + contractId, null, FwServices.defaultTimeout, function onSuccess(response) {
+            FwAppData.apiMethod(true, 'POST', `api/v1/purchaseorder/completereturncontract/${contractId}`, null, FwServices.defaultTimeout, function onSuccess(response) {
                 try {
                     let contractInfo: any = {}, $contractForm;
                     contractInfo.ContractId = contractId;
                     $contractForm = ContractController.loadForm(contractInfo);
                     FwModule.openSubModuleTab($form, $contractForm);
+
+                    $form.find('.fwformfield').not('[data-type="date"], [data-type="time"]').find('input').val('');
+                    let $pOReturnItemGridControl = $form.find('div[data-name="POReturnItemGrid"]');
+                    $pOReturnItemGridControl.data('ondatabind', function (request) {
+                        request.uniqueids = {
+                            ContractId: contractId,
+                            PurchaseOrderId: ''
+                        }
+                    })
+                    FwBrowse.search($pOReturnItemGridControl); 
                 }
                 catch (ex) {
                     FwFunc.showError(ex);
                 }
-            }, null, null);
+            }, null, $form);
         });
 
         this.getItems($form);
 
         if (typeof parentmoduleinfo !== 'undefined') {
-            $form.find('div[data-datafield="PurchaseOrderId"] input.fwformfield-value').val(parentmoduleinfo.PurchaseOrderId);
-            $form.find('div[data-datafield="PurchaseOrderId"] input.fwformfield-text').val(parentmoduleinfo.PurchaseOrderNumber);
+            FwFormField.setValueByDataField($form, 'PurchaseOrderId', parentmoduleinfo.PurchaseOrderId, parentmoduleinfo.PurchaseOrderNumber); 
             $form.find('[data-datafield="PurchaseOrderId"] input').change();
         }
 
@@ -66,46 +75,46 @@ class ReturnToVendor {
         $form.find('[data-datafield="PurchaseOrderId"]').data('onchange', $tr => {
             let purchaseOrderId = $tr.find('[data-browsedatafield="PurchaseOrderId"]').attr('data-originalvalue');
 
-            FwFormField.setValueByDataField($form, 'Vendor', $tr.find('[data-browsedatafield="Vendor"]').attr('data-originalvalue'));
-            FwFormField.setValueByDataField($form, 'ReferenceNumber', $tr.find('[data-browsedatafield="ReferenceNumber"]').attr('data-originalvalue'));
+            FwFormField.setValueByDataField($form, 'VendorId', $tr.find('[data-browsedatafield="VendorId"]').attr('data-originalvalue'), $tr.find('[data-browsedatafield="Vendor"]').attr('data-originalvalue')); 
+            //FwFormField.setValueByDataField($form, 'ReferenceNumber', $tr.find('[data-browsedatafield="ReferenceNumber"]').attr('data-originalvalue'));
             FwFormField.setValueByDataField($form, 'Description', $tr.find('[data-browsedatafield="Description"]').attr('data-originalvalue'));
 
             let request = {
                 PurchaseOrderId: purchaseOrderId
             }
 
-            FwAppData.apiMethod(true, 'POST', 'api/v1/purchaseorder/startreceivecontract', request, FwServices.defaultTimeout, function onSuccess(response) {
+            FwAppData.apiMethod(true, 'POST', 'api/v1/purchaseorder/startreturncontract', request, FwServices.defaultTimeout, function onSuccess(response) {
                 let contractId = response.ContractId,
-                    $receiveItemsGridControl: any,
+                    $pOReturnItemGridControl: any,
                     max = 9999;
 
                 FwFormField.setValueByDataField($form, 'ContractId', contractId);
 
-                $receiveItemsGridControl = $form.find('div[data-name="POReceiveItemGrid"]');
-                $receiveItemsGridControl.data('ondatabind', function (request) {
+                $pOReturnItemGridControl = $form.find('div[data-name="POReturnItemGrid"]');
+                $pOReturnItemGridControl.data('ondatabind', function (request) {
                     request.uniqueids = {
-                        ContractId: contractId
-                        , PurchaseOrderId: purchaseOrderId
+                        ContractId: contractId,
+                        PurchaseOrderId: purchaseOrderId
                     }
                     request.pagesize = max;
                 })
-                FwBrowse.search($receiveItemsGridControl);
+                FwBrowse.search($pOReturnItemGridControl);
             }, null, null);
         });
     }
     //----------------------------------------------------------------------------------------------
     renderGrids($form:any) {
-        let $receiveItemsGrid: any,
-            $receiveItemsGridControl: any;
+        let $pOReturnItemGrid: any,
+            $pOReturnItemGridControl: any;
 
-        $receiveItemsGrid = $form.find('div[data-grid="POReceiveItemGrid"]');
-        $receiveItemsGridControl = jQuery(jQuery('#tmpl-grids-POReceiveItemGridBrowse').html());
-        $receiveItemsGrid.empty().append($receiveItemsGridControl);
-        $receiveItemsGridControl.data('ondatabind', function (request) {
+        $pOReturnItemGrid = $form.find('div[data-grid="POReturnItemGrid"]');
+        $pOReturnItemGridControl = jQuery(jQuery('#tmpl-grids-POReturnItemGridBrowse').html());
+        $pOReturnItemGrid.empty().append($pOReturnItemGridControl);
+        $pOReturnItemGridControl.data('ondatabind', function (request) {
         
         })
-        FwBrowse.init($receiveItemsGridControl);
-        FwBrowse.renderRuntimeHtml($receiveItemsGridControl);
+        FwBrowse.init($pOReturnItemGridControl);
+        FwBrowse.renderRuntimeHtml($pOReturnItemGridControl);
     }
     //----------------------------------------------------------------------------------------------
 

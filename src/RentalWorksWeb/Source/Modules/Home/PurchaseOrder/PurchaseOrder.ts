@@ -59,8 +59,8 @@ class PurchaseOrder {
         FwBrowse.addLegend($browse, 'L&D', '#400040');
 
 
-        var department = JSON.parse(sessionStorage.getItem('department'));;
-        var location = JSON.parse(sessionStorage.getItem('location'));;
+        let department = JSON.parse(sessionStorage.getItem('department'));;
+        let location = JSON.parse(sessionStorage.getItem('location'));;
 
         //FwAppData.apiMethod(true, 'GET', 'api/v1/departmentlocation/' + department.departmentid + '~' + location.locationid, null, FwServices.defaultTimeout, function onSuccess(response) {
         //    self.DefaultOrderType = response.DefaultOrderType;
@@ -175,11 +175,10 @@ class PurchaseOrder {
         if (mode === 'NEW') {
             $form.find('.ifnew').attr('data-enabled', 'true');
 
-            var today = FwFunc.getDate();
-            var warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
-            var office = JSON.parse(sessionStorage.getItem('location'));
-            var department = JSON.parse(sessionStorage.getItem('department'));
-
+            const today = FwFunc.getDate();
+            const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
+            const office = JSON.parse(sessionStorage.getItem('location'));
+            const department = JSON.parse(sessionStorage.getItem('department'));
             const usersid = sessionStorage.getItem('usersid');  // J. Pace 7/09/18  C4E0E7F6-3B1C-4037-A50C-9825EDB47F44
             const name = sessionStorage.getItem('name');
 
@@ -190,7 +189,7 @@ class PurchaseOrder {
             FwFormField.setValue($form, 'div[data-datafield="AgentId"]', usersid, name);
             //$form.find('div[data-datafield="Labor"] input').prop('checked', true);
             FwFormField.setValueByDataField($form, 'PurchaseOrderDate', today);
-            alert(true)
+      
             //FwFormField.setValueByDataField($form, 'EstimatedStartDate', today);
             //FwFormField.setValueByDataField($form, 'EstimatedStopDate', today);
             //FwFormField.setValueByDataField($form, 'BillingWeeks', '0');
@@ -522,8 +521,8 @@ class PurchaseOrder {
             fields = jQuery($rentalGrid).find('thead tr.fieldnames > td.column > div.field'),
             fieldNames = [];
 
-        for (var i = 3; i < fields.length; i++) {
-            var name = jQuery(fields[i]).attr('data-mappedfield');
+        for (let i = 3; i < fields.length; i++) {
+            let name = jQuery(fields[i]).attr('data-mappedfield');
             if (name != "QuantityOrdered") {
                 fieldNames.push(name);
             }
@@ -545,9 +544,8 @@ class PurchaseOrder {
     //----------------------------------------------------------------------------------------------
     events($form: any) {
         $form.find('div[data-datafield="VendorId"]').data('onchange', $tr => {
-            FwFormField.setValue($form, 'div[data-datafield="RateType"]', $tr.find('.field[data-formdatafield="DefaultRate"]').attr('data-originalvalue'));
+            FwFormField.setValue($form, 'div[data-datafield="RateType"]', $tr.find('.field[data-formdatafield="DefaultRate"]').attr('data-originalvalue'), $tr.find('.field[data-formdatafield="DefaultRate"]').attr('data-originalvalue'));
         });
-
     };
 
     //----------------------------------------------------------------------------------------------
@@ -565,6 +563,23 @@ FwApplicationTree.clickEvents['{4BB0AB54-641E-4638-89B4-0F9BFE88DF82}'] = functi
         $receiveFromVendorForm = ReceiveFromVendorController.openForm(mode, purchaseOrderInfo);
         FwModule.openSubModuleTab($form, $receiveFromVendorForm);
         jQuery('.tab.submodule.active').find('.caption').html(purchaseOrderInfo.PurchaseOrderNumber); 
+    }
+    catch (ex) {
+        FwFunc.showError(ex);
+    }
+};
+//----------------------------------------------------------------------------------------------
+FwApplicationTree.clickEvents['{B287428E-FF45-469A-8203-3BFF18E90810}'] = function (e) {
+    let $form, $returnToVendorForm;
+    try {
+        $form = jQuery(this).closest('.fwform');
+        let mode = 'EDIT';
+        let purchaseOrderInfo: any = {};
+        purchaseOrderInfo.PurchaseOrderId = FwFormField.getValueByDataField($form, 'PurchaseOrderId');
+        purchaseOrderInfo.PurchaseOrderNumber = FwFormField.getValueByDataField($form, 'PurchaseOrderNumber');
+        $returnToVendorForm = ReturnToVendorController.openForm(mode, purchaseOrderInfo);
+        FwModule.openSubModuleTab($form, $returnToVendorForm);
+        jQuery('.tab.submodule.active').find('.caption').html(purchaseOrderInfo.PurchaseOrderNumber);
     }
     catch (ex) {
         FwFunc.showError(ex);
