@@ -82,3 +82,7 @@ sync_RentalWorksWeb_to_TrakItWorksWeb\.ps1\.log
 /src/TrakItWorksWeb/theme/fwfonts/*
 /src/TrakItWorksWeb/theme/fwimages/*
 
+
+SecurityTreeBuilder/obj/
+
+SecurityTreeBuilder/bin/
