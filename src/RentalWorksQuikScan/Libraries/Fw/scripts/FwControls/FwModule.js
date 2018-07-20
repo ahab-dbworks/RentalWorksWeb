@@ -1,5 +1,7 @@
-class FwModule {
-    static getModuleControl(moduleControllerName) {
+var FwModule = (function () {
+    function FwModule() {
+    }
+    FwModule.getModuleControl = function (moduleControllerName) {
         var html, $view, $actionView;
         jQuery('html').removeClass('mobile').addClass("desktop");
         html = [];
@@ -15,8 +17,8 @@ class FwModule {
         $view.attr('data-module', moduleControllerName);
         FwControl.renderRuntimeControls($view.find('.fwcontrol'));
         return $view;
-    }
-    static openModuleTab($object, caption, tabHasClose, tabType, setTabActive) {
+    };
+    FwModule.openModuleTab = function ($object, caption, tabHasClose, tabType, setTabActive) {
         var $tabControl, newtabids, $fwcontrols, controller;
         $tabControl = jQuery('#moduletabs');
         if ($tabControl.find('.tab').length === 0) {
@@ -46,8 +48,8 @@ class FwModule {
                 }
             }
         }
-    }
-    static openSubModuleTab($browse, $form) {
+    };
+    FwModule.openSubModuleTab = function ($browse, $form) {
         var $parentform, $tabControl, newtabids, controller, $newtab, $parenttab;
         $parentform = $browse.closest('.fwform');
         $tabControl = jQuery('#moduletabs');
@@ -71,8 +73,8 @@ class FwModule {
                 controller.onLoadForm($form);
             }
         }
-    }
-    static openFormTab($form, $object, tabname, tabhasclose, tabtype, setactive) {
+    };
+    FwModule.openFormTab = function ($form, $object, tabname, tabhasclose, tabtype, setactive) {
         var $formtabcontrol, tabids, $fwcontrols;
         $formtabcontrol = $form.find('div.fwtabs:first');
         tabids = FwTabs.addTab($formtabcontrol, tabname, tabhasclose, tabtype, setactive);
@@ -82,13 +84,13 @@ class FwModule {
         });
         $fwcontrols = $object.find('.fwcontrol');
         FwControl.loadControls($fwcontrols);
-    }
-    static openBrowse($browse) {
+    };
+    FwModule.openBrowse = function ($browse) {
         FwControl.renderRuntimeControls($browse.find('.fwcontrol').addBack());
         FwModule.addBrowseMenu($browse);
         return $browse;
-    }
-    static addBrowseMenu($browse) {
+    };
+    FwModule.addBrowseMenu = function ($browse) {
         var controller, $menu, $new, $edit, $delete, $inactiveView, $activeView, $allView, $show, $vr, $submenubtn, $submenucolumn, $optiongroup, $excelxlsx, $excelxls, nodeModule, nodeBrowse, nodeBrowseMenuBar, nodeBrowseSubMenu, $submenubtn, $menubarbutton, nodeSubMenuGroup, $submenucolumn, $submenugroup, nodeSubMenuItem, $submenuitem, hasClickEvent, $editbtn;
         controller = $browse.attr('data-controller');
         $menu = FwMenu.getMenuControl('default');
@@ -130,22 +132,22 @@ class FwModule {
                                                                 $submenuitem = FwMenu.addSubMenuBtn($submenugroup, nodeSubMenuItem.properties.caption, nodeSubMenuItem.id);
                                                                 $submenuitem.on('click', function () {
                                                                     try {
-                                                                        let $confirmation, $yes, $no, totalNumberofRows, totalPages, pageSize, userDefinedNumberofRows;
-                                                                        let module = window[controller].Module;
-                                                                        let apiurl = window[controller].apiurl;
-                                                                        let request = FwBrowse.getRequest($browse);
-                                                                        $confirmation = FwConfirmation.renderConfirmation('Download Excel Workbook', '');
-                                                                        $confirmation.find('.fwconfirmationbox').css('width', '450px');
-                                                                        totalNumberofRows = FwBrowse.getTotalRowCount($browse);
-                                                                        totalNumberofRows = totalNumberofRows.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-                                                                        let html = [];
+                                                                        var $confirmation_1, $yes = void 0, $no = void 0, totalNumberofRows_1, totalPages = void 0, pageSize = void 0, userDefinedNumberofRows_1;
+                                                                        var module_1 = window[controller].Module;
+                                                                        var apiurl_1 = window[controller].apiurl;
+                                                                        var request_1 = FwBrowse.getRequest($browse);
+                                                                        $confirmation_1 = FwConfirmation.renderConfirmation('Download Excel Workbook', '');
+                                                                        $confirmation_1.find('.fwconfirmationbox').css('width', '450px');
+                                                                        totalNumberofRows_1 = FwBrowse.getTotalRowCount($browse);
+                                                                        totalNumberofRows_1 = totalNumberofRows_1.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                                                                        var html = [];
                                                                         html.push('<div class="fwform" data-controller="none" style="background-color: transparent;">');
                                                                         html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
-                                                                        html.push(`    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield all-records" data-caption="Download all ${totalNumberofRows} Records" data-datafield="" style="float:left;width:100px;"></div>`);
+                                                                        html.push("    <div data-control=\"FwFormField\" data-type=\"checkbox\" class=\"fwcontrol fwformfield all-records\" data-caption=\"Download all " + totalNumberofRows_1 + " Records\" data-datafield=\"\" style=\"float:left;width:100px;\"></div>");
                                                                         html.push('  </div>');
                                                                         html.push(' <div class="formrow" style="width:100%;display:flex;align-content:flex-start; align-items:center">');
                                                                         html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
-                                                                        html.push(`    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield user-defined-records" data-caption="" data-datafield="" style="float:left;width:30px;"></div>`);
+                                                                        html.push("    <div data-control=\"FwFormField\" data-type=\"checkbox\" class=\"fwcontrol fwformfield user-defined-records\" data-caption=\"\" data-datafield=\"\" style=\"float:left;width:30px;\"></div>");
                                                                         html.push('  </div>');
                                                                         html.push('  <span style="margin:22px 0px 0px 0px;">First</span>');
                                                                         html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow" style="margin:0px 0px 0px 0px;">');
@@ -154,43 +156,43 @@ class FwModule {
                                                                         html.push('  <span style="margin:22px 0px 0px 0px;">Records</span>');
                                                                         html.push(' </div>');
                                                                         html.push('</div>');
-                                                                        FwConfirmation.addControls($confirmation, html.join(''));
-                                                                        $yes = FwConfirmation.addButton($confirmation, 'Download', false);
-                                                                        $no = FwConfirmation.addButton($confirmation, 'Cancel');
-                                                                        $confirmation.find('.user-defined-records-input input').val(request.pagesize);
-                                                                        $confirmation.find('.all-records input').prop('checked', true);
-                                                                        userDefinedNumberofRows = +$confirmation.find('.user-defined-records input').val();
-                                                                        $confirmation.find('.all-records input').on('change', function () {
+                                                                        FwConfirmation.addControls($confirmation_1, html.join(''));
+                                                                        $yes = FwConfirmation.addButton($confirmation_1, 'Download', false);
+                                                                        $no = FwConfirmation.addButton($confirmation_1, 'Cancel');
+                                                                        $confirmation_1.find('.user-defined-records-input input').val(request_1.pagesize);
+                                                                        $confirmation_1.find('.all-records input').prop('checked', true);
+                                                                        userDefinedNumberofRows_1 = +$confirmation_1.find('.user-defined-records input').val();
+                                                                        $confirmation_1.find('.all-records input').on('change', function () {
                                                                             var $this = jQuery(this);
                                                                             if ($this.prop('checked') === true) {
-                                                                                $confirmation.find('.user-defined-records input').prop('checked', false);
+                                                                                $confirmation_1.find('.user-defined-records input').prop('checked', false);
                                                                             }
                                                                             else {
-                                                                                $confirmation.find('.user-defined-records input').prop('checked', true);
+                                                                                $confirmation_1.find('.user-defined-records input').prop('checked', true);
                                                                             }
                                                                         });
-                                                                        $confirmation.find('.user-defined-records input').on('change', function () {
+                                                                        $confirmation_1.find('.user-defined-records input').on('change', function () {
                                                                             var $this = jQuery(this);
                                                                             if ($this.prop('checked') === true) {
-                                                                                $confirmation.find('.all-records input').prop('checked', false);
+                                                                                $confirmation_1.find('.all-records input').prop('checked', false);
                                                                             }
                                                                             else {
-                                                                                $confirmation.find('.all-records input').prop('checked', true);
+                                                                                $confirmation_1.find('.all-records input').prop('checked', true);
                                                                             }
                                                                         });
-                                                                        $confirmation.find('.user-defined-records-input input').keypress(function () {
-                                                                            $confirmation.find('.user-defined-records input').prop('checked', true);
-                                                                            $confirmation.find('.all-records input').prop('checked', false);
+                                                                        $confirmation_1.find('.user-defined-records-input input').keypress(function () {
+                                                                            $confirmation_1.find('.user-defined-records input').prop('checked', true);
+                                                                            $confirmation_1.find('.all-records input').prop('checked', false);
                                                                         });
-                                                                        $yes.on('click', () => {
-                                                                            if ($confirmation.find('.all-records input').prop('checked') === true) {
-                                                                                userDefinedNumberofRows = totalNumberofRows;
+                                                                        $yes.on('click', function () {
+                                                                            if ($confirmation_1.find('.all-records input').prop('checked') === true) {
+                                                                                userDefinedNumberofRows_1 = totalNumberofRows_1;
                                                                             }
                                                                             else {
-                                                                                userDefinedNumberofRows = +$confirmation.find('.user-defined-records-input input').val();
+                                                                                userDefinedNumberofRows_1 = +$confirmation_1.find('.user-defined-records-input input').val();
                                                                             }
-                                                                            request.pagesize = userDefinedNumberofRows;
-                                                                            FwAppData.apiMethod(true, 'POST', `${apiurl}/exportexcelxlsx/${module}`, request, FwServices.defaultTimeout, function (response) {
+                                                                            request_1.pagesize = userDefinedNumberofRows_1;
+                                                                            FwAppData.apiMethod(true, 'POST', apiurl_1 + "/exportexcelxlsx/" + module_1, request_1, FwServices.defaultTimeout, function (response) {
                                                                                 try {
                                                                                     window.location.assign(applicationConfig.apiurl + response.downloadUrl);
                                                                                 }
@@ -198,7 +200,7 @@ class FwModule {
                                                                                     FwFunc.showError(ex);
                                                                                 }
                                                                             }, null, null);
-                                                                            FwConfirmation.destroyConfirmation($confirmation);
+                                                                            FwConfirmation.destroyConfirmation($confirmation_1);
                                                                             FwNotification.renderNotification('INFO', 'Downloading Excel Workbook...');
                                                                         });
                                                                     }
@@ -367,8 +369,8 @@ class FwModule {
             $show = FwMenu.addViewBtn($menu, FwLanguages.translate('Show'), viewitems);
         }
         FwControl.renderRuntimeControls($menu.find('.fwcontrol').addBack());
-    }
-    static openForm($form, mode) {
+    };
+    FwModule.openForm = function ($form, mode) {
         var $fwcontrols, formid, $formTabControl, auditTabIds, $auditControl, controller, customTabIds, $customControl, nodeModule, nodeForm, nodeTabs, nodeTab, $tabs, nodeField, $fields, nodeGrid, $grids, $tabcontrol, args;
         nodeModule = FwApplicationTree.getNodeByController($form.attr('data-controller'));
         args = {};
@@ -409,9 +411,9 @@ class FwModule {
             });
         }
         if (sessionStorage.getItem('customFields') !== null) {
-            let customFields = JSON.parse(sessionStorage.getItem('customFields'));
+            var customFields = JSON.parse(sessionStorage.getItem('customFields'));
             if (customFields !== null && typeof customFields.length === 'number' && customFields.length > 0) {
-                let hasCustomFields = false;
+                var hasCustomFields = false;
                 for (var i = 0; i < customFields.length; i++) {
                     if (controller.slice(0, -10) === customFields[i]) {
                         FwModule.loadCustomFields($form, customFields[i]);
@@ -538,8 +540,8 @@ class FwModule {
             }
         });
         return $form;
-    }
-    static loadForm(module, $form) {
+    };
+    FwModule.loadForm = function (module, $form) {
         var request;
         request = {
             module: module,
@@ -553,8 +555,8 @@ class FwModule {
                 FwFunc.showError(ex);
             }
         });
-    }
-    static loadForm2(httpMethod, url, request, module, $form) {
+    };
+    FwModule.loadForm2 = function (httpMethod, url, request, module, $form) {
         FwAppData.apiMethod(true, httpMethod, url, request, FwServices.defaultTimeout, function (response) {
             try {
                 FwModule.afterLoadForm(module, $form, response);
@@ -563,11 +565,11 @@ class FwModule {
                 FwFunc.showError(ex);
             }
         }, null, $form);
-    }
-    static afterLoadForm(module, $form, response) {
-        let $tabpage = $form.parent();
-        let $tab = jQuery('#' + $tabpage.attr('data-tabid'));
-        let controller = window[module + 'Controller'];
+    };
+    FwModule.afterLoadForm = function (module, $form, response) {
+        var $tabpage = $form.parent();
+        var $tab = jQuery('#' + $tabpage.attr('data-tabid'));
+        var controller = window[module + 'Controller'];
         if (typeof controller === 'undefined') {
             throw module + 'Controller is not defined.';
         }
@@ -578,9 +580,9 @@ class FwModule {
             controller = $form.attr('data-controller');
             var tabname = (typeof response.tabname === 'string') ? response.tabname : (typeof response.RecordTitle === 'string') ? response.RecordTitle : 'Unknown';
             $tab.find('.caption').html(tabname);
-            let $formfields = jQuery().add($form.data('uniqueids')).add($form.data('fields'));
+            var $formfields = jQuery().add($form.data('uniqueids')).add($form.data('fields'));
             FwFormField.loadForm($formfields, response);
-            let $fwchargefields = $form.find('div.fwcharge');
+            var $fwchargefields = $form.find('div.fwcharge');
             if (($fwchargefields.length > 0) && ($fwchargefields.eq(0).attr('data-template') != $form.find('div[data-datafield="' + $fwchargefields.eq(0).attr('data-boundfield') + '"] input').val())) {
                 FwCharge.rerenderRuntimeHtml($form, response);
             }
@@ -594,9 +596,9 @@ class FwModule {
         else {
             controller = $form.attr('data-controller');
             $tab.find('.caption').html(response.tabname);
-            let $formfields = jQuery().add($form.data('uniqueids')).add($form.data('fields'));
+            var $formfields = jQuery().add($form.data('uniqueids')).add($form.data('fields'));
             FwFormField.loadForm($formfields, response.tables);
-            let $fwchargefields = $form.find('div.fwcharge');
+            var $fwchargefields = $form.find('div.fwcharge');
             if (($fwchargefields.length > 0) && ($fwchargefields.eq(0).attr('data-template') != $form.find('div[data-datafield="' + $fwchargefields.eq(0).attr('data-boundfield') + '"] input').val())) {
                 FwCharge.rerenderRuntimeHtml($form, response.tables);
             }
@@ -607,8 +609,8 @@ class FwModule {
                 window[controller]['afterLoad']($form);
             }
         }
-    }
-    static saveForm(module, $form, parameters) {
+    };
+    FwModule.saveForm = function (module, $form, parameters) {
         var $tabpage, $tab, isValid, request, controllername, controller;
         $tabpage = $form.parent();
         $tab = jQuery('#' + $tabpage.attr('data-tabid'));
@@ -734,8 +736,8 @@ class FwModule {
                 }
             });
         }
-    }
-    static deleteRecord(module, $control) {
+    };
+    FwModule.deleteRecord = function (module, $control) {
         var controller, method, $browse, ids, $selectedRow, $form, $tab, request;
         try {
             $browse = $control;
@@ -769,8 +771,8 @@ class FwModule {
         catch (ex) {
             FwFunc.showError(ex);
         }
-    }
-    static addFormMenu($form) {
+    };
+    FwModule.addFormMenu = function ($form) {
         var controller, $menu, $save, $edit, $delete, nodeModule, nodeForm, nodeFormMenuBar, nodeFormSubMenu, $submenubtn, $menubarbutton, nodetype, nodeSubMenuGroup, $submenucolumn, $submenugroup, nodeSubMenuItem, $submenuitem, hasClickEvent;
         controller = $form.attr('data-controller');
         $menu = FwMenu.getMenuControl('default');
@@ -892,15 +894,15 @@ class FwModule {
             }
         }
         FwControl.renderRuntimeControls($menu.find('.fwcontrol').addBack());
-    }
-    static beforeCloseForm($form) {
+    };
+    FwModule.beforeCloseForm = function ($form) {
         var $fwformfields;
         $fwformfields = typeof $form.data('fields') !== 'undefined' ? $form.data('fields') : jQuery([]);
         $fwformfields.each(function (index, element) {
             FwFormField.onRemove(jQuery(element));
         });
-    }
-    static closeForm($form, $tab, navigationpath, afterCloseForm, closeParent) {
+    };
+    FwModule.closeForm = function ($form, $tab, navigationpath, afterCloseForm, closeParent) {
         var $tabcontrol, ismodified, hassubmodule, issubmodule, $confirmation, $save, $dontsave, $cancel, tabname, $parenttab;
         $tabcontrol = $tab.closest('.fwtabs');
         ismodified = $form.attr('data-modified');
@@ -966,8 +968,8 @@ class FwModule {
                 }
             }
         }
-    }
-    static closeFormTab($tab) {
+    };
+    FwModule.closeFormTab = function ($tab) {
         var $browse, $form, $newTab, newTabType, tabIsActive, $tabcontrol, $tabpage, isSubModule;
         $tabcontrol = $tab.closest('.fwtabs');
         $tabpage = $tabcontrol.find('#' + $tab.attr('data-tabpageid'));
@@ -995,13 +997,13 @@ class FwModule {
                 FwBrowse.databind($browse);
             }
         }
-    }
-    static loadAudit($form, uniqueid) {
+    };
+    FwModule.loadAudit = function ($form, uniqueid) {
         if (FwSecurity.isUser()) {
             FwAudit.loadAudit($form, uniqueid);
         }
-    }
-    static getFormUniqueIds($form) {
+    };
+    FwModule.getFormUniqueIds = function ($form) {
         var $uniqueIdFields, uniqueids, uniqueid;
         uniqueids = {};
         $uniqueIdFields = typeof $form.data('uniqueids') !== 'undefined' ? $form.data('uniqueids') : jQuery([]);
@@ -1018,8 +1020,8 @@ class FwModule {
             uniqueids[datafield] = uniqueid;
         });
         return uniqueids;
-    }
-    static getFormFields($form, getAllFieldsOverride) {
+    };
+    FwModule.getFormFields = function ($form, getAllFieldsOverride) {
         var $fwformfields, fields, field;
         fields = {};
         $fwformfields = typeof $form.data('fields') !== 'undefined' ? $form.data('fields') : jQuery([]);
@@ -1034,7 +1036,7 @@ class FwModule {
                 throw 'Attribute data-datafield is missing on fwformfield element.';
             }
             value = FwFormField.getValue2($fwformfield);
-            let value2 = value;
+            var value2 = value;
             if (typeof value === 'number' || typeof value === 'boolean') {
                 value2 = value.toString();
             }
@@ -1066,8 +1068,8 @@ class FwModule {
             }
         });
         return fields;
-    }
-    static getWebApiFields($form, includeUnmodifiedFields) {
+    };
+    FwModule.getWebApiFields = function ($form, includeUnmodifiedFields) {
         var fields = {};
         var $uniqueids = typeof $form.data('uniqueids') !== 'undefined' ? $form.data('uniqueids') : jQuery([]);
         var $fwformfields = typeof $form.data('fields') !== 'undefined' ? $form.data('fields') : jQuery([]);
@@ -1092,8 +1094,8 @@ class FwModule {
             }
         });
         return fields;
-    }
-    static getFormModel($form, getAllFieldsOverride) {
+    };
+    FwModule.getFormModel = function ($form, getAllFieldsOverride) {
         var uniqueids = FwModule.getFormUniqueIds($form);
         var fields = FwModule.getFormFields($form, getAllFieldsOverride);
         var request = {};
@@ -1109,8 +1111,8 @@ class FwModule {
             }
         }
         return request;
-    }
-    static validateForm($form) {
+    };
+    FwModule.validateForm = function ($form) {
         var isvalid, $fields;
         isvalid = true;
         if ($form.parent().data('type') === 'settings-row') {
@@ -1144,8 +1146,8 @@ class FwModule {
             FwNotification.renderNotification('ERROR', 'Please resolve the error(s) on the form.');
         }
         return isvalid;
-    }
-    static getData($object, request, responseFunc, $elementToBlock, timeout) {
+    };
+    FwModule.getData = function ($object, request, responseFunc, $elementToBlock, timeout) {
         var webserviceurl, controller, module, timeoutParam;
         controller = $object.attr('data-controller');
         module = window[controller].Module;
@@ -1155,8 +1157,8 @@ class FwModule {
             timeoutParam = null;
         }
         FwAppData.jsonPost(true, webserviceurl, request, timeoutParam, responseFunc, null, $elementToBlock);
-    }
-    static getData2(module, request, responseFunc, $elementToBlock, timeout) {
+    };
+    FwModule.getData2 = function (module, request, responseFunc, $elementToBlock, timeout) {
         var webserviceurl, timeoutParam;
         request.module = module;
         webserviceurl = 'services.ashx?path=/module/' + module + '/GetData';
@@ -1164,8 +1166,8 @@ class FwModule {
             timeoutParam = null;
         }
         FwAppData.jsonPost(true, webserviceurl, request, timeoutParam, responseFunc, null, $elementToBlock);
-    }
-    static getFormByUniqueIds(uniqueidcollection) {
+    };
+    FwModule.getFormByUniqueIds = function (uniqueidcollection) {
         var $forms, $form, result;
         result = jQuery();
         $forms = jQuery('.fwform');
@@ -1190,8 +1192,8 @@ class FwModule {
             }
         });
         return result;
-    }
-    static checkDuplicate($form, $fieldtocheck) {
+    };
+    FwModule.checkDuplicate = function ($form, $fieldtocheck) {
         var $fields, request = {}, groupname, $field, datafield, value, type, table, runcheck = true, controller, required;
         controller = $form.attr('data-controller');
         if (typeof window[controller].Module !== 'undefined') {
@@ -1242,8 +1244,8 @@ class FwModule {
                 });
             }
         }
-    }
-    static setFormReadOnly($form) {
+    };
+    FwModule.setFormReadOnly = function ($form) {
         var $fwformfields, $grids, $save;
         $form.attr('data-mode', 'READONLY');
         $fwformfields = $form.data('fields');
@@ -1256,24 +1258,24 @@ class FwModule {
         $save = $form.find('div.btn[data-type="SaveMenuBarButton"]');
         $save.addClass('disabled');
         $save.off('click');
-    }
-    static loadFormFromTemplate(modulename) {
+    };
+    FwModule.loadFormFromTemplate = function (modulename) {
         var $control = jQuery(jQuery('#tmpl-modules-' + modulename + 'Form').html());
         return $control;
-    }
-    static refreshForm($form, controller) {
-        const uniqueIds = FwModule.getFormUniqueIds($form);
-        let newUniqueIds = {};
-        setTimeout(() => {
-            for (let key in uniqueIds) {
+    };
+    FwModule.refreshForm = function ($form, controller) {
+        var uniqueIds = FwModule.getFormUniqueIds($form);
+        var newUniqueIds = {};
+        setTimeout(function () {
+            for (var key in uniqueIds) {
                 newUniqueIds[key] = uniqueIds[key].value;
-                const $newForm = controller.loadForm(newUniqueIds);
+                var $newForm = controller.loadForm(newUniqueIds);
                 $form.parent().empty().append($newForm);
             }
         }, 0);
-    }
+    };
     ;
-    static loadCustomFields($form, customModuleName) {
+    FwModule.loadCustomFields = function ($form, customModuleName) {
         var customHtml = [];
         var $formTabControl = jQuery($form.find('.fwtabs'));
         var customTabIds = FwTabs.addTab($formTabControl, 'Custom Fields', false, 'CUSTOM', false);
@@ -1305,6 +1307,7 @@ class FwModule {
                 FwFunc.showError(ex);
             }
         }, null, null);
-    }
-}
+    };
+    return FwModule;
+}());
 //# sourceMappingURL=FwModule.js.map

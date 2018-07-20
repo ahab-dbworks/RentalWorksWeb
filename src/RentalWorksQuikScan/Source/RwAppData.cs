@@ -623,83 +623,83 @@ namespace RentalWorksQuikScan.Source
             dynamic result;
             FwSqlCommand sp;
             sp = new FwSqlCommand(conn, "dbo.pdastageitem");
-            sp.AddParameter("@orderid",                orderid);
-            sp.AddParameter("@code",                   code);
-            sp.AddParameter("@usersid",                usersid);
-            sp.AddParameter("@qty",                    qty);
-            sp.AddParameter("@additemtoorder",         FwConvert.LogicalToCharacter(additemtoorder));
-            sp.AddParameter("@addcompletetoorder",     FwConvert.LogicalToCharacter(addcompletetoorder));
-            sp.AddParameter("@releasefromrepair",      FwConvert.LogicalToCharacter(releasefromrepair));
-            sp.AddParameter("@unstage",                FwConvert.LogicalToCharacter(unstage));
-            sp.AddParameter("@vendorid",               vendorid);                                                                 //mv 08/09/2015 CAS-16066-F6P9
-            sp.AddParameter("@meter",                  meter);                                                                    //mv 08/09/2015 CAS-16066-F6P9
-            sp.AddParameter("@location",               location);                                                                 //mv 08/09/2015 CAS-16066-F6P9
-            sp.AddParameter("@spaceid",                spaceid);                                                                  //mv 08/09/2015 CAS-16066-F6P9
-            sp.AddParameter("@addcontainertoorder",    FwConvert.LogicalToCharacter(addcontainertoorder));                        //mv 08/09/2015 CAS-16066-F6P9
-            sp.AddParameter("@overridereservation",    FwConvert.LogicalToCharacter(overridereservation));                        //mv 08/09/2015 CAS-16066-F6P9
-            sp.AddParameter("@stageconsigned",         FwConvert.LogicalToCharacter(stageconsigned));                             //mv 08/09/2015 CAS-16066-F6P9
-            sp.AddParameter("@transferrepair",         FwConvert.LogicalToCharacter(transferrepair));                             //mv 08/09/2015 CAS-16066-F6P9
-            sp.AddParameter("@removefromcontainer",    FwConvert.LogicalToCharacter(removefromcontainer));                        //mv 08/09/2015 CAS-16066-F6P9
-            sp.AddParameter("@contractid",             contractid);                                                               //mv 08/09/2015 CAS-16066-F6P9 only supply a value if item should go out immediately
-            sp.AddParameter("@ignoresuspendedin",      FwConvert.LogicalToCharacter(ignoresuspendedin));                          //mv 08/09/2015 CAS-16066-F6P9
-            sp.AddParameter("@consignorid",            SqlDbType.Char,     ParameterDirection.InputOutput, consignorid);          //mv 08/09/2015 CAS-16066-F6P9 also used as an input value for quantity items
-            sp.AddParameter("@consignoragreementid",   SqlDbType.Char,     ParameterDirection.InputOutput, consignoragreementid); //mv 08/09/2015 CAS-16066-F6P9 also used as an input value for quantity items
-            sp.AddParameter("@exceptionbatchid",       SqlDbType.Char,     ParameterDirection.Output);                            //mv 08/09/2015 CAS-16066-F6P9
-            sp.AddParameter("@isicode",                SqlDbType.Char,     ParameterDirection.Output);
-            sp.AddParameter("@masterid",               SqlDbType.Char,     ParameterDirection.Output);
-            sp.AddParameter("@masteritemid",           SqlDbType.Char,     ParameterDirection.InputOutput, masteritemid);
-            sp.AddParameter("@rentalitemid",           SqlDbType.Char,     ParameterDirection.Output);
-            sp.AddParameter("@masterno",               SqlDbType.Char,     ParameterDirection.Output);
-            sp.AddParameter("@description",            SqlDbType.Char,     ParameterDirection.Output);
-            sp.AddParameter("@qtyordered",             SqlDbType.Int,      ParameterDirection.Output);
-            sp.AddParameter("@qtysub",                 SqlDbType.Int,      ParameterDirection.Output);
-            sp.AddParameter("@qtystaged",              SqlDbType.Int,      ParameterDirection.Output);
-            sp.AddParameter("@qtyout",                 SqlDbType.Int,      ParameterDirection.Output);
-            sp.AddParameter("@qtyin",                  SqlDbType.Int,      ParameterDirection.Output);
-            sp.AddParameter("@qtyremaining",           SqlDbType.Int,      ParameterDirection.Output);
-            sp.AddParameter("@showadditemtoorder",     SqlDbType.Char,     ParameterDirection.Output);
-            sp.AddParameter("@showaddcompletetoorder", SqlDbType.Char,     ParameterDirection.Output);
-            sp.AddParameter("@showunstage",            SqlDbType.Char,     ParameterDirection.Output);
-            sp.AddParameter("@showoverridereservation",SqlDbType.Char,     ParameterDirection.Output);
-            sp.AddParameter("@showstageconsigneditem", SqlDbType.Char,     ParameterDirection.Output);
-            sp.AddParameter("@showtransferrepair",     SqlDbType.Char,     ParameterDirection.Output);
-            sp.AddParameter("@showaddcontainertoorder",SqlDbType.Char,     ParameterDirection.Output);
-            sp.AddParameter("@showsubstituteitem",     SqlDbType.Char,     ParameterDirection.Output); //my 04/25/2016 CAS-16752-C6M1
-            sp.AddParameter("@showsubstitutecomplete", SqlDbType.Char,     ParameterDirection.Output); //my 04/25/2016 CAS-16752-C6M1
-            sp.AddParameter("@genericmsg",             SqlDbType.Char,     ParameterDirection.Output);
-            sp.AddParameter("@status",                 SqlDbType.Int,      ParameterDirection.Output);
-            sp.AddParameter("@msg",                    SqlDbType.VarChar,  ParameterDirection.Output);
+            sp.AddParameter("@orderid",                 orderid);
+            sp.AddParameter("@code",                    code);
+            sp.AddParameter("@usersid",                 usersid);
+            sp.AddParameter("@qty",                     qty);
+            sp.AddParameter("@additemtoorder",          FwConvert.LogicalToCharacter(additemtoorder));
+            sp.AddParameter("@addcompletetoorder",      FwConvert.LogicalToCharacter(addcompletetoorder));
+            sp.AddParameter("@releasefromrepair",       FwConvert.LogicalToCharacter(releasefromrepair));
+            sp.AddParameter("@unstage",                 FwConvert.LogicalToCharacter(unstage));
+            sp.AddParameter("@vendorid",                vendorid);                                                                 //mv 08/09/2015 CAS-16066-F6P9
+            sp.AddParameter("@meter",                   meter);                                                                    //mv 08/09/2015 CAS-16066-F6P9
+            sp.AddParameter("@location",                location);                                                                 //mv 08/09/2015 CAS-16066-F6P9
+            sp.AddParameter("@spaceid",                 spaceid);                                                                  //mv 08/09/2015 CAS-16066-F6P9
+            sp.AddParameter("@addcontainertoorder",     FwConvert.LogicalToCharacter(addcontainertoorder));                        //mv 08/09/2015 CAS-16066-F6P9
+            sp.AddParameter("@overridereservation",     FwConvert.LogicalToCharacter(overridereservation));                        //mv 08/09/2015 CAS-16066-F6P9
+            sp.AddParameter("@stageconsigned",          FwConvert.LogicalToCharacter(stageconsigned));                             //mv 08/09/2015 CAS-16066-F6P9
+            sp.AddParameter("@transferrepair",          FwConvert.LogicalToCharacter(transferrepair));                             //mv 08/09/2015 CAS-16066-F6P9
+            sp.AddParameter("@removefromcontainer",     FwConvert.LogicalToCharacter(removefromcontainer));                        //mv 08/09/2015 CAS-16066-F6P9
+            sp.AddParameter("@contractid",              contractid);                                                               //mv 08/09/2015 CAS-16066-F6P9 only supply a value if item should go out immediately
+            sp.AddParameter("@ignoresuspendedin",       FwConvert.LogicalToCharacter(ignoresuspendedin));                          //mv 08/09/2015 CAS-16066-F6P9
+            sp.AddParameter("@consignorid",             SqlDbType.Char,     ParameterDirection.InputOutput, consignorid);          //mv 08/09/2015 CAS-16066-F6P9 also used as an input value for quantity items
+            sp.AddParameter("@consignoragreementid",    SqlDbType.Char,     ParameterDirection.InputOutput, consignoragreementid); //mv 08/09/2015 CAS-16066-F6P9 also used as an input value for quantity items
+            sp.AddParameter("@exceptionbatchid",        SqlDbType.Char,     ParameterDirection.Output);                            //mv 08/09/2015 CAS-16066-F6P9
+            sp.AddParameter("@isicode",                 SqlDbType.Char,     ParameterDirection.Output);
+            sp.AddParameter("@masterid",                SqlDbType.Char,     ParameterDirection.Output);
+            sp.AddParameter("@masteritemid",            SqlDbType.Char,     ParameterDirection.InputOutput, masteritemid);
+            sp.AddParameter("@rentalitemid",            SqlDbType.Char,     ParameterDirection.Output);
+            sp.AddParameter("@masterno",                SqlDbType.Char,     ParameterDirection.Output);
+            sp.AddParameter("@description",             SqlDbType.Char,     ParameterDirection.Output);
+            sp.AddParameter("@qtyordered",              SqlDbType.Int,      ParameterDirection.Output);
+            sp.AddParameter("@qtysub",                  SqlDbType.Int,      ParameterDirection.Output);
+            sp.AddParameter("@qtystaged",               SqlDbType.Int,      ParameterDirection.Output);
+            sp.AddParameter("@qtyout",                  SqlDbType.Int,      ParameterDirection.Output);
+            sp.AddParameter("@qtyin",                   SqlDbType.Int,      ParameterDirection.Output);
+            sp.AddParameter("@qtyremaining",            SqlDbType.Int,      ParameterDirection.Output);
+            sp.AddParameter("@showadditemtoorder",      SqlDbType.Char,     ParameterDirection.Output);
+            sp.AddParameter("@showaddcompletetoorder",  SqlDbType.Char,     ParameterDirection.Output);
+            sp.AddParameter("@showunstage",             SqlDbType.Char,     ParameterDirection.Output);
+            sp.AddParameter("@showoverridereservation", SqlDbType.Char,     ParameterDirection.Output);
+            sp.AddParameter("@showstageconsigneditem",  SqlDbType.Char,     ParameterDirection.Output);
+            sp.AddParameter("@showtransferrepair",      SqlDbType.Char,     ParameterDirection.Output);
+            sp.AddParameter("@showaddcontainertoorder", SqlDbType.Char,     ParameterDirection.Output);
+            sp.AddParameter("@showsubstituteitem",      SqlDbType.Char,     ParameterDirection.Output); //my 04/25/2016 CAS-16752-C6M1
+            sp.AddParameter("@showsubstitutecomplete",  SqlDbType.Char,     ParameterDirection.Output); //my 04/25/2016 CAS-16752-C6M1
+            sp.AddParameter("@genericmsg",              SqlDbType.Char,     ParameterDirection.Output);
+            sp.AddParameter("@status",                  SqlDbType.Int,      ParameterDirection.Output);
+            sp.AddParameter("@msg",                     SqlDbType.VarChar,  ParameterDirection.Output);
             sp.Execute();
             result = new ExpandoObject();
-            result.isICode                = sp.GetParameter("@isicode").ToBoolean();
-            result.masterId               = sp.GetParameter("@masterid").ToString().TrimEnd();
-            result.masterItemId           = sp.GetParameter("@masteritemid").ToString().TrimEnd();
-            result.rentalItemId           = sp.GetParameter("@rentalitemid").ToString().TrimEnd();
-            result.masterNo               = sp.GetParameter("@masterno").ToString().Trim();
-            result.description            = sp.GetParameter("@description").ToString().TrimEnd();
-            result.qtyOrdered             = sp.GetParameter("@qtyordered").ToDecimal();
-            result.qtySub                 = sp.GetParameter("@qtysub").ToDecimal();
-            result.qtyStaged              = sp.GetParameter("@qtystaged").ToDecimal();
-            result.qtyOut                 = sp.GetParameter("@qtyout").ToDecimal();
-            result.qtyIn                  = sp.GetParameter("@qtyin").ToDecimal();
-            result.qtyRemaining           = sp.GetParameter("@qtyremaining").ToDecimal() - sp.GetParameter("@qtysub").ToDecimal();
-            result.genericMsg             = sp.GetParameter("@genericmsg").ToString().TrimEnd();
-            result.showAddItemToOrder     = sp.GetParameter("@showadditemtoorder").ToBoolean();
-            result.showAddCompleteToOrder = sp.GetParameter("@showaddcompletetoorder").ToBoolean();
-            result.showUnstage            = sp.GetParameter("@showunstage").ToBoolean();
-            result.showoverridereservation= sp.GetParameter("@showoverridereservation").ToBoolean();
-            result.showstageconsigneditem = sp.GetParameter("@showstageconsigneditem").ToBoolean();
-            result.showtransferrepair     = sp.GetParameter("@showtransferrepair").ToBoolean();
-            result.showaddcontainertoorder= sp.GetParameter("@showaddcontainertoorder").ToBoolean();
-            result.showsubstituteitem     = sp.GetParameter("@showsubstituteitem").ToBoolean();
-            result.showsubstitutecomplete = sp.GetParameter("@showsubstitutecomplete").ToBoolean();
-            result.itemType               = (result.isICode ? ItemType.NonBarCoded.ToString() : ItemType.BarCoded.ToString());
-            result.status                 = sp.GetParameter("@status").ToInt32();
-            result.msg                    = sp.GetParameter("@msg").ToString().TrimEnd().Replace("Item(s) have successfully been removed from the Container.", string.Empty);
-            result.found                  = (!result.masterItemId.Equals(""));
-            result.consignorid            = sp.GetParameter("@consignorid").ToString().TrimEnd();
-            result.consignoragreementid   = sp.GetParameter("@consignoragreementid").ToString().TrimEnd();
-            result.exceptionbatchid       = sp.GetParameter("@exceptionbatchid").ToString().TrimEnd();
+            result.isICode                 = sp.GetParameter("@isicode").ToBoolean();
+            result.masterId                = sp.GetParameter("@masterid").ToString().TrimEnd();
+            result.masterItemId            = sp.GetParameter("@masteritemid").ToString().TrimEnd();
+            result.rentalItemId            = sp.GetParameter("@rentalitemid").ToString().TrimEnd();
+            result.masterNo                = sp.GetParameter("@masterno").ToString().Trim();
+            result.description             = sp.GetParameter("@description").ToString().TrimEnd();
+            result.qtyOrdered              = sp.GetParameter("@qtyordered").ToDecimal();
+            result.qtySub                  = sp.GetParameter("@qtysub").ToDecimal();
+            result.qtyStaged               = sp.GetParameter("@qtystaged").ToDecimal();
+            result.qtyOut                  = sp.GetParameter("@qtyout").ToDecimal();
+            result.qtyIn                   = sp.GetParameter("@qtyin").ToDecimal();
+            result.qtyRemaining            = sp.GetParameter("@qtyremaining").ToDecimal() - sp.GetParameter("@qtysub").ToDecimal();
+            result.genericMsg              = sp.GetParameter("@genericmsg").ToString().TrimEnd();
+            result.showAddItemToOrder      = sp.GetParameter("@showadditemtoorder").ToBoolean();
+            result.showAddCompleteToOrder  = sp.GetParameter("@showaddcompletetoorder").ToBoolean();
+            result.showUnstage             = sp.GetParameter("@showunstage").ToBoolean();
+            result.showoverridereservation = sp.GetParameter("@showoverridereservation").ToBoolean();
+            result.showstageconsigneditem  = sp.GetParameter("@showstageconsigneditem").ToBoolean();
+            result.showtransferrepair      = sp.GetParameter("@showtransferrepair").ToBoolean();
+            result.showaddcontainertoorder = sp.GetParameter("@showaddcontainertoorder").ToBoolean();
+            result.showsubstituteitem      = sp.GetParameter("@showsubstituteitem").ToBoolean();
+            result.showsubstitutecomplete  = sp.GetParameter("@showsubstitutecomplete").ToBoolean();
+            result.itemType                = (result.isICode ? ItemType.NonBarCoded.ToString() : ItemType.BarCoded.ToString());
+            result.status                  = sp.GetParameter("@status").ToInt32();
+            result.msg                     = sp.GetParameter("@msg").ToString().TrimEnd().Replace("Item(s) have successfully been removed from the Container.", string.Empty);
+            result.found                   = (!result.masterItemId.Equals(""));
+            result.consignorid             = sp.GetParameter("@consignorid").ToString().TrimEnd();
+            result.consignoragreementid    = sp.GetParameter("@consignoragreementid").ToString().TrimEnd();
+            result.exceptionbatchid        = sp.GetParameter("@exceptionbatchid").ToString().TrimEnd();
             return result;
         }
         //----------------------------------------------------------------------------------------------------
@@ -3625,13 +3625,13 @@ namespace RentalWorksQuikScan.Source
 
             using (FwSqlCommand qry = new FwSqlCommand(conn, "dbo.checkingetiteminfo"))
             {
-                qry.AddParameter("@barcode",         barcode);       // can be barcode, rfid, serial number, or rentalitemid
-                qry.AddParameter("@incontractid",    incontractid);
-                qry.AddParameter("@usersid",         usersid);
-                qry.AddParameter("@bctype",          bctype);        //O=Order, T=Transfer, P=Package Truck
-                qry.AddParameter("@containeritemid", containeritemid);
-                qry.AddParameter("@orderid",            orderid);     
-                qry.AddParameter("@dealid",             dealid);      
+                qry.AddParameter("@barcode",            barcode);       // can be barcode, rfid, serial number, or rentalitemid
+                qry.AddParameter("@incontractid",       incontractid);
+                qry.AddParameter("@usersid",            usersid);
+                qry.AddParameter("@bctype",             bctype);        //O=Order, T=Transfer, P=Package Truck
+                qry.AddParameter("@containeritemid",    containeritemid);
+                qry.AddParameter("@orderid",            orderid);
+                qry.AddParameter("@dealid",             dealid);
                 qry.AddParameter("@departmentid",       departmentid);
                 qry.AddParameter("@masterid",           SqlDbType.Char,    ParameterDirection.Output);
                 qry.AddParameter("@warehouseid",        SqlDbType.Char,    ParameterDirection.Output);
@@ -3657,11 +3657,9 @@ namespace RentalWorksQuikScan.Source
                 qry.AddParameter("@outputdealid",       SqlDbType.Char,    ParameterDirection.Output);
                 qry.AddParameter("@outputdepartmentid", SqlDbType.Char,    ParameterDirection.Output);
                 qry.AddParameter("@outputrentalitemid", SqlDbType.Char,    ParameterDirection.Output);
-                qry.AddParameter("@canswap", SqlDbType.Char, ParameterDirection.Output);
-                qry.AddParameter("@autoswap", SqlDbType.Char, ParameterDirection.Output);
-                qry.AddParameter("@exchangecontractid", SqlDbType.Char, ParameterDirection.Output);
-                qry.AddParameter("@retiredid", SqlDbType.Char, ParameterDirection.Output);
-
+                qry.AddParameter("@canswap",            SqlDbType.Char,    ParameterDirection.Output);
+                qry.AddParameter("@exchangecontractid", SqlDbType.Char,    ParameterDirection.Output);
+                qry.AddParameter("@retiredid",          SqlDbType.Char,    ParameterDirection.Output);
                 qry.AddParameter("@msg",                SqlDbType.VarChar, ParameterDirection.Output);
                 qry.AddParameter("@status",             SqlDbType.Decimal, ParameterDirection.Output);
                 qry.Execute();

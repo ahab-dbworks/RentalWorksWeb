@@ -1,5 +1,7 @@
-class FwOverlay {
-    static showPleaseWaitOverlay($appendToElement, requestid) {
+var FwOverlay = (function () {
+    function FwOverlay() {
+    }
+    FwOverlay.showPleaseWaitOverlay = function ($appendToElement, requestid) {
         var html, $moduleoverlay, maxZIndex;
         html = [];
         html.push('<div class="fwoverlay-center pleasewait">');
@@ -16,17 +18,17 @@ class FwOverlay {
         });
         $appendToElement.css('position', 'relative').append($moduleoverlay);
         return $moduleoverlay;
-    }
-    static showProgressBarOverlay($appendToElement, progressBarSessionId) {
-        let html, $moduleoverlay, maxZIndex, progressCompleted, caption, percentage, handle, currentStep, totalSteps, fullurl;
+    };
+    FwOverlay.showProgressBarOverlay = function ($appendToElement, progressBarSessionId) {
+        var html, $moduleoverlay, maxZIndex, progressCompleted, caption, percentage, handle, currentStep, totalSteps, fullurl;
         currentStep = 100;
         totalSteps = 100;
-        let request = {};
-        let url = `api/v1/progressmeter/${progressBarSessionId}`;
+        var request = {};
+        var url = "api/v1/progressmeter/" + progressBarSessionId;
         fullurl = applicationConfig.apiurl + url;
         progressCompleted = false;
         html = [];
-        let ajaxOptions = {
+        var ajaxOptions = {
             method: 'GET',
             url: fullurl,
             contentType: 'application/json',
@@ -38,15 +40,15 @@ class FwOverlay {
                 requestid: FwAppData.generateUUID()
             },
         };
-        html.push(`<progress max="100" value="100"><span class="progress_span">0</span></progress>`);
-        html.push(`<div class="progress_bar_text"></div>`);
-        html.push(`<div class="progress_bar_caption">Initiating your request...</div>`);
-        $moduleoverlay = jQuery(`<div class="progress_bar">`);
+        html.push("<progress max=\"100\" value=\"100\"><span class=\"progress_span\">0</span></progress>");
+        html.push("<div class=\"progress_bar_text\"></div>");
+        html.push("<div class=\"progress_bar_caption\">Initiating your request...</div>");
+        $moduleoverlay = jQuery("<div class=\"progress_bar\">");
         $moduleoverlay.html(html.join(''));
         $appendToElement.css('position', 'relative').append($moduleoverlay);
-        handle = setInterval(() => {
+        handle = setInterval(function () {
             jQuery.ajax(ajaxOptions)
-                .done(response => {
+                .done(function (response) {
                 try {
                     if (isNaN(response.CurrentStep) || undefined) {
                         caption = 'Processing...';
@@ -62,8 +64,8 @@ class FwOverlay {
                         percentage = Math.floor((currentStep / totalSteps) * 100);
                         $moduleoverlay.find('progress').val(currentStep);
                         $moduleoverlay.find('progress').attr('max', totalSteps);
-                        $moduleoverlay.find('.progress_bar_text').text(`${percentage}%`);
-                        $moduleoverlay.find('.progress_span').text(`${percentage}%`);
+                        $moduleoverlay.find('.progress_bar_text').text(percentage + "%");
+                        $moduleoverlay.find('.progress_span').text(percentage + "%");
                         $moduleoverlay.find('.progress_bar_caption').text(caption);
                     }
                 }
@@ -80,8 +82,8 @@ class FwOverlay {
             });
         }, 500);
         return $moduleoverlay;
-    }
-    static showErrorOverlay($appendToElement) {
+    };
+    FwOverlay.showErrorOverlay = function ($appendToElement) {
         var html, overlayid, overlaycount;
         overlayid = FwControl.generateControlId('overlay');
         overlaycount = $appendToElement.data('overlayoutcount');
@@ -109,10 +111,11 @@ class FwOverlay {
             $appendToElement.css('position', 'relative').append(html);
         }
         return overlayid;
-    }
-    static hideOverlay($overlay) {
+    };
+    FwOverlay.hideOverlay = function ($overlay) {
         var overlayoutcount;
         $overlay.remove();
-    }
-}
+    };
+    return FwOverlay;
+}());
 //# sourceMappingURL=FwOverlay.js.map

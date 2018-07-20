@@ -1,5 +1,7 @@
-class FwApplicationTree {
-    static getMyTree() {
+var FwApplicationTree = (function () {
+    function FwApplicationTree() {
+    }
+    FwApplicationTree.getMyTree = function () {
         var hasApplicationTreeInSessionStorage, applicationtree = null;
         if (FwApplicationTree.tree !== null) {
             applicationtree = FwApplicationTree.tree;
@@ -16,15 +18,15 @@ class FwApplicationTree {
             }
         }
         return applicationtree;
-    }
+    };
     ;
-    static getNodeByController(controller) {
+    FwApplicationTree.getNodeByController = function (controller) {
         var tree = FwApplicationTree.getMyTree();
         var node = FwApplicationTree.getNodeByControllerRecursive(tree, controller);
         return node;
-    }
+    };
     ;
-    static getNodeByFuncRecursive(node, args, func) {
+    FwApplicationTree.getNodeByFuncRecursive = function (node, args, func) {
         var resultnode = null;
         if (node !== null) {
             var ismatch = func(node, args);
@@ -41,9 +43,9 @@ class FwApplicationTree {
             }
         }
         return resultnode;
-    }
+    };
     ;
-    static getNodeById(node, id) {
+    FwApplicationTree.getNodeById = function (node, id) {
         var resultNode = null;
         if (node !== null) {
             var data_nodetype = node.id;
@@ -59,9 +61,9 @@ class FwApplicationTree {
             }
         }
         return resultNode;
-    }
+    };
     ;
-    static getChildByType(node, nodetype) {
+    FwApplicationTree.getChildByType = function (node, nodetype) {
         var resultNode = null, foundNodeType, childno, currentNode;
         if (node !== null) {
             for (childno = 0; childno < node.children.length; childno++) {
@@ -74,15 +76,15 @@ class FwApplicationTree {
             }
         }
         return resultNode;
-    }
+    };
     ;
-    static getChildrenByType(node, nodetype) {
+    FwApplicationTree.getChildrenByType = function (node, nodetype) {
         var children = [];
         FwApplicationTree.getChildrenByTypeRecursive(node, nodetype, children);
         return children;
-    }
+    };
     ;
-    static getChildrenByTypeRecursive(node, nodetype, children) {
+    FwApplicationTree.getChildrenByTypeRecursive = function (node, nodetype, children) {
         if (node !== null) {
             for (var childno = 0; childno < node.children.length; childno++) {
                 var currentNode = node.children[childno];
@@ -93,23 +95,23 @@ class FwApplicationTree {
                 FwApplicationTree.getChildrenByTypeRecursive(currentNode, nodetype, children);
             }
         }
-    }
+    };
     ;
-    static getNodeType(node) {
+    FwApplicationTree.getNodeType = function (node) {
         var nodetype = null;
         if (node !== null) {
             nodetype = node.properties.nodetype;
         }
         return nodetype;
-    }
+    };
     ;
-    static getSecurityNodes(node, hidenewmenuoptionsbydefault) {
+    FwApplicationTree.getSecurityNodes = function (node, hidenewmenuoptionsbydefault) {
         var securitynodes;
         securitynodes = [];
         FwApplicationTree.getSecurityNodesRecursive(securitynodes, node, hidenewmenuoptionsbydefault);
         return securitynodes;
-    }
-    static getSecurityNodesRecursive(securitynodes, node, hidenewmenuoptionsbydefault) {
+    };
+    FwApplicationTree.getSecurityNodesRecursive = function (securitynodes, node, hidenewmenuoptionsbydefault) {
         var includenode, newNode, childno, visible, editable;
         visible = ((typeof node.properties.visible === 'string') &&
             ((hidenewmenuoptionsbydefault !== true) && (node.properties.visible === 'F')) || ((hidenewmenuoptionsbydefault === true) && (node.properties.visible === 'T'))) ? node.properties.visible : null;
@@ -133,32 +135,33 @@ class FwApplicationTree {
             }
         }
         return securitynodes;
-    }
-}
-FwApplicationTree.tree = null;
-FwApplicationTree.clickEvents = {};
-FwApplicationTree.currentApplicationId = '';
-FwApplicationTree.getNodeByControllerRecursive = function (node, controller) {
-    var resultnode = null;
-    if (node !== null) {
-        var data_nodetype = node.properties.nodetype;
-        var data_controller = node.properties.controller;
-        var isModule = ((typeof data_nodetype === 'string') && (data_nodetype === 'Module' || data_nodetype === 'SettingsModule'));
-        var isSubModule = ((typeof data_nodetype === 'string') && (data_nodetype === 'SubModule'));
-        var isGrid = ((typeof data_nodetype === 'string') && (data_nodetype === 'Grid'));
-        var foundController = ((typeof data_controller === 'string') && (data_controller.length > 0) && (data_controller === controller));
-        if ((isModule || isSubModule || isGrid) && foundController) {
-            resultnode = node;
-        }
-        else if (resultnode === null) {
-            for (var childno = 0; childno < node.children.length; childno++) {
-                resultnode = FwApplicationTree.getNodeByControllerRecursive(node.children[childno], controller);
-                if (resultnode !== null) {
-                    break;
+    };
+    FwApplicationTree.tree = null;
+    FwApplicationTree.clickEvents = {};
+    FwApplicationTree.currentApplicationId = '';
+    FwApplicationTree.getNodeByControllerRecursive = function (node, controller) {
+        var resultnode = null;
+        if (node !== null) {
+            var data_nodetype = node.properties.nodetype;
+            var data_controller = node.properties.controller;
+            var isModule = ((typeof data_nodetype === 'string') && (data_nodetype === 'Module' || data_nodetype === 'SettingsModule'));
+            var isSubModule = ((typeof data_nodetype === 'string') && (data_nodetype === 'SubModule'));
+            var isGrid = ((typeof data_nodetype === 'string') && (data_nodetype === 'Grid'));
+            var foundController = ((typeof data_controller === 'string') && (data_controller.length > 0) && (data_controller === controller));
+            if ((isModule || isSubModule || isGrid) && foundController) {
+                resultnode = node;
+            }
+            else if (resultnode === null) {
+                for (var childno = 0; childno < node.children.length; childno++) {
+                    resultnode = FwApplicationTree.getNodeByControllerRecursive(node.children[childno], controller);
+                    if (resultnode !== null) {
+                        break;
+                    }
                 }
             }
         }
-    }
-    return resultnode;
-};
+        return resultnode;
+    };
+    return FwApplicationTree;
+}());
 //# sourceMappingURL=FwApplicationTree.js.map
