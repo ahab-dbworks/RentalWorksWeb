@@ -2988,7 +2988,7 @@ namespace RentalWorksQuikScan.Source
             qry.Add("  itemorder,");
             qry.Add("  ispackage      = dbo.ispackage(itemclass),");
             qry.Add("  parentid");
-            qry.Add("from funccheckinexception2(@contractid, '', @containeritemid)");
+            qry.Add("from funccheckinexception(@contractid, '', @containeritemid, 'T')");
             qry.Add("where exceptionflg = 'T'");
             qry.Add("  and ((qtystillout > 0) or");
             qry.Add("       (dbo.ispackage(itemclass) = 'T'))");
