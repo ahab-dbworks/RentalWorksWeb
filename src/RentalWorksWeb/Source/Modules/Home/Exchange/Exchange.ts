@@ -114,22 +114,25 @@ class Exchange {
             }
         });
 
-        $form.find('.out').data('onchange', function ($tr) {
-            FwFormField.setValueByDataField($form, 'VendorIn', $tr.find('.field[data-browsedatafield="Vendor"]').attr('data-originalvalue'));
-            if (FwFormField.getValueByDataField($form, 'RentalBarCodeInId') !== '' || FwFormField.getValueByDataField($form, 'SalesBarCodeInId') !== '') {
+        $form.find('.out').on('keypress', function (e) {
+            if (e.which === 13) { 
                 exchangeRequest['ContractId'] = self.ContractId;
-                exchangeRequest['OutCode'] = $tr.find('.field[data-browsedatafield="InventoryId"]').attr('data-originalvalue');
-
-                if (FwFormField.getValueByDataField($form, 'RentalBarCodeInId') !== '') {
-                    exchangeRequest['InCode'] = FwFormField.getValueByDataField($form, 'RentalBarCodeInId');
-                } else {
-                    exchangeRequest['InCode'] = FwFormField.getValueByDataField($form, 'SalesBarCodeInId');
-                }
+                exchangeRequest['OutCode'] = FwFormField.getValueByDataField($form, 'BarCodeOut');
+                exchangeRequest['InCode'] = FwFormField.getValueByDataField($form, 'BarCodeIn'); 
 
                 try {
                     FwAppData.apiMethod(true, 'POST', "api/v1/exchange/exchangeitem", exchangeRequest, FwServices.defaultTimeout, function onSuccess(response) {
                         self.ExchangeResponse = response;
                     }, null, $form);
+
+                    var $exchangeItemGridControl: any;
+                    $exchangeItemGridControl = $form.find('[data-name="ExchangeItemGrid"]');
+                    $exchangeItemGridControl.data('ondatabind', function (request) {
+                        request.uniqueids = {
+                            ContractId: self.ContractId
+                        }
+                    })
+                    FwBrowse.search($exchangeItemGridControl); 
                 } catch (ex) {
                     FwFunc.showError(ex);
                 }
