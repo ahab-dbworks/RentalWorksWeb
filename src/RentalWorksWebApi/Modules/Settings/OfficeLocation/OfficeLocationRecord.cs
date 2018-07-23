@@ -16,8 +16,14 @@ namespace WebApi.Modules.Settings.OfficeLocation
         [FwSqlDataField(column: "location", modeltype: FwDataTypes.Text, maxlength: 30, required: true)]
         public string Location { get; set; } = "";
         //------------------------------------------------------------------------------------        
+        [FwSqlDataField(column: "defaultpoordertypeid", modeltype: FwDataTypes.Text)]
+        public string DefaultPurchasePoTypeId { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "inactive", modeltype: FwDataTypes.Boolean)]
         public bool? Inactive { get; set; }
-
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
+        public string DateStamp { get; set; }
+        //------------------------------------------------------------------------------------ 
     }
 }

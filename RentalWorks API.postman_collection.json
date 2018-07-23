@@ -21550,6 +21550,41 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "Office Location: Get One",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/officelocation/B001WH00",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"officelocation",
+								"B001WH00"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
@@ -22734,7 +22769,7 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "http://localhost:57949/api/v1/orderlocation/00001A0F",
+							"raw": "http://localhost:57949/api/v1/orderlocation/B001WH00",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -22744,7 +22779,7 @@
 								"api",
 								"v1",
 								"orderlocation",
-								"00001A0F"
+								"B001WH00"
 							]
 						}
 					},
