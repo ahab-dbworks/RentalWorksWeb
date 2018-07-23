@@ -176,7 +176,7 @@ class StagingCheckout {
         })
         FwBrowse.init($stagedItemGridControl);
         FwBrowse.renderRuntimeHtml($stagedItemGridControl);
-        this.addLegend($form, $stagedItemGrid);
+        //this.addLegend($form, $stagedItemGrid);
     };
 
     //----------------------------------------------------------------------------------------------
