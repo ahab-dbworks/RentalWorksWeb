@@ -47,14 +47,14 @@ namespace WebApi.Modules.Administrator.CheckOut
 
 
                 TStageItemReponse stageItemResponse = await CheckOutFunc.StageItem(AppConfig, UserSession, request.OrderId, request.Code, request.Quantity);
-                if (stageItemResponse.success)
-                {
+                //if (stageItemResponse.success)
+                //{
                     return new OkObjectResult(stageItemResponse);
-                }
-                else
-                {
-                    throw new Exception(stageItemResponse.msg);
-                }
+                //}
+                //else
+                //{
+                //    throw new Exception(stageItemResponse.msg);
+                //}
 
             }
             catch (Exception ex)
