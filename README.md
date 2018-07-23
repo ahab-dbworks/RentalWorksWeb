@@ -42,7 +42,13 @@ The RentalWorksWeb repository consists of the following projects:
 ### Create Virtual Directories and set Application.config files to dev database
 - run the powershell script set_devemode.ps1.  If it doesn't work you will need to run the second version of the script from an administrative powershell command prompt or manually do what the script does.
 
+## Developing HTML reports
+1. Go to the WebApi project and create a new folder in Modules/Reports/WebpackReports for your report.  This is going to hold the source code for our report.  The final report will be rendered to wwwroot/Reports.
+2. Copy the web pages files: index.html, index.ts, and index.scss from another report and make any necessary edits.
+3. In the root of the repository run "npm run build-dev-reports".  This will do a 1 time build of the reports into wwwroot/Reports.
+4. Now in your web browser, go to the url of the report in the wwwroot folder.  It should look something like: http://localhost:57949/Reports/OutContractReport/index.html
+
 ## License
 RentalWorksWeb is copyright by Database Works, Inc.  All rights reserved.  You are not permitted to redistribute this source code or compiled binaries without permission from Database Works.
 
-test jenkins
+

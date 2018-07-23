@@ -66,6 +66,9 @@ sync_RentalWorksWeb_to_TrakItWorksWeb\.ps1\.log
 /src/RentalWorksWebApi/\.local-chromium/
 /src/RentalWorksWebApi/wwwroot/temp/
 /src/RentalWorksWebApi/node_modules/
+/src/RentalWorksWebApi/wwwroot/Reports/
+/src/RentalWorksWebApi/Modules/Reports/WebpackReports/**/*.js
+/src/RentalWorksWebApi/Modules/Reports/WebpackReports/**/*.js.map
 
 /src/TrakItWorksWeb/App_Data/Temp/
 /src/TrakItWorksWeb/app_scripts.json
@@ -83,6 +86,5 @@ sync_RentalWorksWeb_to_TrakItWorksWeb\.ps1\.log
 /src/TrakItWorksWeb/theme/fwimages/*
 
 
-SecurityTreeBuilder/obj/
-
-SecurityTreeBuilder/bin/
+/SecurityTreeBuilder/obj/
+/SecurityTreeBuilder/bin/

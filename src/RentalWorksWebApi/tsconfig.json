@@ -1,23 +1,18 @@
 {
-  "compileOnSave": true,
+  "compileOnSave": false,
   "compilerOptions": {
-    "noImplicitAny": false,
+    "noImplicitAny": true,
     "noEmitOnError": true,
     "removeComments": true,
     "sourceMap": true,
-    "target": "es5",
-    "typeRoots": [
-      "./node_modules/@types"
-    ],
-    "lib": [
-      "dom",
-      "es2015",
-      "es5",
-      "es6"
-    ]
+    "allowSyntheticDefaultImports": true,
+    "moduleResolution": "node",
+    "target": "es2015"
   },
+  "files": [
+    "./node_modules/moment/moment.d.ts"
+  ],
   "include": [
-    "Modules/Reports/**/*.ts",
-    "./@types/moment/moment.d.ts" // mv 2018-07-06 for some reason this doesn't work in the typeRoots
+    "Modules/Reports/WebpackReports/**/*.ts"
   ]
 }

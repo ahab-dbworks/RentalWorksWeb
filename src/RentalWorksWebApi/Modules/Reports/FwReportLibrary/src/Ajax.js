@@ -1,10 +1,8 @@
-var RwAjaxClass = (function () {
-    function RwAjaxClass() {
-    }
-    RwAjaxClass.prototype.logError = function (message, err) {
+export class Ajax {
+    static logError(message, err) {
         console.log(message, err.message);
-    };
-    RwAjaxClass.prototype.apiGet = function (url, authorizationHeader) {
+    }
+    static get(url, authorizationHeader) {
         return new Promise(function (resolve, reject) {
             var req = new XMLHttpRequest();
             req.open('GET', url);
@@ -23,8 +21,8 @@ var RwAjaxClass = (function () {
             };
             req.send();
         });
-    };
-    RwAjaxClass.prototype.apiPost = function (url, authorizationHeader, data) {
+    }
+    static post(url, authorizationHeader, data) {
         return new Promise(function (resolve, reject) {
             var req = new XMLHttpRequest();
             req.open('POST', url);
@@ -44,8 +42,6 @@ var RwAjaxClass = (function () {
             };
             req.send(JSON.stringify(data));
         });
-    };
-    return RwAjaxClass;
-}());
-var RwAjax = new RwAjaxClass();
-//# sourceMappingURL=RwAjax.js.map
+    }
+}
+//# sourceMappingURL=Ajax.js.map

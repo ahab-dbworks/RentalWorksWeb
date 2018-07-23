@@ -25,10 +25,12 @@
 
   <ItemGroup>
     <Folder Include="Modules\Administrator\Designer\Services\" />
-    <Folder Include="Modules\Reports\_lib\handlebars-4.0.11\" />
-    <Folder Include="Modules\Reports\_lib\momentjs-2.22.2\" />
+    <Folder Include="Modules\Reports\WebpackReportLibrary\dist\" />
+    <Folder Include="Modules\Reports\WebpackReportLibrary\src\" />
+    <Folder Include="Modules\Reports\_lib\rentalworks\" />
     <Folder Include="wwwroot\lib\" />
     <Folder Include="wwwroot\temp\downloads\" />
+    <Folder Include="wwwroot\Reports\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="6.2.2" />
@@ -55,7 +57,6 @@
   </ItemGroup>
   <Target Name="MyPreCompileTarget" BeforeTargets="Build">
     <Exec Command="npm install" />
-    <Exec Command="npm run gulp" />
   </Target>
   <!--copies the Xml documentation file-->
   <Target Name="CopyDocumentationFile" AfterTargets="ComputeFilesToPublish">
