@@ -403,7 +403,7 @@
     <TypeScriptCompile Include="Source\Modules\Home\ReceiveFromVendor\ReceiveFromVendor.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\PurchaseOrder\PurchaseOrder.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\Project\Project.ts" />
-    <TypeScriptCompile Include="Source\Modules\Settings\StagingCheckout\StagingCheckout.ts" />
+    <TypeScriptCompile Include="Source\Modules\Home\StagingCheckout\StagingCheckout.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\WorkWeek\WorkWeek.ts" />
     <TypeScriptCompile Include="Source\Modules\-BaseModules\OrderBase\OrderBase.ts" />
     <TypeScriptCompile Include="Source\Reports\PrintOrder\RwPrintOrderController.ts" />
@@ -419,7 +419,8 @@
     <Content Include="Source\Modules\Home\PurchaseOrder\PurchaseOrderForm.htm" />
     <Content Include="Source\Modules\Home\Project\ProjectBrowse.htm" />
     <Content Include="Source\Modules\Home\Project\ProjectForm.htm" />
-    <Content Include="Source\Modules\Settings\StagingCheckout\StagingCheckoutForm.htm" />
+    <Content Include="Source\Modules\Home\StagingCheckout\StagingCheckout.js" />
+    <Content Include="Source\Modules\Home\StagingCheckout\StagingCheckoutForm.htm" />
     <Content Include="Source\Modules\Settings\WorkWeek\WorkWeekBrowse.htm" />
     <Content Include="Source\Modules\Settings\WorkWeek\WorkWeekForm.htm" />
     <Content Include="Source\Reports\PrintOrder\Body.htm" />
@@ -1178,6 +1179,7 @@
     <Content Include="Source\Grids\CompanyResaleGrid\CompanyResaleGridController.js.map" />
     <Content Include="tsconfig.json" />
     <Content Include="Source\Modules\Home\Quote\Quote.js.map" />
+    <Content Include="Source\Modules\Home\StagingCheckout\StagingCheckout.js.map" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
