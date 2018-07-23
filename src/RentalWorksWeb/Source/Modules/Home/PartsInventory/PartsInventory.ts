@@ -503,4 +503,4 @@ class PartsInventory extends InventoryBase {
 };
 
 //----------------------------------------------------------------------------------------------
-const PartsInventoryController = new PartsInventory();
+var PartsInventoryController = new PartsInventory();

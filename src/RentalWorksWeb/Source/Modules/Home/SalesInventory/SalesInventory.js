@@ -521,5 +521,5 @@ class SalesInventory extends InventoryBase {
     ;
 }
 ;
-const SalesInventoryController = new SalesInventory();
+var SalesInventoryController = new SalesInventory();
 //# sourceMappingURL=SalesInventory.js.map

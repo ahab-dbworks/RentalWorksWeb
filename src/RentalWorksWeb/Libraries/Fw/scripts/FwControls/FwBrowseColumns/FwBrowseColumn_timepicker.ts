@@ -54,14 +54,23 @@
         let htmlString = html.join('');
         $field.html(htmlString);
         if ($field.attr('data-timeformat') === '24') {
-            $field.find('#timepicker').clockpicker({ autoclose: true, donetext: 'Done' });
+            $field.find('#timepicker').clockpicker({
+                autoclose: true, donetext: 'Done', afterDone: function () {
+                    $field.find('input').focus();
+                }
+                });
         } else {
-            $field.find('#timepicker').clockpicker({ autoclose: true, twelvehour: true, donetext: 'Done' });
+            $field.find('#timepicker').clockpicker({
+                autoclose: true, twelvehour: true, donetext: 'Done', afterDone: function () {
+                    $field.find('input').focus();
+                }
+            });
         }
         $field.find('.btntime').click(function (e) {
             e.stopPropagation();
             $field.find('#timepicker').clockpicker('show').clockpicker('toggleView', 'hours');
         });
+        $field.find('input').off();
         $field.find('input.value').inputmask(inputmaskTimeFormat);
         this.setFieldValue($browse, $tr, $field, { value: originalvalue });
     }

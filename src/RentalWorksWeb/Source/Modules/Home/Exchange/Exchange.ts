@@ -1,4 +1,4 @@
-﻿routes.push({ pattern: /^module\/exchange/, action: function (match: RegExpExecArray) { return ExchangeController.getModuleScreen(); } });
+﻿routes.push({ pattern: /^module\/exchange$/, action: function (match: RegExpExecArray) { return ExchangeController.getModuleScreen(); } });
 
 class Exchange {
     ContractId: string;
@@ -175,16 +175,6 @@ class Exchange {
         FwBrowse.init($exchangeItemGridControl);
         FwBrowse.renderRuntimeHtml($exchangeItemGridControl);
     }
-    //----------------------------------------------------------------------------------------------
-    saveForm($form: any, parameters: any) {
-        //FwModule.saveForm(this.Module, $form, { closetab: closetab, navigationpath: 'home' });
-        FwModule.saveForm(this.Module, $form, parameters);
-    }
-    //----------------------------------------------------------------------------------------------
-    //afterLoad($form: any) {
-
-    //}
-    //----------------------------------------------------------------------------------------------
 
 }
-let ExchangeController = new Exchange();
+var ExchangeController = new Exchange();

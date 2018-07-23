@@ -398,7 +398,7 @@ FwSettings.renderModuleHtml = function ($control, title, moduleName, description
 
     $settingsPageModules
         .on('click', '.panel-heading', function (e) {
-            var $this, moduleName, $browse, $modulecontainer, apiurl, $body, browseData = [], browseKeys = [], rowId, formKeys = [], keys, $settings, $form;
+            var $this, moduleName, $browse, $modulecontainer, apiurl, $body, browseData = [], browseKeys = [], rowId, formKeys = [], keys, $settings, $form, duplicateDatafields, withoutDuplicates;
 
             $this = jQuery(this);
             moduleName = $this.closest('.panel-group').attr('id');
@@ -406,6 +406,8 @@ FwSettings.renderModuleHtml = function ($control, title, moduleName, description
             $modulecontainer = $control.find('#' + moduleName);
             apiurl = window[moduleName + 'Controller'].apiurl;
             $body = $control.find('#' + moduleName + '.panel-body');
+            duplicateDatafields = {};
+            withoutDuplicates = [];
             if ($body.is(':empty')) {
                 FwAppData.apiMethod(true, 'GET', applicationConfig.appbaseurl + applicationConfig.appvirtualdirectory + apiurl, null, null, function onSuccess(response) {
                     $settings = jQuery(jQuery('#tmpl-modules-' + moduleName + 'Browse').html());
@@ -465,6 +467,13 @@ FwSettings.renderModuleHtml = function ($control, title, moduleName, description
                             }
                         }
                     }
+                    browseData.forEach(function (browseField) {
+                        if (!duplicateDatafields[browseField.datafield]) {
+                            withoutDuplicates.push(browseField)
+                            duplicateDatafields[browseField.datafield] = true;
+                        }
+                    });
+                    browseData = withoutDuplicates;
 
                     for (var i = 0; i < response.length; i++) {
                         var html = [], $moduleRows;
@@ -472,6 +481,7 @@ FwSettings.renderModuleHtml = function ($control, title, moduleName, description
                         html.push('  <div class="panel panel-info container-fluid">');
                         html.push('    <div class="row-heading">');
                         html.push('      <i class="material-icons record-selector">keyboard_arrow_down</i>');
+
                         for (var j = 0; j < browseData.length; j++) {
                             if (browseData[j]['caption'] === 'Inactive' && response[i][browseData[j]['caption']] === true) {
                                 html[1] = '<div class="panel panel-info container-fluid" style="display:none;">';
