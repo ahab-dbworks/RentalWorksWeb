@@ -254,13 +254,37 @@ RwOrderController.getCheckInScreen = function(viewModel, properties) {
                         RwServices.callMethod('CheckIn', 'GetShowCreateContract', request, function (response) {
                             try {
                                 if (response.showcreatecontract) {
-                                    properties.contract = {
-                                        contractType:        'IN',
-                                        contractId:          screen.getContractId(),
-                                        orderId:             screen.getOrderId(),
-                                        responsiblePersonId: ''
-                                    };
-                                    program.pushScreen(RwOrderController.getContactSignatureScreen(viewModel, properties));
+                                    if (properties.moduleType === 'Transfer') {
+                                        var request = {
+                                            contractId:          screen.getContractId(),
+                                            contractType:        'IN',
+                                            orderId:             screen.getOrderId(),
+                                            responsiblePersonId: '',
+                                            printname:           '',
+                                            signatureImage:      '',
+                                            images:              []
+                                        };
+                                        RwServices.callMethod('CheckIn', 'CreateContract', request, function (response) {
+                                            if (response.createcontract.status === 0) {
+                                                var $confirmation = FwConfirmation.renderConfirmation('Message', response.createcontract.msg);
+                                                var $ok           = FwConfirmation.addButton($confirmation, 'OK', true);
+
+                                                $ok.on('click', function () {
+                                                    program.navigate('home/home');
+                                                });
+                                            } else {
+                                                FwFunc.showError(response.createcontract.msg);
+                                            }
+                                        });
+                                    } else {
+                                        properties.contract = {
+                                            contractType:        'IN',
+                                            contractId:          screen.getContractId(),
+                                            orderId:             screen.getOrderId(),
+                                            responsiblePersonId: ''
+                                        };
+                                        program.pushScreen(RwOrderController.getContactSignatureScreen(viewModel, properties));
+                                    }
                                 } else {
                                     FwFunc.showMessage("There is no activity on this Check-In Session!");
                                 }

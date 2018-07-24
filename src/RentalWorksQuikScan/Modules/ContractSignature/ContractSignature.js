@@ -368,7 +368,7 @@ RwOrderController.getContactSignatureScreen = function(viewModel, properties) {
         if (width > window.innerWidth) {
             width = window.innerWidth - 6;
         }
-        $signaturecapture.find('#signaturecapture-canvasSignature').width(width);
+        $signaturecapture.find('#signaturecapture-canvasSignature')[0].width = width;
         $signaturecapture.find('#signaturecapture-clear').click();
     };
     $signaturecapture.leavescreen = function () {

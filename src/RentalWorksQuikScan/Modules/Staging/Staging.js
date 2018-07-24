@@ -138,13 +138,37 @@ RwOrderController.getStagingScreen = function(viewModel, properties) {
             RwServices.callMethod('Staging', 'OrdertranExists', request, function (response) {
                 try {
                     if (response.ordertranExists) {
-                        properties.contract = {
-                            contractType: 'OUT',
-                            contractId: screen.getContractId(),
-                            orderId: screen.getOrderId(),
-                            responsiblePersonId: ((typeof properties.responsibleperson !== 'undefined') && (properties.responsibleperson.showresponsibleperson === 'T')) ? properties.responsibleperson.responsiblepersonid : ''
-                        };
-                        program.pushScreen(RwOrderController.getContactSignatureScreen(viewModel, properties));
+                        if (properties.moduleType === 'Transfer') {
+                            var request = {
+                                contractId:          screen.getContractId(),
+                                contractType:        'OUT',
+                                orderId:             screen.getOrderId(),
+                                responsiblePersonId: ((typeof properties.responsibleperson !== 'undefined') && (properties.responsibleperson.showresponsibleperson === 'T')) ? properties.responsibleperson.responsiblepersonid : '',
+                                printname:           '',
+                                signatureImage:      '',
+                                images:              []
+                            };
+                            RwServices.callMethod('Staging', 'CreateContract', request, function (response) {
+                                if (response.createcontract.status === 0) {
+                                    var $confirmation = FwConfirmation.renderConfirmation('Message', response.createcontract.msg);
+                                    var $ok           = FwConfirmation.addButton($confirmation, 'OK', true);
+
+                                    $ok.on('click', function () {
+                                        program.navigate('home/home');
+                                    });
+                                } else {
+                                    FwFunc.showError(response.createcontract.msg);
+                                }
+                            });
+                        } else {
+                            properties.contract = {
+                                contractType: 'OUT',
+                                contractId: screen.getContractId(),
+                                orderId: screen.getOrderId(),
+                                responsiblePersonId: ((typeof properties.responsibleperson !== 'undefined') && (properties.responsibleperson.showresponsibleperson === 'T')) ? properties.responsibleperson.responsiblepersonid : ''
+                            };
+                            program.pushScreen(RwOrderController.getContactSignatureScreen(viewModel, properties));
+                        }
                     } else {
                         FwFunc.showMessage("There is no activity on this Staging Session!");
                     }
