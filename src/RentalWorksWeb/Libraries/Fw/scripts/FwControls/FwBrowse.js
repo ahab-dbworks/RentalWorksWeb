@@ -2722,11 +2722,11 @@ class FwBrowseClass {
             if (customBrowse !== 'undefined' && customBrowse.length > 0) {
                 for (var i = 0; i < customBrowse.length; i++) {
                     if (modulename === customBrowse[i].moduleName) {
-                        customBrowseHtml.push(`<div class="column" data-width="${customBrowse[i].browsewidth}px" data-visible="true"><div class="field" data-caption="${customBrowse[i].fieldName}" data-datafield="${customBrowse[i].fieldName}" data-browsedatatype="text" data-sort="off"></div></div>`);
+                        customBrowseHtml.push(`<div class="column" data-width="${customBrowse[i].browsewidth}px" data-visible="true"><div class="field" data-caption="${customBrowse[i].fieldName}" data-datafield="${customBrowse[i].fieldName}" data-digits="${customBrowse[i].digits}" data-browsedatatype="${customBrowse[i].datatype}" data-sort="off"></div></div>`);
                     }
                 }
             }
-            if ($control.has('.spacer')) {
+            if ($control.has('.spacer').length > 0) {
                 jQuery(customBrowseHtml.join('')).insertBefore($control.find('.spacer'));
             }
             else {

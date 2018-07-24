@@ -45,7 +45,7 @@ class Quote extends OrderBase{
         var self = this;
         var $browse;
 
-        $browse = jQuery(jQuery('#tmpl-modules-' + this.Module + 'Browse').html());
+        $browse = FwBrowse.loadBrowseFromTemplate(this.Module);
         $browse = FwModule.openBrowse($browse);
 
         var warehouse = JSON.parse(sessionStorage.getItem('warehouse'));

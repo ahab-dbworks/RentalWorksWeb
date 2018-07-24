@@ -110,11 +110,19 @@ class Base {
                                                         customFields.push(response[i].ModuleName);
                                                     }
                                                     if (response[i].ShowInBrowse && customFieldsBrowse.indexOf(response[i].ModuleName) === -1) {
-                                                        customFieldsBrowse.push({
+                                                        var customFieldObject = {
                                                             'moduleName': response[i].ModuleName,
                                                             'fieldName': response[i].FieldName,
-                                                            'browsewidth': response[i].BrowseSizeInPixels
-                                                        });
+                                                            'browsewidth': response[i].BrowseSizeInPixels,
+                                                            'digits': response[i].FloatDecimalDigits
+                                                        };
+                                                        if (response[i].FloatDecimalDigits) {
+                                                            customFieldObject['datatype'] = 'number';
+                                                        }
+                                                        else {
+                                                            customFieldObject['datatype'] = 'text';
+                                                        }
+                                                        customFieldsBrowse.push(customFieldObject);
                                                     }
                                                 }
                                                 sessionStorage.setItem('customFields', JSON.stringify(customFields));
