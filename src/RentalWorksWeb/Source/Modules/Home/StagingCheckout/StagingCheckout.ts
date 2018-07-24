@@ -29,9 +29,11 @@ class StagingCheckout {
         $form = FwModule.openForm($form, mode);
 
         let warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
+        $form.find('[data-datafield="WarehouseId"]').hide();
         FwFormField.setValue($form, 'div[data-datafield="WarehouseId"]', warehouse.warehouseid, warehouse.warehouse);
 
-        //$form.off('change keyup', '.fwformfield[data-isuniqueid!="true"][data-enabled="true"][data-datafield!=""]');
+        //disables asterisk and save prompt
+        $form.off('change keyup', '.fwformfield[data-isuniqueid!="true"][data-enabled="true"][data-datafield!=""]');
 
         this.getOrder($form);
         if (typeof parentmoduleinfo !== 'undefined') {
@@ -191,16 +193,17 @@ class StagingCheckout {
 
         //BarCode / I-Code change
         $form.find('[data-datafield="Code"] input').on('change', event => {
-            let code, orderId;
+            let code, orderId, $stagedItemGrid;
             orderId = FwFormField.getValueByDataField($form, 'OrderId');
             code = FwFormField.getValueByDataField($form, 'Code');
+            $stagedItemGrid = $form.find('[data-name="StagedItemGrid"]');
             let request: any = {};
             request = {
                 OrderId: orderId,
                 Code: code
             }
             FwAppData.apiMethod(true, 'POST', `api/v1/checkout/stageitem`, request, FwServices.defaultTimeout, function onSuccess(response) {
-                console.log(response)
+                console.log('stageitemres: ', response)
                 FwFormField.setValueByDataField($form, 'ICode', response.InventoryStatus.ICode);
                 FwFormField.setValueByDataField($form, 'InventoryDescription', response.InventoryStatus.Description);
                 FwFormField.setValueByDataField($form, 'QuantityOrdered', response.InventoryStatus.QuantityOrdered);
@@ -209,9 +212,13 @@ class StagingCheckout {
                 FwFormField.setValueByDataField($form, 'QuantityStaged', response.InventoryStatus.QuantityStaged);
                 FwFormField.setValueByDataField($form, 'QuantityRemaining', response.InventoryStatus.QuantityRemaining);
 
+                // selects barcode field if response
+                $form.find('[data-datafield="Code"] input').select();
+
                 if (response.InventoryStatus.QuantityOrdered === 0) {
                     $form.find('div[data-datafield="Quantity"] input').focus(); 
                 }
+                FwBrowse.search($stagedItemGrid);
 
             }, function onError(response) {
                 FwFunc.showError(response);
