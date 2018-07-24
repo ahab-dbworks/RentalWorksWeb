@@ -1,8 +1,8 @@
-﻿import { IReport } from '../../FwReportLibrary/src/IReport';
-import { CustomField } from '../../FwReportLibrary/src/CustomField';
-import { DataTable, DataTableColumn } from '../../FwReportLibrary/src/DataTable';
-import { Ajax } from '../../FwReportLibrary/src/Ajax';
-import { HandlebarsHelpers } from '../../FwReportLibrary/src/HandlebarsHelpers';
+﻿import { IReport } from '../../lib/FwReportLibrary/src/IReport';
+import { CustomField } from '../../lib/FwReportLibrary/src/CustomField';
+import { DataTable, DataTableColumn } from '../../lib/FwReportLibrary/src/DataTable';
+import { Ajax } from '../../lib/FwReportLibrary/src/Ajax';
+import { HandlebarsHelpers } from '../../lib/FwReportLibrary/src/HandlebarsHelpers';
 import * as moment from 'moment';
 import './index.scss';
 var hbHeader = require("./hbHeader.hbs"); 

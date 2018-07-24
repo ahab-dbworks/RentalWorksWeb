@@ -11,6 +11,7 @@
     <AssemblyName>WebApi</AssemblyName>
     <RootNamespace>WebApi</RootNamespace>
     <TypeScriptToolsVersion>2.8</TypeScriptToolsVersion>
+    <TypeScriptCompileBlocked>true</TypeScriptCompileBlocked>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -24,10 +25,26 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Modules\Reports\WebpackReportLibrary\**" />
+    <Compile Remove="WebpackReports\lib\FwReportLibrary\dist\**" />
+    <Compile Remove="Modules\Reports\_lib\**" />
+    <Compile Remove="WebpackReports\lib\FwReportLibrary\dist\**" />
+    <Content Remove="Modules\Reports\WebpackReportLibrary\**" />
+    <Content Remove="WebpackReports\lib\FwReportLibrary\dist\**" />
+    <Content Remove="Modules\Reports\_lib\**" />
+    <Content Remove="WebpackReports\lib\FwReportLibrary\dist\**" />
+    <EmbeddedResource Remove="Modules\Reports\WebpackReportLibrary\**" />
+    <EmbeddedResource Remove="WebpackReports\lib\FwReportLibrary\dist\**" />
+    <EmbeddedResource Remove="Modules\Reports\_lib\**" />
+    <EmbeddedResource Remove="WebpackReports\lib\FwReportLibrary\dist\**" />
+    <None Remove="Modules\Reports\WebpackReportLibrary\**" />
+    <None Remove="WebpackReports\lib\FwReportLibrary\dist\**" />
+    <None Remove="Modules\Reports\_lib\**" />
+    <None Remove="WebpackReports\lib\FwReportLibrary\dist\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="Modules\Administrator\Designer\Services\" />
-    <Folder Include="Modules\Reports\WebpackReportLibrary\dist\" />
-    <Folder Include="Modules\Reports\WebpackReportLibrary\src\" />
-    <Folder Include="Modules\Reports\_lib\rentalworks\" />
     <Folder Include="wwwroot\lib\" />
     <Folder Include="wwwroot\temp\downloads\" />
     <Folder Include="wwwroot\Reports\" />
@@ -56,7 +73,7 @@
     <ProjectReference Include="..\RentalWorksWebLibrary\WebLibrary.csproj" />
   </ItemGroup>
   <Target Name="MyPreCompileTarget" BeforeTargets="Build">
-    <Exec Command="npm install" />
+    <!--<Exec Command="npm install" />-->
   </Target>
   <!--copies the Xml documentation file-->
   <Target Name="CopyDocumentationFile" AfterTargets="ComputeFilesToPublish">

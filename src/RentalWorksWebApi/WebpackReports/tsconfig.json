@@ -10,9 +10,9 @@
     "target": "es2015"
   },
   "files": [
-    "./node_modules/moment/moment.d.ts"
+    "../node_modules/moment/moment.d.ts"
   ],
   "include": [
-    "Modules/Reports/WebpackReports/**/*.ts"
+    "src/**/*.ts"
   ]
 }

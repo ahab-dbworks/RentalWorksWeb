@@ -3,8 +3,8 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const fs = require('fs');
 const CleanWebpackPlugin = require('clean-webpack-plugin')
 const webpack = require('webpack')
-const srcReportDir = 'Modules/Reports/WebpackReports';
-const distReportDir = 'wwwroot/Reports';
+const srcReportDir = 'src';
+const distReportDir = '../wwwroot/Reports';
 
 // helper functions
 const isDirectory = source => fs.lstatSync(source).isDirectory();
