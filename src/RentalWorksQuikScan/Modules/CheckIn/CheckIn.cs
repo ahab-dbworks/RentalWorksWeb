@@ -494,21 +494,21 @@ namespace RentalWorksQuikScan.Modules
             FwValidate.TestPropertyDefined(METHOD_NAME, request, "internalchar");
             FwValidate.TestPropertyDefined(METHOD_NAME, request, "qty");
 
-            if (request.trackedby == "QUANTITY")
-            {
-                RwAppData.CheckInItemUnassign(conn:         FwSqlConnection.RentalWorks,
-                                              contractid:   request.contractid,
-                                              orderid:      request.orderid,
-                                              masteritemid: request.masteritemid,
-                                              masterid:     request.masterid,
-                                              description:  request.description,
-                                              vendorid:     request.vendorid,
-                                              consignorid:  request.consignorid,
-                                              usersid:      session.security.webUser.usersid,
-                                              aisle:        request.aisle,
-                                              shelf:        request.shelf,
-                                              qty:          request.qty);
-            }
+            //if (request.trackedby == "QUANTITY")  //Removed for 2018 per Emil
+            //{
+            //    RwAppData.CheckInItemUnassign(conn:         FwSqlConnection.RentalWorks,
+            //                                  contractid:   request.contractid,
+            //                                  orderid:      request.orderid,
+            //                                  masteritemid: request.masteritemid,
+            //                                  masterid:     request.masterid,
+            //                                  description:  request.description,
+            //                                  vendorid:     request.vendorid,
+            //                                  consignorid:  request.consignorid,
+            //                                  usersid:      session.security.webUser.usersid,
+            //                                  aisle:        request.aisle,
+            //                                  shelf:        request.shelf,
+            //                                  qty:          request.qty);
+            //}
 
             RwAppData.CheckInItemCancel(conn:         FwSqlConnection.RentalWorks,
                                         contractid:   request.contractid,
@@ -849,8 +849,8 @@ namespace RentalWorksQuikScan.Modules
             qry.Add("select *");
             qry.Add("  from dbo.funcserialfrm(@orderid, @warehouseid, @contractid)");
             qry.Add(" where masterid = @masterid");
-            qry.AddParameter("@orderid",      orderid);
-            qry.AddParameter("@warehouseid",  warehouseid);
+            qry.AddParameter("@orderid",      "");
+            qry.AddParameter("@warehouseid",  "");
             qry.AddParameter("@contractid",   contractid);
             qry.AddParameter("@masterid",     masterid);
             result = qry.QueryToDynamicObject2();
@@ -866,7 +866,7 @@ namespace RentalWorksQuikScan.Modules
             qry = new FwSqlCommand(conn);
             qry.Add("select *");
             qry.Add("  from dbo.funcserialmeterin2(@contractid, @orderid, @masterid, @warehouseid, '')");
-            qry.AddParameter("@orderid",      orderid);
+            qry.AddParameter("@orderid",      "");
             qry.AddParameter("@warehouseid",  warehouseid);
             qry.AddParameter("@contractid",   contractid);
             qry.AddParameter("@masterid",     masterid);

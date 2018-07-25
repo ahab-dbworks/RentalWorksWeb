@@ -3,12 +3,14 @@
 #checkIn .fwmobilesearch .row1 {font-size:12px;font-weight: bold;padding: 2px 5px;background-color: #424242;}
 #checkIn .fwmobilesearch .item.link .row1 {text-decoration:underline;}
 #checkIn .fwmobilesearch .item.link:active .row1 {background-color: #607D8B;}
+#checkIn .fwmobilesearch .item.inrepair .row1 {background-color: #F44336;}
 #checkIn .fwmobilesearch .row2 {display:-webkit-box;display:-moz-box;display:-ms-flexbox;display:flex;flex-wrap:wrap;}
 #checkIn .fwmobilesearch .col1 {flex: 1 1 0;}
 #checkIn .fwmobilesearch .col2 {flex: 1 1 0;}
 #checkIn .fwmobilesearch .datafield {display:-webkit-box;display:-moz-box;display:-ms-flexbox;display:flex;padding:2px;}
 #checkIn .fwmobilesearch .caption {flex: 0 0 6em;font-size:.625em;color: #aaaaaa;}
 #checkIn .fwmobilesearch .value {flex: 1 1 0;font-size:.625em;}
+#checkIn .fwmobilesearch .item.inrepair .status .value {color: #F44336;}
 
 #checkIn #checkIn-pendingList {display:none;}
 #checkIn #checkIn-pendingList .fwmobilesearch .item.itemclass-C .row1 {background-color:#8888ff;}

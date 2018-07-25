@@ -174,9 +174,8 @@ RwOrderController.getCheckInScreen = function(viewModel, properties) {
                         id:          'fillcontainer',
                         caption:     'Fill Container',
                         buttonclick: function() {
-                            var fillcontainerproperties;
                             try {
-                                fillcontainerproperties = jQuery.extend({}, properties, {
+                                var fillcontainerproperties = jQuery.extend({}, properties, {
                                     mode:              'checkin',
                                     modulecaption:     jQuery('#master-header-caption').html(),
                                     pagetitle:         pageSubTitle,
@@ -655,6 +654,7 @@ RwOrderController.getCheckInScreen = function(viewModel, properties) {
             isheader    = ((model.itemclass === 'N') || (model.sessionin === 0))
             masterclass = 'item itemclass-' + model.itemclass;
             masterclass += (!isheader ? ' link' : '');
+            masterclass += (model.inrepair == 'T' ? ' inrepair' : '');
             html.push('<div class="' + masterclass + '">');
             html.push('  <div class="row1"><div class="title">{{description}}</div></div>');
             if (!isheader) {
@@ -699,6 +699,14 @@ RwOrderController.getCheckInScreen = function(viewModel, properties) {
                     html.push('    </div>');
                     html.push('  </div>');
                 }
+                if (model.inrepair === 'T') {
+                    html.push('  <div class="row3">');
+                    html.push('    <div class="datafield status">');
+                    html.push('      <div class="caption">' + RwLanguages.translate('Status') + ':</div>');
+                    html.push('      <div class="value">Item In Repair</div>');
+                    html.push('    </div>');
+                    html.push('  </div>');
+                }
             }
             html.push('</div>');
             html = html.join('\n');
@@ -706,96 +714,96 @@ RwOrderController.getCheckInScreen = function(viewModel, properties) {
         },
         recordClick: function(recorddata, $record) {
             try {
-                var $contextmenu, $confirmation, $cancel;
-                $confirmation = FwConfirmation.renderConfirmation('', '<div class="exceptionbuttons"></div>');
-                $cancel       = FwConfirmation.addButton($confirmation, 'Cancel', true);
-                $confirmation.find('.exceptionbuttons').append('<div class="cancelitem">Cancel Item</div>');
-                $confirmation.find('.exceptionbuttons').append('<div class="sendtorepair">Send To Repair</div>');
+                if (recorddata.inrepair !== 'T') {
+                    var $confirmation = FwConfirmation.renderConfirmation('', '<div class="exceptionbuttons"></div>');
+                    var $cancel       = FwConfirmation.addButton($confirmation, 'Cancel', true);
+                    $confirmation.find('.exceptionbuttons').append('<div class="cancelitem">Cancel Item</div>');
+                    $confirmation.find('.exceptionbuttons').append('<div class="sendtorepair">Send To Repair</div>');
 
-                $confirmation
-                    .on('click', '.cancelitem', function() {
-                        var request;
-                        try {
-                            request = {
-                                contractid:   screen.getContractId(),
-                                masteritemid: recorddata.masteritemid,
-                                masterid:     recorddata.masterid,
-                                vendorid:     recorddata.vendorid,
-                                consignorid:  recorddata.consignorid,
-                                description:  recorddata.description,
-                                ordertranid:  recorddata.ordertranid,
-                                internalchar: recorddata.internalchar,
-                                qty:          recorddata.sessionin,
-                                trackedby:    recorddata.trackedby,
-                                aisle:        screen.properties.aisle,
-                                shelf:        screen.properties.shelf,
-                                orderid:      recorddata.orderid
-                            };
-                            RwServices.callMethod("CheckIn", "CheckInItemCancel", request, function(response) {
-                                $sessionin.find('#sessioninsearch').fwmobilesearch('search');
-                            });
-                            FwConfirmation.destroyConfirmation($confirmation);
-                        } catch(ex) {
-                            FwFunc.showError(ex);
-                        }
-                    })
-                    .on('click', '.sendtorepair', function() {
-                        var request;
-                        FwConfirmation.destroyConfirmation($confirmation);
-                        request = {
-                            contractid:   screen.getContractId(),
-                            orderid:      recorddata.orderid,
-                            masteritemid: recorddata.masteritemid,
-                            rentalitemid: recorddata.rentalitemid,
-                            qty:          recorddata.sessionin
-                        };
-                        try {
-                            if ((recorddata.trackedby === 'QUANTITY') || (recorddata.trackedby === 'RFID-UNASSIGNED')) {
-                                var $confirmationstr = FwConfirmation.showMessage('How many?', '<input class="qty" type="number" style="font-size:16px;padding:5px;border:1pxc solid #bdbdbd;box-sizing:border-box;width:100%;" value="' + request.qty + '" />', true, false, 'OK', function() {
-                                    try {
-                                        var userqty = $confirmationstr.find('input.qty').val();
-                                        if (userqty === '') {
-                                            throw 'Qty is required.';
-                                        }
-                                        if (isNaN(userqty)) {
-                                            throw 'Please enter a valid qty.';
-                                        }
-                                        userqty = parseFloat(userqty);
-                                        if (userqty > request.qty) {
-                                            throw 'Qty cannot exceed ' + request.qty.toString() + '.';
-                                        }
-                                        if (userqty <= 0) {
-                                            throw 'Qty must be > 0.';
-                                        }
-                                        request.qty = userqty;
-                                        RwServices.callMethod("CheckIn", "CheckInItemSendToRepair", request, function(response) {
-                                            try {
-                                                FwConfirmation.destroyConfirmation($confirmationstr);
-                                                var repairOrderScreen = RwInventoryController.getRepairOrderScreen({}, {mode:'sendtorepair', repairno:response.repairno});
-                                                program.pushScreen(repairOrderScreen);
-                                            } catch(ex) {
-                                                FwFunc.showError(ex);
-                                            }
-                                        });
-                                    } catch(ex) {
-                                        FwFunc.showError(ex);
-                                    }
+                    $confirmation
+                        .on('click', '.cancelitem', function() {
+                            var request;
+                            try {
+                                request = {
+                                    contractid:   screen.getContractId(),
+                                    masteritemid: recorddata.masteritemid,
+                                    masterid:     recorddata.masterid,
+                                    vendorid:     recorddata.vendorid,
+                                    consignorid:  recorddata.consignorid,
+                                    description:  recorddata.description,
+                                    ordertranid:  recorddata.ordertranid,
+                                    internalchar: recorddata.internalchar,
+                                    qty:          recorddata.sessionin,
+                                    trackedby:    recorddata.trackedby,
+                                    aisle:        screen.properties.aisle,
+                                    shelf:        screen.properties.shelf,
+                                    orderid:      recorddata.orderid
+                                };
+                                RwServices.callMethod("CheckIn", "CheckInItemCancel", request, function(response) {
+                                    $sessionin.find('#sessioninsearch').fwmobilesearch('search');
                                 });
-                            } else {
-                                RwServices.callMethod("CheckIn", "CheckInItemSendToRepair", request, function(response) {
-                                    try {
-                                        var repairOrderScreen = RwInventoryController.getRepairOrderScreen({}, {mode:'sendtorepair', repairno:response.repairno, qty:1});
-                                        program.pushScreen(repairOrderScreen);
-                                    } catch(ex) {
-                                        FwFunc.showError(ex);
-                                    }
-                                });
+                                FwConfirmation.destroyConfirmation($confirmation);
+                            } catch(ex) {
+                                FwFunc.showError(ex);
                             }
-                        } catch(ex) {
-                            FwFunc.showError(ex);
-                        }
-                    })
-                ;
+                        })
+                        .on('click', '.sendtorepair', function() {
+                            FwConfirmation.destroyConfirmation($confirmation);
+                            var request = {
+                                contractid:   screen.getContractId(),
+                                orderid:      recorddata.orderid,
+                                masteritemid: recorddata.masteritemid,
+                                rentalitemid: recorddata.rentalitemid,
+                                qty:          recorddata.sessionin
+                            };
+                            try {
+                                if ((recorddata.trackedby === 'QUANTITY') || (recorddata.trackedby === 'RFID-UNASSIGNED')) {
+                                    var $confirmationstr = FwConfirmation.showMessage('How many?', '<input class="qty" type="number" style="font-size:16px;padding:5px;border:1pxc solid #bdbdbd;box-sizing:border-box;width:100%;" value="' + request.qty + '" />', true, false, 'OK', function() {
+                                        try {
+                                            var userqty = $confirmationstr.find('input.qty').val();
+                                            if (userqty === '') {
+                                                throw 'Qty is required.';
+                                            }
+                                            if (isNaN(userqty)) {
+                                                throw 'Please enter a valid qty.';
+                                            }
+                                            userqty = parseFloat(userqty);
+                                            if (userqty > request.qty) {
+                                                throw 'Qty cannot exceed ' + request.qty.toString() + '.';
+                                            }
+                                            if (userqty <= 0) {
+                                                throw 'Qty must be > 0.';
+                                            }
+                                            request.qty = userqty;
+                                            RwServices.callMethod("CheckIn", "CheckInItemSendToRepair", request, function(response) {
+                                                try {
+                                                    FwConfirmation.destroyConfirmation($confirmationstr);
+                                                    var repairOrderScreen = RwInventoryController.getRepairOrderScreen({}, {mode:'sendtorepair', repairno:response.repairno});
+                                                    program.pushScreen(repairOrderScreen);
+                                                } catch(ex) {
+                                                    FwFunc.showError(ex);
+                                                }
+                                            });
+                                        } catch(ex) {
+                                            FwFunc.showError(ex);
+                                        }
+                                    });
+                                } else {
+                                    RwServices.callMethod("CheckIn", "CheckInItemSendToRepair", request, function(response) {
+                                        try {
+                                            var repairOrderScreen = RwInventoryController.getRepairOrderScreen({}, {mode:'sendtorepair', repairno:response.repairno, qty:1});
+                                            program.pushScreen(repairOrderScreen);
+                                        } catch(ex) {
+                                            FwFunc.showError(ex);
+                                        }
+                                    });
+                                }
+                            } catch(ex) {
+                                FwFunc.showError(ex);
+                            }
+                        })
+                    ;
+                }
             } catch (ex) {
                 FwFunc.showError(ex);
             }
@@ -1003,8 +1011,7 @@ RwOrderController.getCheckInScreen = function(viewModel, properties) {
         ]
     });
     $checkinserial.showscreen = function(recorddata) {
-        var request;
-        request = {
+        var request = {
             orderid:      recorddata.orderid,
             masteritemid: recorddata.masteritemid,
             masterid:     recorddata.masterid,
