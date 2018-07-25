@@ -41,6 +41,9 @@ class ReceiveFromVendor {
 
         $form.find('.createcontract').on('click', e => {
             let contractId = FwFormField.getValueByDataField($form, 'ContractId');
+            let date = new Date(),
+                currentDate = date.toLocaleString(),
+                currentTime = date.toLocaleTimeString();
             FwAppData.apiMethod(true, 'POST', "api/v1/purchaseorder/completereceivecontract/" + contractId, null, FwServices.defaultTimeout, function onSuccess(response) {
                 try {
                     let contractInfo: any = {}, $contractForm;
@@ -61,6 +64,8 @@ class ReceiveFromVendor {
                 catch (ex) {
                     FwFunc.showError(ex);
                 }
+                FwFormField.setValueByDataField($form, 'Date', currentDate);
+                FwFormField.setValueByDataField($form, 'Time', currentTime);
             }, null, $form);
         });
 
@@ -120,6 +125,5 @@ class ReceiveFromVendor {
         FwBrowse.renderRuntimeHtml($receiveItemsGridControl);
     }
     //----------------------------------------------------------------------------------------------
-
 }
 var ReceiveFromVendorController = new ReceiveFromVendor();

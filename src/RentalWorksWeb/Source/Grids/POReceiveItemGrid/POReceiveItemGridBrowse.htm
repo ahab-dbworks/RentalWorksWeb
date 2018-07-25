@@ -1,4 +1,4 @@
-﻿<div data-name="POReceiveItemGrid" data-control="FwBrowse" data-type="Grid" class="fwcontrol fwbrowse" data-showsearch="false" data-caption="Receive Items" data-controller="POReceiveItemGridController">
+﻿<div data-name="POReceiveItemGrid" data-control="FwBrowse" data-type="Grid" class="fwcontrol fwbrowse" data-showsearch="false" data-caption="" data-controller="POReceiveItemGridController">
   <div class="column" data-width="0" data-visible="false">
     <div class="field" data-isuniqueid="true" data-datafield="PurchaseOrderId" data-datatype="key" data-formreadonly="true" data-sort="off"></div>
   </div>
@@ -31,6 +31,9 @@
   </div>
   <div class="column" data-width="50px" data-visible="true">
     <div class="field" data-caption="Received" data-datafield="QuantityReceived" data-datatype="number" data-sort="off" data-formreadonly="true"></div>
+  </div>
+  <div class="column" data-width="0" data-visible="false">
+    <div class="field" data-caption="QuantityRemaining" data-datafield="QuantityRemaining" data-datatype="number" data-sort="off" data-formreadonly="true"></div>
   </div>
   <div class="column" data-width="60px" data-visible="true">
     <div class="field" data-caption="Warehouse" data-datafield="WarehouseId" data-validationname="WarehouseValidation" data-browsedisplayfield="WarehouseCode" data-datatype="validation" data-sort="off" data-formreadonly="true"></div>
