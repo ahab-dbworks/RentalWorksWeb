@@ -59,7 +59,7 @@ namespace RentalWorksQuikScan.Modules
                 qry.AddParameter("@orderid", orderid);
                 qry.Execute();
 
-                response.subject = qry.GetField("@orderno").ToString().TrimEnd() + " - " + qry.GetField("@orderdesc").ToString().TrimEnd() + " - Out Contract";
+                response.subject = qry.GetField("orderno").ToString().TrimEnd() + " - " + qry.GetField("orderdesc").ToString().TrimEnd() + " - Out Contract";
             }
         }
         //----------------------------------------------------------------------------------------------------
