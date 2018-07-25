@@ -190,6 +190,10 @@ class PurchaseOrder {
             //$form.find('div[data-datafield="Labor"] input').prop('checked', true);
             FwFormField.setValueByDataField($form, 'PurchaseOrderDate', today);
       
+            FwFormField.setValue($form, 'div[data-datafield="DepartmentId"]', department.departmentid, department.department);
+            FwFormField.setValue($form, 'div[data-datafield="OfficeLocationId"]', office.locationid, office.location);
+            FwFormField.setValue($form, 'div[data-datafield="WarehouseId"]', warehouse.warehouseid, warehouse.warehouse);
+
             //FwFormField.setValueByDataField($form, 'EstimatedStartDate', today);
             //FwFormField.setValueByDataField($form, 'EstimatedStopDate', today);
             //FwFormField.setValueByDataField($form, 'BillingWeeks', '0');
@@ -199,9 +203,6 @@ class PurchaseOrder {
             //$form.find('div[data-datafield="EstimatedStartTime"]').attr('data-required', false);
             //$form.find('div[data-datafield="EstimatedStopTime"]').attr('data-required', false);
 
-            //FwFormField.setValue($form, 'div[data-datafield="DepartmentId"]', department.departmentid, department.department);
-            //FwFormField.setValue($form, 'div[data-datafield="OfficeLocationId"]', office.locationid, office.location);
-            //FwFormField.setValue($form, 'div[data-datafield="WarehouseId"]', warehouse.warehouseid, warehouse.warehouse);
 
             //$form.find('div[data-datafield="PendingPo"] input').prop('checked', true);
             //$form.find('div[data-datafield="Rental"] input').prop('checked', true);

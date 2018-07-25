@@ -173,7 +173,7 @@ class ReceiveFromVendor {
                     }, $form);
                 }
             }
-            FwBrowse.search($receiveItemsGridControl);
+            setTimeout(() => { FwBrowse.search($receiveItemsGridControl); }, 1000);
         });
     };
     //----------------------------------------------------------------------------------------------
