@@ -28,6 +28,9 @@ class ReturnToVendor {
         $form = FwModule.openForm($form, mode);
 
         $form.off('change keyup', '.fwformfield[data-isuniqueid!="true"][data-enabled="true"][data-datafield!=""]');
+        $form.find('div[data-datafield="PurchaseOrderId"] fwformfield-text input').focus();
+        $form.find('div[data-datafield="PurchaseOrderId"] input fwformfield-text').focus();
+        $form.find('div[data-displayfield="PurchaseOrderNumber"] input').focus();
 
         let date = new Date(),
             currentDate = date.toLocaleString(),
@@ -36,37 +39,13 @@ class ReturnToVendor {
         FwFormField.setValueByDataField($form, 'Date', currentDate);
         FwFormField.setValueByDataField($form, 'Time', currentTime);
 
-        $form.find('.createcontract').on('click', e => {
-            let contractId = FwFormField.getValueByDataField($form, 'ContractId');
-            FwAppData.apiMethod(true, 'POST', `api/v1/purchaseorder/completereturncontract/${contractId}`, null, FwServices.defaultTimeout, function onSuccess(response) {
-                try {
-                    let contractInfo: any = {}, $contractForm;
-                    contractInfo.ContractId = contractId;
-                    $contractForm = ContractController.loadForm(contractInfo);
-                    FwModule.openSubModuleTab($form, $contractForm);
-
-                    $form.find('.fwformfield').not('[data-type="date"], [data-type="time"]').find('input').val('');
-                    let $pOReturnItemGridControl = $form.find('div[data-name="POReturnItemGrid"]');
-                    $pOReturnItemGridControl.data('ondatabind', function (request) {
-                        request.uniqueids = {
-                            ContractId: contractId,
-                            PurchaseOrderId: ''
-                        }
-                    })
-                    FwBrowse.search($pOReturnItemGridControl); 
-                }
-                catch (ex) {
-                    FwFunc.showError(ex);
-                }
-            }, null, $form);
-        });
-
-        this.getItems($form);
-
         if (typeof parentmoduleinfo !== 'undefined') {
             FwFormField.setValueByDataField($form, 'PurchaseOrderId', parentmoduleinfo.PurchaseOrderId, parentmoduleinfo.PurchaseOrderNumber); 
             $form.find('[data-datafield="PurchaseOrderId"] input').change();
         }
+
+        this.getItems($form);
+        this.events($form);
 
         return $form;
     }
@@ -103,6 +82,15 @@ class ReturnToVendor {
         });
     }
     //----------------------------------------------------------------------------------------------
+    afterLoad($form: any) {
+        console.log('po', $form.find('div[data-datafield="PurchaseOrderId"] input'))
+        $form.find('div[data-datafield="PurchaseOrderId"] fwformfield-control input').focus();
+        $form.find('div[data-datafield="PurchaseOrderId"] fwformfield-control ').focus();
+        $form.find('div[data-datafield="PurchaseOrderId"] input').focus();
+
+
+    }
+    //----------------------------------------------------------------------------------------------
     renderGrids($form:any) {
         let $pOReturnItemGrid: any,
             $pOReturnItemGridControl: any;
@@ -117,6 +105,90 @@ class ReturnToVendor {
         FwBrowse.renderRuntimeHtml($pOReturnItemGridControl);
     }
     //----------------------------------------------------------------------------------------------
+    events($form: any) {
+        // Create Contract
+        $form.find('.createcontract').on('click', e => {
+            let date = new Date(),
+                currentDate = date.toLocaleString(),
+                currentTime = date.toLocaleTimeString();
+            let contractId = FwFormField.getValueByDataField($form, 'ContractId');
+            FwAppData.apiMethod(true, 'POST', `api/v1/purchaseorder/completereturncontract/${contractId}`, null, FwServices.defaultTimeout, function onSuccess(response) {
+                try {
+                    let contractInfo: any = {}, $contractForm;
+                    contractInfo.ContractId = contractId;
+                    $contractForm = ContractController.loadForm(contractInfo);
+                    FwModule.openSubModuleTab($form, $contractForm);
 
+                    $form.find('.fwformfield').not('[data-type="date"], [data-type="time"]').find('input').val('');
+                    let $pOReturnItemGridControl = $form.find('div[data-name="POReturnItemGrid"]');
+                    $pOReturnItemGridControl.data('ondatabind', function (request) {
+                        request.uniqueids = {
+                            ContractId: contractId,
+                            PurchaseOrderId: ''
+                        }
+                    })
+                    FwBrowse.search($pOReturnItemGridControl);
+                }
+                catch (ex) {
+                    FwFunc.showError(ex);
+                }
+                FwFormField.setValueByDataField($form, 'Date', currentDate);
+                FwFormField.setValueByDataField($form, 'Time', currentTime);
+            }, null, $form);
+        });
+
+        // Select None
+        $form.find('.selectnone').on('click', e => {
+            let request: any = {};
+            let $returnItemsGridControl = $form.find('div[data-name="POReturnItemGrid"]');
+            let quantity;
+            const contractId = FwFormField.getValueByDataField($form, 'ContractId');
+            const purchaseOrderId = FwFormField.getValueByDataField($form, 'PurchaseOrderId');
+            const purchaseOrderItemIdColumn: any = $form.find('.POReturnItemGrid [data-browsedatafield="PurchaseOrderItemId"]');
+            const QuantityColumn: any = $form.find('.POReturnItemGrid [data-browsedatafield="Quantity"]');
+
+            request.ContractId = contractId;
+            request.PurchaseOrderId = purchaseOrderId;
+
+            for (let i = 1; i < purchaseOrderItemIdColumn.length; i++) {
+
+                if (QuantityColumn.eq(i).attr('data-originalvalue') != 0) {
+                    request.PurchaseOrderItemId = purchaseOrderItemIdColumn.eq(i).attr('data-originalvalue')
+                    quantity = QuantityColumn.eq(i).attr('data-originalvalue');
+                    request.Quantity = -quantity
+                    FwAppData.apiMethod(true, 'POST', `api/v1/purchaseorderreturnitem/returnitems`, request, FwServices.defaultTimeout, function onSuccess(response) {
+                    }, function onError(response) {
+                        FwFunc.showError(response);
+                    }, $form);
+                }
+            }
+            FwBrowse.search($returnItemsGridControl);
+        });
+        // Select All
+        $form.find('.selectall').on('click', e => {
+            let request: any = {};
+            let $returnItemsGridControl = $form.find('div[data-name="POReturnItemGrid"]');
+            const contractId = FwFormField.getValueByDataField($form, 'ContractId');
+            const purchaseOrderId = FwFormField.getValueByDataField($form, 'PurchaseOrderId');
+            const purchaseOrderItemIdColumn: any = $form.find('.POReturnItemGrid [data-browsedatafield="PurchaseOrderItemId"]');
+            const QuantityRemainingColumn: any = $form.find('.POReturnItemGrid [data-browsedatafield="QuantityRemaining"]');
+
+            request.ContractId = contractId;
+            request.PurchaseOrderId = purchaseOrderId;
+            for (let i = 1; i < purchaseOrderItemIdColumn.length; i++) {
+                if (QuantityRemainingColumn.eq(i).attr('data-originalvalue') != 0) {
+                    request.PurchaseOrderItemId = purchaseOrderItemIdColumn.eq(i).attr('data-originalvalue')
+                    request.Quantity = QuantityRemainingColumn.eq(i).attr('data-originalvalue')
+                    FwAppData.apiMethod(true, 'POST', `api/v1/purchaseorderreturnitem/returnitems`, request, FwServices.defaultTimeout, function onSuccess(response) {
+                    }, function onError(response) {
+                        FwFunc.showError(response);
+                    }, $form);
+                }
+            }
+            FwBrowse.search($returnItemsGridControl);
+        });
+
+    }
+    //----------------------------------------------------------------------------------------------
 }
 var ReturnToVendorController = new ReturnToVendor();

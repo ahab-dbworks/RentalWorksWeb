@@ -1,11 +1,8 @@
 ﻿routes.push({ pattern: /^module\/receivefromvendor$/, action: function (match: RegExpExecArray) { return ReceiveFromVendorController.getModuleScreen(); } });
 
 class ReceiveFromVendor {
-    Module: string;
+    Module: string = 'ReceiveFromVendor';
 
-    constructor() {
-        this.Module = 'ReceiveFromVendor';
-    }
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
         var screen: any = {};
@@ -39,45 +36,16 @@ class ReceiveFromVendor {
         FwFormField.setValueByDataField($form, 'Date', currentDate);
         FwFormField.setValueByDataField($form, 'Time', currentTime);
 
-        $form.find('.createcontract').on('click', e => {
-            let contractId = FwFormField.getValueByDataField($form, 'ContractId');
-            let date = new Date(),
-                currentDate = date.toLocaleString(),
-                currentTime = date.toLocaleTimeString();
-            FwAppData.apiMethod(true, 'POST', "api/v1/purchaseorder/completereceivecontract/" + contractId, null, FwServices.defaultTimeout, function onSuccess(response) {
-                try {
-                    let contractInfo: any = {}, $contractForm;
-                    contractInfo.ContractId = contractId;
-                    $contractForm = ContractController.loadForm(contractInfo);
-                    FwModule.openSubModuleTab($form, $contractForm);
-
-                    $form.find('.fwformfield').not('[data-type="date"], [data-type="time"]').find('input').val('');
-                    let $receiveItemsGridControl = $form.find('div[data-name="POReceiveItemGrid"]');
-                    $receiveItemsGridControl.data('ondatabind', function (request) {
-                        request.uniqueids = {
-                            ContractId: contractId
-                            , PurchaseOrderId: ''
-                        }
-                    })
-                    FwBrowse.search($receiveItemsGridControl);
-                }
-                catch (ex) {
-                    FwFunc.showError(ex);
-                }
-                FwFormField.setValueByDataField($form, 'Date', currentDate);
-                FwFormField.setValueByDataField($form, 'Time', currentTime);
-            }, null, $form);
-        });
-
-        this.getItems($form);
-
         if (typeof parentmoduleinfo !== 'undefined') {
             FwFormField.setValueByDataField($form, 'PurchaseOrderId', parentmoduleinfo.PurchaseOrderId, parentmoduleinfo.PurchaseOrderNumber);
             $form.find('[data-datafield="PurchaseOrderId"] input').change();
         }
 
+        this.getItems($form);
+        this.events($form);
+
         return $form;
-    }
+    };
     //----------------------------------------------------------------------------------------------
     getItems($form) {
         $form.find('[data-datafield="PurchaseOrderId"]').data('onchange', $tr => {
@@ -124,6 +92,91 @@ class ReceiveFromVendor {
         FwBrowse.init($receiveItemsGridControl);
         FwBrowse.renderRuntimeHtml($receiveItemsGridControl);
     }
+    //----------------------------------------------------------------------------------------------
+    events($form: any) {
+        // Create Contract
+        $form.find('.createcontract').on('click', e => {
+            let contractId = FwFormField.getValueByDataField($form, 'ContractId');
+            let date = new Date(),
+                currentDate = date.toLocaleString(),
+                currentTime = date.toLocaleTimeString();
+            FwAppData.apiMethod(true, 'POST', "api/v1/purchaseorder/completereceivecontract/" + contractId, null, FwServices.defaultTimeout, function onSuccess(response) {
+                try {
+                    let contractInfo: any = {}, $contractForm;
+                    contractInfo.ContractId = contractId;
+                    $contractForm = ContractController.loadForm(contractInfo);
+                    FwModule.openSubModuleTab($form, $contractForm);
+
+                    $form.find('.fwformfield').not('[data-type="date"], [data-type="time"]').find('input').val('');
+                    let $receiveItemsGridControl = $form.find('div[data-name="POReceiveItemGrid"]');
+                    $receiveItemsGridControl.data('ondatabind', function (request) {
+                        request.uniqueids = {
+                            ContractId: contractId
+                            , PurchaseOrderId: ''
+                        }
+                    })
+                    FwBrowse.search($receiveItemsGridControl);
+                }
+                catch (ex) {
+                    FwFunc.showError(ex);
+                }
+                FwFormField.setValueByDataField($form, 'Date', currentDate);
+                FwFormField.setValueByDataField($form, 'Time', currentTime);
+            }, null, $form);
+        });
+
+        // Select None
+        $form.find('.selectnone').on('click', e => {
+            let request: any = {};
+            let $receiveItemsGridControl = $form.find('div[data-name="POReceiveItemGrid"]');
+            let quantity;
+            const contractId = FwFormField.getValueByDataField($form, 'ContractId');
+            const purchaseOrderId = FwFormField.getValueByDataField($form, 'PurchaseOrderId');
+            const purchaseOrderItemIdColumn: any = $form.find('.POReceiveItemGrid [data-browsedatafield="PurchaseOrderItemId"]');
+            const QuantityColumn: any = $form.find('.POReceiveItemGrid [data-browsedatafield="Quantity"]');
+
+            request.ContractId = contractId;
+            request.PurchaseOrderId = purchaseOrderId;
+
+            for (let i = 1; i < purchaseOrderItemIdColumn.length; i++) {
+
+                if (QuantityColumn.eq(i).attr('data-originalvalue') != 0) {
+                    request.PurchaseOrderItemId = purchaseOrderItemIdColumn.eq(i).attr('data-originalvalue')
+                    quantity = QuantityColumn.eq(i).attr('data-originalvalue'); 
+                    request.Quantity = -quantity
+                    FwAppData.apiMethod(true, 'POST', `api/v1/purchaseorderreceiveitem/receiveitems`, request, FwServices.defaultTimeout, function onSuccess(response) {
+                    }, function onError(response) {
+                        FwFunc.showError(response);
+                    }, $form);
+                }
+            }
+            FwBrowse.search($receiveItemsGridControl);
+        });
+        // Select All
+        $form.find('.selectall').on('click', e => {
+            let request: any = {};
+            let $receiveItemsGridControl = $form.find('div[data-name="POReceiveItemGrid"]');
+            const contractId = FwFormField.getValueByDataField($form, 'ContractId');
+            const purchaseOrderId = FwFormField.getValueByDataField($form, 'PurchaseOrderId');
+            const purchaseOrderItemIdColumn: any = $form.find('.POReceiveItemGrid [data-browsedatafield="PurchaseOrderItemId"]');
+            const QuantityRemainingColumn: any = $form.find('.POReceiveItemGrid [data-browsedatafield="QuantityRemaining"]');
+
+            request.ContractId = contractId;
+            request.PurchaseOrderId = purchaseOrderId;
+            for (let i = 1; i < purchaseOrderItemIdColumn.length; i++) {
+                    console.log('qty rem', QuantityRemainingColumn.eq(i).attr('data-originalvalue'))
+                if (QuantityRemainingColumn.eq(i).attr('data-originalvalue') != 0) {
+                    request.PurchaseOrderItemId = purchaseOrderItemIdColumn.eq(i).attr('data-originalvalue')
+                    request.Quantity = QuantityRemainingColumn.eq(i).attr('data-originalvalue')
+                    FwAppData.apiMethod(true, 'POST', `api/v1/purchaseorderreceiveitem/receiveitems`, request, FwServices.defaultTimeout, function onSuccess(response) {
+                    }, function onError(response) {
+                        FwFunc.showError(response);
+                    }, $form);
+                }
+            }
+            FwBrowse.search($receiveItemsGridControl);
+        });
+    };
     //----------------------------------------------------------------------------------------------
 }
 var ReceiveFromVendorController = new ReceiveFromVendor();
