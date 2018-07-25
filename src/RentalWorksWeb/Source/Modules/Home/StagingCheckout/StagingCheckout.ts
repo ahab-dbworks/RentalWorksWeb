@@ -64,7 +64,6 @@ class StagingCheckout {
                 let orderId = $form.find('[data-datafield="OrderId"] .fwformfield-value').val();
                 let warehouseId = FwFormField.getValueByDataField($form, 'WarehouseId');
                 FwAppData.apiMethod(true, 'GET', "api/v1/order/" + orderId, null, FwServices.defaultTimeout, function onSuccess(response) {
-                    console.log('res:', response)
                     FwFormField.setValueByDataField($form, 'Description', response.Description);
                     FwFormField.setValueByDataField($form, 'Location', response.Location);
                     //FwFormField.setValueByDataField($form, 'WarehouseId', response.WarehouseId);
@@ -193,6 +192,7 @@ class StagingCheckout {
 
         //BarCode / I-Code change
         $form.find('[data-datafield="Code"] input').on('change', event => {
+            $form.find('.error-msg').html('')
             let code, orderId, $stagedItemGrid;
             orderId = FwFormField.getValueByDataField($form, 'OrderId');
             code = FwFormField.getValueByDataField($form, 'Code');
@@ -203,23 +203,26 @@ class StagingCheckout {
                 Code: code
             }
             FwAppData.apiMethod(true, 'POST', `api/v1/checkout/stageitem`, request, FwServices.defaultTimeout, function onSuccess(response) {
-                console.log('stageitemres: ', response)
-                FwFormField.setValueByDataField($form, 'ICode', response.InventoryStatus.ICode);
-                FwFormField.setValueByDataField($form, 'InventoryDescription', response.InventoryStatus.Description);
-                FwFormField.setValueByDataField($form, 'QuantityOrdered', response.InventoryStatus.QuantityOrdered);
-                FwFormField.setValueByDataField($form, 'QuantitySub', response.InventoryStatus.QuantitySub);
-                FwFormField.setValueByDataField($form, 'QuantityOut', response.InventoryStatus.QuantityOut);
-                FwFormField.setValueByDataField($form, 'QuantityStaged', response.InventoryStatus.QuantityStaged);
-                FwFormField.setValueByDataField($form, 'QuantityRemaining', response.InventoryStatus.QuantityRemaining);
+                if (response.success === true) {
+                    FwFormField.setValueByDataField($form, 'ICode', response.InventoryStatus.ICode);
+                    FwFormField.setValueByDataField($form, 'InventoryDescription', response.InventoryStatus.Description);
+                    FwFormField.setValueByDataField($form, 'QuantityOrdered', response.InventoryStatus.QuantityOrdered);
+                    FwFormField.setValueByDataField($form, 'QuantitySub', response.InventoryStatus.QuantitySub);
+                    FwFormField.setValueByDataField($form, 'QuantityOut', response.InventoryStatus.QuantityOut);
+                    FwFormField.setValueByDataField($form, 'QuantityStaged', response.InventoryStatus.QuantityStaged);
+                    FwFormField.setValueByDataField($form, 'QuantityRemaining', response.InventoryStatus.QuantityRemaining);
 
-                // selects barcode field if response
-                $form.find('[data-datafield="Code"] input').select();
+                    // selects barcode field if response
+                    $form.find('[data-datafield="Code"] input').select();
 
-                if (response.InventoryStatus.QuantityOrdered === 0) {
-                    $form.find('div[data-datafield="Quantity"] input').focus(); 
+                    if (response.InventoryStatus.QuantityOrdered === 0) {
+                        $form.find('div[data-datafield="Quantity"] input').focus();
+                    }
+                    FwBrowse.search($stagedItemGrid);
                 }
-                FwBrowse.search($stagedItemGrid);
-
+                else {
+                    $form.find('div.error-msg').html(`<div style="margin-left:8px;"><span style="font-size:45px;background-color:red;color:white;">${response.msg}</span></div>`)
+                }
             }, function onError(response) {
                 FwFunc.showError(response);
                 }, $form);
@@ -239,7 +242,6 @@ class StagingCheckout {
                 Quantity: quantity
             }
             FwAppData.apiMethod(true, 'POST', `api/v1/checkout/stageitem`, request, FwServices.defaultTimeout, function onSuccess(response) {
-                console.log(response)
                 FwFormField.setValueByDataField($form, 'ICode', response.InventoryStatus.ICode);
                 FwFormField.setValueByDataField($form, 'Description', response.InventoryStatus.Description);
                 FwFormField.setValueByDataField($form, 'QuantityOrdered', response.InventoryStatus.QuantityOrdered);

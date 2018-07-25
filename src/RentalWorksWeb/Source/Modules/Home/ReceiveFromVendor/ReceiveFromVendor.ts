@@ -164,7 +164,6 @@ class ReceiveFromVendor {
             request.ContractId = contractId;
             request.PurchaseOrderId = purchaseOrderId;
             for (let i = 1; i < purchaseOrderItemIdColumn.length; i++) {
-                    console.log('qty rem', QuantityRemainingColumn.eq(i).attr('data-originalvalue'))
                 if (QuantityRemainingColumn.eq(i).attr('data-originalvalue') != 0) {
                     request.PurchaseOrderItemId = purchaseOrderItemIdColumn.eq(i).attr('data-originalvalue')
                     request.Quantity = QuantityRemainingColumn.eq(i).attr('data-originalvalue')
