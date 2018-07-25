@@ -58,12 +58,14 @@ class Exchange {
 
         $form.find('div[data-datafield="OrderId"]').data('onchange', function ($tr) {
             FwFormField.setValueByDataField($form, 'DealId', $tr.find('.field[data-browsedatafield="DealId"]').attr('data-originalvalue'), $tr.find('.field[data-browsedatafield="Deal"]').attr('data-originalvalue'));
-            contractRequest['OrderId'] = $tr.find('.field[data-browsedatafield="OrderId"]').attr('data-originalvalue')
-            contractRequest['DealId'] = $tr.find('.field[data-browsedatafield="DealId"]').attr('data-originalvalue')
+            contractRequest['OrderId'] = $tr.find('.field[data-browsedatafield="OrderId"]').attr('data-originalvalue');
+            contractRequest['DealId'] = $tr.find('.field[data-browsedatafield="DealId"]').attr('data-originalvalue');
 
             try {
                 FwAppData.apiMethod(true, 'POST', "api/v1/exchange/startexchangecontract", contractRequest, FwServices.defaultTimeout, function onSuccess(response) {
                     self.ContractId = response.ContractId;
+                    FwFormField.disable(FwFormField.getDataField($form, 'OrderId'));
+                    FwFormField.disable(FwFormField.getDataField($form, 'DealId'));
                 }, null, $form);
             } catch (ex) {
                 FwFunc.showError(ex);
@@ -85,32 +87,17 @@ class Exchange {
                             ContractId: response.ContractId
                         }
                     })
-                    FwBrowse.search($exchangeItemGridControl);
+                    FwFormField.disable(FwFormField.getDataField($form, 'OrderId'));
+                    FwFormField.disable(FwFormField.getDataField($form, 'DealId'));
                 }, null, $form);
             } catch (ex) {
                 FwFunc.showError(ex);
             }
         });
 
-        $form.find('.in').data('onchange', function ($tr) {
-            FwFormField.setValueByDataField($form, 'VendorIn', $tr.find('.field[data-browsedatafield="Vendor"]').attr('data-originalvalue'));
-            if (FwFormField.getValueByDataField($form, 'RentalBarCodeOutId') !== '' || FwFormField.getValueByDataField($form, 'SalesBarCodeOutId') !== '') {
-                exchangeRequest['ContractId'] = self.ContractId;
-                exchangeRequest['InCode'] = $tr.find('.field[data-browsedatafield="InventoryId"]').attr('data-originalvalue');
-
-                if (FwFormField.getValueByDataField($form, 'RentalBarCodeOutId') !== '') {
-                    exchangeRequest['OutCode'] = FwFormField.getValueByDataField($form, 'RentalBarCodeOutId');
-                } else {
-                    exchangeRequest['OutCode'] = FwFormField.getValueByDataField($form, 'SalesBarCodeOutId');
-                }
-                
-                try {
-                    FwAppData.apiMethod(true, 'POST', "api/v1/exchange/exchangeitem", exchangeRequest, FwServices.defaultTimeout, function onSuccess(response) {
-                        self.ExchangeResponse = response;
-                    }, null, $form);
-                } catch (ex) {
-                    FwFunc.showError(ex);
-                }
+        $form.find('.in').on('keypress', function (e) {
+            if (e.which === 13) {
+                FwFormField.getDataField($form, 'BarCodeOut').find('input').focus();
             }
         });
 
@@ -146,7 +133,18 @@ class Exchange {
                         let $contractForm = ContractController.loadForm({
                             ContractId: response.ContractId
                         });
+                        let fields = $form.find('.fwformfield');
                         FwModule.openSubModuleTab($form, $contractForm);
+                        for (var i = 0; i < fields.length; i++) {
+                            if (jQuery(fields[i]).attr('data-datafield') !== 'DepartmentId') {
+                                FwFormField.setValue2(jQuery(fields[i]), '', '');
+                            }
+                        }
+                        self.ContractId = '';
+                        self.ExchangeResponse = {};
+                        $form.find('div[data-grid="ExchangeItemGrid"]').empty().append(jQuery(jQuery('#tmpl-grids-ExchangeItemGridBrowse').html()));
+                        FwFormField.enable(FwFormField.getDataField($form, 'OrderId'));
+                        FwFormField.enable(FwFormField.getDataField($form, 'DealId'));
                     }, null, $form);
                 } catch (ex) {
                     FwFunc.showError(ex);
