@@ -28,9 +28,9 @@ class ReturnToVendor {
         $form = FwModule.openForm($form, mode);
 
         $form.off('change keyup', '.fwformfield[data-isuniqueid!="true"][data-enabled="true"][data-datafield!=""]');
-        $form.find('div[data-datafield="PurchaseOrderId"] fwformfield-text input').focus();
-        $form.find('div[data-datafield="PurchaseOrderId"] input fwformfield-text').focus();
-        $form.find('div[data-displayfield="PurchaseOrderNumber"] input').focus();
+        //$form.find('div[data-datafield="PurchaseOrderId"] fwformfield-text input').focus();
+        //$form.find('div[data-datafield="PurchaseOrderId"] input fwformfield-text').focus();
+        //$form.find('div[data-displayfield="PurchaseOrderNumber"] input').focus();
 
         let date = new Date(),
             currentDate = date.toLocaleString(),
@@ -83,12 +83,10 @@ class ReturnToVendor {
     }
     //----------------------------------------------------------------------------------------------
     afterLoad($form: any) {
-        console.log('po', $form.find('div[data-datafield="PurchaseOrderId"] input'))
-        $form.find('div[data-datafield="PurchaseOrderId"] fwformfield-control input').focus();
-        $form.find('div[data-datafield="PurchaseOrderId"] fwformfield-control ').focus();
-        $form.find('div[data-datafield="PurchaseOrderId"] input').focus();
-
-
+        //console.log('po', $form.find('div[data-datafield="PurchaseOrderId"] input'))
+        //$form.find('div[data-datafield="PurchaseOrderId"] fwformfield-control input').focus();
+        //$form.find('div[data-datafield="PurchaseOrderId"] fwformfield-control ').focus();
+        //$form.find('div[data-datafield="PurchaseOrderId"] input').focus();
     }
     //----------------------------------------------------------------------------------------------
     renderGrids($form:any) {
@@ -139,9 +137,8 @@ class ReturnToVendor {
 
         // Select None
         $form.find('.selectnone').on('click', e => {
-            let request: any = {};
-            let $returnItemsGridControl = $form.find('div[data-name="POReturnItemGrid"]');
-            let quantity;
+            let request: any = {}, quantity;
+            const $returnItemsGridControl = $form.find('div[data-name="POReturnItemGrid"]');
             const contractId = FwFormField.getValueByDataField($form, 'ContractId');
             const purchaseOrderId = FwFormField.getValueByDataField($form, 'PurchaseOrderId');
             const purchaseOrderItemIdColumn: any = $form.find('.POReturnItemGrid [data-browsedatafield="PurchaseOrderItemId"]');
@@ -162,12 +159,12 @@ class ReturnToVendor {
                     }, $form);
                 }
             }
-            FwBrowse.search($returnItemsGridControl);
+            setTimeout(() => { FwBrowse.search($returnItemsGridControl); }, 1000);
         });
         // Select All
         $form.find('.selectall').on('click', e => {
             let request: any = {};
-            let $returnItemsGridControl = $form.find('div[data-name="POReturnItemGrid"]');
+            const $returnItemsGridControl = $form.find('div[data-name="POReturnItemGrid"]');
             const contractId = FwFormField.getValueByDataField($form, 'ContractId');
             const purchaseOrderId = FwFormField.getValueByDataField($form, 'PurchaseOrderId');
             const purchaseOrderItemIdColumn: any = $form.find('.POReturnItemGrid [data-browsedatafield="PurchaseOrderItemId"]');

@@ -7,6 +7,9 @@ class PurchaseOrder {
     apiurl: string = 'api/v1/PurchaseOrder';
     caption: string = 'Purchase Order';
     ActiveView: string = 'ALL';
+    DefaultPurchasePoType: string;
+    DefaultPurchasePoTypeId: string;
+
 
     //----------------------------------------------------------------------------------------------
     getModuleScreen(filter?: any) {
@@ -62,11 +65,10 @@ class PurchaseOrder {
         let department = JSON.parse(sessionStorage.getItem('department'));;
         let location = JSON.parse(sessionStorage.getItem('location'));;
 
-        //FwAppData.apiMethod(true, 'GET', 'api/v1/departmentlocation/' + department.departmentid + '~' + location.locationid, null, FwServices.defaultTimeout, function onSuccess(response) {
-        //    self.DefaultOrderType = response.DefaultOrderType;
-        //    self.DefaultOrderTypeId = response.DefaultOrderTypeId;
-
-        //}, null, null);
+        FwAppData.apiMethod(true, 'GET', `api/v1/officelocation/${location.locationid}`, null, FwServices.defaultTimeout, function onSuccess(response) {
+            self.DefaultPurchasePoType = response.DefaultPurchasePoType;
+            self.DefaultPurchasePoTypeId = response.DefaultPurchasePoTypeId;
+        }, null, null);
 
         return $browse;
     };
@@ -193,6 +195,7 @@ class PurchaseOrder {
             FwFormField.setValue($form, 'div[data-datafield="DepartmentId"]', department.departmentid, department.department);
             FwFormField.setValue($form, 'div[data-datafield="OfficeLocationId"]', office.locationid, office.location);
             FwFormField.setValue($form, 'div[data-datafield="WarehouseId"]', warehouse.warehouseid, warehouse.warehouse);
+            FwFormField.setValue($form, 'div[data-datafield="PoTypeId"]', this.DefaultPurchasePoTypeId, this.DefaultPurchasePoType);
 
             //FwFormField.setValueByDataField($form, 'EstimatedStartDate', today);
             //FwFormField.setValueByDataField($form, 'EstimatedStopDate', today);
@@ -212,7 +215,6 @@ class PurchaseOrder {
             //FwFormField.disable($form.find('[data-datafield="PoNumber"]'));
             //FwFormField.disable($form.find('[data-datafield="PoAmount"]'));
 
-            //FwFormField.setValue($form, 'div[data-datafield="OrderTypeId"]', this.DefaultOrderTypeId, this.DefaultOrderType);
 
             //FwFormField.disable($form.find('.frame'));
             //$form.find(".frame .add-on").children().hide();
@@ -322,6 +324,7 @@ class PurchaseOrder {
         });
 
         FwBrowse.addEventHandler($orderItemGridRentalControl, 'afterdatabindcallback', () => {
+            this.calculateOrderItemGridTotals($form, 'rental');
             let rentalItems = $form.find('.rentalgrid tbody').children();
             rentalItems.length > 0 ? FwFormField.disable($form.find('[data-datafield="Rental"]')) : FwFormField.enable($form.find('[data-datafield="Rental"]'));
         });
@@ -352,6 +355,7 @@ class PurchaseOrder {
             request.RecType = 'S';
         });
         FwBrowse.addEventHandler($orderItemGridSalesControl, 'afterdatabindcallback', () => {
+            this.calculateOrderItemGridTotals($form, 'sales');
             let salesItems = $form.find('.salesgrid tbody').children();
             salesItems.length > 0 ? FwFormField.disable($form.find('[data-datafield="Sales"]')) : FwFormField.enable($form.find('[data-datafield="Sales"]'));
         });
@@ -382,6 +386,7 @@ class PurchaseOrder {
             request.RecType = 'P';
         });
         FwBrowse.addEventHandler($orderItemGridPartControl, 'afterdatabindcallback', () => {
+            this.calculateOrderItemGridTotals($form, 'part');
             let partItems = $form.find('.partgrid tbody').children();
             partItems.length > 0 ? FwFormField.disable($form.find('[data-datafield="Parts"]')) : FwFormField.enable($form.find('[data-datafield="Parts"]'));
         });
@@ -542,6 +547,55 @@ class PurchaseOrder {
         }, null, null);
     };
 
+    //----------------------------------------------------------------------------------------------
+    calculateOrderItemGridTotals($form: any, gridType: string) {
+        let subTotal, discount, salesTax, grossTotal, total, rateType;
+        let extendedTotal = new Decimal(0);
+        let discountTotal = new Decimal(0);
+        let taxTotal = new Decimal(0);
+
+        //let rateValue = $form.find('.' + gridType + 'grid .totalType input:checked').val();
+        //switch (rateValue) {
+        //    case 'W':
+        //        rateType = 'Weekly';
+        //        break;
+        //    case 'P':
+        //        rateType = 'Period';
+        //        break;
+        //    case 'M':
+        //        rateType = 'Monthly';
+        //        break;
+
+        //}
+        rateType = "Period";
+        const extendedColumn: any = $form.find('.' + gridType + 'grid [data-browsedatafield="' + rateType + 'Extended"]');
+        const discountColumn: any = $form.find('.' + gridType + 'grid [data-browsedatafield="' + rateType + 'DiscountAmount"]');
+        const taxColumn: any = $form.find('.' + gridType + 'grid [data-browsedatafield="' + rateType + 'Tax"]');
+
+        for (let i = 1; i < extendedColumn.length; i++) {
+            // Extended Column
+            let inputValueFromExtended: any = +extendedColumn.eq(i).attr('data-originalvalue');
+            extendedTotal = extendedTotal.plus(inputValueFromExtended);
+            // DiscountAmount Column
+            let inputValueFromDiscount: any = +discountColumn.eq(i).attr('data-originalvalue');
+            discountTotal = discountTotal.plus(inputValueFromDiscount);
+            // Tax Column
+            let inputValueFromTax: any = +taxColumn.eq(i).attr('data-originalvalue');
+            taxTotal = taxTotal.plus(inputValueFromTax);
+        };
+
+        subTotal = extendedTotal.toFixed(2);
+        discount = discountTotal.toFixed(2);
+        salesTax = taxTotal.toFixed(2);
+        grossTotal = extendedTotal.plus(discountTotal).toFixed(2);
+        total = taxTotal.plus(extendedTotal).toFixed(2);
+
+        $form.find('.' + gridType + 'totals [data-totalfield="SubTotal"] input').val(subTotal);
+        $form.find('.' + gridType + 'totals [data-totalfield="Discount"] input').val(discount);
+        $form.find('.' + gridType + 'totals [data-totalfield="Tax"] input').val(salesTax);
+        $form.find('.' + gridType + 'totals [data-totalfield="GrossTotal"] input').val(grossTotal);
+        $form.find('.' + gridType + 'totals [data-totalfield="Total"] input').val(total);
+    };
     //----------------------------------------------------------------------------------------------
     events($form: any) {
         $form.find('div[data-datafield="VendorId"]').data('onchange', $tr => {
