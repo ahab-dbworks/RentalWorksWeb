@@ -110,16 +110,18 @@ class Exchange {
                 try {
                     FwAppData.apiMethod(true, 'POST', "api/v1/exchange/exchangeitem", exchangeRequest, FwServices.defaultTimeout, function onSuccess(response) {
                         self.ExchangeResponse = response;
+
+                        var $exchangeItemGridControl: any;
+                        $exchangeItemGridControl = $form.find('[data-name="ExchangeItemGrid"]');
+                        $exchangeItemGridControl.data('ondatabind', function (request) {
+                            request.uniqueids = {
+                                ContractId: self.ContractId
+                            }
+                        })
+                        FwBrowse.search($exchangeItemGridControl); 
+
                     }, null, $form);
 
-                    var $exchangeItemGridControl: any;
-                    $exchangeItemGridControl = $form.find('[data-name="ExchangeItemGrid"]');
-                    $exchangeItemGridControl.data('ondatabind', function (request) {
-                        request.uniqueids = {
-                            ContractId: self.ContractId
-                        }
-                    })
-                    FwBrowse.search($exchangeItemGridControl); 
                 } catch (ex) {
                     FwFunc.showError(ex);
                 }
@@ -142,7 +144,7 @@ class Exchange {
                         }
                         self.ContractId = '';
                         self.ExchangeResponse = {};
-                        $form.find('div[data-grid="ExchangeItemGrid"]').empty().append(jQuery(jQuery('#tmpl-grids-ExchangeItemGridBrowse').html()));
+                        self.renderGrids($form);
                         FwFormField.enable(FwFormField.getDataField($form, 'OrderId'));
                         FwFormField.enable(FwFormField.getDataField($form, 'DealId'));
                     }, null, $form);
