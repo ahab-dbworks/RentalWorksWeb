@@ -7,6 +7,7 @@ class POReceiveItemGrid {
         let $form = $control.closest('.fwform'), $quantityColumn = $generatedtr.find('.quantity');
         FwBrowse.setAfterRenderRowCallback($control, ($tr, dt, rowIndex) => {
             let originalquantity = $tr.find('[data-browsedatafield="Quantity"]').attr('data-originalvalue');
+            let $grid = $tr.parents('[data-grid="POReceiveItemGrid"]');
             let $oldElement = $quantityColumn.find('div');
             let html = [];
             html.push('<button class="decrementQuantity" tabindex="-1" style="padding: 5px 0px; float:left; width:25%; border:none;">-</button>');
@@ -66,6 +67,8 @@ class POReceiveItemGrid {
                 };
                 if (quantity != 0) {
                     FwAppData.apiMethod(true, 'POST', "api/v1/purchaseorderreceiveitem/receiveitems", request, FwServices.defaultTimeout, function onSuccess(response) {
+                        let quantityReceived = response.QuantityReceived;
+                        FwBrowse.setFieldValue($grid, $tr, 'QuantityReceived', { value: response.QuantityReceived });
                         $tr.find('[data-browsedatafield="Quantity"]').attr('data-originalvalue', Number(newValue));
                     }, function onError(response) {
                         FwFunc.showError(response);

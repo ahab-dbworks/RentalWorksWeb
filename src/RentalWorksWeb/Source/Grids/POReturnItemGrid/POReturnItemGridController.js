@@ -7,6 +7,7 @@ class POReturnItemGrid {
         let $form = $control.closest('.fwform'), $quantityColumn = $generatedtr.find('.quantity');
         FwBrowse.setAfterRenderRowCallback($control, ($tr, dt, rowIndex) => {
             let originalquantity = $tr.find('[data-browsedatafield="Quantity"]').attr('data-originalvalue');
+            let $grid = $tr.parents('[data-grid="POReturnItemGrid"]');
             let $oldElement = $quantityColumn.find('div');
             let html = [];
             html.push('<button class="decrementQuantity" tabindex="-1" style="padding: 5px 0px; float:left; width:25%; border:none;">-</button>');
@@ -66,6 +67,8 @@ class POReturnItemGrid {
                 };
                 if (quantity != 0) {
                     FwAppData.apiMethod(true, 'POST', "api/v1/purchaseorderreturnitem/returnitems", request, FwServices.defaultTimeout, function onSuccess(response) {
+                        let quantityReturned = response.QuantityReturned;
+                        FwBrowse.setFieldValue($grid, $tr, 'QuantityReturned', { value: quantityReturned });
                         $tr.find('[data-browsedatafield="Quantity"]').attr('data-originalvalue', +newValue);
                     }, function onError(response) {
                         FwFunc.showError(response);

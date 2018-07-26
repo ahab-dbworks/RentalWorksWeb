@@ -8,6 +8,8 @@
 
         FwBrowse.setAfterRenderRowCallback($control, ($tr: JQuery, dt: FwJsonDataTable, rowIndex: number) => {
             let originalquantity = $tr.find('[data-browsedatafield="Quantity"]').attr('data-originalvalue');
+            let $grid = $tr.parents('[data-grid="POReturnItemGrid"]');
+
             //$quantityColumn
             //    .prepend('<button class="decrementQuantity" tabindex="-1" style="padding: 5px 0px; float:left; width:25%; border:none;">-</button>')
             //    .append('<button class="incrementQuantity" tabindex="-1" style="padding: 5px 0px; float:left; width:25%; border:none;">+</button>')
@@ -83,6 +85,8 @@
                 if (quantity != 0) {
                     FwAppData.apiMethod(true, 'POST', "api/v1/purchaseorderreturnitem/returnitems", request, FwServices.defaultTimeout,
                         function onSuccess(response) {
+                            let quantityReturned = response.QuantityReturned;
+                            FwBrowse.setFieldValue($grid, $tr, 'QuantityReturned', { value: quantityReturned });
                         $tr.find('[data-browsedatafield="Quantity"]').attr('data-originalvalue', +newValue);
                     }, function onError(response) {
                         FwFunc.showError(response);
