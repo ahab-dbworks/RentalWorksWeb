@@ -366,11 +366,11 @@ namespace RentalWorksQuikScan.Source
             FwValidate.TestPropertyDefined(METHOD_NAME, request, "qty");
             FwValidate.TestIsNumeric(METHOD_NAME, "qty", request.qty);
             FwValidate.TestPropertyDefined(METHOD_NAME, request, "repairMode");
-            response.webRepairItem = RwAppData.WebRepairItem(conn:       FwSqlConnection.RentalWorks
-                                                           , code:       request.code
-                                                           , repairMode: (RwAppData.RepairMode)Enum.Parse(typeof(RwAppData.RepairMode), request.repairMode)
-                                                           , usersId:    session.security.webUser.usersid
-                                                           , qty:        request.qty);
+            response.webRepairItem = RwAppData.WebRepairItem(conn:       FwSqlConnection.RentalWorks,
+                                                             code:       request.code,
+                                                             repairMode: (RwAppData.RepairMode)Enum.Parse(typeof(RwAppData.RepairMode), request.repairMode),
+                                                             usersId:    session.security.webUser.usersid,
+                                                             qty:        request.qty);
         }
         //---------------------------------------------------------------------------------------------
         public static void CreateOutContract(dynamic request, dynamic response, dynamic session)

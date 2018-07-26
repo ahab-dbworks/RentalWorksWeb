@@ -19,29 +19,52 @@ namespace Web.Integration
     {
         //----------------------------------------------------------------------------------------------------
         public static dynamic qbokeys, qbosettings;
-        public static List<dynamic> Items                   = new List<dynamic>();
-        public static List<dynamic> Invoices                = new List<dynamic>();
-        public static List<dynamic> CreditMemos             = new List<dynamic>();
-        public static List<dynamic> Classes                 = new List<dynamic>();
-        public static List<dynamic> Terms                   = new List<dynamic>();
-        public static List<dynamic> Customers               = new List<dynamic>();
-        public static List<dynamic> PaymentMethods          = new List<dynamic>();
-        public static List<dynamic> TaxItems                = new List<dynamic>(); /*taxcode*/
-        public static List<dynamic> TaxRates                = new List<dynamic>();
-        public static List<dynamic> Receipts                = new List<dynamic>(); /*payment*/
-        public static List<dynamic> Vendors                 = new List<dynamic>();
-        public static List<dynamic> TaxAgencies             = new List<dynamic>();
-        public static List<dynamic> VendorInvoices          = new List<dynamic>(); /*bill*/
-        public static List<dynamic> VendorCredit            = new List<dynamic>();
-        public static List<dynamic> Accounts                = new List<dynamic>();
-        public static string exportbatchid                  = string.Empty;
-        public static string chgbatchexportid               = string.Empty;
+        public static List<dynamic> Items;
+        public static List<dynamic> Invoices;
+        public static List<dynamic> CreditMemos;
+        public static List<dynamic> Classes;
+        public static List<dynamic> Terms;
+        public static List<dynamic> Customers;
+        public static List<dynamic> PaymentMethods;
+        public static List<dynamic> TaxItems; /*taxcode*/
+        public static List<dynamic> TaxRates;
+        public static List<dynamic> Receipts; /*payment*/
+        public static List<dynamic> Vendors;
+        public static List<dynamic> TaxAgencies;
+        public static List<dynamic> VendorInvoices; /*bill*/
+        public static List<dynamic> VendorCredit;
+        public static List<dynamic> Accounts;
+        public static string exportbatchid;
+        public static string chgbatchexportid;
         //----------------------------------------------------------------------------------------------------
         //====================================================================================================
         //----------------------------------------------------------------------------------------------------
-        private const int RECEIPT_INVOICE_ERROR             = 200;
+        private const int RECEIPT_INVOICE_ERROR = 200;
         //----------------------------------------------------------------------------------------------------
         //====================================================================================================
+        //----------------------------------------------------------------------------------------------------
+        private static void initVars()
+        {
+            qbokeys          = new ExpandoObject();
+            qbosettings      = new ExpandoObject();
+            Items            = new List<dynamic>();
+            Invoices         = new List<dynamic>();
+            CreditMemos      = new List<dynamic>();
+            Classes          = new List<dynamic>();
+            Terms            = new List<dynamic>();
+            Customers        = new List<dynamic>();
+            PaymentMethods   = new List<dynamic>();
+            TaxItems         = new List<dynamic>();
+            TaxRates         = new List<dynamic>();
+            Receipts         = new List<dynamic>();
+            Vendors          = new List<dynamic>();
+            TaxAgencies      = new List<dynamic>();
+            VendorInvoices   = new List<dynamic>();
+            VendorCredit     = new List<dynamic>();
+            Accounts         = new List<dynamic>();
+            exportbatchid    = string.Empty;
+            chgbatchexportid = string.Empty;
+        }
         //----------------------------------------------------------------------------------------------------
         public class ExportInvoicesToQBOReturn
         {
@@ -64,6 +87,7 @@ namespace Web.Integration
         {
             dynamic invoiceids, invoiceinfo;
             ExportInvoicesToQBOReturn result = new ExportInvoicesToQBOReturn();
+            initVars();
 
             try
             {
@@ -119,6 +143,7 @@ namespace Web.Integration
         {
             dynamic arids, payment;
             ExportReceiptsToQBOReturn result = new ExportReceiptsToQBOReturn();
+            initVars();
 
             try
             {
@@ -167,6 +192,7 @@ namespace Web.Integration
         {
             dynamic vendorinvoiceids, vendorinvoiceinfo;
             ExportVendorInvoicesToQBOReturn result = new ExportVendorInvoicesToQBOReturn();
+            initVars();
 
             try
             {
@@ -301,7 +327,7 @@ namespace Web.Integration
                         }
                     }
                 }
-            } 
+            }
             return postresponse;
         }
         //----------------------------------------------------------------------------------------------------
@@ -675,6 +701,34 @@ namespace Web.Integration
                 _item   = qbopost.JSONResponse.Item;
                 Items.Add(_item);
             }
+            //Cannot perform income account update until QBO allows updating without effecting the full transaction history of the item.
+            //else if ((_item != null) && (_item.IncomeAccountRef.name != item.glacctdesc)) //Updates the Item account information if different in RW and QBO
+            //{
+            //    dynamic updateItem = new ExpandoObject();
+            //    QBOPostResponse qbopost;
+
+            //    updateItem.Id                      = _item.Id;
+            //    updateItem.SyncToken               = _item.SyncToken;
+            //    updateItem.Name                    = _item.Name;
+            //    updateItem.Type                    = _item.Type;
+            //    //updateItem.ExpenseAccountRef       = new ExpandoObject();  //QBO is not passing back this information on an item query
+            //    //updateItem.ExpenseAccountRef.value = _item.ExpenseAccountRef.value;
+
+            //    updateItem.IncomeAccountRef        = new ExpandoObject();
+            //    updateItem.IncomeAccountRef.value  = ValidateAccount(item.incomeaccountid, "", "Income").Id.Value;
+
+            //    qbopost = PostToQBO("item", updateItem);
+            //    _item   = qbopost.JSONResponse.Item;
+
+            //    for (int i = 0; i < Items.Count; i++)
+            //    {
+            //        if (Items[i].Id == _item.Id)
+            //        {
+            //            Items[i] = _item;
+            //            break;
+            //        }
+            //    }
+            //}
 
             return _item;
         }
@@ -697,7 +751,7 @@ namespace Web.Integration
             {
                 for (int i = 0; i < Accounts.Count; i++)
                 {
-                    if (Accounts[i].FullyQualifiedName == accountinfo.glacctdesc)
+                    if (Accounts[i].FullyQualifiedName == accountinfo.glacctdesc.Replace("\"", ""))
                     {
                         account = Accounts[i];
                         break;
@@ -707,7 +761,7 @@ namespace Web.Integration
 
             if (account == null)
             {
-                string queryname             = accountinfo.glacctdesc.Replace(":", "").Replace("\"", "").Replace("'", @"\'");
+                string queryname             = accountinfo.glacctdesc.Replace("\"", "").Replace("'", @"\'");
                 QBOQueryResponse qboresponse = QueryQBO("select * from account where FullyQualifiedName = '" + queryname + "'");
                 if (qboresponse.JSONResponse.QueryResponse.Account != null)
                 {
@@ -721,7 +775,8 @@ namespace Web.Integration
                 dynamic newAccount = new ExpandoObject();
                 QBOPostResponse qbopost;
 
-                newAccount.Name = accountinfo.glacctdesc.Replace(":", "").Replace("\"", "");
+                newAccount.Name    = accountinfo.glacctdesc.Replace("\"", "");
+                newAccount.AcctNum = accountinfo.glno;
 
                 if (accounttype == "Expense")
                 {
@@ -952,8 +1007,7 @@ namespace Web.Integration
                 {
                     taxCodeRefValue = (invoice.items[j].taxable == "T") ? "TAX" : "NON";
                 }
-                //else if (invoice.taxcountry == "C")
-                else if ((invoice.taxcountry == "C") || (invoice.taxcountry == "UK"))  //jh 08/16/2017 CAS-21271-VIGE
+                else if ((invoice.taxcountry == "C") || (invoice.taxcountry == "UK"))
                 {
                     taxCodeRefValue = TxnTaxCodeRefValue;
                 }
@@ -975,17 +1029,17 @@ namespace Web.Integration
             //jh 07/05/2018 CAS-22432-SZCJ
             //if (invoice.exporttaxaslineitem == "T")
             //{
-            //    dynamic taxLineItem = new ExpandoObject();
-            //    taxLineItem.Id = j + 1;
-            //    taxLineItem.DetailType = "SalesItemLineDetail";
-            //    taxLineItem.SalesItemLineDetail = new ExpandoObject();
-            //    taxLineItem.SalesItemLineDetail.ItemRef = new ExpandoObject();
-            //    taxLineItem.SalesItemLineDetail.ItemRef.value = ValidateItem(invoice.taxitemcode).Id.Value;
-            //    taxLineItem.SalesItemLineDetail.Qty = 1;
-            //    taxLineItem.SalesItemLineDetail.UnitPrice = invoice.invoicetax;
-            //    taxLineItem.SalesItemLineDetail.TaxCodeRef = new ExpandoObject();
+            //    dynamic taxLineItem                              = new ExpandoObject();
+            //    taxLineItem.Id                                   = invoice.items.Count + 1;
+            //    taxLineItem.DetailType                           = "SalesItemLineDetail";
+            //    taxLineItem.SalesItemLineDetail                  = new ExpandoObject();
+            //    taxLineItem.SalesItemLineDetail.ItemRef          = new ExpandoObject();
+            //    taxLineItem.SalesItemLineDetail.ItemRef.value    = ValidateItem(invoice.taxitemcode).Id.Value;
+            //    taxLineItem.SalesItemLineDetail.Qty              = 1;
+            //    taxLineItem.SalesItemLineDetail.UnitPrice        = invoice.invoicetax;
+            //    taxLineItem.SalesItemLineDetail.TaxCodeRef       = new ExpandoObject();
             //    taxLineItem.SalesItemLineDetail.TaxCodeRef.value = "NON";
-            //    taxLineItem.Amount = invoice.invoicetax;
+            //    taxLineItem.Amount                               = invoice.invoicetax;
 
             //    newInvoice.Line.Add(taxLineItem);
 
@@ -996,23 +1050,20 @@ namespace Web.Integration
             _invoice = qbopost.JSONResponse.Invoice;
             Invoices.Add(_invoice);
 
-            //jh 06/22/2017 CAS-20810-L6T5
-            //if (invoice.taxcountry == "C") // if Canada
-            //if ((invoice.taxcountry == "C") || (invoice.taxcountry == "UK"))  //jh 08/16/2017 CAS-21271-VIGE Canada or UK
-            //jh 11/16/2017 CAS-21973-PUHU (needs to do this check for all invoices)
-            //{
-            decimal taxAmount = _invoice.TxnTaxDetail.TotalTax; // determine the tax amount that QBO calculated for this invoice
-            if (invoice.invoicetax != taxAmount)                // if RW tax amuont is different than QBO tax for this invoice, force the RW tax amount up to QBO
+            if ((_invoice != null) && (_invoice.TxnTaxDetail != null) && (_invoice.TxnTaxDetail.TotalTax != null))
             {
-                dynamic newInvoice2 = new ExpandoObject();
-                dynamic _invoice2 = new ExpandoObject();
-                newInvoice2 = _invoice;
-                newInvoice2.TxnTaxDetail.TotalTax = invoice.invoicetax; // need to change it here
-                newInvoice2.TxnTaxDetail.TaxLine[0].Amount = invoice.invoicetax;  // and here, too (both)
-                qbopost = PostToQBO("invoice", newInvoice2);
-                _invoice2 = qbopost.JSONResponse.Invoice;
+                decimal taxAmount = _invoice.TxnTaxDetail.TotalTax; // determine the tax amount that QBO calculated for this invoice
+                if (invoice.invoicetax != taxAmount)                // if RW tax amuont is different than QBO tax for this invoice, force the RW tax amount up to QBO
+                {
+                    dynamic newInvoice2                        = new ExpandoObject();
+                    dynamic _invoice2                          = new ExpandoObject();
+                    newInvoice2                                = _invoice;
+                    newInvoice2.TxnTaxDetail.TotalTax          = invoice.invoicetax;
+                    newInvoice2.TxnTaxDetail.TaxLine[0].Amount = invoice.invoicetax;
+                    qbopost                                    = PostToQBO("invoice", newInvoice2);
+                    _invoice2                                  = qbopost.JSONResponse.Invoice;
+                }
             }
-            //}
 
             return _invoice;
         }
@@ -1107,8 +1158,7 @@ namespace Web.Integration
 
                 newCreditMemo.TxnTaxDetail                     = new ExpandoObject();
                 newCreditMemo.TxnTaxDetail.TxnTaxCodeRef       = new ExpandoObject();
-                //newCreditMemo.TxnTaxDetail.TxnTaxCodeRef.value = ValidateTaxCode(invoice).Id.Value;
-                newCreditMemo.TxnTaxDetail.TxnTaxCodeRef.value = TxnTaxCodeRefValue;  //jh 07/05/2017 CAS-20755-XOPL
+                newCreditMemo.TxnTaxDetail.TxnTaxCodeRef.value = TxnTaxCodeRefValue;
             }
 
             if (invoice.printnotes != "")
@@ -1127,14 +1177,12 @@ namespace Web.Integration
             {
                 dynamic newItem = new ExpandoObject();
 
-                //jh 07/05/2017 CAS-20755-XOPL
                 string taxCodeRefValue = string.Empty;
                 if (invoice.taxcountry == "U")
                 {
                     taxCodeRefValue = (invoice.items[j].taxable == "T") ? "TAX" : "NON";
                 }
-                //else if (invoice.taxcountry == "C")
-                else if ((invoice.taxcountry == "C") || (invoice.taxcountry == "UK"))  //jh 08/16/2017 CAS-21271-VIGE
+                else if ((invoice.taxcountry == "C") || (invoice.taxcountry == "UK"))
                 {
                     taxCodeRefValue = TxnTaxCodeRefValue;
                 }
@@ -1146,8 +1194,7 @@ namespace Web.Integration
                 newItem.SalesItemLineDetail.ItemRef          = new ExpandoObject();
                 newItem.SalesItemLineDetail.ItemRef.value    = ValidateItem(invoice.items[j]).Id.Value;
                 newItem.SalesItemLineDetail.TaxCodeRef       = new ExpandoObject();
-                //newItem.SalesItemLineDetail.TaxCodeRef.value = (invoice.items[j].taxable == "T") ? "TAX" : "NON";
-                newItem.SalesItemLineDetail.TaxCodeRef.value = taxCodeRefValue;  //jh 07/05/2017 CAS-20755-XOPL
+                newItem.SalesItemLineDetail.TaxCodeRef.value = taxCodeRefValue;
                 newItem.SalesItemLineDetail.Qty              = invoice.items[j].qty;
                 newItem.Amount                               = invoice.items[j].linetotal*(-1);
 
@@ -1158,26 +1205,17 @@ namespace Web.Integration
             creditmemo = qbopost.JSONResponse.CreditMemo;
             CreditMemos.Add(creditmemo);
 
-            //jh 07/05/2017 CAS-20810-L6T5
-            //if (invoice.taxcountry == "C") // if Canada
-            //if ((invoice.taxcountry == "C") || (invoice.taxcountry == "UK"))  //jh 08/16/2017 CAS-21271-VIGE Canada or UK 
-            //jh 11/16/2017 CAS-21973-PUHU (needs to do this check for all invoices)
-            //{
-            decimal taxAmount = creditmemo.TxnTaxDetail.TotalTax;    // determine the tax amount that QBO calculated for this invoice
-                                                                     //if (invoice.invoicetax != taxAmount) // if RW tax amuont is different than QBO tax for this invoice, force the RW tax amount up to QBO
-            if (((-1) * invoice.invoicetax) != taxAmount) // jh 11/16/2017 CAS-21999-UITX
+            decimal taxAmount = creditmemo.TxnTaxDetail.TotalTax; //determine the tax amount that QBO calculated for this invoice
+            if (((-1) * invoice.invoicetax) != taxAmount)         //if RW tax amuont is different than QBO tax for this invoice, force the RW tax amount up to QBO
             {
-                dynamic newCreditMemo2 = new ExpandoObject();
-                dynamic creditmemo2 = new ExpandoObject();
-                newCreditMemo2 = creditmemo;
-                //newCreditMemo2.TxnTaxDetail.TotalTax          = invoice.invoicetax; // need to change it here
-                //newCreditMemo2.TxnTaxDetail.TaxLine[0].Amount = invoice.invoicetax;  // and here, too (both)
-                newCreditMemo2.TxnTaxDetail.TotalTax = ((-1) * invoice.invoicetax); // jh 11/16/2017 CAS-21999-UITX
-                newCreditMemo2.TxnTaxDetail.TaxLine[0].Amount = ((-1) * invoice.invoicetax);  // jh 11/16/2017 CAS-21999-UITX
-                qbopost = PostToQBO("creditmemo", newCreditMemo2);
-                creditmemo2 = qbopost.JSONResponse.CreditMemo;
+                dynamic newCreditMemo2                        = new ExpandoObject();
+                dynamic creditmemo2                           = new ExpandoObject();
+                newCreditMemo2                                = creditmemo;
+                newCreditMemo2.TxnTaxDetail.TotalTax          = ((-1) * invoice.invoicetax);
+                newCreditMemo2.TxnTaxDetail.TaxLine[0].Amount = ((-1) * invoice.invoicetax);
+                qbopost                                       = PostToQBO("creditmemo", newCreditMemo2);
+                creditmemo2                                   = qbopost.JSONResponse.CreditMemo;
             }
-            //}
 
             return creditmemo;
         }
@@ -1483,7 +1521,7 @@ namespace Web.Integration
 
                         newPayment.Line.Add(newInvoice);
                     }
-                    catch //(Exception ex)
+                    catch (Exception ex)
                     {
                         paymentreturn.status  = RECEIPT_INVOICE_ERROR;
                         paymentreturn.message = "Invoice " + payment.invoicespaid[j].invoiceno + " does not exist in QBO.";
@@ -1592,9 +1630,7 @@ namespace Web.Integration
             dynamic result;
 
             qry = new FwSqlCommand(conn);
-            //qry.Add("select invoiceid, invoiceno, invoicedate, customer, billtoadd1, billtoadd2, billtocity, billtostate, billtozip, billtocountry, invoiceclass, pono, payterms, invoiceduedate, printnotes, taxitemcode, taxvendor, taxcountry, chgbatchno, invoicetotal");
-            //qry.Add("select invoiceid, invoiceno, invoicedate, customer, billtoadd1, billtoadd2, billtocity, billtostate, billtozip, billtocountry, invoiceclass, pono, payterms, invoiceduedate, printnotes, taxitemcode, taxvendor, taxcountry, chgbatchno, invoicetotal, invoicetax");  //jh 06/22/2017 CAS-20810-L6T5
-            qry.Add("select invoiceid, invoiceno, invoicedate, customer, billtoadd1, billtoadd2, billtocity, billtostate, billtozip, billtocountry, invoiceclass, pono, payterms, invoiceduedate, printnotes, taxitemcode, taxvendor, taxcountry, chgbatchno, invoicetotal, invoicetax, exporttaxaslineitem");  //jh 07/05/2018 CAS-22432-SZCJ
+            qry.Add("select invoiceid, invoiceno, invoicedate, customer, billtoadd1, billtoadd2, billtocity, billtostate, billtozip, billtocountry, invoiceclass, pono, payterms, invoiceduedate, printnotes, taxitemcode, taxvendor, taxcountry, chgbatchno, invoicetotal, invoicetax, exporttaxaslineitem");
             qry.Add("from invoiceview with (nolock)");
             qry.Add("where invoiceid = @invoiceid");
             qry.AddParameter("@invoiceid", invoiceid);
@@ -1611,8 +1647,8 @@ namespace Web.Integration
             dynamic result;
 
             qry = new FwSqlCommand(conn);
-            qry.Add("select *");
-            qry.Add("from invoiceitemview with (nolock)");
+            qry.Add("select iiv.*, gl.glno, gl.glacctdesc");
+            qry.Add("from invoiceitemview iiv with (nolock) left outer join glaccount gl with (nolock) on (iiv.incomeaccountid = gl.glaccountid)");
             qry.Add("where invoiceid = @invoiceid");
             qry.Add("  and itemclass <> 'ST'");
             qry.AddParameter("@invoiceid", invoiceid);

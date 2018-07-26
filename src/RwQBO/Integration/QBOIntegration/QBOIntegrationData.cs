@@ -1026,20 +1026,43 @@ namespace RwQBO.Integration
                 newInvoice.Line.Add(newItem);
             }
 
+            //jh 07/05/2018 CAS-22432-SZCJ
+            //if (invoice.exporttaxaslineitem == "T")
+            //{
+            //    dynamic taxLineItem                              = new ExpandoObject();
+            //    taxLineItem.Id                                   = invoice.items.Count + 1;
+            //    taxLineItem.DetailType                           = "SalesItemLineDetail";
+            //    taxLineItem.SalesItemLineDetail                  = new ExpandoObject();
+            //    taxLineItem.SalesItemLineDetail.ItemRef          = new ExpandoObject();
+            //    taxLineItem.SalesItemLineDetail.ItemRef.value    = ValidateItem(invoice.taxitemcode).Id.Value;
+            //    taxLineItem.SalesItemLineDetail.Qty              = 1;
+            //    taxLineItem.SalesItemLineDetail.UnitPrice        = invoice.invoicetax;
+            //    taxLineItem.SalesItemLineDetail.TaxCodeRef       = new ExpandoObject();
+            //    taxLineItem.SalesItemLineDetail.TaxCodeRef.value = "NON";
+            //    taxLineItem.Amount                               = invoice.invoicetax;
+
+            //    newInvoice.Line.Add(taxLineItem);
+
+            //    invoice.invoicetax = 0;   //?? need to zero-out the tax so it doesn't get re-exported to QBO in the tax area of the invoice
+            //}
+
             qbopost  = PostToQBO("invoice", newInvoice);
             _invoice = qbopost.JSONResponse.Invoice;
             Invoices.Add(_invoice);
 
-            decimal taxAmount = _invoice.TxnTaxDetail.TotalTax; // determine the tax amount that QBO calculated for this invoice
-            if (invoice.invoicetax != taxAmount)                // if RW tax amuont is different than QBO tax for this invoice, force the RW tax amount up to QBO
+            if ((_invoice != null) && (_invoice.TxnTaxDetail != null) && (_invoice.TxnTaxDetail.TotalTax != null))
             {
-                dynamic newInvoice2                        = new ExpandoObject();
-                dynamic _invoice2                          = new ExpandoObject();
-                newInvoice2                                = _invoice;
-                newInvoice2.TxnTaxDetail.TotalTax          = invoice.invoicetax;
-                newInvoice2.TxnTaxDetail.TaxLine[0].Amount = invoice.invoicetax;
-                qbopost                                    = PostToQBO("invoice", newInvoice2);
-                _invoice2                                  = qbopost.JSONResponse.Invoice;
+                decimal taxAmount = _invoice.TxnTaxDetail.TotalTax; // determine the tax amount that QBO calculated for this invoice
+                if (invoice.invoicetax != taxAmount)                // if RW tax amuont is different than QBO tax for this invoice, force the RW tax amount up to QBO
+                {
+                    dynamic newInvoice2                        = new ExpandoObject();
+                    dynamic _invoice2                          = new ExpandoObject();
+                    newInvoice2                                = _invoice;
+                    newInvoice2.TxnTaxDetail.TotalTax          = invoice.invoicetax;
+                    newInvoice2.TxnTaxDetail.TaxLine[0].Amount = invoice.invoicetax;
+                    qbopost                                    = PostToQBO("invoice", newInvoice2);
+                    _invoice2                                  = qbopost.JSONResponse.Invoice;
+                }
             }
 
             return _invoice;
@@ -1607,7 +1630,7 @@ namespace RwQBO.Integration
             dynamic result;
 
             qry = new FwSqlCommand(conn);
-            qry.Add("select invoiceid, invoiceno, invoicedate, customer, billtoadd1, billtoadd2, billtocity, billtostate, billtozip, billtocountry, invoiceclass, pono, payterms, invoiceduedate, printnotes, taxitemcode, taxvendor, taxcountry, chgbatchno, invoicetotal, invoicetax");
+            qry.Add("select invoiceid, invoiceno, invoicedate, customer, billtoadd1, billtoadd2, billtocity, billtostate, billtozip, billtocountry, invoiceclass, pono, payterms, invoiceduedate, printnotes, taxitemcode, taxvendor, taxcountry, chgbatchno, invoicetotal, invoicetax, exporttaxaslineitem");
             qry.Add("from invoiceview with (nolock)");
             qry.Add("where invoiceid = @invoiceid");
             qry.AddParameter("@invoiceid", invoiceid);

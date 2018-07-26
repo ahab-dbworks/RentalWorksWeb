@@ -260,8 +260,8 @@ namespace WebApi.Modules.Home.OrderItem
 
 
             }
-        //------------------------------------------------------------------------------------ 
-        public void CalculateDiscountPercent()
+            //------------------------------------------------------------------------------------ 
+            public void CalculateDiscountPercent()
             {
                 UpdateDaysWeeksMonths();
 

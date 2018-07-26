@@ -17,7 +17,8 @@
                     FwFunc.showError(ex);
                 }
             })
-            .find('#programlogo').attr('src', 'theme/images/rentalworkslogo.png');
+            //.find('#programlogo').attr('src', 'theme/images/rentalworkslogo.png');
+            .find('.programlogo').empty().html('<div class="bgothm">Rental<span class="rwpurple">Works<span></div>')
         ;
 
         return screen;
@@ -170,7 +171,8 @@
                     FwFunc.showError(ex);
                 }
             })
-            .find('#programlogo').attr('src', 'theme/images/rentalworkslogo.png');
+            //.find('#programlogo').attr('src', 'theme/images/rentalworkslogo.png');
+            .find('.programlogo').empty().html('<div class="bgothm">Rental<span class="rwpurple">Works<span></div>')
         ;
 
         screen.load = function() {

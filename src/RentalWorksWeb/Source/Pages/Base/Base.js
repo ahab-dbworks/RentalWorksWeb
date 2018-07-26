@@ -16,8 +16,7 @@ class Base {
                 FwFunc.showError(ex);
             }
         })
-            .find('#programlogo').attr('src', 'theme/images/rentalworkslogo.png');
-        ;
+            .find('.programlogo').empty().html('<div class="bgothm">Rental<span class="rwpurple">Works<span></div>');
         return screen;
     }
     ;
@@ -168,8 +167,7 @@ class Base {
                 FwFunc.showError(ex);
             }
         })
-            .find('#programlogo').attr('src', 'theme/images/rentalworkslogo.png');
-        ;
+            .find('.programlogo').empty().html('<div class="bgothm">Rental<span class="rwpurple">Works<span></div>');
         screen.load = function () {
             setTimeout(function () {
                 if (screen.$view.find('#email').val() == '') {

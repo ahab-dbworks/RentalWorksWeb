@@ -9,7 +9,8 @@
     font-weight: normal;
     font-style: normal;
 }
-.bgothm {font-family:bgothm;display:inline;cursor:pointer;}
+.bgothm {font-family:bgothm;}
+.rwpurple {color:#6a3aaf;}
 /***************************
 Master
 ***************************/
