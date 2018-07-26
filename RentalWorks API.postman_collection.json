@@ -9520,7 +9520,7 @@
 					"response": []
 				},
 				{
-					"name": "Exchange: Exchange Item (barcode)",
+					"name": "Exchange: Exchange Item In (barcode)",
 					"request": {
 						"method": "POST",
 						"header": [
@@ -9535,10 +9535,10 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"ContractId\": \"I0000540\",\n\t\"InCode\": \"4W096918\",\n\t\"OutCode\": \"4W108868\"\n}"
+							"raw": "{\n\t\"InCode\": \"WM0297766\"\n}"
 						},
 						"url": {
-							"raw": "http://localhost:57949/api/v1/exchange/exchangeitem",
+							"raw": "http://localhost:57949/api/v1/exchange/exchangeitemin",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -9548,7 +9548,42 @@
 								"api",
 								"v1",
 								"exchange",
-								"exchangeitem"
+								"exchangeitemin"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Exchange: Exchange Item Out (barcode)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"ContractId\": \"I00005E0\",\n\t\"InCode\": \"WM0231224\",\n\t\"OutCode\": \"WM0297718\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/exchange/exchangeitemout",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"exchange",
+								"exchangeitemout"
 							]
 						}
 					},
@@ -9612,7 +9647,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"Description\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": [],\n    \t\"uniqueids\": {\"ContractId\": \"I0000540\"}\n\t\n}"
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"Description\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": [],\n    \t\"uniqueids\": {\"ContractId\": \"I00005DX\"}\n\t\n}"
 						},
 						"url": {
 							"raw": "http://localhost:57949/api/v1/exchangeitem/browse",
@@ -37946,7 +37981,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": [],\n    \t\"uniqueids\": {\"OrderId\": \"I00004XJ\", \"WarehouseId\": \"B0029AY5\"}\n\t\n}"
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": [],\n    \t\"uniqueids\": {\"OrderId\": \"I00004KG\", \"WarehouseId\": \"B0029AY5\"}\n\t\n}"
 						},
 						"url": {
 							"raw": "http://localhost:57949/api/v1/stageditem/browse",
@@ -37987,7 +38022,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"OrderId\": \"I00004XJ\",\n\t\"Code\": \"11430-00\",\n\t\"CommentCode\": \"4W225286\"\n}"
+							"raw": "{\n\t\"OrderId\": \"I00004KG\",\n\t\"Code\": \"00011-19\",\n\t\"Quantity\":500\n}"
 						},
 						"url": {
 							"raw": "http://localhost:57949/api/v1/checkout/stageitem",

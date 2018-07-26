@@ -108,7 +108,7 @@ class Exchange {
                 exchangeRequest['InCode'] = FwFormField.getValueByDataField($form, 'BarCodeIn'); 
 
                 try {
-                    FwAppData.apiMethod(true, 'POST', "api/v1/exchange/exchangeitem", exchangeRequest, FwServices.defaultTimeout, function onSuccess(response) {
+                    FwAppData.apiMethod(true, 'POST', "api/v1/exchange/exchangeitemout", exchangeRequest, FwServices.defaultTimeout, function onSuccess(response) {
                         self.ExchangeResponse = response;
 
                         var $exchangeItemGridControl: any;
