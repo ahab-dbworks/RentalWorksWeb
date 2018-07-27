@@ -1,6 +1,6 @@
-﻿class FwPopup {
+﻿class FwPopupClass {
     //----------------------------------------------------------------------------------------------
-    static attach($control) {
+    attach($control) {
         var $divOverlay, $divCloseButton, $divPopup, baseId, baseIdStart, $appendTo;
 
         baseIdStart = 1;
@@ -28,7 +28,7 @@
         return $divPopup;
     };
     //----------------------------------------------------------------------------------------------
-    static show($divPopup) {
+    show($divPopup) {
         var $divOverlay, maxZIndex;
 
         maxZIndex = FwFunc.getMaxZ('*');
@@ -43,15 +43,16 @@
         }
     };
     //----------------------------------------------------------------------------------------------
-    static hide($divPopup) {
+    hide($divPopup) {
         jQuery('#' + $divPopup.attr('data-baseid') + '-divOverlay').hide();
     };
     //----------------------------------------------------------------------------------------------
-    static destroy($divPopup) {
+    destroy($divPopup) {
         var $divOverlay = jQuery('#' + $divPopup.attr('data-baseid') + '-divOverlay').remove();
     };
     //----------------------------------------------------------------------------------------------
-    static renderPopup($content, options, title?) {
+    renderPopup($content, options, title?) {
+        var me = this;
         var html, $popup, ismodal = true, isNewValidation = false;
         if ($content.data('afterSaveNewValidation') !== 'undefined' && typeof $content.data('afterSaveNewValidation') === 'function') {
             isNewValidation = true;
@@ -75,7 +76,7 @@
             if (isNewValidation) {
                 $content.data('afterSaveNewValidation')();
             }
-            FwPopup.destroyPopup(jQuery(this).closest('.fwpopup'));
+            me.destroyPopup(jQuery(this).closest('.fwpopup'));
             jQuery(this).closest('.fwpopup').off('click');
             jQuery(document).off('keydown');
         });
@@ -97,11 +98,11 @@
         return $popup;
     };
     //----------------------------------------------------------------------------------------------
-    static destroyPopup($popup) {
+    destroyPopup($popup) {
         $popup.remove();
     };
     //----------------------------------------------------------------------------------------------
-    static showPopup($popup) {
+    showPopup($popup) {
         var maxZIndex;
 
         maxZIndex = FwFunc.getMaxZ('*');
@@ -116,8 +117,10 @@
         jQuery('#application').append($popup);
     };
     //----------------------------------------------------------------------------------------------
-    static detachPopup($control) {
+    detachPopup($control) {
         $control.detach();
     };
     //----------------------------------------------------------------------------------------------
 }
+
+var FwPopup = new FwPopupClass();

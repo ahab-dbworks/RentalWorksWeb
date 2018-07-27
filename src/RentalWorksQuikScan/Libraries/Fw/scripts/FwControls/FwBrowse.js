@@ -855,20 +855,15 @@ class FwBrowseClass {
                     html.push('<tr>');
                     html.push('<td class="addcolumn"></td>');
                     for (let colno = 0; colno < $columns.length; colno++) {
-                        var $column, caption, browsedatafield, cssclass, browsedatatype, formdatafield, formdatatype, width, visible, $fields;
                         let $column = $columns.eq(colno);
                         let width = $column.attr('data-width');
-                        visible = $column.attr('data-visible');
+                        let visible = $column.attr('data-visible');
                         html.push('<td class="column">');
-                        $fields = $column.find('> .field');
+                        let $fields = $column.find('> .field');
                         for (let fieldno = 0; fieldno < $fields.length; fieldno++) {
                             let $field = $fields.eq(fieldno);
-                            caption = $field.attr('data-caption');
-                            cssclass = $field.attr('data-cssclass');
-                            browsedatafield = $field.attr('data-browsedatafield');
-                            browsedatatype = $field.attr('data-browsedatatype');
-                            browsedatafield = $field.attr('data-formdatafield');
-                            browsedatafield = $field.attr('data-formdatatype');
+                            let cssclass = $field.attr('data-cssclass');
+                            let browsedatafield = $field.attr('data-browsedatafield');
                             html.push('<div class="field ' + cssclass + '">');
                             html.push(browsedatafield + rowno.toString());
                             html.push('</div>');

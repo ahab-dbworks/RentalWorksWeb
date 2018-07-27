@@ -987,20 +987,19 @@
                     html.push('<tr>');
                     html.push('<td class="addcolumn"></td>');
                     for (let colno = 0; colno < $columns.length; colno++) {
-                        var $column, caption, browsedatafield, cssclass, browsedatatype, formdatafield, formdatatype, width, visible, $fields;
                         let $column = $columns.eq(colno);
                         let width = $column.attr('data-width');
-                        visible = $column.attr('data-visible');
+                        let visible = $column.attr('data-visible');
                         html.push('<td class="column">');
-                        $fields = $column.find('> .field');
+                        let $fields = $column.find('> .field');
                         for (let fieldno = 0; fieldno < $fields.length; fieldno++) {
                             let $field = $fields.eq(fieldno);
-                            caption = $field.attr('data-caption');
-                            cssclass = $field.attr('data-cssclass');
-                            browsedatafield = $field.attr('data-browsedatafield');
-                            browsedatatype = $field.attr('data-browsedatatype');
-                            browsedatafield = $field.attr('data-formdatafield');
-                            browsedatafield = $field.attr('data-formdatatype');
+                            //let caption = $field.attr('data-caption');
+                            let cssclass = $field.attr('data-cssclass');
+                            let browsedatafield = $field.attr('data-browsedatafield');
+                            //let browsedatatype = $field.attr('data-browsedatatype');
+                            //let formdatafield = $field.attr('data-formdatafield');
+                            //let formdatatype = $field.attr('data-formdatatype');
                             html.push('<div class="field ' + cssclass + '">');
                             html.push(browsedatafield + rowno.toString());
                             html.push('</div>');
@@ -2491,20 +2490,26 @@
                             .off('click.FwBrowse')
                             .on('click.FwBrowse', function (e) {
                                 try {
-                                    let triggerAutoSave;
+                                    let triggerAutoSave = true;
                                     let clockPicker = jQuery(document.body).find('.clockpicker-popover');
+
+                                    if (jQuery(e.target).closest('.fwconfirmation').length > 0 || jQuery(e.target).closest('body').length === 0) {
+                                        triggerAutoSave = false;
+                                    } else if ((jQuery(e.target).closest('body').length === 0 && jQuery(e.target).find('body').length > 0) || (jQuery(e.target).closest('body').length > 0 && jQuery(e.target).find('body').length === 0)) {
+                                        triggerAutoSave = true;
+                                    }
+
                                     if ($control.find('.tablewrapper tbody').get(0).contains(e.target)) {
                                         triggerAutoSave = false;
                                     }
                                     if (clockPicker.length > 0) {
                                         for (var i = 0; i < clockPicker.length; i++) {
-                                            if (clockPicker.get(i).contains(e.target)) {
+                                            if (clockPicker.css('display') === 'none' && !clockPicker.get(i).contains(e.target)) {
+                                                triggerAutoSave = true;
+                                            } else if (clockPicker.get(i).contains(e.target)) {
                                                 triggerAutoSave = false;
                                             }
                                         }
-                                    }
-                                    if (jQuery(e.target).closest('body').length === 0 || jQuery(e.target).closest('.fwconfirmation').length > 0) {
-                                        triggerAutoSave = false;
                                     }
                                     if (triggerAutoSave) {
                                         me.saveRow($control, $tr);
