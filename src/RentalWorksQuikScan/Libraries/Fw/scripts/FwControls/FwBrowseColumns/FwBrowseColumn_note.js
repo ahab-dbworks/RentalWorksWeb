@@ -46,47 +46,11 @@ class FwBrowseColumn_noteClass {
                 FwConfirmation.addControls($confirmation, '<div data-control="FwFormField" data-type="textarea" class="fwcontrol fwformfield note" data-caption="" data-enabled="false" data-datafield=""></div>');
                 FwFormField.setValue($confirmation, '.note', $noteTextArea.val());
                 $confirmation.find('.note textarea').css('width', '400px').css('max-width', '570px').css('height', '300px').css('resize', 'both');
-<<<<<<< refs/remotes/origin/develop
-            });
-            $noteTextArea = jQuery('<textarea class="value" style="display:none;"></textarea>');
-            $noteTextArea.val(originalvalue);
-            $field.empty().append([$noteImage, $noteTextArea]);
-            $noteImage
-                .hover(function onhover() {
-                var $thisNoteImage = jQuery(this);
-                var $tooltip = jQuery('<p class="tooltip" style="position:absolute;border:1px solid #333;background-color:#161616;border-radius:5px;padding:10px;color:#fff;font-size:12px;font-family:Arial;max-width:300px;word-wrap:break-word;"></p>').text(originalvalue).appendTo('body').fadeIn('slow');
-                $thisNoteImage.data('$tooltip', $tooltip);
-            }, function endhover() {
-                var $thisNoteImage = jQuery(this);
-                if (typeof $thisNoteImage.data('$tooltip') !== 'undefined') {
-                    $thisNoteImage.data('$tooltip').remove();
-                }
-                $thisNoteImage.removeData('$tooltip');
-            })
-                .mousemove(function () {
-                var $this, mousex, mousey;
-                $this = jQuery(this);
-                mousex = $this.offset().left + 10;
-                if (mousex + 300 > jQuery(document).width()) {
-                    mousex = jQuery(document).width() - 330;
-                }
-                mousey = $this.offset().top + 10;
-                if (mousey + 80 > jQuery(document).height()) {
-                    mousey = jQuery(document).height() - 80;
-                }
-                $noteImage.data('$tooltip').css({ top: mousey, left: mousex });
-            });
-        }
-        else {
-            $field.empty();
-        }
-=======
             }
         });
         $noteTextArea = jQuery('<textarea class="value" style="display:none;"></textarea>');
         $noteTextArea.val(originalvalue);
         $field.empty().append([$noteImage, $noteTextArea]);
->>>>>>> Updates Fw
     }
     ;
     setFieldEditMode($browse, $tr, $field) {
@@ -139,14 +103,10 @@ class FwBrowseColumn_noteClass {
                 $confirmation.find('.predefinednotes .fwformfield-text').val('');
             });
         });
-<<<<<<< refs/remotes/origin/develop
-        $noteTextArea.select();
-=======
         if ($field.data('clickthenote') === true) {
             $field.data('clickthenote', false);
             $noteImage.click();
         }
->>>>>>> Updates Fw
     }
     ;
 }

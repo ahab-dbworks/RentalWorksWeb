@@ -1903,8 +1903,6 @@ class FwBrowseClass {
                     }
                 });
             }
-<<<<<<< refs/remotes/origin/develop
-=======
             let spacerHeight = 0;
             if (pageSize <= 15) {
                 spacerHeight = 25 * (pageSize - dt.Rows.length);
@@ -1918,7 +1916,6 @@ class FwBrowseClass {
             else {
                 $control.find('.runtime tfoot tr.spacerrow > td > div').hide();
             }
->>>>>>> Updates Fw
             let rownostart = (((dt.PageNo * pageSize) - pageSize + 1) > 0) ? ((dt.PageNo * pageSize) - pageSize + 1) : 0;
             let rownoend = (((dt.PageNo * pageSize) - pageSize + 1) > 0) ? (dt.PageNo * pageSize) - (pageSize - dt.Rows.length) : 0;
             if (dt.TotalPages > 1) {
@@ -2255,17 +2252,11 @@ class FwBrowseClass {
                     me.setFieldEditMode($control, $tr, $field);
                 }
             });
-<<<<<<< refs/remotes/origin/develop
-            let $inputs = $tr.find('input[type!="hidden"]:visible,select:visible,textarea:visible');
-            if ($inputs.length > 0) {
-                $inputs.eq(0).select();
-=======
             if ($tr.hasClass('newmode')) {
                 let $inputs = $tr.find('input[type!="hidden"]:visible,select:visible,textarea:visible');
                 if ($inputs.length > 0) {
                     $inputs.eq(0).select();
                 }
->>>>>>> Updates Fw
             }
             me.addSaveAndCancelButtonToRow($control, $tr);
             if (($control.attr('data-type') == 'Grid') && (typeof $control.attr('data-controller') !== 'undefined') && ($control.attr('data-controller') !== '')) {

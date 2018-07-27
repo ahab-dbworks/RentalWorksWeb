@@ -20,10 +20,6 @@ class FwBrowseColumn_dateClass {
         return isModified;
     }
     setFieldViewMode($browse, $tr, $field) {
-<<<<<<< refs/remotes/origin/develop
-        var originalvalue = (typeof $field.attr('data-originalvalue') === 'string') ? $field.attr('data-originalvalue') : '';
-        $field.html(originalvalue);
-=======
         $field.data('clickedInViewMode', false);
         var originalvalue = (typeof $field.attr('data-originalvalue') === 'string') ? $field.attr('data-originalvalue') : '';
         $field.html(originalvalue);
@@ -32,7 +28,6 @@ class FwBrowseColumn_dateClass {
                 $field.data('clickedInViewMode', true);
             }
         });
->>>>>>> Updates Fw
     }
     setFieldEditMode($browse, $tr, $field) {
         var originalvalue = (typeof $field.attr('data-originalvalue') === 'string') ? $field.attr('data-originalvalue') : '';
@@ -51,13 +46,10 @@ class FwBrowseColumn_dateClass {
         $field.on('click', '.btndate', function () {
             $field.find('input').datepicker('show');
         });
-<<<<<<< refs/remotes/origin/develop
-=======
         if ($field.data('clickedInViewMode') === true) {
             $field.data('clickedInViewMode', false);
             $field.find('.btndate').click();
         }
->>>>>>> Updates Fw
     }
 }
 var FwBrowseColumn_date = new FwBrowseColumn_dateClass();
