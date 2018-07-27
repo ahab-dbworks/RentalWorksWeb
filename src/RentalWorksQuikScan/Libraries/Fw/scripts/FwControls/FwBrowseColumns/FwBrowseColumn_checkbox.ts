@@ -47,6 +47,7 @@
     //---------------------------------------------------------------------------------
     setFieldViewMode($browse: JQuery, $tr: JQuery, $field: JQuery): void {
         var me = this;
+        $field.data('checkthebox', false);
         var originalCheckedValue = false;
         var originalvalue = (typeof $field.attr('data-originalvalue') === 'string') ? $field.attr('data-originalvalue') : '';
         if (originalvalue === 'T' || originalvalue === 'Y' || originalvalue === 'true') {
@@ -61,7 +62,7 @@
         $checkboxwrapper.on('click', 'label', function (e: JQuery.Event) {
             try {
                 e.stopPropagation();
-                $field.data('data-checkthebox', !originalCheckedValue);
+                $field.data('checkthebox', !originalCheckedValue);
                 FwBrowse.setRowEditMode($browse, $tr);
             } catch (ex) {
                 FwFunc.showError(ex);
@@ -86,8 +87,8 @@
         html.push('</div>');
         let htmlString = html.join('');
         $field.html(htmlString);
-        if ($field.data('data-checkthebox') === true) {
-            $field.data('data-checkthebox', false);
+        if ($field.data('checkthebox') === true) {
+            $field.data('checkthebox', false);
             $field.find('input.value').prop('checked', true);
             this.setFieldValue($browse, $tr, $field, { value: true });
         } else {

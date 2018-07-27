@@ -1,4 +1,6 @@
-﻿using PuppeteerSharp;
+﻿using FwStandard.Models;
+using FwStandard.SqlServer;
+using PuppeteerSharp;
 using PuppeteerSharp.Media;
 using System;
 using System.Collections.Generic;
@@ -15,37 +17,6 @@ namespace FwStandard.Reporting
     {
         //const int CHROMIUM_REVISION = 565530;
         const int CHROMIUM_REVISION = Downloader.DefaultRevision;
-
-        //public async static Task GeneratePdfFromStringAsync(string htmlHeaderTemplate, string htmlBodyTemplate, string htmlFooterTemplate, string pdfOutputPath)
-        //{
-        //    //var downloadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "temp" + Path.DirectorySeparatorChar + "");
-        //    //var downloader = new Downloader(downloadsFolder);
-        //    await Downloader.CreateDefault().DownloadRevisionAsync(CHROMIUM_REVISION);
-        //    var browser = await Puppeteer.LaunchAsync(new LaunchOptions
-        //    {
-        //        Headless = true,
-        //    }, CHROMIUM_REVISION);
-        //    try
-        //    {
-        //        var page = await browser.NewPageAsync();
-        //        await page.SetContentAsync(htmlBodyTemplate);
-        //        PdfOptions pdfOptions = new PdfOptions();
-        //        pdfOptions.DisplayHeaderFooter = true;
-        //        pdfOptions.HeaderTemplate = htmlHeaderTemplate;
-        //        pdfOptions.FooterTemplate = htmlFooterTemplate;
-        //        pdfOptions.Format = PaperFormat.Letter;
-        //        pdfOptions.Landscape = false;
-        //        pdfOptions.MarginOptions.Top = "96px";
-        //        pdfOptions.MarginOptions.Right = "24px";
-        //        pdfOptions.MarginOptions.Bottom = "96px";
-        //        pdfOptions.MarginOptions.Left = "24px";
-        //        await page.PdfAsync(pdfOutputPath, pdfOptions);
-        //    }
-        //    finally
-        //    {
-        //        browser.Dispose();
-        //    }
-        //}
 
         public async static Task<string> GeneratePdfFromUrlAsync(string reportUrl, string pdfOutputPath, string authorizationHeader, dynamic parameters, PdfOptions pdfOptions)
         {
@@ -83,20 +54,49 @@ namespace FwStandard.Reporting
             var message = e.Message;
         }
 
-        public async static Task EmailPdfAsync(string from, string to, string subject, string body, string pdfPath)
+        public async static Task EmailPdfAsync(string fromusersid, string uniqueid, string title, string from, string to, string cc, string subject, string body, string pdfPath, FwApplicationConfig appConfig)
         {
             var message = new MailMessage(from, to, subject, body);
             message.IsBodyHtml = true;
-            //message.DeliveryNotificationOptions = DeliveryNotificationOptions.OnFailure | DeliveryNotificationOptions.Delay | DeliveryNotificationOptions.OnSuccess;
             message.Attachments.Add(new Attachment(pdfPath, "application/pdf"));
-            var host = "ftp01.dbworkscloud.com";
-            var port = 25;
-            string username = "";
-            string password = "";
-            string domain = "";
+            string accountname = string.Empty, accountpassword = string.Empty, authtype = string.Empty, host = string.Empty, domain = "";
+            int port = 25;
+            using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
+            {
+                string emailreportid = await FwSqlData.GetNextIdAsync(conn, appConfig.DatabaseSettings);
+                byte[] pdfattachment = File.ReadAllBytes(pdfPath);
+                using (FwSqlCommand qry = new FwSqlCommand(conn, appConfig.DatabaseSettings.QueryTimeout))
+                {
+                    qry.AddParameter("@emailreportid", emailreportid);
+                    qry.AddParameter("@reportdefid", string.Empty);
+                    qry.AddParameter("@fromusersid", fromusersid);
+                    qry.AddParameter("@createdate", DateTime.Now);
+                    qry.AddParameter("@status", "OPEN");
+                    qry.AddParameter("@emailtext", body);
+                    //qry.AddParameter("@datestamp", DateTime.Now);
+                    //qry.AddParameter("@rowguid", );
+                    qry.AddParameter("@emailto", to);
+                    qry.AddParameter("@subject", subject);
+                    qry.AddParameter("@emailcc", cc);
+                    qry.AddParameter("@title", title);
+                    qry.AddParameter("@uniqueid", uniqueid);
+                    qry.AddParameter("@pdfattachment", pdfattachment);
+                    await qry.ExecuteInsertQueryAsync("emailreport");
+                }
+                using (FwSqlCommand qry = new FwSqlCommand(conn, appConfig.DatabaseSettings.QueryTimeout))
+                {
+                    qry.Add("select top 1 *");
+                    qry.Add("from emailreportcontrol with (nolock)");
+                    await qry.ExecuteAsync();
+                    accountname     = qry.GetField("accountname").ToString().TrimEnd();
+                    accountpassword = qry.GetField("accountpassword").ToString().TrimEnd();
+                    authtype        = qry.GetField("authtype").ToString().TrimEnd();
+                    host            = qry.GetField("host").ToString().TrimEnd();
+                    port            = qry.GetField("port").ToInt32();
+                }
+            }
             var client = new SmtpClient(host, port);
-            client.Credentials = new NetworkCredential(username, password, domain);
-            //client.EnableSsl = true;
+            client.Credentials = new NetworkCredential(accountname, accountpassword, domain);
             await client.SendMailAsync(message);
         }
     }

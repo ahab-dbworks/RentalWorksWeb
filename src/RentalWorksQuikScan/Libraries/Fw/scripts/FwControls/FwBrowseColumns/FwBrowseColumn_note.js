@@ -23,10 +23,19 @@ class FwBrowseColumn_noteClass {
     ;
     setFieldViewMode($browse, $tr, $field) {
         var $noteImage, $noteTextArea, $notePopup, $notePopupControl, $notePopupHtml;
+        $field.data('clickthenote', false);
         var originalvalue = (typeof $field.attr('data-originalvalue') === 'string') ? $field.attr('data-originalvalue') : '';
         if (originalvalue !== '') {
-            $noteImage = jQuery('<i class="material-icons" style="cursor:pointer">insert_drive_file</i>');
-            $noteImage.on('click', function (e) {
+            $noteImage = jQuery('<i class="material-icons" style="cursor:pointer;color:#0D47A1;">insert_drive_file</i>');
+        }
+        else {
+            $noteImage = jQuery('<i class="material-icons" style="cursor:pointer;color:#4CAF50;">note_add</i>');
+        }
+        $noteImage.on('click', function (e) {
+            if ($field.attr('data-formreadonly') !== 'true') {
+                $field.data('clickthenote', true);
+            }
+            else {
                 var $thisNoteImage = jQuery(this);
                 var $confirmation, $close;
                 if (typeof $thisNoteImage.data('$tooltip') !== 'undefined') {
@@ -37,6 +46,7 @@ class FwBrowseColumn_noteClass {
                 FwConfirmation.addControls($confirmation, '<div data-control="FwFormField" data-type="textarea" class="fwcontrol fwformfield note" data-caption="" data-enabled="false" data-datafield=""></div>');
                 FwFormField.setValue($confirmation, '.note', $noteTextArea.val());
                 $confirmation.find('.note textarea').css('width', '400px').css('max-width', '570px').css('height', '300px').css('resize', 'both');
+<<<<<<< refs/remotes/origin/develop
             });
             $noteTextArea = jQuery('<textarea class="value" style="display:none;"></textarea>');
             $noteTextArea.val(originalvalue);
@@ -70,13 +80,25 @@ class FwBrowseColumn_noteClass {
         else {
             $field.empty();
         }
+=======
+            }
+        });
+        $noteTextArea = jQuery('<textarea class="value" style="display:none;"></textarea>');
+        $noteTextArea.val(originalvalue);
+        $field.empty().append([$noteImage, $noteTextArea]);
+>>>>>>> Updates Fw
     }
     ;
     setFieldEditMode($browse, $tr, $field) {
         var $noteImage, $noteTextArea, $notePopup, $notePopupControl, $notePopupHtml;
         var originalvalue = (typeof $field.attr('data-originalvalue') === 'string') ? $field.attr('data-originalvalue') : '';
         var formmaxlength = (typeof $field.attr('data-formmaxlength') === 'string') ? $field.attr('data-formmaxlength') : '';
-        $noteImage = jQuery('<i class="material-icons" style="cursor:pointer">insert_drive_file</i>');
+        if (originalvalue !== '') {
+            $noteImage = jQuery('<i class="material-icons" style="cursor:pointer;color:#0D47A1;">insert_drive_file</i>');
+        }
+        else {
+            $noteImage = jQuery('<i class="material-icons" style="cursor:pointer;color:#4CAF50;">note_add</i>');
+        }
         $noteTextArea = jQuery('<textarea class="value" style="display:none;"></textarea>');
         $noteTextArea.val(originalvalue);
         $field.empty().append([$noteImage, $noteTextArea]);
@@ -92,9 +114,24 @@ class FwBrowseColumn_noteClass {
             controlhtml.push('<div data-control="FwFormField" data-type="textarea" class="fwcontrol fwformfield note" data-caption="Notes" data-enabled=""' + ((formmaxlength !== '0') ? 'data-maxlength="' + formmaxlength : '') + '" data-datafield=""></div>');
             FwConfirmation.addControls($confirmation, controlhtml.join('\n'));
             FwFormField.setValue($confirmation, '.note', $noteTextArea.val());
-            $confirmation.find('.note textarea').css('width', '400px').css('max-width', '570px').css('height', '300px').css('resize', 'both');
+            $confirmation.find('.note textarea')
+                .css({
+                'width': '400px',
+                'max-width': '570px',
+                'height': '300px',
+                'resize': 'both'
+            })
+                .select();
             $ok.on('click', function () {
                 $noteTextArea.val($confirmation.find('.note textarea').val());
+                if ($noteTextArea.val().length > 0) {
+                    $noteImage.text('insert_drive_file');
+                    $noteImage.css('color', '#0D47A1');
+                }
+                else {
+                    $noteImage.text('note_add');
+                    $noteImage.css('color', '#4CAF50');
+                }
             });
             $confirmation.on('change', '.predefinednotes .fwformfield-value', function () {
                 $confirmation.find('.note .fwformfield-value').val($confirmation.find('.predefinednotes .fwformfield-value').val());
@@ -102,7 +139,14 @@ class FwBrowseColumn_noteClass {
                 $confirmation.find('.predefinednotes .fwformfield-text').val('');
             });
         });
+<<<<<<< refs/remotes/origin/develop
         $noteTextArea.select();
+=======
+        if ($field.data('clickthenote') === true) {
+            $field.data('clickthenote', false);
+            $noteImage.click();
+        }
+>>>>>>> Updates Fw
     }
     ;
 }

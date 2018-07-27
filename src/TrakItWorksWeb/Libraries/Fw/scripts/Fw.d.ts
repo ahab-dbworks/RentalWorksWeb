@@ -1,7 +1,7 @@
 ﻿interface FwJsonDataTable {
     ColumnIndex: { [columnName: string]: number };
     Columns: FwJsonDataTableColumn[];
-    Rows: object[][];
+    Rows: any[][];
     PageNo: number;
     PageSize: number;
     TotalPages: number;

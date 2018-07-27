@@ -25,8 +25,14 @@
     }
     //---------------------------------------------------------------------------------
     setFieldViewMode($browse, $tr, $field): void {
+        $field.data('clickedInViewMode', false);
         var originalvalue = (typeof $field.attr('data-originalvalue') === 'string') ? $field.attr('data-originalvalue') : '';
         $field.html(originalvalue);
+        $field.on('click', function() {
+            if ($field.attr('data-formreadonly') !== 'true') {
+                $field.data('clickedInViewMode', true);
+            }
+        });
     }
     //---------------------------------------------------------------------------------
     setFieldEditMode($browse, $tr, $field): void {
@@ -46,6 +52,10 @@
         $field.on('click', '.btndate', function () {
             $field.find('input').datepicker('show');
         });
+        if ($field.data('clickedInViewMode') === true) {
+            $field.data('clickedInViewMode', false);
+            $field.find('.btndate').click();
+        }
     }
     //---------------------------------------------------------------------------------
 }

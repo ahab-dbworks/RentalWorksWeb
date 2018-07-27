@@ -33,6 +33,7 @@
     };
     //---------------------------------------------------------------------------------
     setFieldViewMode($browse, $tr, $field): void {
+        $field.data('selectthetextbox', false);
         var originaltext = (typeof $field.attr('data-originaltext') === 'string') ? $field.attr('data-originaltext') : '';
         var showPeek = false;
         let html = [];
@@ -47,6 +48,11 @@
         }
         let htmlString = html.join('');
         $field.html(originaltext + htmlString);
+        $field.on('click', function() {
+            if ($field.attr('data-formreadonly') !== 'true') {
+                $field.data('selectthetextbox', true);
+            }
+        });
     };
     //---------------------------------------------------------------------------------
     setFieldEditMode($browse, $tr, $field): void {
@@ -75,6 +81,11 @@
         $field.html(htmlString);
         this.setFieldValue($browse, $tr, $field, { value: originalvalue, text: originaltext });
         FwValidation.init($field);
+        if ($field.data('selectthetextbox') === true) {
+            $field.data('selectthetextbox', false);
+            //$field.find('.text').select();
+            $field.find('.btnvalidate').click();
+        }
     };
     //---------------------------------------------------------------------------------
 }

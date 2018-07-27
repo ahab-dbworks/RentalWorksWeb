@@ -1155,15 +1155,15 @@
                 html.push('</tr>');
                 html.push('</tbody>');
 
-                //html.push('<tfoot>');
-                //colspan = $columns.filter('*[data-visible="true"]').length;
-                //html.push('<tr class="spacerrow">');
-                //html.push('<td colspan="' + (colspan + 2) + '">');
-                //html.push('<div>&nbsp;</div>');
-                //html.push('</td>');
-                //html.push('</tr>');
+                html.push('<tfoot>');
+                colspan = $columns.filter('*[data-visible="true"]').length;
+                html.push('<tr class="spacerrow">');
+                html.push('<td colspan="' + (colspan + 2) + '">');
+                html.push('<div>&nbsp;</div>');
+                html.push('</td>');
+                html.push('</tr>');
 
-                //html.push('</tfoot>');
+                html.push('</tfoot>');
                 html.push('</table>');
                 html.push('</div>');
                 html.push('<div class="legend" style="display:none;"></div>');
@@ -1870,7 +1870,7 @@
         this.databindcallback($control, response);
     }
     //---------------------------------------------------------------------------------
-    databindcallback($control, dt) {
+    databindcallback($control, dt: FwJsonDataTable) {
         let me = this;
         var i, $tbody, htmlPager, columnIndex, dtCol, rowIndex, scrollerCol, rowClass, columns, onrowdblclick, $ths, $pager, pageSize, totalRowCount, controlType, $fields;
         try {
@@ -1910,7 +1910,7 @@
                     dtColIndex = dt.ColumnIndex[$field.attr('data-browsedatafield')];
                     dtRow = dt.Rows[rowIndex];
                     dtCellValue = dtRow[dtColIndex];
-                    if ($field.attr('data-formreadonly') !== 'true' && $field.attr('data-browsedatatype') !== 'note') {
+                    if ($field.attr('data-formreadonly') !== 'true') {
                         if (typeof $control.data('isfieldeditable') === 'function' && $control.data('isfieldeditable')($field, dt, rowIndex)) {
                             //do nothing
                         } else if (nodeEdit !== null) {
@@ -2172,17 +2172,21 @@
             }
 
             // set the spacer row height;
-            //let spacerHeight = 0;
-            //if (pageSize <= 15) {
-            //    spacerHeight = 25 * (pageSize - dt.Rows.length);
-            //} else {
-            //    spacerHeight = 25 * (15 - dt.Rows.length);
+            let spacerHeight = 0;
+            //let rowHeight = $control.find('tbody .tr').eq(1).height();
+            //if (rowHeight === 0) {
+            //    rowHeight = 33;
             //}
-            //if (spacerHeight > 0) {
-            //    $control.find('.runtime tfoot tr.spacerrow > td > div').show().height(spacerHeight);
-            //} else {
-            //    $control.find('.runtime tfoot tr.spacerrow > td > div').hide();
-            //}
+            if (pageSize <= 15) {
+                spacerHeight = 25 * (pageSize - dt.Rows.length);
+            } else {
+                spacerHeight = 25 * (15 - dt.Rows.length);
+            }
+            if (spacerHeight > 0) {
+                $control.find('.runtime tfoot tr.spacerrow > td > div').show().height(spacerHeight);
+            } else {
+                $control.find('.runtime tfoot tr.spacerrow > td > div').hide();
+            }
 
             // update pager
             let rownostart = (((dt.PageNo * pageSize) - pageSize + 1) > 0) ? ((dt.PageNo * pageSize) - pageSize + 1) : 0;
@@ -2548,9 +2552,11 @@
                         me.setFieldEditMode($control, $tr, $field);
                     }
                 });
-                let $inputs = $tr.find('input[type!="hidden"]:visible,select:visible,textarea:visible');
-                if ($inputs.length > 0) {
-                    $inputs.eq(0).select();
+                if ($tr.hasClass('newmode')) {
+                    let $inputs = $tr.find('input[type!="hidden"]:visible,select:visible,textarea:visible');
+                    if ($inputs.length > 0) {
+                        $inputs.eq(0).select();
+                    }
                 }
 
                 me.addSaveAndCancelButtonToRow($control, $tr);

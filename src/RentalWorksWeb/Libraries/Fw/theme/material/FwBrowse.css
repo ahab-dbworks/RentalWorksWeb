@@ -234,6 +234,7 @@ html.theme-material.mobile .fwbrowse table tbody tr.editrow .field[data-formdata
 html.theme-material.mobile .fwbrowse table tbody tr.editrow .field[data-formdatatype="combobox"] .pager .nexticon,
 html.theme-material.mobile .fwbrowse table tbody tr.editrow .field[data-formdatatype="combobox"] .pager .lasticon {width:32px;height:32px;margin:0 5px;}
 
+html.theme-material .fwbrowse table tbody tr.editrow .field[data-formdatatype="note"] {padding: 0 .3em;}
 html.theme-material .fwbrowse table tbody tr.editrow .field[data-formdatatype="note"] img {padding:0 5px;}
 html.theme-material .fwbrowse table tbody tr .field[data-formdatatype="note"] img {display:block;width:16px;height:16px;margin:2px 0;}
 

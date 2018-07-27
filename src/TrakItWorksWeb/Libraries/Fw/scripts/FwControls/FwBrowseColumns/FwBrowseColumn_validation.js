@@ -31,6 +31,7 @@ class FwBrowseColumn_validationClass {
     }
     ;
     setFieldViewMode($browse, $tr, $field) {
+        $field.data('selectthetextbox', false);
         var originaltext = (typeof $field.attr('data-originaltext') === 'string') ? $field.attr('data-originaltext') : '';
         var showPeek = false;
         let html = [];
@@ -45,6 +46,11 @@ class FwBrowseColumn_validationClass {
         }
         let htmlString = html.join('');
         $field.html(originaltext + htmlString);
+        $field.on('click', function () {
+            if ($field.attr('data-formreadonly') !== 'true') {
+                $field.data('selectthetextbox', true);
+            }
+        });
     }
     ;
     setFieldEditMode($browse, $tr, $field) {
@@ -73,6 +79,10 @@ class FwBrowseColumn_validationClass {
         $field.html(htmlString);
         this.setFieldValue($browse, $tr, $field, { value: originalvalue, text: originaltext });
         FwValidation.init($field);
+        if ($field.data('selectthetextbox') === true) {
+            $field.data('selectthetextbox', false);
+            $field.find('.btnvalidate').click();
+        }
     }
     ;
 }

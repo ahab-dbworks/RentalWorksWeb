@@ -997,6 +997,14 @@ class FwBrowseClass {
                 }
                 html.push('</tr>');
                 html.push('</tbody>');
+                html.push('<tfoot>');
+                colspan = $columns.filter('*[data-visible="true"]').length;
+                html.push('<tr class="spacerrow">');
+                html.push('<td colspan="' + (colspan + 2) + '">');
+                html.push('<div>&nbsp;</div>');
+                html.push('</td>');
+                html.push('</tr>');
+                html.push('</tfoot>');
                 html.push('</table>');
                 html.push('</div>');
                 html.push('<div class="legend" style="display:none;"></div>');
@@ -1684,7 +1692,7 @@ class FwBrowseClass {
                     dtColIndex = dt.ColumnIndex[$field.attr('data-browsedatafield')];
                     dtRow = dt.Rows[rowIndex];
                     dtCellValue = dtRow[dtColIndex];
-                    if ($field.attr('data-formreadonly') !== 'true' && $field.attr('data-browsedatatype') !== 'note') {
+                    if ($field.attr('data-formreadonly') !== 'true') {
                         if (typeof $control.data('isfieldeditable') === 'function' && $control.data('isfieldeditable')($field, dt, rowIndex)) {
                         }
                         else if (nodeEdit !== null) {
@@ -1894,6 +1902,19 @@ class FwBrowseClass {
                         FwFunc.showError(ex);
                     }
                 });
+            }
+            let spacerHeight = 0;
+            if (pageSize <= 15) {
+                spacerHeight = 25 * (pageSize - dt.Rows.length);
+            }
+            else {
+                spacerHeight = 25 * (15 - dt.Rows.length);
+            }
+            if (spacerHeight > 0) {
+                $control.find('.runtime tfoot tr.spacerrow > td > div').show().height(spacerHeight);
+            }
+            else {
+                $control.find('.runtime tfoot tr.spacerrow > td > div').hide();
             }
             let rownostart = (((dt.PageNo * pageSize) - pageSize + 1) > 0) ? ((dt.PageNo * pageSize) - pageSize + 1) : 0;
             let rownoend = (((dt.PageNo * pageSize) - pageSize + 1) > 0) ? (dt.PageNo * pageSize) - (pageSize - dt.Rows.length) : 0;
@@ -2231,9 +2252,11 @@ class FwBrowseClass {
                     me.setFieldEditMode($control, $tr, $field);
                 }
             });
-            let $inputs = $tr.find('input[type!="hidden"]:visible,select:visible,textarea:visible');
-            if ($inputs.length > 0) {
-                $inputs.eq(0).select();
+            if ($tr.hasClass('newmode')) {
+                let $inputs = $tr.find('input[type!="hidden"]:visible,select:visible,textarea:visible');
+                if ($inputs.length > 0) {
+                    $inputs.eq(0).select();
+                }
             }
             me.addSaveAndCancelButtonToRow($control, $tr);
             if (($control.attr('data-type') == 'Grid') && (typeof $control.attr('data-controller') !== 'undefined') && ($control.attr('data-controller') !== '')) {

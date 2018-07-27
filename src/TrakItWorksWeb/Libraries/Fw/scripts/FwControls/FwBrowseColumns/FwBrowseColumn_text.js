@@ -21,12 +21,18 @@ class FwBrowseColumn_textClass {
     setFieldViewMode($browse, $tr, $field) {
         var originalvalue = (typeof $field.attr('data-originalvalue') === 'string') ? $field.attr('data-originalvalue') : '';
         $field.html(originalvalue);
+        $field.data('selectthetextbox', false);
         if (typeof $field.attr('data-rowclassmapping') !== 'undefined') {
             var rowclassmapping = JSON.parse($field.attr('data-rowclassmapping'));
             if (originalvalue in rowclassmapping === true) {
                 $tr.addClass(rowclassmapping[originalvalue]);
             }
         }
+        $field.on('click', function () {
+            if ($field.attr('data-formreadonly') !== 'true') {
+                $field.data('selectthetextbox', true);
+            }
+        });
     }
     setFieldEditMode($browse, $tr, $field) {
         var originalvalue = (typeof $field.attr('data-originalvalue') === 'string') ? $field.attr('data-originalvalue') : '';
@@ -43,6 +49,10 @@ class FwBrowseColumn_textClass {
         let htmlString = html.join('');
         $field.html(htmlString);
         this.setFieldValue($browse, $tr, $field, { value: originalvalue });
+        if ($field.data('selectthetextbox') === true) {
+            $field.data('selectthetextbox', false);
+            $field.find('.value').select();
+        }
     }
 }
 var FwBrowseColumn_text = new FwBrowseColumn_textClass();
