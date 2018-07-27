@@ -85,7 +85,6 @@
                 if (quantity != 0) {
                     FwAppData.apiMethod(true, 'POST', "api/v1/purchaseorderreceiveitem/receiveitems", request, FwServices.defaultTimeout,
                         function onSuccess(response) {
-                            let quantityReceived = response.QuantityReceived;
                             FwBrowse.setFieldValue($grid, $tr, 'QuantityReceived', { value: response.QuantityReceived });
                             $tr.find('[data-browsedatafield="Quantity"]').attr('data-originalvalue', Number(newValue));
                         },
