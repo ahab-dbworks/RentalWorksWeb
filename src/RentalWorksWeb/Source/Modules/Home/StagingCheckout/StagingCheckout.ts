@@ -154,6 +154,7 @@ class StagingCheckout {
             catch (ex) {
                 FwFunc.showError(ex);
             }
+        FwFormField.disable($form.find('div[data-datafield="OrderId"]'));
         });
     };
 
@@ -212,16 +213,18 @@ class StagingCheckout {
                     FwFormField.setValueByDataField($form, 'QuantityStaged', response.InventoryStatus.QuantityStaged);
                     FwFormField.setValueByDataField($form, 'QuantityRemaining', response.InventoryStatus.QuantityRemaining);
 
-                    // selects barcode field if response
-                    $form.find('[data-datafield="Code"] input').select();
-
-                    if (response.InventoryStatus.QuantityOrdered === 0) {
-                        $form.find('div[data-datafield="Quantity"] input').focus();
-                    }
                     FwBrowse.search($stagedItemGrid);
+                    $form.find('[data-datafield="Code"] input').select();
+                }
+                else if (response.status === 107) {
+                        FwFormField.setValueByDataField($form, 'Quantity', "0")
+                        $form.find('div[data-datafield="Quantity"] input').select();
+                } else if (response.ShowAddItemToOrder === true) {
+                    $form.find('div.error-msg').html(`<div style="margin-left:8px;"><span style="font-size:20px;background-color:red;color:white;">${response.msg}</span><div class="AddItemToOrder fwformcontrol" data-type="button" style="float:left; margin-left:10px;">Add Item To Order</div></div>`)
                 }
                 else {
                     $form.find('div.error-msg').html(`<div style="margin-left:8px;"><span style="font-size:20px;background-color:red;color:white;">${response.msg}</span></div>`)
+                    $form.find('[data-datafield="Code"] input').select();
                 }
             }, function onError(response) {
                 FwFunc.showError(response);
@@ -231,10 +234,11 @@ class StagingCheckout {
         //Quantity change
         $form.find('[data-datafield="Quantity"] input').on('change', event => {
             $form.find('.error-msg').html('')
-            let code, orderId, quantity;
+            let code, orderId, quantity, $stagedItemGrid;
             orderId = FwFormField.getValueByDataField($form, 'OrderId');
             code = FwFormField.getValueByDataField($form, 'Code');
             quantity = +FwFormField.getValueByDataField($form, 'Quantity');
+            $stagedItemGrid = $form.find('[data-name="StagedItemGrid"]');
 
             let request: any = {};
             request = {
@@ -245,12 +249,15 @@ class StagingCheckout {
             FwAppData.apiMethod(true, 'POST', `api/v1/checkout/stageitem`, request, FwServices.defaultTimeout, function onSuccess(response) {
                 if (response.success === true) {
                     FwFormField.setValueByDataField($form, 'ICode', response.InventoryStatus.ICode);
-                    FwFormField.setValueByDataField($form, 'Description', response.InventoryStatus.Description);
+                    FwFormField.setValueByDataField($form, 'InventoryDescription', response.InventoryStatus.Description);
                     FwFormField.setValueByDataField($form, 'QuantityOrdered', response.InventoryStatus.QuantityOrdered);
                     FwFormField.setValueByDataField($form, 'QuantitySub', response.InventoryStatus.QuantitySub);
                     FwFormField.setValueByDataField($form, 'QuantityOut', response.InventoryStatus.QuantityOut);
                     FwFormField.setValueByDataField($form, 'QuantityStaged', response.InventoryStatus.QuantityStaged);
                     FwFormField.setValueByDataField($form, 'QuantityRemaining', response.InventoryStatus.QuantityRemaining);
+
+                    FwBrowse.search($stagedItemGrid);
+
                 } else {
                     $form.find('div.error-msg').html(`<div style="margin-left:8px;"><span style="font-size:20px;background-color:red;color:white;">${response.msg}</span></div>`)
                 }
@@ -258,8 +265,29 @@ class StagingCheckout {
                 FwFunc.showError(response);
             }, $form);
         });
-    };
+        // Add Item To Order
+        $form.find('.AddItemToOrder').on('click', e => {
+            let code, orderId, quantity, $stagedItemGrid, request: any = {};
+            orderId = FwFormField.getValueByDataField($form, 'OrderId');
+            code = FwFormField.getValueByDataField($form, 'Code');
+            $stagedItemGrid = $form.find('[data-name="StagedItemGrid"]');
 
+            request = {
+                OrderId: orderId,
+                Code: code,
+                AddItemToOrder: true
+            }
+
+            FwAppData.apiMethod(true, 'POST', `api/v1/checkout/stageitem`, request, FwServices.defaultTimeout, function onSuccess(response) {
+                try {
+                    FwBrowse.search($stagedItemGrid);
+                }
+                catch (ex) {
+                    FwFunc.showError(ex);
+                }
+            }, null, $form);
+        });
+    };
     //----------------------------------------------------------------------------------------------
     addLegend($form: any, $grid) {
         FwBrowse.addLegend($grid, 'Complete', '#8888ff');
