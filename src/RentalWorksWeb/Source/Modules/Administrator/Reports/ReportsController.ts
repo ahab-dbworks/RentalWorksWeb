@@ -58,7 +58,7 @@
                 } else {
                     moduleArray[k][4] = moduleArray[k][1] + 'Id';
                 }
-                FwReports.renderModuleHtml($reports.find(".fwreports"), moduleArray[k][0], moduleArray[k][1], moduleArray[k][3], moduleArray[k][2], moduleArray[k][4]);
+                FwReport.renderModuleHtml($reports.find(".fwreports"), moduleArray[k][0], moduleArray[k][1], moduleArray[k][3], moduleArray[k][2], moduleArray[k][4]);
             }            
             
             $reports.find('#settingsSearch').focus();
