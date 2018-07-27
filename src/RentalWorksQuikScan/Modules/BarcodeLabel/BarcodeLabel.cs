@@ -25,7 +25,7 @@ namespace RentalWorksQuikScan.Modules
                 qry.AddColumn("color", false, FwJsonDataTableColumn.DataTypes.OleToHtmlColor);
                 select.PageNo   = request.pageno;
                 select.PageSize = request.pagesize;
-                select.Add("select masterno, master, barcode, statustype, statusdate, color, icode=masterno, description=master");
+                select.Add("select masterno, master, barcode, statustype, statusdate, color, icode=masterno, description=master, mfgserial");
                 select.Add("from dbo.funcrentalitem(@locationid,'')");
                 select.Add("where trackedby in ('BARCODE')");
                 select.Add("  and statustype <> 'RETIRED'");
