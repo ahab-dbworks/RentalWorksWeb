@@ -4,6 +4,7 @@ using FwStandard.SqlServer;
 using System.Data;
 using System.Threading.Tasks;
 using WebApi.Modules.Home.OrderItem;
+using WebApi.Modules.Home.PurchaseOrderReceiveItem;
 using WebApi.Modules.Home.RepairPart;
 
 namespace WebApi.Logic
@@ -385,9 +386,13 @@ namespace WebApi.Logic
         }
         //-------------------------------------------------------------------------------------------------------
 
-        public static async Task<TSpStatusReponse> ReceiveItem(FwApplicationConfig appConfig, FwUserSession userSession, string contractId, string purchaseOrderId, string purchaseOrderItemId, int quantity)
+        public static async Task<ReceiveItemResponse> ReceiveItem(FwApplicationConfig appConfig, FwUserSession userSession, string contractId, string purchaseOrderId, string purchaseOrderItemId, int quantity)
         {
-            TSpStatusReponse response = new TSpStatusReponse();
+            ReceiveItemResponse response = new ReceiveItemResponse();
+            response.ContractId = contractId;
+            response.PurchaseOrderId = purchaseOrderId;
+            response.PurchaseOrderItemId = purchaseOrderItemId;
+            response.Quantity = quantity;
             using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
             {
                 FwSqlCommand qry = new FwSqlCommand(conn, "receiveitem", appConfig.DatabaseSettings.QueryTimeout);
@@ -397,9 +402,13 @@ namespace WebApi.Logic
                 qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, userSession.UsersId);
                 qry.AddParameter("@barcode", SqlDbType.NVarChar, ParameterDirection.Input, "");
                 qry.AddParameter("@qty", SqlDbType.Int, ParameterDirection.Input, quantity);
+                qry.AddParameter("@qtyordered", SqlDbType.Float, ParameterDirection.Output);
+                qry.AddParameter("@qtyreceived", SqlDbType.Float, ParameterDirection.Output);
                 qry.AddParameter("@status", SqlDbType.Int, ParameterDirection.Output);
                 qry.AddParameter("@msg", SqlDbType.NVarChar, ParameterDirection.Output);
                 await qry.ExecuteNonQueryAsync(true);
+                response.QuantityOrdered = qry.GetParameter("@qtyordered").ToDouble();
+                response.QuantityReceived = qry.GetParameter("@qtyreceived").ToDouble();
                 response.success = (qry.GetParameter("@status").ToInt32() == 0);
                 response.msg = qry.GetParameter("@msg").ToString();
             }

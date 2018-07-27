@@ -17,6 +17,16 @@ namespace WebApi.Modules.Home.PurchaseOrderReceiveItem
         public int Quantity;
     }
 
+    public class ReceiveItemResponse : TSpStatusReponse
+    {
+        public string ContractId;
+        public string PurchaseOrderId;
+        public string PurchaseOrderItemId;
+        public int Quantity;
+        public double QuantityOrdered;
+        public double QuantityReceived;
+    }
+
 
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "home-v1")]
@@ -96,15 +106,16 @@ namespace WebApi.Modules.Home.PurchaseOrderReceiveItem
                 }
                 else
                 {
-                    TSpStatusReponse response = await AppFunc.ReceiveItem(AppConfig, UserSession, request.ContractId, request.PurchaseOrderId, request.PurchaseOrderItemId, request.Quantity);
-                    if (response.success)
-                    {
-                        return new OkObjectResult(true);
-                    }
-                    else
-                    {
-                        throw new Exception(response.msg);
-                    }
+                    ReceiveItemResponse response = await AppFunc.ReceiveItem(AppConfig, UserSession, request.ContractId, request.PurchaseOrderId, request.PurchaseOrderItemId, request.Quantity);
+                    //if (response.success)
+                    //{
+                    //    return new OkObjectResult(true);
+                    //}
+                    //else
+                    //{
+                    //    throw new Exception(response.msg);
+                    //}
+                    return new OkObjectResult(response);
                 }
 
             }
