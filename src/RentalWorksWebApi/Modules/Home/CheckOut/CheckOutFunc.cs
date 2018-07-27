@@ -19,13 +19,17 @@ namespace WebApi.Home.CheckOut
         public int QuantityRemaining;
     }
 
-public class TStageItemReponse: TSpStatusReponse
+    public class TStageItemReponse : TSpStatusReponse
     {
         public string InventoryId;
         public string OrderItemId;
         public int QuantityStaged;
 
         public OrderInventoryStatus InventoryStatus = new OrderInventoryStatus();
+
+        public bool ShowAddItemToOrder;
+        public bool ShowAddCompleteToOrder;
+        public bool ShowUnstage;
     }
 
     public static class CheckOutFunc
@@ -59,12 +63,12 @@ public class TStageItemReponse: TSpStatusReponse
 
                      */
         //-------------------------------------------------------------------------------------------------------
-        public static async Task<TStageItemReponse> StageItem(FwApplicationConfig appConfig, FwUserSession userSession, string orderId, /*string orderItemId,*/ string code, int? quantity)
+        public static async Task<TStageItemReponse> StageItem(FwApplicationConfig appConfig, FwUserSession userSession, string orderId, /*string orderItemId,*/ string code, int? quantity, bool addItemToOrder, bool addCompleteToOrder)
         {
             TStageItemReponse response = new TStageItemReponse();
             using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
             {
-                FwSqlCommand qry = new FwSqlCommand(conn, "stageitem", appConfig.DatabaseSettings.QueryTimeout);
+                FwSqlCommand qry = new FwSqlCommand(conn, "pdastageitem", appConfig.DatabaseSettings.QueryTimeout);
                 qry.AddParameter("@orderid", SqlDbType.NVarChar, ParameterDirection.Input, orderId);
                 //qry.AddParameter("@masteritemid", SqlDbType.NVarChar, ParameterDirection.Input, orderItemId);
                 qry.AddParameter("@code", SqlDbType.NVarChar, ParameterDirection.Input, code);
@@ -72,44 +76,75 @@ public class TStageItemReponse: TSpStatusReponse
                 {
                     qry.AddParameter("@qty", SqlDbType.Int, ParameterDirection.Input, quantity);
                 }
+                qry.AddParameter("@additemtoorder", SqlDbType.NVarChar, ParameterDirection.Input, (addItemToOrder ? "T" : "F"));
+                qry.AddParameter("@addcompletetoorder", SqlDbType.NVarChar, ParameterDirection.Input, (addCompleteToOrder ? "T" : "F"));
                 qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, userSession.UsersId);
-                qry.AddParameter("@outputmasteritemid", SqlDbType.NVarChar, ParameterDirection.Output);
+                qry.AddParameter("@masteritemid", SqlDbType.NVarChar, ParameterDirection.Output);
                 qry.AddParameter("@masterid", SqlDbType.NVarChar, ParameterDirection.Output);
+                //qry.AddParameter("@qtystaged", SqlDbType.Int, ParameterDirection.Output);
+
+                qry.AddParameter("@masterno", SqlDbType.NVarChar, ParameterDirection.Output);
+                qry.AddParameter("@description", SqlDbType.NVarChar, ParameterDirection.Output);
+                qry.AddParameter("@qtyordered", SqlDbType.Int, ParameterDirection.Output);
+                qry.AddParameter("@qtysub", SqlDbType.Int, ParameterDirection.Output);
                 qry.AddParameter("@qtystaged", SqlDbType.Int, ParameterDirection.Output);
+                qry.AddParameter("@qtyout", SqlDbType.Int, ParameterDirection.Output);
+                qry.AddParameter("@qtyin", SqlDbType.Int, ParameterDirection.Output);
+                qry.AddParameter("@qtyremaining", SqlDbType.Int, ParameterDirection.Output);
+                qry.AddParameter("@showadditemtoorder", SqlDbType.NVarChar, ParameterDirection.Output);
+                qry.AddParameter("@showaddcompletetoorder", SqlDbType.NVarChar, ParameterDirection.Output);
+                qry.AddParameter("@showunstage", SqlDbType.NVarChar, ParameterDirection.Output);
+
+
                 qry.AddParameter("@status", SqlDbType.Int, ParameterDirection.Output);
                 qry.AddParameter("@msg", SqlDbType.NVarChar, ParameterDirection.Output);
                 await qry.ExecuteNonQueryAsync(true);
                 response.InventoryId = qry.GetParameter("@masterid").ToString();
-                response.OrderItemId = qry.GetParameter("@outputmasteritemid").ToString();
+                response.OrderItemId = qry.GetParameter("@masteritemid").ToString();
                 response.QuantityStaged = qry.GetParameter("@qtystaged").ToInt32();
+
+                response.InventoryStatus.ICode = qry.GetParameter("@masterno").ToString();
+                response.InventoryStatus.Description = qry.GetParameter("@description").ToString();
+                response.InventoryStatus.QuantityOrdered = qry.GetParameter("@qtyordered").ToInt32();
+                response.InventoryStatus.QuantitySub = qry.GetParameter("@qtysub").ToInt32();
+                response.InventoryStatus.QuantityStaged = qry.GetParameter("@qtystaged").ToInt32();
+                response.InventoryStatus.QuantityOut = qry.GetParameter("@qtyout").ToInt32();
+                response.InventoryStatus.QuantityIn = qry.GetParameter("@qtyin").ToInt32();
+                response.InventoryStatus.QuantityRemaining = qry.GetParameter("@qtyremaining").ToInt32();
+
+                response.ShowAddItemToOrder = qry.GetParameter("@showadditemtoorder").ToString().Equals("T");
+                response.ShowAddCompleteToOrder = qry.GetParameter("@showaddcompletetoorder").ToString().Equals("T");
+                response.ShowUnstage = qry.GetParameter("@showunstage").ToString().Equals("T");
+
+
                 response.status = qry.GetParameter("@status").ToInt32();
                 response.success = ((response.status == 0) || (response.status == 107));
                 response.msg = qry.GetParameter("@msg").ToString();
 
-                if (response.success) {
-                    qry = new FwSqlCommand(conn, "staginggetmasterinfo", appConfig.DatabaseSettings.QueryTimeout);
-                    qry.AddParameter("@orderid", SqlDbType.NVarChar, ParameterDirection.Input, orderId);
-                    qry.AddParameter("@masterid", SqlDbType.NVarChar, ParameterDirection.Input, response.InventoryId);
-                    qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, userSession.UsersId);
-                    qry.AddParameter("@masterno", SqlDbType.NVarChar, ParameterDirection.Output);
-                    qry.AddParameter("@description", SqlDbType.NVarChar, ParameterDirection.Output);
-                    qry.AddParameter("@qtyordered", SqlDbType.Int, ParameterDirection.Output);
-                    qry.AddParameter("@qtysub", SqlDbType.Int, ParameterDirection.Output);
-                    qry.AddParameter("@qtystaged", SqlDbType.Int, ParameterDirection.Output);
-                    qry.AddParameter("@qtyout", SqlDbType.Int, ParameterDirection.Output);
-                    qry.AddParameter("@qtyin", SqlDbType.Int, ParameterDirection.Output);
-                    qry.AddParameter("@qtyremaining", SqlDbType.Int, ParameterDirection.Output);
-                    await qry.ExecuteNonQueryAsync(true);
+                //if (response.success) {
+                //    qry = new FwSqlCommand(conn, "staginggetmasterinfo", appConfig.DatabaseSettings.QueryTimeout);
+                //    qry.AddParameter("@orderid", SqlDbType.NVarChar, ParameterDirection.Input, orderId);
+                //    qry.AddParameter("@masterid", SqlDbType.NVarChar, ParameterDirection.Input, response.InventoryId);
+                //    qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, userSession.UsersId);
+                //    qry.AddParameter("@masterno", SqlDbType.NVarChar, ParameterDirection.Output);
+                //    qry.AddParameter("@description", SqlDbType.NVarChar, ParameterDirection.Output);
+                //    qry.AddParameter("@qtyordered", SqlDbType.Int, ParameterDirection.Output);
+                //    qry.AddParameter("@qtysub", SqlDbType.Int, ParameterDirection.Output);
+                //    qry.AddParameter("@qtystaged", SqlDbType.Int, ParameterDirection.Output);
+                //    qry.AddParameter("@qtyout", SqlDbType.Int, ParameterDirection.Output);
+                //    qry.AddParameter("@qtyin", SqlDbType.Int, ParameterDirection.Output);
+                //    qry.AddParameter("@qtyremaining", SqlDbType.Int, ParameterDirection.Output);
+                //    await qry.ExecuteNonQueryAsync(true);
 
-                    response.InventoryStatus.ICode = qry.GetParameter("@masterno").ToString();
-                    response.InventoryStatus.Description = qry.GetParameter("@description").ToString();
-                    response.InventoryStatus.QuantityOrdered = qry.GetParameter("@qtyordered").ToInt32();
-                    response.InventoryStatus.QuantitySub = qry.GetParameter("@qtysub").ToInt32();
-                    response.InventoryStatus.QuantityStaged = qry.GetParameter("@qtystaged").ToInt32();
-                    response.InventoryStatus.QuantityOut = qry.GetParameter("@qtyout").ToInt32();
-                    response.InventoryStatus.QuantityIn = qry.GetParameter("@qtyin").ToInt32();
-                    response.InventoryStatus.QuantityRemaining = qry.GetParameter("@qtyremaining").ToInt32();
-                }
+                //    response.InventoryStatus.ICode = qry.GetParameter("@masterno").ToString();
+                //    response.InventoryStatus.Description = qry.GetParameter("@description").ToString();
+                //    response.InventoryStatus.QuantityOrdered = qry.GetParameter("@qtyordered").ToInt32();
+                //    response.InventoryStatus.QuantitySub = qry.GetParameter("@qtysub").ToInt32();
+                //    response.InventoryStatus.QuantityStaged = qry.GetParameter("@qtystaged").ToInt32();
+                //    response.InventoryStatus.QuantityOut = qry.GetParameter("@qtyout").ToInt32();
+                //    response.InventoryStatus.QuantityIn = qry.GetParameter("@qtyin").ToInt32();
+                //    response.InventoryStatus.QuantityRemaining = qry.GetParameter("@qtyremaining").ToInt32();
+                //}
             }
             return response;
         }

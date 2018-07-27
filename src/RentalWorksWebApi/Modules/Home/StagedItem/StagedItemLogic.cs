@@ -44,8 +44,8 @@ namespace WebApi.Modules.Home.StagedItem
         public string VendorId;
         public string NestedOrderItemId;
         public string TrackedBy;
-        public int? ICodeColor;
-        public int? DescriptionColor;
+        public string ICodeColor;
+        public string DescriptionColor;
         public bool? Bold;
         //------------------------------------------------------------------------------------ 
         //protected override bool Validate(TDataRecordSaveMode saveMode, ref string validateMsg) 

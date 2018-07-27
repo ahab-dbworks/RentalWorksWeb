@@ -9535,7 +9535,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"InCode\": \"WM0297766\"\n}"
+							"raw": "{\n\t\"InCode\": \"WM0231224\"\n}"
 						},
 						"url": {
 							"raw": "http://localhost:57949/api/v1/exchange/exchangeitemin",
@@ -9570,7 +9570,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"ContractId\": \"I00005E0\",\n\t\"InCode\": \"WM0231224\",\n\t\"OutCode\": \"WM0297718\"\n}"
+							"raw": "{\n    \"ContractId\": \"I00005E0\",\n\t\"InCode\": \"yyy\",\n\t\"OutCode\": \"xxxx\"\n}"
 						},
 						"url": {
 							"raw": "http://localhost:57949/api/v1/exchange/exchangeitemout",
@@ -37981,7 +37981,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": [],\n    \t\"uniqueids\": {\"OrderId\": \"I00004KG\", \"WarehouseId\": \"B0029AY5\"}\n\t\n}"
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": [],\n    \t\"uniqueids\": {\"OrderId\": \"I000058L\", \"WarehouseId\": \"B0029AY5\"}\n\t\n}"
 						},
 						"url": {
 							"raw": "http://localhost:57949/api/v1/stageditem/browse",
@@ -38022,7 +38022,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"OrderId\": \"I00004KG\",\n\t\"Code\": \"00011-19\",\n\t\"Quantity\":500\n}"
+							"raw": "{\n\t\"OrderId\": \"I000058L\",\n\t\"Code\": \"4W013918\",\n\t\"AddItemToOrder\":true\n}"
 						},
 						"url": {
 							"raw": "http://localhost:57949/api/v1/checkout/stageitem",

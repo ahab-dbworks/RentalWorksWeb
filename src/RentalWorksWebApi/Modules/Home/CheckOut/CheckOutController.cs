@@ -17,6 +17,8 @@ namespace WebApi.Modules.Administrator.CheckOut
         public string OrderItemId;
         public string Code;
         public int? Quantity;
+        public bool? AddItemToOrder;
+        public bool? AddCompleteToOrder;
     }
 
 
@@ -36,25 +38,23 @@ namespace WebApi.Modules.Administrator.CheckOut
             }
             try
             {
+                TStageItemReponse stageItemResponse = new TStageItemReponse();
                 if (string.IsNullOrEmpty(request.OrderId))
                 {
-                    throw new Exception("OrderId is required.");
+                    stageItemResponse.success = false;
+                    stageItemResponse.msg = "OrderId is required.";
                 }
-                if ((string.IsNullOrEmpty(request.OrderItemId)) && (string.IsNullOrEmpty(request.Code)))
+                else if ((string.IsNullOrEmpty(request.OrderItemId)) && (string.IsNullOrEmpty(request.Code)))
                 {
-                    throw new Exception("Must supply a Code or OrderItemId to stage items.");
+                    stageItemResponse.success = false;
+                    stageItemResponse.msg = "Must supply a Code or OrderItemId to stage items.";
+                }
+                else
+                {
+                    stageItemResponse = await CheckOutFunc.StageItem(AppConfig, UserSession, request.OrderId, request.Code, request.Quantity, request.AddItemToOrder.GetValueOrDefault(false), request. AddCompleteToOrder.GetValueOrDefault(false));
                 }
 
-
-                TStageItemReponse stageItemResponse = await CheckOutFunc.StageItem(AppConfig, UserSession, request.OrderId, request.Code, request.Quantity);
-                //if (stageItemResponse.success)
-                //{
-                    return new OkObjectResult(stageItemResponse);
-                //}
-                //else
-                //{
-                //    throw new Exception(stageItemResponse.msg);
-                //}
+                return new OkObjectResult(stageItemResponse);
 
             }
             catch (Exception ex)

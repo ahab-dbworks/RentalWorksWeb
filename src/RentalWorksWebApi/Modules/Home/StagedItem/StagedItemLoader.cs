@@ -44,7 +44,7 @@ namespace WebApi.Modules.Home.StagedItem
         [FwSqlDataField(column: "parentid", modeltype: FwDataTypes.Text)]
         public string ParentId { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "outdatetime", modeltype: FwDataTypes.Date)]
+        [FwSqlDataField(column: "outdatetime", modeltype: FwDataTypes.DateTime)]
         public string StagedDateTime { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "itemclass", modeltype: FwDataTypes.Text)]
@@ -113,11 +113,11 @@ namespace WebApi.Modules.Home.StagedItem
         [FwSqlDataField(column: "trackedby", modeltype: FwDataTypes.Text)]
         public string TrackedBy { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "masternocolor", modeltype: FwDataTypes.Integer)]
-        public int? ICodeColor { get; set; }
+        [FwSqlDataField(column: "masternocolor", modeltype: FwDataTypes.OleToHtmlColor)]
+        public string ICodeColor { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "descriptioncolor", modeltype: FwDataTypes.Integer)]
-        public int? DescriptionColor { get; set; }
+        [FwSqlDataField(column: "descriptioncolor", modeltype: FwDataTypes.OleToHtmlColor)]
+        public string DescriptionColor { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "bold", modeltype: FwDataTypes.Boolean)]
         public bool? Bold { get; set; }
