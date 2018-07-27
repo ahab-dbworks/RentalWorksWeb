@@ -19,18 +19,15 @@ namespace RentalWorksQuikScan.Modules
             public string access_token { get; set; } = string.Empty;
             public int expires_in = 300;
         }
-
+        //---------------------------------------------------------------------------------------------
         public class OutContractReportResponse
         {
             public string htmlReportDownloadUrl { get; set; } = string.Empty;
             public string pdfReportDownloadUrl { get; set; } = string.Empty;
         }
-
-        [FwJsonServiceMethod(RequiredParameters = "contractid,from,to,subject,body")]
-        public void EmailPdf(dynamic request, dynamic response, dynamic session)
+        //---------------------------------------------------------------------------------------------
+        public void EmailPdf(string usersid, string webusersid, string contractid, string from, string to, string cc, string subject, string body)
         {
-            string usersid = RwAppData.GetUsersId(session);
-            string contractid = request.contractid;
             string webApiBaseUrl = Fw.Json.ValueTypes.FwApplicationConfig.CurrentSite.WebApi.Url.TrimEnd(new char[] { '/' }) + "/"; // mv 2018-06-26 
 
             HttpClient client = new HttpClient();
@@ -39,18 +36,24 @@ namespace RentalWorksQuikScan.Modules
 
             string username = string.Empty;
             string password = string.Empty;
+            string email = string.Empty;
             using (FwSqlConnection conn = FwSqlConnection.RentalWorks)
             {
                 using (FwSqlCommand qry = new FwSqlCommand(conn, FwQueryTimeouts.Default))
                 {
-                    qry.Add("select top 1 username = userloginname, password = dbo.decrypt(userpassword)");
-                    qry.Add("from webusersview");
+                    qry.Add("select top 1 username = userloginname, password = dbo.decrypt(userpassword), email");
+                    qry.Add("from webusersview with (nolock)");
                     qry.Add("where webusersid = @webusersid");
-                    qry.AddParameter("@webusersid", session.security.webUser.webusersid);
+                    qry.AddParameter("@webusersid", webusersid);
                     qry.Execute();
                     username = qry.GetField("username").ToString().TrimEnd();
                     password = qry.GetField("password").ToString().TrimEnd();
+                    email = qry.GetField("email").ToString().TrimEnd();
                 }
+            }
+            if (from.Length > 0)
+            {
+                email = from;
             }
 
             HttpRequestMessage requestJwtToken = new HttpRequestMessage(HttpMethod.Post, "api/v1/jwt");
@@ -67,10 +70,11 @@ namespace RentalWorksQuikScan.Modules
                 HttpRequestMessage requestContractReport = new HttpRequestMessage(HttpMethod.Post, $"/api/v1/OutContractReport/emailpdf/{contractid}");
                 requestContractReport.Headers.Authorization = new AuthenticationHeaderValue("Bearer", jwtResponse.access_token);
                 EmailPdfRequest emailPdfRequest = new EmailPdfRequest();
-                emailPdfRequest.from = request.from;
-                emailPdfRequest.to = request.to;
-                emailPdfRequest.subject = request.subject;
-                emailPdfRequest.body = request.body;
+                emailPdfRequest.from = email;
+                emailPdfRequest.to = to;
+                emailPdfRequest.cc = cc;
+                emailPdfRequest.subject = subject;
+                emailPdfRequest.body = body;
                 string strEmailPdfRequest = JsonConvert.SerializeObject(emailPdfRequest);
                 requestContractReport.Content = new StringContent(strEmailPdfRequest, Encoding.UTF8, "application/json");
                 var apiHtmlReportResponse = client.SendAsync(requestContractReport).Result;
@@ -79,12 +83,23 @@ namespace RentalWorksQuikScan.Modules
                 {
                     var jsonContractReportResponse = apiHtmlReportResponse.Content.ReadAsStringAsync().Result;
                     var contractReportResponse = JsonConvert.DeserializeObject<OutContractReportResponse>(jsonContractReportResponse);
-                    response.html = contractReportResponse.htmlReportDownloadUrl;
-                    response.pdf = contractReportResponse.pdfReportDownloadUrl;
                 }
             }
-            
         }
-        
+        //---------------------------------------------------------------------------------------------
+        // mv 2018-07-25 Didn't end up needing a web service for this, so commenting this out
+        //[FwJsonServiceMethod(RequiredParameters = "contractId,from,to,subject,body")]
+        //public void EmailPdf(dynamic request, dynamic response, dynamic session)
+        //{
+        //    string usersid = RwAppData.GetUsersId(session);
+        //    string contractid = request.contractId;
+        //    string webusersid = session.security.webUser.webusersid;
+        //    string from = request.from;
+        //    string to = request.to;
+        //    string subject = request.subject;
+        //    string body = request.body;
+        //    EmailPdf(usersid, webusersid, contractid, from, to, subject, body);
+        //}
+        //---------------------------------------------------------------------------------------------
     }
 }

@@ -1,10 +1,9 @@
 var OutContractReportClass = (function () {
     function OutContractReportClass() {
     }
-    OutContractReportClass.prototype.emailPdf = function (contractid, from, to, subject, body) {
+    OutContractReportClass.prototype.emailPdf = function (contractid, to, subject, body) {
         var request = {
             contractid: contractid,
-            from: from,
             to: to,
             subject: subject,
             body: body

@@ -60,7 +60,17 @@ namespace WebApi.Modules.Reports.ContractReport
             await FwReport.GeneratePdfFromUrlAsync($"{baseUrl}/Reports/OutContractReport/index.html", pathPdfReport, authorizationHeader, parameters, pdfOptions);
             if (System.IO.File.Exists(pathPdfReport))
             {
-                await FwReport.EmailPdfAsync(request.from, request.to, request.subject, request.body, pathPdfReport);
+                await FwReport.EmailPdfAsync(
+                    fromusersid: this.UserSession.UsersId,
+                    uniqueid: contractid,
+                    title: "Check-Out Contract", 
+                    from: request.from, 
+                    to: request.to, 
+                    cc: request.cc,
+                    subject: request.subject,
+                    body: request.body, 
+                    pdfPath: pathPdfReport, 
+                    appConfig: this.AppConfig);
             }
 
             return new OkObjectResult(response);

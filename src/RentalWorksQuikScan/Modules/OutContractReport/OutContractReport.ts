@@ -3,10 +3,9 @@
         
     }
 
-    public emailPdf(contractid: string, from: string, to: string, subject: string, body: string) {
+    public emailPdf(contractid: string, to: string, subject: string, body: string) {
         let request = {
             contractid: contractid,
-            from: from,
             to: to,
             subject: subject,
             body: body

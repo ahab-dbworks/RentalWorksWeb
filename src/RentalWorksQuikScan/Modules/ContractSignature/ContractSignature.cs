@@ -5,6 +5,7 @@ using RentalWorksQuikScan.Source;
 using System;
 using System.Data;
 using System.Dynamic;
+using System.Threading.Tasks;
 
 namespace RentalWorksQuikScan.Modules
 {
@@ -123,26 +124,18 @@ namespace RentalWorksQuikScan.Modules
         [FwJsonServiceMethod]
         public static void SendEmail(dynamic request, dynamic response, dynamic session)
         {
-            SaveContractEmailDetails(request.contractid, request.to, request.cc, request.subject, request.body);
-        }
-        //---------------------------------------------------------------------------------------------
-        public static void SaveContractEmailDetails(string contractid, string to, string cc, string subject, string body)
-        {
-            FwSqlCommand qry;
+            string usersid = RwAppData.GetUsersId(session);
+            string contractid = request.contractId;
+            string webusersid = session.security.webUser.webusersid;
+            string from = request.from;
+            string to = request.to;
+            string cc = request.cc;
+            string subject = request.subject;
+            string body = request.body;
 
-            qry = new FwSqlCommand(FwSqlConnection.RentalWorks);
-            qry.Add("update contract");
-            qry.Add("   set emailto      = @to");
-            qry.Add("       emailccto    = @cc");
-            qry.Add("       emailsubject = @subject");
-            qry.Add("       emailbody    = @body");
-            qry.Add(" where contractid   = @contractid");
-            qry.AddParameter("@to",         to);
-            qry.AddParameter("@cc",         cc);
-            qry.AddParameter("@subject",    subject);
-            qry.AddParameter("@body",       body);
-            qry.AddParameter("@contractid", contractid);
-            qry.Execute();
+            // send the email
+            OutContractReport report = new OutContractReport();
+            report.EmailPdf(usersid, webusersid, contractid, from, to, cc, subject, body);
         }
         //---------------------------------------------------------------------------------------------
         [FwJsonServiceMethod]

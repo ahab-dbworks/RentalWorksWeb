@@ -53,17 +53,17 @@ RwOrderController.getContactSignatureScreen = function(viewModel, properties) {
                                 if (response.createcontract.status === 0) {
                                     var $confirmation = FwConfirmation.renderConfirmation('Message', response.createcontract.msg);
                                     var $ok           = FwConfirmation.addButton($confirmation, 'OK', true);
-                                    //var $email        = FwConfirmation.addButton($confirmation, 'E-Mail', true);
+                                    var $email        = FwConfirmation.addButton($confirmation, 'E-Mail', true);
 
                                     $ok.on('click', function () {
                                         program.navigate('home/home');
                                     });
-                                    //$email.on('click', function () {
-                                    //    $printimagecapture.find('#printimagecapture').hide();
-                                    //    $printimagecapture.find('#pic-email').show();
-                                    //    $printimagecapture.find('#printimagecaptureecontroller').fwmobilemodulecontrol('changeState', 2);
-                                    //    FwFormField.setValue($printimagecapture, 'div[data-datafield="subject"]', response.subject);
-                                    //})
+                                    $email.on('click', function () {
+                                        $printimagecapture.find('#printimagecapture').hide();
+                                        $printimagecapture.find('#pic-email').show();
+                                        $printimagecapture.find('#printimagecaptureecontroller').fwmobilemodulecontrol('changeState', 2);
+                                        FwFormField.setValue($printimagecapture, 'div[data-datafield="subject"]', response.subject);
+                                    })
                                 } else {
                                     FwFunc.showError(response.createcontract.msg);
                                 }
@@ -125,15 +125,17 @@ RwOrderController.getContactSignatureScreen = function(viewModel, properties) {
                     if (FwFormField.getValue($printimagecapture, 'div[data-datafield="to"]') !== '') {
                         var request = {
                             contractId: properties.contract.contractId,
+                            from:       FwFormField.getValue($printimagecapture, 'div[data-datafield="from"]'),
                             to:         FwFormField.getValue($printimagecapture, 'div[data-datafield="to"]'),
                             cc:         FwFormField.getValue($printimagecapture, 'div[data-datafield="cc"]'),
                             subject:    FwFormField.getValue($printimagecapture, 'div[data-datafield="subject"]'),
                             body:       FwFormField.getValue($printimagecapture, 'div[data-datafield="body"]')
                         };
-                        RwServices.callMethod('ContractSignature', 'SendEmail', request, function (response) {
-                            program.navigate('home/home');
-                            FwNotification.renderNotification('SUCCESS', 'E-Mail sent');
-                        });
+                        RwServices.callMethod('ContractSignature', 'SendEmail', request,
+                            function resolve(response) {
+                                program.navigate('home/home');
+                                FwNotification.renderNotification('SUCCESS', 'E-Mail sent');
+                            });
                     } else {
                         FwNotification.renderNotification('ERROR', 'Enter an email address');
                     }
