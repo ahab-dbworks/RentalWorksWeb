@@ -18,6 +18,18 @@ namespace WebApi.Modules.Home.PurchaseOrderReturnItem
     }
 
 
+    public class ReturnItemResponse : TSpStatusReponse
+    {
+        public string ContractId;
+        public string PurchaseOrderId;
+        public string PurchaseOrderItemId;
+        public int Quantity;
+        public double QuantityOrdered;
+        public double QuantityReceived;
+        public double QuantityReturned;
+    }
+
+
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "home-v1")]
     public class PurchaseOrderReturnItemController : AppDataController
@@ -96,15 +108,16 @@ namespace WebApi.Modules.Home.PurchaseOrderReturnItem
                 }
                 else
                 {
-                    TSpStatusReponse response = await AppFunc.ReturnItem(AppConfig, UserSession, request.ContractId, request.PurchaseOrderId, request.PurchaseOrderItemId, request.Quantity);
-                    if (response.success)
-                    {
-                        return new OkObjectResult(true);
-                    }
-                    else
-                    {
-                        throw new Exception(response.msg);
-                    }
+                    ReturnItemResponse response = await AppFunc.ReturnItem(AppConfig, UserSession, request.ContractId, request.PurchaseOrderId, request.PurchaseOrderItemId, request.Quantity);
+                    //if (response.success)
+                    //{
+                    //    return new OkObjectResult(true);
+                    //}
+                    //else
+                    //{
+                    //    throw new Exception(response.msg);
+                    //}
+                        return new OkObjectResult(response);
                 }
 
             }
