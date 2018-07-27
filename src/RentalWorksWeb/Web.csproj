@@ -395,9 +395,12 @@
     <Content Include="Source\Modules\Administrator\Integration\IntegrationForm.htm" />
     <Content Include="Source\Modules\Administrator\CustomFields\CustomFieldsBrowse.htm" />
     <Content Include="Source\Modules\Administrator\CustomFields\CustomFieldsForm.htm" />
+    <Content Include="Source\Modules\Administrator\Reports\Reports.htm" />
+    <Content Include="Source\Modules\Administrator\Reports\ReportsPage.css" />
     <Content Include="Source\Modules\Administrator\User\UserBrowse.htm" />
     <Content Include="Source\Modules\Administrator\User\UserForm.htm" />
     <TypeScriptCompile Include="Source\Modules\-BaseModules\InventoryBase\InventoryBase.ts" />
+    <TypeScriptCompile Include="Source\Modules\Administrator\Reports\ReportsController.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\Exchange\Exchange.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\ReturnToVendor\ReturnToVendor.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\ReceiveFromVendor\ReceiveFromVendor.ts" />

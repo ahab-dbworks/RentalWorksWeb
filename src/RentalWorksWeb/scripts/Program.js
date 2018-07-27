@@ -170,6 +170,7 @@ routes.push({ pattern: /^module\/user/, action: function (match) { return UserCo
 routes.push({ pattern: /^module\/customfields/, action: function (match) { return CustomFieldsController.getModuleScreen(); } });
 routes.push({ pattern: /^module\/duplicaterules/, action: function (match) { return DuplicateRulesController.getModuleScreen(); } });
 routes.push({ pattern: /^module\/settings$/, action: function (match) { return SettingsController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/reports$/, action: function (match) { return ReportsController.getModuleScreen(); } });
 routes.push({ pattern: /^module\/designer$/, action: function (match) { return DesignerController.loadDesigner(); } });
 routes.push({ pattern: /^module\/example/, action: function (match) { return RwExampleController.getModuleScreen(); } });
 routes.push({
