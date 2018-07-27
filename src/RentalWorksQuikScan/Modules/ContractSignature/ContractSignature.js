@@ -53,17 +53,17 @@ RwOrderController.getContactSignatureScreen = function(viewModel, properties) {
                                 if (response.createcontract.status === 0) {
                                     var $confirmation = FwConfirmation.renderConfirmation('Message', response.createcontract.msg);
                                     var $ok           = FwConfirmation.addButton($confirmation, 'OK', true);
-                                    var $email        = FwConfirmation.addButton($confirmation, 'E-Mail', true);
+                                    //var $email = FwConfirmation.addButton($confirmation, 'E-Mail', true);
 
                                     $ok.on('click', function () {
                                         program.navigate('home/home');
                                     });
-                                    $email.on('click', function () {
-                                        $printimagecapture.find('#printimagecapture').hide();
-                                        $printimagecapture.find('#pic-email').show();
-                                        $printimagecapture.find('#printimagecaptureecontroller').fwmobilemodulecontrol('changeState', 2);
-                                        FwFormField.setValue($printimagecapture, 'div[data-datafield="subject"]', response.subject);
-                                    })
+                                    //$email.on('click', function () {
+                                    //    $printimagecapture.find('#printimagecapture').hide();
+                                    //    $printimagecapture.find('#pic-email').show();
+                                    //    $printimagecapture.find('#printimagecaptureecontroller').fwmobilemodulecontrol('changeState', 2);
+                                    //    FwFormField.setValue($printimagecapture, 'div[data-datafield="subject"]', response.subject);
+                                    //});
                                 } else {
                                     FwFunc.showError(response.createcontract.msg);
                                 }
