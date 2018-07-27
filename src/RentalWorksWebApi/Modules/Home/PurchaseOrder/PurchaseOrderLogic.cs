@@ -1,5 +1,8 @@
+using FwStandard.BusinessLogic;
 using FwStandard.BusinessLogic.Attributes;
+using FwStandard.SqlServer;
 using Newtonsoft.Json;
+using System;
 using System.Threading.Tasks;
 using WebApi.Logic;
 using WebApi.Modules.Home.Contract;
@@ -21,6 +24,9 @@ namespace WebApi.Modules.Home.PurchaseOrder
             dataRecords.Add(purchaseOrder);
             dataLoader = purchaseOrderLoader;
             browseLoader = purchaseOrderBrowseLoader;
+
+            BeforeSave += OnBeforeSave;
+            purchaseOrder.BeforeSave += OnBeforeSavePurchaseOrder;
 
             Type = RwConstants.ORDER_TYPE_PURCHASE_ORDER;
 
@@ -55,7 +61,11 @@ namespace WebApi.Modules.Home.PurchaseOrder
         [FwBusinessLogicField(isReadOnly: true)]
         public string Department { get; set; }
         public string OfficeLocationId { get { return purchaseOrder.OfficeLocationId; } set { purchaseOrder.OfficeLocationId = value; } }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string OfficeLocation { get; set; }
         public string WarehouseId { get { return purchaseOrder.WarehouseId; } set { purchaseOrder.WarehouseId = value; } }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string Warehouse { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
         public int? QuantityHolding { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
@@ -130,6 +140,51 @@ namespace WebApi.Modules.Home.PurchaseOrder
         [FwBusinessLogicField(isReadOnly: true)]
         public string CurrencyCode { get; set; }
         //------------------------------------------------------------------------------------ 
+
+        public void OnBeforeSave(object sender, BeforeSaveEventArgs e)
+        {
+            if (e.SaveMode == TDataRecordSaveMode.smInsert)
+            {
+                Status = RwConstants.PURCHASE_ORDER_STATUS_NEW;
+                if (string.IsNullOrEmpty(PurchaseOrderDate))
+                {
+                    PurchaseOrderDate = FwConvert.ToString(DateTime.Today);
+                }
+            }
+        }
+        //------------------------------------------------------------------------------------ 
+        public void OnBeforeSavePurchaseOrder(object sender, BeforeSaveEventArgs e)
+        {
+            if (e.SaveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smInsert)
+            {
+                bool x = purchaseOrder.SetNumber().Result;
+                StatusDate = FwConvert.ToString(DateTime.Today);
+                if ((TaxOptionId == null) || (TaxOptionId.Equals(string.Empty)))
+                {
+                    TaxOptionId = AppFunc.GetLocation(AppConfig, UserSession, OfficeLocationId, "taxoptionid").Result;
+                }
+                //tmpTaxId = AppFunc.GetNextIdAsync(AppConfig).Result;
+                //TaxId = tmpTaxId;
+            }
+            else
+            {
+                //if ((tax.TaxId == null) || (tax.TaxId.Equals(string.Empty)))
+                //{
+                //    tax.TaxId = lOrig.TaxId;
+                //}
+                //if (string.IsNullOrEmpty(OutDeliveryId))
+                //{
+                //    OutDeliveryId = lOrig.OutDeliveryId;
+                //}
+                //if (string.IsNullOrEmpty(InDeliveryId))
+                //{
+                //    InDeliveryId = lOrig.InDeliveryId;
+                //}
+            }
+        }
+        //------------------------------------------------------------------------------------
+
+
         public async Task<string> CreateReceiveContract()
         {
             string contractId = await purchaseOrder.CreateReceiveContract();

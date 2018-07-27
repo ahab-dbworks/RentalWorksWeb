@@ -23,6 +23,8 @@ namespace WebLibrary
         public const string MODULE_QUOTE = "QUOTE";
         public const string MODULE_REPAIR = "REPAIR";
         public const string MODULE_PROJECT = "PROJECT";
+        public const string MODULE_PURCHASE_ORDER = "PO";
+        
 
         //QOTE/ORDER
         public const string ORDER_TYPE_QUOTE = "Q";

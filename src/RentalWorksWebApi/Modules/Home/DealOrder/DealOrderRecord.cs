@@ -988,6 +988,10 @@ public string DateStamp { get; set; }
             {
                 moduleName = RwConstants.MODULE_PROJECT;
             }
+            else if (Type.Equals(RwConstants.ORDER_TYPE_PURCHASE_ORDER))
+            {
+                moduleName = RwConstants.MODULE_PURCHASE_ORDER;
+            }
             else
             {
                 throw new Exception("Invalid Type " + Type + " in DealOrderRecord.SetNumber");
