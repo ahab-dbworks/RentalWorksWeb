@@ -58,7 +58,7 @@
                 autoclose: true, donetext: 'Done', afterDone: function () {
                     $field.find('input').focus();
                 }
-                });
+            });
         } else {
             $field.find('#timepicker').clockpicker({
                 autoclose: true, twelvehour: true, donetext: 'Done', afterDone: function () {
@@ -76,5 +76,5 @@
     }
     //---------------------------------------------------------------------------------
 }
-    
+
 var FwBrowseColumn_timepicker = new FwBrowseColumn_timepickerClass();

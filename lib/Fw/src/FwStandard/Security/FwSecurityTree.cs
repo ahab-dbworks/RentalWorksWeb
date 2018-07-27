@@ -1,4 +1,4 @@
-﻿﻿using FwStandard.Models;
+﻿using FwStandard.Models;
 using FwStandard.SqlServer;
 using Newtonsoft.Json;
 using System;
@@ -13,18 +13,18 @@ namespace FwStandard.Security
         private SqlServerConfig _sqlServerOptions;
         public Dictionary<string, FwSqlData.ApplicationOption> ApplicationOptions { get; set; }
         public Dictionary<string, FwSecurityTreeNode> GroupTrees { get; private set; } = new Dictionary<string, FwSecurityTreeNode>();
-        //--------------------------------------------------------------------------------------------- 
-        // this needs to get loaded in the project's application start event 
+        //---------------------------------------------------------------------------------------------
+        // this needs to get loaded in the project's application start event
         public static FwSecurityTree Tree { get; set; }
         public static string CurrentApplicationId { get; set; }
-        //--------------------------------------------------------------------------------------------- 
+        //---------------------------------------------------------------------------------------------
         [JsonProperty("applications")]
         public FwSecurityTreeNode System { get; set; }
-        //--------------------------------------------------------------------------------------------- 
-        // index the nodes in a dictionary by id for fast lookups 
+        //---------------------------------------------------------------------------------------------
+        // index the nodes in a dictionary by id for fast lookups
         public Dictionary<string, FwSecurityTreeNode> Nodes { get; set; } = new Dictionary<string, FwSecurityTreeNode>();
         public Dictionary<string, FwSecurityTreeNode> ExcludedNodes { get; set; } = new Dictionary<string, FwSecurityTreeNode>();
-        //--------------------------------------------------------------------------------------------- 
+        //---------------------------------------------------------------------------------------------
         public FwSecurityTree(SqlServerConfig sqlServerOptions, string currentApplicationId)
         {
             _sqlServerOptions = sqlServerOptions;
@@ -34,7 +34,7 @@ namespace FwStandard.Security
                 await this.InitAsync();
             }).Wait();
         }
-        //--------------------------------------------------------------------------------------------- 
+        //---------------------------------------------------------------------------------------------
         public async Task InitAsync()
         {
             using (FwSqlConnection conn = new FwSqlConnection(_sqlServerOptions.ConnectionString))
@@ -42,7 +42,7 @@ namespace FwStandard.Security
                 this.ApplicationOptions = await FwSqlData.GetApplicationOptions2Async(conn, _sqlServerOptions);
             }
         }
-        //--------------------------------------------------------------------------------------------- 
+        //---------------------------------------------------------------------------------------------
         static string StripId(string id)
         {
             string result = id;
@@ -52,7 +52,7 @@ namespace FwStandard.Security
             }
             return result;
         }
-        //--------------------------------------------------------------------------------------------- 
+        //---------------------------------------------------------------------------------------------
         private FwSecurityTreeNode Add(string parentid, string id, string caption, FwSecurityTreeNodeTypes nodeType)
         {
             FwSecurityTreeNode parentNode = null, node;
@@ -82,14 +82,14 @@ namespace FwStandard.Security
 
             return node;
         }
-        //--------------------------------------------------------------------------------------------- 
+        //---------------------------------------------------------------------------------------------
         public FwSecurityTreeNode AddSystem(string caption, string id)
         {
             id = StripId(id);
             this.System = Add(null, id, caption, FwSecurityTreeNodeTypes.System);
             return this.System;
         }
-        //--------------------------------------------------------------------------------------------- 
+        //---------------------------------------------------------------------------------------------
         public FwSecurityTreeNode AddApplication(string caption, string id, string parentid)
         {
             FwSecurityTreeNode node;
@@ -98,7 +98,7 @@ namespace FwStandard.Security
             node = Add(parentid, id, caption, FwSecurityTreeNodeTypes.Application);
             return node;
         }
-        //--------------------------------------------------------------------------------------------- 
+        //---------------------------------------------------------------------------------------------
         public FwSecurityTreeNode AddLv1ModuleMenu(string caption, string id, string parentid)
         {
             FwSecurityTreeNode node;
@@ -109,7 +109,7 @@ namespace FwStandard.Security
 
             return node;
         }
-        //--------------------------------------------------------------------------------------------- 
+        //---------------------------------------------------------------------------------------------
         public FwSecurityTreeNode AddLv2ModuleMenu(string caption, string id, string parentid, string iconurl)
         {
             FwSecurityTreeNode node;
@@ -121,7 +121,7 @@ namespace FwStandard.Security
 
             return node;
         }
-        //--------------------------------------------------------------------------------------------- 
+        //---------------------------------------------------------------------------------------------
         public FwSecurityTreeNode AddLv2ModuleMenu(string caption, string id, string parentid, string iconurl, string htmlcaption)
         {
             FwSecurityTreeNode node;
@@ -134,7 +134,7 @@ namespace FwStandard.Security
 
             return node;
         }
-        //--------------------------------------------------------------------------------------------- 
+        //---------------------------------------------------------------------------------------------
         public FwSecurityTreeNode AddLv1SubModulesMenu(string caption, string id, string parentid)
         {
             FwSecurityTreeNode node;
@@ -145,7 +145,7 @@ namespace FwStandard.Security
 
             return node;
         }
-        //--------------------------------------------------------------------------------------------- 
+        //---------------------------------------------------------------------------------------------
         public FwSecurityTreeNode AddLv1GridsMenu(string caption, string id, string parentid)
         {
             FwSecurityTreeNode node;
@@ -156,8 +156,8 @@ namespace FwStandard.Security
 
             return node;
         }
-        //--------------------------------------------------------------------------------------------- 
-        // The mobile applications require the usertype parameter be set, so don't use this version in a mobile app 
+        //---------------------------------------------------------------------------------------------
+        // The mobile applications require the usertype parameter be set, so don't use this version in a mobile app
         public FwSecurityTreeNode AddModule(string caption, string id, string parentid, string controller, string modulenav, string iconurl)
         {
             FwSecurityTreeNode node;
@@ -171,7 +171,7 @@ namespace FwStandard.Security
 
             return node;
         }
-        //--------------------------------------------------------------------------------------------- 
+        //---------------------------------------------------------------------------------------------
         public FwSecurityTreeNode AddModule(string caption, string id, string parentid, string controller, string modulenav, string iconurl, string usertype)
         {
             FwSecurityTreeNode node;
@@ -186,7 +186,7 @@ namespace FwStandard.Security
 
             return node;
         }
-        //--------------------------------------------------------------------------------------------- 
+        //---------------------------------------------------------------------------------------------
         public FwSecurityTreeNode AddModule(string caption, string id, string parentid, string controller, string modulenav, string iconurl, string htmlcaption, string appoptions, string usertype, string color = "")
         {
             FwSecurityTreeNode node = null;
@@ -219,7 +219,7 @@ namespace FwStandard.Security
 
             return node;
         }
-        //--------------------------------------------------------------------------------------------- 
+        //---------------------------------------------------------------------------------------------
         public FwSecurityTreeNode AddLvl1SettingsMenu(string caption, string id, string parentid)
         {
             FwSecurityTreeNode node;
@@ -230,7 +230,7 @@ namespace FwStandard.Security
 
             return node;
         }
-        //--------------------------------------------------------------------------------------------- 
+        //---------------------------------------------------------------------------------------------
         public FwSecurityTreeNode AddSettingsMenu(string caption, string id, string parentid, string iconurl)
         {
             FwSecurityTreeNode node;
@@ -242,7 +242,7 @@ namespace FwStandard.Security
 
             return node;
         }
-        //--------------------------------------------------------------------------------------------- 
+        //---------------------------------------------------------------------------------------------
         public FwSecurityTreeNode AddSettingsModule(string caption, string id, string parentid, string controller, string modulenav, string iconurl = "", string htmlcaption = "", string appoptions = "", string usertype = "", string color = "", string description = "")
         {
             FwSecurityTreeNode node = null;
@@ -276,64 +276,7 @@ namespace FwStandard.Security
 
             return node;
         }
-        //--------------------------------------------------------------------------------------------- 
-        public FwSecurityTreeNode AddLv1ReportsMenu(string caption, string id, string parentid)
-        {
-            FwSecurityTreeNode node;
-
-            id = StripId(id);
-            parentid = StripId(parentid);
-            node = this.Add(parentid, id, caption, FwSecurityTreeNodeTypes.Lv1ReportsMenu);
-
-            return node;
-        }
-        //--------------------------------------------------------------------------------------------- 
-        public FwSecurityTreeNode AddReportsMenu(string caption, string id, string parentid, string iconurl)
-        {
-            FwSecurityTreeNode node;
-
-            id = StripId(id);
-            parentid = StripId(parentid);
-            node = this.Add(parentid, id, caption, FwSecurityTreeNodeTypes.ReportsMenu);
-            node.Properties["iconurl"] = iconurl;
-
-            return node;
-        }
-        //--------------------------------------------------------------------------------------------- 
-        public FwSecurityTreeNode AddReportsModule(string caption, string id, string parentid, string controller, string modulenav, string iconurl = "", string htmlcaption = "", string appoptions = "", string usertype = "", string color = "", string description = "")
-        {
-            FwSecurityTreeNode node = null;
-
-            bool hasAppOptions = true;
-            string[] appoptionsarray = appoptions.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
-            foreach (string appoption in appoptionsarray)
-            {
-                if (!ApplicationOptions.ContainsKey(appoption) || !ApplicationOptions[appoption].Enabled)
-                {
-                    hasAppOptions = false;
-                    break;
-                }
-            }
-            id = StripId(id);
-            parentid = StripId(parentid);
-            node = this.Add(parentid, id, caption, FwSecurityTreeNodeTypes.ReportsModule);
-            node.Properties["controller"] = controller;
-            node.Properties["modulenav"] = modulenav;
-            node.Properties["iconurl"] = iconurl;
-            node.Properties["htmlcaption"] = htmlcaption;
-            node.Properties["usertype"] = usertype;
-            node.Properties["color"] = color;
-            node.Properties["description"] = description;
-            if (!hasAppOptions)
-            {
-                Nodes.Remove(id);
-                Nodes[parentid].Children.Remove(node);
-                ExcludedNodes[id] = node;
-            }
-
-            return node;
-        }
-        //--------------------------------------------------------------------------------------------- 
+        //---------------------------------------------------------------------------------------------
         public FwSecurityTreeNode AddSubModule(string caption, string id, string parentid, string controller)
         {
             FwSecurityTreeNode node;
@@ -345,7 +288,7 @@ namespace FwStandard.Security
 
             return node;
         }
-        //--------------------------------------------------------------------------------------------- 
+        //---------------------------------------------------------------------------------------------
         public FwSecurityTreeNode AddGrid(string caption, string id, string parentid, string controller)
         {
             FwSecurityTreeNode node;
@@ -357,7 +300,7 @@ namespace FwStandard.Security
 
             return node;
         }
-        //--------------------------------------------------------------------------------------------- 
+        //---------------------------------------------------------------------------------------------
         public FwSecurityTreeNode AddReport(string caption, string id, string parentid, string controller, string modulenav, string iconurl)
         {
             FwSecurityTreeNode node;
@@ -371,7 +314,7 @@ namespace FwStandard.Security
 
             return node;
         }
-        //--------------------------------------------------------------------------------------------- 
+        //---------------------------------------------------------------------------------------------
         public FwSecurityTreeNode AddReport(string caption, string id, string parentid, string controller, string modulenav, string iconurl, string htmlcaption)
         {
             FwSecurityTreeNode node;
@@ -386,7 +329,7 @@ namespace FwStandard.Security
 
             return node;
         }
-        //--------------------------------------------------------------------------------------------- 
+        //---------------------------------------------------------------------------------------------
         public FwSecurityTreeNode AddReport(string caption, string id, string parentid, string controller, string modulenav, string iconurl, string htmlcaption, string appoptions, string usertype)
         {
             FwSecurityTreeNode node;
@@ -417,7 +360,7 @@ namespace FwStandard.Security
 
             return node;
         }
-        //--------------------------------------------------------------------------------------------- 
+        //---------------------------------------------------------------------------------------------
         public FwSecurityTreeNode AddBrowse(string id, string parentid)
         {
             FwSecurityTreeNode node;
@@ -428,7 +371,7 @@ namespace FwStandard.Security
 
             return node;
         }
-        //--------------------------------------------------------------------------------------------- 
+        //---------------------------------------------------------------------------------------------
         public FwSecurityTreeNode AddForm(string id, string parentid)
         {
             FwSecurityTreeNode formNode, moduleNode = null;
@@ -463,106 +406,106 @@ namespace FwStandard.Security
                 module = controller;
             }
             if (module == null) throw new Exception("Can't find module: " + module);
-            //if (FwApplicationSchema.Current.Modules.ContainsKey(module) && FwApplicationSchema.Current.Modules[module].Form != null) 
-            //{ 
-            //    FwSecurityTreeNode nodeComponents; 
-            //    FwApplicationSchema.FormTable formTable; 
-            //    string componentsid, tabid; 
-            //    int tabno, fieldno, gridno; 
+            //if (FwApplicationSchema.Current.Modules.ContainsKey(module) && FwApplicationSchema.Current.Modules[module].Form != null)
+            //{
+            //    FwSecurityTreeNode nodeComponents;
+            //    FwApplicationSchema.FormTable formTable;
+            //    string componentsid, tabid;
+            //    int tabno, fieldno, gridno;
 
-            //    // Add Components to Form 
-            //    componentsid = id + "_components"; 
-            //    nodeComponents = AddComponents(componentsid, id); 
-            //    if (FwApplicationSchema.Current.Modules[module].Form.Tabs.Count > 0) 
-            //    { 
-            //        // add fields not on tab to Components 
-            //        fieldno = 0; 
-            //        foreach(KeyValuePair<string, FwApplicationSchema.FormTable> formTableItem in FwApplicationSchema.Current.Modules[module].Form.Tables) 
-            //        { 
-            //            formTable = formTableItem.Value; 
-            //            foreach (KeyValuePair<string, FwApplicationSchema.Column> columnItem in formTable.Columns) 
-            //            { 
-            //                FwApplicationSchema.Column column; 
-            //                column = columnItem.Value; 
-            //                if (string.IsNullOrWhiteSpace(column.TabCaption)) 
-            //                { 
-            //                    string fieldid, caption; 
-            //                    bool addField = true; 
-            //                    fieldid = componentsid + "_field" +  fieldno.ToString(); 
-            //                    caption = column.Caption; 
-            //                    if ((caption == "datestamp") || (string.IsNullOrWhiteSpace(caption)) || (caption == "chg") || (caption == "driverchg") || (caption == "fuelchg")) 
-            //                    { 
-            //                        addField = false; 
-            //                    } 
-            //                    if (addField) 
-            //                    { 
-            //                        AddField(fieldid, componentsid, column.Caption); 
-            //                    } 
-            //                    fieldno++; 
-            //                } 
-            //            } 
-            //        } 
+            //    // Add Components to Form
+            //    componentsid = id + "_components";
+            //    nodeComponents = AddComponents(componentsid, id);
+            //    if (FwApplicationSchema.Current.Modules[module].Form.Tabs.Count > 0)
+            //    {
+            //        // add fields not on tab to Components
+            //        fieldno = 0;
+            //        foreach(KeyValuePair<string, FwApplicationSchema.FormTable> formTableItem in FwApplicationSchema.Current.Modules[module].Form.Tables)
+            //        {
+            //            formTable = formTableItem.Value;
+            //            foreach (KeyValuePair<string, FwApplicationSchema.Column> columnItem in formTable.Columns)
+            //            {
+            //                FwApplicationSchema.Column column;
+            //                column = columnItem.Value;
+            //                if (string.IsNullOrWhiteSpace(column.TabCaption))
+            //                {
+            //                    string fieldid, caption;
+            //                    bool addField = true;
+            //                    fieldid = componentsid + "_field" +  fieldno.ToString();
+            //                    caption = column.Caption;
+            //                    if ((caption == "datestamp") || (string.IsNullOrWhiteSpace(caption)) || (caption == "chg") || (caption == "driverchg") || (caption == "fuelchg"))
+            //                    {
+            //                        addField = false;
+            //                    }
+            //                    if (addField)
+            //                    {
+            //                        AddField(fieldid, componentsid, column.Caption);
+            //                    }
+            //                    fieldno++;
+            //                }
+            //            }
+            //        }
 
-            //        // Add Tabs to Components 
-            //        tabno = 0; 
-            //        foreach (FwApplicationSchema.Tab tab in FwApplicationSchema.Current.Modules[module].Form.Tabs) 
-            //        { 
-            //            tabid = componentsid + "_tab" + tabno.ToString(); 
-            //            AddTab(tabid, componentsid, tab.Caption); 
-            //            fieldno = 0; 
-            //            foreach(KeyValuePair<string, FwApplicationSchema.FormTable> formTableItem in FwApplicationSchema.Current.Modules[module].Form.Tables) 
-            //            { 
-            //                formTable = formTableItem.Value; 
-            //                foreach (KeyValuePair<string, FwApplicationSchema.Column> columnItem in formTable.Columns) 
-            //                { 
-            //                    FwApplicationSchema.Column column; 
-            //                    column = columnItem.Value; 
-            //                    if (column.TabCaption == tab.Caption) 
-            //                    { 
-            //                        string fieldid, caption; 
-            //                        bool addField = true; 
-            //                        //fieldid = tabid + "_field" +  fieldno.ToString(); 
-            //                        fieldid = tabid + "_field-" +  Regex.Replace(column.Caption, @"[^A-Za-z0-9]", string.Empty) + "-" + Regex.Replace(formTable.TableName + column.ColumnName, @"[^A-Za-z0-9]", string.Empty); 
-            //                        caption = column.Caption; 
-            //                        if ((caption == "datestamp") || (string.IsNullOrWhiteSpace(caption)) || (caption == "chg") || (caption == "driverchg") || (caption == "fuelchg")) 
-            //                        { 
-            //                            addField = false; 
-            //                        } 
-            //                        if (addField) 
-            //                        { 
-            //                            AddField(fieldid, tabid, column.Caption); 
-            //                        } 
-            //                        fieldno++; 
-            //                    } 
-            //                } 
-            //            } 
-            //            tabno++; 
-            //        } 
+            //        // Add Tabs to Components
+            //        tabno = 0;
+            //        foreach (FwApplicationSchema.Tab tab in FwApplicationSchema.Current.Modules[module].Form.Tabs)
+            //        {
+            //            tabid = componentsid + "_tab" + tabno.ToString();
+            //            AddTab(tabid, componentsid, tab.Caption);
+            //            fieldno = 0;
+            //            foreach(KeyValuePair<string, FwApplicationSchema.FormTable> formTableItem in FwApplicationSchema.Current.Modules[module].Form.Tables)
+            //            {
+            //                formTable = formTableItem.Value;
+            //                foreach (KeyValuePair<string, FwApplicationSchema.Column> columnItem in formTable.Columns)
+            //                {
+            //                    FwApplicationSchema.Column column;
+            //                    column = columnItem.Value;
+            //                    if (column.TabCaption == tab.Caption)
+            //                    {
+            //                        string fieldid, caption;
+            //                        bool addField = true;
+            //                        //fieldid = tabid + "_field" +  fieldno.ToString();
+            //                        fieldid = tabid + "_field-" +  Regex.Replace(column.Caption, @"[^A-Za-z0-9]", string.Empty) + "-" + Regex.Replace(formTable.TableName + column.ColumnName, @"[^A-Za-z0-9]", string.Empty);
+            //                        caption = column.Caption;
+            //                        if ((caption == "datestamp") || (string.IsNullOrWhiteSpace(caption)) || (caption == "chg") || (caption == "driverchg") || (caption == "fuelchg"))
+            //                        {
+            //                            addField = false;
+            //                        }
+            //                        if (addField)
+            //                        {
+            //                            AddField(fieldid, tabid, column.Caption);
+            //                        }
+            //                        fieldno++;
+            //                    }
+            //                }
+            //            }
+            //            tabno++;
+            //        }
 
-            //        // Add Grids to Components 
-            //        tabno = 0; 
-            //        foreach (FwApplicationSchema.Tab tab in FwApplicationSchema.Current.Modules[module].Form.Tabs) 
-            //        { 
-            //            tabid = componentsid + "_tab" + tabno.ToString(); 
-            //            gridno = 0; 
-            //            foreach(FwApplicationSchema.FormGrid formGrid in FwApplicationSchema.Current.Modules[module].Form.Grids) 
-            //            { 
-            //                if (formGrid.TabCaption == tab.Caption) 
-            //                { 
-            //                    string gridid; 
-            //                    gridid = tabid + "_grid" +  gridno.ToString(); 
-            //                    AddFormGrid(gridid, tabid, formGrid.SecurityCaption, formGrid.Grid); 
-            //                    gridno++; 
-            //                } 
-            //            } 
-            //            tabno++; 
-            //        } 
-            //    } 
-            //} 
+            //        // Add Grids to Components
+            //        tabno = 0;
+            //        foreach (FwApplicationSchema.Tab tab in FwApplicationSchema.Current.Modules[module].Form.Tabs)
+            //        {
+            //            tabid = componentsid + "_tab" + tabno.ToString();
+            //            gridno = 0;
+            //            foreach(FwApplicationSchema.FormGrid formGrid in FwApplicationSchema.Current.Modules[module].Form.Grids)
+            //            {
+            //                if (formGrid.TabCaption == tab.Caption)
+            //                {
+            //                    string gridid;
+            //                    gridid = tabid + "_grid" +  gridno.ToString();
+            //                    AddFormGrid(gridid, tabid, formGrid.SecurityCaption, formGrid.Grid);
+            //                    gridno++;
+            //                }
+            //            }
+            //            tabno++;
+            //        }
+            //    }
+            //}
 
             return formNode;
         }
-        //--------------------------------------------------------------------------------------------- 
+        //---------------------------------------------------------------------------------------------
         public FwSecurityTreeNode AddComponents(string id, string parentid)
         {
             FwSecurityTreeNode node;
@@ -573,7 +516,7 @@ namespace FwStandard.Security
 
             return node;
         }
-        //--------------------------------------------------------------------------------------------- 
+        //---------------------------------------------------------------------------------------------
         public FwSecurityTreeNode AddTab(string id, string parentid, string caption)
         {
             FwSecurityTreeNode node;
@@ -582,7 +525,7 @@ namespace FwStandard.Security
 
             return node;
         }
-        //--------------------------------------------------------------------------------------------- 
+        //---------------------------------------------------------------------------------------------
         public FwSecurityTreeNode AddField(string id, string parentid, string caption)
         {
             FwSecurityTreeNode node;
@@ -593,7 +536,7 @@ namespace FwStandard.Security
 
             return node;
         }
-        //--------------------------------------------------------------------------------------------- 
+        //---------------------------------------------------------------------------------------------
         public FwSecurityTreeNode AddFormGrid(string id, string parentid, string caption, string grid)
         {
             FwSecurityTreeNode node;
@@ -605,7 +548,7 @@ namespace FwStandard.Security
 
             return node;
         }
-        //--------------------------------------------------------------------------------------------- 
+        //---------------------------------------------------------------------------------------------
         public FwSecurityTreeNode AddMenuBar(string id, string parentid)
         {
             FwSecurityTreeNode node;
@@ -614,7 +557,7 @@ namespace FwStandard.Security
 
             return node;
         }
-        //--------------------------------------------------------------------------------------------- 
+        //---------------------------------------------------------------------------------------------
         public FwSecurityTreeNode AddSubMenu(string id, string parentid)
         {
             FwSecurityTreeNode node;
@@ -625,7 +568,7 @@ namespace FwStandard.Security
 
             return node;
         }
-        //--------------------------------------------------------------------------------------------- 
+        //---------------------------------------------------------------------------------------------
         public FwSecurityTreeNode AddSubMenuGroup(string caption, string id, string parentid)
         {
             FwSecurityTreeNode node;
@@ -636,7 +579,7 @@ namespace FwStandard.Security
 
             return node;
         }
-        //--------------------------------------------------------------------------------------------- 
+        //---------------------------------------------------------------------------------------------
         public FwSecurityTreeNode AddSubMenuItem(string caption, string id, string parentid)
         {
             FwSecurityTreeNode node;
@@ -647,7 +590,7 @@ namespace FwStandard.Security
 
             return node;
         }
-        //--------------------------------------------------------------------------------------------- 
+        //---------------------------------------------------------------------------------------------
         public FwSecurityTreeNode AddDownloadExcelSubMenuItem(string id, string parentid)
         {
             FwSecurityTreeNode node;
@@ -657,7 +600,7 @@ namespace FwStandard.Security
 
             return node;
         }
-        //--------------------------------------------------------------------------------------------- 
+        //---------------------------------------------------------------------------------------------
         public FwSecurityTreeNode AddMenuBarButton(string caption, string id, string parentid)
         {
             FwSecurityTreeNode node;
@@ -668,7 +611,7 @@ namespace FwStandard.Security
 
             return node;
         }
-        //--------------------------------------------------------------------------------------------- 
+        //---------------------------------------------------------------------------------------------
         public FwSecurityTreeNode AddNewMenuBarButton(string id, string parentid)
         {
             FwSecurityTreeNode node;
@@ -678,7 +621,7 @@ namespace FwStandard.Security
 
             return node;
         }
-        //--------------------------------------------------------------------------------------------- 
+        //---------------------------------------------------------------------------------------------
         public FwSecurityTreeNode AddEditMenuBarButton(string id, string parentid)
         {
             FwSecurityTreeNode node;
@@ -688,7 +631,7 @@ namespace FwStandard.Security
 
             return node;
         }
-        //--------------------------------------------------------------------------------------------- 
+        //---------------------------------------------------------------------------------------------
         public FwSecurityTreeNode AddViewMenuBarButton(string id, string parentid)
         {
             FwSecurityTreeNode node;
@@ -698,7 +641,7 @@ namespace FwStandard.Security
 
             return node;
         }
-        //--------------------------------------------------------------------------------------------- 
+        //---------------------------------------------------------------------------------------------
         public FwSecurityTreeNode AddDeleteMenuBarButton(string id, string parentid)
         {
             FwSecurityTreeNode node;
@@ -707,7 +650,7 @@ namespace FwStandard.Security
 
             return node;
         }
-        //--------------------------------------------------------------------------------------------- 
+        //---------------------------------------------------------------------------------------------
         public FwSecurityTreeNode AddSaveMenuBarButton(string id, string parentid)
         {
             FwSecurityTreeNode node;
@@ -716,7 +659,7 @@ namespace FwStandard.Security
 
             return node;
         }
-        //--------------------------------------------------------------------------------------------- 
+        //---------------------------------------------------------------------------------------------
         public FwSecurityTreeNode AddPrevMenuBarButton(string id, string parentid)
         {
             FwSecurityTreeNode node;
@@ -725,7 +668,7 @@ namespace FwStandard.Security
 
             return node;
         }
-        //--------------------------------------------------------------------------------------------- 
+        //---------------------------------------------------------------------------------------------
         public FwSecurityTreeNode AddNextMenuBarButton(string id, string parentid)
         {
             FwSecurityTreeNode node;
@@ -734,7 +677,7 @@ namespace FwStandard.Security
 
             return node;
         }
-        //--------------------------------------------------------------------------------------------- 
+        //---------------------------------------------------------------------------------------------
         public FwSecurityTreeNode AddController(string caption, string id, string parentid)
         {
             FwSecurityTreeNode node;
@@ -745,7 +688,7 @@ namespace FwStandard.Security
 
             return node;
         }
-        //--------------------------------------------------------------------------------------------- 
+        //---------------------------------------------------------------------------------------------
         public FwSecurityTreeNode AddControllerMethod(string caption, string method, string id, string parentid)
         {
             FwSecurityTreeNode node;
@@ -757,7 +700,7 @@ namespace FwStandard.Security
 
             return node;
         }
-        //--------------------------------------------------------------------------------------------- 
+        //---------------------------------------------------------------------------------------------
         public FwSecurityTreeNode FindById(string id)
         {
             FwSecurityTreeNode node = null;
@@ -770,7 +713,7 @@ namespace FwStandard.Security
 
             return node;
         }
-        //--------------------------------------------------------------------------------------------- 
+        //---------------------------------------------------------------------------------------------
         public async Task<FwSecurityTreeNode> GetGroupsTreeAsync(string groupsid, bool removeHiddenNodes)
         {
             bool hidenewmenuoptionsbydefault;
@@ -830,8 +773,6 @@ namespace FwStandard.Security
                                 case "Module":
                                 case "SettingsMenu":
                                 case "SettingsModule":
-                                case "ReportsMenu":
-                                case "ReportsModule":
                                 case "SubMenuGroup":
                                 case "SubMenuItem":
                                 case "DownloadExcelSubMenuItem":
@@ -870,6 +811,6 @@ namespace FwStandard.Security
 
             return groupTree;
         }
-        //--------------------------------------------------------------------------------------------- 
+        //---------------------------------------------------------------------------------------------
     }
 }

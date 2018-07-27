@@ -287,6 +287,7 @@
                             $this.siblings('.searchclear').addClass('visible');
                         }
                         me.search($control);
+                        $this.focus();
                     }
                 } catch (ex) {
                     FwFunc.showError(ex);
@@ -324,134 +325,134 @@
                     FwFunc.showError(ex);
                 }
             })
-            //.on('click', 'tbody .browsecontextmenu', function () {
-            //    try {
-            //        let $browse = jQuery(this).closest('.fwbrowse');
-            //        if ($browse.attr('data-enabled') !== 'false') {
-            //            var menuItemCount = 0;
-            //            var $browsecontextmenu = jQuery(this);
-            //            var $tr = $browsecontextmenu.closest('tr');
-            //            //me.unselectAllRows($control);
-            //            //me.selectRow($control, $tr, true);
-            //            var $contextmenu = FwContextMenu.render('Options', 'bottomleft', $browsecontextmenu);
-            //            //$contextmenu.data('beforedestroy', function () {
-            //            //    me.unselectRow($control, $tr);
-            //            //});
+        //.on('click', 'tbody .browsecontextmenu', function () {
+        //    try {
+        //        let $browse = jQuery(this).closest('.fwbrowse');
+        //        if ($browse.attr('data-enabled') !== 'false') {
+        //            var menuItemCount = 0;
+        //            var $browsecontextmenu = jQuery(this);
+        //            var $tr = $browsecontextmenu.closest('tr');
+        //            //me.unselectAllRows($control);
+        //            //me.selectRow($control, $tr, true);
+        //            var $contextmenu = FwContextMenu.render('Options', 'bottomleft', $browsecontextmenu);
+        //            //$contextmenu.data('beforedestroy', function () {
+        //            //    me.unselectRow($control, $tr);
+        //            //});
 
-            //            var controller = $control.attr('data-controller');
-            //            if (typeof controller === 'undefined') {
-            //                throw 'Attribute data-controller is not defined on Browse control.'
-            //            }
-            //            var nodeController = FwApplicationTree.getNodeByController(controller);
-            //            if (nodeController !== null) {
-            //                var deleteActions = FwApplicationTree.getChildrenByType(nodeController, 'DeleteMenuBarButton');
-            //                if (deleteActions.length > 1) {
-            //                    throw 'Invalid Security Tree configuration.  Only 1 DeleteMenuBarButton is permitted on a Controller.';
-            //                }
-            //                if (deleteActions.length === 1 && deleteActions[0].properties['visible'] === 'T') {
-            //                    FwContextMenu.addMenuItem($contextmenu, 'Delete', function () {
-            //                        try {
-            //                            var $tr = jQuery(this).closest('tr');
-            //                            me.deleteRow($control, $tr);
-            //                        } catch (ex) {
-            //                            FwFunc.showError(ex);
-            //                        }
-            //                    });
-            //                    menuItemCount++;
-            //                }
-            //            }
-            //            if (menuItemCount === 0) {
-            //                FwContextMenu.destroy($contextmenu);
-            //            }
-            //        }
-            //    } catch (ex) {
-            //        FwFunc.showError(ex);
-            //    }
-            //});
+        //            var controller = $control.attr('data-controller');
+        //            if (typeof controller === 'undefined') {
+        //                throw 'Attribute data-controller is not defined on Browse control.'
+        //            }
+        //            var nodeController = FwApplicationTree.getNodeByController(controller);
+        //            if (nodeController !== null) {
+        //                var deleteActions = FwApplicationTree.getChildrenByType(nodeController, 'DeleteMenuBarButton');
+        //                if (deleteActions.length > 1) {
+        //                    throw 'Invalid Security Tree configuration.  Only 1 DeleteMenuBarButton is permitted on a Controller.';
+        //                }
+        //                if (deleteActions.length === 1 && deleteActions[0].properties['visible'] === 'T') {
+        //                    FwContextMenu.addMenuItem($contextmenu, 'Delete', function () {
+        //                        try {
+        //                            var $tr = jQuery(this).closest('tr');
+        //                            me.deleteRow($control, $tr);
+        //                        } catch (ex) {
+        //                            FwFunc.showError(ex);
+        //                        }
+        //                    });
+        //                    menuItemCount++;
+        //                }
+        //            }
+        //            if (menuItemCount === 0) {
+        //                FwContextMenu.destroy($contextmenu);
+        //            }
+        //        }
+        //    } catch (ex) {
+        //        FwFunc.showError(ex);
+        //    }
+        //});
 
-            $control
-                .on('click', '.runtime .pager div.buttons .btnFirstPage', function (e: JQuery.Event) {
-                    try {
-                        e.stopPropagation();
-                        var $btnFirstPage = jQuery(this);
-                        if ($btnFirstPage.attr('data-enabled') === 'true') {
-                            $control.attr('data-pageno', '1');
-                            me.databind($control);
-                        }
-                    } catch (ex) {
-                        FwFunc.showError(ex);
+        $control
+            .on('click', '.runtime .pager div.buttons .btnFirstPage', function (e: JQuery.Event) {
+                try {
+                    e.stopPropagation();
+                    var $btnFirstPage = jQuery(this);
+                    if ($btnFirstPage.attr('data-enabled') === 'true') {
+                        $control.attr('data-pageno', '1');
+                        me.databind($control);
                     }
-                });
-            $control
-                .on('click', '.runtime .pager div.buttons .btnPreviousPage', function (e: JQuery.Event) {
-                    try {
-                        e.stopPropagation();
-                        me.prevPage($control);
-                    } catch (ex) {
-                        FwFunc.showError(ex);
-                    }
-                });
-            $control
-                .on('change', '.runtime .pager div.buttons .txtPageNo', function () {
-                    var pageno, originalpageno, originalpagenoStr, $txtPageNo, totalPages;
-                    try {
-                        $txtPageNo = jQuery(this);
-                        originalpagenoStr = $txtPageNo.val();
-                        if (!isNaN(originalpagenoStr)) {
-                            pageno = parseInt(originalpagenoStr);
-                            originalpageno = pageno;
-                            totalPages = parseInt($control.find('.runtime .pager div.buttons .txtTotalPages').html());
-                            pageno = (pageno >= 1) ? pageno : 1;
-                            pageno = (pageno <= totalPages) ? pageno : totalPages;
-                            if (pageno === originalpageno) {
-                                me.setPageNo($control, pageno);
-                                me.databind($control);
-                            } else {
-                                $control.find('.runtime .pager div.buttons .txtTotalPages').val(pageno);
-                            }
-                        } else {
-
-                        }
-                    } catch (ex) {
-                        $control.find('.runtime .pager div.buttons .txtTotalPages').val(originalpagenoStr);
-                        FwFunc.showError(ex);
-                    }
-                });
-            $control
-                .on('click', '.runtime .pager div.buttons .btnNextPage', function (e: JQuery.Event) {
-                    try {
-                        e.stopPropagation();
-                        me.nextPage($control);
-                    } catch (ex) {
-                        FwFunc.showError(ex);
-                    }
-                });
-            $control
-                .on('click', '.runtime .pager div.buttons .btnLastPage', function (e: JQuery.Event) {
-                    try {
-                        e.stopPropagation();
-                        var $btnLastPage = jQuery(this);
-                        if ($btnLastPage.attr('data-enabled') === 'true') {
-                            var pageno = me.getTotalPages($control);
+                } catch (ex) {
+                    FwFunc.showError(ex);
+                }
+            });
+        $control
+            .on('click', '.runtime .pager div.buttons .btnPreviousPage', function (e: JQuery.Event) {
+                try {
+                    e.stopPropagation();
+                    me.prevPage($control);
+                } catch (ex) {
+                    FwFunc.showError(ex);
+                }
+            });
+        $control
+            .on('change', '.runtime .pager div.buttons .txtPageNo', function () {
+                var pageno, originalpageno, originalpagenoStr, $txtPageNo, totalPages;
+                try {
+                    $txtPageNo = jQuery(this);
+                    originalpagenoStr = $txtPageNo.val();
+                    if (!isNaN(originalpagenoStr)) {
+                        pageno = parseInt(originalpagenoStr);
+                        originalpageno = pageno;
+                        totalPages = parseInt($control.find('.runtime .pager div.buttons .txtTotalPages').html());
+                        pageno = (pageno >= 1) ? pageno : 1;
+                        pageno = (pageno <= totalPages) ? pageno : totalPages;
+                        if (pageno === originalpageno) {
                             me.setPageNo($control, pageno);
                             me.databind($control);
+                        } else {
+                            $control.find('.runtime .pager div.buttons .txtTotalPages').val(pageno);
                         }
-                    } catch (ex) {
-                        FwFunc.showError(ex);
+                    } else {
+
                     }
-                });
-            $control
-                .on('change', '.runtime .pager select.activeinactiveview', function () {
-                    var $selectActiveInactiveView, view;
-                    try {
-                        $selectActiveInactiveView = jQuery(this);
-                        view = $selectActiveInactiveView.val();
-                        $control.attr('data-activeinactiveview', view);
-                        me.search($control);
-                    } catch (ex) {
-                        FwFunc.showError(ex);
+                } catch (ex) {
+                    $control.find('.runtime .pager div.buttons .txtTotalPages').val(originalpagenoStr);
+                    FwFunc.showError(ex);
+                }
+            });
+        $control
+            .on('click', '.runtime .pager div.buttons .btnNextPage', function (e: JQuery.Event) {
+                try {
+                    e.stopPropagation();
+                    me.nextPage($control);
+                } catch (ex) {
+                    FwFunc.showError(ex);
+                }
+            });
+        $control
+            .on('click', '.runtime .pager div.buttons .btnLastPage', function (e: JQuery.Event) {
+                try {
+                    e.stopPropagation();
+                    var $btnLastPage = jQuery(this);
+                    if ($btnLastPage.attr('data-enabled') === 'true') {
+                        var pageno = me.getTotalPages($control);
+                        me.setPageNo($control, pageno);
+                        me.databind($control);
                     }
-                });
+                } catch (ex) {
+                    FwFunc.showError(ex);
+                }
+            });
+        $control
+            .on('change', '.runtime .pager select.activeinactiveview', function () {
+                var $selectActiveInactiveView, view;
+                try {
+                    $selectActiveInactiveView = jQuery(this);
+                    view = $selectActiveInactiveView.val();
+                    $control.attr('data-activeinactiveview', view);
+                    me.search($control);
+                } catch (ex) {
+                    FwFunc.showError(ex);
+                }
+            });
 
         //Events only attached when the API is not defined for the control.
         var controller = window[$control.attr('data-controller')];
@@ -789,7 +790,7 @@
         @param {string} eventName - Then name of the browse control event.
         @param {function} callbackfunction - The callback function to fire when the event occurs.
     */
-    addEventHandler($control: JQuery, eventName: 'afterdatabindcallback'|string, callbackfunction: Function): void {
+    addEventHandler($control: JQuery, eventName: 'afterdatabindcallback' | string, callbackfunction: Function): void {
         var callbackfunctions = [];
         if (Array.isArray($control.data(eventName))) {
             callbackfunctions = $control.data(eventName);
@@ -803,7 +804,7 @@
         @param {string} eventName - Then name of the browse control event.
         @param {function} callbackfunction - The callback function to fire when the event occurs.
     */
-    removeEventHandler($control: JQuery, eventName: 'afterdatabindcallback'|string, callbackfunction: Function): void {
+    removeEventHandler($control: JQuery, eventName: 'afterdatabindcallback' | string, callbackfunction: Function): void {
         if (Array.isArray($control.data(eventName))) {
             var callbackfunctions = $control.data(eventName);
             for (var i = 0; i < callbackfunctions.length; i++) {
@@ -817,7 +818,7 @@
     /** Get the relative url of the sort image in the framework.
         @param {string} sort - 'asc', 'desc', or 'off'
     */
-    getSortImage(sort: 'asc'|'desc'|'off') {
+    getSortImage(sort: 'asc' | 'desc' | 'off') {
         var result;
         switch (sort) {
             case 'asc':
@@ -1005,7 +1006,7 @@
                             html.push('</div>');
                         }
                         $fields.each(function (index, field) {
-                            
+
                         });
                         html.push('</td>');
                         html.push('<td class="addcolumn"></td>');
@@ -1120,8 +1121,6 @@
                             html.push(' style="visibility:hidden;"');
                         }
                         html.push('>');
-                     
-
                         if ($theadfield.attr('data-browsedatatype') === 'date') {
                             html.push('<input class="value" type="text"/>');
                             html.push('<i class="material-icons btndate" style="position:absolute; right:0px; top:5px;">&#xE8DF;</i>');
@@ -1129,8 +1128,7 @@
                         } else {
                             html.push('<input type="text" />');
                             html.push('<span class="searchclear" title="clear"><i class="material-icons">clear</i></span>');
-                        } 
-
+                        }
                         html.push('</div>');
                         html.push('</div>');
                     };
@@ -1276,7 +1274,7 @@
 
                 $control.on('click', '.btndate', e => {
                     (<any>jQuery(e.currentTarget).siblings('.value')).datepicker('show');
-                }); 
+                });
 
                 $control.on('click', 'thead .cbselectrow', function () {
                     try {
@@ -1609,7 +1607,7 @@
                                         FwFunc.showError(ex);
                                     }
                                 })
-                            ;
+                                ;
                         }
 
                     }
@@ -1738,7 +1736,7 @@
             $txtSearch = $field.find('> div.search > input');
             value = $txtSearch.val();
             sort = $field.attr('data-sort');
-            fieldtype = $field.attr('data-browsedatatype'); 
+            fieldtype = $field.attr('data-browsedatatype');
             if (typeof $field.attr('data-datafield') !== 'undefined') {
                 browsedatafield = $field.attr('data-datafield');
             }
@@ -1752,7 +1750,7 @@
                     request.searchfieldoperators.push('startswith');
                 } else {
                     request.searchfieldoperators.push('like');
-                } 
+                }
                 request.searchfieldvalues.push(value);
             }
             if (sort === 'asc') {
@@ -2489,8 +2487,22 @@
                             .off('click.FwBrowse')
                             .on('click.FwBrowse', function (e) {
                                 try {
-                                    let isClickInsideTbody = $control.find('.tablewrapper tbody').get(0).contains(e.target);
-                                    if (!isClickInsideTbody) {
+                                    let triggerAutoSave;
+                                    let clockPicker = jQuery(document.body).find('.clockpicker-popover');
+                                    if ($control.find('.tablewrapper tbody').get(0).contains(e.target)) {
+                                        triggerAutoSave = false;
+                                    }
+                                    if (clockPicker.length > 0) {
+                                        for (var i = 0; i < clockPicker.length; i++) {
+                                            if (clockPicker.get(i).contains(e.target)) {
+                                                triggerAutoSave = false;
+                                            }
+                                        }
+                                    }
+                                    if (jQuery(e.target).closest('body').length === 0 || jQuery(e.target).closest('.fwconfirmation').length > 0) {
+                                        triggerAutoSave = false;
+                                    }
+                                    if (triggerAutoSave) {
                                         me.saveRow($control, $tr);
                                     }
                                 } catch (ex) {
@@ -2502,7 +2514,7 @@
                 })
                 .catch((reason) => {
                     reject(reason);
-                }); 
+                });
         });
     }
     //---------------------------------------------------------------------------------
@@ -2693,7 +2705,7 @@
     }
     //----------------------------------------------------------------------------------------------
     getWebApiRowFields($control: JQuery, $tr: JQuery) {
-        let fields:any = {};
+        let fields: any = {};
         let $fields = $tr.find('> td.column > div.field[data-formdatafield][data-formdatafield!=""]');
         $fields.each(function (index, element) {
             var $field = jQuery(element);
@@ -3051,7 +3063,7 @@
     //---------------------------------------------------------------------------------
     loadBrowseFromTemplate(modulename: string) {
         var $control = jQuery(jQuery('#tmpl-modules-' + modulename + 'Browse').html());
-        
+
         if (sessionStorage.getItem('customFieldsBrowse') !== null) {
             var customBrowse = JSON.parse(sessionStorage.getItem('customFieldsBrowse'));
             var customBrowseHtml = [];
@@ -3059,11 +3071,11 @@
             if (customBrowse !== 'undefined' && customBrowse.length > 0) {
                 for (var i = 0; i < customBrowse.length; i++) {
                     if (modulename === customBrowse[i].moduleName) {
-                        customBrowseHtml.push(`<div class="column" data-width="${customBrowse[i].browsewidth}px" data-visible="true"><div class="field" data-caption="${customBrowse[i].fieldName}" data-datafield="${customBrowse[i].fieldName}" data-browsedatatype="text" data-sort="off"></div></div>`);
+                        customBrowseHtml.push(`<div class="column" data-width="${customBrowse[i].browsewidth}px" data-visible="true"><div class="field" data-caption="${customBrowse[i].fieldName}" data-datafield="${customBrowse[i].fieldName}" data-digits="${customBrowse[i].digits}" data-browsedatatype="${customBrowse[i].datatype}" data-sort="off"></div></div>`);
                     }
                 }
             }
-            if ($control.has('.spacer')) {
+            if ($control.find('.spacer').length > 0) {
                 jQuery(customBrowseHtml.join('')).insertBefore($control.find('.spacer'));
             } else {
                 $control.append(customBrowseHtml.join(''));

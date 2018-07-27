@@ -398,7 +398,7 @@ FwSettings.renderModuleHtml = function ($control, title, moduleName, description
 
     $settingsPageModules
         .on('click', '.panel-heading', function (e) {
-            var $this, moduleName, $browse, $modulecontainer, apiurl, $body, browseData = [], browseKeys = [], rowId, formKeys = [], keys, $settings, $form, duplicateDatafields, withoutDuplicates;
+            var $this, moduleName, $browse, $modulecontainer, apiurl, $body, browseData = [], browseKeys = [], rowId, formKeys = [], keys, $settings, $form, duplicateDatafields;
 
             $this = jQuery(this);
             moduleName = $this.closest('.panel-group').attr('id');
@@ -407,7 +407,7 @@ FwSettings.renderModuleHtml = function ($control, title, moduleName, description
             apiurl = window[moduleName + 'Controller'].apiurl;
             $body = $control.find('#' + moduleName + '.panel-body');
             duplicateDatafields = {};
-            withoutDuplicates = [];
+            var withoutDuplicates = [];
             if ($body.is(':empty')) {
                 FwAppData.apiMethod(true, 'GET', applicationConfig.appbaseurl + applicationConfig.appvirtualdirectory + apiurl, null, null, function onSuccess(response) {
                     $settings = jQuery(jQuery('#tmpl-modules-' + moduleName + 'Browse').html());

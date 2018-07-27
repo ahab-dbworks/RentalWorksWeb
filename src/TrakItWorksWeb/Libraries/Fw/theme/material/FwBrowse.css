@@ -171,6 +171,8 @@ html.theme-material .fwbrowse table tbody .field[data-formdatatype="toggleswitch
 html.theme-material .fwbrowse table tbody .field[data-formdatatype="validation"] .btnpeek {height:100%;cursor:pointer;color:#000000;display: flex;align-items: center;justify-content: center; margin-left: auto;}
 
 html.theme-material .fwbrowse table tbody tr.editrow .field[data-formdatatype="time"] input.value {flex: 1 1 0;box-sizing:border-box;height:100%;width:100%;border:0;padding:0 .3rem;}
+html.theme-material .fwbrowse table tbody tr.editrow .field[data-formdatatype="timepicker"] input.value {flex: 1 1 0;box-sizing:border-box;height:100%;width:3.5em;border:0;padding:0 .3rem;}
+html.theme-material .fwbrowse table tbody tr.editrow .field[data-formdatatype="timepicker"] .btntime {box-sizing:border-box;width:2em;height:100%;cursor:pointer;color:#37474F;display:flex;align-items:center;}
 
 html.theme-material .fwbrowse table tbody tr.editrow .field[data-formdatatype="date"] {}
 html.theme-material .fwbrowse table tbody tr.editrow .field[data-formdatatype="date"] input.value {flex: 1 1 0;box-sizing:border-box;height:100%;width:100%;border:0;padding:0 .3rem;}
@@ -313,6 +315,8 @@ html.theme-material .fwbrowse .fwbrowsebutton:hover {background:#527898;}
 html.theme-material .fwbrowse .fwbrowsebutton:active {background:#ffffff;color:#364F65;}
 
 html.theme-material .fwbrowse table tbody tr.editrow td .field[data-formreadonly="false"][data-formdatatype="text"] {border:1px solid #bdbdbd;}
+html.theme-material .fwbrowse table tbody tr.editrow td .field[data-formreadonly="false"][data-formdatatype="time"] {border:1px solid #bdbdbd;}
+html.theme-material .fwbrowse table tbody tr.editrow td .field[data-formreadonly="false"][data-formdatatype="timepicker"] {border:1px solid #bdbdbd;}
 html.theme-material .fwbrowse table tbody tr.editrow td .field[data-formreadonly="false"][data-formdatatype="date"] {border:1px solid #bdbdbd;}
 html.theme-material .fwbrowse table tbody tr.editrow td .field[data-formreadonly="false"][data-formdatatype="phone"] {border:1px solid #bdbdbd;}
 html.theme-material .fwbrowse table tbody tr.editrow td .field[data-formreadonly="false"][data-formdatatype="number"] {border:1px solid #bdbdbd;}

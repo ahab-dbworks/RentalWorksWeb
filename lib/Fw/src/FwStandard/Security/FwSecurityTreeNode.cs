@@ -6,7 +6,7 @@ namespace FwStandard.Security
     //---------------------------------------------------------------------------------------------
     public enum FwSecurityTreeNodeTypes
     {
-        System, Application, Lv1ModuleMenu, Lv2ModuleMenu, Module, Lv1SettingsMenu, SettingsMenu, SettingsModule, Lv1ReportsMenu, ReportsMenu, ReportsModule, Lv1SubModulesMenu, SubModule, Lv1GridsMenu, Grid, Report, Form, Browse, MenuBar, SubMenu, SubMenuGroup, SubMenuItem,
+        System, Application, Lv1ModuleMenu, Lv2ModuleMenu, Module, Lv1SettingsMenu, SettingsMenu, SettingsModule, Lv1SubModulesMenu, SubModule, Lv1GridsMenu, Grid, Report, Form, Browse, MenuBar, SubMenu, SubMenuGroup, SubMenuItem,
         MenuBarButton, NewMenuBarButton, EditMenuBarButton, ViewMenuBarButton, DeleteMenuBarButton, SaveMenuBarButton, PrevMenuBarButton, NextMenuBarButton,
         DownloadExcelSubMenuItem, Components, Tab, Field, FormGrid, NewVersionSubMenuItem, PrintSubMenuItem, CreateOrderSubMenuItem, PrintMenuBarButton,
         Controller, ControllerMethod

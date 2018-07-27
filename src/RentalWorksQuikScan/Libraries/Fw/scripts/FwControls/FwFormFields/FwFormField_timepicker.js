@@ -26,10 +26,19 @@ FwFormField_timepicker.renderRuntimeHtml = function ($control, html) {
     html.push('</div>');
     $control.html(html.join(''));
     if ($control.attr('data-timeformat') === '24') {
-        $control.find('#timepicker').clockpicker({ autoclose: true, donetext: 'Done' });
+        $control.find('#timepicker').clockpicker({
+            autoclose: true, donetext: 'Done', afterDone: function () {
+                $control.find('input').focus();
+            }
+        });
     } else {
-        $control.find('#timepicker').clockpicker({ autoclose: true, twelvehour: true, donetext: 'Done' });
+        $control.find('#timepicker').clockpicker({
+            autoclose: true, twelvehour: true, donetext: 'Done', afterDone: function () {
+                $control.find('input').focus();
+            }
+        });
     }
+    $control.find('input').off();
     $control.find('.btntime').click(function (e) {
         e.stopPropagation();
         $control.find('#timepicker').clockpicker('show').clockpicker('toggleView', 'hours');

@@ -2726,7 +2726,7 @@ class FwBrowseClass {
                     }
                 }
             }
-            if ($control.has('.spacer').length > 0) {
+            if ($control.find('.spacer').length > 0) {
                 jQuery(customBrowseHtml.join('')).insertBefore($control.find('.spacer'));
             }
             else {

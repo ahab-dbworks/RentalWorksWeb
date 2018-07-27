@@ -11,7 +11,11 @@
     }
     //---------------------------------------------------------------------------------
     setFieldValue($browse: JQuery, $tr: JQuery, $field: JQuery, data: FwBrowse_SetFieldValueData): void {
-        $field.find('input.value').val(data.value);
+        if ($field.attr('data-formreadonly') === 'true') {
+            $field.find('.fieldvalue').val(data.value);
+        } else {
+            $field.find('input.value').val(data.value);
+        }
     }
     //---------------------------------------------------------------------------------
     isModified($browse, $tr, $field): boolean {

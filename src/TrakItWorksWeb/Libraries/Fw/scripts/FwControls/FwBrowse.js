@@ -298,6 +298,7 @@ class FwBrowseClass {
                         $this.siblings('.searchclear').addClass('visible');
                     }
                     me.search($control);
+                    $this.focus();
                 }
             }
             catch (ex) {
@@ -2171,8 +2172,22 @@ class FwBrowseClass {
                         .off('click.FwBrowse')
                         .on('click.FwBrowse', function (e) {
                         try {
-                            let isClickInsideTbody = $control.find('.tablewrapper tbody').get(0).contains(e.target);
-                            if (!isClickInsideTbody) {
+                            let triggerAutoSave;
+                            let clockPicker = jQuery(document.body).find('.clockpicker-popover');
+                            if ($control.find('.tablewrapper tbody').get(0).contains(e.target)) {
+                                triggerAutoSave = false;
+                            }
+                            if (clockPicker.length > 0) {
+                                for (var i = 0; i < clockPicker.length; i++) {
+                                    if (clockPicker.get(i).contains(e.target)) {
+                                        triggerAutoSave = false;
+                                    }
+                                }
+                            }
+                            if (jQuery(e.target).closest('body').length === 0 || jQuery(e.target).closest('.fwconfirmation').length > 0) {
+                                triggerAutoSave = false;
+                            }
+                            if (triggerAutoSave) {
                                 me.saveRow($control, $tr);
                             }
                         }
@@ -2707,11 +2722,11 @@ class FwBrowseClass {
             if (customBrowse !== 'undefined' && customBrowse.length > 0) {
                 for (var i = 0; i < customBrowse.length; i++) {
                     if (modulename === customBrowse[i].moduleName) {
-                        customBrowseHtml.push(`<div class="column" data-width="${customBrowse[i].browsewidth}px" data-visible="true"><div class="field" data-caption="${customBrowse[i].fieldName}" data-datafield="${customBrowse[i].fieldName}" data-browsedatatype="text" data-sort="off"></div></div>`);
+                        customBrowseHtml.push(`<div class="column" data-width="${customBrowse[i].browsewidth}px" data-visible="true"><div class="field" data-caption="${customBrowse[i].fieldName}" data-datafield="${customBrowse[i].fieldName}" data-digits="${customBrowse[i].digits}" data-browsedatatype="${customBrowse[i].datatype}" data-sort="off"></div></div>`);
                     }
                 }
             }
-            if ($control.has('.spacer')) {
+            if ($control.find('.spacer').length > 0) {
                 jQuery(customBrowseHtml.join('')).insertBefore($control.find('.spacer'));
             }
             else {
