@@ -5,7 +5,7 @@
     onRowNewMode($control: JQuery, $tr: JQuery) {
         let $form = $control.closest('.fwform');
         let $grid = $tr.parents('[data-grid="OrderItemGrid"]');
-        if ($form[0].dataset.controller !== "TemplateController") {
+        if ($form[0].dataset.controller !== "TemplateController" && $form[0].dataset.controller !== "PurchaseOrderController") {
             var pickDate = FwFormField.getValueByDataField($form, 'PickDate');
             var pickTime = FwFormField.getValueByDataField($form, 'PickTime');
             var fromDate = FwFormField.getValueByDataField($form, 'EstimatedStartDate');
@@ -26,7 +26,7 @@
             FwBrowse.setFieldValue($grid, $tr, 'RecType', { value: 'RS' });
         }
 
-        if ($form[0].dataset.controller !== "TemplateController") {
+        if ($form[0].dataset.controller !== "TemplateController" && $form[0].dataset.controller !== "PurchaseOrderController") {
             FwBrowse.setFieldValue($grid, $tr, 'PickDate', { value: pickDate }); 
             FwBrowse.setFieldValue($grid, $tr, 'PickTime', { value: pickTime });
             FwBrowse.setFieldValue($grid, $tr, 'FromDate', { value: fromDate });
