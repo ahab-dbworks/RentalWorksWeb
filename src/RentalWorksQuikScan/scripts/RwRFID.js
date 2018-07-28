@@ -36,16 +36,16 @@ RwRFID.registerEvents = function(callbackfunction) {
         });
         window.TslReader.registerListener('epcReceived', 'epcReceived_rwrfidjs', function(epc, count) {
             RwRFID.isConnected = true;
-            if (jQuery('.tagCountPopup').length) {
+            if (jQuery('.tagCountPopup').length > 0) {
                 jQuery('.tagCount').html(count);
-                var epcs = $confirmation.data('epcs').push(epc);
+                var epcs = jQuery('.tagCountPopup').data('epcs');
+                epcs.push(epc);
                 jQuery('.rwrfid-epc').html(epcs.join('<br>'));
             } else {
-                var $confirmation;
                 var html = [];
                 html.push('<div class="tagCount" style="color:black;font-weight:bold;text-align:center;font-size:100px;"></div>');
                 html.push('<div class="rwrfid-epc" style="text-align:center;"></div>');
-                $confirmation = FwConfirmation.renderConfirmation('Tags Scanned', html.join('\n'));
+                let $confirmation = FwConfirmation.renderConfirmation('Tags Scanned', html.join('\n'));
                 var $btnClose = FwConfirmation.addButton($confirmation, 'Close', true);
                 $confirmation.data('epcs', [epc]);
                 $confirmation.addClass('tagCountPopup');
