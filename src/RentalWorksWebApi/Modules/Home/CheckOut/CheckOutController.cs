@@ -8,7 +8,7 @@ using System;
 using Microsoft.AspNetCore.Http;
 using WebApi.Home.CheckOut;
 
-namespace WebApi.Modules.Administrator.CheckOut
+namespace WebApi.Modules.Home.CheckOut
 {
 
     public class StageItemRequest
