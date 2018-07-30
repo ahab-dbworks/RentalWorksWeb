@@ -191,6 +191,7 @@ class StagingCheckout {
 
     //----------------------------------------------------------------------------------------------
     events($form: any) {
+        let errorBeep = new Audio('./theme//audio/errorBeep1.wav');
 
         //BarCode / I-Code change
         $form.find('[data-datafield="Code"] input').on('change', event => {
@@ -221,9 +222,11 @@ class StagingCheckout {
                         FwFormField.setValueByDataField($form, 'Quantity', 0)
                         $form.find('div[data-datafield="Quantity"] input').select();
                 } else if (response.ShowAddItemToOrder === true) {
+                    errorBeep.play();
                     $form.find('div.error-msg').html(`<div style="margin-left:8px;"><span style="font-size:20px;background-color:red;color:white;">${response.msg}</span><div class="AddItemToOrder fwformcontrol" onclick="StagingCheckoutController.addItemToOrder(this)" data-type="button" style="float:left; margin-left:10px;">Add Item To Order</div></div>`)
                 }
                 else {
+                    errorBeep.play();
                     $form.find('div.error-msg').html(`<div style="margin-left:8px;"><span style="font-size:20px;background-color:red;color:white;">${response.msg}</span></div>`)
                     $form.find('[data-datafield="Code"] input').select();
                 }
@@ -260,6 +263,7 @@ class StagingCheckout {
                     FwBrowse.search($stagedItemGrid);
 
                 } else {
+                    errorBeep.play();
                     $form.find('div.error-msg').html(`<div style="margin-left:8px;"><span style="font-size:20px;background-color:red;color:white;">${response.msg}</span></div>`)
                 }
             }, function onError(response) {
