@@ -55,23 +55,6 @@ class Exchange {
             $form.find('div[data-validationname="SalesInventoryValidation"]').show();
         }
 
-
-        $form.find('div[data-datafield="OrderId"]').data('onchange', function ($tr) {
-            FwFormField.setValueByDataField($form, 'DealId', $tr.find('.field[data-browsedatafield="DealId"]').attr('data-originalvalue'), $tr.find('.field[data-browsedatafield="Deal"]').attr('data-originalvalue'));
-            contractRequest['OrderId'] = $tr.find('.field[data-browsedatafield="OrderId"]').attr('data-originalvalue');
-            contractRequest['DealId'] = $tr.find('.field[data-browsedatafield="DealId"]').attr('data-originalvalue');
-
-            try {
-                FwAppData.apiMethod(true, 'POST', "api/v1/exchange/startexchangecontract", contractRequest, FwServices.defaultTimeout, function onSuccess(response) {
-                    self.ContractId = response.ContractId;
-                    FwFormField.disable(FwFormField.getDataField($form, 'OrderId'));
-                    FwFormField.disable(FwFormField.getDataField($form, 'DealId'));
-                }, null, $form);
-            } catch (ex) {
-                FwFunc.showError(ex);
-            }
-        });
-
         $form.find('div[data-datafield="DealId"]').data('onchange', function ($tr) {
             contractRequest['OrderId'] = $tr.find('.field[data-browsedatafield="OrderId"]').attr('data-originalvalue')
             contractRequest['DealId'] = $tr.find('.field[data-browsedatafield="DealId"]').attr('data-originalvalue')
@@ -87,38 +70,91 @@ class Exchange {
                             ContractId: response.ContractId
                         }
                     })
-                    FwFormField.disable(FwFormField.getDataField($form, 'OrderId'));
                     FwFormField.disable(FwFormField.getDataField($form, 'DealId'));
+                    FwFormField.getDataField($form, 'OrderId').find('input').focus();
                 }, null, $form);
             } catch (ex) {
                 FwFunc.showError(ex);
             }
         });
 
+        $form.find('div[data-datafield="OrderId"]').data('onchange', function ($tr) {
+            FwFormField.setValueByDataField($form, 'DealId', $tr.find('.field[data-browsedatafield="DealId"]').attr('data-originalvalue'), $tr.find('.field[data-browsedatafield="Deal"]').attr('data-originalvalue'));
+            contractRequest['OrderId'] = $tr.find('.field[data-browsedatafield="OrderId"]').attr('data-originalvalue');
+            contractRequest['DealId'] = $tr.find('.field[data-browsedatafield="DealId"]').attr('data-originalvalue');
+            FwFormField.setValueByDataField($form, 'Description', $tr.find('.field[data-browsedatafield="Description"]').attr('data-originalvalue'));
+
+            try {
+                FwAppData.apiMethod(true, 'POST', "api/v1/exchange/startexchangecontract", contractRequest, FwServices.defaultTimeout, function onSuccess(response) {
+                    self.ContractId = response.ContractId;
+                    FwFormField.disable(FwFormField.getDataField($form, 'OrderId'));
+                    FwFormField.disable(FwFormField.getDataField($form, 'DealId'));
+                    FwFormField.getDataField($form, 'BarCodeIn').find('input').focus();
+                }, null, $form);
+            } catch (ex) {
+                FwFunc.showError(ex);
+            }
+        });
+
+
         $form.find('.in').on('keypress', function (e) {
             if (e.which === 13) {
-                FwFormField.getDataField($form, 'BarCodeOut').find('input').focus();
+                try {
+                    var inRequest = {
+                        InCode: jQuery(this).find('input').val()
+                    }
+                    FwAppData.apiMethod(true, 'POST', "api/v1/exchange/exchangeitemin", inRequest, FwServices.defaultTimeout, function onSuccess(response) {
+                        if (response.success) {
+                            self.ContractId = response.ContractId;
+                            FwFormField.setValueByDataField($form, 'DealId', response.DealId, response.Deal);
+                            FwFormField.setValueByDataField($form, 'OrderId', response.OrderId, response.OrderNumber);
+                            FwFormField.setValueByDataField($form, 'Description', response.OrderDescription);
+                            FwFormField.setValueByDataField($form, 'ICodeIn', response.ICode);
+                            FwFormField.setValueByDataField($form, 'DescriptionIn', response.ItemDescription);
+
+                            $form.find('.error').removeClass('error');
+
+                            FwFormField.getDataField($form, 'BarCodeOut').find('input').focus();
+                        } else {
+                            $form.find('.in').addClass('error');
+                            FwNotification.renderNotification('ERROR', response.msg);
+                        }
+
+                    }, null, $form);
+
+                } catch (ex) {
+                    FwFunc.showError(ex);
+                }
             }
         });
 
         $form.find('.out').on('keypress', function (e) {
-            if (e.which === 13) { 
+            if (e.which === 13) {
                 exchangeRequest['ContractId'] = self.ContractId;
                 exchangeRequest['OutCode'] = FwFormField.getValueByDataField($form, 'BarCodeOut');
-                exchangeRequest['InCode'] = FwFormField.getValueByDataField($form, 'BarCodeIn'); 
+                exchangeRequest['InCode'] = FwFormField.getValueByDataField($form, 'BarCodeIn');
 
                 try {
                     FwAppData.apiMethod(true, 'POST', "api/v1/exchange/exchangeitemout", exchangeRequest, FwServices.defaultTimeout, function onSuccess(response) {
-                        self.ExchangeResponse = response;
+                        if (response.success) {
+                            self.ExchangeResponse = response;
 
-                        var $exchangeItemGridControl: any;
-                        $exchangeItemGridControl = $form.find('[data-name="ExchangeItemGrid"]');
-                        $exchangeItemGridControl.data('ondatabind', function (request) {
-                            request.uniqueids = {
-                                ContractId: self.ContractId
-                            }
-                        })
-                        FwBrowse.search($exchangeItemGridControl); 
+                            var $exchangeItemGridControl: any;
+                            $exchangeItemGridControl = $form.find('[data-name="ExchangeItemGrid"]');
+                            $exchangeItemGridControl.data('ondatabind', function (request) {
+                                request.uniqueids = {
+                                    ContractId: self.ContractId
+                                }
+                            })
+                            FwBrowse.search($exchangeItemGridControl);
+                            FwFormField.setValueByDataField($form, 'ICodeOut', response.ICode);
+                            FwFormField.setValueByDataField($form, 'DescriptionOut', response.ItemDescription);
+                            FwFormField.getDataField($form, 'BarCodeOut').find('input').focus();
+
+                        } else {
+                            $form.find('.out').addClass('error');
+                            FwNotification.renderNotification('ERROR', response.msg);
+                        }
 
                     }, null, $form);
 
@@ -178,6 +214,16 @@ class Exchange {
         FwBrowse.init($exchangeItemGridControl);
         FwBrowse.renderRuntimeHtml($exchangeItemGridControl);
     }
+    //----------------------------------------------------------------------------------------------
+    beforeValidateOrder($browse, $grid, request) {
+        var DealId = jQuery($grid.find('[data-validationname="DealValidation"] input')).val();
+
+        request.uniqueids = {
+            'DealId': DealId
+        }
+
+    }
+    //----------------------------------------------------------------------------------------------
 
 }
 var ExchangeController = new Exchange();

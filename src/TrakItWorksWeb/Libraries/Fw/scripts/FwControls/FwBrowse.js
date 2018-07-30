@@ -2188,20 +2188,26 @@ class FwBrowseClass {
                         .off('click.FwBrowse')
                         .on('click.FwBrowse', function (e) {
                         try {
-                            let triggerAutoSave;
+                            let triggerAutoSave = true;
                             let clockPicker = jQuery(document.body).find('.clockpicker-popover');
+                            if (jQuery(e.target).closest('.fwconfirmation').length > 0 || jQuery(e.target).closest('body').length === 0) {
+                                triggerAutoSave = false;
+                            }
+                            else if ((jQuery(e.target).closest('body').length === 0 && jQuery(e.target).find('body').length > 0) || (jQuery(e.target).closest('body').length > 0 && jQuery(e.target).find('body').length === 0)) {
+                                triggerAutoSave = true;
+                            }
                             if ($control.find('.tablewrapper tbody').get(0).contains(e.target)) {
                                 triggerAutoSave = false;
                             }
                             if (clockPicker.length > 0) {
                                 for (var i = 0; i < clockPicker.length; i++) {
-                                    if (clockPicker.get(i).contains(e.target)) {
+                                    if (clockPicker.css('display') === 'none' && !clockPicker.get(i).contains(e.target)) {
+                                        triggerAutoSave = true;
+                                    }
+                                    else if (clockPicker.get(i).contains(e.target)) {
                                         triggerAutoSave = false;
                                     }
                                 }
-                            }
-                            if (jQuery(e.target).closest('body').length === 0 || jQuery(e.target).closest('.fwconfirmation').length > 0) {
-                                triggerAutoSave = false;
                             }
                             if (triggerAutoSave) {
                                 me.saveRow($control, $tr);
