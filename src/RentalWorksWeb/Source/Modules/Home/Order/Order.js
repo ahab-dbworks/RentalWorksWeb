@@ -745,7 +745,8 @@ FwApplicationTree.clickEvents['{771DCE59-EB57-48B2-B189-177B414A4ED3}'] = functi
         orderInfo.OrderNumber = FwFormField.getValueByDataField($form, 'OrderNumber');
         orderInfo.WarehouseId = FwFormField.getValueByDataField($form, 'WarehouseId');
         orderInfo.Warehouse = $form.find('div[data-datafield="WarehouseId"] input.fwformfield-text').val();
-        console.log('orderInfo: ', orderInfo);
+        orderInfo.DealId = FwFormField.getValueByDataField($form, 'DealId');
+        orderInfo.Deal = $form.find('div[data-datafield="DealId"] input.fwformfield-text').val();
         $stagingCheckoutForm = StagingCheckoutController.openForm(mode, orderInfo);
         FwModule.openSubModuleTab($form, $stagingCheckoutForm);
         jQuery('.tab.submodule.active').find('.caption').html('Stage Item');

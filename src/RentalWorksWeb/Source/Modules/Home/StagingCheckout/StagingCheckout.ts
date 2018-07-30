@@ -66,6 +66,7 @@ class StagingCheckout {
                 FwAppData.apiMethod(true, 'GET', "api/v1/order/" + orderId, null, FwServices.defaultTimeout, function onSuccess(response) {
                     FwFormField.setValueByDataField($form, 'Description', response.Description);
                     FwFormField.setValueByDataField($form, 'Location', response.Location);
+                    FwFormField.setValueByDataField($form, 'DealId', response.DealId, response.Deal);
                     //FwFormField.setValueByDataField($form, 'WarehouseId', response.WarehouseId);
                     //FwFormField.setValueByDataField($form, 'Status', response.Status);
                     //FwFormField.setValueByDataField($form, 'EstimatedStartDate', response.EstimatedStartDate);
