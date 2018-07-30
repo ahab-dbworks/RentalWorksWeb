@@ -191,7 +191,7 @@ class StagingCheckout {
 
     //----------------------------------------------------------------------------------------------
     events($form: any) {
-        let errorBeep = new Audio('./theme//audio/errorBeep1.wav');
+        let errorBeep = new Audio('./theme/audio/errorBeep1.wav');
 
         //BarCode / I-Code change
         $form.find('[data-datafield="Code"] input').on('change', event => {
