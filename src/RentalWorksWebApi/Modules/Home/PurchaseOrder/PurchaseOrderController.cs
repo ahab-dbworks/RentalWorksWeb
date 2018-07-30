@@ -7,6 +7,7 @@ using System;
 using Microsoft.AspNetCore.Http;
 using WebApi.Modules.Home.Contract;
 using WebApi.Logic;
+using System.Collections.Generic;
 
 namespace WebApi.Modules.Home.PurchaseOrder
 {
@@ -21,6 +22,12 @@ namespace WebApi.Modules.Home.PurchaseOrder
     {
         public string ContractId;
     }
+
+    public class CompleteReceiveContractRequest
+    {
+        public bool? CreateOutContracts;
+    }
+
 
     public class ReturnContractRequest
     {
@@ -118,7 +125,7 @@ namespace WebApi.Modules.Home.PurchaseOrder
         //------------------------------------------------------------------------------------ 
         // POST api/v1/purchaseorder/completereceivecontract
         [HttpPost("completereceivecontract/{id}")]
-        public async Task<IActionResult> CompleteReceiveContractAsync([FromRoute]string id)
+        public async Task<IActionResult> CompleteReceiveContractAsync([FromRoute]string id, [FromBody] CompleteReceiveContractRequest request)
         {
             if (!ModelState.IsValid)
             {
@@ -130,12 +137,25 @@ namespace WebApi.Modules.Home.PurchaseOrder
                 TSpStatusReponse response = await AppFunc.AssignContract(AppConfig, UserSession, id);
                 if (response.success)
                 {
-
+                    List<ContractLogic> contracts = new List<ContractLogic>();
                     ContractLogic contract = new ContractLogic();
                     contract.SetDependencies(AppConfig, UserSession);
                     contract.ContractId = id;
-                    bool x = await contract.LoadAsync<ContractLogic>();
-                    return new OkObjectResult(contract);
+                    await contract.LoadAsync<ContractLogic>();
+                    contracts.Add(contract);
+                    if (request.CreateOutContracts.GetValueOrDefault(false))
+                    {
+                        List<string> outContractIds = await AppFunc.CreateOutContractsFromReceive(AppConfig, UserSession, id);
+                        foreach (string outContractId in outContractIds)
+                        {
+                            contract = new ContractLogic();
+                            contract.SetDependencies(AppConfig, UserSession);
+                            contract.ContractId = outContractId;
+                            await contract.LoadAsync<ContractLogic>();
+                            contracts.Add(contract);
+                        }
+                    }
+                    return new OkObjectResult(contracts);
                 }
                 else
                 {

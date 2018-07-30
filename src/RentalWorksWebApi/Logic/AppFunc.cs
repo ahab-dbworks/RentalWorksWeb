@@ -1,6 +1,7 @@
 ﻿
 using FwStandard.Models;
 using FwStandard.SqlServer;
+using System.Collections.Generic;
 using System.Data;
 using System.Threading.Tasks;
 using WebApi.Modules.Home.OrderItem;
@@ -469,6 +470,26 @@ namespace WebApi.Logic
             return response;
         }
         //-------------------------------------------------------------------------------------------------------
+        public static async Task<List<string>> CreateOutContractsFromReceive(FwApplicationConfig appConfig, FwUserSession userSession, string receiveContractId)
+        {
+            List<string> contractIds = new List<string>();
+            using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
+            {
+                string[] outContractIds = new string[0];
+                FwSqlCommand qry = new FwSqlCommand(conn, "createoutcontractsfromreceive", appConfig.DatabaseSettings.QueryTimeout);
+                qry.AddParameter("@receivecontractid", SqlDbType.NVarChar, ParameterDirection.Input, receiveContractId);
+                qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, userSession.UsersId);
+                qry.AddParameter("@outcontractids", SqlDbType.NVarChar, ParameterDirection.Output);
+                await qry.ExecuteNonQueryAsync(true);
+                outContractIds = qry.GetParameter("@outcontractids").ToString().Split(',');
+                foreach (string outContractId in outContractIds)
+                {
+                    contractIds.Add(outContractId);
+                }
+            }
+            return contractIds;
+        }
+        //-------------------------------------------------------------------------------------------------------            
 
     }
 }
