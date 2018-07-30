@@ -106,7 +106,7 @@ class ReceiveFromVendor {
 
             let requestBody: any = {};
             if (automaticallyCreateCheckOut == 'T') {
-                requestBody.uniqueids = {
+                requestBody = {
                     CreateOutContracts : true
                 }
             }
