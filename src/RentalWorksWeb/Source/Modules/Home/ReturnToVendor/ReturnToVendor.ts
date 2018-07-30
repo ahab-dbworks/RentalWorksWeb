@@ -52,6 +52,8 @@ class ReturnToVendor {
     //----------------------------------------------------------------------------------------------
     getItems($form) {
         $form.find('[data-datafield="PurchaseOrderId"]').data('onchange', $tr => {
+            FwFormField.disable($form.find('[data-datafield="PurchaseOrderId"]'));
+
             let purchaseOrderId = $tr.find('[data-browsedatafield="PurchaseOrderId"]').attr('data-originalvalue');
 
             FwFormField.setValueByDataField($form, 'VendorId', $tr.find('[data-browsedatafield="VendorId"]').attr('data-originalvalue'), $tr.find('[data-browsedatafield="Vendor"]').attr('data-originalvalue')); 

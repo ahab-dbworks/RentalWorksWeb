@@ -49,6 +49,8 @@ class ReceiveFromVendor {
     //----------------------------------------------------------------------------------------------
     getItems($form) {
         $form.find('[data-datafield="PurchaseOrderId"]').data('onchange', $tr => {
+            FwFormField.disable($form.find('[data-datafield="PurchaseOrderId"]'));
+
             let purchaseOrderId = $tr.find('[data-browsedatafield="PurchaseOrderId"]').attr('data-originalvalue');
 
             FwFormField.setValueByDataField($form, 'VendorId', $tr.find('[data-browsedatafield="VendorId"]').attr('data-originalvalue'), $tr.find('[data-browsedatafield="Vendor"]').attr('data-originalvalue'));
@@ -79,7 +81,7 @@ class ReceiveFromVendor {
         });
     }
     //----------------------------------------------------------------------------------------------
-    renderGrids($form:any) {
+    renderGrids($form: any) {
         let $receiveItemsGrid: any,
             $receiveItemsGridControl: any;
 
@@ -87,7 +89,7 @@ class ReceiveFromVendor {
         $receiveItemsGridControl = jQuery(jQuery('#tmpl-grids-POReceiveItemGridBrowse').html());
         $receiveItemsGrid.empty().append($receiveItemsGridControl);
         $receiveItemsGridControl.data('ondatabind', function (request) {
-        
+
         })
         FwBrowse.init($receiveItemsGridControl);
         FwBrowse.renderRuntimeHtml($receiveItemsGridControl);
@@ -97,10 +99,18 @@ class ReceiveFromVendor {
         // Create Contract
         $form.find('.createcontract').on('click', e => {
             let contractId = FwFormField.getValueByDataField($form, 'ContractId');
+            let automaticallyCreateCheckOut = FwFormField.getValueByDataField($form, 'AutomaticallyCreateCheckOut');
             let date = new Date(),
                 currentDate = date.toLocaleString(),
                 currentTime = date.toLocaleTimeString();
-            FwAppData.apiMethod(true, 'POST', "api/v1/purchaseorder/completereceivecontract/" + contractId, null, FwServices.defaultTimeout, function onSuccess(response) {
+
+            let requestBody: any = {};
+            if (automaticallyCreateCheckOut == 'T') {
+                requestBody.uniqueids = {
+                    CreateOutContracts : true
+                }
+            }
+            FwAppData.apiMethod(true, 'POST', "api/v1/purchaseorder/completereceivecontract/" + contractId, requestBody, FwServices.defaultTimeout, function onSuccess(response) {
                 try {
                     let contractInfo: any = {}, $contractForm;
                     contractInfo.ContractId = contractId;
@@ -116,6 +126,7 @@ class ReceiveFromVendor {
                         }
                     })
                     FwBrowse.search($receiveItemsGridControl);
+                    FwFormField.enable($form.find('[data-datafield="PurchaseOrderId"]'));
                 }
                 catch (ex) {
                     FwFunc.showError(ex);
@@ -141,7 +152,7 @@ class ReceiveFromVendor {
 
                 if (QuantityColumn.eq(i).attr('data-originalvalue') != 0) {
                     request.PurchaseOrderItemId = purchaseOrderItemIdColumn.eq(i).attr('data-originalvalue')
-                    quantity = QuantityColumn.eq(i).attr('data-originalvalue'); 
+                    quantity = QuantityColumn.eq(i).attr('data-originalvalue');
                     request.Quantity = -quantity
                     FwAppData.apiMethod(true, 'POST', `api/v1/purchaseorderreceiveitem/receiveitems`, request, FwServices.defaultTimeout, function onSuccess(response) {
                     }, function onError(response) {
@@ -174,6 +185,12 @@ class ReceiveFromVendor {
                 }
             }
             setTimeout(() => { FwBrowse.search($receiveItemsGridControl); }, 1000);
+        });
+        //Hide/Show Options
+        var $optionToggle = $form.find('.optiontoggle');
+        $form.find('.options').toggle();
+        $optionToggle.on('click', function () {
+            $form.find('.options').toggle();
         });
     };
     //----------------------------------------------------------------------------------------------
