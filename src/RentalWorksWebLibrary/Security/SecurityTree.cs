@@ -56,7 +56,7 @@ namespace WebLibrary.Security
             AddModule("Purchase Order",   "{67D8C8BB-CF55-4231-B4A2-BB308ADF18F0}", lv1menuAgent.Id, "PurchaseOrderController",   "module/purchaseorder",   homeiconbaseurl + "placeholder.png");
             AddModule("Project",          "{C6C8167A-C3B5-4915-8290-4520AF7EDB35}", lv1menuAgent.Id, "ProjectController",         "module/project",         homeiconbaseurl + "placeholder.png");
 
-
+            AddModule("Check-In",                "{77317E53-25A2-4C12-8DAD-7541F9A09436}", lv1menuWarehouse.Id, "CheckInController", "module/checkin", homeiconbaseurl + "placeholder.png");
             AddModule("Rental Inventory",        "{FCDB4C86-20E7-489B-A8B7-D22EE6F85C06}", lv1menuWarehouse.Id, "RentalInventoryController", "module/rentalinventory", homeiconbaseurl + "placeholder.png");
             AddModule("Sales Inventory",         "{B0CF2E66-CDF8-4E58-8006-49CA68AE38C2}", lv1menuWarehouse.Id, "SalesInventoryController",  "module/salesinventory",  homeiconbaseurl + "placeholder.png");
             AddModule("Parts Inventory",         "{351B8A09-7778-4F06-A6A2-ED0920A5C360}", lv1menuWarehouse.Id, "PartsInventoryController",  "module/partsinventory",  homeiconbaseurl + "placeholder.png");
@@ -70,6 +70,8 @@ namespace WebLibrary.Security
             AddModule("Exchange",                "{2AEDB175-7998-48BC-B2C4-D4794BF65342}", lv1menuWarehouse.Id, "ExchangeController",        "module/exchange",        homeiconbaseurl + "placeholder.png");
             AddModule("Receive From Vendor",     "{00539824-6489-4377-A291-EBFE26325FAD}", lv1menuWarehouse.Id, "ReceiveFromVendorController", "module/receivefromvendor", homeiconbaseurl + "placeholder.png");
             AddModule("Return To Vendor",        "{D54EAA01-A710-4F78-A1EE-5FC9EE9150D8}", lv1menuWarehouse.Id, "ReturnToVendorController",  "module/returntovendor", homeiconbaseurl + "placeholder.png");
+         
+
 
             //Settings 
             var lv2menuAccountingSettings   = AddSettingsMenu("Accounting Settings",         "{BAF9A442-BA44-4DD1-9119-905C1A8FF199}", lv1menuSettings.Id,                                                                                        settingsiconbaseurl + "placeholder.png");
@@ -268,6 +270,7 @@ namespace WebLibrary.Security
             AddGrid("Attribute Value",                        "{C11904A1-D612-469C-BFA6-E14534FC8E31}", lv1menuGrids.Id, "AttributeValueGridController");
             AddGrid("Audit History",                          "{FA958D9E-7863-4B03-94FE-A2D2B9599FAB}", lv1menuGrids.Id, "FwAuditHistoryGridController");
             AddGrid("Billing Cycle Events",                   "{8AAD752A-74B8-410D-992F-08398131EBA7}", lv1menuGrids.Id, "BillingCycleEventsGridController");
+            AddGrid("Checked-In Item",                        "{5845B960-827B-4A89-9FC4-E41108C27C21}", lv1menuGrids.Id, "CheckedInItemGridController");
             AddGrid("Contact",                                "{B6A0CAFC-35E8-4490-AEED-29F4E3426758}", lv1menuGrids.Id, "RwContactGridController");
             AddGrid("Contact Document",                       "{CC8F52FF-D968-4CE6-BF7A-3AC859D25280}", lv1menuGrids.Id, "FwContactDocumentGridController");
             AddGrid("Contact Email History",                  "{DAA5E81D-353C-4AAA-88A8-B4E7046B5FF0}", lv1menuGrids.Id, "FwContactEmailHistoryGridController");

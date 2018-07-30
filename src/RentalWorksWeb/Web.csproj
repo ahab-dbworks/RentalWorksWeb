@@ -261,6 +261,7 @@
     <Content Include="Source\Grids\FloorGrid\FloorGridBrowse.htm" />
     <Content Include="Source\Grids\RateWarehouseGrid\RateWarehouseGridBrowse.htm" />
     <Content Include="Source\Grids\CompanyTaxOptionGrid\CompanyTaxOptionGridBrowse.htm" />
+    <Content Include="Source\Grids\CheckedInItemGrid\CheckedInItemGridBrowse.htm" />
     <Content Include="Source\Grids\VendorGrid\VendorGridBrowse.htm" />
     <Content Include="Source\Grids\WardrobeInventoryColorGrid\WardrobeInventoryColorGridBrowse.htm" />
     <Content Include="Source\Grids\WardrobeInventoryMaterialGrid\WardrobeInventoryMaterialGridBrowse.htm" />
@@ -362,6 +363,7 @@
     <TypeScriptCompile Include="Source\Grids\FloorGrid\FloorGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\RateWarehouseGrid\RateWarehouseGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\CompanyTaxOptionGrid\CompanyTaxOptionGridController.ts" />
+    <TypeScriptCompile Include="Source\Grids\CheckedInItemGrid\CheckedInItemGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\VendorGrid\VendorGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\WardrobeInventoryColorGrid\WardrobeInventoryColorGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\WardrobeInventoryMaterialGrid\WardrobeInventoryMaterialGridController.ts" />
@@ -402,6 +404,7 @@
     <TypeScriptCompile Include="Source\Modules\-BaseModules\InventoryBase\InventoryBase.ts" />
     <TypeScriptCompile Include="Source\Modules\Administrator\Reports\ReportsController.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\Exchange\Exchange.ts" />
+    <TypeScriptCompile Include="Source\Modules\Home\CheckIn\CheckIn.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\ReturnToVendor\ReturnToVendor.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\ReceiveFromVendor\ReceiveFromVendor.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\PurchaseOrder\PurchaseOrder.ts" />
@@ -416,6 +419,7 @@
     <TypeScriptCompile Include="Source\Modules\Home\Quote\Quote.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\Repair\Repair.ts" />
     <Content Include="Source\Modules\Home\Exchange\ExchangeForm.htm" />
+    <Content Include="Source\Modules\Home\CheckIn\CheckInForm.htm" />
     <Content Include="Source\Modules\Home\ReturnToVendor\ReturnToVendorForm.htm" />
     <Content Include="Source\Modules\Home\ReceiveFromVendor\ReceiveFromVendorForm.htm" />
     <Content Include="Source\Modules\Home\PurchaseOrder\PurchaseOrderBrowse.htm" />
