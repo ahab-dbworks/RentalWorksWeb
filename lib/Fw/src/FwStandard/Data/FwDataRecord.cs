@@ -798,57 +798,126 @@ namespace FwStandard.DataLayer
             }
         }
         //------------------------------------------------------------------------------------
-        protected void AddMiscFieldToQueryAsString(string miscFieldName, string parameterName, FwSqlCommand qry, BrowseRequest request = null)
+        protected string GetMiscFieldAsString(string miscFieldName, BrowseRequest request = null)
         {
+            string fieldValue = null;
             if ((request != null) && (request.miscfields != null))
             {
                 IDictionary<string, object> miscfields = ((IDictionary<string, object>)request.miscfields);
                 if (miscfields.ContainsKey(miscFieldName))
                 {
-                    string value = "";
-                    value = miscfields[miscFieldName].ToString();
-                    if (!parameterName.StartsWith("@"))
-                    {
-                        parameterName = "@" + parameterName;
-                    }
-                    qry.AddParameter(parameterName, SqlDbType.NVarChar, ParameterDirection.Input, value);
+                    fieldValue = miscfields[miscFieldName].ToString();
                 }
             }
+            return fieldValue;
+        }
+        //------------------------------------------------------------------------------------
+        protected void AddMiscFieldToQueryAsString(string miscFieldName, string parameterName, FwSqlCommand qry, BrowseRequest request = null)
+        {
+            //if ((request != null) && (request.miscfields != null))
+            //{
+            //    IDictionary<string, object> miscfields = ((IDictionary<string, object>)request.miscfields);
+            //    if (miscfields.ContainsKey(miscFieldName))
+            //    {
+            //        string value = "";
+            //        value = miscfields[miscFieldName].ToString();
+            //        if (!parameterName.StartsWith("@"))
+            //        {
+            //            parameterName = "@" + parameterName;
+            //        }
+            //        qry.AddParameter(parameterName, SqlDbType.NVarChar, ParameterDirection.Input, value);
+            //    }
+            //}
+            string fieldValue = GetMiscFieldAsString(miscFieldName, request);
+            if (fieldValue != null)
+            {
+                if (!parameterName.StartsWith("@"))
+                {
+                    parameterName = "@" + parameterName;
+                }
+                qry.AddParameter(parameterName, SqlDbType.NVarChar, ParameterDirection.Input, fieldValue);
+            }
+        }
+        //------------------------------------------------------------------------------------
+        protected bool? GetMiscFieldAsBoolean(string miscFieldName, BrowseRequest request = null)
+        {
+            bool? fieldValue = null;
+            if ((request != null) && (request.miscfields != null))
+            {
+                IDictionary<string, object> miscfields = ((IDictionary<string, object>)request.miscfields);
+                if (miscfields.ContainsKey(miscFieldName))
+                {
+                    fieldValue = FwConvert.ToBoolean(miscfields[miscFieldName].ToString());
+                }
+            }
+            return fieldValue;
         }
         //------------------------------------------------------------------------------------
         protected void AddMiscFieldToQueryAsBoolean(string miscFieldName, string parameterName, FwSqlCommand qry, BrowseRequest request = null)
         {
+            //if ((request != null) && (request.miscfields != null))
+            //{
+            //    IDictionary<string, object> miscfields = ((IDictionary<string, object>)request.miscfields);
+            //    if (miscfields.ContainsKey(miscFieldName))
+            //    {
+            //        bool value = false;
+            //        value = FwConvert.ToBoolean(miscfields[miscFieldName].ToString());
+            //        if (!parameterName.StartsWith("@"))
+            //        {
+            //            parameterName = "@" + parameterName;
+            //        }
+            //        qry.AddParameter(parameterName, SqlDbType.NVarChar, ParameterDirection.Input, FwConvert.LogicalToCharacter(value));
+            //    }
+            //}
+            bool? fieldValue = GetMiscFieldAsBoolean(miscFieldName, request);
+            if (fieldValue != null)
+            {
+                if (!parameterName.StartsWith("@"))
+                {
+                    parameterName = "@" + parameterName;
+                }
+                qry.AddParameter(parameterName, SqlDbType.NVarChar, ParameterDirection.Input, FwConvert.LogicalToCharacter(fieldValue.GetValueOrDefault(false)));
+            }
+        }
+        //------------------------------------------------------------------------------------
+        protected DateTime? GetMiscFieldAsDate(string miscFieldName, BrowseRequest request = null)
+        {
+            DateTime? fieldValue = null;
             if ((request != null) && (request.miscfields != null))
             {
                 IDictionary<string, object> miscfields = ((IDictionary<string, object>)request.miscfields);
                 if (miscfields.ContainsKey(miscFieldName))
                 {
-                    bool value = false;
-                    value = FwConvert.ToBoolean(miscfields[miscFieldName].ToString());
-                    if (!parameterName.StartsWith("@"))
-                    {
-                        parameterName = "@" + parameterName;
-                    }
-                    qry.AddParameter(parameterName, SqlDbType.NVarChar, ParameterDirection.Input, FwConvert.LogicalToCharacter(value));
+                    fieldValue = FwConvert.ToDateTime(miscfields[miscFieldName].ToString());
                 }
             }
+            return fieldValue;
         }
         //------------------------------------------------------------------------------------
         protected void AddMiscFieldToQueryAsDate(string miscFieldName, string parameterName, FwSqlCommand qry, BrowseRequest request = null)
         {
-            if ((request != null) && (request.miscfields != null))
+            //if ((request != null) && (request.miscfields != null))
+            //{
+            //    IDictionary<string, object> miscfields = ((IDictionary<string, object>)request.miscfields);
+            //    if (miscfields.ContainsKey(miscFieldName))
+            //    {
+            //        DateTime value;
+            //        value = FwConvert.ToDateTime(miscfields[miscFieldName].ToString());
+            //        if (!parameterName.StartsWith("@"))
+            //        {
+            //            parameterName = "@" + parameterName;
+            //        }
+            //        qry.AddParameter(parameterName, SqlDbType.Date, ParameterDirection.Input, value);
+            //    }
+            //}
+            DateTime? fieldValue = GetMiscFieldAsDate(miscFieldName, request);
+            if (fieldValue != null)
             {
-                IDictionary<string, object> miscfields = ((IDictionary<string, object>)request.miscfields);
-                if (miscfields.ContainsKey(miscFieldName))
+                if (!parameterName.StartsWith("@"))
                 {
-                    DateTime value;
-                    value = FwConvert.ToDateTime(miscfields[miscFieldName].ToString());
-                    if (!parameterName.StartsWith("@"))
-                    {
-                        parameterName = "@" + parameterName;
-                    }
-                    qry.AddParameter(parameterName, SqlDbType.Date, ParameterDirection.Input, value);
+                    parameterName = "@" + parameterName;
                 }
+                qry.AddParameter(parameterName, SqlDbType.Date, ParameterDirection.Input, fieldValue);
             }
         }
         //------------------------------------------------------------------------------------        
