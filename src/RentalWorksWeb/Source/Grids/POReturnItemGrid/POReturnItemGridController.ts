@@ -83,10 +83,10 @@
                 }
 
                 if (quantity != 0) {
+                    $tr.find('[data-browsedatafield="Quantity"]').attr('data-originalvalue', +newValue);
                     FwAppData.apiMethod(true, 'POST', "api/v1/purchaseorderreturnitem/returnitems", request, FwServices.defaultTimeout,
                         function onSuccess(response) {
                             FwBrowse.setFieldValue($grid, $tr, 'QuantityReturned', { value: response.QuantityReturned });
-                        $tr.find('[data-browsedatafield="Quantity"]').attr('data-originalvalue', +newValue);
                     }, function onError(response) {
                         FwFunc.showError(response);
                         $tr.find('[data-browsedatafield="Quantity"] input').val(+oldValue);
