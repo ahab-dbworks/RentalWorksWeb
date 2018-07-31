@@ -153,7 +153,7 @@ create procedure dbo.pdacheckinitem(@code                   varchar(255),
                 response.success = (response.status == 0);
                 response.msg = qry.GetParameter("@msg").ToString();
 
-                if ((response.status == 0) && (quantity == 0) && (qry.GetParameter("@isicode").ToString().Equals("T")))
+                if ((response.status == 0) && ((quantity == null) || (quantity == 0)) && (qry.GetParameter("@isicode").ToString().Equals("T")))
                 {
                     response.status = 107;
                 }

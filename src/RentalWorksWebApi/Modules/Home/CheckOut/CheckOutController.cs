@@ -21,6 +21,11 @@ namespace WebApi.Modules.Home.CheckOut
         public bool? AddCompleteToOrder;
     }
 
+    public class CheckOutAllStagedRequest
+    {
+        public string OrderId;
+    }
+
 
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "home-v1")]
@@ -55,6 +60,39 @@ namespace WebApi.Modules.Home.CheckOut
                 }
 
                 return new OkObjectResult(stageItemResponse);
+
+            }
+            catch (Exception ex)
+            {
+                FwApiException jsonException = new FwApiException();
+                jsonException.StatusCode = StatusCodes.Status500InternalServerError;
+                jsonException.Message = ex.Message;
+                jsonException.StackTrace = ex.StackTrace;
+                return StatusCode(jsonException.StatusCode, jsonException);
+            }
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/checkout/checkoutallstaged
+        [HttpPost("checkoutallstaged")]
+        public async Task<IActionResult> CheckOutAllStaged([FromBody]CheckOutAllStagedRequest request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                TCheckOutAllStagedResponse checkOutAllStagedResponse = new TCheckOutAllStagedResponse();
+                if (string.IsNullOrEmpty(request.OrderId))
+                {
+                    checkOutAllStagedResponse.success = false;
+                    checkOutAllStagedResponse.msg = "OrderId is required.";
+                }
+                else {
+                    checkOutAllStagedResponse = await CheckOutFunc.CheckOutAllStaged(AppConfig, UserSession, request.OrderId);
+                }
+
+                return new OkObjectResult(checkOutAllStagedResponse);
 
             }
             catch (Exception ex)

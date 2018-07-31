@@ -113,6 +113,19 @@ namespace WebApi.Modules.Home.Order
             addFilterToSelect("CustomerId", "customerid", select, request);
 
 
+            if (GetMiscFieldAsBoolean("Staging", request).GetValueOrDefault(false))
+            {
+                select.AddWhereIn("and", "status", RwConstants.ORDER_STATUS_CONFIRMED + "," + RwConstants.ORDER_STATUS_ACTIVE + "," + RwConstants.ORDER_STATUS_COMPLETE);
+
+                string stagingWarehouseId = GetMiscFieldAsString("StagingWarehouseId", request);
+                if (!string.IsNullOrEmpty(stagingWarehouseId))
+                {
+                    select.AddWhere(" ((warehouseid = @stagingwhid) or exists (select * from masteritem mi with (nolock) where mi.orderid = t.orderid and mi.warehouseid = @stagingwhid))");
+                    select.AddParameter("@stagingwhid", stagingWarehouseId);
+                }
+            }
+
+
             if ((request != null) && (request.activeview != null))
             {
                 switch (request.activeview)
