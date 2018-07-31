@@ -8,9 +8,9 @@ FwReports.init = function () {
 FwReports.renderRuntimeHtml = function ($control) {
     var html = [];
 
-    html.push('<div class="fwsettingsheader">');
+    html.push('<div class="fwreportsheader">');
     html.push('  <div class="input-group pull-right">');
-    html.push('    <input type="text" id="settingsSearch" class="form-control" placeholder="Search..." autofocus>');
+    html.push('    <input type="text" id="reportsSearch" class="form-control" placeholder="Search..." autofocus>');
     html.push('    <span class="input-group-addon">');
     html.push('      <i class="material-icons">search</i>');
     html.push('    </span>');
@@ -18,19 +18,19 @@ FwReports.renderRuntimeHtml = function ($control) {
     html.push('</div>');
     html.push('<div class="well"></div>');
 
-    var settingsMenu = FwReports.getHeaderView($control);
+    var reportsMenu = FwReports.getHeaderView($control);
 
     $control.html(html.join(''));
 
-    $control.find('.fwsettingsheader').append(settingsMenu);
+    $control.find('.fwreportsheader').append(reportsMenu);
 };
 //----------------------------------------------------------------------------------------------
 FwReports.getCaptions = function (screen) {
-    var node = FwApplicationTree.getNodeById(FwApplicationTree.tree, '730C9659-B33B-493E-8280-76A060A07DCE');
-    var modules = FwApplicationTree.getChildrenByType(node, 'SettingsModule');
+    var node = FwApplicationTree.getNodeById(FwApplicationTree.tree, '7FEC9D55-336E-44FE-AE01-96BF7B74074C');
+    var modules = FwApplicationTree.getChildrenByType(node, 'ReportsModule');
     for (var i = 0; i < modules.length; i++) {
         var moduleName = modules[i].properties.controller;
-        var $form = jQuery(jQuery('#tmpl-modules-' + moduleName + 'Form').html());
+        var $form = window[moduleName].openForm();;
         var $fwformfields = $form.find('.fwformfield[data-caption]');
         for (var j = 0; j < $fwformfields.length; j++) {
             var $field = $fwformfields.eq(j);
@@ -49,10 +49,9 @@ FwReports.getCaptions = function (screen) {
 FwReports.filter = [];
 //---------------------------------------------------------------------------------------------- 
 FwReports.renderModuleHtml = function ($control, title, moduleName, description, menu, moduleId) {
-    var html = [], $settingsPageModules, $rowBody, $modulecontainer, apiurl, $body, $form, browseKeys = [], rowId, screen = { 'moduleCaptions': {} }, filter = [];
+    var html = [], $reportsPageModules, $rowBody, $modulecontainer, $body, $form, browseKeys = [], rowId, screen = { 'moduleCaptions': {} }, filter = [];
 
     $modulecontainer = $control.find('#' + moduleName);
-    apiurl = window[moduleName + 'Controller'].apiurl;
     $form = jQuery(jQuery('#tmpl-modules-' + moduleName + 'Form').html());
 
     html.push('<div class="panel-group" id="' + moduleName + '" data-id="' + moduleId + '">');
@@ -62,6 +61,10 @@ FwReports.renderModuleHtml = function ($control, title, moduleName, description,
     html.push('        <a id="title" data-toggle="collapse">' + menu + ' - ' + title)
     html.push('          <i class="material-icons arrow-selector">keyboard_arrow_down</i>');
     html.push('        </a>');
+    html.push('        <i class="material-icons heading-menu">more_vert</i>');
+    html.push('        <div id="myDropdown" class="dropdown-content">');
+    html.push('          <a class="pop-out">Pop Out Module</a>');
+    html.push('        </div>');
     html.push('      </h4>');
     if (description === "") {
         html.push('      <small id="description" style="display:none;">' + moduleName + '</small>');
@@ -74,39 +77,50 @@ FwReports.renderModuleHtml = function ($control, title, moduleName, description,
     html.push('    <div class="panel-collapse collapse" style="display:none; "><div class="panel-body" id="' + moduleName + '"></div></div>');
     html.push('  </div>');
     html.push('</div>');
-    $settingsPageModules = jQuery(html.join(''));
+    $reportsPageModules = jQuery(html.join(''));
 
-    $control.find('.well').append($settingsPageModules);
+    $control.find('.well').append($reportsPageModules);
 
-    $settingsPageModules.on('click', '.btn', function (e) {
-        $settingsPageModules.find('.heading-menu').next().css('display', 'none');
+    $reportsPageModules.on('click', '.btn', function (e) {
+        $reportsPageModules.find('.heading-menu').next().css('display', 'none');
         $body = $control.find('#' + moduleName + '.panel-body');
-    });    
+    });
 
-    $settingsPageModules
+    $reportsPageModules.on('click', '.pop-out', function (e) {
+        e.stopPropagation();
+        program.popOutTab('#/module/' + moduleName.slice(2));
+        jQuery(this).parent().hide();
+    });
+
+    $reportsPageModules
         .on('click', '.panel-heading', function (e) {
-            var $this, moduleName, $reports, $modulecontainer, apiurl, $body, rowId, formKeys = [], $form, duplicateDatafields, withoutDuplicates;
+            var $this, moduleName, $reports, $body;
 
             $this = jQuery(this);
             moduleName = $this.closest('.panel-group').attr('id');
-            $browse = jQuery(jQuery('#tmpl-modules-' + moduleName + 'Browse').html());
-            $modulecontainer = $control.find('#' + moduleName);
-            apiurl = window[moduleName + 'Controller'].apiurl;
             $body = $control.find('#' + moduleName + '.panel-body');
-            duplicateDatafields = {};
-            withoutDuplicates = [];
+
             if ($body.is(':empty')) {
                 $reports = window[moduleName + 'Controller'].openForm();
                 window[moduleName + 'Controller'].onLoadForm($reports);
                 $body.append($reports);               
+
+                for (var i = 0; i < FwReports.filter.length; i++) {
+                    var filterField = $reports.find('[data-datafield="' + FwReports.filter[i] + '"]');
+                    if (filterField.length > 0 && filterField.attr('data-type') === 'checkbox') {
+                        $reports.find('[data-datafield="' + FwReports.filter[i] + '"] label').addClass('highlighted');
+                    } else if (filterField.length > 0) {
+                        $reports.find('[data-datafield="' + FwReports.filter[i] + '"]').find('.fwformfield-caption').addClass('highlighted');
+                    }
+                };
             }
 
-            if ($settingsPageModules.find('.panel-collapse').css('display') === 'none') {
-                $settingsPageModules.find('.arrow-selector').html('keyboard_arrow_up')
-                $settingsPageModules.find('.panel-collapse').show("fast");
+            if ($reportsPageModules.find('.panel-collapse').css('display') === 'none') {
+                $reportsPageModules.find('.arrow-selector').html('keyboard_arrow_up')
+                $reportsPageModules.find('.panel-collapse').show("fast");
             } else {
-                $settingsPageModules.find('.arrow-selector').html('keyboard_arrow_down')
-                $settingsPageModules.find('.panel-collapse').hide('fast');
+                $reportsPageModules.find('.arrow-selector').html('keyboard_arrow_down')
+                $reportsPageModules.find('.panel-collapse').hide('fast');
             }
         })
         .on('click', '.heading-menu', function (e) {
@@ -119,64 +133,36 @@ FwReports.renderModuleHtml = function ($control, title, moduleName, description,
         })
         ;
 
-    $control
-        .unbind().on('click', '.row-heading', function (e) {
-            e.stopPropagation();
-            var formKeys = [], formData = [], recordData, $rowBody, $form, moduleName, moduleId, controller, uniqueids = {};
-            recordData = jQuery(this).parent().parent().data('recorddata');
-            moduleName = jQuery(this).closest('div.panel-group')[0].id;
-            $form = jQuery(jQuery('#tmpl-modules-' + moduleName + 'Form').html());
-            moduleId = jQuery($form.find('.fwformfield[data-isuniqueid="true"]')[0]).data('datafield');
-            uniqueids[moduleId] = recordData[moduleId];
-            $rowBody = $control.find('#' + recordData[moduleId] + '.panel-body');
-            controller = $form.data('controller');
 
-            if ($rowBody.is(':empty')) {
-                $form = window[controller].openForm('EDIT');
-                $rowBody.append($form);
-                $form.find('.highlighted').removeClass('highlighted');
-                $form.find('div[data-type="NewMenuBarButton"]').off();
-
-            if ($rowBody.css('display') === 'none' || $rowBody.css('display') === undefined) {
-                $rowBody.parent().find('.record-selector').html('keyboard_arrow_up');
-                $rowBody.show("fast");
-            } else {
-                $rowBody.parent().find('.record-selector').html('keyboard_arrow_down');
-                $rowBody.hide("fast");
-                }
-            }
-        })
-
-
-    $control.on('keypress', '#settingsSearch', function (e) {
+    $control.on('keypress', '#reportsSearch', function (e) {
         if (e.which === 13) {
             e.preventDefault();
-            jQuery(this).closest('.fwsettings').find('.data-panel:parent').parent().find('.row-heading').click();
-            jQuery(this).closest('.fwsettings').find('.data-panel:parent').empty();
+            jQuery(this).closest('.fwreports').find('.data-panel:parent').parent().find('.row-heading').click();
+            jQuery(this).closest('.fwreports').find('.data-panel:parent').empty();
 
-            var $settings, val, $module;
+            var $reports, val, $module;
 
             FwReports.getCaptions(screen);
             filter = [];
-            $settings = jQuery('small#description');
+            $reports = jQuery('small#description');
             $module = jQuery('a#title');
             val = jQuery.trim(this.value).toUpperCase();
             if (val === "") {
-                $settings.closest('div.panel-group').show();
+                $reports.closest('div.panel-group').show();
             } else {
                 var results = [];
-                $settings.closest('div.panel-group').hide();
+                $reports.closest('div.panel-group').hide();
                 for (var caption in screen.moduleCaptions) {
                     if (caption.indexOf(val) !== -1) {
                         for (var moduleName in screen.moduleCaptions[caption]) {
                             filter.push(screen.moduleCaptions[caption][moduleName][0].data().datafield);
-                            results.push(moduleName.toUpperCase());
+                            results.push(moduleName.toUpperCase().slice(0,-10));
                         }
                     }
                 }
                 FwReports.filter = filter;
                 for (var i = 0; i < results.length; i++) {
-                    var module = $settings.filter(function () {
+                    var module = $reports.filter(function () {
                         return -1 != jQuery(this).text().toUpperCase().indexOf(results[i]);
                     }).closest('div.panel-group');
                     module.find('.highlighted').removeClass('highlighted');
@@ -189,7 +175,7 @@ FwReports.renderModuleHtml = function ($control, title, moduleName, description,
         }
     });
 
-    return $settingsPageModules;
+    return $reportsPageModules;
 };
 
 
@@ -247,7 +233,7 @@ FwReports.getHeaderView = function ($control) {
 };
 //----------------------------------------------------------------------------------------------
 FwReports.generateDropDownModuleBtn = function ($menu, $control, securityid, caption, imgurl, subitems) {
-    var $modulebtn, $settings, btnHtml, subitemHtml, $subitem, version;
+    var $modulebtn, $reports, btnHtml, subitemHtml, $subitem, version;
 
     version = $menu.closest('.fwfilemenu').attr('data-version');
     securityid = (typeof securityid === 'string') ? securityid : '';
