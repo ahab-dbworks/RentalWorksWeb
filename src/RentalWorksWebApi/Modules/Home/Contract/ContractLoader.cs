@@ -34,6 +34,9 @@ namespace WebApi.Modules.Home.Contract
         [FwSqlDataField(column: "sales", modeltype: FwDataTypes.Boolean)]
         public bool? Sales { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "exchange", modeltype: FwDataTypes.Boolean)]
+        public bool? Exchange { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "inputbyusersid", modeltype: FwDataTypes.Text)]
         public string InputByUserId { get; set; }
         //------------------------------------------------------------------------------------ 

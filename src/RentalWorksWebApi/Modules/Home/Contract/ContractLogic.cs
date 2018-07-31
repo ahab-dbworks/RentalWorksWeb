@@ -56,6 +56,8 @@ namespace WebApi.Modules.Home.Contract
         public string ExchangeContractId { get { return contract.ExchangeContractId; } set { contract.ExchangeContractId = value; } }
         public bool? Rental { get { return contract.Rental; } set { contract.Rental = value; } }
         public bool? Sales { get { return contract.Sales; } set { contract.Sales = value; } }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public bool? Exchange { get; set; }
         public string InputByUserId { get { return contract.InputByUserId; } set { contract.InputByUserId = value; } }
         [FwBusinessLogicField(isReadOnly: true)]
         public string InputByUser { get; set; }
