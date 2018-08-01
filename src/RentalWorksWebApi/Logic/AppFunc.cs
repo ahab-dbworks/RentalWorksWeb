@@ -479,7 +479,35 @@ namespace WebApi.Logic
             return response;
         }
         //-------------------------------------------------------------------------------------------------------
-
+        private static async Task<SelectAllNoneReturnItemResponse> SelectAllNoneReturnItem(FwApplicationConfig appConfig, FwUserSession userSession, string contractId, string purchaseOrderId, bool selectAll)
+        {
+            SelectAllNoneReturnItemResponse response = new SelectAllNoneReturnItemResponse();
+            using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
+            {
+                FwSqlCommand qry = new FwSqlCommand(conn, "selectallreturntovendor", appConfig.DatabaseSettings.QueryTimeout);
+                qry.AddParameter("@poid", SqlDbType.NVarChar, ParameterDirection.Input, purchaseOrderId);
+                qry.AddParameter("@contractid", SqlDbType.NVarChar, ParameterDirection.Input, contractId);
+                qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, userSession.UsersId);
+                qry.AddParameter("@selectallnone", SqlDbType.NVarChar, ParameterDirection.Input, (selectAll ? "A" : "N"));
+                qry.AddParameter("@status", SqlDbType.Int, ParameterDirection.Output);
+                qry.AddParameter("@msg", SqlDbType.NVarChar, ParameterDirection.Output);
+                await qry.ExecuteNonQueryAsync(true);
+                response.success = (qry.GetParameter("@status").ToInt32() == 0);
+                response.msg = qry.GetParameter("@msg").ToString();
+            }
+            return response;
+        }
+        //-------------------------------------------------------------------------------------------------------
+        public static async Task<SelectAllNoneReturnItemResponse> SelectAllReturnItem(FwApplicationConfig appConfig, FwUserSession userSession, string contractId, string purchaseOrderId)
+        {
+            return await SelectAllNoneReturnItem(appConfig, userSession, contractId, purchaseOrderId, true);
+        }
+        //-------------------------------------------------------------------------------------------------------
+        public static async Task<SelectAllNoneReturnItemResponse> SelectNoneReturnItem(FwApplicationConfig appConfig, FwUserSession userSession, string contractId, string purchaseOrderId)
+        {
+            return await SelectAllNoneReturnItem(appConfig, userSession, contractId, purchaseOrderId, false);
+        }
+        //-------------------------------------------------------------------------------------------------------
         public static async Task<TSpStatusReponse> AssignContract(FwApplicationConfig appConfig, FwUserSession userSession, string contractId)
         {
             TSpStatusReponse response = new TSpStatusReponse();

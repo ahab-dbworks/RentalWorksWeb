@@ -22040,7 +22040,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"Order\",\n    \t\"options\": {},\n    \t\"orderby\": \"OrderNumber\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": []\n\t\n}"
+							"raw": "{\n\n\t\t\"miscfields\": {\n\t\t\t\"CheckIn\": true,\n\t\t\t\"CheckInWarehouseId\": \"ABCD0123\"\n\t\t},\n    \t\"module\": \"Order\",\n    \t\"options\": {},\n    \t\"orderby\": \"OrderNumber\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": []\n\t\n}"
 						},
 						"url": {
 							"raw": "http://localhost:57949/api/v1/order/browse",
@@ -32720,7 +32720,7 @@
 					"response": []
 				},
 				{
-					"name": "Purchase Order Retur Item: Return Items",
+					"name": "Purchase Order Return Item: Return Items",
 					"request": {
 						"method": "POST",
 						"header": [
@@ -32749,6 +32749,76 @@
 								"v1",
 								"purchaseorderreturnitem",
 								"returnitems"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Purchase Order Return Item: Select All",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"ContractId\": \"I0000559\",\n    \"PurchaseOrderId\": \"F01QV8ME\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/purchaseorderreturnitem/selectall",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"purchaseorderreturnitem",
+								"selectall"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Purchase Order Return Item: Select None",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"ContractId\": \"I0000559\",\n    \"PurchaseOrderId\": \"F01QV8ME\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/purchaseorderreturnitem/selectnone",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"purchaseorderreturnitem",
+								"selectnone"
 							]
 						}
 					},

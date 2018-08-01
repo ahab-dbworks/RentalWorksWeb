@@ -29,6 +29,10 @@ namespace WebApi.Modules.Home.PurchaseOrderReturnItem
         public double QuantityReturned;
     }
 
+    public class SelectAllNoneReturnItemResponse : TSpStatusReponse
+    {
+    }
+
 
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "home-v1")]
@@ -131,6 +135,81 @@ namespace WebApi.Modules.Home.PurchaseOrderReturnItem
             }
         }
         //------------------------------------------------------------------------------------        
+
+
+
+        // POST api/v1/purchaseorderreturnitem/selectall
+        [HttpPost("selectall")]
+        public async Task<IActionResult> SelectAll([FromBody] ReturnItemRequest request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                if (string.IsNullOrEmpty(request.ContractId))
+                {
+                    throw new Exception("ContractId is required.");
+                }
+                else if (string.IsNullOrEmpty(request.PurchaseOrderId))
+                {
+                    throw new Exception("PurchaseOrderId is required.");
+                }
+                else
+                {
+                    SelectAllNoneReturnItemResponse response = await AppFunc.SelectAllReturnItem(AppConfig, UserSession, request.ContractId, request.PurchaseOrderId);
+                    return new OkObjectResult(response);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                FwApiException jsonException = new FwApiException();
+                jsonException.StatusCode = StatusCodes.Status500InternalServerError;
+                jsonException.Message = ex.Message;
+                jsonException.StackTrace = ex.StackTrace;
+                return StatusCode(jsonException.StatusCode, jsonException);
+            }
+        }
+        //------------------------------------------------------------------------------------        
+
+        // POST api/v1/purchaseorderreturnitem/selectnone
+        [HttpPost("selectnone")]
+        public async Task<IActionResult> SelectNone([FromBody] ReturnItemRequest request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                if (string.IsNullOrEmpty(request.ContractId))
+                {
+                    throw new Exception("ContractId is required.");
+                }
+                else if (string.IsNullOrEmpty(request.PurchaseOrderId))
+                {
+                    throw new Exception("PurchaseOrderId is required.");
+                }
+                else
+                {
+                    SelectAllNoneReturnItemResponse response = await AppFunc.SelectNoneReturnItem(AppConfig, UserSession, request.ContractId, request.PurchaseOrderId);
+                    return new OkObjectResult(response);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                FwApiException jsonException = new FwApiException();
+                jsonException.StatusCode = StatusCodes.Status500InternalServerError;
+                jsonException.Message = ex.Message;
+                jsonException.StackTrace = ex.StackTrace;
+                return StatusCode(jsonException.StatusCode, jsonException);
+            }
+        }
+        //------------------------------------------------------------------------------------        
+
 
     }
 }
