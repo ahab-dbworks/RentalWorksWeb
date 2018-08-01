@@ -23,8 +23,12 @@ namespace WebApi.Home.CheckIn
     {
         public string ContractId;
         public string OrderId;
+        public string OrderNumber;
+        public string OrderDescription;
         public string DealId;
+        public string Deal;
         public string DepartmentId;
+        public string Department;
         public string InventoryId;
         public string OrderItemId;
         public OrderInventoryStatus InventoryStatus = new OrderInventoryStatus();
@@ -120,8 +124,12 @@ create procedure dbo.pdacheckinitem(@code                   varchar(255),
                 qry.AddParameter("@checkinmode", SqlDbType.NVarChar, ParameterDirection.Input, "O");
                 qry.AddParameter("@itemorderid", SqlDbType.NVarChar, ParameterDirection.Output);
                 qry.AddParameter("@orderid", SqlDbType.NVarChar, ParameterDirection.Output);
+                qry.AddParameter("@orderno", SqlDbType.NVarChar, ParameterDirection.Output);
+                qry.AddParameter("@orderdesc", SqlDbType.NVarChar, ParameterDirection.Output);
                 qry.AddParameter("@dealid", SqlDbType.NVarChar, ParameterDirection.Output);
+                qry.AddParameter("@deal", SqlDbType.NVarChar, ParameterDirection.Output);
                 qry.AddParameter("@departmentid", SqlDbType.NVarChar, ParameterDirection.Output);
+                qry.AddParameter("@department", SqlDbType.NVarChar, ParameterDirection.Output);
                 qry.AddParameter("@masteritemid", SqlDbType.NVarChar, ParameterDirection.Output);
                 qry.AddParameter("@masterid", SqlDbType.NVarChar, ParameterDirection.Output);
                 qry.AddParameter("@masterno", SqlDbType.NVarChar, ParameterDirection.Output);
@@ -136,8 +144,12 @@ create procedure dbo.pdacheckinitem(@code                   varchar(255),
                 await qry.ExecuteNonQueryAsync(true);
                 response.ContractId = qry.GetParameter("@incontractid").ToString();
                 response.OrderId = qry.GetParameter("@itemorderid").ToString();
+                response.OrderNumber = qry.GetParameter("@orderno").ToString();
+                response.OrderDescription = qry.GetParameter("@orderdesc").ToString();
                 response.DealId = qry.GetParameter("@dealid").ToString();
+                response.Deal = qry.GetParameter("@deal").ToString();
                 response.DepartmentId = qry.GetParameter("@departmentid").ToString();
+                response.Department = qry.GetParameter("@department").ToString();
                 response.InventoryId = qry.GetParameter("@masterid").ToString();
                 response.OrderItemId = qry.GetParameter("@masteritemid").ToString();
 

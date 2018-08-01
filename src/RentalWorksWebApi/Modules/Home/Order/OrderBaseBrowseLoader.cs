@@ -124,6 +124,18 @@ namespace WebApi.Modules.Home.Order
                     select.AddParameter("@stagingwhid", stagingWarehouseId);
                 }
             }
+            else if (GetMiscFieldAsBoolean("CheckIn", request).GetValueOrDefault(false))
+            {
+                //justin - wip
+                select.AddWhereIn("and", "status", RwConstants.ORDER_STATUS_ACTIVE);
+
+                string checkInWarehouseId = GetMiscFieldAsString("CheckInWarehouseId", request);
+                if (!string.IsNullOrEmpty(checkInWarehouseId))
+                {
+                    select.AddWhere(" ((warehouseid = @checkinwhid) or exists (select * from masteritem mi with (nolock) where mi.orderid = t.orderid and mi.warehouseid = @checkinwhid))");
+                    select.AddParameter("@checkinwhid", checkInWarehouseId);
+                }
+            }
 
 
             if ((request != null) && (request.activeview != null))
