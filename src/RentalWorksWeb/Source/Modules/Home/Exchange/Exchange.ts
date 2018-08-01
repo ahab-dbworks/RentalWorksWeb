@@ -116,8 +116,14 @@ class Exchange {
 
                             FwFormField.getDataField($form, 'BarCodeOut').find('input').focus();
                         } else {
+                            let styles = {
+                                bottom: '70%',
+                                right: '55%',
+                                transform: 'translate(-50%, -50%)'
+                            }
                             $form.find('.in').addClass('error');
-                            FwNotification.renderNotification('ERROR', response.msg);
+                            FwNotification.renderNotification('ERROR', response.msg, styles);
+                            FwFormField.getDataField($form, 'BarCodeIn').find('input').select();
                         }
 
                     }, null, $form);
@@ -137,6 +143,13 @@ class Exchange {
                 try {
                     FwAppData.apiMethod(true, 'POST', "api/v1/exchange/exchangeitemout", exchangeRequest, FwServices.defaultTimeout, function onSuccess(response) {
                         if (response.success) {
+                            let fields = $form.find('.fwformfield');
+                            for (var i = 0; i < fields.length; i++) {
+                                if (jQuery(fields[i]).attr('data-datafield') !== 'DepartmentId') {
+                                    FwFormField.setValue2(jQuery(fields[i]), '', '');
+                                }
+                            }
+
                             self.ExchangeResponse = response;
 
                             var $exchangeItemGridControl: any;
@@ -149,7 +162,8 @@ class Exchange {
                             FwBrowse.search($exchangeItemGridControl);
                             FwFormField.setValueByDataField($form, 'ICodeOut', response.ICode);
                             FwFormField.setValueByDataField($form, 'DescriptionOut', response.ItemDescription);
-                            FwFormField.getDataField($form, 'BarCodeOut').find('input').focus();
+                            FwFormField.disable(FwFormField.getDataField($form, 'OrderId'));
+                            FwFormField.disable(FwFormField.getDataField($form, 'DealId'));
 
                         } else {
                             $form.find('.out').addClass('error');

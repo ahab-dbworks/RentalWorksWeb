@@ -1,5 +1,5 @@
 class FwNotification {
-    static renderNotification(type, message) {
+    static renderNotification(type, message, options) {
         var html, $notification, maxZIndex;
         html = [];
         html.push('<div class="fwnotification');
@@ -25,6 +25,9 @@ class FwNotification {
         html = html.join('');
         $notification = jQuery(html);
         maxZIndex = FwFunc.getMaxZ('*');
+        if (options !== undefined) {
+            $notification.css(options);
+        }
         $notification
             .css('z-index', maxZIndex)
             .appendTo(jQuery('body'))

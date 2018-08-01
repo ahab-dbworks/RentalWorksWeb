@@ -117,6 +117,7 @@ FwValidation.init = function ($control) {
         }
     });
 
+    // modifies validation functionality with typing into field
     $control.find('input[type="text"]').on('change', e => {
         e.preventDefault();
         e.stopImmediatePropagation();
@@ -136,8 +137,11 @@ FwValidation.init = function ($control) {
         }
     });
 
+    // enter key now 'skips' into next field if input is blank. Should we check for whether or not the field is required? - OW 8/1/18
     $control.find('input[type="text"]').on('keydown', e => {
         if (e.which === 13) {
+            // preventing default from enter key into next field on validation because the next field had special logic being triggered unintentionall - OW 8/1/18
+            e.preventDefault();
             const inputs = jQuery('.fwformfield[data-enabled="true"] input[type="text"]:visible');
             let index = jQuery(inputs).index($searchfield) + 1;
             inputs.eq(index).focus();

@@ -103,7 +103,7 @@ FwReports.renderModuleHtml = function ($control, title, moduleName, description,
             if ($body.is(':empty')) {
                 $reports = window[moduleName + 'Controller'].openForm();
                 window[moduleName + 'Controller'].onLoadForm($reports);
-                $body.append($reports);               
+                $body.append($reports);
 
                 for (var i = 0; i < FwReports.filter.length; i++) {
                     var filterField = $reports.find('[data-datafield="' + FwReports.filter[i] + '"]');
@@ -156,7 +156,7 @@ FwReports.renderModuleHtml = function ($control, title, moduleName, description,
                     if (caption.indexOf(val) !== -1) {
                         for (var moduleName in screen.moduleCaptions[caption]) {
                             filter.push(screen.moduleCaptions[caption][moduleName][0].data().datafield);
-                            results.push(moduleName.toUpperCase().slice(0,-10));
+                            results.push(moduleName.toUpperCase().slice(0, -10));
                         }
                     }
                 }
@@ -213,7 +213,7 @@ FwReports.getHeaderView = function ($control) {
                                     for (var lv3childno = 0; lv3childno < nodeLv2MenuItem.children.length; lv3childno++) {
                                         var nodeLv3MenuItem = nodeLv2MenuItem.children[lv3childno];
                                         if (nodeLv3MenuItem.properties.visible === 'T') {
-                                            dropDownMenuItems.push({ id: nodeLv3MenuItem.id, caption: nodeLv3MenuItem.properties.caption, modulenav: nodeLv3MenuItem.properties.modulenav, imgurl: nodeLv3MenuItem.properties.iconurl, moduleName: nodeLv3MenuItem.properties.controller.slice(0, -10)});
+                                            dropDownMenuItems.push({ id: nodeLv3MenuItem.id, caption: nodeLv3MenuItem.properties.caption, modulenav: nodeLv3MenuItem.properties.modulenav, imgurl: nodeLv3MenuItem.properties.iconurl, moduleName: nodeLv3MenuItem.properties.controller.slice(0, -10) });
                                         }
                                     }
                                     FwReports.generateDropDownModuleBtn($menu, $control, nodeLv2MenuItem.id, nodeLv2MenuItem.properties.caption, nodeLv2MenuItem.properties.iconurl, dropDownMenuItems);
