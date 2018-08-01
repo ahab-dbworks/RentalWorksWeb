@@ -31,6 +31,8 @@ class StagingCheckout {
         let warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
         $form.find('[data-datafield="WarehouseId"]').hide();
         $form.find('.orderstatus').hide();
+        $form.find('.createcontract').hide();
+
         FwFormField.setValue($form, 'div[data-datafield="WarehouseId"]', warehouse.warehouseid, warehouse.warehouse);
 
         //disables asterisk and save prompt
@@ -158,6 +160,8 @@ class StagingCheckout {
             }
             FwFormField.disable($form.find('div[data-datafield="OrderId"]'));
             $form.find('.orderstatus').show();
+            $form.find('.createcontract').show();
+
 
         });
     };
@@ -300,6 +304,35 @@ class StagingCheckout {
             catch (ex) {
                 FwFunc.showError(ex);
             }
+        });
+
+        // Create Contract
+        $form.find('.createcontract').on('click', e => {
+            let orderId = FwFormField.getValueByDataField($form, 'OrderId');
+            let requestBody: any = {}, self = this;
+            //let automaticallyCreateCheckOut = FwFormField.getValueByDataField($form, 'AutomaticallyCreateCheckOut');
+            //let date = new Date(),
+            //    currentDate = date.toLocaleString(),
+            //    currentTime = date.toLocaleTimeString();
+
+            //if (automaticallyCreateCheckOut == 'T') {
+            //    requestBody = {
+            //        CreateOutContracts: true
+            //    }
+            //}
+            requestBody.OrderId = orderId;
+            FwAppData.apiMethod(true, 'POST', "api/v1/checkout/checkoutallstaged/", requestBody, FwServices.defaultTimeout, function onSuccess(response) {
+                try {
+                    let contractInfo: any = {}, $contractForm;
+                    contractInfo.ContractId = response.ContractId;
+                    $contractForm = ContractController.loadForm(contractInfo);
+                    FwModule.openSubModuleTab($form, $contractForm);
+                    FwModule.refreshForm($form, self);
+                }
+                catch (ex) {
+                    FwFunc.showError(ex);
+                }
+            }, null, $form);
         });
 
     };
