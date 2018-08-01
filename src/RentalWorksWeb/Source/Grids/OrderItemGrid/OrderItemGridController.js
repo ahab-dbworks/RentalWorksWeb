@@ -158,6 +158,9 @@ class OrderItemGrid {
                     $generatedtr.find('.field[data-browsedatafield="ReturnToWarehouseId"] input.text').val(warehouseCode);
                     $generatedtr.find('.field[data-browsedatafield="DiscountPercent"] input').val(discountPercent);
                     $generatedtr.find('.field[data-browsedatafield="DaysPerWeek"] input').val(daysPerWeek);
+                    if ($form.attr('data-controller') === 'PurchaseOrderController') {
+                        $generatedtr.find('.field[data-browsedatafield="WarehouseId"] input.text').val(warehouse);
+                    }
                 }
             });
             $generatedtr.find('div[data-browsedatafield="FromDate"]').on('change', 'input.value', function ($tr) {

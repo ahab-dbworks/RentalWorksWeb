@@ -162,7 +162,6 @@
                             $generatedtr.find('.field[data-browsedatafield="Taxable"] input').prop('checked', 'true');
                         }
                     }, null, $form);
-
                     $generatedtr.find('.field[data-browsedatafield="QuantityOrdered"] input').val("1");
                     $generatedtr.find('.field[data-browsedatafield="SubQuantity"] input').val("0");
                     $generatedtr.find('.field[data-browsedatafield="WarehouseId"] input').val(warehouseId);
@@ -171,6 +170,8 @@
                     $generatedtr.find('.field[data-browsedatafield="ReturnToWarehouseId"] input.text').val(warehouseCode);
                     $generatedtr.find('.field[data-browsedatafield="DiscountPercent"] input').val(discountPercent);
                     $generatedtr.find('.field[data-browsedatafield="DaysPerWeek"] input').val(daysPerWeek);
+                    // PO Form lacks a warehouseCode
+                    if ($form.attr('data-controller') === 'PurchaseOrderController') { $generatedtr.find('.field[data-browsedatafield="WarehouseId"] input.text').val(warehouse); }
                 }
             });
 
