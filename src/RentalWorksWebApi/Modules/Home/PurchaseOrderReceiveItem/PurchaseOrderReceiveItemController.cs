@@ -6,15 +6,20 @@ using System.Threading.Tasks;
 using WebApi.Logic;
 using System;
 using Microsoft.AspNetCore.Http;
+using System.ComponentModel.DataAnnotations;
 
 namespace WebApi.Modules.Home.PurchaseOrderReceiveItem
 {
     public class ReceiveItemRequest
     {
-        public string ContractId;
-        public string PurchaseOrderId;
-        public string PurchaseOrderItemId;
-        public int Quantity;
+        [Required]
+        public string ContractId { get; set; }
+        [Required]
+        public string PurchaseOrderId { get; set; }
+        [Required]
+        public string PurchaseOrderItemId { get; set; }
+        [Required]
+        public int Quantity { get; set; }
     }
 
     public class ReceiveItemResponse : TSpStatusReponse
@@ -25,6 +30,15 @@ namespace WebApi.Modules.Home.PurchaseOrderReceiveItem
         public int Quantity;
         public double QuantityOrdered;
         public double QuantityReceived;
+    }
+
+
+    public class SelectAllNoneReceiveItemRequest
+    {
+        [Required]
+        public string ContractId { get; set; }
+        [Required]
+        public string PurchaseOrderId { get; set; }
     }
 
 
@@ -53,36 +67,6 @@ namespace WebApi.Modules.Home.PurchaseOrderReceiveItem
             return await DoExportExcelXlsxFileAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
-        //// GET api/v1/purchaseorderreceiveitem 
-        //[HttpGet]
-        //public async Task<IActionResult> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
-        //{
-        //    return await DoGetAsync<PurchaseOrderReceiveItemLogic>(pageno, pagesize, sort);
-        //}
-        ////------------------------------------------------------------------------------------ 
-        //// GET api/v1/purchaseorderreceiveitem/A0000001 
-        //[HttpGet("{id}")]
-        //public async Task<IActionResult> GetOneAsync([FromRoute]string id)
-        //{
-        //    return await DoGetAsync<PurchaseOrderReceiveItemLogic>(id);
-        //}
-        ////------------------------------------------------------------------------------------ 
-        //// POST api/v1/purchaseorderreceiveitem 
-        //[HttpPost]
-        //public async Task<IActionResult> PostAsync([FromBody]PurchaseOrderReceiveItemLogic l)
-        //{
-        //    return await DoPostAsync<PurchaseOrderReceiveItemLogic>(l);
-        //}
-        ////------------------------------------------------------------------------------------ 
-        //// DELETE api/v1/purchaseorderreceiveitem/A0000001 
-        //[HttpDelete("{id}")]
-        //public async Task<IActionResult> DeleteAsync([FromRoute]string id)
-        //{
-        //    return await DoDeleteAsync(id);
-        //}
-        //------------------------------------------------------------------------------------ 
-
-
         // POST api/v1/purchaseorderreceiveitem/receiveitems
         [HttpPost("receiveitems")]
         public async Task<IActionResult> ReceiveItems([FromBody] ReceiveItemRequest request)
@@ -93,36 +77,15 @@ namespace WebApi.Modules.Home.PurchaseOrderReceiveItem
             }
             try
             {
-                if (string.IsNullOrEmpty(request.ContractId))
-                {
-                    throw new Exception("ContractId is required.");
-                }
-                else if (string.IsNullOrEmpty(request.PurchaseOrderId))
-                {
-                    throw new Exception("PurchaseOrderId is required.");
-                }
-                else if (string.IsNullOrEmpty(request.PurchaseOrderItemId))
-                {
-                    throw new Exception("PurchaseOrderItemId is required.");
-                }
-                else if (request.Quantity == 0)
+                if (request.Quantity == 0)
                 {
                     throw new Exception("Quantity cannot be zero.");
                 }
                 else
                 {
                     ReceiveItemResponse response = await AppFunc.ReceiveItem(AppConfig, UserSession, request.ContractId, request.PurchaseOrderId, request.PurchaseOrderItemId, request.Quantity);
-                    //if (response.success)
-                    //{
-                    //    return new OkObjectResult(true);
-                    //}
-                    //else
-                    //{
-                    //    throw new Exception(response.msg);
-                    //}
                     return new OkObjectResult(response);
                 }
-
             }
             catch (Exception ex)
             {
@@ -134,11 +97,9 @@ namespace WebApi.Modules.Home.PurchaseOrderReceiveItem
             }
         }
         //------------------------------------------------------------------------------------        
-
-
         // POST api/v1/purchaseorderreceiveitem/selectall
         [HttpPost("selectall")]
-        public async Task<IActionResult> SelectAll([FromBody] ReceiveItemRequest request)
+        public async Task<IActionResult> SelectAll([FromBody] SelectAllNoneReceiveItemRequest request)
         {
             if (!ModelState.IsValid)
             {
@@ -146,20 +107,8 @@ namespace WebApi.Modules.Home.PurchaseOrderReceiveItem
             }
             try
             {
-                if (string.IsNullOrEmpty(request.ContractId))
-                {
-                    throw new Exception("ContractId is required.");
-                }
-                else if (string.IsNullOrEmpty(request.PurchaseOrderId))
-                {
-                    throw new Exception("PurchaseOrderId is required.");
-                }
-                else
-                {
-                    SelectAllNoneReceiveItemResponse response = await AppFunc.SelectAllReceiveItem(AppConfig, UserSession, request.ContractId, request.PurchaseOrderId);
-                    return new OkObjectResult(response);
-                }
-
+                SelectAllNoneReceiveItemResponse response = await AppFunc.SelectAllReceiveItem(AppConfig, UserSession, request.ContractId, request.PurchaseOrderId);
+                return new OkObjectResult(response);
             }
             catch (Exception ex)
             {
@@ -174,7 +123,7 @@ namespace WebApi.Modules.Home.PurchaseOrderReceiveItem
 
         // POST api/v1/purchaseorderreceiveitem/selectnone
         [HttpPost("selectnone")]
-        public async Task<IActionResult> SelectNone([FromBody] ReceiveItemRequest request)
+        public async Task<IActionResult> SelectNone([FromBody] SelectAllNoneReceiveItemRequest request)
         {
             if (!ModelState.IsValid)
             {
@@ -182,20 +131,8 @@ namespace WebApi.Modules.Home.PurchaseOrderReceiveItem
             }
             try
             {
-                if (string.IsNullOrEmpty(request.ContractId))
-                {
-                    throw new Exception("ContractId is required.");
-                }
-                else if (string.IsNullOrEmpty(request.PurchaseOrderId))
-                {
-                    throw new Exception("PurchaseOrderId is required.");
-                }
-                else
-                {
-                    SelectAllNoneReceiveItemResponse response = await AppFunc.SelectNoneReceiveItem(AppConfig, UserSession, request.ContractId, request.PurchaseOrderId);
-                    return new OkObjectResult(response);
-                }
-
+                SelectAllNoneReceiveItemResponse response = await AppFunc.SelectNoneReceiveItem(AppConfig, UserSession, request.ContractId, request.PurchaseOrderId);
+                return new OkObjectResult(response);
             }
             catch (Exception ex)
             {
