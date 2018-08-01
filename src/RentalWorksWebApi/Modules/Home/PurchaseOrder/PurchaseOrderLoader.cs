@@ -105,9 +105,33 @@ namespace WebApi.Modules.Home.PurchaseOrder
         [FwSqlDataField(column: "deal", modeltype: FwDataTypes.Text)]
         public string Deal { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "taxid", modeltype: FwDataTypes.Text)]
+        public string TaxId { get; set; }
+        //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "taxoptionid", modeltype: FwDataTypes.Text)]
         public string TaxOptionId { get; set; }
-        //------------------------------------------------------------------------------------ 
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "taxoption", modeltype: FwDataTypes.Text)]
+        public string TaxOption { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "rentalrate1", modeltype: FwDataTypes.Decimal)]
+        public decimal? RentalTaxRate1 { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "salesrate1", modeltype: FwDataTypes.Decimal)]
+        public decimal? SalesTaxRate1 { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "laborrate1", modeltype: FwDataTypes.Decimal)]
+        public decimal? LaborTaxRate1 { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "rentalrate2", modeltype: FwDataTypes.Decimal)]
+        public decimal? RentalTaxRate2 { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "salesrate2", modeltype: FwDataTypes.Decimal)]
+        public decimal? SalesTaxRate2 { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "laborrate2", modeltype: FwDataTypes.Decimal)]
+        public decimal? LaborTaxRate2 { get; set; }
+        //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "ratetype", modeltype: FwDataTypes.Text)]
         public string RateType { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -141,6 +165,12 @@ namespace WebApi.Modules.Home.PurchaseOrder
         [FwSqlDataField(column: "billperiodend", modeltype: FwDataTypes.Date)]
         public string BillingEndDate { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "billperiodid", modeltype: FwDataTypes.Text)]
+        public string BillingCycleId { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "billperiod", modeltype: FwDataTypes.Text)]
+        public string BillingCycle { get; set; }
+        //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "invoicedamount", modeltype: FwDataTypes.Decimal)]
         public decimal? InvoicedAmount { get; set; }
         //------------------------------------------------------------------------------------ 

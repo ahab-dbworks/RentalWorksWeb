@@ -8,6 +8,7 @@ using WebApi.Logic;
 using WebApi.Modules.Home.Contract;
 using WebApi.Modules.Home.DealOrder;
 using WebApi.Modules.Home.DealOrderDetail;
+using WebApi.Modules.Home.Tax;
 using WebLibrary;
 
 namespace WebApi.Modules.Home.PurchaseOrder
@@ -17,16 +18,30 @@ namespace WebApi.Modules.Home.PurchaseOrder
         //------------------------------------------------------------------------------------ 
         DealOrderRecord purchaseOrder = new DealOrderRecord();
         DealOrderDetailRecord purchaseOrderDetail = new DealOrderDetailRecord();
+        TaxRecord tax = new TaxRecord();
+
         PurchaseOrderLoader purchaseOrderLoader = new PurchaseOrderLoader();
         PurchaseOrderBrowseLoader purchaseOrderBrowseLoader = new PurchaseOrderBrowseLoader();
+
+        private string tmpTaxId = "";
+        private PurchaseOrderLogic lOrig = null;
+
+
         public PurchaseOrderLogic()
         {
             dataRecords.Add(purchaseOrder);
+            dataRecords.Add(purchaseOrderDetail);
+            dataRecords.Add(tax);
             dataLoader = purchaseOrderLoader;
             browseLoader = purchaseOrderBrowseLoader;
 
             BeforeSave += OnBeforeSave;
             purchaseOrder.BeforeSave += OnBeforeSavePurchaseOrder;
+            purchaseOrder.AfterSave += OnAfterSavePurchaseOrder;
+
+
+            tax.AssignPrimaryKeys += TaxAssignPrimaryKeys;
+            tax.AfterSave += OnAfterSaveTax;
 
             Type = RwConstants.ORDER_TYPE_PURCHASE_ORDER;
 
@@ -94,8 +109,6 @@ namespace WebApi.Modules.Home.PurchaseOrder
         public string DealNumber { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
         public string Deal { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
-        public string TaxOptionId { get; set; }
         public string RateType { get { return purchaseOrder.RateType; } set { purchaseOrder.RateType = value; } }
         [FwBusinessLogicField(isReadOnly: true)]
         public bool? DepartmentLocationRequiresApproval { get; set; }
@@ -139,7 +152,53 @@ namespace WebApi.Modules.Home.PurchaseOrder
         public string CurrencyId { get { return purchaseOrder.CurrencyId; } set { purchaseOrder.CurrencyId = value; } }
         [FwBusinessLogicField(isReadOnly: true)]
         public string CurrencyCode { get; set; }
+        public string BillingCycleId { get { return purchaseOrder.BillingCycleId; } set { purchaseOrder.BillingCycleId = value; } }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string BillingCycle { get; set; }
+
+
+        public string TaxOptionId { get { return tax.TaxOptionId; } set { tax.TaxOptionId = value; } }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string TaxOption { get; set; }
+
+
+        public string TaxId { get { return purchaseOrder.TaxId; } set { purchaseOrder.TaxId = value; } }
+        public decimal? RentalTaxRate1 { get { return tax.RentalTaxRate1; } set { tax.RentalTaxRate1 = value; } }
+        public decimal? SalesTaxRate1 { get { return tax.SalesTaxRate1; } set { tax.SalesTaxRate1 = value; } }
+        public decimal? LaborTaxRate1 { get { return tax.LaborTaxRate1; } set { tax.LaborTaxRate1 = value; } }
+        public decimal? RentalTaxRate2 { get { return tax.RentalTaxRate2; } set { tax.RentalTaxRate2 = value; } }
+        public decimal? SalesTaxRate2 { get { return tax.SalesTaxRate2; } set { tax.SalesTaxRate2 = value; } }
+        public decimal? LaborTaxRate2 { get { return tax.LaborTaxRate2; } set { tax.LaborTaxRate2 = value; } }
+
+
+
         //------------------------------------------------------------------------------------ 
+
+
+        protected override bool Validate(TDataRecordSaveMode saveMode, ref string validateMsg)
+        {
+            bool isValid = true;
+
+            if (saveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smInsert)
+            {
+            }
+            else
+            {
+                lOrig = new PurchaseOrderLogic();
+                lOrig.SetDependencies(this.AppConfig, this.UserSession);
+                object[] pk = GetPrimaryKeys();
+                bool b = lOrig.LoadAsync<PurchaseOrderLogic>(pk).Result;
+            }
+            return isValid;
+        }
+        //------------------------------------------------------------------------------------
+
+        public void TaxAssignPrimaryKeys(object sender, EventArgs e)
+        {
+            ((TaxRecord)sender).TaxId = tmpTaxId;
+        }
+        //------------------------------------------------------------------------------------ 
+
 
         public void OnBeforeSave(object sender, BeforeSaveEventArgs e)
         {
@@ -163,15 +222,15 @@ namespace WebApi.Modules.Home.PurchaseOrder
                 {
                     TaxOptionId = AppFunc.GetLocation(AppConfig, UserSession, OfficeLocationId, "taxoptionid").Result;
                 }
-                //tmpTaxId = AppFunc.GetNextIdAsync(AppConfig).Result;
-                //TaxId = tmpTaxId;
+                tmpTaxId = AppFunc.GetNextIdAsync(AppConfig).Result;
+                TaxId = tmpTaxId;
             }
             else
             {
-                //if ((tax.TaxId == null) || (tax.TaxId.Equals(string.Empty)))
-                //{
-                //    tax.TaxId = lOrig.TaxId;
-                //}
+                if ((tax.TaxId == null) || (tax.TaxId.Equals(string.Empty)))
+                {
+                    tax.TaxId = lOrig.TaxId;
+                }
                 //if (string.IsNullOrEmpty(OutDeliveryId))
                 //{
                 //    OutDeliveryId = lOrig.OutDeliveryId;
@@ -184,6 +243,57 @@ namespace WebApi.Modules.Home.PurchaseOrder
         }
         //------------------------------------------------------------------------------------
 
+        public virtual void OnAfterSavePurchaseOrder(object sender, AfterSaveEventArgs e)
+        {
+            bool saved = false;
+            if (e.SavePerformed)
+            {
+                //billToAddress.UniqueId1 = dealOrder.OrderId;
+                //saved = dealOrder.SavePoASync(PoNumber, PoAmount).Result;
+
+                if (e.SaveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smUpdate)
+                {
+                    if ((TaxOptionId != null) && (!TaxOptionId.Equals(string.Empty)))
+                    {
+                        PurchaseOrderLogic l2 = null;
+                        l2.SetDependencies(this.AppConfig, this.UserSession);
+                        object[] pk = GetPrimaryKeys();
+                        bool b = l2.LoadAsync<PurchaseOrderLogic>(pk).Result;
+                        TaxId = l2.TaxId;
+
+                        if ((TaxId != null) && (!TaxId.Equals(string.Empty)))
+                        {
+                            bool b2 = AppFunc.UpdateTaxFromTaxOptionASync(this.AppConfig, this.UserSession, TaxOptionId, TaxId).Result;
+                        }
+                    }
+                }
+
+
+            }
+        }
+        //------------------------------------------------------------------------------------
+        public void OnAfterSaveTax(object sender, AfterSaveEventArgs e)
+        {
+            if (e.SavePerformed)
+            {
+                if ((TaxOptionId != null) && (!TaxOptionId.Equals(string.Empty)))
+                {
+                    if ((TaxId == null) || (TaxId.Equals(string.Empty)))
+                    {
+                        PurchaseOrderLogic l2 = new PurchaseOrderLogic();
+                        l2.SetDependencies(this.AppConfig, this.UserSession);
+                        object[] pk = GetPrimaryKeys();
+                        bool b = l2.LoadAsync<PurchaseOrderLogic>(pk).Result;
+                        TaxId = l2.TaxId;
+                    }
+
+                    if ((TaxId != null) && (!TaxId.Equals(string.Empty)))
+                    {
+                        bool b = AppFunc.UpdateTaxFromTaxOptionASync(this.AppConfig, this.UserSession, TaxOptionId, TaxId).Result;
+                    }
+                }
+            }
+        }
 
         public async Task<string> CreateReceiveContract()
         {
