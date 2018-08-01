@@ -978,7 +978,7 @@ class OrderBase {
             if (Math.sign(daysBetweenDates) >= 0) {
                 $form.find('div[data-datafield="BillingEndDate"]').removeClass('error');
             } else {
-                FwNotification.renderNotification('WARNING', "Your chosen 'To Date' is before 'From Date'.");
+                FwNotification.renderNotification('WARNING', "Your chosen 'Billing Stop Date' is before 'Start Date'.");
                 $form.find('div[data-datafield="BillingEndDate"]').addClass('error');
                 FwFormField.setValueByDataField($form, 'BillingWeeks', '0');
                 FwFormField.setValueByDataField($form, 'BillingMonths', '0');
@@ -1032,7 +1032,7 @@ class OrderBase {
             if (Math.sign(daysBetweenDates) >= 0) {
                 $form.find('div[data-datafield="BillingEndDate"]').removeClass('error');
             } else {
-                FwNotification.renderNotification('WARNING', "Your chosen 'To Date' is before 'From Date'.");
+                FwNotification.renderNotification('WARNING', "Your chosen 'Billing Stop Date' is before 'Start Date'.");
                 $form.find('div[data-datafield="BillingEndDate"]').addClass('error');
                 FwFormField.setValueByDataField($form, 'BillingWeeks', '0');
                 FwFormField.setValueByDataField($form, 'BillingMonths', '0');
