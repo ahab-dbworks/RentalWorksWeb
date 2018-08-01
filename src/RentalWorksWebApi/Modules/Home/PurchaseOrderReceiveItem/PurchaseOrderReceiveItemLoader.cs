@@ -78,6 +78,9 @@ namespace WebApi.Modules.Home.PurchaseOrderReceiveItem
         [FwSqlDataField(column: "qty", modeltype: FwDataTypes.Decimal)]
         public decimal? Quantity { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "qtycolor", modeltype: FwDataTypes.OleToHtmlColor)]
+        public string QuantityColor { get; set; }
+        //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "qtyneedbarcode", modeltype: FwDataTypes.Decimal)]
         public decimal? QuantityNeedBarCode { get; set; }
         //------------------------------------------------------------------------------------ 

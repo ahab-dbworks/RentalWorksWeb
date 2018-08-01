@@ -36,6 +36,7 @@ namespace WebApi.Modules.Home.PurchaseOrderReceiveItem
         public decimal? QuantityRemaining { get; set; }//{ get { return purchaseOrderReceiveItem.QuantityRemaining; } set { purchaseOrderReceiveItem.QuantityRemaining = value; } }
         public decimal? QuantityReturned { get; set; }//{ get { return purchaseOrderReceiveItem.QuantityReturned; } set { purchaseOrderReceiveItem.QuantityReturned = value; } }
         public decimal? Quantity { get; set; }//{ get { return purchaseOrderReceiveItem.Quantity; } set { purchaseOrderReceiveItem.Quantity = value; } }
+        public string QuantityColor { get; set; }
         public decimal? QuantityNeedBarCode { get; set; }//{ get { return purchaseOrderReceiveItem.QuantityNeedBarCode; } set { purchaseOrderReceiveItem.QuantityNeedBarCode = value; } }
         public string ItemOrder { get; set; }//{ get { return purchaseOrderReceiveItem.ItemOrder; } set { purchaseOrderReceiveItem.ItemOrder = value; } }
         public string RecType { get; set; }//{ get { return purchaseOrderReceiveItem.RecType; } set { purchaseOrderReceiveItem.RecType = value; } }
