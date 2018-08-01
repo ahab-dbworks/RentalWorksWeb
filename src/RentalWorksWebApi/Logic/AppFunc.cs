@@ -70,7 +70,7 @@ namespace WebApi.Logic
                 for (int c = 0; c < wherecolumns.Length; c++)
                 {
                     qry.Add(wherecolumns[c] + " = @wherecolumnvalue" + c.ToString());
-                    if (c < (wherecolumns.Length-1))
+                    if (c < (wherecolumns.Length - 1))
                     {
                         qry.Add(" and ");
                     }
@@ -415,6 +415,35 @@ namespace WebApi.Logic
                 response.msg = qry.GetParameter("@msg").ToString();
             }
             return response;
+        }
+        //-------------------------------------------------------------------------------------------------------
+        private static async Task<SelectAllNoneReceiveItemResponse> SelectAllNoneReceiveItem(FwApplicationConfig appConfig, FwUserSession userSession, string contractId, string purchaseOrderId, bool selectAll)
+        {
+            SelectAllNoneReceiveItemResponse response = new SelectAllNoneReceiveItemResponse();
+            using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
+            {
+                FwSqlCommand qry = new FwSqlCommand(conn, "selectallreceivefromvendor", appConfig.DatabaseSettings.QueryTimeout);
+                qry.AddParameter("@poid", SqlDbType.NVarChar, ParameterDirection.Input, purchaseOrderId);
+                qry.AddParameter("@contractid", SqlDbType.NVarChar, ParameterDirection.Input, contractId);
+                qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, userSession.UsersId);
+                qry.AddParameter("@selectallnone", SqlDbType.NVarChar, ParameterDirection.Input, (selectAll ? "A" : "N"));
+                qry.AddParameter("@status", SqlDbType.Int, ParameterDirection.Output);
+                qry.AddParameter("@msg", SqlDbType.NVarChar, ParameterDirection.Output);
+                await qry.ExecuteNonQueryAsync(true);
+                response.success = (qry.GetParameter("@status").ToInt32() == 0);
+                response.msg = qry.GetParameter("@msg").ToString();
+            }
+            return response;
+        }
+        //-------------------------------------------------------------------------------------------------------
+        public static async Task<SelectAllNoneReceiveItemResponse> SelectAllReceiveItem(FwApplicationConfig appConfig, FwUserSession userSession, string contractId, string purchaseOrderId)
+        {
+            return await SelectAllNoneReceiveItem(appConfig, userSession, contractId, purchaseOrderId, true);
+        }
+        //-------------------------------------------------------------------------------------------------------
+        public static async Task<SelectAllNoneReceiveItemResponse> SelectNoneReceiveItem(FwApplicationConfig appConfig, FwUserSession userSession, string contractId, string purchaseOrderId)
+        {
+            return await SelectAllNoneReceiveItem(appConfig, userSession, contractId, purchaseOrderId, false);
         }
         //-------------------------------------------------------------------------------------------------------
 

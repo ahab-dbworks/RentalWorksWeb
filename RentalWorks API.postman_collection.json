@@ -1759,6 +1759,369 @@
 			]
 		},
 		{
+			"name": "Check-Out / Staging",
+			"description": null,
+			"item": [
+				{
+					"name": "Check-Out: Stage Item (barcode)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"OrderId\": \"I000058L\",\n\t\"Code\": \"4W013918\",\n\t\"AddItemToOrder\":true\n}"
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/checkout/stageitem",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"checkout",
+								"stageitem"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Check-Out: Stage Item (quantity)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"OrderId\": \"I00004XJ\",\n\t\"Code\": \"11430-00\",\n\t\"Quantity\": 2\n}"
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/checkout/stageitem",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"checkout",
+								"stageitem"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Check-Out: Check-Out All Staged",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"OrderId\": \"I000058L\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/checkout/checkoutallstaged",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"checkout",
+								"checkoutallstaged"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Staged Item: Browse",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": [],\n    \t\"uniqueids\": {\"OrderId\": \"I000058L\", \"WarehouseId\": \"B0029AY5\"}\n\t\n}"
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/stageditem/browse",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"stageditem",
+								"browse"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Check-In",
+			"description": null,
+			"item": [
+				{
+					"name": "Check-In: Start Check-In Session",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"DealId\": \"B003ON2O\",\n\t\"DepartmentId\": \"B003KSM1\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/checkin/startcheckincontract",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"checkin",
+								"startcheckincontract"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Check-In: Check-In Item (barcode) - No Contract Yet",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"Code\": \"4W007124\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/checkin/checkinitem",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"checkin",
+								"checkinitem"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Check-In: Check-In Item (barcode)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"ContractId\": \"I00005FM\",\n\t\"Code\": \"4W012453\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/checkin/checkinitem",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"checkin",
+								"checkinitem"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Check-In: Check-In Item (quantity)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"ContractId\": \"I00005FM\",\n\t\"Code\": \"65450-00\",\n\t\"Quantity\": 4\n}\n"
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/checkin/checkinitem",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"checkin",
+								"checkinitem"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Check-In: Items Browse",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": [],\n    \t\"uniqueids\": {\"ContractId\": \"I00005FM\"}\n\t\n}"
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/checkedinitem/browse",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"checkedinitem",
+								"browse"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Check-In: Complete Check-In Contract",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/checkin/completecheckincontract/I00005FM",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"checkin",
+								"completecheckincontract",
+								"I00005FM"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
 			"name": "Company",
 			"description": null,
 			"item": [
@@ -2812,7 +3175,7 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "http://localhost:57949/api/v1/contract/00002WPC",
+							"raw": "http://localhost:57949/api/v1/contract/I00005XC",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -2822,7 +3185,7 @@
 								"api",
 								"v1",
 								"contract",
-								"00002WPC"
+								"I00005XC"
 							]
 						}
 					},
@@ -31943,7 +32306,7 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "http://localhost:57949/api/v1/purchaseorder/F002KFAU",
+							"raw": "http://localhost:57949/api/v1/purchaseorder/I00005EL",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -31953,7 +32316,7 @@
 								"api",
 								"v1",
 								"purchaseorder",
-								"F002KFAU"
+								"I00005EL"
 							]
 						}
 					},
@@ -32078,10 +32441,10 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": ""
+							"raw": "{\n\t\"CreateOutContracts\": true\n}\n\n"
 						},
 						"url": {
-							"raw": "http://localhost:57949/api/v1/purchaseorder/completereceivecontract/I00004V3",
+							"raw": "http://localhost:57949/api/v1/purchaseorder/completereceivecontract/I00005FT",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -32092,7 +32455,7 @@
 								"v1",
 								"purchaseorder",
 								"completereceivecontract",
-								"I00004V3"
+								"I00005FT"
 							]
 						}
 					},
@@ -32226,7 +32589,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"ContractId\": \"I000053T\",\n    \"PurchaseOrderId\": \"F01QYBVO\",\n    \"purchaseOrderItemId\": \"F01QYBWD\",\n    \"Quantity\": 10\n}"
+							"raw": "{\n    \"ContractId\": \"I00005F6\",\n    \"PurchaseOrderId\": \"I00005EO\",\n    \"purchaseOrderItemId\": \"I00005ET\",\n    \"Quantity\": 1\n}"
 						},
 						"url": {
 							"raw": "http://localhost:57949/api/v1/purchaseorderreceiveitem/receiveitems",
@@ -32240,6 +32603,76 @@
 								"v1",
 								"purchaseorderreceiveitem",
 								"receiveitems"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Purchase Order Receive Item: Select All Items",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"ContractId\": \"I00005YR\",\n    \"PurchaseOrderId\": \"I00005XF\"\n\t\n}"
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/purchaseorderreceiveitem/selectall",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"purchaseorderreceiveitem",
+								"selectall"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Purchase Order Receive Item: Select None Items",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"ContractId\": \"I00005YR\",\n    \"PurchaseOrderId\": \"I00005XF\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/purchaseorderreceiveitem/selectnone",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"purchaseorderreceiveitem",
+								"selectnone"
 							]
 						}
 					},
@@ -37962,123 +38395,6 @@
 			]
 		},
 		{
-			"name": "Staged Item",
-			"description": null,
-			"item": [
-				{
-					"name": "Staged Item: Browse",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "{{jwttoken}}"
-							},
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": [],\n    \t\"uniqueids\": {\"OrderId\": \"I000058L\", \"WarehouseId\": \"B0029AY5\"}\n\t\n}"
-						},
-						"url": {
-							"raw": "http://localhost:57949/api/v1/stageditem/browse",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "57949",
-							"path": [
-								"api",
-								"v1",
-								"stageditem",
-								"browse"
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "Check-Out",
-			"description": null,
-			"item": [
-				{
-					"name": "Check-Out: Stage Item (barcode)",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "{{jwttoken}}"
-							},
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n\t\"OrderId\": \"I000058L\",\n\t\"Code\": \"4W013918\",\n\t\"AddItemToOrder\":true\n}"
-						},
-						"url": {
-							"raw": "http://localhost:57949/api/v1/checkout/stageitem",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "57949",
-							"path": [
-								"api",
-								"v1",
-								"checkout",
-								"stageitem"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Check-Out: Stage Item (quantity)",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "{{jwttoken}}"
-							},
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n\t\"OrderId\": \"I00004XJ\",\n\t\"Code\": \"11430-00\",\n\t\"Quantity\": 2\n}"
-						},
-						"url": {
-							"raw": "http://localhost:57949/api/v1/checkout/stageitem",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "57949",
-							"path": [
-								"api",
-								"v1",
-								"checkout",
-								"stageitem"
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		},
-		{
 			"name": "State",
 			"description": null,
 			"item": [
@@ -42552,7 +42868,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"Vendor\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": [],\n    \t\"uniqueids\": {\"Freight\": true}\n\t\n}"
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"VendorDisplayName\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": [],\n    \t\"uniqueids\": {\"Freight\": true}\n\t\n}"
 						},
 						"url": {
 							"raw": "http://localhost:57949/api/v1/vendor/browse",

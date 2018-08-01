@@ -28,6 +28,11 @@ namespace WebApi.Modules.Home.PurchaseOrderReceiveItem
     }
 
 
+    public class SelectAllNoneReceiveItemResponse : TSpStatusReponse
+    {
+    }
+
+
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "home-v1")]
     public class PurchaseOrderReceiveItemController : AppDataController
@@ -115,6 +120,79 @@ namespace WebApi.Modules.Home.PurchaseOrderReceiveItem
                     //{
                     //    throw new Exception(response.msg);
                     //}
+                    return new OkObjectResult(response);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                FwApiException jsonException = new FwApiException();
+                jsonException.StatusCode = StatusCodes.Status500InternalServerError;
+                jsonException.Message = ex.Message;
+                jsonException.StackTrace = ex.StackTrace;
+                return StatusCode(jsonException.StatusCode, jsonException);
+            }
+        }
+        //------------------------------------------------------------------------------------        
+
+
+        // POST api/v1/purchaseorderreceiveitem/selectall
+        [HttpPost("selectall")]
+        public async Task<IActionResult> SelectAll([FromBody] ReceiveItemRequest request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                if (string.IsNullOrEmpty(request.ContractId))
+                {
+                    throw new Exception("ContractId is required.");
+                }
+                else if (string.IsNullOrEmpty(request.PurchaseOrderId))
+                {
+                    throw new Exception("PurchaseOrderId is required.");
+                }
+                else
+                {
+                    SelectAllNoneReceiveItemResponse response = await AppFunc.SelectAllReceiveItem(AppConfig, UserSession, request.ContractId, request.PurchaseOrderId);
+                    return new OkObjectResult(response);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                FwApiException jsonException = new FwApiException();
+                jsonException.StatusCode = StatusCodes.Status500InternalServerError;
+                jsonException.Message = ex.Message;
+                jsonException.StackTrace = ex.StackTrace;
+                return StatusCode(jsonException.StatusCode, jsonException);
+            }
+        }
+        //------------------------------------------------------------------------------------        
+
+        // POST api/v1/purchaseorderreceiveitem/selectnone
+        [HttpPost("selectnone")]
+        public async Task<IActionResult> SelectNone([FromBody] ReceiveItemRequest request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                if (string.IsNullOrEmpty(request.ContractId))
+                {
+                    throw new Exception("ContractId is required.");
+                }
+                else if (string.IsNullOrEmpty(request.PurchaseOrderId))
+                {
+                    throw new Exception("PurchaseOrderId is required.");
+                }
+                else
+                {
+                    SelectAllNoneReceiveItemResponse response = await AppFunc.SelectNoneReceiveItem(AppConfig, UserSession, request.ContractId, request.PurchaseOrderId);
                     return new OkObjectResult(response);
                 }
 
