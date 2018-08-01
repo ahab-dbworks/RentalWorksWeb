@@ -108,11 +108,15 @@ class CheckIn {
                         FwFormField.setValueByDataField($form, 'QuantityOut', response.InventoryStatus.QuantityOut);
                         FwFormField.setValueByDataField($form, 'QuantityIn', response.InventoryStatus.QuantityIn);
                         FwFormField.setValueByDataField($form, 'QuantityRemaining', response.InventoryStatus.QuantityRemaining);
+                        FwFormField.setValueByDataField($form, 'OrderId', response.OrderId, response.OrderNumber);
+                        FwFormField.setValueByDataField($form, 'DealId', response.DealId, response.Deal);
+                        FwFormField.setValueByDataField($form, 'Description', response.OrderDescription);
+                        FwFormField.disable($form.find('[data-datafield="OrderId"], [data-datafield="DealId"]'));
                         let $checkedInItemsGridControl = $form.find('div[data-name="CheckedInItemGrid"]');
                         FwBrowse.search($checkedInItemsGridControl);
                         $form.find('[data-datafield="BarCode"] input').select();
 
-                        if (response.status === '107') {
+                        if (response.status === 107) {
                             $form.find('[data-datafield="Quantity"] input').focus();
                         }
                     }
@@ -140,6 +144,8 @@ class CheckIn {
                         let contractId = FwFormField.getValueByDataField($form, 'ContractId');
                         let $checkedInItemsGridControl = $form.find('div[data-name="CheckedInItemGrid"]');
                         FwBrowse.search($checkedInItemsGridControl);
+                        FwFormField.setValueByDataField($form, 'Quantity', 0);
+                        $form.find('[data-datafield="BarCode"] input').select();
                     }
                     else if (!response.success) {
                         let errormsg = $form.find('.quantityerrormsg');
@@ -172,5 +178,13 @@ class CheckIn {
         });
     };
     //----------------------------------------------------------------------------------------------
+    beforeValidate($browse: any, $form: any, request: any) {
+        let warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
+        let warehouseId = warehouse.warehouseid;
+        request.miscfields = {
+            CheckIn: true
+            , CheckInWarehouseId: warehouseId
+        }
+    };
 }
 var CheckInController = new CheckIn();
