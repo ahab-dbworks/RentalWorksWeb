@@ -143,48 +143,30 @@ class ReceiveFromVendor {
             const $receiveItemsGridControl = $form.find('div[data-name="POReceiveItemGrid"]');
             const contractId = FwFormField.getValueByDataField($form, 'ContractId');
             const purchaseOrderId = FwFormField.getValueByDataField($form, 'PurchaseOrderId');
-            const purchaseOrderItemIdColumn: any = $form.find('.POReceiveItemGrid [data-browsedatafield="PurchaseOrderItemId"]');
-            const QuantityColumn: any = $form.find('.POReceiveItemGrid [data-browsedatafield="Quantity"]');
 
             request.ContractId = contractId;
             request.PurchaseOrderId = purchaseOrderId;
-
-            for (let i = 1; i < purchaseOrderItemIdColumn.length; i++) {
-
-                if (QuantityColumn.eq(i).attr('data-originalvalue') != 0) {
-                    request.PurchaseOrderItemId = purchaseOrderItemIdColumn.eq(i).attr('data-originalvalue')
-                    quantity = QuantityColumn.eq(i).attr('data-originalvalue');
-                    request.Quantity = -quantity
-                    FwAppData.apiMethod(true, 'POST', `api/v1/purchaseorderreceiveitem/receiveitems`, request, FwServices.defaultTimeout, function onSuccess(response) {
-                    }, function onError(response) {
-                        FwFunc.showError(response);
-                    }, $form);
-                }
-            }
-            setTimeout(() => { FwBrowse.search($receiveItemsGridControl); }, 1500);
+            FwAppData.apiMethod(true, 'POST', `api/v1/purchaseorderreceiveitem/selectnone`, request, FwServices.defaultTimeout, function onSuccess(response) {
+                FwBrowse.search($receiveItemsGridControl);
+            }, function onError(response) {
+                FwFunc.showError(response);
+                }, $form, contractId);
         });
+
         // Select All
         $form.find('.selectall').on('click', e => {
             let request: any = {};
             const $receiveItemsGridControl = $form.find('div[data-name="POReceiveItemGrid"]');
             const contractId = FwFormField.getValueByDataField($form, 'ContractId');
             const purchaseOrderId = FwFormField.getValueByDataField($form, 'PurchaseOrderId');
-            const purchaseOrderItemIdColumn: any = $form.find('.POReceiveItemGrid [data-browsedatafield="PurchaseOrderItemId"]');
-            const QuantityRemainingColumn: any = $form.find('.POReceiveItemGrid [data-browsedatafield="QuantityRemaining"]');
 
             request.ContractId = contractId;
             request.PurchaseOrderId = purchaseOrderId;
-            for (let i = 1; i < purchaseOrderItemIdColumn.length; i++) {
-                if (QuantityRemainingColumn.eq(i).attr('data-originalvalue') != 0) {
-                    request.PurchaseOrderItemId = purchaseOrderItemIdColumn.eq(i).attr('data-originalvalue')
-                    request.Quantity = QuantityRemainingColumn.eq(i).attr('data-originalvalue')
-                    FwAppData.apiMethod(true, 'POST', `api/v1/purchaseorderreceiveitem/receiveitems`, request, FwServices.defaultTimeout, function onSuccess(response) {
-                    }, function onError(response) {
-                        FwFunc.showError(response);
-                    }, $form);
-                }
-            }
-            setTimeout(() => { FwBrowse.search($receiveItemsGridControl); }, 1500);
+            FwAppData.apiMethod(true, 'POST', `api/v1/purchaseorderreceiveitem/selectall`, request, FwServices.defaultTimeout, function onSuccess(response) {
+                FwBrowse.search($receiveItemsGridControl);
+            }, function onError(response) {
+                FwFunc.showError(response);
+                }, $form, contractId);
         });
         //Hide/Show Options
         var $optionToggle = $form.find('.optiontoggle');

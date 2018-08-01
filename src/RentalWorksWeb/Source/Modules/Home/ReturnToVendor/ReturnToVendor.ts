@@ -148,43 +148,27 @@ class ReturnToVendor {
 
             request.ContractId = contractId;
             request.PurchaseOrderId = purchaseOrderId;
-
-            for (let i = 1; i < purchaseOrderItemIdColumn.length; i++) {
-
-                if (QuantityColumn.eq(i).attr('data-originalvalue') != 0) {
-                    request.PurchaseOrderItemId = purchaseOrderItemIdColumn.eq(i).attr('data-originalvalue')
-                    quantity = QuantityColumn.eq(i).attr('data-originalvalue');
-                    request.Quantity = -quantity
-                    FwAppData.apiMethod(true, 'POST', `api/v1/purchaseorderreturnitem/returnitems`, request, FwServices.defaultTimeout, function onSuccess(response) {
-                    }, function onError(response) {
-                        FwFunc.showError(response);
-                    }, $form);
-                }
-            }
-            setTimeout(() => { FwBrowse.search($returnItemsGridControl); }, 1500);
+            FwAppData.apiMethod(true, 'POST', `api/v1/purchaseorderreturnitem/selectnone`, request, FwServices.defaultTimeout, function onSuccess(response) {
+                FwBrowse.search($returnItemsGridControl);
+            }, function onError(response) {
+                FwFunc.showError(response);
+            }, $form);
         });
+
         // Select All
         $form.find('.selectall').on('click', e => {
             let request: any = {};
             const $returnItemsGridControl = $form.find('div[data-name="POReturnItemGrid"]');
             const contractId = FwFormField.getValueByDataField($form, 'ContractId');
             const purchaseOrderId = FwFormField.getValueByDataField($form, 'PurchaseOrderId');
-            const purchaseOrderItemIdColumn: any = $form.find('.POReturnItemGrid [data-browsedatafield="PurchaseOrderItemId"]');
-            const QuantityReturnableColumn: any = $form.find('.POReturnItemGrid [data-browsedatafield="QuantityReturnable"]');
 
             request.ContractId = contractId;
             request.PurchaseOrderId = purchaseOrderId;
-            for (let i = 1; i < purchaseOrderItemIdColumn.length; i++) {
-                if (QuantityReturnableColumn.eq(i).attr('data-originalvalue') != 0) {
-                    request.PurchaseOrderItemId = purchaseOrderItemIdColumn.eq(i).attr('data-originalvalue')
-                    request.Quantity = QuantityReturnableColumn.eq(i).attr('data-originalvalue')
-                    FwAppData.apiMethod(true, 'POST', `api/v1/purchaseorderreturnitem/returnitems`, request, FwServices.defaultTimeout, function onSuccess(response) {
-                    }, function onError(response) {
-                        FwFunc.showError(response);
-                    }, $form);
-                }
-            }
-            setTimeout(() => { FwBrowse.search($returnItemsGridControl); }, 1500);
+            FwAppData.apiMethod(true, 'POST', `api/v1/purchaseorderreturnitem/selectall`, request, FwServices.defaultTimeout, function onSuccess(response) {
+                FwBrowse.search($returnItemsGridControl);
+            }, function onError(response) {
+                FwFunc.showError(response);
+                }, $form, contractId);
         });
     }
     //----------------------------------------------------------------------------------------------
