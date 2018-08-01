@@ -160,8 +160,7 @@ class ReceiveFromVendor {
                     }, $form);
                 }
             }
-            setTimeout(() => { FwBrowse.search($receiveItemsGridControl); }, 1000);
-
+            setTimeout(() => { FwBrowse.search($receiveItemsGridControl); }, 1500);
         });
         // Select All
         $form.find('.selectall').on('click', e => {
@@ -184,7 +183,7 @@ class ReceiveFromVendor {
                     }, $form);
                 }
             }
-            setTimeout(() => { FwBrowse.search($receiveItemsGridControl); }, 1000);
+            setTimeout(() => { FwBrowse.search($receiveItemsGridControl); }, 1500);
         });
         //Hide/Show Options
         var $optionToggle = $form.find('.optiontoggle');

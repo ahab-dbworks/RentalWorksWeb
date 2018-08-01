@@ -1,11 +1,8 @@
 ﻿routes.push({ pattern: /^module\/orderstatus$/, action: function (match: RegExpExecArray) { return OrderStatusController.getModuleScreen(); } });
 
 class OrderStatus {
-    Module: string;
+    Module: string = 'OrderStatus';
 
-    constructor() {
-        this.Module = 'OrderStatus';
-    }
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
         var screen: any = {};

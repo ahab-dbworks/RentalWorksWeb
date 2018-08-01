@@ -161,7 +161,7 @@ class ReturnToVendor {
                     }, $form);
                 }
             }
-            setTimeout(() => { FwBrowse.search($returnItemsGridControl); }, 1000);
+            setTimeout(() => { FwBrowse.search($returnItemsGridControl); }, 1500);
         });
         // Select All
         $form.find('.selectall').on('click', e => {
@@ -184,9 +184,8 @@ class ReturnToVendor {
                     }, $form);
                 }
             }
-            setTimeout(() => { FwBrowse.search($returnItemsGridControl); }, 1000);
+            setTimeout(() => { FwBrowse.search($returnItemsGridControl); }, 1500);
         });
-
     }
     //----------------------------------------------------------------------------------------------
 }
