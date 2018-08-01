@@ -76,7 +76,7 @@ class OrderItemGrid {
     }
     generateRow($control, $generatedtr) {
         var $form = $control.closest('.fwform');
-        if ($form.attr('data-controller') === 'OrderController' || $form.attr('data-controller') === 'QuoteController') {
+        if ($form.attr('data-controller') === 'OrderController' || $form.attr('data-controller') === 'QuoteController' || $form.attr('data-controller') === 'PurchaseOrderController') {
             $generatedtr.find('div[data-browsedatafield="InventoryId"]').data('onchange', function ($tr) {
                 var warehouse = FwFormField.getTextByDataField($form, 'WarehouseId');
                 var warehouseId = FwFormField.getValueByDataField($form, 'WarehouseId');
@@ -112,6 +112,8 @@ class OrderItemGrid {
                 let officeLocationId = FwFormField.getValueByDataField($form, 'OfficeLocationId');
                 let rateType = $form.find('[data-datafield="RateType"] input').val();
                 let inventoryType = $generatedtr.find('[data-browsedatafield="InventoryId"]').attr('data-validationname');
+                $generatedtr.find('.field[data-browsedatafield="Description"] input').val($tr.find('.field[data-browsedatafield="Description"]').attr('data-originalvalue'));
+                $generatedtr.find('.field[data-browsedatafield="QuantityOrdered"] input').val("1");
                 let discountPercent, daysPerWeek;
                 $generatedtr.find('.field[data-browsedatafield="ItemId"] input').val('');
                 $generatedtr.find('.field[data-browsedatafield="Description"] input').val($tr.find('.field[data-browsedatafield="Description"]').attr('data-originalvalue'));
@@ -337,7 +339,7 @@ class OrderItemGrid {
 }
 FwApplicationTree.clickEvents['{77E511EC-5463-43A0-9C5D-B54407C97B15}'] = function (e) {
     let grid = jQuery(e.currentTarget).parents('[data-control="FwGrid"]');
-    let search, $form, orderId, quoteId, $popup;
+    let search, $form, orderId, quoteId, purchaseOrderId, $popup;
     $form = jQuery(this).closest('.fwform');
     let gridInventoryType;
     if (grid.hasClass('R')) {
@@ -352,6 +354,9 @@ FwApplicationTree.clickEvents['{77E511EC-5463-43A0-9C5D-B54407C97B15}'] = functi
     if (grid.hasClass('M')) {
         gridInventoryType = 'Misc';
     }
+    if (grid.hasClass('P')) {
+        gridInventoryType = 'Parts';
+    }
     search = new SearchInterface();
     if ($form.attr('data-controller') === 'OrderController') {
         orderId = FwFormField.getValueByDataField($form, 'OrderId');
@@ -362,7 +367,7 @@ FwApplicationTree.clickEvents['{77E511EC-5463-43A0-9C5D-B54407C97B15}'] = functi
             $popup = search.renderSearchPopup($form, orderId, 'Order', gridInventoryType);
         }
     }
-    else {
+    else if ($form.attr('data-controller') === 'QuoteController') {
         quoteId = FwFormField.getValueByDataField($form, 'QuoteId');
         if (quoteId == '') {
             FwNotification.renderNotification('WARNING', 'Please save the record before performing this function');
@@ -371,7 +376,15 @@ FwApplicationTree.clickEvents['{77E511EC-5463-43A0-9C5D-B54407C97B15}'] = functi
             $popup = search.renderSearchPopup($form, quoteId, 'Quote', gridInventoryType);
         }
     }
-    ;
+    else if ($form.attr('data-controller') === 'PurchaseOrderController') {
+        purchaseOrderId = FwFormField.getValueByDataField($form, 'PurchaseOrderId');
+        if (purchaseOrderId == '') {
+            FwNotification.renderNotification('WARNING', 'Please save the record before performing this function');
+        }
+        else {
+            $popup = search.renderSearchPopup($form, purchaseOrderId, 'Purchase Order', gridInventoryType);
+        }
+    }
 };
 var OrderItemGridController = new OrderItemGrid();
 //# sourceMappingURL=OrderItemGridController.js.map

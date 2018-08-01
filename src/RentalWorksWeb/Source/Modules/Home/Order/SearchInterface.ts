@@ -129,11 +129,15 @@ class SearchInterface {
         var $previewTabControl = jQuery('#previewHtml');
         FwConfirmation.addControls($previewTabControl, $previewform);
 
-        var startDate = FwFormField.getValueByDataField($form, 'EstimatedStartDate');
-        FwFormField.setValueByDataField($popup, 'FromDate', startDate);
-
-        var stopDate = FwFormField.getValueByDataField($form, 'EstimatedStopDate');
-        FwFormField.setValueByDataField($popup, 'ToDate', stopDate);
+        if (type === 'Order' || type === 'Quote') {
+            var startDate = FwFormField.getValueByDataField($form, 'EstimatedStartDate');
+            var stopDate = FwFormField.getValueByDataField($form, 'EstimatedStopDate');
+            FwFormField.setValueByDataField($popup, 'FromDate', startDate);
+            FwFormField.setValueByDataField($popup, 'ToDate', stopDate);
+        } else if (type === 'Purchase Order') {
+            var startDate = FwFormField.getValueByDataField($form, 'PurchaseOrderDate');
+            FwFormField.setValueByDataField($popup, 'FromDate', startDate);
+        }
 
         var toDate = FwFormField.getValueByDataField($popup, 'ToDate');
         var fromDate = FwFormField.getValueByDataField($popup, 'FromDate');
