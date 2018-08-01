@@ -145,12 +145,6 @@ namespace WebApi.Modules.Home.Vendor
         [FwSqlDataField(column: "ratetype", modeltype: FwDataTypes.Text)]
         public string DefaultRate { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "billperiodid", modeltype: FwDataTypes.Text)]
-        public string BillingCycleId { get; set; }
-        //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "billperiod", modeltype: FwDataTypes.Text)]
-        public string BillingCycle { get; set; }
-        //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "paytermsid", modeltype: FwDataTypes.Text)]
         public string PaymentTermsId { get; set; }
         //------------------------------------------------------------------------------------
