@@ -107,16 +107,17 @@ class ReceiveFromVendor {
             let requestBody: any = {};
             if (automaticallyCreateCheckOut == 'T') {
                 requestBody = {
-                    CreateOutContracts : true
+                    CreateOutContracts: true
                 }
             }
             FwAppData.apiMethod(true, 'POST', "api/v1/purchaseorder/completereceivecontract/" + contractId, requestBody, FwServices.defaultTimeout, function onSuccess(response) {
                 try {
-                    let contractInfo: any = {}, $contractForm;
-                    contractInfo.ContractId = contractId;
-                    $contractForm = ContractController.loadForm(contractInfo);
-                    FwModule.openSubModuleTab($form, $contractForm);
-
+                    for (let i = 0; i < response.length; i++) {
+                        let contractInfo: any = {}, $contractForm;
+                        contractInfo.ContractId = response[i].ContractId;
+                        $contractForm = ContractController.loadForm(contractInfo);
+                        FwModule.openSubModuleTab($form, $contractForm);
+                    }
                     $form.find('.fwformfield').not('[data-type="date"], [data-type="time"]').find('input').val('');
                     let $receiveItemsGridControl = $form.find('div[data-name="POReceiveItemGrid"]');
                     $receiveItemsGridControl.data('ondatabind', function (request) {
