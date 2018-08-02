@@ -118,8 +118,10 @@ class SearchInterface {
         previewhtml.push('                </div>');
         if (type == 'Order') {
             previewhtml.push('                      <div data-type="button" class="fwformcontrol addToOrder" style="width:120px; float:right; margin:15px;">Add to Order</div>');
-        } else {
+        } if (type == 'Quote') {
             previewhtml.push('                      <div data-type="button" class="fwformcontrol addToOrder" style="width:120px; float:right; margin:15px;">Add to Quote</div>');
+        } if (type == 'PurchaseOrder') {
+            searchhtml.push('                      <div data-type="button" class="fwformcontrol addToOrder" style="width:195px; float:left; margin:15px;">Add to Purchase Order</div>');
         }
         previewhtml.push('            </div>');
         previewhtml.push('     </div>');
