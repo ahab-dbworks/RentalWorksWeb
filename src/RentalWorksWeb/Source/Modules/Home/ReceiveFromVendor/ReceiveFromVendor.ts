@@ -78,6 +78,14 @@ class ReceiveFromVendor {
                 })
                 FwBrowse.search($receiveItemsGridControl);
             }, null, null);
+
+
+            FwAppData.apiMethod(true, 'GET', `api/v1/purchaseorder/${purchaseOrderId}`, request, FwServices.defaultTimeout, function onSuccess(response) {
+                if ((response.SubRent == false) && (response.SubSale == false)) {
+                    FwFormField.disable($form.find('[data-datafield="AutomaticallyCreateCheckOut"]'));
+                    $form.find('[data-datafield="AutomaticallyCreateCheckOut"] input').prop('checked', false);
+                }
+            }, null, null);
         });
     }
     //----------------------------------------------------------------------------------------------
