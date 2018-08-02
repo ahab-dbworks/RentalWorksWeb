@@ -1,6 +1,7 @@
 using FwStandard.BusinessLogic;
 using FwStandard.BusinessLogic.Attributes;
 using WebApi.Logic;
+using WebApi.Modules.Home.Repair;
 using WebLibrary;
 
 namespace WebApi.Modules.Home.RepairPart
@@ -59,7 +60,7 @@ namespace WebApi.Modules.Home.RepairPart
                     ItemClass = AppFunc.GetStringDataAsync(AppConfig, "master", "masterid", InventoryId, "class").Result;
                     if ((ItemClass.Equals(RwConstants.INVENTORY_CLASSIFICATION_KIT)) || (ItemClass.Equals(RwConstants.INVENTORY_CLASSIFICATION_COMPLETE)))
                     {
-                        RepairPartId = AppFunc.InsertRepairPackage(AppConfig, UserSession, this).Result;
+                        RepairPartId = RepairFunc.InsertRepairPackage(AppConfig, UserSession, this).Result;
                         e.PerformSave = false;
                     }
                 }

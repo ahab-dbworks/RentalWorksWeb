@@ -1,10 +1,8 @@
 using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
-using System.Data;
 using System.Threading.Tasks;
 using WebApi.Data;
 using WebApi.Logic;
-using WebLibrary;
 
 namespace WebApi.Modules.Home.Repair
 {
@@ -167,22 +165,22 @@ namespace WebApi.Modules.Home.Repair
         //------------------------------------------------------------------------------------ 
         public async Task<TSpStatusReponse> ToggleEstimate()
         {
-            return await AppFunc.ToggleRepairEstimate(AppConfig, UserSession, RepairId);
+            return await RepairFunc.ToggleRepairEstimate(AppConfig, UserSession, RepairId);
         }
         //------------------------------------------------------------------------------------ 
         public async Task<TSpStatusReponse> ToggleComplete()
         {
-            return await AppFunc.ToggleRepairComplete(AppConfig, UserSession, RepairId);
+            return await RepairFunc.ToggleRepairComplete(AppConfig, UserSession, RepairId);
         }
         //------------------------------------------------------------------------------------ 
         public async Task<TSpStatusReponse> ReleaseItems(int quantity)
         {
-            return await AppFunc.ReleaseRepairItems(AppConfig, UserSession, RepairId, quantity);
+            return await RepairFunc.ReleaseRepairItems(AppConfig, UserSession, RepairId, quantity);
         }
         //------------------------------------------------------------------------------------ 
         public async Task<TSpStatusReponse> Void()
         {
-            return await AppFunc.VoidRepair(AppConfig, UserSession, RepairId);
+            return await RepairFunc.VoidRepair(AppConfig, UserSession, RepairId);
         }
         //------------------------------------------------------------------------------------ 
     }

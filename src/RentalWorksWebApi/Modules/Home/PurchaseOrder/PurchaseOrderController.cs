@@ -134,7 +134,7 @@ namespace WebApi.Modules.Home.PurchaseOrder
             try
             {
 
-                TSpStatusReponse response = await AppFunc.AssignContract(AppConfig, UserSession, id);
+                TSpStatusReponse response = await ContractFunc.AssignContract(AppConfig, UserSession, id);
                 if (response.success)
                 {
                     List<ContractLogic> contracts = new List<ContractLogic>();
@@ -145,7 +145,7 @@ namespace WebApi.Modules.Home.PurchaseOrder
                     contracts.Add(contract);
                     if (request.CreateOutContracts.GetValueOrDefault(false))
                     {
-                        List<string> outContractIds = await AppFunc.CreateOutContractsFromReceive(AppConfig, UserSession, id);
+                        List<string> outContractIds = await PurchaseOrderFunc.CreateOutContractsFromReceive(AppConfig, UserSession, id);
                         foreach (string outContractId in outContractIds)
                         {
                             contract = new ContractLogic();
@@ -223,7 +223,7 @@ namespace WebApi.Modules.Home.PurchaseOrder
             try
             {
 
-                TSpStatusReponse response = await AppFunc.AssignContract(AppConfig, UserSession, id);
+                TSpStatusReponse response = await ContractFunc.AssignContract(AppConfig, UserSession, id);
                 if (response.success)
                 {
 

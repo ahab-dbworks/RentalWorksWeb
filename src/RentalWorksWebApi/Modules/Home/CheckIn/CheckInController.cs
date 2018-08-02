@@ -82,7 +82,7 @@ namespace WebApi.Modules.Home.CheckIn
             try
             {
 
-                TSpStatusReponse response = await AppFunc.AssignContract(AppConfig, UserSession, id);
+                TSpStatusReponse response = await ContractFunc.AssignContract(AppConfig, UserSession, id);
                 if (response.success)
                 {
 

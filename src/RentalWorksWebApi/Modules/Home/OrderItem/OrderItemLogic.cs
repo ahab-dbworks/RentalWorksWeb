@@ -3,6 +3,7 @@ using FwStandard.BusinessLogic.Attributes;
 using WebApi.Logic;
 using WebApi.Modules.Home.Master;
 using WebApi.Modules.Home.MasterItem;
+using WebApi.Modules.Home.Order;
 using WebLibrary;
 
 namespace WebApi.Modules.Home.OrderItem
@@ -583,7 +584,7 @@ namespace WebApi.Modules.Home.OrderItem
                     ItemClass = AppFunc.GetStringDataAsync(AppConfig, "master", "masterid", InventoryId, "class").Result;
                     if ((ItemClass.Equals(RwConstants.INVENTORY_CLASSIFICATION_KIT)) || (ItemClass.Equals(RwConstants.INVENTORY_CLASSIFICATION_COMPLETE)))
                     {
-                        OrderItemId = AppFunc.InsertPackage(AppConfig, UserSession, this).Result;
+                        OrderItemId = OrderFunc.InsertPackage(AppConfig, UserSession, this).Result;
                         e.PerformSave = false;
                     }
                 }
@@ -620,7 +621,7 @@ namespace WebApi.Modules.Home.OrderItem
                         {
                             if (OriginalQuantityOrdered != QuantityOrdered)
                             {
-                                bool b2 = AppFunc.UpdatePackageQuantities(AppConfig, UserSession, this).Result;
+                                bool b2 = OrderFunc.UpdatePackageQuantities(AppConfig, UserSession, this).Result;
                             }
                         }
                     }

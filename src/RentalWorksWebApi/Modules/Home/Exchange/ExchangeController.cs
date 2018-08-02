@@ -251,7 +251,7 @@ namespace WebApi.Modules.Administrator.Exchange
             try
             {
 
-                TSpStatusReponse response = await AppFunc.AssignContract(AppConfig, UserSession, id);
+                TSpStatusReponse response = await ContractFunc.AssignContract(AppConfig, UserSession, id);
                 if (response.success)
                 {
 

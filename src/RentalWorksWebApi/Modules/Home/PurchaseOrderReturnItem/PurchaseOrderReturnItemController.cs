@@ -7,6 +7,7 @@ using WebApi.Logic;
 using System;
 using Microsoft.AspNetCore.Http;
 using System.ComponentModel.DataAnnotations;
+using WebApi.Modules.Home.PurchaseOrder;
 
 namespace WebApi.Modules.Home.PurchaseOrderReturnItem
 {
@@ -84,7 +85,7 @@ namespace WebApi.Modules.Home.PurchaseOrderReturnItem
                 }
                 else
                 {
-                    ReturnItemResponse response = await AppFunc.ReturnItem(AppConfig, UserSession, request.ContractId, request.PurchaseOrderId, request.PurchaseOrderItemId, request.Quantity);
+                    ReturnItemResponse response = await PurchaseOrderFunc.ReturnItem(AppConfig, UserSession, request.ContractId, request.PurchaseOrderId, request.PurchaseOrderItemId, request.Quantity);
                     return new OkObjectResult(response);
                 }
 
@@ -109,7 +110,7 @@ namespace WebApi.Modules.Home.PurchaseOrderReturnItem
             }
             try
             {
-                SelectAllNoneReturnItemResponse response = await AppFunc.SelectAllReturnItem(AppConfig, UserSession, request.ContractId, request.PurchaseOrderId);
+                SelectAllNoneReturnItemResponse response = await PurchaseOrderFunc.SelectAllReturnItem(AppConfig, UserSession, request.ContractId, request.PurchaseOrderId);
                 return new OkObjectResult(response);
             }
             catch (Exception ex)
@@ -133,7 +134,7 @@ namespace WebApi.Modules.Home.PurchaseOrderReturnItem
             }
             try
             {
-                SelectAllNoneReturnItemResponse response = await AppFunc.SelectNoneReturnItem(AppConfig, UserSession, request.ContractId, request.PurchaseOrderId);
+                SelectAllNoneReturnItemResponse response = await PurchaseOrderFunc.SelectNoneReturnItem(AppConfig, UserSession, request.ContractId, request.PurchaseOrderId);
                 return new OkObjectResult(response);
             }
             catch (Exception ex)
