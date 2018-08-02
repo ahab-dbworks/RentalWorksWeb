@@ -262,6 +262,10 @@ class PurchaseOrder {
         //    }
         //});
 
+        FwFormField.disable($form.find('[data-datafield="RentalTaxRate1"]'));
+        FwFormField.disable($form.find('[data-datafield="SalesTaxRate1"]'));
+        FwFormField.disable($form.find('[data-datafield="LaborTaxRate1"]'));
+
         this.events($form);
         this.activityCheckboxEvents($form, mode);
 
@@ -600,6 +604,13 @@ class PurchaseOrder {
     events($form: any) {
         $form.find('div[data-datafield="VendorId"]').data('onchange', $tr => {
             FwFormField.setValue($form, 'div[data-datafield="RateType"]', $tr.find('.field[data-formdatafield="DefaultRate"]').attr('data-originalvalue'), $tr.find('.field[data-formdatafield="DefaultRate"]').attr('data-originalvalue'));
+        });
+
+        //Populate tax info fields with validation
+        $form.find('div[data-datafield="TaxOptionId"]').data('onchange', $tr => {
+            FwFormField.setValue($form, 'div[data-datafield="RentalTaxRate1"]', $tr.find('.field[data-browsedatafield="RentalTaxRate1"]').attr('data-originalvalue'));
+            FwFormField.setValue($form, 'div[data-datafield="SalesTaxRate1"]', $tr.find('.field[data-browsedatafield="SalesTaxRate1"]').attr('data-originalvalue'));
+            FwFormField.setValue($form, 'div[data-datafield="LaborTaxRate1"]', $tr.find('.field[data-browsedatafield="LaborTaxRate1"]').attr('data-originalvalue'));
         });
     };
 
