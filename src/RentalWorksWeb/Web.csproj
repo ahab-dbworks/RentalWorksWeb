@@ -178,6 +178,7 @@
     <Content Include="Application.test.config" />
     <Content Include="packages.config" />
     <TypeScriptCompile Include="scripts\RwMaster.ts" />
+    <Content Include="Source\Grids\ContractExchangeItemGrid\ContractExchangeItemGridBrowse.htm" />
     <Content Include="Source\Grids\ExchangeItemGrid\ExchangeItemGridBrowse.htm" />
     <Content Include="Source\Grids\InventoryWarehouseStagingGrid\InventoryWarehouseStagingGridBrowse.htm" />
     <Content Include="Source\Grids\POReturnItemGrid\POReturnItemGridBrowse.htm" />
@@ -286,6 +287,7 @@
     <Content Include="Source\Grids\RateLocationTaxGrid\RateLocationTaxGridBrowse.htm" />
     <Content Include="Source\Grids\SubCategoryGrid\SubCategoryGridBrowse.htm" />
     <TypeScriptCompile Include="Source\Grids\ContactPersonalEventGrid\ContactPersonalEventGridController.ts" />
+    <TypeScriptCompile Include="Source\Grids\ContractExchangeItemGrid\ContractExchangeItemGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\ExchangeItemGrid\ExchangeItemGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\InventoryWarehouseStagingGrid\InventoryWarehouseStagingGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\POReturnItemGrid\POReturnItemGridController.ts" />

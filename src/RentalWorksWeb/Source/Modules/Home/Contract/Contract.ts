@@ -135,6 +135,20 @@ class Contract {
         });
         FwBrowse.init($contractSalesDetailGridControl);
         FwBrowse.renderRuntimeHtml($contractSalesDetailGridControl);
+
+        var $contractExchangeItemGrid;
+        var $contractExchangeItemGridControl;
+        $contractExchangeItemGrid = $form.find('div[data-grid="ContractExchangeItemGrid"]');
+        $contractExchangeItemGridControl = jQuery(jQuery('#tmpl-grids-ContractExchangeItemGridBrowse').html());
+        $contractExchangeItemGrid.empty().append($contractExchangeItemGridControl);
+        $contractExchangeItemGridControl.data('ondatabind', function (request) {
+            request.uniqueids = {
+                ContractId: FwFormField.getValueByDataField($form, 'ContractId'),
+                RecType: "S"
+            };
+        });
+        FwBrowse.init($contractExchangeItemGridControl);
+        FwBrowse.renderRuntimeHtml($contractExchangeItemGridControl);
     }
 
     saveForm($form: any, parameters: any) {
@@ -159,6 +173,10 @@ class Contract {
         var $contractSalesGrid;
         $contractSalesGrid = $form.find('.salesdetailgrid [data-name="ContractDetailGrid"]');
         FwBrowse.search($contractSalesGrid);
+
+        var $contractExchangeItemGrid;
+        $contractExchangeItemGrid = $form.find('[data-name="ContractExchangeItemGrid"]');
+        FwBrowse.search($contractExchangeItemGrid);
 
         var type = FwFormField.getValueByDataField($form, 'ContractType');
         var $billing = $form.find('[data-datafield="BillingDate"] .fwformfield-caption');
@@ -185,7 +203,8 @@ class Contract {
         }
 
         let showSales = $form.find('[data-datafield="Sales"] input').val(),
-            showRental = $form.find('[data-datafield="Rental"] input').val();
+            showRental = $form.find('[data-datafield="Rental"] input').val(),
+            showExchange = $form.find('[data-datafield="Exchange"] input').val();
 
         if (showSales === 'false') {
             $form.find('[data-type="tab"][data-caption="Sales Detail"]').hide();
@@ -193,6 +212,13 @@ class Contract {
 
         if (showRental === 'false') {
             $form.find('[data-type="tab"][data-caption="Rental Detail"]').hide();
+        }
+
+        if (showExchange === 'true') {
+            $form.find('.summary').hide();
+        } else {
+            $form.find('.exchange').hide();
+
         }
 
 

@@ -106,14 +106,14 @@ class Exchange {
                     FwAppData.apiMethod(true, 'POST', "api/v1/exchange/exchangeitemin", inRequest, FwServices.defaultTimeout, function onSuccess(response) {
                         if (response.success) {
                             self.ContractId = response.ContractId;
+                            $form.find('.error').removeClass('error');
                             FwFormField.setValueByDataField($form, 'DealId', response.DealId, response.Deal);
                             FwFormField.setValueByDataField($form, 'OrderId', response.OrderId, response.OrderNumber);
                             FwFormField.setValueByDataField($form, 'Description', response.OrderDescription);
                             FwFormField.setValueByDataField($form, 'ICodeIn', response.ICode);
                             FwFormField.setValueByDataField($form, 'DescriptionIn', response.ItemDescription);
-
-                            $form.find('.error').removeClass('error');
-
+                            FwFormField.disable(FwFormField.getDataField($form, 'OrderId'));
+                            FwFormField.disable(FwFormField.getDataField($form, 'DealId'));
                             FwFormField.getDataField($form, 'BarCodeOut').find('input').focus();
                         } else {
                             let styles = {
@@ -143,6 +143,8 @@ class Exchange {
                 try {
                     FwAppData.apiMethod(true, 'POST', "api/v1/exchange/exchangeitemout", exchangeRequest, FwServices.defaultTimeout, function onSuccess(response) {
                         if (response.success) {
+                            FwFormField.setValueByDataField($form, 'ICodeOut', response.ICode);
+                            FwFormField.setValueByDataField($form, 'DescriptionOut', response.ItemDescription);
                             let fields = $form.find('.fwformfield');
                             for (var i = 0; i < fields.length; i++) {
                                 if (jQuery(fields[i]).attr('data-datafield') !== 'DepartmentId') {
@@ -160,10 +162,6 @@ class Exchange {
                                 }
                             })
                             FwBrowse.search($exchangeItemGridControl);
-                            FwFormField.setValueByDataField($form, 'ICodeOut', response.ICode);
-                            FwFormField.setValueByDataField($form, 'DescriptionOut', response.ItemDescription);
-                            FwFormField.disable(FwFormField.getDataField($form, 'OrderId'));
-                            FwFormField.disable(FwFormField.getDataField($form, 'DealId'));
 
                         } else {
                             $form.find('.out').addClass('error');
