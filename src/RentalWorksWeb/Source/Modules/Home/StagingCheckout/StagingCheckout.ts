@@ -22,6 +22,16 @@ class StagingCheckout {
     };
 
     //----------------------------------------------------------------------------------------------
+    loadForm(uniqueids: any) {
+        let $form: JQuery = this.openForm('EDIT');
+        $form = this.openForm('EDIT');
+        $form.find('div.fwformfield[data-datafield="OrderId"] input').val(uniqueids.OrderId);
+        FwModule.loadForm(this.Module, $form);
+        
+        return $form;
+    };
+
+    //----------------------------------------------------------------------------------------------
     openForm(mode: string, parentmoduleinfo?:any) {
         var $form;
 
@@ -55,6 +65,7 @@ class StagingCheckout {
         //});
 
         this.events($form);
+        $form.find('div[data-datafield="OrderId"] input').focus();
         return $form;
     };
 
@@ -203,7 +214,9 @@ class StagingCheckout {
         // BarCode / I-Code change
         $form.find('[data-datafield="Code"] input').bind('keypress change', function (e) {
             if (e.type === 'change' || e.keyCode == 13) {
-                $form.find('.error-msg').html('')
+                $form.find('.error-msg').html('');
+                $form.find('div.AddItemToOrder').html('');
+                $form.find('div.AddCompleteToOrder').html('');
                 let code, orderId, $stagedItemGrid;
                 orderId = FwFormField.getValueByDataField($form, 'OrderId');
                 code = FwFormField.getValueByDataField($form, 'Code');
@@ -227,17 +240,26 @@ class StagingCheckout {
 
                         FwBrowse.search($stagedItemGrid);
                         $form.find('[data-datafield="Code"] input').select();
-                    }
-                    else if (response.status === 107) {
+                    } if (response.status === 107) {
+                        FwFormField.setValueByDataField($form, 'ICode', response.InventoryStatus.ICode);
+                        FwFormField.setValueByDataField($form, 'InventoryDescription', response.InventoryStatus.Description);
+                        FwFormField.setValueByDataField($form, 'QuantityOrdered', response.InventoryStatus.QuantityOrdered);
+                        FwFormField.setValueByDataField($form, 'QuantitySub', response.InventoryStatus.QuantitySub);
+                        FwFormField.setValueByDataField($form, 'QuantityOut', response.InventoryStatus.QuantityOut);
+                        FwFormField.setValueByDataField($form, 'QuantityStaged', response.InventoryStatus.QuantityStaged);
+                        FwFormField.setValueByDataField($form, 'QuantityRemaining', response.InventoryStatus.QuantityRemaining);
+
                         FwFormField.setValueByDataField($form, 'Quantity', 0)
                         $form.find('div[data-datafield="Quantity"] input').select();
-                    } else if (response.ShowAddItemToOrder === true) {
+                    } if (response.ShowAddItemToOrder === true) {
                         errorBeep.play();
-                        $form.find('div.error-msg').html(`<div class="formrow" style="margin-left:8px;"><span style="font-size:20px;background-color:red;color:white;">${response.msg}</span><div class="formrow AddItemToOrder fwformcontrol" onclick="StagingCheckoutController.addItemToOrder(this)" data-type="button" style="float:right; margin-left:10px;">Add Item To Order</div></div>`)
-                    }
-                    else {
+                        $form.find('div.error-msg').html(`<div style="margin:0px 0px 0px 8px;"><span style="font-size:22px;background-color:red;color:white;">${response.msg}</span></div>`);
+                        $form.find('div.AddItemToOrder').html(`<div class="formrow fwformcontrol" onclick="StagingCheckoutController.addItemToOrder(this)" data-type="button" style="float:left; margin:6px 0px 0px 8px;">Add Item To Order</div>`)
+                    } if (response.ShowAddCompleteToOrder === true) {
+                        $form.find('div.AddCompleteToOrder').html(`<div class="formrow fwformcontrol" onclick="StagingCheckoutController.addCompleteToOrder(this)" data-type="button" style="float:left; margin:6px 0px 0px 8px;">Add Complete To Order</div>`)
+                    } if (response.success === false && response.ShowAddCompleteToOrder === false && response.ShowAddItemToOrder === false) {
                         errorBeep.play();
-                        $form.find('div.error-msg').html(`<div style="margin-left:8px;"><span style="font-size:20px;background-color:red;color:white;">${response.msg}</span></div>`)
+                        $form.find('div.error-msg').html(`<div style="margin-left:8px;"><span style="font-size:22px;background-color:red;color:white;">${response.msg}</span></div>`);
                         $form.find('[data-datafield="Code"] input').select();
                     }
                 }, function onError(response) {
@@ -250,7 +272,9 @@ class StagingCheckout {
         //Quantity change
         $form.find('[data-datafield="Quantity"] input').bind('keypress change', function (e) {
             if (e.type === 'change' || e.keyCode == 13) {
-                $form.find('.error-msg').html('')
+                $form.find('.error-msg').html('');
+                $form.find('div.AddItemToOrder').html('');
+                $form.find('div.AddCompleteToOrder').html('');
                 let code, orderId, quantity, $stagedItemGrid;
                 orderId = FwFormField.getValueByDataField($form, 'OrderId');
                 code = FwFormField.getValueByDataField($form, 'Code');
@@ -309,7 +333,8 @@ class StagingCheckout {
         // Create Contract
         $form.find('.createcontract').on('click', e => {
             let orderId = FwFormField.getValueByDataField($form, 'OrderId');
-            let requestBody: any = {}, self = this;
+            let requestBody: any = {}, $stagedItemGrid;
+            $stagedItemGrid = $form.find('[data-name="StagedItemGrid"]');
             //let automaticallyCreateCheckOut = FwFormField.getValueByDataField($form, 'AutomaticallyCreateCheckOut');
             //let date = new Date(),
             //    currentDate = date.toLocaleString(),
@@ -322,20 +347,42 @@ class StagingCheckout {
             //}
             requestBody.OrderId = orderId;
             FwAppData.apiMethod(true, 'POST', "api/v1/checkout/checkoutallstaged/", requestBody, FwServices.defaultTimeout, function onSuccess(response) {
+                let warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
                 try {
                     let contractInfo: any = {}, $contractForm;
                     contractInfo.ContractId = response.ContractId;
                     $contractForm = ContractController.loadForm(contractInfo);
                     FwModule.openSubModuleTab($form, $contractForm);
-                    FwModule.refreshForm($form, self);
+                    $form.find('.fwformfield').not('[data-type="date"], [data-type="time"]').find('input').val('');
+                    FwFormField.setValue($form, 'div[data-datafield="WarehouseId"]', warehouse.warehouseid, warehouse.warehouse);
+                    $form.find('.orderstatus').hide();
+                    $form.find('.createcontract').hide();
+                    FwFormField.enable($form.find('div[data-datafield="OrderId"]'));
+                    $form.find('[data-datafield="Code"] input').select();
+                    FwBrowse.search($stagedItemGrid);
                 }
                 catch (ex) {
                     FwFunc.showError(ex);
                 }
             }, null, $form);
+
         });
 
     };
+    //----------------------------------------------------------------------------------------------
+    beforeValidate($browse, $grid, request) {
+        const validationName = request.module;
+        const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
+
+        switch (validationName) {
+            case 'OrderValidation':
+                request.miscfields = {
+                    Staging: true,
+                    StagingWarehouseId: warehouse.warehouseid,
+                };
+                break;
+        };
+    }
     //----------------------------------------------------------------------------------------------
     addItemToOrder(element: any) {
         let code, $form, $element, orderId, quantity, $stagedItemGrid, request: any = {};
@@ -354,12 +401,43 @@ class StagingCheckout {
         FwAppData.apiMethod(true, 'POST', `api/v1/checkout/stageitem`, request, FwServices.defaultTimeout, function onSuccess(response) {
             try {
                 FwBrowse.search($stagedItemGrid);
-                $form.find('.error-msg').html('')
+                $form.find('.error-msg').html('');
+                $form.find('div.AddItemToOrder').html('');
+                $form.find('div.AddCompleteToOrder').html('');
             }
             catch (ex) {
                 FwFunc.showError(ex);
             }
         }, null, $form);
+        $form.find('[data-datafield="Code"] input').select();
+    }
+    //----------------------------------------------------------------------------------------------
+    addCompleteToOrder(element: any) {
+        let code, $form, $element, orderId, quantity, $stagedItemGrid, request: any = {};
+        $element = jQuery(element);
+        $form = jQuery($element).closest('.fwform');
+        orderId = FwFormField.getValueByDataField($form, 'OrderId');
+        code = FwFormField.getValueByDataField($form, 'Code');
+        $stagedItemGrid = $form.find('[data-name="StagedItemGrid"]');
+
+        request = {
+            OrderId: orderId,
+            Code: code,
+            AddCompleteToOrder: true
+        }
+
+        FwAppData.apiMethod(true, 'POST', `api/v1/checkout/stageitem`, request, FwServices.defaultTimeout, function onSuccess(response) {
+            try {
+                FwBrowse.search($stagedItemGrid);
+                $form.find('.error-msg').html('');
+                $form.find('div.AddItemToOrder').html('');
+                $form.find('div.AddCompleteToOrder').html('');
+            }
+            catch (ex) {
+                FwFunc.showError(ex);
+            }
+        }, null, $form);
+        $form.find('[data-datafield="Code"] input').select();
     }
     //----------------------------------------------------------------------------------------------
     addLegend($form: any, $grid) {

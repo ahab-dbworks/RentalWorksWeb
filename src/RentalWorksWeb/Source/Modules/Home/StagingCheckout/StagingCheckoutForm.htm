@@ -8,7 +8,7 @@
             <div class="flexrow">
               <div class="flexcolumn" style="flex:1 1 850px;">
                 <div class="flexrow">
-                  <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Order No." data-datafield="OrderId" data-displayfield="OrderNumber" data-validationname="OrderValidation" style="flex:0 1 175px;"></div>
+                  <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Order No." data-datafield="OrderId" data-displayfield="OrderNumber" data-formbeforevalidate="beforeValidate" data-validationname="OrderValidation" style="flex:0 1 175px;"></div>
                   <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Description" data-datafield="Description" data-enabled="false" style="flex:1 1 300px;"></div>
                   <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Deal" data-datafield="DealId" data-displayfield="Deal" data-validationname="DealValidation" data-enabled="false" style="flex:1 1 300px;"></div>
                   <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Location" data-datafield="Location" data-enabled="false" style="flex:1 1 300px;"></div>
@@ -38,6 +38,8 @@
                 </div>
               </div>
             <div class="flexrow error-msg"></div>
+            <div class="formrow AddItemToOrder"></div>
+            <div class="formrow AddCompleteToOrder"></div>
             <div class="flexrow">
               <div class="flexcolumn summaryview">
                 <div class="flexrow">
