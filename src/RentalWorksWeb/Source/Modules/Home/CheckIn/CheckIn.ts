@@ -117,13 +117,13 @@ class CheckIn {
                         $form.find('[data-datafield="BarCode"] input').select();
 
                         if (response.status === 107) {
-                            $form.find('[data-datafield="Quantity"] input').focus();
+                            $form.find('[data-datafield="Quantity"] input').select();
                         }
                     }
                     else if (!response.success) {
                         let errormsg = $form.find('.quantityerrormsg');
-                        errormsg.html(`<div><span>${response.msg}</span></div>`);
-                        errormsg.find('span').css({ 'background-color': 'red', 'color': 'white', 'font-size': '1.25em', 'margin-top': '.75em' });
+                        errormsg.html(`<div style="margin-left:8px; margin-top: 10px;"><span>${response.msg}</span></div>`);
+                        errormsg.find('span').css({ 'background-color': 'red', 'color': 'white', 'font-size': '1.25em', 'margin-top': '.75em', 'padding': '4px' });
                         $form.find('[data-datafield="BarCode"] input').select();
                     }
                 }, null, null);
@@ -166,13 +166,9 @@ class CheckIn {
                     $contractForm = ContractController.loadForm(contractInfo);
                     FwModule.openSubModuleTab($form, $contractForm);
                     $form.find('.fwformfield input').val('');
-                    let $checkedInItemGridControl = $form.find('div[data-name="CheckedInItemGrid"]');
-                    $checkedInItemGridControl.data('ondatabind', function (request) {
-                        request.uniqueids = {
-                            ContractId: ''
-                        }
-                    })
-                    FwBrowse.search($checkedInItemGridControl);
+                    $form.find('div[data-name="CheckedInItemGrid"] tr.viewmode').empty();
+                    $form.find('.quantityerrormsg').html('');
+
                 }, null, null);
             }
         });
