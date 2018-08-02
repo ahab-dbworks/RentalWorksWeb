@@ -37,8 +37,9 @@ namespace WebLibrary.Security
 
             var application = AddApplication("RentalWorks Web", "{0A5F2584-D239-480F-8312-7C2B552A30BA}", system.Id);
             var lv1menuAgent         = AddLv1ModuleMenu("Agent",           "{91D2F0CF-2063-4EC8-B38D-454297E136A8}", application.Id);
+            var lv1menuInventory     = AddLv1ModuleMenu("Inventory",       "{8AA0C4A4-B583-44CD-BB47-09C43961CE99}", application.Id);
             var lv1menuWarehouse     = AddLv1ModuleMenu("Warehouse",       "{22D67715-9C24-4A06-A009-CB10A1EC746B}", application.Id);
-            var lv1menuBilling       = AddLv1ModuleMenu("Billing",         "{9BC99BDA-4C94-4D7D-8C22-31CA5205B1AA}", application.Id);
+            //var lv1menuBilling       = AddLv1ModuleMenu("Billing",         "{9BC99BDA-4C94-4D7D-8C22-31CA5205B1AA}", application.Id);
             var lv1menuReports       = AddLv1ReportsMenu("Reports",        "{7FEC9D55-336E-44FE-AE01-96BF7B74074C}", application.Id);
             var lv1menuUtilities     = AddLv1ModuleMenu("Utilities",       "{81609B0E-4B1F-4C13-8BE0-C1948557B82D}", application.Id);
             var lv1menuSettings      = AddLvl1SettingsMenu("Settings",     "{730C9659-B33B-493E-8280-76A060A07DCE}", application.Id);
@@ -56,20 +57,24 @@ namespace WebLibrary.Security
             AddModule("Purchase Order",   "{67D8C8BB-CF55-4231-B4A2-BB308ADF18F0}", lv1menuAgent.Id, "PurchaseOrderController",   "module/purchaseorder",   homeiconbaseurl + "placeholder.png");
             AddModule("Project",          "{C6C8167A-C3B5-4915-8290-4520AF7EDB35}", lv1menuAgent.Id, "ProjectController",         "module/project",         homeiconbaseurl + "placeholder.png");
 
-            AddModule("Check-In",                "{77317E53-25A2-4C12-8DAD-7541F9A09436}", lv1menuWarehouse.Id, "CheckInController", "module/checkin", homeiconbaseurl + "placeholder.png");
-            AddModule("Rental Inventory",        "{FCDB4C86-20E7-489B-A8B7-D22EE6F85C06}", lv1menuWarehouse.Id, "RentalInventoryController", "module/rentalinventory", homeiconbaseurl + "placeholder.png");
-            AddModule("Sales Inventory",         "{B0CF2E66-CDF8-4E58-8006-49CA68AE38C2}", lv1menuWarehouse.Id, "SalesInventoryController",  "module/salesinventory",  homeiconbaseurl + "placeholder.png");
-            AddModule("Parts Inventory",         "{351B8A09-7778-4F06-A6A2-ED0920A5C360}", lv1menuWarehouse.Id, "PartsInventoryController",  "module/partsinventory",  homeiconbaseurl + "placeholder.png");
-            AddModule("Asset",                   "{1C45299E-F8DB-4AE4-966F-BE142295E3D6}", lv1menuWarehouse.Id, "AssetController",           "module/asset",           homeiconbaseurl + "placeholder.png");
-            AddModule("Order Status",            "{F6AE5BC1-865D-467B-A201-95C93F8E8D0B}", lv1menuWarehouse.Id, "OrderStatusController",     "module/orderstatus",     homeiconbaseurl + "placeholder.png");
-            AddModule("Staging / Check-Out",     "{C3B5EEC9-3654-4660-AD28-20DE8FF9044D}", lv1menuWarehouse.Id, "StagingCheckoutController", "module/checkout",        homeiconbaseurl + "placeholder.png");
-            AddModule("Pick List",               "{7B04E5D4-D079-4F3A-9CB0-844F293569ED}", lv1menuWarehouse.Id, "PickListController",        "module/picklist",        homeiconbaseurl + "placeholder.png");
-            AddModule("Create Pick List",        "{5013C4FF-FC42-4EFE-AE9D-AAF6857F17B8}", null,                "CreatePickListController",  "module/createpicklist",  homeiconbaseurl + "placeholder.png");
-            AddModule("Contract",                "{6BBB8A0A-53FA-4E1D-89B3-8B184B233DEA}", lv1menuWarehouse.Id, "ContractController",        "module/contract",        homeiconbaseurl + "placeholder.png");
-            AddModule("Repair Order",            "{2BD0DC82-270E-4B86-A9AA-DD0461A0186A}", lv1menuWarehouse.Id, "RepairController",          "module/repair",          homeiconbaseurl + "placeholder.png");
-            AddModule("Exchange",                "{2AEDB175-7998-48BC-B2C4-D4794BF65342}", lv1menuWarehouse.Id, "ExchangeController",        "module/exchange",        homeiconbaseurl + "placeholder.png");
-            AddModule("Receive From Vendor",     "{00539824-6489-4377-A291-EBFE26325FAD}", lv1menuWarehouse.Id, "ReceiveFromVendorController", "module/receivefromvendor", homeiconbaseurl + "placeholder.png");
-            AddModule("Return To Vendor",        "{D54EAA01-A710-4F78-A1EE-5FC9EE9150D8}", lv1menuWarehouse.Id, "ReturnToVendorController",  "module/returntovendor", homeiconbaseurl + "placeholder.png");
+            AddModule("Rental Inventory", "{FCDB4C86-20E7-489B-A8B7-D22EE6F85C06}", lv1menuInventory.Id, "RentalInventoryController", "module/rentalinventory", homeiconbaseurl + "placeholder.png");
+            AddModule("Sales Inventory",  "{B0CF2E66-CDF8-4E58-8006-49CA68AE38C2}", lv1menuInventory.Id, "SalesInventoryController", "module/salesinventory", homeiconbaseurl + "placeholder.png");
+            AddModule("Parts Inventory",  "{351B8A09-7778-4F06-A6A2-ED0920A5C360}", lv1menuInventory.Id, "PartsInventoryController", "module/partsinventory", homeiconbaseurl + "placeholder.png");
+            AddModule("Asset",            "{1C45299E-F8DB-4AE4-966F-BE142295E3D6}", lv1menuInventory.Id, "AssetController", "module/asset", homeiconbaseurl + "placeholder.png");
+            AddModule("Repair Order",     "{2BD0DC82-270E-4B86-A9AA-DD0461A0186A}", lv1menuInventory.Id, "RepairController", "module/repair", homeiconbaseurl + "placeholder.png");
+
+            AddModule("Order Status",        "{F6AE5BC1-865D-467B-A201-95C93F8E8D0B}", lv1menuWarehouse.Id, "OrderStatusController", "module/orderstatus", homeiconbaseurl + "placeholder.png");
+            AddModule("Pick List",           "{7B04E5D4-D079-4F3A-9CB0-844F293569ED}", lv1menuWarehouse.Id, "PickListController", "module/picklist", homeiconbaseurl + "placeholder.png");
+            AddModule("Contract",            "{6BBB8A0A-53FA-4E1D-89B3-8B184B233DEA}", lv1menuWarehouse.Id, "ContractController", "module/contract", homeiconbaseurl + "placeholder.png");
+            AddModule("Staging / Check-Out", "{C3B5EEC9-3654-4660-AD28-20DE8FF9044D}", lv1menuWarehouse.Id, "StagingCheckoutController", "module/checkout", homeiconbaseurl + "placeholder.png");
+            AddModule("Exchange",            "{2AEDB175-7998-48BC-B2C4-D4794BF65342}", lv1menuWarehouse.Id, "ExchangeController", "module/exchange", homeiconbaseurl + "placeholder.png");
+            AddModule("Check-In",            "{77317E53-25A2-4C12-8DAD-7541F9A09436}", lv1menuWarehouse.Id, "CheckInController", "module/checkin", homeiconbaseurl + "placeholder.png");
+            AddModule("Receive From Vendor", "{00539824-6489-4377-A291-EBFE26325FAD}", lv1menuWarehouse.Id, "ReceiveFromVendorController", "module/receivefromvendor", homeiconbaseurl + "placeholder.png");
+            AddModule("Return To Vendor",    "{D54EAA01-A710-4F78-A1EE-5FC9EE9150D8}", lv1menuWarehouse.Id, "ReturnToVendorController", "module/returntovendor", homeiconbaseurl + "placeholder.png");
+
+            AddModule("Create Pick List",        "{5013C4FF-FC42-4EFE-AE9D-AAF6857F17B8}", null, "CreatePickListController", "module/createpicklist", homeiconbaseurl + "placeholder.png");
+            
+        
          
 
 
