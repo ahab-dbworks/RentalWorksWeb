@@ -216,7 +216,6 @@ class StagingCheckout {
             if (e.type === 'change' || e.keyCode == 13) {
                 $form.find('.error-msg').html('');
                 $form.find('div.AddItemToOrder').html('');
-                $form.find('div.AddCompleteToOrder').html('');
                 let code, orderId, $stagedItemGrid;
                 orderId = FwFormField.getValueByDataField($form, 'OrderId');
                 code = FwFormField.getValueByDataField($form, 'Code');
@@ -253,17 +252,45 @@ class StagingCheckout {
                         $form.find('div[data-datafield="Quantity"] input').select();
                     } if (response.ShowAddItemToOrder === true) {
                         errorBeep.play();
-                        $form.find('div.error-msg').html(`<div style="margin:0px 0px 0px 8px;"><span style="font-size:22px;background-color:red;color:white;">${response.msg}</span></div>`);
+                        FwFormField.setValueByDataField($form, 'ICode', response.InventoryStatus.ICode);
+                        FwFormField.setValueByDataField($form, 'InventoryDescription', response.InventoryStatus.Description);
+                        FwFormField.setValueByDataField($form, 'QuantityOrdered', response.InventoryStatus.QuantityOrdered);
+                        FwFormField.setValueByDataField($form, 'QuantitySub', response.InventoryStatus.QuantitySub);
+                        FwFormField.setValueByDataField($form, 'QuantityOut', response.InventoryStatus.QuantityOut);
+                        FwFormField.setValueByDataField($form, 'QuantityStaged', response.InventoryStatus.QuantityStaged);
+                        FwFormField.setValueByDataField($form, 'QuantityRemaining', response.InventoryStatus.QuantityRemaining);
+                        $form.find('div.error-msg').html(`<div style="margin:0px 0px 0px 8px;"><span style="padding:0px 4px 0px 4px;font-size:22px;border-radius:2px;background-color:red;color:white;">${response.msg}</span></div>`);
                         $form.find('div.AddItemToOrder').html(`<div class="formrow fwformcontrol" onclick="StagingCheckoutController.addItemToOrder(this)" data-type="button" style="float:left; margin:6px 0px 0px 8px;">Add Item To Order</div>`)
                     } if (response.ShowAddCompleteToOrder === true) {
-                        $form.find('div.AddCompleteToOrder').html(`<div class="formrow fwformcontrol" onclick="StagingCheckoutController.addCompleteToOrder(this)" data-type="button" style="float:left; margin:6px 0px 0px 8px;">Add Complete To Order</div>`)
+                        FwFormField.setValueByDataField($form, 'ICode', response.InventoryStatus.ICode);
+                        FwFormField.setValueByDataField($form, 'InventoryDescription', response.InventoryStatus.Description);
+                        FwFormField.setValueByDataField($form, 'QuantityOrdered', response.InventoryStatus.QuantityOrdered);
+                        FwFormField.setValueByDataField($form, 'QuantitySub', response.InventoryStatus.QuantitySub);
+                        FwFormField.setValueByDataField($form, 'QuantityOut', response.InventoryStatus.QuantityOut);
+                        FwFormField.setValueByDataField($form, 'QuantityStaged', response.InventoryStatus.QuantityStaged);
+                        FwFormField.setValueByDataField($form, 'QuantityRemaining', response.InventoryStatus.QuantityRemaining);
+                        $form.find('div.AddItemToOrder').html(`<div class="formrow"><div class="fwformcontrol" onclick="StagingCheckoutController.addItemToOrder(this)" data-type="button" style="float:left; margin:6px 0px 0px 8px;">Add Item To Order</div><div class="fwformcontrol" onclick="StagingCheckoutController.addCompleteToOrder(this)" data-type="button" style="float:left; margin:6px 0px 0px 4px;">Add Complete To Order</div></div>`)
                     } if (response.success === false && response.ShowAddCompleteToOrder === false && response.ShowAddItemToOrder === false) {
                         errorBeep.play();
-                        $form.find('div.error-msg').html(`<div style="margin-left:8px;"><span style="font-size:22px;background-color:red;color:white;">${response.msg}</span></div>`);
+                        FwFormField.setValueByDataField($form, 'ICode', response.InventoryStatus.ICode);
+                        FwFormField.setValueByDataField($form, 'InventoryDescription', response.InventoryStatus.Description);
+                        FwFormField.setValueByDataField($form, 'QuantityOrdered', response.InventoryStatus.QuantityOrdered);
+                        FwFormField.setValueByDataField($form, 'QuantitySub', response.InventoryStatus.QuantitySub);
+                        FwFormField.setValueByDataField($form, 'QuantityOut', response.InventoryStatus.QuantityOut);
+                        FwFormField.setValueByDataField($form, 'QuantityStaged', response.InventoryStatus.QuantityStaged);
+                        FwFormField.setValueByDataField($form, 'QuantityRemaining', response.InventoryStatus.QuantityRemaining);
+                        $form.find('div.error-msg').html(`<div style="margin:0px 0px 0px 8px;"><span style="padding:0px 4px 0px 4px;font-size:22px;border-radius:2px;background-color:red;color:white;">${response.msg}</span></div>`);
                         $form.find('[data-datafield="Code"] input').select();
                     }
                 }, function onError(response) {
                     FwFunc.showError(response);
+                    FwFormField.setValueByDataField($form, 'ICode', response.InventoryStatus.ICode);
+                    FwFormField.setValueByDataField($form, 'InventoryDescription', response.InventoryStatus.Description);
+                    FwFormField.setValueByDataField($form, 'QuantityOrdered', response.InventoryStatus.QuantityOrdered);
+                    FwFormField.setValueByDataField($form, 'QuantitySub', response.InventoryStatus.QuantitySub);
+                    FwFormField.setValueByDataField($form, 'QuantityOut', response.InventoryStatus.QuantityOut);
+                    FwFormField.setValueByDataField($form, 'QuantityStaged', response.InventoryStatus.QuantityStaged);
+                    FwFormField.setValueByDataField($form, 'QuantityRemaining', response.InventoryStatus.QuantityRemaining);
                     $form.find('[data-datafield="Code"] input').select();
                 }, $form);
             }
@@ -274,7 +301,6 @@ class StagingCheckout {
             if (e.type === 'change' || e.keyCode == 13) {
                 $form.find('.error-msg').html('');
                 $form.find('div.AddItemToOrder').html('');
-                $form.find('div.AddCompleteToOrder').html('');
                 let code, orderId, quantity, $stagedItemGrid;
                 orderId = FwFormField.getValueByDataField($form, 'OrderId');
                 code = FwFormField.getValueByDataField($form, 'Code');
@@ -300,11 +326,37 @@ class StagingCheckout {
                         FwBrowse.search($stagedItemGrid);
                         FwFormField.setValueByDataField($form, 'Quantity', 0)
                         $form.find('[data-datafield="Code"] input').select();
-
-                    } else {
+                    } if (response.ShowAddItemToOrder === true) {
                         errorBeep.play();
-                        $form.find('div.error-msg').html(`<div style="margin-left:8px;"><span style="font-size:20px;background-color:red;color:white;">${response.msg}</span></div>`);
-                        $form.find('div[data-datafield="Quantity"] input').select();
+                        FwFormField.setValueByDataField($form, 'ICode', response.InventoryStatus.ICode);
+                        FwFormField.setValueByDataField($form, 'InventoryDescription', response.InventoryStatus.Description);
+                        FwFormField.setValueByDataField($form, 'QuantityOrdered', response.InventoryStatus.QuantityOrdered);
+                        FwFormField.setValueByDataField($form, 'QuantitySub', response.InventoryStatus.QuantitySub);
+                        FwFormField.setValueByDataField($form, 'QuantityOut', response.InventoryStatus.QuantityOut);
+                        FwFormField.setValueByDataField($form, 'QuantityStaged', response.InventoryStatus.QuantityStaged);
+                        FwFormField.setValueByDataField($form, 'QuantityRemaining', response.InventoryStatus.QuantityRemaining);
+                        $form.find('div.error-msg').html(`<div style="margin:0px 0px 0px 8px;"><span style="padding:0px 4px 0px 4px;font-size:22px;border-radius:2px;background-color:red;color:white;">${response.msg}</span></div>`);
+                        $form.find('div.AddItemToOrder').html(`<div class="formrow fwformcontrol" onclick="StagingCheckoutController.addItemToOrder(this)" data-type="button" style="float:left; margin:6px 0px 0px 8px;">Add Item To Order</div>`)
+                    } if (response.ShowAddCompleteToOrder === true) {
+                        FwFormField.setValueByDataField($form, 'ICode', response.InventoryStatus.ICode);
+                        FwFormField.setValueByDataField($form, 'InventoryDescription', response.InventoryStatus.Description);
+                        FwFormField.setValueByDataField($form, 'QuantityOrdered', response.InventoryStatus.QuantityOrdered);
+                        FwFormField.setValueByDataField($form, 'QuantitySub', response.InventoryStatus.QuantitySub);
+                        FwFormField.setValueByDataField($form, 'QuantityOut', response.InventoryStatus.QuantityOut);
+                        FwFormField.setValueByDataField($form, 'QuantityStaged', response.InventoryStatus.QuantityStaged);
+                        FwFormField.setValueByDataField($form, 'QuantityRemaining', response.InventoryStatus.QuantityRemaining);
+                        $form.find('div.AddItemToOrder').html(`<div class="formrow"><div class="fwformcontrol" onclick="StagingCheckoutController.addItemToOrder(this)" data-type="button" style="float:left; margin:6px 0px 0px 8px;">Add Item To Order</div><div class="fwformcontrol" onclick="StagingCheckoutController.addCompleteToOrder(this)" data-type="button" style="float:left; margin:6px 0px 0px 4px;">Add Complete To Order</div></div>`)
+                    } if (response.success === false && response.ShowAddCompleteToOrder === false && response.ShowAddItemToOrder === false) {
+                        errorBeep.play();
+                        FwFormField.setValueByDataField($form, 'ICode', response.InventoryStatus.ICode);
+                        FwFormField.setValueByDataField($form, 'InventoryDescription', response.InventoryStatus.Description);
+                        FwFormField.setValueByDataField($form, 'QuantityOrdered', response.InventoryStatus.QuantityOrdered);
+                        FwFormField.setValueByDataField($form, 'QuantitySub', response.InventoryStatus.QuantitySub);
+                        FwFormField.setValueByDataField($form, 'QuantityOut', response.InventoryStatus.QuantityOut);
+                        FwFormField.setValueByDataField($form, 'QuantityStaged', response.InventoryStatus.QuantityStaged);
+                        FwFormField.setValueByDataField($form, 'QuantityRemaining', response.InventoryStatus.QuantityRemaining);
+                        $form.find('div.error-msg').html(`<div style="margin:0px 0px 0px 8px;"><span style="padding:0px 4px 0px 4px;font-size:22px;border-radius:2px;background-color:red;color:white;">${response.msg}</span></div>`);
+                        $form.find('[data-datafield="Code"] input').select();
                     }
                 }, function onError(response) {
                     FwFunc.showError(response);
@@ -359,12 +411,12 @@ class StagingCheckout {
                     $form.find('.createcontract').hide();
                     FwFormField.enable($form.find('div[data-datafield="OrderId"]'));
                     $form.find('[data-datafield="Code"] input').select();
-                    FwBrowse.search($stagedItemGrid);
+                    $form.find('div[data-name="StagedItemGrid"] tr.viewmode').empty();
                 }
                 catch (ex) {
                     FwFunc.showError(ex);
                 }
-            }, null, $form);
+            }, null, null);
 
         });
 
@@ -403,7 +455,6 @@ class StagingCheckout {
                 FwBrowse.search($stagedItemGrid);
                 $form.find('.error-msg').html('');
                 $form.find('div.AddItemToOrder').html('');
-                $form.find('div.AddCompleteToOrder').html('');
             }
             catch (ex) {
                 FwFunc.showError(ex);
@@ -431,7 +482,6 @@ class StagingCheckout {
                 FwBrowse.search($stagedItemGrid);
                 $form.find('.error-msg').html('');
                 $form.find('div.AddItemToOrder').html('');
-                $form.find('div.AddCompleteToOrder').html('');
             }
             catch (ex) {
                 FwFunc.showError(ex);
