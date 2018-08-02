@@ -91,6 +91,12 @@ class POReceiveItemGrid {
                     $tr.find('[data-browsedatafield="Quantity"]').attr('data-originalvalue', Number(newValue));
                     FwAppData.apiMethod(true, 'POST', "api/v1/purchaseorderreceiveitem/receiveitems", request, FwServices.defaultTimeout, function onSuccess(response) {
                         FwBrowse.setFieldValue($grid, $tr, 'QuantityReceived', { value: response.QuantityReceived });
+                        if (response.QuantityColor) {
+                            $quantityColumn.find('.cellcolor').css('border-left', `20px solid ${response.QuantityColor}`);
+                        }
+                        else {
+                            $quantityColumn.find('.cellcolor').css('border-left', `20px solid transparent`);
+                        }
                     }, function onError(response) {
                         FwFunc.showError(response);
                         $tr.find('[data-browsedatafield="Quantity"] input').val(Number(oldValue));
