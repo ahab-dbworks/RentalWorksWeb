@@ -87,7 +87,7 @@ class CheckIn {
         //BarCode input
         $form.find('[data-datafield="BarCode"] input').on('keydown', e => {
             if (e.which === 13) {
-                $form.find('.quantityerrormsg').html('');
+                $form.find('.errormsg').html('');
                 let contractId = FwFormField.getValueByDataField($form, 'ContractId');
                 let request: any = {};
                 request = {
@@ -121,9 +121,8 @@ class CheckIn {
                         }
                     }
                     else if (!response.success) {
-                        let errormsg = $form.find('.quantityerrormsg');
+                        let errormsg = $form.find('.errormsg');
                         errormsg.html(`<div style="margin-left:8px; margin-top: 10px;"><span>${response.msg}</span></div>`);
-                        errormsg.find('span').css({ 'background-color': 'red', 'color': 'white', 'font-size': '1.25em', 'margin-top': '.75em', 'padding': '4px' });
                         $form.find('[data-datafield="BarCode"] input').select();
                     }
                 }, null, null);
@@ -132,7 +131,7 @@ class CheckIn {
         //Quantity input
         $form.find('[data-datafield="Quantity"] input').on('keydown', e => {
             if (e.which === 13) {
-                $form.find('.quantityerrormsg').html('');
+                $form.find('.errormsg').html('');
                 let request: any = {};
                 request = {
                     Code: FwFormField.getValueByDataField($form, 'BarCode')
@@ -148,10 +147,9 @@ class CheckIn {
                         $form.find('[data-datafield="BarCode"] input').select();
                     }
                     else if (!response.success) {
-                        let errormsg = $form.find('.quantityerrormsg');
-                        errormsg.html(`<div><span>${response.msg}</span></div>`);
-                        errormsg.find('span').css({ 'background-color': 'red', 'color': 'white', 'font-size': '1.25em', 'margin-top': '.75em' });
-                        $form.find('[data-datafield="BarCode"] input').select();
+                        let errormsg = $form.find('.errormsg');
+                        errormsg.html(`<div style="margin-left:8px; margin-top: 10px;"><span>${response.msg}</span></div>`);
+                        $form.find('[data-datafield="Quantity"] input').select();
                     }
                 }, null, null);
             }
@@ -165,10 +163,10 @@ class CheckIn {
                     contractInfo.ContractId = response.ContractId;
                     $contractForm = ContractController.loadForm(contractInfo);
                     FwModule.openSubModuleTab($form, $contractForm);
-                    $form.find('.fwformfield input').val('');
+                    $form.find('.fwformfield').not('[data-datafield="DepartmentId"]').find('input').val('');
                     $form.find('div[data-name="CheckedInItemGrid"] tr.viewmode').empty();
-                    $form.find('.quantityerrormsg').html('');
-
+                    $form.find('.errormsg').html('');
+                    FwFormField.enable($form.find('[data-datafield="OrderId"], [data-datafield="DealId"]'));
                 }, null, null);
             }
         });

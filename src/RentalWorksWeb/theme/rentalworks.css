@@ -124,3 +124,13 @@ progress::-webkit-progress-value {
     -webkit-appearance: none;
     margin: 0;
 }
+
+/* Styling for error message text */
+.fwform .errormsg span{
+    background-color: red;
+    color: white;
+    font-size: 1.25em;
+    margin-top: .75em ;
+    padding: 4px;
+}
+}
