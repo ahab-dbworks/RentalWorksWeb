@@ -30,6 +30,8 @@ namespace WebApi.Modules.Home.PurchaseOrderReceiveItem
         public int Quantity;
         public double QuantityOrdered;
         public double QuantityReceived;
+        public double QuantityNeedBarCode;
+        public string QuantityColor;
     }
 
 

@@ -406,11 +406,18 @@ namespace WebApi.Logic
                 qry.AddParameter("@qty", SqlDbType.Int, ParameterDirection.Input, quantity);
                 qry.AddParameter("@qtyordered", SqlDbType.Float, ParameterDirection.Output);
                 qry.AddParameter("@qtyreceived", SqlDbType.Float, ParameterDirection.Output);
+                qry.AddParameter("@qtyneedbarcode", SqlDbType.Float, ParameterDirection.Output);
+                qry.AddParameter("@qtycolor", SqlDbType.NVarChar, ParameterDirection.Output);
                 qry.AddParameter("@status", SqlDbType.Int, ParameterDirection.Output);
                 qry.AddParameter("@msg", SqlDbType.NVarChar, ParameterDirection.Output);
                 await qry.ExecuteNonQueryAsync(true);
                 response.QuantityOrdered = qry.GetParameter("@qtyordered").ToDouble();
                 response.QuantityReceived = qry.GetParameter("@qtyreceived").ToDouble();
+                response.QuantityNeedBarCode = qry.GetParameter("@qtyneedbarcode").ToDouble();
+                if (!qry.GetParameter("@qtycolor").IsDbNull())
+                {
+                    response.QuantityColor = FwConvert.OleColorToHtmlColor(qry.GetParameter("@qtycolor").ToInt32());
+                }
                 response.success = (qry.GetParameter("@status").ToInt32() == 0);
                 response.msg = qry.GetParameter("@msg").ToString();
             }
