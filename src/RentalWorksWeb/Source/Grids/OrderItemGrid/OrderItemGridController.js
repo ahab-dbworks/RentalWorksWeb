@@ -385,7 +385,7 @@ FwApplicationTree.clickEvents['{77E511EC-5463-43A0-9C5D-B54407C97B15}'] = functi
             FwNotification.renderNotification('WARNING', 'Please save the record before performing this function');
         }
         else {
-            $popup = search.renderSearchPopup($form, purchaseOrderId, 'Purchase Order', gridInventoryType);
+            $popup = search.renderSearchPopup($form, purchaseOrderId, 'PurchaseOrder', gridInventoryType);
         }
     }
 };
