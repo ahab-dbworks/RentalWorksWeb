@@ -442,11 +442,11 @@ class SearchInterface {
 
                 self.fitToParent('#category .fitText span');
             }, null, $searchpopup);
-            self.categoryOnClickEvents($popup, request, categoryType);
+            self.categoryOnClickEvents($popup, request);
         });
     }
 
-    categoryOnClickEvents($popup, request, categoryType) {
+    categoryOnClickEvents($popup, request) {
         var $searchpopup = jQuery('#searchpopup');
         var self = this;
         $popup.off('click', '#category ul');
@@ -475,25 +475,8 @@ class SearchInterface {
             var subCatListRequest: any = {};
             subCatListRequest.uniqueids = {
                 CategoryId: categoryId,
-                TypeId: inventoryTypeId
-            }
-
-            switch (categoryType) {
-                case 'rentalcategory':
-                    subCatListRequest.RecType = "R";
-                    break;
-                case 'salescategory':
-                    subCatListRequest.RecType = "S";
-                    break;
-                case 'laborcategory':
-                    subCatListRequest.RecType = "L";
-                    break;
-                case 'misccategory':
-                    subCatListRequest.RecType = "M";
-                    break;
-                case 'partscategory':
-                    subCatListRequest.RecType = "P";
-                    break;
+                TypeId: inventoryTypeId,
+                RecType: $popup.find('[data-datafield="InventoryType"] input:checked').val()
             }
 
             //load sub-categories list
@@ -529,6 +512,7 @@ class SearchInterface {
                     //load categories inventory
                     request.SortBy = $popup.find('.sortby select').val();
                     request.Classification = $popup.find('.select select').val();
+                    request.AvailableFor = $popup.find('[data-datafield="InventoryType"] input:checked').val()
                     FwAppData.apiMethod(true, 'POST', "api/v1/inventorysearch/search", request, FwServices.defaultTimeout, function onSuccess(response) {
                         $popup.find('#inventory').empty();
                         SearchInterfaceController.renderInventory($popup, response, false);
