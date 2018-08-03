@@ -35,6 +35,15 @@ FwReports.getCaptions = function (screen) {
         for (var j = 0; j < $fwformfields.length; j++) {
             var $field = $fwformfields.eq(j);
             var caption = $field.attr('data-caption').toUpperCase();
+            if ($field.attr('data-type') === 'radio') {
+                var radioCaptions = $field.find('div');
+                for (var k = 0; k < radioCaptions.length; k++) {
+                    var radioCaption = jQuery(radioCaptions[k]).attr('data-caption').toUpperCase()
+                    screen.moduleCaptions[radioCaption] = {};
+                    screen.moduleCaptions[radioCaption][moduleName] = [];
+                    screen.moduleCaptions[radioCaption][moduleName].push($field);
+                }
+            }
             if (typeof screen.moduleCaptions[caption] === 'undefined') {
                 screen.moduleCaptions[caption] = {};
             }
@@ -136,7 +145,7 @@ FwReports.renderModuleHtml = function ($control, title, moduleName, description,
 
     $control.on('keypress', '#reportsSearch', function (e) {
         if (e.which === 13) {
-            e.preventDefault();
+            e.stopImmediatePropagation();
             jQuery(this).closest('.fwreports').find('.data-panel:parent').parent().find('.row-heading').click();
             jQuery(this).closest('.fwreports').find('.data-panel:parent').empty();
 
