@@ -159,44 +159,49 @@ namespace WebApi.Modules.Administrator.Exchange
             }
             try
             {
+                ExchangeItemOutResponse response = new ExchangeItemOutResponse();
+
                 if (string.IsNullOrEmpty(request.OutCode))
                 {
-                    throw new Exception("Must supply an \"Out\" Code.");
+                    response.success = false;
+                    response.msg = "Must supply an \"Out\" Code.";
                 }
-
                 // temporary.  pending exchanges need to allow a blank InCode
-                if (string.IsNullOrEmpty(request.InCode))
+                else if (string.IsNullOrEmpty(request.InCode))
                 {
-                    throw new Exception("Must supply an \"In\" Code.");
+                    response.success = false;
+                    response.msg = "Must supply an \"In\" Code.";
                 }
-
-                ExchangeItemOutResponse response = new ExchangeItemOutResponse();
-                response.ContractId = request.ContractId;
-                response.OrderId = request.OrderId;
-                response.DealId = request.DealId;
-                response.DepartmentId = request.DepartmentId;
-                response.InCode = request.InCode;
-                response.OutCode = request.OutCode;
-
-                if (string.IsNullOrEmpty(request.ContractId))
+                else
                 {
-                    if (((!string.IsNullOrEmpty(request.OrderId)) || (!string.IsNullOrEmpty(request.DealId))) && (!string.IsNullOrEmpty(request.DepartmentId)))
+
+                    response.ContractId = request.ContractId;
+                    response.OrderId = request.OrderId;
+                    response.DealId = request.DealId;
+                    response.DepartmentId = request.DepartmentId;
+                    response.InCode = request.InCode;
+                    response.OutCode = request.OutCode;
+
+                    if (string.IsNullOrEmpty(request.ContractId))
                     {
-                        string ContractId = await ExchangeFunc.CreateExchangeContract(AppConfig, UserSession, request.OrderId, request.DealId, request.DepartmentId);
-                        response.ContractId = ContractId;
+                        if (((!string.IsNullOrEmpty(request.OrderId)) || (!string.IsNullOrEmpty(request.DealId))) && (!string.IsNullOrEmpty(request.DepartmentId)))
+                        {
+                            string ContractId = await ExchangeFunc.CreateExchangeContract(AppConfig, UserSession, request.OrderId, request.DealId, request.DepartmentId);
+                            response.ContractId = ContractId;
+                        }
                     }
+
+
+                    ExchangeItemSpStatusReponse exchangeItemResponse = await ExchangeFunc.ExchangeItem(AppConfig, UserSession, request.ContractId, request.OrderId, request.DealId, request.DepartmentId, request.InCode, request.Quantity, request.OutCode);
+                    response.Deal = exchangeItemResponse.Deal;
+                    response.OrderNumber = exchangeItemResponse.OrderNumber;
+                    response.OrderDescription = exchangeItemResponse.OrderDescription;
+                    response.InventoryId = exchangeItemResponse.InventoryId;
+                    response.ICode = exchangeItemResponse.ICode;
+                    response.ItemDescription = exchangeItemResponse.ItemDescription;
+                    response.success = exchangeItemResponse.success;
+                    response.msg = exchangeItemResponse.msg;
                 }
-
-
-                ExchangeItemSpStatusReponse exchangeItemResponse = await ExchangeFunc.ExchangeItem(AppConfig, UserSession, request.ContractId, request.OrderId, request.DealId, request.DepartmentId, request.InCode, request.Quantity, request.OutCode);
-                response.Deal = exchangeItemResponse.Deal;
-                response.OrderNumber = exchangeItemResponse.OrderNumber;
-                response.OrderDescription = exchangeItemResponse.OrderDescription;
-                response.InventoryId = exchangeItemResponse.InventoryId;
-                response.ICode = exchangeItemResponse.ICode;
-                response.ItemDescription = exchangeItemResponse.ItemDescription;
-                response.success = exchangeItemResponse.success;
-                response.msg = exchangeItemResponse.msg;
 
 
                 return new OkObjectResult(response);
