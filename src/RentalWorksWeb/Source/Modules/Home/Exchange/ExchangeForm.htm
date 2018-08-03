@@ -24,6 +24,7 @@
             <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="PO No." data-datafield="PoNumberIn" style="flex:1 1 150px;" data-enabled="false"></div>
             <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Warehouse" data-datafield="WarehouseIn" style="flex:1 1 150px;" data-enabled="false"></div>
           </div>
+          <div class="flexrow error-msg-in"></div>
         </div>
         <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Check-Out">
           <div class="flexrow">
@@ -37,13 +38,16 @@
             <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="PO No." data-datafield="PoNumberOut" style="flex:1 1 150px;" data-enabled="false"></div>
             <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Warehouse" data-datafield="WarehouseOut" style="flex:1 1 150px;" data-enabled="false"></div>
           </div>
+          <div class="flexrow error-msg-out"></div>
         </div>
         <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Exchange">
-          <div class="flexrow" style="max-width:1600px">
-            <div data-control="FwGrid" data-grid="ExchangeItemGrid" data-securitycaption="Exchange Item"></div>
-          </div>
-          <div class="flexrow" style="margin-left:auto;">
-            <div class="createcontract fwformcontrol" data-type="button" style="flex: 0 1 140px;">Create Contract</div>
+          <div class="flexcolumn" style="max-width:1600px">
+            <div class="flexrow" style="max-width:1600px">
+              <div data-control="FwGrid" data-grid="ExchangeItemGrid" data-securitycaption="Exchange Item"></div>
+            </div>
+            <div class="formrow" style="max-width:1600px;margin-left:auto;">
+              <div class="createcontract fwformcontrol" data-type="button" style="flex: 0 1 140px;">Create Contract</div>
+            </div>
           </div>
         </div>
       </div>

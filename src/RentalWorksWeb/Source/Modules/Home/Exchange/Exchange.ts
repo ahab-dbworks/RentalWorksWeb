@@ -106,7 +106,8 @@ class Exchange {
                     FwAppData.apiMethod(true, 'POST', "api/v1/exchange/exchangeitemin", inRequest, FwServices.defaultTimeout, function onSuccess(response) {
                         if (response.success) {
                             self.ContractId = response.ContractId;
-                            $form.find('.error').removeClass('error');
+                            $form.find('div.error-msg-in').html('');
+                            $form.find('.in').removeClass('error');
                             FwFormField.setValueByDataField($form, 'DealId', response.DealId, response.Deal);
                             FwFormField.setValueByDataField($form, 'OrderId', response.OrderId, response.OrderNumber);
                             FwFormField.setValueByDataField($form, 'Description', response.OrderDescription);
@@ -116,13 +117,8 @@ class Exchange {
                             FwFormField.disable(FwFormField.getDataField($form, 'DealId'));
                             FwFormField.getDataField($form, 'BarCodeOut').find('input').focus();
                         } else {
-                            let styles = {
-                                bottom: '70%',
-                                right: '55%',
-                                transform: 'translate(-50%, -50%)'
-                            }
                             $form.find('.in').addClass('error');
-                            FwNotification.renderNotification('ERROR', response.msg, styles);
+                            $form.find('div.error-msg-in').html(`<div style="margin:0px 0px 0px 8px;"><span style="padding:0px 4px 0px 4px;font-size:22px;border-radius:2px;background-color:red;color:white;">${response.msg}</span></div>`);
                             FwFormField.getDataField($form, 'BarCodeIn').find('input').select();
                         }
 
@@ -145,9 +141,11 @@ class Exchange {
                         if (response.success) {
                             FwFormField.setValueByDataField($form, 'ICodeOut', response.ICode);
                             FwFormField.setValueByDataField($form, 'DescriptionOut', response.ItemDescription);
+                            $form.find('div.error-msg-out').html('');
+                            $form.find('.out').removeClass('error');
                             let fields = $form.find('.fwformfield');
                             for (var i = 0; i < fields.length; i++) {
-                                if (jQuery(fields[i]).attr('data-datafield') !== 'DepartmentId') {
+                                if (jQuery(fields[i]).attr('data-datafield').match(/^((?!DepartmentId$|DealId$|OrderId$|Description$).)*$/g)) {
                                     FwFormField.setValue2(jQuery(fields[i]), '', '');
                                 }
                             }
@@ -162,10 +160,11 @@ class Exchange {
                                 }
                             })
                             FwBrowse.search($exchangeItemGridControl);
-
+                            FwFormField.getDataField($form, 'BarCodeIn').find('input').focus();
                         } else {
                             $form.find('.out').addClass('error');
-                            FwNotification.renderNotification('ERROR', response.msg);
+                            $form.find('div.error-msg-out').html(`<div style="margin:0px 0px 0px 8px;"><span style="padding:0px 4px 0px 4px;font-size:22px;border-radius:2px;background-color:red;color:white;">${response.msg}</span></div>`);
+                            FwFormField.getDataField($form, 'BarCodeOut').find('input').select();
                         }
 
                     }, null, $form);
