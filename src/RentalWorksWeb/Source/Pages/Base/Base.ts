@@ -120,13 +120,9 @@
                                                                 'moduleName': response[i].ModuleName,
                                                                 'fieldName': response[i].FieldName,
                                                                 'browsewidth': response[i].BrowseSizeInPixels,
-                                                                'digits': response[i].FloatDecimalDigits
+                                                                'digits': response[i].FloatDecimalDigits,
+                                                                'datatype': response[i].ControlType
                                                             };
-                                                            if (response[i].FloatDecimalDigits) {
-                                                                customFieldObject['datatype'] = 'number'
-                                                            } else {
-                                                                customFieldObject['datatype'] = 'text'
-                                                            }
                                                             customFieldsBrowse.push(customFieldObject);
                                                         }
                                                     }
