@@ -27,7 +27,7 @@
         }
 
         if ($form[0].dataset.controller !== "TemplateController" && $form[0].dataset.controller !== "PurchaseOrderController") {
-            FwBrowse.setFieldValue($grid, $tr, 'PickDate', { value: pickDate }); 
+            FwBrowse.setFieldValue($grid, $tr, 'PickDate', { value: pickDate });
             FwBrowse.setFieldValue($grid, $tr, 'PickTime', { value: pickTime });
             FwBrowse.setFieldValue($grid, $tr, 'FromDate', { value: fromDate });
             FwBrowse.setFieldValue($grid, $tr, 'FromTime', { value: fromTime });
@@ -63,16 +63,16 @@
                     break;
             }
         }
-     };
+    };
 
-     beforeValidateBarcode = function ($browse, $grid, request, datafield, $tr) {
-         let inventoryId = $tr.find('.field[data-browsedatafield="InventoryId"] input').val();
-         if (inventoryId != '') {
-             request.uniqueIds = {
-                 InventoryId: inventoryId
-             }
-         }
-     }
+    beforeValidateBarcode = function ($browse, $grid, request, datafield, $tr) {
+        let inventoryId = $tr.find('.field[data-browsedatafield="InventoryId"] input').val();
+        if (inventoryId != '') {
+            request.uniqueIds = {
+                InventoryId: inventoryId
+            }
+        }
+    }
 
     generateRow($control, $generatedtr) {
         var $form = $control.closest('.fwform');
@@ -365,7 +365,7 @@
 FwApplicationTree.clickEvents['{77E511EC-5463-43A0-9C5D-B54407C97B15}'] = function (e) {
     let grid = jQuery(e.currentTarget).parents('[data-control="FwGrid"]');
 
-    let search, $form, orderId, quoteId, purchaseOrderId, $popup;
+    let search, $form, orderId, quoteId, purchaseOrderId, templateId, $popup;
     $form = jQuery(this).closest('.fwform');
 
     let gridInventoryType;
@@ -388,29 +388,41 @@ FwApplicationTree.clickEvents['{77E511EC-5463-43A0-9C5D-B54407C97B15}'] = functi
 
     search = new SearchInterface();
 
-    if ($form.attr('data-controller') === 'OrderController') {
-        orderId = FwFormField.getValueByDataField($form, 'OrderId');
-        if (orderId == '') {
-            FwNotification.renderNotification('WARNING', 'Please save the record before performing this function');
-        } else {
-            $popup = search.renderSearchPopup($form, orderId, 'Order', gridInventoryType);
-        }
-    } else if ($form.attr('data-controller') === 'QuoteController') {
-        quoteId = FwFormField.getValueByDataField($form, 'QuoteId');
-        if (quoteId == '') {
-            FwNotification.renderNotification('WARNING', 'Please save the record before performing this function');
-        } else {
-            $popup = search.renderSearchPopup($form, quoteId, 'Quote', gridInventoryType);
-        }
-    } else if ($form.attr('data-controller') === 'PurchaseOrderController') {
-        purchaseOrderId = FwFormField.getValueByDataField($form, 'PurchaseOrderId');
-        if (purchaseOrderId == '') {
-            FwNotification.renderNotification('WARNING', 'Please save the record before performing this function');
-        } else {
-            $popup = search.renderSearchPopup($form, purchaseOrderId, 'PurchaseOrder', gridInventoryType);
-        }
+    let controllerName = $form.attr('data-controller');
+    switch (controllerName) {
+        case 'OrderController':
+            orderId = FwFormField.getValueByDataField($form, 'OrderId');
+            if (orderId == '') {
+                FwNotification.renderNotification('WARNING', 'Please save the record before performing this function');
+            } else {
+                $popup = search.renderSearchPopup($form, orderId, 'Order', gridInventoryType);
+            }
+            break;
+        case 'QuoteController':
+            quoteId = FwFormField.getValueByDataField($form, 'QuoteId');
+            if (quoteId == '') {
+                FwNotification.renderNotification('WARNING', 'Please save the record before performing this function');
+            } else {
+                $popup = search.renderSearchPopup($form, quoteId, 'Quote', gridInventoryType);
+            }
+            break;
+        case 'PurchaseOrderController':
+            purchaseOrderId = FwFormField.getValueByDataField($form, 'PurchaseOrderId');
+            if (purchaseOrderId == '') {
+                FwNotification.renderNotification('WARNING', 'Please save the record before performing this function');
+            } else {
+                $popup = search.renderSearchPopup($form, purchaseOrderId, 'PurchaseOrder', gridInventoryType);
+            }
+            break;
+        case 'TemplateController':
+            templateId = FwFormField.getValueByDataField($form, 'TemplateId');
+            if (templateId == '') {
+                FwNotification.renderNotification('WARNING', 'Please save the record before performing this function');
+            } else {
+                $popup = search.renderSearchPopup($form, templateId, 'Template', gridInventoryType);
+            }
+            break;
     }
-}
-
+};
 var OrderItemGridController = new OrderItemGrid();
 //----------------------------------------------------------------------------------------------

@@ -50,10 +50,15 @@ class SearchInterface {
         searchhtml.push('                      <div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield fwformcontrol sortby" data-caption="Sort By" data-datafield="" style="width:180px;float:left;"></div>');
         if (type == 'Order') {
             searchhtml.push('                      <div data-type="button" class="fwformcontrol addToOrder" style="width:120px; float:left; margin:15px;">Add to Order</div>');
-        } if (type == 'Quote') {
+        }
+        if (type == 'Quote') {
             searchhtml.push('                      <div data-type="button" class="fwformcontrol addToOrder" style="width:120px; float:left; margin:15px;">Add to Quote</div>');
-        } if (type == 'PurchaseOrder') {
+        }
+        if (type == 'PurchaseOrder') {
             searchhtml.push('                      <div data-type="button" class="fwformcontrol addToOrder" style="width:195px; float:left; margin:15px;">Add to Purchase Order</div>');
+        }
+        if (type == 'Template') {
+            searchhtml.push('                      <div data-type="button" class="fwformcontrol addToOrder" style="width:195px; float:left; margin:15px;">Add to Template</div>');
         }
         searchhtml.push('                  </div>');
         searchhtml.push('                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
@@ -122,6 +127,9 @@ class SearchInterface {
             previewhtml.push('                      <div data-type="button" class="fwformcontrol addToOrder" style="width:120px; float:right; margin:15px;">Add to Quote</div>');
         } if (type == 'PurchaseOrder') {
             previewhtml.push('                      <div data-type="button" class="fwformcontrol addToOrder" style="width:195px; float:right; margin-right:6px;">Add to Purchase Order</div>');
+        }
+        if (type == 'Template') {
+            previewhtml.push('                      <div data-type="button" class="fwformcontrol addToOrder" style="width:195px; float:right; margin-right:6px;">Add to Template</div>');
         }
         previewhtml.push('            </div>');
         previewhtml.push('     </div>');
