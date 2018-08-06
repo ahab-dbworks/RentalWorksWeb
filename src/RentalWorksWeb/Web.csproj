@@ -412,6 +412,7 @@
     <TypeScriptCompile Include="Source\Modules\Home\PurchaseOrder\PurchaseOrder.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\Project\Project.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\StagingCheckout\StagingCheckout.ts" />
+    <TypeScriptCompile Include="Source\Modules\Settings\Sound\Sound.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\WorkWeek\WorkWeek.ts" />
     <TypeScriptCompile Include="Source\Modules\-BaseModules\OrderBase\OrderBase.ts" />
     <TypeScriptCompile Include="Source\Reports\PrintOrder\RwPrintOrderController.ts" />
@@ -430,6 +431,8 @@
     <Content Include="Source\Modules\Home\Project\ProjectForm.htm" />
     <Content Include="Source\Modules\Home\StagingCheckout\StagingCheckout.js" />
     <Content Include="Source\Modules\Home\StagingCheckout\StagingCheckoutForm.htm" />
+    <Content Include="Source\Modules\Settings\Sound\SoundBrowse.htm" />
+    <Content Include="Source\Modules\Settings\Sound\SoundForm.htm" />
     <Content Include="Source\Modules\Settings\WorkWeek\WorkWeekBrowse.htm" />
     <Content Include="Source\Modules\Settings\WorkWeek\WorkWeekForm.htm" />
     <Content Include="Source\Reports\PrintOrder\Body.htm" />
@@ -925,6 +928,7 @@
     <Content Include="Source\Validations\PersonValidation\PersonValidationBrowse.htm" />
     <Content Include="Source\Validations\WebUsersEmailValidation\WebUsersEmailValidationBrowse.htm" />
     <Content Include="theme\audio\errorBeep1.wav" />
+    <Content Include="theme\audio\successBeep1.mp3" />
     <Content Include="theme\fwcursors\pen.001.cur" />
     <Content Include="theme\fwfonts\bgothm\bgothm.002-webfont.svg" />
     <Content Include="theme\fwfonts\materialicons\MaterialIcons-Regular.svg" />
