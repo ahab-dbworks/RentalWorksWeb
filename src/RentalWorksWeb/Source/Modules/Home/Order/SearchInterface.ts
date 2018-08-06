@@ -848,25 +848,40 @@ class SearchInterface {
             }
         });
 
+        //Expand Accessories section on single click, increment quantity on double click
+        let clickCount = 0;
+        let timeout = 500;
         $popup.on('click', '#inventory > .cardContainer > .card', function (e) {
-            const $card = jQuery(e.currentTarget);
-            $popup.find('#inventory > .cardContainer > .card').removeClass('selected');
-            $popup.find('#inventory > .cardContainer > .card').css('box-shadow', '0 2px 4px 0 rgba(0,0,0,0.2)');
-            $card.addClass('selected');
-            $card.css('box-shadow', '0 6px 10px 0 rgba(0,0,153,0.2)');
+            e.stopPropagation();
+            let $card = jQuery(e.currentTarget);
+                clickCount++;
+                if (clickCount == 1) {
+                    setTimeout(function () {
+                        if (clickCount == 1) {
+                           $popup.find('#inventory > .cardContainer > .card').removeClass('selected');
+                            $popup.find('#inventory > .cardContainer > .card').css('box-shadow', '0 2px 4px 0 rgba(0,0,0,0.2)');
+                            $card.addClass('selected');
+                            $card.css('box-shadow', '0 6px 10px 0 rgba(0,0,153,0.2)');
 
-            let accessoryContainer = $card.siblings('.accContainer');
-            if (accessoryContainer.length > 0) {
-                if (!(accessoryContainer.find('.accList').length)) {
-                    let inventoryId = $card.find('[data-datafield="InventoryId"] input').val();
-                    self.refreshAccessoryQuantity($popup, id, warehouseId, inventoryId, e);
+                            let accessoryContainer = $card.siblings('.accContainer');
+                            if (accessoryContainer.length > 0) {
+                                if (!(accessoryContainer.find('.accList').length)) {
+                                    let inventoryId = $card.find('[data-datafield="InventoryId"] input').val();
+                                    self.refreshAccessoryQuantity($popup, id, warehouseId, inventoryId, e);
+                                }
+                                if ((jQuery('#inventoryView').val()) == 'GRID') {
+                                    jQuery('.accColumns').show();
+                                }
+                                $popup.find('.accContainer').not(accessoryContainer).hide();
+                                accessoryContainer.slideToggle();
+                            }
+                        } else {
+                            $card.find('.incrementQuantity').click();
+                        }
+                        clickCount = 0;
+                    }, timeout || 300);
                 }
-                if ((jQuery('#inventoryView').val()) == 'GRID') {
-                    jQuery('.accColumns').show();
-                }
-                $popup.find('.accContainer').not(accessoryContainer).hide();
-                accessoryContainer.slideToggle();
-            }
+
         });
 
         var $searchpopup = jQuery('#searchpopup');
