@@ -27,6 +27,24 @@ namespace WebApi.Modules.Administrator.UserSettings
         [FwSqlDataField(column: "applicationtheme", modeltype: FwDataTypes.Text)]
         public string ApplicationTheme { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "successsoundid", modeltype: FwDataTypes.Text)]
+        public string SuccessSoundId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "successsound", modeltype: FwDataTypes.Text)]
+        public string SuccessSound { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "errorsoundid", modeltype: FwDataTypes.Text)]
+        public string ErrorSoundId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "errorsound", modeltype: FwDataTypes.Text)]
+        public string ErrorSound { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "notificationsoundid", modeltype: FwDataTypes.Text)]
+        public string NotificationSoundId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "notificationsound", modeltype: FwDataTypes.Text)]
+        public string NotificationSound { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
         public string DateStamp { get; set; }
         //------------------------------------------------------------------------------------ 
