@@ -61,7 +61,9 @@ class Exchange {
 
             try {
                 FwAppData.apiMethod(true, 'POST', "api/v1/exchange/startexchangecontract", contractRequest, FwServices.defaultTimeout, function onSuccess(response) {
-                    self.ContractId = response.ContractId;
+                    if (self.ContractId === '') {
+                        self.ContractId = response.ContractId
+                    }
 
                     let $exchangeItemGridControl: any;
                     $exchangeItemGridControl = $form.find('[data-name="OrderStatusSummaryGrid"]');
@@ -86,7 +88,10 @@ class Exchange {
 
             try {
                 FwAppData.apiMethod(true, 'POST', "api/v1/exchange/startexchangecontract", contractRequest, FwServices.defaultTimeout, function onSuccess(response) {
-                    self.ContractId = response.ContractId;
+                    if (self.ContractId === '') {
+                        self.ContractId = response.ContractId
+                    }
+
                     FwFormField.disable(FwFormField.getDataField($form, 'OrderId'));
                     FwFormField.disable(FwFormField.getDataField($form, 'DealId'));
                     FwFormField.getDataField($form, 'BarCodeIn').find('input').focus();
@@ -105,7 +110,9 @@ class Exchange {
                     }
                     FwAppData.apiMethod(true, 'POST', "api/v1/exchange/exchangeitemin", inRequest, FwServices.defaultTimeout, function onSuccess(response) {
                         if (response.success) {
-                            self.ContractId = response.ContractId;
+                            if (self.ContractId === '') {
+                                self.ContractId = response.ContractId
+                            }
                             $form.find('div.error-msg-in').html('');
                             $form.find('.in').removeClass('error');
                             FwFormField.setValueByDataField($form, 'DealId', response.DealId, response.Deal);
