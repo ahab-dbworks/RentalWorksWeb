@@ -106,7 +106,8 @@ class Exchange {
             if (e.which === 13) {
                 try {
                     var inRequest = {
-                        InCode: jQuery(this).find('input').val()
+                        ContractId: self.ContractId,
+                        InCode: jQuery(this).find('input').val()                        
                     }
                     FwAppData.apiMethod(true, 'POST', "api/v1/exchange/exchangeitemin", inRequest, FwServices.defaultTimeout, function onSuccess(response) {
                         if (response.success) {
