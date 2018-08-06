@@ -878,7 +878,7 @@ FwApplicationTree.clickEvents['{771DCE59-EB57-48B2-B189-177B414A4ED3}'] = functi
         orderInfo.Deal = $form.find('div[data-datafield="DealId"] input.fwformfield-text').val();
         $stagingCheckoutForm = StagingCheckoutController.openForm(mode, orderInfo);
         FwModule.openSubModuleTab($form, $stagingCheckoutForm);
-        jQuery('.tab.submodule.active').find('.caption').html('Stage Item');
+        jQuery('.tab.submodule.active').find('.caption').html('Staging / Check-Out');
     }
     catch (ex) {
         FwFunc.showError(ex);

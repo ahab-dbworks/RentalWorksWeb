@@ -225,6 +225,7 @@ class StagingCheckout {
     events($form: any) {
         let self = this;
         let errorBeep = new Audio('./theme/audio/errorBeep1.wav');
+        let successBeep = new Audio('./theme/audio/successBeep1.mp3');
 
         // BarCode / I-Code change
         $form.find('[data-datafield="Code"] input').on('keydown', e => {
@@ -244,10 +245,12 @@ class StagingCheckout {
 
                 FwAppData.apiMethod(true, 'POST', `api/v1/checkout/stageitem`, request, FwServices.defaultTimeout, function onSuccess(response) {
                     if (response.success === true && response.status != 107) {
+                        successBeep.play();
                         self.addItemFieldValues($form, response);
                         FwBrowse.search($stagedItemGrid);
                         $form.find('[data-datafield="Code"] input').select();
                     } if (response.status === 107) {
+                        successBeep.play();
                         self.addItemFieldValues($form, response);
                         FwFormField.setValueByDataField($form, 'Quantity', 0)
                         $form.find('div[data-datafield="Quantity"] input').select();
@@ -295,6 +298,7 @@ class StagingCheckout {
                     }
                     FwAppData.apiMethod(true, 'POST', `api/v1/checkout/stageitem`, request, FwServices.defaultTimeout, function onSuccess(response) {
                         if (response.success === true) {
+                            successBeep.play();
                             self.addItemFieldValues($form, response);
                             FwBrowse.search($stagedItemGrid);
                             FwFormField.setValueByDataField($form, 'Quantity', 0)
@@ -393,13 +397,14 @@ class StagingCheckout {
     //----------------------------------------------------------------------------------------------
     addItemToOrder(element: any) {
         this.showAddItemToOrder = false;
-        let code, $form, $element, orderId, quantity, $stagedItemGrid, request: any = {};
+        let code, $form, $element, orderId, quantity, $stagedItemGrid, successBeep, request: any = {};
         $element = jQuery(element);
         $form = jQuery($element).closest('.fwform'); 
         orderId = FwFormField.getValueByDataField($form, 'OrderId');
         code = FwFormField.getValueByDataField($form, 'Code');
         $stagedItemGrid = $form.find('[data-name="StagedItemGrid"]');
         quantity = +FwFormField.getValueByDataField($form, 'Quantity');
+        successBeep = new Audio('./theme/audio/successBeep1.mp3');
 
         if (quantity != 0) {
             request = {
@@ -421,6 +426,7 @@ class StagingCheckout {
                 FwBrowse.search($stagedItemGrid);
                 $form.find('.error-msg').html('');
                 $form.find('div.AddItemToOrder').html('');
+                successBeep.play();
             }
             catch (ex) {
                 FwFunc.showError(ex);
@@ -431,12 +437,13 @@ class StagingCheckout {
     //----------------------------------------------------------------------------------------------
     addCompleteToOrder(element: any) {
         this.showAddItemToOrder = false;
-        let code, $form, $element, orderId, quantity, $stagedItemGrid, request: any = {};
+        let code, $form, $element, orderId, quantity, $stagedItemGrid, successBeep, request: any = {};
         $element = jQuery(element);
         $form = jQuery($element).closest('.fwform');
         orderId = FwFormField.getValueByDataField($form, 'OrderId');
         code = FwFormField.getValueByDataField($form, 'Code');
         $stagedItemGrid = $form.find('[data-name="StagedItemGrid"]');
+        successBeep = new Audio('./theme/audio/successBeep1.mp3');
 
         if (quantity != 0) {
             request = {
@@ -458,6 +465,7 @@ class StagingCheckout {
                 FwBrowse.search($stagedItemGrid);
                 $form.find('.error-msg').html('');
                 $form.find('div.AddItemToOrder').html('');
+                successBeep.play();
             }
             catch (ex) {
                 FwFunc.showError(ex);
