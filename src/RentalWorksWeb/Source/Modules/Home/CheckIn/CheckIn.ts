@@ -186,14 +186,5 @@ class CheckIn {
             }
         });
     };
-    //----------------------------------------------------------------------------------------------
-    beforeValidate($browse: any, $form: any, request: any) {
-        let warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
-        let warehouseId = warehouse.warehouseid;
-        request.miscfields = {
-            CheckIn: true
-            , CheckInWarehouseId: warehouseId
-        }
-    };
 }
 var CheckInController = new CheckIn();
