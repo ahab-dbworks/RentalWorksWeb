@@ -17,7 +17,7 @@ class POReceiveItemGrid {
             let html = [];
             html.push('<button class="decrementQuantity" tabindex="-1" style="padding: 5px 0px; float:left; width:25%; border:none;">-</button>');
             html.push('<div style="position:relative">');
-            html.push('     <div class="cellcolor"></div>');
+            html.push('     <div class="cellcolor" style="pointer-events:none"></div>');
             html.push('     <input class="fieldvalue" type="number" style="height:1.5em; width:40px; text-align:center;" value="' + originalquantity + '">');
             html.push('</div>');
             html.push('<button class="incrementQuantity" tabindex="-1" style="padding: 5px 0px; float:left; width:25%; border:none;">+</button>');
