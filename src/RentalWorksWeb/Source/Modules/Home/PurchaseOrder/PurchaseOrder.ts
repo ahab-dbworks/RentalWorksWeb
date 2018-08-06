@@ -628,7 +628,7 @@ FwApplicationTree.clickEvents['{4BB0AB54-641E-4638-89B4-0F9BFE88DF82}'] = functi
         purchaseOrderInfo.PurchaseOrderNumber = FwFormField.getValueByDataField($form, 'PurchaseOrderNumber');
         $receiveFromVendorForm = ReceiveFromVendorController.openForm(mode, purchaseOrderInfo);
         FwModule.openSubModuleTab($form, $receiveFromVendorForm);
-        jQuery('.tab.submodule.active').find('.caption').html(purchaseOrderInfo.PurchaseOrderNumber); 
+        jQuery('.tab.submodule.active').find('.caption').html('Receive From Vendor'); 
     }
     catch (ex) {
         FwFunc.showError(ex);
@@ -645,7 +645,7 @@ FwApplicationTree.clickEvents['{B287428E-FF45-469A-8203-3BFF18E90810}'] = functi
         purchaseOrderInfo.PurchaseOrderNumber = FwFormField.getValueByDataField($form, 'PurchaseOrderNumber');
         $returnToVendorForm = ReturnToVendorController.openForm(mode, purchaseOrderInfo);
         FwModule.openSubModuleTab($form, $returnToVendorForm);
-        jQuery('.tab.submodule.active').find('.caption').html(purchaseOrderInfo.PurchaseOrderNumber);
+        jQuery('.tab.submodule.active').find('.caption').html('Return To Vendor');
     }
     catch (ex) {
         FwFunc.showError(ex);
