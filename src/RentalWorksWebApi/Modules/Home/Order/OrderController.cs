@@ -7,9 +7,24 @@ using System;
 using Microsoft.AspNetCore.Http;
 using WebLibrary;
 using WebApi.Modules.Home.Quote;
+using WebApi.Logic;
 
 namespace WebApi.Modules.Home.Order
 {
+
+
+    public class CreatePoWorksheetSessionRequest
+    {
+        public string OrderId;
+        public string RecType;
+    }
+
+    public class CreatePoWorksheetSessionResponse: TSpStatusReponse
+    {
+        public string SessionId;
+    }
+
+
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "home-v1")]
     public class OrderController : AppDataController
@@ -261,6 +276,30 @@ namespace WebApi.Modules.Home.Order
                 {
                     return NotFound();
                 }
+            }
+            catch (Exception ex)
+            {
+                FwApiException jsonException = new FwApiException();
+                jsonException.StatusCode = StatusCodes.Status500InternalServerError;
+                jsonException.Message = ex.Message;
+                jsonException.StackTrace = ex.StackTrace;
+                return StatusCode(jsonException.StatusCode, jsonException);
+            }
+        }
+
+        //------------------------------------------------------------------------------------        
+        // POST api/v1/order/startpoworksheetsession
+        [HttpPost("startpoworksheetsession")]
+        public async Task<IActionResult> StartPoWorksheetSession([FromBody] CreatePoWorksheetSessionRequest request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                CreatePoWorksheetSessionResponse response = await OrderFunc.StartPoWorksheetSession(AppConfig, UserSession, request.OrderId);
+                return new OkObjectResult(response);
             }
             catch (Exception ex)
             {

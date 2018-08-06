@@ -51,5 +51,20 @@ namespace WebApi.Modules.Home.Order
             return success;
         }
         //-------------------------------------------------------------------------------------------------------
+
+        public static async Task<CreatePoWorksheetSessionResponse> StartPoWorksheetSession(FwApplicationConfig appConfig, FwUserSession userSession, string orderId)
+        {
+            CreatePoWorksheetSessionResponse response = new CreatePoWorksheetSessionResponse();
+            using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
+            {
+                FwSqlCommand qry = new FwSqlCommand(conn, "startpoworksheetsession", appConfig.DatabaseSettings.QueryTimeout);
+                qry.AddParameter("@orderid", SqlDbType.NVarChar, ParameterDirection.Input, orderId);
+                qry.AddParameter("@sessionid", SqlDbType.NVarChar, ParameterDirection.Output);
+                await qry.ExecuteNonQueryAsync(true);
+                response.SessionId = qry.GetParameter("@sessionid").ToString();
+            }
+            return response;
+        }
+        //-------------------------------------------------------------------------------------------------------
     }
 }

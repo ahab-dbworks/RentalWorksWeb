@@ -1994,7 +1994,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"ContractId\": \"I00005FM\",\n\t\"Code\": \"4W012453\"\n}"
+							"raw": "{\n    \"ContractId\": \"I00005FM\",\n\t\"Code\": \"4W012453xxx\"\n}"
 						},
 						"url": {
 							"raw": "http://localhost:57949/api/v1/checkin/checkinitem",
@@ -2064,7 +2064,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": [],\n    \t\"uniqueids\": {\"ContractId\": \"I00005FM\"}\n\t\n}"
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": [],\n    \t\"uniqueids\": {\"ContractId\": \"I000060G\"}\n\t\n}"
 						},
 						"url": {
 							"raw": "http://localhost:57949/api/v1/checkedinitem/browse",
@@ -22410,6 +22410,41 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "Orders: Start PO Worksheet Session",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"OrderId\": \"H00032G8\",\n\t\"RecType\": \"R\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/order/startpoworksheetsession",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"order",
+								"startpoworksheetsession"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
@@ -32444,7 +32479,7 @@
 							"raw": "{\n\t\"CreateOutContracts\": true\n}\n\n"
 						},
 						"url": {
-							"raw": "http://localhost:57949/api/v1/purchaseorder/completereceivecontract/I00005FT",
+							"raw": "http://localhost:57949/api/v1/purchaseorder/completereceivecontract/I00005GI",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -32455,7 +32490,7 @@
 								"v1",
 								"purchaseorder",
 								"completereceivecontract",
-								"I00005FT"
+								"I00005GI"
 							]
 						}
 					},
@@ -32554,7 +32589,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"ItemOrder\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": [],\n    \t\"uniqueids\": \n{ContractId: \"I000054D\", PurchaseOrderId: \"F01ELJJY\"}\n}"
+							"raw": "{\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"ItemOrder\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": [],\n    \t\"uniqueids\": \n{ContractId: \"I00005YP\", PurchaseOrderId: \"I00005XF\"}\n}"
 						},
 						"url": {
 							"raw": "http://localhost:57949/api/v1/purchaseorderreceiveitem/browse",
@@ -32589,7 +32624,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"ContractId\": \"I00005F6\",\n    \"PurchaseOrderId\": \"I00005EO\",\n    \"purchaseOrderItemId\": \"I00005ET\",\n    \"Quantity\": 1\n}"
+							"raw": "{\n    \"ContractId\": \"I00005F6\",\n    \"PurchaseOrderId\": \"I00005EO\",\n    \"purchaseOrderItemId\": \"I00005ET\",\n    \"Quantity\": -1\n}"
 						},
 						"url": {
 							"raw": "http://localhost:57949/api/v1/purchaseorderreceiveitem/receiveitems",
@@ -32624,7 +32659,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"ContractId\": \"I00005YR\",\n    \"PurchaseOrderId\": \"I00005XF\"\n\t\n}"
+							"raw": "{\n    \"ContractId\": \"I00005YR\",\n    \"PurchaseOrderId\": \"I00005XF\"\n}"
 						},
 						"url": {
 							"raw": "http://localhost:57949/api/v1/purchaseorderreceiveitem/selectall",
@@ -32735,7 +32770,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"ContractId\": \"I0000559\",\n    \"PurchaseOrderId\": \"F01QV8ME\",\n    \"purchaseOrderItemId\": \"F01QV8Q3\",\n    \"Quantity\": 2\n}"
+							"raw": "{\n    \"xContractId\": \"I0000559\",\n    \"PurchaseOrderId\": \"F01QV8ME\",\n    \"xpurchaseOrderItemId\": \"F01QV8Q3\",\n    \"Quantity\": 2\n}"
 						},
 						"url": {
 							"raw": "http://localhost:57949/api/v1/purchaseorderreturnitem/returnitems",
@@ -37613,6 +37648,219 @@
 			]
 		},
 		{
+			"name": "Sound",
+			"description": null,
+			"item": [
+				{
+					"name": "Sound: Get Many",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/sound",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"sound"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Sound: Browse",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"Sound\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": [],\n    \t\"uniqueids\": {\"IdField\": \"value\"}\n\t\n}"
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/sound/browse",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"sound",
+								"browse"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Sound: Get One",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/sound/I000065P",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"sound",
+								"I000065P"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Sound: Insert",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"Sound\": \"BEEP\",\n    \"FileName\": \"./theme/audio/errorBeep1.wav\",\n    \"SystemSound\": true\n}"
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/sound",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"sound"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Sound: Update",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t \"SoundId\":\"00002WPC\",\n\t \"Field1\":\"1\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/sound",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"sound"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Sound: Delete",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/sound/00003EOV",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"sound",
+								"00003EOV"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
 			"name": "Source",
 			"description": null,
 			"item": [
@@ -38883,6 +39131,185 @@
 								"v1",
 								"rentalcategory",
 								"00003EA4"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Sub Purchase Order Item",
+			"description": null,
+			"item": [
+				{
+					"name": "Sub Purchase Order Item: Browse",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"ItemOrder\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": [],\n    \t\"uniqueids\": {\n    \t\t\"OrderId\": \"I00005U7\",\n    \t\t\"SessionId\": \"I000065Y\",\n    \t\t\"VendorId\": \"F00ILQO0\",\n    \t\t\"CurrencyId\": \"\",\n    \t\t\"RateType\": \"WEEKLY\",\n    \t\t\"TotalType\": \"W\",\n    \t\t\"RecType\": \"R\",\n    \t\t\"FromDate\": \"07/30/2018\",\n    \t\t\"ToDate\": \"07/30/2018\",\n    \t\t\"PurchaseOrderId\": \"I000061L\"\n    \t}\n}\n"
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/subpurchaseorderitem/browse",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"subpurchaseorderitem",
+								"browse"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Sub Purchase Order Item: Get One",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/subpurchaseorderitem/00002WPC",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"subpurchaseorderitem",
+								"00002WPC"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Sub Purchase Order Item: Insert",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"Field1\": \"1\",\n    \"Field2\": \"2\",\n}"
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/subpurchaseorderitem",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"subpurchaseorderitem"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Sub Purchase Order Item: Update",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t \"SessionId\":\"I000065Y\",\n\t \"OrderId\":\"I00005U7\",\n\t \"OrderItemId\": \"I000065W\",\n\t \"VendorRate\": 7.25\n}"
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/subpurchaseorderitem",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"subpurchaseorderitem"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Sub Purchase Order Item: Delete",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/subpurchaseorderitem/00003EOV",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"subpurchaseorderitem",
+								"00003EOV"
 							]
 						}
 					},
@@ -40339,7 +40766,7 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "http://localhost:57949/api/v1/usersettings/A000001S",
+							"raw": "http://localhost:57949/api/v1/usersettings/B00294F7",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -40349,7 +40776,7 @@
 								"api",
 								"v1",
 								"usersettings",
-								"A000001S"
+								"B00294F7"
 							]
 						}
 					},
@@ -40371,7 +40798,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"UserId\": \"A000001S\",\n    \"BrowseDefaultRows\": \"15\",\n    \"ApplicationTheme\": \"theme-material\"\n\n}"
+							"raw": "{\n    \"UserId\": \"B00294F7\",\n    \"BrowseDefaultRows\": \"25\",\n    \"ApplicationTheme\": \"theme-material\",\n    \"SuccessSoundId\": \"I000065P\"\n\n}"
 						},
 						"url": {
 							"raw": "http://localhost:57949/api/v1/usersettings",
