@@ -735,6 +735,22 @@ FwApplicationTree.clickEvents['{CF245A59-3336-42BC-8CCB-B88807A9D4EA}'] = functi
         FwFunc.showError(ex);
     }
 };
+FwApplicationTree.clickEvents['{380318B6-7E4D-446D-A018-1EB7720F4338}'] = function (e) {
+    var $form, $checkinForm;
+    try {
+        $form = jQuery(this).closest('.fwform');
+        var mode = 'EDIT';
+        var orderInfo = {};
+        orderInfo.OrderId = FwFormField.getValueByDataField($form, 'OrderId');
+        orderInfo.OrderNumber = FwFormField.getValueByDataField($form, 'OrderNumber');
+        $checkinForm = CheckInController.openForm(mode, orderInfo);
+        FwModule.openSubModuleTab($form, $checkinForm);
+        jQuery('.tab.submodule.active').find('.caption').html('Check-In');
+    }
+    catch (ex) {
+        FwFunc.showError(ex);
+    }
+};
 FwApplicationTree.clickEvents['{771DCE59-EB57-48B2-B189-177B414A4ED3}'] = function (event) {
     let $form, $stagingCheckoutForm;
     try {

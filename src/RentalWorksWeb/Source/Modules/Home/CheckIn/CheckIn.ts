@@ -29,6 +29,12 @@ class CheckIn {
 
         $form.off('change keyup', '.fwformfield[data-isuniqueid!="true"][data-enabled="true"][data-datafield!=""]');
 
+        if (typeof parentmoduleinfo !== 'undefined') {
+            $form.find('div[data-datafield="OrderId"] input.fwformfield-value').val(parentmoduleinfo.OrderId);
+            $form.find('div[data-datafield="OrderId"] input.fwformfield-text').val(parentmoduleinfo.OrderNumber);
+            jQuery($form.find('[data-datafield="OrderId"] input')).trigger('change');
+        }
+
         this.events($form);
 
         return $form;
@@ -49,6 +55,15 @@ class CheckIn {
         FwBrowse.init($checkedInItemsGridControl);
         FwBrowse.renderRuntimeHtml($checkedInItemsGridControl);
     }
+    //----------------------------------------------------------------------------------------------
+    beforeValidate($browse: any, $form: any, request: any) {
+        let warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
+        let warehouseId = warehouse.warehouseid;
+        request.miscfields = {
+            CheckIn: true
+            , CheckInWarehouseId: warehouseId
+        }
+    };
     //----------------------------------------------------------------------------------------------
     events($form: any) {
         //Default Department
