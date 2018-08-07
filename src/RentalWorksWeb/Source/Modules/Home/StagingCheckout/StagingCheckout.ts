@@ -223,9 +223,13 @@ class StagingCheckout {
     };
     //----------------------------------------------------------------------------------------------
     events($form: any) {
-        let self = this;
-        let errorBeep = new Audio('./theme/audio/errorBeep1.wav');
-        let successBeep = new Audio('./theme/audio/successBeep1.mp3');
+        let errorSound, successSound, successSoundFileName, errorSoundFileName, self = this;
+        //successSoundFileName = FwFormField.getValueByDataField($form, 'SuccessSoundFileName');
+        //errorSoundFileName = FwFormField.getValueByDataField($form, 'ErrorSoundFileName');
+        //errorSound = new Audio(`${errorSoundFileName}`);
+        //successSound = new Audio(`${successSoundFileName}`);
+        errorSound = new Audio('./theme/audio/errorBeep1.wav');
+        successSound = new Audio('./theme/audio/successBeep1.mp3');
 
         // BarCode / I-Code change
         $form.find('[data-datafield="Code"] input').on('keydown', e => {
@@ -245,17 +249,17 @@ class StagingCheckout {
 
                 FwAppData.apiMethod(true, 'POST', `api/v1/checkout/stageitem`, request, FwServices.defaultTimeout, function onSuccess(response) {
                     if (response.success === true && response.status != 107) {
-                        successBeep.play();
+                        successSound.play();
                         self.addItemFieldValues($form, response);
                         FwBrowse.search($stagedItemGrid);
                         $form.find('[data-datafield="Code"] input').select();
                     } if (response.status === 107) {
-                        successBeep.play();
+                        successSound.play();
                         self.addItemFieldValues($form, response);
                         FwFormField.setValueByDataField($form, 'Quantity', 0)
                         $form.find('div[data-datafield="Quantity"] input').select();
                     } if (response.ShowAddItemToOrder === true) {
-                        errorBeep.play();
+                        errorSound.play();
                         self.showAddItemToOrder = true;
                         self.addItemFieldValues($form, response);
                         $form.find('div.error-msg').html(`<div style="margin:0px 0px 0px 8px;"><span style="padding:0px 4px 0px 4px;font-size:22px;border-radius:2px;background-color:red;color:white;">${response.msg}</span></div>`);
@@ -264,7 +268,7 @@ class StagingCheckout {
                         self.addItemFieldValues($form, response);
                         $form.find('div.AddItemToOrder').html(`<div class="formrow"><div class="fwformcontrol" onclick="StagingCheckoutController.addItemToOrder(this)" data-type="button" style="float:left; margin:6px 0px 0px 8px;">Add Item To Order</div><div class="fwformcontrol" onclick="StagingCheckoutController.addCompleteToOrder(this)" data-type="button" style="float:left; margin:6px 0px 0px 4px;">Add Complete To Order</div></div>`)
                     } if (response.success === false && response.ShowAddCompleteToOrder === false && response.ShowAddItemToOrder === false) {
-                        errorBeep.play();
+                        errorSound.play();
                         self.addItemFieldValues($form, response);
                         $form.find('div.error-msg').html(`<div style="margin:0px 0px 0px 8px;"><span style="padding:0px 4px 0px 4px;font-size:22px;border-radius:2px;background-color:red;color:white;">${response.msg}</span></div>`);
                         $form.find('[data-datafield="Code"] input').select();
@@ -298,13 +302,13 @@ class StagingCheckout {
                     }
                     FwAppData.apiMethod(true, 'POST', `api/v1/checkout/stageitem`, request, FwServices.defaultTimeout, function onSuccess(response) {
                         if (response.success === true) {
-                            successBeep.play();
+                            successSound.play();
                             self.addItemFieldValues($form, response);
                             FwBrowse.search($stagedItemGrid);
                             FwFormField.setValueByDataField($form, 'Quantity', 0)
                             $form.find('[data-datafield="Code"] input').select();
                         } if (response.ShowAddItemToOrder === true) {
-                            errorBeep.play();
+                            errorSound.play();
                             self.addItemFieldValues($form, response);
                             self.showAddItemToOrder = true;
                             $form.find('div.error-msg').html(`<div style="margin:0px 0px 0px 8px;"><span style="padding:0px 4px 0px 4px;font-size:22px;border-radius:2px;background-color:red;color:white;">${response.msg}</span></div>`);
@@ -313,7 +317,7 @@ class StagingCheckout {
                             self.addItemFieldValues($form, response);
                             $form.find('div.AddItemToOrder').html(`<div class="formrow"><div class="fwformcontrol" onclick="StagingCheckoutController.addItemToOrder(this)" data-type="button" style="float:left; margin:6px 0px 0px 8px;">Add Item To Order</div><div class="fwformcontrol" onclick="StagingCheckoutController.addCompleteToOrder(this)" data-type="button" style="float:left; margin:6px 0px 0px 4px;">Add Complete To Order</div></div>`)
                         } if (response.success === false && response.ShowAddCompleteToOrder === false && response.ShowAddItemToOrder === false) {
-                            errorBeep.play();
+                            errorSound.play();
                             self.addItemFieldValues($form, response);
                             $form.find('div.error-msg').html(`<div style="margin:0px 0px 0px 8px;"><span style="padding:0px 4px 0px 4px;font-size:22px;border-radius:2px;background-color:red;color:white;">${response.msg}</span></div>`);
                             $form.find('[data-datafield="Code"] input').select();
@@ -397,14 +401,18 @@ class StagingCheckout {
     //----------------------------------------------------------------------------------------------
     addItemToOrder(element: any) {
         this.showAddItemToOrder = false;
-        let code, $form, $element, orderId, quantity, $stagedItemGrid, successBeep, request: any = {};
+        let code, $form, $element, orderId, quantity, $stagedItemGrid, successSoundFileName, errorSoundFileName, successSound, request: any = {};
         $element = jQuery(element);
         $form = jQuery($element).closest('.fwform'); 
         orderId = FwFormField.getValueByDataField($form, 'OrderId');
         code = FwFormField.getValueByDataField($form, 'Code');
         $stagedItemGrid = $form.find('[data-name="StagedItemGrid"]');
         quantity = +FwFormField.getValueByDataField($form, 'Quantity');
-        successBeep = new Audio('./theme/audio/successBeep1.mp3');
+        //successSoundFileName = FwFormField.getValueByDataField($form, 'SuccessSoundFileName');
+        //errorSoundFileName = FwFormField.getValueByDataField($form, 'ErrorSoundFileName');
+        //errorSound = new Audio(`${errorSoundFileName}`);
+        //successSound = new Audio(`${successSoundFileName}`);
+        successSound = new Audio('./theme/audio/successBeep1.mp3');
 
         if (quantity != 0) {
             request = {
@@ -426,7 +434,7 @@ class StagingCheckout {
                 FwBrowse.search($stagedItemGrid);
                 $form.find('.error-msg').html('');
                 $form.find('div.AddItemToOrder').html('');
-                successBeep.play();
+                successSound.play();
             }
             catch (ex) {
                 FwFunc.showError(ex);
@@ -437,13 +445,17 @@ class StagingCheckout {
     //----------------------------------------------------------------------------------------------
     addCompleteToOrder(element: any) {
         this.showAddItemToOrder = false;
-        let code, $form, $element, orderId, quantity, $stagedItemGrid, successBeep, request: any = {};
+        let code, $form, $element, orderId, quantity, $stagedItemGrid, successSoundFileName, errorSoundFileName, successSound, request: any = {};
         $element = jQuery(element);
         $form = jQuery($element).closest('.fwform');
         orderId = FwFormField.getValueByDataField($form, 'OrderId');
         code = FwFormField.getValueByDataField($form, 'Code');
         $stagedItemGrid = $form.find('[data-name="StagedItemGrid"]');
-        successBeep = new Audio('./theme/audio/successBeep1.mp3');
+        //successSoundFileName = FwFormField.getValueByDataField($form, 'SuccessSoundFileName');
+        //errorSoundFileName = FwFormField.getValueByDataField($form, 'ErrorSoundFileName');
+        //errorSound = new Audio(`${errorSoundFileName}`);
+        //successSound = new Audio(`${successSoundFileName}`);
+        successSound = new Audio('./theme/audio/successBeep1.mp3');
 
         if (quantity != 0) {
             request = {
@@ -465,7 +477,7 @@ class StagingCheckout {
                 FwBrowse.search($stagedItemGrid);
                 $form.find('.error-msg').html('');
                 $form.find('div.AddItemToOrder').html('');
-                successBeep.play();
+                successSound.play();
             }
             catch (ex) {
                 FwFunc.showError(ex);
