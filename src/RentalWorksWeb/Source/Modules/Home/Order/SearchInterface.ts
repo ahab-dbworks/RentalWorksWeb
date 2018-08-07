@@ -1,104 +1,112 @@
 class SearchInterface {
     renderSearchPopup($form, id, type, gridInventoryType?) {
-        console.log('type', type)
-        var self = this;
+        let self = this
+            , html = []
+            , $popupHtml
+            , $popup
+            , searchhtml
+            , $searchform
+            , formid
+            , $moduleTabControl
+            , newtabids
+            , $fwcontrols
+            , $searchTabControl
+            , $select
+            , $sortby
+            , previewhtml
+            , $previewform
+            , newtabids2
+            , $previewTabControl;
 
-        var html = [];
-        html.push('<div id="searchpopup" style="background-color: white; box-shadow: 0 25px 44px rgba(0, 0, 0, 0.30), 0 20px 15px rgba(0, 0, 0, 0.22); width: 85vw; height: 85vh; overflow:scroll; position:relative;">');
-
-        html.push(' <div id="searchTabs" class="fwcontrol fwtabs" data-rendermode="runtime" data-version="1" data-control="FwTabs">');
-        html.push(' <div class="tabs"></div>');
-        html.push(' <div class="tabpages"></div>');
+        //Build and invoke popup
+        html.push('<div id="searchpopup">');
+        html.push('     <div id="searchTabs" class="fwcontrol fwtabs" data-rendermode="runtime" data-version="1" data-control="FwTabs">');
+        html.push('         <div class="tabs"></div>');
+        html.push('         <div class="tabpages"></div>');
+        html.push('     </div>');
+        html.push('     <div class="close-modal"><i class="material-icons">clear</i><div class="btn-text">Close</div></div>');
         html.push('</div>');
 
-        html.push('     <div class="close-modal" style="display:flex; position:absolute; top:10px; right:15px; cursor:pointer;"><i class="material-icons">clear</i><div class="btn-text">Close</div></div>');
-        html.push('</div>');
-        var $popupHtml = html.join('');
-        var $popup = FwPopup.renderPopup(jQuery($popupHtml), { ismodal: true });
+        $popupHtml = html.join('');
+        $popup = FwPopup.renderPopup(jQuery($popupHtml), { ismodal: true });
         FwPopup.showPopup($popup);
 
-        var searchhtml = [];
+        searchhtml = [];
         searchhtml.push('<div id="searchFormHtml" class="fwform fwcontrol">');
+        searchhtml.push('   <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield fwformcontrol" data-datafield="ParentFormId" style="display:none"></div>');
+        searchhtml.push('   <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield fwformcontrol" data-datafield="WarehouseId" style="display:none"></div>');
         searchhtml.push('   <div id="inventoryView" style="display:none"></div>');
-        searchhtml.push('     <div id="breadcrumbs" class="fwmenu default" style="width:100%;height:2em; padding-left: 20px;">');
-        searchhtml.push('         <div class="type" style="float:left; cursor: pointer; font-weight: bold;"></div>');
-        searchhtml.push('         <div class="category" style="float:left; cursor: pointer; font-weight: bold;"></div>');
-        searchhtml.push('         <div class="subcategory" style="float:left; cursor: pointer; font-weight: bold;"></div>');
-        searchhtml.push('     </div>');
-
-        searchhtml.push('     <div class="formrow" style="width:100%; position:absolute;">');
-        searchhtml.push('              <div data-control="FwFormField" class="fwcontrol fwformfield fwformcontrol" data-caption=" "  data-datafield="InventoryType" data-type="radio" style="width:30%; margin: 5px 0px 25px 35px; float:clear;">');
-        searchhtml.push('                  <div data-value="R" data-caption="Rental" style="float:left; width:20%;"></div>');
-        searchhtml.push('                  <div data-value="S" data-caption="Sales" style="float:left; width:20%;"></div>');
-        searchhtml.push('                  <div data-value="L" data-caption="Labor" style="float:left; width:20%;"></div>');
-        searchhtml.push('                  <div data-value="M" data-caption="Misc" style="float:left; width:20%;"></div>');
-        searchhtml.push('                  <div data-value="P" data-caption="Parts" style="float:left; width:20%;"></div>');
-        searchhtml.push('              </div>');
-
-        searchhtml.push('              <div id="inventoryType" style="width:10%; margin: 5px 0px 0px 5px; float:left;">');
-        searchhtml.push('              </div>');
-        searchhtml.push('             <div id="category" style="width:10%; margin: 5px 0px 0px 5px; float:left;">');
-        searchhtml.push('             </div>');
-        searchhtml.push('             <div id="subCategory" style="width:10%; margin: 5px 0px 0px 5px; float:left;">');
-        searchhtml.push('             </div>');
-
-        searchhtml.push('            <div style="width:65%; position:absolute; left: 35%; right: 5%;">')
+        searchhtml.push('   <div id="breadcrumbs" class="fwmenu default">');
+        searchhtml.push('         <div class="type"></div>');
+        searchhtml.push('         <div class="category"></div>');
+        searchhtml.push('         <div class="subcategory"></div>');
+        searchhtml.push('   </div>');
+        searchhtml.push('   <div class="formrow" style="width:100%; position:absolute;">');
+        searchhtml.push('       <div data-control="FwFormField" class="fwcontrol fwformfield fwformcontrol" data-caption="" data-datafield="InventoryType" data-type="radio">');
+        searchhtml.push('           <div data-value="R" data-caption="Rental"></div>');
+        searchhtml.push('           <div data-value="S" data-caption="Sales"></div>');
+        searchhtml.push('           <div data-value="L" data-caption="Labor"></div>');
+        searchhtml.push('           <div data-value="M" data-caption="Misc"></div>');
+        searchhtml.push('           <div data-value="P" data-caption="Parts"></div>');
+        searchhtml.push('        </div>');
+        searchhtml.push('        <div id="inventoryType"></div>');
+        searchhtml.push('        <div id="category"></div>');
+        searchhtml.push('        <div id="subCategory"></div>');
+        searchhtml.push('        <div style="width:65%; position:absolute; left: 35%; right: 5%;">')
         searchhtml.push('                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
         searchhtml.push('                      <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield fwformcontrol" data-caption="Est. Start" data-datafield="FromDate" style="width:120px; float:left;"></div>');
         searchhtml.push('                      <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield fwformcontrol" data-caption="Est. Stop" data-datafield="ToDate" style="width:120px;float:left;"></div>');
-        searchhtml.push('                      <div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield fwformcontrol select" data-caption="Select" data-datafield="" style="width:150px;float:left;"></div>');
-        searchhtml.push('                      <div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield fwformcontrol sortby" data-caption="Sort By" data-datafield="" style="width:180px;float:left;"></div>');
-        if (type == 'Order') {
-            searchhtml.push('                      <div data-type="button" class="fwformcontrol addToOrder" style="width:120px; float:left; margin:15px;">Add to Order</div>');
+        searchhtml.push('                      <div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield fwformcontrol select" data-caption="Select" data-datafield="Select" style="width:150px;float:left;"></div>');
+        searchhtml.push('                      <div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield fwformcontrol sortby" data-caption="Sort By" data-datafield="SortBy" style="width:180px;float:left;"></div>');
+        switch (type) {
+            case 'Order':
+                searchhtml.push('              <div data-type="button" class="fwformcontrol addToOrder" style="width:120px; float:left; margin:15px;">Add to Order</div>');
+                break;
+            case 'Quote':
+                searchhtml.push('              <div data-type="button" class="fwformcontrol addToOrder" style="width:120px; float:left; margin:15px;">Add to Quote</div>');
+                break;
+            case 'PurchaseOrder':
+                searchhtml.push('              <div data-type="button" class="fwformcontrol addToOrder" style="width:195px; float:left; margin:15px;">Add to Purchase Order</div>');
+                break;
+            case 'Template':
+                searchhtml.push('              <div data-type="button" class="fwformcontrol addToOrder" style="width:140px; float:left; margin:15px;">Add to Template</div>');
+                break;
         }
-        if (type == 'Quote') {
-            searchhtml.push('                      <div data-type="button" class="fwformcontrol addToOrder" style="width:120px; float:left; margin:15px;">Add to Quote</div>');
-        }
-        if (type == 'PurchaseOrder') {
-            searchhtml.push('                      <div data-type="button" class="fwformcontrol addToOrder" style="width:195px; float:left; margin:15px;">Add to Purchase Order</div>');
-        }
-        if (type == 'Template') {
-            searchhtml.push('                      <div data-type="button" class="fwformcontrol addToOrder" style="width:140px; float:left; margin:15px;">Add to Template</div>');
-        }
-        searchhtml.push('                  </div>');
+        searchhtml.push('                 </div>');
         searchhtml.push('                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
         searchhtml.push('                      <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Search" data-datafield="SearchBox" style="width:570px; float:left;"></div>');
-        searchhtml.push('                      <div data-type="button" class="fwformcontrol listbutton" style="margin: 12px 6px 12px 22px; padding:0px 7px 0px 7px;"><i class="material-icons" style="margin-top: 5px;">&#xE8EE;</i></div>');
-        searchhtml.push('                      <div data-type="button" class="fwformcontrol listgridbutton" style="margin: 12px 6px 12px 6px; padding:0px 7px 0px 7px;"><i class="material-icons" style="margin-top: 5px;">&#xE8EF;</i></div>');
-        searchhtml.push('                      <div data-type="button" class="fwformcontrol gridbutton" style="margin: 12px 6px 12px 6px; padding:0px 7px 0px 7px;"><i class="material-icons" style="margin-top: 5px;">&#xE8F0;</i></div>');
+        searchhtml.push('                      <div data-type="button" class="invviewbtn fwformcontrol listbutton"><i class="material-icons" style="margin-top: 5px;">&#xE8EE;</i></div>');
+        searchhtml.push('                      <div data-type="button" class="invviewbtn fwformcontrol listgridbutton"><i class="material-icons" style="margin-top: 5px;">&#xE8EF;</i></div>');
+        searchhtml.push('                      <div data-type="button" class="invviewbtn fwformcontrol gridbutton"><i class="material-icons" style="margin-top: 5px;">&#xE8F0;</i></div>');
         searchhtml.push('                      <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield fwformcontrol toggleAccessories" data-caption="Disable Accessory Refresh" style="width:200px;"></div>');
-        searchhtml.push('                         <div id="columnDescriptions" style="width:95%; padding:5px; margin:5px; display:none">');
-        searchhtml.push('                           <div style="float:left; width:38%; text-align:center; font-weight:bold;">Description</div>');
-        searchhtml.push('                           <div style="float:left; width:10%; text-align:center; font-weight:bold;">Qty</div>');
-        searchhtml.push('                           <div style="float:left; width:8%; text-align:center; font-weight:bold;">Available</div>');
-        searchhtml.push('                           <div style="float:left; width:10%; text-align:center; font-weight:bold;">Conflict Date</div>');
-        searchhtml.push('                           <div style="float:left; width:8%; text-align:center; font-weight:bold;">All WH</div>');
-        searchhtml.push('                           <div style="float:left; width:8%; text-align:center; font-weight:bold;">In</div>');
-        searchhtml.push('                           <div style="float:left; width:8%; text-align:center; font-weight:bold;">QC</div>');
-        searchhtml.push('                           <div style="float:left; width:8%; text-align:center; font-weight:bold;">Rate</div>');
-        searchhtml.push('                            </div>');
+        searchhtml.push('                      <div id="columnDescriptions" style="width:95%; padding:5px; margin:5px; display:none">');
+        searchhtml.push('                           <div style="width:38%;">Description</div>');
+        searchhtml.push('                           <div style="width:10%;">Qty</div>');
+        searchhtml.push('                           <div style="width:8%;">Available</div>');
+        searchhtml.push('                           <div style="width:10%;">Conflict Date</div>');
+        searchhtml.push('                           <div style="width:8%;">All WH</div>');
+        searchhtml.push('                           <div style="width:8%;">In</div>');
+        searchhtml.push('                           <div style="width:8%;">QC</div>');
+        searchhtml.push('                           <div style="width:8%;">Rate</div>');
+        searchhtml.push('                      </div>');
         searchhtml.push('                 </div>');
-        searchhtml.push('                 <div id="inventory" style="overflow:auto">');
-
-        searchhtml.push('                 </div>');
-        searchhtml.push('            </div>');
-
-        searchhtml.push('  </div>');
+        searchhtml.push('                 <div id="inventory" style="overflow:auto"></div>');
+        searchhtml.push('        </div>');
+        searchhtml.push('   </div>');
         searchhtml.push('</div>');
-        var $searchform = searchhtml.join('');
 
-        var formid = program.uniqueId(8);
-
-        var $moduleTabControl = jQuery('#searchTabs');
-        var newtabids = FwTabs.addTab($moduleTabControl, 'Search', false, 'FORM', true);
-        $moduleTabControl.find('#' + newtabids.tabpageid).append(jQuery($searchform));
-        var $fwcontrols = jQuery($searchform).find('.fwcontrol');
-        var $searchTabControl = jQuery('#searchFormHtml');
+        $searchform = searchhtml.join('');
+        formid = program.uniqueId(8);
+        $moduleTabControl = jQuery('#searchTabs');
+        newtabids = FwTabs.addTab($moduleTabControl, 'Search', false, 'FORM', true);
+        $moduleTabControl.find(`#${newtabids.tabpageid}`).append(jQuery($searchform));
+        $fwcontrols = jQuery($searchform).find('.fwcontrol');
+        $searchTabControl = jQuery('#searchFormHtml');
         FwConfirmation.addControls($searchTabControl, $searchform);
 
-        var $select = $popup.find('.select');
-        var $sortby = $popup.find('.sortby');
-
+        //Populate the select and sort by fields
+        $select = $popup.find('.select');
+        $sortby = $popup.find('.sortby');
         FwFormField.loadItems($select, [
             { value: '', text: 'All' },
             { value: 'CK', text: 'Complete/Kit' },
@@ -112,64 +120,84 @@ class SearchInterface {
             { value: 'PARTNO', text: 'Part No.' },
             { value: 'INVENTORY', text: 'Inventory Management' }], true);
 
-        var previewhtml = [];
+        //Build preview tab
+        previewhtml = [];
         previewhtml.push('<div id="previewHtml" class="fwform fwcontrol">');
-        previewhtml.push('         <div class="fwmenu default" style="width:100%;height:7%; padding-left: 20px;">');
-        previewhtml.push('         </div>');
-        previewhtml.push('     <div class="formrow" style="width:100%; position:absolute;">');
-        previewhtml.push('            <div>');
-        previewhtml.push('                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
-        previewhtml.push('                      <div data-control="FwGrid" data-grid="SearchPreviewGrid" data-securitycaption="Preview"></div>');
-        previewhtml.push('                </div>');
-        if (type == 'Order') {
-            previewhtml.push('                      <div data-type="button" class="fwformcontrol addToOrder" style="width:120px; float:right; margin:15px;">Add to Order</div>');
-        } if (type == 'Quote') {
-            previewhtml.push('                      <div data-type="button" class="fwformcontrol addToOrder" style="width:120px; float:right; margin:15px;">Add to Quote</div>');
-        } if (type == 'PurchaseOrder') {
-            previewhtml.push('                      <div data-type="button" class="fwformcontrol addToOrder" style="width:195px; float:right; margin-right:6px;">Add to Purchase Order</div>');
-        }
-        if (type == 'Template') {
-            previewhtml.push('                      <div data-type="button" class="fwformcontrol addToOrder" style="width:140px; float:right; margin-right:6px;">Add to Template</div>');
-        }
-        previewhtml.push('            </div>');
+        previewhtml.push('      <div class="fwmenu default" style="width:100%;height:7%; padding-left: 20px;"></div>');
+        previewhtml.push('      <div class="formrow" style="width:100%; position:absolute;">');
+        previewhtml.push('          <div>');
+        previewhtml.push('              <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
+        previewhtml.push('                  <div data-control="FwGrid" data-grid="SearchPreviewGrid" data-securitycaption="Preview"></div>');
+        previewhtml.push('              </div>');
+        switch (type) {
+            case 'Order':
+                previewhtml.push('      <div data-type="button" class="fwformcontrol addToOrder" style="width:120px; float:right; margin:15px;">Add to Order</div>');
+                break;
+            case 'Quote':
+                previewhtml.push('      <div data-type="button" class="fwformcontrol addToOrder" style="width:120px; float:right; margin:15px;">Add to Quote</div>');
+                break;
+            case 'PurchaseOrder':
+                previewhtml.push('      <div data-type="button" class="fwformcontrol addToOrder" style="width:195px; float:right; margin-right:6px;">Add to Purchase Order</div>');
+                break;
+            case 'Template':
+                previewhtml.push('      <div data-type="button" class="fwformcontrol addToOrder" style="width:140px; float:right; margin-right:6px;">Add to Template</div>');
+                break;
+        };
+        previewhtml.push('          </div>');
         previewhtml.push('     </div>');
         previewhtml.push('</div>');
 
-        var $previewform = previewhtml.join('');
-        var newtabids2 = FwTabs.addTab($moduleTabControl, 'Preview', false, 'FORM', false);
+        $previewform = previewhtml.join('');
+        newtabids2 = FwTabs.addTab($moduleTabControl, 'Preview', false, 'FORM', false);
         $moduleTabControl.find('#' + newtabids2.tabpageid).append(jQuery($previewform));
         FwTabs.init($moduleTabControl);
-        var $previewTabControl = jQuery('#previewHtml');
+        $previewTabControl = jQuery('#previewHtml');
         FwConfirmation.addControls($previewTabControl, $previewform);
 
+        //Default/Set values
         if (type === 'Order' || type === 'Quote') {
-            var startDate = FwFormField.getValueByDataField($form, 'EstimatedStartDate');
-            var stopDate = FwFormField.getValueByDataField($form, 'EstimatedStopDate');
+            let startDate = FwFormField.getValueByDataField($form, 'EstimatedStartDate')
+                , stopDate = FwFormField.getValueByDataField($form, 'EstimatedStopDate');
             FwFormField.setValueByDataField($popup, 'FromDate', startDate);
             FwFormField.setValueByDataField($popup, 'ToDate', stopDate);
-        } else if (type === 'Purchase Order') {
-            var startDate = FwFormField.getValueByDataField($form, 'PurchaseOrderDate');
+        } else if (type === 'PurchaseOrder') {
+            let startDate = FwFormField.getValueByDataField($form, 'PurchaseOrderDate');
             FwFormField.setValueByDataField($popup, 'FromDate', startDate);
         }
 
-        var toDate = FwFormField.getValueByDataField($popup, 'ToDate');
-        var fromDate = FwFormField.getValueByDataField($popup, 'FromDate');
-        var warehouseId = FwFormField.getValueByDataField($form, 'WarehouseId');
+        FwFormField.setValueByDataField($popup, 'ParentFormId', id);
+        let warehouseId = FwFormField.getValueByDataField($form, 'WarehouseId');
+        FwFormField.setValueByDataField($popup, 'WarehouseId', warehouseId);
 
-        var $previewGrid;
-        var $previewGridControl;
+        let userId = JSON.parse(sessionStorage.getItem('userid'));
+        let $inventoryView = $popup.find('#inventoryView');
+        FwAppData.apiMethod(true, 'GET', `api/v1/usersearchsettings/${userId.webusersid}`, null, FwServices.defaultTimeout, function onSuccess(response) {
+            if (response.SearchModePreference != "") {
+                $inventoryView.val(response.SearchModePreference)
+            } else {
+                $inventoryView.val('GRID');
+            }
+        }, null, null);
+
+        //Render preview grid
+        let $previewGrid
+            , $previewGridControl
+            , previewrequest: any
+            , toDate
+            , fromDate;
         $previewGrid = $previewTabControl.find('[data-grid="SearchPreviewGrid"]');
         $previewGridControl = jQuery(jQuery('#tmpl-grids-SearchPreviewGridBrowse').html());
         $previewGrid.empty().append($previewGridControl);
         $previewGridControl.data('ondatabind', function (request) {
             request.SessionId = id;
         });
-
         FwBrowse.init($previewGridControl);
         FwBrowse.renderRuntimeHtml($previewGridControl);
-        var $grid = $previewTabControl.find('[data-name="SearchPreviewGrid"]');
 
-        var previewrequest: any = {};
+        toDate = FwFormField.getValueByDataField($popup, 'ToDate');
+        fromDate = FwFormField.getValueByDataField($popup, 'FromDate');
+    
+        previewrequest = {};
         previewrequest = {
             SessionId: id,
             ShowAvailablity: true,
@@ -182,27 +210,23 @@ class SearchInterface {
             previewrequest.ToDate = toDate;
         }
         FwAppData.apiMethod(true, 'POST', "api/v1/inventorysearchpreview/browse", previewrequest, FwServices.defaultTimeout, function onSuccess(response) {
-            FwBrowse.databindcallback($grid, response);
+            FwBrowse.databindcallback($previewGrid, response);
         }, null, $previewTabControl);
 
-        $popup.find('.close-modal').one('click', function (e) {
-            FwPopup.destroyPopup($popup);
-            jQuery(document).find('.fwpopup').off('click');
-            jQuery(document).off('keydown');
-        });
 
-        var inventoryTypeRequest: any = {};
-        inventoryTypeRequest.uniqueids = {
-            Rental: true
-        }
+        //Load Type list
+        let inventoryTypeRequest: any
+            , availableFor
+            , inventoryType
+            , categoryType;
+        inventoryTypeRequest = {}
         inventoryTypeRequest.searchfieldoperators = ["<>"];
         inventoryTypeRequest.searchfields = ["Inactive"];
         inventoryTypeRequest.searchfieldvalues = ["T"];
-        var categoryType = 'rentalcategory',
-            availableFor = FwFormField.getValueByDataField($popup, 'InventoryType');
+        availableFor = FwFormField.getValueByDataField($popup, 'InventoryType');
+        inventoryType = $popup.find('[data-datafield="InventoryType"]');
 
         if (gridInventoryType != "") {
-            let inventoryType = $popup.find('[data-datafield="InventoryType"]');
             switch (gridInventoryType) {
                 case 'Rental':
                     inventoryTypeRequest.uniqueids = {
@@ -235,116 +259,13 @@ class SearchInterface {
             }
         }
 
-        $popup.find('[data-type="radio"]').on('change', function () {
-            availableFor = $popup.find('[data-type="radio"] input:checked').val();
-            switch (availableFor) {
-                case 'R':
-                    inventoryTypeRequest.uniqueids = {
-                        Rental: true
-                    }
-                    categoryType = 'rentalcategory';
-                    break;
-                case 'S':
-                    inventoryTypeRequest.uniqueids = {
-                        Sales: true
-                    }
-                    categoryType = 'salescategory';
-                    break;
-                case 'L':
-                    inventoryTypeRequest.uniqueids = {
-                        Labor: true
-                    }
-                    categoryType = 'laborcategory';
-                    break;
-                case 'M':
-                    inventoryTypeRequest.uniqueids = {
-                        Misc: true
-                    }
-                    categoryType = 'misccategory';
-                    break;
-
-                case 'P':
-                    inventoryTypeRequest.uniqueids = {
-                        Parts: true
-                    }
-                    categoryType = 'partscategory';
-                    break;
-            }
-            request.AvailableFor = availableFor;
-            self.populateTypeMenu($popup, inventoryTypeRequest, categoryType, request);
-        });
-
-        var $searchpopup = jQuery('#searchpopup');
-        var $descriptionField = $popup.find('[data-datafield="SearchBox"] input.fwformfield-value');
-        $descriptionField.on('keydown', function (e) {
-            var code = e.keyCode || e.which;
-            try {
-                if (code === 13) { //Enter Key
-                    e.preventDefault();
-
-                    var request: any = {
-                        OrderId: id,
-                        SessionId: id,
-                        AvailableFor: availableFor,
-                        WarehouseId: warehouseId,
-                        ShowAvailability: true,
-                        ShowImages: true,
-                        SortBy: $popup.find('.sortby select').val(),
-                        Classification: $popup.find('.select select').val(),
-                        SearchText: $popup.find('[data-datafield="SearchBox"] input.fwformfield-value').val()
-                    }
-                    if (fromDate != "") {
-                        request.FromDate = fromDate;
-                    }
-                    if (toDate != "") {
-                        request.ToDate = toDate;
-                    }
-
-                    FwAppData.apiMethod(true, 'POST', "api/v1/inventorysearch/search", request, FwServices.defaultTimeout, function onSuccess(response) {
-                        $popup.find('#inventory').empty();
-                        SearchInterfaceController.renderInventory($popup, response, false);
-                    }, null, $searchpopup);
-
-                }
-            } catch (ex) {
-                FwFunc.showError(ex);
-            }
-        });
-
-        var request: any = {
-            OrderId: id,
-            SessionId: id,
-            AvailableFor: availableFor,
-            WarehouseId: warehouseId,
-            ShowAvailability: true,
-            SortBy: $popup.find('.sortby select').val(),
-            Classification: $popup.find('.select select').val(),
-            ShowImages: true
-        }
-        if (fromDate != "") {
-            request.FromDate = fromDate;
-        }
-        if (toDate != "") {
-            request.ToDate = toDate;
-        }
-
-        var userId = JSON.parse(sessionStorage.getItem('userid'));
-        var $inventoryView = $popup.find('#inventoryView');
-        FwAppData.apiMethod(true, 'GET', "api/v1/usersearchsettings/" + userId.webusersid, null, FwServices.defaultTimeout, function onSuccess(res) {
-            if (res.SearchModePreference != "") {
-                $inventoryView.val(res.SearchModePreference)
-            } else {
-                $inventoryView.val('GRID');
-            }
-        }, null, null);
-
-        this.populateTypeMenu($popup, inventoryTypeRequest, categoryType, request);
-        this.breadCrumbs($popup, $form, request);
+        this.populateTypeMenu($popup, inventoryTypeRequest, categoryType);
+        this.breadCrumbs($popup, $form);
         this.events($popup, $form, id);
         return $popup;
     }
 
-    populateTypeMenu($popup, inventoryTypeRequest, categoryType, request) {
+    populateTypeMenu($popup, inventoryTypeRequest, categoryType) {
         const $searchpopup = jQuery('#searchpopup');
         var self = this;
         $popup.find('#inventoryType, #category, #subCategory, #inventory, .type, .category, .subcategory').empty();
@@ -377,10 +298,10 @@ class SearchInterface {
             }
             self.fitToParent('#inventoryType .fitText span');
         }, null, $searchpopup);
-        self.typeOnClickEvents($popup, request, categoryType);
+        self.typeOnClickEvents($popup, categoryType);
     }
 
-    typeOnClickEvents($popup, request, categoryType) {
+    typeOnClickEvents($popup, categoryType) {
         const $searchpopup = jQuery('#searchpopup');
         var self = this;
         $popup.off('click', '#inventoryType ul');
@@ -450,13 +371,13 @@ class SearchInterface {
 
                 self.fitToParent('#category .fitText span');
             }, null, $searchpopup);
-            self.categoryOnClickEvents($popup, request);
+            self.categoryOnClickEvents($popup);
         });
     }
 
-    categoryOnClickEvents($popup, request) {
+    categoryOnClickEvents($popup) {
         var $searchpopup = jQuery('#searchpopup');
-        var self = this;
+        var self = this, toDate, fromDate;
         $popup.off('click', '#category ul');
         $popup.on('click', '#category ul', function (e) {
             var category, breadcrumb, categoryId, inventoryTypeId;
@@ -465,6 +386,28 @@ class SearchInterface {
                 'color': 'black',
                 'box-shadow': '0 0px 0px 0 rgba(0, 0, 0, 0.2)'
             });
+
+            let parentFormId = FwFormField.getValueByDataField($popup, 'ParentFormId');
+                   var request: any = {
+                       OrderId: parentFormId,
+                           SessionId: parentFormId,
+                       AvailableFor: FwFormField.getValueByDataField($popup, 'InventoryType'),
+                       WarehouseId: FwFormField.getValueByDataField($popup, 'WarehouseId'),
+            ShowAvailability: true,
+            SortBy: $popup.find('.sortby select').val(),
+            Classification: $popup.find('.select select').val(),
+            ShowImages: true
+            }
+
+
+            toDate = FwFormField.getValueByDataField($popup, 'ToDate');
+            fromDate = FwFormField.getValueByDataField($popup, 'FromDate');
+        if (fromDate != "") {
+            request.FromDate = fromDate;
+        }
+        if (toDate != "") {
+            request.ToDate = toDate;
+        }
 
             const $this = jQuery(e.currentTarget);
             category = $this.text();
@@ -780,9 +723,10 @@ class SearchInterface {
         }
     };
 
-    breadCrumbs($popup, $form, request) {
+    breadCrumbs($popup, $form) {
         var $searchpopup = jQuery('#searchpopup');
-        var self = this
+        var self = this,
+            request: any = {};
         $popup.on('click', '#breadcrumbs .type', function (e) {
             $popup.find("#breadcrumbs .subcategory, #breadcrumbs .category").empty();
             $popup.find("#breadcrumbs .subcategory, #breadcrumbs .category").attr('data-value', '');
@@ -831,7 +775,103 @@ class SearchInterface {
         let hasItemInGrids = false;
         var warehouseId = FwFormField.getValueByDataField($form, 'WarehouseId');
         var request: any = {};
-        var self = this;
+
+        let self = this
+            , availableFor
+            , inventoryTypeRequest: any = {}
+            , categoryType
+            , $searchpopup;
+
+        $searchpopup = jQuery('#searchpopup');
+
+        //Close the Search Interface popup
+        $popup.find('.close-modal').one('click', function (e) {
+            FwPopup.destroyPopup($popup);
+            jQuery(document).find('.fwpopup').off('click');
+            jQuery(document).off('keydown');
+        });
+
+        //Inventory Type radio change events
+        $popup.find('[data-type="radio"]').on('change', function () {
+            availableFor = $popup.find('[data-type="radio"] input:checked').val();
+            switch (availableFor) {
+                case 'R':
+                    inventoryTypeRequest.uniqueids = {
+                        Rental: true
+                    }
+                    categoryType = 'rentalcategory';
+                    break;
+                case 'S':
+                    inventoryTypeRequest.uniqueids = {
+                        Sales: true
+                    }
+                    categoryType = 'salescategory';
+                    break;
+                case 'L':
+                    inventoryTypeRequest.uniqueids = {
+                        Labor: true
+                    }
+                    categoryType = 'laborcategory';
+                    break;
+                case 'M':
+                    inventoryTypeRequest.uniqueids = {
+                        Misc: true
+                    }
+                    categoryType = 'misccategory';
+                    break;
+
+                case 'P':
+                    inventoryTypeRequest.uniqueids = {
+                        Parts: true
+                    }
+                    categoryType = 'partscategory';
+                    break;
+            }
+            request.AvailableFor = availableFor;
+            self.populateTypeMenu($popup, inventoryTypeRequest, categoryType);
+        });
+
+        //Filter results based on Search input field
+        $popup.find('[data-datafield="SearchBox"]').on('keydown', 'input.fwformfield-value', e => {
+            let code = e.keyCode || e.which;
+            try {
+                if (code === 13) { //Enter Key
+                    e.preventDefault();
+                    let request: any = {
+                        OrderId: id,
+                        SessionId: id,
+                        AvailableFor: availableFor,
+                        WarehouseId: warehouseId,
+                        ShowAvailability: true,
+                        ShowImages: true,
+                        SortBy: FwFormField.getValueByDataField($popup, 'SortBy'),
+                        Classification: FwFormField.getValueByDataField($popup, 'Select'),
+                        SearchText: FwFormField.getValueByDataField($popup, 'SearchBox')
+                    }
+
+                    console.log(request)
+                    let toDate = FwFormField.getValueByDataField($popup, 'ToDate')
+                        , fromDate = FwFormField.getValueByDataField($popup, 'FromDate');
+                    if (fromDate != "") {
+                        request.FromDate = fromDate;
+                    }
+                    if (toDate != "") {
+                        request.ToDate = toDate;
+                    }
+
+                    FwAppData.apiMethod(true, 'POST', "api/v1/inventorysearch/search", request, FwServices.defaultTimeout, function onSuccess(response) {
+                        $popup.find('#inventory').empty();
+                        SearchInterfaceController.renderInventory($popup, response, false);
+                    }, null, $searchpopup);
+
+                }
+            } catch (ex) {
+                FwFunc.showError(ex);
+            }
+        });
+
+
+
         $popup.on('mouseenter', '#inventory > .cardContainer > .card', function (e) {
             let selected = jQuery(e.currentTarget).hasClass('selected');
             if (!selected) {
@@ -854,37 +894,36 @@ class SearchInterface {
         $popup.on('click', '#inventory > .cardContainer > .card', function (e) {
             e.stopPropagation();
             let $card = jQuery(e.currentTarget);
-                clickCount++;
-                if (clickCount == 1) {
-                    setTimeout(function () {
-                        if (clickCount == 1) {
-                           $popup.find('#inventory > .cardContainer > .card').removeClass('selected');
-                            $popup.find('#inventory > .cardContainer > .card').css('box-shadow', '0 2px 4px 0 rgba(0,0,0,0.2)');
-                            $card.addClass('selected');
-                            $card.css('box-shadow', '0 6px 10px 0 rgba(0,0,153,0.2)');
+            clickCount++;
+            if (clickCount == 1) {
+                setTimeout(function () {
+                    if (clickCount == 1) {
+                        $popup.find('#inventory > .cardContainer > .card').removeClass('selected');
+                        $popup.find('#inventory > .cardContainer > .card').css('box-shadow', '0 2px 4px 0 rgba(0,0,0,0.2)');
+                        $card.addClass('selected');
+                        $card.css('box-shadow', '0 6px 10px 0 rgba(0,0,153,0.2)');
 
-                            let accessoryContainer = $card.siblings('.accContainer');
-                            if (accessoryContainer.length > 0) {
-                                if (!(accessoryContainer.find('.accList').length)) {
-                                    let inventoryId = $card.find('[data-datafield="InventoryId"] input').val();
-                                    self.refreshAccessoryQuantity($popup, id, warehouseId, inventoryId, e);
-                                }
-                                if ((jQuery('#inventoryView').val()) == 'GRID') {
-                                    jQuery('.accColumns').show();
-                                }
-                                $popup.find('.accContainer').not(accessoryContainer).hide();
-                                accessoryContainer.slideToggle();
+                        let accessoryContainer = $card.siblings('.accContainer');
+                        if (accessoryContainer.length > 0) {
+                            if (!(accessoryContainer.find('.accList').length)) {
+                                let inventoryId = $card.find('[data-datafield="InventoryId"] input').val();
+                                self.refreshAccessoryQuantity($popup, id, warehouseId, inventoryId, e);
                             }
-                        } else {
-                            $card.find('.incrementQuantity').click();
+                            if ((jQuery('#inventoryView').val()) == 'GRID') {
+                                jQuery('.accColumns').show();
+                            }
+                            $popup.find('.accContainer').not(accessoryContainer).hide();
+                            accessoryContainer.slideToggle();
                         }
-                        clickCount = 0;
-                    }, timeout || 300);
-                }
+                    } else {
+                        $card.find('.incrementQuantity').click();
+                    }
+                    clickCount = 0;
+                }, timeout || 300);
+            }
 
         });
 
-        var $searchpopup = jQuery('#searchpopup');
         $popup.on('change', '#inventory [data-datafield="Quantity"] input', function (e) {
             e.stopPropagation();
             var element = jQuery(e.currentTarget);

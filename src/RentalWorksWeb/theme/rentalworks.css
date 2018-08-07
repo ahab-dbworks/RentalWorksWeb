@@ -126,11 +126,66 @@ progress::-webkit-progress-value {
 }
 
 /* Styling for error message text */
-.fwform .errormsg span{
+.fwform .errormsg span {
     background-color: red;
     color: white;
     font-size: 1.25em;
-    margin-top: .75em ;
+    margin-top: .75em;
     padding: 4px;
 }
+
+/*#region Search Interface*/
+#searchpopup {
+    background-color: white;
+    box-shadow: 0 25px 44px rgba(0, 0, 0, 0.30), 0 20px 15px rgba(0, 0, 0, 0.22);
+    width: 85vw;
+    height: 85vh;
+    overflow: scroll;
+    position: relative;
 }
+
+    #searchpopup .close-modal {
+        display: flex;
+        position: absolute;
+        top: 10px;
+        right: 15px;
+        cursor: pointer;
+    }
+
+#breadcrumbs {
+    width: 100%;
+    height: 2em;
+    padding-left: 20px;
+}
+    #breadcrumbs > div {
+        float: left;
+        cursor: pointer;
+        font-weight: bold;
+    }
+#searchFormHtml div[data-datafield="InventoryType"] {
+    width: 30%;
+    margin: 5px 0px 25px 35px;
+    float: none;
+}
+    #searchFormHtml div[data-datafield="InventoryType"] .fwformfield-control > div {
+        float:left;
+        width:20%;
+    }
+
+#inventoryType, #category, #subCategory {
+    width: 10%;
+    margin: 5px 0px 0px 5px;
+    float: left;
+}
+
+#searchFormHtml .invviewbtn {
+    margin: 12px 6px 12px 5px;
+    padding: 0px 7px 0px 7px;
+}
+
+#columnDescriptions > div {
+    float:left;
+    text-align:center;
+    font-weight:bold;
+}
+/*#endregion*/
