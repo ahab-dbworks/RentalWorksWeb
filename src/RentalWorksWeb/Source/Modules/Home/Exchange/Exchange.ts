@@ -125,6 +125,8 @@ class Exchange {
                             FwFormField.disable(FwFormField.getDataField($form, 'DealId'));
                             FwFormField.getDataField($form, 'BarCodeOut').find('input').focus();
                         } else {
+                            FwFormField.setValueByDataField($form, 'Description', response.OrderDescription);
+                            FwFormField.setValueByDataField($form, 'ICodeIn', response.ICode);
                             $form.find('.in').addClass('error');
                             $form.find('div.error-msg-in').html(`<div style="margin:0px 0px 0px 8px;"><span style="padding:0px 4px 0px 4px;font-size:22px;border-radius:2px;background-color:red;color:white;">${response.msg}</span></div>`);
                             FwFormField.getDataField($form, 'BarCodeIn').find('input').select();
@@ -170,6 +172,8 @@ class Exchange {
                             FwBrowse.search($exchangeItemGridControl);
                             FwFormField.getDataField($form, 'BarCodeIn').find('input').focus();
                         } else {
+                            FwFormField.setValueByDataField($form, 'ICodeOut', response.ICode);
+                            FwFormField.setValueByDataField($form, 'DescriptionOut', response.ItemDescription);
                             $form.find('.out').addClass('error');
                             $form.find('div.error-msg-out').html(`<div style="margin:0px 0px 0px 8px;"><span style="padding:0px 4px 0px 4px;font-size:22px;border-radius:2px;background-color:red;color:white;">${response.msg}</span></div>`);
                             FwFormField.getDataField($form, 'BarCodeOut').find('input').select();
