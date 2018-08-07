@@ -1,3 +1,4 @@
+routes.push({ pattern: /^module\/sound$/, action: function (match: RegExpExecArray) { return SoundController.getModuleScreen(); } });
 class Sound {
     Module: string = 'Sound';
     apiurl: string = 'api/v1/sound';
@@ -37,11 +38,15 @@ class Sound {
     }
 
     openForm(mode: string) {
-        var $form
-            , $moduleSelect;
+        var $form, $moduleSelect;
 
         $form = jQuery(jQuery('#tmpl-modules-' + this.Module + 'Form').html());
         $form = FwModule.openForm($form, mode);
+
+        if ($form.find('div[data-datafield="SystemSound"]').attr('data-originalvalue') === "true") {
+            FwFormField.disable($form.find('div[data-datafield="Sound"]'));
+            FwFormField.disable($form.find('div[data-datafield="FileName"]'));
+        }
 
         if (mode === 'NEW') {
             FwFormField.enable($form.find('.ifnew'));
@@ -167,7 +172,10 @@ class Sound {
     //}
 
     afterLoad($form: any) {
-       
+        if ($form.find('div[data-datafield="SystemSound"]').attr('data-originalvalue') === "true") {
+            FwFormField.disable($form.find('div[data-datafield="Sound"]'));
+            FwFormField.disable($form.find('div[data-datafield="FileName"]'));
+        }
     }
 }
 
