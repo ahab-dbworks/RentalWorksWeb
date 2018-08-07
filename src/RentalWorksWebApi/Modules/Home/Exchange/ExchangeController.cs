@@ -111,7 +111,7 @@ namespace WebApi.Modules.Administrator.Exchange
                     }
                 }
 
-                ExchangeItemSpStatusReponse exchangeItemResponse = await ExchangeFunc.ExchangeItem(AppConfig, UserSession, request.ContractId, request.OrderId, request.DealId, request.DepartmentId, request.InCode, request.Quantity, "");
+                ExchangeItemSpStatusReponse exchangeItemResponse = await ExchangeFunc.ExchangeItem(AppConfig, UserSession, request.ContractId, /*request.OrderId, request.DealId, request.DepartmentId, */request.InCode, request.Quantity, "");
                 response.Deal = exchangeItemResponse.Deal;
                 response.OrderNumber = exchangeItemResponse.OrderNumber;
                 response.OrderDescription = exchangeItemResponse.OrderDescription;
@@ -192,7 +192,7 @@ namespace WebApi.Modules.Administrator.Exchange
                     }
 
 
-                    ExchangeItemSpStatusReponse exchangeItemResponse = await ExchangeFunc.ExchangeItem(AppConfig, UserSession, request.ContractId, request.OrderId, request.DealId, request.DepartmentId, request.InCode, request.Quantity, request.OutCode);
+                    ExchangeItemSpStatusReponse exchangeItemResponse = await ExchangeFunc.ExchangeItem(AppConfig, UserSession, request.ContractId, /*request.OrderId, request.DealId, request.DepartmentId,*/ request.InCode, request.Quantity, request.OutCode);
                     response.Deal = exchangeItemResponse.Deal;
                     response.OrderNumber = exchangeItemResponse.OrderNumber;
                     response.OrderDescription = exchangeItemResponse.OrderDescription;

@@ -58,7 +58,7 @@ create procedure dbo.exchangebc(@exchangecontractid  char(08),
          
          */
         //-------------------------------------------------------------------------------------------------------    
-        public static async Task<ExchangeItemSpStatusReponse> ExchangeItem(FwApplicationConfig appConfig, FwUserSession userSession, string contractId, string orderId, string dealId, string departmentId, string inCode, int? quantity, string outCode)
+        public static async Task<ExchangeItemSpStatusReponse> ExchangeItem(FwApplicationConfig appConfig, FwUserSession userSession, string contractId, /*string orderId, string dealId, string departmentId,*/ string inCode, int? quantity, string outCode)
         {
             ExchangeItemSpStatusReponse response = new ExchangeItemSpStatusReponse();
 
@@ -67,10 +67,11 @@ create procedure dbo.exchangebc(@exchangecontractid  char(08),
                 using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
                 {
                     FwSqlCommand qry = new FwSqlCommand(conn, "getinbarcodeexchangeiteminfo", appConfig.DatabaseSettings.QueryTimeout);
+                    qry.AddParameter("@exchangecontractid", SqlDbType.NVarChar, ParameterDirection.Input, contractId);
                     qry.AddParameter("@barcode", SqlDbType.NVarChar, ParameterDirection.Input, inCode);
-                    qry.AddParameter("@orderid", SqlDbType.NVarChar, ParameterDirection.Input, orderId);
-                    qry.AddParameter("@dealid", SqlDbType.NVarChar, ParameterDirection.Input, dealId);
-                    qry.AddParameter("@departmentid", SqlDbType.NVarChar, ParameterDirection.Input, departmentId);
+                    //qry.AddParameter("@orderid", SqlDbType.NVarChar, ParameterDirection.Input, orderId);
+                    //qry.AddParameter("@dealid", SqlDbType.NVarChar, ParameterDirection.Input, dealId);
+                    //qry.AddParameter("@departmentid", SqlDbType.NVarChar, ParameterDirection.Input, departmentId);
                     //@warehouseid char(08) = null,
                     //@ordertype varchar(15)  = null,
                     qry.AddParameter("@returnitemorderid", SqlDbType.NVarChar, ParameterDirection.Output);
