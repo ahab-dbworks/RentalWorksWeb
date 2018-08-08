@@ -108,20 +108,23 @@
                 if (quantity != 0) {
                     FwAppData.apiMethod(true, 'POST', "api/v1/purchaseorderreceiveitem/receiveitems", request, FwServices.defaultTimeout,
                         function onSuccess(response) {
-                            $tr.find('[data-browsedatafield="Quantity"]').attr('data-originalvalue', Number(newValue));
-                            FwBrowse.setFieldValue($grid, $tr, 'QuantityReceived', { value: response.QuantityReceived });
-                            if (response.QuantityColor) {
-                                $quantityColumn.find('.cellcolor').css('border-left', `20px solid ${response.QuantityColor}`);
+                            let errormsg = $form.find('.errormsg');
+                            errormsg.html('');
+                            if (response.success) {
+                                $tr.find('[data-browsedatafield="Quantity"]').attr('data-originalvalue', Number(newValue));
+                                FwBrowse.setFieldValue($grid, $tr, 'QuantityReceived', { value: response.QuantityReceived });
+                                if (response.QuantityColor) {
+                                    $quantityColumn.find('.cellcolor').css('border-left', `20px solid ${response.QuantityColor}`);
+                                } else {
+                                    $quantityColumn.find('.cellcolor').css('border-left', `20px solid transparent`);
+                                }
                             } else {
-                                $quantityColumn.find('.cellcolor').css('border-left', `20px solid transparent`);
+                               
+                                errormsg.html(`<div style="margin-left:8px; margin-top: 10px;"><span>${response.msg}</span></div>`);
+                                $tr.find('[data-browsedatafield="Quantity"] input').val(Number(oldValue));
                             }
                         },
-                        function onError(response) {
-                            let errormsg = $form.find('.errormsg');
-                            errormsg.html(`<div style="margin-left:8px; margin-top: 10px;"><span>${response}</span></div>`);
-                            $tr.find('[data-browsedatafield="Quantity"] input').val(Number(oldValue));
-                        }
-                        , null);
+                       null, null);
                 }
             });
         });
