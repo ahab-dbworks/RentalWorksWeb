@@ -226,38 +226,37 @@ class SearchInterface {
         availableFor = FwFormField.getValueByDataField($popup, 'InventoryType');
         inventoryType = $popup.find('[data-datafield="InventoryType"]');
 
-        if (gridInventoryType != "") {
-            switch (gridInventoryType) {
-                case 'Rental':
-                    inventoryTypeRequest.uniqueids = {
-                        Rental: true
-                    }
-                    categoryType = 'rentalcategory';
-                    inventoryType.find('[value="R"]').prop('checked', true);
-                    break;
-                case 'Sales':
-                    inventoryTypeRequest.uniqueids = {
-                        Sales: true
-                    }
-                    categoryType = 'salescategory';
-                    inventoryType.find('[value="S"]').prop('checked', true);
-                    break;
-                case 'Labor':
-                    inventoryTypeRequest.uniqueids = {
-                        Labor: true
-                    }
-                    categoryType = 'laborcategory';
-                    inventoryType.find('[value="L"]').prop('checked', true);
-                    break;
-                case 'Misc':
-                    inventoryTypeRequest.uniqueids = {
-                        Misc: true
-                    }
-                    categoryType = 'misccategory';
-                    inventoryType.find('[value="M"]').prop('checked', true);
-                    break;
-            }
-        }
+        switch (gridInventoryType) {
+            default:
+            case 'Rental':
+                inventoryTypeRequest.uniqueids = {
+                    Rental: true
+                }
+                categoryType = 'rentalcategory';
+                inventoryType.find('[value="R"]').prop('checked', true);
+                break;
+            case 'Sales':
+                inventoryTypeRequest.uniqueids = {
+                    Sales: true
+                }
+                categoryType = 'salescategory';
+                inventoryType.find('[value="S"]').prop('checked', true);
+                break;
+            case 'Labor':
+                inventoryTypeRequest.uniqueids = {
+                    Labor: true
+                }
+                categoryType = 'laborcategory';
+                inventoryType.find('[value="L"]').prop('checked', true);
+                break;
+            case 'Misc':
+                inventoryTypeRequest.uniqueids = {
+                    Misc: true
+                }
+                categoryType = 'misccategory';
+                inventoryType.find('[value="M"]').prop('checked', true);
+                break;
+        };
 
         this.populateTypeMenu($popup, inventoryTypeRequest, categoryType);
         this.breadCrumbs($popup, $form);
