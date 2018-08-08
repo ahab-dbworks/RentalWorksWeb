@@ -176,8 +176,6 @@ class StagingCheckout {
             FwFormField.disable($form.find('div[data-datafield="OrderId"]'));
             $form.find('.orderstatus').show();
             $form.find('.createcontract').show();
-
-
         });
     };
 

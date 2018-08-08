@@ -38,7 +38,7 @@
     <RootNamespace>Web</RootNamespace>
     <AssemblyName>Web</AssemblyName>
     <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
-    <UseIISExpress>false</UseIISExpress>
+    <UseIISExpress>true</UseIISExpress>
     <IISExpressSSLPort />
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
@@ -928,6 +928,7 @@
     <Content Include="Source\Validations\OrderTypeValidation\OrderTypeValidationBrowse.htm" />
     <Content Include="Source\Validations\PersonValidation\PersonValidationBrowse.htm" />
     <Content Include="Source\Validations\WebUsersEmailValidation\WebUsersEmailValidationBrowse.htm" />
+    <Content Include="theme\audio\appointed.mp3" />
     <Content Include="theme\audio\errorBeep1.wav" />
     <Content Include="theme\audio\successBeep1.mp3" />
     <Content Include="theme\fwcursors\pen.001.cur" />
