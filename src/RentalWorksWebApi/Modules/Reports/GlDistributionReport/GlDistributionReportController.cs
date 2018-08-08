@@ -25,33 +25,5 @@ namespace WebApi.Modules.Reports.GlDistributionReport
             return await DoExportExcelXlsxFileAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
-        //// GET api/v1/gldistributionreport 
-        //[HttpGet]
-        //public async Task<IActionResult> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
-        //{
-        //    return await DoGetAsync<GlDistributionReportLogic>(pageno, pagesize, sort);
-        //}
-        ////------------------------------------------------------------------------------------ 
-        //// GET api/v1/gldistributionreport/A0000001 
-        //[HttpGet("{id}")]
-        //public async Task<IActionResult> GetOneAsync([FromRoute]string id)
-        //{
-        //    return await DoGetAsync<GlDistributionReportLogic>(id);
-        //}
-        ////------------------------------------------------------------------------------------ 
-        //// POST api/v1/gldistributionreport 
-        //[HttpPost]
-        //public async Task<IActionResult> PostAsync([FromBody]GlDistributionReportLogic l)
-        //{
-        //    return await DoPostAsync<GlDistributionReportLogic>(l);
-        //}
-        ////------------------------------------------------------------------------------------ 
-        //// DELETE api/v1/gldistributionreport/A0000001 
-        //[HttpDelete("{id}")]
-        //public async Task<IActionResult> DeleteAsync([FromRoute]string id)
-        //{
-        //    return await DoDeleteAsync(id);
-        //}
-        ////------------------------------------------------------------------------------------ 
     }
 }

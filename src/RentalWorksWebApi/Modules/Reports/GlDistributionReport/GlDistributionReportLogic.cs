@@ -1,4 +1,3 @@
-using FwStandard.BusinessLogic.Attributes;
 using WebApi.Logic;
 namespace WebApi.Modules.Reports.GlDistributionReport
 {
@@ -20,11 +19,5 @@ namespace WebApi.Modules.Reports.GlDistributionReport
         public decimal? Debit { get; set; }
         public decimal? Credit { get; set; }
         //------------------------------------------------------------------------------------ 
-        //protected override bool Validate(TDataRecordSaveMode saveMode, ref string validateMsg) 
-        //{ 
-        //    //override this method on a derived class to implement custom validation logic 
-        //    bool isValid = true; 
-        //    return isValid; 
-        //} 
     }
 }
