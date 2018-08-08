@@ -70,7 +70,11 @@ namespace WebLibrary
         public const string TOTAL_TYPE_MONTHLY = "M";
         public const string TOTAL_TYPE_EPISODIC = "E";
         public const string TOTAL_TYPE_PERIOD = "P";
-        
+
+        //INVOICE
+        public const string INVOICE_DATE_TYPE_INVOICE_DATE = "INVOICE_DATE";
+        public const string INVOICE_DATE_TYPE_BILLING_START_DATE = "BILLING_START_DATE";
+
 
         //DELIVERY
         public const string ONLINE_DELIVERY_STATUS_PARTIAL = "PARTIAL";

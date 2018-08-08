@@ -55,6 +55,47 @@
 			]
 		},
 		{
+			"name": "Agent Billing Report",
+			"description": null,
+			"item": [
+				{
+					"name": "Agent Billing Report: Browse",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"Agent,OfficeLocation,Department,Deal,OrderNumber\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": [],\n    \t\"uniqueids\": {\n    \t\t\"DateType\": \"INVOICE_DATE\",\n    \t\t\"FromDate\": \"01/01/2018\",\n    \t\t\"ToDate\": \"08/01/2018\",\n    \t\t\"LocationId\": \"B001WH00\",\n    \t\t\"DepartmentId\": \"B003KSM1\"\n    \t\t\n    \t}\n\t\n}"
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/agentbillingreport/browse",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"agentbillingreport",
+								"browse"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
 			"name": "Attribute",
 			"description": null,
 			"item": [
@@ -37812,7 +37853,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"Sound\": \"BEEP\",\n    \"FileName\": \"./theme/audio/errorBeep1.wav\",\n    \"SystemSound\": true\n}"
+							"raw": "{\n    \"Sound\": \"DING\",\n    \"FileName\": \"./theme/audio/errorDing.wav\",\n    \"SystemSound\": true\n}"
 						},
 						"url": {
 							"raw": "http://localhost:57949/api/v1/sound",
