@@ -14,7 +14,7 @@ class Sound {
         $browse = this.openBrowse();
 
         screen.load = function () {
-            FwModule.openModuleTab($browse, 'Sounds', false, 'BROWSE', true);
+            FwModule.openModuleTab($browse, 'Sound', false, 'BROWSE', true);
             FwBrowse.databind($browse);
             FwBrowse.screenload($browse);
 
