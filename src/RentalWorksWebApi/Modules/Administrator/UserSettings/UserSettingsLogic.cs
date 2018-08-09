@@ -29,10 +29,13 @@ namespace WebApi.Modules.Administrator.UserSettings
         public string ApplicationTheme { get; set; }
         public string SuccessSoundId { get; set; }
         public string SuccessSound { get; set; }
+        public string SuccessSoundFileName { get; set; }
         public string ErrorSoundId { get; set; }
         public string ErrorSound { get; set; }
+        public string ErrorSoundFileName { get; set; }
         public string NotificationSoundId { get; set; }
         public string NotificationSound { get; set; }
+        public string NotificationSoundFileName { get; set; }
         public string DateStamp { get { return userSettings.DateStamp; } set { userSettings.DateStamp = value; } }
         //------------------------------------------------------------------------------------ 
         protected override bool Validate(TDataRecordSaveMode saveMode, ref string validateMsg)
