@@ -7,17 +7,17 @@ using System.Collections.Generic;
 using System;
 using WebLibrary;
 
-namespace WebApi.Modules.Reports.ProjectManagerBillingReport
+namespace WebApi.Modules.Reports.SalesRepresentativeBillingReport
 {
     [FwSqlTable("agentbillingview")]
-    public class ProjectManagerBillingReportLoader : AppDataLoadRecord
+    public class SalesRepresentativeBillingReportLoader : AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "location", modeltype: FwDataTypes.Text)]
         public string OfficeLocation { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "projectmanager", modeltype: FwDataTypes.Text)]
-        public string ProjectManager { get; set; }
+        [FwSqlDataField(column: "salesrepresentative", modeltype: FwDataTypes.Text)]
+        public string SalesRepresentative { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "department", modeltype: FwDataTypes.Text)]
         public string Department { get; set; }
@@ -91,8 +91,8 @@ namespace WebApi.Modules.Reports.ProjectManagerBillingReport
         [FwSqlDataField(column: "departmentid", modeltype: FwDataTypes.Text)]
         public string DepartmentId { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "projectmanagerid", modeltype: FwDataTypes.Text)]
-        public string ProjectManagerId { get; set; }
+        [FwSqlDataField(column: "salesrepresentativeid", modeltype: FwDataTypes.Text)]
+        public string SalesRepresentativeId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "customerid", modeltype: FwDataTypes.Text)]
         public string CustomerId { get; set; }
@@ -166,7 +166,7 @@ namespace WebApi.Modules.Reports.ProjectManagerBillingReport
             //select.AddWhere("(xxxtype = 'ABCDEF')"); 
             addFilterToSelect("LocationId", "locationid", select, request);
             addFilterToSelect("DepartmentId", "departmentid", select, request);
-            addFilterToSelect("ProjectManagerId", "projectmanagerid", select, request);
+            addFilterToSelect("SalesRepresentativeId", "salesrepresentativeid", select, request);
             addFilterToSelect("DealId", "dealid", select, request);
             addFilterToSelect("CustomerId", "customerid", select, request);
 
