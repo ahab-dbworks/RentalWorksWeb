@@ -1,0 +1,214 @@
+{
+	"info": {
+		"_postman_id": "8a77c269-538e-47ca-af5c-d0c4f1e5248c",
+		"name": "RentalWorks Reports API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Agent Billing Report",
+			"description": null,
+			"item": [
+				{
+					"name": "Agent Billing Report: Browse",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"Agent,OfficeLocation,Department,Deal,OrderNumber\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": [],\n    \t\"uniqueids\": {\n    \t\t\"DateType\": \"INVOICE_DATE\",\n    \t\t\"FromDate\": \"01/01/2018\",\n    \t\t\"ToDate\": \"08/01/2018\",\n    \t\t\"LocationId\": \"B001WH00\",\n    \t\t\"DepartmentId\": \"B003KSM1\"\n    \t\t\n    \t}\n\t\n}"
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/agentbillingreport/browse",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"agentbillingreport",
+								"browse"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Sales Representative Billing Report Copy",
+			"description": null,
+			"item": [
+				{
+					"name": "Sales Representative Billing Report: Browse",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"SalesRepresentative,OfficeLocation,Department,Deal,OrderNumber\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": [],\n    \t\"uniqueids\": {\n    \t\t\"DateType\": \"INVOICE_DATE\",\n    \t\t\"FromDate\": \"01/01/2018\",\n    \t\t\"ToDate\": \"08/01/2018\",\n    \t\t\"LocationId\": \"B001WH00\",\n    \t\t\"DepartmentId\": \"B003KSM1\"\n    \t\t\n    \t}\n\t\n}"
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/salesrepresentativebillingreport/browse",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"salesrepresentativebillingreport",
+								"browse"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Pick List Report",
+			"description": null,
+			"item": [
+				{
+					"name": "Pick List Report: Browse",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"Description\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": [],\n    \t\"uniqueids\": {\"PickListId\":\"00000ZG5\"}\n\t\n}"
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/picklistreport/browse",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"picklistreport",
+								"browse"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "G/L Distribution Report",
+			"description": null,
+			"item": [
+				{
+					"name": "G/L Distribution Report: Browse",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"Location,GroupHeadingOrder,AccountNumber,AccountDescription\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": [],\n    \t\"uniqueids\": {\n    \t\t\"LocationId\":\"B001WH00\",\n    \t\t\"FromDate\": \"11/01/2017\",\n    \t\t\"ToDate\": \"11/08/2017\"\n    \t}\n\t\n}"
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/gldistributionreport/browse",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"gldistributionreport",
+								"browse"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Project Manager Billing Report",
+			"description": null,
+			"item": [
+				{
+					"name": "Project Manager Billing Report: Browse",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"ProjectManager,OfficeLocation,Department,Deal,OrderNumber\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": [],\n    \t\"uniqueids\": {\n    \t\t\"DateType\": \"INVOICE_DATE\",\n    \t\t\"FromDate\": \"01/01/2018\",\n    \t\t\"ToDate\": \"08/01/2018\",\n    \t\t\"LocationId\": \"B001WH00\",\n    \t\t\"DepartmentId\": \"B003KSM1\"\n    \t\t\n    \t}\n\t\n}\n"
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/projectmanagerbillingreport/browse",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"projectmanagerbillingreport",
+								"browse"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
