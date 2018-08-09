@@ -1,5 +1,7 @@
-class QCClass {
-    getQCScreen(viewModel, properties) {
+var QCClass = (function () {
+    function QCClass() {
+    }
+    QCClass.prototype.getQCScreen = function (viewModel, properties) {
         var combinedViewModel, screen, $search, $item, $itemstatus;
         combinedViewModel = jQuery.extend({
             captionPageTitle: RwLanguages.translate('QC'),
@@ -241,7 +243,8 @@ class QCClass {
             }
         };
         return screen;
-    }
-}
+    };
+    return QCClass;
+}());
 var QC = new QCClass();
 //# sourceMappingURL=QC.js.map

@@ -45,7 +45,7 @@ RwRFID.registerEvents = function(callbackfunction) {
                 var html = [];
                 html.push('<div class="tagCount" style="color:black;font-weight:bold;text-align:center;font-size:100px;"></div>');
                 html.push('<div class="rwrfid-epc" style="text-align:center;"></div>');
-                let $confirmation = FwConfirmation.renderConfirmation('Tags Scanned', html.join('\n'));
+                var $confirmation = FwConfirmation.renderConfirmation('Tags Scanned', html.join('\n'));
                 var $btnClose = FwConfirmation.addButton($confirmation, 'Close', true);
                 $confirmation.data('epcs', [epc]);
                 $confirmation.addClass('tagCountPopup');

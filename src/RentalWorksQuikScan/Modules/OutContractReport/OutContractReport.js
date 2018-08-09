@@ -1,8 +1,8 @@
-class OutContractReportClass {
-    constructor() {
+var OutContractReportClass = (function () {
+    function OutContractReportClass() {
     }
-    emailPdf(contractid, to, subject, body) {
-        let request = {
+    OutContractReportClass.prototype.emailPdf = function (contractid, to, subject, body) {
+        var request = {
             contractid: contractid,
             to: to,
             subject: subject,
@@ -16,7 +16,8 @@ class OutContractReportClass {
                 FwFunc.showError(ex);
             }
         }, true, 60);
-    }
-}
+    };
+    return OutContractReportClass;
+}());
 var OutContractReport = new OutContractReportClass();
 //# sourceMappingURL=OutContractReport.js.map

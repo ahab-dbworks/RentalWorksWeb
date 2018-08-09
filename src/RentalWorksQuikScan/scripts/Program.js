@@ -1,10 +1,21 @@
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
 var program;
-class Program extends FwApplication {
-    constructor() {
-        super();
-        this.runningInCordova = false;
+var Program = (function (_super) {
+    __extends(Program, _super);
+    function Program() {
+        var _this = _super.call(this) || this;
+        _this.runningInCordova = false;
         var me;
-        me = this;
+        me = _this;
         FwApplicationTree.currentApplicationId = '8D0A5ECF-72D2-4428-BDC8-7E3CC56EDD3A';
         me.name = 'RentalWorks';
         me.htmlname = '<span class="bgothm" style="color:#2f2f2f;">Rental</span><span class="bgothm" style="color:#6f30b3;">Works</span>';
@@ -105,16 +116,17 @@ class Program extends FwApplication {
                 }, 0);
             }, false);
         }
+        return _this;
     }
     ;
-    setScanTarget(selector) {
+    Program.prototype.setScanTarget = function (selector) {
         this.activeTextBox = selector;
         sessionStorage.setItem('scanTarget', selector);
         jQuery('.textbox').removeClass('scanTarget');
         jQuery(this.activeTextBox).addClass('scanTarget');
-    }
+    };
     ;
-    navigate(path) {
+    Program.prototype.navigate = function (path) {
         var me, screen;
         me = this;
         var lowercasepath = path.toLowerCase();
@@ -314,9 +326,9 @@ class Program extends FwApplication {
                 }
             }
         }
-    }
+    };
     ;
-    loadApplication() {
+    Program.prototype.loadApplication = function () {
         var me;
         me = this;
         if (!me.didLoadApplication) {
@@ -358,9 +370,9 @@ class Program extends FwApplication {
                 setTimeout(function () { }, 100);
             });
         }
-    }
+    };
     ;
-    setDeviceConnectionState(connectionState) {
+    Program.prototype.setDeviceConnectionState = function (connectionState) {
         if (jQuery('html').attr('connectionstate') !== connectionState) {
             if (connectionState === 'CONNECTED') {
                 jQuery('#master-footer-connectionstate').text('CONNECTED').show();
@@ -390,9 +402,9 @@ class Program extends FwApplication {
             }
             jQuery('html').attr('connectionstate', connectionState);
         }
-    }
+    };
     ;
-    updateConnectionState() {
+    Program.prototype.updateConnectionState = function () {
         var me;
         me = this;
         try {
@@ -417,9 +429,10 @@ class Program extends FwApplication {
         catch (ex) {
             FwFunc.showError(ex);
         }
-    }
+    };
     ;
-}
+    return Program;
+}(FwApplication));
 jQuery(function () {
     program = new Program();
 });
