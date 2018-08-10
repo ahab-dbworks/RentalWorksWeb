@@ -23,6 +23,12 @@ namespace WebApi.Modules.Settings.WebUserWidget
         [FwSqlDataField(column: "datapoints", modeltype: FwDataTypes.Integer, sqltype: "int")]
         public int? DataPoints { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "axisnumberformat", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 50)]
+        public string AxisNumberFormat { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "datanumberformat", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 50)]
+        public string DataNumberFormat { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "settings", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: -1)]
         public string Settings { get; set; }
         //------------------------------------------------------------------------------------ 

@@ -26,6 +26,14 @@ namespace WebApi.Modules.Settings.UserDashboardSettings
             public string widgettype { get; set; }
             public int defaultDataPoints { get; set; }
             public int dataPoints { get; set; }
+            public string defaultAxisNumberFormat { get; set; }
+            public string defaultAxisNumberFormatMask { get; set; }
+            public string axisNumberFormat { get; set; }
+            public string axisNumberFormatMask { get; set; }
+            public string defaultDataNumberFormat { get; set; }
+            public string defaultDataNumberFormatMask { get; set; }
+            public string dataNumberFormat { get; set; }
+            public string dataNumberFormatMask { get; set; }
         }
 
         protected SqlServerConfig _dbConfig { get; set; }
@@ -68,16 +76,24 @@ namespace WebApi.Modules.Settings.UserDashboardSettings
             {
                 FwSqlCommand qry = new FwSqlCommand(conn, _dbConfig.QueryTimeout);
                 qry.Add("exec getwebuserdashboardsettings @webusersid ");
-                qry.AddColumn("webuserswidgetid");    //0
-                qry.AddColumn("widgetid");            //1
-                qry.AddColumn("widget");              //2
-                qry.AddColumn("apiname");             //3
-                qry.AddColumn("clickpath");           //4
-                qry.AddColumn("defaulttype");         //5
-                qry.AddColumn("widgettype");          //6
-                qry.AddColumn("defaultdatapoints");   //7
-                qry.AddColumn("datapoints");          //8
-                qry.AddColumn("orderby");             //9
+                qry.AddColumn("webuserswidgetid");              //00
+                qry.AddColumn("widgetid");                      //01
+                qry.AddColumn("widget");                        //02
+                qry.AddColumn("apiname");                       //03
+                qry.AddColumn("clickpath");                     //04
+                qry.AddColumn("defaulttype");                   //05
+                qry.AddColumn("widgettype");                    //06
+                qry.AddColumn("defaultdatapoints");             //07
+                qry.AddColumn("datapoints");                    //08
+                qry.AddColumn("defaultaxisnumberformat");       //09
+                qry.AddColumn("defaultaxisnumberformatmask");   //10
+                qry.AddColumn("axisnumberformat");              //11
+                qry.AddColumn("axisnumberformatmask");          //12
+                qry.AddColumn("defaultdatanumberformat");       //13
+                qry.AddColumn("defaultdatanumberformatmask");   //14
+                qry.AddColumn("datanumberformat");              //15
+                qry.AddColumn("datanumberformatmask");          //16
+                qry.AddColumn("orderby");                       //17
                 qry.AddParameter("@webusersid", UserId);
                 FwJsonDataTable table = await qry.QueryToFwJsonTableAsync(true);
                 for (int r = 0; r < table.Rows.Count; r++)
@@ -92,6 +108,14 @@ namespace WebApi.Modules.Settings.UserDashboardSettings
                     string widgettype = table.Rows[r][6].ToString();
                     int defaultdatapoints = Convert.ToInt32(table.Rows[r][7]);
                     int datapoints = Convert.ToInt32(table.Rows[r][8]);
+                    string defaultaxisnumberformat = table.Rows[r][9].ToString();
+                    string defaultaxisnumberformatmask = table.Rows[r][10].ToString();
+                    string axisnumberformat = table.Rows[r][11].ToString();
+                    string axisnumberformatmask = table.Rows[r][12].ToString();
+                    string defaultdatanumberformat = table.Rows[r][13].ToString();
+                    string defaultdatanumberformatmask = table.Rows[r][14].ToString();
+                    string datanumberformat = table.Rows[r][15].ToString();
+                    string datanumberformatmask = table.Rows[r][16].ToString();
 
                     w.userWidgetId = UserWidgetId;
                     w.value = widgetId;
@@ -103,6 +127,14 @@ namespace WebApi.Modules.Settings.UserDashboardSettings
                     w.widgettype = widgettype;
                     w.defaultDataPoints = defaultdatapoints;
                     w.dataPoints = datapoints;
+                    w.defaultAxisNumberFormat = defaultaxisnumberformat;
+                    w.defaultAxisNumberFormatMask = defaultaxisnumberformatmask;
+                    w.axisNumberFormat = axisnumberformat;
+                    w.axisNumberFormatMask = axisnumberformatmask;
+                    w.defaultDataNumberFormat = defaultdatanumberformat;
+                    w.defaultDataNumberFormatMask  = defaultdatanumberformatmask;
+                    w.dataNumberFormat = datanumberformat;
+                    w.dataNumberFormatMask = datanumberformatmask;
                     Widgets.Add(w);
                     loaded = true;
                 }

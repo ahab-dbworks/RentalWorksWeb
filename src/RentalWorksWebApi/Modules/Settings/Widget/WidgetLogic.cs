@@ -24,6 +24,12 @@ namespace WebApi.Modules.Settings.Widget
         public string ClickPath { get { return widget.ClickPath; } set { widget.ClickPath = value; } }
         public string DefaultType { get { return widget.DefaultType; } set { widget.DefaultType = value; } }
         public int? DefaultDataPoints { get { return widget.DefaultDataPoints; } set { widget.DefaultDataPoints = value; } }
+        public string DefaultAxisNumberFormat { get { return widget.DefaultAxisNumberFormat; } set { widget.DefaultAxisNumberFormat = value; } }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string DefaultAxisNumberFormatMask { get; set; }
+        public string DefaultDataNumberFormat { get { return widget.DefaultDataNumberFormat; } set { widget.DefaultDataNumberFormat = value; } }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string DefaultDataNumberFormatMask { get; set; }
         public string DateStamp { get { return widget.DateStamp; } set { widget.DateStamp = value; } }
         //------------------------------------------------------------------------------------ 
     }
