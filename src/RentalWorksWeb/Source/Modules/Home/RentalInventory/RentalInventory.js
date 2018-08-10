@@ -3,16 +3,17 @@ class RentalInventory extends InventoryBase {
         super(...arguments);
         this.Module = 'RentalInventory';
         this.apiurl = 'api/v1/rentalinventory';
+        this.caption = 'Rental Inventory';
     }
     getModuleScreen() {
-        var screen, $browse;
+        var screen, $browse, self = this;
         screen = {};
         screen.$view = FwModule.getModuleControl(this.Module + 'Controller');
         screen.viewModel = {};
         screen.properties = {};
         $browse = this.openBrowse();
         screen.load = function () {
-            FwModule.openModuleTab($browse, 'Rental Inventory', false, 'BROWSE', true);
+            FwModule.openModuleTab($browse, self.caption, false, 'BROWSE', true);
             FwBrowse.databind($browse);
             FwBrowse.screenload($browse);
         };

@@ -3,9 +3,10 @@ routes.push({ pattern: /^module\/partsinventory$/, action: function (match: RegE
 class PartsInventory extends InventoryBase {
     Module: string = 'PartsInventory';
     apiurl: string = 'api/v1/partsinventory';
+    caption: string = 'Parts Inventory';
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
-        let screen, $browse;
+        let screen, $browse, self = this;
 
         screen = {};
         screen.$view = FwModule.getModuleControl(this.Module + 'Controller');
@@ -15,7 +16,7 @@ class PartsInventory extends InventoryBase {
         $browse = this.openBrowse();
 
         screen.load = function () {
-            FwModule.openModuleTab($browse, 'Parts Inventory', false, 'BROWSE', true);
+            FwModule.openModuleTab($browse, self.caption, false, 'BROWSE', true);
             FwBrowse.databind($browse);
             FwBrowse.screenload($browse);
         };

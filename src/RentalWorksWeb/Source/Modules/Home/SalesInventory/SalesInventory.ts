@@ -1,9 +1,10 @@
 class SalesInventory extends InventoryBase {
     Module: string = 'SalesInventory';
     apiurl: string = 'api/v1/salesinventory';
+    caption: string = 'Sales Inventory';
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
-        var screen, $browse;
+        var screen, $browse, self = this;;
 
         screen = {};
         screen.$view = FwModule.getModuleControl(this.Module + 'Controller');
@@ -13,7 +14,7 @@ class SalesInventory extends InventoryBase {
         $browse = this.openBrowse();
 
         screen.load = function () {
-            FwModule.openModuleTab($browse, 'Sales Inventory', false, 'BROWSE', true);
+            FwModule.openModuleTab($browse, self.caption, false, 'BROWSE', true);
             FwBrowse.databind($browse);
             FwBrowse.screenload($browse);
         };
