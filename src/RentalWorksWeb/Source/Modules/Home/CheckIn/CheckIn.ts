@@ -182,9 +182,32 @@ class CheckIn {
                     $form.find('div[data-name="CheckedInItemGrid"] tr.viewmode').empty();
                     $form.find('.errormsg').html('');
                     FwFormField.enable($form.find('[data-datafield="OrderId"], [data-datafield="DealId"]'));
-                }, null, null);
+                }, null, $form);
             }
         });
     };
+
+    //----------------------------------------------------------------------------------------------
+    addButtonMenu($form) {
+        let $buttonmenu = $form.find('.createcontract[data-type="btnmenu"]');
+        let $createContract = FwMenu.generateButtonMenuOption('Create Contract')
+            , $createPartialContract = FwMenu.generateButtonMenuOption('Create Partial Contract');
+
+        $createContract.on('click', e => {
+            e.stopPropagation();
+            $form.find('.createcontract').click();
+        });
+
+        $createPartialContract.on('click', e => {
+            e.stopPropagation();
+            //stuff
+        });
+
+        let menuOptions = [];
+        menuOptions.push($createContract, $createPartialContract);
+
+        FwMenu.addButtonMenuOptions($buttonmenu, menuOptions);
+    }
+    //----------------------------------------------------------------------------------------------
 }
 var CheckInController = new CheckIn();

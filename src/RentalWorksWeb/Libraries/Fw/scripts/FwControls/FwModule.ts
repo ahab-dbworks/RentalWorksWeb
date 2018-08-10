@@ -442,6 +442,10 @@ class FwModule {
             window[controller]['setFormProperties']($form);
         }
 
+        if (typeof window[controller]['addButtonMenu'] === 'function') {
+            window[controller]['addButtonMenu']($form);
+        }
+
         if ($form.attr('data-hasaudit') === 'true') {
             $formTabControl = jQuery($form.find('.fwtabs'));
             auditTabIds = FwTabs.addTab($formTabControl, 'Audit', false, 'AUDIT', false);
@@ -470,7 +474,6 @@ class FwModule {
                 }
             }
         }
-
 
         $form
             .on('change keyup', '.fwformfield[data-isuniqueid!="true"][data-enabled="true"][data-datafield!=""]', function (event) {
