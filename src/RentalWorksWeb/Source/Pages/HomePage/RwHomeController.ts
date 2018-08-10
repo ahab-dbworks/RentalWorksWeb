@@ -32,6 +32,48 @@
         return screen;
     };
 
+    commaDelimited = function(value, index, values) {
+        if (typeof value !== 'string' && value > 1) {
+            value = value.toString();
+            value = value.split(/(?=(?:...)*$)/);
+            value = value.join(',');
+            return value;
+        } else if (value < 1) {
+            return Math.round(value * 10) / 10
+        } else {
+            return value;
+        }
+    };
+
+    commaDelimited2 = function(tooltipItem, data) {
+        var value = data.datasets[0].data[tooltipItem.index];
+        value = value.toString();
+        value = value.split(/(?=(?:...)*$)/);
+        value = value.join(',');
+        return value;
+    }
+
+    periodDelimited = function (value, index, values) {
+        if (typeof value !== 'string' && value > 1) {
+            value = value.toString();
+            value = value.split(/(?=(?:...)*$)/);
+            value = value.join('.');
+            return value;
+        } else if (value < 1) {
+            return Math.round(value * 10) / 10
+        } else {
+            return value;
+        }
+    };
+
+    periodDelimited2 = function (tooltipItem, data) {
+        var value = data.datasets[0].data[tooltipItem.index];
+        value = value.toString();
+        value = value.split(/(?=(?:...)*$)/);
+        value = value.join('.');
+        return value;
+    }
+
     buildWidgetSettings($chartSettings, userWidgetId) {
         var self = this;
         $chartSettings.on('click', function () {
@@ -129,18 +171,7 @@
         jQuery($control).on('click', '#' + apiname + 'refresh', function () {
             FwAppData.apiMethod(true, 'GET', `api/v1/widget/loadbyname/${apiname}?dataPoints=${dataPointCount}&locationId=${JSON.parse(sessionStorage.location).locationid}&warehouseId=${JSON.parse(sessionStorage.warehouse).warehouseid}&departmentId=${JSON.parse(sessionStorage.department).departmentid}`, {}, FwServices.defaultTimeout, function onSuccess(response) {
                 try {
-                    response.options.scales.yAxes[0].ticks.userCallback = function (value, index, values) {
-                        if (typeof value !== 'string' && value > 1) {
-                            value = value.toString();
-                            value = value.split(/(?=(?:...)*$)/);
-                            value = value.join(',');
-                            return value;
-                        } else if (value < 1) {
-                            return Math.round(value * 10) / 10
-                        } else {
-                            return value;
-                        }
-                    };
+                    response.options.scales.yAxes[0].ticks.userCallback = self.commaDelimited
                     if (type !== '') {
                         response.type = type
                     }
@@ -152,13 +183,7 @@
                         response.options.scales.xAxes[0].ticks.autoSkip = false;
                         response.options.tooltips = {
                             'callbacks': {
-                                'label': function (tooltipItem, data) {
-                                    var value = data.datasets[0].data[tooltipItem.index];
-                                    value = value.toString();
-                                    value = value.split(/(?=(?:...)*$)/);
-                                    value = value.join(',');
-                                    return value;
-                                }
+                                'label': self.commaDelimited2
                             }
                         };
                     }
@@ -198,18 +223,7 @@
                 FwAppData.apiMethod(true, 'GET', `api/v1/widget/loadbyname/${apiname}?dataPoints=${dataPointCount}&locationId=${JSON.parse(sessionStorage.location).locationid}&warehouseId=${JSON.parse(sessionStorage.warehouse).warehouseid}&departmentId=${JSON.parse(sessionStorage.department).departmentid}`, {}, FwServices.defaultTimeout, function onSuccess(response) {
                     try {
                         response.options.responsive = true;
-                        response.options.scales.yAxes[0].ticks.userCallback = function (value, index, values) {
-                            if (typeof value !== 'string' && value > 1) {
-                                value = value.toString();
-                                value = value.split(/(?=(?:...)*$)/);
-                                value = value.join(',');
-                                return value;
-                            } else if (value < 1) {
-                                return Math.round(value * 10) / 10
-                            } else {
-                                return value;
-                            }
-                        };
+                        response.options.scales.yAxes[0].ticks.userCallback = self.commaDelimited;
                         if (type !== '') {
                             response.type = type
                         }
@@ -221,13 +235,7 @@
                             response.options.scales.xAxes[0].ticks.autoSkip = false;
                             response.options.tooltips = {
                                 'callbacks': {
-                                    'label': function (tooltipItem, data) {
-                                        var value = data.datasets[0].data[tooltipItem.index];
-                                        value = value.toString();
-                                        value = value.split(/(?=(?:...)*$)/);
-                                        value = value.join(',');
-                                        return value;
-                                    }
+                                    'label': self.commaDelimited2
                                 }
                             };
                         }
@@ -253,18 +261,7 @@
 
         FwAppData.apiMethod(true, 'GET', `api/v1/widget/loadbyname/${apiname}?dataPoints=${dataPointCount}&locationId=${JSON.parse(sessionStorage.location).locationid}&warehouseId=${JSON.parse(sessionStorage.warehouse).warehouseid}&departmentId=${JSON.parse(sessionStorage.department).departmentid}`, {}, FwServices.defaultTimeout, function onSuccess(response) {
             try {
-                response.options.scales.yAxes[0].ticks.userCallback = function (value, index, values) {
-                    if (typeof value !== 'string' && value > 1) {
-                        value = value.toString();
-                        value = value.split(/(?=(?:...)*$)/);
-                        value = value.join(',');
-                        return value;
-                    } else if (value < 1) {
-                        return Math.round(value * 10) / 10
-                    } else {
-                        return value;
-                    }
-                };
+                response.options.scales.yAxes[0].ticks.userCallback = self.commaDelimited;
                 if (type !== '') {
                     response.type = type
                 }
@@ -276,13 +273,7 @@
                     response.options.scales.xAxes[0].ticks.autoSkip = false;
                     response.options.tooltips = {
                         'callbacks': {
-                            'label': function (tooltipItem, data) {
-                                var value = data.datasets[0].data[tooltipItem.index];
-                                value = value.toString();
-                                value = value.split(/(?=(?:...)*$)/);
-                                value = value.join(',');
-                                return value;
-                            }
+                            'label': self.commaDelimited2
                         }
                     };
                 }

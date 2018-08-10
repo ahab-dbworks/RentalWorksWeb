@@ -401,5 +401,18 @@ FwApplicationTree.clickEvents['{77E511EC-5463-43A0-9C5D-B54407C97B15}'] = functi
             break;
     }
 };
+FwApplicationTree.clickEvents['{007C4F21-7526-437C-AD1C-4BBB1030AABA}'] = function (e) {
+    var $form, $subWorksheetForm, subWorksheetData = {};
+    try {
+        $form = jQuery(this).closest('.fwform');
+        subWorksheetData.OrderId = FwFormField.getValueByDataField($form, 'OrderId');
+        $subWorksheetForm = SubWorksheetController.openForm('EDIT', subWorksheetData);
+        FwModule.openSubModuleTab($form, $subWorksheetForm);
+        jQuery('.tab.submodule.active').find('.caption').html('Sub Worksheet');
+    }
+    catch (ex) {
+        FwFunc.showError(ex);
+    }
+};
 var OrderItemGridController = new OrderItemGrid();
 //# sourceMappingURL=OrderItemGridController.js.map
