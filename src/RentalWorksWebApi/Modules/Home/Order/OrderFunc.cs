@@ -62,6 +62,7 @@ namespace WebApi.Modules.Home.Order
                 qry.AddParameter("@sessionid", SqlDbType.NVarChar, ParameterDirection.Output);
                 await qry.ExecuteNonQueryAsync(true);
                 response.SessionId = qry.GetParameter("@sessionid").ToString();
+                response.success = true;
             }
             return response;
         }
