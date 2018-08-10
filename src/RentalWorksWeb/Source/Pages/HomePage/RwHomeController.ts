@@ -53,24 +53,26 @@
         return value;
     }
 
-    periodDelimited = function (value, index, values) {
+    commaTwoDecimal = function (value, index, values) {
         if (typeof value !== 'string' && value > 1) {
             value = value.toString();
             value = value.split(/(?=(?:...)*$)/);
-            value = value.join('.');
+            value = value.join(',');
+            value = value + '.00';
             return value;
         } else if (value < 1) {
-            return Math.round(value * 10) / 10
+            return (Math.round(value * 10) / 10) + '.00'
         } else {
-            return value;
+            return value + '.00';
         }
     };
 
-    periodDelimited2 = function (tooltipItem, data) {
+    commaTwoDecimal2 = function (tooltipItem, data) {
         var value = data.datasets[0].data[tooltipItem.index];
         value = value.toString();
         value = value.split(/(?=(?:...)*$)/);
-        value = value.join('.');
+        value = value.join(',');
+        value = value + '.00';
         return value;
     }
 
@@ -93,6 +95,12 @@
                     html.push('<div class="flexrow">');
                     html.push('<div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield defaultpoints" data-caption="Number of Data Points" data-datafield="DefaultDataPoints"></div>');
                     html.push('</div>');
+                    html.push('<div class="flexrow">');
+                    html.push('<div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield axisformat" data-caption="Axis Number Format" data-datafield="axisNumberFormat" data-displayfield="axisNumberFormat" data-validationname="WidgetNumberFormatValidation" style="float:left;width:200px;"></div>');
+                    html.push('</div>');
+                    html.push('<div class="flexrow">');
+                    html.push('<div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield dataformat" data-caption="Axis Number Format" data-datafield="dataNumberFormat" data-displayfield="dataNumberFormat" data-validationname="WidgetNumberFormatValidation" style="float:left;width:200px;"></div>');
+                    html.push('</div>');
                     //for (var i = 0; i < response.data.labels.length; i++) {
                     //    html.push('<div class="flexrow">');
                     //    html.push('  <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="' + response.data.labels[i] + '" data-datafield="' + response.data.labels[i] + '"></div>');
@@ -106,6 +114,8 @@
                         { value: 'pie', text: 'Pie' }
                     ], true);
                     $confirmation.find('div[data-datafield="DefaultDataPoints"] input').val(response.DataPoints);
+                    $confirmation.find('div[data-datafield="axisNumberFormat"] input').val(response.axisNumberFormat);
+                    $confirmation.find('div[data-datafield="dataNumberFormat"] input').val(response.dataNumberFormat);
                     if (response.WidgetType !== '') {
                         FwFormField.setValue($confirmation, '.widgettype', response.WidgetType);
                     } else {
@@ -119,6 +129,8 @@
                         request.UserWidgetId = userWidgetId;
                         request.WidgetType = FwFormField.getValue($confirmation, '.widgettype');
                         request.DataPoints = FwFormField.getValue($confirmation, '.defaultpoints')
+                        request.axisNumberFormat = FwFormField.getText($confirmation, '.axisformat')
+                        request.dataNumberFormat = FwFormField.getText($confirmation, '.dataformat')
                         FwAppData.apiMethod(true, 'POST', 'api/v1/userwidget/', request, FwServices.defaultTimeout, function onSuccess(response) {
                             FwNotification.renderNotification('SUCCESS', 'Widget Chart Type Updated');
                             FwConfirmation.destroyConfirmation($confirmation);
@@ -147,14 +159,14 @@
         FwAppData.apiMethod(true, 'GET', 'api/v1/userdashboardsettings/' + userId, null, FwServices.defaultTimeout, function onSuccess(response) {
             for (var i = 0; i < response.Widgets.length; i++) {
                 if (response.Widgets[i].selected) {
-                    self.renderWidget($dashboard, response.Widgets[i].apiname, response.Widgets[i].widgettype, response.Widgets[i].clickpath, response.Widgets[i].userWidgetId, Math.floor(100 / response.WidgetsPerRow).toString() + '%', response.Widgets[i].text, response.Widgets[i].dataPoints)
+                    self.renderWidget($dashboard, response.Widgets[i].apiname, response.Widgets[i].widgettype, response.Widgets[i].clickpath, response.Widgets[i].userWidgetId, Math.floor(100 / response.WidgetsPerRow).toString() + '%', response.Widgets[i].text, response.Widgets[i].dataPoints, response.Widgets[i].axisNumberFormat, response.Widgets[i].dataNumberFormat)
                 }
             }
         }, null, $control)
         
     }
 
-    renderWidget($control, apiname, type, chartpath, userWidgetId, width, text, dataPoints) {
+    renderWidget($control, apiname, type, chartpath, userWidgetId, width, text, dataPoints, axisFormat, dataFormat) {
         var self = this;
         var refresh = '<i id="' + apiname + 'refresh" class="chart-refresh material-icons">refresh</i>';
         var settings = '<i id="' + apiname + 'settings" class="chart-settings material-icons">settings</i>';
@@ -171,7 +183,11 @@
         jQuery($control).on('click', '#' + apiname + 'refresh', function () {
             FwAppData.apiMethod(true, 'GET', `api/v1/widget/loadbyname/${apiname}?dataPoints=${dataPointCount}&locationId=${JSON.parse(sessionStorage.location).locationid}&warehouseId=${JSON.parse(sessionStorage.warehouse).warehouseid}&departmentId=${JSON.parse(sessionStorage.department).departmentid}`, {}, FwServices.defaultTimeout, function onSuccess(response) {
                 try {
-                    response.options.scales.yAxes[0].ticks.userCallback = self.commaDelimited
+                    if (axisFormat === 'TWO DIGIT DECIMAL') {
+                        response.options.scales.yAxes[0].ticks.userCallback = self.commaTwoDecimal
+                    } else {
+                        response.options.scales.yAxes[0].ticks.userCallback = self.commaDelimited
+                    }
                     if (type !== '') {
                         response.type = type
                     }
@@ -181,11 +197,19 @@
                     }
                     if (response.type !== 'pie') {
                         response.options.scales.xAxes[0].ticks.autoSkip = false;
-                        response.options.tooltips = {
-                            'callbacks': {
-                                'label': self.commaDelimited2
-                            }
-                        };
+                        if (dataFormat === 'TWO DIGIT DECIMAL') {
+                            response.options.tooltips = {
+                                'callbacks': {
+                                    'label': self.commaTwoDecimal2
+                                }
+                            };
+                        } else {
+                            response.options.tooltips = {
+                                'callbacks': {
+                                    'label': self.commaDelimited2
+                                }
+                            };
+                        }
                     }
                     if (response.data.labels.length > 10 && response.type !== 'pie') {
                         response.options.scales.xAxes[0].ticks.minRotation = 70;
@@ -222,8 +246,12 @@
 
                 FwAppData.apiMethod(true, 'GET', `api/v1/widget/loadbyname/${apiname}?dataPoints=${dataPointCount}&locationId=${JSON.parse(sessionStorage.location).locationid}&warehouseId=${JSON.parse(sessionStorage.warehouse).warehouseid}&departmentId=${JSON.parse(sessionStorage.department).departmentid}`, {}, FwServices.defaultTimeout, function onSuccess(response) {
                     try {
+                        if (axisFormat === 'TWO DIGIT DECIMAL') {
+                            response.options.scales.yAxes[0].ticks.userCallback = self.commaTwoDecimal
+                        } else {
+                            response.options.scales.yAxes[0].ticks.userCallback = self.commaDelimited
+                        }
                         response.options.responsive = true;
-                        response.options.scales.yAxes[0].ticks.userCallback = self.commaDelimited;
                         if (type !== '') {
                             response.type = type
                         }
@@ -233,11 +261,19 @@
                         }
                         if (response.type !== 'pie') {
                             response.options.scales.xAxes[0].ticks.autoSkip = false;
-                            response.options.tooltips = {
-                                'callbacks': {
-                                    'label': self.commaDelimited2
-                                }
-                            };
+                            if (dataFormat === 'TWO DIGIT DECIMAL') {
+                                response.options.tooltips = {
+                                    'callbacks': {
+                                        'label': self.commaTwoDecimal2
+                                    }
+                                };
+                            } else {
+                                response.options.tooltips = {
+                                    'callbacks': {
+                                        'label': self.commaDelimited2
+                                    }
+                                };
+                            }
                         }
                         var chart = new Chart(widgetfullscreen, response);
                         jQuery(widgetfullscreen).on('click', function (evt) {
@@ -261,7 +297,11 @@
 
         FwAppData.apiMethod(true, 'GET', `api/v1/widget/loadbyname/${apiname}?dataPoints=${dataPointCount}&locationId=${JSON.parse(sessionStorage.location).locationid}&warehouseId=${JSON.parse(sessionStorage.warehouse).warehouseid}&departmentId=${JSON.parse(sessionStorage.department).departmentid}`, {}, FwServices.defaultTimeout, function onSuccess(response) {
             try {
-                response.options.scales.yAxes[0].ticks.userCallback = self.commaDelimited;
+                if (axisFormat === 'TWO DIGIT DECIMAL') {
+                    response.options.scales.yAxes[0].ticks.userCallback = self.commaTwoDecimal
+                } else {
+                    response.options.scales.yAxes[0].ticks.userCallback = self.commaDelimited
+                }
                 if (type !== '') {
                     response.type = type
                 }
@@ -271,11 +311,19 @@
                 }
                 if (response.type !== 'pie') {
                     response.options.scales.xAxes[0].ticks.autoSkip = false;
-                    response.options.tooltips = {
-                        'callbacks': {
-                            'label': self.commaDelimited2
-                        }
-                    };
+                    if (dataFormat === 'TWO DIGIT DECIMAL') {
+                        response.options.tooltips = {
+                            'callbacks': {
+                                'label': self.commaTwoDecimal2
+                            }
+                        };
+                    } else {
+                        response.options.tooltips = {
+                            'callbacks': {
+                                'label': self.commaDelimited2
+                            }
+                        };
+                    }
                 }
                 if (response.data.labels.length > 10 && response.type !== 'pie') {
                     response.options.scales.xAxes[0].ticks.minRotation = 70;
