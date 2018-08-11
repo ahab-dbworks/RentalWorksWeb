@@ -238,6 +238,8 @@ namespace WebLibrary.Security
 
             //Reports
 
+            var lv2menuAccountingReports      = AddReportsMenu("Accounting Reports",                    "{51A99056-CDB7-48C4-AD5D-FADE02B925B6}", lv1menuReports.Id,                                                                                                          reportsiconbaseurl + "placeholder.png");
+                                                       AddReportsModule("G/L Distribution Report",      "{2A62BAAE-AC2D-418E-9A04-E46EFB0CDE71}", lv2menuAccountingReports.Id,      "RwGLDistributionReportController",             "module/gldistribution",                  reportsiconbaseurl + "placeholder.png", "G/L Distribution", "", "");
             var lv2menuDealReports            = AddReportsMenu("Deal Reports",                          "{B14EC8FA-15B6-470C-B871-FB83E7C24CB2}", lv1menuReports.Id,                                                                                                          reportsiconbaseurl + "placeholder.png");
                                                        AddReportsModule("Credits On Account",           "{F6578383-C27F-4842-871F-673807A7C375}", lv2menuDealReports.Id,            "RwCreditsOnAccountController",                 "module/creditsonaccount",                reportsiconbaseurl + "placeholder.png", "Credits on Account", "", "");
                                                        AddReportsModule("Deal Outstanding",             "{007F72D4-8767-472D-9706-8CDE8C8A9981}", lv2menuDealReports.Id,            "RwDealOutstandingController",                  "module/dealoutstanding",                 reportsiconbaseurl + "placeholder.png", "Deal<br/>Outstanding", "", "");

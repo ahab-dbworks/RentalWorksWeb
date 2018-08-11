@@ -419,6 +419,7 @@
     <TypeScriptCompile Include="Source\Modules\Settings\Sound\Sound.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\WorkWeek\WorkWeek.ts" />
     <TypeScriptCompile Include="Source\Modules\-BaseModules\OrderBase\OrderBase.ts" />
+    <TypeScriptCompile Include="Source\Reports\GLDistributionReport\RwGLDistributionReportController.ts" />
     <TypeScriptCompile Include="Source\Reports\SalesRepresentativeBillingReport\RwSalesRepresentativeBillingReportController.ts" />
     <TypeScriptCompile Include="Source\Reports\ProjectManagerBillingReport\RwProjectManagerBillingReportController.ts" />
     <TypeScriptCompile Include="Source\Reports\AgentBillingReport\RwAgentBillingReportController.ts" />
@@ -442,6 +443,11 @@
     <Content Include="Source\Modules\Settings\Sound\SoundForm.htm" />
     <Content Include="Source\Modules\Settings\WorkWeek\WorkWeekBrowse.htm" />
     <Content Include="Source\Modules\Settings\WorkWeek\WorkWeekForm.htm" />
+    <Content Include="Source\Reports\GLDistributionReport\Body.htm" />
+    <Content Include="Source\Reports\GLDistributionReport\Footer.htm" />
+    <Content Include="Source\Reports\GLDistributionReport\FrontEnd.htm" />
+    <Content Include="Source\Reports\GLDistributionReport\Header.htm" />
+    <Content Include="Source\Reports\GLDistributionReport\StyleSheet.css" />
     <Content Include="Source\Reports\SalesRepresentativeBillingReport\Body.htm" />
     <Content Include="Source\Reports\SalesRepresentativeBillingReport\Footer.htm" />
     <Content Include="Source\Reports\SalesRepresentativeBillingReport\FrontEnd.htm" />
@@ -1171,6 +1177,7 @@
     <Compile Include="Source\Grids\AuditHistory.cs" />
     <Compile Include="Source\Modules\Administrator\Integration\Integration.cs" />
     <Compile Include="Source\Modules\Home\Contact\Contact.cs" />
+    <Compile Include="Source\Reports\GLDistributionReport\GLDistributionReport.cs" />
     <Compile Include="Source\Reports\SalesRepresentativeBillingReport\SalesRepresentativeBillingReport.cs" />
     <Compile Include="Source\Reports\ProjectManagerBillingReport\ProjectManagerBillingReport.cs" />
     <Compile Include="Source\Reports\ChargeProcessing\ChargeProcessing.cs" />
