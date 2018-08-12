@@ -3,10 +3,12 @@
 class StagingCheckout {
     Module: string = 'StagingCheckout';
     showAddItemToOrder: boolean = false;
+    successSoundFileName: string;
+    errorSoundFileName: string;
 
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
-        var screen: any = {};
+        var screen: any = {}, self = this;
         screen.$view = FwModule.getModuleControl(this.Module + 'Controller');
         screen.viewModel = {};
         screen.properties = {};
@@ -33,7 +35,7 @@ class StagingCheckout {
     };
 
     //----------------------------------------------------------------------------------------------
-    openForm(mode: string, parentmoduleinfo?:any) {
+    openForm(mode: string, parentmoduleinfo?: any) {
         var $form;
 
         $form = jQuery(jQuery('#tmpl-modules-StagingCheckoutForm').html());
@@ -49,6 +51,7 @@ class StagingCheckout {
         //disables asterisk and save prompt
         $form.off('change keyup', '.fwformfield[data-isuniqueid!="true"][data-enabled="true"][data-datafield!=""]');
 
+        this.getSoundUrls($form);
         this.getOrder($form);
         if (typeof parentmoduleinfo !== 'undefined') {
             $form.find('div[data-datafield="OrderId"] input.fwformfield-value').val(parentmoduleinfo.OrderId);
@@ -64,16 +67,32 @@ class StagingCheckout {
         //$form.find('div[data-datafield="TaxOptionId"]').data('onchange', function ($tr) {
         //    FwFormField.setValue($form, 'div[data-datafield=""]', $tr.find('.field[data-browsedatafield="RentalTaxRate1"]').attr('data-originalvalue'));
         //});
-
-        this.events($form);
         $form.find('div[data-datafield="OrderId"] input').focus();
         return $form;
     };
-
+    //----------------------------------------------------------------------------------------------
+    getSoundUrls = ($form): void => {
+        let userId;
+        userId = JSON.parse(sessionStorage.getItem('userid')).webusersid;
+        FwAppData.apiMethod(true, 'GET', `api/v1/usersettings/${userId}`, null, FwServices.defaultTimeout, response => {
+            try {
+                this.successSoundFileName = response.SuccessSoundFileName;
+                this.errorSoundFileName = response.ErrorSoundFileName;
+                console.log('errorSoundFileName in getSoundUrls: ', this.errorSoundFileName)
+                this.events($form);                                                              // This is NOT a permanent fix to events being registered before Urls are assigned   J.Pace
+            }
+            catch (ex) {
+                FwFunc.showError(ex);
+            }
+        }, null, null);
+    }
     //----------------------------------------------------------------------------------------------
     getOrder($form: JQuery): void {
         const order = $form.find('[data-datafield="OrderId"]');
         const maxPageSize = 9999;
+        let successSound = new Audio(this.successSoundFileName);
+        console.log('successSound in getOrder: ', this.successSoundFileName)
+
         order.on('change', function () {
             try {
                 let orderId = $form.find('[data-datafield="OrderId"] .fwformfield-value').val();
@@ -113,6 +132,7 @@ class StagingCheckout {
                     //}
 
                     //$form.find('.details').hide();
+                    successSound.play();
                 }, null, $form);
 
                 var $stagedItemGridControl: any;
@@ -220,14 +240,12 @@ class StagingCheckout {
 
     };
     //----------------------------------------------------------------------------------------------
-    events($form: any) {
-        let errorSound, successSound, successSoundFileName, errorSoundFileName, self = this;
-        //successSoundFileName = FwFormField.getValueByDataField($form, 'SuccessSoundFileName');
-        //errorSoundFileName = FwFormField.getValueByDataField($form, 'ErrorSoundFileName');
-        //errorSound = new Audio(`${errorSoundFileName}`);
-        //successSound = new Audio(`${successSoundFileName}`);
-        errorSound = new Audio('./theme/audio/errorBeep1.wav');
-        successSound = new Audio('./theme/audio/successBeep1.mp3');
+    events = ($form: any) => {
+        let errorSound, successSound, self = this;
+        errorSound = new Audio(this.errorSoundFileName);
+        successSound = new Audio(this.successSoundFileName);
+
+        console.log('successSoundFileName in events: ', this.successSoundFileName)
 
         // BarCode / I-Code change
         $form.find('[data-datafield="Code"] input').on('keydown', e => {
@@ -399,18 +417,14 @@ class StagingCheckout {
     //----------------------------------------------------------------------------------------------
     addItemToOrder(element: any) {
         this.showAddItemToOrder = false;
-        let code, $form, $element, orderId, quantity, $stagedItemGrid, successSoundFileName, errorSoundFileName, successSound, request: any = {};
+        let code, $form, $element, orderId, quantity, $stagedItemGrid, successSound, request: any = {};
         $element = jQuery(element);
         $form = jQuery($element).closest('.fwform'); 
         orderId = FwFormField.getValueByDataField($form, 'OrderId');
         code = FwFormField.getValueByDataField($form, 'Code');
         $stagedItemGrid = $form.find('[data-name="StagedItemGrid"]');
         quantity = +FwFormField.getValueByDataField($form, 'Quantity');
-        //successSoundFileName = FwFormField.getValueByDataField($form, 'SuccessSoundFileName');
-        //errorSoundFileName = FwFormField.getValueByDataField($form, 'ErrorSoundFileName');
-        //errorSound = new Audio(`${errorSoundFileName}`);
-        //successSound = new Audio(`${successSoundFileName}`);
-        successSound = new Audio('./theme/audio/successBeep1.mp3');
+        successSound = new Audio(this.successSoundFileName);
 
         if (quantity != 0) {
             request = {
@@ -443,17 +457,13 @@ class StagingCheckout {
     //----------------------------------------------------------------------------------------------
     addCompleteToOrder(element: any) {
         this.showAddItemToOrder = false;
-        let code, $form, $element, orderId, quantity, $stagedItemGrid, successSoundFileName, errorSoundFileName, successSound, request: any = {};
+        let code, $form, $element, orderId, quantity, $stagedItemGrid, successSound, request: any = {};
         $element = jQuery(element);
         $form = jQuery($element).closest('.fwform');
         orderId = FwFormField.getValueByDataField($form, 'OrderId');
         code = FwFormField.getValueByDataField($form, 'Code');
         $stagedItemGrid = $form.find('[data-name="StagedItemGrid"]');
-        //successSoundFileName = FwFormField.getValueByDataField($form, 'SuccessSoundFileName');
-        //errorSoundFileName = FwFormField.getValueByDataField($form, 'ErrorSoundFileName');
-        //errorSound = new Audio(`${errorSoundFileName}`);
-        //successSound = new Audio(`${successSoundFileName}`);
-        successSound = new Audio('./theme/audio/successBeep1.mp3');
+        successSound = new Audio(this.successSoundFileName);
 
         if (quantity != 0) {
             request = {
