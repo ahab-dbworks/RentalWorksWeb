@@ -28,7 +28,7 @@ class DuplicateRules {
         return $browse;
     }
     openForm(mode) {
-        var $form, $moduleSelect;
+        var $form, $moduleSelect, node, mainModules, settingsModules, modules, allModules;
         $form = jQuery(jQuery('#tmpl-modules-' + this.Module + 'Form').html());
         $form = FwModule.openForm($form, mode);
         if (mode === 'NEW') {
@@ -37,18 +37,16 @@ class DuplicateRules {
         else {
             FwFormField.disable($form.find('.ifnew'));
         }
-        var node = FwApplicationTree.getNodeById(FwApplicationTree.tree, '0A5F2584-D239-480F-8312-7C2B552A30BA');
-        let mainModules = FwApplicationTree.getChildrenByType(node, 'Module');
-        let settingsModules = FwApplicationTree.getChildrenByType(node, 'SettingsModule');
-        let modules = mainModules.concat(settingsModules);
-        var allModules = [];
-        for (var i = 0; i < modules.length; i++) {
-            var moduleNav = modules[i].properties.controller.slice(0, -10);
-            var moduleCaption = modules[i].properties.caption;
-            if (moduleCaption === "Designer") {
+        node = FwApplicationTree.getNodeById(FwApplicationTree.tree, '0A5F2584-D239-480F-8312-7C2B552A30BA');
+        mainModules = FwApplicationTree.getChildrenByType(node, 'Module');
+        settingsModules = FwApplicationTree.getChildrenByType(node, 'SettingsModule');
+        modules = mainModules.concat(settingsModules);
+        allModules = [];
+        for (let i = 0; i < modules.length; i++) {
+            let moduleNav = modules[i].properties.controller.slice(0, -10), moduleCaption = modules[i].properties.caption, moduleController = modules[i].properties.controller;
+            if (moduleCaption === "Designer" || moduleCaption === "Group") {
                 continue;
             }
-            var moduleController = modules[i].properties.controller;
             if (window[moduleController].hasOwnProperty('apiurl')) {
                 var moduleUrl = window[moduleController].apiurl;
                 allModules.push({ value: moduleNav, text: moduleCaption, apiurl: moduleUrl });
@@ -136,7 +134,7 @@ class DuplicateRules {
     }
     afterLoad($form) {
         var moduleName = $form.find('.modules').attr('data-originalvalue');
-        var moduleUrl = $form.find("select option[value='" + moduleName + "']").attr('data-apiurl');
+        var moduleUrl = $form.find(`select option[value="${moduleName}"]`).attr('data-apiurl');
         var request = {
             module: moduleName
         };
