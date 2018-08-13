@@ -1485,17 +1485,17 @@ RwOrderController.getCheckInScreen = function(viewModel, properties) {
         //if (screen.$view.find('#checkIn-btnPendingList').hasClass('selected')) {
         //    screen.$view.find('#checkIn-btnPendingList').click();
         //}
-        valTxtQty = (isScannedICode) ? '1' : String(responseCheckInItem.webCheckInItem.stillOut);
-        screen.$popupQty.find('.fwformfield[data-datafield="qty"] .fwformfield-value').val(valTxtQty);
-        screen.$popupQty.find('.fwformfield[data-datafield="qty"]').attr('data-minvalue', 1);
-        screen.$popupQty.find('.fwformfield[data-datafield="qty"]').attr('data-maxvalue', valTxtQty);
         screen.$popupQty.find('#checkIn-popupQty-genericMsg').html(responseCheckInItem.webCheckInItem.genericMsg);
         screen.$popupQty.find('#checkIn-popupQty-msg').html(responseCheckInItem.webCheckInItem.msg);
         screen.$popupQty.find('#checkIn-popupQty-masterNo').html(responseCheckInItem.webCheckInItem.masterNo);
         screen.$popupQty.find('#checkIn-popupQty-description').html(responseCheckInItem.webCheckInItem.description).show();
+        valTxtQty = (isScannedICode) ? '' : String(responseCheckInItem.webCheckInItem.stillOut);
+        screen.$popupQty.find('.fwformfield[data-datafield="qty"] .fwformfield-value').val(valTxtQty);
+        screen.$popupQty.find('.fwformfield[data-datafield="qty"]').attr('data-minvalue', 1);
         if (isScannedICode) {
-            
+            screen.$popupQty.find('.fwformfield[data-datafield="qty"]').removeAttr('data-maxvalue');
         } else {
+            screen.$popupQty.find('.fwformfield[data-datafield="qty"]').attr('data-maxvalue', valTxtQty);
             screen.$popupQty.find('.row2,.row3,.row4').show();
             screen.$popupQty.find('#checkIn-popupQty-qtyOrdered').html(String(responseCheckInItem.webCheckInItem.qtyOrdered));
             screen.$popupQty.find('#checkIn-popupQty-sessionIn').html(String(responseCheckInItem.webCheckInItem.sessionIn));
@@ -1565,21 +1565,16 @@ RwOrderController.getCheckInScreen = function(viewModel, properties) {
         //jQuery('#checkIn-pageSelectorInner').toggle(properties.contractId !== '');
         if ((responseCheckInItem.request.qty === 0) || (responseCheckInItem.webCheckInItem.genericMsg.length > 0) || (responseCheckInItem.webCheckInItem.msg.length > 0)) {
             screen.showPopupQty();
-            if (responseCheckInItem.webCheckInItem.status === 0) {
-                if (responseCheckInItem.request.qty === 0) {
-                    screen.showPopupQty();
-                } else {
-                    screen.showPopupQty();
-                    setTimeout(
-                        function() {
-                            screen.hidePopupQty();
-                        }
-                        , 3000);
-                }
-            } else {
-                screen.showPopupQty();
+            if (isScannedICode) {
+                var $txt = screen.$popupQty.find('.fwformfield[data-datafield="qty"] .fwformfield-value');
+                $txt.focus();
             }
-        } 
+            if (responseCheckInItem.webCheckInItem.status === 0 && responseCheckInItem.request.qty > 0) {
+                setTimeout(function() {
+                    screen.hidePopupQty();
+                }, 3000);
+            }
+        }
         else {
             screen.hidePopupQty();
         }
