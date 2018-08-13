@@ -109,6 +109,7 @@ namespace WebApi.Modules.Home.Order
             select.Parse();
             addFilterToSelect("OfficeLocationId", "locationid", select, request);
             addFilterToSelect("WarehouseId", "warehouseid", select, request);
+            addFilterToSelect("DepartmentId", "departmentid", select, request);
             addFilterToSelect("DealId", "dealid", select, request);
             addFilterToSelect("CustomerId", "customerid", select, request);
 
