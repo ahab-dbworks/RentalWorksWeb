@@ -75,6 +75,8 @@ namespace WebLibrary
         public const string INVOICE_DATE_TYPE_INVOICE_DATE = "INVOICE_DATE";
         public const string INVOICE_DATE_TYPE_BILLING_START_DATE = "BILLING_START_DATE";
 
+        public const string BATCH_TYPE_INVOICE = "INVOICE";
+
 
         //DELIVERY
         public const string ONLINE_DELIVERY_STATUS_PARTIAL = "PARTIAL";
