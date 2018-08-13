@@ -94,7 +94,7 @@ class RwHome {
                     html.push('<div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield axisformat" data-caption="Axis Number Format" data-datafield="axisNumberFormat" data-displayfield="axisNumberFormat" data-validationname="WidgetNumberFormatValidation" style="float:left;width:200px;"></div>');
                     html.push('</div>');
                     html.push('<div class="flexrow">');
-                    html.push('<div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield dataformat" data-caption="Axis Number Format" data-datafield="dataNumberFormat" data-displayfield="dataNumberFormat" data-validationname="WidgetNumberFormatValidation" style="float:left;width:200px;"></div>');
+                    html.push('<div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield dataformat" data-caption="Data Number Format" data-datafield="dataNumberFormat" data-displayfield="dataNumberFormat" data-validationname="WidgetNumberFormatValidation" style="float:left;width:200px;"></div>');
                     html.push('</div>');
                     html.push('</div>');
                     FwConfirmation.addControls($confirmation, html.join(''));
@@ -104,8 +104,8 @@ class RwHome {
                         { value: 'pie', text: 'Pie' }
                     ], true);
                     $confirmation.find('div[data-datafield="DefaultDataPoints"] input').val(response.DataPoints);
-                    $confirmation.find('div[data-datafield="axisNumberFormat"] input').val(response.axisNumberFormat);
-                    $confirmation.find('div[data-datafield="dataNumberFormat"] input').val(response.dataNumberFormat);
+                    $confirmation.find('div[data-datafield="axisNumberFormat"] input').val(response.AxisNumberFormat);
+                    $confirmation.find('div[data-datafield="dataNumberFormat"] input').val(response.DataNumberFormat);
                     if (response.WidgetType !== '') {
                         FwFormField.setValue($confirmation, '.widgettype', response.WidgetType);
                     }

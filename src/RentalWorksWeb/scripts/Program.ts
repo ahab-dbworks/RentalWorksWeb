@@ -57,6 +57,7 @@ routes.push({ pattern: /^module\/customercategory$/, action: function (match: Re
 routes.push({ pattern: /^module\/creditstatus$/, action: function (match: RegExpExecArray) { return CreditStatusController.getModuleScreen(); } });
 routes.push({ pattern: /^module\/dealtype$/, action: function (match: RegExpExecArray) { return DealTypeController.getModuleScreen(); } });
 routes.push({ pattern: /^module\/dealstatus$/, action: function (match: RegExpExecArray) { return DealStatusController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/dealclassification/, action: function (match: RegExpExecArray) { return DealClassificationController.getModuleScreen(); } });
 routes.push({ pattern: /^module\/department$/, action: function (match: RegExpExecArray) { return DepartmentController.getModuleScreen(); } });
 routes.push({ pattern: /^module\/productiontype$/, action: function (match: RegExpExecArray) { return ProductionTypeController.getModuleScreen(); } });
 routes.push({ pattern: /^module\/officelocation$/, action: function (match: RegExpExecArray) { return OfficeLocationController.getModuleScreen(); } });

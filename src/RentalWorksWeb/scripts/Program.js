@@ -39,6 +39,7 @@ routes.push({ pattern: /^module\/customercategory$/, action: function (match) { 
 routes.push({ pattern: /^module\/creditstatus$/, action: function (match) { return CreditStatusController.getModuleScreen(); } });
 routes.push({ pattern: /^module\/dealtype$/, action: function (match) { return DealTypeController.getModuleScreen(); } });
 routes.push({ pattern: /^module\/dealstatus$/, action: function (match) { return DealStatusController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/dealclassification/, action: function (match) { return DealClassificationController.getModuleScreen(); } });
 routes.push({ pattern: /^module\/department$/, action: function (match) { return DepartmentController.getModuleScreen(); } });
 routes.push({ pattern: /^module\/productiontype$/, action: function (match) { return ProductionTypeController.getModuleScreen(); } });
 routes.push({ pattern: /^module\/officelocation$/, action: function (match) { return OfficeLocationController.getModuleScreen(); } });
