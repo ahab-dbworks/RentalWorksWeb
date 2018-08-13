@@ -3,6 +3,7 @@ using FwStandard.SqlServer;
 using System.Data;
 using System.Threading.Tasks;
 using WebApi.Logic;
+using WebApi.Modules.Home.CheckOut;
 
 namespace WebApi.Home.CheckOut
 {
@@ -160,5 +161,24 @@ namespace WebApi.Home.CheckOut
             return response;
         }
         //-------------------------------------------------------------------------------------------------------
-    }
+        public static async Task<CreateOutContractResponse> CreateOutContract(FwApplicationConfig appConfig, FwUserSession userSession, string orderId)
+        {
+            CreateOutContractResponse response = new CreateOutContractResponse();
+            using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
+            {
+                FwSqlCommand qry = new FwSqlCommand(conn, "createoutcontract", appConfig.DatabaseSettings.QueryTimeout);
+                qry.AddParameter("@orderid", SqlDbType.NVarChar, ParameterDirection.Input, orderId);
+                qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, userSession.UsersId);
+                qry.AddParameter("@contractid", SqlDbType.NVarChar, ParameterDirection.Output);
+                await qry.ExecuteNonQueryAsync(true);
+                response.ContractId = qry.GetParameter("@contractid").ToString();
+                //response.status = qry.GetParameter("@status").ToInt32();
+                //response.success = (response.status == 0);
+                response.success = true;
+                //response.msg = qry.GetParameter("@msg").ToString();
+            }
+            return response;
+        }
+    //-------------------------------------------------------------------------------------------------------    
+}
 }

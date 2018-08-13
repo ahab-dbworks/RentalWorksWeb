@@ -7,6 +7,8 @@ using FwStandard.SqlServer;
 using System;
 using Microsoft.AspNetCore.Http;
 using WebApi.Home.CheckOut;
+using WebApi.Logic;
+using WebApi.Modules.Home.Contract;
 
 namespace WebApi.Modules.Home.CheckOut
 {
@@ -25,6 +27,17 @@ namespace WebApi.Modules.Home.CheckOut
     {
         public string OrderId;
     }
+
+    public class CreateOutContractRequest
+    {
+        public string OrderId;
+    }
+
+    public class CreateOutContractResponse : TSpStatusReponse
+    {
+        public string ContractId;
+    }
+
 
 
     [Route("api/v1/[controller]")]
@@ -105,5 +118,76 @@ namespace WebApi.Modules.Home.CheckOut
             }
         }
         //------------------------------------------------------------------------------------ 
+        // POST api/v1/checkout/startcheckoutcontract
+        [HttpPost("startcheckoutcontract")]
+        public async Task<IActionResult> StartCheckOutContract([FromBody]CreateOutContractRequest request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                CreateOutContractResponse response = new CreateOutContractResponse();
+                if (string.IsNullOrEmpty(request.OrderId))
+                {
+                    response.success = false;
+                    response.msg = "OrderId is required.";
+                }
+                else
+                {
+                    response = await CheckOutFunc.CreateOutContract(AppConfig, UserSession, request.OrderId);
+                }
+
+                return new OkObjectResult(response);
+
+            }
+            catch (Exception ex)
+            {
+                FwApiException jsonException = new FwApiException();
+                jsonException.StatusCode = StatusCodes.Status500InternalServerError;
+                jsonException.Message = ex.Message;
+                jsonException.StackTrace = ex.StackTrace;
+                return StatusCode(jsonException.StatusCode, jsonException);
+            }
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/checkout/completecheckoutcontract
+        [HttpPost("completecheckoutcontract/{id}")]
+        public async Task<IActionResult> CompleteCheckOutContractAsync([FromRoute]string id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+
+                TSpStatusReponse response = await ContractFunc.AssignContract(AppConfig, UserSession, id);
+                if (response.success)
+                {
+
+                    ContractLogic contract = new ContractLogic();
+                    contract.SetDependencies(AppConfig, UserSession);
+                    contract.ContractId = id;
+                    bool x = await contract.LoadAsync<ContractLogic>();
+                    return new OkObjectResult(contract);
+                }
+                else
+                {
+                    throw new Exception(response.msg);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                FwApiException jsonException = new FwApiException();
+                jsonException.StatusCode = StatusCodes.Status500InternalServerError;
+                jsonException.Message = ex.Message;
+                jsonException.StackTrace = ex.StackTrace;
+                return StatusCode(jsonException.StatusCode, jsonException);
+            }
+        }
+        //------------------------------------------------------------------------------------       
     }
 }

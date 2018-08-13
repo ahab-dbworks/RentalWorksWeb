@@ -71,7 +71,7 @@ namespace WebApi.Modules.Home.CheckIn
             }
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/purchaseorder/completecheckincontract
+        // POST api/v1/checkin/completecheckincontract
         [HttpPost("completecheckincontract/{id}")]
         public async Task<IActionResult> CompleteCheckInContractAsync([FromRoute]string id)
         {
