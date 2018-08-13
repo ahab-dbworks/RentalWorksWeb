@@ -5,6 +5,7 @@ class StagingCheckout {
     showAddItemToOrder: boolean = false;
     successSoundFileName: string;
     errorSoundFileName: string;
+    notificationSoundFileName: string;
 
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
@@ -68,30 +69,20 @@ class StagingCheckout {
         //    FwFormField.setValue($form, 'div[data-datafield=""]', $tr.find('.field[data-browsedatafield="RentalTaxRate1"]').attr('data-originalvalue'));
         //});
         $form.find('div[data-datafield="OrderId"] input').focus();
+        this.events($form);
         return $form;
     };
     //----------------------------------------------------------------------------------------------
     getSoundUrls = ($form): void => {
-        let userId;
-        userId = JSON.parse(sessionStorage.getItem('userid')).webusersid;
-        FwAppData.apiMethod(true, 'GET', `api/v1/usersettings/${userId}`, null, FwServices.defaultTimeout, response => {
-            try {
-                this.successSoundFileName = response.SuccessSoundFileName;
-                this.errorSoundFileName = response.ErrorSoundFileName;
-                console.log('errorSoundFileName in getSoundUrls: ', this.errorSoundFileName)
-                this.events($form);                                                              // This is NOT a permanent fix to events being registered before Urls are assigned   J.Pace
-            }
-            catch (ex) {
-                FwFunc.showError(ex);
-            }
-        }, null, null);
+        this.successSoundFileName = sessionStorage.getItem('successSoundFileName');
+        this.errorSoundFileName = sessionStorage.getItem('errorSoundFileName');
+        this.notificationSoundFileName = sessionStorage.getItem('notificationSoundFileName');
     }
     //----------------------------------------------------------------------------------------------
     getOrder($form: JQuery): void {
         const order = $form.find('[data-datafield="OrderId"]');
         const maxPageSize = 9999;
         let successSound = new Audio(this.successSoundFileName);
-        console.log('successSound in getOrder: ', this.successSoundFileName)
 
         order.on('change', function () {
             try {
@@ -243,8 +234,6 @@ class StagingCheckout {
         let errorSound, successSound, self = this;
         errorSound = new Audio(this.errorSoundFileName);
         successSound = new Audio(this.successSoundFileName);
-
-        console.log('successSoundFileName in events: ', this.successSoundFileName)
 
         // BarCode / I-Code change
         $form.find('[data-datafield="Code"] input').on('keydown', e => {

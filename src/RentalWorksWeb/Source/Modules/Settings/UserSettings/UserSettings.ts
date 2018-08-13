@@ -56,24 +56,43 @@
 
         $form.find('div.fwformfield[data-datafield="UserId"] input').val(userId.webusersid);
         FwModule.loadForm(this.Module, $form);
-
+        this.events($form);
         return $form;
     }
+    //----------------------------------------------------------------------------------------------
+    events($form: JQuery): void {
+        // Sound Validation
+        $form.find('div[data-datafield="SuccessSoundId"]').data('onchange', $tr => {
+            FwFormField.setValue($form, 'div[data-datafield="SuccessSoundFileName"]', $tr.find('.field[data-formdatafield="FileName"]').attr('data-originalvalue'));
+        });
+        $form.find('div[data-datafield="ErrorSoundId"]').data('onchange', $tr => {
+            FwFormField.setValue($form, 'div[data-datafield="ErrorSoundFileName"]', $tr.find('.field[data-formdatafield="FileName"]').attr('data-originalvalue'));
+        });
+        $form.find('div[data-datafield="NotificationSoundId"]').data('onchange', $tr => {
+            FwFormField.setValue($form, 'div[data-datafield="NotificationSoundFileName"]', $tr.find('.field[data-formdatafield="FileName"]').attr('data-originalvalue'));
+        });
+    };
     //----------------------------------------------------------------------------------------------
     saveForm($form: any, parameters: any) {
         FwModule.saveForm(this.Module, $form, parameters);
 
         const browseDefaultRows = jQuery($form.find('[data-datafield="BrowseDefaultRows"] select')).val().toString();
         const applicationTheme = jQuery($form.find('[data-datafield="ApplicationTheme"] select')).val().toString();
+        const successSoundFileName = FwFormField.getValueByDataField($form, 'SuccessSoundFileName').toString();
+        const errorSoundFileName = FwFormField.getValueByDataField($form, 'ErrorSoundFileName').toString();
+        const notificationSoundFileName = FwFormField.getValueByDataField($form, 'NotificationSoundFileName').toString();
 
         sessionStorage.setItem('browsedefaultrows', browseDefaultRows);
         sessionStorage.setItem('applicationtheme', applicationTheme);
+        sessionStorage.setItem('successSoundFileName', successSoundFileName);
+        sessionStorage.setItem('errorSoundFileName', errorSoundFileName);
+        sessionStorage.setItem('notificationSoundFileName', notificationSoundFileName);
 
         setTimeout(function () {
             location.reload();
         }, 1000);
-    }
-
+    };
+    //----------------------------------------------------------------------------------------------
     afterLoad($form) {
         const browserows = sessionStorage.getItem('browsedefaultrows');
         const theme = sessionStorage.getItem('applicationtheme');
