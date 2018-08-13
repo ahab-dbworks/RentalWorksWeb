@@ -12,6 +12,8 @@ namespace WebApi.Modules.Settings.NumberFormat
         }
         //------------------------------------------------------------------------------------ 
         [FwBusinessLogicField(isReadOnly: true, isPrimaryKey: true)]
+        public string NumberFormatId { get; set; }
+        [FwBusinessLogicField(isReadOnly: true, isRecordTitle: true)]
         public string NumberFormat { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
         public string Mask { get; set; }

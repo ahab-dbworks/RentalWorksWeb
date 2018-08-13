@@ -37,11 +37,17 @@ namespace WebApi.Modules.Settings.Widget
         [FwSqlDataField(column: "defaultdatapoints", modeltype: FwDataTypes.Integer)]
         public int? DefaultDataPoints { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "defaultaxisnumberformatid", modeltype: FwDataTypes.Text)]
+        public string DefaultAxisNumberFormatId { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "defaultaxisnumberformat", modeltype: FwDataTypes.Text)]
         public string DefaultAxisNumberFormat { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "defaultaxisnumberformatmask", modeltype: FwDataTypes.Text)]
         public string DefaultAxisNumberFormatMask { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "defaultdatanumberformatid", modeltype: FwDataTypes.Text)]
+        public string DefaultDataNumberFormatId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "defaultdatanumberformat", modeltype: FwDataTypes.Text)]
         public string DefaultDataNumberFormat { get; set; }

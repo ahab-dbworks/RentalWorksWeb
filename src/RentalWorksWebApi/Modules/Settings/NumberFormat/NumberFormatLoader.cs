@@ -10,7 +10,9 @@ namespace WebApi.Modules.Settings.NumberFormat
     public class NumberFormatLoader : AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "numberformat", modeltype: FwDataTypes.Text, isPrimaryKey: true)]
+        [FwSqlDataField(column: "numberformatid", modeltype: FwDataTypes.Text, isPrimaryKey: true)]
+        public string NumberFormatId { get; set; }
+        [FwSqlDataField(column: "numberformat", modeltype: FwDataTypes.Text)]
         public string NumberFormat { get; set; }
         [FwSqlDataField(column: "mask", modeltype: FwDataTypes.Text)]
         public string Mask { get; set; }

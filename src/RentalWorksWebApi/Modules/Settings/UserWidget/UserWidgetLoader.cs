@@ -37,11 +37,17 @@ namespace WebApi.Modules.Settings.WebUserWidget
         [FwSqlDataField(column: "datapoints", modeltype: FwDataTypes.Integer)]
         public int? DataPoints { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "defaultaxisnumberformatid", modeltype: FwDataTypes.Text)]
+        public string DefaultAxisNumberFormatId { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "defaultaxisnumberformat", modeltype: FwDataTypes.Text)]
         public string DefaultAxisNumberFormat { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "defaultaxisnumberformatmask", modeltype: FwDataTypes.Text)]
         public string DefaultAxisNumberFormatMask { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "axisnumberformatid", modeltype: FwDataTypes.Text)]
+        public string AxisNumberFormatId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "axisnumberformat", modeltype: FwDataTypes.Text)]
         public string AxisNumberFormat { get; set; }
@@ -49,11 +55,17 @@ namespace WebApi.Modules.Settings.WebUserWidget
         [FwSqlDataField(column: "axisnumberformatmask", modeltype: FwDataTypes.Text)]
         public string AxisNumberFormatMask { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "defaultdatanumberformatid", modeltype: FwDataTypes.Text)]
+        public string DefaultDataNumberFormatId { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "defaultdatanumberformat", modeltype: FwDataTypes.Text)]
         public string DefaultDataNumberFormat { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "defaultdatanumberformatmask", modeltype: FwDataTypes.Text)]
         public string DefaultDataNumberFormatMask { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "datanumberformatid", modeltype: FwDataTypes.Text)]
+        public string DataNumberFormatId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "datanumberformat", modeltype: FwDataTypes.Text)]
         public string DataNumberFormat { get; set; }

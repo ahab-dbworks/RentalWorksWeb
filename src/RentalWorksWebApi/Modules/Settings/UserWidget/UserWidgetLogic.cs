@@ -28,17 +28,25 @@ namespace WebApi.Modules.Settings.WebUserWidget
         public int? DefaultDataPoints { get; set; }
         public int? DataPoints { get { return userWidget.DataPoints; } set { userWidget.DataPoints = value; } }
         [FwBusinessLogicField(isReadOnly: true)]
+        public string DefaultAxisNumberFormatId { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
         public string DefaultAxisNumberFormat { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
         public string DefaultAxisNumberFormatMask { get; set; }
-        public string AxisNumberFormat { get { return userWidget.AxisNumberFormat; } set { userWidget.AxisNumberFormat = value; } }
+        public string AxisNumberFormatId { get { return userWidget.AxisNumberFormatId; } set { userWidget.AxisNumberFormatId = value; } }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string AxisNumberFormat { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
         public string AxisNumberFormatMask { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string DefaultDataNumberFormatId { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
         public string DefaultDataNumberFormat { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
         public string DefaultDataNumberFormatMask { get; set; }
-        public string DataNumberFormat { get { return userWidget.DataNumberFormat; } set { userWidget.DataNumberFormat = value; } }
+        public string DataNumberFormatId { get { return userWidget.DataNumberFormatId; } set { userWidget.DataNumberFormatId = value; } }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string DataNumberFormat { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
         public string DataNumberFormatMask { get; set; }
         public string Settings { get { return userWidget.Settings; } set { userWidget.Settings = value; } }

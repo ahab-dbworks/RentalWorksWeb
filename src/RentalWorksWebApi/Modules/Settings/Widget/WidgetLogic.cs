@@ -24,10 +24,14 @@ namespace WebApi.Modules.Settings.Widget
         public string ClickPath { get { return widget.ClickPath; } set { widget.ClickPath = value; } }
         public string DefaultType { get { return widget.DefaultType; } set { widget.DefaultType = value; } }
         public int? DefaultDataPoints { get { return widget.DefaultDataPoints; } set { widget.DefaultDataPoints = value; } }
-        public string DefaultAxisNumberFormat { get { return widget.DefaultAxisNumberFormat; } set { widget.DefaultAxisNumberFormat = value; } }
+        public string DefaultAxisNumberFormatId { get { return widget.DefaultAxisNumberFormatId; } set { widget.DefaultAxisNumberFormatId = value; } }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string DefaultAxisNumberFormat { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
         public string DefaultAxisNumberFormatMask { get; set; }
-        public string DefaultDataNumberFormat { get { return widget.DefaultDataNumberFormat; } set { widget.DefaultDataNumberFormat = value; } }
+        public string DefaultDataNumberFormatId { get { return widget.DefaultDataNumberFormatId; } set { widget.DefaultDataNumberFormatId = value; } }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string DefaultDataNumberFormat { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
         public string DefaultDataNumberFormatMask { get; set; }
         public string DateStamp { get { return widget.DateStamp; } set { widget.DateStamp = value; } }

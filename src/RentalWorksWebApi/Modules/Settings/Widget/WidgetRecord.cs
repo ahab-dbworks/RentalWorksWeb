@@ -35,11 +35,11 @@ namespace WebApi.Modules.Settings.Widget
         [FwSqlDataField(column: "defaultdatapoints", modeltype: FwDataTypes.Integer, sqltype: "int")]
         public int? DefaultDataPoints { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "defaultaxisnumberformat", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 50, required: true)]
-        public string DefaultAxisNumberFormat { get; set; }
+        [FwSqlDataField(column: "defaultaxisnumberformatid", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 8)]
+        public string DefaultAxisNumberFormatId { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "defaultdatanumberformat", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 50, required: true)]
-        public string DefaultDataNumberFormat { get; set; }
+        [FwSqlDataField(column: "defaultdatanumberformatid", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 8)]
+        public string DefaultDataNumberFormatId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime, sqltype: "datetime")]
         public string DateStamp { get; set; }
