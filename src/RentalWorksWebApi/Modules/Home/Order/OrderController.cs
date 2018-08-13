@@ -25,6 +25,17 @@ namespace WebApi.Modules.Home.Order
     }
 
 
+    public class CompletePoWorksheetSessionRequest
+    {
+        public string SessionId;
+    }
+
+    public class CompletePoWorksheetSessionResponse : TSpStatusReponse
+    {
+        public string PurchaseOrderId;
+    }
+
+
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "home-v1")]
     public class OrderController : AppDataController
@@ -299,6 +310,29 @@ namespace WebApi.Modules.Home.Order
             try
             {
                 CreatePoWorksheetSessionResponse response = await OrderFunc.StartPoWorksheetSession(AppConfig, UserSession, request.OrderId);
+                return new OkObjectResult(response);
+            }
+            catch (Exception ex)
+            {
+                FwApiException jsonException = new FwApiException();
+                jsonException.StatusCode = StatusCodes.Status500InternalServerError;
+                jsonException.Message = ex.Message;
+                jsonException.StackTrace = ex.StackTrace;
+                return StatusCode(jsonException.StatusCode, jsonException);
+            }
+        }
+        //------------------------------------------------------------------------------------        
+        // POST api/v1/order/completepoworksheetsession
+        [HttpPost("completepoworksheetsession")]
+        public async Task<IActionResult> CompletePoWorksheetSession([FromBody] CompletePoWorksheetSessionRequest request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                CompletePoWorksheetSessionResponse response = await OrderFunc.CompletePoWorksheetSession(AppConfig, UserSession, request.SessionId);
                 return new OkObjectResult(response);
             }
             catch (Exception ex)

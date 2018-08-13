@@ -60,9 +60,32 @@ namespace WebApi.Modules.Home.Order
                 FwSqlCommand qry = new FwSqlCommand(conn, "startpoworksheetsession", appConfig.DatabaseSettings.QueryTimeout);
                 qry.AddParameter("@orderid", SqlDbType.NVarChar, ParameterDirection.Input, orderId);
                 qry.AddParameter("@sessionid", SqlDbType.NVarChar, ParameterDirection.Output);
+                qry.AddParameter("@status", SqlDbType.Int, ParameterDirection.Output);
+                qry.AddParameter("@msg", SqlDbType.NVarChar, ParameterDirection.Output);
                 await qry.ExecuteNonQueryAsync(true);
                 response.SessionId = qry.GetParameter("@sessionid").ToString();
-                response.success = true;
+                response.status = qry.GetParameter("@status").ToInt32();
+                response.success = (response.status == 0);
+                response.msg = qry.GetParameter("@msg").ToString();
+            }
+            return response;
+        }
+        //-------------------------------------------------------------------------------------------------------
+        public static async Task<CompletePoWorksheetSessionResponse> CompletePoWorksheetSession(FwApplicationConfig appConfig, FwUserSession userSession, string sessionId)
+        {
+            CompletePoWorksheetSessionResponse response = new CompletePoWorksheetSessionResponse();
+            using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
+            {
+                FwSqlCommand qry = new FwSqlCommand(conn, "completepoworksheetsession", appConfig.DatabaseSettings.QueryTimeout);
+                qry.AddParameter("@sessionid", SqlDbType.NVarChar, ParameterDirection.Input, sessionId);
+                qry.AddParameter("@poid", SqlDbType.NVarChar, ParameterDirection.Output);
+                qry.AddParameter("@status", SqlDbType.Int, ParameterDirection.Output);
+                qry.AddParameter("@msg", SqlDbType.NVarChar, ParameterDirection.Output);
+                await qry.ExecuteNonQueryAsync(true);
+                response.PurchaseOrderId = qry.GetParameter("@poid").ToString();
+                response.status = qry.GetParameter("@status").ToInt32();
+                response.success = (response.status == 0);
+                response.msg = qry.GetParameter("@msg").ToString();
             }
             return response;
         }
