@@ -1,4 +1,4 @@
-﻿routes.push({ pattern: /^module\/gldistribution$/, action: function (match: RegExpExecArray) { return RwGLDistributionReportController.getModuleScreen(); } });
+﻿routes.push({ pattern: /^module\/gldistributionreport$/, action: function (match: RegExpExecArray) { return RwGLDistributionReportController.getModuleScreen(); } });
 
 class RwGLDistributionReport {
     Module: string = 'GLDistributionReport';
@@ -52,8 +52,6 @@ class RwGLDistributionReport {
 
         //FwFormField.setValue($form, 'div[data-datafield="DepartmentId"]', department.departmentid,  department.department);
         FwFormField.setValue($form, 'div[data-datafield="OfficeLocationId"]', location.locationid, location.location);
-
-        
     };
 };
 var RwGLDistributionReportController: any = new RwGLDistributionReport();

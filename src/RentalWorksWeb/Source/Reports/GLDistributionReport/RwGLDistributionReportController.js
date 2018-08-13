@@ -1,4 +1,4 @@
-routes.push({ pattern: /^module\/gldistribution$/, action: function (match) { return RwGLDistributionReportController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/gldistributionreport$/, action: function (match) { return RwGLDistributionReportController.getModuleScreen(); } });
 class RwGLDistributionReport {
     constructor() {
         this.Module = 'GLDistributionReport';

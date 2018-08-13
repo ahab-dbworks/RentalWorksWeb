@@ -237,7 +237,6 @@ class StagingCheckout {
         FwFormField.setValueByDataField($form, 'QuantityOut', response.InventoryStatus.QuantityOut);
         FwFormField.setValueByDataField($form, 'QuantityStaged', response.InventoryStatus.QuantityStaged);
         FwFormField.setValueByDataField($form, 'QuantityRemaining', response.InventoryStatus.QuantityRemaining);
-
     };
     //----------------------------------------------------------------------------------------------
     events = ($form: any) => {
@@ -507,7 +506,6 @@ class StagingCheckout {
         FwBrowse.addLegend($grid, 'Not Yet Staged or Still Out', '#ff0000');
         FwBrowse.addLegend($grid, 'Too Many Staged', '#00ff80');
     };
-
     //----------------------------------------------------------------------------------------------
 }
 var StagingCheckoutController = new StagingCheckout();
