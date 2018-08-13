@@ -8,7 +8,7 @@ using System.Text;
 
 namespace Web.Source.Reports
 {
-    class SalesInventoryTransactionsReport : RwReport
+    class SalesInventoryTransactionReport : RwReport
     {
         //---------------------------------------------------------------------------------------------
         protected override string getReportName() { return "Sales Inventory Transactions"; }
@@ -31,22 +31,22 @@ namespace Web.Source.Reports
     {
         string html;
         dynamic transtypelist;
-        FwJsonDataTable dtSalesInventoryTransactionsReport;
+        FwJsonDataTable dtSalesInventoryTransactionReport;
         StringBuilder sb;
 
         transtypelist = request.parameters.transtypelist;
 
-        dtSalesInventoryTransactionsReport = GetSalesInventoryTransactionsReport(transtypelist);
+        dtSalesInventoryTransactionReport = GetSalesInventoryTransactionReport(transtypelist);
 
         html = base.renderBodyHtml(styletemplate, bodytemplate, printOptions);
         sb = new StringBuilder(base.renderBodyHtml(styletemplate, bodytemplate, printOptions));
-        sb.Replace("[TotalRows]", "Total Rows: " + dtSalesInventoryTransactionsReport.Rows.Count);
+        sb.Replace("[TotalRows]", "Total Rows: " + dtSalesInventoryTransactionReport.Rows.Count);
         html = sb.ToString();
-        html = this.applyTableToTemplate(html, "details", dtSalesInventoryTransactionsReport);
+        html = this.applyTableToTemplate(html, "details", dtSalesInventoryTransactionReport);
         return html;
     }
         //---------------------------------------------------------------------------------------------
-        protected FwJsonDataTable GetSalesInventoryTransactionsReport(dynamic transtypelist)
+        protected FwJsonDataTable GetSalesInventoryTransactionReport(dynamic transtypelist)
         {
             FwSqlSelect select;
             FwSqlCommand qry;

@@ -1,7 +1,7 @@
-﻿routes.push({ pattern: /^module\/salesinventorytransactionreport$/, action: function (match: RegExpExecArray) { return RwSalesInventoryTransactionsReportController.getModuleScreen(); } });
+﻿routes.push({ pattern: /^module\/salesinventorytransactionreport$/, action: function (match: RegExpExecArray) { return RwSalesInventoryTransactionReportController.getModuleScreen(); } });
 
-class RwSalesInventoryTransactionsReport {
-    Module: string = 'SalesInventoryTransactionsReport';
+class RwSalesInventoryTransactionReport {
+    Module: string = 'SalesInventoryTransactionReport';
     ModuleOptions: any = {
         ReportOptions: {
             HasDownloadExcel: true
@@ -119,4 +119,4 @@ class RwSalesInventoryTransactionsReport {
 };
 
 
-var RwSalesInventoryTransactionsReportController = new RwSalesInventoryTransactionsReport();
+var RwSalesInventoryTransactionReportController = new RwSalesInventoryTransactionReport();

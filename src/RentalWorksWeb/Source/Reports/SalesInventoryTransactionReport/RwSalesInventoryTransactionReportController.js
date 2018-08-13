@@ -1,7 +1,7 @@
-routes.push({ pattern: /^module\/salesinventorytransactionreport$/, action: function (match) { return RwSalesInventoryTransactionsReportController.getModuleScreen(); } });
-class RwSalesInventoryTransactionsReport {
+routes.push({ pattern: /^module\/salesinventorytransactionreport$/, action: function (match) { return RwSalesInventoryTransactionReportController.getModuleScreen(); } });
+class RwSalesInventoryTransactionReport {
     constructor() {
-        this.Module = 'SalesInventoryTransactionsReport';
+        this.Module = 'SalesInventoryTransactionReport';
         this.ModuleOptions = {
             ReportOptions: {
                 HasDownloadExcel: true
@@ -102,5 +102,5 @@ class RwSalesInventoryTransactionsReport {
     }
 }
 ;
-var RwSalesInventoryTransactionsReportController = new RwSalesInventoryTransactionsReport();
-//# sourceMappingURL=RwSalesInventoryTransactionsReportController.js.map
+var RwSalesInventoryTransactionReportController = new RwSalesInventoryTransactionReport();
+//# sourceMappingURL=RwSalesInventoryTransactionReportController.js.map
