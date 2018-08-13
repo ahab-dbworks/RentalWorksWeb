@@ -3,8 +3,7 @@
     getUserControl($context: JQuery) {
         var $usercontrol = FwFileMenu.UserControl_render($context);
 
-        this.buildDashboard($context);
-        this.buildSettings($context);
+        this.buildSystemBar($context);
         this.buildOfficeLocation($context);
 
         // Add SystemBarControl: User Name
@@ -224,28 +223,29 @@
         });
     }
     //----------------------------------------------------------------------------------------------
-    buildDashboard($usercontrol: JQuery<HTMLElement>) {
-        var $dashboard, $userControl;
+    buildSystemBar($usercontrol: JQuery<HTMLElement>) {
+        var $dashboard, $userControl, $settings, $userControl, $reports, $userControl;
     
         $dashboard = jQuery('<i class="material-icons dashboard">insert_chart</i>');
+        $settings = jQuery('<i class="material-icons dashboard">settings</i>');
+        $reports = jQuery('<i class="material-icons dashboard">assignment</i>');
 
         $dashboard.on('click', function () {
             try { program.navigate('home'); } catch (ex) { FwFunc.showError(ex); }
         });
 
-        FwFileMenu.UserControl_addSystemBarControl('dashboard', $dashboard, $usercontrol)
-    }
-    //----------------------------------------------------------------------------------------------
-    buildSettings($usercontrol: JQuery<HTMLElement>) {
-        var $settings, $userControl;
-
-        $settings = jQuery('<i class="material-icons dashboard">settings</i>');
-
         $settings.on('click', function () {
             try { program.navigate('module/settings'); } catch (ex) { FwFunc.showError(ex); }
         });
 
+
+        $reports.on('click', function () {
+            try { program.navigate('module/reports'); } catch (ex) { FwFunc.showError(ex); }
+        });
+
+        FwFileMenu.UserControl_addSystemBarControl('dashboard', $dashboard, $usercontrol)
         FwFileMenu.UserControl_addSystemBarControl('dashboard', $settings, $usercontrol)
+        FwFileMenu.UserControl_addSystemBarControl('dashboard', $reports, $usercontrol)
     }
     //----------------------------------------------------------------------------------------------
 }
