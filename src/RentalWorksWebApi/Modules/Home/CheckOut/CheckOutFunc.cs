@@ -20,7 +20,7 @@ namespace WebApi.Home.CheckOut
         public int QuantityRemaining;
     }
 
-    public class TStageItemReponse : TSpStatusReponse
+    public class StageItemReponse : TSpStatusReponse
     {
         public string InventoryId;
         public string OrderItemId;
@@ -33,7 +33,7 @@ namespace WebApi.Home.CheckOut
         public bool ShowUnstage;
     }
 
-    public class TCheckOutAllStagedResponse : TSpStatusReponse
+    public class CheckOutAllStagedResponse : TSpStatusReponse
     {
         public string ContractId;
     }
@@ -71,9 +71,9 @@ namespace WebApi.Home.CheckOut
 
                      */
         //-------------------------------------------------------------------------------------------------------
-        public static async Task<TStageItemReponse> StageItem(FwApplicationConfig appConfig, FwUserSession userSession, string orderId, /*string orderItemId,*/ string code, int? quantity, bool addItemToOrder, bool addCompleteToOrder)
+        public static async Task<StageItemReponse> StageItem(FwApplicationConfig appConfig, FwUserSession userSession, string orderId, /*string orderItemId,*/ string code, int? quantity, bool addItemToOrder, bool addCompleteToOrder)
         {
-            TStageItemReponse response = new TStageItemReponse();
+            StageItemReponse response = new StageItemReponse();
             using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
             {
                 FwSqlCommand qry = new FwSqlCommand(conn, "pdastageitem", appConfig.DatabaseSettings.QueryTimeout);
@@ -141,9 +141,9 @@ namespace WebApi.Home.CheckOut
             return response;
         }
         //-------------------------------------------------------------------------------------------------------
-        public static async Task<TCheckOutAllStagedResponse> CheckOutAllStaged (FwApplicationConfig appConfig, FwUserSession userSession, string orderId)
+        public static async Task<CheckOutAllStagedResponse> CheckOutAllStaged (FwApplicationConfig appConfig, FwUserSession userSession, string orderId)
         {
-            TCheckOutAllStagedResponse response = new TCheckOutAllStagedResponse();
+            CheckOutAllStagedResponse response = new CheckOutAllStagedResponse();
             using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
             {
                 FwSqlCommand qry = new FwSqlCommand(conn, "checkoutallstaged", appConfig.DatabaseSettings.QueryTimeout);
@@ -154,6 +154,56 @@ namespace WebApi.Home.CheckOut
                 qry.AddParameter("@msg", SqlDbType.NVarChar, ParameterDirection.Output);
                 await qry.ExecuteNonQueryAsync(true);
                 response.ContractId = qry.GetParameter("@contractid").ToString();
+                response.status = qry.GetParameter("@status").ToInt32();
+                response.success = (response.status == 0);
+                response.msg = qry.GetParameter("@msg").ToString();
+            }
+            return response;
+        }
+        //-------------------------------------------------------------------------------------------------------
+        public static async Task<MoveStagedItemResponse> MoveStagedItemToOut(FwApplicationConfig appConfig, FwUserSession userSession, string orderId, string orderItemId, string contractId, string code, float? quantity)
+        {
+            MoveStagedItemResponse response = new MoveStagedItemResponse();
+            using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
+            {
+                FwSqlCommand qry = new FwSqlCommand(conn, "movestageditemtoout", appConfig.DatabaseSettings.QueryTimeout);
+                qry.AddParameter("@orderid", SqlDbType.NVarChar, ParameterDirection.Input, orderId);
+                qry.AddParameter("@contractid", SqlDbType.NVarChar, ParameterDirection.Input, contractId);
+                qry.AddParameter("@code", SqlDbType.NVarChar, ParameterDirection.Input, code);
+                qry.AddParameter("@masteritemid", SqlDbType.NVarChar, ParameterDirection.Input, orderItemId);
+                if (quantity != null)
+                {
+                    qry.AddParameter("@qty", SqlDbType.Float, ParameterDirection.Input, quantity);
+                }
+                qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, userSession.UsersId);
+                qry.AddParameter("@status", SqlDbType.Int, ParameterDirection.Output);
+                qry.AddParameter("@msg", SqlDbType.NVarChar, ParameterDirection.Output);
+                await qry.ExecuteNonQueryAsync(true);
+                response.status = qry.GetParameter("@status").ToInt32();
+                response.success = (response.status == 0);
+                response.msg = qry.GetParameter("@msg").ToString();
+            }
+            return response;
+        }
+        //-------------------------------------------------------------------------------------------------------
+        public static async Task<MoveStagedItemResponse> MoveOutItemToStaged(FwApplicationConfig appConfig, FwUserSession userSession, string orderId, string orderItemId, string contractId, string code, float? quantity)
+        {
+            MoveStagedItemResponse response = new MoveStagedItemResponse();
+            using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
+            {
+                FwSqlCommand qry = new FwSqlCommand(conn, "moveoutitemtostaged", appConfig.DatabaseSettings.QueryTimeout);
+                qry.AddParameter("@orderid", SqlDbType.NVarChar, ParameterDirection.Input, orderId);
+                qry.AddParameter("@contractid", SqlDbType.NVarChar, ParameterDirection.Input, contractId);
+                qry.AddParameter("@code", SqlDbType.NVarChar, ParameterDirection.Input, code);
+                qry.AddParameter("@masteritemid", SqlDbType.NVarChar, ParameterDirection.Input, orderItemId);
+                if (quantity != null)
+                {
+                    qry.AddParameter("@qty", SqlDbType.Float, ParameterDirection.Input, quantity);
+                }
+                qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, userSession.UsersId);
+                qry.AddParameter("@status", SqlDbType.Int, ParameterDirection.Output);
+                qry.AddParameter("@msg", SqlDbType.NVarChar, ParameterDirection.Output);
+                await qry.ExecuteNonQueryAsync(true);
                 response.status = qry.GetParameter("@status").ToInt32();
                 response.success = (response.status == 0);
                 response.msg = qry.GetParameter("@msg").ToString();

@@ -39,6 +39,23 @@ namespace WebApi.Modules.Home.CheckOut
     }
 
 
+    public class MoveStagedItemRequest
+    {
+        public string OrderId;
+        public string OrderItemId;
+        public string ContractId;
+        public string Code;
+        public float? Quantity;
+    }
+
+
+    public class MoveStagedItemResponse : TSpStatusReponse
+    {
+    }
+
+
+
+
 
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "home-v1")]
@@ -56,7 +73,7 @@ namespace WebApi.Modules.Home.CheckOut
             }
             try
             {
-                TStageItemReponse stageItemResponse = new TStageItemReponse();
+                StageItemReponse stageItemResponse = new StageItemReponse();
                 if (string.IsNullOrEmpty(request.OrderId))
                 {
                     stageItemResponse.success = false;
@@ -95,7 +112,7 @@ namespace WebApi.Modules.Home.CheckOut
             }
             try
             {
-                TCheckOutAllStagedResponse checkOutAllStagedResponse = new TCheckOutAllStagedResponse();
+                CheckOutAllStagedResponse checkOutAllStagedResponse = new CheckOutAllStagedResponse();
                 if (string.IsNullOrEmpty(request.OrderId))
                 {
                     checkOutAllStagedResponse.success = false;
@@ -141,6 +158,90 @@ namespace WebApi.Modules.Home.CheckOut
 
                 return new OkObjectResult(response);
 
+            }
+            catch (Exception ex)
+            {
+                FwApiException jsonException = new FwApiException();
+                jsonException.StatusCode = StatusCodes.Status500InternalServerError;
+                jsonException.Message = ex.Message;
+                jsonException.StackTrace = ex.StackTrace;
+                return StatusCode(jsonException.StatusCode, jsonException);
+            }
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/checkout/movestageditemtoout
+        [HttpPost("movestageditemtoout")]
+        public async Task<IActionResult> MoveStagedItemToOut([FromBody]MoveStagedItemRequest request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                MoveStagedItemResponse response = new MoveStagedItemResponse();
+                if (string.IsNullOrEmpty(request.OrderId))
+                {
+                    response.success = false;
+                    response.msg = "OrderId is required.";
+                }
+                else if (string.IsNullOrEmpty(request.ContractId))
+                {
+                    response.success = false;
+                    response.msg = "ContractId is required.";
+                }
+                else if (string.IsNullOrEmpty(request.Code))
+                {
+                    response.success = false;
+                    response.msg = "Code is required.";
+                }
+                else
+                {
+                    response = await CheckOutFunc.MoveStagedItemToOut(AppConfig, UserSession, request.OrderId, request.OrderItemId, request.ContractId, request.Code, request.Quantity);
+                }
+                return new OkObjectResult(response);
+            }
+            catch (Exception ex)
+            {
+                FwApiException jsonException = new FwApiException();
+                jsonException.StatusCode = StatusCodes.Status500InternalServerError;
+                jsonException.Message = ex.Message;
+                jsonException.StackTrace = ex.StackTrace;
+                return StatusCode(jsonException.StatusCode, jsonException);
+            }
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/checkout/moveoutitemtostaged
+        [HttpPost("moveoutitemtostaged")]
+        public async Task<IActionResult> MoveOutItemToStaged([FromBody]MoveStagedItemRequest request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                MoveStagedItemResponse response = new MoveStagedItemResponse();
+                if (string.IsNullOrEmpty(request.OrderId))
+                {
+                    response.success = false;
+                    response.msg = "OrderId is required.";
+                }
+                else if (string.IsNullOrEmpty(request.ContractId))
+                {
+                    response.success = false;
+                    response.msg = "ContractId is required.";
+                }
+                else if (string.IsNullOrEmpty(request.Code))
+                {
+                    response.success = false;
+                    response.msg = "Code is required.";
+                }
+                else
+                {
+                    response = await CheckOutFunc.MoveOutItemToStaged(AppConfig, UserSession, request.OrderId, request.OrderItemId, request.ContractId, request.Code, request.Quantity);
+                }
+                return new OkObjectResult(response);
             }
             catch (Exception ex)
             {
