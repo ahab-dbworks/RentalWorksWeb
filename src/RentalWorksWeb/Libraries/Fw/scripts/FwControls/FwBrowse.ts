@@ -3075,6 +3075,12 @@
     loadBrowseFromTemplate(modulename: string) {
         var $control = jQuery(jQuery('#tmpl-modules-' + modulename + 'Browse').html());
 
+        FwBrowse.loadCustomBrowseFields($control, modulename)
+
+        return $control;
+    }
+    //---------------------------------------------------------------------------------
+    loadCustomBrowseFields($control: JQuery, modulename: string) {
         if (sessionStorage.getItem('customFieldsBrowse') !== null) {
             var customBrowse = JSON.parse(sessionStorage.getItem('customFieldsBrowse'));
             var customBrowseHtml = [];
@@ -3082,7 +3088,7 @@
             if (customBrowse !== 'undefined' && customBrowse.length > 0) {
                 for (var i = 0; i < customBrowse.length; i++) {
                     if (modulename === customBrowse[i].moduleName) {
-                        customBrowseHtml.push(`<div class="column" data-width="${customBrowse[i].browsewidth}px" data-visible="true"><div class="field" data-caption="${customBrowse[i].fieldName}" data-datafield="${customBrowse[i].fieldName}" data-digits="${customBrowse[i].digits}" data-browsedatatype="${customBrowse[i].datatype}" data-sort="off"></div></div>`);
+                        customBrowseHtml.push(`<div class="column" data-width="${customBrowse[i].browsewidth}px" data-visible="true"><div class="field" data-caption="${customBrowse[i].fieldName}" data-datafield="${customBrowse[i].fieldName}" data-digits="${customBrowse[i].digits}" data-datatype="${customBrowse[i].datatype}" data-browsedatatype="${customBrowse[i].datatype}" data-sort="off"></div></div>`);
                     }
                 }
             }
@@ -3090,11 +3096,8 @@
                 jQuery(customBrowseHtml.join('')).insertBefore($control.find('.spacer'));
             } else {
                 $control.append(customBrowseHtml.join(''));
-
             }
         }
-
-        return $control;
     }
     //---------------------------------------------------------------------------------
     loadGridFromTemplate(modulename: string) {

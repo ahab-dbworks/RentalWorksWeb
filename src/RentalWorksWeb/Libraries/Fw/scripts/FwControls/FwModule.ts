@@ -475,6 +475,7 @@ class FwModule {
             }
         }
 
+
         $form
             .on('change keyup', '.fwformfield[data-isuniqueid!="true"][data-enabled="true"][data-datafield!=""]', function (event) {
                 var fields, $tab, $tabpage;

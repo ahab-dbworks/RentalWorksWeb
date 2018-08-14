@@ -274,8 +274,8 @@ FwMenu.addVerticleSeparator = function($control) {
 FwMenu.addCustomContent = function($control, $content) {
     $control.find('.buttonbar').append($content);
 };
-//---------------------------------------------------------------------------------
-FwMenu.generateButtonMenuOption = function(caption) {
+ //---------------------------------------------------------------------------------
+FwMenu.generateButtonMenuOption = function (caption) {
     let $btnMenuOption, html;
     html = [];
     html.push(`<div class="btnmenuoption" data-type="btnmenuoption">${caption}</div>`);
@@ -283,7 +283,7 @@ FwMenu.generateButtonMenuOption = function(caption) {
     return $btnMenuOption;
 };
 //----------------------------------------------------------------------------------------------
-FwMenu.addButtonMenuOptions = function($control, menuOptions) {
+FwMenu.addButtonMenuOptions = function ($control, menuOptions) {
     let caption = $control.attr('data-caption');
     let html = [];
     html.push(`<div class="fwformcontrol btnmenu">${caption}`);

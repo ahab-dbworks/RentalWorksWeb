@@ -204,6 +204,9 @@ FwSettings.getRows = function ($body, $control, apiurl, $modulecontainer, module
     FwAppData.apiMethod(true, 'GET', applicationConfig.appbaseurl + applicationConfig.appvirtualdirectory + apiurl, null, null, function onSuccess(response) {
         var $settings, keys, browseKeys = [];
         $settings = jQuery(jQuery('#tmpl-modules-' + moduleName + 'Browse').html());
+
+        FwBrowse.loadCustomBrowseFields($settings, moduleName);
+
         keys = $settings.find('.field');
         rowId = jQuery(keys[0]).attr('data-datafield');
         for (var i = 1; i < keys.length; i++) {
@@ -417,11 +420,13 @@ FwSettings.renderModuleHtml = function ($control, title, moduleName, description
             $body = $control.find('#' + moduleName + '.panel-body');
             duplicateDatafields = {};
             var withoutDuplicates = [];
+
+            FwBrowse.loadCustomBrowseFields($browse, moduleName);
+
             if ($body.is(':empty')) {
                 FwAppData.apiMethod(true, 'GET', applicationConfig.appbaseurl + applicationConfig.appvirtualdirectory + apiurl, null, null, function onSuccess(response) {
-                    $settings = jQuery(jQuery('#tmpl-modules-' + moduleName + 'Browse').html());
                     $form = jQuery(jQuery('#tmpl-modules-' + moduleName + 'Form').html());
-                    keys = $settings.find('.field');
+                    keys = $browse.find('.field');
                     rowId = jQuery(keys[0]).attr('data-datafield');
 
                     for (var i = 1; i < keys.length; i++) {
@@ -486,6 +491,11 @@ FwSettings.renderModuleHtml = function ($control, title, moduleName, description
 
                     for (var i = 0; i < response.length; i++) {
                         var html = [], $moduleRows;
+                        
+                        response[i]['_Custom'].forEach((customField) => {
+                            response[i][customField.FieldName] = customField.FieldValue
+                        });
+
                         html.push('<div class="panel-record">');
                         html.push('  <div class="panel panel-info container-fluid">');
                         html.push('    <div class="row-heading">');
@@ -496,9 +506,7 @@ FwSettings.renderModuleHtml = function ($control, title, moduleName, description
                                 html[1] = '<div class="panel panel-info container-fluid" style="display:none;">';
                                 html[2] = '<div class="inactive row-heading" style="background-color:lightgray;">';
                             }
-                            if (browseData[j]['caption'] === 'Inactive' || browseData[j]['caption'] === 'Color') {
-
-                            } else {
+                            if (browseData[j]['caption'] !== 'Inactive' && browseData[j]['caption'] !== 'Color') {
                                 html.push('      <div style="width:100%;padding-left: inherit;">');
                                 html.push('        <div class="fwcontrol fwcontainer fwform-fieldrow" data-type="fieldrow">');
                                 html.push('          <label style="font-weight:800;">' + browseData[j]['caption'] + '</label>');

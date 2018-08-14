@@ -2740,13 +2740,17 @@ class FwBrowseClass {
     }
     loadBrowseFromTemplate(modulename) {
         var $control = jQuery(jQuery('#tmpl-modules-' + modulename + 'Browse').html());
+        FwBrowse.loadCustomBrowseFields($control, modulename);
+        return $control;
+    }
+    loadCustomBrowseFields($control, modulename) {
         if (sessionStorage.getItem('customFieldsBrowse') !== null) {
             var customBrowse = JSON.parse(sessionStorage.getItem('customFieldsBrowse'));
             var customBrowseHtml = [];
             if (customBrowse !== 'undefined' && customBrowse.length > 0) {
                 for (var i = 0; i < customBrowse.length; i++) {
                     if (modulename === customBrowse[i].moduleName) {
-                        customBrowseHtml.push(`<div class="column" data-width="${customBrowse[i].browsewidth}px" data-visible="true"><div class="field" data-caption="${customBrowse[i].fieldName}" data-datafield="${customBrowse[i].fieldName}" data-digits="${customBrowse[i].digits}" data-browsedatatype="${customBrowse[i].datatype}" data-sort="off"></div></div>`);
+                        customBrowseHtml.push(`<div class="column" data-width="${customBrowse[i].browsewidth}px" data-visible="true"><div class="field" data-caption="${customBrowse[i].fieldName}" data-datafield="${customBrowse[i].fieldName}" data-digits="${customBrowse[i].digits}" data-datatype="${customBrowse[i].datatype}" data-browsedatatype="${customBrowse[i].datatype}" data-sort="off"></div></div>`);
                     }
                 }
             }
@@ -2757,7 +2761,6 @@ class FwBrowseClass {
                 $control.append(customBrowseHtml.join(''));
             }
         }
-        return $control;
     }
     loadGridFromTemplate(modulename) {
         var $control = jQuery(jQuery('#tmpl-grids-' + modulename + 'Browse').html());

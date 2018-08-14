@@ -395,6 +395,9 @@ class FwModule {
         if (typeof window[controller]['setFormProperties'] === 'function') {
             window[controller]['setFormProperties']($form);
         }
+        if (typeof window[controller]['addButtonMenu'] === 'function') {
+            window[controller]['addButtonMenu']($form);
+        }
         if ($form.attr('data-hasaudit') === 'true') {
             $formTabControl = jQuery($form.find('.fwtabs'));
             auditTabIds = FwTabs.addTab($formTabControl, 'Audit', false, 'AUDIT', false);

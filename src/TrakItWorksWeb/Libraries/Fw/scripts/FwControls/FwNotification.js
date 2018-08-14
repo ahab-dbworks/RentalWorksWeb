@@ -19,8 +19,8 @@ class FwNotification {
                 break;
         }
         html.push('">');
-        html.push('<div class="messageclose"><i class="material-icons">close</i></div>');
         html.push('<div class="message">' + message + '</div>');
+        html.push('<div class="messageclose"><i class="material-icons">close</i></div>');
         html.push('</div>');
         html = html.join('');
         $notification = jQuery(html);

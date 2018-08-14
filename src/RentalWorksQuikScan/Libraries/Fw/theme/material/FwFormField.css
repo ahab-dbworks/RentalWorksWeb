@@ -27,6 +27,23 @@ html.theme-material .fwformfield[data-captionlocation="left"] {display:flex;}
 html.theme-material .fwformfield[data-captionlocation="left"] .fwformfield-caption {}
 html.theme-material .fwformfield[data-captionlocation="left"] .fwformfield-control {}
 
+/*#region data-type="btnmenu" (main button)*/
+html.theme-material [data-type="btnmenu"] .btnmenu {border-radius: 2px;padding: 0 1rem;cursor: pointer;display: inline-block;height: 36px;letter-spacing: .5px;line-height: 36px;font-size: 15px;text-transform: uppercase;will-change: opacity, transform;-webkit-transition: all 0.3s ease-out;-moz-transition: all 0.3s ease-out;-o-transition: all 0.3s ease-out;-ms-transition: all 0.3s ease-out;transition: all 0.3s ease-out;}
+html.theme-material [data-type="btnmenu"] .btnmenu {background-color: #01579b;color: #ffffff;box-shadow: 0 2px 5px 0 rgba(0,0,0,0.16), 0 2px 10px 0 rgba(0,0,0,0.12);}
+html.theme-material [data-type="btnmenu"] .btnmenu:hover {box-shadow: 0 5px 11px 0 rgba(0,0,0,0.18), 0 4px 15px 0 rgba(0,0,0,0.15);}
+html.theme-material [data-type="btnmenu"] .btnmenu:active {background-color:#1e88e5;}
+/*#endregion*/
+
+/*#region data-type="btnmenu" (button drop-down menu)*/
+html.theme-material [data-type="btnmenu"] .btnmenuoptions {display:none;position:absolute; background-color: #01579b;color: #ffffff;box-shadow: 0 2px 5px 0 rgba(0,0,0,0.16), 0 2px 10px 0 rgba(0,0,0,0.12);}
+/*#endregion*/
+
+/*#region data-type="btnmenu" (button menu options) */
+html.theme-material [data-type="btnmenu"] .btnmenuoption {cursor: pointer; padding:.5em 1em .5em 1em;}
+html.theme-material [data-type="btnmenu"] .btnmenuoption:hover {box-shadow: 0 5px 11px 0 rgba(0,0,0,0.18), 0 4px 15px 0 rgba(0,0,0,0.15);}
+html.theme-material [data-type="btnmenu"] .btnmenuoption:active {background-color:#1e88e5;}
+/*#endregion*/
+
 /*#region data-type="button" */
 html.theme-material .fwformcontrol[data-type="button"] {border-radius: 2px;padding: 0 1rem;cursor: pointer;display: inline-block;height: 36px;letter-spacing: .5px;line-height: 36px;font-size: 15px;text-transform: uppercase;will-change: opacity, transform;-webkit-transition: all 0.3s ease-out;-moz-transition: all 0.3s ease-out;-o-transition: all 0.3s ease-out;-ms-transition: all 0.3s ease-out;transition: all 0.3s ease-out;}
 html.theme-material .fwformcontrol[data-type="button"] {background-color: #01579b;color: #ffffff;box-shadow: 0 2px 5px 0 rgba(0,0,0,0.16), 0 2px 10px 0 rgba(0,0,0,0.12);}

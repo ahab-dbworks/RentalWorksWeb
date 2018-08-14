@@ -113,7 +113,7 @@
                     window[moduleName + 'Controller'].onLoadForm($reports);
                     $body.append($reports);
 
-                    for (var i = 0; i < this.filter.length; i++) {
+                    for (var i = 0; i < me.filter.length; i++) {
                         var filterField = $reports.find('[data-datafield="' + me.filter[i] + '"]');
                         if (filterField.length > 0 && filterField.attr('data-type') === 'checkbox') {
                             $reports.find('[data-datafield="' + me.filter[i] + '"] label').addClass('highlighted');
