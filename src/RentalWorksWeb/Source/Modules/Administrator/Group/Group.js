@@ -7,5 +7,5 @@ var RentalWorks;
         Modules.Group = Group;
     })(Modules = RentalWorks.Modules || (RentalWorks.Modules = {}));
 })(RentalWorks || (RentalWorks = {}));
-let GroupController = new RentalWorks.Modules.Group();
+var GroupController = new RentalWorks.Modules.Group();
 //# sourceMappingURL=Group.js.map

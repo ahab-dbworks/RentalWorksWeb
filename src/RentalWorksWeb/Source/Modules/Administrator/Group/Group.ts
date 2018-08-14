@@ -4,4 +4,4 @@
     }
 }
 
-let GroupController = new RentalWorks.Modules.Group();
+var GroupController = new RentalWorks.Modules.Group();

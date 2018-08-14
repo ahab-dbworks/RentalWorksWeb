@@ -63,7 +63,7 @@ class DuplicateRules {
             let moduleNav = modules[i].properties.controller.slice(0, -10)
                 , moduleCaption = modules[i].properties.caption
                 , moduleController = modules[i].properties.controller;
-            if (moduleCaption === "Designer" || moduleCaption === "Group") {
+            if (moduleCaption === "Designer") {
                 continue;
             }
 
