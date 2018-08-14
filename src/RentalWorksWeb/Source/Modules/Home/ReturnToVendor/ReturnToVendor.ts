@@ -2,6 +2,9 @@
 
 class ReturnToVendor {
     Module: string = 'ReturnToVendor';
+    successSoundFileName: string;
+    errorSoundFileName: string;
+    notificationSoundFileName: string;
 
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
@@ -19,7 +22,7 @@ class ReturnToVendor {
         };
 
         return screen;
-    }
+    };
     //----------------------------------------------------------------------------------------------
     openForm(mode: string, parentmoduleinfo?) {
         var $form;
@@ -43,15 +46,18 @@ class ReturnToVendor {
             FwFormField.setValueByDataField($form, 'PurchaseOrderId', parentmoduleinfo.PurchaseOrderId, parentmoduleinfo.PurchaseOrderNumber); 
             $form.find('[data-datafield="PurchaseOrderId"] input').change();
         }
-
+        this.getSoundUrls($form);
         this.getItems($form);
         this.events($form);
 
         return $form;
-    }
+    };
     //----------------------------------------------------------------------------------------------
     getItems($form) {
+        let successSound, self = this;
+        successSound = new Audio(this.successSoundFileName);
         $form.find('[data-datafield="PurchaseOrderId"]').data('onchange', $tr => {
+            successSound.play();
             FwFormField.disable($form.find('[data-datafield="PurchaseOrderId"]'));
 
             let purchaseOrderId = $tr.find('[data-browsedatafield="PurchaseOrderId"]').attr('data-originalvalue');
@@ -82,14 +88,20 @@ class ReturnToVendor {
                 FwBrowse.search($pOReturnItemGridControl);
             }, null, null);
         });
-    }
+    };
     //----------------------------------------------------------------------------------------------
     afterLoad($form: any) {
         //console.log('po', $form.find('div[data-datafield="PurchaseOrderId"] input'))
         //$form.find('div[data-datafield="PurchaseOrderId"] fwformfield-control input').focus();
         //$form.find('div[data-datafield="PurchaseOrderId"] fwformfield-control ').focus();
         //$form.find('div[data-datafield="PurchaseOrderId"] input').focus();
-    }
+    };
+    //----------------------------------------------------------------------------------------------
+    getSoundUrls($form): void {
+        this.successSoundFileName = JSON.parse(sessionStorage.getItem('sounds')).successSoundFileName;
+        this.errorSoundFileName = JSON.parse(sessionStorage.getItem('sounds')).errorSoundFileName;
+        this.notificationSoundFileName = JSON.parse(sessionStorage.getItem('sounds')).notificationSoundFileName;
+    };
     //----------------------------------------------------------------------------------------------
     renderGrids($form:any) {
         let $pOReturnItemGrid: any,
@@ -103,9 +115,11 @@ class ReturnToVendor {
         })
         FwBrowse.init($pOReturnItemGridControl);
         FwBrowse.renderRuntimeHtml($pOReturnItemGridControl);
-    }
+    };
     //----------------------------------------------------------------------------------------------
-    events($form: any) {
+    events($form: any): void {
+        let self = this;
+
         // Create Contract
         $form.find('.createcontract').on('click', e => {
             let date = new Date(),
@@ -136,7 +150,6 @@ class ReturnToVendor {
                 FwFormField.setValueByDataField($form, 'Time', currentTime);
             }, null, $form);
         });
-
         // Select None
         $form.find('.selectnone').on('click', e => {
             let request: any = {}, quantity;
@@ -154,7 +167,6 @@ class ReturnToVendor {
                 FwFunc.showError(response);
             }, $form);
         });
-
         // Select All
         $form.find('.selectall').on('click', e => {
             let request: any = {};
@@ -170,7 +182,7 @@ class ReturnToVendor {
                 FwFunc.showError(response);
                 }, $form, contractId);
         });
-    }
+    };
     //----------------------------------------------------------------------------------------------
-}
+};
 var ReturnToVendorController = new ReturnToVendor();

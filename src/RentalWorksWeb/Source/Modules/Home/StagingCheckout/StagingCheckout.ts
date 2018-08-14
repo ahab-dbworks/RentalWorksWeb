@@ -74,9 +74,9 @@ class StagingCheckout {
     };
     //----------------------------------------------------------------------------------------------
     getSoundUrls = ($form): void => {
-        this.successSoundFileName = sessionStorage.getItem('successSoundFileName');
-        this.errorSoundFileName = sessionStorage.getItem('errorSoundFileName');
-        this.notificationSoundFileName = sessionStorage.getItem('notificationSoundFileName');
+        this.successSoundFileName = JSON.parse(sessionStorage.getItem('sounds')).successSoundFileName;
+        this.errorSoundFileName = JSON.parse(sessionStorage.getItem('sounds')).errorSoundFileName;
+        this.notificationSoundFileName = JSON.parse(sessionStorage.getItem('sounds')).notificationSoundFileName;
     }
     //----------------------------------------------------------------------------------------------
     getOrder($form: JQuery): void {

@@ -2,6 +2,9 @@
 
 class ReceiveFromVendor {
     Module: string = 'ReceiveFromVendor';
+    successSoundFileName: string;
+    errorSoundFileName: string;
+    notificationSoundFileName: string;
 
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
@@ -40,7 +43,7 @@ class ReceiveFromVendor {
             FwFormField.setValueByDataField($form, 'PurchaseOrderId', parentmoduleinfo.PurchaseOrderId, parentmoduleinfo.PurchaseOrderNumber);
             $form.find('[data-datafield="PurchaseOrderId"] input').change();
         }
-
+        this.getSoundUrls($form);
         this.getItems($form);
         this.events($form);
 
@@ -79,7 +82,6 @@ class ReceiveFromVendor {
                 FwBrowse.search($receiveItemsGridControl);
             }, null, null);
 
-
             FwAppData.apiMethod(true, 'GET', `api/v1/purchaseorder/${purchaseOrderId}`, request, FwServices.defaultTimeout, function onSuccess(response) {
                 if ((response.SubRent == false) && (response.SubSale == false)) {
                     FwFormField.disable($form.find('[data-datafield="AutomaticallyCreateCheckOut"]'));
@@ -87,6 +89,12 @@ class ReceiveFromVendor {
                 }
             }, null, null);
         });
+    }
+    //----------------------------------------------------------------------------------------------
+    getSoundUrls($form): void {
+        this.successSoundFileName = JSON.parse(sessionStorage.getItem('sounds')).successSoundFileName;
+        this.errorSoundFileName = JSON.parse(sessionStorage.getItem('sounds')).errorSoundFileName;
+        this.notificationSoundFileName = JSON.parse(sessionStorage.getItem('sounds')).notificationSoundFileName;
     }
     //----------------------------------------------------------------------------------------------
     renderGrids($form: any) {
@@ -103,7 +111,9 @@ class ReceiveFromVendor {
         FwBrowse.renderRuntimeHtml($receiveItemsGridControl);
     }
     //----------------------------------------------------------------------------------------------
-    events($form: any) {
+    events($form: any): void {
+        let self = this;
+    
         // Create Contract
         $form.find('.createcontract').on('click', e => {
             let contractId = FwFormField.getValueByDataField($form, 'ContractId');
@@ -144,7 +154,6 @@ class ReceiveFromVendor {
                 FwFormField.setValueByDataField($form, 'Time', currentTime);
             }, null, $form);
         });
-
         // Select None
         $form.find('.selectnone').on('click', e => {
             let request: any = {}, quantity;
@@ -160,7 +169,6 @@ class ReceiveFromVendor {
                 FwFunc.showError(response);
                 }, $form, contractId);
         });
-
         // Select All
         $form.find('.selectall').on('click', e => {
             let request: any = {};

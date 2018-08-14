@@ -1,17 +1,14 @@
 ﻿routes.push({ pattern: /^module\/exchange$/, action: function (match: RegExpExecArray) { return ExchangeController.getModuleScreen(); } });
 
 class Exchange {
-    ContractId: string;
-    ExchangeResponse: any;
-    Module: string;
-    apiurl: string;
+    Module: string = 'Exchange';
+    apiurl: string = 'api/v1/exchange';
+    ContractId: string = '';
+    ExchangeResponse: any = {};
+    successSoundFileName: string;
+    errorSoundFileName: string;
+    notificationSoundFileName: string;
 
-    constructor() {
-        this.Module = 'Exchange';
-        this.apiurl = 'api/v1/exchange';
-        this.ContractId = '';
-        this.ExchangeResponse = {};
-    }
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
         let screen: any = {};
@@ -30,23 +27,18 @@ class Exchange {
         };
 
         return screen;
-    }
+    };
     //----------------------------------------------------------------------------------------------
     openForm(mode: string) {
-        let $form;
-        let widgets = [];
-        let department = JSON.parse(sessionStorage.getItem('department'));
-        let contractRequest = {};
-        let exchangeRequest = {};
-        let self = this;
+        let $form, department;
 
         $form = jQuery(jQuery('#tmpl-modules-' + this.Module + 'Form').html());
         $form = FwModule.openForm($form, mode);
+        department = JSON.parse(sessionStorage.getItem('department'));
 
         $form.off('change keyup', '.fwformfield[data-isuniqueid!="true"][data-enabled="true"][data-datafield!=""]');
 
         FwFormField.setValueByDataField($form, 'DepartmentId', department.departmentid, department.department);
-        contractRequest['DepartmentId'] = department.departmentid;
 
         if (department.department === 'RENTALS') {
             $form.find('div[data-validationname="RentalInventoryValidation"]').show();
@@ -54,7 +46,27 @@ class Exchange {
         if (department.department === 'SALES') {
             $form.find('div[data-validationname="SalesInventoryValidation"]').show();
         }
+        this.getSoundUrls($form);
+        this.events($form);
+        return $form;
+    };
+    //----------------------------------------------------------------------------------------------
+    getSoundUrls($form): void {
+        this.successSoundFileName = JSON.parse(sessionStorage.getItem('sounds')).successSoundFileName;
+        this.errorSoundFileName = JSON.parse(sessionStorage.getItem('sounds')).errorSoundFileName;
+        this.notificationSoundFileName = JSON.parse(sessionStorage.getItem('sounds')).notificationSoundFileName;
+    };
+    //----------------------------------------------------------------------------------------------
+    events($form: any): void {
+        let self = this, errorSound, successSound, department, contractRequest = {}, exchangeRequest = {};
+       
+        errorSound = new Audio(this.errorSoundFileName);
+        successSound = new Audio(this.successSoundFileName);
+        department = JSON.parse(sessionStorage.getItem('department'));
 
+        contractRequest['DepartmentId'] = department.departmentid;
+
+        // Deal Id
         $form.find('div[data-datafield="DealId"]').data('onchange', function ($tr) {
             contractRequest['OrderId'] = $tr.find('.field[data-browsedatafield="OrderId"]').attr('data-originalvalue')
             contractRequest['DealId'] = $tr.find('.field[data-browsedatafield="DealId"]').attr('data-originalvalue')
@@ -77,9 +89,10 @@ class Exchange {
                 }, null, $form);
             } catch (ex) {
                 FwFunc.showError(ex);
+                errorSound.play();
             }
         });
-
+        // Order Id
         $form.find('div[data-datafield="OrderId"]').data('onchange', function ($tr) {
             FwFormField.setValueByDataField($form, 'DealId', $tr.find('.field[data-browsedatafield="DealId"]').attr('data-originalvalue'), $tr.find('.field[data-browsedatafield="Deal"]').attr('data-originalvalue'));
             contractRequest['OrderId'] = $tr.find('.field[data-browsedatafield="OrderId"]').attr('data-originalvalue');
@@ -100,46 +113,7 @@ class Exchange {
                 FwFunc.showError(ex);
             }
         });
-
-
-        $form.find('.in').on('keypress', function (e) {
-            if (e.which === 13) {
-                try {
-                    var inRequest = {
-                        ContractId: self.ContractId,
-                        InCode: jQuery(this).find('input').val()                        
-                    }
-                    FwAppData.apiMethod(true, 'POST', "api/v1/exchange/exchangeitemin", inRequest, FwServices.defaultTimeout, function onSuccess(response) {
-                        if (response.success) {
-                            if (self.ContractId === '') {
-                                self.ContractId = response.ContractId
-                            }
-                            $form.find('div.error-msg-in').html('');
-                            $form.find('.in').removeClass('error');
-                            FwFormField.setValueByDataField($form, 'DealId', response.DealId, response.Deal);
-                            FwFormField.setValueByDataField($form, 'OrderId', response.OrderId, response.OrderNumber);
-                            FwFormField.setValueByDataField($form, 'Description', response.OrderDescription);
-                            FwFormField.setValueByDataField($form, 'ICodeIn', response.ICode);
-                            FwFormField.setValueByDataField($form, 'DescriptionIn', response.ItemDescription);
-                            FwFormField.disable(FwFormField.getDataField($form, 'OrderId'));
-                            FwFormField.disable(FwFormField.getDataField($form, 'DealId'));
-                            FwFormField.getDataField($form, 'BarCodeOut').find('input').focus();
-                        } else {
-                            FwFormField.setValueByDataField($form, 'DescriptionIn', response.ItemDescription);
-                            FwFormField.setValueByDataField($form, 'ICodeIn', response.ICode);
-                            $form.find('.in').addClass('error');
-                            $form.find('div.error-msg-in').html(`<div style="margin:0px 0px 0px 8px;"><span style="padding:0px 4px 0px 4px;font-size:22px;border-radius:2px;background-color:red;color:white;">${response.msg}</span></div>`);
-                            FwFormField.getDataField($form, 'BarCodeIn').find('input').select();
-                        }
-
-                    }, null, $form);
-
-                } catch (ex) {
-                    FwFunc.showError(ex);
-                }
-            }
-        });
-
+        // Check-Out
         $form.find('.out').on('keypress', function (e) {
             if (e.which === 13) {
                 exchangeRequest['ContractId'] = self.ContractId;
@@ -149,6 +123,7 @@ class Exchange {
                 try {
                     FwAppData.apiMethod(true, 'POST', "api/v1/exchange/exchangeitemout", exchangeRequest, FwServices.defaultTimeout, function onSuccess(response) {
                         if (response.success) {
+                            successSound.play();
                             FwFormField.setValueByDataField($form, 'ICodeOut', response.ICode);
                             FwFormField.setValueByDataField($form, 'DescriptionOut', response.ItemDescription);
                             $form.find('div.error-msg-out').html('');
@@ -172,21 +147,58 @@ class Exchange {
                             FwBrowse.search($exchangeItemGridControl);
                             FwFormField.getDataField($form, 'BarCodeIn').find('input').focus();
                         } else {
+                            errorSound.play();
                             FwFormField.setValueByDataField($form, 'ICodeOut', response.ICode);
                             FwFormField.setValueByDataField($form, 'DescriptionOut', response.ItemDescription);
                             $form.find('.out').addClass('error');
                             $form.find('div.error-msg-out').html(`<div style="margin:0px 0px 0px 8px;"><span style="padding:0px 4px 0px 4px;font-size:22px;border-radius:2px;background-color:red;color:white;">${response.msg}</span></div>`);
                             FwFormField.getDataField($form, 'BarCodeOut').find('input').select();
                         }
-
                     }, null, $form);
-
                 } catch (ex) {
                     FwFunc.showError(ex);
                 }
             }
         });
-
+        // Check-In
+        $form.find('.in').on('keypress', function (e) {
+            if (e.which === 13) {
+                try {
+                    var inRequest = {
+                        ContractId: self.ContractId,
+                        InCode: jQuery(this).find('input').val()
+                    }
+                    FwAppData.apiMethod(true, 'POST', "api/v1/exchange/exchangeitemin", inRequest, FwServices.defaultTimeout, function onSuccess(response) {
+                        if (response.success) {
+                            if (self.ContractId === '') {
+                                self.ContractId = response.ContractId
+                            }
+                            $form.find('div.error-msg-in').html('');
+                            $form.find('.in').removeClass('error');
+                            successSound.play();
+                            FwFormField.setValueByDataField($form, 'DealId', response.DealId, response.Deal);
+                            FwFormField.setValueByDataField($form, 'OrderId', response.OrderId, response.OrderNumber);
+                            FwFormField.setValueByDataField($form, 'Description', response.OrderDescription);
+                            FwFormField.setValueByDataField($form, 'ICodeIn', response.ICode);
+                            FwFormField.setValueByDataField($form, 'DescriptionIn', response.ItemDescription);
+                            FwFormField.disable(FwFormField.getDataField($form, 'OrderId'));
+                            FwFormField.disable(FwFormField.getDataField($form, 'DealId'));
+                            FwFormField.getDataField($form, 'BarCodeOut').find('input').focus();
+                        } else {
+                            FwFormField.setValueByDataField($form, 'DescriptionIn', response.ItemDescription);
+                            FwFormField.setValueByDataField($form, 'ICodeIn', response.ICode);
+                            $form.find('.in').addClass('error');
+                            errorSound.play();
+                            $form.find('div.error-msg-in').html(`<div style="margin:0px 0px 0px 8px;"><span style="padding:0px 4px 0px 4px;font-size:22px;border-radius:2px;background-color:red;color:white;">${response.msg}</span></div>`);
+                            FwFormField.getDataField($form, 'BarCodeIn').find('input').select();
+                        }
+                    }, null, $form);
+                } catch (ex) {
+                    FwFunc.showError(ex);
+                }
+            }
+        });
+        // Create Contract
         $form.find('.createcontract').on('click', () => {
             if (self.ContractId !== '') {
                 try {
@@ -215,11 +227,8 @@ class Exchange {
                 let $cancel = FwConfirmation.addButton($confirmation, 'OK', true);
                 FwConfirmation.addControls($confirmation, '');
             }
-
         });
-
-        return $form;
-    }
+    };
     //----------------------------------------------------------------------------------------------
     renderGrids($form: any) {
         let $exchangeItemGrid: any;
@@ -236,7 +245,7 @@ class Exchange {
         })
         FwBrowse.init($exchangeItemGridControl);
         FwBrowse.renderRuntimeHtml($exchangeItemGridControl);
-    }
+    };
     //----------------------------------------------------------------------------------------------
     beforeValidateOrder($browse, $grid, request) {
         var DealId = jQuery($grid.find('[data-validationname="DealValidation"] input')).val();
@@ -244,9 +253,7 @@ class Exchange {
         request.uniqueids = {
             'DealId': DealId
         }
-
-    }
+    };
     //----------------------------------------------------------------------------------------------
-
-}
+};
 var ExchangeController = new Exchange();

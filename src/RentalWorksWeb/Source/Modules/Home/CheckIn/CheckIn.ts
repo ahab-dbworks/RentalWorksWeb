@@ -2,6 +2,9 @@
 
 class CheckIn {
     Module: string = 'CheckIn';
+    successSoundFileName: string;
+    errorSoundFileName: string;
+    notificationSoundFileName: string;
 
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
@@ -34,7 +37,7 @@ class CheckIn {
             $form.find('div[data-datafield="OrderId"] input.fwformfield-text').val(parentmoduleinfo.OrderNumber);
             jQuery($form.find('[data-datafield="OrderId"] input')).trigger('change');
         }
-
+        this.getSoundUrls($form);
         this.events($form);
 
         return $form;
@@ -65,12 +68,22 @@ class CheckIn {
         }
     };
     //----------------------------------------------------------------------------------------------
-    events($form: any) {
+    getSoundUrls($form): void {
+        this.successSoundFileName = JSON.parse(sessionStorage.getItem('sounds')).successSoundFileName;
+        this.errorSoundFileName = JSON.parse(sessionStorage.getItem('sounds')).errorSoundFileName;
+        this.notificationSoundFileName = JSON.parse(sessionStorage.getItem('sounds')).notificationSoundFileName;
+    }
+    //----------------------------------------------------------------------------------------------
+    events($form: any): void {
+        let errorSound, successSound, department,self = this;
+        department = JSON.parse(sessionStorage.getItem('department'));
+        errorSound = new Audio(this.errorSoundFileName);
+        successSound = new Audio(this.successSoundFileName);
         //Default Department
-        var department = JSON.parse(sessionStorage.getItem('department'));
         FwFormField.setValue($form, 'div[data-datafield="DepartmentId"]', department.departmentid, department.department);
         //Order selection
         $form.find('[data-datafield="OrderId"]').data('onchange', $tr => {
+            successSound.play();
             FwFormField.setValueByDataField($form, 'Description', $tr.find('[data-browsedatafield="Description"]').attr('data-originalvalue'));
             FwFormField.setValueByDataField($form, 'DealId', $tr.find('[data-browsedatafield="DealId"]').attr('data-originalvalue'), $tr.find('[data-browsedatafield="Deal"]').attr('data-originalvalue'));
             FwFormField.disable($form.find('[data-datafield="OrderId"], [data-datafield="DealId"]'));
@@ -114,6 +127,7 @@ class CheckIn {
 
                 FwAppData.apiMethod(true, 'POST', 'api/v1/checkin/checkinitem', request, FwServices.defaultTimeout, function onSuccess(response) {
                     if (response.success) {
+                        successSound.play();
                         FwFormField.setValueByDataField($form, 'ContractId', response.ContractId);
                         FwFormField.setValueByDataField($form, 'ICode', response.InventoryStatus.ICode);
                         FwFormField.setValueByDataField($form, 'InventoryDescription', response.InventoryStatus.Description);
@@ -132,10 +146,12 @@ class CheckIn {
                         $form.find('[data-datafield="BarCode"] input').select();
 
                         if (response.status === 107) {
+                            successSound.play();
                             $form.find('[data-datafield="Quantity"] input').select();
                         }
                     }
                     else if (!response.success) {
+                        errorSound.play();
                         let errormsg = $form.find('.errormsg');
                         errormsg.html(`<div style="margin-left:8px; margin-top: 10px;"><span>${response.msg}</span></div>`);
                         $form.find('[data-datafield="BarCode"] input').select();
@@ -155,6 +171,7 @@ class CheckIn {
                 }
                 FwAppData.apiMethod(true, 'POST', 'api/v1/checkin/checkinitem', request, FwServices.defaultTimeout, function onSuccess(response) {
                     if (response.success) {
+                        successSound.play();
                         let contractId = FwFormField.getValueByDataField($form, 'ContractId');
                         let $checkedInItemsGridControl = $form.find('div[data-name="CheckedInItemGrid"]');
                         FwBrowse.search($checkedInItemsGridControl);
@@ -162,6 +179,7 @@ class CheckIn {
                         $form.find('[data-datafield="BarCode"] input').select();
                     }
                     else if (!response.success) {
+                        errorSound.play();
                         let errormsg = $form.find('.errormsg');
                         errormsg.html(`<div style="margin-left:8px; margin-top: 10px;"><span>${response.msg}</span></div>`);
                         $form.find('[data-datafield="Quantity"] input').select();
@@ -186,7 +204,6 @@ class CheckIn {
             }
         });
     };
-
     //----------------------------------------------------------------------------------------------
     addButtonMenu($form) {
         let $buttonmenu = $form.find('.createcontract[data-type="btnmenu"]');
