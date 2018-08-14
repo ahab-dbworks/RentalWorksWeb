@@ -158,7 +158,7 @@ class RwHome {
         FwAppData.apiMethod(true, 'GET', 'api/v1/userdashboardsettings/' + userId, null, FwServices.defaultTimeout, function onSuccess(response) {
             for (var i = 0; i < response.Widgets.length; i++) {
                 if (response.Widgets[i].selected) {
-                    self.renderWidget($dashboard, response.Widgets[i].apiname, response.Widgets[i].widgettype, response.Widgets[i].clickpath, response.Widgets[i].userWidgetId, Math.floor(100 / response.WidgetsPerRow).toString() + '%', response.Widgets[i].text, response.Widgets[i].dataPoints, response.Widgets[i].axisNumberFormat, response.Widgets[i].dataNumberFormat);
+                    self.renderWidget($dashboard, response.Widgets[i].apiname, response.Widgets[i].widgettype, response.Widgets[i].clickpath, response.Widgets[i].userWidgetId, Math.floor(100 / response.WidgetsPerRow).toString() + '%', response.Widgets[i].text, response.Widgets[i].dataPoints, response.Widgets[i].axisNumberFormatId, response.Widgets[i].dataNumberFormatId);
                 }
             }
         }, null, $control);
@@ -184,7 +184,7 @@ class RwHome {
         jQuery($control).on('click', '#' + apiname + 'refresh', function () {
             FwAppData.apiMethod(true, 'GET', `api/v1/widget/loadbyname/${apiname}?dataPoints=${dataPointCount}&locationId=${JSON.parse(sessionStorage.location).locationid}&warehouseId=${JSON.parse(sessionStorage.warehouse).warehouseid}&departmentId=${JSON.parse(sessionStorage.department).departmentid}`, {}, FwServices.defaultTimeout, function onSuccess(response) {
                 try {
-                    if (axisFormat === 'TWO DIGIT DECIMAL') {
+                    if (axisFormat === 'TWODGDEC') {
                         response.options.scales.yAxes[0].ticks.userCallback = self.commaTwoDecimal;
                     }
                     else {
@@ -199,7 +199,7 @@ class RwHome {
                     }
                     if (response.type !== 'pie') {
                         response.options.scales.xAxes[0].ticks.autoSkip = false;
-                        if (dataFormat === 'TWO DIGIT DECIMAL') {
+                        if (dataFormat === 'TWODGDEC') {
                             response.options.tooltips = {
                                 'callbacks': {
                                     'label': self.commaTwoDecimal2
@@ -245,7 +245,7 @@ class RwHome {
                 var widgetfullscreen = $confirmation.find('#' + apiname + 'fullscreen');
                 FwAppData.apiMethod(true, 'GET', `api/v1/widget/loadbyname/${apiname}?dataPoints=${dataPointCount}&locationId=${JSON.parse(sessionStorage.location).locationid}&warehouseId=${JSON.parse(sessionStorage.warehouse).warehouseid}&departmentId=${JSON.parse(sessionStorage.department).departmentid}`, {}, FwServices.defaultTimeout, function onSuccess(response) {
                     try {
-                        if (axisFormat === 'TWO DIGIT DECIMAL') {
+                        if (axisFormat === 'TWODGDEC') {
                             response.options.scales.yAxes[0].ticks.userCallback = self.commaTwoDecimal;
                         }
                         else {
@@ -261,7 +261,7 @@ class RwHome {
                         }
                         if (response.type !== 'pie') {
                             response.options.scales.xAxes[0].ticks.autoSkip = false;
-                            if (dataFormat === 'TWO DIGIT DECIMAL') {
+                            if (dataFormat === 'TWODGDEC') {
                                 response.options.tooltips = {
                                     'callbacks': {
                                         'label': self.commaTwoDecimal2
@@ -298,7 +298,7 @@ class RwHome {
         });
         FwAppData.apiMethod(true, 'GET', `api/v1/widget/loadbyname/${apiname}?dataPoints=${dataPointCount}&locationId=${JSON.parse(sessionStorage.location).locationid}&warehouseId=${JSON.parse(sessionStorage.warehouse).warehouseid}&departmentId=${JSON.parse(sessionStorage.department).departmentid}`, {}, FwServices.defaultTimeout, function onSuccess(response) {
             try {
-                if (axisFormat === 'TWO DIGIT DECIMAL') {
+                if (axisFormat === 'TWODGDEC') {
                     response.options.scales.yAxes[0].ticks.userCallback = self.commaTwoDecimal;
                 }
                 else {
@@ -313,7 +313,7 @@ class RwHome {
                 }
                 if (response.type !== 'pie') {
                     response.options.scales.xAxes[0].ticks.autoSkip = false;
-                    if (dataFormat === 'TWO DIGIT DECIMAL') {
+                    if (dataFormat === 'TWODGDEC') {
                         response.options.tooltips = {
                             'callbacks': {
                                 'label': self.commaTwoDecimal2
