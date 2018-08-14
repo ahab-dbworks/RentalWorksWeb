@@ -21,8 +21,8 @@ var FwNotification = (function () {
                 break;
         }
         html.push('">');
-        html.push('<div class="messageclose"><i class="material-icons">close</i></div>');
         html.push('<div class="message">' + message + '</div>');
+        html.push('<div class="messageclose"><i class="material-icons">close</i></div>');
         html.push('</div>');
         html = html.join('');
         $notification = jQuery(html);
@@ -33,6 +33,16 @@ var FwNotification = (function () {
         $notification
             .css('z-index', maxZIndex)
             .appendTo(jQuery('body'))
+            .fadeIn('slow', function () {
+            var el = jQuery(this);
+            if (type !== 'PERSISTENTINFO') {
+                setTimeout(function () {
+                    el.fadeOut('slow', function () {
+                        FwNotification.closeNotification(jQuery(this));
+                    });
+                }, 4500);
+            }
+        })
             .on('click', '.messageclose', function () {
             FwNotification.closeNotification(jQuery(this).parent());
         });
