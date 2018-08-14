@@ -162,6 +162,13 @@ class RwHome {
                 }
             }
         }, null, $control);
+        FwAppData.apiMethod(true, 'GET', 'api/v1/usersettings/' + userId, null, FwServices.defaultTimeout, function onSuccess(response) {
+            var sounds = { successSound: "", errorSound: "", notificationSound: "" };
+            sounds.successSound = response.SuccessSoundFileName;
+            sounds.errorSound = response.ErrorSoundFileName;
+            sounds.notificationSound = response.NotificationSoundFileName;
+            sessionStorage.setItem('sounds', JSON.stringify(sounds));
+        }, null, null);
     }
     renderWidget($control, apiname, type, chartpath, userWidgetId, width, text, dataPoints, axisFormat, dataFormat) {
         var self = this;

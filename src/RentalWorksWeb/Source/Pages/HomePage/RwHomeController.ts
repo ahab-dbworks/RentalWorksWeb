@@ -173,7 +173,16 @@
                     self.renderWidget($dashboard, response.Widgets[i].apiname, response.Widgets[i].widgettype, response.Widgets[i].clickpath, response.Widgets[i].userWidgetId, Math.floor(100 / response.WidgetsPerRow).toString() + '%', response.Widgets[i].text, response.Widgets[i].dataPoints, response.Widgets[i].axisNumberFormat, response.Widgets[i].dataNumberFormat)
                 }
             }
-        }, null, $control)
+        }, null, $control);
+
+        //justin 08/14/2018 user's sound settings
+        FwAppData.apiMethod(true, 'GET', 'api/v1/usersettings/' + userId, null, FwServices.defaultTimeout, function onSuccess(response) {
+            var sounds = { successSound: "", errorSound: "", notificationSound: "" };
+            sounds.successSound = response.SuccessSoundFileName;
+            sounds.errorSound = response.ErrorSoundFileName;
+            sounds.notificationSound = response.NotificationSoundFileName;
+            sessionStorage.setItem('sounds', JSON.stringify(sounds));
+        }, null, null);
         
     }
 
