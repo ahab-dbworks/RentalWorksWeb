@@ -48,8 +48,10 @@ class RwBillingProgressReport {
         var request: any = { method: "LoadForm" };
 
         let department = JSON.parse(sessionStorage.getItem('department'))
-        , location = JSON.parse(sessionStorage.getItem('location'));
+            , location = JSON.parse(sessionStorage.getItem('location'))
+            , today = FwFunc.getDate();
 
+        FwFormField.setValueByDataField($form, 'ToDate', today);
         FwFormField.setValue($form, 'div[data-datafield="DepartmentId"]', department.departmentid,  department.department);
         FwFormField.setValue($form, 'div[data-datafield="OfficeLocationId"]', location.locationid, location.location);
 
@@ -66,12 +68,24 @@ class RwBillingProgressReport {
     }
   //----------------------------------------------------------------------------------------------
     beforeValidateDeal($browse: any, $form: any, request: any) {
-        request.uniqueids = {
-            CustomerId: FwFormField.getValueByDataField($form, 'CustomerId')
-            , DealTypeId: FwFormField.getValueByDataField($form, 'DealTypeId')
-            , DealCsrId: FwFormField.getValueByDataField($form, 'CsrId')
-        };
+        let customerId
+            , dealTypeId
+            , dealCsrId;
 
+        request.uniqueids = {};
+        customerId = FwFormField.getValueByDataField($form, 'CustomerId');
+        dealTypeId = FwFormField.getValueByDataField($form, 'DealTypeId');
+        dealCsrId = FwFormField.getValueByDataField($form, 'CsrId');
+
+        if (customerId) {
+            request.uniqueids.CustomerId = customerId;
+        }
+        if (dealTypeId) {
+            request.uniqueids.DealTypeId = dealTypeId;
+        }
+        if (dealCsrId) {
+            request.uniqueids.DealCsrId = dealCsrId;
+        }
     };
 };
 var RwBillingProgressReportController: any = new RwBillingProgressReport();
