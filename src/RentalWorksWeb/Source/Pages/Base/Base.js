@@ -101,6 +101,17 @@ class Base {
                                             sessionStorage.setItem('department', JSON.stringify(responseOriginalApi.webUser.department));
                                             sessionStorage.setItem('userid', JSON.stringify(responseOriginalApi.webUser.webusersid));
                                             jQuery('html').removeClass('theme-material');
+                                            setTimeout(() => {
+                                                FwAppData.apiMethod(true, 'GET', `api/v1/usersettings/${responseOriginalApi.webUser.webusersid.webusersid}`, null, FwServices.defaultTimeout, function onSuccess(response) {
+                                                    let sounds = {};
+                                                    sounds.successSoundFileName = response.SuccessSoundFileName;
+                                                    sounds.errorSoundFileName = response.ErrorSoundFileName;
+                                                    sounds.notificationSoundFileName = response.NotificationSoundFileName;
+                                                    sessionStorage.setItem('sounds', JSON.stringify(sounds));
+                                                }, function onError(response) {
+                                                    FwFunc.showError(response);
+                                                }, null);
+                                            }, 1000);
                                             FwAppData.apiMethod(true, 'GET', 'api/v1/customfield/', null, FwServices.defaultTimeout, function onSuccess(response) {
                                                 var customFields = [];
                                                 var customFieldsBrowse = [];

@@ -74,19 +74,22 @@
     };
     //----------------------------------------------------------------------------------------------
     saveForm($form: any, parameters: any) {
+        let sounds: any = {}, browseDefaultRows, applicationTheme, successSoundFileName, errorSoundFileName, notificationSoundFileName;
         FwModule.saveForm(this.Module, $form, parameters);
 
-        const browseDefaultRows = jQuery($form.find('[data-datafield="BrowseDefaultRows"] select')).val().toString();
-        const applicationTheme = jQuery($form.find('[data-datafield="ApplicationTheme"] select')).val().toString();
-        const successSoundFileName = FwFormField.getValueByDataField($form, 'SuccessSoundFileName').toString();
-        const errorSoundFileName = FwFormField.getValueByDataField($form, 'ErrorSoundFileName').toString();
-        const notificationSoundFileName = FwFormField.getValueByDataField($form, 'NotificationSoundFileName').toString();
+        browseDefaultRows = jQuery($form.find('[data-datafield="BrowseDefaultRows"] select')).val().toString();
+        applicationTheme = jQuery($form.find('[data-datafield="ApplicationTheme"] select')).val().toString();
+        successSoundFileName = FwFormField.getValueByDataField($form, 'SuccessSoundFileName').toString();
+        errorSoundFileName = FwFormField.getValueByDataField($form, 'ErrorSoundFileName').toString();
+        notificationSoundFileName = FwFormField.getValueByDataField($form, 'NotificationSoundFileName').toString();
+
+        sounds.successSoundFileName = successSoundFileName;
+        sounds.errorSoundFileName = errorSoundFileName;
+        sounds.notificationSoundFileName = notificationSoundFileName;
 
         sessionStorage.setItem('browsedefaultrows', browseDefaultRows);
         sessionStorage.setItem('applicationtheme', applicationTheme);
-        sessionStorage.setItem('successSoundFileName', successSoundFileName);
-        sessionStorage.setItem('errorSoundFileName', errorSoundFileName);
-        sessionStorage.setItem('notificationSoundFileName', notificationSoundFileName);
+        sessionStorage.setItem('sounds', JSON.stringify(sounds));
 
         setTimeout(function () {
             location.reload();
