@@ -1,7 +1,5 @@
 ﻿routes.push({ pattern: /^module\/invoicesummaryreport$/, action: function (match: RegExpExecArray) { return RwInvoiceSummaryReportController.getModuleScreen(); } });
 
-
-
 class RwInvoiceSummaryReport {
     Module: string = 'InvoiceSummaryReport';
     ModuleOptions: any = {
@@ -40,8 +38,6 @@ class RwInvoiceSummaryReport {
             request.parameters = FwReport.getParameters($form);
             return request;
         });
-
-       
 
         return $form;
     };

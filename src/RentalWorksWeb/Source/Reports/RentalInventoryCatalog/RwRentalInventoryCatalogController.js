@@ -10,54 +10,39 @@ class RwRentalInventoryCatalog {
         this.beforeValidate = function ($browse, $form, request) {
             var validationName = request.module;
             if (validationName != null) {
-                var InventoryTypeValue = FwFormField.getValueByDataField($form, 'InventoryTypeId');
-                var CategoryTypeId = FwFormField.getValueByDataField($form, 'CategoryId');
-                var SubCategoryTypeId = FwFormField.getValueByDataField($form, 'SubCategoryId');
+                const inventoryTypeId = FwFormField.getValueByDataField($form, 'InventoryTypeId');
+                const categoryId = FwFormField.getValueByDataField($form, 'CategoryId');
+                const subCategoryId = FwFormField.getValueByDataField($form, 'SubCategoryId');
+                request.uniqueids = {};
                 switch (validationName) {
                     case 'InventoryTypeValidation':
-                        request.uniqueids = {
-                            Rental: true
-                        };
+                        request.uniqueids.Rental = true;
                         break;
                     case 'RentalCategoryValidation':
-                        if (InventoryTypeValue !== "") {
-                            request.uniqueids = {
-                                InventoryTypeId: InventoryTypeValue
-                            };
+                        if (inventoryTypeId !== "") {
+                            request.uniqueids.InventoryTypeId = inventoryTypeId;
                         }
                         break;
                     case 'SubCategoryValidation':
-                        if (InventoryTypeValue !== "") {
-                            request.uniqueids = {
-                                InventoryTypeId: InventoryTypeValue
-                            };
+                        request.uniqueids.Rental = true;
+                        if (inventoryTypeId !== "") {
+                            request.uniqueids.InventoryTypeId = inventoryTypeId;
                         }
-                        if (CategoryTypeId !== "") {
-                            request.uniqueids = {
-                                CategoryId: CategoryTypeId
-                            };
+                        if (categoryId !== "") {
+                            request.uniqueids.CategoryId = categoryId;
                         }
-                        request.uniqueids = {
-                            Rental: true,
-                        };
                         break;
                     case 'RentalInventoryValidation':
-                        if (InventoryTypeValue !== "") {
-                            request.uniqueids = {
-                                InventoryTypeId: InventoryTypeValue
-                            };
+                        if (inventoryTypeId !== "") {
+                            request.uniqueids.InventoryTypeId = inventoryTypeId;
                         }
                         ;
-                        if (CategoryTypeId !== "") {
-                            request.uniqueids = {
-                                CategoryId: CategoryTypeId
-                            };
+                        if (categoryId !== "") {
+                            request.uniqueids.CategoryId = categoryId;
                         }
                         ;
-                        if (SubCategoryTypeId !== "") {
-                            request.uniqueids = {
-                                SubCategoryId: SubCategoryTypeId
-                            };
+                        if (subCategoryId !== "") {
+                            request.uniqueids.SubCategoryId = subCategoryId;
                         }
                         ;
                         break;

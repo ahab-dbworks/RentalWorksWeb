@@ -73,10 +73,6 @@ namespace WebLibrary.Security
             AddModule("Return To Vendor",    "{D54EAA01-A710-4F78-A1EE-5FC9EE9150D8}", lv1menuWarehouse.Id, "ReturnToVendorController", "module/returntovendor", homeiconbaseurl + "placeholder.png");
 
             AddModule("Create Pick List",        "{5013C4FF-FC42-4EFE-AE9D-AAF6857F17B8}", null, "CreatePickListController", "module/createpicklist", homeiconbaseurl + "placeholder.png");
-            
-        
-         
-
 
             //Settings 
             var lv2menuAccountingSettings   = AddSettingsMenu("Accounting Settings",         "{BAF9A442-BA44-4DD1-9119-905C1A8FF199}", lv1menuSettings.Id,                                                                                        settingsiconbaseurl + "placeholder.png");
@@ -206,7 +202,6 @@ namespace WebLibrary.Security
             var lv2menuUserSettings         = AddSettingsMenu("User Settings",               "{13E1A9A9-1096-447E-B4AE-E538BEF5BCB5}", lv1menuSettings.Id,                                                                                        settingsiconbaseurl + "placeholder.png");
                                                      AddSettingsModule("User Status",                 "{E19916C6-A844-4BD1-A338-FAB0F278122C}", lv2menuUserSettings.Id,         "UserStatusController",                "module/userstatus",                settingsiconbaseurl + "placeholder.png");
                                                      AddSettingsModule("Sounds",                      "{29C327DD-7734-4039-9CE2-B25D7CD6F9CB}", lv2menuUserSettings.Id,         "SoundController",                     "module/sound",                     settingsiconbaseurl + "placeholder.png");
-
             var lv2menuVehicleSettings      = AddSettingsMenu("Vehicle Settings",            "{6081E168-E3BF-439E-82B0-34AF3680C444}", lv1menuSettings.Id,                                                                                        settingsiconbaseurl + "placeholder.png");
                                                      AddSettingsModule("License Class",               "{422F777F-B57F-43DF-8485-F12F3F7BF662}", lv2menuVehicleSettings.Id,      "LicenseClassController",              "module/licenseclass",              settingsiconbaseurl + "placeholder.png");
                                                      AddSettingsModule("Vehicle Color",               "{F7A34B70-509A-422F-BFD1-5F30BE2C8186}", lv2menuVehicleSettings.Id,      "VehicleColorController",              "module/vehiclecolor",              settingsiconbaseurl + "placeholder.png");
@@ -234,16 +229,13 @@ namespace WebLibrary.Security
                                                      AddSettingsModule("Warehouse",                   "{931D3E75-68CB-4280-B12F-9A955444AA0C}", lv1menuSettings.Id,             "WarehouseController",                 "module/warehouse",                 settingsiconbaseurl + "placeholder.png");
                                                      AddSettingsModule("Widget",                      "{0CAF7264-D1FB-46EC-96B9-68D242985812}", lv1menuSettings.Id,             "WidgetController",                    "module/widget",                    settingsiconbaseurl + "placeholder.png");
                                                      AddSettingsModule("Work Week",                   "{AF91AE34-ADED-4A5A-BD03-113ED817F575}", lv1menuSettings.Id,             "WorkWeekController",                  "module/workweek",                  settingsiconbaseurl + "placeholder.png");
-
-
             //Reports
 
             var lv2menuAccountingReports      = AddReportsMenu("Accounting Reports",                    "{51A99056-CDB7-48C4-AD5D-FADE02B925B6}", lv1menuReports.Id,                                                                                                          reportsiconbaseurl + "placeholder.png");
-                                                       AddReportsModule("G/L Distribution",             "{2A62BAAE-AC2D-418E-9A04-E46EFB0CDE71}", lv2menuAccountingReports.Id,      "RwGLDistributionReportController",             "module/gldistributionreport",            reportsiconbaseurl + "placeholder.png", "G/L Distribution", "", "");
                                                        AddReportsModule("A/R Aging",                    "{03497C4E-CFDE-4156-8DDC-8125B84CA96C}", lv2menuAccountingReports.Id,      "RwARAgingReportController",                    "module/aragingreport",                   reportsiconbaseurl + "placeholder.png", "A/R Aging", "", "");
+                                                       AddReportsModule("G/L Distribution",             "{2A62BAAE-AC2D-418E-9A04-E46EFB0CDE71}", lv2menuAccountingReports.Id,      "RwGLDistributionReportController",             "module/gldistributionreport",            reportsiconbaseurl + "placeholder.png", "G/L Distribution", "", "");
             var lv2menuCrewReports = AddReportsMenu("Crew Reports",                                     "{36F274CF-777F-45E3-B5D1-623E6D0E0963}", lv1menuReports.Id,                                                                                                          reportsiconbaseurl + "placeholder.png");
                                                       AddReportsModule("Crew Sign-In",                  "{4D3886A6-18AD-4CE5-9ECC-FB9EC8E104F3}", lv2menuCrewReports.Id,            "RwCrewSignInReportController",                 "module/crewsigninreport",                reportsiconbaseurl + "placeholder.png", "Crew Sign-In", "", "");
-
             var lv2menuDealReports            = AddReportsMenu("Deal Reports",                          "{B14EC8FA-15B6-470C-B871-FB83E7C24CB2}", lv1menuReports.Id,                                                                                                          reportsiconbaseurl + "placeholder.png");
                                                        AddReportsModule("Credits On Account",           "{F6578383-C27F-4842-871F-673807A7C375}", lv2menuDealReports.Id,            "RwCreditsOnAccountController",                 "module/creditsonaccount",                reportsiconbaseurl + "placeholder.png", "Credits on Account", "", "");
                                                        AddReportsModule("Customer Revenue By Type",     "{7B328DAF-B45B-4D87-964C-37C2C17A42CD}", lv2menuDealReports.Id,            "RwCustomerRevenueByTypeReportController",      "module/customerrevenuebytypereport",     reportsiconbaseurl + "placeholder.png", "Customer Revenue By Type", "", "");
@@ -252,7 +244,6 @@ namespace WebLibrary.Security
                                                        AddReportsModule("Agent Billing",                "{EE6CA8A3-C29E-40AD-8C85-EB52842F28A5}", lv2menuBillingReports.Id,         "RwAgentBillingReportController",               "module/agentbillingreport",              reportsiconbaseurl + "placeholder.png", "Agent Billing", "", "");
                                                        AddReportsModule("Billing Progress",             "{BBEB89E1-093F-4C7B-9827-2ACD63F6534A}", lv2menuBillingReports.Id,         "RwBillingProgressReportController",            "module/billingprogressreport",           reportsiconbaseurl + "placeholder.png", "Billing Progress", "", "");
                                                        AddReportsModule("Create Invoice Process",       "{071E33E3-E091-484A-A7BD-962A638F4E86}", lv2menuBillingReports.Id,         "RwCreateInvoiceProcessReportController",       "module/createinvoiceprocessreport",      reportsiconbaseurl + "placeholder.png", "Create Invoice Process", "", "");
-
                                                        AddReportsModule("Invoice Summary",              "{3373DC7D-24F2-4091-9129-5A959D002AB0}", lv2menuBillingReports.Id,         "RwInvoiceSummaryReportController",             "module/invoicesummaryreport",            reportsiconbaseurl + "placeholder.png", "Invoice Summary", "", "");
                                                        AddReportsModule("Project Manager Billing",      "{E9652DDF-E325-485D-901C-EDAE30409FDB}", lv2menuBillingReports.Id,         "RwProjectManagerBillingReportController",      "module/projectmanagerbillingreport",     reportsiconbaseurl + "placeholder.png", "Project Manager Billing", "", "");
                                                        AddReportsModule("Sales Representative Billing", "{BF9FED34-7896-4A53-A3C8-EC5E8A7D13A3}", lv2menuBillingReports.Id,         "RwSalesRepresentativeBillingReportController", "module/salesrepresentativebillingreport", reportsiconbaseurl + "placeholder.png", "Sales Representative Billing", "", "");

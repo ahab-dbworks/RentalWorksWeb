@@ -44,15 +44,14 @@ class RwSalesRepresentativeBillingReport {
         FwFormField.setValue($form, 'div[data-datafield="OfficeLocationId"]', location.locationid, location.location);
     }
     ;
-    beforeValidate($browse, $grid, request) {
+    beforeValidate($browse, $form, request) {
         const validationName = request.module;
-        const CustomerValue = jQuery($grid.find('[data-validationname="CustomerValidation"] input')).val();
+        const customerId = FwFormField.getValueByDataField($form, 'CustomerId');
+        request.uniqueids = {};
         switch (validationName) {
             case 'DealValidation':
-                if (CustomerValue != '') {
-                    request.uniqueids = {
-                        CustomerId: CustomerValue,
-                    };
+                if (customerId !== "") {
+                    request.uniqueids.CustomerId = customerId;
                 }
                 break;
         }

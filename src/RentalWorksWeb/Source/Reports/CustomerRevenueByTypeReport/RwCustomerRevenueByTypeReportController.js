@@ -44,19 +44,18 @@ class RwCustomerRevenueByTypeReport {
         FwFormField.setValue($form, 'div[data-datafield="OfficeLocationId"]', location.locationid, location.location);
     }
     ;
-    beforeValidate($browse, $grid, request) {
+    beforeValidate($browse, $form, request) {
         const validationName = request.module;
-        const DealTypeValue = jQuery($grid.find('[data-validationname="DealTypeValidation"] input')).val();
-        const CustomerValue = jQuery($grid.find('[data-validationname="CustomerValidation"] input')).val();
+        const customerId = FwFormField.getValueByDataField($form, 'CustomerId');
+        const dealTypeId = FwFormField.getValueByDataField($form, 'DealTypeId');
+        request.uniqueids = {};
         switch (validationName) {
             case 'DealValidation':
-                if (CustomerValue != '') {
-                    request.uniqueids = {
-                        CustomerId: CustomerValue,
-                    };
+                if (customerId !== "") {
+                    request.uniqueids.CustomerId = customerId;
                 }
-                if (DealTypeValue !== "") {
-                    request.uniqueids.DealTypeId = DealTypeValue;
+                if (dealTypeId !== "") {
+                    request.uniqueids.DealTypeId = dealTypeId;
                 }
                 break;
         }

@@ -59,63 +59,46 @@ class RwSalesInventoryTransactionReport {
     }
 
     //----------------------------------------------------------------------------------------------
-    beforeValidate = ($browse, $grid, request) => {
+    beforeValidate = ($browse, $form, request) => {
         const validationName = request.module;
         const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
-        const InventoryTypeValue = jQuery($grid.find('[data-validationname="InventoryTypeValidation"] input')).val();
-        const CategoryTypeValue = jQuery($grid.find('[data-validationname="SalesCategoryValidation"] input')).val();
-        const SubCategoryValue = jQuery($grid.find('[data-validationname="SubCategoryValidation"] input')).val();
+        const inventoryTypeId = FwFormField.getValueByDataField($form, 'InventoryTypeId');
+        const categoryId = FwFormField.getValueByDataField($form, 'CategoryId');
+        const subCategoryId = FwFormField.getValueByDataField($form, 'SubCategoryId');
+        request.uniqueids = {};
 
         switch (validationName) {
             case 'InventoryTypeValidation':
-                request.uniqueids = {
-                    Sales: true,
-                };
+                request.uniqueids.Sales = true;
                 break;
-
             case 'SalesCategoryValidation':
-                if (InventoryTypeValue !== "") {
-                    request.uniqueids = {
-                        InventoryTypeId: InventoryTypeValue,
-                    };
-                    break;
-                }
-             
-            case 'SubCategoryValidation':
-                if (InventoryTypeValue !== "") {
-                    request.uniqueids = {
-                        TypeId: InventoryTypeValue,
-                    };
-                }
-                if (CategoryTypeValue !== "") {
-                    request.uniqueids = {
-                        CategoryId: CategoryTypeValue,
-                    };
-                }
-                request.uniqueids = {
-                    Sales: true,
-                };
+                if (inventoryTypeId !== "") {
+                    request.uniqueids.InventoryTypeId = inventoryTypeId;
                 break;
+                }
+            case 'SubCategoryValidation':
+                request.uniqueids.Sales = true;
 
+                if (inventoryTypeId !== "") {
+                    request.uniqueids.TypeId = inventoryTypeId;
+                }
+                if (categoryId !== "") {
+                    request.uniqueids.CategoryId = categoryId;
+                }
+                break;
             case 'SalesInventoryValidation':
-                if (InventoryTypeValue !== "") {
-                    request.uniqueids = {
-                        InventoryTypeId: InventoryTypeValue,
-                    };
+                if (inventoryTypeId !== "") {
+                    request.uniqueids.InventoryTypeId = inventoryTypeId;
                 }
-                if (CategoryTypeValue !== "") {
-                    request.uniqueids = {
-                        CategoryId: CategoryTypeValue,
-                    };
+                if (categoryId !== "") {
+                    request.uniqueids.CategoryId = categoryId;
                 }
-                if (SubCategoryValue !== "") {
-                    request.uniqueids = {
-                        SubCategoryId: SubCategoryValue,
-                    };
+                if (subCategoryId !== "") {
+                    request.uniqueids.SubCategoryId = subCategoryId;
                 } 
                 break;
         };
     };
 };
 
-var RwSalesInventoryTransactionReportController = new RwSalesInventoryTransactionReport();
+var RwSalesInventoryTransactionReportController: any = new RwSalesInventoryTransactionReport();
