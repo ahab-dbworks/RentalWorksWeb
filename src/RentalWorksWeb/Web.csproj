@@ -1174,6 +1174,7 @@
     <Content Include="theme\images\icons\favicon.001.png" />
     <Content Include="theme\images\icons\reports\placeholder.png" />
     <Content Include="theme\images\icons\settings\groups.png" />
+    <Content Include="theme\images\icons\settings\play_button.svg" />
     <Content Include="theme\images\icons\settings\placeholder.png" />
     <Content Include="theme\images\icons\administrator\placeholder.png" />
     <Content Include="theme\images\icons\integration\placeholder.png" />

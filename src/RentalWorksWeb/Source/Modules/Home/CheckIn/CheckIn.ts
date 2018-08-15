@@ -83,7 +83,6 @@ class CheckIn {
         FwFormField.setValue($form, 'div[data-datafield="DepartmentId"]', department.departmentid, department.department);
         //Order selection
         $form.find('[data-datafield="OrderId"]').data('onchange', $tr => {
-            successSound.play();
             FwFormField.setValueByDataField($form, 'Description', $tr.find('[data-browsedatafield="Description"]').attr('data-originalvalue'));
             FwFormField.setValueByDataField($form, 'DealId', $tr.find('[data-browsedatafield="DealId"]').attr('data-originalvalue'), $tr.find('[data-browsedatafield="Deal"]').attr('data-originalvalue'));
             FwFormField.disable($form.find('[data-datafield="OrderId"], [data-datafield="DealId"]'));

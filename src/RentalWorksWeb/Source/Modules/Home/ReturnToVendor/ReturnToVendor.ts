@@ -57,7 +57,6 @@ class ReturnToVendor {
         let successSound, self = this;
         successSound = new Audio(this.successSoundFileName);
         $form.find('[data-datafield="PurchaseOrderId"]').data('onchange', $tr => {
-            successSound.play();
             FwFormField.disable($form.find('[data-datafield="PurchaseOrderId"]'));
 
             let purchaseOrderId = $tr.find('[data-browsedatafield="PurchaseOrderId"]').attr('data-originalvalue');
