@@ -45,7 +45,7 @@ namespace WebApi.Modules.Home.PurchaseOrder
         public string ContractId;
     }
 
-    public class PurchaseOrderReceiveBarCodeAddItemsResponse: TSpStatusReponse
+    public class PurchaseOrderReceiveBarCodeAddItemsResponse : TSpStatusReponse
     {
         public int ItemsAdded;
     }
