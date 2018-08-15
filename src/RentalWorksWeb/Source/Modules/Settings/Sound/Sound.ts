@@ -3,6 +3,7 @@ class Sound {
     Module: string = 'Sound';
     apiurl: string = 'api/v1/sound';
 
+    //----------------------------------------------------------------------------------------------
     getModuleScreen() {
         var screen, $browse;
 
@@ -25,7 +26,7 @@ class Sound {
 
         return screen;
     }
-
+    //----------------------------------------------------------------------------------------------
     openBrowse() {
         var $browse;
 
@@ -36,7 +37,7 @@ class Sound {
 
         return $browse;
     }
-
+    //----------------------------------------------------------------------------------------------
     openForm(mode: string) {
         var $form, $moduleSelect;
 
@@ -89,10 +90,10 @@ class Sound {
         //this.getFields($form);
 
         //$form.find('[data-datafield="SystemRule"]').attr('data-required', false);
-
+        this.events($form);
         return $form;
     }
-
+    //----------------------------------------------------------------------------------------------
     loadForm(uniqueids: any) {
         var $form;
 
@@ -102,75 +103,22 @@ class Sound {
 
         return $form;
     }
-
+    //----------------------------------------------------------------------------------------------
     saveForm($form: any, parameters: any) {
         FwModule.saveForm(this.Module, $form, parameters);
     }
-
-    //getFields($form: JQuery): void {
-    //    $form.find('div.modules').on("change", function () {
-    //        let moduleName, moduleUrl, request;
-    //        moduleName = jQuery(this).find(':selected').val();
-    //        moduleUrl = jQuery(this).find(':selected').attr('data-apiurl');
-    //        request = {
-    //            module: moduleName,
-    //            top: 1
-    //        };
-
-    //        FwAppData.apiMethod(true, 'POST', `${moduleUrl}/browse`, request, FwServices.defaultTimeout, function onSuccess(response) {
-    //            var fieldColumns = response.Columns;
-
-    //            var filteredColumns = fieldColumns.filter(function (obj) {
-    //                return obj.DataField !== 'DateStamp';
-    //            });
-
-    //            var fieldNamesOnly = filteredColumns.map(a => a.DataField).sort();
-    //            var sortedFields = fieldNamesOnly.sort(function (a, b) {
-    //                return a.toLowerCase().localeCompare(b.toLowerCase());
-    //            });
-               
-    //            var fieldsHtml = [];
-    //            var $fields = $form.find('.fields');
-    //            for (var i = 0; i < sortedFields.length; i++) {
-    //                var uniqueId = FwApplication.prototype.uniqueId(10);
-    //                fieldsHtml.push('<div data-control="FwFormField"');
-    //                fieldsHtml.push(' data-type="checkbox"');
-    //                fieldsHtml.push(' class="fwcontrol fwformfield"');
-    //                fieldsHtml.push(' data-enabled="true"');
-    //                fieldsHtml.push(' data-caption="' + sortedFields[i] + '"');
-    //                fieldsHtml.push(' data-value="' + sortedFields[i] + '"');
-    //                fieldsHtml.push(' style="float:left;width:300px; padding: 10px; 0px;"');
-    //                fieldsHtml.push('>');
-    //                fieldsHtml.push('<input id="' + uniqueId + '" class="fwformfield-control fwformfield-value" type="checkbox" name= "' + sortedFields[i] + '"');
-    //                fieldsHtml.push(' />');
-    //                fieldsHtml.push('<label class="fwformfield-caption" for="' + uniqueId + '">' + sortedFields[i] + '</label>');
-    //                fieldsHtml.push('</div>');
-    //            }
-    //            $fields.empty().append(fieldsHtml.join('')).html();
-
-    //            var fields = $form.find('[data-datafield="Fields"]').attr('data-originalvalue');
-    //                var separateFields = fields.split(",");
-    //                jQuery.each(separateFields, function (i, val) {
-    //                    jQuery("input[name='" + val + "']").prop("checked", true)
-    //                });
-
-    //            $form.on('change', '[type="checkbox"]', e => {
-    //                var field = jQuery(e.currentTarget).attr('name');
-    //                if (separateFields.indexOf(field) === -1) {
-    //                    separateFields.push(field);
-    //                } else {
-    //                  separateFields = separateFields.filter(item => { return item !== field})
-    //                }
-    //                //if (separateFields.length !== 1) {
-    //                //    throw 'Expected 1 element, but got: ' + separateFields.length;
-    //                //}
-    //                var joinFields = separateFields.join(',');
-    //                FwFormField.setValueByDataField($form, 'Fields', joinFields); 
-    //            });
-    //        }, null, $form);
-    //    });
-    //}
-
+    //----------------------------------------------------------------------------------------------
+    events($form: JQuery): void {
+        let sound, soundFileName;
+  
+        // Sound Preview
+        $form.find('.sound-play-button').on('click', e => {
+            soundFileName = FwFormField.getValueByDataField($form, 'FileName');
+            sound = new Audio(soundFileName);
+            sound.play();
+        });
+    };
+    //----------------------------------------------------------------------------------------------
     afterLoad($form: any) {
         if ($form.find('div[data-datafield="SystemSound"]').attr('data-originalvalue') === "true") {
             FwFormField.disable($form.find('div[data-datafield="Sound"]'));
