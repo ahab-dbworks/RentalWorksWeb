@@ -57,6 +57,34 @@ class CheckIn {
         })
         FwBrowse.init($checkedInItemsGridControl);
         FwBrowse.renderRuntimeHtml($checkedInItemsGridControl);
+
+        let $checkInExceptionGrid: any,
+            $checkInExceptionGridControl: any;
+
+        $checkInExceptionGrid = $form.find('div[data-grid="CheckInExceptionGrid"]');
+        $checkInExceptionGridControl = jQuery(jQuery('#tmpl-grids-CheckInExceptionGridBrowse').html());
+        $checkInExceptionGrid.empty().append($checkInExceptionGridControl);
+        $checkInExceptionGridControl.data('ondatabind', function (request) {
+            request.uniqueids = {
+                ContractId: FwFormField.getValueByDataField($form, 'ContractId')
+            }
+        })
+        FwBrowse.init($checkInExceptionGridControl);
+        FwBrowse.renderRuntimeHtml($checkInExceptionGridControl);
+
+        let $checkInOrderGrid: any,
+            $checkInOrderGridControl: any;
+
+        $checkInOrderGrid = $form.find('div[data-grid="CheckInOrderGrid"]');
+        $checkInOrderGridControl = jQuery(jQuery('#tmpl-grids-CheckInOrderGridBrowse').html());
+        $checkInOrderGrid.empty().append($checkInOrderGridControl);
+        $checkInOrderGridControl.data('ondatabind', function (request) {
+            request.uniqueids = {
+                ContractId: FwFormField.getValueByDataField($form, 'ContractId')
+            }
+        })
+        FwBrowse.init($checkInOrderGridControl);
+        FwBrowse.renderRuntimeHtml($checkInOrderGridControl);
     }
     //----------------------------------------------------------------------------------------------
     beforeValidate($browse: any, $form: any, request: any) {
@@ -75,7 +103,7 @@ class CheckIn {
     }
     //----------------------------------------------------------------------------------------------
     events($form: any): void {
-        let errorSound, successSound, department,self = this;
+        let errorSound, successSound, department, self = this;
         department = JSON.parse(sessionStorage.getItem('department'));
         errorSound = new Audio(this.errorSoundFileName);
         successSound = new Audio(this.successSoundFileName);
@@ -115,49 +143,19 @@ class CheckIn {
         $form.find('[data-datafield="BarCode"] input').on('keydown', e => {
             if (e.which === 13) {
                 $form.find('.errormsg').html('');
-                let contractId = FwFormField.getValueByDataField($form, 'ContractId');
-                let request: any = {};
-                request = {
-                    Code: FwFormField.getValueByDataField($form, 'BarCode')
-                }
-                if (contractId) {
-                    request.ContractId = contractId;
-                }
-
-                FwAppData.apiMethod(true, 'POST', 'api/v1/checkin/checkinitem', request, FwServices.defaultTimeout, function onSuccess(response) {
-                    if (response.success) {
-                        successSound.play();
-                        FwFormField.setValueByDataField($form, 'ContractId', response.ContractId);
-                        FwFormField.setValueByDataField($form, 'ICode', response.InventoryStatus.ICode);
-                        FwFormField.setValueByDataField($form, 'InventoryDescription', response.InventoryStatus.Description);
-                        FwFormField.setValueByDataField($form, 'QuantityOrdered', response.InventoryStatus.QuantityOrdered);
-                        FwFormField.setValueByDataField($form, 'QuantitySub', response.InventoryStatus.QuantitySub);
-                        FwFormField.setValueByDataField($form, 'QuantityStaged', response.InventoryStatus.QuantityStaged);
-                        FwFormField.setValueByDataField($form, 'QuantityOut', response.InventoryStatus.QuantityOut);
-                        FwFormField.setValueByDataField($form, 'QuantityIn', response.InventoryStatus.QuantityIn);
-                        FwFormField.setValueByDataField($form, 'QuantityRemaining', response.InventoryStatus.QuantityRemaining);
-                        FwFormField.setValueByDataField($form, 'OrderId', response.OrderId, response.OrderNumber);
-                        FwFormField.setValueByDataField($form, 'DealId', response.DealId, response.Deal);
-                        FwFormField.setValueByDataField($form, 'Description', response.OrderDescription);
-                        FwFormField.disable($form.find('[data-datafield="OrderId"], [data-datafield="DealId"]'));
-                        let $checkedInItemsGridControl = $form.find('div[data-name="CheckedInItemGrid"]');
-                        FwBrowse.search($checkedInItemsGridControl);
-                        $form.find('[data-datafield="BarCode"] input').select();
-
-                        if (response.status === 107) {
-                            successSound.play();
-                            $form.find('[data-datafield="Quantity"] input').select();
-                        }
-                    }
-                    else if (!response.success) {
-                        errorSound.play();
-                        let errormsg = $form.find('.errormsg');
-                        errormsg.html(`<div style="margin-left:8px; margin-top: 10px;"><span>${response.msg}</span></div>`);
-                        $form.find('[data-datafield="BarCode"] input').select();
-                    }
-                }, null, null);
+                this.checkInItem($form);
             }
         });
+        //Add Order to Contract
+        $form.find('.addordertocontract').on('click', e => {
+            $form.find('.errormsg').html('');
+            let addOrderToContract = true;
+            this.checkInItem($form, addOrderToContract);
+
+            let $checkInOrderGridControl = $form.find('div[data-name="CheckInOrderGrid"]');
+            FwBrowse.search($checkInOrderGridControl);
+        });
+
         //Quantity input
         $form.find('[data-datafield="Quantity"] input').on('keydown', e => {
             if (e.which === 13) {
@@ -182,6 +180,9 @@ class CheckIn {
                         let errormsg = $form.find('.errormsg');
                         errormsg.html(`<div style="margin-left:8px; margin-top: 10px;"><span>${response.msg}</span></div>`);
                         $form.find('[data-datafield="Quantity"] input').select();
+
+                        let $checkInExceptionGridControl = $form.find('div[data-name="CheckInExceptionGrid"]');
+                        FwBrowse.search($checkInExceptionGridControl);
                     }
                 }, null, null);
             }
@@ -203,6 +204,67 @@ class CheckIn {
             }
         });
     };
+    //----------------------------------------------------------------------------------------------
+    checkInItem($form, addOrderToContract?) {
+        let errorSound, successSound;
+        errorSound = new Audio(this.errorSoundFileName);
+        successSound = new Audio(this.successSoundFileName);
+
+        let contractId = FwFormField.getValueByDataField($form, 'ContractId');
+        let request: any = {};
+        request = {
+            Code: FwFormField.getValueByDataField($form, 'BarCode')
+        }
+        if (contractId) {
+            request.ContractId = contractId;
+        }
+        if (addOrderToContract) {
+            $form.find('[data-type="section"][data-caption="Check-In"] .fwform-section-title').text('Multi-Order Check-In');
+            $form.find('.orderstab').show();
+            $form.find('[data-datafield="OrderId"]').parents('.flexcolumn').hide();
+            request.AddOrderToContract = true;
+        }
+
+        FwAppData.apiMethod(true, 'POST', 'api/v1/checkin/checkinitem', request, FwServices.defaultTimeout, function onSuccess(response) {
+            if (response.success) {
+                successSound.play();
+                FwFormField.setValueByDataField($form, 'ContractId', response.ContractId);
+                FwFormField.setValueByDataField($form, 'ICode', response.InventoryStatus.ICode);
+                FwFormField.setValueByDataField($form, 'InventoryDescription', response.InventoryStatus.Description);
+                FwFormField.setValueByDataField($form, 'QuantityOrdered', response.InventoryStatus.QuantityOrdered);
+                FwFormField.setValueByDataField($form, 'QuantitySub', response.InventoryStatus.QuantitySub);
+                FwFormField.setValueByDataField($form, 'QuantityStaged', response.InventoryStatus.QuantityStaged);
+                FwFormField.setValueByDataField($form, 'QuantityOut', response.InventoryStatus.QuantityOut);
+                FwFormField.setValueByDataField($form, 'QuantityIn', response.InventoryStatus.QuantityIn);
+                FwFormField.setValueByDataField($form, 'QuantityRemaining', response.InventoryStatus.QuantityRemaining);
+                FwFormField.setValueByDataField($form, 'OrderId', response.OrderId, response.OrderNumber);
+                FwFormField.setValueByDataField($form, 'DealId', response.DealId, response.Deal);
+                FwFormField.setValueByDataField($form, 'Description', response.OrderDescription);
+                FwFormField.disable($form.find('[data-datafield="OrderId"], [data-datafield="DealId"]'));
+
+                if (response.ShowNewOrder) {
+                    $form.find('.addordertocontract').show();
+                }
+
+                let $checkedInItemsGridControl = $form.find('div[data-name="CheckedInItemGrid"]');
+                FwBrowse.search($checkedInItemsGridControl);
+                $form.find('[data-datafield="BarCode"] input').select();
+
+                if (response.status === 107) {
+                    successSound.play();
+                    $form.find('[data-datafield="Quantity"] input').select();
+                }
+            }
+            else if (!response.success) {
+                errorSound.play();
+                let errormsg = $form.find('.errormsg');
+                errormsg.html(`<div style="margin-left:8px; margin-top: 10px;"><span>${response.msg}</span></div>`);
+                $form.find('[data-datafield="BarCode"] input').select();
+                let $checkInExceptionGridControl = $form.find('div[data-name="CheckInExceptionGrid"]');
+                FwBrowse.search($checkInExceptionGridControl);
+            }
+        }, null, null);
+    }
     //----------------------------------------------------------------------------------------------
     addButtonMenu($form) {
         let $buttonmenu = $form.find('.createcontract[data-type="btnmenu"]');
