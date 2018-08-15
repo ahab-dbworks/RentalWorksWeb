@@ -3,6 +3,7 @@ using FwStandard.SqlServer;
 using System.Data;
 using System.Threading.Tasks;
 using WebApi.Logic;
+using WebLibrary;
 
 namespace WebApi.Home.CheckIn
 {
@@ -32,6 +33,8 @@ namespace WebApi.Home.CheckIn
         public string InventoryId;
         public string OrderItemId;
         public OrderInventoryStatus InventoryStatus = new OrderInventoryStatus();
+        public bool ShowNewOrder;
+        public bool ShowSwap;
     }
 
     public static class CheckInFunc
@@ -58,7 +61,7 @@ namespace WebApi.Home.CheckIn
             return contractId;
         }
         //-------------------------------------------------------------------------------------------------------
-        public static async Task<TCheckInItemReponse> CheckInItem(FwApplicationConfig appConfig, FwUserSession userSession, string contractId, string code, int? quantity)
+        public static async Task<TCheckInItemReponse> CheckInItem(FwApplicationConfig appConfig, FwUserSession userSession, string contractId, string code, int? quantity, bool? addOrderToContract, bool? swapItem)
         {
 
             /*
@@ -119,7 +122,7 @@ create procedure dbo.pdacheckinitem(@code                   varchar(255),
                 {
                     qry.AddParameter("@qty", SqlDbType.Int, ParameterDirection.Input, quantity);
                 }
-                qry.AddParameter("@neworderaction", SqlDbType.NVarChar, ParameterDirection.Input, "");
+                qry.AddParameter("@neworderaction", SqlDbType.NVarChar, ParameterDirection.Input, (addOrderToContract.GetValueOrDefault(false) ? RwConstants.CHECK_IN_NEW_ORDER_ACTION_ADD_NEW_ORDER : (swapItem.GetValueOrDefault(false) ? RwConstants.CHECK_IN_NEW_ORDER_ACTION_SWAP_ITEM : "")));
                 qry.AddParameter("@moduletype", SqlDbType.NVarChar, ParameterDirection.Input, "O");
                 qry.AddParameter("@checkinmode", SqlDbType.NVarChar, ParameterDirection.Input, "O");
                 qry.AddParameter("@itemorderid", SqlDbType.NVarChar, ParameterDirection.Output);
@@ -135,6 +138,8 @@ create procedure dbo.pdacheckinitem(@code                   varchar(255),
                 qry.AddParameter("@masterno", SqlDbType.NVarChar, ParameterDirection.Output);
                 qry.AddParameter("@isicode", SqlDbType.NVarChar, ParameterDirection.Output);
                 qry.AddParameter("@description", SqlDbType.NVarChar, ParameterDirection.Output);
+                qry.AddParameter("@allowneworder", SqlDbType.NVarChar, ParameterDirection.Output);
+                qry.AddParameter("@allowswap", SqlDbType.NVarChar, ParameterDirection.Output);
                 qry.AddParameter("@qtyordered", SqlDbType.Int, ParameterDirection.Output);
                 qry.AddParameter("@subqty", SqlDbType.Int, ParameterDirection.Output);
                 qry.AddParameter("@stillout", SqlDbType.Int, ParameterDirection.Output);
@@ -152,6 +157,8 @@ create procedure dbo.pdacheckinitem(@code                   varchar(255),
                 response.Department = qry.GetParameter("@department").ToString();
                 response.InventoryId = qry.GetParameter("@masterid").ToString();
                 response.OrderItemId = qry.GetParameter("@masteritemid").ToString();
+                response.ShowNewOrder = qry.GetParameter("@allowneworder").ToString().Equals("T");
+                response.ShowSwap = qry.GetParameter("@allowswap").ToString().Equals("T");
 
                 response.InventoryStatus.ICode = qry.GetParameter("@masterno").ToString();
                 response.InventoryStatus.Description = qry.GetParameter("@description").ToString();

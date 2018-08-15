@@ -13,6 +13,8 @@ namespace WebApi.Modules.Home.CheckedInItem
         //------------------------------------------------------------------------------------ 
         public string ContractId;
         public string OrderId;
+        public string OrderNumber;
+        public string OrderDescription;
         public string BarCode;
         public string ICode;
         public string Description;
@@ -49,11 +51,5 @@ namespace WebApi.Modules.Home.CheckedInItem
         public string DescriptionColor;
         public bool? Bold;
         //------------------------------------------------------------------------------------ 
-        //protected override bool Validate(TDataRecordSaveMode saveMode, ref string validateMsg) 
-        //{ 
-        //    //override this method on a derived class to implement custom validation logic 
-        //    bool isValid = true; 
-        //    return isValid; 
-        //} 
     }
 }

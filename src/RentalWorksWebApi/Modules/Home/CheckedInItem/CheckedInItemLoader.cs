@@ -20,6 +20,12 @@ namespace WebApi.Modules.Home.CheckedInItem
         [FwSqlDataField(column: "orderid", modeltype: FwDataTypes.Text)]
         public string OrderId { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "orderno", modeltype: FwDataTypes.Text)]
+        public string OrderNumber { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "orderdesc", modeltype: FwDataTypes.Text)]
+        public string OrderDescription { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "barcode", modeltype: FwDataTypes.Text)]
         public string BarCode { get; set; }
         //------------------------------------------------------------------------------------ 

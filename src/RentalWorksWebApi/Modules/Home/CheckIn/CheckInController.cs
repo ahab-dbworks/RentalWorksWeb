@@ -33,8 +33,8 @@ namespace WebApi.Modules.Home.CheckIn
         public string OrderId;
         public string OrderItemId;
         public int? Quantity;
-        public bool? AddItemToOrder;
-        public bool? AddCompleteToOrder;
+        public bool? AddOrderToContract;
+        public bool? SwapItem;
     }
 
 
@@ -131,7 +131,7 @@ namespace WebApi.Modules.Home.CheckIn
                 }
                 else
                 {
-                    checkInItemResponse = await CheckInFunc.CheckInItem(AppConfig, UserSession, request.ContractId, request.Code, request.Quantity);
+                    checkInItemResponse = await CheckInFunc.CheckInItem(AppConfig, UserSession, request.ContractId, request.Code, request.Quantity, request.AddOrderToContract, request.SwapItem);
                 }
 
                 return new OkObjectResult(checkInItemResponse);

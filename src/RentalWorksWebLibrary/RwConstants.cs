@@ -142,6 +142,11 @@ namespace WebLibrary
         public const string BILLING_ADDRESS_TYPE_CUSTOMER = "CUSTOMER";
         public const string BILLING_ADDRESS_TYPE_OTHER = "OTHER";
 
+        //CHECK-IN
+        public const string CHECK_IN_NEW_ORDER_ACTION_ADD_NEW_ORDER = "Y";
+        public const string CHECK_IN_NEW_ORDER_ACTION_SWAP_ITEM = "S";
+
+
 
     }
 
