@@ -30,7 +30,7 @@
         var modules = FwApplicationTree.getChildrenByType(node, 'ReportsModule');
         for (var i = 0; i < modules.length; i++) {
             var moduleName = modules[i].properties.controller;
-            var $form = window[moduleName].openForm();;
+            var $form = window[moduleName].openForm();
             var $fwformfields = $form.find('.fwformfield[data-caption]');
             for (var j = 0; j < $fwformfields.length; j++) {
                 var $field = $fwformfields.eq(j);
@@ -139,7 +139,7 @@
                     jQuery(this).next().css('display', 'none');
                 }
             })
-        ;
+            ;
 
 
         $control.on('keypress', '#reportsSearch', function (e) {
@@ -150,7 +150,7 @@
 
                 var $reports, val, $module;
 
-                this.getCaptions(screen);
+                me.getCaptions(screen);
                 filter = [];
                 $reports = jQuery('small#description');
                 $module = jQuery('a#title');
@@ -168,7 +168,7 @@
                             }
                         }
                     }
-                    this.filter = filter;
+                    me.filter = filter;
                     for (var i = 0; i < results.length; i++) {
                         var module = $reports.filter(function () {
                             return -1 != jQuery(this).text().toUpperCase().indexOf(results[i]);

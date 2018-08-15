@@ -491,7 +491,7 @@ FwSettings.renderModuleHtml = function ($control, title, moduleName, description
 
                     for (var i = 0; i < response.length; i++) {
                         var html = [], $moduleRows;
-                        
+
                         response[i]['_Custom'].forEach((customField) => {
                             response[i][customField.FieldName] = customField.FieldValue
                         });
@@ -605,7 +605,9 @@ FwSettings.renderModuleHtml = function ($control, title, moduleName, description
                         }
                     }
                 }
+                FwModule.loadForm(moduleName, $form);
             }
+
 
             if ($form.find('.fwappimage')[0]) {
                 FwAppImage.getAppImages($form.find('.fwappimage'))
