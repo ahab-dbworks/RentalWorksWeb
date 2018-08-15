@@ -61,6 +61,8 @@
     }
     //----------------------------------------------------------------------------------------------
     events($form: JQuery): void {
+        let successSound, successSoundFileName, errorSound, errorSoundFileName, notificationSound, notificationSoundFileName;
+
         // Sound Validation
         $form.find('div[data-datafield="SuccessSoundId"]').data('onchange', $tr => {
             FwFormField.setValue($form, 'div[data-datafield="SuccessSoundFileName"]', $tr.find('.field[data-formdatafield="FileName"]').attr('data-originalvalue'));
@@ -70,6 +72,22 @@
         });
         $form.find('div[data-datafield="NotificationSoundId"]').data('onchange', $tr => {
             FwFormField.setValue($form, 'div[data-datafield="NotificationSoundFileName"]', $tr.find('.field[data-formdatafield="FileName"]').attr('data-originalvalue'));
+        });
+        // Sound Preview
+        $form.find('.success-play-button').on('click', e => {
+            successSoundFileName = FwFormField.getValueByDataField($form, 'SuccessSoundFileName');
+            successSound = new Audio(successSoundFileName);
+            successSound.play();
+        });
+        $form.find('.error-play-button').on('click', e => {
+            errorSoundFileName = FwFormField.getValueByDataField($form, 'ErrorSoundFileName');
+            errorSound = new Audio(errorSoundFileName);
+            errorSound.play();
+        });
+        $form.find('.notification-play-button').on('click', e => {
+            notificationSoundFileName = FwFormField.getValueByDataField($form, 'NotificationSoundFileName');
+            notificationSound = new Audio(notificationSoundFileName);
+            notificationSound.play();
         });
     };
     //----------------------------------------------------------------------------------------------
