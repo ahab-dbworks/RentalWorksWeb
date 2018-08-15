@@ -52,9 +52,22 @@ class RwProjectManagerBillingReport {
 
         FwFormField.setValue($form, 'div[data-datafield="DepartmentId"]', department.departmentid,  department.department);
         FwFormField.setValue($form, 'div[data-datafield="OfficeLocationId"]', location.locationid, location.location);
-
-        
     };
+    //----------------------------------------------------------------------------------------------
+    beforeValidate($browse, $grid, request) {
+        const validationName = request.module;
+        const CustomerValue = jQuery($grid.find('[data-validationname="CustomerValidation"] input')).val();
+        switch (validationName) {
+            case 'DealValidation':
+                if (CustomerValue != '') {
+                    request.uniqueids = {
+                        CustomerId: CustomerValue,
+                    };
+                }
+                break;
+        };
+    };
+    //----------------------------------------------------------------------------------------------
 };
 var RwProjectManagerBillingReportController: any = new RwProjectManagerBillingReport();
 

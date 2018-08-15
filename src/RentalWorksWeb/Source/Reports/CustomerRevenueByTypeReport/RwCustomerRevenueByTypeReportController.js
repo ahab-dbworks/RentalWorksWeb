@@ -44,6 +44,25 @@ class RwCustomerRevenueByTypeReport {
         FwFormField.setValue($form, 'div[data-datafield="OfficeLocationId"]', location.locationid, location.location);
     }
     ;
+    beforeValidate($browse, $grid, request) {
+        const validationName = request.module;
+        const DealTypeValue = jQuery($grid.find('[data-validationname="DealTypeValidation"] input')).val();
+        const CustomerValue = jQuery($grid.find('[data-validationname="CustomerValidation"] input')).val();
+        switch (validationName) {
+            case 'DealValidation':
+                if (CustomerValue != '') {
+                    request.uniqueids = {
+                        CustomerId: CustomerValue,
+                    };
+                }
+                if (DealTypeValue !== "") {
+                    request.uniqueids.DealTypeId = DealTypeValue;
+                }
+                break;
+        }
+        ;
+    }
+    ;
 }
 ;
 var RwCustomerRevenueByTypeReportController = new RwCustomerRevenueByTypeReport();

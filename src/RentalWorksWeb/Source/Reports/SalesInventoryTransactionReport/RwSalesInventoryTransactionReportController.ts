@@ -118,5 +118,4 @@ class RwSalesInventoryTransactionReport {
     };
 };
 
-
 var RwSalesInventoryTransactionReportController = new RwSalesInventoryTransactionReport();

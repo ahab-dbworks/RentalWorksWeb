@@ -1,4 +1,4 @@
-﻿<div class="fwcontrol fwcontainer fwform fwreport revenuebytypereport" data-control="FwContainer" data-type="form" data-version="1" data-caption="Revenue By Type" data-rendermode="template" data-mode="" data-hasaudit="false" data-controller="RwRevenueByTypeReportController">
+﻿<div class="fwcontrol fwcontainer fwform fwreport revenuebytypereport" data-control="FwContainer" data-type="form" data-version="1" data-caption="Revenue By Type" data-rendermode="template" data-mode="" data-hasaudit="false" data-controller="RwCustomerRevenueByTypeReportController">
   <div class="fwcontrol fwtabs" data-control="FwTabs" data-type="">
     <div class="tabs" style="margin-right:10px;">
       <div id="generaltab" class="tab" data-tabpageid="generaltabpage" data-caption="General"></div>
@@ -50,7 +50,7 @@
                   <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Deal Type" data-datafield="DealTypeId" data-displayfield="DealType" data-validationname="DealTypeValidation" style="float:left;max-width:300px;"></div>
                 </div>
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                  <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Deal" data-datafield="DealId" data-displayfield="Deal" data-validationname="DealValidation" style="float:left;max-width:300px;"></div>
+                  <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Deal" data-datafield="DealId" data-displayfield="Deal" data-validationname="DealValidation" data-formbeforevalidate="beforeValidate" style="float:left;max-width:300px;"></div>
                 </div>
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                   <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Order Type" data-datafield="OrderTypeId" data-displayfield="OrderType" data-validationname="OrderTypeValidation" style="float:left;max-width:300px;"></div>
@@ -60,8 +60,7 @@
           </div>
         </div>
       </div>
-      <div id="exporttabpage" class="tabpage exporttabpage" data-tabid="exporttab">
-      </div>
+      <div id="exporttabpage" class="tabpage exporttabpage" data-tabid="exporttab"></div>
     </div>
   </div>
 </div>
