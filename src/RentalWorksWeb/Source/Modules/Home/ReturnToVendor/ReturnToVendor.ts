@@ -184,5 +184,19 @@ class ReturnToVendor {
         });
     };
     //----------------------------------------------------------------------------------------------
+    beforeValidate($browse, $grid, request) {
+        const validationName = request.module;
+        const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
+
+        switch (validationName) {
+            case 'PurchaseOrderValidation':
+                request.miscfields = {
+                    ReturnToVendor: true,
+                    ReturningWarehouseId: warehouse.warehouseid,
+                };
+                break;
+        };
+    };
+    //----------------------------------------------------------------------------------------------
 };
 var ReturnToVendorController = new ReturnToVendor();

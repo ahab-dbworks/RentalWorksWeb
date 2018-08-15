@@ -192,5 +192,19 @@ class ReceiveFromVendor {
         });
     };
     //----------------------------------------------------------------------------------------------
+    beforeValidate($browse, $grid, request) {
+        const validationName = request.module;
+        const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
+
+        switch (validationName) {
+            case 'PurchaseOrderValidation':
+                request.miscfields = {
+                    ReceiveFromVendor: true,
+                    ReceivingWarehouseId: warehouse.warehouseid,
+                };
+                break;
+        };
+    };
+    //----------------------------------------------------------------------------------------------
 }
 var ReceiveFromVendorController = new ReceiveFromVendor();

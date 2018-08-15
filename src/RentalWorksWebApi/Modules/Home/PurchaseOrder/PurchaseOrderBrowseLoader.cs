@@ -59,6 +59,34 @@ namespace WebApi.Modules.Home.PurchaseOrder
             addFilterToSelect("OrderId", "poorderid", select, request);
 
 
+            if (GetMiscFieldAsBoolean("ReceiveFromVendor", request).GetValueOrDefault(false))
+            {
+                select.AddWhere("orderno > ''");
+                select.AddWhereIn("and", "status", RwConstants.PURCHASE_ORDER_STATUS_NEW + "," + RwConstants.PURCHASE_ORDER_STATUS_OPEN);
+
+                string receivingWarehouseId = GetMiscFieldAsString("ReceivingWarehouseId", request);
+                if (!string.IsNullOrEmpty(receivingWarehouseId))
+                {
+                    select.AddWhere(" ((warehouseid = @receivingwhid) or exists (select * from masteritem mi with (nolock) where mi.orderid = t.orderid and mi.warehouseid = @receivingwhid))");
+                    select.AddParameter("@receivingwhid", receivingWarehouseId);
+                }
+            }
+            else if (GetMiscFieldAsBoolean("ReturnToVendor", request).GetValueOrDefault(false))
+            {
+                select.AddWhere("orderno > ''");
+                select.AddWhereIn("and", "status", RwConstants.PURCHASE_ORDER_STATUS_OPEN + "," + RwConstants.PURCHASE_ORDER_STATUS_RECEIVED + "," + RwConstants.PURCHASE_ORDER_STATUS_COMPLETE);
+
+                string returningWarehouseId = GetMiscFieldAsString("ReturningWarehouseId", request);
+                if (!string.IsNullOrEmpty(returningWarehouseId))
+                {
+                    select.AddWhere(" ((warehouseid = @returningwhid) or exists (select * from masteritem mi with (nolock) where mi.orderid = t.orderid and mi.warehouseid = @returningwhid))");
+                    select.AddParameter("@returningwhid", returningWarehouseId);
+                }
+            }
+
+
+
+
             if ((request != null) && (request.activeview != null))
             {
                 switch (request.activeview)
