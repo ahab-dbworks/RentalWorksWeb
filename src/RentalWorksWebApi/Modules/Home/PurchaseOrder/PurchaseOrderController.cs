@@ -39,6 +39,17 @@ namespace WebApi.Modules.Home.PurchaseOrder
         public string ContractId;
     }
 
+    public class PurchaseOrderReceiveBarCodeAddItemsRequest
+    {
+        public string PurchaseOrderId;
+        public string ContractId;
+    }
+
+    public class PurchaseOrderReceiveBarCodeAddItemsResponse: TSpStatusReponse
+    {
+        public int ItemsAdded;
+    }
+
 
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "home-v1")]
@@ -249,5 +260,33 @@ namespace WebApi.Modules.Home.PurchaseOrder
             }
         }
         //------------------------------------------------------------------------------------    
+
+
+
+        // POST api/v1/purchaseorder/receivebarcodeadditems
+        [HttpPost("receivebarcodeadditems")]
+        public async Task<IActionResult> ReceiveBarCodeAddItems([FromBody] PurchaseOrderReceiveBarCodeAddItemsRequest request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+
+                PurchaseOrderReceiveBarCodeAddItemsResponse response = await ContractFunc.AddInventoryFromReceive(AppConfig, UserSession, request.PurchaseOrderId, request.ContractId);
+                return new OkObjectResult(response);
+            }
+            catch (Exception ex)
+            {
+                FwApiException jsonException = new FwApiException();
+                jsonException.StatusCode = StatusCodes.Status500InternalServerError;
+                jsonException.Message = ex.Message;
+                jsonException.StackTrace = ex.StackTrace;
+                return StatusCode(jsonException.StatusCode, jsonException);
+            }
+        }
+        //------------------------------------------------------------------------------------       
+
     }
 }

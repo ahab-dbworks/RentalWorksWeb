@@ -83,6 +83,18 @@ namespace WebApi.Modules.Home.PurchaseOrder
                     select.AddParameter("@returningwhid", returningWarehouseId);
                 }
             }
+            else if (GetMiscFieldAsBoolean("AssignBarCodes", request).GetValueOrDefault(false))
+            {
+                select.AddWhere("orderno > ''");
+                select.AddWhereIn("and", "status", RwConstants.PURCHASE_ORDER_STATUS_OPEN + "," + RwConstants.PURCHASE_ORDER_STATUS_RECEIVED + "," + RwConstants.PURCHASE_ORDER_STATUS_COMPLETE);
+
+                string assigningWarehouseId = GetMiscFieldAsString("AssigningWarehouseId", request);
+                if (!string.IsNullOrEmpty(assigningWarehouseId))
+                {
+                    select.AddWhere(" ((warehouseid = @assigningwhid) or exists (select * from masteritem mi with (nolock) where mi.orderid = t.orderid and mi.warehouseid = @assigningwhid))");
+                    select.AddParameter("@assigningwhid", assigningWarehouseId);
+                }
+            }
 
 
 
