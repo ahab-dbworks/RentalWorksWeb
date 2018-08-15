@@ -178,6 +178,7 @@
     <Content Include="Application.test.config" />
     <Content Include="packages.config" />
     <TypeScriptCompile Include="scripts\RwMaster.ts" />
+    <Content Include="Source\Grids\CheckInSwapGrid\CheckInSwapGridBrowse.htm" />
     <Content Include="Source\Grids\CheckInOrderGrid\CheckInOrderGridBrowse.htm" />
     <Content Include="Source\Grids\CheckInExceptionGrid\CheckInExceptionGridBrowse.htm" />
     <Content Include="Source\Grids\ContractExchangeItemGrid\ContractExchangeItemGridBrowse.htm" />
@@ -289,6 +290,7 @@
     <Content Include="Source\Grids\ItemLocationTaxGrid\ItemLocationTaxGridBrowse.htm" />
     <Content Include="Source\Grids\RateLocationTaxGrid\RateLocationTaxGridBrowse.htm" />
     <Content Include="Source\Grids\SubCategoryGrid\SubCategoryGridBrowse.htm" />
+    <TypeScriptCompile Include="Source\Grids\CheckInSwapGrid\CheckInSwapGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\CheckInOrderGrid\CheckInOrderGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\CheckInExceptionGrid\CheckInExceptionGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\ContactPersonalEventGrid\ContactPersonalEventGridController.ts" />
