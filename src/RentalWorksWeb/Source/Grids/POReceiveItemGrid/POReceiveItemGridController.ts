@@ -1,10 +1,20 @@
 ﻿class POReceiveItemGrid {
     Module: string = 'POReceiveItemGrid';
     apiurl: string = 'api/v1/purchaseorderreceiveitem';
+    successSoundFileName: string;
+    errorSoundFileName: string;
+    notificationSoundFileName: string;
 
     generateRow($control, $generatedtr) {
-        let $form = $control.closest('.fwform'),
-            $quantityColumn = $generatedtr.find('.quantity');
+        let $form, errorSound, successSound, $quantityColumn;
+        $form = $control.closest('.fwform'),
+        $quantityColumn = $generatedtr.find('.quantity');
+        this.successSoundFileName = JSON.parse(sessionStorage.getItem('sounds')).successSoundFileName;
+        this.errorSoundFileName = JSON.parse(sessionStorage.getItem('sounds')).errorSoundFileName;
+        this.notificationSoundFileName = JSON.parse(sessionStorage.getItem('sounds')).notificationSoundFileName;
+
+        errorSound = new Audio(this.errorSoundFileName);
+        successSound = new Audio(this.successSoundFileName);
 
         FwBrowse.setAfterRenderRowCallback($control, ($tr: JQuery, dt: FwJsonDataTable, rowIndex: number) => {
             let originalquantity = $tr.find('[data-browsedatafield="Quantity"]').attr('data-originalvalue');
@@ -119,7 +129,7 @@
                                     $quantityColumn.find('.cellcolor').css('border-left', `20px solid transparent`);
                                 }
                             } else {
-                               
+                                errorSound.play();
                                 errormsg.html(`<div style="margin-left:8px; margin-top: 10px;"><span>${response.msg}</span></div>`);
                                 $tr.find('[data-browsedatafield="Quantity"] input').val(Number(oldValue));
                             }

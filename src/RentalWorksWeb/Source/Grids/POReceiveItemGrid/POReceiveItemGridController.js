@@ -4,7 +4,14 @@ class POReceiveItemGrid {
         this.apiurl = 'api/v1/purchaseorderreceiveitem';
     }
     generateRow($control, $generatedtr) {
-        let $form = $control.closest('.fwform'), $quantityColumn = $generatedtr.find('.quantity');
+        let $form, errorSound, successSound, $quantityColumn;
+        $form = $control.closest('.fwform'),
+            $quantityColumn = $generatedtr.find('.quantity');
+        this.successSoundFileName = JSON.parse(sessionStorage.getItem('sounds')).successSoundFileName;
+        this.errorSoundFileName = JSON.parse(sessionStorage.getItem('sounds')).errorSoundFileName;
+        this.notificationSoundFileName = JSON.parse(sessionStorage.getItem('sounds')).notificationSoundFileName;
+        errorSound = new Audio(this.errorSoundFileName);
+        successSound = new Audio(this.successSoundFileName);
         FwBrowse.setAfterRenderRowCallback($control, ($tr, dt, rowIndex) => {
             let originalquantity = $tr.find('[data-browsedatafield="Quantity"]').attr('data-originalvalue');
             let quantityColorIndex = dt.ColumnIndex.QuantityColor;
@@ -102,6 +109,7 @@ class POReceiveItemGrid {
                             }
                         }
                         else {
+                            errorSound.play();
                             errormsg.html(`<div style="margin-left:8px; margin-top: 10px;"><span>${response.msg}</span></div>`);
                             $tr.find('[data-browsedatafield="Quantity"] input').val(Number(oldValue));
                         }

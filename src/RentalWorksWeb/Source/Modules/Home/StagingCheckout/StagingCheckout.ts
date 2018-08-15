@@ -82,7 +82,6 @@ class StagingCheckout {
     getOrder($form: JQuery): void {
         const order = $form.find('[data-datafield="OrderId"]');
         const maxPageSize = 9999;
-        let successSound = new Audio(this.successSoundFileName);
 
         order.on('change', function () {
             try {
@@ -123,7 +122,6 @@ class StagingCheckout {
                     //}
 
                     //$form.find('.details').hide();
-                    successSound.play();
                 }, null, $form);
 
                 var $stagedItemGridControl: any;
@@ -189,7 +187,6 @@ class StagingCheckout {
             $form.find('.createcontract').show();
         });
     };
-
     //----------------------------------------------------------------------------------------------
     renderGrids($form: any) {
         let $stagedItemGrid: any;
@@ -212,7 +209,6 @@ class StagingCheckout {
         FwBrowse.renderRuntimeHtml($stagedItemGridControl);
         //this.addLegend($form, $stagedItemGrid);
     };
-
     //----------------------------------------------------------------------------------------------
     afterLoad($form: any) {
         let $stagedItemGrid;
