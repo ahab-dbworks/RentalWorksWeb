@@ -610,8 +610,6 @@
     <Content Include="Source\Modules\Settings\WallDescription\WallDescriptionForm.htm" />
     <Content Include="Source\Modules\Settings\SetSurface\SetSurfaceBrowse.htm" />
     <Content Include="Source\Modules\Settings\SetSurface\SetSurfaceForm.htm" />
-    <Content Include="Source\Modules\Home\Deal\DealBrowse.htm" />
-    <Content Include="Source\Modules\Home\Deal\DealForm.htm" />
     <Content Include="Source\Modules\Settings\ProjectItemsOrdered\ProjectItemsOrderedBrowse.htm" />
     <Content Include="Source\Modules\Settings\ProjectItemsOrdered\ProjectItemsOrderedForm.htm" />
     <Content Include="Source\Modules\Settings\OrderLocation\OrderLocationBrowse.htm" />
