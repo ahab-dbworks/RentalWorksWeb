@@ -240,6 +240,20 @@ progress::-webkit-progress-value {
     border-radius: 50%;
 }
 
+.dbl-angle {
+    outline: none;
+    background-color:transparent;
+    border-color:transparent;
+    border-width:0px 0px 0px 0px;
+}
+.dbl-angle > img {
+    cursor: pointer;
+}
+
+.dbl-angle > img:active {
+     background-color: green;
+}
+
 /* Styling for error message text */
 .fwform .errormsg span {
     background-color: red;

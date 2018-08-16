@@ -46,6 +46,7 @@ class StagingCheckout {
         $form.find('[data-datafield="WarehouseId"]').hide();
         $form.find('.orderstatus').hide();
         $form.find('.createcontract').hide();
+        $form.find('.partial-contract').hide();
 
         FwFormField.setValue($form, 'div[data-datafield="WarehouseId"]', warehouse.warehouseid, warehouse.warehouse);
 
@@ -201,7 +202,7 @@ class StagingCheckout {
 
         $createPartialContract.on('click', e => {
             e.stopPropagation();
-            //stuff
+            this.partialCheckoutItems($form);
         });
 
         menuOptions.push($createContract, $createPartialContract);
@@ -209,13 +210,43 @@ class StagingCheckout {
         FwMenu.addButtonMenuOptions($buttonmenu, menuOptions);
     };
     //----------------------------------------------------------------------------------------------
+    partialCheckoutItems($form: JQuery): void {
+        let contractId, request: any = {};
+        $form.find('.orderstatus').hide();
+        $form.find('.createcontract').hide();
+        $form.find('.partial-contract-hide').hide();
+        $form.find('.partial-contract').show();
+        $form.find('.flexrow').css('max-width', '2200px');
+
+        request.OrderId = FwFormField.getValueByDataField($form, 'OrderId');
+
+        FwAppData.apiMethod(true, 'POST', `api/v1/checkout/startcheckoutcontract`, request, FwServices.defaultTimeout, function onSuccess(response) {
+            try {
+                contractId = response.ContractId;
+                var $checkedOutItemGridControl: any;
+                $checkedOutItemGridControl = $form.find('[data-name="CheckedOutItemGrid"]');
+                $checkedOutItemGridControl.data('ondatabind', function (request) {
+                    request.orderby = 'OrderBy';
+                    request.pagesize = 10;
+                    request.uniqueids = {
+                        ContractId: contractId,
+                    }
+                })
+                FwBrowse.search($checkedOutItemGridControl);
+            }
+            catch (ex) {
+                FwFunc.showError(ex);
+            }
+        }, null, null);
+    }
+    //----------------------------------------------------------------------------------------------
     renderGrids($form: any) {
-        let $stagedItemGrid: any;
-        let $stagedItemGridControl: any;
+        let $stagedItemGrid: any, $stagedItemGridControl: any;
+        let $checkedOutItemGrid: any, $checkedOutItemGridControl: any;
         let orderId = $form.find('[data-datafield="OrderId"] .fwformfield-value').val();
         let warehouseId = FwFormField.getValueByDataField($form, 'WarehouseId');
         let maxPageSize = 9999;
-
+        //----------------------------------------------------------------------------------------------
         $stagedItemGrid = $form.find('div[data-grid="StagedItemGrid"]');
         $stagedItemGridControl = jQuery(jQuery('#tmpl-grids-StagedItemGridBrowse').html());
         $stagedItemGrid.empty().append($stagedItemGridControl);
@@ -228,6 +259,18 @@ class StagingCheckout {
         })
         FwBrowse.init($stagedItemGridControl);
         FwBrowse.renderRuntimeHtml($stagedItemGridControl);
+        //----------------------------------------------------------------------------------------------
+        $checkedOutItemGrid = $form.find('div[data-grid="CheckedOutItemGrid"]');
+        $checkedOutItemGridControl = jQuery(jQuery('#tmpl-grids-CheckedOutItemGridBrowse').html());
+        $checkedOutItemGrid.empty().append($checkedOutItemGridControl);
+        $checkedOutItemGridControl.data('ondatabind', function (request) {
+            request.uniqueids = {
+                ContractId: FwFormField.getValueByDataField($form, 'ContractId')
+            }
+        })
+        FwBrowse.init($checkedOutItemGridControl);
+        FwBrowse.renderRuntimeHtml($checkedOutItemGridControl);
+        //----------------------------------------------------------------------------------------------
         //this.addLegend($form, $stagedItemGrid);
     };
     //----------------------------------------------------------------------------------------------
