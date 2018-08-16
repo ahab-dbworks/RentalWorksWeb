@@ -217,6 +217,7 @@ class CheckIn {
         successSound = new Audio(this.successSoundFileName);
         notificationSound = new Audio(this.notificationSoundFileName);
 
+        $form.find('.swapitem').hide();
         let contractId = FwFormField.getValueByDataField($form, 'ContractId');
         let request: any = {};
         request = {
