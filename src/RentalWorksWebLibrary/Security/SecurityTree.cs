@@ -282,6 +282,7 @@ namespace WebLibrary.Security
             AddGrid("Audit History",                          "{FA958D9E-7863-4B03-94FE-A2D2B9599FAB}", lv1menuGrids.Id, "FwAuditHistoryGridController");
             AddGrid("Billing Cycle Events",                   "{8AAD752A-74B8-410D-992F-08398131EBA7}", lv1menuGrids.Id, "BillingCycleEventsGridController");
             AddGrid("Checked-In Item",                        "{5845B960-827B-4A89-9FC4-E41108C27C21}", lv1menuGrids.Id, "CheckedInItemGridController");
+            AddGrid("Checked-Out Item",                       "{48CC9E19-7B73-4BA7-9531-20BEA3780193}", lv1menuGrids.Id, "CheckedOutItemGridController");
             AddGrid("Check-In Exception",                     "{E6A2B313-ADEC-41DD-824E-947097E63060}", lv1menuGrids.Id, "CheckInExceptionGridController");
             AddGrid("Check-In Order",                         "{F314F7FA-8740-4851-8CB5-DA15EC02A5E7}", lv1menuGrids.Id, "CheckInOrderGridController");
             AddGrid("Check-In Swap",                          "{47563A6D-1B0A-43C2-AE0E-8EF7AEB5D13B}", lv1menuGrids.Id, "CheckInSwapGridController");
