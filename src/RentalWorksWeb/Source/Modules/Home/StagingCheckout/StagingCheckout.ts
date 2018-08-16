@@ -6,6 +6,7 @@ class StagingCheckout {
     successSoundFileName: string;
     errorSoundFileName: string;
     notificationSoundFileName: string;
+    contractId: string;
 
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
@@ -183,7 +184,7 @@ class StagingCheckout {
             catch (ex) {
                 FwFunc.showError(ex);
             }
-            FwFormField.disable($form.find('div[data-datafield="OrderId"]'));
+            //FwFormField.disable($form.find('div[data-datafield="OrderId"]'));
             $form.find('.orderstatus').show();
             $form.find('.createcontract').show();
         });
@@ -202,7 +203,7 @@ class StagingCheckout {
 
         $createPartialContract.on('click', e => {
             e.stopPropagation();
-            this.partialCheckoutItems($form);
+            this.startPartialCheckoutItems($form);
         });
 
         menuOptions.push($createContract, $createPartialContract);
@@ -210,7 +211,7 @@ class StagingCheckout {
         FwMenu.addButtonMenuOptions($buttonmenu, menuOptions);
     };
     //----------------------------------------------------------------------------------------------
-    partialCheckoutItems($form: JQuery): void {
+    startPartialCheckoutItems = ($form: JQuery): void => {
         let contractId, request: any = {};
         $form.find('.orderstatus').hide();
         $form.find('.createcontract').hide();
@@ -220,9 +221,9 @@ class StagingCheckout {
 
         request.OrderId = FwFormField.getValueByDataField($form, 'OrderId');
 
-        FwAppData.apiMethod(true, 'POST', `api/v1/checkout/startcheckoutcontract`, request, FwServices.defaultTimeout, function onSuccess(response) {
+        FwAppData.apiMethod(true, 'POST', `api/v1/checkout/startcheckoutcontract`, request, FwServices.defaultTimeout, response => {
             try {
-                contractId = response.ContractId;
+                this.contractId = response.ContractId;
                 var $checkedOutItemGridControl: any;
                 $checkedOutItemGridControl = $form.find('[data-name="CheckedOutItemGrid"]');
                 $checkedOutItemGridControl.data('ondatabind', function (request) {
@@ -238,9 +239,76 @@ class StagingCheckout {
                 FwFunc.showError(ex);
             }
         }, null, null);
+    };
+    //----------------------------------------------------------------------------------------------
+    moveStagedItemToOut($form: JQuery): void {
+        let $selectedCheckBoxes, $stagedItemGrid, orderId, barCode, iCode, quantity, orderItemId, $checkedOutItemGrid, request: any = {};
+
+        $stagedItemGrid = $form.find('[data-name="StagedItemGrid"]');
+        $checkedOutItemGrid = $form.find('[data-name="CheckedOutItemGrid"]');
+        $selectedCheckBoxes = $stagedItemGrid.find('.cbselectrow:checked');
+
+        for (let i = 0; i < $selectedCheckBoxes.length; i++) {
+            orderId = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="OrderId"]').attr('data-originalvalue');
+            barCode = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="BarCode"]').attr('data-originalvalue');
+            iCode = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="ICode"]').attr('data-originalvalue');
+            quantity = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="Quantity"]').attr('data-originalvalue');
+            orderItemId = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="OrderItemId"]').attr('data-originalvalue');
+
+            request.OrderId = orderId
+            request.ContractId = this.contractId;
+            request.Quantity = quantity
+            console.log('barCode: ',barCode)
+            if (barCode !== '') {
+                request.Code = barCode;
+            } else {
+                request.Code = iCode;
+                request.OrderItemId = orderItemId;
+            }
+            FwAppData.apiMethod(true, 'POST', `api/v1/checkout/movestageditemtoout`, request, FwServices.defaultTimeout, response => {
+            }, null, null);
+
+            console.log('request: ', request)
+        }
+        FwBrowse.search($checkedOutItemGrid);
+        FwBrowse.search($stagedItemGrid);
+    };
+    //----------------------------------------------------------------------------------------------
+    moveOutItemToStaged($form: JQuery): void {
+        let $selectedCheckBoxes, $stagedItemGrid, orderId, barCode, iCode, quantity, orderItemId, $checkedOutItemGrid, request: any = {};
+
+        $stagedItemGrid = $form.find('[data-name="StagedItemGrid"]');
+        $checkedOutItemGrid = $form.find('[data-name="CheckedOutItemGrid"]');
+        $selectedCheckBoxes = $checkedOutItemGrid.find('.cbselectrow:checked');
+
+        for (let i = 0; i < $selectedCheckBoxes.length; i++) {
+            orderId = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="OrderId"]').attr('data-originalvalue');
+            barCode = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="BarCode"]').attr('data-originalvalue');
+            iCode = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="ICode"]').attr('data-originalvalue');
+            quantity = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="Quantity"]').attr('data-originalvalue');
+            orderItemId = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="OrderItemId"]').attr('data-originalvalue');
+
+            request.OrderId = orderId
+            request.ContractId = this.contractId;
+            request.Quantity = quantity
+            console.log('barCode: ', barCode)
+            if (barCode !== '') {
+                request.Code = barCode;
+            } else {
+                request.Code = iCode;
+                //request.OrderItemId = orderItemId;
+            }
+            FwAppData.apiMethod(true, 'POST', `api/v1/checkout/moveoutitemtostaged`, request, FwServices.defaultTimeout, response => {
+                //need error handling
+            }, null, null);
+
+            console.log('request: ', request)
+        }
+        FwBrowse.search($checkedOutItemGrid);
+        FwBrowse.search($stagedItemGrid);
     }
     //----------------------------------------------------------------------------------------------
-    renderGrids($form: any) {
+    renderGrids($form: any): void {
         let $stagedItemGrid: any, $stagedItemGridControl: any;
         let $checkedOutItemGrid: any, $checkedOutItemGridControl: any;
         let orderId = $form.find('[data-datafield="OrderId"] .fwformfield-value').val();
@@ -447,6 +515,15 @@ class StagingCheckout {
                 }
             }, null, null);
         });
+        // Move Staged Item to Out
+        $form.find('.right-arrow').on('click', e => {
+            this.moveStagedItemToOut($form);
+        });
+        // Move Out Item to Staged
+        $form.find('.left-arrow').on('click', e => {
+            this.moveOutItemToStaged($form);
+        });
+
     };
     //----------------------------------------------------------------------------------------------
     beforeValidate($browse, $grid, request) {
@@ -503,7 +580,7 @@ class StagingCheckout {
         $form.find('[data-datafield="Code"] input').select();
     }
     //----------------------------------------------------------------------------------------------
-    addCompleteToOrder(element: any) {
+    addCompleteToOrder(element: any): void {
         this.showAddItemToOrder = false;
         let code, $form, $element, orderId, quantity, $stagedItemGrid, successSound, request: any = {};
         $element = jQuery(element);
