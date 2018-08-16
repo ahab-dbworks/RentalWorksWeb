@@ -164,15 +164,15 @@ class CheckIn {
         $form.find('[data-datafield="Quantity"] input').on('keydown', e => {
             if (e.which === 13) {
                 $form.find('.errormsg').html('');
-                let quantity = true;
-                this.checkInItem($form, quantity);
+                let type = 'Quantity';
+                this.checkInItem($form, type);
             }
         });
         //Add Order to Contract
         $form.find('.addordertocontract').on('click', e => {
             $form.find('.errormsg').html('');
-            let addOrderToContract = true;
-            this.checkInItem($form, addOrderToContract);
+            let type = 'AddOrderToContract';
+            this.checkInItem($form, type);
 
             let $checkInOrderGridControl = $form.find('div[data-name="CheckInOrderGrid"]');
             FwBrowse.search($checkInOrderGridControl);
@@ -180,8 +180,8 @@ class CheckIn {
         //Swap Item
         $form.find('.swapitem').on('click', e => {
             $form.find('.errormsg').html('');
-            let swapItem = true;
-            this.checkInItem($form, swapItem);
+            let type = 'SwapItem';
+            this.checkInItem($form, type);
 
             let $checkInSwapGridControl = $form.find('div[data-name="CheckInSwapGrid"]');
             FwBrowse.search($checkInSwapGridControl);
@@ -202,9 +202,14 @@ class CheckIn {
                 }, null, $form);
             }
         });
+        //Refresh exceptions grid on tab click
+        $form.find('div.exceptionstab').on('click', e => {
+            let $checkInExceptionGridControl = $form.find('div[data-name="CheckInExceptionGrid"]');
+            FwBrowse.search($checkInExceptionGridControl);
+        });
     };
     //----------------------------------------------------------------------------------------------
-    checkInItem($form, addOrderToContract?: boolean, quantity?: boolean, swapItem?: boolean) {
+    checkInItem($form, type?:string) {
         let errorSound, successSound, notificationSound;
         errorSound = new Audio(this.errorSoundFileName);
         successSound = new Audio(this.successSoundFileName);
@@ -218,18 +223,22 @@ class CheckIn {
         if (contractId) {
             request.ContractId = contractId;
         }
-        if (addOrderToContract) {
-            $form.find('[data-type="section"][data-caption="Check-In"] .fwform-section-title').text('Multi-Order Check-In');
-            $form.find('.orderstab').show();
-            $form.find('[data-datafield="OrderId"]').parents('.flexcolumn').hide();
-            request.AddOrderToContract = true;
+
+        switch (type) {
+            case 'Quantity':
+                request.Quantity = FwFormField.getValueByDataField($form, 'Quantity');
+                break;
+            case 'AddOrderToContract':
+                $form.find('[data-type="section"][data-caption="Check-In"] .fwform-section-title').text('Multi-Order Check-In');
+                $form.find('.orderstab').show();
+                $form.find('[data-datafield="OrderId"]').parents('.flexcolumn').hide();
+                request.AddOrderToContract = true;
+                break;
+            case 'SwapItem':
+                request.SwapItem = true;
+                break;
         }
-        if (quantity) {
-            request.Quantity = FwFormField.getValueByDataField($form, 'Quantity');
-        }
-        if (swapItem) {
-            request.SwapItem = true;
-        }
+
         FwAppData.apiMethod(true, 'POST', 'api/v1/checkin/checkinitem', request, FwServices.defaultTimeout, function onSuccess(response) {
             if (response.success) {
                 successSound.play();
@@ -256,14 +265,13 @@ class CheckIn {
                     $form.find('[data-datafield="Quantity"] input').select();
                 }
 
-                if (quantity) {
+                if (type === 'Quantity') {
                     FwFormField.setValueByDataField($form, 'Quantity', 0);
                     $form.find('[data-datafield="BarCode"] input').select();
                 }
             }
             else if (!response.success) {
-                let errormsg = $form.find('.errormsg')
-                    , $checkInExceptionGridControl = $form.find('div[data-name="CheckInExceptionGrid"]');
+                let errormsg = $form.find('.errormsg');
 
                 if (response.ShowSwap) {
                     notificationSound.play();
@@ -274,32 +282,10 @@ class CheckIn {
                 }
                 errormsg.html(`<div style="margin-left:8px; margin-top: 10px;"><span>${response.msg}</span></div>`);
                 $form.find('[data-datafield="BarCode"] input').select();
-                FwBrowse.search($checkInExceptionGridControl);
             }
             response.ShowNewOrder ? $form.find('.addordertocontract').show() : $form.find('.addordertocontract').hide();
 
         }, null, null);
-    }
-    //----------------------------------------------------------------------------------------------
-    addButtonMenu($form) {
-        let $buttonmenu = $form.find('.createcontract[data-type="btnmenu"]');
-        let $createContract = FwMenu.generateButtonMenuOption('Create Contract')
-            , $createPartialContract = FwMenu.generateButtonMenuOption('Create Partial Contract');
-
-        $createContract.on('click', e => {
-            e.stopPropagation();
-            $form.find('.createcontract').click();
-        });
-
-        $createPartialContract.on('click', e => {
-            e.stopPropagation();
-            //stuff
-        });
-
-        let menuOptions = [];
-        menuOptions.push($createContract, $createPartialContract);
-
-        FwMenu.addButtonMenuOptions($buttonmenu, menuOptions);
     }
     //----------------------------------------------------------------------------------------------
 }
