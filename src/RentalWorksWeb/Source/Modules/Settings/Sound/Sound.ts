@@ -87,8 +87,6 @@ class Sound {
         //$moduleSelect = $form.find('.modules');
         //FwFormField.loadItems($moduleSelect, allModules);
 
-        //this.getFields($form);
-
         //$form.find('[data-datafield="SystemRule"]').attr('data-required', false);
         this.events($form);
         return $form;

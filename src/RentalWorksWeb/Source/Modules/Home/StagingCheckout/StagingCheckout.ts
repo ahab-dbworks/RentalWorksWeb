@@ -188,6 +188,27 @@ class StagingCheckout {
         });
     };
     //----------------------------------------------------------------------------------------------
+    addButtonMenu($form: JQuery): void {
+        let $createPartialContract, $createContract, $buttonmenu, menuOptions: Array<string> = [];
+        $buttonmenu = $form.find('.createcontract[data-type="btnmenu"]');
+        $createContract = FwMenu.generateButtonMenuOption('Create Contract');
+        $createPartialContract = FwMenu.generateButtonMenuOption('Create Partial Contract');
+
+        $createContract.on('click', e => {
+            e.stopPropagation();
+            $form.find('.createcontract').click();
+        });
+
+        $createPartialContract.on('click', e => {
+            e.stopPropagation();
+            //stuff
+        });
+
+        menuOptions.push($createContract, $createPartialContract);
+
+        FwMenu.addButtonMenuOptions($buttonmenu, menuOptions);
+    };
+    //----------------------------------------------------------------------------------------------
     renderGrids($form: any) {
         let $stagedItemGrid: any;
         let $stagedItemGridControl: any;
