@@ -9,6 +9,12 @@ class PresentationLayerActivityOverrideGrid {
         });
     }
     ;
+    beforeValidateActivity($browse, $grid, request) {
+        var $form = $grid.closest('.fwform');
+        request.uniqueIds = {
+            PresentationLayerId: FwFormField.getValueByDataField($form, 'PresentationLayerId')
+        };
+    }
 }
 var PresentationLayerActivityOverrideGridController = new PresentationLayerActivityOverrideGrid();
 //# sourceMappingURL=PresentationLayerActivityOverrideGridController.js.map

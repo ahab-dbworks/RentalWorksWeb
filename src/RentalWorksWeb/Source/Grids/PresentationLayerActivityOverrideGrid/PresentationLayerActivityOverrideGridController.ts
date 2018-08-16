@@ -12,6 +12,13 @@
             $generatedtr.find('.field[data-browsedatafield="Description"]').text($tr.find('.field[data-browsedatafield="Description"]').attr('data-originalvalue'));
         });
     };
+
+    beforeValidateActivity($browse, $grid, request) {
+        var $form = $grid.closest('.fwform');
+        request.uniqueIds = {
+            PresentationLayerId: FwFormField.getValueByDataField($form, 'PresentationLayerId')
+        }
+    }
 }
 
 var PresentationLayerActivityOverrideGridController = new PresentationLayerActivityOverrideGrid();
