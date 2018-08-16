@@ -17,6 +17,16 @@ namespace WebApi.Modules.Home.Order
     {
         public string OrderId;
         public string RecType;
+        public string VendorId;
+        public string ContactId;
+        public string RateType;
+        public string BillingCycleId;
+        public DateTime RequiredDate;
+        public string RequiredTime;
+        public DateTime FromDate;
+        public DateTime ToDate;
+        public string DeliveryId;
+        public bool? AdjustContractDates;
     }
 
     public class CreatePoWorksheetSessionResponse: TSpStatusReponse
@@ -309,7 +319,7 @@ namespace WebApi.Modules.Home.Order
             }
             try
             {
-                CreatePoWorksheetSessionResponse response = await OrderFunc.StartPoWorksheetSession(AppConfig, UserSession, request.OrderId);
+                CreatePoWorksheetSessionResponse response = await OrderFunc.StartPoWorksheetSession(AppConfig, UserSession, request);
                 return new OkObjectResult(response);
             }
             catch (Exception ex)
