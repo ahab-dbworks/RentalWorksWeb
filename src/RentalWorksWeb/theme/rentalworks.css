@@ -28,14 +28,14 @@ Master
     position: relative;
 }
 
-    #master-header #officelocation .caption {
-        display: inline-block;
-    }
+#master-header #officelocation .caption {
+    display: inline-block;
+}
 
-    #master-header #officelocation .value {
-        display: inline-block;
-        margin-left: 2px;
-    }
+#master-header #officelocation .value {
+    display: inline-block;
+    margin-left: 2px;
+}
 
 #master-header .user-controls .officelocation {
     padding: 0 10px;
@@ -44,14 +44,14 @@ Master
     cursor: pointer;
 }
 
-    #master-header .user-controls .officelocation .locationcolor {
-        width: 1em;
-        height: 1em;
-        margin: auto 4px auto 0;
-    }
+#master-header .user-controls .officelocation .locationcolor {
+    width: 1em;
+    height: 1em;
+    margin: auto 4px auto 0;
+}
 
-    #master-header .user-controls .officelocation .value {
-    }
+#master-header .user-controls .officelocation .value {
+}
 
 #master-header .user-controls .dashboard {
     cursor: pointer;
@@ -61,28 +61,28 @@ Master
 #master-body { /*padding:10px;*/
 }
 
-    #master-body .programlogo {
-        flex-wrap: wrap;
-        width: 99%;
-    }
+#master-body .programlogo {
+    flex-wrap: wrap;
+    width: 99%;
+}
 
-        #master-body .programlogo .chart-container {
-            display: flex;
-            float: left;
-            position: relative;
-        }
+#master-body .programlogo .chart-container {
+    display: flex;
+    float: left;
+    position: relative;
+}
 
-            #master-body .programlogo .chart-container:hover .toolbar {
-                display: block;
-            }
+#master-body .programlogo .chart-container:hover .toolbar {
+    display: block;
+}
 
-            #master-body .programlogo .chart-container .toolbar {
-                display: none;
-                position: absolute;
-                top: 2%;
-                right: 2%;
-                cursor: pointer;
-            }
+#master-body .programlogo .chart-container .toolbar {
+    display: none;
+    position: absolute;
+    top: 2%;
+    right: 2%;
+    cursor: pointer;
+}
 
 #master-footer {
     text-align: center;
@@ -90,9 +90,9 @@ Master
     margin-bottom: 10px;
 }
 
-    #master-footer #dbworkslink {
-        cursor: pointer;
-    }
+#master-footer #dbworkslink {
+    cursor: pointer;
+}
 
 .homepage .programlogo {
     text-align: center;
@@ -116,10 +116,10 @@ flexrow
     max-width: 1200px; /*max-width:60em;*/
 }
 
-    .flexrow > * {
-        flex: 1 1 0;
-        min-width: 25px; /*min-width:16em;max-width:24em;*/
-    }
+.flexrow > * {
+    flex: 1 1 0;
+    min-width: 25px; /*min-width:16em;max-width:24em;*/
+}
 
 html.theme-material .fwform-section {
     margin: .3rem .9rem;
@@ -230,6 +230,16 @@ progress::-webkit-progress-value {
     width: 24px;
 }
 
+.play-button > img {
+    cursor: pointer;
+}
+
+.play-button > img:active {
+    cursor: pointer;
+    background-color: lightgray;
+    border-radius: 50%;
+}
+
 /* Styling for error message text */
 .fwform .errormsg span {
     background-color: red;
@@ -249,13 +259,13 @@ progress::-webkit-progress-value {
     position: relative;
 }
 
-    #searchpopup .close-modal {
-        display: flex;
-        position: absolute;
-        top: 10px;
-        right: 15px;
-        cursor: pointer;
-    }
+#searchpopup .close-modal {
+    display: flex;
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    cursor: pointer;
+}
 
 #breadcrumbs {
     width: 100%;
@@ -263,19 +273,19 @@ progress::-webkit-progress-value {
     padding-left: 20px;
 }
 
-    #breadcrumbs > div {
-        float: left;
-        cursor: pointer;
-        font-weight: bold;
-    }
+#breadcrumbs > div {
+    float: left;
+    cursor: pointer;
+    font-weight: bold;
+}
 
-        #breadcrumbs > div:hover {
-            color: #4c4cff;
-        }
+#breadcrumbs > div:hover {
+    color: #4c4cff;
+}
 
-        #breadcrumbs > div > div {
-            color: black;
-        }
+#breadcrumbs > div > div {
+    color: black;
+}
 
 #searchFormHtml div[data-datafield="InventoryType"] {
     width: 30%;
@@ -283,10 +293,10 @@ progress::-webkit-progress-value {
     float: none;
 }
 
-    #searchFormHtml div[data-datafield="InventoryType"] .fwformfield-control > div {
-        float: left;
-        width: 20%;
-    }
+#searchFormHtml div[data-datafield="InventoryType"] .fwformfield-control > div {
+    float: left;
+    width: 20%;
+}
 
 #inventoryType, #category, #subCategory {
     width: 10%;
@@ -317,52 +327,52 @@ ul.fitText {
     box-shadow: 0 0px 0px 0 rgba(0, 0, 0, 0.2);
 }
 
-    #inventoryType ul.selected, #category ul.selected, #subCategory ul.selected {
-        background-color: #bdbdbd;
-        color: white;
-        box-shadow: 0 3px 7px 0 rgba(0, 0, 0, 0.2);
-    }
+#inventoryType ul.selected, #category ul.selected, #subCategory ul.selected {
+    background-color: #bdbdbd;
+    color: white;
+    box-shadow: 0 3px 7px 0 rgba(0, 0, 0, 0.2);
+}
 
-    #inventoryType ul:hover, #category ul:hover, #subCategory ul:hover {
-        box-shadow: 0 3px 7px 0 rgba(0, 0, 0, 0.2);
-    }
+#inventoryType ul:hover, #category ul:hover, #subCategory ul:hover {
+    box-shadow: 0 3px 7px 0 rgba(0, 0, 0, 0.2);
+}
 
 .card {
     box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2);
     transition: 0.3s;
 }
 
-    .card:hover {
-        box-shadow: 0 5px 9px 0 rgba(0, 0, 0, 0.2);
-    }
-    .card .incrementQuantity, .card .decrementQuantity {
-        padding: 5px 0px;
-        float: left;
-        width: 25%;
-        border: none;
-    }
+.card:hover {
+    box-shadow: 0 5px 9px 0 rgba(0, 0, 0, 0.2);
+}
+.card .incrementQuantity, .card .decrementQuantity {
+    padding: 5px 0px;
+    float: left;
+    width: 25%;
+    border: none;
+}
 
-    .card span {
-        text-decoration: underline;
-        font-weight: bold;
-    }
+.card span {
+    text-decoration: underline;
+    font-weight: bold;
+}
 
-    .card .lightBlue {
-        background-color: #c5eefb;
-    }
+.card .lightBlue {
+    background-color: #c5eefb;
+}
 
-    .card .cornerTriangle {
-        border-left: 20px solid;
-        border-right: 20px solid transparent;
-        border-bottom: 20px solid transparent;
-        left: 0;
-        top: 0;
-        height: 0;
-        width: 0;
-        position: absolute;
-        right: 0px;
-        z-index: 2;
-    }
+.card .cornerTriangle {
+    border-left: 20px solid;
+    border-right: 20px solid transparent;
+    border-bottom: 20px solid transparent;
+    left: 0;
+    top: 0;
+    height: 0;
+    width: 0;
+    position: absolute;
+    right: 0px;
+    z-index: 2;
+}
 
 .cardContainer .accContainer {
     float: left;
