@@ -173,18 +173,12 @@ class CheckIn {
             $form.find('.errormsg').html('');
             let type = 'AddOrderToContract';
             this.checkInItem($form, type);
-
-            let $checkInOrderGridControl = $form.find('div[data-name="CheckInOrderGrid"]');
-            FwBrowse.search($checkInOrderGridControl);
         });
         //Swap Item
         $form.find('.swapitem').on('click', e => {
             $form.find('.errormsg').html('');
             let type = 'SwapItem';
-            this.checkInItem($form, type);
-
-            let $checkInSwapGridControl = $form.find('div[data-name="CheckInSwapGrid"]');
-            FwBrowse.search($checkInSwapGridControl);
+            this.checkInItem($form, type);    
         });
         //Create Contract
         $form.find('.createcontract').on('click', e => {
@@ -202,10 +196,18 @@ class CheckIn {
                 }, null, $form);
             }
         });
-        //Refresh exceptions grid on tab click
+        //Refresh grids on tab click
         $form.find('div.exceptionstab').on('click', e => {
             let $checkInExceptionGridControl = $form.find('div[data-name="CheckInExceptionGrid"]');
             FwBrowse.search($checkInExceptionGridControl);
+        });
+        $form.find('div.orderstab').on('click', e => {
+            let $checkInOrderGridControl = $form.find('div[data-name="CheckInOrderGrid"]');
+            FwBrowse.search($checkInOrderGridControl);
+        });
+        $form.find('div.swapitemtab').on('click', e => {
+            let $checkInSwapGridControl = $form.find('div[data-name="CheckInSwapGrid"]');
+            FwBrowse.search($checkInSwapGridControl);
         });
     };
     //----------------------------------------------------------------------------------------------
@@ -235,6 +237,7 @@ class CheckIn {
                 request.AddOrderToContract = true;
                 break;
             case 'SwapItem':
+                $form.find('.swapitemtab').show();
                 request.SwapItem = true;
                 break;
         }
