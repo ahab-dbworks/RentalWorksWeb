@@ -31,7 +31,7 @@ namespace RentalWorksQuikScan.Modules
             select.PageNo   = request.pageno;
             select.PageSize = request.pagesize;
             select.Add("select *");
-            select.Add("from   dbo.funcassignasset(@warehouseid)");
+            select.Add("from   dbo.funcassignasset2(@warehouseid)");
             if (!string.IsNullOrEmpty(request.searchvalue))
             {
                 switch ((string)request.searchmode)
@@ -93,12 +93,15 @@ namespace RentalWorksQuikScan.Modules
             if (request.selectedrecord.rowtype == "I-CODE")
             {
                 select.Add("select *");
-                select.Add("  from dbo.funcassignrentalitem(@masterid, @warehouseid)");
+                select.Add("  from dbo.funcassignassetrentalitem(@masterid, @warehouseid, @orderid, @statustype)");
+                select.AddParameter("@orderid",    request.selectedstatus.orderid);
+                select.AddParameter("@statustype", request.selectedstatus.statustype);
             }
             else if (request.selectedrecord.rowtype == "PO")
             {
                 select.Add("select *");
                 select.Add("  from dbo.funcassignporentalitem(@orderid, @masterid)");
+                select.AddParameter("@orderid", request.selectedrecord.orderid);
             }
             if (!string.IsNullOrEmpty(request.searchvalue))
             {
@@ -121,7 +124,6 @@ namespace RentalWorksQuikScan.Modules
             select.Add("order by barcode");
             select.AddParameter("@masterid",    request.selectedrecord.masterid);
             select.AddParameter("@warehouseid", userLocation.warehouseId);
-            select.AddParameter("@orderid",     request.selectedrecord.orderid);
 
             response.searchresults = qry.QueryToFwJsonTable(select, true);
         }
@@ -199,8 +201,8 @@ namespace RentalWorksQuikScan.Modules
         [FwJsonServiceMethod]
         public static void MultiScanTags(dynamic request, dynamic response, dynamic session)
         {
-            FwSqlCommand qry, qry2, qry3;
-            dynamic userLocation, recordstoupdate, validatetagsresult, record, updatedrecordinfo = new ExpandoObject(), assignassetresult;
+            FwSqlCommand qry, qry2, qry3, qry4;
+            dynamic userLocation, recordstoupdate, validatetagsresult, record, updatedrecordinfo = new ExpandoObject(), selectedrecordupdate, selectedstatusupdate = null;
             List<dynamic> returnrecords = new List<dynamic>();
             int assignedcount = 0, exceptioncount = 0;
 
@@ -216,18 +218,18 @@ namespace RentalWorksQuikScan.Modules
             if (request.selectedrecord.rowtype == "I-CODE")
             {
                 qry2.Add("select *");
-                qry2.Add("  from dbo.funcassignrentalitem(@masterid, @warehouseid)");
-                qry2.Add(" where barcode   = ''");
-                qry2.Add("   and mfgserial = ''");
+                qry2.Add("  from dbo.funcassignassetrentalitem(@masterid, @warehouseid, @orderid, @statustype)");
+                qry2.AddParameter("@orderid",    request.selectedstatus.orderid);
+                qry2.AddParameter("@statustype", request.selectedstatus.statustype);
             }
             else if (request.selectedrecord.rowtype == "PO")
             {
                 qry2.Add("select *");
                 qry2.Add("  from dbo.funcassignporentalitem(@orderid, @masterid)");
+                qry2.AddParameter("@orderid", request.selectedrecord.orderid);
             }
             qry2.AddParameter("@masterid",    request.selectedrecord.masterid);
             qry2.AddParameter("@warehouseid", userLocation.warehouseId);
-            qry2.AddParameter("@orderid",     request.selectedrecord.orderid);
             recordstoupdate = qry2.QueryToDynamicList2();
 
             for (int i = 0; i < validatetagsresult.Count; i++)
@@ -289,17 +291,32 @@ namespace RentalWorksQuikScan.Modules
             response.assignedcount  = assignedcount;
             response.exceptioncount = exceptioncount;
 
+            if (request.selectedrecord.rowtype == "I-CODE")
+            {
+                qry4 = new FwSqlCommand(FwSqlConnection.RentalWorks);
+                qry4.Add("select *");
+                qry4.Add("  from dbo.funcassignassetdetail(@warehouseid, @masterid)");
+                qry4.Add(" where orderid    = @orderid");
+                qry4.Add("   and statustype = @statustype");
+                qry4.AddParameter("@masterid",    request.selectedrecord.masterid);
+                qry4.AddParameter("@warehouseid", userLocation.warehouseId);
+                qry4.AddParameter("@orderid",     request.selectedstatus.orderid);
+                qry4.AddParameter("@statustype",  request.selectedstatus.statustype);
+                selectedstatusupdate = qry4.QueryToDynamicObject2();
+                response.selectedstatusupdate = selectedstatusupdate;
+            }
+
             qry3 = new FwSqlCommand(FwSqlConnection.RentalWorks);
             qry3.Add("select top 1 *");
-            qry3.Add("  from dbo.funcassignasset(@warehouseid)");
+            qry3.Add("  from dbo.funcassignasset2(@warehouseid)");
             qry3.Add(" where masterid = @masterid");
             qry3.Add("   and rowtype  = @rowtype");
             qry3.AddParameter("@masterid",    request.selectedrecord.masterid);
             qry3.AddParameter("@rowtype",     request.selectedrecord.rowtype);
             qry3.AddParameter("@warehouseid", userLocation.warehouseId);
-            assignassetresult = qry3.QueryToDynamicObject2();
+            selectedrecordupdate = qry3.QueryToDynamicObject2();
 
-            response.assignedassetupdate = assignassetresult;
+            response.selectedrecordupdate = selectedrecordupdate;
         }
         //---------------------------------------------------------------------------------------------
         [FwJsonServiceMethod]
@@ -320,6 +337,24 @@ namespace RentalWorksQuikScan.Modules
             qry.AddParameter("@webusersid",  session.security.webUser.webusersid);
 
             response.recorddata = qry.QueryToDynamicObject2();
+        }
+        //---------------------------------------------------------------------------------------------
+        [FwJsonServiceMethod]
+        public void GetAssignAssetDetails(dynamic request, dynamic response, dynamic session)
+        {
+            dynamic userLocation;
+            FwSqlCommand qry;
+
+            userLocation = RwAppData.GetUserLocation(conn:    FwSqlConnection.RentalWorks,
+                                                     usersId: session.security.webUser.usersid);
+
+            qry = new FwSqlCommand(FwSqlConnection.RentalWorks);
+            qry.Add("select *");
+            qry.Add("  from dbo.funcassignassetdetail(@warehouseid, @masterid)");
+            qry.AddParameter("@warehouseid", userLocation.warehouseId);
+            qry.AddParameter("@masterid",    request.selectedrecord.masterid);
+
+            response.results = qry.QueryToDynamicList2();
         }
         //---------------------------------------------------------------------------------------------
     }

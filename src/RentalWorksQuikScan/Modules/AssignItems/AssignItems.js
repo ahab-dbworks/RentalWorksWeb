@@ -1,15 +1,12 @@
 ﻿var AssignItems = {};
 //----------------------------------------------------------------------------------------------
-AssignItems.getMenuScreen = function(viewModel, properties) {
-    var screen, combinedViewModel;
-    combinedViewModel = jQuery.extend({
-        captionPageTitle:   RwLanguages.translate('Assign Items')
-    }, viewModel);
-    combinedViewModel.htmlPageBody = Mustache.render(jQuery('#tmpl-assignitemsmenu').html(), combinedViewModel);
-
-    screen            = {};
-    screen.$view      = FwMobileMasterController.getMasterView(combinedViewModel);
-    screen.properties = properties;
+AssignItems.getMenuScreen = function() {
+    var viewModel = {
+        captionPageTitle: RwLanguages.translate('Assign Items')
+    };
+    viewModel.htmlPageBody = Mustache.render(jQuery('#tmpl-assignitemsmenu').html(), viewModel);
+    var screen   = {};
+    screen.$view = FwMobileMasterController.getMasterView(viewModel);
 
     screen.$view
         .on('click', '#miNewItems', function() {
@@ -31,31 +28,30 @@ AssignItems.getMenuScreen = function(viewModel, properties) {
     return screen;
 };
 //----------------------------------------------------------------------------------------------
-AssignItems.getNewItemsScreen = function(viewModel, properties) {
-    var combinedViewModel, screen, $fwcontrols, selectedrecord, selecteditem, $search, $itemlist, $itemlistmenu, $itemassign, $multiscan;
-    combinedViewModel = jQuery.extend({
-        captionPageTitle:   RwLanguages.translate('Assign Items')
-    }, viewModel);
-    combinedViewModel.htmlPageBody = Mustache.render(jQuery('#tmpl-assignitems-newitems').html(), combinedViewModel);
+AssignItems.getNewItemsScreen = function() {
+    var selectedrecord, selectedstatus;
+    var viewModel = {
+        captionPageTitle: RwLanguages.translate('Assign Items')
+    };
+    viewModel.htmlPageBody = Mustache.render(jQuery('#tmpl-assignitems-newitems').html(), viewModel);
+    var screen   = {};
+    screen.$view = FwMobileMasterController.getMasterView(viewModel);
 
-    screen            = {};
-    screen.$view      = FwMobileMasterController.getMasterView(combinedViewModel);
-    screen.properties = properties;
-
-    $fwcontrols = screen.$view.find('.fwcontrol');
+    var $fwcontrols = screen.$view.find('.fwcontrol');
     FwControl.renderRuntimeControls($fwcontrols);
 
-    $search     = screen.$view.find('.ui-search');
-    $itemlist   = screen.$view.find('.ui-itemlist');
-    $itemassign = screen.$view.find('.ui-itemassign');
-    $multiscan  = screen.$view.find('.ui-multiscan');
+    var $search       = screen.$view.find('.ui-search');
+    var $assetdetails = screen.$view.find('.ui-assetdetails');
+    var $itemlist     = screen.$view.find('.ui-itemlist');
+    var $itemassign   = screen.$view.find('.ui-itemassign');
+    var $multiscan    = screen.$view.find('.ui-multiscan');
 
     $search.find('#searchcontrol').fwmobilemodulecontrol({
         buttons: [
             {
                 caption:     'Back',
                 orientation: 'left',
-                icon:        '&#xE5CB;', //arrow_back
+                icon:        '&#xE5CB;', //chevron_left
                 state:       0,
                 buttonclick: function () {
                     try {
@@ -79,7 +75,7 @@ AssignItems.getNewItemsScreen = function(viewModel, properties) {
         cacheItemTemplate: false,
         itemTemplate: function(model) {
             var html = [];
-            html.push('<div class="record ' + ((model.rowtype == 'PO') ? 'poitem' : 'item') + '">');
+            html.push('<div class="record ' + ((model.rowtype === 'PO') ? 'poitem' : 'item') + '">');
             html.push('  <div class="row">');
             html.push('    <div class="value desc">{{master}}</div>');
             html.push('  </div>');
@@ -118,7 +114,11 @@ AssignItems.getNewItemsScreen = function(viewModel, properties) {
             try {
                 $search.hide();
                 selectedrecord = recorddata;
-                $itemlist.showscreen();
+                if (selectedrecord.rowtype === 'I-CODE') {
+                    $assetdetails.showscreen();
+                } else if (selectedrecord.rowtype === 'PO') {
+                    $itemlist.showscreen();
+                }
             } catch (ex) {
                 FwFunc.showError(ex);
             }
@@ -130,19 +130,88 @@ AssignItems.getNewItemsScreen = function(viewModel, properties) {
         program.setScanTarget('.ui-search .fwmobilesearch .searchbox');
     };
 
+    $assetdetails.find('#assetdetailscontrol').fwmobilemodulecontrol({
+        buttons: [
+            {
+                caption:     'Back',
+                orientation: 'left',
+                icon:        '&#xE5CB;', //chevron_left
+                state:       0,
+                buttonclick: function () {
+                    try {
+                        selectedrecord = {};
+                        $assetdetails.hide();
+                        $search.showscreen();
+                    } catch (ex) {
+                        FwFunc.showError(ex);
+                    }
+                }
+            }
+        ]
+    });
+    $assetdetails.showscreen = function () {
+        $assetdetails.show();
+        $assetdetails.find('.assetinfo').html(selectedrecord.master);
+        $assetdetails.loaddetails();
+    };
+    $assetdetails.loaddetails = function () {
+        var request = {
+            selectedrecord: selectedrecord
+        };
+        RwServices.callMethod("AssignItem", "GetAssignAssetDetails", request, function(response) {
+            $assetdetails.find('.details').empty();
+            for (var i = 0; i < response.results.length; i++) {
+                var html = [];
+                html.push('<div class="detailrecord ' + ((response.results[i].statustype === 'IN') ? 'in' : 'out') + '">');
+                html.push('  <div class="row">');
+                html.push('    <div class="caption">Status:</div>');
+                html.push('    <div class="value">' + response.results[i].statustype + '</div>');
+                html.push('    <div class="caption">Qty:</div>');
+                html.push('    <div class="value">' + response.results[i].qty + '</div>');
+                html.push('  </div>');
+                if (response.results[i].orderid !== '') {
+                    html.push('  <div class="row">');
+                    html.push('    <div class="caption">Order No:</div>');
+                    html.push('    <div class="value">' + response.results[i].orderno + '</div>');
+                    html.push('  </div>');
+                    html.push('  <div class="row">');
+                    html.push('    <div class="caption">Order:</div>');
+                    html.push('    <div class="value">' + response.results[i].orderdesc + '</div>');
+                    html.push('  </div>');
+                    html.push('</div>');
+                }
+                var $record = jQuery(html.join(''));
+                $record.data('recorddata', response.results[i]);
+                $assetdetails.find('.details').append($record);
+            }
+        });
+    };
+    $assetdetails
+        .on('click', '.detailrecord', function () {
+            $assetdetails.hide();
+            selectedstatus = jQuery(this).data('recorddata');
+            $itemlist.showscreen();
+        })
+    ;
+
     $itemlist.find('#itemscontrol').fwmobilemodulecontrol({
         buttons: [
             {
                 caption:     'Back',
                 orientation: 'left',
-                icon:        '&#xE5CB;', //arrow_back
+                icon:        '&#xE5CB;', //chevron_left
                 state:       0,
                 buttonclick: function () {
                     try {
-                        selectedrecord = {};
+                        if (selectedrecord.rowtype === 'I-CODE') {
+                            selectedstatus = {};
+                            $assetdetails.showscreen();
+                        } else if (selectedrecord.rowtype === 'PO') {
+                            selectedrecord = {};
+                            $search.showscreen();
+                        }
                         $itemlist.find('#items').fwmobilesearch('clearsearchbox');
                         $itemlist.hide();
-                        $search.showscreen();
                     } catch (ex) {
                         FwFunc.showError(ex);
                     }
@@ -181,7 +250,8 @@ AssignItems.getNewItemsScreen = function(viewModel, properties) {
         ],
         getRequest: function() {
             var request = {
-                selectedrecord: selectedrecord
+                selectedrecord: selectedrecord,
+                selectedstatus: selectedstatus
             };
             return request;
         },
@@ -261,7 +331,7 @@ AssignItems.getNewItemsScreen = function(viewModel, properties) {
         $itemlist.show();
         program.setScanTarget('.ui-itemlist .fwmobilesearch .searchbox');
 
-        if ((selectedrecord.trackedby == 'RFID') && (selectedrecord.qtynonserial > 0)) {
+        if ((selectedrecord.trackedby == 'RFID') && (selectedrecord.allowmassrfidassignment === 'T')) {
             $itemlist.find('#itemscontrol').fwmobilemodulecontrol('showButton', '#itemlist_menu'); //2017-1-09 MY: Remove when more items are added to this menu
             $itemlist.find('#itemscontrol').fwmobilemodulecontrol('showButton', '#multiscanrfid');
         } else {
@@ -275,7 +345,7 @@ AssignItems.getNewItemsScreen = function(viewModel, properties) {
             {
                 caption:     'Back',
                 orientation: 'left',
-                icon:        '&#xE5CB;', //arrow_back
+                icon:        '&#xE5CB;', //chevron_left
                 state:       0,
                 buttonclick: function () {
                     try {
@@ -420,7 +490,7 @@ AssignItems.getNewItemsScreen = function(viewModel, properties) {
             {
                 caption:     'Back',
                 orientation: 'left',
-                icon:        '&#xE5C4;', //arrow_back
+                icon:        '&#xE5CB;', //chevron_left
                 state:       0,
                 buttonclick: function () {
                     try {
@@ -447,11 +517,11 @@ AssignItems.getNewItemsScreen = function(viewModel, properties) {
         ]
     });
     $multiscan.rfidscan = function(epcs) {
-        var html = [], $multiscanread, epcsTags;
         $multiscan.find('.multiscan-tags').empty();
         $multiscan.find('.multiscan-readready').hide();
         $multiscan.find('.multiscan-read').remove();
 
+        var html = [];
         html.push('<div class="multiscan-read">');
         html.push('  <div class="tagsread">Tags Read</div>');
         html.push('  <div class="tagsreadcount"></div>');
@@ -460,7 +530,7 @@ AssignItems.getNewItemsScreen = function(viewModel, properties) {
         html.push('    <div class="fwformcontrol submit" data-type="button">Submit</div>');
         html.push('  </div>');
         html.push('</div>');
-        $multiscanread = jQuery(html.join(''));
+        var $multiscanread = jQuery(html.join(''));
 
         $multiscanread
             .on('click', '.submit', function() {
@@ -473,24 +543,30 @@ AssignItems.getNewItemsScreen = function(viewModel, properties) {
             })
         ;
 
-        epcsTags = epcs.split(',');
+        var epcsTags = epcs.split(',');
         $multiscanread.find('.tagsreadcount').html(epcsTags.length);
 
         $multiscan.append($multiscanread);
     };
     $multiscan.postTags = function (epcs) {
-        var request;
-        request = {
+        var request = {
             epcs:           epcs,
-            selectedrecord: selectedrecord
+            selectedrecord: selectedrecord,
+            selectedstatus: selectedstatus
         };
         RwServices.callMethod("AssignItem", "MultiScanTags", request, function(response) {
             try {
-                var html, $record;
+                var html, $record, qty;
+                if (selectedrecord.rowtype === 'I-CODE') {
+                    if (response.selectedstatusupdate != null) selectedstatus = response.selectedstatusupdate;
+                    qty = (response.selectedstatusupdate != null) ? response.selectedstatusupdate.qty : '0';
+                } else if (selectedrecord.rowtype === 'PO') {
+                    if (response.selectedrecordupdate != null) selectedrecord = response.selectedrecordupdate;
+                    qty = (response.selectedrecordupdate != null) ? response.selectedrecordupdate.qty : '0';
+                }
                 $multiscan.find('.multiscan-tags').empty();
                 $multiscan.find('.multiscan-readready').hide();
-                if (response.assignedassetupdate != null) selectedrecord = response.assignedassetupdate;
-                $multiscan.find('.pending .value').html((response.assignedassetupdate != null) ? response.assignedassetupdate.qty : '0');
+                $multiscan.find('.pending .value').html(qty);
                 $multiscan.find('.tagsread .value').html(response.records.length);
                 $multiscan.find('.assigned .value').html(response.assignedcount);
                 $multiscan.find('.exception .value').html(response.exceptioncount);
@@ -522,9 +598,17 @@ AssignItems.getNewItemsScreen = function(viewModel, properties) {
         });
     };
     $multiscan.showscreen = function() {
+        var qty;
+
+        if (selectedrecord.rowtype === 'I-CODE') {
+            qty = selectedstatus.qty;
+        } else if (selectedrecord.rowtype === 'PO') {
+            qty = selectedrecord.qty;
+        }
+
         $multiscan.show();
         $multiscan.find('.multiscan-title').html(selectedrecord.master);
-        $multiscan.find('.pending .value').html(selectedrecord.qty);
+        $multiscan.find('.pending .value').html(qty);
         RwRFID.registerEvents($multiscan.rfidscan);
     };
     $multiscan.clearscreen = function() {
@@ -559,29 +643,27 @@ AssignItems.getNewItemsScreen = function(viewModel, properties) {
     return screen;
 };
 //----------------------------------------------------------------------------------------------
-AssignItems.getExistingItemsScreen = function(viewModel, properties) {
-    var combinedViewModel, screen, $fwcontrols, selectedrecord, $scan, $itemassign;
-    combinedViewModel = jQuery.extend({
-        captionPageTitle:   RwLanguages.translate('Assign Items')
-    }, viewModel);
-    combinedViewModel.htmlPageBody = Mustache.render(jQuery('#tmpl-assignitems-existingitems').html(), combinedViewModel);
+AssignItems.getExistingItemsScreen = function() {
+    var selectedrecord;
+    var viewModel = {
+        captionPageTitle: RwLanguages.translate('Assign Items')
+    };
+    viewModel.htmlPageBody = Mustache.render(jQuery('#tmpl-assignitems-existingitems').html(), viewModel);
+    var screen   = {};
+    screen.$view = FwMobileMasterController.getMasterView(viewModel);
 
-    screen            = {};
-    screen.$view      = FwMobileMasterController.getMasterView(combinedViewModel);
-    screen.properties = properties;
-
-    $fwcontrols = screen.$view.find('.fwcontrol');
+    var $fwcontrols = screen.$view.find('.fwcontrol');
     FwControl.renderRuntimeControls($fwcontrols);
 
-    $scan       = screen.$view.find('.ui-scan');
-    $itemassign = screen.$view.find('.ui-itemassign');
+    var $scan       = screen.$view.find('.ui-scan');
+    var $itemassign = screen.$view.find('.ui-itemassign');
 
     $scan.find('#scancontrol').fwmobilemodulecontrol({
         buttons: [
             {
                 caption:     'Back',
                 orientation: 'left',
-                icon:        '&#xE5C4;', //arrow_back
+                icon:        '&#xE5CB;', //chevron_left
                 state:       0,
                 buttonclick: function () {
                     try {
@@ -599,11 +681,10 @@ AssignItems.getExistingItemsScreen = function(viewModel, properties) {
         RwRFID.registerEvents($scan.rfidscan);
     };
     $scan.on('change', '.fwmobilecontrol-value', function() {
-        var request, $this;
-        $this = jQuery(this);
+        var $this = jQuery(this);
         if ($this.val() != '')
         {
-            request = {
+            var request = {
                 code: $this.val()
             };
             RwServices.callMethod("AssignItem", "GetBarcodeRFIDItem", request, function(response) {
@@ -632,7 +713,7 @@ AssignItems.getExistingItemsScreen = function(viewModel, properties) {
             {
                 caption:     'Back',
                 orientation: 'left',
-                icon:        '&#xE5C4;', //arrow_back
+                icon:        '&#xE5CB;', //chevron_left
                 state:       0,
                 buttonclick: function () {
                     try {
@@ -649,19 +730,18 @@ AssignItems.getExistingItemsScreen = function(viewModel, properties) {
                 state:       0,
                 buttonclick: function () {
                     try {
-                        var request, updaterecord, recorddata, barcode, mfgserial, rfid, mfgdate;
-                        recorddata = $itemassign.data('recorddata');
-                        barcode    = $itemassign.find('div[data-datafield="barcode"] input').val();
-                        mfgserial  = $itemassign.find('div[data-datafield="mfgserial"] input').val();
-                        rfid       = $itemassign.find('div[data-datafield="rfid"] input').val();
-                        mfgdate    = $itemassign.find('div[data-datafield="mfgdate"] input').val();
-                        updaterecord = ((barcode   != '') && (recorddata.barcode   != barcode))   ||
-                                       ((mfgserial != '') && (recorddata.mfgserial != mfgserial)) ||
-                                       ((rfid      != '') && (recorddata.rfid      != rfid))      ||
-                                       ((mfgdate   != '') && (recorddata.mfgdate   != mfgdate));
+                        var recorddata = $itemassign.data('recorddata');
+                        var barcode    = $itemassign.find('div[data-datafield="barcode"] input').val();
+                        var mfgserial  = $itemassign.find('div[data-datafield="mfgserial"] input').val();
+                        var rfid       = $itemassign.find('div[data-datafield="rfid"] input').val();
+                        var mfgdate    = $itemassign.find('div[data-datafield="mfgdate"] input').val();
+                        var updaterecord = ((barcode   != '') && (recorddata.barcode   != barcode))   ||
+                                           ((mfgserial != '') && (recorddata.mfgserial != mfgserial)) ||
+                                           ((rfid      != '') && (recorddata.rfid      != rfid))      ||
+                                           ((mfgdate   != '') && (recorddata.mfgdate   != mfgdate));
 
                         if (updaterecord == true) {
-                            request = {
+                            var request = {
                                 selectedrecord: selectedrecord,
                                 recorddata:     recorddata,
                                 barcode:        barcode,

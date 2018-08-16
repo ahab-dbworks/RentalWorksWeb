@@ -147,9 +147,9 @@ RwOrderController.getCheckInScreen = function(viewModel, properties) {
                 icon:        '&#xE5CB;', //chevron_left
                 state:       0,
                 buttonclick: function () {
-                    if (properties.moduleType == 'Order') {
+                    if (properties.moduleType === 'Order') {
                         program.navigate('order/checkinmenu');
-                    } else if (properties.moduleType == 'Transfer') {
+                    } else if (properties.moduleType === 'Transfer') {
                         program.navigate('order/transferin');
                     } else {
                         program.navigate('home/home');
@@ -246,7 +246,7 @@ RwOrderController.getCheckInScreen = function(viewModel, properties) {
                 icon:        '&#xE5CC;', //chevron_right
                 state:       0,
                 buttonclick: function () {
-                    if (screen.getContractId() != '') {
+                    if (screen.getContractId() !== '') {
                         var request = {
                             contractid: screen.getContractId()
                         };
@@ -312,7 +312,7 @@ RwOrderController.getCheckInScreen = function(viewModel, properties) {
         itemTemplate: function(model) {
             var html = [], masterclass;
             masterclass = 'item itemclass-' + model.itemclass;
-            masterclass += ((model.trackedby == 'SERIALNO' || model.trackedby == 'QUANTITY' || model.trackedby == 'RFID-UNASSIGNED' || model.subbyquantity) && (model.qtystillout > 0)) ? ' link' : '';
+            masterclass += ((model.trackedby === 'SERIALNO' || model.trackedby === 'QUANTITY' || model.subbyquantity) && (model.qtystillout > 0)) ? ' link' : '';
             html.push('<div class="' + masterclass + '">');
             html.push('  <div class="row1"><div class="title">{{description}}</div></div>');
             html.push('  <div class="row2">');
@@ -362,7 +362,7 @@ RwOrderController.getCheckInScreen = function(viewModel, properties) {
         },
         recordClick: function(recorddata, $record) {
             try {
-                if ((recorddata.trackedby === 'QUANTITY') || (recorddata.trackedby === 'RFID-UNASSIGNED')) {
+                if (recorddata.trackedby === 'QUANTITY') {
                     var orderId        = recorddata.orderid;
                     var masterItemId   = recorddata.masteritemid;
                     var masterId       = recorddata.masterid;
@@ -405,7 +405,7 @@ RwOrderController.getCheckInScreen = function(viewModel, properties) {
         $checkincontrol.fwmobilemodulecontrol('hideButton', '#applyallqtyitems');
         $checkincontrol.fwmobilemodulecontrol('hideButton', '#extraitems');
         screen.properties.currentview = 'PENDING';
-        if (screen.getContractId() != '') {
+        if (screen.getContractId() !== '') {
             $pending.find('#pendingsearch').fwmobilesearch('search');
         }
     };
@@ -452,12 +452,12 @@ RwOrderController.getCheckInScreen = function(viewModel, properties) {
             portal:    device.uuid
         };
         RwServices.callMethod("CheckIn", "LoadRFIDExceptions", request, function(response) {
-            $rfid.loaditems(response.tags)
+            $rfid.loaditems(response.tags);
         });
     };
     $rfid.scanrfid = function (epcs) {
         var request;
-        if (screen.properties.currentview != 'RFID') {
+        if (screen.properties.currentview !== 'RFID') {
             $checkinmodeselector.find('#rfidtab').click();
         }
         $rfid.data('batchid', '');
@@ -511,7 +511,7 @@ RwOrderController.getCheckInScreen = function(viewModel, properties) {
         $rfid.find('.rfid-items').empty();
 
         for (var i = 0; i < tags.length; i++) {
-            if (tags[i].status == 'PROCESSED') {
+            if (tags[i].status === 'PROCESSED') {
                 $item = $rfid.rfiditem('processed');
                 $item.find('.rfid-item-title').html(tags[i].title);
                 $item.find('.rfid-data.rfid .item-value').html(tags[i].rfid);
@@ -520,7 +520,7 @@ RwOrderController.getCheckInScreen = function(viewModel, properties) {
                 if (tags[i].duplicatescan === 'T') {
                     $item.addClass('duplicate');
                 }
-            } else if (tags[i].status == 'EXCEPTION') {
+            } else if (tags[i].status === 'EXCEPTION') {
                 $item = $rfid.rfiditem('exception');
                 $item.find('.rfid-item-title').html(tags[i].title);
                 $item.find('.rfid-data.rfid .item-value').html(tags[i].rfid);
@@ -654,7 +654,7 @@ RwOrderController.getCheckInScreen = function(viewModel, properties) {
             isheader    = ((model.itemclass === 'N') || (model.sessionin === 0))
             masterclass = 'item itemclass-' + model.itemclass;
             masterclass += (!isheader ? ' link' : '');
-            masterclass += (model.inrepair == 'T' ? ' inrepair' : '');
+            masterclass += (model.inrepair === 'T' ? ' inrepair' : '');
             html.push('<div class="' + masterclass + '">');
             html.push('  <div class="row1"><div class="title">{{description}}</div></div>');
             if (!isheader) {
@@ -757,7 +757,7 @@ RwOrderController.getCheckInScreen = function(viewModel, properties) {
                                 qty:          recorddata.sessionin
                             };
                             try {
-                                if ((recorddata.trackedby === 'QUANTITY') || (recorddata.trackedby === 'RFID-UNASSIGNED')) {
+                                if (recorddata.trackedby === 'QUANTITY') {
                                     var $confirmationstr = FwConfirmation.showMessage('How many?', '<input class="qty" type="number" style="font-size:16px;padding:5px;border:1pxc solid #bdbdbd;box-sizing:border-box;width:100%;" value="' + request.qty + '" />', true, false, 'OK', function() {
                                         try {
                                             var userqty = $confirmationstr.find('input.qty').val();
@@ -831,7 +831,7 @@ RwOrderController.getCheckInScreen = function(viewModel, properties) {
         $checkincontrol.fwmobilemodulecontrol('hideButton', '#applyallqtyitems');
         $checkincontrol.fwmobilemodulecontrol('hideButton', '#extraitems');
         screen.properties.currentview = 'SESSIONIN';
-        if (screen.getContractId() != '') {
+        if (screen.getContractId() !== '') {
             $sessionin.find('#sessioninsearch').fwmobilesearch('search');
         }
     };
@@ -941,7 +941,7 @@ RwOrderController.getCheckInScreen = function(viewModel, properties) {
             };
             RwServices.callMethod("CheckIn", "ToggleOrderPriority", request, function(response) {
                 $orderpriority.loadorders(response.orders);
-                if (response.status != 0) {
+                if (response.status !== 0) {
                     FwFunc.showError(response.message);
                 }
             });
@@ -1016,7 +1016,7 @@ RwOrderController.getCheckInScreen = function(viewModel, properties) {
             masteritemid: recorddata.masteritemid,
             masterid:     recorddata.masterid,
             contractid:   screen.getContractId()
-        }
+        };
         $checkinserial.data('recorddata', request);
         $checkinserial.find('#serial').empty();
         RwServices.callMethod('CheckIn', 'GetSerialInfo', request, function (response) {
@@ -1027,7 +1027,7 @@ RwOrderController.getCheckInScreen = function(viewModel, properties) {
             $checkinmodeselector.hide();
             $checkincontrol.hide();
 
-            if (response.serial.metered == 'T') {
+            if (response.serial.metered === 'T') {
                 $checkinserial.find('#serialcontroller').fwmobilemodulecontrol('showButton', '#setmeters');
             } else {
                 $checkinserial.find('#serialcontroller').fwmobilemodulecontrol('hideButton', '#setmeters');
@@ -1083,7 +1083,7 @@ RwOrderController.getCheckInScreen = function(viewModel, properties) {
         RwServices.callMethod('CheckIn', 'GetSerialItems', $checkinserial.data('recorddata'), function (response) {
             for (var i = 0; i < response.serialitems.length; i++) {
                 var html = [], $serialitem;
-                html.push('<div class="serialitem standard' + ((response.serialitems[i].itemstatus == 'O') ? '' : ' in') + '">');
+                html.push('<div class="serialitem standard' + ((response.serialitems[i].itemstatus === 'O') ? '' : ' in') + '">');
                 html.push('  <div class="serialitem-caption">Serial No:</div>');
                 html.push('  <div class="serialitem-value">' + response.serialitems[i].mfgserial + '</div>');
                 html.push('</div>');
@@ -1099,9 +1099,9 @@ RwOrderController.getCheckInScreen = function(viewModel, properties) {
             var zerosetflg = true;
             for (var i = 0; i < response.serialitems.length; i++) {
                 var html = [], $serialitem, meterinvalue, notsetflg;
-                if (response.serialitems[i].itemstatus == 'I') {
+                if (response.serialitems[i].itemstatus === 'I') {
                     zerosetflg = false;
-                    if (response.serialitems[i].meterin == '0.00') {
+                    if (response.serialitems[i].meterin === '0.00') {
                         meterinvalue = response.serialitems[i].meterout;
                         notsetflg    = false;
                     } else {
@@ -1597,7 +1597,7 @@ RwOrderController.getCheckInScreen = function(viewModel, properties) {
     };
 
     screen.rfidscan = function(epcs) {
-        if ((epcs !== '') && (screen.getContractId() != '')) {
+        if ((epcs !== '') && (screen.getContractId() !== '')) {
             $rfid.scanrfid(epcs);
         }
     };
@@ -1794,7 +1794,7 @@ RwOrderController.getCheckInScreen = function(viewModel, properties) {
                     jQuery(this).remove();
                 });
 
-            if (screen.$view.find('.jumptotop').length == 0) {
+            if (screen.$view.find('.jumptotop').length === 0) {
                 screen.$view.append($jumptotop);
             }
         } else {
@@ -1824,7 +1824,7 @@ RwOrderController.getCheckInScreen = function(viewModel, properties) {
     };
 
     screen.toggleReconcileButton = function(enable) {
-        if (typeof enable == 'undefined') {
+        if (typeof enable === 'undefined') {
             if (screen.getContractId().length > 0) {
                 var request = {
                     contractid: screen.getContractId()

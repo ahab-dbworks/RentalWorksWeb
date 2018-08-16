@@ -1,21 +1,18 @@
 ﻿//----------------------------------------------------------------------------------------------
-RwAccountController.getPreferencesScreen = function(viewModel, properties) {
-    var combinedViewModel, screen,$fwcontrols;
-    combinedViewModel = jQuery.extend({
+RwAccountController.getPreferencesScreen = function() {
+    var viewModel = {
         captionPageTitle: RwLanguages.translate('Settings'),
         captionScanMode:  RwLanguages.translate('Scan Mode')
-    }, viewModel);
-    combinedViewModel.htmlPageBody = Mustache.render(jQuery('#tmpl-account-preferences').html(), combinedViewModel);
-    screen = {};
+    };
+    viewModel.htmlPageBody = Mustache.render(jQuery('#tmpl-account-preferences').html(), viewModel);
+    var screen       = {};
     screen.viewModel = viewModel;
-    screen.properties = properties;
-    screen.$view = FwMobileMasterController.getMasterView(combinedViewModel);
+    screen.$view = FwMobileMasterController.getMasterView(viewModel);
 
-    $fwcontrols = screen.$view.find('.fwcontrol');
-    FwControl.init($fwcontrols);
-    FwControl.renderRuntimeHtml($fwcontrols);
+    var $fwcontrols = screen.$view.find('.fwcontrol');
+    FwControl.renderRuntimeControls($fwcontrols);
 
-    $scanmode = screen.$view.find('#preferencesView-scanMode');
+    var $scanmode = screen.$view.find('#preferencesView-scanMode');
     FwFormField.loadItems($scanmode, [
         {value:'MODE_SINGLE_SCAN',              text:'Single Scan'},
         {value:'MODE_MULTI_SCAN',               text:'Multi-Scan'},

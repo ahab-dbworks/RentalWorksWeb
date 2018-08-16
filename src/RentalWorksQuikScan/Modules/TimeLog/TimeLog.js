@@ -1,8 +1,7 @@
 ﻿var TimeLog = {};
 //----------------------------------------------------------------------------------------------
-TimeLog.getModuleScreen = function(viewModel, properties) {
-    var combinedViewModel, screen, $fwcontrols, $menu, $search, $editentry, $viewentries, isCrew;
-    combinedViewModel = jQuery.extend({
+TimeLog.getModuleScreen = function() {
+    var viewModel = {
         captionPageTitle:   RwLanguages.translate('Time Log'),
         captionOrderNo:     RwLanguages.translate('Order No'),
         captionDealNo:      RwLanguages.translate('Deal No'),
@@ -10,24 +9,23 @@ TimeLog.getModuleScreen = function(viewModel, properties) {
         captionProject:     RwLanguages.translate('Project'),
         captionNewEntry:    RwLanguages.translate('New Time Log Entry'),
         captionViewEntries: RwLanguages.translate('View Time Log Entries')
-    }, viewModel);
-    combinedViewModel.htmlPageBody = Mustache.render(jQuery('#tmpl-timeLog').html(), combinedViewModel);
+    };
+    viewModel.htmlPageBody = Mustache.render(jQuery('#tmpl-timeLog').html(), viewModel);
 
-    screen                        = {};
-    screen.$view                  = FwMobileMasterController.getMasterView(combinedViewModel);
-    screen.properties             = properties;
+    var screen                    = {};
+    screen.$view                  = FwMobileMasterController.getMasterView(viewModel);
+    screen.properties             = {};
     screen.properties.timelogdata = {};
 
-    $fwcontrols = screen.$view.find('.fwcontrol');
-    FwControl.init($fwcontrols);
-    FwControl.renderRuntimeHtml($fwcontrols);
+    var $fwcontrols = screen.$view.find('.fwcontrol');
+    FwControl.renderRuntimeControls($fwcontrols);
 
-    $menu        = screen.$view.find('.tl-menu');
-    $search      = screen.$view.find('.tl-search');
-    $editentry   = screen.$view.find('.tl-editentry');
-    $viewentries = screen.$view.find('.tl-viewentries');
+    var $menu        = screen.$view.find('.tl-menu');
+    var $search      = screen.$view.find('.tl-search');
+    var $editentry   = screen.$view.find('.tl-editentry');
+    var $viewentries = screen.$view.find('.tl-viewentries');
 
-    isCrew = (sessionStorage.userType === 'CREW');
+    var isCrew = (sessionStorage.userType === 'CREW');
     screen.$view.find('#miOrderNo').toggle(isCrew || (sessionStorage.getItem('iscrew') == 'T'));
     screen.$view.find('#miDealNo').toggle(isCrew || (sessionStorage.getItem('iscrew') == 'T'));
     screen.$view.find('#miEventNo').toggle(isCrew || (sessionStorage.getItem('iscrew') == 'T'));

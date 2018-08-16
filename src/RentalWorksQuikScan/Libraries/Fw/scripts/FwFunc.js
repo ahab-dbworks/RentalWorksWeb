@@ -1,6 +1,8 @@
-class FwFunc {
-    static showError(ex) {
-        let $confirmation, $btnOK, message;
+var FwFunc = (function () {
+    function FwFunc() {
+    }
+    FwFunc.showError = function (ex) {
+        var $confirmation, $btnOK, message;
         if ((typeof ex === 'object') && (typeof ex.message === 'string')) {
             message = ex.message;
             if ((typeof console.error !== 'undefined') && (typeof ex.stack === 'string')) {
@@ -18,10 +20,10 @@ class FwFunc {
         setTimeout(function () {
             $btnOK.focus();
         }, 100);
-    }
-    static showWebApiError(status, error, responseText, fullurl) {
+    };
+    FwFunc.showWebApiError = function (status, error, responseText, fullurl) {
         if (status === 401 || status === 403) {
-            FwConfirmation.showMessage(`${status} - ${error}`, `Url: ${fullurl}`, false, true, 'OK', (event) => {
+            FwConfirmation.showMessage(status + " - " + error, "Url: " + fullurl, false, true, 'OK', function (event) {
                 try {
                     sessionStorage.clear();
                     window.location.reload(false);
@@ -32,93 +34,93 @@ class FwFunc {
             });
         }
         else if (status === 0) {
-            let $confirmation = FwConfirmation.renderConfirmation('No Response', fullurl);
-            let $btnOK = FwConfirmation.addButton($confirmation, 'OK', true);
+            var $confirmation = FwConfirmation.renderConfirmation('No Response', fullurl);
+            var $btnOK_1 = FwConfirmation.addButton($confirmation, 'OK', true);
             setTimeout(function () {
-                $btnOK.focus();
+                $btnOK_1.focus();
             }, 100);
         }
         else if (status === 200 && typeof error === 'object' && typeof error.message === 'string' && typeof error.stack === 'string') {
-            let message = error.message;
+            var message = error.message;
             if (applicationConfig.debugMode) {
                 message += '\n' + error.stack;
             }
             console.log(message);
-            let $confirmation = FwConfirmation.renderConfirmation(status + ' ' + error, message);
-            let $btnOK = FwConfirmation.addButton($confirmation, 'OK', true);
+            var $confirmation = FwConfirmation.renderConfirmation(status + ' ' + error, message);
+            var $btnOK_2 = FwConfirmation.addButton($confirmation, 'OK', true);
             setTimeout(function () {
-                $btnOK.focus();
+                $btnOK_2.focus();
             }, 100);
         }
         else {
             if (typeof responseText === 'string' && responseText.length > 0) {
                 try {
-                    let apiException = JSON.parse(responseText);
+                    var apiException = JSON.parse(responseText);
                     console.error(apiException.Message + '\n' + apiException.StackTrace);
-                    let $confirmation = FwConfirmation.renderConfirmation(status + ' ' + error, apiException.Message);
-                    let $btnOK = FwConfirmation.addButton($confirmation, 'OK', true);
+                    var $confirmation = FwConfirmation.renderConfirmation(status + ' ' + error, apiException.Message);
+                    var $btnOK_3 = FwConfirmation.addButton($confirmation, 'OK', true);
                     setTimeout(function () {
-                        $btnOK.focus();
+                        $btnOK_3.focus();
                     }, 100);
                 }
                 catch (ex) {
-                    let $confirmation = FwConfirmation.renderConfirmation(status + ' Error', responseText);
-                    let $btnOK = FwConfirmation.addButton($confirmation, 'OK', true);
+                    var $confirmation = FwConfirmation.renderConfirmation(status + ' Error', responseText);
+                    var $btnOK_4 = FwConfirmation.addButton($confirmation, 'OK', true);
                     setTimeout(function () {
-                        $btnOK.focus();
+                        $btnOK_4.focus();
                     }, 100);
                 }
             }
         }
-    }
-    static showMessage(message, onbuttonclick) {
-        let $confirmation = FwConfirmation.showMessage('Message', message, false, true, 'OK', onbuttonclick);
+    };
+    FwFunc.showMessage = function (message, onbuttonclick) {
+        var $confirmation = FwConfirmation.showMessage('Message', message, false, true, 'OK', onbuttonclick);
         $confirmation.on('click', '.fwconfirmationbox', function (event) {
             event.stopPropagation();
         });
-    }
-    static htmlEscape(str) {
+    };
+    FwFunc.htmlEscape = function (str) {
         return String(str)
             .replace(/&/g, '&amp;')
             .replace(/"/g, '&quot;')
             .replace(/'/g, '&#39;')
             .replace(/</g, '&lt;')
             .replace(/>/g, '&gt;');
-    }
-    static htmlUnescape(value) {
+    };
+    FwFunc.htmlUnescape = function (value) {
         return String(value)
             .replace(/&quot;/g, '"')
             .replace(/&#39;/g, "'")
             .replace(/&lt;/g, '<')
             .replace(/&gt;/g, '>')
             .replace(/&amp;/g, '&');
-    }
-    static getMaxZ(selector) {
+    };
+    FwFunc.getMaxZ = function (selector) {
         return Math.max.apply(null, jQuery(selector).map(function () {
-            let z;
+            var z;
             return isNaN(z = parseInt(jQuery(this).css("z-index"), 10)) ? 1 : z;
         }));
-    }
-    static round(num, decimalplaces) {
+    };
+    FwFunc.round = function (num, decimalplaces) {
         return Math.round(num * Math.pow(10, decimalplaces)) / Math.pow(10, decimalplaces);
-    }
-    static convert12to24(time) {
-        let hours = Number(time.match(/^(\d+)/)[1]);
-        let minutes = Number(time.match(/:(\d+)/)[1]);
-        let AMPM = time.match(/\s(.*)$/)[1];
+    };
+    FwFunc.convert12to24 = function (time) {
+        var hours = Number(time.match(/^(\d+)/)[1]);
+        var minutes = Number(time.match(/:(\d+)/)[1]);
+        var AMPM = time.match(/\s(.*)$/)[1];
         if (AMPM.toUpperCase() == "PM" && hours < 12)
             hours = hours + 12;
         if (AMPM.toUpperCase() == "AM" && hours == 12)
             hours = hours - 12;
-        let sHours = hours.toString();
-        let sMinutes = minutes.toString();
+        var sHours = hours.toString();
+        var sMinutes = minutes.toString();
         if (hours < 10)
             sHours = "0" + sHours;
         if (minutes < 10)
             sMinutes = "0" + sMinutes;
         return sHours + ":" + sMinutes + ":00";
-    }
-    static convert24to12(time) {
+    };
+    FwFunc.convert24to12 = function (time) {
         time = time.toString().match(/^([01]\d|2[0-3])(:)([0-5]\d)(:[0-5]\d)?$/) || [time];
         if (time.length > 1) {
             time = time.slice(1);
@@ -126,17 +128,17 @@ class FwFunc {
             time[0] = +time[0] % 12 || 12;
         }
         return time.join('');
-    }
-    static isDesktop() {
-        let isDesktop = jQuery('html').hasClass('desktop');
+    };
+    FwFunc.isDesktop = function () {
+        var isDesktop = jQuery('html').hasClass('desktop');
         return isDesktop;
-    }
-    static isMobile() {
-        let isMobile = jQuery('html').hasClass('mobile');
+    };
+    FwFunc.isMobile = function () {
+        var isMobile = jQuery('html').hasClass('mobile');
         return isMobile;
-    }
-    static fixCaps(string) {
-        let returnStr;
+    };
+    FwFunc.fixCaps = function (string) {
+        var returnStr;
         if ((string == null) || (string == '')) {
             returnStr = '';
         }
@@ -144,38 +146,39 @@ class FwFunc {
             returnStr = string.toLowerCase().replace(/\b[a-z]/g, function (letter) { return letter.toUpperCase(); });
         }
         return returnStr;
-    }
-}
-FwFunc.getDate = function (paramdate, modifier) {
-    let date, dd, mm, yyyy;
-    if (typeof paramdate === 'undefined') {
+    };
+    FwFunc.getDate = function (paramdate, modifier) {
+        var date, dd, mm, yyyy;
+        if (typeof paramdate === 'undefined') {
+            date = new Date();
+        }
+        else {
+            date = new Date(paramdate);
+        }
+        if (typeof modifier === 'number') {
+            date.setDate(date.getDate() + modifier);
+        }
+        dd = ((date.getDate() < 10) ? '0' + date.getDate() : date.getDate());
+        mm = ((date.getMonth() + 1 < 10) ? '0' + (date.getMonth() + 1) : date.getMonth() + 1);
+        yyyy = date.getFullYear();
+        date = mm + '/' + dd + '/' + yyyy;
+        return date;
+    };
+    FwFunc.getTime = function (showseconds) {
+        var date, hh, mm, ss, period;
         date = new Date();
-    }
-    else {
-        date = new Date(paramdate);
-    }
-    if (typeof modifier === 'number') {
-        date.setDate(date.getDate() + modifier);
-    }
-    dd = ((date.getDate() < 10) ? '0' + date.getDate() : date.getDate());
-    mm = ((date.getMonth() + 1 < 10) ? '0' + (date.getMonth() + 1) : date.getMonth() + 1);
-    yyyy = date.getFullYear();
-    date = mm + '/' + dd + '/' + yyyy;
-    return date;
-};
-FwFunc.getTime = function (showseconds) {
-    let date, hh, mm, ss, period;
-    date = new Date();
-    hh = date.getHours() % 12 || 12;
-    mm = ((date.getMinutes() < 10) ? '0' + (date.getMinutes()) : date.getMinutes());
-    ss = ((date.getSeconds() < 10) ? '0' + (date.getSeconds()) : date.getSeconds());
-    period = ((date.getHours() > 12) ? 'PM' : 'AM');
-    if (showseconds) {
-        date = hh + ':' + mm + ':' + ss + ' ' + period;
-    }
-    else {
-        date = hh + ':' + mm + ' ' + period;
-    }
-    return date;
-};
+        hh = date.getHours() % 12 || 12;
+        mm = ((date.getMinutes() < 10) ? '0' + (date.getMinutes()) : date.getMinutes());
+        ss = ((date.getSeconds() < 10) ? '0' + (date.getSeconds()) : date.getSeconds());
+        period = ((date.getHours() > 12) ? 'PM' : 'AM');
+        if (showseconds) {
+            date = hh + ':' + mm + ':' + ss + ' ' + period;
+        }
+        else {
+            date = hh + ':' + mm + ' ' + period;
+        }
+        return date;
+    };
+    return FwFunc;
+}());
 //# sourceMappingURL=FwFunc.js.map

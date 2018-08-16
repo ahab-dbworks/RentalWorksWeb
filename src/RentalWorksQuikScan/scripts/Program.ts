@@ -196,7 +196,7 @@ class Program extends FwApplication {
                         }
                         break;
                     case 'account/preferences':
-                        screen = RwAccountController.getPreferencesScreen({}, {});
+                        screen = RwAccountController.getPreferencesScreen();
                         break;
                     case 'account/privacypolicy':
                         screen = RwAccountController.getPrivacyPolicyScreen({}, {});
@@ -314,7 +314,7 @@ class Program extends FwApplication {
                         screen = RwQuote.getQuoteScreen({}, {});
                         break;
                     case 'timelog':
-                        screen = TimeLog.getModuleScreen({}, {});
+                        screen = TimeLog.getModuleScreen();
                         break;
                     case 'receiveonset':
                         screen = ReceiveOnSet.getModuleScreen({}, {});
@@ -337,13 +337,13 @@ class Program extends FwApplication {
                         });
                         break;
                     case 'assignitems':
-                        screen = AssignItems.getMenuScreen({}, {});
+                        screen = AssignItems.getMenuScreen();
                         break;
                     case 'assignitems/newitems':
-                        screen = AssignItems.getNewItemsScreen({}, {});
+                        screen = AssignItems.getNewItemsScreen();
                         break;
                     case 'assignitems/existingitems':
-                        screen = AssignItems.getExistingItemsScreen({}, {});
+                        screen = AssignItems.getExistingItemsScreen();
                         break;
                 }
             }

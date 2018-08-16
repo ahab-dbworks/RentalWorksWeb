@@ -156,7 +156,7 @@ var Program = (function (_super) {
                         }
                         break;
                     case 'account/preferences':
-                        screen = RwAccountController.getPreferencesScreen({}, {});
+                        screen = RwAccountController.getPreferencesScreen();
                         break;
                     case 'account/privacypolicy':
                         screen = RwAccountController.getPrivacyPolicyScreen({}, {});
@@ -273,7 +273,7 @@ var Program = (function (_super) {
                         screen = RwQuote.getQuoteScreen({}, {});
                         break;
                     case 'timelog':
-                        screen = TimeLog.getModuleScreen({}, {});
+                        screen = TimeLog.getModuleScreen();
                         break;
                     case 'receiveonset':
                         screen = ReceiveOnSet.getModuleScreen({}, {});
@@ -296,13 +296,13 @@ var Program = (function (_super) {
                         });
                         break;
                     case 'assignitems':
-                        screen = AssignItems.getMenuScreen({}, {});
+                        screen = AssignItems.getMenuScreen();
                         break;
                     case 'assignitems/newitems':
-                        screen = AssignItems.getNewItemsScreen({}, {});
+                        screen = AssignItems.getNewItemsScreen();
                         break;
                     case 'assignitems/existingitems':
-                        screen = AssignItems.getExistingItemsScreen({}, {});
+                        screen = AssignItems.getExistingItemsScreen();
                         break;
                 }
             }

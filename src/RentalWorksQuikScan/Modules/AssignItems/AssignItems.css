@@ -48,3 +48,12 @@
 
 #assignItems .ui-scan {display:none;}
 #assignItems .ui-scan .fwmobilecontrol-value {text-align:center;}
+
+#assignItems .ui-assetdetails {display:none;}
+#assignItems .ui-assetdetails .assetinfo {background-color:#546e7a;text-align:center;font-size:18px;padding:4px;}
+#assignItems .ui-assetdetails .detailrecord {font-size:.8em;background-color:#212121;border-bottom: 1px solid #454545;cursor: pointer;will-change:opacity, transform;transition:all .1s ease-out;padding:8px;}
+#assignItems .ui-assetdetails .detailrecord:active {background-color:rgba(69,69,69,.6);}
+#assignItems .ui-assetdetails .detailrecord .row {display:flex;padding:2px;}
+#assignItems .ui-assetdetails .detailrecord .row .caption {flex:0 0 80px;color:#aaaaaa;}
+#assignItems .ui-assetdetails .detailrecord .row .value {flex:1 0 80px;}
+#assignItems .ui-assetdetails .detailrecord.out .value {color:#FF9800;}
