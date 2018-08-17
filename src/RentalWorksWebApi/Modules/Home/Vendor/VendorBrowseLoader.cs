@@ -55,6 +55,18 @@ namespace WebApi.Modules.Home.Vendor
         [FwSqlDataField(column: "billperiod", modeltype: FwDataTypes.Text)]
         public string BillingCycle { get; set; }
         //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "prcontactid", modeltype: FwDataTypes.Text)]
+        public string PrimaryContactId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "prcontact", modeltype: FwDataTypes.Text)]
+        public string PrimaryContact { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "prphone", modeltype: FwDataTypes.Text)]
+        public string PrimaryContactPhone { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "prext", modeltype: FwDataTypes.Text)]
+        public string PrimaryContactExtension { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "inactive", modeltype: FwDataTypes.Boolean)]
         public bool? Inactive { get; set; }
         //------------------------------------------------------------------------------------

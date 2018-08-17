@@ -105,6 +105,10 @@ namespace WebApi.Modules.Home.Vendor
         public string Customer { get; set; }
         public string InputDate { get { return vendor.InputDate; } set { vendor.InputDate = value; } }
         public string LastModifiedDate { get { return vendor.LastModifiedDate; } set { vendor.LastModifiedDate = value; } }
+        public string PrimaryContactId { get; set; }
+        public string PrimaryContact { get; set; }
+        public string PrimaryContactPhone { get; set; }
+        public string PrimaryContactExtension { get; set; }
         public bool? Inactive { get { return vendor.Inactive; } set { vendor.Inactive = value; } }
         public string DateStamp { get { return vendor.DateStamp; } set { vendor.DateStamp = value; } }
         //------------------------------------------------------------------------------------
