@@ -430,6 +430,9 @@ FwApplicationTree.clickEvents['{007C4F21-7526-437C-AD1C-4BBB1030AABA}'] = functi
     try {
         $form = jQuery(this).closest('.fwform');
         subWorksheetData.OrderId = FwFormField.getValueByDataField($form, 'OrderId');
+        subWorksheetData.EstimatedStartDate = FwFormField.getValueByDataField($form, 'EstimatedStartDate');
+        subWorksheetData.EstimatedStopDate = FwFormField.getValueByDataField($form, 'EstimatedStopDate');
+        subWorksheetData.EstimatedStartTime = FwFormField.getValueByDataField($form, 'EstimatedStartTime');
         $subWorksheetForm = SubWorksheetController.openForm('EDIT', subWorksheetData);
         FwModule.openSubModuleTab($form, $subWorksheetForm);
         jQuery('.tab.submodule.active').find('.caption').html('Sub Worksheet');

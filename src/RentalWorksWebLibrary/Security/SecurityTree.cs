@@ -276,6 +276,7 @@ namespace WebLibrary.Security
             AddModule("Designer",            "{CB2EF8FF-2E8D-4AD0-B880-07037B839C5E}", lv1menuAdministrator.Id, "DesignerController",       "module/designer",       administratoriconbaseurl + "placeholder.png");
             // Add Submodules
             AddSubModule("User Settings", "{A6704904-01E1-4C6B-B75A-C1D3FCB50C01}", lv1menuSubModules.Id, "UserSettingsController");
+            AddSubModule("SubWorksheet", "{F24BDA2F-B37C-45C1-B08E-588D02D50B7C}", lv1menuSubModules.Id, "SubWorksheetController");
 
             // Add Grids
             AddGrid("Attribute Value",                        "{C11904A1-D612-469C-BFA6-E14534FC8E31}", lv1menuGrids.Id, "AttributeValueGridController");

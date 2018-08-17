@@ -41,6 +41,10 @@ class SubWorksheet {
         existingPo = $form.find('.existing');
         createNew.prop('checked', true);
 
+        FwFormField.setValueByDataField($form, 'RentalFrom', parentmoduleinfo.EstimatedStartDate);
+        FwFormField.setValueByDataField($form, 'RentalTo', parentmoduleinfo.EstimatedStopDate);
+        FwFormField.setValueByDataField($form, 'ReqTime', parentmoduleinfo.EstimatedStartTime);
+
         createNew.on('change', (e) => {
             if (jQuery(e.currentTarget).prop('checked')) {
                 modifyExisting.prop('checked', false);
@@ -77,6 +81,9 @@ class SubWorksheet {
             FwFormField.setValueByDataField($form, 'RateId', $tr.find('.field[data-browsedatafield="DefaultRate"]').attr('data-originalvalue'), $tr.find('.field[data-browsedatafield="DefaultRate"]').attr('data-originalvalue'));
             FwFormField.setValueByDataField($form, 'CurrencyId', $tr.find('.field[data-browsedatafield="DefaultCurrencyId"]').attr('data-originalvalue'), $tr.find('.field[data-browsedatafield="DefaultCurrencyCode"]').attr('data-originalvalue'));
             FwFormField.setValueByDataField($form, 'BillingCycleId', $tr.find('.field[data-browsedatafield="BillingCycleId"]').attr('data-originalvalue'), $tr.find('.field[data-browsedatafield="BillingCycle"]').attr('data-originalvalue'));
+            FwFormField.setValueByDataField($form, 'ContactId', $tr.find('.field[data-browsedatafield="PrimaryContactId"]').attr('data-originalvalue'), $tr.find('.field[data-browsedatafield="PrimaryContact"]').attr('data-originalvalue'));
+            FwFormField.setValueByDataField($form, 'OfficePhone', $tr.find('.field[data-browsedatafield="PrimaryContactPhone"]').attr('data-originalvalue'));
+            FwFormField.setValueByDataField($form, 'OfficeExtension', $tr.find('.field[data-browsedatafield="PrimaryContactExtension"]').attr('data-originalvalue'));
         });
 
         $form.find('div[data-datafield="ContactId"]').data('onchange', function ($tr) {
@@ -199,6 +206,7 @@ class SubWorksheet {
         });
         $subPurchaseOrderItemGridControl.data('beforesave', request => {
             request.SessionId = self.SessionId;
+            request.RecType = 'R';
         });
         FwBrowse.init($subPurchaseOrderItemGridControl);
         FwBrowse.renderRuntimeHtml($subPurchaseOrderItemGridControl);
