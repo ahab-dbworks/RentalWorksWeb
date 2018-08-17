@@ -238,7 +238,7 @@ class StagingCheckout {
             catch (ex) {
                 FwFunc.showError(ex);
             }
-            }, null, null);
+        }, null, null);
     };
     //----------------------------------------------------------------------------------------------
     moveStagedItemToOut($form: JQuery): void {
@@ -257,7 +257,7 @@ class StagingCheckout {
             request.Code = barCodeFieldValue;
             request.OrderId = orderId
             FwAppData.apiMethod(true, 'POST', `api/v1/checkout/movestageditemtoout`, request, FwServices.defaultTimeout, response => {
-                // need error handling here. API is 200 regardless of what i send
+// need error handling here. API is 200 regardless of what i send
             }, null, null);
         } else {
             if ($selectedCheckBoxes.length !== 0) {
@@ -310,7 +310,7 @@ console.log('request: ', request);
             request.Code = barCodeFieldValue;
             request.OrderId = orderId;
             FwAppData.apiMethod(true, 'POST', `api/v1/checkout/moveoutitemtostaged`, request, FwServices.defaultTimeout, response => {
-                // need error handling here. API is 200 regardless of what i send
+// need error handling here. API is 200 regardless of what i send
             }, null, null);
         } else {
             if ($selectedCheckBoxes.length !== 0) {
@@ -331,7 +331,7 @@ console.log('request: ', request);
                         request.OrderItemId = orderItemId;
                     }
                     FwAppData.apiMethod(true, 'POST', `api/v1/checkout/moveoutitemtostaged`, request, FwServices.defaultTimeout, response => {
-                        // need error handling
+// need error handling
                     }, null, null);
                 }
             } else {
@@ -380,7 +380,6 @@ console.log('request: ', request);
         let orderId, $stagedItemGrid, request: any = {};
         orderId = FwFormField.getValueByDataField($form, 'OrderId');
         $stagedItemGrid = $form.find('[data-name="StagedItemGrid"]');
-// error handling needed. what if no items?
         request.OrderId = orderId;
         FwAppData.apiMethod(true, 'POST', "api/v1/checkout/checkoutallstaged", request, FwServices.defaultTimeout, function onSuccess(response) {
             let warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
@@ -576,10 +575,16 @@ console.log('request: ', request);
         // Move Staged Item to Out
         $form.find('.right-arrow').on('click', e => {
             this.moveStagedItemToOut($form);
+            $form.find('.right-arrow').addClass('arrow-clicked');
+            $form.find('.left-arrow').removeClass('arrow-clicked');
+
         });
         // Move Out Item to Staged
         $form.find('.left-arrow').on('click', e => {
             this.moveOutItemToStaged($form);
+            $form.find('.left-arrow').addClass('arrow-clicked');
+            $form.find('.right-arrow').removeClass('arrow-clicked');
+
         });
         // Complete Checkout Contract
         $form.find('.complete-checkout-contract').on('click', e => {
