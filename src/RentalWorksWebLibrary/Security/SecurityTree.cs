@@ -71,6 +71,7 @@ namespace WebLibrary.Security
             AddModule("Check-In",            "{77317E53-25A2-4C12-8DAD-7541F9A09436}", lv1menuWarehouse.Id, "CheckInController", "module/checkin", homeiconbaseurl + "placeholder.png");
             AddModule("Receive From Vendor", "{00539824-6489-4377-A291-EBFE26325FAD}", lv1menuWarehouse.Id, "ReceiveFromVendorController", "module/receivefromvendor", homeiconbaseurl + "placeholder.png");
             AddModule("Return To Vendor",    "{D54EAA01-A710-4F78-A1EE-5FC9EE9150D8}", lv1menuWarehouse.Id, "ReturnToVendorController", "module/returntovendor", homeiconbaseurl + "placeholder.png");
+            AddModule("Assign Bar Codes",    "{4B9C17DE-7FC0-4C33-B953-26FC90F32EA0}", lv1menuWarehouse.Id, "AssignBarCodesController", "module/assignbarcodes", homeiconbaseurl + "placeholder.png");
 
             AddModule("Create Pick List",        "{5013C4FF-FC42-4EFE-AE9D-AAF6857F17B8}", null, "CreatePickListController", "module/createpicklist", homeiconbaseurl + "placeholder.png");
 

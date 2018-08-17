@@ -415,6 +415,7 @@
     <Content Include="Source\Modules\Administrator\User\UserForm.htm" />
     <TypeScriptCompile Include="Source\Modules\-BaseModules\InventoryBase\InventoryBase.ts" />
     <TypeScriptCompile Include="Source\Modules\Administrator\Reports\ReportsController.ts" />
+    <TypeScriptCompile Include="Source\Modules\Home\AssignBarCodes\AssignBarCodes.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\Exchange\Exchange.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\CheckIn\CheckIn.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\SubWorksheet\SubWorksheet.ts" />
@@ -442,6 +443,7 @@
     <TypeScriptCompile Include="Source\Modules\Home\Order\SearchInterface.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\Quote\Quote.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\Repair\Repair.ts" />
+    <Content Include="Source\Modules\Home\AssignBarCodes\AssignBarCodesForm.htm" />
     <Content Include="Source\Modules\Home\Exchange\ExchangeForm.htm" />
     <Content Include="Source\Modules\Home\CheckIn\CheckInForm.htm" />
     <Content Include="Source\Modules\Home\SubWorksheet\SubWorksheetForm.htm" />
