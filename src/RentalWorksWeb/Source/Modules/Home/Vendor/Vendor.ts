@@ -170,7 +170,7 @@ class Vendor {
     }
 
     openForm(mode: string) {
-        var $form, $defaultrate;
+        var $form;
 
         $form = FwModule.loadFormFromTemplate(this.Module);
         $form = FwModule.openForm($form, mode);
@@ -183,14 +183,7 @@ class Vendor {
             FwFormField.setValueByDataField($form, 'DefaultSubRentDiscountPercent', 0);
             FwFormField.setValueByDataField($form, 'DefaultSubSaleDiscountPercent', 0);
         }
-
-        $defaultrate = $form.find('.defaultrate');
-        FwFormField.loadItems($defaultrate, [
-            { value: 'DAILY', text: 'Daily Rate' }
-            , { value: 'WEEKLY', text: 'Weekly Rate' }
-            , { value: 'MONTHLY', text: 'Monthly Rate' }
-        ]);
-
+        
         return $form;
     }
 

@@ -3,10 +3,12 @@
 class SubWorksheet {
     Module: string = 'SubWorksheet';
     OrderId: string;
+    SessionId: string;
 
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
         var screen: any = {};
+        var me = this;
         screen.$view = FwModule.getModuleControl(this.Module + 'Controller');
         screen.viewModel = {};
         screen.properties = {};
@@ -15,6 +17,8 @@ class SubWorksheet {
 
         screen.load = function () {
             FwModule.openModuleTab($form, 'Sub Worksheet', false, 'FORM', true);
+            me.SessionId = '';
+            me.OrderId = '';
         };
         screen.unload = function () {
         };
@@ -23,38 +27,80 @@ class SubWorksheet {
     }
     //----------------------------------------------------------------------------------------------
     openForm(mode: string, parentmoduleinfo?) {
-        let $form, worksheetRequest: any = {}, createNew, modifyExisting;
+        let $form, me = this, worksheetRequest, createNew, modifyExisting, newPo, existingPo;
         this.OrderId = parentmoduleinfo.OrderId;
 
         $form = jQuery(jQuery('#tmpl-modules-SubWorksheetForm').html());
         $form = FwModule.openForm($form, mode);
 
         $form.off('change keyup', '.fwformfield[data-isuniqueid!="true"][data-enabled="true"][data-datafield!=""]');
-
-        createNew = $form.find('div[data-datafield="CreateNew"] input')
+        
+        createNew = $form.find('div[data-datafield="CreateNew"] input');
         modifyExisting = $form.find('div[data-datafield="ModifyExisting"] input');
-
-        worksheetRequest.OrderId = parentmoduleinfo.OrderId;
-        worksheetRequest.RecType = 'R';
+        newPo = $form.find('.new');
+        existingPo = $form.find('.existing');
+        createNew.prop('checked', true);
 
         createNew.on('change', (e) => {
             if (jQuery(e.currentTarget).prop('checked')) {
                 modifyExisting.prop('checked', false);
+                for (var i = 0; i < newPo.length; i++) {
+                    FwFormField.enable(jQuery(newPo[i]));
+                }
+                FwFormField.disable(existingPo);
             } else {
                 modifyExisting.prop('checked', true);
-
+                for (var i = 0; i < newPo.length; i++) {
+                    FwFormField.disable(jQuery(newPo[i]));
+                }
+                FwFormField.enable(existingPo);
             }
         });
 
         modifyExisting.on('change', (e) => {
             if (jQuery(e.currentTarget).prop('checked')) {
                 createNew.prop('checked', false);
+                for (var i = 0; i < newPo.length; i++) {
+                    FwFormField.disable(jQuery(newPo[i]));
+                }
+                FwFormField.enable(existingPo);
             } else {
                 createNew.prop('checked', true);
+                for (var i = 0; i < newPo.length; i++) {
+                    FwFormField.enable(jQuery(newPo[i]));
+                }
+                FwFormField.disable(existingPo);
             }
+        });
+        
+        $form.find('div[data-datafield="VendorId"]').data('onchange', function ($tr) {
+            FwFormField.setValueByDataField($form, 'RateId', $tr.find('.field[data-browsedatafield="DefaultRate"]').attr('data-originalvalue'), $tr.find('.field[data-browsedatafield="DefaultRate"]').attr('data-originalvalue'));
+            FwFormField.setValueByDataField($form, 'CurrencyId', $tr.find('.field[data-browsedatafield="DefaultCurrencyId"]').attr('data-originalvalue'), $tr.find('.field[data-browsedatafield="DefaultCurrencyCode"]').attr('data-originalvalue'));
+            FwFormField.setValueByDataField($form, 'BillingCycleId', $tr.find('.field[data-browsedatafield="BillingCycleId"]').attr('data-originalvalue'), $tr.find('.field[data-browsedatafield="BillingCycle"]').attr('data-originalvalue'));
+        });
+
+        $form.find('div[data-datafield="ContactId"]').data('onchange', function ($tr) {
+            FwFormField.setValueByDataField($form, 'OfficePhone', $tr.find('.field[data-browsedatafield="OfficePhone"]').attr('data-originalvalue'));
+            FwFormField.setValueByDataField($form, 'OfficeExtension', $tr.find('.field[data-browsedatafield="OfficeExtension"]').attr('data-originalvalue'));
         });
 
         $form.find('.openworksheet').on('click', function (e) {
+
+            worksheetRequest = {
+                OrderId: parentmoduleinfo.OrderId,
+                RecType: 'R',
+                VendorId: FwFormField.getValueByDataField($form, 'VendorId'),
+                ContactId: FwFormField.getValueByDataField($form, 'ContactId'),
+                RateType: FwFormField.getValueByDataField($form, 'RateId'),
+                BillingCycleId: FwFormField.getValueByDataField($form, 'BillingCycleId'),
+                RequiredDate: FwFormField.getValueByDataField($form, 'ReqDate'),
+                RequiredTime: FwFormField.getValueByDataField($form, 'ReqTime'),
+                FromDate: FwFormField.getValueByDataField($form, 'RentalFrom'),
+                ToDate: FwFormField.getValueByDataField($form, 'RentalTo'),
+                DeliveryId: '',
+                AdjustContractDates: true
+            }
+
             try {
                 FwAppData.apiMethod(true, 'POST', "api/v1/order/startpoworksheetsession", worksheetRequest, FwServices.defaultTimeout, function onSuccess(response) {
                     if (response.success) {
@@ -70,6 +116,8 @@ class SubWorksheet {
                             ToDate: FwFormField.getValueByDataField($form, 'RentalTo'),
                             PurchaseOrderId: FwFormField.getValueByDataField($form, 'POId')
                         };
+                        me.SessionId = response.SessionId;
+                        me.renderPOGrid($form);
 
                         var $subPurchaseOrderItemGridControl: any;
                         $subPurchaseOrderItemGridControl = $form.find('[data-name="SubPurchaseOrderItemGrid"]');
@@ -77,8 +125,49 @@ class SubWorksheet {
                             request.uniqueids = gridUniqueIds
                         })
                         FwBrowse.search($subPurchaseOrderItemGridControl);
+                        if (createNew.prop('checked')) {
+                            $form.find('.completeorder').show();
+                        } else {
+                            $form.find('.completeorder').text('Update Purchase Order');
+                            $form.find('.completeorder').show();
+                        }
                     } else {
                         $form.find('div.errormsg').html(`<div style="margin:0px 0px 0px 8px;"><span style="padding:0px 4px 0px 4px;font-size:22px;border-radius:2px;background-color:red;color:white;">${response.msg}</span></div>`);
+                    }
+                }, null, $form);
+            } catch (ex) {
+                FwFunc.showError(ex);
+            }
+        })
+
+        $form.find('.completeorder').on('click', function (e) {
+            try {
+                var sessionRequest = {
+                    SessionId: me.SessionId
+                }
+                FwAppData.apiMethod(true, 'POST', "api/v1/order/completepoworksheetsession", sessionRequest, FwServices.defaultTimeout, function onSuccess(response) {
+                    if (response.success) {
+                        try {
+                            let $purchaseOrderForm = PurchaseOrderController.loadForm({
+                                PurchaseOrderId: response.PurchaseOrderId
+                            });
+                            FwModule.openSubModuleTab($form, $purchaseOrderForm);
+
+                            let fields = $form.find('.fwformfield');
+                            for (var i = 0; i < fields.length; i++) {
+                                FwFormField.setValue2(jQuery(fields[i]), '', '');
+                            }
+                            $form.find('div[data-grid="SubPurchaseOrderItemGrid"]').empty();
+                            $form.find('.completeorder').hide();
+                            $form.find('div[data-datafield="CreateNew"] input').prop('checked', true);
+                            me.SessionId = '';
+                            me.OrderId = '';
+                        }
+                        catch (ex) {
+                            FwFunc.showError(ex);
+                        }
+                    } else {
+
                     }
                 }, null, $form);
             } catch (ex) {
@@ -88,24 +177,15 @@ class SubWorksheet {
         
         return $form;
     }
-    //----------------------------------------------------------------------------------------------
-    loadPOGrid($form, worksheetRequest) {
-        try {
-            FwAppData.apiMethod(true, 'POST', "api/v1/exchange/startpoworksheetsession", worksheetRequest, FwServices.defaultTimeout, function onSuccess(response) {
-                if (response.success) {
-
-                } else {
-
-                }
-
-            }, null, $form);
-
-        } catch (ex) {
-            FwFunc.showError(ex);
+    //---------------------------------------------------------------------------------------------- 
+    beforeValidateContact($browse, $grid, request) {
+        const vendorId = jQuery($grid.find('[data-validationname="VendorValidation"] input')).val();
+        request.uniqueIds = {
+            CompanyId: vendorId
         }
     }
     //----------------------------------------------------------------------------------------------
-    renderGrids($form) {
+    renderPOGrid($form) {
         var $subPurchaseOrderItemGrid;
         var $subPurchaseOrderItemGridControl;
         var self = this;
@@ -116,6 +196,9 @@ class SubWorksheet {
             request.uniqueids = {
                 OrderId: self.OrderId
             };
+        });
+        $subPurchaseOrderItemGridControl.data('beforesave', request => {
+            request.SessionId = self.SessionId;
         });
         FwBrowse.init($subPurchaseOrderItemGridControl);
         FwBrowse.renderRuntimeHtml($subPurchaseOrderItemGridControl);
