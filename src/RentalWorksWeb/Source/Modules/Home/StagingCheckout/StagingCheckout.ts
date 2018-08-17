@@ -326,7 +326,7 @@ console.log('request: ', request);
                         request.Code = barCode;
                     } else {
                         request.Code = iCode;
-                        // request.OrderItemId = orderItemId;
+                        request.OrderItemId = orderItemId;
                     }
                     FwAppData.apiMethod(true, 'POST', `api/v1/checkout/moveoutitemtostaged`, request, FwServices.defaultTimeout, response => {
                         // need error handling
