@@ -122,6 +122,9 @@ namespace WebApi.Modules.Home.CheckedInItem
         [FwSqlDataField(column: "trackedby", modeltype: FwDataTypes.Text)]
         public string TrackedBy { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "barcodecolor", modeltype: FwDataTypes.OleToHtmlColor)]
+        public string BarCodeColor { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "masternocolor", modeltype: FwDataTypes.OleToHtmlColor)]
         public string ICodeColor { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -130,6 +133,9 @@ namespace WebApi.Modules.Home.CheckedInItem
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "bold", modeltype: FwDataTypes.Boolean)]
         public bool? Bold { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "isswap", modeltype: FwDataTypes.Boolean)]
+        public bool? IsSwap { get; set; }
         //------------------------------------------------------------------------------------ 
         public override async Task<FwJsonDataTable> BrowseAsync(BrowseRequest request, FwCustomFields customFields = null)
         {

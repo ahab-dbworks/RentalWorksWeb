@@ -47,9 +47,11 @@ namespace WebApi.Modules.Home.CheckedInItem
         public string VendorId;
         public string NestedOrderItemId;
         public string TrackedBy;
+        public string BarCodeColor;
         public string ICodeColor;
         public string DescriptionColor;
         public bool? Bold;
+        public bool? IsSwap;
         //------------------------------------------------------------------------------------ 
     }
 }
