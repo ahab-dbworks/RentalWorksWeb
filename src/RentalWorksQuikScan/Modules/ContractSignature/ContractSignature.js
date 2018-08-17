@@ -336,6 +336,9 @@ RwOrderController.getContactSignatureScreen = function(viewModel, properties) {
                         };
                         RwServices.callMethod('ContractSignature', 'CreateContract', request, function (response) {
                             if (response.createcontract.status === 0) {
+                                if (properties.contract.contractType !== 'OUT') {
+                                    $signaturecapture.leavescreen();
+                                }
                                 FwFunc.showMessage(response.createcontract.msg, function() {
                                     program.navigate('home/home');
                                 });
