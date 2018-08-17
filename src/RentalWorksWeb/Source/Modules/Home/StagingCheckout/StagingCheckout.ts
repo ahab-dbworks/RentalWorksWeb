@@ -212,33 +212,33 @@ class StagingCheckout {
     };
     //----------------------------------------------------------------------------------------------
     startPartialCheckoutItems = ($form: JQuery): void => {
-        let contractId, request: any = {};
+        let requestBody: any = {}, $checkedOutItemGridControl: any;
+        requestBody.OrderId = FwFormField.getValueByDataField($form, 'OrderId');
+
         $form.find('.orderstatus').hide();
         $form.find('.createcontract').hide();
         $form.find('.partial-contract-hide').hide();
         $form.find('.partial-contract').show();
         $form.find('.flexrow').css('max-width', '2200px');
 
-        request.OrderId = FwFormField.getValueByDataField($form, 'OrderId');
-
-        FwAppData.apiMethod(true, 'POST', `api/v1/checkout/startcheckoutcontract`, request, FwServices.defaultTimeout, response => {
+        FwAppData.apiMethod(true, 'POST', `api/v1/checkout/startcheckoutcontract`, requestBody, FwServices.defaultTimeout, response => {
             try {
                 this.contractId = response.ContractId;
-                var $checkedOutItemGridControl: any;
+                console.log('contractId: ', this.contractId)
                 $checkedOutItemGridControl = $form.find('[data-name="CheckedOutItemGrid"]');
-                $checkedOutItemGridControl.data('ondatabind', function (request) {
+                $checkedOutItemGridControl.data('ondatabind', request => {
+                    request.uniqueids = {
+                        ContractId: this.contractId
+                    }
                     request.orderby = 'OrderBy';
                     request.pagesize = 10;
-                    request.uniqueids = {
-                        ContractId: contractId,
-                    }
                 })
                 FwBrowse.search($checkedOutItemGridControl);
             }
             catch (ex) {
                 FwFunc.showError(ex);
             }
-        }, null, null);
+            }, null, null);
     };
     //----------------------------------------------------------------------------------------------
     moveStagedItemToOut($form: JQuery): void {
@@ -288,8 +288,10 @@ console.log('request: ', request);
         }
         $form.find('.partial-contract-barcode input').val('');
         $form.find('.partial-contract-quantity input').val('');
-        FwBrowse.search($checkedOutItemGrid);
-        FwBrowse.search($stagedItemGrid);
+        setTimeout(() => {
+            FwBrowse.search($checkedOutItemGrid);
+            FwBrowse.search($stagedItemGrid);
+        }, 500);
     };
     //----------------------------------------------------------------------------------------------
     moveOutItemToStaged($form: JQuery): void {
@@ -339,8 +341,10 @@ console.log('request: ', request);
         }
         $form.find('.partial-contract-barcode input').val('');
         $form.find('.partial-contract-quantity input').val('');
-        FwBrowse.search($checkedOutItemGrid);
-        FwBrowse.search($stagedItemGrid);
+        setTimeout(() => {
+            FwBrowse.search($checkedOutItemGrid);
+            FwBrowse.search($stagedItemGrid);
+        }, 500);
     };
     //----------------------------------------------------------------------------------------------
     completeCheckOutContract($form: JQuery): void {
