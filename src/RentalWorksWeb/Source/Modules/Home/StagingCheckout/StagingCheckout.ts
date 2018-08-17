@@ -242,78 +242,169 @@ class StagingCheckout {
     };
     //----------------------------------------------------------------------------------------------
     moveStagedItemToOut($form: JQuery): void {
-        let $selectedCheckBoxes, $stagedItemGrid, orderId, barCode, iCode, quantity, orderItemId, $checkedOutItemGrid, request: any = {};
+        let $selectedCheckBoxes, $stagedItemGrid, orderId, barCodeFieldValue, quantityFieldValue, barCode, iCode, quantity, orderItemId, $checkedOutItemGrid, request: any = {};
 
         $stagedItemGrid = $form.find('[data-name="StagedItemGrid"]');
         $checkedOutItemGrid = $form.find('[data-name="CheckedOutItemGrid"]');
         $selectedCheckBoxes = $stagedItemGrid.find('.cbselectrow:checked');
+        barCodeFieldValue = $form.find('.partial-contract-barcode input').val();
+        quantityFieldValue = $form.find('.partial-contract-quantity input').val();
+        orderId = FwFormField.getValueByDataField($form, 'OrderId');
 
-        for (let i = 0; i < $selectedCheckBoxes.length; i++) {
-            orderId = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="OrderId"]').attr('data-originalvalue');
-            barCode = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="BarCode"]').attr('data-originalvalue');
-            iCode = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="ICode"]').attr('data-originalvalue');
-            quantity = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="Quantity"]').attr('data-originalvalue');
-            orderItemId = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="OrderItemId"]').attr('data-originalvalue');
-
-            request.OrderId = orderId
+        if (barCodeFieldValue !== '' && quantityFieldValue !== '') {
             request.ContractId = this.contractId;
-            request.Quantity = quantity
-            console.log('barCode: ',barCode)
-            if (barCode !== '') {
-                request.Code = barCode;
-            } else {
-                request.Code = iCode;
-                request.OrderItemId = orderItemId;
-            }
+            request.Quantity = quantityFieldValue
+            request.Code = barCodeFieldValue;
+            request.OrderId = orderId
             FwAppData.apiMethod(true, 'POST', `api/v1/checkout/movestageditemtoout`, request, FwServices.defaultTimeout, response => {
+                // need error handling here. API is 200 regardless of what i send
             }, null, null);
+        } else {
+            if ($selectedCheckBoxes.length !== 0) {
+                for (let i = 0; i < $selectedCheckBoxes.length; i++) {
+                    barCode = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="BarCode"]').attr('data-originalvalue');
+                    iCode = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="ICode"]').attr('data-originalvalue');
+                    quantity = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="Quantity"]').attr('data-originalvalue');
+                    orderItemId = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="OrderItemId"]').attr('data-originalvalue');
 
-            console.log('request: ', request)
+                    request.OrderId = orderId
+                    request.ContractId = this.contractId;
+                    request.Quantity = quantity
+
+                    if (barCode !== '') {
+                        request.Code = barCode;
+                    } else {
+                        request.Code = iCode;
+                        request.OrderItemId = orderItemId;
+                    }
+                    FwAppData.apiMethod(true, 'POST', `api/v1/checkout/movestageditemtoout`, request, FwServices.defaultTimeout, response => {
+// need error handling
+                    }, null, null);
+                }
+            } else {
+                FwNotification.renderNotification('WARNING', 'Please select one or more rows in Stage Items or use Bar Code input in order to perform this function.');
+            }
+console.log('request: ', request);
         }
+        $form.find('.partial-contract-barcode input').val('');
+        $form.find('.partial-contract-quantity input').val('');
         FwBrowse.search($checkedOutItemGrid);
         FwBrowse.search($stagedItemGrid);
     };
     //----------------------------------------------------------------------------------------------
     moveOutItemToStaged($form: JQuery): void {
-        let $selectedCheckBoxes, $stagedItemGrid, orderId, barCode, iCode, quantity, orderItemId, $checkedOutItemGrid, request: any = {};
+        let $selectedCheckBoxes, $stagedItemGrid, orderId, barCodeFieldValue, barCode, iCode, quantityFieldValue, quantity, orderItemId, $checkedOutItemGrid, request: any = {};
 
         $stagedItemGrid = $form.find('[data-name="StagedItemGrid"]');
         $checkedOutItemGrid = $form.find('[data-name="CheckedOutItemGrid"]');
         $selectedCheckBoxes = $checkedOutItemGrid.find('.cbselectrow:checked');
+        barCodeFieldValue = $form.find('.partial-contract-barcode').val();
+        quantityFieldValue = $form.find('.partial-contract-quantity').val();
+        orderId = FwFormField.getValueByDataField($form, 'OrderId');
 
-        for (let i = 0; i < $selectedCheckBoxes.length; i++) {
-            orderId = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="OrderId"]').attr('data-originalvalue');
-            barCode = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="BarCode"]').attr('data-originalvalue');
-            iCode = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="ICode"]').attr('data-originalvalue');
-            quantity = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="Quantity"]').attr('data-originalvalue');
-            orderItemId = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="OrderItemId"]').attr('data-originalvalue');
-
-            request.OrderId = orderId
+        if (barCodeFieldValue !== '' && quantityFieldValue !== '') {
             request.ContractId = this.contractId;
-            request.Quantity = quantity
-            console.log('barCode: ', barCode)
-            if (barCode !== '') {
-                request.Code = barCode;
-            } else {
-                request.Code = iCode;
-                //request.OrderItemId = orderItemId;
-            }
+            request.Quantity = quantityFieldValue
+            request.Code = barCodeFieldValue;
+            request.OrderId = orderId;
             FwAppData.apiMethod(true, 'POST', `api/v1/checkout/moveoutitemtostaged`, request, FwServices.defaultTimeout, response => {
-                //need error handling
+                // need error handling here. API is 200 regardless of what i send
             }, null, null);
+        } else {
+            if ($selectedCheckBoxes.length !== 0) {
+                for (let i = 0; i < $selectedCheckBoxes.length; i++) {
+                    barCode = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="BarCode"]').attr('data-originalvalue');
+                    iCode = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="ICode"]').attr('data-originalvalue');
+                    quantity = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="Quantity"]').attr('data-originalvalue');
+                    orderItemId = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="OrderItemId"]').attr('data-originalvalue');
 
-            console.log('request: ', request)
+                    request.OrderId = orderId;
+                    request.ContractId = this.contractId;
+                    request.Quantity = quantity;
+
+                    if (barCode !== '') {
+                        request.Code = barCode;
+                    } else {
+                        request.Code = iCode;
+                        // request.OrderItemId = orderItemId;
+                    }
+                    FwAppData.apiMethod(true, 'POST', `api/v1/checkout/moveoutitemtostaged`, request, FwServices.defaultTimeout, response => {
+                        // need error handling
+                    }, null, null);
+                }
+            } else {
+                FwNotification.renderNotification('WARNING', 'Please select one or more rows in Contract Items or use Bar Code input in order to perform this function.');
+            }
+console.log('request: ', request);
         }
+        $form.find('.partial-contract-barcode input').val('');
+        $form.find('.partial-contract-quantity input').val('');
         FwBrowse.search($checkedOutItemGrid);
         FwBrowse.search($stagedItemGrid);
-    }
+    };
+    //----------------------------------------------------------------------------------------------
+    completeCheckOutContract($form: JQuery): void {
+        let $stagedItemGrid;
+        $stagedItemGrid = $form.find('[data-name="StagedItemGrid"]');
+
+        if (this.contractId) {
+            FwAppData.apiMethod(true, 'POST', `pi/v1/checkout/completecheckoutcontract/${this.contractId}`, null, FwServices.defaultTimeout, function onSuccess(response) {
+                let warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
+                try {
+                    let contractInfo: any = {}, $contractForm;
+                    contractInfo.ContractId = response.ContractId;
+                    $contractForm = ContractController.loadForm(contractInfo);
+                    FwModule.openSubModuleTab($form, $contractForm);
+                    $form.find('.fwformfield').find('input').val('');
+                    FwFormField.setValue($form, 'div[data-datafield="WarehouseId"]', warehouse.warehouseid, warehouse.warehouse);
+                    $form.find('.orderstatus').hide();
+                    $form.find('.createcontract').hide();
+                    FwFormField.enable($form.find('div[data-datafield="OrderId"]'));
+                    $form.find('[data-datafield="Code"] input').select();
+                    $form.find('div[data-name="StagedItemGrid"] tr.viewmode').empty();
+                }
+                catch (ex) {
+                    FwFunc.showError(ex);
+                }
+            }, null, null);
+        } else {
+            FwNotification.renderNotification('WARNING', 'Please check-out items before attemping to perform this function.');
+        }
+    };
+    //----------------------------------------------------------------------------------------------
+    createContract($form: JQuery): void {
+        let orderId, $stagedItemGrid, request: any = {};
+        orderId = FwFormField.getValueByDataField($form, 'OrderId');
+        $stagedItemGrid = $form.find('[data-name="StagedItemGrid"]');
+// error handling needed. what if no items?
+        request.OrderId = orderId;
+        FwAppData.apiMethod(true, 'POST', "api/v1/checkout/checkoutallstaged", request, FwServices.defaultTimeout, function onSuccess(response) {
+            let warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
+            try {
+                let contractInfo: any = {}, $contractForm;
+                contractInfo.ContractId = response.ContractId;
+                $contractForm = ContractController.loadForm(contractInfo);
+                FwModule.openSubModuleTab($form, $contractForm);
+                $form.find('.fwformfield').find('input').val('');
+                FwFormField.setValue($form, 'div[data-datafield="WarehouseId"]', warehouse.warehouseid, warehouse.warehouse);
+                $form.find('.orderstatus').hide();
+                $form.find('.createcontract').hide();
+                FwFormField.enable($form.find('div[data-datafield="OrderId"]'));
+                $form.find('[data-datafield="Code"] input').select();
+                $form.find('div[data-name="StagedItemGrid"] tr.viewmode').empty();
+            }
+            catch (ex) {
+                FwFunc.showError(ex);
+            }
+        }, null, null);
+    };
     //----------------------------------------------------------------------------------------------
     renderGrids($form: any): void {
         let $stagedItemGrid: any, $stagedItemGridControl: any;
         let $checkedOutItemGrid: any, $checkedOutItemGridControl: any;
         let orderId = $form.find('[data-datafield="OrderId"] .fwformfield-value').val();
         let warehouseId = FwFormField.getValueByDataField($form, 'WarehouseId');
-        let maxPageSize = 9999;
+        let maxPageSize = 250;
         //----------------------------------------------------------------------------------------------
         $stagedItemGrid = $form.find('div[data-grid="StagedItemGrid"]');
         $stagedItemGridControl = jQuery(jQuery('#tmpl-grids-StagedItemGridBrowse').html());
@@ -342,13 +433,13 @@ class StagingCheckout {
         //this.addLegend($form, $stagedItemGrid);
     };
     //----------------------------------------------------------------------------------------------
-    afterLoad($form: any) {
+    afterLoad($form: any): void {
         let $stagedItemGrid;
         $stagedItemGrid = $form.find('[data-name="StagedItemGrid"]');
         FwBrowse.search($stagedItemGrid);
     };
     //----------------------------------------------------------------------------------------------
-    addItemFieldValues($form: any, response: any) {
+    addItemFieldValues($form: any, response: any): void {
         FwFormField.setValueByDataField($form, 'ICode', response.InventoryStatus.ICode);
         FwFormField.setValueByDataField($form, 'InventoryDescription', response.InventoryStatus.Description);
         FwFormField.setValueByDataField($form, 'QuantityOrdered', response.InventoryStatus.QuantityOrdered);
@@ -478,43 +569,6 @@ class StagingCheckout {
                 FwFunc.showError(ex);
             }
         });
-
-        // Create Contract
-        $form.find('.createcontract').on('click', e => {
-            let orderId = FwFormField.getValueByDataField($form, 'OrderId');
-            let requestBody: any = {}, $stagedItemGrid;
-            $stagedItemGrid = $form.find('[data-name="StagedItemGrid"]');
-            //let automaticallyCreateCheckOut = FwFormField.getValueByDataField($form, 'AutomaticallyCreateCheckOut');
-            //let date = new Date(),
-            //    currentDate = date.toLocaleString(),
-            //    currentTime = date.toLocaleTimeString();
-
-            //if (automaticallyCreateCheckOut == 'T') {
-            //    requestBody = {
-            //        CreateOutContracts: true
-            //    }
-            //}
-            requestBody.OrderId = orderId;
-            FwAppData.apiMethod(true, 'POST', "api/v1/checkout/checkoutallstaged/", requestBody, FwServices.defaultTimeout, function onSuccess(response) {
-                let warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
-                try {
-                    let contractInfo: any = {}, $contractForm;
-                    contractInfo.ContractId = response.ContractId;
-                    $contractForm = ContractController.loadForm(contractInfo);
-                    FwModule.openSubModuleTab($form, $contractForm);
-                    $form.find('.fwformfield').not('[data-type="date"], [data-type="time"]').find('input').val('');
-                    FwFormField.setValue($form, 'div[data-datafield="WarehouseId"]', warehouse.warehouseid, warehouse.warehouse);
-                    $form.find('.orderstatus').hide();
-                    $form.find('.createcontract').hide();
-                    FwFormField.enable($form.find('div[data-datafield="OrderId"]'));
-                    $form.find('[data-datafield="Code"] input').select();
-                    $form.find('div[data-name="StagedItemGrid"] tr.viewmode').empty();
-                }
-                catch (ex) {
-                    FwFunc.showError(ex);
-                }
-            }, null, null);
-        });
         // Move Staged Item to Out
         $form.find('.right-arrow').on('click', e => {
             this.moveStagedItemToOut($form);
@@ -523,7 +577,14 @@ class StagingCheckout {
         $form.find('.left-arrow').on('click', e => {
             this.moveOutItemToStaged($form);
         });
-
+        // Complete Checkout Contract
+        $form.find('.complete-checkout-contract').on('click', e => {
+            this.completeCheckOutContract($form);
+        });
+        // Create Contract
+        $form.find('.createcontract').on('click', e => {
+            this.createContract($form);
+        });
     };
     //----------------------------------------------------------------------------------------------
     beforeValidate($browse, $grid, request) {
@@ -540,7 +601,7 @@ class StagingCheckout {
         };
     }
     //----------------------------------------------------------------------------------------------
-    addItemToOrder(element: any) {
+    addItemToOrder(element: any): void {
         this.showAddItemToOrder = false;
         let code, $form, $element, orderId, quantity, $stagedItemGrid, successSound, request: any = {};
         $element = jQuery(element);
@@ -619,7 +680,7 @@ class StagingCheckout {
         $form.find('[data-datafield="Code"] input').select();
     }
     //----------------------------------------------------------------------------------------------
-    addLegend($form: any, $grid) {
+    addLegend($form: any, $grid): void {
         FwBrowse.addLegend($grid, 'Complete', '#8888ff');
         FwBrowse.addLegend($grid, 'Kit', '#03d337');
         FwBrowse.addLegend($grid, 'Exchange', '#a0cdb4');
