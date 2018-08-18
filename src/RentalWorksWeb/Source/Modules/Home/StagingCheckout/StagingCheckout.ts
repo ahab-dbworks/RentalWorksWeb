@@ -352,7 +352,7 @@ console.log('request: ', request);
         $stagedItemGrid = $form.find('[data-name="StagedItemGrid"]');
 
         if (this.contractId) {
-            FwAppData.apiMethod(true, 'POST', `pi/v1/checkout/completecheckoutcontract/${this.contractId}`, null, FwServices.defaultTimeout, function onSuccess(response) {
+            FwAppData.apiMethod(true, 'POST', `api/v1/checkout/completecheckoutcontract/${this.contractId}`, null, FwServices.defaultTimeout, function onSuccess(response) {
                 let warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
                 try {
                     let contractInfo: any = {}, $contractForm;
@@ -505,7 +505,6 @@ console.log('request: ', request);
                 }, $form);
             }
         })​;​
-
         //Quantity change
         $form.find('[data-datafield="Quantity"] input').on('keydown', e => {
             if (self.showAddItemToOrder != true) {
@@ -555,7 +554,6 @@ console.log('request: ', request);
                 }
             }
         });
-
         // Order Status
         $form.find('.orderstatus').on('click', e => {
             let $orderStatusForm;
@@ -577,14 +575,12 @@ console.log('request: ', request);
             this.moveStagedItemToOut($form);
             $form.find('.right-arrow').addClass('arrow-clicked');
             $form.find('.left-arrow').removeClass('arrow-clicked');
-
         });
         // Move Out Item to Staged
         $form.find('.left-arrow').on('click', e => {
             this.moveOutItemToStaged($form);
             $form.find('.left-arrow').addClass('arrow-clicked');
             $form.find('.right-arrow').removeClass('arrow-clicked');
-
         });
         // Complete Checkout Contract
         $form.find('.complete-checkout-contract').on('click', e => {
