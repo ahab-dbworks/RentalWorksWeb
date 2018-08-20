@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using FwCore.Middleware;
 using FwCore.Security;
 using FwStandard.Models;
 using FwStandard.Security;
@@ -205,6 +206,7 @@ namespace FwCore.Api
 
             // shows an exception page
             //if (env.IsDevelopment())
+            app.FwMaintainCorsHeaders();  // this can maybe be removed after .net core 2.2, which is supposed to fix CORS on 500 errors, currently the headers are getting dropped
             app.UseDeveloperExceptionPage();
 
             // Shows UseCors with CorsPolicyBuilder.

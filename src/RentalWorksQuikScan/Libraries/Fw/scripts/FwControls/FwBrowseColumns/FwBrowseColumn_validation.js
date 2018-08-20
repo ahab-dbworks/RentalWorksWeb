@@ -1,42 +1,40 @@
-var FwBrowseColumn_validationClass = (function () {
-    function FwBrowseColumn_validationClass() {
-    }
-    FwBrowseColumn_validationClass.prototype.databindfield = function ($browse, $field, dt, dtRow, $tr) {
+class FwBrowseColumn_validationClass {
+    databindfield($browse, $field, dt, dtRow, $tr) {
         var displayFieldValue = dtRow[dt.ColumnIndex[$field.attr('data-browsedisplayfield')]];
         $field.attr('data-originaltext', displayFieldValue);
-    };
+    }
     ;
-    FwBrowseColumn_validationClass.prototype.getFieldUniqueId = function ($browse, $tr, $field, uniqueid, originalvalue) {
+    getFieldUniqueId($browse, $tr, $field, uniqueid, originalvalue) {
         if ($tr.hasClass('editmode')) {
             uniqueid.value = $field.find('input.value').val();
         }
-    };
+    }
     ;
-    FwBrowseColumn_validationClass.prototype.getFieldValue = function ($browse, $tr, $field, field, originalvalue) {
+    getFieldValue($browse, $tr, $field, field, originalvalue) {
         if (($tr.hasClass('editmode')) || ($tr.hasClass('newmode'))) {
             field.value = $field.find('input.value').val();
         }
-    };
+    }
     ;
-    FwBrowseColumn_validationClass.prototype.setFieldValue = function ($browse, $tr, $field, data) {
+    setFieldValue($browse, $tr, $field, data) {
         $field.find('.value').val(data.value);
         $field.find('.text').val(data.text);
-    };
-    FwBrowseColumn_validationClass.prototype.isModified = function ($browse, $tr, $field) {
+    }
+    isModified($browse, $tr, $field) {
         var isModified = false;
-        var originalValue = $field.attr('data-originalvalue');
+        let originalValue = $field.attr('data-originalvalue');
         if (($tr.hasClass('editmode')) || ($tr.hasClass('newmode'))) {
-            var currentValue = $field.find('input.value').val();
+            let currentValue = $field.find('input.value').val();
             isModified = currentValue !== originalValue;
         }
         return isModified;
-    };
+    }
     ;
-    FwBrowseColumn_validationClass.prototype.setFieldViewMode = function ($browse, $tr, $field) {
+    setFieldViewMode($browse, $tr, $field) {
         $field.data('selectthetextbox', false);
         var originaltext = (typeof $field.attr('data-originaltext') === 'string') ? $field.attr('data-originaltext') : '';
         var showPeek = false;
-        var html = [];
+        let html = [];
         if (applicationConfig.defaultPeek === true) {
             showPeek = (!($field.attr('data-validationpeek') === 'false'));
         }
@@ -46,21 +44,21 @@ var FwBrowseColumn_validationClass = (function () {
         if (showPeek) {
             html.push('<div class="btnpeek"><i class="material-icons">more_horiz</i></div>');
         }
-        var htmlString = html.join('');
+        let htmlString = html.join('');
         $field.html(originaltext + htmlString);
         $field.on('click', function () {
             if ($field.attr('data-formreadonly') !== 'true') {
                 $field.data('selectthetextbox', true);
             }
         });
-    };
+    }
     ;
-    FwBrowseColumn_validationClass.prototype.setFieldEditMode = function ($browse, $tr, $field) {
+    setFieldEditMode($browse, $tr, $field) {
         var validationName, validationFor, $valuefield, $textfield, $btnvalidate;
         var originalvalue = (typeof $field.attr('data-originalvalue') === 'string') ? $field.attr('data-originalvalue') : '';
         var originaltext = (typeof $field.attr('data-originaltext') === 'string') ? $field.attr('data-originaltext') : '';
         var showPeek = false;
-        var html = [];
+        let html = [];
         html.push('<input class="value" type="hidden" />');
         html.push('<input class="text" type="text"');
         if ($browse.attr('data-enabled') === 'false') {
@@ -77,7 +75,7 @@ var FwBrowseColumn_validationClass = (function () {
         if (showPeek) {
             html.push('<div class="btnpeek"><i class="material-icons">more_horiz</i></div>');
         }
-        var htmlString = html.join('');
+        let htmlString = html.join('');
         $field.html(htmlString);
         this.setFieldValue($browse, $tr, $field, { value: originalvalue, text: originaltext });
         FwValidation.init($field);
@@ -85,9 +83,8 @@ var FwBrowseColumn_validationClass = (function () {
             $field.data('selectthetextbox', false);
             $field.find('.btnvalidate').click();
         }
-    };
+    }
     ;
-    return FwBrowseColumn_validationClass;
-}());
+}
 var FwBrowseColumn_validation = new FwBrowseColumn_validationClass();
 //# sourceMappingURL=FwBrowseColumn_validation.js.map

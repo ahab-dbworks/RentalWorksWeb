@@ -244,6 +244,11 @@ class FwAppData {
                     StackTrace: ''
                 });
             }
+            else if (jqXHR.status === 500) {
+                if (errorContent.length > 0 && errorContent[0] === '<') {
+                    errorThrown = errorContent;
+                }
+            }
             if (isdesktop || (ismobile && ($elementToBlock !== null))) {
                 if ((typeof $elementToBlock === 'object') && ($elementToBlock !== null)) {
                     FwOverlay.hideOverlay($overlay);

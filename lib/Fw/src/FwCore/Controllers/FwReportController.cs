@@ -47,14 +47,14 @@ namespace FwCore.Controllers
                         {
                             using (FwSqlConnection conn = new FwSqlConnection(this.AppConfig.DatabaseSettings.ConnectionString))
                             {
-                                request.email.from = await FwSqlCommand.GetStringDataAsync(conn, this.AppConfig.DatabaseSettings.QueryTimeout, "webusersview", "websusersid", this.UserSession.WebUsersId, "email");
+                                request.email.from = await FwSqlCommand.GetStringDataAsync(conn, this.AppConfig.DatabaseSettings.QueryTimeout, "webusersview", "webusersid", this.UserSession.WebUsersId, "email");
                             }
                         }
                         if (request.email.to == "[me]")
                         {
                             using (FwSqlConnection conn = new FwSqlConnection(this.AppConfig.DatabaseSettings.ConnectionString))
                             {
-                                request.email.to = await FwSqlCommand.GetStringDataAsync(conn, this.AppConfig.DatabaseSettings.QueryTimeout, "webusersview", "websusersid", this.UserSession.WebUsersId, "email");
+                                request.email.to = await FwSqlCommand.GetStringDataAsync(conn, this.AppConfig.DatabaseSettings.QueryTimeout, "webusersview", "webusersid", this.UserSession.WebUsersId, "email");
                             }
                         }
                         if (request.email.subject == "[reportname]")
