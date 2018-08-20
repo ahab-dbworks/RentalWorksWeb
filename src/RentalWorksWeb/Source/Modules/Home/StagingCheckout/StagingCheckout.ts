@@ -193,8 +193,8 @@ class StagingCheckout {
     addButtonMenu($form: JQuery): void {
         let $createPartialContract, $createContract, $buttonmenu, menuOptions: Array<string> = [];
         $buttonmenu = $form.find('.createcontract[data-type="btnmenu"]');
-        $createContract = FwMenu.generateButtonMenuOption('Create Contract');
-        $createPartialContract = FwMenu.generateButtonMenuOption('Create Partial Contract');
+        $createContract = FwMenu.generateButtonMenuOption('CREATE CONTRACT');
+        $createPartialContract = FwMenu.generateButtonMenuOption('CREATE PARTIAL CONTRACT');
 
         $createContract.on('click', e => {
             e.stopPropagation();
