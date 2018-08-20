@@ -1566,8 +1566,10 @@ RwOrderController.getCheckInScreen = function(viewModel, properties) {
         if ((responseCheckInItem.request.qty === 0) || (responseCheckInItem.webCheckInItem.genericMsg.length > 0) || (responseCheckInItem.webCheckInItem.msg.length > 0)) {
             screen.showPopupQty();
             if (isScannedICode) {
-                var $txt = screen.$popupQty.find('.fwformfield[data-datafield="qty"] .fwformfield-value');
-                $txt.focus();
+                setTimeout(function() {
+                    var $txt = screen.$popupQty.find('.fwformfield[data-datafield="qty"] .fwformfield-value');
+                    $txt.focus();
+                }, 50);
             }
             if (responseCheckInItem.webCheckInItem.status === 0 && responseCheckInItem.request.qty > 0) {
                 setTimeout(function() {

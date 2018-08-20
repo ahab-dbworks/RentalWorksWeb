@@ -38,13 +38,13 @@ RwRFID.registerEvents = function(callbackfunction) {
             RwRFID.isConnected = true;
             if (jQuery('.tagCountPopup').length > 0) {
                 jQuery('.tagCount').html(count);
-                var epcs = jQuery('.tagCountPopup').data('epcs');
-                epcs.push(epc);
-                jQuery('.rwrfid-epc').html(epcs.join('<br>'));
+                //var epcs = jQuery('.tagCountPopup').data('epcs');
+                //epcs.push(epc);
+                //jQuery('.rwrfid-epc').html(epcs.join('<br>'));
             } else {
                 var html = [];
                 html.push('<div class="tagCount" style="color:black;font-weight:bold;text-align:center;font-size:100px;"></div>');
-                html.push('<div class="rwrfid-epc" style="text-align:center;"></div>');
+                //html.push('<div class="rwrfid-epc" style="text-align:center;"></div>');
                 var $confirmation = FwConfirmation.renderConfirmation('Tags Scanned', html.join('\n'));
                 var $btnClose = FwConfirmation.addButton($confirmation, 'Close', true);
                 $confirmation.data('epcs', [epc]);
