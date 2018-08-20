@@ -20,13 +20,13 @@ namespace WebApi.Modules.Home.CheckedOutItem
         [FwBusinessLogicField(isReadOnly: true)]
         public string ICode { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
-        public int? ICodeColor { get; set; }
+        public string ICodeColor { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
         public string TrackedBy { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
         public string Description { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
-        public int? DescriptionColor { get; set; }
+        public string DescriptionColor { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
         public string CategoryId { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
