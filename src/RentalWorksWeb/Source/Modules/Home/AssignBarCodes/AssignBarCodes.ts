@@ -32,24 +32,61 @@ class AssignBarCodes {
 
         $form.off('change keyup', '.fwformfield[data-isuniqueid!="true"][data-enabled="true"][data-datafield!=""]');
 
+        this.events($form);
         return $form;
     };
     //----------------------------------------------------------------------------------------------
     renderGrids($form: any) {
-        let $checkedInItemsGrid: any,
-            $checkedInItemsGridControl: any;
+        let $poReceiveBarCodeGrid: any,
+            $poReceiveBarCodeGridControl: any;
 
-        $checkedInItemsGrid = $form.find('div[data-grid="CheckedInItemGrid"]');
-        $checkedInItemsGridControl = jQuery(jQuery('#tmpl-grids-CheckedInItemGridBrowse').html());
-        $checkedInItemsGrid.empty().append($checkedInItemsGridControl);
-        $checkedInItemsGridControl.data('ondatabind', function (request) {
+        $poReceiveBarCodeGrid = $form.find('div[data-grid="POReceiveBarCodeGrid"]');
+        $poReceiveBarCodeGridControl = jQuery(jQuery('#tmpl-grids-POReceiveBarCodeGridBrowse').html());
+        $poReceiveBarCodeGrid.empty().append($poReceiveBarCodeGridControl);
+        $poReceiveBarCodeGridControl.data('ondatabind', function (request) {
             request.uniqueids = {
-                ContractId: FwFormField.getValueByDataField($form, 'ContractId')
+                PurchaseOrderReceiveBarCodeId: FwFormField.getValueByDataField($form, 'POReceiveBarCodeId')
             }
         })
-        FwBrowse.init($checkedInItemsGridControl);
-        FwBrowse.renderRuntimeHtml($checkedInItemsGridControl);
+        FwBrowse.init($poReceiveBarCodeGridControl);
+        FwBrowse.renderRuntimeHtml($poReceiveBarCodeGridControl);
     }
+    //----------------------------------------------------------------------------------------------
+    events($form) {
+        $form.find('[data-datafield="PurchaseOrderId"]').on('change', e => {
+            FwFormField.disable($form.find('[data-datafield="PurchaseOrderId"]'));
+        });
+        $form.find('[data-datafield="ContractId"]').on('change', e => {
+            FwFormField.disable($form.find('[data-datafield="ContractId"]'));
+        });
+
+        $form.find('.additems').on('click', e => {
+            let request: any = {};
+            request = {
+                PurchaseOrderId: FwFormField.getValueByDataField($form, 'PurchaseOrderId')
+                , ContractId: FwFormField.getValueByDataField($form, 'ContractId')
+            }
+            FwAppData.apiMethod(true, 'POST', 'api/v1/purchaseorder/receivebarcodeadditems', request, FwServices.defaultTimeout, function onSuccess(response) {
+                if (response.success) {
+                    FwNotification.renderNotification('SUCCESS', `${response.ItemsAdded} items added.`);
+                    FwFormField.setValueByDataField($form, 'PurchaseOrderId', '', '');
+                    FwFormField.setValueByDataField($form, 'ContractId', '', '');
+                    FwFormField.enable($form.find('[data-datafield="PurchaseOrderId"]'));
+                    FwFormField.enable($form.find('[data-datafield="ContractId"]'));
+                }
+            }, null, null);
+        });
+
+    }
+    //----------------------------------------------------------------------------------------------
+    beforeValidatePONumber($browse: any, $form: any, request: any) {
+        let warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
+        let warehouseId = warehouse.warehouseid;
+        request.miscfields = {
+            AssignBarCodes: true
+            , AssigningWarehouseId: warehouseId
+        }
+    };
     //----------------------------------------------------------------------------------------------
 }
 var AssignBarCodesController = new AssignBarCodes();
