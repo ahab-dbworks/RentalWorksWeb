@@ -124,8 +124,8 @@ class Exchange {
                     FwAppData.apiMethod(true, 'POST', "api/v1/exchange/exchangeitemout", exchangeRequest, FwServices.defaultTimeout, function onSuccess(response) {
                         if (response.success) {
                             successSound.play();
-                            FwFormField.setValueByDataField($form, 'ICodeOut', response.ICode);
-                            FwFormField.setValueByDataField($form, 'DescriptionOut', response.ItemDescription);
+                            FwFormField.setValueByDataField($form, 'ICodeOut', response.ItemStatus.ICode);
+                            FwFormField.setValueByDataField($form, 'DescriptionOut', response.ItemStatus.Description);
                             $form.find('div.error-msg-out').html('');
                             $form.find('.out').removeClass('error');
                             let fields = $form.find('.fwformfield');
@@ -148,8 +148,8 @@ class Exchange {
                             FwFormField.getDataField($form, 'BarCodeIn').find('input').focus();
                         } else {
                             errorSound.play();
-                            FwFormField.setValueByDataField($form, 'ICodeOut', response.ICode);
-                            FwFormField.setValueByDataField($form, 'DescriptionOut', response.ItemDescription);
+                            FwFormField.setValueByDataField($form, 'ICodeOut', response.ItemStatus.ICode);
+                            FwFormField.setValueByDataField($form, 'DescriptionOut', response.ItemStatus.Description);
                             $form.find('.out').addClass('error');
                             $form.find('div.error-msg-out').html(`<div style="margin:0px 0px 0px 8px;"><span style="padding:0px 4px 0px 4px;font-size:22px;border-radius:2px;background-color:red;color:white;">${response.msg}</span></div>`);
                             FwFormField.getDataField($form, 'BarCodeOut').find('input').select();
@@ -179,14 +179,14 @@ class Exchange {
                             FwFormField.setValueByDataField($form, 'DealId', response.DealId, response.Deal);
                             FwFormField.setValueByDataField($form, 'OrderId', response.OrderId, response.OrderNumber);
                             FwFormField.setValueByDataField($form, 'Description', response.OrderDescription);
-                            FwFormField.setValueByDataField($form, 'ICodeIn', response.ICode);
-                            FwFormField.setValueByDataField($form, 'DescriptionIn', response.ItemDescription);
+                            FwFormField.setValueByDataField($form, 'ICodeIn', response.ItemStatus.ICode);
+                            FwFormField.setValueByDataField($form, 'DescriptionIn', response.ItemStatus.Description);
                             FwFormField.disable(FwFormField.getDataField($form, 'OrderId'));
                             FwFormField.disable(FwFormField.getDataField($form, 'DealId'));
                             FwFormField.getDataField($form, 'BarCodeOut').find('input').focus();
                         } else {
-                            FwFormField.setValueByDataField($form, 'DescriptionIn', response.ItemDescription);
-                            FwFormField.setValueByDataField($form, 'ICodeIn', response.ICode);
+                            FwFormField.setValueByDataField($form, 'DescriptionIn', response.ItemStatus.Description);
+                            FwFormField.setValueByDataField($form, 'ICodeIn', response.ItemStatus.ICode);
                             $form.find('.in').addClass('error');
                             errorSound.play();
                             $form.find('div.error-msg-in').html(`<div style="margin:0px 0px 0px 8px;"><span style="padding:0px 4px 0px 4px;font-size:22px;border-radius:2px;background-color:red;color:white;">${response.msg}</span></div>`);

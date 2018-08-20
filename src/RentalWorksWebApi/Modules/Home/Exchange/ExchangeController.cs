@@ -115,9 +115,7 @@ namespace WebApi.Modules.Administrator.Exchange
                 response.Deal = exchangeItemResponse.Deal;
                 response.OrderNumber = exchangeItemResponse.OrderNumber;
                 response.OrderDescription = exchangeItemResponse.OrderDescription;
-                response.InventoryId = exchangeItemResponse.InventoryId;
-                response.ICode = exchangeItemResponse.ICode;
-                response.ItemDescription = exchangeItemResponse.ItemDescription;
+                response.ItemStatus = exchangeItemResponse.ItemStatus;
                 response.success = exchangeItemResponse.success;
                 response.msg = exchangeItemResponse.msg;
 
@@ -196,9 +194,7 @@ namespace WebApi.Modules.Administrator.Exchange
                     response.Deal = exchangeItemResponse.Deal;
                     response.OrderNumber = exchangeItemResponse.OrderNumber;
                     response.OrderDescription = exchangeItemResponse.OrderDescription;
-                    response.InventoryId = exchangeItemResponse.InventoryId;
-                    response.ICode = exchangeItemResponse.ICode;
-                    response.ItemDescription = exchangeItemResponse.ItemDescription;
+                    response.ItemStatus = exchangeItemResponse.ItemStatus;
                     response.success = exchangeItemResponse.success;
                     response.msg = exchangeItemResponse.msg;
                 }

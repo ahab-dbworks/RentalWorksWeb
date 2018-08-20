@@ -7,6 +7,21 @@ using WebApi.Logic;
 namespace WebApi.Home.Exchange
 {
 
+    public class ExchangeItemStatus
+    {
+        public string InventoryId;
+        public string ICode;
+        public string Description;
+        public string WarehouseId;
+        public string Warehouse;
+        public string VendorId;
+        public string Vendor;
+        public string PurchaseOrderId;
+        public string PurchaseOrderNumber;
+        public string ConsignorId;
+        public string Consignor;
+    }
+
 
     public class ExchangeItemSpStatusReponse : TSpStatusReponse
     {
@@ -16,9 +31,7 @@ namespace WebApi.Home.Exchange
         public string DealId;
         public string Deal;
         public string DepartmentId;
-        public string InventoryId;
-        public string ICode;
-        public string ItemDescription;
+        public ExchangeItemStatus ItemStatus = new ExchangeItemStatus();
         //public string OrderItemId;
         //public int QuantityStaged;
     }
@@ -82,10 +95,14 @@ create procedure dbo.exchangebc(@exchangecontractid  char(08),
                     qry.AddParameter("@returnitemtrackedby", SqlDbType.NVarChar, ParameterDirection.Output);
                     qry.AddParameter("@returnitemrentalitemid", SqlDbType.NVarChar, ParameterDirection.Output);
                     qry.AddParameter("@returnitemvendorid", SqlDbType.NVarChar, ParameterDirection.Output);
+                    qry.AddParameter("@returnitemvendor", SqlDbType.NVarChar, ParameterDirection.Output);
                     qry.AddParameter("@returnitemconsignorid", SqlDbType.NVarChar, ParameterDirection.Output);
+                    qry.AddParameter("@returnitemconsignor", SqlDbType.NVarChar, ParameterDirection.Output);
                     qry.AddParameter("@returnitemconsignoragreementid", SqlDbType.NVarChar, ParameterDirection.Output);
                     qry.AddParameter("@returnitempoid", SqlDbType.NVarChar, ParameterDirection.Output);
+                    qry.AddParameter("@returnitempono", SqlDbType.NVarChar, ParameterDirection.Output);
                     qry.AddParameter("@returnitemwarehouseid", SqlDbType.NVarChar, ParameterDirection.Output);
+                    qry.AddParameter("@returnitemwarehouse", SqlDbType.NVarChar, ParameterDirection.Output);
                     qry.AddParameter("@returnitemreturntowarehouseid", SqlDbType.NVarChar, ParameterDirection.Output);
                     qry.AddParameter("@returnitemordertranid", SqlDbType.Int, ParameterDirection.Output);
                     qry.AddParameter("@returniteminternalchar", SqlDbType.NVarChar, ParameterDirection.Output);
@@ -105,10 +122,17 @@ create procedure dbo.exchangebc(@exchangecontractid  char(08),
                     response.DealId = qry.GetParameter("@returnitemdealid").ToString().TrimEnd();
                     response.Deal = qry.GetParameter("@returnitemdeal").ToString().TrimEnd();
                     response.DepartmentId = qry.GetParameter("@returnitemdepartmentid").ToString().TrimEnd();
-                    response.InventoryId = qry.GetParameter("@returnitemmasterid").ToString().TrimEnd();
-                    response.ICode = qry.GetParameter("@returnitemmasterno").ToString().TrimEnd();
-                    response.ItemDescription = qry.GetParameter("@returnitemdescription").ToString().TrimEnd();
-
+                    response.ItemStatus.InventoryId = qry.GetParameter("@returnitemmasterid").ToString().TrimEnd();
+                    response.ItemStatus.ICode = qry.GetParameter("@returnitemmasterno").ToString().TrimEnd();
+                    response.ItemStatus.Description = qry.GetParameter("@returnitemdescription").ToString().TrimEnd();
+                    response.ItemStatus.WarehouseId = qry.GetParameter("@returnitemwarehouseid").ToString().TrimEnd();
+                    response.ItemStatus.Warehouse = qry.GetParameter("@returnitemwarehouse").ToString().TrimEnd();
+                    response.ItemStatus.VendorId = qry.GetParameter("@returnitemvendorid").ToString().TrimEnd();
+                    response.ItemStatus.Vendor = qry.GetParameter("@returnitemvendor").ToString().TrimEnd();
+                    response.ItemStatus.PurchaseOrderId = qry.GetParameter("@returnitempoid").ToString().TrimEnd();
+                    response.ItemStatus.PurchaseOrderNumber = qry.GetParameter("@returnitempono").ToString().TrimEnd();
+                    response.ItemStatus.ConsignorId = qry.GetParameter("@returnitemconsignorid").ToString().TrimEnd();
+                    response.ItemStatus.Consignor = qry.GetParameter("@returnitemconsignor").ToString().TrimEnd();
                     response.msg = qry.GetParameter("@returnmsg").ToString();
                     response.success = (string.IsNullOrEmpty(response.msg));
                 }
@@ -146,16 +170,21 @@ create procedure dbo.exchangebc(@exchangecontractid  char(08),
                     qry.AddParameter("@inconsignoragreementid", SqlDbType.NVarChar, ParameterDirection.Output);
                     qry.AddParameter("@outrentalitemid", SqlDbType.NVarChar, ParameterDirection.Output);
                     qry.AddParameter("@outvendorid", SqlDbType.NVarChar, ParameterDirection.Output);
+                    qry.AddParameter("@outvendor", SqlDbType.NVarChar, ParameterDirection.Output);
+                    qry.AddParameter("@outpoid", SqlDbType.NVarChar, ParameterDirection.Output);
+                    qry.AddParameter("@outpono", SqlDbType.NVarChar, ParameterDirection.Output);
                     qry.AddParameter("@outmasterid", SqlDbType.NVarChar, ParameterDirection.Output);
                     qry.AddParameter("@outmasterno", SqlDbType.NVarChar, ParameterDirection.Output);
                     qry.AddParameter("@outmaster", SqlDbType.NVarChar, ParameterDirection.Output);
                     qry.AddParameter("@outwarehouseid", SqlDbType.NVarChar, ParameterDirection.Output);
+                    qry.AddParameter("@outwarehouse", SqlDbType.NVarChar, ParameterDirection.Output);
                     qry.AddParameter("@outdescription", SqlDbType.NVarChar, ParameterDirection.Output);
                     qry.AddParameter("@outtrackedby", SqlDbType.NVarChar, ParameterDirection.Output);
                     qry.AddParameter("@outordertranid", SqlDbType.NVarChar, ParameterDirection.Output);
                     qry.AddParameter("@outinternalchar", SqlDbType.NVarChar, ParameterDirection.Output);
                     qry.AddParameter("@outmasteritemid", SqlDbType.NVarChar, ParameterDirection.Output);
                     qry.AddParameter("@outconsignorid", SqlDbType.NVarChar, ParameterDirection.Output);
+                    qry.AddParameter("@outconsignor", SqlDbType.NVarChar, ParameterDirection.Output);
                     qry.AddParameter("@outconsignoragreementid", SqlDbType.NVarChar, ParameterDirection.Output);
 
 
@@ -170,9 +199,17 @@ create procedure dbo.exchangebc(@exchangecontractid  char(08),
                     //response.DealId = qry.GetParameter("@returnitemdealid").ToString().TrimEnd();
                     //response.Deal = qry.GetParameter("@returnitemdeal").ToString().TrimEnd();
                     //response.DepartmentId = qry.GetParameter("@returnitemdepartmentid").ToString().TrimEnd();
-                    response.InventoryId = qry.GetParameter("@outmasterid").ToString().TrimEnd();
-                    response.ICode = qry.GetParameter("@outmasterno").ToString().TrimEnd();
-                    response.ItemDescription = qry.GetParameter("@outmaster").ToString().TrimEnd();
+                    response.ItemStatus.InventoryId = qry.GetParameter("@outmasterid").ToString().TrimEnd();
+                    response.ItemStatus.ICode = qry.GetParameter("@outmasterno").ToString().TrimEnd();
+                    response.ItemStatus.Description = qry.GetParameter("@outmaster").ToString().TrimEnd();
+                    response.ItemStatus.WarehouseId = qry.GetParameter("@outwarehouseid").ToString().TrimEnd();
+                    response.ItemStatus.Warehouse = qry.GetParameter("@outwarehouse").ToString().TrimEnd();
+                    response.ItemStatus.VendorId = qry.GetParameter("@outvendorid").ToString().TrimEnd();
+                    response.ItemStatus.Vendor = qry.GetParameter("@outvendor").ToString().TrimEnd();
+                    response.ItemStatus.PurchaseOrderId = qry.GetParameter("@outpoid").ToString().TrimEnd();
+                    response.ItemStatus.PurchaseOrderNumber = qry.GetParameter("@outpono").ToString().TrimEnd();
+                    response.ItemStatus.ConsignorId = qry.GetParameter("@outconsignorid").ToString().TrimEnd();
+                    response.ItemStatus.Consignor = qry.GetParameter("@outconsignor").ToString().TrimEnd();
                     // end outputs
 
 
