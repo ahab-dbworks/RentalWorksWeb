@@ -1,5 +1,7 @@
-class WebMaster {
-    getMasterView() {
+var WebMaster = (function () {
+    function WebMaster() {
+    }
+    WebMaster.prototype.getMasterView = function () {
         var $view, $headerView, applicationtheme, html = [];
         applicationtheme = sessionStorage.getItem('applicationtheme');
         html.push('<div id="master" class="fwpage">');
@@ -17,9 +19,9 @@ class WebMaster {
         $view.find('#master-header').append($headerView);
         program.setApplicationTheme(applicationtheme);
         return $view;
-    }
+    };
     ;
-    getHeaderClassic() {
+    WebMaster.prototype.getHeaderClassic = function () {
         var $view, $headerRibbon, $userControl, $fwcontrols, html = [];
         html.push('<div id="header">');
         html.push('  <div id="headerRibbon" class="fwcontrol fwribbon" data-control="FwRibbon" data-version="1" data-rendermode="template">');
@@ -99,9 +101,9 @@ class WebMaster {
             }
         });
         return $view;
-    }
+    };
     ;
-    getUserControlClassic($userControl) {
+    WebMaster.prototype.getUserControlClassic = function ($userControl) {
         var $user, $logoff, $notification, $usersettings;
         $user = jQuery('<div id="username" class="item">' + sessionStorage.getItem('userType') + ': ' + sessionStorage.getItem('fullname') + '</div>');
         $userControl.append($user);
@@ -125,13 +127,13 @@ class WebMaster {
             }
         });
         $userControl.append($logoff);
-    }
+    };
     ;
-    getHeaderView() {
+    WebMaster.prototype.getHeaderView = function () {
         var $view;
         $view = jQuery('<div class="fwcontrol fwfilemenu" data-control="FwFileMenu" data-version="2" data-rendermode="template"></div>');
         FwControl.renderRuntimeControls($view);
-        $view.find('.logo').append(`<div class="bgothm">${program.name}</div>`);
+        $view.find('.logo').append("<div class=\"bgothm\">" + program.name + "</div>");
         var nodeSystem, nodeApplication, baseiconurl, $menu, ribbonItem, dropDownMenuItems, caption;
         nodeSystem = FwApplicationTree.getMyTree();
         for (var appno = 0; appno < nodeSystem.children.length; appno++) {
@@ -188,9 +190,10 @@ class WebMaster {
             }
         });
         return $view;
-    }
+    };
     ;
-    getUserControl($context) {
-    }
-}
+    WebMaster.prototype.getUserControl = function ($context) {
+    };
+    return WebMaster;
+}());
 //# sourceMappingURL=WebMaster.js.map
