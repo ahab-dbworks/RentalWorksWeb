@@ -184,7 +184,7 @@ class StagingCheckout {
             catch (ex) {
                 FwFunc.showError(ex);
             }
-            //FwFormField.disable($form.find('div[data-datafield="OrderId"]'));
+            FwFormField.disable($form.find('div[data-datafield="OrderId"]'));
             $form.find('.orderstatus').show();
             $form.find('.createcontract').show();
         });
@@ -258,7 +258,13 @@ class StagingCheckout {
             request.Code = barCodeFieldValue;
             request.OrderId = orderId
             FwAppData.apiMethod(true, 'POST', `api/v1/checkout/movestageditemtoout`, request, FwServices.defaultTimeout, response => {
-// need error handling here. API is 200 regardless of what i send
+                $form.find('.partial-contract-barcode input').val('');
+                $form.find('.partial-contract-quantity input').val('');
+                setTimeout(() => {
+                    FwBrowse.search($checkedOutItemGrid);
+                    FwBrowse.search($stagedItemGrid);
+                }, 500);
+                $form.find('.partial-contract-barcode input').focus();
             }, null, null);
         } else {
             if ($selectedCheckBoxes.length !== 0) {
@@ -279,20 +285,19 @@ class StagingCheckout {
                         request.OrderItemId = orderItemId;
                     }
                     FwAppData.apiMethod(true, 'POST', `api/v1/checkout/movestageditemtoout`, request, FwServices.defaultTimeout, response => {
-// need error handling
+                        // need error handling  
+                        setTimeout(() => {
+                            FwBrowse.search($checkedOutItemGrid);
+                            FwBrowse.search($stagedItemGrid);
+                        }, 500);
                     }, null, null);
                 }
             } else {
                 FwNotification.renderNotification('WARNING', 'Please select one or more rows in Stage Items or use Bar Code input in order to perform this function.');
+                $form.find('.partial-contract-barcode input').focus();
             }
 console.log('request: ', request);
         }
-        $form.find('.partial-contract-barcode input').val('');
-        $form.find('.partial-contract-quantity input').val('');
-        setTimeout(() => {
-            FwBrowse.search($checkedOutItemGrid);
-            FwBrowse.search($stagedItemGrid);
-        }, 500);
     };
     //----------------------------------------------------------------------------------------------
     moveOutItemToStaged($form: JQuery): void {
@@ -311,7 +316,13 @@ console.log('request: ', request);
             request.Code = barCodeFieldValue;
             request.OrderId = orderId;
             FwAppData.apiMethod(true, 'POST', `api/v1/checkout/moveoutitemtostaged`, request, FwServices.defaultTimeout, response => {
-// need error handling here. API is 200 regardless of what i send
+                $form.find('.partial-contract-barcode input').val('');
+                $form.find('.partial-contract-quantity input').val('');
+                setTimeout(() => {
+                    FwBrowse.search($checkedOutItemGrid);
+                    FwBrowse.search($stagedItemGrid);
+                }, 500);
+                $form.find('.partial-contract-barcode input').focus();
             }, null, null);
         } else {
             if ($selectedCheckBoxes.length !== 0) {
@@ -333,19 +344,18 @@ console.log('request: ', request);
                     }
                     FwAppData.apiMethod(true, 'POST', `api/v1/checkout/moveoutitemtostaged`, request, FwServices.defaultTimeout, response => {
 // need error handling
+                        setTimeout(() => {
+                            FwBrowse.search($checkedOutItemGrid);
+                            FwBrowse.search($stagedItemGrid);
+                        }, 500);
                     }, null, null);
                 }
             } else {
                 FwNotification.renderNotification('WARNING', 'Please select one or more rows in Contract Items or use Bar Code input in order to perform this function.');
+                $form.find('.partial-contract-barcode input').focus();
             }
 console.log('request: ', request);
         }
-        $form.find('.partial-contract-barcode input').val('');
-        $form.find('.partial-contract-quantity input').val('');
-        setTimeout(() => {
-            FwBrowse.search($checkedOutItemGrid);
-            FwBrowse.search($stagedItemGrid);
-        }, 500);
     };
     //----------------------------------------------------------------------------------------------
     completeCheckOutContract($form: JQuery): void {
