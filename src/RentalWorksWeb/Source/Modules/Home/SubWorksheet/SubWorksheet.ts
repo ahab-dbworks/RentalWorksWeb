@@ -41,6 +41,7 @@ class SubWorksheet {
         existingPo = $form.find('.existing');
         createNew.prop('checked', true);
 
+        FwFormField.setValueByDataField($form, 'ReqDate', parentmoduleinfo.EstimatedStartDate);
         FwFormField.setValueByDataField($form, 'RentalFrom', parentmoduleinfo.EstimatedStartDate);
         FwFormField.setValueByDataField($form, 'RentalTo', parentmoduleinfo.EstimatedStopDate);
         FwFormField.setValueByDataField($form, 'ReqTime', parentmoduleinfo.EstimatedStartTime);
@@ -100,28 +101,24 @@ class SubWorksheet {
                 ContactId: FwFormField.getValueByDataField($form, 'ContactId'),
                 RateType: FwFormField.getValueByDataField($form, 'RateId'),
                 BillingCycleId: FwFormField.getValueByDataField($form, 'BillingCycleId'),
-                RequiredDate: FwFormField.getValueByDataField($form, 'ReqDate'),
                 RequiredTime: FwFormField.getValueByDataField($form, 'ReqTime'),
                 FromDate: FwFormField.getValueByDataField($form, 'RentalFrom'),
                 ToDate: FwFormField.getValueByDataField($form, 'RentalTo'),
                 DeliveryId: '',
                 AdjustContractDates: true
             }
+            if (FwFormField.getValueByDataField($form, 'ReqDate') !== '') {
+                worksheetRequest.RequiredDate = FwFormField.getValueByDataField($form, 'ReqDate')
+            }
 
             try {
                 FwAppData.apiMethod(true, 'POST', "api/v1/order/startpoworksheetsession", worksheetRequest, FwServices.defaultTimeout, function onSuccess(response) {
                     if (response.success) {
+                        $form.find('div.errormsg').html('');
+                        FwFormField.disable($form.find('.subworksheet'));
+
                         let gridUniqueIds: any = {
-                            OrderId: parentmoduleinfo.OrderId,
-                            SessionId: response.SessionId,
-                            VendorId: FwFormField.getValueByDataField($form, 'VendorId'),
-                            CurrencyId: FwFormField.getValueByDataField($form, 'CurrencyId'),
-                            RateType: FwFormField.getValueByDataField($form, 'RateId'),
-                            TotalType: 'W',
-                            RecType: 'R',
-                            FromDate: FwFormField.getValueByDataField($form, 'RentalFrom'),
-                            ToDate: FwFormField.getValueByDataField($form, 'RentalTo'),
-                            PurchaseOrderId: FwFormField.getValueByDataField($form, 'POId')
+                            SessionId: response.SessionId
                         };
                         me.SessionId = response.SessionId;
                         me.renderPOGrid($form);
@@ -138,6 +135,8 @@ class SubWorksheet {
                             $form.find('.completeorder').text('Update Purchase Order');
                             $form.find('.completeorder').show();
                         }
+
+                        FwFormField.getValueByDataField($form, 'RateId') === 'DAILY' ? $form.find('.daily').show() : $form.find('.daily').hide();
                     } else {
                         $form.find('div.errormsg').html(`<div style="margin:0px 0px 0px 8px;"><span style="padding:0px 4px 0px 4px;font-size:22px;border-radius:2px;background-color:red;color:white;">${response.msg}</span></div>`);
                     }
@@ -147,7 +146,7 @@ class SubWorksheet {
             }
         })
 
-        $form.find('.completeorder').on('click', function (e) {
+        $form.find('.createpo').on('click', function (e) {
             try {
                 var sessionRequest = {
                     SessionId: me.SessionId
@@ -164,6 +163,7 @@ class SubWorksheet {
                             for (var i = 0; i < fields.length; i++) {
                                 FwFormField.setValue2(jQuery(fields[i]), '', '');
                             }
+                            FwFormField.enable($form.find('.subworksheet'));
                             $form.find('div[data-grid="SubPurchaseOrderItemGrid"]').empty();
                             $form.find('.completeorder').hide();
                             $form.find('div[data-datafield="CreateNew"] input').prop('checked', true);
