@@ -33,7 +33,7 @@ RwOrderController.getContactSignatureScreen = function(viewModel, properties) {
                 icon:        '&#xE5CC;', //chevron_right
                 state:       0,
                 buttonclick: function () {
-                    if ($printimagecapture.find('.signaturecapture').attr('data-status') === 'image') {
+                    //if ($printimagecapture.find('.signaturecapture').attr('data-status') === 'image') {
                         try {
                             var signatureImage = $printimagecapture.find('.signaturecapture img').data('base64');
                             var $images = $printimagecapture.find('.contract-photo[data-status="image"] img');
@@ -71,9 +71,9 @@ RwOrderController.getContactSignatureScreen = function(viewModel, properties) {
                         } catch(ex) {
                             FwFunc.showError(ex);
                         }
-                    } else {
-                        FwNotification.renderNotification('ERROR', 'Signature is required');
-                    }
+                    //} else {
+                    //    FwNotification.renderNotification('ERROR', 'Signature is required');
+                    //}
                 }
             },
             {
