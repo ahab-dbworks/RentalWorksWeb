@@ -91,7 +91,7 @@ namespace WebApi.Modules.Home.CheckedOutItem
         public string OptionColor { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "outreceiveusersid", modeltype: FwDataTypes.Text)]
-        public string StagedbByUserId { get; set; }
+        public string StagedByUserId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "outuser", modeltype: FwDataTypes.Text)]
         public string StagedByUser { get; set; }

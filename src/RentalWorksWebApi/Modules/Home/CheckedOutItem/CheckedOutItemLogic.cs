@@ -64,7 +64,7 @@ namespace WebApi.Modules.Home.CheckedOutItem
         [FwBusinessLogicField(isReadOnly: true)]
         public string OptionColor { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
-        public string StagedbByUserId { get; set; }
+        public string StagedByUserId { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
         public string StagedByUser { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
