@@ -18,7 +18,7 @@ namespace FwStandard.Reporting
         //const int CHROMIUM_REVISION = 565530;
         const int CHROMIUM_REVISION = Downloader.DefaultRevision;
 
-        public async static Task<string> GeneratePdfFromUrlAsync(string reportUrl, string pdfOutputPath, string authorizationHeader, dynamic parameters, PdfOptions pdfOptions)
+        public async static Task<string> GeneratePdfFromUrlAsync(string apiUrl, string reportUrl, string pdfOutputPath, string authorizationHeader, dynamic parameters, PdfOptions pdfOptions)
         {
             await Downloader.CreateDefault().DownloadRevisionAsync(CHROMIUM_REVISION);
             using (var browser = await Puppeteer.LaunchAsync(new LaunchOptions { Headless = true }, CHROMIUM_REVISION))
@@ -26,7 +26,7 @@ namespace FwStandard.Reporting
                 using (var page = await browser.NewPageAsync())
                 {
                     page.Console += Page_Console;
-                    await page.SetViewportAsync(new ViewPortOptions() { Width = 816, Height = 1056 });
+                    await page.SetViewportAsync(new ViewPortOptions() { /*Width = 816, Height = 1056*/ });
                     NavigationOptions navOptions = new NavigationOptions();
                     navOptions.WaitUntil = new WaitUntilNavigation[] { WaitUntilNavigation.Networkidle0 };
                     navOptions.Timeout = 3600; // 1 hour
@@ -39,7 +39,7 @@ namespace FwStandard.Reporting
                             jsConsole.AppendLine(e.Message.Text);
                         }
                     };
-                    var renderReportResponse = await page.EvaluateFunctionAsync("(authorizationHeader, parameters) => (report.renderReport(authorizationHeader, parameters))", authorizationHeader, parameters);
+                    var renderReportResponse = await page.EvaluateFunctionAsync("(apiUrl, authorizationHeader, parameters) => (report.renderReport(apiUrl, authorizationHeader, parameters))", apiUrl, authorizationHeader, parameters);
                     await page.WaitForFunctionAsync("() => (report.renderReportCompleted === true)");
                     pdfOptions.HeaderTemplate = await page.EvaluateExpressionAsync<string>("report.headerHtml");
                     pdfOptions.FooterTemplate = await page.EvaluateExpressionAsync<string>("report.footerHtml");

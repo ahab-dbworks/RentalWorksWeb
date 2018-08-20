@@ -3,8 +3,10 @@ $line-height: 16px;
 $normal-text: 1em;
 
 @page {
-    margin: 130px 24px 96px 24px;
-    size: letter;
+    margin: 130px 32px 96px 32px;
+    /*margin: 48px 24px 48px 24px;*/
+    /*size: auto;*/
+    size: portrait;
 }
 
 html {
@@ -15,6 +17,18 @@ body {
     font-size: 12px;
     margin:0;
     padding:0;
+}
+
+html.preview {
+    #pageno {
+        visibility: hidden;
+    }
+}
+
+html.pdf {
+    body {
+        /*margin: 130px 24px 96px 24px;*/
+    }
 }
 
 @media only screen {
@@ -225,9 +239,13 @@ body {
     page-break-before:always;
 }
 
-#pagecontainer {
-    width: $page-width;
+@media screen {
+    #pageContainer {
+        width: $page-width;
+    }
+}
 
+#pageContainer {
     #pageHeader {
     }
 
@@ -239,27 +257,9 @@ body {
     }
 }
 
-@media screen {
-    #pagecontainer {
-        #header, #footer {
-            width: auto !important;
-        }
-    }
-    #pageno {
-        /*visibility: hidden;*/
-    }
-}
-
-@media print {
-    #pagecontainer {
-        #pageHeader {
-            display: none;
-
-        }
-
-        #pageFooter {
-            display: none;
-        }
+#pageContainer {
+    #header, #footer {
+        width: auto !important;
     }
 }
 

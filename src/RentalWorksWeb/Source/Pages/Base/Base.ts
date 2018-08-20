@@ -87,7 +87,8 @@
                                             }
                                         } else {
                                             if ((responseOriginalApi.errNo === 0) && (typeof responseOriginalApi.authToken !== 'undefined')) {
-                                                localStorage.setItem('email',                request.email);
+                                                localStorage.setItem('email', request.email); // mv 2018-08-19 I suspect that this is really not the email, it's the email OR the regular user login the user entered.
+                                                sessionStorage.setItem('email',              responseOriginalApi.webUser.email);
                                                 sessionStorage.setItem('authToken',          responseOriginalApi.authToken);
                                                 sessionStorage.setItem('fullname',           responseOriginalApi.webUser.fullname);
                                                 sessionStorage.setItem('name',               responseOriginalApi.webUser.name);  //justin 05/06/2018
@@ -143,7 +144,7 @@
                                                     sessionStorage.setItem('customFieldsBrowse', JSON.stringify(customFieldsBrowse));
                                                     program.navigate('home');
                                                 }, function onError(response) {
-                                                    // insert error handling
+                                                    FwFunc.showError(response);
                                                     program.navigate('home');
                                                 }, null);
 

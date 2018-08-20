@@ -26,7 +26,7 @@ reportSourceDirectories.forEach((dirPath, index, array) => {
         hash: true
     }));
 });
-plugins.push(new webpack.HotModuleReplacementPlugin());
+//plugins.push(new webpack.HotModuleReplacementPlugin());
 
 module.exports = {
     entry: entries,

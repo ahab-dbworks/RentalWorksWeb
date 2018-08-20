@@ -15,6 +15,7 @@ namespace Web.Source
             tokenData.webUser.departmentid = (FwValidate.IsPropertyDefined(webUserData, "departmentid")) ? webUserData.departmentid : string.Empty;
             tokenData.webUser.webusersid = (FwValidate.IsPropertyDefined(webUserData, "webusersid")) ? webUserData.webusersid : string.Empty;
 
+            response.webUser.email = webUserData.email;
             response.webUser.location   = RwAppData.GetLocationInfo(conn, webUserData.locationid);
             response.webUser.warehouse  = RwAppData.GetWarehouseInfo(conn, webUserData.warehouseid);
             response.webUser.department = RwAppData.GetDepartmentInfo(conn, webUserData.departmentid);

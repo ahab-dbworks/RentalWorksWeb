@@ -18,14 +18,31 @@ namespace WebApi.Modules.Reports.ContractReport
     [ApiExplorerSettings(GroupName = "reports-v1")]
     public class OutContractReportController : AppReportController
     {
+        //------------------------------------------------------------------------------------ 
         public OutContractReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
         //------------------------------------------------------------------------------------ 
-        public class ContractReportResponse
+        public override string GetReportFileName() { return "OutContractReport"; }
+        public override string GetReportFriendlyName() { return "Out-Contract Report"; }
+        public override PdfOptions GetPdfOptions()
         {
-            public string htmlReportDownloadUrl { get; set; } = string.Empty;
-            public string pdfReportDownloadUrl { get; set; } = string.Empty;
+            // Configures Chromium for printing. Some of these properties are better to set in the @page section in CSS.
+            PdfOptions pdfOptions = new PdfOptions();
+            pdfOptions.DisplayHeaderFooter = true;
+            return pdfOptions;
         }
-
+        protected override string GetUniqueId(FwReportRenderRequest request)
+        {
+            return request.parameters["contractid"].ToString().TrimEnd();
+        }
+        //------------------------------------------------------------------------------------ 
+        [HttpPost("render")]
+        public async Task<IActionResult> Render([FromBody]FwReportRenderRequest request)
+        {
+            if (!this.ModelState.IsValid) return BadRequest();
+            FwReportRenderResponse response = await DoRender(request);
+            return new OkObjectResult(response);
+        }
+        //------------------------------------------------------------------------------------ 
         [HttpGet("{contractid}")]
         public async Task<IActionResult> GetContract([FromRoute] string contractid)
         {
@@ -33,54 +50,6 @@ namespace WebApi.Modules.Reports.ContractReport
             var contractReport = await contractReportRepo.Get(contractid);
             return new OkObjectResult(contractReport);
         }
-
-        // POST api/v1/contractreport/htmlreport/{contractid}
-        [HttpPost("emailpdf/{contractid}")]
-        public async Task<IActionResult> EmailPdfAsync([FromRoute] string contractid, [FromBody] EmailPdfRequest request)
-        {
-            string baseUrl = this.GetFullyQualifiedBaseUrl();
-            string guid = Guid.NewGuid().ToString().Replace("-", string.Empty);
-            string baseFileName = $"OutContractReport_{this.UserSession.WebUsersId}_{guid}";
-            string htmlFileName = $"{baseFileName}.html";
-            string pathHtmlReport = Path.Combine(FwDownloadController.GetDownloadsDirectory(), htmlFileName);
-            
-            ContractReportResponse response = new ContractReportResponse();
-            response.htmlReportDownloadUrl = $"{baseUrl}/temp/downloads/{htmlFileName}";
-
-            Uri uriHtmlReport = new Uri(pathHtmlReport);
-            string pdfFileName = $"{baseFileName}.pdf";
-            string pathPdfReport = Path.Combine(FwDownloadController.GetDownloadsDirectory(), pdfFileName);
-            response.pdfReportDownloadUrl = $"{baseUrl}/temp/downloads/{pdfFileName}";
-
-            string authorizationHeader = HttpContext.Request.Headers["Authorization"];
-            dynamic parameters = new ExpandoObject();
-            parameters.contractid = contractid;
-            PdfOptions pdfOptions = new PdfOptions();
-            pdfOptions.DisplayHeaderFooter = true;
-            await FwReport.GeneratePdfFromUrlAsync($"{baseUrl}/Reports/OutContractReport/index.html", pathPdfReport, authorizationHeader, parameters, pdfOptions);
-            if (System.IO.File.Exists(pathPdfReport))
-            {
-                await FwReport.EmailPdfAsync(
-                    fromusersid: this.UserSession.UsersId,
-                    uniqueid: contractid,
-                    title: "Check-Out Contract", 
-                    from: request.from, 
-                    to: request.to, 
-                    cc: request.cc,
-                    subject: request.subject,
-                    body: request.body, 
-                    pdfPath: pathPdfReport, 
-                    appConfig: this.AppConfig);
-            }
-
-            return new OkObjectResult(response);
-        }
         //------------------------------------------------------------------------------------ 
-    }
-
-    public class ContractReportRequest
-    {
-        public string from { get; set; } = string.Empty;
-        public string to { get; set; } = string.Empty;
     }
 }

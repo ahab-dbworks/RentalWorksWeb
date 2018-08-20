@@ -1,4 +1,4 @@
-﻿import { IReport } from '../../lib/FwReportLibrary/src/IReport';
+﻿import { WebpackReport } from '../../lib/FwReportLibrary/src/WebpackReport';
 import { CustomField } from '../../lib/FwReportLibrary/src/CustomField';
 import { DataTable, DataTableColumn } from '../../lib/FwReportLibrary/src/DataTable';
 import { Ajax } from '../../lib/FwReportLibrary/src/Ajax';
@@ -9,46 +9,52 @@ var hbHeader = require("./hbHeader.hbs");
 var hbReport = require("./hbReport.hbs"); 
 var hbFooter = require("./hbFooter.hbs"); 
 
-export class OutContractReport implements IReport {
+export class OutContractReport extends WebpackReport {
     contract: OutContract = null;
-    renderReportCompleted = false;
-    renderReportFailed = false;
-    headerHtml = '';
-    footerHtml = '';
-    
+
     renderReport(apiUrl: string, authorizationHeader: string, parameters: any): void {
         try {
+            super.renderReport(apiUrl, authorizationHeader, parameters);
+
+            // experimental
+            this.renderProgress = 50;
+            this.renderStatus = 'Runninng';
+
             HandlebarsHelpers.registerHelpers();
             let contract = new OutContract();
 
             // get the Contract
             let contractPromise = Ajax.get<OutContract>(`${apiUrl}/api/v1/outcontractreport/${parameters.contractid}`, authorizationHeader)
-                .then((value: OutContract) => {
-                    contract = value;
+                .then((response: OutContract) => {
+                    contract = response;
                     contract.PrintTime = moment().format('YYYY-MM-DD h:mm:ss A');
                     contract.ContractTime = moment(contract.ContractTime, 'h:mm a').format('h:mm a');
-
-                    document.getElementById('contract').innerHTML = hbReport(contract);
-                    document.getElementById('pageHeader').innerHTML = this.getHeaderHtml(contract);
-                    document.getElementById('pageFooter').innerHTML = this.getFooterHtml(contract);
-                    this.renderReportCompleted = true;
+                    this.renderHeaderHtml(contract);
+                    this.renderFooterHtml(contract);
+                    if (this.action === 'Preview' || this.action === 'PrintHtml') {
+                        document.getElementById('pageHeader').innerHTML = this.headerHtml;
+                        document.getElementById('pageFooter').innerHTML = this.footerHtml;
+                    }
+                    document.getElementById('pageBody').innerHTML = hbReport(contract);
+                    
+                    this.onRenderReportCompleted();
                 })
                 .catch((ex) => {
-                    console.log(ex);
+                    this.onRenderReportFailed(ex);
                 });
-        } catch (err) {
-            Ajax.logError('An error occured while rendering the report.', err);
-            this.renderReportCompleted = true;
-            this.renderReportFailed = true;
+        } catch (ex) {
+            this.onRenderReportFailed(ex);
         }
     }
 
-    getHeaderHtml(model: OutContract): string {
-        return hbHeader(model);
+    renderHeaderHtml(model: OutContract): string {
+        this.headerHtml = hbHeader(model);
+        return this.headerHtml;
     }
 
-    getFooterHtml(model: OutContract) : string {
-        return hbFooter(model);
+    renderFooterHtml(model: OutContract) : string {
+        this.footerHtml = hbFooter(model);
+        return this.footerHtml;
     }
 }
 

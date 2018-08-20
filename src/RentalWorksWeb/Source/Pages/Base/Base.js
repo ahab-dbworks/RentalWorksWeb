@@ -83,6 +83,7 @@ class Base {
                                     else {
                                         if ((responseOriginalApi.errNo === 0) && (typeof responseOriginalApi.authToken !== 'undefined')) {
                                             localStorage.setItem('email', request.email);
+                                            sessionStorage.setItem('email', responseOriginalApi.webUser.email);
                                             sessionStorage.setItem('authToken', responseOriginalApi.authToken);
                                             sessionStorage.setItem('fullname', responseOriginalApi.webUser.fullname);
                                             sessionStorage.setItem('name', responseOriginalApi.webUser.name);
@@ -134,6 +135,7 @@ class Base {
                                                 sessionStorage.setItem('customFieldsBrowse', JSON.stringify(customFieldsBrowse));
                                                 program.navigate('home');
                                             }, function onError(response) {
+                                                FwFunc.showError(response);
                                                 program.navigate('home');
                                             }, null);
                                         }

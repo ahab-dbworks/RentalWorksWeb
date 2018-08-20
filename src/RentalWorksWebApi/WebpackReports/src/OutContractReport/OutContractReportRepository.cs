@@ -191,7 +191,7 @@ namespace WebApi.Modules.Reports.ContractReport
             }
             for (int i = 0; i < salesItems.Count; i++)
             {
-                OutContractItem item = rentalItems[i];
+                OutContractItem item = salesItems[i];
                 StringBuilder sbBarcodes = new StringBuilder();
                 decimal qtyOut = 0;
                 for (int j = 0; j < groupSalesContractItemByMasterItemId[item.MasterItemId].Count; j++)

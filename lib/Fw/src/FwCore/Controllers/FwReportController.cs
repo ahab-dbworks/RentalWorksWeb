@@ -1,35 +1,92 @@
 ﻿using FwStandard.Models;
+using FwStandard.Reporting;
+using FwStandard.SqlServer;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Threading.Tasks;
 
 namespace FwCore.Controllers
 {
     public abstract class FwReportController : FwController
     {
+        public abstract string GetReportFileName();
+        public abstract string GetReportFriendlyName();
         public FwReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
         //---------------------------------------------------------------------------------------------
-        protected virtual string GetStyleSheet()
+        public async Task<FwReportRenderResponse> DoRender(FwReportRenderRequest request)
         {
-            return string.Empty;
-        }
-        //---------------------------------------------------------------------------------------------
-        protected virtual string GetBodyTemplate()
-        {
-            return string.Empty;
-        }
-        //---------------------------------------------------------------------------------------------
-        protected virtual string GetFooterTemplate()
-        {
-            return string.Empty;
-        }
-        //---------------------------------------------------------------------------------------------
-        public class PreviewRequest
-        {
+            FwReportRenderResponse response = new FwReportRenderResponse();
+            string baseUrl = this.GetFullyQualifiedBaseUrl();
+            string guid = Guid.NewGuid().ToString().Replace("-", string.Empty);
+            string baseFileName = $"{this.GetReportFileName()}{this.UserSession.WebUsersId}_{guid}";
+            string htmlFileName = $"{baseFileName}.html";
+            //string pathHtmlReport = Path.Combine(FwDownloadController.GetDownloadsDirectory(), htmlFileName);
+            string urlHtmlReport = $"{baseUrl}/Reports/{this.GetReportFileName()}/index.html";
+            //string urlHtmlReport = $"{baseUrl}/temp/downloads/{htmlFileName}";
+            string authorizationHeader = HttpContext.Request.Headers["Authorization"];
+            response.renderMode = request.renderMode;
+            if (request.renderMode == FwReportRenderModes.Html)
+            {
+                response.htmlReportUrl = urlHtmlReport;
+            }
+            else if (request.renderMode == FwReportRenderModes.Pdf || request.renderMode == FwReportRenderModes.Email)
+            {
+                string pdfFileName = $"{baseFileName}.pdf";
+                string pathPdfReport = Path.Combine(FwDownloadController.GetDownloadsDirectory(), pdfFileName);
+                response.pdfReportUrl = $"{baseUrl}/temp/downloads/{pdfFileName}";
+                response.consoleOutput = await FwReport.GeneratePdfFromUrlAsync(baseUrl, urlHtmlReport, pathPdfReport, authorizationHeader, request.parameters, GetPdfOptions());
 
+                if (request.renderMode == FwReportRenderModes.Email)
+                {
+                    if (System.IO.File.Exists(pathPdfReport))
+                    {
+                        if (request.email.from == "[me]")
+                        {
+                            using (FwSqlConnection conn = new FwSqlConnection(this.AppConfig.DatabaseSettings.ConnectionString))
+                            {
+                                request.email.from = await FwSqlCommand.GetStringDataAsync(conn, this.AppConfig.DatabaseSettings.QueryTimeout, "webusersview", "websusersid", this.UserSession.WebUsersId, "email");
+                            }
+                        }
+                        if (request.email.to == "[me]")
+                        {
+                            using (FwSqlConnection conn = new FwSqlConnection(this.AppConfig.DatabaseSettings.ConnectionString))
+                            {
+                                request.email.to = await FwSqlCommand.GetStringDataAsync(conn, this.AppConfig.DatabaseSettings.QueryTimeout, "webusersview", "websusersid", this.UserSession.WebUsersId, "email");
+                            }
+                        }
+                        if (request.email.subject == "[reportname]")
+                        {
+                            request.email.subject = GetReportFriendlyName();
+                        }
+                        string uniqueid = this.GetUniqueId(request);
+                        await FwReport.EmailPdfAsync(
+                            fromusersid: this.UserSession.UsersId,
+                            uniqueid: uniqueid,
+                            title: GetReportFriendlyName(), 
+                            from: request.email.from, 
+                            to: request.email.to, 
+                            cc: request.email.cc,
+                            subject: request.email.subject,
+                            body: request.email.body, 
+                            pdfPath: pathPdfReport, 
+                            appConfig: this.AppConfig);
+                    }
+                }
+            }
+            return response;
         }
-        public class PreviewResponse
-        {
 
-        }
+        /// <summary>
+        /// When a PDF is emailed, it's logged in a table an accesible by the uniqueid
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        protected abstract string GetUniqueId(FwReportRenderRequest request);
+
+        public abstract PuppeteerSharp.PdfOptions GetPdfOptions();
 
         //[HttpPost("preview")]
         //public virtual void Preview([FromBody]PreviewRequest request)
@@ -88,7 +145,7 @@ namespace FwCore.Controllers
         ////    RenderPdfResult renderPdfResult;
         ////    string from, to, cc, subject, body;
         ////    FwSqlData.GetEmailReportControlResponse emailreportcontrol;
-            
+
         ////    emailreportcontrol = FwSqlData.GetEmailReportControl(GetApplicationSqlConnection());
         ////    from    = "";
         ////    to      = request.email.to;
@@ -105,7 +162,7 @@ namespace FwCore.Controllers
         //    string from, to, cc, subject, body;
         //    FwSqlData.GetEmailReportControlResponse emailreportcontrol;
         //    dynamic webuser;
-            
+
         //    emailreportcontrol = FwSqlData.GetEmailReportControl(GetApplicationSqlConnection());
         //    webuser = FwSqlData.GetWebUsersView(GetApplicationSqlConnection(), session.security.webUser.webusersid);
         //    from = webuser.email;
@@ -134,7 +191,7 @@ namespace FwCore.Controllers
         //    FwSqlConnection conn;
         //    string emailto;
 
-            
+
         //    FwValidate.TestPropertyDefined(METHOD_NAME, request, "webusersids");
         //    FwValidate.TestPropertyDefined(METHOD_NAME, request, "to");
         //    conn = GetApplicationSqlConnection();
@@ -174,7 +231,7 @@ namespace FwCore.Controllers
         ////---------------------------------------------------------------------------------------------
         //public virtual void GetData()
         //{
-            
+
         //}
         ////---------------------------------------------------------------------------------------------
         //public void GetDefaultPrintOptions()
@@ -226,7 +283,7 @@ namespace FwCore.Controllers
         //    StringBuilder sb;
         //    string result, dataUrl;
         //    FwControl control;
-            
+
         //    control = FwSqlData.GetControl(GetApplicationSqlConnection());
         //    sb = new StringBuilder(template);
         //    sb.Replace("[report]", getReportName());
@@ -269,7 +326,7 @@ namespace FwCore.Controllers
         //{
         //    StringBuilder sb;
         //    string result;
-            
+
         //    sb = new StringBuilder(template);
         //    sb.Replace("[applicationlandscapeheader]", File.ReadAllText(HttpContext.Current.Server.MapPath("~/source/Reports/Application/LandscapeHeader.htm")));
         //    sb.Replace("[applicationportraitheader]",  File.ReadAllText(HttpContext.Current.Server.MapPath("~/source/Reports/Application/PortraitHeader.htm")));
@@ -282,7 +339,7 @@ namespace FwCore.Controllers
         //{
         //    StringBuilder sb;
         //    string result;
-            
+
         //    sb = new StringBuilder(template);
         //    sb.Replace("[applicationlandscapefooter]", File.ReadAllText(HttpContext.Current.Server.MapPath("~/source/Reports/Application/LandscapeFooter.htm")));
         //    sb.Replace("[applicationportraitfooter]",  File.ReadAllText(HttpContext.Current.Server.MapPath("~/source/Reports/Application/PortraitFooter.htm")));
@@ -295,7 +352,7 @@ namespace FwCore.Controllers
         //{
         //    StringBuilder sb;
         //    string html, bodywidth, filename, path, downloadurl;
-            
+
         //    bodywidth      = (printOptions.BodyWidth * 96).ToString();
         //    styletemplate  = renderStyleSheetFields(styletemplate, printOptions);
         //    headertemplate = renderHeaderFields(headertemplate, printOptions);
@@ -509,7 +566,7 @@ namespace FwCore.Controllers
         //        }
         //        table.Add(row);
         //    }
-            
+
         //    result = Mustache.Render.StringToString(template, objs);
 
         //    return result;
@@ -551,7 +608,7 @@ namespace FwCore.Controllers
         ////{
         ////    StringBuilder sb;
         ////    string html;
-            
+
         ////    sb = new StringBuilder();
         ////    sb.AppendLine("<div id=\"body\">");
         ////    sb.AppendLine("  <table>");
@@ -594,10 +651,10 @@ namespace FwCore.Controllers
         //    doc = new XmlDocument();
         //    doc.LoadXml("<div>" + xml + "</div>");
         //    templates = new Dictionary<string, string>();
-            
+
         //    node = doc.SelectSingleNode("//style[@id='stylesheet']");
         //    templates["stylesheet"] = node.OuterXml;
-            
+
         //    node = doc.SelectSingleNode("//div[@id='header']");
         //    templates["header"] = node.OuterXml;
 
@@ -652,7 +709,7 @@ namespace FwCore.Controllers
         //                this.FooterHeight = 0.25f;
         //                break;
         //        }
-                
+
         //    }
         //    //---------------------------------------------------------------------------------------------
         //    public SizeF GetPageSize()
@@ -674,7 +731,7 @@ namespace FwCore.Controllers
         //        width  = PageWidth - MarginLeft - MarginRight;
         //        height = PageHeight - MarginTop - HeaderHeight - FooterHeight - MarginBottom;
         //        result = new RectangleF(x, y, width, height);
-                
+
         //        return result;
         //    }
         //    //---------------------------------------------------------------------------------------------

@@ -1,6 +1,7 @@
 ﻿export class Ajax {
     static logError(message: any, err: any) {
-        console.log(message, err.message);
+        //console.log(message, err.message);
+        document.write(err);
     }
 
     static get<T>(url: string, authorizationHeader: string): Promise<T> {
@@ -14,7 +15,8 @@
                 }
                 else {
                     reject(Error(req.statusText));
-                    console.log(req.responseText);
+                    //console.log(req.responseText);
+                    Ajax.logError(`An error occured while loading: ${url}`, req.responseText);
                 }
             };
             req.onerror = function () {

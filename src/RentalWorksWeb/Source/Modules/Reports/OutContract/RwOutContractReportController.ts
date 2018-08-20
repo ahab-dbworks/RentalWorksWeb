@@ -1,0 +1,93 @@
+﻿routes.push({
+    pattern: /^reports\/outcontractreport/, action: function (match: RegExpExecArray) {
+        return RwOutContractReportController.getModuleScreen();
+    }
+});
+
+let templateOutContractReportFrontEnd = `
+    <div class="fwcontrol fwcontainer fwform fwreport outcontractreport" data-control="FwContainer" data-type="form" data-version="1" data-caption="Charge Processing" data-rendermode="template" data-mode="" data-hasaudit="false" data-controller="RwChargeProcessingController">
+        <div class="fwcontrol fwtabs" data-control="FwTabs" data-type="">
+            <div class="tabs">
+                <div id="generaltab" class="tab" data-tabpageid="generaltabpage" data-caption="General"></div>
+            </div>
+            <div class="tabpages">
+                <div id="generaltabpage" class="tabpage" data-tabid="generaltab">
+                    <div class="formpage">
+                        <div class="formcolumn">
+                            <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Contract">
+                                <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                                    <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield contractid" data-caption="Contract" data-datafield="contractid" data-validationname="ContractValidation"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+`;
+
+class RwOutContractReportClass extends FwWebApiReport {
+    //----------------------------------------------------------------------------------------------
+    constructor() {
+        super('OutContractReport', 'api/v1/outcontractreport', templateOutContractReportFrontEnd);
+        //this.reportOptions.HasDownloadExcel = true;
+    }
+    //----------------------------------------------------------------------------------------------
+    getModuleScreen() {
+        let screen: any = {};
+        screen.$view = FwModule.getModuleControl('Rw' + this.Module + 'Controller');
+        screen.viewModel = {};
+        screen.properties = {};
+
+        let $form = this.openForm();
+
+        screen.load = function () {
+            FwModule.openModuleTab($form, $form.attr('data-caption'), false, 'REPORT', true);
+            $form.find('.contractid').data('calldatabind', function (request, callback: (response: any) => {}) {
+                //request.
+                
+            });
+        };
+        screen.unload = function () {
+        };
+        return screen;
+    }
+    //----------------------------------------------------------------------------------------------
+    openForm() {
+        let $form = this.getFrontEnd();
+        //$form.data('getexportrequest', (request) => {
+        //    request.parameters = this.getParameters($form);
+        //    return request;
+        //});
+
+        return $form;
+    }
+    //----------------------------------------------------------------------------------------------
+    onLoadForm($form) {
+        this.load($form, this.reportOptions);
+        var appOptions: any = program.getApplicationOptions();
+        var request: any = { method: "LoadForm" };
+        this.loadLists($form);
+
+        //const department = JSON.parse(sessionStorage.getItem('department'));
+        //const location = JSON.parse(sessionStorage.getItem('location'));
+
+        //FwFormField.setValue($form, 'div[data-datafield="DepartmentId"]', department.departmentid,  department.department);
+        //FwFormField.setValue($form, 'div[data-datafield="OfficeLocationId"]', location.locationid, location.location);
+    }
+    //----------------------------------------------------------------------------------------------
+    loadLists($form) {
+        //FwFormField.loadItems($form.find('div[data-datafield="statuslist"]'), [
+        //    { value: "NEW", text: "New", selected: "T" },
+        //    { value: "RETURNED", text: "Returned" },
+        //    { value: "REVISED", text: "Revised" },
+        //    { value: "APPROVED", text: "Approved" },
+        //    { value: "PROCESSED", text: "Processed" },
+        //    { value: "CLOSED", text: "Closed" },
+        //    { value: "VOID", text: "Void" }
+        //]);
+    }
+    //----------------------------------------------------------------------------------------------
+}
+var RwOutContractReportController: any = new RwOutContractReportClass();

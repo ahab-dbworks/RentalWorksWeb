@@ -427,6 +427,7 @@
     <TypeScriptCompile Include="Source\Modules\Home\PurchaseOrder\PurchaseOrder.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\Project\Project.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\StagingCheckout\StagingCheckout.ts" />
+    <TypeScriptCompile Include="Source\Modules\Reports\OutContract\RwOutContractReportController.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\Sound\Sound.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\WorkWeek\WorkWeek.ts" />
     <TypeScriptCompile Include="Source\Modules\-BaseModules\OrderBase\OrderBase.ts" />
@@ -859,7 +860,6 @@
     <Content Include="Source\Reports\PickListReport\Footer.htm" />
     <Content Include="Source\Reports\PickListReport\FrontEnd.htm" />
     <Content Include="Source\Reports\PickListReport\Header.htm" />
-    <TypeScriptCompile Include="Source\Reports\CreditsOnAccount\RwCreditsOnAccountReportController.ts" />
     <TypeScriptCompile Include="Source\Reports\PickListReport\RwPickListReportController.ts" />
     <Content Include="Source\Reports\PickListReport\StyleSheet.css" />
     <Content Include="Source\Reports\DealOutstanding\Body.htm" />
@@ -1302,7 +1302,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\Temp\Downloads\" />
-    <Folder Include="Libraries\Fw\theme\" />
+    <Folder Include="Libraries\" />
     <Folder Include="Source\Controls\" />
   </ItemGroup>
   <ItemGroup>
