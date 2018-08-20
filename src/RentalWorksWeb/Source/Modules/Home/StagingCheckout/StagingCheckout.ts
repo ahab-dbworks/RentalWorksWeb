@@ -187,6 +187,9 @@ class StagingCheckout {
             FwFormField.disable($form.find('div[data-datafield="OrderId"]'));
             $form.find('.orderstatus').show();
             $form.find('.createcontract').show();
+            $form.find('.original-buttons').show();
+            $form.find('[data-datafield="Code"] input').focus();
+
         });
     };
     //----------------------------------------------------------------------------------------------
@@ -217,7 +220,7 @@ class StagingCheckout {
 
         $form.find('.orderstatus').hide();
         $form.find('.createcontract').hide();
-        $form.find('.partial-contract-hide').hide();
+        $form.find('.original-buttons').hide();
         $form.find('[data-caption="Items"]').hide();
         $form.find('.partial-contract').show();
         $form.find('.flexrow').css('max-width', '2200px');
@@ -290,6 +293,7 @@ class StagingCheckout {
                             FwBrowse.search($checkedOutItemGrid);
                             FwBrowse.search($stagedItemGrid);
                         }, 500);
+                        $form.find('.partial-contract-barcode input').focus();
                     }, null, null);
                 }
             } else {
@@ -349,6 +353,7 @@ console.log('request: ', request);
                             FwBrowse.search($stagedItemGrid);
                         }, 500);
                     }, null, null);
+                    $form.find('.partial-contract-barcode input').focus();
                 }
             } else {
                 FwNotification.renderNotification('WARNING', 'Please select one or more rows in Contract Items or use Bar Code input in order to perform this function.');
@@ -372,11 +377,17 @@ console.log('request: ', request);
                     FwModule.openSubModuleTab($form, $contractForm);
                     $form.find('.fwformfield').find('input').val('');
                     FwFormField.setValue($form, 'div[data-datafield="WarehouseId"]', warehouse.warehouseid, warehouse.warehouse);
+                    $form.find('.flexrow').css('max-width', '1400px');
                     $form.find('.orderstatus').hide();
                     $form.find('.createcontract').hide();
+                    $form.find('.partial-contract').hide();
+                    $form.find('.complete-checkout-contract').hide();
+                    $form.find('[data-caption="Items"]').show();
                     FwFormField.enable($form.find('div[data-datafield="OrderId"]'));
-                    $form.find('[data-datafield="Code"] input').select();
                     $form.find('div[data-name="StagedItemGrid"] tr.viewmode').empty();
+                    $form.find('div[data-name="CheckedOutItemGrid"] tr.viewmode').empty();
+                    $form.find('div[data-datafield="OrderId"]').focus();
+
                 }
                 catch (ex) {
                     FwFunc.showError(ex);
