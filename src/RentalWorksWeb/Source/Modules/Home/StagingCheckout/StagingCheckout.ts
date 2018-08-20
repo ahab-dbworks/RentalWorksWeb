@@ -218,6 +218,7 @@ class StagingCheckout {
         $form.find('.orderstatus').hide();
         $form.find('.createcontract').hide();
         $form.find('.partial-contract-hide').hide();
+        $form.find('[data-caption="Items"]').hide();
         $form.find('.partial-contract').show();
         $form.find('.flexrow').css('max-width', '2200px');
 
