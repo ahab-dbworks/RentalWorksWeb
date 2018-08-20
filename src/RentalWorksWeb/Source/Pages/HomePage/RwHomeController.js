@@ -175,7 +175,7 @@ class RwHome {
             dataPointCount = dataPoints;
         }
         jQuery($control).on('click', '#' + apiname + 'refresh', function () {
-            FwAppData.apiMethod(true, 'GET', `api/v1/widget/loadbyname/${apiname}?dataPoints=${dataPointCount}&locationId=${JSON.parse(sessionStorage.location).locationid}&warehouseId=${JSON.parse(sessionStorage.warehouse).warehouseid}&departmentId=${JSON.parse(sessionStorage.department).departmentid}`, {}, FwServices.defaultTimeout, function onSuccess(response) {
+            FwAppData.apiMethod(true, 'GET', `api/v1/widget/loadbyname/${apiname}?dataPoints=${dataPointCount}&locationId=${JSON.parse(sessionStorage.getItem('location')).locationid}&warehouseId=${JSON.parse(sessionStorage.getItem('warehouse')).warehouseid}&departmentId=${JSON.parse(sessionStorage.getItem('department')).departmentid}`, {}, FwServices.defaultTimeout, function onSuccess(response) {
                 try {
                     if (axisFormat === 'TWODGDEC') {
                         response.options.scales.yAxes[0].ticks.userCallback = self.commaTwoDecimal;
@@ -236,7 +236,7 @@ class RwHome {
                 FwConfirmation.addControls($confirmation, html.join(''));
                 $confirmation.find('.fwconfirmationbox').css('width', '80%');
                 var widgetfullscreen = $confirmation.find('#' + apiname + 'fullscreen');
-                FwAppData.apiMethod(true, 'GET', `api/v1/widget/loadbyname/${apiname}?dataPoints=${dataPointCount}&locationId=${JSON.parse(sessionStorage.location).locationid}&warehouseId=${JSON.parse(sessionStorage.warehouse).warehouseid}&departmentId=${JSON.parse(sessionStorage.department).departmentid}`, {}, FwServices.defaultTimeout, function onSuccess(response) {
+                FwAppData.apiMethod(true, 'GET', `api/v1/widget/loadbyname/${apiname}?dataPoints=${dataPointCount}&locationId=${JSON.parse(sessionStorage.getItem('location')).locationid}&warehouseId=${JSON.parse(sessionStorage.getItem('warehouse')).warehouseid}&departmentId=${JSON.parse(sessionStorage.getItem('department')).departmentid}`, {}, FwServices.defaultTimeout, function onSuccess(response) {
                     try {
                         if (axisFormat === 'TWODGDEC') {
                             response.options.scales.yAxes[0].ticks.userCallback = self.commaTwoDecimal;
@@ -289,7 +289,7 @@ class RwHome {
                 FwFunc.showError(ex);
             }
         });
-        FwAppData.apiMethod(true, 'GET', `api/v1/widget/loadbyname/${apiname}?dataPoints=${dataPointCount}&locationId=${JSON.parse(sessionStorage.location).locationid}&warehouseId=${JSON.parse(sessionStorage.warehouse).warehouseid}&departmentId=${JSON.parse(sessionStorage.department).departmentid}`, {}, FwServices.defaultTimeout, function onSuccess(response) {
+        FwAppData.apiMethod(true, 'GET', `api/v1/widget/loadbyname/${apiname}?dataPoints=${dataPointCount}&locationId=${JSON.parse(sessionStorage.getItem('location')).locationid}&warehouseId=${JSON.parse(sessionStorage.getItem('warehouse')).warehouseid}&departmentId=${JSON.parse(sessionStorage.getItem('department')).departmentid}`, {}, FwServices.defaultTimeout, function onSuccess(response) {
             try {
                 if (axisFormat === 'TWODGDEC') {
                     response.options.scales.yAxes[0].ticks.userCallback = self.commaTwoDecimal;

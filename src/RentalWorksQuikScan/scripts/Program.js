@@ -1,7 +1,10 @@
 var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    }
     return function (d, b) {
         extendStatics(d, b);
         function __() { this.constructor = d; }
@@ -87,10 +90,10 @@ var Program = (function (_super) {
                     DTDevices.registerListener('barcodeData', 'barcodeData_applicationjs', function (barcode, barcodeType) {
                         me.onBarcodeData(barcode);
                     });
-                    if (typeof localStorage.barcodeScanMode === 'undefined') {
-                        localStorage.barcodeScanMode = 'MODE_SINGLE_SCAN';
+                    if (typeof localStorage.getItem('barcodeScanMode') === 'undefined') {
+                        localStorage.setItem('barcodeScanMode', 'MODE_SINGLE_SCAN');
                     }
-                    DTDevices.barcodeSetScanMode(localStorage.barcodeScanMode);
+                    DTDevices.barcodeSetScanMode(localStorage.getItem('barcodeScanMode'));
                     DTDevices.registerListener('connectionState', 'connectionState_applicationjs', function (connectionState) {
                         me.setDeviceConnectionState(connectionState);
                     });

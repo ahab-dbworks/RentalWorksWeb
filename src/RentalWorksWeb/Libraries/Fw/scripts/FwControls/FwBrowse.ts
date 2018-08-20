@@ -2488,7 +2488,7 @@
                         $control.find('thead .tdselectrow .divselectrow').hide();
                         jQuery(window)
                             .off('click.FwBrowse')
-                            .on('click.FwBrowse', function (e) {
+                            .on('click.FwBrowse', function (e: JQuery.Event) {
                                 try {
                                     let triggerAutoSave = true;
                                     let clockPicker = jQuery(document.body).find('.clockpicker-popover');
@@ -2499,14 +2499,14 @@
                                         triggerAutoSave = true;
                                     }
 
-                                    if ($control.find('.tablewrapper tbody').get(0).contains(e.target)) {
+                                    if ($control.find('.tablewrapper tbody').get(0).contains(<Node>e.target)) {
                                         triggerAutoSave = false;
                                     }
                                     if (clockPicker.length > 0) {
                                         for (var i = 0; i < clockPicker.length; i++) {
-                                            if (clockPicker.css('display') === 'none' && !clockPicker.get(i).contains(e.target)) {
+                                            if (clockPicker.css('display') === 'none' && !clockPicker.get(i).contains(<Node>e.target)) {
                                                 triggerAutoSave = true;
-                                            } else if (clockPicker.get(i).contains(e.target)) {
+                                            } else if (clockPicker.get(i).contains(<Node>e.target)) {
                                                 triggerAutoSave = false;
                                             }
                                         }
@@ -2625,13 +2625,13 @@
             reader.onloadend = function () {
                 $field.data('filedataurl', reader.result);
                 $field.attr('data-filepath', file.name);
-                if (reader.result.indexOf('data:application/pdf;') == 0) {
+                if ((<string>reader.result).indexOf('data:application/pdf;') == 0) {
                     $field.find('.previewicon').attr('src', 'theme/fwimages/icons/16/fileextension-pdf.png');
-                } else if (reader.result.indexOf('data:image/') == 0) {
+                } else if ((<string>reader.result).indexOf('data:image/') == 0) {
                     $field.find('.previewicon').attr('src', 'theme/fwimages/icons/16/fileextension-image.png');
-                } else if ((reader.result.indexOf('data:application/vnd.ms-excel;') == 0) || (reader.result.indexOf('data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;') == 0)) {
+                } else if (((<string>reader.result).indexOf('data:application/vnd.ms-excel;') == 0) || ((<string>reader.result).indexOf('data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;') == 0)) {
                     $field.find('.previewicon').attr('src', 'theme/fwimages/icons/16/fileextension-spreadsheet.png');
-                } else if (((reader.result.indexOf('data:application/msword;') == 0)) || (reader.result.indexOf('data:application/vnd.openxmlformats-officedocument.wordprocessingml.document;') == 0)) {
+                } else if ((((<string>reader.result).indexOf('data:application/msword;') == 0)) || ((<string>reader.result).indexOf('data:application/vnd.openxmlformats-officedocument.wordprocessingml.document;') == 0)) {
                     $field.find('.previewicon').attr('src', 'theme/fwimages/icons/16/fileextension-document.png');
                 } else {
                     $field.find('.previewicon').attr('src', 'theme/fwimages/icons/16/fileextension-generic.png');

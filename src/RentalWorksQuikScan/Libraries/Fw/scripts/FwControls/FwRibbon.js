@@ -1,7 +1,7 @@
-var FwRibbon = (function () {
-    function FwRibbon() {
+var FwRibbonClass = (function () {
+    function FwRibbonClass() {
     }
-    FwRibbon.upgrade = function ($control) {
+    FwRibbonClass.prototype.upgrade = function ($control) {
         var properties, i, data_type;
         data_type = $control.attr('data-type');
         properties = this.getDesignerProperties(data_type);
@@ -11,7 +11,8 @@ var FwRibbon = (function () {
             }
         }
     };
-    FwRibbon.init = function ($control) {
+    FwRibbonClass.prototype.init = function ($control) {
+        var me = this;
         this.upgrade($control);
         $control
             .off('click', '> .designer > .tabs > .new')
@@ -30,7 +31,7 @@ var FwRibbon = (function () {
                 $tabpage = jQuery("<div id=\"" + tabpageid + "\" class=\"tabpage\" data-tabid=\"" + tabid + "\" designer-dropcontainer=\"true\"></div>");
                 $control.children('.designer').children('.tabs').find('.new').before($tab);
                 $control.children('.designer').children('.tabpages').append($tabpage);
-                FwRibbon.setActiveTab($control, $tab);
+                me.setActiveTab($control, $tab);
             }
             catch (ex) {
                 FwFunc.showError(ex);
@@ -41,7 +42,7 @@ var FwRibbon = (function () {
             var $tab;
             try {
                 $tab = jQuery(this).closest('.tab');
-                FwRibbon.setActiveTab($control, $tab);
+                me.setActiveTab($control, $tab);
             }
             catch (ex) {
                 FwFunc.showError(ex);
@@ -128,7 +129,7 @@ var FwRibbon = (function () {
                     $tabpage.remove();
                     $newactivetab = $tabs.find('.tab').first();
                     if (isactivetab) {
-                        FwRibbon.setActiveTab($control, $newactivetab);
+                        me.setActiveTab($control, $newactivetab);
                     }
                 }
             }
@@ -138,7 +139,7 @@ var FwRibbon = (function () {
         });
     };
     ;
-    FwRibbon.setActiveTab = function ($control, $tab) {
+    FwRibbonClass.prototype.setActiveTab = function ($control, $tab) {
         var $tabpage, tabid, tabpageid;
         if ($tab.length > 0) {
             tabpageid = $tab.attr('data-tabpageid');
@@ -150,7 +151,7 @@ var FwRibbon = (function () {
         }
     };
     ;
-    FwRibbon.getHtmlTag = function (data_type) {
+    FwRibbonClass.prototype.getHtmlTag = function (data_type) {
         var html, properties, i;
         properties = this.getDesignerProperties(data_type);
         html = [];
@@ -166,7 +167,7 @@ var FwRibbon = (function () {
         return html;
     };
     ;
-    FwRibbon.getDesignerProperties = function (data_type) {
+    FwRibbonClass.prototype.getDesignerProperties = function (data_type) {
         var properties = [], propId, propClass, propDataControl, propDataType, propRenderMode, propDataVersion;
         propId = { caption: 'ID', datatype: 'string', attribute: 'id', defaultvalue: FwControl.generateControlId('tabs'), visible: true, enabled: true };
         propClass = { caption: 'CSS Class', datatype: 'string', attribute: 'class', defaultvalue: 'fwcontrol fwribbon', visible: false, enabled: false };
@@ -178,7 +179,7 @@ var FwRibbon = (function () {
         return properties;
     };
     ;
-    FwRibbon.renderDesignerHtml = function ($control) {
+    FwRibbonClass.prototype.renderDesignerHtml = function ($control) {
         var data_type, data_rendermode, html, $tabsChildren, $tabpagesChildren, $tabs, $newtab, $activetab;
         data_type = $control.attr('data-type');
         data_rendermode = $control.attr('data-rendermode');
@@ -227,7 +228,7 @@ var FwRibbon = (function () {
         this.setActiveTab($control, $activetab);
     };
     ;
-    FwRibbon.renderRuntimeHtml = function ($control) {
+    FwRibbonClass.prototype.renderRuntimeHtml = function ($control) {
         var data_type, data_rendermode, html, $dashboardChildren, $tabsChildren, $usercontrolChildren, $tabpagesChildren, $tabs, $newtab, $activetab;
         data_type = $control.attr('data-type');
         data_rendermode = $control.attr('data-rendermode');
@@ -277,7 +278,7 @@ var FwRibbon = (function () {
         this.setActiveTab($control, $activetab);
     };
     ;
-    FwRibbon.renderTemplateHtml = function ($control) {
+    FwRibbonClass.prototype.renderTemplateHtml = function ($control) {
         var data_type, data_rendermode, html, $tabsChildren, $tabpagesChildren;
         data_type = $control.attr('data-type');
         data_rendermode = $control.attr('data-rendermode');
@@ -323,7 +324,7 @@ var FwRibbon = (function () {
         }
     };
     ;
-    FwRibbon.addTab = function ($control, caption) {
+    FwRibbonClass.prototype.addTab = function ($control, caption) {
         var $newtab, $tab, $tabpage, tabHtml, tabid, tabpageid, idprefix;
         try {
             idprefix = caption.replace(/[^a-zA-Z0-9]+/g, '');
@@ -345,7 +346,7 @@ var FwRibbon = (function () {
         return $tabpage;
     };
     ;
-    FwRibbon.generateStandardModuleBtn = function (securityid, caption, modulenav, imgurl) {
+    FwRibbonClass.prototype.generateStandardModuleBtn = function (securityid, caption, modulenav, imgurl) {
         var $modulebtn, btnHtml, btnId;
         securityid = (typeof securityid === 'string') ? securityid : '';
         $modulebtn = jQuery();
@@ -383,7 +384,7 @@ var FwRibbon = (function () {
         return $modulebtn;
     };
     ;
-    FwRibbon.generateDropDownModuleBtn = function (securityid, caption, imgurl, subitems) {
+    FwRibbonClass.prototype.generateDropDownModuleBtn = function (securityid, caption, imgurl, subitems) {
         var $modulebtn, btnHtml, subitemHtml, $subitem;
         securityid = (typeof securityid === 'string') ? securityid : '';
         $modulebtn = jQuery();
@@ -458,7 +459,7 @@ var FwRibbon = (function () {
         return $modulebtn;
     };
     ;
-    FwRibbon.generateSplitDropDownModuleBtn = function (securityid, caption, modulenav, imgurl, subitems) {
+    FwRibbonClass.prototype.generateSplitDropDownModuleBtn = function (securityid, caption, modulenav, imgurl, subitems) {
         var $modulebtn, btnHtml, btnId;
         securityid = (typeof securityid === 'string') ? securityid : '';
         $modulebtn = jQuery();
@@ -555,6 +556,7 @@ var FwRibbon = (function () {
         return $modulebtn;
     };
     ;
-    return FwRibbon;
+    return FwRibbonClass;
 }());
+var FwRibbon = new FwRibbonClass();
 //# sourceMappingURL=FwRibbon.js.map

@@ -1,5 +1,5 @@
-class FwRibbon {
-    static upgrade($control) {
+class FwRibbonClass {
+    upgrade($control) {
         var properties, i, data_type;
         data_type = $control.attr('data-type');
         properties = this.getDesignerProperties(data_type);
@@ -9,7 +9,8 @@ class FwRibbon {
             }
         }
     }
-    static init($control) {
+    init($control) {
+        var me = this;
         this.upgrade($control);
         $control
             .off('click', '> .designer > .tabs > .new')
@@ -28,7 +29,7 @@ class FwRibbon {
                 $tabpage = jQuery(`<div id="${tabpageid}" class="tabpage" data-tabid="${tabid}" designer-dropcontainer="true"></div>`);
                 $control.children('.designer').children('.tabs').find('.new').before($tab);
                 $control.children('.designer').children('.tabpages').append($tabpage);
-                FwRibbon.setActiveTab($control, $tab);
+                me.setActiveTab($control, $tab);
             }
             catch (ex) {
                 FwFunc.showError(ex);
@@ -39,7 +40,7 @@ class FwRibbon {
             var $tab;
             try {
                 $tab = jQuery(this).closest('.tab');
-                FwRibbon.setActiveTab($control, $tab);
+                me.setActiveTab($control, $tab);
             }
             catch (ex) {
                 FwFunc.showError(ex);
@@ -126,7 +127,7 @@ class FwRibbon {
                     $tabpage.remove();
                     $newactivetab = $tabs.find('.tab').first();
                     if (isactivetab) {
-                        FwRibbon.setActiveTab($control, $newactivetab);
+                        me.setActiveTab($control, $newactivetab);
                     }
                 }
             }
@@ -136,7 +137,7 @@ class FwRibbon {
         });
     }
     ;
-    static setActiveTab($control, $tab) {
+    setActiveTab($control, $tab) {
         var $tabpage, tabid, tabpageid;
         if ($tab.length > 0) {
             tabpageid = $tab.attr('data-tabpageid');
@@ -148,7 +149,7 @@ class FwRibbon {
         }
     }
     ;
-    static getHtmlTag(data_type) {
+    getHtmlTag(data_type) {
         var html, properties, i;
         properties = this.getDesignerProperties(data_type);
         html = [];
@@ -164,7 +165,7 @@ class FwRibbon {
         return html;
     }
     ;
-    static getDesignerProperties(data_type) {
+    getDesignerProperties(data_type) {
         var properties = [], propId, propClass, propDataControl, propDataType, propRenderMode, propDataVersion;
         propId = { caption: 'ID', datatype: 'string', attribute: 'id', defaultvalue: FwControl.generateControlId('tabs'), visible: true, enabled: true };
         propClass = { caption: 'CSS Class', datatype: 'string', attribute: 'class', defaultvalue: 'fwcontrol fwribbon', visible: false, enabled: false };
@@ -176,7 +177,7 @@ class FwRibbon {
         return properties;
     }
     ;
-    static renderDesignerHtml($control) {
+    renderDesignerHtml($control) {
         var data_type, data_rendermode, html, $tabsChildren, $tabpagesChildren, $tabs, $newtab, $activetab;
         data_type = $control.attr('data-type');
         data_rendermode = $control.attr('data-rendermode');
@@ -225,7 +226,7 @@ class FwRibbon {
         this.setActiveTab($control, $activetab);
     }
     ;
-    static renderRuntimeHtml($control) {
+    renderRuntimeHtml($control) {
         var data_type, data_rendermode, html, $dashboardChildren, $tabsChildren, $usercontrolChildren, $tabpagesChildren, $tabs, $newtab, $activetab;
         data_type = $control.attr('data-type');
         data_rendermode = $control.attr('data-rendermode');
@@ -275,7 +276,7 @@ class FwRibbon {
         this.setActiveTab($control, $activetab);
     }
     ;
-    static renderTemplateHtml($control) {
+    renderTemplateHtml($control) {
         var data_type, data_rendermode, html, $tabsChildren, $tabpagesChildren;
         data_type = $control.attr('data-type');
         data_rendermode = $control.attr('data-rendermode');
@@ -321,7 +322,7 @@ class FwRibbon {
         }
     }
     ;
-    static addTab($control, caption) {
+    addTab($control, caption) {
         var $newtab, $tab, $tabpage, tabHtml, tabid, tabpageid, idprefix;
         try {
             idprefix = caption.replace(/[^a-zA-Z0-9]+/g, '');
@@ -343,7 +344,7 @@ class FwRibbon {
         return $tabpage;
     }
     ;
-    static generateStandardModuleBtn(securityid, caption, modulenav, imgurl) {
+    generateStandardModuleBtn(securityid, caption, modulenav, imgurl) {
         var $modulebtn, btnHtml, btnId;
         securityid = (typeof securityid === 'string') ? securityid : '';
         $modulebtn = jQuery();
@@ -381,7 +382,7 @@ class FwRibbon {
         return $modulebtn;
     }
     ;
-    static generateDropDownModuleBtn(securityid, caption, imgurl, subitems) {
+    generateDropDownModuleBtn(securityid, caption, imgurl, subitems) {
         var $modulebtn, btnHtml, subitemHtml, $subitem;
         securityid = (typeof securityid === 'string') ? securityid : '';
         $modulebtn = jQuery();
@@ -456,7 +457,7 @@ class FwRibbon {
         return $modulebtn;
     }
     ;
-    static generateSplitDropDownModuleBtn(securityid, caption, modulenav, imgurl, subitems) {
+    generateSplitDropDownModuleBtn(securityid, caption, modulenav, imgurl, subitems) {
         var $modulebtn, btnHtml, btnId;
         securityid = (typeof securityid === 'string') ? securityid : '';
         $modulebtn = jQuery();
@@ -554,4 +555,5 @@ class FwRibbon {
     }
     ;
 }
+var FwRibbon = new FwRibbonClass();
 //# sourceMappingURL=FwRibbon.js.map

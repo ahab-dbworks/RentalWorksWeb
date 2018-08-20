@@ -90,10 +90,10 @@ class Program extends FwApplication {
                     DTDevices.registerListener('barcodeData', 'barcodeData_applicationjs', function(barcode, barcodeType) {
                         me.onBarcodeData(barcode);
                     });
-                    if (typeof localStorage.barcodeScanMode === 'undefined') {
-                        localStorage.barcodeScanMode = 'MODE_SINGLE_SCAN';
+                    if (typeof localStorage.getItem('barcodeScanMode') === 'undefined') {
+                        localStorage.setItem('barcodeScanMode', 'MODE_SINGLE_SCAN');
                     }
-                    DTDevices.barcodeSetScanMode(localStorage.barcodeScanMode);
+                    DTDevices.barcodeSetScanMode(localStorage.getItem('barcodeScanMode'));
 
                     //set the connection state when it changes
                     DTDevices.registerListener('connectionState', 'connectionState_applicationjs', function(connectionState) {

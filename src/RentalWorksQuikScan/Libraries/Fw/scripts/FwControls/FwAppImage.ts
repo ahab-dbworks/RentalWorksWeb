@@ -544,7 +544,7 @@
         reader.onload = function (event) {
             var c;
             try {
-                dataUrl = event.target.result;
+                dataUrl = (<any>event.target).result;
                 file = dataUrl.toString().substring(dataUrl.indexOf(',') + 1, dataUrl.length);
                 filename = "attachment." + blob.type.substring(blob.type.indexOf('/') + 1, blob.type.length).replace('jpeg', 'jpg');
                 $image.find('.pasteimage').html('');

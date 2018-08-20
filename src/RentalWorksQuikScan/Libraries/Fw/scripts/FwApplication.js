@@ -113,7 +113,7 @@ var FwApplication = (function () {
         localStorage.setItem('media', media);
     };
     FwApplication.prototype.setScanMode = function (scanMode) {
-        localStorage.scanMode = scanMode;
+        localStorage.setItem('scanMode', scanMode);
         if (typeof window['LineaScanner'] !== 'undefined') {
             window['LineaScanner'].setScanMode(parseInt(scanMode));
         }

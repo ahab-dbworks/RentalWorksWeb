@@ -1,6 +1,6 @@
-﻿class FwRibbon {
+﻿class FwRibbonClass {
     //---------------------------------------------------------------------------------
-    static upgrade($control: JQuery) {
+    upgrade($control: JQuery) {
         var properties, i, data_type;
         //sync properties
         data_type = $control.attr('data-type');
@@ -12,7 +12,8 @@
         }
     }
     //---------------------------------------------------------------------------------
-    static init($control: JQuery) {
+    init($control: JQuery) {
+        var me = this;
         this.upgrade($control);
         $control
             .off('click', '> .designer > .tabs > .new')
@@ -31,7 +32,7 @@
                     $tabpage  = jQuery(`<div id="${tabpageid}" class="tabpage" data-tabid="${tabid}" designer-dropcontainer="true"></div>`);
                     $control.children('.designer').children('.tabs').find('.new').before($tab);
                     $control.children('.designer').children('.tabpages').append($tabpage);
-                    FwRibbon.setActiveTab($control, $tab);
+                    me.setActiveTab($control, $tab);
                 } catch (ex) {
                     FwFunc.showError(ex);
                 }
@@ -41,7 +42,7 @@
                 var $tab;
                 try {
                     $tab = jQuery(this).closest('.tab');
-                    FwRibbon.setActiveTab($control, $tab);
+                    me.setActiveTab($control, $tab);
                 } catch(ex) {
                     FwFunc.showError(ex);
                 }
@@ -121,7 +122,7 @@
                         $tabpage.remove();
                         $newactivetab = $tabs.find('.tab').first();
                         if (isactivetab) {
-                            FwRibbon.setActiveTab($control, $newactivetab);
+                            me.setActiveTab($control, $newactivetab);
                         }
                     }
                 } catch(ex) {
@@ -131,7 +132,7 @@
         ;
     };
     //---------------------------------------------------------------------------------
-    static setActiveTab($control: JQuery, $tab: JQuery) {
+    setActiveTab($control: JQuery, $tab: JQuery) {
         var $tabpage, tabid, tabpageid;
         if ($tab.length > 0) {
             tabpageid = $tab.attr('data-tabpageid');
@@ -143,7 +144,7 @@
         }
     };
     //---------------------------------------------------------------------------------
-    static getHtmlTag(data_type: string) {
+    getHtmlTag(data_type: string) {
         var html, properties, i;
         properties = this.getDesignerProperties(data_type);
         html = [];
@@ -159,7 +160,7 @@
         return html;
     };
     //---------------------------------------------------------------------------------
-    static getDesignerProperties(data_type: string) {
+    getDesignerProperties(data_type: string) {
         var properties = [], propId, propClass, propDataControl, propDataType, propRenderMode, propDataVersion;
         propId          = { caption: 'ID',          datatype: 'string', attribute: 'id',              defaultvalue: FwControl.generateControlId('tabs'), visible: true,  enabled: true };
         propClass       = { caption: 'CSS Class',   datatype: 'string', attribute: 'class',           defaultvalue: 'fwcontrol fwribbon',                visible: false, enabled: false };
@@ -173,7 +174,7 @@
         return properties;
     };
     //---------------------------------------------------------------------------------
-    static renderDesignerHtml($control: JQuery) {
+    renderDesignerHtml($control: JQuery) {
         var data_type, data_rendermode, html, $tabsChildren, $tabpagesChildren, $tabs, $newtab, $activetab;
         data_type = $control.attr('data-type');
         data_rendermode = $control.attr('data-rendermode');
@@ -224,7 +225,7 @@
         this.setActiveTab($control, $activetab);
     };
     //---------------------------------------------------------------------------------
-    static renderRuntimeHtml($control: JQuery) {
+    renderRuntimeHtml($control: JQuery) {
         var data_type, data_rendermode, html, $dashboardChildren, $tabsChildren, $usercontrolChildren, $tabpagesChildren, $tabs, $newtab, $activetab;
         data_type = $control.attr('data-type');
         data_rendermode = $control.attr('data-rendermode');
@@ -276,7 +277,7 @@
         this.setActiveTab($control, $activetab);
     };
     //---------------------------------------------------------------------------------
-    static renderTemplateHtml($control: JQuery) {
+    renderTemplateHtml($control: JQuery) {
         var data_type, data_rendermode, html, $tabsChildren, $tabpagesChildren;
         data_type = $control.attr('data-type');
         data_rendermode = $control.attr('data-rendermode');
@@ -326,7 +327,7 @@
         }
     };
     //---------------------------------------------------------------------------------
-    static addTab($control: JQuery, caption: string) {
+    addTab($control: JQuery, caption: string) {
         var $newtab, $tab, $tabpage, tabHtml, tabid, tabpageid, idprefix;
         try {
             idprefix = caption.replace(/[^a-zA-Z0-9]+/g, '');
@@ -348,7 +349,7 @@
         return $tabpage;
     };
     //---------------------------------------------------------------------------------
-    static generateStandardModuleBtn(securityid: string, caption: string, modulenav: string, imgurl: string) {
+    generateStandardModuleBtn(securityid: string, caption: string, modulenav: string, imgurl: string) {
         var $modulebtn, btnHtml, btnId;
         securityid = (typeof securityid === 'string') ? securityid : '';
         $modulebtn = jQuery();
@@ -385,7 +386,7 @@
         return $modulebtn;
     };
     //---------------------------------------------------------------------------------
-    static generateDropDownModuleBtn(securityid: string, caption: string, imgurl: string, subitems: any[]) {
+    generateDropDownModuleBtn(securityid: string, caption: string, imgurl: string, subitems: any[]) {
         var $modulebtn, btnHtml, subitemHtml, $subitem;
         
         securityid = (typeof securityid === 'string') ? securityid : '';
@@ -461,7 +462,7 @@
         return $modulebtn;
     };
     //---------------------------------------------------------------------------------
-    static generateSplitDropDownModuleBtn(securityid: string, caption: string, modulenav: string, imgurl: string, subitems: any[]) {
+    generateSplitDropDownModuleBtn(securityid: string, caption: string, modulenav: string, imgurl: string, subitems: any[]) {
         var $modulebtn, btnHtml, btnId;
         securityid = (typeof securityid === 'string') ? securityid : '';
         $modulebtn = jQuery();
@@ -564,3 +565,5 @@
     };
     //---------------------------------------------------------------------------------
 }
+
+var FwRibbon = new FwRibbonClass();
