@@ -118,6 +118,10 @@
                 if (quantity != 0) {
                     FwAppData.apiMethod(true, 'POST', "api/v1/purchaseorderreceiveitem/receiveitems", request, FwServices.defaultTimeout,
                         function onSuccess(response) {
+                            if (response.QuantityNeedBarCode > 0) {
+                                $form.find('.createcontract[data-type="button"]').hide();
+                                $form.find('.createcontract[data-type="btnmenu"]').show();
+                            }
                             let errormsg = $form.find('.errormsg');
                             errormsg.html('');
                             if (response.success) {

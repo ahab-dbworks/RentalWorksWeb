@@ -206,5 +206,40 @@ class ReceiveFromVendor {
         };
     };
     //----------------------------------------------------------------------------------------------
+    addButtonMenu($form) {
+        let $buttonmenu = $form.find('.createcontract[data-type="btnmenu"]');
+        let $createContract = FwMenu.generateButtonMenuOption('Create Contract')
+            , $createContractAndAssignBarCodes = FwMenu.generateButtonMenuOption('Create Contract and Assign Bar Codes');
+
+        $createContract.on('click', e => {
+            e.stopPropagation();
+            $form.find('.createcontract').click();
+        });
+
+        $createContractAndAssignBarCodes.on('click', e => {
+            e.stopPropagation();
+            let request: any = {};
+            const contractId = FwFormField.getValueByDataField($form, 'ContractId');
+            FwAppData.apiMethod(true, 'POST', `api/v1/purchaseorder/completereceivecontract/${contractId}`, request, FwServices.defaultTimeout, function onSuccess(response) {
+                let contractInfo: any = {}, $contractForm, $assignBarCodesForm;
+                contractInfo.ContractId = response[0].ContractId;
+                $contractForm = ContractController.loadForm(contractInfo);
+                FwModule.openSubModuleTab($form, $contractForm);
+
+                contractInfo.ContractNumber = response[0].ContractNumber;
+                contractInfo.PurchaseOrderNumber = response[0].PurchaseOrderNumber;
+                contractInfo.PurchaseOrderId = response[0].PurchaseOrderId;
+                $assignBarCodesForm = AssignBarCodesController.openForm('EDIT', contractInfo);
+                FwModule.openSubModuleTab($form, $assignBarCodesForm);
+                jQuery('.tab.submodule.active').find('.caption').html('Assign Bar Codes');
+            }, null, null);
+        });
+
+        let menuOptions = [];
+        menuOptions.push($createContract, $createContractAndAssignBarCodes);
+
+        FwMenu.addButtonMenuOptions($buttonmenu, menuOptions);
+    }
+        //----------------------------------------------------------------------------------------------
 }
 var ReceiveFromVendorController = new ReceiveFromVendor();

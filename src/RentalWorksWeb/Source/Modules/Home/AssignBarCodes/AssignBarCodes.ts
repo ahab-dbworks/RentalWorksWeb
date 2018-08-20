@@ -32,6 +32,15 @@ class AssignBarCodes {
 
         $form.off('change keyup', '.fwformfield[data-isuniqueid!="true"][data-enabled="true"][data-datafield!=""]');
 
+        if (typeof parentmoduleinfo !== 'undefined') {
+            $form.find('div[data-datafield="ContractId"] input.fwformfield-value').val(parentmoduleinfo.ContractId);
+            $form.find('div[data-datafield="ContractId"] input.fwformfield-text').val(parentmoduleinfo.ContractNumber);
+            $form.find('div[data-datafield="PurchaseOrderId"] input.fwformfield-text').val(parentmoduleinfo.PurchaseOrderNumber);
+            $form.find('div[data-datafield="PurchaseOrderId"] input.fwformfield-value').val(parentmoduleinfo.PurchaseOrderId);
+            jQuery($form.find('[data-datafield="ContractId"] input')).trigger('change');
+            jQuery($form.find('[data-datafield="PurchaseOrderId"] input')).trigger('change');
+        }
+
         this.events($form);
         return $form;
     };
