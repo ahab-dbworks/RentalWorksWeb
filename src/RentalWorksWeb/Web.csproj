@@ -179,6 +179,7 @@
     <Content Include="packages.config" />
     <TypeScriptCompile Include="scripts\RwMaster.ts" />
     <Content Include="Source\Grids\CheckedOutItemGrid\CheckedOutItemGridBrowse.htm" />
+    <Content Include="Source\Grids\POReceiveBarCodeGrid\POReceiveBarCodeGridBrowse.htm" />
     <Content Include="Source\Grids\CheckInSwapGrid\CheckInSwapGridBrowse.htm" />
     <Content Include="Source\Grids\CheckInOrderGrid\CheckInOrderGridBrowse.htm" />
     <Content Include="Source\Grids\CheckInExceptionGrid\CheckInExceptionGridBrowse.htm" />
@@ -292,6 +293,7 @@
     <Content Include="Source\Grids\RateLocationTaxGrid\RateLocationTaxGridBrowse.htm" />
     <Content Include="Source\Grids\SubCategoryGrid\SubCategoryGridBrowse.htm" />
     <TypeScriptCompile Include="Source\Grids\CheckedOutItemGrid\CheckedOutItemGridController.ts" />
+    <TypeScriptCompile Include="Source\Grids\POReceiveBarCodeGrid\POReceiveBarCodeGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\CheckInSwapGrid\CheckInSwapGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\CheckInOrderGrid\CheckInOrderGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\CheckInExceptionGrid\CheckInExceptionGridController.ts" />

@@ -347,6 +347,7 @@ namespace WebLibrary.Security
             AddGrid("Parts Inventory Substitute",             "{F9B0308B-EBFC-4B37-B812-27E16897B115}", lv1menuGrids.Id, "PartsInventorySubstituteGridController");
             AddGrid("Pick List Utility",                      "{0DAED562-2319-4569-AC4E-EF89198E54BC}", lv1menuGrids.Id, "PickListUtilityGridController");
             AddGrid("PO Approver",                            "{314CEEC5-6E42-4539-BD10-8F680A0F70F4}", lv1menuGrids.Id, "POApproverGridController");
+            AddGrid("PO Receive Bar Code",                    "{27703F1E-8F2A-44E3-93AF-F46BADC3D4B1}", lv1menuGrids.Id, "POReceiveBarCodeGridController");
             AddGrid("PO Receive Items",                       "{EF042B8D-23B8-4253-A6E8-11603E800629}", lv1menuGrids.Id, "POReceiveItemGridController");
             AddGrid("PO Return Items",                        "{10CF4A1A-3F85-4A8C-A4D7-ACEC1DB12CFC}", lv1menuGrids.Id, "POReturnItemGridController");
             AddGrid("Presentation Layer Activity",            "{AA12FF6E-DE89-4C9A-8DB6-E42542BB1689}", lv1menuGrids.Id, "PresentationLayerActivityGridController");
