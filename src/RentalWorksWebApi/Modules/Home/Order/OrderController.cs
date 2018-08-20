@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Http;
 using WebLibrary;
 using WebApi.Modules.Home.Quote;
 using WebApi.Logic;
+using System.ComponentModel.DataAnnotations;
 
 namespace WebApi.Modules.Home.Order
 {
@@ -29,7 +30,7 @@ namespace WebApi.Modules.Home.Order
         public bool? AdjustContractDates;
     }
 
-    public class CreatePoWorksheetSessionResponse: TSpStatusReponse
+    public class CreatePoWorksheetSessionResponse : TSpStatusReponse
     {
         public string SessionId;
     }
@@ -319,7 +320,43 @@ namespace WebApi.Modules.Home.Order
             }
             try
             {
-                CreatePoWorksheetSessionResponse response = await OrderFunc.StartPoWorksheetSession(AppConfig, UserSession, request);
+
+                CreatePoWorksheetSessionResponse response = new CreatePoWorksheetSessionResponse();
+                if (string.IsNullOrEmpty(request.OrderId))
+                {
+                    response.success = false;
+                    response.msg = "OrderId is required.";
+                }
+                else if (string.IsNullOrEmpty(request.VendorId))
+                {
+                    response.success = false;
+                    response.msg = "Vendor is required.";
+                }
+                else if (string.IsNullOrEmpty(request.RateType))
+                {
+                    response.success = false;
+                    response.msg = "RateType is required.";
+                }
+                else if (string.IsNullOrEmpty(request.BillingCycleId))
+                {
+                    response.success = false;
+                    response.msg = "Billing Cycle is required.";
+                }
+                else if (request.FromDate == null)
+                {
+                    response.success = false;
+                    response.msg = "From Date is required.";
+                }
+                else if (request.ToDate == null)
+                {
+                    response.success = false;
+                    response.msg = "To Date is required.";
+                }
+                else
+                {
+                    response = await OrderFunc.StartPoWorksheetSession(AppConfig, UserSession, request);
+                }
+
                 return new OkObjectResult(response);
             }
             catch (Exception ex)

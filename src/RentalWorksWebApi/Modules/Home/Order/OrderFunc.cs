@@ -3,6 +3,7 @@ using FwStandard.SqlServer;
 using System.Data;
 using System.Threading.Tasks;
 using WebApi.Modules.Home.OrderItem;
+using WebApi.Modules.Home.SubPurchaseOrderItem;
 
 namespace WebApi.Modules.Home.Order
 {
@@ -83,6 +84,37 @@ namespace WebApi.Modules.Home.Order
             return response;
         }
         //-------------------------------------------------------------------------------------------------------
+        private static async Task<SelectAllNonePoWorksheetItemResponse> SelectAllNonePoWorksheetItem(FwApplicationConfig appConfig, FwUserSession userSession, string sessionId, bool selectAll)
+        {
+            SelectAllNonePoWorksheetItemResponse response = new SelectAllNonePoWorksheetItemResponse();
+            using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
+            {
+                FwSqlCommand qry = new FwSqlCommand(conn, "selectallpoworksheetitems", appConfig.DatabaseSettings.QueryTimeout);
+                qry.AddParameter("@sessionid", SqlDbType.NVarChar, ParameterDirection.Input, sessionId);
+                //qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, userSession.UsersId);
+                qry.AddParameter("@selectallnone", SqlDbType.NVarChar, ParameterDirection.Input, (selectAll ? "A" : "N"));
+                qry.AddParameter("@status", SqlDbType.Int, ParameterDirection.Output);
+                qry.AddParameter("@msg", SqlDbType.NVarChar, ParameterDirection.Output);
+                await qry.ExecuteNonQueryAsync(true);
+                response.success = (qry.GetParameter("@status").ToInt32() == 0);
+                response.msg = qry.GetParameter("@msg").ToString();
+            }
+            return response;
+        }
+        //-------------------------------------------------------------------------------------------------------
+        public static async Task<SelectAllNonePoWorksheetItemResponse> SelectAllPoWorksheetItem(FwApplicationConfig appConfig, FwUserSession userSession, string sessionId)
+        {
+            return await SelectAllNonePoWorksheetItem(appConfig, userSession, sessionId, true);
+        }
+        //-------------------------------------------------------------------------------------------------------
+        public static async Task<SelectAllNonePoWorksheetItemResponse> SelectNonePoWorksheetItem(FwApplicationConfig appConfig, FwUserSession userSession, string sessionId)
+        {
+            return await SelectAllNonePoWorksheetItem(appConfig, userSession, sessionId, false);
+        }
+        //-------------------------------------------------------------------------------------------------------
+
+
+
         public static async Task<CompletePoWorksheetSessionResponse> CompletePoWorksheetSession(FwApplicationConfig appConfig, FwUserSession userSession, string sessionId)
         {
             CompletePoWorksheetSessionResponse response = new CompletePoWorksheetSessionResponse();

@@ -3,8 +3,27 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using WebApi.Controllers;
 using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
+using WebApi.Logic;
+using WebApi.Modules.Home.Order;
+using System;
+using Microsoft.AspNetCore.Http;
+
 namespace WebApi.Modules.Home.SubPurchaseOrderItem
 {
+
+
+    public class SelectAllNonePoWorksheetItemRequest
+    {
+        [Required]
+        public string SessionId { get; set; }
+    }
+
+
+    public class SelectAllNonePoWorksheetItemResponse : TSpStatusReponse
+    {
+    }
+
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "home-v1")]
     public class SubPurchaseOrderItemController : AppDataController
@@ -53,5 +72,51 @@ namespace WebApi.Modules.Home.SubPurchaseOrderItem
             return await DoDeleteAsync(id);
         }
         //------------------------------------------------------------------------------------ 
+        // POST api/v1/subpurchaseorderitem/selectall
+        [HttpPost("selectall")]
+        public async Task<IActionResult> SelectAll([FromBody] SelectAllNonePoWorksheetItemRequest request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                SelectAllNonePoWorksheetItemResponse response = await OrderFunc.SelectAllPoWorksheetItem(AppConfig, UserSession, request.SessionId);
+                return new OkObjectResult(response);
+            }
+            catch (Exception ex)
+            {
+                FwApiException jsonException = new FwApiException();
+                jsonException.StatusCode = StatusCodes.Status500InternalServerError;
+                jsonException.Message = ex.Message;
+                jsonException.StackTrace = ex.StackTrace;
+                return StatusCode(jsonException.StatusCode, jsonException);
+            }
+        }
+        //------------------------------------------------------------------------------------        
+        // POST api/v1/subpurchaseorderitem/selectnone
+        [HttpPost("selectnone")]
+        public async Task<IActionResult> SelectNone([FromBody] SelectAllNonePoWorksheetItemRequest request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                SelectAllNonePoWorksheetItemResponse response = await OrderFunc.SelectNonePoWorksheetItem(AppConfig, UserSession, request.SessionId);
+                return new OkObjectResult(response);
+            }
+            catch (Exception ex)
+            {
+                FwApiException jsonException = new FwApiException();
+                jsonException.StatusCode = StatusCodes.Status500InternalServerError;
+                jsonException.Message = ex.Message;
+                jsonException.StackTrace = ex.StackTrace;
+                return StatusCode(jsonException.StatusCode, jsonException);
+            }
+        }
+        //------------------------------------------------------------------------------------        
     }
 }

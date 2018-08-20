@@ -39613,7 +39613,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"ItemOrder\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": [],\n    \t\"uniqueids\": {\n    \t\t\"OrderId\": \"I00005U7\",\n    \t\t\"SessionId\": \"I000065Y\",\n    \t\t\"VendorId\": \"F00ILQO0\",\n    \t\t\"CurrencyId\": \"\",\n    \t\t\"RateType\": \"WEEKLY\",\n    \t\t\"TotalType\": \"W\",\n    \t\t\"RecType\": \"R\",\n    \t\t\"FromDate\": \"07/30/2018\",\n    \t\t\"ToDate\": \"07/30/2018\",\n    \t\t\"PurchaseOrderId\": \"I000061L\"\n    \t}\n}\n"
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"ItemOrder\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": [],\n    \t\"uniqueids\": {\n    \t\t\"SessionId\": \"I000065Y\"\n    \t}\n}\n"
 						},
 						"url": {
 							"raw": "http://localhost:57949/api/v1/subpurchaseorderitem/browse",
@@ -39730,6 +39730,76 @@
 								"api",
 								"v1",
 								"subpurchaseorderitem"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Sub Purchase Order Item: Select All",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t \"SessionId\":\"I00006N1\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/subpurchaseorderitem/selectall",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"subpurchaseorderitem",
+								"selectall"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Sub Purchase Order Item: Select None",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t \"SessionId\":\"I00006N1\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/subpurchaseorderitem/selectnone",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"subpurchaseorderitem",
+								"selectnone"
 							]
 						}
 					},

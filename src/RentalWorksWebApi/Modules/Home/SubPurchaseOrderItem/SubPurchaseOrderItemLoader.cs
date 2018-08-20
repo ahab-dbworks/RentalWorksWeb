@@ -5,10 +5,13 @@ using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
 using System.Collections.Generic;
 using System;
+using System.Reflection;
+using System.Data;
+using System.Threading.Tasks;
 
 namespace WebApi.Modules.Home.SubPurchaseOrderItem
 {
-    [FwSqlTable("dbo.subworksheetdata2(@orderid, @sessionid, @vendorid, @currencyid, @ratetype, @totaltype, @rectype, @fromdate, @todate, @poid)")]
+    [FwSqlTable("tmpsubpoworksheetsession")]
     public class SubPurchaseOrderItemLoader : AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------ 
@@ -216,81 +219,119 @@ namespace WebApi.Modules.Home.SubPurchaseOrderItem
         [FwSqlDataField(column: "currencyconvertedperiodextended", modeltype: FwDataTypes.Decimal)]
         public decimal? CurrencyConvertedPeriodExtended { get; set; }
         //------------------------------------------------------------------------------------ 
-        protected override void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequest request = null)
-        {
+        //protected override void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequest request = null)
+        //{
 
-            useWithNoLock = false;
-            string orderId = "";
-            string sessionId = "";
-            string vendorId = "";
-            string currencyId = "";
-            string rateType = "";
-            string totalType = "";
-            string recType = "";
-            string purchaseOrderId = "";
-            DateTime fromDate = DateTime.MinValue;
-            DateTime toDate = DateTime.MinValue;
+            //useWithNoLock = false;
+            //string orderId = "";
+            //string sessionId = "";
+            //string vendorId = "";
+            //string currencyId = "";
+            //string rateType = "";
+            //string totalType = "";
+            //string recType = "";
+            //string purchaseOrderId = "";
+            //DateTime fromDate = DateTime.MinValue;
+            //DateTime toDate = DateTime.MinValue;
 
-            if ((request != null) && (request.uniqueids != null))
+            //if ((request != null) && (request.uniqueids != null))
+            //{
+            //    IDictionary<string, object> uniqueIds = ((IDictionary<string, object>)request.uniqueids);
+            //    if (uniqueIds.ContainsKey("OrderId"))
+            //    {
+            //        orderId = uniqueIds["OrderId"].ToString();
+            //    }
+            //    if (uniqueIds.ContainsKey("SessionId"))
+            //    {
+            //        sessionId = uniqueIds["SessionId"].ToString();
+            //    }
+            //    if (uniqueIds.ContainsKey("VendorId"))
+            //    {
+            //        vendorId = uniqueIds["VendorId"].ToString();
+            //    }
+            //    if (uniqueIds.ContainsKey("CurrencyId"))
+            //    {
+            //        currencyId = uniqueIds["CurrencyId"].ToString();
+            //    }
+            //    if (uniqueIds.ContainsKey("RateType"))
+            //    {
+            //        rateType = uniqueIds["RateType"].ToString();
+            //    }
+            //    if (uniqueIds.ContainsKey("TotalType"))
+            //    {
+            //        totalType = uniqueIds["TotalType"].ToString();
+            //    }
+            //    if (uniqueIds.ContainsKey("RecType"))
+            //    {
+            //        recType = uniqueIds["RecType"].ToString();
+            //    }
+            //    if (uniqueIds.ContainsKey("FromDate"))
+            //    {
+            //        fromDate = FwConvert.ToDateTime(uniqueIds["FromDate"].ToString());
+            //    }
+            //    if (uniqueIds.ContainsKey("ToDate"))
+            //    {
+            //        toDate = FwConvert.ToDateTime(uniqueIds["ToDate"].ToString());
+            //    }
+            //    if (uniqueIds.ContainsKey("PurchaseOrderId"))
+            //    {
+            //        purchaseOrderId = uniqueIds["PurchaseOrderId"].ToString();
+            //    }
+            //}
+
+            //base.SetBaseSelectQuery(select, qry, customFields, request);
+            //select.Parse();
+
+            ////addFilterToSelect("RecType", "rectype", select, request);
+
+            //select.AddParameter("@orderid", orderId);
+            //select.AddParameter("@sessionid", sessionId);
+            //select.AddParameter("@vendorid", vendorId);
+            //select.AddParameter("@currencyid", currencyId);
+            //select.AddParameter("@ratetype", rateType);
+            //select.AddParameter("@totaltype", totalType);
+            //select.AddParameter("@rectype", recType);
+            //select.AddParameter("@fromdate", fromDate);
+            //select.AddParameter("@todate", toDate);
+            //select.AddParameter("@poid", purchaseOrderId);
+       // }
+        public override async Task<FwJsonDataTable> BrowseAsync(BrowseRequest request, FwCustomFields customFields = null)
+        { 
+
+            if (request != null)
             {
-                IDictionary<string, object> uniqueIds = ((IDictionary<string, object>)request.uniqueids);
-                if (uniqueIds.ContainsKey("OrderId"))
+                if (request.uniqueids != null)
                 {
-                    orderId = uniqueIds["OrderId"].ToString();
-                }
-                if (uniqueIds.ContainsKey("SessionId"))
-                {
-                    sessionId = uniqueIds["SessionId"].ToString();
-                }
-                if (uniqueIds.ContainsKey("VendorId"))
-                {
-                    vendorId = uniqueIds["VendorId"].ToString();
-                }
-                if (uniqueIds.ContainsKey("CurrencyId"))
-                {
-                    currencyId = uniqueIds["CurrencyId"].ToString();
-                }
-                if (uniqueIds.ContainsKey("RateType"))
-                {
-                    rateType = uniqueIds["RateType"].ToString();
-                }
-                if (uniqueIds.ContainsKey("TotalType"))
-                {
-                    totalType = uniqueIds["TotalType"].ToString();
-                }
-                if (uniqueIds.ContainsKey("RecType"))
-                {
-                    recType = uniqueIds["RecType"].ToString();
-                }
-                if (uniqueIds.ContainsKey("FromDate"))
-                {
-                    fromDate = FwConvert.ToDateTime(uniqueIds["FromDate"].ToString());
-                }
-                if (uniqueIds.ContainsKey("ToDate"))
-                {
-                    toDate = FwConvert.ToDateTime(uniqueIds["ToDate"].ToString());
-                }
-                if (uniqueIds.ContainsKey("PurchaseOrderId"))
-                {
-                    purchaseOrderId = uniqueIds["PurchaseOrderId"].ToString();
+                    IDictionary<string, object> uniqueIds = ((IDictionary<string, object>)request.uniqueids);
+                    if (uniqueIds.ContainsKey("SessionId"))
+                    {
+                        SessionId = uniqueIds["SessionId"].ToString();
+                    }
                 }
             }
 
-            base.SetBaseSelectQuery(select, qry, customFields, request);
-            select.Parse();
+            FwJsonDataTable dt = null;
 
-            //addFilterToSelect("RecType", "rectype", select, request);
+            using (FwSqlConnection conn = new FwSqlConnection(this.AppConfig.DatabaseSettings.ConnectionString))
+            {
+                using (FwSqlCommand qry = new FwSqlCommand(conn, "getpoworksheetitems", this.AppConfig.DatabaseSettings.QueryTimeout))
+                {
+                    qry.AddParameter("@sessionid", SqlDbType.NVarChar, ParameterDirection.Input, SessionId);
+                    PropertyInfo[] propertyInfos = typeof(SubPurchaseOrderItemLoader).GetProperties();
+                    foreach (PropertyInfo propertyInfo in propertyInfos)
+                    {
+                        FwSqlDataFieldAttribute sqlDataFieldAttribute = propertyInfo.GetCustomAttribute<FwSqlDataFieldAttribute>();
+                        if (sqlDataFieldAttribute != null)
+                        {
+                            qry.AddColumn(sqlDataFieldAttribute.ColumnName, propertyInfo.Name, sqlDataFieldAttribute.ModelType, sqlDataFieldAttribute.IsVisible, sqlDataFieldAttribute.IsPrimaryKey, false);
+                        }
+                    }
+                    dt = await qry.QueryToFwJsonTableAsync(false, 0);
+                }
+            }
+            return dt;
 
-            select.AddParameter("@orderid", orderId);
-            select.AddParameter("@sessionid", sessionId);
-            select.AddParameter("@vendorid", vendorId);
-            select.AddParameter("@currencyid", currencyId);
-            select.AddParameter("@ratetype", rateType);
-            select.AddParameter("@totaltype", totalType);
-            select.AddParameter("@rectype", recType);
-            select.AddParameter("@fromdate", fromDate);
-            select.AddParameter("@todate", toDate);
-            select.AddParameter("@poid", purchaseOrderId);
+
 
 
         }
