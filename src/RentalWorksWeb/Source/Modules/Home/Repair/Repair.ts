@@ -39,105 +39,102 @@ class Repair {
 
         return screen;
     };
+    //----------------------------------------------------------------------------------------------
+    openBrowse = () => {
+        let $browse: JQuery = FwBrowse.loadBrowseFromTemplate(this.Module);
+        $browse = FwModule.openBrowse($browse);
+        const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
 
+        this.ActiveView = `WarehouseId=${warehouse.warehouseid}`;
+
+        $browse.data('ondatabind', request => {
+            request.activeview = this.ActiveView;
+        });
+
+        FwAppData.apiMethod(true, 'GET', "api/v1/inventorystatus", null, FwServices.defaultTimeout, function onSuccess(response) {
+            const out = response.filter(item => {
+                return item.StatusType === 'OUT'
+            })
+            const intransit = response.filter(item => {
+                return item.StatusType === 'INTRANSIT'
+            })
+
+            FwBrowse.addLegend($browse, 'Foreign Currency', '#95FFCA');
+            FwBrowse.addLegend($browse, 'Priority', '#EA300F');
+            FwBrowse.addLegend($browse, 'Not Billed', '#0fb70c');
+            FwBrowse.addLegend($browse, 'Billable', '#0c6fcc');
+            FwBrowse.addLegend($browse, 'Outside', '#fffb38');
+            FwBrowse.addLegend($browse, 'Released', '#d6d319');
+            FwBrowse.addLegend($browse, 'Pending Repair', out[0].Color);
+            FwBrowse.addLegend($browse, 'Transferred', intransit[0].Color);
+        }, null, $browse);
+
+        return $browse;
+    };
   //----------------------------------------------------------------------------------------------
-  openBrowse = () => {
-      let $browse: JQuery = FwBrowse.loadBrowseFromTemplate(this.Module);
-      $browse = FwModule.openBrowse($browse);
-      const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
+    renderGrids = ($form: any) => {
+        let $repairCostGrid: any;
+        let $repairCostGridControl: any;
+        let $repairPartGrid: any;
+        let $repairPartGridControl: any;
+        let $repairReleaseGrid: any;
+        let $repairReleaseGridControl: any;
 
-      this.ActiveView = `WarehouseId=${warehouse.warehouseid}`;
+        //----------------------------------------------------------------------------------------------
+        $repairCostGrid = $form.find('div[data-grid="RepairCostGrid"]');
+        $repairCostGridControl = jQuery(jQuery('#tmpl-grids-RepairCostGridBrowse').html());
+        $repairCostGrid.empty().append($repairCostGridControl);
+        $repairCostGridControl.data('ondatabind', request => {
+            request.uniqueids = {
+                RepairId: $form.find('div.fwformfield[data-datafield="RepairId"] input').val()
+            }
+        });
+        $repairCostGridControl.data('beforesave', request => {
+            request.RepairId = FwFormField.getValueByDataField($form, 'RepairId');
+        })
+        // runs after grid load, add, and delete
+        FwBrowse.addEventHandler($repairCostGridControl, 'afterdatabindcallback', () => {
+            this.calculateTotals($form, 'cost');
+        });
 
-      $browse.data('ondatabind', request => {
-          request.activeview = this.ActiveView;
-      });
+        FwBrowse.init($repairCostGridControl);
+        FwBrowse.renderRuntimeHtml($repairCostGridControl);
 
-      FwAppData.apiMethod(true, 'GET', "api/v1/inventorystatus", null, FwServices.defaultTimeout, function onSuccess(response) {
-          const out = response.filter(item => {
-              return item.StatusType === 'OUT' 
-          })
-          const intransit = response.filter(item => {
-              return item.StatusType === 'INTRANSIT' 
-          })
+        //----------------------------------------------------------------------------------------------
+        $repairPartGrid = $form.find('div[data-grid="RepairPartGrid"]');
+        $repairPartGridControl = jQuery(jQuery('#tmpl-grids-RepairPartGridBrowse').html());
+        $repairPartGrid.empty().append($repairPartGridControl);
+        $repairPartGridControl.data('ondatabind', request => {
+            request.uniqueids = {
+                RepairId: $form.find('div.fwformfield[data-datafield="RepairId"] input').val()
+            }
+        });
+        $repairPartGridControl.data('beforesave', request => {
+            request.RepairId = FwFormField.getValueByDataField($form, 'RepairId');
+        })
+        // runs after grid load, add, and delete
+        FwBrowse.addEventHandler($repairPartGridControl, 'afterdatabindcallback', () => {
+            this.calculateTotals($form, 'part');
+        });
+        FwBrowse.init($repairPartGridControl);
+        FwBrowse.renderRuntimeHtml($repairPartGridControl);
 
-          FwBrowse.addLegend($browse, 'Foreign Currency', '#95FFCA');
-          FwBrowse.addLegend($browse, 'Priority', '#EA300F');
-          FwBrowse.addLegend($browse, 'Not Billed', '#0fb70c');
-          FwBrowse.addLegend($browse, 'Billable', '#0c6fcc');
-          FwBrowse.addLegend($browse, 'Outside', '#fffb38');
-          FwBrowse.addLegend($browse, 'Released', '#d6d319');
-          FwBrowse.addLegend($browse, 'Pending Repair', out[0].Color);
-          FwBrowse.addLegend($browse, 'Transferred', intransit[0].Color);
-          }, null, $browse);
-            
-      return $browse;
-  }
+        //----------------------------------------------------------------------------------------------
+        $repairReleaseGrid = $form.find('div[data-grid="RepairReleaseGrid"]');
+        $repairReleaseGridControl = jQuery(jQuery('#tmpl-grids-RepairReleaseGridBrowse').html());
+        $repairReleaseGrid.empty().append($repairReleaseGridControl);
+        $repairReleaseGridControl.data('ondatabind', request => {
+            request.uniqueids = {
+                RepairId: $form.find('div.fwformfield[data-datafield="RepairId"] input').val()
+            }
+        });
+        $repairReleaseGridControl.data('beforesave', request => {
+            request.RepairId = FwFormField.getValueByDataField($form, 'RepairId');
+        })
 
-  //----------------------------------------------------------------------------------------------
-  renderGrids = ($form: any) => {
-      let $repairCostGrid: any;
-      let $repairCostGridControl: any; 
-      let $repairPartGrid: any;
-      let $repairPartGridControl: any; 
-      let $repairReleaseGrid: any;
-      let $repairReleaseGridControl: any; 
-
-      //----------------------------------------------------------------------------------------------
-      $repairCostGrid = $form.find('div[data-grid="RepairCostGrid"]'); 
-      $repairCostGridControl = jQuery(jQuery('#tmpl-grids-RepairCostGridBrowse').html()); 
-      $repairCostGrid.empty().append($repairCostGridControl); 
-      $repairCostGridControl.data('ondatabind', request => { 
-          request.uniqueids = { 
-              RepairId: $form.find('div.fwformfield[data-datafield="RepairId"] input').val() 
-          } 
-      }); 
-      $repairCostGridControl.data('beforesave', request => { 
-          request.RepairId = FwFormField.getValueByDataField($form, 'RepairId'); 
-      }) 
-      // runs after grid load, add, and delete
-      FwBrowse.addEventHandler($repairCostGridControl, 'afterdatabindcallback', () => {
-          this.calculateTotals($form, 'cost');
-      });
-   
-      FwBrowse.init($repairCostGridControl); 
-      FwBrowse.renderRuntimeHtml($repairCostGridControl);
-
-      //----------------------------------------------------------------------------------------------
-      $repairPartGrid = $form.find('div[data-grid="RepairPartGrid"]'); 
-      $repairPartGridControl = jQuery(jQuery('#tmpl-grids-RepairPartGridBrowse').html()); 
-      $repairPartGrid.empty().append($repairPartGridControl); 
-      $repairPartGridControl.data('ondatabind', request => { 
-          request.uniqueids = { 
-              RepairId: $form.find('div.fwformfield[data-datafield="RepairId"] input').val() 
-          } 
-      }); 
-      $repairPartGridControl.data('beforesave', request => { 
-          request.RepairId = FwFormField.getValueByDataField($form, 'RepairId'); 
-      })
-      // runs after grid load, add, and delete
-      FwBrowse.addEventHandler($repairPartGridControl, 'afterdatabindcallback', () => {
-          this.calculateTotals($form, 'part');
-      });
-      FwBrowse.init($repairPartGridControl); 
-      FwBrowse.renderRuntimeHtml($repairPartGridControl);
-     
-      //----------------------------------------------------------------------------------------------
-      $repairReleaseGrid = $form.find('div[data-grid="RepairReleaseGrid"]'); 
-      $repairReleaseGridControl = jQuery(jQuery('#tmpl-grids-RepairReleaseGridBrowse').html()); 
-      $repairReleaseGrid.empty().append($repairReleaseGridControl); 
-      $repairReleaseGridControl.data('ondatabind', request => { 
-          request.uniqueids = { 
-              RepairId: $form.find('div.fwformfield[data-datafield="RepairId"] input').val() 
-          } 
-      }); 
-      $repairReleaseGridControl.data('beforesave', request => { 
-          request.RepairId = FwFormField.getValueByDataField($form, 'RepairId'); 
-      }) 
-   
-      FwBrowse.init($repairReleaseGridControl); 
-      FwBrowse.renderRuntimeHtml($repairReleaseGridControl);
-  } 
-
+        FwBrowse.init($repairReleaseGridControl);
+        FwBrowse.renderRuntimeHtml($repairReleaseGridControl);
+    }; 
   //----------------------------------------------------------------------------------------------
   addBrowseMenuItems = ($menuObject: any) => {
       let self = this;
@@ -172,7 +169,6 @@ class Repair {
 
       return $menuObject;
   };
-
   //----------------------------------------------------------------------------------------------
   openForm = (mode: string) => {
       let $form;
@@ -199,7 +195,7 @@ class Repair {
       $form.find('.estimate').on('click', $tr => {
          this.estimateOrder($form);
       });
-                                                                   
+
       // Release Items
       $form.find('.releaseitems').on('click', $tr => {
          this.releaseItems($form);
@@ -316,7 +312,6 @@ class Repair {
 
       return $form;
   };
-
   //----------------------------------------------------------------------------------------------
   loadForm = (uniqueids: any) => {
       let $form: JQuery = this.openForm('EDIT');
@@ -336,14 +331,12 @@ class Repair {
     
       return $form;
   };
-
   //----------------------------------------------------------------------------------------------
   saveForm = ($form: any, parameters: any) => {
       FwModule.saveForm(this.Module, $form, parameters);
       $form.find('.completeestimate').show();
       $form.find('.releasesection').show();
   }
-
   //----------------------------------------------------------------------------------------------
   afterLoad = ($form: any, $browse: any) => { 
       let $repairCostGrid: any = $form.find('[data-name="RepairCostGrid"]'); 
@@ -382,7 +375,6 @@ class Repair {
       FwFormField.disable($form.find('div[data-datafield="RepairType"]'));           
       FwFormField.disable($form.find('div[data-datafield="PendingRepair"]'));
   };
-
   //----------------------------------------------------------------------------------------------
   events($form) {
     // Sales or Rent Order
@@ -399,7 +391,6 @@ class Repair {
         }
     });
   };
-
   //----------------------------------------------------------------------------------------------
   estimateOrder($form) {
       var self = this;
@@ -500,7 +491,6 @@ class Repair {
           }, $form);
       };
   };
-
   //----------------------------------------------------------------------------------------------
   completeOrder($form) {
       var self = this;
@@ -571,7 +561,6 @@ class Repair {
           }, $form);
       };
   };
-
   //----------------------------------------------------------------------------------------------
   voidOrder($form) {
       var self = this;
@@ -615,7 +604,6 @@ class Repair {
                   
       };
   };
-
   //----------------------------------------------------------------------------------------------
   releaseItems($form) {
     var self = this;
@@ -708,7 +696,6 @@ class Repair {
         }
       };
   };
-
   //----------------------------------------------------------------------------------------------
   calculateTotals($form: any, gridType: string) {
       let subTotal, discount, salesTax, grossTotal, total;
@@ -747,7 +734,6 @@ class Repair {
       $form.find('.' + gridType + 'totals [data-totalfield="GrossTotal"] input').val(grossTotal);
       $form.find('.' + gridType + 'totals [data-totalfield="Total"] input').val(total);
   };
-
   //----------------------------------------------------------------------------------------------
   beforeValidate = ($browse, $grid, request) => {
         const validationName = request.module;
@@ -773,8 +759,7 @@ class Repair {
                 break;
         };
     }
-}
-
+};
 // using COMPLETE security guid
 FwApplicationTree.clickEvents['{6EE5D9E2-8075-43A6-8E81-E2BCA99B4308}'] = function (event) {
     let $form
@@ -787,7 +772,6 @@ FwApplicationTree.clickEvents['{6EE5D9E2-8075-43A6-8E81-E2BCA99B4308}'] = functi
         FwFunc.showError(ex);
     }
 };
-
 // using ESTIMATE security guid
 FwApplicationTree.clickEvents['{AEDCEB81-2A5A-4779-8A88-25FD48E88E6A}'] = function (event) {
     let $form
@@ -800,7 +784,6 @@ FwApplicationTree.clickEvents['{AEDCEB81-2A5A-4779-8A88-25FD48E88E6A}'] = functi
         FwFunc.showError(ex);
     }
 };
-
 // using VOID security guid
 FwApplicationTree.clickEvents['{9F58C03B-89CD-484A-8332-CDBF9961A258}'] = function (event) {
     let $form
@@ -813,7 +796,6 @@ FwApplicationTree.clickEvents['{9F58C03B-89CD-484A-8332-CDBF9961A258}'] = functi
         FwFunc.showError(ex);
     }
 };
-
 // using RELEASE security guid
 FwApplicationTree.clickEvents['{EE709549-C91C-473E-96CC-2DB121082FB5}'] = function (event) {
     let $form
@@ -826,7 +808,6 @@ FwApplicationTree.clickEvents['{EE709549-C91C-473E-96CC-2DB121082FB5}'] = functi
         FwFunc.showError(ex);
     }
 };
-
 //---------------------------------------------------------------------------------
 //Browse Void Option
 FwApplicationTree.clickEvents['{AFA36551-F49E-4FB9-84DD-A54A423CCFF3}'] = function (event) {
@@ -882,6 +863,5 @@ FwApplicationTree.clickEvents['{AFA36551-F49E-4FB9-84DD-A54A423CCFF3}'] = functi
         FwFunc.showError(ex);
     }
 };
-
 //------------------------------------------------------------------------------------------------
 var RepairController = new Repair();

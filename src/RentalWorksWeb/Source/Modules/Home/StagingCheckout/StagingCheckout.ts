@@ -312,7 +312,7 @@ class StagingCheckout {
                     }, null, null);
                 }
             } else {
-                FwNotification.renderNotification('WARNING', 'Please select one or more rows in Stage Items or use Bar Code input in order to perform this function.');
+                FwNotification.renderNotification('WARNING', 'Select rows in Stage Items or use Bar Code input in order to perform this function.');
                 $form.find('.partial-contract-barcode input').focus();
             }
 console.log('request: ', request);
@@ -371,7 +371,7 @@ console.log('request: ', request);
                     $form.find('.partial-contract-barcode input').focus();
                 }
             } else {
-                FwNotification.renderNotification('WARNING', 'Please select one or more rows in Contract Items or use Bar Code input in order to perform this function.');
+                FwNotification.renderNotification('WARNING', 'Select rows in Contract Items or use Bar Code input in order to perform this function.');
                 $form.find('.partial-contract-barcode input').focus();
             }
 console.log('request: ', request);
@@ -409,7 +409,7 @@ console.log('request: ', request);
                 }
             }, null, null);
         } else {
-            FwNotification.renderNotification('WARNING', 'Please check-out items before attemping to perform this function.');
+            FwNotification.renderNotification('WARNING', 'Check-out items before attemping to perform this function.');
         }
     };
     //----------------------------------------------------------------------------------------------
@@ -638,7 +638,7 @@ console.log('request: ', request);
                 } else if ($form.find('.left-arrow').hasClass('arrow-clicked')) {
                     this.moveOutItemToStaged($form);
                 } else {
-                    FwNotification.renderNotification('WARNING', 'Please choose an arrow before submitting Bar Code in the inputs.')
+                    FwNotification.renderNotification('WARNING', 'Choose an arrow direction before submitting Bar Code in the inputs.')
                 }
             }
         });
