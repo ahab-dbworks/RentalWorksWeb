@@ -109,44 +109,47 @@
                                                 jQuery('html').removeClass('theme-material');
                                         
                                                 //J.Pace 08/14/2018 user's sound settings\
-                                                setTimeout(() => {
+                                                //setTimeout(() => {
                                                     FwAppData.apiMethod(true, 'GET', `api/v1/usersettings/${responseOriginalApi.webUser.webusersid.webusersid}`, null, FwServices.defaultTimeout, function onSuccess(response) {
                                                         let sounds: any = {};
                                                         sounds.successSoundFileName = response.SuccessSoundFileName;
                                                         sounds.errorSoundFileName = response.ErrorSoundFileName;
                                                         sounds.notificationSoundFileName = response.NotificationSoundFileName;
                                                         sessionStorage.setItem('sounds', JSON.stringify(sounds));
+
+                                                        // Get custom fields and assign to session storage
+                                                        FwAppData.apiMethod(true, 'GET', 'api/v1/customfield/', null, FwServices.defaultTimeout, function onSuccess(response) {
+                                                            var customFields = [];
+                                                            var customFieldsBrowse = [];
+                                                            for (var i = 0; i < response.length; i++) {
+                                                                if (customFields.indexOf(response[i].ModuleName) === -1) {
+                                                                    customFields.push(response[i].ModuleName);
+                                                                }
+                                                                if (response[i].ShowInBrowse && customFieldsBrowse.indexOf(response[i].ModuleName) === -1) {
+                                                                    var customFieldObject = {
+                                                                        'moduleName': response[i].ModuleName,
+                                                                        'fieldName': response[i].FieldName,
+                                                                        'browsewidth': response[i].BrowseSizeInPixels,
+                                                                        'digits': response[i].FloatDecimalDigits,
+                                                                        'datatype': response[i].ControlType
+                                                                    };
+                                                                    customFieldsBrowse.push(customFieldObject);
+                                                                }
+                                                            }
+                                                            sessionStorage.setItem('customFields', JSON.stringify(customFields));
+                                                            sessionStorage.setItem('customFieldsBrowse', JSON.stringify(customFieldsBrowse));
+                                                            program.navigate('home');
+                                                        }, function onError(response) {
+                                                            FwFunc.showError(response);
+                                                            program.navigate('home');
+                                                        }, null);
+
                                                     }, function onError(response) {
                                                         FwFunc.showError(response);
                                                     }, null);
-                                                }, 1000);
+                                                //}, 0);
 
-                                                // Get custom fields and assign to session storage
-                                                FwAppData.apiMethod(true, 'GET', 'api/v1/customfield/', null, FwServices.defaultTimeout, function onSuccess(response) {
-                                                    var customFields = [];
-                                                    var customFieldsBrowse = [];
-                                                    for (var i = 0; i < response.length; i++) {
-                                                        if (customFields.indexOf(response[i].ModuleName) === -1) {
-                                                            customFields.push(response[i].ModuleName);
-                                                        }
-                                                        if (response[i].ShowInBrowse && customFieldsBrowse.indexOf(response[i].ModuleName) === -1) {
-                                                            var customFieldObject = {
-                                                                'moduleName': response[i].ModuleName,
-                                                                'fieldName': response[i].FieldName,
-                                                                'browsewidth': response[i].BrowseSizeInPixels,
-                                                                'digits': response[i].FloatDecimalDigits,
-                                                                'datatype': response[i].ControlType
-                                                            };
-                                                            customFieldsBrowse.push(customFieldObject);
-                                                        }
-                                                    }
-                                                    sessionStorage.setItem('customFields', JSON.stringify(customFields));
-                                                    sessionStorage.setItem('customFieldsBrowse', JSON.stringify(customFieldsBrowse));
-                                                    program.navigate('home');
-                                                }, function onError(response) {
-                                                    FwFunc.showError(response);
-                                                    program.navigate('home');
-                                                }, null);
+                                                
 
                                             } else if (responseOriginalApi.errNo !== 0) {
                                                 //throw new Error(responseOriginalApi.errMsg);

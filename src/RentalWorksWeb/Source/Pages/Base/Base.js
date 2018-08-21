@@ -102,41 +102,39 @@ class Base {
                                             sessionStorage.setItem('department', JSON.stringify(responseOriginalApi.webUser.department));
                                             sessionStorage.setItem('userid', JSON.stringify(responseOriginalApi.webUser.webusersid));
                                             jQuery('html').removeClass('theme-material');
-                                            setTimeout(() => {
-                                                FwAppData.apiMethod(true, 'GET', `api/v1/usersettings/${responseOriginalApi.webUser.webusersid.webusersid}`, null, FwServices.defaultTimeout, function onSuccess(response) {
-                                                    let sounds = {};
-                                                    sounds.successSoundFileName = response.SuccessSoundFileName;
-                                                    sounds.errorSoundFileName = response.ErrorSoundFileName;
-                                                    sounds.notificationSoundFileName = response.NotificationSoundFileName;
-                                                    sessionStorage.setItem('sounds', JSON.stringify(sounds));
+                                            FwAppData.apiMethod(true, 'GET', `api/v1/usersettings/${responseOriginalApi.webUser.webusersid.webusersid}`, null, FwServices.defaultTimeout, function onSuccess(response) {
+                                                let sounds = {};
+                                                sounds.successSoundFileName = response.SuccessSoundFileName;
+                                                sounds.errorSoundFileName = response.ErrorSoundFileName;
+                                                sounds.notificationSoundFileName = response.NotificationSoundFileName;
+                                                sessionStorage.setItem('sounds', JSON.stringify(sounds));
+                                                FwAppData.apiMethod(true, 'GET', 'api/v1/customfield/', null, FwServices.defaultTimeout, function onSuccess(response) {
+                                                    var customFields = [];
+                                                    var customFieldsBrowse = [];
+                                                    for (var i = 0; i < response.length; i++) {
+                                                        if (customFields.indexOf(response[i].ModuleName) === -1) {
+                                                            customFields.push(response[i].ModuleName);
+                                                        }
+                                                        if (response[i].ShowInBrowse && customFieldsBrowse.indexOf(response[i].ModuleName) === -1) {
+                                                            var customFieldObject = {
+                                                                'moduleName': response[i].ModuleName,
+                                                                'fieldName': response[i].FieldName,
+                                                                'browsewidth': response[i].BrowseSizeInPixels,
+                                                                'digits': response[i].FloatDecimalDigits,
+                                                                'datatype': response[i].ControlType
+                                                            };
+                                                            customFieldsBrowse.push(customFieldObject);
+                                                        }
+                                                    }
+                                                    sessionStorage.setItem('customFields', JSON.stringify(customFields));
+                                                    sessionStorage.setItem('customFieldsBrowse', JSON.stringify(customFieldsBrowse));
+                                                    program.navigate('home');
                                                 }, function onError(response) {
                                                     FwFunc.showError(response);
+                                                    program.navigate('home');
                                                 }, null);
-                                            }, 1000);
-                                            FwAppData.apiMethod(true, 'GET', 'api/v1/customfield/', null, FwServices.defaultTimeout, function onSuccess(response) {
-                                                var customFields = [];
-                                                var customFieldsBrowse = [];
-                                                for (var i = 0; i < response.length; i++) {
-                                                    if (customFields.indexOf(response[i].ModuleName) === -1) {
-                                                        customFields.push(response[i].ModuleName);
-                                                    }
-                                                    if (response[i].ShowInBrowse && customFieldsBrowse.indexOf(response[i].ModuleName) === -1) {
-                                                        var customFieldObject = {
-                                                            'moduleName': response[i].ModuleName,
-                                                            'fieldName': response[i].FieldName,
-                                                            'browsewidth': response[i].BrowseSizeInPixels,
-                                                            'digits': response[i].FloatDecimalDigits,
-                                                            'datatype': response[i].ControlType
-                                                        };
-                                                        customFieldsBrowse.push(customFieldObject);
-                                                    }
-                                                }
-                                                sessionStorage.setItem('customFields', JSON.stringify(customFields));
-                                                sessionStorage.setItem('customFieldsBrowse', JSON.stringify(customFieldsBrowse));
-                                                program.navigate('home');
                                             }, function onError(response) {
                                                 FwFunc.showError(response);
-                                                program.navigate('home');
                                             }, null);
                                         }
                                         else if (responseOriginalApi.errNo !== 0) {
