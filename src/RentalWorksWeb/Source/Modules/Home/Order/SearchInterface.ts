@@ -36,11 +36,10 @@ class SearchInterface {
         searchhtml.push('   <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield fwformcontrol" data-datafield="ParentFormId" style="display:none"></div>');
         searchhtml.push('   <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield fwformcontrol" data-datafield="WarehouseId" style="display:none"></div>');
         searchhtml.push('   <div id="inventoryView" style="display:none"></div>');
-        searchhtml.push('   <div id="breadcrumbs" class="fwmenu default">');
-        searchhtml.push('         <div class="type"></div>');
-        searchhtml.push('         <div class="category"></div>');
-        searchhtml.push('         <div class="subcategory"></div>');
-        searchhtml.push('   </div>');
+        searchhtml.push(`   <div id="type" style="display:none">${type}</div>`);
+        searchhtml.push('                      <div class="fwmenu default">');
+
+        searchhtml.push('                      </div>');
         searchhtml.push('   <div class="formrow" style="width:100%; position:absolute;">');
         searchhtml.push('       <div data-control="FwFormField" class="fwcontrol fwformfield fwformcontrol" data-caption="" data-datafield="InventoryType" data-type="radio">');
         searchhtml.push('           <div data-value="R" data-caption="Rental"></div>');
@@ -53,40 +52,51 @@ class SearchInterface {
         searchhtml.push('        <div id="category"></div>');
         searchhtml.push('        <div id="subCategory"></div>');
         searchhtml.push('        <div style="width:65%; position:absolute; left: 35%; right: 5%;">')
+        searchhtml.push('                <div style="width:100% float:left;">');
+        switch (type) {
+            case 'Order':
+                searchhtml.push('              <div data-type="button" class="fwformcontrol addToOrder" style="width:120px; position:relative; top:-2em;">Add to Order</div>');
+                break;
+            case 'Quote':
+                searchhtml.push('              <div data-type="button" class="fwformcontrol addToOrder" style="width:120px; position:relative; top:-2em;">Add to Quote</div>');
+                break;
+            case 'PurchaseOrder':
+                searchhtml.push('              <div data-type="button" class="fwformcontrol addToOrder" style="width:195px; position:relative; top:-2em;">Add to Purchase Order</div>');
+                break;
+            case 'Template':
+                searchhtml.push('              <div data-type="button" class="fwformcontrol addToOrder" style="width:140px; position:relative; top:-2em;">Add to Template</div>');
+                break;
+        }
+        searchhtml.push('                 </div>');
         searchhtml.push('                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
         searchhtml.push('                      <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield fwformcontrol" data-caption="Est. Start" data-datafield="FromDate" style="width:120px; float:left;"></div>');
         searchhtml.push('                      <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield fwformcontrol" data-caption="Est. Stop" data-datafield="ToDate" style="width:120px;float:left;"></div>');
         searchhtml.push('                      <div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield fwformcontrol select" data-caption="Select" data-datafield="Select" style="width:150px;float:left;"></div>');
         searchhtml.push('                      <div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield fwformcontrol sortby" data-caption="Sort By" data-datafield="SortBy" style="width:180px;float:left;"></div>');
-        switch (type) {
-            case 'Order':
-                searchhtml.push('              <div data-type="button" class="fwformcontrol addToOrder" style="width:120px; float:left; margin:15px;">Add to Order</div>');
-                break;
-            case 'Quote':
-                searchhtml.push('              <div data-type="button" class="fwformcontrol addToOrder" style="width:120px; float:left; margin:15px;">Add to Quote</div>');
-                break;
-            case 'PurchaseOrder':
-                searchhtml.push('              <div data-type="button" class="fwformcontrol addToOrder" style="width:195px; float:left; margin:15px;">Add to Purchase Order</div>');
-                break;
-            case 'Template':
-                searchhtml.push('              <div data-type="button" class="fwformcontrol addToOrder" style="width:140px; float:left; margin:15px;">Add to Template</div>');
-                break;
-        }
         searchhtml.push('                 </div>');
         searchhtml.push('                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
         searchhtml.push('                      <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Search" data-datafield="SearchBox" style="width:570px; float:left;"></div>');
         searchhtml.push('                      <div data-type="button" class="invviewbtn fwformcontrol listbutton"><i class="material-icons" style="margin-top: 5px;">&#xE8EE;</i></div>');
         searchhtml.push('                      <div data-type="button" class="invviewbtn fwformcontrol listgridbutton"><i class="material-icons" style="margin-top: 5px;">&#xE8EF;</i></div>');
         searchhtml.push('                      <div data-type="button" class="invviewbtn fwformcontrol gridbutton"><i class="material-icons" style="margin-top: 5px;">&#xE8F0;</i></div>');
-        searchhtml.push('                      <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield fwformcontrol toggleAccessories" data-caption="Disable Accessory Refresh" style="width:200px;"></div>');
+        searchhtml.push('                      <div class= "optiontoggle fwformcontrol" data-type="button">Options &#8675;');
+        searchhtml.push('                           <div class="options" style="display:none;">');
+        searchhtml.push('                               <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield fwformcontrol toggleAccessories" data-caption="Disable Accessory Refresh" style="width:200px;"></div>');
+        searchhtml.push('                           </div>');
+        searchhtml.push('                      </div>');
+        searchhtml.push('                      <div id="breadcrumbs" class="fwmenu default">');
+        searchhtml.push('                           <div class="type"></div>');
+        searchhtml.push('                           <div class="category"></div>');
+        searchhtml.push('                           <div class="subcategory"></div>');
+        searchhtml.push('                      </div>');
         searchhtml.push('                      <div id="columnDescriptions" style="width:95%; padding:5px; margin:5px; display:none">');
         searchhtml.push('                           <div style="width:38%;">Description</div>');
         searchhtml.push('                           <div style="width:10%;">Qty</div>');
-        searchhtml.push('                           <div style="width:8%;">Available</div>');
-        searchhtml.push('                           <div style="width:10%;">Conflict Date</div>');
-        searchhtml.push('                           <div style="width:8%;">All WH</div>');
-        searchhtml.push('                           <div style="width:8%;">In</div>');
-        searchhtml.push('                           <div style="width:8%;">QC</div>');
+        searchhtml.push('                           <div class="hideColumns" style="width:8%;">Available</div>');
+        searchhtml.push('                           <div class="hideColumns" style="width:10%;">Conflict Date</div>');
+        searchhtml.push('                           <div class="hideColumns" style="width:8%;">All WH</div>');
+        searchhtml.push('                           <div class="hideColumns" style="width:8%;">In</div>');
+        searchhtml.push('                           <div class="hideColumns" style="width:8%;">QC</div>');
         searchhtml.push('                           <div style="width:8%;">Rate</div>');
         searchhtml.push('                      </div>');
         searchhtml.push('                 </div>');
@@ -257,6 +267,11 @@ class SearchInterface {
                 inventoryType.find('[value="M"]').prop('checked', true);
                 break;
         };
+
+        //Hide columns based on type
+        if (type === 'PurchaseOrder' || type === 'Template') {
+            $popup.find('.hideColumns').css('visibility', 'hidden');
+        }
 
         this.populateTypeMenu($popup, inventoryTypeRequest, categoryType);
         this.breadCrumbs($popup, $form);
@@ -591,12 +606,12 @@ class SearchInterface {
             html.push('                  <button class="incrementQuantity" tabindex="-1">+</button>');
             html.push('              </div>');
             html.push('         </div>');
-            html.push(`         <div data-control="FwFormField" data-type="number" data-datafield="QuantityAvailable" data-caption="Available" class="fwcontrol fwformfield" data-datafield="QuantityAvailable" data-enabled="false" style="text-align:center"><span>Available</span></br>${response.Rows[i][quantityAvailable]}</div>`);
-            html.push(`         <div data-control="FwFormField" data-type="text" data-caption="Conflict Date" data-datafield="ConflictDate" class="fwcontrol fwformfield" data-enabled="false" style="text-align:center"><span>Conflict</span></br>${response.Rows[i][conflictDate] ? response.Rows[i][conflictDate] : "N/A"}</div>`);
-            html.push('         <div data-control="FwFormField" data-type="text" data-caption="All WH" data-datafield="AllWH" class="fwcontrol fwformfield" data-enabled="false" style="white-space:pre"><span>All WH</span></br>&#160;</div>');
+            html.push(`         <div data-control="FwFormField" data-type="number" data-datafield="QuantityAvailable" data-caption="Available" class="hideColumns fwcontrol fwformfield" data-datafield="QuantityAvailable" data-enabled="false" style="text-align:center"><span>Available</span></br>${response.Rows[i][quantityAvailable]}</div>`);
+            html.push(`         <div data-control="FwFormField" data-type="text" data-caption="Conflict Date" data-datafield="ConflictDate" class="hideColumns fwcontrol fwformfield" data-enabled="false" style="text-align:center"><span>Conflict</span></br>${response.Rows[i][conflictDate] ? response.Rows[i][conflictDate] : "N/A"}</div>`);
+            html.push('         <div data-control="FwFormField" data-type="text" data-caption="All WH" data-datafield="AllWH" class="hideColumns fwcontrol fwformfield" data-enabled="false" style="white-space:pre"><span>All WH</span></br>&#160;</div>');
             html.push('         <div class="quantitycontainer">');
-            html.push(`             <div data-control="FwFormField" data-type="number" data-datafield="QuantityIn" data-caption="In" class="fwcontrol fwformfield" data-enabled="false" style="text-align:center"><span>In</span></br>${response.Rows[i][quantityIn]}</div>`);
-            html.push(`             <div data-control="FwFormField" data-type="number" data-datafield="QuantityQcRequired" data-caption="QC" class="fwcontrol fwformfield" data-enabled="false" style="text-align:center"><span>QC</span></br>${response.Rows[i][quantityQcRequired]}</div>`);
+            html.push(`             <div data-control="FwFormField" data-type="number" data-datafield="QuantityIn" data-caption="In" class="hideColumns fwcontrol fwformfield" data-enabled="false" style="text-align:center"><span>In</span></br>${response.Rows[i][quantityIn]}</div>`);
+            html.push(`             <div data-control="FwFormField" data-type="number" data-datafield="QuantityQcRequired" data-caption="QC" class="hideColumns fwcontrol fwformfield" data-enabled="false" style="text-align:center"><span>QC</span></br>${response.Rows[i][quantityQcRequired]}</div>`);
             html.push('         </div>');
             rate = Number(response.Rows[i][dailyRate]).toFixed(2);
             html.push(`         <div data-control="FwFormField" data-type="number" data-digits="2" data-datafield="DailyRate" data-caption="Rate" class="fwcontrol fwformfield rate" data-enabled="false" style="text-align:center"><span>Rate</span></br>${rate}</div>`);
@@ -626,6 +641,12 @@ class SearchInterface {
 
         $inventory = $popup.find('div.card');
         view = $popup.find('#inventoryView').val();
+
+        let type = $popup.find('#type').text();
+        if (type === 'PurchaseOrder' || type === 'Template') {
+            $popup.find('.hideColumns').css('visibility', 'hidden');
+        }
+
         this.listGridView($inventory, view);
     }
 
@@ -749,7 +770,14 @@ class SearchInterface {
             jQuery(document).find('.fwpopup').off('click');
             jQuery(document).off('keydown');
         });
-
+        //Toggle Options 
+        $popup.on('click', '.optiontoggle', e => {
+            e.stopPropagation();
+            $popup.find('.options').toggle();
+            jQuery(document).one('click', function closeMenu(e) {
+                $popup.find('.options').toggle();
+            });
+        });
         //Inventory Type radio change events
         $popup.find('[data-type="radio"]').on('change', function () {
             availableFor = $popup.find('[data-type="radio"] input:checked').val();
@@ -908,6 +936,10 @@ class SearchInterface {
         //Update Preview grid tab
         $popup.on('click', '.tab[data-caption="Preview"]', e => {
             self.refreshPreviewGrid($popup, id);
+            let type = $popup.find('#type').text();
+            if (type === 'PurchaseOrder' || type === 'Template') {
+                $popup.find('[data-type="Grid"] .hideColumns').css('display', 'none');
+            }
         });
 
         //Image preview confirmation box
@@ -1191,14 +1223,14 @@ class SearchInterface {
         if (!(accessoryContainer.find('.accColumns').length)) {
             html.push('<div class="accColumns" style="width:100%; display:none;">');
             html.push('     <div class="accList"></div>');
-            html.push('     <div style="width:38%;">Description</div>');
-            html.push('     <div style="width:10%;">Qty</div>');
-            html.push('     <div style="width:8%;">Available</div>');
-            html.push('     <div style="width:10%;">Conflict Date</div>');
-            html.push('     <div style="width:8%;">All WH</div>');
-            html.push('     <div style="width:8%;">In</div>');
-            html.push('     <div style="width:8%;">QC</div>');
-            html.push('     <div style="width:8%;">Rate</div>');
+            html.push('     <div style="float:left; width:38%;">Description</div>');
+            html.push('     <div style="float:left; width:10%;">Qty</div>');
+            html.push('     <div style="float:left; width:8%;" class="hideColumns">Available</div>');
+            html.push('     <div style="float:left; width:10%;" class="hideColumns">Conflict Date</div>');
+            html.push('     <div style="float:left; width:8%;" class="hideColumns">All WH</div>');
+            html.push('     <div style="float:left; width:8%;" class="hideColumns">In</div>');
+            html.push('     <div style="float:left; width:8%;" class="hideColumns">QC</div>');
+            html.push('     <div style="float:left; width:8%;">Rate</div>');
             html.push('</div>');
             accessoryContainer.append(html.join(''));
         }
@@ -1229,10 +1261,10 @@ class SearchInterface {
                 accHtml.push('              <button class="incrementQuantity" tabindex="-1" style="padding: 5px 0px; float:left; width:25%; border:none;">+</button>');
                 accHtml.push('          </div>');
                 accHtml.push('      </div>');
-                accHtml.push(`      <div style="text-align:center; float:left; width:8%;">${response.Rows[i][qtyAvailIndex]}</div>`);
-                accHtml.push(`      <div data-datafield="ConflictDate" style="text-align:center; float:left; width:10%;">${response.Rows[i][conflictIndex] ? response.Rows[i][conflictIndex] : "N/A"}</div>`);
+                accHtml.push(`      <div class="hideColumns" style="text-align:center; float:left; width:8%;">${response.Rows[i][qtyAvailIndex]}</div>`);
+                accHtml.push(`      <div class="hideColumns" data-datafield="ConflictDate" style="text-align:center; float:left; width:10%;">${response.Rows[i][conflictIndex] ? response.Rows[i][conflictIndex] : "N/A"}</div>`);
                 accHtml.push('      <div style="text-align:center; float:left; width:8%; white-space:pre;">&#160;</div>');
-                accHtml.push(`      <div style="text-align:center; float:left; width:8%;">${response.Rows[i][qtyInIndex]}</div>`);
+                accHtml.push(`      <div class="hideColumns" style="text-align:center; float:left; width:8%;">${response.Rows[i][qtyInIndex]}</div>`);
                 accHtml.push('      <div style="text-align:center; float:left; width:8%; white-space:pre;">&#160;</div>');
                 accHtml.push('      <div style="text-align:center; float:left; width:8%; white-space:pre;">&#160;</div>');
                 accHtml.push('</div>');
@@ -1272,6 +1304,11 @@ class SearchInterface {
                 };
 
                 $quantityColorDiv.css('border-left-color', qtycolor);
+
+                let type = $popup.find('#type').text();
+                if (type === 'PurchaseOrder' || type === 'Template') {
+                    $popup.find('.hideColumns').css('visibility', 'hidden');
+                }
             }
         }, null, null);
     }
