@@ -5,6 +5,7 @@ class ReceiveFromVendor {
     successSoundFileName: string;
     errorSoundFileName: string;
     notificationSoundFileName: string;
+   
 
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
@@ -168,6 +169,9 @@ class ReceiveFromVendor {
             }, function onError(response) {
                 FwFunc.showError(response);
                 }, $form, contractId);
+
+            $form.find('.createcontract[data-type="button"]').show();
+            $form.find('.createcontract[data-type="btnmenu"]').hide();
         });
         // Select All
         $form.find('.selectall').on('click', e => {
@@ -183,6 +187,12 @@ class ReceiveFromVendor {
             }, function onError(response) {
                 FwFunc.showError(response);
                 }, $form, contractId);
+
+            let $itemsTrackedByBarcode = $receiveItemsGridControl.find('[data-browsedatafield="TrackedBy"][data-originalvalue="BARCODE"]');
+            if ($itemsTrackedByBarcode.length > 0) {
+                $form.find('.createcontract[data-type="button"]').hide();
+                $form.find('.createcontract[data-type="btnmenu"]').show();
+            }
         });
         //Hide/Show Options
         var $optionToggle = $form.find('.optiontoggle');
@@ -222,9 +232,6 @@ class ReceiveFromVendor {
             const contractId = FwFormField.getValueByDataField($form, 'ContractId');
             FwAppData.apiMethod(true, 'POST', `api/v1/purchaseorder/completereceivecontract/${contractId}`, request, FwServices.defaultTimeout, function onSuccess(response) {
                 let contractInfo: any = {}, $contractForm, $assignBarCodesForm;
-                contractInfo.ContractId = response[0].ContractId;
-                $contractForm = ContractController.loadForm(contractInfo);
-                FwModule.openSubModuleTab($form, $contractForm);
 
                 contractInfo.ContractNumber = response[0].ContractNumber;
                 contractInfo.PurchaseOrderNumber = response[0].PurchaseOrderNumber;
@@ -232,7 +239,28 @@ class ReceiveFromVendor {
                 $assignBarCodesForm = AssignBarCodesController.openForm('EDIT', contractInfo);
                 FwModule.openSubModuleTab($form, $assignBarCodesForm);
                 jQuery('.tab.submodule.active').find('.caption').html('Assign Bar Codes');
-            }, null, null);
+
+                contractInfo.ContractId = response[0].ContractId;
+                $contractForm = ContractController.loadForm(contractInfo);
+                FwModule.openSubModuleTab($form, $contractForm);
+
+                $form.find('.fwformfield').not('[data-type="date"], [data-type="time"]').find('input').val('');
+                let $receiveItemsGridControl = $form.find('div[data-name="POReceiveItemGrid"]');
+                $receiveItemsGridControl.data('ondatabind', function (request) {
+                    request.uniqueids = {
+                        ContractId: contractId
+                        , PurchaseOrderId: ''
+                    }
+                })
+                FwBrowse.search($receiveItemsGridControl);
+                FwFormField.enable($form.find('[data-datafield="PurchaseOrderId"]'));
+
+                let date = new Date(),
+                    currentDate = date.toLocaleString(),
+                    currentTime = date.toLocaleTimeString();
+                FwFormField.setValueByDataField($form, 'Date', currentDate);
+                FwFormField.setValueByDataField($form, 'Time', currentTime);
+            }, null, $form);
         });
 
         let menuOptions = [];

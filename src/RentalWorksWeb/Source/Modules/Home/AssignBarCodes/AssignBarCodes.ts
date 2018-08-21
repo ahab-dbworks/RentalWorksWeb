@@ -54,7 +54,8 @@ class AssignBarCodes {
         $poReceiveBarCodeGrid.empty().append($poReceiveBarCodeGridControl);
         $poReceiveBarCodeGridControl.data('ondatabind', function (request) {
             request.uniqueids = {
-                PurchaseOrderReceiveBarCodeId: FwFormField.getValueByDataField($form, 'POReceiveBarCodeId')
+                PurchaseOrderId: FwFormField.getValueByDataField($form, 'PurchaseOrderId')
+                , ReceiveContractId: FwFormField.getValueByDataField($form, 'ContractId')
             }
         })
         FwBrowse.init($poReceiveBarCodeGridControl);
@@ -62,13 +63,39 @@ class AssignBarCodes {
     }
     //----------------------------------------------------------------------------------------------
     events($form) {
-        $form.find('[data-datafield="PurchaseOrderId"]').on('change', e => {
+        //Default Department
+        let department = JSON.parse(sessionStorage.getItem('department'));
+        FwFormField.setValueByDataField($form, 'DepartmentId', department.departmentid, department.department);
+        FwFormField.disable($form.find('[data-datafield="DepartmentId"]'));
+        //PO No. Change
+        $form.find('[data-datafield="PurchaseOrderId"]').data('onchange', $tr => {
             FwFormField.disable($form.find('[data-datafield="PurchaseOrderId"]'));
+            FwFormField.setValueByDataField($form, 'VendorId', $tr.find('[data-browsedatafield="VendorId"]').attr('data-originalvalue'), $tr.find('[data-browsedatafield="Vendor"]').attr('data-originalvalue'));
+            FwFormField.setValueByDataField($form, 'Description', $tr.find('[data-browsedatafield="Description"]').attr('data-originalvalue'));
+            FwFormField.setValueByDataField($form, 'PODate', $tr.find('[data-browsedatafield="PurchaseOrderDate"]').attr('data-originalvalue'));
+
+            let purchaseOrderId = FwFormField.getValueByDataField($form, 'PurchaseOrderId');
+            let contractId = FwFormField.getValueByDataField($form, 'ContractId');
+            if (purchaseOrderId && contractId) {
+                let $poReceiveBarCodeGridControl: any;
+                $poReceiveBarCodeGridControl = $form.find('[data-name="POReceiveBarCodeGrid"]');
+                FwBrowse.search($poReceiveBarCodeGridControl);
+            }
         });
-        $form.find('[data-datafield="ContractId"]').on('change', e => {
+        //Contract No. Change
+        $form.find('[data-datafield="ContractId"]').data('onchange', $tr => {
             FwFormField.disable($form.find('[data-datafield="ContractId"]'));
+            FwFormField.setValueByDataField($form, 'ContractDate', $tr.find('[data-browsedatafield="ContractDate"]').attr('data-originalvalue'));
+            let purchaseOrderId = FwFormField.getValueByDataField($form, 'PurchaseOrderId');
+            let contractId = FwFormField.getValueByDataField($form, 'ContractId');
+            if (purchaseOrderId && contractId) {
+                let $poReceiveBarCodeGridControl: any;
+                $poReceiveBarCodeGridControl = $form.find('[data-name="POReceiveBarCodeGrid"]');
+                FwBrowse.search($poReceiveBarCodeGridControl);
+            }
         });
 
+        //Add items button
         $form.find('.additems').on('click', e => {
             let request: any = {};
             request = {
@@ -80,10 +107,14 @@ class AssignBarCodes {
                     FwNotification.renderNotification('SUCCESS', `${response.ItemsAdded} items added.`);
                     FwFormField.setValueByDataField($form, 'PurchaseOrderId', '', '');
                     FwFormField.setValueByDataField($form, 'ContractId', '', '');
+                    FwFormField.setValueByDataField($form, 'PODate', '');
+                    FwFormField.setValueByDataField($form, 'VendorId', '', '');
+                    FwFormField.setValueByDataField($form, 'Description', '');
+                    FwFormField.setValueByDataField($form, 'ContractDate', '');
                     FwFormField.enable($form.find('[data-datafield="PurchaseOrderId"]'));
                     FwFormField.enable($form.find('[data-datafield="ContractId"]'));
                 }
-            }, null, null);
+            }, null, $form);
         });
 
     }

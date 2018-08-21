@@ -4,18 +4,19 @@
     successSoundFileName: string;
     errorSoundFileName: string;
     notificationSoundFileName: string;
+    barCodedItemIncreased: boolean = false;
 
     generateRow($control, $generatedtr) {
         let $form, errorSound, successSound, $quantityColumn;
         $form = $control.closest('.fwform'),
-        $quantityColumn = $generatedtr.find('.quantity');
+            $quantityColumn = $generatedtr.find('.quantity');
         this.successSoundFileName = JSON.parse(sessionStorage.getItem('sounds')).successSoundFileName;
         this.errorSoundFileName = JSON.parse(sessionStorage.getItem('sounds')).errorSoundFileName;
         this.notificationSoundFileName = JSON.parse(sessionStorage.getItem('sounds')).notificationSoundFileName;
 
+        let self = this;
         errorSound = new Audio(this.errorSoundFileName);
         successSound = new Audio(this.successSoundFileName);
-
         FwBrowse.setAfterRenderRowCallback($control, ($tr: JQuery, dt: FwJsonDataTable, rowIndex: number) => {
             let originalquantity = $tr.find('[data-browsedatafield="Quantity"]').attr('data-originalvalue');
             let quantityColorIndex = dt.ColumnIndex.QuantityColor;
@@ -118,10 +119,6 @@
                 if (quantity != 0) {
                     FwAppData.apiMethod(true, 'POST', "api/v1/purchaseorderreceiveitem/receiveitems", request, FwServices.defaultTimeout,
                         function onSuccess(response) {
-                            if (response.QuantityNeedBarCode > 0) {
-                                $form.find('.createcontract[data-type="button"]').hide();
-                                $form.find('.createcontract[data-type="btnmenu"]').show();
-                            }
                             let errormsg = $form.find('.errormsg');
                             errormsg.html('');
                             if (response.success) {
@@ -137,8 +134,25 @@
                                 errormsg.html(`<div style="margin-left:8px; margin-top: 10px;"><span>${response.msg}</span></div>`);
                                 $tr.find('[data-browsedatafield="Quantity"] input').val(Number(oldValue));
                             }
+
+                            let $itemsTrackedByBarcode = $control.find('[data-browsedatafield="TrackedBy"][data-originalvalue="BARCODE"]');
+                            for (let i = 0; i < $itemsTrackedByBarcode.length; i++) {
+                                let barcodeQuantity = jQuery($itemsTrackedByBarcode[i]).parents('tr').find('[data-browsedatafield="Quantity"]').attr('data-originalvalue');
+                                self.barCodedItemIncreased = false;
+                                if (+barcodeQuantity > 0) {
+                                    self.barCodedItemIncreased = true;
+                                    break;
+                                }
+                            }
+                            if (self.barCodedItemIncreased) {
+                                $form.find('.createcontract[data-type="button"]').hide();
+                                $form.find('.createcontract[data-type="btnmenu"]').show();
+                            } else {
+                                $form.find('.createcontract[data-type="button"]').show();
+                                $form.find('.createcontract[data-type="btnmenu"]').hide();
+                            }
                         },
-                       null, null);
+                        null, null);
                 }
             });
         });
