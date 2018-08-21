@@ -122,11 +122,13 @@ class SalesInventory extends InventoryBase {
                     $form.find('.completeskitstab').hide();
                     FwFormField.enable($form.find('div[data-datafield="TrackedBy"]'));
                     $form.find('.tracked-by-column').hide();
+                    $form.find('div[data-datafield="TrackedBy"] input').prop('checked', false);
                 }
                 if ($this.prop('checked') === true && $this.val() === 'K') {
                     $form.find('.kittab').show();
                     FwFormField.enable($form.find('div[data-datafield="TrackedBy"]'));
                     $form.find('.tracked-by-column').hide();
+                    $form.find('div[data-datafield="TrackedBy"] input').prop('checked', false);
                 }
                 if ($this.prop('checked') === true && $this.val() === 'N') {
                     FwFormField.enable($form.find('div[data-datafield="TrackedBy"]'));
