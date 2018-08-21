@@ -310,8 +310,8 @@ console.log('request: ', request);
         $stagedItemGrid = $form.find('[data-name="StagedItemGrid"]');
         $checkedOutItemGrid = $form.find('[data-name="CheckedOutItemGrid"]');
         $selectedCheckBoxes = $checkedOutItemGrid.find('.cbselectrow:checked');
-        barCodeFieldValue = $form.find('.partial-contract-barcode').val();
-        quantityFieldValue = $form.find('.partial-contract-quantity').val();
+        barCodeFieldValue = $form.find('.partial-contract-barcode input').val();
+        quantityFieldValue = $form.find('.partial-contract-quantity input').val();
         orderId = FwFormField.getValueByDataField($form, 'OrderId');
 
         if (barCodeFieldValue !== '' && quantityFieldValue !== '') {
@@ -492,7 +492,7 @@ console.log('request: ', request);
 
                 request = {
                     OrderId: orderId,
-                    Code: code,
+                    Code: code
                 }
 
                 FwAppData.apiMethod(true, 'POST', `api/v1/checkout/stageitem`, request, FwServices.defaultTimeout, function onSuccess(response) {
@@ -612,6 +612,21 @@ console.log('request: ', request);
         $form.find('.createcontract').on('click', e => {
             this.createContract($form);
         });
+        // Partial Contract Inputs
+        $form.find('.partial-contract-inputs input').on('keydown', e => {
+            let barCodeFieldValue = $form.find('.partial-contract-barcode input').val();
+            let quantityFieldValue = $form.find('.partial-contract-quantity input').val();
+
+            if (e.which == 13 && barCodeFieldValue !== '' && quantityFieldValue !== '') {
+                if ($form.find('.right-arrow').hasClass('arrow-clicked')) {
+                    this.moveStagedItemToOut($form);
+                } else if ($form.find('.left-arrow').hasClass('arrow-clicked')) {
+                    this.moveOutItemToStaged($form);
+                } else {
+                    FwNotification.renderNotification('WARNING', 'Please choose an arrow before submitting Bar Code in the inputs.')
+                }
+            }
+        });
     };
     //----------------------------------------------------------------------------------------------
     beforeValidate($browse, $grid, request) {
@@ -622,7 +637,7 @@ console.log('request: ', request);
             case 'OrderValidation':
                 request.miscfields = {
                     Staging: true,
-                    StagingWarehouseId: warehouse.warehouseid,
+                    StagingWarehouseId: warehouse.warehouseid
                 };
                 break;
         };
@@ -644,13 +659,13 @@ console.log('request: ', request);
                 OrderId: orderId,
                 Code: code,
                 AddItemToOrder: true,
-                Quantity: quantity,
+                Quantity: quantity
             }
         } else {
             request = {
                 OrderId: orderId,
                 Code: code,
-                AddItemToOrder: true,
+                AddItemToOrder: true
             }
         }
 
@@ -683,13 +698,13 @@ console.log('request: ', request);
                 OrderId: orderId,
                 Code: code,
                 AddItemToOrder: true,
-                Quantity: quantity,
+                Quantity: quantity
             }
         } else {
             request = {
                 OrderId: orderId,
                 Code: code,
-                AddItemToOrder: true,
+                AddItemToOrder: true
             }
         }
 
