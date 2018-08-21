@@ -124,6 +124,7 @@ namespace WebApi.Modules.Home.StagedItem
         //------------------------------------------------------------------------------------ 
         public override async Task<FwJsonDataTable> BrowseAsync(BrowseRequest request, FwCustomFields customFields = null)
         {
+            bool orderByItemOrder = false;
             if (request != null)
             {
                 if (request.uniqueids != null)
@@ -138,6 +139,10 @@ namespace WebApi.Modules.Home.StagedItem
                         WarehouseId = uniqueIds["WarehouseId"].ToString();
                     }
                 }
+                if (request.orderby.Equals("ItemOrder"))
+                {
+                    orderByItemOrder = true;
+                }
             }
 
             FwJsonDataTable dt = null;
@@ -149,6 +154,10 @@ namespace WebApi.Modules.Home.StagedItem
                     qry.AddParameter("@orderid", SqlDbType.NVarChar, ParameterDirection.Input, OrderId);
                     qry.AddParameter("@warehouseid", SqlDbType.NVarChar, ParameterDirection.Input, WarehouseId);
                     qry.AddParameter("@summary", SqlDbType.NVarChar, ParameterDirection.Input, (false ? "T" : "F"));
+                    if (orderByItemOrder)
+                    {
+                        qry.AddParameter("@orderby", SqlDbType.NVarChar, ParameterDirection.Input, "itemorder");
+                    }
                     PropertyInfo[] propertyInfos = typeof(StagedItemLoader).GetProperties();
                     foreach (PropertyInfo propertyInfo in propertyInfos)
                     {

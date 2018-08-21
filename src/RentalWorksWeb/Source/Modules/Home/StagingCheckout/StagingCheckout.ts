@@ -215,7 +215,8 @@ class StagingCheckout {
     };
     //----------------------------------------------------------------------------------------------
     startPartialCheckoutItems = ($form: JQuery): void => {
-        let requestBody: any = {}, $checkedOutItemGridControl: any;
+        const MAX_PAGE_SIZE = 9999;
+        let requestBody: any = {}, $checkedOutItemGridControl, $stagedItemGridControl: any;
         requestBody.OrderId = FwFormField.getValueByDataField($form, 'OrderId');
 
         $form.find('.orderstatus').hide();
@@ -238,6 +239,20 @@ class StagingCheckout {
                     request.pagesize = 10;
                 })
                 FwBrowse.search($checkedOutItemGridControl);
+
+
+
+                $stagedItemGridControl = $form.find('[data-name="StagedItemGrid"]');
+                $stagedItemGridControl.data('ondatabind', function (request) {
+                    request.orderby = "ItemOrder";
+                    request.uniqueids = {
+                        OrderId: FwFormField.getValueByDataField($form, 'OrderId'),
+                        WarehouseId: FwFormField.getValueByDataField($form, 'WarehouseId')
+                    };
+                    request.pagesize = MAX_PAGE_SIZE;
+                })
+                FwBrowse.search($stagedItemGridControl);
+
             }
             catch (ex) {
                 FwFunc.showError(ex);
