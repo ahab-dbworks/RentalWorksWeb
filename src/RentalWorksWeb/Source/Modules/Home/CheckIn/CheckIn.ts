@@ -178,7 +178,7 @@ class CheckIn {
         $form.find('.swapitem').on('click', e => {
             $form.find('.errormsg').html('');
             let type = 'SwapItem';
-            this.checkInItem($form, type);    
+            this.checkInItem($form, type);
         });
         //Create Contract
         $form.find('.createcontract').on('click', e => {
@@ -211,7 +211,7 @@ class CheckIn {
         });
     };
     //----------------------------------------------------------------------------------------------
-    checkInItem($form, type?:string) {
+    checkInItem($form, type?: string) {
         let errorSound, successSound, notificationSound;
         errorSound = new Audio(this.errorSoundFileName);
         successSound = new Audio(this.successSoundFileName);
@@ -255,9 +255,11 @@ class CheckIn {
                 FwFormField.setValueByDataField($form, 'QuantityOut', response.InventoryStatus.QuantityOut);
                 FwFormField.setValueByDataField($form, 'QuantityIn', response.InventoryStatus.QuantityIn);
                 FwFormField.setValueByDataField($form, 'QuantityRemaining', response.InventoryStatus.QuantityRemaining);
-                FwFormField.setValueByDataField($form, 'OrderId', response.OrderId, response.OrderNumber);
                 FwFormField.setValueByDataField($form, 'DealId', response.DealId, response.Deal);
-                FwFormField.setValueByDataField($form, 'Description', response.OrderDescription);
+                if (type !== 'SwapItem') {
+                    FwFormField.setValueByDataField($form, 'OrderId', response.OrderId, response.OrderNumber);
+                    FwFormField.setValueByDataField($form, 'Description', response.OrderDescription);
+                }
                 FwFormField.disable($form.find('[data-datafield="OrderId"], [data-datafield="DealId"]'));
 
                 let $checkedInItemsGridControl = $form.find('div[data-name="CheckedInItemGrid"]');
