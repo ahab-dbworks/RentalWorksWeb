@@ -111,7 +111,6 @@ class SalesInventory extends InventoryBase {
     //----------------------------------------------------------------------------------------------
     openForm(mode: string) {
         var $form;
-
         $form = jQuery(jQuery('#tmpl-modules-' + this.Module + 'Form').html());
         $form = FwModule.openForm($form, mode);
 
@@ -157,6 +156,7 @@ class SalesInventory extends InventoryBase {
                 }
             })
         };
+
         this.events($form);
         return $form;
     };
@@ -570,8 +570,52 @@ class SalesInventory extends InventoryBase {
         } else {
             FwFormField.disable($form.find('.subcategory'));
         }
+        this.addAssetTab($form);
     };
+    //----------------------------------------------------------------------------------------------
+    addAssetTab($form: any): void {
+        let $submoduleAssetBrowse, classificationValue, trackedByValue;
+        classificationValue = FwFormField.getValueByDataField($form, 'Classification');
+        trackedByValue = FwFormField.getValueByDataField($form, 'TrackedBy');
 
+        if (classificationValue === 'I' || classificationValue === 'A') {
+            if (trackedByValue !== 'QUANTITY') {
+                $form.find('.asset-submodule').show();
+                $submoduleAssetBrowse = this.openAssetBrowse($form);
+                $form.find('.asset-submodule-page').append($submoduleAssetBrowse);
+
+                $submoduleAssetBrowse.find('div.btn[data-type="NewMenuBarButton"]').off('click');
+                $submoduleAssetBrowse.find('div.btn[data-type="NewMenuBarButton"]').on('click', function () {
+                    var $assetForm, controller, $browse, assetFormData: any = {};
+                    $browse = jQuery(this).closest('.fwbrowse');
+                    controller = $browse.attr('data-controller');
+                    assetFormData.InventoryId = FwFormField.getValueByDataField($form, 'InventoryId');
+                    if (typeof window[controller] !== 'object') throw 'Missing javascript module: ' + controller;
+                    if (typeof window[controller]['openForm'] !== 'function') throw 'Missing javascript function: ' + controller + '.openForm';
+                    $assetForm = window[controller]['openForm']('NEW', assetFormData);
+                    FwModule.openSubModuleTab($browse, $assetForm);
+                });
+            } else {
+                $form.find('.asset-submodule').hide();
+            }
+        } else {
+            $form.find('.asset-submodule').hide();
+        }
+    };
+    //----------------------------------------------------------------------------------------------
+    openAssetBrowse($form: any) {
+        let $browse;
+        $browse = AssetController.openBrowse();
+
+        $browse.data('ondatabind', request => {
+            request.ActiveView = AssetController.ActiveView;
+            request.uniqueids = {
+                InventoryId: $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
+            }
+        });
+
+        return $browse;
+    };
     //----------------------------------------------------------------------------------------------
     beforeValidate($browse, $grid, request) {
         var validationName = request.module;
