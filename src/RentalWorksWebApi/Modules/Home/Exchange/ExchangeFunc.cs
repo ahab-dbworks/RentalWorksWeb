@@ -11,6 +11,7 @@ namespace WebApi.Home.Exchange
     {
         public string InventoryId;
         public string ICode;
+        public string AvailableFor;
         public string Description;
         public string WarehouseId;
         public string Warehouse;
@@ -108,6 +109,7 @@ create procedure dbo.exchangebc(@exchangecontractid  char(08),
                     qry.AddParameter("@returniteminternalchar", SqlDbType.NVarChar, ParameterDirection.Output);
                     qry.AddParameter("@returnitemmasteritemid", SqlDbType.NVarChar, ParameterDirection.Output);
                     qry.AddParameter("@returnitemmasterno", SqlDbType.NVarChar, ParameterDirection.Output);
+                    qry.AddParameter("@returnitemavailfor", SqlDbType.NVarChar, ParameterDirection.Output);
                     qry.AddParameter("@returnitemdescription", SqlDbType.NVarChar, ParameterDirection.Output);
                     qry.AddParameter("@returnitemorderno", SqlDbType.NVarChar, ParameterDirection.Output);
                     qry.AddParameter("@returnitemorderdesc", SqlDbType.NVarChar, ParameterDirection.Output);
@@ -124,6 +126,7 @@ create procedure dbo.exchangebc(@exchangecontractid  char(08),
                     response.DepartmentId = qry.GetParameter("@returnitemdepartmentid").ToString().TrimEnd();
                     response.ItemStatus.InventoryId = qry.GetParameter("@returnitemmasterid").ToString().TrimEnd();
                     response.ItemStatus.ICode = qry.GetParameter("@returnitemmasterno").ToString().TrimEnd();
+                    response.ItemStatus.AvailableFor = qry.GetParameter("@returnitemavailfor").ToString().TrimEnd();
                     response.ItemStatus.Description = qry.GetParameter("@returnitemdescription").ToString().TrimEnd();
                     response.ItemStatus.WarehouseId = qry.GetParameter("@returnitemwarehouseid").ToString().TrimEnd();
                     response.ItemStatus.Warehouse = qry.GetParameter("@returnitemwarehouse").ToString().TrimEnd();
@@ -175,6 +178,7 @@ create procedure dbo.exchangebc(@exchangecontractid  char(08),
                     qry.AddParameter("@outpono", SqlDbType.NVarChar, ParameterDirection.Output);
                     qry.AddParameter("@outmasterid", SqlDbType.NVarChar, ParameterDirection.Output);
                     qry.AddParameter("@outmasterno", SqlDbType.NVarChar, ParameterDirection.Output);
+                    qry.AddParameter("@outavailfor", SqlDbType.NVarChar, ParameterDirection.Output);
                     qry.AddParameter("@outmaster", SqlDbType.NVarChar, ParameterDirection.Output);
                     qry.AddParameter("@outwarehouseid", SqlDbType.NVarChar, ParameterDirection.Output);
                     qry.AddParameter("@outwarehouse", SqlDbType.NVarChar, ParameterDirection.Output);
@@ -201,6 +205,7 @@ create procedure dbo.exchangebc(@exchangecontractid  char(08),
                     //response.DepartmentId = qry.GetParameter("@returnitemdepartmentid").ToString().TrimEnd();
                     response.ItemStatus.InventoryId = qry.GetParameter("@outmasterid").ToString().TrimEnd();
                     response.ItemStatus.ICode = qry.GetParameter("@outmasterno").ToString().TrimEnd();
+                    response.ItemStatus.AvailableFor = qry.GetParameter("@outavailfor").ToString().TrimEnd();
                     response.ItemStatus.Description = qry.GetParameter("@outmaster").ToString().TrimEnd();
                     response.ItemStatus.WarehouseId = qry.GetParameter("@outwarehouseid").ToString().TrimEnd();
                     response.ItemStatus.Warehouse = qry.GetParameter("@outwarehouse").ToString().TrimEnd();
