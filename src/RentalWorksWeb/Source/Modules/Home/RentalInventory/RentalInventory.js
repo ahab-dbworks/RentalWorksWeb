@@ -118,16 +118,35 @@ class RentalInventory extends InventoryBase {
                 $form.find('.containertab').hide();
                 $form.find('.completetab').hide();
                 $form.find('.kittab').hide();
-                if ($this.prop('checked') === true && $this.val() === 'N') {
-                    $form.find('.containertab').show();
-                    $form.find('.completeskitstab').hide();
+                if ($this.prop('checked') === true && $this.val() === 'I') {
+                    FwFormField.enable($form.find('div[data-datafield="TrackedBy"]'));
+                    $form.find('.tracked-by-column').show();
+                }
+                if ($this.prop('checked') === true && $this.val() === 'A') {
+                    FwFormField.enable($form.find('div[data-datafield="TrackedBy"]'));
+                    $form.find('.tracked-by-column').show();
                 }
                 if ($this.prop('checked') === true && $this.val() === 'C') {
                     $form.find('.completetab').show();
                     $form.find('.completeskitstab').hide();
+                    FwFormField.enable($form.find('div[data-datafield="TrackedBy"]'));
+                    $form.find('.tracked-by-column').hide();
                 }
                 if ($this.prop('checked') === true && $this.val() === 'K') {
                     $form.find('.kittab').show();
+                    FwFormField.enable($form.find('div[data-datafield="TrackedBy"]'));
+                    $form.find('.tracked-by-column').hide();
+                }
+                if ($this.prop('checked') === true && $this.val() === 'N') {
+                    $form.find('.containertab').show();
+                    $form.find('.completeskitstab').hide();
+                    FwFormField.enable($form.find('div[data-datafield="TrackedBy"]'));
+                    $form.find('.tracked-by-column').show();
+                }
+                if ($this.prop('checked') === true && $this.val() === 'M') {
+                    FwFormField.setValueByDataField($form, 'TrackedBy', 'QUANTITY');
+                    FwFormField.disable($form.find('div[data-datafield="TrackedBy"]'));
+                    $form.find('.tracked-by-column').show();
                 }
             });
         }
