@@ -1,10 +1,10 @@
-var FwReportsPageClass = (function () {
-    function FwReportsPageClass() {
+class FwReportsPageClass {
+    constructor() {
         this.filter = [];
     }
-    FwReportsPageClass.prototype.init = function () {
-    };
-    FwReportsPageClass.prototype.renderRuntimeHtml = function ($control) {
+    init() {
+    }
+    renderRuntimeHtml($control) {
         var html = [];
         html.push('<div class="fwreportsheader">');
         html.push('  <div class="input-group pull-right">');
@@ -18,8 +18,8 @@ var FwReportsPageClass = (function () {
         var reportsMenu = this.getHeaderView($control);
         $control.html(html.join(''));
         $control.find('.fwreportsheader').append(reportsMenu);
-    };
-    FwReportsPageClass.prototype.getCaptions = function (screen) {
+    }
+    getCaptions(screen) {
         var node = FwApplicationTree.getNodeById(FwApplicationTree.tree, '7FEC9D55-336E-44FE-AE01-96BF7B74074C');
         var modules = FwApplicationTree.getChildrenByType(node, 'ReportsModule');
         for (var i = 0; i < modules.length; i++) {
@@ -47,8 +47,8 @@ var FwReportsPageClass = (function () {
                 screen.moduleCaptions[caption][moduleName].push($field);
             }
         }
-    };
-    FwReportsPageClass.prototype.renderModuleHtml = function ($control, title, moduleName, description, menu, moduleId) {
+    }
+    renderModuleHtml($control, title, moduleName, description, menu, moduleId) {
         var me = this;
         var html = [], $reportsPageModules, $rowBody, $modulecontainer, $body, $form, browseKeys = [], rowId, screen = { 'moduleCaptions': {} }, filter = [];
         $modulecontainer = $control.find('#' + moduleName);
@@ -167,9 +167,9 @@ var FwReportsPageClass = (function () {
             }
         });
         return $reportsPageModules;
-    };
+    }
     ;
-    FwReportsPageClass.prototype.getHeaderView = function ($control) {
+    getHeaderView($control) {
         var $view;
         $view = jQuery('<div class="fwcontrol fwfilemenu" data-control="FwFileMenu" data-version="2" data-rendermode="template"></div>');
         FwControl.renderRuntimeControls($view);
@@ -216,9 +216,9 @@ var FwReportsPageClass = (function () {
             }
         }
         return $view;
-    };
+    }
     ;
-    FwReportsPageClass.prototype.generateDropDownModuleBtn = function ($menu, $control, securityid, caption, imgurl, subitems) {
+    generateDropDownModuleBtn($menu, $control, securityid, caption, imgurl, subitems) {
         var $modulebtn, $reports, btnHtml, subitemHtml, $subitem, version;
         version = $menu.closest('.fwfilemenu').attr('data-version');
         securityid = (typeof securityid === 'string') ? securityid : '';
@@ -273,9 +273,9 @@ var FwReportsPageClass = (function () {
             throw 'FwRibbon.generateDropDownModuleBtn: ' + securityid + ' caption is not defined in translation';
         }
         $menu.find('.menu').append($modulebtn);
-    };
+    }
     ;
-    FwReportsPageClass.prototype.generateStandardModuleBtn = function ($menu, $control, securityid, caption, modulenav, imgurl, moduleName) {
+    generateStandardModuleBtn($menu, $control, securityid, caption, modulenav, imgurl, moduleName) {
         var $modulebtn, btnHtml, btnId, version;
         securityid = (typeof securityid === 'string') ? securityid : '';
         $modulebtn = jQuery();
@@ -314,8 +314,7 @@ var FwReportsPageClass = (function () {
             }
         });
         $menu.find('.menu').append($modulebtn);
-    };
-    return FwReportsPageClass;
-}());
+    }
+}
 var FwReportsPage = new FwReportsPageClass();
 //# sourceMappingURL=FwReportsPage.js.map

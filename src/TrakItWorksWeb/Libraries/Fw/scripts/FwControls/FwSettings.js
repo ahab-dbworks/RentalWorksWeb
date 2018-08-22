@@ -410,7 +410,7 @@ FwSettings.renderModuleHtml = function ($control, title, moduleName, description
 
     $settingsPageModules
         .on('click', '.panel-heading', function (e) {
-            var $this, moduleName, $browse, $modulecontainer, apiurl, $body, browseData = [], browseKeys = [], rowId, formKeys = [], keys, $settings, $form, duplicateDatafields;
+            var $this, moduleName, $browse, $modulecontainer, apiurl, $body, browseData = [], browseKeys = [], rowId, formKeys = [], keys, $settings, $form, duplicateDatafields, colors = [];
 
             $this = jQuery(this);
             moduleName = $this.closest('.panel-group').attr('id');
@@ -438,6 +438,13 @@ FwSettings.renderModuleHtml = function ($control, title, moduleName, description
                         } else {
                             fieldData['caption'] = Key;
                         };
+
+                        if ($browse.find('div[data-datafield="' + Key + '"]').data('cellcolor') === 'Color') {
+                            fieldData['color'] = true;
+                            for (var i = 0; i < response.length; i++) {
+                                colors.push(response[i].Color)
+                            }
+                        }
 
                         fieldData['datatype'] = $browse.find('div[data-datafield="' + Key + '"]').data('datatype');
                         fieldData['datafield'] = Key
@@ -481,6 +488,7 @@ FwSettings.renderModuleHtml = function ($control, title, moduleName, description
                             }
                         }
                     }
+                    // remove duplicated fields
                     browseData.forEach(function (browseField) {
                         if (!duplicateDatafields[browseField.datafield]) {
                             withoutDuplicates.push(browseField)
@@ -519,10 +527,13 @@ FwSettings.renderModuleHtml = function ($control, title, moduleName, description
                                     } else {
                                         html.push('<div class="checkboxwrapper"><input class="value" data-datafield="' + browseData[j]['datafield'] + '" type="checkbox" disabled="disabled" style="box-sizing:border-box;pointer-events:none;"><label></label></div>');
                                     }
-
                                 } else {
-                                    html.push('    <div class="fwcontrol fwcontainer fwform-fieldrow" data-type="fieldrow">');
-                                    html.push('    <label data-datafield=' + browseData[j]['datafield'] + '>' + response[i][browseKeys[j]] + '</label>');
+                                    if (browseData[j]['color']) {
+                                        html.push('    <div class="fwcontrol fwcontainer fwform-fieldrow" data-type="fieldrow" style="color:' + response[i].Color + ';width:8em;white-space:nowrap;height: 0;display:flex;border-bottom: 20px solid transparent;border-top: 20px solid;">');
+                                    } else {
+                                        html.push('    <div class="fwcontrol fwcontainer fwform-fieldrow" data-type="fieldrow">');
+                                    }
+                                    html.push('    <label data-datafield=' + browseData[j]['datafield'] + ' style="color:#31708f">' + response[i][browseKeys[j]] + '</label>');
                                 }
 
                                 html.push('        </div>');

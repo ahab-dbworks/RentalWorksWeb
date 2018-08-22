@@ -1,5 +1,5 @@
-var FwApplication = (function () {
-    function FwApplication() {
+class FwApplication {
+    constructor() {
         this.screens = [];
         var $templates = jQuery('script[data-ajaxload="true"]');
         $templates.each(function () {
@@ -12,7 +12,7 @@ var FwApplication = (function () {
             }
         });
     }
-    FwApplication.prototype.pushScreen = function (screen) {
+    pushScreen(screen) {
         var me, applicationContainer, viewAnimationContainer, $previousView;
         FwAppData.abortAllRequests();
         me = this;
@@ -37,8 +37,8 @@ var FwApplication = (function () {
             screen.load();
         }
         document.body.scrollTop = 0;
-    };
-    FwApplication.prototype.updateScreen = function (screen) {
+    }
+    updateScreen(screen) {
         var me, applicationContainer, viewAnimationContainer, $previousView;
         FwAppData.abortAllRequests();
         me = this;
@@ -60,8 +60,8 @@ var FwApplication = (function () {
                 screen.load();
             }
         });
-    };
-    FwApplication.prototype.popScreen = function () {
+    }
+    popScreen() {
         var applicationContainer, oldScreen, screen;
         FwAppData.abortAllRequests();
         applicationContainer = jQuery('#application');
@@ -88,8 +88,8 @@ var FwApplication = (function () {
                 }
             }
         }
-    };
-    FwApplication.prototype.playStatus = function (isSuccessful) {
+    }
+    playStatus(isSuccessful) {
         if (isSuccessful) {
             switch (this.audioMode) {
                 case 'DTDevices':
@@ -108,17 +108,17 @@ var FwApplication = (function () {
                     break;
             }
         }
-    };
-    FwApplication.prototype.setMedia = function (media) {
+    }
+    setMedia(media) {
         localStorage.setItem('media', media);
-    };
-    FwApplication.prototype.setScanMode = function (scanMode) {
+    }
+    setScanMode(scanMode) {
         localStorage.setItem('scanMode', scanMode);
         if (typeof window['LineaScanner'] !== 'undefined') {
             window['LineaScanner'].setScanMode(parseInt(scanMode));
         }
-    };
-    FwApplication.prototype.load = function () {
+    }
+    load() {
         var me = this;
         window.addEventListener("dragover", function (e) {
             e.preventDefault();
@@ -138,19 +138,19 @@ var FwApplication = (function () {
             var media = localStorage.getItem('media');
             this.setMedia(media);
         }
-    };
-    FwApplication.prototype.popOutURL = function (url) {
-        var settings = 'scrollbars=yes,resizeable=yes,toolbar=no,status=no,menubar=no,directories=no,titlebar=no,location=no,addressbar=yes';
+    }
+    popOutURL(url) {
+        let settings = 'scrollbars=yes,resizeable=yes,toolbar=no,status=no,menubar=no,directories=no,titlebar=no,location=no,addressbar=yes';
         var newwindow = window.open(url, '', settings);
-    };
+    }
     ;
-    FwApplication.prototype.popOutTab = function (url) {
-        var settings = 'scrollbars=yes,resizeable=yes,toolbar=no,status=no,menubar=no,directories=no,titlebar=no,location=yes,addressbar=yes';
+    popOutTab(url) {
+        let settings = 'scrollbars=yes,resizeable=yes,toolbar=no,status=no,menubar=no,directories=no,titlebar=no,location=yes,addressbar=yes';
         var newwindow = window.open(url, '_blank');
         newwindow.focus();
-    };
+    }
     ;
-    FwApplication.prototype.uniqueId = function (idlength) {
+    uniqueId(idlength) {
         var charstoformid = '_0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz'.split('');
         if (!idlength) {
             idlength = Math.floor(Math.random() * charstoformid.length);
@@ -165,9 +165,9 @@ var FwApplication = (function () {
         else {
             return this.uniqueId(idlength);
         }
-    };
+    }
     ;
-    FwApplication.prototype.debugCss = function (idlength) {
+    debugCss(idlength) {
         var html = [], fields = [], formfields, $appendContent;
         jQuery('.application').empty();
         formfields = ['text', 'number', 'password', 'select', 'date', 'time', 'email', 'url', 'phone', 'validation', 'multiselectvalidation', 'combobox', 'money', 'zipcode', 'percent', 'ssn', 'color', 'checkbox', 'toggleswitch', 'radio', 'searchbox', 'textarea'];
@@ -176,15 +176,15 @@ var FwApplication = (function () {
             var field, fieldname;
             field = formfields[i];
             fieldname = field.toLowerCase().replace(/\b[a-z]/g, function (letter) { return letter.toUpperCase(); });
-            html.push("<div class=\"fwcontrol fwcontainer fwform-section\" data-control=\"FwContainer\" data-type=\"section\" data-caption=\"" + fieldname + " Section\" style=\"min-width:300px;\">");
+            html.push(`<div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="${fieldname} Section" style="min-width:300px;">`);
             html.push('  <div class="flexrow">');
-            html.push("    <div data-control=\"FwFormField\" data-type=\"" + field + "\" class=\"fwcontrol fwformfield\" data-caption=\"" + fieldname + " Field\"></div>");
+            html.push(`    <div data-control="FwFormField" data-type="${field}" class="fwcontrol fwformfield" data-caption="${fieldname} Field"></div>`);
             html.push('  </div>');
             html.push('  <div class="flexrow">');
-            html.push("    <div data-control=\"FwFormField\" data-type=\"" + field + "\" class=\"fwcontrol fwformfield\" data-caption=\"" + fieldname + " Field\" data-enabled=\"false\"></div>");
+            html.push(`    <div data-control="FwFormField" data-type="${field}" class="fwcontrol fwformfield" data-caption="${fieldname} Field" data-enabled="false"></div>`);
             html.push('  </div>');
             html.push('  <div class="flexrow">');
-            html.push("    <div data-control=\"FwFormField\" data-type=\"" + field + "\" class=\"fwcontrol fwformfield\" data-caption=\"" + fieldname + " Field\" data-required=\"true\"></div>");
+            html.push(`    <div data-control="FwFormField" data-type="${field}" class="fwcontrol fwformfield" data-caption="${fieldname} Field" data-required="true"></div>`);
             html.push('  </div>');
             html.push('</div>');
         }
@@ -207,9 +207,9 @@ var FwApplication = (function () {
             ], true);
         });
         jQuery('.application').append($appendContent);
-    };
+    }
     ;
-    FwApplication.prototype.forceReloadCss = function () {
+    forceReloadCss() {
         var a = document.getElementsByTagName('link');
         for (var i = 0; i < a.length; i++) {
             var s = a[i];
@@ -218,9 +218,9 @@ var FwApplication = (function () {
                 s.href = h + (h.indexOf('?') >= 0 ? '&' : '?') + 'forceReload=' + (new Date().valueOf());
             }
         }
-    };
+    }
     ;
-    FwApplication.prototype.getModule = function (path) {
+    getModule(path) {
         var screen, $bodyContainer, $modifiedForms, $form, $tab;
         $bodyContainer = jQuery('#master-body');
         $modifiedForms = $bodyContainer.find('div[data-type="form"][data-modified="true"]');
@@ -237,13 +237,13 @@ var FwApplication = (function () {
         else {
             this.navigate(path);
         }
-    };
+    }
     ;
-    FwApplication.prototype.getApplicationOptions = function () {
+    getApplicationOptions() {
         return JSON.parse(sessionStorage.getItem('applicationOptions'));
-    };
+    }
     ;
-    FwApplication.prototype.navigateHashChange = function (path) {
+    navigateHashChange(path) {
         var screen, $appendToContainer;
         FwPopup.destroy(jQuery('.FwPopup-divPopup,.FwPopup-divOverlay'));
         FwAppData.abortAllRequests();
@@ -280,11 +280,11 @@ var FwApplication = (function () {
             document.body.scrollTop = 0;
         }
         if (!foundmatch) {
-            FwFunc.showError("404: Not Found - " + path);
+            FwFunc.showError(`404: Not Found - ${path}`);
         }
-    };
+    }
     ;
-    FwApplication.prototype.navigate = function (path) {
+    navigate(path) {
         var me, screen;
         me = this;
         path = path.toLowerCase();
@@ -295,9 +295,9 @@ var FwApplication = (function () {
         else {
             this.navigateHashChange(path);
         }
-    };
+    }
     ;
-    FwApplication.prototype.loadDefaultPage = function () {
+    loadDefaultPage() {
         if (sessionStorage.getItem('authToken')) {
             if (window.location.hash.replace('#/', '') !== '' && window.location.hash.replace('#/', '') !== 'home') {
                 sessionStorage.setItem('redirectPath', window.location.hash.replace('#/', ''));
@@ -307,15 +307,14 @@ var FwApplication = (function () {
         else {
             this.navigate('default');
         }
-    };
-    FwApplication.prototype.setApplicationTheme = function (setTheme) {
+    }
+    setApplicationTheme(setTheme) {
         jQuery('html').removeClass(function (index, className) {
             return (className.match(/(^|\s)theme-\S+/g) || []).join(' ');
         });
         jQuery('html').addClass(setTheme);
-    };
-    return FwApplication;
-}());
+    }
+}
 window.onhashchange = function () {
     program.navigateHashChange(window.location.hash.replace('#/', ''));
 };
