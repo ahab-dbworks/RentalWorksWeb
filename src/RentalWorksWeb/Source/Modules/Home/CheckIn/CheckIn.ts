@@ -291,7 +291,7 @@ class CheckIn {
             }
             response.ShowNewOrder ? $form.find('.addordertocontract').show() : $form.find('.addordertocontract').hide();
 
-        }, null, null);
+        }, null, contractId ? null:$form);
     }
     //----------------------------------------------------------------------------------------------
 }
