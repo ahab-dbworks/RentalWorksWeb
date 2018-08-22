@@ -536,6 +536,8 @@ class SalesInventory extends InventoryBase {
             $form.find('.accessoryradio').hide();
             $form.find('.containerradio').hide();
             $form.find('.miscradio').hide();
+            $form.find('.tracked-by-column').hide();
+            $form.find('div[data-datafield="TrackedBy"] input').prop('checked', false);
         }
 
         if (FwFormField.getValue($form, 'div[data-datafield="Classification"]') === 'K') {
@@ -544,6 +546,8 @@ class SalesInventory extends InventoryBase {
             $form.find('.accessoryradio').hide();
             $form.find('.containerradio').hide();
             $form.find('.miscradio').hide();
+            $form.find('.tracked-by-column').hide();
+            $form.find('div[data-datafield="TrackedBy"] input').prop('checked', false);
         }
 
         if (FwFormField.getValue($form, 'div[data-datafield="Classification"]') === 'M') {
@@ -552,7 +556,8 @@ class SalesInventory extends InventoryBase {
             $form.find('.itemradio').hide();
             $form.find('.accessoryradio').hide();
             $form.find('.containerradio').hide();
-
+            FwFormField.setValueByDataField($form, 'TrackedBy', 'QUANTITY');
+            FwFormField.disable($form.find('div[data-datafield="TrackedBy"]'));
         }
 
         if ($form.find('[data-datafield="OverrideProfitAndLossCategory"] .fwformfield-value').prop('checked')) {
