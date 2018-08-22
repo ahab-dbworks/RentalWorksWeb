@@ -7,17 +7,11 @@ using WebApi.Data;
 namespace WebApi.Modules.Home.Vendor
 {
     [FwSqlTable("vendorview")]
-    public class VendorLoader: AppDataLoadRecord
+    public class VendorLoader: VendorBrowseLoader
     {
-        //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "vendorid", modeltype: FwDataTypes.Text, isPrimaryKey: true)]
-        public string VendorId { get; set; } = "";
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "vendornametype", modeltype: FwDataTypes.Text)]
         public string VendorNameType { get; set; }
-        //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "vendorno", modeltype: FwDataTypes.Text)]
-        public string VendorNumber { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "fedid", modeltype: FwDataTypes.Text)]
         public string FederalIdNumber { get; set; }
@@ -43,38 +37,8 @@ namespace WebApi.Modules.Home.Vendor
         [FwSqlDataField(column: "lname", modeltype: FwDataTypes.Text)]
         public string LastName { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "vendorfml", modeltype: FwDataTypes.Text)]
-        public string VendorDisplayName { get; set; }
-        //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "add1", modeltype: FwDataTypes.Text)]
-        public string Address1 { get; set; }
-        //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "add2", modeltype: FwDataTypes.Text)]
-        public string Address2 { get; set; }
-        //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "city", modeltype: FwDataTypes.Text)]
-        public string City { get; set; }
-        //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "state", modeltype: FwDataTypes.Text)]
-        public string State { get; set; }
-        //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "countryid", modeltype: FwDataTypes.Text)]
-        public string CountryId { get; set; }
-        //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "country", modeltype: FwDataTypes.Text)]
-        public string Country { get; set; }
-        //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "zip", modeltype: FwDataTypes.Text)]
-        public string ZipCode { get; set; }
-        //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "vendorclassid", modeltype: FwDataTypes.Text)]
         public string VendorClassId { get; set; }
-        //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "vendorclass", modeltype: FwDataTypes.Text)]
-        public string VendorClass { get; set; }
-        //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "phone", modeltype: FwDataTypes.Text)]
-        public string Phone { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "fax", modeltype: FwDataTypes.Text)]
         public string Fax { get; set; }
@@ -141,9 +105,6 @@ namespace WebApi.Modules.Home.Vendor
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "ssdiscountrate", modeltype: FwDataTypes.Decimal)]
         public decimal? DefaultSubSaleDiscountPercent { get; set; }
-        //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "ratetype", modeltype: FwDataTypes.Text)]
-        public string DefaultRate { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "paytermsid", modeltype: FwDataTypes.Text)]
         public string PaymentTermsId { get; set; }
@@ -226,19 +187,8 @@ namespace WebApi.Modules.Home.Vendor
         [FwSqlDataField(column: "moddate", modeltype: FwDataTypes.Date)]
         public string LastModifiedDate { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "inactive", modeltype: FwDataTypes.Boolean)]
-        public bool? Inactive { get; set; }
-        //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
         public string DateStamp { get; set; }
-        //------------------------------------------------------------------------------------
-        protected override void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequest request = null)
-        {
-            base.SetBaseSelectQuery(select, qry, customFields, request);
-            select.Parse();
-            addFilterToSelect("Insurance", "insurance", select, request);
-            addFilterToSelect("Freight", "freight", select, request);
-        }
         //------------------------------------------------------------------------------------
     }
 }
