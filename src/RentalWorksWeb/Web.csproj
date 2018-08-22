@@ -437,8 +437,9 @@
     <TypeScriptCompile Include="Source\Reports\BillingProgressReport\RwBillingProgressReportController.ts" />
     <TypeScriptCompile Include="Source\Reports\ARAgingReport\RwARAgingReportController.ts" />
     <TypeScriptCompile Include="Source\Reports\GLDistributionReport\RwGLDistributionReportController.ts" />
+    <TypeScriptCompile Include="Source\Reports\LateReturnDueBackReport\RwLateReturnDueBackReportController.ts" />
     <TypeScriptCompile Include="Source\Reports\SalesRepresentativeBillingReport\RwSalesRepresentativeBillingReportController.ts" />
-    <TypeScriptCompile Include="Source\Reports\ProjectManagerBillingReport\RwProjectManagerBillingReportController.ts" />
+    <TypeScriptCompile Include="Source\Reports\ProjectManagerBillingReport\ProjectManagerBillingReportController.ts" />
     <TypeScriptCompile Include="Source\Reports\AgentBillingReport\RwAgentBillingReportController.ts" />
     <TypeScriptCompile Include="Source\Reports\PrintOrder\RwPrintOrderController.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\CreatePickList\CreatePickList.ts" />
@@ -491,6 +492,11 @@
     <Content Include="Source\Reports\GLDistributionReport\FrontEnd.htm" />
     <Content Include="Source\Reports\GLDistributionReport\Header.htm" />
     <Content Include="Source\Reports\GLDistributionReport\StyleSheet.css" />
+    <Content Include="Source\Reports\LateReturnDueBackReport\Body.htm" />
+    <Content Include="Source\Reports\LateReturnDueBackReport\Footer.htm" />
+    <Content Include="Source\Reports\LateReturnDueBackReport\FrontEnd.htm" />
+    <Content Include="Source\Reports\LateReturnDueBackReport\Header.htm" />
+    <Content Include="Source\Reports\LateReturnDueBackReport\StyleSheet.css" />
     <Content Include="Source\Reports\SalesRepresentativeBillingReport\Body.htm" />
     <Content Include="Source\Reports\SalesRepresentativeBillingReport\Footer.htm" />
     <Content Include="Source\Reports\SalesRepresentativeBillingReport\FrontEnd.htm" />
@@ -1226,6 +1232,7 @@
     <Compile Include="Source\Reports\BillingProgressReport\BillingProgressReport.cs" />
     <Compile Include="Source\Reports\ARAgingReport\ARAgingReport.cs" />
     <Compile Include="Source\Reports\GLDistributionReport\GLDistributionReport.cs" />
+    <Compile Include="Source\Reports\LateReturnDueBackReport\LateReturnDueBackReport.cs" />
     <Compile Include="Source\Reports\SalesRepresentativeBillingReport\SalesRepresentativeBillingReport.cs" />
     <Compile Include="Source\Reports\ProjectManagerBillingReport\ProjectManagerBillingReport.cs" />
     <Compile Include="Source\Reports\ChargeProcessing\ChargeProcessing.cs" />
