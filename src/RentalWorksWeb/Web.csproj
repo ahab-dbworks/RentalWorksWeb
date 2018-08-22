@@ -427,6 +427,7 @@
     <TypeScriptCompile Include="Source\Modules\Home\PurchaseOrder\PurchaseOrder.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\Project\Project.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\StagingCheckout\StagingCheckout.ts" />
+    <TypeScriptCompile Include="Source\Modules\Reports\AgentBilling\RwAgentBillingReportController.ts" />
     <TypeScriptCompile Include="Source\Modules\Reports\OutContract\RwOutContractReportController.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\Sound\Sound.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\WorkWeek\WorkWeek.ts" />

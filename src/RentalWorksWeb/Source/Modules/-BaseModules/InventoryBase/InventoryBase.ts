@@ -30,7 +30,7 @@
                 FwFormField.setValueByDataField($form, 'SubCategoryId', '')
             }
         });
-
+        // Hides or shows Asset tab for particular settings on the form
         $form.find('.class-tracked-radio input').on('change', () => {
             classificationValue = FwFormField.getValueByDataField($form, 'Classification');
             trackedByValue = FwFormField.getValueByDataField($form, 'TrackedBy');
