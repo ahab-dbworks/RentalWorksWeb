@@ -154,6 +154,9 @@ namespace WebApi.Modules.Home.Item
         [FwSqlDataField(column: "purchvendorid", modeltype: FwDataTypes.Text)]
         public string PurchaseVendorId { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "purchvendor", modeltype: FwDataTypes.Text)]
+        public string PurchaseVendor { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "outsidepono", modeltype: FwDataTypes.Text)]
         public string OutsidePoNumber { get; set; }
         //------------------------------------------------------------------------------------ 

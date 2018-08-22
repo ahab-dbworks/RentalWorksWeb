@@ -125,6 +125,8 @@ namespace WebApi.Modules.Home.Item
         [FwBusinessLogicField(isReadOnly: true)]
         public string PurchaseVendorId { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
+        public string PurchaseVendor { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
         public string OutsidePoNumber { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
         public string PurchasePoId { get; set; }
