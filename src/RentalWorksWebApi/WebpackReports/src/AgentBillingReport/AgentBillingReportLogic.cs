@@ -1,6 +1,7 @@
 using FwStandard.BusinessLogic.Attributes;
 using WebApi.Logic;
 namespace WebApi.Modules.Reports.AgentBillingReport
+
 {
     public class AgentBillingReportLogic : AppBusinessLogic
     {
