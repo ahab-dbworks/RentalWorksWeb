@@ -1,57 +1,8 @@
 routes.push({
-    pattern: /^reports\/agentbillingreport/, action: function (match) {
+    pattern: /^module\/agentbillingreport/, action: function (match) {
         return RwAgentBillingReportController.getModuleScreen();
     }
 });
-class RwAgentBillingReportClass extends FwWebApiReport {
-    constructor() {
-        super('AgentBillingReport', 'api/v1/agentbillingreport', templateFrontEnd);
-    }
-    getModuleScreen() {
-        let screen = {};
-        screen.$view = FwModule.getModuleControl('Rw' + this.Module + 'Controller');
-        screen.viewModel = {};
-        screen.properties = {};
-        let $form = this.openForm();
-        screen.load = function () {
-            FwModule.openModuleTab($form, $form.attr('data-caption'), false, 'REPORT', true);
-            $form.find('.contractid').data('calldatabind', function (request, callback) {
-            });
-        };
-        screen.unload = function () {
-        };
-        return screen;
-    }
-    openForm() {
-        let $form = this.getFrontEnd();
-        return $form;
-    }
-    onLoadForm($form) {
-        this.load($form, this.reportOptions);
-        var appOptions = program.getApplicationOptions();
-        var request = { method: "LoadForm" };
-        const department = JSON.parse(sessionStorage.getItem('department'));
-        const location = JSON.parse(sessionStorage.getItem('location'));
-        FwFormField.setValue($form, 'div[data-datafield="DepartmentId"]', department.departmentid, department.department);
-        FwFormField.setValue($form, 'div[data-datafield="OfficeLocationId"]', location.locationid, location.location);
-    }
-    beforeValidate($browse, $form, request) {
-        const validationName = request.module;
-        const customerId = FwFormField.getValueByDataField($form, 'CustomerId');
-        request.uniqueids = {};
-        switch (validationName) {
-            case 'DealValidation':
-                if (customerId !== "") {
-                    request.uniqueids.CustomerId = customerId;
-                }
-                break;
-        }
-        ;
-    }
-    ;
-}
-;
-var RwOutContractReportController = new RwOutContractReportClass();
 var templateFrontEnd = `
     <div class="fwcontrol fwcontainer fwform fwreport agentbillingreport" data-control="FwContainer" data-type="form" data-version="1" data-caption="Agent Billing" data-rendermode="template" data-mode="" data-hasaudit="false" data-controller="RwAgentBillingReportController">
   <div class="fwcontrol fwtabs" data-control="FwTabs" data-type="">
@@ -115,6 +66,56 @@ var templateFrontEnd = `
       <div id="exporttabpage" class="tabpage exporttabpage" data-tabid="exporttab"></div>
     </div>
   </div>
-</div>
-`;
+</div>`;
+class RwAgentBillingReportClass extends FwWebApiReport {
+    constructor() {
+        super('AgentBillingReport', 'api/v1/agentbillingreport', templateFrontEnd);
+    }
+    getModuleScreen() {
+        let screen = {};
+        screen.$view = FwModule.getModuleControl('Rw' + this.Module + 'Controller');
+        screen.viewModel = {};
+        screen.properties = {};
+        let $form = this.openForm();
+        screen.load = function () {
+            FwModule.openModuleTab($form, $form.attr('data-caption'), false, 'REPORT', true);
+        };
+        screen.unload = function () {
+        };
+        return screen;
+    }
+    openForm() {
+        let $form = this.getFrontEnd();
+        $form.data('getexportrequest', request => {
+            request.parameters = this.getParameters($form);
+            return request;
+        });
+        return $form;
+    }
+    onLoadForm($form) {
+        this.load($form, this.reportOptions);
+        var appOptions = program.getApplicationOptions();
+        var request = { method: "LoadForm" };
+        const department = JSON.parse(sessionStorage.getItem('department'));
+        const location = JSON.parse(sessionStorage.getItem('location'));
+        FwFormField.setValue($form, 'div[data-datafield="DepartmentId"]', department.departmentid, department.department);
+        FwFormField.setValue($form, 'div[data-datafield="OfficeLocationId"]', location.locationid, location.location);
+    }
+    beforeValidate($browse, $form, request) {
+        const validationName = request.module;
+        const customerId = FwFormField.getValueByDataField($form, 'CustomerId');
+        request.uniqueids = {};
+        switch (validationName) {
+            case 'DealValidation':
+                if (customerId !== "") {
+                    request.uniqueids.CustomerId = customerId;
+                }
+                break;
+        }
+        ;
+    }
+    ;
+}
+;
+var RwAgentBillingReportController = new RwAgentBillingReportClass();
 //# sourceMappingURL=RwAgentBillingReportController.js.map
