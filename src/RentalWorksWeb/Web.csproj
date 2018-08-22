@@ -427,6 +427,7 @@
     <TypeScriptCompile Include="Source\Modules\Home\PurchaseOrder\PurchaseOrder.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\Project\Project.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\StagingCheckout\StagingCheckout.ts" />
+    <TypeScriptCompile Include="Source\Modules\Reports\GLDistributionReport\RwGLDistributionReportController.ts" />
     <TypeScriptCompile Include="Source\Modules\Reports\AgentBilling\RwAgentBillingReportController.ts" />
     <TypeScriptCompile Include="Source\Modules\Reports\OutContract\RwOutContractReportController.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\Sound\Sound.ts" />
@@ -437,7 +438,6 @@
     <TypeScriptCompile Include="Source\Reports\CreateInvoiceProcessReport\RwCreateInvoiceProcessReportController.ts" />
     <TypeScriptCompile Include="Source\Reports\BillingProgressReport\RwBillingProgressReportController.ts" />
     <TypeScriptCompile Include="Source\Reports\ARAgingReport\RwARAgingReportController.ts" />
-    <TypeScriptCompile Include="Source\Reports\GLDistributionReport\RwGLDistributionReportController.ts" />
     <TypeScriptCompile Include="Source\Reports\LateReturnDueBackReport\RwLateReturnDueBackReportController.ts" />
     <TypeScriptCompile Include="Source\Reports\SalesRepresentativeBillingReport\RwSalesRepresentativeBillingReportController.ts" />
     <TypeScriptCompile Include="Source\Reports\ProjectManagerBillingReport\ProjectManagerBillingReportController.ts" />
@@ -487,11 +487,6 @@
     <Content Include="Source\Reports\ARAgingReport\FrontEnd.htm" />
     <Content Include="Source\Reports\ARAgingReport\Header.htm" />
     <Content Include="Source\Reports\ARAgingReport\StyleSheet.css" />
-    <Content Include="Source\Reports\GLDistributionReport\Body.htm" />
-    <Content Include="Source\Reports\GLDistributionReport\Footer.htm" />
-    <Content Include="Source\Reports\GLDistributionReport\FrontEnd.htm" />
-    <Content Include="Source\Reports\GLDistributionReport\Header.htm" />
-    <Content Include="Source\Reports\GLDistributionReport\StyleSheet.css" />
     <Content Include="Source\Reports\LateReturnDueBackReport\Body.htm" />
     <Content Include="Source\Reports\LateReturnDueBackReport\Footer.htm" />
     <Content Include="Source\Reports\LateReturnDueBackReport\FrontEnd.htm" />
@@ -1226,7 +1221,6 @@
     <Compile Include="Source\Reports\CreateInvoiceProcessReport\CreateInvoiceProcessReport.cs" />
     <Compile Include="Source\Reports\BillingProgressReport\BillingProgressReport.cs" />
     <Compile Include="Source\Reports\ARAgingReport\ARAgingReport.cs" />
-    <Compile Include="Source\Reports\GLDistributionReport\GLDistributionReport.cs" />
     <Compile Include="Source\Reports\LateReturnDueBackReport\LateReturnDueBackReport.cs" />
     <Compile Include="Source\Reports\SalesRepresentativeBillingReport\SalesRepresentativeBillingReport.cs" />
     <Compile Include="Source\Reports\ProjectManagerBillingReport\ProjectManagerBillingReport.cs" />
