@@ -113,6 +113,9 @@ class AssignBarCodes {
                     FwFormField.setValueByDataField($form, 'ContractDate', '');
                     FwFormField.enable($form.find('[data-datafield="PurchaseOrderId"]'));
                     FwFormField.enable($form.find('[data-datafield="ContractId"]'));
+                    let $poReceiveBarCodeGridControl: any;
+                    $poReceiveBarCodeGridControl = $form.find('[data-name="POReceiveBarCodeGrid"]');
+                    $poReceiveBarCodeGridControl.find('tbody').empty();
                 }
             }, null, $form);
         });

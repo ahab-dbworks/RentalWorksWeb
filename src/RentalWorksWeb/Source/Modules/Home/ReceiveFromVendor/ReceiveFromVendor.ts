@@ -153,6 +153,8 @@ class ReceiveFromVendor {
                 }
                 FwFormField.setValueByDataField($form, 'Date', currentDate);
                 FwFormField.setValueByDataField($form, 'Time', currentTime);
+                $form.find('.createcontract[data-type="button"]').show();
+                $form.find('.createcontract[data-type="btnmenu"]').hide();
             }, null, $form);
         });
         // Select None
@@ -260,6 +262,8 @@ class ReceiveFromVendor {
                     currentTime = date.toLocaleTimeString();
                 FwFormField.setValueByDataField($form, 'Date', currentDate);
                 FwFormField.setValueByDataField($form, 'Time', currentTime);
+                $form.find('.createcontract[data-type="button"]').show();
+                $form.find('.createcontract[data-type="btnmenu"]').hide();
             }, null, $form);
         });
 
