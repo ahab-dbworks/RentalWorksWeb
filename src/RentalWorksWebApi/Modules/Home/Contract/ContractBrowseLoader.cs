@@ -74,6 +74,9 @@ namespace WebApi.Modules.Home.Contract
         [FwSqlDataField(column: "orderdesc", modeltype: FwDataTypes.Text)]
         public string OrderDescription { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "poorderdesc", modeltype: FwDataTypes.Text)]
+        public string PoOrderDescription { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
         public string DateStamp { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -94,6 +97,11 @@ namespace WebApi.Modules.Home.Contract
                 {
                     select.AddWhere("exists (select * from ordercontract oc where oc.contractid = " + TableAlias + ".contractid and oc.orderid = @orderid)");
                     select.AddParameter("@orderid", uniqueIds["OrderId"].ToString());
+                }
+                if (uniqueIds.ContainsKey("PurchaseOrderId"))
+                {
+                    select.AddWhere("exists (select * from ordercontract oc where oc.contractid = " + TableAlias + ".contractid and oc.poid = @poid)");
+                    select.AddParameter("@poid", uniqueIds["PurchaseOrderId"].ToString());
                 }
             }
 

@@ -72,6 +72,8 @@ namespace WebApi.Modules.Home.Contract
         public string SessionId { get { return contract.SessionId; } set { contract.SessionId = value; } }
         [FwBusinessLogicField(isReadOnly: true)]
         public string OrderDescription { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string PoOrderDescription { get; set; }
         public string DateStamp { get { return contract.DateStamp; } set { contract.DateStamp = value; } }
         //------------------------------------------------------------------------------------ 
     }

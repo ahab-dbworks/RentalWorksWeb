@@ -86,6 +86,8 @@ namespace WebApi.Modules.Home.PurchaseOrder
             else if (GetMiscFieldAsBoolean("AssignBarCodes", request).GetValueOrDefault(false))
             {
                 select.AddWhere("orderno > ''");
+                //select.AddWhere("qtytobarcode > 0");
+                select.AddWhere("exists (select * from barcodeholding bch with (nolock) where bch.orderid = " + TableAlias + ".orderid and bch.ordertranid is not null)");
                 select.AddWhereIn("and", "status", RwConstants.PURCHASE_ORDER_STATUS_OPEN + "," + RwConstants.PURCHASE_ORDER_STATUS_RECEIVED + "," + RwConstants.PURCHASE_ORDER_STATUS_COMPLETE);
 
                 string assigningWarehouseId = GetMiscFieldAsString("AssigningWarehouseId", request);

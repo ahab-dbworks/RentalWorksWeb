@@ -128,8 +128,14 @@ class AssignBarCodes {
         request.miscfields = {
             AssignBarCodes: true
             , AssigningWarehouseId: warehouseId
-        }
+        };
     };
+    //----------------------------------------------------------------------------------------------
+    beforeValidateContractNumber($browse: any, $form: any, request: any) {
+        request.uniqueIds = {
+            PurchaseOrderId: FwFormField.getValueByDataField($form, 'PurchaseOrderId')
+        };
+    }
     //----------------------------------------------------------------------------------------------
 }
 var AssignBarCodesController = new AssignBarCodes();
