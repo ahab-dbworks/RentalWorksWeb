@@ -21,9 +21,9 @@ namespace WebApi.Modules.Reports.ContractReport
         //------------------------------------------------------------------------------------ 
         public OutContractReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
         //------------------------------------------------------------------------------------ 
-        public override string GetReportFileName() { return "OutContractReport"; }
-        public override string GetReportFriendlyName() { return "Out-Contract Report"; }
-        public override PdfOptions GetPdfOptions()
+        protected override string GetReportFileName() { return "OutContractReport"; }
+        protected override string GetReportFriendlyName() { return "Out-Contract Report"; }
+        protected override PdfOptions GetPdfOptions()
         {
             // Configures Chromium for printing. Some of these properties are better to set in the @page section in CSS.
             PdfOptions pdfOptions = new PdfOptions();

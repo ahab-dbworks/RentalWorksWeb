@@ -19,11 +19,11 @@ namespace WebApi.Modules.Reports.AgentBillingReport
         //------------------------------------------------------------------------------------ 
         public AgentBillingReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
         //------------------------------------------------------------------------------------ 
-        public override string GetReportFileName() { return "AgentBillingReport"; }
+        protected override string GetReportFileName() { return "AgentBillingReport"; }
         //------------------------------------------------------------------------------------ 
-        public override string GetReportFriendlyName() { return "Agent Billing Report"; }
+        protected override string GetReportFriendlyName() { return "Agent Billing Report"; }
         //------------------------------------------------------------------------------------ 
-        public override PdfOptions GetPdfOptions()
+        protected override PdfOptions GetPdfOptions()
         {
             // Configures Chromium for printing. Some of these properties are better to set in the @page section in CSS.
             PdfOptions pdfOptions = new PdfOptions();

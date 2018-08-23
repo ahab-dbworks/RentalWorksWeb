@@ -19,11 +19,11 @@ namespace WebApi.Modules.Reports.ProjectManagerBillingReport
         //------------------------------------------------------------------------------------ 
         public ProjectManagerBillingReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
         //------------------------------------------------------------------------------------ 
-        public override string GetReportFileName() { return "ProjectManagerBillingReport"; }
+        protected override string GetReportFileName() { return "ProjectManagerBillingReport"; }
         //------------------------------------------------------------------------------------ 
-        public override string GetReportFriendlyName() { return "Project Manager Billing Report"; }
+        protected override string GetReportFriendlyName() { return "Project Manager Billing Report"; }
         //------------------------------------------------------------------------------------ 
-        public override PdfOptions GetPdfOptions()
+        protected override PdfOptions GetPdfOptions()
         {
             // Configures Chromium for printing. Some of these properties are better to set in the @page section in CSS.
             PdfOptions pdfOptions = new PdfOptions();

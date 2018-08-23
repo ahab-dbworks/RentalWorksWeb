@@ -19,11 +19,11 @@ namespace WebApi.Modules.Reports.GlDistributionReport
         //------------------------------------------------------------------------------------ 
         public GlDistributionReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
         //------------------------------------------------------------------------------------ 
-        public override string GetReportFileName() { return "GlDistributionReport"; }
+        protected override string GetReportFileName() { return "GlDistributionReport"; }
         //------------------------------------------------------------------------------------ 
-        public override string GetReportFriendlyName() { return "G/L Distribution Report"; }
+        protected override string GetReportFriendlyName() { return "G/L Distribution Report"; }
         //------------------------------------------------------------------------------------ 
-        public override PdfOptions GetPdfOptions()
+        protected override PdfOptions GetPdfOptions()
         {
             // Configures Chromium for printing. Some of these properties are better to set in the @page section in CSS.
             PdfOptions pdfOptions = new PdfOptions();

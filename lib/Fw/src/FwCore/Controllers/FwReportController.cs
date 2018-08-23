@@ -12,11 +12,13 @@ namespace FwCore.Controllers
 {
     public abstract class FwReportController : FwController
     {
-        public abstract string GetReportFileName();
-        public abstract string GetReportFriendlyName();
         public FwReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
         //---------------------------------------------------------------------------------------------
-        public async Task<FwReportRenderResponse> DoRender(FwReportRenderRequest request)
+        protected abstract string GetReportFileName();
+        //---------------------------------------------------------------------------------------------
+        protected abstract string GetReportFriendlyName();
+        //---------------------------------------------------------------------------------------------
+        protected async Task<FwReportRenderResponse> DoRender(FwReportRenderRequest request)
         {
             FwReportRenderResponse response = new FwReportRenderResponse();
             string baseUrl = this.GetFullyQualifiedBaseUrl();
@@ -86,7 +88,7 @@ namespace FwCore.Controllers
         /// <returns></returns>
         protected abstract string GetUniqueId(FwReportRenderRequest request);
 
-        public abstract PuppeteerSharp.PdfOptions GetPdfOptions();
+        protected abstract PuppeteerSharp.PdfOptions GetPdfOptions();
 
         //[HttpPost("preview")]
         //public virtual void Preview([FromBody]PreviewRequest request)
