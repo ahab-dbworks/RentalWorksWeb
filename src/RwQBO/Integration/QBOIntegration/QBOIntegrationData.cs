@@ -1012,11 +1012,14 @@ namespace RwQBO.Integration
                     taxCodeRefValue = TxnTaxCodeRefValue;
                 }
 
+                dynamic validatedItem = ValidateItem(invoice.items[j]);
+
                 newItem.Id                                   = j+1;
                 newItem.DetailType                           = "SalesItemLineDetail";
                 newItem.SalesItemLineDetail                  = new ExpandoObject();
                 newItem.SalesItemLineDetail.ItemRef          = new ExpandoObject();
-                newItem.SalesItemLineDetail.ItemRef.value    = ValidateItem(invoice.items[j]).Id.Value;
+                newItem.SalesItemLineDetail.ItemRef.value    = validatedItem.Id.Value;
+                newItem.SalesItemLineDetail.ItemRef.name     = validatedItem.Name.Value;
                 newItem.SalesItemLineDetail.Qty              = invoice.items[j].qty;
                 newItem.SalesItemLineDetail.UnitPrice        = (invoice.items[j].qty != 0) ? (invoice.items[j].linetotal / invoice.items[j].qty) : "0";
                 newItem.SalesItemLineDetail.TaxCodeRef       = new ExpandoObject();
@@ -1025,26 +1028,6 @@ namespace RwQBO.Integration
 
                 newInvoice.Line.Add(newItem);
             }
-
-            //jh 07/05/2018 CAS-22432-SZCJ
-            //if (invoice.exporttaxaslineitem == "T")
-            //{
-            //    dynamic taxLineItem                              = new ExpandoObject();
-            //    taxLineItem.Id                                   = invoice.items.Count + 1;
-            //    taxLineItem.DetailType                           = "SalesItemLineDetail";
-            //    taxLineItem.SalesItemLineDetail                  = new ExpandoObject();
-            //    taxLineItem.SalesItemLineDetail.ItemRef          = new ExpandoObject();
-            //    taxLineItem.SalesItemLineDetail.ItemRef.value    = ValidateItem(invoice.taxitemcode).Id.Value;
-            //    taxLineItem.SalesItemLineDetail.Qty              = 1;
-            //    taxLineItem.SalesItemLineDetail.UnitPrice        = invoice.invoicetax;
-            //    taxLineItem.SalesItemLineDetail.TaxCodeRef       = new ExpandoObject();
-            //    taxLineItem.SalesItemLineDetail.TaxCodeRef.value = "NON";
-            //    taxLineItem.Amount                               = invoice.invoicetax;
-
-            //    newInvoice.Line.Add(taxLineItem);
-
-            //    invoice.invoicetax = 0;   //?? need to zero-out the tax so it doesn't get re-exported to QBO in the tax area of the invoice
-            //}
 
             qbopost  = PostToQBO("invoice", newInvoice);
             _invoice = qbopost.JSONResponse.Invoice;
