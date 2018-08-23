@@ -5,7 +5,6 @@ import { Ajax } from '../../lib/FwReportLibrary/src/Ajax';
 import { HandlebarsHelpers } from '../../lib/FwReportLibrary/src/HandlebarsHelpers';
 import * as moment from 'moment';
 import './index.scss';
-var hbHeader = require("./hbHeader.hbs"); 
 var hbReport = require("./hbReport.hbs"); 
 var hbFooter = require("./hbFooter.hbs"); 
 
@@ -32,10 +31,8 @@ export class AgentBillingReport extends WebpackReport {
 
                     agentBilling.PrintTime = moment().format('YYYY-MM-DD h:mm:ss A');
                     agentBilling.ContractTime = moment(agentBilling.ContractTime, 'h:mm a').format('h:mm a');
-                    this.renderHeaderHtml(agentBilling);
                     this.renderFooterHtml(agentBilling);
                     if (this.action === 'Preview' || this.action === 'PrintHtml') {
-                        document.getElementById('pageHeader').innerHTML = this.headerHtml;
                         document.getElementById('pageFooter').innerHTML = this.footerHtml;
                     }
                     document.getElementById('pageBody').innerHTML = hbReport(agentBilling);
@@ -47,11 +44,6 @@ export class AgentBillingReport extends WebpackReport {
         } catch (ex) {
             this.onRenderReportFailed(ex);
         }
-    }
-
-    renderHeaderHtml(model: AgentBilling): string {
-        this.headerHtml = hbHeader(model);
-        return this.headerHtml;
     }
 
     renderFooterHtml(model: AgentBilling) : string {
