@@ -12,21 +12,22 @@ const getDirectories = source => fs.readdirSync(source).map(name => path.join(so
 
 // generate an entry and HtmlWebPackPlugin for each directory
 let entries = {};
-let plugins = [
-    new CleanWebpackPlugin([path.resolve(__dirname, `${distReportDir}/*`)], {})
-];
+let plugins = [];
 const reportSourceDirectories = getDirectories(path.resolve(__dirname, srcReportDir));
 reportSourceDirectories.forEach((dirPath, index, array) => {
     const dirName = dirPath.substring(dirPath.lastIndexOf('\\') + 1, dirPath.length);
-    entries[dirName] = `./${srcReportDir}/${dirName}/index.ts`;
-    plugins.push(new HtmlWebpackPlugin({
-        title: dirName,
-        filename: `${dirName}/index.html`,
-        template: `./${srcReportDir}/${dirName}/index.html`,
-        hash: true
-    }));
+    const tsFilePath = path.resolve(__dirname, `${srcReportDir}/${dirName}/index.ts`);;
+    if (fs.existsSync(tsFilePath)) {
+        entries[dirName] = `./${srcReportDir}/${dirName}/index.ts`;
+        plugins.push(new HtmlWebpackPlugin({
+            title: dirName,
+            filename: `${dirName}/index.html`,
+            template: `./${srcReportDir}/${dirName}/index.html`,
+            hash: true,
+            chunks: [dirName]
+        }));
+    }
 });
-//plugins.push(new webpack.HotModuleReplacementPlugin());
 
 module.exports = {
     entry: entries,
@@ -47,17 +48,11 @@ module.exports = {
                 ]
             },
             { test: /\.hbs$/, loader: "handlebars-loader" },
-            { test: /\.tsx?$/, loader: "ts-loader" }
+            { test: /\.ts$/, loader: "ts-loader" }
         ]
     },
     resolve: {
         // Add `.ts` and `.tsx` as a resolvable extension.
-        extensions: [".ts", ".tsx", ".js"]
-      },
-    devServer: {
-        contentBase: `./${distReportDir}`,
-        //compress: true,
-        port: 9000,
-        hot: true
-    },
+        extensions: [".ts", ".js"]
+      }
 };

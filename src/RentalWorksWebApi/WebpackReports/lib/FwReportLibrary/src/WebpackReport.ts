@@ -12,24 +12,26 @@ export abstract class WebpackReport {
     renderProgress: number = 0;
 
     constructor() {
-        window.addEventListener('load', (ev: Event) => {
-            //if (sessionStorage.getItem('message') !== null) {
-            //    let message = <ReportPageMessage>JSON.parse(sessionStorage.getItem('message'));
-            //    this.processMessage(message);
-            //}
-        }); 
+        //window.addEventListener('load', (ev: Event) => {
+        //    if (sessionStorage.getItem('message') !== null && window.location.hash) {
+        //        let message = <ReportPageMessage>JSON.parse(sessionStorage.getItem('message'));
+        //        this.processMessage(message);
+        //    }
+        //}); 
         window.addEventListener('message', (ev: MessageEvent) => {
             if (typeof ev.data.action !== 'undefined') {
                 let message = <ReportPageMessage>ev.data;
-                //sessionStorage.setItem('message', JSON.stringify(message));
                 this.processMessage(message);
+                //if (message.action === 'Preview') {
+                //    sessionStorage.setItem('message', JSON.stringify(message));
+                //}
             }
         });
     }
 
     processMessage(message: ReportPageMessage) {
         this.action = message.action;
-        console.log(message);
+        //console.log(message);
         switch (message.action) {
             case 'Preview':
                 (<WebpackReport>(<any>window).report).renderReport(message.apiUrl, message.authorizationHeader, message.request.parameters);
