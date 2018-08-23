@@ -125,7 +125,7 @@ namespace WebApi.Modules.Reports.CustomerRevenueByTypeReport
 
             using (FwSqlConnection conn = new FwSqlConnection(this.AppConfig.DatabaseSettings.ConnectionString))
             {
-                using (FwSqlCommand qry = new FwSqlCommand(conn, "getcustomerrevenuebymonthrpt", this.AppConfig.DatabaseSettings.QueryTimeout))
+                using (FwSqlCommand qry = new FwSqlCommand(conn, "getcustomerrevenuebytyperpt", this.AppConfig.DatabaseSettings.QueryTimeout))
                 {
                     qry.AddParameter("@fromdate", SqlDbType.Date, ParameterDirection.Input, fromDate);
                     qry.AddParameter("@todate", SqlDbType.Date, ParameterDirection.Input, toDate);
