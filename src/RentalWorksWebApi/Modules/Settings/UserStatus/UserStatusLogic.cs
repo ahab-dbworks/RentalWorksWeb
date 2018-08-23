@@ -15,7 +15,7 @@ namespace WebApi.Modules.Settings.UserStatus
         {
             dataRecords.Add(resourceStatus);
             dataLoader = resourceStatusLoader;
-            BeforeSave += OnBeforeSave;
+            RecType = "U";
         }
         //------------------------------------------------------------------------------------
         [FwBusinessLogicField(isPrimaryKey: true)]
@@ -30,12 +30,5 @@ namespace WebApi.Modules.Settings.UserStatus
         public bool? Inactive { get { return resourceStatus.Inactive; } set { resourceStatus.Inactive = value; } }
         public string DateStamp { get { return resourceStatus.DateStamp; } set { resourceStatus.DateStamp = value; } }
         //------------------------------------------------------------------------------------
-        public void OnBeforeSave(object sender, BeforeSaveEventArgs e)
-        {
-            RecType = "U";
-        }
-        //------------------------------------------------------------------------------------
-
     }
-
 }

@@ -15,7 +15,7 @@ namespace WebApi.Modules.Settings.CrewStatus
         {
             dataRecords.Add(resourceStatus);
             dataLoader = resourceStatusLoader;
-            BeforeSave += OnBeforeSave;
+            RecType = "C";
         }
         //------------------------------------------------------------------------------------
         [FwBusinessLogicField(isPrimaryKey: true)]
@@ -30,12 +30,5 @@ namespace WebApi.Modules.Settings.CrewStatus
         public bool? Inactive { get { return resourceStatus.Inactive; } set { resourceStatus.Inactive = value; } }
         public string DateStamp { get { return resourceStatus.DateStamp; } set { resourceStatus.DateStamp = value; } }
         //------------------------------------------------------------------------------------
-        public void OnBeforeSave(object sender, BeforeSaveEventArgs e)
-        {
-            RecType = "C";
-        }
-        //------------------------------------------------------------------------------------
-
     }
-
 }

@@ -15,7 +15,7 @@ namespace WebApi.Modules.Settings.BlackoutStatus
         {
             dataRecords.Add(resourceStatus);
             dataLoader = resourceStatusLoader;
-            BeforeSave += OnBeforeSave;
+            RecType = "B";
         }
         //------------------------------------------------------------------------------------
         [FwBusinessLogicField(isPrimaryKey: true)]
@@ -29,13 +29,6 @@ namespace WebApi.Modules.Settings.BlackoutStatus
         public bool? WhiteText { get { return resourceStatus.WhiteText; } set { resourceStatus.WhiteText = value; } }
         public bool? Inactive { get { return resourceStatus.Inactive; } set { resourceStatus.Inactive = value; } }
         public string DateStamp { get { return resourceStatus.DateStamp; } set { resourceStatus.DateStamp = value; } }
-        //------------------------------------------------------------------------------------
-        public void OnBeforeSave(object sender, BeforeSaveEventArgs e)
-        {
-            RecType = "B";
-        }
-        //------------------------------------------------------------------------------------
-
+        ////------------------------------------------------------------------------------------
     }
-
 }
