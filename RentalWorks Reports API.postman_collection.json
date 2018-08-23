@@ -7,7 +7,6 @@
 	"item": [
 		{
 			"name": "Agent Billing Report",
-			"description": null,
 			"item": [
 				{
 					"name": "Agent Billing Report: Browse",
@@ -48,7 +47,6 @@
 		},
 		{
 			"name": "Sales Representative Billing Report Copy",
-			"description": null,
 			"item": [
 				{
 					"name": "Sales Representative Billing Report: Browse",
@@ -89,7 +87,6 @@
 		},
 		{
 			"name": "Pick List Report",
-			"description": null,
 			"item": [
 				{
 					"name": "Pick List Report: Browse",
@@ -130,7 +127,6 @@
 		},
 		{
 			"name": "G/L Distribution Report",
-			"description": null,
 			"item": [
 				{
 					"name": "G/L Distribution Report: Browse",
@@ -170,8 +166,47 @@
 			]
 		},
 		{
+			"name": "Late Returns Report",
+			"item": [
+				{
+					"name": "Late Returns Report: Browse",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"ICode\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": [],\n    \t\"uniqueids\": {\n    \t\t\"IsSummary\": false,\n    \t\t\"ReportType\": \"PAST_DUE\",\n    \t\t\"Days\": 1,\n    \t\t\"DueBack\": \"08/01/2018\",\n    \t\t\"ContactId\": \"\"\n    \t}\n}"
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/latereturnsreport/browse",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"latereturnsreport",
+								"browse"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
 			"name": "Project Manager Billing Report",
-			"description": null,
 			"item": [
 				{
 					"name": "Project Manager Billing Report: Browse",
