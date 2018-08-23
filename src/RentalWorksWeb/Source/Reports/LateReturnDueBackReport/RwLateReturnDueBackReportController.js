@@ -39,11 +39,15 @@ class RwLateReturnDueBackReport {
         var appOptions = program.getApplicationOptions();
         var request = { method: "LoadForm" };
         var lateReturn, dueBack, dueBackOn;
+        let today = FwFunc.getDate();
         const department = JSON.parse(sessionStorage.getItem('department'));
         const location = JSON.parse(sessionStorage.getItem('location'));
         lateReturn = $form.find('div[data-datafield="LateReturns"] input');
         dueBack = $form.find('div[data-datafield="DueBack"] input');
         dueBackOn = $form.find('div[data-datafield="DueBackOn"] input');
+        FwFormField.setValueByDataField($form, 'DaysPastDue', 1);
+        FwFormField.setValueByDataField($form, 'DueBackFewer', 0);
+        FwFormField.setValueByDataField($form, 'DueBackDate', today);
         lateReturn.on('change', (e) => {
             if (jQuery(e.currentTarget).prop('checked')) {
                 dueBack.prop('checked', false);

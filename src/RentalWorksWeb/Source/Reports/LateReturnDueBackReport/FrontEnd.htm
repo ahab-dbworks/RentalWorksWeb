@@ -10,17 +10,29 @@
           <div class="row" style="display:flex;flex-wrap:wrap;">
             <div class="flexcolumn" style="max-width:400px;">
               <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Report Type">
-                <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                  <div data-datafield="LateReturns" data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Late Returns" style="float:left;max-width:100px;padding-top:12px"></div>
-                  <div data-datafield="DaysPastDue" data-control="FwFormField" data-type="text" class="fwcontrol fwformfield late" data-caption="Days Past Due" style="float:left;max-width:100px;"></div>
-                </div>
-                <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                  <div data-datafield="DueBack" data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Due Back" style="float:left;max-width:100px;padding-top:12px"></div>
-                  <div data-datafield="DueBackFewer" data-control="FwFormField" data-type="text" class="fwcontrol fwformfield dueback" data-caption="or Fewer Days" style="float:left;max-width:100px;"></div>
-                </div>
-                <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                  <div data-datafield="DueBackOn" data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Due Back on" style="float:left;max-width:100px;padding-top:12px"></div>
-                  <div data-datafield="DueBackDate" data-control="FwFormField" data-type="date" class="fwcontrol fwformfield duebackon" data-caption="" style="float:left;max-width:150px;"></div>
+                <div class="flexrow">
+                  <div class="flexcolumn" style="max-width:150px;">
+                    <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                      <div data-datafield="LateReturns" data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Late Returns" style="float:left;max-width:100px;padding-top:8px"></div>
+                    </div>
+                    <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                      <div data-datafield="DueBack" data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Due Back" style="float:left;max-width:100px;"></div>
+                    </div>
+                    <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                      <div data-datafield="DueBackOn" data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Due Back on" style="float:left;max-width:100px;"></div>
+                    </div>
+                  </div>
+                  <div class="flexcolumn" style="max-width:150px;">
+                    <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                      <div data-datafield="DaysPastDue" data-control="FwFormField" data-type="text" class="fwcontrol fwformfield late" data-caption="Days Past Due" style="float:left;max-width:100px;"></div>
+                    </div>
+                    <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                      <div data-datafield="DueBackFewer" data-control="FwFormField" data-type="text" class="fwcontrol fwformfield dueback" data-caption="or Fewer Days" style="float:left;max-width:100px;"></div>
+                    </div>
+                    <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                      <div data-datafield="DueBackDate" data-control="FwFormField" data-type="date" class="fwcontrol fwformfield duebackon" data-caption="" style="float:left;max-width:150px;"></div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -61,7 +73,7 @@
                   <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Inventory Type" data-datafield="InventoryTypeId" data-displayfield="InventoryType" data-formbeforevalidate="beforeValidate" data-validationname="InventoryTypeValidation" style="float:left;max-width:300px;"></div>
                 </div>
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                  <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Office Location" data-datafield="ContactId" data-displayfield="Contact" data-validationname="ContactValidation" style="float:left;max-width:300px;"></div>
+                  <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Ordered By" data-datafield="ContactId" data-displayfield="Contact" data-validationname="ContactValidation" style="float:left;max-width:300px;"></div>
                 </div>
               </div>
             </div>

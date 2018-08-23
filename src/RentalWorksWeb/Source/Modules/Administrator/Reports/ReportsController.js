@@ -53,7 +53,7 @@ class Reports {
                 }
                 FwReportsPage.renderModuleHtml($reports.find(".fwreports"), moduleArray[k][0], moduleArray[k][1], moduleArray[k][3], moduleArray[k][2], moduleArray[k][4]);
             }
-            $reports.find('#settingsSearch').focus();
+            $reports.find('#reportsSearch').focus();
             screen.$view.find('.tabs').hide();
         };
         screen.unload = function () {
