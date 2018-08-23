@@ -1,6 +1,6 @@
 ﻿import { WebpackReport } from '../../lib/FwReportLibrary/src/WebpackReport';
 import { CustomField } from '../../lib/FwReportLibrary/src/CustomField';
-import { DataTable, DataTableColumn } from '../../lib/FwReportLibrary/src/DataTable';
+import { DataTable, DataTableColumn, BrowseRequest } from '../../lib/FwReportLibrary/src/DataTable'; // added Browse Request obj
 import { Ajax } from '../../lib/FwReportLibrary/src/Ajax';
 import { HandlebarsHelpers } from '../../lib/FwReportLibrary/src/HandlebarsHelpers';
 import * as moment from 'moment';
@@ -9,8 +9,7 @@ var hbHeader = require("./hbHeader.hbs");
 var hbReport = require("./hbReport.hbs"); 
 var hbFooter = require("./hbFooter.hbs"); 
 
-export class OutContractReport extends WebpackReport {
-    contract: OutContract = null;
+export class SalesRepresentativeBillingReport extends WebpackReport {
 
     renderReport(apiUrl: string, authorizationHeader: string, parameters: any): void {
         try {
@@ -18,25 +17,28 @@ export class OutContractReport extends WebpackReport {
 
             // experimental
             this.renderProgress = 50;
-            this.renderStatus = 'Runninng';
-
+            this.renderStatus = 'Running';
+            let request = new BrowseRequest();
+       
             HandlebarsHelpers.registerHelpers();
-            let contract = new OutContract();
+            let SalesRepresentativeBilling: any = {};
+            console.log('parameters: ', parameters);
 
             // get the Contract
-            let contractPromise = Ajax.get<OutContract>(`${apiUrl}/api/v1/outcontractreport/${parameters.contractid}`, authorizationHeader)
-                .then((response: OutContract) => {
-                    contract = response;
-                    contract.PrintTime = moment().format('YYYY-MM-DD h:mm:ss A');
-                    contract.ContractTime = moment(contract.ContractTime, 'h:mm a').format('h:mm a');
-                    this.renderHeaderHtml(contract);
-                    this.renderFooterHtml(contract);
+            let contractPromise = Ajax.post<DataTable>(`${apiUrl}/api/v1/salesrepresentativebillingreport/browse`, authorizationHeader, request)
+                .then((response: DataTable) => {
+                    SalesRepresentativeBilling = DataTable.toObjectList(response); // converts res to javascript obj
+                    console.log('SalesRepresentativeBilling: ', SalesRepresentativeBilling); // will help in building the handlebars
+
+                    SalesRepresentativeBilling.PrintTime = moment().format('YYYY-MM-DD h:mm:ss A');
+                    SalesRepresentativeBilling.ContractTime = moment(SalesRepresentativeBilling.ContractTime, 'h:mm a').format('h:mm a');
+                    this.renderHeaderHtml(SalesRepresentativeBilling);
+                    this.renderFooterHtml(SalesRepresentativeBilling);
                     if (this.action === 'Preview' || this.action === 'PrintHtml') {
                         document.getElementById('pageHeader').innerHTML = this.headerHtml;
                         document.getElementById('pageFooter').innerHTML = this.footerHtml;
                     }
-                    document.getElementById('pageBody').innerHTML = hbReport(contract);
-                    
+                    document.getElementById('pageBody').innerHTML = hbReport(SalesRepresentativeBilling);
                     this.onRenderReportCompleted();
                 })
                 .catch((ex) => {
@@ -47,20 +49,20 @@ export class OutContractReport extends WebpackReport {
         }
     }
 
-    renderHeaderHtml(model: OutContract): string {
+    renderHeaderHtml(model: SalesRepresentativeBilling): string {
         this.headerHtml = hbHeader(model);
         return this.headerHtml;
     }
 
-    renderFooterHtml(model: OutContract) : string {
+    renderFooterHtml(model: SalesRepresentativeBilling) : string {
         this.footerHtml = hbFooter(model);
         return this.footerHtml;
     }
 }
 
-(<any>window).report = new OutContractReport();
+(<any>window).report = new SalesRepresentativeBillingReport();
 
-class OutContract {
+class SalesRepresentativeBilling {
     _Custom = new Array<CustomField>();
     ContractId = '';
     ContractNumber = '';
@@ -100,12 +102,12 @@ class OutContract {
     OrderDescription = '';
     DateStamp = '';
     RecordTitle = '';
-    RentalItems = new Array<OutContractItem>();
-    SalesItems = new Array<OutContractItem>();
+    RentalItems = new Array<salesRepresentativeBillingItem>();
+    SalesItems = new Array<salesRepresentativeBillingItem>();
     PrintTime = '';
 }
 
-class OutContractItemRequest {
+class salesRepresentativeBillingItemRequest {
     "miscfields" = {};
     "module" = '';
     "options" = {};
@@ -118,8 +120,8 @@ class OutContractItemRequest {
     "uniqueids" = { "ContractId": '', "RecType": '' };
 }
 
-class OutContractItem {
-    "ICode": string;
+class salesRepresentativeBillingItem {
+    "Agent": string;
     "ICodeColor": string;
     "Description": string;
     "DescriptionColor": string;

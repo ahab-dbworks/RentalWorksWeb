@@ -1,4 +1,11 @@
-﻿<div class="fwcontrol fwcontainer fwform fwreport salesrepresentativebillingreport" data-control="FwContainer" data-type="form" data-version="1" data-caption="Sales Representative Billing" data-rendermode="template" data-mode="" data-hasaudit="false" data-controller="RwSalesRepresentativeBillingReportController">
+﻿routes.push({
+    pattern: /^reports\/salesrepresentativebillingreport/, action: function (match: RegExpExecArray) {
+        return RwSalesRepresentativeBillingReportController.getModuleScreen();
+    }
+});
+
+var salesRepresentativeTemplateFrontEnd = `
+<div class="fwcontrol fwcontainer fwform fwreport salesrepresentativebillingreport" data-control="FwContainer" data-type="form" data-version="1" data-caption="Sales Representative Billing" data-rendermode="template" data-mode="" data-hasaudit="false" data-controller="RwSalesRepresentativeBillingReportController">
   <div class="fwcontrol fwtabs" data-control="FwTabs" data-type="">
     <div class="tabs" style="margin-right:10px;">
       <div id="generaltab" class="tab" data-tabpageid="generaltabpage" data-caption="General"></div>
@@ -60,6 +67,73 @@
       <div id="exporttabpage" class="tabpage exporttabpage" data-tabid="exporttab"></div>
     </div>
   </div>
-</div>
+</div>`;
 
+//----------------------------------------------------------------------------------------------
+class RwSalesRepresentativeBillingReportClass extends FwWebApiReport {
+    //----------------------------------------------------------------------------------------------
+    constructor() {
+        super('SalesRepresentativeBillingReport', 'api/v1/salesrepresentativebillingreport', salesRepresentativeTemplateFrontEnd);
+        //this.reportOptions.HasDownloadExcel = true;
+    }
+    //----------------------------------------------------------------------------------------------
+    getModuleScreen() {
+        let screen: any = {};
+        screen.$view = FwModule.getModuleControl('Rw' + this.Module + 'Controller');
+        screen.viewModel = {};
+        screen.properties = {};
 
+        let $form = this.openForm();
+
+        screen.load = function () {
+            FwModule.openModuleTab($form, $form.attr('data-caption'), false, 'REPORT', true);
+            //$form.find('.contractid').data('calldatabind', function (request, callback: (response: any) => {}) {
+                //request.
+                
+            //});
+        };
+        screen.unload = function () {
+        };
+        return screen;
+    }
+    //----------------------------------------------------------------------------------------------
+    openForm() {
+        let $form = this.getFrontEnd();
+        $form.data('getexportrequest', request => {
+            request.parameters = this.getParameters($form);
+            return request;
+        });
+
+        return $form;
+    }
+    //----------------------------------------------------------------------------------------------
+    onLoadForm($form) {
+        this.load($form, this.reportOptions);
+        var appOptions: any = program.getApplicationOptions();
+        var request: any = { method: "LoadForm" };
+
+        const department = JSON.parse(sessionStorage.getItem('department'));
+        const location = JSON.parse(sessionStorage.getItem('location'));
+
+        FwFormField.setValue($form, 'div[data-datafield="DepartmentId"]', department.departmentid, department.department);
+        FwFormField.setValue($form, 'div[data-datafield="OfficeLocationId"]', location.locationid, location.location);
+    }
+    //----------------------------------------------------------------------------------------------
+    beforeValidate($browse, $form, request) {
+        const validationName = request.module;
+        const customerId = FwFormField.getValueByDataField($form, 'CustomerId');
+        request.uniqueids = {};
+
+        switch (validationName) {
+            case 'DealValidation':
+                if (customerId !== "") {
+                    request.uniqueids.CustomerId = customerId;
+                }
+                break;
+        };
+    };
+    //----------------------------------------------------------------------------------------------
+};
+
+var RwSalesRepresentativeBillingReportController: any = new RwSalesRepresentativeBillingReportClass();
+//----------------------------------------------------------------------------------------------

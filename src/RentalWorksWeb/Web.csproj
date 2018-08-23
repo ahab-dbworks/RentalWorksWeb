@@ -38,7 +38,7 @@
     <RootNamespace>Web</RootNamespace>
     <AssemblyName>Web</AssemblyName>
     <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
-    <UseIISExpress>false</UseIISExpress>
+    <UseIISExpress>true</UseIISExpress>
     <IISExpressSSLPort />
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
@@ -427,6 +427,8 @@
     <TypeScriptCompile Include="Source\Modules\Home\PurchaseOrder\PurchaseOrder.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\Project\Project.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\StagingCheckout\StagingCheckout.ts" />
+    <TypeScriptCompile Include="Source\Modules\Reports\SalesRepresentativeBilling\RwSalesRepresentativeBillingReportController.ts" />
+    <TypeScriptCompile Include="Source\Modules\Reports\ProjectManagerBilling\RwProjectManagerBillingReportController.ts" />
     <TypeScriptCompile Include="Source\Modules\Reports\GLDistributionReport\RwGLDistributionReportController.ts" />
     <TypeScriptCompile Include="Source\Modules\Reports\AgentBilling\RwAgentBillingReportController.ts" />
     <TypeScriptCompile Include="Source\Modules\Reports\OutContract\RwOutContractReportController.ts" />
@@ -439,8 +441,6 @@
     <TypeScriptCompile Include="Source\Reports\BillingProgressReport\RwBillingProgressReportController.ts" />
     <TypeScriptCompile Include="Source\Reports\ARAgingReport\RwARAgingReportController.ts" />
     <TypeScriptCompile Include="Source\Reports\LateReturnDueBackReport\RwLateReturnDueBackReportController.ts" />
-    <TypeScriptCompile Include="Source\Reports\SalesRepresentativeBillingReport\RwSalesRepresentativeBillingReportController.ts" />
-    <TypeScriptCompile Include="Source\Reports\ProjectManagerBillingReport\ProjectManagerBillingReportController.ts" />
     <TypeScriptCompile Include="Source\Reports\PrintOrder\RwPrintOrderController.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\CreatePickList\CreatePickList.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\Order\Order.ts" />
@@ -492,16 +492,6 @@
     <Content Include="Source\Reports\LateReturnDueBackReport\FrontEnd.htm" />
     <Content Include="Source\Reports\LateReturnDueBackReport\Header.htm" />
     <Content Include="Source\Reports\LateReturnDueBackReport\StyleSheet.css" />
-    <Content Include="Source\Reports\SalesRepresentativeBillingReport\Body.htm" />
-    <Content Include="Source\Reports\SalesRepresentativeBillingReport\Footer.htm" />
-    <Content Include="Source\Reports\SalesRepresentativeBillingReport\FrontEnd.htm" />
-    <Content Include="Source\Reports\SalesRepresentativeBillingReport\Header.htm" />
-    <Content Include="Source\Reports\SalesRepresentativeBillingReport\StyleSheet.css" />
-    <Content Include="Source\Reports\ProjectManagerBillingReport\Body.htm" />
-    <Content Include="Source\Reports\ProjectManagerBillingReport\Footer.htm" />
-    <Content Include="Source\Reports\ProjectManagerBillingReport\FrontEnd.htm" />
-    <Content Include="Source\Reports\ProjectManagerBillingReport\Header.htm" />
-    <Content Include="Source\Reports\ProjectManagerBillingReport\StyleSheet.css" />
     <Content Include="Source\Reports\PrintOrder\Body.htm" />
     <Content Include="Source\Reports\PrintOrder\Footer.htm" />
     <Content Include="Source\Reports\PrintOrder\FrontEnd.htm" />
@@ -1222,8 +1212,6 @@
     <Compile Include="Source\Reports\BillingProgressReport\BillingProgressReport.cs" />
     <Compile Include="Source\Reports\ARAgingReport\ARAgingReport.cs" />
     <Compile Include="Source\Reports\LateReturnDueBackReport\LateReturnDueBackReport.cs" />
-    <Compile Include="Source\Reports\SalesRepresentativeBillingReport\SalesRepresentativeBillingReport.cs" />
-    <Compile Include="Source\Reports\ProjectManagerBillingReport\ProjectManagerBillingReport.cs" />
     <Compile Include="Source\Reports\ChargeProcessing\ChargeProcessing.cs" />
     <Compile Include="Source\Reports\CreditsOnAccount\CreditsOnAccount.cs" />
     <Compile Include="Source\Reports\InvoiceSummaryReport\InvoiceSummaryReport.cs" />

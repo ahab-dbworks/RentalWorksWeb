@@ -10,7 +10,6 @@ var hbReport = require("./hbReport.hbs");
 var hbFooter = require("./hbFooter.hbs"); 
 
 export class AgentBillingReport extends WebpackReport {
-    contract: AgentBilling = null;
 
     renderReport(apiUrl: string, authorizationHeader: string, parameters: any): void {
         try {
