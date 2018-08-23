@@ -4,7 +4,7 @@
     }
 });
 
-let templateOutContractReportFrontEnd = `
+var templateOutContractReportFrontEnd = `
     <div class="fwcontrol fwcontainer fwform fwreport outcontractreport" data-control="FwContainer" data-type="form" data-version="1" data-caption="Charge Processing" data-rendermode="template" data-mode="" data-hasaudit="false" data-controller="RwChargeProcessingController">
         <div class="fwcontrol fwtabs" data-control="FwTabs" data-type="">
             <div class="tabs">
@@ -44,9 +44,8 @@ class RwOutContractReportClass extends FwWebApiReport {
 
         screen.load = function () {
             FwModule.openModuleTab($form, $form.attr('data-caption'), false, 'REPORT', true);
-            $form.find('.contractid').data('calldatabind', function (request, callback: (response: any) => {}) {
-                //request.
-                
+            $form.find('.contractid').data('onchange', ($tr) => {
+                console.log($tr);
             });
         };
         screen.unload = function () {
@@ -56,37 +55,12 @@ class RwOutContractReportClass extends FwWebApiReport {
     //----------------------------------------------------------------------------------------------
     openForm() {
         let $form = this.getFrontEnd();
-        //$form.data('getexportrequest', (request) => {
-        //    request.parameters = this.getParameters($form);
-        //    return request;
-        //});
 
         return $form;
     }
     //----------------------------------------------------------------------------------------------
     onLoadForm($form) {
         this.load($form, this.reportOptions);
-        var appOptions: any = program.getApplicationOptions();
-        var request: any = { method: "LoadForm" };
-        this.loadLists($form);
-
-        //const department = JSON.parse(sessionStorage.getItem('department'));
-        //const location = JSON.parse(sessionStorage.getItem('location'));
-
-        //FwFormField.setValue($form, 'div[data-datafield="DepartmentId"]', department.departmentid,  department.department);
-        //FwFormField.setValue($form, 'div[data-datafield="OfficeLocationId"]', location.locationid, location.location);
-    }
-    //----------------------------------------------------------------------------------------------
-    loadLists($form) {
-        //FwFormField.loadItems($form.find('div[data-datafield="statuslist"]'), [
-        //    { value: "NEW", text: "New", selected: "T" },
-        //    { value: "RETURNED", text: "Returned" },
-        //    { value: "REVISED", text: "Revised" },
-        //    { value: "APPROVED", text: "Approved" },
-        //    { value: "PROCESSED", text: "Processed" },
-        //    { value: "CLOSED", text: "Closed" },
-        //    { value: "VOID", text: "Void" }
-        //]);
     }
     //----------------------------------------------------------------------------------------------
 }

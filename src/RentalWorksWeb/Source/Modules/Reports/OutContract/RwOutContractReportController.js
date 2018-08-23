@@ -3,7 +3,7 @@ routes.push({
         return RwOutContractReportController.getModuleScreen();
     }
 });
-let templateOutContractReportFrontEnd = `
+var templateOutContractReportFrontEnd = `
     <div class="fwcontrol fwcontainer fwform fwreport outcontractreport" data-control="FwContainer" data-type="form" data-version="1" data-caption="Charge Processing" data-rendermode="template" data-mode="" data-hasaudit="false" data-controller="RwChargeProcessingController">
         <div class="fwcontrol fwtabs" data-control="FwTabs" data-type="">
             <div class="tabs">
@@ -37,7 +37,8 @@ class RwOutContractReportClass extends FwWebApiReport {
         let $form = this.openForm();
         screen.load = function () {
             FwModule.openModuleTab($form, $form.attr('data-caption'), false, 'REPORT', true);
-            $form.find('.contractid').data('calldatabind', function (request, callback) {
+            $form.find('.contractid').data('onchange', ($tr) => {
+                console.log($tr);
             });
         };
         screen.unload = function () {
@@ -50,11 +51,6 @@ class RwOutContractReportClass extends FwWebApiReport {
     }
     onLoadForm($form) {
         this.load($form, this.reportOptions);
-        var appOptions = program.getApplicationOptions();
-        var request = { method: "LoadForm" };
-        this.loadLists($form);
-    }
-    loadLists($form) {
     }
 }
 var RwOutContractReportController = new RwOutContractReportClass();
