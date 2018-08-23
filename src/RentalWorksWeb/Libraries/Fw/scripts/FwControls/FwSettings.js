@@ -431,6 +431,7 @@ FwSettings.renderModuleHtml = function ($control, title, moduleName, description
 
                     for (var i = 1; i < keys.length; i++) {
                         var Key = jQuery(keys[i]).attr('data-datafield');
+                        var cellColor = $browse.find('div[data-datafield="' + Key + '"]').data('cellcolor')
                         browseKeys.push(Key);
                         var fieldData = {};
                         if ($browse.find('div[data-datafield="' + Key + '"]').data('caption') !== undefined) {
@@ -439,10 +440,10 @@ FwSettings.renderModuleHtml = function ($control, title, moduleName, description
                             fieldData['caption'] = Key;
                         };
 
-                        if ($browse.find('div[data-datafield="' + Key + '"]').data('cellcolor') === 'Color') {
+                        if (cellColor) {
                             fieldData['color'] = true;
                             for (var i = 0; i < response.length; i++) {
-                                colors.push(response[i].Color)
+                                colors.push(response[i].cellColor);
                             }
                         }
 
@@ -528,8 +529,8 @@ FwSettings.renderModuleHtml = function ($control, title, moduleName, description
                                         html.push('<div class="checkboxwrapper"><input class="value" data-datafield="' + browseData[j]['datafield'] + '" type="checkbox" disabled="disabled" style="box-sizing:border-box;pointer-events:none;"><label></label></div>');
                                     }
                                 } else {
-                                    if (browseData[j]['color']) {
-                                        html.push('    <div class="fwcontrol fwcontainer fwform-fieldrow" data-type="fieldrow" style="color:' + response[i].Color + ';width:8em;white-space:nowrap;height: 0;display:flex;border-bottom: 20px solid transparent;border-top: 20px solid;">');
+                                    if (browseData[j]['color'] && response[i][cellColor] !== '') {
+                                        html.push('    <div class="fwcontrol fwcontainer fwform-fieldrow" data-type="fieldrow" style="color:' + response[i][cellColor] + ';width:8em;white-space:nowrap;height: 0;display:flex;border-bottom: 20px solid transparent;border-top: 20px solid;">');
                                     } else {
                                         html.push('    <div class="fwcontrol fwcontainer fwform-fieldrow" data-type="fieldrow">');
                                     }
