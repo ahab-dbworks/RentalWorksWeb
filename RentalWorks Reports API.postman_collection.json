@@ -46,6 +46,46 @@
 			]
 		},
 		{
+			"name": "Customer Revenue By Type Report",
+			"item": [
+				{
+					"name": "Customer Revenue By Type Report: Browse",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": [],\n    \t\"uniqueids\": {\n    \t\t\"FromDate\": \"01/01/2018\",\n    \t\t\"ToDate\": \"03/01/2018\"\n    \t}\n}"
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/customerrevenuebytypereport/browse",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"customerrevenuebytypereport",
+								"browse"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
 			"name": "Sales Representative Billing Report Copy",
 			"item": [
 				{
