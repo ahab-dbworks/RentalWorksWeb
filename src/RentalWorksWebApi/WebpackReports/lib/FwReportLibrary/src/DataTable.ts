@@ -31,3 +31,22 @@ export class DataTableColumn {
     "IsVisible": boolean;
 }
 
+export class BrowseRequest {
+    miscfields: any = {};
+    module: string = '';
+    options: any = {};
+    orderby: string = '';
+    orderbydirection: string = '';
+    top: number = 0;
+    pageno: number = 0;
+    pagesize: number = 0;
+    searchfieldoperators: Array<string> = [];
+    searchfields: Array<string> = [];
+    searchfieldvalues: Array<string> = [];
+    searchfieldtypes: Array<string> = [];
+    uniqueids: any = {};
+    boundids: any = {};
+    filterfields: any = {};
+    activeview: string = '';
+}
+

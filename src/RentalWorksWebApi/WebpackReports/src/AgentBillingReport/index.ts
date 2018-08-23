@@ -1,6 +1,6 @@
 ﻿import { WebpackReport } from '../../lib/FwReportLibrary/src/WebpackReport';
 import { CustomField } from '../../lib/FwReportLibrary/src/CustomField';
-import { DataTable, DataTableColumn } from '../../lib/FwReportLibrary/src/DataTable';
+import { DataTable, DataTableColumn, BrowseRequest } from '../../lib/FwReportLibrary/src/DataTable'; // added Browse Request obj
 import { Ajax } from '../../lib/FwReportLibrary/src/Ajax';
 import { HandlebarsHelpers } from '../../lib/FwReportLibrary/src/HandlebarsHelpers';
 import * as moment from 'moment';
@@ -18,15 +18,19 @@ export class AgentBillingReport extends WebpackReport {
 
             // experimental
             this.renderProgress = 50;
-            this.renderStatus = 'Runninng';
-
+            this.renderStatus = 'Running';
+            let request = new BrowseRequest();
+       
             HandlebarsHelpers.registerHelpers();
-            let agentBilling = new AgentBilling();
+            let agentBilling: any = {};
+            console.log('parameters: ', parameters);
 
             // get the Contract
-            let contractPromise = Ajax.get<AgentBilling>(`${apiUrl}/api/v1/agentbillingreport/${parameters.contractid}`, authorizationHeader)
-                .then((response: AgentBilling) => {
-                    agentBilling = response;
+            let contractPromise = Ajax.post<DataTable>(`${apiUrl}/api/v1/agentbillingreport/browse`, authorizationHeader, request)
+                .then((response: DataTable) => {
+                    agentBilling = DataTable.toObjectList(response); // converts res to javascript obj
+                    console.log('agentBilling: ', agentBilling); // will help in building the handlebars
+
                     agentBilling.PrintTime = moment().format('YYYY-MM-DD h:mm:ss A');
                     agentBilling.ContractTime = moment(agentBilling.ContractTime, 'h:mm a').format('h:mm a');
                     this.renderHeaderHtml(agentBilling);
@@ -36,7 +40,6 @@ export class AgentBillingReport extends WebpackReport {
                         document.getElementById('pageFooter').innerHTML = this.footerHtml;
                     }
                     document.getElementById('pageBody').innerHTML = hbReport(agentBilling);
-                    
                     this.onRenderReportCompleted();
                 })
                 .catch((ex) => {
@@ -119,7 +122,7 @@ class agentBillingItemRequest {
 }
 
 class agentBillingItem {
-    "ICode": string;
+    "Agent": string;
     "ICodeColor": string;
     "Description": string;
     "DescriptionColor": string;

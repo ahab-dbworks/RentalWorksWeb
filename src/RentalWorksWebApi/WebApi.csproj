@@ -54,6 +54,7 @@
 
   <ItemGroup>
     <Folder Include="Modules\Administrator\Designer\Services\" />
+    <Folder Include="Modules\Reports\WebpackReports\" />
     <Folder Include="Security\" />
     <Folder Include="wwwroot\lib\" />
     <Folder Include="wwwroot\temp\downloads\" />
