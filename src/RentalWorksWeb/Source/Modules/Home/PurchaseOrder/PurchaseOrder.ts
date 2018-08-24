@@ -436,6 +436,9 @@ class PurchaseOrder {
         $orderNoteGrid = $form.find('[data-name="OrderNoteGrid"]');
         FwBrowse.search($orderNoteGrid);
 
+        $orderItemGridRental.find('.submenu-btn').filter('[data-securityid="007C4F21-7526-437C-AD1C-4BBB1030AABA"]').hide();
+        $orderItemGridSales.find('.submenu-btn').filter('[data-securityid="007C4F21-7526-437C-AD1C-4BBB1030AABA"]').hide();
+        $orderItemGridPart.find('.submenu-btn').filter('[data-securityid="007C4F21-7526-437C-AD1C-4BBB1030AABA"]').hide();
         this.dynamicColumns($form);
     };
 

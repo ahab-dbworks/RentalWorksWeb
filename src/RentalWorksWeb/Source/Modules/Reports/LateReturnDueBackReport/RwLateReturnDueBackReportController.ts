@@ -141,7 +141,6 @@ class RwLateReturnDueBackReport extends FwWebApiReport {
         FwFormField.setValueByDataField($form, 'DueBackFewer', 0);
         FwFormField.setValueByDataField($form, 'DueBackDate', today)
 
-
         lateReturn.on('change', (e) => {
             if (jQuery(e.currentTarget).prop('checked')) {
                 dueBack.prop('checked', false);
@@ -172,6 +171,9 @@ class RwLateReturnDueBackReport extends FwWebApiReport {
             }
         });
 
+        lateReturn.prop('checked', true);
+        FwFormField.disable($form.find('.duebackon'));
+        FwFormField.disable($form.find('.dueback'));
         FwFormField.setValue($form, 'div[data-datafield="DepartmentId"]', department.departmentid,  department.department);
         FwFormField.setValue($form, 'div[data-datafield="OfficeLocationId"]', location.locationid, location.location);
     };

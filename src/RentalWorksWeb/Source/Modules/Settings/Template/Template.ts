@@ -229,6 +229,12 @@
         $orderItemGridMisc = $form.find('.miscgrid [data-name="OrderItemGrid"]');
         FwBrowse.search($orderItemGridMisc);
 
+        $orderItemGridRental.find('.submenu-btn').filter('[data-securityid="007C4F21-7526-437C-AD1C-4BBB1030AABA"]').hide();
+        $orderItemGridSales.find('.submenu-btn').filter('[data-securityid="007C4F21-7526-437C-AD1C-4BBB1030AABA"]').hide();
+        $orderItemGridFacilities.find('.submenu-btn').filter('[data-securityid="007C4F21-7526-437C-AD1C-4BBB1030AABA"]').hide();
+        $orderItemGridLabor.find('.submenu-btn').filter('[data-securityid="007C4F21-7526-437C-AD1C-4BBB1030AABA"]').hide();
+        $orderItemGridMisc.find('.submenu-btn').filter('[data-securityid="007C4F21-7526-437C-AD1C-4BBB1030AABA"]').hide();
+        
         var checkboxes = $form.find('.rectype .fwformfield')
         for (var i = 0; i < checkboxes.length; i++) {
             var type = jQuery(checkboxes[i]).attr('data-datafield');

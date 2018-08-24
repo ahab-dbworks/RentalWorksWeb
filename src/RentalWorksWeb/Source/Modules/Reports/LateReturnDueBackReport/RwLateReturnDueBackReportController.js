@@ -155,6 +155,9 @@ class RwLateReturnDueBackReport extends FwWebApiReport {
                 FwFormField.enable($form.find('.duebackon'));
             }
         });
+        lateReturn.prop('checked', true);
+        FwFormField.disable($form.find('.duebackon'));
+        FwFormField.disable($form.find('.dueback'));
         FwFormField.setValue($form, 'div[data-datafield="DepartmentId"]', department.departmentid, department.department);
         FwFormField.setValue($form, 'div[data-datafield="OfficeLocationId"]', location.locationid, location.location);
     }
