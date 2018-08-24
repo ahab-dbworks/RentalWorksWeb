@@ -29,7 +29,11 @@ namespace WebApi.Modules.Home.SubPurchaseOrderItem
         [FwBusinessLogicField(isReadOnly: true)]
         public string ICode { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
+        public string ICodeColor { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
         public string Description { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string DescriptionColor { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
         public bool? NonDiscountable { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
