@@ -116,7 +116,7 @@ class SubWorksheet {
                     if (response.success) {
                         $form.find('div.errormsg').html('');
                         FwFormField.disable($form.find('.subworksheet'));
-
+                        $form.find('.openworksheet').hide();
                         let gridUniqueIds: any = {
                             SessionId: response.SessionId
                         };
@@ -169,6 +169,14 @@ class SubWorksheet {
                             $form.find('div[data-datafield="CreateNew"] input').prop('checked', true);
                             me.SessionId = '';
                             me.OrderId = '';
+                            FwFormField.setValueByDataField($form, 'ReqDate', parentmoduleinfo.EstimatedStartDate);
+                            FwFormField.setValueByDataField($form, 'RentalFrom', parentmoduleinfo.EstimatedStartDate);
+                            FwFormField.setValueByDataField($form, 'RentalTo', parentmoduleinfo.EstimatedStopDate);
+                            FwFormField.setValueByDataField($form, 'ReqTime', parentmoduleinfo.EstimatedStartTime);
+                            FwFormField.disable($form.find('div[data-datafield="OfficePhone"]'));
+                            FwFormField.disable($form.find('div[data-datafield="OfficeExtension"]'));
+                            FwFormField.disable($form.find('div[data-datafield="POId"]'));
+                            FwFormField.disable($form.find('.totals'));
                         }
                         catch (ex) {
                             FwFunc.showError(ex);
