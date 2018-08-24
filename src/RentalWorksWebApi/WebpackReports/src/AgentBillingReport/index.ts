@@ -21,10 +21,11 @@ export class AgentBillingReport extends WebpackReport {
        
             HandlebarsHelpers.registerHelpers();
             let agentBilling: any = {};
+            let today = new Date();
             console.log('parameters: ', parameters);
 
-            // get the Contract
-            let contractPromise = Ajax.post<DataTable>(`${apiUrl}/api/v1/agentbillingreport/browse`, authorizationHeader, request)
+            // get the Promise
+            let agentBillingPromise = Ajax.post<DataTable>(`${apiUrl}/api/v1/agentbillingreport/browse`, authorizationHeader, request)
                 .then((response: DataTable) => {
                     agentBilling = DataTable.toObjectList(response); // converts res to javascript obj
                     console.log('agentBilling: ', agentBilling); // will help in building the handlebars
@@ -36,6 +37,8 @@ export class AgentBillingReport extends WebpackReport {
                         document.getElementById('pageFooter').innerHTML = this.footerHtml;
                     }
                     document.getElementById('pageBody').innerHTML = hbReport(agentBilling);
+
+                    //document.getElementsByClassName('.current-date').innerText = today
                     this.onRenderReportCompleted();
                 })
                 .catch((ex) => {

@@ -1,295 +1,125 @@
-﻿$page-width: 768px;
-$line-height: 16px;
-$normal-text: 1em;
-
-@page {
-    margin: 130px 32px 96px 32px;
-    /*margin: 48px 24px 48px 24px;*/
-    /*size: auto;*/
-    size: portrait;
+﻿.body tbody tr[data-rowtype="totals"] div {
+    font-weight: bold;
 }
 
-html {
+.body .header {
+    position: relative;
 }
 
-body {
-    font-family: Arial, sans-serif;
-    font-size: 12px;
-    margin:0;
-    padding:0;
+.body thead td {
+    border-bottom: 1px solid black;
+    text-align: left;
+    background-color: #fff;
 }
 
-html.preview {
-    #pageno {
-        visibility: hidden;
-    }
+.body tbody tr[data-rowtype="masternofooter"] .total {
+    border-top: 2px solid black;
 }
 
-html.pdf {
-    body {
-        /*margin: 130px 24px 96px 24px;*/
-    }
+.body tbody tr[data-rowtype="masternofooter"],
+tr[data-rowtype="masternoheader"] {
+    background-color: #939393;
+    font-weight: bold;
 }
 
-@media only screen {
-    .parameters {
-        display: block;
-    }
-}
-
-@media only print {
-    .parameters {
-        display: none;
-    }
-}
-
-@mixin flexfield($captionwidth) {
-    display: flex;
-    height: $line-height;
-    line-height: $line-height;
-    @content;
-
-    .caption {
-        flex: 0 0 $captionwidth;
-        height: $line-height;
-        line-height: $line-height;
-        font-size: $normal-text;
-        font-weight: bold;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-    }
-
-    .value {
-        flex: 1 1 0;
-        height: $line-height;
-        line-height: $line-height;
-        font-size: $normal-text;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-    }
-}
-
-.flexfield-50 {
-    @include flexfield(50px);
-}
-
-.flexfield-75 {
-    @include flexfield(75px);
-}
-
-.flexfield-85 {
-    @include flexfield(85px);
-}
-
-.flexfield-150 {
-    @include flexfield(150px);
-}
-
-.label {
-    line-height: $line-height;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    font-size: $normal-text;
-}
-
-.BillingStartDate {
+.body thead td div {
+    font-size: 14px;
     text-align: center;
-    border-bottom: 1px solid #000000;
-    padding: 40px 0 0 0;
 }
 
-.IssuedTo {
-    .IssuedToCaption {
-        text-align: center;
-        border-bottom: 1px solid #000000;
-        font-size: $normal-text;
-        font-weight: bold;
-    }
-
-    .add1, .add2, .add3 {
-        line-height: $line-height;
-        font-size: $normal-text;
-    }
-
-    .phone {
-        margin: 20px 0 0 0;
-    }
-
-    .fax {
-    }
+.alignleft {
+    float: left;
+    width: 33.33333%;
+    text-align: left;
+    padding: 5px 0px 5px 0px;
 }
 
-
-.tblContractItems {
-    width: 100%;
-    border-collapse: collapse;
-    margin: 20px 0 0 0;
-
-    colgroup {
-        .ICode {
-            width: 60px;
-        }
-
-        .Description {
-            width: auto;
-        }
-
-        .QuantityOrdered {
-            width: 75px;
-        }
-
-        .QuantityOut {
-            width: 75px;
-        }
-
-        .TotalOut {
-            width: 75px;
-        }
-    }
-
-    thead {
-        tr.columnheadings {
-            th {
-                font-weight: bold;
-                padding: 5px;
-                white-space: nowrap;
-                border-top: 1px solid #000000;
-                border-bottom: 1px solid #000000;
-            }
-
-            .ICode {
-                border-left: 1px solid #000000;
-                text-align: left;
-            }
-
-            .Description {
-                text-align: left;
-            }
-
-            .QuantityOrdered {
-                text-align: right;
-            }
-
-            .QuantityOut {
-                text-align: right;
-            }
-
-            .TotalOut {
-                text-align: right;
-            }
-        }
-
-        tr.caption {
-            text-align: center;
-            font-size: 1.5em;
-            font-weight: bold;
-        }
-    }
-
-    tbody {
-        td {
-            padding: 2px 5px;
-            font-size: .9em;
-        }
-
-        .ICode {
-            white-space: pre;
-            text-align: left;
-        }
-
-        .Description {
-            text-align: left;
-        }
-
-        .QuantityOrdered {
-            text-align: right;
-        }
-
-        .QuantityOut {
-            text-align: right;
-        }
-
-        .TotalOut {
-            text-align: right;
-        }
-
-        .Barcodes {
-            padding:0 0 0 50px;
-            .Barcodes-label {
-                font-weight:bold;
-            }
-        }
-
-        tr.C {
-            td {
-                font-weight: bold;
-            }
-        }
-    }
+.aligncenter {
+    float: left;
+    width: 33.33333%;
+    text-align: center;
+    padding: 5px 0px 5px 0px;
 }
 
-.rentalItems {
-    
+.alignright {
+    float: left;
+    width: 33.33333%;
+    text-align: right;
+    padding: 5px 0px 5px 0px;
 }
 
-.salesItems {
-    page-break-before:always;
+​.location {
+    font-weight: bold;
 }
 
-@media screen {
-    #pageContainer {
-        width: $page-width;
-    }
+.totalrow {
+    font-weight: bold;
+    background-color: #ffffff !important;
+    border-top: 1px solid #000000;
 }
 
-#pageContainer {
-    #pageHeader {
-    }
-
-    #contract {
-    }
-
-    #pageFooter {
-        margin: $line-height 0 0 0;
-    }
+.totalrow td div {
+    padding: 5px 0;
+    font-size: 16px !important;
 }
 
-#pageContainer {
-    #header, #footer {
-        width: auto !important;
-    }
+.row1 {
+    font-size: 14px;
+    padding: 10px 0px 15px 0px;
 }
 
-fieldset {
-    border: 1px solid #000000;
-    height: 120px;
-
-    legend {
-        text-align: center;
-        font-weight: bold;
-    }
+.heading {
+    font-weight: bold;
 }
-
-.receivedBy {
-    page-break-inside: avoid;
-    margin: $line-height 0 0 0;
-}
-
-.receivedbyfield {
-    flex: 0 1 50%;
-    margin: 0 $line-height/2;
-
-    .value {
-        border-bottom: 1px solid #000000;
+/*td div.rotate {
+        transform:
+        translate(25px, 51px)
+        rotate(315deg);
+        width: 30px;
+        height: 140px;
         white-space: nowrap;
-        height: $line-height*2;
-    }
+        border-bottom: 1px solid #ccc;
+        padding: 5px 10px;
+    }*/
+.row2 {
+    padding: 0 0 0 10px;
+    min-height: 16px;
+}
 
-    .caption {
-        white-space: nowrap;
-        height: $line-height;
-    }
+.row3 {
+    padding: 0 0 0 20px;
+    min-height: 16px;
+}
+
+.row4 {
+    padding: 0 0 0 30px;
+    min-height: 16px;
+}
+
+.row5 {
+    padding: 15px 0px 15px 0px;
+    font-size: 14px;
+    text-align: right;
+}
+/*tbody tr td {border: 1px solid black;}*/
+tr td div {
+    padding: 5px 0px 5px 0px;
+    min-height: 16px;
+}
+
+.exportedcaption {
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.body tfoot tr {
+    border-top: 1px solid black;
+}
+
+.body tfoot td > div {
+    line-height: 16px;
+    vertical-align: middle;
+    font-size: 14px;
+    padding: 10px 0;
+    font-weight: bold;
 }

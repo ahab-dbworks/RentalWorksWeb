@@ -1,201 +1,98 @@
-﻿<div style="display:flex;">
-  <div style="flex:1 1 0;">
-    <div>
-      <div class="label">{{LocationName}}</div>
-      <div class="label">{{LocationAddress1}}</div>
-      <div class="label">{{LocationAddress2}}</div>
-      <div class="label">{{LocationCity}}, {{LocationStateOrProvince}} {{LocationZipCode}}</div>
-      <div class="label">{{LocationCountry}}</div>
-    </div>
-    <div class="flexfield-50">
-      <div class="caption">Phone:</div>
-      <div class="value">{{LocationPhone}}</div>
-    </div>
-    {{#gt LocationFax.length 0}}
-    <div class="flexfield-50">
-      <div class="caption">Fax:</div>
-      <div class="value">{{LocationFax}}</div>
-    </div>
-    {{/gt}}
-    <div class="flexfield-50">
-      <div class="caption">Web:</div>
-      <div class="value">{{LocationUrl}}</div>
-    </div>
-    <div class="flexfield-50">
-      <div class="caption">Email:</div>
-      <div class="value">{{LocationEmail}}</div>
-    </div>
-  </div>
-  <div style="flex:1 1 0;">
-    <div class="flexfield-85">
-      <div class="caption">Order No:</div>
-      <div class="value">{{OrderNumber}}</div>
-    </div>
-    <div class="flexfield-85">
-      <div class="caption">Description:</div>
-      <div class="value">{{OrderDescription}}</div>
-    </div>
-    <div class="flexfield-85">
-      <div class="caption">Deal:</div>
-      <div class="value">{{Deal}}</div>
-    </div>
-    <div class="flexfield-85">
-      <div class="caption">PO No:</div>
-      <div class="value">{{PoNumber}}</div>
-    </div>
-    <div style="display:flex;">
-      <div style="flex:0 0 85px; font-weight:bold;">Terms:</div>
-      <div style="flex:1 1 0;">{{PaymentTerms}}</div>
-      <div style="flex:0 0 85px; font-weight:bold;">Billing Cycle:</div>
-      <div style="flex:1 1 0;">{{BillingCycle}}</div>
-    </div>
-  </div>
-</div>
-<div class="BillingStartDate"><span style="font-weight:bold;">Billing Start Date:</span> {{BillingStartDate}}</div>
-<div style="display:flex;">
-  <div class="IssuedTo" style="flex: 1 1 0; padding: 0 50px 0 0;">
-    <div class="IssuedToCaption">Issued To</div>
-    <div class="add1">{{Deal}}</div>
-    <div class="add2">{{DealAddress1}}</div>
-    <div class="add3">{{DealAddress2}}</div>
-    <div class="add3">{{DealCity}}, {{DealStateOrProvince}} {{DealZipCode}}</div>
-    <div class="country">{{DealCountry}}</div>
-    <div class="flexfield-75">
-      <div class="caption">Phone No:</div>
-      <div class="value">{{DealPhone}}</div>
-    </div>
-    {{#gt DealFax.length 0}}
-    <div class="flexfield-75">
-      <div class="caption">Fax No:</div>
-      <div class="value">{{DealFax}}</div>
-    </div>
-    {{/gt}}
-  </div>
-  <div style="flex: 1 1 0;">
-    <div class="flexfield-150">
-      <div class="caption">Usage Period:</div>
-      <div class="value">{{EstimatedStartDate}} - {{EstimatedEndDate}}</div>
-    </div>
-    <div class="flexfield-150">
-      <div class="caption">Billing Period:</div>
-      <div class="value">{{BillingStartDate}} - {{BillingEndDate}}</div>
-    </div>
-    <div class="flexfield-150" style="margin: 16px 0 0 0;">
-      <div class="caption">Agent:</div>
-      <div class="value">{{Agent}}</div>
-    </div>
-    <div class="flexfield-150">
-      <div class="caption">Email:</div>
-      <div class="value">{{AgentEmail}}</div>
-    </div>
-  </div>
-</div>
-
-{{#gt RentalItems.length 0}}
-<div class="rentalItems">
-  <table id="tblRentalItems" class="tblContractItems">
-    <colgroup>
-      <col class="ICode">
-      <col class="Description">
-      <col class="QuantityOrdered">
-      <col class="QuantityOut">
-      <col class="TotalOut">
-    </colgroup>
+﻿<div class="body" style="width:1500px;">
+  <br /><br />
+  <table id="tblagentbillingreport" style="margin-top: 40px;">
+    {{#each this}}
     <thead>
-      <tr class="columnheadings">
-        <th class="ICode">I-Code</th>
-        <th class="Description">Description</th>
-        <th class="QuantityOrdered">Ordered</th>
-        <th class="QuantityOut">Out</th>
-        <th class="TotalOut">Total Out</th>
-      </tr>
-      <tr class="caption">
-        <th colspan="5">RENTAL</th>
+      <tr>
+        <td>
+          <div class="heading">Invoice No</div>
+        </td>
+        <td>
+          <div class="heading">Invoice Date</div>
+        </td>
+        <td>
+          <div class="heading">Billing Date</div>
+        </td>
+        <td>
+          <div class="heading">Description</div>
+        </td>
+        <td>
+          <div class="heading">Order No.</div>
+        </td>
+        <td>
+          <div class="heading">Deal</div>
+        </td>
+        <td>
+          <div class="heading">Rental</div>
+        </td>
+        <td>
+          <div class="heading">Sales</div>
+        </td>
+        <td>
+          <div class="heading">Labor</div>
+        </td>
+        <td>
+          <div class="heading">Misc</div>
+        </td>
+        <td>
+          <div class="heading" >Asset</div>
+        </td>
+         <td>
+          <div class="heading">Parts</div>
+        </td>
+         <td>
+          <div class="heading">Invoice Total</div>
+        </td>
       </tr>
     </thead>
     <tbody>
-      {{#each RentalItems}}
-      <tr class="{{ItemClass}}">
-        <td class="ICode" style="background-color: {{ICodeColor}}">{{ICode}}</td>
-        <td class="Description" style="background-color: {{DescriptionColor}}">{{Description}}</td>
-        <td class="QuantityOrdered">{{QuantityOrdered}}</td>
-        <td class="QuantityOut">{{QuantityOut}}</td>
-        <td class="TotalOut">{{TotalOut}}</td>
+      <tr data-rowtype={{rowtype}}>
+        <td>
+          <div class="row1"><span>{{InvoiceNumber}}</span></div>
+        </td>
+        <td>
+          <div class="row1"><span>{{InvoiceDate}}</span></div>
+        </td>
+        <td>
+          <div class="row1">{{BillingStartDate}}</div>
+        </td>
+        <td>
+          <div class="row1">{{InvoiceDescription}}</div>
+        </td>
+        <td>
+          <div class="row1">{{OrderNumber}}</div>
+        </td>
+        <td>
+          <div class="row1"><span>{{Deal}}</span></div>
+        </td>
+        <td>
+          <div class="row1 date">{{RentalTotal}}</div>
+        </td>
+        <td>
+          <div class="row1"><span>{{SalesTotal}}</span></div>
+        </td>
+        <td>
+          <div class="row1">{{LaborTotal}}</div>
+        </td>
+        <td>
+          <div class="row1 date">{{MiscTotal}}</div>
+        </td>
+        <td>
+          <div class="row1 date">{{AssetTotal}}</div>
+        </td>
+        <td>
+          <div class="row1">{{PartsTotal}}</div>
+        </td>
+        <td class="total">
+          <div class="row1" style="text-align:right;">{{InvoiceTotal}}</div>
+        </td>
       </tr>
-      {{#gt Barcode.length 0}}
       <tr>
-        <td colspan="5" class="Barcodes"><span class="Barcodes-label">Barcodes:</span> {{Barcode}}</td>
+        <td class="sub-heading">
+          <div class="row2" style="text-align:right;">Project Manager: {{ProjectManager}}</div>
+        </td>
       </tr>
-      {{/gt}}
       {{/each}}
     </tbody>
   </table>
-</div>
-{{/gt}}
-
-{{#gt SalesItems.length 0}}
-<div class="salesItems">
-  <table id="tblSalesItems" class="tblContractItems">
-    <colgroup>
-      <col class="ICode">
-      <col class="Description">
-      <col class="QuantityOrdered">
-      <col class="QuantityOut">
-      <col class="TotalOut">
-    </colgroup>
-    <thead>
-      <tr class="columnheadings">
-        <th class="ICode">I-Code</th>
-        <th class="Description">Description</th>
-        <th class="QuantityOrdered">Ordered</th>
-        <th class="QuantityOut">Out</th>
-        <th class="TotalQuantity">Total Out</th>
-      </tr>
-      <tr class="caption">
-        <th colspan="5">SALES</th>
-      </tr>
-    </thead>
-    <tbody>
-      {{#each SalesItems}}
-      <tr class="{{ItemClass}}">
-        <td class="ICode" style="background-color: {{ICodeColor}}">{{ICode}}</td>
-        <td class="Description" style="background-color: {{DescriptionColor}}">{{Description}}</td>
-        <td class="QuantityOrdered">{{QuantityOrdered}}</td>
-        <td class="QuantityOut">{{QuantityOut}}</td>
-        <td class="TotalOut">{{TotalOut}}</td>
-      </tr>
-      {{#gt Barcode.length 0}}
-      <tr>
-        <td colspan="5" class="Barcodes"><span class="Barcodes-label">Barcodes:</span> {{Barcode}}</td>
-      </tr>
-      {{/gt}}>
-      {{/each}}
-    </tbody>
-  </table>
-</div>
-{{/gt}}
-
-<div class="receivedBy">
-  <fieldset>
-    <legend>RECEIVED BY</legend>
-    <div>
-      <div style="display:flex">
-        <div class="receivedbyfield">
-          <div class="value"><img src="{{ReceivedBySignatureDataUrl}}" /></div>
-          <div class="caption">SIGNATURE</div>
-        </div>
-        <div class="receivedbyfield">
-          <div class="value">{{ReceivedBySignature}}</div>
-          <div class="caption">PRINT NAME</div>
-        </div>
-      </div>
-      <div style="display:flex">
-        <div class="receivedbyfield">
-          <div class="value">{{ReceivedByDate}}</div>
-          <div class="caption">DATE</div>
-        </div>
-        <div class="receivedbyfield"></div>
-      </div>
-    </div>
-  </fieldset>
 </div>

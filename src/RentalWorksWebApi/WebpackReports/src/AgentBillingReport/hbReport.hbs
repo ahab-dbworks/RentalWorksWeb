@@ -1,53 +1,51 @@
-﻿<div class="body" style="width:1008px;">
+﻿<div class="body" style="width:1500px;">
   <br /><br />
-  <table id="tblinvoicesummaryreport">
+  <table id="tblagentbillingreport" style="margin-top: 40px;">
+    {{#each this}}
     <thead>
       <tr>
         <td>
-          <div>Invoice No</div>
+          <div class="heading">Invoice No</div>
         </td>
         <td>
-          <div>Department</div>
+          <div class="heading">Invoice Date</div>
         </td>
         <td>
-          <div>Invoice</div>
-          <div>No.</div>
+          <div class="heading">Billing Date</div>
         </td>
         <td>
-          <div>Order</div>
-          <div>No.</div>
+          <div class="heading">Description</div>
         </td>
         <td>
-          <div>Invoice</div>
-          <div>Date</div>
+          <div class="heading">Order No.</div>
         </td>
         <td>
-          <div>Customer</div>
+          <div class="heading">Deal</div>
         </td>
         <td>
-          <div>Deal</div>
+          <div class="heading">Rental</div>
         </td>
         <td>
-          <div>Invoice Description</div>
+          <div class="heading">Sales</div>
         </td>
         <td>
-          <div>Bill Start</div>
+          <div class="heading">Labor</div>
         </td>
         <td>
-          <div>Bill End</div>
+          <div class="heading">Misc</div>
         </td>
         <td>
-          <div>Billing</div>
-          <div>Cycle</div>
+          <div class="heading" >Asset</div>
         </td>
-        <td style="text-align:right;">
-          <div>Total</div>
-          <div>Invoice Amt</div>
+         <td>
+          <div class="heading">Parts</div>
+        </td>
+         <td>
+          <div class="heading">Invoice Total</div>
         </td>
       </tr>
     </thead>
     <tbody>
-      {{#each this}}
       <tr data-rowtype={{rowtype}}>
         <td>
           <div class="row1"><span>{{InvoiceNumber}}</span></div>
@@ -56,34 +54,42 @@
           <div class="row1"><span>{{InvoiceDate}}</span></div>
         </td>
         <td>
+          <div class="row1">{{BillingStartDate}}</div>
+        </td>
+        <td>
           <div class="row1">{{InvoiceDescription}}</div>
         </td>
         <td>
-          <div class="row1">{{orderno}}</div>
+          <div class="row1">{{OrderNumber}}</div>
         </td>
         <td>
-          <div class="row1 date">{{invoicedate}}</div>
+          <div class="row1"><span>{{Deal}}</span></div>
         </td>
         <td>
-          <div class="row1"><span>{{customer}}</span></div>
+          <div class="row1 date">{{RentalTotal}}</div>
         </td>
         <td>
-          <div class="row1"><span>{{deal}}</span></div>
+          <div class="row1"><span>{{SalesTotal}}</span></div>
         </td>
         <td>
-          <div class="row1">{{invoicedesc}}</div>
+          <div class="row1">{{LaborTotal}}</div>
         </td>
         <td>
-          <div class="row1 date">{{billingstart}}</div>
+          <div class="row1 date">{{MiscTotal}}</div>
         </td>
         <td>
-          <div class="row1 date">{{billingend}}</div>
+          <div class="row1 date">{{AssetTotal}}</div>
         </td>
         <td>
-          <div class="row1">{{periodtype}}</div>
+          <div class="row1">{{PartsTotal}}</div>
         </td>
         <td class="total">
-          <div class="row1" style="text-align:right;">{{invoicetotal}}</div>
+          <div class="row1" style="text-align:right;">{{InvoiceTotal}}</div>
+        </td>
+      </tr>
+      <tr>
+        <td class="sub-heading">
+          <div class="row2" style="text-align:right;">Agent: {{Agent}}</div>
         </td>
       </tr>
       {{/each}}

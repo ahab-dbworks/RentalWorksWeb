@@ -5,7 +5,6 @@ import { Ajax } from '../../lib/FwReportLibrary/src/Ajax';
 import { HandlebarsHelpers } from '../../lib/FwReportLibrary/src/HandlebarsHelpers';
 import * as moment from 'moment';
 import './index.scss';
-var hbHeader = require("./hbHeader.hbs"); 
 var hbReport = require("./hbReport.hbs"); 
 var hbFooter = require("./hbFooter.hbs"); 
 
@@ -24,18 +23,16 @@ export class SalesRepresentativeBillingReport extends WebpackReport {
             let SalesRepresentativeBilling: any = {};
             console.log('parameters: ', parameters);
 
-            // get the Contract
-            let contractPromise = Ajax.post<DataTable>(`${apiUrl}/api/v1/salesrepresentativebillingreport/browse`, authorizationHeader, request)
+            // get the Promise
+            let salesRepPromise = Ajax.post<DataTable>(`${apiUrl}/api/v1/salesrepresentativebillingreport/browse`, authorizationHeader, request)
                 .then((response: DataTable) => {
                     SalesRepresentativeBilling = DataTable.toObjectList(response); // converts res to javascript obj
                     console.log('SalesRepresentativeBilling: ', SalesRepresentativeBilling); // will help in building the handlebars
 
                     SalesRepresentativeBilling.PrintTime = moment().format('YYYY-MM-DD h:mm:ss A');
                     SalesRepresentativeBilling.ContractTime = moment(SalesRepresentativeBilling.ContractTime, 'h:mm a').format('h:mm a');
-                    this.renderHeaderHtml(SalesRepresentativeBilling);
                     this.renderFooterHtml(SalesRepresentativeBilling);
                     if (this.action === 'Preview' || this.action === 'PrintHtml') {
-                        document.getElementById('pageHeader').innerHTML = this.headerHtml;
                         document.getElementById('pageFooter').innerHTML = this.footerHtml;
                     }
                     document.getElementById('pageBody').innerHTML = hbReport(SalesRepresentativeBilling);
@@ -47,11 +44,6 @@ export class SalesRepresentativeBillingReport extends WebpackReport {
         } catch (ex) {
             this.onRenderReportFailed(ex);
         }
-    }
-
-    renderHeaderHtml(model: SalesRepresentativeBilling): string {
-        this.headerHtml = hbHeader(model);
-        return this.headerHtml;
     }
 
     renderFooterHtml(model: SalesRepresentativeBilling) : string {
