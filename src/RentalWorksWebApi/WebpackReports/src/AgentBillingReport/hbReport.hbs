@@ -1,4 +1,39 @@
-﻿<div class="body" style="width:1500px;">
+﻿<div class="header" style="width:1500px;overflow:hidden;padding-top:2px;font-family:Arial;">
+  <div>
+    <div class="alignleft">
+      <div><strong style="text-align:left;">SYSTEM</strong></div>
+    </div>
+    <div class="aligncenter">
+      <div><strong style="text-align:center;font-size:25px;">AGENT BILLING REPORT</strong></div>
+    </div>
+    <div class="alignright">
+      <div><strong style="text-align:right;">4WALL ENTERTAINMENT</strong></div>
+    </div>
+  </div>
+  <div>
+    <div class="alignleft">
+      <div><strong style="text-align:left;">&#160;</strong></div>
+    </div>
+    <div class="aligncenter">
+      <div><strong style="text-align:center;font-size:14px;">From: {{parameters.FromDate}}</strong></div>
+    </div>
+    <div class="alignright">
+      <div><strong style="text-align:right;">&#160;</strong></div>
+    </div>
+  </div>
+  <div>
+    <div class="alignleft">
+      <div><strong style="text-align:left;">&#160;</strong></div>
+    </div>
+    <div class="aligncenter">
+      <div><strong style="text-align:center;font-size:14px;">To: {{parameters.ToDate}}</strong></div>
+    </div>
+    <div class="alignright">
+      <div><strong style="text-align:right;">&#160;</strong></div>
+    </div>
+  </div>
+</div>
+<div class="body" style="width:1500px;">
   <br /><br />
   <table id="tblagentbillingreport" style="margin-top: 40px;">
     {{#each this}}
@@ -35,12 +70,12 @@
           <div class="heading">Misc</div>
         </td>
         <td>
-          <div class="heading" >Asset</div>
+          <div class="heading">Asset</div>
         </td>
-         <td>
+        <td>
           <div class="heading">Parts</div>
         </td>
-         <td>
+        <td>
           <div class="heading">Invoice Total</div>
         </td>
       </tr>
