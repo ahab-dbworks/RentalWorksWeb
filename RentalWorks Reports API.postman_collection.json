@@ -64,7 +64,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": [],\n    \t\"uniqueids\": {\n    \t\t\"FromDate\": \"01/01/2018\",\n    \t\t\"ToDate\": \"03/01/2018\"\n    \t}\n}"
+							"raw": "{\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": [],\n    \t\"uniqueids\": {\n    \t\t\"FromDate\": \"01/01/2017\",\n    \t\t\"ToDate\": \"03/01/2018\",\n    \t\t\"DateType\": \"invoicedate\",    \"CommentDateType\": \"invoicedate or billingstart\",\n    \t\t\"LocationId\": \"F001QFKT\",\n    \t\t\"DepartmentId\": \"F001LQRZ\",\n    \t\t\"CustomerId\": \"B003KOGA\",\n    \t\t\"DealId\": \"B003KRJ9\",\n    \t\t\"OrderTypeId\": \"\"\n    \t}\n}"
 						},
 						"url": {
 							"raw": "http://localhost:57949/api/v1/customerrevenuebytypereport/browse",

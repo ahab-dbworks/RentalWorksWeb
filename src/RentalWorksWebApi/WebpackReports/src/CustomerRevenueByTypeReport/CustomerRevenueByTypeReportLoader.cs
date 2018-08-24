@@ -102,8 +102,16 @@ namespace WebApi.Modules.Reports.CustomerRevenueByTypeReport
         //------------------------------------------------------------------------------------ 
         public override async Task<FwJsonDataTable> BrowseAsync(BrowseRequest request, FwCustomFields customFields = null)
         {
-            DateTime fromDate = DateTime.MinValue; 
-            DateTime toDate = DateTime.MaxValue; 
+            string dateType = "";
+            string dateField = "";
+            DateTime fromDate = DateTime.MinValue;
+            DateTime toDate = DateTime.MaxValue;
+
+            string locationId = "";
+            string departmentId = "";
+            string customerId = "";
+            string dealId = "";
+            string orderTypeId = "";
 
             if (request != null)
             {
@@ -118,7 +126,37 @@ namespace WebApi.Modules.Reports.CustomerRevenueByTypeReport
                     {
                         toDate = FwConvert.ToDateTime(uniqueIds["ToDate"].ToString());
                     }
+                    if (uniqueIds.ContainsKey("DateType"))
+                    {
+                        dateType = uniqueIds["DateType"].ToString();
+                    }
+                    if (uniqueIds.ContainsKey("LocationId"))
+                    {
+                        locationId = uniqueIds["LocationId"].ToString();
+                    }
+                    if (uniqueIds.ContainsKey("DepartmentId"))
+                    {
+                        departmentId = uniqueIds["DepartmentId"].ToString();
+                    }
+                    if (uniqueIds.ContainsKey("CustomerId"))
+                    {
+                        customerId = uniqueIds["CustomerId"].ToString();
+                    }
+                    if (uniqueIds.ContainsKey("DealId"))
+                    {
+                        dealId = uniqueIds["DealId"].ToString();
+                    }
+                    if (uniqueIds.ContainsKey("OrderTypeId"))
+                    {
+                        orderTypeId = uniqueIds["OrderTypeId"].ToString();
+                    }
                 }
+            }
+
+            dateField = "invoicedate";
+            if (dateType.Equals(RwConstants.INVOICE_DATE_TYPE_BILLING_START_DATE))
+            {
+                dateField = "billingstart";
             }
 
             FwJsonDataTable dt = null;
@@ -129,6 +167,12 @@ namespace WebApi.Modules.Reports.CustomerRevenueByTypeReport
                 {
                     qry.AddParameter("@fromdate", SqlDbType.Date, ParameterDirection.Input, fromDate);
                     qry.AddParameter("@todate", SqlDbType.Date, ParameterDirection.Input, toDate);
+                    qry.AddParameter("@datefield", SqlDbType.Text, ParameterDirection.Input, dateField);
+                    qry.AddParameter("@locationid", SqlDbType.Text, ParameterDirection.Input, locationId);
+                    qry.AddParameter("@departmentid", SqlDbType.Text, ParameterDirection.Input, departmentId);
+                    qry.AddParameter("@customerid", SqlDbType.Text, ParameterDirection.Input, customerId);
+                    qry.AddParameter("@dealid", SqlDbType.Text, ParameterDirection.Input, dealId);
+                    qry.AddParameter("@ordertypeid", SqlDbType.Text, ParameterDirection.Input, orderTypeId);
                     PropertyInfo[] propertyInfos = typeof(CustomerRevenueByTypeReportLoader).GetProperties();
                     foreach (PropertyInfo propertyInfo in propertyInfos)
                     {
