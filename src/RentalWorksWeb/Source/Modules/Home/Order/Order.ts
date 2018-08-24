@@ -148,7 +148,7 @@ class Order extends OrderBase{
         });
         var viewLocation = [];
         viewLocation.push($userLocation);
-        viewLocation.push($all);
+        viewLocation.push($allLocations);
         var $locationView;
         $locationView = FwMenu.addViewBtn($menuObject, 'Location', viewLocation);
         return $menuObject;
