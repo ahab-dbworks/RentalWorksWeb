@@ -5,20 +5,25 @@ using FwStandard.SqlServer.Attributes;
 using WebApi.Data; 
 using System.Collections.Generic;
 using Newtonsoft.Json;
+using WebApi.Logic;
 
 namespace WebApi.Modules.Home.InventoryPackageInventory
 {
-    [FwSqlTable("packageitemview")]
+    [FwSqlTable("dbo.funcpackageitem(@packageid, @warehouseid)")]
     public class InventoryPackageInventoryLoader : AppDataLoadRecord
     {
-        private string packageId;
-        private string warehouseId;
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "packageitemid", modeltype: FwDataTypes.Text, isPrimaryKey: true)]
         public string InventoryPackageInventoryId { get; set; } = "";
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "masterno", modeltype: FwDataTypes.Text)]
         public string ICode { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "masternocolor", modeltype: FwDataTypes.OleToHtmlColor)]
+        public string ICodeColor { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "linecolor", modeltype: FwDataTypes.OleToHtmlColor)]
+        public string LineColor { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "description", modeltype: FwDataTypes.Text)]
         public string Description { get; set; }
@@ -104,27 +109,13 @@ namespace WebApi.Modules.Home.InventoryPackageInventory
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
         public string DateStamp { get; set; }
         //------------------------------------------------------------------------------------ 
-        [JsonIgnore]
-        public override string TableName
-        {
-            get
-            {
-                string t = "packageitemview";
-                if ((packageId != null) && (warehouseId != null) && (!packageId.Equals(string.Empty)) && (!warehouseId.Equals(string.Empty)))
-                {
-                    t = "dbo.funcpackageitem('" + packageId + "', '" + warehouseId + "')";
-                }
-                return t;
-            }
-        }
-        //------------------------------------------------------------------------------------
         protected override void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequest request = null)
         {
             useWithNoLock = false;
+            string packageId = "";
+            string warehouseId = "xnonex";
             if ((request != null) && (request.uniqueids != null))
             {
-                packageId = "";
-                warehouseId = "";
                 IDictionary<string, object> uniqueIds = ((IDictionary<string, object>)request.uniqueids);
                 if (uniqueIds.ContainsKey("PackageId"))
                 {
@@ -135,10 +126,21 @@ namespace WebApi.Modules.Home.InventoryPackageInventory
                     warehouseId = uniqueIds["WarehouseId"].ToString();
                 }
             }
+
+
+            if (string.IsNullOrEmpty(packageId))
+            {
+                if (!string.IsNullOrEmpty(InventoryPackageInventoryId))
+                {
+                    packageId = AppFunc.GetStringDataAsync(AppConfig, "packageitem", "packageitemid", InventoryPackageInventoryId, "packageid").Result;
+                }
+            }
+
+
             base.SetBaseSelectQuery(select, qry, customFields, request);
             select.Parse();
-            //select.AddWhere("(xxxtype = 'ABCDEF')"); 
-            addFilterToSelect("PackageId", "packageid", select, request); 
+            select.AddParameter("@packageid", packageId);
+            select.AddParameter("@warehouseid", warehouseId);
         }
         //------------------------------------------------------------------------------------ 
     }

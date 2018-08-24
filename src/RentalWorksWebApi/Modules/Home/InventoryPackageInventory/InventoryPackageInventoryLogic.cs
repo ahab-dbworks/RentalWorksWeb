@@ -19,7 +19,12 @@ namespace WebApi.Modules.Home.InventoryPackageInventory
         [FwBusinessLogicField(isReadOnly: true)]
         public string PackageId { get { return inventoryPackageInventory.PackageId; } set { inventoryPackageInventory.PackageId = value; } }
         public string InventoryId { get { return inventoryPackageInventory.InventoryId; } set { inventoryPackageInventory.InventoryId = value; } }
+        [FwBusinessLogicField(isReadOnly: true)]
         public string ICode { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string ICodeColor { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string LineColor { get; set; }
         public string Description { get { return inventoryPackageInventory.Description; } set { inventoryPackageInventory.Description = value; } }
         public bool? IsPrimary { get { return inventoryPackageInventory.IsPrimary; } set { inventoryPackageInventory.IsPrimary = value; } }
         public decimal? DefaultQuantity { get { return inventoryPackageInventory.DefaultQuantity; } set { inventoryPackageInventory.DefaultQuantity = value; } }
@@ -69,7 +74,7 @@ namespace WebApi.Modules.Home.InventoryPackageInventory
             if (saveMode == TDataRecordSaveMode.smUpdate)
             {
                 InventoryPackageInventoryLogic l2 = new InventoryPackageInventoryLogic();
-                l2.AppConfig = inventoryPackageInventory.AppConfig;
+                l2.SetDependencies(this.AppConfig, this.UserSession);
                 object[] pk = GetPrimaryKeys();
                 bool b = l2.LoadAsync<InventoryPackageInventoryLogic>(pk).Result;
                 if (l2.IsPrimary.Value)
