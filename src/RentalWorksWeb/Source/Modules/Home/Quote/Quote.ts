@@ -176,7 +176,8 @@ class Quote extends OrderBase{
         $form = FwModule.openForm($form, mode);
 
         if (mode === 'NEW') {
-            $form.find('.ifnew').attr('data-enabled', 'true')
+            $form.find('.ifnew').attr('data-enabled', 'true');
+            $form.find('.combinedtab').hide();
 
             var today = FwFunc.getDate();
             var warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
