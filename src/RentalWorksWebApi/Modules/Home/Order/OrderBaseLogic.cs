@@ -25,7 +25,7 @@ namespace WebApi.Modules.Home.Order
         protected DeliveryRecord inDelivery = new DeliveryRecord();
 
         private string tmpTaxId = "";
-        private OrderBaseLogic lOrig = null;
+        protected OrderBaseLogic lOrig = null;
 
         //------------------------------------------------------------------------------------
         public OrderBaseLogic()
@@ -645,7 +645,7 @@ namespace WebApi.Modules.Home.Order
                     rentalsale = RentalSale.Value;
                 }
             }
-            else
+            else  //  (updating)
             {
                 if (Type.Equals(RwConstants.ORDER_TYPE_QUOTE))
                 {
@@ -682,14 +682,37 @@ namespace WebApi.Modules.Home.Order
                 {
                     rentalsale = lOrig.RentalSale.Value;
                 }
+
+
+                if (isValid)
+                {
+                    if ((Type.Equals(RwConstants.ORDER_TYPE_QUOTE)) && (lOrig.Status.Equals(RwConstants.QUOTE_STATUS_ORDERED) || lOrig.Status.Equals(RwConstants.QUOTE_STATUS_CANCELLED)))
+                    {
+                        isValid = false;
+                        validateMsg = "Cannot modify a " + lOrig.Status + " Quote.";
+                    }
+                }
+
+                if (isValid)
+                {
+                    if ((Type.Equals(RwConstants.ORDER_TYPE_ORDER)) && (lOrig.Status.Equals(RwConstants.ORDER_STATUS_CLOSED) || lOrig.Status.Equals(RwConstants.ORDER_STATUS_SNAPSHOT) || lOrig.Status.Equals(RwConstants.ORDER_STATUS_CANCELLED)))
+                    {
+                        isValid = false;
+                        validateMsg = "Cannot modify a " + lOrig.Status + " Order.";
+                    }
+                }
+
+
             }
 
-            if (rental && rentalsale)
+            if (isValid)
             {
-                isValid = false;
-                validateMsg = "Cannot have both Rental and RentalSale on the same Quote/Order.";
+                if (rental && rentalsale)
+                {
+                    isValid = false;
+                    validateMsg = "Cannot have both Rental and RentalSale on the same Quote/Order.";
+                }
             }
-
 
             return isValid;
         }
