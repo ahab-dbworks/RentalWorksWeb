@@ -15,8 +15,8 @@ html {
 body {
     font-family: Arial, sans-serif;
     font-size: 12px;
-    margin:0;
-    padding:0;
+    margin: 0;
+    padding: 0;
 }
 
 html.preview {
@@ -95,73 +95,89 @@ html.pdf {
     font-size: $normal-text;
 }
 
-.BillingStartDate {
-    text-align: center;
-    border-bottom: 1px solid #000000;
-    padding: 40px 0 0 0;
-}
+.Header {
+    div {
+        flex: 1 0 627px;
 
-.IssuedTo {
-    .IssuedToCaption {
-        text-align: center;
-        border-bottom: 1px solid #000000;
-        font-size: $normal-text;
-        font-weight: bold;
-    }
-
-    .add1, .add2, .add3 {
-        line-height: $line-height;
-        font-size: $normal-text;
-    }
-
-    .phone {
-        margin: 20px 0 0 0;
-    }
-
-    .fax {
+        div {
+            min-width: 33%;
+            flex: 1 1 0;
+            font-size: 13px;
+            white-space: nowrap;
+        }
     }
 }
 
-
-.tblContractItems {
-    width: 100%;
+.glItems {
+    flex: 1 0 768px;
     border-collapse: collapse;
     margin: 20px 0 0 0;
 
-    colgroup {
-        .ICode {
-            width: 60px;
-        }
+    table {
+        width: 100%;
 
-        .Description {
-            width: auto;
-        }
-
-        .QuantityOrdered {
-            width: 75px;
-        }
-
-        .QuantityOut {
-            width: 75px;
-        }
-
-        .TotalOut {
-            width: 75px;
-        }
-    }
-
-    thead {
-        tr.columnheadings {
-            th {
-                font-weight: bold;
-                padding: 5px;
-                white-space: nowrap;
-                border-top: 1px solid #000000;
-                border-bottom: 1px solid #000000;
+        colgroup {
+            .GLAccount {
+                flex: 1 1 0;
             }
 
-            .ICode {
-                border-left: 1px solid #000000;
+            .Description {
+                flex: 1 1 0;
+            }
+
+            .Debit {
+                flex: 1 1 0;
+            }
+
+            .Credit {
+                flex: 1 1 0;
+            }
+        }
+
+        thead {
+            tr.columnheadings {
+                border-top: 2px solid #000000;
+                border-bottom: 2px solid #000000;
+
+                th {
+                    font-weight: bold;
+                    padding: 5px;
+                    white-space: nowrap;
+                }
+
+                .GLAccount {
+                    text-align: left;
+                }
+
+                .Description {
+                    text-align: left;
+                }
+
+                .Debit {
+                    text-align: right;
+                }
+
+                .Credit {
+                    text-align: right;
+                }
+            }
+        }
+
+        tbody {
+            tr.caption {
+                display: block;
+                text-align: center;
+                font-size: 1.5em;
+                font-weight: bold;
+            }
+
+            td {
+                padding: 2px 5px;
+                font-size: .9em;
+            }
+
+            .GLAccount {
+                white-space: pre;
                 text-align: left;
             }
 
@@ -169,79 +185,40 @@ html.pdf {
                 text-align: left;
             }
 
-            .QuantityOrdered {
+            .Debit {
                 text-align: right;
             }
 
-            .QuantityOut {
+            .Credit {
                 text-align: right;
-            }
-
-            .TotalOut {
-                text-align: right;
-            }
-        }
-
-        tr.caption {
-            text-align: center;
-            font-size: 1.5em;
-            font-weight: bold;
-        }
-    }
-
-    tbody {
-        td {
-            padding: 2px 5px;
-            font-size: .9em;
-        }
-
-        .ICode {
-            white-space: pre;
-            text-align: left;
-        }
-
-        .Description {
-            text-align: left;
-        }
-
-        .QuantityOrdered {
-            text-align: right;
-        }
-
-        .QuantityOut {
-            text-align: right;
-        }
-
-        .TotalOut {
-            text-align: right;
-        }
-
-        .Barcodes {
-            padding:0 0 0 50px;
-            .Barcodes-label {
-                font-weight:bold;
-            }
-        }
-
-        tr.C {
-            td {
-                font-weight: bold;
             }
         }
     }
 }
 
-.rentalItems {
-    
-}
+.totals {
+    font-weight: bold;
+    flex: 1 0 768px;
+    max-width: 900px;
+    float: left;
+    width: 100%;
+    display:flex;
 
-.salesItems {
-    page-break-before:always;
-}
+    .TotalsHeader {
+        flex: 1 1 0;
+        text-align: center
+    }
 
-@media screen {
-    #pageContainer {
-        width: $page-width;
+    .Debit {
+        border-top: 2px solid black;
+        flex: 1 1 0;
+        text-align: right;
+    }
+
+    .Credit {
+        border-top: 2px solid black;
+        flex: 1 1 0;
+        text-align: right;
     }
 }
 
@@ -254,42 +231,5 @@ html.pdf {
 
     #pageFooter {
         margin: $line-height 0 0 0;
-    }
-}
-
-#pageContainer {
-    #header, #footer {
-        width: auto !important;
-    }
-}
-
-fieldset {
-    border: 1px solid #000000;
-    height: 120px;
-
-    legend {
-        text-align: center;
-        font-weight: bold;
-    }
-}
-
-.receivedBy {
-    page-break-inside: avoid;
-    margin: $line-height 0 0 0;
-}
-
-.receivedbyfield {
-    flex: 0 1 50%;
-    margin: 0 $line-height/2;
-
-    .value {
-        border-bottom: 1px solid #000000;
-        white-space: nowrap;
-        height: $line-height*2;
-    }
-
-    .caption {
-        white-space: nowrap;
-        height: $line-height;
     }
 }

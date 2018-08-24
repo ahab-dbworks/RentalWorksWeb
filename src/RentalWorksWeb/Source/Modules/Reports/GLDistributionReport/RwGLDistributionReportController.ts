@@ -9,6 +9,7 @@ var templateGLDistributionFrontEnd = `
   <div class="fwcontrol fwtabs" data-control="FwTabs" data-type="">
     <div class="tabs" style="margin-right:10px;">
       <div id="generaltab" class="tab" data-tabpageid="generaltabpage" data-caption="General"></div>
+      <div id="exporttab" class="tab exporttab" data-tabpageid="exporttabpage" data-caption="Export"></div>
     </div>
     <div class="tabpages">
       <div data-type="tabpage" id="generaltabpage" class="tabpage" data-tabid="generaltab">
@@ -37,6 +38,7 @@ var templateGLDistributionFrontEnd = `
           </div>
         </div>
       </div>
+      <div id="exporttabpage" class="tabpage exporttabpage" data-tabid="exporttab"></div>
     </div>
   </div>
 </div>
@@ -67,7 +69,6 @@ class RwGLDistributionReport extends FwWebApiReport {
     //----------------------------------------------------------------------------------------------
     openForm() {
         let $form = this.getFrontEnd();
-
         return $form;
     }
     //----------------------------------------------------------------------------------------------
