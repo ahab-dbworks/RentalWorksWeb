@@ -128,7 +128,7 @@ class Exchange {
                             FwFormField.setValueByDataField($form, 'DescriptionOut', response.ItemStatus.Description);
                             FwFormField.setValueByDataField($form, 'WarehouseIdOut', response.ItemStatus.WarehouseId, response.ItemStatus.Warehouse);
                             FwFormField.setValueByDataField($form, 'VendorIdOut', response.ItemStatus.VendorId, response.ItemStatus.Vendor);
-                            FwFormField.setValueByDataField($form, 'PoNumberIdOut', response.ItemStatus.PurchaseOrderNumberId, response.ItemStatus.PurchaseOrder);
+                            FwFormField.setValueByDataField($form, 'PurchaseOrderIdOut', response.ItemStatus.PurchaseOrderNumberId, response.ItemStatus.PurchaseOrder);
                             FwFormField.setValueByDataField($form, 'ConsignorIdOut', response.ItemStatus.ConsignorId, response.ItemStatus.Consignor);
                             $form.find('div.error-msg-out').html('');
                             $form.find('.out').removeClass('error');
@@ -187,7 +187,7 @@ class Exchange {
                             FwFormField.setValueByDataField($form, 'DescriptionIn', response.ItemStatus.Description);
                             FwFormField.setValueByDataField($form, 'WarehouseIdIn', response.ItemStatus.WarehouseId, response.ItemStatus.Warehouse);
                             FwFormField.setValueByDataField($form, 'VendorIdIn', response.ItemStatus.VendorId, response.ItemStatus.Vendor);
-                            FwFormField.setValueByDataField($form, 'PoNumberIdIn', response.ItemStatus.PurchaseOrderNumberId, response.ItemStatus.PurchaseOrder);
+                            FwFormField.setValueByDataField($form, 'PurchaseOrderIdIn', response.ItemStatus.PurchaseOrderNumberId, response.ItemStatus.PurchaseOrder);
                             FwFormField.setValueByDataField($form, 'ConsignorIdIn', response.ItemStatus.ConsignorId, response.ItemStatus.Consignor);
                             FwFormField.disable(FwFormField.getDataField($form, 'OrderId'));
                             FwFormField.disable(FwFormField.getDataField($form, 'DealId'));
