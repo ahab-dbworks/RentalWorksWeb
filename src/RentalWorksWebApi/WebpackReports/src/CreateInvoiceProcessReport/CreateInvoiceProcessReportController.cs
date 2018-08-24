@@ -56,6 +56,9 @@ namespace WebApi.Modules.Reports.CreateInvoiceProcessReport
                 CreateInvoiceProcessReportLogic l = new CreateInvoiceProcessReportLogic();
                 l.SetDependencies(this.AppConfig, this.UserSession);
                 FwJsonDataTable dt = await l.BrowseAsync(browseRequest);
+                string[] totalFields = new string[] { "InvoiceCount", "ExceptionCount", "InvoiceTotal" };
+                dt.InsertSubTotalRows("OfficeLocation", "RowType", totalFields);
+                dt.InsertSubTotalRows("Deal", "RowType", totalFields);
                 return new OkObjectResult(dt);
             }
             catch (Exception ex)

@@ -12,6 +12,8 @@ namespace WebApi.Modules.Reports.CreateInvoiceProcessReport
         }
         //------------------------------------------------------------------------------------ 
         [FwBusinessLogicField(isReadOnly: true)]
+        public string RowType { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
         public string BatchId { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
         public int? BatchNumber { get; set; }
@@ -61,6 +63,10 @@ namespace WebApi.Modules.Reports.CreateInvoiceProcessReport
         public bool? IsNoCharge { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
         public decimal? PriorInvoiceTotal { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public int? InvoiceCount { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public int? ExceptionCount { get; set; }
         //------------------------------------------------------------------------------------ 
     }
 }

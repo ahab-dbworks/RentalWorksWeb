@@ -12,6 +12,9 @@ namespace WebApi.Modules.Reports.CreateInvoiceProcessReport
     public class CreateInvoiceProcessReportLoader : AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "rowtype", modeltype: FwDataTypes.Text)]
+        public string RowType { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "invoicebatchid", modeltype: FwDataTypes.Text)]
         public string BatchId { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -86,6 +89,12 @@ namespace WebApi.Modules.Reports.CreateInvoiceProcessReport
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "priorinvoicetotal", modeltype: FwDataTypes.Decimal)]
         public decimal? PriorInvoiceTotal { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "invoicecount", modeltype: FwDataTypes.Integer)]
+        public int? InvoiceCount { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "exceptioncount", modeltype: FwDataTypes.Integer)]
+        public int? ExceptionCount { get; set; }
         //------------------------------------------------------------------------------------ 
         protected override void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequest request = null)
         {
