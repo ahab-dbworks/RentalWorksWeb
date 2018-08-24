@@ -61,6 +61,9 @@ namespace WebApi.Modules.Reports.ProjectManagerBillingReport
                 ProjectManagerBillingReportLogic l = new ProjectManagerBillingReportLogic();
                 l.SetDependencies(this.AppConfig, this.UserSession);
                 FwJsonDataTable dt = await l.BrowseAsync(browseRequest);
+                string[] totalFields = new string[] { "RentalTotal", "MeterTotal", "SalesTotal", "FacilitiesTotal", "MiscellaneousTotal", "LaborTotal", "PartsTotal", "AssetTotal", "InvoiceTax", "InvoiceTotal" };
+                dt.InsertSubTotalRows("ProjectManager", "RowType", totalFields);
+                dt.InsertTotalRow("RowType", "detail", "grandtotal", totalFields);
                 return new OkObjectResult(dt);
             }
             catch (Exception ex)

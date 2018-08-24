@@ -13,11 +13,14 @@ namespace WebApi.Modules.Reports.SalesRepresentativeBillingReport
     public class SalesRepresentativeBillingReportLoader : AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "location", modeltype: FwDataTypes.Text)]
-        public string OfficeLocation { get; set; }
+        [FwSqlDataField(column: "rowtype", modeltype: FwDataTypes.Text)]
+        public string RowType { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "salesrepresentative", modeltype: FwDataTypes.Text)]
         public string SalesRepresentative { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "location", modeltype: FwDataTypes.Text)]
+        public string OfficeLocation { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "department", modeltype: FwDataTypes.Text)]
         public string Department { get; set; }
@@ -54,9 +57,6 @@ namespace WebApi.Modules.Reports.SalesRepresentativeBillingReport
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "billingend", modeltype: FwDataTypes.Date)]
         public string BillingEndDate { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "invoicetotal", modeltype: FwDataTypes.Decimal)]
-        public decimal? InvoiceTotal { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "billingnote", modeltype: FwDataTypes.Text)]
         public string BillingNote { get; set; }
@@ -126,6 +126,9 @@ namespace WebApi.Modules.Reports.SalesRepresentativeBillingReport
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "invoicetax", modeltype: FwDataTypes.Decimal)]
         public decimal? InvoiceTax { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "invoicetotal", modeltype: FwDataTypes.Decimal)]
+        public decimal? InvoiceTotal { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "nonbillable", modeltype: FwDataTypes.Boolean)]
         public bool? IsNonBillable { get; set; }

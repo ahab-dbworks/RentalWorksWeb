@@ -1,7 +1,7 @@
-using FwStandard.Models; 
-using Microsoft.AspNetCore.Mvc; 
-using Microsoft.Extensions.Options; 
-using WebApi.Controllers; 
+using FwStandard.Models;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
+using WebApi.Controllers;
 using System.Threading.Tasks;
 using System;
 using FwStandard.Reporting;
@@ -61,6 +61,9 @@ namespace WebApi.Modules.Reports.AgentBillingReport
                 AgentBillingReportLogic l = new AgentBillingReportLogic();
                 l.SetDependencies(this.AppConfig, this.UserSession);
                 FwJsonDataTable dt = await l.BrowseAsync(browseRequest);
+                string[] totalFields = new string[] { "RentalTotal", "MeterTotal", "SalesTotal", "FacilitiesTotal", "MiscellaneousTotal", "LaborTotal", "PartsTotal", "AssetTotal", "InvoiceTax", "InvoiceTotal" };
+                dt.InsertSubTotalRows("Agent", "RowType", totalFields);
+                dt.InsertTotalRow("RowType", "detail", "grandtotal", totalFields);
                 return new OkObjectResult(dt);
             }
             catch (Exception ex)

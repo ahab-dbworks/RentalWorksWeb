@@ -13,9 +13,11 @@ namespace WebApi.Modules.Reports.AgentBillingReport
         }
         //------------------------------------------------------------------------------------ 
         [FwBusinessLogicField(isReadOnly: true)]
-        public string OfficeLocation { get; set; }
+        public string RowType { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
         public string Agent { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string OfficeLocation { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
         public string Department { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
@@ -40,8 +42,6 @@ namespace WebApi.Modules.Reports.AgentBillingReport
         public string BillingStartDate { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
         public string BillingEndDate { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
-        public decimal? InvoiceTotal { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
         public string BillingNote { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
@@ -88,6 +88,8 @@ namespace WebApi.Modules.Reports.AgentBillingReport
         public decimal? AssetTotal { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
         public decimal? InvoiceTax { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public decimal? InvoiceTotal { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
         public bool? IsNonBillable { get; set; }
     }
