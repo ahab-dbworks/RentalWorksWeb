@@ -1,36 +1,13 @@
-﻿<div class="header" style="width:1500px;overflow:hidden;padding-top:2px;font-family:Arial;">
-  <div>
-    <div class="alignleft">
-      <div><strong style="text-align:left;">SYSTEM</strong></div>
-    </div>
-    <div class="aligncenter">
-      <div><strong style="text-align:center;font-size:25px;">AGENT BILLING REPORT</strong></div>
-    </div>
-    <div class="alignright">
-      <div><strong style="text-align:right;">4WALL ENTERTAINMENT</strong></div>
-    </div>
+﻿<div class="report-flexrow">
+  <div class="report-flexcolumn" style="">
+    <span>SYSTEM</span>
   </div>
-  <div>
-    <div class="alignleft">
-      <div><strong style="text-align:left;">&#160;</strong></div>
-    </div>
-    <div class="aligncenter">
-      <div><strong style="text-align:center;font-size:14px;">From: {{parameters.FromDate}}</strong></div>
-    </div>
-    <div class="alignright">
-      <div><strong style="text-align:right;">&#160;</strong></div>
-    </div>
+  <div class="report-flexcolumn" style="">
+  <span>AGENT BILLING REPORT</span>
+    <span>Invoice Date From: {{FromDate}} To: {{ToDate}}</span>
   </div>
-  <div>
-    <div class="alignleft">
-      <div><strong style="text-align:left;">&#160;</strong></div>
-    </div>
-    <div class="aligncenter">
-      <div><strong style="text-align:center;font-size:14px;">To: {{parameters.ToDate}}</strong></div>
-    </div>
-    <div class="alignright">
-      <div><strong style="text-align:right;">&#160;</strong></div>
-    </div>
+  <div class="report-flexcolumn" style="">
+    <span>4WALL ENTERTAINMENT</span>
   </div>
 </div>
 <div class="body" style="width:1500px;">
@@ -39,8 +16,8 @@
     {{#each this}}
     <thead>
       <tr>
-        <td>
-          <div class="heading">Invoice No</div>
+        <td class="heading">
+          <div class="heading" style="max-width:67px">Invoice No</div>
         </td>
         <td>
           <div class="heading">Invoice Date</div>

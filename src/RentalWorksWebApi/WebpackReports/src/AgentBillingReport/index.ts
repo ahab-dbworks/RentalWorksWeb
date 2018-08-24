@@ -23,7 +23,7 @@ export class AgentBillingReport extends WebpackReport {
             let agentBilling: any = {};
             let today = new Date();
             console.log('parameters: ', parameters);
-
+            
             // get the Promise
             let agentBillingPromise = Ajax.post<DataTable>(`${apiUrl}/api/v1/agentbillingreport/browse`, authorizationHeader, request)
                 .then((response: DataTable) => {
@@ -32,6 +32,8 @@ export class AgentBillingReport extends WebpackReport {
 
                     agentBilling.PrintTime = moment().format('YYYY-MM-DD h:mm:ss A');
                     agentBilling.ContractTime = moment(agentBilling.ContractTime, 'h:mm a').format('h:mm a');
+                    agentBilling.FromDate = parameters.FromDate;
+                    agentBilling.ToDate = parameters.ToDate;
                     this.renderFooterHtml(agentBilling);
                     if (this.action === 'Preview' || this.action === 'PrintHtml') {
                         document.getElementById('pageFooter').innerHTML = this.footerHtml;

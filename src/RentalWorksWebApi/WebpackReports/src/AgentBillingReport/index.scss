@@ -12,6 +12,7 @@
     background-color: #fff;
 }
 
+
 .body tbody tr[data-rowtype="masternofooter"] .total {
     border-top: 2px solid black;
 }
@@ -39,6 +40,25 @@ tr[data-rowtype="masternoheader"] {
     width: 33.33333%;
     text-align: center;
     padding: 5px 0px 5px 0px;
+    display: flex;
+    flex: 0 1 150px;
+}
+
+.report-flexrow {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    width: 1500px;
+}
+
+.report-flexrow > * {
+    flex: 1 1 0;
+    min-width: 16em; /*max-width:24em;*/
+}
+
+.report-flexcolumn {
+    display: flex;
+    flex-direction: column;
 }
 
 .alignright {
