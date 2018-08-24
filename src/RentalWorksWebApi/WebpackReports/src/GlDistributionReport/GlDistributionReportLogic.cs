@@ -10,6 +10,7 @@ namespace WebApi.Modules.Reports.GlDistributionReport
             dataLoader = glDistributionReportLoader;
         }
         //------------------------------------------------------------------------------------ 
+        public string RowType { get; set; }
         public string LocationId { get; set; }
         public string Location { get; set; }
         public string GroupHeading { get; set; }

@@ -61,6 +61,11 @@ namespace WebApi.Modules.Reports.GlDistributionReport
                 GlDistributionReportLogic l = new GlDistributionReportLogic();
                 l.SetDependencies(this.AppConfig, this.UserSession);
                 FwJsonDataTable dt = await l.BrowseAsync(browseRequest);
+
+                string[] totalFields = new string[] { "Debit", "Credit" };
+                dt.InsertSubTotalRows("Location", "RowType", totalFields);
+                dt.InsertSubTotalRows("GroupHeading", "RowType", totalFields);
+
                 return new OkObjectResult(dt);
             }
             catch (Exception ex)

@@ -12,6 +12,9 @@ namespace WebApi.Modules.Reports.GlDistributionReport
     public class GlDistributionReportLoader : AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "rowtype", modeltype: FwDataTypes.Text)]
+        public string RowType { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "locationid", modeltype: FwDataTypes.Text)]
         public string LocationId { get; set; }
         //------------------------------------------------------------------------------------ 
