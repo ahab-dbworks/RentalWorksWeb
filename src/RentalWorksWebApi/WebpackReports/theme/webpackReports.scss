@@ -1,0 +1,40 @@
+﻿.report-flexrow {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    width: 1500px;
+}
+
+.report-flexrow > * {
+    flex: 1 1 0;
+    min-width: 16em; /*max-width:24em;*/
+}
+
+.report-flexcolumn {
+    display: flex;
+    flex-direction: column;
+}
+
+.report-title {
+    align-self: center;
+    font-family: Arial;
+    font-size: 30px;
+    font-weight: bold;
+}
+
+.report-header-date {
+    align-self: center;
+    font-family: Arial;
+    font-size: 20px;
+    margin-top: 35px;
+}
+
+.report-header-company {
+    align-self: flex-end;
+    font-size: 20px
+}
+
+.report-header-system {
+    align-self: flex-start;
+    font-size: 20px
+}

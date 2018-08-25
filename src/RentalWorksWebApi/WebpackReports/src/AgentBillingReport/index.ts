@@ -1,10 +1,11 @@
 ﻿import { WebpackReport } from '../../lib/FwReportLibrary/src/WebpackReport';
 import { CustomField } from '../../lib/FwReportLibrary/src/CustomField';
-import { DataTable, DataTableColumn, BrowseRequest } from '../../lib/FwReportLibrary/src/DataTable'; // added Browse Request obj
+import { DataTable, DataTableColumn, BrowseRequest } from '../../lib/FwReportLibrary/src/DataTable';
 import { Ajax } from '../../lib/FwReportLibrary/src/Ajax';
 import { HandlebarsHelpers } from '../../lib/FwReportLibrary/src/HandlebarsHelpers';
 import * as moment from 'moment';
 import './index.scss';
+import '../../theme/webpackReports.scss'
 var hbReport = require("./hbReport.hbs"); 
 var hbFooter = require("./hbFooter.hbs"); 
 
@@ -24,23 +25,24 @@ export class AgentBillingReport extends WebpackReport {
             let today = new Date();
             console.log('parameters: ', parameters);
             
-            // get the Promise
             let agentBillingPromise = Ajax.post<DataTable>(`${apiUrl}/api/v1/agentbillingreport/browse`, authorizationHeader, request)
                 .then((response: DataTable) => {
                     agentBilling = DataTable.toObjectList(response); // converts res to javascript obj
-                    console.log('agentBilling: ', agentBilling); // will help in building the handlebars
+                    console.log('agentBilling: ', agentBilling); 
 
                     agentBilling.PrintTime = moment().format('YYYY-MM-DD h:mm:ss A');
                     agentBilling.ContractTime = moment(agentBilling.ContractTime, 'h:mm a').format('h:mm a');
                     agentBilling.FromDate = parameters.FromDate;
                     agentBilling.ToDate = parameters.ToDate;
+                    agentBilling.Report = 'AGENT BILLING REPORT';
+                    agentBilling.System = 'RENTALWORKS';
+                    agentBilling.Company = '4WALL ENTERTAINMENT';
                     this.renderFooterHtml(agentBilling);
                     if (this.action === 'Preview' || this.action === 'PrintHtml') {
                         document.getElementById('pageFooter').innerHTML = this.footerHtml;
                     }
                     document.getElementById('pageBody').innerHTML = hbReport(agentBilling);
 
-                    //document.getElementsByClassName('.current-date').innerText = today
                     this.onRenderReportCompleted();
                 })
                 .catch((ex) => {
