@@ -1,0 +1,110 @@
+﻿<div class="header report-flexrow">
+  <div class="report-flexcolumn">
+    <span class="report-header-system">{{System}}</span>
+  </div>
+  <div class="report-flexcolumn">
+  <span class="report-title">{{Report}}</span>
+    <span class="report-header-date">Invoice From: {{FromDate}} To: {{ToDate}}</span>
+  </div>
+  <div class="report-flexcolumn">
+    <span class="report-header-company">{{Company}}</span>
+  </div>
+</div>
+<div class="body" style="width:1500px;">
+  <br /><br />
+  <table id="tblagentbillingreport" style="margin-top: 40px;">
+    {{#each this}}
+    <thead>
+      <tr>
+        <td class="heading">
+          <div class="heading" style="max-width:67px">Invoice No</div>
+        </td>
+        <td>
+          <div class="heading">Invoice Date</div>
+        </td>
+        <td>
+          <div class="heading">Billing Date</div>
+        </td>
+        <td>
+          <div class="heading">Description</div>
+        </td>
+        <td>
+          <div class="heading">Order No.</div>
+        </td>
+        <td>
+          <div class="heading">Deal</div>
+        </td>
+        <td>
+          <div class="heading">Rental</div>
+        </td>
+        <td>
+          <div class="heading">Sales</div>
+        </td>
+        <td>
+          <div class="heading">Labor</div>
+        </td>
+        <td>
+          <div class="heading">Misc</div>
+        </td>
+        <td>
+          <div class="heading">Asset</div>
+        </td>
+        <td>
+          <div class="heading">Parts</div>
+        </td>
+        <td>
+          <div class="heading">Invoice Total</div>
+        </td>
+      </tr>
+    </thead>
+    <tbody>
+      <tr data-rowtype={{rowtype}}>
+        <td>
+          <div class="row1"><span>{{InvoiceNumber}}</span></div>
+        </td>
+        <td>
+          <div class="row1"><span>{{InvoiceDate}}</span></div>
+        </td>
+        <td>
+          <div class="row1">{{BillingStartDate}}</div>
+        </td>
+        <td>
+          <div class="row1">{{InvoiceDescription}}</div>
+        </td>
+        <td>
+          <div class="row1">{{OrderNumber}}</div>
+        </td>
+        <td>
+          <div class="row1"><span>{{Deal}}</span></div>
+        </td>
+        <td>
+          <div class="row1 date">{{RentalTotal}}</div>
+        </td>
+        <td>
+          <div class="row1"><span>{{SalesTotal}}</span></div>
+        </td>
+        <td>
+          <div class="row1">{{LaborTotal}}</div>
+        </td>
+        <td>
+          <div class="row1 date">{{MiscTotal}}</div>
+        </td>
+        <td>
+          <div class="row1 date">{{AssetTotal}}</div>
+        </td>
+        <td>
+          <div class="row1">{{PartsTotal}}</div>
+        </td>
+        <td class="total">
+          <div class="row1" style="text-align:right;">{{InvoiceTotal}}</div>
+        </td>
+      </tr>
+      <tr>
+        <td class="sub-heading">
+          <div class="row2" style="text-align:right;">Agent: {{Agent}}</div>
+        </td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+</div>

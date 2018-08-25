@@ -1,0 +1,103 @@
+﻿<div class="header report-flexrow">
+  <div class="report-flexcolumn">
+    <span class="report-header-system">{{System}}</span>
+  </div>
+  <div class="report-flexcolumn">
+    <span class="report-title">{{Report}}</span>
+    <span class="report-header-date">Invoice From: {{FromDate}} To: {{ToDate}}</span>
+  </div>
+  <div class="report-flexcolumn">
+    <span class="report-header-company">{{Company}}</span>
+  </div>
+</div>
+<div class="body report-flexrow" style="width:1500px;margin-top:40px;">
+  <br /><br />
+  <table id="tblagentbilling">
+    <thead>
+      <tr>
+        <td>
+          <div>Invoice No</div>
+        </td>
+        <td>
+          <div>Invoice Date</div>
+        </td>
+        <td>
+          <div>Billing Date</div>
+        </td>
+        <td>
+          <div>Description</div>
+        </td>
+        <td>
+          <div>Order No.</div>
+        </td>
+        <td>
+          <div>Deal</div>
+        </td>
+        <td>
+          <div>Rental</div>
+        </td>
+        <td>
+          <div>Sales</div>
+        </td>
+        <td>
+          <div>Space</div>
+        </td>
+        <td>
+          <div>Labor</div>
+        </td>
+        <td>
+          <div>Misc</div>
+        </td>
+        <td>
+          <div>Asset</div>
+        </td>
+        <td>
+          <div>Parts</div>
+        </td>
+        <td>
+          <div>Tax</div>
+        </td>
+        <td>
+          <div>Total</div>
+        </td>
+      </tr>
+    </thead>
+    <tbody>
+      {{#details}}
+      <tr data-rowtype={{rowtype}}>
+        <td>
+          <div class="row1"><span>{{InvoiceNumber}}</span></div>
+        </td>
+        <td>
+          <div class="row1"><span>{{InvoiceDate}}</span></div>
+        </td>
+        <td>
+          <div class="row1">{{Deal}}</div>
+        </td>
+        <td class="total">
+          <div class="row1" style="text-align:right;">{{RentalTotal}}</div>
+        </td>
+        <td class="total">
+          <div class="row1" style="text-align:right;">{{SalesTotal}}</div>
+        </td>
+        <td class="total">
+          <div class="row1" style="text-align:right;">{{totalover}}</div>
+        </td>
+        <td class="total">
+          <div class="row1" style="text-align:right;">{{totaldeposit}}</div>
+        </td>
+        <td class="total">
+          <div class="row1" style="text-align:right;">{{totalapplied}}</div>
+        </td>
+        <td class="total">
+          <div class="row1" style="text-align:right;">{{totalrefunded}}</div>
+        </td>
+        <td class="total">
+          <div class="row1" style="text-align:right;">{{remaining}}</div>
+        </td>
+      </tr>
+      {{/details}}
+    </tbody>
+  </table>
+</div>
+

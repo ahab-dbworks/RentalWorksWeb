@@ -9,7 +9,7 @@ import '../../theme/webpackReports.scss'
 var hbReport = require("./hbReport2.hbs"); 
 var hbFooter = require("./hbFooter.hbs"); 
 
-export class AgentBillingReport extends WebpackReport {
+export class CreateInvoiceProcessReport extends WebpackReport {
 
     renderReport(apiUrl: string, authorizationHeader: string, parameters: any): void {
         try {
@@ -21,27 +21,27 @@ export class AgentBillingReport extends WebpackReport {
             let request = new BrowseRequest();
        
             HandlebarsHelpers.registerHelpers();
-            let agentBilling: any = {};
+            let createInvoiceProcess: any = {};
             let today = new Date();
             console.log('parameters: ', parameters);
             
-            let agentBillingPromise = Ajax.post<DataTable>(`${apiUrl}/api/v1/agentbillingreport/browse`, authorizationHeader, request)
+            let CreateInvoiceProcessPromise = Ajax.post<DataTable>(`${apiUrl}/api/v1/createinvoiceprocessreport/browse`, authorizationHeader, request)
                 .then((response: DataTable) => {
-                    agentBilling = DataTable.toObjectList(response); // converts res to javascript obj
-                    console.log('agentBilling: ', agentBilling); 
+                    createInvoiceProcess = DataTable.toObjectList(response); // converts res to javascript obj
+                    console.log('createInvoiceProcess: ', createInvoiceProcess); 
 
-                    agentBilling.PrintTime = moment().format('YYYY-MM-DD h:mm:ss A');
-                    agentBilling.ContractTime = moment(agentBilling.ContractTime, 'h:mm a').format('h:mm a');
-                    agentBilling.FromDate = parameters.FromDate;
-                    agentBilling.ToDate = parameters.ToDate;
-                    agentBilling.Report = 'AGENT BILLING REPORT';
-                    agentBilling.System = 'RENTALWORKS';
-                    agentBilling.Company = '4WALL ENTERTAINMENT';
-                    this.renderFooterHtml(agentBilling);
+                    createInvoiceProcess.PrintTime = moment().format('YYYY-MM-DD h:mm:ss A');
+                    createInvoiceProcess.ContractTime = moment(createInvoiceProcess.ContractTime, 'h:mm a').format('h:mm a');
+                    createInvoiceProcess.FromDate = parameters.FromDate;
+                    createInvoiceProcess.ToDate = parameters.ToDate;
+                    createInvoiceProcess.Report = 'AGENT BILLING REPORT';
+                    createInvoiceProcess.System = 'RENTALWORKS';
+                    createInvoiceProcess.Company = '4WALL ENTERTAINMENT';
+                    this.renderFooterHtml(createInvoiceProcess);
                     if (this.action === 'Preview' || this.action === 'PrintHtml') {
                         document.getElementById('pageFooter').innerHTML = this.footerHtml;
                     }
-                    document.getElementById('pageBody').innerHTML = hbReport(agentBilling);
+                    document.getElementById('pageBody').innerHTML = hbReport(createInvoiceProcess);
 
                     this.onRenderReportCompleted();
                 })
@@ -53,15 +53,15 @@ export class AgentBillingReport extends WebpackReport {
         }
     }
 
-    renderFooterHtml(model: AgentBilling) : string {
+    renderFooterHtml(model: CreateInvoiceProcess) : string {
         this.footerHtml = hbFooter(model);
         return this.footerHtml;
     }
 }
 
-(<any>window).report = new AgentBillingReport();
+(<any>window).report = new CreateInvoiceProcessReport();
 
-class AgentBilling {
+class CreateInvoiceProcess {
     _Custom = new Array<CustomField>();
     ContractId = '';
     ContractNumber = '';
@@ -101,34 +101,5 @@ class AgentBilling {
     OrderDescription = '';
     DateStamp = '';
     RecordTitle = '';
-    RentalItems = new Array<agentBillingItem>();
-    SalesItems = new Array<agentBillingItem>();
     PrintTime = '';
 }
-
-class agentBillingItemRequest {
-    "miscfields" = {};
-    "module" = '';
-    "options" = {};
-    "orderby" = '';
-    "pageno" = 0;
-    "pagesize" = 0;
-    "searchfieldoperators": Array<any> = [];
-    "searchfields": Array<any> = [];
-    "searchfieldvalues": Array<any> = [];
-    "uniqueids" = { "ContractId": '', "RecType": '' };
-}
-
-class agentBillingItem {
-    "Agent": string;
-    "ICodeColor": string;
-    "Description": string;
-    "DescriptionColor": string;
-    "QuantityOrdered": string;
-    "QuantityOut": string;
-    "TotalOut": string;
-    "ItemClass": string;
-    "Notes": string;
-    "Barcode": string;
-}
-
