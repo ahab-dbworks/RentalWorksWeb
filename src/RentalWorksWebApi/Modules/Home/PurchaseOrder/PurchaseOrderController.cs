@@ -50,6 +50,18 @@ namespace WebApi.Modules.Home.PurchaseOrder
         public int ItemsAdded;
     }
 
+    public class PurchaseOrderReceiveAssignBarCodesRequest
+    {
+        public string PurchaseOrderId;
+        public string ContractId;
+    }
+
+    public class PurchaseOrderReceiveAssignBarCodesResponse : TSpStatusReponse
+    {
+    }
+
+    
+
 
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "home-v1")]
@@ -275,6 +287,32 @@ namespace WebApi.Modules.Home.PurchaseOrder
             {
 
                 PurchaseOrderReceiveBarCodeAddItemsResponse response = await ContractFunc.AddInventoryFromReceive(AppConfig, UserSession, request.PurchaseOrderId, request.ContractId);
+                return new OkObjectResult(response);
+            }
+            catch (Exception ex)
+            {
+                FwApiException jsonException = new FwApiException();
+                jsonException.StatusCode = StatusCodes.Status500InternalServerError;
+                jsonException.Message = ex.Message;
+                jsonException.StackTrace = ex.StackTrace;
+                return StatusCode(jsonException.StatusCode, jsonException);
+            }
+        }
+        //------------------------------------------------------------------------------------       
+
+
+        // POST api/v1/purchaseorder/assignbarcodesfromreceive
+        [HttpPost("assignbarcodesfromreceive")]
+        public async Task<IActionResult> AssignBarCodesFromReceive([FromBody] PurchaseOrderReceiveAssignBarCodesRequest request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+
+                PurchaseOrderReceiveAssignBarCodesResponse response = await ContractFunc.AssignBarCodesFromReceive(AppConfig, UserSession, request.PurchaseOrderId, request.ContractId);
                 return new OkObjectResult(response);
             }
             catch (Exception ex)

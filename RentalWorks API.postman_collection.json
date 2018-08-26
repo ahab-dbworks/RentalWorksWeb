@@ -10143,7 +10143,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"InCode\": \"WM0231224\"\n}"
+							"raw": "{\n\t\"InCode\": \"10205831\"\n}"
 						},
 						"url": {
 							"raw": "http://localhost:57949/api/v1/exchange/exchangeitemin",
@@ -19680,7 +19680,7 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "http://localhost:57949/api/v1/item/F005MT5T",
+							"raw": "http://localhost:57949/api/v1/item/I00006SF",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -19690,7 +19690,7 @@
 								"api",
 								"v1",
 								"item",
-								"F005MT5T"
+								"I00006SF"
 							]
 						}
 					},
@@ -24095,7 +24095,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"OrderDescription\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": [],\n    \t\"uniqueids\": {\"OrderId\":\"I00000JM\"}\n\t\n}"
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"OrderDescription\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": [],\n    \t\"uniqueids\": {\"OrderId\":\"I00006TD\"}\n\t\n}"
 						},
 						"url": {
 							"raw": "http://localhost:57949/api/v1/ordersnapshot/browse",
@@ -32737,6 +32737,41 @@
 					"response": []
 				},
 				{
+					"name": "Purchase Order: Assign Bar Codes from Receive",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"PurchaseOrderId\": \"I00006RO\",\n\t\"ContractId\": \"I00006S1\"\n}\n\n"
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/purchaseorder/assignbarcodesfromreceive",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"purchaseorder",
+								"assignbarcodesfromreceive"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "Purchase Order: Receive Bar Code Add Items",
 					"request": {
 						"method": "POST",
@@ -39613,7 +39648,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"ItemOrder\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": [],\n    \t\"uniqueids\": {\n    \t\t\"SessionId\": \"I000065Y\"\n    \t}\n}\n"
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"ItemOrder\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": [],\n    \t\"uniqueids\": {\n    \t\t\"SessionId\": \"I00006UX\"\n    \t}\n}\n"
 						},
 						"url": {
 							"raw": "http://localhost:57949/api/v1/subpurchaseorderitem/browse",
@@ -43906,7 +43941,7 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "http://localhost:57949/api/v1/vendor/000015IT",
+							"raw": "http://localhost:57949/api/v1/vendor/B003KOA6",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -43916,7 +43951,7 @@
 								"api",
 								"v1",
 								"vendor",
-								"000015IT"
+								"B003KOA6"
 							]
 						}
 					},
