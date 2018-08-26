@@ -1,6 +1,5 @@
-﻿import { WebpackReport } from '../../lib/FwReportLibrary/src/WebpackReport';
+import { WebpackReport } from '../../lib/FwReportLibrary/src/WebpackReport';
 import { CustomField } from '../../lib/FwReportLibrary/src/CustomField';
-import { DataTable, DataTableColumn } from '../../lib/FwReportLibrary/src/DataTable';
 import { Ajax } from '../../lib/FwReportLibrary/src/Ajax';
 import { HandlebarsHelpers } from '../../lib/FwReportLibrary/src/HandlebarsHelpers';
 import * as moment from 'moment';
