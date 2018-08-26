@@ -1,5 +1,7 @@
-class FwAppData {
-    static init() {
+var FwAppData = (function () {
+    function FwAppData() {
+    }
+    FwAppData.init = function () {
         FwAppData.services = {
             account: {}
         };
@@ -10,8 +12,8 @@ class FwAppData {
         FwAppData.reportTimeout = 7200;
         FwAppData.useWebApi = false;
         FwAppData.loadingTimeout = null;
-    }
-    static jsonPost(requiresAuthToken, url, request, timeoutSeconds, onSuccess, onError, $elementToBlock) {
+    };
+    FwAppData.jsonPost = function (requiresAuthToken, url, request, timeoutSeconds, onSuccess, onError, $elementToBlock) {
         var me, xhr, $overlay, jqXHRobj;
         var isdesktop = jQuery('html').hasClass('desktop');
         var ismobile = jQuery('html').hasClass('mobile');
@@ -154,10 +156,10 @@ class FwAppData {
         });
         FwAppData.jqXHR[request.requestid] = jqXHRobj;
         return request.requestid;
-    }
+    };
     ;
-    static apiMethod(requiresAuthToken, method, url, request, timeoutSeconds, onSuccess, onError, $elementToBlock, progressBarSessionId) {
-        let $overlay;
+    FwAppData.apiMethod = function (requiresAuthToken, method, url, request, timeoutSeconds, onSuccess, onError, $elementToBlock, progressBarSessionId) {
+        var $overlay;
         var isdesktop = jQuery('html').hasClass('desktop');
         var ismobile = jQuery('html').hasClass('mobile');
         var data = (method === 'GET') ? null : JSON.stringify(request);
@@ -183,7 +185,7 @@ class FwAppData {
             context: {
                 requestid: FwAppData.generateUUID()
             },
-            beforeSend: (jqXHR, settings) => {
+            beforeSend: function (jqXHR, settings) {
                 if (isdesktop || (ismobile && ($elementToBlock !== null))) {
                     if ((typeof $elementToBlock === 'object') && ($elementToBlock !== null)) {
                         if (progressBarSessionId !== undefined) {
@@ -199,7 +201,7 @@ class FwAppData {
                     jQuery('#index-loadingInner').hide();
                     maxZIndex = FwFunc.getMaxZ('*');
                     jQuery('#index-loading').css('z-index', maxZIndex).show();
-                    me.loadingTimeout = window.setTimeout((args) => {
+                    me.loadingTimeout = window.setTimeout(function (args) {
                         me.loadingTimeout = null;
                         jQuery('#index-loadingInner').stop().fadeIn(50);
                     }, 0);
@@ -278,18 +280,18 @@ class FwAppData {
         });
         FwAppData.jqXHR[ajaxOptions.context.requestid] = jqXHRobj;
         return ajaxOptions.context.requestid;
-    }
+    };
     ;
-    static verifyHasAuthToken() {
+    FwAppData.verifyHasAuthToken = function () {
         var hasAuthToken;
         hasAuthToken = false;
         if (sessionStorage.getItem('authToken')) {
             hasAuthToken = true;
         }
         return hasAuthToken;
-    }
+    };
     ;
-    static updateAutoLogout(response) {
+    FwAppData.updateAutoLogout = function (response) {
         clearTimeout(FwAppData.autoLogoutTimeout);
         clearTimeout(FwAppData.autoLogoutWarningTimeout);
         if (response) {
@@ -317,32 +319,33 @@ class FwAppData {
                 }, (FwAppData.autoLogoutMinutes - .5) * 60000);
             }
         }
-    }
+    };
     ;
-    static generateUUID() {
+    FwAppData.generateUUID = function () {
         var uuid;
         uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
             var r = Math.random() * 16 | 0, v = c === 'x' ? r : (r & 0x3 | 0x8);
             return v.toString(16);
         });
         return uuid;
-    }
-    static abortRequest(requestid) {
+    };
+    FwAppData.abortRequest = function (requestid) {
         for (var item in FwAppData.jqXHR) {
             if (item === requestid) {
                 FwAppData.jqXHR[item].abort();
                 delete FwAppData.jqXHR[item];
             }
         }
-    }
+    };
     ;
-    static abortAllRequests() {
+    FwAppData.abortAllRequests = function () {
         for (var item in FwAppData.jqXHR) {
             FwAppData.jqXHR[item].abort();
             delete FwAppData.jqXHR[item];
         }
-    }
+    };
     ;
-}
+    return FwAppData;
+}());
 FwAppData.init();
 //# sourceMappingURL=FwAppData.js.map

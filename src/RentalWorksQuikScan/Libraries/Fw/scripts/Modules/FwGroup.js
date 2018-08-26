@@ -2,17 +2,17 @@ var Fw;
 (function (Fw) {
     var Modules;
     (function (Modules) {
-        class FwGroup {
-            constructor() {
+        var FwGroup = (function () {
+            function FwGroup() {
                 this.Module = 'Group';
                 this.apiurl = 'api/v1/group';
             }
-            getModuleScreen() {
-                let screen = {};
+            FwGroup.prototype.getModuleScreen = function () {
+                var screen = {};
                 screen.$view = FwModule.getModuleControl(this.Module + 'Group');
                 screen.viewModel = {};
                 screen.properties = {};
-                let $browse = this.openBrowse();
+                var $browse = this.openBrowse();
                 screen.load = function () {
                     FwModule.openModuleTab($browse, 'Group', false, 'BROWSE', true);
                     FwBrowse.databind($browse);
@@ -22,14 +22,14 @@ var Fw;
                     FwBrowse.screenunload($browse);
                 };
                 return screen;
-            }
-            openBrowse() {
-                let $browse = jQuery(this.getBrowseTemplate());
+            };
+            FwGroup.prototype.openBrowse = function () {
+                var $browse = jQuery(this.getBrowseTemplate());
                 FwModule.openBrowse($browse);
                 return $browse;
-            }
-            openForm(mode) {
-                let $form = jQuery(this.getFormTemplate());
+            };
+            FwGroup.prototype.openForm = function (mode) {
+                var $form = jQuery(this.getFormTemplate());
                 FwModule.openForm($form, mode);
                 if (mode === 'NEW') {
                     FwFormField.enable($form.find('.ifnew'));
@@ -38,8 +38,8 @@ var Fw;
                     FwFormField.disable($form.find('.ifnew'));
                 }
                 return $form;
-            }
-            loadGroupTree($editgrouptree, $previewgrouptree, $form, groupsid) {
+            };
+            FwGroup.prototype.loadGroupTree = function ($editgrouptree, $previewgrouptree, $form, groupsid) {
                 var request, _self = this;
                 request = {};
                 request.method = 'getapplicationtree';
@@ -54,9 +54,9 @@ var Fw;
                         FwFunc.showError(ex);
                     }
                 }, null, null);
-            }
+            };
             ;
-            render($form, $editgrouptree, $previewgrouptree, applicationtree) {
+            FwGroup.prototype.render = function ($form, $editgrouptree, $previewgrouptree, applicationtree) {
                 var $editgrouptree_children, $previewgrouptree_children, searchbarHtml = [];
                 $editgrouptree_children = jQuery('<ul class="grouptree"></ul>');
                 $editgrouptree.empty()
@@ -94,9 +94,9 @@ var Fw;
                         checkParents($nodes);
                     }
                 });
-            }
+            };
             ;
-            renderGroupTreePreview($form) {
+            FwGroup.prototype.renderGroupTreePreview = function ($form) {
                 var $previewgrouptree, $previewgrouptree_children, applicationtree;
                 $previewgrouptree = $form.find('.previewgrouptree');
                 $previewgrouptree_children = jQuery('<ul class="grouptree"></ul>');
@@ -111,8 +111,8 @@ var Fw;
                 if ($previewGrids.find('> .childrencontainer > ul.children > li').length === 0) {
                     $previewGrids.remove();
                 }
-            }
-            renderNode(mode, $form, $container, node) {
+            };
+            FwGroup.prototype.renderNode = function (mode, $form, $container, node) {
                 var me = this;
                 var hidenewmenuoptionsbydefault, haschildren, $node, $content, $iconexpander, $icon, $iconvisible, $iconeditable, $caption, nodedescription, $childrencontainer, $children;
                 hidenewmenuoptionsbydefault = (FwFormField.getValueByDataField($form, 'HideNewMenuOptionsByDefault'));
@@ -149,27 +149,27 @@ var Fw;
                     $content.append($iconvisible);
                     $iconvisible.on('click', function () {
                         try {
-                            let $li = jQuery(this).closest('li');
-                            let visible = ($li.attr('data-property-visible') === 'T');
-                            $li.attr('data-property-visible', visible ? 'F' : 'T');
-                            if (!visible) {
-                                let $parents = $li.parents('li.node');
-                                for (let i = 0; i < $parents.length; i++) {
-                                    let $parent = $parents.eq(i);
+                            var $li = jQuery(this).closest('li');
+                            var visible_1 = ($li.attr('data-property-visible') === 'T');
+                            $li.attr('data-property-visible', visible_1 ? 'F' : 'T');
+                            if (!visible_1) {
+                                var $parents = $li.parents('li.node');
+                                for (var i_1 = 0; i_1 < $parents.length; i_1++) {
+                                    var $parent = $parents.eq(i_1);
                                     if (typeof $parent.attr('data-property-visible') !== 'undefined') {
                                         $parent.attr('data-property-visible', 'T');
                                     }
                                 }
                             }
-                            let $li_children = $li.find('li[data-property-visible]');
-                            if ($li_children.length > 0) {
-                                let $confirmation = FwConfirmation.renderConfirmation('Confirm...', 'Also toggle (' + (visible ? 'Off' : 'On') + ') all the children of this node?');
-                                let $btnYes = FwConfirmation.addButton($confirmation, 'Yes', true);
+                            var $li_children_1 = $li.find('li[data-property-visible]');
+                            if ($li_children_1.length > 0) {
+                                var $confirmation = FwConfirmation.renderConfirmation('Confirm...', 'Also toggle (' + (visible_1 ? 'Off' : 'On') + ') all the children of this node?');
+                                var $btnYes = FwConfirmation.addButton($confirmation, 'Yes', true);
                                 $btnYes.on('click', function () {
-                                    $li_children.attr('data-property-visible', visible ? 'F' : 'T');
+                                    $li_children_1.attr('data-property-visible', visible_1 ? 'F' : 'T');
                                     me.updateSecurityField($form);
                                 });
-                                let $btnNo = FwConfirmation.addButton($confirmation, 'No', true);
+                                var $btnNo = FwConfirmation.addButton($confirmation, 'No', true);
                                 $btnNo.on('click', function () {
                                     me.updateSecurityField($form);
                                 });
@@ -219,13 +219,13 @@ var Fw;
                         }
                     }
                 }
-            }
-            getGroupTreeJson($form) {
+            };
+            FwGroup.prototype.getGroupTreeJson = function ($form) {
                 var $apptreenode = jQuery('.editgrouptree > ul.grouptree > li[data-property-nodetype="System"]');
                 var grouptree = this.getGroupTreeJsonNode($form, null, $apptreenode);
                 return grouptree;
-            }
-            getGroupTreeJsonNode($form, parent, $node) {
+            };
+            FwGroup.prototype.getGroupTreeJsonNode = function ($form, parent, $node) {
                 var node, attribute, property, $children, $child, child, index;
                 node = {
                     id: '',
@@ -251,8 +251,8 @@ var Fw;
                     node.children.push(child);
                 }
                 return node;
-            }
-            updateSecurityField($form) {
+            };
+            FwGroup.prototype.updateSecurityField = function ($form) {
                 var apptreenode, hidenewmenuoptionsbydefault, securitynodes, securityJson;
                 try {
                     apptreenode = this.getGroupTreeJson();
@@ -267,86 +267,31 @@ var Fw;
                 catch (ex) {
                     FwFunc.showError(ex);
                 }
-            }
+            };
             ;
-            loadForm(uniqueids) {
-                let $form = this.openForm('EDIT');
+            FwGroup.prototype.loadForm = function (uniqueids) {
+                var $form = this.openForm('EDIT');
                 FwFormField.setValueByDataField($form, 'GroupId', uniqueids.GroupId);
                 FwModule.loadForm(this.Module, $form);
                 return $form;
-            }
-            saveForm($form, parameters) {
+            };
+            FwGroup.prototype.saveForm = function ($form, parameters) {
                 FwModule.saveForm(this.Module, $form, parameters);
-            }
-            afterLoad($form) {
-                let $editgrouptree = $form.find('.editgrouptree');
-                let $previewgrouptree = $form.find('.previewgrouptree');
-                let GroupId = FwFormField.getValueByDataField($form, 'GroupId');
+            };
+            FwGroup.prototype.afterLoad = function ($form) {
+                var $editgrouptree = $form.find('.editgrouptree');
+                var $previewgrouptree = $form.find('.previewgrouptree');
+                var GroupId = FwFormField.getValueByDataField($form, 'GroupId');
                 this.loadGroupTree($editgrouptree, $previewgrouptree, $form, GroupId);
-            }
-            getBrowseTemplate() {
-                return `
-                <div data-name="Group" data-control="FwBrowse" data-type="Browse" id="GroupBrowse" class="fwcontrol fwbrowse" data-datatable="groups" data-orderby="name" data-controller="GroupController">
-                    <div class="column" data-width="0" data-visible="false">
-                    <div class="field" data-isuniqueid="true" data-datafield="GroupId" data-browsedatatype="key" ></div>
-                    </div>
-                    <div class="column" data-width="100px" data-visible="true">
-                    <div class="field" data-caption="Group" data-isuniqueid="false" data-datafield="Name" data-browsedatatype="text" data-sort="asc"></div>
-                    </div>  
-                </div>`;
-            }
-            getFormTemplate() {
-                return `
-                <div id="groupform" class="fwcontrol fwcontainer fwform" data-control="FwContainer" data-type="form" data-version="1" data-caption="Group" data-rendermode="template" data-tablename="groups" data-mode="" data-hasaudit="false" data-controller="GroupController">
-                    <div data-control="FwFormField" data-type="key" class="fwcontrol fwformfield" data-isuniqueid="true" data-saveorder="1" data-caption="" data-datafield="GroupId"></div>
-                        <div id="groupform-tabcontrol" class="fwcontrol fwtabs" data-control="FwTabs">
-                            <div class="tabs">
-                                <div data-type="tab" id="grouptab" class="tab" data-tabpageid="grouptabpage" data-caption="Group"></div>
-                                <div data-type="tab" id="securitytab" class="tab" data-tabpageid="securitytabpage" data-caption="Security"></div>
-                            </div>
-                            <div class="tabpages">
-                                <div data-type="tabpage" id="grouptabpage" class="tabpage" data-tabid="grouptab">
-                                    <div class="formpage">
-                                        <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Group">
-                                            <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                                                <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Name" data-noduplicate="true" data-datafield="Name"></div>
-                                            </div>
-                                        <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                                            <div data-control="FwFormField" data-type="textarea" class="fwcontrol fwformfield" data-caption="Notes" data-datafield="Memo"></div>
-                                        </div>
-                                        <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                                            <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Items in Security Tree are Hidden by Default (IF YOU CHANGE THIS, SAVE AND CLOSE BEFORE EDITING THE TREE)" data-datafield="HideNewMenuOptionsByDefault"></div>
-                                            <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-datafield="Security" style="display:none;"></div>
-                                            <div style="margin:10px 10px 10px 10px;">Changing the security tree will take effect for users the next time they login.</div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div data-type="tabpage" id="securitytabpage" class="tabpage" data-tabid="securitytab">
-                                <div class="formpage">
-                                    <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                                        <div class="row1" style="overflow:hidden;">
-                                            <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="" style="float:left;overflow:hidden;">
-                                                <div class="searchbar" style="float:left;"></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                                        <div class="row1" style="overflow:hidden;">
-                                            <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Security" style="float:left;overflow:hidden;">
-                                                <div class="editgrouptree" style="float:left;"></div>
-                                                <div class="previewgrouptree" style="float:left;"></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-			`;
-            }
-        }
+            };
+            FwGroup.prototype.getBrowseTemplate = function () {
+                return "\n                <div data-name=\"Group\" data-control=\"FwBrowse\" data-type=\"Browse\" id=\"GroupBrowse\" class=\"fwcontrol fwbrowse\" data-datatable=\"groups\" data-orderby=\"name\" data-controller=\"GroupController\">\n                    <div class=\"column\" data-width=\"0\" data-visible=\"false\">\n                    <div class=\"field\" data-isuniqueid=\"true\" data-datafield=\"GroupId\" data-browsedatatype=\"key\" ></div>\n                    </div>\n                    <div class=\"column\" data-width=\"100px\" data-visible=\"true\">\n                    <div class=\"field\" data-caption=\"Group\" data-isuniqueid=\"false\" data-datafield=\"Name\" data-browsedatatype=\"text\" data-sort=\"asc\"></div>\n                    </div>  \n                </div>";
+            };
+            FwGroup.prototype.getFormTemplate = function () {
+                return "\n                <div id=\"groupform\" class=\"fwcontrol fwcontainer fwform\" data-control=\"FwContainer\" data-type=\"form\" data-version=\"1\" data-caption=\"Group\" data-rendermode=\"template\" data-tablename=\"groups\" data-mode=\"\" data-hasaudit=\"false\" data-controller=\"GroupController\">\n                    <div data-control=\"FwFormField\" data-type=\"key\" class=\"fwcontrol fwformfield\" data-isuniqueid=\"true\" data-saveorder=\"1\" data-caption=\"\" data-datafield=\"GroupId\"></div>\n                        <div id=\"groupform-tabcontrol\" class=\"fwcontrol fwtabs\" data-control=\"FwTabs\">\n                            <div class=\"tabs\">\n                                <div data-type=\"tab\" id=\"grouptab\" class=\"tab\" data-tabpageid=\"grouptabpage\" data-caption=\"Group\"></div>\n                                <div data-type=\"tab\" id=\"securitytab\" class=\"tab\" data-tabpageid=\"securitytabpage\" data-caption=\"Security\"></div>\n                            </div>\n                            <div class=\"tabpages\">\n                                <div data-type=\"tabpage\" id=\"grouptabpage\" class=\"tabpage\" data-tabid=\"grouptab\">\n                                    <div class=\"formpage\">\n                                        <div class=\"fwcontrol fwcontainer fwform-section\" data-control=\"FwContainer\" data-type=\"section\" data-caption=\"Group\">\n                                            <div class=\"fwcontrol fwcontainer fwform-fieldrow\" data-control=\"FwContainer\" data-type=\"fieldrow\">\n                                                <div data-control=\"FwFormField\" data-type=\"text\" class=\"fwcontrol fwformfield\" data-caption=\"Name\" data-noduplicate=\"true\" data-datafield=\"Name\"></div>\n                                            </div>\n                                        <div class=\"fwcontrol fwcontainer fwform-fieldrow\" data-control=\"FwContainer\" data-type=\"fieldrow\">\n                                            <div data-control=\"FwFormField\" data-type=\"textarea\" class=\"fwcontrol fwformfield\" data-caption=\"Notes\" data-datafield=\"Memo\"></div>\n                                        </div>\n                                        <div class=\"fwcontrol fwcontainer fwform-fieldrow\" data-control=\"FwContainer\" data-type=\"fieldrow\">\n                                            <div data-control=\"FwFormField\" data-type=\"checkbox\" class=\"fwcontrol fwformfield\" data-caption=\"Items in Security Tree are Hidden by Default (IF YOU CHANGE THIS, SAVE AND CLOSE BEFORE EDITING THE TREE)\" data-datafield=\"HideNewMenuOptionsByDefault\"></div>\n                                            <div data-control=\"FwFormField\" data-type=\"text\" class=\"fwcontrol fwformfield\" data-datafield=\"Security\" style=\"display:none;\"></div>\n                                            <div style=\"margin:10px 10px 10px 10px;\">Changing the security tree will take effect for users the next time they login.</div>\n                                        </div>\n                                    </div>\n                                </div>\n                            </div>\n                            <div data-type=\"tabpage\" id=\"securitytabpage\" class=\"tabpage\" data-tabid=\"securitytab\">\n                                <div class=\"formpage\">\n                                    <div class=\"fwcontrol fwcontainer fwform-fieldrow\" data-control=\"FwContainer\" data-type=\"fieldrow\">\n                                        <div class=\"row1\" style=\"overflow:hidden;\">\n                                            <div class=\"fwcontrol fwcontainer fwform-section\" data-control=\"FwContainer\" data-type=\"section\" data-caption=\"\" style=\"float:left;overflow:hidden;\">\n                                                <div class=\"searchbar\" style=\"float:left;\"></div>\n                                            </div>\n                                        </div>\n                                    </div>\n                                    <div class=\"fwcontrol fwcontainer fwform-fieldrow\" data-control=\"FwContainer\" data-type=\"fieldrow\">\n                                        <div class=\"row1\" style=\"overflow:hidden;\">\n                                            <div class=\"fwcontrol fwcontainer fwform-section\" data-control=\"FwContainer\" data-type=\"section\" data-caption=\"Security\" style=\"float:left;overflow:hidden;\">\n                                                <div class=\"editgrouptree\" style=\"float:left;\"></div>\n                                                <div class=\"previewgrouptree\" style=\"float:left;\"></div>\n                                            </div>\n                                        </div>\n                                    </div>\n                                </div>\n                            </div>\n                        </div>\n                    </div>\n                </div>\n\t\t\t";
+            };
+            return FwGroup;
+        }());
         Modules.FwGroup = FwGroup;
     })(Modules = Fw.Modules || (Fw.Modules = {}));
 })(Fw || (Fw = {}));

@@ -1,5 +1,5 @@
-class FwApplication {
-    constructor() {
+var FwApplication = (function () {
+    function FwApplication() {
         this.screens = [];
         this.audioMode = 'html5';
         this.audioSuccessArray = [1200, 300];
@@ -17,7 +17,7 @@ class FwApplication {
             }
         });
     }
-    pushScreen(screen) {
+    FwApplication.prototype.pushScreen = function (screen) {
         var me, applicationContainer, viewAnimationContainer, $previousView;
         FwAppData.abortAllRequests();
         me = this;
@@ -42,8 +42,8 @@ class FwApplication {
             screen.load();
         }
         document.body.scrollTop = 0;
-    }
-    updateScreen(screen) {
+    };
+    FwApplication.prototype.updateScreen = function (screen) {
         var me, applicationContainer, viewAnimationContainer, $previousView;
         FwAppData.abortAllRequests();
         me = this;
@@ -65,8 +65,8 @@ class FwApplication {
                 screen.load();
             }
         });
-    }
-    popScreen() {
+    };
+    FwApplication.prototype.popScreen = function () {
         var applicationContainer, oldScreen, screen;
         FwAppData.abortAllRequests();
         applicationContainer = jQuery('#application');
@@ -93,8 +93,8 @@ class FwApplication {
                 }
             }
         }
-    }
-    playStatus(isSuccessful) {
+    };
+    FwApplication.prototype.playStatus = function (isSuccessful) {
         if (isSuccessful) {
             switch (this.audioMode) {
                 case 'DTDevices':
@@ -117,17 +117,17 @@ class FwApplication {
                     break;
             }
         }
-    }
-    setMedia(media) {
+    };
+    FwApplication.prototype.setMedia = function (media) {
         localStorage.setItem('media', media);
-    }
-    setScanMode(scanMode) {
+    };
+    FwApplication.prototype.setScanMode = function (scanMode) {
         localStorage.setItem('scanMode', scanMode);
         if (typeof window['LineaScanner'] !== 'undefined') {
             window['LineaScanner'].setScanMode(parseInt(scanMode));
         }
-    }
-    load() {
+    };
+    FwApplication.prototype.load = function () {
         var me = this;
         window.addEventListener("dragover", function (e) {
             e.preventDefault();
@@ -147,19 +147,19 @@ class FwApplication {
             var media = localStorage.getItem('media');
             this.setMedia(media);
         }
-    }
-    popOutURL(url) {
-        let settings = 'scrollbars=yes,resizeable=yes,toolbar=no,status=no,menubar=no,directories=no,titlebar=no,location=no,addressbar=yes';
+    };
+    FwApplication.prototype.popOutURL = function (url) {
+        var settings = 'scrollbars=yes,resizeable=yes,toolbar=no,status=no,menubar=no,directories=no,titlebar=no,location=no,addressbar=yes';
         var newwindow = window.open(url, '', settings);
-    }
+    };
     ;
-    popOutTab(url) {
-        let settings = 'scrollbars=yes,resizeable=yes,toolbar=no,status=no,menubar=no,directories=no,titlebar=no,location=yes,addressbar=yes';
+    FwApplication.prototype.popOutTab = function (url) {
+        var settings = 'scrollbars=yes,resizeable=yes,toolbar=no,status=no,menubar=no,directories=no,titlebar=no,location=yes,addressbar=yes';
         var newwindow = window.open(url, '_blank');
         newwindow.focus();
-    }
+    };
     ;
-    uniqueId(idlength) {
+    FwApplication.prototype.uniqueId = function (idlength) {
         var charstoformid = '_0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz'.split('');
         if (!idlength) {
             idlength = Math.floor(Math.random() * charstoformid.length);
@@ -174,9 +174,9 @@ class FwApplication {
         else {
             return this.uniqueId(idlength);
         }
-    }
+    };
     ;
-    debugCss(idlength) {
+    FwApplication.prototype.debugCss = function (idlength) {
         var html = [], fields = [], formfields, $appendContent;
         jQuery('.application').empty();
         formfields = ['text', 'number', 'password', 'select', 'date', 'time', 'email', 'url', 'phone', 'validation', 'multiselectvalidation', 'combobox', 'money', 'zipcode', 'percent', 'ssn', 'color', 'checkbox', 'toggleswitch', 'radio', 'searchbox', 'textarea'];
@@ -185,15 +185,15 @@ class FwApplication {
             var field, fieldname;
             field = formfields[i];
             fieldname = field.toLowerCase().replace(/\b[a-z]/g, function (letter) { return letter.toUpperCase(); });
-            html.push(`<div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="${fieldname} Section" style="min-width:300px;">`);
+            html.push("<div class=\"fwcontrol fwcontainer fwform-section\" data-control=\"FwContainer\" data-type=\"section\" data-caption=\"" + fieldname + " Section\" style=\"min-width:300px;\">");
             html.push('  <div class="flexrow">');
-            html.push(`    <div data-control="FwFormField" data-type="${field}" class="fwcontrol fwformfield" data-caption="${fieldname} Field"></div>`);
+            html.push("    <div data-control=\"FwFormField\" data-type=\"" + field + "\" class=\"fwcontrol fwformfield\" data-caption=\"" + fieldname + " Field\"></div>");
             html.push('  </div>');
             html.push('  <div class="flexrow">');
-            html.push(`    <div data-control="FwFormField" data-type="${field}" class="fwcontrol fwformfield" data-caption="${fieldname} Field" data-enabled="false"></div>`);
+            html.push("    <div data-control=\"FwFormField\" data-type=\"" + field + "\" class=\"fwcontrol fwformfield\" data-caption=\"" + fieldname + " Field\" data-enabled=\"false\"></div>");
             html.push('  </div>');
             html.push('  <div class="flexrow">');
-            html.push(`    <div data-control="FwFormField" data-type="${field}" class="fwcontrol fwformfield" data-caption="${fieldname} Field" data-required="true"></div>`);
+            html.push("    <div data-control=\"FwFormField\" data-type=\"" + field + "\" class=\"fwcontrol fwformfield\" data-caption=\"" + fieldname + " Field\" data-required=\"true\"></div>");
             html.push('  </div>');
             html.push('</div>');
         }
@@ -216,9 +216,9 @@ class FwApplication {
             ], true);
         });
         jQuery('.application').append($appendContent);
-    }
+    };
     ;
-    forceReloadCss() {
+    FwApplication.prototype.forceReloadCss = function () {
         var a = document.getElementsByTagName('link');
         for (var i = 0; i < a.length; i++) {
             var s = a[i];
@@ -227,9 +227,9 @@ class FwApplication {
                 s.href = h + (h.indexOf('?') >= 0 ? '&' : '?') + 'forceReload=' + (new Date().valueOf());
             }
         }
-    }
+    };
     ;
-    getModule(path) {
+    FwApplication.prototype.getModule = function (path) {
         var screen, $bodyContainer, $modifiedForms, $form, $tab;
         $bodyContainer = jQuery('#master-body');
         $modifiedForms = $bodyContainer.find('div[data-type="form"][data-modified="true"]');
@@ -246,13 +246,13 @@ class FwApplication {
         else {
             this.navigate(path);
         }
-    }
+    };
     ;
-    getApplicationOptions() {
+    FwApplication.prototype.getApplicationOptions = function () {
         return JSON.parse(sessionStorage.getItem('applicationOptions'));
-    }
+    };
     ;
-    navigateHashChange(path) {
+    FwApplication.prototype.navigateHashChange = function (path) {
         var screen, $appendToContainer;
         FwPopup.destroy(jQuery('.FwPopup-divPopup,.FwPopup-divOverlay'));
         FwAppData.abortAllRequests();
@@ -289,11 +289,11 @@ class FwApplication {
             document.body.scrollTop = 0;
         }
         if (!foundmatch) {
-            FwFunc.showError(`404: Not Found - ${path}`);
+            FwFunc.showError("404: Not Found - " + path);
         }
-    }
+    };
     ;
-    navigate(path) {
+    FwApplication.prototype.navigate = function (path) {
         var me, screen;
         me = this;
         path = path.toLowerCase();
@@ -304,9 +304,9 @@ class FwApplication {
         else {
             this.navigateHashChange(path);
         }
-    }
+    };
     ;
-    loadDefaultPage() {
+    FwApplication.prototype.loadDefaultPage = function () {
         if (sessionStorage.getItem('authToken')) {
             if (window.location.hash.replace('#/', '') !== '' && window.location.hash.replace('#/', '') !== 'home') {
                 sessionStorage.setItem('redirectPath', window.location.hash.replace('#/', ''));
@@ -316,14 +316,15 @@ class FwApplication {
         else {
             this.navigate('default');
         }
-    }
-    setApplicationTheme(setTheme) {
+    };
+    FwApplication.prototype.setApplicationTheme = function (setTheme) {
         jQuery('html').removeClass(function (index, className) {
             return (className.match(/(^|\s)theme-\S+/g) || []).join(' ');
         });
         jQuery('html').addClass(setTheme);
-    }
-}
+    };
+    return FwApplication;
+}());
 window.onhashchange = function () {
     program.navigateHashChange(window.location.hash.replace('#/', ''));
 };
