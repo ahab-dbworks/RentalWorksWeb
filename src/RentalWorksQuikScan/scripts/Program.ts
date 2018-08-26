@@ -1,4 +1,4 @@
-﻿var program;
+var program;
 //---------------------------------------------------------------------------------
 class Program extends FwApplication {
     activeTextBox:      string;
@@ -12,16 +12,11 @@ class Program extends FwApplication {
     //---------------------------------------------------------------------------------
     constructor() {
         super();
-        var me: Program;
-
-        me                                     = this;
+        var me = this;
         FwApplicationTree.currentApplicationId = '8D0A5ECF-72D2-4428-BDC8-7E3CC56EDD3A';
         me.name                                = 'RentalWorks';
         me.htmlname                            = '<span class="bgothm" style="color:#2f2f2f;">Rental</span><span class="bgothm" style="color:#6f30b3;">Works</span>';
         me.didLoadApplication                  = false;
-        me.audioMode                           = 'html5';
-        me.audioSuccessArray                   = [1200, 300];
-        me.audioErrorArray                     = [800, 200, 600, 200];
         me.localstorageprefix                  = 'rwqs_';
         me.localstorageitems = {
             rfidstaging_batchtimeout: me.localstorageprefix + 'rfidstaging_batchtimeout',

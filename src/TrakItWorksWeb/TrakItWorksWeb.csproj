@@ -577,6 +577,8 @@
     <Content Include="Source\Validations\CompanyDepartmentValidation\CompanyDepartmentValidationBrowse.htm" />
     <Content Include="Source\Validations\DealValidation\DealValidationBrowse.htm" />
     <Content Include="Source\Validations\OrderTypeValidation\OrderTypeValidationBrowse.htm" />
+    <Content Include="theme\fwaudio\error.mp3" />
+    <Content Include="theme\fwaudio\success.mp3" />
     <Content Include="theme\fwcursors\pen.001.cur" />
     <Content Include="theme\fwfonts\bgothm\bgothm.002-webfont.svg" />
     <Content Include="theme\fwfonts\materialicons\MaterialIcons-Regular.svg" />
@@ -903,12 +905,12 @@
       <Output TaskParameter="Revision" PropertyName="Revision" />
     </Version>
     <Exec Command="&quot;$(AppSolutionDir)\lib\Fw\build\ReplaceInFile\ReplaceInFile.exe&quot; -path &quot;$(FwApplicationDirectory)\Properties\AssemblyInfo.cs&quot; -pattern &quot;AssemblyVersion\(&quot;&quot;.&quot;*&quot;\)&quot; -replacement &quot;AssemblyVersion(&quot;&quot;$(Major).$(Minor).$(Build).$(Revision)&quot;&quot;)&quot;" ContinueOnError="false" IgnoreExitCode="false" />
-    <MakeDir Directories="$(FwApplicationDirectory)\theme\fwcursors" Condition="!Exists('$(FwApplicationDirectory)\theme\fwcursors')" ContinueOnError="false" />
+    <!--<MakeDir Directories="$(FwApplicationDirectory)\theme\fwcursors" Condition="!Exists('$(FwApplicationDirectory)\theme\fwcursors')" ContinueOnError="false" />
     <MakeDir Directories="$(FwApplicationDirectory)\theme\fwfonts" Condition="!Exists('$(FwApplicationDirectory)\theme\fwfonts')" ContinueOnError="false" />
     <MakeDir Directories="$(FwApplicationDirectory)\theme\fwimages" Condition="!Exists('$(FwApplicationDirectory)\theme\fwimages')" ContinueOnError="false" />
     <Exec Command="robocopy &quot;$(FwFrontEndLibraryPath)\theme\fwcursors&quot; &quot;$(FwApplicationDirectory)\theme\fwcursors&quot; /MIR /NFL /NDL /NJH /NJS /NP" ContinueOnError="false" IgnoreExitCode="true" />
     <Exec Command="robocopy &quot;$(FwFrontEndLibraryPath)\theme\fwfonts&quot; &quot;$(FwApplicationDirectory)\theme\fwfonts&quot; /MIR /NFL /NDL /NJH /NJS /NP" ContinueOnError="false" IgnoreExitCode="true" />
-    <Exec Command="robocopy &quot;$(FwFrontEndLibraryPath)\theme\fwimages&quot; &quot;$(FwApplicationDirectory)\theme\fwimages&quot; /MIR /NFL /NDL /NJH /NJS /NP" ContinueOnError="false" IgnoreExitCode="true" />
+    <Exec Command="robocopy &quot;$(FwFrontEndLibraryPath)\theme\fwimages&quot; &quot;$(FwApplicationDirectory)\theme\fwimages&quot; /MIR /NFL /NDL /NJH /NJS /NP" ContinueOnError="false" IgnoreExitCode="true" />-->
   </Target>
   <Target Name="AfterBuild">
   </Target>
@@ -919,11 +921,12 @@
     <RemoveDir Directories="$(FwDeploymentDirectory)" Condition="Exists('$(FwDeploymentDirectory)')" ContinueOnError="false" />
     <MakeDir Directories="$(FwDeploymentDirectory)" Condition="!Exists('$(FwDeploymentDirectory)')" ContinueOnError="false" />
     <MakeDir Directories="$(FwDeploymentDirectory)\theme" Condition="!Exists('$(FwDeploymentDirectory)\theme')" ContinueOnError="false" />
+    <MakeDir Directories="$(FwDeploymentDirectory)\theme\fwaudio" Condition="!Exists('$(FwDeploymentDirectory)\theme\fwaudio')" ContinueOnError="false" />
     <MakeDir Directories="$(FwDeploymentDirectory)\theme\fwcursors" Condition="!Exists('$(FwDeploymentDirectory)\theme\fwcursors')" ContinueOnError="false" />
     <MakeDir Directories="$(FwDeploymentDirectory)\theme\fwfonts" Condition="!Exists('$(FwDeploymentDirectory)\theme\fwfonts')" ContinueOnError="false" />
     <MakeDir Directories="$(FwDeploymentDirectory)\theme\fwimages" Condition="!Exists('$(FwDeploymentDirectory)\theme\fwimages')" ContinueOnError="false" />
     <MakeDir Directories="$(FwDeploymentDirectory)\theme\images" Condition="!Exists('$(FwDeploymentDirectory)\theme\images')" ContinueOnError="false" />
-    <!--<Exec Command="robocopy &quot;$(FwFrontEndLibraryPath)&quot; &quot;$(FwDeploymentDirectory)\Libraries\Fw&quot; /mir /xd .git .vs bin obj packages /xf .git* update_Fw_*" />-->
+    <Exec Command="robocopy &quot;$(FwFrontEndLibraryPath)\theme\fwaudio&quot; &quot;$(FwDeploymentDirectory)\theme\fwaudio&quot; /MIR /NFL /NDL /NJH /NJS /NP" ContinueOnError="false" IgnoreExitCode="true" />
     <Exec Command="robocopy &quot;$(FwFrontEndLibraryPath)\theme\fwcursors&quot; &quot;$(FwDeploymentDirectory)\theme\fwcursors&quot; /MIR /NFL /NDL /NJH /NJS /NP" ContinueOnError="false" IgnoreExitCode="true" />
     <Exec Command="robocopy &quot;$(FwFrontEndLibraryPath)\theme\fwfonts&quot; &quot;$(FwDeploymentDirectory)\theme\fwfonts&quot; /MIR /NFL /NDL /NJH /NJS /NP" ContinueOnError="false" IgnoreExitCode="true" />
     <Exec Command="robocopy &quot;$(FwFrontEndLibraryPath)\theme\fwimages&quot; &quot;$(FwDeploymentDirectory)\theme\fwimages&quot; /MIR /NFL /NDL /NJH /NJS /NP" ContinueOnError="false" IgnoreExitCode="true" />
@@ -934,7 +937,6 @@
     <Exec Command="robocopy &quot;$(FwApplicationDirectory)\Integration\QBOIntegration\images&quot; &quot;$(FwDeploymentDirectory)\Integration\QBOIntegration\images&quot; /MIR /NFL /NDL /NJH /NJS /NP" ContinueOnError="false" IgnoreExitCode="true" />
     <Copy SourceFiles="$(FwApplicationDirectory)\Application.sample.config" DestinationFiles="$(FwDeploymentDirectory)\Application.sample.config" ContinueOnError="false" />
     <Copy SourceFiles="$(FwApplicationDirectory)\Global.asax" DestinationFiles="$(FwDeploymentDirectory)\Global.asax" ContinueOnError="false" />
-    <!--<Copy SourceFiles="$(FwApplicationDirectory)\FwApplicationSchema.config" DestinationFiles="$(FwDeploymentDirectory)\FwApplicationSchema.config" ContinueOnError="false" />-->
     <Copy SourceFiles="$(FwApplicationDirectory)\ApplicationConfig.sample.js" DestinationFiles="$(FwDeploymentDirectory)\ApplicationConfig.sample.js" ContinueOnError="false" />
     <Copy SourceFiles="$(FwApplicationDirectory)\version.txt" DestinationFiles="$(FwDeploymentDirectory)\version.txt" ContinueOnError="false" />
     <Copy SourceFiles="$(FwApplicationDirectory)\Web.config" DestinationFiles="$(FwDeploymentDirectory)\Web.config" ContinueOnError="false" />

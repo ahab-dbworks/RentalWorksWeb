@@ -313,18 +313,6 @@
     <Content Include="Application.dev.config" />
     <None Include="ApplicationConfig.js" />
     <Content Include="app_startupscriptsrc.js" />
-    <Content Include="audio\error.wav">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="audio\error1.wav">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="audio\success.wav">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="audio\success1.wav">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <Content Include="ApplicationConfig.sample.js" />
     <Content Include="Global.asax" />
     <Content Include="app_headsrc.htm" />
@@ -488,6 +476,7 @@
   <ItemGroup>
     <Folder Include="Source\Reports\" />
     <Folder Include="temp\" />
+    <Folder Include="theme\fwaudio\" />
     <Folder Include="theme\fwcursors\" />
     <Folder Include="theme\fwfonts\" />
     <Folder Include="theme\fwimages\" />
@@ -552,12 +541,12 @@
       <Output TaskParameter="Revision" PropertyName="Revision" />
     </Version>
     <Exec Command="&quot;$(AppSolutionDir)\lib\Fw\build\ReplaceInFile\ReplaceInFile.exe&quot; -path &quot;$(FwApplicationDirectory)\Properties\AssemblyInfo.cs&quot; -pattern &quot;AssemblyVersion\(&quot;&quot;.&quot;*&quot;\)&quot; -replacement &quot;AssemblyVersion(&quot;&quot;$(Major).$(Minor).$(Build).$(Revision)&quot;&quot;)&quot;" ContinueOnError="false" IgnoreExitCode="false" />
-    <MakeDir Directories="$(FwApplicationDirectory)\theme\fwcursors" Condition="!Exists('$(FwApplicationDirectory)\theme\fwcursors')" />
+    <!--<MakeDir Directories="$(FwApplicationDirectory)\theme\fwcursors" Condition="!Exists('$(FwApplicationDirectory)\theme\fwcursors')" />
     <MakeDir Directories="$(FwApplicationDirectory)\theme\fwfonts" Condition="!Exists('$(FwApplicationDirectory)\theme\fwfonts')" />
     <MakeDir Directories="$(FwApplicationDirectory)\theme\fwimages" Condition="!Exists('$(FwApplicationDirectory)\theme\fwimages')" />
     <Exec Command="robocopy &quot;$(FwFrontEndLibraryPath)\theme\fwcursors&quot; &quot;$(FwApplicationDirectory)\theme\fwcursors&quot; /MIR /NFL /NDL /NJH /NJS /NP" ContinueOnError="false" IgnoreExitCode="true" />
     <Exec Command="robocopy &quot;$(FwFrontEndLibraryPath)\theme\fwfonts&quot; &quot;$(FwApplicationDirectory)\theme\fwfonts&quot; /MIR /NFL /NDL /NJH /NJS /NP" ContinueOnError="false" IgnoreExitCode="true" />
-    <Exec Command="robocopy &quot;$(FwFrontEndLibraryPath)\theme\fwimages&quot; &quot;$(FwApplicationDirectory)\theme\fwimages&quot; /MIR /NFL /NDL /NJH /NJS /NP" ContinueOnError="false" IgnoreExitCode="true" />
+    <Exec Command="robocopy &quot;$(FwFrontEndLibraryPath)\theme\fwimages&quot; &quot;$(FwApplicationDirectory)\theme\fwimages&quot; /MIR /NFL /NDL /NJH /NJS /NP" ContinueOnError="false" IgnoreExitCode="true" />-->
   </Target>
   <Target Name="AfterBuild">
   </Target>
@@ -570,11 +559,12 @@
     <MakeDir Directories="$(FwDeploymentDirectory)\audio" Condition="!Exists('$(FwDeploymentDirectory)\audio')" />
     <MakeDir Directories="$(FwDeploymentDirectory)\theme" Condition="!Exists('$(FwDeploymentDirectory)\theme')" />
     <MakeDir Directories="$(FwDeploymentDirectory)\theme\images" Condition="!Exists('$(FwDeploymentDirectory)\theme\images')" />
+    <MakeDir Directories="$(FwDeploymentDirectory)\theme\fwaudio" Condition="!Exists('$(FwDeploymentDirectory)\theme\fwaudio')" />
     <MakeDir Directories="$(FwDeploymentDirectory)\theme\fwcursors" Condition="!Exists('$(FwDeploymentDirectory)\theme\fwcursors')" />
     <MakeDir Directories="$(FwDeploymentDirectory)\theme\fwfonts" Condition="!Exists('$(FwDeploymentDirectory)\theme\fwfonts')" />
     <MakeDir Directories="$(FwDeploymentDirectory)\theme\fwimages" Condition="!Exists('$(FwDeploymentDirectory)\theme\fwimages')" />
     <Exec Command="xcopy &quot;$(FwApplicationDirectory)\audio&quot; &quot;$(FwDeploymentDirectory)\audio&quot; /e" ContinueOnError="false" IgnoreExitCode="false" />
-    <!--<Exec Command="xcopy &quot;$(FwFrontEndLibraryPath)&quot; &quot;$(FwDeploymentDirectory)\Libraries\Fw&quot; /e" ContinueOnError="false" IgnoreExitCode="false" />-->
+    <Exec Command="xcopy &quot;$(FwFrontEndLibraryPath)\theme\fwaudio&quot; &quot;$(FwDeploymentDirectory)\theme\fwaudio&quot; /e" ContinueOnError="false" IgnoreExitCode="false" />
     <Exec Command="xcopy &quot;$(FwFrontEndLibraryPath)\theme\fwcursors&quot; &quot;$(FwDeploymentDirectory)\theme\fwcursors&quot; /e" ContinueOnError="false" IgnoreExitCode="false" />
     <Exec Command="xcopy &quot;$(FwFrontEndLibraryPath)\theme\fwfonts&quot; &quot;$(FwDeploymentDirectory)\theme\fwfonts&quot; /e" ContinueOnError="false" IgnoreExitCode="false" />
     <Exec Command="xcopy &quot;$(FwFrontEndLibraryPath)\theme\fwimages&quot; &quot;$(FwDeploymentDirectory)\theme\fwimages&quot; /e" ContinueOnError="false" IgnoreExitCode="false" />
@@ -584,7 +574,6 @@
     <Copy SourceFiles="$(FwApplicationDirectory)\Application.sample.config" DestinationFiles="$(FwDeploymentDirectory)\Application.sample.config" />
     <Copy SourceFiles="$(FwApplicationDirectory)\Global.asax" DestinationFiles="$(FwDeploymentDirectory)\Global.asax" />
     <Copy SourceFiles="$(FwApplicationDirectory)\ApplicationConfig.sample.js" DestinationFiles="$(FwDeploymentDirectory)\ApplicationConfig.sample.js" />
-    <!--<Copy SourceFiles="$(FwApplicationDirectory)\FwApplicationSchema.config" DestinationFiles="$(FwDeploymentDirectory)\FwApplicationSchema.config" />-->
     <Copy SourceFiles="$(FwApplicationDirectory)\version.txt" DestinationFiles="$(FwDeploymentDirectory)\version.txt" />
     <Copy SourceFiles="$(FwApplicationDirectory)\Web.config" DestinationFiles="$(FwDeploymentDirectory)\Web.config" />
     <Copy SourceFiles="$(FwApplicationDirectory)\app_startupscript.js" DestinationFiles="$(FwDeploymentDirectory)\app_startupscript.js" />
