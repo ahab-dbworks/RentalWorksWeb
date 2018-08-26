@@ -1,6 +1,11 @@
 class FwApplication {
     constructor() {
         this.screens = [];
+        this.audioMode = 'html5';
+        this.audioSuccessArray = [1200, 300];
+        this.audioErrorArray = [800, 200, 600, 200];
+        this.audioSuccess = new Audio('theme/fwaudio/success.mp3');
+        this.audioError = new Audio('theme/fwaudio/error.mp3');
         var $templates = jQuery('script[data-ajaxload="true"]');
         $templates.each(function () {
             if (jQuery(this).attr("src")) {
@@ -96,6 +101,8 @@ class FwApplication {
                     window.DTDevices.playSound(this.audioSuccessArray);
                     break;
                 case 'html5':
+                    this.audioSuccess.currentTime = 0;
+                    this.audioSuccess.play();
                     break;
             }
         }
@@ -105,6 +112,8 @@ class FwApplication {
                     window.DTDevices.playSound(this.audioErrorArray);
                     break;
                 case 'html5':
+                    this.audioError.currentTime = 0;
+                    this.audioError.play();
                     break;
             }
         }

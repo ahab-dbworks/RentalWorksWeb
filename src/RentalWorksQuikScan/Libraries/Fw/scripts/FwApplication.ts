@@ -1,11 +1,11 @@
 ﻿class FwApplication {
-    name:              string;
-    screens:           any[] = [];
-    audioMode:         string;
-    audioSuccessArray: number[];
-    audioErrorArray:   number[];
-    audioSuccess:      HTMLAudioElement;
-    audioError:        HTMLAudioElement;
+    name:  string;
+    screens: any[] = [];
+    audioMode: string = 'html5';
+    audioSuccessArray: number[] = [1200, 300];
+    audioErrorArray: number[] = [800, 200, 600, 200];
+    audioSuccess: HTMLAudioElement = new Audio('theme/fwaudio/success.mp3');
+    audioError: HTMLAudioElement = new Audio('theme/fwaudio/error.mp3');
     //---------------------------------------------------------------------------------
     constructor() {
         // inline templates when debugging by ajaxing for the src url
@@ -114,8 +114,8 @@
                     (<any>window).DTDevices.playSound(this.audioSuccessArray);
                     break;
                 case 'html5':
-                    //me.audioSuccess.currentTime = 0;
-                    //me.audioSuccess.play();
+                    this.audioSuccess.currentTime = 0;
+                    this.audioSuccess.play();
                     break;
             }
         } else {
@@ -124,8 +124,8 @@
                     (<any>window).DTDevices.playSound(this.audioErrorArray);
                     break;
                 case 'html5':
-                    //me.audioError.currentTime = 0;
-                    //me.audioError.play(); 
+                    this.audioError.currentTime = 0;
+                    this.audioError.play(); 
                     break;
             }
         }
