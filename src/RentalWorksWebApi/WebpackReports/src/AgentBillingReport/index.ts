@@ -6,7 +6,7 @@ import { HandlebarsHelpers } from '../../lib/FwReportLibrary/src/HandlebarsHelpe
 import * as moment from 'moment';
 import './index.scss';
 import '../../theme/webpackReports.scss'
-var hbReport = require("./hbReport2.hbs"); 
+var hbReport = require("./hbReport.hbs"); 
 var hbFooter = require("./hbFooter.hbs"); 
 
 export class AgentBillingReport extends WebpackReport {

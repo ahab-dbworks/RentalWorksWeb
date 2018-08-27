@@ -3,21 +3,20 @@
     <span class="report-header-system">{{System}}</span>
   </div>
   <div class="report-flexcolumn">
-  <span class="report-title">{{Report}}</span>
+    <span class="report-title">{{Report}}</span>
     <span class="report-header-date">Invoice From: {{FromDate}} To: {{ToDate}}</span>
   </div>
   <div class="report-flexcolumn">
     <span class="report-header-company">{{Company}}</span>
   </div>
 </div>
-<div class="body" style="width:1500px;">
+<div class="body report-flexrow" style="width:1500px;margin-top:40px;">
   <br /><br />
-  <table id="tblagentbillingreport" style="margin-top: 40px;">
-    {{#each this}}
+  <table id="tblagentbilling">
     <thead>
       <tr>
-        <td class="heading">
-          <div class="heading" style="max-width:67px">Invoice No</div>
+        <td>
+          <div class="heading" style="text-align:left;">Invoice No</div>
         </td>
         <td>
           <div class="heading">Invoice Date</div>
@@ -41,6 +40,9 @@
           <div class="heading">Sales</div>
         </td>
         <td>
+          <div class="heading">Space</div>
+        </td>
+        <td>
           <div class="heading">Labor</div>
         </td>
         <td>
@@ -53,12 +55,21 @@
           <div class="heading">Parts</div>
         </td>
         <td>
-          <div class="heading">Invoice Total</div>
+          <div class="heading">Tax</div>
+        </td>
+        <td>
+          <div class="heading">Total</div>
         </td>
       </tr>
     </thead>
     <tbody>
-      <tr data-rowtype={{rowtype}}>
+      {{#each this}}
+      <tr data-rowtype={{RowType}}>
+        {{#ifEquals RowType "Agentheader"}}
+        <td>
+          <div class="agent-header">Agent: {{Agent}}</div>
+        </td>
+        {{/ifEquals}}
         <td>
           <div class="row1"><span>{{InvoiceNumber}}</span></div>
         </td>
@@ -66,45 +77,52 @@
           <div class="row1"><span>{{InvoiceDate}}</span></div>
         </td>
         <td>
-          <div class="row1">{{BillingStartDate}}</div>
+          <div class="row1">{{BillingEndDate}}</div>
         </td>
-        <td>
-          <div class="row1">{{InvoiceDescription}}</div>
+        <td class="total">
+          <div class="row1" style="text-align:right;">{{InvoiceDescription}}</div>
         </td>
-        <td>
-          <div class="row1">{{OrderNumber}}</div>
+        <td class="total">
+          <div class="row1" style="text-align:right;">{{OrderNumber}}</div>
         </td>
-        <td>
-          <div class="row1"><span>{{Deal}}</span></div>
+        <td class="total">
+          <div class="row1" style="text-align:right;">{{Deal}}</div>
         </td>
-        <td>
-          <div class="row1 date">{{RentalTotal}}</div>
+        <td class="total">
+          <div class="row1" style="text-align:right;">{{RentalTotal}}</div>
         </td>
-        <td>
-          <div class="row1"><span>{{SalesTotal}}</span></div>
+        <td class="total">
+          <div class="row1" style="text-align:right;">{{SalesTotal}}</div>
         </td>
-        <td>
-          <div class="row1">{{LaborTotal}}</div>
+        <td class="total">
+          <div class="row1" style="text-align:right;">{{SpaceTotal}}</div>
         </td>
-        <td>
-          <div class="row1 date">{{MiscTotal}}</div>
+        <td class="total">
+          <div class="row1" style="text-align:right;">{{LaborTotal}}</div>
         </td>
-        <td>
-          <div class="row1 date">{{AssetTotal}}</div>
+        <td class="total">
+          <div class="row1" style="text-align:right;">{{MiscTotal}}</div>
         </td>
-        <td>
-          <div class="row1">{{PartsTotal}}</div>
+        <td class="total">
+          <div class="row1" style="text-align:right;">{{PartsTotal}}</div>
+        </td>
+        <td class="total">
+          <div class="row1" style="text-align:right;">{{MiscTotal}}</div>
+        </td>
+        <td class="total">
+          <div class="row1" style="text-align:right;">{{InvoiceTax}}</div>
         </td>
         <td class="total">
           <div class="row1" style="text-align:right;">{{InvoiceTotal}}</div>
         </td>
-      </tr>
-      <tr>
-        <td class="sub-heading">
-          <div class="row2" style="text-align:right;">Agent: {{Agent}}</div>
+        {{#ifEquals RowType "Agentfooter"}}
+        <td>
+          <div class="agent-footer">Grand Total: {{FacilitiesTotal}}</div>
         </td>
+        {{/ifEquals}}
       </tr>
       {{/each}}
     </tbody>
   </table>
 </div>
+

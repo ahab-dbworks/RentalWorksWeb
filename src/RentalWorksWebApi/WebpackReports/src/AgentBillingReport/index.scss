@@ -2,6 +2,22 @@
     font-weight: bold;
 }
 
+tr[data-rowtype="Agentheader"] .row1 {
+    visibility: hidden;
+}
+tr[data-rowtype="Agentfooter"] .row1 {
+    visibility: hidden;
+}
+.agent-header {
+    font-weight: bold;
+    text-align: left;
+    width: 200px;
+}
+.agent-footer {
+    font-weight: bold;
+    text-align: left;
+    margin-left: -136px;
+}
 .body .header {
     position: relative;
 }
@@ -10,6 +26,9 @@
     border-bottom: 1px solid black;
     text-align: left;
     background-color: #fff;
+}
+table {
+    border-collapse: collapse;
 }
 
 .body tbody tr[data-rowtype="masternofooter"] .total {
@@ -25,6 +44,10 @@ tr[data-rowtype="masternoheader"] {
 .body thead td div {
     font-size: 14px;
     text-align: center;
+}
+
+.heading {
+    font-weight: bold;
 }
 
 
@@ -60,6 +83,7 @@ tr[data-rowtype="masternoheader"] {
 .row2 {
     padding: 0 0 0 10px;
     min-height: 16px;
+    text-align:left;
 }
 
 .row3 {
