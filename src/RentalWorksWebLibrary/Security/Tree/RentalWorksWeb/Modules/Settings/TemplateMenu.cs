@@ -24,7 +24,9 @@ namespace WebLibrary.Security.Tree.RentalWorksWeb.Modules.Settings
             var nodeForm = tree.AddForm("{63E9EF44-D1E8-41FA-9DA0-4C4DA7F0E84C}", MODULEID);
             var nodeFormMenuBar = tree.AddMenuBar("{5B9A7A99-E0F4-4B0F-8965-1ADAD11DA700}", nodeForm.Id);
             var nodeFormSubMenu = tree.AddSubMenu("{8BF45DD9-5BB3-47A8-B1E7-802D9E2B83AB}", nodeFormMenuBar.Id);
+            var nodeFormOptions = tree.AddSubMenuGroup("Options", "{161A933D-716C-46DF-9B6B-FDE2797D10C7}", nodeFormSubMenu.Id);
             tree.AddSaveMenuBarButton("{6DC6121F-A1A7-40AC-90EA-FC49FCDF7DF5}", nodeFormMenuBar.Id);
+            tree.AddSubMenuItem("Search", "{6386E100-98B2-42F3-BF71-5BB432070D10}", nodeFormOptions.Id);
         }
         //---------------------------------------------------------------------------------------------
     }

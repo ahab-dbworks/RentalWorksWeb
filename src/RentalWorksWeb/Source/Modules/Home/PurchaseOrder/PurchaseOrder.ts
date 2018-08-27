@@ -656,4 +656,18 @@ FwApplicationTree.clickEvents['{B287428E-FF45-469A-8203-3BFF18E90810}'] = functi
     }
 };
 //----------------------------------------------------------------------------------------------
+
+FwApplicationTree.clickEvents['{D512214F-F6BD-4098-8473-0AC7F675893D}'] = function (e) {
+    let search, $form, orderId, $popup;
+    $form = jQuery(this).closest('.fwform');
+    orderId = FwFormField.getValueByDataField($form, 'PurchaseOrderId');
+
+    if (orderId == "") {
+        FwNotification.renderNotification('WARNING', 'Please save the record before performing this function');
+    } else {
+        search = new SearchInterface();
+        $popup = search.renderSearchPopup($form, orderId, 'PurchaseOrder');
+    }
+};
+//----------------------------------------------------------------------------------------------
 var PurchaseOrderController = new PurchaseOrder();

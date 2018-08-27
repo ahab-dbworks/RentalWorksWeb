@@ -293,3 +293,16 @@
 }
 
 var TemplateController = new Template();
+
+FwApplicationTree.clickEvents['{6386E100-98B2-42F3-BF71-5BB432070D10}'] = function (e) {
+    let search, $form, orderId, $popup;
+    $form = jQuery(this).closest('.fwform');
+    orderId = FwFormField.getValueByDataField($form, 'TemplateId');
+
+    if (orderId == "") {
+        FwNotification.renderNotification('WARNING', 'Please save the record before performing this function');
+    } else {
+        search = new SearchInterface();
+        $popup = search.renderSearchPopup($form, orderId, 'Template');
+    }
+};
