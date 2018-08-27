@@ -24,7 +24,18 @@ export class AgentBillingReport extends WebpackReport {
             let agentBilling: any = {};
             let today = new Date();
             console.log('parameters: ', parameters);
-            
+            request.orderby = 'Agent, OfficeLocation, Department, Deal, OrderNumber';
+            //request.uniqueids = {
+            //    FromDate: parameters.FromDate,
+            //    ToDate: parameters.ToDate,
+            //    LocationId: parameters.OfficeLocationId,
+            //    DepartmentId: parameters.DepartmentId,
+            //    DateType: parameters.DateType,
+            //    DealId: parameters.DealId,
+            //    ShowVendors: parameters.ShowVendors,
+            //    AgentId: parameters.UserId
+            //}
+            console.log('request: ', request)
             let agentBillingPromise = Ajax.post<DataTable>(`${apiUrl}/api/v1/agentbillingreport/browse`, authorizationHeader, request)
                 .then((response: DataTable) => {
                     agentBilling = DataTable.toObjectList(response); // converts res to javascript obj

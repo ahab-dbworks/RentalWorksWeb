@@ -4,113 +4,71 @@
 
 tr[data-rowtype="Agentheader"] .row1 {
     visibility: hidden;
+    background-color: white;
 }
 tr[data-rowtype="Agentfooter"] .row1 {
-    visibility: hidden;
+    background-color: white;
 }
+tr[data-rowtype="grandtotal"] .row1 {
+    background-color: white;
+}
+
+tbody tr:nth-child(even) {
+    background-color: #efefef;
+}
+
 .agent-header {
     font-weight: bold;
     text-align: left;
     width: 200px;
 }
-.agent-footer {
+.report-footer {
     font-weight: bold;
     text-align: left;
-    margin-left: -136px;
-}
-.body .header {
-    position: relative;
+    margin-left: -600px;
+    border-top: 1.5px solid black;
 }
 
 .body thead td {
     border-bottom: 1px solid black;
     text-align: left;
-    background-color: #fff;
 }
 table {
     border-collapse: collapse;
 }
 
-.body tbody tr[data-rowtype="masternofooter"] .total {
-    border-top: 2px solid black;
-}
 
-.body tbody tr[data-rowtype="masternofooter"],
-tr[data-rowtype="masternoheader"] {
-    background-color: #939393;
-    font-weight: bold;
-}
+
+
 
 .body thead td div {
     font-size: 14px;
     text-align: center;
 }
 
-.heading {
-    font-weight: bold;
-}
-
-
-.totalrow {
-    font-weight: bold;
-    background-color: #ffffff !important;
-    border-top: 1px solid #000000;
-}
-
-.totalrow td div {
-    padding: 5px 0;
-    font-size: 16px !important;
-}
 
 .row1 {
     font-size: 14px;
-    padding: 10px 0px 15px 0px;
+    padding: 10px 0px 15px 3px;
 }
 
 .heading {
     font-weight: bold;
+    padding: 0px 0px 0px 15px;
 }
-/*td div.rotate {
-        transform:
-        translate(25px, 51px)
-        rotate(315deg);
-        width: 30px;
-        height: 140px;
-        white-space: nowrap;
-        border-bottom: 1px solid #ccc;
-        padding: 5px 10px;
-    }*/
+
 .row2 {
-    padding: 0 0 0 10px;
+    padding: 0px 0px 0px 10px;
     min-height: 16px;
     text-align:left;
 }
 
-.row3 {
-    padding: 0 0 0 20px;
-    min-height: 16px;
-}
-
-.row4 {
-    padding: 0 0 0 30px;
-    min-height: 16px;
-}
-
-.row5 {
-    padding: 15px 0px 15px 0px;
-    font-size: 14px;
-    text-align: right;
-}
 /*tbody tr td {border: 1px solid black;}*/
 tr td div {
     padding: 5px 0px 5px 0px;
     min-height: 16px;
 }
 
-.exportedcaption {
-    font-weight: bold;
-    font-size: 16px;
-}
 
 .body tfoot tr {
     border-top: 1px solid black;

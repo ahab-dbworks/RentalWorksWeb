@@ -1,40 +1,40 @@
-﻿.report-flexrow {
+﻿.rpt-flexrow {
     display: flex;
     flex-wrap: nowrap;
     justify-content: space-between;
     width: 1500px;
 }
 
-.report-flexrow > * {
+.rpt-flexrow > * {
     flex: 1 1 0;
     min-width: 16em; /*max-width:24em;*/
 }
 
-.report-flexcolumn {
+.rpt-flexcolumn {
     display: flex;
     flex-direction: column;
 }
 
-.report-title {
+.rpt-title {
     align-self: center;
     font-family: Arial;
     font-size: 30px;
     font-weight: bold;
 }
 
-.report-header-date {
+.rpt-header-date {
     align-self: center;
     font-family: Arial;
-    font-size: 20px;
-    margin-top: 35px;
+    font-size: 18px;
+    margin-top: 15px;
 }
 
-.report-header-company {
+.rpt-header-right {
     align-self: flex-end;
     font-size: 20px
 }
 
-.report-header-system {
+.rpt-header-left {
     align-self: flex-start;
     font-size: 20px
 }

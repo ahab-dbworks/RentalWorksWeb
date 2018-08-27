@@ -1,16 +1,16 @@
-﻿<div class="header report-flexrow">
-  <div class="report-flexcolumn">
-    <span class="report-header-system">{{System}}</span>
+﻿<div class="header rpt-flexrow">
+  <div class="rpt-flexcolumn">
+    <span class="rpt-header-left">{{System}}</span>
   </div>
-  <div class="report-flexcolumn">
-    <span class="report-title">{{Report}}</span>
-    <span class="report-header-date">Invoice From: {{FromDate}} To: {{ToDate}}</span>
+  <div class="rpt-flexcolumn">
+    <span class="rpt-title">{{Report}}</span>
+    <span class="rpt-header-date">Invoice From: {{FromDate}} To: {{ToDate}}</span>
   </div>
-  <div class="report-flexcolumn">
-    <span class="report-header-company">{{Company}}</span>
+  <div class="rpt-flexcolumn">
+    <span class="rpt-header-right">{{Company}}</span>
   </div>
 </div>
-<div class="body report-flexrow" style="width:1500px;margin-top:40px;">
+<div class="body rpt-flexrow" style="width:1500px;margin-top:40px;">
   <br /><br />
   <table id="tblagentbilling">
     <thead>
@@ -40,7 +40,7 @@
           <div class="heading">Sales</div>
         </td>
         <td>
-          <div class="heading">Space</div>
+          <div class="heading">Facility</div>
         </td>
         <td>
           <div class="heading">Labor</div>
@@ -66,8 +66,8 @@
       {{#each this}}
       <tr data-rowtype={{RowType}}>
         {{#ifEquals RowType "Agentheader"}}
-        <td>
-          <div class="agent-header">Agent: {{Agent}}</div>
+        <td style="background-color:white;">
+          <div class="agent-header" style="background-color:white;">Agent: {{Agent}}</div>
         </td>
         {{/ifEquals}}
         <td>
@@ -77,7 +77,7 @@
           <div class="row1"><span>{{InvoiceDate}}</span></div>
         </td>
         <td>
-          <div class="row1">{{BillingEndDate}}</div>
+          <div class="row1">{{BillingStartDate}}</div>
         </td>
         <td class="total">
           <div class="row1" style="text-align:right;">{{InvoiceDescription}}</div>
@@ -95,7 +95,7 @@
           <div class="row1" style="text-align:right;">{{SalesTotal}}</div>
         </td>
         <td class="total">
-          <div class="row1" style="text-align:right;">{{SpaceTotal}}</div>
+          <div class="row1" style="text-align:right;">{{FacilitiesTotal}}</div>
         </td>
         <td class="total">
           <div class="row1" style="text-align:right;">{{LaborTotal}}</div>
@@ -116,8 +116,13 @@
           <div class="row1" style="text-align:right;">{{InvoiceTotal}}</div>
         </td>
         {{#ifEquals RowType "Agentfooter"}}
-        <td>
-          <div class="agent-footer">Grand Total: {{FacilitiesTotal}}</div>
+        <td style="background-color:white;">
+          <div class="report-footer" style="background-color:white;">Total for {{Agent}}:  </div>
+        </td>
+        {{/ifEquals}}
+         {{#ifEquals RowType "grandtotal"}}
+        <td style="background-color:white;">
+          <div class="report-footer" style="background-color:white;">Grand Total:  </div>
         </td>
         {{/ifEquals}}
       </tr>
