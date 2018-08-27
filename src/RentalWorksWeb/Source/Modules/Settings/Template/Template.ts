@@ -207,15 +207,15 @@
     afterLoad($form: any) {
         var $orderItemGridRental;
         $orderItemGridRental = $form.find('.rentalgrid [data-name="OrderItemGrid"]');
-        FwBrowse.search($orderItemGridRental);
+        //FwBrowse.search($orderItemGridRental);
 
         var $orderItemGridSales;
         $orderItemGridSales = $form.find('.salesgrid [data-name="OrderItemGrid"]');
-        FwBrowse.search($orderItemGridSales);
+        //FwBrowse.search($orderItemGridSales);
 
         var $orderItemGridFacilities;
         $orderItemGridFacilities = $form.find('.facilitiesgrid [data-name="OrderItemGrid"]');
-        FwBrowse.search($orderItemGridFacilities);
+        //FwBrowse.search($orderItemGridFacilities);
 
         //var $orderItemGridTransportation;
         //$orderItemGridTransportation = $form.find('.transportationgrid [data-name="OrderItemGrid"]');
@@ -223,11 +223,27 @@
 
         var $orderItemGridLabor;
         $orderItemGridLabor = $form.find('.laborgrid [data-name="OrderItemGrid"]');
-        FwBrowse.search($orderItemGridLabor);
+        //FwBrowse.search($orderItemGridLabor);
 
         var $orderItemGridMisc;
         $orderItemGridMisc = $form.find('.miscgrid [data-name="OrderItemGrid"]');
-        FwBrowse.search($orderItemGridMisc);
+        //FwBrowse.search($orderItemGridMisc);
+
+
+        //Click event on tabs to load grids 
+        $form.on('click', '[data-type="tab"]', e => {
+            let tabname = jQuery(e.currentTarget).attr('id');
+            let tabpage = tabname.replace('tab', 'tabpage');
+
+            let $gridControls = $form.find(`#${tabpage} [data-type="Grid"]`);
+            if ($gridControls.length > 0) {
+                for (let i = 0; i < $gridControls.length; i++) {
+                    let $gridcontrol = jQuery($gridControls[i]);
+                    FwBrowse.search($gridcontrol);
+                }
+
+            }
+        });
 
         $orderItemGridRental.find('.submenu-btn').filter('[data-securityid="007C4F21-7526-437C-AD1C-4BBB1030AABA"]').hide();
         $orderItemGridSales.find('.submenu-btn').filter('[data-securityid="007C4F21-7526-437C-AD1C-4BBB1030AABA"]').hide();

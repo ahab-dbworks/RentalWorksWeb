@@ -556,43 +556,43 @@ class Order extends OrderBase{
     afterLoad($form) {
         var $orderPickListGrid;
         $orderPickListGrid = $form.find('[data-name="OrderPickListGrid"]');
-        FwBrowse.search($orderPickListGrid);
+        //FwBrowse.search($orderPickListGrid);
         var $orderStatusHistoryGrid;
         $orderStatusHistoryGrid = $form.find('[data-name="OrderStatusHistoryGrid"]');
-        FwBrowse.search($orderStatusHistoryGrid);
+        //FwBrowse.search($orderStatusHistoryGrid);
         var $orderSnapshotGrid;
         $orderSnapshotGrid = $form.find('[data-name="OrderSnapshotGrid"]');
-        FwBrowse.search($orderSnapshotGrid);
+        //FwBrowse.search($orderSnapshotGrid);
         var $orderNoteGrid;
         $orderNoteGrid = $form.find('[data-name="OrderNoteGrid"]');
-        FwBrowse.search($orderNoteGrid);
+        //FwBrowse.search($orderNoteGrid);
         var $orderContactGrid;
         $orderContactGrid = $form.find('[data-name="OrderContactGrid"]');
-        FwBrowse.search($orderContactGrid);
+        //FwBrowse.search($orderContactGrid);
         var $allOrderItemGrid;
         $allOrderItemGrid = $form.find('.combinedgrid [data-name="OrderItemGrid"]');
-        FwBrowse.search($allOrderItemGrid);
+        //FwBrowse.search($allOrderItemGrid);
         var $orderItemGridRental;
         $orderItemGridRental = $form.find('.rentalgrid [data-name="OrderItemGrid"]');
-        FwBrowse.search($orderItemGridRental);
+        //FwBrowse.search($orderItemGridRental);
         var $orderItemGridSales;
         $orderItemGridSales = $form.find('.salesgrid [data-name="OrderItemGrid"]');
-        FwBrowse.search($orderItemGridSales);
+        //FwBrowse.search($orderItemGridSales);
         var $orderItemGridLabor;
         $orderItemGridLabor = $form.find('.laborgrid [data-name="OrderItemGrid"]');
-        FwBrowse.search($orderItemGridLabor);
+        //FwBrowse.search($orderItemGridLabor);
         var $orderItemGridMisc;
         $orderItemGridMisc = $form.find('.miscgrid [data-name="OrderItemGrid"]');
-        FwBrowse.search($orderItemGridMisc);
+        //FwBrowse.search($orderItemGridMisc);
         var $orderItemGridUsedSale;
         $orderItemGridUsedSale = $form.find('.usedsalegrid [data-name="OrderItemGrid"]');
-        FwBrowse.search($orderItemGridUsedSale);
+        //FwBrowse.search($orderItemGridUsedSale);
 
-        var $pickListBrowse = $form.find('#PickListBrowse');
-        FwBrowse.search($pickListBrowse);
+        //var $pickListBrowse = $form.find('#PickListBrowse');
+        //FwBrowse.search($pickListBrowse);
 
-        var $contractBrowse = $form.find('#ContractBrowse');
-        FwBrowse.search($contractBrowse);
+        //var $contractBrowse = $form.find('#ContractBrowse');
+        //FwBrowse.search($contractBrowse);
 
         var rate = FwFormField.getValueByDataField($form, 'RateType');
         if (rate === '3WEEK') {

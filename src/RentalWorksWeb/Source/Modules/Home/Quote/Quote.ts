@@ -502,32 +502,32 @@ class Quote extends OrderBase{
         var $pending = $form.find('div.fwformfield[data-datafield="PendingPo"] input').prop('checked');
 
         $orderStatusHistoryGrid = $form.find('[data-name="OrderStatusHistoryGrid"]');
-        FwBrowse.search($orderStatusHistoryGrid);
+        //FwBrowse.search($orderStatusHistoryGrid);
 
         var $orderItemGridRental;
         $orderItemGridRental = $form.find('.rentalgrid [data-name="OrderItemGrid"]');
-        FwBrowse.search($orderItemGridRental);
+        //FwBrowse.search($orderItemGridRental);
         var $orderItemGridSales;
         $orderItemGridSales = $form.find('.salesgrid [data-name="OrderItemGrid"]');
-        FwBrowse.search($orderItemGridSales);
+        //FwBrowse.search($orderItemGridSales);
         var $orderItemGridLabor;
         $orderItemGridLabor = $form.find('.laborgrid [data-name="OrderItemGrid"]');
-        FwBrowse.search($orderItemGridLabor);
+        //FwBrowse.search($orderItemGridLabor);
         var $orderItemGridMisc;
         $orderItemGridMisc = $form.find('.miscgrid [data-name="OrderItemGrid"]');
-        FwBrowse.search($orderItemGridLabor);
+        //FwBrowse.search($orderItemGridLabor);
         var $orderNoteGrid;
         $orderNoteGrid = $form.find('[data-name="OrderNoteGrid"]');
-        FwBrowse.search($orderNoteGrid);
+        //FwBrowse.search($orderNoteGrid);
         var $orderContactGrid;
         $orderContactGrid = $form.find('[data-name="OrderContactGrid"]');
-        FwBrowse.search($orderContactGrid);
+        //FwBrowse.search($orderContactGrid);
         var $allOrderItemGrid;
         $allOrderItemGrid = $form.find('.combinedgrid [data-name="OrderItemGrid"]');
-        FwBrowse.search($allOrderItemGrid);
+        //FwBrowse.search($allOrderItemGrid);
         var $orderItemGridUsedSale;
         $orderItemGridUsedSale = $form.find('.usedsalegrid [data-name="OrderItemGrid"]');
-        FwBrowse.search($orderItemGridUsedSale); 
+        //FwBrowse.search($orderItemGridUsedSale); 
 
         //hide subworksheet 
         $orderItemGridRental.find('.submenu-btn').filter('[data-securityid="007C4F21-7526-437C-AD1C-4BBB1030AABA"]').hide();
