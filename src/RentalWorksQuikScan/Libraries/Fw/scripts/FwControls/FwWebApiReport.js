@@ -240,6 +240,24 @@ var FwWebApiReport = (function () {
                         email = sessionStorage.getItem('email');
                     }
                     FwFormField.setValueByDataField($confirmation_1, 'from', email);
+                    $confirmation_1.find('.tousers').data('onchange', function ($selectedRows) {
+                        var emailArray = new Array();
+                        for (var i = 0; i < $selectedRows.length; i++) {
+                            var $tr = $selectedRows[i];
+                            var email_1 = $tr.find('[data-cssclass="Email"]').text();
+                            emailArray.push(email_1);
+                        }
+                        FwFormField.setValueByDataField($confirmation_1, 'to', emailArray.join('; '));
+                    });
+                    $confirmation_1.find('.ccusers').data('onchange', function ($selectedRows) {
+                        var emailArray = new Array();
+                        for (var i = 0; i < $selectedRows.length; i++) {
+                            var $tr = $selectedRows[i];
+                            var email_2 = $tr.find('[data-cssclass="Email"]').text();
+                            emailArray.push(email_2);
+                        }
+                        FwFormField.setValueByDataField($confirmation_1, 'cc', emailArray.join('; '));
+                    });
                     FwFormField.setValueByDataField($confirmation_1, 'subject', FwTabs.getTabByElement($form).attr('data-caption'));
                     var $btnSend = FwConfirmation.addButton($confirmation_1, 'Send');
                     FwConfirmation.addButton($confirmation_1, 'Cancel');
@@ -273,34 +291,6 @@ var FwWebApiReport = (function () {
                         catch (ex) {
                             FwFunc.showError(ex);
                         }
-                    });
-                    $confirmation_1.on('change', '[data-datafield="tousers"] .fwformfield-value', function (event) {
-                        var requestGetEmailByWebUsersId = {};
-                        requestGetEmailByWebUsersId.webusersids = event.target.value;
-                        requestGetEmailByWebUsersId.to = FwFormField.getValueByDataField($confirmation_1, 'to');
-                        FwAppData.apiMethod(true, 'POST', _this.apiurl + '/getemailbywebusersid', requestGetEmailByWebUsersId, timeout, function (successResponse) {
-                            try {
-                                FwFormField.setValueByDataField($confirmation_1, 'to', successResponse.emailto);
-                                FwFormField.setValueByDataField($confirmation_1, 'tousers', '', '');
-                            }
-                            catch (ex) {
-                                FwFunc.showError(ex);
-                            }
-                        }, null, null);
-                    });
-                    $confirmation_1.on('change', '[data-datafield="ccusers"] .fwformfield-value', function (event) {
-                        var requestGetEmailByWebUsersId = {};
-                        requestGetEmailByWebUsersId.webusersids = event.target.value;
-                        requestGetEmailByWebUsersId.to = FwFormField.getValueByDataField($confirmation_1, 'cc');
-                        FwAppData.apiMethod(true, 'POST', _this.apiurl + '/getemailbywebusersid', requestGetEmailByWebUsersId, timeout, function (successResponse) {
-                            try {
-                                FwFormField.setValueByDataField($confirmation_1, 'cc', successResponse.emailto);
-                                FwFormField.setValueByDataField($confirmation_1, 'ccusers', '', '');
-                            }
-                            catch (ex) {
-                                FwFunc.showError(ex);
-                            }
-                        }, null, null);
                     });
                 }
                 catch (ex) {
@@ -368,7 +358,7 @@ var FwWebApiReport = (function () {
         return parameters;
     };
     FwWebApiReport.prototype.getEmailTemplate = function () {
-        return "\n            <div style=\"width:540px;\">\n              <div class=\"formrow\">\n                <div class=\"fwcontrol fwcontainer fwform-fieldrow\" data-control=\"FwContainer\" data-type=\"fieldrow\">\n                  <div data-datafield=\"from\" data-control=\"FwFormField\" data-type=\"text\" class=\"fwcontrol fwformfield\" data-caption=\"From\" data-enabled=\"true\"></div>\n                </div>\n                <div class=\"fwcontrol fwcontainer fwform-fieldrow\" data-control=\"FwContainer\" data-type=\"fieldrow\">\n                  <div data-datafield=\"tousers\" data-control=\"FwFormField\" data-type=\"multiselectvalidation\" class=\"fwcontrol fwformfield\" data-caption=\"To (Users)\" data-validationname=\"PersonValidation\" data-hasselectall=\"false\" style=\"float:left;box-sizing:border-box;width:20%;\"></div>\n                  <div data-datafield=\"to\" data-control=\"FwFormField\" data-type=\"text\" class=\"fwcontrol fwformfield\" data-caption=\"To\" data-enabled=\"true\" style=\"float:left;box-sizing:border-box;width:80%;\"></div>\n                </div>\n                <div class=\"fwcontrol fwcontainer fwform-fieldrow\" data-control=\"FwContainer\" data-type=\"fieldrow\">\n                  <div data-datafield=\"ccusers\" data-control=\"FwFormField\" data-type=\"multiselectvalidation\" class=\"fwcontrol fwformfield\" data-caption=\"CC (Users)\" data-validationname=\"PersonValidation\"  data-hasselectall=\"false\" style=\"float:left;box-sizing:border-box;width:20%;\"></div>\n                  <div data-datafield=\"cc\" data-control=\"FwFormField\" data-type=\"text\" class=\"fwcontrol fwformfield\" data-caption=\"CC\" data-enabled=\"true\" style=\"float:left;box-sizing:border-box;width:80%;\"></div>\n                </div>\n                <div class=\"fwcontrol fwcontainer fwform-fieldrow\" data-control=\"FwContainer\" data-type=\"fieldrow\">\n                  <div data-datafield=\"subject\" data-control=\"FwFormField\" data-type=\"text\" class=\"fwcontrol fwformfield\" data-caption=\"Subject\" data-enabled=\"true\"></div>\n                </div>\n                <div class=\"fwcontrol fwcontainer fwform-fieldrow\" data-control=\"FwContainer\" data-type=\"fieldrow\">\n                  <div data-datafield=\"body\" data-control=\"FwFormField\" data-type=\"textarea\" class=\"fwcontrol fwformfield\" data-caption=\"Body\" data-enabled=\"true\"></div>\n                </div>\n              </div>\n            </div>\n        ";
+        return "\n            <div style=\"width:540px;\">\n              <div class=\"formrow\">\n                <div class=\"fwcontrol fwcontainer fwform-fieldrow\" data-control=\"FwContainer\" data-type=\"fieldrow\">\n                  <div data-datafield=\"from\" data-control=\"FwFormField\" data-type=\"text\" class=\"fwcontrol fwformfield from\" data-caption=\"From\" data-enabled=\"true\"></div>\n                </div>\n                <div class=\"fwcontrol fwcontainer fwform-fieldrow\" data-control=\"FwContainer\" data-type=\"fieldrow\">\n                  <div data-datafield=\"tousers\" data-control=\"FwFormField\" data-type=\"multiselectvalidation\" class=\"fwcontrol fwformfield tousers\" data-caption=\"To (Users)\" data-validationname=\"PersonValidation\" data-hasselectall=\"false\" style=\"float:left;box-sizing:border-box;width:20%;\"></div>\n                  <div data-datafield=\"to\" data-control=\"FwFormField\" data-type=\"text\" class=\"fwcontrol fwformfield to\" data-caption=\"To\" data-enabled=\"true\" style=\"float:left;box-sizing:border-box;width:80%;\"></div>\n                </div>\n                <div class=\"fwcontrol fwcontainer fwform-fieldrow\" data-control=\"FwContainer\" data-type=\"fieldrow\">\n                  <div data-datafield=\"ccusers\" data-control=\"FwFormField\" data-type=\"multiselectvalidation\" class=\"fwcontrol fwformfield ccusers\" data-caption=\"CC (Users)\" data-validationname=\"PersonValidation\"  data-hasselectall=\"false\" style=\"float:left;box-sizing:border-box;width:20%;\"></div>\n                  <div data-datafield=\"cc\" data-control=\"FwFormField\" data-type=\"text\" class=\"fwcontrol fwformfield cc\" data-caption=\"CC\" data-enabled=\"true\" style=\"float:left;box-sizing:border-box;width:80%;\"></div>\n                </div>\n                <div class=\"fwcontrol fwcontainer fwform-fieldrow\" data-control=\"FwContainer\" data-type=\"fieldrow\">\n                  <div data-datafield=\"subject\" data-control=\"FwFormField\" data-type=\"text\" class=\"fwcontrol fwformfield subject\" data-caption=\"Subject\" data-enabled=\"true\"></div>\n                </div>\n                <div class=\"fwcontrol fwcontainer fwform-fieldrow\" data-control=\"FwContainer\" data-type=\"fieldrow\">\n                  <div data-datafield=\"body\" data-control=\"FwFormField\" data-type=\"textarea\" class=\"fwcontrol fwformfield message\" data-caption=\"Message\" data-enabled=\"true\"></div>\n                </div>\n              </div>\n            </div>\n        ";
     };
     return FwWebApiReport;
 }());

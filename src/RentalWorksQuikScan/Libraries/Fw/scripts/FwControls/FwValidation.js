@@ -109,13 +109,15 @@ FwValidation.init = function ($control) {
     }
 
     FwPopup.renderPopup($validationbrowse);
-    $control.find('input[type="hidden"]').on('change', function () {
-        try {
-            // need to clear out any boundfields here
-        } catch (ex) {
-            FwFunc.showError(ex);
-        }
-    });
+
+    // mv 2018-08-27 doesn't look like this does anything
+    //$control.find('input[type="hidden"]').on('change', function () {
+    //    try {
+    //        // need to clear out any boundfields here
+    //    } catch (ex) {
+    //        FwFunc.showError(ex);
+    //    }
+    //});
 
     // modifies validation functionality with typing into field
     $control.find('input[type="text"]').on('change', e => {
@@ -369,8 +371,7 @@ FwValidation.selectRow = function ($control, $tr, $valuefield, $searchfield, $bt
     text = $validationDisplayField.attr('data-originalvalue');
     $searchfield.val(text);
 
-    //FwFormField.setValue2($control, uniqueid, text, true);
-    if ((typeof $control.data('onchange') !== 'undefined') && (typeof $control.data('onchange') === 'function')) {
+    if (typeof $control.data('onchange') === 'function') {
         $control.data('onchange')($tr);
     }
 
