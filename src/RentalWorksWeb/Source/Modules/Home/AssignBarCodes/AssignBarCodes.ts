@@ -120,6 +120,19 @@ class AssignBarCodes {
             }, null, $form);
         });
 
+        //Assign Bar Codes button
+        $form.find('.assignbarcodes').on('click', e => {
+            let request: any = {};
+            request = {
+                PurchaseOrderId: FwFormField.getValueByDataField($form, 'PurchaseOrderId')
+                , ContractId: FwFormField.getValueByDataField($form, 'ContractId')
+            }
+            FwAppData.apiMethod(true, 'POST', 'api/v1/purchaseorder/assignbarcodesfromreceive', request, FwServices.defaultTimeout, function onSuccess(response) {
+                let $poReceiveBarCodeGridControl: any;
+                $poReceiveBarCodeGridControl = $form.find('[data-name="POReceiveBarCodeGrid"]');
+                FwBrowse.search($poReceiveBarCodeGridControl);
+            }, null, $form);
+        });
     }
     //----------------------------------------------------------------------------------------------
     beforeValidatePONumber($browse: any, $form: any, request: any) {
