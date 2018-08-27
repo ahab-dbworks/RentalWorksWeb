@@ -21,8 +21,6 @@ export class GLDistributionReport extends WebpackReport {
                 LocationId: parameters.OfficeLocationId
             }
             request.orderby = 'Location,GroupHeadingOrder,AccountNumber,AccountDescription';
-            request.pageno = 1;
-            request.pagesize = 10;
 
             let glDistributionPromise = Ajax.post<DataTable>(`${apiUrl}/api/v1/gldistributionreport/browse`, authorizationHeader, request)
                 .then((response: DataTable) => {
@@ -32,9 +30,6 @@ export class GLDistributionReport extends WebpackReport {
                     glDistribution.FromDate = parameters.FromDate;
                     glDistribution.ToDate = parameters.ToDate;
                     glDistribution.Location = parameters.Location;
-                    //glDistribution.DebitTotal
-                    //glDistribution.CreditTotal
-                    console.log(glDistribution);
                     if (this.action === 'Preview' || this.action === 'PrintHtml') {
                         document.getElementById('pageFooter').innerHTML = this.footerHtml;
                     }

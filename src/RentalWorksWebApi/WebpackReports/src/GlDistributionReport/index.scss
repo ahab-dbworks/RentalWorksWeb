@@ -115,6 +115,7 @@ html.pdf {
 
     table {
         width: 100%;
+        border-collapse: collapse;
 
         colgroup {
             .GLAccount {
@@ -135,31 +136,29 @@ html.pdf {
         }
 
         thead {
-            tr.columnheadings {
+            th {
                 border-top: 2px solid #000000;
                 border-bottom: 2px solid #000000;
+                border-collapse: collapse;
+                font-weight: bold;
+                padding: 5px;
+                white-space: nowrap;
+            }
 
-                th {
-                    font-weight: bold;
-                    padding: 5px;
-                    white-space: nowrap;
-                }
+            .GLAccount {
+                text-align: left;
+            }
 
-                .GLAccount {
-                    text-align: left;
-                }
+            .Description {
+                text-align: left;
+            }
 
-                .Description {
-                    text-align: left;
-                }
+            .Debit {
+                text-align: right;
+            }
 
-                .Debit {
-                    text-align: right;
-                }
-
-                .Credit {
-                    text-align: right;
-                }
+            .Credit {
+                text-align: right;
             }
         }
 
@@ -196,32 +195,6 @@ html.pdf {
     }
 }
 
-.totals {
-    font-weight: bold;
-    flex: 1 0 768px;
-    max-width: 900px;
-    float: left;
-    width: 100%;
-    display:flex;
-
-    .TotalsHeader {
-        flex: 1 1 0;
-        text-align: center
-    }
-
-    .Debit {
-        border-top: 2px solid black;
-        flex: 1 1 0;
-        text-align: right;
-    }
-
-    .Credit {
-        border-top: 2px solid black;
-        flex: 1 1 0;
-        text-align: right;
-    }
-}
-
 #pageContainer {
     #pageHeader {
     }
@@ -232,4 +205,24 @@ html.pdf {
     #pageFooter {
         margin: $line-height 0 0 0;
     }
+}
+
+tbody tr[data-rowtype="Locationheader"] td {
+    padding-top:.8em;
+    padding-bottom:.8em;
+    font-weight: bold;
+    font-size: 1.1em;
+    text-decoration: underline;
+}
+
+tbody tr[data-rowtype="GroupHeadingheader"] td {
+    padding-bottom: .8em;
+    font-weight: bold;
+    text-decoration: underline;
+}
+
+tbody tr[data-rowtype="GroupHeadingfooter"] td.totals,
+tbody tr[data-rowtype="Locationfooter"] td.totals {
+    border-top: 2px solid black;
+    font-weight: bold;
 }

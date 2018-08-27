@@ -5,7 +5,7 @@
     <div style="text-align: center; font-weight: bold; margin:0 auto;">G/L Distribution</div>
   </div>
   <div>
-    <div style="text-align: left; font-weight: bold; float:left;">Office: <span style="font-weight:normal;">{{Location}}</span></div>
+    <div style="text-align: left; font-weight: bold; float:left;">Office: <span style="font-weight:normal;">{{LocationHeader}}</span></div>
     <div style="text-align: right; font-weight: bold; float:right;">&#160;</div>
     <div style="text-align: center; margin:0 auto;">{{FromDate}} - {{ToDate}}</div>
   </div>
@@ -30,20 +30,34 @@
     <tbody>
       {{#with GLItems}}
       {{#each this}}
-      <tr data-rowtype="{{GroupHeading}}">
+      <tr data-rowtype="{{RowType}}">
+        {{#ifEquals RowType "Locationheader"}}
+        <td class="LocationHeader">{{Location}}</td>
+        {{/ifEquals}}
+        {{#ifEquals RowType "GroupHeadingheader"}}
+        <td class="GroupHeadingHeader">{{GroupHeading}}</td>
+        {{/ifEquals}}
+        {{#ifEquals RowType "detail"}}
         <td class="GLAccount">{{AccountNumber}}</td>
         <td class="Description">{{AccountDescription}}</td>
-        <td class="Debit">{{Debit }}</td>
+        <td class="Debit">{{Debit}}</td>
         <td class="Credit">{{Credit}}</td>
+        {{/ifEquals}}
+        {{#ifEquals RowType "GroupHeadingfooter"}}
+        <td class="GLAccount"></td>
+        <td class="Description"></td>
+        <td class="Debit totals">{{Debit}}</td>
+        <td class="Credit totals">{{Credit}}</td>
+        {{/ifEquals}}
+        {{#ifEquals RowType "Locationfooter"}}
+        <td class="GLAccount"></td>
+        <td class="Totals">Totals:</td>
+        <td class="Debit totals">{{Debit}}</td>
+        <td class="Credit totals">{{Credit}}</td>
+        {{/ifEquals}}
       </tr>
       {{/each}}
       {{/with}}
     </tbody>
   </table>
-</div>
-<div class="totals">
-  <div style="white-space:pre; min-width:25%;">&#160;</div>
-  <div class="TotalsHeader">Totals:</div>
-  <div class="Debit">{{DebitTotal}}12323</div>
-  <div class="Credit">{{CreditTotal}}1353</div>
 </div>

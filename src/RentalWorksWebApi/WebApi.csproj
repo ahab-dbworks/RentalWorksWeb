@@ -26,21 +26,25 @@
 
   <ItemGroup>
     <Compile Remove="Modules\Reports\WebpackReportLibrary\**" />
+    <Compile Remove="Modules\Reports\WebpackReports\**" />
     <Compile Remove="WebpackReports\lib\FwReportLibrary\dist\**" />
     <Compile Remove="Modules\Reports\_lib\**" />
     <Compile Remove="WebpackReports\lib\FwReportLibrary\dist\**" />
     <Compile Remove="wwwroot\lib\**" />
     <Content Remove="Modules\Reports\WebpackReportLibrary\**" />
+    <Content Remove="Modules\Reports\WebpackReports\**" />
     <Content Remove="WebpackReports\lib\FwReportLibrary\dist\**" />
     <Content Remove="Modules\Reports\_lib\**" />
     <Content Remove="WebpackReports\lib\FwReportLibrary\dist\**" />
     <Content Remove="wwwroot\lib\**" />
     <EmbeddedResource Remove="Modules\Reports\WebpackReportLibrary\**" />
+    <EmbeddedResource Remove="Modules\Reports\WebpackReports\**" />
     <EmbeddedResource Remove="WebpackReports\lib\FwReportLibrary\dist\**" />
     <EmbeddedResource Remove="Modules\Reports\_lib\**" />
     <EmbeddedResource Remove="WebpackReports\lib\FwReportLibrary\dist\**" />
     <EmbeddedResource Remove="wwwroot\lib\**" />
     <None Remove="Modules\Reports\WebpackReportLibrary\**" />
+    <None Remove="Modules\Reports\WebpackReports\**" />
     <None Remove="WebpackReports\lib\FwReportLibrary\dist\**" />
     <None Remove="Modules\Reports\_lib\**" />
     <None Remove="WebpackReports\lib\FwReportLibrary\dist\**" />
@@ -54,7 +58,6 @@
 
   <ItemGroup>
     <Folder Include="Modules\Administrator\Designer\Services\" />
-    <Folder Include="Modules\Reports\WebpackReports\" />
     <Folder Include="Security\" />
     <Folder Include="wwwroot\lib\" />
     <Folder Include="wwwroot\temp\downloads\" />
