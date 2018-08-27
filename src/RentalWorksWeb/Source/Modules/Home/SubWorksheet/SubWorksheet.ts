@@ -144,6 +144,8 @@ class SubWorksheet {
             } catch (ex) {
                 FwFunc.showError(ex);
             }
+
+            $form.attr('data-modified', false);
         })
 
         $form.find('.createpo').on('click', function (e) {
