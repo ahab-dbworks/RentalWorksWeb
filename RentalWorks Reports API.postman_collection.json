@@ -46,6 +46,46 @@
 			]
 		},
 		{
+			"name": "Billing Progress Report",
+			"item": [
+				{
+					"name": "Billing Progress Report: Browse",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"Description\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": [],\n    \t\"uniqueids\": {\n    \t\t\"AsOfDate\": \"08/28/2018\",\n    \t\t\"LocationId\": \"B001WH00\",\n    \t\t\"IncludeCredits\": true\n    \t\t\n    \t}\n}"
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/billingprogressreport/browse",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"billingprogressreport",
+								"browse"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
 			"name": "Create Invoice Process Report",
 			"item": [
 				{
@@ -64,7 +104,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"OfficeLocation,Department,Deal,OrderNumber\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": [],\n    \t\"uniqueids\": {\"BatchId\": \"I00006BI\"}\n\t\n}"
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"OfficeLocation,Department,Deal,OrderNumber\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": [],\n    \t\"uniqueids\": {\n    \t\t\"BatchId\": \"I00006BI\",\n    \t\t\"ExceptionsOnly\": false\n    \t}\n}"
 						},
 						"url": {
 							"raw": "http://localhost:57949/api/v1/createinvoiceprocessreport/browse",
@@ -224,7 +264,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"Location,GroupHeadingOrder,AccountNumber,AccountDescription\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": [],\n    \t\"uniqueids\": {\n    \t\t\"LocationId\":\"B001WH00\",\n    \t\t\"FromDate\": \"11/01/2017\",\n    \t\t\"ToDate\": \"11/08/2017\"\n    \t}\n\t\n}"
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"Location,GroupHeadingOrder,AccountNumber,AccountDescription\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": [],\n    \t\"uniqueids\": {\n    \t\t\"xLocationId\": \"B001WH00\",\n    \t\t\"FromDate\": \"11/01/2017\",\n    \t\t\"ToDate\": \"11/08/2017\"\n    \t}\n\t\n}"
 						},
 						"url": {
 							"raw": "http://localhost:57949/api/v1/gldistributionreport/browse",
