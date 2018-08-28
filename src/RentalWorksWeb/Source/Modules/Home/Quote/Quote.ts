@@ -497,7 +497,8 @@ class Quote extends OrderBase{
     };
 
     //----------------------------------------------------------------------------------------------
-    afterLoad($form: any, mode: string) {
+    afterLoad($form: any) {
+        super.afterLoad($form);
         var $orderStatusHistoryGrid: any;
         var $pending = $form.find('div.fwformfield[data-datafield="PendingPo"] input').prop('checked');
 

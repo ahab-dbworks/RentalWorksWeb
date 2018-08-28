@@ -480,6 +480,7 @@ class Order extends OrderBase {
     }
     ;
     afterLoad($form) {
+        super.afterLoad($form);
         var $orderPickListGrid;
         $orderPickListGrid = $form.find('[data-name="OrderPickListGrid"]');
         var $orderStatusHistoryGrid;

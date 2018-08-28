@@ -1,7 +1,7 @@
 routes.push({ pattern: /^module\/order$/, action: function (match: RegExpExecArray) { return OrderController.getModuleScreen(); } });
 routes.push({ pattern: /^module\/order\/(\w+)\/(\S+)/, action: function (match: RegExpExecArray) { var filter = { datafield: match[1], search: match[2] }; return OrderController.getModuleScreen(filter); } });
 //----------------------------------------------------------------------------------------------
-class Order extends OrderBase{
+class Order extends OrderBase {
     Module = 'Order';
     apiurl: string = 'api/v1/order';
     caption: string = 'Order';
@@ -554,6 +554,7 @@ class Order extends OrderBase{
     };
     //----------------------------------------------------------------------------------------------
     afterLoad($form) {
+        super.afterLoad($form);
         var $orderPickListGrid;
         $orderPickListGrid = $form.find('[data-name="OrderPickListGrid"]');
         //FwBrowse.search($orderPickListGrid);
@@ -738,7 +739,7 @@ class Order extends OrderBase{
             }, null, $confirmationbox);
         }
     };
-  
+
     //----------------------------------------------------------------------------------------------
     afterSave($form) {
         if (this.CombineActivity === 'true') {
