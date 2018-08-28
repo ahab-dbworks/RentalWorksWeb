@@ -42,10 +42,9 @@ export class AgentBillingReport extends WebpackReport {
                     console.log('agentBilling: ', agentBilling); 
 
                     agentBilling.PrintTime = moment().format('YYYY-MM-DD h:mm:ss A');
-                    agentBilling.ContractTime = moment(agentBilling.ContractTime, 'h:mm a').format('h:mm a');
                     agentBilling.FromDate = parameters.FromDate;
                     agentBilling.ToDate = parameters.ToDate;
-                    agentBilling.Report = 'AGENT BILLING REPORT';
+                    agentBilling.Report = 'Agent Billing Report';
                     agentBilling.System = 'RENTALWORKS';
                     agentBilling.Company = '4WALL ENTERTAINMENT';
                     this.renderFooterHtml(agentBilling);
