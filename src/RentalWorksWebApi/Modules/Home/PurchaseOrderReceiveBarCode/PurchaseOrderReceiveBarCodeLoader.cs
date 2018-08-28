@@ -123,7 +123,7 @@ namespace WebApi.Modules.Home.PurchaseOrderReceiveBarCode
             //} 
             base.SetBaseSelectQuery(select, qry, customFields, request);
             select.Parse();
-            //select.AddWhere("(xxxtype = 'ABCDEF')"); 
+            select.AddWhere("(orderid > '')"); 
             addFilterToSelect("PurchaseOrderId", "orderid", select, request); 
             addFilterToSelect("ReceiveContractId", "receivecontractid", select, request); 
             //select.AddParameter("@filterid", filterId); 
