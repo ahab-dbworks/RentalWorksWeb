@@ -164,7 +164,7 @@ namespace WebApi.Modules.Home.Order
         [JsonIgnore]
         public string Type { get { return dealOrder.Type; } set { dealOrder.Type = value; } }
         //------------------------------------------------------------------------------------
-        public decimal? MaximumCumulativeDiscount { get { return dealOrderDetail.MaximumCumulativeDiscount; } set { dealOrderDetail.MaximumCumulativeDiscount = value; } }
+        //public decimal? MaximumCumulativeDiscount { get { return dealOrderDetail.MaximumCumulativeDiscount; } set { dealOrderDetail.MaximumCumulativeDiscount = value; } }
         //------------------------------------------------------------------------------------
         public string PoApprovalStatusId { get { return dealOrderDetail.PoApprovalStatusId; } set { dealOrderDetail.PoApprovalStatusId = value; } }
         //------------------------------------------------------------------------------------

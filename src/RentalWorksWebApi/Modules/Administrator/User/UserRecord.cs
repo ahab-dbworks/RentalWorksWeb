@@ -234,15 +234,15 @@ namespace WebApi.Modules.Administrator.User
         [FwSqlDataField(column: "allowcreditlimitoverride", modeltype: FwDataTypes.Boolean, sqltype: "char")]
         public bool? AllowCreditLimitOverride { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "cumulativediscountoverride", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        public bool? CumulativeDiscountOverride { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "allowcumulativediscount", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        public bool? LimitAllowCumulativeDiscount { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "maxcumulativediscount", modeltype: FwDataTypes.Decimal, sqltype: "numeric", precision: 5, scale: 2)]
-        public decimal? MaximumCumulativeDiscount { get; set; }
-        //------------------------------------------------------------------------------------ 
+        //[FwSqlDataField(column: "cumulativediscountoverride", modeltype: FwDataTypes.Boolean, sqltype: "char")]
+        //public bool? CumulativeDiscountOverride { get; set; }
+        ////------------------------------------------------------------------------------------ 
+        //[FwSqlDataField(column: "allowcumulativediscount", modeltype: FwDataTypes.Boolean, sqltype: "char")]
+        //public bool? LimitAllowCumulativeDiscount { get; set; }
+        ////------------------------------------------------------------------------------------ 
+        //[FwSqlDataField(column: "maxcumulativediscount", modeltype: FwDataTypes.Decimal, sqltype: "numeric", precision: 5, scale: 2)]
+        //public decimal? MaximumCumulativeDiscount { get; set; }
+        ////------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "limitdiscount", modeltype: FwDataTypes.Boolean, sqltype: "char")]
         public bool? LimitDiscount { get; set; }
         //------------------------------------------------------------------------------------ 

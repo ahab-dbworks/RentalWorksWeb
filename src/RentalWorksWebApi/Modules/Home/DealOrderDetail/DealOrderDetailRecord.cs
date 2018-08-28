@@ -11,9 +11,9 @@ namespace WebApi.Modules.Home.DealOrderDetail
         [FwSqlDataField(column: "orderid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8, isPrimaryKey: true)]
         public string OrderId { get; set; } = "";
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "maxcumulativediscount", modeltype: FwDataTypes.Decimal, sqltype: "numeric", precision: 5, scale: 2)]
-        public decimal? MaximumCumulativeDiscount { get; set; }
-        //------------------------------------------------------------------------------------
+        //[FwSqlDataField(column: "maxcumulativediscount", modeltype: FwDataTypes.Decimal, sqltype: "numeric", precision: 5, scale: 2)]
+        //public decimal? MaximumCumulativeDiscount { get; set; }
+        ////------------------------------------------------------------------------------------
         [FwSqlDataField(column: "poapprovalstatusid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
         public string PoApprovalStatusId { get; set; }
         //------------------------------------------------------------------------------------

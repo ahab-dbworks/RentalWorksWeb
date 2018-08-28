@@ -172,15 +172,15 @@ namespace WebApi.Modules.Administrator.User
         [FwSqlDataField(column: "allowcreditlimitoverride", modeltype: FwDataTypes.Boolean)]
         public bool? AllowCreditLimitOverride { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "cumulativediscountoverride", modeltype: FwDataTypes.Boolean)]
-        public bool? CumulativeDiscountOverride { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "allowcumulativediscount", modeltype: FwDataTypes.Boolean)]
-        public bool? LimitAllowCumulativeDiscount { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "maxcumulativediscount", modeltype: FwDataTypes.Decimal)]
-        public decimal? MaximumCumulativeDiscount { get; set; }
-        //------------------------------------------------------------------------------------ 
+        //[FwSqlDataField(column: "cumulativediscountoverride", modeltype: FwDataTypes.Boolean)]
+        //public bool? CumulativeDiscountOverride { get; set; }
+        ////------------------------------------------------------------------------------------ 
+        //[FwSqlDataField(column: "allowcumulativediscount", modeltype: FwDataTypes.Boolean)]
+        //public bool? LimitAllowCumulativeDiscount { get; set; }
+        ////------------------------------------------------------------------------------------ 
+        //[FwSqlDataField(column: "maxcumulativediscount", modeltype: FwDataTypes.Decimal)]
+        //public decimal? MaximumCumulativeDiscount { get; set; }
+        ////------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "limitdiscount", modeltype: FwDataTypes.Boolean)]
         public bool? LimitDiscount { get; set; }
         //------------------------------------------------------------------------------------ 

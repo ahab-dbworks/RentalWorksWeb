@@ -115,9 +115,9 @@ namespace WebApi.Modules.Administrator.Person
         public bool? LimitDaysPerWeek { get; set; }
         public decimal? MinimumDaysPerWeek { get; set; }
         public bool? AllowCreditLimitOverride { get; set; }
-        public bool? CumulativeDiscountOverride { get; set; }
-        public bool? LimitAllowCumulativeDiscount { get; set; }
-        public decimal? MaximumCumulativeDiscount { get; set; }
+        //public bool? CumulativeDiscountOverride { get; set; }
+        //public bool? LimitAllowCumulativeDiscount { get; set; }
+        //public decimal? MaximumCumulativeDiscount { get; set; }
         public bool? LimitDiscount { get; set; }
         public decimal? MaximumDiscount { get; set; }
         public bool? LimitSubDiscount { get; set; }

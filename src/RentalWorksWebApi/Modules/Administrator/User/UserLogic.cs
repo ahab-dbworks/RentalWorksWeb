@@ -123,9 +123,9 @@ namespace WebApi.Modules.Administrator.User
         public bool? LimitDaysPerWeek { get { return user.LimitDaysPerWeek; } set { user.LimitDaysPerWeek = value; } }
         public decimal? MinimumDaysPerWeek { get { return user.MinimumDaysPerWeek; } set { user.MinimumDaysPerWeek = value; } }
         public bool? AllowCreditLimitOverride { get { return user.AllowCreditLimitOverride; } set { user.AllowCreditLimitOverride = value; } }
-        public bool? CumulativeDiscountOverride { get { return user.CumulativeDiscountOverride; } set { user.CumulativeDiscountOverride = value; } }
-        public bool? LimitAllowCumulativeDiscount { get { return user.LimitAllowCumulativeDiscount; } set { user.LimitAllowCumulativeDiscount = value; } }
-        public decimal? MaximumCumulativeDiscount { get { return user.MaximumCumulativeDiscount; } set { user.MaximumCumulativeDiscount = value; } }
+        //public bool? CumulativeDiscountOverride { get { return user.CumulativeDiscountOverride; } set { user.CumulativeDiscountOverride = value; } }
+        //public bool? LimitAllowCumulativeDiscount { get { return user.LimitAllowCumulativeDiscount; } set { user.LimitAllowCumulativeDiscount = value; } }
+        //public decimal? MaximumCumulativeDiscount { get { return user.MaximumCumulativeDiscount; } set { user.MaximumCumulativeDiscount = value; } }
         public bool? LimitDiscount { get { return user.LimitDiscount; } set { user.LimitDiscount = value; } }
         public decimal? MaximumDiscount { get { return user.MaximumDiscount; } set { user.MaximumDiscount = value; } }
         public bool? LimitSubDiscount { get { return user.LimitSubDiscount; } set { user.LimitSubDiscount = value; } }
