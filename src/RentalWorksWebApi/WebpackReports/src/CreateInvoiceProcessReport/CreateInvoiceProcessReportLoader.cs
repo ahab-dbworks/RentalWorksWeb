@@ -81,13 +81,13 @@ namespace WebApi.Modules.Reports.CreateInvoiceProcessReport
         [FwSqlDataField(column: "periodtype", modeltype: FwDataTypes.Text)]
         public string BillingCycle { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "invoicetotal", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "invoicetotal", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public decimal? InvoiceTotal { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "nocharge", modeltype: FwDataTypes.Boolean)]
         public bool? IsNoCharge { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "priorinvoicetotal", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "priorinvoicetotal", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public decimal? PriorInvoiceTotal { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "invoicecount", modeltype: FwDataTypes.Integer)]

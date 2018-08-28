@@ -67,31 +67,31 @@ namespace WebApi.Modules.Reports.CustomerRevenueByTypeReport
         [FwSqlDataField(column: "agent", modeltype: FwDataTypes.Text)]
         public string Agent { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "rental", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "rental", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public decimal? Rental { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "sales", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "sales", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public decimal? Sales { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "space", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "space", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public decimal? Facilities { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "labor", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "labor", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public decimal? Labor { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "misc", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "misc", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public decimal? Miscelleaneous { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "assetsale", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "assetsale", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public decimal? AssetSale { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "parts", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "parts", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public decimal? Parts { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "tax", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "tax", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public decimal? Tax { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "total", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "total", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public decimal? Total { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "dealtype", modeltype: FwDataTypes.Text)]

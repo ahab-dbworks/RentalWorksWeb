@@ -100,34 +100,34 @@ namespace WebApi.Modules.Reports.AgentBillingReport
         [FwSqlDataField(column: "dealid", modeltype: FwDataTypes.Text)]
         public string DealId { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "rentaltotal", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "rentaltotal", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public decimal? RentalTotal { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "metertotal", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "metertotal", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public decimal? MeterTotal { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "salestotal", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "salestotal", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public decimal? SalesTotal { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "spacetotal", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "spacetotal", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public decimal? FacilitiesTotal { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "misctotal", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "misctotal", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public decimal? MiscellaneousTotal { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "labortotal", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "labortotal", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public decimal? LaborTotal { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "partstotal", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "partstotal", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public decimal? PartsTotal { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "assettotal", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "assettotal", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public decimal? AssetTotal { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "invoicetax", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "invoicetax", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public decimal? InvoiceTax { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "invoicetotal", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "invoicetotal", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public decimal? InvoiceTotal { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "nonbillable", modeltype: FwDataTypes.Boolean)]

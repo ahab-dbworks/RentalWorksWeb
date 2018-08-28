@@ -33,10 +33,10 @@ namespace WebApi.Modules.Reports.GlDistributionReport
         [FwSqlDataField(column: "glacctdesc", modeltype: FwDataTypes.Text)]
         public string AccountDescription { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "debit", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "debit", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public decimal? Debit { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "credit", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "credit", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public decimal? Credit { get; set; }
         //------------------------------------------------------------------------------------ 
         protected override void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequest request = null)

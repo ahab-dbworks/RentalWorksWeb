@@ -141,22 +141,22 @@ namespace WebApi.Modules.Reports.LateReturnsReport
         [FwSqlDataField(column: "agent", modeltype: FwDataTypes.Text)]
         public string Agent { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "itemunitvalue", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "itemunitvalue", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public decimal? ItemUnitValue { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "itemunitvalueextended", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "itemunitvalueextended", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public decimal? ItemUnitValueExtended { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "itemreplacementcost", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "itemreplacementcost", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public decimal? ItemReplacementCost { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "itemreplacementcostextended", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "itemreplacementcostextended", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public decimal? ItemReplacementCostExtended { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "orderunitvalue", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "orderunitvalue", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public decimal? OrderUnitValue { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "orderreplacementcost", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "orderreplacementcost", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public decimal? OrderReplacementCost { get; set; }
         //------------------------------------------------------------------------------------ 
         protected override void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequest request = null)
