@@ -12,6 +12,8 @@ namespace WebApi.Modules.Reports.CustomerRevenueByTypeReport
         }
         //------------------------------------------------------------------------------------ 
         [FwBusinessLogicField(isReadOnly: true)]
+        public string RowType { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
         public string InvoiceId { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
         public string InvoiceNumber { get; set; }
@@ -54,7 +56,7 @@ namespace WebApi.Modules.Reports.CustomerRevenueByTypeReport
         [FwBusinessLogicField(isReadOnly: true)]
         public decimal? Labor { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
-        public decimal? Miscelleaneous { get; set; }
+        public decimal? Miscellaneous { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
         public decimal? AssetSale { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]

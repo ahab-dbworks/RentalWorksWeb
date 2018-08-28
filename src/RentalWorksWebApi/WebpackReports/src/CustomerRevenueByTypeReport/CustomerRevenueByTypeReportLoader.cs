@@ -16,6 +16,9 @@ namespace WebApi.Modules.Reports.CustomerRevenueByTypeReport
     public class CustomerRevenueByTypeReportLoader : AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "rowtype", modeltype: FwDataTypes.Text)]
+        public string RowType { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "invoiceid", modeltype: FwDataTypes.Text)]
         public string InvoiceId { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -80,7 +83,7 @@ namespace WebApi.Modules.Reports.CustomerRevenueByTypeReport
         public decimal? Labor { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "misc", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
-        public decimal? Miscelleaneous { get; set; }
+        public decimal? Miscellaneous { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "assetsale", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public decimal? AssetSale { get; set; }
@@ -185,6 +188,15 @@ namespace WebApi.Modules.Reports.CustomerRevenueByTypeReport
                     dt = await qry.QueryToFwJsonTableAsync(false, 0);
                 }
             }
+
+            string[] totalFields = new string[] { "Rental", "Sales", "Facilities", "Labor", "Miscellaneous", "AssetSale", "Parts", "Tax", "Total" };
+            dt.InsertSubTotalRows("OfficeLocation", "RowType", totalFields);
+            dt.InsertSubTotalRows("Department", "RowType", totalFields);
+            dt.InsertSubTotalRows("Customer", "RowType", totalFields);
+            dt.InsertSubTotalRows("Deal", "RowType", totalFields);
+            dt.InsertTotalRow("RowType", "detail", "grandtotal", totalFields);
+
+
             return dt;
 
 
