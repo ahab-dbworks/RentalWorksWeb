@@ -620,6 +620,157 @@ namespace WebApi.Modules.Settings.PoType
 
 
 
+        [FwBusinessLogicField(isReadOnly: true)]
+        public List<string> SubRentalShowFields
+        {
+            get
+            {
+                List<string> showFields = new List<string>();
+
+                if (SubRentalShowOrderNumber == true) { showFields.Add("PoSubOrderNumber"); }
+                if (SubRentalShowICode == true) { showFields.Add("ICode"); }
+                if (SubRentalShowDescription == true) { showFields.Add("Description"); }
+                if ((!(SubRentalShowICode == true)) && (!(SubRentalShowDescription == true))) { showFields.Add("ICode"); }
+                showFields.Add("QuantityOrdered");
+                if (SubRentalShowFromDate == true) { showFields.Add("FromDate"); }
+                if (SubRentalShowFromTime == true) { showFields.Add("FromTime"); }
+                if (SubRentalShowToDate == true) { showFields.Add("ToDate"); }
+                if (SubRentalShowToTime == true) { showFields.Add("ToTime"); }
+                if (SubRentalShowBillablePeriods == true) { showFields.Add("BillablePeriods"); }
+                if (SubRentalShowUnit == true) { showFields.Add("Unit"); }
+                if (SubRentalShowRate == true) { showFields.Add("Rate"); }
+                if (SubRentalShowDaysPerWeek == true) { showFields.Add("DaysPerWeek"); }
+                if (SubRentalShowDiscountPercent == true) { showFields.Add("DiscountPercent"); }
+                if (SubRentalShowUnitDiscountAmount == true) { showFields.Add("UnitDiscountAmount"); }
+                if (SubRentalShowUnitExtended == true) { showFields.Add("UnitExtended"); }
+                if (SubRentalShowWeeklyDiscountAmount == true) { showFields.Add("WeeklyDiscountAmount"); }
+                if (SubRentalShowWeeklyExtended == true) { showFields.Add("WeeklyExtended"); }
+                if (SubRentalShowMonthlyDiscountAmount == true) { showFields.Add("MonthlyDiscountAmount"); }
+                if (SubRentalShowMonthlyExtended == true) { showFields.Add("MonthlyExtended"); }
+                if (SubRentalShowPeriodDiscountAmount == true) { showFields.Add("PeriodDiscountAmount"); }
+                if (SubRentalShowPeriodExtended == true) { showFields.Add("PeriodExtended"); }
+                if (SubRentalShowTaxable == true) { showFields.Add("Taxable"); }
+                if (SubRentalShowWarehouse == true) { showFields.Add("Warehouse"); }
+                if (SubRentalShowNotes == true) { showFields.Add("Notes"); }
+
+                return showFields;
+            }
+            set { }
+        }
+
+
+        [FwBusinessLogicField(isReadOnly: true)]
+        public List<string> SubSaleShowFields
+        {
+            get
+            {
+                List<string> showFields = new List<string>();
+
+                if (SubSaleShowOrderNumber == true) { showFields.Add("PoSubOrderNumber"); }
+                if (SubSaleShowICode == true) { showFields.Add("ICode"); }
+                if (SubSaleShowDescription == true) { showFields.Add("Description"); }
+                if ((!(SubSaleShowICode == true)) && (!(SubSaleShowDescription == true))) { showFields.Add("ICode"); }
+                showFields.Add("QuantityOrdered");
+                //if (SubSaleShowFromDate == true) { showFields.Add("FromDate"); }
+                //if (SubSaleShowFromTime == true) { showFields.Add("FromTime"); }
+                if (SubSaleShowUnit == true) { showFields.Add("Unit"); }
+                if (SubSaleShowRate == true) { showFields.Add("Rate"); }
+                if (SubSaleShowDiscountPercent == true) { showFields.Add("DiscountPercent"); }
+                if (SubSaleShowUnitDiscountAmount == true) { showFields.Add("UnitDiscountAmount"); }
+                if (SubSaleShowUnitExtended == true) { showFields.Add("UnitExtended"); }
+                if (SubSaleShowPeriodDiscountAmount == true) { showFields.Add("PeriodDiscountAmount"); }
+                if (SubSaleShowPeriodExtended == true) { showFields.Add("PeriodExtended"); }
+                if (SubSaleShowTaxable == true) { showFields.Add("Taxable"); }
+                if (SubSaleShowWarehouse == true) { showFields.Add("Warehouse"); }
+                if (SubSaleShowNotes == true) { showFields.Add("Notes"); }
+
+
+                return showFields;
+            }
+            set { }
+        }
+
+
+
+
+        [FwBusinessLogicField(isReadOnly: true)]
+        public List<string> SubMiscShowFields
+        {
+            get
+            {
+                List<string> showFields = new List<string>();
+
+                if (SubMiscShowOrderNumber == true) { showFields.Add("PoSubOrderNumber"); }
+                if (SubMiscShowICode == true) { showFields.Add("ICode"); }
+                if (SubMiscShowDescription == true) { showFields.Add("Description"); }
+                if ((!(SubMiscShowICode == true)) && (!(SubMiscShowDescription == true))) { showFields.Add("ICode"); }
+                showFields.Add("QuantityOrdered");
+                if (SubMiscShowFromDate == true) { showFields.Add("FromDate"); }
+                //if (SubMiscShowFromTime == true) { showFields.Add("FromTime"); }
+                if (SubMiscShowToDate == true) { showFields.Add("ToDate"); }
+                //if (SubMiscShowToTime == true) { showFields.Add("ToTime"); }
+                if (SubMiscShowBillablePeriods == true) { showFields.Add("BillablePeriods"); }
+                if (SubMiscShowUnit == true) { showFields.Add("Unit"); }
+                if (SubMiscShowRate == true) { showFields.Add("Rate"); }
+                if (SubMiscShowDiscountPercent == true) { showFields.Add("DiscountPercent"); }
+                if (SubMiscShowUnitDiscountAmount == true) { showFields.Add("UnitDiscountAmount"); }
+                if (SubMiscShowUnitExtended == true) { showFields.Add("UnitExtended"); }
+                if (SubMiscShowWeeklyDiscountAmount == true) { showFields.Add("WeeklyDiscountAmount"); }
+                if (SubMiscShowWeeklyExtended == true) { showFields.Add("WeeklyExtended"); }
+                if (SubMiscShowMonthlyDiscountAmount == true) { showFields.Add("MonthlyDiscountAmount"); }
+                if (SubMiscShowMonthlyExtended == true) { showFields.Add("MonthlyExtended"); }
+                if (SubMiscShowPeriodDiscountAmount == true) { showFields.Add("PeriodDiscountAmount"); }
+                if (SubMiscShowPeriodExtended == true) { showFields.Add("PeriodExtended"); }
+                if (SubMiscShowTaxable == true) { showFields.Add("Taxable"); }
+                if (SubMiscShowWarehouse == true) { showFields.Add("Warehouse"); }
+                if (SubMiscShowNotes == true) { showFields.Add("Notes"); }
+
+
+                return showFields;
+            }
+            set { }
+        }
+
+
+
+        [FwBusinessLogicField(isReadOnly: true)]
+        public List<string> SubLaborShowFields
+        {
+            get
+            {
+                List<string> showFields = new List<string>();
+
+                if (SubLaborShowOrderNumber == true) { showFields.Add("PoSubOrderNumber"); }
+                if (SubLaborShowICode == true) { showFields.Add("ICode"); }
+                if (SubLaborShowDescription == true) { showFields.Add("Description"); }
+                if ((!(SubLaborShowICode == true)) && (!(SubLaborShowDescription == true))) { showFields.Add("ICode"); }
+                showFields.Add("QuantityOrdered");
+                if (SubLaborShowFromDate == true) { showFields.Add("FromDate"); }
+                if (SubLaborShowFromTime == true) { showFields.Add("FromTime"); }
+                if (SubLaborShowToDate == true) { showFields.Add("ToDate"); }
+                if (SubLaborShowToTime == true) { showFields.Add("ToTime"); }
+                //if (SubLaborShowHours == true)
+                if (SubLaborShowBillablePeriods == true) { showFields.Add("BillablePeriods"); }
+                if (SubLaborShowUnit == true) { showFields.Add("Unit"); }
+                if (SubLaborShowRate == true) { showFields.Add("Rate"); }
+                if (SubLaborShowDiscountPercent == true) { showFields.Add("DiscountPercent"); }
+                if (SubLaborShowUnitDiscountAmount == true) { showFields.Add("UnitDiscountAmount"); }
+                if (SubLaborShowUnitExtended == true) { showFields.Add("UnitExtended"); }
+                if (SubLaborShowWeeklyDiscountAmount == true) { showFields.Add("WeeklyDiscountAmount"); }
+                if (SubLaborShowWeeklyExtended == true) { showFields.Add("WeeklyExtended"); }
+                if (SubLaborShowMonthlyDiscountAmount == true) { showFields.Add("MonthlyDiscountAmount"); }
+                if (SubLaborShowMonthlyExtended == true) { showFields.Add("MonthlyExtended"); }
+                if (SubLaborShowPeriodDiscountAmount == true) { showFields.Add("PeriodDiscountAmount"); }
+                if (SubLaborShowPeriodExtended == true) { showFields.Add("PeriodExtended"); }
+                if (SubLaborShowTaxable == true) { showFields.Add("Taxable"); }
+                if (SubLaborShowWarehouse == true) { showFields.Add("Warehouse"); }
+                if (SubLaborShowNotes == true) { showFields.Add("Notes"); }
+
+                return showFields;
+            }
+            set { }
+        }
+
 
         [FwBusinessLogicField(isReadOnly: true)]
         public List<string> PurchaseShowFields

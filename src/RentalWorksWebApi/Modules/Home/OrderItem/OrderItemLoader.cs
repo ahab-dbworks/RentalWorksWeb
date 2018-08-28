@@ -299,6 +299,15 @@ namespace WebApi.Modules.Home.OrderItem
         [FwSqlDataField(column: "mfgpartno", modeltype: FwDataTypes.Text)]
         public string ManufacturerPartNumber { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "poorderid", modeltype: FwDataTypes.Text)]
+        public string PoSubOrderId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "pomasteritemid", modeltype: FwDataTypes.Text)]
+        public string PoSubOrderItemId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "poorderno", modeltype: FwDataTypes.Text)]
+        public string PoSubOrderNumber { get; set; }
+        //------------------------------------------------------------------------------------ 
 
 
 
@@ -427,12 +436,6 @@ namespace WebApi.Modules.Home.OrderItem
         //[FwSqlDataField(column: "ldpoitemid", modeltype: FwDataTypes.Text)]
         //public string LdpoitemId { get; set; }
         ////------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "poorderid", modeltype: FwDataTypes.Text)]
-        //public string PoorderId { get; set; }
-        ////------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "pomasteritemid", modeltype: FwDataTypes.Text)]
-        //public string PomasteritemId { get; set; }
-        ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "poid", modeltype: FwDataTypes.Text)]
         //public string PoId { get; set; }
         ////------------------------------------------------------------------------------------ 
@@ -480,9 +483,6 @@ namespace WebApi.Modules.Home.OrderItem
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "ldorderno", modeltype: FwDataTypes.Text)]
         //public string Ldorderno { get; set; }
-        ////------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "poorderno", modeltype: FwDataTypes.Text)]
-        //public string Poorderno { get; set; }
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "repairorderno", modeltype: FwDataTypes.Text)]
         //public string Repairorderno { get; set; }
@@ -795,6 +795,9 @@ namespace WebApi.Modules.Home.OrderItem
         //------------------------------------------------------------------------------------ 
         protected override void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequest request = null)
         {
+            bool summaryMode = false;
+            bool subs = false;
+
             useWithNoLock = false;
 
             if (string.IsNullOrEmpty(OrderId))
@@ -820,13 +823,16 @@ namespace WebApi.Modules.Home.OrderItem
             base.SetBaseSelectQuery(select, qry, customFields, request);
             select.Parse();
 
-            bool summaryMode = false;
             if ((request != null) && (request.uniqueids != null))
             {
                 IDictionary<string, object> uniqueIds = ((IDictionary<string, object>)request.uniqueids);
                 if (uniqueIds.ContainsKey("Summary"))
                 {
                     summaryMode = (bool)uniqueIds["Summary"];
+                }
+                if (uniqueIds.ContainsKey("Subs"))
+                {
+                    subs = (bool)uniqueIds["Subs"];
                 }
             }
             if (summaryMode)
@@ -842,6 +848,8 @@ namespace WebApi.Modules.Home.OrderItem
                 summaryWhere.Append(" )                        ");
                 select.AddWhere(summaryWhere.ToString());
             }
+
+            select.AddWhere("poorderid " + (subs?">":"=") + "''");
 
 
             addFilterToSelect("OrderId", "orderid", select, request);

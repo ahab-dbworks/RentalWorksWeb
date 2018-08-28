@@ -189,6 +189,14 @@ namespace WebApi.Modules.Home.OrderItem
 
         public string ManufacturerPartNumber { get { return orderItem.ManufacturerPartNumber; } set { orderItem.ManufacturerPartNumber = value; } }
 
+
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string PoSubOrderId { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string PoSubOrderItemId { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string PoSubOrderNumber { get; set; }
+
         //------------------------------------------------------------------------------------ 
 
         //[FwBusinessLogicField(isReadOnly: true)]
@@ -602,7 +610,7 @@ namespace WebApi.Modules.Home.OrderItem
                 OriginalParentId = oiOrig.ParentId;
                 OriginalQuantityOrdered = oiOrig.QuantityOrdered;
 
-                if (oiOrig.Locked.Value)
+                if (oiOrig.Locked.GetValueOrDefault(false))
                 {
                     Price = oiOrig.Price;
                     Price2 = oiOrig.Price2;

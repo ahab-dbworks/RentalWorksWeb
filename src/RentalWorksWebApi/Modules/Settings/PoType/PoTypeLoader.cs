@@ -27,6 +27,10 @@ namespace WebApi.Modules.Settings.PoType
         //------------------------------------------------------------------------------------ 
 
         public List<string> PurchaseShowFields { get; set; }
+        public List<string> SubRentalShowFields { get; set; }
+        public List<string> SubSaleShowFields { get; set; }
+        public List<string> SubMiscShowFields { get; set; }
+        public List<string> SubLaborShowFields { get; set; }
 
     }
 }
