@@ -6,7 +6,7 @@ $normal-text: 1em;
     margin: 130px 32px 96px 32px;
     /*margin: 48px 24px 48px 24px;*/
     /*size: auto;*/
-    size: portrait;
+    size: landscape;
 }
 
 html {
@@ -123,7 +123,7 @@ html.pdf {
 }
 
 
-.tblContractItems {
+#tblCustomerRevenue {
     width: 100%;
     border-collapse: collapse;
     margin: 20px 0 0 0;
@@ -152,7 +152,7 @@ html.pdf {
 
     thead {
         tr.columnheadings {
-            td {
+            th {
                 font-weight: bold;
                 padding: 5px;
                 white-space: nowrap;

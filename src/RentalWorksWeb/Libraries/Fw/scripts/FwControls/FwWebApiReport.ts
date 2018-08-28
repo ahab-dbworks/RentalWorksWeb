@@ -100,7 +100,7 @@ class FwWebApiReport {
                             message.authorizationHeader = authorizationHeader;
                             message.request = request;
                             win.postMessage(message, '*');
-                        }, 50);
+                        }, 1000);
                     }
                 } catch (ex) {
                     FwFunc.showError(ex);

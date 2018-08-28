@@ -1,0 +1,131 @@
+﻿<div class="header report-flexrow">
+  <div class="body report-flexrow" style="width:1500px;margin-top:40px;">
+    <br /><br />
+    <table class="tblCustomerRevenue">
+      <thead>
+        <tr class="columnheadings">
+          <td>
+            <div>Location</div>
+          </td>
+          <td>
+            <div>Department</div>
+          </td>
+          <td>
+            <div>Customer</div>
+          </td>
+          <td>
+            <div>Deal</div>
+          </td>
+          <td>
+            <div>Deal Type</div>
+          </td>
+          <td>
+            <div>Order No.</div>
+          </td>
+          <td>
+            <div>Inoice No.</div>
+          </td>
+          <td>
+            <div>Billing Start Date</div>
+          </td>
+          <td>
+            <div>Billing End Date</div>
+          </td>
+          <td>
+            <div>Agent</div>
+          </td>
+          <td>
+            <div>Rental</div>
+          </td>
+          <td>
+            <div>Sales</div>
+          </td>
+          <td>
+            <div>Facilities</div>
+          </td>
+          <td>
+            <div>Labor</div>
+          </td>
+          <td>
+            <div>Misc</div>
+          </td>
+          <td>
+            <div>Asset Sale</div>
+          </td>
+          <td>
+            <div>Parts</div>
+          </td>
+          <td>
+            <div>Tax</div>
+          </td>
+          <td>
+            <div>Total</div>
+          </td>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each this}}
+        <tr data-rowtype={{RowType}}>
+          <td>
+            <div class="row1"><span>{{OfficeLocation}}</span></div>
+          </td>
+          <td>
+            <div class="row1"><span>{{Department}}</span></div>
+          </td>
+          <td>
+            <div class="row1"><span>{{Customer}}</span></div>
+          </td>
+          <td>
+            <div class="row1"><span>{{Deal}}</span></div>
+          </td>
+          <td>
+            <div class="row1"><span>{{DealType}}</span></div>
+          </td>
+          <td>
+            <div class="row1"><span>{{OrderNumber}}</span></div>
+          </td>
+          <td>
+            <div class="row1"><span>{{InvoiceNumber}}</span></div>
+          </td>
+          <td>
+            <div class="row1"><span>{{BillingStart}}</span></div>
+          </td>
+          <td>
+            <div class="row1"><span>{{BillingEnd}}</span></div>
+          </td>
+          <td>
+            <div class="row1"><span>{{Agent}}</span></div>
+          </td>
+          <td>
+            <div class="row1"><span>{{Rental}}</span></div>
+          </td>
+          <td>
+            <div class="row1"><span>{{Sales}}</span></div>
+          </td>
+          <td>
+            <div class="row1"><span>{{Facilities}}</span></div>
+          </td>
+          <td>
+            <div class="row1"><span>{{Labor}}</span></div>
+          </td>
+          <td>
+            <div class="row1"><span>{{Misc}}</span></div>
+          </td>
+          <td>
+            <div class="row1"><span>{{AssetSale}}</span></div>
+          </td>
+          <td>
+            <div class="row1"><span>{{Parts}}</span></div>
+          </td>
+          <td>
+            <div class="row1"><span>{{Tax}}</span></div>
+          </td>
+          <td>
+            <div class="row1"><span>{{Total}}</span></div>
+          </td>
+        </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  </div>
+</div>
