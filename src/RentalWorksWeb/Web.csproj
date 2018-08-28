@@ -427,6 +427,7 @@
     <TypeScriptCompile Include="Source\Modules\Home\StagingCheckout\StagingCheckout.ts" />
     <TypeScriptCompile Include="Source\Modules\Reports\CreateInvoiceProcess\RwCreateInvoiceProcessReportController.ts" />
     <TypeScriptCompile Include="Source\Modules\Reports\CustomerRevenueByTypeReport\RwCustomerRevenueByTypeReportController.ts" />
+    <TypeScriptCompile Include="Source\Modules\Reports\BillingProgressReport\RwBillingProgressReportController.ts" />
     <TypeScriptCompile Include="Source\Modules\Reports\LateReturnDueBackReport\RwLateReturnDueBackReportController.ts" />
     <TypeScriptCompile Include="Source\Modules\Reports\SalesRepresentativeBilling\RwSalesRepresentativeBillingReportController.ts" />
     <TypeScriptCompile Include="Source\Modules\Reports\ProjectManagerBilling\RwProjectManagerBillingReportController.ts" />
@@ -437,7 +438,6 @@
     <TypeScriptCompile Include="Source\Modules\Settings\WorkWeek\WorkWeek.ts" />
     <TypeScriptCompile Include="Source\Modules\-BaseModules\OrderBase\OrderBase.ts" />
     <TypeScriptCompile Include="Source\Reports\CrewSignInReport\RwCrewSignInReportController.ts" />
-    <TypeScriptCompile Include="Source\Reports\BillingProgressReport\RwBillingProgressReportController.ts" />
     <TypeScriptCompile Include="Source\Reports\ARAgingReport\RwARAgingReportController.ts" />
     <TypeScriptCompile Include="Source\Reports\PrintOrder\RwPrintOrderController.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\CreatePickList\CreatePickList.ts" />
@@ -465,11 +465,6 @@
     <Content Include="Source\Reports\CrewSignInReport\FrontEnd.htm" />
     <Content Include="Source\Reports\CrewSignInReport\Header.htm" />
     <Content Include="Source\Reports\CrewSignInReport\StyleSheet.css" />
-    <Content Include="Source\Reports\BillingProgressReport\Body.htm" />
-    <Content Include="Source\Reports\BillingProgressReport\Footer.htm" />
-    <Content Include="Source\Reports\BillingProgressReport\FrontEnd.htm" />
-    <Content Include="Source\Reports\BillingProgressReport\Header.htm" />
-    <Content Include="Source\Reports\BillingProgressReport\StyleSheet.css" />
     <Content Include="Source\Reports\ARAgingReport\Body.htm" />
     <Content Include="Source\Reports\ARAgingReport\Footer.htm" />
     <Content Include="Source\Reports\ARAgingReport\FrontEnd.htm" />
@@ -1096,7 +1091,6 @@
     <Compile Include="Source\Modules\Administrator\Integration\Integration.cs" />
     <Compile Include="Source\Modules\Home\Contact\Contact.cs" />
     <Compile Include="Source\Reports\CrewSignInReport\CrewSignInReport.cs" />
-    <Compile Include="Source\Reports\BillingProgressReport\BillingProgressReport.cs" />
     <Compile Include="Source\Reports\ARAgingReport\ARAgingReport.cs" />
     <Compile Include="Source\Reports\ChargeProcessing\ChargeProcessing.cs" />
     <Compile Include="Source\Reports\CreditsOnAccount\CreditsOnAccount.cs" />

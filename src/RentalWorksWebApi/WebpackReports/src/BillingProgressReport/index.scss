@@ -1,0 +1,183 @@
+﻿$page-width: 768px;
+$line-height: 16px;
+$normal-text: 1em;
+
+@page {
+    /*margin: 130px 32px 96px 32px;*/
+    /*margin: 48px 24px 48px 24px;*/
+    /*size: auto;*/
+    size: landscape;
+}
+
+html {
+}
+
+body {
+    font-family: Arial, sans-serif;
+    font-size: 12px;
+    margin: 0;
+    padding: 0;
+}
+
+html.preview {
+    #pageno {
+        visibility: hidden;
+    }
+}
+
+html.pdf {
+    body {
+        /*margin: 130px 24px 96px 24px;*/
+    }
+}
+
+@media only screen {
+    .parameters {
+        display: block;
+    }
+}
+
+@media only print {
+    .parameters {
+        display: none;
+    }
+}
+
+@mixin flexfield($captionwidth) {
+    display: flex;
+    height: $line-height;
+    line-height: $line-height;
+    @content;
+
+    .caption {
+        flex: 0 0 $captionwidth;
+        height: $line-height;
+        line-height: $line-height;
+        font-size: $normal-text;
+        font-weight: bold;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .value {
+        flex: 1 1 0;
+        height: $line-height;
+        line-height: $line-height;
+        font-size: $normal-text;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+}
+
+.flexfield-50 {
+    @include flexfield(50px);
+}
+
+.flexfield-75 {
+    @include flexfield(75px);
+}
+
+.flexfield-85 {
+    @include flexfield(85px);
+}
+
+.flexfield-150 {
+    @include flexfield(150px);
+}
+
+.label {
+    line-height: $line-height;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: $normal-text;
+}
+
+.Header {
+    div {
+        flex: 1 0 627px;
+
+        div {
+            min-width: 33%;
+            flex: 1 1 0;
+            font-size: 13px;
+            white-space: nowrap;
+        }
+    }
+}
+
+.data {
+    flex: 1 0 768px;
+    border-collapse: collapse;
+    margin: 20px 0 0 0;
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+
+        thead {
+            th {
+                border-top: 2px solid #000000;
+                border-bottom: 2px solid #000000;
+                border-collapse: collapse;
+                font-weight: bold;
+                padding: 5px;
+                white-space: nowrap;
+            }
+        }
+
+        tbody {
+            tr[data-rowtype="detail"]:nth-child(odd) {
+                background-color: #DCDCDC;
+            }
+
+            tr[data-rowtype="Dealheader"] td {
+                padding-bottom: .5em;
+                font-weight: bold;
+                text-decoration: underline;
+            }
+
+            tr[data-rowtype="Dealfooter"]:not(.customerFooter) td.totals {
+                border-top: 2px solid black;
+            }
+
+            tr[data-rowtype="Dealfooter"] td {
+                font-weight: bold;
+            }
+
+            tr[data-rowtype="Dealfooter"] td[colspan="2"] {
+                text-align: right;
+            }
+
+            td {
+                padding: 2px 5px;
+                font-size: .9em;
+            }
+            /*td:after {
+                content: attr(data-value);
+                font-weight: bold;
+            }
+
+            td[data-value="0.00"]:after, td[data-value="0.00%"]:after {
+                content: "";
+            }*/
+            td.totals {
+                text-align: right;
+            }
+        }
+    }
+}
+
+#pageContainer {
+    #pageHeader {
+    }
+
+    #contract {
+    }
+
+    #pageFooter {
+        margin: $line-height 0 0 0;
+    }
+}

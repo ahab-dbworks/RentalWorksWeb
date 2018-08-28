@@ -1,0 +1,65 @@
+﻿<div class="Header">
+  <div>
+    <div style="text-align: left; font-weight: bold; float:left;">RENTALWORKS</div>
+    <div style="text-align: right; font-weight: bold; float:right;">4WALL ENTERTAINMENT</div>
+    <div style="text-align: center; font-weight: bold; margin:0 auto;">Billing Progress Report</div>
+  </div>
+  <div>
+    <div style="text-align: center; margin:0 auto;">As of {{ToDate}}</div>
+  </div>
+</div>
+<div class="data">
+  <table id="tbldata">
+    <thead>
+      <tr class="columnheadings">
+        <th>Customer / Deal</th>
+        <th>Order No.</th>
+        <th>Description</th>
+        <th>Status</th>
+        <th>Total</th>
+        <th>Billed</th>
+        <th>Remaining</th>
+        <th>% Billed</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#with Rows}}
+      {{#each this}}
+      <tr data-rowtype="{{RowType}}">
+        {{#ifEquals RowType "Dealheader"}}
+        <td colspan="8">{{Deal}}</td>
+        {{/ifEquals}}
+        {{#ifEquals RowType "detail"}}
+        <td>{{Customer}}</td>
+        <td>{{OrderNumber}}</td>
+        <td>{{OrderDescription}}</td>
+        <td>{{Status}}</td>
+        <td class="totals" data-value="{{OrderTotal}}">{{OrderTotal}}</td>
+        <td class="totals" data-value="{{Billed}}">{{Billed}}</td>
+        <td class="totals" data-value="{{Remaining}}">{{Remaining}}</td>
+        <td class="totals" data-value="{{BilledPercent}}">{{BilledPercent}}</td>
+        {{/ifEquals}}
+        {{#ifEquals RowType "Dealfooter"}}
+        <td colspan="2"></td>
+        <td colspan="2">Deal Totals:</td>
+        <td class="totals" data-value="{{OrderTotal}}">{{OrderTotal}}</td>
+        <td class="totals" data-value="{{Billed}}">{{Billed}}</td>
+        <td class="totals" data-value="{{Remaining}}">{{Remaining}}</td>
+        <td class="totals" data-value="{{BilledPercent}}">{{BilledPercent}}</td>
+        {{/ifEquals}}
+      </tr>
+      {{#ifEquals RowType "Dealfooter"}}
+      <tr class="customerFooter" data-rowtype="{{RowType}}">
+        <td colspan="2"></td>
+        <td colspan="2">Customer Totals:</td>
+        <td class="totals" data-value="{{OrderTotal}}">{{OrderTotal}}</td>
+        <td class="totals" data-value="{{Billed}}">{{Billed}}</td>
+        <td class="totals" data-value="{{Remaining}}">{{Remaining}}</td>
+        <td class="totals" data-value="{{BilledPercent}}">{{BilledPercent}}</td>
+      </tr>
+      {{/ifEquals}}
+      {{/each}}
+      {{/with}}
+    </tbody>
+  </table>
+</div>

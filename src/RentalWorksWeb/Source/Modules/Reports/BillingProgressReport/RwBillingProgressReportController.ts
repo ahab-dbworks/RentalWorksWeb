@@ -1,4 +1,11 @@
-﻿<div class="fwcontrol fwcontainer fwform fwreport billingprogressreport" data-control="FwContainer" data-type="form" data-version="1" data-caption="Billing Progress" data-rendermode="template" data-mode="" data-hasaudit="false" data-controller="RwBillingProgressReportController">
+﻿routes.push({
+    pattern: /^reports\/billinprogressreport/, action: function (match: RegExpExecArray) {
+        return RwBillingProgressReportController.getModuleScreen();
+    }
+});
+
+var templateBillingProgressFrontEnd = `
+<div class="fwcontrol fwcontainer fwform fwreport billingprogressreport" data-control="FwContainer" data-type="form" data-version="1" data-caption="Billing Progress" data-rendermode="template" data-mode="" data-hasaudit="false" data-controller="RwBillingProgressReportController">
   <div class="fwcontrol fwtabs" data-control="FwTabs" data-type="">
     <div class="tabs" style="margin-right:10px;">
       <div id="generaltab" class="tab" data-tabpageid="generaltabpage" data-caption="General"></div>
@@ -65,5 +72,84 @@
     </div>
   </div>
 </div>
+`;
+//----------------------------------------------------------------------------------------------
+class RwBillingProgressReport extends FwWebApiReport {
+    //----------------------------------------------------------------------------------------------
+    constructor() {
+        super('BillingProgressReport', 'api/v1/billingprogressreport', templateBillingProgressFrontEnd);
+        //this.reportOptions.HasDownloadExcel = true;
+    }
+    //----------------------------------------------------------------------------------------------
+    getModuleScreen() {
+        let screen: any = {};
+        screen.$view = FwModule.getModuleControl('Rw' + this.Module + 'Controller');
+        screen.viewModel = {};
+        screen.properties = {};
+
+        let $form = this.openForm();
+
+        screen.load = function () {
+            FwModule.openModuleTab($form, $form.attr('data-caption'), false, 'REPORT', true);
+        };
+        screen.unload = function () {
+        };
+        return screen;
+    }
+    //----------------------------------------------------------------------------------------------
+    openForm() {
+        let $form = this.getFrontEnd();
+        return $form;
+    }
+    //----------------------------------------------------------------------------------------------
+    onLoadForm($form) {
+        this.load($form, this.reportOptions);
+        var appOptions: any = program.getApplicationOptions();
+        var request: any = { method: "LoadForm" };
+
+        const location = JSON.parse(sessionStorage.getItem('location'));
+        FwFormField.setValue($form, 'div[data-datafield="OfficeLocationId"]', location.locationid, location.location);
 
 
+        const department = JSON.parse(sessionStorage.getItem('department'));
+        FwFormField.setValue($form, 'div[data-datafield="DepartmentId"]', department.departmentid, department.department);
+         
+        let today = FwFunc.getDate();
+        FwFormField.setValueByDataField($form, 'ToDate', today);
+
+        this.loadLists($form);
+    };
+    //----------------------------------------------------------------------------------------------
+    loadLists($form) {
+        FwFormField.loadItems($form.find('div[data-datafield="statuslist"]')
+            , [{ value: "CONFIRMED", text: "Confirmed", selected: "T" }
+                , { value: "HOLD", text: "Hold", selected: "T" }
+                , { value: "ACTIVE", text: "Active", selected: "T" }
+                , { value: "COMPLETE", text: "Complete", selected: "T" }
+                , { value: "CLOSED", text: "Closed", selected: "T" }]);
+    }
+    //----------------------------------------------------------------------------------------------
+    beforeValidateDeal($browse: any, $form: any, request: any) {
+        let customerId
+            , dealTypeId
+            , dealCsrId;
+
+        request.uniqueids = {};
+        customerId = FwFormField.getValueByDataField($form, 'CustomerId');
+        dealTypeId = FwFormField.getValueByDataField($form, 'DealTypeId');
+        dealCsrId = FwFormField.getValueByDataField($form, 'CsrId');
+
+        if (customerId) {
+            request.uniqueids.CustomerId = customerId;
+        }
+        if (dealTypeId) {
+            request.uniqueids.DealTypeId = dealTypeId;
+        }
+        if (dealCsrId) {
+            request.uniqueids.DealCsrId = dealCsrId;
+        }
+    };
+    //----------------------------------------------------------------------------------------------
+};
+
+var RwBillingProgressReportController: any = new RwBillingProgressReport();
