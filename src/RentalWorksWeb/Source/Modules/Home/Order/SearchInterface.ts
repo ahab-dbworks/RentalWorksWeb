@@ -1052,7 +1052,7 @@ class SearchInterface {
                 Quantity: quantity
             }
 
-            quantity != 0 ? element.addClass('lightBlue') : element.removeClass('lightBlue');
+            quantity != "0" ? element.addClass('lightBlue') : element.removeClass('lightBlue');
 
             FwAppData.apiMethod(true, 'POST', "api/v1/inventorysearch", accRequest, FwServices.defaultTimeout, function onSuccess(response) {
             }, null, null);
