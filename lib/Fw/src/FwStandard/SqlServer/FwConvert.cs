@@ -353,6 +353,12 @@ namespace FwStandard.SqlServer
         {
             Decimal dec;
 
+            //jh 08/28/2018
+            if (value is string)
+            {
+                value = value.ToString().Replace("(", "-").Replace(")", string.Empty);
+            }
+
             if ((value == null) || (value.ToString().Trim() == string.Empty))
             {
                 dec = 0.0m;
