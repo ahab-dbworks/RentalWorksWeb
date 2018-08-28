@@ -404,7 +404,7 @@ namespace FwStandard.SqlServer
             SqlForHtml = sqlForHtml.ToString().Replace(" ", "&nbsp;");
 
 
-            sql.Insert(0, "--" + Counter.ToString() + "\n");
+            sql.Insert(0, "----" + Counter.ToString() + "------------------------------------------\n");
 
             WriteToConsole(sql.ToString());
 
@@ -428,14 +428,13 @@ namespace FwStandard.SqlServer
         public void Stop()
         {
             StopTime = DateTime.Now;
-            //Console.WriteLine("--" + Counter.ToString() + " completed in " + GetExecutionTime());
             WriteToConsole("completed", true);
         }
         public void WriteToConsole(string str, bool includeDuration = false)
         {
             if (includeDuration)
             {
-                str = "--" + str + " in " + GetExecutionTime();
+                str = "----" + Counter.ToString() + " " + str + " in " + GetExecutionTime() + "------------------------------------------";
             }
             //need to do this differently, such as fw_isinternalserver() 
             if (HostMachineName.Equals("JUSTIN6"))
