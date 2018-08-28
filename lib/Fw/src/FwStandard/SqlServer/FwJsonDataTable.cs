@@ -331,33 +331,32 @@ namespace FwStandard.SqlServer
                     }
                     for (int sumcolno = 0; sumcolno < nameSumColumns.Length; sumcolno++)
                     {
-                        //justin 05/02/2018 (commented)
-                        //switch(Columns[indexSumColumns[sumcolno]].DataType)
-                        //{
-                        //    case FwJsonDataTableColumn.DataTypes.CurrencyString:
-                        //        row[indexSumColumns[sumcolno]] = FwConvert.ToCurrencyString(subtotals[sumcolno]);
-                        //        break;
-                        //    case FwJsonDataTableColumn.DataTypes.CurrencyStringNoDollarSign:
-                        //        row[indexSumColumns[sumcolno]] = FwConvert.ToCurrencyStringNoDollarSign(subtotals[sumcolno]);
-                        //        break;
-                        //    case FwJsonDataTableColumn.DataTypes.CurrencyStringNoDollarSignNoDecimalPlaces:
-                        //        row[indexSumColumns[sumcolno]] = FwConvert.ToCurrencyStringNoDollarSignNoDecimalPlaces(subtotals[sumcolno]);
-                        //        break;
-                        //    case FwJsonDataTableColumn.DataTypes.Decimal:
-                        //        row[indexSumColumns[sumcolno]] = subtotals[sumcolno];
-                        //        break;
-                        //    case FwJsonDataTableColumn.DataTypes.Integer:
-                        //        row[indexSumColumns[sumcolno]] = subtotals[sumcolno];
-                        //        break;
-                        //    case FwJsonDataTableColumn.DataTypes.Percentage:
-                        //        row[indexSumColumns[sumcolno]] = FwConvert.ToCurrencyStringNoDollarSign(subtotals[sumcolno]) + "%";
-                        //        break;
-                        //    default:
-                        //        row[indexSumColumns[sumcolno]] = subtotals[sumcolno];
-                        //        break;
+                        switch (Columns[indexSumColumns[sumcolno]].DataType)
+                        {
+                            case FwDataTypes.CurrencyString:
+                                row[indexSumColumns[sumcolno]] = FwConvert.ToCurrencyString(subtotals[sumcolno]);
+                                break;
+                            case FwDataTypes.CurrencyStringNoDollarSign:
+                                row[indexSumColumns[sumcolno]] = FwConvert.ToCurrencyStringNoDollarSign(subtotals[sumcolno]);
+                                break;
+                            case FwDataTypes.CurrencyStringNoDollarSignNoDecimalPlaces:
+                                row[indexSumColumns[sumcolno]] = FwConvert.ToCurrencyStringNoDollarSignNoDecimalPlaces(subtotals[sumcolno]);
+                                break;
+                            case FwDataTypes.Decimal:
+                                row[indexSumColumns[sumcolno]] = subtotals[sumcolno];
+                                break;
+                            case FwDataTypes.Integer:
+                                row[indexSumColumns[sumcolno]] = subtotals[sumcolno];
+                                break;
+                            case FwDataTypes.Percentage:
+                                row[indexSumColumns[sumcolno]] = FwConvert.ToCurrencyStringNoDollarSign(subtotals[sumcolno]) + "%";
+                                break;
+                            default:
+                                row[indexSumColumns[sumcolno]] = subtotals[sumcolno];
+                                break;
 
-                        //}
-                        row[indexSumColumns[sumcolno]] = subtotals[sumcolno];    //justin 05/02/2018 (uncommented)
+                        }
+                        //row[indexSumColumns[sumcolno]] = subtotals[sumcolno];    //justin 05/02/2018 (uncommented)
                         subtotals[sumcolno] = 0;
                     }
                     Rows.Insert(rowno + 1, row);
@@ -429,8 +428,36 @@ namespace FwStandard.SqlServer
                     row[indexRowTypeColumn] = newTotalRowType;
                     for (int sumcolno = 0; sumcolno < nameSumColumns.Length; sumcolno++)
                     {
-                        FormatColumn(this.ColumnNameByIndex[indexSumColumns[sumcolno]], Columns[indexSumColumns[sumcolno]].DataType);  //justin 05/02/2018
-                        row[indexSumColumns[sumcolno]] = totals[sumcolno];  //justin 05/02/2018 (uncommented)
+                        //FormatColumn(this.ColumnNameByIndex[indexSumColumns[sumcolno]], Columns[indexSumColumns[sumcolno]].DataType);  //justin 05/02/2018
+                        //row[indexSumColumns[sumcolno]] = totals[sumcolno];  //justin 05/02/2018 (uncommented)
+
+                        switch (Columns[indexSumColumns[sumcolno]].DataType)
+                        {
+                            case FwDataTypes.CurrencyString:
+                                row[indexSumColumns[sumcolno]] = FwConvert.ToCurrencyString(totals[sumcolno]);
+                                break;
+                            case FwDataTypes.CurrencyStringNoDollarSign:
+                                row[indexSumColumns[sumcolno]] = FwConvert.ToCurrencyStringNoDollarSign(totals[sumcolno]);
+                                break;
+                            case FwDataTypes.CurrencyStringNoDollarSignNoDecimalPlaces:
+                                row[indexSumColumns[sumcolno]] = FwConvert.ToCurrencyStringNoDollarSignNoDecimalPlaces(totals[sumcolno]);
+                                break;
+                            case FwDataTypes.Decimal:
+                                row[indexSumColumns[sumcolno]] = totals[sumcolno];
+                                break;
+                            case FwDataTypes.Integer:
+                                row[indexSumColumns[sumcolno]] = totals[sumcolno];
+                                break;
+                            case FwDataTypes.Percentage:
+                                row[indexSumColumns[sumcolno]] = FwConvert.ToCurrencyStringNoDollarSign(totals[sumcolno]) + "%";
+                                break;
+                            default:
+                                row[indexSumColumns[sumcolno]] = totals[sumcolno];
+                                break;
+
+                        }
+
+
                     }
                     Rows.Insert(rowno + 1, row);
                     break;
