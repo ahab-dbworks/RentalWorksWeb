@@ -188,7 +188,7 @@ namespace FwStandard.SqlServer
             return row;
         }
         //---------------------------------------------------------------------------------------------
-        public void InsertSubTotalRows(string nameGroupbyColumn, string nameRowTypeColumn, string[] nameSumColumns)
+        public void InsertSubTotalRows(string nameGroupbyColumn, string nameRowTypeColumn, string[] nameSumColumns, bool includeGroupColumnValueInHeader = true, bool includeGroupColumnValueInFooter = true, string totalFor = "Total for")
         {
             int indexGroupByColumn, indexRowTypeColumn, rowcount;
             string thisRowGroupByText, nextRowGroupByText, thisRowType, nextRowType, checkRowType;
@@ -226,7 +226,10 @@ namespace FwStandard.SqlServer
                     row[indexRowTypeColumn] = nameGroupbyColumn + "header";
                     if (Rows[rowno][indexGroupByColumn] != null)  //justin 05/02/2018
                     {
-                        row[indexGroupByColumn] = Rows[rowno][indexGroupByColumn].ToString();
+                        if (includeGroupColumnValueInHeader)
+                        {
+                            row[indexGroupByColumn] = Rows[rowno][indexGroupByColumn].ToString();
+                        }
                         Rows.Insert(rowno, row);
                         rowno++;
                         rowcount++;
@@ -322,6 +325,10 @@ namespace FwStandard.SqlServer
                     row = NewRow();
                     row[indexRowTypeColumn] = nameGroupbyColumn + "footer";
                     //row[indexGroupByColumn] = "Subtotal";
+                    if (includeGroupColumnValueInFooter)
+                    {
+                        row[indexGroupByColumn] = totalFor + " " + Rows[rowno][indexGroupByColumn].ToString(); //justin 08/27/2018
+                    }
                     for (int sumcolno = 0; sumcolno < nameSumColumns.Length; sumcolno++)
                     {
                         //justin 05/02/2018 (commented)
