@@ -1803,7 +1803,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"OrderId\": \"I00004XJ\",\n\t\"Code\": \"11430-00\",\n\t\"Quantity\": 2\n}"
+							"raw": "{\n\t\"OrderId\": \"I000058L\",\n\t\"xOrderItemId\": \"I00005EF\",\n\t\"Code\": \"00011-00\",\n\t\"Quantity\": -1\n}"
 						},
 						"url": {
 							"raw": "http://localhost:57949/api/v1/checkout/stageitem",
@@ -22813,6 +22813,76 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "Orders: Select All PO Worksheet Items",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"SessionId\": \"I0000718\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/subpurchaseorderitem/selectall",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"subpurchaseorderitem",
+								"selectall"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Orders: Select None PO Worksheet Items",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"SessionId\": \"I0000718\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/subpurchaseorderitem/selectnone",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"subpurchaseorderitem",
+								"selectnone"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
@@ -23047,7 +23117,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"ItemOrder\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": [],\n    \t\"uniqueids\": {\"OrderId\":\"I00004UD\", \"RecType\":\"RS\", \"Summary\": true}\n}"
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"ItemOrder\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": [],\n    \t\"uniqueids\": {\n    \t\t\"OrderId\":\"I00006XO\", \n    \t\t\"RecType\":\"R\",            \"RecTypeComment\": \"R=Rental, S=Sale, M=Miscellaneous, L=Labor, RS=RentalSale\",\n    \t\t\"Summary\": true,\n    \t\t\"Subs\": true,             \"SubsComment\": \"Send 'true' when requesting sub items of a Purchase Order (ie. Sub-Rental, or Sub-Sale)\"\n    \t}\n}\n\n"
 						},
 						"url": {
 							"raw": "http://localhost:57949/api/v1/orderitem/browse",
@@ -28753,7 +28823,7 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "http://localhost:57949/api/v1/potype/B005L3P1",
+							"raw": "http://localhost:57949/api/v1/potype/B005LUBA",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -28763,7 +28833,7 @@
 								"api",
 								"v1",
 								"potype",
-								"B005L3P1"
+								"B005LUBA"
 							]
 						}
 					},
@@ -32616,7 +32686,7 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "http://localhost:57949/api/v1/purchaseorder/I00005EL",
+							"raw": "http://localhost:57949/api/v1/purchaseorder/I00006XO",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -32626,7 +32696,7 @@
 								"api",
 								"v1",
 								"purchaseorder",
-								"I00005EL"
+								"I00006XO"
 							]
 						}
 					},
