@@ -252,7 +252,7 @@ namespace FwStandard.SqlServer
                         {
                             cellvalue = FwConvert.ToDecimal(cellvalueobj);
                         }
-                        else if ((cellvalueobj is string) && (decimal.TryParse(cellvalueobj.ToString().Replace("%", string.Empty), out cellvalue)))
+                        else if ((cellvalueobj is string) && (decimal.TryParse(cellvalueobj.ToString().Replace("%", string.Empty).Replace("(", "-").Replace(")", string.Empty), out cellvalue)))
                         {
                             // the TryParse already stored the value in cellvalue
                         }
