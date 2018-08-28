@@ -1,84 +1,57 @@
-﻿.body tbody tr[data-rowtype="totals"] div {
-    font-weight: bold;
+﻿tbody {
+    tr[data-rowtype="detail"]:nth-child(even) {
+        background-color: #DCDCDC;
+    }
+
+    tr[data-rowtype="Agentheader"] {
+        td[data-value="0"]:after {
+            content: "";
+        }
+    }
+
+    td:after {
+        content: attr(data-value);
+    }
+
 }
 
-tr[data-rowtype="Agentheader"] .row1 {
-    visibility:hidden;
-    background-color: white;
-}
-tr[data-rowtype="Agentheader"] td {
-    background-color: white;
-}
-/*tr[data-rowtype="Agentheader"] tr {
-    background-color: white;
-}*/
-tr[data-rowtype="Agentfooter"] .row1 {
-    background-color: white;
-}
-tr[data-rowtype="grandtotal"] .row1 {
-    background-color: white;
+body {
+    font-family: Arial, sans-serif;
+    font-size: 11px;
+    margin: 0;
+    padding: 0;
 }
 
-tbody tr:nth-child(even) {
-    background-color: #efefef;
+thead {
+    th {
+        border-top: 2px solid #000000;
+        border-bottom: 2px solid #000000;
+        border-collapse: collapse;
+        font-weight: bold;
+        padding: 5px;
+        white-space: nowrap;
+    }
 }
 
-.agent-header {
-    font-weight: bold;
-    text-align: left;
-    width: 200px;
-}
-.report-footer {
-    font-weight: bold;
-    text-align: left;
-    margin-left: -600px;
-    border-top: 1.5px solid black;
-}
+    .name-row {
+        font-weight: bold;
+        text-align: left;
+        width: 200px;
+        margin-top: 15px;
+    }
 
-.body thead td {
-    border-bottom: 1px solid black;
-    text-align: left;
-}
-table {
-    border-collapse: collapse;
-}
+    .total-row {
+        font-weight: bold;
+        text-align: right;
+        border-top: 1.5px solid black;
+        margin-top: 15px;
+    }
 
-.body thead td div {
-    font-size: 14px;
-    text-align: center;
-}
+    .detail-row {
+        text-align: right;
+    }
 
-.row1 {
-    font-size: 14px;
-    padding: 10px 0px 15px 3px;
-}
+   table {
+       border-collapse: collapse;
+   }
 
-.header > td > div {
-    font-weight: bold;
-    padding: 0px 0px 0px 15px;
-}
-
-.row2 {
-    padding: 0px 0px 0px 10px;
-    min-height: 16px;
-    text-align:left;
-}
-
-/*tbody tr td {border: 1px solid black;}*/
-tr td div {
-    padding: 5px 0px 5px 0px;
-    min-height: 16px;
-}
-
-
-.body tfoot tr {
-    border-top: 1px solid black;
-}
-
-.body tfoot td > div {
-    line-height: 16px;
-    vertical-align: middle;
-    font-size: 14px;
-    padding: 10px 0;
-    font-weight: bold;
-}

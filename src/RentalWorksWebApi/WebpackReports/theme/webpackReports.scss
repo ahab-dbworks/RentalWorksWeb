@@ -2,7 +2,7 @@
     display: flex;
     flex-wrap: nowrap;
     justify-content: space-between;
-    width: 1200px;
+    width: 1000px;
 }
 
 .rpt-flexrow > * {
@@ -17,24 +17,28 @@
 
 .rpt-title {
     align-self: center;
-    font-family: Arial;
-    font-size: 30px;
+    font-family: Arial, sans-serif;
+    font-size: 19px;
     font-weight: bold;
 }
 
 .rpt-header-date {
     align-self: center;
-    font-family: Arial;
-    font-size: 18px;
-    margin-top: 15px;
+    font-family: Arial, sans-serif;
+    font-size: 12px;
+    margin-top: 5px;
 }
 
 .rpt-header-right {
+    font-family: Arial, sans-serif;
     align-self: flex-end;
-    font-size: 20px
+    font-size: 12px;
+    font-weight: bold;
 }
 
 .rpt-header-left {
+    font-family: Arial, sans-serif;
     align-self: flex-start;
-    font-size: 20px
+    font-size: 12px;
+    font-weight: bold;
 }
