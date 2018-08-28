@@ -116,7 +116,8 @@ namespace WebApi.Modules.Home.Order
 
             if (GetMiscFieldAsBoolean("Staging", request).GetValueOrDefault(false))
             {
-                select.AddWhereIn("and", "status", RwConstants.ORDER_STATUS_CONFIRMED + "," + RwConstants.ORDER_STATUS_ACTIVE + "," + RwConstants.ORDER_STATUS_COMPLETE);
+                //select.AddWhereIn("and", "status", RwConstants.ORDER_STATUS_CONFIRMED + "," + RwConstants.ORDER_STATUS_ACTIVE + "," + RwConstants.ORDER_STATUS_COMPLETE);
+                select.AddWhereIn("and", "status", RwConstants.ORDER_STATUS_CONFIRMED + "," + RwConstants.ORDER_STATUS_ACTIVE);
 
                 string stagingWarehouseId = GetMiscFieldAsString("StagingWarehouseId", request);
                 if (!string.IsNullOrEmpty(stagingWarehouseId))
