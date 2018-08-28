@@ -30,10 +30,10 @@
       {{#each this}}
       <tr data-rowtype="{{RowType}}">
         {{#ifEquals RowType "Locationheader"}}
-        <td class="LocationHeader">{{Location}}</td>
+        <td class="LocationHeader" colspan="4">{{Location}}</td>
         {{/ifEquals}}
         {{#ifEquals RowType "GroupHeadingheader"}}
-        <td class="GroupHeadingHeader">{{GroupHeading}}</td>
+        <td class="GroupHeadingHeader" colspan="4">{{GroupHeading}}</td>
         {{/ifEquals}}
         {{#ifEquals RowType "detail"}}
         <td class="GLAccount">{{AccountNumber}}</td>
@@ -49,7 +49,7 @@
         {{/ifEquals}}
         {{#ifEquals RowType "Locationfooter"}}
         <td class="GLAccount"></td>
-        <td class="Totals">Totals:</td>
+        <td style="font-weight:bold; text-align:right;">Totals:</td>
         <td class="Debit totals" data-value="{{Debit}}"></td>
         <td class="Credit totals" data-value="{{Credit}}"></td>
         {{/ifEquals}}

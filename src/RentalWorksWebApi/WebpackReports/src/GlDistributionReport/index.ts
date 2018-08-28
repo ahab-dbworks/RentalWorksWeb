@@ -18,9 +18,14 @@ export class GLDistributionReport extends WebpackReport {
             request.uniqueids = {
                 FromDate: parameters.FromDate,
                 ToDate: parameters.ToDate,
-                LocationId: parameters.OfficeLocationId
             }
             request.orderby = 'Location,GroupHeadingOrder,AccountNumber,AccountDescription';
+            if (parameters.OfficeLocationId) {
+                request.uniqueids.OfficeLocationId = parameters.OfficeLocationId;
+            }
+            if (parameters.GlAccountId) {
+                request.uniqueids.GlAccountId = parameters.GlAccountId;
+            }
 
             let glDistributionPromise = Ajax.post<DataTable>(`${apiUrl}/api/v1/gldistributionreport/browse`, authorizationHeader, request)
                 .then((response: DataTable) => {
