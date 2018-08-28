@@ -163,6 +163,10 @@ html.pdf {
         }
 
         tbody {
+            tr[data-rowtype="detail"]:nth-child(odd) {
+                background-color: #DCDCDC;
+            }
+
             tr.caption {
                 display: block;
                 text-align: center;
@@ -173,6 +177,14 @@ html.pdf {
             td {
                 padding: 2px 5px;
                 font-size: .9em;
+            }
+
+            td:after {
+                content: attr(data-value);
+            }
+
+            td[data-value="0.00"]:after {
+                content: "";
             }
 
             .GLAccount {

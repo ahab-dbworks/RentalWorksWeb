@@ -5,8 +5,6 @@
     <div style="text-align: center; font-weight: bold; margin:0 auto;">G/L Distribution</div>
   </div>
   <div>
-    <div style="text-align: left; font-weight: bold; float:left;">Office: <span style="font-weight:normal;">{{LocationHeader}}</span></div>
-    <div style="text-align: right; font-weight: bold; float:right;">&#160;</div>
     <div style="text-align: center; margin:0 auto;">{{FromDate}} - {{ToDate}}</div>
   </div>
 </div>
@@ -40,20 +38,20 @@
         {{#ifEquals RowType "detail"}}
         <td class="GLAccount">{{AccountNumber}}</td>
         <td class="Description">{{AccountDescription}}</td>
-        <td class="Debit">{{Debit}}</td>
-        <td class="Credit">{{Credit}}</td>
+        <td class="Debit" data-value="{{Debit}}"></td>
+        <td class="Credit" data-value="{{Credit}}"></td>
         {{/ifEquals}}
         {{#ifEquals RowType "GroupHeadingfooter"}}
         <td class="GLAccount"></td>
         <td class="Description"></td>
-        <td class="Debit totals">{{Debit}}</td>
-        <td class="Credit totals">{{Credit}}</td>
+        <td class="Debit totals" data-value="{{Debit}}"></td>
+        <td class="Credit totals" data-value="{{Credit}}"></td>
         {{/ifEquals}}
         {{#ifEquals RowType "Locationfooter"}}
         <td class="GLAccount"></td>
         <td class="Totals">Totals:</td>
-        <td class="Debit totals">{{Debit}}</td>
-        <td class="Credit totals">{{Credit}}</td>
+        <td class="Debit totals" data-value="{{Debit}}"></td>
+        <td class="Credit totals" data-value="{{Credit}}"></td>
         {{/ifEquals}}
       </tr>
       {{/each}}
