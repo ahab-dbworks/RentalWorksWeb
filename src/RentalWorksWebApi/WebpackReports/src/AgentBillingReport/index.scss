@@ -43,21 +43,12 @@ thead {
 
 .total-row {
     font-weight: bold;
-    text-align: right;
     border-top: 1.5px solid black;
     padding-top: 10px;
-}
-
-.detail-row {
-    text-align: right;
 }
 
 @media print {
     body {
         margin: 20px 0px 0px 45px;
-
-        * {
-            -webkit-print-color-adjust: exact; // Allows background shading to render in pdf
-        }
     }
 }

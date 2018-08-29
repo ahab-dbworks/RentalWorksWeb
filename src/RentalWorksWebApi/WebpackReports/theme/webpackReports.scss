@@ -47,6 +47,16 @@ table {
     border-collapse: collapse;
 }
 
+// Type settings can be applied to both th and td on all reports
+.number {
+    text-align: right;
+}
+
+.text {
+    text-align: left;
+}
+
+// Settings for print or pdf
 @media print {
     body {
         //margin: 20px 0px 0px 45px;
