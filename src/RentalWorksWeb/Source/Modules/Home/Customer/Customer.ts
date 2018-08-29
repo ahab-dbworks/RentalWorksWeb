@@ -140,9 +140,8 @@ class Customer {
 
         this.events($form);
 
-
         return $form;
-    }
+    };
 
     openDealBrowse($form) {
         var $browse;

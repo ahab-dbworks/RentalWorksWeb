@@ -358,9 +358,6 @@ class RentalInventory extends InventoryBase {
         var $inventoryKitGrid: any;
         var $wardrobeInventoryColorGrid: any;
         var $wardrobeInventoryMaterialGrid: any;
-        let $submoduleAssetBrowse, classificationValue, trackedByValue;
-        classificationValue = FwFormField.getValueByDataField($form, 'Classification');
-        trackedByValue = FwFormField.getValueByDataField($form, 'TrackedBy');
 
         $itemLocationTaxGrid = $form.find('[data-name="ItemLocationTaxGrid"]');
         FwBrowse.search($itemLocationTaxGrid);
@@ -415,7 +412,6 @@ class RentalInventory extends InventoryBase {
         } else {
             FwFormField.disable($form.find('.subcategory'));
         }
-       
         this.addAssetTab($form);
     };
     //----------------------------------------------------------------------------------------------
@@ -446,16 +442,16 @@ class RentalInventory extends InventoryBase {
     };
     //----------------------------------------------------------------------------------------------
     openAssetBrowse($form: any) {
-        let $browse;
+        let $browse, inventoryId;
         $browse = AssetController.openBrowse();
+        inventoryId = FwFormField.getValueByDataField($form, 'InventoryId');
 
-        $browse.data('ondatabind', request => {
+        $browse.data('ondatabind', function (request) {
             request.ActiveView = AssetController.ActiveView;
             request.uniqueids = {
-                InventoryId: FwFormField.getValueByDataField($form, 'InventoryId')
+                InventoryId: inventoryId
             }
         });
-
         return $browse;
     };
     //----------------------------------------------------------------------------------------------

@@ -1,4 +1,4 @@
-routes.push({ pattern: /^module\/asset$/, action: function (match: RegExpExecArray) { return AssetController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/item$/, action: function (match: RegExpExecArray) { return AssetController.getModuleScreen(); } });
 
 class RwAsset {
     Module: string = 'Asset';

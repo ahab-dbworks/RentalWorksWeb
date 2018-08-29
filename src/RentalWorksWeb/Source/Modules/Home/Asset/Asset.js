@@ -1,4 +1,4 @@
-routes.push({ pattern: /^module\/asset$/, action: function (match) { return AssetController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/item$/, action: function (match) { return AssetController.getModuleScreen(); } });
 class RwAsset {
     constructor() {
         this.Module = 'Asset';

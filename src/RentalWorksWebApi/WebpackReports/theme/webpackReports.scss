@@ -42,6 +42,16 @@
     font-size: 12px;
     font-weight: bold;
 }
+
 table {
-    border-collapse:collapse;
+    border-collapse: collapse;
+}
+
+@media print {
+    body {
+        //margin: 20px 0px 0px 45px;
+        * {
+            -webkit-print-color-adjust: exact; // Allows background shading to render in pdf
+        }
+    }
 }
