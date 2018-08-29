@@ -1,11 +1,7 @@
 var FwApplication = (function () {
     function FwApplication() {
         this.screens = [];
-        this.audioMode = 'html5';
-        this.audioSuccessArray = [1200, 300];
-        this.audioErrorArray = [800, 200, 600, 200];
-        this.audioSuccess = new Audio('theme/fwaudio/success.mp3');
-        this.audioError = new Audio('theme/fwaudio/error.mp3');
+        this.setAudioMode('none');
         var $templates = jQuery('script[data-ajaxload="true"]');
         $templates.each(function () {
             if (jQuery(this).attr("src")) {
@@ -92,6 +88,22 @@ var FwApplication = (function () {
                     });
                 }
             }
+        }
+    };
+    FwApplication.prototype.setAudioMode = function (mode) {
+        switch (mode) {
+            case 'DTDevices':
+                this.audioMode = 'DTDevices';
+                this.audioSuccessArray = [1200, 300];
+                this.audioErrorArray = [800, 200, 600, 200];
+                break;
+            case 'html5':
+                this.audioMode = 'html5';
+                if (typeof this.audioSuccess === 'undefined') {
+                    this.audioSuccess = new Audio('theme/fwaudio/success2.wav');
+                    this.audioError = new Audio('theme/fwaudio/error2.wav');
+                }
+                break;
         }
     };
     FwApplication.prototype.playStatus = function (isSuccessful) {

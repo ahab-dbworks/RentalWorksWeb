@@ -1,13 +1,15 @@
 ﻿class FwApplication {
     name:  string;
     screens: any[] = [];
-    audioMode: string = 'html5';
-    audioSuccessArray: number[] = [1200, 300];
-    audioErrorArray: number[] = [800, 200, 600, 200];
-    audioSuccess: HTMLAudioElement = new Audio('theme/fwaudio/success.mp3');
-    audioError: HTMLAudioElement = new Audio('theme/fwaudio/error.mp3');
+    audioMode: string;
+    audioSuccessArray: number[];
+    audioErrorArray: number[];
+    audioSuccess: HTMLAudioElement;
+    audioError: HTMLAudioElement;
     //---------------------------------------------------------------------------------
     constructor() {
+        this.setAudioMode('none');
+
         // inline templates when debugging by ajaxing for the src url
         var $templates = jQuery('script[data-ajaxload="true"]');
         $templates.each(function () {
@@ -106,8 +108,25 @@
             }
         }
     }
+   //---------------------------------------------------------------------------------
+    setAudioMode(mode: 'none' | 'html5' | 'DTDevices'): void {
+        switch(mode) {
+            case 'DTDevices':
+                this.audioMode = 'DTDevices';
+                this.audioSuccessArray = [1200, 300];
+                this.audioErrorArray = [800, 200, 600, 200];
+                break;
+            case 'html5':
+                this.audioMode = 'html5';
+                if (typeof this.audioSuccess === 'undefined') {
+                    this.audioSuccess = new Audio('theme/fwaudio/success2.wav');
+                    this.audioError = new Audio('theme/fwaudio/error2.wav');
+                }
+                break;
+        }
+    }
     //---------------------------------------------------------------------------------
-    playStatus(isSuccessful: boolean) {
+    playStatus(isSuccessful: boolean): void {
         if (isSuccessful) {
             switch(this.audioMode) {
                 case 'DTDevices':

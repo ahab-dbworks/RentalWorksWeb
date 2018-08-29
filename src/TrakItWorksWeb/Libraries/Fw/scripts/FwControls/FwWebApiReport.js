@@ -247,6 +247,7 @@ class FwWebApiReport {
                             emailArray.push(email);
                         }
                         FwFormField.setValueByDataField($confirmation, 'to', emailArray.join('; '));
+                        FwFormField.setValueByDataField($confirmation, 'tousers', '', '');
                     });
                     $confirmation.find('.ccusers').data('onchange', function ($selectedRows) {
                         let emailArray = new Array();
@@ -256,6 +257,7 @@ class FwWebApiReport {
                             emailArray.push(email);
                         }
                         FwFormField.setValueByDataField($confirmation, 'cc', emailArray.join('; '));
+                        FwFormField.setValueByDataField($confirmation, 'ccusers', '', '');
                     });
                     FwFormField.setValueByDataField($confirmation, 'subject', FwTabs.getTabByElement($form).attr('data-caption'));
                     let $btnSend = FwConfirmation.addButton($confirmation, 'Send');
