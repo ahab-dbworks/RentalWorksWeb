@@ -1,4 +1,4 @@
-﻿$page-width: 768px;
+﻿$page-width: 1110px;
 $line-height: 16px;
 $normal-text: 1em;
 
@@ -15,8 +15,8 @@ html {
 body {
     font-family: Arial, sans-serif;
     font-size: 12px;
-    margin:0;
-    padding:0;
+    margin: 0;
+    padding: 0;
 }
 
 html.preview {
@@ -95,73 +95,110 @@ html.pdf {
     font-size: $normal-text;
 }
 
-.BillingStartDate {
-    text-align: center;
-    border-bottom: 1px solid #000000;
-    padding: 40px 0 0 0;
-}
+.Header {
+    div {
+        flex: 1 0 1110px;
 
-.IssuedTo {
-    .IssuedToCaption {
-        text-align: center;
-        border-bottom: 1px solid #000000;
-        font-size: $normal-text;
-        font-weight: bold;
-    }
-
-    .add1, .add2, .add3 {
-        line-height: $line-height;
-        font-size: $normal-text;
-    }
-
-    .phone {
-        margin: 20px 0 0 0;
-    }
-
-    .fax {
+        div {
+            min-width: 33%;
+            flex: 1 1 0;
+            font-size: 13px;
+            white-space: nowrap;
+        }
     }
 }
 
-
-#tblCustomerRevenue {
-    width: 100%;
+.tblCustomerRevenue {
+    flex: 1 0 1110px;
     border-collapse: collapse;
-    margin: 20px 0 0 0;
+    margin: 40px 0 0 0;
 
-    colgroup {
-        .ICode {
-            width: 60px;
-        }
+    table {
+        width: 100%;
+        border-collapse: collapse;
 
-        .Description {
-            width: auto;
-        }
-
-        .QuantityOrdered {
-            width: 75px;
-        }
-
-        .QuantityOut {
-            width: 75px;
-        }
-
-        .TotalOut {
-            width: 75px;
-        }
-    }
-
-    thead {
-        tr.columnheadings {
-            th {
-                font-weight: bold;
-                padding: 5px;
-                white-space: nowrap;
-                border-top: 1px solid #000000;
-                border-bottom: 1px solid #000000;
+        colgroup {
+            .GLAccount {
+                flex: 1 1 0;
             }
 
-            .ICode {
-                border-left: 1px solid #000000;
+            .Description {
+                flex: 1 1 0;
+            }
+
+            .Debit {
+                flex: 1 1 0;
+            }
+
+            .Credit {
+                flex: 1 1 0;
+            }
+        }
+
+        thead {
+            tr.columnheadings {
+                td {
+                    font-weight: bold;
+                    padding: 5px;
+                    white-space: nowrap;
+                    border-top: 1px solid #000000;
+                    border-bottom: 1px solid #000000;
+                }
+            }
+        }
+
+        tbody {
+            tr.caption {
+                display: block;
+                text-align: center;
+                font-size: 1.5em;
+                font-weight: bold;
+            }
+
+            td.OfficeLocationHeader {
+                padding-top: .8em;
+                padding-bottom: .8em;
+                font-weight: bold;
+                font-size: 1.1em;
+                text-decoration: underline;
+            }
+
+            td.DepartmentHeader {
+                padding-bottom: .8em;
+                font-weight: bold;
+                text-decoration: underline;
+                padding-left: 20px;
+            }
+
+            td.CustomerHeader {
+                padding-bottom: .8em;
+                font-weight: bold;
+                text-decoration: underline;
+                padding-left: 40px;
+            }
+
+            td.DealHeader {
+                padding-bottom: .8em;
+                font-weight: bold;
+                text-decoration: underline;
+                padding-left: 60px;
+            }
+
+            td.firstTd {
+                padding-left: 80px;
+            }
+
+            td.total {
+                text-align: right;
+            }
+
+            td {
+                padding: 2px 5px;
+                font-size: .9em;
+            }
+
+            .GLAccount {
+                white-space: pre;
                 text-align: left;
             }
 
@@ -169,74 +206,22 @@ html.pdf {
                 text-align: left;
             }
 
-            .QuantityOrdered {
+            .Debit {
                 text-align: right;
             }
 
-            .QuantityOut {
+            .Credit {
                 text-align: right;
-            }
-
-            .TotalOut {
-                text-align: right;
-            }
-        }
-
-        tr.caption {
-            text-align: center;
-            font-size: 1.5em;
-            font-weight: bold;
-        }
-    }
-
-    tbody {
-        td {
-            padding: 2px 5px;
-            font-size: .9em;
-        }
-
-        .ICode {
-            white-space: pre;
-            text-align: left;
-        }
-
-        .Description {
-            text-align: left;
-        }
-
-        .QuantityOrdered {
-            text-align: right;
-        }
-
-        .QuantityOut {
-            text-align: right;
-        }
-
-        .TotalOut {
-            text-align: right;
-        }
-
-        .Barcodes {
-            padding:0 0 0 50px;
-            .Barcodes-label {
-                font-weight:bold;
-            }
-        }
-
-        tr.C {
-            td {
-                font-weight: bold;
             }
         }
     }
 }
 
 .rentalItems {
-    
 }
 
 .salesItems {
-    page-break-before:always;
+    page-break-before: always;
 }
 
 @media screen {

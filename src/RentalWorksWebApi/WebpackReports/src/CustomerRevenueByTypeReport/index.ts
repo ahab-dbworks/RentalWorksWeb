@@ -42,7 +42,6 @@ export class CustomerRevenueByTypeReport extends WebpackReport {
 
                     customerReveneByType.PrintTime = moment().format('YYYY-MM-DD h:mm:ss A');
                     customerReveneByType.ContractTime = moment(customerReveneByType.ContractTime, 'h:mm a').format('h:mm a');
-                    this.renderHeaderHtml(customerReveneByType);
                     this.renderFooterHtml(customerReveneByType);
                     if (this.action === 'Preview' || this.action === 'PrintHtml') {
                         document.getElementById('pageHeader').innerHTML = this.headerHtml;
@@ -57,11 +56,6 @@ export class CustomerRevenueByTypeReport extends WebpackReport {
         } catch (ex) {
             this.onRenderReportFailed(ex);
         }
-    }
-
-    renderHeaderHtml(model: customerReveneByType): string {
-        this.headerHtml = hbHeader(model);
-        return this.headerHtml;
     }
 
     renderFooterHtml(model: customerReveneByType) : string {
