@@ -44,13 +44,13 @@ export class AgentBillingReport extends WebpackReport {
             let agentBillingPromise = Ajax.post<DataTable>(`${apiUrl}/api/v1/agentbillingreport/browse`, authorizationHeader, request)
                 .then((response: DataTable) => {
 
-                    agentBilling = DataTable.toObjectList(response); // converts res to javascript obj
+                    agentBilling = DataTable.toObjectList(response);
                     agentBilling.PrintTime = moment().format('YYYY-MM-DD h:mm:ss A');
                     agentBilling.FromDate = parameters.FromDate;
                     agentBilling.ToDate = parameters.ToDate;
                     agentBilling.Report = 'Agent Billing Report';
                     agentBilling.System = 'RENTALWORKS';
-                    agentBilling.Company = '4WALL ENTERTAINMENT'; // needs data from response
+                    agentBilling.Company = '4WALL ENTERTAINMENT';
                     this.renderFooterHtml(agentBilling);
                     if (this.action === 'Preview' || this.action === 'PrintHtml') {
                         document.getElementById('pageFooter').innerHTML = this.footerHtml;

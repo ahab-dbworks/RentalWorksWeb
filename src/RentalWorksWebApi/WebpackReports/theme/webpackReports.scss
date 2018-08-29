@@ -59,7 +59,8 @@ table {
 // Settings for print or pdf
 @media print {
     body {
-        //margin: 20px 0px 0px 45px;
+        margin: 20px 0px 0px 0px;
+
         * {
             -webkit-print-color-adjust: exact; // Allows background shading to render in pdf
         }
