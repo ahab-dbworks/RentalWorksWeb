@@ -192,6 +192,64 @@ class SubWorksheet {
                 FwFunc.showError(ex);
             }
         })
+
+        $form.find('.selectall').on('click', function (e) {
+            try {
+                var sessionRequest = {
+                    SessionId: me.SessionId
+                }
+                FwAppData.apiMethod(true, 'POST', "api/v1/subpurchaseorderitem/selectall", sessionRequest, FwServices.defaultTimeout, function onSuccess(response) {
+                    if (response.success) {
+                        try {
+                            var $subPurchaseOrderItemGridControl: any;
+                            $subPurchaseOrderItemGridControl = $form.find('[data-name="SubPurchaseOrderItemGrid"]');
+                            $subPurchaseOrderItemGridControl.data('ondatabind', function (request) {
+                                request.uniqueids = {
+                                    SessionId: me.SessionId
+                                }
+                            })
+                            FwBrowse.search($subPurchaseOrderItemGridControl);
+                        }
+                        catch (ex) {
+                            FwFunc.showError(ex);
+                        }
+                    } else {
+
+                    }
+                }, null, $form);
+            } catch (ex) {
+                FwFunc.showError(ex);
+            }
+        })
+
+        $form.find('.selectnone').on('click', function (e) {
+            try {
+                var sessionRequest = {
+                    SessionId: me.SessionId
+                }
+                FwAppData.apiMethod(true, 'POST', "api/v1/subpurchaseorderitem/selectnone", sessionRequest, FwServices.defaultTimeout, function onSuccess(response) {
+                    if (response.success) {
+                        try {
+                            var $subPurchaseOrderItemGridControl: any;
+                            $subPurchaseOrderItemGridControl = $form.find('[data-name="SubPurchaseOrderItemGrid"]');
+                            $subPurchaseOrderItemGridControl.data('ondatabind', function (request) {
+                                request.uniqueids = {
+                                    SessionId: me.SessionId
+                                }
+                            })
+                            FwBrowse.search($subPurchaseOrderItemGridControl);
+                        }
+                        catch (ex) {
+                            FwFunc.showError(ex);
+                        }
+                    } else {
+
+                    }
+                }, null, $form);
+            } catch (ex) {
+                FwFunc.showError(ex);
+            }
+        })
         
         return $form;
     }
