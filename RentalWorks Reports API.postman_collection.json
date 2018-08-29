@@ -46,6 +46,46 @@
 			]
 		},
 		{
+			"name": "A/R Aging Report",
+			"item": [
+				{
+					"name": "A/R Aging Report: Browse",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"Description\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": [],\n    \t\"uniqueids\": {\n    \t\t\"AsOfDate\": \"08/29/2018\",\n    \t\t\"OfficeLocationId\": \"B001WH00\",\n    \t\t\"CustomerId\": \"B003ON2L\",\n    \t\t\"DealCsrId\": \"B0028HI1\",\n    \t\t\"DealId\": \"B003ON2O\"\n    \t}\n}"
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/aragingreport/browse",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"aragingreport",
+								"browse"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
 			"name": "Billing Progress Report",
 			"item": [
 				{
@@ -144,7 +184,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": [],\n    \t\"uniqueids\": {\n    \t\t\"FromDate\": \"01/01/2017\",\n    \t\t\"ToDate\": \"03/01/2018\",\n    \t\t\"DateType\": \"invoicedate\",    \"CommentDateType\": \"invoicedate or billingstart\",\n    \t\t\"LocationId\": \"F001QFKT\",\n    \t\t\"DepartmentId\": \"F001LQRZ\",\n    \t\t\"CustomerId\": \"B003KOGA\",\n    \t\t\"DealId\": \"B003KRJ9\",\n    \t\t\"OrderTypeId\": \"\"\n    \t}\n}"
+							"raw": "{\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": [],\n    \t\"uniqueids\": {\n    \t\t\"FromDate\": \"01/01/2018\",\n    \t\t\"ToDate\": \"03/01/2018\",\n    \t\t\"DateType\": \"invoicedate\",    \"CommentDateType\": \"invoicedate or billingstart\",\n    \t\t\"LocationId\": \"F001QFKT\",\n    \t\t\"DepartmentId\": \"F001LQRZ\",\n    \t\t\"CustomerId\": \"B003KOGA\",\n    \t\t\"DealId\": \"B003KRJ9\",\n    \t\t\"OrderTypeId\": \"\"\n    \t}\n}"
 						},
 						"url": {
 							"raw": "http://localhost:57949/api/v1/customerrevenuebytypereport/browse",
