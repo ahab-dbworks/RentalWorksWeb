@@ -56,11 +56,6 @@ namespace WebApi.Modules.Reports.BillingProgressReport
                 BillingProgressReportLogic l = new BillingProgressReportLogic();
                 l.SetDependencies(this.AppConfig, this.UserSession);
                 FwJsonDataTable dt = await l.BrowseAsync(browseRequest);
-
-                string[] totalFields = new string[] { "OrderTotal", "Billed", "Remaining" };
-                dt.InsertSubTotalRows("Deal", "RowType", totalFields);
-                dt.InsertTotalRow("RowType", "detail", "grandtotal", totalFields);
-
                 return new OkObjectResult(dt);
             }
             catch (Exception ex)

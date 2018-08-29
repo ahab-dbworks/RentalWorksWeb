@@ -17,9 +17,7 @@ export class BillingProgressReport extends WebpackReport {
             let request = new BrowseRequest();
             request.uniqueids = {
                 AsOfDate: parameters.ToDate,
-                IncludeCredits: true
             }
-            request.orderby = 'Description';
             if (parameters.OfficeLocationId) {
                 request.uniqueids.OfficeLocationId = parameters.OfficeLocationId;
             }
@@ -27,10 +25,10 @@ export class BillingProgressReport extends WebpackReport {
                 request.uniqueids.AgentId = parameters.AgentId;
             }
             if (parameters.CreditInvoices) {
-                request.uniqueids.CreditInvoices = parameters.CreditInvoices;
+                request.uniqueids.IncludeCreditInvoices = parameters.CreditInvoices;
             }
             if (parameters.CsrId) {
-                request.uniqueids.CsrId = parameters.CsrId;
+                request.uniqueids.DealCsrId = parameters.CsrId;
             }
             if (parameters.CustomerId) {
                 request.uniqueids.CustomerId = parameters.CustomerId;
@@ -45,7 +43,7 @@ export class BillingProgressReport extends WebpackReport {
                 request.uniqueids.DepartmentId = parameters.DepartmentId;
             }
             if (parameters.ExcludeOrders) {
-                request.uniqueids.ExcludeOrders = parameters.ExcludeOrders;
+                request.uniqueids.ExcludeOrdersBilled100 = parameters.ExcludeOrders;
             }
             if (parameters.statuslist) {
                 request.uniqueids.statuslist = parameters.statuslist;

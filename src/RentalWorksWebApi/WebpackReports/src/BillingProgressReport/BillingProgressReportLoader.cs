@@ -59,7 +59,20 @@ namespace WebApi.Modules.Reports.BillingProgressReport
             FwJsonDataTable dt = null;
             DateTime asOfDate = DateTime.Today;
             string locationId = "";
+            string departmentId = "";
+            string dealCsrId = "";
+            string customerId = "";
+            string dealTypeId = "";
+            string dealId = "";
+            string agentId = "";
+            bool includeConfirmed = false;
+            bool includeHold = false;
+            bool includeActive = false;
+            bool includeComplete = false;
+            bool includeClosed = false;
             bool includeCredits = false;
+            bool excludeBilled100 = false;
+            dynamic statusList = null;
 
             if (request != null)
             {
@@ -70,14 +83,70 @@ namespace WebApi.Modules.Reports.BillingProgressReport
                     {
                         asOfDate = FwConvert.ToDateTime(uniqueIds["AsOfDate"].ToString());
                     }
-                    if (uniqueIds.ContainsKey("LocationId"))
+                    if (uniqueIds.ContainsKey("OfficeLocationId"))
                     {
-                        locationId = uniqueIds["LocationId"].ToString();
+                        locationId = uniqueIds["OfficeLocationId"].ToString();
                     }
-                    if (uniqueIds.ContainsKey("IncludeCredits"))
+                    if (uniqueIds.ContainsKey("DepartmentId"))
                     {
-                        includeCredits = FwConvert.ToBoolean(uniqueIds["IncludeCredits"].ToString());
+                        departmentId = uniqueIds["DepartmentId"].ToString();
                     }
+                    if (uniqueIds.ContainsKey("CustomerId"))
+                    {
+                        customerId = uniqueIds["CustomerId"].ToString();
+                    }
+                    if (uniqueIds.ContainsKey("DealId"))
+                    {
+                        dealId = uniqueIds["DealId"].ToString();
+                    }
+                    if (uniqueIds.ContainsKey("DealTypeId"))
+                    {
+                        dealTypeId = uniqueIds["DealTypeId"].ToString();
+                    }
+                    if (uniqueIds.ContainsKey("CsrId"))
+                    {
+                        dealCsrId = uniqueIds["CsrId"].ToString();
+                    }
+                    if (uniqueIds.ContainsKey("AgentId"))
+                    {
+                        agentId = uniqueIds["AgentId"].ToString();
+                    }
+                    if (uniqueIds.ContainsKey("IncludeCreditInvoices"))
+                    {
+                        includeCredits = FwConvert.ToBoolean(uniqueIds["IncludeCreditInvoices"].ToString());
+                    }
+                    if (uniqueIds.ContainsKey("ExcludeOrdersBilled100"))
+                    {
+                        excludeBilled100 = FwConvert.ToBoolean(uniqueIds["ExcludeOrdersBilled100"].ToString());
+                    }
+                    if (uniqueIds.ContainsKey("statuslist"))
+                    {
+                        statusList = uniqueIds["statuslist"];
+                    }
+                }
+            }
+
+            foreach (dynamic parameter in statusList)
+            {
+                if (parameter.value == RwConstants.ORDER_STATUS_CONFIRMED)
+                {
+                    includeConfirmed = true;
+                }
+                if (parameter.value == RwConstants.ORDER_STATUS_HOLD)
+                {
+                    includeHold = true;
+                }
+                if (parameter.value == RwConstants.ORDER_STATUS_ACTIVE)
+                {
+                    includeActive = true;
+                }
+                if (parameter.value == RwConstants.ORDER_STATUS_COMPLETE)
+                {
+                    includeComplete = true;
+                }
+                if (parameter.value == RwConstants.ORDER_STATUS_CLOSED)
+                {
+                    includeClosed = true;
                 }
             }
 
@@ -86,8 +155,21 @@ namespace WebApi.Modules.Reports.BillingProgressReport
                 using (FwSqlCommand qry = new FwSqlCommand(conn, "getbillingprogressrpt", this.AppConfig.DatabaseSettings.QueryTimeout))
                 {
                     qry.AddParameter("@asofdate", SqlDbType.Date, ParameterDirection.Input, asOfDate);
+                    qry.AddParameter("@includeconfirmed", SqlDbType.Text, ParameterDirection.Input, includeConfirmed ? "T" : "F");
+                    qry.AddParameter("@includehold", SqlDbType.Text, ParameterDirection.Input, includeHold? "T" : "F");
+                    qry.AddParameter("@includeactive", SqlDbType.Text, ParameterDirection.Input, includeActive? "T" : "F");
+                    qry.AddParameter("@includecomplete", SqlDbType.Text, ParameterDirection.Input, includeComplete? "T" : "F");
+                    qry.AddParameter("@includeclosed", SqlDbType.Text, ParameterDirection.Input, includeClosed ? "T" : "F");
                     qry.AddParameter("@includecredits", SqlDbType.Text, ParameterDirection.Input, includeCredits ? "T" : "F");
+                    qry.AddParameter("@excludebilled100", SqlDbType.Text, ParameterDirection.Input, excludeBilled100 ? "T" : "F");
                     qry.AddParameter("@locationid", SqlDbType.Text, ParameterDirection.Input, locationId);
+                    qry.AddParameter("@departmentid", SqlDbType.Text, ParameterDirection.Input, departmentId);
+                    qry.AddParameter("@dealcsrid", SqlDbType.Text, ParameterDirection.Input, dealCsrId);
+                    qry.AddParameter("@customerid", SqlDbType.Text, ParameterDirection.Input, customerId);
+                    qry.AddParameter("@dealtypeid", SqlDbType.Text, ParameterDirection.Input, dealTypeId);
+                    qry.AddParameter("@dealid", SqlDbType.Text, ParameterDirection.Input, dealId);
+                    qry.AddParameter("@agentid", SqlDbType.Text, ParameterDirection.Input, agentId);
+
                     PropertyInfo[] propertyInfos = typeof(BillingProgressReportLoader).GetProperties();
                     foreach (PropertyInfo propertyInfo in propertyInfos)
                     {
@@ -100,6 +182,12 @@ namespace WebApi.Modules.Reports.BillingProgressReport
                     dt = await qry.QueryToFwJsonTableAsync(false, 0);
                 }
             }
+
+            string[] totalFields = new string[] { "OrderTotal", "Billed", "Remaining" };
+            dt.InsertSubTotalRows("Deal", "RowType", totalFields);
+            dt.InsertSubTotalRows("OfficeLocation", "RowType", totalFields);
+            dt.InsertTotalRow("RowType", "detail", "grandtotal", totalFields);
+
             return dt;
         }
         //------------------------------------------------------------------------------------

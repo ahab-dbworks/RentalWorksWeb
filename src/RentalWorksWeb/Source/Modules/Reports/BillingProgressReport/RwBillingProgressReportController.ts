@@ -117,6 +117,8 @@ class RwBillingProgressReport extends FwWebApiReport {
         let today = FwFunc.getDate();
         FwFormField.setValueByDataField($form, 'ToDate', today);
 
+        FwFormField.setValue($form, 'div[data-datafield="ExcludeOrders"]', 'T')
+
         this.loadLists($form);
     };
     //----------------------------------------------------------------------------------------------
