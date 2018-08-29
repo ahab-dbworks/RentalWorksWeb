@@ -38,7 +38,7 @@
         {{#ifEquals RowType "Agentheader"}}
         <td colspan="3" class="name-row">Agent: {{Agent}}</td>
         {{/ifEquals}}
-         {{#ifEquals RowType "detail"}}
+        {{#ifEquals RowType "detail"}}
         <td style="text-align:left;" data-value="{{InvoiceNumber}}"></td>
         <td class="detail-row" data-value="{{InvoiceDate}}"></td>
         <td class="detail-row" data-value="{{BillingStartDate}}"></td>
@@ -59,9 +59,7 @@
         <td class="empty"></td>
         <td class="empty"></td>
         <td class="empty"></td>
-        <td class="empty"></td>
-        <td class="empty"></td>
-        <td style="font-weight:bold;text-align:right;padding-top:10px">Totals for: &nbsp;{{Agent}}</td>
+        <td colspan="3" style="font-weight:bold;text-align:right;padding-top:11px">{{Agent }}</td>
         <td class="total-row" data-value="{{RentalTotal}}"></td>
         <td class="total-row" data-value="{{SalesTotal}}"></td>
         <td class="total-row" data-value="{{FacilitiesTotal}}"></td>
@@ -78,7 +76,7 @@
         <td class="empty"></td>
         <td class="empty"></td>
         <td class="empty"></td>
-        <td style="font-weight:bold;text-align:right;padding-top:10px">Grand Total:&nbsp;&nbsp;</td>
+        <td style="font-weight:bold;text-align:right;padding-top:11px">Grand Total:&nbsp;</td>
         <td class="total-row" data-value="{{RentalTotal}}"></td>
         <td class="total-row" data-value="{{SalesTotal}}"></td>
         <td class="total-row" data-value="{{FacilitiesTotal}}"></td>

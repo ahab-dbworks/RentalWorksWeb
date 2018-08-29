@@ -12,8 +12,9 @@
     td:after {
         content: attr(data-value);
     }
+
     td {
-        padding:3px;
+        padding: 3px;
     }
 }
 
@@ -37,7 +38,7 @@ thead {
 .name-row {
     font-weight: bold;
     padding-top: 15px;
-    font-size:14px;
+    font-size: 14px;
 }
 
 .total-row {
@@ -56,7 +57,7 @@ thead {
         margin: 20px 0px 0px 45px;
 
         * {
-            -webkit-print-color-adjust: exact;
+            -webkit-print-color-adjust: exact; // Allows background shading to render in pdf
         }
     }
 }

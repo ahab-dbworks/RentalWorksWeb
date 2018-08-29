@@ -15,12 +15,11 @@ export class AgentBillingReport extends WebpackReport {
         try {
             super.renderReport(apiUrl, authorizationHeader, parameters);
 
+            HandlebarsHelpers.registerHelpers();
             let request = new BrowseRequest();
             request.uniqueids = {};
        
-            HandlebarsHelpers.registerHelpers();
             let agentBilling: any = {};
-            console.log('parameters: ', parameters);
             request.orderby = 'Agent, OfficeLocation, Department, Deal, OrderNumber';
             request.uniqueids.DateType = parameters.DateType;
             request.uniqueids.ToDate = parameters.ToDate;
@@ -42,18 +41,16 @@ export class AgentBillingReport extends WebpackReport {
                 request.uniqueids.CustomerId = parameters.CustomerId
             }
             
-            console.log('request: ', request)
             let agentBillingPromise = Ajax.post<DataTable>(`${apiUrl}/api/v1/agentbillingreport/browse`, authorizationHeader, request)
                 .then((response: DataTable) => {
-                    agentBilling = DataTable.toObjectList(response); // converts res to javascript obj
-                    console.log('agentBilling: ', agentBilling); 
 
+                    agentBilling = DataTable.toObjectList(response); // converts res to javascript obj
                     agentBilling.PrintTime = moment().format('YYYY-MM-DD h:mm:ss A');
                     agentBilling.FromDate = parameters.FromDate;
                     agentBilling.ToDate = parameters.ToDate;
                     agentBilling.Report = 'Agent Billing Report';
                     agentBilling.System = 'RENTALWORKS';
-                    agentBilling.Company = '4WALL ENTERTAINMENT';
+                    agentBilling.Company = '4WALL ENTERTAINMENT'; // needs data from response
                     this.renderFooterHtml(agentBilling);
                     if (this.action === 'Preview' || this.action === 'PrintHtml') {
                         document.getElementById('pageFooter').innerHTML = this.footerHtml;
