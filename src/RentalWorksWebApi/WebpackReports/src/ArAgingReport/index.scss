@@ -138,9 +138,9 @@ html.pdf {
                 background-color: #DCDCDC;
             }
 
-            tr[data-rowtype="OfficeLocationheader"] td {
+            /*tr[data-rowtype="Dealheader"] td {
                 font-size: 1.1em;
-            }
+            }*/
 
             tr[data-rowtype="Dealheader"] td,
             tr[data-rowtype="OfficeLocationheader"] td {
@@ -152,9 +152,9 @@ html.pdf {
             tr[data-rowtype="OfficeLocationfooter"] td.totals {
                 border-top: 2px solid black;
             }
-            tr[data-rowtype="Dealfooter"]:not(.customerFooter) td.totals {
+            /*tr[data-rowtype="Dealfooter"]:not(.customerFooter) td.totals {
                 border-top: 2px solid black;
-            }
+            }*/
             tr[data-rowtype="Dealfooter"] td,
             tr[data-rowtype="OfficeLocationfooter"] td {
                 font-weight: bold;

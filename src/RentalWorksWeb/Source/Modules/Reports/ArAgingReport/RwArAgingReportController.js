@@ -1,4 +1,10 @@
-﻿<div class="fwcontrol fwcontainer fwform fwreport aragingeport" data-control="FwContainer" data-type="form" data-version="1" data-caption="A/R Aging" data-rendermode="template" data-mode="" data-hasaudit="false" data-controller="RwARAgingReportController">
+routes.push({
+    pattern: /^reports\/aragingreport/, action: function (match) {
+        return RwArAgingReportController.getModuleScreen();
+    }
+});
+var templateArAgingFrontEnd = `
+<div class="fwcontrol fwcontainer fwform fwreport aragingeport" data-control="FwContainer" data-type="form" data-version="1" data-caption="A/R Aging" data-rendermode="template" data-mode="" data-hasaudit="false" data-controller="RwARAgingReportController">
   <div class="fwcontrol fwtabs" data-control="FwTabs" data-type="">
     <div class="tabs" style="margin-right:10px;">
       <div id="generaltab" class="tab" data-tabpageid="generaltabpage" data-caption="General"></div>
@@ -44,3 +50,57 @@
 </div>
 
 
+
+`;
+class RwArAgingReport extends FwWebApiReport {
+    constructor() {
+        super('ArAgingReport', 'api/v1/aragingreport', templateArAgingFrontEnd);
+    }
+    getModuleScreen() {
+        let screen = {};
+        screen.$view = FwModule.getModuleControl('Rw' + this.Module + 'Controller');
+        screen.viewModel = {};
+        screen.properties = {};
+        let $form = this.openForm();
+        screen.load = function () {
+            FwModule.openModuleTab($form, $form.attr('data-caption'), false, 'REPORT', true);
+        };
+        screen.unload = function () {
+        };
+        return screen;
+    }
+    openForm() {
+        let $form = this.getFrontEnd();
+        return $form;
+    }
+    onLoadForm($form) {
+        this.load($form, this.reportOptions);
+        var appOptions = program.getApplicationOptions();
+        var request = { method: "LoadForm" };
+        const location = JSON.parse(sessionStorage.getItem('location'));
+        FwFormField.setValue($form, 'div[data-datafield="OfficeLocationId"]', location.locationid, location.location);
+        let today = FwFunc.getDate();
+        FwFormField.setValueByDataField($form, 'ToDate', today);
+    }
+    ;
+    beforeValidateDeal($browse, $form, request) {
+        let customerId, dealTypeId, dealCsrId;
+        request.uniqueids = {};
+        customerId = FwFormField.getValueByDataField($form, 'CustomerId');
+        dealTypeId = FwFormField.getValueByDataField($form, 'DealTypeId');
+        dealCsrId = FwFormField.getValueByDataField($form, 'CsrId');
+        if (customerId) {
+            request.uniqueids.CustomerId = customerId;
+        }
+        if (dealTypeId) {
+            request.uniqueids.DealTypeId = dealTypeId;
+        }
+        if (dealCsrId) {
+            request.uniqueids.DealCsrId = dealCsrId;
+        }
+    }
+    ;
+}
+;
+var RwArAgingReportController = new RwArAgingReport();
+//# sourceMappingURL=RwArAgingReportController.js.map

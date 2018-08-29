@@ -26,11 +26,11 @@
       {{#with Rows}}
       {{#each this}}
       <tr data-rowtype="{{RowType}}">
-        {{#ifEquals RowType "OfficeLocationheader"}}
-        <td colspan="8">{{OfficeLocation}}</td>
-        {{/ifEquals}}
         {{#ifEquals RowType "Dealheader"}}
         <td colspan="8">{{Deal}}</td>
+        {{/ifEquals}}
+        {{#ifEquals RowType "OfficeLocationheader"}}
+        <td colspan="8">{{OfficeLocation}}</td>
         {{/ifEquals}}
         {{#ifEquals RowType "detail"}}
         <td>{{Customer}}</td>
