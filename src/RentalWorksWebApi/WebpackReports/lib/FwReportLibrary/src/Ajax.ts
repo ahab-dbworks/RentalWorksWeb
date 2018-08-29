@@ -1,7 +1,8 @@
 ﻿export class Ajax {
-    static logError(message: any, err: any) {
+    static logError(message: string, err: string) {
         //console.log(message, err.message);
-        document.write(err);
+        document.write(`<div>${message}</div>`);
+        document.write(`<div>${err}</div>`);
     }
 
     static get<T>(url: string, authorizationHeader: string): Promise<T> {
@@ -14,12 +15,12 @@
                     resolve(JSON.parse(req.response));
                 }
                 else {
+                    Ajax.logError(`GET: ${url}`, req.responseText);
                     reject(Error(req.statusText));
-                    //console.log(req.responseText);
-                    Ajax.logError(`An error occured while loading: ${url}`, req.responseText);
                 }
             };
             req.onerror = function () {
+                Ajax.logError(`GET: ${url}`, req.responseText);
                 reject(Error("Network Error"));
             };
             req.send();
@@ -37,11 +38,12 @@
                     resolve(JSON.parse(req.response));
                 }
                 else {
+                    Ajax.logError(`POST: ${url}`, req.responseText);
                     reject(Error(req.statusText));
-                    console.log(req.responseText);
                 }
             };
             req.onerror = function () {
+                Ajax.logError(`POST: ${url}`, req.responseText);
                 reject(Error("Network Error"));
             };
             req.send(JSON.stringify(data));
