@@ -797,6 +797,8 @@ class OrderBase {
             case 'M':
                 rateType = 'Monthly';
                 break;
+            default:
+                rateType = 'Period';
         }
         const extendedColumn = $form.find('.' + gridType + 'grid [data-browsedatafield="' + rateType + 'Extended"]');
         const discountColumn = $form.find('.' + gridType + 'grid [data-browsedatafield="' + rateType + 'DiscountAmount"]');
