@@ -22,10 +22,10 @@ namespace WebApi.Modules.Home.Order
         public string ContactId;
         public string RateType;
         public string BillingCycleId;
-        public DateTime RequiredDate;
+        public DateTime? RequiredDate;
         public string RequiredTime;
-        public DateTime FromDate;
-        public DateTime ToDate;
+        public DateTime? FromDate;
+        public DateTime? ToDate;
         public string DeliveryId;
         public bool? AdjustContractDates;
     }
@@ -346,11 +346,6 @@ namespace WebApi.Modules.Home.Order
                 {
                     response.success = false;
                     response.msg = "From Date is required.";
-                }
-                else if (request.ToDate == null)
-                {
-                    response.success = false;
-                    response.msg = "To Date is required.";
                 }
                 else
                 {
