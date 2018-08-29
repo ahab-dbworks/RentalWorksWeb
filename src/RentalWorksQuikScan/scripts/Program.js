@@ -84,6 +84,7 @@ var Program = (function (_super) {
                     DTDevices.barcodeSetScanBeep(true, [500, 50]);
                     DTDevices.startListening();
                     DTDevices.registerListener('barcodeData', 'barcodeData_applicationjs', function (barcode, barcodeType) {
+                        program.setAudioMode('DTDevices');
                         me.onBarcodeData(barcode);
                     });
                     if (typeof localStorage.getItem('barcodeScanMode') === 'undefined') {
@@ -91,6 +92,12 @@ var Program = (function (_super) {
                     }
                     DTDevices.barcodeSetScanMode(localStorage.getItem('barcodeScanMode'));
                     DTDevices.registerListener('connectionState', 'connectionState_applicationjs', function (connectionState) {
+                        if (connectionState === 'CONNECTED') {
+                            program.setScanMode('DTDevices');
+                        }
+                        else {
+                            program.setScanMode('html5');
+                        }
                         me.setDeviceConnectionState(connectionState);
                     });
                     me.updateConnectionState();
@@ -105,6 +112,7 @@ var Program = (function (_super) {
                     });
                     TslReader.registerListener('deviceDisconnected', 'deviceDisconnected_applicationjs', function () {
                         RwRFID.isConnected = false;
+                        program.setScanMode('html5');
                     });
                     TslReader.connectDevice(function connectDeviceSuccess(isConnected) {
                         RwRFID.isConnected = isConnected;

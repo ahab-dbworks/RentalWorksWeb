@@ -1,4 +1,4 @@
-var program;
+var program: Program;
 //---------------------------------------------------------------------------------
 class Program extends FwApplication {
     activeTextBox:      string;
@@ -82,7 +82,8 @@ class Program extends FwApplication {
                 if (typeof DTDevices === 'object') {
                     DTDevices.barcodeSetScanBeep(true, [500,50]);
                     DTDevices.startListening();
-                    DTDevices.registerListener('barcodeData', 'barcodeData_applicationjs', function(barcode, barcodeType) {
+                    DTDevices.registerListener('barcodeData', 'barcodeData_applicationjs', function (barcode, barcodeType) {
+                        program.setAudioMode('DTDevices');
                         me.onBarcodeData(barcode);
                     });
                     if (typeof localStorage.getItem('barcodeScanMode') === 'undefined') {
@@ -91,7 +92,12 @@ class Program extends FwApplication {
                     DTDevices.barcodeSetScanMode(localStorage.getItem('barcodeScanMode'));
 
                     //set the connection state when it changes
-                    DTDevices.registerListener('connectionState', 'connectionState_applicationjs', function(connectionState) {
+                    DTDevices.registerListener('connectionState', 'connectionState_applicationjs', function (connectionState) {
+                        if (connectionState === 'CONNECTED') {
+                            program.setScanMode('DTDevices');
+                        } else {
+                            program.setScanMode('none');
+                        }
                         me.setDeviceConnectionState(connectionState);
                     });
                     // since the initial connection state event usually happens early in the page life cycle, we need to explicity query the value the first time
@@ -111,6 +117,7 @@ class Program extends FwApplication {
                     });
                     TslReader.registerListener('deviceDisconnected', 'deviceDisconnected_applicationjs', function() {
                         RwRFID.isConnected = false;
+                        program.setScanMode('none');
                     });
                     TslReader.connectDevice(function connectDeviceSuccess(isConnected) {
                         RwRFID.isConnected = isConnected;
