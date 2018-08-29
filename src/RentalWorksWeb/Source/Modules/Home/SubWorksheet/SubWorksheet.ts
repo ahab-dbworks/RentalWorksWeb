@@ -168,6 +168,7 @@ class SubWorksheet {
                             FwFormField.enable($form.find('.subworksheet'));
                             $form.find('div[data-grid="SubPurchaseOrderItemGrid"]').empty();
                             $form.find('.completeorder').hide();
+                            $form.find('.openworksheet').show();
                             $form.find('div[data-datafield="CreateNew"] input').prop('checked', true);
                             me.SessionId = '';
                             me.OrderId = '';
