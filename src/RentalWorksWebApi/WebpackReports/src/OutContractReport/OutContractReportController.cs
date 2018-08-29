@@ -30,6 +30,7 @@ namespace WebApi.Modules.Reports.ContractReport
             pdfOptions.DisplayHeaderFooter = true;
             return pdfOptions;
         }
+        //------------------------------------------------------------------------------------ 
         protected override string GetUniqueId(FwReportRenderRequest request)
         {
             return request.parameters["contractid"].ToString().TrimEnd();
