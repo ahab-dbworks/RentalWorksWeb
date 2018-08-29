@@ -16,22 +16,32 @@ export class AgentBillingReport extends WebpackReport {
             super.renderReport(apiUrl, authorizationHeader, parameters);
 
             let request = new BrowseRequest();
+            request.uniqueids = {};
        
             HandlebarsHelpers.registerHelpers();
             let agentBilling: any = {};
-            let today = new Date();
             console.log('parameters: ', parameters);
             request.orderby = 'Agent, OfficeLocation, Department, Deal, OrderNumber';
-            //request.uniqueids = {
-            //    FromDate: parameters.FromDate,
-            //    ToDate: parameters.ToDate,
-            //    LocationId: parameters.OfficeLocationId,
-            //    DepartmentId: parameters.DepartmentId,
-            //    DateType: parameters.DateType,
-            //    DealId: parameters.DealId,
-            //    ShowVendors: parameters.ShowVendors,
-            //    AgentId: parameters.UserId
-            //}
+            request.uniqueids.DateType = parameters.DateType;
+            request.uniqueids.ToDate = parameters.ToDate;
+            request.uniqueids.FromDate = parameters.FromDate;
+            request.uniqueids.ShowVendors = parameters.ShowVendors;
+            if (parameters.OfficeLocationId != '') {
+                request.uniqueids.LocationId = parameters.OfficeLocationId
+            }
+            if (parameters.DepartmentId != '') {
+                request.uniqueids.DepartmentId = parameters.DepartmentId
+            }
+            if (parameters.DealId != '') {
+                request.uniqueids.DealId = parameters.DealId
+            }
+            if (parameters.UserId != '') {
+                request.uniqueids.AgentId = parameters.UserId
+            }
+            if (parameters.CustomerId != '') {
+                request.uniqueids.CustomerId = parameters.CustomerId
+            }
+            
             console.log('request: ', request)
             let agentBillingPromise = Ajax.post<DataTable>(`${apiUrl}/api/v1/agentbillingreport/browse`, authorizationHeader, request)
                 .then((response: DataTable) => {

@@ -229,7 +229,6 @@ class StagingCheckout {
         FwAppData.apiMethod(true, 'POST', `api/v1/checkout/startcheckoutcontract`, requestBody, FwServices.defaultTimeout, response => {
             try {
                 this.contractId = response.ContractId;
-                console.log('contractId: ', this.contractId)
                 $checkedOutItemGridControl = $form.find('[data-name="CheckedOutItemGrid"]');
                 $checkedOutItemGridControl.data('ondatabind', request => {
                     request.uniqueids = {
@@ -315,7 +314,6 @@ class StagingCheckout {
                 FwNotification.renderNotification('WARNING', 'Select rows in Stage Items or use Bar Code input in order to perform this function.');
                 $form.find('.partial-contract-barcode input').focus();
             }
-console.log('request: ', request);
         }
     };
     //----------------------------------------------------------------------------------------------
@@ -374,7 +372,6 @@ console.log('request: ', request);
                 FwNotification.renderNotification('WARNING', 'Select rows in Contract Items or use Bar Code input in order to perform this function.');
                 $form.find('.partial-contract-barcode input').focus();
             }
-console.log('request: ', request);
         }
     };
     //----------------------------------------------------------------------------------------------

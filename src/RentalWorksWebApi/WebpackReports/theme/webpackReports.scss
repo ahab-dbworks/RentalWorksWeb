@@ -2,12 +2,12 @@
     display: flex;
     flex-wrap: nowrap;
     justify-content: space-between;
-    width: 1000px;
+    width: 1110px;
 }
 
 .rpt-flexrow > * {
     flex: 1 1 0;
-    min-width: 16em; /*max-width:24em;*/
+    min-width: 16em;
 }
 
 .rpt-flexcolumn {

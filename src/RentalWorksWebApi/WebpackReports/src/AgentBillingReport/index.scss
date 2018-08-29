@@ -12,6 +12,9 @@
     td:after {
         content: attr(data-value);
     }
+    td {
+        padding:3px;
+    }
 }
 
 body {
@@ -25,7 +28,6 @@ thead {
     th {
         border-top: 2px solid #000000;
         border-bottom: 2px solid #000000;
-        border-collapse: collapse;
         font-weight: bold;
         padding: 5px;
         white-space: nowrap;
@@ -34,18 +36,27 @@ thead {
 
 .name-row {
     font-weight: bold;
-    text-align: left;
-    width: 200px;
-    padding-top: 15px
+    padding-top: 15px;
+    font-size:14px;
 }
 
 .total-row {
     font-weight: bold;
     text-align: right;
     border-top: 1.5px solid black;
-    padding-top: 10px
+    padding-top: 10px;
 }
 
 .detail-row {
     text-align: right;
+}
+
+@media print {
+    body {
+        margin: 20px 0px 0px 45px;
+
+        * {
+            -webkit-print-color-adjust: exact;
+        }
+    }
 }
