@@ -49,8 +49,6 @@ export class BillingProgressReport extends WebpackReport {
                 request.uniqueids.statuslist = parameters.statuslist;
             }
 
-            console.log(request);
-
             let glDistributionPromise = Ajax.post<DataTable>(`${apiUrl}/api/v1/billingprogressreport/browse`, authorizationHeader, request)
                 .then((response: DataTable) => {
                     data.Rows = DataTable.toObjectList(response);
@@ -59,8 +57,6 @@ export class BillingProgressReport extends WebpackReport {
 
                     data.PrintTime = moment().format('YYYY-MM-DD h:mm:ss A');
                     data.ToDate = parameters.ToDate;
-                    console.log(data);
-                    
                     if (this.action === 'Preview' || this.action === 'PrintHtml') {
                         document.getElementById('pageFooter').innerHTML = this.footerHtml;
                     }

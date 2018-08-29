@@ -5,7 +5,7 @@
 });
 
 var templateArAgingFrontEnd = `
-<div class="fwcontrol fwcontainer fwform fwreport aragingeport" data-control="FwContainer" data-type="form" data-version="1" data-caption="A/R Aging" data-rendermode="template" data-mode="" data-hasaudit="false" data-controller="RwARAgingReportController">
+<div class="fwcontrol fwcontainer fwform fwreport aragingreport" data-control="FwContainer" data-type="form" data-version="1" data-caption="A/R Aging" data-rendermode="template" data-mode="" data-hasaudit="false" data-controller="RwArAgingReportController">
   <div class="fwcontrol fwtabs" data-control="FwTabs" data-type="">
     <div class="tabs" style="margin-right:10px;">
       <div id="generaltab" class="tab" data-tabpageid="generaltabpage" data-caption="General"></div>
@@ -49,9 +49,6 @@ var templateArAgingFrontEnd = `
     </div>
   </div>
 </div>
-
-
-
 `;
 //----------------------------------------------------------------------------------------------
 class RwArAgingReport extends FwWebApiReport {

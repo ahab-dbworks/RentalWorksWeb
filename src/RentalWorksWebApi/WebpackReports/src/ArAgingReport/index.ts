@@ -21,12 +21,6 @@ export class ArAgingReport extends WebpackReport {
             if (parameters.OfficeLocationId) {
                 request.uniqueids.OfficeLocationId = parameters.OfficeLocationId;
             }
-            if (parameters.AgentId) {
-                request.uniqueids.AgentId = parameters.AgentId;
-            }
-            if (parameters.CreditInvoices) {
-                request.uniqueids.IncludeCreditInvoices = parameters.CreditInvoices;
-            }
             if (parameters.CsrId) {
                 request.uniqueids.DealCsrId = parameters.CsrId;
             }
@@ -39,17 +33,8 @@ export class ArAgingReport extends WebpackReport {
             if (parameters.DealTypeId) {
                 request.uniqueids.DealTypeId = parameters.DealTypeId;
             }
-            if (parameters.DepartmentId) {
-                request.uniqueids.DepartmentId = parameters.DepartmentId;
-            }
-            if (parameters.ExcludeOrders) {
-                request.uniqueids.ExcludeOrdersBilled100 = parameters.ExcludeOrders;
-            }
-            if (parameters.statuslist) {
-                request.uniqueids.statuslist = parameters.statuslist;
-            }
             console.log(request)
-            let glDistributionPromise = Ajax.post<DataTable>(`${apiUrl}/api/v1/aragingreport/browse`, authorizationHeader, request)
+            let promise = Ajax.post<DataTable>(`${apiUrl}/api/v1/aragingreport/browse`, authorizationHeader, request)
                 .then((response: DataTable) => {
                     data.Rows = DataTable.toObjectList(response);
 
