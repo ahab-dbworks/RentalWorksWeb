@@ -184,8 +184,8 @@ namespace WebApi.Modules.Reports.BillingProgressReport
             }
 
             string[] totalFields = new string[] { "OrderTotal", "Billed", "Remaining" };
-            dt.InsertSubTotalRows("Deal", "RowType", totalFields);
             dt.InsertSubTotalRows("OfficeLocation", "RowType", totalFields);
+            dt.InsertSubTotalRows("Deal", "RowType", totalFields);
             dt.InsertTotalRow("RowType", "detail", "grandtotal", totalFields);
 
             return dt;
