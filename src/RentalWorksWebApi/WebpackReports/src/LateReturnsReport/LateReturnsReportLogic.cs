@@ -12,6 +12,8 @@ namespace WebApi.Modules.Reports.LateReturnsReport
         }
         //------------------------------------------------------------------------------------ 
         [FwBusinessLogicField(isReadOnly: true)]
+        public string RowType { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
         public string OrderId { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
         public string OrderItemId { get; set; }

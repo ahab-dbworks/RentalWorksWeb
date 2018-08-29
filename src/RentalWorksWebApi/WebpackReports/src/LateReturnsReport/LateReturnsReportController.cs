@@ -56,6 +56,12 @@ namespace WebApi.Modules.Reports.LateReturnsReport
                 LateReturnsReportLogic l = new LateReturnsReportLogic();
                 l.SetDependencies(this.AppConfig, this.UserSession);
                 FwJsonDataTable dt = await l.BrowseAsync(browseRequest);
+
+                string[] totalFields = new string[] { "Quantity" };
+                dt.InsertSubTotalRows("OfficeLocation", "RowType", totalFields);
+                dt.InsertSubTotalRows("Deal", "RowType", totalFields);
+                dt.InsertSubTotalRows("OrderNumber", "RowType", totalFields);
+
                 return new OkObjectResult(dt);
             }
             catch (Exception ex)
