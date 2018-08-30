@@ -61,9 +61,9 @@ namespace WebApi.Modules.Reports.ArAgingReport
         [FwBusinessLogicField(isReadOnly: true)]
         public string InvoiceStatus { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
-        public bool? InvoiceAgentId { get; set; }
+        public string InvoiceAgentId { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
-        public bool? InvoiceAgent { get; set; }
+        public string InvoiceAgent { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
         public decimal? Total { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]

@@ -87,28 +87,28 @@ namespace WebApi.Modules.Reports.ArAgingReport
         [FwSqlDataField(column: "invoicestatus", modeltype: FwDataTypes.Text)]
         public string InvoiceStatus { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "invoiceagentid", modeltype: FwDataTypes.Boolean)]
-        public bool? InvoiceAgentId { get; set; }
+        [FwSqlDataField(column: "invoiceagentid", modeltype: FwDataTypes.Text)]
+        public string InvoiceAgentId { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "invoiceagent", modeltype: FwDataTypes.Boolean)]
-        public bool? InvoiceAgent { get; set; }
+        [FwSqlDataField(column: "invoiceagent", modeltype: FwDataTypes.Text)]
+        public string InvoiceAgent { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "total", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "total", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public decimal? Total { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "total0030", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "total0030", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public decimal? Total0030 { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "total3160", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "total3160", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public decimal? Total3160 { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "total6190", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "total6190", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public decimal? Total6190 { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "total91x", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "total91x", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public decimal? Total91x { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "pendingfinancecharge", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "pendingfinancecharge", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public decimal? PendingFinanceCharge { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "departmentid", modeltype: FwDataTypes.Text)]
