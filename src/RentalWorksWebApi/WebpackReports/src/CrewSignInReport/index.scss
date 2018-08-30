@@ -1,0 +1,73 @@
+﻿tbody:nth-child(even) {
+    background-color: #DCDCDC;
+}
+.agent-header {
+    font-weight: bold;
+    text-align: left;
+    width: 200px;
+}
+.report-footer {
+    font-weight: bold;
+    text-align: left;
+    margin-left: -600px;
+    border-top: 1.5px solid black;
+}
+
+.body thead td {
+    border-bottom: 1px solid black;
+    text-align: left;
+}
+table {
+    border-collapse: collapse;
+}
+
+.body thead td div {
+    font-size: 14px;
+    text-align: center;
+}
+
+.row1 {
+    font-size: 14px;
+    padding: 10px 0px 15px 3px;
+}
+
+.heading {
+    font-weight: bold;
+    padding: 0px 0px 0px 15px;
+}
+
+.row2 {
+    padding: 0px 0px 0px 10px;
+    min-height: 16px;
+    text-align:left;
+}
+
+/*tbody tr td {border: 1px solid black;}*/
+tr td div {
+    padding: 5px 0px 5px 0px;
+    min-height: 16px;
+}
+
+
+.body tfoot tr {
+    border-top: 1px solid black;
+}
+
+.body tfoot td > div {
+    line-height: 16px;
+    vertical-align: middle;
+    font-size: 14px;
+    padding: 10px 0;
+    font-weight: bold;
+}
+
+.rptcaption {
+    font-weight: bold;  
+}
+.boxcol {
+    border: 1px solid black;
+    text-align: center;
+}
+.row4 td {
+    padding: 0 0 8px 0
+}

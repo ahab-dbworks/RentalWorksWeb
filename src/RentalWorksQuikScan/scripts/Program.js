@@ -96,7 +96,7 @@ var Program = (function (_super) {
                             program.setScanMode('DTDevices');
                         }
                         else {
-                            program.setScanMode('html5');
+                            program.setScanMode('none');
                         }
                         me.setDeviceConnectionState(connectionState);
                     });
@@ -112,7 +112,7 @@ var Program = (function (_super) {
                     });
                     TslReader.registerListener('deviceDisconnected', 'deviceDisconnected_applicationjs', function () {
                         RwRFID.isConnected = false;
-                        program.setScanMode('html5');
+                        program.setScanMode('none');
                     });
                     TslReader.connectDevice(function connectDeviceSuccess(isConnected) {
                         RwRFID.isConnected = isConnected;

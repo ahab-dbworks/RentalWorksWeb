@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Data.SqlTypes;
 using System.Dynamic;
 using System.Reflection;
 using System.Text;
@@ -40,7 +41,6 @@ namespace FwStandard.SqlServer
             {
                 StringBuilder sb;
                 string result;
-
                 sb = new StringBuilder();
                 if (this.Parameters.Count > 0)
                 {
@@ -144,16 +144,33 @@ namespace FwStandard.SqlServer
                             case SqlDbType.Time:
                             case SqlDbType.Timestamp:
                             case SqlDbType.UniqueIdentifier:
-                                if (Parameters[i].SqlValue != null)
-                                {
-                                    sb.Append("'");
-                                    sb.Append(Parameters[i].SqlValue.ToString());
-                                    sb.AppendLine("'");
+                                try {
+                                    if (Parameters[i].SqlValue != null)
+                                    {
+                                        sb.Append("'");
+                                        sb.Append(Parameters[i].SqlValue.ToString());
+                                        sb.AppendLine("'");
+                                    }
+                                    else
+                                    {
+                                        sb.AppendLine("null");
+                                    }
                                 }
-                                else
+                                catch (SqlTypeException ex)
                                 {
-                                    sb.AppendLine("null");
+                                    Console.WriteLine($"Parameter \"{Parameters[i].ParameterName}\" is invalid for sql type {Parameters[i].SqlDbType.ToString()}, value: \"{Parameters[i].Value.ToString()}\".\n\n{ex.Message}\n{ex.StackTrace}\n");
+                                    if (Parameters[i].Value != null)
+                                    {
+                                        sb.Append("'");
+                                        sb.Append(Parameters[i].Value.ToString());
+                                        sb.AppendLine("'");
+                                    }
+                                    else
+                                    {
+                                        sb.AppendLine("null");
+                                    }
                                 }
+                                
                                 break;
 
                             // numbers
@@ -168,15 +185,31 @@ namespace FwStandard.SqlServer
                             case SqlDbType.SmallMoney:
                             case SqlDbType.TinyInt:
                             case SqlDbType.VarChar:
-                                if (Parameters[i].SqlValue != null)
-                                {
-                                    sb.Append("'");
-                                    sb.Append(Parameters[i].SqlValue.ToString());
-                                    sb.AppendLine("'");
+                                try {
+                                    if (Parameters[i].SqlValue != null)
+                                    {
+                                        sb.Append("'");
+                                        sb.Append(Parameters[i].SqlValue.ToString());
+                                        sb.AppendLine("'");
+                                    }
+                                    else
+                                    {
+                                        sb.AppendLine("null");
+                                    }
                                 }
-                                else
+                                catch(SqlTypeException ex)
                                 {
-                                    sb.AppendLine("null");
+                                    Console.WriteLine($"Parameter \"{Parameters[i].ParameterName}\" is invalid for sql type {Parameters[i].SqlDbType.ToString()}, value: \"{Parameters[i].Value.ToString()}\".\n\n{ex.Message}\n{ex.StackTrace}\n");
+                                    if (Parameters[i].Value != null)
+                                    {
+                                        sb.Append("'");
+                                        sb.Append(Parameters[i].Value.ToString());
+                                        sb.AppendLine("'");
+                                    }
+                                    else
+                                    {
+                                        sb.AppendLine("null");
+                                    }
                                 }
                                 break;
                             // special types
@@ -189,15 +222,32 @@ namespace FwStandard.SqlServer
                             case SqlDbType.Xml:
                             default:
                                 // this is probably not what we want, but maybe it will show the data at least
-                                if (Parameters[i].SqlValue != null)
+                                try
                                 {
-                                    sb.Append("'");
-                                    sb.Append(Parameters[i].SqlValue.ToString());
-                                    sb.AppendLine("'");
+                                    if (Parameters[i].SqlValue != null)
+                                    {
+                                        sb.Append("'");
+                                        sb.Append(Parameters[i].SqlValue.ToString());
+                                        sb.AppendLine("'");
+                                    }
+                                    else
+                                    {
+                                        sb.AppendLine("null");
+                                    }
                                 }
-                                else
+                                catch(SqlTypeException ex)
                                 {
-                                    sb.AppendLine("null");
+                                    Console.WriteLine($"Parameter \"{Parameters[i].ParameterName}\" is invalid for sql type {Parameters[i].SqlDbType.ToString()}, value: \"{Parameters[i].Value.ToString()}\".\n\n{ex.Message}\n{ex.StackTrace}\n");
+                                    if (Parameters[i].Value != null)
+                                    {
+                                        sb.Append("'");
+                                        sb.Append(Parameters[i].Value.ToString());
+                                        sb.AppendLine("'");
+                                    }
+                                    else
+                                    {
+                                        sb.AppendLine("null");
+                                    }
                                 }
                                 break;
                         }
@@ -1162,6 +1212,16 @@ namespace FwStandard.SqlServer
                     }
                     this.sqlLogEntry.Stop();
                 }
+            }
+            catch (Exception ex)
+            {
+                string logTime = DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss");
+                Console.WriteLine("------------------------------------------------------------------------------------");
+                Console.WriteLine($"{logTime} - An error occured during the execution of an SQL Query.");
+                Console.WriteLine("------------------------------------------------------------------------------------");
+                Console.WriteLine(this.QryTextDebug);
+                Console.WriteLine("------------------------------------------------------------------------------------");
+                throw ex;
             }
             finally
             {
