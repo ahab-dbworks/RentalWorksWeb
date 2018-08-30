@@ -436,8 +436,8 @@ namespace FwStandard.SqlServer
             {
                 str = "----" + Counter.ToString() + " " + str + " in " + GetExecutionTime() + "------------------------------------------";
             }
-            //need to do this differently, such as fw_isinternalserver() 
-            if (HostMachineName.Equals("JUSTIN6"))
+            //need to do this differently, such as fw_isinternalserver() or add a Debug mode to the config file
+            if ((HostMachineName.Equals("JUSTIN6")) || (HostMachineName.Equals("AHAB01")))
             {
                 Console.WriteLine(str);
             }
