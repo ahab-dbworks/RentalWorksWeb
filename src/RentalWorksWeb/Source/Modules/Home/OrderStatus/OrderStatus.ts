@@ -35,7 +35,9 @@ class OrderStatus {
         if (typeof parentmoduleinfo !== 'undefined') {
             $form.find('div[data-datafield="OrderId"] input.fwformfield-value').val(parentmoduleinfo.OrderId);
             $form.find('div[data-datafield="OrderId"] input.fwformfield-text').val(parentmoduleinfo.OrderNumber);
-            jQuery($form.find('[data-datafield="OrderId"]')).trigger('change');
+            if (parentmoduleinfo.OrderId) {
+                jQuery($form.find('[data-datafield="OrderId"]')).trigger('change');
+            }
         }
 
         $form.find('.rentalview').hide();
