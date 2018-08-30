@@ -166,7 +166,7 @@ namespace WebApi.Modules.Reports.SalesRepresentativeBillingReport
 
             base.SetBaseSelectQuery(select, qry, customFields, request);
             select.Parse();
-            //select.AddWhere("(xxxtype = 'ABCDEF')"); 
+            select.AddWhere("(salesrepresentativeid > '')"); 
             addFilterToSelect("LocationId", "locationid", select, request);
             addFilterToSelect("DepartmentId", "departmentid", select, request);
             addFilterToSelect("SalesRepresentativeId", "salesrepresentativeid", select, request);

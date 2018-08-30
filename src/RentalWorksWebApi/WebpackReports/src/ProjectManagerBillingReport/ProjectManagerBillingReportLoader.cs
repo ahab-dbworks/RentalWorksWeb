@@ -166,7 +166,7 @@ namespace WebApi.Modules.Reports.ProjectManagerBillingReport
 
             base.SetBaseSelectQuery(select, qry, customFields, request);
             select.Parse();
-            //select.AddWhere("(xxxtype = 'ABCDEF')"); 
+            select.AddWhere("(projectmanagerid > '')");
             addFilterToSelect("LocationId", "locationid", select, request);
             addFilterToSelect("DepartmentId", "departmentid", select, request);
             addFilterToSelect("ProjectManagerId", "projectmanagerid", select, request);

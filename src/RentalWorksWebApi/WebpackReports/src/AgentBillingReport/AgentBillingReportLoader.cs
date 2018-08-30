@@ -166,7 +166,7 @@ namespace WebApi.Modules.Reports.AgentBillingReport
 
             base.SetBaseSelectQuery(select, qry, customFields, request);
             select.Parse();
-            //select.AddWhere("(xxxtype = 'ABCDEF')"); 
+            select.AddWhere("(agentid > '')");
             addFilterToSelect("LocationId", "locationid", select, request);
             addFilterToSelect("DepartmentId", "departmentid", select, request);
             addFilterToSelect("AgentId", "agentid", select, request);
