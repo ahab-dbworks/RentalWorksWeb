@@ -99,6 +99,20 @@ class CheckIn {
         })
         FwBrowse.init($checkInSwapGridControl);
         FwBrowse.renderRuntimeHtml($checkInSwapGridControl);
+
+        let $checkInQuantityItemsGrid: any,
+            $checkInQuantityItemsGridControl: any;
+        $checkInQuantityItemsGrid = $form.find('div[data-grid="CheckInQuantityItemsGrid"]');
+        $checkInQuantityItemsGridControl = jQuery(jQuery('#tmpl-grids-CheckInQuantityItemsGridBrowse').html());
+        $checkInQuantityItemsGrid.empty().append($checkInQuantityItemsGridControl);
+        $checkInQuantityItemsGridControl.data('ondatabind', function (request) {
+            request.uniqueids = {
+                ContractId: FwFormField.getValueByDataField($form, 'ContractId'),
+                AllOrdersForDeal: FwFormField.getValueByDataField($form, 'AllOrdersForDeal')
+            }
+        })
+        FwBrowse.init($checkInQuantityItemsGridControl);
+        FwBrowse.renderRuntimeHtml($checkInQuantityItemsGridControl);
     }
     //----------------------------------------------------------------------------------------------
     beforeValidate($browse: any, $form: any, request: any) {
@@ -198,8 +212,26 @@ class CheckIn {
         });
         //Refresh grids on tab click
         $form.find('div.exceptionstab').on('click', e => {
-            let $checkInExceptionGridControl = $form.find('div[data-name="CheckInExceptionGrid"]');
-            FwBrowse.search($checkInExceptionGridControl);
+            //Disable clicking Exception tab w/o a ContractId
+            let contractId = FwFormField.getValueByDataField($form, 'ContractId');
+            if (contractId) {
+                let $checkInExceptionGridControl = $form.find('div[data-name="CheckInExceptionGrid"]');
+                FwBrowse.search($checkInExceptionGridControl);
+            } else {
+                e.stopPropagation();
+                FwNotification.renderNotification('WARNING', 'Input an Order, Deal, BarCode, or I-Code.')
+            }
+        });
+        $form.find('div.quantityitemstab').on('click', e => {
+            //Disable clicking Quantity Items tab w/o a ContractId
+            let contractId = FwFormField.getValueByDataField($form, 'ContractId');
+            if (contractId) {
+                let $checkInQuantityItemsGridControl = $form.find('div[data-name="CheckInQuantityItemsGrid"]');
+                FwBrowse.search($checkInQuantityItemsGridControl);
+            } else {
+                e.stopPropagation();
+                FwNotification.renderNotification('WARNING', 'Input an Order, Deal, BarCode, or I-Code.')
+            }
         });
         $form.find('div.orderstab').on('click', e => {
             let $checkInOrderGridControl = $form.find('div[data-name="CheckInOrderGrid"]');
@@ -208,6 +240,27 @@ class CheckIn {
         $form.find('div.swapitemtab').on('click', e => {
             let $checkInSwapGridControl = $form.find('div[data-name="CheckInSwapGrid"]');
             FwBrowse.search($checkInSwapGridControl);
+        });
+
+        //Options button
+        $form.find('.optionsbutton').on('click', e => {
+            $form.find('.optionlist').toggle();
+        });
+
+        //AllOrdersForDeal Checkbox functionality
+        $form.find('[data-datafield="AllOrdersForDeal"] input').on('change', e => {
+            const $checkInQuantityItemsGridControl = $form.find('div[data-name="CheckInQuantityItemsGrid"]');
+            FwBrowse.search($checkInQuantityItemsGridControl);
+        });
+
+        //Order Status Button
+        $form.find('.orderstatus').on('click', e => {
+            let orderInfo: any = {}, $orderStatusForm;
+            orderInfo.OrderId = FwFormField.getValueByDataField($form, 'OrderId');
+            orderInfo.OrderNumber = FwFormField.getTextByDataField($form, 'OrderId');
+            $orderStatusForm = OrderStatusController.openForm('EDIT', orderInfo);
+            FwModule.openSubModuleTab($form, $orderStatusForm);
+            jQuery('.tab.submodule.active').find('.caption').html('Order Status');
         });
     };
     //----------------------------------------------------------------------------------------------

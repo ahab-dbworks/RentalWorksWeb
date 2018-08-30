@@ -290,6 +290,7 @@ namespace WebLibrary.Security
             AddGrid("Checked-Out Item",                       "{48CC9E19-7B73-4BA7-9531-20BEA3780193}", lv1menuGrids.Id, "CheckedOutItemGridController");
             AddGrid("Check-In Exception",                     "{E6A2B313-ADEC-41DD-824E-947097E63060}", lv1menuGrids.Id, "CheckInExceptionGridController");
             AddGrid("Check-In Order",                         "{F314F7FA-8740-4851-8CB5-DA15EC02A5E7}", lv1menuGrids.Id, "CheckInOrderGridController");
+            AddGrid("Check-In Quantity Items",                "{2D2D0746-D66E-476E-9750-C11BA93A20C9}", lv1menuGrids.Id, "CheckInQuantityItemsGridController");
             AddGrid("Check-In Swap",                          "{47563A6D-1B0A-43C2-AE0E-8EF7AEB5D13B}", lv1menuGrids.Id, "CheckInSwapGridController");
             AddGrid("Contact",                                "{B6A0CAFC-35E8-4490-AEED-29F4E3426758}", lv1menuGrids.Id, "RwContactGridController");
             AddGrid("Contact Document",                       "{CC8F52FF-D968-4CE6-BF7A-3AC859D25280}", lv1menuGrids.Id, "FwContactDocumentGridController");

@@ -3,6 +3,7 @@
     <div class="tabs">
       <div data-type="tab" id="checkintab" class="checkintab tab" data-tabpageid="checkintabpage" data-caption="Check-In"></div>
       <div data-type="tab" id="orderstab" class="orderstab tab" data-tabpageid="orderstabpage" data-caption="Orders" style="display:none;"></div>
+      <div data-type="tab" id="quantityitemstab" class="quantityitemstab tab" data-tabpageid="quantityitemstabpage" data-caption="Quantity Items"></div>
       <div data-type="tab" id="swapitemtab" class="swapitemtab tab" data-tabpageid="swapitemtabpage" data-caption="Swapped Items" style="display:none;"></div>
       <div data-type="tab" id="exceptionstab" class="exceptionstab tab" data-tabpageid="exceptionstabpage" data-caption="Exceptions"></div>
     </div>
@@ -57,6 +58,7 @@
                 <div data-control="FwGrid" data-grid="CheckedInItemGrid" data-securitycaption=""></div>
               </div>
               <div class="formrow">
+                <div class="fwformcontrol orderstatus" data-type="button" style="float:left; margin-left:10px;">Order Status</div>
                 <div class="fwformcontrol createcontract" data-type="button" style="float:right;">Create Contract</div>
               </div>
             </div>
@@ -67,6 +69,21 @@
         <div class="flexpage">
           <div class="flexrow">
             <div data-control="FwGrid" data-grid="CheckInOrderGrid" data-securitycaption=""></div>
+          </div>
+        </div>
+      </div>
+      <div data-type="tabpage" id="quantityitemstabpage" class="tabpage" data-tabid="quantityitemstab">
+        <div class="flexpage">
+          <div class="flexrow">
+            <div data-control="FwGrid" data-grid="CheckInQuantityItemsGrid" data-securitycaption=""></div>
+          </div>
+          <div class="formrow">
+            <div class="fwformcontrol optionsbutton" data-type="button" style="float:left; margin-left:10px;">Options &#8675;</div>
+            <div class="fwformcontrol selectall" data-type="button" style="float:left; margin-left:10px;">Select All</div>
+            <div class="fwformcontrol selectnone" data-type="button" style="float:left; margin-left:10px;">Select None</div>
+          </div>
+          <div class="formrow optionlist" style="display:none;">
+            <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Show all ACTIVE Orders for this Deal" data-datafield="AllOrdersForDeal"></div>
           </div>
         </div>
       </div>
