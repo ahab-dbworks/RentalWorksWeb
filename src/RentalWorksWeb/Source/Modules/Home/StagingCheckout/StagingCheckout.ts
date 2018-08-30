@@ -261,7 +261,7 @@ class StagingCheckout {
     };
     //----------------------------------------------------------------------------------------------
     moveStagedItemToOut($form: JQuery): void {
-        let $selectedCheckBoxes, $stagedItemGrid, orderId, barCodeFieldValue, quantityFieldValue, barCode, iCode, quantity, orderItemId, $checkedOutItemGrid, successSound, errorSound, request: any = {};
+        let $selectedCheckBoxes, $stagedItemGrid, orderId, barCodeFieldValue, quantityFieldValue, barCode, iCode, quantity, orderItemId, vendorId, $checkedOutItemGrid, successSound, errorSound, request: any = {};
         successSound = new Audio(this.successSoundFileName);
         errorSound = new Audio(this.errorSoundFileName);
 
@@ -310,6 +310,7 @@ class StagingCheckout {
                     iCode = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="ICode"]').attr('data-originalvalue');
                     quantity = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="Quantity"]').attr('data-originalvalue');
                     orderItemId = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="OrderItemId"]').attr('data-originalvalue');
+                    vendorId = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="VendorId"]').attr('data-originalvalue');
 
                     request.OrderId = orderId
                     request.ContractId = this.contractId;
@@ -320,6 +321,7 @@ class StagingCheckout {
                     } else {
                         request.Code = iCode;
                         request.OrderItemId = orderItemId;
+                        request.VendorId = vendorId;
                     }
                     FwAppData.apiMethod(true, 'POST', `api/v1/checkout/movestageditemtoout`, request, FwServices.defaultTimeout, response => {
                         // need error handling  
@@ -338,7 +340,7 @@ class StagingCheckout {
     };
     //----------------------------------------------------------------------------------------------
     moveOutItemToStaged($form: JQuery): void {
-        let $selectedCheckBoxes, $stagedItemGrid, orderId, barCodeFieldValue, barCode, iCode, quantityFieldValue, quantity, orderItemId, $checkedOutItemGrid, successSound, errorSound, request: any = {};
+        let $selectedCheckBoxes, $stagedItemGrid, orderId, barCodeFieldValue, barCode, iCode, quantityFieldValue, quantity, orderItemId, vendorId, $checkedOutItemGrid, successSound, errorSound, request: any = {};
         successSound = new Audio(this.successSoundFileName);
         errorSound = new Audio(this.errorSoundFileName);
 
@@ -386,6 +388,7 @@ class StagingCheckout {
                     iCode = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="ICode"]').attr('data-originalvalue');
                     quantity = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="Quantity"]').attr('data-originalvalue');
                     orderItemId = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="OrderItemId"]').attr('data-originalvalue');
+                    vendorId = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="VendorId"]').attr('data-originalvalue');
 
                     request.OrderId = orderId;
                     request.ContractId = this.contractId;
@@ -396,6 +399,7 @@ class StagingCheckout {
                     } else {
                         request.Code = iCode;
                         request.OrderItemId = orderItemId;
+                        request.VendorId = vendorId;
                     }
                     FwAppData.apiMethod(true, 'POST', `api/v1/checkout/moveoutitemtostaged`, request, FwServices.defaultTimeout, response => {
 // need error handling

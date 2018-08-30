@@ -107,6 +107,12 @@ namespace WebApi.Modules.Home.StagedItem
         [FwSqlDataField(column: "vendorid", modeltype: FwDataTypes.Text)]
         public string VendorId { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "vendor", modeltype: FwDataTypes.Text)]
+        public string Vendor { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "vendorcolor", modeltype: FwDataTypes.OleToHtmlColor)]
+        public string VendorColor { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "nestedmasteritemid", modeltype: FwDataTypes.Text)]
         public string NestedOrderItemId { get; set; }
         //------------------------------------------------------------------------------------ 

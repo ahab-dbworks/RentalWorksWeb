@@ -36,6 +36,8 @@ namespace WebApi.Modules.Home.CheckedOutItem
         [FwBusinessLogicField(isReadOnly: true)]
         public string Vendor { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
+        public string VendorColor { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
         public string InventoryId { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
         public string WarehouseId { get; set; }

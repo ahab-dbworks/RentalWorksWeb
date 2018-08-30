@@ -161,7 +161,7 @@ namespace WebApi.Home.CheckOut
             return response;
         }
         //-------------------------------------------------------------------------------------------------------
-        public static async Task<MoveStagedItemResponse> MoveStagedItemToOut(FwApplicationConfig appConfig, FwUserSession userSession, string orderId, string orderItemId, string contractId, string code, float? quantity)
+        public static async Task<MoveStagedItemResponse> MoveStagedItemToOut(FwApplicationConfig appConfig, FwUserSession userSession, string orderId, string orderItemId, string vendorId, string contractId, string code, float? quantity)
         {
             MoveStagedItemResponse response = new MoveStagedItemResponse();
             using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
@@ -171,6 +171,7 @@ namespace WebApi.Home.CheckOut
                 qry.AddParameter("@contractid", SqlDbType.NVarChar, ParameterDirection.Input, contractId);
                 qry.AddParameter("@code", SqlDbType.NVarChar, ParameterDirection.Input, code);
                 qry.AddParameter("@masteritemid", SqlDbType.NVarChar, ParameterDirection.Input, orderItemId);
+                qry.AddParameter("@vendorid", SqlDbType.NVarChar, ParameterDirection.Input, vendorId);
                 if (quantity != null)
                 {
                     qry.AddParameter("@qty", SqlDbType.Float, ParameterDirection.Input, quantity);
@@ -186,7 +187,7 @@ namespace WebApi.Home.CheckOut
             return response;
         }
         //-------------------------------------------------------------------------------------------------------
-        public static async Task<MoveStagedItemResponse> MoveOutItemToStaged(FwApplicationConfig appConfig, FwUserSession userSession, string orderId, string orderItemId, string contractId, string code, float? quantity)
+        public static async Task<MoveStagedItemResponse> MoveOutItemToStaged(FwApplicationConfig appConfig, FwUserSession userSession, string orderId, string orderItemId, string vendorId, string contractId, string code, float? quantity)
         {
             MoveStagedItemResponse response = new MoveStagedItemResponse();
             using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
@@ -196,6 +197,7 @@ namespace WebApi.Home.CheckOut
                 qry.AddParameter("@contractid", SqlDbType.NVarChar, ParameterDirection.Input, contractId);
                 qry.AddParameter("@code", SqlDbType.NVarChar, ParameterDirection.Input, code);
                 qry.AddParameter("@masteritemid", SqlDbType.NVarChar, ParameterDirection.Input, orderItemId);
+                qry.AddParameter("@vendorid", SqlDbType.NVarChar, ParameterDirection.Input, vendorId);
                 if (quantity != null)
                 {
                     qry.AddParameter("@qty", SqlDbType.Float, ParameterDirection.Input, quantity);

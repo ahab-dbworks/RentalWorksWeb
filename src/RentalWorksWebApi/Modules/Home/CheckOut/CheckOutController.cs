@@ -43,6 +43,7 @@ namespace WebApi.Modules.Home.CheckOut
     {
         public string OrderId;
         public string OrderItemId;
+        public string VendorId;
         public string ContractId;
         public string Code;
         public float? Quantity;
@@ -197,7 +198,7 @@ namespace WebApi.Modules.Home.CheckOut
                 }
                 else
                 {
-                    response = await CheckOutFunc.MoveStagedItemToOut(AppConfig, UserSession, request.OrderId, request.OrderItemId, request.ContractId, request.Code, request.Quantity);
+                    response = await CheckOutFunc.MoveStagedItemToOut(AppConfig, UserSession, request.OrderId, request.OrderItemId, request.VendorId, request.ContractId, request.Code, request.Quantity);
                 }
                 return new OkObjectResult(response);
             }
@@ -239,7 +240,7 @@ namespace WebApi.Modules.Home.CheckOut
                 }
                 else
                 {
-                    response = await CheckOutFunc.MoveOutItemToStaged(AppConfig, UserSession, request.OrderId, request.OrderItemId, request.ContractId, request.Code, request.Quantity);
+                    response = await CheckOutFunc.MoveOutItemToStaged(AppConfig, UserSession, request.OrderId, request.OrderItemId, request.VendorId, request.ContractId, request.Code, request.Quantity);
                 }
                 return new OkObjectResult(response);
             }
