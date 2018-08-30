@@ -159,7 +159,7 @@ namespace WebApi.Logic
             return counter;
         }
         //-------------------------------------------------------------------------------------------------------
-        public static async Task<string> GetNextModuleCounterAsync(FwApplicationConfig appConfig, FwUserSession userSession, string moduleName)
+        public static async Task<string> GetNextModuleCounterAsync(FwApplicationConfig appConfig, FwUserSession userSession, string moduleName, string locationId = "")
         {
             string counter = "";
             using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
@@ -167,6 +167,7 @@ namespace WebApi.Logic
                 FwSqlCommand qry = new FwSqlCommand(conn, "getnextcounter", appConfig.DatabaseSettings.QueryTimeout);
                 qry.AddParameter("@module", SqlDbType.NVarChar, ParameterDirection.Input, moduleName);
                 qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, userSession.UsersId);
+                qry.AddParameter("@locationid", SqlDbType.NVarChar, ParameterDirection.Input, locationId);
                 qry.AddParameter("@newcounter", SqlDbType.NVarChar, ParameterDirection.Output);
                 await qry.ExecuteNonQueryAsync(true);
                 counter = qry.GetParameter("@newcounter").ToString().TrimEnd();

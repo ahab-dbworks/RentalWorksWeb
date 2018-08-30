@@ -599,7 +599,7 @@ class Deal {
                       <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Deal">
                         <div class="flexrow">
                           <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Name" data-datafield="Deal" style="flex:1 1 550px;"></div>
-                          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="No." data-datafield="DealNumber" data-required="true" style="flex:1 1 150px;"></div>
+                          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="No." data-datafield="DealNumber" data-required="false" style="flex:1 1 150px;"></div>
                         </div>
                         <div class="flexrow">
                           <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Customer" data-datafield="CustomerId" data-displayfield="Customer" data-validationname="CustomerValidation" data-required="true" style="flex:1 1 325px;"></div>
@@ -688,7 +688,7 @@ class Deal {
                     <div class="flexcolumn" style="flex:1 1 575px;">
                       <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Default Billing">
                         <div class="flexrow">
-                          <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Billing Cycle" data-datafield="BillingCycleId" data-displayfield="BillingCycle" data-validationname="BillingCycleValidation" style="flex:1 1 200px;"></div>
+                          <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Billing Cycle" data-datafield="BillingCycleId" data-displayfield="BillingCycle" data-validationname="BillingCycleValidation" data-required="true" style="flex:1 1 200px;"></div>
                           <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Payment Type" data-datafield="PaymentTypeId" data-displayfield="PaymentType" data-validationname="PaymentTypeValidation" style="flex:1 1 200px;"></div>
                         </div>
                         <div class="flexrow">
@@ -1034,7 +1034,7 @@ class Deal {
                       <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Default Outgoing Delivery" style="margin-top:13px;">
                         <div class="flexrow">
                           <div data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield" data-caption="" data-datafield="DefaultOutgoingDeliveryType" style="flex:1 1 265px;">
-                            <div data-value="DELIVERY" data-caption="Deliver" style="margin-top:-15px;"></div>
+                            <div data-value="DELIVER" data-caption="Deliver" style="margin-top:-15px;"></div>
                             <div data-value="SHIP" data-caption="Ship"></div>
                             <div data-value="PICKUP" data-caption="Customer Pick Up"></div>
                           </div>
@@ -1044,7 +1044,7 @@ class Deal {
                       <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Default Incoming Delivery" style="margin-top:12px;">
                         <div class="flexrow">
                           <div data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield" data-caption="" data-datafield="DefaultIncomingDeliveryType" style="flex:1 1 265px;">
-                            <div data-value="DELIVERY" data-caption="Customer Deliver" style="margin-top:-15px;"></div>
+                            <div data-value="DELIVER" data-caption="Customer Deliver" style="margin-top:-15px;"></div>
                             <div data-value="SHIP" data-caption="Ship"></div>
                             <div data-value="PICKUP" data-caption="Pick Up"></div>
                           </div>

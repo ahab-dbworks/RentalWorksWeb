@@ -18,7 +18,7 @@ namespace WebApi.Modules.Home.Customer
             dataLoader = customerLoader;
             browseLoader = customerBrowseLoader;
 
-            //BeforeSave += BeforeSaveCustomer;
+            customer.BeforeSave += OnBeforeSaveCustomer;
         }
         //------------------------------------------------------------------------------------
         [FwBusinessLogicField(isPrimaryKey: true)]
@@ -190,6 +190,22 @@ namespace WebApi.Modules.Home.Customer
             return isValid;
         }
         //------------------------------------------------------------------------------------
+        public void OnBeforeSaveCustomer(object sender, BeforeSaveEventArgs e)
+        {
+            if (e.SaveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smInsert)
+            {
+                if (string.IsNullOrEmpty(CustomerNumber))
+                {
+                    bool x = customer.SetNumber().Result;
+                }
+            }
+            else  // updating
+            {
+            }
+        }
+        //------------------------------------------------------------------------------------
+
+
         //justin WIP
         //public void BeforeSaveCustomer(object sender, BeforeSaveEventArgs e)
         //{

@@ -20,6 +20,8 @@ namespace WebLibrary
 
 
         //MODULES
+        public const string MODULE_CUSTOMER = "CUSTOMER";
+        public const string MODULE_DEAL = "DEAL";
         public const string MODULE_QUOTE = "QUOTE";
         public const string MODULE_REPAIR = "REPAIR";
         public const string MODULE_PROJECT = "PROJECT";

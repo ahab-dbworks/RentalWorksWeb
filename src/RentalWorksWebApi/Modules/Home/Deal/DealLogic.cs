@@ -1,3 +1,4 @@
+using FwStandard.BusinessLogic;
 using FwStandard.BusinessLogic.Attributes; 
 using WebApi.Logic;
 namespace WebApi.Modules.Home.Deal
@@ -13,6 +14,9 @@ namespace WebApi.Modules.Home.Deal
             dataRecords.Add(deal);
             dataLoader = dealLoader;
             browseLoader = dealBrowseLoader;
+
+            deal.BeforeSave += OnBeforeSaveDeal;
+
         }
         //------------------------------------------------------------------------------------ 
         [FwBusinessLogicField(isPrimaryKey: true)]
@@ -214,5 +218,23 @@ namespace WebApi.Modules.Home.Deal
         public string RebateCustomer { get; set; }
         public int? OwnedEquipmentRebateRentalPerecent { get { return deal.OwnedEquipmentRebateRentalPerecent; } set { deal.OwnedEquipmentRebateRentalPerecent = value; } }
         public int? SubRentalEquipmentRebateRentalPerecent { get { return deal.SubRentalEquipmentRebateRentalPerecent; } set { deal.SubRentalEquipmentRebateRentalPerecent = value; } }
+
+        //------------------------------------------------------------------------------------
+        public void OnBeforeSaveDeal(object sender, BeforeSaveEventArgs e)
+        {
+            if (e.SaveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smInsert)
+            {
+                if (string.IsNullOrEmpty(DealNumber))
+                {
+                    bool x = deal.SetNumber().Result;
+                }
+            }
+            else  // updating
+            {
+            }
+        }
+        //------------------------------------------------------------------------------------
+
+
     }
 }

@@ -1,6 +1,9 @@
 ﻿using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
+using System.Threading.Tasks;
 using WebApi.Data;
+using WebApi.Logic;
+using WebLibrary;
 
 namespace WebApi.Modules.Home.Customer
 {
@@ -23,7 +26,7 @@ TODO:
         [FwSqlDataField(column: "customerid", modeltype: FwDataTypes.Text, maxlength: 8, isPrimaryKey: true)]
         public string CustomerId { get; set; } = "";
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "custno", modeltype: FwDataTypes.Text, maxlength: 20, required: true)]
+        [FwSqlDataField(column: "custno", modeltype: FwDataTypes.Text, maxlength: 20)]
         public string CustomerNumber { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "locationid", modeltype: FwDataTypes.Text, maxlength: 8, required: true)]
@@ -323,5 +326,11 @@ TODO:
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
         public string DateStamp { get; set; }
         //------------------------------------------------------------------------------------
+        public async Task<bool> SetNumber()
+        {
+            CustomerNumber = await AppFunc.GetNextModuleCounterAsync(AppConfig, UserSession, RwConstants.MODULE_CUSTOMER, OfficeLocationId);
+            return true;
+        }
+        //-------------------------------------------------------------------------------------------------------    
     }
 }

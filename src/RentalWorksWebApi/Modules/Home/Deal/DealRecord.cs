@@ -1,7 +1,11 @@
 using FwStandard.BusinessLogic; 
 using FwStandard.SqlServer; 
-using FwStandard.SqlServer.Attributes; 
+using FwStandard.SqlServer.Attributes;
+using System.Threading.Tasks;
 using WebApi.Data;
+using WebApi.Logic;
+using WebLibrary;
+
 namespace WebApi.Modules.Home.Deal
 {
     [FwSqlTable("deal")]
@@ -457,5 +461,13 @@ namespace WebApi.Modules.Home.Deal
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime, sqltype: "datetime")]
         public string DateStamp { get; set; }
         //------------------------------------------------------------------------------------ 
+
+        public async Task<bool> SetNumber()
+        {
+            DealNumber = await AppFunc.GetNextModuleCounterAsync(AppConfig, UserSession, RwConstants.MODULE_DEAL, LocationId);
+            return true;
+        }
+        //-------------------------------------------------------------------------------------------------------    
+
     }
 }
