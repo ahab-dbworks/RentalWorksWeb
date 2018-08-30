@@ -116,6 +116,8 @@ namespace WebApi.Modules.Home.SubPurchaseOrderItem
         [FwBusinessLogicField(isReadOnly: true)]
         public decimal? Variance { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
+        public string VarianceColor { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
         public decimal? MarkupPercent { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
         public decimal? MarginPercent { get; set; }

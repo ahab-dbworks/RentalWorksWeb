@@ -174,6 +174,9 @@ namespace WebApi.Modules.Home.SubPurchaseOrderItem
         [FwSqlDataField(column: "variance", modeltype: FwDataTypes.Decimal)]
         public decimal? Variance { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "variancecolor", modeltype: FwDataTypes.OleToHtmlColor)]
+        public string VarianceColor { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "markuppct", modeltype: FwDataTypes.Decimal)]
         public decimal? MarkupPercent { get; set; }
         //------------------------------------------------------------------------------------ 
