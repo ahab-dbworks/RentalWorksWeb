@@ -35,6 +35,7 @@ export class CreateInvoiceProcessReport extends WebpackReport {
                     createInvoiceProcess.System = 'RENTALWORKS';
                     createInvoiceProcess.Company = '4WALL ENTERTAINMENT';
                     console.log('createInvoiceProcess: ', createInvoiceProcess); 
+                    
                     this.renderFooterHtml(createInvoiceProcess);
                     if (this.action === 'Preview' || this.action === 'PrintHtml') {
                         document.getElementById('pageFooter').innerHTML = this.footerHtml;
