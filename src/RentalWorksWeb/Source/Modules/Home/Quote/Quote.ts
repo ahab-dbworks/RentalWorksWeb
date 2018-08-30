@@ -840,7 +840,7 @@ FwApplicationTree.clickEvents['{78ACB73C-23DD-46F0-B179-0571BAD3A17D}'] = functi
                 $yes.off('click');
 
                 FwAppData.apiMethod(true, 'POST', `api/v1/quote/cancel/${quoteId}`, request, FwServices.defaultTimeout, function onSuccess(response) {
-                    FwNotification.renderNotification('SUCCESS', 'Quote Successfully Canceled');
+                    FwNotification.renderNotification('SUCCESS', 'Quote Successfully Cancelled');
                     FwConfirmation.destroyConfirmation($confirmation);
                     FwBrowse.databind($browse);
                 }, function onError(response) {

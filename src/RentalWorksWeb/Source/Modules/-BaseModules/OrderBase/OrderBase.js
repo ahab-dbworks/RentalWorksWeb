@@ -1188,7 +1188,7 @@ class OrderBase {
             $yes.text('Canceling...');
             $yes.off('click');
             FwAppData.apiMethod(true, 'POST', `api/v1/${module}/cancel/${id}`, request, FwServices.defaultTimeout, function onSuccess(response) {
-                FwNotification.renderNotification('SUCCESS', `${module} Successfully Canceled`);
+                FwNotification.renderNotification('SUCCESS', `${module} Successfully Cancelled`);
                 FwConfirmation.destroyConfirmation($confirmation);
                 FwModule.refreshForm($form, self);
             }, function onError(response) {

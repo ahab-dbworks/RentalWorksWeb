@@ -869,7 +869,7 @@ FwApplicationTree.clickEvents['{DAE6DC23-A2CA-4E36-8214-72351C4E1449}'] = functi
                 $yes.text('Canceling...');
                 $yes.off('click');
                 FwAppData.apiMethod(true, 'POST', `api/v1/order/cancel/${orderId}`, request, FwServices.defaultTimeout, function onSuccess(response) {
-                    FwNotification.renderNotification('SUCCESS', 'Order Successfully Canceled');
+                    FwNotification.renderNotification('SUCCESS', 'Order Successfully Cancelled');
                     FwConfirmation.destroyConfirmation($confirmation);
                     FwBrowse.databind($browse);
                 }, function onError(response) {
