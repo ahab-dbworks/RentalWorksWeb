@@ -49,6 +49,8 @@ namespace WebApi.Modules.Home.OrderItem
         public decimal? BillablePeriods { get; set; }
         public decimal? QuantityOrdered { get { return orderItem.QuantityOrdered; } set { orderItem.QuantityOrdered = value; } }
         public decimal? SubQuantity { get { return orderItem.SubQuantity; } set { orderItem.SubQuantity = value; } }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string SubQuantityColor { get; set; }
         public int? ConsignQuantity { get { return orderItem.ConsignQuantity; } set { orderItem.ConsignQuantity = value; } }
         [FwBusinessLogicField(isReadOnly: true)]
         public int? ReservedItemQuantity { get; set; }

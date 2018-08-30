@@ -74,6 +74,9 @@ namespace WebApi.Modules.Home.OrderItem
         [FwSqlDataField(column: "subqty", modeltype: FwDataTypes.Decimal)]
         public decimal? SubQuantity { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "subqtycolor", modeltype: FwDataTypes.OleToHtmlColor)]
+        public string SubQuantityColor { get; set; }
+        //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "consignqty", modeltype: FwDataTypes.Integer)]
         public int? ConsignQuantity { get; set; }
         //------------------------------------------------------------------------------------ 
