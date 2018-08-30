@@ -127,7 +127,13 @@ html.pdf {
                 white-space: nowrap;
             }
 
-            th.Customer, th.Deal, th.InvoiceDesc {
+            th.InvoiceNo,
+            th.InvoiceDate,
+            th.Office,
+            th.Customer,
+            th.Deal,
+            th.OrderNo,
+            th.InvoiceDesc {
                 text-align: left;
             }
         }
@@ -136,11 +142,13 @@ html.pdf {
             tr[data-rowtype="detail"]:nth-child(odd) {
                 background-color: #DCDCDC;
             }
+
             tr[data-rowtype="OfficeLocationheader"] td {
                 font-size: 1.1em;
             }
+
             tr[data-rowtype="Dealheader"] td,
-            tr[data-rowtype="OfficeLocationheader"] td, 
+            tr[data-rowtype="OfficeLocationheader"] td,
             tr[data-rowtype="Customerheader"] td {
                 padding-bottom: .5em;
                 font-weight: bold;
@@ -148,17 +156,14 @@ html.pdf {
             }
 
             tr[data-rowtype="Dealfooter"] td.totals,
-            tr[data-rowtype="Customerfooter"] td.totals,
-            tr[data-rowtype="OfficeLocationfooter"] td.totals,
             tr[data-rowtype="grandtotal"] td.totals {
                 border-top: 2px solid black;
-                font-weight: bold;
             }
 
-            tr[data-rowtype="Dealfooter"] td[colspan="2"],
-            tr[data-rowtype="Customerfooter"] td[colspan="2"],
-            tr[data-rowtype="OfficeLocationfooter"] td[colspan="2"],
-            tr[data-rowtype="grandtotal"] td[colspan="2"] {
+            tr[data-rowtype="Dealfooter"],
+            tr[data-rowtype="Customerfooter"],
+            tr[data-rowtype="OfficeLocationfooter"],
+            tr[data-rowtype="grandtotal"] {
                 font-weight: bold;
                 text-align: right;
             }
