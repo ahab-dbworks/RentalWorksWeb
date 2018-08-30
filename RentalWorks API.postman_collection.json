@@ -1978,7 +1978,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"OrderId\": \"I000058L\",\n\t\"ContractId\": \"I00006G2\",\n\t\"Code\": \"11430-00\",\n\t\"Quantity\": 0\n}\n\n"
+							"raw": "{\n\t\"OrderId\": \"I000058L\",\n\t\"ContractId\": \"I000075A\",\n\t\"Code\": \"4W173384\"\n}\n\n"
 						},
 						"url": {
 							"raw": "http://localhost:57949/api/v1/checkout/movestageditemtoout",
@@ -2393,6 +2393,46 @@
 								"api",
 								"v1",
 								"checkinorder",
+								"browse"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Check-In Quantity Item",
+			"item": [
+				{
+					"name": "Check-In Quantity Item: Browse",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"Description\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": [],\n    \t\"uniqueids\": {\"ContractId\": \"I0000774\"}\n\t\n}"
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/checkinquantityitem/browse",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"checkinquantityitem",
 								"browse"
 							]
 						}
@@ -22865,7 +22905,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"SessionId\": \"I0000718\"\n}"
+							"raw": "{\n\t\"SessionId\": \"I0000718\"\n}\n\n\n"
 						},
 						"url": {
 							"raw": "http://localhost:57949/api/v1/subpurchaseorderitem/selectnone",
