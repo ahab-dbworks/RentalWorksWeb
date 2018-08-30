@@ -95,19 +95,6 @@ html.pdf {
     font-size: $normal-text;
 }
 
-.Header {
-    div {
-        flex: 1 0 627px;
-
-        div {
-            min-width: 33%;
-            flex: 1 1 0;
-            font-size: 13px;
-            white-space: nowrap;
-        }
-    }
-}
-
 .data {
     flex: 1 0 768px;
     border-collapse: collapse;
@@ -173,14 +160,6 @@ html.pdf {
                 padding: 2px 5px;
                 font-size: .9em;
             }
-            /*td:after {
-                content: attr(data-value);
-                font-weight: bold;
-            }
-
-            td[data-value="0.00"]:after, td[data-value="0.00%"]:after {
-                content: "";
-            }*/
             td.totals {
                 text-align: right;
             }
