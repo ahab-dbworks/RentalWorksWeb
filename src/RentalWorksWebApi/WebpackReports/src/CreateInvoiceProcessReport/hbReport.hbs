@@ -30,11 +30,11 @@
       {{#each this}}
       <tr data-rowtype={{RowType}}>
         {{#ifEquals RowType "OfficeLocationheader"}}
-          <td colspan="5" class="name-row">Office: {{OfficeLocation}}</td>
+        <td colspan="5" class="name-row">Office: {{OfficeLocation}}</td>
         {{/ifEquals}}
-          {{#ifEquals RowType "Dealheader"}}
-            <td colspan="5" class="deal-row">Deal: {{Deal}}</td>
-          {{/ifEquals}}
+        {{#ifEquals RowType "Dealheader"}}
+        <td colspan="5" class="deal-row">Deal: {{Deal}}</td>
+        {{/ifEquals}}
         {{#ifEquals RowType "detail"}}
         <td class="text" data-value="{{InvoiceNumber}}"></td>
         <td class="text" data-value="{{OrderNumber}}"></td>
@@ -45,32 +45,29 @@
         <td class="number" data-value="{{InvoiceTotal}}"></td>
         <td class="number" data-value="{{PriorInvoiceTotal}}"></td>
         {{/ifEquals}}
-        {{#ifEquals RowType "OfficeLocationfooter"}}
-
-        <td class="empty"></td>
-        <td colspan="5" style="font-weight:bold;text-align:right;padding-top:11px">{{OfficeLocation}}&nbsp;</td>
-        <td class="total-row number" data-value="{{InvoiceTotal}}"></td>
-        <td class="total-row number" data-value=""></td>
-        <td class="total-row number" data-value=""></td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "grandtotal"}}
-        <td class="empty"></td>
-        <td class="empty"></td>
-        <td class="empty"></td>
-        <td class="empty"></td>
-        <td class="empty"></td>
-        <td style="font-weight:bold;text-align:right;padding-top:11px">Grand Total:&nbsp;</td>
-        <td class="total-row number" data-value="{{RentalTotal}}"></td>
-        <td class="total-row number" data-value="{{SalesTotal}}"></td>
-        <td class="total-row number" data-value="{{FacilitiesTotal}}"></td>
-        <td class="total-row number" data-value="{{LaborTotal}}"></td>
-        <td class="total-row number" data-value="{{MiscellaneousTotal}}"></td>
-        <td class="total-row number" data-value="{{AssetTotal}}"></td>
-        <td class="total-row number" data-value="{{PartsTotal}}"></td>
-        <td class="total-row number" data-value="{{InvoiceTax}}"></td>
-        <td class="total-row number" data-value="{{InvoiceTotal}}"></td>
-        {{/ifEquals}}
       </tr>
+      {{#ifEquals RowType "OfficeLocationfooter"}}
+      <tr>
+        <th class="empty"></th>
+        <th class="empty"></th>
+        <th class="empty"></th>
+        <th class="office-footer text">Department</th>
+        <th class="office-footer number">Created</th>
+        <th class="office-footer number">Amount</th>
+        <th class="office-footer number">Exceptions</th>
+      </tr>
+      {{/ifEquals}}
+      {{#ifEquals RowType "OfficeLocationfooter"}}
+      <tr>
+        <td class="empty"></td>
+        <td class="empty"></td>
+        <td class="empty"></td>
+        <td class="text" data-value="{{Department}}"></td>
+        <td class="number" data-value="{{InvoiceCount}}"></td>
+        <td class="number" data-value="{{InvoiceTotal}}"></td>
+        <td class="number" data-value="{{ExceptionCount}}"></td>
+      </tr>
+      {{/ifEquals}}
       {{/each}}
     </tbody>
   </table>
