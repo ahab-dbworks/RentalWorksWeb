@@ -48,6 +48,9 @@ namespace WebApi.Modules.Home.CheckInQuantityItem
         [FwBusinessLogicField(isReadOnly: true)]
         public string Consignor { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
+        public string VendorConsignor { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string VendorConsignorColor { get; set; }
         public int? OrderPriority { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
         public string ItemOrder { get; set; }

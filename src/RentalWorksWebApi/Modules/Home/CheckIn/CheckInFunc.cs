@@ -3,6 +3,7 @@ using FwStandard.SqlServer;
 using System.Data;
 using System.Threading.Tasks;
 using WebApi.Logic;
+using WebApi.Modules.Home.CheckIn;
 using WebLibrary;
 
 namespace WebApi.Home.CheckIn
@@ -61,7 +62,8 @@ namespace WebApi.Home.CheckIn
             return contractId;
         }
         //-------------------------------------------------------------------------------------------------------
-        public static async Task<TCheckInItemReponse> CheckInItem(FwApplicationConfig appConfig, FwUserSession userSession, string contractId, string code, int? quantity, bool? addOrderToContract, bool? swapItem)
+        //public static async Task<TCheckInItemReponse> CheckInItem(FwApplicationConfig appConfig, FwUserSession userSession, string contractId, string code, string orderItemId, int? quantity, bool? addOrderToContract, bool? swapItem)
+        public static async Task<TCheckInItemReponse> CheckInItem(FwApplicationConfig appConfig, FwUserSession userSession, CheckInItemRequest request)
         {
 
             /*
@@ -115,14 +117,15 @@ create procedure dbo.pdacheckinitem(@code                   varchar(255),
             using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
             {
                 FwSqlCommand qry = new FwSqlCommand(conn, "pdacheckinitem", appConfig.DatabaseSettings.QueryTimeout);
-                qry.AddParameter("@incontractid", SqlDbType.NVarChar, ParameterDirection.InputOutput, contractId);
-                qry.AddParameter("@code", SqlDbType.NVarChar, ParameterDirection.Input, code);
+                qry.AddParameter("@incontractid", SqlDbType.NVarChar, ParameterDirection.InputOutput, request.ContractId);
+                qry.AddParameter("@code", SqlDbType.NVarChar, ParameterDirection.Input, request.Code);
                 qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, userSession.UsersId);
-                if (quantity != null)
+                qry.AddParameter("@masteritemid", SqlDbType.NVarChar, ParameterDirection.InputOutput, request.OrderItemId);
+                if (request.Quantity != null)
                 {
-                    qry.AddParameter("@qty", SqlDbType.Int, ParameterDirection.Input, quantity);
+                    qry.AddParameter("@qty", SqlDbType.Int, ParameterDirection.Input, request.Quantity);
                 }
-                qry.AddParameter("@neworderaction", SqlDbType.NVarChar, ParameterDirection.Input, (addOrderToContract.GetValueOrDefault(false) ? RwConstants.CHECK_IN_NEW_ORDER_ACTION_ADD_NEW_ORDER : (swapItem.GetValueOrDefault(false) ? RwConstants.CHECK_IN_NEW_ORDER_ACTION_SWAP_ITEM : "")));
+                qry.AddParameter("@neworderaction", SqlDbType.NVarChar, ParameterDirection.Input, (request.AddOrderToContract.GetValueOrDefault(false) ? RwConstants.CHECK_IN_NEW_ORDER_ACTION_ADD_NEW_ORDER : (request.SwapItem.GetValueOrDefault(false) ? RwConstants.CHECK_IN_NEW_ORDER_ACTION_SWAP_ITEM : "")));
                 qry.AddParameter("@moduletype", SqlDbType.NVarChar, ParameterDirection.Input, "O");
                 qry.AddParameter("@checkinmode", SqlDbType.NVarChar, ParameterDirection.Input, "O");
                 qry.AddParameter("@itemorderid", SqlDbType.NVarChar, ParameterDirection.Output);
@@ -133,7 +136,7 @@ create procedure dbo.pdacheckinitem(@code                   varchar(255),
                 qry.AddParameter("@deal", SqlDbType.NVarChar, ParameterDirection.Output);
                 qry.AddParameter("@departmentid", SqlDbType.NVarChar, ParameterDirection.Output);
                 qry.AddParameter("@department", SqlDbType.NVarChar, ParameterDirection.Output);
-                qry.AddParameter("@masteritemid", SqlDbType.NVarChar, ParameterDirection.Output);
+                //qry.AddParameter("@masteritemid", SqlDbType.NVarChar, ParameterDirection.Output);
                 qry.AddParameter("@masterid", SqlDbType.NVarChar, ParameterDirection.Output);
                 qry.AddParameter("@masterno", SqlDbType.NVarChar, ParameterDirection.Output);
                 qry.AddParameter("@isicode", SqlDbType.NVarChar, ParameterDirection.Output);
@@ -172,7 +175,7 @@ create procedure dbo.pdacheckinitem(@code                   varchar(255),
                 response.success = (response.status == 0);
                 response.msg = qry.GetParameter("@msg").ToString();
 
-                if ((response.status == 0) && ((quantity == null) || (quantity == 0)) && (qry.GetParameter("@isicode").ToString().Equals("T")))
+                if ((response.status == 0) && ((request.Quantity == null) || (request.Quantity == 0)) && (qry.GetParameter("@isicode").ToString().Equals("T")))
                 {
                     response.status = 107;
                 }

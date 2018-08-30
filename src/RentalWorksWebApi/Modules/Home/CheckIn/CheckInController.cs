@@ -131,7 +131,7 @@ namespace WebApi.Modules.Home.CheckIn
                 }
                 else
                 {
-                    checkInItemResponse = await CheckInFunc.CheckInItem(AppConfig, UserSession, request.ContractId, request.Code, request.Quantity, request.AddOrderToContract, request.SwapItem);
+                    checkInItemResponse = await CheckInFunc.CheckInItem(AppConfig, UserSession, request);
                 }
 
                 return new OkObjectResult(checkInItemResponse);

@@ -69,6 +69,12 @@ namespace WebApi.Modules.Home.CheckInQuantityItem
         [FwSqlDataField(column: "consignor", modeltype: FwDataTypes.Text)]
         public string Consignor { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "vendorconsignor", modeltype: FwDataTypes.Text)]
+        public string VendorConsignor { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "vendorconsignorcolor", modeltype: FwDataTypes.OleToHtmlColor)]
+        public string VendorConsignorColor { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "priority", modeltype: FwDataTypes.Integer)]
         public int? OrderPriority { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -81,6 +87,7 @@ namespace WebApi.Modules.Home.CheckInQuantityItem
         public override async Task<FwJsonDataTable> BrowseAsync(BrowseRequest request, FwCustomFields customFields = null)
         {
             string contractId = "";
+            bool allOrdersForDeal = false;
             if (request != null)
             {
                 if (request.uniqueids != null)
@@ -89,6 +96,10 @@ namespace WebApi.Modules.Home.CheckInQuantityItem
                     if (uniqueIds.ContainsKey("ContractId"))
                     {
                         contractId = uniqueIds["ContractId"].ToString();
+                    }
+                    if (uniqueIds.ContainsKey("AllOrdersForDeal"))
+                    {
+                        allOrdersForDeal = FwConvert.ToBoolean(uniqueIds["AllOrdersForDeal"].ToString());
                     }
                 }
             }
@@ -100,6 +111,7 @@ namespace WebApi.Modules.Home.CheckInQuantityItem
                 using (FwSqlCommand qry = new FwSqlCommand(conn, "getcheckinquantity", this.AppConfig.DatabaseSettings.QueryTimeout))
                 {
                     qry.AddParameter("@contractid", SqlDbType.NVarChar, ParameterDirection.Input, contractId);
+                    qry.AddParameter("@allordersfordeal", SqlDbType.NVarChar, ParameterDirection.Input, allOrdersForDeal ? "T" : "F");
                     qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, UserSession.UsersId);
                     qry.AddParameter("@status", SqlDbType.Int, ParameterDirection.Output);
                     qry.AddParameter("@msg", SqlDbType.NVarChar, ParameterDirection.Output);

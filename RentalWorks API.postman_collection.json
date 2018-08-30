@@ -2229,7 +2229,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"ContractId\": \"I00005FM\",\n\t\"Code\": \"65450-00\",\n\t\"Quantity\": 4\n}\n"
+							"raw": "{\n    \"ContractId\": \"I0000776\",\n    \"OrderItemId\": \"I0000727\",      \"OrderItemIdComment\": \"this value is optional\",\n\t\"Code\": \"00011-05\",             \"CodeComment\": \"this value can be omitted for a Quantity Item when OrderItemId is supplied\",\n\t\"Quantity\": 2\n}\n\n\n"
 						},
 						"url": {
 							"raw": "http://localhost:57949/api/v1/checkin/checkinitem",
@@ -2420,7 +2420,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"Description\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": [],\n    \t\"uniqueids\": {\"ContractId\": \"I0000774\"}\n\t\n}"
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"Description\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": [],\n    \t\"uniqueids\": {\n    \t\t \"ContractId\": \"I0000774\",\n    \t\t \"AllOrdersForDeal\": true\n    \t}\n}\n\n\n"
 						},
 						"url": {
 							"raw": "http://localhost:57949/api/v1/checkinquantityitem/browse",
