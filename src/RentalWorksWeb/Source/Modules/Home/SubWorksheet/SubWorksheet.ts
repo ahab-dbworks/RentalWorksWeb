@@ -191,6 +191,7 @@ class SubWorksheet {
             } catch (ex) {
                 FwFunc.showError(ex);
             }
+            $form.attr('data-modified', false);
         })
 
         $form.find('.selectall').on('click', function (e) {
@@ -220,6 +221,7 @@ class SubWorksheet {
             } catch (ex) {
                 FwFunc.showError(ex);
             }
+            $form.attr('data-modified', false);
         })
 
         $form.find('.selectnone').on('click', function (e) {
@@ -249,6 +251,7 @@ class SubWorksheet {
             } catch (ex) {
                 FwFunc.showError(ex);
             }
+            $form.attr('data-modified', false);
         })
         
         return $form;
