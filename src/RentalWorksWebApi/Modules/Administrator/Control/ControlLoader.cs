@@ -43,13 +43,19 @@ namespace WebApi.Modules.Administrator.Control
         public string ICodeMask { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "dealstatusid", modeltype: FwDataTypes.Text)]
-        public string DealstatusId { get; set; }
+        public string DefaultDealStatusId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "dealstatus", modeltype: FwDataTypes.Text)]
+        public string DefaultDealStatus { get; set; }
         //------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "salesrestockpercent", modeltype: FwDataTypes.Decimal)]
         //public decimal? Salesrestockpercent { get; set; }
         ////------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "custstatusid", modeltype: FwDataTypes.Text)]
-        public string CuststatusId { get; set; }
+        public string DefaultCustomerStatusId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "custstatus", modeltype: FwDataTypes.Text)]
+        public string DefaultCustomerStatus { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "hintseconds", modeltype: FwDataTypes.Integer)]
         public int? Hintseconds { get; set; }
@@ -151,7 +157,10 @@ namespace WebApi.Modules.Administrator.Control
         public string Invoicenofrom { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "dealdefaultbillperiodid", modeltype: FwDataTypes.Text)]
-        public string DealdefaultbillperiodId { get; set; }
+        public string DefaultDealBillingCycleId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "dealdefaultbillperiod", modeltype: FwDataTypes.Text)]
+        public string DefaultDealBillingCycle { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "vendordefaultbillperiodid", modeltype: FwDataTypes.Text)]
         public string VendordefaultbillperiodId { get; set; }

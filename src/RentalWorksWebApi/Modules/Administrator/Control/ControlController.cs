@@ -47,12 +47,12 @@ namespace WebApi.Modules.Administrator.Control
             return await DoPostAsync<ControlLogic>(l);
         }
         //------------------------------------------------------------------------------------ 
-        // DELETE api/v1/control/A0000001 
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteAsync([FromRoute]string id)
-        {
-            return await DoDeleteAsync(id, typeof(ControlLogic));
-        }
-        //------------------------------------------------------------------------------------ 
+        //// DELETE api/v1/control/A0000001 
+        //[HttpDelete("{id}")]
+        //public async Task<IActionResult> DeleteAsync([FromRoute]string id)
+        //{
+        //    return await DoDeleteAsync(id, typeof(ControlLogic));
+        //}
+        ////------------------------------------------------------------------------------------ 
     }
 }

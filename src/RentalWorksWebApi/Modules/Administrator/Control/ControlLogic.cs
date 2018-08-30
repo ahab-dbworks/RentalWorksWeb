@@ -1,4 +1,5 @@
-using FwStandard.BusinessLogic.Attributes; 
+using FwStandard.BusinessLogic;
+using FwStandard.BusinessLogic.Attributes;
 using WebApi.Logic;
 
 namespace WebApi.Modules.Administrator.Control
@@ -35,9 +36,13 @@ namespace WebApi.Modules.Administrator.Control
         //public string Masterunit { get { return sysControl.Masterunit; } set { sysControl.Masterunit = value; } }
         //public int? Fymonth { get { return sysControl.Fymonth; } set { sysControl.Fymonth = value; } }
         public string ICodeMask { get { return sysControl.Invmask; } set { sysControl.Invmask = value; } }
-        //public string DealstatusId { get { return sysControl.DealstatusId; } set { sysControl.DealstatusId = value; } }
+        public string DefaultDealStatusId { get { return sysControl.DefaultDealStatusId; } set { sysControl.DefaultDealStatusId = value; } }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string DefaultDealStatus { get; set; }
         //public decimal? Salesrestockpercent { get { return sysControl.Salesrestockpercent; } set { sysControl.Salesrestockpercent = value; } }
-        //public string CuststatusId { get { return sysControl.CuststatusId; } set { sysControl.CuststatusId = value; } }
+        public string DefaultCustomerStatusId { get { return sysControl.DefaultCustomerStatusId; } set { sysControl.DefaultCustomerStatusId = value; } }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string DefaultCustomerStatus { get; set; }
         //public int? Hintseconds { get { return sysControl.Hintseconds; } set { sysControl.Hintseconds = value; } }
         //public string PhysicalinvadjId { get { return sysControl.PhysicalinvadjId; } set { sysControl.PhysicalinvadjId = value; } }
         //public bool? Logmessages { get { return sysControl.Logmessages; } set { sysControl.Logmessages = value; } }
@@ -72,7 +77,9 @@ namespace WebApi.Modules.Administrator.Control
         //public bool? Delaygls { get { return sysControl.Delaygls; } set { sysControl.Delaygls = value; } }
         //public string Invoicelocationfrom { get { return sysControl.Invoicelocationfrom; } set { sysControl.Invoicelocationfrom = value; } }
         //public string Invoicenofrom { get { return sysControl.Invoicenofrom; } set { sysControl.Invoicenofrom = value; } }
-        //public string DealdefaultbillperiodId { get { return sysControl.DealdefaultbillperiodId; } set { sysControl.DealdefaultbillperiodId = value; } }
+        public string DefaultDealBillingCycleId { get { return sysControl.DefaultDealBillingCycleId; } set { sysControl.DefaultDealBillingCycleId = value; } }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string DefaultDealBillingCycle { get; set; }
         //public string VendordefaultbillperiodId { get { return sysControl.VendordefaultbillperiodId; } set { sysControl.VendordefaultbillperiodId = value; } }
         //public string Paymentsforfuturedates { get { return sysControl.Paymentsforfuturedates; } set { sysControl.Paymentsforfuturedates = value; } }
         //public string Mapsystem { get { return sysControl.Mapsystem; } set { sysControl.Mapsystem = value; } }
@@ -201,5 +208,18 @@ namespace WebApi.Modules.Administrator.Control
         //public bool? Includenonbillable { get { return sysControl.Includenonbillable; } set { sysControl.Includenonbillable = value; } }
         public string DateStamp { get { return control.DateStamp; } set { control.DateStamp = value; } }
         //------------------------------------------------------------------------------------ 
+        protected override bool Validate(TDataRecordSaveMode saveMode, ref string validateMsg)
+        {
+            bool isValid = true;
+
+            if (saveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smInsert)
+            {
+                isValid = false;
+                validateMsg = "Cannot add new records to Control";
+            }
+
+            return isValid;
+        }
+        //------------------------------------------------------------------------------------    
     }
 }
