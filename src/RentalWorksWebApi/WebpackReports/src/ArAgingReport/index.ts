@@ -33,7 +33,7 @@ export class ArAgingReport extends WebpackReport {
             if (parameters.DealTypeId) {
                 request.uniqueids.DealTypeId = parameters.DealTypeId;
             }
-            console.log(request)
+
             let promise = Ajax.post<DataTable>(`${apiUrl}/api/v1/aragingreport/browse`, authorizationHeader, request)
                 .then((response: DataTable) => {
                     data.Rows = DataTable.toObjectList(response);

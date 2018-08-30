@@ -155,7 +155,8 @@ html.pdf {
                 text-decoration: underline;
             }
 
-            tr[data-rowtype="Dealfooter"] td.totals,
+            tr[data-rowtype="Dealfooter"] td.totals, 
+            tr[data-rowtype="OfficeLocationfooter"] td.totals,
             tr[data-rowtype="grandtotal"] td.totals {
                 border-top: 2px solid black;
             }
