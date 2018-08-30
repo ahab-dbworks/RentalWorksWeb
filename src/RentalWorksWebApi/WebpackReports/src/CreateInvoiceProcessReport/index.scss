@@ -1,101 +1,48 @@
-﻿.body tbody tr[data-rowtype="totals"] div {
-    font-weight: bold;
+﻿tbody {
+    tr[data-rowtype="detail"]:nth-child(even) {
+        background-color: #DCDCDC;
+    }
+
+    tr[data-rowtype="ProjectManagerheader"] {
+        td[data-value="0"]:after {
+            content: "";
+        }
+    }
+
+    td:after {
+        content: attr(data-value);
+    }
+
+    td {
+        padding: 3px;
+    }
 }
 
-.body .header {
-    position: relative;
+body {
+    font-family: Arial, sans-serif;
+    font-size: 11px;
+    margin: 0;
+    padding: 0;
 }
 
-.body thead td {
-    border-bottom: 1px solid black;
-    text-align: left;
-    background-color: #fff;
-}
-
-.body tbody tr[data-rowtype="masternofooter"] .total {
-    border-top: 2px solid black;
-}
-
-.body tbody tr[data-rowtype="masternofooter"],
-tr[data-rowtype="masternoheader"] {
-    background-color: #939393;
-    font-weight: bold;
-}
-
-.body thead td div {
-    font-size: 14px;
-    text-align: center;
-}
-
-
-.totalrow {
-    font-weight: bold;
-    background-color: #ffffff !important;
-    border-top: 1px solid #000000;
-}
-
-.totalrow td div {
-    padding: 5px 0;
-    font-size: 16px !important;
-}
-
-.row1 {
-    font-size: 14px;
-    padding: 10px 0px 15px 0px;
-}
-
-.heading {
-    font-weight: bold;
-}
-/*td div.rotate {
-        transform:
-        translate(25px, 51px)
-        rotate(315deg);
-        width: 30px;
-        height: 140px;
+thead {
+    th {
+        border-top: 2px solid #000000;
+        border-bottom: 2px solid #000000;
+        font-weight: bold;
+        padding: 5px;
         white-space: nowrap;
-        border-bottom: 1px solid #ccc;
-        padding: 5px 10px;
-    }*/
-.row2 {
-    padding: 0 0 0 10px;
-    min-height: 16px;
+    }
 }
 
-.row3 {
-    padding: 0 0 0 20px;
-    min-height: 16px;
-}
-
-.row4 {
-    padding: 0 0 0 30px;
-    min-height: 16px;
-}
-
-.row5 {
-    padding: 15px 0px 15px 0px;
-    font-size: 14px;
-    text-align: right;
-}
-/*tbody tr td {border: 1px solid black;}*/
-tr td div {
-    padding: 5px 0px 5px 0px;
-    min-height: 16px;
-}
-
-.exportedcaption {
+.name-row {
     font-weight: bold;
-    font-size: 16px;
-}
-
-.body tfoot tr {
-    border-top: 1px solid black;
-}
-
-.body tfoot td > div {
-    line-height: 16px;
-    vertical-align: middle;
+    padding-top: 15px;
     font-size: 14px;
-    padding: 10px 0;
+}
+
+.total-row {
     font-weight: bold;
+    border-top: 1.5px solid black;
+    padding-top: 10px;
 }

@@ -15,26 +15,25 @@ export class CreateInvoiceProcessReport extends WebpackReport {
         try {
             super.renderReport(apiUrl, authorizationHeader, parameters);
 
-            // experimental
-            this.renderProgress = 50;
-            this.renderStatus = 'Running';
             let request = new BrowseRequest();
+            request.uniqueids = {};
        
-            HandlebarsHelpers.registerHelpers();
+            HandlebarsHelpers.registerHelpers(); 
             let createInvoiceProcess: any = {};
-            let today = new Date();
             console.log('parameters: ', parameters);
+            request.uniqueids.BatchId = parameters.BatchId;
+            request.uniqueids.ExceptionsOnly = parameters.ShowExceptions;
+            request.orderby = 'OfficeLocation, Department, Deal, OrderNumber';
+            console.log('request: ', request);
+
             
             let CreateInvoiceProcessPromise = Ajax.post<DataTable>(`${apiUrl}/api/v1/createinvoiceprocessreport/browse`, authorizationHeader, request)
                 .then((response: DataTable) => {
-                    createInvoiceProcess = DataTable.toObjectList(response); // converts res to javascript obj
+                    createInvoiceProcess = DataTable.toObjectList(response);
                     console.log('createInvoiceProcess: ', createInvoiceProcess); 
 
                     createInvoiceProcess.PrintTime = moment().format('YYYY-MM-DD h:mm:ss A');
-                    createInvoiceProcess.ContractTime = moment(createInvoiceProcess.ContractTime, 'h:mm a').format('h:mm a');
-                    createInvoiceProcess.FromDate = parameters.FromDate;
-                    createInvoiceProcess.ToDate = parameters.ToDate;
-                    createInvoiceProcess.Report = 'AGENT BILLING REPORT';
+                    createInvoiceProcess.Report = 'Create Invoice Process Report';
                     createInvoiceProcess.System = 'RENTALWORKS';
                     createInvoiceProcess.Company = '4WALL ENTERTAINMENT';
                     this.renderFooterHtml(createInvoiceProcess);
@@ -53,53 +52,10 @@ export class CreateInvoiceProcessReport extends WebpackReport {
         }
     }
 
-    renderFooterHtml(model: CreateInvoiceProcess) : string {
+    renderFooterHtml(model: DataTable) : string {
         this.footerHtml = hbFooter(model);
         return this.footerHtml;
     }
 }
 
 (<any>window).report = new CreateInvoiceProcessReport();
-
-class CreateInvoiceProcess {
-    _Custom = new Array<CustomField>();
-    ContractId = '';
-    ContractNumber = '';
-    ContractType = '';
-    ContractDate = '';
-    ContractTime = '';
-    LocationId = '';
-    LocationCode = '';
-    Location = '';
-    WarehouseId = '';
-    WarehouseCode = '';
-    Warehouse = '';
-    CustomerId = '';
-    DealId = '';
-    Deal = '';
-    DepartmentId = '';
-    Department = '';
-    PurchaseOrderId = '';
-    PurchaseOrderNumber = '';
-    RequisitionNumber = '';
-    VendorId = '';
-    Vendor = '';
-    Migrated = false;
-    NeedReconcile = false;
-    PendingExchange = false;
-    ExchangeContractId = '';
-    Rental = false;
-    Sales = false;
-    InputByUserId = '';
-    InputByUser = '';
-    DealInactive = false;
-    Truck = false;
-    BillingDate = '';
-    HasAdjustedBillingDate = false;
-    HasVoId = false;
-    SessionId = '';
-    OrderDescription = '';
-    DateStamp = '';
-    RecordTitle = '';
-    PrintTime = '';
-}

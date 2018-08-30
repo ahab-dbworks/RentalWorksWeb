@@ -1,108 +1,75 @@
-﻿<div class="header report-flexrow">
-  <div class="report-flexcolumn">
-    <span class="report-header-system">{{System}}</span>
+﻿<div class="rpt-flexrow">
+  <div class="rpt-flexcolumn">
+    <span class="rpt-header-left">{{System}}</span>
   </div>
-  <div class="report-flexcolumn">
-  <span class="report-title">{{Report}}</span>
-    <span class="report-header-date">Invoice From: {{FromDate}} To: {{ToDate}}</span>
+  <div class="rpt-flexcolumn">
+    <span class="rpt-title">{{Report}}</span>
+    <span class="rpt-header-date">Department: {{Department}}</span>
+    <span class="rpt-header-date">Invoice Creation Batch No: {{BatchNumber}}</span>
+    <span class="rpt-header-date">Created on: {{Today}}</span>
   </div>
-  <div class="report-flexcolumn">
-    <span class="report-header-company">{{Company}}</span>
+  <div class="rpt-flexcolumn">
+    <span class="rpt-header-right">{{Company}}</span>
   </div>
 </div>
-<div class="body" style="width:1500px;">
-  <br /><br />
-  <table id="tblagentbillingreport" style="margin-top: 40px;">
-    {{#each this}}
+<div class="rpt-flexrow" style="margin-top:40px;">
+  <table>
     <thead>
       <tr>
-        <td class="heading">
-          <div class="heading" style="max-width:67px">Invoice No</div>
-        </td>
-        <td>
-          <div class="heading">Invoice Date</div>
-        </td>
-        <td>
-          <div class="heading">Billing Date</div>
-        </td>
-        <td>
-          <div class="heading">Description</div>
-        </td>
-        <td>
-          <div class="heading">Order No.</div>
-        </td>
-        <td>
-          <div class="heading">Deal</div>
-        </td>
-        <td>
-          <div class="heading">Rental</div>
-        </td>
-        <td>
-          <div class="heading">Sales</div>
-        </td>
-        <td>
-          <div class="heading">Labor</div>
-        </td>
-        <td>
-          <div class="heading">Misc</div>
-        </td>
-        <td>
-          <div class="heading">Asset</div>
-        </td>
-        <td>
-          <div class="heading">Parts</div>
-        </td>
-        <td>
-          <div class="heading">Invoice Total</div>
-        </td>
+        <th class="text">Invoice No.</th>
+        <th class="text">Order No.</th>
+        <th class="text">Order Description</th>
+        <th class="text">Bill Start</th>
+        <th class="text">Bill End</th>
+        <th class="text">Billing Cycle</th>
+        <th class="number">Total</th>
+        <th class="number">Prior Invoice</th>
       </tr>
     </thead>
     <tbody>
-      <tr data-rowtype={{rowtype}}>
-        <td>
-          <div class="row1"><span>{{InvoiceNumber}}</span></div>
-        </td>
-        <td>
-          <div class="row1"><span>{{InvoiceDate}}</span></div>
-        </td>
-        <td>
-          <div class="row1">{{BillingStartDate}}</div>
-        </td>
-        <td>
-          <div class="row1">{{InvoiceDescription}}</div>
-        </td>
-        <td>
-          <div class="row1">{{OrderNumber}}</div>
-        </td>
-        <td>
-          <div class="row1"><span>{{Deal}}</span></div>
-        </td>
-        <td>
-          <div class="row1 date">{{RentalTotal}}</div>
-        </td>
-        <td>
-          <div class="row1"><span>{{SalesTotal}}</span></div>
-        </td>
-        <td>
-          <div class="row1">{{LaborTotal}}</div>
-        </td>
-        <td>
-          <div class="row1 date">{{MiscTotal}}</div>
-        </td>
-        <td>
-          <div class="row1 date">{{AssetTotal}}</div>
-        </td>
-        <td>
-          <div class="row1">{{PartsTotal}}</div>
-        </td>
-        <td class="total">
-          <div class="row1" style="text-align:right;">{{InvoiceTotal}}</div>
-        </td>
-      </tr>
-      <tr>
-        <td class="sub-heading">
-          <div class="row2" style="text-align:right;">Agent: {{Agent}}</div>
-        </td>
+      {{#each this}}
+      <tr data-rowtype={{RowType}}>
+        {{#ifEquals RowType "OfficeLocationheader"}}
+          <td colspan="5" class="name-row">Office: {{OfficeLocation}}</td>
+        {{/ifEquals}}
+          {{#ifEquals RowType "Dealheader"}}
+            <td colspan="5" class="name-row">Deal: {{Deal}}</td>
+          {{/ifEquals}}
+        {{#ifEquals RowType "detail"}}
+        <td class="text" data-value="{{InvoiceNumber}}"></td>
+        <td class="text" data-value="{{OrderNumber}}"></td>
+        <td class="text" data-value="{{OrderDescription}}"></td>
+        <td class="text" data-value="{{BillingStart}}"></td>
+        <td class="text" data-value="{{BillingEnd}}"></td>
+        <td class="text" data-value="{{BillingCycle}}"></td>
+        <td class="number" data-value="{{InvoiceTotal}}"></td>
+        <td class="number" data-value="{{PriorInvoiceTotal}}"></td>
+        {{/ifEquals}}
+        {{#ifEquals RowType "OfficeLocationfooter"}}
+
+        <td class="empty"></td>
+        <td colspan="5" style="font-weight:bold;text-align:right;padding-top:11px">{{OfficeLocation}}&nbsp;</td>
+        <td class="total-row number" data-value="{{InvoiceTotal}}"></td>
+        <td class="total-row number" data-value="{{}}"></td>
+        <td class="total-row number" data-value="{{}}"></td>
+        {{/ifEquals}}
+        {{#ifEquals RowType "grandtotal"}}
+        <td class="empty"></td>
+        <td class="empty"></td>
+        <td class="empty"></td>
+        <td class="empty"></td>
+        <td class="empty"></td>
+        <td style="font-weight:bold;text-align:right;padding-top:11px">Grand Total:&nbsp;</td>
+        <td class="total-row number" data-value="{{RentalTotal}}"></td>
+        <td class="total-row number" data-value="{{SalesTotal}}"></td>
+        <td class="total-row number" data-value="{{FacilitiesTotal}}"></td>
+        <td class="total-row number" data-value="{{LaborTotal}}"></td>
+        <td class="total-row number" data-value="{{MiscellaneousTotal}}"></td>
+        <td class="total-row number" data-value="{{AssetTotal}}"></td>
+        <td class="total-row number" data-value="{{PartsTotal}}"></td>
+        <td class="total-row number" data-value="{{InvoiceTax}}"></td>
+        <td class="total-row number" data-value="{{InvoiceTotal}}"></td>
+        {{/ifEquals}}
       </tr>
       {{/each}}
     </tbody>
