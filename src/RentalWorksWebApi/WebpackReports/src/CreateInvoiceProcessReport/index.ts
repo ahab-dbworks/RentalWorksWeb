@@ -20,22 +20,21 @@ export class CreateInvoiceProcessReport extends WebpackReport {
        
             HandlebarsHelpers.registerHelpers(); 
             let createInvoiceProcess: any = {};
-            console.log('parameters: ', parameters);
             request.uniqueids.BatchId = parameters.BatchId;
             request.uniqueids.ExceptionsOnly = parameters.ShowExceptions;
             request.orderby = 'OfficeLocation, Department, Deal, OrderNumber';
-            console.log('request: ', request);
-
             
             let CreateInvoiceProcessPromise = Ajax.post<DataTable>(`${apiUrl}/api/v1/createinvoiceprocessreport/browse`, authorizationHeader, request)
                 .then((response: DataTable) => {
                     createInvoiceProcess = DataTable.toObjectList(response);
-                    console.log('createInvoiceProcess: ', createInvoiceProcess); 
-
+                    createInvoiceProcess.BatchNumber = createInvoiceProcess[2].BatchNumber;
+                    createInvoiceProcess.Department = createInvoiceProcess[2].Department;
+                    createInvoiceProcess.Today = moment().format('LL');
                     createInvoiceProcess.PrintTime = moment().format('YYYY-MM-DD h:mm:ss A');
                     createInvoiceProcess.Report = 'Create Invoice Process Report';
                     createInvoiceProcess.System = 'RENTALWORKS';
                     createInvoiceProcess.Company = '4WALL ENTERTAINMENT';
+                    console.log('createInvoiceProcess: ', createInvoiceProcess); 
                     this.renderFooterHtml(createInvoiceProcess);
                     if (this.action === 'Preview' || this.action === 'PrintHtml') {
                         document.getElementById('pageFooter').innerHTML = this.footerHtml;

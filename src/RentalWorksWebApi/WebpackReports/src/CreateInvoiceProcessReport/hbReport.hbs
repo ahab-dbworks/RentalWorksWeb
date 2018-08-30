@@ -33,7 +33,7 @@
           <td colspan="5" class="name-row">Office: {{OfficeLocation}}</td>
         {{/ifEquals}}
           {{#ifEquals RowType "Dealheader"}}
-            <td colspan="5" class="name-row">Deal: {{Deal}}</td>
+            <td colspan="5" class="deal-row">Deal: {{Deal}}</td>
           {{/ifEquals}}
         {{#ifEquals RowType "detail"}}
         <td class="text" data-value="{{InvoiceNumber}}"></td>
@@ -50,8 +50,8 @@
         <td class="empty"></td>
         <td colspan="5" style="font-weight:bold;text-align:right;padding-top:11px">{{OfficeLocation}}&nbsp;</td>
         <td class="total-row number" data-value="{{InvoiceTotal}}"></td>
-        <td class="total-row number" data-value="{{}}"></td>
-        <td class="total-row number" data-value="{{}}"></td>
+        <td class="total-row number" data-value=""></td>
+        <td class="total-row number" data-value=""></td>
         {{/ifEquals}}
         {{#ifEquals RowType "grandtotal"}}
         <td class="empty"></td>
