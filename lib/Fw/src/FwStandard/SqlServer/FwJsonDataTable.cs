@@ -320,7 +320,8 @@ namespace FwStandard.SqlServer
                 }
 
                 // add a group footer row to the data table
-                if ((!isFirstRow) && (!isHeaderRow) && (isLastDetailRow || isNextRowNewGroup))
+                //if ((!isFirstRow) && (!isHeaderRow) && (isLastDetailRow || isNextRowNewGroup))
+                if ((!isHeaderRow) && (isLastDetailRow || isNextRowNewGroup))
                 {
                     row = NewRow();
                     row[indexRowTypeColumn] = nameGroupbyColumn + "footer";
