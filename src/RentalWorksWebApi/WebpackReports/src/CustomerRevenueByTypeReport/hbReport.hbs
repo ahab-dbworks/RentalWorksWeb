@@ -13,10 +13,7 @@
         <thead>
           <tr class="columnheadings">
             <td>
-              <div style="padding-left:40px;">Customer / Deal / Deal Type</div>
-            </td>
-            <td>
-              <div>Order No.</div>
+              <div style="padding-left:40px;">Customer / Deal / Order No.</div>
             </td>
             <td>
               <div>Inoice No.</div>
@@ -75,8 +72,7 @@
             <td class="DealHeader" colspan="4">{{Deal}}</td>
             {{/ifEquals}}
             {{#ifEquals RowType "detail"}}
-            <td class="firstTd">{{DealType}}</td>
-            <td class="">{{OrderNumber}}</td>
+            <td class="firstTd">{{OrderNumber}}</td>
             <td class="">{{InvoiceNumber}}</td>
             <td class="">{{BillingStart}}</td>
             <td class="">{{BillingEnd}}</td>
@@ -94,7 +90,6 @@
             {{#ifEquals RowType "Dealfooter"}}
             <td class=""></td>
             <td class=""></td>
-            <td class=""></td>
             <td class="" colspan="3">{{Deal}}</td>
             <td class="total" style="border-top:2px solid black;font-weight:bold;">{{Rental}}</td>
             <td class="total" style="border-top:2px solid black;font-weight:bold;">{{Sales}}</td>
@@ -107,7 +102,6 @@
             <td class="total" style="border-top:2px solid black;font-weight:bold;">{{Total}}</td>
             {{/ifEquals}}
             {{#ifEquals RowType "Departmentfooter"}}
-            <td class=""></td>
             <td class=""></td>
             <td class=""></td>
             <td class="" colspan="3">{{Department}}</td>
@@ -124,7 +118,6 @@
             {{#ifEquals RowType "OfficeLocationfooter"}}
             <td class=""></td>
             <td class=""></td>
-            <td class=""></td>
             <td class="" colspan="3">{{OfficeLocation}}</td>
             <td class="total" style="border-top:2px solid black;font-weight:bold;">{{Rental}}</td>
             <td class="total" style="border-top:2px solid black;font-weight:bold;">{{Sales}}</td>
@@ -137,7 +130,6 @@
             <td class="total" style="border-top:2px solid black;font-weight:bold;">{{Total}}</td>
             {{/ifEquals}}
             {{#ifEquals RowType "grandtotal"}}
-            <td class=""></td>
             <td class=""></td>
             <td class=""></td>
             <td class="" style="font-weight:bold;" colspan="3">Grand Total</td>
