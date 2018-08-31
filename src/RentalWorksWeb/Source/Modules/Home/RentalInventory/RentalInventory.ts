@@ -411,7 +411,7 @@ class RentalInventory extends InventoryBase {
             FwFormField.enable($form.find('.subcategory'));
         } else {
             FwFormField.disable($form.find('.subcategory'));
-        }
+        }  
         this.addAssetTab($form);
     };
     //----------------------------------------------------------------------------------------------

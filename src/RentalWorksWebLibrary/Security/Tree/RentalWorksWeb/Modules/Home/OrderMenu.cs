@@ -31,11 +31,11 @@ namespace WebLibrary.Security.Tree.RentalWorksWeb.Modules.Settings
             tree.AddSubMenuItem("Print Order", "{F2FD2F4C-1AB7-4627-9DD5-1C8DB96C5509}", nodeFormOptions.Id);
             tree.AddSubMenuItem("Create Pick List", "{91C9FD3E-ADEE-49CE-BB2D-F00101DFD93F}", nodeFormOptions.Id);
             tree.AddSubMenuItem("Create Snapshot", "{AB1D12DC-40F6-4DF2-B405-54A0C73149EA}", nodeFormOptions.Id);
+            tree.AddSubMenuItem("View Snapshot", "{03000DCC-3D58-48EA-8BDF-A6D6B30668F5}", nodeFormOptions.Id);
             tree.AddSubMenuItem("Cancel / Uncancel", "{6B644862-9030-4D42-A29B-30C8DAC29D3E}", nodeFormOptions.Id);
             tree.AddSubMenuItem("Order Status", "{CF245A59-3336-42BC-8CCB-B88807A9D4EA}", nodeFormOptions.Id);
             tree.AddSubMenuItem("Check-Out", "{771DCE59-EB57-48B2-B189-177B414A4ED3}", nodeFormOptions.Id);
             tree.AddSubMenuItem("Check-In", "{380318B6-7E4D-446D-A018-1EB7720F4338}", nodeFormOptions.Id);
-          
         }
         //---------------------------------------------------------------------------------------------
     }
