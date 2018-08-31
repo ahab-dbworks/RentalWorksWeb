@@ -399,7 +399,7 @@ namespace FwStandard.SqlServer
             {
                 sql.Insert(0, this.StackTrace + Environment.NewLine);
             }
-            sql.Insert(0, $"---- {Counter.ToString()} - {DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss tt")} -----------------------------------------" + Environment.NewLine);
+            sql.Insert(0, $"----{Counter.ToString()} - {DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss tt")}-----------------------------------------" + Environment.NewLine);
             
 
             WriteToConsole(sql.ToString());

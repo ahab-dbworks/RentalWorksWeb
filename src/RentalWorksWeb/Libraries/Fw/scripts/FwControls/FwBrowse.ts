@@ -2329,14 +2329,6 @@ class FwBrowseClass {
             }
         }
 
-        $tr.on('click', '.tdselectrow', (event: JQuery.Event) => {
-            try {
-                event.stopPropagation();
-            } catch (ex) {
-                FwFunc.showError(ex);
-            }
-        });
-
         return $tr;
     }
     //---------------------------------------------------------------------------------
@@ -2475,7 +2467,6 @@ class FwBrowseClass {
 
             this.setRowViewMode($control, $tr);
         }
-        this.unselectAllRows($control);
     }
     //---------------------------------------------------------------------------------
     // trigger an auto-save on any rows in new or edit mode
@@ -2849,8 +2840,6 @@ class FwBrowseClass {
                     }
                     FwServices.grid.method(request, name, mode, $control, function (response) {
                         try {
-                            
-                            me.unselectAllRows($control);
                             // if the server reloaded the fields, then databind them into the row
                             var $fields = $tr.find('.field');
                             for (var fieldno = 0; fieldno < $fields.length; fieldno++) {
