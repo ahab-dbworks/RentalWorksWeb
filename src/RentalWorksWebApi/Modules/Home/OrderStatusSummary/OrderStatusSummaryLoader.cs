@@ -9,10 +9,9 @@ using WebLibrary;
 
 namespace WebApi.Modules.Home.OrderStatusSummary
 {
-    [FwSqlTable("masteritem")]
+    [FwSqlTable("dbo.getorderstatussummary(@orderid)")]
     public class OrderStatusSummaryLoader : AppDataLoadRecord
     {
-        private string orderId;
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "orderid", modeltype: FwDataTypes.Text)]
         public string OrderId { get; set; }
@@ -206,19 +205,12 @@ namespace WebApi.Modules.Home.OrderStatusSummary
         [FwSqlDataField(column: "stagedoutextendedprice", modeltype: FwDataTypes.Decimal)]
         public decimal? StagedOutExtendedPrice { get; set; }
         //------------------------------------------------------------------------------------ 
-        [JsonIgnore]
-        public override string TableName
-        {
-            get
-            {
-                return "dbo.getorderstatussummary('" + orderId + "')";
-            }
-        }
-        //------------------------------------------------------------------------------------
         protected override void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequest request = null)
         {
-            string filterStatus = string.Empty;
             useWithNoLock = false;
+
+            string orderId = "!none!";
+            string filterStatus = string.Empty;
             if (request != null)
             {
                 if (request.uniqueids != null)
@@ -248,7 +240,9 @@ namespace WebApi.Modules.Home.OrderStatusSummary
             AddFilterFieldToSelect("SubCategoryId", "subcategoryid", select, request);
             AddFilterFieldToSelect("WarehouseId", "outwarehouseid", select, request);
             AddFilterFieldToSelect("InventoryId", "masterid", select, request);
-            AddFilterFieldToSelect("Description", "description", select, request); 
+            AddFilterFieldToSelect("Description", "description", select, request);
+
+            select.AddParameter("@orderid", orderId);
             
 
             switch (filterStatus)

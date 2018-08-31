@@ -9,10 +9,9 @@ using WebLibrary;
 
 namespace WebApi.Modules.Home.OrderStatusDetail
 {
-    [FwSqlTable("masteritem")]
+    [FwSqlTable("dbo.funcgetorderstatusdetail(@orderid,'ORDER')")]
     public class OrderStatusDetailLoader : AppDataLoadRecord
     {
-        private string orderId;
         //------------------------------------------------------------------------------------  
         [FwSqlDataField(column: "orderid", modeltype: FwDataTypes.Text)]
         public string OrderId { get; set; }
@@ -212,19 +211,11 @@ namespace WebApi.Modules.Home.OrderStatusDetail
         [FwSqlDataField(column: "orderorderby", modeltype: FwDataTypes.Integer)]
         public int? OrderOrderby { get; set; }
         //------------------------------------------------------------------------------------  
-        [JsonIgnore]
-        public override string TableName
-        {
-            get
-            {
-                return "dbo.funcgetorderstatusdetail('" + orderId + "','ORDER')";
-            }
-        }
-        //------------------------------------------------------------------------------------ 
         protected override void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequest request = null)
         {
-            string filterStatus = string.Empty;
             useWithNoLock = false;
+            string orderId = "!none!";
+            string filterStatus = string.Empty;
             if (request != null) 
             {
                 if (request.uniqueids != null)
@@ -247,6 +238,7 @@ namespace WebApi.Modules.Home.OrderStatusDetail
             }
             base.SetBaseSelectQuery(select, qry, customFields, request);
             select.Parse();
+            select.AddParameter("@orderid", orderId);
             addFilterToSelect("RecType", "rectype", select, request);
 
             AddFilterFieldToSelect("InventoryTypeId", "inventorydepartmentid", select, request);
