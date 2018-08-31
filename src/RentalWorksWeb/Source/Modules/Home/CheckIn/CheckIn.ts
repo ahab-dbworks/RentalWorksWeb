@@ -262,6 +262,11 @@ class CheckIn {
             FwModule.openSubModuleTab($form, $orderStatusForm);
             jQuery('.tab.submodule.active').find('.caption').html('Order Status');
         });
+        //Refresh grid on Check-In tab click
+        $form.find('.checkintab').on('click', e => {
+            const $checkedInItemsGrid = $form.find('div[data-name="CheckedInItemGrid"]');
+            FwBrowse.search($checkedInItemsGrid);
+        });
     };
     //----------------------------------------------------------------------------------------------
     checkInItem($form, type?: string) {

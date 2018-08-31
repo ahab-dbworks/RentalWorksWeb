@@ -13,6 +13,7 @@ class CheckInQuantityItemsGrid {
             let originalquantity = $tr.find('[data-browsedatafield="Quantity"]').attr('data-originalvalue');
             let $grid = $tr.parents('[data-grid="CheckInQuantityItemsGrid"]');
             let $oldElement = $quantityColumn.find('div');
+            let preventBubble = true;
             let html = [];
             html.push('<button class="decrementQuantity" tabindex="-1" style="padding: 5px 0px; float:left; width:25%; border:none;">-</button>');
             html.push('<div style="position:relative">');
@@ -31,21 +32,13 @@ class CheckInQuantityItemsGrid {
                 increment: function () {
                     var $value = $quantityColumn.find('.fieldvalue');
                     var oldval = jQuery.isNumeric(parseFloat($value.val())) ? parseFloat($value.val()) : 0;
-                    if ((typeof $quantityColumn.attr('data-maxvalue') !== 'undefined') && ($quantityColumn.attr('data-maxvalue') <= oldval)) {
-                    }
-                    else {
-                        $value.val(++oldval);
-                    }
+                    $value.val(++oldval);
                 },
                 decrement: function () {
                     var $value = $quantityColumn.find('.fieldvalue');
                     var oldval = jQuery.isNumeric(parseFloat($value.val())) ? parseFloat($value.val()) : 0;
-                    if ((typeof $quantityColumn.attr('data-minvalue') !== 'undefined') && ($quantityColumn.attr('data-minvalue') >= oldval)) {
-                    }
-                    else {
-                        if (oldval > 0) {
-                            $value.val(--oldval);
-                        }
+                    if (oldval > 0) {
+                        $value.val(--oldval);
                     }
                 }
             });
@@ -55,7 +48,8 @@ class CheckInQuantityItemsGrid {
                     $quantityColumn.data('increment')();
                     $quantityColumn.data('interval', setInterval(function () { $quantityColumn.data('increment')(); }, 200));
                 })
-                    .on('mouseup mouseleave', '.incrementQuantity', function () {
+                    .on('mouseup', '.incrementQuantity, .decrementQuantity', function () {
+                    preventBubble = false;
                     clearInterval($quantityColumn.data('interval'));
                     $quantityColumn.find('.fieldvalue').change();
                 })
@@ -63,9 +57,11 @@ class CheckInQuantityItemsGrid {
                     $quantityColumn.data('decrement')();
                     $quantityColumn.data('interval', setInterval(function () { $quantityColumn.data('decrement')(); }, 200));
                 })
-                    .on('mouseup mouseleave', '.decrementQuantity', function () {
+                    .on('mouseleave', '.incrementQuantity, .decrementQuantity', function () {
                     clearInterval($quantityColumn.data('interval'));
-                    $quantityColumn.find('.fieldvalue').change();
+                    if (preventBubble) {
+                        $quantityColumn.find('.fieldvalue').change();
+                    }
                 });
             }
             ;
@@ -89,13 +85,15 @@ class CheckInQuantityItemsGrid {
                     FwAppData.apiMethod(true, 'POST', "api/v1/checkin/checkinitem", request, FwServices.defaultTimeout, function onSuccess(response) {
                         if (response.success) {
                             $tr.find('[data-browsedatafield="Quantity"]').attr('data-originalvalue', Number(newValue));
+                            FwBrowse.setFieldValue($grid, $tr, 'QuantityOut', { value: response.InventoryStatus.QuantityOut });
                         }
                         else {
                             $tr.find('[data-browsedatafield="Quantity"] input').val(Number(oldValue));
                         }
+                        preventBubble = true;
                     }, function onError(response) {
                         $tr.find('[data-browsedatafield="Quantity"] input').val(Number(oldValue));
-                    }, null);
+                    }, $form);
                 }
             });
         });
