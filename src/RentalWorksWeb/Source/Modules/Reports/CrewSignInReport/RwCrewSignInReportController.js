@@ -73,6 +73,10 @@ class RwCrewSignInReportClass extends FwWebApiReport {
     }
     onLoadForm($form) {
         this.load($form, this.reportOptions);
+        const department = JSON.parse(sessionStorage.getItem('department'));
+        const location = JSON.parse(sessionStorage.getItem('location'));
+        FwFormField.setValue($form, 'div[data-datafield="DepartmentId"]', department.departmentid, department.department);
+        FwFormField.setValue($form, 'div[data-datafield="OfficeLocationId"]', location.locationid, location.location);
     }
 }
 var RwCrewSignInReportController = new RwCrewSignInReportClass();
