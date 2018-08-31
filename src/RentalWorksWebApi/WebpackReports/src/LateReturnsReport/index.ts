@@ -4,8 +4,7 @@ import { DataTable, DataTableColumn, BrowseRequest } from '../../lib/FwReportLib
 import { Ajax } from '../../lib/FwReportLibrary/src/Ajax';
 import { HandlebarsHelpers } from '../../lib/FwReportLibrary/src/HandlebarsHelpers';
 import * as moment from 'moment';
-import './index.scss';
-var hbHeader = require("./hbHeader.hbs"); 
+import './index.scss'; 
 var hbReport = require("./hbReport.hbs"); 
 var hbFooter = require("./hbFooter.hbs"); 
 
