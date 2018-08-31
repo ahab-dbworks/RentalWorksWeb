@@ -284,14 +284,15 @@ class StagingCheckout {
                         request.VendorId = vendorId;
                     }
                     FwAppData.apiMethod(true, 'POST', `api/v1/checkout/movestageditemtoout`, request, FwServices.defaultTimeout, response => {
-                        // need error handling  
-                        setTimeout(() => {
-                            FwBrowse.search($checkedOutItemGrid);
-                            FwBrowse.search($stagedItemGrid);
-                        }, 500);
-                        $form.find('.partial-contract-barcode input').focus();
-                    }, null, null);
+                    }, function onError(response) {
+                        FwFunc.showError(response);
+                    }, null);
                 }
+            setTimeout(() => {
+                FwBrowse.search($checkedOutItemGrid);
+                FwBrowse.search($stagedItemGrid);
+            }, 500);
+            $form.find('.partial-contract-barcode input').focus();
             } else {
                 FwNotification.renderNotification('WARNING', 'Select rows in Stage Items or use Bar Code input in order to perform this function.');
                 $form.find('.partial-contract-barcode input').focus();
@@ -362,14 +363,15 @@ class StagingCheckout {
                         request.VendorId = vendorId;
                     }
                     FwAppData.apiMethod(true, 'POST', `api/v1/checkout/moveoutitemtostaged`, request, FwServices.defaultTimeout, response => {
-// need error handling
-                        setTimeout(() => {
-                            FwBrowse.search($checkedOutItemGrid);
-                            FwBrowse.search($stagedItemGrid);
-                        }, 500);
-                    }, null, null);
-                    $form.find('.partial-contract-barcode input').focus();
+                    }, function onError(response) {
+                        FwFunc.showError(response);
+                    }, null);
                 }
+                setTimeout(() => {
+                    FwBrowse.search($checkedOutItemGrid);
+                    FwBrowse.search($stagedItemGrid);
+                }, 500);
+                $form.find('.partial-contract-barcode input').focus();
             } else {
                 FwNotification.renderNotification('WARNING', 'Select rows in Contract Items or use Bar Code input in order to perform this function.');
                 $form.find('.partial-contract-barcode input').focus();
@@ -407,7 +409,7 @@ class StagingCheckout {
                 catch (ex) {
                     FwFunc.showError(ex);
                 }
-            }, null, null);
+            }, null, $form);
         } else {
             FwNotification.renderNotification('WARNING', 'Check-out items before attemping to perform this function.');
         }
@@ -439,7 +441,7 @@ class StagingCheckout {
                 errorSound.play();
                 $form.find('div.error-msg').html(`<div style="margin:0px 0px 0px 8px;"><span style="padding:0px 4px 0px 4px;font-size:22px;border-radius:2px;background-color:red;color:white;">${response.msg}</span></div>`);
             }
-        }, null, null);
+        }, null, $form);
     };
     //----------------------------------------------------------------------------------------------
     renderGrids($form: any): void {
