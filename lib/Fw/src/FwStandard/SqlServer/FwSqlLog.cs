@@ -4,6 +4,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace FwStandard.SqlServer
 {
@@ -14,23 +15,16 @@ namespace FwStandard.SqlServer
         public DateTime StartTime = DateTime.MinValue;
         public DateTime StopTime = DateTime.MinValue;
         public static int Counter = 0;
+        private string StackTrace = string.Empty;
 
-        public static string HostMachineName = "";
-
-        public FwSqlLogEntry(string label, SqlCommand command)
+        public FwSqlLogEntry(string label, SqlCommand command, string stackTrace = "")
         {
-
-            if (string.IsNullOrEmpty(HostMachineName))
-            {
-                HostMachineName = System.Net.Dns.GetHostName();
-            }
-
             Counter++;
             StringBuilder sqlForHtml, sql;
             int maxParameterWidth = 0;
-            int maxDataTypeWidth = 0;
             List<string> outputParameterNames = new List<string>();
 
+            this.StackTrace = stackTrace;
             sqlForHtml = new StringBuilder();
             sql = new StringBuilder();
             if (!string.IsNullOrEmpty(label))
@@ -330,22 +324,20 @@ namespace FwStandard.SqlServer
                         sql.Append(",");
                     }
                     sqlForHtml.Append("<br/>");
-                    sql.Append("\n");
+                    sql.Append(Environment.NewLine);
 
                 }
                 sqlForHtml.Append("<br/><br/>");
-                sql.Append("\n");
+                sql.Append(Environment.NewLine);
             }
 
             if (command.CommandType == CommandType.Text)
             {
-                sqlForHtml.Append(command.CommandText.Replace("\r\n", "<br/>"));
+                sqlForHtml.Append(command.CommandText.Replace(Environment.NewLine, "<br/>"));
                 sql.Append(command.CommandText);
             }
             else if (command.CommandType == CommandType.StoredProcedure)
             {
-                //sqlForHtml.Append(command.CommandText.Replace("\r\n", "<br/>"));
-
                 sql.AppendLine("exec " + command.CommandText);
                 sqlForHtml.Append("exec " + command.CommandText + "<br/>  ");
                 for (int i = 0; i < command.Parameters.Count; i++)
@@ -376,13 +368,13 @@ namespace FwStandard.SqlServer
                         sql.Append(",");
                     }
                     sqlForHtml.Append("<br/>");
-                    sql.Append("\n");
+                    sql.Append(Environment.NewLine);
 
                 }
                 if (outputParameterNames.Count > 0)
                 {
                     sqlForHtml.Append("<br/><br/>select<br/>  ");
-                    sql.Append("\n\nselect\n ");
+                    sql.Append(Environment.NewLine + Environment.NewLine + "select" + Environment.NewLine + " ");
                     for (int i = 0; i < outputParameterNames.Count; i++)
                     {
                         sql.Append("  ");
@@ -396,23 +388,27 @@ namespace FwStandard.SqlServer
                             sql.Append(",");
                         }
                         sqlForHtml.Append("<br/>");
-                        sql.Append("\n");
+                        sql.Append(Environment.NewLine);
 
                     }
                 }
             }
             SqlForHtml = sqlForHtml.ToString().Replace(" ", "&nbsp;");
 
-
-            sql.Insert(0, "----" + Counter.ToString() + "------------------------------------------\n");
+            if (!string.IsNullOrEmpty(this.StackTrace))
+            {
+                sql.Insert(0, this.StackTrace + Environment.NewLine);
+            }
+            sql.Insert(0, $"---- {Counter.ToString()} - {DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss tt")} -----------------------------------------" + Environment.NewLine);
+            
 
             WriteToConsole(sql.ToString());
 
         }
 
-        public FwSqlLogEntry(SqlCommand command) : this(string.Empty, command)
+        public FwSqlLogEntry(SqlCommand command, string stackTrace = "") : this(string.Empty, command, stackTrace)
         {
-
+            this.StackTrace = stackTrace;
         }
 
         public FwSqlLogEntry(string message)
@@ -432,16 +428,18 @@ namespace FwStandard.SqlServer
         }
         public void WriteToConsole(string str, bool includeDuration = false)
         {
-            if (includeDuration)
+            if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Development")
             {
-                str = "----" + Counter.ToString() + " " + str + " in " + GetExecutionTime() + "------------------------------------------";
+                if (includeDuration)
+                {
+                    str = "----" + Counter.ToString() + " " + str + " in " + GetExecutionTime() + "------------------------------------------";
+                }
+                // Run the console log on another thread so it doesn't slow down the web request.
+                Task.Run(() =>
+                {
+                    Console.WriteLine(str);
+                });
             }
-            //need to do this differently, such as fw_isinternalserver() or add a Debug mode to the config file
-            if ((HostMachineName.Equals("JUSTIN6")) || (HostMachineName.Equals("AHAB01")))
-            {
-                Console.WriteLine(str);
-            }
-            //Console.WriteLine(str);  //justin 05/31/2018 commented for release 
         }
 
         public string GetExecutionTime()

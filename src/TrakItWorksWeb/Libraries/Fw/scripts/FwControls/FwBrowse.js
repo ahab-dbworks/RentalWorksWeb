@@ -2051,6 +2051,14 @@ class FwBrowseClass {
                 window[controller]['generateRow']($control, $tr);
             }
         }
+        $tr.on('click', '.tdselectrow', (event) => {
+            try {
+                event.stopPropagation();
+            }
+            catch (ex) {
+                FwFunc.showError(ex);
+            }
+        });
         return $tr;
     }
     setGridBrowseMode($control) {
@@ -2159,6 +2167,7 @@ class FwBrowseClass {
             $browsecontextmenucell.find('.browsecontextmenu').show();
             this.setRowViewMode($control, $tr);
         }
+        this.unselectAllRows($control);
     }
     autoSave($control, $trToExclude) {
         let $trsNewMode = $control.find('tr.newmode').not($trToExclude);
@@ -2430,6 +2439,7 @@ class FwBrowseClass {
     }
     saveRow($control, $tr) {
         let me = this;
+        let isNewMode = $tr.hasClass('newmode');
         return new Promise((resolve, reject) => {
             let isvalid = true;
             if (this.isRowModified($control, $tr)) {
@@ -2518,6 +2528,7 @@ class FwBrowseClass {
                     }
                     FwServices.grid.method(request, name, mode, $control, function (response) {
                         try {
+                            me.unselectAllRows($control);
                             var $fields = $tr.find('.field');
                             for (var fieldno = 0; fieldno < $fields.length; fieldno++) {
                                 var $field = $fields.eq(fieldno);
@@ -2542,7 +2553,8 @@ class FwBrowseClass {
                                     window[controller]['afterSave']($control, $tr);
                                 }
                             }
-                            if ($control.attr('data-refreshaftersave') === 'true' && (typeof $control.attr('data-autosave') === 'undefined' || $control.attr('data-autosave') === 'true')) {
+                            if ($control.attr('data-refreshaftersave') === 'true' && (typeof $control.attr('data-autosave') === 'undefined' || $control.attr('data-autosave') === 'true') ||
+                                (isNewMode && $control.attr('data-refreshafterinsert') === 'true')) {
                                 me.search($control)
                                     .then(() => {
                                     resolve();

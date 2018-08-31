@@ -37,6 +37,7 @@ class FwBrowseColumn_moneyClass {
         return isModified;
     }
     setFieldViewMode($browse, $tr, $field) {
+        $field.data('autoselect', false);
         var originalvalue = (typeof $field.attr('data-originalvalue') === 'string') ? $field.attr('data-originalvalue') : '';
         if ((originalvalue.length > 0) && (!isNaN(parseFloat(originalvalue)))) {
             $field.html('$' + window.numberWithCommas(parseFloat(originalvalue).toFixed(2)));
@@ -45,6 +46,11 @@ class FwBrowseColumn_moneyClass {
         else {
             $field.html('<div class="fieldvalue">$0.00</div>');
         }
+        $field.on('click', function () {
+            if ($field.attr('data-formreadonly') !== 'true') {
+                $field.data('autoselect', true);
+            }
+        });
     }
     setFieldEditMode($browse, $tr, $field) {
         var originalvalue = (typeof $field.attr('data-originalvalue') === 'string') ? $field.attr('data-originalvalue') : '';
@@ -58,6 +64,10 @@ class FwBrowseColumn_moneyClass {
         $field.html(htmlString);
         $field.find('input.value').inputmask("currency");
         this.setFieldValue($browse, $tr, $field, { value: originalvalue });
+        if ($field.data('autoselect') === true) {
+            $field.data('autoselect', false);
+            $field.find('.value').select();
+        }
     }
 }
 var FwBrowseColumn_money = new FwBrowseColumn_moneyClass();

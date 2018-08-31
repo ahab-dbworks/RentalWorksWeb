@@ -1,4 +1,3 @@
-//using Dapper;
 using FwStandard.DataLayer;
 using FwStandard.Models;
 using FwStandard.SqlServer.Attributes;
@@ -9,6 +8,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Data.SqlTypes;
 using System.Dynamic;
+using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
@@ -18,6 +18,7 @@ namespace FwStandard.SqlServer
     //public enum FwQueryTimeouts {Default, Report}
     public class FwSqlCommand : IDisposable
     {
+        public static bool DebugMode = false; // needs to get set at application startup
         //------------------------------------------------------------------------------------
         private FwSqlConnection sqlConnection;
         private SqlCommand sqlCommand;
@@ -745,6 +746,9 @@ namespace FwStandard.SqlServer
         {
             try
             {
+                string methodName = "ExecuteNonQueryAsync";
+                string usefulLinesFromStackTrace = GetUsefulLinesFromStackTrace(methodName);
+
                 //FwFunc.WriteLog("Begin FwSqlCommand:ExecuteNonQuery()");
                 if (closeConnection)
                 {
@@ -752,7 +756,7 @@ namespace FwStandard.SqlServer
                 }
                 this.sqlCommand.CommandText = this.qryText.ToString();
                 //FwFunc.WriteLog("Query:\n" + sqlCommand.CommandText);
-                this.sqlLogEntry = new FwSqlLogEntry(this.sqlCommand);
+                this.sqlLogEntry = new FwSqlLogEntry(this.sqlCommand, usefulLinesFromStackTrace);
                 this.sqlLogEntry.Start();
                 this.RowCount = await this.sqlCommand.ExecuteNonQueryAsync();
                 this.sqlLogEntry.Stop();
@@ -786,6 +790,8 @@ namespace FwStandard.SqlServer
 
             try
             {
+                string methodName = "ExecuteInsertQueryAsync";
+                string usefulLinesFromStackTrace = GetUsefulLinesFromStackTrace(methodName);
                 //FwFunc.WriteLog("Begin FwSqlCommand:ExecuteInsertQuery()");
                 await this.sqlConnection.OpenAsync();
                 insertColumnsNames = new StringBuilder();
@@ -804,7 +810,7 @@ namespace FwStandard.SqlServer
                 }
                 this.sqlCommand.CommandText = "insert into " + tablename + "(" + insertColumnsNames + ")\nvalues (" + insertParameterNames + ")";
                 //FwFunc.WriteLog("Query:\n" + sqlCommand.CommandText);
-                this.sqlLogEntry = new FwSqlLogEntry(this.sqlCommand);
+                this.sqlLogEntry = new FwSqlLogEntry(this.sqlCommand, usefulLinesFromStackTrace);
                 this.sqlLogEntry.Start();
                 this.RowCount = await this.sqlCommand.ExecuteNonQueryAsync();
                 this.sqlLogEntry.Stop();
@@ -824,6 +830,8 @@ namespace FwStandard.SqlServer
 
             try
             {
+                string methodName = "ExecuteUpdateQueryAsync";
+                string usefulLinesFromStackTrace = GetUsefulLinesFromStackTrace(methodName);
                 //FwFunc.WriteLog("Begin FwSqlCommand:ExecuteUpdateQuery()");
                 if (qryText.Length > 0)
                 {
@@ -850,7 +858,7 @@ namespace FwStandard.SqlServer
                 AddParameter("@primarykeyvalue", primarykeyvalue);
                 this.sqlCommand.CommandText = qryText.ToString();
                 //FwFunc.WriteLog("Query:\n" + sqlCommand.CommandText);
-                this.sqlLogEntry = new FwSqlLogEntry(this.sqlCommand);
+                this.sqlLogEntry = new FwSqlLogEntry(this.sqlCommand, usefulLinesFromStackTrace);
                 this.sqlLogEntry.Start();
                 this.RowCount = await this.sqlCommand.ExecuteNonQueryAsync();
                 this.sqlLogEntry.Stop();
@@ -868,11 +876,13 @@ namespace FwStandard.SqlServer
         {
             try
             {
+                string methodName = "ExecuteReaderAsync";
+                string usefulLinesFromStackTrace = GetUsefulLinesFromStackTrace(methodName);
                 //FwFunc.WriteLog("Begin FwSqlCommand:ExecuteReader()");
                 await this.sqlConnection.OpenAsync();
                 this.sqlCommand.CommandText = this.qryText.ToString();
                 //FwFunc.WriteLog("Query:\n" + sqlCommand.CommandText);
-                this.sqlLogEntry = new FwSqlLogEntry(this.sqlCommand);
+                this.sqlLogEntry = new FwSqlLogEntry(this.sqlCommand, usefulLinesFromStackTrace);
                 this.sqlLogEntry.Start();
                 using (SqlDataReader reader = await this.sqlCommand.ExecuteReaderAsync())
                 {
@@ -1087,6 +1097,9 @@ namespace FwStandard.SqlServer
 
             try
             {
+                string methodName = "QueryToFwJsonTableAsync";
+                string usefulLinesFromStackTrace = GetUsefulLinesFromStackTrace(methodName);
+                
                 //FwFunc.WriteLog("Begin FwSqlCommand:QueryToFwJsonTable()");
                 //FwFunc.WriteLog("Query:\n" + this.sqlCommand.CommandText);
                 this.sqlCommand.CommandText = this.qryText.ToString();
@@ -1094,7 +1107,7 @@ namespace FwStandard.SqlServer
                 dt.PageNo = pageNo;
                 dt.PageSize = pageSize;
 
-                this.sqlLogEntry = new FwSqlLogEntry(this.sqlCommand);
+                this.sqlLogEntry = new FwSqlLogEntry(this.sqlCommand, usefulLinesFromStackTrace);
                 this.sqlLogEntry.Start();
                 await this.sqlCommand.Connection.OpenAsync();
 
@@ -1215,7 +1228,7 @@ namespace FwStandard.SqlServer
             }
             catch (Exception ex)
             {
-                string logTime = DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss");
+                string logTime = DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss tt");
                 Console.WriteLine("------------------------------------------------------------------------------------");
                 Console.WriteLine($"{logTime} - An error occured during the execution of an SQL Query.");
                 Console.WriteLine("------------------------------------------------------------------------------------");
@@ -1438,6 +1451,9 @@ namespace FwStandard.SqlServer
         {
             try
             {
+                string methodName = "ExecuteAsync";
+                string usefulLinesFromStackTrace = GetUsefulLinesFromStackTrace(methodName);
+                
                 //FwFunc.WriteLog("Begin FwSqlCommand: Execute()");
                 this.RowCount = 0;
                 if (closeConnection)
@@ -1448,14 +1464,14 @@ namespace FwStandard.SqlServer
                 //FwFunc.WriteLog("Query:\n" + sqlCommand.CommandText);
                 if (this.sqlCommand.CommandType == CommandType.StoredProcedure)
                 {
-                    this.sqlLogEntry = new FwSqlLogEntry(this.sqlCommand);
+                    this.sqlLogEntry = new FwSqlLogEntry(this.sqlCommand, usefulLinesFromStackTrace);
                     this.sqlLogEntry.Start();
                     this.RowCount = await this.sqlCommand.ExecuteNonQueryAsync();
                     this.sqlLogEntry.Stop();
                 }
                 else
                 {
-                    this.sqlLogEntry = new FwSqlLogEntry(this.sqlCommand);
+                    this.sqlLogEntry = new FwSqlLogEntry(this.sqlCommand, usefulLinesFromStackTrace);
                     this.sqlLogEntry.Start();
                     using (SqlDataReader reader = await this.sqlCommand.ExecuteReaderAsync())
                     {
@@ -1762,6 +1778,9 @@ namespace FwStandard.SqlServer
         //------------------------------------------------------------------------------------
         public async Task<List<T>> SelectAsync<T>(bool openAndCloseConnection, FwCustomFields customFields = null) where T: FwDataRecord
         {
+            string methodName = "SelectAsync";
+            string usefulLinesFromStackTrace = GetUsefulLinesFromStackTrace(methodName);
+
             List<T> results = new List<T>();
             //this.Add("order by " + orderByColumn + " " + orderByDirection.ToString());
             //this.Add("offset @offsetrows rows fetch next @fetchsize rows only");
@@ -1788,7 +1807,7 @@ namespace FwStandard.SqlServer
             }
             this.sqlCommand.CommandText = this.qryText.ToString();
 
-            this.sqlLogEntry = new FwSqlLogEntry(this.sqlCommand);
+            this.sqlLogEntry = new FwSqlLogEntry(this.sqlCommand, usefulLinesFromStackTrace);
             this.sqlLogEntry.Start();
             using (SqlDataReader reader = await this.sqlCommand.ExecuteReaderAsync())
             {
@@ -1941,6 +1960,9 @@ namespace FwStandard.SqlServer
         {
             try
             {
+                string methodName = "InsertAsync";
+                string usefulLinesFromStackTrace = GetUsefulLinesFromStackTrace(methodName);
+                
                 //FwFunc.WriteLog("Begin FwSqlCommand:ExecuteInsertQuery()");
                 if (openAndCloseConnection)
                 {
@@ -2026,7 +2048,7 @@ namespace FwStandard.SqlServer
                 //}
 
                 //FwFunc.WriteLog("Query:\n" + sqlCommand.CommandText);
-                this.sqlLogEntry = new FwSqlLogEntry(this.sqlCommand);
+                this.sqlLogEntry = new FwSqlLogEntry(this.sqlCommand, usefulLinesFromStackTrace);
                 this.sqlLogEntry.Start();
                 this.RowCount = await this.sqlCommand.ExecuteNonQueryAsync();
                 this.sqlLogEntry.Stop();
@@ -2047,6 +2069,9 @@ namespace FwStandard.SqlServer
         {
             try
             {
+                string methodName = "UpdateAsync";
+                string usefulLinesFromStackTrace = GetUsefulLinesFromStackTrace(methodName);
+                
                 //FwFunc.WriteLog("Begin FwSqlCommand:ExecuteInsertQuery()");
                 if (openAndCloseConnection)
                 {
@@ -2128,7 +2153,7 @@ namespace FwStandard.SqlServer
                 sql.Append(whereClause);
                 this.sqlCommand.CommandText = sql.ToString();
                 //FwFunc.WriteLog("Query:\n" + sqlCommand.CommandText);
-                this.sqlLogEntry = new FwSqlLogEntry(this.sqlCommand);
+                this.sqlLogEntry = new FwSqlLogEntry(this.sqlCommand, usefulLinesFromStackTrace);
                 this.sqlLogEntry.Start();
                 this.RowCount = await this.sqlCommand.ExecuteNonQueryAsync();
                 this.sqlLogEntry.Stop();
@@ -2149,6 +2174,9 @@ namespace FwStandard.SqlServer
         {
             try
             {
+                string methodName = "DeleteAsync";
+                string usefulLinesFromStackTrace = GetUsefulLinesFromStackTrace(methodName);
+                
                 //FwFunc.WriteLog("Begin FwSqlCommand:ExecuteInsertQuery()");
                 if (openAndCloseConnection)
                 {
@@ -2193,7 +2221,7 @@ namespace FwStandard.SqlServer
                 sql.Append(whereClause);
                 this.sqlCommand.CommandText = sql.ToString();
                 //FwFunc.WriteLog("Query:\n" + sqlCommand.CommandText);
-                this.sqlLogEntry = new FwSqlLogEntry(this.sqlCommand);
+                this.sqlLogEntry = new FwSqlLogEntry(this.sqlCommand, usefulLinesFromStackTrace);
                 this.sqlLogEntry.Start();
                 this.RowCount = await this.sqlCommand.ExecuteNonQueryAsync();
                 this.sqlLogEntry.Stop();
@@ -2208,6 +2236,45 @@ namespace FwStandard.SqlServer
             }
 
             return this.RowCount;
+        }
+        //------------------------------------------------------------------------------------
+        private string GetUsefulLinesFromStackTrace(string methodName)
+        {
+            string result = string.Empty;
+            if (FwSqlCommand.DebugMode)
+            {
+                StringBuilder usefulLines = new StringBuilder();
+                System.Diagnostics.StackTrace trace = new System.Diagnostics.StackTrace();
+                var lines = System.Text.RegularExpressions.Regex.Split(trace.ToString(), "\r\n|\r|\n");
+                foreach (var line in lines)
+                {
+                    // All we're interested in is what triggered the query, so filter out non-user code and anything else we don't want to see
+                    if ((
+                        !line.Contains("GetUsefulLinesFromStackTrace") &&
+                        !line.Contains(methodName) &&
+                        !line.Contains("MoveNext")) &&
+                        !line.Contains("at System") &&
+                        !line.Contains("at Microsoft") &&
+                        !line.Contains("at lambda_method"))
+                    {
+                        if (line.Trim().Length > 0)
+                        {
+                            usefulLines.AppendLine(line);
+                        }
+                    }
+                }
+                if (usefulLines.Length == 0)
+                {
+                    usefulLines.Append(trace.ToString());
+                }
+                result = usefulLines.ToString();
+            }
+            return result;
+        }
+
+        private IEnumerable<object> Split(string[] v, StringSplitOptions none)
+        {
+            throw new NotImplementedException();
         }
         //------------------------------------------------------------------------------------
     }

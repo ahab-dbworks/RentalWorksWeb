@@ -23,7 +23,7 @@ var FwBrowseColumn_textClass = (function () {
     FwBrowseColumn_textClass.prototype.setFieldViewMode = function ($browse, $tr, $field) {
         var originalvalue = (typeof $field.attr('data-originalvalue') === 'string') ? $field.attr('data-originalvalue') : '';
         $field.html(originalvalue);
-        $field.data('selectthetextbox', false);
+        $field.data('autoselect', false);
         if (typeof $field.attr('data-rowclassmapping') !== 'undefined') {
             var rowclassmapping = JSON.parse($field.attr('data-rowclassmapping'));
             if (originalvalue in rowclassmapping === true) {
@@ -32,7 +32,7 @@ var FwBrowseColumn_textClass = (function () {
         }
         $field.on('click', function () {
             if ($field.attr('data-formreadonly') !== 'true') {
-                $field.data('selectthetextbox', true);
+                $field.data('autoselect', true);
             }
         });
     };
@@ -51,8 +51,8 @@ var FwBrowseColumn_textClass = (function () {
         var htmlString = html.join('');
         $field.html(htmlString);
         this.setFieldValue($browse, $tr, $field, { value: originalvalue });
-        if ($field.data('selectthetextbox') === true) {
-            $field.data('selectthetextbox', false);
+        if ($field.data('autoselect') === true) {
+            $field.data('autoselect', false);
             $field.find('.value').select();
         }
     };

@@ -43,7 +43,7 @@ namespace FwCore.Api
                 //.AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true, reloadOnChange: true)
                 .AddEnvironmentVariables();
             Configuration = builder.Build();
-
+            FwSqlCommand.DebugMode = env.IsDevelopment();
             Mapper.Initialize(cfg =>
             {
                 cfg.CreateMissingTypeMaps = true;

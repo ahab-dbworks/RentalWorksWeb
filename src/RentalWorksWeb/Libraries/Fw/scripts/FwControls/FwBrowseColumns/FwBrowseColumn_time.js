@@ -27,6 +27,12 @@ class FwBrowseColumn_timeClass {
     setFieldViewMode($browse, $tr, $field) {
         var originalvalue = (typeof $field.attr('data-originalvalue') === 'string') ? $field.attr('data-originalvalue') : '';
         $field.html(originalvalue);
+        $field.data('autoselect', false);
+        $field.on('click', function () {
+            if ($field.attr('data-formreadonly') !== 'true') {
+                $field.data('autoselect', true);
+            }
+        });
     }
     setFieldEditMode($browse, $tr, $field) {
         var timepickerTimeFormat, inputmaskTimeFormat;
@@ -49,6 +55,10 @@ class FwBrowseColumn_timeClass {
         $field.html(htmlString);
         $field.find('input.value').inputmask(inputmaskTimeFormat);
         this.setFieldValue($browse, $tr, $field, { value: originalvalue });
+        if ($field.data('autoselect') === true) {
+            $field.data('autoselect', false);
+            $field.find('.value').select();
+        }
     }
 }
 var FwBrowseColumn_time = new FwBrowseColumn_timeClass();

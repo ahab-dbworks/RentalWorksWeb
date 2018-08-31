@@ -26,6 +26,7 @@ class FwBrowseColumn_numberClass {
     setFieldViewMode($browse, $tr, $field) {
         var originalvalue = (typeof $field.attr('data-originalvalue') === 'string') ? $field.attr('data-originalvalue') : '';
         $field.html(`<div class="fieldvalue">${originalvalue}</div>`);
+        $field.data('autoselect', false);
         $field.find('.fieldvalue').inputmask("numeric", {
             min: ((typeof $field.attr('data-minvalue') !== 'undefined') ? $field.attr('data-minvalue') : undefined),
             max: ((typeof $field.attr('data-maxvalue') !== 'undefined') ? $field.attr('data-maxvalue') : undefined),
@@ -34,6 +35,11 @@ class FwBrowseColumn_numberClass {
             radixPoint: '.',
             groupSeparator: ',',
             autoGroup: (((typeof $field.attr('data-formatnumeric') !== 'undefined') && ($field.attr('data-formatnumeric') == 'true')) ? true : false)
+        });
+        $field.on('click', function () {
+            if ($field.attr('data-formreadonly') !== 'true') {
+                $field.data('autoselect', true);
+            }
         });
     }
     setFieldEditMode($browse, $tr, $field) {
@@ -61,6 +67,10 @@ class FwBrowseColumn_numberClass {
             autoGroup: (((typeof $browse.attr('data-formatnumeric') !== 'undefined') && ($browse.attr('data-formatnumeric') == 'true')) ? true : false)
         });
         this.setFieldValue($browse, $tr, $field, { value: originalvalue });
+        if ($field.data('autoselect') === true) {
+            $field.data('autoselect', false);
+            $field.find('.value').select();
+        }
     }
 }
 var FwBrowseColumn_number = new FwBrowseColumn_numberClass();

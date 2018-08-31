@@ -22,8 +22,14 @@ var FwBrowseColumn_phoneClass = (function () {
     };
     ;
     FwBrowseColumn_phoneClass.prototype.setFieldViewMode = function ($browse, $tr, $field) {
+        $field.data('autoselect', false);
         var originalvalue = (typeof $field.attr('data-originalvalue') === 'string') ? $field.attr('data-originalvalue') : '';
         $field.html(originalvalue);
+        $field.on('click', function () {
+            if ($field.attr('data-formreadonly') !== 'true') {
+                $field.data('autoselect', true);
+            }
+        });
     };
     FwBrowseColumn_phoneClass.prototype.setFieldEditMode = function ($browse, $tr, $field) {
         var originalvalue = (typeof $field.attr('data-originalvalue') === 'string') ? $field.attr('data-originalvalue') : '';
@@ -39,6 +45,10 @@ var FwBrowseColumn_phoneClass = (function () {
             $field.find('input.value').inputmask('(999) 999-9999');
         }
         this.setFieldValue($browse, $tr, $field, { value: originalvalue });
+        if ($field.data('autoselect') === true) {
+            $field.data('autoselect', false);
+            $field.find('.value').select();
+        }
     };
     return FwBrowseColumn_phoneClass;
 }());

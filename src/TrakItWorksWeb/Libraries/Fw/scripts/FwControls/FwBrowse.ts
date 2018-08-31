@@ -1295,6 +1295,7 @@
                     return jQuery(html.join(''));
                 };
 
+
                 $theadfields = $control.find('thead .field');
                 $theadfields.each(function (index, element) {
                     var $theadfield, $columnoptions, showsort, showsearch;
@@ -2328,6 +2329,14 @@
             }
         }
 
+        $tr.on('click', '.tdselectrow', (event: JQuery.Event) => {
+            try {
+                event.stopPropagation();
+            } catch (ex) {
+                FwFunc.showError(ex);
+            }
+        });
+
         return $tr;
     }
     //---------------------------------------------------------------------------------
@@ -2458,6 +2467,7 @@
 
             this.setRowViewMode($control, $tr);
         }
+        this.unselectAllRows($control);
     }
     //---------------------------------------------------------------------------------
     // trigger an auto-save on any rows in new or edit mode
@@ -2739,6 +2749,7 @@
     //----------------------------------------------------------------------------------------------
     saveRow($control: JQuery, $tr: JQuery): Promise<boolean> {
         let me = this;
+        let isNewMode = $tr.hasClass('newmode');
         return new Promise<boolean>((resolve, reject) => {
             let isvalid = true;
             if (this.isRowModified($control, $tr)) {
@@ -2830,6 +2841,8 @@
                     }
                     FwServices.grid.method(request, name, mode, $control, function (response) {
                         try {
+                            
+                            me.unselectAllRows($control);
                             // if the server reloaded the fields, then databind them into the row
                             var $fields = $tr.find('.field');
                             for (var fieldno = 0; fieldno < $fields.length; fieldno++) {
@@ -2856,7 +2869,8 @@
                                 }
                             }
 
-                            if ($control.attr('data-refreshaftersave') === 'true' && (typeof $control.attr('data-autosave') === 'undefined' || $control.attr('data-autosave') === 'true')) {
+                            if ($control.attr('data-refreshaftersave') === 'true' && (typeof $control.attr('data-autosave') === 'undefined' || $control.attr('data-autosave') === 'true') ||
+                                (isNewMode && $control.attr('data-refreshafterinsert') === 'true')) {
                                 // mv 2018-07-09 returns a promise so you can do things after the grid reloads from a save
                                 me.search($control)
                                     .then(() => {
@@ -2865,7 +2879,8 @@
                                     .catch((reason) => {
                                         reject(reason);
                                     });
-                            } else {
+                            }
+                            else {
                                 resolve();
                             }
                         } catch (ex) {

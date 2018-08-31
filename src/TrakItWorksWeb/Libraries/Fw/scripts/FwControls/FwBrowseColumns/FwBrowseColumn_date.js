@@ -20,12 +20,12 @@ class FwBrowseColumn_dateClass {
         return isModified;
     }
     setFieldViewMode($browse, $tr, $field) {
-        $field.data('clickedInViewMode', false);
+        $field.data('autoselect', false);
         var originalvalue = (typeof $field.attr('data-originalvalue') === 'string') ? $field.attr('data-originalvalue') : '';
         $field.html(originalvalue);
         $field.on('click', function () {
             if ($field.attr('data-formreadonly') !== 'true') {
-                $field.data('clickedInViewMode', true);
+                $field.data('autoselect', true);
             }
         });
     }
@@ -46,8 +46,8 @@ class FwBrowseColumn_dateClass {
         $field.on('click', '.btndate', function () {
             $field.find('input').datepicker('show');
         });
-        if ($field.data('clickedInViewMode') === true) {
-            $field.data('clickedInViewMode', false);
+        if ($field.data('autoselect') === true) {
+            $field.data('autoselect', false);
             $field.find('.btndate').click();
         }
     }

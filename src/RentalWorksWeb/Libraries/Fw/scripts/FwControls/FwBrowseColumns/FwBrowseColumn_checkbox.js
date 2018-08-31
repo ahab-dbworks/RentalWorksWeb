@@ -42,7 +42,7 @@ class FwBrowseColumn_checkboxClass {
     }
     setFieldViewMode($browse, $tr, $field) {
         var me = this;
-        $field.data('checkthebox', false);
+        $field.data('autoselect', false);
         var originalCheckedValue = false;
         var originalvalue = (typeof $field.attr('data-originalvalue') === 'string') ? $field.attr('data-originalvalue') : '';
         if (originalvalue === 'T' || originalvalue === 'Y' || originalvalue === 'true') {
@@ -57,7 +57,7 @@ class FwBrowseColumn_checkboxClass {
         $checkboxwrapper.on('click', 'label', function (e) {
             try {
                 e.stopPropagation();
-                $field.data('checkthebox', !originalCheckedValue);
+                $field.data('autoselect', !originalCheckedValue);
                 FwBrowse.setRowEditMode($browse, $tr);
             }
             catch (ex) {
@@ -82,8 +82,8 @@ class FwBrowseColumn_checkboxClass {
         html.push('</div>');
         let htmlString = html.join('');
         $field.html(htmlString);
-        if ($field.data('checkthebox') === true) {
-            $field.data('checkthebox', false);
+        if ($field.data('autoselect') === true) {
+            $field.data('autoselect', false);
             $field.find('input.value').prop('checked', true);
             this.setFieldValue($browse, $tr, $field, { value: true });
         }

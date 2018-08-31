@@ -25,8 +25,14 @@
     };
     //---------------------------------------------------------------------------------
     setFieldViewMode($browse, $tr, $field): void {
+        $field.data('autoselect', false);
         var originalvalue = (typeof $field.attr('data-originalvalue') === 'string') ? $field.attr('data-originalvalue') : '';
         $field.html(originalvalue);
+        $field.on('click', function() {
+            if ($field.attr('data-formreadonly') !== 'true') {
+                $field.data('autoselect', true);
+            }
+        });
     }
     //---------------------------------------------------------------------------------
     setFieldEditMode($browse, $tr, $field): void {
@@ -43,6 +49,10 @@
             $field.find('input.value').inputmask('(999) 999-9999');
         }
         this.setFieldValue($browse, $tr, $field, { value: originalvalue });
+        if ($field.data('autoselect') === true) {
+            $field.data('autoselect', false);
+            $field.find('.value').select();
+        }
     }
     //---------------------------------------------------------------------------------
 }
