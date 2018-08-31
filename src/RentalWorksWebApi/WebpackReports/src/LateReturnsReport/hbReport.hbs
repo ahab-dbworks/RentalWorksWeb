@@ -2,7 +2,7 @@
   <div>
     <div style="text-align: left; font-weight: bold; float:left;">RENTALWORKS</div>
     <div style="text-align: right; font-weight: bold; float:right;">4WALL ENTERTAINMENT</div>
-    <div style="text-align: center; font-weight: bold; margin:0 auto;">Late Return / Due Back Report</div>
+    <div style="text-align: center; font-weight: bold; margin:0 auto;">Late Returns / Due Back Report</div>
   </div>
 </div>
 <div class="header rpt-flexrow">
@@ -133,18 +133,18 @@
             {{/ifEquals}}
             {{#ifEquals RowType "OrderNumberfooter"}}
             <td class=""></td>
-            <td class="" colspan="2">{{OrderNumber}}</td>
-            <td class="number">{{Quantity}}</td>
+            <td class="" style="font-weight:bold;" colspan="2">{{OrderNumber}}</td>
+            <td class="number" style="font-weight:bold;">{{Quantity}}</td>
             {{/ifEquals}}
             {{#ifEquals RowType "Dealfooter"}}
             <td class=""></td>
-            <td class="" colspan="2">{{Deal}}</td>
-            <td class="number">{{Quantity}}</td>
+            <td class="" style="font-weight:bold;" colspan="2">{{Deal}}</td>
+            <td class="number" style="font-weight:bold;">{{Quantity}}</td>
             {{/ifEquals}}
             {{#ifEquals RowType "OfficeLocationfooter"}}
             <td class=""></td>
-            <td class="" colspan="2">{{OfficeLocation}}</td>
-            <td class="number">{{Quantity}}</td>
+            <td class="" style="font-weight:bold;" colspan="2">{{OfficeLocation}}</td>
+            <td class="number" style="font-weight:bold;">{{Quantity}}</td>
             {{/ifEquals}}
           </tr>
           {{/each}}

@@ -22,19 +22,25 @@ export class LateReturnDueBackReport extends WebpackReport {
             HandlebarsHelpers.registerHelpers();
             let lateReturnDueBack: any = {};
             console.log('parameters: ', parameters);            
+            let headerText: string;
+            let headerNode: HTMLDivElement = document.createElement('div');
 
             request.uniqueids.IsSummary = false;
             if (parameters.LateReturns) {
                 request.uniqueids.ReportType = 'PAST_DUE';
                 request.uniqueids.Days = parameters.DaysPastDue;
+                headerText = parameters.DaysPastDue + ' Days Past Due'
+
             }
             if (parameters.DueBack) {
                 request.uniqueids.ReportType = 'DUE_IN';
                 request.uniqueids.Days = parameters.DueBackFewer;
+                headerText = 'Due Back in ' + parameters.DueBackFewer + ' Days'
             }
             if (parameters.DueBackOn) {
                 request.uniqueids.ReportType = 'DUE_DATE';
                 request.uniqueids.DueBack = parameters.DueBackDate;
+                headerText = 'Due Back on ' + parameters.DueBackDate;
             }
             request.uniqueids.DueBack = '08/01/2018';
             request.uniqueids.ContactId = parameters.ContactId
@@ -59,18 +65,6 @@ export class LateReturnDueBackReport extends WebpackReport {
                             lateReturnDueBack[i].OrderToDate = lateReturnDueBack[i + 1].OrderToDate;
                             lateReturnDueBack[i].OrderPastDue = lateReturnDueBack[i + 1].OrderPastDue;
                         }
-                        if (lateReturnDueBack[i].RowType === 'OrderNumberfooter') {
-                            lateReturnDueBack[i].OrderDate = lateReturnDueBack[i + 1].OrderDate;
-                            lateReturnDueBack[i].OrderDescription = lateReturnDueBack[i + 1].OrderDescription;
-                            lateReturnDueBack[i].Agent = lateReturnDueBack[i + 1].Agent;
-                            lateReturnDueBack[i].OrderedByName = lateReturnDueBack[i + 1].OrderedByName;
-                            lateReturnDueBack[i].BillDateRange = lateReturnDueBack[i + 1].BillDateRange;
-                            lateReturnDueBack[i].OrderUnitValue = lateReturnDueBack[i + 1].OrderUnitValue;
-                            lateReturnDueBack[i].OrderReplacementCost = lateReturnDueBack[i + 1].OrderReplacementCost;
-                            lateReturnDueBack[i].OrderFromDate = lateReturnDueBack[i + 1].OrderFromDate;
-                            lateReturnDueBack[i].OrderToDate = lateReturnDueBack[i + 1].OrderToDate;
-                            lateReturnDueBack[i].OrderPastDue = lateReturnDueBack[i + 1].OrderPastDue;
-                        }
                     }
 
                     lateReturnDueBack.PrintTime = moment().format('YYYY-MM-DD h:mm:ss A');
@@ -81,6 +75,10 @@ export class LateReturnDueBackReport extends WebpackReport {
                         document.getElementById('pageFooter').innerHTML = this.footerHtml;
                     }
                     document.getElementById('pageBody').innerHTML = hbReport(lateReturnDueBack);
+                    headerNode.innerHTML = headerText;
+                    headerNode.style.cssText = 'text-align:center;font-weight:bold;margin:0 auto;font-size:13px;';
+                    document.getElementsByClassName('Header')[0].appendChild(headerNode);
+
                     this.onRenderReportCompleted();
                 })
                 .catch((ex) => {

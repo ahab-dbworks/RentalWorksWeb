@@ -36,21 +36,7 @@ class Reports {
                 }
             }
             for (var k = 0; k < moduleArray.length; k++) {
-                if (moduleArray[k][1] === 'FacilityCategory' || moduleArray[k][1] === 'PartsCategory' || moduleArray[k][1] === 'RentalCategory' || moduleArray[k][1] === 'SalesCategory' || moduleArray[k][1] === 'LaborCategory' || moduleArray[k][1] === 'MiscCategory') {
-                    moduleArray[k][4] = 'InventoryCategoryId';
-                }
-                else if (moduleArray[k][1] === 'FacilityScheduleStatus' || moduleArray[k][1] === 'CrewScheduleStatus' || moduleArray[k][1] === 'VehicleScheduleStatus') {
-                    moduleArray[k][4] = 'ScheduleStatusId';
-                }
-                else if (moduleArray[k][1] === 'FacilityRate' || moduleArray[k][1] === 'LaborRate' || moduleArray[k][1] === 'MiscRate') {
-                    moduleArray[k][4] = 'RateId';
-                }
-                else if (moduleArray[k][1] === 'OfficeLocation') {
-                    moduleArray[k][4] = 'LocationId';
-                }
-                else {
-                    moduleArray[k][4] = moduleArray[k][1] + 'Id';
-                }
+                moduleArray[k][4] = moduleArray[k][1] + 'Id';
                 FwReportsPage.renderModuleHtml($reports.find(".fwreports"), moduleArray[k][0], moduleArray[k][1], moduleArray[k][3], moduleArray[k][2], moduleArray[k][4]);
             }
             $reports.find('#reportsSearch').focus();
