@@ -22,8 +22,25 @@ export class LateReturnDueBackReport extends WebpackReport {
        
             HandlebarsHelpers.registerHelpers();
             let lateReturnDueBack: any = {};
-            console.log('parameters: ', parameters);
+            console.log('parameters: ', parameters);            
 
+            request.uniqueids.IsSummary = false;
+            if (parameters.LateReturns) {
+                request.uniqueids.ReportType = 'PAST_DUE';
+                request.uniqueids.Days = parameters.DaysPastDue;
+            }
+            if (parameters.DueBack) {
+                request.uniqueids.ReportType = 'DUE_IN';
+                request.uniqueids.Days = parameters.DueBackFewer;
+            }
+            if (parameters.DueBackOn) {
+                request.uniqueids.ReportType = 'DUE_DATE';
+                request.uniqueids.DueBack = parameters.DueBackDate;
+            }
+            request.uniqueids.DueBack = '08/01/2018';
+            request.uniqueids.ContactId = parameters.ContactId
+
+            console.log(request)
             // get the Contract
             let contractPromise = Ajax.post<DataTable>(`${apiUrl}/api/v1/latereturnsreport/browse`, authorizationHeader, request)
                 .then((response: DataTable) => {
@@ -32,7 +49,6 @@ export class LateReturnDueBackReport extends WebpackReport {
 
                     lateReturnDueBack.PrintTime = moment().format('YYYY-MM-DD h:mm:ss A');
                     lateReturnDueBack.ContractTime = moment(lateReturnDueBack.ContractTime, 'h:mm a').format('h:mm a');
-                    this.renderHeaderHtml(lateReturnDueBack);
                     this.renderFooterHtml(lateReturnDueBack);
                     if (this.action === 'Preview' || this.action === 'PrintHtml') {
                         document.getElementById('pageHeader').innerHTML = this.headerHtml;
@@ -49,87 +65,10 @@ export class LateReturnDueBackReport extends WebpackReport {
         }
     }
 
-    renderHeaderHtml(model: LateReturnDueBack): string {
-        this.headerHtml = hbHeader(model);
-        return this.headerHtml;
-    }
-
-    renderFooterHtml(model: LateReturnDueBack) : string {
+    renderFooterHtml(model: DataTable) : string {
         this.footerHtml = hbFooter(model);
         return this.footerHtml;
     }
 }
 
 (<any>window).report = new LateReturnDueBackReport();
-
-class LateReturnDueBack {
-    _Custom = new Array<CustomField>();
-    ContractId = '';
-    ContractNumber = '';
-    ContractType = '';
-    ContractDate = '';
-    ContractTime = '';
-    LocationId = '';
-    LocationCode = '';
-    Location = '';
-    WarehouseId = '';
-    WarehouseCode = '';
-    Warehouse = '';
-    CustomerId = '';
-    DealId = '';
-    Deal = '';
-    DepartmentId = '';
-    Department = '';
-    PurchaseOrderId = '';
-    PurchaseOrderNumber = '';
-    RequisitionNumber = '';
-    VendorId = '';
-    Vendor = '';
-    Migrated = false;
-    NeedReconcile = false;
-    PendingExchange = false;
-    ExchangeContractId = '';
-    Rental = false;
-    Sales = false;
-    InputByUserId = '';
-    InputByUser = '';
-    DealInactive = false;
-    Truck = false;
-    BillingDate = '';
-    HasAdjustedBillingDate = false;
-    HasVoId = false;
-    SessionId = '';
-    OrderDescription = '';
-    DateStamp = '';
-    RecordTitle = '';
-    RentalItems = new Array<lateReturnDueBackItem>();
-    SalesItems = new Array<lateReturnDueBackItem>();
-    PrintTime = '';
-}
-
-class lateReturnDueBackItemRequest {
-    "miscfields" = {};
-    "module" = '';
-    "options" = {};
-    "orderby" = '';
-    "pageno" = 0;
-    "pagesize" = 0;
-    "searchfieldoperators": Array<any> = [];
-    "searchfields": Array<any> = [];
-    "searchfieldvalues": Array<any> = [];
-    "uniqueids" = { "ContractId": '', "RecType": '' };
-}
-
-class lateReturnDueBackItem {
-    "Agent": string;
-    "ICodeColor": string;
-    "Description": string;
-    "DescriptionColor": string;
-    "QuantityOrdered": string;
-    "QuantityOut": string;
-    "TotalOut": string;
-    "ItemClass": string;
-    "Notes": string;
-    "Barcode": string;
-}
-

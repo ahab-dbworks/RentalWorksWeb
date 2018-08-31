@@ -24,15 +24,14 @@ export class CustomerRevenueByTypeReport extends WebpackReport {
             let customerReveneByType: any = {};
             console.log('parameters: ', parameters);
 
-            request.uniqueids.FromDate = parameters.FromDate;
-            request.uniqueids.ToDate = parameters.ToDate;
-            request.uniqueids.DateType = parameters.DateType;
-            request.uniqueids.LocationId = parameters.LocationId;
-            request.uniqueids.DepartmentId = parameters.DepartmentId;
-            request.uniqueids.CustomerId = parameters.CustomerId;
-            request.uniqueids.DealId = parameters.DealId;
-            request.uniqueids.OrderTypeId = parameters.OrderTypeId;
-
+            if (parameters.FromDate !== '') request.uniqueids.FromDate = parameters.FromDate;
+            if (parameters.ToDate !== '') request.uniqueids.ToDate = parameters.ToDate
+            if (parameters.DateType !== '') request.uniqueids.DateType = parameters.DateType;
+            if (parameters.LocationId !== '') request.uniqueids.LocationId = parameters.LocationId;
+            if (parameters.DepartmentId !== '') request.uniqueids.DepartmentId = parameters.DepartmentId;
+            if (parameters.CustomerId !== '') request.uniqueids.CustomerId = parameters.CustomerId;
+            if (parameters.DealId !== '') request.uniqueids.DealId = parameters.DealId;
+            if (parameters.OrderTypeId !== '') request.uniqueids.OrderTypeId = parameters.OrderTypeId;
 
             // get the Contract
             let contractPromise = Ajax.post<DataTable>(`${apiUrl}/api/v1/customerrevenuebytypereport/browse`, authorizationHeader, request)
