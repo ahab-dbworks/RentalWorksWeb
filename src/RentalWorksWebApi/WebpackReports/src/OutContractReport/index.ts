@@ -1,7 +1,7 @@
-import { WebpackReport } from '../../lib/FwReportLibrary/src/WebpackReport';
-import { CustomField } from '../../lib/FwReportLibrary/src/CustomField';
-import { Ajax } from '../../lib/FwReportLibrary/src/Ajax';
-import { HandlebarsHelpers } from '../../lib/FwReportLibrary/src/HandlebarsHelpers';
+import { WebpackReport } from '../../lib/FwReportLibrary/src/scripts/WebpackReport';
+import { CustomField } from '../../lib/FwReportLibrary/src/scripts/CustomField';
+import { Ajax } from '../../lib/FwReportLibrary/src/scripts/Ajax';
+import { HandlebarsHelpers } from '../../lib/FwReportLibrary/src/scripts/HandlebarsHelpers';
 import * as moment from 'moment';
 import './index.scss';
 var hbHeader = require("./hbHeader.hbs"); 

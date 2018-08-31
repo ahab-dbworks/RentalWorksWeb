@@ -1,8 +1,8 @@
-﻿import { WebpackReport } from '../../lib/FwReportLibrary/src/WebpackReport';
-import { CustomField } from '../../lib/FwReportLibrary/src/CustomField';
-import { DataTable, DataTableColumn, BrowseRequest } from '../../lib/FwReportLibrary/src/DataTable';
-import { Ajax } from '../../lib/FwReportLibrary/src/Ajax';
-import { HandlebarsHelpers } from '../../lib/FwReportLibrary/src/HandlebarsHelpers';
+﻿import { WebpackReport } from '../../lib/FwReportLibrary/src/scripts/WebpackReport';
+import { CustomField } from '../../lib/FwReportLibrary/src/scripts/CustomField';
+import { DataTable, DataTableColumn, BrowseRequest } from '../../lib/FwReportLibrary/src/scripts/Browse';
+import { Ajax } from '../../lib/FwReportLibrary/src/scripts/Ajax';
+import { HandlebarsHelpers } from '../../lib/FwReportLibrary/src/scripts/HandlebarsHelpers';
 import * as moment from 'moment';
 import './index.scss';
 var hbReport = require("./hbReport.hbs");
