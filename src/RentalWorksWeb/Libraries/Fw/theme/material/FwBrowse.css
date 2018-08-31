@@ -351,3 +351,52 @@ html.theme-material .fwbrowse table tbody tr.selected.rowtextcolor {outline:2px 
 html.theme-material .fwbrowse[data-type="Validation"] table tbody tr.selected:not(.rowbackgroundcolor):not(.rowtextcolor) td {outline:2px solid #03A9F4;}*/
 html.theme-material .fwbrowse table tbody tr.selected:not(.rowbackgroundcolor):not(.rowtextcolor) td {background-color:#2196f3 !important;color:#ffffff !important;}
 html.theme-material .fwbrowse table tbody tr:hover td {background-color:#eeeeee;}
+
+
+
+/*------------------------------------------------------------------------------------------------*/
+/*Collapsible grid flex flow col*/
+@media only screen and (max-width: 1200px) {
+    div[data-type="Grid"][data-flexgrid="true"] table thead {
+        display: none;
+    }
+    div[data-type="Grid"][data-flexgrid="true"] td[data-th]:before {
+        content: attr(data-th);
+        font-size: .8em;
+        font-weight: bold;
+        float:left;
+        width: 10em;
+        word-wrap:break-word;
+    }
+    div[data-type="Grid"][data-flexgrid="true"] table tbody tr td:not(:first-child):not(:last-child) {
+        width: 46%;
+        height: 1em !important;
+    }
+
+    div[data-type="Grid"][data-flexgrid="true"] table tbody tr td.column:first-of-type,
+    div[data-type="Grid"][data-flexgrid="true"] table tbody tr td.column:last-of-type {
+        height: 6.6em;
+        min-width: 2em;
+        width:4% !important;
+    }
+    div[data-type="Grid"][data-flexgrid="true"] table tbody tr {
+        display: flex;
+        flex-flow: column wrap;
+        max-height: 7em;
+        border-bottom: 1px solid gray;
+    }
+
+    div[data-type="Grid"][data-flexgrid="true"] tr td div {
+        overflow:hidden;
+    }
+
+    div[data-type="Grid"][data-flexgrid="true"] tr td.cellColor::after {
+        left: 8em !important;
+    }
+
+    div[data-type="Grid"][data-flexgrid="true"] tr td.tdselectrow div.divselectrow,
+    div[data-type="Grid"][data-flexgrid="true"] tr td.browsecontextmenucell div.browsecontextmenu {
+        line-height: 6em;
+        overflow:unset;
+    }
+}

@@ -1,4 +1,4 @@
-﻿class FwBrowseClass {
+class FwBrowseClass {
     //---------------------------------------------------------------------------------
     upgrade($control) {
         var properties, i, data_type;
@@ -2443,6 +2443,14 @@
                 window['FwBrowseColumn_' + browsedatatype].setFieldViewMode($control, $tr, $field);
             }
         }
+
+        if ($control.attr('data-type') === 'Grid' && $control.attr('data-flexgrid') === 'true') {
+            if ($field.attr('data-browsedatatype') !== 'key') {
+                let header = $field.attr('data-caption');
+                $field.parents('td').attr('data-th', `${header}:`);
+            }
+        }
+
     }
     //---------------------------------------------------------------------------------
     cancelEditMode($control: JQuery, $tr: JQuery) {
