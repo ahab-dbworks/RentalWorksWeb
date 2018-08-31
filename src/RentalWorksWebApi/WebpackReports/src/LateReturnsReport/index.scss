@@ -148,6 +148,10 @@ html.pdf {
         }
 
         tbody {
+            tr[data-rowtype="detail"]:nth-child(even) {
+                background-color: #DCDCDC;
+            }
+
             tr.caption {
                 display: block;
                 text-align: center;
@@ -166,7 +170,6 @@ html.pdf {
             td.first-order {
                 padding-bottom: .8em;
                 font-weight: bold;
-                border-bottom: 1px solid #000000;
                 padding-left: 40px;
             }
 
@@ -178,8 +181,6 @@ html.pdf {
             td.OrderNumberHeader {
                 padding-bottom: .8em;
                 font-weight: bold;
-                text-decoration: underline;
-                padding-left: 40px;
             }
 
             td.DealHeader {
@@ -204,23 +205,6 @@ html.pdf {
             td {
                 padding: 2px 5px;
                 font-size: .9em;
-            }
-
-            .GLAccount {
-                white-space: pre;
-                text-align: left;
-            }
-
-            .Description {
-                text-align: left;
-            }
-
-            .Debit {
-                text-align: right;
-            }
-
-            .Credit {
-                text-align: right;
             }
         }
     }

@@ -13,7 +13,7 @@
         <thead>
           <tr class="columnheadings">
             <td>
-              <div>Order No.</div>
+              <div>Customer / Deal / Order</div>
             </td>
             <td>
               <div>Date</div>
@@ -57,7 +57,17 @@
             <td class="DealHeader" colspan="4">{{Deal}}</td>
             {{/ifEquals}}
             {{#ifEquals RowType "OrderNumberheader"}}
-            <td class="OrderNumberHeader" colspan="4">{{OrderNumber}}</td>
+            <td class="first-order">{{OrderNumber}}</td>
+            <td class="OrderNumberHeader">{{OrderDate}}</td>
+            <td class="OrderNumberHeader">{{OrderDescription}}</td>
+            <td class="OrderNumberHeader">{{Agent}}</td>
+            <td class="OrderNumberHeader">{{OrderedByName}}</td>
+            <td class="OrderNumberHeader">{{BillDateRange}}</td>
+            <td class="OrderNumberHeader number">{{OrderUnitValue}}</td>
+            <td class="OrderNumberHeader number">{{OrderReplacementCost}}</td>
+            <td class="OrderNumberHeader number">{{OrderFromDate}}</td>
+            <td class="OrderNumberHeader number">{{OrderToDate}}</td>
+            <td class="OrderNumberHeader number">{{OrderPastDue}}</td>
           </tr>
           <tr>
             <!--<td colspan="8">

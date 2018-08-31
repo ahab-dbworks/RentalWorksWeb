@@ -46,6 +46,21 @@ export class LateReturnDueBackReport extends WebpackReport {
                     lateReturnDueBack = DataTable.toObjectList(response); // converts res to javascript obj
                     console.log('lateReturnDueBack: ', lateReturnDueBack); // will help in building the handlebars
 
+                    for (var i = 0; i < lateReturnDueBack.length; i++) {
+                        if (lateReturnDueBack[i].RowType === 'OrderNumberheader') {
+                            lateReturnDueBack[i].OrderDate = lateReturnDueBack[i + 1].OrderDate;
+                            lateReturnDueBack[i].OrderDescription = lateReturnDueBack[i + 1].OrderDescription;
+                            lateReturnDueBack[i].Agent = lateReturnDueBack[i + 1].Agent;
+                            lateReturnDueBack[i].OrderedByName = lateReturnDueBack[i + 1].OrderedByName;
+                            lateReturnDueBack[i].BillDateRange = lateReturnDueBack[i + 1].BillDateRange;
+                            lateReturnDueBack[i].OrderUnitValue = lateReturnDueBack[i + 1].OrderUnitValue;
+                            lateReturnDueBack[i].OrderReplacementCost = lateReturnDueBack[i + 1].OrderReplacementCost;
+                            lateReturnDueBack[i].OrderFromDate = lateReturnDueBack[i + 1].OrderFromDate;
+                            lateReturnDueBack[i].OrderToDate = lateReturnDueBack[i + 1].OrderToDate;
+                            lateReturnDueBack[i].OrderPastDue = lateReturnDueBack[i + 1].OrderPastDue;
+                        }
+                    }
+
                     lateReturnDueBack.PrintTime = moment().format('YYYY-MM-DD h:mm:ss A');
                     lateReturnDueBack.ContractTime = moment(lateReturnDueBack.ContractTime, 'h:mm a').format('h:mm a');
                     this.renderFooterHtml(lateReturnDueBack);
