@@ -104,6 +104,10 @@ namespace WebApi.Modules.Home.OrderItem
                 DateTime? fromDate = (BillingFromDate > FromDate ? BillingFromDate : FromDate);
                 DateTime? toDate = (BillingToDate < ToDate ? BillingToDate : ToDate);
 
+                Quantity = Quantity.GetValueOrDefault(0);
+                DaysPerWeek = DaysPerWeek.GetValueOrDefault(1);
+                DiscountPercent = DiscountPercent.GetValueOrDefault(0);
+
                 if ((fromDate != null) && (fromDate != DateTime.MinValue) && (toDate != null) && (toDate != DateTime.MinValue))
                 {
                     Days = ((((toDate.Value) - (fromDate.Value)).Days) + 1);
@@ -124,6 +128,7 @@ namespace WebApi.Modules.Home.OrderItem
                             bool isFirstWeek = true;
                             tmpDate = fromDate.Value;
                             Decimal? daysThisWeek = 0;
+                            PeriodBillableDays = 0;
                             while (tmpDate <= toDate.Value)
                             {
                                 daysThisWeek = (((toDate.Value - tmpDate).Days) + 1);
