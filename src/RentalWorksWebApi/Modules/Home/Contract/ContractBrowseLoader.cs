@@ -89,6 +89,7 @@ namespace WebApi.Modules.Home.Contract
             addFilterToSelect("WarehouseId", "warehouseid", select, request);
             addFilterToSelect("DealId", "dealid", select, request);
             addFilterToSelect("CustomerId", "customerid", select, request);
+            addFilterToSelect("ContractType", "contracttype", select, request);
 
             if ((request != null) && (request.uniqueids != null))
             {

@@ -139,6 +139,7 @@ namespace WebApi.Modules.Reports.AgentBillingReport
             string dateField = "";
             DateTime fromDate = DateTime.MinValue;
             DateTime toDate = DateTime.MaxValue;
+            bool includeNoCharge = false;
 
             if ((request != null) && (request.uniqueids != null))
             {
@@ -154,6 +155,14 @@ namespace WebApi.Modules.Reports.AgentBillingReport
                 if (uniqueIds.ContainsKey("DateType"))
                 {
                     dateType = uniqueIds["DateType"].ToString();
+                }
+                if (uniqueIds.ContainsKey("DateType"))
+                {
+                    dateType = uniqueIds["DateType"].ToString();
+                }
+                if (uniqueIds.ContainsKey("IncludeNoCharge"))
+                {
+                    includeNoCharge = FwConvert.ToBoolean(uniqueIds["IncludeNoCharge"].ToString());
                 }
             }
 
@@ -185,6 +194,10 @@ namespace WebApi.Modules.Reports.AgentBillingReport
                 select.AddParameter("@todate", toDate);
             }
 
+            if (!includeNoCharge)
+            {
+                select.AddWhere("nocharge <> 'T'");
+            }
 
         }
         //------------------------------------------------------------------------------------ 

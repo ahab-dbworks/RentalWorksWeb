@@ -12,7 +12,6 @@ using System.Reflection;
 
 namespace WebApi.Modules.Reports.CustomerRevenueByTypeReport
 {
-    [FwSqlTable("customerrevenuebytypeview")]
     public class CustomerRevenueByTypeReportLoader : AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------ 

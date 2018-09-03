@@ -6,9 +6,12 @@ using WebApi.Data;
 using System.Collections.Generic;
 using System;
 using WebLibrary;
+using System.Threading.Tasks;
+using System.Data;
+using System.Reflection;
+
 namespace WebApi.Modules.Reports.LateReturnsReport
 {
-    [FwSqlTable("dbo.funclatereturns(@issummary, @reporttype, @days, @dueback, @contactid)")]
     public class LateReturnsReportLoader : AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------ 
@@ -30,7 +33,7 @@ namespace WebApi.Modules.Reports.LateReturnsReport
         [FwSqlDataField(column: "orderdate", modeltype: FwDataTypes.Date)]
         public string OrderDate { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "contactid", modeltype: FwDataTypes.Text)]
+        [FwSqlDataField(column: "orderedbycontactid", modeltype: FwDataTypes.Text)]
         public string OrderedByContactId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "orderedby", modeltype: FwDataTypes.Text)]
@@ -57,16 +60,22 @@ namespace WebApi.Modules.Reports.LateReturnsReport
         [FwSqlDataField(column: "warehouseid", modeltype: FwDataTypes.Text)]
         public string WarehouseId { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "orderdepartmentid", modeltype: FwDataTypes.Text)]
+        [FwSqlDataField(column: "departmentid", modeltype: FwDataTypes.Text)]
         public string DepartmentId { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "orderdepartment", modeltype: FwDataTypes.Text)]
+        [FwSqlDataField(column: "department", modeltype: FwDataTypes.Text)]
         public string Department { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "itemdepartmentid", modeltype: FwDataTypes.Text)]
+        [FwSqlDataField(column: "agentid", modeltype: FwDataTypes.Text)]
+        public string AgentId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "agent", modeltype: FwDataTypes.Text)]
+        public string Agent { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "inventorydepartmentid", modeltype: FwDataTypes.Text)]
         public string InventoryTypeId { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "itemdepartment", modeltype: FwDataTypes.Text)]
+        [FwSqlDataField(column: "inventorydepartment", modeltype: FwDataTypes.Text)]
         public string InventoryType { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "orderfromdate", modeltype: FwDataTypes.Date)]
@@ -123,6 +132,15 @@ namespace WebApi.Modules.Reports.LateReturnsReport
         [FwSqlDataField(column: "description", modeltype: FwDataTypes.Text)]
         public string Description { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "rentalitemid", modeltype: FwDataTypes.Text)]
+        public string RentalItemId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "barcode", modeltype: FwDataTypes.Text)]
+        public string BarCode { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "mfgserial", modeltype: FwDataTypes.Text)]
+        public string SerialNumber { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "qty", modeltype: FwDataTypes.Integer)]
         public int? Quantity { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -138,85 +156,122 @@ namespace WebApi.Modules.Reports.LateReturnsReport
         [FwSqlDataField(column: "itemduein", modeltype: FwDataTypes.Integer)]
         public int? ItemDueIn { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "agentid", modeltype: FwDataTypes.Text)]
-        public string AgentId { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "agent", modeltype: FwDataTypes.Text)]
-        public string Agent { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "itemunitvalue", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
+        [FwSqlDataField(column: "unitvalue", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public decimal? ItemUnitValue { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "itemunitvalueextended", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
+        [FwSqlDataField(column: "unitvalueextended", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public decimal? ItemUnitValueExtended { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "itemreplacementcost", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
+        [FwSqlDataField(column: "replacementcost", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public decimal? ItemReplacementCost { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "itemreplacementcostextended", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
+        [FwSqlDataField(column: "replacementcostextended", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public decimal? ItemReplacementCostExtended { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "orderunitvalue", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
-        public decimal? OrderUnitValue { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "orderreplacementcost", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
-        public decimal? OrderReplacementCost { get; set; }
-        //------------------------------------------------------------------------------------ 
-        protected override void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequest request = null)
+        //[FwSqlDataField(column: "orderunitvalue", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
+        //public decimal? OrderUnitValue { get; set; }
+        ////------------------------------------------------------------------------------------ 
+        //[FwSqlDataField(column: "orderreplacementcost", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
+        //public decimal? OrderReplacementCost { get; set; }
+        ////------------------------------------------------------------------------------------ 
+
+        public override async Task<FwJsonDataTable> BrowseAsync(BrowseRequest request, FwCustomFields customFields = null)
         {
-
-            /*
-
-     create function dbo.funclatereturns(@issummary  char(01),
-                                @reporttype char(10), --// PAST_DUE, DUE_IN, DUE_DATE
-                                @days       integer,
-                                @dueback    datetime,
-                                @contactid  char(08) = '')
-
-     */
-
-            useWithNoLock = false;
-
-            bool isSummary = false;
             string reportType = "";
             int days = 0;
-            DateTime dueBack = DateTime.MinValue; 
-            string contactId = "";
+            DateTime dueBack = DateTime.MinValue;
 
-            if ((request != null) && (request.uniqueids != null)) 
-            { 
-                IDictionary<string, object> uniqueIds = ((IDictionary<string, object>)request.uniqueids);
-                if (uniqueIds.ContainsKey("IsSummary"))
+            string locationId = "";
+            string departmentId = "";
+            string customerId = "";
+            string dealId = "";
+            string inventoryTypeId = "";
+            string orderedByContactId = "";
+
+            if (request != null)
+            {
+                if (request.uniqueids != null)
                 {
-                    isSummary = FwConvert.ToBoolean(uniqueIds["IsSummary"].ToString());
-                }
-                if (uniqueIds.ContainsKey("ReportType")) 
-                {
-                    reportType = uniqueIds["ReportType"].ToString(); 
-                }
-                if (uniqueIds.ContainsKey("Days"))
-                {
-                    days = FwConvert.ToInt32(uniqueIds["Days"].ToString());
-                }
-                if (uniqueIds.ContainsKey("DueBack")) 
-                { 
-                    dueBack = FwConvert.ToDateTime(uniqueIds["DueBack"].ToString()); 
-                }
-                if (uniqueIds.ContainsKey("ContactId"))
-                {
-                    contactId = uniqueIds["ContactId"].ToString();
+                    IDictionary<string, object> uniqueIds = ((IDictionary<string, object>)request.uniqueids);
+
+
+                    if (uniqueIds.ContainsKey("ReportType"))
+                    {
+                        reportType = uniqueIds["ReportType"].ToString();
+                    }
+                    if (uniqueIds.ContainsKey("Days"))
+                    {
+                        days = FwConvert.ToInt32(uniqueIds["Days"].ToString());
+                    }
+                    if (uniqueIds.ContainsKey("DueBack"))
+                    {
+                        dueBack = FwConvert.ToDateTime(uniqueIds["DueBack"].ToString());
+                    }
+                    if (uniqueIds.ContainsKey("LocationId"))
+                    {
+                        locationId = uniqueIds["LocationId"].ToString();
+                    }
+                    if (uniqueIds.ContainsKey("DepartmentId"))
+                    {
+                        departmentId = uniqueIds["DepartmentId"].ToString();
+                    }
+                    if (uniqueIds.ContainsKey("CustomerId"))
+                    {
+                        customerId = uniqueIds["CustomerId"].ToString();
+                    }
+                    if (uniqueIds.ContainsKey("DealId"))
+                    {
+                        dealId = uniqueIds["DealId"].ToString();
+                    }
+                    if (uniqueIds.ContainsKey("InventoryTypeId"))
+                    {
+                        inventoryTypeId = uniqueIds["InventoryTypeId"].ToString();
+                    }
+                    if (uniqueIds.ContainsKey("ContactId"))
+                    {
+                        orderedByContactId = uniqueIds["ContactId"].ToString();
+                    }
                 }
             }
-            base.SetBaseSelectQuery(select, qry, customFields, request);
-            select.Parse();
-            //select.AddWhere("(xxxtype = 'ABCDEF')"); 
-            //addFilterToSelect("UniqueId", "uniqueid", select, request); 
-            select.AddParameter("@issummary", isSummary);
-            select.AddParameter("@reporttype", reportType);
-            select.AddParameter("@days", days);
-            select.AddParameter("@dueback", dueBack);
-            select.AddParameter("@contactid", contactId);
+
+            FwJsonDataTable dt = null;
+
+            using (FwSqlConnection conn = new FwSqlConnection(this.AppConfig.DatabaseSettings.ConnectionString))
+            {
+                using (FwSqlCommand qry = new FwSqlCommand(conn, "getlatereturnsrpt", this.AppConfig.DatabaseSettings.QueryTimeout))
+                {
+                    qry.AddParameter("@reporttype", SqlDbType.Text, ParameterDirection.Input, reportType);
+                    qry.AddParameter("@days", SqlDbType.Int, ParameterDirection.Input, days);
+                    qry.AddParameter("@dueback", SqlDbType.Date, ParameterDirection.Input, dueBack);
+                    qry.AddParameter("@locationid", SqlDbType.Text, ParameterDirection.Input, locationId);
+                    qry.AddParameter("@departmentid", SqlDbType.Text, ParameterDirection.Input, departmentId);
+                    qry.AddParameter("@customerid", SqlDbType.Text, ParameterDirection.Input, customerId);
+                    qry.AddParameter("@dealid", SqlDbType.Text, ParameterDirection.Input, dealId);
+                    qry.AddParameter("@inventorydepartmentid", SqlDbType.Text, ParameterDirection.Input, inventoryTypeId);
+                    qry.AddParameter("@orderdbycontactid", SqlDbType.Text, ParameterDirection.Input, orderedByContactId);
+                    PropertyInfo[] propertyInfos = typeof(LateReturnsReportLoader).GetProperties();
+                    foreach (PropertyInfo propertyInfo in propertyInfos)
+                    {
+                        FwSqlDataFieldAttribute sqlDataFieldAttribute = propertyInfo.GetCustomAttribute<FwSqlDataFieldAttribute>();
+                        if (sqlDataFieldAttribute != null)
+                        {
+                            qry.AddColumn(sqlDataFieldAttribute.ColumnName, propertyInfo.Name, sqlDataFieldAttribute.ModelType, sqlDataFieldAttribute.IsVisible, sqlDataFieldAttribute.IsPrimaryKey, false);
+                        }
+                    }
+                    dt = await qry.QueryToFwJsonTableAsync(false, 0);
+                }
+            }
+
+            string[] totalFields = new string[] { "Quantity", "ItemUnitValueExtended", "ItemReplacementCostExtended" };
+            dt.InsertSubTotalRows("OfficeLocation", "RowType", totalFields);
+            dt.InsertSubTotalRows("Deal", "RowType", totalFields);
+            dt.InsertSubTotalRows("OrderNumber", "RowType", totalFields);
+
+
+            return dt;
+
+
         }
-        //------------------------------------------------------------------------------------ 
+        //------------------------------------------------------------------------------------
     }
 }

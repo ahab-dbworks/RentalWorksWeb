@@ -139,6 +139,7 @@ namespace WebApi.Modules.Reports.ProjectManagerBillingReport
             string dateField = "";
             DateTime fromDate = DateTime.MinValue;
             DateTime toDate = DateTime.MaxValue;
+            bool includeNoCharge = false;
 
             if ((request != null) && (request.uniqueids != null))
             {
@@ -154,6 +155,10 @@ namespace WebApi.Modules.Reports.ProjectManagerBillingReport
                 if (uniqueIds.ContainsKey("DateType"))
                 {
                     dateType = uniqueIds["DateType"].ToString();
+                }
+                if (uniqueIds.ContainsKey("IncludeNoCharge"))
+                {
+                    includeNoCharge = FwConvert.ToBoolean(uniqueIds["IncludeNoCharge"].ToString());
                 }
             }
 
@@ -183,6 +188,10 @@ namespace WebApi.Modules.Reports.ProjectManagerBillingReport
             {
                 select.AddWhere(dateField + " <= @todate");
                 select.AddParameter("@todate", toDate);
+            }
+            if (!includeNoCharge)
+            {
+                select.AddWhere("nocharge <> 'T'");
             }
 
 

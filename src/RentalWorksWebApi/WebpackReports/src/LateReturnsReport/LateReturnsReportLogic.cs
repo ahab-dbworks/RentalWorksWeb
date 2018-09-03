@@ -46,6 +46,10 @@ namespace WebApi.Modules.Reports.LateReturnsReport
         [FwBusinessLogicField(isReadOnly: true)]
         public string Department { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
+        public string AgentId { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string Agent { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
         public string InventoryTypeId { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
         public string InventoryType { get; set; }
@@ -86,6 +90,12 @@ namespace WebApi.Modules.Reports.LateReturnsReport
         [FwBusinessLogicField(isReadOnly: true)]
         public string Description { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
+        public string RentalItemId { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string BarCode { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string SerialNumber { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
         public int? Quantity { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
         public int? OrderPastDue { get; set; }
@@ -96,10 +106,6 @@ namespace WebApi.Modules.Reports.LateReturnsReport
         [FwBusinessLogicField(isReadOnly: true)]
         public int? ItemDueIn { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
-        public string AgentId { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
-        public string Agent { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
         public decimal? ItemUnitValue { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
         public decimal? ItemUnitValueExtended { get; set; }
@@ -107,10 +113,10 @@ namespace WebApi.Modules.Reports.LateReturnsReport
         public decimal? ItemReplacementCost { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
         public decimal? ItemReplacementCostExtended { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
-        public decimal? OrderUnitValue { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
-        public decimal? OrderReplacementCost { get; set; }
+        //[FwBusinessLogicField(isReadOnly: true)]
+        //public decimal? OrderUnitValue { get; set; }
+        //[FwBusinessLogicField(isReadOnly: true)]
+        //public decimal? OrderReplacementCost { get; set; }
         //------------------------------------------------------------------------------------ 
     }
 }
