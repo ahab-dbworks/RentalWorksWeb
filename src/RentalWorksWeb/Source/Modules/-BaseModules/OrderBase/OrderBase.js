@@ -36,7 +36,7 @@ class OrderBase {
     }
     ;
     dynamicColumns($form) {
-        var orderType = FwFormField.getValueByDataField($form, "OrderTypeId"), $rentalGrid = $form.find('.rentalgrid [data-name="OrderItemGrid"]'), $salesGrid = $form.find('.salesgrid [data-name="OrderItemGrid"]'), $laborGrid = $form.find('.laborgrid [data-name="OrderItemGrid"]'), $miscGrid = $form.find('.miscgrid [data-name="OrderItemGrid"]'), $usedSaleGrid = $form.find('.usedsalegrid [data-name="OrderItemGrid"]'), fields = jQuery($rentalGrid).find('thead tr.fieldnames > td.column > div.field'), fieldNames = [];
+        var orderType = FwFormField.getValueByDataField($form, "OrderTypeId"), $rentalGrid = $form.find('.rentalgrid [data-name="OrderItemGrid"]'), $salesGrid = $form.find('.salesgrid [data-name="OrderItemGrid"]'), $laborGrid = $form.find('.laborgrid [data-name="OrderItemGrid"]'), $miscGrid = $form.find('.miscgrid [data-name="OrderItemGrid"]'), $usedSaleGrid = $form.find('.usedsalegrid [data-name="OrderItemGrid"]'), $combinedGrid = $form.find('.combinedgrid [data-name="OrderItemGrid"]'), fields = jQuery($rentalGrid).find('thead tr.fieldnames > td.column > div.field'), fieldNames = [];
         for (var i = 3; i < fields.length; i++) {
             var name = jQuery(fields[i]).attr('data-mappedfield');
             if (name != "QuantityOrdered") {
@@ -76,6 +76,9 @@ class OrderBase {
             var hiddenUsedSale = fieldNames.filter(function (field) {
                 return !this.has(field);
             }, new Set(response.RentalSaleShowFields));
+            var hiddenCombined = fieldNames.filter(function (field) {
+                return !this.has(field);
+            }, new Set(response.CombinedShowFields));
             for (var i = 0; i < hiddenRentals.length; i++) {
                 jQuery($rentalGrid.find('[data-mappedfield="' + hiddenRentals[i] + '"]')).parent().hide();
             }
@@ -90,6 +93,9 @@ class OrderBase {
             }
             for (var l = 0; l < hiddenUsedSale.length; l++) {
                 jQuery($usedSaleGrid.find('[data-mappedfield="' + hiddenUsedSale[l] + '"]')).parent().hide();
+            }
+            for (var l = 0; l < hiddenCombined.length; l++) {
+                jQuery($combinedGrid.find('[data-mappedfield="' + hiddenCombined[l] + '"]')).parent().hide();
             }
             if (hiddenRentals.indexOf('WeeklyExtended') === -1) {
                 $rentalGrid.find('.3weekextended').parent().show();
