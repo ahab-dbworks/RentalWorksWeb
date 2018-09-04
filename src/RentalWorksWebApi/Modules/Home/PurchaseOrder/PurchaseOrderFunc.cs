@@ -77,7 +77,7 @@ namespace WebApi.Modules.Home.PurchaseOrder
             return await SelectAllNoneReceiveItem(appConfig, userSession, contractId, purchaseOrderId, false);
         }
         //-------------------------------------------------------------------------------------------------------
-        public static async Task<ReturnItemResponse> ReturnItem(FwApplicationConfig appConfig, FwUserSession userSession, string contractId, string purchaseOrderId, string purchaseOrderItemId, int quantity)
+        public static async Task<ReturnItemResponse> ReturnItem(FwApplicationConfig appConfig, FwUserSession userSession, string contractId, string purchaseOrderId, string purchaseOrderItemId, int quantity, string barCode = "")
         {
             ReturnItemResponse response = new ReturnItemResponse();
             response.ContractId = contractId;
@@ -91,7 +91,7 @@ namespace WebApi.Modules.Home.PurchaseOrder
                 qry.AddParameter("@orderid", SqlDbType.NVarChar, ParameterDirection.Input, purchaseOrderId);
                 qry.AddParameter("@masteritemid", SqlDbType.NVarChar, ParameterDirection.Input, purchaseOrderItemId);
                 qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, userSession.UsersId);
-                qry.AddParameter("@barcode", SqlDbType.NVarChar, ParameterDirection.Input, "");
+                qry.AddParameter("@barcode", SqlDbType.NVarChar, ParameterDirection.Input, barCode);
                 qry.AddParameter("@qty", SqlDbType.Int, ParameterDirection.Input, quantity);
                 qry.AddParameter("@qtyordered", SqlDbType.Float, ParameterDirection.Output);
                 qry.AddParameter("@qtyreceived", SqlDbType.Float, ParameterDirection.Output);

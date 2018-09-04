@@ -3821,7 +3821,7 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "http://localhost:57949/api/v1/control/00002WPC",
+							"raw": "http://localhost:57949/api/v1/control/1",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -3831,7 +3831,7 @@
 								"api",
 								"v1",
 								"control",
-								"00002WPC"
+								"1"
 							]
 						}
 					},
@@ -22800,7 +22800,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"OrderId\": \"I00005VN\",\n\t\"RecType\": \"R\",\n\t\"VendorId\": \"B003KOA6\",\n\t\"ContactId\": \"F00L3BH3\",\n\t\"RateType\": \"DAILY\",\n\t\"BillingCycleId\": \"B003KXTT\",\n\t\"RequiredDate\": \"10/01/2018\",\n\t\"RequiredTime\": \"18:00\",          \"xComment3\": \"military time\",\n\t\"FromDate\": \"10/03/2018\",\n\t\"ToDate\":  \"10/05/2018\",\n\t\"DeliveryId\": \"\",                 \"xComment1\": \"leave DeliveryId blank for now\",\n\t\"AdjustContractDates\": true,      \"xComment2\": \"this field is optional\"\n\t\n}"
+							"raw": "{\r\n\t\"OrderId\": \"I00005VN\",\r\n\t\"RecType\": \"R\",\r\n\t\"VendorId\": \"B003KOA6\",\r\n\t\"ContactId\": \"F00L3BH3\",\r\n\t\"RateType\": \"DAILY\",\r\n\t\"BillingCycleId\": \"B003KXTT\",\r\n\t\"RequiredDate\": \"10/01/2018\",\r\n\t\"RequiredTime\": \"18:00\",          \"xComment3\": \"military time\",\r\n\t\"FromDate\": \"10/03/2018\",\r\n\t\"ToDate\":  \"10/05/2018\",\r\n\t\"DeliveryId\": \"\",                 \"xComment1\": \"leave DeliveryId blank for now\",\r\n\t\"AdjustContractDates\": true,      \"xComment2\": \"this field is optional\"\r\n\t\r\n}"
 						},
 						"url": {
 							"raw": "http://localhost:57949/api/v1/order/startpoworksheetsession",
@@ -33382,6 +33382,46 @@
 			]
 		},
 		{
+			"name": "Purchase Order Return Bar Code",
+			"item": [
+				{
+					"name": "Purchase Order Receive Bar Code: Browse",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"ICode\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": [],\n    \t\"uniqueids\": {\n    \t\t\"PurchaseOrderId\": \"I00007G0\",\n    \t\t\"ReturnContractId\": \"I00007GM\"\n    \t\t\n    \t}\n\t\n}"
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/purchaseorderreturnbarcode/browse",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"purchaseorderreturnbarcode",
+								"browse"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
 			"name": "Purchase Order Return Item",
 			"item": [
 				{
@@ -33435,7 +33475,42 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"xContractId\": \"I0000559\",\n    \"PurchaseOrderId\": \"F01QV8ME\",\n    \"xpurchaseOrderItemId\": \"F01QV8Q3\",\n    \"Quantity\": 2\n}"
+							"raw": "{\n    \"ContractId\": \"I00007GM\",\n    \"PurchaseOrderId\": \"I00007G0\",\n    \"purchaseOrderItemId\": \"F01QV8Q3\",    \n    \"Quantity\": 2\n}"
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/purchaseorderreturnitem/returnitems",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"purchaseorderreturnitem",
+								"returnitems"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Purchase Order Return Item: Return Item (Bar Code)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"ContractId\": \"I00007GM\",\n    \"PurchaseOrderId\": \"I00007G0\",\n    \"BarCode\": \"LV300099\"\n}"
 						},
 						"url": {
 							"raw": "http://localhost:57949/api/v1/purchaseorderreturnitem/returnitems",

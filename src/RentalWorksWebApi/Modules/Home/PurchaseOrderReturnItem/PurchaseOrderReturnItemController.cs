@@ -17,10 +17,11 @@ namespace WebApi.Modules.Home.PurchaseOrderReturnItem
         public string ContractId { get; set; }
         [Required]
         public string PurchaseOrderId { get; set; }
-        [Required]
+        //[Required]
         public string PurchaseOrderItemId { get; set; }
         [Required]
         public int Quantity { get; set; }
+        public string BarCode { get; set; }
     }
 
 
@@ -79,13 +80,17 @@ namespace WebApi.Modules.Home.PurchaseOrderReturnItem
             }
             try
             {
-                if (request.Quantity == 0)
+                if ((request.Quantity == 0) && (string.IsNullOrEmpty(request.BarCode)))
                 {
-                    throw new Exception("Quantity cannot be zero.");
+                    throw new Exception("Must supply a non-zero Quantity or a Bar Code.");
+                }
+                else if (string.IsNullOrEmpty(request.PurchaseOrderItemId) && (string.IsNullOrEmpty(request.BarCode)))
+                {
+                    throw new Exception("Must supply a PO line-item ID or a Bar Code.");
                 }
                 else
                 {
-                    ReturnItemResponse response = await PurchaseOrderFunc.ReturnItem(AppConfig, UserSession, request.ContractId, request.PurchaseOrderId, request.PurchaseOrderItemId, request.Quantity);
+                    ReturnItemResponse response = await PurchaseOrderFunc.ReturnItem(AppConfig, UserSession, request.ContractId, request.PurchaseOrderId, request.PurchaseOrderItemId, request.Quantity, request.BarCode);
                     return new OkObjectResult(response);
                 }
 
