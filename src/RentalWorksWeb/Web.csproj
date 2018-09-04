@@ -187,6 +187,7 @@
     <Content Include="Source\Grids\ContractExchangeItemGrid\ContractExchangeItemGridBrowse.htm" />
     <Content Include="Source\Grids\ExchangeItemGrid\ExchangeItemGridBrowse.htm" />
     <Content Include="Source\Grids\InventoryWarehouseStagingGrid\InventoryWarehouseStagingGridBrowse.htm" />
+    <Content Include="Source\Grids\POReturnBarCodeGrid\POReturnBarCodeGridBrowse.htm" />
     <Content Include="Source\Grids\StageQuantityItemGrid\StageQuantityItemGridBrowse.htm" />
     <Content Include="Source\Grids\SubPurchaseOrderItemGrid\SubPurchaseOrderItemGridBrowse.htm" />
     <Content Include="Source\Grids\POReturnItemGrid\POReturnItemGridBrowse.htm" />
@@ -303,6 +304,7 @@
     <TypeScriptCompile Include="Source\Grids\ContractExchangeItemGrid\ContractExchangeItemGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\ExchangeItemGrid\ExchangeItemGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\InventoryWarehouseStagingGrid\InventoryWarehouseStagingGridController.ts" />
+    <TypeScriptCompile Include="Source\Grids\POReturnBarCodeGrid\POReturnBarCodeGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\StageQuantityItemGrid\StageQuantityItemGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\SubPurchaseOrderItemGrid\SubPurchaseOrderItemGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\POReturnItemGrid\POReturnItemGridController.ts" />

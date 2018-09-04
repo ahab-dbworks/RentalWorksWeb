@@ -14,6 +14,13 @@ class POReturnItemGrid {
             html.push('<input class="fieldvalue" type="number" style="height:1.5em; width:40px; text-align:center;" value="' + originalquantity + '">');
             html.push('<button class="incrementQuantity" tabindex="-1" style="padding: 5px 0px; float:left; width:25%; border:none;">+</button>');
             jQuery($oldElement).replaceWith(html.join(''));
+            let trackedBy = $tr.find('[data-browsedatafield="TrackedBy"]').attr('data-originalvalue');
+            if (trackedBy === "BARCODE") {
+                $quantityColumn
+                    .hide()
+                    .parents('td')
+                    .css('background-color', 'rgb(245,245,245)');
+            }
             $quantityColumn.data({
                 interval: {},
                 increment: function () {

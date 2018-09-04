@@ -114,6 +114,21 @@ class ReturnToVendor {
         })
         FwBrowse.init($pOReturnItemGridControl);
         FwBrowse.renderRuntimeHtml($pOReturnItemGridControl);
+
+        let $poReturnBarCodeGrid: any,
+            $poReturnBarCodeGridControl: any;
+
+        $poReturnBarCodeGrid = $form.find('div[data-grid="POReturnBarCodeGrid"]');
+        $poReturnBarCodeGridControl = jQuery(jQuery('#tmpl-grids-POReturnBarCodeGridBrowse').html());
+        $poReturnBarCodeGrid.empty().append($poReturnBarCodeGridControl);
+        $poReturnBarCodeGridControl.data('ondatabind', function (request) {
+            request.uniqueids = {
+                PurchaseOrderId: FwFormField.getValueByDataField($form, 'PurchaseOrderId'),
+                ReturnContractId: FwFormField.getValueByDataField($form, 'ContractId')
+            }
+        })
+        FwBrowse.init($poReturnBarCodeGridControl);
+        FwBrowse.renderRuntimeHtml($poReturnBarCodeGridControl);
     };
     //----------------------------------------------------------------------------------------------
     events($form: any): void {
@@ -180,6 +195,31 @@ class ReturnToVendor {
             }, function onError(response) {
                 FwFunc.showError(response);
                 }, $form, contractId);
+        });
+        //Bar Code / Serial No. Input field
+        $form.find('[data-datafield="BarCode"] input').on('keydown', e => {
+            if (e.which === 13) {
+                $form.find('.errormsg').html('');
+                let request: any = {};
+                const $returnItemsGridControl = $form.find('div[data-name="POReturnItemGrid"]');
+                const $returnBarCodeGridControl = $form.find('div[data-name="POReturnBarCodeGrid"]');
+                request = {
+                    ContractId: FwFormField.getValueByDataField($form, 'ContractId')
+                    , PurchaseOrderId: FwFormField.getValueByDataField($form, 'PurchaseOrderId')
+                    , BarCode: FwFormField.getValueByDataField($form, 'BarCode')
+                }
+                FwAppData.apiMethod(true, 'POST', `api/v1/purchaseorderreturnitem/returnitems`, request, FwServices.defaultTimeout, function onSuccess(response) {
+                    if (response.success === 'true') {
+                        FwBrowse.search($returnBarCodeGridControl);
+                        FwBrowse.search($returnItemsGridControl);
+                    } else {
+                        $form.find('.errormsg').html(response.msg);
+                    }
+
+                    $form.find('[data-datafield="BarCode"] input').select();
+                }, null, $form);
+            }
+           
         });
     };
     //----------------------------------------------------------------------------------------------

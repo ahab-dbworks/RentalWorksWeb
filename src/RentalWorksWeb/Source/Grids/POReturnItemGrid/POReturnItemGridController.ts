@@ -10,17 +10,21 @@
             let originalquantity = $tr.find('[data-browsedatafield="Quantity"]').attr('data-originalvalue');
             let $grid = $tr.parents('[data-grid="POReturnItemGrid"]');
 
-            //$quantityColumn
-            //    .prepend('<button class="decrementQuantity" tabindex="-1" style="padding: 5px 0px; float:left; width:25%; border:none;">-</button>')
-            //    .append('<button class="incrementQuantity" tabindex="-1" style="padding: 5px 0px; float:left; width:25%; border:none;">+</button>')
-            //    .find('.fieldvalue').css('text-align', 'center');
-
             let $oldElement = $quantityColumn.find('div');
             let html = [];
             html.push('<button class="decrementQuantity" tabindex="-1" style="padding: 5px 0px; float:left; width:25%; border:none;">-</button>');
             html.push('<input class="fieldvalue" type="number" style="height:1.5em; width:40px; text-align:center;" value="' + originalquantity + '">');
             html.push('<button class="incrementQuantity" tabindex="-1" style="padding: 5px 0px; float:left; width:25%; border:none;">+</button>');
             jQuery($oldElement).replaceWith(html.join(''));
+
+            let trackedBy = $tr.find('[data-browsedatafield="TrackedBy"]').attr('data-originalvalue');
+            //Hides Quantity controls if item is tracked by barcode
+            if (trackedBy === "BARCODE") {
+                $quantityColumn
+                    .hide()
+                    .parents('td')
+                    .css('background-color', 'rgb(245,245,245)');
+            }
 
             $quantityColumn.data({
                 interval: {},

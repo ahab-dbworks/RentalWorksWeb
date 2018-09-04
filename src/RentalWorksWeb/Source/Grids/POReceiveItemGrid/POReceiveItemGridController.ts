@@ -25,13 +25,8 @@
                 color = 'transparent';
             }
             let $grid = $tr.parents('[data-grid="POReceiveItemGrid"]');
-
-            //$quantityColumn
-            //    .prepend('<button class="decrementQuantity" tabindex="-1" style="padding: 5px 0px; float:left; width:25%; border:none;">-</button>')
-            //    .append('<button class="incrementQuantity" tabindex="-1" style="padding: 5px 0px; float:left; width:25%; border:none;">+</button>')
-            //    .find('.fieldvalue').css('text-align', 'center');
-
             let $oldElement = $quantityColumn.find('div');
+
             let html: any = [];
             html.push('<button class="decrementQuantity" tabindex="-1" style="padding: 5px 0px; float:left; width:25%; border:none;">-</button>');
             html.push('<div style="position:relative">');
