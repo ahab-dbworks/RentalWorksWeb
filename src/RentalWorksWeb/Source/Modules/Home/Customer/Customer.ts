@@ -79,6 +79,18 @@ class Customer {
         var $browse: any = FwBrowse.loadBrowseFromTemplate(this.Module);
         $browse = FwModule.openBrowse($browse);
 
+        FwAppData.apiMethod(true, 'GET', `api/v1/control/1`, null, FwServices.defaultTimeout, function onSuccess(res) {
+            let ControlDefaults = {
+                defaultdealstatusid: res.DefaultDealStatusId
+                , defaultdealstatus: res.DefaultDealStatus
+                , defaultcustomerstatusid: res.DefaultCustomerStatusId
+                , defaultcustomerstatus: res.DefaultCustomerStatus
+                , defaultdealbillingcycleid: res.DefaultDealBillingCycleId
+                , defaultdealbillingcycle: res.DefaultDealBillingCycle
+            }
+            sessionStorage.setItem('controldefaults', JSON.stringify(ControlDefaults));
+        }, null, null);
+
         return $browse;
     }
 
@@ -88,6 +100,14 @@ class Customer {
 
         var $submoduleDealBrowse = this.openDealBrowse($form);
         $form.find('.deal').append($submoduleDealBrowse);
+
+
+        if (mode === 'NEW') {
+            let officeLocation = JSON.parse(sessionStorage.getItem('location'));
+            let customerStatus = JSON.parse(sessionStorage.getItem('controldefaults'));
+            FwFormField.setValue($form, 'div[data-datafield="OfficeLocationId"]', officeLocation.locationid, officeLocation.location);
+            FwFormField.setValue($form, 'div[data-datafield="CustomerStatusId"]', customerStatus.defaultcustomerstatusid, customerStatus.defaultcustomerstatus);
+        }
 
         $submoduleDealBrowse.find('div.btn[data-type="NewMenuBarButton"]').off('click');
         $submoduleDealBrowse.find('div.btn[data-type="NewMenuBarButton"]').on('click', function () {
