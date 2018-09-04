@@ -89,9 +89,6 @@ namespace WebApi.Modules.Home.Contact
 	    [FwSqlDataField(column: "inactivedate", modeltype: FwDataTypes.Date, sqltype: "smalldatetime")]
         public string InactiveDate { get; set; }
 	    //------------------------------------------------------------------------------------
-	    [FwSqlDataField(column: "rowguid", modeltype: FwDataTypes.Text, sqltype: "uniqueidentifier", maxlength: 16, precision: 0, scale: 0)]
-        public string RowGuid { get; set; }
-	    //------------------------------------------------------------------------------------
 	    [FwSqlDataField(column: "inputbyid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8, precision: 0, scale: 0)]
         public string InputById { get; set; }
 	    //------------------------------------------------------------------------------------

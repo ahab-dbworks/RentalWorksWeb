@@ -35,9 +35,6 @@ namespace WebApi.Modules.Administrator.User
         [FwSqlDataField(column: "registerdate", modeltype: FwDataTypes.UTCDateTime, sqltype: "smalldatetime", maxlength: 4, precision: 16, scale: 0)]
         public string RegisterDate { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "rowguid", modeltype: FwDataTypes.Text, sqltype: "uniqueidentifier", maxlength: 16, precision: 0, scale: 0)]
-        public string RowGuid { get; set; }
-        //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "webaccess", modeltype: FwDataTypes.Boolean, sqltype: "char", maxlength: 1, precision: 0, scale: 0)]
         public bool? WebAccess { get; set; }
         //------------------------------------------------------------------------------------
