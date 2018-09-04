@@ -426,9 +426,26 @@ FwApplicationTree.clickEvents['{77E511EC-5463-43A0-9C5D-B54407C97B15}'] = functi
 };
 //----------------------------------------------------------------------------------------------
 FwApplicationTree.clickEvents['{007C4F21-7526-437C-AD1C-4BBB1030AABA}'] = function (e) {
-    var $form, $subWorksheetForm, subWorksheetData:any = {};
+    var $form, $subWorksheetForm, subWorksheetData: any = {};
+    let $grid = jQuery(e.currentTarget).parents('[data-control="FwGrid"]');
+
+    if ($grid.hasClass('A')) {
+        subWorksheetData.RecType = ''
+    } else if ($grid.hasClass('R')) {
+        subWorksheetData.RecType = 'R'
+    } else if ($grid.hasClass('S')) {
+        subWorksheetData.RecType = 'S'
+    } else if ($grid.hasClass('M')) {
+        subWorksheetData.RecType = 'M'
+    } else if ($grid.hasClass('L')) {
+        subWorksheetData.RecType = 'L'
+    } else if ($grid.hasClass('RS')) {
+        subWorksheetData.RecType = 'RS'
+    }
+
     try {
         $form = jQuery(this).closest('.fwform');
+        console.log($grid);
         subWorksheetData.OrderId = FwFormField.getValueByDataField($form, 'OrderId');
         subWorksheetData.EstimatedStartDate = FwFormField.getValueByDataField($form, 'EstimatedStartDate');
         subWorksheetData.EstimatedStopDate = FwFormField.getValueByDataField($form, 'EstimatedStopDate');

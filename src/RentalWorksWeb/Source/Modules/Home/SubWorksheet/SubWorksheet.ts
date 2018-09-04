@@ -96,7 +96,7 @@ class SubWorksheet {
 
             worksheetRequest = {
                 OrderId: parentmoduleinfo.OrderId,
-                RecType: 'R',
+                RecType: parentmoduleinfo.RecType,
                 VendorId: FwFormField.getValueByDataField($form, 'VendorId'),
                 ContactId: FwFormField.getValueByDataField($form, 'ContactId'),
                 RateType: FwFormField.getValueByDataField($form, 'RateId'),
@@ -107,6 +107,10 @@ class SubWorksheet {
                 DeliveryId: '',
                 AdjustContractDates: true
             }
+            if (FwFormField.getValueByDataField($form, 'RentalTo') === '') {
+                worksheetRequest.ToDate = undefined;
+            }
+            
             if (FwFormField.getValueByDataField($form, 'ReqDate') !== '') {
                 worksheetRequest.RequiredDate = FwFormField.getValueByDataField($form, 'ReqDate')
             }
