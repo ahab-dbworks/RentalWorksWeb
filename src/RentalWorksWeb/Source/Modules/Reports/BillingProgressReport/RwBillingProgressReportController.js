@@ -112,7 +112,7 @@ class RwBillingProgressReport extends FwWebApiReport {
             { value: "HOLD", text: "Hold", selected: "T" },
             { value: "ACTIVE", text: "Active", selected: "T" },
             { value: "COMPLETE", text: "Complete", selected: "T" },
-            { value: "CLOSED", text: "Closed", selected: "T" }]);
+            { value: "CLOSED", text: "Closed", selected: "F" }]);
     }
     beforeValidateDeal($browse, $form, request) {
         let customerId, dealTypeId, dealCsrId;

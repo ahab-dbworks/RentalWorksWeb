@@ -33,13 +33,13 @@
       {{#each this}}
       <tr data-rowtype="{{RowType}}">
         {{#ifEquals RowType "OfficeLocationheader"}}
-        <td colspan="12">{{OfficeLocation}}</td>
+        <td colspan="12">Office Location: {{OfficeLocation}}</td>
         {{/ifEquals}}
         {{#ifEquals RowType "Customerheader"}}
-        <td colspan="12">{{Customer}}</td>
+        <td colspan="12">Customer: {{Customer}}</td>
         {{/ifEquals}}
         {{#ifEquals RowType "Dealheader"}}
-        <td colspan="12">{{Deal}}</td>
+        <td colspan="12">Deal: {{Deal}}</td>
         {{/ifEquals}}
         {{#ifEquals RowType "detail"}}
         <td>{{InvoiceNumber}}</td>

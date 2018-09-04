@@ -60,11 +60,11 @@ class RwInvoiceSummaryReport {
     loadLists($form) {
         FwFormField.loadItems($form.find('div[data-datafield="statuslist"]'), [
             { value: "NEW", text: "New", selected: "T" },
-            { value: "RETURNED", text: "Returned" },
-            { value: "REVISED", text: "Revised" },
-            { value: "APPROVED", text: "Approved" },
-            { value: "PROCESSED", text: "Processed" },
-            { value: "CLOSED", text: "Closed" },
+            { value: "RETURNED", text: "Returned", selected: "T" },
+            { value: "REVISED", text: "Revised", selected: "T"},
+            { value: "APPROVED", text: "Approved", selected: "T" },
+            { value: "PROCESSED", text: "Processed", selected: "T" },
+            { value: "CLOSED", text: "Closed", selected: "T" },
             { value: "VOID", text: "Void" }
         ]);
     }
