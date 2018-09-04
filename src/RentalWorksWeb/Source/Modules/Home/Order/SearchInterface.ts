@@ -930,7 +930,7 @@ class SearchInterface {
                 if ($accContainer.length > 0) {
                     self.refreshAccessoryQuantity($popup, id, warehouseId, inventoryId, e);
                 }
-            }, null, $searchpopup);
+            }, null, null);
         });
 
         //Update Preview grid tab
