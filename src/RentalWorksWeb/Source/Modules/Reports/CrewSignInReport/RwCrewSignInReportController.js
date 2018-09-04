@@ -4,7 +4,6 @@ var templateCrewSignInReportFrontEnd = `
       <div class="fwcontrol fwtabs" data-control="FwTabs" data-type="">
         <div class="tabs" style="margin-right:10px;">
           <div id="generaltab" class="tab" data-tabpageid="generaltabpage" data-caption="General"></div>
-          <div id="exporttab" class="tab exporttab" data-tabpageid="exporttabpage" data-caption="Export"></div>
         </div>
         <div class="tabpages">
           <div data-type="tabpage" id="generaltabpage" class="tabpage" data-tabid="generaltab">
