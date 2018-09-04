@@ -7,7 +7,7 @@ class RwAsset {
     nameItemAttributeValueGrid: string = 'ItemAttributeValueGrid';
     nameItemQcGrid: string  = 'ItemQcGrid';
     ActiveView: string = 'ALL';
-
+    //---------------------------------------------------------------------------------------------
     getModuleScreen() {
         var self = this;
         var screen: any = {};
@@ -27,11 +27,11 @@ class RwAsset {
         };
 
         return screen;
-    }
-
+    };
+    //---------------------------------------------------------------------------------------------
     openBrowse() {
         var self = this;
-        //var $browse: JQuery = FwBrowse.loadBrowseFromTemplate(this.Module);
+        // var $browse: JQuery = FwBrowse.loadBrowseFromTemplate(this.Module);
         let $browse = jQuery(this.getBrowseTemplate());
         $browse = FwModule.openBrowse($browse);
 
@@ -49,8 +49,8 @@ class RwAsset {
         }, null, $browse);
             
         return $browse;
-    }
-
+    };
+    //---------------------------------------------------------------------------------------------
     addBrowseMenuItems($menuObject: any) {
         var self = this;
         var warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
@@ -83,7 +83,6 @@ class RwAsset {
 
             FwBrowse.search($browse);
         });
-      
 
         var viewSubitems: Array<JQuery> = [];
         viewSubitems.push($userWarehouse);
@@ -151,32 +150,32 @@ class RwAsset {
         $trackByView = FwMenu.addViewBtn($menuObject, 'Tracked By', viewTrack);
         return $menuObject;
     };
-
+    //---------------------------------------------------------------------------------------------
     openForm(mode: string) {
-        //var $form = FwModule.loadFormFromTemplate(this.Module);
+        // var $form = FwModule.loadFormFromTemplate(this.Module);
         let $form = jQuery(this.getFormTemplate());
         $form = FwModule.openForm($form, mode);
 
         return $form;
-    }
-
+    };
+    //---------------------------------------------------------------------------------------------
     loadForm(uniqueids: any) {
         var $form = this.openForm('EDIT');
         FwFormField.setValueByDataField($form, 'ItemId', uniqueids.ItemId);
         FwModule.loadForm(this.Module, $form);
 
         return $form;
-    }
-
+    };
+    //---------------------------------------------------------------------------------------------
     saveForm($form: any, parameters: any) {
         FwModule.saveForm(this.Module, $form, parameters);
-    }
-
+    };
+    //---------------------------------------------------------------------------------------------
     loadAudit($form: JQuery) {
         var uniqueid = FwFormField.getValueByDataField($form, 'ItemId');
         FwModule.loadAudit($form, uniqueid);
-    }
-
+    };
+    //---------------------------------------------------------------------------------------------
     renderGrids($form: JQuery) {
         var $itemAttributeValueGrid : JQuery = $form.find('div[data-grid="' + this.nameItemAttributeValueGrid + '"]');
         var $itemAttributeValueGridControl: JQuery = FwBrowse.loadGridFromTemplate(this.nameItemAttributeValueGrid);
@@ -203,8 +202,8 @@ class RwAsset {
         FwBrowse.init($itemQcGridControl);
         FwBrowse.renderRuntimeHtml($itemQcGridControl);
     
-    }
-
+    };
+    //---------------------------------------------------------------------------------------------
     afterLoad($form: JQuery) {
         var $itemAttributeValueGrid: JQuery = $form.find('[data-name="' + this.nameItemAttributeValueGrid + '"]');
         FwBrowse.search($itemAttributeValueGrid);
@@ -216,42 +215,42 @@ class RwAsset {
         if (status === "IN") {
             FwFormField.enable($form.find('.ifin'));
         }
-    }
-
+    };
+    //---------------------------------------------------------------------------------------------
     getBrowseTemplate(): string {
         return `
         <div data-name="Asset" data-control="FwBrowse" data-type="Browse" id="AssetBrowse" class="fwcontrol fwbrowse" data-orderby="StatusDate" data-controller="AssetController" data-hasinactive="true">
-            <div class="column flexcolumn" data-width="0" data-visible="false">
-                <div class="field" data-isuniqueid="true" data-datafield="ItemId" data-browsedatatype="key" ></div>
-            </div>
-            <div class="column flexcolumn" max-width="250px" data-visible="true">
-                <div class="field" data-caption="Barcode No." data-datafield="BarCode" data-browsedatatype="text" data-sort="asc"></div>
-            </div>
-            <div class="column flexcolumn" max-width="250px" data-visible="true">
-                <div class="field" data-caption="Serial No." data-datafield="SerialNumber" data-browsedatatype="text" data-sort="off"></div>
-            </div>
-            <div class="column flexcolumn" max-width="150px" data-visible="true">
-                <div class="field" data-caption="I-Code" data-datafield="ICode" data-browsedatatype="text" data-sort="off"></div>
-            </div>
-            <div class="column flexcolumn" max-width="450px" data-visible="true">
-                <div class="field" data-caption="Description" data-datafield="Description" data-browsedatatype="text" data-sort="off"></div>
-            </div>
-            <div class="column flexcolumn" max-width="125px" data-visible="true">
-                <div class="field" data-caption="Status" data-datafield="InventoryStatus" data-cellcolor="Color" data-browsedatatype="text" data-sort="off"></div>
-            </div>
-            <div class="column flexcolumn" max-width="100px" data-visible="true">
-                <div class="field" data-caption="As Of" data-datafield="StatusDate" data-browsedatatype="text" data-sort="off"></div>
-            </div>
-            <div class="column flexcolumn" max-width="250px" data-visible="true">
-                <div class="field" data-caption="Location" data-datafield="CurrentLocation" data-browsedatatype="text" data-sort="off"></div>
-            </div>
-            <div class="column flexcolumn" data-width="0" data-visible="false">
-                <div class="field" data-datafield="Inactive" data-browsedatatype="text"  data-visible="false"></div>
-            </div>
-            <div class="column spacer" data-width="auto" data-visible="true"></div>
+          <div class="column flexcolumn" data-width="0" data-visible="false">
+            <div class="field" data-isuniqueid="true" data-datafield="ItemId" data-browsedatatype="key"></div>
+          </div>
+          <div class="column flexcolumn" max-width="250px" data-visible="true">
+            <div class="field" data-caption="Barcode No." data-datafield="BarCode" data-browsedatatype="text" data-sort="asc"></div>
+          </div>
+          <div class="column flexcolumn" max-width="250px" data-visible="true">
+            <div class="field" data-caption="Serial No." data-datafield="SerialNumber" data-browsedatatype="text" data-sort="off"></div>
+          </div>
+          <div class="column flexcolumn" max-width="150px" data-visible="true">
+            <div class="field" data-caption="I-Code" data-datafield="ICode" data-browsedatatype="text" data-sort="off"></div>
+          </div>
+          <div class="column flexcolumn" max-width="450px" data-visible="true">
+            <div class="field" data-caption="Description" data-datafield="Description" data-browsedatatype="text" data-sort="off"></div>
+          </div>
+          <div class="column flexcolumn" max-width="125px" data-visible="true">
+            <div class="field" data-caption="Status" data-datafield="InventoryStatus" data-cellcolor="Color" data-browsedatatype="text" data-sort="off"></div>
+          </div>
+          <div class="column flexcolumn" max-width="100px" data-visible="true">
+            <div class="field" data-caption="As Of" data-datafield="StatusDate" data-browsedatatype="text" data-sort="off"></div>
+          </div>
+          <div class="column flexcolumn" max-width="250px" data-visible="true">
+            <div class="field" data-caption="Location" data-datafield="CurrentLocation" data-browsedatatype="text" data-sort="off"></div>
+          </div>
+          <div class="column flexcolumn" data-width="0" data-visible="false">
+            <div class="field" data-datafield="Inactive" data-browsedatatype="text" data-visible="false"></div>
+          </div>
+          <div class="column spacer" data-width="auto" data-visible="true"></div>
         </div>`;
-    }
-
+    };
+    //---------------------------------------------------------------------------------------------
     getFormTemplate(): string {
         return `
         <div id="assetform" class="fwcontrol fwcontainer fwform" data-control="FwContainer" data-type="form" data-version="1" data-caption="Asset" data-rendermode="template" data-mode="" data-hasaudit="false" data-controller="AssetController">
@@ -261,12 +260,12 @@ class RwAsset {
               <div data-type="tab" id="assettab" class="tab" data-tabpageid="assettabpage" data-caption="General"></div>
               <div data-type="tab" id="locationtab" class="tab" data-tabpageid="locationtabpage" data-caption="Location"></div>
               <div data-type="tab" id="manufacturertab" class="tab" data-tabpageid="manufacturertabpage" data-caption="Manufacturer"></div>
+              <div data-type="tab" id="purchasetab" class="tab" data-tabpageid="purchasetabpage" data-caption="Purchase"></div>
               <div data-type="tab" id="attributetab" class="tab" data-tabpageid="attributetabpage" data-caption="Attribute"></div>
               <div data-type="tab" id="qctab" class="tab" data-tabpageid="qctabpage" data-caption="Quality Control"></div>
               <div data-type="tab" id="notestab" class="tab" data-tabpageid="notestabpage" data-caption="Notes"></div>
             </div>
             <div class="tabpages">
-
               <!-- General tab -->
               <div data-type="tabpage" id="assettabpage" class="tabpage" data-tabid="assettab">
                 <div class="formpage">
@@ -312,7 +311,6 @@ class RwAsset {
                   </div>-->
                 </div>
               </div>
-
               <!-- Location tab -->
               <div data-type="tabpage" id="locationtabpage" class="tabpage" data-tabid="locationtab">
                 <div class="formpage">
@@ -326,7 +324,6 @@ class RwAsset {
                       <div class="formcolumn" style="width:400px;">
                         <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                           <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Deal" data-datafield="CurrentDeal" data-enabled="false" style="width:375px;"></div>
-
                         </div>
                       </div>
                     </div>
@@ -344,10 +341,8 @@ class RwAsset {
                           <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="Pick Date / Time" data-datafield="CurrentOrderPickDate" data-enabled="false" style="float:left;width:150px;"></div>
                           <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="Est. Start Date / Time" data-datafield="CurrentOrderFromDate" data-enabled="false" style="float:left;width:150px;"></div>
                           <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="Est. Stop Date / Time" data-datafield="CurrentOrderToDate" data-enabled="false" style="float:left;width:150px;"></div>
-
                         </div>
                       </div>
-
                     </div>
                   </div>
                   <div class="formrow">
@@ -372,7 +367,6 @@ class RwAsset {
                     <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                       <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Inspection No." data-datafield="InspectionNo" style="float:left;width:125px;"></div>
                       <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Vendor" data-datafield="InspectionVendorId" data-displayfield="InspectionVendor" data-validationname="VendorValidation" style="float:left;width:375px;"></div>
-
                     </div>
                   </div>
                   <div class="formrow">
@@ -385,8 +379,6 @@ class RwAsset {
                   </div>
                 </div>
               </div>
-
-
               <!-- Manufacturer tab -->
               <div data-type="tabpage" id="manufacturertabpage" class="tabpage" data-tabid="manufacturertab">
                 <div class="formpage">
@@ -424,7 +416,26 @@ class RwAsset {
                   </div>
                 </div>
               </div>
-
+              <!-- Purchase tab -->
+              <div data-type="tabpage" id="purchasetabpage" class="tabpage" data-tabid="purchasetab">
+                <div class="flexpage">
+                  <div class="flexrow" style="width:650px;">
+                    <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Purchase">
+                      <div class="flexrow">
+                        <div class="flexcolumn" style="flex:1 1 650px;">
+                          <div class="flexrow">
+                            <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Purchase PO Number" data-datafield="PurchasePoId" data-enabled="false" data-displayfield="PurchasePoNumber" data-validationname="PurchaseOrderValidation" style="flex:0 1 200px;"></div>
+                            <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Vendor" data-datafield="PurchaseVendorId" data-enabled="false" data-displayfield="PurchaseVendor" data-validationname="VendorValidation" style="flex:0 1 300px;"></div>
+                            <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="Purchase Date" data-datafield="PurchaseDate" data-enabled="false" style="flex:1 1 100px;"></div>
+                            <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="Receive Date" data-datafield="ReceiveDate" data-enabled="false" style="flex:1 1 100px;"></div>
+                            <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield" data-caption="Unit Cost" data-datafield="PoCost" data-enabled="false" style="flex:1 1 75px;"></div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
               <!-- Attribute tab -->
               <div data-type="tabpage" id="attributetabpage" class="tabpage" data-tabid="attributetab">
                 <div class="formpage">
@@ -437,7 +448,6 @@ class RwAsset {
                   </div>
                 </div>
               </div>
-
               <!-- QC tab -->
               <div data-type="tabpage" id="qctabpage" class="tabpage" data-tabid="qctab">
                 <div class="formpage">
@@ -450,7 +460,6 @@ class RwAsset {
                   </div>
                 </div>
               </div>
-
               <!-- Notes tab -->
               <div data-type="tabpage" id="notestabpage" class="tabpage" data-tabid="notestab">
                 <div class="flexpage">
@@ -475,7 +484,7 @@ class RwAsset {
             </div>
           </div>
         </div>`;
-    }
+    };
 }
 
 var AssetController = new RwAsset();
