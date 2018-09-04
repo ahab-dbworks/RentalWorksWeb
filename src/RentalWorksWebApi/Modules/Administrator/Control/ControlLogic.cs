@@ -21,7 +21,7 @@ namespace WebApi.Modules.Administrator.Control
         }
         //------------------------------------------------------------------------------------ 
         [FwBusinessLogicField(isPrimaryKey: true)]
-        public string ControlId { get { return control.ControlId; } set { control.ControlId = value; } }
+        public string ControlId { get { return control.ControlId; } set { control.ControlId = value; sysControl.ControlId = value; } }
         public string Company { get { return control.Company; } set { control.Company = value; } }
         [FwBusinessLogicField(isRecordTitle: true)]
         public string SystemName { get { return control.System; } set { control.System = value; } }
