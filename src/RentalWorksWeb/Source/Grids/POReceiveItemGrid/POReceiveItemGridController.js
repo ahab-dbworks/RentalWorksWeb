@@ -42,8 +42,7 @@ class POReceiveItemGrid {
                 'width': '0',
                 'position': 'absolute',
                 'right': '0px',
-                'border-left-color': color,
-                'z-index': '2'
+                'border-left-color': color
             });
             $quantityColumn.data({
                 interval: {},
