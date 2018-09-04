@@ -129,33 +129,37 @@ class ReceiveFromVendor {
                     CreateOutContracts: true
                 }
             }
-            FwAppData.apiMethod(true, 'POST', "api/v1/purchaseorder/completereceivecontract/" + contractId, requestBody, FwServices.defaultTimeout, function onSuccess(response) {
-                try {
-                    for (let i = 0; i < response.length; i++) {
-                        let contractInfo: any = {}, $contractForm;
-                        contractInfo.ContractId = response[i].ContractId;
-                        $contractForm = ContractController.loadForm(contractInfo);
-                        FwModule.openSubModuleTab($form, $contractForm);
-                    }
-                    $form.find('.fwformfield').not('[data-type="date"], [data-type="time"]').find('input').val('');
-                    let $receiveItemsGridControl = $form.find('div[data-name="POReceiveItemGrid"]');
-                    $receiveItemsGridControl.data('ondatabind', function (request) {
-                        request.uniqueids = {
-                            ContractId: contractId
-                            , PurchaseOrderId: ''
+            if (contractId) {
+                FwAppData.apiMethod(true, 'POST', "api/v1/purchaseorder/completereceivecontract/" + contractId, requestBody, FwServices.defaultTimeout, function onSuccess(response) {
+                    try {
+                        for (let i = 0; i < response.length; i++) {
+                            let contractInfo: any = {}, $contractForm;
+                            contractInfo.ContractId = response[i].ContractId;
+                            $contractForm = ContractController.loadForm(contractInfo);
+                            FwModule.openSubModuleTab($form, $contractForm);
                         }
-                    })
-                    FwBrowse.search($receiveItemsGridControl);
-                    FwFormField.enable($form.find('[data-datafield="PurchaseOrderId"]'));
-                }
-                catch (ex) {
-                    FwFunc.showError(ex);
-                }
-                FwFormField.setValueByDataField($form, 'Date', currentDate);
-                FwFormField.setValueByDataField($form, 'Time', currentTime);
-                $form.find('.createcontract[data-type="button"]').show();
-                $form.find('.createcontract[data-type="btnmenu"]').hide();
-            }, null, $form);
+                        $form.find('.fwformfield').not('[data-type="date"], [data-type="time"]').find('input').val('');
+                        let $receiveItemsGridControl = $form.find('div[data-name="POReceiveItemGrid"]');
+                        $receiveItemsGridControl.data('ondatabind', function (request) {
+                            request.uniqueids = {
+                                ContractId: contractId
+                                , PurchaseOrderId: ''
+                            }
+                        })
+                        FwBrowse.search($receiveItemsGridControl);
+                        FwFormField.enable($form.find('[data-datafield="PurchaseOrderId"]'));
+                    }
+                    catch (ex) {
+                        FwFunc.showError(ex);
+                    }
+                    FwFormField.setValueByDataField($form, 'Date', currentDate);
+                    FwFormField.setValueByDataField($form, 'Time', currentTime);
+                    $form.find('.createcontract[data-type="button"]').show();
+                    $form.find('.createcontract[data-type="btnmenu"]').hide();
+                }, null, $form);
+            } else {
+                FwNotification.renderNotification('WARNING', 'Please select a Purchase Order.');
+            }
         });
         // Select None
         $form.find('.selectnone').on('click', e => {
