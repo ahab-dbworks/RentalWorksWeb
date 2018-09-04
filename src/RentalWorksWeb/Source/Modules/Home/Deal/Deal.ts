@@ -539,6 +539,10 @@ class Deal {
             controller = $browse.attr('data-controller');
             quoteFormData.DealId = FwFormField.getValueByDataField($form, 'DealId');
             quoteFormData.Deal = FwFormField.getValueByDataField($form, 'Deal');
+            quoteFormData.RateTypeId = FwFormField.getValueByDataField($form, 'DefaultRate');
+            quoteFormData.RateType = FwFormField.getTextByDataField($form, 'DefaultRate');
+            quoteFormData.BillingCycleId = FwFormField.getValueByDataField($form, 'BillingCycleId');
+            quoteFormData.BillingCycle = FwFormField.getTextByDataField($form, 'BillingCycleId');
             if (typeof window[controller] !== 'object') throw 'Missing javascript module: ' + controller;
             if (typeof window[controller]['openForm'] !== 'function') throw 'Missing javascript function: ' + controller + '.openForm';
             $quoteForm = window[controller]['openForm']('NEW', quoteFormData);
@@ -552,6 +556,10 @@ class Deal {
             controller = $browse.attr('data-controller');
             orderFormData.DealId = FwFormField.getValueByDataField($form, 'DealId');
             orderFormData.Deal = FwFormField.getValueByDataField($form, 'Deal');
+            orderFormData.RateTypeId = FwFormField.getValueByDataField($form, 'DefaultRate');
+            orderFormData.RateType = FwFormField.getTextByDataField($form, 'DefaultRate');
+            orderFormData.BillingCycleId = FwFormField.getValueByDataField($form, 'BillingCycleId');
+            orderFormData.BillingCycle = FwFormField.getTextByDataField($form, 'BillingCycleId');
             if (typeof window[controller] !== 'object') throw 'Missing javascript module: ' + controller;
             if (typeof window[controller]['openForm'] !== 'function') throw 'Missing javascript function: ' + controller + '.openForm';
             $orderForm = window[controller]['openForm']('NEW', orderFormData);
