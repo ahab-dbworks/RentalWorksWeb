@@ -221,6 +221,33 @@ namespace WebApi.Modules.Home.Inventory
         [FwSqlDataField(column: "containerid", modeltype: FwDataTypes.Text)]
         public string ContainerId { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "scannablemasterid", modeltype: FwDataTypes.Text)]
+        public string ContainerScannableInventoryId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "scannablemasterno", modeltype: FwDataTypes.Text)]
+        public string ContainerScannableICoe { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "scannablemaster", modeltype: FwDataTypes.Text)]
+        public string ContainerScannableDescription { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "autorebuildcontaineratcheckin", modeltype: FwDataTypes.Boolean, sqltype: "char")]
+        public bool? AutomaticallyRebuildContainerAtCheckIn { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "autorebuildcontaineratxferin", modeltype: FwDataTypes.Boolean, sqltype: "char")]
+        public bool? AutomaticallyRebuildContainerAtTransferIn { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "containerstagingrule", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 10)]  /* AUTOADD / WARN / NOWARN / ERROR */
+        public string ContainerStagingRule { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "excludecontainedfromavail", modeltype: FwDataTypes.Boolean, sqltype: "char")]
+        public bool? ExcludeContainedItemsFromAvailability { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "usecontainerno", modeltype: FwDataTypes.Boolean, sqltype: "char")]
+        public bool? UseContainerNumber { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "containerlistbehavior", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 10)] /* AUTOPRINT / PROMPT / NONE */
+        public string ContainerPackingListBehavior { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "patternid", modeltype: FwDataTypes.Text)]
         public string PatternId { get; set; }
         //------------------------------------------------------------------------------------ 

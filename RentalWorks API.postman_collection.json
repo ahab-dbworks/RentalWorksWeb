@@ -2591,6 +2591,223 @@
 			]
 		},
 		{
+			"name": "Container Item",
+			"item": [
+				{
+					"name": "Container Item: Browse",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"ContainerICode\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": [],\n    \t\"uniqueids\": {}\n\t\n}"
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/containeritem/browse",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"containeritem",
+								"browse"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Container Warehouse",
+			"item": [
+				{
+					"name": "Container Warehouse: Browse",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"WarehouseCode\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": [],\n    \t\"uniqueids\": {\"InventoryId\": \"F00WZZX7\"}\n\t\n}"
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/containerwarehouse/browse",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"containerwarehouse",
+								"browse"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Container Warehouse: Get Many",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/containerwarehouse",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"containerwarehouse"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Container Warehouse: Get One",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/containerwarehouse/F00WZZX7~F00WG0OI",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"containerwarehouse",
+								"F00WZZX7~F00WG0OI"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Container Warehouse: Insert",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"InventoryId\": \"1\",\n    \"xWarehouseId\": \"2\",\n}"
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/containerwarehouse",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"containerwarehouse"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Container Warehouse: Update",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t \"InventoryId\":\"F00WZZX7\",\n\t \"WarehouseId\":\"F00WG0OI\",\n\t \"MonthlyRate\": 199.99\n\t\n}"
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/containerwarehouse",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"containerwarehouse"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
 			"name": "Contact",
 			"item": [
 				{
@@ -19755,7 +19972,7 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "http://localhost:57949/api/v1/item/I00006SF",
+							"raw": "http://localhost:57949/api/v1/item/F00XOQUK",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -19765,7 +19982,7 @@
 								"api",
 								"v1",
 								"item",
-								"I00006SF"
+								"F00XOQUK"
 							]
 						}
 					},
@@ -33440,7 +33657,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"ItemOrder\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": [],\n    \t\"uniqueids\": \n{ContractId: \"I0000559\", PurchaseOrderId: \"F01QV8ME\"}\n}"
+							"raw": "{\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"ItemOrder\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": [],\n    \t\"uniqueids\": \n{ContractId: \"I00007GM\", PurchaseOrderId: \"I00007G0\"}\n}"
 						},
 						"url": {
 							"raw": "http://localhost:57949/api/v1/purchaseorderreturnitem/browse",
@@ -35136,7 +35353,7 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "http://localhost:57949/api/v1/rentalinventory/B003N79F",
+							"raw": "http://localhost:57949/api/v1/rentalinventory/F00WZZX7",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -35146,7 +35363,7 @@
 								"api",
 								"v1",
 								"rentalinventory",
-								"B003N79F"
+								"F00WZZX7"
 							]
 						}
 					},

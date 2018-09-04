@@ -25,8 +25,26 @@ namespace WebApi.Modules.Home.Item
         [FwSqlDataField(column: "class", modeltype: FwDataTypes.Text)]
         public string Classification { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "container", modeltype: FwDataTypes.Boolean)]
-        public bool? Container { get; set; }
+        [FwSqlDataField(column: "iscontainer", modeltype: FwDataTypes.Boolean)]
+        public bool? IsContainer { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "containerid", modeltype: FwDataTypes.Text)]
+        public string ContainerId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "containermasterid", modeltype: FwDataTypes.Text)]
+        public string ContainerInventoryId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "containermasterno", modeltype: FwDataTypes.Text)]
+        public string ContainerICode { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "container", modeltype: FwDataTypes.Text)]
+        public string ContainerDescription { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "containerstatus", modeltype: FwDataTypes.Text)]
+        public string ContainerStatus { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "containerstatusdate", modeltype: FwDataTypes.Date)]
+        public string ContainerStatusDate { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "fixedasset", modeltype: FwDataTypes.Boolean)]
         public bool? FixedAsset { get; set; }

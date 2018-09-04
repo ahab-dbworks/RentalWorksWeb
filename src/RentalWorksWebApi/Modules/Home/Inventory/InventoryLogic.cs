@@ -1,13 +1,15 @@
 using FwStandard.BusinessLogic;
-using FwStandard.BusinessLogic.Attributes; 
+using FwStandard.BusinessLogic.Attributes;
 using WebApi.Modules.Home.ItemDimension;
 using WebApi.Modules.Home.Master;
 using WebApi.Logic;
 using static FwStandard.DataLayer.FwDataReadWriteRecord;
+using System.Reflection;
+using WebLibrary;
 
 namespace WebApi.Modules.Home.Inventory
 {
-    public abstract class InventoryLogic : MasterLogic 
+    public abstract class InventoryLogic : MasterLogic
     {
 
         //------------------------------------------------------------------------------------ 
@@ -100,6 +102,18 @@ namespace WebApi.Modules.Home.Inventory
         [FwBusinessLogicField(isReadOnly: true)]
         public string ContainerId { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
+        public string ContainerScannableInventoryId { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string ContainerScannableICoe { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string ContainerScannableDescription { get; set; }
+        public bool? AutomaticallyRebuildContainerAtCheckIn { get { return master.AutomaticallyRebuildContainerAtCheckIn; } set { master.AutomaticallyRebuildContainerAtCheckIn = value; } }
+        public bool? AutomaticallyRebuildContainerAtTransferIn { get { return master.AutomaticallyRebuildContainerAtTransferIn; } set { master.AutomaticallyRebuildContainerAtTransferIn = value; } }
+        public string ContainerStagingRule { get { return master.ContainerStagingRule; } set { master.ContainerStagingRule = value; } }
+        public bool? ExcludeContainedItemsFromAvailability { get { return master.ExcludeContainedItemsFromAvailability; } set { master.ExcludeContainedItemsFromAvailability = value; } }
+        public bool? UseContainerNumber { get { return master.UseContainerNumber; } set { master.UseContainerNumber = value; } }
+        public string ContainerPackingListBehavior { get { return master.ContainerPackingListBehavior; } set { master.ContainerPackingListBehavior = value; } }
+        [FwBusinessLogicField(isReadOnly: true)]
         public bool? InventoryTypeIsWardrobe { get; set; }
         public string PatternId { get { return master.PatternId; } set { master.PatternId = value; } }
         [FwBusinessLogicField(isReadOnly: true)]
@@ -128,6 +142,27 @@ namespace WebApi.Modules.Home.Inventory
         public decimal? CleaningFeeAmount { get { return master.CleaningFeeAmount; } set { master.CleaningFeeAmount = value; } }
         [FwBusinessLogicField(isReadOnly: true)]
         public string WardrobeDetailedDescription { get; set; }
+        //------------------------------------------------------------------------------------ 
+        protected override bool Validate(TDataRecordSaveMode saveMode, ref string validateMsg)
+        {
+            bool isValid = true;
+
+            if (isValid)
+            {
+                PropertyInfo property = typeof(InventoryLogic).GetProperty(nameof(InventoryLogic.ContainerStagingRule));
+                string[] acceptableValues = { RwConstants.CONTAINER_STAGING_ADD_ITEMS_RULE_AUTOMATICALLY_ADD, RwConstants.CONTAINER_STAGING_ADD_ITEMS_RULE_WARN_BUT_ADD, RwConstants.CONTAINER_STAGING_ADD_ITEMS_RULE_DO_NOT_WARN_DO_NOT_ADD, RwConstants.CONTAINER_STAGING_ADD_ITEMS_RULE_DO_NOT_STAGE };
+                isValid = IsValidStringValue(property, acceptableValues, ref validateMsg);
+            }
+
+            if (isValid)
+            {
+                PropertyInfo property = typeof(InventoryLogic).GetProperty(nameof(InventoryLogic.ContainerPackingListBehavior));
+                string[] acceptableValues = { RwConstants.CONTAINER_PACKING_LIST_BEHAVIOR_AUTOMATICALLY_PRINT, RwConstants.CONTAINER_PACKING_LIST_BEHAVIOR_PROMPT_TO_PRINT, RwConstants.CONTAINER_PACKING_LIST_BEHAVIOR_DO_NOTHING };
+                isValid = IsValidStringValue(property, acceptableValues, ref validateMsg);
+            }
+
+            return isValid;
+        }
         //------------------------------------------------------------------------------------ 
         public override void OnAfterSaveMaster(object sender, AfterSaveEventArgs e)
         {

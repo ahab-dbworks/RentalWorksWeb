@@ -150,6 +150,15 @@ namespace WebLibrary
 
 
 
+        //CONTAINER
+        public const string CONTAINER_STAGING_ADD_ITEMS_RULE_AUTOMATICALLY_ADD = "AUTOADD";
+        public const string CONTAINER_STAGING_ADD_ITEMS_RULE_WARN_BUT_ADD = "WARN";
+        public const string CONTAINER_STAGING_ADD_ITEMS_RULE_DO_NOT_WARN_DO_NOT_ADD = "NOWARN";
+        public const string CONTAINER_STAGING_ADD_ITEMS_RULE_DO_NOT_STAGE = "ERROR";
+
+        public const string CONTAINER_PACKING_LIST_BEHAVIOR_AUTOMATICALLY_PRINT = "AUTOPRINT";
+        public const string CONTAINER_PACKING_LIST_BEHAVIOR_PROMPT_TO_PRINT = "PROMPT";
+        public const string CONTAINER_PACKING_LIST_BEHAVIOR_DO_NOTHING = "NONE";
     }
 
     public class QuoteOrderCopyRequest

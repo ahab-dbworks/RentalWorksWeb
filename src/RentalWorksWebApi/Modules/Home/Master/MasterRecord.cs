@@ -216,6 +216,24 @@ namespace WebApi.Modules.Home.Master
         [FwSqlDataField(column: "wardrobepiececount", modeltype: FwDataTypes.Integer, sqltype: "int")]
         public int? WardrobePieceCount { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "autorebuildcontaineratcheckin", modeltype: FwDataTypes.Boolean, sqltype: "char")]
+        public bool? AutomaticallyRebuildContainerAtCheckIn { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "autorebuildcontaineratxferin", modeltype: FwDataTypes.Boolean, sqltype: "char")]
+        public bool? AutomaticallyRebuildContainerAtTransferIn { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "containerstagingrule", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 10)]  /* AUTOADD / WARN / NOWARN / ERROR */
+        public string ContainerStagingRule { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "excludecontainedfromavail", modeltype: FwDataTypes.Boolean, sqltype: "char")]
+        public bool? ExcludeContainedItemsFromAvailability { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "usecontainerno", modeltype: FwDataTypes.Boolean, sqltype: "char")]
+        public bool? UseContainerNumber { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "containerlistbehavior", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 10)] /* AUTOPRINT / PROMPT / NONE */
+        public string ContainerPackingListBehavior { get; set; }
+        //------------------------------------------------------------------------------------ 
 
 
 
@@ -359,12 +377,6 @@ namespace WebApi.Modules.Home.Master
                 [FwSqlDataField(column: "containerid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
                 public string ContainerId { get; set; }
                 //------------------------------------------------------------------------------------ 
-                [FwSqlDataField(column: "containerstagingrule", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 10)]
-                public string Containerstagingrule { get; set; }
-                //------------------------------------------------------------------------------------ 
-                [FwSqlDataField(column: "excludecontainedfromavail", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-                public bool? Excludecontainedfromavail { get; set; }
-                //------------------------------------------------------------------------------------ 
                 [FwSqlDataField(column: "nestpackages", modeltype: FwDataTypes.Boolean, sqltype: "char")]
                 public bool? Nestpackages { get; set; }
                 //------------------------------------------------------------------------------------ 
@@ -376,15 +388,6 @@ namespace WebApi.Modules.Home.Master
                 //------------------------------------------------------------------------------------ 
                 [FwSqlDataField(column: "donotprintimage", modeltype: FwDataTypes.Boolean, sqltype: "char")]
                 public bool? Donotprintimage { get; set; }
-                //------------------------------------------------------------------------------------ 
-                [FwSqlDataField(column: "containerlistbehavior", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 10)]
-                public string Containerlistbehavior { get; set; }
-                //------------------------------------------------------------------------------------ 
-                [FwSqlDataField(column: "autorebuildcontaineratxferin", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-                public bool? Autorebuildcontaineratxferin { get; set; }
-                //------------------------------------------------------------------------------------ 
-                [FwSqlDataField(column: "autorebuildcontaineratcheckin", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-                public bool? Autorebuildcontaineratcheckin { get; set; }
                 //------------------------------------------------------------------------------------ 
                 [FwSqlDataField(column: "defaultprorateweeks", modeltype: FwDataTypes.Boolean, sqltype: "char")]
                 public bool? Defaultprorateweeks { get; set; }
@@ -400,9 +403,6 @@ namespace WebApi.Modules.Home.Master
                 //------------------------------------------------------------------------------------ 
                 [FwSqlDataField(column: "includeonpicklist", modeltype: FwDataTypes.Boolean, sqltype: "char")]
                 public bool? Includeonpicklist { get; set; }
-                //------------------------------------------------------------------------------------ 
-                [FwSqlDataField(column: "usecontainerno", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-                public bool? Usecontainerno { get; set; }
                 //------------------------------------------------------------------------------------ 
                 [FwSqlDataField(column: "assetaccountid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
                 public string AssetaccountId { get; set; }

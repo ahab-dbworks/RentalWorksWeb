@@ -38,7 +38,21 @@ namespace WebApi.Modules.Home.Item
         [FwBusinessLogicField(isReadOnly: true)]
         public string Classification { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
-        public bool? Container { get; set; }
+        public bool? IsContainer { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string ContainerId { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string ContainerInventoryId { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string ContainerICode { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string ContainerDescription { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string ContainerStatus { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string ContainerStatusColor { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string ContainerStatusDate { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
         public bool? FixedAsset { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
