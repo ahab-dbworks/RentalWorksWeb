@@ -238,7 +238,7 @@ class OrderBase {
         html.push('    <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="New Deal" data-datafield="CopyToDealId" data-browsedisplayfield="Deal" data-validationname="DealValidation"></div>');
         html.push('  </div>');
         html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
-        html.push('    <div data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield" data-caption="Copy To" data-datafield="">');
+        html.push('    <div data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield" data-caption="Copy To" data-datafield="CopyTo">');
         html.push('      <div data-value="Q" data-caption="Quote"> </div>');
         html.push('    <div data-value="O" data-caption="Order"> </div></div><br>');
         html.push('    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Copy Rates & Prices" data-datafield="CopyRatesFromInventory"></div>');
@@ -261,6 +261,10 @@ class OrderBase {
         $confirmation.find('div[data-datafield="CopyToDealId"] input.fwformfield-text').val(deal);
         dealId = $form.find('[data-datafield="DealId"] input.fwformfield-value').val();
         $confirmation.find('div[data-datafield="CopyToDealId"] input.fwformfield-value').val(dealId);
+        if (module === 'Order') {
+            $confirmation.find('div[data-datafield="CopyTo"] [data-value="O"] input').prop('checked', true);
+        }
+        ;
         FwFormField.disable($confirmation.find('div[data-caption="Type"]'));
         FwFormField.disable($confirmation.find('div[data-caption="No"]'));
         FwFormField.disable($confirmation.find('div[data-caption="Deal"]'));
