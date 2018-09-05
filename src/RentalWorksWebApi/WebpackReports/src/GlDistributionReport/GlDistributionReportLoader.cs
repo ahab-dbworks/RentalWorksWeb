@@ -62,7 +62,7 @@ namespace WebApi.Modules.Reports.GlDistributionReport
             select.Parse();
 
 
-            addFilterToSelect("LocationId", "locationid", select, request);
+            addFilterToSelect("OfficeLocationId", "locationid", select, request);
             addFilterToSelect("GlAccountId", "glaccountid", select, request);
 
             select.AddParameter("@fromdate", fromDate);
