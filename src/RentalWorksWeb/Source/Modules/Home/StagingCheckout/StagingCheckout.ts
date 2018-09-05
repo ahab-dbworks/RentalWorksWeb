@@ -233,7 +233,7 @@ class StagingCheckout {
         quantityFieldValue = $form.find('.partial-contract-quantity input').val();
         orderId = FwFormField.getValueByDataField($form, 'OrderId');
 
-        if (barCodeFieldValue !== '') {
+        if (barCodeFieldValue !== '' && $selectedCheckBoxes.length === 0) {
             request.ContractId = this.contractId;
             request.Code = barCodeFieldValue;
             request.OrderId = orderId
@@ -247,6 +247,10 @@ class StagingCheckout {
                     $form.find('.partial-contract-barcode input').val('');
                     $form.find('.partial-contract-quantity input').val('');
                     $form.find('.partial-contract-barcode input').select();
+                    setTimeout(() => {
+                        FwBrowse.search($checkedOutItemGrid);
+                        FwBrowse.search($stagedItemGrid);
+                    }, 500);
                 }
                 if (response.status === 107) {
                     $form.find('.error-msg').html('');
@@ -258,11 +262,6 @@ class StagingCheckout {
                     $form.find('div.error-msg').html(`<div style="margin:0px 0px 0px 8px;"><span style="padding:0px 4px 0px 4px;font-size:22px;border-radius:2px;background-color:red;color:white;">${response.msg}</span></div>`);
                     $form.find('.partial-contract-barcode input').focus();
                 }
-                setTimeout(() => {
-                    FwBrowse.search($checkedOutItemGrid);
-                    FwBrowse.search($stagedItemGrid);
-                }, 500);
-            
             }, null, null);
         } else {
             if ($selectedCheckBoxes.length !== 0) {
@@ -292,7 +291,9 @@ class StagingCheckout {
             setTimeout(() => {
                 FwBrowse.search($checkedOutItemGrid);
                 FwBrowse.search($stagedItemGrid);
-            }, 500);
+                }, 500);
+            $form.find('.partial-contract-barcode input').val('');
+            $form.find('.partial-contract-quantity input').val('');
             $form.find('.partial-contract-barcode input').focus();
             } else {
                 FwNotification.renderNotification('WARNING', 'Select rows in Stage Items or use Bar Code input in order to perform this function.');
@@ -313,7 +314,8 @@ class StagingCheckout {
         quantityFieldValue = $form.find('.partial-contract-quantity input').val();
         orderId = FwFormField.getValueByDataField($form, 'OrderId');
 
-        if (barCodeFieldValue !== '') {
+        if (barCodeFieldValue !== '' && $selectedCheckBoxes.length === 0) {
+
             request.ContractId = this.contractId;
             request.Code = barCodeFieldValue;
             request.OrderId = orderId;
@@ -327,21 +329,21 @@ class StagingCheckout {
                     $form.find('.partial-contract-barcode input').val('');
                     $form.find('.partial-contract-quantity input').val('');
                     $form.find('.partial-contract-barcode input').select();
+                    setTimeout(() => {
+                        FwBrowse.search($checkedOutItemGrid);
+                        FwBrowse.search($stagedItemGrid);
+                    }, 500);
                 }
                 if (response.status === 107) {
                     $form.find('.error-msg').html('');
                     successSound.play();
                     $form.find('.partial-contract-quantity input').focus();
                 }
-                if (response.success === false) {
+                if (response.success === false && response.status !== 107) {
                     errorSound.play();
                     $form.find('div.error-msg').html(`<div style="margin:0px 0px 0px 8px;"><span style="padding:0px 4px 0px 4px;font-size:22px;border-radius:2px;background-color:red;color:white;">${response.msg}</span></div>`);
                     $form.find('.partial-contract-barcode input').focus();
                 }
-                setTimeout(() => {
-                    FwBrowse.search($checkedOutItemGrid);
-                    FwBrowse.search($stagedItemGrid);
-                }, 500);
             }, null, null);
         } else {
             if ($selectedCheckBoxes.length !== 0) {
@@ -372,6 +374,8 @@ class StagingCheckout {
                     FwBrowse.search($checkedOutItemGrid);
                     FwBrowse.search($stagedItemGrid);
                 }, 500);
+                $form.find('.partial-contract-barcode input').val('');
+                $form.find('.partial-contract-quantity input').val('');
                 $form.find('.partial-contract-barcode input').focus();
             } else {
                 FwNotification.renderNotification('WARNING', 'Select rows in Contract Items or use Bar Code input in order to perform this function.');
@@ -517,6 +521,27 @@ class StagingCheckout {
         let errorSound, successSound, self = this;
         errorSound = new Audio(this.errorSoundFileName);
         successSound = new Audio(this.successSoundFileName);
+
+        // Refresh all grids when moving from tab to tab
+        $form.find('.tab').on('click', e => {
+            let $stagedItemGrid, $checkedOutItemGrid, $stageQuantityItemGrid;
+            $stagedItemGrid = $form.find('[data-name="StagedItemGrid"]');
+            $checkedOutItemGrid = $form.find('[data-name="CheckedOutItemGrid"]');
+            $stageQuantityItemGrid = $form.find('[data-name="StageQuantityItemGrid"]');
+            setTimeout(() => {
+            FwBrowse.search($checkedOutItemGrid);
+            FwBrowse.search($stagedItemGrid);
+                FwBrowse.search($stageQuantityItemGrid);
+            }, 500);
+        });
+
+        $form.find('[data-name="StagedItemGrid"]').dblclick(event => {
+            let $selectedCheckBoxes, $stagedItemGrid, orderId, barCodeFieldValue, quantityFieldValue, barCode, iCode, quantity, orderItemId, vendorId, $checkedOutItemGrid;
+            $stagedItemGrid = $form.find('[data-name="StagedItemGrid"]');
+            $checkedOutItemGrid = $form.find('[data-name="CheckedOutItemGrid"]');
+            $selectedCheckBoxes = $stagedItemGrid.find('.cbselectrow:checked');
+            console.log('event: ', event)
+        });
 
         // BarCode / I-Code change
         $form.find('[data-datafield="Code"] input').on('keydown', e => {

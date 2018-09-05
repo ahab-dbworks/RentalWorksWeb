@@ -88,11 +88,12 @@ class StageQuantityItemGrid {
                 }
                 ;
                 $quantityColumn.on('change', '.fieldvalue', e => {
-                    let request = {}, code = $tr.find('[data-browsedatafield="ICode"]').attr('data-originalvalue'), orderId = FwFormField.getValueByDataField($form, 'OrderId'), newValue = jQuery(e.currentTarget).val(), oldValue = $tr.find('[data-browsedatafield="Quantity"]').attr('data-originalvalue'), quantity = Number(newValue) - Number(oldValue);
+                    let request = {}, code = $tr.find('[data-browsedatafield="ICode"]').attr('data-originalvalue'), orderItemId = $tr.find('[data-browsedatafield="OrderItemId"]').attr('data-originalvalue'), orderId = FwFormField.getValueByDataField($form, 'OrderId'), newValue = jQuery(e.currentTarget).val(), oldValue = $tr.find('[data-browsedatafield="Quantity"]').attr('data-originalvalue'), quantity = Number(newValue) - Number(oldValue);
                     request = {
                         OrderId: orderId,
                         Code: code,
-                        Quantity: quantity
+                        Quantity: quantity,
+                        OrderItemId: orderItemId
                     };
                     if (quantity != 0) {
                         FwAppData.apiMethod(true, 'POST', "api/v1/checkout/stageitem", request, FwServices.defaultTimeout, function onSuccess(response) {
