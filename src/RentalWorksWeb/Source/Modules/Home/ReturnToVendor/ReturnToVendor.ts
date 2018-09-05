@@ -148,6 +148,7 @@ class ReturnToVendor {
                     FwModule.openSubModuleTab($form, $contractForm);
 
                     $form.find('.fwformfield').not('[data-type="date"], [data-type="time"]').find('input').val('');
+                    FwFormField.enable($form.find('[data-datafield="PurchaseOrderId"]'));
                     let $pOReturnItemGridControl = $form.find('div[data-name="POReturnItemGrid"]');
                     $pOReturnItemGridControl.data('ondatabind', function (request) {
                         request.uniqueids = {
