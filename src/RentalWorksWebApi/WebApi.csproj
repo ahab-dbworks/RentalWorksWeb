@@ -85,6 +85,9 @@
     <ProjectReference Include="..\..\lib\Fw\src\FwStandard\FwStandard.csproj" />
     <ProjectReference Include="..\RentalWorksWebLibrary\WebLibrary.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <TypeScriptCompile Include="node-build.js" />
+  </ItemGroup>
   <Target Name="MyPreCompileTarget" BeforeTargets="Build">
     <!--<Exec Command="npm install" />-->
   </Target>
