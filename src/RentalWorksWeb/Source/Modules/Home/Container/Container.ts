@@ -96,11 +96,11 @@ class Container {
         return $menuObject;
     };
     //---------------------------------------------------------------------------------------------
-    openForm(mode: string, parentmoduleinfo?) {
+    openForm(mode: string) {
         // var $form = FwModule.loadFormFromTemplate(this.Module);
         let $form = jQuery(AssetController.getFormTemplate());
-        $form = FwModule.openForm($form, mode);
 
+        $form = FwModule.openForm($form, mode);
         return $form;
     };
     //---------------------------------------------------------------------------------------------
