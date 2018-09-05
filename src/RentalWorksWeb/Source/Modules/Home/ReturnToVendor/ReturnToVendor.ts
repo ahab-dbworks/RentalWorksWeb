@@ -149,14 +149,9 @@ class ReturnToVendor {
 
                     $form.find('.fwformfield').not('[data-type="date"], [data-type="time"]').find('input').val('');
                     FwFormField.enable($form.find('[data-datafield="PurchaseOrderId"]'));
-                    let $pOReturnItemGridControl = $form.find('div[data-name="POReturnItemGrid"]');
-                    $pOReturnItemGridControl.data('ondatabind', function (request) {
-                        request.uniqueids = {
-                            ContractId: contractId,
-                            PurchaseOrderId: ''
-                        }
-                    })
-                    FwBrowse.search($pOReturnItemGridControl);
+                    $form.find('div[data-name="POReturnItemGrid"] tr.viewmode').empty();
+                    $form.find('div[data-name="POReturnBarCodeGrid"] tr.viewmode').empty();
+                    $form.find('.errormsg').html('');
                 }
                 catch (ex) {
                     FwFunc.showError(ex);
@@ -210,7 +205,7 @@ class ReturnToVendor {
                     , BarCode: FwFormField.getValueByDataField($form, 'BarCode')
                 }
                 FwAppData.apiMethod(true, 'POST', `api/v1/purchaseorderreturnitem/returnitems`, request, FwServices.defaultTimeout, function onSuccess(response) {
-                    if (response.success === 'true') {
+                    if (response.success === true) {
                         FwBrowse.search($returnBarCodeGridControl);
                         FwBrowse.search($returnItemsGridControl);
                     } else {
