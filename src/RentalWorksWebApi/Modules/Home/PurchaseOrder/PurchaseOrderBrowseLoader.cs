@@ -8,7 +8,7 @@ using WebLibrary;
 
 namespace WebApi.Modules.Home.PurchaseOrder
 {
-    [FwSqlTable("poview")]
+    [FwSqlTable("powebbrowseview")]
     public class PurchaseOrderBrowseLoader : AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------ 

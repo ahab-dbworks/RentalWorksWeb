@@ -8,7 +8,7 @@ using WebLibrary;
 
 namespace WebApi.Modules.Home.Order
 {
-    [FwSqlTable("orderview")]
+    [FwSqlTable("orderwebbrowseview")]
     public abstract class OrderBaseBrowseLoader : AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------
