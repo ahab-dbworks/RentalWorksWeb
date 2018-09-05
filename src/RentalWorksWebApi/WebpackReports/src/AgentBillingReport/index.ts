@@ -3,7 +3,7 @@ import { CustomField } from '../../lib/FwReportLibrary/src/scripts/CustomField';
 import { DataTable, DataTableColumn, BrowseRequest } from '../../lib/FwReportLibrary/src/scripts/Browse';
 import { Ajax } from '../../lib/FwReportLibrary/src/scripts/Ajax';
 import { HandlebarsHelpers } from '../../lib/FwReportLibrary/src/scripts/HandlebarsHelpers';
-//import * as moment from 'moment';
+import * as moment from 'moment';
 import '../../lib/FwReportLibrary/src/theme/webpackReports.scss';
 import './index.scss';
 var hbReport = require("./hbReport.hbs"); 
@@ -48,7 +48,7 @@ export class AgentBillingReport extends WebpackReport {
                 .then((response: DataTable) => {
 
                     agentBilling = DataTable.toObjectList(response);
-                    //agentBilling.PrintTime = moment().format('YYYY-MM-DD h:mm:ss A');
+                    agentBilling.PrintTime = moment().format('YYYY-MM-DD h:mm:ss A');
                     agentBilling.FromDate = parameters.FromDate;
                     agentBilling.ToDate = parameters.ToDate;
                     agentBilling.Report = 'Agent Billing Report';
