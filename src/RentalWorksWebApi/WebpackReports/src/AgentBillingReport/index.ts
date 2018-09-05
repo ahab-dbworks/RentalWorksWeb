@@ -3,7 +3,7 @@ import { CustomField } from '../../lib/FwReportLibrary/src/scripts/CustomField';
 import { DataTable, DataTableColumn, BrowseRequest } from '../../lib/FwReportLibrary/src/scripts/Browse';
 import { Ajax } from '../../lib/FwReportLibrary/src/scripts/Ajax';
 import { HandlebarsHelpers } from '../../lib/FwReportLibrary/src/scripts/HandlebarsHelpers';
-import * as moment from 'moment';
+//import * as moment from 'moment';
 import '../../lib/FwReportLibrary/src/theme/webpackReports.scss';
 import './index.scss';
 var hbReport = require("./hbReport.hbs"); 
@@ -18,13 +18,14 @@ export class AgentBillingReport extends WebpackReport {
             HandlebarsHelpers.registerHelpers();
             let request = new BrowseRequest();
             request.uniqueids = {};
-       
+            console.log('parameters', parameters)
+
             let agentBilling: any = {};
             request.orderby = 'Agent, OfficeLocation, Department, Deal, OrderNumber';
             request.uniqueids.DateType = parameters.DateType;
             request.uniqueids.ToDate = parameters.ToDate;
             request.uniqueids.FromDate = parameters.FromDate;
-            request.uniqueids.ShowVendors = parameters.ShowVendors;
+            request.uniqueids.IncludeNoCharge = parameters.IncludeNoCharge;
             if (parameters.OfficeLocationId != '') {
                 request.uniqueids.LocationId = parameters.OfficeLocationId
             }
@@ -40,12 +41,14 @@ export class AgentBillingReport extends WebpackReport {
             if (parameters.CustomerId != '') {
                 request.uniqueids.CustomerId = parameters.CustomerId
             }
+
+            console.log('request', request)
             
             let agentBillingPromise = Ajax.post<DataTable>(`${apiUrl}/api/v1/agentbillingreport/browse`, authorizationHeader, request)
                 .then((response: DataTable) => {
 
                     agentBilling = DataTable.toObjectList(response);
-                    agentBilling.PrintTime = moment().format('YYYY-MM-DD h:mm:ss A');
+                    //agentBilling.PrintTime = moment().format('YYYY-MM-DD h:mm:ss A');
                     agentBilling.FromDate = parameters.FromDate;
                     agentBilling.ToDate = parameters.ToDate;
                     agentBilling.Report = 'Agent Billing Report';

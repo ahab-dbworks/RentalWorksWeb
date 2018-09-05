@@ -37,7 +37,7 @@ var agentBillingTemplateFrontEnd = `
             <div class="flexcolumn" style="max-width:250px;">
               <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Options">
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                  <div data-datafield="ShowVendors" data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Include &quot;No Charge&quot; Invoices" style="float:left;max-width:420px;"></div>
+                  <div data-datafield="IncludeNoCharge" data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Include &quot;No Charge&quot; Invoices" style="float:left;max-width:420px;"></div>
                 </div>
               </div>
             </div>

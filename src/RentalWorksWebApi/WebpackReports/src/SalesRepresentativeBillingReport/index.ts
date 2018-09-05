@@ -24,7 +24,7 @@ export class SalesRepresentativeBillingReport extends WebpackReport {
             request.uniqueids.DateType = parameters.DateType;
             request.uniqueids.ToDate = parameters.ToDate;
             request.uniqueids.FromDate = parameters.FromDate;
-            request.uniqueids.ShowVendors = parameters.ShowVendors;
+            request.uniqueids.IncludeNoCharge = parameters.IncludeNoCharge;
             if (parameters.OfficeLocationId != '') {
                 request.uniqueids.LocationId = parameters.OfficeLocationId
             }
