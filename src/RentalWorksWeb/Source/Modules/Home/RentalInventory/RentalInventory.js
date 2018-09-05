@@ -391,16 +391,14 @@ class RentalInventory extends InventoryBase {
             $form.find('[data-grid="RentalInventoryWarehouseGrid"]').hide();
             $form.find('[data-grid="ContainerWarehouseGrid"]').show();
             FwBrowse.search($containerWarehouseGrid);
+            let $containerBrowse;
+            $containerBrowse = this.openContainerBrowse($form);
+            FwModule.openSubModuleTab($form, $containerBrowse);
+            jQuery('.tab.submodule.active').find('.caption').html(`Container Assets`);
+            $form.find('.settingstab').show();
         }
         else {
             FwBrowse.search($rentalInventoryWarehouseGrid);
-        }
-        if (classificationType == 'N') {
-            let $containerBrowse, containerDescription;
-            containerDescription = FwFormField.getValueByDataField($form, 'Description');
-            $containerBrowse = this.openContainerBrowse($form);
-            FwModule.openSubModuleTab($form, $containerBrowse);
-            jQuery('.tab.submodule.active').find('.caption').html(`Containers for ${containerDescription}`);
         }
         if ($form.find('[data-datafield="OverrideProfitAndLossCategory"] .fwformfield-value').prop('checked')) {
             FwFormField.enable($form.find('[data-datafield="ProfitAndLossCategoryId"]'));
@@ -431,6 +429,7 @@ class RentalInventory extends InventoryBase {
                 ContainerId: containerId
             };
         });
+        FwBrowse.databind($browse);
         return $browse;
     }
     addAssetTab($form) {
