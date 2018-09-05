@@ -488,7 +488,7 @@ class PurchaseOrder {
             request.Subs = true;
         });
         FwBrowse.addEventHandler($orderItemGridSubRentControl, 'afterdatabindcallback', () => {
-            this.calculateOrderItemGridTotals($form, 'subrent');
+            this.calculateOrderItemGridTotals($form, 'subrental');
             let subrentItems = $form.find('.subrentalgrid tbody').children();
             subrentItems.length > 0 ? FwFormField.disable($form.find('[data-datafield="SubRent"]')) : FwFormField.enable($form.find('[data-datafield="SubRent"]'));
         });
@@ -524,7 +524,7 @@ class PurchaseOrder {
             request.Subs = true;
         });
         FwBrowse.addEventHandler($oderItemGridSubSalesControl, 'afterdatabindcallback', () => {
-            this.calculateOrderItemGridTotals($form, 'subsale');
+            this.calculateOrderItemGridTotals($form, 'subsales');
             let subsalesItems = $form.find('.subsalesgrid tbody').children();
             subsalesItems.length > 0 ? FwFormField.disable($form.find('[data-datafield="SubSale"]')) : FwFormField.enable($form.find('[data-datafield="SubSale"]'));
         });
