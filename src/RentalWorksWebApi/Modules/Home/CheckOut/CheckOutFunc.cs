@@ -71,14 +71,14 @@ namespace WebApi.Home.CheckOut
 
                      */
         //-------------------------------------------------------------------------------------------------------
-        public static async Task<StageItemReponse> StageItem(FwApplicationConfig appConfig, FwUserSession userSession, string orderId, /*string orderItemId,*/ string code, int? quantity, bool addItemToOrder, bool addCompleteToOrder)
+        public static async Task<StageItemReponse> StageItem(FwApplicationConfig appConfig, FwUserSession userSession, string orderId, string orderItemId, string code, int? quantity, bool addItemToOrder, bool addCompleteToOrder)
         {
             StageItemReponse response = new StageItemReponse();
             using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
             {
                 FwSqlCommand qry = new FwSqlCommand(conn, "pdastageitem", appConfig.DatabaseSettings.QueryTimeout);
                 qry.AddParameter("@orderid", SqlDbType.NVarChar, ParameterDirection.Input, orderId);
-                //qry.AddParameter("@masteritemid", SqlDbType.NVarChar, ParameterDirection.Input, orderItemId);
+                qry.AddParameter("@masteritemid", SqlDbType.NVarChar, ParameterDirection.InputOutput, orderItemId);
                 qry.AddParameter("@code", SqlDbType.NVarChar, ParameterDirection.Input, code);
                 if (quantity != null)
                 {
@@ -87,7 +87,6 @@ namespace WebApi.Home.CheckOut
                 qry.AddParameter("@additemtoorder", SqlDbType.NVarChar, ParameterDirection.Input, (addItemToOrder ? "T" : "F"));
                 qry.AddParameter("@addcompletetoorder", SqlDbType.NVarChar, ParameterDirection.Input, (addCompleteToOrder ? "T" : "F"));
                 qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, userSession.UsersId);
-                qry.AddParameter("@masteritemid", SqlDbType.NVarChar, ParameterDirection.Output);
                 qry.AddParameter("@masterid", SqlDbType.NVarChar, ParameterDirection.Output);
                 //qry.AddParameter("@qtystaged", SqlDbType.Int, ParameterDirection.Output);
 
