@@ -97,7 +97,7 @@ class StageQuantityItemGrid {
                     };
                     if (quantity != 0) {
                         FwAppData.apiMethod(true, 'POST', "api/v1/checkout/stageitem", request, FwServices.defaultTimeout, function onSuccess(response) {
-                            let errormsg = $form.find('.errormsg');
+                            let errormsg = $form.find('.error-msg-qty');
                             errormsg.html('');
                             if (response.success) {
                                 $tr.find('[data-browsedatafield="Quantity"]').attr('data-originalvalue', Number(newValue));
@@ -111,7 +111,7 @@ class StageQuantityItemGrid {
                             }
                             else {
                                 errorSound.play();
-                                errormsg.html(`<div style="margin-left:8px; margin-top: 10px;"><span>${response.msg}</span></div>`);
+                                errormsg.html(`<div style="margin:0px 0px 0px 8px;"><span style="padding:0px 4px 0px 4px;font-size:22px;border-radius:2px;background-color:red;color:white;">${response.msg}</span></div>`);
                                 $tr.find('[data-browsedatafield="Quantity"] input').val(Number(oldValue));
                             }
                             let $itemsTrackedByBarcode = $control.find('[data-browsedatafield="TrackedBy"][data-originalvalue="BARCODE"]');
