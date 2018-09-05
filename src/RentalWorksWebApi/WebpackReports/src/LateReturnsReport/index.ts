@@ -42,7 +42,6 @@ export class LateReturnDueBackReport extends WebpackReport {
                 request.uniqueids.DueBack = parameters.DueBackDate;
                 headerText = 'Due Back on ' + parameters.DueBackDate;
             }
-            request.uniqueids.DueBack = '08/01/2018';
             request.uniqueids.ContactId = parameters.ContactId
 
             console.log(request)
