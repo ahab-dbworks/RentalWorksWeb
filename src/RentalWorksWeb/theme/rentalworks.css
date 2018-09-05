@@ -134,6 +134,10 @@ html.theme-material .fwbrowse table tbody tr.editrow .field[data-formdatatype="d
     font-size: .9em;
 }
 
+html.theme-material .fwbrowse table tbody tr.editrow .field[data-formdatatype="timepicker"] input.value {
+    font-size: .9em;
+}
+
 html.theme-material .fwbrowse table tbody tr.editrow .field[data-formdatatype="time"] input.value {
 }
 
