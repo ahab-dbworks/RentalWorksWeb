@@ -96,7 +96,7 @@ class WebApiCompiler {
                     } else if (this.buildAction === WebApiCompiler.BUILD_ACTION_RUN) {
                         await this.dotnet_run();
                     } else {
-                        throw UNSUPPORTED_CONFIGURATION + '5';
+                        throw UNSUPPORTED_CONFIGURATION;
                     }
                 } else if (this.buildConfiguration === WebApiCompiler.BUILD_CONFIGURATION_PRODUCTION) {
                     await this.rmfr_downloads();
@@ -106,7 +106,7 @@ class WebApiCompiler {
                     await this.build_webpack_reports();
                     await this.dotnet_publish();
                 } else {
-                    throw UNSUPPORTED_CONFIGURATION + '4';
+                    throw UNSUPPORTED_CONFIGURATION;
                 }
             } else if (this.target === WebApiCompiler.TARGET_API) {
                 if (this.buildConfiguration === WebApiCompiler.BUILD_CONFIGURATION_DEVELOPMENT) {
@@ -115,10 +115,10 @@ class WebApiCompiler {
                     } else if (this.buildAction === WebApiCompiler.BUILD_ACTION_RUN) {
                         await this.dotnet_run();
                     } else {
-                        throw UNSUPPORTED_CONFIGURATION + '3';
+                        throw UNSUPPORTED_CONFIGURATION;
                     }
                 } else {
-                    throw UNSUPPORTED_CONFIGURATION + '2';
+                    throw UNSUPPORTED_CONFIGURATION;
                 }
             } else if (this.target === WebApiCompiler.TARGET_REPORTS) {
                 await this.rmfr_reports();
@@ -127,7 +127,7 @@ class WebApiCompiler {
                 } else if (this.buildAction === WebApiCompiler.BUILD_ACTION_WATCH) {
                     await this.watch_webpack_reports();
                 } else {
-                    throw UNSUPPORTED_CONFIGURATION + '1';
+                    throw UNSUPPORTED_CONFIGURATION;
                 }
             }
         } catch (ex) {
