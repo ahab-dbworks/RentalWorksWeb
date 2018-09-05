@@ -759,7 +759,6 @@ namespace FwStandard.SqlServer
                 this.sqlLogEntry = new FwSqlLogEntry(this.sqlCommand, usefulLinesFromStackTrace);
                 this.sqlLogEntry.Start();
                 this.RowCount = await this.sqlCommand.ExecuteNonQueryAsync();
-                this.sqlLogEntry.Stop();
             }
             catch (SqlException ex)
             {
@@ -774,6 +773,7 @@ namespace FwStandard.SqlServer
             }
             finally
             {
+                this.sqlLogEntry.Stop();
                 if (closeConnection)
                 {
                     this.sqlConnection.Close();
@@ -813,10 +813,10 @@ namespace FwStandard.SqlServer
                 this.sqlLogEntry = new FwSqlLogEntry(this.sqlCommand, usefulLinesFromStackTrace);
                 this.sqlLogEntry.Start();
                 this.RowCount = await this.sqlCommand.ExecuteNonQueryAsync();
-                this.sqlLogEntry.Stop();
             }
             finally
             {
+                this.sqlLogEntry.Stop();
                 this.sqlConnection.Close();
                 //FwFunc.WriteLog("End FwSqlCommand:ExecuteInsertQuery()");
             }
@@ -861,10 +861,10 @@ namespace FwStandard.SqlServer
                 this.sqlLogEntry = new FwSqlLogEntry(this.sqlCommand, usefulLinesFromStackTrace);
                 this.sqlLogEntry.Start();
                 this.RowCount = await this.sqlCommand.ExecuteNonQueryAsync();
-                this.sqlLogEntry.Stop();
             }
             finally
             {
+                this.sqlLogEntry.Stop();
                 this.sqlConnection.Close();
                 //FwFunc.WriteLog("End FwSqlCommand:ExecuteUpdateQuery()");
             }
@@ -886,54 +886,18 @@ namespace FwStandard.SqlServer
                 this.sqlLogEntry.Start();
                 using (SqlDataReader reader = await this.sqlCommand.ExecuteReaderAsync())
                 {
-                    this.sqlLogEntry.Stop();
                     this.RowCount = reader.RecordsAffected;
                 }
             }
             finally
             {
+                this.sqlLogEntry.Stop();
                 this.sqlConnection.Close();
-                //FwFunc.WriteLog("End FwSqlCommand:ExecuteReader(): " + sqlCommand.CommandText);
             }
         }
         //------------------------------------------------------------------------------------
-        //public void Open()
-        //{            
-        //    FwFunc.WriteLog("Begin FwSqlCommand:Open()");
-        //    this.RowCount = 0;
-        //    this.sqlConnection.Open();
-        //    this.sqlCommand.CommandText = this.qryText.ToString();
-        //    FwFunc.WriteLog("Query:\n" + sqlCommand.CommandText);
-        //    if (this.sqlCommand.CommandType == CommandType.StoredProcedure)
-        //    {                
-        //        this.sqlLogEntry = new FwSqlLogEntry(this.sqlCommand);
-        //        this.sqlLogEntry.Start();
-        //        this.RowCount = this.sqlCommand.ExecuteNonQuery();                
-        //        this.sqlLogEntry.Stop();
-        //    }
-        //    else
-        //    {
-        //        this.sqlLogEntry = new FwSqlLogEntry(this.sqlCommand);
-        //        this.sqlLogEntry.Start();
-        //        this.reader = this.sqlCommand.ExecuteReader();
-        //        this.sqlLogEntry.Stop();
-        //        this.eof = (!this.reader.HasRows);
-        //        if (!eof)
-        //        {
-        //            this.RowCount++;
-        //            this.Next();
-        //        }
-        //        while (this.reader.Read())
-        //        {
-        //            this.RowCount++;
-        //        }
-        //    }
-        //    FwFunc.WriteLog("End FwSqlCommand:Open()");
-        //}        
-        //------------------------------------------------------------------------------------
         public bool Next(SqlDataReader reader)
         {
-            //this.RowCount++;
             this.eof = (!reader.Read());
             if (!this.eof)
             {
@@ -1223,7 +1187,6 @@ namespace FwStandard.SqlServer
                     {
                         dt.TotalRows = dt.Rows.Count;
                     }
-                    this.sqlLogEntry.Stop();
                 }
             }
             catch (Exception ex)
@@ -1238,6 +1201,7 @@ namespace FwStandard.SqlServer
             }
             finally
             {
+                this.sqlLogEntry.Stop();
                 this.sqlCommand.Connection.Close();
                 //FwFunc.WriteLog("End FwSqlCommand:QueryToFwJsonTable()");
             }
@@ -1467,7 +1431,6 @@ namespace FwStandard.SqlServer
                     this.sqlLogEntry = new FwSqlLogEntry(this.sqlCommand, usefulLinesFromStackTrace);
                     this.sqlLogEntry.Start();
                     this.RowCount = await this.sqlCommand.ExecuteNonQueryAsync();
-                    this.sqlLogEntry.Stop();
                 }
                 else
                 {
@@ -1475,7 +1438,6 @@ namespace FwStandard.SqlServer
                     this.sqlLogEntry.Start();
                     using (SqlDataReader reader = await this.sqlCommand.ExecuteReaderAsync())
                     {
-                        this.sqlLogEntry.Stop();
                         this.eof = (!reader.HasRows);
                         if (!eof)
                         {
@@ -1491,6 +1453,7 @@ namespace FwStandard.SqlServer
             }
             finally
             {
+                this.sqlLogEntry.Stop();
                 if (closeConnection)
                 {
                     this.sqlCommand.Connection.Close();
@@ -1807,62 +1770,68 @@ namespace FwStandard.SqlServer
             }
             this.sqlCommand.CommandText = this.qryText.ToString();
 
-            this.sqlLogEntry = new FwSqlLogEntry(this.sqlCommand, usefulLinesFromStackTrace);
-            this.sqlLogEntry.Start();
-            using (SqlDataReader reader = await this.sqlCommand.ExecuteReaderAsync())
+            try
             {
-                for (int fieldno = 0; fieldno < reader.FieldCount; fieldno++)
+                this.sqlLogEntry = new FwSqlLogEntry(this.sqlCommand, usefulLinesFromStackTrace);
+                this.sqlLogEntry.Start();
+                using (SqlDataReader reader = await this.sqlCommand.ExecuteReaderAsync())
                 {
-                    columnIndex[reader.GetName(fieldno)] = fieldno;
-                }
-                while (await reader.ReadAsync())
-                {
-                    T obj = Activator.CreateInstance<T>();
-
-                    foreach (KeyValuePair<string, FwSqlDataFieldAttribute> attribute in sqlDataFieldAttributes)
+                    for (int fieldno = 0; fieldno < reader.FieldCount; fieldno++)
                     {
-                        int i = -1;
-
-                        //first, attempt to find the column index by the Key name (logical name)
-                        if (i < 0)
-                        {
-                            i = columnIndex.ContainsKey(attribute.Key) ? columnIndex[attribute.Key] : -1;
-                        }
-
-                        //second, attempt to find the column index by the ColumnName (physical name)
-                        if (i < 0)
-                        {
-                            i = columnIndex.ContainsKey(attribute.Value.ColumnName) ? columnIndex[attribute.Value.ColumnName] : -1;
-                        }
-
-                        //if neither fields are found, give a meaningful error message
-                        if (i < 0)
-                        {
-                            throw new Exception("Invalid field name: " + attribute.Key + " or " + attribute.Value.ColumnName);
-                        }
-                        FwDatabaseField field = new FwDatabaseField(reader.GetValue(i));
-                        object data = FormatReaderData(attribute.Value.ModelType, i, reader);
-                        sqlDataFieldPropertyInfos[attribute.Key].SetValue(obj, data);
+                        columnIndex[reader.GetName(fieldno)] = fieldno;
                     }
-
-                    if ((customFields != null) && (customFields.Count > 0))
+                    while (await reader.ReadAsync())
                     {
-                        FwCustomValues customValues = null;
-                        customValues = new FwCustomValues();
-                        foreach (FwCustomField customField in customFields)
-                        {
-                            FwDatabaseField field = new FwDatabaseField(reader.GetValue(columnIndex[customField.FieldName]));
-                            object data = FormatReaderData(FwDataTypes.Text, columnIndex[customField.FieldName], reader); //todo: support different data types
-                            string str = data.ToString();
-                            customValues.AddCustomValue(customField.FieldName, str, customField.FieldType); 
-                        }
-                        obj._Custom = customValues;
-                    }
+                        T obj = Activator.CreateInstance<T>();
 
-                    results.Add(obj);
+                        foreach (KeyValuePair<string, FwSqlDataFieldAttribute> attribute in sqlDataFieldAttributes)
+                        {
+                            int i = -1;
+
+                            //first, attempt to find the column index by the Key name (logical name)
+                            if (i < 0)
+                            {
+                                i = columnIndex.ContainsKey(attribute.Key) ? columnIndex[attribute.Key] : -1;
+                            }
+
+                            //second, attempt to find the column index by the ColumnName (physical name)
+                            if (i < 0)
+                            {
+                                i = columnIndex.ContainsKey(attribute.Value.ColumnName) ? columnIndex[attribute.Value.ColumnName] : -1;
+                            }
+
+                            //if neither fields are found, give a meaningful error message
+                            if (i < 0)
+                            {
+                                throw new Exception("Invalid field name: " + attribute.Key + " or " + attribute.Value.ColumnName);
+                            }
+                            FwDatabaseField field = new FwDatabaseField(reader.GetValue(i));
+                            object data = FormatReaderData(attribute.Value.ModelType, i, reader);
+                            sqlDataFieldPropertyInfos[attribute.Key].SetValue(obj, data);
+                        }
+
+                        if ((customFields != null) && (customFields.Count > 0))
+                        {
+                            FwCustomValues customValues = null;
+                            customValues = new FwCustomValues();
+                            foreach (FwCustomField customField in customFields)
+                            {
+                                FwDatabaseField field = new FwDatabaseField(reader.GetValue(columnIndex[customField.FieldName]));
+                                object data = FormatReaderData(FwDataTypes.Text, columnIndex[customField.FieldName], reader); //todo: support different data types
+                                string str = data.ToString();
+                                customValues.AddCustomValue(customField.FieldName, str, customField.FieldType); 
+                            }
+                            obj._Custom = customValues;
+                        }
+
+                        results.Add(obj);
+                    }
                 }
             }
-            this.sqlLogEntry.Stop();
+            finally
+            {
+                this.sqlLogEntry.Stop();
+            }
 
             if (openAndCloseConnection)
             {
@@ -2051,10 +2020,10 @@ namespace FwStandard.SqlServer
                 this.sqlLogEntry = new FwSqlLogEntry(this.sqlCommand, usefulLinesFromStackTrace);
                 this.sqlLogEntry.Start();
                 this.RowCount = await this.sqlCommand.ExecuteNonQueryAsync();
-                this.sqlLogEntry.Stop();
             }
             finally
             {
+                this.sqlLogEntry.Stop();
                 if (openAndCloseConnection)
                 {
                     this.sqlConnection.Close();
@@ -2156,10 +2125,10 @@ namespace FwStandard.SqlServer
                 this.sqlLogEntry = new FwSqlLogEntry(this.sqlCommand, usefulLinesFromStackTrace);
                 this.sqlLogEntry.Start();
                 this.RowCount = await this.sqlCommand.ExecuteNonQueryAsync();
-                this.sqlLogEntry.Stop();
             }
             finally
             {
+                this.sqlLogEntry.Stop();
                 if (openAndCloseConnection)
                 {
                     this.sqlConnection.Close();
@@ -2224,10 +2193,10 @@ namespace FwStandard.SqlServer
                 this.sqlLogEntry = new FwSqlLogEntry(this.sqlCommand, usefulLinesFromStackTrace);
                 this.sqlLogEntry.Start();
                 this.RowCount = await this.sqlCommand.ExecuteNonQueryAsync();
-                this.sqlLogEntry.Stop();
             }
             finally
             {
+                this.sqlLogEntry.Stop();
                 if (openAndCloseConnection)
                 {
                     this.sqlConnection.Close();
@@ -2249,13 +2218,21 @@ namespace FwStandard.SqlServer
                 foreach (var line in lines)
                 {
                     // All we're interested in is what triggered the query, so filter out non-user code and anything else we don't want to see
-                    if ((
+                    if (
+                        line.Contains("Async(") && 
                         !line.Contains("GetUsefulLinesFromStackTrace") &&
                         !line.Contains(methodName) &&
-                        !line.Contains("MoveNext")) &&
+                        !line.Contains("MoveNext") &&
                         !line.Contains("at System") &&
                         !line.Contains("at Microsoft") &&
-                        !line.Contains("at lambda_method"))
+                        !line.Contains("at lambda_method") &&
+                        !line.Contains(".ctor") &&
+                        !line.Contains("at FwStandard.Security.FwSecurityTree.InitAsync()") &&
+                        !line.Contains("at FwCore.Controllers.FwController.OnActionExecutionAsync") &&
+                        !line.Contains("at FwStandard.DataLayer.FwDataRecord.BrowseAsync") &&
+                        !line.Contains("at FwStandard.BusinessLogic.FwBusinessLogic.BrowseAsync")
+                        //!line.Contains("") &&
+                        )
                     {
                         if (line.Trim().Length > 0)
                         {
@@ -2263,18 +2240,13 @@ namespace FwStandard.SqlServer
                         }
                     }
                 }
-                if (usefulLines.Length == 0)
-                {
-                    usefulLines.Append(trace.ToString());
-                }
+                //if (usefulLines.Length == 0)
+                //{
+                //    usefulLines.Append(trace.ToString());
+                //}
                 result = usefulLines.ToString();
             }
             return result;
-        }
-
-        private IEnumerable<object> Split(string[] v, StringSplitOptions none)
-        {
-            throw new NotImplementedException();
         }
         //------------------------------------------------------------------------------------
     }

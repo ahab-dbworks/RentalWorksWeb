@@ -434,11 +434,7 @@ namespace FwStandard.SqlServer
                 {
                     str = "----" + Counter.ToString() + " " + str + " in " + GetExecutionTime() + "------------------------------------------";
                 }
-                // Run the console log on another thread so it doesn't slow down the web request.
-                Task.Run(() =>
-                {
-                    Console.WriteLine(str);
-                });
+                Console.WriteLine(str);
             }
         }
 

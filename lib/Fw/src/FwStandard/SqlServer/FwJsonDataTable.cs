@@ -197,7 +197,7 @@ namespace FwStandard.SqlServer
             object cellvalueobj;
             List<object> row;
             int[] indexSumColumns;
-            bool isFirstRow, isLastRow, isLastDetailRow, isNextRowNewGroup, isDetailRow, isHeaderRow, isFooterRow, isCheckRowDetail;
+            bool /*isFirstRow,*/ isLastRow, isLastDetailRow, isNextRowNewGroup, isDetailRow, isHeaderRow, isFooterRow, isCheckRowDetail;
 
             thisRowGroupByText = "!@#NOT_DEFINED!@#";
             nextRowGroupByText = "!@#NOT_DEFINED!@#";
@@ -215,7 +215,7 @@ namespace FwStandard.SqlServer
             }
 
             // subtotal the columns 
-            isFirstRow = true;
+            //isFirstRow = true;
             rowcount = this.Rows.Count;
             for (int rowno = 0; rowno < rowcount; rowno++)
             {
@@ -364,7 +364,7 @@ namespace FwStandard.SqlServer
                     rowno++;
                     rowcount++;
                 }
-                isFirstRow = false;
+                //isFirstRow = false;
             }
         }
         //---------------------------------------------------------------------------------------------        

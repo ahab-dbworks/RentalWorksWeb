@@ -44,6 +44,18 @@ namespace FwStandard.Reporting
                     pdfOptions.HeaderTemplate = await page.EvaluateExpressionAsync<string>("report.headerHtml");
                     pdfOptions.FooterTemplate = await page.EvaluateExpressionAsync<string>("report.footerHtml");
                     await page.PdfAsync(pdfOutputPath, pdfOptions);
+                    Task taskCleanUpPdfDirectory = Task.Run(() =>
+                    {
+                        string pdfDirectory = Path.GetDirectoryName(pdfOutputPath);
+                        string[] filePaths = Directory.GetFiles(pdfDirectory, "*.pdf");
+                        for(int i = 0; i < filePaths.Length; i++)
+                        {
+                            if (File.GetLastWriteTime(filePaths[i]) < DateTime.Today.AddDays(-7))
+                            {
+                                File.Delete(filePaths[i]);
+                            }
+                        }
+                    });
                     return jsConsole.ToString();
                 }
             }

@@ -2442,7 +2442,6 @@ class FwBrowseClass {
                 $field.parents('td').attr('data-th', `${header}:`);
             }
         }
-
     }
     //---------------------------------------------------------------------------------
     cancelEditMode($control: JQuery, $tr: JQuery) {

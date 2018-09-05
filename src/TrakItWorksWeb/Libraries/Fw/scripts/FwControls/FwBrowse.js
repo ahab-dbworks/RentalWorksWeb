@@ -2140,6 +2140,12 @@ class FwBrowseClass {
                 window['FwBrowseColumn_' + browsedatatype].setFieldViewMode($control, $tr, $field);
             }
         }
+        if ($control.attr('data-type') === 'Grid' && $control.attr('data-flexgrid') === 'true') {
+            if ($field.attr('data-browsedatatype') !== 'key') {
+                let header = $field.attr('data-caption');
+                $field.parents('td').attr('data-th', `${header}:`);
+            }
+        }
     }
     cancelEditMode($control, $tr) {
         var $inputFile;

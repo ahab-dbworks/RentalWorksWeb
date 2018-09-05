@@ -758,7 +758,7 @@ namespace FwStandard.DataLayer
             }
         }
         //------------------------------------------------------------------------------------
-        [Obsolete("Please call AddFilterFieldToSelect instead and make sure you push the filter in request.filterfields instead of request.uniqueids.")]
+        //[Obsolete("Please call AddFilterFieldToSelect instead and make sure you push the filter in request.filterfields instead of request.uniqueids.")]
         protected void addFilterToSelect(string filterFieldName, string databaseFieldName, FwSqlSelect select, BrowseRequest request = null)
         {
             if ((request != null) && (request.uniqueids != null))

@@ -12,22 +12,22 @@ namespace FwStandard.SqlServer
     public class FwSqlData
     {
         //-----------------------------------------------------------------------------
-        static public async Task<String> DecryptAsync(FwSqlConnection conn, SqlServerConfig dbConfig, string data)
-        {
-            using (FwSqlCommand qry = new FwSqlCommand(conn, dbConfig.QueryTimeout))
-            {
-                qry.Add("select value = dbo.decrypt(@data)");
-                qry.AddParameter("@data", data);
-                await qry.ExecuteAsync();
-                string result = qry.GetField("value").ToString().TrimEnd();
-                return result;
-            }
-        }
+        //static public async Task<String> DecryptAsync(FwSqlConnection conn, SqlServerConfig dbConfig, string data)
+        //{
+        //    using (FwSqlCommand qry = new FwSqlCommand(conn, dbConfig.QueryTimeout))
+        //    {
+        //        qry.Add("select value = dbo.decrypt(@data)");
+        //        qry.AddParameter("@data", data);
+        //        await qry.ExecuteAsync();
+        //        string result = qry.GetField("value").ToString().TrimEnd();
+        //        return result;
+        //    }
+        //}
         //-----------------------------------------------------------------------------
         static public async Task<String> EncryptAsync(FwSqlConnection conn, SqlServerConfig dbConfig, string data)
         {
             using (FwSqlCommand qry = new FwSqlCommand(conn, dbConfig.QueryTimeout))
-            { 
+            {
                 qry.Add("select value = dbo.encrypt(@data)");
                 qry.AddParameter("@data", data);
                 await qry.ExecuteAsync();
@@ -376,7 +376,7 @@ namespace FwStandard.SqlServer
         public static async Task<dynamic> GetApplicationOptionsAsync(FwSqlConnection conn, SqlServerConfig dbConfig)
         {
             dynamic result, option;
-            List<string> encryptedOptions;
+            List<string> encryptedOptions, decryptedOptions = new List<string>();
             string optionsStr, decryptedOption, description, key;
             bool enabled;
             int value;
@@ -392,11 +392,30 @@ namespace FwStandard.SqlServer
 
                 encryptedOptions = new List<string>();
                 encryptedOptions.AddRange(optionsStr.Trim().Split(new char[]{'~'}, StringSplitOptions.RemoveEmptyEntries));
+
+                using (FwSqlCommand qry2 = new FwSqlCommand(conn, dbConfig.QueryTimeout))
+                {
+                    qry2.Add("select");
+                    for (int i = 0; i < encryptedOptions.Count; i++)
+                    {
+                        string separator = (i == 0) ? "  " : " ,";
+                        qry2.Add($"{separator}option{i} = dbo.decrypt(@option{i})");
+                        qry2.AddParameter($"@option{i}", encryptedOptions[i]);
+                        qry2.Parameters[i].SqlDbType = SqlDbType.NVarChar;
+                    }
+                    await qry2.ExecuteAsync();
+                    for (int i = 0; i < encryptedOptions.Count; i++)
+                    {
+                        decryptedOptions.Add(qry2.GetField($"option{i}").ToString().TrimEnd());
+                    }
+                }
+
                 result = new ExpandoObject();
                 resultDic = (IDictionary<String, object>)result;
                 for (int i = 0; i < encryptedOptions.Count; i++)
                 {                    
-                    decryptedOption        = await FwSqlData.DecryptAsync(conn, dbConfig, encryptedOptions[i]);
+                    //decryptedOption        = await FwSqlData.DecryptAsync(conn, dbConfig, encryptedOptions[i]);
+                    decryptedOption = decryptedOptions[i];
                     description            = decryptedOption.Substring(0, decryptedOption.Length - 4).ToUpper();
                     key = description.Replace("-", "").Replace("_", "").ToLower();
                     enabled                = decryptedOption.Substring(decryptedOption.Length - 4, 1).Equals("T");
@@ -419,7 +438,7 @@ namespace FwStandard.SqlServer
         }
         public static async Task<Dictionary<string, ApplicationOption>> GetApplicationOptions2Async(FwSqlConnection conn, SqlServerConfig dbConfig)
         {
-            List<string> encryptedOptions;
+            List<string> encryptedOptions, decryptedOptions = new List<string>();
             string optionsStr, decryptedOption, key;
             Dictionary<string, ApplicationOption> options;
             using (FwSqlCommand qry = new FwSqlCommand(conn, dbConfig.QueryTimeout))
@@ -432,9 +451,26 @@ namespace FwStandard.SqlServer
                 encryptedOptions = new List<string>();
                 encryptedOptions.AddRange(optionsStr.Trim().Split(new char[] { '~' }, StringSplitOptions.RemoveEmptyEntries));
                 options = new Dictionary<string, ApplicationOption>();
+                using (FwSqlCommand qry2 = new FwSqlCommand(conn, dbConfig.QueryTimeout))
+                {
+                    qry2.Add("select");
+                    for (int i = 0; i < encryptedOptions.Count; i++)
+                    {
+                        string separator = (i == 0) ? "  " : " ,";
+                        qry2.Add($"{separator}option{i} = dbo.decrypt(@option{i})");
+                        qry2.AddParameter($"@option{i}", encryptedOptions[i]);
+                        qry2.Parameters[i].SqlDbType = SqlDbType.NVarChar;
+                    }
+                    await qry2.ExecuteAsync();
+                    for (int i = 0; i < encryptedOptions.Count; i++)
+                    {
+                        decryptedOptions.Add(qry2.GetField($"option{i}").ToString().TrimEnd());
+                    }
+                }
                 for (int i = 0; i < encryptedOptions.Count; i++)
                 {
-                    decryptedOption = await FwSqlData.DecryptAsync(conn, dbConfig, encryptedOptions[i]);
+                    //decryptedOption = await FwSqlData.DecryptAsync(conn, dbConfig, encryptedOptions[i]);
+                    decryptedOption = decryptedOptions[i];
                     ApplicationOption option = new ApplicationOption();
                     option.Description = decryptedOption.Substring(0, decryptedOption.Length - 4).ToUpper(); ;
                     option.Enabled = decryptedOption.Substring(decryptedOption.Length - 4, 1).Equals("T"); ;

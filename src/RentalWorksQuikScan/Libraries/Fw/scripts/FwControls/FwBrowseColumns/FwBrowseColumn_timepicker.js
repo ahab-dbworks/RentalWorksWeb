@@ -1,9 +1,7 @@
-var FwBrowseColumn_timepickerClass = (function () {
-    function FwBrowseColumn_timepickerClass() {
+class FwBrowseColumn_timepickerClass {
+    databindfield($browse, $field, dt, dtRow, $tr) {
     }
-    FwBrowseColumn_timepickerClass.prototype.databindfield = function ($browse, $field, dt, dtRow, $tr) {
-    };
-    FwBrowseColumn_timepickerClass.prototype.getFieldValue = function ($browse, $tr, $field, field, originalvalue) {
+    getFieldValue($browse, $tr, $field, field, originalvalue) {
         if (($tr.hasClass('editmode')) || ($tr.hasClass('newmode'))) {
             var $value = $field.find('input.value');
             if ($value.length > 0) {
@@ -13,20 +11,20 @@ var FwBrowseColumn_timepickerClass = (function () {
                 field.value = originalvalue;
             }
         }
-    };
-    FwBrowseColumn_timepickerClass.prototype.setFieldValue = function ($browse, $tr, $field, data) {
+    }
+    setFieldValue($browse, $tr, $field, data) {
         $field.find('input.value').val(data.value);
-    };
-    FwBrowseColumn_timepickerClass.prototype.isModified = function ($browse, $tr, $field) {
+    }
+    isModified($browse, $tr, $field) {
         var isModified = false;
-        var originalValue = $field.attr('data-originalvalue');
+        let originalValue = $field.attr('data-originalvalue');
         if (($tr.hasClass('editmode')) || ($tr.hasClass('newmode'))) {
-            var currentValue = $field.find('input.value').val();
+            let currentValue = $field.find('input.value').val();
             isModified = currentValue !== originalValue;
         }
         return isModified;
-    };
-    FwBrowseColumn_timepickerClass.prototype.setFieldViewMode = function ($browse, $tr, $field) {
+    }
+    setFieldViewMode($browse, $tr, $field) {
         var originalvalue = (typeof $field.attr('data-originalvalue') === 'string') ? $field.attr('data-originalvalue') : '';
         $field.html(originalvalue);
         $field.data('autoselect', false);
@@ -35,11 +33,11 @@ var FwBrowseColumn_timepickerClass = (function () {
                 $field.data('autoselect', true);
             }
         });
-    };
-    FwBrowseColumn_timepickerClass.prototype.setFieldEditMode = function ($browse, $tr, $field) {
+    }
+    setFieldEditMode($browse, $tr, $field) {
         var timepickerTimeFormat, inputmaskTimeFormat;
         var originalvalue = (typeof $field.attr('data-originalvalue') === 'string') ? $field.attr('data-originalvalue') : '';
-        var html = [];
+        let html = [];
         html.push('<input id="timepicker" class="value" type="text"');
         if ($browse.attr('data-enabled') === 'false') {
             html.push(' disabled="disabled"');
@@ -54,7 +52,7 @@ var FwBrowseColumn_timepickerClass = (function () {
             timepickerTimeFormat = 'h:i A';
             inputmaskTimeFormat = 'hh:mm t';
         }
-        var htmlString = html.join('');
+        let htmlString = html.join('');
         $field.html(htmlString);
         if ($field.attr('data-timeformat') === '24') {
             $field.find('#timepicker').clockpicker({
@@ -81,8 +79,7 @@ var FwBrowseColumn_timepickerClass = (function () {
             $field.data('autoselect', false);
             $field.find('.btntime').click();
         }
-    };
-    return FwBrowseColumn_timepickerClass;
-}());
+    }
+}
 var FwBrowseColumn_timepicker = new FwBrowseColumn_timepickerClass();
 //# sourceMappingURL=FwBrowseColumn_timepicker.js.map

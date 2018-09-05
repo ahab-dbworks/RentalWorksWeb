@@ -1,7 +1,4 @@
-var Route = (function () {
-    function Route() {
-    }
-    return Route;
-}());
+class Route {
+}
 var routes = [];
 //# sourceMappingURL=Routes.js.map
