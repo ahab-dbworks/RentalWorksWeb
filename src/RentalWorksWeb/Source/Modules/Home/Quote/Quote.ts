@@ -48,6 +48,12 @@ class Quote extends OrderBase{
         $browse = FwBrowse.loadBrowseFromTemplate(this.Module);
         $browse = FwModule.openBrowse($browse);
 
+        FwBrowse.setAfterRenderRowCallback($browse, function ($tr, dt, rowIndex) {
+            if (dt.Rows[rowIndex][dt.ColumnIndex['Status']] === 'CANCELLED') {
+                $tr.css('color', '#aaaaaa');
+            }
+        });
+
         var warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
         self.ActiveView = 'WarehouseId=' + warehouse.warehouseid;
 

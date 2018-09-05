@@ -39,6 +39,11 @@ class Order extends OrderBase {
         var $browse = FwBrowse.loadBrowseFromTemplate(this.Module);
         $browse = FwModule.openBrowse($browse);
 
+        FwBrowse.setAfterRenderRowCallback($browse, function ($tr, dt, rowIndex) {
+            if (dt.Rows[rowIndex][dt.ColumnIndex['Status']] === 'CANCELLED') {
+                $tr.css('color', '#aaaaaa');
+            }
+        });
 
         var warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
         self.ActiveView = 'WarehouseId=' + warehouse.warehouseid;
@@ -53,7 +58,6 @@ class Order extends OrderBase {
         FwBrowse.addLegend($browse, 'Multi-Warehouse', '#D6E180');
         FwBrowse.addLegend($browse, 'Repair', '#5EAEAE');
         FwBrowse.addLegend($browse, 'L&D', '#400040');
-
 
         var department = JSON.parse(sessionStorage.getItem('department'));;
         var location = JSON.parse(sessionStorage.getItem('location'));;
