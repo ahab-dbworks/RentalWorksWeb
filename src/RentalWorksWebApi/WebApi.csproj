@@ -57,6 +57,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Remove="WebpackReports\tsconfig.json" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="Modules\Administrator\Designer\Services\" />
     <Folder Include="Security\" />
     <Folder Include="wwwroot\temp\downloads\" />
@@ -79,6 +83,7 @@
   <ItemGroup>
     <None Include="appsettings.json" />
     <None Include="Web.config" />
+    <None Include="WebpackReports\tsconfig.json" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\lib\Fw\src\FwCore\FwCore.csproj" />
@@ -96,6 +101,9 @@
     <ItemGroup>
       <ResolvedFileToPublish Include="@(FinalDocFile)" RelativePath="@(FinalDocFile->'%(Filename)%(Extension)')" />
     </ItemGroup>
+    <!--<Exec Command="npm i" />
+    <Exec Command="npm run build-prod-reports" />
+    <Exec Command="npm run clean-tempfiles" />-->
   </Target>
   <Target Name="AfterClean"> 
     <RemoveDir Directories="$(MSBuildProjectDirectory)\bin" /> 

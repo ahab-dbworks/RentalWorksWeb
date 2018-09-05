@@ -1,8 +1,6 @@
 ﻿const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const fs = require('fs');
-const CleanWebpackPlugin = require('clean-webpack-plugin')
-const webpack = require('webpack')
 const srcReportDir = 'src';
 const distReportDir = '../wwwroot/Reports';
 
@@ -54,5 +52,5 @@ module.exports = {
     resolve: {
         // Add `.ts` and `.tsx` as a resolvable extension.
         extensions: [".ts", ".js"]
-      }
+    }
 };

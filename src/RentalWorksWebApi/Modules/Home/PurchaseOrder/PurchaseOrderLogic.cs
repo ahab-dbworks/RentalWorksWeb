@@ -245,7 +245,7 @@ namespace WebApi.Modules.Home.PurchaseOrder
 
         public virtual void OnAfterSavePurchaseOrder(object sender, AfterSaveEventArgs e)
         {
-            bool saved = false;
+            //bool saved = false;
             if (e.SavePerformed)
             {
                 //billToAddress.UniqueId1 = dealOrder.OrderId;

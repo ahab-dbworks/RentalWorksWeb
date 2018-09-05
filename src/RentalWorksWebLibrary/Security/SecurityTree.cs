@@ -500,10 +500,10 @@ namespace WebLibrary.Security
         private void BuildTrakItWorksWebTree(FwSecurityTreeNode system)
         {
             string homeiconbaseurl          = "theme/images/icons/home/";
-            string settingsiconbaseurl      = "theme/images/icons/settings/";
-            string reportsiconbaseurl       = "theme/images/icons/reports/";
-            string utilitiesiconbaseurl     = "theme/images/icons/utilities/";
-            string administratoriconbaseurl = "theme/images/icons/administrator/";
+            //string settingsiconbaseurl      = "theme/images/icons/settings/";
+            //string reportsiconbaseurl       = "theme/images/icons/reports/";
+            //string utilitiesiconbaseurl     = "theme/images/icons/utilities/";
+            //string administratoriconbaseurl = "theme/images/icons/administrator/";
 
             var application = AddApplication("TrakItWorks Web", "{D901DE93-EC22-45A1-BB4A-DD282CAF59FB}", system.Id);
             var lv1menuModules       = AddLv1ModuleMenu("TrakItWorks",     "{B05953D7-DC85-486C-B9A4-7743875DFABC}", application.Id);

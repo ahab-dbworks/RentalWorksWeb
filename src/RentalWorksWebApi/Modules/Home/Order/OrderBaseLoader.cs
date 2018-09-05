@@ -73,8 +73,8 @@ namespace WebApi.Modules.Home.Order
         [FwSqlDataField(column: "refno", modeltype: FwDataTypes.Text)]
         public string ReferenceNumber { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "ordertotal", modeltype: FwDataTypes.Decimal)]
-        public decimal? Total { get; set; }
+        //[FwSqlDataField(column: "ordertotal", modeltype: FwDataTypes.Decimal)]
+        //public decimal? Total { get; set; }
         //------------------------------------------------------------------------------------
         //------------------------------------------------------------------------------------
         //[FwSqlDataField(column: "maxcumulativediscount", modeltype: FwDataTypes.Decimal)]
