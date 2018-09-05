@@ -99,27 +99,25 @@
 
                 $quantityColumn.on('change', '.fieldvalue', e => {
                     let request: any = {},
-                        contractId = $tr.find('[data-browsedatafield="ContractId"]').attr('data-originalvalue'),
-                        itemId = $tr.find('[data-browsedatafield="PurchaseOrderItemId"]').attr('data-originalvalue'),
-                        poId = FwFormField.getValueByDataField($form, 'PurchaseOrderId'),
+                        code = $tr.find('[data-browsedatafield="ICode"]').attr('data-originalvalue'),
+                        orderId = FwFormField.getValueByDataField($form, 'OrderId'),
                         newValue = jQuery(e.currentTarget).val(),
                         oldValue = $tr.find('[data-browsedatafield="Quantity"]').attr('data-originalvalue'),
                         quantity = Number(newValue) - Number(oldValue);
 
                     request = {
-                        ContractId: contractId,
-                        PurchaseOrderItemId: itemId,
-                        PurchaseOrderId: poId,
+                        OrderId: orderId,
+                        Code: code,
                         Quantity: quantity
                     }
                     if (quantity != 0) {
-                        FwAppData.apiMethod(true, 'POST', "api/v1/purchaseorderreceiveitem/receiveitems", request, FwServices.defaultTimeout,
+                        FwAppData.apiMethod(true, 'POST', "api/v1/checkout/stageitem", request, FwServices.defaultTimeout,
                             function onSuccess(response) {
                                 let errormsg = $form.find('.errormsg');
                                 errormsg.html('');
                                 if (response.success) {
                                     $tr.find('[data-browsedatafield="Quantity"]').attr('data-originalvalue', Number(newValue));
-                                    FwBrowse.setFieldValue($grid, $tr, 'QuantityReceived', { value: response.QuantityReceived });
+                                    FwBrowse.setFieldValue($grid, $tr, 'QuantityStaged', { value: response.QuantityStaged });
                                     if (response.QuantityColor) {
                                         $quantityColumn.find('.cellcolor').css('border-left', `20px solid ${response.QuantityColor}`);
                                     } else {
@@ -152,9 +150,7 @@
                     }
                 });
             } else {
-                //$tr.find('[data-browsedatafield="Quantity"] fieldvalue').css('text-align', 'center');
-                $tr.find('[data-browsedatafield="Quantity"] fieldvalue').val('')
-                $tr.find('[data-browsedatafield="Quantity"]').attr('data-originalvalue', '');
+                $tr.find('.quantity').text('');
                 $tr.find('[data-browsedatafield="Quantity"]').attr('data-formreadonly', 'true');
             } //end of trackedBy conditional
         });

@@ -252,7 +252,7 @@ class StagingCheckout {
                     successSound.play();
                     $form.find('.partial-contract-quantity input').focus();
                 }
-                if (response.success === false) {
+                if (response.success === false && response.status !== 107) {
                     errorSound.play();
                     $form.find('div.error-msg').html(`<div style="margin:0px 0px 0px 8px;"><span style="padding:0px 4px 0px 4px;font-size:22px;border-radius:2px;background-color:red;color:white;">${response.msg}</span></div>`);
                     $form.find('.partial-contract-barcode input').focus();
