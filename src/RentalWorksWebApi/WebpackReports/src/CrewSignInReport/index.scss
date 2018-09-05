@@ -1,10 +1,11 @@
 ﻿tbody:nth-child(even) {
     background-color: #DCDCDC;
 }
-.agent-header {
-    font-weight: bold;
-    text-align: left;
-    width: 200px;
+body {
+    font-family: Arial, sans-serif;
+    font-size: 11px;
+    margin: 0;
+    padding: 0;
 }
 .report-footer {
     font-weight: bold;
@@ -12,7 +13,6 @@
     margin-left: -600px;
     border-top: 1.5px solid black;
 }
-
 .body thead td {
     border-bottom: 1px solid black;
     text-align: left;
@@ -20,12 +20,10 @@
 table {
     border-collapse: collapse;
 }
-
 .body thead td div {
     font-size: 14px;
     text-align: center;
 }
-
 .row1 {
     font-size: 14px;
     padding: 10px 0px 15px 3px;
@@ -66,7 +64,8 @@ tr td div {
 }
 .boxcol {
     border: 1px solid black;
-    text-align: center;
+    text-align: left;
+    padding-left: 2px;
 }
 .row4 td {
     padding: 0 0 8px 0
