@@ -79,17 +79,20 @@ class Customer {
         var $browse: any = FwBrowse.loadBrowseFromTemplate(this.Module);
         $browse = FwModule.openBrowse($browse);
 
-        FwAppData.apiMethod(true, 'GET', `api/v1/control/1`, null, FwServices.defaultTimeout, function onSuccess(res) {
-            let ControlDefaults = {
-                defaultdealstatusid: res.DefaultDealStatusId
-                , defaultdealstatus: res.DefaultDealStatus
-                , defaultcustomerstatusid: res.DefaultCustomerStatusId
-                , defaultcustomerstatus: res.DefaultCustomerStatus
-                , defaultdealbillingcycleid: res.DefaultDealBillingCycleId
-                , defaultdealbillingcycle: res.DefaultDealBillingCycle
-            }
-            sessionStorage.setItem('controldefaults', JSON.stringify(ControlDefaults));
-        }, null, null);
+        let hasDefaults = JSON.parse(sessionStorage.getItem('controldefaults'));
+        if (!hasDefaults) {
+            FwAppData.apiMethod(true, 'GET', `api/v1/control/1`, null, FwServices.defaultTimeout, function onSuccess(res) {
+                let ControlDefaults = {
+                    defaultdealstatusid: res.DefaultDealStatusId
+                    , defaultdealstatus: res.DefaultDealStatus
+                    , defaultcustomerstatusid: res.DefaultCustomerStatusId
+                    , defaultcustomerstatus: res.DefaultCustomerStatus
+                    , defaultdealbillingcycleid: res.DefaultDealBillingCycleId
+                    , defaultdealbillingcycle: res.DefaultDealBillingCycle
+                }
+                sessionStorage.setItem('controldefaults', JSON.stringify(ControlDefaults));
+            }, null, null);
+        }
 
         return $browse;
     }
