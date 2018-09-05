@@ -143,7 +143,7 @@ class Container {
                <div class="field" data-caption="Container I-Code" data-datafield="ContainerICode" data-browsedatatype="text" data-sort="off"></div>
              </div>
              <div class="column flexcolumn" max-width="450px" data-visible="true">
-               <div class="field" data-caption="ContainerDescription" data-datafield="Container Description" data-browsedatatype="text" data-sort="off"></div>
+               <div class="field" data-caption="Container Description" data-datafield="ContainerDescription" data-browsedatatype="text" data-sort="off"></div>
              </div>
              <div class="column flexcolumn" max-width="125px" data-visible="true">
                <div class="field" data-caption="Container Status" data-datafield="ContainerStatus" data-cellcolor="ContainerStatusColor" data-browsedatatype="text" data-sort="off"></div>
