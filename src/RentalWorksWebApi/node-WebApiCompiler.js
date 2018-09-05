@@ -80,9 +80,9 @@ class WebApiCompiler {
     //------------------------------------------------------------------------------------
     async dotnet_run() {
         console.log('//------------------------------------------------------------------------------------');
-        console.log(`dotnet run --configuration ${this.dotnetConfiguration}`);
+        console.log(`dotnet run --configuration ${this.dotnetConfiguration} --launch-profile WebApi`);
         console.log('//------------------------------------------------------------------------------------');
-        await spawn('dotnet', ['run', '--configuration', this.dotnetConfiguration], { stdio: 'inherit' });
+        await spawn('dotnet', ['run', '--configuration', this.dotnetConfiguration, '--launch-profile', 'WebApi'], { stdio: 'inherit' });
     }
     //------------------------------------------------------------------------------------
     async build() {
