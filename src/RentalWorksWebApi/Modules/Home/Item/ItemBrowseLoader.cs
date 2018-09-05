@@ -31,8 +31,8 @@ namespace WebApi.Modules.Home.Item
         [FwSqlDataField(column: "color", modeltype: FwDataTypes.OleToHtmlColor)]
         public string Color { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "textcolor", modeltype: FwDataTypes.Boolean)]
-        public bool? TextColor { get; set; }
+        [FwSqlDataField(column: "textcolor", modeltype: FwDataTypes.Text)]
+        public string TextColor { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "barcode", modeltype: FwDataTypes.Text)]
         public string BarCode { get; set; }

@@ -82,8 +82,8 @@ namespace WebApi.Modules.Home.InventoryConsignor
         [FwSqlDataField(column: "whcode", modeltype: FwDataTypes.Text)]
         public string WarehouseCode { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "textcolor", modeltype: FwDataTypes.Boolean)]
-        public bool? TextColor { get; set; }
+        [FwSqlDataField(column: "textcolor", modeltype: FwDataTypes.Text)]
+        public string TextColor { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "color", modeltype: FwDataTypes.Integer)]
         public int? Color { get; set; }

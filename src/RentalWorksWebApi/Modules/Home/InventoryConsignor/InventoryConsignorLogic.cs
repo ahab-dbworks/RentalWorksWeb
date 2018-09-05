@@ -60,7 +60,7 @@ namespace WebApi.Modules.Home.InventoryConsignor
         [FwBusinessLogicField(isReadOnly: true)]
         public string WarehouseCode { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
-        public bool? TextColor { get; set; }
+        public string TextColor { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
         public int? Color { get; set; }
         //------------------------------------------------------------------------------------ 

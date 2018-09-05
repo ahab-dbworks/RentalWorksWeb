@@ -11,7 +11,7 @@ namespace WebApi.Modules.Home.ContainerItem
     {
         public ContainerItemController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(ContainerItemLogic); }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/item/browse 
+        // POST api/v1/containeritem/browse 
         [HttpPost("browse")]
         public async Task<IActionResult> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {

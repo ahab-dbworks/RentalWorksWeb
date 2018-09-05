@@ -31,8 +31,8 @@ namespace WebApi.Modules.Home.ContainerItem
         [FwSqlDataField(column: "color", modeltype: FwDataTypes.OleToHtmlColor)]
         public string Color { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "textcolor", modeltype: FwDataTypes.Boolean)]
-        public bool? TextColor { get; set; }
+        [FwSqlDataField(column: "textcolor", modeltype: FwDataTypes.Text)]
+        public string TextColor { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "barcode", modeltype: FwDataTypes.Text)]
         public string BarCode { get; set; }
@@ -70,7 +70,7 @@ namespace WebApi.Modules.Home.ContainerItem
         [FwSqlDataField(column: "containerstatus", modeltype: FwDataTypes.Text)]
         public string ContainerStatus { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "containerstatus", modeltype: FwDataTypes.OleToHtmlColor)]
+        [FwSqlDataField(column: "containerstatuscolor", modeltype: FwDataTypes.OleToHtmlColor)]
         public string ContainerStatusColor { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "containerstatusdate", modeltype: FwDataTypes.Date)]
