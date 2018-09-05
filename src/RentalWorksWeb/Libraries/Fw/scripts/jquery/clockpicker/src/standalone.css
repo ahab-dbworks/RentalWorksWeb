@@ -144,3 +144,6 @@
   border-right-width: 0;
   border-left-color: #fff;
 }
+.text-primary {
+  color: #428bca;
+}

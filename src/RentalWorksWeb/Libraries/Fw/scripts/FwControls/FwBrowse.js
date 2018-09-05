@@ -1282,7 +1282,7 @@ class FwBrowseClass {
                                         if ($browse.attr('data-enabled') !== 'false') {
                                             try {
                                                 e.stopPropagation();
-                                                var $selectedCheckBoxes = $control.find('.cbselectrow:checked');
+                                                var $selectedCheckBoxes = $control.find('tbody .cbselectrow:checked');
                                                 if ($selectedCheckBoxes.length === 0) {
                                                     FwFunc.showMessage('Select one or more rows to delete!');
                                                 }
@@ -1654,12 +1654,13 @@ class FwBrowseClass {
     }
     databindcallback($control, dt) {
         let me = this;
-        var i, $tbody, htmlPager, columnIndex, dtCol, rowIndex, scrollerCol, rowClass, columns, onrowdblclick, $ths, $pager, pageSize, totalRowCount, controlType, $fields;
+        var i, $tbody, htmlPager, columnIndex, dtCol, rowIndex, scrollerCol, rowClass, columns, onrowdblclick, $ths, $pager, pageSize, controlType, $fields;
         try {
             this.setGridBrowseMode($control);
             pageSize = this.getPageSize($control);
             this.setTotalPages($control, dt.TotalPages);
-            totalRowCount = $control.data('totalRowCount', dt.TotalRows);
+            $control.data('totalRowCount', dt.TotalRows);
+            $control.find('thead .cbselectrow').prop('checked', false);
             var nodeModule = FwApplicationTree.getNodeByController($control.attr('data-controller'));
             var nodeEdit = FwApplicationTree.getNodeByFuncRecursive(nodeModule, {}, function (node, args2) {
                 return (node.properties.nodetype === 'EditMenuBarButton');
@@ -1913,46 +1914,44 @@ class FwBrowseClass {
             }
             let rownostart = (((dt.PageNo * pageSize) - pageSize + 1) > 0) ? ((dt.PageNo * pageSize) - pageSize + 1) : 0;
             let rownoend = (((dt.PageNo * pageSize) - pageSize + 1) > 0) ? (dt.PageNo * pageSize) - (pageSize - dt.Rows.length) : 0;
-            if (dt.TotalPages > 1) {
-                if ((pageSize > 0) && (dt.PageNo > 1)) {
-                    $control.find('.pager .btnFirstPage')
-                        .attr('data-enabled', 'true')
-                        .prop('disabled', false);
-                    $control.find('.pager .btnPreviousPage')
-                        .attr('data-enabled', 'true')
-                        .prop('disabled', false);
-                }
-                else {
-                    $control.find('.pager .btnFirstPage')
-                        .attr('data-enabled', 'false')
-                        .prop('disabled', true);
-                    $control.find('.pager .btnPreviousPage')
-                        .attr('data-enabled', 'false')
-                        .prop('disabled', true);
-                }
-                if (dt.TotalPages > 0) {
-                    $control.find('.txtPageNo').val(dt.PageNo);
-                }
-                else {
-                    $control.find('.txtPageNo').val('0');
-                }
-                $control.find('.pager .txtTotalPages').text(dt.TotalPages);
-                if ((pageSize > 0) && (dt.TotalPages > 1) && (dt.PageNo < dt.TotalPages)) {
-                    $control.find('.pager .btnNextPage')
-                        .attr('data-enabled', 'true')
-                        .prop('disabled', false);
-                    $control.find('.pager .btnLastPage')
-                        .attr('data-enabled', 'true')
-                        .prop('disabled', false);
-                }
-                else {
-                    $control.find('.pager .btnNextPage')
-                        .attr('data-enabled', 'false')
-                        .prop('disabled', true);
-                    $control.find('.pager .btnLastPage')
-                        .attr('data-enabled', 'false')
-                        .prop('disabled', true);
-                }
+            if ((pageSize > 0) && (dt.PageNo > 1)) {
+                $control.find('.pager .btnFirstPage')
+                    .attr('data-enabled', 'true')
+                    .prop('disabled', false);
+                $control.find('.pager .btnPreviousPage')
+                    .attr('data-enabled', 'true')
+                    .prop('disabled', false);
+            }
+            else {
+                $control.find('.pager .btnFirstPage')
+                    .attr('data-enabled', 'false')
+                    .prop('disabled', true);
+                $control.find('.pager .btnPreviousPage')
+                    .attr('data-enabled', 'false')
+                    .prop('disabled', true);
+            }
+            if (dt.TotalPages > 0) {
+                $control.find('.txtPageNo').val(dt.PageNo);
+            }
+            else {
+                $control.find('.txtPageNo').val('0');
+            }
+            $control.find('.pager .txtTotalPages').text(dt.TotalPages);
+            if ((pageSize > 0) && (dt.TotalPages > 1) && (dt.PageNo < dt.TotalPages)) {
+                $control.find('.pager .btnNextPage')
+                    .attr('data-enabled', 'true')
+                    .prop('disabled', false);
+                $control.find('.pager .btnLastPage')
+                    .attr('data-enabled', 'true')
+                    .prop('disabled', false);
+            }
+            else {
+                $control.find('.pager .btnNextPage')
+                    .attr('data-enabled', 'false')
+                    .prop('disabled', true);
+                $control.find('.pager .btnLastPage')
+                    .attr('data-enabled', 'false')
+                    .prop('disabled', true);
             }
             let controlType = $control.attr('data-type');
             switch (controlType) {
@@ -2550,7 +2549,7 @@ class FwBrowseClass {
                                 }
                             }
                             if ($control.attr('data-refreshaftersave') === 'true' && (typeof $control.attr('data-autosave') === 'undefined' || $control.attr('data-autosave') === 'true') ||
-                                (isNewMode && $control.attr('data-refreshafterinsert') === 'true')) {
+                                (isNewMode && ($control.attr('data-refreshafterinsert') === 'true') || typeof $control.attr('data-refreshafterinsert') === 'undefined')) {
                                 me.search($control)
                                     .then(() => {
                                     resolve();
@@ -2560,6 +2559,7 @@ class FwBrowseClass {
                                 });
                             }
                             else {
+                                $tr.removeClass('newmode');
                                 resolve();
                             }
                         }
