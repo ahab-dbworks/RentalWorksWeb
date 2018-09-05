@@ -23,9 +23,9 @@ class FwBrowseColumn_noteClass {
     ;
     setFieldViewMode($browse, $tr, $field) {
         var $noteImage, $noteTextArea, $notePopup, $notePopupControl, $notePopupHtml;
-        $field.data('clickthenote', false);
+        $field.data('autoselect', false);
         var originalvalue = (typeof $field.attr('data-originalvalue') === 'string') ? $field.attr('data-originalvalue') : '';
-        if (originalvalue !== '') {
+        if (originalvalue.length > 0) {
             $noteImage = jQuery('<i class="material-icons" style="cursor:pointer;color:#0D47A1;">insert_drive_file</i>');
         }
         else {
@@ -33,7 +33,7 @@ class FwBrowseColumn_noteClass {
         }
         $noteImage.on('click', function (e) {
             if ($field.attr('data-formreadonly') !== 'true') {
-                $field.data('clickthenote', true);
+                $field.data('autoselect', true);
             }
             else {
                 var $thisNoteImage = jQuery(this);
@@ -50,7 +50,12 @@ class FwBrowseColumn_noteClass {
         });
         $noteTextArea = jQuery('<textarea class="value" style="display:none;"></textarea>');
         $noteTextArea.val(originalvalue);
-        $field.empty().append([$noteImage, $noteTextArea]);
+        if ($field.attr('data-formreadonly') === 'true' && originalvalue.length === 0) {
+            $field.empty().append($noteTextArea);
+        }
+        else {
+            $field.empty().append([$noteImage, $noteTextArea]);
+        }
     }
     ;
     setFieldEditMode($browse, $tr, $field) {
@@ -103,8 +108,8 @@ class FwBrowseColumn_noteClass {
                 $confirmation.find('.predefinednotes .fwformfield-text').val('');
             });
         });
-        if ($field.data('clickthenote') === true) {
-            $field.data('clickthenote', false);
+        if ($field.data('autoselect') === true) {
+            $field.data('autoselect', false);
             $noteImage.click();
         }
     }

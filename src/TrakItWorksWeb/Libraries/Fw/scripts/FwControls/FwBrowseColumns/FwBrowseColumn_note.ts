@@ -26,16 +26,16 @@
     //---------------------------------------------------------------------------------
     setFieldViewMode($browse, $tr, $field): void {
         var $noteImage, $noteTextArea, $notePopup, $notePopupControl, $notePopupHtml;
-        $field.data('clickthenote', false);
+        $field.data('autoselect', false);
         var originalvalue = (typeof $field.attr('data-originalvalue') === 'string') ? $field.attr('data-originalvalue') : '';
-        if (originalvalue !== '') {
+        if (originalvalue.length > 0) {
             $noteImage = jQuery('<i class="material-icons" style="cursor:pointer;color:#0D47A1;">insert_drive_file</i>');
         } else {
             $noteImage = jQuery('<i class="material-icons" style="cursor:pointer;color:#4CAF50;">note_add</i>');
         }
         $noteImage.on('click', function (e) {
             if ($field.attr('data-formreadonly') !== 'true') {
-                $field.data('clickthenote', true);
+                $field.data('autoselect', true);
             } else {
                 var $thisNoteImage = jQuery(this);
                 var $confirmation, $close;
@@ -51,7 +51,11 @@
         });
         $noteTextArea = jQuery('<textarea class="value" style="display:none;"></textarea>');
         $noteTextArea.val(originalvalue);
-        $field.empty().append([$noteImage, $noteTextArea]);
+        if ($field.attr('data-formreadonly') === 'true' && originalvalue.length === 0) {
+            $field.empty().append($noteTextArea);
+        } else {
+            $field.empty().append([$noteImage, $noteTextArea]);
+        }
         //if (originalvalue !== '') {
         //    $noteImage
         //        .hover(
@@ -134,8 +138,8 @@
                 $confirmation.find('.predefinednotes .fwformfield-text').val('');
             });
         });
-        if ($field.data('clickthenote') === true) {
-            $field.data('clickthenote', false);
+        if ($field.data('autoselect') === true) {
+            $field.data('autoselect', false);
             $noteImage.click();
         }
     };

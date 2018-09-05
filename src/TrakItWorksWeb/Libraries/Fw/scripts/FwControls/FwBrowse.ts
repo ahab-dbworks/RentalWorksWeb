@@ -3134,11 +3134,11 @@ class FwBrowseClass {
         $control.data('afterdelete', callback);
     }
     //---------------------------------------------------------------------------------
-    setAfterRenderRowCallback = function ($control: JQuery, callback: ($tr: JQuery, dt: any, rowIndex: number) => void) {
+    setAfterRenderRowCallback = function ($control: JQuery, callback: ($tr: JQuery, dt: FwJsonDataTable, rowIndex: number) => void) {
         $control.data('afterrenderrow', callback);
     }
     //---------------------------------------------------------------------------------
-    setAfterRenderFieldCallback = function ($control: JQuery, callback: ($tr: JQuery, $td: JQuery, $field: JQuery, dt: any, rowIndex: number, colIndex: number) => void) {
+    setAfterRenderFieldCallback = function ($control: JQuery, callback: ($tr: JQuery, $td: JQuery, $field: JQuery, dt: FwJsonDataTable, rowIndex: number, colIndex: number) => void) {
         $control.data('afterrenderfield', callback);
     }
     //---------------------------------------------------------------------------------
