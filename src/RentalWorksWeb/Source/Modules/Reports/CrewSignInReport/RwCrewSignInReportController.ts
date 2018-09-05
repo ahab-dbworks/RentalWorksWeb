@@ -65,9 +65,6 @@ class RwCrewSignInReportClass extends FwWebApiReport {
 
         screen.load = function () {
             FwModule.openModuleTab($form, $form.attr('data-caption'), false, 'REPORT', true);
-            $form.find('.crewcontractid').data('onchange', ($tr) => {
-                console.log($tr);
-            });
         };
         screen.unload = function () {
         };

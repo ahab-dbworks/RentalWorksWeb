@@ -5,7 +5,7 @@
 });
 
 var templateOutContractReportFrontEnd = `
-    <div class="fwcontrol fwcontainer fwform fwreport outcontractreport" data-control="FwContainer" data-type="form" data-version="1" data-caption="Charge Processing" data-rendermode="template" data-mode="" data-hasaudit="false" data-controller="RwChargeProcessingController">
+    <div class="fwcontrol fwcontainer fwform fwreport outcontractreport" data-control="FwContainer" data-type="form" data-version="1" data-caption="" data-rendermode="template" data-mode="" data-hasaudit="false" data-controller="RwOutContractReportController">
         <div class="fwcontrol fwtabs" data-control="FwTabs" data-type="">
             <div class="tabs">
                 <div id="generaltab" class="tab" data-tabpageid="generaltabpage" data-caption="General"></div>
@@ -64,7 +64,6 @@ class RwOutContractReportClass extends FwWebApiReport {
     };
     //----------------------------------------------------------------------------------------------
     beforeValidate($browse, $form, request) {
-        console.log(request)
         const validationName = request.module;
         request.uniqueids = {};
 
@@ -75,5 +74,5 @@ class RwOutContractReportClass extends FwWebApiReport {
         };
     };
     //----------------------------------------------------------------------------------------------
-}
+};
 var RwOutContractReportController: any = new RwOutContractReportClass();
