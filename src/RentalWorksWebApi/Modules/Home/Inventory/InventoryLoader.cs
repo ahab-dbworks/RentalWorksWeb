@@ -225,7 +225,7 @@ namespace WebApi.Modules.Home.Inventory
         public string ContainerScannableInventoryId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "scannablemasterno", modeltype: FwDataTypes.Text)]
-        public string ContainerScannableICoe { get; set; }
+        public string ContainerScannableICode { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "scannablemaster", modeltype: FwDataTypes.Text)]
         public string ContainerScannableDescription { get; set; }

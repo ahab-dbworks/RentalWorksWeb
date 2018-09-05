@@ -104,7 +104,7 @@ namespace WebApi.Modules.Home.Inventory
         [FwBusinessLogicField(isReadOnly: true)]
         public string ContainerScannableInventoryId { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
-        public string ContainerScannableICoe { get; set; }
+        public string ContainerScannableICode { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
         public string ContainerScannableDescription { get; set; }
         public bool? AutomaticallyRebuildContainerAtCheckIn { get { return master.AutomaticallyRebuildContainerAtCheckIn; } set { master.AutomaticallyRebuildContainerAtCheckIn = value; } }
