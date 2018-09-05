@@ -51,6 +51,7 @@ class RentalInventory extends InventoryBase {
         var $wardrobeInventoryColorGridControl;
         var $wardrobeInventoryMaterialGrid;
         var $wardrobeInventoryMaterialGridControl;
+        let max = 9999;
         var warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
         $itemLocationTaxGrid = $form.find('div[data-grid="ItemLocationTaxGrid"]');
         $itemLocationTaxGridControl = jQuery(jQuery('#tmpl-grids-ItemLocationTaxGridBrowse').html());
@@ -78,6 +79,21 @@ class RentalInventory extends InventoryBase {
         });
         FwBrowse.init($rentalInventoryWarehouseGridControl);
         FwBrowse.renderRuntimeHtml($rentalInventoryWarehouseGridControl);
+        let containerWarehouseGrid;
+        let containerWarehouseGridControl;
+        containerWarehouseGrid = $form.find('div[data-grid="ContainerWarehouseGrid"]');
+        containerWarehouseGridControl = jQuery(jQuery('#tmpl-grids-ContainerWarehouseGridBrowse').html());
+        containerWarehouseGrid.empty().append(containerWarehouseGridControl);
+        containerWarehouseGridControl.data('ondatabind', function (request) {
+            request.uniqueids = {
+                InventoryId: $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
+            };
+        });
+        containerWarehouseGridControl.data('beforesave', function (request) {
+            request.InventoryId = $form.find('div.fwformfield[data-datafield="InventoryId"] input').val();
+        });
+        FwBrowse.init(containerWarehouseGridControl);
+        FwBrowse.renderRuntimeHtml(containerWarehouseGridControl);
         $inventoryAvailabilityGrid = $form.find('div[data-grid="InventoryAvailabilityGrid"]');
         $inventoryAvailabilityGridControl = jQuery(jQuery('#tmpl-grids-InventoryAvailabilityGridBrowse').html());
         $inventoryAvailabilityGrid.empty().append($inventoryAvailabilityGridControl);
@@ -203,6 +219,7 @@ class RentalInventory extends InventoryBase {
             request.uniqueids = {
                 PackageId: $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
             };
+            request.pagesize = max;
         });
         $inventoryContainerGridControl.data('beforesave', function (request) {
             request.PackageId = $form.find('div.fwformfield[data-datafield="InventoryId"] input').val();
@@ -333,10 +350,11 @@ class RentalInventory extends InventoryBase {
         var $inventoryKitGrid;
         var $wardrobeInventoryColorGrid;
         var $wardrobeInventoryMaterialGrid;
+        let $containerWarehouseGrid;
+        $containerWarehouseGrid = $form.find('[data-name="ContainerWarehouseGrid"]');
+        $rentalInventoryWarehouseGrid = $form.find('[data-name="RentalInventoryWarehouseGrid"]');
         $itemLocationTaxGrid = $form.find('[data-name="ItemLocationTaxGrid"]');
         FwBrowse.search($itemLocationTaxGrid);
-        $rentalInventoryWarehouseGrid = $form.find('[data-name="RentalInventoryWarehouseGrid"]');
-        FwBrowse.search($rentalInventoryWarehouseGrid);
         $inventoryAvailabilityGrid = $form.find('[data-name="InventoryAvailabilityGrid"]');
         FwBrowse.search($inventoryAvailabilityGrid);
         $inventoryConsignmentGrid = $form.find('[data-name="InventoryConsignmentGrid"]');
@@ -368,6 +386,22 @@ class RentalInventory extends InventoryBase {
         $wardrobeInventoryMaterialGrid = $form.find('[data-name="WardrobeInventoryMaterialGrid"]');
         FwBrowse.search($wardrobeInventoryMaterialGrid);
         this.afterLoadSetClassification($form);
+        let classificationType = FwFormField.getValueByDataField($form, 'Classification');
+        if (classificationType == 'N') {
+            $form.find('[data-grid="RentalInventoryWarehouseGrid"]').hide();
+            $form.find('[data-grid="ContainerWarehouseGrid"]').show();
+            FwBrowse.search($containerWarehouseGrid);
+        }
+        else {
+            FwBrowse.search($rentalInventoryWarehouseGrid);
+        }
+        if (classificationType == 'N') {
+            let $containerBrowse, containerDescription;
+            containerDescription = FwFormField.getValueByDataField($form, 'Description');
+            $containerBrowse = this.openContainerBrowse($form);
+            FwModule.openSubModuleTab($form, $containerBrowse);
+            jQuery('.tab.submodule.active').find('.caption').html(`Containers for ${containerDescription}`);
+        }
         if ($form.find('[data-datafield="OverrideProfitAndLossCategory"] .fwformfield-value').prop('checked')) {
             FwFormField.enable($form.find('[data-datafield="ProfitAndLossCategoryId"]'));
         }
@@ -387,6 +421,18 @@ class RentalInventory extends InventoryBase {
         this.addAssetTab($form);
     }
     ;
+    openContainerBrowse($form) {
+        let $browse, containerId;
+        $browse = ContainerController.openBrowse();
+        containerId = FwFormField.getValueByDataField($form, 'ContainerId');
+        $browse.data('ondatabind', function (request) {
+            request.activeview = ContainerController.ActiveView;
+            request.uniqueids = {
+                ContainerId: containerId
+            };
+        });
+        return $browse;
+    }
     addAssetTab($form) {
         let $submoduleAssetBrowse, classificationValue, trackedByValue;
         classificationValue = FwFormField.getValueByDataField($form, 'Classification');
