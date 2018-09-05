@@ -87,6 +87,7 @@ namespace WebApi.Modules.Home.ContainerItem
             addFilterToSelect("InventoryId", "masterid", select, request);
             addFilterToSelect("WarehouseId", "warehouseid", select, request);
             addFilterToSelect("TrackedBy", "trackedby", select, request);
+            addFilterToSelect("ContainerId", "containerid", select, request);
 
 
             if ((request != null) && (request.activeview != null))
