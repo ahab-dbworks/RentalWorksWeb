@@ -242,7 +242,10 @@ namespace WebApi.Modules.Reports.LateReturnsReport
                 {
                     qry.AddParameter("@reporttype", SqlDbType.Text, ParameterDirection.Input, reportType);
                     qry.AddParameter("@days", SqlDbType.Int, ParameterDirection.Input, days);
-                    qry.AddParameter("@dueback", SqlDbType.Date, ParameterDirection.Input, dueBack);
+                    if (dueBack != DateTime.MinValue)
+                    {
+                        qry.AddParameter("@dueback", SqlDbType.Date, ParameterDirection.Input, dueBack);
+                    }
                     qry.AddParameter("@locationid", SqlDbType.Text, ParameterDirection.Input, locationId);
                     qry.AddParameter("@departmentid", SqlDbType.Text, ParameterDirection.Input, departmentId);
                     qry.AddParameter("@customerid", SqlDbType.Text, ParameterDirection.Input, customerId);
