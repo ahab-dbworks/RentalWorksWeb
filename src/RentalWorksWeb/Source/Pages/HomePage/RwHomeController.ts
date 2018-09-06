@@ -17,6 +17,8 @@
         var screen: any = {};
         screen.$view = jQuery(jQuery('#tmpl-pages-Home').html());
 
+        jQuery('title').html('RentalWorks');
+
         screen.load = function () {
             var redirectPath = sessionStorage.getItem('redirectPath');
             if (typeof redirectPath === 'string' && redirectPath.length > 0) {
