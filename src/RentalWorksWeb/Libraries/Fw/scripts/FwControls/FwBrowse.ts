@@ -2385,7 +2385,15 @@ class FwBrowseClass {
             } else {
                 me.setFieldEditMode($control, $tr, $field);
             }
+
+            if ($control.attr('data-type') === 'Grid' && $control.attr('data-flexgrid') === 'true') {
+                if ($field.attr('data-browsedatatype') !== 'key') {
+                    let header = $field.attr('data-caption');
+                    $field.parents('td').attr('data-th', `${header}:`);
+                }
+            }
         });
+
         $inputs = $tr.find('input[type!="hidden"]:visible,select:visible,textarea:visible');
         if ($inputs.length > 0) {
             $inputs.eq(0).select();
