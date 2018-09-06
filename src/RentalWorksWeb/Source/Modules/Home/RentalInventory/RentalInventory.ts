@@ -383,37 +383,37 @@ class RentalInventory extends InventoryBase {
         $containerWarehouseGrid = $form.find('[data-name="ContainerWarehouseGrid"]');
         $rentalInventoryWarehouseGrid = $form.find('[data-name="RentalInventoryWarehouseGrid"]');
         $itemLocationTaxGrid = $form.find('[data-name="ItemLocationTaxGrid"]');
-        FwBrowse.search($itemLocationTaxGrid);
+        //FwBrowse.search($itemLocationTaxGrid);
         $inventoryAvailabilityGrid = $form.find('[data-name="InventoryAvailabilityGrid"]');
-        FwBrowse.search($inventoryAvailabilityGrid);
+        //FwBrowse.search($inventoryAvailabilityGrid);
         $inventoryConsignmentGrid = $form.find('[data-name="InventoryConsignmentGrid"]');
-        FwBrowse.search($inventoryConsignmentGrid);
+        //FwBrowse.search($inventoryConsignmentGrid);
         $inventoryCompleteKitGrid = $form.find('[data-name="InventoryCompleteKitGrid"]');
-        FwBrowse.search($inventoryCompleteKitGrid);
+        //FwBrowse.search($inventoryCompleteKitGrid);
         $inventorySubstituteGrid = $form.find('[data-name="InventorySubstituteGrid"]');
-        FwBrowse.search($inventorySubstituteGrid);
+        //FwBrowse.search($inventorySubstituteGrid);
         $inventoryCompatibilityGrid = $form.find('[data-name="InventoryCompatibilityGrid"]');
-        FwBrowse.search($inventoryCompatibilityGrid);
+        //FwBrowse.search($inventoryCompatibilityGrid);
         $inventoryQcGrid = $form.find('[data-name="InventoryQcGrid"]');
-        FwBrowse.search($inventoryQcGrid);
+        //FwBrowse.search($inventoryQcGrid);
         $inventoryAttributeValueGrid = $form.find('[data-name="InventoryAttributeValueGrid"]');
-        FwBrowse.search($inventoryAttributeValueGrid);
+        //FwBrowse.search($inventoryAttributeValueGrid);
         $inventoryVendorGrid = $form.find('[data-name="InventoryVendorGrid"]');
-        FwBrowse.search($inventoryVendorGrid);
+        //FwBrowse.search($inventoryVendorGrid);
         $inventoryPrepGrid = $form.find('[data-name="InventoryPrepGrid"]');
-        FwBrowse.search($inventoryPrepGrid);
+        //FwBrowse.search($inventoryPrepGrid);
         $inventoryContainerGrid = $form.find('[data-name="InventoryContainerGrid"]');
-        FwBrowse.search($inventoryContainerGrid);
+        //FwBrowse.search($inventoryContainerGrid);
         $inventoryCompleteGrid = $form.find('[data-name="InventoryCompleteGrid"]');
-        FwBrowse.search($inventoryCompleteGrid);
+        //FwBrowse.search($inventoryCompleteGrid);
         $inventoryWarehouseStagingGrid = $form.find('[data-name="InventoryWarehouseStagingGrid"]');
-        FwBrowse.search($inventoryWarehouseStagingGrid);
+        //FwBrowse.search($inventoryWarehouseStagingGrid);
         $inventoryKitGrid = $form.find('[data-name="InventoryKitGrid"]');
-        FwBrowse.search($inventoryKitGrid);
+        //FwBrowse.search($inventoryKitGrid);
         $wardrobeInventoryColorGrid = $form.find('[data-name="WardrobeInventoryColorGrid"]');
-        FwBrowse.search($wardrobeInventoryColorGrid);
+        //FwBrowse.search($wardrobeInventoryColorGrid);
         $wardrobeInventoryMaterialGrid = $form.find('[data-name="WardrobeInventoryMaterialGrid"]');
-        FwBrowse.search($wardrobeInventoryMaterialGrid);
+        //FwBrowse.search($wardrobeInventoryMaterialGrid);
 
         this.afterLoadSetClassification($form);
 
@@ -427,8 +427,8 @@ class RentalInventory extends InventoryBase {
            //Open Container module as submodule
             let $containerBrowse;
             $containerBrowse = this.openContainerBrowse($form);
-            FwModule.openSubModuleTab($form, $containerBrowse);
-            jQuery('.tab.submodule.active').find('.caption').html(`Container Assets`);
+            $form.find('.containerassetstabpage').append($containerBrowse);
+            $form.find('.containerassetstab').show();
 
             //Show settings tab
             $form.find('.settingstab').show();
@@ -456,6 +456,29 @@ class RentalInventory extends InventoryBase {
 
         $assetBrowse = $form.find('#AssetBrowse');
         setTimeout(() => { FwBrowse.search($assetBrowse); }, 0);
+
+
+        //Click Event on tabs to load grids/browses
+        $form.on('click', '[data-type="tab"]', e => {
+            let tabname = jQuery(e.currentTarget).attr('id');
+            let tabpage = tabname.replace('tab', 'tabpage');
+
+            let $gridControls = $form.find(`#${tabpage} [data-type="Grid"]`);
+            if ($gridControls.length > 0) {
+                for (let i = 0; i < $gridControls.length; i++) {
+                    let $gridcontrol = jQuery($gridControls[i]);
+                    FwBrowse.search($gridcontrol);
+                }
+            }
+
+            let $browseControls = $form.find(`#${tabpage} [data-type="Browse"]`);
+            if ($browseControls.length > 0) {
+                for (let i = 0; i < $browseControls.length; i++) {
+                    let $browseControl = jQuery($browseControls[i]);
+                    FwBrowse.search($browseControl);
+                }
+            }
+        });
     };
     //----------------------------------------------------------------------------------------------
     openContainerBrowse($form: any) {
@@ -464,7 +487,7 @@ class RentalInventory extends InventoryBase {
         containerId = FwFormField.getValueByDataField($form, 'ContainerId');
 
         $browse.data('ondatabind', function (request) {
-            request.activeview = ContainerController.ActiveView;
+            request.activeview = 'ALL'
             request.uniqueids = {
                 ContainerId: containerId
             }
