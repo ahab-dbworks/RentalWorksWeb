@@ -4,6 +4,7 @@ Navigate to the "build" directory: <repo root>\build, Delete all files and direc
 GitKraken: confirm that you are on local\develop branch
 Stash any unstaged changes (or Stage, Commit, and Push)
 Modify version.txt file in the root of the Web project
+Open command prompt at WebApi directory, run: npm run build-reports-dev
 Change build mode to Release - Any CPU
 Rebuild Solution
 Publish WebAPI:
