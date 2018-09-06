@@ -378,6 +378,8 @@ class RentalInventory extends InventoryBase {
         var $wardrobeInventoryColorGrid: any;
         var $wardrobeInventoryMaterialGrid: any;
         let $containerWarehouseGrid: any;
+        let $assetBrowse;
+
         $containerWarehouseGrid = $form.find('[data-name="ContainerWarehouseGrid"]');
         $rentalInventoryWarehouseGrid = $form.find('[data-name="RentalInventoryWarehouseGrid"]');
         $itemLocationTaxGrid = $form.find('[data-name="ItemLocationTaxGrid"]');
@@ -448,8 +450,12 @@ class RentalInventory extends InventoryBase {
             FwFormField.enable($form.find('.subcategory'));
         } else {
             FwFormField.disable($form.find('.subcategory'));
-        }  
+        } 
+
         this.addAssetTab($form);
+
+        $assetBrowse = $form.find('#AssetBrowse');
+        setTimeout(() => { FwBrowse.search($assetBrowse); }, 0);
     };
     //----------------------------------------------------------------------------------------------
     openContainerBrowse($form: any) {
@@ -478,27 +484,27 @@ class RentalInventory extends InventoryBase {
                 $submoduleAssetBrowse = this.openAssetBrowse($form);
                 $form.find('.asset-submodule-page').append($submoduleAssetBrowse);
 
-                $submoduleAssetBrowse.find('div.btn[data-type="NewMenuBarButton"]').off('click');
-                $submoduleAssetBrowse.find('div.btn[data-type="NewMenuBarButton"]').on('click', function () {
-                    var $assetForm, controller, $browse, assetFormData: any = {};
-                    $browse = jQuery(this).closest('.fwbrowse');
-                    controller = $browse.attr('data-controller');
-                    assetFormData.InventoryId = FwFormField.getValueByDataField($form, 'InventoryId');
-                    if (typeof window[controller] !== 'object') throw 'Missing javascript module: ' + controller;
-                    if (typeof window[controller]['openForm'] !== 'function') throw 'Missing javascript function: ' + controller + '.openForm';
-                    $assetForm = window[controller]['openForm']('NEW', assetFormData);
-                    FwModule.openSubModuleTab($browse, $assetForm);
-                });
+                //$submoduleAssetBrowse.find('div.btn[data-type="NewMenuBarButton"]').off('click');
+                //$submoduleAssetBrowse.find('div.btn[data-type="NewMenuBarButton"]').on('click', function () {
+                //    var $assetForm, controller, $browse, assetFormData: any = {};
+                //    $browse = jQuery(this).closest('.fwbrowse');
+                //    controller = $browse.attr('data-controller');
+                //    assetFormData.InventoryId = FwFormField.getValueByDataField($form, 'InventoryId');
+                //    if (typeof window[controller] !== 'object') throw 'Missing javascript module: ' + controller;
+                //    if (typeof window[controller]['openForm'] !== 'function') throw 'Missing javascript function: ' + controller + '.openForm';
+                //    $assetForm = window[controller]['openForm']('NEW', assetFormData);
+                //    FwModule.openSubModuleTab($browse, $assetForm);
+                //});
             } 
         } 
     };
     //----------------------------------------------------------------------------------------------
     openAssetBrowse($form: any) {
-        let $browse, inventoryId;
+        var $browse, inventoryId;
         $browse = AssetController.openBrowse();
         inventoryId = FwFormField.getValueByDataField($form, 'InventoryId');
 
-        $browse.data('ondatabind', function (request) {
+        $browse.data('ondatabind', request => {
             request.ActiveView = AssetController.ActiveView;
             request.uniqueids = {
                 InventoryId: inventoryId

@@ -302,6 +302,7 @@ class SalesInventory extends InventoryBase {
         let $wardrobeInventoryMaterialGrid: any;
         let $inventoryCompleteGrid: any;
         let $inventoryKitGrid: any;
+        let $assetBrowse;
 
         $itemLocationTaxGrid = $form.find('[data-name="ItemLocationTaxGrid"]');
         FwBrowse.search($itemLocationTaxGrid);
@@ -353,6 +354,8 @@ class SalesInventory extends InventoryBase {
             FwFormField.disable($form.find('.subcategory'));
         }
         this.addAssetTab($form);
+        $assetBrowse = $form.find('#AssetBrowse');
+        setTimeout(() => { FwBrowse.search($assetBrowse); }, 0);
     };
     //----------------------------------------------------------------------------------------------
     addAssetTab($form: any): void {
@@ -366,17 +369,17 @@ class SalesInventory extends InventoryBase {
                 $submoduleAssetBrowse = this.openAssetBrowse($form);
                 $form.find('.asset-submodule-page').append($submoduleAssetBrowse);
 
-                $submoduleAssetBrowse.find('div.btn[data-type="NewMenuBarButton"]').off('click');
-                $submoduleAssetBrowse.find('div.btn[data-type="NewMenuBarButton"]').on('click', function () {
-                    var $assetForm, controller, $browse, assetFormData: any = {};
-                    $browse = jQuery(this).closest('.fwbrowse');
-                    controller = $browse.attr('data-controller');
-                    assetFormData.InventoryId = FwFormField.getValueByDataField($form, 'InventoryId');
-                    if (typeof window[controller] !== 'object') throw 'Missing javascript module: ' + controller;
-                    if (typeof window[controller]['openForm'] !== 'function') throw 'Missing javascript function: ' + controller + '.openForm';
-                    $assetForm = window[controller]['openForm']('NEW', assetFormData);
-                    FwModule.openSubModuleTab($browse, $assetForm);
-                });
+                //$submoduleAssetBrowse.find('div.btn[data-type="NewMenuBarButton"]').off('click');
+                //$submoduleAssetBrowse.find('div.btn[data-type="NewMenuBarButton"]').on('click', function () {
+                //    var $assetForm, controller, $browse, assetFormData: any = {};
+                //    $browse = jQuery(this).closest('.fwbrowse');
+                //    controller = $browse.attr('data-controller');
+                //    assetFormData.InventoryId = FwFormField.getValueByDataField($form, 'InventoryId');
+                //    if (typeof window[controller] !== 'object') throw 'Missing javascript module: ' + controller;
+                //    if (typeof window[controller]['openForm'] !== 'function') throw 'Missing javascript function: ' + controller + '.openForm';
+                //    $assetForm = window[controller]['openForm']('NEW', assetFormData);
+                //    FwModule.openSubModuleTab($browse, $assetForm);
+                //});
             } else {
                 $form.find('.asset-submodule').hide();
             }
