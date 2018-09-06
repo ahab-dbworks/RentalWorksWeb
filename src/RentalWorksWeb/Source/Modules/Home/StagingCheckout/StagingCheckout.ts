@@ -289,7 +289,7 @@ class StagingCheckout {
             setTimeout(() => {
                 FwBrowse.search($checkedOutItemGrid);
                 FwBrowse.search($stagedItemGrid);
-                }, 500);
+                }, 1000);
             $form.find('.partial-contract-barcode input').val('');
             $form.find('.partial-contract-quantity input').val('');
             $form.find('.partial-contract-barcode input').focus();
@@ -370,7 +370,7 @@ class StagingCheckout {
                 setTimeout(() => {
                     FwBrowse.search($checkedOutItemGrid);
                     FwBrowse.search($stagedItemGrid);
-                }, 500);
+                }, 1000);
                 $form.find('.partial-contract-barcode input').val('');
                 $form.find('.partial-contract-quantity input').val('');
                 $form.find('.partial-contract-barcode input').focus();

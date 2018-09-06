@@ -45,7 +45,6 @@ export class ProjectManagerBillingReport extends WebpackReport {
             let projectManagerPromise = Ajax.post<DataTable>(`${apiUrl}/api/v1/projectmanagerbillingreport/browse`, authorizationHeader, request)
                 .then((response: DataTable) => {
                     ProjectManagerBilling = DataTable.toObjectList(response);
-
                     ProjectManagerBilling.PrintTime = moment().format('YYYY-MM-DD h:mm:ss A');
                     ProjectManagerBilling.FromDate = parameters.FromDate;
                     ProjectManagerBilling.ToDate = parameters.ToDate;

@@ -58,6 +58,9 @@ table {
 
 // Settings for print or pdf
 @media print {
+    @page {
+        margin: 20px 20px 20px 20px;
+    }
     body {
         margin: 20px 0px 0px 0px;
 

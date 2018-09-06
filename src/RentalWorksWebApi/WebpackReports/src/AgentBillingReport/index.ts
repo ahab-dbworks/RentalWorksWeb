@@ -18,7 +18,6 @@ export class AgentBillingReport extends WebpackReport {
             HandlebarsHelpers.registerHelpers();
             let request = new BrowseRequest();
             request.uniqueids = {};
-            console.log('parameters', parameters)
 
             let agentBilling: any = {};
             request.orderby = 'Agent, OfficeLocation, Department, Deal, OrderNumber';
@@ -41,12 +40,9 @@ export class AgentBillingReport extends WebpackReport {
             if (parameters.CustomerId != '') {
                 request.uniqueids.CustomerId = parameters.CustomerId
             }
-
-            console.log('request', request)
             
             let agentBillingPromise = Ajax.post<DataTable>(`${apiUrl}/api/v1/agentbillingreport/browse`, authorizationHeader, request)
                 .then((response: DataTable) => {
-
                     agentBilling = DataTable.toObjectList(response);
                     agentBilling.PrintTime = moment().format('YYYY-MM-DD h:mm:ss A');
                     agentBilling.FromDate = parameters.FromDate;
