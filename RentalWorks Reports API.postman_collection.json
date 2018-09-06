@@ -166,6 +166,46 @@
 			]
 		},
 		{
+			"name": "Crew Sign In Report",
+			"item": [
+				{
+					"name": "Crew Sign In Report: Browse",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"Location,Deal,RentFromDate\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": [],\n    \t\"uniqueids\": {\n    \t\t\"FromDate\": \"10/01/2016\",\n    \t\t\"ToDate\": \"12/31/2016\"\n    \t}\n}"
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/crewsigninreport/browse",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"crewsigninreport",
+								"browse"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
 			"name": "Customer Revenue By Type Report",
 			"item": [
 				{

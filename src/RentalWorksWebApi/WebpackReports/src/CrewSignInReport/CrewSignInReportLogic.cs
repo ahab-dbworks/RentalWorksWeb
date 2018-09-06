@@ -13,6 +13,12 @@ namespace WebApi.Modules.Reports.CrewSignInReport
         }
         //------------------------------------------------------------------------------------ 
         [FwBusinessLogicField(isReadOnly: true)]
+        public string RowType { get; set; } = string.Empty;
+        //------------------------------------------------------------------------------------ 
+        [FwBusinessLogicField(isReadOnly: true)]
+        public int? RecCount { get; set; } = 1;
+        //------------------------------------------------------------------------------------ 
+        [FwBusinessLogicField(isReadOnly: true)]
         public string OrderId { get; set; } = string.Empty;
         //------------------------------------------------------------------------------------ 
         [FwBusinessLogicField(isReadOnly: true)]

@@ -13,6 +13,12 @@ namespace WebApi.Modules.Reports.CrewSignInReport
     public class CrewSignInReportLoader : AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "rowtype", modeltype: FwDataTypes.Text)]
+        public string RowType { get; set; } = string.Empty;
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "reccount", modeltype: FwDataTypes.Integer)]
+        public int? RecCount { get; set; } = 1;
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "orderid", modeltype: FwDataTypes.Text)]
         public string OrderId { get; set; } = string.Empty;
         //------------------------------------------------------------------------------------ 

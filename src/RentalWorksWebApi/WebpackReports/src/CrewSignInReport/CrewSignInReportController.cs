@@ -58,6 +58,14 @@ namespace WebApi.Modules.Reports.CrewSignInReport
                 CrewSignInReportLogic l = new CrewSignInReportLogic();
                 l.SetDependencies(this.AppConfig, this.UserSession);
                 FwJsonDataTable dt = await l.BrowseAsync(browseRequest);
+
+
+                string[] totalFields = new string[] { "RecCount" };
+                dt.InsertSubTotalRows("Location", "RowType", totalFields);
+                dt.InsertSubTotalRows("Deal", "RowType", totalFields);
+                dt.InsertSubTotalRows("RentFromDate", "RowType", totalFields);
+                dt.InsertTotalRow("RowType", "detail", "grandtotal", totalFields);
+
                 return new OkObjectResult(dt);
             }
             catch (Exception ex)
