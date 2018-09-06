@@ -315,7 +315,6 @@ class StagingCheckout {
         orderId = FwFormField.getValueByDataField($form, 'OrderId');
 
         if (barCodeFieldValue !== '' && $selectedCheckBoxes.length === 0) {
-
             request.ContractId = this.contractId;
             request.Code = barCodeFieldValue;
             request.OrderId = orderId;

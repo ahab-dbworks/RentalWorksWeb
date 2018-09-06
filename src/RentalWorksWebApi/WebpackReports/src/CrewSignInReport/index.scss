@@ -1,6 +1,7 @@
 ﻿tbody:nth-child(even) {
     background-color: #DCDCDC;
 }
+
 body {
     font-family: Arial, sans-serif;
     font-size: 11px;
@@ -12,6 +13,7 @@ body {
     border-bottom: 1px solid black;
     text-align: left;
 }
+
 .body thead td div {
     font-size: 14px;
     text-align: center;
@@ -21,7 +23,6 @@ tr td div {
     padding: 5px 0px 5px 0px;
     min-height: 16px;
 }
-
 
 .body tfoot tr {
     border-top: 1px solid black;
@@ -36,13 +37,15 @@ tr td div {
 }
 
 .rptcaption {
-    font-weight: bold;  
+    font-weight: bold;
 }
+
 .boxcol {
     border: 1px solid black;
     text-align: left;
     padding-left: 2px;
 }
+
 .row4 td {
     padding: 0 0 8px 0
 }
