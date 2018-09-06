@@ -97,7 +97,7 @@ html.pdf {
 
 .Header {
     div {
-        flex: 1 0 627px;
+        flex: 1 0 768px;
 
         div {
             min-width: 33%;
@@ -128,9 +128,8 @@ html.pdf {
                 text-align:center;
             }
 
-            th.OrderNumber {
-                min-width: 65px;
-                text-align: left;
+            th.number{
+                text-align:right;
             }
         }
 
