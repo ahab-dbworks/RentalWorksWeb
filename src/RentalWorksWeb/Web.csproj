@@ -434,6 +434,7 @@
     <TypeScriptCompile Include="Source\Modules\Home\PurchaseOrder\PurchaseOrder.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\Project\Project.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\StagingCheckout\StagingCheckout.ts" />
+    <TypeScriptCompile Include="Source\Modules\Reports\RentalInventoryCatalogReport\RwRentalInventoryCatalogReportController.ts" />
     <TypeScriptCompile Include="Source\Modules\Reports\ArAgingReport\RwArAgingReportController.ts" />
     <TypeScriptCompile Include="Source\Modules\Reports\CreateInvoiceProcess\RwCreateInvoiceProcessReportController.ts" />
     <TypeScriptCompile Include="Source\Modules\Reports\CrewSignInReport\RwCrewSignInReportController.ts" />
@@ -804,12 +805,6 @@
     <TypeScriptCompile Include="Source\Reports\InvoiceSummaryReport\RwInvoiceSummaryReportController.ts" />
     <TypeScriptCompile Include="Source\Reports\SalesInventoryTransactionReport\RwSalesInventoryTransactionReportController.ts" />
     <Content Include="Source\Reports\SalesInventoryTransactionReport\StyleSheet.css" />
-    <Content Include="Source\Reports\RentalInventoryCatalog\Body.htm" />
-    <Content Include="Source\Reports\RentalInventoryCatalog\Footer.htm" />
-    <Content Include="Source\Reports\RentalInventoryCatalog\FrontEnd.htm" />
-    <Content Include="Source\Reports\RentalInventoryCatalog\Header.htm" />
-    <TypeScriptCompile Include="Source\Reports\RentalInventoryCatalog\RwRentalInventoryCatalogController.ts" />
-    <Content Include="Source\Reports\RentalInventoryCatalog\StyleSheet.css" />
     <Content Include="Source\Reports\InvoiceSummaryReport\Body.htm" />
     <Content Include="Source\Reports\InvoiceSummaryReport\Footer.htm" />
     <Content Include="Source\Reports\InvoiceSummaryReport\FrontEnd.htm" />
@@ -1097,7 +1092,6 @@
     <Compile Include="Source\Reports\DealOutstanding\DealOutstanding.cs" />
     <Compile Include="Source\Reports\PrintOrder\PrintOrder.cs" />
     <Compile Include="Source\Reports\ReceiptProcessing\ReceiptProcessing.cs" />
-    <Compile Include="Source\Reports\RentalInventoryCatalog\RentalInventoryCatalog.cs" />
     <Compile Include="Source\Reports\SalesInventoryTransactionReport\SalesInventoryTransactionReport.cs" />
     <Compile Include="Source\Reports\VendorInvoiceProcessing\VendorInvoiceProcessing.cs" />
     <Compile Include="Source\RwAppData.cs" />

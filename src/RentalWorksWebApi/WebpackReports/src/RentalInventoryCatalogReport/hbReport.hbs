@@ -1,0 +1,85 @@
+﻿<div class="Header">
+  <div>
+    <div style="text-align: left; font-weight: bold; float:left;">RENTALWORKS</div>
+    <div style="text-align: right; font-weight: bold; float:right;">4WALL ENTERTAINMENT</div>
+    <div style="text-align: center; font-weight: bold; margin:0 auto;">Billing Progress Report</div>
+  </div>
+  <div>
+    <!--<div style="text-align: center; margin:0 auto;">As of {{ToDate}}</div>-->
+  </div>
+</div>
+<div class="data">
+  <table id="tbldata">
+    <thead>
+      <tr class="columnheadings">
+        <th class="text">Warehouse</th>
+        <th class="text"><div>Inventory</div> <div>Type</div></th>
+        <th class="text">Category</th>
+        <th class="text" style="min-width:65px;">I-Code</th>
+        <th class="text">Description</th>
+        <th class="text">Type</th>
+        <th class="text">Tracked By</th>
+        <th class="number"><div>Quantity</div> <div>Owned</div></th>
+        <th class="number"><div>Daily</div> <div>Rate</div></th>
+        <th class="number"><div>Weekly</div> <div>Rate</div></th>
+        <th class="number"><div>Monthly</div> <div>Rate</div></th>
+        <th class="number"><div>Replacement</div> <div>Cost</div></th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#with Rows}}
+      {{#each this}}
+      <tr data-rowtype="{{RowType}}">
+        {{#ifEquals RowType "Warehouseheader"}}
+        <td colspan="12">Warehouse: {{Warehouse}}</td>
+        {{/ifEquals}}
+        {{#ifEquals RowType "InventoryTypeheader"}}
+        <td colspan="12">Inventory Type: {{InventoryType}}</td>
+        {{/ifEquals}}
+        {{#ifEquals RowType "Categoryheader"}}
+        <td colspan="12">Category: {{Category}}</td>
+        {{/ifEquals}}
+        {{#ifEquals RowType "detail"}}
+        <td class="text">{{Warehouse}}</td>
+        <td class="text">{{InventoryType}}</td>
+        <td class="text">{{Category}}</td>
+        <td class="text">{{ICode}}</td>
+        <td class="text">{{Description}}</td>
+        <td class="text">{{ClassificationDescription}}</td>
+        <td class="text">{{TrackedBy}}</td>
+        <td class="number">{{QuantityOwned}}</td>
+        <td class="number">{{DailyRate}}</td>
+        <td class="number">{{WeeklyRate}}</td>
+        <td class="number">{{MonthlyRate}}</td>
+        <td class="number">{{ReplacementCost}}</td>
+        {{/ifEquals}}
+        {{#ifEquals RowType "Categoryfooter"}}
+        <td colspan="5"></td>
+        <td class="totals" colspan="2">{{Category}}: </td>
+        <td class="totals">{{QuantityOwned}}</td>
+        <td class="totals" colspan="4"></td>
+        {{/ifEquals}}
+        {{#ifEquals RowType "InventoryTypefooter"}}
+        <td colspan="5"></td>
+        <td class="totals" colspan="2">{{InventoryType}}:</td>
+        <td class="totals">{{QuantityOwned}}</td>
+        <td class="totals" colspan="4"></td>
+        {{/ifEquals}}
+        {{#ifEquals RowType "Warehousefooter"}}
+        <td colspan="5"></td>
+        <td class="totals" colspan="2">{{Warehouse}}:</td>
+        <td class="totals">{{QuantityOwned}}</td>
+        <td class="totals" colspan="4"></td>
+        {{/ifEquals}}
+        {{#ifEquals RowType "grandtotal"}}
+        <td colspan="5"></td>
+        <td class="totals" colspan="2">Grand Total:</td>
+        <td class="totals">{{QuantityOwned}}</td>
+        <td class="totals" colspan="4"></td>
+        {{/ifEquals}}
+      </tr>
+      {{/each}}
+      {{/with}}
+    </tbody>
+  </table>
+</div>

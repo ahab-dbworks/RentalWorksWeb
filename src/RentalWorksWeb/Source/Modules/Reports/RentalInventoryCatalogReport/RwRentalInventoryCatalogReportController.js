@@ -1,8 +1,13 @@
-﻿<div class="fwcontrol fwcontainer fwform fwreport rentalinventorycatalog" data-control="FwContainer" data-type="form" data-version="1" data-caption="Rental Inventory Catalog" data-rendermode="template" data-mode="" data-hasaudit="false" data-controller="RwRentalInventoryCatalogController">
+routes.push({
+    pattern: /^reports\/rentalinventorycatalogreport/, action: function (match) {
+        return RwRentalInventoryCatalogReportController.getModuleScreen();
+    }
+});
+var templateRentalInventoryCatalogFrontEnd = `
+<div class="fwcontrol fwcontainer fwform fwreport rentalinventorycatalog" data-control="FwContainer" data-type="form" data-version="1" data-caption="Rental Inventory Catalog" data-rendermode="template" data-mode="" data-hasaudit="false" data-controller="RwRentalInventoryCatalogReportController">
   <div class="fwcontrol fwtabs" data-control="FwTabs" data-type="">
     <div class="tabs" style="margin-right:10px;">
       <div id="generaltab" class="tab" style="display:flex;flex-wrap:wrap;" data-tabpageid="generaltabpage" data-caption="General"></div>
-      <div id="exporttab" class="tab exporttab" data-tabpageid="exporttabpage" data-caption="Export"></div>
     </div>
     <div class="tabpages">
       <div data-type="tabpage" id="generaltabpage" class="tabpage" data-tabid="generaltab">
@@ -54,10 +59,88 @@
           </div>
         </div>
       </div>
-      <div id="exporttabpage" class="tabpage exporttabpage" data-tabid="exporttab">
-      </div>
     </div>
   </div>
 </div>
-
-
+`;
+class RwRentalInventoryCatalogReport extends FwWebApiReport {
+    constructor() {
+        super('RentalInventoryCatalogReport', 'api/v1/rentalinventorycatalogreport', templateRentalInventoryCatalogFrontEnd);
+        this.beforeValidate = function ($browse, $form, request) {
+            var validationName = request.module;
+            if (validationName != null) {
+                const inventoryTypeId = FwFormField.getValueByDataField($form, 'InventoryTypeId');
+                const categoryId = FwFormField.getValueByDataField($form, 'CategoryId');
+                const subCategoryId = FwFormField.getValueByDataField($form, 'SubCategoryId');
+                request.uniqueids = {};
+                switch (validationName) {
+                    case 'InventoryTypeValidation':
+                        request.uniqueids.Rental = true;
+                        break;
+                    case 'RentalCategoryValidation':
+                        if (inventoryTypeId !== "") {
+                            request.uniqueids.InventoryTypeId = inventoryTypeId;
+                        }
+                        break;
+                    case 'SubCategoryValidation':
+                        request.uniqueids.Rental = true;
+                        if (inventoryTypeId !== "") {
+                            request.uniqueids.InventoryTypeId = inventoryTypeId;
+                        }
+                        if (categoryId !== "") {
+                            request.uniqueids.CategoryId = categoryId;
+                        }
+                        break;
+                    case 'RentalInventoryValidation':
+                        if (inventoryTypeId !== "") {
+                            request.uniqueids.InventoryTypeId = inventoryTypeId;
+                        }
+                        ;
+                        if (categoryId !== "") {
+                            request.uniqueids.CategoryId = categoryId;
+                        }
+                        ;
+                        if (subCategoryId !== "") {
+                            request.uniqueids.SubCategoryId = subCategoryId;
+                        }
+                        ;
+                        break;
+                }
+            }
+        };
+    }
+    getModuleScreen() {
+        let screen = {};
+        screen.$view = FwModule.getModuleControl('Rw' + this.Module + 'Controller');
+        screen.viewModel = {};
+        screen.properties = {};
+        let $form = this.openForm();
+        screen.load = function () {
+            FwModule.openModuleTab($form, $form.attr('data-caption'), false, 'REPORT', true);
+        };
+        screen.unload = function () {
+        };
+        return screen;
+    }
+    openForm() {
+        let $form = this.getFrontEnd();
+        return $form;
+    }
+    onLoadForm($form) {
+        this.load($form, this.reportOptions);
+        var appOptions = program.getApplicationOptions();
+        var request = { method: "LoadForm" };
+        const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
+        FwFormField.setValue($form, 'div[data-datafield="WarehouseId"]', warehouse.warehouseid, warehouse.warehouse);
+        this.loadLists($form);
+    }
+    ;
+    loadLists($form) {
+        FwFormField.loadItems($form.find('div[data-datafield="classificationlist"]'), [{ value: "I", text: "Item", selected: "T" }, { value: "A", text: "Accessory", selected: "T" }, { value: "C", text: "Complete", selected: "T" }, { value: "K", text: "Kit", selected: "T" }, { value: "N", text: "Container", selected: "T" }, { value: "M", text: "Miscellaneous", selected: "F" }]);
+        FwFormField.loadItems($form.find('div[data-datafield="trackedbylist"]'), [{ value: "BARCODE", text: "Barcode", selected: "T" }, { value: "QUANTITY", text: "Quantity", selected: "T" }, { value: "SERIALNO", text: "Serial Number", selected: "T" }]);
+        FwFormField.loadItems($form.find('div[data-datafield="ranklist"]'), [{ value: "A", text: "A", selected: "T" }, { value: "B", text: "B", selected: "T" }, { value: "C", text: "C", selected: "T" }, { value: "D", text: "D", selected: "T" }, { value: "E", text: "E", selected: "T" }, { value: "F", text: "F", selected: "T" }, { value: "G", text: "G", selected: "T" }]);
+    }
+}
+;
+var RwRentalInventoryCatalogReportController = new RwRentalInventoryCatalogReport();
+//# sourceMappingURL=RwRentalInventoryCatalogReportController.js.map
