@@ -6,7 +6,7 @@ import { HandlebarsHelpers } from '../../lib/FwReportLibrary/src/scripts/Handleb
 import * as moment from 'moment';
 import '../../lib/FwReportLibrary/src/theme/webpackReports.scss';
 import './index.scss';
-var hbHeader = require("./hbHeader.hbs"); 
+
 var hbReport = require("./hbReport.hbs"); 
 var hbFooter = require("./hbFooter.hbs"); 
 
@@ -37,27 +37,18 @@ export class CrewSignInReport extends WebpackReport {
             if (parameters.OrderId != '') {
                 request.uniqueids.OrderId = parameters.OrderId
             }
-            console.log('parameters: ', parameters);
-            console.log('request: ', request)
-
-            
-//            let today = new Date();
 
             let crewSignInPromise = Ajax.post<DataTable>(`${apiUrl}/api/v1/crewsigninreport/browse`, authorizationHeader, request)
                 .then((response: DataTable) => {
-                    crewSignIn.Rows = DataTable.toObjectList(response); // converts res to javascript obj
-                    console.log('crewsignin: ', crewSignIn); 
-
+                    crewSignIn.Rows = DataTable.toObjectList(response); 
                     crewSignIn.PrintTime = moment().format('YYYY-MM-DD h:mm:ss A');
                     crewSignIn.FromDate = parameters.FromDate;
                     crewSignIn.ToDate = parameters.ToDate;
                     crewSignIn.Report = 'Crew Sign-In Report';
                     crewSignIn.System = 'RENTALWORKS';
                     crewSignIn.Company = '4WALL ENTERTAINMENT';
-                    this.renderHeaderHtml(crewSignIn);
                     this.renderFooterHtml(crewSignIn);
                     if (this.action === 'Preview' || this.action === 'PrintHtml') {
-                        document.getElementById('pageHeader').innerHTML = this.headerHtml;
                         document.getElementById('pageFooter').innerHTML = this.footerHtml;
                     }
                     document.getElementById('pageBody').innerHTML = hbReport(crewSignIn);
@@ -72,40 +63,10 @@ export class CrewSignInReport extends WebpackReport {
         }
     }
 
-    renderHeaderHtml(model: CrewSignIn): string {
-        this.headerHtml = hbHeader(model);
-        return this.headerHtml;
-    }
-
-    renderFooterHtml(model: CrewSignIn) : string {
+    renderFooterHtml(model: DataTable) : string {
         this.footerHtml = hbFooter(model);
         return this.footerHtml;
     }
 }
 
 (<any>window).report = new CrewSignInReport();
-
-class CrewSignIn{
-    _Custom = new Array<CustomField>();
-    OrderId = '';
-    LocationId = '';
-    MasterId = '';
-    DepartmentId = '';
-    OrderLocation = '';
-    Location = '';
-    Department = '';
-    RentFromDate = '';
-    RentToDate = '';
-    RentFromTime = '';
-    RentToTime = '';
-    OrderNo = '';
-    OrderDescription = '';
-    DealId = '';
-    DealNo = '';
-    Deal = '';
-    Position = '';
-    EmployeeId = '';
-    Person = '';
-    CrewContactId = '';
-}
-

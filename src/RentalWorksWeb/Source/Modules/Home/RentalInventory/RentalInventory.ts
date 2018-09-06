@@ -500,7 +500,7 @@ class RentalInventory extends InventoryBase {
     };
     //----------------------------------------------------------------------------------------------
     openAssetBrowse($form: any) {
-        var $browse, inventoryId;
+        let $browse, inventoryId;
         $browse = AssetController.openBrowse();
         inventoryId = FwFormField.getValueByDataField($form, 'InventoryId');
 
