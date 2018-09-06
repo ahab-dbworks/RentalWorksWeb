@@ -556,14 +556,14 @@
   <Target Name="FwPublishTarget" Condition="$(FwPublish)=='true'">
     <RemoveDir Directories="$(FwDeploymentDirectory)" Condition="Exists('$(FwDeploymentDirectory)')" />
     <MakeDir Directories="$(FwDeploymentDirectory)" Condition="!Exists('$(FwDeploymentDirectory)')" />
-    <MakeDir Directories="$(FwDeploymentDirectory)\audio" Condition="!Exists('$(FwDeploymentDirectory)\audio')" />
+    <!--<MakeDir Directories="$(FwDeploymentDirectory)\audio" Condition="!Exists('$(FwDeploymentDirectory)\audio')" />-->
     <MakeDir Directories="$(FwDeploymentDirectory)\theme" Condition="!Exists('$(FwDeploymentDirectory)\theme')" />
     <MakeDir Directories="$(FwDeploymentDirectory)\theme\images" Condition="!Exists('$(FwDeploymentDirectory)\theme\images')" />
     <MakeDir Directories="$(FwDeploymentDirectory)\theme\fwaudio" Condition="!Exists('$(FwDeploymentDirectory)\theme\fwaudio')" />
     <MakeDir Directories="$(FwDeploymentDirectory)\theme\fwcursors" Condition="!Exists('$(FwDeploymentDirectory)\theme\fwcursors')" />
     <MakeDir Directories="$(FwDeploymentDirectory)\theme\fwfonts" Condition="!Exists('$(FwDeploymentDirectory)\theme\fwfonts')" />
     <MakeDir Directories="$(FwDeploymentDirectory)\theme\fwimages" Condition="!Exists('$(FwDeploymentDirectory)\theme\fwimages')" />
-    <Exec Command="xcopy &quot;$(FwApplicationDirectory)\audio&quot; &quot;$(FwDeploymentDirectory)\audio&quot; /e" ContinueOnError="false" IgnoreExitCode="false" />
+    <!--<Exec Command="xcopy &quot;$(FwApplicationDirectory)\audio&quot; &quot;$(FwDeploymentDirectory)\audio&quot; /e" ContinueOnError="false" IgnoreExitCode="false" />-->
     <Exec Command="xcopy &quot;$(FwFrontEndLibraryPath)\theme\fwaudio&quot; &quot;$(FwDeploymentDirectory)\theme\fwaudio&quot; /e" ContinueOnError="false" IgnoreExitCode="false" />
     <Exec Command="xcopy &quot;$(FwFrontEndLibraryPath)\theme\fwcursors&quot; &quot;$(FwDeploymentDirectory)\theme\fwcursors&quot; /e" ContinueOnError="false" IgnoreExitCode="false" />
     <Exec Command="xcopy &quot;$(FwFrontEndLibraryPath)\theme\fwfonts&quot; &quot;$(FwDeploymentDirectory)\theme\fwfonts&quot; /e" ContinueOnError="false" IgnoreExitCode="false" />
