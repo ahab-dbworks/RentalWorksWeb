@@ -2,20 +2,23 @@ class StageQuantityItemGrid {
     constructor() {
         this.Module = 'StageQuantityItemGrid';
         this.apiurl = 'api/v1/stagequantityitem';
-        this.barCodedItemIncreased = false;
-    }
-    generateRow($control, $generatedtr) {
-        let $form, errorSound, successSound, $quantityColumn;
-        $form = $control.closest('.fwform'),
-            $quantityColumn = $generatedtr.find('.quantity');
         this.successSoundFileName = JSON.parse(sessionStorage.getItem('sounds')).successSoundFileName;
         this.errorSoundFileName = JSON.parse(sessionStorage.getItem('sounds')).errorSoundFileName;
         this.notificationSoundFileName = JSON.parse(sessionStorage.getItem('sounds')).notificationSoundFileName;
+        this.barCodedItemIncreased = false;
+    }
+    ;
+    ;
+    ;
+    generateRow($control, $generatedtr) {
+        let $form, errorSound, successSound, $quantityColumn;
+        $form = $control.closest('.fwform');
+        $quantityColumn = $generatedtr.find('.quantity');
         let self = this;
         errorSound = new Audio(this.errorSoundFileName);
         successSound = new Audio(this.successSoundFileName);
         FwBrowse.setAfterRenderRowCallback($control, ($tr, dt, rowIndex) => {
-            let originalquantity = $tr.find('[data-browsedatafield="Quantity"]').attr('data-originalvalue');
+            let originalquantity = $tr.find('[data-browsedatafield="QuantityStaged"]').attr('data-originalvalue');
             let trackedByValue = $tr.find('[data-browsedatafield="TrackedBy"]').attr('data-originalvalue');
             let quantityColorIndex = dt.ColumnIndex.QuantityColor;
             let color = dt.Rows[rowIndex][quantityColorIndex];
@@ -102,6 +105,7 @@ class StageQuantityItemGrid {
                             if (response.success) {
                                 $tr.find('[data-browsedatafield="Quantity"]').attr('data-originalvalue', Number(newValue));
                                 FwBrowse.setFieldValue($grid, $tr, 'QuantityStaged', { value: response.QuantityStaged });
+                                FwBrowse.setFieldValue($grid, $tr, 'QuantityRemaining', { value: response.QuantityRemaining });
                                 if (response.QuantityColor) {
                                     $quantityColumn.find('.cellcolor').css('border-left', `20px solid ${response.QuantityColor}`);
                                 }
@@ -131,7 +135,7 @@ class StageQuantityItemGrid {
                                 $form.find('.createcontract[data-type="button"]').show();
                                 $form.find('.createcontract[data-type="btnmenu"]').hide();
                             }
-                        }, null, null);
+                        }, null, $form);
                     }
                 });
             }

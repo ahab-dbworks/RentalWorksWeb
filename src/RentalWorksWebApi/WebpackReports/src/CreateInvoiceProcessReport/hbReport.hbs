@@ -31,6 +31,9 @@
         {{#ifEquals RowType "OfficeLocationheader"}}
         <td colspan="5" class="name-row">Office: {{OfficeLocation}}</td>
         {{/ifEquals}}
+         {{#ifEquals RowType "Departmentheader"}}
+        <td colspan="5" class="dep-row">Department: {{Department}}</td>
+        {{/ifEquals}}
         {{#ifEquals RowType "Dealheader"}}
         <td colspan="5" class="deal-row">Deal: {{Deal}}</td>
         {{/ifEquals}}
@@ -52,25 +55,25 @@
           {{/if}}
         {{/ifEquals}}
       </tr>
-      {{#ifEquals RowType "OfficeLocationfooter"}}
+      {{#ifEquals RowType "Departmentfooter"}}
       <tr>
         <th class="empty"></th>
         <th class="empty"></th>
         <th class="empty"></th>
         <th class="office-footer text">Department</th>
-        <th class="office-footer number">Created</th>
         <th class="office-footer number">Amount</th>
+        <th class="office-footer number">Created</th>
         <th class="office-footer number">Exceptions</th>
       </tr>
       {{/ifEquals}}
-      {{#ifEquals RowType "OfficeLocationfooter"}}
+      {{#ifEquals RowType "Departmentfooter"}}
       <tr>
         <td class="empty"></td>
         <td class="empty"></td>
         <td class="empty"></td>
         <td class="text" data-value="{{Department}}"></td>
-        <td class="number" data-value="{{InvoiceCount}}"></td>
         <td class="number" data-value="{{InvoiceTotal}}"></td>
+        <td class="number" data-value="{{InvoiceCount}}"></td>
         <td class="number" data-value="{{ExceptionCount}}"></td>
       </tr>
       {{/ifEquals}}
