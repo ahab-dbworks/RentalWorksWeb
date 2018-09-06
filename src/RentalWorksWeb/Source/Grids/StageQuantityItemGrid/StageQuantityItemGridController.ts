@@ -1,13 +1,13 @@
 ﻿class StageQuantityItemGrid {
     Module: string = 'StageQuantityItemGrid';
     apiurl: string = 'api/v1/stagequantityitem';
-    errorSoundFileName: string = JSON.parse(sessionStorage.getItem('sounds')).errorSoundFileName;;
-    barCodedItemIncreased: boolean = false;
+    errorSoundFileName: string;
     //----------------------------------------------------------------------------------------------
     generateRow($control, $generatedtr) {
         let $form, errorSound, $quantityColumn;
         $form = $control.closest('.fwform');
         $quantityColumn = $generatedtr.find('.quantity');
+        this.errorSoundFileName = JSON.parse(sessionStorage.getItem('sounds')).errorSoundFileName;
         errorSound = new Audio(this.errorSoundFileName);
 
         FwBrowse.setAfterRenderRowCallback($control, ($tr: JQuery, dt: FwJsonDataTable, rowIndex: number) => {

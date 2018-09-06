@@ -2,14 +2,12 @@ class StageQuantityItemGrid {
     constructor() {
         this.Module = 'StageQuantityItemGrid';
         this.apiurl = 'api/v1/stagequantityitem';
-        this.errorSoundFileName = JSON.parse(sessionStorage.getItem('sounds')).errorSoundFileName;
-        this.barCodedItemIncreased = false;
     }
-    ;
     generateRow($control, $generatedtr) {
         let $form, errorSound, $quantityColumn;
         $form = $control.closest('.fwform');
         $quantityColumn = $generatedtr.find('.quantity');
+        this.errorSoundFileName = JSON.parse(sessionStorage.getItem('sounds')).errorSoundFileName;
         errorSound = new Audio(this.errorSoundFileName);
         FwBrowse.setAfterRenderRowCallback($control, ($tr, dt, rowIndex) => {
             let originalquantity = $tr.find('[data-browsedatafield="QuantityStaged"]').attr('data-originalvalue');

@@ -25,7 +25,6 @@ class StagingCheckout {
 
         return screen;
     };
-
     //----------------------------------------------------------------------------------------------
     loadForm(uniqueids: any) {
         let $form: JQuery = this.openForm('EDIT');
@@ -35,7 +34,6 @@ class StagingCheckout {
         
         return $form;
     };
-
     //----------------------------------------------------------------------------------------------
     openForm(mode: string, parentmoduleinfo?: any) {
         var $form;
