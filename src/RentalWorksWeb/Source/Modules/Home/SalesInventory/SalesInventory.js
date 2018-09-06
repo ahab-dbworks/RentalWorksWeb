@@ -282,6 +282,7 @@ class SalesInventory extends InventoryBase {
         let $assetBrowse;
         $itemLocationTaxGrid = $form.find('[data-name="ItemLocationTaxGrid"]');
         $salesInventoryWarehouseGrid = $form.find('[data-name="SalesInventoryWarehouseGrid"]');
+        FwBrowse.search($salesInventoryWarehouseGrid);
         $inventoryAvailabilityGrid = $form.find('[data-name="InventoryAvailabilityGrid"]');
         $inventoryConsignmentGrid = $form.find('[data-name="InventoryConsignmentGrid"]');
         $inventoryCompleteKitGrid = $form.find('[data-name="InventoryCompleteKitGrid"]');

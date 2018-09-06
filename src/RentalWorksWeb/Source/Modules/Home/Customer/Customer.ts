@@ -273,23 +273,45 @@ class Customer {
     //--------------------
     afterLoad($form: any) {
         var $customerResaleGrid: any = $form.find('[data-name="CompanyResaleGrid"]');
-        FwBrowse.search($customerResaleGrid);
+        //FwBrowse.search($customerResaleGrid);
 
         var $customerNoteGrid: any = $form.find('[data-name="CustomerNoteGrid"]');
-        FwBrowse.search($customerNoteGrid);
+        //FwBrowse.search($customerNoteGrid);
 
         var $companyTaxGrid: any = $form.find('[data-name="CompanyTaxOptionGrid"]');
-        FwBrowse.search($companyTaxGrid);
+        //FwBrowse.search($companyTaxGrid);
 
         var $companyContactGrid: any = $form.find('[data-name="CompanyContactGrid"]');
-        FwBrowse.search($companyContactGrid);
+        //FwBrowse.search($companyContactGrid);
 
         var $dealBrowse = $form.find('#DealBrowse');
-        FwBrowse.search($dealBrowse);
+        //FwBrowse.search($dealBrowse);
 
         if (FwFormField.getValue($form, 'div[data-datafield="UseDiscountTemplate"]') === true) {
             FwFormField.enable($form.find('.discount-validation'));
         };
+
+        //Click Event on tabs to load grids/browses
+        $form.on('click', '[data-type="tab"]', e => {
+            let tabname = jQuery(e.currentTarget).attr('id');
+            let tabpage = tabname.replace('tab', 'tabpage');
+
+            let $gridControls = $form.find(`#${tabpage} [data-type="Grid"]`);
+            if ($gridControls.length > 0) {
+                for (let i = 0; i < $gridControls.length; i++) {
+                    let $gridcontrol = jQuery($gridControls[i]);
+                    FwBrowse.search($gridcontrol);
+                }
+            }
+
+            let $browseControls = $form.find(`#${tabpage} [data-type="Browse"]`);
+            if ($browseControls.length > 0) {
+                for (let i = 0; i < $browseControls.length; i++) {
+                    let $browseControl = jQuery($browseControls[i]);
+                    FwBrowse.search($browseControl);
+                }
+            }
+        });
 
         this.addressTypeChange($form);
     }

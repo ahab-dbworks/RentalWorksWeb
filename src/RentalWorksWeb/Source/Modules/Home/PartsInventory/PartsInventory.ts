@@ -225,7 +225,7 @@ class PartsInventory extends InventoryBase {
         $itemLocationTaxGrid = $form.find('[data-name="ItemLocationTaxGrid"]');
         //FwBrowse.search($itemLocationTaxGrid);
         $salesInventoryWarehouseGrid = $form.find('[data-name="SalesInventoryWarehouseGrid"]');
-        //FwBrowse.search($salesInventoryWarehouseGrid);
+        FwBrowse.search($salesInventoryWarehouseGrid);
         $inventoryAvailabilityGrid = $form.find('[data-name="InventoryAvailabilityGrid"]');
         //FwBrowse.search($inventoryAvailabilityGrid);
         $inventoryConsignmentGrid = $form.find('[data-name="InventoryConsignmentGrid"]');
