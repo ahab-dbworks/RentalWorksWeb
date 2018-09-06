@@ -263,6 +263,7 @@ class SalesInventory extends InventoryBase {
     }
     ;
     afterLoad($form) {
+        super.afterLoad($form);
         let $itemLocationTaxGrid;
         let $salesInventoryWarehouseGrid;
         let $inventoryAvailabilityGrid;
@@ -280,35 +281,20 @@ class SalesInventory extends InventoryBase {
         let $inventoryKitGrid;
         let $assetBrowse;
         $itemLocationTaxGrid = $form.find('[data-name="ItemLocationTaxGrid"]');
-        FwBrowse.search($itemLocationTaxGrid);
         $salesInventoryWarehouseGrid = $form.find('[data-name="SalesInventoryWarehouseGrid"]');
-        FwBrowse.search($salesInventoryWarehouseGrid);
         $inventoryAvailabilityGrid = $form.find('[data-name="InventoryAvailabilityGrid"]');
-        FwBrowse.search($inventoryAvailabilityGrid);
         $inventoryConsignmentGrid = $form.find('[data-name="InventoryConsignmentGrid"]');
-        FwBrowse.search($inventoryConsignmentGrid);
         $inventoryCompleteKitGrid = $form.find('[data-name="InventoryCompleteKitGrid"]');
-        FwBrowse.search($inventoryCompleteKitGrid);
         $inventorySubstituteGrid = $form.find('[data-name="SalesInventorySubstituteGrid"]');
-        FwBrowse.search($inventorySubstituteGrid);
         $inventoryCompatibilityGrid = $form.find('[data-name="SalesInventoryCompatibilityGrid"]');
-        FwBrowse.search($inventoryCompatibilityGrid);
         $inventoryQcGrid = $form.find('[data-name="InventoryQcGrid"]');
-        FwBrowse.search($inventoryQcGrid);
         $inventoryAttributeValueGrid = $form.find('[data-name="InventoryAttributeValueGrid"]');
-        FwBrowse.search($inventoryAttributeValueGrid);
         $inventoryVendorGrid = $form.find('[data-name="InventoryVendorGrid"]');
-        FwBrowse.search($inventoryVendorGrid);
         $inventoryPrepGrid = $form.find('[data-name="InventoryPrepGrid"]');
-        FwBrowse.search($inventoryPrepGrid);
         $wardrobeInventoryColorGrid = $form.find('[data-name="WardrobeInventoryColorGrid"]');
-        FwBrowse.search($wardrobeInventoryColorGrid);
         $wardrobeInventoryMaterialGrid = $form.find('[data-name="WardrobeInventoryMaterialGrid"]');
-        FwBrowse.search($wardrobeInventoryMaterialGrid);
         $inventoryCompleteGrid = $form.find('[data-name="InventoryCompleteGrid"]');
-        FwBrowse.search($inventoryCompleteGrid);
         $inventoryKitGrid = $form.find('[data-name="InventoryKitGrid"]');
-        FwBrowse.search($inventoryKitGrid);
         this.afterLoadSetClassification($form);
         if ($form.find('[data-datafield="OverrideProfitAndLossCategory"] .fwformfield-value').prop('checked')) {
             FwFormField.enable($form.find('[data-datafield="ProfitAndLossCategoryId"]'));

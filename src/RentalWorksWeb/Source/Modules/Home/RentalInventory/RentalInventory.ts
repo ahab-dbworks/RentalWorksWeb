@@ -359,6 +359,8 @@ class RentalInventory extends InventoryBase {
     };
     //----------------------------------------------------------------------------------------------
     afterLoad($form: any) {
+        super.afterLoad($form);
+
         var self = this;
         var $itemLocationTaxGrid: any;
         var $rentalInventoryWarehouseGrid: any;
@@ -456,29 +458,6 @@ class RentalInventory extends InventoryBase {
 
         $assetBrowse = $form.find('#AssetBrowse');
         setTimeout(() => { FwBrowse.search($assetBrowse); }, 0);
-
-
-        //Click Event on tabs to load grids/browses
-        $form.on('click', '[data-type="tab"]', e => {
-            let tabname = jQuery(e.currentTarget).attr('id');
-            let tabpage = tabname.replace('tab', 'tabpage');
-
-            let $gridControls = $form.find(`#${tabpage} [data-type="Grid"]`);
-            if ($gridControls.length > 0) {
-                for (let i = 0; i < $gridControls.length; i++) {
-                    let $gridcontrol = jQuery($gridControls[i]);
-                    FwBrowse.search($gridcontrol);
-                }
-            }
-
-            let $browseControls = $form.find(`#${tabpage} [data-type="Browse"]`);
-            if ($browseControls.length > 0) {
-                for (let i = 0; i < $browseControls.length; i++) {
-                    let $browseControl = jQuery($browseControls[i]);
-                    FwBrowse.search($browseControl);
-                }
-            }
-        });
     };
     //----------------------------------------------------------------------------------------------
     openContainerBrowse($form: any) {
