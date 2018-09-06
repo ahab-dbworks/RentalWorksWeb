@@ -18,6 +18,7 @@ export class LateReturnDueBackReport extends WebpackReport {
             this.renderProgress = 50;
             this.renderStatus = 'Running';
             let request = new BrowseRequest();
+            let globals:any = {};
        
             HandlebarsHelpers.registerHelpers();
             let lateReturnDueBack: any = {};
@@ -26,31 +27,42 @@ export class LateReturnDueBackReport extends WebpackReport {
             let headerNode: HTMLDivElement = document.createElement('div');
 
             request.uniqueids.IsSummary = false;
+            request.uniqueids.DueBack = parameters.DueBackDate;
             if (parameters.LateReturns) {
+                globals.Type = 'PASTDUE'
                 request.uniqueids.ReportType = 'PAST_DUE';
                 request.uniqueids.Days = parameters.DaysPastDue;
                 headerText = parameters.DaysPastDue + ' Days Past Due'
 
             }
             if (parameters.DueBack) {
+                globals.Type = 'DUEBACK'
                 request.uniqueids.ReportType = 'DUE_IN';
                 request.uniqueids.Days = parameters.DueBackFewer;
                 headerText = 'Due Back in ' + parameters.DueBackFewer + ' Days'
             }
             if (parameters.DueBackOn) {
+                globals.Type = 'DUEBACK'
                 request.uniqueids.ReportType = 'DUE_DATE';
                 request.uniqueids.DueBack = parameters.DueBackDate;
                 headerText = 'Due Back on ' + parameters.DueBackDate;
             }
-            request.uniqueids.ContactId = parameters.ContactId
-
-            console.log(request)
+            if (parameters.ContactId !== '') { request.uniqueids.ContactId = parameters.ContactId };
+            if (parameters.OfficeLocationId !== '') { request.uniqueids.OfficeLocationId = parameters.OfficeLocationId };
+            if (parameters.DepartmentId !== '') { request.uniqueids.DepartmentId = parameters.DepartmentId };
+            if (parameters.CustomerId !== '') { request.uniqueids.CustomerId = parameters.CustomerId };
+            if (parameters.DealId !== '') { request.uniqueids.DealId = parameters.DealId };
+            if (parameters.InventoryTypeId !== '') { request.uniqueids.InventoryTypeId = parameters.InventoryTypeId };
+            if (parameters.ShowUnit) { globals.ShowUnit = 'true' };
+            if (parameters.ShowReplacement) { globals.ShowReplacement = 'true' };
+            if (parameters.ShowBarCode) { globals.ShowBarCode = 'true' };
+            if (parameters.ShowSerial) { globals.ShowSerial = 'true' };
             // get the Contract
             let contractPromise = Ajax.post<DataTable>(`${apiUrl}/api/v1/latereturnsreport/browse`, authorizationHeader, request)
                 .then((response: DataTable) => {
                     lateReturnDueBack = DataTable.toObjectList(response); // converts res to javascript obj
                     console.log('lateReturnDueBack: ', lateReturnDueBack); // will help in building the handlebars
-
+                    
                     for (var i = 0; i < lateReturnDueBack.length; i++) {
                         if (lateReturnDueBack[i].RowType === 'OrderNumberheader') {
                             lateReturnDueBack[i].OrderDate = lateReturnDueBack[i + 1].OrderDate;
@@ -65,15 +77,16 @@ export class LateReturnDueBackReport extends WebpackReport {
                             lateReturnDueBack[i].OrderPastDue = lateReturnDueBack[i + 1].OrderPastDue;
                         }
                     }
+                    globals.data = lateReturnDueBack;
 
-                    lateReturnDueBack.PrintTime = moment().format('YYYY-MM-DD h:mm:ss A');
-                    lateReturnDueBack.ContractTime = moment(lateReturnDueBack.ContractTime, 'h:mm a').format('h:mm a');
-                    this.renderFooterHtml(lateReturnDueBack);
+                    globals.PrintTime = moment().format('YYYY-MM-DD h:mm:ss A');
+                    globals.ContractTime = moment(globals.ContractTime, 'h:mm a').format('h:mm a');
+                    this.renderFooterHtml(globals.data);
+                    console.log('globals: ', globals);
                     if (this.action === 'Preview' || this.action === 'PrintHtml') {
-                        document.getElementById('pageHeader').innerHTML = this.headerHtml;
                         document.getElementById('pageFooter').innerHTML = this.footerHtml;
                     }
-                    document.getElementById('pageBody').innerHTML = hbReport(lateReturnDueBack);
+                    document.getElementById('pageBody').innerHTML = hbReport(globals);
                     headerNode.innerHTML = headerText;
                     headerNode.style.cssText = 'text-align:center;font-weight:bold;margin:0 auto;font-size:13px;';
                     document.getElementsByClassName('Header')[0].appendChild(headerNode);
@@ -92,6 +105,18 @@ export class LateReturnDueBackReport extends WebpackReport {
         this.footerHtml = hbFooter(model);
         return this.footerHtml;
     }
+
 }
 
 (<any>window).report = new LateReturnDueBackReport();
+
+class globals {
+    ShowUnit = '';
+    ShowReplacement = '';
+    ShowBarCode = '';
+    ShowSerial = '';
+    Type = '';
+    PrintTime = '';
+    ContractTime = '';
+    data: DataTable;
+}

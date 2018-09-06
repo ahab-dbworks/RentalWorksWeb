@@ -5,7 +5,6 @@ import { Ajax } from '../../lib/FwReportLibrary/src/scripts/Ajax';
 import { HandlebarsHelpers } from '../../lib/FwReportLibrary/src/scripts/HandlebarsHelpers';
 import * as moment from 'moment';
 import './index.scss';
-var hbHeader = require("./hbHeader.hbs"); 
 var hbReport = require("./hbReport.hbs"); 
 var hbFooter = require("./hbFooter.hbs"); 
 
@@ -43,7 +42,6 @@ export class CustomerRevenueByTypeReport extends WebpackReport {
                     customerReveneByType.ContractTime = moment(customerReveneByType.ContractTime, 'h:mm a').format('h:mm a');
                     this.renderFooterHtml(customerReveneByType);
                     if (this.action === 'Preview' || this.action === 'PrintHtml') {
-                        document.getElementById('pageHeader').innerHTML = this.headerHtml;
                         document.getElementById('pageFooter').innerHTML = this.footerHtml;
                     }
                     document.getElementById('pageBody').innerHTML = hbReport(customerReveneByType);

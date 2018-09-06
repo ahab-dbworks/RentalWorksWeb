@@ -52,9 +52,6 @@ var lateReturnDueBackFrontEnd = `
                     <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                       <div data-datafield="ShowSerial" data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Show Serial Numbers" style="float:left;max-width:420px;"></div>
                     </div>
-                    <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                      <div data-datafield="ShowRfid" data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Show RFIDs" style="float:left;max-width:420px;"></div>
-                    </div>
                   </div>
                 </div>
                 <div class="flexcolumn" style="max-width:300px;">
