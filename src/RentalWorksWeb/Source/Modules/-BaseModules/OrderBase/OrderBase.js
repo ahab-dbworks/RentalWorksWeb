@@ -45,7 +45,7 @@ class OrderBase {
         }
         FwAppData.apiMethod(true, 'GET', "api/v1/ordertype/" + orderType, null, FwServices.defaultTimeout, function onSuccess(response) {
             $form.find('[data-datafield="CombineActivity"] input').val(response.CombineActivityTabs);
-            let rentalTab = $form.find('[data-type="tab"][data-caption="Rental"]'), salesTab = $form.find('[data-type="tab"][data-caption="Sales"]'), miscTab = $form.find('[data-type="tab"][data-caption="Misc"]'), laborTab = $form.find('[data-type="tab"][data-caption="Labor"]'), usedSaleTab = $form.find('[data-type="tab"][data-caption="Used Sale"]');
+            let rentalTab = $form.find('[data-type="tab"][data-caption="Rental"]'), salesTab = $form.find('[data-type="tab"][data-caption="Sales"]'), miscTab = $form.find('[data-type="tab"][data-caption="Misc"]'), laborTab = $form.find('[data-type="tab"][data-caption="Labor"]'), usedSaleTab = $form.find('[data-type="tab"][data-caption="Used Sale"]'), rate = FwFormField.getValueByDataField($form, 'RateType');
             if (response.CombineActivityTabs === false) {
                 $form.find('[data-datafield="Rental"] input').prop('checked') ? rentalTab.show() : rentalTab.hide();
                 $form.find('[data-datafield="Sales"] input').prop('checked') ? salesTab.show() : salesTab.hide();
@@ -97,8 +97,11 @@ class OrderBase {
             for (var l = 0; l < hiddenCombined.length; l++) {
                 jQuery($combinedGrid.find('[data-mappedfield="' + hiddenCombined[l] + '"]')).parent().hide();
             }
-            if (hiddenRentals.indexOf('WeeklyExtended') === -1) {
+            if (hiddenRentals.indexOf('WeeklyExtended') === -1 && rate === '3WEEK') {
                 $rentalGrid.find('.3weekextended').parent().show();
+            }
+            else if (hiddenRentals.indexOf('WeeklyExtended') === -1 && rate !== '3WEEK') {
+                $rentalGrid.find('.weekextended').parent().show();
             }
         }, null, null);
     }
