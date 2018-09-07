@@ -31,6 +31,9 @@ export class CrewSignInReport extends WebpackReport {
             if (parameters.DepartmentId != '') {
                 request.uniqueids.DepartmentId = parameters.DepartmentId
             }
+            if (parameters.CustomerId != '') {
+                request.uniqueids.CustomerId = parameters.CustomerId
+            }
             if (parameters.DealId != '') {
                 request.uniqueids.DealId = parameters.DealId
             }
