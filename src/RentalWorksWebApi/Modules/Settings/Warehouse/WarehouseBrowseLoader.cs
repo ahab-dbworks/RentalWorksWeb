@@ -24,10 +24,33 @@ namespace WebApi.Modules.Settings.Warehouse
         //------------------------------------------------------------------------------------ 
         protected override void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequest request = null)
         {
+            string locationId = "";
+
+            if (request != null)
+            {
+                if (request.uniqueids != null)
+                {
+                    IDictionary<string, object> uniqueIds = ((IDictionary<string, object>)request.uniqueids);
+                    if (uniqueIds.ContainsKey("LocationId"))
+                    {
+                        locationId = uniqueIds["LocationId"].ToString();
+                    }
+                    if (uniqueIds.ContainsKey("OfficeLocationId"))
+                    {
+                        locationId = uniqueIds["OfficeLocationId"].ToString();
+                    }
+                }
+            }
+
             base.SetBaseSelectQuery(select, qry, customFields, request);
             select.Parse();
-            //select.AddWhere("(xxxtype = 'ABCDEF')"); 
             //addFilterToSelect("UniqueId", "uniqueid", select, request); 
+
+            if (!string.IsNullOrEmpty(locationId))
+            {
+                select.AddWhere("exists (select* from warehouselocation wl where wl.warehouseid = " + TableAlias + ".warehouseid and wl.locationid = @locationid)");
+                select.AddParameter("@locationid", locationId);
+            }
         }
         //------------------------------------------------------------------------------------ 
     }
