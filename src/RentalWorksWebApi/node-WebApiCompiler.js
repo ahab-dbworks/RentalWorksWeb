@@ -111,11 +111,13 @@ class WebApiCompiler {
             if (this.target === WebApiCompiler.TARGET_ALL) {
                 if (this.buildConfiguration === WebApiCompiler.BUILD_CONFIGURATION_DEVELOPMENT) {
                     if (this.buildAction === WebApiCompiler.BUILD_ACTION_BUILD) {
+                        await this.npm_i();
                         await this.clean_api();
                         await this.rmfr_reports();
                         await this.build_webpack_reports();
                         await this.dotnet_build();
                     } else if (this.buildAction === WebApiCompiler.BUILD_ACTION_RUN) {
+                        await this.npm_i();
                         await this.clean_api();
                         await this.rmfr_reports();
                         await this.build_webpack_reports();
@@ -149,10 +151,13 @@ class WebApiCompiler {
                     throw UNSUPPORTED_CONFIGURATION;
                 }
             } else if (this.target === WebApiCompiler.TARGET_REPORTS) {
-                await this.rmfr_reports();
                 if (this.buildAction === WebApiCompiler.BUILD_ACTION_BUILD) {
+                    await this.npm_i();
+                    await this.rmfr_reports();
                     await this.build_webpack_reports();
                 } else if (this.buildAction === WebApiCompiler.BUILD_ACTION_WATCH) {
+                    await this.npm_i();
+                    await this.rmfr_reports();
                     await this.watch_webpack_reports();
                 } else {
                     throw UNSUPPORTED_CONFIGURATION;
