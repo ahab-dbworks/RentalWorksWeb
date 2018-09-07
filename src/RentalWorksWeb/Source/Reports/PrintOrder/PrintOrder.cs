@@ -47,9 +47,9 @@ namespace Web.Source.Reports
                 sb.Replace("[LBLREPORTNAME]", "QUOTE");
             }
 
-            //Image image = Image.FromFile(HttpContext.Current.Server.MapPath("~/App_Data/Client/4WallLogo.png"));
+            //Image image = Image.FromFile(HttpContext.Current.Server.MapPath("~/App_Data/Client/ReportLogo.png"));
             //float printwidth = (image.Width / image.HorizontalResolution);
-            dataUrl = GetDataURL(HttpContext.Current.Server.MapPath("~/App_Data/Client/4WallLogo.png"));
+            dataUrl = GetDataURL(HttpContext.Current.Server.MapPath("~/App_Data/Client/ReportLogo.png"));
             sb.Replace("[CLIENTLOGO]", "<img class=\"clientlogo\" src=\"" + dataUrl + "\" style=\"margin-left: 30px; width:1.225in;\" />");
 
             html = sb.ToString();
