@@ -14,8 +14,9 @@ class WebpackReportsCompiler {
         let plugins = [];
         const reportSourceDirectories = this.getDirectories(path.resolve(__dirname, srcReportDir));
         reportSourceDirectories.forEach((dirPath, index, array) => {
-            const dirName = dirPath.substring(dirPath.lastIndexOf('\\') + 1, dirPath.length);
-            const tsFilePath = path.resolve(__dirname, `${srcReportDir}/${dirName}/index.ts`);;
+            dirPath = dirPath.replace(/\\/g, '/'); // convert Windows backslash to forward slash so paths are the same format as Mac/Linux
+            const dirName = dirPath.substring(dirPath.lastIndexOf('/') + 1, dirPath.length);
+            const tsFilePath = path.resolve(__dirname, `${srcReportDir}/${dirName}/index.ts`).replace(/\\/g, '/');
             if (fs.existsSync(tsFilePath)) {
                 console.log('Found Report at:', tsFilePath);
                 entries[dirName] = `./${srcReportDir}/${dirName}/index.ts`;
