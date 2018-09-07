@@ -46,6 +46,27 @@ class WebApiCompiler {
         await spawn('npm', ['i'], { stdio: 'inherit' });
     }
     //------------------------------------------------------------------------------------
+    async clean_api() {
+        console.log('//------------------------------------------------------------------------------------');
+        console.log('Cleaning compiled files...')
+        console.log('Deleting: ../../lib/Fw/src/FwStandard/bin');
+        await rmfr('../../lib/Fw/src/FwStandard/bin');
+        console.log('Deleting: ../../lib/Fw/src/FwStandard/obj');
+        await rmfr('../../lib/Fw/src/FwStandard/obj');
+        console.log('Deleting: ../../lib/Fw/src/FwCore/bin');
+        await rmfr('../../lib/Fw/src/FwCore/bin');
+        console.log('Deleting: ../../lib/Fw/src/FwCore/obj');
+        await rmfr('../../lib/Fw/src/FwCore/obj');
+        console.log('Deleting: ../../lib/Fw/src/RentalWorksWebLibrary/bin');
+        await rmfr('../RentalWorksWebLibrary/bin');
+        console.log('Deleting: ../../lib/Fw/src/RentalWorksWebLibrary/obj');
+        await rmfr('../RentalWorksWebLibrary/obj');
+        console.log('Deleting: bin');
+        await rmfr('bin');
+        console.log('Deleting: obj');
+        await rmfr('obj');
+    }
+    //------------------------------------------------------------------------------------
     async build_webpack_reports() {
         console.log('//------------------------------------------------------------------------------------');
         console.log('Building Webpack Reports');
@@ -89,16 +110,21 @@ class WebApiCompiler {
         try {
             if (this.target === WebApiCompiler.TARGET_ALL) {
                 if (this.buildConfiguration === WebApiCompiler.BUILD_CONFIGURATION_DEVELOPMENT) {
-                    await this.rmfr_reports();
-                    await this.build_webpack_reports();
                     if (this.buildAction === WebApiCompiler.BUILD_ACTION_BUILD) {
+                        await this.clean_api();
+                        await this.rmfr_reports();
+                        await this.build_webpack_reports();
                         await this.dotnet_build();
                     } else if (this.buildAction === WebApiCompiler.BUILD_ACTION_RUN) {
+                        await this.clean_api();
+                        await this.rmfr_reports();
+                        await this.build_webpack_reports();
                         await this.dotnet_run();
                     } else {
                         throw UNSUPPORTED_CONFIGURATION;
                     }
                 } else if (this.buildConfiguration === WebApiCompiler.BUILD_CONFIGURATION_PRODUCTION) {
+                    await this.clean_api();
                     await this.rmfr_downloads();
                     await this.rmfr_reports();
                     await this.rmfr_publishfolder();
@@ -111,8 +137,10 @@ class WebApiCompiler {
             } else if (this.target === WebApiCompiler.TARGET_API) {
                 if (this.buildConfiguration === WebApiCompiler.BUILD_CONFIGURATION_DEVELOPMENT) {
                     if (this.buildAction === WebApiCompiler.BUILD_ACTION_BUILD) {
+                        await this.clean_api();
                         await this.dotnet_build();
                     } else if (this.buildAction === WebApiCompiler.BUILD_ACTION_RUN) {
+                        await this.clean_api();
                         await this.dotnet_run();
                     } else {
                         throw UNSUPPORTED_CONFIGURATION;
