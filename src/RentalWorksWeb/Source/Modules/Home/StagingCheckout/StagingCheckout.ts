@@ -190,6 +190,7 @@ class StagingCheckout {
             try {
                 this.contractId = response.ContractId;
                 $checkedOutItemGridControl = $form.find('[data-name="CheckedOutItemGrid"]');
+                $checkedOutItemGridControl.data('ContractId', this.contractId); // Stores ContractId on grid for dblclick in grid controller
                 $checkedOutItemGridControl.data('ondatabind', request => {
                     request.uniqueids = {
                         ContractId: this.contractId
@@ -198,10 +199,9 @@ class StagingCheckout {
                     request.pagesize = 10;
                 })
                 FwBrowse.search($checkedOutItemGridControl);
-
-
-
+             
                 $stagedItemGridControl = $form.find('[data-name="StagedItemGrid"]');
+                $stagedItemGridControl.data('ContractId', this.contractId); // Stores ContractId on grid for dblclick in grid controller
                 $stagedItemGridControl.data('ondatabind', function (request) {
                     request.orderby = "ItemOrder";
                     request.uniqueids = {
@@ -210,8 +210,8 @@ class StagingCheckout {
                     };
                     request.pagesize = MAX_PAGE_SIZE;
                 })
-                FwBrowse.search($stagedItemGridControl);
 
+                FwBrowse.search($stagedItemGridControl);
             }
             catch (ex) {
                 FwFunc.showError(ex);
@@ -476,6 +476,7 @@ class StagingCheckout {
         $stagedItemGrid = $form.find('div[data-grid="StagedItemGrid"]');
         $stagedItemGridControl = jQuery(jQuery('#tmpl-grids-StagedItemGridBrowse').html());
         $stagedItemGrid.empty().append($stagedItemGridControl);
+
         $stagedItemGridControl.data('ondatabind', function (request) {
             request.uniqueids = {
                 OrderId: orderId,
@@ -550,17 +551,15 @@ class StagingCheckout {
             }, 500);
         });
 
-        $form.find('[data-name="StagedItemGrid"]').dblclick(event => {
-            let $selectedCheckBoxes, $stagedItemGrid, orderId, barCodeFieldValue, quantityFieldValue, barCode, iCode, quantity, orderItemId, vendorId, $checkedOutItemGrid;
-            $stagedItemGrid = $form.find('[data-name="StagedItemGrid"]');
-            $checkedOutItemGrid = $form.find('[data-name="CheckedOutItemGrid"]');
-            $selectedCheckBoxes = $stagedItemGrid.find('.cbselectrow:checked');
-            console.log('event: ', event);
-            console.log('$selectedCheckBoxes: ', $selectedCheckBoxes);
-            console.log('$stagedItemGrid: ', $stagedItemGrid);
-
-
-        });
+        //$form.find('[data-name="StagedItemGrid"]').dblclick(event => {
+        //    let $selectedCheckBoxes, $stagedItemGrid, orderId, barCodeFieldValue, quantityFieldValue, barCode, iCode, quantity, orderItemId, vendorId, $checkedOutItemGrid;
+        //    $stagedItemGrid = $form.find('[data-name="StagedItemGrid"]');
+        //    $checkedOutItemGrid = $form.find('[data-name="CheckedOutItemGrid"]');
+        //    $selectedCheckBoxes = $stagedItemGrid.find('.cbselectrow:checked');
+        //    console.log('event: ', event);
+        //    console.log('$selectedCheckBoxes: ', $selectedCheckBoxes);
+        //    console.log('$stagedItemGrid: ', $stagedItemGrid);
+        //});
 
         // BarCode / I-Code change
         $form.find('[data-datafield="Code"] input').on('keydown', e => {
