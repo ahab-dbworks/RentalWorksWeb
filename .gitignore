@@ -92,3 +92,5 @@ sync_RentalWorksWeb_to_TrakItWorksWeb\.ps1\.log
 
 /SecurityTreeBuilder/obj/
 /SecurityTreeBuilder/bin/
+
+.DS_Store
