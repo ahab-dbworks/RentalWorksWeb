@@ -1195,6 +1195,8 @@ namespace FwStandard.SqlServer
                 Console.WriteLine("------------------------------------------------------------------------------------");
                 Console.WriteLine($"{logTime} - An error occured during the execution of an SQL Query.");
                 Console.WriteLine("------------------------------------------------------------------------------------");
+                Console.WriteLine(ex.Message);
+                Console.WriteLine("------------------------------------------------------------------------------------");
                 Console.WriteLine(this.QryTextDebug);
                 Console.WriteLine("------------------------------------------------------------------------------------");
                 throw ex;
