@@ -332,6 +332,7 @@ class RentalInventory extends InventoryBase {
     }
     ;
     afterLoad($form) {
+        super.afterLoad($form);
         var self = this;
         var $itemLocationTaxGrid;
         var $rentalInventoryWarehouseGrid;
@@ -355,37 +356,21 @@ class RentalInventory extends InventoryBase {
         $containerWarehouseGrid = $form.find('[data-name="ContainerWarehouseGrid"]');
         $rentalInventoryWarehouseGrid = $form.find('[data-name="RentalInventoryWarehouseGrid"]');
         $itemLocationTaxGrid = $form.find('[data-name="ItemLocationTaxGrid"]');
-        FwBrowse.search($itemLocationTaxGrid);
         $inventoryAvailabilityGrid = $form.find('[data-name="InventoryAvailabilityGrid"]');
-        FwBrowse.search($inventoryAvailabilityGrid);
         $inventoryConsignmentGrid = $form.find('[data-name="InventoryConsignmentGrid"]');
-        FwBrowse.search($inventoryConsignmentGrid);
         $inventoryCompleteKitGrid = $form.find('[data-name="InventoryCompleteKitGrid"]');
-        FwBrowse.search($inventoryCompleteKitGrid);
         $inventorySubstituteGrid = $form.find('[data-name="InventorySubstituteGrid"]');
-        FwBrowse.search($inventorySubstituteGrid);
         $inventoryCompatibilityGrid = $form.find('[data-name="InventoryCompatibilityGrid"]');
-        FwBrowse.search($inventoryCompatibilityGrid);
         $inventoryQcGrid = $form.find('[data-name="InventoryQcGrid"]');
-        FwBrowse.search($inventoryQcGrid);
         $inventoryAttributeValueGrid = $form.find('[data-name="InventoryAttributeValueGrid"]');
-        FwBrowse.search($inventoryAttributeValueGrid);
         $inventoryVendorGrid = $form.find('[data-name="InventoryVendorGrid"]');
-        FwBrowse.search($inventoryVendorGrid);
         $inventoryPrepGrid = $form.find('[data-name="InventoryPrepGrid"]');
-        FwBrowse.search($inventoryPrepGrid);
         $inventoryContainerGrid = $form.find('[data-name="InventoryContainerGrid"]');
-        FwBrowse.search($inventoryContainerGrid);
         $inventoryCompleteGrid = $form.find('[data-name="InventoryCompleteGrid"]');
-        FwBrowse.search($inventoryCompleteGrid);
         $inventoryWarehouseStagingGrid = $form.find('[data-name="InventoryWarehouseStagingGrid"]');
-        FwBrowse.search($inventoryWarehouseStagingGrid);
         $inventoryKitGrid = $form.find('[data-name="InventoryKitGrid"]');
-        FwBrowse.search($inventoryKitGrid);
         $wardrobeInventoryColorGrid = $form.find('[data-name="WardrobeInventoryColorGrid"]');
-        FwBrowse.search($wardrobeInventoryColorGrid);
         $wardrobeInventoryMaterialGrid = $form.find('[data-name="WardrobeInventoryMaterialGrid"]');
-        FwBrowse.search($wardrobeInventoryMaterialGrid);
         this.afterLoadSetClassification($form);
         let classificationType = FwFormField.getValueByDataField($form, 'Classification');
         if (classificationType == 'N') {
@@ -394,8 +379,8 @@ class RentalInventory extends InventoryBase {
             FwBrowse.search($containerWarehouseGrid);
             let $containerBrowse;
             $containerBrowse = this.openContainerBrowse($form);
-            FwModule.openSubModuleTab($form, $containerBrowse);
-            jQuery('.tab.submodule.active').find('.caption').html(`Container Assets`);
+            $form.find('.containerassetstabpage').append($containerBrowse);
+            $form.find('.containerassetstab').show();
             $form.find('.settingstab').show();
         }
         else {
@@ -427,7 +412,7 @@ class RentalInventory extends InventoryBase {
         $browse = ContainerController.openBrowse();
         containerId = FwFormField.getValueByDataField($form, 'ContainerId');
         $browse.data('ondatabind', function (request) {
-            request.activeview = ContainerController.ActiveView;
+            request.activeview = 'ALL';
             request.uniqueids = {
                 ContainerId: containerId
             };
