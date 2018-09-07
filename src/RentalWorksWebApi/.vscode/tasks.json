@@ -35,6 +35,16 @@
             "type": "npm",
             "script": "publish",
             "problemMatcher": []
+        },
+        {
+            "type": "npm",
+            "script": "build-reports-dev",
+            "problemMatcher": []
+        },
+        {
+            "type": "npm",
+            "script": "build-reports-prod",
+            "problemMatcher": []
         }
     ]
 }
