@@ -80,12 +80,10 @@
               <td class="first-order">{{OrderNumber}}</td>
               <td class="OrderNumberHeader">{{OrderDate}}</td>
               <td class="OrderNumberHeader">{{OrderDescription}}</td>
-              <td class="OrderNumberHeader">{{Agent}}</td>
-              <td class="OrderNumberHeader"></td>
+              <td class="OrderNumberHeader" colspan="2">{{Agent}}</td>
               <td class="OrderNumberHeader">{{OrderedByName}}</td>
               <td class="OrderNumberHeader"></td>
-              <td class="OrderNumberHeader">{{BillDateRange}}</td>
-              <td class="OrderNumberHeader number">{{OrderUnitValue}}</td>
+              <td class="OrderNumberHeader" colspan="2">{{BillDateRange}}</td>
               <td class="OrderNumberHeader number">{{OrderReplacementCost}}</td>
               <td class="OrderNumberHeader number">{{OrderFromDate}}</td>
               <td class="OrderNumberHeader number">{{OrderToDate}}</td>
@@ -119,10 +117,10 @@
       </tr>
     </table>
   </td>-->
-            <td class="first-order order-columnheadings" colspan="2">
+            <td class="first-order order-columnheadings">
               <div>I-Code</div>
             </td>
-            <td class="order-columnheadings">
+            <td class="order-columnheadings" colspan="2" style="width:100%">
               <div>Description</div>
             </td>
             {{#ifEquals ../ShowBarCode "true"}}
@@ -144,28 +142,28 @@
             </td>
             {{#ifEquals ../ShowUnit "true"}}
             <td class="order-columnheadings">
-              <div>Unit Value</div>
+              <div style="text-align: right;">Unit Value</div>
             </td>
             {{else}}
             <td class="order-columnheadings"></td>
             {{/ifEquals}}
             {{#ifEquals ../ShowReplacement "true"}}
             <td class="order-columnheadings">
-              <div>Replacement Cost</div>
+              <div style="text-align: right;">Replacement Cost</div>
             </td>
             {{else}}
             <td class="order-columnheadings"></td>
             {{/ifEquals}}
             {{#ifEquals ../ShowUnit "true"}}
             <td class="order-columnheadings">
-              <div>Unit Value Extended</div>
+              <div style="text-align: right;">Unit Value Extended</div>
             </td>
             {{else}}
             <td></td>
             {{/ifEquals}}
             {{#ifEquals ../ShowReplacement "true"}}
             <td class="order-columnheadings">
-              <div>Replacement Cost Extended</div>
+              <div style="text-align: right;">Replacement Cost Extended</div>
             </td>
             {{else}}
             <td class="order-columnheadings"></td>
@@ -175,12 +173,12 @@
             <td class="first-detail">{{ICode}}</td>
             <td class="" colspan="2">{{Description}}</td>
             {{#ifEquals ../ShowBarCode "true"}}
-            <td class="number">{{BarCode}}</td>
+            <td>{{BarCode}}</td>
             {{else}}
             <td></td>
             {{/ifEquals}}
             {{#ifEquals ../ShowSerial "true"}}
-            <td class="number">{{SerialNumber}}</td>
+            <td>{{SerialNumber}}</td>
             {{else}}
             <td></td>
             {{/ifEquals}}

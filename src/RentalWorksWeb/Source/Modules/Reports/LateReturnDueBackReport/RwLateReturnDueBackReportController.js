@@ -124,6 +124,10 @@ class RwLateReturnDueBackReport extends FwWebApiReport {
         FwFormField.setValueByDataField($form, 'DaysPastDue', 1);
         FwFormField.setValueByDataField($form, 'DueBackFewer', 0);
         FwFormField.setValueByDataField($form, 'DueBackDate', today);
+        FwFormField.setValueByDataField($form, 'ShowUnit', 'T');
+        FwFormField.setValueByDataField($form, 'ShowReplacement', 'T');
+        FwFormField.setValueByDataField($form, 'ShowBarCode', 'T');
+        FwFormField.setValueByDataField($form, 'ShowSerial', 'T');
         lateReturn.on('change', (e) => {
             if (jQuery(e.currentTarget).prop('checked')) {
                 dueBack.prop('checked', false);
