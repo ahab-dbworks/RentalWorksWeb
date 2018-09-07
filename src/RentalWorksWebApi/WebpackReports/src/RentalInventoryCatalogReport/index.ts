@@ -34,6 +34,7 @@ export class RentalInventoryCatalogReport extends WebpackReport {
             if (parameters.WarehouseCatalogId) {
                 request.uniqueids.WarehouseCatalogId = parameters.WarehouseCatalogId;
             }
+            request.orderby = "Warehouse,InventoryType,Category,ICode";
             let promise = Ajax.post<DataTable>(`${apiUrl}/api/v1/rentalinventorycatalogreport/browse`, authorizationHeader, request)
                 .then((response: DataTable) => {
                     data.Rows = DataTable.toObjectList(response);
