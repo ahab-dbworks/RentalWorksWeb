@@ -353,6 +353,7 @@ html.theme-material .fwbrowse[data-type="Validation"] table tbody tr.selected:no
 html.theme-material .fwbrowse table tbody tr.selected:not(.rowbackgroundcolor):not(.rowtextcolor) td {background-color:#2196f3 !important;color:#ffffff !important;}
 html.theme-material .fwbrowse table tbody tr:hover td {background-color:#eeeeee;}
 
+
 /*------------------------------------------------------------------------------------------------*/
 /*Collapsible grid flex flow col*/
 @media only screen and (max-width: 1200px) {
@@ -391,9 +392,10 @@ html.theme-material .fwbrowse table tbody tr:hover td {background-color:#eeeeee;
         width: 46%;
         height: 1em !important;
     }
+
     div[data-type="Grid"][data-flexgrid="true"] table tbody tr td.column:last-of-type {
         right: 0;
-        position:absolute;
+        position: absolute;
     }
 
     div[data-type="Grid"][data-flexgrid="true"] table tbody tr td.column:first-of-type,
@@ -411,14 +413,14 @@ html.theme-material .fwbrowse table tbody tr:hover td {background-color:#eeeeee;
     }
 
     div[data-type="Grid"][data-flexgrid="true"] tr td div {
-        min-width:unset !important;
-        padding-right:.5em;
+        min-width: unset !important;
+        padding-right: .5em;
     }
 
-    div[data-type="Grid"][data-flexgrid="true"] tr td div[data-browsedatatype="note"] i {
-        position: relative;
-        left: 5em;
-    }
+        div[data-type="Grid"][data-flexgrid="true"] tr td div[data-browsedatatype="note"] i {
+            position: relative;
+            left: 5em;
+        }
 
     div[data-type="Grid"][data-flexgrid="true"] tr td.cellColor::after {
         left: 8em !important;
@@ -427,6 +429,6 @@ html.theme-material .fwbrowse table tbody tr:hover td {background-color:#eeeeee;
     div[data-type="Grid"][data-flexgrid="true"] tr td.tdselectrow div.divselectrow,
     div[data-type="Grid"][data-flexgrid="true"] tr td.browsecontextmenucell div.browsecontextmenu {
         line-height: 6em;
-        overflow:unset !important;
+        overflow: unset !important;
     }
 }

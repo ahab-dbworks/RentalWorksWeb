@@ -2364,6 +2364,12 @@ class FwBrowseClass {
             $tbody.prepend($tr);
             this.setRowNewMode($control, $tr);
             this.addSaveAndCancelButtonToRow($control, $tr);
+
+            // auto focus the first input element
+            let $inputs = $tr.find('.field input[type!="hidden"]:visible:enabled,select:visible:enabled,textarea:visible:enabled');
+            if ($inputs.length > 0) {
+                $inputs.eq(0).focus();
+            }
         }
     }
     //---------------------------------------------------------------------------------
@@ -2393,11 +2399,6 @@ class FwBrowseClass {
                 }
             }
         });
-
-        $inputs = $tr.find('input[type!="hidden"]:visible,select:visible,textarea:visible');
-        if ($inputs.length > 0) {
-            $inputs.eq(0).select();
-        }
 
         // Applies custom defaults to a grid control
         if (($control.attr('data-type') == 'Grid') && (typeof $control.attr('data-controller') !== 'undefined') && ($control.attr('data-controller') !== '')) {
@@ -2574,12 +2575,6 @@ class FwBrowseClass {
                         me.setFieldEditMode($control, $tr, $field);
                     }
                 });
-                if ($tr.hasClass('newmode')) {
-                    let $inputs = $tr.find('input[type!="hidden"]:visible,select:visible,textarea:visible');
-                    if ($inputs.length > 0) {
-                        $inputs.eq(0).select();
-                    }
-                }
 
                 me.addSaveAndCancelButtonToRow($control, $tr);
 

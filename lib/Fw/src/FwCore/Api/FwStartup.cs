@@ -219,7 +219,17 @@ namespace FwCore.Api
                .SetPreflightMaxAge(TimeSpan.FromDays(7))); // this line keeps the browser from pre-flighting every request
 
             //app.UseDefaultFiles(); // Call first before app.UseStaticFiles()
-            app.UseStaticFiles(); // For the wwwroot folder
+            //app.UseStaticFiles(); // For the wwwroot folder
+
+            // For the wwwroot folder
+            app.UseStaticFiles(new StaticFileOptions()
+            {
+                OnPrepareResponse = context =>
+                {
+                    context.Context.Response.Headers.Add("Cache-Control", "no-cache, no-store");
+                    context.Context.Response.Headers.Add("Expires", "-1");
+                }
+            });
 
             app.UseAuthentication();
             app.UseMvc();

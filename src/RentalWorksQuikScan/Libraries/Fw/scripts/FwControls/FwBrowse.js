@@ -2078,6 +2078,10 @@ class FwBrowseClass {
             $tbody.prepend($tr);
             this.setRowNewMode($control, $tr);
             this.addSaveAndCancelButtonToRow($control, $tr);
+            let $inputs = $tr.find('.field input[type!="hidden"]:visible:enabled,select:visible:enabled,textarea:visible:enabled');
+            if ($inputs.length > 0) {
+                $inputs.eq(0).focus();
+            }
         }
     }
     setRowNewMode($control, $tr) {
@@ -2096,11 +2100,13 @@ class FwBrowseClass {
             else {
                 me.setFieldEditMode($control, $tr, $field);
             }
+            if ($control.attr('data-type') === 'Grid' && $control.attr('data-flexgrid') === 'true') {
+                if ($field.attr('data-browsedatatype') !== 'key') {
+                    let header = $field.attr('data-caption');
+                    $field.parents('td').attr('data-th', `${header}:`);
+                }
+            }
         });
-        $inputs = $tr.find('input[type!="hidden"]:visible,select:visible,textarea:visible');
-        if ($inputs.length > 0) {
-            $inputs.eq(0).select();
-        }
         if (($control.attr('data-type') == 'Grid') && (typeof $control.attr('data-controller') !== 'undefined') && ($control.attr('data-controller') !== '')) {
             var controller;
             controller = $control.attr('data-controller');
@@ -2258,12 +2264,6 @@ class FwBrowseClass {
                     me.setFieldEditMode($control, $tr, $field);
                 }
             });
-            if ($tr.hasClass('newmode')) {
-                let $inputs = $tr.find('input[type!="hidden"]:visible,select:visible,textarea:visible');
-                if ($inputs.length > 0) {
-                    $inputs.eq(0).select();
-                }
-            }
             me.addSaveAndCancelButtonToRow($control, $tr);
             if (($control.attr('data-type') == 'Grid') && (typeof $control.attr('data-controller') !== 'undefined') && ($control.attr('data-controller') !== '')) {
                 var controller;

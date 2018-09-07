@@ -23,15 +23,13 @@ namespace FwStandard.Reporting
             await Downloader.CreateDefault().DownloadRevisionAsync(CHROMIUM_REVISION);
             using (var browser = await Puppeteer.LaunchAsync(new LaunchOptions { Headless = true }, CHROMIUM_REVISION))
             {
+                StringBuilder jsConsole = new StringBuilder();
                 using (var page = await browser.NewPageAsync())
                 {
-                    page.Console += Page_Console;
                     await page.SetViewportAsync(new ViewPortOptions() { /*Width = 816, Height = 1056*/ });
                     NavigationOptions navOptions = new NavigationOptions();
                     navOptions.WaitUntil = new WaitUntilNavigation[] { WaitUntilNavigation.Networkidle0 };
-                    navOptions.Timeout = 3600; // 1 hour
                     await page.GoToAsync(reportUrl, navOptions);
-                    StringBuilder jsConsole = new StringBuilder();
                     page.Console += delegate(object sender, ConsoleEventArgs e)
                     {
                         if (e.Message.Type == ConsoleType.Error)
@@ -40,30 +38,26 @@ namespace FwStandard.Reporting
                         }
                     };
                     var renderReportResponse = await page.EvaluateFunctionAsync("(apiUrl, authorizationHeader, parameters) => (report.renderReport(apiUrl, authorizationHeader, parameters))", apiUrl, authorizationHeader, parameters);
-                    await page.WaitForFunctionAsync("() => (report.renderReportCompleted === true)");
+                    WaitForFunctionOptions waitOptions = new WaitForFunctionOptions();
+                    waitOptions.Timeout = 3600000; // wait for up to an hour for renderReportCompleted to be set to true
+                    await page.WaitForFunctionAsync("() => (report.renderReportCompleted === true)", waitOptions);
                     pdfOptions.HeaderTemplate = await page.EvaluateExpressionAsync<string>("report.headerHtml");
                     pdfOptions.FooterTemplate = await page.EvaluateExpressionAsync<string>("report.footerHtml");
                     await page.PdfAsync(pdfOutputPath, pdfOptions);
-                    Task taskCleanUpPdfDirectory = Task.Run(() =>
-                    {
-                        string pdfDirectory = Path.GetDirectoryName(pdfOutputPath);
-                        string[] filePaths = Directory.GetFiles(pdfDirectory, "*.pdf");
-                        for(int i = 0; i < filePaths.Length; i++)
-                        {
-                            if (File.GetLastWriteTime(filePaths[i]) < DateTime.Today.AddDays(-7))
-                            {
-                                File.Delete(filePaths[i]);
-                            }
-                        }
-                    });
-                    return jsConsole.ToString();
-                }
-            }
-        }
 
-        private static void Page_Console(object sender, ConsoleEventArgs e)
-        {
-            var message = e.Message;
+                    // Clean up pdf directory, a different approach is probably needed so this isn't getting fired off by a bunch of users at the same time
+                    string pdfDirectory = Path.GetDirectoryName(pdfOutputPath);
+                    string[] filePaths = Directory.GetFiles(pdfDirectory, "*.pdf");
+                    for (int i = 0; i < filePaths.Length; i++)
+                    {
+                        if (File.GetLastWriteTime(filePaths[i]) < DateTime.Today.AddDays(-7))
+                        {
+                            File.Delete(filePaths[i]);
+                        }
+                    }
+                }
+                return jsConsole.ToString();
+            }
         }
 
         public async static Task EmailPdfAsync(string fromusersid, string uniqueid, string title, string from, string to, string cc, string subject, string body, string pdfPath, FwApplicationConfig appConfig)

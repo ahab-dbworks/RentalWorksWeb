@@ -1,21 +1,21 @@
-﻿class FwBrowseColumn_validationClass implements IFwBrowseColumn {
+class FwBrowseColumn_validationClass implements IFwBrowseColumn {
     //---------------------------------------------------------------------------------
     databindfield($browse, $field, dt, dtRow, $tr): void {
         var displayFieldValue = dtRow[dt.ColumnIndex[$field.attr('data-browsedisplayfield')]];
         $field.attr('data-originaltext', displayFieldValue);
-    };
+    }
     //---------------------------------------------------------------------------------
     getFieldUniqueId($browse, $tr, $field, uniqueid, originalvalue): void {
         if ($tr.hasClass('editmode')) {
             uniqueid.value = $field.find('input.value').val();
         }
-    };
+    }
     //---------------------------------------------------------------------------------
     getFieldValue($browse, $tr, $field, field, originalvalue): void {
         if (($tr.hasClass('editmode')) || ($tr.hasClass('newmode'))) {
             field.value = $field.find('input.value').val();
         }
-    };
+    }
     //---------------------------------------------------------------------------------
     setFieldValue($browse: JQuery, $tr: JQuery, $field: JQuery, data: FwBrowse_SetFieldValueData): void {
         $field.find('.value').val(data.value);
@@ -30,10 +30,10 @@
             isModified = currentValue !== originalValue;
         }
         return isModified;
-    };
+    }
     //---------------------------------------------------------------------------------
     setFieldViewMode($browse, $tr, $field): void {
-        $field.data('selectthetextbox', false);
+        $field.data('autoselect', false);
         var originaltext = (typeof $field.attr('data-originaltext') === 'string') ? $field.attr('data-originaltext') : '';
         var showPeek = false;
         let html = [];
@@ -50,10 +50,10 @@
         $field.html(originaltext + htmlString);
         $field.on('click', function() {
             if ($field.attr('data-formreadonly') !== 'true') {
-                $field.data('selectthetextbox', true);
+                $field.data('autoselect', true);
             }
         });
-    };
+    }
     //---------------------------------------------------------------------------------
     setFieldEditMode($browse, $tr, $field): void {
         var validationName, validationFor, $valuefield, $textfield, $btnvalidate;
@@ -81,10 +81,10 @@
         $field.html(htmlString);
         this.setFieldValue($browse, $tr, $field, { value: originalvalue, text: originaltext });
         FwValidation.init($field);
-        if ($field.data('selectthetextbox') === true) {
-            $field.data('selectthetextbox', false);
-            //$field.find('.text').select();
-            $field.find('.btnvalidate').click();
+        if ($field.data('autoselect') === true) {
+            $field.data('autoselect', false);
+            $field.find('.text').select();
+            //$field.find('.btnvalidate').click();
         }
     };
     //---------------------------------------------------------------------------------
