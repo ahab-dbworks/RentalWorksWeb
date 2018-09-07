@@ -29,7 +29,6 @@ class StagedItemGrid {
                 request.OrderItemId = orderItemId;
                 request.VendorId = vendorId;
             }
-            console.log('request: ', request);
             if (typeof $control.data('ContractId') !== 'undefined') {
                 FwAppData.apiMethod(true, 'POST', `api/v1/checkout/movestageditemtoout`, request, FwServices.defaultTimeout, response => {
                     FwBrowse.search($checkedOutItemGrid);

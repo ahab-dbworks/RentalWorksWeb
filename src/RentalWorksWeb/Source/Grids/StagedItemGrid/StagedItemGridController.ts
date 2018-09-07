@@ -1,13 +1,15 @@
 ﻿class StagedItemGrid {
     Module: string = 'StagedItemGrid';
     apiurl: string = 'api/v1/stageditem';
+    //----------------------------------------------------------------------------------------------
     generateRow($control, $generatedtr) {
+        //----------------------------------------------------------------------------------------------
         FwBrowse.setAfterRenderRowCallback($control, ($tr: JQuery, dt: FwJsonDataTable, rowIndex: number) => {
             $tr.dblclick(() => {
                 moveStagedItemToOut($control, $tr);
             })
         });
-
+        //----------------------------------------------------------------------------------------------
         function moveStagedItemToOut($control, $tr) {
             let $form, $stagedItemGrid, $checkedOutItemGrid, barCode, iCode, orderItemId, vendorId, request: any = {}
 
@@ -29,7 +31,6 @@
                 request.OrderItemId = orderItemId;
                 request.VendorId = vendorId;
             }
-            console.log('request: ', request)
 
             if (typeof $control.data('ContractId') !== 'undefined') {
                 FwAppData.apiMethod(true, 'POST', `api/v1/checkout/movestageditemtoout`, request, FwServices.defaultTimeout, response => {
@@ -45,6 +46,6 @@
         }
     };
 }
+//----------------------------------------------------------------------------------------------
 
 var StagedItemGridController = new StagedItemGrid();
-//----------------------------------------------------------------------------------------------

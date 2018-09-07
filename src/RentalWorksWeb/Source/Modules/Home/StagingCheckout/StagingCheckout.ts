@@ -219,6 +219,7 @@ class StagingCheckout {
         }, null, null);
     };
     //----------------------------------------------------------------------------------------------
+    // There are corresponding double click events in the Staged Item Grid controller 
     moveStagedItemToOut($form: JQuery): void {
         let $selectedCheckBoxes, $stagedItemGrid, orderId, barCodeFieldValue, quantityFieldValue, barCode, iCode, quantity, orderItemId, vendorId, $checkedOutItemGrid, successSound, errorSound, request: any = {};
         successSound = new Audio(this.successSoundFileName);
@@ -262,7 +263,6 @@ class StagingCheckout {
             }, null, null);
         } else {
             if ($selectedCheckBoxes.length !== 0) {
-                console.log('$selectedCheckBoxes.length before loop: ', $selectedCheckBoxes.length)
 
                 let responseCount = 0;
                 for (let i = 0; i < $selectedCheckBoxes.length; i++) {
@@ -285,12 +285,10 @@ class StagingCheckout {
                     }
                     FwAppData.apiMethod(true, 'POST', `api/v1/checkout/movestageditemtoout`, request, FwServices.defaultTimeout, response => {
                         responseCount++;
-                        console.log('responseCount in res: ', responseCount)
                         if (responseCount === $selectedCheckBoxes.length) {
                             setTimeout(() => {
                                 FwBrowse.search($checkedOutItemGrid);
                                 FwBrowse.search($stagedItemGrid);
-                                console.log(true)
                                 }, 0);
                         }
                     }, function onError(response) {
@@ -308,6 +306,7 @@ class StagingCheckout {
         }
     };
     //----------------------------------------------------------------------------------------------
+    // There are corresponding double click events in the Checked Out Item Grid controller 
     moveOutItemToStaged($form: JQuery): void {
         let $selectedCheckBoxes, $stagedItemGrid, orderId, barCodeFieldValue, barCode, iCode, quantityFieldValue, quantity, orderItemId, vendorId, $checkedOutItemGrid, successSound, errorSound, request: any = {};
         successSound = new Audio(this.successSoundFileName);
@@ -353,7 +352,6 @@ class StagingCheckout {
         } else {
             if ($selectedCheckBoxes.length !== 0) {
                 let responseCount = 0;
-                console.log('$selectedCheckBoxes.length before of loop: ', $selectedCheckBoxes.length)
 
                 for (let i = 0; i < $selectedCheckBoxes.length; i++) {
                     barCode = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="BarCode"]').attr('data-originalvalue');
@@ -375,13 +373,11 @@ class StagingCheckout {
                     }
                     FwAppData.apiMethod(true, 'POST', `api/v1/checkout/moveoutitemtostaged`, request, FwServices.defaultTimeout, response => {
                         responseCount++;
-                        console.log('responseCount in res: ', responseCount)
 
                         if (responseCount === $selectedCheckBoxes.length) {
                             setTimeout(() => {
                                 FwBrowse.search($checkedOutItemGrid);
                                 FwBrowse.search($stagedItemGrid);
-                                console.log(true);
                             }, 0);
                         }
                     }, function onError(response) {
@@ -550,17 +546,6 @@ class StagingCheckout {
                 FwBrowse.search($stageQuantityItemGrid);
             }, 500);
         });
-
-        //$form.find('[data-name="StagedItemGrid"]').dblclick(event => {
-        //    let $selectedCheckBoxes, $stagedItemGrid, orderId, barCodeFieldValue, quantityFieldValue, barCode, iCode, quantity, orderItemId, vendorId, $checkedOutItemGrid;
-        //    $stagedItemGrid = $form.find('[data-name="StagedItemGrid"]');
-        //    $checkedOutItemGrid = $form.find('[data-name="CheckedOutItemGrid"]');
-        //    $selectedCheckBoxes = $stagedItemGrid.find('.cbselectrow:checked');
-        //    console.log('event: ', event);
-        //    console.log('$selectedCheckBoxes: ', $selectedCheckBoxes);
-        //    console.log('$stagedItemGrid: ', $stagedItemGrid);
-        //});
-
         // BarCode / I-Code change
         $form.find('[data-datafield="Code"] input').on('keydown', e => {
             if (e.which == 9 || e.which == 13) {

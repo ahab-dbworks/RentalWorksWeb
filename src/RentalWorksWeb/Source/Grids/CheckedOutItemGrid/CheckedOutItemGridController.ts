@@ -1,15 +1,16 @@
 ﻿class CheckedOutItemGrid {
     Module: string = 'CheckedOutItemGrid';
     apiurl: string = 'api/v1/checkedoutitem';
-
+    //----------------------------------------------------------------------------------------------
     generateRow($control, $generatedtr) {
+        //----------------------------------------------------------------------------------------------
         FwBrowse.setAfterRenderRowCallback($control, ($tr: JQuery, dt: FwJsonDataTable, rowIndex: number) => {
             $tr.dblclick(() => {
-                moveStagedItemToOut($control, $tr);
+                moveOutItemToStaged($control, $tr);
             })
         });
-
-        function moveStagedItemToOut($control, $tr) {
+        //----------------------------------------------------------------------------------------------
+        function moveOutItemToStaged($control, $tr) {
             let $form, $stagedItemGrid, $checkedOutItemGrid, barCode, iCode, orderItemId, vendorId, request: any = {}
 
             $form = $control.closest('.fwform');
@@ -30,7 +31,6 @@
                 request.OrderItemId = orderItemId;
                 request.VendorId = vendorId;
             }
-            console.log('request: ', request)
 
             if (typeof $control.data('ContractId') !== 'undefined') {
                 FwAppData.apiMethod(true, 'POST', `api/v1/checkout/moveoutitemtostaged`, request, FwServices.defaultTimeout, response => {
@@ -46,6 +46,6 @@
         }
     };
 }
+//----------------------------------------------------------------------------------------------
 
 var CheckedOutItemGridController = new CheckedOutItemGrid();
-//----------------------------------------------------------------------------------------------
