@@ -47,12 +47,12 @@
     //---------------------------------------------------------------------------------
     setFieldViewMode($browse: JQuery, $tr: JQuery, $field: JQuery): void {
         var me = this;
-        $field.data('autoselect', false);
         var originalCheckedValue = false;
         var originalvalue = (typeof $field.attr('data-originalvalue') === 'string') ? $field.attr('data-originalvalue') : '';
         if (originalvalue === 'T' || originalvalue === 'Y' || originalvalue === 'true') {
             originalCheckedValue = true;
         }
+        $field.data('checkthebox', originalCheckedValue);
         let html = [];
         html.push('<div class="checkboxwrapper">');
         html.push('  <input class="value" type="checkbox" disabled="disabled" style="box-sizing:border-box;pointer-events:none;" />');  // click events don't bubble to parent on disabled inputs unless pointer-events:none is set
@@ -62,7 +62,7 @@
         $checkboxwrapper.on('click', 'label', function (e: JQuery.Event) {
             try {
                 e.stopPropagation();
-                $field.data('autoselect', !originalCheckedValue);
+                $field.data('checkthebox', !originalCheckedValue);
                 FwBrowse.setRowEditMode($browse, $tr);
             } catch (ex) {
                 FwFunc.showError(ex);
@@ -73,7 +73,6 @@
     }
     //---------------------------------------------------------------------------------
     setFieldEditMode($browse: JQuery, $tr: JQuery, $field: JQuery): void {
-        var checked = false;
         var cbuniqueId = FwApplication.prototype.uniqueId(10);
         var originalvalue = (typeof $field.attr('data-originalvalue') === 'string') ? $field.attr('data-originalvalue') : '';
         let html = [];
@@ -87,14 +86,7 @@
         html.push('</div>');
         let htmlString = html.join('');
         $field.html(htmlString);
-        if ($field.data('autoselect') === true) {
-            $field.data('autoselect', false);
-            $field.find('input.value').prop('checked', true);
-            this.setFieldValue($browse, $tr, $field, { value: true });
-        } else {
-            this.setFieldValue($browse, $tr, $field, { value: originalvalue });
-        }
-        
+        this.setFieldValue($browse, $tr, $field, { value: $field.data('checkthebox') });
     }
     //---------------------------------------------------------------------------------
 

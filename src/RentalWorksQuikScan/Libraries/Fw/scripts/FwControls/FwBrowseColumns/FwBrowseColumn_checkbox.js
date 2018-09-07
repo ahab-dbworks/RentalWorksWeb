@@ -44,12 +44,12 @@ var FwBrowseColumn_checkboxClass = (function () {
     };
     FwBrowseColumn_checkboxClass.prototype.setFieldViewMode = function ($browse, $tr, $field) {
         var me = this;
-        $field.data('autoselect', false);
         var originalCheckedValue = false;
         var originalvalue = (typeof $field.attr('data-originalvalue') === 'string') ? $field.attr('data-originalvalue') : '';
         if (originalvalue === 'T' || originalvalue === 'Y' || originalvalue === 'true') {
             originalCheckedValue = true;
         }
+        $field.data('checkthebox', originalCheckedValue);
         var html = [];
         html.push('<div class="checkboxwrapper">');
         html.push('  <input class="value" type="checkbox" disabled="disabled" style="box-sizing:border-box;pointer-events:none;" />');
@@ -59,7 +59,7 @@ var FwBrowseColumn_checkboxClass = (function () {
         $checkboxwrapper.on('click', 'label', function (e) {
             try {
                 e.stopPropagation();
-                $field.data('autoselect', !originalCheckedValue);
+                $field.data('checkthebox', !originalCheckedValue);
                 FwBrowse.setRowEditMode($browse, $tr);
             }
             catch (ex) {
@@ -70,7 +70,6 @@ var FwBrowseColumn_checkboxClass = (function () {
         this.setFieldValue($browse, $tr, $field, { value: originalCheckedValue });
     };
     FwBrowseColumn_checkboxClass.prototype.setFieldEditMode = function ($browse, $tr, $field) {
-        var checked = false;
         var cbuniqueId = FwApplication.prototype.uniqueId(10);
         var originalvalue = (typeof $field.attr('data-originalvalue') === 'string') ? $field.attr('data-originalvalue') : '';
         var html = [];
@@ -84,14 +83,7 @@ var FwBrowseColumn_checkboxClass = (function () {
         html.push('</div>');
         var htmlString = html.join('');
         $field.html(htmlString);
-        if ($field.data('autoselect') === true) {
-            $field.data('autoselect', false);
-            $field.find('input.value').prop('checked', true);
-            this.setFieldValue($browse, $tr, $field, { value: true });
-        }
-        else {
-            this.setFieldValue($browse, $tr, $field, { value: originalvalue });
-        }
+        this.setFieldValue($browse, $tr, $field, { value: $field.data('checkthebox') });
     };
     return FwBrowseColumn_checkboxClass;
 }());
