@@ -223,7 +223,6 @@ class StagingCheckout {
         let $selectedCheckBoxes, $stagedItemGrid, orderId, barCodeFieldValue, quantityFieldValue, barCode, iCode, quantity, orderItemId, vendorId, $checkedOutItemGrid, successSound, errorSound, request: any = {};
         successSound = new Audio(this.successSoundFileName);
         errorSound = new Audio(this.errorSoundFileName);
-
         $stagedItemGrid = $form.find('[data-name="StagedItemGrid"]');
         $checkedOutItemGrid = $form.find('[data-name="CheckedOutItemGrid"]');
         $selectedCheckBoxes = $stagedItemGrid.find('.cbselectrow:checked');
@@ -263,6 +262,9 @@ class StagingCheckout {
             }, null, null);
         } else {
             if ($selectedCheckBoxes.length !== 0) {
+                console.log('$selectedCheckBoxes.length before loop: ', $selectedCheckBoxes.length)
+
+                let responseCount = 0;
                 for (let i = 0; i < $selectedCheckBoxes.length; i++) {
                     barCode = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="BarCode"]').attr('data-originalvalue');
                     iCode = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="ICode"]').attr('data-originalvalue');
@@ -282,14 +284,20 @@ class StagingCheckout {
                         request.VendorId = vendorId;
                     }
                     FwAppData.apiMethod(true, 'POST', `api/v1/checkout/movestageditemtoout`, request, FwServices.defaultTimeout, response => {
+                        responseCount++;
+                        console.log('responseCount in res: ', responseCount)
+                        if (responseCount === $selectedCheckBoxes.length) {
+                            setTimeout(() => {
+                                FwBrowse.search($checkedOutItemGrid);
+                                FwBrowse.search($stagedItemGrid);
+                                console.log(true)
+                                }, 0);
+                        }
                     }, function onError(response) {
                         FwFunc.showError(response);
                     }, null);
                 }
-            setTimeout(() => {
-                FwBrowse.search($checkedOutItemGrid);
-                FwBrowse.search($stagedItemGrid);
-                }, 1000);
+              
             $form.find('.partial-contract-barcode input').val('');
             $form.find('.partial-contract-quantity input').val('');
             $form.find('.partial-contract-barcode input').focus();
@@ -344,6 +352,9 @@ class StagingCheckout {
             }, null, null);
         } else {
             if ($selectedCheckBoxes.length !== 0) {
+                let responseCount = 0;
+                console.log('$selectedCheckBoxes.length before of loop: ', $selectedCheckBoxes.length)
+
                 for (let i = 0; i < $selectedCheckBoxes.length; i++) {
                     barCode = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="BarCode"]').attr('data-originalvalue');
                     iCode = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="ICode"]').attr('data-originalvalue');
@@ -363,14 +374,21 @@ class StagingCheckout {
                         request.VendorId = vendorId;
                     }
                     FwAppData.apiMethod(true, 'POST', `api/v1/checkout/moveoutitemtostaged`, request, FwServices.defaultTimeout, response => {
+                        responseCount++;
+                        console.log('responseCount in res: ', responseCount)
+
+                        if (responseCount === $selectedCheckBoxes.length) {
+                            setTimeout(() => {
+                                FwBrowse.search($checkedOutItemGrid);
+                                FwBrowse.search($stagedItemGrid);
+                                console.log(true);
+                            }, 0);
+                        }
                     }, function onError(response) {
                         FwFunc.showError(response);
                     }, null);
                 }
-                setTimeout(() => {
-                    FwBrowse.search($checkedOutItemGrid);
-                    FwBrowse.search($stagedItemGrid);
-                }, 1000);
+              
                 $form.find('.partial-contract-barcode input').val('');
                 $form.find('.partial-contract-quantity input').val('');
                 $form.find('.partial-contract-barcode input').focus();
@@ -537,7 +555,11 @@ class StagingCheckout {
             $stagedItemGrid = $form.find('[data-name="StagedItemGrid"]');
             $checkedOutItemGrid = $form.find('[data-name="CheckedOutItemGrid"]');
             $selectedCheckBoxes = $stagedItemGrid.find('.cbselectrow:checked');
-            console.log('event: ', event)
+            console.log('event: ', event);
+            console.log('$selectedCheckBoxes: ', $selectedCheckBoxes);
+            console.log('$stagedItemGrid: ', $stagedItemGrid);
+
+
         });
 
         // BarCode / I-Code change
