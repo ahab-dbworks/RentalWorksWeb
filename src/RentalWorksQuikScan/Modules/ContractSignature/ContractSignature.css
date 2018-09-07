@@ -11,7 +11,7 @@
 #contractSignature #cs-printimagecapture #printimagecapture .pictures .contract-photo i {padding:38px;}
 #contractSignature #cs-printimagecapture #printimagecapture .pictures .contract-photo img {height:98px;width:98px;}
 #contractSignature #cs-printimagecapture #pic-signaturecapture {display:none;} 
-#contractSignature #cs-printimagecapture #pic-signaturecapture .buttons {display:none;}
+#contractSignature #cs-printimagecapture #pic-signaturecapture .buttons {}
 #contractSignature #cs-printimagecapture #pic-email {display:none;padding: 5px;background-color: #FAFAFA;}
 #contractSignature #cs-printimagecapture #pic-email .emailsearch {color: #212121;font-size: 46px;margin-top: 20px;background-color: #BDBDBD;border: 1px solid #9E9E9E;cursor: pointer;}
 #contractSignature #cs-printimagecapture #pic-emailto {display:none;padding: 5px;background-color: #FAFAFA;}
@@ -21,6 +21,5 @@
 #contractSignature #cs-printimagecapture #pic-emailto .record .data .caption {flex:0 0 64px;}
 
 #contractSignature #cs-signaturecapture {display:none;}
-#contractSignature #cs-signaturecapture #signaturecapture-canvasSignature {background-color:#ffffff;border-radius:3px;margin:2px;cursor:crosshair;}
-#contractSignature #cs-signaturecapture .buttons {display:none;}
-#contractSignature #cs-signaturecapture .buttons #signaturecapture-clear {display:none;margin:5px 5px;}
+#contractSignature #cs-signaturecapture #signaturecapture-canvasSignature {background-color:#ffffff;cursor:crosshair;}
+#contractSignature #cs-signaturecapture .buttons {}
