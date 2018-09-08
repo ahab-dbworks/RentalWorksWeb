@@ -22,11 +22,13 @@ namespace FwCore.Controllers
         {
             FwReportRenderResponse response = new FwReportRenderResponse();
             string baseUrl = this.GetFullyQualifiedBaseUrl();
+            Console.WriteLine($"baseurl: {baseUrl}");
             string guid = Guid.NewGuid().ToString().Replace("-", string.Empty);
             string baseFileName = $"{this.GetReportFileName()}{this.UserSession.WebUsersId}_{guid}";
             string htmlFileName = $"{baseFileName}.html";
             //string pathHtmlReport = Path.Combine(FwDownloadController.GetDownloadsDirectory(), htmlFileName);
             string urlHtmlReport = $"{baseUrl}/Reports/{this.GetReportFileName()}/index.html";
+            Console.WriteLine($"urlHtmlReport: {urlHtmlReport}");
             //string urlHtmlReport = $"{baseUrl}/temp/downloads/{htmlFileName}";
             string authorizationHeader = HttpContext.Request.Headers["Authorization"];
             response.renderMode = request.renderMode;

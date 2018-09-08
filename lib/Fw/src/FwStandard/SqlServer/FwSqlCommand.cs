@@ -18,7 +18,6 @@ namespace FwStandard.SqlServer
     //public enum FwQueryTimeouts {Default, Report}
     public class FwSqlCommand : IDisposable
     {
-        public static bool DebugMode = false; // needs to get set at application startup
         //------------------------------------------------------------------------------------
         private FwSqlConnection sqlConnection;
         private SqlCommand sqlCommand;
@@ -2212,7 +2211,7 @@ namespace FwStandard.SqlServer
         private string GetUsefulLinesFromStackTrace(string methodName)
         {
             string result = string.Empty;
-            if (FwSqlCommand.DebugMode)
+            if (FwSqlLogEntry.LogSqlContext)
             {
                 StringBuilder usefulLines = new StringBuilder();
                 System.Diagnostics.StackTrace trace = new System.Diagnostics.StackTrace();

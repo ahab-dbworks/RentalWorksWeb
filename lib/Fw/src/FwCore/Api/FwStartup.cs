@@ -28,10 +28,10 @@ namespace FwCore.Api
     public class FwStartup
     {
         //------------------------------------------------------------------------------------
-        public static IHostingEnvironment HostingEnvironment { get; private set; }
-        public static IConfigurationRoot Configuration { get; private set; }
-        public static FwApplicationConfig ApplicationConfig { get; private set; }
-        public string SystemName { get; private set; }
+        protected IHostingEnvironment HostingEnvironment;
+        protected IConfigurationRoot Configuration;
+        protected FwApplicationConfig ApplicationConfig;
+        protected string SystemName;
         //------------------------------------------------------------------------------------
         public FwStartup(IHostingEnvironment env, string systemName)
         {
@@ -43,7 +43,6 @@ namespace FwCore.Api
                 //.AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true, reloadOnChange: true)
                 .AddEnvironmentVariables();
             Configuration = builder.Build();
-            FwSqlCommand.DebugMode = env.IsDevelopment();
             Mapper.Initialize(cfg =>
             {
                 cfg.CreateMissingTypeMaps = true;
@@ -53,6 +52,8 @@ namespace FwCore.Api
         public virtual void ConfigureServices(IServiceCollection services)
         {
             ApplicationConfig = Configuration.GetSection("ApplicationConfig").Get<FwApplicationConfig>();
+            FwSqlLogEntry.LogSql = this.ApplicationConfig.Debugging.LogSql;
+            FwSqlLogEntry.LogSqlContext = this.ApplicationConfig.Debugging.LogSqlContext;
 
             services.AddCors();
 

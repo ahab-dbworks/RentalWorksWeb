@@ -10,11 +10,14 @@ namespace FwStandard.SqlServer
 {
     public class FwSqlLogEntry
     {
+        public static bool LogSql = true;
+        public static bool LogSqlContext = true;
+        public static int Counter = 0;
+
         public string SqlForHtml = string.Empty;
         public string Sql = string.Empty;
         public DateTime StartTime = DateTime.MinValue;
         public DateTime StopTime = DateTime.MinValue;
-        public static int Counter = 0;
         private string StackTrace = string.Empty;
 
         public FwSqlLogEntry(string label, SqlCommand command, string stackTrace = "")
@@ -395,13 +398,12 @@ namespace FwStandard.SqlServer
             }
             SqlForHtml = sqlForHtml.ToString().Replace(" ", "&nbsp;");
 
-            if (!string.IsNullOrEmpty(this.StackTrace))
+            if (FwSqlLogEntry.LogSqlContext && !string.IsNullOrEmpty(this.StackTrace))
             {
                 sql.Insert(0, this.StackTrace + Environment.NewLine);
             }
             sql.Insert(0, $"----{Counter.ToString()} - {DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss tt")}-----------------------------------------" + Environment.NewLine);
             
-
             WriteToConsole(sql.ToString());
 
         }
@@ -428,7 +430,7 @@ namespace FwStandard.SqlServer
         }
         public void WriteToConsole(string str, bool includeDuration = false)
         {
-            if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Development")
+            if (FwSqlLogEntry.LogSql)
             {
                 if (includeDuration)
                 {
@@ -444,45 +446,45 @@ namespace FwStandard.SqlServer
         }
     }
 
-    public class FwSqlLog : List<FwSqlLogEntry>
-    {
-        //--------------------------------------------------------------------------------
-        public string Render()
-        {
-            StringBuilder log = new StringBuilder();
-            bool isAlternateRow = false;
-            log.AppendLine();
-            log.AppendLine("<div class=\"FwSqlLog\">");
-            log.AppendLine("<table cellpadding=\"0\" cellspacing=\"0\">");
-            log.AppendLine("<thead>");
-            log.AppendLine("<tr>");
-            log.AppendLine("<th>Execution Time (ms)</th>");
-            log.AppendLine("<th>SQL</th>");
-            log.AppendLine("</tr>");
-            log.AppendLine("</thead>");
-            log.AppendLine("<tbody>");
-            for (int i = 0; i < this.Count; i++)
-            {
-                if (!isAlternateRow)
-                {
-                    log.AppendLine("<tr>");
-                }
-                else
-                {
-                    log.AppendLine("<tr class=\"Alternate\">");
-                }
-                log.AppendLine("<td>" + this[i].GetExecutionTime() + "</td>");
-                log.AppendLine("<td>" + this[i].SqlForHtml + "</td>");
-                log.AppendLine("</tr>");
-                isAlternateRow = !isAlternateRow;
-            }
-            log.AppendLine("</tbody>");
-            log.AppendLine("</table>");
-            log.AppendLine("</div>");
-            this.Clear();
-            return log.ToString();
-        }
-        //--------------------------------------------------------------------------------
-    }
+    //public class FwSqlLog : List<FwSqlLogEntry>
+    //{
+    //    //--------------------------------------------------------------------------------
+    //    public string Render()
+    //    {
+    //        StringBuilder log = new StringBuilder();
+    //        bool isAlternateRow = false;
+    //        log.AppendLine();
+    //        log.AppendLine("<div class=\"FwSqlLog\">");
+    //        log.AppendLine("<table cellpadding=\"0\" cellspacing=\"0\">");
+    //        log.AppendLine("<thead>");
+    //        log.AppendLine("<tr>");
+    //        log.AppendLine("<th>Execution Time (ms)</th>");
+    //        log.AppendLine("<th>SQL</th>");
+    //        log.AppendLine("</tr>");
+    //        log.AppendLine("</thead>");
+    //        log.AppendLine("<tbody>");
+    //        for (int i = 0; i < this.Count; i++)
+    //        {
+    //            if (!isAlternateRow)
+    //            {
+    //                log.AppendLine("<tr>");
+    //            }
+    //            else
+    //            {
+    //                log.AppendLine("<tr class=\"Alternate\">");
+    //            }
+    //            log.AppendLine("<td>" + this[i].GetExecutionTime() + "</td>");
+    //            log.AppendLine("<td>" + this[i].SqlForHtml + "</td>");
+    //            log.AppendLine("</tr>");
+    //            isAlternateRow = !isAlternateRow;
+    //        }
+    //        log.AppendLine("</tbody>");
+    //        log.AppendLine("</table>");
+    //        log.AppendLine("</div>");
+    //        this.Clear();
+    //        return log.ToString();
+    //    }
+    //    //--------------------------------------------------------------------------------
+    //}
 }
 

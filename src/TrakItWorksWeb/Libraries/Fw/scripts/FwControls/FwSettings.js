@@ -485,6 +485,9 @@ FwSettings.renderModuleHtml = function ($control, title, moduleName, description
                                 }
                                 filterData['caption'] = filterField.attr('data-caption');
                                 filterData['datatype'] = filterField.attr('data-type');
+                                if (filterField.css('visibility') === 'hidden' || filterField.css('display') === 'none') {
+                                    filterData['hidden'] = true;
+                                }
                                 browseData.push(filterData);
                             }
                         }
@@ -515,7 +518,7 @@ FwSettings.renderModuleHtml = function ($control, title, moduleName, description
                                 html[1] = '<div class="panel panel-info container-fluid" style="display:none;">';
                                 html[2] = '<div class="inactive row-heading" style="background-color:lightgray;">';
                             }
-                            if (browseData[j]['caption'] !== 'Inactive' && browseData[j]['caption'] !== 'Color') {
+                            if (browseData[j]['caption'] !== 'Inactive' && browseData[j]['caption'] !== 'Color' && !browseData[j]['hidden']) {
                                 html.push('      <div style="width:100%;padding-left: inherit;">');
                                 html.push('        <div class="fwcontrol fwcontainer fwform-fieldrow" data-type="fieldrow">');
                                 html.push('          <label style="font-weight:800;">' + browseData[j]['caption'] + '</label>');
