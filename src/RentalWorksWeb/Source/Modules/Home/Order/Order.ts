@@ -997,24 +997,6 @@ FwApplicationTree.clickEvents['{E2DF5CB4-CD18-42A0-AE7C-18C18E6C4646}'] = functi
         FwFunc.showError(ex);
     }
 };
-
-//---------------------------------------------------------------------------------------------- 
-FwApplicationTree.clickEvents['{D27AD4E7-E924-47D1-AF6E-992B92F5A647}'] = function (event) {
-    let $form;
-    $form = jQuery(this).closest('.fwform');
-
-    try {
-        if ($form.attr('data-controller') === 'OrderController') {
-            OrderController.toggleOrderItemView($form, event);
-        } else {
-            QuoteController.toggleOrderItemView($form, event);
-        }
-    }
-    catch (ex) {
-        FwFunc.showError(ex);
-    }
-};
-
 //---------------------------------------------------------------------------------
 //Browse Cancel Option
 FwApplicationTree.clickEvents['{DAE6DC23-A2CA-4E36-8214-72351C4E1449}'] = function (event) {

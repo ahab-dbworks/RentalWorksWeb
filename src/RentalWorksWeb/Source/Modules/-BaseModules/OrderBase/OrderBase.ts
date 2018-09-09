@@ -1207,61 +1207,6 @@ class OrderBase {
         }
     };
     //----------------------------------------------------------------------------------------------
-    toggleOrderItemView($form: any, event: any) {
-        // Toggle between Detail and Summary view in all OrderItemGrid
-        let $element, $orderItemGrid, recType, isSummary, orderId, module;
-        let request: any = {};
-        module = this.Module;
-        $element = jQuery(event.currentTarget);
-        recType = $element.parentsUntil('.flexrow').eq(9).attr('class');
-        orderId = FwFormField.getValueByDataField($form, `${module}Id`);
-
-        if (recType === 'R') {
-            $orderItemGrid = $form.find('.rentalgrid [data-name="OrderItemGrid"]');
-        }
-        if (recType === 'S') {
-            $orderItemGrid = $form.find('.salesgrid [data-name="OrderItemGrid"]');
-        }
-        if (recType === 'L') {
-            $orderItemGrid = $form.find('.laborgrid [data-name="OrderItemGrid"]');
-        }
-        if (recType === 'M') {
-            $orderItemGrid = $form.find('.miscgrid [data-name="OrderItemGrid"]');
-        }
-        if (recType === '') {
-            $orderItemGrid = $form.find('.combinedgrid div[data-grid="OrderItemGrid"]');
-        }
-
-        if ($orderItemGrid.data('isSummary') === false) {
-            isSummary = true;
-            $orderItemGrid.data('isSummary', true);
-            $element.children().text('Detail View')
-        }
-        else {
-            isSummary = false;
-            $orderItemGrid.data('isSummary', false);
-            $element.children().text('Summary View')
-        }
-
-        $orderItemGrid.data('ondatabind', request => {
-            request.uniqueids = {
-                OrderId: orderId,
-                Summary: isSummary,
-                RecType: recType
-            }
-            request.pagesize = 9999;
-            request.orderby = "RowNumber,RecTypeDisplay"
-        });
-
-        $orderItemGrid.data('beforesave', request => {
-            request.OrderId = orderId;
-            request.RecType = recType;
-            request.Summary = isSummary;
-        });
-
-        FwBrowse.search($orderItemGrid);
-    };
-    //----------------------------------------------------------------------------------------------
     cancelUncancelOrder($form: any) {
         let $confirmation, $yes, $no, id, orderStatus, self, module;
         self = this;

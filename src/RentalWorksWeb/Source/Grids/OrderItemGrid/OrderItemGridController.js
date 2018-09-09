@@ -339,6 +339,40 @@ class OrderItemGrid {
         }
     }
     ;
+    toggleOrderItemView($form, event, module) {
+        let $element, $orderItemGrid, recType, isSummary, orderId;
+        let request = {};
+        $element = jQuery(event.currentTarget);
+        recType = $element.closest('[data-grid="OrderItemGrid"]').attr('class');
+        orderId = FwFormField.getValueByDataField($form, `${module}Id`);
+        $orderItemGrid = $element.closest('[data-name="OrderItemGrid"]');
+        if ($orderItemGrid.data('isSummary') === false) {
+            isSummary = true;
+            $orderItemGrid.data('isSummary', true);
+            $element.children().text('Detail View');
+        }
+        else {
+            isSummary = false;
+            $orderItemGrid.data('isSummary', false);
+            $element.children().text('Summary View');
+        }
+        $orderItemGrid.data('ondatabind', request => {
+            request.uniqueids = {
+                OrderId: orderId,
+                Summary: isSummary,
+                RecType: recType
+            };
+            request.pagesize = 9999;
+            request.orderby = "RowNumber,RecTypeDisplay";
+        });
+        $orderItemGrid.data('beforesave', request => {
+            request.OrderId = orderId;
+            request.RecType = recType;
+            request.Summary = isSummary;
+        });
+        FwBrowse.search($orderItemGrid);
+    }
+    ;
 }
 FwApplicationTree.clickEvents['{77E511EC-5463-43A0-9C5D-B54407C97B15}'] = function (e) {
     let grid = jQuery(e.currentTarget).parents('[data-control="FwGrid"]');
@@ -432,6 +466,17 @@ FwApplicationTree.clickEvents['{007C4F21-7526-437C-AD1C-4BBB1030AABA}'] = functi
         $subWorksheetForm = SubWorksheetController.openForm('EDIT', subWorksheetData);
         FwModule.openSubModuleTab($form, $subWorksheetForm);
         jQuery('.tab.submodule.active').find('.caption').html('Sub Worksheet');
+    }
+    catch (ex) {
+        FwFunc.showError(ex);
+    }
+};
+FwApplicationTree.clickEvents['{D27AD4E7-E924-47D1-AF6E-992B92F5A647}'] = function (event) {
+    let $form;
+    $form = jQuery(this).closest('.fwform');
+    let module = $form.attr('data-controller').replace('Controller', '');
+    try {
+        OrderItemGridController.toggleOrderItemView($form, event, module);
     }
     catch (ex) {
         FwFunc.showError(ex);
