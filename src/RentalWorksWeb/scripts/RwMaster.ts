@@ -159,7 +159,7 @@
                 html.push('  <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Office Location" data-datafield="OfficeLocationId" data-browsedisplayfield="OfficeLocation" data-validationname="OfficeLocationValidation"></div>');
                 html.push('</div>');
                 html.push('<div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
-                html.push('  <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Warehouse" data-formbeforevalidate="beforeValidateWarehouse" data-datafield="Warehouse" data-validationname="WarehouseValidation" data-boundfields="Location"></div>');
+                html.push('  <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Warehouse" data-formbeforevalidate="beforeValidateWarehouse" data-datafield="WarehouseId" data-browsedisplayfield="Warehouse" data-validationname="WarehouseValidation" data-boundfields="Location"></div>');
                 html.push('</div>');
                 html.push('<div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
                 html.push('  <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Department" data-datafield="Department" data-validationname="DepartmentValidation" data-boundfields="Location"></div>');
@@ -170,24 +170,30 @@
 
                 $confirmation.find('div[data-datafield="OfficeLocationId"] input.fwformfield-text').val(userlocation.location);
                 $confirmation.find('div[data-datafield="OfficeLocationId"] input.fwformfield-value').val(userlocation.locationid);
-                $confirmation.find('div[data-datafield="Warehouse"] input.fwformfield-text').val(userwarehouse.warehouse);
-                $confirmation.find('div[data-datafield="Warehouse"] input.fwformfield-value').val(userwarehouse.warehouseid);
+                $confirmation.find('div[data-datafield="WarehouseId"] input.fwformfield-text').val(userwarehouse.warehouse);
+                $confirmation.find('div[data-datafield="WarehouseId"] input.fwformfield-value').val(userwarehouse.warehouseid);
                 $confirmation.find('div[data-datafield="Department"] input.fwformfield-text').val(userdepartment.department);
                 $confirmation.find('div[data-datafield="Department"] input.fwformfield-value').val(userdepartment.departmentid);
+
+                
+                $confirmation.find('[data-datafield="OfficeLocationId"]').data('onchange', e => {
+                    $confirmation.find('[data-datafield="WarehouseId"] input.fwformfield-value').val('');
+                    $confirmation.find('[data-datafield="WarehouseId"] input.fwformfield-text').val('');
+                });
 
 
                 $select.on('click', function () {
                     try {
                         var valid = true;
                         var location = $confirmation.find('div[data-datafield="OfficeLocationId"] .fwformfield-value').val();
-                        var warehouse = $confirmation.find('div[data-datafield="Warehouse"] .fwformfield-value').val();
+                        var warehouse = $confirmation.find('div[data-datafield="WarehouseId"] .fwformfield-value').val();
                         var department = $confirmation.find('div[data-datafield="Department"] .fwformfield-value').val();
                         if (location == '') {
                             $confirmation.find('div[data-datafield="OfficeLocationId"]').addClass('error');
                             valid = false;
                         }
                         if (warehouse == '') {
-                            $confirmation.find('div[data-datafield="Warehouse"]').addClass('error');
+                            $confirmation.find('div[data-datafield="WarehouseId"]').addClass('error');
                             valid = false;
                         }
                         if (department == '') {
