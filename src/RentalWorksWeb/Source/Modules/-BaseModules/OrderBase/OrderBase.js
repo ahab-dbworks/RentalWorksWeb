@@ -1253,7 +1253,8 @@ class OrderBase {
     afterLoad($form) {
         $form.on('click', '[data-type="tab"]', e => {
             let tabname = jQuery(e.currentTarget).attr('id');
-            let tabpage = tabname.replace('tab', 'tabpage');
+            let lastIndexOfTab = tabname.lastIndexOf('tab');
+            let tabpage = tabname.substring(0, lastIndexOfTab) + 'tabpage' + tabname.substring(lastIndexOfTab + 3);
             let $gridControls = $form.find(`#${tabpage} [data-type="Grid"]`);
             if ($gridControls.length > 0) {
                 for (let i = 0; i < $gridControls.length; i++) {
