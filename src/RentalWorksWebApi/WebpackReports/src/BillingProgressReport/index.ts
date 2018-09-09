@@ -5,6 +5,7 @@ import { Ajax } from '../../lib/FwReportLibrary/src/scripts/Ajax';
 import { HandlebarsHelpers } from '../../lib/FwReportLibrary/src/scripts/HandlebarsHelpers';
 import * as moment from 'moment';
 import './index.scss';
+import '../../lib/FwReportLibrary/src/theme/webpackReports.scss';
 var hbReport = require("./hbReport.hbs");
 var hbFooter = require("./hbFooter.hbs");
 

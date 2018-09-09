@@ -70,6 +70,7 @@ html.pdf {
         text-overflow: ellipsis;
     }
 }
+
 .label {
     line-height: $line-height;
     white-space: nowrap;
@@ -94,11 +95,15 @@ html.pdf {
                 font-weight: bold;
                 padding: 5px;
                 white-space: nowrap;
-                text-align:center;
+                text-align: center;
             }
 
-            th.number{
-                text-align:right;
+            th.text {
+                text-align: left;
+            }
+
+            th.number {
+                text-align: right;
             }
         }
 
@@ -107,25 +112,26 @@ html.pdf {
                 background-color: #DCDCDC;
             }
 
-            tr[data-rowtype="Warehouseheader"] td {
+            tr[data-rowtype="OfficeLocationheader"] td {
                 font-size: 1.1em;
                 font-weight: bold;
                 text-decoration: underline;
             }
 
-            tr[data-rowtype="InventoryTypeheader"] td,
-            tr[data-rowtype="Categoryheader"] td {
+            tr[data-rowtype="Customerheader"] td,
+            tr[data-rowtype="Dealheader"] td {
                 padding-bottom: .5em;
                 font-weight: bold;
             }
 
-            tr[data-rowtype="Categoryfooter"] td.totals {
+            tr[data-rowtype="Dealfooter"] td.totals {
                 border-top: 2px solid black;
             }
 
-            tr[data-rowtype="Categoryfooter"] td,
-            tr[data-rowtype="InventoryTypefooter"] td,
-            tr[data-rowtype="Warehousefooter"] td {
+            tr[data-rowtype="Dealfooter"] td,
+            tr[data-rowtype="Customerfooter"] td,
+            tr[data-rowtype="OfficeLocationfooter"] td,
+            tr[data-rowtype="grandtotal"] td {
                 font-weight: bold;
             }
 
@@ -133,20 +139,11 @@ html.pdf {
                 padding: 2px 5px;
                 font-size: .9em;
             }
-            /*td:after {
-                content: attr(data-value);
-                font-weight: bold;
-            }
-
-            td[data-value="0.00"]:after, td[data-value="0.00%"]:after {
-                content: "";
-            }*/
             td.totals {
                 text-align: right;
             }
 
-            tr[data-rowtype="grandtotal"] td {
-                font-weight: bold;
+            tr[data-rowtype="grandtotal"] td.totals {
                 border-top: 2px solid black;
             }
         }

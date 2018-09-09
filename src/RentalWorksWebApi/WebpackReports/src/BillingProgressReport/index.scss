@@ -71,22 +71,6 @@ html.pdf {
     }
 }
 
-.flexfield-50 {
-    @include flexfield(50px);
-}
-
-.flexfield-75 {
-    @include flexfield(75px);
-}
-
-.flexfield-85 {
-    @include flexfield(85px);
-}
-
-.flexfield-150 {
-    @include flexfield(150px);
-}
-
 .label {
     line-height: $line-height;
     white-space: nowrap;
@@ -95,21 +79,7 @@ html.pdf {
     font-size: $normal-text;
 }
 
-.Header {
-    div {
-        flex: 1 0 627px;
-
-        div {
-            min-width: 33%;
-            flex: 1 1 0;
-            font-size: 13px;
-            white-space: nowrap;
-        }
-    }
-}
-
 .data {
-    flex: 1 0 768px;
     border-collapse: collapse;
     margin: 20px 0 0 0;
 

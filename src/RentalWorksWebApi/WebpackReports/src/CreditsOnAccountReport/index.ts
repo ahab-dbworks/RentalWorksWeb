@@ -9,37 +9,27 @@ import '../../lib/FwReportLibrary/src/theme/webpackReports.scss';
 var hbReport = require("./hbReport.hbs");
 var hbFooter = require("./hbFooter.hbs");
 
-export class GLDistributionReport extends WebpackReport {
+export class CreditsOnAccountReport extends WebpackReport {
     renderReport(apiUrl: string, authorizationHeader: string, parameters: any): void {
         try {
             super.renderReport(apiUrl, authorizationHeader, parameters);
             HandlebarsHelpers.registerHelpers();
-            let glDistribution: any = {};
+            let data: any = {};
             let request = new BrowseRequest();
             request.uniqueids = {
-                FromDate: parameters.FromDate,
-                ToDate: parameters.ToDate,
+                OnlyRemaining: parameters.IncludeRemainingBalance
             }
-            request.orderby = 'Location,GroupHeadingOrder,AccountNumber,AccountDescription';
-            if (parameters.OfficeLocationId) {
-                request.uniqueids.OfficeLocationId = parameters.OfficeLocationId;
-            }
-            if (parameters.GlAccountId) {
-                request.uniqueids.GlAccountId = parameters.GlAccountId;
-            }
-
-            let glDistributionPromise = Ajax.post<DataTable>(`${apiUrl}/api/v1/gldistributionreport/browse`, authorizationHeader, request)
+            let promise = Ajax.post<DataTable>(`${apiUrl}/api/v1/creditsonaccountreport/browse`, authorizationHeader, request)
                 .then((response: DataTable) => {
-                    glDistribution.GLItems = DataTable.toObjectList(response);
-                    this.renderFooterHtml(glDistribution);
-                    glDistribution.PrintTime = moment().format('YYYY-MM-DD h:mm:ss A');
-                    glDistribution.FromDate = parameters.FromDate;
-                    glDistribution.ToDate = parameters.ToDate;
-                    glDistribution.Location = parameters.Location;
+                    data.Rows = DataTable.toObjectList(response);
+                    console.log(data);
+                    this.renderFooterHtml(data);
+
+                    data.PrintTime = moment().format('YYYY-MM-DD h:mm:ss A');
                     if (this.action === 'Preview' || this.action === 'PrintHtml') {
                         document.getElementById('pageFooter').innerHTML = this.footerHtml;
                     }
-                    document.getElementById('pageBody').innerHTML = hbReport(glDistribution);
+                    document.getElementById('pageBody').innerHTML = hbReport(data);
 
                     this.onRenderReportCompleted();
                 })
@@ -56,4 +46,4 @@ export class GLDistributionReport extends WebpackReport {
     }
 }
 
-(<any>window).report = new GLDistributionReport();
+(<any>window).report = new CreditsOnAccountReport();
