@@ -218,6 +218,17 @@ class User {
     //        FwFormField.disable($txtNetExpire);
     //    }
     //};
+    beforeValidateWarehouse($browse: any, $form: any, request: any) {
+        let locationId;
+
+        request.uniqueids = {};
+        locationId = FwFormField.getValueByDataField($form, 'OfficeLocationId');
+       
+        if (locationId) {
+            request.uniqueids.LocationId = locationId;
+        }
+      
+    };
 
     beforeValidate = function ($browse, $grid, request, datafield) {
 

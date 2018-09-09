@@ -157,6 +157,15 @@ class User {
             FwFormField.disable($form.find('[data-datafield="PasswordExpireDays"]'));
         }
     }
+    beforeValidateWarehouse($browse, $form, request) {
+        let locationId;
+        request.uniqueids = {};
+        locationId = FwFormField.getValueByDataField($form, 'OfficeLocationId');
+        if (locationId) {
+            request.uniqueids.LocationId = locationId;
+        }
+    }
+    ;
 }
 var UserController = new User();
 //# sourceMappingURL=User.js.map
