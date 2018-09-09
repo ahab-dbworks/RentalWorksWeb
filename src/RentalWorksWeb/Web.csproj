@@ -434,6 +434,7 @@
     <TypeScriptCompile Include="Source\Modules\Home\PurchaseOrder\PurchaseOrder.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\Project\Project.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\StagingCheckout\StagingCheckout.ts" />
+    <TypeScriptCompile Include="Source\Modules\Reports\CreditsOnAccount\RwCreditsOnAccountReportController.ts" />
     <TypeScriptCompile Include="Source\Modules\Reports\RentalInventoryCatalogReport\RwRentalInventoryCatalogReportController.ts" />
     <TypeScriptCompile Include="Source\Modules\Reports\ArAgingReport\RwArAgingReportController.ts" />
     <TypeScriptCompile Include="Source\Modules\Reports\CreateInvoiceProcess\RwCreateInvoiceProcessReportController.ts" />
@@ -810,11 +811,6 @@
     <Content Include="Source\Reports\InvoiceSummaryReport\FrontEnd.htm" />
     <Content Include="Source\Reports\InvoiceSummaryReport\Header.htm" />
     <Content Include="Source\Reports\InvoiceSummaryReport\StyleSheet.css" />
-    <Content Include="Source\Reports\CreditsOnAccount\Body.htm" />
-    <Content Include="Source\Reports\CreditsOnAccount\Footer.htm" />
-    <Content Include="Source\Reports\CreditsOnAccount\FrontEnd.htm" />
-    <Content Include="Source\Reports\CreditsOnAccount\Header.htm" />
-    <Content Include="Source\Reports\CreditsOnAccount\StyleSheet.css" />
     <Content Include="Source\Reports\PickListReport\Body.htm" />
     <Content Include="Source\Reports\PickListReport\Footer.htm" />
     <Content Include="Source\Reports\PickListReport\FrontEnd.htm" />
@@ -1086,7 +1082,6 @@
     <Compile Include="Source\Modules\Administrator\Integration\Integration.cs" />
     <Compile Include="Source\Modules\Home\Contact\Contact.cs" />
     <Compile Include="Source\Reports\ChargeProcessing\ChargeProcessing.cs" />
-    <Compile Include="Source\Reports\CreditsOnAccount\CreditsOnAccount.cs" />
     <Compile Include="Source\Reports\InvoiceSummaryReport\InvoiceSummaryReport.cs" />
     <Compile Include="Source\Reports\PickListReport\PickListReport.cs" />
     <Compile Include="Source\Reports\DealOutstanding\DealOutstanding.cs" />
