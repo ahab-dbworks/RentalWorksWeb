@@ -108,6 +108,7 @@ html.theme-material .fwbrowse table tbody tr.selected td .cellgradient[data-form
 
 html.theme-material .fwbrowse table tbody tr.empty td {height:100px;}
 html.theme-material .fwbrowse table tbody tr td.cellColor::after {content: "";position: absolute;top: 0;left: 0;width: 0;height: 0;display: block;border-right: 20px solid transparent;border-bottom: 20px solid transparent;border-top: 20px solid;border-top-color: inherit;}  
+html.theme-material .fwbrowse table tbody tr.editmode td .cellgradient {padding-left: 0px !important;}
 html.theme-material .fwbrowse table tbody tr td {vertical-align:top;text-align:left;-webkit-touch-callout: none;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;}
 html.theme-material .fwbrowse table tbody tr td.column {border-top:1px solid transparent;border-spacing:0;padding:0;}
 html.theme-material .fwbrowse table tbody tr td .field {box-sizing:border-box;height:100%;line-height:100%;white-space:nowrap;text-overflow:ellipsis;vertical-align:middle;display: flex;align-items: center;font-size:.8em;}
