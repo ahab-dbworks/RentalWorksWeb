@@ -101,29 +101,12 @@ class Customer {
         var $form: any = FwModule.loadFormFromTemplate(this.Module);
         $form = FwModule.openForm($form, mode);
 
-        var $submoduleDealBrowse = this.openDealBrowse($form);
-        $form.find('.deal').append($submoduleDealBrowse);
-
-
         if (mode === 'NEW') {
             let officeLocation = JSON.parse(sessionStorage.getItem('location'));
             let customerStatus = JSON.parse(sessionStorage.getItem('controldefaults'));
             FwFormField.setValue($form, 'div[data-datafield="OfficeLocationId"]', officeLocation.locationid, officeLocation.location);
             FwFormField.setValue($form, 'div[data-datafield="CustomerStatusId"]', customerStatus.defaultcustomerstatusid, customerStatus.defaultcustomerstatus);
         }
-
-        $submoduleDealBrowse.find('div.btn[data-type="NewMenuBarButton"]').off('click');
-        $submoduleDealBrowse.find('div.btn[data-type="NewMenuBarButton"]').on('click', function () {
-            var $dealForm, controller, $browse, dealFormData: any = {};
-            $browse = jQuery(this).closest('.fwbrowse');
-            controller = $browse.attr('data-controller');
-            dealFormData.CustomerId = FwFormField.getValueByDataField($form, 'CustomerId');
-            dealFormData.Customer = FwFormField.getValueByDataField($form, 'Customer');
-            if (typeof window[controller] !== 'object') throw 'Missing javascript module: ' + controller;
-            if (typeof window[controller]['openForm'] !== 'function') throw 'Missing javascript function: ' + controller + '.openForm';
-            $dealForm = window[controller]['openForm']('NEW', dealFormData);
-            FwModule.openSubModuleTab($browse, $dealForm);
-        });
 
         $form.find('[data-datafield="UseDiscountTemplate"] .fwformfield-value').on('change', function () {
             var $this = jQuery(this);
@@ -285,11 +268,27 @@ class Customer {
         //FwBrowse.search($companyContactGrid);
 
         var $dealBrowse = $form.find('#DealBrowse');
-        //FwBrowse.search($dealBrowse);
+        FwBrowse.search($dealBrowse);
 
         if (FwFormField.getValue($form, 'div[data-datafield="UseDiscountTemplate"]') === true) {
             FwFormField.enable($form.find('.discount-validation'));
         };
+
+        //open deal browse submodule
+        var $submoduleDealBrowse = this.openDealBrowse($form);
+        $form.find('.deal').append($submoduleDealBrowse);
+        $submoduleDealBrowse.find('div.btn[data-type="NewMenuBarButton"]').off('click');
+        $submoduleDealBrowse.find('div.btn[data-type="NewMenuBarButton"]').on('click', function () {
+            var $dealForm, controller, $browse, dealFormData: any = {};
+            $browse = jQuery(this).closest('.fwbrowse');
+            controller = $browse.attr('data-controller');
+            dealFormData.CustomerId = FwFormField.getValueByDataField($form, 'CustomerId');
+            dealFormData.Customer = FwFormField.getValueByDataField($form, 'Customer');
+            if (typeof window[controller] !== 'object') throw 'Missing javascript module: ' + controller;
+            if (typeof window[controller]['openForm'] !== 'function') throw 'Missing javascript function: ' + controller + '.openForm';
+            $dealForm = window[controller]['openForm']('NEW', dealFormData);
+            FwModule.openSubModuleTab($browse, $dealForm);
+        });
 
         //Click Event on tabs to load grids/browses
         $form.on('click', '[data-type="tab"]', e => {
@@ -312,6 +311,9 @@ class Customer {
                 }
             }
         });
+
+
+
 
         this.addressTypeChange($form);
     }
