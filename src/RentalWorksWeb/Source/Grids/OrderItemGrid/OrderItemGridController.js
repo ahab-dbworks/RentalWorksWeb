@@ -340,10 +340,11 @@ class OrderItemGrid {
     }
     ;
     toggleOrderItemView($form, event, module) {
-        let $element, $orderItemGrid, recType, isSummary, orderId;
+        let $element, $orderItemGrid, recType, isSummary, orderId, isSubGrid;
         let request = {};
         $element = jQuery(event.currentTarget);
         recType = $element.closest('[data-grid="OrderItemGrid"]').attr('class');
+        isSubGrid = $element.closest('[data-grid="OrderItemGrid"]').attr('data-issubgrid');
         orderId = FwFormField.getValueByDataField($form, `${module}Id`);
         $orderItemGrid = $element.closest('[data-name="OrderItemGrid"]');
         if ($orderItemGrid.data('isSummary') === false) {
@@ -364,6 +365,9 @@ class OrderItemGrid {
             };
             request.pagesize = 9999;
             request.orderby = "RowNumber,RecTypeDisplay";
+            if (isSubGrid === "true") {
+                request.uniqueids.Subs = true;
+            }
         });
         $orderItemGrid.data('beforesave', request => {
             request.OrderId = orderId;
