@@ -723,6 +723,22 @@ class OrderBase {
         $form.find(".weeklyType").show();
         $form.find(".monthlyType").hide();
         $form.find(".periodType input").prop('checked', true);
+
+        //Defaults Address information when user selects a deal
+        $form.find('[data-datafield="DealId"]').on('change', e => {
+            let dealId = FwFormField.getValueByDataField($form, 'DealId')
+            FwAppData.apiMethod(true, 'GET', `api/v1/deal/${dealId}`, null, FwServices.defaultTimeout, function onSuccess(response) {
+                FwFormField.setValueByDataField($form, 'IssuedToAttention', response.BillToAttention1);
+                FwFormField.setValueByDataField($form, 'IssuedToAttention2', response.BillToAttention2);
+                FwFormField.setValueByDataField($form, 'IssuedToAddress1', response.BillToAddress1);
+                FwFormField.setValueByDataField($form, 'IssuedToAddress2', response.BillToAddress2);
+                FwFormField.setValueByDataField($form, 'BillToCity', response.BillToCity);
+                FwFormField.setValueByDataField($form, 'IssuedToState', response.BillToState);
+                FwFormField.setValueByDataField($form, 'IssuedToZipCode', response.BillToZipCode);
+                FwFormField.setValueByDataField($form, 'IssuedToCountryId', response.BillToCountryId, response.BillToCountry);
+                FwFormField.setValueByDataField($form, 'PrintIssuedToAddressFrom', response.BillToAddressType);
+            },null, $form);
+        });
     };
     //----------------------------------------------------------------------------------------------
     bottomLineDiscountChange($form: any, event: any) {
