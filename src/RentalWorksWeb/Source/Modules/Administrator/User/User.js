@@ -156,6 +156,10 @@ class User {
         else {
             FwFormField.disable($form.find('[data-datafield="PasswordExpireDays"]'));
         }
+        $form.find('[data-datafield="OfficeLocationId"]').data('onchange', e => {
+            $form.find('[data-datafield="WarehouseId"] input.fwformfield-value').val('');
+            $form.find('[data-datafield="WarehouseId"] input.fwformfield-text').val('');
+        });
     }
     beforeValidateWarehouse($browse, $form, request) {
         let locationId;
