@@ -1,21 +1,23 @@
 ﻿using FwStandard.BusinessLogic.Attributes;
 using WebApi.Logic;
+using WebLibrary;
 
 namespace WebApi.Modules.Home.OrderSummary
 {
     public class OrderSummaryLogic : AppBusinessLogic
     {
-        //protected DealOrderRecord dealOrder = new DealOrderRecord();
         protected OrderSummaryLoader orderSummaryLoader = new OrderSummaryLoader();
         //------------------------------------------------------------------------------------
         public OrderSummaryLogic()
         {
-            //dataRecords.Add(dealOrder);
             dataLoader = orderSummaryLoader;
         }
         //------------------------------------------------------------------------------------
         [FwBusinessLogicField(isPrimaryKey: true)]
-        public string OrderId { get; set; }
+        public string OrderId { get; set; } = "";
+        //------------------------------------------------------------------------------------
+        [FwBusinessLogicField(isPrimaryKey: true)]
+        public string TotalType { get; set; } = RwConstants.TOTAL_TYPE_PERIOD;
         //------------------------------------------------------------------------------------
         [FwBusinessLogicField(isReadOnly: true)]
         public decimal? RentalPrice { get; set; }
