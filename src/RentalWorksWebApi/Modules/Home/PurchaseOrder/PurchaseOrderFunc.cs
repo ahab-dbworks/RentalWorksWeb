@@ -5,6 +5,7 @@ using System.Data;
 using System.Threading.Tasks;
 using WebApi.Modules.Home.PurchaseOrderReceiveItem;
 using WebApi.Modules.Home.PurchaseOrderReturnItem;
+using WebLibrary;
 
 namespace WebApi.Modules.Home.PurchaseOrder
 {
@@ -57,7 +58,7 @@ namespace WebApi.Modules.Home.PurchaseOrder
                 qry.AddParameter("@poid", SqlDbType.NVarChar, ParameterDirection.Input, purchaseOrderId);
                 qry.AddParameter("@contractid", SqlDbType.NVarChar, ParameterDirection.Input, contractId);
                 qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, userSession.UsersId);
-                qry.AddParameter("@selectallnone", SqlDbType.NVarChar, ParameterDirection.Input, (selectAll ? "A" : "N"));
+                qry.AddParameter("@selectallnone", SqlDbType.NVarChar, ParameterDirection.Input, (selectAll ? RwConstants.SELECT_ALL : RwConstants.SELECT_NONE));
                 qry.AddParameter("@status", SqlDbType.Int, ParameterDirection.Output);
                 qry.AddParameter("@msg", SqlDbType.NVarChar, ParameterDirection.Output);
                 await qry.ExecuteNonQueryAsync(true);
@@ -117,7 +118,7 @@ namespace WebApi.Modules.Home.PurchaseOrder
                 qry.AddParameter("@poid", SqlDbType.NVarChar, ParameterDirection.Input, purchaseOrderId);
                 qry.AddParameter("@contractid", SqlDbType.NVarChar, ParameterDirection.Input, contractId);
                 qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, userSession.UsersId);
-                qry.AddParameter("@selectallnone", SqlDbType.NVarChar, ParameterDirection.Input, (selectAll ? "A" : "N"));
+                qry.AddParameter("@selectallnone", SqlDbType.NVarChar, ParameterDirection.Input, (selectAll ? RwConstants.SELECT_ALL : RwConstants.SELECT_NONE));
                 qry.AddParameter("@status", SqlDbType.Int, ParameterDirection.Output);
                 qry.AddParameter("@msg", SqlDbType.NVarChar, ParameterDirection.Output);
                 await qry.ExecuteNonQueryAsync(true);

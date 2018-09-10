@@ -1,9 +1,11 @@
 ﻿using FwStandard.Models;
 using FwStandard.SqlServer;
+using System.ComponentModel.DataAnnotations;
 using System.Data;
 using System.Threading.Tasks;
 using WebApi.Logic;
 using WebApi.Modules.Home.CheckOut;
+using WebLibrary;
 
 namespace WebApi.Home.CheckOut
 {
@@ -36,6 +38,17 @@ namespace WebApi.Home.CheckOut
     public class CheckOutAllStagedResponse : TSpStatusReponse
     {
         public string ContractId;
+    }
+
+    public class SelectAllNoneStageQuantityItemRequest
+    {
+        [Required]
+        public string OrderId { get; set; }
+    }
+
+
+    public class SelectAllNoneStageQuantityItemResponse : TSpStatusReponse
+    {
     }
 
 
@@ -140,6 +153,39 @@ namespace WebApi.Home.CheckOut
             return response;
         }
         //-------------------------------------------------------------------------------------------------------
+        private static async Task<SelectAllNoneStageQuantityItemResponse> SelectAllNoneStageQuantityItem(FwApplicationConfig appConfig, FwUserSession userSession, string orderId, bool selectAll)
+        {
+            SelectAllNoneStageQuantityItemResponse response = new SelectAllNoneStageQuantityItemResponse();
+            using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
+            {
+                FwSqlCommand qry = new FwSqlCommand(conn, "selectallstagedquantity", appConfig.DatabaseSettings.QueryTimeout);
+                qry.AddParameter("@orderid", SqlDbType.NVarChar, ParameterDirection.Input, orderId);
+                qry.AddParameter("@selectallnone", SqlDbType.NVarChar, ParameterDirection.Input, selectAll? RwConstants.SELECT_ALL : RwConstants.SELECT_NONE);
+                qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, userSession.UsersId);
+                qry.AddParameter("@status", SqlDbType.Int, ParameterDirection.Output);
+                qry.AddParameter("@msg", SqlDbType.NVarChar, ParameterDirection.Output);
+                await qry.ExecuteNonQueryAsync(true);
+                response.status = qry.GetParameter("@status").ToInt32();
+                response.success = (response.status == 0);
+                response.msg = qry.GetParameter("@msg").ToString();
+            }
+            return response;
+        }
+        //-------------------------------------------------------------------------------------------------------
+        public static async Task<SelectAllNoneStageQuantityItemResponse> SelectAllStageQuantityItem(FwApplicationConfig appConfig, FwUserSession userSession, string orderId)
+        {
+            return await SelectAllNoneStageQuantityItem(appConfig, userSession, orderId, true);
+        }
+        //-------------------------------------------------------------------------------------------------------
+        public static async Task<SelectAllNoneStageQuantityItemResponse> SelectNoneStageQuantityItem(FwApplicationConfig appConfig, FwUserSession userSession, string orderId)
+        {
+            return await SelectAllNoneStageQuantityItem(appConfig, userSession, orderId, false);
+        }
+        //-------------------------------------------------------------------------------------------------------
+
+
+
+
         public static async Task<CheckOutAllStagedResponse> CheckOutAllStaged (FwApplicationConfig appConfig, FwUserSession userSession, string orderId)
         {
             CheckOutAllStagedResponse response = new CheckOutAllStagedResponse();

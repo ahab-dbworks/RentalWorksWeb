@@ -76,44 +76,24 @@ namespace WebApi.Modules.Home.StageQuantityItem
         //------------------------------------------------------------------------------------ 
         public override async Task<FwJsonDataTable> BrowseAsync(BrowseRequest request, FwCustomFields customFields = null)
         {
-            string orderId = "";
-            if (request != null)
-            {
-                if (request.uniqueids != null)
-                {
-                    IDictionary<string, object> uniqueIds = ((IDictionary<string, object>)request.uniqueids);
-                    if (uniqueIds.ContainsKey("OrderId"))
-                    {
-                        orderId = uniqueIds["OrderId"].ToString();
-                    }
-                }
-            }
+            string orderId = GetUniqueIdAsString("OrderId", request) ?? "";
+            bool includeZeroRemaining = GetUniqueIdAsBoolean("IncludeZeroRemaining", request) ?? false;
 
             FwJsonDataTable dt = null;
-
             using (FwSqlConnection conn = new FwSqlConnection(this.AppConfig.DatabaseSettings.ConnectionString))
             {
                 using (FwSqlCommand qry = new FwSqlCommand(conn, "getstagedquantity", this.AppConfig.DatabaseSettings.QueryTimeout))
                 {
                     qry.AddParameter("@orderid", SqlDbType.NVarChar, ParameterDirection.Input, orderId);
                     qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, UserSession.UsersId);
+                    qry.AddParameter("@includezeroremaining", SqlDbType.NVarChar, ParameterDirection.Input, includeZeroRemaining ? "T" : "F");
                     qry.AddParameter("@status", SqlDbType.Int, ParameterDirection.Output);
                     qry.AddParameter("@msg", SqlDbType.NVarChar, ParameterDirection.Output);
-                    PropertyInfo[] propertyInfos = typeof(StageQuantityItemLoader).GetProperties();
-                    foreach (PropertyInfo propertyInfo in propertyInfos)
-                    {
-                        FwSqlDataFieldAttribute sqlDataFieldAttribute = propertyInfo.GetCustomAttribute<FwSqlDataFieldAttribute>();
-                        if (sqlDataFieldAttribute != null)
-                        {
-                            qry.AddColumn(sqlDataFieldAttribute.ColumnName, propertyInfo.Name, sqlDataFieldAttribute.ModelType, sqlDataFieldAttribute.IsVisible, sqlDataFieldAttribute.IsPrimaryKey, false);
-                        }
-                    }
+                    AddPropertiesAsQueryColumns(qry);
                     dt = await qry.QueryToFwJsonTableAsync(false, 0);
                 }
             }
             return dt;
-
-
         }
         //------------------------------------------------------------------------------------
 

@@ -4,6 +4,7 @@ using System.Data;
 using System.Threading.Tasks;
 using WebApi.Modules.Home.OrderItem;
 using WebApi.Modules.Home.SubPurchaseOrderItem;
+using WebLibrary;
 
 namespace WebApi.Modules.Home.Order
 {
@@ -98,7 +99,7 @@ namespace WebApi.Modules.Home.Order
                 FwSqlCommand qry = new FwSqlCommand(conn, "selectallpoworksheetitems", appConfig.DatabaseSettings.QueryTimeout);
                 qry.AddParameter("@sessionid", SqlDbType.NVarChar, ParameterDirection.Input, sessionId);
                 //qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, userSession.UsersId);
-                qry.AddParameter("@selectallnone", SqlDbType.NVarChar, ParameterDirection.Input, (selectAll ? "A" : "N"));
+                qry.AddParameter("@selectallnone", SqlDbType.NVarChar, ParameterDirection.Input, (selectAll ? RwConstants.SELECT_ALL : RwConstants.SELECT_NONE));
                 qry.AddParameter("@status", SqlDbType.Int, ParameterDirection.Output);
                 qry.AddParameter("@msg", SqlDbType.NVarChar, ParameterDirection.Output);
                 await qry.ExecuteNonQueryAsync(true);

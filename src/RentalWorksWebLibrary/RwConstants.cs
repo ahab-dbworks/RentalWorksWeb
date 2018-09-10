@@ -18,6 +18,9 @@ namespace WebLibrary
         public const string DEPARTMENT_TYPE_MISC = "M";
         public const string DEPARTMENT_TYPE_LABOR = "L";
 
+        public const string SELECT_ALL = "A";
+        public const string SELECT_NONE = "N";
+
 
         //MODULES
         public const string MODULE_CUSTOMER = "CUSTOMER";

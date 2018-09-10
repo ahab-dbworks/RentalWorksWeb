@@ -8,22 +8,10 @@ using System;
 using Microsoft.AspNetCore.Http;
 using System.ComponentModel.DataAnnotations;
 using WebApi.Modules.Home.PurchaseOrder;
+using WebApi.Home.CheckOut;
 
 namespace WebApi.Modules.Home.StageQuantityItem
 {
-    //public class SelectAllNoneStageQuantityItemRequest
-    //{
-    //    [Required]
-    //    public string ContractId { get; set; }
-    //    [Required]
-    //    public string PurchaseOrderId { get; set; }
-    //}
-
-
-    //public class SelectAllNoneStageQuantityItemResponse : TSpStatusReponse
-    //{
-    //}
-
 
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "home-v1")]
@@ -45,53 +33,53 @@ namespace WebApi.Modules.Home.StageQuantityItem
             return await DoExportExcelXlsxFileAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
-        //// POST api/v1/stagequantityitem/selectall
-        //[HttpPost("selectall")]
-        //public async Task<IActionResult> SelectAll([FromBody] SelectAllNoneReceiveItemRequest request)
-        //{
-        //    if (!ModelState.IsValid)
-        //    {
-        //        return BadRequest(ModelState);
-        //    }
-        //    try
-        //    {
-        //        SelectAllNoneReceiveItemResponse response = await PurchaseOrderFunc.SelectAllReceiveItem(AppConfig, UserSession, request.ContractId, request.PurchaseOrderId);
-        //        return new OkObjectResult(response);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        FwApiException jsonException = new FwApiException();
-        //        jsonException.StatusCode = StatusCodes.Status500InternalServerError;
-        //        jsonException.Message = ex.Message;
-        //        jsonException.StackTrace = ex.StackTrace;
-        //        return StatusCode(jsonException.StatusCode, jsonException);
-        //    }
-        //}
-        ////------------------------------------------------------------------------------------        
+        // POST api/v1/stagequantityitem/selectall
+        [HttpPost("selectall")]
+        public async Task<IActionResult> SelectAll([FromBody] SelectAllNoneStageQuantityItemRequest request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                SelectAllNoneStageQuantityItemResponse response = await CheckOutFunc.SelectAllStageQuantityItem(AppConfig, UserSession, request.OrderId);
+                return new OkObjectResult(response);
+            }
+            catch (Exception ex)
+            {
+                FwApiException jsonException = new FwApiException();
+                jsonException.StatusCode = StatusCodes.Status500InternalServerError;
+                jsonException.Message = ex.Message;
+                jsonException.StackTrace = ex.StackTrace;
+                return StatusCode(jsonException.StatusCode, jsonException);
+            }
+        }
+        //------------------------------------------------------------------------------------        
 
-        //// POST api/v1/stagequantityitem/selectnone
-        //[HttpPost("selectnone")]
-        //public async Task<IActionResult> SelectNone([FromBody] SelectAllNoneReceiveItemRequest request)
-        //{
-        //    if (!ModelState.IsValid)
-        //    {
-        //        return BadRequest(ModelState);
-        //    }
-        //    try
-        //    {
-        //        SelectAllNoneReceiveItemResponse response = await PurchaseOrderFunc.SelectNoneReceiveItem(AppConfig, UserSession, request.ContractId, request.PurchaseOrderId);
-        //        return new OkObjectResult(response);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        FwApiException jsonException = new FwApiException();
-        //        jsonException.StatusCode = StatusCodes.Status500InternalServerError;
-        //        jsonException.Message = ex.Message;
-        //        jsonException.StackTrace = ex.StackTrace;
-        //        return StatusCode(jsonException.StatusCode, jsonException);
-        //    }
-        //}
-        ////------------------------------------------------------------------------------------        
+        // POST api/v1/stagequantityitem/selectnone
+        [HttpPost("selectnone")]
+        public async Task<IActionResult> SelectNone([FromBody] SelectAllNoneStageQuantityItemRequest request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                SelectAllNoneStageQuantityItemResponse response = await CheckOutFunc.SelectNoneStageQuantityItem(AppConfig, UserSession, request.OrderId);
+                return new OkObjectResult(response);
+            }
+            catch (Exception ex)
+            {
+                FwApiException jsonException = new FwApiException();
+                jsonException.StatusCode = StatusCodes.Status500InternalServerError;
+                jsonException.Message = ex.Message;
+                jsonException.StackTrace = ex.StackTrace;
+                return StatusCode(jsonException.StatusCode, jsonException);
+            }
+        }
+        //------------------------------------------------------------------------------------        
 
     }
 }
