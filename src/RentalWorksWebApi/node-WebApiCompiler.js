@@ -1,4 +1,4 @@
-﻿const util = require('util');
+const util = require('util');
 var spawn = require('child-process-promise').spawn;
 const rmfr = require('rmfr');
 const WebpackReportsCompiler = require('./node-WebpackReportsCompiler');
@@ -49,20 +49,28 @@ class WebApiCompiler {
     async clean_api() {
         console.log('//------------------------------------------------------------------------------------');
         console.log('Cleaning compiled files...')
+        //________________________________________________________
         console.log('Deleting: ../../lib/Fw/src/FwStandard/bin');
         await rmfr('../../lib/Fw/src/FwStandard/bin');
+        //________________________________________________________
         console.log('Deleting: ../../lib/Fw/src/FwStandard/obj');
         await rmfr('../../lib/Fw/src/FwStandard/obj');
+        //________________________________________________________
         console.log('Deleting: ../../lib/Fw/src/FwCore/bin');
         await rmfr('../../lib/Fw/src/FwCore/bin');
+        //________________________________________________________
         console.log('Deleting: ../../lib/Fw/src/FwCore/obj');
         await rmfr('../../lib/Fw/src/FwCore/obj');
-        console.log('Deleting: ../../lib/Fw/src/RentalWorksWebLibrary/bin');
+        //________________________________________________________
+        console.log('Deleting: ../RentalWorksWebLibrary/bin');
         await rmfr('../RentalWorksWebLibrary/bin');
-        console.log('Deleting: ../../lib/Fw/src/RentalWorksWebLibrary/obj');
+        //________________________________________________________
+        console.log('Deleting: ../RentalWorksWebLibrary/obj');
         await rmfr('../RentalWorksWebLibrary/obj');
+        //________________________________________________________
         console.log('Deleting: bin');
         await rmfr('bin');
+        //________________________________________________________
         console.log('Deleting: obj');
         await rmfr('obj');
     }
