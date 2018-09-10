@@ -6,8 +6,21 @@ import { HandlebarsHelpers } from '../../lib/FwReportLibrary/src/scripts/Handleb
 import * as moment from 'moment';
 import '../../lib/FwReportLibrary/src/theme/webpackReports.scss';
 import './index.scss';
-var hbReport = require("./hbReport.hbs"); 
-var hbFooter = require("./hbFooter.hbs"); 
+var hbReport = require("./hbReport.hbs");
+var hbFooter = require("./hbFooter.hbs");
+
+export class AgentBillingReportRequest {
+    FromDate: Date;
+    ToDate: Date;
+    DateType: string;
+    IncludeNoCharge: boolean;
+    OfficeLocationId: string;
+    DepartmentId: string;
+    AgentId: string;
+    CustomerId: string;
+    DealId: string;
+}
+
 
 export class AgentBillingReport extends WebpackReport {
 
@@ -16,32 +29,21 @@ export class AgentBillingReport extends WebpackReport {
             super.renderReport(apiUrl, authorizationHeader, parameters);
 
             HandlebarsHelpers.registerHelpers();
-            let request = new BrowseRequest();
-            request.uniqueids = {};
+            let request = new AgentBillingReportRequest();
+
+            request.DateType = parameters.DateType;
+            request.ToDate = parameters.ToDate;
+            request.FromDate = parameters.FromDate;
+            request.IncludeNoCharge = parameters.IncludeNoCharge;
+            request.OfficeLocationId = parameters.OfficeLocationId
+            request.DepartmentId = parameters.DepartmentId
+            request.DealId = parameters.DealId
+            request.AgentId = parameters.UserId
+            request.CustomerId = parameters.CustomerId
 
             let agentBilling: any = {};
-            request.orderby = 'Agent, OfficeLocation, Department, Deal, OrderNumber';
-            request.uniqueids.DateType = parameters.DateType;
-            request.uniqueids.ToDate = parameters.ToDate;
-            request.uniqueids.FromDate = parameters.FromDate;
-            request.uniqueids.IncludeNoCharge = parameters.IncludeNoCharge;
-            if (parameters.OfficeLocationId != '') {
-                request.uniqueids.LocationId = parameters.OfficeLocationId
-            }
-            if (parameters.DepartmentId != '') {
-                request.uniqueids.DepartmentId = parameters.DepartmentId
-            }
-            if (parameters.DealId != '') {
-                request.uniqueids.DealId = parameters.DealId
-            }
-            if (parameters.UserId != '') {
-                request.uniqueids.AgentId = parameters.UserId
-            }
-            if (parameters.CustomerId != '') {
-                request.uniqueids.CustomerId = parameters.CustomerId
-            }
-            
-            let agentBillingPromise = Ajax.post<DataTable>(`${apiUrl}/api/v1/agentbillingreport/browse`, authorizationHeader, request)
+
+            let agentBillingPromise = Ajax.post<DataTable>(`${apiUrl}/api/v1/agentbillingreport/runreport`, authorizationHeader, request)
                 .then((response: DataTable) => {
                     agentBilling = DataTable.toObjectList(response);
                     agentBilling.PrintTime = moment().format('YYYY-MM-DD h:mm:ss A');
@@ -66,7 +68,7 @@ export class AgentBillingReport extends WebpackReport {
         }
     }
 
-    renderFooterHtml(model: DataTable) : string {
+    renderFooterHtml(model: DataTable): string {
         this.footerHtml = hbFooter(model);
         return this.footerHtml;
     }

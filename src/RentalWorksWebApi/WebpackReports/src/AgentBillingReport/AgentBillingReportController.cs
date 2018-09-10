@@ -12,6 +12,21 @@ using Microsoft.AspNetCore.Http;
 
 namespace WebApi.Modules.Reports.AgentBillingReport
 {
+
+    public class AgentBillingReportRequest
+    {
+        public DateTime FromDate;
+        public DateTime ToDate;
+        public string DateType;
+        public bool? IncludeNoCharge;
+        public string OfficeLocationId;
+        public string DepartmentId;
+        public string AgentId;
+        public string CustomerId;
+        public string DealId;
+    }
+
+
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "reports-v1")]
     public class AgentBillingReportController : AppReportController
@@ -46,24 +61,19 @@ namespace WebApi.Modules.Reports.AgentBillingReport
             return new OkObjectResult(response);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/agentbillingreport/browse 
-        [HttpPost("browse")]
-        public async Task<IActionResult> BrowseAsync([FromBody]BrowseRequest browseRequest)
+        // POST api/v1/agentbillingreport/runreport 
+        [HttpPost("runreport")]
+        public async Task<IActionResult> RunReportAsync([FromBody]AgentBillingReportRequest request)
         {
-            //return await DoBrowseAsync(browseRequest);
-
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
             try
             {
-                AgentBillingReportLogic l = new AgentBillingReportLogic();
+                AgentBillingReportLoader l = new AgentBillingReportLoader();
                 l.SetDependencies(this.AppConfig, this.UserSession);
-                FwJsonDataTable dt = await l.BrowseAsync(browseRequest);
-                string[] totalFields = new string[] { "RentalTotal", "MeterTotal", "SalesTotal", "FacilitiesTotal", "MiscellaneousTotal", "LaborTotal", "PartsTotal", "AssetTotal", "InvoiceTax", "InvoiceTotal" };
-                dt.InsertSubTotalRows("Agent", "RowType", totalFields);
-                dt.InsertTotalRow("RowType", "detail", "grandtotal", totalFields);
+                FwJsonDataTable dt = await l.RunReportAsync(request);
                 return new OkObjectResult(dt);
             }
             catch (Exception ex)

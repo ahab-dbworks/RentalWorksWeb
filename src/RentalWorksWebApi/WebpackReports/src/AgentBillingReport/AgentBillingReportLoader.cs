@@ -1,11 +1,8 @@
-using FwStandard.DataLayer;
-using FwStandard.Models;
 using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
-using System.Collections.Generic;
-using System;
 using WebLibrary;
+using System.Threading.Tasks;
 
 namespace WebApi.Modules.Reports.AgentBillingReport
 {
@@ -133,73 +130,47 @@ namespace WebApi.Modules.Reports.AgentBillingReport
         [FwSqlDataField(column: "nonbillable", modeltype: FwDataTypes.Boolean)]
         public bool? IsNonBillable { get; set; }
         //------------------------------------------------------------------------------------ 
-        protected override void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequest request = null)
+        public async Task<FwJsonDataTable> RunReportAsync(AgentBillingReportRequest request)
         {
-            string dateType = "";
-            string dateField = "";
-            DateTime fromDate = DateTime.MinValue;
-            DateTime toDate = DateTime.MaxValue;
-            bool includeNoCharge = false;
-
-            if ((request != null) && (request.uniqueids != null))
+            FwJsonDataTable dt = null;
+            using (FwSqlConnection conn = new FwSqlConnection(AppConfig.DatabaseSettings.ConnectionString))
             {
-                IDictionary<string, object> uniqueIds = ((IDictionary<string, object>)request.uniqueids);
-                if (uniqueIds.ContainsKey("FromDate"))
+                FwSqlSelect select = new FwSqlSelect();
+                select.EnablePaging = false;
+                using (FwSqlCommand qry = new FwSqlCommand(conn, AppConfig.DatabaseSettings.QueryTimeout))
                 {
-                    fromDate = FwConvert.ToDateTime(uniqueIds["FromDate"].ToString());
-                }
-                if (uniqueIds.ContainsKey("ToDate"))
-                {
-                    toDate = FwConvert.ToDateTime(uniqueIds["ToDate"].ToString());
-                }
-                if (uniqueIds.ContainsKey("DateType"))
-                {
-                    dateType = uniqueIds["DateType"].ToString();
-                }
-                if (uniqueIds.ContainsKey("DateType"))
-                {
-                    dateType = uniqueIds["DateType"].ToString();
-                }
-                if (uniqueIds.ContainsKey("IncludeNoCharge"))
-                {
-                    includeNoCharge = FwConvert.ToBoolean(uniqueIds["IncludeNoCharge"].ToString());
+                    SetBaseSelectQuery(select, qry);
+                    select.Parse();
+                    select.AddWhere("(agentid > '')");
+                    addStringFilterToSelect("locationid", request.OfficeLocationId, select);
+                    addStringFilterToSelect("departmentid", request.DepartmentId, select);
+                    addStringFilterToSelect("agentid", request.AgentId, select);
+                    addStringFilterToSelect("customerid", request.CustomerId, select);
+                    addStringFilterToSelect("dealid", request.DealId, select);
+
+                    string dateField = "invoicedate";
+                    if (request.DateType.Equals(RwConstants.INVOICE_DATE_TYPE_BILLING_START_DATE))
+                    {
+                        dateField = "billingstart";
+                    }
+                    addDateFilterToSelect(dateField, request.FromDate, select, ">=", "fromdate");
+                    addDateFilterToSelect(dateField, request.ToDate, select, "<=", "todate");
+                    if (!request.IncludeNoCharge.GetValueOrDefault(false))
+                    {
+                        select.AddWhere("nocharge <> 'T'");
+                    }
+                    select.AddOrderBy("agent,invoicedate");
+
+                    dt = await qry.QueryToFwJsonTableAsync(select, false);
                 }
             }
 
-            dateField = "invoicedate";
-            if (dateType.Equals(RwConstants.INVOICE_DATE_TYPE_BILLING_START_DATE))
-            {
-                dateField = "billingstart";
-            }
+            string[] totalFields = new string[] { "RentalTotal", "MeterTotal", "SalesTotal", "FacilitiesTotal", "MiscellaneousTotal", "LaborTotal", "PartsTotal", "AssetTotal", "InvoiceTax", "InvoiceTotal" };
+            dt.InsertSubTotalRows("Agent", "RowType", totalFields);
+            dt.InsertTotalRow("RowType", "detail", "grandtotal", totalFields);
 
-
-            base.SetBaseSelectQuery(select, qry, customFields, request);
-            select.Parse();
-            select.AddWhere("(agentid > '')");
-            addFilterToSelect("LocationId", "locationid", select, request);
-            addFilterToSelect("DepartmentId", "departmentid", select, request);
-            addFilterToSelect("AgentId", "agentid", select, request);
-            addFilterToSelect("DealId", "dealid", select, request);
-            addFilterToSelect("CustomerId", "customerid", select, request);
-
-            if (fromDate != DateTime.MinValue)
-            {
-                select.AddWhere(dateField + " >= @fromdate");
-                select.AddParameter("@fromdate", fromDate);
-            }
-
-            if (toDate != DateTime.MinValue)
-            {
-                select.AddWhere(dateField + " <= @todate");
-                select.AddParameter("@todate", toDate);
-            }
-
-            if (!includeNoCharge)
-            {
-                select.AddWhere("nocharge <> 'T'");
-            }
-
+            return dt;
         }
-        //------------------------------------------------------------------------------------ 
+        //------------------------------------------------------------------------------------    
     }
 }
