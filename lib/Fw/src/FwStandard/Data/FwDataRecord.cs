@@ -27,7 +27,7 @@ namespace FwStandard.DataLayer
 
 
         [JsonIgnore]
-        public bool ForceSave { get { return forceSave; } set { forceSave = value;  } }
+        public bool ForceSave { get { return forceSave; } set { forceSave = value; } }
 
         [JsonIgnore]
         public bool ReloadOnSave { get { return reloadOnSave; } set { reloadOnSave = value; } }
@@ -669,7 +669,7 @@ namespace FwStandard.DataLayer
             for (int i = 0; i < primaryKeyProperties.Count; i++)
             {
                 PropertyInfo pkProperty = primaryKeyProperties[i];
-                Type propertyType       = pkProperty.PropertyType;
+                Type propertyType = pkProperty.PropertyType;
 
                 if ((propertyType == typeof(int?)) || (propertyType == typeof(Int32)))
                 {
@@ -681,7 +681,7 @@ namespace FwStandard.DataLayer
                 }
                 else
                 {
-                    throw new Exception("Primary key property type not implemented for " +  propertyType.ToString() + ". [FwBusinessLogic.SetPrimaryKeys]");
+                    throw new Exception("Primary key property type not implemented for " + propertyType.ToString() + ". [FwBusinessLogic.SetPrimaryKeys]");
                 }
             }
             return await GetAsync<T>(customFields);
@@ -758,6 +758,48 @@ namespace FwStandard.DataLayer
             }
         }
         //------------------------------------------------------------------------------------
+        protected void addStringFilterToSelect(string filterFieldName, string value, FwSqlSelect select, string filterCondition = "=", string paramName = "", bool addWhenBlank = false)
+        {
+            if (value != null)
+            {
+                if ((!value.Equals(string.Empty)) || addWhenBlank)
+                {
+                    if (string.IsNullOrEmpty(paramName))
+                    {
+                        paramName = filterFieldName;
+                    }
+                    select.AddWhere(filterFieldName + " " + filterCondition + " @" + paramName);
+                    select.AddParameter("@" + paramName, value);
+                }
+            }
+        }
+        //------------------------------------------------------------------------------------
+        protected void addDateFilterToSelect(string filterFieldName, DateTime? value, FwSqlSelect select, string filterCondition = "=", string paramName = "")
+        {
+            if (value != null)
+            {
+                if (string.IsNullOrEmpty(paramName))
+                {
+                    paramName = filterFieldName;
+                }
+                select.AddWhere(filterFieldName + " " + filterCondition + " @" + paramName);
+                select.AddParameter("@" + paramName, value);
+            }
+        }
+        //------------------------------------------------------------------------------------
+        protected void addBooleanFilterToSelect(string filterFieldName, bool? value, FwSqlSelect select, string filterCondition = "=", string paramName = "")
+        {
+            if (value != null)
+            {
+                if (string.IsNullOrEmpty(paramName))
+                {
+                    paramName = filterFieldName;
+                }
+                select.AddWhere(filterFieldName + " " + filterCondition + " @" + paramName);
+                select.AddParameter("@" + paramName, value.GetValueOrDefault(false) ? "T" : "F");
+            }
+        }
+        //------------------------------------------------------------------------------------
         //[Obsolete("Please call AddFilterFieldToSelect instead and make sure you push the filter in request.filterfields instead of request.uniqueids.")]
         protected void addFilterToSelect(string filterFieldName, string databaseFieldName, FwSqlSelect select, BrowseRequest request = null)
         {
@@ -767,8 +809,9 @@ namespace FwStandard.DataLayer
                 if (uniqueIds.ContainsKey(filterFieldName))
                 {
                     select.AddWhere(databaseFieldName + " = @" + databaseFieldName);
-                    if (uniqueIds[filterFieldName] is bool) {
-                        select.AddParameter("@" + databaseFieldName, ((bool)uniqueIds[filterFieldName] ? "T": "F"));
+                    if (uniqueIds[filterFieldName] is bool)
+                    {
+                        select.AddParameter("@" + databaseFieldName, ((bool)uniqueIds[filterFieldName] ? "T" : "F"));
                     }
                     else
                     {
@@ -925,7 +968,7 @@ namespace FwStandard.DataLayer
         {
             object id = new object();
 
-            await Task.Run(() => { } );
+            await Task.Run(() => { });
 
             return id;
         }
