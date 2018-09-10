@@ -143,6 +143,7 @@ class FwReportsPageClass {
                 }
                 else {
                     var results = [];
+                    results.push(val);
                     $reports.closest('div.panel-group').hide();
                     for (var caption in screen.moduleCaptions) {
                         if (caption.indexOf(val) !== -1) {

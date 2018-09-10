@@ -156,20 +156,7 @@ class User {
         else {
             FwFormField.disable($form.find('[data-datafield="PasswordExpireDays"]'));
         }
-        $form.find('[data-datafield="OfficeLocationId"]').data('onchange', e => {
-            $form.find('[data-datafield="WarehouseId"] input.fwformfield-value').val('');
-            $form.find('[data-datafield="WarehouseId"] input.fwformfield-text').val('');
-        });
     }
-    beforeValidateWarehouse($browse, $form, request) {
-        let locationId;
-        request.uniqueids = {};
-        locationId = FwFormField.getValueByDataField($form, 'OfficeLocationId');
-        if (locationId) {
-            request.uniqueids.LocationId = locationId;
-        }
-    }
-    ;
 }
 var UserController = new User();
 //# sourceMappingURL=User.js.map

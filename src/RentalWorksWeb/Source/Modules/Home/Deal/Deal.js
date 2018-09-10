@@ -526,12 +526,19 @@ class Deal {
     afterLoad($form) {
         var $resaleGrid, $taxOptionGrid, $contactGrid, $dealNoteGrid, $vendorGrid;
         var $quoteBrowse = $form.find('#QuoteBrowse');
+        FwBrowse.search($quoteBrowse);
         var $orderBrowse = $form.find('#OrderBrowse');
+        FwBrowse.search($orderBrowse);
         $resaleGrid = $form.find('[data-name="CompanyResaleGrid"]');
+        FwBrowse.search($resaleGrid);
         $taxOptionGrid = $form.find('[data-name="CompanyTaxOptionGrid"]');
+        FwBrowse.search($taxOptionGrid);
         $contactGrid = $form.find('[data-name="ContactGrid"]');
+        FwBrowse.search($contactGrid);
         $dealNoteGrid = $form.find('[data-name="DealNoteGrid"]');
+        FwBrowse.search($dealNoteGrid);
         $vendorGrid = $form.find('[data-name="DealShipperGrid"]');
+        FwBrowse.search($vendorGrid);
         var $companyContactGrid = $form.find('[data-name="CompanyContactGrid"]');
         FwBrowse.search($companyContactGrid);
         this.disableFields($form, ['DiscountTemplateId', 'DiscountTemplate']);
@@ -566,25 +573,6 @@ class Deal {
             else {
                 FwFormField.enable($form.find('div[data-name="CompanyResaleGrid"]'));
                 FwFormField.enable($form.find('div[data-name="CompanyTaxOptionGrid"]'));
-            }
-        });
-        $form.on('click', '[data-type="tab"]', e => {
-            let tabname = jQuery(e.currentTarget).attr('id');
-            let lastIndexOfTab = tabname.lastIndexOf('tab');
-            let tabpage = tabname.substring(0, lastIndexOfTab) + 'tabpage' + tabname.substring(lastIndexOfTab + 3);
-            let $gridControls = $form.find(`#${tabpage} [data-type="Grid"]`);
-            if ($gridControls.length > 0) {
-                for (let i = 0; i < $gridControls.length; i++) {
-                    let $gridcontrol = jQuery($gridControls[i]);
-                    FwBrowse.search($gridcontrol);
-                }
-            }
-            let $browseControls = $form.find(`#${tabpage} [data-type="Browse"]`);
-            if ($browseControls.length > 0) {
-                for (let i = 0; i < $browseControls.length; i++) {
-                    let $browseControl = jQuery($browseControls[i]);
-                    FwBrowse.search($browseControl);
-                }
             }
         });
     }

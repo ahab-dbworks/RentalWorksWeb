@@ -651,20 +651,6 @@ class OrderBase {
         $form.find(".weeklyType").show();
         $form.find(".monthlyType").hide();
         $form.find(".periodType input").prop('checked', true);
-        $form.find('[data-datafield="DealId"]').on('change', e => {
-            let dealId = FwFormField.getValueByDataField($form, 'DealId');
-            FwAppData.apiMethod(true, 'GET', `api/v1/deal/${dealId}`, null, FwServices.defaultTimeout, function onSuccess(response) {
-                FwFormField.setValueByDataField($form, 'IssuedToAttention', response.BillToAttention1);
-                FwFormField.setValueByDataField($form, 'IssuedToAttention2', response.BillToAttention2);
-                FwFormField.setValueByDataField($form, 'IssuedToAddress1', response.BillToAddress1);
-                FwFormField.setValueByDataField($form, 'IssuedToAddress2', response.BillToAddress2);
-                FwFormField.setValueByDataField($form, 'BillToCity', response.BillToCity);
-                FwFormField.setValueByDataField($form, 'IssuedToState', response.BillToState);
-                FwFormField.setValueByDataField($form, 'IssuedToZipCode', response.BillToZipCode);
-                FwFormField.setValueByDataField($form, 'IssuedToCountryId', response.BillToCountryId, response.BillToCountry);
-                FwFormField.setValueByDataField($form, 'PrintIssuedToAddressFrom', response.BillToAddressType);
-            }, null, $form);
-        });
     }
     ;
     bottomLineDiscountChange($form, event) {
@@ -1115,6 +1101,55 @@ class OrderBase {
         }
     }
     ;
+    toggleOrderItemView($form, event) {
+        let $element, $orderItemGrid, recType, isSummary, orderId, module;
+        let request = {};
+        module = this.Module;
+        $element = jQuery(event.currentTarget);
+        recType = $element.parentsUntil('.flexrow').eq(9).attr('class');
+        orderId = FwFormField.getValueByDataField($form, `${module}Id`);
+        if (recType === 'R') {
+            $orderItemGrid = $form.find('.rentalgrid [data-name="OrderItemGrid"]');
+        }
+        if (recType === 'S') {
+            $orderItemGrid = $form.find('.salesgrid [data-name="OrderItemGrid"]');
+        }
+        if (recType === 'L') {
+            $orderItemGrid = $form.find('.laborgrid [data-name="OrderItemGrid"]');
+        }
+        if (recType === 'M') {
+            $orderItemGrid = $form.find('.miscgrid [data-name="OrderItemGrid"]');
+        }
+        if (recType === '') {
+            $orderItemGrid = $form.find('.combinedgrid div[data-grid="OrderItemGrid"]');
+        }
+        if ($orderItemGrid.data('isSummary') === false) {
+            isSummary = true;
+            $orderItemGrid.data('isSummary', true);
+            $element.children().text('Detail View');
+        }
+        else {
+            isSummary = false;
+            $orderItemGrid.data('isSummary', false);
+            $element.children().text('Summary View');
+        }
+        $orderItemGrid.data('ondatabind', request => {
+            request.uniqueids = {
+                OrderId: orderId,
+                Summary: isSummary,
+                RecType: recType
+            };
+            request.pagesize = 9999;
+            request.orderby = "RowNumber,RecTypeDisplay";
+        });
+        $orderItemGrid.data('beforesave', request => {
+            request.OrderId = orderId;
+            request.RecType = recType;
+            request.Summary = isSummary;
+        });
+        FwBrowse.search($orderItemGrid);
+    }
+    ;
     cancelUncancelOrder($form) {
         let $confirmation, $yes, $no, id, orderStatus, self, module;
         self = this;
@@ -1204,8 +1239,7 @@ class OrderBase {
     afterLoad($form) {
         $form.on('click', '[data-type="tab"]', e => {
             let tabname = jQuery(e.currentTarget).attr('id');
-            let lastIndexOfTab = tabname.lastIndexOf('tab');
-            let tabpage = tabname.substring(0, lastIndexOfTab) + 'tabpage' + tabname.substring(lastIndexOfTab + 3);
+            let tabpage = tabname.replace('tab', 'tabpage');
             let $gridControls = $form.find(`#${tabpage} [data-type="Grid"]`);
             if ($gridControls.length > 0) {
                 for (let i = 0; i < $gridControls.length; i++) {

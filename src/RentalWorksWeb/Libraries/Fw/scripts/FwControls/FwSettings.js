@@ -173,31 +173,45 @@ FwSettings.saveForm = function (module, $form, closetab, navigationpath, $contro
 FwSettings.getCaptions = function (screen) {
     var node = FwApplicationTree.getNodeById(FwApplicationTree.tree, '730C9659-B33B-493E-8280-76A060A07DCE');
     var modules = FwApplicationTree.getChildrenByType(node, 'SettingsModule');
-    for (var i = 0; i < modules.length; i++) {
-        var moduleName = modules[i].properties.controller.slice(0, -10);
-        var $form = jQuery(jQuery('#tmpl-modules-' + moduleName + 'Form').html());
-        var $fwformfields = $form.find('.fwformfield[data-caption]');
-        for (var j = 0; j < $fwformfields.length; j++) {
-            var $field = $fwformfields.eq(j);
-            var caption = $field.attr('data-caption').toUpperCase();
-            if ($field.attr('data-type') === 'radio') {
-                var radioCaptions = $field.find('div');
-                for (var k = 0; k < radioCaptions.length; k++) {
-                    var radioCaption = jQuery(radioCaptions[k]).attr('data-caption').toUpperCase()
-                    screen.moduleCaptions[radioCaption] = {};
-                    screen.moduleCaptions[radioCaption][moduleName] = [];
-                    screen.moduleCaptions[radioCaption][moduleName].push($field);
+    
+        FwAppData.apiMethod(true, 'GET', 'api/v1/customfield/', null, FwServices.defaultTimeout, function onSuccess(response) {
+            for (var i = 0; i < response.length; i++) {
+                var fieldName = response[i].FieldName.toUpperCase();
+                if (typeof screen.moduleCaptions[fieldName] === 'undefined') {
+                    screen.moduleCaptions[fieldName] = {};
+                }
+                if (typeof screen.moduleCaptions[fieldName][response[i].ModuleName] === 'undefined') {
+                    screen.moduleCaptions[fieldName][response[i].ModuleName] = [];
                 }
             }
-            if (typeof screen.moduleCaptions[caption] === 'undefined') {
-                screen.moduleCaptions[caption] = {};
+            for (var idx = 0; idx < modules.length; idx++) {
+                var moduleName = modules[idx].properties.controller.slice(0, -10);
+                var $form = jQuery(jQuery('#tmpl-modules-' + moduleName + 'Form').html());
+                var $fwformfields = $form.find('.fwformfield[data-caption]');
+                for (var j = 0; j < $fwformfields.length; j++) {
+                    var $field = $fwformfields.eq(j);
+                    var caption = $field.attr('data-caption').toUpperCase();
+                    if ($field.attr('data-type') === 'radio') {
+                        var radioCaptions = $field.find('div');
+                        for (var k = 0; k < radioCaptions.length; k++) {
+                            var radioCaption = jQuery(radioCaptions[k]).attr('data-caption').toUpperCase()
+                            screen.moduleCaptions[radioCaption] = {};
+                            screen.moduleCaptions[radioCaption][moduleName] = [];
+                            screen.moduleCaptions[radioCaption][moduleName].push($field);
+                        }
+                    }
+                    if (typeof screen.moduleCaptions[caption] === 'undefined') {
+                        screen.moduleCaptions[caption] = {};
+                    }
+                    if (typeof screen.moduleCaptions[caption][moduleName] === 'undefined') {
+                        screen.moduleCaptions[caption][moduleName] = [];
+                    }
+                    screen.moduleCaptions[caption][moduleName].push($field);
+                }
             }
-            if (typeof screen.moduleCaptions[caption][moduleName] === 'undefined') {
-                screen.moduleCaptions[caption][moduleName] = [];
-            }
-            screen.moduleCaptions[caption][moduleName].push($field);
-        }
-    }
+        }, function onError(response) {
+            FwFunc.showError(response);
+        }, null);
 }
 //---------------------------------------------------------------------------------------------- 
 FwSettings.getRows = function ($body, $control, apiurl, $modulecontainer, moduleName) {
@@ -731,11 +745,14 @@ FwSettings.renderModuleHtml = function ($control, title, moduleName, description
                 $settings.closest('div.panel-group').show();
             } else {
                 var results = [];
+                results.push(val);
                 $settings.closest('div.panel-group').hide();
                 for (var caption in screen.moduleCaptions) {
                     if (caption.indexOf(val) !== -1) {
                         for (var moduleName in screen.moduleCaptions[caption]) {
-                            filter.push(screen.moduleCaptions[caption][moduleName][0].data().datafield);
+                            if (screen.moduleCaptions[caption][moduleName][0]) {
+                                filter.push(screen.moduleCaptions[caption][moduleName][0].data().datafield);
+                            }
                             results.push(moduleName.toUpperCase());
                         }
                     }

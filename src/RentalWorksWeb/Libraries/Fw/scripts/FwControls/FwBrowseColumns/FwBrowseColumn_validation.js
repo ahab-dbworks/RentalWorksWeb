@@ -3,16 +3,19 @@ class FwBrowseColumn_validationClass {
         var displayFieldValue = dtRow[dt.ColumnIndex[$field.attr('data-browsedisplayfield')]];
         $field.attr('data-originaltext', displayFieldValue);
     }
+    ;
     getFieldUniqueId($browse, $tr, $field, uniqueid, originalvalue) {
         if ($tr.hasClass('editmode')) {
             uniqueid.value = $field.find('input.value').val();
         }
     }
+    ;
     getFieldValue($browse, $tr, $field, field, originalvalue) {
         if (($tr.hasClass('editmode')) || ($tr.hasClass('newmode'))) {
             field.value = $field.find('input.value').val();
         }
     }
+    ;
     setFieldValue($browse, $tr, $field, data) {
         $field.find('.value').val(data.value);
         $field.find('.text').val(data.text);
@@ -26,8 +29,9 @@ class FwBrowseColumn_validationClass {
         }
         return isModified;
     }
+    ;
     setFieldViewMode($browse, $tr, $field) {
-        $field.data('autoselect', false);
+        $field.data('selectthetextbox', false);
         var originaltext = (typeof $field.attr('data-originaltext') === 'string') ? $field.attr('data-originaltext') : '';
         var showPeek = false;
         let html = [];
@@ -44,10 +48,11 @@ class FwBrowseColumn_validationClass {
         $field.html(originaltext + htmlString);
         $field.on('click', function () {
             if ($field.attr('data-formreadonly') !== 'true') {
-                $field.data('autoselect', true);
+                $field.data('selectthetextbox', true);
             }
         });
     }
+    ;
     setFieldEditMode($browse, $tr, $field) {
         var validationName, validationFor, $valuefield, $textfield, $btnvalidate;
         var originalvalue = (typeof $field.attr('data-originalvalue') === 'string') ? $field.attr('data-originalvalue') : '';
@@ -74,9 +79,9 @@ class FwBrowseColumn_validationClass {
         $field.html(htmlString);
         this.setFieldValue($browse, $tr, $field, { value: originalvalue, text: originaltext });
         FwValidation.init($field);
-        if ($field.data('autoselect') === true) {
-            $field.data('autoselect', false);
-            $field.find('.text').select();
+        if ($field.data('selectthetextbox') === true) {
+            $field.data('selectthetextbox', false);
+            $field.find('.btnvalidate').click();
         }
     }
     ;

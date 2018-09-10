@@ -621,6 +621,7 @@ class Order extends OrderBase {
         // Display D/W field in rental
         if (rate === 'DAILY') {
             $form.find(".RentalDaysPerWeek").show();
+            $form.find(".combineddw").show();
             $allOrderItemGrid.find('.dw').parent().show();
             $orderItemGridRental.find('.dw').parent().show();
             $orderItemGridLabor.find('.dw').parent().show();

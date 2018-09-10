@@ -5,12 +5,11 @@
     <div style="text-align: center; font-weight: bold; margin:0 auto;">Late Returns / Due Back Report</div>
   </div>
 </div>
-<div class="header rpt-flexrow">
-  <div class="body rpt-flexrow">
+<div class="header flexrow">
+  <div class="body flexrow">
     <br /><br />
     <div class="tblLateReturns">
       <table>
-        <thead>
           <tr class="columnheadings">
             <td>
               <div>Customer / Deal / Order</div>
@@ -66,7 +65,6 @@
             </td>
             {{/ifEquals}}
           </tr>
-        </thead>
         <tbody>
           {{#each this.data}}
           <tr data-rowtype="{{RowType}}">

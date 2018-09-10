@@ -135,7 +135,6 @@ html.pdf {
             }
         }
 
-        thead {
             tr.columnheadings {
                 td {
                     font-weight: bold;
@@ -145,7 +144,6 @@ html.pdf {
                     border-bottom: 1px solid #000000;
                 }
             }
-        }
 
         tbody {
             tr[data-rowtype="detail"]:nth-child(even) {
