@@ -2172,6 +2172,41 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "Staging Exception: Browse",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"ItemOrder\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": [],\n    \t\"uniqueids\": {\n    \t\t\"OrderId\": \"I00007TC\",\n    \t\t\"WarehouseId\": \"B0029AY5\"\n    \t}\n}"
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/stagingexception/browse",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"stagingexception",
+								"browse"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
