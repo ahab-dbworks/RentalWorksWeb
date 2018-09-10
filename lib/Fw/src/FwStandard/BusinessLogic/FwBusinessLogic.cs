@@ -105,6 +105,13 @@ namespace FwStandard.BusinessLogic
         }
 
         [JsonIgnore]
+        protected string ModuleName
+        {
+            get { return GetType().Name.Replace("Logic", ""); }
+        }
+
+
+        [JsonIgnore]
         protected List<FwDataReadWriteRecord> dataRecords = new List<FwDataReadWriteRecord>();
 
         [JsonIgnore]
@@ -182,7 +189,7 @@ namespace FwStandard.BusinessLogic
         //------------------------------------------------------------------------------------
         private void LoadCustomFields()
         {
-            string moduleName = GetType().Name.Replace("Logic", "");
+            //string moduleName = GetType().Name.Replace("Logic", "");
             if (customFields == null)
             {
                 refreshCustomFields();
@@ -191,7 +198,7 @@ namespace FwStandard.BusinessLogic
             _Custom.CustomFields.Clear();
             foreach (FwCustomField f in customFields)
             {
-                if (f.ModuleName.Equals(moduleName))
+                if (f.ModuleName.Equals(ModuleName))
                 {
                     _Custom.CustomFields.Add(f);
                 }
@@ -495,15 +502,15 @@ namespace FwStandard.BusinessLogic
             if (duplicateRules != null)
             {
                 object[] ids = GetPrimaryKeys();
-                string moduleName = this.GetType().Name;
-                string module = moduleName.Substring(0, moduleName.Length - 5);
+                //string moduleName = this.GetType().Name;
+                //string module = moduleName.Substring(0, moduleName.Length - 5);
 
                 var duplicateRows = duplicateRules.Rows;
                 List<object> rulesList = new List<object>();
 
                 foreach (var row in duplicateRows)
                 {
-                    if ((String)row[1] == module)
+                    if ((String)row[1] == ModuleName)
                     {
                         rulesList.Add(row);
                     }
@@ -523,7 +530,7 @@ namespace FwStandard.BusinessLogic
                         string[] field = fields.Split(',').ToArray();
 
                         BrowseRequest browseRequest2 = new BrowseRequest();
-                        browseRequest2.module = module;
+                        browseRequest2.module = ModuleName;
 
                         List<string> searchOperators = new List<string>();
 
@@ -541,35 +548,89 @@ namespace FwStandard.BusinessLogic
                         for (int i = 0; i < field.Count(); i++)
                         {
                             string fieldName = field[i];
-                            foreach (PropertyInfo property in propertyInfo)
+                            bool propertyFound = false;
+                            if (!propertyFound)
                             {
-                                if (property.Name.Equals(fieldName))
+                                foreach (PropertyInfo property in propertyInfo)
                                 {
-                                    var value = this.GetType().GetProperty(property.Name).GetValue(this, null);
-                                    if (value != null)
+                                    if (property.Name.Equals(fieldName))
                                     {
-                                        searchFieldVals.Add(value.ToString());
-                                    }
-                                    else
-                                    {
-                                        if (saveMode == TDataRecordSaveMode.smUpdate)
+                                        propertyFound = true;
+                                        var value = this.GetType().GetProperty(property.Name).GetValue(this, null);
+                                        if (value != null)
                                         {
-                                            var recordFound = l2.LoadAsync<Type>(ids).Result;
-                                            var databaseValue = l2.GetType().GetProperty(property.Name).GetValue(l2, null);
-                                            searchFieldVals.Add(databaseValue.ToString());
+                                            searchFieldVals.Add(value.ToString());
                                         }
                                         else
                                         {
-                                            searchFieldVals.Add("");
+                                            if (saveMode == TDataRecordSaveMode.smUpdate)
+                                            {
+                                                bool b = l2.LoadAsync<Type>(ids).Result;
+                                                var databaseValue = l2.GetType().GetProperty(property.Name).GetValue(l2, null);
+                                                searchFieldVals.Add(databaseValue.ToString());
+                                            }
+                                            else
+                                            {
+                                                searchFieldVals.Add("");
+                                            }
+                                        }
+
+                                        if (searchOperators.Count == searchFieldVals.Count)
+                                        {
+                                            break;
                                         }
                                     }
+                                }
+                            }
+                            if (!propertyFound)  // property not found, check Custom Fields
+                            {
+                                LoadCustomFields();
 
-                                    if (searchOperators.Count == searchFieldVals.Count)
+                                foreach (FwCustomField customField in _Custom.CustomFields)
+                                {
+                                    if (customField.FieldName.Equals(fieldName))
                                     {
+                                        propertyFound = true;
+
+                                        string value = null;
+                                        for (int customFieldIndex = 0; customFieldIndex < _Custom.Count; customFieldIndex++)
+                                        {
+                                            if (_Custom[customFieldIndex].FieldName.Equals(customField.FieldName))
+                                            {
+                                                value = _Custom[customFieldIndex].FieldValue;
+                                            }
+                                        }
+
+                                        if (value != null)
+                                        {
+                                            searchFieldVals.Add(value.ToString());
+                                        }
+                                        else
+                                        {
+                                            if (saveMode == TDataRecordSaveMode.smUpdate)
+                                            {
+                                                bool b = l2.LoadAsync<Type>(ids).Result;
+                                                var databaseValue = "";
+                                                for (int customFieldIndex = 0; customFieldIndex < l2._Custom.Count; customFieldIndex++)
+                                                {
+                                                    if (l2._Custom[customFieldIndex].FieldName.Equals(customField.FieldName))
+                                                    {
+                                                        databaseValue = l2._Custom[customFieldIndex].FieldValue;
+                                                    }
+                                                }
+                                                searchFieldVals.Add(databaseValue.ToString());
+                                            }
+                                            else
+                                            {
+                                                searchFieldVals.Add("");
+                                            }
+                                        }
+
                                         break;
                                     }
                                 }
                             }
+
                         }
 
                         browseRequest2.searchfieldvalues = searchFieldVals.ToArray();
@@ -604,7 +665,8 @@ namespace FwStandard.BusinessLogic
                         if (isDuplicate)
                         {
                             isValid = false;
-                            validateMsg = "A record of this type already exists. " + "(" + rule[2] + ")";
+                            //validateMsg = "A record of this type already exists. " + "(" + rule[2] + ")";
+                            validateMsg = ModuleName + " cannot be saved because of Duplicate Rule \"" + rule[2] + "\"";
                         }
                     }
                 }
