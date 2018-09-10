@@ -11,6 +11,19 @@ using FwStandard.SqlServer;
 using Microsoft.AspNetCore.Http;
 namespace WebApi.Modules.Reports.ArAgingReport
 {
+
+    public class ArAgingReportRequest
+    {
+        public DateTime AsOfDate;
+        public string OfficeLocationId;
+        public string CustomerId;
+        public string DealCsrId;
+        public string DealTypeId;
+        public string DealId;
+    }
+
+
+
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "reports-v1")]
     public class ArAgingReportController : AppReportController
@@ -43,9 +56,9 @@ namespace WebApi.Modules.Reports.ArAgingReport
             return new OkObjectResult(response);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/aragingreport/browse 
-        [HttpPost("browse")]
-        public async Task<IActionResult> BrowseAsync([FromBody]BrowseRequest browseRequest)
+        // POST api/v1/aragingreport/runreport 
+        [HttpPost("runreport")]
+        public async Task<IActionResult> RunReprotAsync([FromBody]ArAgingReportRequest request)
         {
             if (!ModelState.IsValid)
             {
@@ -53,9 +66,9 @@ namespace WebApi.Modules.Reports.ArAgingReport
             }
             try
             {
-                ArAgingReportLogic l = new ArAgingReportLogic();
+                ArAgingReportLoader l = new ArAgingReportLoader();
                 l.SetDependencies(this.AppConfig, this.UserSession);
-                FwJsonDataTable dt = await l.BrowseAsync(browseRequest);
+                FwJsonDataTable dt = await l.RunReportAsync(request);
                 return new OkObjectResult(dt);
             }
             catch (Exception ex)

@@ -9,33 +9,31 @@ import './index.scss';
 var hbReport = require("./hbReport.hbs");
 var hbFooter = require("./hbFooter.hbs");
 
+export class ArAgingReportRequest {
+    AsOfDate: Date;
+    OfficeLocationId: string;
+    CustomerId: string;
+    DealCsrId: string;
+    DealTypeId: string;
+    DealId: string;
+}
+
+
 export class ArAgingReport extends WebpackReport {
     renderReport(apiUrl: string, authorizationHeader: string, parameters: any): void {
         try {
             super.renderReport(apiUrl, authorizationHeader, parameters);
             HandlebarsHelpers.registerHelpers();
             let data: any = {};
-            let request = new BrowseRequest();
-            request.uniqueids = {
-                AsOfDate: parameters.ToDate,
-            }
-            if (parameters.OfficeLocationId) {
-                request.uniqueids.OfficeLocationId = parameters.OfficeLocationId;
-            }
-            if (parameters.CsrId) {
-                request.uniqueids.DealCsrId = parameters.CsrId;
-            }
-            if (parameters.CustomerId) {
-                request.uniqueids.CustomerId = parameters.CustomerId;
-            }
-            if (parameters.DealId) {
-                request.uniqueids.DealId = parameters.DealId;
-            }
-            if (parameters.DealTypeId) {
-                request.uniqueids.DealTypeId = parameters.DealTypeId;
-            }
+            let request = new ArAgingReportRequest();
+            request.AsOfDate = parameters.ToDate;
+            request.OfficeLocationId = parameters.OfficeLocationId;
+            request.DealCsrId = parameters.CsrId;
+            request.CustomerId = parameters.CustomerId;
+            request.DealId = parameters.DealId;
+            request.DealTypeId = parameters.DealTypeId;
 
-            let promise = Ajax.post<DataTable>(`${apiUrl}/api/v1/aragingreport/browse`, authorizationHeader, request)
+            let promise = Ajax.post<DataTable>(`${apiUrl}/api/v1/aragingreport/runreport`, authorizationHeader, request)
                 .then((response: DataTable) => {
                     data.Rows = DataTable.toObjectList(response);
 
