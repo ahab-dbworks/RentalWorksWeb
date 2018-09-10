@@ -798,6 +798,20 @@ namespace FwStandard.DataLayer
             }
         }
         //------------------------------------------------------------------------------------
+        protected string GetUniqueIdAsString(string uniqueIdFieldName, BrowseRequest request = null)
+        {
+            string fieldValue = null;
+            if ((request != null) && (request.uniqueids != null))
+            {
+                IDictionary<string, object> uniqueids = ((IDictionary<string, object>)request.uniqueids);
+                if (uniqueids.ContainsKey(uniqueIdFieldName))
+                {
+                    fieldValue = uniqueids[uniqueIdFieldName].ToString();
+                }
+            }
+            return fieldValue;
+        }
+        //------------------------------------------------------------------------------------
         protected string GetMiscFieldAsString(string miscFieldName, BrowseRequest request = null)
         {
             string fieldValue = null;
@@ -814,20 +828,6 @@ namespace FwStandard.DataLayer
         //------------------------------------------------------------------------------------
         protected void AddMiscFieldToQueryAsString(string miscFieldName, string parameterName, FwSqlCommand qry, BrowseRequest request = null)
         {
-            //if ((request != null) && (request.miscfields != null))
-            //{
-            //    IDictionary<string, object> miscfields = ((IDictionary<string, object>)request.miscfields);
-            //    if (miscfields.ContainsKey(miscFieldName))
-            //    {
-            //        string value = "";
-            //        value = miscfields[miscFieldName].ToString();
-            //        if (!parameterName.StartsWith("@"))
-            //        {
-            //            parameterName = "@" + parameterName;
-            //        }
-            //        qry.AddParameter(parameterName, SqlDbType.NVarChar, ParameterDirection.Input, value);
-            //    }
-            //}
             string fieldValue = GetMiscFieldAsString(miscFieldName, request);
             if (fieldValue != null)
             {
@@ -837,6 +837,20 @@ namespace FwStandard.DataLayer
                 }
                 qry.AddParameter(parameterName, SqlDbType.NVarChar, ParameterDirection.Input, fieldValue);
             }
+        }
+        //------------------------------------------------------------------------------------
+        protected bool? GetUniqueIdAsBoolean(string uniqueIdFieldName, BrowseRequest request = null)
+        {
+            bool? fieldValue = null;
+            if ((request != null) && (request.uniqueids != null))
+            {
+                IDictionary<string, object> uniqueids = ((IDictionary<string, object>)request.uniqueids);
+                if (uniqueids.ContainsKey(uniqueIdFieldName))
+                {
+                    fieldValue = FwConvert.ToBoolean(uniqueids[uniqueIdFieldName].ToString());
+                }
+            }
+            return fieldValue;
         }
         //------------------------------------------------------------------------------------
         protected bool? GetMiscFieldAsBoolean(string miscFieldName, BrowseRequest request = null)
@@ -855,20 +869,6 @@ namespace FwStandard.DataLayer
         //------------------------------------------------------------------------------------
         protected void AddMiscFieldToQueryAsBoolean(string miscFieldName, string parameterName, FwSqlCommand qry, BrowseRequest request = null)
         {
-            //if ((request != null) && (request.miscfields != null))
-            //{
-            //    IDictionary<string, object> miscfields = ((IDictionary<string, object>)request.miscfields);
-            //    if (miscfields.ContainsKey(miscFieldName))
-            //    {
-            //        bool value = false;
-            //        value = FwConvert.ToBoolean(miscfields[miscFieldName].ToString());
-            //        if (!parameterName.StartsWith("@"))
-            //        {
-            //            parameterName = "@" + parameterName;
-            //        }
-            //        qry.AddParameter(parameterName, SqlDbType.NVarChar, ParameterDirection.Input, FwConvert.LogicalToCharacter(value));
-            //    }
-            //}
             bool? fieldValue = GetMiscFieldAsBoolean(miscFieldName, request);
             if (fieldValue != null)
             {
@@ -878,6 +878,20 @@ namespace FwStandard.DataLayer
                 }
                 qry.AddParameter(parameterName, SqlDbType.NVarChar, ParameterDirection.Input, FwConvert.LogicalToCharacter(fieldValue.GetValueOrDefault(false)));
             }
+        }
+        //------------------------------------------------------------------------------------
+        protected DateTime? GetUniqueIdAsDate(string uniqueIdFieldName, BrowseRequest request = null)
+        {
+            DateTime? fieldValue = null;
+            if ((request != null) && (request.uniqueids != null))
+            {
+                IDictionary<string, object> uniqueids = ((IDictionary<string, object>)request.uniqueids);
+                if (uniqueids.ContainsKey(uniqueIdFieldName))
+                {
+                    fieldValue = FwConvert.ToDateTime(uniqueids[uniqueIdFieldName].ToString());
+                }
+            }
+            return fieldValue;
         }
         //------------------------------------------------------------------------------------
         protected DateTime? GetMiscFieldAsDate(string miscFieldName, BrowseRequest request = null)
@@ -896,20 +910,6 @@ namespace FwStandard.DataLayer
         //------------------------------------------------------------------------------------
         protected void AddMiscFieldToQueryAsDate(string miscFieldName, string parameterName, FwSqlCommand qry, BrowseRequest request = null)
         {
-            //if ((request != null) && (request.miscfields != null))
-            //{
-            //    IDictionary<string, object> miscfields = ((IDictionary<string, object>)request.miscfields);
-            //    if (miscfields.ContainsKey(miscFieldName))
-            //    {
-            //        DateTime value;
-            //        value = FwConvert.ToDateTime(miscfields[miscFieldName].ToString());
-            //        if (!parameterName.StartsWith("@"))
-            //        {
-            //            parameterName = "@" + parameterName;
-            //        }
-            //        qry.AddParameter(parameterName, SqlDbType.Date, ParameterDirection.Input, value);
-            //    }
-            //}
             DateTime? fieldValue = GetMiscFieldAsDate(miscFieldName, request);
             if (fieldValue != null)
             {
@@ -942,6 +942,19 @@ namespace FwStandard.DataLayer
             }
             return ids;
         }
-
+        //------------------------------------------------------------------------------------
+        protected void AddPropertiesAsQueryColumns(FwSqlCommand qry)
+        {
+            PropertyInfo[] propertyInfos = this.GetType().GetProperties();
+            foreach (PropertyInfo propertyInfo in propertyInfos)
+            {
+                FwSqlDataFieldAttribute sqlDataFieldAttribute = propertyInfo.GetCustomAttribute<FwSqlDataFieldAttribute>();
+                if (sqlDataFieldAttribute != null)
+                {
+                    qry.AddColumn(sqlDataFieldAttribute.ColumnName, propertyInfo.Name, sqlDataFieldAttribute.ModelType, sqlDataFieldAttribute.IsVisible, sqlDataFieldAttribute.IsPrimaryKey, false);
+                }
+            }
+        }
+        //------------------------------------------------------------------------------------ 
     }
 }
