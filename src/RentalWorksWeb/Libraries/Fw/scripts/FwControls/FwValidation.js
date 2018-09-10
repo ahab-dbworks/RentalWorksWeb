@@ -418,16 +418,16 @@ FwValidation.validationPeek = function ($control, validationName, validationId, 
 
             FwPopup.showPopup(FwPopup.renderPopup($popupForm, undefined, title));
 
-            jQuery(document).find('.fwpopup').on('click', function (e) {
-                e = e || window.event;
-                if (e.target.outerHTML === '<i class="material-icons"></i>' || e.target.outerHTML === '<div class="btn-text">Save</div>') {
+            //jQuery(document).find('.fwpopup').on('click', function (e) {   // - Removed this event that closes validationpeeks on click outside of the popup.  -Jason Hoang 9/10/18  
+            //    e = e || window.event;
+            //    if (e.target.outerHTML === '<i class="material-icons"></i>' || e.target.outerHTML === '<div class="btn-text">Save</div>') {
 
-                } else {
-                    FwPopup.destroyPopup(this);
-                    jQuery(document).off('keydown');
-                    jQuery(document).find('.fwpopup').off('click');
-                }
-            });
+            //    } else {
+            //        FwPopup.destroyPopup(this);
+            //        jQuery(document).off('keydown');
+            //        jQuery(document).find('.fwpopup').off('click');
+            //    }
+            //});
 
             jQuery(document).on('keydown', function (e) {
                 var code = e.keyCode || e.which;
