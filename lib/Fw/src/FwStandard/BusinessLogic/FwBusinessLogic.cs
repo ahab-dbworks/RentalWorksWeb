@@ -105,7 +105,7 @@ namespace FwStandard.BusinessLogic
         }
 
         [JsonIgnore]
-        protected string ModuleName
+        protected string BusinessLogicModuleName
         {
             get { return GetType().Name.Replace("Logic", ""); }
         }
@@ -198,7 +198,7 @@ namespace FwStandard.BusinessLogic
             _Custom.CustomFields.Clear();
             foreach (FwCustomField f in customFields)
             {
-                if (f.ModuleName.Equals(ModuleName))
+                if (f.ModuleName.Equals(this.BusinessLogicModuleName))
                 {
                     _Custom.CustomFields.Add(f);
                 }
@@ -510,7 +510,8 @@ namespace FwStandard.BusinessLogic
 
                 foreach (var row in duplicateRows)
                 {
-                    if ((String)row[1] == ModuleName)
+                    //if ((String)row[1] == ModuleName)
+                    if (row[1].ToString().Equals(this.BusinessLogicModuleName))
                     {
                         rulesList.Add(row);
                     }
@@ -530,7 +531,7 @@ namespace FwStandard.BusinessLogic
                         string[] field = fields.Split(',').ToArray();
 
                         BrowseRequest browseRequest2 = new BrowseRequest();
-                        browseRequest2.module = ModuleName;
+                        browseRequest2.module = this.BusinessLogicModuleName;
 
                         List<string> searchOperators = new List<string>();
 
@@ -666,7 +667,7 @@ namespace FwStandard.BusinessLogic
                         {
                             isValid = false;
                             //validateMsg = "A record of this type already exists. " + "(" + rule[2] + ")";
-                            validateMsg = ModuleName + " cannot be saved because of Duplicate Rule \"" + rule[2] + "\"";
+                            validateMsg = this.BusinessLogicModuleName + " cannot be saved because of Duplicate Rule \"" + rule[2] + "\"";
                         }
                     }
                 }
