@@ -751,11 +751,11 @@ class OrderBase {
             if (rateType === 'MONTHLY') {
                 $form.find('.summaryweekly').hide();
                 $form.find('.summarymonthly').show();
-            } else if (rateType === 'WEEKLY') {
+            } else {
                 $form.find('.summarymonthly').hide();
                 $form.find('.summaryweekly').show();
             }
-            //reswts back to period summary frames
+            //resets back to period summary frames
             $form.find('.summaryperiod').click();
         });
 

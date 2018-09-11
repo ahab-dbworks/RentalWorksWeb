@@ -674,7 +674,7 @@ class OrderBase {
                 $form.find('.summaryweekly').hide();
                 $form.find('.summarymonthly').show();
             }
-            else if (rateType === 'WEEKLY') {
+            else {
                 $form.find('.summarymonthly').hide();
                 $form.find('.summaryweekly').show();
             }
