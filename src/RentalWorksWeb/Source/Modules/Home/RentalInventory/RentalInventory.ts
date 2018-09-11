@@ -486,18 +486,18 @@ class RentalInventory extends InventoryBase {
                 $submoduleAssetBrowse = this.openAssetBrowse($form);
                 $form.find('.asset-submodule-page').append($submoduleAssetBrowse);
 
-                //$submoduleAssetBrowse.find('div.btn[data-type="NewMenuBarButton"]').off('click');
-                //$submoduleAssetBrowse.find('div.btn[data-type="NewMenuBarButton"]').on('click', function () {
-                //    var $assetForm, controller, $browse, assetFormData: any = {};
-                //    $browse = jQuery(this).closest('.fwbrowse');
-                //    controller = $browse.attr('data-controller');
-                //    assetFormData.InventoryId = FwFormField.getValueByDataField($form, 'InventoryId');
-                //    if (typeof window[controller] !== 'object') throw 'Missing javascript module: ' + controller;
-                //    if (typeof window[controller]['openForm'] !== 'function') throw 'Missing javascript function: ' + controller + '.openForm';
-                //    $assetForm = window[controller]['openForm']('NEW', assetFormData);
-                //    FwModule.openSubModuleTab($browse, $assetForm);
-                //});
-            } 
+                $submoduleAssetBrowse.find('div.btn[data-type="NewMenuBarButton"]').off('click');
+                $submoduleAssetBrowse.find('div.btn[data-type="NewMenuBarButton"]').on('click', function () {
+                    var $assetForm, controller, $browse, assetFormData: any = {};
+                    $browse = jQuery(this).closest('.fwbrowse');
+                    controller = $browse.attr('data-controller');
+                    assetFormData.InventoryId = FwFormField.getValueByDataField($form, 'InventoryId');
+                    if (typeof window[controller] !== 'object') throw 'Missing javascript module: ' + controller;
+                    if (typeof window[controller]['openForm'] !== 'function') throw 'Missing javascript function: ' + controller + '.openForm';
+                    $assetForm = window[controller]['openForm']('NEW', assetFormData);
+                    FwModule.openSubModuleTab($browse, $assetForm);
+                });
+            }
         } 
     };
     //----------------------------------------------------------------------------------------------
