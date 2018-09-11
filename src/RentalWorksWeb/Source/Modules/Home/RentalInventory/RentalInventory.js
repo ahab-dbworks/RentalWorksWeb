@@ -426,9 +426,9 @@ class RentalInventory extends InventoryBase {
         trackedByValue = FwFormField.getValueByDataField($form, 'TrackedBy');
         if (classificationValue === 'I' || classificationValue === 'A') {
             if (trackedByValue !== 'QUANTITY') {
-                $form.find('.asset-submodule').show();
+                $form.find('.tab.asset').show();
                 $submoduleAssetBrowse = this.openAssetBrowse($form);
-                $form.find('.asset-submodule-page').append($submoduleAssetBrowse);
+                $form.find('.tabpage.asset').append($submoduleAssetBrowse);
                 $submoduleAssetBrowse.find('div.btn[data-type="NewMenuBarButton"]').off('click');
                 $submoduleAssetBrowse.find('div.btn[data-type="NewMenuBarButton"]').on('click', function () {
                     var $assetForm, controller, $browse, assetFormData = {};
