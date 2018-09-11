@@ -26,10 +26,6 @@ sync_RentalWorksWeb_to_TrakItWorksWeb\.ps1\.log
 /src/RentalWorksQuikScan/ApplicationConfig.js
 /src/RentalWorksQuikScan/FwApplicationSchema.config
 /src/RentalWorksQuikScan/scripts/_references.js
-/src/RentalWorksQuikScan/theme/fwaudio/*
-/src/RentalWorksQuikScan/theme/fwcursors/*
-/src/RentalWorksQuikScan/theme/fwfonts/*
-/src/RentalWorksQuikScan/theme/fwimages/*
 
 /src/RentalWorksTest/Application.config
 
@@ -44,10 +40,6 @@ sync_RentalWorksWeb_to_TrakItWorksWeb\.ps1\.log
 /src/RentalWorksWeb/Source/Modules/Home/**/*.js.map
 /src/RentalWorksWeb/Source/Modules/Settings/**/*.js
 /src/RentalWorksWeb/Source/Modules/Settings/**/*.js.map
-/src/RentalWorksWeb/theme/fwaudio/*
-/src/RentalWorksWeb/theme/fwcursors/*
-/src/RentalWorksWeb/theme/fwfonts/*
-/src/RentalWorksWeb/theme/fwimages/*
 
 /src/RwQBO/App_Data/Temp/
 /src/RwQBO/app_scripts.json
@@ -60,10 +52,6 @@ sync_RentalWorksWeb_to_TrakItWorksWeb\.ps1\.log
 /src/RwQBO/Source/Modules/Home/**/*.js.map
 /src/RwQBO/Source/Modules/Settings/**/*.js
 /src/RwQBO/Source/Modules/Settings/**/*.js.map
-/src/RwQBO/theme/fwaudio/*
-/src/RwQBO/theme/fwcursors/*
-/src/RwQBO/theme/fwfonts/*
-/src/RwQBO/theme/fwimages/*
 
 /src/RentalWorksWebApi/appsettings.json
 /src/RentalWorksWebApi/\.local-chromium/
@@ -84,11 +72,6 @@ sync_RentalWorksWeb_to_TrakItWorksWeb\.ps1\.log
 /src/TrakItWorksWeb/Source/Modules/Home/**/*.js.map
 /src/TrakItWorksWeb/Source/Modules/Settings/**/*.js
 /src/TrakItWorksWeb/Source/Modules/Settings/**/*.js.map
-/src/TrakItWorksWeb/theme/fwaudio/*
-/src/TrakItWorksWeb/theme/fwcursors/*
-/src/TrakItWorksWeb/theme/fwfonts/*
-/src/TrakItWorksWeb/theme/fwimages/*
-
 
 /SecurityTreeBuilder/obj/
 /SecurityTreeBuilder/bin/
