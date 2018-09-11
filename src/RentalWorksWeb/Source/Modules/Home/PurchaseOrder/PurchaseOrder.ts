@@ -668,16 +668,25 @@ class PurchaseOrder {
         $orderNoteGrid = $form.find('[data-name="OrderNoteGrid"]');
         //FwBrowse.search($orderNoteGrid);
 
-        //Click event on tabs to load grids
+        //Click Event on tabs to load grids/browses
         $form.on('click', '[data-type="tab"]', e => {
             let tabname = jQuery(e.currentTarget).attr('id');
-            let tabpage = tabname.replace('tab', 'tabpage');
+            let lastIndexOfTab = tabname.lastIndexOf('tab');
+            let tabpage = tabname.substring(0, lastIndexOfTab) + 'tabpage' + tabname.substring(lastIndexOfTab + 3);
 
             let $gridControls = $form.find(`#${tabpage} [data-type="Grid"]`);
             if ($gridControls.length > 0) {
                 for (let i = 0; i < $gridControls.length; i++) {
                     let $gridcontrol = jQuery($gridControls[i]);
                     FwBrowse.search($gridcontrol);
+                }
+            }
+
+            let $browseControls = $form.find(`#${tabpage} [data-type="Browse"]`);
+            if ($browseControls.length > 0) {
+                for (let i = 0; i < $browseControls.length; i++) {
+                    let $browseControl = jQuery($browseControls[i]);
+                    FwBrowse.search($browseControl);
                 }
             }
         });
@@ -695,10 +704,20 @@ class PurchaseOrder {
         $orderItemGridSubSales.find('.submenu-btn').filter('[data-securityid="89AD5560-637A-4ECF-B7EA-33A462F6B137"]').hide();
         $orderItemGridSubLabor.find('.submenu-btn').filter('[data-securityid="89AD5560-637A-4ECF-B7EA-33A462F6B137"]').hide();
         $orderItemGridSubMisc.find('.submenu-btn').filter('[data-securityid="89AD5560-637A-4ECF-B7EA-33A462F6B137"]').hide();
+
+        $orderItemGridSubRent.find('.submenu-btn[data-securityid="77E511EC-5463-43A0-9C5D-B54407C97B15"]').hide();
+        $orderItemGridSubSales.find('.submenu-btn[data-securityid="77E511EC-5463-43A0-9C5D-B54407C97B15"]').hide();
+        $orderItemGridSubLabor.find('.submenu-btn[data-securityid="77E511EC-5463-43A0-9C5D-B54407C97B15"]').hide();
+        $orderItemGridSubMisc.find('.submenu-btn[data-securityid="77E511EC-5463-43A0-9C5D-B54407C97B15"]').hide();
+
         $orderItemGridSubRent.find('.buttonbar').hide();
         $orderItemGridSubSales.find('.buttonbar').hide();
         $orderItemGridSubLabor.find('.buttonbar').hide();
         $orderItemGridSubMisc.find('.buttonbar').hide();
+
+
+
+
         this.dynamicColumns($form);
     };
 
@@ -860,6 +879,10 @@ class PurchaseOrder {
             FwFormField.setValue($form, 'div[data-datafield="SalesTaxRate1"]', $tr.find('.field[data-browsedatafield="SalesTaxRate1"]').attr('data-originalvalue'));
             FwFormField.setValue($form, 'div[data-datafield="LaborTaxRate1"]', $tr.find('.field[data-browsedatafield="LaborTaxRate1"]').attr('data-originalvalue'));
         });
+
+        //Hides Search option for sub item grids
+        $form.find('[data-issubgrid="true"] .submenu-btn[data-securityid="77E511EC-5463-43A0-9C5D-B54407C97B15"]').hide();
+
     };
 
     //----------------------------------------------------------------------------------------------
