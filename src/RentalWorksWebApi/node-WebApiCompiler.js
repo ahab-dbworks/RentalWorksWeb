@@ -102,9 +102,9 @@ class WebApiCompiler {
     //------------------------------------------------------------------------------------
     async dotnet_publish() {
         console.log('//------------------------------------------------------------------------------------');
-        console.log(`dotnet publish -o ../../build/RentalWorksWebApi WebApi.csproj --configuration ${this.dotnetConfiguration}`);
+        console.log(`dotnet publish -o ../../build/RentalWorksWebApi WebApi.csproj --configuration ${this.dotnetConfiguration} --self-contained -r win-x64`);
         console.log('//------------------------------------------------------------------------------------');
-        await spawn('dotnet', ['publish', '-o', '../../build/RentalWorksWebApi', 'WebApi.csproj', '--configuration', this.dotnetConfiguration], { stdio: 'inherit' });
+        await spawn('dotnet', ['publish', '-o', '../../build/RentalWorksWebApi', 'WebApi.csproj', '--configuration', this.dotnetConfiguration, '--self-contained', '-r', 'win-x64'], { stdio: 'inherit' });
     }
     //------------------------------------------------------------------------------------
     async dotnet_run() {
