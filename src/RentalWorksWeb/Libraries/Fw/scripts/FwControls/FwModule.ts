@@ -164,7 +164,7 @@ class FwModule {
                                                                         $confirmation.find('.fwconfirmationbox').css('width', '450px');
                                                                         totalNumberofRows = FwBrowse.getTotalRowCount($browse);
                                                                         totalNumberofRows = totalNumberofRows.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-                                                                        
+
 
                                                                         let html = [];
                                                                         html.push('<div class="fwform" data-controller="none" style="background-color: transparent;">');
@@ -1228,7 +1228,9 @@ class FwModule {
                     var errorTab = $field.closest('.tabpage').attr('data-tabid');
                     isvalid = false;
                     $field.addClass('error');
-                    $field.parents('.fwcontrol .fwtabs').find('#' + errorTab).addClass('error')
+                    if (!$field.closest('.fwform').hasClass('fwreport')) {
+                        $field.parents('.fwcontrol .fwtabs').find('#' + errorTab).addClass('error');
+                    }
                 } else if ($field.find('.fwformfield-value').val() != '') {
                     $field.removeClass('error');
                 }
