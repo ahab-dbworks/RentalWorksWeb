@@ -2,9 +2,12 @@ class OrderBase {
     constructor() {
         this.ActiveView = 'ALL';
     }
-    renderFrames($form) {
+    renderFrames($form, period) {
         let id = FwFormField.getValueByDataField($form, `${this.Module}Id`);
         $form.find('.frame input').css('width', '100%');
+        if (typeof period !== 'undefined') {
+            id = `${id}~${period}`;
+        }
         FwAppData.apiMethod(true, 'GET', `api/v1/ordersummary/${id}`, null, FwServices.defaultTimeout, function onSuccess(response) {
             var key;
             for (key in response) {
@@ -30,7 +33,7 @@ class OrderBase {
                     jQuery(this).css('background-color', '#ffffe5');
                 }
             });
-        }, null, null);
+        }, null, $form);
         FwFormField.disable($form.find('.frame'));
         $form.find(".frame .add-on").children().hide();
     }
@@ -665,6 +668,38 @@ class OrderBase {
                 FwFormField.setValueByDataField($form, 'PrintIssuedToAddressFrom', response.BillToAddressType);
             }, null, $form);
         });
+        $form.find('[data-datafield="RateType"]').data('onchange', e => {
+            let rateType = FwFormField.getValueByDataField($form, 'RateType');
+            if (rateType === 'MONTHLY') {
+                $form.find('.summaryweekly').hide();
+                $form.find('.summarymonthly').show();
+            }
+            else if (rateType === 'WEEKLY') {
+                $form.find('.summarymonthly').hide();
+                $form.find('.summaryweekly').show();
+            }
+            $form.find('.summaryperiod').click();
+        });
+        $form.find('.summaryperiod, .summaryweekly, .summarymonthly').on('click', e => {
+            let $this = jQuery(e.currentTarget);
+            let period;
+            if ($this.hasClass('summaryperiod')) {
+                period = 'P';
+                $form.find('.summaryperiod').addClass('pressed');
+                $form.find('.summaryweekly, .summarymonthly').removeClass('pressed');
+            }
+            else if ($this.hasClass('summaryweekly')) {
+                period = 'W';
+                $form.find('.summaryweekly').addClass('pressed');
+                $form.find('.summaryperiod, .summarymonthly').removeClass('pressed');
+            }
+            else if ($this.hasClass('summarymonthly')) {
+                period = 'M';
+                $form.find('.summarymonthly').addClass('pressed');
+                $form.find('.summaryperiod, .summaryweekly').removeClass('pressed');
+            }
+            this.renderFrames($form, period);
+        });
     }
     ;
     bottomLineDiscountChange($form, event) {
@@ -1221,6 +1256,16 @@ class OrderBase {
                 }
             }
         });
+        $form.find('.summaryperiod').addClass('pressed');
+        let rateType = FwFormField.getValueByDataField($form, 'RateType');
+        if (rateType === 'MONTHLY') {
+            $form.find('.summaryweekly').hide();
+            $form.find('.summarymonthly').show();
+        }
+        else if (rateType === 'WEEKLY') {
+            $form.find('.summarymonthly').hide();
+            $form.find('.summaryweekly').show();
+        }
     }
 }
 var OrderBaseController = new OrderBase();

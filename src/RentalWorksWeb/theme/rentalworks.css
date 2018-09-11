@@ -462,3 +462,7 @@ ul.fitText {
     padding-right:5px;
 }
 /*#endregion*/
+
+html.theme-material .fwformcontrol[data-type="button"].pressed {
+    background-color: #1E88EF;
+}
