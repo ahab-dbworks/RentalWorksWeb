@@ -12,11 +12,12 @@ class StageQuantityItemGrid {
         FwBrowse.setAfterRenderRowCallback($control, ($tr, dt, rowIndex) => {
             let originalquantity = $tr.find('[data-browsedatafield="QuantityStaged"]').attr('data-originalvalue');
             let trackedByValue = $tr.find('[data-browsedatafield="TrackedBy"]').attr('data-originalvalue');
+            let itemClassValue = $tr.find('[data-browsedatafield="ItemClass"]').attr('data-originalvalue');
             let preventBubble = true;
             let $oldElement = $quantityColumn.find('div');
             let html = [];
             let $grid = $tr.parents('[data-grid="StageQuantityItemGrid"]');
-            if (trackedByValue === 'QUANTITY') {
+            if (trackedByValue === 'QUANTITY' || itemClassValue !== 'K') {
                 html.push('<button class="decrementQuantity" tabindex="-1" style="padding: 5px 0px; float:left; width:25%; border:none;">-</button>');
                 html.push('<div style="position:relative">');
                 html.push('     <input class="fieldvalue" type="number" style="height:1.5em; width:40px; text-align:center;" value="' + originalquantity + '">');
