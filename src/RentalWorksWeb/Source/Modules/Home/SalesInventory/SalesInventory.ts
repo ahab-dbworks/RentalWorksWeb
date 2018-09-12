@@ -367,9 +367,9 @@ class SalesInventory extends InventoryBase {
 
         if (classificationValue === 'I' || classificationValue === 'A') {
             if (trackedByValue !== 'QUANTITY') {
-                $form.find('.asset-submodule').show();
+                $form.find('.tab.asset').show();
                 $submoduleAssetBrowse = this.openAssetBrowse($form);
-                $form.find('.asset-submodule-page').append($submoduleAssetBrowse);
+                $form.find('.tabpage.asset').append($submoduleAssetBrowse);
 
                 $submoduleAssetBrowse.find('div.btn[data-type="NewMenuBarButton"]').off('click');
                 $submoduleAssetBrowse.find('div.btn[data-type="NewMenuBarButton"]').on('click', function () {
@@ -387,13 +387,14 @@ class SalesInventory extends InventoryBase {
     };
     //----------------------------------------------------------------------------------------------
     openAssetBrowse($form: any) {
-        let $browse;
+        let $browse, inventoryId;
         $browse = AssetController.openBrowse();
+        inventoryId = FwFormField.getValueByDataField($form, 'InventoryId');
 
         $browse.data('ondatabind', request => {
             request.ActiveView = AssetController.ActiveView;
             request.uniqueids = {
-                InventoryId: $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
+                InventoryId: inventoryId
             }
         });
 
