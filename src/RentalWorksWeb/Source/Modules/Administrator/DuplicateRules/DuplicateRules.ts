@@ -54,6 +54,7 @@ class DuplicateRules {
             FwFormField.disable($form.find('.ifnew'));
         }
 
+        //load modules
         node = FwApplicationTree.getNodeById(FwApplicationTree.tree, '0A5F2584-D239-480F-8312-7C2B552A30BA');
         mainModules = FwApplicationTree.getChildrenByType(node, 'Module');
         settingsModules = FwApplicationTree.getChildrenByType(node, 'SettingsModule');
@@ -63,13 +64,26 @@ class DuplicateRules {
             let moduleNav = modules[i].properties.controller.slice(0, -10)
                 , moduleCaption = modules[i].properties.caption
                 , moduleController = modules[i].properties.controller;
-            if (moduleCaption === "Designer") {
-                continue;
+            if (typeof window[moduleController] !== 'undefined') {
+                if (window[moduleController].hasOwnProperty('apiurl')) {
+                    var moduleUrl = window[moduleController].apiurl;
+                    allModules.push({ value: moduleNav, text: moduleCaption, apiurl: moduleUrl });
+                }
             }
+        };
+        //load grids
+        const gridNode = FwApplicationTree.getNodeById(FwApplicationTree.tree, '43765919-4291-49DD-BE76-F69AA12B13E8');
+        let gridModules = FwApplicationTree.getChildrenByType(gridNode, 'Grid');
 
-            if (window[moduleController].hasOwnProperty('apiurl')) {
-                var moduleUrl = window[moduleController].apiurl;
-                allModules.push({ value: moduleNav, text: moduleCaption, apiurl: moduleUrl });
+        for (let i = 0; i < gridModules.length; i++) {
+            let moduleNav = gridModules[i].properties.controller.slice(0, -10)
+                , moduleCaption = gridModules[i].properties.caption
+                , moduleController = gridModules[i].properties.controller;
+            if (typeof window[moduleController] !== 'undefined') {
+                if (window[moduleController].hasOwnProperty('apiurl')) {
+                    let moduleUrl = window[moduleController].apiurl;
+                    allModules.push({ value: moduleNav, text: moduleCaption, apiurl: moduleUrl });
+                }
             }
         };
 
@@ -137,13 +151,13 @@ class DuplicateRules {
                     fieldsHtml.push(' data-type="checkbox"');
                     fieldsHtml.push(' class="fwcontrol fwformfield"');
                     fieldsHtml.push(' data-enabled="true"');
-                    fieldsHtml.push(' data-caption="' + sortedFields[i] + '"');
-                    fieldsHtml.push(' data-value="' + sortedFields[i] + '"');
+                    fieldsHtml.push(` data-caption="${sortedFields[i]}"`);
+                    fieldsHtml.push(` data-value="${sortedFields[i]}"`);
                     fieldsHtml.push(' style="float:left;width:300px; padding: 10px; 0px;"');
                     fieldsHtml.push('>');
-                    fieldsHtml.push('<input id="' + uniqueId + '" class="fwformfield-control fwformfield-value" type="checkbox" name= "' + sortedFields[i] + '"');
+                    fieldsHtml.push(`<input id="${uniqueId}" class="fwformfield-control fwformfield-value" type="checkbox" name= "${sortedFields[i]}"`);
                     fieldsHtml.push(' />');
-                    fieldsHtml.push('<label class="fwformfield-caption" for="' + uniqueId + '">' + sortedFields[i] + '</label>');
+                    fieldsHtml.push(`<label class="fwformfield-caption" for="${uniqueId}">${sortedFields[i]}</label>`);
                     fieldsHtml.push('</div>');
                 }
                 $fields.empty().append(fieldsHtml.join('')).html();
@@ -151,7 +165,7 @@ class DuplicateRules {
                 var fields = $form.find('[data-datafield="Fields"]').attr('data-originalvalue');
                 var separateFields = fields.split(",");
                 jQuery.each(separateFields, function (i, val) {
-                    jQuery("input[name='" + val + "']").prop("checked", true)
+                    jQuery(`input[name="${val}"]`).prop("checked", true)
                 });
 
                 $form.on('change', '[type="checkbox"]', e => {
@@ -208,7 +222,7 @@ class DuplicateRules {
             //    FwFormField.setValue($form, `div[data-datafield=${separateFields[i]}]`, 'true');
             //}
             jQuery.each(separateFields, function (i, val) {
-                jQuery("input[name='" + val + "']").prop("checked", true);
+                jQuery(`input[name="${val}"]`).prop("checked", true);
             });
 
             $form.on('change', '[type="checkbox"]', e => {

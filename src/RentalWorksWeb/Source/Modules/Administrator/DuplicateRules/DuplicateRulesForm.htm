@@ -6,18 +6,23 @@
     </div>
     <div class="tabpages">
       <div data-type="tabpage" id="generaltabpage" class="tabpage" data-tabid="generaltab">
-        <div class="formpage">
-          <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Duplicate Rules">
-            <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-              <div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield modules ifnew SystemRuleTRUE" data-caption="Module Name" data-datafield="ModuleName" data-displayfield="NoduleName" style="float:left;width:250px;"></div>
+        <div class="flexpage">
+          <div class="flexcolumn">
+            <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Duplicate Rules">
+              <div class="flexrow">
+                <div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield modules ifnew SystemRuleTRUE" data-caption="Module" data-datafield="ModuleName" data-displayfield="NoduleName" style="flex:1 1 0; max-width:350px;"></div>
+              </div>
+              <div class="flexrow">
+                <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield SystemRuleTRUE" data-caption="Rule Name" data-datafield="RuleName" data-displayfield="RuleName" style="flex:1 1 0; max-width:350px;" data-required="true"></div>
+              </div>
             </div>
-            <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-              <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield SystemRuleTRUE" data-caption="Rule Name" data-datafield="RuleName" data-displayfield="RuleName" style="float:left;width:450px;" data-required="true"></div>
+          </div>
+          <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Fields">
+            <div class="flexrow">
+              <div class="fwcontrol fwcontainer fwform-fieldrow fields" data-control="FwContainer" data-type="fieldrow"></div>
+              <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield SystemRuleTRUE" data-caption="Fields" data-datafield="Fields" style="display:none;"></div>
+              <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="SystemRule" data-datafield="SystemRule" data-required="false" data-enabled="true" style="float:left;width:110px;display:none;"></div>
             </div>
-            <br />
-            <div class="fwcontrol fwcontainer fwform-fieldrow fields" data-control="FwContainer" data-type="fieldrow"></div>
-            <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield SystemRuleTRUE" data-caption="Fields" data-datafield="Fields" style="visibility:hidden;"></div>
-            <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="SystemRule" data-datafield="SystemRule" data-required="false" data-enabled="true" style="float:left;width:110px;visibility:hidden;"></div>
           </div>
         </div>
       </div>
