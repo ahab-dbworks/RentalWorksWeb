@@ -552,17 +552,39 @@ class StagingCheckout {
         errorSound = new Audio(this.errorSoundFileName);
         successSound = new Audio(this.successSoundFileName);
 
-        // Refresh all grids when moving from tab to tab
-        $form.find('.tab').on('click', e => {
-            let $stagedItemGrid, $checkedOutItemGrid, $stageQuantityItemGrid;
+        //Refresh grids on tab click
+        $form.find('div.exceptions-tab').on('click', e => {
+            //Disable clicking Exception tab w/o a ContractId
+            console.log(this.contractId, 'c')
+            let orderId = FwFormField.getValueByDataField($form, 'OrderId');
+            if (orderId !== '') {
+                let $stagingExceptionGrid = $form.find('[data-name="StagingExceptionGrid"]');
+                FwBrowse.search($stagingExceptionGrid);
+            } else {
+                e.stopPropagation();
+                FwNotification.renderNotification('WARNING', 'Input an Order, Deal, BarCode, or I-Code.')
+            }
+        });
+        $form.find('div.quantity-items-tab').on('click', e => {
+            //Disable clicking Quantity Items tab w/o a ContractId
+            let orderId = FwFormField.getValueByDataField($form, 'OrderId');
+            if (orderId !== '') {
+                let $stageQuantityItemGrid = $form.find('[data-name="StageQuantityItemGrid"]');
+                FwBrowse.search($stageQuantityItemGrid);
+            } else {
+                e.stopPropagation();
+                FwNotification.renderNotification('WARNING', 'Input an Order, Deal, BarCode, or I-Code.')
+            }
+        });
+        // Refresh grids when navigating to Staging tab
+        $form.find('.staging-tab').on('click', e => {
+            let $stagedItemGrid, $checkedOutItemGrid;
             $stagedItemGrid = $form.find('[data-name="StagedItemGrid"]');
             $checkedOutItemGrid = $form.find('[data-name="CheckedOutItemGrid"]');
-            $stageQuantityItemGrid = $form.find('[data-name="StageQuantityItemGrid"]');
-            setTimeout(() => {
+
             FwBrowse.search($checkedOutItemGrid);
             FwBrowse.search($stagedItemGrid);
-                FwBrowse.search($stageQuantityItemGrid);
-            }, 500);
+
         });
         // BarCode / I-Code change
         $form.find('[data-datafield="Code"] input').on('keydown', e => {

@@ -14,6 +14,9 @@
             let $form, $stagedItemGrid, $checkedOutItemGrid, barCode, iCode, orderItemId, vendorId, request: any = {}
 
             $form = $control.closest('.fwform');
+            $form.find('.right-arrow').addClass('arrow-clicked');
+            $form.find('.left-arrow').removeClass('arrow-clicked');
+
             $checkedOutItemGrid = $form.find('[data-name="CheckedOutItemGrid"]');
             $stagedItemGrid = $form.find('[data-name="StagedItemGrid"]');
             barCode = $tr.find('[data-formdatafield="BarCode"]').attr('data-originalvalue');

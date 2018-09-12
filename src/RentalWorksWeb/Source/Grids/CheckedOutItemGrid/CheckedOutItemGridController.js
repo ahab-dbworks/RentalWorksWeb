@@ -12,6 +12,8 @@ class CheckedOutItemGrid {
         function moveOutItemToStaged($control, $tr) {
             let $form, $stagedItemGrid, $checkedOutItemGrid, barCode, iCode, orderItemId, vendorId, request = {};
             $form = $control.closest('.fwform');
+            $form.find('.left-arrow').addClass('arrow-clicked');
+            $form.find('.right-arrow').removeClass('arrow-clicked');
             $checkedOutItemGrid = $form.find('[data-name="CheckedOutItemGrid"]');
             $stagedItemGrid = $form.find('[data-name="StagedItemGrid"]');
             barCode = $tr.find('[data-formdatafield="BarCode"]').attr('data-originalvalue');
