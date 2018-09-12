@@ -1011,7 +1011,7 @@ class FwBrowseClass {
                     html.push('<div class="fwbrowsebutton btnClear">Clear</div>');
                     html.push('<div class="fwbrowsebutton btnViewSelection" style="display:none;">View Selection</div>');
                     html.push('<div class="fwbrowsebutton btnCancel">Cancel</div>');
-                    if ($control.attr('data-newvalidation') === 'true') {
+                    if ($control.attr('data-allownew') !== 'false') {
                         html.push('<div class="fwbrowsebutton btnNew">New</div>');
                     }
                     $customvalidationbuttons = $control.find('.customvalidationbuttons');

@@ -1127,9 +1127,7 @@ class FwModule {
                     var errorTab = $field.closest('.tabpage').attr('data-tabid');
                     isvalid = false;
                     $field.addClass('error');
-                    if (!$field.closest('.fwform').hasClass('fwreport')) {
-                        $field.parents('.fwcontrol .fwtabs').find('#' + errorTab).addClass('error');
-                    }
+                    $field.parents('.fwcontrol .fwtabs').find('#' + errorTab).addClass('error');
                 }
                 else if ($field.find('.fwformfield-value').val() != '') {
                     $field.removeClass('error');

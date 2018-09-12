@@ -76,10 +76,10 @@
         html.push('      </h4>');
         if (description === "") {
             html.push('      <small id="description" style="display:none;">' + moduleName + '</small>');
-            html.push('      <small>' + moduleName + '</small>');
+            html.push('      <small id="description-text">' + moduleName + '</small>');
         } else {
             html.push('      <small id="description" style="display:none;">' + description + '</small>');
-            html.push('      <small>' + description + '</small>');
+            html.push('      <small id="description-text">' + description + '</small>');
         }
         html.push('    </div>');
         html.push('    <div class="panel-collapse collapse" style="display:none; "><div class="panel-body" id="' + moduleName + '"></div></div>');
@@ -153,6 +153,7 @@
                 me.getCaptions(screen);
                 filter = [];
                 $reports = jQuery('small#description');
+                jQuery('small#description-text').css('color', '')
                 $module = jQuery('a#title');
                 val = jQuery.trim(this.value).toUpperCase();
                 if (val === "") {
@@ -174,6 +175,7 @@
                         var module = $reports.filter(function () {
                             return -1 != jQuery(this).text().toUpperCase().indexOf(results[i]);
                         }).closest('div.panel-group');
+                        module.find('small#description-text').css('color', 'yellow');
                         module.find('.highlighted').removeClass('highlighted');
                         module.show();
                     }

@@ -19,11 +19,15 @@ class FwWebApiReport {
         let $form = jQuery(this.frontEndHtml);
         $form.attr('data-reportname', this.reportName);
         $form.on('change', '.fwformfield[data-required="true"].error', function () {
-            var $this, value;
+            var $this, value, errorTab;
             $this = jQuery(this);
             value = FwFormField.getValue2($this);
+            errorTab = $this.closest('.tabpage').attr('data-tabid');
             if (value !== '') {
                 $this.removeClass('error');
+                if ($this.closest('.tabpage.active').has('.error').length === 0) {
+                    $this.parents('.fwcontrol .fwtabs').find('#' + errorTab).removeClass('error');
+                }
             }
         });
         return $form;
