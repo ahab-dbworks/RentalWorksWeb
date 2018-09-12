@@ -464,6 +464,7 @@ class StagingCheckout {
         let $stagedItemGrid: any, $stagedItemGridControl: any;
         let $checkedOutItemGrid: any, $checkedOutItemGridControl: any;
         let $stageQuantityItemGrid: any, $stageQuantityItemGridControl: any;
+        let $stagingExceptionGrid: any, $stagingExceptionGridControl: any;
 
         let orderId = $form.find('[data-datafield="OrderId"] .fwformfield-value').val();
         let warehouseId = FwFormField.getValueByDataField($form, 'WarehouseId');
@@ -507,16 +508,33 @@ class StagingCheckout {
         FwBrowse.init($stageQuantityItemGridControl);
         FwBrowse.renderRuntimeHtml($stageQuantityItemGridControl);
         //----------------------------------------------------------------------------------------------
+        $stagingExceptionGrid = $form.find('div[data-grid="StagingExceptionGrid"]');
+        $stagingExceptionGridControl = jQuery(jQuery('#tmpl-grids-StagingExceptionGridBrowse').html());
+        $stagingExceptionGrid.empty().append($stagingExceptionGridControl);
+        $stagingExceptionGridControl.data('ondatabind', function (request) {
+            request.uniqueids = {
+                OrderId: orderId,
+                WarehouseId: warehouseId
+            };
+            request.pagesize = 10;
+            request.orderby = 'ItemOrder';
+        });
+        FwBrowse.init($stagingExceptionGridControl);
+        FwBrowse.renderRuntimeHtml($stagingExceptionGridControl);
+        //----------------------------------------------------------------------------------------------
         //this.addLegend($form, $stagedItemGrid);
     };
     //----------------------------------------------------------------------------------------------
     afterLoad($form: any): void {
-        let $stagedItemGrid, $stageQuantityItemGrid;
+        let $stagedItemGrid, $stageQuantityItemGrid, $stagingExceptionGrid;
         $stagedItemGrid = $form.find('[data-name="StagedItemGrid"]');
         FwBrowse.search($stagedItemGrid);
         //----------------------------------------------------------------------------------------------
         $stageQuantityItemGrid = $form.find('[data-name="StageQuantityItemGrid"]');
         FwBrowse.search($stageQuantityItemGrid);
+        //----------------------------------------------------------------------------------------------
+        $stagingExceptionGrid = $form.find('[data-name="StagingExceptionGrid"]');
+        FwBrowse.search($stagingExceptionGrid);
     };
     //----------------------------------------------------------------------------------------------
     addItemFieldValues($form: any, response: any): void {

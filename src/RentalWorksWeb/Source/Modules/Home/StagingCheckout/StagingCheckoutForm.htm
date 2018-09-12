@@ -3,6 +3,7 @@
     <div class="tabs">
       <div data-type="tab" id="stagingtab" class="tab" data-tabpageid="stagingtabpage" data-caption="Staging"></div>
       <div data-type="tab" id="quantityitemtab" class="tab" data-tabpageid="quantityitemtabpage" data-caption="Quantity Items"></div>
+      <div data-type="tab" id="exceptionstab" class="tab" data-tabpageid="exceptionstabpage" data-caption="Exceptions"></div>
     </div>
     <div class="tabpages">
       <div data-type="tabpage" id="stagingtabpage" class="tabpage" data-tabid="stagingtab">
@@ -80,6 +81,15 @@
           <div class="flexrow error-msg-qty"></div>
           <div class="flexrow">
             <div data-control="FwGrid" data-grid="StageQuantityItemGrid" data-securitycaption=""></div>
+          </div>
+        </div>
+      </div>
+       <!--Exceptions Page-->
+      <div data-type="tabpage" id="exceptionstabpage" class="tabpage" data-tabid="exceptionstab">
+        <div class="flexpage">
+          <div class="flexrow error-msg-qty"></div>
+          <div class="flexrow">
+            <div data-control="FwGrid" data-grid="StagingExceptionGrid" data-securitycaption=""></div>
           </div>
         </div>
       </div>
