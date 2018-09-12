@@ -466,11 +466,6 @@ class StagingCheckout {
         let $stageQuantityItemGrid: any, $stageQuantityItemGridControl: any;
         let $stagingExceptionGrid: any, $stagingExceptionGridControl: any;
 
-        let orderId = FwFormField.getValueByDataField($form, 'OrderId');
-        let warehouseId = FwFormField.getValueByDataField($form, 'WarehouseId');
-        let includeZeroRemaining = FwFormField.getValueByDataField($form, 'IncludeZeroRemaining');
-
-        let maxPageSize = 250;
         //----------------------------------------------------------------------------------------------
         $stagedItemGrid = $form.find('div[data-grid="StagedItemGrid"]');
         $stagedItemGridControl = jQuery(jQuery('#tmpl-grids-StagedItemGridBrowse').html());
@@ -478,10 +473,10 @@ class StagingCheckout {
 
         $stagedItemGridControl.data('ondatabind', function (request) {
             request.uniqueids = {
-                OrderId: orderId,
-                WarehouseId: warehouseId
+                OrderId: FwFormField.getValueByDataField($form, 'OrderId'),
+                WarehouseId: FwFormField.getValueByDataField($form, 'WarehouseId')
             };
-            request.pagesize = maxPageSize;
+            request.pagesize = 250;
         })
         FwBrowse.init($stagedItemGridControl);
         FwBrowse.renderRuntimeHtml($stagedItemGridControl);
@@ -502,8 +497,8 @@ class StagingCheckout {
         $stageQuantityItemGrid.empty().append($stageQuantityItemGridControl);
         $stageQuantityItemGridControl.data('ondatabind', function (request) {
             request.uniqueids = {
-                OrderId: orderId,
-                IncludeZeroRemaining: includeZeroRemaining
+                OrderId: FwFormField.getValueByDataField($form, 'OrderId'),
+                IncludeZeroRemaining: FwFormField.getValueByDataField($form, 'IncludeZeroRemaining')
             };
             request.pagesize = 10;
             request.orderby = 'ItemOrder';
@@ -516,8 +511,8 @@ class StagingCheckout {
         $stagingExceptionGrid.empty().append($stagingExceptionGridControl);
         $stagingExceptionGridControl.data('ondatabind', function (request) {
             request.uniqueids = {
-                OrderId: orderId,
-                WarehouseId: warehouseId
+                OrderId: FwFormField.getValueByDataField($form, 'OrderId'),
+                WarehouseId: FwFormField.getValueByDataField($form, 'WarehouseId')
             };
             request.pagesize = 10;
             request.orderby = 'ItemOrder';
