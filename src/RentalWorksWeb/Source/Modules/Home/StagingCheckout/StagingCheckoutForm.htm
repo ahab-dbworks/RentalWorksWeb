@@ -82,9 +82,17 @@
           <div class="flexrow">
             <div data-control="FwGrid" data-grid="StageQuantityItemGrid" data-securitycaption=""></div>
           </div>
+          <div class="formrow">
+            <div class="fwformcontrol options-button" data-type="button" style="float:left; margin-left:10px;">Options &#8675;</div>
+            <div class="fwformcontrol selectall" data-type="button" style="float:left; margin-left:10px;">Select All</div>
+            <div class="fwformcontrol selectnone" data-type="button" style="float:left; margin-left:10px;">Select None</div>
+          </div>
+          <div class="formrow option-list" style="display:none;">
+            <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Show items with zero Remaining" data-datafield="IncludeZeroRemaining"></div>
+          </div>
         </div>
       </div>
-       <!--Exceptions Page-->
+      <!--Exceptions Page-->
       <div data-type="tabpage" id="exceptionstabpage" class="tabpage" data-tabid="exceptionstab">
         <div class="flexpage">
           <div class="flexrow error-msg-qty"></div>

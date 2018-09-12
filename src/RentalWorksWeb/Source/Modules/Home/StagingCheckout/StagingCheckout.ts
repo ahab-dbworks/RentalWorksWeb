@@ -466,8 +466,10 @@ class StagingCheckout {
         let $stageQuantityItemGrid: any, $stageQuantityItemGridControl: any;
         let $stagingExceptionGrid: any, $stagingExceptionGridControl: any;
 
-        let orderId = $form.find('[data-datafield="OrderId"] .fwformfield-value').val();
+        let orderId = FwFormField.getValueByDataField($form, 'OrderId');
         let warehouseId = FwFormField.getValueByDataField($form, 'WarehouseId');
+        let includeZeroRemaining = FwFormField.getValueByDataField($form, 'IncludeZeroRemaining');
+
         let maxPageSize = 250;
         //----------------------------------------------------------------------------------------------
         $stagedItemGrid = $form.find('div[data-grid="StagedItemGrid"]');
@@ -501,6 +503,7 @@ class StagingCheckout {
         $stageQuantityItemGridControl.data('ondatabind', function (request) {
             request.uniqueids = {
                 OrderId: orderId,
+                IncludeZeroRemaining: includeZeroRemaining
             };
             request.pagesize = 10;
             request.orderby = 'ItemOrder';
@@ -554,26 +557,25 @@ class StagingCheckout {
 
         //Refresh grids on tab click
         $form.find('div.exceptions-tab').on('click', e => {
-            //Disable clicking Exception tab w/o a ContractId
-            console.log(this.contractId, 'c')
+            //Disable clicking Exception tab w/o an OrderId
             let orderId = FwFormField.getValueByDataField($form, 'OrderId');
             if (orderId !== '') {
                 let $stagingExceptionGrid = $form.find('[data-name="StagingExceptionGrid"]');
                 FwBrowse.search($stagingExceptionGrid);
             } else {
                 e.stopPropagation();
-                FwNotification.renderNotification('WARNING', 'Input an Order, Deal, BarCode, or I-Code.')
+                FwNotification.renderNotification('WARNING', 'Select an Order first.')
             }
         });
         $form.find('div.quantity-items-tab').on('click', e => {
-            //Disable clicking Quantity Items tab w/o a ContractId
+            //Disable clicking Quantity Items tab w/o an OrderId
             let orderId = FwFormField.getValueByDataField($form, 'OrderId');
             if (orderId !== '') {
                 let $stageQuantityItemGrid = $form.find('[data-name="StageQuantityItemGrid"]');
                 FwBrowse.search($stageQuantityItemGrid);
             } else {
                 e.stopPropagation();
-                FwNotification.renderNotification('WARNING', 'Input an Order, Deal, BarCode, or I-Code.')
+                FwNotification.renderNotification('WARNING', 'Select an Order first.')
             }
         });
         // Refresh grids when navigating to Staging tab
@@ -719,6 +721,25 @@ class StagingCheckout {
         $form.find('.createcontract').on('click', e => {
             this.createContract($form);
         });
+        //Options button
+        $form.find('.options-button').on('click', e => {
+            $form.find('.option-list').toggle();
+        });
+        //IncludeZeroRemaining Checkbox functionality
+        $form.find('[data-datafield="IncludeZeroRemaining"] input').on('change', e => {
+            let $stageQuantityItemGrid = $form.find('[data-name="StageQuantityItemGrid"]');
+            let orderId = FwFormField.getValueByDataField($form, 'OrderId');
+            let includeZeroRemaining = FwFormField.getValueByDataField($form, 'IncludeZeroRemaining');
+            $stageQuantityItemGrid.data('ondatabind', function (request) {
+                request.uniqueids = {
+                    OrderId: orderId,
+                    IncludeZeroRemaining: includeZeroRemaining
+                };
+                request.pagesize = 10;
+                request.orderby = 'ItemOrder';
+            });
+            FwBrowse.search($stageQuantityItemGrid);
+        });
         // Partial Contract Inputs
         $form.find('.partial-contract-inputs input').on('keydown', e => {
             let barCodeFieldValue = $form.find('.partial-contract-barcode input').val();
@@ -730,9 +751,37 @@ class StagingCheckout {
                 } else if ($form.find('.left-arrow').hasClass('arrow-clicked')) {
                     this.moveOutItemToStaged($form);
                 } else {
-                    FwNotification.renderNotification('WARNING', 'Choose an arrow direction before submitting Bar Code in the inputs.')
+                    this.moveStagedItemToOut($form);
+                    $form.find('.right-arrow').addClass('arrow-clicked');
+                    $form.find('.left-arrow').removeClass('arrow-clicked');
                 }
             }
+        });
+        // Select None
+        $form.find('.selectnone').on('click', e => {
+            let request: any = {}, quantity;
+            const $stageQuantityItemGrid = $form.find('div[data-name="StageQuantityItemGrid"]');
+            const orderId = FwFormField.getValueByDataField($form, 'OrderId');
+
+            request.OrderId = orderId;
+            FwAppData.apiMethod(true, 'POST', `api/v1/stagequantityitem/selectnone`, request, FwServices.defaultTimeout, function onSuccess(response) {
+                FwBrowse.search($stageQuantityItemGrid);
+            }, function onError(response) {
+                FwFunc.showError(response);
+            }, $form);
+        });
+        // Select All
+        $form.find('.selectall').on('click', e => {
+            let request: any = {};
+            const $stageQuantityItemGrid = $form.find('div[data-name="StageQuantityItemGrid"]');
+            const orderId = FwFormField.getValueByDataField($form, 'OrderId');
+
+            request.OrderId = orderId;
+            FwAppData.apiMethod(true, 'POST', `api/v1/stagequantityitem/selectall`, request, FwServices.defaultTimeout, function onSuccess(response) {
+                FwBrowse.search($stageQuantityItemGrid);
+            }, function onError(response) {
+                FwFunc.showError(response);
+            }, $form);
         });
     };
     //----------------------------------------------------------------------------------------------

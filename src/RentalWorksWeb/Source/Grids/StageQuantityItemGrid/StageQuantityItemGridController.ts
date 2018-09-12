@@ -6,7 +6,7 @@
     generateRow($control, $generatedtr) {
         let $form, errorSound, $quantityColumn;
         $form = $control.closest('.fwform');
-        $quantityColumn = $generatedtr.find('.quantity');
+        $quantityColumn = $generatedtr.find('.quantity-staged');
         this.errorSoundFileName = JSON.parse(sessionStorage.getItem('sounds')).errorSoundFileName;
         errorSound = new Audio(this.errorSoundFileName);
 
@@ -103,7 +103,7 @@
                     }
                 });
             } else {
-                $tr.find('.quantity').text('');
+                $tr.find('.quantity-staged').text('');
                 $tr.find('[data-browsedatafield="QuantityStaged"]').attr('data-formreadonly', 'true');
             } //end of trackedBy conditional
         });
