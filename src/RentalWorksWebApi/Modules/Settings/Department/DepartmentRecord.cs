@@ -20,6 +20,27 @@ namespace WebApi.Modules.Settings.Department
         [FwSqlDataField(column: "divisioncode", modeltype: FwDataTypes.Text, maxlength: 20)]
         public string DivisionCode { get; set; }
         //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "disableeditraterental", modeltype: FwDataTypes.Boolean, sqltype: "char", maxlength: 1)]
+        public bool? DisableEditingRentalRate { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "disableeditratesales", modeltype: FwDataTypes.Boolean, sqltype: "char", maxlength: 1)]
+        public bool? DisableEditingSalesRate { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "disableeditratemisc", modeltype: FwDataTypes.Boolean, sqltype: "char", maxlength: 1)]
+        public bool? DisableEditingMiscellaneousRate { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "disableeditratelabor", modeltype: FwDataTypes.Boolean, sqltype: "char", maxlength: 1)]
+        public bool? DisableEditingLaborRate { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "disableeditrateusedsale", modeltype: FwDataTypes.Boolean, sqltype: "char", maxlength: 1)]
+        public bool? DisableEditingUsedSaleRate { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "disableeditrateld", modeltype: FwDataTypes.Boolean, sqltype: "char", maxlength: 1)]
+        public bool? DisableEditingFinalLdRate { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "exportcode", modeltype: FwDataTypes.Text)]
+        public string ExportCode { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "inactive", modeltype: FwDataTypes.Boolean)]
         public bool? Inactive { get; set; }
         //------------------------------------------------------------------------------------
