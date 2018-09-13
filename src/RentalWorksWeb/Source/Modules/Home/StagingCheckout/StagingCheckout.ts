@@ -749,8 +749,9 @@ class StagingCheckout {
         // Grid view toggle
         $form.find('.grid-view-radio input').on('change', e => {
             console.log('event: ', e);
-            console.log('value: ', $form.find('.grid-view-radio').val());
-            console.log('div: ', $form.find('.grid-view-radio'))
+            console.log('.fwformfield-value: ', $form.find('.grid-view-radio .fwformfield-value').val());
+            console.log('InputValue: ', $form.find('.grid-view-radio input').val());
+            console.log('.grid-view-radio', $form.find('.grid-view-radio'));
             console.log('gridviewInEvent: ', FwFormField.getValueByDataField($form, 'GridView'))
 
             let $target = jQuery(e.currentTarget),

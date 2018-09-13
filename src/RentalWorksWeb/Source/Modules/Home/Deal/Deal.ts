@@ -319,8 +319,6 @@ class Deal {
 
         if (FwFormField.getValue($form, '.billing_radio1') === 'DEAL') {
             // Clear input fields
-            FwFormField.setValue($form, '.billing_att1', "");
-            FwFormField.setValue($form, '.billing_att2', "");
             FwFormField.setValue($form, '.billing_add1', "");
             FwFormField.setValue($form, '.billing_add2', "");
             FwFormField.setValue($form, '.billing_city', "");
@@ -371,7 +369,6 @@ class Deal {
 
         if (FwFormField.getValue($form, '.shipping_address_type_radio') === 'PROJECT') {
             // Clear input fields
-            FwFormField.setValue($form, '.shipping_att', "");
             FwFormField.setValue($form, '.shipping_add1', "");
             FwFormField.setValue($form, '.shipping_add2', "");
             FwFormField.setValue($form, '.shipping_city', "");
