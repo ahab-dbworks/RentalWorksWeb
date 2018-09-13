@@ -502,16 +502,13 @@ namespace FwStandard.BusinessLogic
             if (duplicateRules != null)
             {
                 object[] ids = GetPrimaryKeys();
-                //string moduleName = this.GetType().Name;
-                //string module = moduleName.Substring(0, moduleName.Length - 5);
 
                 var duplicateRows = duplicateRules.Rows;
                 List<object> rulesList = new List<object>();
 
                 foreach (var row in duplicateRows)
                 {
-                    //if ((String)row[1] == ModuleName)
-                    if (row[1].ToString().Equals(this.BusinessLogicModuleName))
+                    if ((row[1].ToString().Equals(this.BusinessLogicModuleName)) || (row[1].ToString().Equals(this.BusinessLogicModuleName + "Grid")))
                     {
                         rulesList.Add(row);
                     }
