@@ -9,7 +9,7 @@
 			"name": "Agent Billing Report",
 			"item": [
 				{
-					"name": "Agent Billing Report: Browse",
+					"name": "Agent Billing Report: Run Report",
 					"request": {
 						"method": "POST",
 						"header": [
@@ -24,10 +24,10 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"Agent,OfficeLocation,Department,Deal,OrderNumber\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": [],\n    \t\"uniqueids\": {\n    \t\t\"DateType\": \"INVOICE_DATE\",\n    \t\t\"FromDate\": \"01/01/2018\",\n    \t\t\"ToDate\": \"08/01/2018\",\n    \t\t\"LocationId\": \"B001WH00\",\n    \t\t\"DepartmentId\": \"B003KSM1\"\n    \t\t\n    \t}\n\t\n}"
+							"raw": "{\n    \t\t\"DateType\": \"BILLING_START_DATE\",        \"xDateTypeValues\": \"INVOICE_DATE or BILLING_START_DATE\",\n    \t\t\"FromDate\": \"01/01/2018\",\n    \t\t\"ToDate\": \"08/01/2018\",\n    \t\t\"xOfficeLocationId\": \"B001WH00\",\n    \t\t\"xDepartmentId\": \"B003KSM1\",\n    \t\t\"CustomerId\": \"\",\n    \t\t\"DealId\": \"\",\n    \t\t\"AgentId\": \"\"\n}"
 						},
 						"url": {
-							"raw": "http://localhost:57949/api/v1/agentbillingreport/browse",
+							"raw": "http://localhost:57949/api/v1/agentbillingreport/runreport",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -37,7 +37,7 @@
 								"api",
 								"v1",
 								"agentbillingreport",
-								"browse"
+								"runreport"
 							]
 						}
 					},
@@ -49,7 +49,7 @@
 			"name": "A/R Aging Report",
 			"item": [
 				{
-					"name": "A/R Aging Report: Browse",
+					"name": "A/R Aging Report: Run Report",
 					"request": {
 						"method": "POST",
 						"header": [
@@ -64,10 +64,10 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"Description\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": [],\n    \t\"uniqueids\": {\n    \t\t\"AsOfDate\": \"08/29/2018\",\n    \t\t\"OfficeLocationId\": \"B001WH00\",\n    \t\t\"CustomerId\": \"B003ON2L\",\n    \t\t\"DealCsrId\": \"B0028HI1\",\n    \t\t\"DealId\": \"B003ON2O\"\n    \t}\n}"
+							"raw": "{\n    \t\t\"AsOfDate\": \"08/29/2018\",\n    \t\t\"OfficeLocationId\": \"B001WH00\",\n    \t\t\"CustomerId\": \"B003ON2L\",\n    \t\t\"DealCsrId\": \"B0028HI1\",\n    \t\t\"DealTypeId\": \"\",\n    \t\t\"DealId\": \"B003ON2O\"\n}"
 						},
 						"url": {
-							"raw": "http://localhost:57949/api/v1/aragingreport/browse",
+							"raw": "http://localhost:57949/api/v1/aragingreport/runreport",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -77,7 +77,7 @@
 								"api",
 								"v1",
 								"aragingreport",
-								"browse"
+								"runreport"
 							]
 						}
 					},
@@ -286,86 +286,6 @@
 			]
 		},
 		{
-			"name": "Sales Representative Billing Report Copy",
-			"item": [
-				{
-					"name": "Sales Representative Billing Report: Browse",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "{{jwttoken}}"
-							},
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"SalesRepresentative,OfficeLocation,Department,Deal,OrderNumber\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": [],\n    \t\"uniqueids\": {\n    \t\t\"DateType\": \"INVOICE_DATE\",\n    \t\t\"FromDate\": \"01/01/2018\",\n    \t\t\"ToDate\": \"08/01/2018\",\n    \t\t\"LocationId\": \"B001WH00\",\n    \t\t\"DepartmentId\": \"B003KSM1\"\n    \t\t\n    \t}\n\t\n}"
-						},
-						"url": {
-							"raw": "http://localhost:57949/api/v1/salesrepresentativebillingreport/browse",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "57949",
-							"path": [
-								"api",
-								"v1",
-								"salesrepresentativebillingreport",
-								"browse"
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "Pick List Report",
-			"item": [
-				{
-					"name": "Pick List Report: Browse",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "{{jwttoken}}"
-							},
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"Description\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": [],\n    \t\"uniqueids\": {\"PickListId\":\"00000ZG5\"}\n\t\n}"
-						},
-						"url": {
-							"raw": "http://localhost:57949/api/v1/picklistreport/browse",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "57949",
-							"path": [
-								"api",
-								"v1",
-								"picklistreport",
-								"browse"
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		},
-		{
 			"name": "G/L Distribution Report",
 			"item": [
 				{
@@ -406,6 +326,46 @@
 			]
 		},
 		{
+			"name": "Invoice Summary Report",
+			"item": [
+				{
+					"name": "Invoice Summary Report: Run Report",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \t\t\"DateType\": \"BILLING_START_DATE\",        \"xDateTypeValues\": \"INVOICE_DATE or BILLING_START_DATE\",\n    \t\t\"FromDate\": \"01/01/2018\",\n    \t\t\"ToDate\": \"08/01/2018\",\n    \t\t\"IncludeNoCharge\": true,\n    \t\t\"OfficeLocationId\": \"B001WH00\",\n    \t\t\"DepartmentId\": \"B003KSM1\",\n    \t\t\"CustomerId\": \"\",\n    \t\t\"DealId\": \"\"\n}\n\n"
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/invoicesummaryreport/runreport",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"invoicesummaryreport",
+								"runreport"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
 			"name": "Late Returns Report",
 			"item": [
 				{
@@ -437,6 +397,46 @@
 								"api",
 								"v1",
 								"latereturnsreport",
+								"browse"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Pick List Report",
+			"item": [
+				{
+					"name": "Pick List Report: Browse",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"Description\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": [],\n    \t\"uniqueids\": {\"PickListId\":\"00000ZG5\"}\n\t\n}"
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/picklistreport/browse",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"picklistreport",
 								"browse"
 							]
 						}
@@ -517,6 +517,46 @@
 								"api",
 								"v1",
 								"rentalinventorycatalogreport",
+								"browse"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Sales Representative Billing Report",
+			"item": [
+				{
+					"name": "Sales Representative Billing Report: Browse",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"SalesRepresentative,OfficeLocation,Department,Deal,OrderNumber\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": [],\n    \t\"uniqueids\": {\n    \t\t\"DateType\": \"INVOICE_DATE\",\n    \t\t\"FromDate\": \"01/01/2018\",\n    \t\t\"ToDate\": \"08/01/2018\",\n    \t\t\"LocationId\": \"B001WH00\",\n    \t\t\"DepartmentId\": \"B003KSM1\"\n    \t\t\n    \t}\n\t\n}"
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/salesrepresentativebillingreport/browse",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"salesrepresentativebillingreport",
 								"browse"
 							]
 						}
