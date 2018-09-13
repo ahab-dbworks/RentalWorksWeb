@@ -131,7 +131,8 @@ namespace WebApi.Modules.Home.StagingException
             string contractId = GetUniqueIdAsString("ContractId", request) ?? "";
             base.SetBaseSelectQuery(select, qry, customFields, request);
             select.Parse();
-            //select.AddWhere("(xxxtype = 'ABCDEF')"); 
+            select.AddWhere("(exceptionflg = 'T')"); 
+            select.AddWhere("(qtyordered > 0 or qtystagedandout > 0)"); 
             //addFilterToSelect("UniqueId", "uniqueid", select, request); 
             select.AddParameter("@orderid", orderId);
             select.AddParameter("@warehouseid", warehouseId);
