@@ -36,8 +36,14 @@ namespace WebApi.Modules.Home.StagingException
         [FwSqlDataField(column: "masterno", modeltype: FwDataTypes.Text)]
         public string ICode { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "masternocolor", modeltype: FwDataTypes.OleToHtmlColor)]
+        public string ICodeColor { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "description", modeltype: FwDataTypes.Text)]
         public string Description { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "descriptioncolor", modeltype: FwDataTypes.OleToHtmlColor)]
+        public string DescriptionColor { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "subvendorid", modeltype: FwDataTypes.Text)]
         public string SubVendorId { get; set; }
@@ -50,6 +56,9 @@ namespace WebApi.Modules.Home.StagingException
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "vendor", modeltype: FwDataTypes.Text)]
         public string Vendor { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "vendorcolor", modeltype: FwDataTypes.OleToHtmlColor)]
+        public string VendorColor { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "qtyordered", modeltype: FwDataTypes.Decimal)]
         public decimal? QuantityOrdered { get; set; }
@@ -77,6 +86,9 @@ namespace WebApi.Modules.Home.StagingException
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "missingqty", modeltype: FwDataTypes.Decimal)]
         public decimal? MissingQuantity { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "missingcolor", modeltype: FwDataTypes.OleToHtmlColor)]
+        public string MissingColor { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "trackedby", modeltype: FwDataTypes.Text)]
         public string TrackedBy { get; set; }

@@ -28,7 +28,11 @@ namespace WebApi.Modules.Home.StagingException
         [FwBusinessLogicField(isReadOnly: true)]
         public string ICode { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
+        public string ICodeColor { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
         public string Description { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string DescriptionColor { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
         public string SubVendorId { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
@@ -37,6 +41,8 @@ namespace WebApi.Modules.Home.StagingException
         public string ConsignorAgreementId { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
         public string Vendor { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string VendorColor { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
         public decimal? QuantityOrdered { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
@@ -55,6 +61,8 @@ namespace WebApi.Modules.Home.StagingException
         public bool? IsMissing { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
         public decimal? MissingQuantity { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string MissingColor { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
         public string TrackedBy { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
