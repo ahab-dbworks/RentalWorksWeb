@@ -46,6 +46,8 @@ class StagingCheckout {
         $form.find('.orderstatus').hide();
         $form.find('.createcontract').hide();
         $form.find('.partial-contract').hide();
+        $form.find('.exception-grid').hide();
+        $form.find('.grid-view-radio').hide();
 
         FwFormField.setValue($form, 'div[data-datafield="WarehouseId"]', warehouse.warehouseid, warehouse.warehouse);
 
@@ -90,6 +92,10 @@ class StagingCheckout {
                 FwFormField.setValueByDataField($form, 'Quantity', '');
                 FwFormField.setValueByDataField($form, 'Code', '');
                 $form.find('.error-msg').html('');
+                FwFormField.setValueByDataField($form, 'GridView', 'STAGE');
+                console.log('gridviewInGetOrder: ', FwFormField.getValueByDataField($form, 'GridView'))
+                $form.find('.grid-view-radio').show();
+
                 FwAppData.apiMethod(true, 'GET', "api/v1/order/" + orderId, null, FwServices.defaultTimeout, function onSuccess(response) {
                     FwFormField.setValueByDataField($form, 'Description', response.Description);
                     FwFormField.setValueByDataField($form, 'Location', response.Location);
@@ -185,7 +191,8 @@ class StagingCheckout {
         $form.find('[data-caption="Items"]').hide();
         $form.find('.partial-contract').show();
         $form.find('.flexrow').css('max-width', '2200px');
-
+        $form.find('.exception-grid').hide();
+        $form.find('.staged-item-grid').show();
         FwAppData.apiMethod(true, 'POST', `api/v1/checkout/startcheckoutcontract`, requestBody, FwServices.defaultTimeout, response => {
             try {
                 this.contractId = response.ContractId;
@@ -399,6 +406,7 @@ class StagingCheckout {
         let $stagedItemGrid;
         $stagedItemGrid = $form.find('[data-name="StagedItemGrid"]');
         $form.find('.error-msg').html('');
+        $form.find('.grid-view-radio').hide();
 
         if (this.contractId) {
             FwAppData.apiMethod(true, 'POST', `api/v1/checkout/completecheckoutcontract/${this.contractId}`, null, FwServices.defaultTimeout, function onSuccess(response) {
@@ -410,7 +418,7 @@ class StagingCheckout {
                     FwModule.openSubModuleTab($form, $contractForm);
                     $form.find('.fwformfield').find('input').val('');
                     FwFormField.setValue($form, 'div[data-datafield="WarehouseId"]', warehouse.warehouseid, warehouse.warehouse);
-                    $form.find('.flexrow').css('max-width', '1400px');
+                    $form.find('.flexrow').css('max-width', '1200px');
                     $form.find('.orderstatus').hide();
                     $form.find('.createcontract').hide();
                     $form.find('.partial-contract').hide();
@@ -433,6 +441,8 @@ class StagingCheckout {
     //----------------------------------------------------------------------------------------------
     createContract($form: JQuery): void {
         $form.find('.error-msg').html('');
+        $form.find('.grid-view-radio').hide();
+
         let orderId, $stagedItemGrid, errorSound, request: any = {};
         errorSound = new Audio(this.errorSoundFileName);
         orderId = FwFormField.getValueByDataField($form, 'OrderId');
@@ -552,17 +562,17 @@ class StagingCheckout {
         successSound = new Audio(this.successSoundFileName);
 
         //Refresh grids on tab click
-        $form.find('div.exceptions-tab').on('click', e => {
-            //Disable clicking Exception tab w/o an OrderId
-            let orderId = FwFormField.getValueByDataField($form, 'OrderId');
-            if (orderId !== '') {
-                let $stagingExceptionGrid = $form.find('[data-name="StagingExceptionGrid"]');
-                FwBrowse.search($stagingExceptionGrid);
-            } else {
-                e.stopPropagation();
-                FwNotification.renderNotification('WARNING', 'Select an Order first.')
-            }
-        });
+        //$form.find('div.grid-view').on('click', e => {
+        //    //Disable clicking Exception tab w/o an OrderId
+        //    let orderId = FwFormField.getValueByDataField($form, 'OrderId');
+        //    if (orderId !== '') {
+        //        //let $stagingExceptionGrid = $form.find('[data-name="StagingExceptionGrid"]');
+        //        //FwBrowse.search($stagingExceptionGrid);
+        //    } else {
+        //        e.stopPropagation();
+        //        FwNotification.renderNotification('WARNING', 'Select an Order first.')
+        //    }
+        //});
         $form.find('div.quantity-items-tab').on('click', e => {
             //Disable clicking Quantity Items tab w/o an OrderId
             let orderId = FwFormField.getValueByDataField($form, 'OrderId');
@@ -735,6 +745,39 @@ class StagingCheckout {
                 request.orderby = 'ItemOrder';
             });
             FwBrowse.search($stageQuantityItemGrid);
+        });
+        // Grid view toggle
+        $form.find('.grid-view-radio input').on('change', e => {
+            console.log('event: ', e);
+            console.log('value: ', $form.find('.grid-view-radio').val());
+            console.log('div: ', $form.find('.grid-view-radio'))
+            console.log('gridviewInEvent: ', FwFormField.getValueByDataField($form, 'GridView'))
+
+            let $target = jQuery(e.currentTarget),
+                gridView = $target.val(),
+                stagedItemGridContainer = $form.find('.staged-item-grid'),
+                stagedExceptionGridContainier = $form.find('.exception-grid'),
+                $stagedItemGrid = $form.find('[data-name="StagedItemGrid"]'),
+                $stagingExceptionGrid = $form.find('[data-name="StagingExceptionGrid"]'),
+                orderId = FwFormField.getValueByDataField($form, 'OrderId');
+            if (orderId !== '') {
+                switch (gridView) {
+                    case 'STAGE':
+                        stagedExceptionGridContainier.hide();
+                        stagedItemGridContainer.show();
+                        FwBrowse.search($stagedItemGrid);
+                        break;
+                    case 'EXCEPTION':
+                        stagedItemGridContainer.hide();
+                        stagedExceptionGridContainier.show();
+                        FwBrowse.search($stagingExceptionGrid);
+                        break;
+                }
+            } else {
+                e.stopPropagation();
+                FwNotification.renderNotification('WARNING', 'Select an Order before switching views.')
+            }
+
         });
         // Partial Contract Inputs
         $form.find('.partial-contract-inputs input').on('keydown', e => {
