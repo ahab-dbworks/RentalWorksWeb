@@ -1,9 +1,7 @@
-var FwBrowseColumn_moneyClass = (function () {
-    function FwBrowseColumn_moneyClass() {
+class FwBrowseColumn_moneyClass {
+    databindfield($browse, $field, dt, dtRow, $tr) {
     }
-    FwBrowseColumn_moneyClass.prototype.databindfield = function ($browse, $field, dt, dtRow, $tr) {
-    };
-    FwBrowseColumn_moneyClass.prototype.getFieldValue = function ($browse, $tr, $field, field, originalvalue) {
+    getFieldValue($browse, $tr, $field, field, originalvalue) {
         if (($tr.hasClass('editmode')) || ($tr.hasClass('newmode'))) {
             var $value = $field.find('input.value');
             if ($value.length > 0) {
@@ -19,31 +17,31 @@ var FwBrowseColumn_moneyClass = (function () {
                 field.value = originalvalue.replace('$', '');
             }
         }
-    };
-    FwBrowseColumn_moneyClass.prototype.setFieldValue = function ($browse, $tr, $field, data) {
+    }
+    setFieldValue($browse, $tr, $field, data) {
         if ((data.value.length > 0) && (!isNaN(parseFloat(data.value)))) {
             $field.find('input.value').val(parseFloat(data.value).toFixed(2));
         }
         else {
             $field.find('input.value').val('$0.00');
         }
-    };
-    FwBrowseColumn_moneyClass.prototype.isModified = function ($browse, $tr, $field) {
+    }
+    isModified($browse, $tr, $field) {
         var isModified = false;
         if (($tr.hasClass('editmode')) || ($tr.hasClass('newmode'))) {
-            var originalValue = parseFloat($field.attr('data-originalvalue')).toFixed(2);
+            let originalValue = parseFloat($field.attr('data-originalvalue')).toFixed(2);
             var $value = $field.find('input.value');
-            var currentValue = $field.find('input.value').inputmask('unmaskedvalue');
+            let currentValue = $field.find('input.value').inputmask('unmaskedvalue');
             isModified = currentValue !== originalValue;
         }
         return isModified;
-    };
-    FwBrowseColumn_moneyClass.prototype.setFieldViewMode = function ($browse, $tr, $field) {
+    }
+    setFieldViewMode($browse, $tr, $field) {
         $field.data('autoselect', false);
         var originalvalue = (typeof $field.attr('data-originalvalue') === 'string') ? $field.attr('data-originalvalue') : '';
         if ((originalvalue.length > 0) && (!isNaN(parseFloat(originalvalue)))) {
             $field.html('$' + window.numberWithCommas(parseFloat(originalvalue).toFixed(2)));
-            $field.html("<div class=\"fieldvalue\">$" + window.numberWithCommas(parseFloat(originalvalue).toFixed(2)) + "</div>");
+            $field.html(`<div class="fieldvalue">$${window.numberWithCommas(parseFloat(originalvalue).toFixed(2))}</div>`);
         }
         else {
             $field.html('<div class="fieldvalue">$0.00</div>');
@@ -53,16 +51,16 @@ var FwBrowseColumn_moneyClass = (function () {
                 $field.data('autoselect', true);
             }
         });
-    };
-    FwBrowseColumn_moneyClass.prototype.setFieldEditMode = function ($browse, $tr, $field) {
+    }
+    setFieldEditMode($browse, $tr, $field) {
         var originalvalue = (typeof $field.attr('data-originalvalue') === 'string') ? $field.attr('data-originalvalue') : '';
-        var html = [];
+        let html = [];
         html.push('<input class="value" type="text"');
         if ($browse.attr('data-enabled') === 'false') {
             html.push(' disabled="disabled"');
         }
         html.push(' />');
-        var htmlString = html.join('');
+        let htmlString = html.join('');
         $field.html(htmlString);
         $field.find('input.value').inputmask("currency");
         this.setFieldValue($browse, $tr, $field, { value: originalvalue });
@@ -70,8 +68,7 @@ var FwBrowseColumn_moneyClass = (function () {
             $field.data('autoselect', false);
             $field.find('.value').select();
         }
-    };
-    return FwBrowseColumn_moneyClass;
-}());
+    }
+}
 var FwBrowseColumn_money = new FwBrowseColumn_moneyClass();
 //# sourceMappingURL=FwBrowseColumn_money.js.map

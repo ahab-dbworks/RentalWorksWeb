@@ -1174,7 +1174,7 @@ class FwBrowseClass {
                     html.push('<div class="fwbrowsebutton btnClear">Clear</div>');
                     html.push('<div class="fwbrowsebutton btnViewSelection" style="display:none;">View Selection</div>');
                     html.push('<div class="fwbrowsebutton btnCancel">Cancel</div>');
-                    if ($control.attr('data-newvalidation') === 'true') {
+                    if ($control.attr('data-allownew') !== 'false') {
                         html.push('<div class="fwbrowsebutton btnNew">New</div>');
                     }
                     $customvalidationbuttons = $control.find('.customvalidationbuttons');
@@ -1838,6 +1838,9 @@ class FwBrowseClass {
                         });
                     } else if ($control.attr('data-type') === 'Validation') {
                         FwServices.validation.method(request, request.module, 'Browse', $control, function (response) {
+                            // replace spinner with search again
+                            $control.data('$control').find('.validation-loader').hide();
+                            $control.data('$btnvalidate').show();
                             try {
                                 me.beforeDataBindCallBack($control, request, response);
                                 resolve();

@@ -638,10 +638,14 @@ class FwSettingsClass {
             }
             for (var j = 0; j < browsedatafields.length; j++) {
                 if (jQuery(this).closest('.panel-record').find('.panel-info').find('label[data-datafield="' + browsedatafields[j] + '"]')) {
-                    jQuery(this).closest('.panel-record').find('.panel-info').find('label[data-datafield="' + browsedatafields[j] + '"]').text(FwFormField.getValueByDataField($form, browsedatafields[j]));
-                }
-                if (jQuery(this).closest('.panel-record').find('.panel-info').find('input[data-datafield="' + browsedatafields[j] + '"]')) {
-                    jQuery(this).closest('.panel-record').find('.panel-info').find('[data-datafield="' + browsedatafields[j] + '"]').prop('checked', FwFormField.getValueByDataField($form, browsedatafields[j]));
+                    if ($form.find('div[data-datafield="' + browsedatafields[j] + '"]').length > 0) {
+                        jQuery(this).closest('.panel-record').find('.panel-info').find('label[data-datafield="' + browsedatafields[j] + '"]').text(FwFormField.getValueByDataField($form, browsedatafields[j]));
+                        jQuery(this).closest('.panel-record').find('.panel-info').find('[data-datafield="' + browsedatafields[j] + '"]').prop('checked', FwFormField.getValueByDataField($form, browsedatafields[j]));
+                    }
+                    else {
+                        var validationValue = $form.find('div[data-displayfield="' + browsedatafields[j] + '"] input.fwformfield-text').val();
+                        jQuery(this).closest('.panel-record').find('.panel-info').find('label[data-datafield="' + browsedatafields[j] + '"]').text(validationValue);
+                    }
                 }
             }
         })

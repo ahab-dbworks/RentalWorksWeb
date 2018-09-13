@@ -49,10 +49,17 @@ FwFormField_date.renderRuntimeHtml = function($control, html) {
     $control
         .on('change', '.fwformfield-value', function() {
             try {
-                if ($control.attr('data-nofuture') == 'true') {
-                    var datevalue, today;
-                    datevalue = new Date(jQuery(this).val());
-                    today = new Date();
+                var today;
+                let datevalue = jQuery(this).val();
+                today = new Date();
+
+                if (datevalue.match(/yyyy$/)) {
+                    datevalue = datevalue.replace('yyyy', today.getFullYear());
+                    $control.find('.fwformfield-value').val(datevalue);
+                }
+                datevalue = new Date(datevalue);
+
+                if ($control.attr('data-nofuture') === 'true') {
                     if (datevalue > today) {
                         jQuery(this).val('');
                         $control.addClass('error');
@@ -64,7 +71,7 @@ FwFormField_date.renderRuntimeHtml = function($control, html) {
                 } else {
                     jQuery(this).datepicker('update');
                 }
-            } catch(ex) {
+            } catch (ex) {
                 FwFunc.showError(ex);
             }
         })

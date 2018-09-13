@@ -1620,6 +1620,8 @@ class FwBrowseClass {
                     }
                     else if ($control.attr('data-type') === 'Validation') {
                         FwServices.validation.method(request, request.module, 'Browse', $control, function (response) {
+                            $control.data('$control').find('.validation-loader').hide();
+                            $control.data('$btnvalidate').show();
                             try {
                                 me.beforeDataBindCallBack($control, request, response);
                                 resolve();
