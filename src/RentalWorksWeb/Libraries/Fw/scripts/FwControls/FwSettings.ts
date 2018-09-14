@@ -11,8 +11,7 @@ class FwSettingsClass {
     //----------------------------------------------------------------------------------------------
     renderRuntimeHtml($control) {
         var html = [];
-
-        this.init();
+        
         html.push('<div class="fwsettingsheader">');
         //html.push('<div class="settingsmenu">');
         //html.push('</div>')
@@ -698,10 +697,10 @@ class FwSettingsClass {
                     if (jQuery(this).closest('.panel-record').find('.panel-info').find('label[data-datafield="' + browsedatafields[j] + '"]')) {
                         // check if field is valid or else may be a validation
                         if ($form.find('div[data-datafield="' + browsedatafields[j] + '"]').length > 0) {
-                            jQuery(this).closest('.panel-record').find('.panel-info').find('label[data-datafield="' + browsedatafields[j] + '"]').text(FwFormField.getValueByDataField($form, browsedatafields[j]));
+                            jQuery(this).closest('.panel-record').find('.panel-info').find('label[data-datafield="' + browsedatafields[j] + '"]').text(FwFormField.getValueByDataField($form, browsedatafields[j]));                    
                             jQuery(this).closest('.panel-record').find('.panel-info').find('[data-datafield="' + browsedatafields[j] + '"]').prop('checked', FwFormField.getValueByDataField($form, browsedatafields[j]));
                         } else {
-                            var validationValue: any = $form.find('div[data-displayfield="' + browsedatafields[j] + '"] input.fwformfield-text').val()
+                            var validationValue : any = $form.find('div[data-displayfield="' + browsedatafields[j] + '"] input.fwformfield-text').val()
                             jQuery(this).closest('.panel-record').find('.panel-info').find('label[data-datafield="' + browsedatafields[j] + '"]').text(validationValue);
                         }
                     }
@@ -718,30 +717,8 @@ class FwSettingsClass {
                 me.getRows($body, $control, apiurl, $modulecontainer, moduleName);
             });
 
-        //$control.on('keypress', '#settingsSearch', function (e) { 
-        //    if (e.which === 13) { 
-        //        e.preventDefault(); 
-        //        var $settings, val; 
-        //        $settings = jQuery('a#title'); 
-        //        val = jQuery.trim(this.value).toUpperCase(); 
-        //        if (val === "") { 
-        //            $settings.parent().show(); 
-        //        } else { 
-        //            $settings.closest('div.panel-group').hide(); 
-        //            $settings.filter(function () { 
-        //                return -1 != jQuery(this).text().toUpperCase().indexOf(val); 
-        //            }).closest('div.panel-group').show(); 
-        //        } 
-        //    } 
-        //}); 
-
-
         $control.on('keypress', '#settingsSearch', function (e) {
             if (e.which === 13) {
-                e.preventDefault();
-                jQuery(this).closest('.fwsettings').find('.data-panel:parent').parent().find('.row-heading').click();
-                jQuery(this).closest('.fwsettings').find('.data-panel:parent').empty();
-
                 var $settings, val, $module;
 
                 filter = [];

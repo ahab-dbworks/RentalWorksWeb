@@ -11,7 +11,6 @@ class FwSettingsClass {
     ;
     renderRuntimeHtml($control) {
         var html = [];
-        this.init();
         html.push('<div class="fwsettingsheader">');
         html.push('  <div class="input-group pull-right">');
         html.push('    <input type="text" id="settingsSearch" class="form-control" placeholder="Search..." autofocus>');
@@ -659,9 +658,6 @@ class FwSettingsClass {
         });
         $control.on('keypress', '#settingsSearch', function (e) {
             if (e.which === 13) {
-                e.preventDefault();
-                jQuery(this).closest('.fwsettings').find('.data-panel:parent').parent().find('.row-heading').click();
-                jQuery(this).closest('.fwsettings').find('.data-panel:parent').empty();
                 var $settings, val, $module;
                 filter = [];
                 $settings = jQuery('small#description');
