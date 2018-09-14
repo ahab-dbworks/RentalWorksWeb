@@ -11,6 +11,23 @@ using FwStandard.SqlServer;
 using Microsoft.AspNetCore.Http;
 namespace WebApi.Modules.Reports.BillingProgressReport
 {
+
+    public class BillingProgressReportRequest
+    {
+        public DateTime AsOfDate;
+        public SelectedCheckBoxListItems Statuses = new SelectedCheckBoxListItems();
+        public bool? IncludeCredits;
+        public bool? ExcludeBilled100;
+        public string OfficeLocationId;
+        public string DepartmentId;
+        public string DealCsrId;
+        public string CustomerId;
+        public string DealTypeId;
+        public string DealId;
+        public string AgentId;
+    }
+
+
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "reports-v1")]
     public class BillingProgressReportController : AppReportController
@@ -43,9 +60,9 @@ namespace WebApi.Modules.Reports.BillingProgressReport
             return new OkObjectResult(response);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/billingprogressreport/browse 
-        [HttpPost("browse")]
-        public async Task<IActionResult> BrowseAsync([FromBody]BrowseRequest browseRequest)
+        // POST api/v1/billingprogressreport/runreport 
+        [HttpPost("runreport")]
+        public async Task<IActionResult> RunReportAsync([FromBody]BillingProgressReportRequest request)
         {
             if (!ModelState.IsValid)
             {
@@ -53,9 +70,9 @@ namespace WebApi.Modules.Reports.BillingProgressReport
             }
             try
             {
-                BillingProgressReportLogic l = new BillingProgressReportLogic();
+                BillingProgressReportLoader l = new BillingProgressReportLoader();
                 l.SetDependencies(this.AppConfig, this.UserSession);
-                FwJsonDataTable dt = await l.BrowseAsync(browseRequest);
+                FwJsonDataTable dt = await l.RunReportAsync(request);
                 return new OkObjectResult(dt);
             }
             catch (Exception ex)

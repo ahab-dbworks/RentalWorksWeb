@@ -9,48 +9,43 @@ import '../../lib/FwReportLibrary/src/theme/webpackReports.scss';
 var hbReport = require("./hbReport.hbs");
 var hbFooter = require("./hbFooter.hbs");
 
+
+export class BillingProgressReportRequest {
+    AsOfDate: Date;
+//    SelectedCheckBoxListItems Statuses = new SelectedCheckBoxListItems();
+    Statuses: any;
+    IncludeCredits: boolean;
+    ExcludeBilled100: boolean;
+    OfficeLocationId: string;
+    DepartmentId: string;
+    DealCsrId: string;
+    CustomerId: string;
+    DealTypeId: string;
+    DealId: string;
+    AgentId: string;
+}
+
 export class BillingProgressReport extends WebpackReport {
     renderReport(apiUrl: string, authorizationHeader: string, parameters: any): void {
         try {
             super.renderReport(apiUrl, authorizationHeader, parameters);
             HandlebarsHelpers.registerHelpers();
             let data: any = {};
-            let request = new BrowseRequest();
-            request.uniqueids = {
-                AsOfDate: parameters.ToDate,
-            }
-            if (parameters.OfficeLocationId) {
-                request.uniqueids.OfficeLocationId = parameters.OfficeLocationId;
-            }
-            if (parameters.AgentId) {
-                request.uniqueids.AgentId = parameters.AgentId;
-            }
-            if (parameters.CreditInvoices) {
-                request.uniqueids.IncludeCreditInvoices = parameters.CreditInvoices;
-            }
-            if (parameters.CsrId) {
-                request.uniqueids.DealCsrId = parameters.CsrId;
-            }
-            if (parameters.CustomerId) {
-                request.uniqueids.CustomerId = parameters.CustomerId;
-            }
-            if (parameters.DealId) {
-                request.uniqueids.DealId = parameters.DealId;
-            }
-            if (parameters.DealTypeId) {
-                request.uniqueids.DealTypeId = parameters.DealTypeId;
-            }
-            if (parameters.DepartmentId) {
-                request.uniqueids.DepartmentId = parameters.DepartmentId;
-            }
-            if (parameters.ExcludeOrders) {
-                request.uniqueids.ExcludeOrdersBilled100 = parameters.ExcludeOrders;
-            }
-            if (parameters.statuslist) {
-                request.uniqueids.statuslist = parameters.statuslist;
-            }
+            let request = new BillingProgressReportRequest();
+            request.AsOfDate = parameters.ToDate;
+            request.OfficeLocationId = parameters.OfficeLocationId;
+            request.DepartmentId = parameters.DepartmentId;
+            request.AgentId = parameters.AgentId;
+            request.IncludeCredits = parameters.CreditInvoices;
+            request.DealCsrId = parameters.CsrId;
+            request.CustomerId = parameters.CustomerId;
+            request.DealId = parameters.DealId;
+            request.DealTypeId = parameters.DealTypeId;
+            request.ExcludeBilled100 = parameters.ExcludeOrders;
+            //request.Statuses = parameters.statuslist;
+            request.Statuses = parameters.statuslist;
 
-            let glDistributionPromise = Ajax.post<DataTable>(`${apiUrl}/api/v1/billingprogressreport/browse`, authorizationHeader, request)
+            let billingProgressPromise = Ajax.post<DataTable>(`${apiUrl}/api/v1/billingprogressreport/runreport`, authorizationHeader, request)
                 .then((response: DataTable) => {
                     data.Rows = DataTable.toObjectList(response);
 

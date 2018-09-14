@@ -89,7 +89,7 @@
 			"name": "Billing Progress Report",
 			"item": [
 				{
-					"name": "Billing Progress Report: Browse",
+					"name": "Billing Progress Report: Run Report",
 					"request": {
 						"method": "POST",
 						"header": [
@@ -104,10 +104,10 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"Description\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": [],\n    \t\"uniqueids\": {\n    \t\t\"AsOfDate\": \"08/28/2018\",\n    \t\t\"LocationId\": \"B001WH00\",\n    \t\t\"IncludeCredits\": true\n    \t\t\n    \t}\n}"
+							"raw": "{\n    \t\t\"AsOfDate\": \"08/28/2018\",\n    \t\t\"OfficeLocationId\": \"B001WH00\",\n    \t\t\"IncludeCredits\": true,\n    \t\t\"Statuses\": [\n    \t\t\t{\"value\": \"CONFIRMED\"},\n    \t\t\t{\"value\": \"ACTIVE\"}\n    \t\t\t]\n}"
 						},
 						"url": {
-							"raw": "http://localhost:57949/api/v1/billingprogressreport/browse",
+							"raw": "http://localhost:57949/api/v1/billingprogressreport/runreport",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -117,7 +117,7 @@
 								"api",
 								"v1",
 								"billingprogressreport",
-								"browse"
+								"runreport"
 							]
 						}
 					},
