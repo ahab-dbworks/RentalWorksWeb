@@ -25,5 +25,33 @@ namespace WebApi.Modules.Home.InvoiceCreationBatch
             return await DoExportExcelXlsxFileAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
+        // GET api/v1/invoicecreationbatch 
+        [HttpGet]
+        public async Task<IActionResult> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
+        {
+            return await DoGetAsync<InvoiceCreationBatchLogic>(pageno, pagesize, sort);
+        }
+        //------------------------------------------------------------------------------------ 
+        // GET api/v1/invoicecreationbatch/A0000001 
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetOneAsync([FromRoute]string id)
+        {
+            return await DoGetAsync<InvoiceCreationBatchLogic>(id);
+        }
+        //------------------------------------------------------------------------------------ 
+        //// POST api/v1/invoicecreationbatch 
+        //[HttpPost]
+        //public async Task<IActionResult> PostAsync([FromBody]InvoiceCreationBatchLogic l)
+        //{
+        //    return await DoPostAsync<InvoiceCreationBatchLogic>(l);
+        //}
+        ////------------------------------------------------------------------------------------ 
+        //// DELETE api/v1/invoicecreationbatch/A0000001 
+        //[HttpDelete("{id}")]
+        //public async Task<IActionResult> DeleteAsync([FromRoute]string id)
+        //{
+        //    return await DoDeleteAsync(id);
+        //}
+        ////------------------------------------------------------------------------------------ 
     }
 }

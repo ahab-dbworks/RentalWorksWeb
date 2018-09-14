@@ -18,7 +18,7 @@ namespace WebApi.Modules.Reports.CreateInvoiceProcessReport
         public string RowType { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "invoicebatchid", modeltype: FwDataTypes.Text)]
-        public string BatchId { get; set; }
+        public string InvoiceCreationBatchId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "batchno", modeltype: FwDataTypes.Integer)]
         public int? BatchNumber { get; set; }
@@ -109,7 +109,7 @@ namespace WebApi.Modules.Reports.CreateInvoiceProcessReport
                 {
                     SetBaseSelectQuery(select, qry);
                     select.Parse();
-                    addStringFilterToSelect("invoicebatchid", request.BatchId, select);
+                    addStringFilterToSelect("invoicebatchid", request.InvoiceCreationBatchId, select);
                     if (request.ExceptionsOnly.GetValueOrDefault(false))
                     {
                         select.AddWhere("exceptionflg = 'T'");

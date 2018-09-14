@@ -10,7 +10,7 @@ var hbReport = require("./hbReport.hbs");
 var hbFooter = require("./hbFooter.hbs"); 
 
 export class CreateInvoiceProcessReportRequest {
-    BatchId: string;
+    InvoiceCreationBatchId: string;
     ExceptionsOnly: boolean;
 }
 
@@ -21,7 +21,7 @@ export class CreateInvoiceProcessReport extends WebpackReport {
             super.renderReport(apiUrl, authorizationHeader, parameters);
 
             let request = new CreateInvoiceProcessReportRequest();
-            request.BatchId = parameters.BatchId;
+            request.InvoiceCreationBatchId = parameters.InvoiceCreationBatchId;
             request.ExceptionsOnly = parameters.ShowExceptions;
        
             HandlebarsHelpers.registerHelpers(); 

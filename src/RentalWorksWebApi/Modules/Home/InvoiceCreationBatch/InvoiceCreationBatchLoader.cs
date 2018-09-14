@@ -13,7 +13,7 @@ namespace WebApi.Modules.Home.InvoiceCreationBatch
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "invoicebatchid", modeltype: FwDataTypes.Text, isPrimaryKey: true)]
-        public string BatchId { get; set; } = "";
+        public string InvoiceCreationBatchId { get; set; } = "";
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "batchno", modeltype: FwDataTypes.Integer)]
         public int? BatchNumber { get; set; }

@@ -8457,7 +8457,7 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "http://localhost:57949/api/v1/deal/B005UACS",
+							"raw": "http://localhost:57949/api/v1/deal/B003ON2O",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -8467,7 +8467,7 @@
 								"api",
 								"v1",
 								"deal",
-								"B005UACS"
+								"B003ON2O"
 							]
 						}
 					},
@@ -20271,6 +20271,40 @@
 			"name": "Invoice Creation Batch",
 			"item": [
 				{
+					"name": "Invoice Creation Batch: Get Many",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/invoicecreationbatch",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"invoicecreationbatch"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "Invoice Creation Batch: Browse",
 					"request": {
 						"method": "POST",
@@ -20300,6 +20334,41 @@
 								"v1",
 								"invoicecreationbatch",
 								"browse"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Invoice Creation Batch: Get One",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/invoicecreationbatch/B003KUGG",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"invoicecreationbatch",
+								"B003KUGG"
 							]
 						}
 					},
