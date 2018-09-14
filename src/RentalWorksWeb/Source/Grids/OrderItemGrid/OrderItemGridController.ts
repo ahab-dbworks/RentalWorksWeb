@@ -508,7 +508,6 @@ FwApplicationTree.clickEvents['{007C4F21-7526-437C-AD1C-4BBB1030AABA}'] = functi
 
     try {
         $form = jQuery(this).closest('.fwform');
-        console.log($grid);
         subWorksheetData.OrderId = FwFormField.getValueByDataField($form, 'OrderId');
         subWorksheetData.EstimatedStartDate = FwFormField.getValueByDataField($form, 'EstimatedStartDate');
         subWorksheetData.EstimatedStopDate = FwFormField.getValueByDataField($form, 'EstimatedStopDate');

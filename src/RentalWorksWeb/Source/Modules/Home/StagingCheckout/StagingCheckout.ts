@@ -92,10 +92,13 @@ class StagingCheckout {
                 FwFormField.setValueByDataField($form, 'Quantity', '');
                 FwFormField.setValueByDataField($form, 'Code', '');
                 $form.find('.error-msg').html('');
-                FwFormField.setValueByDataField($form, 'GridView', 'STAGE');
-                console.log('gridviewInGetOrder: ', FwFormField.getValueByDataField($form, 'GridView'))
                 $form.find('.grid-view-radio').show();
 
+                if (FwFormField.getValueByDataField($form, 'IncludeZeroRemaining') === 'T') {
+                    $form.find('.option-list').toggle();
+                    $form.find('div[data-datafield="IncludeZeroRemaining"] input').prop('checked', false);
+                }
+                FwFormField.setValueByDataField($form, 'GridView', 'STAGE');
                 FwAppData.apiMethod(true, 'GET', "api/v1/order/" + orderId, null, FwServices.defaultTimeout, function onSuccess(response) {
                     FwFormField.setValueByDataField($form, 'Description', response.Description);
                     FwFormField.setValueByDataField($form, 'Location', response.Location);
@@ -403,8 +406,6 @@ class StagingCheckout {
     };
     //----------------------------------------------------------------------------------------------
     completeCheckOutContract($form: JQuery): void {
-        let $stagedItemGrid;
-        $stagedItemGrid = $form.find('[data-name="StagedItemGrid"]');
         $form.find('.error-msg').html('');
         $form.find('.grid-view-radio').hide();
 
@@ -415,20 +416,22 @@ class StagingCheckout {
                     let contractInfo: any = {}, $contractForm;
                     contractInfo.ContractId = response.ContractId;
                     $contractForm = ContractController.loadForm(contractInfo);
-                    FwModule.openSubModuleTab($form, $contractForm);
-                    $form.find('.fwformfield').find('input').val('');
-                    FwFormField.setValue($form, 'div[data-datafield="WarehouseId"]', warehouse.warehouseid, warehouse.warehouse);
                     $form.find('.flexrow').css('max-width', '1200px');
+                    FwModule.openSubModuleTab($form, $contractForm);
+                    $form.find('.clearable').find('input').val(''); // Clears all fields but gridview radio
+                    FwFormField.setValue($form, 'div[data-datafield="WarehouseId"]', warehouse.warehouseid, warehouse.warehouse);
                     $form.find('.orderstatus').hide();
                     $form.find('.createcontract').hide();
                     $form.find('.partial-contract').hide();
                     $form.find('.complete-checkout-contract').hide();
                     $form.find('[data-caption="Items"]').show();
                     FwFormField.enable($form.find('div[data-datafield="OrderId"]'));
+                    // Clear out all grids
                     $form.find('div[data-name="StagedItemGrid"] tr.viewmode').empty();
+                    $form.find('div[data-name="StagingExceptionGrid"] tr.viewmode').empty();
                     $form.find('div[data-name="CheckedOutItemGrid"] tr.viewmode').empty();
+                    $form.find('div[data-name="StageQuantityItemGrid"] tr.viewmode').empty();
                     $form.find('div[data-datafield="OrderId"]').focus();
-
                 }
                 catch (ex) {
                     FwFunc.showError(ex);
@@ -443,25 +446,31 @@ class StagingCheckout {
         $form.find('.error-msg').html('');
         $form.find('.grid-view-radio').hide();
 
-        let orderId, $stagedItemGrid, errorSound, request: any = {};
+        let orderId, errorSound, request: any = {};
         errorSound = new Audio(this.errorSoundFileName);
         orderId = FwFormField.getValueByDataField($form, 'OrderId');
-        $stagedItemGrid = $form.find('[data-name="StagedItemGrid"]');
         request.OrderId = orderId;
         FwAppData.apiMethod(true, 'POST', "api/v1/checkout/checkoutallstaged", request, FwServices.defaultTimeout, function onSuccess(response) {
             let warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
             if (response.success === true) {
                 let contractInfo: any = {}, $contractForm;
+                $form.find('.flexrow').css('max-width', '1200px');
                 contractInfo.ContractId = response.ContractId;
                 $contractForm = ContractController.loadForm(contractInfo);
                 FwModule.openSubModuleTab($form, $contractForm);
-                $form.find('.fwformfield').find('input').val('');
+                $form.find('.clearable').find('input').val(''); // Clears all fields but gridview radio
                 FwFormField.setValue($form, 'div[data-datafield="WarehouseId"]', warehouse.warehouseid, warehouse.warehouse);
                 $form.find('.orderstatus').hide();
                 $form.find('.createcontract').hide();
                 FwFormField.enable($form.find('div[data-datafield="OrderId"]'));
                 $form.find('[data-datafield="Code"] input').select();
+                // Clear out all grids
                 $form.find('div[data-name="StagedItemGrid"] tr.viewmode').empty();
+                $form.find('div[data-name="StagingExceptionGrid"] tr.viewmode').empty();
+                $form.find('div[data-name="CheckedOutItemGrid"] tr.viewmode').empty();
+                $form.find('div[data-name="StageQuantityItemGrid"] tr.viewmode').empty();
+                $form.find('.exception-grid').hide();
+                $form.find('.staged-item-grid').show();
             }
             if (response.success === false) {
                 errorSound.play();
@@ -748,11 +757,6 @@ class StagingCheckout {
         });
         // Grid view toggle
         $form.find('.grid-view-radio input').on('change', e => {
-            console.log('event: ', e);
-            console.log('.fwformfield-value: ', $form.find('.grid-view-radio .fwformfield-value').val());
-            console.log('InputValue: ', $form.find('.grid-view-radio input').val());
-            console.log('.grid-view-radio', $form.find('.grid-view-radio'));
-            console.log('gridviewInEvent: ', FwFormField.getValueByDataField($form, 'GridView'))
 
             let $target = jQuery(e.currentTarget),
                 gridView = $target.val(),

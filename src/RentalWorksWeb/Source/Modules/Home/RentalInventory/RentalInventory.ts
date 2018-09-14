@@ -532,7 +532,6 @@ class RentalInventory extends InventoryBase {
                 };
                 break;
             case 'SubCategoryValidation':
-                //console.log('hi')
                 request.uniqueids = {
                     TypeId: InventoryTypeValue,
                     CategoryId: CategoryTypeId
