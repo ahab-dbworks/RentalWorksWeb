@@ -11,6 +11,14 @@ using FwStandard.SqlServer;
 using Microsoft.AspNetCore.Http;
 namespace WebApi.Modules.Reports.CreateInvoiceProcessReport
 {
+
+    public class CreateInvoiceProcessReportRequest
+    {
+        public string BatchId;
+        public bool? ExceptionsOnly;
+    }
+
+
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "reports-v1")]
     public class CreateInvoiceProcessReportController : AppReportController
@@ -43,9 +51,9 @@ namespace WebApi.Modules.Reports.CreateInvoiceProcessReport
             return new OkObjectResult(response);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/createinvoiceprocessreport/browse 
-        [HttpPost("browse")]
-        public async Task<IActionResult> BrowseAsync([FromBody]BrowseRequest browseRequest)
+        // POST api/v1/createinvoiceprocessreport/runreport 
+        [HttpPost("runreport")]
+        public async Task<IActionResult> RunReportAsync([FromBody]CreateInvoiceProcessReportRequest request)
         {
             if (!ModelState.IsValid)
             {
@@ -53,13 +61,9 @@ namespace WebApi.Modules.Reports.CreateInvoiceProcessReport
             }
             try
             {
-                CreateInvoiceProcessReportLogic l = new CreateInvoiceProcessReportLogic();
+                CreateInvoiceProcessReportLoader l = new CreateInvoiceProcessReportLoader();
                 l.SetDependencies(this.AppConfig, this.UserSession);
-                FwJsonDataTable dt = await l.BrowseAsync(browseRequest);
-                string[] totalFields = new string[] { "InvoiceCount", "ExceptionCount", "InvoiceTotal" };
-                dt.InsertSubTotalRows("OfficeLocation", "RowType", totalFields);
-                dt.InsertSubTotalRows("Department", "RowType", totalFields);
-                dt.InsertSubTotalRows("Deal", "RowType", totalFields);
+                FwJsonDataTable dt = await l.RunReportAsync(request);
                 return new OkObjectResult(dt);
             }
             catch (Exception ex)

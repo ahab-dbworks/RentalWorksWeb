@@ -9,22 +9,25 @@ import './index.scss';
 var hbReport = require("./hbReport.hbs"); 
 var hbFooter = require("./hbFooter.hbs"); 
 
+export class CreateInvoiceProcessReportRequest {
+    BatchId: string;
+    ExceptionsOnly: boolean;
+}
+
 export class CreateInvoiceProcessReport extends WebpackReport {
 
     renderReport(apiUrl: string, authorizationHeader: string, parameters: any): void {
         try {
             super.renderReport(apiUrl, authorizationHeader, parameters);
 
-            let request = new BrowseRequest();
-            request.uniqueids = {};
+            let request = new CreateInvoiceProcessReportRequest();
+            request.BatchId = parameters.BatchId;
+            request.ExceptionsOnly = parameters.ShowExceptions;
        
             HandlebarsHelpers.registerHelpers(); 
             let createInvoiceProcess: any = {};
-            request.uniqueids.BatchId = parameters.BatchId;
-            request.uniqueids.ExceptionsOnly = parameters.ShowExceptions;
-            request.orderby = 'OfficeLocation, Department, Deal, OrderNumber';
             
-            let CreateInvoiceProcessPromise = Ajax.post<DataTable>(`${apiUrl}/api/v1/createinvoiceprocessreport/browse`, authorizationHeader, request)
+            let CreateInvoiceProcessPromise = Ajax.post<DataTable>(`${apiUrl}/api/v1/createinvoiceprocessreport/runreport`, authorizationHeader, request)
                 .then((response: DataTable) => {
 
                     createInvoiceProcess = DataTable.toObjectList(response);

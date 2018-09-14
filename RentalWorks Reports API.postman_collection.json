@@ -129,7 +129,7 @@
 			"name": "Create Invoice Process Report",
 			"item": [
 				{
-					"name": "Create Invoice Process Report: Browse",
+					"name": "Create Invoice Process Report: Run Report",
 					"request": {
 						"method": "POST",
 						"header": [
@@ -144,10 +144,10 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"OfficeLocation,Department,Deal,OrderNumber\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": [],\n    \t\"uniqueids\": {\n    \t\t\"BatchId\": \"I00006BI\",\n    \t\t\"ExceptionsOnly\": false\n    \t}\n}"
+							"raw": "{\n    \t\t\"BatchId\": \"I00006BI\",\n    \t\t\"ExceptionsOnly\": false\n}"
 						},
 						"url": {
-							"raw": "http://localhost:57949/api/v1/createinvoiceprocessreport/browse",
+							"raw": "http://localhost:57949/api/v1/createinvoiceprocessreport/runreport",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -157,7 +157,7 @@
 								"api",
 								"v1",
 								"createinvoiceprocessreport",
-								"browse"
+								"runreport"
 							]
 						}
 					},

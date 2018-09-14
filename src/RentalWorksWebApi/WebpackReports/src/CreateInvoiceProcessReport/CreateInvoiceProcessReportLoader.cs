@@ -6,6 +6,8 @@ using WebApi.Data;
 using System.Collections.Generic;
 using System;
 using WebLibrary;
+using System.Threading.Tasks;
+
 namespace WebApi.Modules.Reports.CreateInvoiceProcessReport
 {
     [FwSqlTable("billingprocessrptview")]
@@ -96,31 +98,35 @@ namespace WebApi.Modules.Reports.CreateInvoiceProcessReport
         [FwSqlDataField(column: "exceptioncount", modeltype: FwDataTypes.Integer)]
         public int? ExceptionCount { get; set; }
         //------------------------------------------------------------------------------------ 
-        protected override void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequest request = null)
+        public async Task<FwJsonDataTable> RunReportAsync(CreateInvoiceProcessReportRequest request)
         {
-            string batchId = ""; 
-            bool exceptionsOnly = false;
+            FwJsonDataTable dt = null;
+            using (FwSqlConnection conn = new FwSqlConnection(AppConfig.DatabaseSettings.ConnectionString))
+            {
+                FwSqlSelect select = new FwSqlSelect();
+                select.EnablePaging = false;
+                using (FwSqlCommand qry = new FwSqlCommand(conn, AppConfig.DatabaseSettings.QueryTimeout))
+                {
+                    SetBaseSelectQuery(select, qry);
+                    select.Parse();
+                    addStringFilterToSelect("invoicebatchid", request.BatchId, select);
+                    if (request.ExceptionsOnly.GetValueOrDefault(false))
+                    {
+                        select.AddWhere("exceptionflg = 'T'");
+                    }
+                    select.AddOrderBy("location,department,deal,invoiceno");
 
-            if ((request != null) && (request.uniqueids != null))
-            {
-                IDictionary<string, object> uniqueIds = ((IDictionary<string, object>)request.uniqueids);
-                if (uniqueIds.ContainsKey("BatchId"))
-                {
-                    batchId = uniqueIds["BatchId"].ToString();
-                }
-                if (uniqueIds.ContainsKey("ExceptionsOnly"))
-                {
-                    exceptionsOnly = FwConvert.ToBoolean(uniqueIds["ExceptionsOnly"].ToString());
+                    dt = await qry.QueryToFwJsonTableAsync(select, false);
                 }
             }
-            base.SetBaseSelectQuery(select, qry, customFields, request);
-            select.Parse();
-            addFilterToSelect("BatchId", "invoicebatchid", select, request);
-            if (exceptionsOnly)
-            {
-                select.AddWhere("(exceptionflg = 'T')"); 
-            }
+
+            string[] totalFields = new string[] { "InvoiceCount", "ExceptionCount", "InvoiceTotal" };
+            dt.InsertSubTotalRows("OfficeLocation", "RowType", totalFields);
+            dt.InsertSubTotalRows("Department", "RowType", totalFields);
+            dt.InsertSubTotalRows("Deal", "RowType", totalFields);
+
+            return dt;
         }
-        //------------------------------------------------------------------------------------ 
+        //------------------------------------------------------------------------------------    
     }
 }
