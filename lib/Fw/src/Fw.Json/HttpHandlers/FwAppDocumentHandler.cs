@@ -162,7 +162,7 @@ namespace Fw.Json.HttpHandlers
                 context.Response.SuppressContent = true;
             }
         }
-        //------------------------------------------------------------------------------------        
+        //------------------------------------------------------------------------------------       
         void PostFile(HttpContext context)
         {
             HttpPostedFile file;
@@ -214,7 +214,7 @@ namespace Fw.Json.HttpHandlers
             UpdateAppDocumentImage(appdocumentid, documenttypeid, uniqueid1, uniqueid2, width, height, image, thumbnail, fileextension.ToUpper(), attachDateTime);
             context.Response.Flush();
         }
-        //------------------------------------------------------------------------------------        
+        //------------------------------------------------------------------------------------       
         //void InsertAppDocument(string uniqueid1, string uniqueid2, string documenttypeid, string projectid, 
         //    string description, string extension, string rectype, int width, int height, byte[] image, 
         //    FwDateTime attachdate, FwDateTime expiration, FwDateTime received, string contactid, string inputbyusersid)
@@ -282,7 +282,7 @@ namespace Fw.Json.HttpHandlers
         //        }
         //    }
         //}
-        //------------------------------------------------------------------------------------        
+        //------------------------------------------------------------------------------------       
         void UpdateAppDocumentImage(string appdocumentid, string documenttypeid, string uniqueid1, string uniqueid2, int width, int height, byte[] image, byte[] thumbnail, string extension, FwDateTime attachDateTime)
         {
             FwDateTime datestamp;
@@ -366,7 +366,7 @@ namespace Fw.Json.HttpHandlers
                 }
             }
         }
-        //------------------------------------------------------------------------------------        
+        //------------------------------------------------------------------------------------       
         public static string GetMimeType(string extension)
         {
             string fileextension = extension.Trim().ToLower();
@@ -823,6 +823,6 @@ namespace Fw.Json.HttpHandlers
                 default: return "application/octet-stream";
             }
         }
-        //------------------------------------------------------------------------------------        
+        //------------------------------------------------------------------------------------       
     }
 }

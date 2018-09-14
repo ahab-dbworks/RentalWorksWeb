@@ -1,5 +1,7 @@
-class FwBrowseColumn_appdocumentimageClass {
-    databindfield($browse, $field, dt, dtRow, $tr) {
+var FwBrowseColumn_appdocumentimageClass = (function () {
+    function FwBrowseColumn_appdocumentimageClass() {
+    }
+    FwBrowseColumn_appdocumentimageClass.prototype.databindfield = function ($browse, $field, dt, dtRow, $tr) {
         if (typeof dt.ColumnIndex[$field.attr('data-browseappdocumentidfield')] !== 'number')
             throw 'FwBrowseColumn_appdocumentimage.databindfield: ' + $field.attr('data-browseappdocumentidfield') + ' was not returned by the webservice.';
         if (typeof dt.ColumnIndex[$field.attr('data-browsefilenamefield')] !== 'number')
@@ -25,23 +27,23 @@ class FwBrowseColumn_appdocumentimageClass {
         $field.data('filedataurl', '');
         $field.attr('data-filepath', '');
         $field.attr('data-ismodified', 'false');
-    }
-    getFieldValue($browse, $tr, $field, field, originalvalue) {
+    };
+    FwBrowseColumn_appdocumentimageClass.prototype.getFieldValue = function ($browse, $tr, $field, field, originalvalue) {
         field.ismodified = typeof $field.attr('data-ismodified') === 'string' && $field.attr('data-ismodified') === 'true';
         if (field.ismodified) {
             field.filedataurl = $field.data('filedataurl');
             field.filepath = $field.attr('data-filepath');
         }
-    }
-    setFieldValue($browse, $tr, $field, data) {
+    };
+    FwBrowseColumn_appdocumentimageClass.prototype.setFieldValue = function ($browse, $tr, $field, data) {
         throw 'FwBrowseColumn_appdocumentimage.setFieldValue: Not Implemented!';
-    }
-    isModified($browse, $tr, $field) {
+    };
+    FwBrowseColumn_appdocumentimageClass.prototype.isModified = function ($browse, $tr, $field) {
         var isModified = typeof $field.attr('data-ismodified') === 'string' && $field.attr('data-ismodified') === 'true';
         return isModified;
-    }
-    setFieldViewMode($browse, $tr, $field) {
-        let html = [];
+    };
+    FwBrowseColumn_appdocumentimageClass.prototype.setFieldViewMode = function ($browse, $tr, $field) {
+        var html = [];
         var $adiContainer;
         var appimageid = typeof $field.attr('data-originalvalue') === 'string' ? $field.attr('data-originalvalue') : '';
         var filename = typeof $field.attr('data-filename') === 'string' ? $field.attr('data-filename') : '';
@@ -232,8 +234,8 @@ class FwBrowseColumn_appdocumentimageClass {
             });
             $field.append($adiContainer);
         }
-    }
-    getParameters($form) {
+    };
+    FwBrowseColumn_appdocumentimageClass.prototype.getParameters = function ($form) {
         var isvalid, $fields, $field, parameters = null;
         isvalid = FwModule.validateForm($form);
         if (isvalid) {
@@ -250,16 +252,16 @@ class FwBrowseColumn_appdocumentimageClass {
             throw 'Please fill in the required fields.';
         }
         return parameters;
-    }
-    setFieldEditMode($browse, $tr, $field) {
+    };
+    FwBrowseColumn_appdocumentimageClass.prototype.setFieldEditMode = function ($browse, $tr, $field) {
         var $adi_upload, $adi_progress, $adi_progressPopup;
-        let html = [];
+        var html = [];
         html.push('<div class="editappdocumentimage">');
         html.push('  <img class="previewicon" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" />');
         html.push('  <div class="appdocumentimageupload"><input type="file" /></div>');
         html.push('  <div class="droporpastefilewrapper"><div class="droporpastefile" contenteditable="true" data-placeholder="drag or paste..."></div></div>');
         html.push('</div>');
-        let htmlString = html.join('');
+        var htmlString = html.join('');
         $adi_upload = jQuery(htmlString)
             .on('paste', '.droporpastefile', function (event) {
             var items, file, isWebkit, $image, $form;
@@ -380,8 +382,9 @@ class FwBrowseColumn_appdocumentimageClass {
             }
         });
         $field.empty().append($adi_upload);
-    }
+    };
     ;
-}
+    return FwBrowseColumn_appdocumentimageClass;
+}());
 var FwBrowseColumn_appdocumentimage = new FwBrowseColumn_appdocumentimageClass();
 //# sourceMappingURL=FwBrowseColumn_appdocumentimage.js.map

@@ -498,8 +498,8 @@ RwOrderController.getCheckInMenuScreen = function(viewModel, properties) {
         method:    'DealSearch',
         upperCase: true,
         searchModes: [
-            { value: 'DEALNO', caption: 'Deal No.' },
-            { value: 'NAME',   caption: 'Name' }
+            { value: 'NAME',   caption: 'Name' },
+            { value: 'DEALNO', caption: 'Deal No.' }
         ],
         getRequest: function() {
             var request = {

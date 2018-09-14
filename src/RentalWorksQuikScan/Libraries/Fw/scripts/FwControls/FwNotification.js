@@ -1,5 +1,7 @@
-class FwNotification {
-    static renderNotification(type, message, options) {
+var FwNotification = (function () {
+    function FwNotification() {
+    }
+    FwNotification.renderNotification = function (type, message, options) {
         var html, $notification, maxZIndex;
         html = [];
         html.push('<div class="fwnotification');
@@ -45,13 +47,13 @@ class FwNotification {
             FwNotification.closeNotification(jQuery(this).parent());
         });
         return $notification;
-    }
+    };
     ;
-    static closeNotification($notification) {
+    FwNotification.closeNotification = function ($notification) {
         $notification.remove();
-    }
+    };
     ;
-    static fieldNotification($field, type, message) {
+    FwNotification.fieldNotification = function ($field, type, message) {
         var html, $notification, maxZIndex;
         html = [];
         html.push('<div class="fwnotification');
@@ -95,9 +97,9 @@ class FwNotification {
         });
         $notification.css('top', $field.position().top).css('left', ($field.position().left + $field.width() + 10)).css('bottom', 'auto').css('right', 'auto');
         return $notification;
-    }
+    };
     ;
-    static renderNotificationToControl(type, message) {
+    FwNotification.renderNotificationToControl = function (type, message) {
         var html, $notification, messagecount, maxZIndex;
         html = [];
         html.push('<div class="fwnotification');
@@ -142,9 +144,9 @@ class FwNotification {
             }
         });
         return $notification;
-    }
+    };
     ;
-    static generateNotificationArea() {
+    FwNotification.generateNotificationArea = function () {
         var $notificationmenu, html;
         html = [];
         html.push('<div id="notification" class="item">');
@@ -182,6 +184,7 @@ class FwNotification {
             e.stopPropagation();
         });
         return $notification;
-    }
-}
+    };
+    return FwNotification;
+}());
 //# sourceMappingURL=FwNotification.js.map
