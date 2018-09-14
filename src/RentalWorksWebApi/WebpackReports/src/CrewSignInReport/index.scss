@@ -34,7 +34,7 @@ body {
 }
 
 thead {
-    th {
+    th:not(.header-exclude) {
         border-top: 2px solid #000000;
         border-bottom: 2px solid #000000;
         font-weight: bold;
@@ -62,20 +62,23 @@ thead {
 .boxcol {
     border: 1px solid #000000;
     border-bottom: 0;
-    padding-left: 2px;
 }
 
 .box-no-top {
     border: 1px solid #000000;
     border-top: 0;
-    padding-left: 2px;
+}
+.header-box-no-bottom {
+    border: 2px solid #000000;
+    border-bottom: 0;
+}
+.header-box-no-top {
+    border: 2px solid #000000;
+    border-top: 0;
 }
 
 .header-box {
     border: 2px solid #000000;
-    padding-left: 2px;
 }
 
-.row-two {
-    padding: 0 0 8px 0
-}
+

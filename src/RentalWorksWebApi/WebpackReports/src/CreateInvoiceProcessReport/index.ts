@@ -6,8 +6,8 @@ import { HandlebarsHelpers } from '../../lib/FwReportLibrary/src/scripts/Handleb
 import * as moment from 'moment';
 import '../../lib/FwReportLibrary/src/theme/webpackReports.scss';
 import './index.scss';
-var hbReport = require("./hbReport.hbs"); 
-var hbFooter = require("./hbFooter.hbs"); 
+var hbReport = require("./hbReport.hbs");
+var hbFooter = require("./hbFooter.hbs");
 
 export class CreateInvoiceProcessReportRequest {
     InvoiceCreationBatchId: string;
@@ -23,22 +23,29 @@ export class CreateInvoiceProcessReport extends WebpackReport {
             let request = new CreateInvoiceProcessReportRequest();
             request.InvoiceCreationBatchId = parameters.InvoiceCreationBatchId;
             request.ExceptionsOnly = parameters.ShowExceptions;
-       
-            HandlebarsHelpers.registerHelpers(); 
+            HandlebarsHelpers.registerHelpers();
             let createInvoiceProcess: any = {};
-            
+            let batchNumber: any;
+
+            let getBatchNumber = Ajax.get<DataTable>(`${apiUrl}/api/v1/invoicecreationbatch/${parameters.InvoiceCreationBatchId}`, authorizationHeader)
+                .then((response: any) => {
+                    batchNumber = response.BatchNumber;
+                })
+                .catch((ex) => {
+                    console.log('Exception: ', ex)
+                });
+
             let CreateInvoiceProcessPromise = Ajax.post<DataTable>(`${apiUrl}/api/v1/createinvoiceprocessreport/runreport`, authorizationHeader, request)
                 .then((response: DataTable) => {
 
                     createInvoiceProcess = DataTable.toObjectList(response);
-                    createInvoiceProcess.BatchNumber = createInvoiceProcess[3].BatchNumber;
+                    createInvoiceProcess.BatchNumber = batchNumber;
                     createInvoiceProcess.Today = moment().format('LL');
                     createInvoiceProcess.PrintTime = moment().format('YYYY-MM-DD h:mm:ss A');
                     createInvoiceProcess.Report = 'Create Invoice Process Report';
                     createInvoiceProcess.System = 'RENTALWORKS';
                     createInvoiceProcess.Company = '4WALL ENTERTAINMENT';
-                    console.log('createInvoiceProcess: ', createInvoiceProcess);
-                    
+
                     this.renderFooterHtml(createInvoiceProcess);
                     if (this.action === 'Preview' || this.action === 'PrintHtml') {
                         document.getElementById('pageFooter').innerHTML = this.footerHtml;
@@ -55,7 +62,7 @@ export class CreateInvoiceProcessReport extends WebpackReport {
         }
     }
 
-    renderFooterHtml(model: DataTable) : string {
+    renderFooterHtml(model: DataTable): string {
         this.footerHtml = hbFooter(model);
         return this.footerHtml;
     }

@@ -17,16 +17,16 @@
       <tr>
         <th class="text">Location</th>
         <th class="text">Crew</th>
-        <th class="text">Employee ID</th>
+        <th class="header-exclude header-box-no-bottom" style="padding-top: 10px;">Employee ID</th>
         <th class="text header-box" colspan="2">Schedule Time</th>
         <th class="text header-box" colspan="4">Actual Time</th>
         <th class="text header-box" colspan="3">Hours</th>
-        <th class="text header-box">Signature / Notes</th>
+        <th class="header-exclude header-box-no-bottom" style="padding-top: 10px;">Signature / Notes</th>
       </tr>
       <tr>
         <th class="empty"></th>
         <th class="text">Position</th>
-        <th class="empty"></th>
+        <th class="header-exclude header-box-no-top"></th>
         <th class="text header-box">Start</th>
         <th class="text header-box">Stop</th>
         <th class="text header-box">In</th>
@@ -36,7 +36,7 @@
         <th class="text header-box">Regular</th>
         <th class="text header-box">OT</th>
         <th class="text header-box">DT</th>
-        <th class="text header-box"></th>
+        <th class="header-exclude header-box-no-top"></th>
       </tr>
     </thead>
     <tbody>
@@ -54,7 +54,7 @@
         {{#ifEquals RowType "detail"}}
         <td>{{OrderLocation}}</td>
         <td>{{Person}}</td>
-        <td>{{EmployeeId}}</td>
+        <td class="boxcol">{{EmployeeId}}</td>
         <td class="boxcol"></td>
         <td class="boxcol"></td>
         <td class="boxcol"></td>
@@ -69,7 +69,7 @@
       <tr class="row-two">
         <td class="empty"></td>
         <td>{{Position}}</td>
-        <td class="empty"></td>
+        <td class="box-no-top"></td>
         <td class="box-no-top">{{RentFromTime}}</td>
         <td class="box-no-top">{{RentToTime}}</td>
         <td class="box-no-top"></td>
