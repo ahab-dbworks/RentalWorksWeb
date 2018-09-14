@@ -109,15 +109,6 @@ namespace WebApi.Modules.Reports.BillingProgressReport
                     qry.AddParameter("@dealid", SqlDbType.Text, ParameterDirection.Input, request.DealId);
                     qry.AddParameter("@agentid", SqlDbType.Text, ParameterDirection.Input, request.AgentId);
                     AddPropertiesAsQueryColumns(qry);
-                    //PropertyInfo[] propertyInfos = typeof(BillingProgressReportLoader).GetProperties();
-                    //foreach (PropertyInfo propertyInfo in propertyInfos)
-                    //{
-                    //    FwSqlDataFieldAttribute sqlDataFieldAttribute = propertyInfo.GetCustomAttribute<FwSqlDataFieldAttribute>();
-                    //    if (sqlDataFieldAttribute != null)
-                    //    {
-                    //        qry.AddColumn(sqlDataFieldAttribute.ColumnName, propertyInfo.Name, sqlDataFieldAttribute.ModelType, sqlDataFieldAttribute.IsVisible, sqlDataFieldAttribute.IsPrimaryKey, false);
-                    //    }
-                    //}
                     dt = await qry.QueryToFwJsonTableAsync(false, 0);
                 }
             }

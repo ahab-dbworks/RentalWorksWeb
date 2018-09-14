@@ -102,88 +102,130 @@ namespace WebApi.Modules.Reports.CustomerRevenueByTypeReport
         [FwSqlDataField(column: "nonbillable", modeltype: FwDataTypes.Boolean)]
         public bool? NonBillable { get; set; }
         //------------------------------------------------------------------------------------ 
-        public override async Task<FwJsonDataTable> BrowseAsync(BrowseRequest request, FwCustomFields customFields = null)
+        //public override async Task<FwJsonDataTable> BrowseAsync(BrowseRequest request, FwCustomFields customFields = null)
+        //{
+        //    string dateType = "";
+        //    string dateField = "";
+        //    DateTime fromDate = DateTime.MinValue;
+        //    DateTime toDate = DateTime.MaxValue;
+
+        //    string locationId = "";
+        //    string departmentId = "";
+        //    string customerId = "";
+        //    string dealId = "";
+        //    string orderTypeId = "";
+
+        //    if (request != null)
+        //    {
+        //        if (request.uniqueids != null)
+        //        {
+        //            IDictionary<string, object> uniqueIds = ((IDictionary<string, object>)request.uniqueids);
+        //            if (uniqueIds.ContainsKey("FromDate"))
+        //            {
+        //                fromDate = FwConvert.ToDateTime(uniqueIds["FromDate"].ToString());
+        //            }
+        //            if (uniqueIds.ContainsKey("ToDate"))
+        //            {
+        //                toDate = FwConvert.ToDateTime(uniqueIds["ToDate"].ToString());
+        //            }
+        //            if (uniqueIds.ContainsKey("DateType"))
+        //            {
+        //                dateType = uniqueIds["DateType"].ToString();
+        //            }
+        //            if (uniqueIds.ContainsKey("LocationId"))
+        //            {
+        //                locationId = uniqueIds["LocationId"].ToString();
+        //            }
+        //            if (uniqueIds.ContainsKey("DepartmentId"))
+        //            {
+        //                departmentId = uniqueIds["DepartmentId"].ToString();
+        //            }
+        //            if (uniqueIds.ContainsKey("CustomerId"))
+        //            {
+        //                customerId = uniqueIds["CustomerId"].ToString();
+        //            }
+        //            if (uniqueIds.ContainsKey("DealId"))
+        //            {
+        //                dealId = uniqueIds["DealId"].ToString();
+        //            }
+        //            if (uniqueIds.ContainsKey("OrderTypeId"))
+        //            {
+        //                orderTypeId = uniqueIds["OrderTypeId"].ToString();
+        //            }
+        //        }
+        //    }
+
+        //    dateField = "invoicedate";
+        //    if (dateType.Equals(RwConstants.INVOICE_DATE_TYPE_BILLING_START_DATE))
+        //    {
+        //        dateField = "billingstart";
+        //    }
+
+        //    FwJsonDataTable dt = null;
+
+        //    using (FwSqlConnection conn = new FwSqlConnection(this.AppConfig.DatabaseSettings.ConnectionString))
+        //    {
+        //        using (FwSqlCommand qry = new FwSqlCommand(conn, "getcustomerrevenuebytyperpt", this.AppConfig.DatabaseSettings.QueryTimeout))
+        //        {
+        //            qry.AddParameter("@fromdate", SqlDbType.Date, ParameterDirection.Input, fromDate);
+        //            qry.AddParameter("@todate", SqlDbType.Date, ParameterDirection.Input, toDate);
+        //            qry.AddParameter("@datefield", SqlDbType.Text, ParameterDirection.Input, dateField);
+        //            qry.AddParameter("@locationid", SqlDbType.Text, ParameterDirection.Input, locationId);
+        //            qry.AddParameter("@departmentid", SqlDbType.Text, ParameterDirection.Input, departmentId);
+        //            qry.AddParameter("@customerid", SqlDbType.Text, ParameterDirection.Input, customerId);
+        //            qry.AddParameter("@dealid", SqlDbType.Text, ParameterDirection.Input, dealId);
+        //            qry.AddParameter("@ordertypeid", SqlDbType.Text, ParameterDirection.Input, orderTypeId);
+        //            PropertyInfo[] propertyInfos = typeof(CustomerRevenueByTypeReportLoader).GetProperties();
+        //            foreach (PropertyInfo propertyInfo in propertyInfos)
+        //            {
+        //                FwSqlDataFieldAttribute sqlDataFieldAttribute = propertyInfo.GetCustomAttribute<FwSqlDataFieldAttribute>();
+        //                if (sqlDataFieldAttribute != null)
+        //                {
+        //                    qry.AddColumn(sqlDataFieldAttribute.ColumnName, propertyInfo.Name, sqlDataFieldAttribute.ModelType, sqlDataFieldAttribute.IsVisible, sqlDataFieldAttribute.IsPrimaryKey, false);
+        //                }
+        //            }
+        //            dt = await qry.QueryToFwJsonTableAsync(false, 0);
+        //        }
+        //    }
+
+        //    string[] totalFields = new string[] { "Rental", "Sales", "Facilities", "Labor", "Miscellaneous", "AssetSale", "Parts", "Tax", "Total" };
+        //    dt.InsertSubTotalRows("OfficeLocation", "RowType", totalFields);
+        //    dt.InsertSubTotalRows("Department", "RowType", totalFields);
+        //    dt.InsertSubTotalRows("Customer", "RowType", totalFields);
+        //    dt.InsertSubTotalRows("Deal", "RowType", totalFields);
+        //    dt.InsertTotalRow("RowType", "detail", "grandtotal", totalFields);
+
+
+        //    return dt;
+
+
+        //}
+        ////------------------------------------------------------------------------------------
+
+
+        public async Task<FwJsonDataTable> RunReportAsync(CustomerRevenueByTypeReportRequest request)
         {
-            string dateType = "";
-            string dateField = "";
-            DateTime fromDate = DateTime.MinValue;
-            DateTime toDate = DateTime.MaxValue;
-
-            string locationId = "";
-            string departmentId = "";
-            string customerId = "";
-            string dealId = "";
-            string orderTypeId = "";
-
-            if (request != null)
-            {
-                if (request.uniqueids != null)
-                {
-                    IDictionary<string, object> uniqueIds = ((IDictionary<string, object>)request.uniqueids);
-                    if (uniqueIds.ContainsKey("FromDate"))
-                    {
-                        fromDate = FwConvert.ToDateTime(uniqueIds["FromDate"].ToString());
-                    }
-                    if (uniqueIds.ContainsKey("ToDate"))
-                    {
-                        toDate = FwConvert.ToDateTime(uniqueIds["ToDate"].ToString());
-                    }
-                    if (uniqueIds.ContainsKey("DateType"))
-                    {
-                        dateType = uniqueIds["DateType"].ToString();
-                    }
-                    if (uniqueIds.ContainsKey("LocationId"))
-                    {
-                        locationId = uniqueIds["LocationId"].ToString();
-                    }
-                    if (uniqueIds.ContainsKey("DepartmentId"))
-                    {
-                        departmentId = uniqueIds["DepartmentId"].ToString();
-                    }
-                    if (uniqueIds.ContainsKey("CustomerId"))
-                    {
-                        customerId = uniqueIds["CustomerId"].ToString();
-                    }
-                    if (uniqueIds.ContainsKey("DealId"))
-                    {
-                        dealId = uniqueIds["DealId"].ToString();
-                    }
-                    if (uniqueIds.ContainsKey("OrderTypeId"))
-                    {
-                        orderTypeId = uniqueIds["OrderTypeId"].ToString();
-                    }
-                }
-            }
-
-            dateField = "invoicedate";
-            if (dateType.Equals(RwConstants.INVOICE_DATE_TYPE_BILLING_START_DATE))
+            string dateField = "invoicedate";
+            if (request.DateType.Equals(RwConstants.INVOICE_DATE_TYPE_BILLING_START_DATE))
             {
                 dateField = "billingstart";
             }
 
             FwJsonDataTable dt = null;
-
             using (FwSqlConnection conn = new FwSqlConnection(this.AppConfig.DatabaseSettings.ConnectionString))
             {
                 using (FwSqlCommand qry = new FwSqlCommand(conn, "getcustomerrevenuebytyperpt", this.AppConfig.DatabaseSettings.QueryTimeout))
                 {
-                    qry.AddParameter("@fromdate", SqlDbType.Date, ParameterDirection.Input, fromDate);
-                    qry.AddParameter("@todate", SqlDbType.Date, ParameterDirection.Input, toDate);
+                    qry.AddParameter("@fromdate", SqlDbType.Date, ParameterDirection.Input, request.FromDate);
+                    qry.AddParameter("@todate", SqlDbType.Date, ParameterDirection.Input, request.ToDate);
                     qry.AddParameter("@datefield", SqlDbType.Text, ParameterDirection.Input, dateField);
-                    qry.AddParameter("@locationid", SqlDbType.Text, ParameterDirection.Input, locationId);
-                    qry.AddParameter("@departmentid", SqlDbType.Text, ParameterDirection.Input, departmentId);
-                    qry.AddParameter("@customerid", SqlDbType.Text, ParameterDirection.Input, customerId);
-                    qry.AddParameter("@dealid", SqlDbType.Text, ParameterDirection.Input, dealId);
-                    qry.AddParameter("@ordertypeid", SqlDbType.Text, ParameterDirection.Input, orderTypeId);
-                    PropertyInfo[] propertyInfos = typeof(CustomerRevenueByTypeReportLoader).GetProperties();
-                    foreach (PropertyInfo propertyInfo in propertyInfos)
-                    {
-                        FwSqlDataFieldAttribute sqlDataFieldAttribute = propertyInfo.GetCustomAttribute<FwSqlDataFieldAttribute>();
-                        if (sqlDataFieldAttribute != null)
-                        {
-                            qry.AddColumn(sqlDataFieldAttribute.ColumnName, propertyInfo.Name, sqlDataFieldAttribute.ModelType, sqlDataFieldAttribute.IsVisible, sqlDataFieldAttribute.IsPrimaryKey, false);
-                        }
-                    }
+                    qry.AddParameter("@locationid", SqlDbType.Text, ParameterDirection.Input, request.OfficeLocationId);
+                    qry.AddParameter("@departmentid", SqlDbType.Text, ParameterDirection.Input, request.DepartmentId);
+                    qry.AddParameter("@customerid", SqlDbType.Text, ParameterDirection.Input, request.CustomerId);
+                    qry.AddParameter("@dealtypeid", SqlDbType.Text, ParameterDirection.Input, request.DealTypeId);
+                    qry.AddParameter("@dealid", SqlDbType.Text, ParameterDirection.Input, request.DealId);
+                    qry.AddParameter("@ordertypeid", SqlDbType.Text, ParameterDirection.Input, request.OrderTypeId);
+                    AddPropertiesAsQueryColumns(qry);
                     dt = await qry.QueryToFwJsonTableAsync(false, 0);
                 }
             }
@@ -195,11 +237,11 @@ namespace WebApi.Modules.Reports.CustomerRevenueByTypeReport
             dt.InsertSubTotalRows("Deal", "RowType", totalFields);
             dt.InsertTotalRow("RowType", "detail", "grandtotal", totalFields);
 
-
             return dt;
-
-
         }
-        //------------------------------------------------------------------------------------
+        //------------------------------------------------------------------------------------    
+
+
+
     }
 }

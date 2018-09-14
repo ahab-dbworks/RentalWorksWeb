@@ -8,6 +8,20 @@ import './index.scss';
 var hbReport = require("./hbReport.hbs"); 
 var hbFooter = require("./hbFooter.hbs"); 
 
+
+export class CustomerRevenueByTypeReportRequest {
+    FromDate: Date;
+    ToDate: Date;
+    DateType: string;
+    OfficeLocationId: string;
+    DepartmentId: string;
+    CustomerId: string;
+    DealTypeId: string;
+    DealId: string;
+    OrderTypeId: string;
+}
+
+
 export class CustomerRevenueByTypeReport extends WebpackReport {
 
     renderReport(apiUrl: string, authorizationHeader: string, parameters: any): void {
@@ -17,23 +31,23 @@ export class CustomerRevenueByTypeReport extends WebpackReport {
             // experimental
             this.renderProgress = 50;
             this.renderStatus = 'Running';
-            let request = new BrowseRequest();
-       
+            let request = new CustomerRevenueByTypeReportRequest();
+            request.FromDate = parameters.FromDate;
+            request.ToDate = parameters.ToDate
+            request.DateType = parameters.DateType;
+            request.OfficeLocationId = parameters.OfficeLocationId;
+            request.DepartmentId = parameters.DepartmentId;
+            request.CustomerId = parameters.CustomerId;
+            request.DealTypeId = parameters.DealTypeId;
+            request.DealId = parameters.DealId;
+            request.OrderTypeId = parameters.OrderTypeId;
+
             HandlebarsHelpers.registerHelpers();
             let customerReveneByType: any = {};
             console.log('parameters: ', parameters);
 
-            if (parameters.FromDate !== '') request.uniqueids.FromDate = parameters.FromDate;
-            if (parameters.ToDate !== '') request.uniqueids.ToDate = parameters.ToDate
-            if (parameters.DateType !== '') request.uniqueids.DateType = parameters.DateType;
-            if (parameters.LocationId !== '') request.uniqueids.LocationId = parameters.LocationId;
-            if (parameters.DepartmentId !== '') request.uniqueids.DepartmentId = parameters.DepartmentId;
-            if (parameters.CustomerId !== '') request.uniqueids.CustomerId = parameters.CustomerId;
-            if (parameters.DealId !== '') request.uniqueids.DealId = parameters.DealId;
-            if (parameters.OrderTypeId !== '') request.uniqueids.OrderTypeId = parameters.OrderTypeId;
-
             // get the Contract
-            let contractPromise = Ajax.post<DataTable>(`${apiUrl}/api/v1/customerrevenuebytypereport/browse`, authorizationHeader, request)
+            let contractPromise = Ajax.post<DataTable>(`${apiUrl}/api/v1/customerrevenuebytypereport/runreport`, authorizationHeader, request)
                 .then((response: DataTable) => {
                     customerReveneByType = DataTable.toObjectList(response); // converts res to javascript obj
                     console.log('customerReveneByType: ', customerReveneByType); // will help in building the handlebars

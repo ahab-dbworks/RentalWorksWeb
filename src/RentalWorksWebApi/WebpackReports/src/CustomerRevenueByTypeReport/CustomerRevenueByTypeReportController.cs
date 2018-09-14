@@ -11,6 +11,22 @@ using FwStandard.SqlServer;
 using Microsoft.AspNetCore.Http;
 namespace WebApi.Modules.Reports.CustomerRevenueByTypeReport
 {
+
+    public class CustomerRevenueByTypeReportRequest
+    {
+        public DateTime FromDate;
+        public DateTime ToDate;
+        public string DateType;
+        public string OfficeLocationId;
+        public string DepartmentId;
+        public string CustomerId;
+        public string DealTypeId;
+        public string DealId;
+        public string OrderTypeId;
+    }
+
+
+
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "reports-v1")]
     public class CustomerRevenueByTypeReportController : AppReportController
@@ -36,16 +52,16 @@ namespace WebApi.Modules.Reports.CustomerRevenueByTypeReport
         //------------------------------------------------------------------------------------ 
         // POST api/v1/customerrevenuebytypereport/render 
         [HttpPost("render")]
-        public async Task<IActionResult> Render([FromBody]FwReportRenderRequest request)
+        public async Task<ActionResult<FwReportRenderResponse>> Render([FromBody]FwReportRenderRequest request)
         {
             if (!this.ModelState.IsValid) return BadRequest();
             FwReportRenderResponse response = await DoRender(request);
             return new OkObjectResult(response);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/customerrevenuebytypereport/browse 
-        [HttpPost("browse")]
-        public async Task<IActionResult> BrowseAsync([FromBody]BrowseRequest browseRequest)
+        // POST api/v1/customerrevenuebytypereport/runreport 
+        [HttpPost("runreport")]
+        public async Task<ActionResult<FwJsonDataTable>> RunReportAsync([FromBody]CustomerRevenueByTypeReportRequest request)
         {
             if (!ModelState.IsValid)
             {
@@ -53,9 +69,9 @@ namespace WebApi.Modules.Reports.CustomerRevenueByTypeReport
             }
             try
             {
-                CustomerRevenueByTypeReportLogic l = new CustomerRevenueByTypeReportLogic();
+                CustomerRevenueByTypeReportLoader l = new CustomerRevenueByTypeReportLoader();
                 l.SetDependencies(this.AppConfig, this.UserSession);
-                FwJsonDataTable dt = await l.BrowseAsync(browseRequest);
+                FwJsonDataTable dt = await l.RunReportAsync(request);
                 return new OkObjectResult(dt);
             }
             catch (Exception ex)

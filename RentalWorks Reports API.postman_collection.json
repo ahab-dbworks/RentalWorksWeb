@@ -249,7 +249,7 @@
 			"name": "Customer Revenue By Type Report",
 			"item": [
 				{
-					"name": "Customer Revenue By Type Report: Browse",
+					"name": "Customer Revenue By Type Report: Run Report",
 					"request": {
 						"method": "POST",
 						"header": [
@@ -264,10 +264,10 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": [],\n    \t\"uniqueids\": {\n    \t\t\"FromDate\": \"01/01/2018\",\n    \t\t\"ToDate\": \"03/01/2018\",\n    \t\t\"DateType\": \"invoicedate\",    \"CommentDateType\": \"invoicedate or billingstart\",\n    \t\t\"LocationId\": \"F001QFKT\",\n    \t\t\"DepartmentId\": \"F001LQRZ\",\n    \t\t\"CustomerId\": \"B003KOGA\",\n    \t\t\"DealId\": \"B003KRJ9\",\n    \t\t\"OrderTypeId\": \"\"\n    \t}\n}"
+							"raw": "{\n    \t\t\"FromDate\": \"01/01/2018\",\n    \t\t\"ToDate\": \"03/01/2018\",\n    \t\t\"DateType\": \"BILLING_START_DATE\",        \"xDateTypeValues\": \"INVOICE_DATE or BILLING_START_DATE\",\n    \t\t\"LocationId\": \"F001QFKT\",\n    \t\t\"DepartmentId\": \"F001LQRZ\",\n    \t\t\"CustomerId\": \"B003KOGA\",\n    \t\t\"DealId\": \"B003KRJ9\",\n    \t\t\"OrderTypeId\": \"\"\n}"
 						},
 						"url": {
-							"raw": "http://localhost:57949/api/v1/customerrevenuebytypereport/browse",
+							"raw": "http://localhost:57949/api/v1/customerrevenuebytypereport/runreport",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -277,7 +277,7 @@
 								"api",
 								"v1",
 								"customerrevenuebytypereport",
-								"browse"
+								"runreport"
 							]
 						}
 					},

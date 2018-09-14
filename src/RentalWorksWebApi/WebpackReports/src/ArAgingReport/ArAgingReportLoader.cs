@@ -116,82 +116,6 @@ namespace WebApi.Modules.Reports.ArAgingReport
         [FwSqlDataField(column: "divisionid", modeltype: FwDataTypes.Text)]
         public string DivisionId { get; set; }
         //------------------------------------------------------------------------------------ 
-        //public override async Task<FwJsonDataTable> BrowseAsync(BrowseRequest request, FwCustomFields customFields = null)
-        //{
-        //    FwJsonDataTable dt = null;
-        //    DateTime asOfDate = DateTime.Today;
-        //    string locationId = "";
-        //    string customerId = "";
-        //    string dealCsrId = "";
-        //    string dealTypeId = "";
-        //    string dealId = "";
-
-        //    if (request != null)
-        //    {
-        //        if (request.uniqueids != null)
-        //        {
-        //            IDictionary<string, object> uniqueIds = ((IDictionary<string, object>)request.uniqueids);
-        //            if (uniqueIds.ContainsKey("AsOfDate"))
-        //            {
-        //                asOfDate = FwConvert.ToDateTime(uniqueIds["AsOfDate"].ToString());
-        //            }
-        //            if (uniqueIds.ContainsKey("OfficeLocationId"))
-        //            {
-        //                locationId = uniqueIds["OfficeLocationId"].ToString();
-        //            }
-        //            if (uniqueIds.ContainsKey("CustomerId"))
-        //            {
-        //                customerId = uniqueIds["CustomerId"].ToString();
-        //            }
-        //            if (uniqueIds.ContainsKey("DealCsrId"))
-        //            {
-        //                dealCsrId = uniqueIds["DealCsrId"].ToString();
-        //            }
-        //            if (uniqueIds.ContainsKey("DealTypeId"))
-        //            {
-        //                dealTypeId = uniqueIds["DealTypeId"].ToString();
-        //            }
-        //            if (uniqueIds.ContainsKey("DealId"))
-        //            {
-        //                dealId = uniqueIds["DealId"].ToString();
-        //            }
-        //        }
-        //    }
-        //    using (FwSqlConnection conn = new FwSqlConnection(this.AppConfig.DatabaseSettings.ConnectionString))
-        //    {
-        //        using (FwSqlCommand qry = new FwSqlCommand(conn, "getaragingrpt", this.AppConfig.DatabaseSettings.QueryTimeout))
-        //        {
-        //            qry.AddParameter("@asofdate", SqlDbType.Date, ParameterDirection.Input, asOfDate);
-        //            qry.AddParameter("@locationid", SqlDbType.Text, ParameterDirection.Input, locationId);
-        //            qry.AddParameter("@customerid", SqlDbType.Text, ParameterDirection.Input, customerId);
-        //            qry.AddParameter("@dealcsrid", SqlDbType.Text, ParameterDirection.Input, dealCsrId);
-        //            qry.AddParameter("@dealtypeid", SqlDbType.Text, ParameterDirection.Input, dealTypeId);
-        //            qry.AddParameter("@dealid", SqlDbType.Text, ParameterDirection.Input, dealId);
-        //            PropertyInfo[] propertyInfos = typeof(ArAgingReportLoader).GetProperties();
-        //            foreach (PropertyInfo propertyInfo in propertyInfos)
-        //            {
-        //                FwSqlDataFieldAttribute sqlDataFieldAttribute = propertyInfo.GetCustomAttribute<FwSqlDataFieldAttribute>();
-        //                if (sqlDataFieldAttribute != null)
-        //                {
-        //                    qry.AddColumn(sqlDataFieldAttribute.ColumnName, propertyInfo.Name, sqlDataFieldAttribute.ModelType, sqlDataFieldAttribute.IsVisible, sqlDataFieldAttribute.IsPrimaryKey, false);
-        //                }
-        //            }
-        //            dt = await qry.QueryToFwJsonTableAsync(false, 0);
-        //        }
-        //    }
-
-        //    string[] totalFields = new string[] { "Total", "Total0030", "Total3160", "Total6190", "Total91x" };
-        //    dt.InsertSubTotalRows("OfficeLocation", "RowType", totalFields);
-        //    dt.InsertSubTotalRows("Customer", "RowType", totalFields);
-        //    dt.InsertSubTotalRows("Deal", "RowType", totalFields);
-        //    dt.InsertTotalRow("RowType", "detail", "grandtotal", totalFields);
-
-        //    return dt;
-        //}
-        ////------------------------------------------------------------------------------------ 
-        ///
-
-
         public async Task<FwJsonDataTable> RunReportAsync(ArAgingReportRequest request)
         {
             FwJsonDataTable dt = null;
@@ -205,15 +129,7 @@ namespace WebApi.Modules.Reports.ArAgingReport
                     qry.AddParameter("@dealcsrid", SqlDbType.Text, ParameterDirection.Input, request.DealCsrId);
                     qry.AddParameter("@dealtypeid", SqlDbType.Text, ParameterDirection.Input, request.DealTypeId);
                     qry.AddParameter("@dealid", SqlDbType.Text, ParameterDirection.Input, request.DealId);
-                    PropertyInfo[] propertyInfos = typeof(ArAgingReportLoader).GetProperties();
-                    foreach (PropertyInfo propertyInfo in propertyInfos)
-                    {
-                        FwSqlDataFieldAttribute sqlDataFieldAttribute = propertyInfo.GetCustomAttribute<FwSqlDataFieldAttribute>();
-                        if (sqlDataFieldAttribute != null)
-                        {
-                            qry.AddColumn(sqlDataFieldAttribute.ColumnName, propertyInfo.Name, sqlDataFieldAttribute.ModelType, sqlDataFieldAttribute.IsVisible, sqlDataFieldAttribute.IsPrimaryKey, false);
-                        }
-                    }
+                    AddPropertiesAsQueryColumns(qry);
                     dt = await qry.QueryToFwJsonTableAsync(false, 0);
                 }
             }
@@ -227,7 +143,5 @@ namespace WebApi.Modules.Reports.ArAgingReport
             return dt;
         }
         //------------------------------------------------------------------------------------    
-
-
     }
 }
