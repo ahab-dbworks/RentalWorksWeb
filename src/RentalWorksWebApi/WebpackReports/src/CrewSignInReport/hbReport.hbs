@@ -1,4 +1,5 @@
-﻿<div class="rpt-flexrow">
+﻿<!--Crew Sign-In Report-->
+<div class="rpt-flexrow">
   <div class="rpt-flexcolumn">
     <span class="rpt-header-left">{{System}}</span>
   </div>
@@ -11,69 +12,78 @@
   </div>
 </div>
 <div class="body rpt-flexrow" style="margin-top:40px;">
-  <table id="tblcrewsignin">
-    {{#each Rows}}
+  <table>
+    <thead>
+      <tr>
+        <th class="text">Location</th>
+        <th class="text">Crew</th>
+        <th class="text">Employee ID</th>
+        <th class="text header-box" colspan="2">Schedule Time</th>
+        <th class="text header-box" colspan="4">Actual Time</th>
+        <th class="text header-box" colspan="3">Hours</th>
+        <th class="text header-box">Signature / Notes</th>
+      </tr>
+      <tr>
+        <th class="empty"></th>
+        <th class="text">Position</th>
+        <th class="empty"></th>
+        <th class="text header-box">Start</th>
+        <th class="text header-box">Stop</th>
+        <th class="text header-box">In</th>
+        <th class="text header-box">Out</th>
+        <th class="text header-box">In</th>
+        <th class="text header-box">Out</th>
+        <th class="text header-box">Regular</th>
+        <th class="text header-box">OT</th>
+        <th class="text header-box">DT</th>
+        <th class="text header-box"></th>
+      </tr>
+    </thead>
     <tbody>
-      <tr>
-        <td class="rptcaption">Date</td>
-        <td class="rptcaption">Deal</td>
-        <td class="rptcaption">Crew</td>
-        <td class="rptcaption">EmployeeId</td>
-        <td class="rptcaption boxcol" colspan="2">Schedule Time</td>
-        <td class="rptcaption boxcol" colspan="4">Actual Time</td>
-        <td class="rptcaption boxcol" colspan="3">Hours</td>
-        <td class="rptcaption boxcol">Signature / Notes</td>
-      </tr>
-      <tr>
-        <td><div></div></td>
-        <td class="rptcaption">Location</td>
-        <td class="rptcaption">Position</td>
-        <td><div></div></td>
-        <td class="rptcaption boxcol">Start</td>
-        <td class="rptcaption boxcol">Stop</td>
-        <td class="rptcaption boxcol">In</td>
-        <td class="rptcaption boxcol">Out</td>
-        <td class="rptcaption boxcol">In</td>
-        <td class="rptcaption boxcol">Out</td>
-        <td class="rptcaption boxcol">Regular</td>
-        <td class="rptcaption boxcol">OT</td>
-        <td class="rptcaption boxcol">DT</td>
-        <td class="rptcaption boxcol"></td>
-      </tr>
-      <tr>
-        <td>{{RentFromDate}}</td>
-        <td>{{Deal}}</td>
+      {{#each this}}
+      <tr data-rowtype={{RowType}}>
+        {{#ifEquals RowType "Locationheader"}}
+        <td colspan="3" class="office-row">Office: {{Location}}</td>
+        {{/ifEquals}}
+        {{#ifEquals RowType "Dealheader"}}
+        <td colspan="3" class="deal-row">Deal: {{Deal}}</td>
+        {{/ifEquals}}
+        {{#ifEquals RowType "RentFromDateheader"}}
+        <td colspan="3" class="date-row">Date: {{RentFromDate}}</td>
+        {{/ifEquals}}
+        {{#ifEquals RowType "detail"}}
+        <td>{{OrderLocation}}</td>
         <td>{{Person}}</td>
         <td>{{EmployeeId}}</td>
-        <td>{{RentFromTime}}</td>
-        <td>{{RentToTime}}</td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
+        <td class="boxcol"></td>
+        <td class="boxcol"></td>
+        <td class="boxcol"></td>
+        <td class="boxcol"></td>
+        <td class="boxcol"></td>
+        <td class="boxcol"></td>
+        <td class="boxcol"></td>
+        <td class="boxcol"></td>
+        <td class="boxcol"></td>
+        <td class="boxcol"></td>
       </tr>
-      <tr class="row4">
-        <td></td>
-        <td>{{Location}}</td>
+      <tr class="row-two">
+        <td class="empty"></td>
         <td>{{Position}}</td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
+        <td class="empty"></td>
+        <td class="box-no-top">{{RentFromTime}}</td>
+        <td class="box-no-top">{{RentToTime}}</td>
+        <td class="box-no-top"></td>
+        <td class="box-no-top"></td>    
+        <td class="box-no-top"></td>
+        <td class="box-no-top"></td>
+        <td class="box-no-top"></td>
+        <td class="box-no-top"></td>
+        <td class="box-no-top"></td>
+        <td class="box-no-top"></td>
       </tr>
+      {{/ifEquals}}
+      {{/each}}
     </tbody>
-    {{/each}}
   </table>
 </div>
 

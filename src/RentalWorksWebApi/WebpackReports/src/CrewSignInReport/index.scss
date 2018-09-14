@@ -1,5 +1,29 @@
-﻿tbody:nth-child(even) {
-    background-color: #DCDCDC;
+﻿/*Crew Sign-In Report*/
+
+tbody {
+    tr[data-rowtype="detail"]:nth-child(even) {
+        background-color: #DCDCDC;
+    }
+
+    /*tr[data-rowtype="detail"]:nth-child(odd) {
+        background-color: deepskyblue;
+    }
+
+    tr[data-rowtype="detail"]:nth-child(1n) {
+        background-color: orangered;
+    }
+
+    tr[data-rowtype="detail"]:nth-child(2n) {
+        background-color: cadetblue;
+    }
+
+    tr[data-rowtype="detail"]:nth-child(2n+1) {
+        background-color: blue;
+    }*/
+
+    td {
+        padding: 3px;
+    }
 }
 
 body {
@@ -9,43 +33,49 @@ body {
     padding: 0;
 }
 
-.body thead td {
-    border-bottom: 1px solid black;
-    text-align: left;
+thead {
+    th {
+        border-top: 2px solid #000000;
+        border-bottom: 2px solid #000000;
+        font-weight: bold;
+        padding: 5px;
+        white-space: nowrap;
+    }
 }
 
-.body thead td div {
-    font-size: 14px;
-    text-align: center;
-}
-
-tr td div {
-    padding: 5px 0px 5px 0px;
-    min-height: 16px;
-}
-
-.body tfoot tr {
-    border-top: 1px solid black;
-}
-
-.body tfoot td > div {
-    line-height: 16px;
-    vertical-align: middle;
-    font-size: 14px;
-    padding: 10px 0;
+.office-row {
     font-weight: bold;
+    padding-top: 15px;
+    font-size: 12px;
 }
 
-.rptcaption {
+.deal-row {
     font-weight: bold;
+    padding-top: 10px;
+}
+
+.date-row {
+    font-weight: bold;
+    padding-top: 10px;
 }
 
 .boxcol {
-    border: 1px solid black;
-    text-align: left;
+    border: 1px solid #000000;
+    border-bottom: 0;
     padding-left: 2px;
 }
 
-.row4 td {
+.box-no-top {
+    border: 1px solid #000000;
+    border-top: 0;
+    padding-left: 2px;
+}
+
+.header-box {
+    border: 2px solid #000000;
+    padding-left: 2px;
+}
+
+.row-two {
     padding: 0 0 8px 0
 }
