@@ -44,7 +44,7 @@ namespace WebApi.Modules.Reports.CreateInvoiceProcessReport
         //------------------------------------------------------------------------------------ 
         // POST api/v1/createinvoiceprocessreport/render 
         [HttpPost("render")]
-        public async Task<IActionResult> Render([FromBody]FwReportRenderRequest request)
+        public async Task<ActionResult<FwReportRenderResponse>> Render([FromBody]FwReportRenderRequest request)
         {
             if (!this.ModelState.IsValid) return BadRequest();
             FwReportRenderResponse response = await DoRender(request);
@@ -53,7 +53,7 @@ namespace WebApi.Modules.Reports.CreateInvoiceProcessReport
         //------------------------------------------------------------------------------------ 
         // POST api/v1/createinvoiceprocessreport/runreport 
         [HttpPost("runreport")]
-        public async Task<IActionResult> RunReportAsync([FromBody]CreateInvoiceProcessReportRequest request)
+        public async Task<ActionResult<FwJsonDataTable>> RunReportAsync([FromBody]CreateInvoiceProcessReportRequest request)
         {
             if (!ModelState.IsValid)
             {

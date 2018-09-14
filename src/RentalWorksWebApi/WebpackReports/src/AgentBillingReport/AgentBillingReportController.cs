@@ -54,7 +54,7 @@ namespace WebApi.Modules.Reports.AgentBillingReport
         //------------------------------------------------------------------------------------ 
         // POST api/v1/agentbillingreport/render 
         [HttpPost("render")]
-        public async Task<IActionResult> Render([FromBody]FwReportRenderRequest request)
+        public async Task<ActionResult<FwReportRenderResponse>> Render([FromBody]FwReportRenderRequest request)
         {
             if (!this.ModelState.IsValid) return BadRequest();
             FwReportRenderResponse response = await DoRender(request);
@@ -63,7 +63,7 @@ namespace WebApi.Modules.Reports.AgentBillingReport
         //------------------------------------------------------------------------------------ 
         // POST api/v1/agentbillingreport/runreport 
         [HttpPost("runreport")]
-        public async Task<IActionResult> RunReportAsync([FromBody]AgentBillingReportRequest request)
+        public async Task<ActionResult<FwJsonDataTable>> RunReportAsync([FromBody]AgentBillingReportRequest request)
         {
             if (!ModelState.IsValid)
             {

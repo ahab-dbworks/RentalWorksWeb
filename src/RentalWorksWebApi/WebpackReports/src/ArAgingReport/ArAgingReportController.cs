@@ -49,7 +49,7 @@ namespace WebApi.Modules.Reports.ArAgingReport
         //------------------------------------------------------------------------------------ 
         // POST api/v1/aragingreport/render 
         [HttpPost("render")]
-        public async Task<IActionResult> Render([FromBody]FwReportRenderRequest request)
+        public async Task<ActionResult<FwReportRenderResponse>> Render([FromBody]FwReportRenderRequest request)
         {
             if (!this.ModelState.IsValid) return BadRequest();
             FwReportRenderResponse response = await DoRender(request);
@@ -58,7 +58,7 @@ namespace WebApi.Modules.Reports.ArAgingReport
         //------------------------------------------------------------------------------------ 
         // POST api/v1/aragingreport/runreport 
         [HttpPost("runreport")]
-        public async Task<IActionResult> RunReprotAsync([FromBody]ArAgingReportRequest request)
+        public async Task<ActionResult<FwJsonDataTable>> RunReportAsync([FromBody]ArAgingReportRequest request)
         {
             if (!ModelState.IsValid)
             {
