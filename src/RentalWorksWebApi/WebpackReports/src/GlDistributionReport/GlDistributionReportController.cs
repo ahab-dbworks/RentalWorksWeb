@@ -12,6 +12,16 @@ using Microsoft.AspNetCore.Http;
 
 namespace WebApi.Modules.Reports.GlDistributionReport
 {
+
+    public class GlDistributionReportRequest
+    {
+        public DateTime FromDate;
+        public DateTime ToDate;
+        public string OfficeLocationId;
+        public string GlAccountId;
+    }
+
+
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "reports-v1")]
     public class GlDistributionReportController : AppReportController
@@ -39,33 +49,26 @@ namespace WebApi.Modules.Reports.GlDistributionReport
         //------------------------------------------------------------------------------------ 
         // POST api/v1/gldistributionreport/render 
         [HttpPost("render")]
-        public async Task<IActionResult> Render([FromBody]FwReportRenderRequest request)
+        public async Task<ActionResult<FwReportRenderResponse>> Render([FromBody]FwReportRenderRequest request)
         {
             if (!this.ModelState.IsValid) return BadRequest();
             FwReportRenderResponse response = await DoRender(request);
             return new OkObjectResult(response);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/gldistributionreport/browse 
-        [HttpPost("browse")]
-        public async Task<IActionResult> BrowseAsync([FromBody]BrowseRequest browseRequest)
+        // POST api/v1/gldistributionreport/runreport 
+        [HttpPost("runreport")]
+        public async Task<ActionResult<FwJsonDataTable>> RunReportAsync([FromBody]GlDistributionReportRequest request)
         {
-            //return await DoBrowseAsync(browseRequest);
-
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
             try
             {
-                GlDistributionReportLogic l = new GlDistributionReportLogic();
+                GlDistributionReportLoader l = new GlDistributionReportLoader();
                 l.SetDependencies(this.AppConfig, this.UserSession);
-                FwJsonDataTable dt = await l.BrowseAsync(browseRequest);
-
-                string[] totalFields = new string[] { "Debit", "Credit" };
-                dt.InsertSubTotalRows("Location", "RowType", totalFields);
-                dt.InsertSubTotalRows("GroupHeading", "RowType", totalFields);
-
+                FwJsonDataTable dt = await l.RunReportAsync(request);
                 return new OkObjectResult(dt);
             }
             catch (Exception ex)

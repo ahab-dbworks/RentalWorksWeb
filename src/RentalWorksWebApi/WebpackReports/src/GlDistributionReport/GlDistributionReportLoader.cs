@@ -5,6 +5,7 @@ using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
 using System.Collections.Generic;
 using System;
+using System.Threading.Tasks;
 
 namespace WebApi.Modules.Reports.GlDistributionReport
 {
@@ -39,36 +40,33 @@ namespace WebApi.Modules.Reports.GlDistributionReport
         [FwSqlDataField(column: "credit", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public decimal? Credit { get; set; }
         //------------------------------------------------------------------------------------ 
-        protected override void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequest request = null)
+        public async Task<FwJsonDataTable> RunReportAsync(GlDistributionReportRequest request)
         {
-            useWithNoLock = false;
-            DateTime fromDate = DateTime.MinValue;
-            DateTime toDate = DateTime.MaxValue;
-
-            if ((request != null) && (request.uniqueids != null))
+            FwJsonDataTable dt = null;
+            using (FwSqlConnection conn = new FwSqlConnection(AppConfig.DatabaseSettings.ConnectionString))
             {
-                IDictionary<string, object> uniqueIds = ((IDictionary<string, object>)request.uniqueids);
-                if (uniqueIds.ContainsKey("FromDate"))
+                FwSqlSelect select = new FwSqlSelect();
+                select.EnablePaging = false;
+                using (FwSqlCommand qry = new FwSqlCommand(conn, AppConfig.DatabaseSettings.QueryTimeout))
                 {
-                    fromDate = FwConvert.ToDateTime(uniqueIds["FromDate"].ToString());
-                }
-                if (uniqueIds.ContainsKey("ToDate"))
-                {
-                    toDate = FwConvert.ToDateTime(uniqueIds["ToDate"].ToString());
+                    useWithNoLock = false;
+                    SetBaseSelectQuery(select, qry);
+                    select.Parse();
+                    addStringFilterToSelect("locationid", request.OfficeLocationId, select);
+                    addStringFilterToSelect("glaccountid", request.GlAccountId, select);
+                    select.AddParameter("@fromdate", request.FromDate);
+                    select.AddParameter("@todate", request.ToDate);
+                    select.AddOrderBy("location,groupheading,glno,glacctdesc");
+                    dt = await qry.QueryToFwJsonTableAsync(select, false);
                 }
             }
 
-            base.SetBaseSelectQuery(select, qry, customFields, request);
-            select.Parse();
+            string[] totalFields = new string[] { "Debit", "Credit" };
+            dt.InsertSubTotalRows("Location", "RowType", totalFields);
+            dt.InsertSubTotalRows("GroupHeading", "RowType", totalFields);
 
-
-            addFilterToSelect("OfficeLocationId", "locationid", select, request);
-            addFilterToSelect("GlAccountId", "glaccountid", select, request);
-
-            select.AddParameter("@fromdate", fromDate);
-            select.AddParameter("@todate", toDate);
-
+            return dt;
         }
-        //------------------------------------------------------------------------------------ 
+        //------------------------------------------------------------------------------------    
     }
 }

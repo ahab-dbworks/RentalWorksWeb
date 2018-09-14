@@ -9,26 +9,26 @@ import '../../lib/FwReportLibrary/src/theme/webpackReports.scss';
 var hbReport = require("./hbReport.hbs");
 var hbFooter = require("./hbFooter.hbs");
 
+export class GlDistributionReportRequest {
+    FromDate: Date;
+    ToDate: Date;
+    OfficeLocationId: string;
+    GlAccountId: string;
+}
+
 export class GLDistributionReport extends WebpackReport {
     renderReport(apiUrl: string, authorizationHeader: string, parameters: any): void {
         try {
             super.renderReport(apiUrl, authorizationHeader, parameters);
             HandlebarsHelpers.registerHelpers();
             let glDistribution: any = {};
-            let request = new BrowseRequest();
-            request.uniqueids = {
-                FromDate: parameters.FromDate,
-                ToDate: parameters.ToDate,
-            }
-            request.orderby = 'Location,GroupHeadingOrder,AccountNumber,AccountDescription';
-            if (parameters.OfficeLocationId) {
-                request.uniqueids.OfficeLocationId = parameters.OfficeLocationId;
-            }
-            if (parameters.GlAccountId) {
-                request.uniqueids.GlAccountId = parameters.GlAccountId;
-            }
+            let request = new GlDistributionReportRequest();
+            request.FromDate = parameters.FromDate;
+            request.ToDate = parameters.ToDate;
+            request.OfficeLocationId = parameters.OfficeLocationId;
+            request.GlAccountId = parameters.GlAccountId;
 
-            let glDistributionPromise = Ajax.post<DataTable>(`${apiUrl}/api/v1/gldistributionreport/browse`, authorizationHeader, request)
+            let glDistributionPromise = Ajax.post<DataTable>(`${apiUrl}/api/v1/gldistributionreport/runreport`, authorizationHeader, request)
                 .then((response: DataTable) => {
                     glDistribution.GLItems = DataTable.toObjectList(response);
                     this.renderFooterHtml(glDistribution);
