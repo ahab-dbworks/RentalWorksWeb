@@ -344,7 +344,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \t\t\"DateType\": \"BILLING_START_DATE\",        \"xDateTypeValues\": \"INVOICE_DATE or BILLING_START_DATE\",\n    \t\t\"FromDate\": \"01/01/2018\",\n    \t\t\"ToDate\": \"08/01/2018\",\n    \t\t\"IncludeNoCharge\": true,\n    \t\t\"OfficeLocationId\": \"B001WH00\",\n    \t\t\"DepartmentId\": \"B003KSM1\",\n    \t\t\"CustomerId\": \"\",\n    \t\t\"DealId\": \"\"\n}\n\n"
+							"raw": "{\n    \t\t\"DateType\": \"BILLING_START_DATE\",        \"xDateTypeValues\": \"INVOICE_DATE or BILLING_START_DATE\",\n    \t\t\"FromDate\": \"01/01/2018\",\n    \t\t\"ToDate\": \"08/01/2018\",\n    \t\t\"IncludeNoCharge\": true,\n    \t\t\"Statuses\": [\n    \t\t\t{\"value\": \"NEW\"},\n    \t\t\t{\"value\": \"APPROVED\"}\n    \t\t\t],\n    \t\t\"OfficeLocationId\": \"B001WH00\",\n    \t\t\"DepartmentId\": \"B003KSM1\",\n    \t\t\"CustomerId\": \"\",\n    \t\t\"DealId\": \"\"\n}\n\n"
 						},
 						"url": {
 							"raw": "http://localhost:57949/api/v1/invoicesummaryreport/runreport",

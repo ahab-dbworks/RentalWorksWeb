@@ -9,19 +9,25 @@ using PuppeteerSharp;
 using PuppeteerSharp.Media;
 using FwStandard.SqlServer;
 using Microsoft.AspNetCore.Http;
+using System.Collections.Generic;
+using System.Text;
+
 namespace WebApi.Modules.Reports.InvoiceSummaryReport
 {
+
     public class InvoiceSummaryReportRequest
     {
         public DateTime FromDate;
         public DateTime ToDate;
         public string DateType;
         public bool? IncludeNoCharge;
+        public SelectedCheckBoxListItems Statuses = new SelectedCheckBoxListItems();
         public string OfficeLocationId;
         public string DepartmentId;
         public string CustomerId;
         public string DealId;
     }
+
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "reports-v1")]
     public class InvoiceSummaryReportController : AppReportController
