@@ -11,6 +11,14 @@ using FwStandard.SqlServer;
 using Microsoft.AspNetCore.Http;
 namespace WebApi.Modules.Reports.CreditsOnAccountReport
 {
+
+
+    public class CreditsOnAccountReportRequest
+    {
+        public bool? OnlyRemaining;
+    }
+
+
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "reports-v1")]
     public class CreditsOnAccountReportController : AppReportController
@@ -36,16 +44,16 @@ namespace WebApi.Modules.Reports.CreditsOnAccountReport
         //------------------------------------------------------------------------------------ 
         // POST api/v1/creditsonaccount/render 
         [HttpPost("render")]
-        public async Task<IActionResult> Render([FromBody]FwReportRenderRequest request)
+        public async Task<ActionResult<FwReportRenderResponse>> Render([FromBody]FwReportRenderRequest request)
         {
             if (!this.ModelState.IsValid) return BadRequest();
             FwReportRenderResponse response = await DoRender(request);
             return new OkObjectResult(response);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/creditsonaccount/browse 
-        [HttpPost("browse")]
-        public async Task<IActionResult> BrowseAsync([FromBody]BrowseRequest browseRequest)
+        // POST api/v1/creditsonaccount/runreport 
+        [HttpPost("runreport")]
+        public async Task<ActionResult<FwJsonDataTable>> RunReportAsync([FromBody]CreditsOnAccountReportRequest request)
         {
             if (!ModelState.IsValid)
             {
@@ -53,15 +61,9 @@ namespace WebApi.Modules.Reports.CreditsOnAccountReport
             }
             try
             {
-                CreditsOnAccountReportLogic l = new CreditsOnAccountReportLogic();
+                CreditsOnAccountReportLoader l = new CreditsOnAccountReportLoader();
                 l.SetDependencies(this.AppConfig, this.UserSession);
-                browseRequest.orderby = "OfficeLocation,Customer,Deal";
-                FwJsonDataTable dt = await l.BrowseAsync(browseRequest);
-                string[] totalFields = new string[] { "TotalDepletingDeposit", "TotalCredit", "TotalOverpayment", "TotalDeposit", "TotalApplied", "TotalRefunded", "Remaining" };
-                dt.InsertSubTotalRows("OfficeLocation", "RowType", totalFields);
-                dt.InsertSubTotalRows("Customer", "RowType", totalFields);
-                dt.InsertSubTotalRows("Deal", "RowType", totalFields);
-                dt.InsertTotalRow("RowType", "detail", "grandtotal", totalFields);
+                FwJsonDataTable dt = await l.RunReportAsync(request);
                 return new OkObjectResult(dt);
             }
             catch (Exception ex)

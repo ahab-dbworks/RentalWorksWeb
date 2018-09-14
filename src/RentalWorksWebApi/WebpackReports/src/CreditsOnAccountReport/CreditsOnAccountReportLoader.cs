@@ -48,25 +48,36 @@ namespace WebApi.Modules.Reports.CreditsOnAccountReport
         [FwSqlDataField(column: "remaining", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public decimal? Remaining { get; set; }
         //------------------------------------------------------------------------------------ 
-        protected override void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequest request = null)
+        public async Task<FwJsonDataTable> RunReportAsync(CreditsOnAccountReportRequest request)
         {
-            bool onlyRemaining = false;
-
-            if ((request != null) && (request.uniqueids != null))
+            FwJsonDataTable dt = null;
+            using (FwSqlConnection conn = new FwSqlConnection(AppConfig.DatabaseSettings.ConnectionString))
             {
-                IDictionary<string, object> uniqueIds = ((IDictionary<string, object>)request.uniqueids);
-                if (uniqueIds.ContainsKey("OnlyRemaining"))
+                FwSqlSelect select = new FwSqlSelect();
+                select.EnablePaging = false;
+                using (FwSqlCommand qry = new FwSqlCommand(conn, AppConfig.DatabaseSettings.QueryTimeout))
                 {
-                    onlyRemaining = FwConvert.ToBoolean(uniqueIds["OnlyRemaining"].ToString());
+                    SetBaseSelectQuery(select, qry);
+                    select.Parse();
+                    if (request.OnlyRemaining.GetValueOrDefault(false))
+                    {
+                        select.AddWhere("remaining > 0");
+                    }
+                    select.AddOrderBy("location,customer,deal");
+
+                    dt = await qry.QueryToFwJsonTableAsync(select, false);
                 }
             }
-            base.SetBaseSelectQuery(select, qry, customFields, request);
-            select.Parse();
-            if (onlyRemaining)
-            {
-                select.AddWhere("remaining > 0");
-            }
+
+            string[] totalFields = new string[] { "TotalDepletingDeposit", "TotalCredit", "TotalOverpayment", "TotalDeposit", "TotalApplied", "TotalRefunded", "Remaining" };
+            dt.InsertSubTotalRows("OfficeLocation", "RowType", totalFields);
+            dt.InsertSubTotalRows("Customer", "RowType", totalFields);
+            dt.InsertSubTotalRows("Deal", "RowType", totalFields);
+            dt.InsertTotalRow("RowType", "detail", "grandtotal", totalFields);
+
+            return dt;
         }
-        //------------------------------------------------------------------------------------ 
+        //------------------------------------------------------------------------------------
+
     }
 }

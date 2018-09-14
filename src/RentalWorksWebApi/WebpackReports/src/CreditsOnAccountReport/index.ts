@@ -9,17 +9,20 @@ import '../../lib/FwReportLibrary/src/theme/webpackReports.scss';
 var hbReport = require("./hbReport.hbs");
 var hbFooter = require("./hbFooter.hbs");
 
+export class CreditsOnAccountReportRequest {
+    OnlyRemaining: boolean;
+}
+
+
 export class CreditsOnAccountReport extends WebpackReport {
     renderReport(apiUrl: string, authorizationHeader: string, parameters: any): void {
         try {
             super.renderReport(apiUrl, authorizationHeader, parameters);
             HandlebarsHelpers.registerHelpers();
             let data: any = {};
-            let request = new BrowseRequest();
-            request.uniqueids = {
-                OnlyRemaining: parameters.IncludeRemainingBalance
-            }
-            let promise = Ajax.post<DataTable>(`${apiUrl}/api/v1/creditsonaccountreport/browse`, authorizationHeader, request)
+            let request = new CreditsOnAccountReportRequest();
+            request.OnlyRemaining = parameters.IncludeRemainingBalance;
+            let promise = Ajax.post<DataTable>(`${apiUrl}/api/v1/creditsonaccountreport/runreport`, authorizationHeader, request)
                 .then((response: DataTable) => {
                     data.Rows = DataTable.toObjectList(response);
                     console.log(data);
