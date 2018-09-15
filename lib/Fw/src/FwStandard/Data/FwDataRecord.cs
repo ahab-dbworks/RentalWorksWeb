@@ -500,8 +500,29 @@ namespace FwStandard.DataLayer
                         string searchcondition;
                         if (searchFieldOperator.Equals("like"))
                         {
-                            searchcondition = conditionConjunction + searchField + " like " + parameterName;
-                            select.AddParameter(parameterName, "%" + searchFieldValue.ToUpper() + "%");
+                            if (searchFieldValue.Contains(","))
+                            {
+                                searchcondition = conditionConjunction + "(";
+                                int partialValueCounter = 0;
+                                foreach (string partialValue in searchFieldValue.Split(','))
+                                {
+                                    string partialParameterName = parameterName + partialValueCounter.ToString();
+                                    if (partialValueCounter > 0)
+                                    {
+                                        searchcondition = searchcondition + " and ";
+                                    }
+                                    searchcondition = searchcondition + searchField + " like " + partialParameterName;
+                                    select.AddParameter(partialParameterName, "%" + partialValue.ToUpper() + "%");
+                                    partialValueCounter++;
+                                }
+                                searchcondition = searchcondition + ")";
+                            }
+                            else
+                            {
+                                searchcondition = conditionConjunction + searchField + " like " + parameterName;
+                                select.AddParameter(parameterName, "%" + searchFieldValue.ToUpper() + "%");
+                            }
+
                         }
                         else if (searchFieldOperator.Equals("startswith"))
                         {
