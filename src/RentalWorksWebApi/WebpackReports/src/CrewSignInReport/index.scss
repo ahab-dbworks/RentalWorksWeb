@@ -1,10 +1,9 @@
 ﻿/*Crew Sign-In Report*/
 
 tbody {
-    tr[data-rowtype="detail"]:nth-child(even) {
+    /*tr[data-rowtype="detail"]:nth-child(even) {
         background-color: #DCDCDC;
-    }
-
+    }*/
     /*tr[data-rowtype="detail"]:nth-child(odd) {
         background-color: deepskyblue;
     }
@@ -21,6 +20,7 @@ tbody {
         background-color: blue;
     }*/
 
+
     td {
         padding: 3px;
     }
@@ -34,7 +34,7 @@ body {
 }
 
 thead {
-    th:not(.header-exclude) {
+    th {
         border-top: 2px solid #000000;
         border-bottom: 2px solid #000000;
         font-weight: bold;
@@ -66,14 +66,6 @@ thead {
 
 .box-no-top {
     border: 1px solid #000000;
-    border-top: 0;
-}
-.header-box-no-bottom {
-    border: 2px solid #000000;
-    border-bottom: 0;
-}
-.header-box-no-top {
-    border: 2px solid #000000;
     border-top: 0;
 }
 

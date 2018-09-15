@@ -17,10 +17,10 @@ var invoiceSummaryTemplateFrontEnd = `
             <div class="flexcolumn" style="max-width:200px;">
               <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Date Range">
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                  <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="From:" data-datafield="StartDate" data-required="true" style="float:left;max-width:200px;"></div>
+                  <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="From:" data-datafield="FromDate" data-required="true" style="float:left;max-width:200px;"></div>
                 </div>
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                  <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="To:" data-datafield="EndDate" data-required="true" style="float:left;max-width:200px;"></div>
+                  <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="To:" data-datafield="ToDate" data-required="true" style="float:left;max-width:200px;"></div>
                 </div>
               </div>
             </div>
@@ -37,7 +37,7 @@ var invoiceSummaryTemplateFrontEnd = `
             <div class="flexcolumn" style="max-width:200px;">
               <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Status">
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                  <div data-control="FwFormField" data-type="checkboxlist" class="fwcontrol fwformfield" data-caption="" data-datafield="statuslist" style="float:left;max-width:200px;"></div>
+                  <div data-control="FwFormField" data-type="checkboxlist" class="fwcontrol fwformfield" data-caption="" data-datafield="StatusList" style="float:left;max-width:200px;"></div>
                 </div>
               </div>
             </div>
@@ -114,7 +114,7 @@ class RwInvoiceSummaryReportClass extends FwWebApiReport {
     }
     ;
     loadLists($form) {
-        FwFormField.loadItems($form.find('div[data-datafield="statuslist"]'), [
+        FwFormField.loadItems($form.find('div[data-datafield="StatusList"]'), [
             { value: "NEW", text: "New", selected: "T" },
             { value: "RETURNED", text: "Returned", selected: "T" },
             { value: "REVISED", text: "Revised", selected: "T" },

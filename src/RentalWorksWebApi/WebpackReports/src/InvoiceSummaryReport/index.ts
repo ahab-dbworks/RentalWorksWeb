@@ -13,7 +13,7 @@ export class InvoiceSummaryReportRequest {
     FromDate: Date;
     ToDate: Date;
     DateType: string;
-    Status: Array<string> = [];
+    Statuses: Array<any> = [];
     OfficeLocationId: string;
     DepartmentId: string;
     CustomerId: string;
@@ -23,6 +23,7 @@ export class InvoiceSummaryReportRequest {
 export class InvoiceSummaryReport extends WebpackReport {
 
     renderReport(apiUrl: string, authorizationHeader: string, parameters: any): void {
+        console.log('parameters: ',parameters)
         try {
             super.renderReport(apiUrl, authorizationHeader, parameters);
 
@@ -32,11 +33,11 @@ export class InvoiceSummaryReport extends WebpackReport {
             request.DateType = parameters.DateType;
             request.ToDate = parameters.ToDate;
             request.FromDate = parameters.FromDate;
-            //request.Status = parameters.IncludeNoCharge;
-            request.OfficeLocationId = parameters.OfficeLocationId
-            request.DepartmentId = parameters.DepartmentId
-            request.CustomerId = parameters.CustomerId
-            request.DealId = parameters.DealId
+            request.Statuses = parameters.StatusList;
+            request.OfficeLocationId = parameters.OfficeLocationId;
+            request.DepartmentId = parameters.DepartmentId;
+            request.CustomerId = parameters.CustomerId;
+            request.DealId = parameters.DealId;
 
             let invoiceSummary: any = {};
 
@@ -46,7 +47,7 @@ export class InvoiceSummaryReport extends WebpackReport {
                     invoiceSummary.PrintTime = moment().format('YYYY-MM-DD h:mm:ss A');
                     invoiceSummary.FromDate = parameters.FromDate;
                     invoiceSummary.ToDate = parameters.ToDate;
-                    invoiceSummary.Report = 'Agent Billing Report';
+                    invoiceSummary.Report = 'Invoice Summary Report';
                     invoiceSummary.System = 'RENTALWORKS';
                     invoiceSummary.Company = '4WALL ENTERTAINMENT';
                     this.renderFooterHtml(invoiceSummary);

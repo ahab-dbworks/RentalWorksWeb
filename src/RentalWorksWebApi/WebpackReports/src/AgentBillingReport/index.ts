@@ -21,7 +21,6 @@ export class AgentBillingReportRequest {
     DealId: string;
 }
 
-
 export class AgentBillingReport extends WebpackReport {
 
     renderReport(apiUrl: string, authorizationHeader: string, parameters: any): void {
