@@ -19,8 +19,8 @@ namespace Web.Source.Reports
         string html;
 
         sb = new StringBuilder(base.renderHeaderHtml(styletemplate, headertemplate, printOptions));
-        sb.Replace("[FROMDATE]", request.parameters.StartDate);
-        sb.Replace("[TODATE]", request.parameters.EndDate);
+        sb.Replace("[FROMDATE]", request.parameters.FromDate);
+        sb.Replace("[TODATE]", request.parameters.ToDate);
 
         html = sb.ToString();
 
@@ -30,13 +30,13 @@ namespace Web.Source.Reports
     protected override string renderBodyHtml(string styletemplate, string bodytemplate, PrintOptions printOptions)
     {
         string html;
-        dynamic transtypelist;
+        dynamic TransTypeList;
         FwJsonDataTable dtSalesInventoryTransactionReport;
         StringBuilder sb;
 
-        transtypelist = request.parameters.transtypelist;
+        TransTypeList = request.parameters.TransTypeList;
 
-        dtSalesInventoryTransactionReport = GetSalesInventoryTransactionReport(transtypelist);
+        dtSalesInventoryTransactionReport = GetSalesInventoryTransactionReport(TransTypeList);
 
         html = base.renderBodyHtml(styletemplate, bodytemplate, printOptions);
         sb = new StringBuilder(base.renderBodyHtml(styletemplate, bodytemplate, printOptions));
@@ -46,7 +46,7 @@ namespace Web.Source.Reports
         return html;
     }
         //---------------------------------------------------------------------------------------------
-        protected FwJsonDataTable GetSalesInventoryTransactionReport(dynamic transtypelist)
+        protected FwJsonDataTable GetSalesInventoryTransactionReport(dynamic TransTypeList)
         {
             FwSqlSelect select;
             FwSqlCommand qry;
@@ -59,19 +59,19 @@ namespace Web.Source.Reports
             select.Add(" from  rptinventorytransaction rpt");
             select.Parse();
             select.AddWhere("rpt.rectype = @rectype");
-            select.AddWhereInFromCheckboxList(" and ", "rpt.transtype", transtypelist, GetTransTypeList(), false);
+            select.AddWhereInFromCheckboxList(" and ", "rpt.transtype", TransTypeList, GetTransTypeList(), false);
             select.AddParameter("@rectype", "S");
 
 
-            if (request.parameters.StartDate != "")
+            if (request.parameters.FromDate != "")
             {
                 select.AddWhere("and", "rpt.transdate >= @startdate");
-                select.AddParameter("@startdate", request.parameters.StartDate);
+                select.AddParameter("@startdate", request.parameters.FromDate);
             };
-            if (request.parameters.EndDate != "")
+            if (request.parameters.ToDate != "")
             {
                 select.AddWhere("and", "rpt.transdate <= @enddate");
-                select.AddParameter("@enddate", request.parameters.EndDate);
+                select.AddParameter("@enddate", request.parameters.ToDate);
             };
             if (request.parameters.WarehouseId != "")
             {
@@ -130,16 +130,16 @@ namespace Web.Source.Reports
     //---------------------------------------------------------------------------------------------
     public List<FwReportStatusItem> GetTransTypeList()
     {
-        List<FwReportStatusItem> transtypelist;
-        transtypelist = new List<FwReportStatusItem>();
-        transtypelist.Add(new FwReportStatusItem() { value = "PURCHASE", text = "Purchase", selected = "T" });
-        transtypelist.Add(new FwReportStatusItem() { value = "VENDOR RETURN", text = "Vendor Return", selected = "T" });
-        transtypelist.Add(new FwReportStatusItem() { value = "SALES", text = "Sales", selected = "T" });
-        transtypelist.Add(new FwReportStatusItem() { value = "CUSTOMER RETURN", text = "Customer Return", selected = "T" });
-        transtypelist.Add(new FwReportStatusItem() { value = "ADJUSTMENT", text = "Adjustment", selected = "T" });
-        transtypelist.Add(new FwReportStatusItem() { value = "TRANSFER", text = "Transfer", selected = "T" });
+        List<FwReportStatusItem> TransTypeList;
+            TransTypeList = new List<FwReportStatusItem>();
+            TransTypeList.Add(new FwReportStatusItem() { value = "PURCHASE", text = "Purchase", selected = "T" });
+            TransTypeList.Add(new FwReportStatusItem() { value = "VENDOR RETURN", text = "Vendor Return", selected = "T" });
+            TransTypeList.Add(new FwReportStatusItem() { value = "SALES", text = "Sales", selected = "T" });
+            TransTypeList.Add(new FwReportStatusItem() { value = "CUSTOMER RETURN", text = "Customer Return", selected = "T" });
+            TransTypeList.Add(new FwReportStatusItem() { value = "ADJUSTMENT", text = "Adjustment", selected = "T" });
+            TransTypeList.Add(new FwReportStatusItem() { value = "TRANSFER", text = "Transfer", selected = "T" });
 
-        return transtypelist;
+        return TransTypeList;
     }
     //---------------------------------------------------------------------------------------------
     public string GetCommaListDecrypt(string encryptedlist)
