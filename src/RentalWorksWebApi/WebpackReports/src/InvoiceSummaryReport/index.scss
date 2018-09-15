@@ -1,10 +1,10 @@
-﻿/*Create Invoice Process Report*/
+﻿/*Invoice Summary Report*/
 tbody {
     tr[data-rowtype="detail"]:nth-child(even) {
         background-color: #DCDCDC;
     }
 
-    tr[data-rowtype="ProjectManagerheader"] {
+    tr[data-rowtype="Agentheader"] {
         td[data-value="0"]:after {
             content: "";
         }
@@ -38,25 +38,8 @@ thead {
 
 .name-row {
     font-weight: bold;
-    padding-top: 10px;
+    padding-top: 15px;
     font-size: 12px;
-}
-.deal-row {
-    font-weight: bold;
-    padding-top: 5px;
-    font-size: 12px;
-}
-
-.dep-row {
-    font-weight: bold;
-    padding-top: 5px;
-    font-size: 12px;
-}
-
-.office-footer {
-    font-weight: bold;
-    padding-top: 5px;
-    border-bottom: 2px solid #000000;
 }
 
 .total-row {
