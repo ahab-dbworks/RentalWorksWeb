@@ -55,7 +55,6 @@ var customerRevenueByTypeFrontEnd = `
               </div>
             </div>
           </div>
-          <div id="exporttabpage" class="tabpage exporttabpage" data-tabid="exporttab"></div>
         </div>
       </div>
     </div>`;

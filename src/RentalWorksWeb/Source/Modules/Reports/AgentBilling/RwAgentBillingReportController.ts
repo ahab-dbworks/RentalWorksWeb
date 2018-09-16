@@ -5,7 +5,7 @@
 });
 
 var agentBillingTemplateFrontEnd = `
-    <div class="fwcontrol fwcontainer fwform fwreport agentbillingreport" data-control="FwContainer" data-type="form" data-version="1" data-caption="Agent Billing" data-rendermode="template" data-mode="" data-hasaudit="false" data-controller="RwAgentBillingReportController">
+<div class="fwcontrol fwcontainer fwform fwreport agentbillingreport" data-control="FwContainer" data-type="form" data-version="1" data-caption="Agent Billing" data-rendermode="template" data-mode="" data-hasaudit="false" data-controller="RwAgentBillingReportController">
   <div class="fwcontrol fwtabs" data-control="FwTabs" data-type="">
     <div class="tabs" style="margin-right:10px;">
       <div id="generaltab" class="tab" data-tabpageid="generaltabpage" data-caption="General"></div>
@@ -63,7 +63,6 @@ var agentBillingTemplateFrontEnd = `
           </div>
         </div>
       </div>
-      <div id="exporttabpage" class="tabpage exporttabpage" data-tabid="exporttab"></div>
     </div>
   </div>
 </div>`;
