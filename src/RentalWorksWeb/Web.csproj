@@ -412,6 +412,8 @@
     <Content Include="Source\Grids\GeneratorMakeModelGrid\GeneratorMakeModelGridBrowse.htm" />
     <Content Include="Backup\OrderNote\OrderNoteBrowse.htm" />
     <Content Include="Backup\OrderNote\RwOrderNoteGridController.js" />
+    <Content Include="Source\Modules\Administrator\Hotfix\HotfixBrowse.htm" />
+    <Content Include="Source\Modules\Administrator\Hotfix\HotfixForm.htm" />
     <Content Include="Source\Modules\Administrator\DuplicateRules\DuplicateRulesBrowse.htm" />
     <Content Include="Source\Modules\Administrator\DuplicateRules\DuplicateRulesForm.htm" />
     <Content Include="Source\Modules\Administrator\Integration\Integration.css" />
@@ -424,6 +426,7 @@
     <Content Include="Source\Modules\Administrator\User\UserBrowse.htm" />
     <Content Include="Source\Modules\Administrator\User\UserForm.htm" />
     <TypeScriptCompile Include="Source\Modules\-BaseModules\InventoryBase\InventoryBase.ts" />
+    <TypeScriptCompile Include="Source\Modules\Administrator\Hotfix\Hotfix.ts" />
     <TypeScriptCompile Include="Source\Modules\Administrator\Reports\ReportsController.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\Container\Container.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\AssignBarCodes\AssignBarCodes.ts" />
