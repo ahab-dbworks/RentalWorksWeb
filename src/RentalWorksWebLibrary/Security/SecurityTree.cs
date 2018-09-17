@@ -39,7 +39,7 @@ namespace WebLibrary.Security
             var lv1menuAgent         = AddLv1ModuleMenu("Agent",           "{91D2F0CF-2063-4EC8-B38D-454297E136A8}", application.Id);
             var lv1menuInventory     = AddLv1ModuleMenu("Inventory",       "{8AA0C4A4-B583-44CD-BB47-09C43961CE99}", application.Id);
             var lv1menuWarehouse     = AddLv1ModuleMenu("Warehouse",       "{22D67715-9C24-4A06-A009-CB10A1EC746B}", application.Id);
-            //var lv1menuBilling       = AddLv1ModuleMenu("Billing",         "{9BC99BDA-4C94-4D7D-8C22-31CA5205B1AA}", application.Id);
+            var lv1menuBilling       = AddLv1ModuleMenu("Billing",         "{9BC99BDA-4C94-4D7D-8C22-31CA5205B1AA}", application.Id);
             var lv1menuReports       = AddLv1ReportsMenu("Reports",        "{7FEC9D55-336E-44FE-AE01-96BF7B74074C}", application.Id);
             var lv1menuUtilities     = AddLv1ModuleMenu("Utilities",       "{81609B0E-4B1F-4C13-8BE0-C1948557B82D}", application.Id);
             var lv1menuSettings      = AddLvl1SettingsMenu("Settings",     "{730C9659-B33B-493E-8280-76A060A07DCE}", application.Id);
@@ -73,6 +73,9 @@ namespace WebLibrary.Security
             AddModule("Receive From Vendor", "{00539824-6489-4377-A291-EBFE26325FAD}", lv1menuWarehouse.Id, "ReceiveFromVendorController", "module/receivefromvendor", homeiconbaseurl + "placeholder.png");
             AddModule("Return To Vendor",    "{D54EAA01-A710-4F78-A1EE-5FC9EE9150D8}", lv1menuWarehouse.Id, "ReturnToVendorController", "module/returntovendor", homeiconbaseurl + "placeholder.png");
             AddModule("Assign Bar Codes",    "{4B9C17DE-7FC0-4C33-B953-26FC90F32EA0}", lv1menuWarehouse.Id, "AssignBarCodesController", "module/assignbarcodes", homeiconbaseurl + "placeholder.png");
+            // Billing
+            AddModule("Invoice", "{9B79D7D8-08A1-4F6B-AC0A-028DFA9FE10F}", lv1menuBilling.Id, "InvoiceController", "module/invoice", homeiconbaseurl + "placeholder.png");
+
 
             AddModule("Create Pick List",        "{5013C4FF-FC42-4EFE-AE9D-AAF6857F17B8}", null, "CreatePickListController", "module/createpicklist", homeiconbaseurl + "placeholder.png");
 
