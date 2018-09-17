@@ -231,9 +231,8 @@ class Exchange {
                     FwFunc.showError(ex);
                 }
             } else {
-                let $confirmation = FwConfirmation.renderConfirmation('Error', 'Please select a valid order and/or bar code.');
-                let $cancel = FwConfirmation.addButton($confirmation, 'OK', true);
-                FwConfirmation.addControls($confirmation, '');
+                event.stopPropagation();
+                FwNotification.renderNotification('WARNING', 'Select a valid Order and/or Bar Code.')
             }
         });
     };

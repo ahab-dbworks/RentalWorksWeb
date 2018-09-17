@@ -208,6 +208,9 @@ class CheckIn {
                     $form.find('.errormsg').html('');
                     FwFormField.enable($form.find('[data-datafield="OrderId"], [data-datafield="DealId"]'));
                 }, null, $form);
+            } else {
+                e.stopPropagation();
+                FwNotification.renderNotification('WARNING', 'Select an Order, Deal, BarCode, or I-Code.')
             }
         });
         //Refresh grids on tab click
@@ -219,7 +222,7 @@ class CheckIn {
                 FwBrowse.search($checkInExceptionGridControl);
             } else {
                 e.stopPropagation();
-                FwNotification.renderNotification('WARNING', 'Input an Order, Deal, BarCode, or I-Code.')
+                FwNotification.renderNotification('WARNING', 'Select an Order, Deal, BarCode, or I-Code.')
             }
         });
         $form.find('div.quantityitemstab').on('click', e => {
@@ -230,7 +233,7 @@ class CheckIn {
                 FwBrowse.search($checkInQuantityItemsGridControl);
             } else {
                 e.stopPropagation();
-                FwNotification.renderNotification('WARNING', 'Input an Order, Deal, BarCode, or I-Code.')
+                FwNotification.renderNotification('WARNING', 'Select an Order, Deal, BarCode, or I-Code.')
             }
         });
         $form.find('div.orderstab').on('click', e => {

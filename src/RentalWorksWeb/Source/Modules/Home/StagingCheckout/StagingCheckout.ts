@@ -43,8 +43,7 @@ class StagingCheckout {
 
         let warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
         $form.find('[data-datafield="WarehouseId"]').hide();
-        $form.find('.orderstatus').hide();
-        $form.find('.createcontract').hide();
+
         $form.find('.partial-contract').hide();
         $form.find('.exception-grid').hide();
         $form.find('.grid-view-radio').hide();
@@ -173,7 +172,7 @@ class StagingCheckout {
 
         $createPartialContract.on('click', e => {
             e.stopPropagation();
-            this.startPartialCheckoutItems($form);
+            this.startPartialCheckoutItems($form, e);
         });
 
         menuOptions.push($createContract, $createPartialContract);
@@ -181,52 +180,57 @@ class StagingCheckout {
         FwMenu.addButtonMenuOptions($buttonmenu, menuOptions);
     };
     //----------------------------------------------------------------------------------------------
-    startPartialCheckoutItems = ($form: JQuery): void => {
+    startPartialCheckoutItems = ($form: JQuery, event): void => {
         $form.find('.error-msg').html('');
         const MAX_PAGE_SIZE = 9999;
         let requestBody: any = {}, $checkedOutItemGridControl, $stagedItemGridControl: any;
-        requestBody.OrderId = FwFormField.getValueByDataField($form, 'OrderId');
-
-        $form.find('.orderstatus').hide();
-        $form.find('.createcontract').hide();
-        $form.find('.original-buttons').hide();
-        $form.find('.complete-checkout-contract').show();
-        $form.find('[data-caption="Items"]').hide();
-        $form.find('.partial-contract').show();
-        $form.find('.flexrow').css('max-width', '2200px');
-        $form.find('.exception-grid').hide();
-        $form.find('.staged-item-grid').show();
-        FwAppData.apiMethod(true, 'POST', `api/v1/checkout/startcheckoutcontract`, requestBody, FwServices.defaultTimeout, response => {
-            try {
-                this.contractId = response.ContractId;
-                $checkedOutItemGridControl = $form.find('[data-name="CheckedOutItemGrid"]');
-                $checkedOutItemGridControl.data('ContractId', this.contractId); // Stores ContractId on grid for dblclick in grid controller
-                $checkedOutItemGridControl.data('ondatabind', request => {
-                    request.uniqueids = {
-                        ContractId: this.contractId
-                    }
-                    request.orderby = 'OrderBy';
-                    request.pagesize = 10;
-                })
-                FwBrowse.search($checkedOutItemGridControl);
+        let orderId = FwFormField.getValueByDataField($form, 'OrderId');
+        requestBody.OrderId = orderId;
+        if (orderId != '') {
+            $form.find('.orderstatus').hide();
+            $form.find('.createcontract').hide();
+            $form.find('.original-buttons').hide();
+            $form.find('.complete-checkout-contract').show();
+            $form.find('[data-caption="Items"]').hide();
+            $form.find('.partial-contract').show();
+            $form.find('.flexrow').css('max-width', '2200px');
+            $form.find('.exception-grid').hide();
+            $form.find('.staged-item-grid').show();
+            FwAppData.apiMethod(true, 'POST', `api/v1/checkout/startcheckoutcontract`, requestBody, FwServices.defaultTimeout, response => {
+                try {
+                    this.contractId = response.ContractId;
+                    $checkedOutItemGridControl = $form.find('[data-name="CheckedOutItemGrid"]');
+                    $checkedOutItemGridControl.data('ContractId', this.contractId); // Stores ContractId on grid for dblclick in grid controller
+                    $checkedOutItemGridControl.data('ondatabind', request => {
+                        request.uniqueids = {
+                            ContractId: this.contractId
+                        }
+                        request.orderby = 'OrderBy';
+                        request.pagesize = 10;
+                    })
+                    FwBrowse.search($checkedOutItemGridControl);
              
-                $stagedItemGridControl = $form.find('[data-name="StagedItemGrid"]');
-                $stagedItemGridControl.data('ContractId', this.contractId); // Stores ContractId on grid for dblclick in grid controller
-                $stagedItemGridControl.data('ondatabind', function (request) {
-                    request.orderby = "ItemOrder";
-                    request.uniqueids = {
-                        OrderId: FwFormField.getValueByDataField($form, 'OrderId'),
-                        WarehouseId: FwFormField.getValueByDataField($form, 'WarehouseId')
-                    };
-                    request.pagesize = MAX_PAGE_SIZE;
-                })
+                    $stagedItemGridControl = $form.find('[data-name="StagedItemGrid"]');
+                    $stagedItemGridControl.data('ContractId', this.contractId); // Stores ContractId on grid for dblclick in grid controller
+                    $stagedItemGridControl.data('ondatabind', function (request) {
+                        request.orderby = "ItemOrder";
+                        request.uniqueids = {
+                            OrderId: FwFormField.getValueByDataField($form, 'OrderId'),
+                            WarehouseId: FwFormField.getValueByDataField($form, 'WarehouseId')
+                        };
+                        request.pagesize = MAX_PAGE_SIZE;
+                    })
 
-                FwBrowse.search($stagedItemGridControl);
-            }
-            catch (ex) {
-                FwFunc.showError(ex);
-            }
-        }, null, null);
+                    FwBrowse.search($stagedItemGridControl);
+                }
+                catch (ex) {
+                    FwFunc.showError(ex);
+                }
+            }, null, null);
+        } else {
+            event.stopPropagation();
+            FwNotification.renderNotification('WARNING', 'Select an Order.')
+        }
     };
     //----------------------------------------------------------------------------------------------
     // There are corresponding double click events in the Staged Item Grid controller 
@@ -405,7 +409,7 @@ class StagingCheckout {
         }
     };
     //----------------------------------------------------------------------------------------------
-    completeCheckOutContract($form: JQuery): void {
+    completeCheckOutContract($form: JQuery, event): void {
         $form.find('.error-msg').html('');
         $form.find('.grid-view-radio').hide();
 
@@ -420,8 +424,6 @@ class StagingCheckout {
                     FwModule.openSubModuleTab($form, $contractForm);
                     $form.find('.clearable').find('input').val(''); // Clears all fields but gridview radio
                     FwFormField.setValue($form, 'div[data-datafield="WarehouseId"]', warehouse.warehouseid, warehouse.warehouse);
-                    $form.find('.orderstatus').hide();
-                    $form.find('.createcontract').hide();
                     $form.find('.partial-contract').hide();
                     $form.find('.complete-checkout-contract').hide();
                     $form.find('[data-caption="Items"]').show();
@@ -432,51 +434,59 @@ class StagingCheckout {
                     $form.find('div[data-name="CheckedOutItemGrid"] tr.viewmode').empty();
                     $form.find('div[data-name="StageQuantityItemGrid"] tr.viewmode').empty();
                     $form.find('div[data-datafield="OrderId"]').focus();
+                    // Reveal buttons
+                    $form.find('.original-buttons').show();
+                    $form.find('.orderstatus').show();
+                    $form.find('.createcontract').show();
                 }
                 catch (ex) {
                     FwFunc.showError(ex);
                 }
             }, null, $form);
         } else {
+            event.stopPropagation();
             FwNotification.renderNotification('WARNING', 'Check-out items before attemping to perform this function.');
         }
     };
     //----------------------------------------------------------------------------------------------
-    createContract($form: JQuery): void {
+    createContract($form: JQuery, event): void {
         $form.find('.error-msg').html('');
         $form.find('.grid-view-radio').hide();
 
         let orderId, errorSound, request: any = {};
         errorSound = new Audio(this.errorSoundFileName);
         orderId = FwFormField.getValueByDataField($form, 'OrderId');
-        request.OrderId = orderId;
-        FwAppData.apiMethod(true, 'POST', "api/v1/checkout/checkoutallstaged", request, FwServices.defaultTimeout, function onSuccess(response) {
-            let warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
-            if (response.success === true) {
-                let contractInfo: any = {}, $contractForm;
-                $form.find('.flexrow').css('max-width', '1200px');
-                contractInfo.ContractId = response.ContractId;
-                $contractForm = ContractController.loadForm(contractInfo);
-                FwModule.openSubModuleTab($form, $contractForm);
-                $form.find('.clearable').find('input').val(''); // Clears all fields but gridview radio
-                FwFormField.setValue($form, 'div[data-datafield="WarehouseId"]', warehouse.warehouseid, warehouse.warehouse);
-                $form.find('.orderstatus').hide();
-                $form.find('.createcontract').hide();
-                FwFormField.enable($form.find('div[data-datafield="OrderId"]'));
-                $form.find('[data-datafield="Code"] input').select();
-                // Clear out all grids
-                $form.find('div[data-name="StagedItemGrid"] tr.viewmode').empty();
-                $form.find('div[data-name="StagingExceptionGrid"] tr.viewmode').empty();
-                $form.find('div[data-name="CheckedOutItemGrid"] tr.viewmode').empty();
-                $form.find('div[data-name="StageQuantityItemGrid"] tr.viewmode').empty();
-                $form.find('.exception-grid').hide();
-                $form.find('.staged-item-grid').show();
-            }
-            if (response.success === false) {
-                errorSound.play();
-                $form.find('div.error-msg').html(`<div style="margin:0px 0px 0px 8px;"><span style="padding:0px 4px 0px 4px;font-size:22px;border-radius:2px;background-color:red;color:white;">${response.msg}</span></div>`);
-            }
-        }, null, $form);
+        if (orderId != '') {
+            request.OrderId = orderId;
+            FwAppData.apiMethod(true, 'POST', "api/v1/checkout/checkoutallstaged", request, FwServices.defaultTimeout, function onSuccess(response) {
+                let warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
+                if (response.success === true) {
+                    let contractInfo: any = {}, $contractForm;
+                    $form.find('.flexrow').css('max-width', '1200px');
+                    contractInfo.ContractId = response.ContractId;
+                    $contractForm = ContractController.loadForm(contractInfo);
+                    FwModule.openSubModuleTab($form, $contractForm);
+                    $form.find('.clearable').find('input').val(''); // Clears all fields but gridview radio
+                    FwFormField.setValue($form, 'div[data-datafield="WarehouseId"]', warehouse.warehouseid, warehouse.warehouse);
+                    FwFormField.enable($form.find('div[data-datafield="OrderId"]'));
+                    $form.find('[data-datafield="Code"] input').select();
+                    // Clear out all grids
+                    $form.find('div[data-name="StagedItemGrid"] tr.viewmode').empty();
+                    $form.find('div[data-name="StagingExceptionGrid"] tr.viewmode').empty();
+                    $form.find('div[data-name="CheckedOutItemGrid"] tr.viewmode').empty();
+                    $form.find('div[data-name="StageQuantityItemGrid"] tr.viewmode').empty();
+                    $form.find('.exception-grid').hide();
+                    $form.find('.staged-item-grid').show();
+                }
+                if (response.success === false) {
+                    errorSound.play();
+                    $form.find('div.error-msg').html(`<div style="margin:0px 0px 0px 8px;"><span style="padding:0px 4px 0px 4px;font-size:22px;border-radius:2px;background-color:red;color:white;">${response.msg}</span></div>`);
+                }
+            }, null, $form);
+        } else {
+            event.stopPropagation();
+            FwNotification.renderNotification('WARNING', 'Select an Order.')
+        }
     };
     //----------------------------------------------------------------------------------------------
     renderGrids($form: any): void {
@@ -570,18 +580,6 @@ class StagingCheckout {
         errorSound = new Audio(this.errorSoundFileName);
         successSound = new Audio(this.successSoundFileName);
 
-        //Refresh grids on tab click
-        //$form.find('div.grid-view').on('click', e => {
-        //    //Disable clicking Exception tab w/o an OrderId
-        //    let orderId = FwFormField.getValueByDataField($form, 'OrderId');
-        //    if (orderId !== '') {
-        //        //let $stagingExceptionGrid = $form.find('[data-name="StagingExceptionGrid"]');
-        //        //FwBrowse.search($stagingExceptionGrid);
-        //    } else {
-        //        e.stopPropagation();
-        //        FwNotification.renderNotification('WARNING', 'Select an Order first.')
-        //    }
-        //});
         $form.find('div.quantity-items-tab').on('click', e => {
             //Disable clicking Quantity Items tab w/o an OrderId
             let orderId = FwFormField.getValueByDataField($form, 'OrderId');
@@ -590,7 +588,7 @@ class StagingCheckout {
                 FwBrowse.search($stageQuantityItemGrid);
             } else {
                 e.stopPropagation();
-                FwNotification.renderNotification('WARNING', 'Select an Order first.')
+                FwNotification.renderNotification('WARNING', 'Select an Order.')
             }
         });
         // Refresh grids when navigating to Staging tab
@@ -730,11 +728,11 @@ class StagingCheckout {
         });
         // Complete Checkout Contract
         $form.find('.complete-checkout-contract').on('click', e => {
-            this.completeCheckOutContract($form);
+            this.completeCheckOutContract($form, e);
         });
         // Create Contract
         $form.find('.createcontract').on('click', e => {
-            this.createContract($form);
+            this.createContract($form, e);
         });
         //Options button
         $form.find('.options-button').on('click', e => {
