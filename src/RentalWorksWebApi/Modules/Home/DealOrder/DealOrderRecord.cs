@@ -1001,6 +1001,22 @@ public string DateStamp { get; set; }
             return true;
         }
         //-------------------------------------------------------------------------------------------------------
+        public async Task<bool> UpdateOrderTotal()
+        {
+            bool success = false;
+            if ((OrderId != null) && ((Type.Equals(RwConstants.ORDER_TYPE_QUOTE) || (Type.Equals(RwConstants.ORDER_TYPE_ORDER)))))
+            {
+                using (FwSqlConnection conn = new FwSqlConnection(this.AppConfig.DatabaseSettings.ConnectionString))
+                {
+                    FwSqlCommand qry = new FwSqlCommand(conn, "updateordertotal", this.AppConfig.DatabaseSettings.QueryTimeout);
+                    qry.AddParameter("@orderid", SqlDbType.NVarChar, ParameterDirection.Input, OrderId);
+                    await qry.ExecuteNonQueryAsync(true);
+                    success = true;
+                }
+            }
+            return success;
+        }
+        //-------------------------------------------------------------------------------------------------------
         public async Task<string> Copy(QuoteOrderCopyRequest copyRequest)
         {
             string newId = "";

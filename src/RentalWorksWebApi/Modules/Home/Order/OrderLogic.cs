@@ -55,7 +55,7 @@ namespace WebApi.Modules.Home.Order
                 {
                     b = AppFunc.UpdateTaxFromTaxOptionASync(this.AppConfig, this.UserSession, TaxOptionId, TaxId).Result;
                 }
-
+                b = dealOrder.UpdateOrderTotal().Result;
             }
         }
         //------------------------------------------------------------------------------------    
