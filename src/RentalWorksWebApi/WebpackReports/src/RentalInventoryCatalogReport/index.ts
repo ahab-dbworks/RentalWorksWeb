@@ -9,33 +9,38 @@ import '../../lib/FwReportLibrary/src/theme/webpackReports.scss';
 var hbReport = require("./hbReport.hbs");
 var hbFooter = require("./hbFooter.hbs");
 
+
+export class RentalInventoryCatalogReportRequest {
+    Classifications: any;
+    TrackedBys: any;
+    Ranks: any;
+    WarehouseId: string;
+    InventoryTypeId: string;
+    CategoryId: string;
+    SubCategoryId: string;
+    InventoryId: string;
+    WarehouseCatalogId: string;
+}
+
 export class RentalInventoryCatalogReport extends WebpackReport {
     renderReport(apiUrl: string, authorizationHeader: string, parameters: any): void {
         try {
             super.renderReport(apiUrl, authorizationHeader, parameters);
             HandlebarsHelpers.registerHelpers();
             let data: any = {};
-            let request = new BrowseRequest();
-            request.uniqueids = {
-                WarehouseId: parameters.WarehouseId,
-            }
-            if (parameters.InventoryTypeId) {
-                request.uniqueids.InventoryTypeId = parameters.InventoryTypeId;
-            }
-            if (parameters.CategoryId) {
-                request.uniqueids.CategoryId = parameters.CategoryId;
-            }
-            if (parameters.SubCategoryId) {
-                request.uniqueids.SubCategoryId = parameters.SubCategoryId;
-            }
-            if (parameters.RentalInventoryId) {
-                request.uniqueids.RentalInventoryId = parameters.RentalInventoryId;
-            }
-            if (parameters.WarehouseCatalogId) {
-                request.uniqueids.WarehouseCatalogId = parameters.WarehouseCatalogId;
-            }
-            request.orderby = "Warehouse,InventoryType,Category,ICode";
-            let promise = Ajax.post<DataTable>(`${apiUrl}/api/v1/rentalinventorycatalogreport/browse`, authorizationHeader, request)
+            let request = new RentalInventoryCatalogReportRequest();
+
+            request.Classifications = parameters.classificationlist;
+            request.TrackedBys = parameters.trackedbylist;
+            request.Ranks = parameters.ranklist;
+
+            request.WarehouseId = parameters.WarehouseId,
+            request.InventoryTypeId = parameters.InventoryTypeId;
+            request.CategoryId = parameters.CategoryId;
+            request.SubCategoryId = parameters.SubCategoryId;
+            request.InventoryId = parameters.RentalInventoryId;
+            request.WarehouseCatalogId = parameters.WarehouseCatalogId;
+            let promise = Ajax.post<DataTable>(`${apiUrl}/api/v1/rentalinventorycatalogreport/runreport`, authorizationHeader, request)
                 .then((response: DataTable) => {
                     data.Rows = DataTable.toObjectList(response);
                     console.log(data);

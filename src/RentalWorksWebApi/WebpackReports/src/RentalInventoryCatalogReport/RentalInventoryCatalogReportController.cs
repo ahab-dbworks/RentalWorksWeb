@@ -11,6 +11,22 @@ using FwStandard.SqlServer;
 using Microsoft.AspNetCore.Http;
 namespace WebApi.Modules.Reports.RentalInventoryCatalogReport
 {
+
+    public class RentalInventoryCatalogReportRequest
+    {
+        public SelectedCheckBoxListItems Classifications = new SelectedCheckBoxListItems();
+        public SelectedCheckBoxListItems TrackedBys = new SelectedCheckBoxListItems();
+        public SelectedCheckBoxListItems Ranks = new SelectedCheckBoxListItems();
+        public string WarehouseId;
+        public string InventoryTypeId;
+        public string CategoryId;
+        public string SubCategoryId;
+        public string InventoryId;
+        public string WarehouseCatalogId;
+        public bool? IncludeZeroOwned;
+    }
+
+
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "reports-v1")]
     public class RentalInventoryCatalogReportController : AppReportController
@@ -36,16 +52,16 @@ namespace WebApi.Modules.Reports.RentalInventoryCatalogReport
         //------------------------------------------------------------------------------------ 
         // POST api/v1/rentalinventorycatalogreport/render 
         [HttpPost("render")]
-        public async Task<IActionResult> Render([FromBody]FwReportRenderRequest request)
+        public async Task<ActionResult<FwReportRenderResponse>> Render([FromBody]FwReportRenderRequest request)
         {
             if (!this.ModelState.IsValid) return BadRequest();
             FwReportRenderResponse response = await DoRender(request);
             return new OkObjectResult(response);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/rentalinventorycatalogreport/browse 
-        [HttpPost("browse")]
-        public async Task<IActionResult> BrowseAsync([FromBody]BrowseRequest browseRequest)
+        // POST api/v1/rentalinventorycatalogreport/runreport 
+        [HttpPost("runreport")]
+        public async Task<ActionResult<FwJsonDataTable>> RunReportAsync([FromBody]RentalInventoryCatalogReportRequest request)
         {
             if (!ModelState.IsValid)
             {
@@ -53,14 +69,9 @@ namespace WebApi.Modules.Reports.RentalInventoryCatalogReport
             }
             try
             {
-                RentalInventoryCatalogReportLogic l = new RentalInventoryCatalogReportLogic();
+                RentalInventoryCatalogReportLoader l = new RentalInventoryCatalogReportLoader();
                 l.SetDependencies(this.AppConfig, this.UserSession);
-                FwJsonDataTable dt = await l.BrowseAsync(browseRequest);
-                string[] totalFields = new string[] { "QuantityOwned" };
-                dt.InsertSubTotalRows("Warehouse", "RowType", totalFields);
-                dt.InsertSubTotalRows("InventoryType", "RowType", totalFields);
-                dt.InsertSubTotalRows("Category", "RowType", totalFields);
-                dt.InsertTotalRow("RowType", "detail", "grandtotal", totalFields);
+                FwJsonDataTable dt = await l.RunReportAsync(request);
                 return new OkObjectResult(dt);
             }
             catch (Exception ex)

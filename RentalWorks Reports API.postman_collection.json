@@ -489,7 +489,7 @@
 			"name": "Rental Inventory Catalog Report",
 			"item": [
 				{
-					"name": "Rental Inventory Catalog Report: Browse",
+					"name": "Rental Inventory Catalog Report: Run Report",
 					"request": {
 						"method": "POST",
 						"header": [
@@ -504,10 +504,10 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"Warehouse,InventoryTypeOrderBy,CategoryOrderBy,SubCategoryOrderBy,InventoryOrderBy,ICode\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": [],\n    \t\"uniqueids\": {\n    \t\t\"WarehouseId\": \"B0029AY5\"\n    \t\t\n    \t}\n\t\n}"
+							"raw": "{\n    \t\t\"Classifications\": [\n    \t\t\t{\"value\": \"C\"},\n    \t\t\t{\"value\": \"K\"},\n    \t\t\t{\"value\": \"I\"}\n    \t\t],\n    \t\t\"TrackedBys\": [\n    \t\t\t{\"value\": \"BARCODE\"},\n    \t\t\t{\"value\": \"QUANTITY\"}\n    \t\t],\n    \t\t\"Ranks\": [\n    \t\t\t{\"value\": \"A\"},\n    \t\t\t{\"value\": \"B\"},\n    \t\t\t{\"value\": \"C\"}\n    \t\t],\n\n    \t\t\"WarehouseId\": \"B0029AY5\",\n    \t\t\"InventoryTypeId\": \"\",\n    \t\t\"CategoryId\": \"\",\n    \t\t\"SubCategoryId\": \"\",\n    \t\t\"InventoryId\": \"\",\n    \t\t\"IncludeZeroOwned\": false\n}\n\n"
 						},
 						"url": {
-							"raw": "http://localhost:57949/api/v1/rentalinventorycatalogreport/browse",
+							"raw": "http://localhost:57949/api/v1/rentalinventorycatalogreport/runreport",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -517,7 +517,7 @@
 								"api",
 								"v1",
 								"rentalinventorycatalogreport",
-								"browse"
+								"runreport"
 							]
 						}
 					},

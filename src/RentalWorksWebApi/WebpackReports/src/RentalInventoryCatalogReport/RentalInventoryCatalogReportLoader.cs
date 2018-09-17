@@ -120,56 +120,47 @@ namespace WebApi.Modules.Reports.RentalInventoryCatalogReport
         [FwSqlDataField(column: "masterorderby", modeltype: FwDataTypes.Integer)]
         public int? InventoryOrderBy { get; set; }
         //------------------------------------------------------------------------------------ 
-        protected override void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequest request = null)
+        public async Task<FwJsonDataTable> RunReportAsync(RentalInventoryCatalogReportRequest request)
         {
-            //string filterId = ""; 
-            //DateTime filterDate = DateTime.MinValue; 
-            //bool filterBoolean = false; 
-            // 
-            //if ((request != null) && (request.uniqueids != null)) 
-            //{ 
-            //    IDictionary<string, object> uniqueIds = ((IDictionary<string, object>)request.uniqueids); 
-            //    if (uniqueIds.ContainsKey("FilterId")) 
-            //    { 
-            //        filterId = uniqueIds["FilterId"].ToString(); 
-            //    } 
-            //    if (uniqueIds.ContainsKey("FilterDate")) 
-            //    { 
-            //        filterDate = FwConvert.ToDateTime(uniqueIds["FilterDate"].ToString()); 
-            //    } 
-            //    if (uniqueIds.ContainsKey("FilterBoolean")) 
-            //    { 
-            //        filterBoolean = FwConvert.ToBoolean(uniqueIds["FilterBoolean"].ToString()); 
-            //    } 
-            //} 
-            base.SetBaseSelectQuery(select, qry, customFields, request);
-            select.Parse();
-            select.AddWhere("(availfor = 'R')");
-            addFilterToSelect("WarehouseId", "warehouseid", select, request); 
-            addFilterToSelect("InventoryTypeId", "inventorydepartmentid", select, request); 
-            addFilterToSelect("CategoryId", "categoryid", select, request);
-            addFilterToSelect("SubCategoryId", "subcategoryid", select, request); 
-            addFilterToSelect("RentalInventoryId", "masterid", select, request);
-            //select.AddParameter("@filterid", filterId); 
-            //select.AddParameter("@filterdate", filterDate); 
-            //select.AddParameter("@filterboolean", filterBoolean); 
+            FwJsonDataTable dt = null;
+            using (FwSqlConnection conn = new FwSqlConnection(AppConfig.DatabaseSettings.ConnectionString))
+            {
+                FwSqlSelect select = new FwSqlSelect();
+                select.EnablePaging = false;
+                using (FwSqlCommand qry = new FwSqlCommand(conn, AppConfig.DatabaseSettings.QueryTimeout))
+                {
+                    SetBaseSelectQuery(select, qry);
+                    select.Parse();
+                    select.AddWhere("(availfor = 'R')");
+                    addStringFilterToSelect("warehouseid", request.WarehouseId, select);
+                    addStringFilterToSelect("inventorydepartmentid", request.InventoryTypeId, select);
+                    addStringFilterToSelect("categoryid", request.CategoryId, select);
+                    addStringFilterToSelect("subcategoryid", request.SubCategoryId, select);
+                    addStringFilterToSelect("masterid", request.InventoryId, select);
 
+                    select.AddWhereIn("and", "class", request.Classifications.ToString(), false);
+                    select.AddWhereIn("and", "trackedby", request.TrackedBys.ToString(), false);
+                    select.AddWhereIn("and", "rank", request.Ranks.ToString(), false);
 
-            /*
+                    if (!request.IncludeZeroOwned.GetValueOrDefault(false))
+                    {
+                        select.AddWhere("(qtyownedweb > 0)");
+                    }
 
-            dynamic classificationlist, trackedbylist, ranklist;
+                    select.AddOrderBy("warehouse, departmentorderby, categoryorderby, subcategoryorderby, masterorderby, masterno");
 
-            classificationlist = request.parameters.classificationlist;
-            trackedbylist = request.parameters.trackedbylist;
-            ranklist = request.parameters.ranklist;
+                    dt = await qry.QueryToFwJsonTableAsync(select, false);
+                }
+            }
 
-            select.AddWhereInFromCheckboxList("and", "m.class", classificationlist, GetClassificationList(), false);
-            select.AddWhereInFromCheckboxList("and", "m.trackedby", trackedbylist, GetTrackedByList(), false);
-            select.AddWhereInFromCheckboxList("and", "m.rank", ranklist, GetRankList(), false);
-            select.AddOrderBy("m.warehouse, departmentorderby, categoryorderby, subcategoryorderby, m.masterorderby, m.masterno");
+            string[] totalFields = new string[] { "QuantityOwned" };
+            dt.InsertSubTotalRows("Warehouse", "RowType", totalFields);
+            dt.InsertSubTotalRows("InventoryType", "RowType", totalFields);
+            dt.InsertSubTotalRows("Category", "RowType", totalFields);
+            dt.InsertTotalRow("RowType", "detail", "grandtotal", totalFields);
 
-             */
+            return dt;
         }
-        //------------------------------------------------------------------------------------ 
+        //------------------------------------------------------------------------------------    
     }
 }
