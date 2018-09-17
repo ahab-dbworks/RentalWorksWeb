@@ -1,7 +1,5 @@
-var FwRibbonClass = (function () {
-    function FwRibbonClass() {
-    }
-    FwRibbonClass.prototype.upgrade = function ($control) {
+class FwRibbonClass {
+    upgrade($control) {
         var properties, i, data_type;
         data_type = $control.attr('data-type');
         properties = this.getDesignerProperties(data_type);
@@ -10,8 +8,8 @@ var FwRibbonClass = (function () {
                 $control.attr(properties[i].attribute, properties[i].defaultvalue);
             }
         }
-    };
-    FwRibbonClass.prototype.init = function ($control) {
+    }
+    init($control) {
         var me = this;
         this.upgrade($control);
         $control
@@ -22,13 +20,13 @@ var FwRibbonClass = (function () {
                 tabid = FwControl.generateControlId('tab');
                 tabpageid = FwControl.generateControlId('tabpage');
                 tabHtml = [];
-                tabHtml.push("<div id=\"" + tabid + "\" class=\"tab\" data-tabpageid=\"" + tabpageid + "\" data-caption=\"" + tabid + "\" draggable=\"true\">");
-                tabHtml.push("  <div class=\"caption\">" + tabid + "</div>");
+                tabHtml.push(`<div id="${tabid}" class="tab" data-tabpageid="${tabpageid}" data-caption="${tabid}" draggable="true">`);
+                tabHtml.push(`  <div class="caption">${tabid}</div>`);
                 tabHtml.push('  <div class="delete">x</div>');
                 tabHtml.push('</div>');
                 tabHtml = tabHtml.join('');
                 $tab = jQuery(tabHtml);
-                $tabpage = jQuery("<div id=\"" + tabpageid + "\" class=\"tabpage\" data-tabid=\"" + tabid + "\" designer-dropcontainer=\"true\"></div>");
+                $tabpage = jQuery(`<div id="${tabpageid}" class="tabpage" data-tabid="${tabid}" designer-dropcontainer="true"></div>`);
                 $control.children('.designer').children('.tabs').find('.new').before($tab);
                 $control.children('.designer').children('.tabpages').append($tabpage);
                 me.setActiveTab($control, $tab);
@@ -137,9 +135,9 @@ var FwRibbonClass = (function () {
                 FwFunc.showError(ex);
             }
         });
-    };
+    }
     ;
-    FwRibbonClass.prototype.setActiveTab = function ($control, $tab) {
+    setActiveTab($control, $tab) {
         var $tabpage, tabid, tabpageid;
         if ($tab.length > 0) {
             tabpageid = $tab.attr('data-tabpageid');
@@ -149,9 +147,9 @@ var FwRibbonClass = (function () {
             $tab.removeClass('inactive').addClass('active').show();
             $tabpage.removeClass('inactive').addClass('active').show();
         }
-    };
+    }
     ;
-    FwRibbonClass.prototype.getHtmlTag = function (data_type) {
+    getHtmlTag(data_type) {
         var html, properties, i;
         properties = this.getDesignerProperties(data_type);
         html = [];
@@ -165,9 +163,9 @@ var FwRibbonClass = (function () {
         html.push('</div>');
         html = html.join('');
         return html;
-    };
+    }
     ;
-    FwRibbonClass.prototype.getDesignerProperties = function (data_type) {
+    getDesignerProperties(data_type) {
         var properties = [], propId, propClass, propDataControl, propDataType, propRenderMode, propDataVersion;
         propId = { caption: 'ID', datatype: 'string', attribute: 'id', defaultvalue: FwControl.generateControlId('tabs'), visible: true, enabled: true };
         propClass = { caption: 'CSS Class', datatype: 'string', attribute: 'class', defaultvalue: 'fwcontrol fwribbon', visible: false, enabled: false };
@@ -177,9 +175,9 @@ var FwRibbonClass = (function () {
         propRenderMode = { caption: 'Render Mode', datatype: 'string', attribute: 'data-rendermode', defaultvalue: 'template', visible: false, enabled: false };
         properties = [propId, propClass, propDataControl, propDataType, propDataVersion, propRenderMode];
         return properties;
-    };
+    }
     ;
-    FwRibbonClass.prototype.renderDesignerHtml = function ($control) {
+    renderDesignerHtml($control) {
         var data_type, data_rendermode, html, $tabsChildren, $tabpagesChildren, $tabs, $newtab, $activetab;
         data_type = $control.attr('data-type');
         data_rendermode = $control.attr('data-rendermode');
@@ -226,9 +224,9 @@ var FwRibbonClass = (function () {
         $control.children('.designer').children('.tabpages').append($tabpagesChildren);
         $activetab = $tabs.find('.tab').first();
         this.setActiveTab($control, $activetab);
-    };
+    }
     ;
-    FwRibbonClass.prototype.renderRuntimeHtml = function ($control) {
+    renderRuntimeHtml($control) {
         var data_type, data_rendermode, html, $dashboardChildren, $tabsChildren, $usercontrolChildren, $tabpagesChildren, $tabs, $newtab, $activetab;
         data_type = $control.attr('data-type');
         data_rendermode = $control.attr('data-rendermode');
@@ -276,9 +274,9 @@ var FwRibbonClass = (function () {
         $control.children('.runtime').children('.tabpages').append($tabpagesChildren);
         $activetab = $tabs.find('.tab').first();
         this.setActiveTab($control, $activetab);
-    };
+    }
     ;
-    FwRibbonClass.prototype.renderTemplateHtml = function ($control) {
+    renderTemplateHtml($control) {
         var data_type, data_rendermode, html, $tabsChildren, $tabpagesChildren;
         data_type = $control.attr('data-type');
         data_rendermode = $control.attr('data-rendermode');
@@ -322,21 +320,21 @@ var FwRibbonClass = (function () {
                 $control.children('.tabpages').append($tabpagesChildren);
                 break;
         }
-    };
+    }
     ;
-    FwRibbonClass.prototype.addTab = function ($control, caption) {
+    addTab($control, caption) {
         var $newtab, $tab, $tabpage, tabHtml, tabid, tabpageid, idprefix;
         try {
             idprefix = caption.replace(/[^a-zA-Z0-9]+/g, '');
             tabid = 'tab' + idprefix;
             tabpageid = 'tabpage' + idprefix;
             tabHtml = [];
-            tabHtml.push("<div data-type=\"tab\" id=\"" + tabid + "\" class=\"tab\" data-tabpageid=\"" + tabpageid + "\" data-caption=\"" + caption + "\">");
-            tabHtml.push("  <div class=\"caption\">" + caption + "</div>");
+            tabHtml.push(`<div data-type="tab" id="${tabid}" class="tab" data-tabpageid="${tabpageid}" data-caption="${caption}">`);
+            tabHtml.push(`  <div class="caption">${caption}</div>`);
             tabHtml.push('</div>');
             tabHtml = tabHtml.join('');
             $tab = jQuery(tabHtml);
-            $tabpage = jQuery("<div data-type=\"tabpage\" id=\"" + tabpageid + "\" class=\"tabpage\" data-tabid=\"" + tabid + "\"></div>");
+            $tabpage = jQuery(`<div data-type="tabpage" id="${tabpageid}" class="tabpage" data-tabid="${tabid}"></div>`);
             $control.children('.tabs').append($tab);
             $control.children('.tabpages').append($tabpage);
         }
@@ -344,9 +342,9 @@ var FwRibbonClass = (function () {
             FwFunc.showError(ex);
         }
         return $tabpage;
-    };
+    }
     ;
-    FwRibbonClass.prototype.generateStandardModuleBtn = function (securityid, caption, modulenav, imgurl) {
+    generateStandardModuleBtn(securityid, caption, modulenav, imgurl) {
         var $modulebtn, btnHtml, btnId;
         securityid = (typeof securityid === 'string') ? securityid : '';
         $modulebtn = jQuery();
@@ -354,9 +352,9 @@ var FwRibbonClass = (function () {
             try {
                 btnId = 'btnModule' + securityid;
                 btnHtml = [];
-                btnHtml.push("<div id=\"" + btnId + "\" class=\"modulebtn\" data-securityid=\"" + securityid + "\">");
-                btnHtml.push("  <div class=\"modulebtn-icon\"><img src=\"" + imgurl + "\" class=\"btn-icon\"></div>");
-                btnHtml.push("  <div class=\"modulebtn-text\">" + caption + "</div>");
+                btnHtml.push(`<div id="${btnId}" class="modulebtn" data-securityid="${securityid}">`);
+                btnHtml.push(`  <div class="modulebtn-icon"><img src="${imgurl}" class="btn-icon"></div>`);
+                btnHtml.push(`  <div class="modulebtn-text">${caption}</div>`);
                 btnHtml.push('</div>');
                 $modulebtn = $modulebtn.add(btnHtml.join(''));
             }
@@ -365,7 +363,7 @@ var FwRibbonClass = (function () {
             }
         }
         else {
-            throw "FwRibbon.generateStandardModuleBtn: " + caption + " caption is not defined in translation";
+            throw `FwRibbon.generateStandardModuleBtn: ${caption} caption is not defined in translation`;
         }
         $modulebtn
             .on('click', function () {
@@ -382,9 +380,9 @@ var FwRibbonClass = (function () {
             }
         });
         return $modulebtn;
-    };
+    }
     ;
-    FwRibbonClass.prototype.generateDropDownModuleBtn = function (securityid, caption, imgurl, subitems) {
+    generateDropDownModuleBtn(securityid, caption, imgurl, subitems) {
         var $modulebtn, btnHtml, subitemHtml, $subitem;
         securityid = (typeof securityid === 'string') ? securityid : '';
         $modulebtn = jQuery();
@@ -457,9 +455,9 @@ var FwRibbonClass = (function () {
             throw 'FwRibbon.generateDropDownModuleBtn: ' + securityid + ' caption is not defined in translation';
         }
         return $modulebtn;
-    };
+    }
     ;
-    FwRibbonClass.prototype.generateSplitDropDownModuleBtn = function (securityid, caption, modulenav, imgurl, subitems) {
+    generateSplitDropDownModuleBtn(securityid, caption, modulenav, imgurl, subitems) {
         var $modulebtn, btnHtml, btnId;
         securityid = (typeof securityid === 'string') ? securityid : '';
         $modulebtn = jQuery();
@@ -554,9 +552,8 @@ var FwRibbonClass = (function () {
             });
         }
         return $modulebtn;
-    };
+    }
     ;
-    return FwRibbonClass;
-}());
+}
 var FwRibbon = new FwRibbonClass();
 //# sourceMappingURL=FwRibbon.js.map

@@ -1,29 +1,27 @@
-var FwBrowseColumn_noteClass = (function () {
-    function FwBrowseColumn_noteClass() {
+class FwBrowseColumn_noteClass {
+    databindfield($browse, $field, dt, dtRow, $tr) {
     }
-    FwBrowseColumn_noteClass.prototype.databindfield = function ($browse, $field, dt, dtRow, $tr) {
-    };
     ;
-    FwBrowseColumn_noteClass.prototype.getFieldValue = function ($browse, $tr, $field, field, originalvalue) {
+    getFieldValue($browse, $tr, $field, field, originalvalue) {
         if (($tr.hasClass('editmode')) || ($tr.hasClass('newmode'))) {
             field.value = $field.find('textarea.value').val();
         }
-    };
+    }
     ;
-    FwBrowseColumn_noteClass.prototype.setFieldValue = function ($browse, $tr, $field, data) {
+    setFieldValue($browse, $tr, $field, data) {
         $field.find('textarea').val(data.value);
-    };
-    FwBrowseColumn_noteClass.prototype.isModified = function ($browse, $tr, $field) {
+    }
+    isModified($browse, $tr, $field) {
         var isModified = false;
-        var originalValue = $field.attr('data-originalvalue');
+        let originalValue = $field.attr('data-originalvalue');
         if (($tr.hasClass('editmode')) || ($tr.hasClass('newmode'))) {
-            var currentValue = $field.find('textarea.value').val();
+            let currentValue = $field.find('textarea.value').val();
             isModified = currentValue !== originalValue;
         }
         return isModified;
-    };
+    }
     ;
-    FwBrowseColumn_noteClass.prototype.setFieldViewMode = function ($browse, $tr, $field) {
+    setFieldViewMode($browse, $tr, $field) {
         var $noteImage, $noteTextArea, $notePopup, $notePopupControl, $notePopupHtml;
         $field.data('autoselect', false);
         var originalvalue = (typeof $field.attr('data-originalvalue') === 'string') ? $field.attr('data-originalvalue') : '';
@@ -58,9 +56,9 @@ var FwBrowseColumn_noteClass = (function () {
         else {
             $field.empty().append([$noteImage, $noteTextArea]);
         }
-    };
+    }
     ;
-    FwBrowseColumn_noteClass.prototype.setFieldEditMode = function ($browse, $tr, $field) {
+    setFieldEditMode($browse, $tr, $field) {
         var $noteImage, $noteTextArea, $notePopup, $notePopupControl, $notePopupHtml;
         var originalvalue = (typeof $field.attr('data-originalvalue') === 'string') ? $field.attr('data-originalvalue') : '';
         var formmaxlength = (typeof $field.attr('data-formmaxlength') === 'string') ? $field.attr('data-formmaxlength') : '';
@@ -114,9 +112,8 @@ var FwBrowseColumn_noteClass = (function () {
             $field.data('autoselect', false);
             $noteImage.click();
         }
-    };
+    }
     ;
-    return FwBrowseColumn_noteClass;
-}());
+}
 var FwBrowseColumn_note = new FwBrowseColumn_noteClass();
 //# sourceMappingURL=FwBrowseColumn_note.js.map

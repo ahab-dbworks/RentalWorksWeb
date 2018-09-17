@@ -1,33 +1,31 @@
-var FwBrowseColumn_numberClass = (function () {
-    function FwBrowseColumn_numberClass() {
+class FwBrowseColumn_numberClass {
+    databindfield($browse, $field, dt, dtRow, $tr) {
     }
-    FwBrowseColumn_numberClass.prototype.databindfield = function ($browse, $field, dt, dtRow, $tr) {
-    };
-    FwBrowseColumn_numberClass.prototype.getFieldValue = function ($browse, $tr, $field, field, originalvalue) {
+    getFieldValue($browse, $tr, $field, field, originalvalue) {
         if (($tr.hasClass('editmode')) || ($tr.hasClass('newmode'))) {
             field.value = $field.find('input.value').val();
         }
-    };
-    FwBrowseColumn_numberClass.prototype.setFieldValue = function ($browse, $tr, $field, data) {
+    }
+    setFieldValue($browse, $tr, $field, data) {
         if ($field.attr('data-formreadonly') === 'true') {
             $field.find('.fieldvalue').val(data.value);
         }
         else {
             $field.find('input.value').val(data.value);
         }
-    };
-    FwBrowseColumn_numberClass.prototype.isModified = function ($browse, $tr, $field) {
+    }
+    isModified($browse, $tr, $field) {
         var isModified = false;
-        var originalValue = $field.attr('data-originalvalue');
+        let originalValue = $field.attr('data-originalvalue');
         if (($tr.hasClass('editmode')) || ($tr.hasClass('newmode'))) {
-            var currentValue = $field.find('input.value').val();
+            let currentValue = $field.find('input.value').val();
             isModified = currentValue !== originalValue;
         }
         return isModified;
-    };
-    FwBrowseColumn_numberClass.prototype.setFieldViewMode = function ($browse, $tr, $field) {
+    }
+    setFieldViewMode($browse, $tr, $field) {
         var originalvalue = (typeof $field.attr('data-originalvalue') === 'string') ? $field.attr('data-originalvalue') : '';
-        $field.html("<div class=\"fieldvalue\">" + originalvalue + "</div>");
+        $field.html(`<div class="fieldvalue">${originalvalue}</div>`);
         $field.data('autoselect', false);
         $field.find('.fieldvalue').inputmask("numeric", {
             min: ((typeof $field.attr('data-minvalue') !== 'undefined') ? $field.attr('data-minvalue') : undefined),
@@ -43,10 +41,10 @@ var FwBrowseColumn_numberClass = (function () {
                 $field.data('autoselect', true);
             }
         });
-    };
-    FwBrowseColumn_numberClass.prototype.setFieldEditMode = function ($browse, $tr, $field) {
+    }
+    setFieldEditMode($browse, $tr, $field) {
         var originalvalue = (typeof $field.attr('data-originalvalue') === 'string') ? $field.attr('data-originalvalue') : '';
-        var html = [];
+        let html = [];
         html.push('<input class="value" type="text"');
         if ($browse.attr('data-enabled') === 'false') {
             html.push(' disabled="disabled"');
@@ -58,7 +56,7 @@ var FwBrowseColumn_numberClass = (function () {
             html.push(' max="' + $browse.attr('data-maxvalue') + '"');
         }
         html.push(' />');
-        var htmlString = html.join('');
+        let htmlString = html.join('');
         $field.html(htmlString);
         $field.find('input.value').inputmask("numeric", {
             min: ((typeof $browse.attr('data-minvalue') !== 'undefined') ? $browse.attr('data-minvalue') : undefined),
@@ -73,8 +71,7 @@ var FwBrowseColumn_numberClass = (function () {
             $field.data('autoselect', false);
             $field.find('.value').select();
         }
-    };
-    return FwBrowseColumn_numberClass;
-}());
+    }
+}
 var FwBrowseColumn_number = new FwBrowseColumn_numberClass();
 //# sourceMappingURL=FwBrowseColumn_number.js.map
