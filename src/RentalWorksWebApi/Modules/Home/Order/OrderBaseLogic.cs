@@ -115,6 +115,21 @@ namespace WebApi.Modules.Home.Order
         //------------------------------------------------------------------------------------ 
         public bool? RentalSale { get { return dealOrder.RentalSale; } set { dealOrder.RentalSale = value; } }
         //------------------------------------------------------------------------------------ 
+        [FwBusinessLogicField(isReadOnly: true)]
+        public bool? HasRentalItem { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public bool? HasSalesItem { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public bool? HasMiscellaneousItem { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public bool? HasLaborItem { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public bool? HasFacilitiesItem { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public bool? HasFinalLdItem { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public bool? HasRentalSaleItem { get; set; }
+        //------------------------------------------------------------------------------------ 
 
 
         public string PickDate { get { return dealOrder.PickDate; } set { dealOrder.PickDate = value; } }

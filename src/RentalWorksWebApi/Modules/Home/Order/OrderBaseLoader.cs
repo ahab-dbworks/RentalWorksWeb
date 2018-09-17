@@ -31,7 +31,27 @@ namespace WebApi.Modules.Home.Order
         [FwSqlDataField(column: "rentalsale", modeltype: FwDataTypes.Boolean)]
         public bool? RentalSale { get; set; }
         //------------------------------------------------------------------------------------ 
-
+        [FwSqlDataField(column: "hasrentalitem", modeltype: FwDataTypes.Boolean)]
+        public bool? HasRentalItem { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "hassalesitem", modeltype: FwDataTypes.Boolean)]
+        public bool? HasSalesItem { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "hasmiscitem", modeltype: FwDataTypes.Boolean)]
+        public bool? HasMiscellaneousItem { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "haslaboritem", modeltype: FwDataTypes.Boolean)]
+        public bool? HasLaborItem { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "hasspaceitem", modeltype: FwDataTypes.Boolean)]
+        public bool? HasFacilitiesItem { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "hasfinallditem", modeltype: FwDataTypes.Boolean)]
+        public bool? HasFinalLdItem { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "hasrentalsaleitem", modeltype: FwDataTypes.Boolean)]
+        public bool? HasRentalSaleItem { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "ordertypeid", modeltype: FwDataTypes.Text)]
         public string OrderTypeId { get; set; }
         //------------------------------------------------------------------------------------
