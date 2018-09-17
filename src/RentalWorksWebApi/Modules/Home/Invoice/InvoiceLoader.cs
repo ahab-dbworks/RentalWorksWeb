@@ -1,0 +1,244 @@
+using FwStandard.DataLayer;
+using FwStandard.Models;
+using FwStandard.SqlServer;
+using FwStandard.SqlServer.Attributes;
+using WebApi.Data;
+using System.Collections.Generic;
+using System;
+using WebLibrary;
+namespace WebApi.Modules.Home.Invoice
+{
+    [FwSqlTable("invoiceview")]
+    public class InvoiceLoader : InvoiceBrowseLoader
+    {
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "invoiceduedate", modeltype: FwDataTypes.Date)]
+        public string InvoiceDueDate { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "invoicetype", modeltype: FwDataTypes.Text)]
+        public string InvoiceType { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "orderdesc", modeltype: FwDataTypes.Text)]
+        public string OrderDescription { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "orderdate", modeltype: FwDataTypes.Date)]
+        public string OrderDate { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "orderlocation", modeltype: FwDataTypes.Text)]
+        public string OrderLocation { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "customerid", modeltype: FwDataTypes.Text)]
+        public string CustomerId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "customer", modeltype: FwDataTypes.Text)]
+        public string Customer { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "custtypeid", modeltype: FwDataTypes.Text)]
+        public string CustomerTypeId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "custtype", modeltype: FwDataTypes.Text)]
+        public string CustomerType { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "dealno", modeltype: FwDataTypes.Text)]
+        public string DealNumber { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "dealtypeid", modeltype: FwDataTypes.Text)]
+        public string DealTypeId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "episodeno", modeltype: FwDataTypes.Integer)]
+        public int? EpisodeNumber { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "invoicebatchid", modeltype: FwDataTypes.Text)]
+        public string InvoiceBatchId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "batchno", modeltype: FwDataTypes.Integer)]
+        public int? InvoiceBatchNumber { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "invgroupno", modeltype: FwDataTypes.Text)]
+        public string InvoiceGroupNumber { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "crfid", modeltype: FwDataTypes.Text)]
+        public string CrfId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "crfno", modeltype: FwDataTypes.Integer)]
+        public int? Crfno { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "rentalsale", modeltype: FwDataTypes.Boolean)]
+        public bool? RentalSale { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "finalld", modeltype: FwDataTypes.Boolean)]
+        public bool? FinalLd { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "repair", modeltype: FwDataTypes.Boolean)]
+        public bool? Repair { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "inputbyusersid", modeltype: FwDataTypes.Text)]
+        public string InputByUserId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "flatpoid", modeltype: FwDataTypes.Text)]
+        public string FlatPoId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "ordertype", modeltype: FwDataTypes.Text)]
+        public string OrderType { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "rebatecustomerid", modeltype: FwDataTypes.Text)]
+        public string RebateCustomerId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "billingnumbersdefined", modeltype: FwDataTypes.Boolean)]
+        public bool? BillingNumbersAreDefined { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "orbitsapchgmajor", modeltype: FwDataTypes.Text)]
+        public string Orbitsapchgmajor { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "orbitsapchgsub", modeltype: FwDataTypes.Text)]
+        public string Orbitsapchgsub { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "orbitsapchgdetail", modeltype: FwDataTypes.Text)]
+        public string Orbitsapchgdetail { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "orbitsapchgdeal", modeltype: FwDataTypes.Text)]
+        public string Orbitsapchgdeal { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "orbitsapchgset", modeltype: FwDataTypes.Text)]
+        public string Orbitsapchgset { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "excludefromflat", modeltype: FwDataTypes.Boolean)]
+        public bool? ExcludeFromFlatPo { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "splitrentalflg", modeltype: FwDataTypes.Boolean)]
+        public bool? IsSplitRental { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "rebaterentalflg", modeltype: FwDataTypes.Boolean)]
+        public bool? IsRebateRental { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "invoicelisttotal", modeltype: FwDataTypes.Decimal)]
+        public decimal? InvoiceListTotal { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "invoicegrosstotal", modeltype: FwDataTypes.Decimal)]
+        public decimal? InvoiceGrossTotal { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "invoicediscounttotal", modeltype: FwDataTypes.Decimal)]
+        public decimal? InvoiceDiscountTotal { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "invoicesubtotal", modeltype: FwDataTypes.Decimal)]
+        public decimal? InvoiceSubTotal { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "invoicedwdiscounttotal", modeltype: FwDataTypes.Decimal)]
+        public decimal? InvoiceDaysInWeekDiscountTotal { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "invoicetax", modeltype: FwDataTypes.Decimal)]
+        public decimal? InvoiceTax { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "invoicetotal", modeltype: FwDataTypes.Decimal)]
+        public decimal? InvoiceTotal { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "refno", modeltype: FwDataTypes.Text)]
+        public string ReferenceNumber { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "agentid", modeltype: FwDataTypes.Text)]
+        public string AgentId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "agent", modeltype: FwDataTypes.Text)]
+        public string Agent { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "projectmanagerid", modeltype: FwDataTypes.Text)]
+        public string ProjectManagerId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "projectmanager", modeltype: FwDataTypes.Text)]
+        public string ProjectManager { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "billtoadd1", modeltype: FwDataTypes.Text)]
+        public string BillToAddress1 { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "billtoadd2", modeltype: FwDataTypes.Text)]
+        public string BillToAddress2 { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "billtocity", modeltype: FwDataTypes.Text)]
+        public string BillToCity { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "billtostate", modeltype: FwDataTypes.Text)]
+        public string BillToState { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "billtozip", modeltype: FwDataTypes.Text)]
+        public string BillToZipCode { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "billtocountry", modeltype: FwDataTypes.Text)]
+        public string BillToCountry { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "invoiceclass", modeltype: FwDataTypes.Text)]
+        public string InvoiceClass { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "printnotes", modeltype: FwDataTypes.Text)]
+        public string PrintNotes { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "payterms", modeltype: FwDataTypes.Text)]
+        public string PaymentTerms { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "taxid", modeltype: FwDataTypes.Text)]
+        public string TaxId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "taxoptionid", modeltype: FwDataTypes.Text)]
+        public string TaxOptionId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "taxitemcode", modeltype: FwDataTypes.Text)]
+        public string TaxItemCode { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "taxvendor", modeltype: FwDataTypes.Text)]
+        public string TaxVendor { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "taxoption", modeltype: FwDataTypes.Text)]
+        public string TaxOption { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "taxcountry", modeltype: FwDataTypes.Text)]
+        public string TaxCountry { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "chgbatchid", modeltype: FwDataTypes.Text)]
+        public string ChargeBatchId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "chgbatchno", modeltype: FwDataTypes.Text)]
+        public string ChargeBatchNumber { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "quikpaydiscount", modeltype: FwDataTypes.Boolean)]
+        public bool? QuikPayDiscount { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "quikpayrentaltotal", modeltype: FwDataTypes.Decimal)]
+        public decimal? QuikPayRentalTotal { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "quikpaytotal", modeltype: FwDataTypes.Decimal)]
+        public decimal? QuikPayTotal { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "receivedtotal", modeltype: FwDataTypes.Decimal)]
+        public decimal? ReceivedTotal { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "ratetype", modeltype: FwDataTypes.Text)]
+        public string RateType { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "consignmentrevenue", modeltype: FwDataTypes.Decimal)]
+        public decimal? ConsignmentRevenue { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "nonbillable", modeltype: FwDataTypes.Boolean)]
+        public bool? IsNonBillable { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "currencyid", modeltype: FwDataTypes.Text)]
+        public string CurrencyId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "currencycode", modeltype: FwDataTypes.Text)]
+        public string CurrencyCode { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "locdefaultcurrencyid", modeltype: FwDataTypes.Text)]
+        public string OfficeLocationDefaultCurrencyId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "divisionid", modeltype: FwDataTypes.Text)]
+        public string DivisionId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "salesrepresentativeid", modeltype: FwDataTypes.Text)]
+        public string SalesRepresentativeId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "salesrepresentative", modeltype: FwDataTypes.Text)]
+        public string SalesRepresentative { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "exporttaxaslineitem", modeltype: FwDataTypes.Boolean)]
+        public bool? ExportTaxAsLineItem { get; set; }
+        //------------------------------------------------------------------------------------ 
+    }
+}
