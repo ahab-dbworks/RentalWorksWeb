@@ -87,7 +87,9 @@ namespace WebApi.Modules.Home.CheckInQuantityItem
         public override async Task<FwJsonDataTable> BrowseAsync(BrowseRequest request, FwCustomFields customFields = null)
         {
             string contractId = "";
+            string orderId = "";
             bool allOrdersForDeal = false;
+            bool outOnly = false;
             if (request != null)
             {
                 if (request.uniqueids != null)
@@ -97,9 +99,17 @@ namespace WebApi.Modules.Home.CheckInQuantityItem
                     {
                         contractId = uniqueIds["ContractId"].ToString();
                     }
+                    if (uniqueIds.ContainsKey("OrderId"))
+                    {
+                        orderId = uniqueIds["OrderId"].ToString();
+                    }
                     if (uniqueIds.ContainsKey("AllOrdersForDeal"))
                     {
                         allOrdersForDeal = FwConvert.ToBoolean(uniqueIds["AllOrdersForDeal"].ToString());
+                    }
+                    if (uniqueIds.ContainsKey("OutOnly"))
+                    {
+                        outOnly = FwConvert.ToBoolean(uniqueIds["OutOnly"].ToString());
                     }
                 }
             }
@@ -111,7 +121,9 @@ namespace WebApi.Modules.Home.CheckInQuantityItem
                 using (FwSqlCommand qry = new FwSqlCommand(conn, "getcheckinquantity", this.AppConfig.DatabaseSettings.QueryTimeout))
                 {
                     qry.AddParameter("@contractid", SqlDbType.NVarChar, ParameterDirection.Input, contractId);
+                    qry.AddParameter("@orderid", SqlDbType.NVarChar, ParameterDirection.Input, orderId);
                     qry.AddParameter("@allordersfordeal", SqlDbType.NVarChar, ParameterDirection.Input, allOrdersForDeal ? "T" : "F");
+                    qry.AddParameter("@outonly", SqlDbType.NVarChar, ParameterDirection.Input, outOnly ? "T" : "F");
                     qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, UserSession.UsersId);
                     qry.AddParameter("@status", SqlDbType.Int, ParameterDirection.Output);
                     qry.AddParameter("@msg", SqlDbType.NVarChar, ParameterDirection.Output);
