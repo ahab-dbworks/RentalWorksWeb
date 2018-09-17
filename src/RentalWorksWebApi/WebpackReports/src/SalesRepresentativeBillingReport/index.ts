@@ -9,39 +9,39 @@ import './index.scss';
 var hbReport = require("./hbReport.hbs");
 var hbFooter = require("./hbFooter.hbs"); 
 
+export class SalesRepresentativeBillingReportRequest {
+    FromDate: Date;
+    ToDate: Date;
+    DateType: string;
+    IncludeNoCharge: boolean;
+    OfficeLocationId: string;
+    DepartmentId: string;
+    SalesRepresentativeId: string;
+    CustomerId: string;
+    DealId: string;
+}
+
 export class SalesRepresentativeBillingReport extends WebpackReport {
 
     renderReport(apiUrl: string, authorizationHeader: string, parameters: any): void {
         try {
             super.renderReport(apiUrl, authorizationHeader, parameters);
 
-            HandlebarsHelpers.registerHelpers();
-            let request = new BrowseRequest();
-            request.uniqueids = {};
-       
             let SalesRepresentativeBilling: any = {};
-            request.orderby = 'SalesRepresentative, OfficeLocation, Department, Deal, OrderNumber';
-            request.uniqueids.DateType = parameters.DateType;
-            request.uniqueids.ToDate = parameters.ToDate;
-            request.uniqueids.FromDate = parameters.FromDate;
-            request.uniqueids.IncludeNoCharge = parameters.IncludeNoCharge;
-            if (parameters.OfficeLocationId != '') {
-                request.uniqueids.LocationId = parameters.OfficeLocationId
-            }
-            if (parameters.DepartmentId != '') {
-                request.uniqueids.DepartmentId = parameters.DepartmentId
-            }
-            if (parameters.DealId != '') {
-                request.uniqueids.DealId = parameters.DealId
-            }
-            if (parameters.UserId != '') {
-                request.uniqueids.SalesRepresentativeId = parameters.UserId
-            }
-            if (parameters.CustomerId != '') {
-                request.uniqueids.CustomerId = parameters.CustomerId
-            }
+            HandlebarsHelpers.registerHelpers();
 
-            let salesRepPromise = Ajax.post<DataTable>(`${apiUrl}/api/v1/salesrepresentativebillingreport/browse`, authorizationHeader, request)
+            let request = new SalesRepresentativeBillingReportRequest();
+            request.DateType = parameters.DateType;
+            request.FromDate = parameters.FromDate;
+            request.ToDate = parameters.ToDate;
+            request.IncludeNoCharge = parameters.IncludeNoCharge;
+            request.OfficeLocationId = parameters.OfficeLocationId;
+            request.DepartmentId = parameters.DepartmentId;
+            request.DealId = parameters.DealId;
+            request.SalesRepresentativeId = parameters.UserId;
+            request.CustomerId = parameters.CustomerId;
+
+            let salesRepPromise = Ajax.post<DataTable>(`${apiUrl}/api/v1/salesrepresentativebillingreport/runreport`, authorizationHeader, request)
                 .then((response: DataTable) => {
                     SalesRepresentativeBilling = DataTable.toObjectList(response);
                     SalesRepresentativeBilling.PrintTime = moment().format('YYYY-MM-DD h:mm:ss A');

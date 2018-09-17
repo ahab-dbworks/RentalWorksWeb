@@ -28,17 +28,17 @@ export class AgentBillingReport extends WebpackReport {
             super.renderReport(apiUrl, authorizationHeader, parameters);
 
             HandlebarsHelpers.registerHelpers();
-            let request = new AgentBillingReportRequest();
 
+            let request = new AgentBillingReportRequest();
             request.DateType = parameters.DateType;
             request.ToDate = parameters.ToDate;
             request.FromDate = parameters.FromDate;
             request.IncludeNoCharge = parameters.IncludeNoCharge;
-            request.OfficeLocationId = parameters.OfficeLocationId
-            request.DepartmentId = parameters.DepartmentId
-            request.DealId = parameters.DealId
-            request.AgentId = parameters.UserId
-            request.CustomerId = parameters.CustomerId
+            request.OfficeLocationId = parameters.OfficeLocationId;
+            request.DepartmentId = parameters.DepartmentId;
+            request.DealId = parameters.DealId;
+            request.AgentId = parameters.UserId;
+            request.CustomerId = parameters.CustomerId;
 
             let agentBilling: any = {};
 

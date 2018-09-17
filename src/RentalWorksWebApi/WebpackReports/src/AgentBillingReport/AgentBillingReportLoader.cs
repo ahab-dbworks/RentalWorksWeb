@@ -159,7 +159,7 @@ namespace WebApi.Modules.Reports.AgentBillingReport
                     {
                         select.AddWhere("nocharge <> 'T'");
                     }
-                    select.AddOrderBy("agent,invoicedate");
+                    select.AddOrderBy("agent,location,department,deal,orderno,invoicedate");
 
                     dt = await qry.QueryToFwJsonTableAsync(select, false);
                 }

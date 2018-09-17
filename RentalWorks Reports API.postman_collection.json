@@ -449,7 +449,7 @@
 			"name": "Project Manager Billing Report",
 			"item": [
 				{
-					"name": "Project Manager Billing Report: Browse",
+					"name": "Project Manager Billing Report: Run Report",
 					"request": {
 						"method": "POST",
 						"header": [
@@ -464,10 +464,10 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"ProjectManager,OfficeLocation,Department,Deal,OrderNumber\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": [],\n    \t\"uniqueids\": {\n    \t\t\"DateType\": \"INVOICE_DATE\",\n    \t\t\"FromDate\": \"01/01/2018\",\n    \t\t\"ToDate\": \"08/01/2018\",\n    \t\t\"LocationId\": \"B001WH00\",\n    \t\t\"DepartmentId\": \"B003KSM1\"\n    \t\t\n    \t}\n\t\n}\n"
+							"raw": "{\n    \t\t\"DateType\": \"BILLING_START_DATE\",        \"xDateTypeValues\": \"INVOICE_DATE or BILLING_START_DATE\",\n    \t\t\"FromDate\": \"01/01/2018\",\n    \t\t\"ToDate\": \"08/01/2018\",\n    \t\t\"OfficeLocationId\": \"B001WH00\",\n    \t\t\"DepartmentId\": \"\",\n    \t\t\"CustomerId\": \"\",\n    \t\t\"DealId\": \"\",\n    \t\t\"ProjectManagerId\": \"\"\n}"
 						},
 						"url": {
-							"raw": "http://localhost:57949/api/v1/projectmanagerbillingreport/browse",
+							"raw": "http://localhost:57949/api/v1/projectmanagerbillingreport/runreport",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -477,7 +477,7 @@
 								"api",
 								"v1",
 								"projectmanagerbillingreport",
-								"browse"
+								"runreport"
 							]
 						}
 					},
@@ -526,10 +526,10 @@
 			]
 		},
 		{
-			"name": "Sales Representative Billing Report",
+			"name": "Sales Inventory Transaction Report",
 			"item": [
 				{
-					"name": "Sales Representative Billing Report: Browse",
+					"name": "Sales Inventory Transaction Report: Run Report",
 					"request": {
 						"method": "POST",
 						"header": [
@@ -544,10 +544,50 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"SalesRepresentative,OfficeLocation,Department,Deal,OrderNumber\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": [],\n    \t\"uniqueids\": {\n    \t\t\"DateType\": \"INVOICE_DATE\",\n    \t\t\"FromDate\": \"01/01/2018\",\n    \t\t\"ToDate\": \"08/01/2018\",\n    \t\t\"LocationId\": \"B001WH00\",\n    \t\t\"DepartmentId\": \"B003KSM1\"\n    \t\t\n    \t}\n\t\n}"
+							"raw": "\t{\n    \t\t\"FromDate\": \"01/01/2018\",\n    \t\t\"ToDate\": \"01/31/2018\",\n    \t\t\"TransactionTypes\": [\n    \t\t\t{\"value\": \"PURCHASE\"},\n    \t\t\t{\"value\": \"VENDOR RETURN\"}\n    \t\t],\n    \t\t\"WarehouseId\": \"B0029AY5\",\n    \t\t\"InventoryTypeId\": \"\",\n    \t\t\"CategoryId\": \"\",\n    \t\t\"SubCategoryId\": \"\",\n    \t\t\"InventoryId\": \"\"\n}"
 						},
 						"url": {
-							"raw": "http://localhost:57949/api/v1/salesrepresentativebillingreport/browse",
+							"raw": "http://localhost:57949/api/v1/salesinventorytransactionreport/runreport",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"salesinventorytransactionreport",
+								"runreport"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Sales Representative Billing Report",
+			"item": [
+				{
+					"name": "Sales Representative Billing Report: Run Report",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \t\t\"DateType\": \"BILLING_START_DATE\",        \"xDateTypeValues\": \"INVOICE_DATE or BILLING_START_DATE\",\n    \t\t\"FromDate\": \"01/01/2018\",\n    \t\t\"ToDate\": \"08/01/2018\",\n    \t\t\"OfficeLocationId\": \"B001WH00\",\n    \t\t\"DepartmentId\": \"\",\n    \t\t\"CustomerId\": \"\",\n    \t\t\"DealId\": \"\",\n    \t\t\"SalesRepresentativeId\": \"\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/salesrepresentativebillingreport/runreport",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -557,7 +597,7 @@
 								"api",
 								"v1",
 								"salesrepresentativebillingreport",
-								"browse"
+								"runreport"
 							]
 						}
 					},
