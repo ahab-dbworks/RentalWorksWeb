@@ -93,25 +93,25 @@ namespace WebApi.Modules.Reports.InvoiceSummaryReport
         [FwSqlDataField(column: "status", modeltype: FwDataTypes.Text)]
         public string Status { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "invoicefreight", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "invoicefreight", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public decimal? InvoiceFreight { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "invoicelisttotal", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "invoicelisttotal", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public decimal? InvoiceListTotal { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "invoicegrosstotal", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "invoicegrosstotal", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public decimal? InvoiceGrossTotal { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "invoicediscounttotal", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "invoicediscounttotal", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public decimal? InvoiceDiscountTotal { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "invoicesubtotal", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "invoicesubtotal", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public decimal? InvoiceSubTotal { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "invoicetax", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "invoicetax", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public decimal? InvoiceTax { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "invoicetotal", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "invoicetotal", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public decimal? InvoiceTotal { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "nonbillable", modeltype: FwDataTypes.Boolean)]
