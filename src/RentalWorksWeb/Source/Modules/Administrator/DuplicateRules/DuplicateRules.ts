@@ -1,7 +1,7 @@
 class DuplicateRules {
     Module: string = 'DuplicateRules';
     apiurl: string = 'api/v1/duplicaterule';
-
+    //----------------------------------------------------------------------------------------------
     getModuleScreen() {
         var screen, $browse;
 
@@ -24,7 +24,7 @@ class DuplicateRules {
 
         return screen;
     }
-
+    //----------------------------------------------------------------------------------------------
     openBrowse() {
         var $browse;
 
@@ -35,7 +35,7 @@ class DuplicateRules {
 
         return $browse;
     }
-
+    //----------------------------------------------------------------------------------------------
     openForm(mode: string) {
         var $form
             , $moduleSelect
@@ -106,7 +106,7 @@ class DuplicateRules {
 
         return $form;
     }
-
+    //----------------------------------------------------------------------------------------------
     loadForm(uniqueids: any) {
         var $form;
 
@@ -116,11 +116,11 @@ class DuplicateRules {
 
         return $form;
     }
-
+    //----------------------------------------------------------------------------------------------
     saveForm($form: any, parameters: any) {
         FwModule.saveForm(this.Module, $form, parameters);
     }
-
+    //----------------------------------------------------------------------------------------------
     getFields($form: JQuery): void {
         $form.find('div.modules').on("change", function () {
             let moduleName, moduleUrl, request;
@@ -184,7 +184,11 @@ class DuplicateRules {
             }, null, $form);
         });
     }
-
+    //----------------------------------------------------------------------------------------------
+    afterSave($form: any): void {
+        FwFormField.disable($form.find('div[data-datafield="ModuleName"]'));
+    }
+    //----------------------------------------------------------------------------------------------
     afterLoad($form: any) {
         var moduleName = $form.find('.modules').attr('data-originalvalue');
         var moduleUrl = $form.find(`select option[value="${moduleName}"]`).attr('data-apiurl');
@@ -240,6 +244,7 @@ class DuplicateRules {
 
         }, null, $form);
     }
+    //----------------------------------------------------------------------------------------------
 }
-
+//----------------------------------------------------------------------------------------------
 var DuplicateRulesController = new DuplicateRules();

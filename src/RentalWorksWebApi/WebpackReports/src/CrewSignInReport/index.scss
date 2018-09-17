@@ -1,25 +1,13 @@
 ﻿/*Crew Sign-In Report*/
 
 tbody {
-    /*tr[data-rowtype="detail"]:nth-child(even) {
-        background-color: #DCDCDC;
-    }*/
-    /*tr[data-rowtype="detail"]:nth-child(odd) {
-        background-color: deepskyblue;
-    }
-
-    tr[data-rowtype="detail"]:nth-child(1n) {
-        background-color: orangered;
-    }
-
-    tr[data-rowtype="detail"]:nth-child(2n) {
-        background-color: cadetblue;
-    }
-
-    tr[data-rowtype="detail"]:nth-child(2n+1) {
-        background-color: blue;
+    /*.detail-row:nth-child(even) {
+        background-color: palevioletred;
     }*/
 
+    .row-two:nth-child(odd) {
+        background-color: lightgray;
+    }
 
     td {
         padding: 3px;
@@ -71,6 +59,10 @@ thead {
 
 .header-box {
     border: 2px solid #000000;
+}
+
+.time-field {
+    width: 50px;
 }
 
 

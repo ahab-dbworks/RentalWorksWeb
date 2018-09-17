@@ -143,6 +143,9 @@ class DuplicateRules {
             }, null, $form);
         });
     }
+    afterSave($form) {
+        FwFormField.disable($form.find('div[data-datafield="ModuleName"]'));
+    }
     afterLoad($form) {
         var moduleName = $form.find('.modules').attr('data-originalvalue');
         var moduleUrl = $form.find(`select option[value="${moduleName}"]`).attr('data-apiurl');
