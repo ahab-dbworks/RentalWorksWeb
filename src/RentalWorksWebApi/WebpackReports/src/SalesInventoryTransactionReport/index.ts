@@ -12,10 +12,8 @@
 //export class SalesInventoryTransactionReportRequest {
 //    FromDate: Date;
 //    ToDate: Date;
-//    Sales: boolean;
-//    TransTypes: Array<any> = [];
+//    TransactionTypes: Array<any> = [];
 //    WarehouseId: string;
-//    //TypeId: string;
 //    InventoryTypeId: string;
 //    CategoryId: string;
 //    SubCategoryId: string;
