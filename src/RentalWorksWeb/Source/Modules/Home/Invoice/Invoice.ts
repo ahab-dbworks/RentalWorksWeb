@@ -7,14 +7,12 @@ class Invoice {
     apiurl: string = 'api/v1/invoice';
     caption: string = 'Invoice';
     ActiveView: string = 'ALL';
-    //DefaultPurchasePoType: string;
-    //DefaultPurchasePoTypeId: string;
 
     //----------------------------------------------------------------------------------------------
     getModuleScreen(filter?: any) {
         var self = this;
         var screen: any = {};
-        screen.$view = FwModule.getModuleControl(this.Module + 'Controller');
+        screen.$view = FwModule.getModuleControl(`${this.Module}Controller`);
         screen.viewModel = {};
         screen.properties = {};
         var $browse = this.openBrowse();
@@ -45,7 +43,6 @@ class Invoice {
         var $browse = FwBrowse.loadBrowseFromTemplate(this.Module);
         $browse = FwModule.openBrowse($browse);
 
-
         var warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
         self.ActiveView = 'WarehouseId=' + warehouse.warehouseid;
 
@@ -65,15 +62,6 @@ class Invoice {
         //FwBrowse.addLegend($browse, 'Multi-Warehouse', '#D6E180');
         //FwBrowse.addLegend($browse, 'Repair', '#5EAEAE');
         //FwBrowse.addLegend($browse, 'L&D', '#400040');
-
-
-        let department = JSON.parse(sessionStorage.getItem('department'));;
-        let location = JSON.parse(sessionStorage.getItem('location'));;
-
-        //FwAppData.apiMethod(true, 'GET', `api/v1/officelocation/${location.locationid}`, null, FwServices.defaultTimeout, function onSuccess(response) {
-        //    self.DefaultPurchasePoType = response.DefaultPurchasePoType;
-        //    self.DefaultPurchasePoTypeId = response.DefaultPurchasePoTypeId;
-        //}, null, null);
 
         return $browse;
     };
@@ -168,9 +156,8 @@ class Invoice {
     //----------------------------------------------------------------------------------------------
     openForm(mode, parentModuleInfo?: any) {
         var $form;
-        var self = this;
 
-        $form = jQuery(jQuery('#tmpl-modules-InvoiceForm').html());
+        $form = jQuery(jQuery(`#tmpl-modules-${this.Module}Form`).html());
         $form = FwModule.openForm($form, mode);
 
         FwFormField.disable($form.find('[data-datafield="SubRent"]'));
@@ -223,7 +210,9 @@ class Invoice {
 
             //FwFormField.disable($form.find('.frame'));
             //$form.find(".frame .add-on").children().hide();
-        };
+        } else {
+            FwFormField.disable($form.find('.ifnew'));
+        }
 
         //$form.find('[data-datafield="BillToAddressDifferentFromIssuedToAddress"] .fwformfield-value').on('change', function () {
         //    var $this = jQuery(this);
@@ -278,7 +267,7 @@ class Invoice {
     };
 
     //----------------------------------------------------------------------------------------------
-    loadForm(uniqueids) {
+    loadForm(uniqueids: any) {
         var $form;
         $form = this.openForm('EDIT');
         $form.find('div.fwformfield[data-datafield="InvoiceId"] input').val(uniqueids.InvoiceId);
@@ -627,7 +616,7 @@ class Invoice {
     };
 
     //----------------------------------------------------------------------------------------------
-    loadAudit($form) {
+    loadAudit($form: any): void {
         let uniqueid = FwFormField.getValueByDataField($form, 'InvoiceId');
         FwModule.loadAudit($form, uniqueid);
     };
