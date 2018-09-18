@@ -546,6 +546,22 @@ class Quote extends OrderBase{
         $allOrderItemGrid.find('.submenu-btn').filter('[data-securityid="007C4F21-7526-437C-AD1C-4BBB1030AABA"]').hide();
         $orderItemGridUsedSale.find('.submenu-btn').filter('[data-securityid="007C4F21-7526-437C-AD1C-4BBB1030AABA"]').hide();
 
+        if (FwFormField.getValueByDataField($form, 'HasRentalItem')) {
+            FwFormField.disable(FwFormField.getDataField($form, 'Rental'));
+        }
+        if (FwFormField.getValueByDataField($form, 'HasSalesItem')) {
+            FwFormField.disable(FwFormField.getDataField($form, 'Sales'));
+        }
+        if (FwFormField.getValueByDataField($form, 'HasMiscellaneousItem')) {
+            FwFormField.disable(FwFormField.getDataField($form, 'Miscellaneous'));
+        }
+        if (FwFormField.getValueByDataField($form, 'HasLaborItem')) {
+            FwFormField.disable(FwFormField.getDataField($form, 'Labor'));
+        }
+        if (FwFormField.getValueByDataField($form, 'HasRentalSaleItem')) {
+            FwFormField.disable(FwFormField.getDataField($form, 'RentalSale'));
+        }
+
         var rate = FwFormField.getValueByDataField($form, 'RateType');
         if (rate === '3WEEK') {
             $allOrderItemGrid.find('.3week').parent().show();
