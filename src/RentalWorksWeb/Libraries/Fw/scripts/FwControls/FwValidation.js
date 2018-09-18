@@ -410,7 +410,7 @@ class FwValidationClass {
             else {
                 $popupForm = jQuery(jQuery('#tmpl-modules-' + validationName + 'Form').html());
             }
-            $popupForm = FwModule.openForm($popupForm, 'NEW');
+            $popupForm = window[validationName + 'Controller'].openForm('NEW');
             $popupForm.find('.btnpeek').remove();
             $popupForm.css({ 'background-color': 'white', 'box-shadow': '0 25px 44px rgba(0, 0, 0, 0.30), 0 20px 15px rgba(0, 0, 0, 0.22)', 'width': '60vw', 'height': '60vh', 'overflow': 'scroll', 'position': 'relative' });
             $popupForm.data('afterSaveNewValidation', function () {
