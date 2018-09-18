@@ -135,6 +135,10 @@ class CheckIn {
         department = JSON.parse(sessionStorage.getItem('department'));
         errorSound = new Audio(this.errorSoundFileName);
         successSound = new Audio(this.successSoundFileName);
+
+        const $checkInQuantityItemsGridControl = $form.find('div[data-name="CheckInQuantityItemsGrid"]');
+        const allActiveOrders = $form.find('[data-datafield="AllOrdersForDeal"] input');
+
         //Default Department
         FwFormField.setValue($form, 'div[data-datafield="DepartmentId"]', department.departmentid, department.department);
         //Order selection
@@ -228,12 +232,18 @@ class CheckIn {
         $form.find('div.quantityitemstab').on('click', e => {
             //Disable clicking Quantity Items tab w/o a ContractId
             let contractId = FwFormField.getValueByDataField($form, 'ContractId');
+            let orderId = FwFormField.getValueByDataField($form, 'OrderId');
             if (contractId) {
-                let $checkInQuantityItemsGridControl = $form.find('div[data-name="CheckInQuantityItemsGrid"]');
                 FwBrowse.search($checkInQuantityItemsGridControl);
             } else {
                 e.stopPropagation();
                 FwNotification.renderNotification('WARNING', 'Select an Order, Deal, BarCode, or I-Code.')
+            }
+            if (orderId === '') {
+                if ($form.find('.optionlist').css('display') === 'none') {
+                    $form.find('.optionlist').toggle();
+                }
+                allActiveOrders.prop('checked', true);
             }
         });
         $form.find('div.orderstab').on('click', e => {
@@ -251,8 +261,7 @@ class CheckIn {
         });
 
         //AllOrdersForDeal Checkbox functionality
-        $form.find('[data-datafield="AllOrdersForDeal"] input').on('change', e => {
-            const $checkInQuantityItemsGridControl = $form.find('div[data-name="CheckInQuantityItemsGrid"]');
+        allActiveOrders.on('change', e => {
             FwBrowse.search($checkInQuantityItemsGridControl);
         });
 

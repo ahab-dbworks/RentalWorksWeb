@@ -510,19 +510,19 @@ class Order extends OrderBase {
         $orderItemGridMisc = $form.find('.miscgrid [data-name="OrderItemGrid"]');
         var $orderItemGridUsedSale;
         $orderItemGridUsedSale = $form.find('.usedsalegrid [data-name="OrderItemGrid"]');
-        if (!FwFormField.getValueByDataField($form, 'HasRentalItem')) {
+        if (FwFormField.getValueByDataField($form, 'HasRentalItem')) {
             FwFormField.disable(FwFormField.getDataField($form, 'Rental'));
         }
-        if (!FwFormField.getValueByDataField($form, 'HasSalesItem')) {
+        if (FwFormField.getValueByDataField($form, 'HasSalesItem')) {
             FwFormField.disable(FwFormField.getDataField($form, 'Sales'));
         }
-        if (!FwFormField.getValueByDataField($form, 'HasMiscellaneousItem')) {
+        if (FwFormField.getValueByDataField($form, 'HasMiscellaneousItem')) {
             FwFormField.disable(FwFormField.getDataField($form, 'Miscellaneous'));
         }
-        if (!FwFormField.getValueByDataField($form, 'HasLaborItem')) {
+        if (FwFormField.getValueByDataField($form, 'HasLaborItem')) {
             FwFormField.disable(FwFormField.getDataField($form, 'Labor'));
         }
-        if (!FwFormField.getValueByDataField($form, 'HasRentalSaleItem')) {
+        if (FwFormField.getValueByDataField($form, 'HasRentalSaleItem')) {
             FwFormField.disable(FwFormField.getDataField($form, 'RentalSale'));
         }
         var rate = FwFormField.getValueByDataField($form, 'RateType');
