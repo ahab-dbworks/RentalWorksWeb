@@ -16,11 +16,11 @@
     <thead>
       <tr>
         <th class="text">Invoice No.</th>
+        <th class="text">Order No.</th>
         <th class="text">Invoice Date</th>
+        <th class="text">Invoice Description</th>
         <th class="text">Billing Start Date</th>
         <th class="text">Billing End Date</th>
-        <th class="text">Invoice Description</th>
-        <th class="text">Order No.</th>
         <th class="text">Billing Cycle</th>
         <th class="number">Tax</th>
         <th class="number">Invoice Total</th>
@@ -43,11 +43,11 @@
         {{/ifEquals}}
         {{#ifEquals RowType "detail"}}
         <td class="text" data-value="{{InvoiceNumber}}"></td>
+        <td class="text" data-value="{{OrderNumber}}"></td>
         <td class="text" data-value="{{InvoiceDate}}"></td>
+        <td class="text" data-value="{{InvoiceDescription}}"></td>
         <td class="text" data-value="{{BillingStartDate}}"></td>
         <td class="text" data-value="{{BillingEndDate}}"></td>
-        <td class="text" data-value="{{InvoiceDescription}}"></td>
-        <td class="text" data-value="{{OrderNumber}}"></td>
         <td class="text" data-value="{{BillingCycle}}"></td>
         <td class="number" data-value="{{InvoiceTax}}"></td>
         <td class="number" data-value="{{InvoiceTotal}}"></td>
@@ -62,6 +62,10 @@
         {{/ifEquals}}
         {{#ifEquals RowType "Departmentfooter"}}
         <td colspan="8" style="font-weight:bold;text-align:right;padding-top:11px">{{Department}}&nbsp;</td>
+        <td class="total-row number" data-value="{{InvoiceTotal}}"></td>
+        {{/ifEquals}}
+        {{#ifEquals RowType "OfficeLocationfooter"}}
+        <td colspan="8" style="font-weight:bold;text-align:right;padding-top:11px">{{OfficeLocation}}&nbsp;</td>
         <td class="total-row number" data-value="{{InvoiceTotal}}"></td>
         {{/ifEquals}}
         {{#ifEquals RowType "grandtotal"}}
