@@ -22,7 +22,7 @@ class Repair {
             // Dashboard search
             if (typeof filter !== 'undefined') {
                 let datafields = filter.datafield.split('%20');
-                for (var i = 0; i < datafields.length; i++) {
+                for (let i = 0; i < datafields.length; i++) {
                     datafields[i] = datafields[i].charAt(0).toUpperCase() + datafields[i].substr(1);
                 }
                 filter.datafield = datafields.join('')
@@ -856,7 +856,7 @@ FwApplicationTree.clickEvents['{AFA36551-F49E-4FB9-84DD-A54A423CCFF3}'] = functi
                   
               };
         } else {
-            throw new Error("Please select a Repair Order to void.");
+            FwNotification.renderNotification('WARNING', 'Select a Repair Order to void.');
         }
     }
     catch (ex) {

@@ -867,7 +867,7 @@ FwApplicationTree.clickEvents['{78ACB73C-23DD-46F0-B179-0571BAD3A17D}'] = functi
                 }, $browse);
             };
         } else {
-            throw new Error("Please select a Quote to perform this action.");
+            FwNotification.renderNotification('WARNING', 'Select a Quote to perform this action.');
         }
     }
     catch (ex) {

@@ -187,7 +187,7 @@ FwApplicationTree.clickEvents['{51C78FB1-CD66-431F-A7BA-FFFB3BFDFD6C}'] = functi
             $browse.find('div.fwformfield[data-datafield="PickListId"] .fwformfield-text').val(pickListNumber);
         }
         else {
-            throw new Error("Please select a Pick List to print");
+            FwNotification.renderNotification('WARNING', 'Select a Picklist to print.');
         }
     }
     catch (ex) {

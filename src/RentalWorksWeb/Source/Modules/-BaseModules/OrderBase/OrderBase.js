@@ -1188,10 +1188,10 @@ class OrderBase {
         }
         else {
             if (module === 'Order') {
-                throw new Error("Please select an Order to perform this action.");
+                FwNotification.renderNotification('WARNING', 'Select an Order to perform this action.');
             }
             else if (module === 'Quote') {
-                throw new Error("Please select Quote to perform this action.");
+                FwNotification.renderNotification('WARNING', 'Select a Quote to perform this action.');
             }
         }
         function cancelOrder() {

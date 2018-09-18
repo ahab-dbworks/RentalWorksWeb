@@ -932,7 +932,7 @@ FwApplicationTree.clickEvents['{DAE6DC23-A2CA-4E36-8214-72351C4E1449}'] = functi
             ;
         }
         else {
-            throw new Error("Please select an Order to perform this action.");
+            FwNotification.renderNotification('WARNING', 'Select an Order to perform this action.');
         }
     }
     catch (ex) {
