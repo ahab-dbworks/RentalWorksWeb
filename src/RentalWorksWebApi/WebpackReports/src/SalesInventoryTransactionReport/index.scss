@@ -1,13 +1,7 @@
 ﻿/*Sales Inventory Transaction Report*/
 tbody {
-    tr[data-rowtype="detail"]:nth-child(even) {
+    tr:nth-child(odd) {
         background-color: #DCDCDC;
-    }
-
-    tr[data-rowtype="Agentheader"] {
-        td[data-value="0"]:after {
-            content: "";
-        }
     }
 
     td:after {
@@ -34,19 +28,4 @@ thead {
         padding: 5px;
         white-space: nowrap;
     }
-}
-
-.header-row {
-    font-weight: bold;
-    font-size: 12px;
-}
-
-.top-header-row:not(.lower) {
-    padding-top: 15px;
-}
-
-.total-row {
-    font-weight: bold;
-    border-top: 1.5px solid black;
-    padding-top: 10px;
 }
