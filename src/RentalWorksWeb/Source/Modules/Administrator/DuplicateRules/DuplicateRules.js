@@ -22,14 +22,14 @@ class DuplicateRules {
     }
     openBrowse() {
         var $browse;
-        $browse = jQuery(jQuery('#tmpl-modules-' + this.Module + 'Browse').html());
+        $browse = FwBrowse.loadBrowseFromTemplate(this.Module);
         $browse = FwModule.openBrowse($browse);
         FwBrowse.addLegend($browse, 'User Defined Rule', '#00FF00');
         return $browse;
     }
     openForm(mode) {
         var $form, $moduleSelect, node, mainModules, settingsModules, modules, allModules;
-        $form = jQuery(jQuery('#tmpl-modules-' + this.Module + 'Form').html());
+        $form = jQuery(jQuery(`#tmpl-modules-${this.Module}Form`).html());
         $form = FwModule.openForm($form, mode);
         if (mode === 'NEW') {
             FwFormField.enable($form.find('.ifnew'));

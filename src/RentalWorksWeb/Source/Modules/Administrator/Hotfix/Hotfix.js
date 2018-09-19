@@ -23,13 +23,19 @@ class Hotfix {
     }
     openBrowse() {
         var $browse;
-        $browse = jQuery(jQuery('#tmpl-modules-' + this.Module + 'Browse').html());
+        $browse = FwBrowse.loadBrowseFromTemplate(this.Module);
         $browse = FwModule.openBrowse($browse);
+        FwBrowse.setAfterRenderRowCallback($browse, function ($tr, dt, rowIndex) {
+            let descriptionField = $tr.find('.field[data-formdatafield="Description"]');
+            descriptionField.css({ 'width': '520px', 'overflow': 'hidden' });
+            descriptionField.parent().css({ 'width': '520px', 'overflow': 'hidden' });
+        });
         return $browse;
     }
+    ;
     openForm(mode) {
         var $form;
-        $form = jQuery(jQuery('#tmpl-modules-' + this.Module + 'Form').html());
+        $form = jQuery(jQuery(`#tmpl-modules-${this.Module}Form`).html());
         $form = FwModule.openForm($form, mode);
         if (mode === 'NEW') {
             FwFormField.enable($form.find('.ifnew'));
@@ -39,6 +45,7 @@ class Hotfix {
         }
         return $form;
     }
+    ;
     loadForm(uniqueids) {
         var $form;
         $form = this.openForm('EDIT');
@@ -46,16 +53,21 @@ class Hotfix {
         FwModule.loadForm(this.Module, $form);
         return $form;
     }
+    ;
     saveForm($form, parameters) {
         FwModule.saveForm(this.Module, $form, parameters);
     }
+    ;
     loadAudit($form) {
         var uniqueid;
         uniqueid = $form.find('div.fwformfield[data-datafield="HotfixId"] input').val();
         FwModule.loadAudit($form, uniqueid);
     }
+    ;
     afterLoad($form) {
     }
+    ;
 }
+;
 var HotfixController = new Hotfix();
 //# sourceMappingURL=Hotfix.js.map

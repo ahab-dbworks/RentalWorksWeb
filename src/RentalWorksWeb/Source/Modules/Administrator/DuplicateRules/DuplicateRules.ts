@@ -28,7 +28,7 @@ class DuplicateRules {
     openBrowse() {
         var $browse;
 
-        $browse = jQuery(jQuery('#tmpl-modules-' + this.Module + 'Browse').html());
+        $browse = FwBrowse.loadBrowseFromTemplate(this.Module);
         $browse = FwModule.openBrowse($browse);
 
         FwBrowse.addLegend($browse, 'User Defined Rule', '#00FF00');
@@ -45,7 +45,7 @@ class DuplicateRules {
             , modules
             , allModules;
 
-        $form = jQuery(jQuery('#tmpl-modules-' + this.Module + 'Form').html());
+        $form = jQuery(jQuery(`#tmpl-modules-${this.Module}Form`).html());
         $form = FwModule.openForm($form, mode);
 
         if (mode === 'NEW') {

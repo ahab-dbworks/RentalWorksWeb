@@ -29,16 +29,23 @@ class Hotfix {
     openBrowse() {
         var $browse;
 
-        $browse = jQuery(jQuery('#tmpl-modules-' + this.Module + 'Browse').html());
+        $browse = FwBrowse.loadBrowseFromTemplate(this.Module);
         $browse = FwModule.openBrowse($browse);
 
+        // Truncates unusually long description strings in browse
+        FwBrowse.setAfterRenderRowCallback($browse, function ($tr, dt, rowIndex) {
+            let descriptionField = $tr.find('.field[data-formdatafield="Description"]');
+            descriptionField.css({ 'width': '520px', 'overflow': 'hidden' });
+            descriptionField.parent().css({ 'width': '520px', 'overflow': 'hidden' });
+        });
+
         return $browse;
-    }
+    };
     //---------------------------------------------------------------------------------------------
     openForm(mode: string) {
         var $form;
 
-        $form = jQuery(jQuery('#tmpl-modules-' + this.Module + 'Form').html());
+        $form = jQuery(jQuery(`#tmpl-modules-${this.Module}Form`).html());
         $form = FwModule.openForm($form, mode);
 
 
@@ -49,7 +56,7 @@ class Hotfix {
         }
 
         return $form;
-    }
+    };
     //---------------------------------------------------------------------------------------------
     loadForm(uniqueids: any) {
         var $form;
@@ -59,22 +66,22 @@ class Hotfix {
         FwModule.loadForm(this.Module, $form);
 
         return $form;
-    }
+    };
     //---------------------------------------------------------------------------------------------
-    saveForm($form: any, parameters: any) {
+    saveForm($form: any, parameters: any): void {
         FwModule.saveForm(this.Module, $form, parameters);
-    }
+    };
     //---------------------------------------------------------------------------------------------
-    loadAudit($form: any) {
+    loadAudit($form: any):void {
         var uniqueid;
         uniqueid = $form.find('div.fwformfield[data-datafield="HotfixId"] input').val();
         FwModule.loadAudit($form, uniqueid);
-    }
+    };
     //---------------------------------------------------------------------------------------------
-    afterLoad($form: any) {
+    afterLoad($form: any):void {
 
-    }
-}
+    };
+};
 //---------------------------------------------------------------------------------------------
 var HotfixController = new Hotfix();
 
