@@ -260,7 +260,7 @@ class Invoice {
         //FwFormField.disable($form.find('[data-datafield="SalesTaxRate1"]'));
         //FwFormField.disable($form.find('[data-datafield="LaborTaxRate1"]'));
 
-        //this.events($form);
+        this.events($form);
         //this.activityCheckboxEvents($form, mode);
 
         return $form;
@@ -873,9 +873,27 @@ class Invoice {
             FwFormField.setValue($form, 'div[data-datafield="SalesTaxRate1"]', $tr.find('.field[data-browsedatafield="SalesTaxRate1"]').attr('data-originalvalue'));
             FwFormField.setValue($form, 'div[data-datafield="LaborTaxRate1"]', $tr.find('.field[data-browsedatafield="LaborTaxRate1"]').attr('data-originalvalue'));
         });
+        // Billing Date Validation
+        $form.find('.billing-date-validation').on('changeDate', event => {
+            this.checkBillingDateRange($form, event);
+        });
     };
     //----------------------------------------------------------------------------------------------
     afterSave($form) { };
+    //----------------------------------------------------------------------------------------------
+    checkBillingDateRange($form: any, event:any):void {
+        let parsedFromDate, parsedToDate;
+
+        parsedFromDate = Date.parse(FwFormField.getValueByDataField($form, 'BillingStartDate'));
+        parsedToDate = Date.parse(FwFormField.getValueByDataField($form, 'BillingEndDate'));
+
+        if (parsedToDate < parsedFromDate) {
+            $form.find('div[data-datafield="BillingEndDate"]').addClass('error');
+            FwNotification.renderNotification('WARNING', "Your chosen 'To Date' is before 'From Date'.");
+        } else {
+            $form.find('div[data-datafield="BillingEndDate"]').removeClass('error');
+        }
+    };
     //----------------------------------------------------------------------------------------------
     voidInvoice($form: any): void {
         var self = this;
