@@ -8,7 +8,6 @@ declare var FwReport: any;
 declare var FwServices: any;
 declare var FwSecurity: any;
 declare var FwLanguages: any;
-declare var FwSettings: any;
 declare var FwReports: any;
 declare var FwTabs: any;
 declare var RwLanguages: any;
