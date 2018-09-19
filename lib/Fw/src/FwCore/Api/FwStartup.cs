@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+using AutoMapper;
 using FwCore.Middleware;
 using FwCore.Security;
 using FwStandard.Models;
@@ -64,13 +64,14 @@ namespace FwCore.Api
                 {
                     var policy = new AuthorizationPolicyBuilder()
                         .RequireAuthenticatedUser()
+                        //.AddRequirements(new IAuthorizationRequirement[] { new FwAppManagerAuthorizationRequirement() })
                         .Build();
                     config.Filters.Add(new AuthorizeFilter(policy));
                 })
                 // don't use the lowerCamelCase formatter
                 .AddJsonOptions(options =>
                 {
-                    options.SerializerSettings.ContractResolver = new DefaultContractResolver();
+                    options.SerializerSettings.ContractResolver = new FwContractResolver();
                 })
             ;
 
@@ -87,7 +88,9 @@ namespace FwCore.Api
             services.AddAuthorization(options =>
             {
                 // setup the default authorization policy to require jwt bearer authentication for every controller method
-                options.DefaultPolicy = new AuthorizationPolicyBuilder(JwtBearerDefaults.AuthenticationScheme).RequireAuthenticatedUser().Build();
+                options.DefaultPolicy = new AuthorizationPolicyBuilder(JwtBearerDefaults.AuthenticationScheme)
+                    .RequireAuthenticatedUser()
+                    .Build();
 
                 // add an authorization policy for every controller method in the WebApi security tree
                 FwSecurityTreeNode nodeCurrentApplication = FwSecurityTree.Tree.FindById(FwSecurityTree.CurrentApplicationId);
@@ -107,6 +110,7 @@ namespace FwCore.Api
                 }
             });
             services.AddSingleton<IAuthorizationHandler, SecurityTreeAuthorizationHandler>();
+            //services.AddSingleton<IAuthorizationHandler, FwAppManagerAuthorizationHandler>();
 
             // Configure JwtIssuerOptions for dependency injection
             if (string.IsNullOrEmpty(ApplicationConfig.JwtIssuerOptions.SecretKey))
