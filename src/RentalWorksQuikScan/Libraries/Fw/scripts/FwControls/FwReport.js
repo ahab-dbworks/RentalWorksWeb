@@ -1,5 +1,5 @@
-class FwReportClass {
-    constructor() {
+var FwReportClass = (function () {
+    function FwReportClass() {
         this.ModuleOptions = {
             ReportOptions: {
                 HasExportHtml: true,
@@ -11,7 +11,7 @@ class FwReportClass {
             }
         };
     }
-    getFrontEnd(projectprefix, reportname, templateName) {
+    FwReportClass.prototype.getFrontEnd = function (projectprefix, reportname, templateName) {
         var html, $form, $actionView, templateHtml;
         templateHtml = jQuery('#' + templateName).html();
         if (typeof templateHtml === 'undefined')
@@ -31,9 +31,9 @@ class FwReportClass {
         });
         this.setExportTab($form);
         return $form;
-    }
+    };
     ;
-    setExportTab($form) {
+    FwReportClass.prototype.setExportTab = function ($form) {
         var html, $exporttabpagecontents, $exporttabpage;
         html = [];
         html.push('<div class="formpage">');
@@ -71,9 +71,9 @@ class FwReportClass {
             throw 'Missing tabpage with class "exporttabpage".';
         $exporttabpage.append($exporttabpagecontents);
         $form.find('.exporttab').hide();
-    }
+    };
     ;
-    getExportRequest($form) {
+    FwReportClass.prototype.getExportRequest = function ($form) {
         var request, template, fromdate, todate;
         request = {
             templates: {
@@ -88,9 +88,9 @@ class FwReportClass {
             request = $form.data('getexportrequest')(request);
         }
         return request;
-    }
+    };
     ;
-    getDownloadExcelRequest($form) {
+    FwReportClass.prototype.getDownloadExcelRequest = function ($form) {
         var request, template, fromdate, todate;
         request = {
             templates: {
@@ -102,9 +102,9 @@ class FwReportClass {
             request = $form.data('getexportrequest')(request);
         }
         return request;
-    }
+    };
     ;
-    load($form, reportOptions) {
+    FwReportClass.prototype.load = function ($form, reportOptions) {
         var stylesheetcodemirror, headercodemirror, bodycodemirror, footercodemirror, $fwcontrols, formid;
         formid = program.uniqueId(8);
         $fwcontrols = $form.find('.fwcontrol').addBack();
@@ -167,14 +167,14 @@ class FwReportClass {
                 FwFunc.showError(ex);
             }
         });
-    }
+    };
     ;
-    addReportMenu($form, reportOptions) {
+    FwReportClass.prototype.addReportMenu = function ($form, reportOptions) {
         var me = this;
-        let $menuObject = FwMenu.getMenuControl('default');
-        let timeout = 7200;
+        var $menuObject = FwMenu.getMenuControl('default');
+        var timeout = 7200;
         if ((typeof reportOptions.HasExportHtml === 'undefined') || (reportOptions.HasExportHtml === true)) {
-            let $btnPreview = FwMenu.addStandardBtn($menuObject, 'Preview');
+            var $btnPreview = FwMenu.addStandardBtn($menuObject, 'Preview');
             $btnPreview.on('click', function (event) {
                 var request, webserviceurl, timeout, $notification;
                 try {
@@ -207,7 +207,7 @@ class FwReportClass {
             });
         }
         if ((typeof reportOptions.HasExportPdf === 'undefined') || (reportOptions.HasExportPdf === true)) {
-            let $btnPrintPdf = FwMenu.addStandardBtn($menuObject, 'Print HTML');
+            var $btnPrintPdf = FwMenu.addStandardBtn($menuObject, 'Print HTML');
             $btnPrintPdf.on('click', function (event) {
                 var request, webserviceurl, timeout, $notification;
                 try {
@@ -247,7 +247,7 @@ class FwReportClass {
         }
         FwMenu.addVerticleSeparator($menuObject);
         if ((typeof reportOptions.HasExportPdf === 'undefined') || (reportOptions.HasExportPdf === true)) {
-            let $btnOpenPdf = FwMenu.addStandardBtn($menuObject, 'View PDF');
+            var $btnOpenPdf = FwMenu.addStandardBtn($menuObject, 'View PDF');
             $btnOpenPdf.on('click', function (event) {
                 var request, webserviceurl, $notification;
                 try {
@@ -258,15 +258,15 @@ class FwReportClass {
                         var win;
                         try {
                             win = window.open(response.downloadurl);
-                            let setWindowTitle = function (win) {
+                            var setWindowTitle_1 = function (win) {
                                 if (win.document) {
                                     win.document.title = "Report (PDF)";
                                 }
                                 else {
-                                    setTimeout(setWindowTitle, 10);
+                                    setTimeout(setWindowTitle_1, 10);
                                 }
                             };
-                            setWindowTitle(win);
+                            setWindowTitle_1(win);
                             if (!win)
                                 throw 'Please disable your popup blocker for this site!';
                         }
@@ -290,7 +290,7 @@ class FwReportClass {
             });
         }
         if ((typeof reportOptions.HasExportPdf === 'undefined') || (reportOptions.HasExportPdf === true)) {
-            let $btnDownloadPdf = FwMenu.addStandardBtn($menuObject, 'Download PDF');
+            var $btnDownloadPdf = FwMenu.addStandardBtn($menuObject, 'Download PDF');
             $btnDownloadPdf.on('click', function (event) {
                 var request, webserviceurl, $notification;
                 try {
@@ -328,7 +328,7 @@ class FwReportClass {
         }
         FwMenu.addVerticleSeparator($menuObject);
         if ((typeof reportOptions.HasEmailMePdf === 'undefined') || (reportOptions.HasEmailMePdf === true)) {
-            let $btnEmailMePdf = FwMenu.addStandardBtn($menuObject, 'E-mail (to me)');
+            var $btnEmailMePdf = FwMenu.addStandardBtn($menuObject, 'E-mail (to me)');
             $btnEmailMePdf.on('click', function (event) {
                 var request, webserviceurl, $notification;
                 try {
@@ -364,7 +364,7 @@ class FwReportClass {
             });
         }
         if ((typeof reportOptions.HasEmailPdf === 'undefined') || (reportOptions.HasEmailPdf === true)) {
-            let $btnEmailPdf = FwMenu.addStandardBtn($menuObject, 'E-mail');
+            var $btnEmailPdf = FwMenu.addStandardBtn($menuObject, 'E-mail');
             $btnEmailPdf.on('click', function (event) {
                 var requestGetFromEmail, requestSendPdfEmail, webserviceurl, $confirmation, $btnSend;
                 try {
@@ -407,20 +407,20 @@ class FwReportClass {
                                 }
                             });
                             $confirmation.find('.tousers').data('onchange', function ($selectedRows) {
-                                let emailArray = new Array();
-                                for (let i = 0; i < $selectedRows.length; i++) {
-                                    let $tr = $selectedRows[i];
-                                    let email = $tr.find('[data-cssclass="Email"]').text();
+                                var emailArray = new Array();
+                                for (var i = 0; i < $selectedRows.length; i++) {
+                                    var $tr = $selectedRows[i];
+                                    var email = $tr.find('[data-cssclass="Email"]').text();
                                     emailArray.push(email);
                                 }
                                 FwFormField.setValueByDataField($confirmation, 'to', emailArray.join('; '));
                                 FwFormField.setValueByDataField($confirmation, 'tousers', '', '');
                             });
                             $confirmation.find('.ccusers').data('onchange', function ($selectedRows) {
-                                let emailArray = new Array();
-                                for (let i = 0; i < $selectedRows.length; i++) {
-                                    let $tr = $selectedRows[i];
-                                    let email = $tr.find('[data-cssclass="Email"]').text();
+                                var emailArray = new Array();
+                                for (var i = 0; i < $selectedRows.length; i++) {
+                                    var $tr = $selectedRows[i];
+                                    var email = $tr.find('[data-cssclass="Email"]').text();
                                     emailArray.push(email);
                                 }
                                 FwFormField.setValueByDataField($confirmation, 'cc', emailArray.join('; '));
@@ -480,15 +480,15 @@ class FwReportClass {
         }
         FwControl.renderRuntimeControls($menuObject.find('.fwcontrol').addBack());
         $form.find('.fwform-menu').append($menuObject);
-    }
+    };
     ;
-    getData($form, request, responseFunc) {
+    FwReportClass.prototype.getData = function ($form, request, responseFunc) {
         var webserviceurl;
         webserviceurl = 'services.ashx?path=/reports/' + $form.attr('data-reportname') + '/GetData';
         FwAppData.jsonPost(true, webserviceurl, request, FwServices.defaultTimeout, responseFunc, null, $form);
-    }
+    };
     ;
-    getParameters($form) {
+    FwReportClass.prototype.getParameters = function ($form) {
         var isvalid, $fields, $field, parameters = null;
         isvalid = FwModule.validateForm($form);
         if (isvalid) {
@@ -505,33 +505,12 @@ class FwReportClass {
             throw 'Please fill in the required fields.';
         }
         return parameters;
-    }
+    };
     ;
-    getEmailTemplate() {
-        return `
-            <div style="width:540px;">
-              <div class="formrow">
-                <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                  <div data-datafield="from" data-control="FwFormField" data-type="text" class="fwcontrol fwformfield from" data-caption="From" data-enabled="true"></div>
-                </div>
-                <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                  <div data-datafield="tousers" data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield tousers" data-caption="To (Users)" data-validationname="PersonValidation" data-hasselectall="false" style="float:left;box-sizing:border-box;width:20%;"></div>
-                  <div data-datafield="to" data-control="FwFormField" data-type="text" class="fwcontrol fwformfield to" data-caption="To" data-enabled="true" style="float:left;box-sizing:border-box;width:80%;"></div>
-                </div>
-                <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                  <div data-datafield="ccusers" data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield ccusers" data-caption="CC (Users)" data-validationname="PersonValidation"  data-hasselectall="false" style="float:left;box-sizing:border-box;width:20%;"></div>
-                  <div data-datafield="cc" data-control="FwFormField" data-type="text" class="fwcontrol fwformfield cc" data-caption="CC" data-enabled="true" style="float:left;box-sizing:border-box;width:80%;"></div>
-                </div>
-                <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                  <div data-datafield="subject" data-control="FwFormField" data-type="text" class="fwcontrol fwformfield subject" data-caption="Subject" data-enabled="true"></div>
-                </div>
-                <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                  <div data-datafield="body" data-control="FwFormField" data-type="textarea" class="fwcontrol fwformfield message" data-caption="Message" data-enabled="true"></div>
-                </div>
-              </div>
-            </div>
-        `;
-    }
-}
+    FwReportClass.prototype.getEmailTemplate = function () {
+        return "\n            <div style=\"width:540px;\">\n              <div class=\"formrow\">\n                <div class=\"fwcontrol fwcontainer fwform-fieldrow\" data-control=\"FwContainer\" data-type=\"fieldrow\">\n                  <div data-datafield=\"from\" data-control=\"FwFormField\" data-type=\"text\" class=\"fwcontrol fwformfield from\" data-caption=\"From\" data-enabled=\"true\"></div>\n                </div>\n                <div class=\"fwcontrol fwcontainer fwform-fieldrow\" data-control=\"FwContainer\" data-type=\"fieldrow\">\n                  <div data-datafield=\"tousers\" data-control=\"FwFormField\" data-type=\"multiselectvalidation\" class=\"fwcontrol fwformfield tousers\" data-caption=\"To (Users)\" data-validationname=\"PersonValidation\" data-hasselectall=\"false\" style=\"float:left;box-sizing:border-box;width:20%;\"></div>\n                  <div data-datafield=\"to\" data-control=\"FwFormField\" data-type=\"text\" class=\"fwcontrol fwformfield to\" data-caption=\"To\" data-enabled=\"true\" style=\"float:left;box-sizing:border-box;width:80%;\"></div>\n                </div>\n                <div class=\"fwcontrol fwcontainer fwform-fieldrow\" data-control=\"FwContainer\" data-type=\"fieldrow\">\n                  <div data-datafield=\"ccusers\" data-control=\"FwFormField\" data-type=\"multiselectvalidation\" class=\"fwcontrol fwformfield ccusers\" data-caption=\"CC (Users)\" data-validationname=\"PersonValidation\"  data-hasselectall=\"false\" style=\"float:left;box-sizing:border-box;width:20%;\"></div>\n                  <div data-datafield=\"cc\" data-control=\"FwFormField\" data-type=\"text\" class=\"fwcontrol fwformfield cc\" data-caption=\"CC\" data-enabled=\"true\" style=\"float:left;box-sizing:border-box;width:80%;\"></div>\n                </div>\n                <div class=\"fwcontrol fwcontainer fwform-fieldrow\" data-control=\"FwContainer\" data-type=\"fieldrow\">\n                  <div data-datafield=\"subject\" data-control=\"FwFormField\" data-type=\"text\" class=\"fwcontrol fwformfield subject\" data-caption=\"Subject\" data-enabled=\"true\"></div>\n                </div>\n                <div class=\"fwcontrol fwcontainer fwform-fieldrow\" data-control=\"FwContainer\" data-type=\"fieldrow\">\n                  <div data-datafield=\"body\" data-control=\"FwFormField\" data-type=\"textarea\" class=\"fwcontrol fwformfield message\" data-caption=\"Message\" data-enabled=\"true\"></div>\n                </div>\n              </div>\n            </div>\n        ";
+    };
+    return FwReportClass;
+}());
 var FwReport = new FwReportClass();
 //# sourceMappingURL=FwReport.js.map

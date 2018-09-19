@@ -1,5 +1,7 @@
-class FwConfirmation {
-    static renderConfirmation(title, message) {
+var FwConfirmation = (function () {
+    function FwConfirmation() {
+    }
+    FwConfirmation.renderConfirmation = function (title, message) {
         var html, $control, maxZIndex, $body, $more;
         html = [];
         html.push('<div class="responsive fwconfirmation">');
@@ -25,8 +27,8 @@ class FwConfirmation {
             FwConfirmation.destroyConfirmation($control);
         });
         return $control;
-    }
-    static addButton($control, buttontext, hasDefaultEvent) {
+    };
+    FwConfirmation.addButton = function ($control, buttontext, hasDefaultEvent) {
         var html, $button, cssclass;
         cssclass = ((typeof hasDefaultEvent === 'boolean') && (!hasDefaultEvent)) ? '' : ' default';
         html = [];
@@ -40,16 +42,16 @@ class FwConfirmation {
             }
         });
         return $button;
-    }
-    static destroyConfirmation($control) {
+    };
+    FwConfirmation.destroyConfirmation = function ($control) {
         $control.remove();
-    }
-    static addControls($control, controlshtml) {
+    };
+    FwConfirmation.addControls = function ($control, controlshtml) {
         $control.find('.body').append('<div class="controls fwform">' + controlshtml + '</div>');
         FwControl.renderRuntimeControls($control.find('.fwcontrol'));
         $control.data('fields', $control.find('.fwformfield'));
-    }
-    static showMessage(title, message, hascancelbutton, autoclose, buttontext, onbuttonclick) {
+    };
+    FwConfirmation.showMessage = function (title, message, hascancelbutton, autoclose, buttontext, onbuttonclick) {
         var $confirmation, $btn, $btncancel;
         $confirmation = FwConfirmation.renderConfirmation(title, message);
         $btn = FwConfirmation.addButton($confirmation, buttontext, autoclose);
@@ -62,8 +64,8 @@ class FwConfirmation {
             $btn.focus();
         }, 100);
         return $confirmation;
-    }
-    static yesNo(title, message, onyes, onno) {
+    };
+    FwConfirmation.yesNo = function (title, message, onyes, onno) {
         var $confirmation, $btnyes, $btnno;
         $confirmation = FwConfirmation.renderConfirmation(title, message);
         $btnyes = FwConfirmation.addButton($confirmation, 'Yes', true);
@@ -75,6 +77,7 @@ class FwConfirmation {
         if (typeof onno === 'function') {
             $btnno.on('click', onno);
         }
-    }
-}
+    };
+    return FwConfirmation;
+}());
 //# sourceMappingURL=FwConfirmation.js.map
