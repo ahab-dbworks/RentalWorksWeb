@@ -1,5 +1,5 @@
 ﻿tbody {
-    tr[data-rowtype="detail"]:nth-child(even) {
+    tr[data-rowtype="detail"]:nth-child(odd) {
         background-color: #DCDCDC;
     }
 

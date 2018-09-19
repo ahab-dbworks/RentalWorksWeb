@@ -1,13 +1,7 @@
-﻿/*Project Manager Billing Report*/
+﻿/*Deal Outstanding Report*/
 tbody {
     tr[data-rowtype="detail"]:nth-child(odd) {
         background-color: #DCDCDC;
-    }
-
-    tr[data-rowtype="ProjectManagerheader"] {
-        td[data-value="0"]:after {
-            content: "";
-        }
     }
 
     td:after {
@@ -36,10 +30,13 @@ thead {
     }
 }
 
-.name-row {
+.header-row {
     font-weight: bold;
-    padding-top: 15px;
     font-size: 12px;
+}
+
+.top-header-row:not(.lower) {
+    padding-top: 15px;
 }
 
 .total-row {
