@@ -28,7 +28,7 @@ class Hotfix {
         FwBrowse.setAfterRenderRowCallback($browse, function ($tr, dt, rowIndex) {
             let descriptionField = $tr.find('.field[data-formdatafield="Description"]');
             descriptionField.css({ 'width': '520px', 'overflow': 'hidden' });
-            descriptionField.parent().css({ 'width': '520px', 'overflow': 'hidden' });
+            descriptionField.parent().css({ 'width': '520px' });
         });
         return $browse;
     }

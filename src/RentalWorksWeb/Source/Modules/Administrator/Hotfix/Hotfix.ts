@@ -35,8 +35,8 @@ class Hotfix {
         // Truncates unusually long description strings in browse
         FwBrowse.setAfterRenderRowCallback($browse, function ($tr, dt, rowIndex) {
             let descriptionField = $tr.find('.field[data-formdatafield="Description"]');
-            descriptionField.css({ 'width': '520px', 'overflow': 'hidden' });
-            descriptionField.parent().css({ 'width': '520px', 'overflow': 'hidden' });
+            descriptionField.css({ 'width': '520px','overflow': 'hidden' });
+            descriptionField.parent().css({ 'width': '520px' });
         });
 
         return $browse;
