@@ -18,6 +18,7 @@ namespace WebApi.Modules.Home.Invoice
         //------------------------------------------------------------------------------------ 
         [FwBusinessLogicField(isPrimaryKey: true)]
         public string InvoiceId { get { return invoice.InvoiceId; } set { invoice.InvoiceId = value; } }
+        [FwBusinessLogicField(isRecordTitle: true)]
         public string InvoiceNumber { get { return invoice.InvoiceNumber; } set { invoice.InvoiceNumber = value; } }
         public string InvoiceDate { get { return invoice.InvoiceDate; } set { invoice.InvoiceDate = value; } }
         [FwBusinessLogicField(isReadOnly: true)]
