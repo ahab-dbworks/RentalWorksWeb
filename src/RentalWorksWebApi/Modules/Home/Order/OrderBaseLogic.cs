@@ -631,6 +631,26 @@ namespace WebApi.Modules.Home.Order
         [FwBusinessLogicField(isReadOnly: true)]
         public string PeriodCombinedTotalIncludesTax { get; set; }
 
+        //------------------------------------------------------------------------------------ 
+
+        [FwBusinessLogicField(isReadOnly: true)]
+        public bool? DisableEditingRentalRate { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public bool? DisableEditingSalesRate { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public bool? DisableEditingMiscellaneousRate { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public bool? DisableEditingLaborRate { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public bool? DisableEditingUsedSaleRate { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public bool? DisableEditingFinalLdRate { get; set; }
+        //------------------------------------------------------------------------------------ 
+
+
+
+
+
         [FwBusinessLogicField(isReadOnly: true, isRecordTitle: true)]
         public string QuoteOrderTitle { get; set; }
         //------------------------------------------------------------------------------------

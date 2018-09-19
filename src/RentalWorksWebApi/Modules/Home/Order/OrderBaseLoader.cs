@@ -952,6 +952,26 @@ namespace WebApi.Modules.Home.Order
         //------------------------------------------------------------------------------------
 
 
+        [FwSqlDataField(column: "departmentdisableeditraterental", modeltype: FwDataTypes.Boolean)]
+        public bool? DisableEditingRentalRate { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "departmentdisableeditratesales", modeltype: FwDataTypes.Boolean)]
+        public bool? DisableEditingSalesRate { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "departmentdisableeditratemisc", modeltype: FwDataTypes.Boolean)]
+        public bool? DisableEditingMiscellaneousRate { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "departmentdisableeditratelabor", modeltype: FwDataTypes.Boolean)]
+        public bool? DisableEditingLaborRate { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "departmentdisableeditrateusedsale", modeltype: FwDataTypes.Boolean)]
+        public bool? DisableEditingUsedSaleRate { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "departmentdisableeditrateld", modeltype: FwDataTypes.Boolean)]
+        public bool? DisableEditingFinalLdRate { get; set; }
+        //------------------------------------------------------------------------------------ 
+
+
 
         [FwSqlDataField(column: "quoteordertitle", modeltype: FwDataTypes.Text)]
         public string QuoteOrderTitle { get; set; }
