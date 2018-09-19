@@ -5,8 +5,8 @@ import { Ajax } from '../../lib/FwReportLibrary/src/scripts/Ajax';
 import { HandlebarsHelpers } from '../../lib/FwReportLibrary/src/scripts/HandlebarsHelpers';
 import * as moment from 'moment';
 import './index.scss';
-var hbReport = require("./hbReport.hbs"); 
-var hbFooter = require("./hbFooter.hbs"); 
+var hbReport = require("./hbReport.hbs");
+var hbFooter = require("./hbFooter.hbs");
 
 
 export class CustomerRevenueByTypeReportRequest {
@@ -43,22 +43,24 @@ export class CustomerRevenueByTypeReport extends WebpackReport {
             request.OrderTypeId = parameters.OrderTypeId;
 
             HandlebarsHelpers.registerHelpers();
-            let customerReveneByType: any = {};
+            let customerRevenueByType: any = {};
             console.log('parameters: ', parameters);
 
             // get the Contract
             let contractPromise = Ajax.post<DataTable>(`${apiUrl}/api/v1/customerrevenuebytypereport/runreport`, authorizationHeader, request)
                 .then((response: DataTable) => {
-                    customerReveneByType = DataTable.toObjectList(response); // converts res to javascript obj
-                    console.log('customerReveneByType: ', customerReveneByType); // will help in building the handlebars
+                    customerRevenueByType = DataTable.toObjectList(response); // converts res to javascript obj
+                    console.log('customerRevenueByType: ', customerRevenueByType); // will help in building the handlebars
 
-                    customerReveneByType.PrintTime = moment().format('YYYY-MM-DD h:mm:ss A');
-                    customerReveneByType.ContractTime = moment(customerReveneByType.ContractTime, 'h:mm a').format('h:mm a');
-                    this.renderFooterHtml(customerReveneByType);
+                    customerRevenueByType.FromDate = parameters.FromDate;
+                    customerRevenueByType.ToDate = parameters.ToDate;
+                    customerRevenueByType.PrintTime = moment().format('YYYY-MM-DD h:mm:ss A');
+                    customerRevenueByType.ContractTime = moment(customerRevenueByType.ContractTime, 'h:mm a').format('h:mm a');
+                    this.renderFooterHtml(customerRevenueByType);
                     if (this.action === 'Preview' || this.action === 'PrintHtml') {
                         document.getElementById('pageFooter').innerHTML = this.footerHtml;
                     }
-                    document.getElementById('pageBody').innerHTML = hbReport(customerReveneByType);
+                    document.getElementById('pageBody').innerHTML = hbReport(customerRevenueByType);
                     this.onRenderReportCompleted();
                 })
                 .catch((ex) => {
@@ -69,7 +71,7 @@ export class CustomerRevenueByTypeReport extends WebpackReport {
         }
     }
 
-    renderFooterHtml(model: customerReveneByType) : string {
+    renderFooterHtml(model: customerRevenueByType): string {
         this.footerHtml = hbFooter(model);
         return this.footerHtml;
     }
@@ -77,7 +79,7 @@ export class CustomerRevenueByTypeReport extends WebpackReport {
 
 (<any>window).report = new CustomerRevenueByTypeReport();
 
-class customerReveneByType {
+class customerRevenueByType {
     _Custom = new Array<CustomField>();
     InvoiceId = '';
     InvoiceNumber = '';
@@ -109,7 +111,7 @@ class customerReveneByType {
     NonBillable = false;
 }
 
-class customerReveneByTypeItemRequest {
+class customerRevenueByTypeItemRequest {
     "miscfields" = {};
     "module" = '';
     "options" = {};
@@ -131,7 +133,7 @@ class customerReveneByTypeItemRequest {
     };
 }
 
-class customerReveneByTypeItem {
+class customerRevenueByTypeItem {
     "Agent": string;
     "ICodeColor": string;
     "Description": string;
