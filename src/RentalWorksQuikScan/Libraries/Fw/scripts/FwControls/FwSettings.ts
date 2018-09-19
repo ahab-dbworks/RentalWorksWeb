@@ -617,11 +617,15 @@ class FwSettingsClass {
 
                     for (var key in recordData) {
                         for (var i = 0; i < filter.length; i++) {
+                            var highlightField = $form.find('[data-datafield="' + key + '"]');
+                            var hightlightFieldTabId = highlightField.closest('.tabpage').attr('data-tabid');
                             if (filter[i] === key) {
                                 if ($form.find('[data-datafield="' + key + '"]').attr('data-type') === 'checkbox') {
                                     $form.find('[data-datafield="' + key + '"] label').addClass('highlighted');
                                 } else {
-                                    $form.find('[data-datafield="' + key + '"]').find('.fwformfield-caption').addClass('highlighted');
+                                    highlightField.find('.fwformfield-caption').addClass('highlighted');
+                                    highlightField.parents('.fwtabs .fwcontrol').find('#' + hightlightFieldTabId).addClass('highlighted');
+                                    
                                 }
                             }
                         };

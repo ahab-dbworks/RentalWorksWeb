@@ -29,6 +29,7 @@ html.theme-material .fwtabs[data-version="2"] > .tabs .tab .border {flex:0 0 6px
 html.theme-material .fwtabs[data-version="2"] > .tabs .tab.active {background-color:#ffffff;box-shadow: none;}
 html.theme-material .fwtabs[data-version="2"] > .tabs .tab.active .border {background-color:#2196f3;}
 html.theme-material .fwtabs[data-version="2"] > .tabs .tab.error {border: 1px solid #f44336;background-color: #FFEBEE;}
+html.theme-material .fwtabs[data-version="2"] > .tabs .tab.highlighted {background-color: yellow;}
 html.theme-material .fwtabs[data-version="2"] > .tabs .tab .caption {padding:10px 6px;}
 html.theme-material .fwtabs[data-version="2"] > .tabs .tab .modified {flex:1 0 auto;}
 html.theme-material .fwtabs[data-version="2"] > .tabs .tab .delete {padding-top: 8px;}
