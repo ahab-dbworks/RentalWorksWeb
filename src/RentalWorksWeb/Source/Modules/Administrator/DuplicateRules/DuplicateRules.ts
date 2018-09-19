@@ -76,7 +76,7 @@ class DuplicateRules {
         let gridModules = FwApplicationTree.getChildrenByType(gridNode, 'Grid');
 
         for (let i = 0; i < gridModules.length; i++) {
-            let moduleNav = gridModules[i].properties.controller.slice(0, -10)
+            let moduleNav = gridModules[i].properties.controller.slice(0, -14)
                 , moduleCaption = gridModules[i].properties.caption
                 , moduleController = gridModules[i].properties.controller;
             if (typeof window[moduleController] !== 'undefined') {

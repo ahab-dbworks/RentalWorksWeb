@@ -55,7 +55,7 @@ class DuplicateRules {
         const gridNode = FwApplicationTree.getNodeById(FwApplicationTree.tree, '43765919-4291-49DD-BE76-F69AA12B13E8');
         let gridModules = FwApplicationTree.getChildrenByType(gridNode, 'Grid');
         for (let i = 0; i < gridModules.length; i++) {
-            let moduleNav = gridModules[i].properties.controller.slice(0, -10), moduleCaption = gridModules[i].properties.caption, moduleController = gridModules[i].properties.controller;
+            let moduleNav = gridModules[i].properties.controller.slice(0, -14), moduleCaption = gridModules[i].properties.caption, moduleController = gridModules[i].properties.controller;
             if (typeof window[moduleController] !== 'undefined') {
                 if (window[moduleController].hasOwnProperty('apiurl')) {
                     let moduleUrl = window[moduleController].apiurl;
