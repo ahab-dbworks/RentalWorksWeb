@@ -42,7 +42,7 @@ class Project {
     openBrowse() {
         var $browse;
 
-        $browse = jQuery(jQuery('#tmpl-modules-' + this.Module + 'Browse').html());
+        $browse = FwBrowse.loadBrowseFromTemplate(this.Module);
         $browse = FwModule.openBrowse($browse);
 
         return $browse;

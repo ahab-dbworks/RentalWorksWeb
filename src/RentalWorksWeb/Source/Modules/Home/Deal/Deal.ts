@@ -37,7 +37,7 @@ class Deal {
     }
 
     openBrowse() {
-        //var $browse = jQuery(jQuery('#tmpl-modules-' + this.Module + 'Browse').html());
+        //var $browse = FwBrowse.loadBrowseFromTemplate(this.Module);
         let $browse = jQuery(this.getBrowseTemplate());
         $browse = FwModule.openBrowse($browse);
 

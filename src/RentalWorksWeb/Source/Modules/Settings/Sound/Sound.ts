@@ -30,7 +30,7 @@ class Sound {
     openBrowse() {
         var $browse;
 
-        $browse = jQuery(jQuery('#tmpl-modules-' + this.Module + 'Browse').html());
+        $browse = FwBrowse.loadBrowseFromTemplate(this.Module);
         $browse = FwModule.openBrowse($browse);
 
          FwBrowse.addLegend($browse, 'User Defined Sound', '#00FF00');

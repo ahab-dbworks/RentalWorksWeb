@@ -29,7 +29,7 @@ class Contract {
     openBrowse = () => {
         let $browse;
 
-        $browse = jQuery(jQuery('#tmpl-modules-' + this.Module + 'Browse').html());
+        $browse = FwBrowse.loadBrowseFromTemplate(this.Module);
         $browse = FwModule.openBrowse($browse);
 
         const location = JSON.parse(sessionStorage.getItem('location'));

@@ -262,7 +262,7 @@ declare var FwBrowse: any;
         openBrowse() {{
             var $browse;
 
-            $browse = jQuery(jQuery('#tmpl-modules-' + this.Module + 'Browse').html());
+            $browse = FwBrowse.loadBrowseFromTemplate(this.Module);
             $browse = FwModule.openBrowse($browse);
             FwBrowse.init($browse);
 
