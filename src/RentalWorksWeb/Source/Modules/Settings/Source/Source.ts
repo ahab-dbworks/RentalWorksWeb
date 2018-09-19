@@ -41,6 +41,9 @@
     openForm(mode: string) {
         var $form, $sourcetype, setFormProperties;
 
+        $form = FwModule.loadFormFromTemplate(this.Module);
+        $form = FwModule.openForm($form, mode);
+
         setFormProperties = function($form: any) {
             var $cbUseProxy, $txtProxy, $txtProxyPort, $txtProxyUsername, $txtProxyPassword, $cbArchiveFile, $txtArchivePath;
 
@@ -71,8 +74,6 @@
             }
         };
 
-        $form = jQuery(jQuery('#tmpl-modules-SourceForm').html());
-        $form = FwModule.openForm($form, mode);
 
         $sourcetype = $form.find('div[data-datafield="SourceType"]');
         FwFormField.loadItems($sourcetype, [

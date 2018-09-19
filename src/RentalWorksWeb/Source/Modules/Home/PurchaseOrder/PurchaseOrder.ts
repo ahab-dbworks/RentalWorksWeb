@@ -162,10 +162,9 @@ class PurchaseOrder {
 
     //----------------------------------------------------------------------------------------------
     openForm(mode, parentModuleInfo?: any) {
-        var $form, $submodulePickListBrowse, $submoduleContractBrowse;
-        var self = this;
+        var $form;
 
-        $form = jQuery(jQuery('#tmpl-modules-PurchaseOrderForm').html());
+        $form = FwModule.loadFormFromTemplate(this.Module);
         $form = FwModule.openForm($form, mode);
 
         FwFormField.disable($form.find('[data-datafield="SubRent"]'));

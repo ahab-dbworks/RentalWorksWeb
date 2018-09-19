@@ -38,7 +38,7 @@ class StagingCheckout {
     openForm(mode: string, parentmoduleinfo?: any) {
         var $form;
 
-        $form = jQuery(jQuery('#tmpl-modules-StagingCheckoutForm').html());
+        $form = FwModule.loadFormFromTemplate(this.Module);
         $form = FwModule.openForm($form, mode);
 
         let warehouse = JSON.parse(sessionStorage.getItem('warehouse'));

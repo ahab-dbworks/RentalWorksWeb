@@ -43,7 +43,7 @@ class CustomFields {
         var $form
             , $moduleSelect;
 
-        $form = jQuery(jQuery('#tmpl-modules-' + this.Module + 'Form').html());
+        $form = FwModule.loadFormFromTemplate(this.Module);
         $form = FwModule.openForm($form, mode);
         
         $form.find('div[data-datafield="ShowInBrowse"] input').on('change', function () {

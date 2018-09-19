@@ -30,7 +30,7 @@ class SubWorksheet {
         let $form, me = this, worksheetRequest, createNew, modifyExisting, newPo, existingPo;
         this.OrderId = parentmoduleinfo.OrderId;
 
-        $form = jQuery(jQuery('#tmpl-modules-SubWorksheetForm').html());
+        $form = FwModule.loadFormFromTemplate(this.Module);
         $form = FwModule.openForm($form, mode);
 
         $form.off('change keyup', '.fwformfield[data-isuniqueid!="true"][data-enabled="true"][data-datafield!=""]');

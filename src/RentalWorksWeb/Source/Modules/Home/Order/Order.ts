@@ -163,7 +163,7 @@ class Order extends OrderBase {
         var $form, $submodulePickListBrowse, $submoduleContractBrowse;
         var self = this;
 
-        $form = jQuery(jQuery('#tmpl-modules-OrderForm').html());
+        $form = FwModule.loadFormFromTemplate(this.Module);
         $form = FwModule.openForm($form, mode);
 
         $submodulePickListBrowse = this.openPickListBrowse($form);

@@ -32,7 +32,7 @@ class Exchange {
     openForm(mode: string) {
         let $form, department;
 
-        $form = jQuery(jQuery('#tmpl-modules-' + this.Module + 'Form').html());
+        $form = FwModule.loadFormFromTemplate(this.Module);
         $form = FwModule.openForm($form, mode);
         department = JSON.parse(sessionStorage.getItem('department'));
 

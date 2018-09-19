@@ -28,7 +28,7 @@ class Control {
     }
     openForm(mode) {
         var $form;
-        $form = jQuery(jQuery('#tmpl-modules-' + this.Module + 'Form').html());
+        $form = FwModule.loadFormFromTemplate(this.Module);
         $form = FwModule.openForm($form, mode);
         if (mode === 'NEW') {
             FwFormField.enable($form.find('.ifnew'));

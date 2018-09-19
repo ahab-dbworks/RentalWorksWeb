@@ -531,7 +531,7 @@ class Deal {
     openForm(mode: string, parentmoduleinfo?: any) {
         var $submoduleQuoteBrowse, $submoduleOrderBrowse;
 
-        //var $form = jQuery(jQuery('#tmpl-modules-' + this.Module + 'Form').html());
+        //var $form = FwModule.loadFormFromTemplate(this.Module);
         let $form = jQuery(this.getFormTemplate());
         $form = FwModule.openForm($form, mode);
 

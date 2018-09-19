@@ -27,7 +27,7 @@ class CheckIn {
     openForm(mode: string, parentmoduleinfo?) {
         var $form;
 
-        $form = jQuery(jQuery('#tmpl-modules-CheckInForm').html());
+        $form = FwModule.loadFormFromTemplate(this.Module);
         $form = FwModule.openForm($form, mode);
 
         $form.off('change keyup', '.fwformfield[data-isuniqueid!="true"][data-enabled="true"][data-datafield!=""]');

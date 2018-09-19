@@ -78,7 +78,7 @@ class PartsCategory {
     openForm(mode: string) {
         var $form;
 
-        $form = jQuery(jQuery('#tmpl-modules-' + this.Module + 'Form').html());
+        $form = FwModule.loadFormFromTemplate(this.Module);
         $form = FwModule.openForm($form, mode);
 
         this.events($form);

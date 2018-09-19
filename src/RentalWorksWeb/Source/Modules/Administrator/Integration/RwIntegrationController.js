@@ -25,7 +25,7 @@ RwIntegrationController.getModuleScreen = function(viewModel, properties) {
 RwIntegrationController.openForm = function(mode) {
     var $form, $browsedefaultrows, $applicationtheme;
 
-    $form = jQuery(jQuery('#tmpl-modules-IntegrationForm').html());
+    $form = FwModule.loadFormFromTemplate(this.Module);
     $form = FwModule.openForm($form, mode);
 
     return $form;

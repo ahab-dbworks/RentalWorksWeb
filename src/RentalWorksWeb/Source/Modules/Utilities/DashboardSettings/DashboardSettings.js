@@ -21,7 +21,7 @@ class DashboardSettings {
         var $form;
         var widgets = [];
         var userId = JSON.parse(sessionStorage.getItem('userid'));
-        $form = jQuery(jQuery('#tmpl-modules-' + this.Module + 'Form').html());
+        $form = FwModule.loadFormFromTemplate(this.Module);
         $form = FwModule.openForm($form, mode);
         $form.find('div.fwformfield[data-datafield="UserId"] input').val(userId.webusersid);
         FwModule.loadForm(this.Module, $form);

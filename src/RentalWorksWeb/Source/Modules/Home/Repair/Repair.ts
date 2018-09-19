@@ -172,7 +172,7 @@ class Repair {
   //----------------------------------------------------------------------------------------------
   openForm = (mode: string) => {
       let $form;
-      $form = jQuery(jQuery('#tmpl-modules-' + this.Module + 'Form').html());
+      $form = FwModule.loadFormFromTemplate(this.Module);
       $form = FwModule.openForm($form, mode);
 
       $form.find('.warehouseid').hide();

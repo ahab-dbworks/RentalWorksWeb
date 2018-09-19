@@ -41,7 +41,7 @@ class Sound {
     openForm(mode: string) {
         var $form, $moduleSelect;
 
-        $form = jQuery(jQuery('#tmpl-modules-' + this.Module + 'Form').html());
+        $form = FwModule.loadFormFromTemplate(this.Module);
         $form = FwModule.openForm($form, mode);
 
         if ($form.find('div[data-datafield="SystemSound"]').attr('data-originalvalue') === "true") {

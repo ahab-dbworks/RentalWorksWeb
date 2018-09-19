@@ -39,13 +39,12 @@ class RwMiscRate {
     openForm(mode: string) {
         var $form;
 
-        $form = jQuery(jQuery('#tmpl-modules-' + this.Module + 'Form').html());
+        $form = FwModule.loadFormFromTemplate(this.Module);
+        $form = FwModule.openForm($form, mode);
 
         if (mode === 'NEW') {
             $form.find('.ifnew').attr('data-enabled', 'true')
         }
-
-        $form = FwModule.openForm($form, mode);
 
         $form.find('[data-datafield="OverrideProfitAndLossCategory"] .fwformfield-value').on('change', function () {
             var $this = jQuery(this);

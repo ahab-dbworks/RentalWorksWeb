@@ -41,7 +41,7 @@ class OrderType {
     openForm(mode: string) {
         var $form;
 
-        $form = jQuery(jQuery('#tmpl-modules-' + this.Module + 'Form').html());
+        $form = FwModule.loadFormFromTemplate(this.Module);
         $form = FwModule.openForm($form, mode);
 
         $form.find('[data-datafield="QuikPayDiscount"] .fwformfield-value').on('change', function () {
