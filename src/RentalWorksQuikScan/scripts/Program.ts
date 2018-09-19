@@ -1,4 +1,5 @@
 var program: Program;
+var application: Program;
 //---------------------------------------------------------------------------------
 class Program extends FwApplication {
     activeTextBox:      string;
@@ -480,4 +481,5 @@ class Program extends FwApplication {
 //---------------------------------------------------------------------------------
 jQuery(function () {
     program = new Program();
+    application = program;
 });

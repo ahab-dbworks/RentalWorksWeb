@@ -12,6 +12,7 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 var program;
+var application;
 var Program = (function (_super) {
     __extends(Program, _super);
     function Program() {
@@ -442,5 +443,6 @@ var Program = (function (_super) {
 }(FwApplication));
 jQuery(function () {
     program = new Program();
+    application = program;
 });
 //# sourceMappingURL=Program.js.map
