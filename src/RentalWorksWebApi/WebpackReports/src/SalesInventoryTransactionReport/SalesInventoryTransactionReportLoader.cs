@@ -61,18 +61,18 @@ namespace WebApi.Modules.Reports.SalesInventoryTransactionReport
         public string TransactionNumber { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "qtyordered", modeltype: FwDataTypes.Decimal)]
-        public decimal? QuantityOrdered { get; set; }
+        public decimal? Quantity { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "cost ", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "cost ", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public decimal? UnitCost { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "costextended", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "costextended", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public decimal? CostExtended { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "price", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "price", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public decimal? UnitPrice { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "priceextended", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "priceextended", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public decimal? PriceExtended { get; set; }
         //------------------------------------------------------------------------------------ 
         public async Task<FwJsonDataTable> RunReportAsync(SalesInventoryTransactionReportRequest request)

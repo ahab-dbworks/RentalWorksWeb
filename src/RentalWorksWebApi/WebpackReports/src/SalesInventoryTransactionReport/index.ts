@@ -33,6 +33,7 @@ export class SalesInventoryTransactionReport extends WebpackReport {
             request.TransactionTypes = parameters.TransactionTypes;
             request.WarehouseId = parameters.WarehouseId;
             request.InventoryTypeId = parameters.InventoryTypeId;
+            request.CategoryId = parameters.CategoryId;
             request.SubCategoryId = parameters.SubCategoryId;
             request.InventoryId = parameters.InventoryId;
 
