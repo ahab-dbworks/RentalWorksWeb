@@ -2,7 +2,8 @@ const util = require('util');
 var spawn = require('child-process-promise').spawn;
 const rmfr = require('rmfr');
 const WebpackReportsCompiler = require('./node-WebpackReportsCompiler');
-const UNSUPPORTED_CONFIGURATION = 'Unsupported configuration.'
+const UNSUPPORTED_CONFIGURATION = 'Unsupported configuration.';
+const path = require('path');
 
 class WebApiCompiler {
     static get TARGET_ALL() { return 'all'; };
@@ -112,6 +113,22 @@ class WebApiCompiler {
         console.log(`dotnet run --configuration ${this.dotnetConfiguration} --launch-profile WebApi`);
         console.log('//------------------------------------------------------------------------------------');
         await spawn('dotnet', ['run', '--configuration', this.dotnetConfiguration, '--launch-profile', 'WebApi'], { stdio: 'inherit' });
+    }
+    //------------------------------------------------------------------------------------
+    async build_securitytree() {
+        console.log('//------------------------------------------------------------------------------------');
+        console.log('Building security tree...');
+        console.log(`dotnet run --outputfile ../RentalWorksWebApi/ApplicationManager/WebApiApp.Json`);
+        console.log('//------------------------------------------------------------------------------------');
+        let pathSecurityTreeProject = path.resolve(__dirname, '../SecurityTreeBuilder/').replace(/\\/g, '/');
+        let pathOutputFile = path.resolve(__dirname, '../RentalWorksWebApi/ApplicationManager/WebApiApp.Json').replace(/\\/g, '/');
+        console.log('pathSecurityTreeProject:', pathSecurityTreeProject);
+        console.log('pathOutputFile:', pathOutputFile);
+        await spawn('dotnet', ['run', '--outputfile', pathOutputFile], {
+            cwd: pathSecurityTreeProject,
+            stdio: 'inherit'
+        });
+
     }
     //------------------------------------------------------------------------------------
     async build() {

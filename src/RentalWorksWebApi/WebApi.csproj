@@ -52,8 +52,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Remove="Security\ApplicationSecurity.cs" />
-    <Compile Remove="Security\SecurityAttributes.cs" />
+    <Compile Remove="ApplicationManager\ApplicationSecurity.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -62,7 +61,6 @@
 
   <ItemGroup>
     <Folder Include="Modules\Administrator\Designer\Services\" />
-    <Folder Include="Security\" />
     <Folder Include="wwwroot\temp\downloads\" />
     <Folder Include="wwwroot\Reports\" />
   </ItemGroup>

@@ -34,7 +34,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrakItWorksWeb", "src\TrakI
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RwQBO", "src\RwQBO\RwQBO.csproj", "{5A1B32D5-4C84-456A-9D28-A1D3696BC594}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SecurityTreeBuilder", "SecurityTreeBuilder\SecurityTreeBuilder.csproj", "{8323F78C-1359-4DC1-831C-4C8B7B25F916}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SecurityTreeBuilder", "src\SecurityTreeBuilder\SecurityTreeBuilder.csproj", "{8323F78C-1359-4DC1-831C-4C8B7B25F916}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
