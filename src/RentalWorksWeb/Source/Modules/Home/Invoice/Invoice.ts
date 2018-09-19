@@ -169,44 +169,23 @@ class Invoice {
         if (mode === 'NEW') {
             $form.find('.ifnew').attr('data-enabled', 'true');
 
-            //const today = FwFunc.getDate();
-            //const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
-            //const office = JSON.parse(sessionStorage.getItem('location'));
-            //const department = JSON.parse(sessionStorage.getItem('department'));
-            //const usersid = sessionStorage.getItem('usersid');  // J. Pace 7/09/18  C4E0E7F6-3B1C-4037-A50C-9825EDB47F44
-            //const name = sessionStorage.getItem('name');
+            const today = FwFunc.getDate();
+            const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
+            const office = JSON.parse(sessionStorage.getItem('location'));
+            const department = JSON.parse(sessionStorage.getItem('department'));
+            const usersid = sessionStorage.getItem('usersid');  // J. Pace 7/09/18  C4E0E7F6-3B1C-4037-A50C-9825EDB47F44
+            const name = sessionStorage.getItem('name');
 
-            //$form.find('div[data-datafield="Rental"] input').prop('checked', true);
-            //$form.find('div[data-datafield="Sales"] input').prop('checked', true);
-            //$form.find('div[data-datafield="Parts"] input').prop('checked', true);
-            //FwFormField.setValue($form, 'div[data-datafield="ProjectManagerId"]', usersid, name);
-            //FwFormField.setValue($form, 'div[data-datafield="AgentId"]', usersid, name);
-            //$form.find('div[data-datafield="Labor"] input').prop('checked', true);
-            //FwFormField.setValueByDataField($form, 'PurchaseOrderDate', today);
+            FwFormField.setValue($form, 'div[data-datafield="ProjectManagerId"]', usersid, name);
+            FwFormField.setValue($form, 'div[data-datafield="AgentId"]', usersid, name);
+            FwFormField.setValue($form, 'div[data-datafield="SalesRepresentativeId"]', usersid, name);
 
-            //FwFormField.setValue($form, 'div[data-datafield="DepartmentId"]', department.departmentid, department.department);
+            FwFormField.setValueByDataField($form, 'BillingStartDate', today);
+            FwFormField.setValueByDataField($form, 'InvoiceDate', today);
+            FwFormField.setValue($form, 'div[data-datafield="DepartmentId"]', department.departmentid, department.department);
             //FwFormField.setValue($form, 'div[data-datafield="OfficeLocationId"]', office.locationid, office.location);
             //FwFormField.setValue($form, 'div[data-datafield="WarehouseId"]', warehouse.warehouseid, warehouse.warehouse);
             //FwFormField.setValue($form, 'div[data-datafield="PoTypeId"]', this.DefaultPurchasePoTypeId, this.DefaultPurchasePoType);
-
-            //FwFormField.setValueByDataField($form, 'EstimatedStartDate', today);
-            //FwFormField.setValueByDataField($form, 'EstimatedStopDate', today);
-            //FwFormField.setValueByDataField($form, 'BillingWeeks', '0');
-            //FwFormField.setValueByDataField($form, 'BillingMonths', '0');
-
-            //$form.find('div[data-datafield="PickTime"]').attr('data-required', false);
-            //$form.find('div[data-datafield="EstimatedStartTime"]').attr('data-required', false);
-            //$form.find('div[data-datafield="EstimatedStopTime"]').attr('data-required', false);
-
-
-            //$form.find('div[data-datafield="PendingPo"] input').prop('checked', true);
-            //$form.find('div[data-datafield="Rental"] input').prop('checked', true);
-            //$form.find('div[data-datafield="Sales"] input').prop('checked', true);
-            //$form.find('div[data-datafield="Miscellaneous"] input').prop('checked', true);
-            //$form.find('div[data-datafield="Labor"] input').prop('checked', true);
-            //FwFormField.disable($form.find('[data-datafield="PoNumber"]'));
-            //FwFormField.disable($form.find('[data-datafield="PoAmount"]'));
-
 
             //FwFormField.disable($form.find('.frame'));
             //$form.find(".frame .add-on").children().hide();
