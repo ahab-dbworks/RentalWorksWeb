@@ -881,7 +881,7 @@ class Invoice {
     //----------------------------------------------------------------------------------------------
     afterSave($form) { };
     //----------------------------------------------------------------------------------------------
-    checkBillingDateRange($form: any, event:any):void {
+    checkBillingDateRange($form: any, event: any): void {
         let parsedFromDate, parsedToDate;
 
         parsedFromDate = Date.parse(FwFormField.getValueByDataField($form, 'BillingStartDate'));
