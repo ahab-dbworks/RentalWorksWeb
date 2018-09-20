@@ -1,0 +1,120 @@
+using FwStandard.DataLayer;
+using FwStandard.Models;
+using FwStandard.SqlServer;
+using FwStandard.SqlServer.Attributes;
+using WebApi.Data;
+using System.Collections.Generic;
+using System;
+using WebLibrary;
+using System.Threading.Tasks;
+using System.Data;
+using System.Reflection;
+namespace WebApi.Modules.Reports.RentalInventoryValueReport
+{
+    [FwSqlTable("tmpjh")]
+    public class RentalInventoryValueReportLoader : AppDataLoadRecord
+    {
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "rowtype", modeltype: FwDataTypes.Text)]
+        public string RowType { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "warehouseid", modeltype: FwDataTypes.Text)]
+        public string WarehouseId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "warehouse", modeltype: FwDataTypes.Text)]
+        public string Warehouse { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "whcode", modeltype: FwDataTypes.Text)]
+        public string WarehouseCode { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "inventorydepartmentid", modeltype: FwDataTypes.Text)]
+        public string InventoryTypeId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "inventorydepartment", modeltype: FwDataTypes.Text)]
+        public string InventoryType { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "categoryid", modeltype: FwDataTypes.Text)]
+        public string CategoryId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "category", modeltype: FwDataTypes.Text)]
+        public string Category { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "subcategoryid", modeltype: FwDataTypes.Text)]
+        public string SubCategoryId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "subcategory", modeltype: FwDataTypes.Text)]
+        public string SubCategory { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "categorysubcategory", modeltype: FwDataTypes.Text)]
+        public string CategorySubCategory { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "masterid", modeltype: FwDataTypes.Text)]
+        public string InventoryId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "masterno", modeltype: FwDataTypes.Text)]
+        public string ICode { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "master", modeltype: FwDataTypes.Text)]
+        public string Description { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "changedate", modeltype: FwDataTypes.Date)]
+        public string ChangeDate { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "changetype", modeltype: FwDataTypes.Text)]
+        public string ChangeType { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "changedesc", modeltype: FwDataTypes.Text)]
+        public string ChangeDescription { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "qty", modeltype: FwDataTypes.Decimal)]
+        public decimal? Quantity { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "value", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
+        public decimal? UnitValue { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "extendedvalue", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
+        public decimal? ExtendedValue { get; set; }
+        //------------------------------------------------------------------------------------ 
+        public async Task<FwJsonDataTable> RunReportAsync(RentalInventoryValueReportRequest request)
+        {
+            FwJsonDataTable dt = null;
+            using (FwSqlConnection conn = new FwSqlConnection(AppConfig.DatabaseSettings.ConnectionString))
+            {
+                using (FwSqlCommand qry = new FwSqlCommand(conn, "getinventoryvaluerpt", this.AppConfig.DatabaseSettings.QueryTimeout))
+                {
+                    qry.AddParameter("@availfor", SqlDbType.Text, ParameterDirection.Input, RwConstants.INVENTORY_AVAILABLE_FOR_RENT);
+                    qry.AddParameter("@fromdate", SqlDbType.Date, ParameterDirection.Input, request.FromDate);
+                    qry.AddParameter("@todate", SqlDbType.Date, ParameterDirection.Input, request.ToDate);
+                    qry.AddParameter("@includeowned", SqlDbType.Text, ParameterDirection.Input, request.IncludeOwned.GetValueOrDefault(false) ? "T" : "F");
+                    qry.AddParameter("@includeconsigned", SqlDbType.Text, ParameterDirection.Input, request.IncludeConsigned.GetValueOrDefault(false) ? "T" : "F");
+                    qry.AddParameter("@includezeroqty", SqlDbType.Text, ParameterDirection.Input, request.IncludeZeroQuantity.GetValueOrDefault(false) ? "T" : "F");
+                    qry.AddParameter("@groupbyicode", SqlDbType.Text, ParameterDirection.Input, request.GroupByICode.GetValueOrDefault(false) ? "T" : "F");
+                    qry.AddParameter("@serializedvaluebasedon", SqlDbType.Text, ParameterDirection.Input, request.SerializedValueBasedOn);
+                    qry.AddParameter("@ranks", SqlDbType.Text, ParameterDirection.Input, request.Ranks.ToString());
+                    qry.AddParameter("@trackedbys", SqlDbType.Text, ParameterDirection.Input, request.TrackedBys.ToString());
+                    qry.AddParameter("@summary", SqlDbType.Text, ParameterDirection.Input, request.Summary.GetValueOrDefault(false) ? "T" : "F");
+                    qry.AddParameter("@warehouseid", SqlDbType.Text, ParameterDirection.Input, request.WarehouseId);
+                    qry.AddParameter("@inventorydepartmentid", SqlDbType.Text, ParameterDirection.Input, request.InventoryTypeId);
+                    qry.AddParameter("@categoryid", SqlDbType.Text, ParameterDirection.Input, request.CategoryId);
+                    qry.AddParameter("@subcategoryid", SqlDbType.Text, ParameterDirection.Input, request.SubCategoryId);
+                    qry.AddParameter("@masterid", SqlDbType.Text, ParameterDirection.Input, request.InventoryId);
+                    AddPropertiesAsQueryColumns(qry);
+                    dt = await qry.QueryToFwJsonTableAsync(false, 0);
+                }
+            }
+
+            string[] totalFields = new string[] { "Quantity", "ExtendedValue" };
+            dt.InsertSubTotalRows("Warehouse", "RowType", totalFields);
+            dt.InsertSubTotalRows("InventoryType", "RowType", totalFields);
+            dt.InsertSubTotalRows("Category", "RowType", totalFields);
+            dt.InsertSubTotalRows("SubCategory", "RowType", totalFields);
+            if (!request.Summary.GetValueOrDefault(false))
+            {
+                dt.InsertSubTotalRows("InventoryId", "RowType", totalFields);
+            }
+            dt.InsertTotalRow("RowType", "detail", "grandtotal", totalFields);
+            return dt;
+        }
+        //------------------------------------------------------------------------------------ 
+    }
+}
