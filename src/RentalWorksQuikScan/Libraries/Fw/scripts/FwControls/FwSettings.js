@@ -1,15 +1,15 @@
-var FwSettingsClass = (function () {
-    function FwSettingsClass() {
+class FwSettingsClass {
+    constructor() {
         this.filter = [];
         this.screen = {
             'moduleCaptions': {}
         };
     }
-    FwSettingsClass.prototype.init = function () {
+    init() {
         this.getCaptions(this.screen);
-    };
+    }
     ;
-    FwSettingsClass.prototype.renderRuntimeHtml = function ($control) {
+    renderRuntimeHtml($control) {
         var html = [];
         html.push('<div class="fwsettingsheader">');
         html.push('  <div class="input-group pull-right">');
@@ -23,9 +23,9 @@ var FwSettingsClass = (function () {
         var settingsMenu = this.getHeaderView($control);
         $control.html(html.join(''));
         $control.find('.fwsettingsheader').append(settingsMenu);
-    };
+    }
     ;
-    FwSettingsClass.prototype.saveForm = function (module, $form, closetab, navigationpath, $control, browseKeys, rowId, moduleName) {
+    saveForm(module, $form, closetab, navigationpath, $control, browseKeys, rowId, moduleName) {
         var $tabpage, fields, ids, mode, isValid, $tab, request, controllername, controller;
         mode = $form.attr('data-mode');
         $tabpage = $form.parent();
@@ -157,9 +157,9 @@ var FwSettingsClass = (function () {
                 }
             });
         }
-    };
+    }
     ;
-    FwSettingsClass.prototype.getCaptions = function (screen) {
+    getCaptions(screen) {
         var node = FwApplicationTree.getNodeById(FwApplicationTree.tree, '730C9659-B33B-493E-8280-76A060A07DCE');
         var modules = FwApplicationTree.getChildrenByType(node, 'SettingsModule');
         FwAppData.apiMethod(true, 'GET', 'api/v1/customfield/', null, FwServices.defaultTimeout, function onSuccess(response) {
@@ -200,8 +200,8 @@ var FwSettingsClass = (function () {
         }, function onError(response) {
             FwFunc.showError(response);
         }, null);
-    };
-    FwSettingsClass.prototype.getRows = function ($body, $control, apiurl, $modulecontainer, moduleName) {
+    }
+    getRows($body, $control, apiurl, $modulecontainer, moduleName) {
         FwAppData.apiMethod(true, 'GET', applicationConfig.appbaseurl + applicationConfig.appvirtualdirectory + apiurl, null, null, function onSuccess(response) {
             var $settings, keys, browseKeys = [], rowId;
             var me = this;
@@ -282,8 +282,8 @@ var FwSettingsClass = (function () {
                 me.getRows($body, $control, apiurl, $control.find('#' + moduleName), moduleName);
             });
         }, null, $modulecontainer);
-    };
-    FwSettingsClass.prototype.newRow = function ($body, $control, apiurl, $modulecontainer, moduleName, $modules) {
+    }
+    newRow($body, $control, apiurl, $modulecontainer, moduleName, $modules) {
         var $form, controller, rowId, newRowHtml = [], me = this;
         $form = jQuery(jQuery('#tmpl-modules-' + moduleName + 'Form').html());
         if ($body.is(':empty')) {
@@ -320,8 +320,8 @@ var FwSettingsClass = (function () {
             $body.empty();
             me.getRows($body, $control, apiurl, $control.find('#' + moduleName), moduleName);
         });
-    };
-    FwSettingsClass.prototype.renderModuleHtml = function ($control, title, moduleName, description, menu, moduleId) {
+    }
+    renderModuleHtml($control, title, moduleName, description, menu, moduleId) {
         var html = [], $settingsPageModules, $rowBody, $modulecontainer, apiurl, $body, $form, browseKeys = [], rowId, filter = [], me = this;
         $modulecontainer = $control.find('#' + moduleName);
         apiurl = window[moduleName + 'Controller'].apiurl;
@@ -444,7 +444,7 @@ var FwSettingsClass = (function () {
                             }
                         }
                         for (var i = 0; i < uniqueFilters.length; i++) {
-                            var filterField = $form.find("div[data-datafield=\"" + uniqueFilters[i] + "\"]");
+                            var filterField = $form.find(`div[data-datafield="${uniqueFilters[i]}"]`);
                             if (filterField.length > 0 && filterField.attr('data-type') !== 'key') {
                                 var filterData = {};
                                 if (filterField.attr('data-type') === 'validation') {
@@ -473,7 +473,7 @@ var FwSettingsClass = (function () {
                     browseData = withoutDuplicates;
                     for (var i = 0; i < response.length; i++) {
                         var html = [], $moduleRows;
-                        response[i]['_Custom'].forEach(function (customField) {
+                        response[i]['_Custom'].forEach((customField) => {
                             response[i][customField.FieldName] = customField.FieldValue;
                         });
                         html.push('<div class="panel-record">');
@@ -698,9 +698,9 @@ var FwSettingsClass = (function () {
             }
         });
         return $settingsPageModules;
-    };
+    }
     ;
-    FwSettingsClass.prototype.getHeaderView = function ($control) {
+    getHeaderView($control) {
         var $view, me = this;
         $view = jQuery('<div class="fwcontrol fwfilemenu" data-control="FwFileMenu" data-version="2" data-rendermode="template"></div>');
         FwControl.renderRuntimeControls($view);
@@ -747,9 +747,9 @@ var FwSettingsClass = (function () {
             }
         }
         return $view;
-    };
+    }
     ;
-    FwSettingsClass.prototype.generateDropDownModuleBtn = function ($menu, $control, securityid, caption, imgurl, subitems) {
+    generateDropDownModuleBtn($menu, $control, securityid, caption, imgurl, subitems) {
         var $modulebtn, btnHtml, subitemHtml, $subitem, version;
         version = $menu.closest('.fwfilemenu').attr('data-version');
         securityid = (typeof securityid === 'string') ? securityid : '';
@@ -804,9 +804,9 @@ var FwSettingsClass = (function () {
             throw 'FwRibbon.generateDropDownModuleBtn: ' + securityid + ' caption is not defined in translation';
         }
         $menu.find('.menu').append($modulebtn);
-    };
+    }
     ;
-    FwSettingsClass.prototype.generateStandardModuleBtn = function ($menu, $control, securityid, caption, modulenav, imgurl, moduleName) {
+    generateStandardModuleBtn($menu, $control, securityid, caption, modulenav, imgurl, moduleName) {
         var $modulebtn, btnHtml, btnId, version;
         securityid = (typeof securityid === 'string') ? securityid : '';
         $modulebtn = jQuery();
@@ -845,9 +845,8 @@ var FwSettingsClass = (function () {
             }
         });
         $menu.find('.menu').append($modulebtn);
-    };
+    }
     ;
-    return FwSettingsClass;
-}());
+}
 var FwSettings = new FwSettingsClass();
 //# sourceMappingURL=FwSettings.js.map

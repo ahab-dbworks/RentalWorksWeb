@@ -1,37 +1,34 @@
-var FwBrowseColumn_hiddenClass = (function () {
-    function FwBrowseColumn_hiddenClass() {
+class FwBrowseColumn_hiddenClass {
+    databindfield($browse, $field, dt, dtRow, $tr) {
     }
-    FwBrowseColumn_hiddenClass.prototype.databindfield = function ($browse, $field, dt, dtRow, $tr) {
-    };
     ;
-    FwBrowseColumn_hiddenClass.prototype.getFieldValue = function ($browse, $tr, $field, field, originalvalue) {
+    getFieldValue($browse, $tr, $field, field, originalvalue) {
         if (($tr.hasClass('editmode')) || ($tr.hasClass('newmode'))) {
             field.value = $field.find('input.value').val();
         }
-    };
+    }
     ;
-    FwBrowseColumn_hiddenClass.prototype.setFieldValue = function ($browse, $tr, $field, data) {
+    setFieldValue($browse, $tr, $field, data) {
         $field.html(data.value);
-    };
-    FwBrowseColumn_hiddenClass.prototype.isModified = function ($browse, $tr, $field) {
+    }
+    isModified($browse, $tr, $field) {
         var isModified = false;
-        var originalValue = $field.attr('data-originalvalue');
+        let originalValue = $field.attr('data-originalvalue');
         if (($tr.hasClass('editmode')) || ($tr.hasClass('newmode'))) {
-            var currentValue = $field.find('input.value').val();
+            let currentValue = $field.find('input.value').val();
             isModified = currentValue !== originalValue;
         }
         return isModified;
-    };
+    }
     ;
-    FwBrowseColumn_hiddenClass.prototype.setFieldViewMode = function ($browse, $tr, $field) {
+    setFieldViewMode($browse, $tr, $field) {
         var originalvalue = (typeof $field.attr('data-originalvalue') === 'string') ? $field.attr('data-originalvalue') : '';
         this.setFieldValue($browse, $tr, $field, { value: originalvalue });
-    };
+    }
     ;
-    FwBrowseColumn_hiddenClass.prototype.setFieldEditMode = function ($browse, $tr, $field) {
-    };
+    setFieldEditMode($browse, $tr, $field) {
+    }
     ;
-    return FwBrowseColumn_hiddenClass;
-}());
+}
 var FwBrowseColumn_hidden = new FwBrowseColumn_hiddenClass();
 //# sourceMappingURL=FwBrowseColumn_hidden.js.map

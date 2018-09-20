@@ -1,7 +1,5 @@
-var FwMultiSelectValidationClass = (function () {
-    function FwMultiSelectValidationClass() {
-    }
-    FwMultiSelectValidationClass.prototype.init = function ($control, validationName, $valuefield, $searchfield, $btnvalidate) {
+class FwMultiSelectValidationClass {
+    init($control, validationName, $valuefield, $searchfield, $btnvalidate) {
         var $browse, $popup, $form, controller, formbeforevalidate, control_boundfields, boundfields, hasselectall;
         hasselectall = ((typeof $control.attr('data-hasselectall') !== 'string') || ($control.attr('data-hasselectall') === 'true'));
         if (hasselectall)
@@ -180,8 +178,8 @@ var FwMultiSelectValidationClass = (function () {
                 });
             }
         });
-    };
-    FwMultiSelectValidationClass.prototype.validate = function (validationName, $valuefield, $searchfield, $btnvalidate, $popup, $browse, useSearchFieldValue) {
+    }
+    validate(validationName, $valuefield, $searchfield, $btnvalidate, $popup, $browse, useSearchFieldValue) {
         var $validationSearchbox;
         if (useSearchFieldValue && ($searchfield.val().length > 0)) {
             $validationSearchbox = $browse.find('thead .field[data-validationdisplayfield="true"] > .search > input');
@@ -194,9 +192,9 @@ var FwMultiSelectValidationClass = (function () {
         }
         FwBrowse.search($browse);
         FwPopup.show($popup);
-    };
+    }
     ;
-    FwMultiSelectValidationClass.prototype.getUniqueIds = function ($tr) {
+    getUniqueIds($tr) {
         var $keyfields, uniqueids;
         uniqueids = [];
         $keyfields = $tr.find('div.field[data-isuniqueid="true"]');
@@ -207,9 +205,9 @@ var FwMultiSelectValidationClass = (function () {
         });
         uniqueids = uniqueids.join(',');
         return uniqueids;
-    };
+    }
     ;
-    FwMultiSelectValidationClass.prototype.select = function ($control, $selectedRows, validationName, $valuefield, $searchfield, $btnvalidate, $popup, $browse, controller) {
+    select($control, $selectedRows, validationName, $valuefield, $searchfield, $btnvalidate, $popup, $browse, controller) {
         var $validationUniqueIdField, uniqueid, $validationSearchField, text, $keyfields, $displayfields;
         uniqueid = [];
         text = [];
@@ -239,24 +237,24 @@ var FwMultiSelectValidationClass = (function () {
             $control.data('onchange')($selectedRows);
         }
         FwPopup.hide($popup);
-    };
+    }
     ;
-    FwMultiSelectValidationClass.prototype.selectAll = function (validationName, $valuefield, $searchfield, $btnvalidate, $popup, $browse, controller) {
+    selectAll(validationName, $valuefield, $searchfield, $btnvalidate, $popup, $browse, controller) {
         $browse.data('selectedrows', {});
         $valuefield.val('').change();
         $searchfield.val('');
         FwPopup.hide($popup);
-    };
+    }
     ;
-    FwMultiSelectValidationClass.prototype.clear = function (validationName, $valuefield, $searchfield, $btnvalidate, $popup, $browse, controller) {
+    clear(validationName, $valuefield, $searchfield, $btnvalidate, $popup, $browse, controller) {
         var uniqueid, $trGrid, $gridUniqueIdField;
         $browse.data('selectedrows', {});
         $valuefield.val('').change();
         $searchfield.val('');
         $browse.find('tbody tr').removeClass('selected');
-    };
+    }
     ;
-    FwMultiSelectValidationClass.prototype.viewSelection = function (validationName, $valuefield, $searchfield, $btnvalidate, $popup, $browse, controller) {
+    viewSelection(validationName, $valuefield, $searchfield, $btnvalidate, $popup, $browse, controller) {
         var selectedrows, trs, $tr;
         selectedrows = $browse.data('selectedrows');
         trs = [];
@@ -302,9 +300,8 @@ var FwMultiSelectValidationClass = (function () {
                 FwFunc.showError(ex);
             }
         });
-    };
+    }
     ;
-    return FwMultiSelectValidationClass;
-}());
+}
 var FwMultiSelectValidation = new FwMultiSelectValidationClass();
 //# sourceMappingURL=FwMultiSelectValidation.js.map
