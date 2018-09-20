@@ -1,7 +1,9 @@
-class FwBrowseColumn_timeClass {
-    databindfield($browse, $field, dt, dtRow, $tr) {
+var FwBrowseColumn_timeClass = (function () {
+    function FwBrowseColumn_timeClass() {
     }
-    getFieldValue($browse, $tr, $field, field, originalvalue) {
+    FwBrowseColumn_timeClass.prototype.databindfield = function ($browse, $field, dt, dtRow, $tr) {
+    };
+    FwBrowseColumn_timeClass.prototype.getFieldValue = function ($browse, $tr, $field, field, originalvalue) {
         if (($tr.hasClass('editmode')) || ($tr.hasClass('newmode'))) {
             var $value = $field.find('input.value');
             if ($value.length > 0) {
@@ -11,20 +13,20 @@ class FwBrowseColumn_timeClass {
                 field.value = originalvalue;
             }
         }
-    }
-    setFieldValue($browse, $tr, $field, data) {
+    };
+    FwBrowseColumn_timeClass.prototype.setFieldValue = function ($browse, $tr, $field, data) {
         $field.find('input.value').val(data.value);
-    }
-    isModified($browse, $tr, $field) {
+    };
+    FwBrowseColumn_timeClass.prototype.isModified = function ($browse, $tr, $field) {
         var isModified = false;
-        let originalValue = $field.attr('data-originalvalue');
+        var originalValue = $field.attr('data-originalvalue');
         if (($tr.hasClass('editmode')) || ($tr.hasClass('newmode'))) {
-            let currentValue = $field.find('input.value').val();
+            var currentValue = $field.find('input.value').val();
             isModified = currentValue !== originalValue;
         }
         return isModified;
-    }
-    setFieldViewMode($browse, $tr, $field) {
+    };
+    FwBrowseColumn_timeClass.prototype.setFieldViewMode = function ($browse, $tr, $field) {
         var originalvalue = (typeof $field.attr('data-originalvalue') === 'string') ? $field.attr('data-originalvalue') : '';
         $field.html(originalvalue);
         $field.data('autoselect', false);
@@ -33,11 +35,11 @@ class FwBrowseColumn_timeClass {
                 $field.data('autoselect', true);
             }
         });
-    }
-    setFieldEditMode($browse, $tr, $field) {
+    };
+    FwBrowseColumn_timeClass.prototype.setFieldEditMode = function ($browse, $tr, $field) {
         var timepickerTimeFormat, inputmaskTimeFormat;
         var originalvalue = (typeof $field.attr('data-originalvalue') === 'string') ? $field.attr('data-originalvalue') : '';
-        let html = [];
+        var html = [];
         html.push('<input class="value" type="text"');
         if ($browse.attr('data-enabled') === 'false') {
             html.push(' disabled="disabled"');
@@ -51,7 +53,7 @@ class FwBrowseColumn_timeClass {
             timepickerTimeFormat = 'h:i A';
             inputmaskTimeFormat = 'hh:mm t';
         }
-        let htmlString = html.join('');
+        var htmlString = html.join('');
         $field.html(htmlString);
         $field.find('input.value').inputmask(inputmaskTimeFormat);
         this.setFieldValue($browse, $tr, $field, { value: originalvalue });
@@ -59,7 +61,8 @@ class FwBrowseColumn_timeClass {
             $field.data('autoselect', false);
             $field.find('.value').select();
         }
-    }
-}
+    };
+    return FwBrowseColumn_timeClass;
+}());
 var FwBrowseColumn_time = new FwBrowseColumn_timeClass();
 //# sourceMappingURL=FwBrowseColumn_time.js.map

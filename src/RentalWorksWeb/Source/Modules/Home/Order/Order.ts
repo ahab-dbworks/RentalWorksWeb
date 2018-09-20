@@ -591,6 +591,26 @@ class Order extends OrderBase {
         $orderItemGridUsedSale = $form.find('.usedsalegrid [data-name="OrderItemGrid"]');
         //FwBrowse.search($orderItemGridUsedSale);
 
+        if (FwFormField.getValueByDataField($form, 'DisableEditingUsedSaleRate')) {
+            $orderItemGridUsedSale.find('.rates').attr('data-formreadonly', true);
+        }
+        if (FwFormField.getValueByDataField($form, 'DisableEditingMiscellaneousRate')) {
+            $orderItemGridMisc.find('.rates').attr('data-formreadonly', true);
+        }
+        if (FwFormField.getValueByDataField($form, 'DisableEditingLaborRate')) {
+            $orderItemGridLabor.find('.rates').attr('data-formreadonly', true);
+        }
+        if (FwFormField.getValueByDataField($form, 'DisableEditingSalesRate')) {
+            $orderItemGridSales.find('.rates').attr('data-formreadonly', true);
+        }
+        if (FwFormField.getValueByDataField($form, 'DisableEditingRentalRate')) {
+            $orderItemGridRental.find('.rates').attr('data-formreadonly', true);
+        }
+
+
+
+
+
         //var $pickListBrowse = $form.find('#PickListBrowse');
         //FwBrowse.search($pickListBrowse);
 

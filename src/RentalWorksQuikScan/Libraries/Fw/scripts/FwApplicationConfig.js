@@ -1,5 +1,5 @@
-class FwApplicationConfig {
-    constructor() {
+var FwApplicationConfig = (function () {
+    function FwApplicationConfig() {
         this.appbaseurl = '';
         this.fwvirtualdirectory = '';
         this.appvirtualdirectory = '';
@@ -13,5 +13,6 @@ class FwApplicationConfig {
         this.photoWidth = 1024;
         this.photoHeight = 1024;
     }
-}
+    return FwApplicationConfig;
+}());
 //# sourceMappingURL=FwApplicationConfig.js.map

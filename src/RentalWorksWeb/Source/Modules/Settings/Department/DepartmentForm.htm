@@ -3,6 +3,8 @@
   <div id="departmentform-tabcontrol" class="fwcontrol fwtabs" data-control="FwTabs" data-type="">
     <div class="tabs">
       <div data-type="tab" id="generaltab" class="tab" data-tabpageid="generaltabpage" data-caption="General"></div>
+      <div data-type="tab" id="rulestab" class="tab" data-tabpageid="rulestabpage" data-caption="Rules"></div>
+      <div data-type="tab" id="exporttab" class="tab" data-tabpageid="exporttabpage" data-caption="Export"></div>
     </div>
     <div class="tabpages">
       <div data-type="tabpage" id="generaltabpage" class="tabpage" data-tabid="generaltab">
@@ -13,6 +15,31 @@
               <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Department Code" data-datafield="DepartmentCode" style="float:left;width:160px;"></div>
               <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Division Code" data-datafield="DivisionCode" style="float:left;width:160px;"></div>
               <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Inactive" data-datafield="Inactive" style="float:left;width:85px;"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-type="tabpage" id="rulestabpage" class="tabpage" data-tabid="rulestab">
+        <div class="formpage">
+          <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Rules">
+            <div class="flexrow">
+              <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Disable Editing Rental" data-datafield="DisableEditingRentalRate" style="float:left;width:150px;"></div>
+              <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Disable Editing Sales" data-datafield="DisableEditingSalesRate" style="float:left;width:150px;"></div>
+              <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Disable Editing Miscellaneous" data-datafield="DisableEditingMiscellaneousRate" style="float:left;width:150px;"></div>
+            </div>
+            <div class="flexrow">
+              <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Disable Editing Labor" data-datafield="DisableEditingLaborRate" style="float:left;width:150px;"></div>
+              <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Disable Editing Used Sale" data-datafield="DisableEditingUsedSaleRate" style="float:left;width:150px;"></div>
+              <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Disable Editing Final Ld" data-datafield="DisableEditingFinalLdRate" style="float:left;width:150px;"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-type="tabpage" id="exporttabpage" class="tabpage" data-tabid="exporttab">
+        <div class="formpage">
+          <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Export">
+            <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+              <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Export Code" data-datafield="ExportCode" style="float:left;width:250px;"></div>
             </div>
           </div>
         </div>

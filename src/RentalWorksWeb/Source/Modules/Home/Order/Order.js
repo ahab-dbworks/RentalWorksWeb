@@ -510,6 +510,21 @@ class Order extends OrderBase {
         $orderItemGridMisc = $form.find('.miscgrid [data-name="OrderItemGrid"]');
         var $orderItemGridUsedSale;
         $orderItemGridUsedSale = $form.find('.usedsalegrid [data-name="OrderItemGrid"]');
+        if (FwFormField.getValueByDataField($form, 'DisableEditingUsedSaleRate')) {
+            $orderItemGridUsedSale.find('.rates').attr('data-formreadonly', true);
+        }
+        if (FwFormField.getValueByDataField($form, 'DisableEditingMiscellaneousRate')) {
+            $orderItemGridMisc.find('.rates').attr('data-formreadonly', true);
+        }
+        if (FwFormField.getValueByDataField($form, 'DisableEditingLaborRate')) {
+            $orderItemGridLabor.find('.rates').attr('data-formreadonly', true);
+        }
+        if (FwFormField.getValueByDataField($form, 'DisableEditingSalesRate')) {
+            $orderItemGridSales.find('.rates').attr('data-formreadonly', true);
+        }
+        if (FwFormField.getValueByDataField($form, 'DisableEditingRentalRate')) {
+            $orderItemGridRental.find('.rates').attr('data-formreadonly', true);
+        }
         if (FwFormField.getValueByDataField($form, 'HasRentalItem')) {
             FwFormField.disable(FwFormField.getDataField($form, 'Rental'));
         }

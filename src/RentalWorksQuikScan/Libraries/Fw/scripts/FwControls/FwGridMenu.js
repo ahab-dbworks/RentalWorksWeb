@@ -1,34 +1,36 @@
-class FwGridMenuClass {
-    init($control) {
+var FwGridMenuClass = (function () {
+    function FwGridMenuClass() {
     }
-    getDesignerProperties(data_type) {
-        let propId = { caption: 'ID', datatype: 'string', attribute: 'id', defaultvalue: FwControl.generateControlId('tabs'), visible: true, enabled: true };
-        let propClass = { caption: 'CSS Class', datatype: 'string', attribute: 'class', defaultvalue: 'fwcontrol fwmenu', visible: false, enabled: false };
-        let propDataControl = { caption: 'Control', datatype: 'string', attribute: 'data-control', defaultvalue: 'FwMenu', visible: true, enabled: false };
-        let propDataType = { caption: 'Type', datatype: 'string', attribute: 'data-type', defaultvalue: data_type, visible: false, enabled: false };
-        let propDataVersion = { caption: 'Version', datatype: 'string', attribute: 'data-version', defaultvalue: '1', visible: false, enabled: false };
-        let propRenderMode = { caption: 'Render Mode', datatype: 'string', attribute: 'data-rendermode', defaultvalue: 'template', visible: false, enabled: false };
-        let properties = [propId, propClass, propDataControl, propDataType, propDataVersion, propRenderMode];
+    FwGridMenuClass.prototype.init = function ($control) {
+    };
+    FwGridMenuClass.prototype.getDesignerProperties = function (data_type) {
+        var propId = { caption: 'ID', datatype: 'string', attribute: 'id', defaultvalue: FwControl.generateControlId('tabs'), visible: true, enabled: true };
+        var propClass = { caption: 'CSS Class', datatype: 'string', attribute: 'class', defaultvalue: 'fwcontrol fwmenu', visible: false, enabled: false };
+        var propDataControl = { caption: 'Control', datatype: 'string', attribute: 'data-control', defaultvalue: 'FwMenu', visible: true, enabled: false };
+        var propDataType = { caption: 'Type', datatype: 'string', attribute: 'data-type', defaultvalue: data_type, visible: false, enabled: false };
+        var propDataVersion = { caption: 'Version', datatype: 'string', attribute: 'data-version', defaultvalue: '1', visible: false, enabled: false };
+        var propRenderMode = { caption: 'Render Mode', datatype: 'string', attribute: 'data-rendermode', defaultvalue: 'template', visible: false, enabled: false };
+        var properties = [propId, propClass, propDataControl, propDataType, propDataVersion, propRenderMode];
         return properties;
-    }
-    renderDesignerHtml($control) {
+    };
+    FwGridMenuClass.prototype.renderDesignerHtml = function ($control) {
         $control.attr('data-rendermode', 'designer');
-    }
-    renderRuntimeHtml($control) {
+    };
+    FwGridMenuClass.prototype.renderRuntimeHtml = function ($control) {
         $control.attr('data-rendermode', 'runtime');
-    }
-    renderTemplateHtml($control) {
+    };
+    FwGridMenuClass.prototype.renderTemplateHtml = function ($control) {
         $control.attr('data-rendermode', 'template');
-    }
-    getMenuControl(controltype) {
+    };
+    FwGridMenuClass.prototype.getMenuControl = function (controltype) {
         var html, $menuObject;
         html = [];
         html.push('<div class="fwcontrol fwmenu ' + controltype + '" data-control="FwMenu">');
         html.push('</div>');
         $menuObject = jQuery(html.join(''));
         return $menuObject;
-    }
-    addSubMenu($control) {
+    };
+    FwGridMenuClass.prototype.addSubMenu = function ($control) {
         var $btn, html;
         html = [];
         html.push('<div class="submenubutton">');
@@ -67,16 +69,16 @@ class FwGridMenuClass {
         });
         $control.append($btn);
         return $btn;
-    }
-    addSubMenuColumn($control) {
+    };
+    FwGridMenuClass.prototype.addSubMenuColumn = function ($control) {
         var html, $column;
         html = [];
         html.push('<div class="submenu-column"></div>');
         $column = jQuery(html.join(''));
         $control.find('.submenu').append($column);
         return $column;
-    }
-    addSubMenuGroup($control, groupcaption, securityid) {
+    };
+    FwGridMenuClass.prototype.addSubMenuGroup = function ($control, groupcaption, securityid) {
         var html, $group;
         securityid = (typeof securityid === 'string') ? securityid : '';
         html = [];
@@ -87,8 +89,8 @@ class FwGridMenuClass {
         $group = jQuery(html.join(''));
         $control.append($group);
         return $group;
-    }
-    addSubMenuBtn($group, caption, securityid) {
+    };
+    FwGridMenuClass.prototype.addSubMenuBtn = function ($group, caption, securityid) {
         var html, $btn;
         securityid = (typeof securityid === 'string') ? securityid : '';
         html = [];
@@ -98,18 +100,18 @@ class FwGridMenuClass {
         $btn = jQuery(html.join(''));
         $group.find('.body').append($btn);
         return $btn;
-    }
+    };
     ;
-    addCaption($control, caption) {
+    FwGridMenuClass.prototype.addCaption = function ($control, caption) {
         var $caption, html;
         html = [];
         html.push('<div class="menucaption">' + caption + '</div>');
         $caption = jQuery(html.join(''));
         $control.append($caption);
         return $caption;
-    }
+    };
     ;
-    addStandardBtn($control, caption, securityid) {
+    FwGridMenuClass.prototype.addStandardBtn = function ($control, caption, securityid) {
         var $btn, btnHtml, btnId, id;
         $btn = jQuery();
         if ((caption !== '') && (typeof caption !== 'undefined')) {
@@ -152,8 +154,8 @@ class FwGridMenuClass {
         }
         $control.find('.buttonbar').append($btn);
         return $btn;
-    }
-    addViewBtn($control, caption, subitems) {
+    };
+    FwGridMenuClass.prototype.addViewBtn = function ($control, caption, subitems) {
         var $btn, btnHtml, btnId, id, $ddBtn, subitemFunc;
         id = program.uniqueId(8);
         btnId = 'btn' + id;
@@ -204,8 +206,8 @@ class FwGridMenuClass {
         });
         $control.find('.buttonbar').append($btn);
         return $btn;
-    }
-    generateDropDownViewBtn(caption, active) {
+    };
+    FwGridMenuClass.prototype.generateDropDownViewBtn = function (caption, active) {
         var btnHtml, $ddBtn;
         btnHtml = [];
         btnHtml.push('<div class="ddviewbtn-dropdown-btn' + ((active) ? ' active' : '') + '">');
@@ -213,17 +215,18 @@ class FwGridMenuClass {
         btnHtml.push('</div>');
         $ddBtn = jQuery(btnHtml.join(''));
         return $ddBtn;
-    }
-    addVerticleSeparator($control) {
+    };
+    FwGridMenuClass.prototype.addVerticleSeparator = function ($control) {
         var html, $vr;
         html = [];
         html.push('<div class="vr"></div>');
         $vr = jQuery(html.join(''));
         $control.find('.buttonbar').append($vr);
-    }
-    addCustomContent($control, $content) {
+    };
+    FwGridMenuClass.prototype.addCustomContent = function ($control, $content) {
         $control.find('.buttonbar').append($content);
-    }
-}
+    };
+    return FwGridMenuClass;
+}());
 var FwGridMenu = new FwGridMenuClass();
 //# sourceMappingURL=FwGridMenu.js.map

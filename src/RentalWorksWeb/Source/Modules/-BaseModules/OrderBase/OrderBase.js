@@ -547,6 +547,14 @@ class OrderBase {
                 FwFormField.disable($form.find('[data-datafield="NoChargeReason"]'));
             }
         });
+        $form.find('div[data-datafield="DepartmentId"]').data('onchange', function ($tr) {
+            FwFormField.setValue($form, 'div[data-datafield="DisableEditingRentalRate"]', JSON.parse($tr.find('.field[data-browsedatafield="DisableEditingRentalRate"]').attr('data-originalvalue')));
+            FwFormField.setValue($form, 'div[data-datafield="DisableEditingSalesRate"]', JSON.parse($tr.find('.field[data-browsedatafield="DisableEditingSalesRate"]').attr('data-originalvalue')));
+            FwFormField.setValue($form, 'div[data-datafield="DisableEditingLaborRate"]', JSON.parse($tr.find('.field[data-browsedatafield="DisableEditingLaborRate"]').attr('data-originalvalue')));
+            FwFormField.setValue($form, 'div[data-datafield="DisableEditingMiscellaneousRate"]', JSON.parse($tr.find('.field[data-browsedatafield="DisableEditingMiscellaneousRate"]').attr('data-originalvalue')));
+            FwFormField.setValue($form, 'div[data-datafield="DisableEditingUsedSaleRate"]', JSON.parse($tr.find('.field[data-browsedatafield="DisableEditingUsedSaleRate"]').attr('data-originalvalue')));
+            FwFormField.setValue($form, 'div[data-datafield="DisableEditingFinalLdRate"]', JSON.parse($tr.find('.field[data-browsedatafield="DisableEditingFinalLdRate"]').attr('data-originalvalue')));
+        });
         $form.find('div[data-datafield="DealId"]').data('onchange', function ($tr) {
             var type = $tr.find('.field[data-browsedatafield="DefaultRate"]').attr('data-originalvalue');
             FwFormField.setValueByDataField($form, 'RateType', type);
