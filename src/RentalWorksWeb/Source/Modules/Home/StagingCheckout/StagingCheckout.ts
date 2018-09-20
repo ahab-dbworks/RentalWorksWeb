@@ -7,6 +7,7 @@ class StagingCheckout {
     errorSoundFileName: string;
     notificationSoundFileName: string;
     contractId: string;
+    isExceptionGridView: boolean = false;
 
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
@@ -602,13 +603,14 @@ class StagingCheckout {
         // BarCode / I-Code change
         $form.find('[data-datafield="Code"] input').on('keydown', e => {
             if (e.which == 9 || e.which == 13) {
-                let code, orderId, $stagedItemGrid, request: any = {};
+                let code, orderId, $stagedItemGrid, $stagingExceptionGrid, request: any = {};
 
                 $form.find('.error-msg').html('');
                 $form.find('div.AddItemToOrder').html('');
                 orderId = FwFormField.getValueByDataField($form, 'OrderId');
                 code = FwFormField.getValueByDataField($form, 'Code');
                 $stagedItemGrid = $form.find('[data-name="StagedItemGrid"]');
+                $stagingExceptionGrid = $form.find('[data-name="StagingExceptionGrid"]');
 
                 request = {
                     OrderId: orderId,
@@ -619,7 +621,12 @@ class StagingCheckout {
                     if (response.success === true && response.status != 107) {
                         successSound.play();
                         self.addItemFieldValues($form, response);
-                        FwBrowse.search($stagedItemGrid);
+
+                        if (self.isExceptionGridView === false) {
+                            FwBrowse.search($stagedItemGrid);
+                        } else {
+                            FwBrowse.search($stagingExceptionGrid);
+                        }
                         $form.find('[data-datafield="Code"] input').select();
                     } if (response.status === 107) {
                         successSound.play();
@@ -652,7 +659,7 @@ class StagingCheckout {
             if (self.showAddItemToOrder != true) {
                 if (e.which == 9 || e.which == 13) {
                     e.preventDefault();
-                    let code, orderId, quantity, $stagedItemGrid;
+                    let code, orderId, quantity, $stagedItemGrid, $stagingExceptionGrid;
 
                     $form.find('.error-msg').html('');
                     $form.find('div.AddItemToOrder').html('');
@@ -660,6 +667,7 @@ class StagingCheckout {
                     code = FwFormField.getValueByDataField($form, 'Code');
                     quantity = +FwFormField.getValueByDataField($form, 'Quantity');
                     $stagedItemGrid = $form.find('[data-name="StagedItemGrid"]');
+                    $stagingExceptionGrid = $form.find('[data-name="StagingExceptionGrid"]');
 
                     let request: any = {};
                     request = {
@@ -671,7 +679,12 @@ class StagingCheckout {
                         if (response.success === true) {
                             successSound.play();
                             self.addItemFieldValues($form, response);
-                            FwBrowse.search($stagedItemGrid);
+
+                            if (self.isExceptionGridView === false) {
+                                FwBrowse.search($stagedItemGrid);
+                            } else {
+                                FwBrowse.search($stagingExceptionGrid);
+                            }
                             FwFormField.setValueByDataField($form, 'Quantity', 0)
                             $form.find('[data-datafield="Code"] input').select();
                         } if (response.ShowAddItemToOrder === true) {
@@ -766,11 +779,13 @@ class StagingCheckout {
                         stagedExceptionGridContainier.hide();
                         stagedItemGridContainer.show();
                         FwBrowse.search($stagedItemGrid);
+                        this.isExceptionGridView = false;
                         break;
                     case 'EXCEPTION':
                         stagedItemGridContainer.hide();
                         stagedExceptionGridContainier.show();
                         FwBrowse.search($stagingExceptionGrid);
+                        this.isExceptionGridView = true;
                         break;
                 }
             } else {
@@ -804,7 +819,12 @@ class StagingCheckout {
             request.OrderId = orderId;
             FwAppData.apiMethod(true, 'POST', `api/v1/stagequantityitem/selectnone`, request, FwServices.defaultTimeout, function onSuccess(response) {
                 $form.find('.error-msg-qty').html('');
-                FwBrowse.search($stageQuantityItemGrid);
+                if (response.success === false) {
+                    errorSound.play();
+                    $form.find('div.error-msg-qty').html(`<div style="margin:0px 0px 0px 8px;"><span style="padding:0px 4px 0px 4px;font-size:22px;border-radius:2px;background-color:red;color:white;">${response.msg}</span></div>`);
+                } else {
+                    FwBrowse.search($stageQuantityItemGrid);
+                }
             }, function onError(response) {
                 FwFunc.showError(response);
             }, $form);
@@ -818,7 +838,12 @@ class StagingCheckout {
             request.OrderId = orderId;
             FwAppData.apiMethod(true, 'POST', `api/v1/stagequantityitem/selectall`, request, FwServices.defaultTimeout, function onSuccess(response) {
                 $form.find('.error-msg-qty').html('');
-                FwBrowse.search($stageQuantityItemGrid);
+                if (response.success === false) {
+                    errorSound.play();
+                    $form.find('div.error-msg-qty').html(`<div style="margin:0px 0px 0px 8px;"><span style="padding:0px 4px 0px 4px;font-size:22px;border-radius:2px;background-color:red;color:white;">${response.msg}</span></div>`);
+                } else {
+                    FwBrowse.search($stageQuantityItemGrid);
+                }
             }, function onError(response) {
                 FwFunc.showError(response);
             }, $form);
@@ -840,13 +865,15 @@ class StagingCheckout {
     }
     //----------------------------------------------------------------------------------------------
     addItemToOrder(element: any): void {
+        let self = this;
         this.showAddItemToOrder = false;
-        let code, $form, $element, orderId, quantity, $stagedItemGrid, successSound, request: any = {};
+        let code, $form, $element, orderId, quantity, $stagedItemGrid, $stagingExceptionGrid, successSound, request: any = {};
         $element = jQuery(element);
         $form = jQuery($element).closest('.fwform');
         orderId = FwFormField.getValueByDataField($form, 'OrderId');
         code = FwFormField.getValueByDataField($form, 'Code');
         $stagedItemGrid = $form.find('[data-name="StagedItemGrid"]');
+        $stagingExceptionGrid = $form.find('[data-name="StagingExceptionGrid"]');
         quantity = +FwFormField.getValueByDataField($form, 'Quantity');
         successSound = new Audio(this.successSoundFileName);
 
@@ -867,7 +894,11 @@ class StagingCheckout {
 
         FwAppData.apiMethod(true, 'POST', `api/v1/checkout/stageitem`, request, FwServices.defaultTimeout, function onSuccess(response) {
             try {
-                FwBrowse.search($stagedItemGrid);
+                if (self.isExceptionGridView === false) {
+                    FwBrowse.search($stagedItemGrid);
+                } else {
+                    FwBrowse.search($stagingExceptionGrid);
+                }
                 $form.find('.error-msg').html('');
                 $form.find('div.AddItemToOrder').html('');
                 successSound.play();
@@ -880,13 +911,15 @@ class StagingCheckout {
     }
     //----------------------------------------------------------------------------------------------
     addCompleteToOrder(element: any): void {
+        let self = this;
         this.showAddItemToOrder = false;
-        let code, $form, $element, orderId, quantity, $stagedItemGrid, successSound, request: any = {};
+        let code, $form, $element, orderId, quantity, $stagedItemGrid, $stagingExceptionGrid, successSound, request: any = {};
         $element = jQuery(element);
         $form = jQuery($element).closest('.fwform');
         orderId = FwFormField.getValueByDataField($form, 'OrderId');
         code = FwFormField.getValueByDataField($form, 'Code');
         $stagedItemGrid = $form.find('[data-name="StagedItemGrid"]');
+        $stagingExceptionGrid = $form.find('[data-name="StagingExceptionGrid"]');
         successSound = new Audio(this.successSoundFileName);
 
         if (quantity != 0) {
@@ -906,7 +939,11 @@ class StagingCheckout {
 
         FwAppData.apiMethod(true, 'POST', `api/v1/checkout/stageitem`, request, FwServices.defaultTimeout, function onSuccess(response) {
             try {
-                FwBrowse.search($stagedItemGrid);
+                if (self.isExceptionGridView === false) {
+                    FwBrowse.search($stagedItemGrid);
+                } else {
+                    FwBrowse.search($stagingExceptionGrid);
+                }
                 $form.find('.error-msg').html('');
                 $form.find('div.AddItemToOrder').html('');
                 successSound.play();
