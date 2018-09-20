@@ -108,7 +108,9 @@ class CheckIn {
         $checkInQuantityItemsGridControl.data('ondatabind', function (request) {
             request.uniqueids = {
                 ContractId: FwFormField.getValueByDataField($form, 'ContractId'),
-                AllOrdersForDeal: FwFormField.getValueByDataField($form, 'AllOrdersForDeal')
+                AllOrdersForDeal: FwFormField.getValueByDataField($form, 'AllOrdersForDeal'),
+                OrderId: FwFormField.getValueByDataField($form, 'SpecificOrderId'),
+                OutOnly: FwFormField.getValueByDataField($form, 'ShowQuantityOut')
             }
         })
         FwBrowse.init($checkInQuantityItemsGridControl);
@@ -138,6 +140,8 @@ class CheckIn {
 
         const $checkInQuantityItemsGridControl = $form.find('div[data-name="CheckInQuantityItemsGrid"]');
         const allActiveOrders = $form.find('[data-datafield="AllOrdersForDeal"] input');
+        const specificOrder = $form.find('[data-datafield="SpecificOrder"] input');
+        const specificOrderValidation = $form.find('div[data-datafield="SpecificOrderId"]');
 
         //Default Department
         FwFormField.setValue($form, 'div[data-datafield="DepartmentId"]', department.departmentid, department.department);
@@ -263,6 +267,32 @@ class CheckIn {
         //AllOrdersForDeal Checkbox functionality
         allActiveOrders.on('change', e => {
             FwBrowse.search($checkInQuantityItemsGridControl);
+            if (allActiveOrders.prop('checked')) {
+                FwFormField.disable(specificOrderValidation);
+                specificOrder.prop('checked', false);
+            } else {
+                FwFormField.enable(specificOrderValidation);
+                specificOrder.prop('checked', true);
+            }
+        });
+
+        specificOrder.on('change', e => {
+            FwBrowse.search($checkInQuantityItemsGridControl);
+            if (specificOrder.prop('checked')) {
+                FwFormField.enable(specificOrderValidation);
+                allActiveOrders.prop('checked', false);
+            } else {
+                FwFormField.disable(specificOrderValidation);
+                allActiveOrders.prop('checked', true);
+            }
+        });
+
+        specificOrderValidation.data('onchange', $tr => {
+            FwBrowse.search($checkInQuantityItemsGridControl);
+        });
+
+        $form.find('[data-datafield="ShowQuantityOut"] input').on('change', e => {
+            FwBrowse.search($checkInQuantityItemsGridControl);
         });
 
         //Order Status Button
@@ -278,6 +308,9 @@ class CheckIn {
         $form.find('.checkintab').on('click', e => {
             const $checkedInItemsGrid = $form.find('div[data-name="CheckedInItemGrid"]');
             FwBrowse.search($checkedInItemsGrid);
+        });
+        $form.find('[data-datafield="SpecificOrderId"]').data('onchange', $tr => {
+            FwFormField.setValueByDataField($form, 'SpecificDescription', $tr.find('[data-browsedatafield="Description"]').attr('data-originalvalue'));
         });
     };
     //----------------------------------------------------------------------------------------------
