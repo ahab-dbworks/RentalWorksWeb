@@ -536,6 +536,22 @@ class Quote extends OrderBase {
         $orderItemGridUsedSale = $form.find('.usedsalegrid [data-name="OrderItemGrid"]');
         //FwBrowse.search($orderItemGridUsedSale);
 
+        if (FwFormField.getValueByDataField($form, 'DisableEditingUsedSaleRate')) {
+            $orderItemGridUsedSale.find('.rates').attr('data-formreadonly', true);
+        }
+        if (FwFormField.getValueByDataField($form, 'DisableEditingMiscellaneousRate')) {
+            $orderItemGridMisc.find('.rates').attr('data-formreadonly', true);
+        }
+        if (FwFormField.getValueByDataField($form, 'DisableEditingLaborRate')) {
+            $orderItemGridLabor.find('.rates').attr('data-formreadonly', true);
+        }
+        if (FwFormField.getValueByDataField($form, 'DisableEditingSalesRate')) {
+            $orderItemGridSales.find('.rates').attr('data-formreadonly', true);
+        }
+        if (FwFormField.getValueByDataField($form, 'DisableEditingRentalRate')) {
+            $orderItemGridRental.find('.rates').attr('data-formreadonly', true);
+        }
+
         //hide subworksheet
         $orderItemGridRental.find('.submenu-btn').filter('[data-securityid="007C4F21-7526-437C-AD1C-4BBB1030AABA"]').hide();
         $orderItemGridSales.find('.submenu-btn').filter('[data-securityid="007C4F21-7526-437C-AD1C-4BBB1030AABA"]').hide();

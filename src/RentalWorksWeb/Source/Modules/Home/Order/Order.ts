@@ -607,10 +607,6 @@ class Order extends OrderBase {
             $orderItemGridRental.find('.rates').attr('data-formreadonly', true);
         }
 
-
-
-
-
         //var $pickListBrowse = $form.find('#PickListBrowse');
         //FwBrowse.search($pickListBrowse);
 
