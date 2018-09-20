@@ -1177,8 +1177,11 @@ namespace FwStandard.SqlServer
                                 }
                                 row.Add(data);
                             }
-
-
+                            else
+                            {
+                                //justin 09/20/2018 the field that the FwJsonDataTable wants is not in the query result set
+                                row.Add(null);
+                            }
                         }
                         dt.Rows.Add(row);
                     }
