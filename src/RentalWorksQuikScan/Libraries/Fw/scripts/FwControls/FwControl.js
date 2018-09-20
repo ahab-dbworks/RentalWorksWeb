@@ -1,7 +1,5 @@
-var FwControl = (function () {
-    function FwControl() {
-    }
-    FwControl.getHtmlTag = function ($this) {
+class FwControl {
+    static getHtmlTag($this) {
         var functionName, html, data_control, data_type, designerObj;
         functionName = 'getHtmlTag';
         data_control = $this.attr('data-control');
@@ -11,9 +9,9 @@ var FwControl = (function () {
             throw 'Not implemented: ' + data_control + '.' + functionName;
         html = designerObj[functionName](data_type);
         return html;
-    };
+    }
     ;
-    FwControl.getDroppableRegions = function ($this) {
+    static getDroppableRegions($this) {
         var functionName, properties, data_control, data_type, designerObj;
         functionName = 'getDroppableRegions';
         data_control = $this.attr('data-control');
@@ -23,9 +21,9 @@ var FwControl = (function () {
             throw 'Not implemented: ' + data_control + '.' + functionName;
         properties = designerObj[functionName](data_type);
         return properties;
-    };
+    }
     ;
-    FwControl.getDesignerProperties = function ($this) {
+    static getDesignerProperties($this) {
         var functionName, properties, data_control, data_type, designerObj;
         functionName = 'getDesignerProperties';
         data_control = $this.attr('data-control');
@@ -35,9 +33,9 @@ var FwControl = (function () {
             throw 'Not implemented: ' + data_control + '.' + functionName;
         properties = designerObj[functionName](data_type);
         return properties;
-    };
+    }
     ;
-    FwControl.init = function ($these) {
+    static init($these) {
         var functionName, data_control, $this, designerObj, designerObjName;
         functionName = 'init';
         $these
@@ -52,9 +50,9 @@ var FwControl = (function () {
             .on('click', '.fwdesignerhandlemenu .delete', function () {
             jQuery(this).closest('.FwControl').remove();
         });
-    };
+    }
     ;
-    FwControl.renderDesignerHtml = function ($these) {
+    static renderDesignerHtml($these) {
         var functionName, data_control, data_type, $this, designerObj;
         functionName = 'renderDesignerHtml';
         $these.each(function (index, element) {
@@ -66,9 +64,9 @@ var FwControl = (function () {
                 throw 'Not implemented: ' + data_control + '.' + functionName;
             designerObj[functionName]($this);
         });
-    };
+    }
     ;
-    FwControl.renderRuntimeHtml = function ($these) {
+    static renderRuntimeHtml($these) {
         var functionName;
         functionName = 'renderRuntimeHtml';
         $these.each(function (index, element) {
@@ -81,9 +79,9 @@ var FwControl = (function () {
                 throw 'Not implemented: ' + data_control + '.' + functionName;
             designerObj[functionName]($this);
         });
-    };
+    }
     ;
-    FwControl.renderTemplateHtml = function ($these) {
+    static renderTemplateHtml($these) {
         var functionName;
         functionName = 'renderTemplateHtml';
         $these.each(function (index, element) {
@@ -97,9 +95,9 @@ var FwControl = (function () {
                 throw 'Not implemented: ' + data_control + '.' + functionName;
             designerObj[functionName]($this);
         });
-    };
+    }
     ;
-    FwControl.generateControlId = function (prefix) {
+    static generateControlId(prefix) {
         var isUniqueHtmlId, counterHtmlId, htmlId;
         isUniqueHtmlId = false;
         counterHtmlId = 1;
@@ -113,9 +111,9 @@ var FwControl = (function () {
             }
         }
         return htmlId;
-    };
+    }
     ;
-    FwControl.generateDesignerHandle = function (controltype, id) {
+    static generateDesignerHandle(controltype, id) {
         var html;
         html = [];
         html.push('<div class="fwdesignerhandle">');
@@ -130,9 +128,9 @@ var FwControl = (function () {
         html.push('</div>');
         html = html.join('');
         return html;
-    };
+    }
     ;
-    FwControl.setIds = function ($these, formid) {
+    static setIds($these, formid) {
         $these.each(function (index, element) {
             var id, $this;
             $this = jQuery(element);
@@ -142,19 +140,19 @@ var FwControl = (function () {
                 $this.attr('id', id);
             }
         });
-    };
+    }
     ;
-    FwControl.renderRuntimeObject = function ($object) {
+    static renderRuntimeObject($object) {
         var $fwcontrols = $object.find('.fwcontrol');
         FwControl.renderRuntimeControls($fwcontrols);
-    };
+    }
     ;
-    FwControl.renderRuntimeControls = function ($these) {
+    static renderRuntimeControls($these) {
         FwControl.init($these);
         FwControl.renderRuntimeHtml($these);
-    };
+    }
     ;
-    FwControl.loadControls = function ($these) {
+    static loadControls($these) {
         var functionName;
         functionName = 'loadControl';
         $these.each(function (index, element) {
@@ -166,8 +164,7 @@ var FwControl = (function () {
                 controlObj[functionName]($this);
             }
         });
-    };
+    }
     ;
-    return FwControl;
-}());
+}
 //# sourceMappingURL=FwControl.js.map

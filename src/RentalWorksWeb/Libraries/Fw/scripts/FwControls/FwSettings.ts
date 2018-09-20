@@ -11,7 +11,7 @@ class FwSettingsClass {
     //----------------------------------------------------------------------------------------------
     renderRuntimeHtml($control) {
         var html = [];
-        
+
         html.push('<div class="fwsettingsheader">');
         //html.push('<div class="settingsmenu">');
         //html.push('</div>')
@@ -377,10 +377,10 @@ class FwSettingsClass {
         html.push('        </div>');
         html.push('      </h4>');
         if (description === "") {
-            html.push('      <small id="description" style="display:none;">' + moduleName + '</small>');
+            html.push('      <small id="searchId" style="display:none;">' + moduleName + '</small>');
             html.push('      <small>' + moduleName + '</small>');
         } else {
-            html.push('      <small id="description" style="display:none;">' + description + '</small>');
+            html.push('      <small id="searchId" style="display:none;">' + moduleName + '</small>');
             html.push('      <small>' + description + '</small>');
         }
         html.push('    </div>');
@@ -556,7 +556,6 @@ class FwSettingsClass {
                                         }
                                         html.push('    <label data-datafield=' + browseData[j]['datafield'] + ' style="color:#31708f">' + response[i][browseKeys[j]] + '</label>');
                                     }
-
                                     html.push('        </div>');
                                     html.push('      </div>');
                                     //if (browseKeys[j] === 'Inactive' && response[i][browseKeys[j]] === true) {
@@ -625,7 +624,7 @@ class FwSettingsClass {
                                 } else {
                                     highlightField.find('.fwformfield-caption').addClass('highlighted');
                                     highlightField.parents('.fwtabs .fwcontrol').find('#' + hightlightFieldTabId).addClass('highlighted');
-                                    
+
                                 }
                             }
                         };
@@ -701,10 +700,10 @@ class FwSettingsClass {
                     if (jQuery(this).closest('.panel-record').find('.panel-info').find('label[data-datafield="' + browsedatafields[j] + '"]')) {
                         // check if field is valid or else may be a validation
                         if ($form.find('div[data-datafield="' + browsedatafields[j] + '"]').length > 0) {
-                            jQuery(this).closest('.panel-record').find('.panel-info').find('label[data-datafield="' + browsedatafields[j] + '"]').text(FwFormField.getValueByDataField($form, browsedatafields[j]));                    
+                            jQuery(this).closest('.panel-record').find('.panel-info').find('label[data-datafield="' + browsedatafields[j] + '"]').text(FwFormField.getValueByDataField($form, browsedatafields[j]));
                             jQuery(this).closest('.panel-record').find('.panel-info').find('[data-datafield="' + browsedatafields[j] + '"]').prop('checked', FwFormField.getValueByDataField($form, browsedatafields[j]));
                         } else {
-                            var validationValue : any = $form.find('div[data-displayfield="' + browsedatafields[j] + '"] input.fwformfield-text').val()
+                            var validationValue: any = $form.find('div[data-displayfield="' + browsedatafields[j] + '"] input.fwformfield-text').val()
                             jQuery(this).closest('.panel-record').find('.panel-info').find('label[data-datafield="' + browsedatafields[j] + '"]').text(validationValue);
                         }
                     }
@@ -726,7 +725,7 @@ class FwSettingsClass {
                 var $settings, val, $module;
 
                 filter = [];
-                $settings = jQuery('small#description');
+                $settings = jQuery('small#searchId');
                 $module = jQuery('a#title');
                 val = jQuery.trim(this.value).toUpperCase();
                 if (val === "") {
@@ -747,9 +746,11 @@ class FwSettingsClass {
                     }
                     me.filter = filter;
                     for (var i = 0; i < results.length; i++) {
+                        //check descriptions for match
                         var module = $settings.filter(function () {
                             return -1 != jQuery(this).text().toUpperCase().indexOf(results[i]);
                         }).closest('div.panel-group');
+
                         module.find('.highlighted').removeClass('highlighted');
                         module.show();
                     }

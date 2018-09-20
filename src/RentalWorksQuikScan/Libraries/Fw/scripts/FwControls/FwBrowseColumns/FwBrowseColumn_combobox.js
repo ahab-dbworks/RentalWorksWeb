@@ -1,42 +1,40 @@
-var FwBrowseColumn_comboboxClass = (function () {
-    function FwBrowseColumn_comboboxClass() {
-    }
-    FwBrowseColumn_comboboxClass.prototype.databindfield = function ($browse, $field, dt, dtRow, $tr) {
+class FwBrowseColumn_comboboxClass {
+    databindfield($browse, $field, dt, dtRow, $tr) {
         var displayFieldValue = dtRow[dt.ColumnIndex[$field.attr('data-browsedisplayfield')]];
         $field.attr('data-originaltext', displayFieldValue);
-    };
-    FwBrowseColumn_comboboxClass.prototype.getFieldUniqueId = function ($browse, $tr, $field, uniqueid, originalvalue) {
+    }
+    getFieldUniqueId($browse, $tr, $field, uniqueid, originalvalue) {
         if ($tr.hasClass('editmode')) {
             uniqueid.value = $field.find('input.value').val();
         }
-    };
-    FwBrowseColumn_comboboxClass.prototype.getFieldValue = function ($browse, $tr, $field, field, originalvalue) {
+    }
+    getFieldValue($browse, $tr, $field, field, originalvalue) {
         if (($tr.hasClass('editmode')) || ($tr.hasClass('newmode'))) {
             field.value = $field.find('input.value').val();
         }
-    };
-    FwBrowseColumn_comboboxClass.prototype.setFieldValue = function ($browse, $tr, $field, data) {
+    }
+    setFieldValue($browse, $tr, $field, data) {
         $field.find('.value').val(data.value);
         $field.find('.text').val(data.text);
-    };
-    FwBrowseColumn_comboboxClass.prototype.isModified = function ($browse, $tr, $field) {
+    }
+    isModified($browse, $tr, $field) {
         var isModified = false;
-        var originalValue = $field.attr('data-originalvalue');
+        let originalValue = $field.attr('data-originalvalue');
         if (($tr.hasClass('editmode')) || ($tr.hasClass('newmode'))) {
-            var currentValue = $field.find('input.value').val();
+            let currentValue = $field.find('input.value').val();
             isModified = currentValue !== originalValue;
         }
         return isModified;
-    };
-    FwBrowseColumn_comboboxClass.prototype.setFieldViewMode = function ($browse, $tr, $field) {
+    }
+    setFieldViewMode($browse, $tr, $field) {
         var originaltext = (typeof $field.attr('data-originaltext') === 'string') ? $field.attr('data-originaltext') : '';
         $field.html(originaltext);
-    };
-    FwBrowseColumn_comboboxClass.prototype.setFieldEditMode = function ($browse, $tr, $field) {
+    }
+    setFieldEditMode($browse, $tr, $field) {
         var validationName, validationFor, $valuefield, $textfield, $btnvalidate;
         var originalvalue = (typeof $field.attr('data-originalvalue') === 'string') ? $field.attr('data-originalvalue') : '';
         var originaltext = (typeof $field.attr('data-originaltext') === 'string') ? $field.attr('data-originaltext') : '';
-        var html = [];
+        let html = [];
         html.push('<input class="value" type="hidden" />');
         html.push('<input class="text" type="text" autocapitalize="none"');
         if ($browse.attr('data-enabled') === 'false') {
@@ -44,12 +42,12 @@ var FwBrowseColumn_comboboxClass = (function () {
         }
         html.push(' />');
         html.push('<i class="material-icons md-dark btnvalidate">&#xE5CF;</i>');
-        var htmlString = html.join('');
+        let htmlString = html.join('');
         $field.html(htmlString);
         this.setFieldValue($browse, $tr, $field, { value: originalvalue, text: originaltext });
         this.initControl($field);
-    };
-    FwBrowseColumn_comboboxClass.prototype.initControl = function ($control) {
+    }
+    initControl($control) {
         var me = this;
         var $validationbrowse, $popup, $object, controller, formbeforevalidate, control_boundfields, boundfields, validationName, $valuefield, $btnvalidate;
         validationName = (typeof $control.attr('data-validationname') != 'undefined') ? $control.attr('data-validationname') : $control.attr('data-formvalidationname');
@@ -216,9 +214,9 @@ var FwBrowseColumn_comboboxClass = (function () {
                 FwFunc.showError(ex);
             }
         });
-    };
-    FwBrowseColumn_comboboxClass.prototype.databindcallback = function ($control, $browse, dt, validationName, $valuefield, $btnvalidate, $validationbrowse, controller) {
-        var me = this;
+    }
+    databindcallback($control, $browse, dt, validationName, $valuefield, $btnvalidate, $validationbrowse, controller) {
+        let me = this;
         if (typeof dt === 'undefined')
             throw 'Unable to load data: dt is undefined.';
         var html = [], $dropdown, controlOffset, originalcolor;
@@ -363,7 +361,7 @@ var FwBrowseColumn_comboboxClass = (function () {
                 .on('click', function () {
                 var pageno, totalPages, $thisbtn;
                 try {
-                    var $btnNextPage = jQuery(this);
+                    let $btnNextPage = jQuery(this);
                     if ($btnNextPage.attr('data-enabled') === 'true') {
                         pageno = parseInt($pager.find('.txtPageNo').val().toString()) + 1;
                         totalPages = parseInt($pager.find('.txtTotalPages').html());
@@ -409,8 +407,8 @@ var FwBrowseColumn_comboboxClass = (function () {
             originalcolor = $valuefield.css('background-color');
             $valuefield.css('background-color', '#ffcccc').animate({ backgroundColor: originalcolor }, 1500, function () { $valuefield.attr('style', ''); });
         }
-    };
-    FwBrowseColumn_comboboxClass.prototype.closeDropDown = function ($control, showAnimation) {
+    }
+    closeDropDown($control, showAnimation) {
         if ((typeof $control.data('dropdown') !== 'undefined') && ($control.data('dropdown') !== null)) {
             if (showAnimation) {
                 $control.data('dropdown').slideUp({
@@ -424,8 +422,8 @@ var FwBrowseColumn_comboboxClass = (function () {
             }
         }
         $control.data('dropdown', null);
-    };
-    FwBrowseColumn_comboboxClass.prototype.validate = function ($control, validationName, $valuefield, $btnvalidate, $validationbrowse, useSearchFieldValue) {
+    }
+    validate($control, validationName, $valuefield, $btnvalidate, $validationbrowse, useSearchFieldValue) {
         var $validationSearchbox;
         this.clearSearchCriteria($validationbrowse);
         if (useSearchFieldValue) {
@@ -441,9 +439,9 @@ var FwBrowseColumn_comboboxClass = (function () {
             }
         }
         FwBrowse.search($validationbrowse);
-    };
+    }
     ;
-    FwBrowseColumn_comboboxClass.prototype.selectRow = function ($control, $tr, validationName, $valuefield, $btnvalidate, $validationbrowse, controller) {
+    selectRow($control, $tr, validationName, $valuefield, $btnvalidate, $validationbrowse, controller) {
         var uniqueid, text;
         this.highlightRow($control, $tr);
         uniqueid = $tr.attr('data-uniqueid');
@@ -453,19 +451,19 @@ var FwBrowseColumn_comboboxClass = (function () {
         }
         this.clearSearchCriteria($validationbrowse);
         this.closeDropDown($control, true);
-        var originalcolor = $valuefield.css('background-color');
+        let originalcolor = $valuefield.css('background-color');
         $valuefield.css('background-color', '#abcdef').animate({ backgroundColor: originalcolor }, 1500, function () { $valuefield.attr('style', ''); });
         $control.find('.value').change();
-    };
-    FwBrowseColumn_comboboxClass.prototype.clearSearchCriteria = function ($validationbrowse) {
+    }
+    clearSearchCriteria($validationbrowse) {
         var $validationSearchboxes, $validationSearchbox;
         $validationSearchboxes = $validationbrowse.find('thead .field > .search > input');
         $validationSearchboxes.each(function (index, element) {
             $validationSearchbox = jQuery(element);
             $validationSearchbox.val('');
         });
-    };
-    FwBrowseColumn_comboboxClass.prototype.getHighlightedRow = function ($control) {
+    }
+    getHighlightedRow($control) {
         var $row = null;
         if ($control.data('dropdown') !== null) {
             $row = $control.data('dropdown').find('.row.selected');
@@ -475,14 +473,14 @@ var FwBrowseColumn_comboboxClass = (function () {
             }
         }
         return $row;
-    };
-    FwBrowseColumn_comboboxClass.prototype.highlightRow = function ($control, $row) {
+    }
+    highlightRow($control, $row) {
         if (($control.data('dropdown') !== null) && (typeof $row !== 'undefined') && ($row.length > 0)) {
             $control.data('dropdown').find('.row').removeClass('selected');
             $row.addClass('selected');
         }
-    };
-    FwBrowseColumn_comboboxClass.prototype.highlightNextRow = function ($control) {
+    }
+    highlightNextRow($control) {
         var $row = this.getHighlightedRow($control);
         if ($row !== null) {
             var $nextrow = $row.next('.row');
@@ -490,9 +488,9 @@ var FwBrowseColumn_comboboxClass = (function () {
                 this.highlightRow($control, $nextrow);
             }
         }
-    };
+    }
     ;
-    FwBrowseColumn_comboboxClass.prototype.highlightPrevRow = function ($control) {
+    highlightPrevRow($control) {
         var $row = this.getHighlightedRow($control);
         if ($row !== null) {
             var $prevrow = $row.prev('.row');
@@ -500,9 +498,8 @@ var FwBrowseColumn_comboboxClass = (function () {
                 this.highlightRow($control, $prevrow);
             }
         }
-    };
+    }
     ;
-    return FwBrowseColumn_comboboxClass;
-}());
+}
 var FwBrowseColumn_combobox = new FwBrowseColumn_comboboxClass();
 //# sourceMappingURL=FwBrowseColumn_combobox.js.map

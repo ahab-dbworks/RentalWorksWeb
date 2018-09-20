@@ -342,11 +342,11 @@ class FwSettingsClass {
         html.push('        </div>');
         html.push('      </h4>');
         if (description === "") {
-            html.push('      <small id="description" style="display:none;">' + moduleName + '</small>');
+            html.push('      <small id="searchId" style="display:none;">' + moduleName + '</small>');
             html.push('      <small>' + moduleName + '</small>');
         }
         else {
-            html.push('      <small id="description" style="display:none;">' + description + '</small>');
+            html.push('      <small id="searchId" style="display:none;">' + moduleName + '</small>');
             html.push('      <small>' + description + '</small>');
         }
         html.push('    </div>');
@@ -663,7 +663,7 @@ class FwSettingsClass {
             if (e.which === 13) {
                 var $settings, val, $module;
                 filter = [];
-                $settings = jQuery('small#description');
+                $settings = jQuery('small#searchId');
                 $module = jQuery('a#title');
                 val = jQuery.trim(this.value).toUpperCase();
                 if (val === "") {
