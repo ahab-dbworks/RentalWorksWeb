@@ -30,7 +30,7 @@
         });
 
         function calculateExtended() {
-            let quantityValue, url;  
+            let quantityValue, url;
             quantityValue = $generatedtr.find('[data-browsedatafield="Quantity"] input.value').val();
             let rateValue = $generatedtr.find('.field[data-browsedatafield="Rate"] input').val();
             rateValue = +rateValue.substring(1).replace(',', '');

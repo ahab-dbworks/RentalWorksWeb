@@ -68,7 +68,6 @@ class RwDocumentType {
     }
 
     afterLoad($form: any) {
-
     }
 }
 

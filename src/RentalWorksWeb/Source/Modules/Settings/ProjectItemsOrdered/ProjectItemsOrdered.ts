@@ -68,7 +68,6 @@ class ProjectItemsOrdered {
     }
 
     afterLoad($form: any) {
-
     }
 }
 

@@ -68,7 +68,6 @@ class PhotographyType {
     }
 
     afterLoad($form: any) {
-
     }
 }
 

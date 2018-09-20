@@ -393,8 +393,7 @@ class CheckIn {
                 $form.find('[data-datafield="BarCode"] input').select();
             }
             response.ShowNewOrder ? $form.find('.addordertocontract').show() : $form.find('.addordertocontract').hide();
-
-        }, null, contractId ? null:$form);
+        }, null, contractId ? null : $form);
     }
     //----------------------------------------------------------------------------------------------
 }

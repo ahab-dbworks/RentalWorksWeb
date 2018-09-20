@@ -68,7 +68,6 @@ class PORejectReason {
     }
 
     afterLoad($form: any) {
-
     }
 }
 

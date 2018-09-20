@@ -93,7 +93,7 @@ class RwLateReturnDueBackReport extends FwWebApiReport {
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
         var screen, $form;
-        screen            = {};
+        screen = {};
         screen.$view = FwModule.getModuleControl('Rw' + this.Module + 'Controller');
         screen.viewModel = {};
         screen.properties = {};
@@ -174,7 +174,7 @@ class RwLateReturnDueBackReport extends FwWebApiReport {
         lateReturn.prop('checked', true);
         FwFormField.disable($form.find('.duebackon'));
         FwFormField.disable($form.find('.dueback'));
-        FwFormField.setValue($form, 'div[data-datafield="DepartmentId"]', department.departmentid,  department.department);
+        FwFormField.setValue($form, 'div[data-datafield="DepartmentId"]', department.departmentid, department.department);
         FwFormField.setValue($form, 'div[data-datafield="OfficeLocationId"]', location.locationid, location.location);
     };
     //----------------------------------------------------------------------------------------------
@@ -196,4 +196,3 @@ class RwLateReturnDueBackReport extends FwWebApiReport {
     //----------------------------------------------------------------------------------------------
 };
 var RwLateReturnDueBackReportController: any = new RwLateReturnDueBackReport();
-

@@ -37,7 +37,7 @@ class VendorInvoiceApprover {
 
         return $browse;
     }
-     
+
     openForm(mode: string) {
         var $form;
 
@@ -67,12 +67,8 @@ class VendorInvoiceApprover {
         FwModule.loadAudit($form, uniqueid);
     }
 
-
     afterLoad($form: any) {
-     
     }
-
- 
 }
 
 var VendorInvoiceApproverController = new VendorInvoiceApprover();

@@ -68,7 +68,6 @@ class WardrobeCondition {
     }
 
     afterLoad($form: any) {
-
     }
 }
 

@@ -105,7 +105,6 @@ class PresentationLayer {
         FwBrowse.init($presentationLayerActivityOverrideGridControl);
         FwBrowse.renderRuntimeHtml($presentationLayerActivityOverrideGridControl);
 
-
         // load presentationlayerform Grid
         $presentationLayerFormGrid = $form.find('div[data-grid="PresentationLayerFormGrid"]');
         $presentationLayerFormGridControl = jQuery(jQuery('#tmpl-grids-PresentationLayerFormGridBrowse').html());
@@ -117,8 +116,6 @@ class PresentationLayer {
         });
         FwBrowse.init($presentationLayerFormGridControl);
         FwBrowse.renderRuntimeHtml($presentationLayerFormGridControl);
-
-
     }
 
     afterLoad($form: any) {
@@ -134,8 +131,6 @@ class PresentationLayer {
 
         $presentationLayerFormGrid = $form.find('[data-name="PresentationLayerFormGrid"]');
         FwBrowse.search($presentationLayerFormGrid);
-
-
     }
 }
 

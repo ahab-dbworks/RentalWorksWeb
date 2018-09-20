@@ -10,7 +10,6 @@ class PurchaseOrder {
     DefaultPurchasePoType: string;
     DefaultPurchasePoTypeId: string;
 
-
     //----------------------------------------------------------------------------------------------
     getModuleScreen(filter?: any) {
         var self = this;
@@ -46,7 +45,6 @@ class PurchaseOrder {
         var $browse = FwBrowse.loadBrowseFromTemplate(this.Module);
         $browse = FwModule.openBrowse($browse);
 
-
         var warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
         self.ActiveView = 'WarehouseId=' + warehouse.warehouseid;
 
@@ -60,7 +58,6 @@ class PurchaseOrder {
         FwBrowse.addLegend($browse, 'Multi-Warehouse', '#D6E180');
         FwBrowse.addLegend($browse, 'Repair', '#5EAEAE');
         FwBrowse.addLegend($browse, 'L&D', '#400040');
-
 
         let department = JSON.parse(sessionStorage.getItem('department'));;
         let location = JSON.parse(sessionStorage.getItem('location'));;
@@ -205,7 +202,6 @@ class PurchaseOrder {
             //$form.find('div[data-datafield="EstimatedStartTime"]').attr('data-required', false);
             //$form.find('div[data-datafield="EstimatedStopTime"]').attr('data-required', false);
 
-
             //$form.find('div[data-datafield="PendingPo"] input').prop('checked', true);
             //$form.find('div[data-datafield="Rental"] input').prop('checked', true);
             //$form.find('div[data-datafield="Sales"] input').prop('checked', true);
@@ -213,7 +209,6 @@ class PurchaseOrder {
             //$form.find('div[data-datafield="Labor"] input').prop('checked', true);
             //FwFormField.disable($form.find('[data-datafield="PoNumber"]'));
             //FwFormField.disable($form.find('[data-datafield="PoAmount"]'));
-
 
             //FwFormField.disable($form.find('.frame'));
             //$form.find(".frame .add-on").children().hide();
@@ -249,7 +244,6 @@ class PurchaseOrder {
         //        $form.find('[data-datafield="Labor"] input').prop('checked') ? laborTab.show() : laborTab.hide();
         //    }
         //});
-
 
         //$form.find('[data-datafield="NoCharge"] .fwformfield-value').on('change', function () {
         //    var $this = jQuery(this);
@@ -714,9 +708,6 @@ class PurchaseOrder {
         $orderItemGridSubLabor.find('.buttonbar').hide();
         $orderItemGridSubMisc.find('.buttonbar').hide();
 
-
-
-
         this.dynamicColumns($form);
     };
 
@@ -881,7 +872,6 @@ class PurchaseOrder {
 
         //Hides Search option for sub item grids
         $form.find('[data-issubgrid="true"] .submenu-btn[data-securityid="77E511EC-5463-43A0-9C5D-B54407C97B15"]').hide();
-
     };
 
     //----------------------------------------------------------------------------------------------

@@ -1,76 +1,76 @@
 class Widget {
-  Module: string;
-  apiurl: string;
+    Module: string;
+    apiurl: string;
 
-  constructor() {
-      this.Module = 'Widget';
-      this.apiurl = 'api/v1/widget';
-  }
+    constructor() {
+        this.Module = 'Widget';
+        this.apiurl = 'api/v1/widget';
+    }
 
-  getModuleScreen() {
-    var screen, $browse;
+    getModuleScreen() {
+        var screen, $browse;
 
-    screen = {};
-    screen.$view = FwModule.getModuleControl(this.Module + 'Controller');
-    screen.viewModel = {};
-    screen.properties = {};
+        screen = {};
+        screen.$view = FwModule.getModuleControl(this.Module + 'Controller');
+        screen.viewModel = {};
+        screen.properties = {};
 
-    $browse = this.openBrowse();
+        $browse = this.openBrowse();
 
-    screen.load = function () {
-      FwModule.openModuleTab($browse, 'Widget', false, 'BROWSE', true);
-      FwBrowse.databind($browse);
-      FwBrowse.screenload($browse);
-    };
-    screen.unload = function () {
-      FwBrowse.screenunload($browse);
-    };
+        screen.load = function () {
+            FwModule.openModuleTab($browse, 'Widget', false, 'BROWSE', true);
+            FwBrowse.databind($browse);
+            FwBrowse.screenload($browse);
+        };
+        screen.unload = function () {
+            FwBrowse.screenunload($browse);
+        };
 
-    return screen;
-  }
+        return screen;
+    }
 
-  openBrowse() {
-    var $browse;
+    openBrowse() {
+        var $browse;
 
-    $browse = FwBrowse.loadBrowseFromTemplate(this.Module);
-    $browse = FwModule.openBrowse($browse);
-    FwBrowse.init($browse);
+        $browse = FwBrowse.loadBrowseFromTemplate(this.Module);
+        $browse = FwModule.openBrowse($browse);
+        FwBrowse.init($browse);
 
-    return $browse;
-  }
-     
-  openForm(mode: string) {
-    var $form;
+        return $browse;
+    }
 
-    $form = FwModule.loadFormFromTemplate(this.Module);
-    $form = FwModule.openForm($form, mode);
+    openForm(mode: string) {
+        var $form;
 
-    return $form;
-  }
+        $form = FwModule.loadFormFromTemplate(this.Module);
+        $form = FwModule.openForm($form, mode);
 
-  loadForm(uniqueids: any) {
-    var $form;
+        return $form;
+    }
 
-    $form = this.openForm('EDIT');
-    $form.find('div.fwformfield[data-datafield="WidgetId"] input').val(uniqueids.WidgetId);
-    FwModule.loadForm(this.Module, $form);
+    loadForm(uniqueids: any) {
+        var $form;
 
-    return $form;
-  }
+        $form = this.openForm('EDIT');
+        $form.find('div.fwformfield[data-datafield="WidgetId"] input').val(uniqueids.WidgetId);
+        FwModule.loadForm(this.Module, $form);
 
-  saveForm($form: any, parameters: any) {
-    FwModule.saveForm(this.Module, $form, parameters);
-  }
+        return $form;
+    }
 
-  loadAudit($form: any) {
-    var uniqueid;
-    uniqueid = $form.find('div.fwformfield[data-datafield="WidgetId"] input').val();
-    FwModule.loadAudit($form, uniqueid);
-  }
+    saveForm($form: any, parameters: any) {
+        FwModule.saveForm(this.Module, $form, parameters);
+    }
 
-  afterLoad($form: any) {
-    FwFormField.disable($form.find('[data-datafield="ApiName"]'));
-  }
+    loadAudit($form: any) {
+        var uniqueid;
+        uniqueid = $form.find('div.fwformfield[data-datafield="WidgetId"] input').val();
+        FwModule.loadAudit($form, uniqueid);
+    }
+
+    afterLoad($form: any) {
+        FwFormField.disable($form.find('[data-datafield="ApiName"]'));
+    }
 }
 
 var WidgetController = new Widget();

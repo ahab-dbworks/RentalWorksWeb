@@ -68,7 +68,6 @@ class ContactTitle {
     }
 
     afterLoad($form: any) {
-
     }
 }
 

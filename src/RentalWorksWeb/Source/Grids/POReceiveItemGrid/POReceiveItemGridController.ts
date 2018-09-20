@@ -56,7 +56,6 @@
                     var $value = $quantityColumn.find('.fieldvalue');
                     var oldval = jQuery.isNumeric(parseFloat($value.val())) ? parseFloat($value.val()) : 0;
                     if ((typeof $quantityColumn.attr('data-maxvalue') !== 'undefined') && ($quantityColumn.attr('data-maxvalue') <= oldval)) {
-
                     } else {
                         $value.val(++oldval);
                     }
@@ -65,7 +64,6 @@
                     var $value = $quantityColumn.find('.fieldvalue');
                     var oldval = jQuery.isNumeric(parseFloat($value.val())) ? parseFloat($value.val()) : 0;
                     if ((typeof $quantityColumn.attr('data-minvalue') !== 'undefined') && ($quantityColumn.attr('data-minvalue') >= oldval)) {
-
                     } else {
                         if (oldval > 0) {
                             $value.val(--oldval);
@@ -154,7 +152,6 @@
     addLegend($control) {
         FwBrowse.addLegend($control, 'Positive Conflict', '#239B56');
         FwBrowse.addLegend($control, 'Items Needing Bar Code/Serial No./RFID', '#6C3483');
-
     }
 }
 

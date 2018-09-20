@@ -124,7 +124,6 @@ class OrderStatus {
                 })
                 FwBrowse.search($orderStatusSalesDetailGridControl);
 
-
                 setTimeout(function () {
                     var $trs = $form.find('.ordersummarygrid tr.viewmode');
 
@@ -151,8 +150,6 @@ class OrderStatus {
             catch (ex) {
                 FwFunc.showError(ex);
             }
-
-
         });
     }
     //----------------------------------------------------------------------------------------------
@@ -246,7 +243,6 @@ class OrderStatus {
                 }
             })
             FwBrowse.search($orderStatusSalesDetailGridControl);
-
         });
 
         var $filterValidations = $form.find('#filters [data-type="validation"] input.fwformfield-value');
@@ -283,7 +279,6 @@ class OrderStatus {
                     var subObj = { SubCategoryId: SubCategoryId }
                 }
                 request.filterfields = jQuery.extend(invObj, whObj, catObj, iObj, subObj);
-
             })
             FwBrowse.search($orderStatusSummaryGridControl);
 
@@ -362,8 +357,6 @@ class OrderStatus {
                 //    request.searchfields.push("BarCode");
                 //    request.searchfieldvalues.push(BarCode);
                 //};
-
-
             })
             FwBrowse.search($orderStatusSummaryGridControl);
 
@@ -384,8 +377,6 @@ class OrderStatus {
                     request.searchfields.push("BarCodeSerialRfid");  //justin 02/11/2018 replaced with correct field name
                     request.searchfieldvalues.push(BarCode);
                 };
-
-
             })
             FwBrowse.search($orderStatusRentalDetailGridControl);
 
@@ -406,12 +397,9 @@ class OrderStatus {
                     request.searchfields.push("BarCodeSerialRfid");  //justin 02/11/2018 replaced with correct field name
                     request.searchfieldvalues.push(BarCode);
                 };
-
             })
             FwBrowse.search($orderStatusSalesDetailGridControl);
-
         });
-
     }
     //----------------------------------------------------------------------------------------------
     afterLoad($form: any) {
@@ -431,7 +419,6 @@ class OrderStatus {
                     $form.find('.summaryview').hide();
                     break;
             }
-
         });
     }
     //----------------------------------------------------------------------------------------------
@@ -449,6 +436,5 @@ class OrderStatus {
         FwBrowse.addLegend($grid, 'Too Many Staged', '#00ff80');
     }
     //----------------------------------------------------------------------------------------------
-
 }
 var OrderStatusController = new OrderStatus();

@@ -68,9 +68,7 @@ class WardrobePeriod {
     }
 
     afterLoad($form: any) {
-
     }
-
 }
 
 var WardrobePeriodController = new WardrobePeriod();

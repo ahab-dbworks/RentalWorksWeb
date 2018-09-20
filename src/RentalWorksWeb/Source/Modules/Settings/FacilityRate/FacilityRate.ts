@@ -37,7 +37,7 @@ class RwFacilityRate {
 
         return $browse;
     }
-     
+
     openForm(mode: string) {
         var $form;
 
@@ -121,7 +121,6 @@ class RwFacilityRate {
         })
         FwBrowse.init($rateWarehouseGridControl);
         FwBrowse.renderRuntimeHtml($rateWarehouseGridControl);
-
     }
 
     afterLoad($form: any) {
@@ -138,8 +137,7 @@ class RwFacilityRate {
         if ($limit === true) {
             FwFormField.enable($form.find('[data-datafield="ProfitAndLossCategoryId"]'));
             FwFormField.disable($form.find('[data-datafield="ProfitAndLossCategory"]'));
-        } 
-
+        }
     }
 
     beforeValidate = function ($browse, $grid, request) {
@@ -148,8 +146,7 @@ class RwFacilityRate {
         request.uniqueids = {
             FacilityTypeId: FacilityTypeValue
         };
-
-    } 
+    }
 }
 
 var FacilityRateController = new RwFacilityRate();

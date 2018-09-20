@@ -68,7 +68,6 @@ class POClassification {
     }
 
     afterLoad($form: any) {
-
     }
 }
 

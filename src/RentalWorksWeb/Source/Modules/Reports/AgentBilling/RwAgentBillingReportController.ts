@@ -114,7 +114,6 @@ class RwAgentBillingReportClass extends FwWebApiReport {
     }
     //----------------------------------------------------------------------------------------------
     beforeValidate($browse, $form, request) {
-
         const validationName = request.module;
         const customerId = FwFormField.getValueByDataField($form, 'CustomerId');
         request.uniqueids = {};

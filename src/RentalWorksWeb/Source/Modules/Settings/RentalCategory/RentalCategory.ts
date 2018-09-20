@@ -30,13 +30,11 @@ class RentalCategory {
     }
 
     events($form: JQuery): void {
-
         $form.on('change', '.overridecheck input[type=checkbox]', (e) => {
             var $overrideCheck = jQuery(e.currentTarget), $categoryValidation = $form.find('.catvalidation');
 
             this.toggleEnabled($overrideCheck, $categoryValidation);
         });
-
     }
 
     toggleEnabled($checkbox: JQuery, $validation: JQuery): void {
@@ -63,7 +61,6 @@ class RentalCategory {
         })
         FwBrowse.init($subCategoryControl);
         FwBrowse.renderRuntimeHtml($subCategoryControl);
-
     }
 
     openBrowse() {
@@ -95,7 +92,7 @@ class RentalCategory {
         })
 
         this.toggleEnabled($form.find('.overridecheck input[type=checkbox]'), $form.find('.catvalidation'));
-        
+
         $form.find('div[data-datafield="IncomeAccountId"]').data('onchange', function ($tr) {
             FwFormField.setValue($form, 'div[data-datafield="IncomeAccountDescription"]', $tr.find('.field[data-browsedatafield="GlAccountDescription"]').attr('data-originalvalue'));
         });
@@ -162,12 +159,10 @@ class RentalCategory {
     }
 
     beforeValidate($browse, $grid, request) {
-
         request.uniqueids = {
             Rental: true
         }
     }
-
 }
 
 var RentalCategoryController = new RentalCategory();

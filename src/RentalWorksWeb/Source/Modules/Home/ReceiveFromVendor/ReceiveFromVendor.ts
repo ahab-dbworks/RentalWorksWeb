@@ -5,7 +5,6 @@ class ReceiveFromVendor {
     successSoundFileName: string;
     errorSoundFileName: string;
     notificationSoundFileName: string;
-   
 
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
@@ -106,7 +105,6 @@ class ReceiveFromVendor {
         $receiveItemsGridControl = jQuery(jQuery('#tmpl-grids-POReceiveItemGridBrowse').html());
         $receiveItemsGrid.empty().append($receiveItemsGridControl);
         $receiveItemsGridControl.data('ondatabind', function (request) {
-
         })
         FwBrowse.init($receiveItemsGridControl);
         FwBrowse.renderRuntimeHtml($receiveItemsGridControl);
@@ -114,7 +112,7 @@ class ReceiveFromVendor {
     //----------------------------------------------------------------------------------------------
     events($form: any): void {
         let self = this;
-    
+
         // Create Contract
         $form.find('.createcontract').on('click', e => {
             let contractId = FwFormField.getValueByDataField($form, 'ContractId');
@@ -174,7 +172,7 @@ class ReceiveFromVendor {
                 FwBrowse.search($receiveItemsGridControl);
             }, function onError(response) {
                 FwFunc.showError(response);
-                }, $form, contractId);
+            }, $form, contractId);
 
             $form.find('.createcontract[data-type="button"]').show();
             $form.find('.createcontract[data-type="btnmenu"]').hide();
@@ -192,7 +190,7 @@ class ReceiveFromVendor {
                 FwBrowse.search($receiveItemsGridControl);
             }, function onError(response) {
                 FwFunc.showError(response);
-                }, $form, contractId);
+            }, $form, contractId);
 
             let $itemsTrackedByBarcode = $receiveItemsGridControl.find('[data-browsedatafield="TrackedBy"][data-originalvalue="BARCODE"]');
             if ($itemsTrackedByBarcode.length > 0) {
@@ -276,6 +274,6 @@ class ReceiveFromVendor {
 
         FwMenu.addButtonMenuOptions($buttonmenu, menuOptions);
     }
-        //----------------------------------------------------------------------------------------------
+    //----------------------------------------------------------------------------------------------
 }
 var ReceiveFromVendorController = new ReceiveFromVendor();

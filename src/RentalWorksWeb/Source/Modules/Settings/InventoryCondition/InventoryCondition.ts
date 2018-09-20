@@ -68,7 +68,6 @@ class InventoryCondition {
     }
 
     afterLoad($form: any) {
-
     }
 }
 

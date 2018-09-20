@@ -68,7 +68,6 @@ class Unit {
     }
 
     afterLoad($form: any) {
-
     }
 }
 

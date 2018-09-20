@@ -42,7 +42,7 @@
         var $form;
 
         $form = FwModule.loadFormFromTemplate(this.Module);
-        $form = FwModule.openForm($form, mode); 
+        $form = FwModule.openForm($form, mode);
 
         return $form;
     }
@@ -60,7 +60,6 @@
                 OrderId: FwFormField.getValueByDataField($form, 'TemplateId'),
                 RecType: 'R'
             };
-
         });
         $orderItemGridRentalControl.data('beforesave', function (request) {
             request.OrderId = FwFormField.getValueByDataField($form, 'TemplateId');
@@ -82,7 +81,6 @@
                 OrderId: FwFormField.getValueByDataField($form, 'TemplateId'),
                 RecType: 'S'
             };
-
         });
         $orderItemGridSalesControl.data('beforesave', function (request) {
             request.OrderId = FwFormField.getValueByDataField($form, 'TemplateId');
@@ -90,7 +88,6 @@
         });
         FwBrowse.init($orderItemGridSalesControl);
         FwBrowse.renderRuntimeHtml($orderItemGridSalesControl);
-
 
         var $orderItemGridFacilities;
         var $orderItemGridFacilitiesControl;
@@ -112,7 +109,6 @@
         );
         FwBrowse.init($orderItemGridFacilitiesControl);
         FwBrowse.renderRuntimeHtml($orderItemGridFacilitiesControl);
-
 
         //var $orderItemGridTransportation;
         //var $orderItemGridTransportationControl;
@@ -152,7 +148,6 @@
         FwBrowse.init($orderItemGridLaborControl);
         FwBrowse.renderRuntimeHtml($orderItemGridLaborControl);
 
-
         var $orderItemGridMisc;
         var $orderItemGridMiscControl;
         $orderItemGridMisc = $form.find('.miscgrid div[data-grid="OrderItemGrid"]');
@@ -174,14 +169,12 @@
         FwBrowse.init($orderItemGridMiscControl);
         FwBrowse.renderRuntimeHtml($orderItemGridMiscControl);
 
-
         jQuery($form.find('.rentalgrid .valtype')).attr('data-validationname', 'RentalInventoryValidation');
         jQuery($form.find('.salesgrid .valtype')).attr('data-validationname', 'SalesInventoryValidation');
         jQuery($form.find('.laborgrid .valtype')).attr('data-validationname', 'LaborRateValidation');
         jQuery($form.find('.miscgrid .valtype')).attr('data-validationname', 'MiscRateValidation');
         jQuery($form.find('.facilitiesgrid .valtype')).attr('data-validationname', 'FacilityRateValidation');
         //jQuery($form.find('.transportationgrid .valtype')).attr('data-validationname', 'FacilityRateValidation');
-
     }
 
     loadForm(uniqueids: any) {
@@ -229,8 +222,7 @@
         $orderItemGridMisc = $form.find('.miscgrid [data-name="OrderItemGrid"]');
         //FwBrowse.search($orderItemGridMisc);
 
-
-        //Click event on tabs to load grids 
+        //Click event on tabs to load grids
         $form.on('click', '[data-type="tab"]', e => {
             let tabname = jQuery(e.currentTarget).attr('id');
             let tabpage = tabname.replace('tab', 'tabpage');
@@ -241,7 +233,6 @@
                     let $gridcontrol = jQuery($gridControls[i]);
                     FwBrowse.search($gridcontrol);
                 }
-
             }
         });
 
@@ -250,7 +241,7 @@
         $orderItemGridFacilities.find('.submenu-btn').filter('[data-securityid="007C4F21-7526-437C-AD1C-4BBB1030AABA"]').hide();
         $orderItemGridLabor.find('.submenu-btn').filter('[data-securityid="007C4F21-7526-437C-AD1C-4BBB1030AABA"]').hide();
         $orderItemGridMisc.find('.submenu-btn').filter('[data-securityid="007C4F21-7526-437C-AD1C-4BBB1030AABA"]').hide();
-        
+
         var checkboxes = $form.find('.rectype .fwformfield')
         for (var i = 0; i < checkboxes.length; i++) {
             var type = jQuery(checkboxes[i]).attr('data-datafield');
@@ -304,7 +295,6 @@
                 $form.find('[data-type="tab"][data-caption="Labor"]').hide();
             }
         });
-
     }
 }
 

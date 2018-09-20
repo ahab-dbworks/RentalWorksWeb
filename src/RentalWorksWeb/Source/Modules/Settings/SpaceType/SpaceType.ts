@@ -57,7 +57,7 @@ class SpaceType {
             FwFormField.setValue($form, 'div[data-datafield="RateDescription"]', $tr.find('.field[data-browsedatafield="Description"]').attr('data-originalvalue'));
             FwFormField.setValue($form, 'div[data-datafield="RateUnit"]', $tr.find('.field[data-browsedatafield="Unit"]').attr('data-originalvalue'));
         });
-        
+
         return $form;
     }
 
@@ -103,7 +103,6 @@ class SpaceType {
         $spaceWarehouseRateGrid = $form.find('[data-name="SpaceWarehouseRateGrid"]');
         FwBrowse.search($spaceWarehouseRateGrid);
     }
-
 }
 
 var SpaceTypeController = new SpaceType();

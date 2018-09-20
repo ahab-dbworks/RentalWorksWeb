@@ -39,7 +39,6 @@ class Customer {
     }
 
     events($form: JQuery): void {
-
         $form.find('[data-name="CompanyTaxOptionGrid"]').data('onselectedrowchanged', ($control: JQuery, $tr: JQuery) => {
             try {
                 this.updateExternalInputsWithGridValues($tr);
@@ -151,7 +150,7 @@ class Customer {
 
     openDealBrowse($form) {
         var $browse;
-        
+
         $browse = DealController.openBrowse();
 
         $browse.data('ondatabind', function (request) {
@@ -210,7 +209,6 @@ class Customer {
         });
         FwBrowse.init($customerNoteGridControl);
         FwBrowse.renderRuntimeHtml($customerNoteGridControl);
-
 
         // ----------
         var nameCompanyTaxGrid: string = 'CompanyTaxOptionGrid'
@@ -290,7 +288,6 @@ class Customer {
             FwModule.openSubModuleTab($browse, $dealForm);
         });
 
-
         //Click Event on tabs to load grids/browses
         $form.on('click', '[data-type="tab"]', e => {
             let tabname = jQuery(e.currentTarget).attr('id');
@@ -313,8 +310,6 @@ class Customer {
                 }
             }
         });
-
-
 
         this.addressTypeChange($form);
     }

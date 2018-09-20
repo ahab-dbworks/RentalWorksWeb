@@ -68,7 +68,6 @@ class BlackoutStatus {
     }
 
     afterLoad($form: any) {
-
     }
 }
 

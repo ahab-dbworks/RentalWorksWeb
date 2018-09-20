@@ -112,8 +112,6 @@ class User {
             }
         });
 
-
-
         //$form
         //    .on('change', '.cbSecurityExpirePassword, .cbNetExpirePassword', function () {
         //        this.setFormProperties($form);
@@ -228,16 +226,13 @@ class User {
 
         request.uniqueids = {};
         locationId = FwFormField.getValueByDataField($form, 'OfficeLocationId');
-       
+
         if (locationId) {
             request.uniqueids.LocationId = locationId;
         }
-      
     };
 
     beforeValidate = function ($browse, $grid, request, datafield) {
-
-
         switch (datafield) {
             case 'RentalInventoryTypeId':
                 request.uniqueids = {
@@ -261,7 +256,6 @@ class User {
                 break;
         };
     }
-
 }
 
 var UserController = new User();

@@ -46,10 +46,10 @@
                 decrement: function () {
                     var $value = $quantityColumn.find('.fieldvalue');
                     var oldval = jQuery.isNumeric(parseFloat($value.val())) ? parseFloat($value.val()) : 0;
-                        if (oldval > 0) {
-                            $value.val(--oldval);
-                        }
+                    if (oldval > 0) {
+                        $value.val(--oldval);
                     }
+                }
             });
 
             if (jQuery('html').hasClass('desktop')) {
@@ -123,7 +123,6 @@
     addLegend($control) {
         FwBrowse.addLegend($control, 'Sub Vendor', '#ebb58e');
         FwBrowse.addLegend($control, 'Consignor', '#857cfa');
-
     }
 }
 

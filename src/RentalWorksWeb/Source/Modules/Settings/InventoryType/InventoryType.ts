@@ -68,7 +68,6 @@ class InventoryType {
     }
 
     afterLoad($form: any) {
-
     }
 }
 

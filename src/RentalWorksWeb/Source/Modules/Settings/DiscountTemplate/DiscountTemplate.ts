@@ -39,7 +39,7 @@
     }
 
     renderGrids($form: any) {
-        var   $discountItemRentalGrid
+        var $discountItemRentalGrid
             , $discountItemRentalGridControl
             , $discountItemSalesGrid
             , $discountItemSalesGridControl
@@ -171,10 +171,7 @@
         var spaceDays = parseFloat($form.find('div.fwformfield[data-datafield="SpaceDaysPerWeek"] input').val());
         var spaceDecimals = spaceDays.toFixed(3);
         $form.find('div.fwformfield[data-datafield="SpaceDaysPerWeek"] input').val(spaceDecimals);
- 
     }
-
 }
 
 var DiscountTemplateController = new DiscountTemplate();
-

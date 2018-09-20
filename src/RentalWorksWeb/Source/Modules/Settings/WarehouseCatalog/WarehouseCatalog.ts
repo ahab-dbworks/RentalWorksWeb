@@ -68,7 +68,6 @@ class WarehouseCatalog {
     }
 
     afterLoad($form: any) {
-
     }
 }
 

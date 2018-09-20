@@ -3,9 +3,9 @@ routes.push({ pattern: /^module\/item$/, action: function (match: RegExpExecArra
 class RwAsset {
     Module: string = 'Asset';
     apiurl: string = 'api/v1/item';
-    caption: string  = 'Asset';
+    caption: string = 'Asset';
     nameItemAttributeValueGrid: string = 'ItemAttributeValueGrid';
-    nameItemQcGrid: string  = 'ItemQcGrid';
+    nameItemQcGrid: string = 'ItemQcGrid';
     ActiveView: string = 'ALL';
     //---------------------------------------------------------------------------------------------
     getModuleScreen() {
@@ -47,7 +47,7 @@ class RwAsset {
                 FwBrowse.addLegend($browse, response[i].InventoryStatus, response[i].Color);
             }
         }, null, $browse);
-            
+
         return $browse;
     };
     //---------------------------------------------------------------------------------------------
@@ -107,7 +107,7 @@ class RwAsset {
                 self.ActiveView = view.join(', ');
             }
             FwBrowse.search($browse);
-        }); 
+        });
         $trackBarcode.on('click', function () {
             var $browse, barcode, sortByBarcode;
             $browse = jQuery(this).closest('.fwbrowse');
@@ -177,7 +177,7 @@ class RwAsset {
     };
     //---------------------------------------------------------------------------------------------
     renderGrids($form: JQuery) {
-        var $itemAttributeValueGrid : JQuery = $form.find('div[data-grid="' + this.nameItemAttributeValueGrid + '"]');
+        var $itemAttributeValueGrid: JQuery = $form.find('div[data-grid="' + this.nameItemAttributeValueGrid + '"]');
         var $itemAttributeValueGridControl: JQuery = FwBrowse.loadGridFromTemplate(this.nameItemAttributeValueGrid);
         $itemAttributeValueGrid.empty().append($itemAttributeValueGridControl);
         $itemAttributeValueGridControl.data('ondatabind', function (request) {
@@ -201,7 +201,6 @@ class RwAsset {
         })
         FwBrowse.init($itemQcGridControl);
         FwBrowse.renderRuntimeHtml($itemQcGridControl);
-    
     };
     //---------------------------------------------------------------------------------------------
     afterLoad($form: JQuery) {

@@ -2,7 +2,7 @@ class Contract {
     Module: string = 'Contract';
     apiurl: string = 'api/v1/contract';
     caption: string = 'Contract';
-    ActiveView: string= 'ALL';
+    ActiveView: string = 'ALL';
 
     getModuleScreen = () => {
         let screen, $browse;
@@ -152,7 +152,7 @@ class Contract {
     }
 
     saveForm($form: any, parameters: any) {
-      FwModule.saveForm(this.Module, $form, parameters);
+        FwModule.saveForm(this.Module, $form, parameters);
     }
 
     loadAudit($form: any) {
@@ -218,11 +218,7 @@ class Contract {
             $form.find('.summary').hide();
         } else {
             $form.find('.exchange').hide();
-
         }
-
-
-
     }
 }
 

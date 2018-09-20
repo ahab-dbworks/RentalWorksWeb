@@ -68,7 +68,6 @@ class RepairItemStatus {
     }
 
     afterLoad($form: any) {
-
     }
 }
 

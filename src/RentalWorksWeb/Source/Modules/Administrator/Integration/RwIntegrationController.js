@@ -33,7 +33,7 @@ RwIntegrationController.openForm = function(mode) {
 //----------------------------------------------------------------------------------------------
 RwIntegrationController.loadForm = function() {
     var $form, request = {};
-    
+
     $form = RwIntegrationController.openForm('EDIT');
 
     return $form;

@@ -68,9 +68,7 @@
     }
 
     afterLoad($form: any) {
-
     }
 }
 
 var CustomerCategoryController = new CustomerCategory();
-

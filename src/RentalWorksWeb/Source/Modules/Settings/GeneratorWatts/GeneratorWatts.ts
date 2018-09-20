@@ -68,9 +68,7 @@ class GeneratorWatts {
     }
 
     afterLoad($form: any) {
-
     }
-
 }
 
 var GeneratorWattsController = new GeneratorWatts();

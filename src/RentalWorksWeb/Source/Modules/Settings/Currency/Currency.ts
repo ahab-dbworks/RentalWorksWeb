@@ -68,7 +68,6 @@ class Currency {
     }
 
     afterLoad($form: any) {
-
     }
 }
 

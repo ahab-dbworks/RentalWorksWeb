@@ -37,7 +37,7 @@ class RwPOApprovalStatus {
 
         return $browse;
     }
-     
+
     openForm(mode: string) {
         var $form;
 
@@ -68,7 +68,6 @@ class RwPOApprovalStatus {
     }
 
     afterLoad($form: any) {
-   
     }
 }
 

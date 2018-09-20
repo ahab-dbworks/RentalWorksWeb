@@ -72,9 +72,7 @@
     }
 
     afterLoad($form: any) {
-
     }
-    
 }
 
 var GlDistributionController = new GlDistribution();

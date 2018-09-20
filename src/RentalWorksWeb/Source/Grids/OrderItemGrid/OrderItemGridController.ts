@@ -139,7 +139,6 @@
                     case 'MiscRateValidation':
                         discountPercent = FwFormField.getValueByDataField($form, 'MiscDiscountPercent');
                         break;
-
                 }
 
                 if ($generatedtr.hasClass("newmode")) {
@@ -250,7 +249,6 @@
                         }
                     }, null, $form);
                 }
-
             });
         }
 
@@ -359,70 +357,70 @@
                 }, null, null);
             }
         }
-     };
+    };
 
-     //----------------------------------------------------------------------------------------------
-     toggleOrderItemView($form: any, event: any, module) {
-         // Toggle between Detail and Summary view in all OrderItemGrid
-         let $element, $orderItemGrid, recType, isSummary, orderId, isSubGrid;
-         let request: any = {};
-         $element = jQuery(event.currentTarget);
-         //recType = $element.parentsUntil('.flexrow').eq(9).attr('class'); 
-         recType = $element.closest('[data-grid="OrderItemGrid"]').attr('class');
-         isSubGrid = $element.closest('[data-grid="OrderItemGrid"]').attr('data-issubgrid');
-         orderId = FwFormField.getValueByDataField($form, `${module}Id`);
+    //----------------------------------------------------------------------------------------------
+    toggleOrderItemView($form: any, event: any, module) {
+        // Toggle between Detail and Summary view in all OrderItemGrid
+        let $element, $orderItemGrid, recType, isSummary, orderId, isSubGrid;
+        let request: any = {};
+        $element = jQuery(event.currentTarget);
+        //recType = $element.parentsUntil('.flexrow').eq(9).attr('class');
+        recType = $element.closest('[data-grid="OrderItemGrid"]').attr('class');
+        isSubGrid = $element.closest('[data-grid="OrderItemGrid"]').attr('data-issubgrid');
+        orderId = FwFormField.getValueByDataField($form, `${module}Id`);
 
-         //if (recType === 'R') {
-         //    $orderItemGrid = $form.find('.rentalgrid [data-name="OrderItemGrid"]');
-         //}
-         //if (recType === 'S') {
-         //    $orderItemGrid = $form.find('.salesgrid [data-name="OrderItemGrid"]');
-         //}
-         //if (recType === 'L') {
-         //    $orderItemGrid = $form.find('.laborgrid [data-name="OrderItemGrid"]');
-         //}
-         //if (recType === 'M') {
-         //    $orderItemGrid = $form.find('.miscgrid [data-name="OrderItemGrid"]');
-         //}
-         //if (recType === '') {
-         //    $orderItemGrid = $form.find('.combinedgrid div[data-grid="OrderItemGrid"]');
-         //}
+        //if (recType === 'R') {
+        //    $orderItemGrid = $form.find('.rentalgrid [data-name="OrderItemGrid"]');
+        //}
+        //if (recType === 'S') {
+        //    $orderItemGrid = $form.find('.salesgrid [data-name="OrderItemGrid"]');
+        //}
+        //if (recType === 'L') {
+        //    $orderItemGrid = $form.find('.laborgrid [data-name="OrderItemGrid"]');
+        //}
+        //if (recType === 'M') {
+        //    $orderItemGrid = $form.find('.miscgrid [data-name="OrderItemGrid"]');
+        //}
+        //if (recType === '') {
+        //    $orderItemGrid = $form.find('.combinedgrid div[data-grid="OrderItemGrid"]');
+        //}
 
-         $orderItemGrid = $element.closest('[data-name="OrderItemGrid"]');
+        $orderItemGrid = $element.closest('[data-name="OrderItemGrid"]');
 
-         if ($orderItemGrid.data('isSummary') === false) {
-             isSummary = true;
-             $orderItemGrid.data('isSummary', true);
-             $element.children().text('Detail View')
-         }
-         else {
-             isSummary = false;
-             $orderItemGrid.data('isSummary', false);
-             $element.children().text('Summary View')
-         }
+        if ($orderItemGrid.data('isSummary') === false) {
+            isSummary = true;
+            $orderItemGrid.data('isSummary', true);
+            $element.children().text('Detail View')
+        }
+        else {
+            isSummary = false;
+            $orderItemGrid.data('isSummary', false);
+            $element.children().text('Summary View')
+        }
 
-         $orderItemGrid.data('ondatabind', request => {
-             request.uniqueids = {
-                 OrderId: orderId,
-                 Summary: isSummary,
-                 RecType: recType
-             }
-             request.pagesize = 9999;
-             request.orderby = "RowNumber,RecTypeDisplay"
+        $orderItemGrid.data('ondatabind', request => {
+            request.uniqueids = {
+                OrderId: orderId,
+                Summary: isSummary,
+                RecType: recType
+            }
+            request.pagesize = 9999;
+            request.orderby = "RowNumber,RecTypeDisplay"
 
-             if (isSubGrid === "true") {
-                 request.uniqueids.Subs = true;
-             }
-         });
+            if (isSubGrid === "true") {
+                request.uniqueids.Subs = true;
+            }
+        });
 
-         $orderItemGrid.data('beforesave', request => {
-             request.OrderId = orderId;
-             request.RecType = recType;
-             request.Summary = isSummary;
-         });
+        $orderItemGrid.data('beforesave', request => {
+            request.OrderId = orderId;
+            request.RecType = recType;
+            request.Summary = isSummary;
+        });
 
-         FwBrowse.search($orderItemGrid);
-     };
+        FwBrowse.search($orderItemGrid);
+    };
 }
 
 FwApplicationTree.clickEvents['{77E511EC-5463-43A0-9C5D-B54407C97B15}'] = function (e) {
@@ -527,12 +525,12 @@ FwApplicationTree.clickEvents['{D27AD4E7-E924-47D1-AF6E-992B92F5A647}'] = functi
 
     let module = $form.attr('data-controller').replace('Controller', '');
     try {
-            OrderItemGridController.toggleOrderItemView($form, event, module);
+        OrderItemGridController.toggleOrderItemView($form, event, module);
     }
     catch (ex) {
         FwFunc.showError(ex);
     }
 };
 
-//---------------------------------------------------------------------------------------------- 
+//----------------------------------------------------------------------------------------------
 var OrderItemGridController = new OrderItemGrid();

@@ -37,7 +37,7 @@ class RwLaborPosition {
 
         return $browse;
     }
-     
+
     openForm(mode: string) {
         var $form;
 
@@ -68,7 +68,7 @@ class RwLaborPosition {
             else {
                 FwFormField.enable($form.find('[data-datafield="OverrideProfitAndLossCategory"]'))
             }
-        }); 
+        });
 
         return $form;
     }
@@ -131,7 +131,6 @@ class RwLaborPosition {
 
         $rateWarehouseGrid = $form.find('[data-name="RateWarehouseGrid"]');
         FwBrowse.search($rateWarehouseGrid);
-
 
         if ($form.find('[data-datafield="OverrideProfitAndLossCategory"] .fwformfield-value').prop('checked')) {
             FwFormField.enable($form.find('.category [data-type="validation"]'))

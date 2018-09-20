@@ -68,7 +68,6 @@ class DiscountReason {
     }
 
     afterLoad($form: any) {
-
     }
 }
 

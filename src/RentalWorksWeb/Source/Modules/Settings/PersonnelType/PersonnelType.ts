@@ -68,7 +68,6 @@ class PersonnelType {
     }
 
     afterLoad($form: any) {
-
     }
 }
 

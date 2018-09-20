@@ -72,10 +72,10 @@ class Attribute {
         var $attributeValueGridControl: any;
 
         // load AttributeValue Grid
-        $attributeValueGrid        = $form.find('div[data-grid="AttributeValueGrid"]');
+        $attributeValueGrid = $form.find('div[data-grid="AttributeValueGrid"]');
         $attributeValueGridControl = jQuery(jQuery('#tmpl-grids-AttributeValueGridBrowse').html());
         $attributeValueGrid.empty().append($attributeValueGridControl);
-        $attributeValueGridControl.data('ondatabind', function(request) {
+        $attributeValueGridControl.data('ondatabind', function (request) {
             request.uniqueids = {
                 AttributeId: $form.find('div.fwformfield[data-datafield="AttributeId"] input').val()
             };

@@ -32,7 +32,6 @@
 //}
 
 //export class DealOutstandingReport extends WebpackReport {
-
 //    renderReport(apiUrl: string, authorizationHeader: string, parameters: any): void {
 //        console.log('parameters: ',parameters)
 //        try {

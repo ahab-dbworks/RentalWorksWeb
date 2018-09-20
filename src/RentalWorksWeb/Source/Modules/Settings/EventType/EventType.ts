@@ -29,7 +29,7 @@ class EventType {
         return screen;
     }
 
-    renderGrids($form: any) {        
+    renderGrids($form: any) {
         var nameOrderTypePersonnelTypeGrid: string = 'EventTypePersonnelTypeGrid';
         var $orderTypePersonnelTypeGrid: any = $form.find('div[data-grid="' + nameOrderTypePersonnelTypeGrid + '"]');
         var $orderTypePersonnelTypeGridControl: any = FwBrowse.loadGridFromTemplate(nameOrderTypePersonnelTypeGrid);

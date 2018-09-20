@@ -37,7 +37,7 @@ class RwSetOpening {
 
         return $browse;
     }
-     
+
     openForm(mode: string) {
         var $form;
 
@@ -68,7 +68,6 @@ class RwSetOpening {
     }
 
     afterLoad($form: any) {
-
     }
 }
 

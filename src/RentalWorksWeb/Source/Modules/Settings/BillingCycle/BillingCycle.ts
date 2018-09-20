@@ -46,7 +46,7 @@
 
         $form.find('div[data-datafield="BillingCycleType"] .fwformfield-value').on('change', function () {
             var $this = jQuery(this);
-   
+
             if ($this.prop('checked') === true && $this.val() === "EVENTS") {
                 $form.find(".eventstab").show();
             } else {
@@ -63,7 +63,6 @@
         $form = this.openForm('EDIT');
         $form.find('div.fwformfield[data-datafield="BillingCycleId"] input').val(uniqueids.BillingCycleId);
         FwModule.loadForm(this.Module, $form);
-
 
         return $form;
     }
@@ -101,14 +100,12 @@
         $billingCycleEventsGrid = $form.find('[data-name="BillingCycleEventsGrid"]');
         FwBrowse.search($billingCycleEventsGrid);
 
-
         var radioType = FwFormField.getValueByDataField($form, 'BillingCycleType');
         if (radioType === "EVENTS") {
             $form.find(".eventstab").show();
         } else {
             $form.find(".eventstab").hide();
         }
-
     }
 }
 

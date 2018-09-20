@@ -37,7 +37,7 @@ class RwWallType {
 
         return $browse;
     }
-     
+
     openForm(mode: string) {
         var $form;
 
@@ -68,7 +68,6 @@ class RwWallType {
     }
 
     afterLoad($form: any) {
-
     }
 }
 

@@ -1,4 +1,4 @@
-﻿routes.push({ pattern: /^module\/marketsegment$/, action: function (match: RegExpExecArray) { return MarketSegmentController.getModuleScreen(); } }); 
+﻿routes.push({ pattern: /^module\/marketsegment$/, action: function (match: RegExpExecArray) { return MarketSegmentController.getModuleScreen(); } });
 
 class MarketSegment {
     Module: string = 'MarketSegment';

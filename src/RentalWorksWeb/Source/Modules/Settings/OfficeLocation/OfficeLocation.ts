@@ -68,9 +68,7 @@
     }
 
     afterLoad($form: any) {
-
     }
 }
 
 var OfficeLocationController = new OfficeLocation();
-

@@ -37,7 +37,7 @@ class RwProjectDrawings {
 
         return $browse;
     }
-     
+
     openForm(mode: string) {
         var $form;
 
@@ -68,7 +68,6 @@ class RwProjectDrawings {
     }
 
     afterLoad($form: any) {
-
     }
 }
 

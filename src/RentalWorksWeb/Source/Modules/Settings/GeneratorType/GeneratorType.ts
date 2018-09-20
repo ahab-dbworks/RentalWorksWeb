@@ -55,7 +55,6 @@ class GeneratorType {
         });
         FwBrowse.init($generatorTypeWarehouseControl);
         FwBrowse.renderRuntimeHtml($generatorTypeWarehouseControl);
-
     }
 
     openForm(mode: string) {
@@ -94,7 +93,6 @@ class GeneratorType {
         FwBrowse.search($generatorTypeWarehouseGrid);
 
         this.disableFields();
-
     }
 }
 

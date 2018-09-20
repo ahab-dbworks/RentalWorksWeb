@@ -18,7 +18,6 @@ class Sound {
             FwModule.openModuleTab($browse, 'Sound', false, 'BROWSE', true);
             FwBrowse.databind($browse);
             FwBrowse.screenload($browse);
-
         };
         screen.unload = function () {
             FwBrowse.screenunload($browse);
@@ -33,7 +32,7 @@ class Sound {
         $browse = FwBrowse.loadBrowseFromTemplate(this.Module);
         $browse = FwModule.openBrowse($browse);
 
-         FwBrowse.addLegend($browse, 'User Defined Sound', '#00FF00');
+        FwBrowse.addLegend($browse, 'User Defined Sound', '#00FF00');
 
         return $browse;
     }
@@ -65,14 +64,13 @@ class Sound {
         //    var moduleCaption = modules[i].properties.caption;
         //    if (moduleCaption === "Designer") {
         //        continue;
-        //    } 
+        //    }
         //    var moduleController = modules[i].properties.controller;
         //    if (window[moduleController].hasOwnProperty('apiurl')) {
         //        var moduleUrl = window[moduleController].apiurl;
         //        allModules.push({ value: moduleNav, text: moduleCaption, apiurl: moduleUrl });
-        //    } 
+        //    }
         //};
-       
 
         ////Sort modules
         //function compare(a, b) {
@@ -108,7 +106,7 @@ class Sound {
     //----------------------------------------------------------------------------------------------
     events($form: JQuery): void {
         let sound, soundFileName;
-  
+
         // Sound Preview
         $form.find('.sound-play-button').on('click', e => {
             soundFileName = FwFormField.getValueByDataField($form, 'FileName');

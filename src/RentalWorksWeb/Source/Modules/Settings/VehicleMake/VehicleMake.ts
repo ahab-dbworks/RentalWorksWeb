@@ -72,10 +72,10 @@ class VehicleMake {
         var $vehicleMakeModelGridControl: any;
 
         // load AttributeValue Grid
-        $vehicleMakeModelGrid        = $form.find('div[data-grid="VehicleMakeModelGrid"]');
+        $vehicleMakeModelGrid = $form.find('div[data-grid="VehicleMakeModelGrid"]');
         $vehicleMakeModelGridControl = jQuery(jQuery('#tmpl-grids-VehicleMakeModelGridBrowse').html());
         $vehicleMakeModelGrid.empty().append($vehicleMakeModelGridControl);
-        $vehicleMakeModelGridControl.data('ondatabind', function(request) {
+        $vehicleMakeModelGridControl.data('ondatabind', function (request) {
             request.uniqueids = {
                 VehicleMakeId: $form.find('div.fwformfield[data-datafield="VehicleMakeId"] input').val()
             };

@@ -72,7 +72,6 @@
     }
 
     afterLoad($form: any) {
-
     }
 }
 

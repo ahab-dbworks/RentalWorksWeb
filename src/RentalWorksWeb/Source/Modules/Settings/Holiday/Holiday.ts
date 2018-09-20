@@ -39,9 +39,9 @@
     }
 
     openForm(mode: string) {
-        var $form;        
+        var $form;
 
-        $form = FwModule.loadFormFromTemplate(this.Module);   
+        $form = FwModule.loadFormFromTemplate(this.Module);
 
         if (mode === 'NEW') {
             $form.find('.fixeddate').show();
@@ -61,7 +61,7 @@
                 $form.find('.offset').show();
             }
         }
-        $form = FwModule.openForm($form, mode);      
+        $form = FwModule.openForm($form, mode);
 
         $form.find('[data-datafield="Type"] .fwformfield-value').on('change', function () {
             var $this = jQuery(this).val();
@@ -112,16 +112,16 @@
             { value: '9', text: '9' },
             { value: '10', text: '10' },
             { value: '11', text: '11' },
-            { value: '12', text: '12' }            
-            ], true);
+            { value: '12', text: '12' }
+        ], true);
 
         FwFormField.loadItems($form.find('.weekofmonth'), [
-            { value: '0', text: '0'},
+            { value: '0', text: '0' },
             { value: '1', text: '1' },
             { value: '2', text: '2' },
             { value: '3', text: '3' },
             { value: '4', text: '4' }
-            ], true);
+        ], true);
 
         return $form;
     }
@@ -146,10 +146,7 @@
         FwModule.loadAudit($form, uniqueid);
     }
 
-
-
     afterLoad($form: any) {
-
         var type = $form.find('[data-datafield="Type"] .fwformfield-value:checked').val();
         if (type === 'F') {
             $form.find('.fixeddate').show();
@@ -163,7 +160,6 @@
         if (type === 'O') {
             $form.find('.offset').show();
         }
-
     }
 }
 

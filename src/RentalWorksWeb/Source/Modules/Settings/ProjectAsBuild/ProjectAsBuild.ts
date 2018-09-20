@@ -68,7 +68,6 @@ class ProjectAsBuild {
     }
 
     afterLoad($form: any) {
-
     }
 }
 

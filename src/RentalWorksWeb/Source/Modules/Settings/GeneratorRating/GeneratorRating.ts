@@ -68,7 +68,6 @@ class GeneratorRating {
     }
 
     afterLoad($form: any) {
-
     }
 }
 

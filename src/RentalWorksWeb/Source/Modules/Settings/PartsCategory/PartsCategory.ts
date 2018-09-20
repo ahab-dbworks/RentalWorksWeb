@@ -30,13 +30,11 @@ class PartsCategory {
     }
 
     events($form: JQuery): void {
-
         $form.on('change', '.overridecheck input[type=checkbox]', (e) => {
             var $overrideCheck = jQuery(e.currentTarget), $categoryValidation = $form.find('.catvalidation');
 
             this.toggleEnabled($overrideCheck, $categoryValidation);
         });
-
     }
 
     toggleEnabled($checkbox: JQuery, $validation: JQuery): void {
@@ -63,7 +61,6 @@ class PartsCategory {
         })
         FwBrowse.init($subCategoryControl);
         FwBrowse.renderRuntimeHtml($subCategoryControl);
-
     }
 
     openBrowse() {
@@ -102,7 +99,7 @@ class PartsCategory {
 
     loadForm(uniqueids: any) {
         var $form;
-            
+
         $form = this.openForm('EDIT');
         $form.find('div.fwformfield[data-datafield="CategoryId"] input').val(uniqueids.CategoryId);
         FwModule.loadForm(this.Module, $form);
@@ -127,12 +124,10 @@ class PartsCategory {
     }
 
     beforeValidate($browse, $grid, request) {
-
         request.uniqueids = {
             Parts: true
         }
     }
-
 }
 
 var PartsCategoryController = new PartsCategory();

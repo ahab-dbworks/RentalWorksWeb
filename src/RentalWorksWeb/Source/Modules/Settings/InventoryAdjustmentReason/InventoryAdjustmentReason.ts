@@ -68,7 +68,6 @@ class InventoryAdjustmentReason {
     }
 
     afterLoad($form: any) {
-
     }
 }
 

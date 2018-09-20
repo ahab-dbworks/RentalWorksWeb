@@ -224,7 +224,6 @@ class Invoice {
         //    }
         //});
 
-
         //$form.find('[data-datafield="NoCharge"] .fwformfield-value').on('change', function () {
         //    var $this = jQuery(this);
 
@@ -687,9 +686,6 @@ class Invoice {
         //$orderItemGridSubSales.find('.buttonbar').hide();
         //$orderItemGridSubLabor.find('.buttonbar').hide();
         //$orderItemGridSubMisc.find('.buttonbar').hide();
-
-
-
 
         //this.dynamicColumns($form);
     };

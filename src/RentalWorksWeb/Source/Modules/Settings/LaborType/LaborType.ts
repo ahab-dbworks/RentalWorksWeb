@@ -68,7 +68,6 @@ class LaborType {
     }
 
     afterLoad($form: any) {
-
     }
 }
 

@@ -69,7 +69,7 @@ class RwOutContractReportClass extends FwWebApiReport {
         switch (validationName) {
             case 'ContractValidation':
                 request.uniqueids.ContractType = 'OUT';
-            break;
+                break;
         };
     };
     //----------------------------------------------------------------------------------------------

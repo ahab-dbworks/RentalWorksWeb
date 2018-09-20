@@ -1,4 +1,4 @@
-﻿routes.push({ pattern: /^module\/workweek$/, action: function (match: RegExpExecArray) { return WorkWeekController.getModuleScreen(); } }); 
+﻿routes.push({ pattern: /^module\/workweek$/, action: function (match: RegExpExecArray) { return WorkWeekController.getModuleScreen(); } });
 
 class WorkWeek {
     Module: string = 'WorkWeek';
@@ -66,7 +66,6 @@ class WorkWeek {
     }
 
     afterLoad($form: any) {
-       
     }
 }
 

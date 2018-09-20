@@ -30,13 +30,11 @@ class SalesCategory {
     }
 
     events($form: JQuery): void {
-
         $form.on('change', '.overridecheck input[type=checkbox]', (e) => {
             var $overrideCheck = jQuery(e.currentTarget), $categoryValidation = $form.find('.catvalidation');
 
             this.toggleEnabled($overrideCheck, $categoryValidation);
         });
-
     }
 
     toggleEnabled($checkbox: JQuery, $validation: JQuery): void {
@@ -63,7 +61,6 @@ class SalesCategory {
         })
         FwBrowse.init($subCategoryControl);
         FwBrowse.renderRuntimeHtml($subCategoryControl);
-
     }
 
     openBrowse() {
@@ -95,7 +92,7 @@ class SalesCategory {
         })
 
         this.toggleEnabled($form.find('.overridecheck input[type=checkbox]'), $form.find('.catvalidation'));
-        
+
         $form.find('div[data-datafield="IncomeAccountId"]').data('onchange', function ($tr) {
             FwFormField.setValue($form, 'div[data-datafield="IncomeAccountDescription"]', $tr.find('.field[data-browsedatafield="GlAccountDescription"]').attr('data-originalvalue'));
         });
@@ -150,7 +147,6 @@ class SalesCategory {
     }
 
     beforeValidate($browse, $grid, request) {
-
         request.uniqueids = {
             Sales: true
         }

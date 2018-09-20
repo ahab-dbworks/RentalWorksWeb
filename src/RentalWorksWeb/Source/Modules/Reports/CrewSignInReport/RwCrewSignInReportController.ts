@@ -1,6 +1,6 @@
 ﻿routes.push({ pattern: /^module\/crewsigninreport$/, action: function (match: RegExpExecArray) { return RwCrewSignInReportController.getModuleScreen(); } });
 
-var templateCrewSignInReportFrontEnd = `  
+var templateCrewSignInReportFrontEnd = `
     <div class="fwcontrol fwcontainer fwform fwreport crewsigninreport" data-control="FwContainer" data-type="form" data-version="1" data-caption="Crew Sign-in" data-rendermode="template" data-mode="" data-hasaudit="false" data-controller="RwCrewSignInReportController">
       <div class="fwcontrol fwtabs" data-control="FwTabs" data-type="">
         <div class="tabs" style="margin-right:10px;">
@@ -47,7 +47,6 @@ var templateCrewSignInReportFrontEnd = `
     </div>
 `;
 
-
 class RwCrewSignInReportClass extends FwWebApiReport {
     //----------------------------------------------------------------------------------------------
     constructor() {
@@ -88,4 +87,3 @@ class RwCrewSignInReportClass extends FwWebApiReport {
     //----------------------------------------------------------------------------------------------
 }
 var RwCrewSignInReportController: any = new RwCrewSignInReportClass();
-

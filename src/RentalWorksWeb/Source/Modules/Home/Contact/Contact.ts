@@ -45,10 +45,10 @@ class Contact {
         if (mode === 'NEW') {
             $form.find('.ifnew').attr('data-enabled', 'true');
             const today = FwFunc.getDate();
-            
+
             FwFormField.setValueByDataField($form, 'ActiveDate', today);
 
-            // Disable / Enable Inactive Date 
+            // Disable / Enable Inactive Date
             $form.find('[data-datafield="Inactive"] .fwformfield-value').on('change', function () {
                 var $this = jQuery(this);
                 if ($this.prop('checked') === true) {
@@ -60,7 +60,6 @@ class Contact {
                     FwFormField.setValueByDataField($form, 'InactiveDate', "");
                 }
             });
-
         }
 
         return $form;
@@ -136,7 +135,7 @@ class Contact {
         FwBrowse.renderRuntimeHtml($companyContactGridControl);
         this.addLegend($form);
     };
-    //---------------------------------------------------------------------------------------------- 
+    //----------------------------------------------------------------------------------------------
     addLegend($form: any) {
         var $companyContactGrid: any;
         $companyContactGrid = $form.find('[data-name="ContactCompanyGrid"]');
@@ -164,7 +163,7 @@ class Contact {
         $companyContactGrid = $form.find('[data-name="ContactCompanyGrid"]');
         FwBrowse.search($companyContactGrid);
 
-        // Disable / Enable Inactive Date 
+        // Disable / Enable Inactive Date
         $form.find('[data-datafield="Inactive"] .fwformfield-value').on('change', function () {
             var $this = jQuery(this);
             if ($this.prop('checked') === true) {

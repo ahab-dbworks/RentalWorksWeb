@@ -40,7 +40,6 @@ class OrderBase {
                     jQuery(this).css('background-color', '#ffffe5');
                 }
             })
-
         }, null, $form);
 
         FwFormField.disable($form.find('.frame'));
@@ -71,7 +70,7 @@ class OrderBase {
                 , miscTab = $form.find('[data-type="tab"][data-caption="Misc"]')
                 , laborTab = $form.find('[data-type="tab"][data-caption="Labor"]')
                 , usedSaleTab = $form.find('[data-type="tab"][data-caption="Used Sale"]')
-                , rate = FwFormField.getValueByDataField($form, 'RateType'); 
+                , rate = FwFormField.getValueByDataField($form, 'RateType');
 
             if (response.CombineActivityTabs === false) {
                 $form.find('[data-datafield="Rental"] input').prop('checked') ? rentalTab.show() : rentalTab.hide();
@@ -347,7 +346,6 @@ class OrderBase {
                     var $form = QuoteController.loadForm(uniqueids);
                 }
                 FwModule.openModuleTab($form, "", true, 'FORM', true)
-
             }, function onError(response) {
                 $yes.on('click', makeACopy);
                 $yes.text('Copy');
@@ -584,7 +582,6 @@ class OrderBase {
         $form.find('div[data-datafield="OrderTypeId"]').data('onchange', function ($tr) {
             let combineActivity = $tr.find('.field[data-browsedatafield="CombineActivityTabs"]').attr('data-originalvalue');
             $form.find('[data-datafield="CombineActivity"] input').val(combineActivity);
-            
 
             let rentalTab = $form.find('[data-type="tab"][data-caption="Rental"]')
                 , salesTab = $form.find('[data-type="tab"][data-caption="Sales"]')
@@ -741,9 +738,8 @@ class OrderBase {
                 FwFormField.setValueByDataField($form, 'IssuedToZipCode', response.BillToZipCode);
                 FwFormField.setValueByDataField($form, 'IssuedToCountryId', response.BillToCountryId, response.BillToCountry);
                 FwFormField.setValueByDataField($form, 'PrintIssuedToAddressFrom', response.BillToAddressType);
-            },null, $form);
+            }, null, $form);
         });
-
 
         //Hide/Show summary buttons based on rate type
         $form.find('[data-datafield="RateType"]').data('onchange', e => {
@@ -789,7 +785,6 @@ class OrderBase {
         recType = $element.attr('data-rectype');
         orderId = FwFormField.getValueByDataField($form, `${module}Id`);
         discountPercent = $element.find('.fwformfield-value').val().slice(0, -1);
-
 
         if (recType === 'R') {
             $orderItemGrid = $form.find('.rentalgrid [data-name="OrderItemGrid"]');
@@ -923,7 +918,6 @@ class OrderBase {
         }, function onError(response) {
             FwFunc.showError(response);
         }, $form);
-
     };
     //----------------------------------------------------------------------------------------------
     calculateOrderItemGridTotals($form: any, gridType: string) {
@@ -943,7 +937,7 @@ class OrderBase {
             case 'M':
                 rateType = 'Monthly';
                 break;
-            default :
+            default:
                 rateType = 'Period';
         }
         const extendedColumn: any = $form.find('.' + gridType + 'grid [data-browsedatafield="' + rateType + 'Extended"]');

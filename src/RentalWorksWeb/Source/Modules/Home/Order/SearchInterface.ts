@@ -223,7 +223,6 @@ class SearchInterface {
             FwBrowse.databindcallback($previewGrid, response);
         }, null, $previewTabControl);
 
-
         //Load Type list
         let inventoryTypeRequest: any
             , availableFor
@@ -305,7 +304,7 @@ class SearchInterface {
                     inventoryTypeIdIndex = response.ColumnIndex.InventoryTypeId;
                     break;
             }
-            //Checks for duplicate inventory types. This loops through EVERY individual item and picks out the different inventory types. 
+            //Checks for duplicate inventory types. This loops through EVERY individual item and picks out the different inventory types.
             //Could be sped up by calling into an endpoint with JUST the inventory types.
             types = [];
             inventoryTypeColumn = $popup.find('#inventoryType');
@@ -770,7 +769,7 @@ class SearchInterface {
             jQuery(document).find('.fwpopup').off('click');
             jQuery(document).off('keydown');
         });
-        //Toggle Options 
+        //Toggle Options
         $popup.on('click', '.optiontoggle', e => {
             e.stopPropagation();
             $popup.find('.options').toggle();
@@ -849,7 +848,6 @@ class SearchInterface {
                         $popup.find('#inventory').empty();
                         SearchInterfaceController.renderInventory($popup, response, false);
                     }, null, $searchpopup);
-
                 }
             } catch (ex) {
                 FwFunc.showError(ex);
@@ -888,7 +886,6 @@ class SearchInterface {
                     clickCount = 0;
                 }, timeout || 300);
             }
-
         });
 
         //On Quantity input change
@@ -1056,7 +1053,6 @@ class SearchInterface {
 
             FwAppData.apiMethod(true, 'POST', "api/v1/inventorysearch", accRequest, FwServices.defaultTimeout, function onSuccess(response) {
             }, null, null);
-
         });
 
         //Sorting option events

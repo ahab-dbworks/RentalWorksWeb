@@ -72,7 +72,6 @@ class FacilityCategory {
     }
 
     afterLoad($form: any) {
-            
     };
 }
 

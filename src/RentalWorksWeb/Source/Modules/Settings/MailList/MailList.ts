@@ -68,7 +68,6 @@ class MailList {
     }
 
     afterLoad($form: any) {
-
     }
 }
 

@@ -68,7 +68,6 @@ class VehicleRating {
     }
 
     afterLoad($form: any) {
-
     }
 }
 

@@ -68,7 +68,6 @@ class EventCategory {
     }
 
     afterLoad($form: any) {
-
     }
 }
 

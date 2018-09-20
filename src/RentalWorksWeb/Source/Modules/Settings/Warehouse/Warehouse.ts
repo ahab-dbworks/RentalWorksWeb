@@ -46,7 +46,7 @@
 
         $form.find('[data-datafield="AssignBarCodesBy"] .fwformfield-value').on('change', function () {
             var $this = jQuery(this);
-            $form.find('.singlerange').hide();            
+            $form.find('.singlerange').hide();
             $form.find('.warehousedepartment').hide();
             $form.find('.warehouseinventorytype').hide();
 
@@ -59,7 +59,7 @@
             if ($this.val() === 'D') {
                 $form.find('.warehouseinventorytype').show();
             }
-        });        
+        });
 
         $form.find('[data-datafield="MarkupSales"] .fwformfield-value').on('change', function () {
             var $this = jQuery(this);
@@ -112,7 +112,7 @@
 
             if ($tr.find('.field[data-browsedatafield="TaxCountry"]').attr('data-originalvalue') === 'U') {
                 $form.find('.ustax').show();
-            }; 
+            };
 
             if ($tr.find('.field[data-browsedatafield="TaxCountry"]').attr('data-originalvalue') === 'C') {
                 FwFormField.setValueByDataField($form, 'RentalTaxRate2', $tr.find('.field[data-browsedatafield="RentalTaxRate2"]').attr('data-originalvalue'));
@@ -120,7 +120,6 @@
                 FwFormField.setValueByDataField($form, 'LaborTaxRate2', $tr.find('.field[data-browsedatafield="LaborTaxRate2"]').attr('data-originalvalue'));
                 $form.find('.catax').show();
             };
-
         });
 
         return $form;
@@ -245,7 +244,6 @@
         FwBrowse.renderRuntimeHtml($warehouseQuikLocateApproverGridControl);
     }
 
-
     afterLoad($form: any) {
         var $warehouseDepartmentGrid: any;
         var $warehouseInventoryTypeGrid: any;
@@ -313,9 +311,7 @@
             FwFormField.disable($form.find('[data-datafield="RentalDailyRatePercentOfReplacementCost"]'));
             FwFormField.disable($form.find('[data-datafield="RentalWeeklyRateMultipleOfDailyRate"]'));
         }
-
     }
-
 }
 
 var WarehouseController = new Warehouse();

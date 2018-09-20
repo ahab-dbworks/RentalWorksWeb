@@ -195,8 +195,7 @@ class RwMiscRate {
                 $form.find('.single_rates').show();
                 $form.find('.recurring_rates').hide();
             }
-            else
-            {
+            else {
                 $form.find('.single_rates').hide();
                 $form.find('.recurring_rates').show();
             }

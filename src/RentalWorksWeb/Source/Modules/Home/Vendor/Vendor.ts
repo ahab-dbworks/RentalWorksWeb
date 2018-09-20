@@ -108,7 +108,6 @@ class Vendor {
             } else {
                 jQuery('.' + id).find(':input').val(value);
             }
-
         });
     }
 
@@ -157,7 +156,6 @@ class Vendor {
         });
         FwBrowse.init($companyContactControl);
         FwBrowse.renderRuntimeHtml($companyContactControl);
-
     }
 
     openBrowse() {
@@ -183,7 +181,7 @@ class Vendor {
             FwFormField.setValueByDataField($form, 'DefaultSubRentDiscountPercent', 0);
             FwFormField.setValueByDataField($form, 'DefaultSubSaleDiscountPercent', 0);
         }
-        
+
         return $form;
     }
 
@@ -217,9 +215,7 @@ class Vendor {
         //this.events($form);
 
         this.setupEvents($form);
-
     }
-
 }
 //---------------------------------------------------------------------------------
 var VendorController = new Vendor();

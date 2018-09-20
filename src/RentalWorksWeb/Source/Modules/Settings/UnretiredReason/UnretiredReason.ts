@@ -68,7 +68,6 @@ class UnretiredReason {
     }
 
     afterLoad($form: any) {
-
     }
 }
 

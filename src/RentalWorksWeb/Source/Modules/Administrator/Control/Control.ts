@@ -41,10 +41,8 @@
     openForm(mode: string) {
         var $form;
 
-
         $form = FwModule.loadFormFromTemplate(this.Module);
         $form = FwModule.openForm($form, mode);
-
 
         if (mode === 'NEW') {
             FwFormField.enable($form.find('.ifnew'))
@@ -76,9 +74,7 @@
     }
 
     afterLoad($form: any) {
-
     }
 }
 
 var ControlController = new Control();
-

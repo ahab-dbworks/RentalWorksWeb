@@ -21,7 +21,6 @@ class CustomFields {
             FwModule.openModuleTab($browse, 'Custom Fields', false, 'BROWSE', true);
             FwBrowse.databind($browse);
             FwBrowse.screenload($browse);
-
         };
         screen.unload = function () {
             FwBrowse.screenunload($browse);
@@ -45,7 +44,7 @@ class CustomFields {
 
         $form = FwModule.loadFormFromTemplate(this.Module);
         $form = FwModule.openForm($form, mode);
-        
+
         $form.find('div[data-datafield="ShowInBrowse"] input').on('change', function () {
             var $this = jQuery(this);
 
@@ -79,13 +78,11 @@ class CustomFields {
             var moduleNav = modules[i].properties.controller.slice(0, -10);
             var moduleCaption = modules[i].properties.caption
             allModules.push({ value: moduleNav, text: moduleCaption });
-
         };
         for (var i = 0; i < settingsModules.length; i++) {
             var settingsModuleNav = settingsModules[i].properties.controller.slice(0, -10);
             var settingsModuleCaption = settingsModules[i].properties.caption
             allModules.push({ value: settingsModuleNav, text: settingsModuleCaption });
-
         };
 
         //Sort modules
@@ -100,7 +97,7 @@ class CustomFields {
 
         $moduleSelect = $form.find('.modules');
         FwFormField.loadItems($moduleSelect, allModules);
- 
+
         return $form;
     }
 
@@ -128,12 +125,11 @@ class CustomFields {
     afterLoad($form: any) {
         if (FwFormField.getValueByDataField($form, 'CustomTableName') === 'customvaluesnumeric') {
             $form.find('.float').show();
-        } 
+        }
 
         if (FwFormField.getValueByDataField($form, 'ShowInBrowse')) {
             $form.find('.browselength').show();
         }
-
     }
     afterSave($form: any) {
         FwAppData.apiMethod(true, 'GET', 'api/v1/custommodule/', null, FwServices.defaultTimeout, function onSuccess(response) {

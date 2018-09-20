@@ -65,12 +65,10 @@ class RwInventoryGroup {
             }
         });
 
-
         FwBrowse.init($inventoryGroupInvGridControl);
         FwBrowse.renderRuntimeHtml($inventoryGroupInvGridControl);
-
     }
-     
+
     openForm(mode: string) {
         var $form;
 
@@ -100,16 +98,12 @@ class RwInventoryGroup {
         FwModule.loadAudit($form, uniqueid);
     }
 
-
     afterLoad($form: any) {
         var $inventoryGroupInvGrid: any;
 
         $inventoryGroupInvGrid = $form.find('[data-name="InventoryGroupInvGrid"]');
         FwBrowse.search($inventoryGroupInvGrid);
-
     }
-
- 
 }
 
 var InventoryGroupController = new RwInventoryGroup();

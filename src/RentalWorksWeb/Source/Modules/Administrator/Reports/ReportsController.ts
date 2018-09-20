@@ -19,13 +19,11 @@
         screen.moduleCaptions = {};
         $reports = this.openReports();
 
-
-
         screen.load = function () {
             FwModule.openModuleTab($reports, 'Reports', false, 'REPORTS', true)
             var node = FwApplicationTree.getNodeById(FwApplicationTree.tree, '7FEC9D55-336E-44FE-AE01-96BF7B74074C');
             var modules = FwApplicationTree.getChildrenByType(node, 'Module');
-            var moduleMenu = FwApplicationTree.getChildrenByType(node, 'Lv2ModuleMenu'); 
+            var moduleMenu = FwApplicationTree.getChildrenByType(node, 'Lv2ModuleMenu');
 
             var moduleTemplates = {};
             var moduleArray = [];
@@ -35,7 +33,7 @@
                     var moduleObj = [];
                     moduleObj.push(node.children[i].properties.caption, node.children[i].properties.controller.slice(0, -10), node.children[i].properties.caption, node.children[i].properties.description);
                     moduleArray.push(moduleObj);
-                } else {                
+                } else {
                     for (var j = 0; j < node.children[i].children.length; j++) {
                         var moduleObj = [];
                         moduleObj.push(node.children[i].children[j].properties.caption, node.children[i].children[j].properties.controller.slice(0, -10), node.children[i].properties.caption, node.children[i].children[j].properties.description);
@@ -43,12 +41,12 @@
                     }
                 }
             }
-            
-            for (var k = 0; k < moduleArray.length; k++) {                
+
+            for (var k = 0; k < moduleArray.length; k++) {
                 moduleArray[k][4] = moduleArray[k][1] + 'Id';
                 FwReportsPage.renderModuleHtml($reports.find(".fwreports"), moduleArray[k][0], moduleArray[k][1], moduleArray[k][3], moduleArray[k][2], moduleArray[k][4]);
-            }            
-            
+            }
+
             $reports.find('#reportsSearch').focus();
             screen.$view.find('.tabs').hide();
         };

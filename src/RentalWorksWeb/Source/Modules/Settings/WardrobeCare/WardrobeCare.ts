@@ -68,9 +68,7 @@
     }
 
     afterLoad($form: any) {
-
     }
 }
 
 var WardrobeCareController = new WardrobeCare();
-

@@ -68,7 +68,6 @@ class OrganizationType {
     }
 
     afterLoad($form: any) {
-
     }
 }
 

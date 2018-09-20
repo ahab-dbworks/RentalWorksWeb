@@ -2,14 +2,13 @@
     Module: string;
     apiurl: string;
 
-
     // testing commit
 
     constructor() {
         this.Module = 'TaxOption';
         this.apiurl = 'api/v1/taxoption';
         var self = this;
-        
+
         //Sends confirmation for forcing tax rate
         FwApplicationTree.clickEvents['{CE1AEA95-F022-4CF5-A4FA-81CE32523344}'] = function (event) {
             var $form, taxOptionId;
@@ -46,8 +45,7 @@
     }
 
     events($form: JQuery): void {
-
-        $form.on('change', '.countryradio input[type="radio"]:checked', (e) => {            
+        $form.on('change', '.countryradio input[type="radio"]:checked', (e) => {
             this.canadaOnlyConfiguration($form, jQuery(e.currentTarget).val().toString());
         });
 
@@ -57,21 +55,15 @@
 
             this.toggleDisableUSTaxRates($form, isChecked, exemptTypeClass);
         });
-
     }
 
-    canadaOnlyConfiguration($form: JQuery, country: string): void {        
-
+    canadaOnlyConfiguration($form: JQuery, country: string): void {
         if (country == 'U') {
-
             $form.find('.canadatab, .canadataxratespanel, .canadataxrulespanel').hide();
             $form.find('.ustaxratespanel').show();
-
         } else {
-
             $form.find('.ustaxratespanel').hide();
             $form.find('.canadatab, .canadataxratespanel, .canadataxrulespanel').show();
-
         }
     }
 
@@ -90,7 +82,6 @@
     }
 
     markFieldsNotRequired($form: JQuery): void {
-
         $form.find('.gstexportcodetxt, .pstexporttxt').attr('data-required', 'false');
 
         $form.find('.canadataxratespanel, .ustaxratespanel').find('.fwformfield').attr('data-required', 'false');
@@ -113,9 +104,9 @@
         var $form;
 
         $form = FwModule.loadFormFromTemplate(this.Module);
-        $form = FwModule.openForm($form, mode);        
- 
-        this.events($form);                        
+        $form = FwModule.openForm($form, mode);
+
+        this.events($form);
 
         this.markFieldsNotRequired($form);
 
@@ -128,7 +119,7 @@
             FwFormField.setValueByDataField($form, 'RentalTaxRate2', 0);
             FwFormField.setValueByDataField($form, 'SalesTaxRate2', 0);
             FwFormField.setValueByDataField($form, 'LaborTaxRate2', 0);
-        }        
+        }
 
         $form.find('div[data-datafield="TaxAccountId1"]').data('onchange', function ($tr) {
             FwFormField.setValue($form, 'div[data-datafield="TaxAccountDescription1"]', $tr.find('.field[data-browsedatafield="GlAccountDescription"]').attr('data-originalvalue'));
@@ -141,7 +132,7 @@
         $form.find('div[data-datafield="TaxOnTaxAccountId"]').data('onchange', function ($tr) {
             FwFormField.setValue($form, 'div[data-datafield="TaxOnTaxAccountDescription"]', $tr.find('.field[data-browsedatafield="GlAccountDescription"]').attr('data-originalvalue'));
         });
-        
+
         return $form;
     }
 
@@ -151,7 +142,7 @@
         $form = this.openForm('EDIT');
         $form.find('div.fwformfield[data-datafield="TaxOptionId"] input').val(uniqueids.TaxOptionId);
         FwModule.loadForm(this.Module, $form);
-        
+
         return $form;
     }
 
@@ -172,20 +163,20 @@
 
         $form.find('.exempttype').each((i, e) => {
             this.toggleDisableUSTaxRates($form, jQuery(e).find('input[type="checkbox"]').is(':checked'), jQuery(e).data('exempttypetxtclass'));
-        });    
+        });
     }
 
     forceTaxRates(id: any) {
         var $confirmation, $yes, $no, self;
-        
+
         self = this;
         $confirmation = FwConfirmation.renderConfirmation('Force Tax Rates', '<div style="white-space:pre;">This will update all of the following records with the tax rates: \n' +
-                                                                                                            '------------------------------------------------------------------------------------------------- \n' +
-                                                                                                            'Prospect and Active Quotes \n' +
-                                                                                                            'Confirmed, Active, and Complete Orders \n' +
-                                                                                                            'New, Open, Received, and Completed Purchase Orders \n' +
-                                                                                                            'New and Estimated Repair Orders that have not yet been billed \n \n' +
-                                                                                                            'Are you sure you want to force these Tax Rates? This cannot be undone.</div>');
+            '------------------------------------------------------------------------------------------------- \n' +
+            'Prospect and Active Quotes \n' +
+            'Confirmed, Active, and Complete Orders \n' +
+            'New, Open, Received, and Completed Purchase Orders \n' +
+            'New and Estimated Repair Orders that have not yet been billed \n \n' +
+            'Are you sure you want to force these Tax Rates? This cannot be undone.</div>');
         $yes = FwConfirmation.addButton($confirmation, 'Yes', false);
         $no = FwConfirmation.addButton($confirmation, 'No');
 
@@ -199,7 +190,6 @@
                 }
             }, null, null);
         });
-        
     }
 }
 

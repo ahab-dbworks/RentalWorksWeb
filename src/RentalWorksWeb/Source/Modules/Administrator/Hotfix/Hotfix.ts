@@ -48,7 +48,6 @@ class Hotfix {
         $form = FwModule.loadFormFromTemplate(this.Module);
         $form = FwModule.openForm($form, mode);
 
-
         if (mode === 'NEW') {
             FwFormField.enable($form.find('.ifnew'))
         } else {
@@ -72,16 +71,14 @@ class Hotfix {
         FwModule.saveForm(this.Module, $form, parameters);
     };
     //---------------------------------------------------------------------------------------------
-    loadAudit($form: any):void {
+    loadAudit($form: any): void {
         var uniqueid;
         uniqueid = $form.find('div.fwformfield[data-datafield="HotfixId"] input').val();
         FwModule.loadAudit($form, uniqueid);
     };
     //---------------------------------------------------------------------------------------------
-    afterLoad($form: any):void {
-
+    afterLoad($form: any): void {
     };
 };
 //---------------------------------------------------------------------------------------------
 var HotfixController = new Hotfix();
-

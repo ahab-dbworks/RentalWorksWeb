@@ -68,7 +68,6 @@ class UserStatus {
     }
 
     afterLoad($form: any) {
-
     }
 }
 

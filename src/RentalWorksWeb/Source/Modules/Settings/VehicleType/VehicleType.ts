@@ -43,7 +43,7 @@ class VehicleType {
     }
 
     renderGrids($form: any) {
-        var $vehicleTypeWarehouseGrid, $vehicleTypeWarehouseControl;        
+        var $vehicleTypeWarehouseGrid, $vehicleTypeWarehouseControl;
 
         // load vendornote Grid
         $vehicleTypeWarehouseGrid = $form.find('div[data-grid="VehicleTypeWarehouseGrid"]');
@@ -56,14 +56,13 @@ class VehicleType {
         });
         FwBrowse.init($vehicleTypeWarehouseControl);
         FwBrowse.renderRuntimeHtml($vehicleTypeWarehouseControl);
-
     }
 
     openForm(mode: string) {
         var $form;
 
         $form = FwModule.loadFormFromTemplate(this.Module);
-        $form = FwModule.openForm($form, mode);                
+        $form = FwModule.openForm($form, mode);
 
         return $form;
     }
@@ -92,17 +91,15 @@ class VehicleType {
         var $vehicleTypeWarehouseGrid;
 
         $vehicleTypeWarehouseGrid = $form.find('[data-name="VehicleTypeWarehouseGrid"]');
-        FwBrowse.search($vehicleTypeWarehouseGrid);        
+        FwBrowse.search($vehicleTypeWarehouseGrid);
 
         this.disableFields();
-
     }
 
     beforeValidate = function ($browse, $grid, request) {
         request.uniqueids = {
             Transportation: true
         };
-     
     }
 }
 

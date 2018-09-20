@@ -69,7 +69,7 @@ class RwCustomerRevenueByTypeReport extends FwWebApiReport {
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
         var screen, $form;
-        screen            = {};
+        screen = {};
         screen.$view = FwModule.getModuleControl('Rw' + this.Module + 'Controller');
         screen.viewModel = {};
         screen.properties = {};
@@ -126,4 +126,3 @@ class RwCustomerRevenueByTypeReport extends FwWebApiReport {
     //----------------------------------------------------------------------------------------------
 };
 var RwCustomerRevenueByTypeReportController: any = new RwCustomerRevenueByTypeReport();
-

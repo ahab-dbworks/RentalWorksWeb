@@ -46,7 +46,6 @@ class PickList {
         var $form = FwModule.loadFormFromTemplate(this.Module);
         $form = FwModule.openForm($form, mode);
 
-
         $form.find('.printpicklist').on('click', function () {
             var $form, $report, pickListNumber, pickListId;
             try {
@@ -79,7 +78,7 @@ class PickList {
 
     addBrowseMenuItems($menuObject: any) {
         var self = this;
-   
+
         var warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
         var $allWarehouses = FwMenu.generateDropDownViewBtn('ALL', false);
         var $userWarehouse = FwMenu.generateDropDownViewBtn(warehouse.warehouse, true);

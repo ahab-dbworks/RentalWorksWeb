@@ -68,7 +68,6 @@ class LicenseClass {
     }
 
     afterLoad($form: any) {
-
     }
 }
 

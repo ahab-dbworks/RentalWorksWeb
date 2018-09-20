@@ -32,7 +32,6 @@ class CreatePickList {
 
         $form.off('change keyup', '.fwformfield[data-isuniqueid!="true"][data-enabled="true"][data-datafield!=""]');
 
-
         var $optionToggle = $form.find('.optiontoggle');
         $form.find('.options').toggle();
         $optionToggle.on('click', function () {
@@ -69,11 +68,9 @@ class CreatePickList {
                         $report.find('div.fwformfield[data-datafield="PickListId"] .fwformfield-text').val(response.PickListNumber);
                         jQuery('.tab.submodule.active').find('.caption').html('Print Pick List');
 
-
                         //refresh pick list browse
                         var $pickListBrowse = jQuery('#PickListBrowse');
                         FwBrowse.search($pickListBrowse);
-
                     }
                     catch (ex) {
                         FwFunc.showError(ex);
@@ -86,7 +83,6 @@ class CreatePickList {
         });
 
         $form.find('.defaultoptions input').prop('checked', true);
-
 
         return $form;
     }
@@ -117,7 +113,6 @@ class CreatePickList {
                 request.miscfields = miscfields;
             })
             FwBrowse.search($pickListUtilityGridControl);
-
         });
 
         $form.find('.selectall').on('click', function () {
@@ -173,7 +168,6 @@ class CreatePickList {
                     optionValue = false;
                 }
             } else {
-
                 optionValue = jQuery(this).find('input').val();
             }
             if (!(optionType == "date" && optionValue == "")) {

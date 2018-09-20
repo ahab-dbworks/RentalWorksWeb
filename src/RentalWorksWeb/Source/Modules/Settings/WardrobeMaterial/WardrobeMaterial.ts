@@ -68,9 +68,7 @@ class WardrobeMaterial {
     }
 
     afterLoad($form: any) {
-
     }
-
 }
 
 var WardrobeMaterialController = new WardrobeMaterial();

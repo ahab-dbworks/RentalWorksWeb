@@ -44,7 +44,7 @@
         $form = FwModule.loadFormFromTemplate(this.Module);
         $form = FwModule.openForm($form, mode);
 
-        setFormProperties = function($form: any) {
+        setFormProperties = function ($form: any) {
             var $cbUseProxy, $txtProxy, $txtProxyPort, $txtProxyUsername, $txtProxyPassword, $cbArchiveFile, $txtArchivePath;
 
             $cbUseProxy = $form.find('div[data-datafield="UseProxy"]');
@@ -73,7 +73,6 @@
                 FwFormField.disable($txtArchivePath);
             }
         };
-
 
         $sourcetype = $form.find('div[data-datafield="SourceType"]');
         FwFormField.loadItems($sourcetype, [
@@ -172,9 +171,6 @@
                 break;
         }
     }
-
-    
 }
 
 var SourceController = new Source();
-

@@ -68,7 +68,6 @@ class VehicleStatus {
     }
 
     afterLoad($form: any) {
-
     }
 }
 

@@ -68,7 +68,6 @@ class OrderLocation {
     }
 
     afterLoad($form: any) {
-
     }
 }
 

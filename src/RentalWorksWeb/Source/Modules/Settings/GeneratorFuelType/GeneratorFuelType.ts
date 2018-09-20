@@ -68,7 +68,6 @@ class GeneratorFuelType {
     }
 
     afterLoad($form: any) {
-
     }
 }
 

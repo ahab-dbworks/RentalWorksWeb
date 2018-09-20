@@ -68,7 +68,6 @@ class CrewStatus {
     }
 
     afterLoad($form: any) {
-
     }
 }
 

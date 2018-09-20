@@ -9,7 +9,7 @@
             var hasLimit = jQuery(e.currentTarget).prop('checked');
             if (hasLimit == false) {
                 $generatedtr.find('.limit input').prop('disabled', true)
-                  .css('background-color', '#F5F5F5');
+                    .css('background-color', '#F5F5F5');
                 $generatedtr.find('.limit')
                     .parents('td').css('background-color', "#f5f5f5");
             } else {
@@ -20,7 +20,6 @@
         });
 
         FwBrowse.setAfterRenderFieldCallback($control, ($tr: JQuery, $td: JQuery, $field: JQuery, dt: FwJsonDataTable, rowIndex: number, colIndex: number) => {
-
             if ($field.attr('data-browsedatafield') === 'HasLimit') {
                 let limitChecked = $field.find('input').prop('checked');
                 if (!limitChecked) {
@@ -50,9 +49,7 @@
     onRowNewMode($control: JQuery, $tr: JQuery) {
         $tr.find('.limit input').prop('disabled', true)
             .css('background-color', "#f5f5f5");
-
     }
-
 }
 
 var POApproverGridController = new POApproverGrid();

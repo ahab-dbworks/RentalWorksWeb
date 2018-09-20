@@ -37,7 +37,7 @@ class RwSetSurface {
 
         return $browse;
     }
-     
+
     openForm(mode: string) {
         var $form;
 
@@ -68,7 +68,6 @@ class RwSetSurface {
     }
 
     afterLoad($form: any) {
-
     }
 }
 

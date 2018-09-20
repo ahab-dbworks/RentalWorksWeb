@@ -45,7 +45,6 @@ class FormDesign {
     }
 
     afterLoad($form: any) {
-
     }
 }
 

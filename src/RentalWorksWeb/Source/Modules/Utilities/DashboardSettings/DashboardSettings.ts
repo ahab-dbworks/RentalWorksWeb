@@ -6,7 +6,7 @@ class DashboardSettings {
 
     constructor() {
         this.Module = 'DashboardSettings';
-        this.apiurl = 'api/v1/userdashboardsettings'; 
+        this.apiurl = 'api/v1/userdashboardsettings';
     }
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
@@ -33,7 +33,7 @@ class DashboardSettings {
 
         $form = FwModule.loadFormFromTemplate(this.Module);
         $form = FwModule.openForm($form, mode);
-        
+
         $form.find('div.fwformfield[data-datafield="UserId"] input').val(userId.webusersid);
         FwModule.loadForm(this.Module, $form);
 
@@ -44,7 +44,6 @@ class DashboardSettings {
             }
         })
 
-
         return $form;
     }
     //----------------------------------------------------------------------------------------------
@@ -54,9 +53,7 @@ class DashboardSettings {
     }
     //----------------------------------------------------------------------------------------------
     //afterLoad($form: any) {
-
     //}
     //----------------------------------------------------------------------------------------------
-
 }
 var DashboardSettingsController = new DashboardSettings();

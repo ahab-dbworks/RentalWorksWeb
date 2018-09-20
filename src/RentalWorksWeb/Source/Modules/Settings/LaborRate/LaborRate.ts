@@ -66,7 +66,7 @@ class RwLaborRate {
             else {
                 FwFormField.enable($form.find('[data-datafield="OverrideProfitAndLossCategory"]'))
             }
-        }); 
+        });
 
         this.events($form);
 
@@ -154,7 +154,6 @@ class RwLaborRate {
         $singleRateWarehouseGrid = $form.find('[data-name="SingleRateWarehouseGrid"]');
         FwBrowse.search($singleRateWarehouseGrid);
 
-
         if ($form.find('[data-datafield="OverrideProfitAndLossCategory"] .fwformfield-value').prop('checked')) {
             FwFormField.enable($form.find('.category [data-type="validation"]'))
             FwFormField.disable($form.find('[data-datafield="ProfitAndLossCategory"]'))
@@ -195,7 +194,7 @@ class RwLaborRate {
         request.uniqueids = {
             LaborTypeId: LaborTypeValue
         };
-    } 
+    }
 }
 
 //----------------------------------------------------------------------------------------------

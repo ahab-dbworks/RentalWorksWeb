@@ -30,13 +30,11 @@ class LaborCategory {
     }
 
     events($form: JQuery): void {
-
         $form.on('change', '.overridecheck input[type=checkbox]', (e) => {
             var $overrideCheck = jQuery(e.currentTarget), $categoryValidation = $form.find('.catvalidation');
 
             this.toggleEnabled($overrideCheck, $categoryValidation);
         });
-
     }
 
     toggleEnabled($checkbox: JQuery, $validation: JQuery): void {
@@ -63,7 +61,6 @@ class LaborCategory {
         })
         FwBrowse.init($subCategoryControl);
         FwBrowse.renderRuntimeHtml($subCategoryControl);
-
     }
 
     openBrowse() {
@@ -106,7 +103,7 @@ class LaborCategory {
         $form = this.openForm('EDIT');
         $form.find('div.fwformfield[data-datafield="CategoryId"] input').val(uniqueids.CategoryId);
         FwModule.loadForm(this.Module, $form);
-            
+
         return $form;
     }
 

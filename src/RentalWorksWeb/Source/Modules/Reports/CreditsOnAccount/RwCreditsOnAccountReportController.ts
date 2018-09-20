@@ -61,7 +61,7 @@ class RwCreditsOnAccountReport extends FwWebApiReport {
         this.load($form, this.reportOptions);
         var appOptions: any = program.getApplicationOptions();
         var request: any = { method: "LoadForm" };
- 
+
         FwFormField.setValue($form, 'div[data-datafield="IncludeRemainingBalance"]', 'T')
     };
     //----------------------------------------------------------------------------------------------

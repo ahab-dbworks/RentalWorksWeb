@@ -339,7 +339,6 @@ class SalesInventory extends InventoryBase {
 
         this.afterLoadSetClassification($form);
 
-
         if ($form.find('[data-datafield="OverrideProfitAndLossCategory"] .fwformfield-value').prop('checked')) {
             FwFormField.enable($form.find('[data-datafield="ProfitAndLossCategoryId"]'))
         } else {

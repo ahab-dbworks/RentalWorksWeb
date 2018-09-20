@@ -68,7 +68,6 @@ class ContactEvent {
     }
 
     afterLoad($form: any) {
-
     }
 }
 

@@ -151,7 +151,6 @@ class RwSalesInventoryTransactionReportClass extends FwWebApiReport {
                 { value: "ADJUSTMENT", text: "Adjustment", selected: "T" },
                 { value: "TRANSFER", text: "Transfer", selected: "T" }
             ]);
-
     }
     //----------------------------------------------------------------------------------------------
 };

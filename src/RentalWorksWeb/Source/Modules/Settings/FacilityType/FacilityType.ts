@@ -68,7 +68,6 @@ class FacilityType {
     }
 
     afterLoad($form: any) {
-
     }
 }
 

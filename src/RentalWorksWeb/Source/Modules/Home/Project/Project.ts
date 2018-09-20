@@ -73,7 +73,6 @@ class Project {
         return $menuObject;
     };
 
-
     openForm(mode: string) {
         var $form;
 
@@ -221,7 +220,6 @@ FwApplicationTree.clickEvents['{92B78408-298F-431C-A535-2ADC7C4DD2F7}'] = functi
         $yes.on('click', createQuote);
         var $confirmationbox = jQuery('.fwconfirmationbox');
         function createQuote() {
-          
             FwAppData.apiMethod(true, 'POST', "api/v1/project/createquote/" + projectId, null, FwServices.defaultTimeout, function onSuccess(response) {
                 FwNotification.renderNotification('SUCCESS', 'Quote Successfully Created.');
                 FwConfirmation.destroyConfirmation($confirmation);
@@ -235,6 +233,5 @@ FwApplicationTree.clickEvents['{92B78408-298F-431C-A535-2ADC7C4DD2F7}'] = functi
         }
     }
 };
-
 
 var ProjectController = new Project();

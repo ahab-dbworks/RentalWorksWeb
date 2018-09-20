@@ -30,13 +30,11 @@ class MiscCategory {
     }
 
     events($form: JQuery): void {
-
         $form.on('change', '.overridecheck input[type=checkbox]', (e) => {
             var $overrideCheck = jQuery(e.currentTarget), $categoryValidation = $form.find('.catvalidation');
 
             this.toggleEnabled($overrideCheck, $categoryValidation);
         });
-
     }
 
     toggleEnabled($checkbox: JQuery, $validation: JQuery): void {
@@ -63,7 +61,6 @@ class MiscCategory {
         })
         FwBrowse.init($subCategoryControl);
         FwBrowse.renderRuntimeHtml($subCategoryControl);
-
     }
 
     openBrowse() {
@@ -125,7 +122,6 @@ class MiscCategory {
         $laborCategoryGrid = $form.find('[data-name="SubCategoryGrid"]');
         FwBrowse.search($laborCategoryGrid);
     }
-
 }
 
 var MiscCategoryController = new MiscCategory();

@@ -70,7 +70,7 @@
 
     beforeValidateInventoryType($browse, $grid, request) {
         var value = $grid.find('input[type="radio"]:checked').val();
-        switch (value){
+        switch (value) {
             case 'RENTAL':
                 request.uniqueids = {
                     Rental: true
@@ -86,15 +86,13 @@
                     Parts: true
                 }
                 break;
-
         }
-
-    } 
+    }
 
     beforeValidateShipVia($browse, $grid, request) {
         var validationName = request.module;
         var VendorIdValue = jQuery($grid.find('[data-datafield="CarrierId"] input')).val();
-        
+
         switch (validationName) {
             case 'ShipViaValidation':
                 request.uniqueids = {
@@ -102,8 +100,7 @@
                 };
                 break;
         }
-
-    } 
+    }
 
     afterLoad($form: any) {
         var value = $form.find('input[type="radio"]:checked').val();
@@ -142,4 +139,3 @@
 }
 
 var VendorCatalogController = new VendorCatalog();
-

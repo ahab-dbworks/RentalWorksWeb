@@ -19,8 +19,7 @@
         let $form;
         $form = $control.closest('.fwform');
 
-       FwBrowse.addLegend($control, 'Project For', '#00c400');
-      
+        FwBrowse.addLegend($control, 'Project For', '#00c400');
     }
 }
 

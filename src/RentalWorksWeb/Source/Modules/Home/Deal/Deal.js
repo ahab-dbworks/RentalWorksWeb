@@ -627,12 +627,12 @@ class Deal {
               <div data-type="tab" id="contactstab" class="tab" data-tabpageid="contactstabpage" data-caption="Contacts"></div>
               <div data-type="tab" id="notestab" class="tab" data-tabpageid="notestabpage" data-caption="Notes"></div>
             </div>
-        
+
             <div class="tabpages">
               <div data-type="tabpage" id="projecttabpage" class="tabpage" data-tabid="projecttab">
                 <div class="flexpage">
                   <div class="flexrow">
-                    <!-- Deal section -->  
+                    <!-- Deal section -->
                     <div class="flexcolumn" style="flex:1 1 750px;">
                       <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Deal">
                         <div class="flexrow">
@@ -885,13 +885,13 @@ class Deal {
                   </div>
                 </div>
               </div>
-        
+
               <div data-type="tabpage" id="insurancetabpage" class="tabpage" data-tabid="insurancetab">
                 <div class="flexpage">
                   <div class="flexrow">
                     <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Insurance" style="flex:0 1 650px;">
                       <div class="flexrow">
-        
+
                         <!-- Insurance section -->
                         <div class="flexcolumn" style="flex:0 1 200px;">
                           <div class="flexrow">
@@ -901,7 +901,7 @@ class Deal {
                             <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Certification on File" data-datafield="InsuranceCertification" style="flex:0 1 175px;"></div>
                           </div>
                         </div>
-        
+
                         <div class="flexcolumn" style="flex:0 1 400px;">
                           <div class="flexrow">
                             <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="Valid Through" data-datafield="InsuranceCertificationValidThrough" style="flex:1 1 125px;"></div>

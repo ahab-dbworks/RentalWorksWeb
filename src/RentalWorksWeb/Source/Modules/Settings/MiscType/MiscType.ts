@@ -68,7 +68,6 @@ class MiscType {
     }
 
     afterLoad($form: any) {
-
     }
 }
 

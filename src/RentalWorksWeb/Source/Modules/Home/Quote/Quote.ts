@@ -2,7 +2,7 @@
 routes.push({ pattern: /^module\/quote\/(\S+)\/(\S+)/, action: function (match: RegExpExecArray) { var filter = { 'datafield': match[1], 'search': match[2] }; return QuoteController.getModuleScreen(filter); } });
 
 //----------------------------------------------------------------------------------------------
-class Quote extends OrderBase{
+class Quote extends OrderBase {
     Module: string = 'Quote';
     apiurl: string = 'api/v1/quote';
     //----------------------------------------------------------------------------------------------
@@ -75,7 +75,6 @@ class Quote extends OrderBase{
         FwAppData.apiMethod(true, 'GET', 'api/v1/departmentlocation/' + department.departmentid + '~' + location.locationid, null, FwServices.defaultTimeout, function onSuccess(response) {
             self.DefaultOrderType = response.DefaultOrderType;
             self.DefaultOrderTypeId = response.DefaultOrderTypeId;
-
         }, null, null);
 
         return $browse;
@@ -214,8 +213,8 @@ class Quote extends OrderBase{
             $form.find('div[data-datafield="Sales"] input').prop('checked', true);
             $form.find('div[data-datafield="Miscellaneous"] input').prop('checked', true);
             $form.find('div[data-datafield="Labor"] input').prop('checked', true);
-            FwFormField.disable($form.find('[data-datafield="RentalSale"]')); 
-            $form.find('[data-type="tab"][data-caption="Used Sale"]').hide(); 
+            FwFormField.disable($form.find('[data-datafield="RentalSale"]'));
+            $form.find('[data-type="tab"][data-caption="Used Sale"]').hide();
             FwFormField.disable($form.find('[data-datafield="PoNumber"]'));
             FwFormField.disable($form.find('[data-datafield="PoAmount"]'));
 
@@ -255,7 +254,7 @@ class Quote extends OrderBase{
         }
 
         this.events($form);
-        this.activityCheckboxEvents($form, mode); 
+        this.activityCheckboxEvents($form, mode);
         return $form;
     };
 
@@ -323,7 +322,6 @@ class Quote extends OrderBase{
 
             let rentalItems = $form.find('.rentalgrid tbody').children();
             rentalItems.length > 0 ? FwFormField.disable($form.find('[data-datafield="Rental"]')) : FwFormField.enable($form.find('[data-datafield="Rental"]'));
-
         });
         FwBrowse.init($orderItemGridRentalControl);
         FwBrowse.renderRuntimeHtml($orderItemGridRentalControl);
@@ -433,7 +431,7 @@ class Quote extends OrderBase{
             request.RecType = 'RS';
         });
         FwBrowse.init($orderItemGridUsedSaleControl);
-        FwBrowse.renderRuntimeHtml($orderItemGridUsedSaleControl); 
+        FwBrowse.renderRuntimeHtml($orderItemGridUsedSaleControl);
 
         var $allOrderItemGrid;
         var $allOrderItemGridControl;
@@ -536,9 +534,9 @@ class Quote extends OrderBase{
         //FwBrowse.search($allOrderItemGrid);
         var $orderItemGridUsedSale;
         $orderItemGridUsedSale = $form.find('.usedsalegrid [data-name="OrderItemGrid"]');
-        //FwBrowse.search($orderItemGridUsedSale); 
+        //FwBrowse.search($orderItemGridUsedSale);
 
-        //hide subworksheet 
+        //hide subworksheet
         $orderItemGridRental.find('.submenu-btn').filter('[data-securityid="007C4F21-7526-437C-AD1C-4BBB1030AABA"]').hide();
         $orderItemGridSales.find('.submenu-btn').filter('[data-securityid="007C4F21-7526-437C-AD1C-4BBB1030AABA"]').hide();
         $orderItemGridLabor.find('.submenu-btn').filter('[data-securityid="007C4F21-7526-437C-AD1C-4BBB1030AABA"]').hide();
@@ -690,7 +688,6 @@ class Quote extends OrderBase{
     };
 };
 
-
 //-----------------------------------------------------------------------------------------------------
 FwApplicationTree.clickEvents['{B918C711-32D7-4470-A8E5-B88AB5712863}'] = function (event) {
     var $form
@@ -718,9 +715,8 @@ FwApplicationTree.clickEvents['{BC3B1A5E-7270-4547-8FD1-4D14F505D452}'] = functi
 };
 
 //-----------------------------------------------------------------------------------------------------
-//Print Quote 
+//Print Quote
 FwApplicationTree.clickEvents['{B20DDE47-A5D7-49A9-B980-8860CADBF7F6}'] = function (e) {
-
     try {
         var $form = jQuery(this).closest('.fwform');
         $form.find('.print').trigger('click');
@@ -730,7 +726,7 @@ FwApplicationTree.clickEvents['{B20DDE47-A5D7-49A9-B980-8860CADBF7F6}'] = functi
     }
 };
 
-//---------------------------------------------------------------------------------------------- 
+//----------------------------------------------------------------------------------------------
 FwApplicationTree.clickEvents['{F79F8C21-66DF-4458-BBEB-E19B2BFCAEAA}'] = function (event) {
     let $form;
     $form = jQuery(this).closest('.fwform');
@@ -918,7 +914,7 @@ FwApplicationTree.clickEvents['{BC467EF9-F255-4F51-A6F2-57276D8824A3}'] = functi
 
     $browse = jQuery(this).closest('.fwbrowse');
     $form = jQuery(this).closest('.fwform');
-    
+
     try {
         if ($form.attr('data-controller') === 'QuoteController') {
             QuoteController.orderItemGridLockUnlock($browse, event);

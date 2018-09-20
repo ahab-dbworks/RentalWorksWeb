@@ -104,7 +104,7 @@ class RwRentalInventoryCatalogReport extends FwWebApiReport {
         this.load($form, this.reportOptions);
         var appOptions: any = program.getApplicationOptions();
         var request: any = { method: "LoadForm" };
- 
+
         const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
         FwFormField.setValue($form, 'div[data-datafield="WarehouseId"]', warehouse.warehouseid, warehouse.warehouse);
 
@@ -156,7 +156,6 @@ class RwRentalInventoryCatalogReport extends FwWebApiReport {
                     break;
             }
         }
-
     }
     //----------------------------------------------------------------------------------------------
 };

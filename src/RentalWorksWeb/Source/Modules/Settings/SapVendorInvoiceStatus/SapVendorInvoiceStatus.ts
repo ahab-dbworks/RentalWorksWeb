@@ -37,7 +37,7 @@ class RwSapVendorInvoiceStatus {
 
         return $browse;
     }
-     
+
     openForm(mode: string) {
         var $form;
 
@@ -68,7 +68,6 @@ class RwSapVendorInvoiceStatus {
     }
 
     afterLoad($form: any) {
-   
     }
 }
 

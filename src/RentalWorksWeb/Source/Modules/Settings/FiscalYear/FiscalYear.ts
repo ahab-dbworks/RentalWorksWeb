@@ -48,7 +48,7 @@ class FiscalYear {
         $fiscalYearControl.data('ondatabind', function (request) {
             request.uniqueids = {
                 FiscalYearId: $form.find('div.fwformfield[data-datafield="FiscalYearId"] input').val()
-            }            
+            }
         });
         FwBrowse.init($fiscalYearControl);
         FwBrowse.renderRuntimeHtml($fiscalYearControl);
@@ -88,7 +88,6 @@ class FiscalYear {
 
         $fiscalYearGrid = $form.find('[data-name="FiscalMonthGrid"]');
         FwBrowse.search($fiscalYearGrid);
-        
     }
 }
 

@@ -16,7 +16,6 @@ class DuplicateRules {
             FwModule.openModuleTab($browse, 'Duplicate Rules', false, 'BROWSE', true);
             FwBrowse.databind($browse);
             FwBrowse.screenload($browse);
-
         };
         screen.unload = function () {
             FwBrowse.screenunload($browse);
@@ -241,7 +240,6 @@ class DuplicateRules {
             });
 
             if (FwFormField.getValueByDataField($form, 'SystemRule') === 'true') { FwFormField.toggle($form.find('.SystemRuleTRUE'), false); }
-
         }, null, $form);
     }
     //----------------------------------------------------------------------------------------------

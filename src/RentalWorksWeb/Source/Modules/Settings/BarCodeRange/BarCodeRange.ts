@@ -68,7 +68,6 @@ class BarCodeRange {
     }
 
     afterLoad($form: any) {
-
     }
 }
 

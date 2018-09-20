@@ -37,7 +37,7 @@ class RwProjectDropShipItems {
 
         return $browse;
     }
-     
+
     openForm(mode: string) {
         var $form;
 
@@ -68,7 +68,6 @@ class RwProjectDropShipItems {
     }
 
     afterLoad($form: any) {
-
     }
 }
 

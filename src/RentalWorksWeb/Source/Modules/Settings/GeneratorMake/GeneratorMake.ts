@@ -72,10 +72,10 @@ class GeneratorMake {
         var $generatorMakeModelGridControl: any;
 
         // load AttributeValue Grid
-        $generatorMakeModelGrid        = $form.find('div[data-grid="GeneratorMakeModelGrid"]');
+        $generatorMakeModelGrid = $form.find('div[data-grid="GeneratorMakeModelGrid"]');
         $generatorMakeModelGridControl = jQuery(jQuery('#tmpl-grids-GeneratorMakeModelGridBrowse').html());
         $generatorMakeModelGrid.empty().append($generatorMakeModelGridControl);
-        $generatorMakeModelGridControl.data('ondatabind', function(request) {
+        $generatorMakeModelGridControl.data('ondatabind', function (request) {
             request.uniqueids = {
                 GeneratorMakeId: $form.find('div.fwformfield[data-datafield="GeneratorMakeId"] input').val()
             };

@@ -31,7 +31,7 @@ class StagingCheckout {
         $form = this.openForm('EDIT');
         $form.find('div.fwformfield[data-datafield="OrderId"] input').val(uniqueids.OrderId);
         FwModule.loadForm(this.Module, $form);
-        
+
         return $form;
     };
     //----------------------------------------------------------------------------------------------
@@ -209,7 +209,7 @@ class StagingCheckout {
                         request.pagesize = 10;
                     })
                     FwBrowse.search($checkedOutItemGridControl);
-             
+
                     $stagedItemGridControl = $form.find('[data-name="StagedItemGrid"]');
                     $stagedItemGridControl.data('ContractId', this.contractId); // Stores ContractId on grid for dblclick in grid controller
                     $stagedItemGridControl.data('ondatabind', function (request) {
@@ -233,7 +233,7 @@ class StagingCheckout {
         }
     };
     //----------------------------------------------------------------------------------------------
-    // There are corresponding double click events in the Staged Item Grid controller 
+    // There are corresponding double click events in the Staged Item Grid controller
     moveStagedItemToOut($form: JQuery): void {
         let $selectedCheckBoxes, $stagedItemGrid, orderId, barCodeFieldValue, quantityFieldValue, barCode, iCode, quantity, orderItemId, vendorId, $checkedOutItemGrid, successSound, errorSound, request: any = {};
         successSound = new Audio(this.successSoundFileName);
@@ -277,7 +277,6 @@ class StagingCheckout {
             }, null, null);
         } else {
             if ($selectedCheckBoxes.length !== 0) {
-
                 let responseCount = 0;
                 for (let i = 0; i < $selectedCheckBoxes.length; i++) {
                     barCode = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="BarCode"]').attr('data-originalvalue');
@@ -303,16 +302,16 @@ class StagingCheckout {
                             setTimeout(() => {
                                 FwBrowse.search($checkedOutItemGrid);
                                 FwBrowse.search($stagedItemGrid);
-                                }, 0);
+                            }, 0);
                         }
                     }, function onError(response) {
                         FwFunc.showError(response);
                     }, null);
                 }
-              
-            $form.find('.partial-contract-barcode input').val('');
-            $form.find('.partial-contract-quantity input').val('');
-            $form.find('.partial-contract-barcode input').focus();
+
+                $form.find('.partial-contract-barcode input').val('');
+                $form.find('.partial-contract-quantity input').val('');
+                $form.find('.partial-contract-barcode input').focus();
             } else {
                 FwNotification.renderNotification('WARNING', 'Select rows in Stage Items or use Bar Code input in order to perform this function.');
                 $form.find('.partial-contract-barcode input').focus();
@@ -320,7 +319,7 @@ class StagingCheckout {
         }
     };
     //----------------------------------------------------------------------------------------------
-    // There are corresponding double click events in the Checked Out Item Grid controller 
+    // There are corresponding double click events in the Checked Out Item Grid controller
     moveOutItemToStaged($form: JQuery): void {
         let $selectedCheckBoxes, $stagedItemGrid, orderId, barCodeFieldValue, barCode, iCode, quantityFieldValue, quantity, orderItemId, vendorId, $checkedOutItemGrid, successSound, errorSound, request: any = {};
         successSound = new Audio(this.successSoundFileName);
@@ -398,7 +397,7 @@ class StagingCheckout {
                         FwFunc.showError(response);
                     }, null);
                 }
-              
+
                 $form.find('.partial-contract-barcode input').val('');
                 $form.find('.partial-contract-quantity input').val('');
                 $form.find('.partial-contract-barcode input').focus();
@@ -599,7 +598,6 @@ class StagingCheckout {
 
             FwBrowse.search($checkedOutItemGrid);
             FwBrowse.search($stagedItemGrid);
-
         });
         // BarCode / I-Code change
         $form.find('[data-datafield="Code"] input').on('keydown', e => {
@@ -648,7 +646,7 @@ class StagingCheckout {
                     $form.find('[data-datafield="Code"] input').select();
                 }, $form);
             }
-        })​;​
+        })​;
         //Quantity change
         $form.find('[data-datafield="Quantity"] input').on('keydown', e => {
             if (self.showAddItemToOrder != true) {
@@ -755,7 +753,6 @@ class StagingCheckout {
         });
         // Grid view toggle
         $form.find('.grid-view-radio input').on('change', e => {
-
             let $target = jQuery(e.currentTarget),
                 gridView = $target.val(),
                 stagedItemGridContainer = $form.find('.staged-item-grid'),
@@ -780,7 +777,6 @@ class StagingCheckout {
                 e.stopPropagation();
                 FwNotification.renderNotification('WARNING', 'Select an Order before switching views.')
             }
-
         });
         // Partial Contract Inputs
         $form.find('.partial-contract-inputs input').on('keydown', e => {
@@ -847,7 +843,7 @@ class StagingCheckout {
         this.showAddItemToOrder = false;
         let code, $form, $element, orderId, quantity, $stagedItemGrid, successSound, request: any = {};
         $element = jQuery(element);
-        $form = jQuery($element).closest('.fwform'); 
+        $form = jQuery($element).closest('.fwform');
         orderId = FwFormField.getValueByDataField($form, 'OrderId');
         code = FwFormField.getValueByDataField($form, 'Code');
         $stagedItemGrid = $form.find('[data-name="StagedItemGrid"]');

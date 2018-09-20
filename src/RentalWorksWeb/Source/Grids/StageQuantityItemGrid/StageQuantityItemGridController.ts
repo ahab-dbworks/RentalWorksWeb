@@ -20,7 +20,6 @@
             let $grid = $tr.parents('[data-grid="StageQuantityItemGrid"]');
 
             if (trackedByValue === 'QUANTITY' || itemClassValue !== 'K') {
-
                 html.push('<button class="decrementQuantity" tabindex="-1" style="padding: 5px 0px; float:left; width:25%; border:none;">-</button>');
                 html.push('<div style="position:relative">');
                 html.push('     <input class="fieldvalue" type="number" style="height:1.5em; width:40px; text-align:center;" value="' + originalquantity + '">');

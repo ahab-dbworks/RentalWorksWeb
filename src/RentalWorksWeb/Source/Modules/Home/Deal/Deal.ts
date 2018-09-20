@@ -3,7 +3,7 @@ class Deal {
     apiurl: string = 'api/v1/deal';
     caption: string = 'Deal';
 
-    getModuleScreen(filter?: {datafield: string, search: string}) {
+    getModuleScreen(filter?: { datafield: string, search: string }) {
         var screen, $browse;
         var self = this;
 
@@ -60,7 +60,6 @@ class Deal {
     }
 
     events($form: JQuery): void {
-
         $form.find('[data-name="CompanyTaxOptionGrid"]').data('onselectedrowchanged', ($control: JQuery, $tr: JQuery) => {
             try {
                 this.updateExternalInputsWithGridValues($tr);
@@ -84,7 +83,7 @@ class Deal {
         });
 
         $form.on('change', '.billing_use_discount_template input[type=checkbox]', (e) => {
-            //this.useDiscountTemplate(jQuery(e.currentTarget).is(':checked'));            
+            //this.useDiscountTemplate(jQuery(e.currentTarget).is(':checked'));
             this.toggleBillingUseDiscount($form, jQuery(e.currentTarget).is(':checked'));
         });
 
@@ -125,7 +124,6 @@ class Deal {
             var isChecked = jQuery(e.currentTarget).is(':checked');
             this.toggleOptionsTabIfExcludeQuote($form, isChecked);
         });
-
     }
 
     //useDiscountTemplate(isChecked: boolean): void {
@@ -150,7 +148,6 @@ class Deal {
             $temp.find('input').prop('disabled', true);
             $discTemp.attr('data-enabled', 'false');
             $discTemp.find('input').prop('disabled', true);
-
         } else {
             if ($discTemp.find('input[type=checkbox]').is(':checked')) {
                 $temp.attr('data-enabled', 'true');
@@ -180,7 +177,6 @@ class Deal {
             'BillToCountryId'];
 
         isOther ? this.disableFields($form, list) : this.enableFields($form, list);
-        
     }
 
     toggleShippingAddressInfo($form: JQuery, isOther: boolean) {
@@ -193,7 +189,6 @@ class Deal {
             'ShipCountryId'];
 
         isOther ? this.disableFields($form, list) : this.enableFields($form, list);
-
     }
 
     toggleCredTabIfUseCustomer($form: JQuery, isCustomer: boolean): void {
@@ -222,8 +217,7 @@ class Deal {
             //'DepletingDepositRemaining'
         ];
 
-        isCustomer ? this.disableFields($form, list) : this.enableFields($form, list);            
-        
+        isCustomer ? this.disableFields($form, list) : this.enableFields($form, list);
     }
 
     toggleInsurTabIfUseCustomer($form: JQuery, isCustomer: boolean): void {
@@ -239,7 +233,7 @@ class Deal {
 
         var $insuranceName: JQuery = jQuery('.insurance_name');
 
-        isCustomer ? this.disableFields($form, list) : this.enableFields($form, list);    
+        isCustomer ? this.disableFields($form, list) : this.enableFields($form, list);
 
         if (isCustomer) {
             $insuranceName.attr('data-enabled', 'false');
@@ -271,7 +265,7 @@ class Deal {
             'NonTaxableCertificateValidThrough',
             'NonTaxableCertificateOnFile'];
 
-        isCustomer ? this.disableFields($form, list) : this.enableFields($form, list);            
+        isCustomer ? this.disableFields($form, list) : this.enableFields($form, list);
     }
 
     toggleOptionsTabIfExcludeQuote($form: JQuery, isExcluded: boolean): void {
@@ -287,7 +281,7 @@ class Deal {
             'DisableSubLabor',
             'DisableSubMisc'];
 
-        isExcluded ? this.enableFields($form, list) : this.disableFields($form, list);            
+        isExcluded ? this.enableFields($form, list) : this.disableFields($form, list);
     }
 
     billingAddressTypeChange($form) {
@@ -414,11 +408,11 @@ class Deal {
     }
 
     disableFields($form: JQuery, fields: string[]): void {
-        fields.forEach((e, i) => { FwFormField.disable($form.find('[data-datafield="' + e + '"]'));});
+        fields.forEach((e, i) => { FwFormField.disable($form.find('[data-datafield="' + e + '"]')); });
     }
 
     enableFields($form: JQuery, fields: string[]): void {
-        fields.forEach((e, i) => { FwFormField.enable($form.find('[data-datafield="' + e + '"]'));});
+        fields.forEach((e, i) => { FwFormField.enable($form.find('[data-datafield="' + e + '"]')); });
     }
 
     updateExternalInputsWithGridValues($tr: JQuery): void {
@@ -429,7 +423,6 @@ class Deal {
             } else {
                 jQuery(`.${id}`).find(':input').val(value);
             }
-
         });
     }
 
@@ -525,7 +518,6 @@ class Deal {
         });
         FwBrowse.init($companyContactControl);
         FwBrowse.renderRuntimeHtml($companyContactControl);
-
     }
 
     openForm(mode: string, parentmoduleinfo?: any) {
@@ -539,7 +531,6 @@ class Deal {
         $form.find('.quote').append($submoduleQuoteBrowse);
 
         FwFormField.disable($form.find('.CompanyResaleGrid'));
-
 
         $submoduleOrderBrowse = this.openOrderBrowse($form);
         $form.find('.order').append($submoduleOrderBrowse);
@@ -614,7 +605,7 @@ class Deal {
 
         return $form;
     }
-   
+
     openQuoteBrowse($form) {
         var $browse;
         $browse = QuoteController.openBrowse();
@@ -628,7 +619,7 @@ class Deal {
 
         return $browse;
     };
-    
+
     openOrderBrowse($form) {
         var $browse;
         $browse = OrderController.openBrowse();
@@ -680,7 +671,6 @@ class Deal {
 
         $vendorGrid = $form.find('[data-name="DealShipperGrid"]');
         //FwBrowse.search($vendorGrid);
-    
 
         var $companyContactGrid: any = $form.find('[data-name="CompanyContactGrid"]');
         FwBrowse.search($companyContactGrid);
@@ -749,7 +739,8 @@ class Deal {
         });
     }
 
-    getBrowseTemplate(): string { return `
+    getBrowseTemplate(): string {
+        return `
         <div data-name="Deal" data-control="FwBrowse" data-type="Browse" id="DealBrowse" class="fwcontrol fwbrowse" data-orderby="" data-controller="DealController" data-hasinactive="true">
           <div class="column" data-width="0" data-visible="false">
             <div class="field" data-isuniqueid="true" data-datafield="DealId" data-browsedatatype="key" ></div>
@@ -773,7 +764,8 @@ class Deal {
         </div>`;
     }
 
-    getFormTemplate(): string { return `
+    getFormTemplate(): string {
+        return `
         <div id="dealform" class="fwcontrol fwcontainer fwform" data-control="FwContainer" data-type="form" data-version="1" data-caption="Deal" data-rendermode="template" data-mode="" data-hasaudit="false" data-controller="DealController">
           <div data-control="FwFormField" data-type="key" class="fwcontrol fwformfield" data-isuniqueid="true" data-datafield="DealId"></div>
           <div id="dealform-tabcontrol" class="fwcontrol fwtabs" data-control="FwTabs" data-type="">
@@ -790,12 +782,12 @@ class Deal {
               <div data-type="tab" id="contactstab" class="tab" data-tabpageid="contactstabpage" data-caption="Contacts"></div>
               <div data-type="tab" id="notestab" class="tab" data-tabpageid="notestabpage" data-caption="Notes"></div>
             </div>
-        
+
             <div class="tabpages">
               <div data-type="tabpage" id="projecttabpage" class="tabpage" data-tabid="projecttab">
                 <div class="flexpage">
                   <div class="flexrow">
-                    <!-- Deal section -->  
+                    <!-- Deal section -->
                     <div class="flexcolumn" style="flex:1 1 750px;">
                       <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Deal">
                         <div class="flexrow">
@@ -1048,13 +1040,13 @@ class Deal {
                   </div>
                 </div>
               </div>
-        
+
               <div data-type="tabpage" id="insurancetabpage" class="tabpage" data-tabid="insurancetab">
                 <div class="flexpage">
                   <div class="flexrow">
                     <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Insurance" style="flex:0 1 650px;">
                       <div class="flexrow">
-        
+
                         <!-- Insurance section -->
                         <div class="flexcolumn" style="flex:0 1 200px;">
                           <div class="flexrow">
@@ -1064,7 +1056,7 @@ class Deal {
                             <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Certification on File" data-datafield="InsuranceCertification" style="flex:0 1 175px;"></div>
                           </div>
                         </div>
-        
+
                         <div class="flexcolumn" style="flex:0 1 400px;">
                           <div class="flexrow">
                             <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="Valid Through" data-datafield="InsuranceCertificationValidThrough" style="flex:1 1 125px;"></div>

@@ -32,7 +32,6 @@
                     var $value = $quantityColumn.find('.fieldvalue');
                     var oldval = jQuery.isNumeric(parseFloat($value.val())) ? parseFloat($value.val()) : 0;
                     if ((typeof $quantityColumn.attr('data-maxvalue') !== 'undefined') && ($quantityColumn.attr('data-maxvalue') <= oldval)) {
-
                     } else {
                         $value.val(++oldval);
                     }
@@ -41,7 +40,6 @@
                     var $value = $quantityColumn.find('.fieldvalue');
                     var oldval = jQuery.isNumeric(parseFloat($value.val())) ? parseFloat($value.val()) : 0;
                     if ((typeof $quantityColumn.attr('data-minvalue') !== 'undefined') && ($quantityColumn.attr('data-minvalue') >= oldval)) {
-
                     } else {
                         if (oldval > 0) {
                             $value.val(--oldval);
@@ -91,10 +89,10 @@
                     FwAppData.apiMethod(true, 'POST', "api/v1/purchaseorderreturnitem/returnitems", request, FwServices.defaultTimeout,
                         function onSuccess(response) {
                             FwBrowse.setFieldValue($grid, $tr, 'QuantityReturned', { value: response.QuantityReturned });
-                    }, function onError(response) {
-                        FwFunc.showError(response);
-                        $tr.find('[data-browsedatafield="Quantity"] input').val(+oldValue);
-                    }, null);
+                        }, function onError(response) {
+                            FwFunc.showError(response);
+                            $tr.find('[data-browsedatafield="Quantity"] input').val(+oldValue);
+                        }, null);
                 }
             });
         });

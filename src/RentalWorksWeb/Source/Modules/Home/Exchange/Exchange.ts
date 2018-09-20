@@ -59,7 +59,7 @@ class Exchange {
     //----------------------------------------------------------------------------------------------
     events($form: any): void {
         let self = this, errorSound, successSound, department, contractRequest = {}, exchangeRequest = {};
-       
+
         errorSound = new Audio(this.errorSoundFileName);
         successSound = new Audio(this.successSoundFileName);
         department = JSON.parse(sessionStorage.getItem('department'));

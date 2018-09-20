@@ -76,7 +76,6 @@ class RwBuilding {
     }
 
     events($form: JQuery): void {
-
         $form.find('[data-name="FloorGrid"]').data('onselectedrowchanged', ($control: JQuery, $tr: JQuery) => {
             try {
                 var buildingId = $form.find('div.fwformfield[data-datafield="BuildingId"] input').val();
@@ -95,19 +94,16 @@ class RwBuilding {
                     request.FloorId = floorId;
                 });
                 FwBrowse.search($spaceGridControl);
-
             } catch (ex) {
                 FwFunc.showError(ex);
             }
         });
-
 
         $form.find('[data-name="SpaceGrid"]').data('onselectedrowchanged', ($control: JQuery, $tr: JQuery) => {
             try {
                 var spaceId
                     , floorId
                     , buildingId;
-              
 
                 spaceId = jQuery($tr.find('.column > .field')[0]).attr('data-originalvalue');
                 floorId = jQuery($tr.find('.column > .field')[1]).attr('data-originalvalue');
@@ -130,7 +126,6 @@ class RwBuilding {
                     request.SpaceId = spaceId;
                 });
                 FwBrowse.search($spaceRateGridControl);
-
             } catch (ex) {
                 FwFunc.showError(ex);
             }
@@ -183,8 +178,6 @@ class RwBuilding {
         })
         FwBrowse.init($spaceRateGridControl);
         FwBrowse.renderRuntimeHtml($spaceRateGridControl);
-
-
     }
 
     afterLoad($form: any) {
@@ -200,10 +193,7 @@ class RwBuilding {
 
         $spaceRateGrid = $form.find('[data-name="SpaceRateGrid"]');
         FwBrowse.search($spaceRateGrid);
-
     }
-
-
 }
 
 var BuildingController = new RwBuilding();

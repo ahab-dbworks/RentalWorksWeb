@@ -64,8 +64,8 @@ class InventoryRank {
             FwFormField.setValueByDataField($form, 'FToValue', 0);
             FwFormField.setValueByDataField($form, 'GFromValue', 0);
             FwFormField.setValueByDataField($form, 'GToValue', 0);
-        }        
-        
+        }
+
         return $form;
     }
 
@@ -74,7 +74,7 @@ class InventoryRank {
 
         $form = this.openForm('EDIT');
         $form.find('div.fwformfield[data-datafield="InventoryRankId"] input').val(uniqueids.InventoryRankId);
-        FwModule.loadForm(this.Module, $form);        
+        FwModule.loadForm(this.Module, $form);
         this.requiredFalse();
         return $form;
     }
@@ -90,9 +90,7 @@ class InventoryRank {
     }
 
     afterLoad($form: any) {
-
         this.requiredFalse();
-
     }
 }
 

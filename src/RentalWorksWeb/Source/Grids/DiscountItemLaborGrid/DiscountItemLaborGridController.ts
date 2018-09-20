@@ -6,9 +6,8 @@
         this.Module = 'DiscountItemLaborGrid';
         this.apiurl = 'api/v1/discountitem';
     }
-    
-    beforeValidate = function ($browse, $grid, request) {
 
+    beforeValidate = function ($browse, $grid, request) {
         var validationName = request.module;
 
         if (validationName != null) {

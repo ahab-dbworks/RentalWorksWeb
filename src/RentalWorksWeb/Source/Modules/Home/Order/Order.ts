@@ -65,7 +65,6 @@ class Order extends OrderBase {
         FwAppData.apiMethod(true, 'GET', 'api/v1/departmentlocation/' + department.departmentid + '~' + location.locationid, null, FwServices.defaultTimeout, function onSuccess(response) {
             self.DefaultOrderType = response.DefaultOrderType;
             self.DefaultOrderTypeId = response.DefaultOrderTypeId;
-
         }, null, null);
 
         return $browse;
@@ -401,7 +400,6 @@ class Order extends OrderBase {
         FwBrowse.init($orderItemGridSalesControl);
         FwBrowse.renderRuntimeHtml($orderItemGridSalesControl);
 
-
         var $orderItemGridLabor;
         var $orderItemGridLaborControl;
         $orderItemGridLabor = $form.find('.laborgrid div[data-grid="OrderItemGrid"]');
@@ -431,7 +429,6 @@ class Order extends OrderBase {
         FwBrowse.init($orderItemGridLaborControl);
         FwBrowse.renderRuntimeHtml($orderItemGridLaborControl);
 
-
         var $orderItemGridMisc;
         var $orderItemGridMiscControl;
         $orderItemGridMisc = $form.find('.miscgrid div[data-grid="OrderItemGrid"]');
@@ -458,7 +455,6 @@ class Order extends OrderBase {
 
             let miscItems = $form.find('.miscgrid tbody').children();
             miscItems.length > 0 ? FwFormField.disable($form.find('[data-datafield="Miscellaneous"]')) : FwFormField.enable($form.find('[data-datafield="Miscellaneous"]'));
-
         });
 
         FwBrowse.init($orderItemGridMiscControl);
@@ -1112,5 +1108,3 @@ FwApplicationTree.clickEvents['{DAE6DC23-A2CA-4E36-8214-72351C4E1449}'] = functi
 
 //----------------------------------------------------------------------------------------------
 var OrderController = new Order();
-
-

@@ -98,7 +98,6 @@ class RentalInventory extends InventoryBase {
         FwBrowse.init(containerWarehouseGridControl);
         FwBrowse.renderRuntimeHtml(containerWarehouseGridControl);
 
-
         $inventoryAvailabilityGrid = $form.find('div[data-grid="InventoryAvailabilityGrid"]');
         $inventoryAvailabilityGridControl = jQuery(jQuery('#tmpl-grids-InventoryAvailabilityGridBrowse').html());
         $inventoryAvailabilityGrid.empty().append($inventoryAvailabilityGridControl);
@@ -262,7 +261,7 @@ class RentalInventory extends InventoryBase {
         //            primaryRowIndex = i
         //        }
         //    }
-            
+
         //});
         $inventoryCompleteGridControl.data('isfieldeditable', function ($field, dt, rowIndex) {
             var primaryRowIndex;
@@ -426,7 +425,7 @@ class RentalInventory extends InventoryBase {
             $form.find('[data-grid="ContainerWarehouseGrid"]').show();
             FwBrowse.search($containerWarehouseGrid);
 
-           //Open Container module as submodule
+            //Open Container module as submodule
             let $containerBrowse;
             $containerBrowse = this.openContainerBrowse($form);
             $form.find('.containerassetstabpage').append($containerBrowse);
@@ -446,13 +445,13 @@ class RentalInventory extends InventoryBase {
 
         if ($form.find('[data-datafield="InventoryTypeIsWardrobe"] .fwformfield-value').prop('checked') === true) {
             $form.find('.wardrobetab').show();
-        };        
+        };
 
         if ($form.find('[data-datafield="SubCategoryCount"] .fwformfield-value').val() > 0) {
             FwFormField.enable($form.find('.subcategory'));
         } else {
             FwFormField.disable($form.find('.subcategory'));
-        } 
+        }
 
         this.addAssetTab($form);
 
@@ -498,7 +497,7 @@ class RentalInventory extends InventoryBase {
                     FwModule.openSubModuleTab($browse, $assetForm);
                 });
             }
-        } 
+        }
     };
     //----------------------------------------------------------------------------------------------
     openAssetBrowse($form: any) {
@@ -519,7 +518,7 @@ class RentalInventory extends InventoryBase {
         var validationName = request.module;
         var InventoryTypeValue = jQuery($grid.find('[data-validationname="InventoryTypeValidation"] input')).val();
         var CategoryTypeId = jQuery($grid.find('[data-validationname="RentalCategoryValidation"] input')).val();
-       
+
         switch (validationName) {
             case 'InventoryTypeValidation':
                 request.uniqueids = {

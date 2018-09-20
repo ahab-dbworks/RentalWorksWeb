@@ -224,9 +224,7 @@ class OrderType {
         FwBrowse.init($orderTypeContactTitleControl);
         FwBrowse.renderRuntimeHtml($orderTypeContactTitleControl);
         // -----------
-
     }
-
 
     afterLoad($form: any) {
         var $orderTypeInvoiceExportGrid: any = $form.find('[data-name="OrderTypeInvoiceExportGrid"]');
@@ -246,7 +244,6 @@ class OrderType {
         var $orderTypeActivityDatesGrid: any;
         $orderTypeActivityDatesGrid = $form.find('[data-name="OrderTypeActivityDatesGrid"]');
         FwBrowse.search($orderTypeActivityDatesGrid);
-
 
         if ($form.find('[data-datafield="QuikPayDiscount"] .fwformfield-value').prop('checked')) {
             FwFormField.enable($form.find('.discount'))
@@ -269,7 +266,7 @@ class OrderType {
             FwFormField.disable($form.find('.management'))
         };
 
-        var $resaleGrid;            
+        var $resaleGrid;
 
         $resaleGrid = $form.find('[data-name="OrderTypeContactTitleGrid"]');
         FwBrowse.search($resaleGrid);

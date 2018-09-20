@@ -1,7 +1,7 @@
 ﻿class RepairPartGrid {
     Module: string = 'RepairPartGrid';
     apiurl: string = 'api/v1/repairpart';
-  
+
     generateRow($control, $generatedtr) {
         const $form = $control.closest('.fwform');
         const warehouse = JSON.parse(sessionStorage.getItem('warehouse')).warehouse;
@@ -58,6 +58,6 @@
         };
     };
 }
- 
+
 var RepairPartGridController = new RepairPartGrid();
 //----------------------------------------------------------------------------------------------

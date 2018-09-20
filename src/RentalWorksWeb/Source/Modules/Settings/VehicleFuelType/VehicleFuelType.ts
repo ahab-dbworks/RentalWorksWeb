@@ -68,7 +68,6 @@ class VehicleFuelType {
     }
 
     afterLoad($form: any) {
-
     }
 }
 

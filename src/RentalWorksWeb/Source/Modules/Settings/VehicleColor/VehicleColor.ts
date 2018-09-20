@@ -68,7 +68,6 @@ class VehicleColor {
     }
 
     afterLoad($form: any) {
-
     }
 }
 

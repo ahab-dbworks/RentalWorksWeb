@@ -68,7 +68,6 @@ class POImportance {
     }
 
     afterLoad($form: any) {
-
     }
 }
 

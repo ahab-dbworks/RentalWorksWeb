@@ -68,7 +68,6 @@ class ScheduleType {
     }
 
     afterLoad($form: any) {
-
     }
 }
 

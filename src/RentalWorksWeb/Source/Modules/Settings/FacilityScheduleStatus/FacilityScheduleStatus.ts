@@ -68,7 +68,6 @@ class FacilityScheduleStatus {
     }
 
     afterLoad($form: any) {
-
     }
 }
 

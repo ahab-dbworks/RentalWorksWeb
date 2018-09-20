@@ -68,7 +68,6 @@ class OrderSetNo {
     }
 
     afterLoad($form: any) {
-
     }
 }
 

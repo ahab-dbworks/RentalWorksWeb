@@ -164,7 +164,6 @@
 //    }
 //    //----------------------------------------------------------------------------------------------
 //    beforeValidate($browse, $form, request) {
-
 //        const validationName = request.module;
 //        const customerId = FwFormField.getValueByDataField($form, 'CustomerId');
 //        const inventoryTypeId = FwFormField.getValueByDataField($form, 'InventoryTypeId');

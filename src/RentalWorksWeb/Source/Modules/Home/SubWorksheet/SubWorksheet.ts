@@ -34,7 +34,7 @@ class SubWorksheet {
         $form = FwModule.openForm($form, mode);
 
         $form.off('change keyup', '.fwformfield[data-isuniqueid!="true"][data-enabled="true"][data-datafield!=""]');
-        
+
         createNew = $form.find('div[data-datafield="CreateNew"] input');
         modifyExisting = $form.find('div[data-datafield="ModifyExisting"] input');
         newPo = $form.find('.new');
@@ -77,7 +77,7 @@ class SubWorksheet {
                 FwFormField.disable(existingPo);
             }
         });
-        
+
         $form.find('div[data-datafield="VendorId"]').data('onchange', function ($tr) {
             FwFormField.setValueByDataField($form, 'RateId', $tr.find('.field[data-browsedatafield="DefaultRate"]').attr('data-originalvalue'), $tr.find('.field[data-browsedatafield="DefaultRate"]').attr('data-originalvalue'));
             FwFormField.setValueByDataField($form, 'CurrencyId', $tr.find('.field[data-browsedatafield="DefaultCurrencyId"]').attr('data-originalvalue'), $tr.find('.field[data-browsedatafield="DefaultCurrencyCode"]').attr('data-originalvalue'));
@@ -93,7 +93,6 @@ class SubWorksheet {
         });
 
         $form.find('.openworksheet').on('click', function (e) {
-
             worksheetRequest = {
                 OrderId: parentmoduleinfo.OrderId,
                 RecType: parentmoduleinfo.RecType,
@@ -110,7 +109,7 @@ class SubWorksheet {
             if (FwFormField.getValueByDataField($form, 'RentalTo') === '') {
                 worksheetRequest.ToDate = undefined;
             }
-            
+
             if (FwFormField.getValueByDataField($form, 'ReqDate') !== '') {
                 worksheetRequest.RequiredDate = FwFormField.getValueByDataField($form, 'ReqDate')
             }
@@ -189,7 +188,6 @@ class SubWorksheet {
                             FwFunc.showError(ex);
                         }
                     } else {
-
                     }
                 }, null, $form);
             } catch (ex) {
@@ -219,7 +217,6 @@ class SubWorksheet {
                             FwFunc.showError(ex);
                         }
                     } else {
-
                     }
                 }, null, $form);
             } catch (ex) {
@@ -249,7 +246,6 @@ class SubWorksheet {
                             FwFunc.showError(ex);
                         }
                     } else {
-
                     }
                 }, null, $form);
             } catch (ex) {
@@ -257,10 +253,10 @@ class SubWorksheet {
             }
             $form.attr('data-modified', false);
         })
-        
+
         return $form;
     }
-    //---------------------------------------------------------------------------------------------- 
+    //----------------------------------------------------------------------------------------------
     beforeValidateContact($browse, $grid, request) {
         const vendorId = jQuery($grid.find('[data-validationname="VendorValidation"] input')).val();
         request.uniqueIds = {
@@ -291,6 +287,5 @@ class SubWorksheet {
     afterLoad($form: any) {
     }
     //----------------------------------------------------------------------------------------------
-
 }
 var SubWorksheetController = new SubWorksheet();

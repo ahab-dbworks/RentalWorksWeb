@@ -68,7 +68,6 @@ class SetCondition {
     }
 
     afterLoad($form: any) {
-
     }
 }
 

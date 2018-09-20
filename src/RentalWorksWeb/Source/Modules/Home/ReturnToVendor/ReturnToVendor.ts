@@ -43,7 +43,7 @@ class ReturnToVendor {
         FwFormField.setValueByDataField($form, 'Time', currentTime);
 
         if (typeof parentmoduleinfo !== 'undefined') {
-            FwFormField.setValueByDataField($form, 'PurchaseOrderId', parentmoduleinfo.PurchaseOrderId, parentmoduleinfo.PurchaseOrderNumber); 
+            FwFormField.setValueByDataField($form, 'PurchaseOrderId', parentmoduleinfo.PurchaseOrderId, parentmoduleinfo.PurchaseOrderNumber);
             $form.find('[data-datafield="PurchaseOrderId"] input').change();
         }
         this.getSoundUrls($form);
@@ -61,7 +61,7 @@ class ReturnToVendor {
 
             let purchaseOrderId = $tr.find('[data-browsedatafield="PurchaseOrderId"]').attr('data-originalvalue');
 
-            FwFormField.setValueByDataField($form, 'VendorId', $tr.find('[data-browsedatafield="VendorId"]').attr('data-originalvalue'), $tr.find('[data-browsedatafield="Vendor"]').attr('data-originalvalue')); 
+            FwFormField.setValueByDataField($form, 'VendorId', $tr.find('[data-browsedatafield="VendorId"]').attr('data-originalvalue'), $tr.find('[data-browsedatafield="Vendor"]').attr('data-originalvalue'));
             //FwFormField.setValueByDataField($form, 'ReferenceNumber', $tr.find('[data-browsedatafield="ReferenceNumber"]').attr('data-originalvalue'));
             FwFormField.setValueByDataField($form, 'Description', $tr.find('[data-browsedatafield="Description"]').attr('data-originalvalue'));
 
@@ -102,7 +102,7 @@ class ReturnToVendor {
         this.notificationSoundFileName = JSON.parse(sessionStorage.getItem('sounds')).notificationSoundFileName;
     };
     //----------------------------------------------------------------------------------------------
-    renderGrids($form:any) {
+    renderGrids($form: any) {
         let $pOReturnItemGrid: any,
             $pOReturnItemGridControl: any;
 
@@ -110,7 +110,6 @@ class ReturnToVendor {
         $pOReturnItemGridControl = jQuery(jQuery('#tmpl-grids-POReturnItemGridBrowse').html());
         $pOReturnItemGrid.empty().append($pOReturnItemGridControl);
         $pOReturnItemGridControl.data('ondatabind', function (request) {
-        
         })
         FwBrowse.init($pOReturnItemGridControl);
         FwBrowse.renderRuntimeHtml($pOReturnItemGridControl);
@@ -190,7 +189,7 @@ class ReturnToVendor {
                 FwBrowse.search($returnItemsGridControl);
             }, function onError(response) {
                 FwFunc.showError(response);
-                }, $form, contractId);
+            }, $form, contractId);
         });
         //Bar Code / Serial No. Input field
         $form.find('[data-datafield="BarCode"] input').on('keydown', e => {
@@ -215,7 +214,6 @@ class ReturnToVendor {
                     $form.find('[data-datafield="BarCode"] input').select();
                 }, null, $form);
             }
-           
         });
     };
     //----------------------------------------------------------------------------------------------
