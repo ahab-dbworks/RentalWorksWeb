@@ -30,6 +30,8 @@ namespace WebApi.Modules.Home.StageQuantityItem
         public decimal? Quantity { get; set; }
         public string ItemOrder { get; set; }
         public string RecType { get; set; }
+        public string RecTypeDisplay { get; set; }
+        public string RecTypeColor { get; set; }
         public string ItemClass { get; set; }
         public string NestedOrderItemId { get; set; }
         //------------------------------------------------------------------------------------ 

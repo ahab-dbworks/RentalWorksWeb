@@ -68,6 +68,12 @@ namespace WebApi.Modules.Home.StageQuantityItem
         [FwSqlDataField(column: "rectype", modeltype: FwDataTypes.Text)]
         public string RecType { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "rectypedisplay", modeltype: FwDataTypes.Text)]
+        public string RecTypeDisplay { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "rectypecolor", modeltype: FwDataTypes.OleToHtmlColor)]
+        public string RecTypeColor { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "itemclass", modeltype: FwDataTypes.Text)]
         public string ItemClass { get; set; }
         //------------------------------------------------------------------------------------ 

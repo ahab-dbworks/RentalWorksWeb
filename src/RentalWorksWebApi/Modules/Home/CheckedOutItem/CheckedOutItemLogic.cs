@@ -64,6 +64,8 @@ namespace WebApi.Modules.Home.CheckedOutItem
         [FwBusinessLogicField(isReadOnly: true)]
         public string RecTypeDisplay { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
+        public string RecTypeColor { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
         public string OptionColor { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
         public string StagedByUserId { get; set; }

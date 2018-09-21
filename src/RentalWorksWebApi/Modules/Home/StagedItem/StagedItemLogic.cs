@@ -26,6 +26,7 @@ namespace WebApi.Modules.Home.StagedItem
         public string Notes { get; set; }
         public string RecType { get; set; }
         public string RecTypeDisplay { get; set; }
+        public string RecTypeColor { get; set; }
         public string OptionColor { get; set; }
         public bool? QuotePrint { get; set; }
         public bool? OrderPrint { get; set; }
