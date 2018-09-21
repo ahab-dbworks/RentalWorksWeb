@@ -1,25 +1,27 @@
-class FwBrowseColumn_dateClass {
-    databindfield($browse, $field, dt, dtRow, $tr) {
+var FwBrowseColumn_dateClass = (function () {
+    function FwBrowseColumn_dateClass() {
     }
-    getFieldValue($browse, $tr, $field, field, originalvalue) {
+    FwBrowseColumn_dateClass.prototype.databindfield = function ($browse, $field, dt, dtRow, $tr) {
+    };
+    FwBrowseColumn_dateClass.prototype.getFieldValue = function ($browse, $tr, $field, field, originalvalue) {
         if (($tr.hasClass('editmode')) || ($tr.hasClass('newmode'))) {
             field.value = $field.find('input.value').val();
         }
-    }
+    };
     ;
-    setFieldValue($browse, $tr, $field, data) {
+    FwBrowseColumn_dateClass.prototype.setFieldValue = function ($browse, $tr, $field, data) {
         $field.find('input.value').val(data.value);
-    }
-    isModified($browse, $tr, $field) {
+    };
+    FwBrowseColumn_dateClass.prototype.isModified = function ($browse, $tr, $field) {
         var isModified = false;
-        let originalValue = $field.attr('data-originalvalue');
+        var originalValue = $field.attr('data-originalvalue');
         if (($tr.hasClass('editmode')) || ($tr.hasClass('newmode'))) {
-            let currentValue = $field.find('input.value').val();
+            var currentValue = $field.find('input.value').val();
             isModified = currentValue !== originalValue;
         }
         return isModified;
-    }
-    setFieldViewMode($browse, $tr, $field) {
+    };
+    FwBrowseColumn_dateClass.prototype.setFieldViewMode = function ($browse, $tr, $field) {
         $field.data('autoselect', false);
         var originalvalue = (typeof $field.attr('data-originalvalue') === 'string') ? $field.attr('data-originalvalue') : '';
         $field.html(originalvalue);
@@ -28,13 +30,13 @@ class FwBrowseColumn_dateClass {
                 $field.data('autoselect', true);
             }
         });
-    }
-    setFieldEditMode($browse, $tr, $field) {
+    };
+    FwBrowseColumn_dateClass.prototype.setFieldEditMode = function ($browse, $tr, $field) {
         var originalvalue = (typeof $field.attr('data-originalvalue') === 'string') ? $field.attr('data-originalvalue') : '';
-        let html = [];
+        var html = [];
         html.push('<input class="value" type="text" />');
         html.push('<div class="btndate"><i class="material-icons">&#xE8DF;</i></div>');
-        let htmlString = html.join('');
+        var htmlString = html.join('');
         $field.html(htmlString);
         this.setFieldValue($browse, $tr, $field, { value: originalvalue });
         $field.find('input.value').inputmask('mm/dd/yyyy');
@@ -50,7 +52,8 @@ class FwBrowseColumn_dateClass {
             $field.data('autoselect', false);
             $field.find('.btndate').click();
         }
-    }
-}
+    };
+    return FwBrowseColumn_dateClass;
+}());
 var FwBrowseColumn_date = new FwBrowseColumn_dateClass();
 //# sourceMappingURL=FwBrowseColumn_date.js.map

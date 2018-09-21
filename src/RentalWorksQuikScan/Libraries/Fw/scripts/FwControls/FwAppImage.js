@@ -1,5 +1,5 @@
-class FwAppImageClass {
-    constructor() {
+var FwAppImageClass = (function () {
+    function FwAppImageClass() {
         this.blankDataUrl = 'data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==';
         this.init = function ($control) {
             $control
@@ -28,7 +28,7 @@ class FwAppImageClass {
                         html.push('  <input class="inputfile" type="file" style="opacity:0;width:0;height:0;">');
                         html.push('</div>');
                     }
-                    let htmlString = html.join('\n');
+                    var htmlString = html.join('\n');
                     $confirmation = FwConfirmation.renderConfirmation('Upload Image', htmlString);
                     $confirmation.addClass('FwAppImageUploadImageConfirmation');
                     if (iscordova) {
@@ -44,7 +44,7 @@ class FwAppImageClass {
                                         ;
                                         var $image = jQuery(FwAppImage.getAddImageHtml($control));
                                         var dataUrl = 'data:image/jpeg;base64,' + imageUri;
-                                        let $pastedimage = $image.find('.pastedimage');
+                                        var $pastedimage = $image.find('.pastedimage');
                                         $pastedimage.attr('src', dataUrl);
                                         $pastedimage.attr('data-mimetype', 'image/jpeg');
                                         $pastedimage.attr('data-filename', 'attachment.jpg');
@@ -200,7 +200,7 @@ class FwAppImageClass {
                     var appimageid = jQuery(this).attr('data-appimageid');
                     var html = [];
                     html.push('<img style="max-width:100%;" src="' + applicationConfig.appbaseurl + applicationConfig.appvirtualdirectory + 'fwappimage.ashx?method=GetAppImage&appimageid=' + appimageid + '&thumbnail=false' + '\" >');
-                    let htmlString = html.join('\n');
+                    var htmlString = html.join('\n');
                     var $confirmation = FwConfirmation.renderConfirmation('Image Viewer', htmlString);
                     $confirmation.find('.message').css({
                         'text-align': 'center'
@@ -213,7 +213,7 @@ class FwAppImageClass {
             });
         };
     }
-    getHtmlTag(data_type) {
+    FwAppImageClass.prototype.getHtmlTag = function (data_type) {
         var html, properties, i;
         properties = this.getDesignerProperties(data_type);
         html = [];
@@ -225,11 +225,11 @@ class FwAppImageClass {
         html.push('</div>');
         html = html.join('');
         return html;
-    }
+    };
     ;
-    getDesignerProperties(data_type) {
+    FwAppImageClass.prototype.getDesignerProperties = function (data_type) {
         var properties = [];
-        let propId = {
+        var propId = {
             caption: 'ID',
             datatype: 'string',
             attribute: 'id',
@@ -238,7 +238,7 @@ class FwAppImageClass {
             enabled: true
         };
         propId.defaultvalue = FwControl.generateControlId('image');
-        let propClass = {
+        var propClass = {
             caption: 'CSS Class',
             datatype: 'string',
             attribute: 'class',
@@ -246,7 +246,7 @@ class FwAppImageClass {
             visible: false,
             enabled: false
         };
-        let propDataControl = {
+        var propDataControl = {
             caption: 'Control',
             datatype: 'string',
             attribute: 'data-control',
@@ -254,7 +254,7 @@ class FwAppImageClass {
             visible: true,
             enabled: false
         };
-        let propDataType = {
+        var propDataType = {
             caption: 'Type',
             datatype: 'string',
             attribute: 'data-type',
@@ -262,7 +262,7 @@ class FwAppImageClass {
             visible: false,
             enabled: false
         };
-        let propDataVersion = {
+        var propDataVersion = {
             caption: 'Version',
             datatype: 'string',
             attribute: 'data-version',
@@ -270,7 +270,7 @@ class FwAppImageClass {
             visible: false,
             enabled: false
         };
-        let propRenderMode = {
+        var propRenderMode = {
             caption: 'Render Mode',
             datatype: 'string',
             attribute: 'data-rendermode',
@@ -285,9 +285,9 @@ class FwAppImageClass {
         properties.push(propDataVersion);
         properties.push(propRenderMode);
         return properties;
-    }
+    };
     ;
-    renderDesignerHtml($control) {
+    FwAppImageClass.prototype.renderDesignerHtml = function ($control) {
         var data_type, data_rendermode, html;
         data_type = $control.attr('data-type');
         data_rendermode = $control.attr('data-rendermode');
@@ -299,9 +299,9 @@ class FwAppImageClass {
         html.push('<div class="toolbar"></div>');
         html.push('</div>');
         $control.html(html.join(''));
-    }
+    };
     ;
-    renderRuntimeHtml($control) {
+    FwAppImageClass.prototype.renderRuntimeHtml = function ($control) {
         var data_type, data_rendermode, html, caption = 'Images';
         data_type = $control.attr('data-type');
         data_rendermode = $control.attr('data-rendermode');
@@ -329,8 +329,8 @@ class FwAppImageClass {
         var $fwmenu = $control.find('.fwmenu');
         FwControl.renderRuntimeHtml($fwmenu);
         FwControl.loadControls($fwmenu);
-    }
-    getImageHtml($control, mode, image) {
+    };
+    FwAppImageClass.prototype.getImageHtml = function ($control, mode, image) {
         var html = [], url = FwAppImage.blankDataUrl, btnClearDisplay = 'none';
         if (mode === 'NEW') {
             image = {
@@ -361,10 +361,10 @@ class FwAppImageClass {
         html.push('      ' + image.datestamp);
         html.push('    </div>');
         html.push('  </div>');
-        let htmlString = html.join('');
+        var htmlString = html.join('');
         return htmlString;
-    }
-    getAddImageHtml($control) {
+    };
+    FwAppImageClass.prototype.getAddImageHtml = function ($control) {
         var html, imageHtml;
         imageHtml = FwAppImage.getImageHtml($control, 'NEW', null);
         html = [];
@@ -373,16 +373,16 @@ class FwAppImageClass {
         html.push('</div>');
         html = html.join('\n');
         return html;
-    }
-    renderTemplateHtml($control) {
+    };
+    FwAppImageClass.prototype.renderTemplateHtml = function ($control) {
         var data_type, data_rendermode, html, $tabsChildren, $tabpagesChildren;
         data_type = $control.attr('data-type');
         data_rendermode = $control.attr('data-rendermode');
         $control.attr('data-rendermode', 'template');
         html = [];
         $control.html(html.join(''));
-    }
-    loadControl($control) {
+    };
+    FwAppImageClass.prototype.loadControl = function ($control) {
         var $form, response;
         $form = $control.closest('.fwform');
         if (($form.length === 0) || ($form.attr('data-mode') !== 'NEW')) {
@@ -394,8 +394,8 @@ class FwAppImageClass {
             };
             FwAppImage.getAppImagesCallback($control, response);
         }
-    }
-    pasteImage($control, element, event) {
+    };
+    FwAppImageClass.prototype.pasteImage = function ($control, element, event) {
         var items, blob, isWebkit, $image, $form;
         isWebkit = /webkit/.test(navigator.userAgent.toLowerCase());
         $form = $control.closest('.fwform');
@@ -426,24 +426,24 @@ class FwAppImageClass {
                         $pastedimage.attr('data-filename', filename);
                         $image.find('.btnClear').show();
                         $pastedimage = $image.find('.pastedimage');
-                        let addImageAttempts = 0;
-                        let timer = setInterval(function () {
+                        var addImageAttempts_1 = 0;
+                        var timer_1 = setInterval(function () {
                             try {
                                 if ((($pastedimage.attr('src') !== '') || ($pastedimage.attr('src') !== FwAppImage.blankDataUrl))) {
-                                    window.clearInterval(timer);
+                                    window.clearInterval(timer_1);
                                     FwAppImage.addImage($control, $image);
                                 }
                                 else {
-                                    if (addImageAttempts === 1) {
+                                    if (addImageAttempts_1 === 1) {
                                         if (confirm('Would you like to continue to wait for the browser to load this image?  Usually if you get this far, you are trying to upload an image that is unreasonably large to be storing in the database and we recommend compressing it first to avoid performance problems.  Would you like to continue waiting?')) {
-                                            addImageAttempts = 0;
+                                            addImageAttempts_1 = 0;
                                         }
                                         else {
-                                            window.clearInterval(timer);
+                                            window.clearInterval(timer_1);
                                         }
                                     }
                                     else {
-                                        addImageAttempts++;
+                                        addImageAttempts_1++;
                                     }
                                 }
                             }
@@ -458,23 +458,23 @@ class FwAppImageClass {
         else if (($form.length === 1) && ($form.attr('data-mode') === 'NEW')) {
             throw 'You need to save the form before you can add images.';
         }
-    }
+    };
     ;
-    dragoverImage($control, element, event) {
+    FwAppImageClass.prototype.dragoverImage = function ($control, element, event) {
         var dataTransfer;
         event.stopPropagation();
         event.preventDefault();
         dataTransfer = (event.dataTransfer || event.originalEvent.dataTransfer);
         dataTransfer.dropEffect = 'copy';
-    }
-    dropImage($control, element, event) {
+    };
+    FwAppImageClass.prototype.dropImage = function ($control, element, event) {
         var files, blob, reader, $image, $form, $pastedimage, timer, addImageAttempts;
         event.stopPropagation();
         event.preventDefault();
         $form = $control.closest('.fwform');
         if (($form.length === 0) || ($form.attr('data-mode') !== 'NEW')) {
             $image = jQuery(FwAppImage.getAddImageHtml($control));
-            let dataTransfer = (event.dataTransfer || event.originalEvent.dataTransfer);
+            var dataTransfer = (event.dataTransfer || event.originalEvent.dataTransfer);
             files = dataTransfer.files;
             for (var i = 0; i < files.length; i++) {
                 if (files[i].type.indexOf("image") === 0) {
@@ -487,15 +487,15 @@ class FwAppImageClass {
         else if (($form.length === 1) && ($form.attr('data-mode') === 'NEW')) {
             throw 'You need to save the form before you can add images.';
         }
-    }
-    fileToDataUrl($control, $image, blob) {
+    };
+    FwAppImageClass.prototype.fileToDataUrl = function ($control, $image, blob) {
         var result, dataUrl, file, filename, $pastedimage;
         result = '';
         if (blob === null)
             throw 'Unable to load image. blob is null. [FwAppImage.fileToDataUrl]';
         if (!(blob instanceof Blob))
             throw 'Unable to load image. blob is not an instance of Blob [FwAppImage.fileToDataUrl]';
-        let reader = new FileReader();
+        var reader = new FileReader();
         reader.onload = function (event) {
             var c;
             try {
@@ -509,24 +509,24 @@ class FwAppImageClass {
                 $pastedimage.attr('data-filename', filename);
                 $image.find('.btnClear').show();
                 $pastedimage = $image.find('.pastedimage');
-                let addImageAttempts = 0;
-                let timer = setInterval(function () {
+                var addImageAttempts_2 = 0;
+                var timer_2 = setInterval(function () {
                     try {
                         if ((($pastedimage.attr('src') !== '') || ($pastedimage.attr('src') !== FwAppImage.blankDataUrl))) {
-                            window.clearInterval(timer);
+                            window.clearInterval(timer_2);
                             FwAppImage.addImage($control, $image);
                         }
                         else {
-                            if (addImageAttempts === 1) {
+                            if (addImageAttempts_2 === 1) {
                                 if (confirm('Would you like to continue to wait for the browser to load this image?  Usually if you get this far, you are trying to upload an image that is unreasonably large to be storing in the database and we recommend compressing it first to avoid performance problems.  Would you like to continue waiting?')) {
-                                    addImageAttempts = 0;
+                                    addImageAttempts_2 = 0;
                                 }
                                 else {
-                                    window.clearInterval(timer);
+                                    window.clearInterval(timer_2);
                                 }
                             }
                             else {
-                                addImageAttempts++;
+                                addImageAttempts_2++;
                             }
                         }
                     }
@@ -541,16 +541,16 @@ class FwAppImageClass {
         };
         reader.readAsDataURL(blob);
         return result;
-    }
-    getAppImages($control) {
+    };
+    FwAppImageClass.prototype.getAppImages = function ($control) {
         var request;
         request = {};
         FwAppImage.setGetAppImagesRequest($control, request);
         FwAppData.jsonPost(false, 'fwappimage.ashx?method=GetAppImages', request, FwServices.defaultTimeout, function (response) {
             FwAppImage.getAppImagesCallback($control, response);
         }, null, $control);
-    }
-    setGetAppImagesRequest($control, request) {
+    };
+    FwAppImageClass.prototype.setGetAppImagesRequest = function ($control, request) {
         var uniqueid1, uniqueid2, uniqueid3, $form, $uniqueid1field, $uniqueid2field, $uniqueid3field, url, description = '', rectype = '';
         $form = $control.closest('.fwform');
         if ($control.is('[data-uniqueid1]')) {
@@ -587,8 +587,8 @@ class FwAppImageClass {
             rectype = $control.attr('data-rectype');
             request.rectype = rectype;
         }
-    }
-    getAppImagesCallback($control, response) {
+    };
+    FwAppImageClass.prototype.getAppImagesCallback = function ($control, response) {
         var $divimages, image, $image, $addimage, html, thumbnails;
         try {
             $divimages = $control.find('div.images');
@@ -625,8 +625,8 @@ class FwAppImageClass {
         catch (ex) {
             FwFunc.showError(ex);
         }
-    }
-    addImage($control, $image) {
+    };
+    FwAppImageClass.prototype.addImage = function ($control, $image) {
         var request, $pastedimage, imagedataurl = '', filename = '', mimetype = '', extension = '', description, rectype;
         $pastedimage = $image.find('.pastedimage');
         if (($pastedimage.attr('src') !== '') && ($pastedimage.attr('src') !== FwAppImage.blankDataUrl)) {
@@ -653,8 +653,8 @@ class FwAppImageClass {
         FwAppData.jsonPost(false, 'fwappimage.ashx?method=AddImage', request, FwServices.defaultTimeout, function (response) {
             FwAppImage.getAppImagesCallback($control, response);
         }, null, $control);
-    }
-    deleteImage($control, $image) {
+    };
+    FwAppImageClass.prototype.deleteImage = function ($control, $image) {
         var request, appimageid;
         appimageid = $image.attr('data-appimageid');
         request = {
@@ -672,7 +672,8 @@ class FwAppImageClass {
                 FwFunc.showError(ex);
             }
         }, null, $control);
-    }
-}
+    };
+    return FwAppImageClass;
+}());
 var FwAppImage = new FwAppImageClass();
 //# sourceMappingURL=FwAppImage.js.map

@@ -783,6 +783,20 @@ class OrderBase {
             }
             this.renderFrames($form, period);
         });
+
+        $form.find(".combineddw").on('change', '.fwformfield-text, .fwformfield-value', event => {
+            let val = event.target.value;
+            let dwRequest = {
+                'OrderId': FwFormField.getValueByDataField($form, `${this.Module}Id`),
+                'RecType': '',
+                'DaysPerWeek': val
+            }
+            FwAppData.apiMethod(true, 'POST', `api/v1/order/applybottomlinedaysperweek`, dwRequest, FwServices.defaultTimeout, function onSuccess(response) {
+                FwBrowse.search($form.find('.combinedgrid [data-name="OrderItemGrid"]'));
+            }, function onError(response) {
+                FwFunc.showError(response);
+            }, $form);
+        });
     };
     //----------------------------------------------------------------------------------------------
     bottomLineDiscountChange($form: any, event: any) {
