@@ -27,6 +27,8 @@ namespace WebApi.Modules.Administrator.UserSettings
         public string UserName { get; set; }
         public string BrowseDefaultRows { get; set; }
         public string ApplicationTheme { get; set; }
+        public string HomeMenuGuid { get; set; }
+        public string HomeMenuItem { get; set; }
         public string SuccessSoundId { get; set; }
         public string SuccessSound { get; set; }
         public string SuccessSoundFileName { get; set; }
@@ -91,6 +93,8 @@ namespace WebApi.Modules.Administrator.UserSettings
             settings.Append("</settings>");
             settings.Append("<browsedefaultrows>" + BrowseDefaultRows + "</browsedefaultrows>");
             settings.Append("<applicationtheme>" + ApplicationTheme + "</applicationtheme>");
+            settings.Append("<homemenuguid>" + HomeMenuGuid + "</homemenuguid>");
+            settings.Append("<homemenuitem>" + HomeMenuItem + "</homemenuitem>");
             settings.Append("<successsoundid>" + SuccessSoundId + "</successsoundid>");
             settings.Append("<errorsoundid>" + ErrorSoundId + "</errorsoundid>");
             settings.Append("<notificationsoundid>" + NotificationSoundId + "</notificationsoundid>");

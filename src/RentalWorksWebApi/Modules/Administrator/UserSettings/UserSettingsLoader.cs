@@ -27,6 +27,12 @@ namespace WebApi.Modules.Administrator.UserSettings
         [FwSqlDataField(column: "applicationtheme", modeltype: FwDataTypes.Text)]
         public string ApplicationTheme { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "homemenuguid", modeltype: FwDataTypes.Text)]
+        public string HomeMenuGuid { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "homemenuitem", modeltype: FwDataTypes.Text)]
+        public string HomeMenuItem { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "successsoundid", modeltype: FwDataTypes.Text)]
         public string SuccessSoundId { get; set; }
         //------------------------------------------------------------------------------------ 
