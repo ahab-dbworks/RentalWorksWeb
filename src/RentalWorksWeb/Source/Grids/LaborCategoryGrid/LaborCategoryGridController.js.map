@@ -1,1 +1,1 @@
-{"version":3,"file":"LaborCategoryGridController.js","sourceRoot":"","sources":["LaborCategoryGridController.ts"],"names":[],"mappings":"AAAA,MAAM,iBAAiB;IAInB;QACI,IAAI,CAAC,MAAM,GAAG,mBAAmB,CAAC;QAClC,IAAI,CAAC,MAAM,GAAG,sBAAsB,CAAC;IACzC,CAAC;CACJ;AAED,IAAI,2BAA2B,GAAG,IAAI,iBAAiB,EAAE,CAAC"}
+{"version":3,"file":"LaborCategoryGridController.js","sourceRoot":"","sources":["LaborCategoryGridController.ts"],"names":[],"mappings":"AAAA,MAAM,iBAAiB;IAAvB;QACI,WAAM,GAAW,mBAAmB,CAAC;QACrC,WAAM,GAAW,sBAAsB,CAAC;IAC5C,CAAC;CAAA;AAED,IAAI,2BAA2B,GAAG,IAAI,iBAAiB,EAAE,CAAC"}

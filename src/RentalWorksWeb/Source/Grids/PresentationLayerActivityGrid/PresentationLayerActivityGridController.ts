@@ -1,11 +1,6 @@
 ﻿class PresentationLayerActivityGrid {
-    Module: string;
-    apiurl: string;
-
-    constructor() {
-        this.Module = 'PresentationLayerActivityGrid';
-        this.apiurl = 'api/v1/presentationlayeractivity';
-    }
+    Module: string = 'PresentationLayerActivityGrid';
+    apiurl: string = 'api/v1/presentationlayeractivity';
 }
 
 var PresentationLayerActivityGridController = new PresentationLayerActivityGrid();

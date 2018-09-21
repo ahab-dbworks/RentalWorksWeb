@@ -1,11 +1,6 @@
 ﻿class DiscountItemSalesGrid {
-    Module: string;
-    apiurl: string;
-
-    constructor() {
-        this.Module = 'DiscountItemSalesGrid';
-        this.apiurl = 'api/v1/discountitem';
-    }
+    Module: string = 'DiscountItemSalesGrid';
+    apiurl: string = 'api/v1/discountitem';
 
     generateRow($control, $generatedtr) {
         $generatedtr.find('div[data-browsedatafield="InventoryId"]').data('onchange', function ($tr) {

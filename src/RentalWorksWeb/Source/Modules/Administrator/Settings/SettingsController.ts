@@ -1,10 +1,6 @@
 ﻿class Settings {
-    Module: string;
-
-    constructor() {
-        this.Module = 'Settings';
-    }
-
+    Module: string = 'Settings';
+    //----------------------------------------------------------------------------------------------
     getModuleScreen() {
         var combinedViewModel: any;
         var screen: any = {};
@@ -116,7 +112,7 @@
 
         return screen;
     }
-
+    //----------------------------------------------------------------------------------------------
     openSettings() {
         var $settings: any = {};
 
@@ -126,5 +122,5 @@
         return $settings;
     }
 }
-
+//----------------------------------------------------------------------------------------------
 var SettingsController = new Settings();

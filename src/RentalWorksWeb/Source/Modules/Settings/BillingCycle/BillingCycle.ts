@@ -1,12 +1,7 @@
 ﻿class BillingCycle {
-    Module: string;
-    apiurl: string;
-
-    constructor() {
-        this.Module = 'BillingCycle';
-        this.apiurl = 'api/v1/billingcycle';
-    }
-
+    Module: string = 'BillingCycle';
+    apiurl: string = 'api/v1/billingcycle';
+    //----------------------------------------------------------------------------------------------
     getModuleScreen() {
         var screen, $browse;
 
@@ -28,7 +23,7 @@
 
         return screen;
     }
-
+    //----------------------------------------------------------------------------------------------
     openBrowse() {
         var $browse;
 
@@ -37,7 +32,7 @@
 
         return $browse;
     }
-
+    //----------------------------------------------------------------------------------------------
     openForm(mode: string) {
         var $form;
 
@@ -56,7 +51,7 @@
 
         return $form;
     }
-
+    //----------------------------------------------------------------------------------------------
     loadForm(uniqueids: any) {
         var $form;
 
@@ -66,17 +61,17 @@
 
         return $form;
     }
-
+    //----------------------------------------------------------------------------------------------
     saveForm($form: any, parameters: any) {
         FwModule.saveForm(this.Module, $form, parameters);
     }
-
+    //----------------------------------------------------------------------------------------------
     loadAudit($form: any) {
         var uniqueid;
         uniqueid = $form.find('div.fwformfield[data-datafield="BillingCycleId"] input').val();
         FwModule.loadAudit($form, uniqueid);
     }
-
+    //----------------------------------------------------------------------------------------------
     renderGrids($form: any) {
         var $billingCycleEventsGrid: any;
         var $billingCycleEventsGridControl: any;
@@ -93,7 +88,7 @@
         FwBrowse.init($billingCycleEventsGridControl);
         FwBrowse.renderRuntimeHtml($billingCycleEventsGridControl);
     }
-
+    //----------------------------------------------------------------------------------------------
     afterLoad($form: any) {
         var $billingCycleEventsGrid: any;
 
@@ -108,5 +103,5 @@
         }
     }
 }
-
+//----------------------------------------------------------------------------------------------
 var BillingCycleController = new BillingCycle();

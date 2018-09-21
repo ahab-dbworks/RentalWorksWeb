@@ -1,11 +1,6 @@
 ﻿class BillingCycleEventsGrid {
-    Module: string;
-    apiurl: string;
-
-    constructor() {
-        this.Module = 'BillingCycleEventsGrid';
-        this.apiurl = 'api/v1/billingcycleevent';
-    }
+    Module: string = 'BillingCycleEventsGrid';
+    apiurl: string = 'api/v1/billingcycleevent';
 }
 
 var BillingCycleEventsGridController = new BillingCycleEventsGrid();

@@ -1,10 +1,6 @@
 ﻿class Reports {
-    Module: string;
-
-    constructor() {
-        this.Module = 'Reports';
-    }
-
+    Module: string = 'Reports';
+    //----------------------------------------------------------------------------------------------
     getModuleScreen() {
         var combinedViewModel: any;
         var screen: any = {};
@@ -55,7 +51,7 @@
 
         return screen;
     }
-
+    //----------------------------------------------------------------------------------------------
     openReports() {
         var $reports: any = {};
 
@@ -65,5 +61,5 @@
         return $reports;
     }
 }
-
+//----------------------------------------------------------------------------------------------
 var ReportsController = new Reports();

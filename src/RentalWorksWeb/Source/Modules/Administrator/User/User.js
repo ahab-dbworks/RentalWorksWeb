@@ -1,5 +1,9 @@
 class User {
     constructor() {
+        this.Module = 'User';
+        this.apiurl = 'api/v1/user';
+        this.caption = 'User';
+        this.ActiveView = 'ALL';
         this.beforeValidate = function ($browse, $grid, request, datafield) {
             switch (datafield) {
                 case 'RentalInventoryTypeId':
@@ -25,10 +29,6 @@ class User {
             }
             ;
         };
-        this.Module = 'User';
-        this.apiurl = 'api/v1/user';
-        this.caption = 'User';
-        this.ActiveView = 'ALL';
     }
     getModuleScreen() {
         var self = this;

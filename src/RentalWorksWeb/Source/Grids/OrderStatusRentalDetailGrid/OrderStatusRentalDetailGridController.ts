@@ -1,11 +1,6 @@
 ﻿class OrderStatusRentalDetailGrid {
-    Module: string;
-    apiurl: string;
-
-    constructor() {
-        this.Module = 'OrderStatusRentalDetailGrid';
-        this.apiurl = 'api/v1/orderstatusdetail';
-    }
+    Module: string = 'OrderStatusRentalDetailGrid';
+    apiurl: string = 'api/v1/orderstatusdetail';
 
     generateRow($control, $generatedtr) {
         FwBrowse.setAfterRenderRowCallback($control, ($tr: JQuery, dt: FwJsonDataTable, rowIndex: number) => {

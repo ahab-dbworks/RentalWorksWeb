@@ -1,12 +1,7 @@
 class BarCodeRange {
-    Module: string;
-    apiurl: string;
-
-    constructor() {
-        this.Module = 'BarCodeRange';
-        this.apiurl = 'api/v1/barcoderange';
-    }
-
+    Module: string = 'BarCodeRange';
+    apiurl: string = 'api/v1/barcoderange';
+    //----------------------------------------------------------------------------------------------
     getModuleScreen() {
         var screen, $browse;
 
@@ -28,7 +23,7 @@ class BarCodeRange {
 
         return screen;
     }
-
+    //----------------------------------------------------------------------------------------------
     openBrowse() {
         var $browse;
 
@@ -37,7 +32,7 @@ class BarCodeRange {
 
         return $browse;
     }
-
+    //----------------------------------------------------------------------------------------------
     openForm(mode: string) {
         var $form;
 
@@ -46,7 +41,7 @@ class BarCodeRange {
 
         return $form;
     }
-
+    //----------------------------------------------------------------------------------------------
     loadForm(uniqueids: any) {
         var $form;
 
@@ -56,19 +51,19 @@ class BarCodeRange {
 
         return $form;
     }
-
+    //----------------------------------------------------------------------------------------------
     saveForm($form: any, parameters: any) {
         FwModule.saveForm(this.Module, $form, parameters);
     }
-
+    //----------------------------------------------------------------------------------------------
     loadAudit($form: any) {
         var uniqueid;
         uniqueid = $form.find('div.fwformfield[data-datafield="BarCodeRangeId"] input').val();
         FwModule.loadAudit($form, uniqueid);
     }
-
+    //----------------------------------------------------------------------------------------------
     afterLoad($form: any) {
     }
 }
-
+//----------------------------------------------------------------------------------------------
 var BarCodeRangeController = new BarCodeRange();

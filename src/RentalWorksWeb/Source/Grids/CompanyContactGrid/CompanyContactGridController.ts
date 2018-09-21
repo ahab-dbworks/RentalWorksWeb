@@ -1,11 +1,6 @@
 ﻿class CompanyContactGrid {
-    Module: string;
-    apiurl: string;
-
-    constructor() {
-        this.Module = 'CompanyContactGrid';
-        this.apiurl = 'api/v1/companycontact';
-    }
+    Module: string = 'CompanyContactGrid';
+    apiurl: string = 'api/v1/companycontact';
 
     generateRow($control, $generatedtr) {
         $generatedtr.find('div[data-browsedatafield="ContactId"]').data('onchange', function ($tr) {

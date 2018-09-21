@@ -1,12 +1,7 @@
 class RwBuilding {
-    Module: string;
-    apiurl: string;
-
-    constructor() {
-        this.Module = 'Building';
-        this.apiurl = 'api/v1/building';
-    }
-
+    Module: string = 'Building';
+    apiurl: string = 'api/v1/building';
+    //----------------------------------------------------------------------------------------------
     getModuleScreen() {
         var screen, $browse;
 
@@ -28,7 +23,7 @@ class RwBuilding {
 
         return screen;
     }
-
+    //----------------------------------------------------------------------------------------------
     openBrowse() {
         var $browse;
 
@@ -37,7 +32,7 @@ class RwBuilding {
 
         return $browse;
     }
-
+    //----------------------------------------------------------------------------------------------
     openForm(mode: string) {
         var $form;
 
@@ -54,7 +49,7 @@ class RwBuilding {
 
         return $form;
     }
-
+    //----------------------------------------------------------------------------------------------
     loadForm(uniqueids: any) {
         var $form;
 
@@ -64,17 +59,17 @@ class RwBuilding {
 
         return $form;
     }
-
+    //----------------------------------------------------------------------------------------------
     saveForm($form: any, parameters: any) {
         FwModule.saveForm(this.Module, $form, parameters);
     }
-
+    //----------------------------------------------------------------------------------------------
     loadAudit($form: any) {
         var uniqueid;
         uniqueid = $form.find('div.fwformfield[data-datafield="BuildingId"] input').val();
         FwModule.loadAudit($form, uniqueid);
     }
-
+    //----------------------------------------------------------------------------------------------
     events($form: JQuery): void {
         $form.find('[data-name="FloorGrid"]').data('onselectedrowchanged', ($control: JQuery, $tr: JQuery) => {
             try {
@@ -131,7 +126,7 @@ class RwBuilding {
             }
         });
     }
-
+    //----------------------------------------------------------------------------------------------
     renderGrids($form: any) {
         var $floorGrid: any;
         var $floorGridControl: any;
@@ -179,7 +174,7 @@ class RwBuilding {
         FwBrowse.init($spaceRateGridControl);
         FwBrowse.renderRuntimeHtml($spaceRateGridControl);
     }
-
+    //----------------------------------------------------------------------------------------------
     afterLoad($form: any) {
         var $floorGrid: any;
         var $spaceGrid: any;
@@ -195,5 +190,5 @@ class RwBuilding {
         FwBrowse.search($spaceRateGrid);
     }
 }
-
+//----------------------------------------------------------------------------------------------
 var BuildingController = new RwBuilding();

@@ -1,11 +1,6 @@
 ﻿class FiscalMonthGrid {
-    Module: string;
-    apiurl: string;
-
-    constructor() {
-        this.Module = 'FiscalMonthGrid';
-        this.apiurl = 'api/v1/fiscalmonth';
-    }
+    Module: string = 'FiscalMonthGrid';
+    apiurl: string = 'api/v1/fiscalmonth';
 }
 
 var FiscalMonthGridController = new FiscalMonthGrid();

@@ -1,11 +1,6 @@
 ﻿class InventoryContainerGrid {
-    Module: string;
-    apiurl: string;
-
-    constructor() {
-        this.Module = 'InventoryContainerGrid';
-        this.apiurl = 'api/v1/inventorycontaineritem';
-    }
+    Module: string = 'InventoryContainerGrid';
+    apiurl: string = 'api/v1/inventorycontaineritem';
 
     generateRow($control, $generatedtr) {
         $generatedtr.find('div[data-browsedatafield="InventoryId"]').data('onchange', function ($tr) {

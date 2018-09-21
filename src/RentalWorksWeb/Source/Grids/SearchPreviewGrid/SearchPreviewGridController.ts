@@ -1,11 +1,6 @@
 ﻿﻿class SearchPreviewGrid {
-    Module: string;
-    apiurl: string;
-
-    constructor() {
-        this.Module = 'SearchPreviewGrid';
-        this.apiurl = 'api/v1/inventorysearchpreview';
-    }
+     Module: string = 'SearchPreviewGrid';
+     apiurl: string = 'api/v1/inventorysearchpreview';
 }
 
 var SearchPreviewGridController = new SearchPreviewGrid();

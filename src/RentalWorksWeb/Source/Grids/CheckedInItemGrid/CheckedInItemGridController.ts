@@ -1,11 +1,6 @@
 ﻿class CheckedInItemGrid {
-    Module: string;
-    apiurl: string;
-
-    constructor() {
-        this.Module = 'CheckedInItemGrid';
-        this.apiurl = 'api/v1/checkedinitem';
-    }
+    Module: string = 'CheckedInItemGrid';
+    apiurl: string = 'api/v1/checkedinitem';
 
     addLegend($control) {
         FwBrowse.addLegend($control, 'Swapped Item', '#dc407e');

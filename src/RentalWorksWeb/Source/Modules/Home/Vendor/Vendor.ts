@@ -1,16 +1,10 @@
 routes.push({ pattern: /^module\/vendor$/, action: function (match: RegExpExecArray) { return VendorController.getModuleScreen(); } });
 //---------------------------------------------------------------------------------
 class Vendor {
-    Module: string;
-    apiurl: string;
-    caption: string;
-
-    constructor() {
-        this.Module = 'Vendor';
-        this.apiurl = 'api/v1/vendor';
-        this.caption = 'Vendor';
-    }
-
+    Module: string = 'Vendor';
+    apiurl: string = 'api/v1/vendor';
+    caption: string = 'Vendor';
+    //---------------------------------------------------------------------------------
     getModuleScreen() {
         var screen, $browse;
         var self: Vendor = this;
@@ -32,12 +26,12 @@ class Vendor {
 
         return screen;
     }
-
+    //---------------------------------------------------------------------------------
     setupEvents($form: JQuery): void {
         this.toggleRequiredFields($form.find('.tabpages'));
         this.togglePanels($form, FwFormField.getValueByDataField($form, 'VendorNameType'));
     }
-
+    //---------------------------------------------------------------------------------
     events($form: JQuery): void {
         $form.on('click', '.vendertyperadio input[type=radio]', (e) => {
             var $tab: JQuery = this.getTab(jQuery(e.currentTarget));
@@ -62,11 +56,11 @@ class Vendor {
         //    this.updateExternalInputsWithGridValues(e.currentTarget);
         //});
     }
-
+    //---------------------------------------------------------------------------------
     getTab($target: JQuery): JQuery {
         return $target.closest('.tabpage');
     }
-
+    //---------------------------------------------------------------------------------
     togglePanels($tab: JQuery, type: string): void {
         $tab.find('.type_panels').hide();
         switch (type) {
@@ -80,7 +74,7 @@ class Vendor {
                 throw Error(type + ' is not a known type.');
         }
     }
-
+    //---------------------------------------------------------------------------------
     toggleRequiredFields($tab: JQuery): void {
         var $person = $tab.find('#person_panel'), $company = $tab.find('#company_panel'), personRequired = null, companyRequired = null;
 
@@ -99,7 +93,7 @@ class Vendor {
             $field.attr('data-required', companyRequired);
         });
     }
-
+    //---------------------------------------------------------------------------------
     updateExternalInputsWithGridValues($tr: JQuery): void {
         $tr.find('.column > .field').each((i, e) => {
             var $column = jQuery(e), id = $column.attr('data-browsedatafield'), value = $column.attr('data-originalvalue');
@@ -110,7 +104,7 @@ class Vendor {
             }
         });
     }
-
+    //---------------------------------------------------------------------------------
     renderGrids($form: JQuery) {
         // load companytax Grid
         var nameCompanyTaxOptionGrid = 'CompanyTaxOptionGrid';
@@ -157,7 +151,7 @@ class Vendor {
         FwBrowse.init($companyContactControl);
         FwBrowse.renderRuntimeHtml($companyContactControl);
     }
-
+    //---------------------------------------------------------------------------------
     openBrowse() {
         var $browse;
 
@@ -166,7 +160,7 @@ class Vendor {
 
         return $browse;
     }
-
+    //---------------------------------------------------------------------------------
     openForm(mode: string) {
         var $form;
 
@@ -184,7 +178,7 @@ class Vendor {
 
         return $form;
     }
-
+    //---------------------------------------------------------------------------------
     loadForm(uniqueids: any) {
         var $form = this.openForm('EDIT');
         FwFormField.setValueByDataField($form, 'VendorId', uniqueids.VendorId);
@@ -192,16 +186,16 @@ class Vendor {
 
         return $form;
     }
-
+    //---------------------------------------------------------------------------------
     saveForm($form: any, parameters: any) {
         FwModule.saveForm(this.Module, $form, parameters);
     }
-
+    //---------------------------------------------------------------------------------
     loadAudit($form: any) {
         var uniqueid = FwFormField.getValueByDataField($form, 'VendorId');
         FwModule.loadAudit($form, uniqueid);
     }
-
+    //---------------------------------------------------------------------------------
     afterLoad($form: any) {
         var $companyTaxOptionGrid = $form.find('[data-name="CompanyTaxOptionGrid"]');
         FwBrowse.search($companyTaxOptionGrid);

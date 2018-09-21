@@ -1,11 +1,6 @@
 ﻿class SalesInventoryWarehouseGrid {
-    Module: string;
-    apiurl: string;
-
-    constructor() {
-        this.Module = 'SalesInventoryWarehouseGrid';
-        this.apiurl = 'api/v1/inventorywarehouse';
-    }
+    Module: string = 'SalesInventoryWarehouseGrid';
+    apiurl: string = 'api/v1/inventorywarehouse';
 }
 
 var SalesInventoryWarehouseGridController = new SalesInventoryWarehouseGrid();

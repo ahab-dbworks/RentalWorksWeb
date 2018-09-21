@@ -1,12 +1,7 @@
 class Currency {
-    Module: string;
-    apiurl: string;
-
-    constructor() {
-        this.Module = 'Currency';
-        this.apiurl = 'api/v1/currency';
-    }
-
+    Module: string = 'Currency';
+    apiurl: string = 'api/v1/currency';
+    //----------------------------------------------------------------------------------------------
     getModuleScreen() {
         var screen, $browse;
 
@@ -28,7 +23,7 @@ class Currency {
 
         return screen;
     }
-
+    //----------------------------------------------------------------------------------------------
     openBrowse() {
         var $browse;
 
@@ -37,7 +32,7 @@ class Currency {
 
         return $browse;
     }
-
+    //----------------------------------------------------------------------------------------------
     openForm(mode: string) {
         var $form;
 
@@ -46,7 +41,7 @@ class Currency {
 
         return $form;
     }
-
+    //----------------------------------------------------------------------------------------------
     loadForm(uniqueids: any) {
         var $form;
 
@@ -56,19 +51,19 @@ class Currency {
 
         return $form;
     }
-
+    //----------------------------------------------------------------------------------------------
     saveForm($form: any, parameters: any) {
         FwModule.saveForm(this.Module, $form, parameters);
     }
-
+    //----------------------------------------------------------------------------------------------
     loadAudit($form: any) {
         var uniqueid;
         uniqueid = $form.find('div.fwformfield[data-datafield="CurrencyId"] input').val();
         FwModule.loadAudit($form, uniqueid);
     }
-
+    //----------------------------------------------------------------------------------------------
     afterLoad($form: any) {
     }
 }
-
+//----------------------------------------------------------------------------------------------
 var CurrencyController = new Currency();

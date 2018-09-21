@@ -1,11 +1,6 @@
 ﻿class EventTypePersonnelTypeGrid {
-    Module: string;
-    apiurl: string;
-
-    constructor() {
-        this.Module = 'Event Type Personnel Type';
-        this.apiurl = 'api/v1/eventtypepersonneltype';
-    }
+    Module: string = 'Event Type Personnel Type';
+    apiurl: string = 'api/v1/eventtypepersonneltype';
 }
 
 var EventTypePersonnelTypeGridController = new EventTypePersonnelTypeGrid();

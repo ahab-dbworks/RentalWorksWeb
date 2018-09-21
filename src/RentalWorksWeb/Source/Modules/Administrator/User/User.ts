@@ -1,16 +1,9 @@
 class User {
-    Module: string;
-    apiurl: string;
-    caption: string;
-    ActiveView: string;
-
-    constructor() {
-        this.Module = 'User';
-        this.apiurl = 'api/v1/user';
-        this.caption = 'User';
-        this.ActiveView = 'ALL';
-    }
-
+    Module: string = 'User';
+    apiurl: string = 'api/v1/user';
+    caption: string = 'User';
+    ActiveView: string = 'ALL';
+    //----------------------------------------------------------------------------------------------
     getModuleScreen() {
         var self = this;
         var screen: any = {};
@@ -31,7 +24,7 @@ class User {
 
         return screen;
     }
-
+    //----------------------------------------------------------------------------------------------
     openBrowse() {
         var self = this;
         var $browse = FwBrowse.loadBrowseFromTemplate(this.Module);
@@ -46,7 +39,7 @@ class User {
 
         return $browse;
     }
-
+    //----------------------------------------------------------------------------------------------
     addBrowseMenuItems($menuObject) {
         var self = this;
         var location = JSON.parse(sessionStorage.getItem('location'));
@@ -71,7 +64,7 @@ class User {
         $view = FwMenu.addViewBtn($menuObject, 'Location', viewLocation);
         return $menuObject;
     };
-
+    //----------------------------------------------------------------------------------------------
     openForm(mode: string) {
         var $form;
 
@@ -153,7 +146,7 @@ class User {
 
         return $form;
     }
-
+    //----------------------------------------------------------------------------------------------
     loadForm(uniqueids: any) {
         var $form;
 
@@ -163,11 +156,11 @@ class User {
 
         return $form;
     }
-
+    //----------------------------------------------------------------------------------------------
     saveForm($form: any, parameters: any) {
         FwModule.saveForm(this.Module, $form, parameters);
     }
-
+    //----------------------------------------------------------------------------------------------
     afterLoad($form: any) {
         var $discount = $form.find('div.fwformfield[data-datafield="LimitDiscount"] input').prop('checked');
         var $subDiscount = $form.find('div.fwformfield[data-datafield="LimitSubDiscount"] input').prop('checked');
@@ -221,6 +214,7 @@ class User {
     //        FwFormField.disable($txtNetExpire);
     //    }
     //};
+    //----------------------------------------------------------------------------------------------
     beforeValidateWarehouse($browse: any, $form: any, request: any) {
         let locationId;
 
@@ -231,7 +225,7 @@ class User {
             request.uniqueids.LocationId = locationId;
         }
     };
-
+//----------------------------------------------------------------------------------------------
     beforeValidate = function ($browse, $grid, request, datafield) {
         switch (datafield) {
             case 'RentalInventoryTypeId':
@@ -257,5 +251,5 @@ class User {
         };
     }
 }
-
+//----------------------------------------------------------------------------------------------
 var UserController = new User();

@@ -1,11 +1,6 @@
 ﻿class ItemLocationTaxGrid {
-    Module: string;
-    apiurl: string;
-
-    constructor() {
-        this.Module = 'ItemLocationTaxGrid';
-        this.apiurl = 'api/v1/inventorylocationtax';
-    }
+    Module: string = 'ItemLocationTaxGrid';
+    apiurl: string = 'api/v1/inventorylocationtax';
 }
 
 var ItemLocationTaxGridController = new ItemLocationTaxGrid();

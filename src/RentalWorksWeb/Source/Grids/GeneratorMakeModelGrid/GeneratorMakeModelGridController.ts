@@ -1,11 +1,6 @@
 ﻿class GeneratorMakeModelGrid {
-    Module: string;
-    apiurl: string;
-
-    constructor() {
-        this.Module = 'GeneratorMakeModelGrid';
-        this.apiurl = 'api/v1/generatormodel';
-    }
+    Module: string = 'GeneratorMakeModelGrid';
+    apiurl: string = 'api/v1/generatormodel';
 }
 
 var GeneratorMakeModelGridController = new GeneratorMakeModelGrid();

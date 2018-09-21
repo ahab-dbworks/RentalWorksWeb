@@ -1,11 +1,6 @@
 ﻿class ItemQcGrid {
-    Module: string;
-    apiurl: string;
-
-    constructor() {
-        this.Module = 'ItemQcGrid';
-        this.apiurl = 'api/v1/itemqc';
-    }
+    Module: string = 'ItemQcGrid';
+    apiurl: string = 'api/v1/itemqc';
 }
 
 var ItemQcGridController = new ItemQcGrid();

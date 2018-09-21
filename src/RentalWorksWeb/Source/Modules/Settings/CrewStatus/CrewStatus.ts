@@ -1,12 +1,7 @@
 class CrewStatus {
-    Module: string;
-    apiurl: string;
-
-    constructor() {
-        this.Module = 'CrewStatus';
-        this.apiurl = 'api/v1/crewstatus';
-    }
-
+    Module: string = 'CrewStatus';
+    apiurl: string = 'api/v1/crewstatus';
+    //----------------------------------------------------------------------------------------------
     getModuleScreen() {
         var screen, $browse;
 
@@ -28,7 +23,7 @@ class CrewStatus {
 
         return screen;
     }
-
+    //----------------------------------------------------------------------------------------------
     openBrowse() {
         var $browse;
 
@@ -37,7 +32,7 @@ class CrewStatus {
 
         return $browse;
     }
-
+    //----------------------------------------------------------------------------------------------
     openForm(mode: string) {
         var $form;
 
@@ -46,7 +41,7 @@ class CrewStatus {
 
         return $form;
     }
-
+    //----------------------------------------------------------------------------------------------
     loadForm(uniqueids: any) {
         var $form;
 
@@ -56,19 +51,19 @@ class CrewStatus {
 
         return $form;
     }
-
+    //----------------------------------------------------------------------------------------------
     saveForm($form: any, parameters: any) {
         FwModule.saveForm(this.Module, $form, parameters);
     }
-
+    //----------------------------------------------------------------------------------------------
     loadAudit($form: any) {
         var uniqueid;
         uniqueid = $form.find('div.fwformfield[data-datafield="CrewStatusId"] input').val();
         FwModule.loadAudit($form, uniqueid);
     }
-
+    //----------------------------------------------------------------------------------------------
     afterLoad($form: any) {
     }
 }
-
+//----------------------------------------------------------------------------------------------
 var CrewStatusController = new CrewStatus();

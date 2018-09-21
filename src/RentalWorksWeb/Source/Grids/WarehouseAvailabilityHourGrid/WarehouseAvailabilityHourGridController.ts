@@ -1,11 +1,6 @@
 ﻿class WarehouseAvailabilityHourGrid {
-    Module: string;
-    apiurl: string;
-
-    constructor() {
-        this.Module = 'WarehouseAvailabilityHour';
-        this.apiurl = 'api/v1/warehouseavailabilityhour';
-    }
+    Module: string = 'WarehouseAvailabilityHour';
+    apiurl: string = 'api/v1/warehouseavailabilityhour';
 }
 
 var WarehouseAvailabilityHourGridController = new WarehouseAvailabilityHourGrid();

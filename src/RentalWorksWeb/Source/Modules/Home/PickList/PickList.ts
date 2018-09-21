@@ -1,16 +1,10 @@
 ﻿routes.push({ pattern: /^module\/picklist$/, action: function (match: RegExpExecArray) { return PickListController.getModuleScreen(); } });
 
 class PickList {
-    Module: string;
-    apiurl: string;
-    ActiveView: string;
-
-    constructor() {
-        this.Module = 'PickList';
-        this.apiurl = 'api/v1/picklist';
-        this.ActiveView = 'ALL';
-    }
-
+    Module: string = 'PickList';
+    apiurl: string = 'api/v1/picklist';
+    ActiveView: string = 'ALL';
+    //----------------------------------------------------------------------------------------------
     getModuleScreen() {
         var self = this;
         var screen: any = {};
@@ -28,6 +22,7 @@ class PickList {
         };
         return screen;
     };
+    //----------------------------------------------------------------------------------------------
     openBrowse() {
         var self = this;
         var $browse = FwBrowse.loadBrowseFromTemplate(this.Module);
@@ -42,6 +37,7 @@ class PickList {
 
         return $browse;
     };
+    //----------------------------------------------------------------------------------------------
     openForm(mode, parentmoduleinfo?) {
         var $form = FwModule.loadFormFromTemplate(this.Module);
         $form = FwModule.openForm($form, mode);
@@ -65,17 +61,18 @@ class PickList {
 
         return $form;
     };
-
+    //----------------------------------------------------------------------------------------------
     loadForm(uniqueids) {
         var $form = this.openForm('EDIT');
         FwFormField.setValueByDataField($form, 'PickListId', uniqueids.PickListId);
         FwModule.loadForm(this.Module, $form);
         return $form;
     };
+    //----------------------------------------------------------------------------------------------
     saveForm($form: any, parameters: any) {
         FwModule.saveForm(this.Module, $form, parameters);
     }
-
+    //----------------------------------------------------------------------------------------------
     addBrowseMenuItems($menuObject: any) {
         var self = this;
 
@@ -101,7 +98,7 @@ class PickList {
         $warehouseView = FwMenu.addViewBtn($menuObject, 'Warehouse', viewWarehouse);
         return $menuObject;
     };
-
+    //----------------------------------------------------------------------------------------------
     renderGrids($form) {
         var $pickListItemGrid = $form.find('div[data-grid="PickListItemGrid"]');
         var $pickListItemGridControl = jQuery(jQuery('#tmpl-grids-' + "PickListItemGrid" + 'Browse').html());
@@ -114,6 +111,7 @@ class PickList {
         FwBrowse.init($pickListItemGridControl);
         FwBrowse.renderRuntimeHtml($pickListItemGridControl);
     };
+    //----------------------------------------------------------------------------------------------
     cancelPickList(pickListId, pickListNumber) {
         var $confirmation, $yes, $no, self;
         self = this;
@@ -148,6 +146,7 @@ class PickList {
             }, null, $confirmation);
         });
     };
+    //----------------------------------------------------------------------------------------------
     afterLoad($form) {
         var $pickListItemGrid = $form.find('[data-name="PickListItemGrid"]');
         FwBrowse.search($pickListItemGrid);

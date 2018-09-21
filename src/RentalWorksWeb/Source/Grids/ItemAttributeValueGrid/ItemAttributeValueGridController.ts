@@ -1,11 +1,6 @@
 ﻿class ItemAttributeValueGrid {
-    Module: string;
-    apiurl: string;
-
-    constructor() {
-        this.Module = 'ItemAttributeValueGrid';
-        this.apiurl = 'api/v1/itemattributevalue';
-    }
+    Module: string = 'ItemAttributeValueGrid';
+    apiurl: string = 'api/v1/itemattributevalue';
 
     init($control: JQuery) {
         $control.on('change', '[data-formdatafield="AttributeId"] input.value', function (e) {

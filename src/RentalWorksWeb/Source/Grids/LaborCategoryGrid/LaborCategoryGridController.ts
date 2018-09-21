@@ -1,11 +1,6 @@
 ﻿class LaborCategoryGrid {
-    Module: string;
-    apiurl: string;
-
-    constructor() {
-        this.Module = 'LaborCategoryGrid';
-        this.apiurl = 'api/v1/laborcategory';
-    }
+    Module: string = 'LaborCategoryGrid';
+    apiurl: string = 'api/v1/laborcategory';
 }
 
 var LaborCategoryGridController = new LaborCategoryGrid();

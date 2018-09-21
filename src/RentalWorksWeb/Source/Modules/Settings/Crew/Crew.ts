@@ -1,12 +1,7 @@
 ﻿class Crew {
-    Module: string;
-    apiurl: string;
-
-    constructor() {
-        this.Module = 'Crew';
-        this.apiurl = 'api/v1/crew';
-    }
-
+    Module: string = 'Crew';
+    apiurl: string = 'api/v1/crew';
+    //----------------------------------------------------------------------------------------------
     getModuleScreen() {
         var screen, $browse;
 
@@ -28,7 +23,7 @@
 
         return screen;
     }
-
+    //----------------------------------------------------------------------------------------------
     openBrowse() {
         var $browse;
 
@@ -37,7 +32,7 @@
 
         return $browse;
     }
-
+    //----------------------------------------------------------------------------------------------
     openForm(mode: string) {
         var $form;
 
@@ -56,7 +51,7 @@
 
         return $form;
     }
-
+    //----------------------------------------------------------------------------------------------
     loadForm(uniqueids: any) {
         var $form;
 
@@ -66,17 +61,17 @@
 
         return $form;
     }
-
+    //----------------------------------------------------------------------------------------------
     saveForm($form: any, parameters: any) {
         FwModule.saveForm(this.Module, $form, parameters);
     }
-
+    //----------------------------------------------------------------------------------------------
     loadAudit($form: any) {
         var uniqueid;
         uniqueid = $form.find('div.fwformfield[data-datafield="CrewId"] input').val();
         FwModule.loadAudit($form, uniqueid);
     }
-
+    //----------------------------------------------------------------------------------------------
     renderGrids($form: any) {
         var nameCrewPositionGrid: string = 'CrewPositionGrid';
         var $crewPositionGrid: any = $crewPositionGrid = $form.find('div[data-grid="' + nameCrewPositionGrid + '"]');
@@ -127,7 +122,7 @@
         FwBrowse.init($contactNoteGridControl);
         FwBrowse.renderRuntimeHtml($contactNoteGridControl);
     }
-
+    //----------------------------------------------------------------------------------------------
     afterLoad($form: any) {
         var $crewPositionGrid: any = $form.find('[data-name="CrewPositionGrid"]');
         FwBrowse.search($crewPositionGrid);
@@ -147,5 +142,5 @@
         }
     }
 }
-
+//----------------------------------------------------------------------------------------------
 var CrewController = new Crew();

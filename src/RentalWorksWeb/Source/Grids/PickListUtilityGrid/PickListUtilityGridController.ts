@@ -1,11 +1,6 @@
 ﻿class PickListUtilityGrid {
-    Module: string;
-    apiurl: string;
-
-    constructor() {
-        this.Module = 'PickListUtilityGrid';
-        this.apiurl = 'api/v1/picklistutilityitem';
-    }
+    Module: string = 'PickListUtilityGrid';
+    apiurl: string = 'api/v1/picklistutilityitem';
 }
 
 var PickListUtilityGridController = new PickListUtilityGrid();

@@ -1,12 +1,7 @@
 class CustomFields {
-    Module: string;
-    apiurl: string;
-
-    constructor() {
-        this.Module = 'CustomFields';
-        this.apiurl = 'api/v1/customfield';
-    }
-
+    Module: string = 'CustomFields';
+    apiurl: string = 'api/v1/customfield';
+    //----------------------------------------------------------------------------------------------
     getModuleScreen() {
         var screen, $browse;
 
@@ -28,7 +23,7 @@ class CustomFields {
 
         return screen;
     }
-
+    //----------------------------------------------------------------------------------------------
     openBrowse() {
         var $browse;
 
@@ -37,7 +32,7 @@ class CustomFields {
 
         return $browse;
     }
-
+    //----------------------------------------------------------------------------------------------
     openForm(mode: string) {
         var $form
             , $moduleSelect;
@@ -100,7 +95,7 @@ class CustomFields {
 
         return $form;
     }
-
+    //----------------------------------------------------------------------------------------------
     loadForm(uniqueids: any) {
         var $form;
 
@@ -110,18 +105,18 @@ class CustomFields {
 
         return $form;
     }
-
+    //----------------------------------------------------------------------------------------------
     saveForm($form: any, parameters: any) {
         FwModule.saveForm(this.Module, $form, parameters);
         FwFormField.disable($form.find('.ifnew'));
     }
-
+    //----------------------------------------------------------------------------------------------
     loadAudit($form: any) {
         var uniqueid;
         uniqueid = $form.find('div.fwformfield[data-datafield="CustomFieldId"] input').val();
         FwModule.loadAudit($form, uniqueid);
     }
-
+    //----------------------------------------------------------------------------------------------
     afterLoad($form: any) {
         if (FwFormField.getValueByDataField($form, 'CustomTableName') === 'customvaluesnumeric') {
             $form.find('.float').show();
@@ -131,6 +126,7 @@ class CustomFields {
             $form.find('.browselength').show();
         }
     }
+    //----------------------------------------------------------------------------------------------
     afterSave($form: any) {
         FwAppData.apiMethod(true, 'GET', 'api/v1/custommodule/', null, FwServices.defaultTimeout, function onSuccess(response) {
             var customFields = [];
@@ -143,5 +139,5 @@ class CustomFields {
         return $form;
     }
 }
-
+//----------------------------------------------------------------------------------------------
 var CustomFieldsController = new CustomFields();

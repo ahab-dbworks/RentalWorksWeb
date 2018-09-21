@@ -1,11 +1,6 @@
 ﻿class PresentationLayerActivityOverrideGrid {
-    Module: string;
-    apiurl: string;
-
-    constructor() {
-        this.Module = 'PresentationLayerActivityOverrideGrid';
-        this.apiurl = 'api/v1/presentationlayeractivityoverride';
-    }
+    Module: string = 'PresentationLayerActivityOverrideGrid';
+    apiurl: string = 'api/v1/presentationlayeractivityoverride';
 
     generateRow($control, $generatedtr) {
         $generatedtr.find('div[data-browsedatafield="MasterId"]').data('onchange', function ($tr) {

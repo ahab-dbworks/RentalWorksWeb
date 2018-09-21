@@ -1,11 +1,6 @@
 ﻿class InventoryPrepGrid {
-    Module: string;
-    apiurl: string;
-
-    constructor() {
-        this.Module = 'InventoryPrepGrid';
-        this.apiurl = 'api/v1/inventoryprep';
-    }
+    Module: string = 'InventoryPrepGrid';
+    apiurl: string = 'api/v1/inventoryprep';
 
     generateRow($control, $generatedtr) {
         $generatedtr.find('div[data-browsedatafield="PrepRateId"]').data('onchange', function ($tr) {

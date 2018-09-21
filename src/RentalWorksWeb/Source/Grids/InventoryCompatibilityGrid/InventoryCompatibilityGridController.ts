@@ -1,11 +1,6 @@
 ﻿class InventoryCompatibilityGrid {
-    Module: string;
-    apiurl: string;
-
-    constructor() {
-        this.Module = 'InventoryCompatibilityGrid';
-        this.apiurl = 'api/v1/inventorycompatible';
-    }
+    Module: string = 'InventoryCompatibilityGrid';
+    apiurl: string = 'api/v1/inventorycompatible';
 
     generateRow($control, $generatedtr) {
         $generatedtr.find('div[data-browsedatafield="CompatibleWithInventoryId"]').data('onchange', function ($tr) {

@@ -1,13 +1,7 @@
 ﻿class ContactCompanyGrid {
-    Module: string;
-    apiurl: string;
-    ActiveView: string;
-
-    constructor() {
-        this.Module = 'ContactCompanyGrid';
-        this.apiurl = 'api/v1/companycontact';
-        this.ActiveView = 'ALL';
-    }
+    Module: string = 'ContactCompanyGrid';
+    apiurl: string = 'api/v1/companycontact';
+    ActiveView: string = 'ALL';
 
     generateRow($control, $generatedtr) {
         var $form;

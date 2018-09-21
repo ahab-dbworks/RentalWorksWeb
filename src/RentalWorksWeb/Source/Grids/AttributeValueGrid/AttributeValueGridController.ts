@@ -1,11 +1,6 @@
 ﻿class AttributeValueGrid {
-    Module: string;
-    apiurl: string;
-
-    constructor() {
-        this.Module = 'AttributeValueGrid';
-        this.apiurl = 'api/v1/attributevalue';
-    }
+    Module: string = 'AttributeValueGrid';
+    apiurl: string = 'api/v1/attributevalue';
 }
 
 var AttributeValueGridController = new AttributeValueGrid();

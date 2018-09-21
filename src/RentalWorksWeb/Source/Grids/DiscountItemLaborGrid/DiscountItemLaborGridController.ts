@@ -1,11 +1,6 @@
 ﻿class DiscountItemLaborGrid {
-    Module: string;
-    apiurl: string;
-
-    constructor() {
-        this.Module = 'DiscountItemLaborGrid';
-        this.apiurl = 'api/v1/discountitem';
-    }
+    Module: string = 'DiscountItemLaborGrid';
+    apiurl: string = 'api/v1/discountitem';
 
     beforeValidate = function ($browse, $grid, request) {
         var validationName = request.module;

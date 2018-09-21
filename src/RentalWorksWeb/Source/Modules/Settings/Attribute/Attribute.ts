@@ -1,12 +1,7 @@
 class Attribute {
-    Module: string;
-    apiurl: string;
-
-    constructor() {
-        this.Module = 'Attribute';
-        this.apiurl = 'api/v1/attribute';
-    }
-
+    Module: string = 'Attribute';
+    apiurl: string = 'api/v1/attribute';
+    //---------------------------------------------------------------------------------
     getModuleScreen() {
         var screen, $browse;
 
@@ -28,7 +23,7 @@ class Attribute {
 
         return screen;
     }
-
+    //---------------------------------------------------------------------------------
     openBrowse() {
         var $browse;
 
@@ -37,7 +32,7 @@ class Attribute {
 
         return $browse;
     }
-
+    //---------------------------------------------------------------------------------
     openForm(mode: string) {
         var $form;
 
@@ -46,7 +41,7 @@ class Attribute {
 
         return $form;
     }
-
+    //---------------------------------------------------------------------------------
     loadForm(uniqueids: any) {
         var $form;
 
@@ -56,17 +51,17 @@ class Attribute {
 
         return $form;
     }
-
+    //---------------------------------------------------------------------------------
     saveForm($form: any, parameters: any) {
         FwModule.saveForm(this.Module, $form, parameters);
     }
-
+    //---------------------------------------------------------------------------------
     loadAudit($form: any) {
         var uniqueid;
         uniqueid = $form.find('div.fwformfield[data-datafield="AttributeId"] input').val();
         FwModule.loadAudit($form, uniqueid);
     }
-
+    //---------------------------------------------------------------------------------
     renderGrids($form: any) {
         var $attributeValueGrid: any;
         var $attributeValueGridControl: any;
@@ -83,7 +78,7 @@ class Attribute {
         FwBrowse.init($attributeValueGridControl);
         FwBrowse.renderRuntimeHtml($attributeValueGridControl);
     }
-
+    //---------------------------------------------------------------------------------
     afterLoad($form: any) {
         var $attributeValueGrid: any;
 
@@ -91,5 +86,5 @@ class Attribute {
         FwBrowse.search($attributeValueGrid);
     }
 }
-
+//---------------------------------------------------------------------------------
 var AttributeController = new Attribute();

@@ -1,11 +1,7 @@
 ﻿routes.push({ pattern: /^module\/createpicklist$/, action: function (match: RegExpExecArray) { return CreatePickListController.getModuleScreen(); } });
 
 class CreatePickList {
-    Module: string;
-
-    constructor() {
-        this.Module = 'CreatePickList';
-    }
+    Module: string = 'CreatePickList';
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
         var screen: any = {};

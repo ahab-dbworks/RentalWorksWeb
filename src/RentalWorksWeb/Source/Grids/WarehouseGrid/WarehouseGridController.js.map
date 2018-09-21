@@ -1,1 +1,1 @@
-{"version":3,"file":"WarehouseGridController.js","sourceRoot":"","sources":["WarehouseGridController.ts"],"names":[],"mappings":"AAAA,MAAM,aAAa;IAIf;QACI,IAAI,CAAC,MAAM,GAAG,WAAW,CAAC;QAC1B,IAAI,CAAC,MAAM,GAAG,kBAAkB,CAAC;IACrC,CAAC;CACJ;AAED,IAAI,uBAAuB,GAAG,IAAI,aAAa,EAAE,CAAC"}
+{"version":3,"file":"WarehouseGridController.js","sourceRoot":"","sources":["WarehouseGridController.ts"],"names":[],"mappings":"AAAA,MAAM,aAAa;IAAnB;QACI,WAAM,GAAW,WAAW,CAAC;QAC7B,WAAM,GAAW,kBAAkB,CAAC;IACxC,CAAC;CAAA;AAED,IAAI,uBAAuB,GAAG,IAAI,aAAa,EAAE,CAAC"}

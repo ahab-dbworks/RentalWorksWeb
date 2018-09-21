@@ -1,5 +1,7 @@
 class DiscountItemMiscGrid {
     constructor() {
+        this.Module = 'DiscountItemMiscGrid';
+        this.apiurl = 'api/v1/discountitem';
         this.beforeValidate = function ($browse, $grid, request) {
             var validationName = request.module;
             if (validationName != null) {
@@ -29,8 +31,6 @@ class DiscountItemMiscGrid {
                 ;
             }
         };
-        this.Module = 'DiscountItemMiscGrid';
-        this.apiurl = 'api/v1/discountitem';
     }
     generateRow($control, $generatedtr) {
         $generatedtr.find('div[data-browsedatafield="InventoryId"]').data('onchange', function ($tr) {

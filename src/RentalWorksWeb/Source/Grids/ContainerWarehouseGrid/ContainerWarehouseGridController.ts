@@ -1,11 +1,6 @@
 ﻿class ContainerWarehouseGrid {
-    Module: string;
-    apiurl: string;
-
-    constructor() {
-        this.Module = 'ContainerWarehouseGrid';
-        this.apiurl = 'api/v1/containerwarehouse';
-    }
+    Module: string = 'ContainerWarehouseGrid';
+    apiurl: string = 'api/v1/containerwarehouse';
 }
 
 var ContainerWarehouseGridController = new ContainerWarehouseGrid();

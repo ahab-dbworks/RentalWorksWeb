@@ -1,12 +1,7 @@
 class CrewScheduleStatus {
-    Module: string;
-    apiurl: string;
-
-    constructor() {
-        this.Module = 'CrewScheduleStatus';
-        this.apiurl = 'api/v1/crewschedulestatus';
-    }
-
+    Module: string = 'CrewScheduleStatus';
+    apiurl: string = 'api/v1/crewschedulestatus';
+    //----------------------------------------------------------------------------------------------
     getModuleScreen() {
         var screen, $browse;
 
@@ -28,7 +23,7 @@ class CrewScheduleStatus {
 
         return screen;
     }
-
+    //----------------------------------------------------------------------------------------------
     openBrowse() {
         var $browse;
 
@@ -37,7 +32,7 @@ class CrewScheduleStatus {
 
         return $browse;
     }
-
+    //----------------------------------------------------------------------------------------------
     openForm(mode: string) {
         var $form;
 
@@ -46,7 +41,7 @@ class CrewScheduleStatus {
 
         return $form;
     }
-
+    //----------------------------------------------------------------------------------------------
     loadForm(uniqueids: any) {
         var $form;
 
@@ -56,19 +51,19 @@ class CrewScheduleStatus {
 
         return $form;
     }
-
+    //----------------------------------------------------------------------------------------------
     saveForm($form: any, parameters: any) {
         FwModule.saveForm(this.Module, $form, parameters);
     }
-
+    //----------------------------------------------------------------------------------------------
     loadAudit($form: any) {
         var uniqueid;
         uniqueid = $form.find('div.fwformfield[data-datafield="CrewScheduleStatusId"] input').val();
         FwModule.loadAudit($form, uniqueid);
     }
-
+    //----------------------------------------------------------------------------------------------
     afterLoad($form: any) {
     }
 }
-
+//----------------------------------------------------------------------------------------------
 var CrewScheduleStatusController = new CrewScheduleStatus();
