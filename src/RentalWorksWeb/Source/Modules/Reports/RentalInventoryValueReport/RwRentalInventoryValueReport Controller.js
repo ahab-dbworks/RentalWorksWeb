@@ -26,8 +26,8 @@ var templateRentalInventoryValueFrontEnd = `
             <div class="flexcolumn" style="max-width:400px;">
               <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Report Type">
                 <div data-datafield="Summary" data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield" data-caption="">
-                  <div data-value="T" data-caption="Summary - one line per I-Code"></div>
-                  <div data-value="F" data-caption="Detail - one line per I-Code Transaction"></div>
+                  <div data-value="true" data-caption="Summary - one line per I-Code"></div>
+                  <div data-value="false" data-caption="Detail - one line per I-Code Transaction"></div>
                 </div>
               </div>
               <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Bar Code Value Based On">

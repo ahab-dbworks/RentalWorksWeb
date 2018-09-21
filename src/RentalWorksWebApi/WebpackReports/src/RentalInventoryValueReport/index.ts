@@ -51,7 +51,7 @@ export class RentalInventoryValueReport extends WebpackReport {
             request.InventoryId = parameters.RentalInventoryId;
             request.IncludeZeroQuantity = parameters.IncludeZeroQuantity;
 
-            if (parameters.Summary === 'T') {
+            if (parameters.Summary === 'true') {
                 request.Summary = true;
             } else {
                 request.Summary = false;
@@ -68,11 +68,23 @@ export class RentalInventoryValueReport extends WebpackReport {
                     rentalInventoryValue.Report = 'Rental Inventory Value Report';
                     rentalInventoryValue.System = 'RENTALWORKS';
                     rentalInventoryValue.Company = '4WALL ENTERTAINMENT';
-                    if (parameters.IncludeConsigned === true) {
-                        rentalInventoryValue.IncludeConsigned = 'Includes Consigned Items';
+                    // Consigned or Owned Items header text
+                    if (parameters.IncludeConsigned === true && parameters.IncludeOwned === false) {
+                        rentalInventoryValue.ConsignedOwnedHeader = 'Includes Consigned Items Only';
+                    } else if (parameters.IncludeOwned === true && parameters.IncludeConsigned === false) {
+                        rentalInventoryValue.ConsignedOwnedHeader = 'Includes Owned Items Only';
+                    } else if (parameters.IncludeOwned === true && parameters.IncludeConsigned === true) {
+                        rentalInventoryValue.ConsignedOwnedHeader = 'Includes Owned and Consigned Items';
                     } else {
-                        rentalInventoryValue.IncludeConsigned = '';
+                        rentalInventoryValue.ConsignedOwnedHeader = '';
                     }
+                    // Determine Summary or Detail View
+                    if (parameters.Summary === 'true') {
+                        rentalInventoryValue.ViewSetting = 'SummaryView';
+                    } else {
+                        rentalInventoryValue.ViewSetting = 'DetailView';
+                    }
+
                     this.renderFooterHtml(rentalInventoryValue);
                     if (this.action === 'Preview' || this.action === 'PrintHtml') {
                         document.getElementById('pageFooter').innerHTML = this.footerHtml;
