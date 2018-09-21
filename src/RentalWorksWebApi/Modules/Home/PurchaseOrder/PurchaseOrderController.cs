@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Http;
 using WebApi.Modules.Home.Contract;
 using WebApi.Logic;
 using System.Collections.Generic;
+using WebLibrary;
 
 namespace WebApi.Modules.Home.PurchaseOrder
 {
@@ -111,6 +112,113 @@ namespace WebApi.Modules.Home.PurchaseOrder
         //    return await DoDeleteAsync(id);
         //}
         ////------------------------------------------------------------------------------------ 
+
+
+        // POST api/v1/purchaseorder/applybottomlinedaysperweek
+        [HttpPost("applybottomlinedaysperweek")]
+        public async Task<IActionResult> ApplyBottomLineDaysPerWeek([FromBody] ApplyBottomLineDaysPerWeekRequest request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                string[] ids = new string[] { request.PurchaseOrderId };
+
+                PurchaseOrderLogic l = new PurchaseOrderLogic();
+                l.SetDependencies(AppConfig, UserSession);
+                if (await l.LoadAsync<PurchaseOrderLogic>(ids))
+                {
+                    bool applied = await l.ApplyBottomLineDaysPerWeek(request);
+                    return new OkObjectResult(true);
+                }
+                else
+                {
+                    return NotFound();
+                }
+            }
+            catch (Exception ex)
+            {
+                FwApiException jsonException = new FwApiException();
+                jsonException.StatusCode = StatusCodes.Status500InternalServerError;
+                jsonException.Message = ex.Message;
+                jsonException.StackTrace = ex.StackTrace;
+                return StatusCode(jsonException.StatusCode, jsonException);
+            }
+        }
+        //------------------------------------------------------------------------------------
+        // POST api/v1/purchaseorder/applybottomlinediscountpercent
+        [HttpPost("applybottomlinediscountpercent")]
+        public async Task<IActionResult> ApplyBottomLineDiscountPercent([FromBody] ApplyBottomLineDiscountPercentRequest request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                string[] ids = new string[] { request.PurchaseOrderId };
+
+                PurchaseOrderLogic l = new PurchaseOrderLogic();
+                l.SetDependencies(AppConfig, UserSession);
+                if (await l.LoadAsync<PurchaseOrderLogic>(ids))
+                {
+                    bool applied = await l.ApplyBottomLineDiscountPercent(request);
+                    return new OkObjectResult(true);
+                }
+                else
+                {
+                    return NotFound();
+                }
+            }
+            catch (Exception ex)
+            {
+                FwApiException jsonException = new FwApiException();
+                jsonException.StatusCode = StatusCodes.Status500InternalServerError;
+                jsonException.Message = ex.Message;
+                jsonException.StackTrace = ex.StackTrace;
+                return StatusCode(jsonException.StatusCode, jsonException);
+            }
+        }
+        //------------------------------------------------------------------------------------
+        // POST api/v1/purchaseorder/applybottomlinetotal
+        [HttpPost("applybottomlinetotal")]
+        public async Task<IActionResult> ApplyBottomLineTotal([FromBody] ApplyBottomLineTotalRequest request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                string[] ids = new string[] { request.PurchaseOrderId };
+
+                PurchaseOrderLogic l = new PurchaseOrderLogic();
+                l.SetDependencies(AppConfig, UserSession);
+                if (await l.LoadAsync<PurchaseOrderLogic>(ids))
+                {
+                    bool applied = await l.ApplyBottomLineTotal(request);
+                    return new OkObjectResult(true);
+                }
+                else
+                {
+                    return NotFound();
+                }
+            }
+            catch (Exception ex)
+            {
+                FwApiException jsonException = new FwApiException();
+                jsonException.StatusCode = StatusCodes.Status500InternalServerError;
+                jsonException.Message = ex.Message;
+                jsonException.StackTrace = ex.StackTrace;
+                return StatusCode(jsonException.StatusCode, jsonException);
+            }
+        }
+
+        //------------------------------------------------------------------------------------       
+
+
         // POST api/v1/purchaseorder/startreceivecontract
         [HttpPost("startreceivecontract")]
         public async Task<IActionResult> StartReceiveContractAsync([FromBody]ReceiveContractRequest request)

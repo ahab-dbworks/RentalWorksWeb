@@ -1042,7 +1042,7 @@ public string DateStamp { get; set; }
             return newId;
         }
         //-------------------------------------------------------------------------------------------------------
-        public async Task<bool> ApplyBottomLineDaysPerWeek(string recType, decimal daysPerWeek)
+        public async Task<bool> ApplyBottomLineDaysPerWeek(ApplyBottomLineDaysPerWeekRequest request)
         {
             bool success = false;
             if (OrderId != null)
@@ -1052,10 +1052,10 @@ public string DateStamp { get; set; }
                     FwSqlCommand qry = new FwSqlCommand(conn, "updateadjustmentdw", this.AppConfig.DatabaseSettings.QueryTimeout);
                     qry.AddParameter("@orderid", SqlDbType.NVarChar, ParameterDirection.Input, OrderId);
                     qry.AddParameter("@parentid", SqlDbType.NVarChar, ParameterDirection.Input, "");   // supply a value to update all rows in a Complete or Kit
-                    qry.AddParameter("@rectype", SqlDbType.NVarChar, ParameterDirection.Input, recType);
+                    qry.AddParameter("@rectype", SqlDbType.NVarChar, ParameterDirection.Input, request.RecType);
                     qry.AddParameter("@activity", SqlDbType.NVarChar, ParameterDirection.Input, "");
-                    qry.AddParameter("@issub", SqlDbType.NVarChar, ParameterDirection.Input, "F");
-                    qry.AddParameter("@dw", SqlDbType.Decimal, ParameterDirection.Input, daysPerWeek);
+                    qry.AddParameter("@issub", SqlDbType.NVarChar, ParameterDirection.Input, (request.Subs.GetValueOrDefault(false) ? "T" : "F"));
+                    qry.AddParameter("@dw", SqlDbType.Decimal, ParameterDirection.Input, request.DaysPerWeek);
                     qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, UserSession.UsersId);
                     await qry.ExecuteNonQueryAsync(true);
                     success = true;
@@ -1064,7 +1064,7 @@ public string DateStamp { get; set; }
             return success;
         }
         //-------------------------------------------------------------------------------------------------------
-        public async Task<bool> ApplyBottomLineDiscountPercent(string recType, decimal discountPercent)
+        public async Task<bool> ApplyBottomLineDiscountPercent(ApplyBottomLineDiscountPercentRequest request)
         {
             bool success = false;
             if (OrderId != null)
@@ -1074,10 +1074,10 @@ public string DateStamp { get; set; }
                     FwSqlCommand qry = new FwSqlCommand(conn, "updateadjustmentdiscount2", this.AppConfig.DatabaseSettings.QueryTimeout);
                     qry.AddParameter("@orderid", SqlDbType.NVarChar, ParameterDirection.Input, OrderId);
                     qry.AddParameter("@parentid", SqlDbType.NVarChar, ParameterDirection.Input, "");   // supply a value to update all rows in a Complete or Kit
-                    qry.AddParameter("@rectype", SqlDbType.NVarChar, ParameterDirection.Input, recType);
+                    qry.AddParameter("@rectype", SqlDbType.NVarChar, ParameterDirection.Input, request.RecType);
                     qry.AddParameter("@activity", SqlDbType.NVarChar, ParameterDirection.Input, "");
-                    qry.AddParameter("@issub", SqlDbType.NVarChar, ParameterDirection.Input, "F");
-                    qry.AddParameter("@discountpct", SqlDbType.Decimal, ParameterDirection.Input, discountPercent);
+                    qry.AddParameter("@issub", SqlDbType.NVarChar, ParameterDirection.Input, (request.Subs.GetValueOrDefault(false) ? "T": "F"));
+                    qry.AddParameter("@discountpct", SqlDbType.Decimal, ParameterDirection.Input, request.DiscountPercent);
                     qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, UserSession.UsersId);
                     await qry.ExecuteNonQueryAsync(true);
                     success = true;
@@ -1086,7 +1086,7 @@ public string DateStamp { get; set; }
             return success;
         }
         //-------------------------------------------------------------------------------------------------------
-        public async Task<bool> ApplyBottomLineTotal(string recType, string totalType, decimal total, bool taxIncluded)
+        public async Task<bool> ApplyBottomLineTotal(ApplyBottomLineTotalRequest request)
         {
             bool success = false;
             if (OrderId != null)
@@ -1096,24 +1096,24 @@ public string DateStamp { get; set; }
 
                     // W (weekly), M (monthly), E (episode), or P (period)
 
-                    if (totalType == null)
+                    if (request.TotalType == null)
                     {
-                        totalType = RwConstants.TOTAL_TYPE_PERIOD;
+                        request.TotalType = RwConstants.TOTAL_TYPE_PERIOD;
                     }
-                    if ((!totalType.Equals(RwConstants.TOTAL_TYPE_WEEKLY)) && (!totalType.Equals(RwConstants.TOTAL_TYPE_MONTHLY)) && (!totalType.Equals(RwConstants.TOTAL_TYPE_EPISODIC)))
+                    if ((!request.TotalType.Equals(RwConstants.TOTAL_TYPE_WEEKLY)) && (!request.TotalType.Equals(RwConstants.TOTAL_TYPE_MONTHLY)) && (!request.TotalType.Equals(RwConstants.TOTAL_TYPE_EPISODIC)))
                     {
-                        totalType = RwConstants.TOTAL_TYPE_PERIOD;
+                        request.TotalType = RwConstants.TOTAL_TYPE_PERIOD;
                     }
 
                     FwSqlCommand qry = new FwSqlCommand(conn, "updateadjustmenttotal", this.AppConfig.DatabaseSettings.QueryTimeout);
                     qry.AddParameter("@orderid", SqlDbType.NVarChar, ParameterDirection.Input, OrderId);
-                    qry.AddParameter("@rectype", SqlDbType.NVarChar, ParameterDirection.Input, recType);
+                    qry.AddParameter("@rectype", SqlDbType.NVarChar, ParameterDirection.Input, request.RecType);
                     qry.AddParameter("@activity", SqlDbType.NVarChar, ParameterDirection.Input, "");
                     qry.AddParameter("@episodeid", SqlDbType.NVarChar, ParameterDirection.Input, "");
-                    qry.AddParameter("@issub", SqlDbType.NVarChar, ParameterDirection.Input, "F");
-                    qry.AddParameter("@totaltype", SqlDbType.NVarChar, ParameterDirection.Input, totalType);
-                    qry.AddParameter("@taxincluded", SqlDbType.NVarChar, ParameterDirection.Input, (taxIncluded ? "T" : "F"));
-                    qry.AddParameter("@newtotal", SqlDbType.Decimal, ParameterDirection.Input, total);
+                    qry.AddParameter("@issub", SqlDbType.NVarChar, ParameterDirection.Input, request.Subs.GetValueOrDefault(false));
+                    qry.AddParameter("@totaltype", SqlDbType.NVarChar, ParameterDirection.Input, request.TotalType);
+                    qry.AddParameter("@taxincluded", SqlDbType.NVarChar, ParameterDirection.Input, (request.IncludeTaxInTotal.GetValueOrDefault(false) ? "T" : "F"));
+                    qry.AddParameter("@newtotal", SqlDbType.Decimal, ParameterDirection.Input, request.Total);
                     qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, UserSession.UsersId);
                     await qry.ExecuteNonQueryAsync(true);
                     success = true;

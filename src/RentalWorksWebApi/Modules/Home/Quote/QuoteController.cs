@@ -207,7 +207,7 @@ namespace WebApi.Modules.Home.Quote
         //------------------------------------------------------------------------------------       
         // POST api/v1/order/applybottomlinedaysperweek
         [HttpPost("applybottomlinedaysperweek")]
-        public async Task<IActionResult> ApplyBottomLineDaysPerWeek([FromBody] BottomLineDaysPerWeekRequest request)
+        public async Task<IActionResult> ApplyBottomLineDaysPerWeek([FromBody] ApplyBottomLineDaysPerWeekRequest request)
         {
             if (!ModelState.IsValid)
             {
@@ -221,7 +221,7 @@ namespace WebApi.Modules.Home.Quote
                 l.SetDependencies(AppConfig, UserSession);
                 if (await l.LoadAsync<QuoteLogic>(ids))
                 {
-                    bool applied = await l.ApplyBottomLineDaysPerWeek(request.RecType, request.DaysPerWeek);
+                    bool applied = await l.ApplyBottomLineDaysPerWeek(request);
                     return new OkObjectResult(true);
                 }
                 else
@@ -241,7 +241,7 @@ namespace WebApi.Modules.Home.Quote
         //------------------------------------------------------------------------------------
         // POST api/v1/order/applybottomlinediscountpercent
         [HttpPost("applybottomlinediscountpercent")]
-        public async Task<IActionResult> ApplyBottomLineDiscountPercent([FromBody] BottomLineDiscountPercentRequest request)
+        public async Task<IActionResult> ApplyBottomLineDiscountPercent([FromBody] ApplyBottomLineDiscountPercentRequest request)
         {
             if (!ModelState.IsValid)
             {
@@ -255,7 +255,7 @@ namespace WebApi.Modules.Home.Quote
                 l.SetDependencies(AppConfig, UserSession);
                 if (await l.LoadAsync<QuoteLogic>(ids))
                 {
-                    bool applied = await l.ApplyBottomLineDiscountPercent(request.RecType, request.DiscountPercent);
+                    bool applied = await l.ApplyBottomLineDiscountPercent(request);
                     return new OkObjectResult(true);
                 }
                 else
@@ -275,7 +275,7 @@ namespace WebApi.Modules.Home.Quote
         //------------------------------------------------------------------------------------
         // POST api/v1/order/applybottomlinetotal
         [HttpPost("applybottomlinetotal")]
-        public async Task<IActionResult> ApplyBottomLineTotal([FromBody] BottomLineTotalRequest request)
+        public async Task<IActionResult> ApplyBottomLineTotal([FromBody] ApplyBottomLineTotalRequest request)
         {
             if (!ModelState.IsValid)
             {
@@ -289,7 +289,7 @@ namespace WebApi.Modules.Home.Quote
                 l.SetDependencies(AppConfig, UserSession);
                 if (await l.LoadAsync<QuoteLogic>(ids))
                 {
-                    bool applied = await l.ApplyBottomLineTotal(request.RecType, request.TotalType, request.Total, request.IncludeTaxInTotal.Value);
+                    bool applied = await l.ApplyBottomLineTotal(request);
                     return new OkObjectResult(true);
                 }
                 else

@@ -881,21 +881,21 @@ namespace WebApi.Modules.Home.Order
 
         }
         //------------------------------------------------------------------------------------
-        public async Task<bool> ApplyBottomLineDaysPerWeek(string recType, decimal daysPerWeek)
+        public async Task<bool> ApplyBottomLineDaysPerWeek(ApplyBottomLineDaysPerWeekRequest request)
         {
-            bool success = await dealOrder.ApplyBottomLineDaysPerWeek(recType, daysPerWeek);
+            bool success = await dealOrder.ApplyBottomLineDaysPerWeek(request);
             return success;
         }
         //------------------------------------------------------------------------------------
-        public async Task<bool> ApplyBottomLineDiscountPercent(string recType, decimal discountPercent)
+        public async Task<bool> ApplyBottomLineDiscountPercent(ApplyBottomLineDiscountPercentRequest request)
         {
-            bool success = await dealOrder.ApplyBottomLineDiscountPercent(recType, discountPercent);
+            bool success = await dealOrder.ApplyBottomLineDiscountPercent(request);
             return success;
         }
         //------------------------------------------------------------------------------------
-        public async Task<bool> ApplyBottomLineTotal(string recType, string totalType, decimal total, bool taxIncluded)
+        public async Task<bool> ApplyBottomLineTotal(ApplyBottomLineTotalRequest request)
         {
-            bool success = await dealOrder.ApplyBottomLineTotal(recType, totalType, total, taxIncluded);
+            bool success = await dealOrder.ApplyBottomLineTotal(request);
             return success;
         }
         //------------------------------------------------------------------------------------

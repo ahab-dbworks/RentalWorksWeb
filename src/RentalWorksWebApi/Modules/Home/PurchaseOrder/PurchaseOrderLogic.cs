@@ -294,6 +294,25 @@ namespace WebApi.Modules.Home.PurchaseOrder
                 }
             }
         }
+        //------------------------------------------------------------------------------------
+        public async Task<bool> ApplyBottomLineDaysPerWeek(ApplyBottomLineDaysPerWeekRequest request)
+        {
+            bool success = await purchaseOrder.ApplyBottomLineDaysPerWeek(request);
+            return success;
+        }
+        //------------------------------------------------------------------------------------
+        public async Task<bool> ApplyBottomLineDiscountPercent(ApplyBottomLineDiscountPercentRequest request)
+        {
+            bool success = await purchaseOrder.ApplyBottomLineDiscountPercent(request);
+            return success;
+        }
+        //------------------------------------------------------------------------------------
+        public async Task<bool> ApplyBottomLineTotal(ApplyBottomLineTotalRequest request)
+        {
+            bool success = await purchaseOrder.ApplyBottomLineTotal(request);
+            return success;
+        }
+        //------------------------------------------------------------------------------------
 
         public async Task<string> CreateReceiveContract()
         {

@@ -2525,7 +2525,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"Description\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": [],\n    \t\"uniqueids\": {\n    \t\t \"ContractId\": \"I0000774\",\n    \t\t \"AllOrdersForDeal\": true\n    \t}\n}\n\n\n"
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"Description\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": [],\n    \t\"uniqueids\": {\n    \t\t \"ContractId\": \"I000081E\",\n    \t\t \"AllOrdersForDeal\": false,\n    \t\t \"OrderId\": \"\",\n    \t\t \"OutOnly\": true\n    \t}\n}\n\n\n"
 						},
 						"url": {
 							"raw": "http://localhost:57949/api/v1/checkinquantityitem/browse",
@@ -20268,6 +20268,219 @@
 			]
 		},
 		{
+			"name": "Invoice",
+			"item": [
+				{
+					"name": "Invoice: Browse",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"InvoiceDate\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": [],\n    \t\"uniqueids\": {\"OfficeLocationId\": \"B001WH00\"}\n\t\n}"
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/invoice/browse",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"invoice",
+								"browse"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Invoice: Get Many",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/invoice",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"invoice"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Invoice: Get One",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/invoice/00002WPC",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"invoice",
+								"00002WPC"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Invoice: Insert",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"Field1\": \"1\",\n    \"Field2\": \"2\",\n}"
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/invoice",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"invoice"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Invoice: Update",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t \"InvoiceId\":\"00002WPC\",\n\t \"Field1\":\"1\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/invoice",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"invoice"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Invoice: Void",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/invoice/void/F01QKOO4",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"invoice",
+								"void",
+								"F01QKOO4"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
 			"name": "Invoice Creation Batch",
 			"item": [
 				{
@@ -23163,7 +23376,7 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "http://localhost:57949/api/v1/order/I00004UD",
+							"raw": "http://localhost:57949/api/v1/order/I000085C",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -23173,7 +23386,7 @@
 								"api",
 								"v1",
 								"order",
-								"I00004UD"
+								"I000085C"
 							]
 						}
 					},
@@ -23442,7 +23655,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\"DiscountPercent\":40,\"OrderId\":\"H00032FP\"}"
+							"raw": "{\n\t\"OrderId\":\"I00007OO\",\n\t\"RecType\": \"S\",\n\t\"DiscountPercent\": 40\n\t\n}"
 						},
 						"url": {
 							"raw": "http://localhost:57949/api/v1/order/applybottomlinediscountpercent",
@@ -24952,7 +25165,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"OrderDescription\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": [],\n    \t\"uniqueids\": {\"OrderId\":\"I00006TD\"}\n\t\n}"
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"OrderDescription\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": [],\n    \t\"uniqueids\": {\"OrderId\":\"I00007D7\"}\n\t\n}"
 						},
 						"url": {
 							"raw": "http://localhost:57949/api/v1/ordersnapshot/browse",
@@ -33733,6 +33946,111 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "Purchase Order: Apply Bottom Line Days Per Week",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"PurchaseOrderId\": \"I00007EX\",\n\t\"RecType\": \"\",\n\t\"DaysPerWeek\": 1.45\n}"
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/purchaseorder/applybottomlinedaysperweek",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"purchaseorder",
+								"applybottomlinedaysperweek"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Purchase Order: Apply Bottom Line Discount Percent",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"PurchaseOrderId\":\"I00007OO\",\n\t\"RecType\": \"S\",\n\t\"Subs\": true,\n\t\"DiscountPercent\": 40\n}"
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/purchaseorder/applybottomlinediscountpercent",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"purchaseorder",
+								"applybottomlinediscountpercent"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Purchase Order: Apply Bottom Line Total",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"PurchaseOrderId\": \"H00032G8\",\n\t\"RecType\": \"R\",\n\t\"Total\": 1200,\n\t\"IncludeTaxInTotal\": true\n}"
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/purchaseorder/applybottomlinetotal",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"purchaseorder",
+								"applybottomlinetotal"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
@@ -42282,7 +42600,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"UserId\": \"B00294F7\",\n    \"BrowseDefaultRows\": \"25\",\n    \"ApplicationTheme\": \"theme-material\",\n    \"SuccessSoundId\": \"\"\n\n}"
+							"raw": "{\n    \"UserId\": \"B00294F7\",\n    \"HomeMenuGuid\": \"A\",\n    \"HomeMenuItem\": \"B\"\n}"
 						},
 						"url": {
 							"raw": "http://localhost:57949/api/v1/usersettings",

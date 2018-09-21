@@ -175,24 +175,30 @@ namespace WebLibrary
         public bool CopyDocuments;
     }
 
-    public class BottomLineDiscountPercentRequest
+    public class ApplyBottomLineDaysPerWeekRequest
     {
         public string OrderId;
+        public string PurchaseOrderId;
         public string RecType;
-        public decimal DiscountPercent;
-    }
-
-    public class BottomLineDaysPerWeekRequest
-    {
-        public string OrderId;
-        public string RecType;
+        public bool? Subs;
         public decimal DaysPerWeek;
     }
 
-    public class BottomLineTotalRequest
+    public class ApplyBottomLineDiscountPercentRequest
     {
         public string OrderId;
+        public string PurchaseOrderId;
         public string RecType;
+        public bool? Subs;
+        public decimal DiscountPercent;
+    }
+
+    public class ApplyBottomLineTotalRequest
+    {
+        public string OrderId;
+        public string PurchaseOrderId;
+        public string RecType;
+        public bool? Subs;
         public string TotalType;
         public decimal Total;
         public bool? IncludeTaxInTotal;
