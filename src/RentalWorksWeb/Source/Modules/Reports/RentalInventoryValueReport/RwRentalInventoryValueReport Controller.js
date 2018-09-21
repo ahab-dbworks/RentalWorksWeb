@@ -58,7 +58,7 @@ var templateRentalInventoryValueFrontEnd = `
                   <div data-datafield="IncludeConsigned" data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Include Consigned Items" style="float:left;max-width:420px;"></div>
                 </div>
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                  <div data-datafield="IncludeZeroQuantity" data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Include Items with Zero Quantity Owned" style="float:left;max-width:420px;"></div>
+                  <div data-datafield="IncludeZeroQuantity" data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Include Items with Zero Quantity" style="float:left;max-width:420px;"></div>
                   <div data-datafield="GroupByICode" data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Group By I-Code" style="float:left;max-width:420px;"></div>
                 </div>
               </div>
