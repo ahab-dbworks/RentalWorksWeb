@@ -1,6 +1,10 @@
 ﻿/*Rental Inventory Value Report*/
 tbody {
-    tr[data-rowtype="detail"]:nth-child(odd) {
+    tr[data-rowtype="detail"]:nth-child(odd):not(.detail-view-row) {
+        background-color: #DCDCDC;
+    }
+
+    .detail-view-row[data-rowtype="detail"]:nth-child(even) {
         background-color: #DCDCDC;
     }
 

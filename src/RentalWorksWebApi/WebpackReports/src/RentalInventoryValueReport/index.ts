@@ -36,10 +36,11 @@ export class RentalInventoryValueReport extends WebpackReport {
             HandlebarsHelpers.registerHelpers();
             let request = new RentalInventoryValueRequest();
 
-            request.ToDate = parameters.ToDate;
             request.FromDate = parameters.FromDate;
+            request.ToDate = parameters.ToDate;
             request.IncludeOwned = parameters.IncludeOwned;
             request.IncludeConsigned = parameters.IncludeConsigned;
+            request.IncludeZeroQuantity = parameters.IncludeZeroQuantity;
             request.GroupByICode = parameters.GroupByICode;
             request.SerializedValueBasedOn = parameters.SerializedValueBasedOn;
             request.Ranks = parameters.Ranks;
@@ -48,8 +49,7 @@ export class RentalInventoryValueReport extends WebpackReport {
             request.InventoryTypeId = parameters.InventoryTypeId;
             request.CategoryId = parameters.CategoryId;
             request.SubCategoryId = parameters.SubCategoryId;
-            request.InventoryId = parameters.RentalInventoryId;
-            request.IncludeZeroQuantity = parameters.IncludeZeroQuantity;
+            request.InventoryId = parameters.InventoryId;
 
             if (parameters.Summary === 'true') {
                 request.Summary = true;
