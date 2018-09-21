@@ -1,6 +1,6 @@
 ﻿import { WebpackReport } from '../../lib/FwReportLibrary/src/scripts/WebpackReport';
 import { CustomField } from '../../lib/FwReportLibrary/src/scripts/CustomField';
-import { DataTable, DataTableColumn, BrowseRequest } from '../../lib/FwReportLibrary/src/scripts/Browse';
+import { DataTable, DataTableColumn } from '../../lib/FwReportLibrary/src/scripts/Browse';
 import { Ajax } from '../../lib/FwReportLibrary/src/scripts/Ajax';
 import { HandlebarsHelpers } from '../../lib/FwReportLibrary/src/scripts/HandlebarsHelpers';
 import * as moment from 'moment';
@@ -28,7 +28,7 @@ export class GLDistributionReport extends WebpackReport {
             request.OfficeLocationId = parameters.OfficeLocationId;
             request.GlAccountId = parameters.GlAccountId;
 
-            let glDistributionPromise = Ajax.post<DataTable>(`${apiUrl}/api/v1/gldistributionreport/runreport`, authorizationHeader, request)
+            let Promise = Ajax.post<DataTable>(`${apiUrl}/api/v1/gldistributionreport/runreport`, authorizationHeader, request)
                 .then((response: DataTable) => {
                     glDistribution.GLItems = DataTable.toObjectList(response);
                     this.renderFooterHtml(glDistribution);
@@ -36,6 +36,9 @@ export class GLDistributionReport extends WebpackReport {
                     glDistribution.FromDate = parameters.FromDate;
                     glDistribution.ToDate = parameters.ToDate;
                     glDistribution.Location = parameters.Location;
+                    glDistribution.Report = 'G/L Distribution Report';
+                    glDistribution.System = 'RENTALWORKS';
+                    glDistribution.Company = '4WALL ENTERTAINMENT';
                     if (this.action === 'Preview' || this.action === 'PrintHtml') {
                         document.getElementById('pageFooter').innerHTML = this.footerHtml;
                     }

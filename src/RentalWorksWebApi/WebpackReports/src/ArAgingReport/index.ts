@@ -1,6 +1,6 @@
 ﻿import { WebpackReport } from '../../lib/FwReportLibrary/src/scripts/WebpackReport';
 import { CustomField } from '../../lib/FwReportLibrary/src/scripts/CustomField';
-import { DataTable, DataTableColumn, BrowseRequest } from '../../lib/FwReportLibrary/src/scripts/Browse';
+import { DataTable, DataTableColumn } from '../../lib/FwReportLibrary/src/scripts/Browse';
 import { Ajax } from '../../lib/FwReportLibrary/src/scripts/Ajax';
 import { HandlebarsHelpers } from '../../lib/FwReportLibrary/src/scripts/HandlebarsHelpers';
 import * as moment from 'moment';
@@ -17,7 +17,6 @@ export class ArAgingReportRequest {
     DealTypeId: string;
     DealId: string;
 }
-
 
 export class ArAgingReport extends WebpackReport {
     renderReport(apiUrl: string, authorizationHeader: string, parameters: any): void {
@@ -41,7 +40,9 @@ export class ArAgingReport extends WebpackReport {
 
                     data.PrintTime = moment().format('YYYY-MM-DD h:mm:ss A');
                     data.ToDate = parameters.ToDate;
-                    console.log(data);
+                    data.Report = 'A/R Aging Report';
+                    data.System = 'RENTALWORKS';
+                    data.Company = '4WALL ENTERTAINMENT';
                     if (this.action === 'Preview' || this.action === 'PrintHtml') {
                         document.getElementById('pageFooter').innerHTML = this.footerHtml;
                     }

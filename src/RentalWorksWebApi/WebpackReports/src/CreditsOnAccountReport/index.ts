@@ -1,6 +1,6 @@
 ﻿import { WebpackReport } from '../../lib/FwReportLibrary/src/scripts/WebpackReport';
 import { CustomField } from '../../lib/FwReportLibrary/src/scripts/CustomField';
-import { DataTable, DataTableColumn, BrowseRequest } from '../../lib/FwReportLibrary/src/scripts/Browse';
+import { DataTable, DataTableColumn } from '../../lib/FwReportLibrary/src/scripts/Browse';
 import { Ajax } from '../../lib/FwReportLibrary/src/scripts/Ajax';
 import { HandlebarsHelpers } from '../../lib/FwReportLibrary/src/scripts/HandlebarsHelpers';
 import * as moment from 'moment';
@@ -13,7 +13,6 @@ export class CreditsOnAccountReportRequest {
     OnlyRemaining: boolean;
 }
 
-
 export class CreditsOnAccountReport extends WebpackReport {
     renderReport(apiUrl: string, authorizationHeader: string, parameters: any): void {
         try {
@@ -25,10 +24,12 @@ export class CreditsOnAccountReport extends WebpackReport {
             let promise = Ajax.post<DataTable>(`${apiUrl}/api/v1/creditsonaccountreport/runreport`, authorizationHeader, request)
                 .then((response: DataTable) => {
                     data.Rows = DataTable.toObjectList(response);
-                    console.log(data);
                     this.renderFooterHtml(data);
 
                     data.PrintTime = moment().format('YYYY-MM-DD h:mm:ss A');
+                    data.Report = 'Credits on Account Report';
+                    data.System = 'RENTALWORKS';
+                    data.Company = '4WALL ENTERTAINMENT';
                     if (this.action === 'Preview' || this.action === 'PrintHtml') {
                         document.getElementById('pageFooter').innerHTML = this.footerHtml;
                     }

@@ -1,6 +1,6 @@
 ﻿import { WebpackReport } from '../../lib/FwReportLibrary/src/scripts/WebpackReport';
 import { CustomField } from '../../lib/FwReportLibrary/src/scripts/CustomField';
-import { DataTable, DataTableColumn, BrowseRequest } from '../../lib/FwReportLibrary/src/scripts/Browse';
+import { DataTable, DataTableColumn } from '../../lib/FwReportLibrary/src/scripts/Browse';
 import { Ajax } from '../../lib/FwReportLibrary/src/scripts/Ajax';
 import { HandlebarsHelpers } from '../../lib/FwReportLibrary/src/scripts/HandlebarsHelpers';
 import * as moment from 'moment';
@@ -42,7 +42,7 @@ export class AgentBillingReport extends WebpackReport {
 
             let agentBilling: any = {};
 
-            let agentBillingPromise = Ajax.post<DataTable>(`${apiUrl}/api/v1/agentbillingreport/runreport`, authorizationHeader, request)
+            let Promise = Ajax.post<DataTable>(`${apiUrl}/api/v1/agentbillingreport/runreport`, authorizationHeader, request)
                 .then((response: DataTable) => {
                     agentBilling = DataTable.toObjectList(response);
                     agentBilling.PrintTime = moment().format('YYYY-MM-DD h:mm:ss A');

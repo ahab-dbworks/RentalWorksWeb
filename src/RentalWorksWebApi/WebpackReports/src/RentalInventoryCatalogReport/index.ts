@@ -45,9 +45,10 @@ export class RentalInventoryCatalogReport extends WebpackReport {
             let promise = Ajax.post<DataTable>(`${apiUrl}/api/v1/rentalinventorycatalogreport/runreport`, authorizationHeader, request)
                 .then((response: DataTable) => {
                     data.Rows = DataTable.toObjectList(response);
-                    console.log(data);
                     this.renderFooterHtml(data);
-
+                    data.Report = 'Rental Inventory Catalog Report';
+                    data.System = 'RENTALWORKS';
+                    data.Company = '4WALL ENTERTAINMENT';
                     data.PrintTime = moment().format('YYYY-MM-DD h:mm:ss A');
                     if (this.action === 'Preview' || this.action === 'PrintHtml') {
                         document.getElementById('pageFooter').innerHTML = this.footerHtml;

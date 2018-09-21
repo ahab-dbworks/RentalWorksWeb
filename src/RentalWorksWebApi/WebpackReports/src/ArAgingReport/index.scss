@@ -43,58 +43,6 @@ html.pdf {
     }
 }
 
-@mixin flexfield($captionwidth) {
-    display: flex;
-    height: $line-height;
-    line-height: $line-height;
-    @content;
-
-    .caption {
-        flex: 0 0 $captionwidth;
-        height: $line-height;
-        line-height: $line-height;
-        font-size: $normal-text;
-        font-weight: bold;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-    }
-
-    .value {
-        flex: 1 1 0;
-        height: $line-height;
-        line-height: $line-height;
-        font-size: $normal-text;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-    }
-}
-
-.flexfield-50 {
-    @include flexfield(50px);
-}
-
-.flexfield-75 {
-    @include flexfield(75px);
-}
-
-.flexfield-85 {
-    @include flexfield(85px);
-}
-
-.flexfield-150 {
-    @include flexfield(150px);
-}
-
-.label {
-    line-height: $line-height;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    font-size: $normal-text;
-}
-
 .data {
     flex: 1 0 768px;
     border-collapse: collapse;
