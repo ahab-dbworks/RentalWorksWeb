@@ -25,18 +25,16 @@ var templateRentalInventoryValueFrontEnd = `
               </div>
             </div>
             <div class="flexcolumn" style="max-width:400px;">
-              <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Bar Code Value Based On">
-                <div data-datafield="SerializedValueBasedOn" data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield" data-caption="">
-                  <div data-value="C" data-caption="Unit Cost"></div>
-                  <div data-value="P" data-caption="Purchase Price"></div>
-                </div>
-              </div>
-            </div>
-            <div class="flexcolumn" style="max-width:400px;">
               <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Report Type">
                 <div data-datafield="Summary" data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield" data-caption="">
                   <div data-value="T" data-caption="Summary - one line per I-Code"></div>
                   <div data-value="F" data-caption="Detail - one line per I-Code Transaction"></div>
+                </div>
+              </div>
+              <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Bar Code Value Based On">
+                <div data-datafield="SerializedValueBasedOn" data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield" data-caption="">
+                  <div data-value="C" data-caption="Unit Cost"></div>
+                  <div data-value="P" data-caption="Purchase Price"></div>
                 </div>
               </div>
             </div>
@@ -57,12 +55,12 @@ var templateRentalInventoryValueFrontEnd = `
             <div class="flexcolumn" style="max-width:285px;">
               <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Options">
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                  <div data-datafield="IncludeZeroQuantity" data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Include Items with Zero Quantity Owned" style="float:left;max-width:420px;"></div>
-                  <div data-datafield="GroupByICode" data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Group By I-Code" style="float:left;max-width:420px;"></div>
-                </div>
-                <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                   <div data-datafield="IncludeOwned" data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Include Owned Items" style="float:left;max-width:420px;"></div>
                   <div data-datafield="IncludeConsigned" data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Include Consigned Items" style="float:left;max-width:420px;"></div>
+                </div>
+                <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                  <div data-datafield="IncludeZeroQuantity" data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Include Items with Zero Quantity Owned" style="float:left;max-width:420px;"></div>
+                  <div data-datafield="GroupByICode" data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Group By I-Code" style="float:left;max-width:420px;"></div>
                 </div>
               </div>
             </div>
@@ -127,6 +125,8 @@ class RwRentalInventoryValueReport extends FwWebApiReport {
 
         const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
         FwFormField.setValue($form, 'div[data-datafield="WarehouseId"]', warehouse.warehouseid, warehouse.warehouse);
+        FwFormField.setValueByDataField($form, 'IncludeOwned', 'T');
+        FwFormField.setValueByDataField($form, 'IncludeConsigned', 'T');
 
         this.loadLists($form);
     };

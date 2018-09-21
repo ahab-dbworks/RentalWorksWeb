@@ -20,7 +20,7 @@ export class RentalInventoryCatalogReportRequest {
     SubCategoryId: string;
     InventoryId: string;
     WarehouseCatalogId: string;
-    IncludeZeroOwned: boolean;
+    IncludeZeroQuantity: boolean;
 }
 
 export class RentalInventoryCatalogReport extends WebpackReport {
@@ -40,7 +40,7 @@ export class RentalInventoryCatalogReport extends WebpackReport {
             request.SubCategoryId = parameters.SubCategoryId;
             request.InventoryId = parameters.RentalInventoryId;
             request.WarehouseCatalogId = parameters.WarehouseCatalogId;
-            request.IncludeZeroOwned = parameters.IncludeZeroOwned;
+            request.IncludeZeroQuantity = parameters.IncludeZeroQuantity;
 
             let promise = Ajax.post<DataTable>(`${apiUrl}/api/v1/rentalinventorycatalogreport/runreport`, authorizationHeader, request)
                 .then((response: DataTable) => {

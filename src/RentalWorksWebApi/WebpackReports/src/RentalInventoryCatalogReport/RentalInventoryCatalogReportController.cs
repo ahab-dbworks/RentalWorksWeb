@@ -23,7 +23,7 @@ namespace WebApi.Modules.Reports.RentalInventoryCatalogReport
         public string SubCategoryId;
         public string InventoryId;
         public string WarehouseCatalogId;
-        public bool? IncludeZeroOwned;
+        public bool? IncludeZeroQuantity;
     }
 
 

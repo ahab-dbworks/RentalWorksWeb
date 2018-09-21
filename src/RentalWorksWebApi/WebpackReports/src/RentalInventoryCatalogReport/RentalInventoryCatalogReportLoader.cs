@@ -142,7 +142,7 @@ namespace WebApi.Modules.Reports.RentalInventoryCatalogReport
                     select.AddWhereIn("and", "trackedby", request.TrackedBys.ToString(), false);
                     select.AddWhereIn("and", "rank", request.Ranks.ToString(), false);
 
-                    if (!request.IncludeZeroOwned.GetValueOrDefault(false))
+                    if (!request.IncludeZeroQuantity.GetValueOrDefault(false))
                     {
                         select.AddWhere("(qtyownedweb > 0)");
                     }
