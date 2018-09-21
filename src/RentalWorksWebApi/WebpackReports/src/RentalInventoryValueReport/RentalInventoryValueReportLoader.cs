@@ -110,7 +110,7 @@ namespace WebApi.Modules.Reports.RentalInventoryValueReport
             dt.InsertSubTotalRows("SubCategory", "RowType", totalFields);
             if (!request.Summary.GetValueOrDefault(false))
             {
-                dt.InsertSubTotalRows("InventoryId", "RowType", totalFields);
+                dt.InsertSubTotalRows("ICode", "RowType", totalFields);
             }
             dt.InsertTotalRow("RowType", "detail", "grandtotal", totalFields);
             return dt;
