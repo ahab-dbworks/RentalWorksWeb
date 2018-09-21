@@ -18,7 +18,7 @@
   <table>
     <thead>
       <tr>
-        <th class="text">Category</th>
+        <th class="text">I-Code</th>
         <th class="text">Description</th>
         <th class="text">Date</th>
         <th class="number">Quantity</th>
@@ -39,10 +39,10 @@
         <td colspan="5" class="lower header-row">Category: {{Category}}</td>
         {{/ifEquals}}
         {{#ifEquals RowType "SubCategoryheader"}}
-        <td colspan="5" class="lower header-row">SubCategory: {{SubCategory}}</td>
+        <td colspan="5" class="lower header-row">Sub Category: {{SubCategory}}</td>
         {{/ifEquals}}
         {{#ifEquals RowType "detail"}}
-        <td class="text" data-value="{{Category}}"></td>
+        <td class="text" data-value="{{ICode}}"></td>
         <td class="text" data-value="{{Description}}"></td>
         <td class="text" data-value="{{ChangeDate}}"></td>
         <td class="number" data-value="{{Quantity}}"></td>
@@ -108,10 +108,7 @@
         <td colspan="5" class="lower header-row">Category: {{Category}}</td>
         {{/ifEquals}}
         {{#ifEquals RowType "SubCategoryheader"}}
-        <td colspan="5" class="lower header-row">SubCategory: {{SubCategory}}</td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "InventoryIdheader"}}
-        <td colspan="5" class="lower header-row">Inventory ID: {{InventoryId}}</td>
+        <td colspan="5" class="lower header-row">Sub Category: {{SubCategory}}</td>
         {{/ifEquals}}
         {{#ifEquals RowType "detail"}}
         <td class="text" data-value="{{ICode}}"></td>
@@ -123,8 +120,8 @@
         <td class="number" data-value="{{UnitValue}}"></td>
         <td class="number" data-value="{{ExtendedValue}}"></td>
         {{/ifEquals}}
-        {{#ifEquals RowType "InventoryIdfooter"}}
-        <td colspan="5" style="font-weight:bold;text-align:right;padding-top:11px">{{InventoryId}}&nbsp;</td>
+        {{#ifEquals RowType "ICodefooter"}}
+        <td colspan="5" style="font-weight:bold;text-align:right;padding-top:11px">{{ICode}}&nbsp;</td>
         <td class="total-row number" data-value="{{Quantity}}"></td>
         <td colspan="2" class="total-row number" data-value="{{ExtendedValue}}"></td>
         {{/ifEquals}}
@@ -158,6 +155,4 @@
     </tbody>
   </table>
   {{/ifEquals}}
-
-
 </div>
