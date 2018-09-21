@@ -6,7 +6,7 @@ using WebApi.Data;
 
 namespace WebApi.Modules.Home.Order
 {
-    [FwSqlTable("orderview")]
+    [FwSqlTable("orderwebview")]
     public abstract class OrderBaseLoader : OrderBaseBrowseLoader
     {
         //------------------------------------------------------------------------------------
