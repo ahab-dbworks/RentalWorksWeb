@@ -180,9 +180,13 @@ class PurchaseOrder {
             const usersid = sessionStorage.getItem('usersid');  // J. Pace 7/09/18  C4E0E7F6-3B1C-4037-A50C-9825EDB47F44
             const name = sessionStorage.getItem('name');
 
+            // Activity checkbox and tab behavior
             $form.find('div[data-datafield="Rental"] input').prop('checked', true);
             $form.find('div[data-datafield="Sales"] input').prop('checked', true);
             $form.find('div[data-datafield="Parts"] input').prop('checked', true);
+            $form.find('[data-type="tab"][data-caption="Misc"]').hide();
+            $form.find('[data-type="tab"][data-caption="Labor"]').hide();
+
             FwFormField.setValue($form, 'div[data-datafield="ProjectManagerId"]', usersid, name);
             FwFormField.setValue($form, 'div[data-datafield="AgentId"]', usersid, name);
             //$form.find('div[data-datafield="Labor"] input').prop('checked', true);
@@ -629,6 +633,7 @@ class PurchaseOrder {
         if (!FwFormField.getValueByDataField($form, 'Parts')) { $form.find('[data-type="tab"][data-caption="Parts"]').hide() }
         if (!FwFormField.getValueByDataField($form, 'SubRent')) { $form.find('[data-type="tab"][data-caption="Sub-Rental"]').hide() }
         if (!FwFormField.getValueByDataField($form, 'SubSale')) { $form.find('[data-type="tab"][data-caption="Sub-Sales"]').hide() }
+        if (!FwFormField.getValueByDataField($form, 'Repair')) { $form.find('[data-type="tab"][data-caption="Repair"]').hide() }
         if (!FwFormField.getValueByDataField($form, 'SubMiscellaneous')) { $form.find('[data-type="tab"][data-caption="Sub-Misc"]').hide() }
         if (!FwFormField.getValueByDataField($form, 'SubLabor')) { $form.find('[data-type="tab"][data-caption="Sub-Labor"]').hide() }
 
@@ -720,6 +725,7 @@ class PurchaseOrder {
             , laborTab = $form.find('[data-type="tab"][data-caption="Labor"]')
             , subrentalTab = $form.find('[data-type="tab"][data-caption="Sub-Rental"]')
             , subsalesTab = $form.find('[data-type="tab"][data-caption="Sub-Sales"]')
+            , repairTab = $form.find('[data-type="tab"][data-caption="Repair"]')
             , submiscTab = $form.find('[data-type="tab"][data-caption="Sub-Misc"]')
             , sublaborTab = $form.find('[data-type="tab"][data-caption="Sub-Labor"]');
         $form.find('[data-datafield="Rental"] input').on('change', e => {
@@ -757,6 +763,9 @@ class PurchaseOrder {
         });
         $form.find('[data-datafield="SubSale"] input').on('change', e => {
             jQuery(e.currentTarget).prop('checked') ? subsalesTab.show() : subsalesTab.hide();
+        });
+        $form.find('[data-datafield="Repair"] input').on('change', e => {
+            jQuery(e.currentTarget).prop('checked') ? repairTab.show() : repairTab.hide();
         });
         $form.find('[data-datafield="SubMiscellaneous"] input').on('change', e => {
             jQuery(e.currentTarget).prop('checked') ? submiscTab.show() : submiscTab.hide();

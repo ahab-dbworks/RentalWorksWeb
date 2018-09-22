@@ -10,6 +10,7 @@
       <div data-type="tab" id="labortab" class="notcombinedtab tab" data-tabpageid="labortabpage" data-caption="Labor"></div>
       <div data-type="tab" id="subrentaltab" class="tab" data-tabpageid="subrentaltabpage" data-caption="Sub-Rental"></div>
       <div data-type="tab" id="subsalestab" class="tab" data-tabpageid="subsalestabpage" data-caption="Sub-Sales"></div>
+      <!--<div data-type="tab" id="repairtab" class="tab" data-tabpageid="repairtabpage" data-caption="Repair"></div>-->  
       <div data-type="tab" id="submisctab" class="notcombinedtab tab" data-tabpageid="submisctabpage" data-caption="Sub-Misc"></div>
       <div data-type="tab" id="sublabortab" class="notcombinedtab tab" data-tabpageid="sublabortabpage" data-caption="Sub-Labor"></div>
       <!--<div data-type="tab" id="alltab" class="combinedtab tab" data-tabpageid="alltabpage" data-caption="Items"></div>
@@ -627,6 +628,29 @@
         <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Sub-Sales Items">
           <div class="flexrow" style="max-width:1800px;">
             <div data-issubgrid="true" data-control="FwGrid" data-grid="OrderItemGrid" data-securitycaption="Sales Items"></div>
+          </div>
+          <div class="flexrow" style="max-width:1800px;">
+            <div class="flexcolumn" style="flex:1 1 125px;">
+            </div>
+            <div class="flexcolumn subsalestotals" style="flex:1 1 550px;">
+              <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Totals">
+                <div class="flexrow">
+                  <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals" data-caption="Gross Total" data-datafield="" data-enabled="false" data-totalfield="GrossTotal" style="flex:1 1 100px;"></div>
+                  <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals" data-caption="Discount" data-datafield="" data-enabled="false" data-totalfield="Discount" style="flex:1 1 100px;"></div>
+                  <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals" data-caption="Sub-Total" data-datafield="" data-enabled="false" data-totalfield="SubTotal" style="flex:1 1 100px;"></div>
+                  <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals" data-caption="Tax" data-datafield="" data-enabled="false" data-totalfield="Tax" style="flex:1 1 75px;"></div>
+                  <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals" data-caption="Total" data-datafield="" data-enabled="false" data-totalfield="Total" style="flex:1 1 100px;"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- REPAIR TAB -->
+      <div data-type="tabpage" id="repairtabpage" class="repairpartgrid notcombined tabpage" data-tabid="repairtab" data-render="false">
+        <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Repair Items">
+          <div class="flexrow" style="max-width:1800px;">
+            <div data-issubgrid="true" data-control="FwGrid" data-grid="RepairPartGrid" data-securitycaption="Repair Items"></div>
           </div>
           <div class="flexrow" style="max-width:1800px;">
             <div class="flexcolumn" style="flex:1 1 125px;">
