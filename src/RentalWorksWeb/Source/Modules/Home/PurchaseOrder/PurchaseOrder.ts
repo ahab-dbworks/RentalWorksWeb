@@ -817,13 +817,13 @@ class PurchaseOrder {
     };
 
     //----------------------------------------------------------------------------------------------
-    calculateOrderItemGridTotals($form: any, gridType: string) {
+    calculateOrderItemGridTotals($form: any, gridType: string): void {
         let subTotal, discount, salesTax, grossTotal, total, rateType;
         let extendedTotal = new Decimal(0);
         let discountTotal = new Decimal(0);
         let taxTotal = new Decimal(0);
 
-        //let rateValue = $form.find('.' + gridType + 'grid .totalType input:checked').val();
+        //let rateValue = $form.find(`.${gridType}grid .totalType input:checked`).val();
         //switch (rateValue) {
         //    case 'W':
         //        rateType = 'Weekly';
@@ -837,9 +837,9 @@ class PurchaseOrder {
 
         //}
         rateType = "Period";
-        const extendedColumn: any = $form.find('.' + gridType + 'grid [data-browsedatafield="' + rateType + 'Extended"]');
-        const discountColumn: any = $form.find('.' + gridType + 'grid [data-browsedatafield="' + rateType + 'DiscountAmount"]');
-        const taxColumn: any = $form.find('.' + gridType + 'grid [data-browsedatafield="' + rateType + 'Tax"]');
+        const extendedColumn: any = $form.find(`.${gridType}grid [data-browsedatafield="${rateType}Extended"]`);
+        const discountColumn: any = $form.find(`.${gridType}grid [data-browsedatafield="${rateType}DiscountAmount"]`);
+        const taxColumn: any = $form.find(`.${gridType}grid [data-browsedatafield="${rateType}Tax"]`);
 
         for (let i = 1; i < extendedColumn.length; i++) {
             // Extended Column
@@ -859,11 +859,11 @@ class PurchaseOrder {
         grossTotal = extendedTotal.plus(discountTotal).toFixed(2);
         total = taxTotal.plus(extendedTotal).toFixed(2);
 
-        $form.find('.' + gridType + 'totals [data-totalfield="SubTotal"] input').val(subTotal);
-        $form.find('.' + gridType + 'totals [data-totalfield="Discount"] input').val(discount);
-        $form.find('.' + gridType + 'totals [data-totalfield="Tax"] input').val(salesTax);
-        $form.find('.' + gridType + 'totals [data-totalfield="GrossTotal"] input').val(grossTotal);
-        $form.find('.' + gridType + 'totals [data-totalfield="Total"] input').val(total);
+        $form.find(`.${gridType}totals [data-totalfield="SubTotal"] input`).val(subTotal);
+        $form.find(`.${gridType}totals [data-totalfield="Discount"] input`).val(discount);
+        $form.find(`.${gridType}totals [data-totalfield="Tax"] input`).val(salesTax);
+        $form.find(`.${gridType}totals [data-totalfield="GrossTotal"] input`).val(grossTotal);
+        $form.find(`.${gridType}totals [data-totalfield="Total"] input`).val(total);
     };
     //----------------------------------------------------------------------------------------------
     events($form: any) {
@@ -928,7 +928,7 @@ FwApplicationTree.clickEvents['{D512214F-F6BD-4098-8473-0AC7F675893D}'] = functi
     orderId = FwFormField.getValueByDataField($form, 'PurchaseOrderId');
 
     if (orderId == "") {
-        FwNotification.renderNotification('WARNING', 'Please save the record before performing this function');
+        FwNotification.renderNotification('WARNING', 'Save the record before performing this function');
     } else {
         search = new SearchInterface();
         $popup = search.renderSearchPopup($form, orderId, 'PurchaseOrder');

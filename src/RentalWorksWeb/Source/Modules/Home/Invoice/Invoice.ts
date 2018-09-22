@@ -787,13 +787,13 @@ class Invoice {
     };
 
     //----------------------------------------------------------------------------------------------
-    calculateOrderItemGridTotals($form: any, gridType: string) {
+    calculateOrderItemGridTotals($form: any, gridType: string): void {
         let subTotal, discount, salesTax, grossTotal, total, rateType;
         let extendedTotal = new Decimal(0);
         let discountTotal = new Decimal(0);
         let taxTotal = new Decimal(0);
 
-        //let rateValue = $form.find('.' + gridType + 'grid .totalType input:checked').val();
+        //let rateValue = $form.find(`.${gridType}grid .totalType input:checked`).val();
         //switch (rateValue) {
         //    case 'W':
         //        rateType = 'Weekly';
@@ -807,9 +807,9 @@ class Invoice {
 
         //}
         rateType = "Period";
-        const extendedColumn: any = $form.find('.' + gridType + 'grid [data-browsedatafield="' + rateType + 'Extended"]');
-        const discountColumn: any = $form.find('.' + gridType + 'grid [data-browsedatafield="' + rateType + 'DiscountAmount"]');
-        const taxColumn: any = $form.find('.' + gridType + 'grid [data-browsedatafield="' + rateType + 'Tax"]');
+        const extendedColumn: any = $form.find(`.${gridType}grid [data-browsedatafield="${rateType}Extended"]`);
+        const discountColumn: any = $form.find(`.${gridType}grid [data-browsedatafield="${rateType}DiscountAmount"]`);
+        const taxColumn: any = $form.find(`.${gridType}grid [data-browsedatafield="${rateType}Tax"]`);
 
         for (let i = 1; i < extendedColumn.length; i++) {
             // Extended Column
