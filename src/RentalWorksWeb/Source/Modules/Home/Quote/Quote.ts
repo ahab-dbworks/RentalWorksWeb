@@ -723,7 +723,7 @@ FwApplicationTree.clickEvents['{BC3B1A5E-7270-4547-8FD1-4D14F505D452}'] = functi
     quoteId = FwFormField.getValueByDataField($form, 'QuoteId');
 
     if (quoteId == "") {
-        FwNotification.renderNotification('WARNING', 'Please save the record before performing this function');
+        FwNotification.renderNotification('WARNING', 'Save the record before performing this function');
     } else {
         search = new SearchInterface();
         $popup = search.renderSearchPopup($form, quoteId, 'Quote');

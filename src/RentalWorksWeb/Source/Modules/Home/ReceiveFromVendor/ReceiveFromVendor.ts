@@ -156,7 +156,7 @@ class ReceiveFromVendor {
                     $form.find('.createcontract[data-type="btnmenu"]').hide();
                 }, null, $form);
             } else {
-                FwNotification.renderNotification('WARNING', 'Please select a Purchase Order.');
+                FwNotification.renderNotification('WARNING', 'Select a Purchase Order.');
             }
         });
         // Select None

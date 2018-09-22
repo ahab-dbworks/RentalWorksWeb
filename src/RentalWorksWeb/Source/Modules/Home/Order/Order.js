@@ -643,7 +643,7 @@ class Order extends OrderBase {
                     orderNumber = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="OrderNumber"]').attr('data-originalvalue');
                     var orderInfo = {};
                     orderInfo.OrderId = snapshotId;
-                    $orderForm = OrderController.openForm('EDIT', snapshotId);
+                    $orderForm = OrderController.openForm('EDIT', orderInfo);
                     FwModule.openSubModuleTab($form, $orderForm);
                     jQuery('.tab.submodule.active').find('.caption').html(`Snapshot for Order ${orderNumber}`);
                 }
@@ -836,7 +836,7 @@ FwApplicationTree.clickEvents['{B2D127C6-A1C2-4697-8F3B-9A678F3EAEEE}'] = functi
     $form = jQuery(this).closest('.fwform');
     orderId = FwFormField.getValueByDataField($form, 'OrderId');
     if (orderId == "") {
-        FwNotification.renderNotification('WARNING', 'Please save the record before performing this function');
+        FwNotification.renderNotification('WARNING', 'Save the record before performing this function');
     }
     else {
         search = new SearchInterface();

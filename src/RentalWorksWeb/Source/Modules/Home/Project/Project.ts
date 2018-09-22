@@ -199,7 +199,7 @@ FwApplicationTree.clickEvents['{92B78408-298F-431C-A535-2ADC7C4DD2F7}'] = functi
         projectId = FwFormField.getValueByDataField($form, 'ProjectId');
 
     if (projectId == "") {
-        FwNotification.renderNotification('WARNING', 'Please save the record before performing this function');
+        FwNotification.renderNotification('WARNING', 'Save the record before performing this function');
     } else {
         var $confirmation, $yes, $no;
 

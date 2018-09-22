@@ -729,6 +729,7 @@ class Order extends OrderBase {
         });
     };
     //----------------------------------------------------------------------------------------------
+    // Form menu item -- corresponding grid menu item function in OrderSnapshotGrid controller
     viewSnapshotOrder($form, event) {
         let $orderForm, $selectedCheckBoxes, $orderSnapshotGrid, snapshotId, orderNumber;
 
@@ -742,7 +743,7 @@ class Order extends OrderBase {
                     orderNumber = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="OrderNumber"]').attr('data-originalvalue');
                     var orderInfo: any = {};
                     orderInfo.OrderId = snapshotId;
-                    $orderForm = OrderController.openForm('EDIT', snapshotId);
+                    $orderForm = OrderController.openForm('EDIT', orderInfo);
                     FwModule.openSubModuleTab($form, $orderForm);
                     jQuery('.tab.submodule.active').find('.caption').html(`Snapshot for Order ${orderNumber}`);
                 }
@@ -968,7 +969,7 @@ FwApplicationTree.clickEvents['{B2D127C6-A1C2-4697-8F3B-9A678F3EAEEE}'] = functi
     orderId = FwFormField.getValueByDataField($form, 'OrderId');
 
     if (orderId == "") {
-        FwNotification.renderNotification('WARNING', 'Please save the record before performing this function');
+        FwNotification.renderNotification('WARNING', 'Save the record before performing this function');
     } else {
         search = new SearchInterface();
         $popup = search.renderSearchPopup($form, orderId, 'Order');

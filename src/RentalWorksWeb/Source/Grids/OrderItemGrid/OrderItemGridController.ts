@@ -454,7 +454,7 @@ FwApplicationTree.clickEvents['{77E511EC-5463-43A0-9C5D-B54407C97B15}'] = functi
         case 'OrderController':
             orderId = FwFormField.getValueByDataField($form, 'OrderId');
             if (orderId == '') {
-                FwNotification.renderNotification('WARNING', 'Please save the record before performing this function');
+                FwNotification.renderNotification('WARNING', 'Save the record before performing this function');
             } else {
                 $popup = search.renderSearchPopup($form, orderId, 'Order', gridInventoryType);
             }
@@ -462,7 +462,7 @@ FwApplicationTree.clickEvents['{77E511EC-5463-43A0-9C5D-B54407C97B15}'] = functi
         case 'QuoteController':
             quoteId = FwFormField.getValueByDataField($form, 'QuoteId');
             if (quoteId == '') {
-                FwNotification.renderNotification('WARNING', 'Please save the record before performing this function');
+                FwNotification.renderNotification('WARNING', 'Save the record before performing this function');
             } else {
                 $popup = search.renderSearchPopup($form, quoteId, 'Quote', gridInventoryType);
             }
@@ -470,7 +470,7 @@ FwApplicationTree.clickEvents['{77E511EC-5463-43A0-9C5D-B54407C97B15}'] = functi
         case 'PurchaseOrderController':
             purchaseOrderId = FwFormField.getValueByDataField($form, 'PurchaseOrderId');
             if (purchaseOrderId == '') {
-                FwNotification.renderNotification('WARNING', 'Please save the record before performing this function');
+                FwNotification.renderNotification('WARNING', 'Save the record before performing this function');
             } else {
                 $popup = search.renderSearchPopup($form, purchaseOrderId, 'PurchaseOrder', gridInventoryType);
             }
@@ -478,7 +478,7 @@ FwApplicationTree.clickEvents['{77E511EC-5463-43A0-9C5D-B54407C97B15}'] = functi
         case 'TemplateController':
             templateId = FwFormField.getValueByDataField($form, 'TemplateId');
             if (templateId == '') {
-                FwNotification.renderNotification('WARNING', 'Please save the record before performing this function');
+                FwNotification.renderNotification('WARNING', 'Save the record before performing this function');
             } else {
                 $popup = search.renderSearchPopup($form, templateId, 'Template', gridInventoryType);
             }

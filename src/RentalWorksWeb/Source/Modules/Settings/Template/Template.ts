@@ -306,7 +306,7 @@ FwApplicationTree.clickEvents['{6386E100-98B2-42F3-BF71-5BB432070D10}'] = functi
     orderId = FwFormField.getValueByDataField($form, 'TemplateId');
 
     if (orderId == "") {
-        FwNotification.renderNotification('WARNING', 'Please save the record before performing this function');
+        FwNotification.renderNotification('WARNING', 'Save the record before performing this function');
     } else {
         search = new SearchInterface();
         $popup = search.renderSearchPopup($form, orderId, 'Template');
