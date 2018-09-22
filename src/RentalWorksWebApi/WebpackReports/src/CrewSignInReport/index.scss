@@ -14,13 +14,6 @@ tbody {
     }
 }
 
-body {
-    font-family: Arial, sans-serif;
-    font-size: 11px;
-    margin: 0;
-    padding: 0;
-}
-
 thead {
     th {
         border-top: 2px solid #000000;
@@ -31,18 +24,12 @@ thead {
     }
 }
 
-.office-row {
-    font-weight: bold;
+.header-row:not(.lower) {
     padding-top: 15px;
+}
+
+.header-row {
     font-size: 12px;
-}
-
-.deal-row {
-    font-weight: bold;
-    padding-top: 10px;
-}
-
-.date-row {
     font-weight: bold;
     padding-top: 10px;
 }

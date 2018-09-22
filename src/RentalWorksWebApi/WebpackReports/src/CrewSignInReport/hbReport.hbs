@@ -41,13 +41,13 @@
       {{#each this}}
       <tr data-rowtype={{RowType}}>
         {{#ifEquals RowType "Locationheader"}}
-        <td colspan="3" class="office-row">Office: {{Location}}</td>
+        <td colspan="3" class="header-row">Office: {{Location}}</td>
         {{/ifEquals}}
         {{#ifEquals RowType "Dealheader"}}
-        <td colspan="3" class="deal-row">Deal: {{Deal}}</td>
+        <td colspan="3" class="lower header-row">Deal: {{Deal}}</td>
         {{/ifEquals}}
         {{#ifEquals RowType "RentFromDateheader"}}
-        <td colspan="3" class="date-row">Date: {{RentFromDate}}</td>
+        <td colspan="3" class="lower header-row">Date: {{RentFromDate}}</td>
         {{/ifEquals}}
         {{#ifEquals RowType "detail"}}
         <td class="shade">{{OrderLocation}}</td>

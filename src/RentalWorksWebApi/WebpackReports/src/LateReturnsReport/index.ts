@@ -82,7 +82,7 @@ export class LateReturnDueBackReport extends WebpackReport {
                     }
                     document.getElementById('pageBody').innerHTML = hbReport(globals);
                     headerNode.innerHTML = headerText;
-                    headerNode.style.cssText = 'text-align:center;font-weight:bold;margin:0 auto;font-size:13px;';
+                    headerNode.style.cssText = 'text-align:center;font-weight:bold;margin:0 auto;font-size:12px;';
                     document.getElementsByClassName('Header')[0].appendChild(headerNode);
 
                     this.onRenderReportCompleted();
