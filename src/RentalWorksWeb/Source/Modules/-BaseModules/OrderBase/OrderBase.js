@@ -869,7 +869,7 @@ class OrderBase {
         let extendedTotal = new Decimal(0);
         let discountTotal = new Decimal(0);
         let taxTotal = new Decimal(0);
-        let rateValue = $form.find('.' + gridType + 'grid .totalType input:checked').val();
+        let rateValue = $form.find(`.${gridType}grid .totalType input:checked`).val();
         switch (rateValue) {
             case 'W':
                 rateType = 'Weekly';
@@ -883,9 +883,9 @@ class OrderBase {
             default:
                 rateType = 'Period';
         }
-        const extendedColumn = $form.find('.' + gridType + 'grid [data-browsedatafield="' + rateType + 'Extended"]');
-        const discountColumn = $form.find('.' + gridType + 'grid [data-browsedatafield="' + rateType + 'DiscountAmount"]');
-        const taxColumn = $form.find('.' + gridType + 'grid [data-browsedatafield="' + rateType + 'Tax"]');
+        const extendedColumn = $form.find(`.${gridType}grid [data-browsedatafield="${rateType}Extended"]`);
+        const discountColumn = $form.find(`.${gridType}grid [data-browsedatafield="${rateType}DiscountAmount"]`);
+        const taxColumn = $form.find(`.${gridType}grid [data-browsedatafield="${rateType}Tax"]`);
         for (let i = 1; i < extendedColumn.length; i++) {
             let inputValueFromExtended = +extendedColumn.eq(i).attr('data-originalvalue');
             extendedTotal = extendedTotal.plus(inputValueFromExtended);
@@ -900,11 +900,11 @@ class OrderBase {
         salesTax = taxTotal.toFixed(2);
         grossTotal = extendedTotal.plus(discountTotal).toFixed(2);
         total = taxTotal.plus(extendedTotal).toFixed(2);
-        $form.find('.' + gridType + 'totals [data-totalfield="SubTotal"] input').val(subTotal);
-        $form.find('.' + gridType + 'totals [data-totalfield="Discount"] input').val(discount);
-        $form.find('.' + gridType + 'totals [data-totalfield="Tax"] input').val(salesTax);
-        $form.find('.' + gridType + 'totals [data-totalfield="GrossTotal"] input').val(grossTotal);
-        $form.find('.' + gridType + 'totals [data-totalfield="Total"] input').val(total);
+        $form.find(`.${gridType}totals [data-totalfield="SubTotal"] input`).val(subTotal);
+        $form.find(`.${gridType}totals [data-totalfield="Discount"] input`).val(discount);
+        $form.find(`.${gridType}totals [data-totalfield="Tax"] input`).val(salesTax);
+        $form.find(`.${gridType}totals [data-totalfield="GrossTotal"] input`).val(grossTotal);
+        $form.find(`.${gridType}totals [data-totalfield="Total"] input`).val(total);
     }
     ;
     checkDateRangeForPick($form, event) {
