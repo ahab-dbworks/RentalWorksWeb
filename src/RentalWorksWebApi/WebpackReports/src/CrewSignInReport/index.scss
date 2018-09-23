@@ -1,12 +1,8 @@
 ﻿/*Crew Sign-In Report*/
 
 tbody {
-    /*.detail-row:nth-child(even) {
-        background-color: palevioletred;
-    }*/
-
-    .row-two:nth-child(odd) {
-        background-color: lightgray;
+    tr[data-rowtype="detail"]:nth-child(even) {
+        background-color: #DCDCDC;
     }
 
     td {
@@ -36,12 +32,6 @@ thead {
 
 .boxcol {
     border: 1px solid #000000;
-    border-bottom: 0;
-}
-
-.box-no-top {
-    border: 1px solid #000000;
-    border-top: 0;
 }
 
 .header-box {
@@ -51,5 +41,3 @@ thead {
 .time-field {
     width: 50px;
 }
-
-

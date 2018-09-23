@@ -50,9 +50,14 @@
         <td colspan="3" class="lower header-row">Date: {{RentFromDate}}</td>
         {{/ifEquals}}
         {{#ifEquals RowType "detail"}}
-        <td class="shade">{{OrderLocation}}</td>
-        <td class="shade">{{Person}}</td>
-        <td class="boxcol">{{EmployeeId}}</td>
+        <td style="padding-bottom:12px;">{{OrderLocation}}</td>
+        <td>
+          <div>{{Person}}</div>
+          <div>{{Position}}</div>
+        </td>
+        <td class="boxcol" style="text-align:center;">{{EmployeeId}}</td>
+        <td class="boxcol">{{RentFromTime}}</td>
+        <td class="boxcol">{{RentToTime}}</td>
         <td class="boxcol"></td>
         <td class="boxcol"></td>
         <td class="boxcol"></td>
@@ -61,23 +66,6 @@
         <td class="boxcol"></td>
         <td class="boxcol"></td>
         <td class="boxcol"></td>
-        <td class="boxcol"></td>
-        <td class="boxcol"></td>
-      </tr>
-      <tr class="row-two">
-        <td class="shade empty"></td>
-        <td class="shade">{{Position}}</td>
-        <td class="box-no-top"></td>
-        <td class="box-no-top">{{RentFromTime}}</td>
-        <td class="box-no-top">{{RentToTime}}</td>
-        <td class="box-no-top"></td>
-        <td class="box-no-top"></td>
-        <td class="box-no-top"></td>
-        <td class="box-no-top"></td>
-        <td class="box-no-top"></td>
-        <td class="box-no-top"></td>
-        <td class="box-no-top"></td>
-        <td class="box-no-top"></td>
       </tr>
       {{/ifEquals}}
       {{/each}}
