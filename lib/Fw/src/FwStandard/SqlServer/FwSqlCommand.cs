@@ -1489,6 +1489,8 @@ namespace FwStandard.SqlServer
 
             try
             {
+                string methodName = "QueryToDynamicList2Async";
+                string usefulLinesFromStackTrace = GetUsefulLinesFromStackTrace(methodName);
                 //FwFunc.WriteLog("Begin FwSqlCommand:QueryToDynamicList()");
                 rows = new List<dynamic>();
                 this.sqlCommand.CommandText = this.qryText.ToString();
@@ -1497,6 +1499,11 @@ namespace FwStandard.SqlServer
                 {
                     await this.sqlCommand.Connection.OpenAsync();
                 }
+
+                this.sqlLogEntry = new FwSqlLogEntry(this.sqlCommand, usefulLinesFromStackTrace);
+                this.sqlLogEntry.Start();
+
+
                 using (SqlDataReader reader = await this.sqlCommand.ExecuteReaderAsync())
                 {
 
@@ -1560,6 +1567,7 @@ namespace FwStandard.SqlServer
                     this.sqlCommand.Connection.Close();
                 }
                 //FwFunc.WriteLog("End FwSqlCommand:QueryToDynamicList()");
+                this.sqlLogEntry.Stop();
             }
 
             return rows;
