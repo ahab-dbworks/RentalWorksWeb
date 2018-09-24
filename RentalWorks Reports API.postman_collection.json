@@ -209,7 +209,7 @@
 			"name": "Crew Sign In Report",
 			"item": [
 				{
-					"name": "Crew Sign In Report: Browse",
+					"name": "Crew Sign In Report: Run Report",
 					"request": {
 						"method": "POST",
 						"header": [
@@ -224,10 +224,10 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"Location,Deal,RentFromDate\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": [],\n    \t\"uniqueids\": {\n    \t\t\"FromDate\": \"10/01/2016\",\n    \t\t\"ToDate\": \"12/31/2016\"\n    \t}\n}"
+							"raw": "{\n    \t\t\"FromDate\": \"10/01/2016\",\n    \t\t\"ToDate\": \"12/31/2016\",\n    \t\t\"OfficeLocationId\": \"F0006XO2\"\n}"
 						},
 						"url": {
-							"raw": "http://localhost:57949/api/v1/crewsigninreport/browse",
+							"raw": "http://localhost:57949/api/v1/crewsigninreport/runreport",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -237,7 +237,7 @@
 								"api",
 								"v1",
 								"crewsigninreport",
-								"browse"
+								"runreport"
 							]
 						}
 					},
@@ -409,7 +409,7 @@
 			"name": "Pick List Report",
 			"item": [
 				{
-					"name": "Pick List Report: Browse",
+					"name": "Pick List Report: Run Report",
 					"request": {
 						"method": "POST",
 						"header": [
@@ -424,10 +424,10 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"Description\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": [],\n    \t\"uniqueids\": {\"PickListId\":\"00000ZG5\"}\n\t\n}"
+							"raw": "{\n   \"PickListId\":\"I0000792\"\n}\n\n"
 						},
 						"url": {
-							"raw": "http://localhost:57949/api/v1/picklistreport/browse",
+							"raw": "http://localhost:57949/api/v1/picklistreport/runreport",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -437,7 +437,7 @@
 								"api",
 								"v1",
 								"picklistreport",
-								"browse"
+								"runreport"
 							]
 						}
 					},
@@ -584,7 +584,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "\t{\n    \t\t\"FromDate\": \"01/01/2018\",\n    \t\t\"ToDate\": \"01/31/2018\",\n    \t\t\"TransactionTypes\": [\n    \t\t\t{\"value\": \"PURCHASE\"},\n    \t\t\t{\"value\": \"VENDOR RETURN\"}\n    \t\t],\n    \t\t\"WarehouseId\": \"B0029AY5\",\n    \t\t\"InventoryTypeId\": \"\",\n    \t\t\"CategoryId\": \"\",\n    \t\t\"SubCategoryId\": \"\",\n    \t\t\"InventoryId\": \"\"\n}"
+							"raw": "\t{\n    \t\t\"FromDate\": \"01/01/2010\",\n    \t\t\"ToDate\": \"01/31/2010\",\n    \t\t\"TransactionTypes\": [\n    \t\t\t{\"value\": \"PURCHASE\"},\n    \t\t\t{\"value\": \"VENDOR RETURN\"}\n    \t\t],\n    \t\t\"WarehouseId\": \"B0029AY5\",\n    \t\t\"InventoryTypeId\": \"\",\n    \t\t\"CategoryId\": \"\",\n    \t\t\"SubCategoryId\": \"\",\n    \t\t\"InventoryId\": \"\"\n}"
 						},
 						"url": {
 							"raw": "http://localhost:57949/api/v1/salesinventorytransactionreport/runreport",
