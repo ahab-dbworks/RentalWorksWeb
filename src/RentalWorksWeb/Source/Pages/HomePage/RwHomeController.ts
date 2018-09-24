@@ -170,9 +170,19 @@
         var userId = JSON.parse(sessionStorage.getItem('userid')).webusersid;
 
         FwAppData.apiMethod(true, 'GET', 'api/v1/userdashboardsettings/' + userId, null, FwServices.defaultTimeout, function onSuccess(response) {
+            let hiddenCounter = 0;
+            let dashboardButton = '<div class="flexrow" style="max-width:none;justify-content:center"><div class="fwformcontrol dashboardsettings" data-type="button" style="flex:0 1 350px;margin:75px 0 0 10px;text-align:center;">You have no widgets yet - Add some now!</div></div>';
             for (var i = 0; i < response.Widgets.length; i++) {
                 if (response.Widgets[i].selected) {
                     self.renderWidget($dashboard, response.Widgets[i].apiname, response.Widgets[i].widgettype, response.Widgets[i].clickpath, response.Widgets[i].userWidgetId, Math.floor(100 / response.WidgetsPerRow).toString() + '%', response.Widgets[i].text, response.Widgets[i].dataPoints, response.Widgets[i].axisNumberFormatId, response.Widgets[i].dataNumberFormatId)
+                } else {
+                    hiddenCounter++;
+                }
+                if (hiddenCounter === response.Widgets.length) {
+                    jQuery($control).append(dashboardButton);
+                    jQuery($control).find('.dashboardsettings').on('click', e => {
+                        program.navigate('module/dashboardsettings');
+                    });
                 }
             }
         }, null, $control);
