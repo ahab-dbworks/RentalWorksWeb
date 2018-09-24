@@ -27,6 +27,9 @@ namespace FwStandard.Modules.Administrator.DuplicateRule
         [FwSqlDataField(column: "systemrule", modeltype: FwDataTypes.Boolean, sqltype: "char")]
         public bool? SystemRule { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "considerblanks", modeltype: FwDataTypes.Boolean, sqltype: "char")]
+        public bool? ConsiderBlanks { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime, sqltype: "datetime")]
         public string DateStamp { get; set; }
         //------------------------------------------------------------------------------------ 

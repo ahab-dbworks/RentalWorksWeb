@@ -31,6 +31,7 @@ namespace FwStandard.Modules.Administrator.DuplicateRule
         public string Fields { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
         public string RuleNameColor { get; set; }
+        public bool? ConsiderBlanks { get { return duplicateRule.ConsiderBlanks; } set { duplicateRule.ConsiderBlanks = value; } }
         public string DateStamp { get { return duplicateRule.DateStamp; } set { duplicateRule.DateStamp = value; } }
         //------------------------------------------------------------------------------------ 
         protected override bool Validate(TDataRecordSaveMode saveMode, ref string validateMsg)

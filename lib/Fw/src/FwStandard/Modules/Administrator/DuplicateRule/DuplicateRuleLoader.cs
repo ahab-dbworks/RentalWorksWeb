@@ -31,6 +31,9 @@ namespace FwStandard.Modules.Administrator.DuplicateRule
         [FwSqlDataField(column: "rulenamecolor", modeltype: FwDataTypes.OleToHtmlColor)]
         public string RuleNameColor { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "considerblanks", modeltype: FwDataTypes.Boolean)]
+        public bool? ConsiderBlanks { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
         public string DateStamp { get; set; }
         //------------------------------------------------------------------------------------ 
