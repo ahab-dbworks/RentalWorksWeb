@@ -240,7 +240,7 @@ class FwSettingsClass {
                 }
                 html.push('    </div>');
                 html.push('  </div>');
-                html.push('  <div class="panel-body" style="display:none;" id="' + response[i][rowId] + '"></div>');
+                html.push('  <div class="panel-body header-content" style="display:none;" id="' + response[i][rowId] + '"></div>');
                 html.push('</div>');
                 $moduleRows = jQuery(html.join(''));
                 $moduleRows.data('recorddata', response[i]);
@@ -350,7 +350,7 @@ class FwSettingsClass {
             html.push('      <small>' + description + '</small>');
         }
         html.push('    </div>');
-        html.push('    <div class="panel-collapse collapse" style="display:none; "><div class="panel-body" id="' + moduleName + '"></div></div>');
+        html.push('    <div class="panel-collapse collapse" style="display:none; "><div class="panel-body header-content" id="' + moduleName + '"></div></div>');
         html.push('  </div>');
         html.push('</div>');
         $settingsPageModules = jQuery(html.join(''));
@@ -694,6 +694,10 @@ class FwSettingsClass {
                     $module.filter(function () {
                         return -1 != jQuery(this).text().toUpperCase().indexOf(val);
                     }).closest('div.panel-group').show();
+                    let searchResults = $control.find('.panel-heading:visible');
+                    if (searchResults.length === 1 && searchResults.parent().find('.panel-body.header-content').is(':empty')) {
+                        searchResults[0].click();
+                    }
                 }
             }
         });

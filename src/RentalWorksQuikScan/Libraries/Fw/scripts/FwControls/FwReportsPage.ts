@@ -182,6 +182,11 @@
                     $module.filter(function () {
                         return -1 != jQuery(this).text().toUpperCase().indexOf(val);
                     }).closest('div.panel-group').show();
+                    let searchResults = $control.find('.panel-heading:visible');
+
+                    if (searchResults.length === 1 && searchResults.parent().find('.panel-body').is(':empty')) {
+                        searchResults[0].click();
+                    }
                 }
             }
         });
