@@ -58,6 +58,10 @@ class Deal {
                 FwFunc.showError(ex);
             }
         });
+        $form.find('div[data-datafield="CustomerId"]').data('onchange', e => {
+            this.shippingAddressTypeChange($form);
+            this.billingAddressTypeChange($form);
+        });
         $form.find('.deal_address input').on('change', $tr => {
             this.transferDealAddressValues($form);
         });
@@ -436,6 +440,22 @@ class Deal {
             FwFormField.setValue($form, 'div[data-datafield="LocationId"]', officeLocation.locationid, officeLocation.location);
             FwFormField.setValue($form, 'div[data-datafield="DealStatusId"]', dealDefaults.defaultcustomerstatusid, dealDefaults.defaultdealstatus);
             FwFormField.setValue($form, 'div[data-datafield="BillingCycleId"]', dealDefaults.defaultdealbillingcycleid, dealDefaults.defaultdealbillingcycle);
+            $form.find('div[data-datafield="CustomerId"]').on('change', e => {
+                const customerId = FwFormField.getValueByDataField($form, 'CustomerId');
+                FwAppData.apiMethod(true, 'GET', `api/v1/customer/${customerId}`, null, FwServices.defaultTimeout, function onSuccess(res) {
+                    FwFormField.setValueByDataField($form, 'Address1', res.Address1);
+                    FwFormField.setValueByDataField($form, 'Address2', res.Address2);
+                    FwFormField.setValueByDataField($form, 'City', res.City);
+                    FwFormField.setValueByDataField($form, 'State', res.State);
+                    FwFormField.setValueByDataField($form, 'ZipCode', res.ZipCode);
+                    FwFormField.setValueByDataField($form, 'Phone', res.Phone);
+                    FwFormField.setValueByDataField($form, 'Phone800', res.Phone800);
+                    FwFormField.setValueByDataField($form, 'Fax', res.Fax);
+                    FwFormField.setValueByDataField($form, 'PhoneOther', res.OtherPhone);
+                    FwFormField.setValue($form, 'div[data-datafield="CountryId"]', res.CountryId, res.Country);
+                    FwFormField.setValue($form, 'div[data-datafield="PaymentTermsId"]', res.PaymentTermsId, res.PaymentTerms);
+                }, null, null);
+            });
         }
         $submoduleQuoteBrowse.find('div.btn[data-type="NewMenuBarButton"]').off('click');
         $submoduleQuoteBrowse.find('div.btn[data-type="NewMenuBarButton"]').on('click', function () {
