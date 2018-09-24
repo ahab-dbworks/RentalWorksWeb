@@ -347,10 +347,31 @@ namespace FwStandard.DataLayer
         protected virtual void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequest request = null)
         {
             StringBuilder sb = new StringBuilder();
-            sb.Append("select ");
+            sb.Append("select");
             PropertyInfo[] properties = this.GetType().GetTypeInfo().GetProperties();
             int colNo = 0;
             Dictionary<string, string> columns = new Dictionary<string, string>();
+            string fullFieldName = "";
+
+            int maxFieldNameLength = 0;
+            foreach (PropertyInfo property in properties)
+            {
+                if (property.IsDefined(typeof(FwSqlDataFieldAttribute)))
+                {
+                    FwSqlDataFieldAttribute sqlDataFieldAttribute = property.GetCustomAttribute<FwSqlDataFieldAttribute>();
+                    string sqlColumnName = property.Name;
+                    columns[sqlColumnName] = sqlDataFieldAttribute.ColumnName;
+                    if (!string.IsNullOrEmpty(sqlDataFieldAttribute.ColumnName))
+                    {
+                        sqlColumnName = sqlDataFieldAttribute.ColumnName;
+                    }
+                    fullFieldName = "[" + TableAlias + "].[" + sqlColumnName + "]";
+                    maxFieldNameLength = (maxFieldNameLength > fullFieldName.Length ? maxFieldNameLength : fullFieldName.Length);
+                }
+            }
+
+
+            colNo = 0;
             foreach (PropertyInfo property in properties)
             {
                 if (property.IsDefined(typeof(FwSqlDataFieldAttribute)))
@@ -365,10 +386,12 @@ namespace FwStandard.DataLayer
                     string prefix = "";
                     if (colNo > 0)
                     {
-                        prefix = ",";
+                        prefix = ",\n      ";
                     }
                     qry.AddColumn(property.Name, property.Name, sqlDataFieldAttribute.ModelType, sqlDataFieldAttribute.IsVisible, sqlDataFieldAttribute.IsPrimaryKey, false);
-                    sb.Append(prefix + " [" + TableAlias + "].[" + sqlColumnName + "] as [" + property.Name + "]");
+                    fullFieldName = "[" + TableAlias + "].[" + sqlColumnName + "]";
+                    sb.Append(prefix + " " + fullFieldName.PadRight(maxFieldNameLength, ' ') + " as [" + property.Name + "]");
+
                     colNo++;
                 }
             }
@@ -378,6 +401,17 @@ namespace FwStandard.DataLayer
             {
                 int customTableIndex = 1;
                 int customFieldIndex = 1;
+                sb.Append(",\n");
+                sb.Append("       --//---------- begin custom fields ------------------\n");
+
+                maxFieldNameLength = 0;
+                foreach (FwCustomField customField in customFields)
+                {
+                    fullFieldName = "[" + customField.FieldName + "]";
+                    maxFieldNameLength = (maxFieldNameLength > fullFieldName.Length ? maxFieldNameLength : fullFieldName.Length);
+                }
+
+                colNo = 0;
                 foreach (FwCustomField customField in customFields)
                 {
                     //columns[customField.FieldName] = customField.FieldName;
@@ -398,15 +432,22 @@ namespace FwStandard.DataLayer
                         customTables.Add(new FwCustomTable(customField.CustomTableName, customTableAlias));
                         customTableIndex++;
                     }
-                    string customSqlFieldName = customTableAlias + "." + customField.CustomFieldName;
+                    string customSqlFieldName = "[" + customTableAlias + "].[" + customField.CustomFieldName + "]";
                     columns[customField.FieldName] = customSqlFieldName;
 
                     qry.AddColumn(customField.FieldName, customField.FieldName, FwDataTypes.Text, true, false, false);
-                    //sb.Append(" ,[" + customField.FieldName + "] = " + customTableAlias + "." + customField.CustomFieldName);
-                    sb.Append(" ,[" + customField.FieldName + "] = " + customSqlFieldName);
+                    if (colNo > 0)
+                    {
+                        sb.Append(",\n");
+                    }
+                    sb.Append("       ");
+                    fullFieldName = "[" + customField.FieldName + "]";
+                    sb.Append(fullFieldName.PadRight(maxFieldNameLength, ' ') + " = " + customSqlFieldName);
 
                     customFieldIndex++;
+                    colNo++;
                 }
+                sb.Append("\n       --//---------- end custom fields --------------------");
             }
             select.Add(sb.ToString());
 
@@ -415,16 +456,17 @@ namespace FwStandard.DataLayer
             {
                 withNoLock = " with (nolock)";
             }
-            select.Add("from " + TableName + " " + TableAlias + withNoLock);
+            select.Add("from " + TableName + " [" + TableAlias + "]" + withNoLock);
 
             if ((customFields != null) && (customFields.Count > 0))
             {
                 List<PropertyInfo> primaryKeyProperties = GetPrimaryKeyProperties();
 
+                select.Add("           --//---------- begin custom tables ------------------");
                 foreach (FwCustomTable customTable in customTables)
                 {
-                    select.Add("  left outer join [" + customTable.TableName + "] [" + customTable.Alias + "] with (nolock) on ");
-                    select.Add(" ( ");
+                    select.Add("           left outer join [" + customTable.TableName + "] [" + customTable.Alias + "] with (nolock) on ");
+                    select.Add("                       ( ");
 
                     int k = 1;
                     foreach (PropertyInfo primaryKeyProperty in primaryKeyProperties)
@@ -436,15 +478,16 @@ namespace FwStandard.DataLayer
                             sqlColumnName = sqlDataFieldAttribute.ColumnName;
                         }
                         string customUniqueIdField = "uniqueid" + k.ToString().PadLeft(2, '0');
-                        select.Add("[" + TableAlias + "].[" + sqlColumnName + "] = [" + customTable.Alias + "].[" + customUniqueIdField + "]");
+                        select.Add("                       [" + TableAlias + "].[" + sqlColumnName + "] = [" + customTable.Alias + "].[" + customUniqueIdField + "]");
                         if (k < primaryKeyProperties.Count)
                         {
                             select.Add(" and ");
                         }
                         k++;
                     }
-                    select.Add(" ) ");
+                    select.Add("                       ) ");
                 }
+                select.Add("           --//---------- end custom tables --------------------");
             }
 
             if (request != null)
