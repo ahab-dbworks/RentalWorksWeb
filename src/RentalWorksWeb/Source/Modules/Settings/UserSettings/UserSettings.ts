@@ -21,7 +21,12 @@
     }
     //----------------------------------------------------------------------------------------------
     openForm(mode: string) {
-        let $form, $browsedefaultrows, $applicationtheme;
+        let $form, $browsedefaultrows, $applicationtheme, $defaultHomePage, $moduleSelect
+            , node
+            , mainModules
+            , settingsModules
+            , modules
+            , allModules;
 
         const userId = JSON.parse(sessionStorage.getItem('userid'));
 
@@ -53,6 +58,35 @@
             { value: 'theme-materialmobile', text: 'Material Mobile' },
             { value: 'theme-classic', text: 'Classic' }
         ], true);
+
+        //load App Modules for Home Page
+        node = FwApplicationTree.getNodeById(FwApplicationTree.tree, '0A5F2584-D239-480F-8312-7C2B552A30BA');
+        mainModules = FwApplicationTree.getChildrenByType(node, 'Module');
+        settingsModules = FwApplicationTree.getChildrenByType(node, 'SettingsModule');
+        modules = mainModules.concat(settingsModules);
+        allModules = [];
+        for (let i = 0; i < modules.length; i++) {
+            let moduleNav = modules[i].properties.controller.slice(0, -10)
+                , moduleCaption = modules[i].properties.caption
+                , moduleController = modules[i].properties.controller;
+            if (typeof window[moduleController] !== 'undefined') {
+                if (window[moduleController].hasOwnProperty('apiurl')) {
+                    var moduleUrl = window[moduleController].apiurl;
+                    allModules.push({ value: moduleNav, text: moduleCaption, apiurl: moduleUrl });
+                }
+            }
+        };
+        //Sort modules
+        function compare(a, b) {
+            if (a.text < b.text)
+                return -1;
+            if (a.text > b.text)
+                return 1;
+            return 0;
+        }
+        allModules.sort(compare);
+        $defaultHomePage = $form.find('.default-home-page');
+        FwFormField.loadItems($defaultHomePage, allModules, true);
 
         $form.find('div.fwformfield[data-datafield="UserId"] input').val(userId.webusersid);
         FwModule.loadForm(this.Module, $form);
