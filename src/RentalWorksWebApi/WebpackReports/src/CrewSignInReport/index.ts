@@ -10,6 +10,16 @@ import './index.scss';
 var hbReport = require("./hbReport.hbs");
 var hbFooter = require("./hbFooter.hbs");
 
+export class CrewSignInReportRequest {
+    FromDate: Date;
+    ToDate: Date;
+    OfficeLocationId: string;
+    DepartmentId: string;
+    CustomerId: string;
+    DealId: string;
+    OrderId: string;
+}
+
 export class CrewSignInReport extends WebpackReport {
 
     renderReport(apiUrl: string, authorizationHeader: string, parameters: any): void {
@@ -17,29 +27,16 @@ export class CrewSignInReport extends WebpackReport {
             super.renderReport(apiUrl, authorizationHeader, parameters);
 
             HandlebarsHelpers.registerHelpers();
-            let request = new BrowseRequest();
-            request.uniqueids = {};
-
             let crewSignIn: any = {};
-            request.orderby = 'Location, Department, RentFromDate';
-            request.uniqueids.ToDate = parameters.ToDate;
-            request.uniqueids.FromDate = parameters.FromDate;
-            if (parameters.OfficeLocationId != '') {
-                request.uniqueids.LocationId = parameters.OfficeLocationId
-            }
-            if (parameters.DepartmentId != '') {
-                request.uniqueids.DepartmentId = parameters.DepartmentId
-            }
-            if (parameters.CustomerId != '') {
-                request.uniqueids.CustomerId = parameters.CustomerId
-            }
-            if (parameters.DealId != '') {
-                request.uniqueids.DealId = parameters.DealId
-            }
-            if (parameters.OrderId != '') {
-                request.uniqueids.OrderId = parameters.OrderId
-            }
-            let crewSignInPromise = Ajax.post<DataTable>(`${apiUrl}/api/v1/crewsigninreport/browse`, authorizationHeader, request)
+            let request = new CrewSignInReportRequest();
+            request.FromDate = parameters.FromDate;
+            request.ToDate = parameters.ToDate;
+            request.OfficeLocationId = parameters.OfficeLocationId;
+            request.DepartmentId = parameters.DepartmentId;
+            request.CustomerId = parameters.CustomerId;
+            request.DealId = parameters.DealId;
+            request.OrderId = parameters.OrderId;
+            let crewSignInPromise = Ajax.post<DataTable>(`${apiUrl}/api/v1/crewsigninreport/runreport`, authorizationHeader, request)
                 .then((response: DataTable) => {
                     crewSignIn = DataTable.toObjectList(response);
                     crewSignIn.PrintTime = moment().format('YYYY-MM-DD h:mm:ss A');

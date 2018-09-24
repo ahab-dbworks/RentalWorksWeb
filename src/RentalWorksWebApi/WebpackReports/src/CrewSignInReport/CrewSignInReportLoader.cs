@@ -6,6 +6,7 @@ using WebApi.Data;
 using System.Collections.Generic;
 using System;
 using WebLibrary;
+using System.Threading.Tasks;
 
 namespace WebApi.Modules.Reports.CrewSignInReport
 {
@@ -79,39 +80,39 @@ namespace WebApi.Modules.Reports.CrewSignInReport
         [FwSqlDataField(column: "crewcontactid", modeltype: FwDataTypes.Text)]
         public string CrewContactId { get; set; } = string.Empty;
         //------------------------------------------------------------------------------------ 
-        protected override void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequest request = null)
+        public async Task<FwJsonDataTable> RunReportAsync(CrewSignInReportRequest request)
         {
-            DateTime rentFromDate = DateTime.MinValue;
-            DateTime rentToDate = DateTime.MaxValue;
-            
-            useWithNoLock = false;
-
-            if ((request != null) && (request.uniqueids != null))
+            FwJsonDataTable dt = null;
+            using (FwSqlConnection conn = new FwSqlConnection(AppConfig.DatabaseSettings.ConnectionString))
             {
-                IDictionary<string, object> uniqueIds = ((IDictionary<string, object>)request.uniqueids);
-                if (uniqueIds.ContainsKey("FromDate"))
+                useWithNoLock = false;
+                FwSqlSelect select = new FwSqlSelect();
+                select.EnablePaging = false;
+                using (FwSqlCommand qry = new FwSqlCommand(conn, AppConfig.DatabaseSettings.QueryTimeout))
                 {
-                    rentFromDate = FwConvert.ToDateTime(uniqueIds["FromDate"].ToString());
-                }
-                if (uniqueIds.ContainsKey("ToDate"))
-                {
-                    rentToDate = FwConvert.ToDateTime(uniqueIds["ToDate"].ToString());
+                    SetBaseSelectQuery(select, qry);
+                    select.Parse();
+                    addStringFilterToSelect("locationid", request.OfficeLocationId, select);
+                    addStringFilterToSelect("departmentid", request.DepartmentId, select);
+                    addStringFilterToSelect("customerid", request.CustomerId, select);
+                    addStringFilterToSelect("dealid", request.DealId, select);
+                    addStringFilterToSelect("orderid", request.OrderId, select);
+                    select.AddParameter("@rentfromdate", request.FromDate);
+                    select.AddParameter("@renttodate", request.ToDate);
+                    select.AddOrderBy("location,deal,rentfromdate");
+
+                    dt = await qry.QueryToFwJsonTableAsync(select, false);
                 }
             }
 
-            base.SetBaseSelectQuery(select, qry, customFields, request);
-            select.Parse();
-            //select.AddWhere("(xxxtype = 'ABCDEF')"); 
-            addFilterToSelect("LocationId", "locationid", select, request);
-            addFilterToSelect("DepartmentId", "departmentid", select, request);
-            addFilterToSelect("CustomerId", "customerid", select, request);
-            addFilterToSelect("DealId", "dealid", select, request);
-            addFilterToSelect("OrderId", "orderid", select, request);
+            string[] totalFields = new string[] { "RecCount" };
+            dt.InsertSubTotalRows("Location", "RowType", totalFields);
+            dt.InsertSubTotalRows("Deal", "RowType", totalFields);
+            dt.InsertSubTotalRows("RentFromDate", "RowType", totalFields);
+            dt.InsertTotalRow("RowType", "detail", "grandtotal", totalFields);
 
-            select.AddParameter("@rentfromdate", rentFromDate);
-            select.AddParameter("@renttodate", rentToDate);
-
+            return dt;
         }
-        //------------------------------------------------------------------------------------ 
+        //------------------------------------------------------------------------------------    
     }
 }
