@@ -812,12 +812,6 @@
     <Content Include="Source\Reports\ChargeProcessing\StyleSheet.css" />
     <Content Include="Source\Reports\PrintOrder\Header.htm" />
     <Content Include="Source\Reports\PrintOrder\StyleSheet.css" />
-    <Content Include="Source\Reports\PickListReport\Body.htm" />
-    <Content Include="Source\Reports\PickListReport\Footer.htm" />
-    <Content Include="Source\Reports\PickListReport\FrontEnd.htm" />
-    <Content Include="Source\Reports\PickListReport\Header.htm" />
-    <TypeScriptCompile Include="Source\Reports\PickListReport\RwPickListReportController.ts" />
-    <Content Include="Source\Reports\PickListReport\StyleSheet.css" />
     <Content Include="Source\Reports\DealOutstanding\Body.htm" />
     <Content Include="Source\Reports\DealOutstanding\Footer.htm" />
     <Content Include="Source\Reports\DealOutstanding\FrontEnd.htm" />
@@ -1083,7 +1077,6 @@
     <Compile Include="Source\Modules\Administrator\Integration\Integration.cs" />
     <Compile Include="Source\Modules\Home\Contact\Contact.cs" />
     <Compile Include="Source\Reports\ChargeProcessing\ChargeProcessing.cs" />
-    <Compile Include="Source\Reports\PickListReport\PickListReport.cs" />
     <Compile Include="Source\Reports\DealOutstanding\DealOutstanding.cs" />
     <Compile Include="Source\Reports\PrintOrder\PrintOrder.cs" />
     <Compile Include="Source\Reports\ReceiptProcessing\ReceiptProcessing.cs" />
