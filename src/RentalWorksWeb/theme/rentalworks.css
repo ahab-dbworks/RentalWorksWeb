@@ -313,18 +313,35 @@ progress::-webkit-progress-value {
 }
 
 #searchFormHtml div[data-datafield="InventoryType"] {
-    width: 30%;
-    margin: 5px 0px 25px 35px;
-    float: none;
+    margin: 5px 0px 0px 10px;
+    display:flex;
+    max-width:500px;
 }
 
-#searchFormHtml div[data-datafield="InventoryType"] .fwformfield-control > div {
-    float: left;
-    width: 20%;
+    #searchFormHtml div[data-datafield="InventoryType"] > .fwformfield-control {
+        height: auto !important;
+        margin:auto;
+    }
+
+    #searchFormHtml div[data-datafield="InventoryType"] .fwformfield-control > div {
+        min-width: 85px;
+        float: left;
+        padding-top: 5px;
+    }
+
+.fwformcontrol.addToOrder {
+    margin: 12px 6px 12px 0px;
+}
+
+#searchFormHtml .expandcategorycolumns {
+    display: none;
+    flex: 0 0 170px;
+    margin: 12px 6px 12px 0px;
 }
 
 #inventoryType, #category, #subCategory {
-    width: 10%;
+    max-width: 30%;
+    min-width: 30%;
     margin: 5px 0px 0px 5px;
     float: left;
 }
@@ -332,6 +349,7 @@ progress::-webkit-progress-value {
 #searchFormHtml .invviewbtn {
     margin: 12px 6px 12px 5px;
     padding: 0px 7px 0px 7px;
+    max-width:20px;
 }
 
 #columnDescriptions > div {
@@ -443,10 +461,8 @@ ul.fitText {
 }
 
 #searchpopup .optiontoggle[data-type="button"]{
-    position:relative;
-    top: -5px;
-    left: 5px;
-    width:80px;
+    margin: 12px 7px 0px 7px;
+    max-width:80px;
 }
 
 #searchpopup .options {
