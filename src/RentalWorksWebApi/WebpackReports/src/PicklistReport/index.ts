@@ -14,30 +14,31 @@ export class PickListReportRequest {
 }
 
 export class PickListReport extends WebpackReport {
-
+    picklist: Picklist = null;
     renderReport(apiUrl: string, authorizationHeader: string, parameters: any): void {
         try {
             super.renderReport(apiUrl, authorizationHeader, parameters);
 
             HandlebarsHelpers.registerHelpers();
             let request = new PickListReportRequest();
-            let pickList: any = {};
+            let picklist = new Picklist();
 
             request.PickListId = parameters.PickListId;
 
-            let Promise = Ajax.post<DataTable>(`${apiUrl}/api/v1/picklistreport/runreport`, authorizationHeader, request)
-                .then((response: DataTable) => {
-                    pickList = DataTable.toObjectList(response);
-                    pickList.PrintTime = moment().format('YYYY-MM-DD h:mm:ss A');
-                    pickList.Report = 'Pick List Report';
-                    pickList.System = 'RENTALWORKS';
-                    pickList.Company = '4WALL ENTERTAINMENT';
-                    this.renderFooterHtml(pickList);
+            let Promise = Ajax.post<Picklist>(`${apiUrl}/api/v1/picklistreport/runreport`, authorizationHeader, request)
+                .then((response: Picklist) => {
+                    picklist = response;
+                    //pickList = DataTable.toObjectList(response);
+                    picklist.PrintTime = moment().format('YYYY-MM-DD h:mm:ss A');
+                    picklist.Report = 'Pick List Report';
+                    picklist.System = 'RENTALWORKS';
+                    picklist.Company = '4WALL ENTERTAINMENT';
+                    console.log('pickList: ', picklist )
+                    this.renderFooterHtml(picklist);
                     if (this.action === 'Preview' || this.action === 'PrintHtml') {
                         document.getElementById('pageFooter').innerHTML = this.footerHtml;
                     }
-                    document.getElementById('pageBody').innerHTML = hbReport(pickList);
-                    console.log('pickList: ', pickList )
+                    document.getElementById('pageBody').innerHTML = hbReport(picklist);
                     this.onRenderReportCompleted();
                 })
                 .catch((ex) => {
@@ -48,10 +49,50 @@ export class PickListReport extends WebpackReport {
         }
     }
 
-    renderFooterHtml(model: DataTable): string {
+    renderFooterHtml(model: Picklist): string {
         this.footerHtml = hbFooter(model);
         return this.footerHtml;
     }
 }
 
 (<any>window).report = new PickListReport();
+
+class Picklist {
+    _Custom = new Array<CustomField>();
+    Report = '';
+    Company = '';
+    System = '';
+    PicklistId = '';
+    PickNumber = '';
+    OrderId = '';
+    Customer = '';
+    CustomerNumber = '';
+    Deal = '';
+    OrderNumber = '';
+    OrderDescription = '';
+    Location = '';
+    WarehouseId = '';
+    Warehouse = '';
+    TransferToWarehouseId = '';
+    TransferToWarehouse = '';
+    PoNumber = '';
+    DeliverType = '';
+    RequiredDate = '';
+    RequiredTime = '';
+    RequiredDateTime = '';
+    TargetShipDate = '';
+    PhoneExtension = '';
+    Agent = '';
+    AgentPhoneExtension = '';
+    RequestSentTo = '';
+    PrepDate = '';
+    PrepTime = '';
+    EstimatedStartDate = '';
+    EstimatedStartTime = '';
+    EstimatedStopDate = '';
+    EstimatedStopTime = '';
+    OrderedBy = '';
+    OrderedByPhoneExtension = '';
+    Items: DataTable;
+    PrintTime = '';
+}

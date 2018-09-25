@@ -355,10 +355,10 @@ namespace WebApi.Modules.Reports.PickListReport
         public string Warehouse { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "trasfertowarehouseid", modeltype: FwDataTypes.Text)]
-        public string TrasferToWarehouseId { get; set; }
+        public string TransferToWarehouseId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "trasfertowarehouse", modeltype: FwDataTypes.Text)]
-        public string TrasferToWarehouse { get; set; }
+        public string TransferToWarehouse { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "pono", modeltype: FwDataTypes.Text)]
         public string PoNumber { get; set; }

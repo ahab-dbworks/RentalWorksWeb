@@ -5,8 +5,8 @@
   </div>
   <div class="rpt-flexcolumn">
     <span class="rpt-title">{{Report}}</span>
-    <span class="rpt-header-center">Required By: {{RequiredByDate}}</span>
-    <span class="rpt-header-center">Target Ship: {{RequiredByDate}}</span>
+    <span class="rpt-header-center">Required By: {{RequiredDate}}</span>
+    <span class="rpt-header-center">Target Ship: {{TargetShipDate}}</span>
   </div>
   <div class="rpt-flexcolumn">
     <span class="rpt-header-right">{{Company}}</span>
@@ -30,36 +30,7 @@
       </tr>
     </thead>
     <tbody>
-      {{#each this}}
-      <tr data-rowtype={{RowType}}>
-        {{#ifEquals RowType "OfficeLocationheader"}}
-        <td colspan="5" class="header-row">Office: {{OfficeLocation}}</td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "Agentheader"}}
-        <td colspan="5" class="lower header-row">Agent: {{Agent}}</td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "Departmentheader"}}
-        <td colspan="5" class="lower header-row">Department: {{Department}}</td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "Customerheader"}}
-        <td colspan="5" class="lower header-row">Customer: {{Customer}}</td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "Dealheader"}}
-        <td colspan="5" class="lower header-row">Deal: {{Deal}}</td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "detail"}}
-        <td class="text" data-value="{{OrderNumber}}"></td>
-        <td class="text" data-value="{{ICode}}"></td>
-        <td class="text" data-value="{{Description}}"></td>
-        <td class="text" data-value="{{Location}}"></td>
-        <td class="number" data-value="{{QuantityOrdered}}"></td>
-        <td class="number" data-value="{{OutQuantity}}"></td>
-        <td class="number" data-value="{{PickQuantity}}"></td>
-        <td class="number" data-value="{{PickedQuantity}}"></td>
-        <td class="number" data-value="{{VerifiedQuantity}}"></td>
-        {{/ifEquals}}
-      </tr>
-      {{/each}}
+ 
     </tbody>
   </table>
 </div>
