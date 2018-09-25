@@ -331,7 +331,7 @@ namespace WebApi.Modules.Reports.PickListReport
         public string Customer { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "custno", modeltype: FwDataTypes.Text)]
-        public string CustumerNumber { get; set; }
+        public string CustomerNumber { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "deal", modeltype: FwDataTypes.Text)]
         public string Deal { get; set; }
