@@ -2,13 +2,13 @@ class Deal {
     Module: string = 'Deal';
     apiurl: string = 'api/v1/deal';
     caption: string = 'Deal';
-
+    //----------------------------------------------------------------------------------------------
     getModuleScreen(filter?: { datafield: string, search: string }) {
         var screen, $browse;
         var self = this;
 
         screen = {};
-        screen.$view = FwModule.getModuleControl(this.Module + 'Controller');
+        screen.$view = FwModule.getModuleControl(`${this.Module}Controller`);
         screen.viewModel = {};
         screen.properties = {};
 
@@ -19,11 +19,11 @@ class Deal {
 
             if (typeof filter !== 'undefined') {
                 var datafields = filter.datafield.split('%20');
-                for (var i = 0; i < datafields.length; i++) {
+                for (let i = 0; i < datafields.length; i++) {
                     datafields[i] = datafields[i].charAt(0).toUpperCase() + datafields[i].substr(1);
                 }
                 filter.datafield = datafields.join('')
-                $browse.find('div[data-browsedatafield="' + filter.datafield + '"]').find('input').val(filter.search);
+                $browse.find(`div[data-browsedatafield="${filter.datafield}"]`).find('input').val(filter.search);
             }
 
             FwBrowse.databind($browse);
@@ -35,7 +35,7 @@ class Deal {
 
         return screen;
     }
-
+    //----------------------------------------------------------------------------------------------
     openBrowse() {
         //var $browse = FwBrowse.loadBrowseFromTemplate(this.Module);
         let $browse = jQuery(this.getBrowseTemplate());
@@ -58,473 +58,7 @@ class Deal {
 
         return $browse;
     }
-
-    events($form: JQuery): void {
-        $form.find('[data-name="CompanyTaxOptionGrid"]').data('onselectedrowchanged', ($control: JQuery, $tr: JQuery) => {
-            try {
-                this.updateExternalInputsWithGridValues($tr);
-            } catch (ex) {
-                FwFunc.showError(ex);
-            }
-        });
-        // If user changes customer, update corresponding address fields in other tabs
-        $form.find('div[data-datafield="CustomerId"]').data('onchange', e => {
-            this.shippingAddressTypeChange($form);
-            this.billingAddressTypeChange($form);
-        });
-        // If user updates general address info
-        $form.find('.deal_address input').on('change', $tr => {
-            this.transferDealAddressValues($form);
-        });
-
-        //Shipping Address Type Change
-        $form.find('.shipping_address_type_radio').on('change', $tr => {
-            this.shippingAddressTypeChange($form);
-        });
-        //Billing Address Type Change
-        $form.find('.billing-type-radio').on('change', $tr => {
-            this.billingAddressTypeChange($form);
-        });
-
-        $form.on('change', '.billing_use_discount_template input[type=checkbox]', (e) => {
-            //this.useDiscountTemplate(jQuery(e.currentTarget).is(':checked'));
-            this.toggleBillingUseDiscount($form, jQuery(e.currentTarget).is(':checked'));
-        });
-
-        $form.on('change', '.billing_use_customer input[type=checkbox]', (e) => {
-            this.useCustomer(jQuery(e.currentTarget).is(':checked'));
-        });
-
-        $form.on('change', '.billing-type-radio input[type=radio]', (e) => {
-            var val = jQuery(e.currentTarget).val() !== 'OTHER' ? true : false;
-            this.toggleBillingAddressInfo($form, val);
-        });
-
-        $form.on('change', '.shipping_address_type_radio input[type=radio]', (e) => {
-            var val = jQuery(e.currentTarget).val() !== 'OTHER' ? true : false;
-            this.toggleShippingAddressInfo($form, val);
-        });
-
-        $form.on('change', '.credit_use_customer input[type=checkbox]', (e) => {
-            var isChecked = jQuery(e.currentTarget).is(':checked');
-            this.toggleCredTabIfUseCustomer($form, isChecked);
-        });
-
-        $form.on('change', '.insurance_use_customer input[type=checkbox]', (e) => {
-            var isChecked = jQuery(e.currentTarget).is(':checked');
-            this.toggleInsurTabIfUseCustomer($form, isChecked);
-        });
-
-        //$form.on('change', '.billing_potype input[type=radio]', (e) => {
-        //    FwFormField.setValue($form, jQuery(e.currentTarget))
-        //});
-
-        $form.on('change', '.tax_use_customer input[type=checkbox]', (e) => {
-            var isChecked = jQuery(e.currentTarget).is(':checked');
-            this.toggleTaxTabIfUseCustomer($form, isChecked);
-        });
-
-        $form.on('change', '.exlude_quote input[type=checkbox]', (e) => {
-            var isChecked = jQuery(e.currentTarget).is(':checked');
-            this.toggleOptionsTabIfExcludeQuote($form, isChecked);
-        });
-    }
-
-    //useDiscountTemplate(isChecked: boolean): void {
-    //    var $temp: JQuery = jQuery('.billing_template');
-    //    // DiscountTemplateId
-    //    if (!isChecked) {
-    //        $temp.attr('data-enabled', 'false');
-    //        $temp.find('input').prop('disabled', true);
-    //    } else {
-    //        $temp.attr('data-enabled', 'true');
-    //        $temp.find('input').prop('disabled', false);
-    //    }
-    //}
-
-    useCustomer(isChecked: boolean): void {
-        var $discTemp: JQuery = jQuery('.billing_use_discount_template'),
-            $useCust: JQuery = jQuery('.billing_use_customer'),
-            $temp: JQuery = jQuery('.billing_template');
-
-        if (isChecked) {
-            $temp.attr('data-enabled', 'false');
-            $temp.find('input').prop('disabled', true);
-            $discTemp.attr('data-enabled', 'false');
-            $discTemp.find('input').prop('disabled', true);
-        } else {
-            if ($discTemp.find('input[type=checkbox]').is(':checked')) {
-                $temp.attr('data-enabled', 'true');
-                $temp.find('input').prop('disabled', false);
-            } else {
-                $temp.attr('data-enabled', 'false');
-                $temp.find('input').prop('disabled', true);
-            }
-            $discTemp.attr('data-enabled', 'true');
-            $discTemp.find('input').prop('disabled', false);
-        }
-    }
-
-    toggleBillingUseDiscount($form: JQuery, isDiscountTemplate: boolean): void {
-        var list = ['DiscountTemplateId'];
-
-        isDiscountTemplate ? this.enableFields($form, list) : this.disableFields($form, list);
-    }
-
-    toggleBillingAddressInfo($form: JQuery, isOther: boolean) {
-        var list = [
-            'BillToAddress1',
-            'BillToAddress2',
-            'BillToCity',
-            'BillToState',
-            'BillToZipCode',
-            'BillToCountryId'];
-
-        isOther ? this.disableFields($form, list) : this.enableFields($form, list);
-    }
-
-    toggleShippingAddressInfo($form: JQuery, isOther: boolean) {
-        var list = [
-            'ShipAddress1',
-            'ShipAddress2',
-            'ShipCity',
-            'ShipState',
-            'ShipZipCode',
-            'ShipCountryId'];
-
-        isOther ? this.disableFields($form, list) : this.enableFields($form, list);
-    }
-
-    toggleCredTabIfUseCustomer($form: JQuery, isCustomer: boolean): void {
-        var list = ['CreditStatusId',
-            'CreditStatusThrough',
-            'CreditLimit',
-            'UnlimitedCredit',
-            'CreditApplicationOnFile',
-            'TradeReferencesVerifiedBy',
-            'TradeReferencesVerifiedOn',
-            'TradeReferencesVerified',
-            'CreditCardName',
-            'CreditCardAuthorizationFormOnFile',
-            'CreditCardTypeId',
-            'CreditCardExpirationMonth',
-            'CreditCardExpirationYear',
-            'CreditCardCode',
-            'CreditCardLimit',
-            'CreditCardNumber',
-            'CreditResponsibleParty',
-            'CreditResponsiblePartyOnFile',
-            'DepletingDepositThresholdAmount',
-            'DepletingDepositThresholdPercent'
-            //'DepletingDepositTotal',
-            //'DepletingDepositApplied',
-            //'DepletingDepositRemaining'
-        ];
-
-        isCustomer ? this.disableFields($form, list) : this.enableFields($form, list);
-    }
-
-    toggleInsurTabIfUseCustomer($form: JQuery, isCustomer: boolean): void {
-        var list = ['InsuranceCertificationValidThrough',
-            'InsuranceCoverageLiability',
-            'InsuranceCoverageLiabilityDeductible',
-            'InsuranceCertification',
-            'InsuranceCoverageProperty',
-            'InsuranceCoveragePropertyDeductible',
-            'VehicleInsuranceCertification',
-            'InsuranceCompany',
-            'InsuranceCompanyAgent'];
-
-        var $insuranceName: JQuery = jQuery('.insurance_name');
-
-        isCustomer ? this.disableFields($form, list) : this.enableFields($form, list);
-
-        if (isCustomer) {
-            $insuranceName.attr('data-enabled', 'false');
-            $insuranceName.find('input').prop('disabled', true);
-        } else {
-            $insuranceName.attr('data-enabled', 'true');
-            $insuranceName.find('input').prop('disabled', false);
-        }
-    }
-
-    disableInsurCompanyInfo($form: JQuery): void {
-        var list = ['InsuranceCompanyAddress1',
-            'InsuranceCompanyAddress2',
-            'InsuranceCompanyCity',
-            'InsuranceCompanyState',
-            'InsuranceCompanyZipCode',
-            'InsuranceCompanyCountryId',
-            'InsuranceCompanyPhone',
-            'InsuranceCompanyFax'];
-        this.disableFields($form, list);
-    }
-
-    toggleTaxTabIfUseCustomer($form: JQuery, isCustomer: boolean): void {
-        var list = ['Taxable',
-            'TaxStateOfIncorporationId',
-            'TaxFederalNo',
-            'NonTaxableCertificateNo',
-            'NonTaxableYear',
-            'NonTaxableCertificateValidThrough',
-            'NonTaxableCertificateOnFile'];
-
-        isCustomer ? this.disableFields($form, list) : this.enableFields($form, list);
-    }
-
-    toggleOptionsTabIfExcludeQuote($form: JQuery, isExcluded: boolean): void {
-        var list = ['DisableRental',
-            'DisableSales',
-            'DisableFacilities',
-            'DisableTransportation',
-            'DisableLabor',
-            'DisableMisc',
-            'DisableRentalSale',
-            'DisableSubRental',
-            'DisableSubSale',
-            'DisableSubLabor',
-            'DisableSubMisc'];
-
-        isExcluded ? this.enableFields($form, list) : this.disableFields($form, list);
-    }
-
-    billingAddressTypeChange($form) {
-        if (FwFormField.getValueByDataField($form, 'BillToAddressType') === 'CUSTOMER') {
-            const customerId = FwFormField.getValueByDataField($form, 'CustomerId');
-            FwAppData.apiMethod(true, 'GET', `api/v1/customer/${customerId}`, null, FwServices.defaultTimeout, function onSuccess(res) {
-                FwFormField.disable($form.find('div[data-datafield="BillToAttention1"]'));
-                FwFormField.disable($form.find('div[data-datafield="BillToAttention2"]'));
-                FwFormField.setValueByDataField($form, 'BillToAttention1', res.BillToAttention1);
-                FwFormField.setValueByDataField($form, 'BillToAttention2', res.BillToAttention2);
-                FwFormField.setValueByDataField($form, 'BillToAddress1', res.BillToAddress1);
-                FwFormField.setValueByDataField($form, 'BillToAddress2', res.BillToAddress2);
-                FwFormField.setValueByDataField($form, 'BillToCity', res.BillToCity);
-                FwFormField.setValueByDataField($form, 'BillToState', res.BillToState);
-                FwFormField.setValueByDataField($form, 'BillToZipCode', res.BillToZipCode);
-                FwFormField.setValueByDataField($form, 'BillToCountryId', res.BillToCountryId, res.BillToCountry);
-            }, null, $form);
-        }
-
-        if (FwFormField.getValueByDataField($form, 'BillToAddressType') === 'DEAL') {
-            //// Clear input fields
-            //FwFormField.setValue($form, '.billing_add1', "");
-            //FwFormField.setValue($form, '.billing_add2', "");
-            ////FwFormField.setValue($form, '.billing_city', "");
-            //FwFormField.setValue($form, '.billing_state', "");
-            //FwFormField.setValue($form, '.billing_zip', "");
-            //FwFormField.setValue($form, '.billing_country', "");
-
-            // Values from Customer fields in general tab
-            FwFormField.enable($form.find('div[data-datafield="BillToAttention1"]'));
-            FwFormField.enable($form.find('div[data-datafield="BillToAttention2"]'));
-            FwFormField.setValueByDataField($form, 'BillToAddress1', FwFormField.getValueByDataField($form, 'Address1'));
-            FwFormField.setValueByDataField($form, 'BillToAddress2', FwFormField.getValueByDataField($form, 'Address2'));
-            FwFormField.setValueByDataField($form, 'BillToCity', FwFormField.getValueByDataField($form, 'City'));
-            FwFormField.setValueByDataField($form, 'BillToState', FwFormField.getValueByDataField($form, 'State'));
-            FwFormField.setValueByDataField($form, 'BillToZipCode', FwFormField.getValueByDataField($form, 'ZipCode'));
-            FwFormField.setValueByDataField($form, 'BillToCountryId', FwFormField.getValueByDataField($form, 'CountryId'), FwFormField.getTextByDataField($form, 'CountryId'));
-            //FwFormField.setValue($form, '.billing_add1', FwFormField.getValueByDataField($form, 'Address1'));
-            //FwFormField.setValue($form, '.billing_add2', FwFormField.getValueByDataField($form, 'Address2'));
-            //FwFormField.setValue($form, '.billing_city', FwFormField.getValueByDataField($form, 'City'));
-            //FwFormField.setValue($form, '.billing_state', FwFormField.getValueByDataField($form, 'State'));
-            //FwFormField.setValue($form, '.billing_zip', FwFormField.getValueByDataField($form, 'ZipCode'));
-            //FwFormField.setValue($form, 'div[data-displayfield="BillToCountry"]', FwFormField.getValueByDataField($form, 'CountryId'), FwFormField.getTextByDataField($form, 'CountryId'));
-        }
-
-        if (FwFormField.getValueByDataField($form, 'BillToAddressType') === 'OTHER') {
-            FwFormField.enable($form.find('div[data-datafield="BillToAttention1"]'));
-            FwFormField.enable($form.find('div[data-datafield="BillToAttention2"]'));
-        }
-    }
-
-    shippingAddressTypeChange($form) {
-        if (FwFormField.getValueByDataField($form, 'ShippingAddressType') === 'CUSTOMER') {
-            const customerId = FwFormField.getValueByDataField($form, 'CustomerId');
-            FwAppData.apiMethod(true, 'GET', `api/v1/customer/${customerId}`, null, FwServices.defaultTimeout, function onSuccess(res) {
-                // Clear input fields
-                FwFormField.disable($form.find('.shipping_att'));
-                FwFormField.setValue($form, '.shipping_att', "");
-                FwFormField.setValue($form, '.shipping_add1', "");
-                FwFormField.setValue($form, '.shipping_add2', "");
-                FwFormField.setValue($form, '.shipping_city', "");
-                FwFormField.setValue($form, '.shipping_state', "");
-                FwFormField.setValue($form, '.shipping_zip', "");
-                FwFormField.setValue($form, 'div[data-displayfield="ShipCountry"]', "", "");
-                // Values from response
-                FwFormField.setValue($form, '.shipping_att', res.ShipAttention);
-                FwFormField.setValue($form, '.shipping_add1', res.ShipAddress1);
-                FwFormField.setValue($form, '.shipping_add2', res.ShipAddress2);
-                FwFormField.setValue($form, '.shipping_city', res.ShipCity);
-                FwFormField.setValue($form, '.shipping_state', res.ShipState);
-                FwFormField.setValue($form, '.shipping_zip', res.ShipZipCode);
-                FwFormField.setValue($form, 'div[data-displayfield="ShipCountry"]', res.ShipCountryId, res.ShipCountry);
-            }, null, $form);
-        }
-
-        if (FwFormField.getValueByDataField($form, 'ShippingAddressType') === 'PROJECT') {
-            // Clear input fields
-            FwFormField.setValue($form, '.shipping_add1', "");
-            FwFormField.setValue($form, '.shipping_add2', "");
-            FwFormField.setValue($form, '.shipping_city', "");
-            FwFormField.setValue($form, '.shipping_state', "");
-            FwFormField.setValue($form, '.shipping_zip', "");
-            FwFormField.setValue($form, 'div[data-displayfield="ShipCountry"]', "", "");
-
-            // Values from Customer fields in general tab
-            FwFormField.enable($form.find('.shipping_att'));
-            FwFormField.setValue($form, '.shipping_add1', FwFormField.getValueByDataField($form, 'Address1'));
-            FwFormField.setValue($form, '.shipping_add2', FwFormField.getValueByDataField($form, 'Address2'));
-            FwFormField.setValue($form, '.shipping_city', FwFormField.getValueByDataField($form, 'City'));
-            FwFormField.setValue($form, '.shipping_state', FwFormField.getValueByDataField($form, 'State'));
-            FwFormField.setValue($form, '.shipping_zip', FwFormField.getValueByDataField($form, 'ZipCode'));
-            FwFormField.setValue($form, 'div[data-displayfield="ShipCountry"]', FwFormField.getValueByDataField($form, 'CountryId'), FwFormField.getTextByDataField($form, 'CountryId'));
-        }
-
-        if (FwFormField.getValueByDataField($form, 'ShippingAddressType') === 'OTHER') {
-            FwFormField.enable($form.find('.shipping_att'));
-        }
-    }
-
-    transferDealAddressValues($form) {
-        // Billing Tab
-        if (FwFormField.getValueByDataField($form, 'BillToAddressType') === 'DEAL') {
-            FwFormField.setValue($form, '.billing_add1', FwFormField.getValueByDataField($form, 'Address1'));
-            FwFormField.setValue($form, '.billing_add2', FwFormField.getValueByDataField($form, 'Address2'));
-            FwFormField.setValue($form, '.billing_city', FwFormField.getValueByDataField($form, 'City'));
-            FwFormField.setValue($form, '.billing_state', FwFormField.getValueByDataField($form, 'State'));
-            FwFormField.setValue($form, '.billing_zip', FwFormField.getValueByDataField($form, 'ZipCode'));
-            FwFormField.setValueByDataField($form, 'BillToCountryId', FwFormField.getValueByDataField($form, 'CountryId'), FwFormField.getTextByDataField($form, 'CountryId'));
-            console.log('id', FwFormField.getValueByDataField($form, 'CountryId'))
-            console.log('text', FwFormField.getTextByDataField($form, 'CountryId'))
-
-
-            //FwFormField.setValue($form, 'div[data-displayfield="BillToCountry"]', FwFormField.getValueByDataField($form, 'CountryId'), FwFormField.getTextByDataField($form, 'CountryId'));
-        }
-
-        // Shipping Tab
-        if (FwFormField.getValueByDataField($form, 'ShippingAddressType') === 'PROJECT') {
-            FwFormField.setValue($form, '.shipping_add1', FwFormField.getValueByDataField($form, 'Address1'));
-            FwFormField.setValue($form, '.shipping_add2', FwFormField.getValueByDataField($form, 'Address2'));
-            FwFormField.setValue($form, '.shipping_city', FwFormField.getValueByDataField($form, 'City'));
-            FwFormField.setValue($form, '.shipping_state', FwFormField.getValueByDataField($form, 'State'));
-            FwFormField.setValue($form, '.shipping_zip', FwFormField.getValueByDataField($form, 'ZipCode'));
-            FwFormField.setValue($form, 'div[data-displayfield="ShipCountry"]', FwFormField.getValueByDataField($form, 'CountryId'), FwFormField.getTextByDataField($form, 'CountryId'));
-        }
-    }
-
-    disableFields($form: JQuery, fields: string[]): void {
-        fields.forEach((e, i) => { FwFormField.disable($form.find('[data-datafield="' + e + '"]')); });
-    }
-
-    enableFields($form: JQuery, fields: string[]): void {
-        fields.forEach((e, i) => { FwFormField.enable($form.find('[data-datafield="' + e + '"]')); });
-    }
-
-    updateExternalInputsWithGridValues($tr: JQuery): void {
-        $tr.find('.column > .field').each((i, e) => {
-            var $column = jQuery(e), id = $column.attr('data-browsedatafield'), value = $column.attr('data-originalvalue');
-            if (value == undefined || null) {
-                jQuery(`.${id}`).find(':input').val(0);
-            } else {
-                jQuery(`.${id}`).find(':input').val(value);
-            }
-        });
-    }
-
-    renderGrids($form: any) {
-        var $resaleGrid,
-            $resaleControl,
-            $taxOptionGrid,
-            $taxOptionControl,
-            $contactGrid,
-            $contactControl,
-            $dealNoteGrid,
-            $dealNoteControl,
-            $vendorGrid,
-            $vendorControl;
-
-        $resaleGrid = $form.find('div[data-grid="CompanyResaleGrid"]');
-        $resaleControl = jQuery(jQuery('#tmpl-grids-CompanyResaleGridBrowse').html());
-        $resaleGrid.empty().append($resaleControl);
-        $resaleControl.data('ondatabind', function (request) {
-            request.uniqueids = {
-                CompanyId: $form.find('div.fwformfield[data-datafield="DealId"] input').val()
-            }
-        });
-        $resaleControl.data('beforesave', function (request) {
-            request.CompanyId = FwFormField.getValueByDataField($form, 'DealId')
-        });
-        FwBrowse.init($resaleControl);
-        FwBrowse.renderRuntimeHtml($resaleControl);
-
-        $taxOptionGrid = $form.find('div[data-grid="CompanyTaxOptionGrid"]');
-        $taxOptionControl = jQuery(jQuery('#tmpl-grids-CompanyTaxOptionGridBrowse').html());
-        $taxOptionGrid.empty().append($taxOptionControl);
-        $taxOptionControl.data('ondatabind', function (request) {
-            request.uniqueids = {
-                CompanyId: $form.find('div.fwformfield[data-datafield="DealId"] input').val()
-            }
-        });
-        FwBrowse.init($taxOptionControl);
-        FwBrowse.renderRuntimeHtml($taxOptionControl);
-
-        $contactGrid = $form.find('div[data-grid="ContactGrid"]');
-        $contactControl = jQuery(jQuery('#tmpl-grids-ContactGridBrowse').html());
-        $contactGrid.empty().append($contactControl);
-        $contactControl.data('ondatabind', function (request) {
-            request.uniqueids = {
-                ContactId: $form.find('div.fwformfield[data-datafield="DealId"] input').val()
-            }
-        });
-        FwBrowse.init($contactControl);
-        FwBrowse.renderRuntimeHtml($contactControl);
-
-        $dealNoteGrid = $form.find('div[data-grid="DealNoteGrid"]');
-        $dealNoteControl = jQuery(jQuery('#tmpl-grids-DealNoteGridBrowse').html());
-        $dealNoteGrid.empty().append($dealNoteControl);
-        $dealNoteControl.data('ondatabind', function (request) {
-            request.uniqueids = {
-                DealId: $form.find('div.fwformfield[data-datafield="DealId"] input').val()
-            }
-        });
-        $dealNoteControl.data('beforesave', function (request) {
-            request.DealId = FwFormField.getValueByDataField($form, 'DealId');
-        })
-        FwBrowse.init($dealNoteControl);
-        FwBrowse.renderRuntimeHtml($dealNoteControl);
-
-        $vendorGrid = $form.find('div[data-grid="DealShipperGrid"]');
-        $vendorControl = jQuery(jQuery('#tmpl-grids-DealShipperGridBrowse').html());
-        $vendorGrid.empty().append($vendorControl);
-        $vendorControl.data('ondatabind', function (request) {
-            request.uniqueids = {
-                DealId: $form.find('div.fwformfield[data-datafield="DealId"] input').val()
-            }
-        });
-        $vendorControl.data('beforesave', function (request) {
-            request.DealId = FwFormField.getValueByDataField($form, 'DealId')
-        });
-
-        FwBrowse.init($vendorControl);
-        FwBrowse.renderRuntimeHtml($vendorControl);
-
-        // ----------
-        var nameCompanyContactGrid: string = 'CompanyContactGrid'
-        var $companyContactGrid: any = $companyContactGrid = $form.find('div[data-grid="' + nameCompanyContactGrid + '"]');
-        var $companyContactControl: any = FwBrowse.loadGridFromTemplate(nameCompanyContactGrid);
-        $companyContactGrid.empty().append($companyContactControl);
-        $companyContactControl.data('ondatabind', function (request) {
-            request.uniqueids = {
-                CompanyId: FwFormField.getValueByDataField($form, 'DealId')
-            }
-        });
-        $companyContactControl.data('beforesave', function (request) {
-            request.CompanyId = FwFormField.getValueByDataField($form, 'DealId');
-        });
-        FwBrowse.init($companyContactControl);
-        FwBrowse.renderRuntimeHtml($companyContactControl);
-    }
-
+    //----------------------------------------------------------------------------------------------
     openForm(mode: string, parentmoduleinfo?: any) {
         var $submoduleQuoteBrowse, $submoduleOrderBrowse;
 
@@ -548,20 +82,20 @@ class Deal {
             FwFormField.setValue($form, 'div[data-datafield="BillingCycleId"]', dealDefaults.defaultdealbillingcycleid, dealDefaults.defaultdealbillingcycle);
             // Default customer main address
             $form.find('div[data-datafield="CustomerId"]').on('change', e => {
-            const customerId = FwFormField.getValueByDataField($form, 'CustomerId');
-            FwAppData.apiMethod(true, 'GET', `api/v1/customer/${customerId}`, null, FwServices.defaultTimeout, function onSuccess(res) {
-                FwFormField.setValueByDataField($form, 'Address1', res.Address1);
-                FwFormField.setValueByDataField($form, 'Address2', res.Address2);
-                FwFormField.setValueByDataField($form, 'City', res.City);
-                FwFormField.setValueByDataField($form, 'State', res.State);
-                FwFormField.setValueByDataField($form, 'ZipCode', res.ZipCode);
-                FwFormField.setValueByDataField($form, 'Phone', res.Phone);
-                FwFormField.setValueByDataField($form, 'Phone800', res.Phone800);
-                FwFormField.setValueByDataField($form, 'Fax', res.Fax);
-                FwFormField.setValueByDataField($form, 'PhoneOther', res.OtherPhone);
-                FwFormField.setValue($form, 'div[data-datafield="CountryId"]', res.CountryId, res.Country);
-                FwFormField.setValue($form, 'div[data-datafield="PaymentTermsId"]', res.PaymentTermsId, res.PaymentTerms);
-            }, null, null);
+                const CUSTOMERID = FwFormField.getValueByDataField($form, 'CustomerId');
+                FwAppData.apiMethod(true, 'GET', `api/v1/customer/${CUSTOMERID}`, null, FwServices.defaultTimeout, function onSuccess(res) {
+                    FwFormField.setValueByDataField($form, 'Address1', res.Address1);
+                    FwFormField.setValueByDataField($form, 'Address2', res.Address2);
+                    FwFormField.setValueByDataField($form, 'City', res.City);
+                    FwFormField.setValueByDataField($form, 'State', res.State);
+                    FwFormField.setValueByDataField($form, 'ZipCode', res.ZipCode);
+                    FwFormField.setValueByDataField($form, 'Phone', res.Phone);
+                    FwFormField.setValueByDataField($form, 'Phone800', res.Phone800);
+                    FwFormField.setValueByDataField($form, 'Fax', res.Fax);
+                    FwFormField.setValueByDataField($form, 'PhoneOther', res.OtherPhone);
+                    FwFormField.setValue($form, 'div[data-datafield="CountryId"]', res.CountryId, res.Country);
+                    FwFormField.setValue($form, 'div[data-datafield="PaymentTermsId"]', res.PaymentTermsId, res.PaymentTerms);
+                }, null, null);
             });
         }
 
@@ -606,7 +140,6 @@ class Deal {
         //]);
 
         this.disableFields($form, ['DiscountTemplateId', 'DiscountTemplate']);
-
         this.events($form);
 
         if (typeof parentmoduleinfo !== 'undefined') {
@@ -615,7 +148,7 @@ class Deal {
 
         return $form;
     }
-
+    //----------------------------------------------------------------------------------------------
     loadForm(uniqueids: any) {
         var $form;
 
@@ -627,46 +160,18 @@ class Deal {
 
         return $form;
     }
-
-    openQuoteBrowse($form) {
-        var $browse;
-        $browse = QuoteController.openBrowse();
-
-        $browse.data('ondatabind', function (request) {
-            request.ActiveView = QuoteController.ActiveView;
-            request.uniqueids = {
-                DealId: $form.find('[data-datafield="DealId"] input.fwformfield-value').val()
-            }
-        });
-
-        return $browse;
-    };
-
-    openOrderBrowse($form) {
-        var $browse;
-        $browse = OrderController.openBrowse();
-
-        $browse.data('ondatabind', function (request) {
-            request.ActiveView = OrderController.ActiveView;
-            request.uniqueids = {
-                DealId: $form.find('[data-datafield="DealId"] input.fwformfield-value').val()
-            }
-        });
-
-        return $browse;
-    };
-
-    saveForm($form: any, parameters: any) {
+    //----------------------------------------------------------------------------------------------
+    saveForm($form: any, parameters: any):void {
         FwModule.saveForm(this.Module, $form, parameters);
     }
-
-    loadAudit($form: any) {
-        var uniqueid;
+    //----------------------------------------------------------------------------------------------
+    loadAudit($form: any):void {
+        let uniqueid;
         uniqueid = $form.find('div.fwformfield[data-datafield="DealId"] input').val();
         FwModule.loadAudit($form, uniqueid);
     }
-
-    afterLoad($form: any) {
+    //----------------------------------------------------------------------------------------------
+    afterLoad($form: any): void {
         var $resaleGrid,
             $taxOptionGrid,
             $contactGrid,
@@ -760,7 +265,479 @@ class Deal {
             }
         });
     }
+    //----------------------------------------------------------------------------------------------
+    events($form: JQuery): void {
+        $form.find('[data-name="CompanyTaxOptionGrid"]').data('onselectedrowchanged', ($control: JQuery, $tr: JQuery) => {
+            try {
+                this.updateExternalInputsWithGridValues($tr);
+            } catch (ex) {
+                FwFunc.showError(ex);
+            }
+        });
+        // If user changes customer, update corresponding address fields in other tabs
+        $form.find('div[data-datafield="CustomerId"]').data('onchange', e => {
+            this.shippingAddressTypeChange($form);
+            this.billingAddressTypeChange($form);
+        });
+        // If user updates general address info
+        $form.find('.deal_address input').on('change', e => {
+            this.transferDealAddressValues($form);
+        });
+        //Shipping Address Type Change
+        $form.find('div[data-datafield="ShippingAddressType"]').on('change', e => {
+            this.shippingAddressTypeChange($form);
+        });
+        //Billing Address Type Change
+        $form.find('div[data-datafield="BillToAddressType"]').on('change', e => {
+            this.billingAddressTypeChange($form);
+        });
 
+        $form.on('change', '.billing_use_discount_template input[type=checkbox]', e => {
+            //this.useDiscountTemplate(jQuery(e.currentTarget).is(':checked'));
+            this.toggleBillingUseDiscount($form, jQuery(e.currentTarget).is(':checked'));
+        });
+
+        $form.on('change', '.billing_use_customer input[type=checkbox]', e => {
+            this.useCustomer(jQuery(e.currentTarget).is(':checked'));
+        });
+
+        $form.on('change', '.billing-type-radio input[type=radio]', e => {
+            var val = jQuery(e.currentTarget).val() !== 'OTHER' ? true : false;
+            this.toggleBillingAddressInfo($form, val);
+        });
+
+        $form.on('change', '.shipping_address_type_radio input[type=radio]', e => {
+            var val = jQuery(e.currentTarget).val() !== 'OTHER' ? true : false;
+            this.toggleShippingAddressInfo($form, val);
+        });
+
+        $form.on('change', '.credit_use_customer input[type=checkbox]', e => {
+            var isChecked = jQuery(e.currentTarget).is(':checked');
+            this.toggleCredTabIfUseCustomer($form, isChecked);
+        });
+
+        $form.on('change', '.insurance_use_customer input[type=checkbox]', e => {
+            var isChecked = jQuery(e.currentTarget).is(':checked');
+            this.toggleInsurTabIfUseCustomer($form, isChecked);
+        });
+
+        //$form.on('change', '.billing_potype input[type=radio]', (e) => {
+        //    FwFormField.setValue($form, jQuery(e.currentTarget))
+        //});
+
+        $form.on('change', '.tax_use_customer input[type=checkbox]', e => {
+            var isChecked = jQuery(e.currentTarget).is(':checked');
+            this.toggleTaxTabIfUseCustomer($form, isChecked);
+        });
+
+        $form.on('change', '.exlude_quote input[type=checkbox]', e => {
+            var isChecked = jQuery(e.currentTarget).is(':checked');
+            this.toggleOptionsTabIfExcludeQuote($form, isChecked);
+        });
+    }
+
+    //useDiscountTemplate(isChecked: boolean): void {
+    //    var $temp: JQuery = jQuery('.billing_template');
+    //    // DiscountTemplateId
+    //    if (!isChecked) {
+    //        $temp.attr('data-enabled', 'false');
+    //        $temp.find('input').prop('disabled', true);
+    //    } else {
+    //        $temp.attr('data-enabled', 'true');
+    //        $temp.find('input').prop('disabled', false);
+    //    }
+    //}
+    //----------------------------------------------------------------------------------------------
+    useCustomer(isChecked: boolean): void {
+        var $discTemp: JQuery = jQuery('.billing_use_discount_template'),
+            $useCust: JQuery = jQuery('.billing_use_customer'),
+            $temp: JQuery = jQuery('.billing_template');
+
+        if (isChecked) {
+            $temp.attr('data-enabled', 'false');
+            $temp.find('input').prop('disabled', true);
+            $discTemp.attr('data-enabled', 'false');
+            $discTemp.find('input').prop('disabled', true);
+        } else {
+            if ($discTemp.find('input[type=checkbox]').is(':checked')) {
+                $temp.attr('data-enabled', 'true');
+                $temp.find('input').prop('disabled', false);
+            } else {
+                $temp.attr('data-enabled', 'false');
+                $temp.find('input').prop('disabled', true);
+            }
+            $discTemp.attr('data-enabled', 'true');
+            $discTemp.find('input').prop('disabled', false);
+        }
+    }
+    //----------------------------------------------------------------------------------------------
+    toggleBillingUseDiscount($form: JQuery, isDiscountTemplate: boolean): void {
+        var list = ['DiscountTemplateId'];
+
+        isDiscountTemplate ? this.enableFields($form, list) : this.disableFields($form, list);
+    }
+    //----------------------------------------------------------------------------------------------
+    toggleBillingAddressInfo($form: JQuery, isOther: boolean) {
+        var list = [
+            'BillToAddress1',
+            'BillToAddress2',
+            'BillToCity',
+            'BillToState',
+            'BillToZipCode',
+            'BillToCountryId'];
+
+        isOther ? this.disableFields($form, list) : this.enableFields($form, list);
+    }
+    //----------------------------------------------------------------------------------------------
+    toggleShippingAddressInfo($form: JQuery, isOther: boolean) {
+        var list = [
+            'ShipAddress1',
+            'ShipAddress2',
+            'ShipCity',
+            'ShipState',
+            'ShipZipCode',
+            'ShipCountryId'];
+
+        isOther ? this.disableFields($form, list) : this.enableFields($form, list);
+    }
+    //----------------------------------------------------------------------------------------------
+    toggleCredTabIfUseCustomer($form: JQuery, isCustomer: boolean): void {
+        var list = ['CreditStatusId',
+            'CreditStatusThrough',
+            'CreditLimit',
+            'UnlimitedCredit',
+            'CreditApplicationOnFile',
+            'TradeReferencesVerifiedBy',
+            'TradeReferencesVerifiedOn',
+            'TradeReferencesVerified',
+            'CreditCardName',
+            'CreditCardAuthorizationFormOnFile',
+            'CreditCardTypeId',
+            'CreditCardExpirationMonth',
+            'CreditCardExpirationYear',
+            'CreditCardCode',
+            'CreditCardLimit',
+            'CreditCardNumber',
+            'CreditResponsibleParty',
+            'CreditResponsiblePartyOnFile',
+            'DepletingDepositThresholdAmount',
+            'DepletingDepositThresholdPercent'
+            //'DepletingDepositTotal',
+            //'DepletingDepositApplied',
+            //'DepletingDepositRemaining'
+        ];
+
+        isCustomer ? this.disableFields($form, list) : this.enableFields($form, list);
+    }
+    //----------------------------------------------------------------------------------------------
+    toggleInsurTabIfUseCustomer($form: JQuery, isCustomer: boolean): void {
+        var list = ['InsuranceCertificationValidThrough',
+            'InsuranceCoverageLiability',
+            'InsuranceCoverageLiabilityDeductible',
+            'InsuranceCertification',
+            'InsuranceCoverageProperty',
+            'InsuranceCoveragePropertyDeductible',
+            'VehicleInsuranceCertification',
+            'InsuranceCompany',
+            'InsuranceCompanyAgent'];
+
+        var $insuranceName: JQuery = jQuery('.insurance_name');
+
+        isCustomer ? this.disableFields($form, list) : this.enableFields($form, list);
+
+        if (isCustomer) {
+            $insuranceName.attr('data-enabled', 'false');
+            $insuranceName.find('input').prop('disabled', true);
+        } else {
+            $insuranceName.attr('data-enabled', 'true');
+            $insuranceName.find('input').prop('disabled', false);
+        }
+    }
+    //----------------------------------------------------------------------------------------------
+    disableInsurCompanyInfo($form: JQuery): void {
+        var list = ['InsuranceCompanyAddress1',
+            'InsuranceCompanyAddress2',
+            'InsuranceCompanyCity',
+            'InsuranceCompanyState',
+            'InsuranceCompanyZipCode',
+            'InsuranceCompanyCountryId',
+            'InsuranceCompanyPhone',
+            'InsuranceCompanyFax'];
+        this.disableFields($form, list);
+    }
+    //----------------------------------------------------------------------------------------------
+    toggleTaxTabIfUseCustomer($form: JQuery, isCustomer: boolean): void {
+        var list = ['Taxable',
+            'TaxStateOfIncorporationId',
+            'TaxFederalNo',
+            'NonTaxableCertificateNo',
+            'NonTaxableYear',
+            'NonTaxableCertificateValidThrough',
+            'NonTaxableCertificateOnFile'];
+
+        isCustomer ? this.disableFields($form, list) : this.enableFields($form, list);
+    }
+    //----------------------------------------------------------------------------------------------
+    toggleOptionsTabIfExcludeQuote($form: JQuery, isExcluded: boolean): void {
+        var list = ['DisableRental',
+            'DisableSales',
+            'DisableFacilities',
+            'DisableTransportation',
+            'DisableLabor',
+            'DisableMisc',
+            'DisableRentalSale',
+            'DisableSubRental',
+            'DisableSubSale',
+            'DisableSubLabor',
+            'DisableSubMisc'];
+
+        isExcluded ? this.enableFields($form, list) : this.disableFields($form, list);
+    }
+    //----------------------------------------------------------------------------------------------
+    billingAddressTypeChange($form: any): void {
+        if (FwFormField.getValueByDataField($form, 'BillToAddressType') === 'CUSTOMER') {
+            const CUSTOMERID = FwFormField.getValueByDataField($form, 'CustomerId');
+            FwAppData.apiMethod(true, 'GET', `api/v1/customer/${CUSTOMERID}`, null, FwServices.defaultTimeout, function onSuccess(res) {
+                FwFormField.disable($form.find('div[data-datafield="BillToAttention1"]'));
+                FwFormField.disable($form.find('div[data-datafield="BillToAttention2"]'));
+                //Some values are being supplied as null so reset fields prior to setting new values
+                FwFormField.setValueByDataField($form, 'BillToAttention1', '');
+                FwFormField.setValueByDataField($form, 'BillToAttention2', '');
+                FwFormField.setValueByDataField($form, 'BillToAddress1', '');
+                FwFormField.setValueByDataField($form, 'BillToAddress2', '');
+                FwFormField.setValueByDataField($form, 'BillToCity', '');
+                FwFormField.setValueByDataField($form, 'BillToState', '');
+                FwFormField.setValueByDataField($form, 'BillToZipCode', '');
+                FwFormField.setValueByDataField($form, 'BillToCountryId', '', '');
+
+                FwFormField.setValueByDataField($form, 'BillToAttention1', res.BillToAttention1);
+                FwFormField.setValueByDataField($form, 'BillToAttention2', res.BillToAttention2);
+                FwFormField.setValueByDataField($form, 'BillToAddress1', res.BillToAddress1);
+                FwFormField.setValueByDataField($form, 'BillToAddress2', res.BillToAddress2);
+                FwFormField.setValueByDataField($form, 'BillToCity', res.BillToCity);
+                FwFormField.setValueByDataField($form, 'BillToState', res.BillToState);
+                FwFormField.setValueByDataField($form, 'BillToZipCode', res.BillToZipCode);
+                FwFormField.setValueByDataField($form, 'BillToCountryId', res.BillToCountryId, res.BillToCountry);
+            }, null, $form);
+        }
+        if (FwFormField.getValueByDataField($form, 'BillToAddressType') === 'DEAL') {
+            FwFormField.enable($form.find('div[data-datafield="BillToAttention1"]'));
+            FwFormField.enable($form.find('div[data-datafield="BillToAttention2"]'));
+            FwFormField.setValueByDataField($form, 'BillToAddress1', FwFormField.getValueByDataField($form, 'Address1'));
+            FwFormField.setValueByDataField($form, 'BillToAddress2', FwFormField.getValueByDataField($form, 'Address2'));
+            FwFormField.setValueByDataField($form, 'BillToCity', FwFormField.getValueByDataField($form, 'City'));
+            FwFormField.setValueByDataField($form, 'BillToState', FwFormField.getValueByDataField($form, 'State'));
+            FwFormField.setValueByDataField($form, 'BillToZipCode', FwFormField.getValueByDataField($form, 'ZipCode'));
+            FwFormField.setValueByDataField($form, 'BillToCountryId', FwFormField.getValueByDataField($form, 'CountryId'), FwFormField.getTextByDataField($form, 'CountryId'));
+        }
+        if (FwFormField.getValueByDataField($form, 'BillToAddressType') === 'OTHER') {
+            FwFormField.enable($form.find('div[data-datafield="BillToAttention1"]'));
+            FwFormField.enable($form.find('div[data-datafield="BillToAttention2"]'));
+        }
+    }
+    //----------------------------------------------------------------------------------------------
+    shippingAddressTypeChange($form: any): void {
+        if (FwFormField.getValueByDataField($form, 'ShippingAddressType') === 'CUSTOMER') {
+            const CUSTOMERID = FwFormField.getValueByDataField($form, 'CustomerId');
+            FwAppData.apiMethod(true, 'GET', `api/v1/customer/${CUSTOMERID}`, null, FwServices.defaultTimeout, function onSuccess(res) {
+                //Some values are being served as null so reset fields prior to setting new values
+                FwFormField.setValueByDataField($form, 'ShipAttention', '');
+                FwFormField.setValueByDataField($form, 'ShipAddress1', '');
+                FwFormField.setValueByDataField($form, 'ShipAddress2', '');
+                FwFormField.setValueByDataField($form, 'ShipCity', '');
+                FwFormField.setValueByDataField($form, 'ShipState', '');
+                FwFormField.setValueByDataField($form, 'ShipZipCode', '');
+                FwFormField.setValueByDataField($form, 'ShipCountryId', '', '');
+
+                FwFormField.setValueByDataField($form, 'ShipAttention', res.ShipAttention);
+                FwFormField.setValueByDataField($form, 'ShipAddress1', res.ShipAddress1);
+                FwFormField.setValueByDataField($form, 'ShipAddress2', res.ShipAddress2);
+                FwFormField.setValueByDataField($form, 'ShipCity', res.ShipCity);
+                FwFormField.setValueByDataField($form, 'ShipState', res.ShipState);
+                FwFormField.setValueByDataField($form, 'ShipZipCode', res.ShipZipCode);
+                FwFormField.setValueByDataField($form, 'ShipCountryId', res.ShipCountryId, res.ShipCountry);
+            }, null, null);
+        }
+
+        if (FwFormField.getValueByDataField($form, 'ShippingAddressType') === 'PROJECT') {
+            FwFormField.setValueByDataField($form, 'ShipAddress1', FwFormField.getValueByDataField($form, 'Address1'));
+            FwFormField.setValueByDataField($form, 'ShipAddress2', FwFormField.getValueByDataField($form, 'Address2'));
+            FwFormField.setValueByDataField($form, 'ShipCity', FwFormField.getValueByDataField($form, 'City'));
+            FwFormField.setValueByDataField($form, 'ShipState', FwFormField.getValueByDataField($form, 'State'));
+            FwFormField.setValueByDataField($form, 'ShipZipCode', FwFormField.getValueByDataField($form, 'ZipCode'));
+            FwFormField.setValueByDataField($form, 'ShipCountryId', FwFormField.getValueByDataField($form, 'CountryId'), FwFormField.getTextByDataField($form, 'CountryId'));
+        }
+
+        if (FwFormField.getValueByDataField($form, 'ShippingAddressType') === 'OTHER') {
+            FwFormField.enable($form.find('div[data-datafield="ShipToAttention"]'));
+
+        }
+    }
+    //----------------------------------------------------------------------------------------------
+    transferDealAddressValues($form: any): void {
+        setTimeout(() => { // Wrapped in a setTimeout because text value in Country validation was not resetting prior to setting values
+            // Billing Tab
+            if (FwFormField.getValueByDataField($form, 'BillToAddressType') === 'DEAL') {
+                FwFormField.setValueByDataField($form, 'BillToAddress1', FwFormField.getValueByDataField($form, 'Address1'));
+                FwFormField.setValueByDataField($form, 'BillToAddress2', FwFormField.getValueByDataField($form, 'Address2'));
+                FwFormField.setValueByDataField($form, 'BillToCity', FwFormField.getValueByDataField($form, 'City'));
+                FwFormField.setValueByDataField($form, 'BillToState', FwFormField.getValueByDataField($form, 'State'));
+                FwFormField.setValueByDataField($form, 'BillToZipCode', FwFormField.getValueByDataField($form, 'ZipCode'));
+                FwFormField.setValueByDataField($form, 'BillToCountryId', FwFormField.getValueByDataField($form, 'CountryId'), FwFormField.getTextByDataField($form, 'CountryId'));
+            }
+            // Shipping Tab
+            if (FwFormField.getValueByDataField($form, 'ShippingAddressType') === 'PROJECT') {
+                FwFormField.setValueByDataField($form, 'ShipAddress1', FwFormField.getValueByDataField($form, 'Address1'));
+                FwFormField.setValueByDataField($form, 'ShipAddress2', FwFormField.getValueByDataField($form, 'Address2'));
+                FwFormField.setValueByDataField($form, 'ShipCity', FwFormField.getValueByDataField($form, 'City'));
+                FwFormField.setValueByDataField($form, 'ShipState', FwFormField.getValueByDataField($form, 'State'));
+                FwFormField.setValueByDataField($form, 'ShipZipCode', FwFormField.getValueByDataField($form, 'ZipCode'));
+                FwFormField.setValueByDataField($form, 'ShipCountryId', FwFormField.getValueByDataField($form, 'CountryId'), FwFormField.getTextByDataField($form, 'CountryId'));
+            }
+        },1000)
+    }
+    //----------------------------------------------------------------------------------------------
+    disableFields($form: JQuery, fields: string[]): void {
+        fields.forEach((e, i) => { FwFormField.disable($form.find('[data-datafield="' + e + '"]')); });
+    }
+    //----------------------------------------------------------------------------------------------
+    enableFields($form: JQuery, fields: string[]): void {
+        fields.forEach((e, i) => { FwFormField.enable($form.find('[data-datafield="' + e + '"]')); });
+    }
+    //----------------------------------------------------------------------------------------------
+    updateExternalInputsWithGridValues($tr: JQuery): void {
+        $tr.find('.column > .field').each((i, e) => {
+            var $column = jQuery(e), id = $column.attr('data-browsedatafield'), value = $column.attr('data-originalvalue');
+            if (value == undefined || null) {
+                jQuery(`.${id}`).find(':input').val(0);
+            } else {
+                jQuery(`.${id}`).find(':input').val(value);
+            }
+        });
+    }
+    //----------------------------------------------------------------------------------------------
+    renderGrids($form: any) {
+        var $resaleGrid,
+            $resaleControl,
+            $taxOptionGrid,
+            $taxOptionControl,
+            $contactGrid,
+            $contactControl,
+            $dealNoteGrid,
+            $dealNoteControl,
+            $vendorGrid,
+            $vendorControl;
+
+        $resaleGrid = $form.find('div[data-grid="CompanyResaleGrid"]');
+        $resaleControl = jQuery(jQuery('#tmpl-grids-CompanyResaleGridBrowse').html());
+        $resaleGrid.empty().append($resaleControl);
+        $resaleControl.data('ondatabind', function (request) {
+            request.uniqueids = {
+                CompanyId: $form.find('div.fwformfield[data-datafield="DealId"] input').val()
+            }
+        });
+        $resaleControl.data('beforesave', function (request) {
+            request.CompanyId = FwFormField.getValueByDataField($form, 'DealId')
+        });
+        FwBrowse.init($resaleControl);
+        FwBrowse.renderRuntimeHtml($resaleControl);
+
+        $taxOptionGrid = $form.find('div[data-grid="CompanyTaxOptionGrid"]');
+        $taxOptionControl = jQuery(jQuery('#tmpl-grids-CompanyTaxOptionGridBrowse').html());
+        $taxOptionGrid.empty().append($taxOptionControl);
+        $taxOptionControl.data('ondatabind', function (request) {
+            request.uniqueids = {
+                CompanyId: $form.find('div.fwformfield[data-datafield="DealId"] input').val()
+            }
+        });
+        FwBrowse.init($taxOptionControl);
+        FwBrowse.renderRuntimeHtml($taxOptionControl);
+
+        $contactGrid = $form.find('div[data-grid="ContactGrid"]');
+        $contactControl = jQuery(jQuery('#tmpl-grids-ContactGridBrowse').html());
+        $contactGrid.empty().append($contactControl);
+        $contactControl.data('ondatabind', function (request) {
+            request.uniqueids = {
+                ContactId: $form.find('div.fwformfield[data-datafield="DealId"] input').val()
+            }
+        });
+        FwBrowse.init($contactControl);
+        FwBrowse.renderRuntimeHtml($contactControl);
+
+        $dealNoteGrid = $form.find('div[data-grid="DealNoteGrid"]');
+        $dealNoteControl = jQuery(jQuery('#tmpl-grids-DealNoteGridBrowse').html());
+        $dealNoteGrid.empty().append($dealNoteControl);
+        $dealNoteControl.data('ondatabind', function (request) {
+            request.uniqueids = {
+                DealId: $form.find('div.fwformfield[data-datafield="DealId"] input').val()
+            }
+        });
+        $dealNoteControl.data('beforesave', function (request) {
+            request.DealId = FwFormField.getValueByDataField($form, 'DealId');
+        })
+        FwBrowse.init($dealNoteControl);
+        FwBrowse.renderRuntimeHtml($dealNoteControl);
+
+        $vendorGrid = $form.find('div[data-grid="DealShipperGrid"]');
+        $vendorControl = jQuery(jQuery('#tmpl-grids-DealShipperGridBrowse').html());
+        $vendorGrid.empty().append($vendorControl);
+        $vendorControl.data('ondatabind', function (request) {
+            request.uniqueids = {
+                DealId: $form.find('div.fwformfield[data-datafield="DealId"] input').val()
+            }
+        });
+        $vendorControl.data('beforesave', function (request) {
+            request.DealId = FwFormField.getValueByDataField($form, 'DealId')
+        });
+
+        FwBrowse.init($vendorControl);
+        FwBrowse.renderRuntimeHtml($vendorControl);
+
+        // ----------
+        var nameCompanyContactGrid: string = 'CompanyContactGrid'
+        var $companyContactGrid: any = $companyContactGrid = $form.find('div[data-grid="' + nameCompanyContactGrid + '"]');
+        var $companyContactControl: any = FwBrowse.loadGridFromTemplate(nameCompanyContactGrid);
+        $companyContactGrid.empty().append($companyContactControl);
+        $companyContactControl.data('ondatabind', function (request) {
+            request.uniqueids = {
+                CompanyId: FwFormField.getValueByDataField($form, 'DealId')
+            }
+        });
+        $companyContactControl.data('beforesave', function (request) {
+            request.CompanyId = FwFormField.getValueByDataField($form, 'DealId');
+        });
+        FwBrowse.init($companyContactControl);
+        FwBrowse.renderRuntimeHtml($companyContactControl);
+    }
+    //----------------------------------------------------------------------------------------------
+    openQuoteBrowse($form) {
+        var $browse;
+        $browse = QuoteController.openBrowse();
+
+        $browse.data('ondatabind', function (request) {
+            request.ActiveView = QuoteController.ActiveView;
+            request.uniqueids = {
+                DealId: $form.find('[data-datafield="DealId"] input.fwformfield-value').val()
+            }
+        });
+
+        return $browse;
+    };
+    //----------------------------------------------------------------------------------------------
+    openOrderBrowse($form) {
+        var $browse;
+        $browse = OrderController.openBrowse();
+
+        $browse.data('ondatabind', function (request) {
+            request.ActiveView = OrderController.ActiveView;
+            request.uniqueids = {
+                DealId: $form.find('[data-datafield="DealId"] input.fwformfield-value').val()
+            }
+        });
+
+        return $browse;
+    };
+    //----------------------------------------------------------------------------------------------
     getBrowseTemplate(): string {
         return `
         <div data-name="Deal" data-control="FwBrowse" data-type="Browse" id="DealBrowse" class="fwcontrol fwbrowse" data-orderby="" data-controller="DealController" data-hasinactive="true">
@@ -785,7 +762,7 @@ class Deal {
           <div class="column spacer" data-width="auto" data-visible="true"></div>
         </div>`;
     }
-
+    //----------------------------------------------------------------------------------------------
     getFormTemplate(): string {
         return `
         <div id="dealform" class="fwcontrol fwcontainer fwform" data-control="FwContainer" data-type="form" data-version="1" data-caption="Deal" data-rendermode="template" data-mode="" data-hasaudit="false" data-controller="DealController">
@@ -937,20 +914,20 @@ class Deal {
                           </div>
                         </div>
                         <div class="flexrow" style="margin-top:5px;">
-                          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield billing_att1" data-caption="Attention 1" data-datafield="BillToAttention1" style="flex:1 1 250px;"></div>
-                          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield billing_att2" data-caption="Attention 2" data-datafield="BillToAttention2" style="flex:1 1 250px;"></div>
+                          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Attention 1" data-datafield="BillToAttention1" style="flex:1 1 250px;"></div>
+                          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Attention 2" data-datafield="BillToAttention2" style="flex:1 1 250px;"></div>
                         </div>
                         <div class="flexrow">
-                          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield billing_add1" data-caption="Address 1" data-datafield="BillToAddress1" style="flex:1 1 250px;"></div>
-                          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield billing_add2" data-caption="Address 2" data-datafield="BillToAddress2" style="flex:1 1 250px;"></div>
+                          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Address 1" data-datafield="BillToAddress1" style="flex:1 1 250px;"></div>
+                          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Address 2" data-datafield="BillToAddress2" style="flex:1 1 250px;"></div>
                         </div>
                         <div class="flexrow">
-                          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield billing_city" data-caption="City" data-datafield="BillToCity" style="flex:1 1 275px;"></div>
-                          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield billing_state" data-caption="State" data-datafield="BillToState" style="flex:1 1 150px;"></div>
-                          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield billing_zip" data-caption="Zip/Postal" data-datafield="BillToZipCode" style="flex:1 1 100px;"></div>
+                          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="City" data-datafield="BillToCity" style="flex:1 1 275px;"></div>
+                          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="State" data-datafield="BillToState" style="flex:1 1 150px;"></div>
+                          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Zip/Postal" data-datafield="BillToZipCode" style="flex:1 1 100px;"></div>
                         </div>
                         <div class="flexrow">
-                          <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield billing_country" data-caption="Country" data-datafield="BillToCountryId" data-displayfield="BillToCountry" data-validationname="CountryValidation" style="flex:1 1 175px;"></div>
+                          <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Country" data-datafield="BillToCountryId" data-displayfield="BillToCountry" data-validationname="CountryValidation" style="flex:1 1 175px;"></div>
                         </div>
                       </div>
                     </div>
@@ -1270,16 +1247,16 @@ class Deal {
                       <!-- Default Shipping Address section -->
                       <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Default Shipping Address">
                         <div class="flexrow">
-                          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield shipping_att" data-caption="Attention" data-datafield="ShipAttention" style="flex:1 1 275px;"></div>
+                          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Attention" data-datafield="ShipAttention" style="flex:1 1 275px;"></div>
                         </div>
                         <div class="flexrow">
-                          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield shipping_add1" data-caption="Address 1" data-datafield="ShipAddress1" style="flex:1 1 275px;"></div>
-                          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield shipping_add2" data-caption="Address 2" data-datafield="ShipAddress2" style="flex:1 1 250px;"></div>
+                          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Address 1" data-datafield="ShipAddress1" style="flex:1 1 275px;"></div>
+                          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Address 2" data-datafield="ShipAddress2" style="flex:1 1 250px;"></div>
                         </div>
                         <div class="flexrow">
-                          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield shipping_city" data-caption="City" data-datafield="ShipCity" style="flex:1 1 275px;"></div>
-                          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield shipping_state" data-caption="State" data-datafield="ShipState" style="flex:1 1 150px;"></div>
-                          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield shipping_zip" data-caption="Zip/Postal" data-datafield="ShipZipCode" style="flex:1 1 100px;"></div>
+                          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="City" data-datafield="ShipCity" style="flex:1 1 275px;"></div>
+                          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="State" data-datafield="ShipState" style="flex:1 1 150px;"></div>
+                          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Zip/Postal" data-datafield="ShipZipCode" style="flex:1 1 100px;"></div>
                         </div>
                         <div class="flexrow">
                           <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Country" data-datafield="ShipCountryId" data-displayfield="ShipCountry" data-validationname="CountryValidation" style="float:left;width:175px;"></div>
@@ -1344,5 +1321,5 @@ class Deal {
         </div>`;
     }
 }
-
+//----------------------------------------------------------------------------------------------
 var DealController = new Deal();
