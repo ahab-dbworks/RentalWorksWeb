@@ -290,7 +290,7 @@ namespace WebApi.Modules.Reports.PickListReport
         [FwSqlDataField(column: "hasreservedrentalitem", modeltype: FwDataTypes.Boolean)]
         public bool? HasReservedItem { get; set; }
         //------------------------------------------------------------------------------------ 
-        public async Task<FwJsonDataTable> LoadItems(string PickListId)
+        public async Task<FwJsonDataTable> LoadItems(PickListReportRequest request)
         {
             FwJsonDataTable dt = null;
             using (FwSqlConnection conn = new FwSqlConnection(AppConfig.DatabaseSettings.ConnectionString))
@@ -301,7 +301,7 @@ namespace WebApi.Modules.Reports.PickListReport
                 {
                     SetBaseSelectQuery(select, qry);
                     select.Parse();
-                    addStringFilterToSelect("picklistid", PickListId, select);
+                    addStringFilterToSelect("picklistid", request.PickListId, select);
                     select.AddOrderBy("orderno, pickdate, rectypesequence, itemorder, masterno");
                     dt = await qry.QueryToFwJsonTableAsync(select, false);
                 }
@@ -446,7 +446,7 @@ namespace WebApi.Modules.Reports.PickListReport
                     // load pick list items here
                     pickListItems = new PickListItemReportLoader();
                     pickListItems.SetDependencies(AppConfig, UserSession);
-                    taskPickListItems = pickListItems.LoadItems(request.PickListId);
+                    taskPickListItems = pickListItems.LoadItems(request);
 
                     await Task.WhenAll(new Task[] { taskPickList, taskPickListItems });
 

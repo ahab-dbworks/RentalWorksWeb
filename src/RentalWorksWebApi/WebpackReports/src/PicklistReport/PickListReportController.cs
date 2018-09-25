@@ -60,8 +60,6 @@ namespace WebApi.Modules.Reports.PickListReport
             {
                 PickListReportLoader l = new PickListReportLoader();
                 l.SetDependencies(this.AppConfig, this.UserSession);
-                //FwJsonDataTable dt = await l.RunReportAsync(request);
-                //return new OkObjectResult(dt);
                 return new OkObjectResult(await l.RunReportAsync(request));
             }
             catch (Exception ex)
