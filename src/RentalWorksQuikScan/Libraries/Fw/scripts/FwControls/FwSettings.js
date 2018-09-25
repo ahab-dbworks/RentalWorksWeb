@@ -343,11 +343,11 @@ var FwSettingsClass = (function () {
         html.push('      </h4>');
         if (description === "") {
             html.push('      <small id="searchId" style="display:none;">' + moduleName + '</small>');
-            html.push('      <small>' + moduleName + '</small>');
+            html.push('      <small id="description-text">' + moduleName + '</small>');
         }
         else {
             html.push('      <small id="searchId" style="display:none;">' + moduleName + '</small>');
-            html.push('      <small>' + description + '</small>');
+            html.push('      <small id="description-text">' + description + '</small>');
         }
         html.push('    </div>');
         html.push('    <div class="panel-collapse collapse" style="display:none; "><div class="panel-body header-content" id="' + moduleName + '"></div></div>');
@@ -661,9 +661,10 @@ var FwSettingsClass = (function () {
         });
         $control.on('keypress', '#settingsSearch', function (e) {
             if (e.which === 13) {
-                var $settings, val, $module;
+                var $settings, val, $module, $settingsDescriptions;
                 filter = [];
                 $settings = jQuery('small#searchId');
+                $settingsDescriptions = jQuery('small#description-text');
                 $module = jQuery('a#title');
                 val = jQuery.trim(this.value).toUpperCase();
                 if (val === "") {
@@ -685,10 +686,13 @@ var FwSettingsClass = (function () {
                     }
                     me.filter = filter;
                     for (var i = 0; i < results.length; i++) {
-                        var module = $settings.filter(function () {
+                        var module = $settingsDescriptions.filter(function () {
                             return -1 != jQuery(this).text().toUpperCase().indexOf(results[i]);
                         }).closest('div.panel-group');
                         module.find('.highlighted').removeClass('highlighted');
+                        var description_1 = module.find('small#description-text');
+                        var index = description_1.text().toUpperCase().indexOf(results[i]);
+                        description_1[0].innerHTML = description_1.text().substring(0, index) + '<span class="highlighted">' + description_1.text().substring(index, index + results[i].length) + '</span>' + description_1.text().substring(index + results[i].length);
                         module.show();
                     }
                     $module.filter(function () {

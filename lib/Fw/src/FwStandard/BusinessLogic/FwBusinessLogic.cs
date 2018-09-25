@@ -508,7 +508,7 @@ namespace FwStandard.BusinessLogic
 
                 foreach (var row in duplicateRows)
                 {
-                    if (row[1].ToString().Equals(this.BusinessLogicModuleName)) 
+                    if (row[1].ToString().Equals(this.BusinessLogicModuleName))
                     {
                         rulesList.Add(row);
                     }

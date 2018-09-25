@@ -136,7 +136,6 @@ var FwReportsPageClass = (function () {
                 me.getCaptions(screen);
                 filter = [];
                 $reports = jQuery('small#description');
-                jQuery('small#description-text').css('color', '');
                 $module = jQuery('a#title');
                 val = jQuery.trim(this.value).toUpperCase();
                 if (val === "") {
@@ -159,8 +158,10 @@ var FwReportsPageClass = (function () {
                         var module = $reports.filter(function () {
                             return -1 != jQuery(this).text().toUpperCase().indexOf(results[i]);
                         }).closest('div.panel-group');
-                        module.find('small#description-text').css('color', 'yellow');
                         module.find('.highlighted').removeClass('highlighted');
+                        var description_1 = module.find('small#description-text');
+                        var index = description_1.text().toUpperCase().indexOf(results[i]);
+                        description_1[0].innerHTML = description_1.text().substring(0, index) + '<span class="highlighted">' + description_1.text().substring(index, index + results[i].length) + '</span>' + description_1.text().substring(index + results[i].length);
                         module.show();
                     }
                     $module.filter(function () {
