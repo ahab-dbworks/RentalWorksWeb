@@ -1618,6 +1618,51 @@ namespace FwStandard.SqlServer
             var obj = await QueryToDynamicObject2Async(closeConnection);
             string json = JsonConvert.SerializeObject(obj);
             T result = JsonConvert.DeserializeObject<T>(json);
+
+            //justin 09/25/2018
+            // when deserializing FwDataRecord objects from a query result, we want to also map fields from the result to Properties on the object using the FwSqlDataFieldAttribute.ColumnName
+            if (result is FwDataRecord)
+            {
+                var dictionary = (IDictionary<string, object>)obj;
+                PropertyInfo[] properties = typeof(T).GetProperties();
+                foreach (PropertyInfo property in properties)
+                {
+                    object propertyValue = property.GetValue(result);
+                    if (propertyValue == null)
+                    {
+                        if (property.IsDefined(typeof(FwSqlDataFieldAttribute)))
+                        {
+                            foreach (Attribute attribute in property.GetCustomAttributes())
+                            {
+                                if (attribute.GetType() == typeof(FwSqlDataFieldAttribute))
+                                {
+                                    FwSqlDataFieldAttribute dataFieldAttribute = (FwSqlDataFieldAttribute)attribute;
+                                    if (!dataFieldAttribute.ColumnName.Equals(string.Empty))
+                                    {
+                                        if (dictionary[dataFieldAttribute.ColumnName] != null)
+                                        {
+                                            if (dataFieldAttribute.ModelType.Equals(FwDataTypes.Boolean))  // special case for booleans. query result may be "T", "F", "" or other string. need to convert on-the-fly
+                                            {
+                                                bool b = false;
+                                                if ((dictionary[dataFieldAttribute.ColumnName] != null) && (dictionary[dataFieldAttribute.ColumnName] is string))
+                                                {
+                                                    if (dictionary[dataFieldAttribute.ColumnName].ToString().Equals("T"))
+                                                    {
+                                                        b = true;
+                                                    }
+                                                }
+                                                dictionary[dataFieldAttribute.ColumnName] = b;
+                                            }
+                                            property.SetValue(result, dictionary[dataFieldAttribute.ColumnName]);
+                                        }
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
             return result;
         }
         //------------------------------------------------------------------------------------
