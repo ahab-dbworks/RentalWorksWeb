@@ -359,6 +359,9 @@ namespace WebApi.Modules.Home.Customer
         [FwSqlDataField(column: "shipcountryid", modeltype: FwDataTypes.Text)]
         public string ShipCountryId { get; set; }
         //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "shipcountry", modeltype: FwDataTypes.Text)]
+        public string ShipCountry { get; set; }
+        //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "shipzip", modeltype: FwDataTypes.Text)]
         public string ShipZipCode { get; set; }
         //------------------------------------------------------------------------------------
