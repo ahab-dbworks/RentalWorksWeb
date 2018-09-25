@@ -50,7 +50,15 @@ namespace FwStandard.DataLayer
         {
             get
             {
-                return this.GetType().GetTypeInfo().GetCustomAttribute<FwSqlTableAttribute>().Table;
+                //return this.GetType().GetTypeInfo().GetCustomAttribute<FwSqlTableAttribute>().Table;
+                //justin 09/25/2018 make sure the Table attribute is defined before reading the value
+                string tableName = null;
+                FwSqlTableAttribute tableAttribute = (FwSqlTableAttribute)Attribute.GetCustomAttribute(this.GetType(), typeof(FwSqlTableAttribute));
+                if (tableAttribute != null)
+                {
+                    tableName = this.GetType().GetTypeInfo().GetCustomAttribute<FwSqlTableAttribute>().Table;
+                }
+                return tableName;
             }
         }
         //------------------------------------------------------------------------------------
