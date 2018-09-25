@@ -406,6 +406,46 @@
 			]
 		},
 		{
+			"name": "Order Report",
+			"item": [
+				{
+					"name": "Order Report: Run Report",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n   \"OrderId\":\"I00007Y2\"\n}\n\n"
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/orderreport/runreport",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"orderreport",
+								"runreport"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
 			"name": "Pick List Report",
 			"item": [
 				{
