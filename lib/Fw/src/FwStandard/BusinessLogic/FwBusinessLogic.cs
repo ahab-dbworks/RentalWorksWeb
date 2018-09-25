@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+using AutoMapper;
 using FwStandard.BusinessLogic.Attributes;
 using FwStandard.DataLayer;
 using FwStandard.Models;
@@ -524,28 +524,20 @@ namespace FwStandard.BusinessLogic
 
                     foreach (List<object> rule in rulesList)
                     {
-                        string fields = rule[5].ToString();
-                        string[] field = fields.Split(',').ToArray();
+                        bool considerBlanks = (bool)rule[7];
+                        string searchFields = rule[5].ToString();
+                        string[] fields = searchFields.Split(',').ToArray();
 
                         BrowseRequest browseRequest2 = new BrowseRequest();
                         browseRequest2.module = this.BusinessLogicModuleName;
 
                         List<string> searchOperators = new List<string>();
-
-                        for (int i = 0; i < field.Count(); i++)
-                        {
-                            searchOperators.Add("=");
-                        }
-
-                        browseRequest2.searchfieldoperators = searchOperators.ToArray();
-                        browseRequest2.searchfields = field;
-
                         List<string> searchFieldVals = new List<string>();
+                        var updatedFieldList = fields.ToList();
 
-
-                        for (int i = 0; i < field.Count(); i++)
+                        for (int i = 0; i < fields.Count(); i++)
                         {
-                            string fieldName = field[i];
+                            string fieldName = fields[i];
                             bool propertyFound = false;
                             if (!propertyFound)
                             {
@@ -555,9 +547,20 @@ namespace FwStandard.BusinessLogic
                                     {
                                         propertyFound = true;
                                         var value = this.GetType().GetProperty(property.Name).GetValue(this, null);
+
+                                        if (considerBlanks == false)
+                                        {
+                                            if (string.IsNullOrWhiteSpace(value.ToString()))
+                                            {
+                                                updatedFieldList.Remove(fieldName);
+                                                break;
+                                            }
+                                        }
+
                                         if (value != null)
                                         {
                                             searchFieldVals.Add(value.ToString());
+                                            searchOperators.Add("=");
                                         }
                                         else
                                         {
@@ -570,6 +573,7 @@ namespace FwStandard.BusinessLogic
                                             else
                                             {
                                                 searchFieldVals.Add("");
+                                                searchOperators.Add("=");
                                             }
                                         }
 
@@ -580,6 +584,7 @@ namespace FwStandard.BusinessLogic
                                     }
                                 }
                             }
+
                             if (!propertyFound)  // property not found, check Custom Fields
                             {
                                 LoadCustomFields();
@@ -602,6 +607,7 @@ namespace FwStandard.BusinessLogic
                                         if (value != null)
                                         {
                                             searchFieldVals.Add(value.ToString());
+                                            searchOperators.Add("=");
                                         }
                                         else
                                         {
@@ -621,6 +627,7 @@ namespace FwStandard.BusinessLogic
                                             else
                                             {
                                                 searchFieldVals.Add("");
+                                                searchOperators.Add("=");
                                             }
                                         }
 
@@ -630,7 +637,8 @@ namespace FwStandard.BusinessLogic
                             }
 
                         }
-
+                        browseRequest2.searchfields = updatedFieldList.ToArray();
+                        browseRequest2.searchfieldoperators = searchOperators.ToArray();
                         browseRequest2.searchfieldvalues = searchFieldVals.ToArray();
                         FwBusinessLogic l3 = (FwBusinessLogic)Activator.CreateInstance(type);
                         l3.AppConfig = dataRecords[0].AppConfig;
