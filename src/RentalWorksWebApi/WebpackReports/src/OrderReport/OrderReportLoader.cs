@@ -536,59 +536,6 @@ namespace WebApi.Modules.Reports.OrderReport
         //------------------------------------------------------------------------------------ 
         public async Task<OrderReportLoader> RunReportAsync(OrderReportRequest request)
         {
-            //FwJsonDataTable dt = null;
-            //using (FwSqlConnection conn = new FwSqlConnection(AppConfig.DatabaseSettings.ConnectionString))
-            //{
-            //    using (FwSqlCommand qry = new FwSqlCommand(conn, "webgetorderprintheader", this.AppConfig.DatabaseSettings.QueryTimeout))
-            //    {
-            //        qry.AddParameter("@orderid", SqlDbType.Text, ParameterDirection.Input, request.OrderId);
-            //        AddPropertiesAsQueryColumns(qry);
-            //        dt = await qry.QueryToFwJsonTableAsync(false, 0);
-            //    }
-            //}
-            //return dt;
-
-            /*
-             
-                         Task<PickListReportLoader> taskPickList;
-            Task<FwJsonDataTable> taskPickListItems;
-
-            PickListReportLoader pickList = null;
-            PickListItemReportLoader pickListItems = null;
-            using (FwSqlConnection conn = new FwSqlConnection(AppConfig.DatabaseSettings.ConnectionString))
-            {
-                await conn.OpenAsync();
-
-                FwSqlSelect select = new FwSqlSelect();
-                select.EnablePaging = false;
-                using (FwSqlCommand qry = new FwSqlCommand(conn, AppConfig.DatabaseSettings.QueryTimeout))
-                {
-                    SetBaseSelectQuery(select, qry);
-                    select.Parse();
-                    addStringFilterToSelect("picklistid", request.PickListId, select);
-
-                    // load pick list header here
-                    select.SetQuery(qry);
-                    taskPickList = qry.QueryToTypedObjectAsync<PickListReportLoader>(false);
-
-                    // load pick list items here
-                    pickListItems = new PickListItemReportLoader();
-                    pickListItems.SetDependencies(AppConfig, UserSession);
-                    taskPickListItems = pickListItems.LoadItems(request.PickListId);
-
-                    await Task.WhenAll(new Task[] { taskPickList, taskPickListItems });
-
-                    pickList = taskPickList.Result;
-                    pickList.Items = taskPickListItems.Result;
-
-                }
-            }
-
-            return pickList;
-
-             */
-
-
             Task<OrderReportLoader> taskOrder;
             Task<FwJsonDataTable> taskOrderItems;
 
@@ -601,9 +548,7 @@ namespace WebApi.Modules.Reports.OrderReport
                 {
                     qry.AddParameter("@orderid", SqlDbType.Text, ParameterDirection.Input, request.OrderId);
                     AddPropertiesAsQueryColumns(qry);
-                    //dt = await qry.QueryToFwJsonTableAsync(false, 0);
                     taskOrder = qry.QueryToTypedObjectAsync<OrderReportLoader>(false);
-
 
                     OrderItems = new OrderItemReportLoader();
                     OrderItems.SetDependencies(AppConfig, UserSession);
@@ -612,40 +557,13 @@ namespace WebApi.Modules.Reports.OrderReport
                     await Task.WhenAll(new Task[] { taskOrder, taskOrderItems });
 
                     Order = taskOrder.Result;
-                    Order.Items = taskOrderItems.Result;
 
+                    if (Order != null)
+                    {
+                        Order.Items = taskOrderItems.Result;
+                    }
                 }
-
-
-
-
-                //FwSqlSelect select = new FwSqlSelect();
-                //select.EnablePaging = false;
-                //using (FwSqlCommand qry = new FwSqlCommand(conn, AppConfig.DatabaseSettings.QueryTimeout))
-                //{
-
-
-                //    SetBaseSelectQuery(select, qry);
-                //    select.Parse();
-                //    addStringFilterToSelect("picklistid", request.OrderId, select);
-
-                //    // load pick list header here
-                //    select.SetQuery(qry);
-                //    taskOrder = qry.QueryToTypedObjectAsync<OrderReportLoader>(false);
-
-                //    // load pick list items here
-                //    OrderItems = new OrderItemReportLoader();
-                //    OrderItems.SetDependencies(AppConfig, UserSession);
-                //    taskOrderItems = OrderItems.LoadItems(request.OrderId);
-
-                //    await Task.WhenAll(new Task[] { taskOrder, taskOrderItems });
-
-                //    Order = taskOrder.Result;
-                //    Order.Items = taskOrderItems.Result;
-
-                //}
             }
-
             return Order;
         }
         //------------------------------------------------------------------------------------ 

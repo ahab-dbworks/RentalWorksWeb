@@ -451,7 +451,10 @@ namespace WebApi.Modules.Reports.PickListReport
                     await Task.WhenAll(new Task[] { taskPickList, taskPickListItems });
 
                     pickList = taskPickList.Result;
-                    pickList.Items = taskPickListItems.Result;
+                    if (pickList != null)
+                    {
+                        pickList.Items = taskPickListItems.Result;
+                    }
 
                 }
             }
