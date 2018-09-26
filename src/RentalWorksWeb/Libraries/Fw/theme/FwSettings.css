@@ -12,12 +12,12 @@
 .fwsettings div.well div.panel-group div.panel { margin-bottom: 0; border-radius: 4px; margin-bottom: 20px; background-color: #fff; border: 1px solid transparent; border-radius: 4px; -webkit-box-shadow: 0 1px 1px rgba(0,0,0,.05); box-shadow: 0 1px 1px rgba(0,0,0,.05); }
 .fwsettings div.well div.panel-group div.panel-primary { border-color: #428bca; }
 .fwsettings div.well div.panel-group div.panel-primary div.panel-heading { color: #fff; background-color: #428bca; border-color: #428bca; border-bottom: 0; padding: 10px 15px; border-bottom: 1px solid transparent; border-top-left-radius: 3px; border-top-right-radius: 3px; }
-.fwsettings div.well div.panel-group div.panel-primary div.panel-heading h4.panel-title { margin-top: 0; margin-bottom: 0; font-size: 16px; color: inherit; }
-.fwsettings div.well div.panel-group div.panel-primary div.panel-heading h4.panel-title a i.material-icons { float: left; margin-right: .3em; font-size: 38px; width: 50px; }
-.fwsettings div.well div.panel-group div.panel-primary div.panel-heading h4.panel-title i.material-icons { float: right; display: inline; font-size: 38px; }
-.fwsettings div.well div.panel-group div.panel-primary div.panel-heading h4.panel-title i.heading-menu { cursor: pointer; } 
-.fwsettings div.well div.panel-group div.panel-primary div.panel-heading h4.panel-title div.dropdown-content { float:right; display: none; background-color: #f9f9f9; min-width: 160px; box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2); z-index: 1; } 
-.fwsettings div.well div.panel-group div.panel-primary div.panel-heading h4.panel-title div.dropdown-content a { color: black; padding: 12px 16px; text-decoration: none; display: block; cursor:pointer;} 
+.fwsettings div.well div.panel-group div.panel-primary div.panel-heading i.material-icons { flex:0; float: left; margin-right: .3em; font-size: 38px; width: 50px; }
+.fwsettings div.well div.panel-group div.panel-primary div.panel-heading i.material-icons.heading-menu { margin-left:auto; display: inline; font-size: 38px; }
+.fwsettings div.well div.panel-group div.panel-primary div.panel-heading i.heading-menu { cursor: pointer; } 
+.fwsettings div.well div.panel-group div.panel-primary div.panel-heading h4.panel-title { display:flex; margin-top: 0; margin-bottom: 0; font-size: 20px; color: inherit; margin-left:8px}
+.fwsettings div.well div.panel-group div.panel-primary div.panel-heading h4.panel-title div.dropdown-content { float:right; display: none; position:absolute; right:80px; background-color: #f9f9f9; min-width: 160px; box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2); border-radius:4px; z-index: 1; } 
+.fwsettings div.well div.panel-group div.panel-primary div.panel-heading h4.panel-title div.dropdown-content a { color: black; font-size:18px; padding: 6px 18px; text-decoration: none; display: block; cursor:pointer;} 
 .fwsettings div.well div.panel-group div.panel-primary div.panel-heading small .highlighted {color:yellow;} 
 .fwsettings div.well div.panel-group div.panel-primary div.panel-body { padding: 15px; border-top: 1px solid #ddd; border-top-color: #428bca;}
 
