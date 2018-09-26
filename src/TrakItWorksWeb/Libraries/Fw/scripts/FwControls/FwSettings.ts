@@ -11,7 +11,7 @@ class FwSettingsClass {
     //----------------------------------------------------------------------------------------------
     renderRuntimeHtml($control) {
         var html = [];
-        
+
         html.push('<div class="fwsettingsheader">');
         //html.push('<div class="settingsmenu">');
         //html.push('</div>')
@@ -261,7 +261,7 @@ class FwSettingsClass {
                 }
                 html.push('    </div>');
                 html.push('  </div>');
-                html.push('  <div class="panel-body" style="display:none;" id="' + response[i][rowId] + '"></div>');
+                html.push('  <div class="panel-body header-content" style="display:none;" id="' + response[i][rowId] + '"></div>');
                 html.push('</div>');
                 $moduleRows = jQuery(html.join(''));
                 $moduleRows.data('recorddata', response[i]);
@@ -377,14 +377,14 @@ class FwSettingsClass {
         html.push('        </div>');
         html.push('      </h4>');
         if (description === "") {
-            html.push('      <small id="description" style="display:none;">' + moduleName + '</small>');
-            html.push('      <small>' + moduleName + '</small>');
+            html.push('      <small id="searchId" style="display:none;">' + moduleName + '</small>');
+            html.push('      <small id="description-text">' + moduleName + '</small>');
         } else {
-            html.push('      <small id="description" style="display:none;">' + description + '</small>');
-            html.push('      <small>' + description + '</small>');
+            html.push('      <small id="searchId" style="display:none;">' + moduleName + '</small>');
+            html.push('      <small id="description-text">' + description + '</small>');
         }
         html.push('    </div>');
-        html.push('    <div class="panel-collapse collapse" style="display:none; "><div class="panel-body" id="' + moduleName + '"></div></div>');
+        html.push('    <div class="panel-collapse collapse" style="display:none; "><div class="panel-body header-content" id="' + moduleName + '"></div></div>');
         html.push('  </div>');
         html.push('</div>');
         $settingsPageModules = jQuery(html.join(''));
@@ -556,7 +556,6 @@ class FwSettingsClass {
                                         }
                                         html.push('    <label data-datafield=' + browseData[j]['datafield'] + ' style="color:#31708f">' + response[i][browseKeys[j]] + '</label>');
                                     }
-
                                     html.push('        </div>');
                                     html.push('      </div>');
                                     //if (browseKeys[j] === 'Inactive' && response[i][browseKeys[j]] === true) {
@@ -617,11 +616,15 @@ class FwSettingsClass {
 
                     for (var key in recordData) {
                         for (var i = 0; i < filter.length; i++) {
+                            var highlightField = $form.find('[data-datafield="' + key + '"]');
+                            var hightlightFieldTabId = highlightField.closest('.tabpage').attr('data-tabid');
                             if (filter[i] === key) {
                                 if ($form.find('[data-datafield="' + key + '"]').attr('data-type') === 'checkbox') {
                                     $form.find('[data-datafield="' + key + '"] label').addClass('highlighted');
                                 } else {
-                                    $form.find('[data-datafield="' + key + '"]').find('.fwformfield-caption').addClass('highlighted');
+                                    highlightField.find('.fwformfield-caption').addClass('highlighted');
+                                    highlightField.parents('.fwtabs .fwcontrol').find('#' + hightlightFieldTabId).addClass('highlighted');
+
                                 }
                             }
                         };
@@ -697,10 +700,10 @@ class FwSettingsClass {
                     if (jQuery(this).closest('.panel-record').find('.panel-info').find('label[data-datafield="' + browsedatafields[j] + '"]')) {
                         // check if field is valid or else may be a validation
                         if ($form.find('div[data-datafield="' + browsedatafields[j] + '"]').length > 0) {
-                            jQuery(this).closest('.panel-record').find('.panel-info').find('label[data-datafield="' + browsedatafields[j] + '"]').text(FwFormField.getValueByDataField($form, browsedatafields[j]));                    
+                            jQuery(this).closest('.panel-record').find('.panel-info').find('label[data-datafield="' + browsedatafields[j] + '"]').text(FwFormField.getValueByDataField($form, browsedatafields[j]));
                             jQuery(this).closest('.panel-record').find('.panel-info').find('[data-datafield="' + browsedatafields[j] + '"]').prop('checked', FwFormField.getValueByDataField($form, browsedatafields[j]));
                         } else {
-                            var validationValue : any = $form.find('div[data-displayfield="' + browsedatafields[j] + '"] input.fwformfield-text').val()
+                            var validationValue: any = $form.find('div[data-displayfield="' + browsedatafields[j] + '"] input.fwformfield-text').val()
                             jQuery(this).closest('.panel-record').find('.panel-info').find('label[data-datafield="' + browsedatafields[j] + '"]').text(validationValue);
                         }
                     }
@@ -719,10 +722,11 @@ class FwSettingsClass {
 
         $control.on('keypress', '#settingsSearch', function (e) {
             if (e.which === 13) {
-                var $settings, val, $module;
+                var $settings, val, $module, $settingsDescriptions;
 
                 filter = [];
-                $settings = jQuery('small#description');
+                $settings = jQuery('small#searchId');
+                $settingsDescriptions = jQuery('small#description-text');
                 $module = jQuery('a#title');
                 val = jQuery.trim(this.value).toUpperCase();
                 if (val === "") {
@@ -743,15 +747,25 @@ class FwSettingsClass {
                     }
                     me.filter = filter;
                     for (var i = 0; i < results.length; i++) {
-                        var module = $settings.filter(function () {
+                        //check descriptions for match
+                        var module = $settingsDescriptions.filter(function () {
                             return -1 != jQuery(this).text().toUpperCase().indexOf(results[i]);
                         }).closest('div.panel-group');
                         module.find('.highlighted').removeClass('highlighted');
+
+                        const description = module.find('small#description-text')
+                        const index = description.text().toUpperCase().indexOf(results[i]);
+                        description[0].innerHTML = description.text().substring(0, index) + '<span class="highlighted">' + description.text().substring(index, index + results[i].length) + '</span>' + description.text().substring(index + results[i].length);
                         module.show();
                     }
                     $module.filter(function () {
                         return -1 != jQuery(this).text().toUpperCase().indexOf(val);
                     }).closest('div.panel-group').show();
+                    let searchResults = $control.find('.panel-heading:visible');
+
+                    if (searchResults.length === 1 && searchResults.parent().find('.panel-body.header-content').is(':empty')) {
+                        searchResults[0].click();
+                    }
                 }
             }
         });

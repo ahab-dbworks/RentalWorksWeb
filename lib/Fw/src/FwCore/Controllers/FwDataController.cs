@@ -51,6 +51,10 @@ namespace FwCore.Controllers
                 FwApiException jsonException = new FwApiException();
                 jsonException.StatusCode = StatusCodes.Status500InternalServerError;
                 jsonException.Message = ex.Message;
+                if (ex.InnerException != null)
+                {
+                    jsonException.Message += $"\n\nInnerException: \n{ex.InnerException.Message}";
+                }
                 jsonException.StackTrace = ex.StackTrace;
                 return StatusCode(jsonException.StatusCode, jsonException);
             }
@@ -101,6 +105,10 @@ namespace FwCore.Controllers
                 FwApiException jsonException = new FwApiException();
                 jsonException.StatusCode = StatusCodes.Status500InternalServerError;
                 jsonException.Message = ex.Message;
+                if (ex.InnerException != null)
+                {
+                    jsonException.Message += $"\n\nInnerException: \n{ex.InnerException.Message}";
+                }
                 jsonException.StackTrace = ex.StackTrace;
                 return StatusCode(jsonException.StatusCode, jsonException);
             }
@@ -135,6 +143,10 @@ namespace FwCore.Controllers
                 FwApiException jsonException = new FwApiException();
                 jsonException.StatusCode = StatusCodes.Status500InternalServerError;
                 jsonException.Message = ex.Message;
+                if (ex.InnerException != null)
+                {
+                    jsonException.Message += $"\n\nInnerException: \n{ex.InnerException.Message}";
+                }
                 jsonException.StackTrace = ex.StackTrace;
                 return StatusCode(jsonException.StatusCode, jsonException);
             }
@@ -169,6 +181,10 @@ namespace FwCore.Controllers
                 FwApiException jsonException = new FwApiException();
                 jsonException.StatusCode = StatusCodes.Status500InternalServerError;
                 jsonException.Message = ex.Message;
+                if (ex.InnerException != null)
+                {
+                    jsonException.Message += $"\n\nInnerException: \n{ex.InnerException.Message}";
+                }
                 jsonException.StackTrace = ex.StackTrace;
                 return StatusCode(jsonException.StatusCode, jsonException);
             }
@@ -219,6 +235,10 @@ namespace FwCore.Controllers
                 FwApiException jsonException = new FwApiException();
                 jsonException.StatusCode = StatusCodes.Status500InternalServerError;
                 jsonException.Message = ex.Message;
+                if (ex.InnerException != null)
+                {
+                    jsonException.Message += $"\n\nInnerException: \n{ex.InnerException.Message}";
+                }
                 jsonException.StackTrace = ex.StackTrace;
                 return StatusCode(jsonException.StatusCode, jsonException);
             }
@@ -303,6 +323,10 @@ namespace FwCore.Controllers
                 FwApiException jsonException = new FwApiException();
                 jsonException.StatusCode = StatusCodes.Status500InternalServerError;
                 jsonException.Message = ex.Message;
+                if (ex.InnerException != null)
+                {
+                    jsonException.Message += $"\n\nInnerException: \n{ex.InnerException.Message}";
+                }
                 jsonException.StackTrace = ex.StackTrace;
                 return StatusCode(jsonException.StatusCode, jsonException);
             }
@@ -329,6 +353,10 @@ namespace FwCore.Controllers
                 FwApiException jsonException = new FwApiException();
                 jsonException.StatusCode = StatusCodes.Status500InternalServerError;
                 jsonException.Message = ex.Message;
+                if (ex.InnerException != null)
+                {
+                    jsonException.Message += $"\n\nInnerException: \n{ex.InnerException.Message}";
+                }
                 jsonException.StackTrace = ex.StackTrace;
                 return StatusCode(jsonException.StatusCode, jsonException);
             }

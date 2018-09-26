@@ -16,12 +16,12 @@ namespace FwStandard.Reporting
     public class FwReport
     {
         //const int CHROMIUM_REVISION = 565530;
-        const int CHROMIUM_REVISION = Downloader.DefaultRevision;
+        const int CHROMIUM_REVISION = BrowserFetcher.DefaultRevision;
 
         public async static Task<string> GeneratePdfFromUrlAsync(string apiUrl, string reportUrl, string pdfOutputPath, string authorizationHeader, dynamic parameters, PdfOptions pdfOptions)
         {
-            await Downloader.CreateDefault().DownloadRevisionAsync(CHROMIUM_REVISION);
-            using (var browser = await Puppeteer.LaunchAsync(new LaunchOptions { Headless = true }, CHROMIUM_REVISION))
+            await new BrowserFetcher().DownloadAsync(CHROMIUM_REVISION);
+            using (var browser = await Puppeteer.LaunchAsync(new LaunchOptions { Headless = true }))
             {
                 StringBuilder jsConsole = new StringBuilder();
                 using (var page = await browser.NewPageAsync())

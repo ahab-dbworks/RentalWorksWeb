@@ -1979,7 +1979,11 @@ var FwBrowseClass = (function () {
                     break;
             }
             if ((typeof onrowdblclick !== 'undefined') && ($control.attr('data-multiselectvalidation') !== 'true')) {
-                $control.find('.runtime tbody > tr').on('dblclick', onrowdblclick);
+                $control.find('.runtime tbody').on('dblclick', '> tr', function (event) {
+                    var $tr = jQuery(event.target);
+                    $tr.addClass('selected');
+                    onrowdblclick(event);
+                });
             }
             if ((typeof $control.attr('data-type') === 'string') && ($control.attr('data-type') === 'Validation')) {
                 FwValidation.validateSearchCallback($control);

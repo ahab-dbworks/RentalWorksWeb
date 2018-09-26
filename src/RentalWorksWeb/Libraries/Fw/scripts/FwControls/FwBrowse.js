@@ -1978,7 +1978,11 @@ class FwBrowseClass {
                     break;
             }
             if ((typeof onrowdblclick !== 'undefined') && ($control.attr('data-multiselectvalidation') !== 'true')) {
-                $control.find('.runtime tbody > tr').on('dblclick', onrowdblclick);
+                $control.find('.runtime tbody').on('dblclick', '> tr', (event) => {
+                    let $tr = jQuery(event.target);
+                    $tr.addClass('selected');
+                    onrowdblclick(event);
+                });
             }
             if ((typeof $control.attr('data-type') === 'string') && ($control.attr('data-type') === 'Validation')) {
                 FwValidation.validateSearchCallback($control);

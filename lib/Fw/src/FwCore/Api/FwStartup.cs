@@ -43,9 +43,10 @@ namespace FwCore.Api
                 //.AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true, reloadOnChange: true)
                 .AddEnvironmentVariables();
             Configuration = builder.Build();
-            Mapper.Initialize(cfg =>
+            Mapper.Initialize(config =>
             {
-                cfg.CreateMissingTypeMaps = true;
+                config.CreateMissingTypeMaps = true;
+                config.ValidateInlineMaps = false;
             });
         }
         //------------------------------------------------------------------------------------
