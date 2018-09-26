@@ -12,6 +12,23 @@ tbody {
         padding: 3px;
     }
 }
+.sub-header {
+    background-color: #DCDCDC;
+}
+.sub-header tr > td {
+    border: 1.5px solid black;
+    border-collapse:collapse;
+}
+
+.sub-header-left {
+    align-self: flex-start;
+}
+.sub-header-center {
+    align-self: center;
+}
+.sub-header-right {
+    align-self: flex-end;
+}
 
 body {
     font-family: Arial, sans-serif;

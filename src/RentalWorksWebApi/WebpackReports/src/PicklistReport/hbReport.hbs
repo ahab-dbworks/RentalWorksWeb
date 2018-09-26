@@ -1,7 +1,10 @@
 ﻿<!--Picklist Report-->
 <div class="rpt-flexrow">
   <div class="rpt-flexcolumn">
-    <span class="rpt-header-left">{{System}}</span>
+    <span class="rpt-header-left">Warehouse: {{Warehouse}}</span>
+    <span class="rpt-header-left">Delivery Type: {{DeliverType}}</span>
+    <span class="rpt-header-left"> Assigned To: {{Agent}}</span>
+    <span class="rpt-header-left">Pick Date: {{RequiredDateTime}}</span>
   </div>
   <div class="rpt-flexcolumn">
     <span class="rpt-title">{{Report}}</span>
@@ -12,7 +15,37 @@
     <span class="rpt-header-right">{{Company}}</span>
     <span class="rpt-header-right">Pick Number:</span>
     <span class="rpt-header-right">{{PickNumber}}</span>
+    <span class="rpt-header-right" style="font-family:'Libre Barcode 39 Text', serif; font-size:42px;">{{OrderNumber}}</span>
   </div>
+</div>
+<div class="rpt-flexrow" style="margin-top:40px;">
+  <table class="sub-header">
+    <tr>
+      <td class="rpt-header-left">Start Rental: {{EstimatedStartDate}} {{EstimatedStartTime}}</td>
+      <td class="rpt-header-center">End Rental: {{EstimatedStopDate}} {{EstimatedStopTime}}</td>
+      <td class="rpt-header-right">PO No.: {{PoNumber}}</td>
+    </tr>
+    <tr>
+      <td class="rpt-header-left">Order: {{OrderNumber}}</td>
+      <td class="rpt-header-center">Description: {{OrderDescription}}</td>
+      <td class="rpt-header-right">PO No.: {{PoNumber}}</td>
+    </tr>
+    <tr>
+      <td class="rpt-header-left">Customer: {{CustomerNumber}}</td>
+      <td class="rpt-header-center">{{Customer}}</td>
+      <td class="rpt-header-right"></td>
+    </tr>
+    <tr>
+      <td class="rpt-header-left">Deal: {{DealNumber}}</td>
+      <td class="rpt-header-center">{{Deal}}</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td class="rpt-header-left">Agent: {{Agent}}</td>
+      <td class="rpt-header-center"></td>
+      <td class="sub-header-right"></td>
+    </tr>
+  </table>
 </div>
 <div class="rpt-flexrow" style="margin-top:40px;">
   <table>
@@ -29,8 +62,6 @@
         <th class="number">Verified</th>
       </tr>
     </thead>
-    <tbody>
- 
-    </tbody>
+    <tbody></tbody>
   </table>
 </div>
