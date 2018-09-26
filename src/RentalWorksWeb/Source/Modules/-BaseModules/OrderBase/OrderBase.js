@@ -572,7 +572,7 @@ class OrderBase {
                 orderNumber = $form.find(`div.fwformfield[data-datafield="${module}Number"] input`).val();
                 orderId = $form.find(`div.fwformfield[data-datafield="${module}Id"] input`).val();
                 recordTitle = jQuery('.tabs .active[data-tabtype="FORM"] .caption').text();
-                $report = RwPrintOrderController.openForm();
+                $report = RwOrderReportController.openForm();
                 FwModule.openSubModuleTab($form, $report);
                 if (module === 'Order') {
                     hideModule = 'Quote';

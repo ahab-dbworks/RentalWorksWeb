@@ -442,6 +442,7 @@
     <TypeScriptCompile Include="Source\Modules\Home\Project\Project.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\StagingCheckout\StagingCheckout.ts" />
     <TypeScriptCompile Include="Source\Modules\Reports\DealOutstandingReport\RwDealOutstandingReportController.ts" />
+    <TypeScriptCompile Include="Source\Modules\Reports\OrderReport\RwOrderReportController.ts" />
     <TypeScriptCompile Include="Source\Modules\Reports\PickListReport\RwPickListReportController.ts" />
     <TypeScriptCompile Include="Source\Modules\Reports\RentalInventoryValueReport\RwRentalInventoryValueReport Controller.ts" />
     <TypeScriptCompile Include="Source\Modules\Reports\SalesInventoryTransaction\RwSalesInventoryTransactionReportController.ts" />
@@ -462,7 +463,6 @@
     <TypeScriptCompile Include="Source\Modules\Settings\Sound\Sound.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\WorkWeek\WorkWeek.ts" />
     <TypeScriptCompile Include="Source\Modules\-BaseModules\OrderBase\OrderBase.ts" />
-    <TypeScriptCompile Include="Source\Reports\PrintOrder\RwPrintOrderController.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\CreatePickList\CreatePickList.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\Order\Order.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\Order\SearchInterface.ts" />
@@ -486,9 +486,6 @@
     <Content Include="Source\Modules\Settings\Sound\SoundForm.htm" />
     <Content Include="Source\Modules\Settings\WorkWeek\WorkWeekBrowse.htm" />
     <Content Include="Source\Modules\Settings\WorkWeek\WorkWeekForm.htm" />
-    <Content Include="Source\Reports\PrintOrder\Body.htm" />
-    <Content Include="Source\Reports\PrintOrder\Footer.htm" />
-    <Content Include="Source\Reports\PrintOrder\FrontEnd.htm" />
     <Content Include="Source\Modules\Home\CreatePickList\CreatePickListForm.htm" />
     <Content Include="Source\Modules\Home\Order\OrderBrowse.htm" />
     <Content Include="Source\Modules\Home\Order\OrderForm.htm" />
@@ -811,8 +808,6 @@
     <Content Include="Source\Reports\ChargeProcessing\Header.htm" />
     <Content Include="Source\Reports\ChargeProcessing\RwChargeProcessingController.js" />
     <Content Include="Source\Reports\ChargeProcessing\StyleSheet.css" />
-    <Content Include="Source\Reports\PrintOrder\Header.htm" />
-    <Content Include="Source\Reports\PrintOrder\StyleSheet.css" />
     <Content Include="Source\Reports\DealOutstanding\Body.htm" />
     <Content Include="Source\Reports\DealOutstanding\Footer.htm" />
     <Content Include="Source\Reports\DealOutstanding\FrontEnd.htm" />
@@ -1079,7 +1074,6 @@
     <Compile Include="Source\Modules\Home\Contact\Contact.cs" />
     <Compile Include="Source\Reports\ChargeProcessing\ChargeProcessing.cs" />
     <Compile Include="Source\Reports\DealOutstanding\DealOutstanding.cs" />
-    <Compile Include="Source\Reports\PrintOrder\PrintOrder.cs" />
     <Compile Include="Source\Reports\ReceiptProcessing\ReceiptProcessing.cs" />
     <Compile Include="Source\Reports\VendorInvoiceProcessing\VendorInvoiceProcessing.cs" />
     <Compile Include="Source\RwAppData.cs" />

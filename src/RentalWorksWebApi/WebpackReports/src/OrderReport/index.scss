@@ -1,0 +1,88 @@
+﻿/*Order Report*/
+tbody {
+    tr[data-rowtype="detail"]:nth-child(even) {
+        background-color: #DCDCDC;
+    }
+
+    td:after {
+        content: attr(data-value);
+    }
+
+    td {
+        padding: 3px;
+    }
+}
+.sub-header {
+    background-color: #DCDCDC;
+}
+.sub-header tr > td {
+    border: 1.5px solid black;
+    border-collapse:collapse;
+}
+
+.sub-header-left {
+    align-self: flex-start;
+}
+.sub-header-center {
+    align-self: center;
+}
+.sub-header-right {
+    align-self: flex-end;
+}
+
+.order-title {
+    align-self: center;
+    font-family: Arial, sans-serif;
+    font-size: 27px;
+    font-weight: bold;
+}
+.order-header-center {
+    align-self: center;
+    font-family: Arial, sans-serif;
+    font-size: 17px;
+    margin-top: 5px;
+}
+
+.order-header-right {
+    font-family: Arial, sans-serif;
+    align-self: flex-end;
+    font-size: 17px;
+}
+
+.order-header-left {
+    font-family: Arial, sans-serif;
+    align-self: flex-start;
+    font-size: 17px;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    font-size: 15px;
+    margin: 0;
+    padding: 0;
+}
+
+thead {
+    th {
+        border-top: 2px solid #000000;
+        border-bottom: 2px solid #000000;
+        font-weight: bold;
+        padding: 5px;
+        white-space: nowrap;
+    }
+}
+
+.header-row {
+    font-weight: bold;
+    font-size: 12px;
+}
+
+.top-header-row:not(.lower) {
+    padding-top: 15px;
+}
+
+.total-row {
+    font-weight: bold;
+    border-top: 1.5px solid black;
+    padding-top: 10px;
+}
