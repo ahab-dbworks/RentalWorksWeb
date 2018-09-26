@@ -47,6 +47,13 @@ class WebApiCompiler {
         await spawn('npm', ['i'], { stdio: 'inherit' });
     }
     //------------------------------------------------------------------------------------
+    async dotnet_restore() {
+        console.log('//------------------------------------------------------------------------------------');
+        console.log('dotnet restore');
+        console.log('//------------------------------------------------------------------------------------');
+        await spawn('dotnet', ['restore'], { stdio: 'inherit' });
+    }
+    //------------------------------------------------------------------------------------
     async clean_api() {
         console.log('//------------------------------------------------------------------------------------');
         console.log('Cleaning compiled files...')
@@ -137,12 +144,14 @@ class WebApiCompiler {
                 if (this.buildConfiguration === WebApiCompiler.BUILD_CONFIGURATION_DEVELOPMENT) {
                     if (this.buildAction === WebApiCompiler.BUILD_ACTION_BUILD) {
                         await this.npm_i();
+                        await this.dotnet_restore();
                         await this.clean_api();
                         await this.rmfr_reports();
                         await this.build_webpack_reports();
                         await this.dotnet_build();
                     } else if (this.buildAction === WebApiCompiler.BUILD_ACTION_RUN) {
                         await this.npm_i();
+                        await this.dotnet_restore();
                         await this.clean_api();
                         await this.rmfr_reports();
                         await this.build_webpack_reports();
@@ -164,9 +173,13 @@ class WebApiCompiler {
             } else if (this.target === WebApiCompiler.TARGET_API) {
                 if (this.buildConfiguration === WebApiCompiler.BUILD_CONFIGURATION_DEVELOPMENT) {
                     if (this.buildAction === WebApiCompiler.BUILD_ACTION_BUILD) {
+                        await this.npm_i();
+                        await this.dotnet_restore();
                         await this.clean_api();
                         await this.dotnet_build();
                     } else if (this.buildAction === WebApiCompiler.BUILD_ACTION_RUN) {
+                        await this.npm_i();
+                        await this.dotnet_restore();
                         await this.clean_api();
                         await this.dotnet_run();
                     } else {
