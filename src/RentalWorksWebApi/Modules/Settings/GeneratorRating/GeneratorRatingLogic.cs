@@ -3,6 +3,7 @@ using FwStandard.BusinessLogic.Attributes;
 using Newtonsoft.Json;
 using WebApi.Logic;
 using WebApi.Modules.Settings.VehicleRating;
+using WebLibrary;
 
 namespace WebApi.Modules.Settings.GeneratorRating
 {
@@ -15,7 +16,7 @@ namespace WebApi.Modules.Settings.GeneratorRating
         {
             dataRecords.Add(generatorRating);
             dataLoader = generatorRatingLoader;
-            BeforeSave += OnBeforeSave;
+            RowType = RwConstants.VEHICLE_TYPE_GENERATOR;
         }
         //------------------------------------------------------------------------------------
         [FwBusinessLogicField(isPrimaryKey: true)]
@@ -26,11 +27,6 @@ namespace WebApi.Modules.Settings.GeneratorRating
         public string RowType { get { return generatorRating.RowType; } set { generatorRating.RowType = value; } }
         public bool? Inactive { get { return generatorRating.Inactive; } set { generatorRating.Inactive = value; } }
         public string DateStamp { get { return generatorRating.DateStamp; } set { generatorRating.DateStamp = value; } }
-        //------------------------------------------------------------------------------------
-        public void OnBeforeSave(object sender, BeforeSaveEventArgs e)
-        {
-            RowType = "GENERATOR";
-        }
         //------------------------------------------------------------------------------------
     }
 

@@ -3,6 +3,7 @@ using FwStandard.BusinessLogic.Attributes;
 using Newtonsoft.Json;
 using WebApi.Logic;
 using WebApi.Modules.Settings.FuelType;
+using WebLibrary;
 
 namespace WebApi.Modules.Settings.VehicleFuelType
 {
@@ -15,7 +16,7 @@ namespace WebApi.Modules.Settings.VehicleFuelType
         {
             dataRecords.Add(fuelType);
             dataLoader = fuelTypeLoader;
-            BeforeSave += OnBeforeSave;
+            RowType = RwConstants.VEHICLE_TYPE_VEHICLE;
         }
         //------------------------------------------------------------------------------------
         [FwBusinessLogicField(isPrimaryKey: true)]
@@ -27,12 +28,5 @@ namespace WebApi.Modules.Settings.VehicleFuelType
         public bool? Inactive { get { return fuelType.Inactive; } set { fuelType.Inactive = value; } }
         public string DateStamp { get { return fuelType.DateStamp; } set { fuelType.DateStamp = value; } }
         //------------------------------------------------------------------------------------
-        public void OnBeforeSave(object sender, BeforeSaveEventArgs e)
-        {
-            RowType = "VEHICLE";
-        }
-        //------------------------------------------------------------------------------------
-
     }
-
 }

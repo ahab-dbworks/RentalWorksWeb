@@ -162,6 +162,11 @@ namespace WebLibrary
         public const string CONTAINER_PACKING_LIST_BEHAVIOR_AUTOMATICALLY_PRINT = "AUTOPRINT";
         public const string CONTAINER_PACKING_LIST_BEHAVIOR_PROMPT_TO_PRINT = "PROMPT";
         public const string CONTAINER_PACKING_LIST_BEHAVIOR_DO_NOTHING = "NONE";
+
+
+        public const string VEHICLE_TYPE_VEHICLE = "VEHICLE";
+        public const string VEHICLE_TYPE_GENERATOR = "GENERATOR";
+
     }
 
     public class QuoteOrderCopyRequest

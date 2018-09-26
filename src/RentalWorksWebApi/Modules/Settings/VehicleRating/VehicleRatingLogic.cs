@@ -2,6 +2,7 @@
 using FwStandard.BusinessLogic.Attributes;
 using Newtonsoft.Json;
 using WebApi.Logic;
+using WebLibrary;
 
 namespace WebApi.Modules.Settings.VehicleRating
 {
@@ -14,7 +15,7 @@ namespace WebApi.Modules.Settings.VehicleRating
         {
             dataRecords.Add(vehicleRating);
             dataLoader = vehicleRatingLoader;
-            BeforeSave += OnBeforeSave;
+            RowType = RwConstants.VEHICLE_TYPE_VEHICLE;
         }
         //------------------------------------------------------------------------------------
         [FwBusinessLogicField(isPrimaryKey: true)]
@@ -25,11 +26,6 @@ namespace WebApi.Modules.Settings.VehicleRating
         public string RowType { get { return vehicleRating.RowType; } set { vehicleRating.RowType = value; } }
         public bool? Inactive { get { return vehicleRating.Inactive; } set { vehicleRating.Inactive = value; } }
         public string DateStamp { get { return vehicleRating.DateStamp; } set { vehicleRating.DateStamp = value; } }
-        //------------------------------------------------------------------------------------
-        public void OnBeforeSave(object sender, BeforeSaveEventArgs e)
-        {
-            RowType = "VEHICLE";
-        }
         //------------------------------------------------------------------------------------
     }
 
