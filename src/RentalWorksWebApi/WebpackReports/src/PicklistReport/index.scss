@@ -1,6 +1,6 @@
 ﻿/*Pick List Report*/
 tbody {
-    tr[data-rowtype="detail"]:nth-child(odd) {
+    tr[data-rowtype="detail"]:nth-child(even) {
         background-color: #DCDCDC;
     }
 
@@ -11,6 +11,32 @@ tbody {
     td {
         padding: 3px;
     }
+}
+
+.title {
+    align-self: center;
+    font-family: Arial, sans-serif;
+    font-size: 27px;
+    font-weight: bold;
+}
+
+.header-center {
+    align-self: center;
+    font-family: Arial, sans-serif;
+    font-size: 17px;
+    margin-top: 5px;
+}
+
+.header-right {
+    font-family: Arial, sans-serif;
+    align-self: flex-end;
+    font-size: 17px;
+}
+
+.header-left {
+    font-family: Arial, sans-serif;
+    align-self: flex-start;
+    font-size: 17px;
 }
 .sub-header {
     background-color: #DCDCDC;
@@ -32,7 +58,7 @@ tbody {
 
 body {
     font-family: Arial, sans-serif;
-    font-size: 11px;
+    font-size: 15px;
     margin: 0;
     padding: 0;
 }
