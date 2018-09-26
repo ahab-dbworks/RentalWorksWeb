@@ -1,4 +1,6 @@
 class SearchInterface {
+    expandedInventoryView = false; 
+
     renderSearchPopup($form, id, type, gridInventoryType?) {
         let html = []
             , $popupHtml
@@ -116,7 +118,7 @@ class SearchInterface {
               </div>
             </div>
           </div>
-          <div class="flexrow">
+          <div class="flexrow" style="max-width:100%;">
             <div id="inventory" style="overflow:auto"></div>
           </div>
         </div>
@@ -503,7 +505,7 @@ class SearchInterface {
                     }
                     FwAppData.apiMethod(true, 'POST', "api/v1/inventorysearch/search", request, FwServices.defaultTimeout, function onSuccess(response) {
                         $popup.find('#inventory').empty();
-                        SearchInterfaceController.renderInventory($popup, response, false);
+                        SearchInterfaceController.renderInventory($popup, response);
                     }, null, $searchpopup);
                 } else {
                     $popup.find('#inventory').empty();
@@ -518,8 +520,7 @@ class SearchInterface {
 
         $popup.off('click', '#subCategory ul');
         $popup.on('click', '#subCategory ul', function (e) {
-            let subCategory
-                , breadcrumb
+            let breadcrumb
                 , subCategoryId
                 , categoryId
                 , inventoryTypeId
@@ -565,15 +566,13 @@ class SearchInterface {
 
             FwAppData.apiMethod(true, 'POST', "api/v1/inventorysearch/search", request, FwServices.defaultTimeout, function onSuccess(response) {
                 $popup.find('#inventory').empty();
-                SearchInterfaceController.renderInventory($popup, response, true);
+                SearchInterfaceController.renderInventory($popup, response);
             }, null, $searchpopup);
         });
     }
 
-    renderInventory($popup, response, isSubCategory, fromSearchInput?: string) {
-        let self = this
-            , descriptionIndex = response.ColumnIndex.Description
-            , thumbnailIndex = response.ColumnIndex.Thumbnail
+    renderInventory($popup, response) {
+        let descriptionIndex = response.ColumnIndex.Description
             , quantityAvailable = response.ColumnIndex.QuantityAvailable
             , conflictDate = response.ColumnIndex.ConflictDate
             , quantityIn = response.ColumnIndex.QuantityIn
@@ -583,8 +582,6 @@ class SearchInterface {
             , inventoryId = response.ColumnIndex.InventoryId
             , thumbnail = response.ColumnIndex.Thumbnail
             , appImageId = response.ColumnIndex.ImageId
-            , subCategoryIdIndex = response.ColumnIndex.SubCategoryId
-            , subCategoryIndex = response.ColumnIndex.SubCategory
             , classificationIndex = response.ColumnIndex.Classification
             , classificationColor = response.ColumnIndex.ClassificationColor
             , $inventoryContainer
@@ -603,41 +600,47 @@ class SearchInterface {
 
         for (let i = 0; i < response.Rows.length; i++) {
             html = [];
-            html.push('<div class="cardContainer">');
-            html.push('     <div class="card">');
-            html.push('         <div class="cornerTriangle"></div>');
-            html.push(`         <div data-control="FwFormField" data-type="key" data-datafield="InventoryId" data-caption="InventoryId" class="fwcontrol fwformfield" data-isuniqueid="true" data-enabled="false">`);
-            html.push(`             <input value="${response.Rows[i][inventoryId]}"></input>`);
-            html.push(`         </div>`);
-            html.push('         <div class="desccontainer">');
-            html.push(`             <div class="invdescription">${response.Rows[i][descriptionIndex]}</div>`);
-            html.push('             <div class="invimage">');
-            html.push(`                 <img src="${response.Rows[i][thumbnail]}" data-value="${response.Rows[i][appImageId]}" alt="Image" class="image">`);
-            html.push('              </div>');
-            html.push('             </div>');
-            html.push('         <div data-control="FwFormField" data-type="number" data-datafield="Quantity" data-caption="Qty" class="fwcontrol fwformfield" style="text-align:center">');
-            html.push('              <span>Qty</span>');
-            html.push('              <div style="float:left; border:1px solid #bdbdbd;">');
-            html.push('                  <button class="decrementQuantity" tabindex="-1">-</button>');
-            html.push(`                  <input type="number" style="padding: 5px 0px; float:left; width:50%; border:none; text-align:center;" value="${response.Rows[i][quantity]}">`);
-            html.push('                  <button class="incrementQuantity" tabindex="-1">+</button>');
-            html.push('              </div>');
-            html.push('         </div>');
-            html.push(`         <div data-control="FwFormField" data-type="number" data-datafield="QuantityAvailable" data-caption="Available" class="hideColumns fwcontrol fwformfield" data-datafield="QuantityAvailable" data-enabled="false" style="text-align:center"><span>Available</span></br>${response.Rows[i][quantityAvailable]}</div>`);
-            html.push(`         <div data-control="FwFormField" data-type="text" data-caption="Conflict Date" data-datafield="ConflictDate" class="hideColumns fwcontrol fwformfield" data-enabled="false" style="text-align:center"><span>Conflict</span></br>${response.Rows[i][conflictDate] ? response.Rows[i][conflictDate] : "N/A"}</div>`);
-            html.push('         <div data-control="FwFormField" data-type="text" data-caption="All WH" data-datafield="AllWH" class="hideColumns fwcontrol fwformfield" data-enabled="false" style="white-space:pre"><span>All WH</span></br>&#160;</div>');
-            html.push('         <div class="quantitycontainer">');
-            html.push(`             <div data-control="FwFormField" data-type="number" data-datafield="QuantityIn" data-caption="In" class="hideColumns fwcontrol fwformfield" data-enabled="false" style="text-align:center"><span>In</span></br>${response.Rows[i][quantityIn]}</div>`);
-            html.push(`             <div data-control="FwFormField" data-type="number" data-datafield="QuantityQcRequired" data-caption="QC" class="hideColumns fwcontrol fwformfield" data-enabled="false" style="text-align:center"><span>QC</span></br>${response.Rows[i][quantityQcRequired]}</div>`);
-            html.push('         </div>');
+            html.push(`
+                <div class="cardContainer">
+                  <div class="card">
+                    <div class="cornerTriangle"></div>
+                    <div data-control="FwFormField" data-type="key" data-datafield="InventoryId" data-caption="InventoryId" class="fwcontrol fwformfield" data-isuniqueid="true" data-enabled="false">
+                      <input value="${response.Rows[i][inventoryId]}">
+                    </div>
+                    <div class="desccontainer">
+                      <div class="invdescription">${response.Rows[i][descriptionIndex]}</div>
+                      <div class="invimage">
+                        <img src="${response.Rows[i][thumbnail]}" data-value="${response.Rows[i][appImageId]}" alt="Image" class="image">
+                      </div>
+                    </div>
+                    <div data-control="FwFormField" data-type="number" data-datafield="Quantity" data-caption="Qty" class="fwcontrol fwformfield" style="text-align:center">
+                      <span>Qty</span>
+                      <div style="float:left; border:1px solid #bdbdbd;">
+                        <button class="decrementQuantity" tabindex="-1">-</button>
+                        <input type="number" style="padding: 5px 0px; float:left; width:50%; border:none; text-align:center;" value="${response.Rows[i][quantity]}">
+                        <button class="incrementQuantity" tabindex="-1">+</button>
+                      </div>
+                    </div>
+                    <div data-control="FwFormField" data-type="number" data-datafield="QuantityAvailable" data-caption="Available" class="hideColumns fwcontrol fwformfield" data-enabled="false" style="text-align:center"><span>Available</span><br />${response.Rows[i][quantityAvailable]}</div>
+                    <div data-control="FwFormField" data-type="text" data-caption="Conflict Date" data-datafield="ConflictDate" class="hideColumns fwcontrol fwformfield" data-enabled="false" style="text-align:center"><span>Conflict</span><br />${response.Rows[i][conflictDate] ? response.Rows[i][conflictDate] : "N/A"}</div>
+                    <div data-control="FwFormField" data-type="text" data-caption="All WH" data-datafield="AllWH" class="hideColumns fwcontrol fwformfield" data-enabled="false" style="white-space:pre"><span>All WH</span><br />&#160;</div>
+                    <div class="quantitycontainer">
+                      <div data-control="FwFormField" data-type="number" data-datafield="QuantityIn" data-caption="In" class="hideColumns fwcontrol fwformfield" data-enabled="false" style="text-align:center"><span>In</span><br />${response.Rows[i][quantityIn]}</div>
+                      <div data-control="FwFormField" data-type="number" data-datafield="QuantityQcRequired" data-caption="QC" class="hideColumns fwcontrol fwformfield" data-enabled="false" style="text-align:center"><span>QC</span><br />${response.Rows[i][quantityQcRequired]}</div>
+                    </div>
+             `);
+
             rate = Number(response.Rows[i][dailyRate]).toFixed(2);
-            html.push(`         <div data-control="FwFormField" data-type="number" data-digits="2" data-datafield="DailyRate" data-caption="Rate" class="fwcontrol fwformfield rate" data-enabled="false" style="text-align:center"><span>Rate</span></br>${rate}</div>`);
-            html.push('     </div>');
-            if (response.Rows[i][classificationIndex] == "K" || response.Rows[i][classificationIndex] == "C") {
-                html.push(`<div class="accContainer" data-classification="${response.Rows[i][classificationIndex]}" style="float:left; width:95%; display:none">`);
-                html.push('</div>');
+
+            html.push(`
+                        <div data-control="FwFormField" data-type="number" data-digits="2" data-datafield="DailyRate" data-caption="Rate" class="fwcontrol fwformfield rate" data-enabled="false" style="text-align:center"><span>Rate</span><br />${rate}</div>
+                  </div>
+            `);
+             if (response.Rows[i][classificationIndex] == "K" || response.Rows[i][classificationIndex] == "C") {
+                html.push(`<div class="accContainer" data-classification="${response.Rows[i][classificationIndex]}" style="float:left; width:95%; display:none"></div>`);
             }
-            html.push('</div>');
+            html.push(`</div>`);
+
             $inventoryContainer.append(html.join(''));
             $card = $popup.find('#inventory > div:last');
 
@@ -664,10 +667,10 @@ class SearchInterface {
             $popup.find('.hideColumns').css('visibility', 'hidden');
         }
 
-        this.listGridView($inventory, view, fromSearchInput);
+        this.listGridView($inventory, view);
     }
 
-    listGridView($inventory, viewType, fromSearchInput?) {
+    listGridView($inventory, viewType) {
         let description = $inventory.find('.invdescription'),
             imageFrame = $inventory.find('.invimage'),
             image = $inventory.find('.image'),
@@ -682,8 +685,8 @@ class SearchInterface {
             descContainer = $inventory.find('.desccontainer'),
             quantityContainer = $inventory.find('.quantitycontainer'),
             $searchpopup = jQuery('#searchpopup');
-
-        if (fromSearchInput) {
+        
+        if (SearchInterfaceController.expandedInventoryView) {
             $searchpopup.find('.hideOnExpand').hide();
             $searchpopup.find('.formoptions').css({ 'max-width': '1650px' });
             $searchpopup.find('.formoptions .flexrow').css({ 'padding-left': '1em' });
@@ -868,7 +871,8 @@ class SearchInterface {
 
                     FwAppData.apiMethod(true, 'POST', "api/v1/inventorysearch/search", request, FwServices.defaultTimeout, function onSuccess(response) {
                         $popup.find('#inventory').empty();
-                        SearchInterfaceController.renderInventory($popup, response, false, "searchinput");
+                        SearchInterfaceController.expandedInventoryView = true;
+                        SearchInterfaceController.renderInventory($popup, response);
                     }, null, $searchpopup);
                 }
             } catch (ex) {
@@ -1117,7 +1121,7 @@ class SearchInterface {
 
             FwAppData.apiMethod(true, 'POST', "api/v1/inventorysearch/search", request, FwServices.defaultTimeout, function onSuccess(response) {
                 $popup.find('#inventory').empty();
-                self.renderInventory($popup, response, true);
+                self.renderInventory($popup, response);
             }, null, $searchpopup);
         });
 
@@ -1133,6 +1137,7 @@ class SearchInterface {
         $popup.on('click', '.expandcategorycolumns', e => {
             let $inventory = $popup.find('div.card');
             let view = $popup.find('#inventoryView').val();
+            SearchInterfaceController.expandedInventoryView = false;
             this.listGridView($inventory, view);
         });
 
