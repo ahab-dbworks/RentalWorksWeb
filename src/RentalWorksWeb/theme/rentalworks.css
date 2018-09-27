@@ -352,7 +352,7 @@ progress::-webkit-progress-value {
     max-width:20px;
 }
 
-#columnDescriptions > div {
+#searchFormHtml .columnDescriptions > div {
     float: left;
     text-align: center;
     font-weight: bold;

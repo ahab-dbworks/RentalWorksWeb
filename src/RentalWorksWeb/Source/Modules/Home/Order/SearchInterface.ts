@@ -1,6 +1,4 @@
 class SearchInterface {
-    expandedInventoryView = false; 
-
     renderSearchPopup($form, id, type, gridInventoryType?) {
         let html = []
             , $popupHtml
@@ -106,11 +104,24 @@ class SearchInterface {
                 <div class="category"></div>
                 <div class="subcategory"></div>
               </div>
-              <div id="columnDescriptions" style="width:95%; padding:5px; margin:5px; display:none">
+              <div class="columnDescriptions hideOnExpand" style="width:95%; padding:5px; margin:5px; display:none">
                 <div style="width:38%;">Description</div>
-                <div style="width:10%;">Qty</div>
+                <div style="width:10%">Qty</div>
                 <div class="hideColumns" style="width:8%;">Available</div>
-                <div class="hideColumns" style="width:10%;">Conflict Date</div>
+                <div class="hideColumns" style="width:10%;">Conflict <div>Date</div></div>
+                <div class="hideColumns" style="width:8%;">All WH</div>
+                <div class="hideColumns" style="width:8%;">In</div>
+                <div class="hideColumns" style="width:8%;">QC</div>
+                <div style="width:8%;">Rate</div>
+              </div>
+             <div class="columnDescriptions showWhenExpanded" style="width:95%; padding:5px; margin:5px; display:none">
+                <div style="width:28%;">Description</div>
+                <div style="width:6%">Qty</div>
+                <div style="width:6%;">Type</div> 
+                <div style="width:6%;">Category</div>
+                <div style="width:6%;">Sub Category</div>
+                <div class="hideColumns" style="width:8%;">Available</div>
+                <div class="hideColumns" style="width:6%;">Conflict <div>Date</div></div>
                 <div class="hideColumns" style="width:8%;">All WH</div>
                 <div class="hideColumns" style="width:8%;">In</div>
                 <div class="hideColumns" style="width:8%;">QC</div>
@@ -584,6 +595,9 @@ class SearchInterface {
             , appImageId = response.ColumnIndex.ImageId
             , classificationIndex = response.ColumnIndex.Classification
             , classificationColor = response.ColumnIndex.ClassificationColor
+            , typeIndex = response.ColumnIndex.InventoryType
+            , categoryIndex = response.ColumnIndex.Category
+            , subCategoryIndex = response.ColumnIndex.SubCategory
             , $inventoryContainer
             , $cornerTriangle
             , color
@@ -621,6 +635,9 @@ class SearchInterface {
                         <button class="incrementQuantity" tabindex="-1">+</button>
                       </div>
                     </div>
+                    <div data-control="FwFormField" data-type="text" data-datafield="Type" data-caption="Type" class="showWhenExpanded fwcontrol fwformfield" data-enabled="false" style="display:none;text-align:center"><span>Type</span><br />${response.Rows[i][typeIndex]} </div>
+                    <div data-control="FwFormField" data-type="text" data-datafield="Category" data-caption="Type" class="showWhenExpanded fwcontrol fwformfield" data-enabled="false" style="display:none;text-align:center"><span>Category</span><br />${response.Rows[i][categoryIndex]}</div>
+                    <div data-control="FwFormField" data-type="text" data-datafield="SubCategory" data-caption="Type" class="showWhenExpanded fwcontrol fwformfield" data-enabled="false" style="display:none;text-align:center"><span>Sub Category</span><br />${response.Rows[i][subCategoryIndex]}</div>
                     <div data-control="FwFormField" data-type="number" data-datafield="QuantityAvailable" data-caption="Available" class="hideColumns fwcontrol fwformfield" data-enabled="false" style="text-align:center"><span>Available</span><br />${response.Rows[i][quantityAvailable]}</div>
                     <div data-control="FwFormField" data-type="text" data-caption="Conflict Date" data-datafield="ConflictDate" class="hideColumns fwcontrol fwformfield" data-enabled="false" style="text-align:center"><span>Conflict</span><br />${response.Rows[i][conflictDate] ? response.Rows[i][conflictDate] : "N/A"}</div>
                     <div data-control="FwFormField" data-type="text" data-caption="All WH" data-datafield="AllWH" class="hideColumns fwcontrol fwformfield" data-enabled="false" style="white-space:pre"><span>All WH</span><br />&#160;</div>
@@ -684,13 +701,18 @@ class SearchInterface {
             allWH = $inventory.find('[data-datafield="AllWH"]'),
             descContainer = $inventory.find('.desccontainer'),
             quantityContainer = $inventory.find('.quantitycontainer'),
-            $searchpopup = jQuery('#searchpopup');
-        
-        if (SearchInterfaceController.expandedInventoryView) {
+            invType = $inventory.find('[data-datafield="Type"]'),
+            category = $inventory.find('[data-datafield="Category"]'),
+            subCategory = $inventory.find('[data-datafield="SubCategory"]'),
+            $searchpopup = jQuery('#searchpopup'),
+            expandedInventoryView = $searchpopup.find('#inventory').hasClass('expandedInventoryView');
+        if (expandedInventoryView) {
             $searchpopup.find('.hideOnExpand').hide();
             $searchpopup.find('.formoptions').css({ 'max-width': '1650px' });
             $searchpopup.find('.formoptions .flexrow').css({ 'padding-left': '1em' });
             $searchpopup.find('.expandcategorycolumns').show();
+            $searchpopup.find('.showWhenExpanded').show();
+            $searchpopup.find('#breadcrumbs').empty();
         } else {
             $searchpopup.find('.hideOnExpand').show();
             $searchpopup.find('.formoptions').css({ 'max-width': '1150px' });
@@ -698,11 +720,13 @@ class SearchInterface {
             $searchpopup.find('.expandcategorycolumns').hide();
         }
 
+
         switch (viewType) {
             case 'GRID':
                 $inventory.find('span, br').show();
+                $searchpopup.find('.columnDescriptions').hide();
+                $searchpopup.find('.showWhenExpanded').hide();
                 allWH.hide();
-                $searchpopup.find('#columnDescriptions').hide();
                 $searchpopup.find('.accColumns').show();
                 $inventory.css({ 'cursor': 'pointer', 'width': '225px', 'height': '265px', 'float': 'left', 'padding': '10px', 'margin': '8px', 'position': 'relative' });
                 descContainer.css({ 'width': '', 'float': '' });
@@ -722,42 +746,46 @@ class SearchInterface {
             case 'LIST':
                 $searchpopup.find('.accColumns').hide();
                 $inventory.find('span, br').hide();
-                $searchpopup.find('#columnDescriptions').show();
                 $inventory.css({ 'cursor': 'pointer', 'width': '95%', 'height': 'auto', 'float': 'left', 'padding': '5px', 'margin': '5px', 'position': 'relative' });
-                descContainer.css({ 'width': '38%', 'float': '' });
-                description.css({ 'float': 'left', 'padding-top': '15px', 'width': '100%', 'padding-bottom': '' });
+                descContainer.css({ 'width': expandedInventoryView?'28%':'38%', 'float': '' });
+                description.css({ 'float': 'left', 'width': '100%', 'padding-bottom': '', 'padding-top': '.5em' });
                 imageFrame.hide();
-                quantityAvailable.css({ 'float': 'left', 'width': '8%' });
-                conflictDate.css({ 'float': 'left', 'width': '10%' });
+                quantityAvailable.css({ 'float': 'left', 'width': '8%', 'padding-top': '.5em'});
+                conflictDate.css({ 'float': 'left', 'width': expandedInventoryView ? '6%' : '10%', 'padding-top': '.5em'});
                 allWH.show();
-                allWH.css({ 'float': 'left', 'width': '8%' });
-                quantityIn.css({ 'float': 'left', 'width': '50%' });
-                quantityQcRequired.css({ 'float': 'left', 'width': '50%' });
-                accessories.css({ 'float': 'left', 'padding': '', 'width': '8%', 'font-size': '.9em', 'color': 'blue' });
-                rate.css({ 'float': 'left', 'width': '8%', 'padding-top': '', 'position': '', 'bottom': '', 'right': '' });
-                quantity.css({ 'float': 'left', 'width': '10%', 'position': '', 'bottom': '', 'right': '' });
+                allWH.css({ 'float': 'left', 'width': '8%', 'padding-top': '.5em'});
                 quantityContainer.css({ 'float': 'left', 'width': '16%' });
+                quantityIn.css({ 'float': 'left', 'width': '50%', 'padding-top': '.5em'});
+                quantityQcRequired.css({ 'float': 'left', 'width': '50%', 'padding-top': '.5em'});
+                accessories.css({ 'float': 'left', 'padding': '', 'width': '8%', 'font-size': '.9em', 'color': 'blue' });
+                rate.css({ 'float': 'left', 'width': '8%', 'position': '', 'bottom': '', 'right': '', 'padding-top': '.5em'  });
+                quantity.css({ 'float': 'left', 'width': expandedInventoryView ? '6%' : '10%', 'position': '', 'bottom': '', 'right': '', 'padding-top': '.5em'});
+                invType.css({ 'float': 'left', 'width': '6%', 'min-height': '1px', 'padding-top': '.5em'});
+                category.css({ 'float': 'left', 'width': '6%', 'min-height': '1px', 'padding-top': '.5em'});
+                subCategory.css({ 'float': 'left', 'width': '6%', 'min-height': '1px', 'padding-top': '.5em'});
                 break;
             case 'HYBRID':
                 $inventory.find('span, br').hide();
                 $searchpopup.find('.accColumns').hide();
-                $searchpopup.find('#columnDescriptions').show();
                 $inventory.css({ 'cursor': 'pointer', 'width': '95%', 'height': 'auto', 'float': 'left', 'padding': '5px', 'margin': '5px', 'position': 'relative' });
-                descContainer.css({ 'width': '38%', 'float': 'left' });
-                description.css({ 'float': 'right', 'padding-top': '15px', 'width': '75%', 'padding-bottom': '' });
+                descContainer.css({ 'width': expandedInventoryView ? '28%' : '38%', 'float': 'left' });
+                description.css({ 'float': 'right', 'padding-top': '1em', 'width': '75%', 'padding-bottom': '' });
                 imageFrame.show();
-                imageFrame.css({ 'float': 'left', 'width': '25%', 'height': '70px', 'line-height': '100px', 'display': 'inline-block', 'position': 'relative' });
+                imageFrame.css({ 'float': 'left', 'width': '25%', 'height': '4em', 'line-height': '4em', 'display': 'inline-block', 'position': 'relative' });
                 image.css({ 'max-height': '100%', 'max-width': '100%', 'width': 'auto', 'height': 'auto', 'position': 'absolute', 'top': '0', 'bottom': '0', 'left': '0', 'right': '0', 'margin': 'auto' });
-                quantityAvailable.css({ 'float': 'left', 'width': '8%' });
-                conflictDate.css({ 'float': 'left', 'width': '10%' });
+                quantityAvailable.css({ 'float': 'left', 'width': '8%', 'padding-top': '1em' });
+                conflictDate.css({ 'float': 'left', 'width': expandedInventoryView ? '6%' : '10%', 'padding-top': '1em'});
                 allWH.show();
-                allWH.css({ 'float': 'left', 'width': '8%' });
-                quantityIn.css({ 'float': 'left', 'width': '50%' });
-                quantityQcRequired.css({ 'float': 'left', 'width': '50%' });
+                allWH.css({ 'float': 'left', 'width': '8%', 'padding-top': '1em' });
+                quantityContainer.css({ 'float': 'left', 'width':'16%' });
+                quantityIn.css({ 'float': 'left', 'width': '50%', 'padding-top': '1em' });
+                quantityQcRequired.css({ 'float': 'left', 'width': '50%', 'padding-top': '1em' });
                 accessories.css({ 'float': 'left', 'width': '8%', 'padding': '', 'font-size': '.9em', 'color': 'blue' });
-                rate.css({ 'float': 'left', 'width': '8%', 'padding-top': '', 'position': '', 'bottom': '', 'right': '' });
-                quantity.css({ 'float': 'left', 'width': '10%', 'position': '', 'bottom': '', 'right': '' });
-                quantityContainer.css({ 'float': 'left', 'width': '16%' });
+                rate.css({ 'float': 'left', 'width': '8%', 'position': '', 'bottom': '', 'right': '', 'padding-top': '1em' });
+                quantity.css({ 'float': 'left', 'width': expandedInventoryView ? '6%' : '10%', 'position': '', 'bottom': '', 'right': '', 'padding-top': '1em' });
+                invType.css({ 'float': 'left', 'width': '6%', 'min-height': '1px', 'padding-top': '1em' });
+                category.css({ 'float': 'left', 'width': '6%', 'min-height': '1px', 'padding-top': '1em'});
+                subCategory.css({ 'float': 'left', 'width': '6%', 'min-height': '1px', 'padding-top': '1em' });
                 break;
         }
     };
@@ -870,8 +898,7 @@ class SearchInterface {
                     }
 
                     FwAppData.apiMethod(true, 'POST', "api/v1/inventorysearch/search", request, FwServices.defaultTimeout, function onSuccess(response) {
-                        $popup.find('#inventory').empty();
-                        SearchInterfaceController.expandedInventoryView = true;
+                        $popup.find('#inventory').empty().addClass('expandedInventoryView');
                         SearchInterfaceController.renderInventory($popup, response);
                     }, null, $searchpopup);
                 }
@@ -1137,7 +1164,8 @@ class SearchInterface {
         $popup.on('click', '.expandcategorycolumns', e => {
             let $inventory = $popup.find('div.card');
             let view = $popup.find('#inventoryView').val();
-            SearchInterfaceController.expandedInventoryView = false;
+            $popup.find('#inventory').removeClass('expandedInventoryView');
+            $popup.find('.showWhenExpanded').hide();
             this.listGridView($inventory, view);
         });
 
