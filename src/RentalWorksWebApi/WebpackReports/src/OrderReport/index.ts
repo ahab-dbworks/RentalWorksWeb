@@ -30,7 +30,7 @@ export class OrderReport extends WebpackReport {
                     order = response;
                     order.Items = DataTable.toObjectList(response.Items);
                     order.PrintTime = moment().format('YYYY-MM-DD h:mm:ss A');
-                    order.Report = 'Order Report';
+                    order.Report = 'ORDER';
                     order.System = 'RENTALWORKS';
                     order.Company = '4WALL ENTERTAINMENT';
                     console.log('order: ', order)
