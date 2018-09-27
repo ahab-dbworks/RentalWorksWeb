@@ -436,6 +436,9 @@ namespace WebApi.Modules.Reports.OrderReport
         [FwSqlDataField(column: "outdeliverycountry", modeltype: FwDataTypes.Text)]
         public string OutDeliveryCountry { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "outdeliverycitystatezipcountry", modeltype: FwDataTypes.Text)]
+        public string OutDeliveryCityStateZipCodeCountry { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "outdeliverycontact", modeltype: FwDataTypes.Text)]
         public string OutDeliveryContact { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -501,6 +504,9 @@ namespace WebApi.Modules.Reports.OrderReport
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "indeliverycountry", modeltype: FwDataTypes.Text)]
         public string InDeliveryCountry { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "indeliverycitystatezipcountry", modeltype: FwDataTypes.Text)]
+        public string InDeliveryCityStateZipCodeCountry { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "indeliverycontact", modeltype: FwDataTypes.Text)]
         public string InDeliveryContact { get; set; }
