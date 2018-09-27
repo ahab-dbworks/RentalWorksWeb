@@ -277,9 +277,11 @@ class CheckIn {
             if (allActiveOrders.prop('checked')) {
                 FwFormField.disable(specificOrderValidation);
                 specificOrder.prop('checked', false);
+                FwBrowse.search($checkInQuantityItemsGridControl);
             } else {
                 FwFormField.enable(specificOrderValidation);
                 specificOrder.prop('checked', true);
+                FwBrowse.search($checkInQuantityItemsGridControl);
             }
         });
 
@@ -287,9 +289,11 @@ class CheckIn {
             if (specificOrder.prop('checked')) {
                 FwFormField.enable(specificOrderValidation);
                 allActiveOrders.prop('checked', false);
+                FwBrowse.search($checkInQuantityItemsGridControl);
             } else {
                 FwFormField.disable(specificOrderValidation);
                 allActiveOrders.prop('checked', true);
+                FwBrowse.search($checkInQuantityItemsGridControl);
             }
         });
 

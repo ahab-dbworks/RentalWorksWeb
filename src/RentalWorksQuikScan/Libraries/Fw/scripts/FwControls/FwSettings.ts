@@ -1,11 +1,13 @@
 ﻿//----------------------------------------------------------------------------------------------
 class FwSettingsClass {
     filter: Array<any> = [];
+    customFilter: Array<any> = [];
     screen: any = {
         'moduleCaptions': {}
     }
     //----------------------------------------------------------------------------------------------
     init() {
+        this.screen.moduleCaptions = {};
         this.getCaptions(this.screen);
     };
     //----------------------------------------------------------------------------------------------
@@ -180,13 +182,21 @@ class FwSettingsClass {
 
         FwAppData.apiMethod(true, 'GET', 'api/v1/customfield/', null, FwServices.defaultTimeout, function onSuccess(response) {
             for (var i = 0; i < response.length; i++) {
-                var fieldName = response[i].FieldName.replace(/\s/g, '').toUpperCase();
+                let fieldName = response[i].FieldName.replace(/\s/g, '').toUpperCase();
+                let customObject = {
+                    custom: true,
+                    datafield: response[i].FieldName,
+                    caption: response[i].FieldName,
+                    datatype: response[i].FieldType,
+                    module: response[i].ModuleName
+                };
                 if (typeof screen.moduleCaptions[fieldName] === 'undefined') {
                     screen.moduleCaptions[fieldName] = {};
                 }
                 if (typeof screen.moduleCaptions[fieldName][response[i].ModuleName] === 'undefined') {
                     screen.moduleCaptions[fieldName][response[i].ModuleName] = [];
                 }
+                screen.moduleCaptions[fieldName][response[i].ModuleName].push(customObject);
             }
             for (var idx = 0; idx < modules.length; idx++) {
                 var moduleName = modules[idx].properties.controller.slice(0, -10);
@@ -511,10 +521,24 @@ class FwSettingsClass {
                                 }
                             }
                         }
+                        if (me.customFilter.length > 0) {
+                            var uniqueCustomFilter = [];
+                            for (var j = 0; j < me.customFilter.length; j++) {
+                                if (uniqueCustomFilter.indexOf(me.customFilter[j]) === -1) {
+                                    uniqueCustomFilter.push(me.customFilter[j]);
+                                }
+                            }
+                            for (var k = 0; k < uniqueCustomFilter.length; k++) {
+                                if (uniqueCustomFilter[k].module == $form.data('controller').slice(0, -10)) {
+                                    browseData.push(uniqueCustomFilter[k]);
+                                    browseKeys.push(uniqueCustomFilter[k].datafield);
+                                }
+                            }
+                        }
                         // remove duplicated fields
                         browseData.forEach(function (browseField) {
                             if (!duplicateDatafields[browseField.datafield]) {
-                                withoutDuplicates.push(browseField)
+                                withoutDuplicates.push(browseField);
                                 duplicateDatafields[browseField.datafield] = true;
                             }
                         });
@@ -729,9 +753,10 @@ class FwSettingsClass {
 
         $control.on('keypress', '#settingsSearch', function (e) {
             if (e.which === 13) {
-                var $settings, val, $module, $settingsDescriptions;
+                var $settings, val, $module, $settingsDescriptions, filter, customFilter;
 
                 filter = [];
+                customFilter = [];
                 $settings = jQuery('small#searchId');
                 $settingsDescriptions = jQuery('small#description-text');
                 $module = jQuery('a#title');
@@ -745,7 +770,9 @@ class FwSettingsClass {
                     for (var caption in me.screen.moduleCaptions) {
                         if (caption.indexOf(val) !== -1) {
                             for (var moduleName in me.screen.moduleCaptions[caption]) {
-                                if (me.screen.moduleCaptions[caption][moduleName][0]) {
+                                if (me.screen.moduleCaptions[caption][moduleName][0].custom) {
+                                    customFilter.push(me.screen.moduleCaptions[caption][moduleName][0]);
+                                } else {
                                     filter.push(me.screen.moduleCaptions[caption][moduleName][0].data().datafield);
                                 }
                                 results.push(moduleName.toUpperCase());
@@ -753,6 +780,7 @@ class FwSettingsClass {
                         }
                     }
                     me.filter = filter;
+                    me.customFilter = customFilter;
                     for (var i = 0; i < results.length; i++) {
                         //check descriptions for match
                         var module = $settingsDescriptions.filter(function () {
