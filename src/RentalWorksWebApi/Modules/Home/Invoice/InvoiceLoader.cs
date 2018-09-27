@@ -129,24 +129,24 @@ namespace WebApi.Modules.Home.Invoice
         [FwSqlDataField(column: "invoicetax", modeltype: FwDataTypes.Decimal)]
         public decimal? InvoiceTax { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "invoicetotal", modeltype: FwDataTypes.Decimal)]
-        public decimal? InvoiceTotal { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "refno", modeltype: FwDataTypes.Text)]
-        public string ReferenceNumber { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "agentid", modeltype: FwDataTypes.Text)]
-        public string AgentId { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "agent", modeltype: FwDataTypes.Text)]
-        public string Agent { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "projectmanagerid", modeltype: FwDataTypes.Text)]
-        public string ProjectManagerId { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "projectmanager", modeltype: FwDataTypes.Text)]
-        public string ProjectManager { get; set; }
-        //------------------------------------------------------------------------------------ 
+        //[FwSqlDataField(column: "invoicetotal", modeltype: FwDataTypes.Decimal)]
+        //public decimal? InvoiceTotal { get; set; }
+        ////------------------------------------------------------------------------------------ 
+        //[FwSqlDataField(column: "refno", modeltype: FwDataTypes.Text)]
+        //public string ReferenceNumber { get; set; }
+        ////------------------------------------------------------------------------------------ 
+        //[FwSqlDataField(column: "agentid", modeltype: FwDataTypes.Text)]
+        //public string AgentId { get; set; }
+        ////------------------------------------------------------------------------------------ 
+        //[FwSqlDataField(column: "agent", modeltype: FwDataTypes.Text)]
+        //public string Agent { get; set; }
+        ////------------------------------------------------------------------------------------ 
+        //[FwSqlDataField(column: "projectmanagerid", modeltype: FwDataTypes.Text)]
+        //public string ProjectManagerId { get; set; }
+        ////------------------------------------------------------------------------------------ 
+        //[FwSqlDataField(column: "projectmanager", modeltype: FwDataTypes.Text)]
+        //public string ProjectManager { get; set; }
+        ////------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "billtoadd1", modeltype: FwDataTypes.Text)]
         public string BillToAddress1 { get; set; }
         //------------------------------------------------------------------------------------ 
