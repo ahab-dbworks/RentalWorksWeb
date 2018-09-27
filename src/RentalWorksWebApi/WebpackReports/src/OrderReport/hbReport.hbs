@@ -13,36 +13,114 @@
   </div>
   <div class="rpt-flexcolumn">
     <span class="order-header-right" style="font-size:30px;">Order No: {{OrderNumber}}</span>
-    <span class="order-header-right" style="font-family:'Libre Barcode 39 Text', serif; font-size:42px;">{{OrderNumber}}</span>
   </div>
 </div>
-<div class="rpt-flexrow" style="margin-top:40px;">
+<div class="rpt-flexrow" style="margin-top:25px;">
   <table class="sub-header">
     <tr>
       <td class="order-header-left">Usage Period: {{UsageDates}}</td>
       <td class="order-header-center">Billing Period: {{BillingDates}}</td>
-      <td class="order-header-right"></td>
+      <td class="order-header-left">{{Description}}</td>
     </tr>
     <tr>
-      <td class="order-header-left"></td>
-      <td class="order-header-center">Description: {{Description}}</td>
-      <td class="order-header-right">PO No.: {{PoNumber}}</td>
-    </tr>
-    <tr>
-      <td class="order-header-left">Customer: {{Customer}}</td>
-      <td class="order-header-center"></td>
+      <td class="order-header-left">PO No: {{PoNumber}}</td>
+      <td class="order-header-center">Billing Cycle: {{BillingCycle}}</td>
       <td class="order-header-right">Terms: {{PaymentTerms}}</td>
     </tr>
     <tr>
-      <td class="order-header-left">Deal: {{DealNumber}}</td>
-      <td class="order-header-center">{{Deal}}</td>
-      <td class="order-header-right">Billing Cycle: {{BillingCycle}}</td>
+      <td class="order-header-left">Customer: {{Customer}}</td>
+      <td class="order-header-center">Deal No: {{DealNumber}}</td>
+      <td class="order-header-right">{{Deal}}</td>
     </tr>
     <tr>
       <td class="order-header-left">Agent: {{Agent}}</td>
       <td class="order-header-center">Email: {{AgentEmail}}</td>
-      <td class="order-header-right">Phone No/Ext.: {{AgentPhoneAndExtension}}</td>
+      <td class="order-header-right">Phone/Ext.: {{AgentPhoneAndExtension}}</td>
     </tr>
+  </table>
+</div>
+<div class="rpt-flexrow" style="margin-top:25px;">
+  <table>
+    <thead>
+      <tr>
+        <th class="text">Issued To</th>
+        <th class="text">Outgoing (DELIVER)</th>
+        <th class="text">Incoming (DELIVER)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td id="issuedTo" class="text">
+          <div>
+            {{IssuedToCompany}}
+          </div>
+          <div>
+            {{IssuedToAttention1}}
+          </div>
+          <div>
+            {{IssuedToAttention2}}
+          </div>
+          <div>
+            {{IssuedToAddress1}}
+          </div>
+          <div>
+            {{IssuedToAddress2}}
+          </div>
+          <div>
+            {{IssuedToCity}}, {{IssuedToState}} {{IssuedToZipCode}} {{IssuedToCountry}}
+          </div>
+          <div>
+            Phone: {{IssuedToPhone}}
+          </div>
+          <div>
+            Fax: {{IssuedToFax}}
+          </div>
+        </td>
+        <td id="outgoing" class="text">
+          <div>
+           Attention: {{OutDeliveryAttention}}
+          </div>
+          <div>
+            {{OutDeliveryAddress1}}
+          </div>
+          <div>
+            {{OutDeliveryAddress2}}
+          </div>
+          <div>
+            {{OutDeliveryCity}}, {{OutDeliveryState}} {{OutDeliveryZipCode}} {{OutDeliveryCountry}}
+          </div>
+          <div>
+            Phone: {{OutDeliveryContactPhone}}
+          </div>
+          <div>
+            Required By: {{OutDeliveryRequiredByDateTime}}
+          </div>
+        </td>
+        <td id="incoming" class="text">
+          <div>
+           Attention: {{InDeliveryAttention}}
+          </div>
+          <div>
+            {{InDeliveryAddress1}}
+          </div>
+          <div>
+            {{InDeliveryAddress2}}
+          </div>
+          <div>
+            {{InDeliveryCity}}, {{InDeliveryState}} {{InDeliveryZipCode}} {{InDeliveryCountry}}
+          </div>
+          <div>
+            Contact: {{InDeliveryContact}}
+          </div>
+          <div>
+            Phone: {{InDeliveryContactPhone}}
+          </div>
+          <div>
+            Required By: {{InDeliveryRequiredByDateTime}}
+          </div>
+        </td>
+      </tr>
+    </tbody>
   </table>
 </div>
 <div class="rpt-flexrow" style="margin-top:40px;">
