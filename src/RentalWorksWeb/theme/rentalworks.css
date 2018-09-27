@@ -320,7 +320,7 @@ progress::-webkit-progress-value {
 
     #searchFormHtml div[data-datafield="InventoryType"] > .fwformfield-control {
         height: auto !important;
-        margin:auto;
+        line-height:2em;
     }
 
     #searchFormHtml div[data-datafield="InventoryType"] .fwformfield-control > div {
@@ -335,8 +335,10 @@ progress::-webkit-progress-value {
 
 #searchFormHtml .expandcategorycolumns {
     display: none;
-    flex: 0 0 170px;
-    margin: 12px 6px 12px 0px;
+    max-width: 80px;
+    margin: 0.5em .5em 0 .5em;
+    line-height: 1.5em;
+    max-height: 1.5em;
 }
 
 #inventoryType, #category, #subCategory {
