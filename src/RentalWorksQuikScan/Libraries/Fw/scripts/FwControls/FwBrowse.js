@@ -1982,7 +1982,7 @@ var FwBrowseClass = (function () {
                 $control.find('.runtime tbody').on('dblclick', '> tr', function (event) {
                     var $tr = jQuery(event.target);
                     $tr.addClass('selected');
-                    onrowdblclick(event);
+                    onrowdblclick.apply(event.currentTarget, [event]);
                 });
             }
             if ((typeof $control.attr('data-type') === 'string') && ($control.attr('data-type') === 'Validation')) {

@@ -1981,7 +1981,7 @@ class FwBrowseClass {
                 $control.find('.runtime tbody').on('dblclick', '> tr', (event) => {
                     let $tr = jQuery(event.target);
                     $tr.addClass('selected');
-                    onrowdblclick(event);
+                    onrowdblclick.apply(event.currentTarget, [event]);
                 });
             }
             if ((typeof $control.attr('data-type') === 'string') && ($control.attr('data-type') === 'Validation')) {

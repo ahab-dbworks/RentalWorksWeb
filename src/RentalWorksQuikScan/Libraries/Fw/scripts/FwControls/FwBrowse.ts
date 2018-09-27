@@ -2258,7 +2258,7 @@ class FwBrowseClass {
                 $control.find('.runtime tbody').on('dblclick', '> tr', (event: JQuery.Event) => {
                     let $tr = jQuery(event.target);
                     $tr.addClass('selected');
-                    onrowdblclick(event);
+                    onrowdblclick.apply(event.currentTarget, [event]);
                 });
             }
 
