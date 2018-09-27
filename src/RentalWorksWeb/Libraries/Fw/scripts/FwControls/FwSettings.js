@@ -698,9 +698,20 @@ class FwSettingsClass {
                             return -1 != jQuery(this).text().toUpperCase().indexOf(results[i]);
                         }).closest('div.panel-group');
                         module.find('.highlighted').removeClass('highlighted');
-                        const description = module.find('small#description-text');
-                        const index = description.text().toUpperCase().indexOf(results[i]);
-                        description[0].innerHTML = description.text().substring(0, index) + '<span class="highlighted">' + description.text().substring(index, index + results[i].length) + '</span>' + description.text().substring(index + results[i].length);
+                        let description = module.find('small#description-text');
+                        let title = module.find('a#title');
+                        for (var j = 0; j < description.length; j++) {
+                            if (description[j] !== undefined) {
+                                let descriptionIndex = jQuery(description[j]).text().toUpperCase().indexOf(val);
+                                let titleIndex = jQuery(title[j]).text().toUpperCase().indexOf(val);
+                                if (descriptionIndex > -1) {
+                                    description[j].innerHTML = jQuery(description[j]).text().substring(0, descriptionIndex) + '<span class="highlighted">' + jQuery(description[j]).text().substring(descriptionIndex, descriptionIndex + val.length) + '</span>' + jQuery(description[j]).text().substring(descriptionIndex + val.length);
+                                }
+                                if (titleIndex > -1) {
+                                    title[j].innerHTML = jQuery(title[j]).text().substring(0, titleIndex) + '<span class="highlighted">' + jQuery(title[j]).text().substring(titleIndex, titleIndex + val.length) + '</span>' + jQuery(title[j]).text().substring(titleIndex + val.length);
+                                }
+                            }
+                        }
                         module.show();
                     }
                     $module.filter(function () {

@@ -441,7 +441,7 @@ namespace FwStandard.SqlServer
             List<string> encryptedOptions, decryptedOptions = new List<string>();
             string optionsStr, decryptedOption, key;
             Dictionary<string, ApplicationOption> options;
-            using (FwSqlCommand qry = new FwSqlCommand(conn, dbConfig.QueryTimeout))
+            using (FwSqlCommand qry = new FwSqlCommand(conn, dbConfig.QueryTimeout))            
             {
                 qry.Add("select top 1 options");
                 qry.Add("from controlclient with(nolock)");
@@ -451,32 +451,35 @@ namespace FwStandard.SqlServer
                 encryptedOptions = new List<string>();
                 encryptedOptions.AddRange(optionsStr.Trim().Split(new char[] { '~' }, StringSplitOptions.RemoveEmptyEntries));
                 options = new Dictionary<string, ApplicationOption>();
-                using (FwSqlCommand qry2 = new FwSqlCommand(conn, dbConfig.QueryTimeout))
+                if (encryptedOptions.Count > 0)
                 {
-                    qry2.Add("select");
+                    using (FwSqlCommand qry2 = new FwSqlCommand(conn, dbConfig.QueryTimeout))
+                    {
+                        qry2.Add("select");
+                        for (int i = 0; i < encryptedOptions.Count; i++)
+                        {
+                            string separator = (i == 0) ? "  " : " ,";
+                            qry2.Add($"{separator}option{i} = dbo.decrypt(@option{i})");
+                            qry2.AddParameter($"@option{i}", encryptedOptions[i]);
+                            qry2.Parameters[i].SqlDbType = SqlDbType.NVarChar;
+                        }
+                        await qry2.ExecuteAsync();
+                        for (int i = 0; i < encryptedOptions.Count; i++)
+                        {
+                            decryptedOptions.Add(qry2.GetField($"option{i}").ToString().TrimEnd());
+                        }
+                    }
                     for (int i = 0; i < encryptedOptions.Count; i++)
                     {
-                        string separator = (i == 0) ? "  " : " ,";
-                        qry2.Add($"{separator}option{i} = dbo.decrypt(@option{i})");
-                        qry2.AddParameter($"@option{i}", encryptedOptions[i]);
-                        qry2.Parameters[i].SqlDbType = SqlDbType.NVarChar;
+                        //decryptedOption = await FwSqlData.DecryptAsync(conn, dbConfig, encryptedOptions[i]);
+                        decryptedOption = decryptedOptions[i];
+                        ApplicationOption option = new ApplicationOption();
+                        option.Description = decryptedOption.Substring(0, decryptedOption.Length - 4).ToUpper(); ;
+                        option.Enabled = decryptedOption.Substring(decryptedOption.Length - 4, 1).Equals("T"); ;
+                        option.Value = FwConvert.ToInt32(decryptedOption.Substring(decryptedOption.Length - 3, 3)); ;
+                        key = option.Description.Replace("-", "").Replace("_", "").ToLower();
+                        options[key] = option;
                     }
-                    await qry2.ExecuteAsync();
-                    for (int i = 0; i < encryptedOptions.Count; i++)
-                    {
-                        decryptedOptions.Add(qry2.GetField($"option{i}").ToString().TrimEnd());
-                    }
-                }
-                for (int i = 0; i < encryptedOptions.Count; i++)
-                {
-                    //decryptedOption = await FwSqlData.DecryptAsync(conn, dbConfig, encryptedOptions[i]);
-                    decryptedOption = decryptedOptions[i];
-                    ApplicationOption option = new ApplicationOption();
-                    option.Description = decryptedOption.Substring(0, decryptedOption.Length - 4).ToUpper(); ;
-                    option.Enabled = decryptedOption.Substring(decryptedOption.Length - 4, 1).Equals("T"); ;
-                    option.Value = FwConvert.ToInt32(decryptedOption.Substring(decryptedOption.Length - 3, 3)); ;
-                    key = option.Description.Replace("-", "").Replace("_", "").ToLower();
-                    options[key] = option;
                 }
                 return options;
             }
