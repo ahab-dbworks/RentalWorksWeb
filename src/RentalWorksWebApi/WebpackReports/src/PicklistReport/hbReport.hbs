@@ -1,11 +1,11 @@
 ﻿<!--Picklist Report-->
-<div class="rpt-flexrow">
+<div class="rpt-flexrow" style="margin:5px 0px 0px 4px;">
   <div class="rpt-flexcolumn">
-    <span class="header-left">{{Company}}</span>
-    <span class="header-left">Warehouse: {{Warehouse}}</span>
-    <span class="header-left">Delivery Type: {{DeliverType}}</span>
-    <span class="header-left"> Assigned To: {{Agent}}</span>
-    <span class="header-left">Pick Date: {{RequiredDateTime}}</span>
+    <span class="header-left" style="font-weight:600">{{Company}}</span>
+    <span class="header-left"><span style="font-weight:600;">Warehouse:</span> {{Warehouse}}</span>
+    <span class="header-left"><span style="font-weight:600;">Delivery Type:</span> {{DeliverType}}</span>
+    <span class="header-left"><span style="font-weight:600;">Assigned To:</span> {{Agent}}</span>
+    <span class="header-left"><span style="font-weight:600;">Pick Date:</span> {{RequiredDateTime}}</span>
   </div>
   <div class="rpt-flexcolumn">
     <span class="title">{{Report}}</span>
@@ -13,40 +13,38 @@
     <span class="header-center">Target Ship: {{TargetShipDate}}</span>
   </div>
     <div class="rpt-flexcolumn">
-    <span class="header-right" style="font-size:30px;">Pick No: {{PickNumber}}</span>
-    <span class="header-right" style="font-family:'Libre Barcode 39 Text', serif; font-size:42px;">{{OrderNumber}}</span>
+    <span class="header-right" style="font-size:20px;">Pick Number: </span>
+    <span class="header-right" style="font-size:20px;border:1.25px solid black;padding:2px;">{{PickNumber}}</span>
+    <span class="header-right" style="font-size:20px;">Order Number: </span>
+    <span class="header-right" style="font-family:'Libre Barcode 39 Text', serif; font-size:50px;">{{OrderNumber}}</span>
   </div>
 </div>
-<div class="rpt-flexrow" style="margin-top:40px;">
+<div class="rpt-flexrow" style="margin-top:30px;">
   <table class="sub-header">
     <tr>
-      <td class="header-left">Start Rental: {{EstimatedStartDate}} {{EstimatedStartTime}}</td>
-      <td class="header-center">End Rental: {{EstimatedStopDate}} {{EstimatedStopTime}}</td>
-      <td class="header-right">PO No.: {{PoNumber}}</td>
-    </tr>
-    <tr>
       <td class="header-left">Order: {{OrderNumber}}</td>
-      <td class="header-center">Description: {{OrderDescription}}</td>
+      <td class="header-center">Description: <span style="font-weight:600;">{{Description}}</span></td>
       <td class="header-right">PO No.: {{PoNumber}}</td>
     </tr>
     <tr>
-      <td class="header-left">Customer: {{CustomerNumber}}</td>
+      <td class="header-left">Customer ID: {{CustomerNumber}}</td>
       <td class="header-center">{{Customer}}</td>
       <td class="header-right"></td>
     </tr>
     <tr>
-      <td class="header-left">Deal: {{DealNumber}}</td>
+      <td class="header-left">Deal ID: {{DealNumber}}</td>
       <td class="header-center">{{Deal}}</td>
       <td class="header-right"></td>
     </tr>
     <tr>
-      <td class="header-left">Agent: {{Agent}}</td>
-      <td class="header-center"></td>
-      <td class="header-right"></td>
+    <tr>
+      <td class="header-left">Start Rental: {{EstimatedStartDate}} {{EstimatedStartTime}}</td>
+      <td class="header-center">End Rental: {{EstimatedStopDate}} {{EstimatedStopTime}}</td>
+      <td class="header-right">Agent: {{Agent}}</td>
     </tr>
   </table>
 </div>
-<div class="rpt-flexrow" style="margin-top:40px;">
+<div class="rpt-flexrow" style="margin-top:30px;">
   <table>
     <thead>
       <tr>
@@ -65,18 +63,18 @@
       {{#each Items}}
       <tr data-rowtype={{RowType}}>
         {{#ifEquals RowType "RecTypeDisplayheader"}}
-        <td colspan="8" style="font-weight:bold;text-align:left;padding-top:11px">{{RecTypeDisplay}}&nbsp;</td>
+        <td colspan="8" style="font-weight:bold;text-align:left;padding:11px 0px 5px 5px">{{RecTypeDisplay}}&nbsp;</td>
         {{/ifEquals}}
         {{#ifEquals RowType "detail"}}
-        <td class="text">{{OrderNumber}}</td>
-        <td class="text">{{ICode}}</td>
-        <td class="text">{{Description}}</td>
-        <td class="text">{{AisleShelfLocation}}</td>
-        <td class="number">{{QuantityOrdered}}</td>
-        <td class="number">{{OutQuantity}}</td>
-        <td class="number">{{PickQuantity}}</td>
-        <td class="number">{{PickQuantity}}</td>
-        <td class="number">{{PickQuantity}}</td>
+        <td class="text boxcol">{{OrderNumber}}</td>
+        <td class="text boxcol">{{ICode}}</td>
+        <td class="text boxcol">{{Description}}</td>
+        <td class="text boxcol">{{AisleShelfLocation}}</td>
+        <td class="number boxcol">{{QuantityOrdered}}</td>
+        <td class="number boxcol">{{OutQuantity}}</td>
+        <td class="number boxcol">{{PickQuantity}}</td>
+        <td class="number boxcol"></td>
+        <td class="number boxcol"></td>
         {{/ifEquals}}
         {{#ifEquals RowType "RecTypeDisplayfooter"}}
         <td colspan="6" style="font-weight:bold;text-align:right;padding-top:11px">{{RecTypeDisplay}}&nbsp;</td>

@@ -30,7 +30,7 @@ export class PickListReport extends WebpackReport {
                     picklist = response;
                     picklist.Items = DataTable.toObjectList(response.Items);
                     picklist.PrintTime = moment().format('YYYY-MM-DD h:mm:ss A');
-                    picklist.Report = 'Pick List Report';
+                    picklist.Report = 'PICK LIST';
                     picklist.System = 'RENTALWORKS';
                     picklist.Company = '4WALL ENTERTAINMENT';
                     console.log('pickList: ', picklist )
