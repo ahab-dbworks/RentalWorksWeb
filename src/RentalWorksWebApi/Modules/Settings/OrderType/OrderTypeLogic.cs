@@ -1036,6 +1036,42 @@ namespace WebApi.Modules.Settings.OrderType
             set { }
         }
 
+
+
+        [FwBusinessLogicField(isReadOnly: true)]
+        public List<string> FinalLandDShowFields
+        {
+            get
+            {
+                List<string> showFields = new List<string>();
+
+                if (FinalLandDShowOrderNumber == true) { showFields.Add("OrderNumber"); }
+                if (FinalLandDShowBarCode == true) { showFields.Add("BarCode"); }
+                if (FinalLandDShowSerialNumber == true) { showFields.Add("SerialNumber"); }
+                if (FinalLandDShowICode == true) { showFields.Add("ICode"); }
+                if (FinalLandDShowDescription == true) { showFields.Add("Description"); }
+                if ((!(FinalLandDShowICode == true)) && (!(FinalLandDShowDescription == true))) { showFields.Add("ICode"); }
+                showFields.Add("QuantityOrdered");
+                if (FinalLandDShowUnit == true) { showFields.Add("Unit"); }
+                if (FinalLandDShowRate == true) { showFields.Add("Rate"); }
+                if (FinalLandDShowCost == true) { showFields.Add("Cost"); }
+                if (FinalLandDShowDiscountPercent == true) { showFields.Add("DiscountPercent"); }
+                if (FinalLandDShowUnitDiscountAmount == true) { showFields.Add("UnitDiscountAmount"); }
+                if (FinalLandDShowUnitExtended == true) { showFields.Add("UnitExtended"); }
+                if (FinalLandDShowCost == true) { showFields.Add("UnitCost"); }
+                if (FinalLandDShowPeriodDiscountAmount == true) { showFields.Add("PeriodDiscountAmount"); }
+                if (FinalLandDShowPeriodExtended == true) { showFields.Add("PeriodExtended"); }
+                showFields.Add("RetiredReason");
+                if (FinalLandDShowTaxable == true) { showFields.Add("Taxable"); }
+                if (FinalLandDShowWarehouse == true) { showFields.Add("Warehouse"); }
+                if (FinalLandDShowNotes == true) { showFields.Add("Notes"); }
+
+
+                return showFields;
+            }
+            set { }
+        }
+
         public string DateStamp { get { return orderType.DateStamp; } set { orderType.DateStamp = value; } }
         //------------------------------------------------------------------------------------ 
         public void OnAfterSaveOrderType(object sender, AfterSaveEventArgs e)
