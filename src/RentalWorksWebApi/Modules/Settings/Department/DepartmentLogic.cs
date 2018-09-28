@@ -26,7 +26,7 @@ namespace WebApi.Modules.Settings.Department
         public bool? DisableEditingMiscellaneousRate { get { return department.DisableEditingMiscellaneousRate; } set { department.DisableEditingMiscellaneousRate = value; } }
         public bool? DisableEditingLaborRate { get { return department.DisableEditingLaborRate; } set { department.DisableEditingLaborRate = value; } }
         public bool? DisableEditingUsedSaleRate { get { return department.DisableEditingUsedSaleRate; } set { department.DisableEditingUsedSaleRate = value; } }
-        public bool? DisableEditingFinalLdRate { get { return department.DisableEditingFinalLdRate; } set { department.DisableEditingFinalLdRate = value; } }
+        public bool? DisableEditingLossAndDamageRate { get { return department.DisableEditingLossAndDamageRate; } set { department.DisableEditingLossAndDamageRate = value; } }
         public string ExportCode { get { return department.ExportCode; } set { department.ExportCode = value; } }
         public bool? Inactive { get { return department.Inactive; } set { department.Inactive = value; } }
         public string DateStamp { get { return department.DateStamp; } set { department.DateStamp = value; } }

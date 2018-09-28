@@ -67,7 +67,7 @@ namespace WebApi.Modules.Home.Invoice
         public bool? RentalSale { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "finalld", modeltype: FwDataTypes.Boolean)]
-        public bool? FinalLd { get; set; }
+        public bool? LossAndDamage { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "repair", modeltype: FwDataTypes.Boolean)]
         public bool? Repair { get; set; }

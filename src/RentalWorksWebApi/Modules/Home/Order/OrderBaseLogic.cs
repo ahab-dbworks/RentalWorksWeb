@@ -126,7 +126,7 @@ namespace WebApi.Modules.Home.Order
         [FwBusinessLogicField(isReadOnly: true)]
         public bool? HasFacilitiesItem { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
-        public bool? HasFinalLdItem { get; set; }
+        public bool? HasLossAndDamageItem { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
         public bool? HasRentalSaleItem { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -644,7 +644,7 @@ namespace WebApi.Modules.Home.Order
         [FwBusinessLogicField(isReadOnly: true)]
         public bool? DisableEditingUsedSaleRate { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
-        public bool? DisableEditingFinalLdRate { get; set; }
+        public bool? DisableEditingLossAndDamageRate { get; set; }
         //------------------------------------------------------------------------------------ 
 
 

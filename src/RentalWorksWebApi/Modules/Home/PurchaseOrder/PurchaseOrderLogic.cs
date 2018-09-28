@@ -182,7 +182,7 @@ namespace WebApi.Modules.Home.PurchaseOrder
         [FwBusinessLogicField(isReadOnly: true)]
         public bool? HasFacilitiesItem { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
-        public bool? HasFinalLdItem { get; set; }
+        public bool? HasLossAndDamageItem { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
         public bool? HasRentalSaleItem { get; set; }
         //------------------------------------------------------------------------------------ 

@@ -614,7 +614,7 @@ class OrderBase {
             FwFormField.setValue($form, 'div[data-datafield="DisableEditingLaborRate"]', JSON.parse($tr.find('.field[data-browsedatafield="DisableEditingLaborRate"]').attr('data-originalvalue')));
             FwFormField.setValue($form, 'div[data-datafield="DisableEditingMiscellaneousRate"]', JSON.parse($tr.find('.field[data-browsedatafield="DisableEditingMiscellaneousRate"]').attr('data-originalvalue')));
             FwFormField.setValue($form, 'div[data-datafield="DisableEditingUsedSaleRate"]', JSON.parse($tr.find('.field[data-browsedatafield="DisableEditingUsedSaleRate"]').attr('data-originalvalue')));
-            FwFormField.setValue($form, 'div[data-datafield="DisableEditingFinalLdRate"]', JSON.parse($tr.find('.field[data-browsedatafield="DisableEditingFinalLdRate"]').attr('data-originalvalue')));
+            FwFormField.setValue($form, 'div[data-datafield="DisableEditingLossAndDamageRate"]', JSON.parse($tr.find('.field[data-browsedatafield="DisableEditingLossAndDamageRate"]').attr('data-originalvalue')));
         });
 
         $form.find('div[data-datafield="DealId"]').data('onchange', function ($tr) {

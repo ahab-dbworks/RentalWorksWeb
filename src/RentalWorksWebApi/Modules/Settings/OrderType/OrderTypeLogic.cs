@@ -19,7 +19,7 @@ namespace WebApi.Modules.Settings.OrderType
         OrderTypeFieldsRecord spaceOrderTypeFields = new OrderTypeFieldsRecord();
         OrderTypeFieldsRecord vehicleOrderTypeFields = new OrderTypeFieldsRecord();
         OrderTypeFieldsRecord rentalSaleOrderTypeFields = new OrderTypeFieldsRecord();
-        OrderTypeFieldsRecord finalLandDOrderTypeFields = new OrderTypeFieldsRecord();
+        OrderTypeFieldsRecord lossAndDamageOrderTypeFields = new OrderTypeFieldsRecord();
         OrderTypeLoader orderTypeLoader = new OrderTypeLoader();
         OrderTypeBrowseLoader orderTypeBrowseLoader = new OrderTypeBrowseLoader();
 
@@ -33,7 +33,7 @@ namespace WebApi.Modules.Settings.OrderType
             dataRecords.Add(spaceOrderTypeFields);
             dataRecords.Add(vehicleOrderTypeFields);
             dataRecords.Add(rentalSaleOrderTypeFields);
-            dataRecords.Add(finalLandDOrderTypeFields);
+            dataRecords.Add(lossAndDamageOrderTypeFields);
             dataLoader = orderTypeLoader;
             browseLoader = orderTypeBrowseLoader;
 
@@ -557,78 +557,78 @@ namespace WebApi.Modules.Settings.OrderType
 
         //finalld
         [JsonIgnore]
-        public string FinalLandDOrderTypeFieldsId { get { return finalLandDOrderTypeFields.OrderTypeFieldsId; } set { orderType.FinalLdOrderTypeFieldsId = value; finalLandDOrderTypeFields.OrderTypeFieldsId = value; } }
-        public bool? FinalLandDShowOrderNumber { get { return finalLandDOrderTypeFields.ShowOrderNumber; } set { finalLandDOrderTypeFields.ShowOrderNumber = value; } }
-        //public bool? FinalLandDShowRepairOrderNumber { get { return finalLandDOrderTypeFields.ShowRepairOrderNumber; } set { finalLandDOrderTypeFields.ShowRepairOrderNumber = value; } }
-        public bool? FinalLandDShowBarCode { get { return finalLandDOrderTypeFields.ShowBarCode; } set { finalLandDOrderTypeFields.ShowBarCode = value; } }
-        public bool? FinalLandDShowSerialNumber { get { return finalLandDOrderTypeFields.ShowSerialNumber; } set { finalLandDOrderTypeFields.ShowSerialNumber = value; } }
-        public bool? FinalLandDShowICode { get { return finalLandDOrderTypeFields.ShowICode; } set { finalLandDOrderTypeFields.ShowICode = value; } }
-        public int? FinalLandDICodeWidth { get { return finalLandDOrderTypeFields.ICodeWidth; } set { finalLandDOrderTypeFields.ICodeWidth = value; } }
-        public bool? FinalLandDShowDescription { get { return finalLandDOrderTypeFields.ShowDescription; } set { finalLandDOrderTypeFields.ShowDescription = value; } }
-        public int? FinalLandDDescriptionWidth { get { return finalLandDOrderTypeFields.DescriptionWidth; } set { finalLandDOrderTypeFields.DescriptionWidth = value; } }
-        //public bool? FinalLandDShowPickDate { get { return finalLandDOrderTypeFields.ShowPickDate; } set { finalLandDOrderTypeFields.ShowPickDate = value; } }
-        //public bool? FinalLandDShowPickTime { get { return finalLandDOrderTypeFields.ShowPickTime; } set { finalLandDOrderTypeFields.ShowPickTime = value; } }
-        //public bool? FinalLandDShowFromDate { get { return finalLandDOrderTypeFields.ShowFromDate; } set { finalLandDOrderTypeFields.ShowFromDate = value; } }
-        //public bool? FinalLandDShowFromTime { get { return finalLandDOrderTypeFields.ShowFromTime; } set { finalLandDOrderTypeFields.ShowFromTime = value; } }
-        //public bool? FinalLandDShowToDate { get { return finalLandDOrderTypeFields.ShowToDate; } set { finalLandDOrderTypeFields.ShowToDate = value; } }
-        //public bool? FinalLandDShowToTime { get { return finalLandDOrderTypeFields.ShowToTime; } set { finalLandDOrderTypeFields.ShowToTime = value; } }
-        //public bool? FinalLandDShowBillablePeriods { get { return finalLandDOrderTypeFields.ShowBillablePeriods; } set { finalLandDOrderTypeFields.ShowBillablePeriods = value; } }
-        ////public bool? FinalLandDShowSubQuantity { get { return finalLandDOrderTypeFields.ShowSubQuantity; } set { finalLandDOrderTypeFields.ShowSubQuantity = value; } }
-        //public bool? FinalLandDShowAvailableQuantity { get { return finalLandDOrderTypeFields.ShowAvailableQuantity; } set { finalLandDOrderTypeFields.ShowAvailableQuantity = value; } }
-        //public bool? FinalLandDShowConflictDate { get { return finalLandDOrderTypeFields.ShowConflictDate; } set { finalLandDOrderTypeFields.ShowConflictDate = value; } }
-        public bool? FinalLandDShowUnit { get { return finalLandDOrderTypeFields.ShowUnit; } set { finalLandDOrderTypeFields.ShowUnit = value; } }
-        public bool? FinalLandDShowRate { get { return finalLandDOrderTypeFields.ShowRate; } set { finalLandDOrderTypeFields.ShowRate = value; } }
-        public bool? FinalLandDShowCost { get { return finalLandDOrderTypeFields.ShowCost; } set { finalLandDOrderTypeFields.ShowCost = value; } }
-        //public bool? FinalLandDShowWeeklyCostExtended { get { return finalLandDOrderTypeFields.ShowWeeklyCostExtended; } set { finalLandDOrderTypeFields.ShowWeeklyCostExtended = value; } }
-        //public bool? FinalLandDShowMonthlyCostExtended { get { return finalLandDOrderTypeFields.ShowMonthlyCostExtended; } set { finalLandDOrderTypeFields.ShowMonthlyCostExtended = value; } }
-        //public bool? FinalLandDShowPeriodCostExtended { get { return finalLandDOrderTypeFields.ShowPeriodCostExtended; } set { finalLandDOrderTypeFields.ShowPeriodCostExtended = value; } }
-        //public bool? FinalLandDShowDaysPerWeek { get { return finalLandDOrderTypeFields.ShowDaysPerWeek; } set { finalLandDOrderTypeFields.ShowDaysPerWeek = value; } }
-        public bool? FinalLandDShowDiscountPercent { get { return finalLandDOrderTypeFields.ShowDiscountPercent; } set { finalLandDOrderTypeFields.ShowDiscountPercent = value; } }
-        //public bool? FinalLandDShowMarkupPercent { get { return finalLandDOrderTypeFields.ShowMarkupPercent; } set { finalLandDOrderTypeFields.ShowMarkupPercent = value; } }
-        //public bool? FinalLandDShowMarginPercent { get { return finalLandDOrderTypeFields.ShowMarginPercent; } set { finalLandDOrderTypeFields.ShowMarginPercent = value; } }
-        //public bool? FinalLandDShowSplit { get { return finalLandDOrderTypeFields.ShowSplit; } set { finalLandDOrderTypeFields.ShowSplit = value; } }
-        public bool? FinalLandDShowUnitDiscountAmount { get { return finalLandDOrderTypeFields.ShowUnitDiscountAmount; } set { finalLandDOrderTypeFields.ShowUnitDiscountAmount = value; } }
-        public bool? FinalLandDShowUnitExtended { get { return finalLandDOrderTypeFields.ShowUnitExtended; } set { finalLandDOrderTypeFields.ShowUnitExtended = value; } }
-        //public bool? FinalLandDShowWeeklyDiscountAmount { get { return finalLandDOrderTypeFields.ShowWeeklyDiscountAmount; } set { finalLandDOrderTypeFields.ShowWeeklyDiscountAmount = value; } }
-        //public bool? FinalLandDShowWeeklyExtended { get { return finalLandDOrderTypeFields.ShowWeeklyExtended; } set { finalLandDOrderTypeFields.ShowWeeklyExtended = value; } }
-        //public bool? FinalLandDShowMonthlyDiscountAmount { get { return finalLandDOrderTypeFields.ShowMonthlyDiscountAmount; } set { finalLandDOrderTypeFields.ShowMonthlyDiscountAmount = value; } }
-        //public bool? FinalLandDShowMonthlyExtended { get { return finalLandDOrderTypeFields.ShowMonthlyExtended; } set { finalLandDOrderTypeFields.ShowMonthlyExtended = value; } }
-        public bool? FinalLandDShowPeriodDiscountAmount { get { return finalLandDOrderTypeFields.ShowPeriodDiscountAmount; } set { finalLandDOrderTypeFields.ShowPeriodDiscountAmount = value; } }
-        public bool? FinalLandDShowPeriodExtended { get { return finalLandDOrderTypeFields.ShowPeriodExtended; } set { finalLandDOrderTypeFields.ShowPeriodExtended = value; } }
-        //public bool? FinalLandDShowVariancePercent { get { return finalLandDOrderTypeFields.ShowVariancePercent; } set { finalLandDOrderTypeFields.ShowVariancePercent = value; } }
-        //public bool? FinalLandDShowVarianceExtended { get { return finalLandDOrderTypeFields.ShowVarianceExtended; } set { finalLandDOrderTypeFields.ShowVarianceExtended = value; } }
-        //public bool? FinalLandDShowCountryOfOrigin { get { return finalLandDOrderTypeFields.ShowCountryOfOrigin; } set { finalLandDOrderTypeFields.ShowCountryOfOrigin = value; } }
-        //public bool? FinalLandDShowManufacturer { get { return finalLandDOrderTypeFields.ShowManufacturer; } set { finalLandDOrderTypeFields.ShowManufacturer = value; } }
-        //public bool? FinalLandDShowManufacturerPartNumber { get { return finalLandDOrderTypeFields.ShowManufacturerPartNumber; } set { finalLandDOrderTypeFields.ShowManufacturerPartNumber = value; } }
-        //public int? FinalLandDManufacturerPartNumberWidth { get { return finalLandDOrderTypeFields.ManufacturerPartNumberWidth; } set { finalLandDOrderTypeFields.ManufacturerPartNumberWidth = value; } }
-        //public bool? FinalLandDShowModelNumber { get { return finalLandDOrderTypeFields.ShowModelNumber; } set { finalLandDOrderTypeFields.ShowModelNumber = value; } }
-        //public bool? FinalLandDShowVendorPartNumber { get { return finalLandDOrderTypeFields.ShowVendorPartNumber; } set { finalLandDOrderTypeFields.ShowVendorPartNumber = value; } }
-        public bool? FinalLandDShowWarehouse { get { return finalLandDOrderTypeFields.ShowWarehouse; } set { finalLandDOrderTypeFields.ShowWarehouse = value; } }
-        public bool? FinalLandDShowTaxable { get { return finalLandDOrderTypeFields.ShowTaxable; } set { finalLandDOrderTypeFields.ShowTaxable = value; } }
-        public bool? FinalLandDShowNotes { get { return finalLandDOrderTypeFields.ShowNotes; } set { finalLandDOrderTypeFields.ShowNotes = value; } }
-        //public bool? FinalLandDShowReturnToWarehouse { get { return finalLandDOrderTypeFields.ShowReturnToWarehouse; } set { finalLandDOrderTypeFields.ShowReturnToWarehouse = value; } }
-        //public bool? FinalLandDShowVehicleNumber { get { return finalLandDOrderTypeFields.ShowVehicleNumber; } set { finalLandDOrderTypeFields.ShowVehicleNumber = value; } }
-        //public bool? FinalLandDShowCrewName { get { return finalLandDOrderTypeFields.ShowCrewName; } set { finalLandDOrderTypeFields.ShowCrewName = value; } }
-        //public bool? FinalLandDShowHours { get { return finalLandDOrderTypeFields.ShowHours; } set { finalLandDOrderTypeFields.ShowHours = value; } }
-        //public bool? FinalLandDShowAvailableQuantityAllWarehouses { get { return finalLandDOrderTypeFields.ShowAvailableQuantityAllWarehouses; } set { finalLandDOrderTypeFields.ShowAvailableQuantityAllWarehouses = value; } }
-        //public bool? FinalLandDShowConflictDateAllWarehouses { get { return finalLandDOrderTypeFields.ShowConflictDateAllWarehouses; } set { finalLandDOrderTypeFields.ShowConflictDateAllWarehouses = value; } }
-        //public bool? FinalLandDShowConsignmentAvailableQuantity { get { return finalLandDOrderTypeFields.ShowConsignmentAvailableQuantity; } set { finalLandDOrderTypeFields.ShowConsignmentAvailableQuantity = value; } }
-        //public bool? FinalLandDShowConsignmentConflictDate { get { return finalLandDOrderTypeFields.ShowConsignmentConflictDate; } set { finalLandDOrderTypeFields.ShowConsignmentConflictDate = value; } }
-        //public bool? FinalLandDShowConsignmentQuantity { get { return finalLandDOrderTypeFields.ShowConsignmentQuantity; } set { finalLandDOrderTypeFields.ShowConsignmentQuantity = value; } }
-        //public bool? FinalLandDShowInLocationQuantity { get { return finalLandDOrderTypeFields.ShowInLocationQuantity; } set { finalLandDOrderTypeFields.ShowInLocationQuantity = value; } }
-        //public bool? FinalLandDShowReservedItems { get { return finalLandDOrderTypeFields.ShowReservedItems; } set { finalLandDOrderTypeFields.ShowReservedItems = value; } }
-        //public bool? FinalLandDShowWeeksAndDays { get { return finalLandDOrderTypeFields.ShowWeeksAndDays; } set { finalLandDOrderTypeFields.ShowWeeksAndDays = value; } }
-        //public bool? FinalLandDShowMonthsAndDays { get { return finalLandDOrderTypeFields.ShowMonthsAndDays; } set { finalLandDOrderTypeFields.ShowMonthsAndDays = value; } }
-        //public bool? FinalLandDShowPremiumPercent { get { return finalLandDOrderTypeFields.ShowPremiumPercent; } set { finalLandDOrderTypeFields.ShowPremiumPercent = value; } }
-        //public bool? FinalLandDShowDepartment { get { return finalLandDOrderTypeFields.ShowDepartment; } set { finalLandDOrderTypeFields.ShowDepartment = value; } }
-        //public bool? FinalLandDShowLocation { get { return finalLandDOrderTypeFields.ShowLocation; } set { finalLandDOrderTypeFields.ShowLocation = value; } }
-        //public bool? FinalLandDShowOrderActivity { get { return finalLandDOrderTypeFields.ShowOrderActivity; } set { finalLandDOrderTypeFields.ShowOrderActivity = value; } }
-        //public bool? FinalLandDShowSubOrderNumber { get { return finalLandDOrderTypeFields.ShowSubOrderNumber; } set { finalLandDOrderTypeFields.ShowSubOrderNumber = value; } }
-        //public bool? FinalLandDShowOrderStatus { get { return finalLandDOrderTypeFields.ShowOrderStatus; } set { finalLandDOrderTypeFields.ShowOrderStatus = value; } }
-        //public bool? FinalLandDShowEpisodes { get { return finalLandDOrderTypeFields.ShowEpisodes; } set { finalLandDOrderTypeFields.ShowEpisodes = value; } }
-        //public bool? FinalLandDShowEpisodeExtended { get { return finalLandDOrderTypeFields.ShowEpisodeExtended; } set { finalLandDOrderTypeFields.ShowEpisodeExtended = value; } }
-        //public bool? FinalLandDShowEpisodeDiscountAmount { get { return finalLandDOrderTypeFields.ShowEpisodeDiscountAmount; } set { finalLandDOrderTypeFields.ShowEpisodeDiscountAmount = value; } }
-        public string FinalLandDDateStamp { get { return finalLandDOrderTypeFields.DateStamp; } set { finalLandDOrderTypeFields.DateStamp = value; } }
+        public string LossAndDamageOrderTypeFieldsId { get { return lossAndDamageOrderTypeFields.OrderTypeFieldsId; } set { orderType.LossAndDamageOrderTypeFieldsId = value; lossAndDamageOrderTypeFields.OrderTypeFieldsId = value; } }
+        public bool? LossAndDamageShowOrderNumber { get { return lossAndDamageOrderTypeFields.ShowOrderNumber; } set { lossAndDamageOrderTypeFields.ShowOrderNumber = value; } }
+        //public bool? LossAndDamageShowRepairOrderNumber { get { return lossAndDamageOrderTypeFields.ShowRepairOrderNumber; } set { lossAndDamageOrderTypeFields.ShowRepairOrderNumber = value; } }
+        public bool? LossAndDamageShowBarCode { get { return lossAndDamageOrderTypeFields.ShowBarCode; } set { lossAndDamageOrderTypeFields.ShowBarCode = value; } }
+        public bool? LossAndDamageShowSerialNumber { get { return lossAndDamageOrderTypeFields.ShowSerialNumber; } set { lossAndDamageOrderTypeFields.ShowSerialNumber = value; } }
+        public bool? LossAndDamageShowICode { get { return lossAndDamageOrderTypeFields.ShowICode; } set { lossAndDamageOrderTypeFields.ShowICode = value; } }
+        public int? LossAndDamageICodeWidth { get { return lossAndDamageOrderTypeFields.ICodeWidth; } set { lossAndDamageOrderTypeFields.ICodeWidth = value; } }
+        public bool? LossAndDamageShowDescription { get { return lossAndDamageOrderTypeFields.ShowDescription; } set { lossAndDamageOrderTypeFields.ShowDescription = value; } }
+        public int? LossAndDamageDescriptionWidth { get { return lossAndDamageOrderTypeFields.DescriptionWidth; } set { lossAndDamageOrderTypeFields.DescriptionWidth = value; } }
+        //public bool? LossAndDamageShowPickDate { get { return lossAndDamageOrderTypeFields.ShowPickDate; } set { lossAndDamageOrderTypeFields.ShowPickDate = value; } }
+        //public bool? LossAndDamageShowPickTime { get { return lossAndDamageOrderTypeFields.ShowPickTime; } set { lossAndDamageOrderTypeFields.ShowPickTime = value; } }
+        //public bool? LossAndDamageShowFromDate { get { return lossAndDamageOrderTypeFields.ShowFromDate; } set { lossAndDamageOrderTypeFields.ShowFromDate = value; } }
+        //public bool? LossAndDamageShowFromTime { get { return lossAndDamageOrderTypeFields.ShowFromTime; } set { lossAndDamageOrderTypeFields.ShowFromTime = value; } }
+        //public bool? LossAndDamageShowToDate { get { return lossAndDamageOrderTypeFields.ShowToDate; } set { lossAndDamageOrderTypeFields.ShowToDate = value; } }
+        //public bool? LossAndDamageShowToTime { get { return lossAndDamageOrderTypeFields.ShowToTime; } set { lossAndDamageOrderTypeFields.ShowToTime = value; } }
+        //public bool? LossAndDamageShowBillablePeriods { get { return lossAndDamageOrderTypeFields.ShowBillablePeriods; } set { lossAndDamageOrderTypeFields.ShowBillablePeriods = value; } }
+        ////public bool? LossAndDamageShowSubQuantity { get { return lossAndDamageOrderTypeFields.ShowSubQuantity; } set { lossAndDamageOrderTypeFields.ShowSubQuantity = value; } }
+        //public bool? LossAndDamageShowAvailableQuantity { get { return lossAndDamageOrderTypeFields.ShowAvailableQuantity; } set { lossAndDamageOrderTypeFields.ShowAvailableQuantity = value; } }
+        //public bool? LossAndDamageShowConflictDate { get { return lossAndDamageOrderTypeFields.ShowConflictDate; } set { lossAndDamageOrderTypeFields.ShowConflictDate = value; } }
+        public bool? LossAndDamageShowUnit { get { return lossAndDamageOrderTypeFields.ShowUnit; } set { lossAndDamageOrderTypeFields.ShowUnit = value; } }
+        public bool? LossAndDamageShowRate { get { return lossAndDamageOrderTypeFields.ShowRate; } set { lossAndDamageOrderTypeFields.ShowRate = value; } }
+        public bool? LossAndDamageShowCost { get { return lossAndDamageOrderTypeFields.ShowCost; } set { lossAndDamageOrderTypeFields.ShowCost = value; } }
+        //public bool? LossAndDamageShowWeeklyCostExtended { get { return lossAndDamageOrderTypeFields.ShowWeeklyCostExtended; } set { lossAndDamageOrderTypeFields.ShowWeeklyCostExtended = value; } }
+        //public bool? LossAndDamageShowMonthlyCostExtended { get { return lossAndDamageOrderTypeFields.ShowMonthlyCostExtended; } set { lossAndDamageOrderTypeFields.ShowMonthlyCostExtended = value; } }
+        //public bool? LossAndDamageShowPeriodCostExtended { get { return lossAndDamageOrderTypeFields.ShowPeriodCostExtended; } set { lossAndDamageOrderTypeFields.ShowPeriodCostExtended = value; } }
+        //public bool? LossAndDamageShowDaysPerWeek { get { return lossAndDamageOrderTypeFields.ShowDaysPerWeek; } set { lossAndDamageOrderTypeFields.ShowDaysPerWeek = value; } }
+        public bool? LossAndDamageShowDiscountPercent { get { return lossAndDamageOrderTypeFields.ShowDiscountPercent; } set { lossAndDamageOrderTypeFields.ShowDiscountPercent = value; } }
+        //public bool? LossAndDamageShowMarkupPercent { get { return lossAndDamageOrderTypeFields.ShowMarkupPercent; } set { lossAndDamageOrderTypeFields.ShowMarkupPercent = value; } }
+        //public bool? LossAndDamageShowMarginPercent { get { return lossAndDamageOrderTypeFields.ShowMarginPercent; } set { lossAndDamageOrderTypeFields.ShowMarginPercent = value; } }
+        //public bool? LossAndDamageShowSplit { get { return lossAndDamageOrderTypeFields.ShowSplit; } set { lossAndDamageOrderTypeFields.ShowSplit = value; } }
+        public bool? LossAndDamageShowUnitDiscountAmount { get { return lossAndDamageOrderTypeFields.ShowUnitDiscountAmount; } set { lossAndDamageOrderTypeFields.ShowUnitDiscountAmount = value; } }
+        public bool? LossAndDamageShowUnitExtended { get { return lossAndDamageOrderTypeFields.ShowUnitExtended; } set { lossAndDamageOrderTypeFields.ShowUnitExtended = value; } }
+        //public bool? LossAndDamageShowWeeklyDiscountAmount { get { return lossAndDamageOrderTypeFields.ShowWeeklyDiscountAmount; } set { lossAndDamageOrderTypeFields.ShowWeeklyDiscountAmount = value; } }
+        //public bool? LossAndDamageShowWeeklyExtended { get { return lossAndDamageOrderTypeFields.ShowWeeklyExtended; } set { lossAndDamageOrderTypeFields.ShowWeeklyExtended = value; } }
+        //public bool? LossAndDamageShowMonthlyDiscountAmount { get { return lossAndDamageOrderTypeFields.ShowMonthlyDiscountAmount; } set { lossAndDamageOrderTypeFields.ShowMonthlyDiscountAmount = value; } }
+        //public bool? LossAndDamageShowMonthlyExtended { get { return lossAndDamageOrderTypeFields.ShowMonthlyExtended; } set { lossAndDamageOrderTypeFields.ShowMonthlyExtended = value; } }
+        public bool? LossAndDamageShowPeriodDiscountAmount { get { return lossAndDamageOrderTypeFields.ShowPeriodDiscountAmount; } set { lossAndDamageOrderTypeFields.ShowPeriodDiscountAmount = value; } }
+        public bool? LossAndDamageShowPeriodExtended { get { return lossAndDamageOrderTypeFields.ShowPeriodExtended; } set { lossAndDamageOrderTypeFields.ShowPeriodExtended = value; } }
+        //public bool? LossAndDamageShowVariancePercent { get { return lossAndDamageOrderTypeFields.ShowVariancePercent; } set { lossAndDamageOrderTypeFields.ShowVariancePercent = value; } }
+        //public bool? LossAndDamageShowVarianceExtended { get { return lossAndDamageOrderTypeFields.ShowVarianceExtended; } set { lossAndDamageOrderTypeFields.ShowVarianceExtended = value; } }
+        //public bool? LossAndDamageShowCountryOfOrigin { get { return lossAndDamageOrderTypeFields.ShowCountryOfOrigin; } set { lossAndDamageOrderTypeFields.ShowCountryOfOrigin = value; } }
+        //public bool? LossAndDamageShowManufacturer { get { return lossAndDamageOrderTypeFields.ShowManufacturer; } set { lossAndDamageOrderTypeFields.ShowManufacturer = value; } }
+        //public bool? LossAndDamageShowManufacturerPartNumber { get { return lossAndDamageOrderTypeFields.ShowManufacturerPartNumber; } set { lossAndDamageOrderTypeFields.ShowManufacturerPartNumber = value; } }
+        //public int? LossAndDamageManufacturerPartNumberWidth { get { return lossAndDamageOrderTypeFields.ManufacturerPartNumberWidth; } set { lossAndDamageOrderTypeFields.ManufacturerPartNumberWidth = value; } }
+        //public bool? LossAndDamageShowModelNumber { get { return lossAndDamageOrderTypeFields.ShowModelNumber; } set { lossAndDamageOrderTypeFields.ShowModelNumber = value; } }
+        //public bool? LossAndDamageShowVendorPartNumber { get { return lossAndDamageOrderTypeFields.ShowVendorPartNumber; } set { lossAndDamageOrderTypeFields.ShowVendorPartNumber = value; } }
+        public bool? LossAndDamageShowWarehouse { get { return lossAndDamageOrderTypeFields.ShowWarehouse; } set { lossAndDamageOrderTypeFields.ShowWarehouse = value; } }
+        public bool? LossAndDamageShowTaxable { get { return lossAndDamageOrderTypeFields.ShowTaxable; } set { lossAndDamageOrderTypeFields.ShowTaxable = value; } }
+        public bool? LossAndDamageShowNotes { get { return lossAndDamageOrderTypeFields.ShowNotes; } set { lossAndDamageOrderTypeFields.ShowNotes = value; } }
+        //public bool? LossAndDamageShowReturnToWarehouse { get { return lossAndDamageOrderTypeFields.ShowReturnToWarehouse; } set { lossAndDamageOrderTypeFields.ShowReturnToWarehouse = value; } }
+        //public bool? LossAndDamageShowVehicleNumber { get { return lossAndDamageOrderTypeFields.ShowVehicleNumber; } set { lossAndDamageOrderTypeFields.ShowVehicleNumber = value; } }
+        //public bool? LossAndDamageShowCrewName { get { return lossAndDamageOrderTypeFields.ShowCrewName; } set { lossAndDamageOrderTypeFields.ShowCrewName = value; } }
+        //public bool? LossAndDamageShowHours { get { return lossAndDamageOrderTypeFields.ShowHours; } set { lossAndDamageOrderTypeFields.ShowHours = value; } }
+        //public bool? LossAndDamageShowAvailableQuantityAllWarehouses { get { return lossAndDamageOrderTypeFields.ShowAvailableQuantityAllWarehouses; } set { lossAndDamageOrderTypeFields.ShowAvailableQuantityAllWarehouses = value; } }
+        //public bool? LossAndDamageShowConflictDateAllWarehouses { get { return lossAndDamageOrderTypeFields.ShowConflictDateAllWarehouses; } set { lossAndDamageOrderTypeFields.ShowConflictDateAllWarehouses = value; } }
+        //public bool? LossAndDamageShowConsignmentAvailableQuantity { get { return lossAndDamageOrderTypeFields.ShowConsignmentAvailableQuantity; } set { lossAndDamageOrderTypeFields.ShowConsignmentAvailableQuantity = value; } }
+        //public bool? LossAndDamageShowConsignmentConflictDate { get { return lossAndDamageOrderTypeFields.ShowConsignmentConflictDate; } set { lossAndDamageOrderTypeFields.ShowConsignmentConflictDate = value; } }
+        //public bool? LossAndDamageShowConsignmentQuantity { get { return lossAndDamageOrderTypeFields.ShowConsignmentQuantity; } set { lossAndDamageOrderTypeFields.ShowConsignmentQuantity = value; } }
+        //public bool? LossAndDamageShowInLocationQuantity { get { return lossAndDamageOrderTypeFields.ShowInLocationQuantity; } set { lossAndDamageOrderTypeFields.ShowInLocationQuantity = value; } }
+        //public bool? LossAndDamageShowReservedItems { get { return lossAndDamageOrderTypeFields.ShowReservedItems; } set { lossAndDamageOrderTypeFields.ShowReservedItems = value; } }
+        //public bool? LossAndDamageShowWeeksAndDays { get { return lossAndDamageOrderTypeFields.ShowWeeksAndDays; } set { lossAndDamageOrderTypeFields.ShowWeeksAndDays = value; } }
+        //public bool? LossAndDamageShowMonthsAndDays { get { return lossAndDamageOrderTypeFields.ShowMonthsAndDays; } set { lossAndDamageOrderTypeFields.ShowMonthsAndDays = value; } }
+        //public bool? LossAndDamageShowPremiumPercent { get { return lossAndDamageOrderTypeFields.ShowPremiumPercent; } set { lossAndDamageOrderTypeFields.ShowPremiumPercent = value; } }
+        //public bool? LossAndDamageShowDepartment { get { return lossAndDamageOrderTypeFields.ShowDepartment; } set { lossAndDamageOrderTypeFields.ShowDepartment = value; } }
+        //public bool? LossAndDamageShowLocation { get { return lossAndDamageOrderTypeFields.ShowLocation; } set { lossAndDamageOrderTypeFields.ShowLocation = value; } }
+        //public bool? LossAndDamageShowOrderActivity { get { return lossAndDamageOrderTypeFields.ShowOrderActivity; } set { lossAndDamageOrderTypeFields.ShowOrderActivity = value; } }
+        //public bool? LossAndDamageShowSubOrderNumber { get { return lossAndDamageOrderTypeFields.ShowSubOrderNumber; } set { lossAndDamageOrderTypeFields.ShowSubOrderNumber = value; } }
+        //public bool? LossAndDamageShowOrderStatus { get { return lossAndDamageOrderTypeFields.ShowOrderStatus; } set { lossAndDamageOrderTypeFields.ShowOrderStatus = value; } }
+        //public bool? LossAndDamageShowEpisodes { get { return lossAndDamageOrderTypeFields.ShowEpisodes; } set { lossAndDamageOrderTypeFields.ShowEpisodes = value; } }
+        //public bool? LossAndDamageShowEpisodeExtended { get { return lossAndDamageOrderTypeFields.ShowEpisodeExtended; } set { lossAndDamageOrderTypeFields.ShowEpisodeExtended = value; } }
+        //public bool? LossAndDamageShowEpisodeDiscountAmount { get { return lossAndDamageOrderTypeFields.ShowEpisodeDiscountAmount; } set { lossAndDamageOrderTypeFields.ShowEpisodeDiscountAmount = value; } }
+        public string LossAndDamageDateStamp { get { return lossAndDamageOrderTypeFields.DateStamp; } set { lossAndDamageOrderTypeFields.DateStamp = value; } }
 
 
 
@@ -1039,32 +1039,32 @@ namespace WebApi.Modules.Settings.OrderType
 
 
         [FwBusinessLogicField(isReadOnly: true)]
-        public List<string> FinalLandDShowFields
+        public List<string> LossAndDamageShowFields
         {
             get
             {
                 List<string> showFields = new List<string>();
 
-                if (FinalLandDShowOrderNumber == true) { showFields.Add("OrderNumber"); }
-                if (FinalLandDShowBarCode == true) { showFields.Add("BarCode"); }
-                if (FinalLandDShowSerialNumber == true) { showFields.Add("SerialNumber"); }
-                if (FinalLandDShowICode == true) { showFields.Add("ICode"); }
-                if (FinalLandDShowDescription == true) { showFields.Add("Description"); }
-                if ((!(FinalLandDShowICode == true)) && (!(FinalLandDShowDescription == true))) { showFields.Add("ICode"); }
+                if (LossAndDamageShowOrderNumber == true) { showFields.Add("OrderNumber"); }
+                if (LossAndDamageShowBarCode == true) { showFields.Add("BarCode"); }
+                if (LossAndDamageShowSerialNumber == true) { showFields.Add("SerialNumber"); }
+                if (LossAndDamageShowICode == true) { showFields.Add("ICode"); }
+                if (LossAndDamageShowDescription == true) { showFields.Add("Description"); }
+                if ((!(LossAndDamageShowICode == true)) && (!(LossAndDamageShowDescription == true))) { showFields.Add("ICode"); }
                 showFields.Add("QuantityOrdered");
-                if (FinalLandDShowUnit == true) { showFields.Add("Unit"); }
-                if (FinalLandDShowRate == true) { showFields.Add("Rate"); }
-                if (FinalLandDShowCost == true) { showFields.Add("Cost"); }
-                if (FinalLandDShowDiscountPercent == true) { showFields.Add("DiscountPercent"); }
-                if (FinalLandDShowUnitDiscountAmount == true) { showFields.Add("UnitDiscountAmount"); }
-                if (FinalLandDShowUnitExtended == true) { showFields.Add("UnitExtended"); }
-                if (FinalLandDShowCost == true) { showFields.Add("UnitCost"); }
-                if (FinalLandDShowPeriodDiscountAmount == true) { showFields.Add("PeriodDiscountAmount"); }
-                if (FinalLandDShowPeriodExtended == true) { showFields.Add("PeriodExtended"); }
+                if (LossAndDamageShowUnit == true) { showFields.Add("Unit"); }
+                if (LossAndDamageShowRate == true) { showFields.Add("Rate"); }
+                if (LossAndDamageShowCost == true) { showFields.Add("Cost"); }
+                if (LossAndDamageShowDiscountPercent == true) { showFields.Add("DiscountPercent"); }
+                if (LossAndDamageShowUnitDiscountAmount == true) { showFields.Add("UnitDiscountAmount"); }
+                if (LossAndDamageShowUnitExtended == true) { showFields.Add("UnitExtended"); }
+                if (LossAndDamageShowCost == true) { showFields.Add("UnitCost"); }
+                if (LossAndDamageShowPeriodDiscountAmount == true) { showFields.Add("PeriodDiscountAmount"); }
+                if (LossAndDamageShowPeriodExtended == true) { showFields.Add("PeriodExtended"); }
                 showFields.Add("RetiredReason");
-                if (FinalLandDShowTaxable == true) { showFields.Add("Taxable"); }
-                if (FinalLandDShowWarehouse == true) { showFields.Add("Warehouse"); }
-                if (FinalLandDShowNotes == true) { showFields.Add("Notes"); }
+                if (LossAndDamageShowTaxable == true) { showFields.Add("Taxable"); }
+                if (LossAndDamageShowWarehouse == true) { showFields.Add("Warehouse"); }
+                if (LossAndDamageShowNotes == true) { showFields.Add("Notes"); }
 
 
                 return showFields;
@@ -1089,7 +1089,7 @@ namespace WebApi.Modules.Settings.OrderType
                 spaceOrderTypeFields.OrderTypeFieldsId = l2.FacilityOrderTypeFieldsId;
                 vehicleOrderTypeFields.OrderTypeFieldsId = l2.VehicleOrderTypeFieldsId;
                 rentalSaleOrderTypeFields.OrderTypeFieldsId = l2.RentalSaleOrderTypeFieldsId;
-                finalLandDOrderTypeFields.OrderTypeFieldsId = l2.FinalLandDOrderTypeFieldsId;
+                lossAndDamageOrderTypeFields.OrderTypeFieldsId = l2.LossAndDamageOrderTypeFieldsId;
             }
         }
         //------------------------------------------------------------------------------------   
@@ -1104,7 +1104,7 @@ namespace WebApi.Modules.Settings.OrderType
                 FacilityOrderTypeFieldsId = spaceOrderTypeFields.OrderTypeFieldsId;
                 VehicleOrderTypeFieldsId = vehicleOrderTypeFields.OrderTypeFieldsId;
                 RentalSaleOrderTypeFieldsId = rentalSaleOrderTypeFields.OrderTypeFieldsId;
-                FinalLandDOrderTypeFieldsId = finalLandDOrderTypeFields.OrderTypeFieldsId;
+                LossAndDamageOrderTypeFieldsId = lossAndDamageOrderTypeFields.OrderTypeFieldsId;
                 int i = SaveAsync().Result;
             }
         }

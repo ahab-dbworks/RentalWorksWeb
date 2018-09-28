@@ -210,7 +210,7 @@ namespace WebApi.Modules.Settings.OrderType
         public string RentalSaleOrderTypeFieldsId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "ldordertypefieldsid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
-        public string FinalLdOrderTypeFieldsId { get; set; }
+        public string LossAndDamageOrderTypeFieldsId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "inactive", modeltype: FwDataTypes.Boolean, sqltype: "char")]
         public bool? Inactive { get; set; }

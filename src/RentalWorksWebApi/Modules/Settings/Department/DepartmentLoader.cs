@@ -86,7 +86,7 @@ namespace WebApi.Modules.Settings.Department
         public bool? DisableEditingUsedSaleRate { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "disableeditrateld", modeltype: FwDataTypes.Boolean)]
-        public bool? DisableEditingFinalLdRate { get; set; }
+        public bool? DisableEditingLossAndDamageRate { get; set; }
         //------------------------------------------------------------------------------------ 
 
         [FwSqlDataField(column: "exportcode", modeltype: FwDataTypes.Text)]

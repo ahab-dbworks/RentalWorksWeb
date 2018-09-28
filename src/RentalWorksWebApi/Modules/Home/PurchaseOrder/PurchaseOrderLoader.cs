@@ -265,7 +265,7 @@ namespace WebApi.Modules.Home.PurchaseOrder
         public bool? HasFacilitiesItem { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "hasfinallditem", modeltype: FwDataTypes.Boolean)]
-        public bool? HasFinalLdItem { get; set; }
+        public bool? HasLossAndDamageItem { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "hasrentalsaleitem", modeltype: FwDataTypes.Boolean)]
         public bool? HasRentalSaleItem { get; set; }

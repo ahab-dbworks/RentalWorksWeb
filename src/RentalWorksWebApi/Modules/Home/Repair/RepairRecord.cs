@@ -136,9 +136,6 @@ namespace WebApi.Modules.Home.Repair
         [FwSqlDataField(column: "taxid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
         public string TaxId { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "ldorderid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
-        public string FinalLdOrderId { get; set; }
-        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "repairautocompleteqc", modeltype: FwDataTypes.Boolean, sqltype: "char")]
         public bool? AutomaticallyCompleteQc { get; set; }
         //------------------------------------------------------------------------------------ 

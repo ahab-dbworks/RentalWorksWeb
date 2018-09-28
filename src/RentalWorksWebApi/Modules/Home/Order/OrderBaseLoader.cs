@@ -47,7 +47,7 @@ namespace WebApi.Modules.Home.Order
         public bool? HasFacilitiesItem { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "hasfinallditem", modeltype: FwDataTypes.Boolean)]
-        public bool? HasFinalLdItem { get; set; }
+        public bool? HasLossAndDamageItem { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "hasrentalsaleitem", modeltype: FwDataTypes.Boolean)]
         public bool? HasRentalSaleItem { get; set; }
@@ -968,7 +968,7 @@ namespace WebApi.Modules.Home.Order
         public bool? DisableEditingUsedSaleRate { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "departmentdisableeditrateld", modeltype: FwDataTypes.Boolean)]
-        public bool? DisableEditingFinalLdRate { get; set; }
+        public bool? DisableEditingLossAndDamageRate { get; set; }
         //------------------------------------------------------------------------------------ 
 
 

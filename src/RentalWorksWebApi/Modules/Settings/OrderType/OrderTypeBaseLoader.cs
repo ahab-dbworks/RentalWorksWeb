@@ -2742,226 +2742,226 @@ namespace WebApi.Modules.Settings.OrderType
         //------------------------------------------------------------------------------------ 
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "ldordertypefieldsid", modeltype: FwDataTypes.Text)]
-        public string FinalLandDOrderTypeFieldsId { get; set; }
+        public string LossAndDamageOrderTypeFieldsId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "ldshoworderno", modeltype: FwDataTypes.Boolean)]
-        public bool? FinalLandDShowOrderNumber { get; set; }
+        public bool? LossAndDamageShowOrderNumber { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "ldshowrepairno", modeltype: FwDataTypes.Boolean)]
-        public bool? FinalLandDShowRepairOrderNumber { get; set; }
+        public bool? LossAndDamageShowRepairOrderNumber { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "ldshowmasterno", modeltype: FwDataTypes.Boolean)]
-        public bool? FinalLandDShowICode { get; set; }
+        public bool? LossAndDamageShowICode { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "ldicodewidth", modeltype: FwDataTypes.Integer)]
-        public int? FinalLandDICodeWidth { get; set; }
+        public int? LossAndDamageICodeWidth { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "ldshowdescription", modeltype: FwDataTypes.Boolean)]
-        public bool? FinalLandDShowDescription { get; set; }
+        public bool? LossAndDamageShowDescription { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "lddescwidth", modeltype: FwDataTypes.Integer)]
-        public int? FinalLandDDescriptionWidth { get; set; }
+        public int? LossAndDamageDescriptionWidth { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "ldshowbarcode", modeltype: FwDataTypes.Boolean)]
-        public bool? FinalLandDShowBarCode { get; set; }
+        public bool? LossAndDamageShowBarCode { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "ldshowserialno", modeltype: FwDataTypes.Boolean)]
-        public bool? FinalLandDShowSerialNumber { get; set; }
+        public bool? LossAndDamageShowSerialNumber { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "ldshowpickdate", modeltype: FwDataTypes.Boolean)]
-        public bool? FinalLandDShowPickDate { get; set; }
+        public bool? LossAndDamageShowPickDate { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "ldshowfromdate", modeltype: FwDataTypes.Boolean)]
-        public bool? FinalLandDShowFromDate { get; set; }
+        public bool? LossAndDamageShowFromDate { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "ldshowtodate", modeltype: FwDataTypes.Boolean)]
-        public bool? FinalLandDShowToDate { get; set; }
+        public bool? LossAndDamageShowToDate { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "ldshowbillableperiods", modeltype: FwDataTypes.Boolean)]
-        public bool? FinalLandDShowBillablePeriods { get; set; }
+        public bool? LossAndDamageShowBillablePeriods { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "ldshowsubqty", modeltype: FwDataTypes.Boolean)]
-        public bool? FinalLandDShowSubQuantity { get; set; }
+        public bool? LossAndDamageShowSubQuantity { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "ldshowavailqty", modeltype: FwDataTypes.Boolean)]
-        public bool? FinalLandDShowAvailableQuantity { get; set; }
+        public bool? LossAndDamageShowAvailableQuantity { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "ldshowconflictdate", modeltype: FwDataTypes.Boolean)]
-        public bool? FinalLandDShowConflictDate { get; set; }
+        public bool? LossAndDamageShowConflictDate { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "ldshowrate", modeltype: FwDataTypes.Boolean)]
-        public bool? FinalLandDShowRate { get; set; }
+        public bool? LossAndDamageShowRate { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "ldshowcost", modeltype: FwDataTypes.Boolean)]
-        public bool? FinalLandDShowCost { get; set; }
+        public bool? LossAndDamageShowCost { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "ldshowweeklycostextended", modeltype: FwDataTypes.Boolean)]
-        public bool? FinalLandDShowWeeklyCostExtended { get; set; }
+        public bool? LossAndDamageShowWeeklyCostExtended { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "ldshowmonthlycostextended", modeltype: FwDataTypes.Boolean)]
-        public bool? FinalLandDShowMonthlyCostExtended { get; set; }
+        public bool? LossAndDamageShowMonthlyCostExtended { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "ldshowperiodcostextended", modeltype: FwDataTypes.Boolean)]
-        public bool? FinalLandDShowPeriodCostExtended { get; set; }
+        public bool? LossAndDamageShowPeriodCostExtended { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "ldshowdw", modeltype: FwDataTypes.Boolean)]
-        public bool? FinalLandDShowDaysPerWeek { get; set; }
+        public bool? LossAndDamageShowDaysPerWeek { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "ldshowdiscountpercent", modeltype: FwDataTypes.Boolean)]
-        public bool? FinalLandDShowDiscountPercent { get; set; }
+        public bool? LossAndDamageShowDiscountPercent { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "ldshowmarkuppercent", modeltype: FwDataTypes.Boolean)]
-        public bool? FinalLandDShowMarkupPercent { get; set; }
+        public bool? LossAndDamageShowMarkupPercent { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "ldshowmarginpercent", modeltype: FwDataTypes.Boolean)]
-        public bool? FinalLandDShowMarginPercent { get; set; }
+        public bool? LossAndDamageShowMarginPercent { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "ldshowsplit", modeltype: FwDataTypes.Boolean)]
-        public bool? FinalLandDShowSplit { get; set; }
+        public bool? LossAndDamageShowSplit { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "ldshowunit", modeltype: FwDataTypes.Boolean)]
-        public bool? FinalLandDShowUnit { get; set; }
+        public bool? LossAndDamageShowUnit { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "ldshowunitdiscountamount", modeltype: FwDataTypes.Boolean)]
-        public bool? FinalLandDShowUnitDiscountAmount { get; set; }
+        public bool? LossAndDamageShowUnitDiscountAmount { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "ldshowunitextended", modeltype: FwDataTypes.Boolean)]
-        public bool? FinalLandDShowUnitExtended { get; set; }
+        public bool? LossAndDamageShowUnitExtended { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "ldshowweeklydiscountamount", modeltype: FwDataTypes.Boolean)]
-        public bool? FinalLandDShowWeeklyDiscountAmount { get; set; }
+        public bool? LossAndDamageShowWeeklyDiscountAmount { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "ldshowweeklyextended", modeltype: FwDataTypes.Boolean)]
-        public bool? FinalLandDShowWeeklyExtended { get; set; }
+        public bool? LossAndDamageShowWeeklyExtended { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "ldshowmonthlydiscountamount", modeltype: FwDataTypes.Boolean)]
-        public bool? FinalLandDShowMonthlyDiscountAmount { get; set; }
+        public bool? LossAndDamageShowMonthlyDiscountAmount { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "ldshowmonthlyextended", modeltype: FwDataTypes.Boolean)]
-        public bool? FinalLandDShowMonthlyExtended { get; set; }
+        public bool? LossAndDamageShowMonthlyExtended { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "ldshowperioddiscountamount", modeltype: FwDataTypes.Boolean)]
-        public bool? FinalLandDShowPeriodDiscountAmount { get; set; }
+        public bool? LossAndDamageShowPeriodDiscountAmount { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "ldshowperiodextended", modeltype: FwDataTypes.Boolean)]
-        public bool? FinalLandDShowPeriodExtended { get; set; }
+        public bool? LossAndDamageShowPeriodExtended { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "ldshowvariancepercent", modeltype: FwDataTypes.Boolean)]
-        public bool? FinalLandDShowVariancePercent { get; set; }
+        public bool? LossAndDamageShowVariancePercent { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "ldshowvarianceextended", modeltype: FwDataTypes.Boolean)]
-        public bool? FinalLandDShowVarianceExtended { get; set; }
+        public bool? LossAndDamageShowVarianceExtended { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "ldshowcountryoforigin", modeltype: FwDataTypes.Boolean)]
-        public bool? FinalLandDShowCountryOfOrigin { get; set; }
+        public bool? LossAndDamageShowCountryOfOrigin { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "ldshowmanufacturer", modeltype: FwDataTypes.Boolean)]
-        public bool? FinalLandDShowManufacturer { get; set; }
+        public bool? LossAndDamageShowManufacturer { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "ldshowmfgpartno", modeltype: FwDataTypes.Boolean)]
-        public bool? FinalLandDShowManufacturerPartNumber { get; set; }
+        public bool? LossAndDamageShowManufacturerPartNumber { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "ldmfgpartnowidth", modeltype: FwDataTypes.Integer)]
-        public int? FinalLandDManufacturerPartNumberWidth { get; set; }
+        public int? LossAndDamageManufacturerPartNumberWidth { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "ldshowmodelno", modeltype: FwDataTypes.Boolean)]
-        public bool? FinalLandDShowModelNumber { get; set; }
+        public bool? LossAndDamageShowModelNumber { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "ldshowvendorpartno", modeltype: FwDataTypes.Boolean)]
-        public bool? FinalLandDShowVendorPartNumber { get; set; }
+        public bool? LossAndDamageShowVendorPartNumber { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "ldshowwarehouse", modeltype: FwDataTypes.Boolean)]
-        public bool? FinalLandDShowWarehouse { get; set; }
+        public bool? LossAndDamageShowWarehouse { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "ldshowtaxable", modeltype: FwDataTypes.Boolean)]
-        public bool? FinalLandDShowTaxable { get; set; }
+        public bool? LossAndDamageShowTaxable { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "ldshownotes", modeltype: FwDataTypes.Boolean)]
-        public bool? FinalLandDShowNotes { get; set; }
+        public bool? LossAndDamageShowNotes { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "ldshowreturntowarehouse", modeltype: FwDataTypes.Boolean)]
-        public bool? FinalLandDShowReturnToWarehouse { get; set; }
+        public bool? LossAndDamageShowReturnToWarehouse { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "ldshowfromtime", modeltype: FwDataTypes.Boolean)]
-        public bool? FinalLandDShowFromTime { get; set; }
+        public bool? LossAndDamageShowFromTime { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "ldshowtotime", modeltype: FwDataTypes.Boolean)]
-        public bool? FinalLandDShowToTime { get; set; }
+        public bool? LossAndDamageShowToTime { get; set; }
         //------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "ldshowvehicleno", modeltype: FwDataTypes.Boolean)]
-        //public bool? FinalLandDShowvehicleno { get; set; }
+        //public bool? LossAndDamageShowvehicleno { get; set; }
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "ldshowbarcode", modeltype: FwDataTypes.Boolean)]
-        //public bool? FinalLandDShowbarcode { get; set; }
+        //public bool? LossAndDamageShowbarcode { get; set; }
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "ldshowserialno", modeltype: FwDataTypes.Boolean)]
-        //public bool? FinalLandDShowserialno { get; set; }
+        //public bool? LossAndDamageShowserialno { get; set; }
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "ldshowcrewname", modeltype: FwDataTypes.Boolean)]
-        //public bool? FinalLandDShowcrewname { get; set; }
+        //public bool? LossAndDamageShowcrewname { get; set; }
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "ldshowhours", modeltype: FwDataTypes.Boolean)]
-        //public bool? FinalLandDShowhours { get; set; }
+        //public bool? LossAndDamageShowhours { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "ldshowpicktime", modeltype: FwDataTypes.Boolean)]
-        public bool? FinalLandDShowPickTime { get; set; }
+        public bool? LossAndDamageShowPickTime { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "ldshowavailqtyallwh", modeltype: FwDataTypes.Boolean)]
-        public bool? FinalLandDShowAvailableQuantityAllWarehouses { get; set; }
+        public bool? LossAndDamageShowAvailableQuantityAllWarehouses { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "ldshowconflictdateallwh", modeltype: FwDataTypes.Boolean)]
-        public bool? FinalLandDShowConflictDateAllWarehouses { get; set; }
+        public bool? LossAndDamageShowConflictDateAllWarehouses { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "ldshowconsignavailqty", modeltype: FwDataTypes.Boolean)]
-        public bool? FinalLandDShowConsignmentAvailableQuantity { get; set; }
+        public bool? LossAndDamageShowConsignmentAvailableQuantity { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "ldshowconsignconflictdate", modeltype: FwDataTypes.Boolean)]
-        public bool? FinalLandDShowConsignmentConflictDate { get; set; }
+        public bool? LossAndDamageShowConsignmentConflictDate { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "ldshowconsignqty", modeltype: FwDataTypes.Boolean)]
-        public bool? FinalLandDShowConsignmentQuantity { get; set; }
+        public bool? LossAndDamageShowConsignmentQuantity { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "ldshowinlocationqty", modeltype: FwDataTypes.Boolean)]
-        public bool? FinalLandDShowInLocationQuantity { get; set; }
+        public bool? LossAndDamageShowInLocationQuantity { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "ldshowreservedrentalitems", modeltype: FwDataTypes.Boolean)]
-        public bool? FinalLandDShowReservedItems { get; set; }
+        public bool? LossAndDamageShowReservedItems { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "ldshowweeksanddays", modeltype: FwDataTypes.Boolean)]
-        public bool? FinalLandDShowWeeksAndDays { get; set; }
+        public bool? LossAndDamageShowWeeksAndDays { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "ldshowmonthsanddays", modeltype: FwDataTypes.Boolean)]
-        public bool? FinalLandDShowMonthsAndDays { get; set; }
+        public bool? LossAndDamageShowMonthsAndDays { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "ldshowpremiumpct", modeltype: FwDataTypes.Boolean)]
-        public bool? FinalLandDShowPremiumPercent { get; set; }
+        public bool? LossAndDamageShowPremiumPercent { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "ldshowdepartment", modeltype: FwDataTypes.Boolean)]
-        public bool? FinalLandDShowDepartment { get; set; }
+        public bool? LossAndDamageShowDepartment { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "ldshowlocation", modeltype: FwDataTypes.Boolean)]
-        public bool? FinalLandDShowLocation { get; set; }
+        public bool? LossAndDamageShowLocation { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "ldshoworderactivity", modeltype: FwDataTypes.Boolean)]
-        public bool? FinalLandDShowOrderActivity { get; set; }
+        public bool? LossAndDamageShowOrderActivity { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "ldshowsuborderno", modeltype: FwDataTypes.Boolean)]
-        public bool? FinalLandDShowSubOrderNumber { get; set; }
+        public bool? LossAndDamageShowSubOrderNumber { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "ldshoworderstatus", modeltype: FwDataTypes.Boolean)]
-        public bool? FinalLandDShowOrderStatus { get; set; }
+        public bool? LossAndDamageShowOrderStatus { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "ldshowepisodes", modeltype: FwDataTypes.Boolean)]
-        public bool? FinalLandDShowEpisodes { get; set; }
+        public bool? LossAndDamageShowEpisodes { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "ldshowepisodeextended", modeltype: FwDataTypes.Boolean)]
-        public bool? FinalLandDShowEpisodeExtended { get; set; }
+        public bool? LossAndDamageShowEpisodeExtended { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "ldshowepisodediscountamount", modeltype: FwDataTypes.Boolean)]
-        public bool? FinalLandDShowEpisodeDiscountAmount { get; set; }
+        public bool? LossAndDamageShowEpisodeDiscountAmount { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "lddatestamp", modeltype: FwDataTypes.UTCDateTime)]
-        public string FinalLandDDateStamp { get; set; }
+        public string LossAndDamageDateStamp { get; set; }
         //------------------------------------------------------------------------------------ 
 
 
@@ -2988,7 +2988,7 @@ namespace WebApi.Modules.Settings.OrderType
         public List<string> MiscShowFields { get; set; }
         public List<string> LaborShowFields { get; set; }
         public List<string> RentalSaleShowFields { get; set; }
-        public List<string> FinalLandDShowFields { get; set; }
+        public List<string> LossAndDamageShowFields { get; set; }
 
 
     }

@@ -80,7 +80,7 @@ namespace WebApi.Modules.Home.Invoice
         [FwBusinessLogicField(isReadOnly: true)]
         public bool? RentalSale { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
-        public bool? FinalLd { get; set; }
+        public bool? LossAndDamage { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
         public bool? Repair { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
