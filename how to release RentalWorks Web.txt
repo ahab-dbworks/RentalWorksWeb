@@ -24,7 +24,7 @@ Updating Web:
 	find the target directory, delete all except App_Data directory, Application.config, and ApplicationConfig.js.
 	Copy over the new deliverable files. (Do not copy the App_Data directory to the target.)
 Updating Api: 
-	find the target directory: delete all except appsettings.json
+	find the target directory: delete all except appsettings.json, ref, and runtimes
 	Copy over the new deliverable files. (Do not copy the appsettings.json file to the target)
 
 
