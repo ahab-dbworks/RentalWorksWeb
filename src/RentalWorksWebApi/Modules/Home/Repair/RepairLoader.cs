@@ -94,6 +94,9 @@ namespace WebApi.Modules.Home.Repair
         [FwSqlDataField(column: "damagecontractno", modeltype: FwDataTypes.Text)]
         public string DamageContractNumber { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "damagecontractdate", modeltype: FwDataTypes.Date)]
+        public string DamageContractDate { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "chargeorderid", modeltype: FwDataTypes.Text)]
         public string ChargeOrderId { get; set; }
         //------------------------------------------------------------------------------------ 

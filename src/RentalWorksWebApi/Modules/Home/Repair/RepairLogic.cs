@@ -106,6 +106,8 @@ namespace WebApi.Modules.Home.Repair
         public string DamageContractId { get { return repair.DamageContractId; } set { repair.DamageContractId = value; } }
         [FwBusinessLogicField(isReadOnly: true)]
         public string DamageContractNumber { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string DamageContractDate { get; set; }
 
         public string DamageScannedById { get { return repair.DamageScannedById; } set { repair.DamageScannedById = value; } }
         [FwBusinessLogicField(isReadOnly: true)]
