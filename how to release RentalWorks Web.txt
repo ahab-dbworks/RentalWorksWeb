@@ -3,7 +3,7 @@ Last Updated 05/31/2018
 Navigate to the "build" directory: <repo root>\build, Delete all files and directories
 GitKraken: confirm that you are on local\develop branch
 Stash any unstaged changes (or Stage, Commit, and Push)
-Modify version.txt file in the root of the Web project
+Modify version.txt file in the root of the Web project (save and close)
 Open command prompt at WebApi directory, run: npm run build-reports-dev
 	cd c:\project\rentalworks\rentalworksweb\src\rentalworkswebapi
 	npm run build-reports-dev
@@ -14,6 +14,8 @@ Publish WebAPI:
 	Publish to this folder: <repo root>\build\RentalWorksWebApi
 	(The first time you do this, you need to setup the folder and define a Profile to use next time. When doing so, click "Advanced Options" and select "Remove Additional Files at Destination")
 	Click Publish
+create Build Release Document in CRM
+Create new Build record in CRM
 Stage, Commit, and Push assembly/version files, provide Description similar to "web: v2018.1.1.X"
 Navigate to the "build" directory: <repo root>\build
 zip the RentalWorksWeb and RentalWorksWebApi directories together (7zip).  (File naming convention: RentalWorksWeb_2018_001_12.zip)
