@@ -196,15 +196,7 @@ namespace WebApi.Modules.Home.PickListUtilityItem
                     AddMiscFieldToQueryAsBoolean("HonorCompleteKitItemTypes", "@honorcompletekititemtypes", qry, request);
                     AddMiscFieldToQueryAsBoolean("SelectAll", "@selectall", qry, request);
                     AddMiscFieldToQueryAsBoolean("SelectNone", "@selectnone", qry, request);
-                    PropertyInfo[] propertyInfos = typeof(PickListUtilityItemLoader).GetProperties();
-                    foreach (PropertyInfo propertyInfo in propertyInfos)
-                    {
-                        FwSqlDataFieldAttribute sqlDataFieldAttribute = propertyInfo.GetCustomAttribute<FwSqlDataFieldAttribute>();
-                        if (sqlDataFieldAttribute != null)
-                        {
-                            qry.AddColumn(sqlDataFieldAttribute.ColumnName, propertyInfo.Name, sqlDataFieldAttribute.ModelType, sqlDataFieldAttribute.IsVisible, sqlDataFieldAttribute.IsPrimaryKey, false);
-                        }
-                    }
+                    AddPropertiesAsQueryColumns(qry);
                     dt = await qry.QueryToFwJsonTableAsync(false, 0);
                 }
             }

@@ -145,15 +145,7 @@ namespace WebApi.Modules.Home.InventorySearch
                     }
                     qry.AddParameter("@showimages", SqlDbType.NVarChar, ParameterDirection.Input, (request.ShowImages?"T":"F"));
                     qry.AddParameter("@sortby", SqlDbType.NVarChar, ParameterDirection.Input, request.SortBy);
-                    PropertyInfo[] propertyInfos = typeof(InventorySearchLoader).GetProperties();
-                    foreach (PropertyInfo propertyInfo in propertyInfos)
-                    {
-                        FwSqlDataFieldAttribute sqlDataFieldAttribute = propertyInfo.GetCustomAttribute<FwSqlDataFieldAttribute>();
-                        if (sqlDataFieldAttribute != null)
-                        {
-                            qry.AddColumn(sqlDataFieldAttribute.ColumnName, propertyInfo.Name, sqlDataFieldAttribute.ModelType, sqlDataFieldAttribute.IsVisible, sqlDataFieldAttribute.IsPrimaryKey, false);
-                        }
-                    }
+                    AddPropertiesAsQueryColumns(qry);
                     dt = await qry.QueryToFwJsonTableAsync(false, 0);
                 }
             }
@@ -182,15 +174,7 @@ namespace WebApi.Modules.Home.InventorySearch
                         qry.AddParameter("@todate", SqlDbType.DateTime, ParameterDirection.Input, request.ToDate);
                     }
                     qry.AddParameter("@showimages", SqlDbType.NVarChar, ParameterDirection.Input, (request.ShowImages ? "T" : "F"));
-                    PropertyInfo[] propertyInfos = typeof(InventorySearchLoader).GetProperties();
-                    foreach (PropertyInfo propertyInfo in propertyInfos)
-                    {
-                        FwSqlDataFieldAttribute sqlDataFieldAttribute = propertyInfo.GetCustomAttribute<FwSqlDataFieldAttribute>();
-                        if (sqlDataFieldAttribute != null)
-                        {
-                            qry.AddColumn(sqlDataFieldAttribute.ColumnName, propertyInfo.Name, sqlDataFieldAttribute.ModelType, sqlDataFieldAttribute.IsVisible, sqlDataFieldAttribute.IsPrimaryKey, false);
-                        }
-                    }
+                    AddPropertiesAsQueryColumns(qry);
                     dt = await qry.QueryToFwJsonTableAsync(false, 0);
                 }
             }

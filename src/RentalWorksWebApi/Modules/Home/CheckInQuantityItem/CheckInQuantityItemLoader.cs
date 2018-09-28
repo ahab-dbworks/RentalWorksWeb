@@ -127,15 +127,7 @@ namespace WebApi.Modules.Home.CheckInQuantityItem
                     qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, UserSession.UsersId);
                     qry.AddParameter("@status", SqlDbType.Int, ParameterDirection.Output);
                     qry.AddParameter("@msg", SqlDbType.NVarChar, ParameterDirection.Output);
-                    PropertyInfo[] propertyInfos = typeof(CheckInQuantityItemLoader).GetProperties();
-                    foreach (PropertyInfo propertyInfo in propertyInfos)
-                    {
-                        FwSqlDataFieldAttribute sqlDataFieldAttribute = propertyInfo.GetCustomAttribute<FwSqlDataFieldAttribute>();
-                        if (sqlDataFieldAttribute != null)
-                        {
-                            qry.AddColumn(sqlDataFieldAttribute.ColumnName, propertyInfo.Name, sqlDataFieldAttribute.ModelType, sqlDataFieldAttribute.IsVisible, sqlDataFieldAttribute.IsPrimaryKey, false);
-                        }
-                    }
+                    AddPropertiesAsQueryColumns(qry);
                     dt = await qry.QueryToFwJsonTableAsync(false, 0);
                 }
             }

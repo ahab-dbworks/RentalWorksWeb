@@ -167,15 +167,7 @@ namespace WebApi.Modules.Home.StagedItem
                     {
                         qry.AddParameter("@orderby", SqlDbType.NVarChar, ParameterDirection.Input, "itemorder");
                     }
-                    PropertyInfo[] propertyInfos = typeof(StagedItemLoader).GetProperties();
-                    foreach (PropertyInfo propertyInfo in propertyInfos)
-                    {
-                        FwSqlDataFieldAttribute sqlDataFieldAttribute = propertyInfo.GetCustomAttribute<FwSqlDataFieldAttribute>();
-                        if (sqlDataFieldAttribute != null)
-                        {
-                            qry.AddColumn(sqlDataFieldAttribute.ColumnName, propertyInfo.Name, sqlDataFieldAttribute.ModelType, sqlDataFieldAttribute.IsVisible, sqlDataFieldAttribute.IsPrimaryKey, false);
-                        }
-                    }
+                    AddPropertiesAsQueryColumns(qry);
                     dt = await qry.QueryToFwJsonTableAsync(false, 0);
                 }
             }

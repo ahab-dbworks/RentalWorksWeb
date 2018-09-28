@@ -252,15 +252,7 @@ namespace WebApi.Modules.Reports.LateReturnsReport
                     qry.AddParameter("@dealid", SqlDbType.Text, ParameterDirection.Input, dealId);
                     qry.AddParameter("@inventorydepartmentid", SqlDbType.Text, ParameterDirection.Input, inventoryTypeId);
                     qry.AddParameter("@orderdbycontactid", SqlDbType.Text, ParameterDirection.Input, orderedByContactId);
-                    PropertyInfo[] propertyInfos = typeof(LateReturnsReportLoader).GetProperties();
-                    foreach (PropertyInfo propertyInfo in propertyInfos)
-                    {
-                        FwSqlDataFieldAttribute sqlDataFieldAttribute = propertyInfo.GetCustomAttribute<FwSqlDataFieldAttribute>();
-                        if (sqlDataFieldAttribute != null)
-                        {
-                            qry.AddColumn(sqlDataFieldAttribute.ColumnName, propertyInfo.Name, sqlDataFieldAttribute.ModelType, sqlDataFieldAttribute.IsVisible, sqlDataFieldAttribute.IsPrimaryKey, false);
-                        }
-                    }
+                    AddPropertiesAsQueryColumns(qry);
                     dt = await qry.QueryToFwJsonTableAsync(false, 0);
                 }
             }
