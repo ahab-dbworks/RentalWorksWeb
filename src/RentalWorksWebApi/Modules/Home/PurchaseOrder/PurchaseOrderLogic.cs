@@ -171,6 +171,23 @@ namespace WebApi.Modules.Home.PurchaseOrder
         public decimal? LaborTaxRate2 { get { return tax.LaborTaxRate2; } set { tax.LaborTaxRate2 = value; } }
 
 
+        [FwBusinessLogicField(isReadOnly: true)]
+        public bool? HasRentalItem { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public bool? HasSalesItem { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public bool? HasMiscellaneousItem { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public bool? HasLaborItem { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public bool? HasFacilitiesItem { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public bool? HasFinalLdItem { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public bool? HasRentalSaleItem { get; set; }
+        //------------------------------------------------------------------------------------ 
+
+
 
         //------------------------------------------------------------------------------------ 
 
@@ -258,7 +275,7 @@ namespace WebApi.Modules.Home.PurchaseOrder
                         PurchaseOrderLogic l2 = null;
                         l2.SetDependencies(this.AppConfig, this.UserSession);
                         object[] pk = GetPrimaryKeys();
-                        bool b = l2.LoadAsync<PurchaseOrderLogic>(pk).Result;
+                        bool b1 = l2.LoadAsync<PurchaseOrderLogic>(pk).Result;
                         TaxId = l2.TaxId;
 
                         if ((TaxId != null) && (!TaxId.Equals(string.Empty)))
@@ -268,6 +285,7 @@ namespace WebApi.Modules.Home.PurchaseOrder
                     }
                 }
 
+                bool b3 = purchaseOrder.UpdateOrderTotal().Result;
 
             }
         }
