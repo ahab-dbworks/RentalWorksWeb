@@ -74,7 +74,7 @@ namespace WebApi.Modules.Home.Repair
         public string DamageScannedById { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "ldorderid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
-        public string FinalLandDOrderId { get; set; }
+        public string LossAndDamageOrderId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "damage", modeltype: FwDataTypes.Text, sqltype: "text")]
         public string Damage { get; set; }

@@ -113,10 +113,11 @@ namespace WebApi.Modules.Home.Repair
         [FwBusinessLogicField(isReadOnly: true)]
         public string DamageScannedBy { get; set; }
 
-        public string FinalLandDOrderId { get { return repair.FinalLandDOrderId; } set { repair.FinalLandDOrderId = value; } }
+        public string LossAndDamageOrderId { get { return repair.LossAndDamageOrderId; } set { repair.LossAndDamageOrderId = value; } }
         [FwBusinessLogicField(isReadOnly: true)]
-        public string FinalLandDOrderNumber { get; set; }
-
+        public string LossAndDamageOrderNumber { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string LossAndDamageOrderDescription { get; set; }
         public string ChargeOrderId { get { return repair.ChargeOrderId; } set { repair.ChargeOrderId = value; } }
         [FwBusinessLogicField(isReadOnly: true)]
         public string ChargeOrderNumber { get; set; }

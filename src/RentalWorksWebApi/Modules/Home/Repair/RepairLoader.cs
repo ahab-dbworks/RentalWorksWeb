@@ -83,10 +83,13 @@ namespace WebApi.Modules.Home.Repair
         public string DamageScannedBy { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "ldorderid", modeltype: FwDataTypes.Text)]
-        public string FinalLandDOrderId { get; set; }
+        public string LossAndDamageOrderId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "ldorderno", modeltype: FwDataTypes.Text)]
-        public string FinalLandDOrderNumber { get; set; }
+        public string LossAndDamageOrderNumber { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "ldorderdesc", modeltype: FwDataTypes.Text)]
+        public string LossAndDamageOrderDescription { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "damagecontractid", modeltype: FwDataTypes.Text)]
         public string DamageContractId { get; set; }
