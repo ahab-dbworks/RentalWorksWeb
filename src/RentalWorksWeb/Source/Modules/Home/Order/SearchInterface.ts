@@ -305,7 +305,7 @@ class SearchInterface {
         }
 
         this.populateTypeMenu($popup, inventoryTypeRequest, categoryType);
-        this.breadCrumbs($popup, $form);
+        this.breadCrumbs($popup);
         this.events($popup, $form, id);
         return $popup;
     }
@@ -713,7 +713,8 @@ class SearchInterface {
             $searchpopup.find('.formoptions .flexrow').css({ 'padding-left': '1em' });
             $searchpopup.find('.expandcategorycolumns').show();
             $searchpopup.find('.showWhenExpanded').show();
-            $searchpopup.find('#breadcrumbs').empty();
+            $searchpopup.find('#breadcrumbs > div').hide();
+
         } else {
             $searchpopup.find('.hideOnExpand').show();
             $searchpopup.find('.formoptions').css({ 'max-width': '1150px' });
@@ -791,7 +792,7 @@ class SearchInterface {
         }
     };
 
-    breadCrumbs($popup, $form) {
+    breadCrumbs($popup) {
         $popup.on('click', '#breadcrumbs .type', e => {
             let inventoryTypeId = jQuery(e.currentTarget).attr('data-value');
             $popup.find(`#inventoryType ul[data-value="${inventoryTypeId}"]`).click();
@@ -1174,6 +1175,8 @@ class SearchInterface {
             $popup.find('#inventory').removeClass('expandedInventoryView');
             $popup.find('.showWhenExpanded').hide();
             this.listGridView($inventory, view);
+            $popup.find('[data-datafield="SearchBox"] input').val('');
+            $popup.find('#breadcrumbs > div').show();
         });
 
         //Increment and decrement buttons
