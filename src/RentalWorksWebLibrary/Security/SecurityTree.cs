@@ -286,7 +286,7 @@ namespace WebLibrary.Security
             AddModule("User",                "{79E93B21-8638-483C-B377-3F4D561F1243}", lv1menuAdministrator.Id, "UserController",           "module/user",           administratoriconbaseurl + "user.png", "USER");
             AddModule("Settings",            "{57150967-486A-42DE-978D-A2B0F843341A}", lv1menuAdministrator.Id, "SettingsController",       "module/settings",       administratoriconbaseurl + "placeholder.png");
             AddModule("Reports",             "{3C5C7603-9E7B-47AB-A722-B29CA09B3B8C}", lv1menuAdministrator.Id, "ReportsController",        "module/reports",        administratoriconbaseurl + "placeholder.png");
-            AddModule("Designer",            "{CB2EF8FF-2E8D-4AD0-B880-07037B839C5E}", lv1menuAdministrator.Id, "DesignerController",       "module/designer",       administratoriconbaseurl + "placeholder.png");
+            AddModule("Custom Forms",        "{CB2EF8FF-2E8D-4AD0-B880-07037B839C5E}", lv1menuAdministrator.Id, "WebFormController",       "module/webform",     administratoriconbaseurl + "placeholder.png");
             // Add Submodules
             AddSubModule("User Settings", "{A6704904-01E1-4C6B-B75A-C1D3FCB50C01}", lv1menuSubModules.Id, "UserSettingsController");
             AddSubModule("SubWorksheet", "{F24BDA2F-B37C-45C1-B08E-588D02D50B7C}", lv1menuSubModules.Id, "SubWorksheetController");
