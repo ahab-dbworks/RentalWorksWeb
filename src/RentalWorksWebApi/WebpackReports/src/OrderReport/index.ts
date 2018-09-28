@@ -18,19 +18,29 @@ export class OrderReport extends WebpackReport {
     renderReport(apiUrl: string, authorizationHeader: string, parameters: any): void {
         try {
             super.renderReport(apiUrl, authorizationHeader, parameters);
-
             HandlebarsHelpers.registerHelpers();
             let request = new OrderReportRequest();
             let order = new Order();
-
-            request.OrderId = parameters.OrderId;
+            let isOrder = true;
+            if (parameters.OrderId !== '') {
+                request.OrderId = parameters.OrderId;
+            } else {
+                request.OrderId = parameters.QuoteId;
+                isOrder = false;
+            }
 
             let Promise = Ajax.post<Order>(`${apiUrl}/api/v1/orderreport/runreport`, authorizationHeader, request)
                 .then((response: Order) => {
                     order = response;
                     order.Items = DataTable.toObjectList(response.Items);
                     order.PrintTime = moment().format('YYYY-MM-DD h:mm:ss A');
-                    order.Report = 'ORDER';
+                    //order.Logo = `<img class="clientlogo" src="${dataUrl}" style="margin-left: 30px; width:1.225in;" />`
+                    if (isOrder) {
+                        order.Report = 'ORDER';
+                    } else {
+                        order.Report = 'QUOTE';
+                        document.title = 'Quote Report'
+                    }
                     order.System = 'RENTALWORKS';
                     order.Company = '4WALL ENTERTAINMENT';
                     console.log('order: ', order)
@@ -62,6 +72,7 @@ class Order {
     Report: string;
     Company: string;
     System: string;
+    Logo: string;
     OrderId: string;
     OfficeLocationId: string;
     OfficeLocation: string;
