@@ -1,11 +1,11 @@
 ﻿<!--Order Report-->
-<div class="rpt-flexrow" style="margin-top:5px;"> 
-  <div class="rpt-flexcolumn">
+<div class="rpt-flexrow" style="margin:5px 0px 0px 4px;"> 
+  <div class="rpt-flexcolumn" style="border-bottom: 3px solid black;padding-bottom:4px;">
     <span class="header-left" style="font-weight:600">{{Company}}</span>
     <span class="header-left">{{OfficeLocationAddress1}}</span>
     <span class="header-left">{{OfficeLocationAddress2}}</span>
     <span class="header-left">{{OfficeLocationCityStateZipCodeCountry}}</span>
-    <span class="header-left">Phone: {{OfficeLocationPhone}}</span>
+    <span class="header-left"><span style="font-weight:600;">Phone:</span> {{OfficeLocationPhone}}</span>
   </div>
   <div class="rpt-flexcolumn">
     <span class="title">{{Report}}</span>
@@ -18,24 +18,24 @@
 <div class="rpt-flexrow" style="margin-top:25px;">
   <table class="sub-header">
     <tr>
-      <td class="header-left">Description: <span style="font-weight:600;">{{Description}}</span></td>
-      <td class="header-center">Billing Period: {{BillingDates}}</td>
-      <td class="header-right">Usage Period: {{UsageDates}}</td>
+      <td class="header-left"><span style="font-weight:600;padding-right:40px;">Agent:</span> {{Agent}}</td>
+      <td class="header-center"><span style="font-weight:600;">Description:</span> {{Description}}</td>
+      <td class="header-right"><span style="font-weight:600;">Billing Period:</span> {{BillingDates}}</td>
     </tr>
     <tr>
-      <td class="header-left">PO No: {{PoNumber}}</td>
-      <td class="header-center">Billing Cycle: {{BillingCycle}}</td>
-      <td class="header-right">Terms: {{PaymentTerms}}</td>
+      <td class="header-left"><span style="font-weight:600;padding-right:44px;">Email:</span> {{AgentEmail}}</td>
+      <td class="header-center"><span style="font-weight:600;padding-right:13px;">Customer:</span> {{Customer}}</td>
+      <td class="header-right"><span style="font-weight:600;padding-right:51px;">Terms:</span> {{PaymentTerms}}</td>
     </tr>
     <tr>
-      <td class="header-left">Customer: {{Customer}}</td>
-      <td class="header-center">Deal No: {{DealNumber}}</td>
-      <td class="header-right">{{Deal}}</td>
+      <td class="header-left"><span style="font-weight:600;">Phone / Ext:</span> {{AgentPhoneAndExtension}}</td>
+      <td class="header-center"><span style="font-weight:600;padding-right:37px;">PO No:</span> {{PoNumber}}</td>
+      <td class="header-right"><span style="font-weight:600;">Usage Period:</span> {{UsageDates}}</td>
     </tr>
     <tr>
-      <td class="header-left">Agent: {{Agent}}</td>
-      <td class="header-center">Email: {{AgentEmail}}</td>
-      <td class="header-right">Phone / Ext: {{AgentPhoneAndExtension}}</td>
+      <td class="header-left"><span style="font-weight:600;padding-right:50px;">Deal:</span> {{Deal}}</td>
+      <td class="header-center"><span style="font-weight:600;padding-right:27px;">Deal No:</span> {{DealNumber}}</td>
+      <td class="header-right"><span style="font-weight:600;padding-right:7px;">Billing Cycle:</span> {{BillingCycle}}</td>
     </tr>
   </table>
 </div>
@@ -44,8 +44,8 @@
     <thead>
       <tr>
         <th class="text" style="text-align:left;">Issued To</th>
-        <th class="text" style="text-align:center;">Outgoing (DELIVER)</th>
-        <th class="text" style="text-align:right;">Incoming (DELIVER)</th>
+        <th class="text" style="text-align:left;padding-left:78px;">Outgoing (DELIVER)</th>
+        <th class="text" style="text-align:left;padding-left:27px;">Incoming (DELIVER)</th>
       </tr>
     </thead>
     <tbody>
@@ -76,7 +76,7 @@
             Fax: {{IssuedToFax}}
           </div>
         </td>
-        <td id="outgoing" class="text" style="text-align:center;">
+        <td id="outgoing" class="text" style="text-align:left;padding-left:78px;">
           <div>
             Attention: {{OutDeliveryAttention}}
           </div>
@@ -87,7 +87,7 @@
             {{OutDeliveryAddress2}}
           </div>
           <div>
-            {{OutDeliveryCity}}, {{OutDeliveryState}} {{OutDeliveryZipCode}} {{OutDeliveryCountry}}
+            {{OutDeliveryCityStateZipCodeCountry}}
           </div>
           <div>
             Phone: {{OutDeliveryContactPhone}}
@@ -96,7 +96,7 @@
             Required By: {{OutDeliveryRequiredByDateTime}}
           </div>
         </td>
-        <td id="incoming" class="text" style="text-align:right;">
+        <td id="incoming" class="text" style="text-align:left;padding-left:27px;">
           <div>
             Attention: {{InDeliveryAttention}}
           </div>
@@ -107,7 +107,7 @@
             {{InDeliveryAddress2}}
           </div>
           <div>
-            {{InDeliveryCity}}, {{InDeliveryState}} {{InDeliveryZipCode}} {{InDeliveryCountry}}
+            {{InDeliveryCityStateZipCodeCountry}}
           </div>
           <div>
             Contact: {{InDeliveryContact}}
