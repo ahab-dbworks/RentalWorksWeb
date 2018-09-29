@@ -1,6 +1,6 @@
 ﻿<!--Order Report-->
 <div class="rpt-flexrow" style="margin:5px 0px 0px 4px;"> 
-  <div class="rpt-flexcolumn" style="border-bottom: 3px solid black;padding-bottom:4px;">
+  <div class="rpt-flexcolumn" style="border-bottom: 3px solid black;padding-bottom:5px;">
     <img class="clientlogo" src="https://cdn01.4wall.com/cms/blog/images/f522f515029e93.jpg" style="width:1.225in;" />
     <span class="header-left" style="font-weight:600">{{Company}}</span>
     <span class="header-left">{{OfficeLocationAddress1}}</span>
@@ -16,7 +16,7 @@
     <span class="header-right" style="font-size:30px;">No: <span style="border:1px solid black;padding:2px;">{{OrderNumber}}</span></span>
   </div>
 </div>
-<div class="rpt-flexrow" style="margin-top:3px;">
+<div class="rpt-flexrow" style="margin-top:10px;padding-left:3px;">
   <table class="sub-header">
     <tr>
       <td class="header-left"><span style="font-weight:600;padding-right:40px;">Agent:</span> {{Agent}}</td>
@@ -26,7 +26,7 @@
     <tr>
       <td class="header-left"><span style="font-weight:600;padding-right:44px;">Email:</span> {{AgentEmail}}</td>
       <td class="header-center"><span style="font-weight:600;padding-right:13px;">Customer:</span> {{Customer}}</td>
-      <td class="header-right"><span style="font-weight:600;padding-right:51px;">Terms:</span> {{PaymentTerms}}</td>
+      <td class="header-right"><span style="font-weight:600;padding-right:54px;">Terms:</span> {{PaymentTerms}}</td>
     </tr>
     <tr>
       <td class="header-left"><span style="font-weight:600;">Phone / Ext:</span> {{AgentPhoneAndExtension}}</td>
@@ -45,13 +45,13 @@
     <thead>
       <tr>
         <th class="text" style="text-align:left;">Issued To</th>
-        <th class="text" style="text-align:left;padding-left:78px;">Outgoing (DELIVER)</th>
-        <th class="text" style="text-align:left;padding-left:27px;">Incoming (DELIVER)</th>
+        <th class="text" style="text-align:left;">Outgoing (DELIVER)</th>
+        <th class="text" style="text-align:left;">Incoming (DELIVER)</th>
       </tr>
     </thead>
     <tbody>
       <tr>
-        <td id="issuedTo" class="text" style="text-align:left;">
+        <td id="issuedTo" class="text" style="text-align:left;width:33.3%;">
           <div>
             {{IssuedToCompany}}
           </div>
@@ -77,7 +77,7 @@
             Fax: {{IssuedToFax}}
           </div>
         </td>
-        <td id="outgoing" class="text" style="text-align:left;padding-left:78px;">
+        <td id="outgoing" class="text" style="text-align:left;width:33.3%;">
           <div>
             Attention: {{OutDeliveryAttention}}
           </div>
@@ -97,7 +97,7 @@
             Required By: {{OutDeliveryRequiredByDateTime}}
           </div>
         </td>
-        <td id="incoming" class="text" style="text-align:left;padding-left:27px;">
+        <td id="incoming" class="text" style="text-align:left;width:33.3%">
           <div>
             Attention: {{InDeliveryAttention}}
           </div>
