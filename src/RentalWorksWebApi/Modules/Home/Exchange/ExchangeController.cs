@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 using FwStandard.SqlServer;
 using System;
 using Microsoft.AspNetCore.Http;
-using WebApi.Home.Exchange;
+//using WebApi.Home.Exchange;
 using WebApi.Logic;
 using WebApi.Modules.Home.Contract;
 
-namespace WebApi.Modules.Administrator.Exchange
+namespace WebApi.Modules.Home.Exchange
 {
 
     //------------------------------------------------------------------------------------ 

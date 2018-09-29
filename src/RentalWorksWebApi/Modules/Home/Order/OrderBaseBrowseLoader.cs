@@ -138,6 +138,24 @@ namespace WebApi.Modules.Home.Order
                     select.AddParameter("@checkinwhid", checkInWarehouseId);
                 }
             }
+            else if (GetMiscFieldAsBoolean("LossAndDamage", request).GetValueOrDefault(false))
+            {
+                select.AddWhereIn("and", "status", RwConstants.ORDER_STATUS_ACTIVE);
+
+                string lossAndDamageWarehouseId = GetMiscFieldAsString("LossAndDamageWarehouseId", request);
+                string lossAndDamageDealId = GetMiscFieldAsString("LossAndDamageDealId", request);
+                if (!string.IsNullOrEmpty(lossAndDamageWarehouseId))
+                {
+                    select.AddWhere(" (warehouseid = @ldwhid)");
+                    select.AddParameter("@ldwhid", lossAndDamageWarehouseId);
+                }
+                if (!string.IsNullOrEmpty(lossAndDamageDealId))
+                {
+                    select.AddWhere(" (dealid = @lddealid)");
+                    select.AddParameter("@lddealid", lossAndDamageDealId);
+                }
+            }
+
 
 
             if ((request != null) && (request.activeview != null))

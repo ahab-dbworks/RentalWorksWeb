@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using FwStandard.SqlServer;
 using System;
 using Microsoft.AspNetCore.Http;
-using WebApi.Home.CheckIn;
+//using WebApi.Home.CheckIn;
 using WebApi.Logic;
 using WebApi.Modules.Home.Contract;
 

@@ -7,7 +7,7 @@ using FwStandard.SqlServer;
 using System;
 using Microsoft.AspNetCore.Http;
 
-namespace WebApi.Modules.Administrator.Test
+namespace WebApi.Modules.Utilities.DateFunctions
 {
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "utilities-v1")]

@@ -149,10 +149,10 @@ namespace WebApi.Modules.Home.DealOrder
         [FwSqlDataField(column: "billname", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 100)]
         public string IssuedToName { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "attention", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 08)]
+        [FwSqlDataField(column: "attention", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 50)]
         public string IssuedToAttention { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "attention2", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 08)]
+        [FwSqlDataField(column: "attention2", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 50)]
         public string IssuedToAttention2 { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "billadd1", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 50)]

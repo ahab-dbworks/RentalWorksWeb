@@ -7177,7 +7177,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\"CustomerId\":\"00001M61\",\"TermsAndConditionsOnFile\":false,\"Address2\":\"a\",\"customer.addressoptionflg\":\"All\",\"department\":false,\"Inactive\":false,\"UseDiscountTemplate\":false,\"Order Number\":false,\"Group Number\":false,\"Group Sort\":false,\"Location\":false,\"CreditUnlimited\":false,\"CreditResponsiblePartyOnFile\":false,\"TradeReferencesVerified\":false,\"CreditCardAuthorizationOnFile\":false,\"VehicleInsuranceCertficationOnFile\":false,\"NonTaxableCertificateOnFile\":false,\"DisableQuoteOrderActivity\":false,\"DisableRental\":false,\"DisableSales\":false,\"DisableFacilities\":false,\"DisableTransportation\":false,\"DisableLabor\":false,\"DisableMisc\":false,\"DisableRentalSale\":false,\"DisableSubRental\":false,\"DisableSubSale\":false,\"DisableSubLabor\":false,\"DisableSubMisc\":false,\"manufacturer\":false}"
+							"raw": "{\"CustomerId\":\"F013UOI6\",\"customer.addressoptionflg\":\"All\",\"department\":false,\"Order Number\":false,\"Group Number\":false,\"Group Sort\":false,\"Location\":false,\"manufacturer\":false,\"ShippingAddressType\":\"OTHER\",\"ShipAttention\":\"abc\",\"ShipCountryId\":\"D00OO95H\",\"_Custom\":[{\"FieldName\":\"Surcharge\",\"FieldValue\":\"0.00\"}]}"
 						},
 						"url": {
 							"raw": "http://localhost:57949/api/v1/customer",
@@ -21866,6 +21866,151 @@
 			]
 		},
 		{
+			"name": "Loss and Damage",
+			"item": [
+				{
+					"name": "Loss and Damage: Start new Loss and Damage Session",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\n    \t\t\"DealId\": \"B003ON2O\",\n    \t\t\"WarehouseId\": \"B0029AY5\",\n    \t\t\"OrderIds\": \"\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/lossanddamage/startsession",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"lossanddamage",
+								"startsession"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Loss and Damage Item: Browse",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"OrderBy\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": [],\n    \t\"uniqueids\": {\n    \t\t\"SessionId\": \"I00008D9\"\n    \t}\n}"
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/lossanddamageitem/browse",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"lossanddamageitem",
+								"browse"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Loss and Damage: Update Item",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \t\t\"SessionId\": \"I00008D9\",\n    \t\t\"OrderId\": \"I000058L\",\n    \t\t\"OrderItemId\": \"I00005EE\",\n    \t\t\"BarCode\": \"\",\n    \t\t\"Quantity\": 4\n}"
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/lossanddamage/updateitem",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"lossanddamage",
+								"updateitem"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Loss and Damage: Complete Loss and Damage Session",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \t\t\"SourceOrderId\": \"I00008DA\",\n    \t\t\"SessionId\": \"I00008D9\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/lossanddamage/completesession",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"lossanddamage",
+								"completesession"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
 			"name": "MailList",
 			"item": [
 				{
@@ -23338,7 +23483,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\n\t\t\"miscfields\": {\n\t\t\t\"CheckIn\": true,\n\t\t\t\"CheckInWarehouseId\": \"ABCD0123\"\n\t\t},\n    \t\"module\": \"Order\",\n    \t\"options\": {},\n    \t\"orderby\": \"OrderNumber\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": []\n\t\n}"
+							"raw": "{\n\n\t\t\"miscfields\": {\n\t\t\t\"LossAndDamage\": true,\n\t\t\t\"LossAndDamageWarehouseId\": \"B0029AY5\",\n\t\t\t\"LossAndDamageDealId\": \"B003ON2O\"\n\t\t},\n    \t\"module\": \"Order\",\n    \t\"options\": {},\n    \t\"orderby\": \"OrderNumber\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": []\n\t\n}"
 						},
 						"url": {
 							"raw": "http://localhost:57949/api/v1/order/browse",
@@ -23376,7 +23521,7 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "http://localhost:57949/api/v1/order/I000085C",
+							"raw": "http://localhost:57949/api/v1/order/I00007Y2",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -23386,7 +23531,7 @@
 								"api",
 								"v1",
 								"order",
-								"I000085C"
+								"I00007Y2"
 							]
 						}
 					},
@@ -33651,7 +33796,7 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "http://localhost:57949/api/v1/purchaseorder/I00006XO",
+							"raw": "http://localhost:57949/api/v1/purchaseorder/I000086U",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -33661,7 +33806,7 @@
 								"api",
 								"v1",
 								"purchaseorder",
-								"I00006XO"
+								"I000086U"
 							]
 						}
 					},
@@ -50752,6 +50897,46 @@
 									"key": "ToDate",
 									"value": "12/01/2018"
 								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Utility Functions",
+			"item": [
+				{
+					"name": "New Session Id",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/utilityfunctions/newsessionid",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"utilityfunctions",
+								"newsessionid"
 							]
 						}
 					},

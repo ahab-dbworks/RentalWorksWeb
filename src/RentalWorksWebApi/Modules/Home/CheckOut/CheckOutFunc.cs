@@ -4,10 +4,10 @@ using System.ComponentModel.DataAnnotations;
 using System.Data;
 using System.Threading.Tasks;
 using WebApi.Logic;
-using WebApi.Modules.Home.CheckOut;
+//using WebApi.Modules.Home.CheckOut;
 using WebLibrary;
 
-namespace WebApi.Home.CheckOut
+namespace WebApi.Modules.Home.CheckOut
 {
 
     public class OrderInventoryStatus

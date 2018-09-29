@@ -4,7 +4,7 @@ using System.Data;
 using System.Threading.Tasks;
 using WebApi.Logic;
 
-namespace WebApi.Home.Exchange
+namespace WebApi.Modules.Home.Exchange
 {
 
     public class ExchangeItemStatus

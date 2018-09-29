@@ -3,12 +3,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using WebApi.Controllers;
 using System.Threading.Tasks;
-using WebApi.Logic;
 using System;
 using Microsoft.AspNetCore.Http;
-using System.ComponentModel.DataAnnotations;
-using WebApi.Modules.Home.PurchaseOrder;
-using WebApi.Home.CheckOut;
+using WebApi.Modules.Home.CheckOut;
 
 namespace WebApi.Modules.Home.StageQuantityItem
 {
