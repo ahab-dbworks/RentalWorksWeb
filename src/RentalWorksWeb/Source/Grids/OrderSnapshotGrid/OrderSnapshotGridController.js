@@ -16,7 +16,7 @@ FwApplicationTree.clickEvents['{C6633D9A-3800-41F2-8747-BC780663E22F}'] = functi
                 orderNumber = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="OrderNumber"]').attr('data-originalvalue');
                 var orderInfo = {};
                 orderInfo.OrderId = snapshotId;
-                $orderForm = OrderController.openForm('EDIT', orderInfo);
+                $orderForm = OrderController.loadForm(orderInfo);
                 FwModule.openSubModuleTab($form, $orderForm);
                 jQuery('.tab.submodule.active').find('.caption').html(`Snapshot for Order ${orderNumber}`);
             }
