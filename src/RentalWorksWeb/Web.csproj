@@ -444,7 +444,7 @@
     <TypeScriptCompile Include="Source\Modules\Home\PurchaseOrder\PurchaseOrder.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\Project\Project.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\StagingCheckout\StagingCheckout.ts" />
-    <TypeScriptCompile Include="Source\Modules\Reports\DealOutstandingReport\RwDealOutstandingReportController.ts" />
+    <TypeScriptCompile Include="Source\Modules\Reports\DealOutstandingItemsReport\RwDealOutstandingItemsReportController.ts" />
     <TypeScriptCompile Include="Source\Modules\Reports\OrderReport\RwOrderReportController.ts" />
     <TypeScriptCompile Include="Source\Modules\Reports\PickListReport\RwPickListReportController.ts" />
     <TypeScriptCompile Include="Source\Modules\Reports\RentalInventoryValueReport\RwRentalInventoryValueReport Controller.ts" />
@@ -811,12 +811,6 @@
     <Content Include="Source\Reports\ChargeProcessing\Header.htm" />
     <Content Include="Source\Reports\ChargeProcessing\RwChargeProcessingController.js" />
     <Content Include="Source\Reports\ChargeProcessing\StyleSheet.css" />
-    <Content Include="Source\Reports\DealOutstanding\Body.htm" />
-    <Content Include="Source\Reports\DealOutstanding\Footer.htm" />
-    <Content Include="Source\Reports\DealOutstanding\FrontEnd.htm" />
-    <Content Include="Source\Reports\DealOutstanding\Header.htm" />
-    <Content Include="Source\Reports\DealOutstanding\RwDealOutstandingController.js" />
-    <Content Include="Source\Reports\DealOutstanding\StyleSheet.css" />
     <Content Include="Source\Reports\ReceiptProcessing\Body.htm" />
     <Content Include="Source\Reports\ReceiptProcessing\Footer.htm" />
     <Content Include="Source\Reports\ReceiptProcessing\FrontEnd.htm" />
@@ -1076,7 +1070,6 @@
     <Compile Include="Source\Modules\Administrator\Integration\Integration.cs" />
     <Compile Include="Source\Modules\Home\Contact\Contact.cs" />
     <Compile Include="Source\Reports\ChargeProcessing\ChargeProcessing.cs" />
-    <Compile Include="Source\Reports\DealOutstanding\DealOutstanding.cs" />
     <Compile Include="Source\Reports\ReceiptProcessing\ReceiptProcessing.cs" />
     <Compile Include="Source\Reports\VendorInvoiceProcessing\VendorInvoiceProcessing.cs" />
     <Compile Include="Source\RwAppData.cs" />
