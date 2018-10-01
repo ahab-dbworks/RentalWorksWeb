@@ -286,6 +286,46 @@
 			]
 		},
 		{
+			"name": "Deal Outstanding Items Report",
+			"item": [
+				{
+					"name": "Deal Outstanding Items Report: Run Report",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"FromDate\": \"01/01/2018\",\r\n  \"ToDate\": \"12/31/2018\",\r\n  \"DateType\": \"E\",                        \"DateTypeComment\": \"B-Billing Stop Date E-Estimated Rental Stop Date\",\r\n  \"IncludeBlankPages\": false,\r\n  \"IncludeFullImages\": true,\r\n  \"IncludeThumbnailImages\": false,\r\n  \"OfficeLocationId\": \"B001WH00\",\r\n  \"DepartmentId\": \"\",\r\n  \"CustomerId\": \"\",\r\n  \"DealId\": \"\",\r\n  \"OrderUnitId\": \"\",\r\n  \"OrderTypeId\": \"\",\r\n  \"OrderId\": \"\",\r\n  \"ContractId\": \"\",\r\n  \"InventoryTypeId\": \"\",\r\n  \"CategoryId\": \"\",\r\n  \"SubCategoryId\": \"\",\r\n  \"InventoryId\": \"\"\r\n}"
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/dealoutstandingitemsreport/runreport",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"dealoutstandingitemsreport",
+								"runreport"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
 			"name": "G/L Distribution Report",
 			"item": [
 				{
@@ -464,7 +504,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n   \"PickListId\":\"I0000792\"\n}\n\n"
+							"raw": "{\n   \"PickListId\":\"I0000792x\"\n}\n\n"
 						},
 						"url": {
 							"raw": "http://localhost:57949/api/v1/picklistreport/runreport",
