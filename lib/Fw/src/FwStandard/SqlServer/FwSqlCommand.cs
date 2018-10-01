@@ -1532,7 +1532,16 @@ namespace FwStandard.SqlServer
                                 }
                                 else if (data is DateTime)
                                 {
-                                    data = new FwDatabaseField(data).ToShortDateTimeString();
+                                    //data = new FwDatabaseField(data).ToShortDateTimeString();
+                                    //justin 10/01/2018 - need to return a date string when the time is not part of the value
+                                    if (((DateTime)data).TimeOfDay.TotalMilliseconds.Equals(0))
+                                    {
+                                        data = new FwDatabaseField(data).ToShortDateString();
+                                    }
+                                    else
+                                    {
+                                        data = new FwDatabaseField(data).ToShortDateTimeString();
+                                    }
                                 }
 
                                 if (reader.IsDBNull(ordinal))
