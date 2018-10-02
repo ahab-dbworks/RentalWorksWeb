@@ -1,10 +1,10 @@
 routes.push({
     pattern: /^reports\/orderreport/, action: function (match) {
-        return RwOrderReportController.getModuleScreen();
+        return RwQuoteReportController.getModuleScreen();
     }
 });
-var orderTemplateFrontEnd = `
-<div class="fwcontrol fwcontainer fwform fwreport printorder" data-control="FwContainer" data-type="form" data-version="1" data-caption="Print Order" data-rendermode="template" data-mode="" data-hasaudit="false" data-controller="RwOrderReportController">
+var quoteTemplateFrontEnd = `
+<div class="fwcontrol fwcontainer fwform fwreport printorder" data-control="FwContainer" data-type="form" data-version="1" data-caption="Print Quote" data-rendermode="template" data-mode="" data-hasaudit="false" data-controller="RwQuoteReportController">
   <div class="fwcontrol fwtabs" data-control="FwTabs" data-type="">
     <div class="tabs" style="margin-right:10px;">
       <div id="generaltab" class="tab" data-tabpageid="generaltabpage" data-caption="General"></div>
@@ -14,21 +14,20 @@ var orderTemplateFrontEnd = `
         <div class="formpage">
           <div class="row" style="display:flex;flex-wrap:wrap;">
             <div class="flexcolumn" style="max-width:300px;">
-              <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Order">
+               <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Quote">
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                  <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Order" data-datafield="OrderId" data-displayfield="OrderNumber" data-validationname="OrderValidation" style="float:left;max-width:300px;"></div>
+                  <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Quote" data-datafield="QuoteId" data-displayfield="QuoteNumber" data-validationname="QuoteValidation" style="float:left;max-width:300px;"></div>
                 </div>
               </div>
-            </div>
           </div>
         </div>
       </div>
     </div>
   </div>
 </div>`;
-class RwOrderReportClass extends FwWebApiReport {
+class RwQuoteReportClass extends FwWebApiReport {
     constructor() {
-        super('OrderReport', 'api/v1/orderreport', orderTemplateFrontEnd);
+        super('OrderReport', 'api/v1/orderreport', quoteTemplateFrontEnd);
     }
     getModuleScreen() {
         let screen = {};
@@ -58,5 +57,5 @@ class RwOrderReportClass extends FwWebApiReport {
     }
 }
 ;
-var RwOrderReportController = new RwOrderReportClass();
-//# sourceMappingURL=RwOrderReportController.js.map
+var RwQuoteReportController = new RwQuoteReportClass();
+//# sourceMappingURL=RwQuoteReportController.js.map

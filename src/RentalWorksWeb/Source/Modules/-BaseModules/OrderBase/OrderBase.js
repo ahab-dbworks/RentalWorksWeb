@@ -572,16 +572,14 @@ class OrderBase {
                 orderNumber = $form.find(`div.fwformfield[data-datafield="${module}Number"] input`).val();
                 orderId = $form.find(`div.fwformfield[data-datafield="${module}Id"] input`).val();
                 recordTitle = jQuery('.tabs .active[data-tabtype="FORM"] .caption').text();
-                $report = RwOrderReportController.openForm();
-                FwModule.openSubModuleTab($form, $report);
                 if (module === 'Order') {
-                    hideModule = 'Quote';
+                    $report = RwOrderReportController.openForm();
                 }
                 else {
-                    hideModule = 'Order';
+                    $report = RwQuoteReportController.openForm();
                 }
                 ;
-                $report.find(`.fwform-section[data-caption="${hideModule}"]`).css('display', 'none');
+                FwModule.openSubModuleTab($form, $report);
                 $report.find(`div.fwformfield[data-datafield="${module}Id"] input`).val(orderId);
                 $report.find(`div.fwformfield[data-datafield="${module}Id"] .fwformfield-text`).val(orderNumber);
                 jQuery('.tab.submodule.active').find('.caption').html(`Print ${module}`);

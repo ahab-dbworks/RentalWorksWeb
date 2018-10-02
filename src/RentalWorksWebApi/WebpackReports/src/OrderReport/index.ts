@@ -22,7 +22,7 @@ export class OrderReport extends WebpackReport {
             let request = new OrderReportRequest();
             let order = new Order();
             let isOrder = true;
-            if (parameters.OrderId !== '') {
+            if (parameters.OrderId) {
                 request.OrderId = parameters.OrderId;
             } else {
                 request.OrderId = parameters.QuoteId;
