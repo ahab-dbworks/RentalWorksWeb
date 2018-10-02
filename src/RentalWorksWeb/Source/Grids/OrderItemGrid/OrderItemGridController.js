@@ -41,6 +41,7 @@ class OrderItemGrid {
     onRowNewMode($control, $tr) {
         let $form = $control.closest('.fwform');
         let $grid = $tr.parents('[data-grid="OrderItemGrid"]');
+        let inventoryType;
         if ($form[0].dataset.controller !== "TemplateController" && $form[0].dataset.controller !== "PurchaseOrderController") {
             var pickDate = FwFormField.getValueByDataField($form, 'PickDate');
             var pickTime = FwFormField.getValueByDataField($form, 'PickTime');
@@ -52,19 +53,30 @@ class OrderItemGrid {
         ;
         if ($grid.hasClass('R')) {
             FwBrowse.setFieldValue($grid, $tr, 'RecType', { value: 'R' });
+            inventoryType = 'Rental';
         }
         else if ($grid.hasClass('S')) {
             FwBrowse.setFieldValue($grid, $tr, 'RecType', { value: 'S' });
+            inventoryType = 'Sales';
         }
         else if ($grid.hasClass('M')) {
             FwBrowse.setFieldValue($grid, $tr, 'RecType', { value: 'M' });
+            inventoryType = 'Misc';
         }
         else if ($grid.hasClass('L')) {
             FwBrowse.setFieldValue($grid, $tr, 'RecType', { value: 'L' });
+            inventoryType = 'Labor';
         }
         else if ($grid.hasClass('RS')) {
             FwBrowse.setFieldValue($grid, $tr, 'RecType', { value: 'RS' });
+            inventoryType = 'RentalSales';
         }
+        else if ($grid.hasClass('A')) {
+            FwBrowse.setFieldValue($grid, $tr, 'RecType', { value: 'A' });
+            inventoryType = 'Combined';
+        }
+        let discountPercent = FwFormField.getValueByDataField($form, `${inventoryType}DiscountPercent`);
+        let daysPerWeek = FwFormField.getValueByDataField($form, `${inventoryType}DaysPerWeek`);
         if ($form[0].dataset.controller !== "TemplateController" && $form[0].dataset.controller !== "PurchaseOrderController") {
             FwBrowse.setFieldValue($grid, $tr, 'PickDate', { value: pickDate });
             FwBrowse.setFieldValue($grid, $tr, 'PickTime', { value: pickTime });
@@ -72,6 +84,9 @@ class OrderItemGrid {
             FwBrowse.setFieldValue($grid, $tr, 'FromTime', { value: fromTime });
             FwBrowse.setFieldValue($grid, $tr, 'ToDate', { value: toDate });
             FwBrowse.setFieldValue($grid, $tr, 'ToTime', { value: toTime });
+            FwBrowse.setFieldValue($grid, $tr, 'DiscountPercent', { value: discountPercent });
+            FwBrowse.setFieldValue($grid, $tr, 'DiscountPercentDisplay', { value: discountPercent });
+            FwBrowse.setFieldValue($grid, $tr, 'DaysPerWeek', { value: daysPerWeek });
         }
     }
     generateRow($control, $generatedtr) {
@@ -157,6 +172,7 @@ class OrderItemGrid {
                     $generatedtr.find('.field[data-browsedatafield="WarehouseId"] input.text').val(warehouseCode);
                     $generatedtr.find('.field[data-browsedatafield="ReturnToWarehouseId"] input.text').val(warehouseCode);
                     $generatedtr.find('.field[data-browsedatafield="DiscountPercent"] input').val(discountPercent);
+                    $generatedtr.find('.field[data-browsedatafield="DiscountPercentDisplay"] input').val(discountPercent);
                     $generatedtr.find('.field[data-browsedatafield="DaysPerWeek"] input').val(daysPerWeek);
                     if ($form.attr('data-controller') === 'PurchaseOrderController') {
                         $generatedtr.find('.field[data-browsedatafield="WarehouseId"] input.text').val(warehouse);
