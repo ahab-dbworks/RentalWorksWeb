@@ -84,6 +84,7 @@ class WebForm {
                     if (typeof modulehtml == 'undefined') {
                         modulehtml = window[controller].getBrowseTemplate();
                     }
+                    break;
                 case 'Form':
                     modulehtml = jQuery(`#tmpl-modules-${moduleName}`).html();
                     if (typeof modulehtml == 'undefined') {
@@ -94,7 +95,12 @@ class WebForm {
                     modulehtml = jQuery(`#tmpl-grids-${moduleName}`).html();
                     break;
             }
-            myCodeMirror.setValue(modulehtml);
+            if (typeof modulehtml !== "undefined") {
+                myCodeMirror.setValue(modulehtml);
+            }
+            else {
+                myCodeMirror.setValue(`There is no ${type} available for this selection.`);
+            }
             doc.markClean();
         });
         myCodeMirror.on('change', function (cm, change) {

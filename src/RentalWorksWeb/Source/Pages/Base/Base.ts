@@ -1,4 +1,4 @@
-﻿class Base {
+class Base {
     //----------------------------------------------------------------------------------------------
     getDefaultScreen() {
         var viewModel = {
@@ -149,7 +149,23 @@
                                                     }, null);
                                                 //}, 0);
 
-                                                
+                                                let webformrequest:any = {};
+                                                webformrequest.uniqueids = {
+                                                    WebUserId: responseOriginalApi.webUser.webusersid.webusersid
+                                                };
+                                                FwAppData.apiMethod(true, 'POST', `api/v1/webform/browse`, webformrequest, FwServices.defaultTimeout, function onSuccess(response) {
+                                                    let webForms = [];
+                                                    for (let i = 0; i < response.Rows.length; i++) {
+                                                        webForms.push({
+                                                            'WebFormId': response.Rows[i][0],
+                                                            'BaseForm': response.Rows[i][1],
+                                                            'Html': response.Rows[i][4]
+                                                        });
+                                                    }
+                                                    sessionStorage.setItem('webform', JSON.stringify(webForms));
+                                                }, function onError(response) {
+                                                    FwFunc.showError(response);
+                                                }, null);
 
                                             } else if (responseOriginalApi.errNo !== 0) {
                                                 //throw new Error(responseOriginalApi.errMsg);
@@ -164,7 +180,7 @@
                                                 }
                                             }
                                         }
-                                    } catch(ex) {
+                                    } catch (ex) {
                                         FwFunc.showError(ex);
                                     }
                                 });
@@ -177,19 +193,19 @@
                     FwFunc.showError(ex);
                 }
             })
-            .on('click', '.btnCancel', function(e) {
+            .on('click', '.btnCancel', function (e) {
                 try {
                     program.navigate('default');
-                } catch(ex) {
+                } catch (ex) {
                     FwFunc.showError(ex);
                 }
             })
             //.find('#programlogo').attr('src', 'theme/images/rentalworkslogo.png');
             .find('.programlogo').empty().html('<div class="bgothm">Rental<span class="rwpurple">Works<span></div>')
-        ;
+            ;
 
-        screen.load = function() {
-            setTimeout(function() {
+        screen.load = function () {
+            setTimeout(function () {
                 if (screen.$view.find('#email').val() == '') {
                     screen.$view.find('#email').focus();
                 } else {

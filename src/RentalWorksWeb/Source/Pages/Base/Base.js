@@ -136,6 +136,23 @@ class Base {
                                             }, function onError(response) {
                                                 FwFunc.showError(response);
                                             }, null);
+                                            let webformrequest = {};
+                                            webformrequest.uniqueids = {
+                                                WebUserId: responseOriginalApi.webUser.webusersid.webusersid
+                                            };
+                                            FwAppData.apiMethod(true, 'POST', `api/v1/webform/browse`, webformrequest, FwServices.defaultTimeout, function onSuccess(response) {
+                                                let webForms = [];
+                                                for (let i = 0; i < response.Rows.length; i++) {
+                                                    webForms.push({
+                                                        'WebFormId': response.Rows[i][0],
+                                                        'BaseForm': response.Rows[i][1],
+                                                        'Html': response.Rows[i][4]
+                                                    });
+                                                }
+                                                sessionStorage.setItem('webform', JSON.stringify(webForms));
+                                            }, function onError(response) {
+                                                FwFunc.showError(response);
+                                            }, null);
                                         }
                                         else if (responseOriginalApi.errNo !== 0) {
                                             $loginWindow.find('.errormessage').html('').html(responseOriginalApi.errMsg).show();
