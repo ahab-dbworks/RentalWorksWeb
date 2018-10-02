@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 namespace FwCore.Controllers
 {
     [Route("api/v1/[controller]")]
-    public abstract class FwDataController : FwController  
+    public abstract class FwDataController : FwController
     {
         protected Type logicType = null;
         //------------------------------------------------------------------------------------
@@ -86,7 +86,7 @@ namespace FwCore.Controllers
 
                 FwBusinessLogic l = CreateBusinessLogic(type, this.AppConfig, this.UserSession);
                 FwJsonDataTable dt = await l.BrowseAsync(browseRequest);
-                string strippedWorksheetName = new string(worksheetName.Where(c =>char.IsLetterOrDigit(c)).ToArray());
+                string strippedWorksheetName = new string(worksheetName.Where(c => char.IsLetterOrDigit(c)).ToArray());
                 string downloadFileName = strippedWorksheetName + "_" + DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss");
                 string filename = this.UserSession.WebUsersId + "_" + strippedWorksheetName + "_" + Guid.NewGuid().ToString().Replace("-", string.Empty) + "_xlsx";
                 string directory = FwDownloadController.GetDownloadsDirectory();
@@ -216,12 +216,21 @@ namespace FwCore.Controllers
 
                 if (isValid)
                 {
-                    await l.SaveAsync();
-                    if (l.ReloadOnSave)
+                    FwBusinessLogic lOrig = CreateBusinessLogic(logicType, this.AppConfig, this.UserSession);
+                    lOrig.SetPrimaryKeys(l.GetPrimaryKeys());
+                    if (await lOrig.LoadAsync<T>())
                     {
-                        await l.LoadAsync<T>();
+                        await l.SaveAsync();  // should send lOrig as a parameter to this method
+                        if (l.ReloadOnSave)
+                        {
+                            await l.LoadAsync<T>();
+                        }
+                        return new OkObjectResult(l);
                     }
-                    return new OkObjectResult(l);
+                    else
+                    {
+                        return NotFound();
+                    }
                 }
                 else
                 {
