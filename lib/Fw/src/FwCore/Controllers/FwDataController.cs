@@ -198,6 +198,7 @@ namespace FwCore.Controllers
             }
             try
             {
+                TDataRecordSaveMode saveMode = TDataRecordSaveMode.smInsert;
                 l.AppConfig = this.AppConfig;
                 l.UserSession = this.UserSession;
 
@@ -206,30 +207,45 @@ namespace FwCore.Controllers
                 if (l.AllPrimaryKeysHaveValues)
                 {
                     //update
-                    isValid = l.ValidateBusinessLogic(TDataRecordSaveMode.smUpdate, ref validateMsg);
+                    saveMode = TDataRecordSaveMode.smUpdate;
+                    //isValid = l.ValidateBusinessLogic(TDataRecordSaveMode.smUpdate, ref validateMsg);
                 }
                 else
                 {
                     //insert
-                    isValid = l.ValidateBusinessLogic(TDataRecordSaveMode.smInsert, ref validateMsg);
+                    //isValid = l.ValidateBusinessLogic(TDataRecordSaveMode.smInsert, ref validateMsg);
                 }
+                isValid = l.ValidateBusinessLogic(saveMode, ref validateMsg);
 
                 if (isValid)
                 {
-                    FwBusinessLogic lOrig = CreateBusinessLogic(logicType, this.AppConfig, this.UserSession);
-                    lOrig.SetPrimaryKeys(l.GetPrimaryKeys());
-                    if (await lOrig.LoadAsync<T>())
+                    FwBusinessLogic lOrig = null;
+                    if (saveMode.Equals(TDataRecordSaveMode.smUpdate))
                     {
-                        await l.SaveAsync();  // should send lOrig as a parameter to this method
+                        lOrig = CreateBusinessLogic(logicType, this.AppConfig, this.UserSession);
+                        lOrig.SetPrimaryKeys(l.GetPrimaryKeys());
+                        if (await lOrig.LoadAsync<T>())
+                        {
+                            await l.SaveAsync();  // should send lOrig as a parameter to this method
+                            if (l.ReloadOnSave)
+                            {
+                                await l.LoadAsync<T>();
+                            }
+                            return new OkObjectResult(l);
+                        }
+                        else
+                        {
+                            return NotFound();
+                        }
+                    }
+                    else  // inserting
+                    {
+                        await l.SaveAsync();
                         if (l.ReloadOnSave)
                         {
                             await l.LoadAsync<T>();
                         }
                         return new OkObjectResult(l);
-                    }
-                    else
-                    {
-                        return NotFound();
                     }
                 }
                 else
