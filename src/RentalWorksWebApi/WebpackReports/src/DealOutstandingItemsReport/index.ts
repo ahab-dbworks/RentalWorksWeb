@@ -41,9 +41,12 @@ export class DealOutstandingReport extends WebpackReport {
 
             request.ToDate = parameters.ToDate;
             request.FromDate = parameters.FromDate;
+            request.IncludeBlankPages = parameters.IncludeBlankPages;
             request.IncludeFullImages = parameters.IncludeFullImages;
             request.IncludeThumbnailImages = parameters.IncludeThumbnailImages;
             request.OfficeLocationId = parameters.OfficeLocationId;
+            request.OrderUnitId = parameters.OrderUnitId;
+            request.OrderTypeId = parameters.OrderTypeId;
             request.DepartmentId = parameters.DepartmentId;
             request.CustomerId = parameters.CustomerId;
             request.DealId = parameters.DealId;

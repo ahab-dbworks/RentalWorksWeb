@@ -1,5 +1,5 @@
 ﻿<!--Order Report-->
-<div class="rpt-flexrow" style="margin:5px 0px 0px 4px;"> 
+<div class="rpt-flexrow" style="margin:5px 0px 0px 4px;">
   <div class="rpt-flexcolumn" style="border-bottom: 3px solid black;padding-bottom:5px;">
     <img class="clientlogo" src="https://cdn01.4wall.com/cms/blog/images/f522f515029e93.jpg" style="width:1.225in;" />
     <span class="header-left" style="font-weight:600">{{Company}}</span>
@@ -10,10 +10,10 @@
   </div>
   <div class="rpt-flexcolumn">
     <span class="title">{{Report}}</span>
-    <span class="header-center">Date: {{OrderDate}}</span>
   </div>
   <div class="rpt-flexcolumn">
-    <span class="header-right" style="font-size:30px;">No: <span style="border:1px solid black;padding:2px;">{{OrderNumber}}</span></span>
+    <span class="header-right" style="font-size:30px;"><span style="font-weight:600;padding-right:13px;">No:</span><span style="border:1px solid black;padding:2px;"> {{OrderNumber}}</span></span>
+    <span style="font-size:18px;padding-top:5px;" class="header-right"><span style="font-weight:600;padding-right:50px;">Date:</span> {{OrderDate}}</span>
   </div>
 </div>
 <div class="rpt-flexrow" style="margin-top:10px;padding-left:3px;">
@@ -26,16 +26,16 @@
     <tr>
       <td class="header-left"><span style="font-weight:600;padding-right:44px;">Email:</span> {{AgentEmail}}</td>
       <td class="header-center"><span style="font-weight:600;padding-right:13px;">Customer:</span> {{Customer}}</td>
-      <td class="header-right"><span style="font-weight:600;padding-right:54px;">Terms:</span> {{PaymentTerms}}</td>
-    </tr>
-    <tr>
-      <td class="header-left"><span style="font-weight:600;">Phone / Ext:</span> {{AgentPhoneAndExtension}}</td>
-      <td class="header-center"><span style="font-weight:600;padding-right:37px;">PO No:</span> {{PoNumber}}</td>
       <td class="header-right"><span style="font-weight:600;">Usage Period:</span> {{UsageDates}}</td>
     </tr>
     <tr>
-      <td class="header-left"><span style="font-weight:600;padding-right:50px;">Deal:</span> {{Deal}}</td>
-      <td class="header-center"><span style="font-weight:600;padding-right:27px;">Deal No:</span> {{DealNumber}}</td>
+      <td class="header-left"><span style="font-weight:600;">Phone / Ext:</span> {{AgentPhoneAndExtension}}</td>
+      <td class="header-center"><span style="font-weight:600;padding-right:52px;">Deal:</span> {{Deal}}</td>
+      <td class="header-right"><span style="font-weight:600;padding-right:54px;">Terms:</span> {{PaymentTerms}}</td>
+    </tr>
+    <tr>
+      <td class="header-left"><span style="font-weight:600;"></span></td>
+      <td class="header-center"><span style="font-weight:600;padding-right:51px;">PO No:</span> {{PoNumber}}</td>
       <td class="header-right"><span style="font-weight:600;padding-right:7px;">Billing Cycle:</span> {{BillingCycle}}</td>
     </tr>
   </table>
@@ -53,71 +53,71 @@
       <tr>
         <td id="issuedTo" class="text" style="text-align:left;width:33.3%;">
           <div>
-            {{IssuedToCompany}}
+            <span style="font-weight:600;">Issued To:</span> {{IssuedToCompany}}
           </div>
-          <div>
+          <div style="padding-left:78px;">
             {{IssuedToAttention1}}
           </div>
-          <div>
+          <div style="padding-left:78px;">
             {{IssuedToAttention2}}
           </div>
-          <div>
+          <div style="padding-left:78px;">
             {{IssuedToAddress1}}
           </div>
-          <div>
+          <div style="padding-left:78px;">
             {{IssuedToAddress2}}
           </div>
-          <div>
+          <div style="padding-left:78px;">
             {{IssuedToCity}}, {{IssuedToState}} {{IssuedToZipCode}} {{IssuedToCountry}}
           </div>
           <div>
-            Phone: {{IssuedToPhone}}
+            <span style="font-weight:600;padding-right:23px;">Phone:</span> {{IssuedToPhone}}
           </div>
           <div>
-            Fax: {{IssuedToFax}}
+            <span style="font-weight:600;padding-right:43px;">Fax:</span> {{IssuedToFax}}
           </div>
         </td>
         <td id="outgoing" class="text" style="text-align:left;width:33.3%;">
           <div>
-            Attention: {{OutDeliveryAttention}}
+            <span style="font-weight:600;">Attention:</span> {{OutDeliveryAttention}}
           </div>
-          <div>
+          <div class="att-text-align">
             {{OutDeliveryAddress1}}
           </div>
-          <div>
+          <div class="att-text-align">
             {{OutDeliveryAddress2}}
           </div>
-          <div>
+          <div class="att-text-align">
             {{OutDeliveryCityStateZipCodeCountry}}
           </div>
           <div>
-            Phone: {{OutDeliveryContactPhone}}
+            <span style="font-weight:600;padding-right:20px">Phone:</span> {{OutDeliveryContactPhone}}
           </div>
           <div>
-            Required By: {{OutDeliveryRequiredByDateTime}}
+            <span style="font-weight:600;">Required:</span> {{OutDeliveryRequiredByDateTime}}
           </div>
         </td>
         <td id="incoming" class="text" style="text-align:left;width:33.3%">
           <div>
-            Attention: {{InDeliveryAttention}}
+            <span style="font-weight:600;">Attention:</span> {{InDeliveryAttention}}
           </div>
-          <div>
+          <div class="att-text-align">
             {{InDeliveryAddress1}}
           </div>
-          <div>
+          <div class="att-text-align">
             {{InDeliveryAddress2}}
           </div>
-          <div>
+          <div class="att-text-align">
             {{InDeliveryCityStateZipCodeCountry}}
           </div>
           <div>
-            Contact: {{InDeliveryContact}}
+            <span style="font-weight:600;padding-right:10px">Contact:</span> {{InDeliveryContact}}
           </div>
           <div>
-            Phone: {{InDeliveryContactPhone}}
+            <span style="font-weight:600;padding-right:20px;">Phone:</span> {{InDeliveryContactPhone}}
           </div>
           <div>
-            Required By: {{InDeliveryRequiredByDateTime}}
+            <span style="font-weight:600;">Required:</span> {{InDeliveryRequiredByDateTime}}
           </div>
         </td>
       </tr>
