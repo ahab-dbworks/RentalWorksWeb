@@ -57,7 +57,31 @@ export class DealOutstandingReport extends WebpackReport {
 
             let Promise = Ajax.post<DataTable>(`${apiUrl}/api/v1/dealoutstandingitemsreport/runreport`, authorizationHeader, request)
                 .then((response: DataTable) => {
-                    dealOutstanding = DataTable.toObjectList(response);
+                    dealOutstanding.rows = DataTable.toObjectList(response);
+                    if (parameters.ShowResponsiblePerson === true) {
+                        dealOutstanding.ShowResponsiblePerson = true;
+                    }
+                    if (parameters.ShowBarcodes === true) {
+                        dealOutstanding.ShowBarcodes = true;
+                    }
+                    if (parameters.ShowVendors === true) {
+                        dealOutstanding.ShowVendors = true;
+                    }
+                    if (parameters.IncludeFullImages === true || parameters.IncludeThumbnailImages === true) {
+                        dealOutstanding.ShowImages = true;
+                    } else {
+                        dealOutstanding.ShowImages = false;
+                    }
+                    if (parameters.IncludeValueCost === 'R') {
+                        dealOutstanding.IncludeValueCost = 'R';
+                    }
+                    if (parameters.IncludeValueCost === 'U') {
+                        dealOutstanding.IncludeValueCost = 'U';
+                    }
+                    if (parameters.IncludeValueCost === 'P') {
+                        dealOutstanding.IncludeValueCost = 'P';
+                    }
+              
                     dealOutstanding.PrintTime = moment().format('YYYY-MM-DD h:mm:ss A');
                     dealOutstanding.FromDate = parameters.FromDate;
                     dealOutstanding.ToDate = parameters.ToDate;

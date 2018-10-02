@@ -42,6 +42,9 @@ var dealOutstandingItemsTemplateFrontEnd = `
                   <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Department" data-datafield="DepartmentId" data-displayfield="Department" data-validationname="DepartmentValidation" style="float:left;max-width:300px;"></div>
                 </div>
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                  <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Order Type" data-datafield="OrderTypeId" data-displayfield="OrderType" data-validationname="OrderTypeValidation" style="float:left;max-width:300px;"></div>
+                </div>
+                <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                   <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Customer" data-datafield="CustomerId" data-displayfield="Customer" data-validationname="CustomerValidation" style="float:left;max-width:300px;"></div>
                 </div>
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
@@ -74,7 +77,7 @@ var dealOutstandingItemsTemplateFrontEnd = `
             <div class="flexcolumn" style="max-width:250px;">
               <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Include Value / Cost">
                 <div data-datafield="IncludeValueCost" data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield" data-caption="">
-                  <div data-value="" data-caption="None"></div>
+                  <div data-value="NONE" data-caption="None"></div>
                   <div data-value="R" data-caption="Show Replacement Cost"></div>
                   <div data-value="U" data-caption="Show Unit Value"></div>
                   <div data-value="P" data-caption="Show Purchase Amount"></div>
