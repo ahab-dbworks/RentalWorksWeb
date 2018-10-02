@@ -91,6 +91,16 @@
                 <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Sub-Miscellaneous" data-datafield="SubMiscellaneous" style="flex:1 1 150px;"></div>
                 <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Sub-Labor" data-datafield="SubLabor" style="flex:1 1 90px;"></div>
               </div>
+              <!--Hidden field for determining whether checkboxes should be enabled / disabled-->
+              <div class="flexrow" style="visibility:hidden;">
+                <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="HasFacilitiesItem" data-datafield="HasFacilitiesItem" style="flex:1 1 100px;"></div>
+                <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="HasLaborItem" data-datafield="HasLaborItem" style="flex:1 1 100px;"></div>
+                <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="HasLossAndDamageItem" data-datafield="HasLossAndDamageItem" style="flex:1 1 100px;"></div>
+                <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="HasMiscellaneousItem" data-datafield="HasMiscellaneousItem" style="flex:1 1 125px;"></div>
+                <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="HasRentalItem" data-datafield="HasRentalItem" style="flex:1 1 100px;"></div>
+                <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="HasRentalSaleItem" data-datafield="HasRentalSaleItem" style="flex:1 1 100px;"></div>
+                <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="HasSalesItem" data-datafield="HasSalesItem" style="flex:1 1 100px;"></div>
+              </div>
             </div>
           </div>
           <!-- Location / PO section -->
@@ -124,7 +134,7 @@
         <div class="flexrow" style="max-width:1800px;">
           <div class="flexcolumn" style="flex:1 1 125px;">
           </div>
-          <!--<div class="flexcolumn rentalAdjustments" style="flex:1 1 300px;">
+          <div class="flexcolumn rentalAdjustments" style="flex:1 1 300px;">
             <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Adjustments">
               <div class="flexrow">
                 <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield totals RentalDaysPerWeek" data-caption="D/W" data-datafield="RentalDaysPerWeek" data-digits="2" data-digitsoptional="false" style="flex:1 1 50px;"></div>
@@ -137,7 +147,7 @@
                 <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield rentalTotalWithTax bottom_line_total_tax rentalAdjustmentsMonthly" data-caption="w/ Tax" data-rectype="R" data-datafield="MonthlyRentalTotalIncludesTax" style="flex:1 1 75px;margin-top:10px; display:none;"></div>
               </div>
             </div>
-          </div>-->
+          </div>
           <div class="flexcolumn rentaltotals" style="flex:1 1 550px;">
             <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Totals">
               <div class="flexrow">
@@ -166,7 +176,7 @@
         <div class="flexrow" style="max-width:1800px;">
           <div class="flexcolumn" style="flex:1 1 125px;">
           </div>
-          <!--<div class="flexcolumn salesAdjustments" style="flex:1 1 300px;">
+          <div class="flexcolumn salesAdjustments" style="flex:1 1 300px;">
             <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Adjustments">
               <div class="flexrow">
                 <div data-control="FwFormField" data-type="percent" class="fwcontrol fwformfield totals bottom_line_discount" data-caption="Disc. %" data-rectype="S" data-datafield="SalesDiscountPercent" style="flex:1 1 50px;"></div>
@@ -174,7 +184,7 @@
                 <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield salesTotalWithTax bottom_line_total_tax" data-caption="w/ Tax" data-rectype="S" data-datafield="SalesTotalIncludesTax" style="flex:1 1 75px;margin-top:10px;"></div>
               </div>
             </div>
-          </div>-->
+          </div>
           <div class="flexcolumn salestotals" style="flex:1 1 550px;">
             <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Totals">
               <div class="flexrow">
@@ -198,7 +208,7 @@
         <div class="flexrow" style="max-width:1800px;">
           <div class="flexcolumn" style="flex:1 1 125px;">
           </div>
-          <!--<div class="flexcolumn laborAdjustments" style="flex:1 1 300px;">
+          <div class="flexcolumn laborAdjustments" style="flex:1 1 300px;">
             <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Adjustments">
               <div class="flexrow">
                 <div data-control="FwFormField" data-type="percent" class="fwcontrol fwformfield totals bottom_line_discount" data-caption="Disc. %" data-rectype="L" data-datafield="LaborDiscountPercent" style="flex:1 1 50px;"></div>
@@ -210,7 +220,7 @@
                 <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield laborTotalWithTax bottom_line_total_tax laborAdjustmentsMonthly" data-caption="w/ Tax" data-rectype="L" data-datafield="MonthlyLaborTotalIncludesTax" style="flex:1 1 75px;margin-top:10px; display:none;"></div>
               </div>
             </div>
-          </div>-->
+          </div>
           <div class="flexcolumn labortotals" style="flex:1 1 550px;">
             <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Totals">
               <div class="flexrow">
