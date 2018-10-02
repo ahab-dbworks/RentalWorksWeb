@@ -13,8 +13,8 @@ namespace WebApi.Modules.Reports.DealOutstandingItemsReport
 {
     public class DealOutstandingItemsReportRequest
     {
-        public DateTime FromDate;
-        public DateTime ToDate;
+        public DateTime? FromDate;
+        public DateTime? ToDate;
         public string DateType;  //B-Billing Stop Date E-Estimated Rental Stop Date
         public bool? IncludeBlankPages;
         public bool? IncludeFullImages;
