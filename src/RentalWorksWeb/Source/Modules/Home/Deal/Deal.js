@@ -63,17 +63,6 @@ class Deal {
             FwFormField.setValueByDataField($form, 'UseCustomerCredit', 'true');
             FwFormField.setValueByDataField($form, 'UseCustomerInsurance', 'true');
             FwFormField.setValueByDataField($form, 'UseCustomerTax', 'true');
-            $form.find('[data-datafield="UseCustomerTax"] .fwformfield-value').on('change', function () {
-                var $this = jQuery(this);
-                if ($this.prop('checked') === true) {
-                    FwFormField.disable($form.find('div[data-name="CompanyResaleGrid"]'));
-                    FwFormField.disable($form.find('div[data-name="CompanyTaxOptionGrid"]'));
-                }
-                else {
-                    FwFormField.enable($form.find('div[data-name="CompanyResaleGrid"]'));
-                    FwFormField.enable($form.find('div[data-name="CompanyTaxOptionGrid"]'));
-                }
-            });
             let officeLocation = JSON.parse(sessionStorage.getItem('location'));
             let dealDefaults = JSON.parse(sessionStorage.getItem('controldefaults'));
             FwFormField.setValue($form, 'div[data-datafield="LocationId"]', officeLocation.locationid, officeLocation.location);
@@ -122,8 +111,12 @@ class Deal {
             $orderForm = window[controller]['openForm']('NEW', orderFormData);
             FwModule.openSubModuleTab($browse, $orderForm);
         });
-        this.disableFields($form, ['DiscountTemplateId', 'DiscountTemplate']);
         this.events($form);
+        this.disableFields($form, ['DiscountTemplateId', 'DiscountTemplate']);
+        $form.find('[data-datafield="UseCustomerTax"] .fwformfield-value').change();
+        $form.find('[data-datafield="UseCustomerDiscount"] .fwformfield-value').change();
+        $form.find('[data-datafield="UseCustomerCredit"] .fwformfield-value').change();
+        $form.find('[data-datafield="UseCustomerInsurance"] .fwformfield-value').change();
         if (typeof parentmoduleinfo !== 'undefined') {
             FwFormField.setValue($form, 'div[data-datafield="CustomerId"]', parentmoduleinfo.CustomerId, parentmoduleinfo.Customer);
         }
@@ -162,7 +155,7 @@ class Deal {
         this.toggleBillingAddressInfo($form, val_bill);
         var val_ship = FwFormField.getValueByDataField($form, 'ShippingAddressType') !== 'OTHER' ? true : false;
         this.toggleShippingAddressInfo($form, val_ship);
-        this.useCustomer(FwFormField.getValueByDataField($form, 'UseCustomerDiscount'));
+        this.useCustomer($form, FwFormField.getValueByDataField($form, 'UseCustomerDiscount'));
         this.toggleInsurTabIfUseCustomer($form, FwFormField.getValueByDataField($form, 'UseCustomerInsurance'));
         this.toggleCredTabIfUseCustomer($form, FwFormField.getValueByDataField($form, 'UseCustomerCredit'));
         this.toggleTaxTabIfUseCustomer($form, FwFormField.getValueByDataField($form, 'UseCustomerTax'));
@@ -180,8 +173,7 @@ class Deal {
             FwFormField.enable($form.find('div[data-name="CompanyTaxOptionGrid"]'));
         }
         $form.find('[data-datafield="UseCustomerTax"] .fwformfield-value').on('change', function () {
-            var $this = jQuery(this);
-            if ($this.prop('checked') === true) {
+            if (FwFormField.getValueByDataField($form, 'UseCustomerTax') === true) {
                 FwFormField.disable($form.find('div[data-name="CompanyResaleGrid"]'));
                 FwFormField.disable($form.find('div[data-name="CompanyTaxOptionGrid"]'));
             }
@@ -236,7 +228,7 @@ class Deal {
             this.toggleBillingUseDiscount($form, jQuery(e.currentTarget).is(':checked'));
         });
         $form.on('change', '.billing_use_customer input[type=checkbox]', e => {
-            this.useCustomer(jQuery(e.currentTarget).is(':checked'));
+            this.useCustomer($form, jQuery(e.currentTarget).is(':checked'));
         });
         $form.on('change', '.billing-type-radio input[type=radio]', e => {
             var val = jQuery(e.currentTarget).val() !== 'OTHER' ? true : false;
@@ -257,6 +249,14 @@ class Deal {
         $form.on('change', '.tax_use_customer input[type=checkbox]', e => {
             var isChecked = jQuery(e.currentTarget).is(':checked');
             this.toggleTaxTabIfUseCustomer($form, isChecked);
+            if (FwFormField.getValueByDataField($form, 'UseCustomerTax') === true) {
+                FwFormField.disable($form.find('div[data-name="CompanyResaleGrid"]'));
+                FwFormField.disable($form.find('div[data-name="CompanyTaxOptionGrid"]'));
+            }
+            else {
+                FwFormField.enable($form.find('div[data-name="CompanyResaleGrid"]'));
+                FwFormField.enable($form.find('div[data-name="CompanyTaxOptionGrid"]'));
+            }
         });
         $form.on('change', '.exlude_quote input[type=checkbox]', e => {
             var isChecked = jQuery(e.currentTarget).is(':checked');
@@ -274,11 +274,12 @@ class Deal {
             FwFormField.setValue($form, 'div[data-datafield="InsuranceCompanyCountryId"]', $tr.find('.field[data-formdatafield="CountryId"]').attr('data-originalvalue'), $tr.find('.field[data-formdatafield="Country"]').attr('data-originalvalue'));
         });
     }
-    useCustomer(isChecked) {
+    useCustomer($form, isChecked) {
         var $discTemp = jQuery('.billing_use_discount_template'), $useCust = jQuery('.billing_use_customer'), $temp = jQuery('.billing_template');
         if (isChecked) {
             $temp.attr('data-enabled', 'false');
             $temp.find('input').prop('disabled', true);
+            FwFormField.disable($form.find('[data-datafield="UseDiscountTemplate"]'));
             $discTemp.attr('data-enabled', 'false');
             $discTemp.find('input').prop('disabled', true);
         }
@@ -291,8 +292,7 @@ class Deal {
                 $temp.attr('data-enabled', 'false');
                 $temp.find('input').prop('disabled', true);
             }
-            $discTemp.attr('data-enabled', 'true');
-            $discTemp.find('input').prop('disabled', false);
+            FwFormField.enable($form.find('[data-datafield="UseDiscountTemplate"]'));
         }
     }
     toggleBillingUseDiscount($form, isDiscountTemplate) {
