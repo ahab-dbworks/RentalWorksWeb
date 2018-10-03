@@ -58,11 +58,16 @@ class Deal {
         $submoduleOrderBrowse = this.openOrderBrowse($form);
         $form.find('.order').append($submoduleOrderBrowse);
         FwFormField.disable($form.find('.CompanyResaleGrid'));
+        this.events($form);
         if (mode === 'NEW') {
             FwFormField.setValueByDataField($form, 'UseCustomerDiscount', 'true');
             FwFormField.setValueByDataField($form, 'UseCustomerCredit', 'true');
             FwFormField.setValueByDataField($form, 'UseCustomerInsurance', 'true');
             FwFormField.setValueByDataField($form, 'UseCustomerTax', 'true');
+            $form.find('[data-datafield="UseCustomerTax"] .fwformfield-value').change();
+            $form.find('[data-datafield="UseCustomerDiscount"] .fwformfield-value').change();
+            $form.find('[data-datafield="UseCustomerCredit"] .fwformfield-value').change();
+            $form.find('[data-datafield="UseCustomerInsurance"] .fwformfield-value').change();
             let officeLocation = JSON.parse(sessionStorage.getItem('location'));
             let dealDefaults = JSON.parse(sessionStorage.getItem('controldefaults'));
             FwFormField.setValue($form, 'div[data-datafield="LocationId"]', officeLocation.locationid, officeLocation.location);
@@ -111,15 +116,10 @@ class Deal {
             $orderForm = window[controller]['openForm']('NEW', orderFormData);
             FwModule.openSubModuleTab($browse, $orderForm);
         });
-        this.events($form);
-        this.disableFields($form, ['DiscountTemplateId', 'DiscountTemplate']);
-        $form.find('[data-datafield="UseCustomerTax"] .fwformfield-value').change();
-        $form.find('[data-datafield="UseCustomerDiscount"] .fwformfield-value').change();
-        $form.find('[data-datafield="UseCustomerCredit"] .fwformfield-value').change();
-        $form.find('[data-datafield="UseCustomerInsurance"] .fwformfield-value').change();
         if (typeof parentmoduleinfo !== 'undefined') {
             FwFormField.setValue($form, 'div[data-datafield="CustomerId"]', parentmoduleinfo.CustomerId, parentmoduleinfo.Customer);
         }
+        this.disableFields($form, ['DiscountTemplateId', 'DiscountTemplate']);
         return $form;
     }
     loadForm(uniqueids) {
