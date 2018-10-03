@@ -15,13 +15,13 @@ using System.Threading.Tasks;
 
 namespace FwCore.Controllers
 {
-    public class FwJwtController : Controller
+    public class FwJwtController : FwController
     {
         private readonly FwApplicationConfig _appConfig;
         private readonly ILogger _logger;
         //private readonly JsonSerializerSettings _serializerSettings;
         //---------------------------------------------------------------------------------------------
-        public FwJwtController(IOptions<FwApplicationConfig> appConfig, ILoggerFactory loggerFactory)
+        public FwJwtController(IOptions<FwApplicationConfig> appConfig, ILoggerFactory loggerFactory) : base(appConfig)
         {
             _appConfig = appConfig.Value;
             ThrowIfInvalidOptions(_appConfig.JwtIssuerOptions);

@@ -1,13 +1,20 @@
 ﻿using DBWorksDesigner.Logic.Administrative;
+using FwCore.Controllers;
+using FwStandard.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 using System.Collections.Generic;
 
-namespace RentalWorksWebApi.Modules.Administrator.Designer
+namespace WebApi.Modules.Administrator.Designer
 {
     [Route("api/v1/designer")]
     [ApiExplorerSettings(GroupName = "administrator-v1")]
-    public class DesignerController : Controller
+    public class DesignerController : FwController
     {
+        public DesignerController(IOptions<FwApplicationConfig> appConfig) : base(appConfig)
+        {
+
+        }
         [HttpGet("createmodule")]
         public Folder CreateModule(string moduleName, string modulePath, string menuPath)
         {
