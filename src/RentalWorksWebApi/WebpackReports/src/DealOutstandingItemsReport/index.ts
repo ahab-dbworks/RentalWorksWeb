@@ -72,6 +72,12 @@ export class DealOutstandingReport extends WebpackReport {
                     } else {
                         dealOutstanding.ShowImages = false;
                     }
+                    if (parameters.IncludeThumbnailImages === true) {
+                        dealOutstanding.IncludeThumbnailImages = true;
+                    }
+                    if (parameters.IncludeFullImages === true) {
+                        dealOutstanding.IncludeFullImages = true;
+                    }
                     if (parameters.IncludeValueCost === 'R') {
                         dealOutstanding.IncludeValueCost = 'R';
                     }

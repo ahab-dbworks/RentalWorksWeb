@@ -375,8 +375,6 @@ class Deal {
             $temp.attr('data-enabled', 'false');
             $temp.find('input').prop('disabled', true);
             FwFormField.disable($form.find('[data-datafield="UseDiscountTemplate"]'))
-            $discTemp.attr('data-enabled', 'false');
-            $discTemp.find('input').prop('disabled', true);
         } else {
             if ($discTemp.find('input[type=checkbox]').is(':checked')) {
                 $temp.attr('data-enabled', 'true');
