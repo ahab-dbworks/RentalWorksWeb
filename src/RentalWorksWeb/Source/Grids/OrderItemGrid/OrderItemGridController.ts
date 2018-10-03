@@ -93,17 +93,6 @@
         var $form = $control.closest('.fwform');
 
         if ($form.attr('data-controller') === 'OrderController' || $form.attr('data-controller') === 'QuoteController' || $form.attr('data-controller') === 'PurchaseOrderController') {
-            $generatedtr.find('div[data-browsedatafield="InventoryId"]').data('onchange', function ($tr) {
-                var warehouse = FwFormField.getTextByDataField($form, 'WarehouseId');
-                var warehouseId = FwFormField.getValueByDataField($form, 'WarehouseId');
-                let warehouseCode = $form.find('[data-datafield="WarehouseCode"] input').val();
-                let inventoryId = $generatedtr.find('div[data-browsedatafield="InventoryId"] input').val();
-                let officeLocationId = FwFormField.getValueByDataField($form, 'OfficeLocationId');
-                let rateType = $form.find('[data-datafield="RateType"] input').val();
-                let inventoryType = $generatedtr.find('[data-browsedatafield="InventoryId"]').attr('data-validationname');
-                let discountPercent, daysPerWeek;
-            });
-
             // Bold Row
             FwBrowse.setAfterRenderRowCallback($control, ($tr: JQuery, dt: FwJsonDataTable, rowIndex: number) => {
                 if ($tr.find('.order-item-bold').text() === 'true') {
@@ -136,7 +125,8 @@
                 let inventoryType = $generatedtr.find('[data-browsedatafield="InventoryId"]').attr('data-validationname');
                 $generatedtr.find('.field[data-browsedatafield="Description"] input').val($tr.find('.field[data-browsedatafield="Description"]').attr('data-originalvalue'));
                 $generatedtr.find('.field[data-browsedatafield="QuantityOrdered"] input').val("1");
-                let discountPercent, daysPerWeek;
+                let discountPercent;
+                let daysPerWeek;
 
                 $generatedtr.find('.field[data-browsedatafield="ItemId"] input').val('');
                 $generatedtr.find('.field[data-browsedatafield="Description"] input').val($tr.find('.field[data-browsedatafield="Description"]').attr('data-originalvalue'));
@@ -144,17 +134,27 @@
                 switch (inventoryType) {
                     case 'RentalInventoryValidation':
                         discountPercent = FwFormField.getValueByDataField($form, 'RentalDiscountPercent');
+                        daysPerWeek = FwFormField.getValueByDataField($form, `RentalDaysPerWeek`);
                         break;
                     case 'SalesInventoryValidation':
                         discountPercent = FwFormField.getValueByDataField($form, 'SalesDiscountPercent');
+                        daysPerWeek = FwFormField.getValueByDataField($form, `SalesDaysPerWeek`);
                         break;
                     case 'LaborRateValidation':
                         discountPercent = FwFormField.getValueByDataField($form, 'LaborDiscountPercent');
+                        daysPerWeek = FwFormField.getValueByDataField($form, `LaborDaysPerWeek`);
                         break;
                     case 'MiscRateValidation':
                         discountPercent = FwFormField.getValueByDataField($form, 'MiscDiscountPercent');
+                        daysPerWeek = FwFormField.getValueByDataField($form, `MiscDaysPerWeek`);
                         break;
                 }
+
+          
+                FwBrowse.setFieldValue($control, $generatedtr, 'DiscountPercent', { value: discountPercent });
+                FwBrowse.setFieldValue($control, $generatedtr, 'DiscountPercentDisplay', { value: discountPercent });
+                FwBrowse.setFieldValue($control, $generatedtr, 'DaysPerWeek', { value: daysPerWeek });
+       
 
                 if ($generatedtr.hasClass("newmode")) {
                     FwAppData.apiMethod(true, 'GET', "api/v1/pricing/" + inventoryId + "/" + warehouseId, null, FwServices.defaultTimeout, function onSuccess(response) {
@@ -182,9 +182,6 @@
                     $generatedtr.find('.field[data-browsedatafield="ReturnToWarehouseId"] input').val(warehouseId);
                     $generatedtr.find('.field[data-browsedatafield="WarehouseId"] input.text').val(warehouseCode);
                     $generatedtr.find('.field[data-browsedatafield="ReturnToWarehouseId"] input.text').val(warehouseCode);
-                    $generatedtr.find('.field[data-browsedatafield="DiscountPercent"] input').val(discountPercent);
-                    $generatedtr.find('.field[data-browsedatafield="DiscountPercentDisplay"] input').val(discountPercent);
-                    $generatedtr.find('.field[data-browsedatafield="DaysPerWeek"] input').val(daysPerWeek);
                     // PO Form lacks a warehouseCode
                     if ($form.attr('data-controller') === 'PurchaseOrderController') { $generatedtr.find('.field[data-browsedatafield="WarehouseId"] input.text').val(warehouse); }
                 }
