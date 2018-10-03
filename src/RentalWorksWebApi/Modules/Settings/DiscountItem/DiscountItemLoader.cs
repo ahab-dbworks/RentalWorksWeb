@@ -17,7 +17,7 @@ namespace WebApi.Modules.Settings.DiscountItem
         public decimal? DiscountPercent { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "daysinwk", modeltype: FwDataTypes.Decimal)]
-        public decimal? DaysInWeek { get; set; }
+        public decimal? DaysPerWeek { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "marginpct", modeltype: FwDataTypes.Decimal)]
         public decimal? MarginPercent { get; set; }

@@ -124,7 +124,7 @@ namespace WebApi.Modules.Home.Invoice
         public decimal? InvoiceSubTotal { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "invoicedwdiscounttotal", modeltype: FwDataTypes.Decimal)]
-        public decimal? InvoiceDaysInWeekDiscountTotal { get; set; }
+        public decimal? InvoiceDaysPerWeekDiscountTotal { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "invoicetax", modeltype: FwDataTypes.Decimal)]
         public decimal? InvoiceTax { get; set; }

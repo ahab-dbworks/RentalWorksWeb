@@ -171,7 +171,7 @@ class Vendor {
 
         if (mode == 'NEW') {
             this.toggleRequiredFields($form);
-            FwFormField.setValueByDataField($form, 'DefaultSubRentDaysInWeek', 0);
+            FwFormField.setValueByDataField($form, 'DefaultSubRentDaysPerWeek', 0);
             FwFormField.setValueByDataField($form, 'DefaultSubRentDiscountPercent', 0);
             FwFormField.setValueByDataField($form, 'DefaultSubSaleDiscountPercent', 0);
         }

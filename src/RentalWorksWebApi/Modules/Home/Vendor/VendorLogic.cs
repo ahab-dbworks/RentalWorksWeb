@@ -64,7 +64,7 @@ namespace WebApi.Modules.Home.Vendor
         public bool? Freight { get { return vendor.Freight; } set { vendor.Freight = value; } }
         public bool? Insurance { get { return vendor.Insurance; } set { vendor.Insurance = value; } }
         public bool? Consignment { get { return vendor.Consignment; } set { vendor.Consignment = value; } }
-        public decimal? DefaultSubRentDaysInWeek { get { return vendor.DefaultSubRentDaysInWeek; } set { vendor.DefaultSubRentDaysInWeek = value; } }
+        public decimal? DefaultSubRentDaysPerWeek { get { return vendor.DefaultSubRentDaysPerWeek; } set { vendor.DefaultSubRentDaysPerWeek = value; } }
         public decimal? DefaultSubRentDiscountPercent { get { return vendor.DefaultSubRentDiscountPercent; } set { vendor.DefaultSubRentDiscountPercent = value; } }
         public decimal? DefaultSubSaleDiscountPercent { get { return vendor.DefaultSubSaleDiscountPercent; } set { vendor.DefaultSubSaleDiscountPercent = value; } }
         public string DefaultRate { get { return vendor.DefaultRate; } set { vendor.DefaultRate = value; } }

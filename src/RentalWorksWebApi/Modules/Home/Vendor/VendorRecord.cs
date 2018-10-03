@@ -131,7 +131,7 @@ TODO:
         public bool? Consignment { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "daysinweek", modeltype: FwDataTypes.Decimal, precision: 5, scale: 3)]
-        public decimal? DefaultSubRentDaysInWeek { get; set; }
+        public decimal? DefaultSubRentDaysPerWeek { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "discountrate", modeltype: FwDataTypes.Decimal, precision: 5, scale: 2)]
         public decimal? DefaultSubRentDiscountPercent { get; set; }

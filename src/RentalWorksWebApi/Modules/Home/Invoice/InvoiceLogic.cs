@@ -108,7 +108,7 @@ namespace WebApi.Modules.Home.Invoice
         public decimal? InvoiceDiscountTotal { get; set; }
         public decimal? InvoiceSubTotal { get { return invoice.InvoiceSubTotal; } set { invoice.InvoiceSubTotal = value; } }
         [FwBusinessLogicField(isReadOnly: true)]
-        public decimal? InvoiceDaysInWeekDiscountTotal { get; set; }
+        public decimal? InvoiceDaysPerWeekDiscountTotal { get; set; }
         public decimal? InvoiceTax { get { return invoice.InvoiceTax; } set { invoice.InvoiceTax = value; } }
         public decimal? InvoiceTotal { get { return invoice.InvoiceTotal; } set { invoice.InvoiceTotal = value; } }
         public string ReferenceNumber { get { return invoice.ReferenceNumber; } set { invoice.ReferenceNumber = value; } }

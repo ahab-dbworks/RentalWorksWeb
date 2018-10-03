@@ -98,7 +98,7 @@ namespace WebApi.Modules.Home.Vendor
         public bool? Consignment { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "daysinweek", modeltype: FwDataTypes.Decimal)]
-        public decimal? DefaultSubRentDaysInWeek { get; set; }
+        public decimal? DefaultSubRentDaysPerWeek { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "discountrate", modeltype: FwDataTypes.Decimal)]
         public decimal? DefaultSubRentDiscountPercent { get; set; }

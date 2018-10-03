@@ -63,7 +63,7 @@ namespace WebApi.Modules.Settings.DiscountItem
         public string CategoryId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "daysinwk", modeltype: FwDataTypes.Decimal, sqltype: "numeric", precision: 5, scale: 3)]
-        public decimal? DaysInWeek { get; set; }
+        public decimal? DaysPerWeek { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime, sqltype: "datetime")]
         public string DateStamp { get; set; }

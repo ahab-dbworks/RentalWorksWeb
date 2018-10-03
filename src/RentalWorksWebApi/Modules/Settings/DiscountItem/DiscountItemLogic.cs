@@ -16,7 +16,7 @@ namespace WebApi.Modules.Settings.DiscountItem
         [FwBusinessLogicField(isPrimaryKey: true)]
         public string DiscountItemId { get { return discountItem.DiscountItemId; } set { discountItem.DiscountItemId = value; } }
         public decimal? DiscountPercent { get { return discountItem.DiscountPercent; } set { discountItem.DiscountPercent = value; } }
-        public decimal? DaysInWeek { get { return discountItem.DaysInWeek; } set { discountItem.DaysInWeek = value; } }
+        public decimal? DaysPerWeek { get { return discountItem.DaysPerWeek; } set { discountItem.DaysPerWeek = value; } }
         public decimal? MarginPercent { get { return discountItem.MarginPercent; } set { discountItem.MarginPercent = value; } }
         public decimal? MarkupPercent { get { return discountItem.MarkupPercent; } set { discountItem.MarkupPercent = value; } }
         public decimal? DailyRate { get { return discountItem.DailyRate; } set { discountItem.DailyRate = value; } }
