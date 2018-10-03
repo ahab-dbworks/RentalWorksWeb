@@ -24,8 +24,17 @@ namespace WebApi.Modules.Administrator.WebForm
         [FwSqlDataField(column: "username", modeltype: FwDataTypes.Text)]
         public string UserName { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "description", modeltype: FwDataTypes.Text)]
+        public string Description { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "html", modeltype: FwDataTypes.Text)]
         public string Html { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "active", modeltype: FwDataTypes.Boolean)]
+        public bool? Active { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
+        public string DateStamp { get; set; }
         //------------------------------------------------------------------------------------ 
         protected override void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequest request = null)
         {
