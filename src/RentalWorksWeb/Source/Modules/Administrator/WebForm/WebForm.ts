@@ -1,5 +1,4 @@
 routes.push({ pattern: /^module\/webform$/, action: function (match: RegExpExecArray) { return WebFormController.getModuleScreen(); } });
-
 class WebForm {
     Module: string = 'WebForm';
     apiurl: string = 'api/v1/webform';
@@ -85,11 +84,7 @@ class WebForm {
             {
                 mode: 'text/html'
                 , lineNumbers: true
-                //, matchTags: { bothTags: true }
-                //, styleSelectedText: true
-                //, styleActiveLine: true
             });
-
         myCodeMirror.setSize(1600, 1000);
         $form.find('.CodeMirror').css('max-width', '1650px');
         let doc = myCodeMirror.getDoc();
@@ -100,7 +95,7 @@ class WebForm {
         } else {
             myCodeMirror.setValue(' ');
         }
-
+        $form.find('.CodeMirror').css('font-size', '1.1em');
         //Select module event
         $form.find('div.modules').on('change', e => {
             let moduleName = jQuery(e.currentTarget).find(':selected').val();
@@ -152,7 +147,7 @@ class WebForm {
         //Load preview on click
         $form.on('click', '[data-type="tab"][data-caption="Preview"]', e => {
             //Updates values from editor
-            $form.find('#codeEditor').change(); 
+            $form.find('#codeEditor').change();
 
             let type = $form.find('[data-datafield="BaseForm"] option:selected').attr('data-type');
             $form.find('#previewWebForm').empty();
@@ -163,13 +158,24 @@ class WebForm {
                 case 'Browse':
                 case 'Form':
                 case 'Grid':
-                    let $fwcontrols = $form.find('#previewWebForm .fwcontrol');
+                    //render forms (doesn't render grids)
+                    let $previewForm = $form.find('#previewWebForm');
+                    let $fwcontrols = $previewForm.find('.fwcontrol');
                     FwControl.init($fwcontrols);
                     FwControl.renderRuntimeHtml($fwcontrols);
-                    break;
-              
-            }
 
+                    //render grids
+                    let $grids = $previewForm.find('[data-control="FwGrid"]');
+                    for (let i = 0; i < $grids.length; i++) {
+                        let $this = jQuery($grids[i]);
+                        let gridName = $this.attr('data-grid');
+                            let $gridControl = jQuery(jQuery(`#tmpl-grids-${gridName}Browse`).html());
+                            $this.empty().append($gridControl);
+                            FwBrowse.init($gridControl);
+                            FwBrowse.renderRuntimeHtml($gridControl);
+                    }
+                    break;
+            }
         });
 
 

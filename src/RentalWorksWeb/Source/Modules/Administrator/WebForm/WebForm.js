@@ -73,6 +73,7 @@ class WebForm {
         else {
             myCodeMirror.setValue(' ');
         }
+        $form.find('.CodeMirror').css('font-size', '1.1em');
         $form.find('div.modules').on('change', e => {
             let moduleName = jQuery(e.currentTarget).find(':selected').val();
             let type = jQuery(e.currentTarget).find('option:selected').attr('data-type');
@@ -122,9 +123,19 @@ class WebForm {
                 case 'Browse':
                 case 'Form':
                 case 'Grid':
-                    let $fwcontrols = $form.find('#previewWebForm .fwcontrol');
+                    let $previewForm = $form.find('#previewWebForm');
+                    let $fwcontrols = $previewForm.find('.fwcontrol');
                     FwControl.init($fwcontrols);
                     FwControl.renderRuntimeHtml($fwcontrols);
+                    let $grids = $previewForm.find('[data-control="FwGrid"]');
+                    for (let i = 0; i < $grids.length; i++) {
+                        let $this = jQuery($grids[i]);
+                        let gridName = $this.attr('data-grid');
+                        let $gridControl = jQuery(jQuery(`#tmpl-grids-${gridName}Browse`).html());
+                        $this.empty().append($gridControl);
+                        FwBrowse.init($gridControl);
+                        FwBrowse.renderRuntimeHtml($gridControl);
+                    }
                     break;
             }
         });

@@ -145,8 +145,7 @@ class Base {
                                                 for (let i = 0; i < response.Rows.length; i++) {
                                                     webForms.push({
                                                         'WebFormId': response.Rows[i][0],
-                                                        'BaseForm': response.Rows[i][1],
-                                                        'Html': response.Rows[i][4]
+                                                        'BaseForm': response.Rows[i][1]
                                                     });
                                                 }
                                                 sessionStorage.setItem('webform', JSON.stringify(webForms));
