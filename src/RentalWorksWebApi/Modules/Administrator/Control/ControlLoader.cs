@@ -543,6 +543,18 @@ namespace WebApi.Modules.Administrator.Control
         [FwSqlDataField(column: "includenonbillable", modeltype: FwDataTypes.Boolean)]
         public bool? Includenonbillable { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "reportlogoimageid", modeltype: FwDataTypes.Text)]
+        public string ReportLogoImageId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "reportlogoimage", modeltype: FwDataTypes.JpgDataUrl)]
+        public string ReportLogoImage { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "reportlogoimageheight", modeltype: FwDataTypes.Integer)]
+        public int? ReportLogoImageHeight { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "reportlogoimagewidth", modeltype: FwDataTypes.Integer)]
+        public int? ReportLogoImageWidth { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
         public string DateStamp { get; set; }
         //------------------------------------------------------------------------------------ 

@@ -9,6 +9,7 @@ namespace WebApi.Modules.Administrator.Control
         //------------------------------------------------------------------------------------ 
         ControlRecord control = new ControlRecord();
         SysControlRecord sysControl = new SysControlRecord();
+        WebControlRecord webControl = new WebControlRecord();
         ControlLoader controlLoader = new ControlLoader();
         ControlBrowseLoader controlBrowseLoader = new ControlBrowseLoader();
 
@@ -206,6 +207,19 @@ namespace WebApi.Modules.Administrator.Control
         //public bool? Editldcheckcurrency { get { return sysControl.Editldcheckcurrency; } set { sysControl.Editldcheckcurrency = value; } }
         //public bool? Editrepaircheckcurrency { get { return sysControl.Editrepaircheckcurrency; } set { sysControl.Editrepaircheckcurrency = value; } }
         //public bool? Includenonbillable { get { return sysControl.Includenonbillable; } set { sysControl.Includenonbillable = value; } }
+
+        //------------------------------------------------------------------------------------ 
+
+        public string ReportLogoImageId { get { return webControl.ReportLogoImageId; } set { webControl.ReportLogoImageId = value; } }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string ReportLogoImage { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public int? ReportLogoImageHeight { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public int? ReportLogoImageWidth { get; set; }
+        //------------------------------------------------------------------------------------ 
+
+
         public string DateStamp { get { return control.DateStamp; } set { control.DateStamp = value; } }
         //------------------------------------------------------------------------------------ 
         protected override bool Validate(TDataRecordSaveMode saveMode, ref string validateMsg)

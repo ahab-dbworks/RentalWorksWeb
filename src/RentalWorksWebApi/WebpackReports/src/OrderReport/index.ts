@@ -29,6 +29,10 @@ export class OrderReport extends WebpackReport {
                 isOrder = false;
             }
 
+            //load report logo here
+            //let LogoPromise = Ajax.get<ControlObject>(`${apiUrl}/api/v1/control/1`, authorizationHeader, request)
+            // controlObject.ReportLogoImage    .ReportLogoImageHeight      .ReportLogoImageWidth
+
             let Promise = Ajax.post<Order>(`${apiUrl}/api/v1/orderreport/runreport`, authorizationHeader, request)
                 .then((response: Order) => {
                     order = response;
