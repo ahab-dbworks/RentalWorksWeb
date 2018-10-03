@@ -157,7 +157,7 @@ routes.push({ pattern: /^module\/control$/, action: function (match) { return Co
 routes.push({ pattern: /^module\/group/, action: function (match) { return GroupController.getModuleScreen(); } });
 routes.push({ pattern: /^module\/integration/, action: function (match) { return RwIntegrationController.getModuleScreen(); } });
 routes.push({ pattern: /^module\/user/, action: function (match) { return UserController.getModuleScreen(); } });
-routes.push({ pattern: /^module\/customfields/, action: function (match) { return CustomFieldController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/customfield/, action: function (match) { return CustomFieldController.getModuleScreen(); } });
 routes.push({ pattern: /^module\/duplicaterules/, action: function (match) { return DuplicateRulesController.getModuleScreen(); } });
 routes.push({ pattern: /^module\/settingspage$/, action: function (match) { return SettingsController.getModuleScreen(); } });
 routes.push({ pattern: /^module\/designer$/, action: function (match) { return DesignerController.loadDesigner(); } });
