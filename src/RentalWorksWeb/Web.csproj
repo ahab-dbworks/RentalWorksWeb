@@ -422,8 +422,8 @@
     <Content Include="Source\Modules\Administrator\Integration\Integration.css" />
     <Content Include="Source\Modules\Administrator\Integration\RwIntegrationController.js" />
     <Content Include="Source\Modules\Administrator\Integration\IntegrationForm.htm" />
-    <Content Include="Source\Modules\Administrator\CustomFields\CustomFieldsBrowse.htm" />
-    <Content Include="Source\Modules\Administrator\CustomFields\CustomFieldsForm.htm" />
+    <Content Include="Source\Modules\Administrator\CustomField\CustomFieldBrowse.htm" />
+    <Content Include="Source\Modules\Administrator\CustomField\CustomFieldForm.htm" />
     <Content Include="Source\Modules\Administrator\Reports\Reports.htm" />
     <Content Include="Source\Modules\Administrator\Reports\ReportsPage.css" />
     <Content Include="Source\Modules\Administrator\User\UserBrowse.htm" />
@@ -510,7 +510,7 @@
     <TypeScriptCompile Include="Source\Grids\VehicleMakeModelGrid\VehicleMakeModelGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\GeneratorMakeModelGrid\GeneratorMakeModelGridController.ts" />
     <TypeScriptCompile Include="Source\Modules\Administrator\DuplicateRules\DuplicateRules.ts" />
-    <TypeScriptCompile Include="Source\Modules\Administrator\CustomFields\CustomFields.ts" />
+    <TypeScriptCompile Include="Source\Modules\Administrator\CustomField\CustomField.ts" />
     <TypeScriptCompile Include="Source\Modules\Administrator\Group\Group.ts" />
     <TypeScriptCompile Include="Source\Modules\Administrator\User\User.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\Contact\Contact.ts" />

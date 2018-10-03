@@ -194,7 +194,7 @@ routes.push({ pattern: /^module\/control$/, action: function (match: RegExpExecA
 routes.push({ pattern: /^module\/group/, action: function (match: RegExpExecArray) { return GroupController.getModuleScreen(); } });
 routes.push({ pattern: /^module\/integration/, action: function (match: RegExpExecArray) { return RwIntegrationController.getModuleScreen(); } });
 routes.push({ pattern: /^module\/user/, action: function (match: RegExpExecArray) { return UserController.getModuleScreen(); } });
-routes.push({ pattern: /^module\/customfields/, action: function (match: RegExpExecArray) { return CustomFieldsController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/customfields/, action: function (match: RegExpExecArray) { return CustomFieldController.getModuleScreen(); } });
 routes.push({ pattern: /^module\/duplicaterules/, action: function (match: RegExpExecArray) { return DuplicateRulesController.getModuleScreen(); } });
 routes.push({ pattern: /^module\/settings$/, action: function (match: RegExpExecArray) { return SettingsController.getModuleScreen(); } });
 routes.push({ pattern: /^module\/reports$/, action: function (match: RegExpExecArray) { return ReportsController.getModuleScreen(); } });

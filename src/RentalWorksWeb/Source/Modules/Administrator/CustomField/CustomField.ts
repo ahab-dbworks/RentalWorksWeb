@@ -1,5 +1,5 @@
-class CustomFields {
-    Module: string = 'CustomFields';
+class CustomField {
+    Module: string = 'CustomField';
     apiurl: string = 'api/v1/customfield';
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
@@ -140,4 +140,4 @@ class CustomFields {
     }
 }
 //----------------------------------------------------------------------------------------------
-var CustomFieldsController = new CustomFields();
+var CustomFieldController = new CustomField();

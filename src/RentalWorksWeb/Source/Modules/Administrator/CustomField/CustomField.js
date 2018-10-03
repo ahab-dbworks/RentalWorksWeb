@@ -1,6 +1,6 @@
-class CustomFields {
+class CustomField {
     constructor() {
-        this.Module = 'CustomFields';
+        this.Module = 'CustomField';
         this.apiurl = 'api/v1/customfield';
     }
     getModuleScreen() {
@@ -114,5 +114,5 @@ class CustomFields {
         return $form;
     }
 }
-var CustomFieldsController = new CustomFields();
-//# sourceMappingURL=CustomFields.js.map
+var CustomFieldController = new CustomField();
+//# sourceMappingURL=CustomField.js.map
