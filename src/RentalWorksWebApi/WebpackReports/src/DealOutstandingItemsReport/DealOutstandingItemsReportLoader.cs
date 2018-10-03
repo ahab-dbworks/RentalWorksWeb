@@ -161,14 +161,23 @@ namespace WebApi.Modules.Reports.DealOutstandingItemsReport
         [FwSqlDataField(column: "consignoragreementid", modeltype: FwDataTypes.Text)]
         public string ConsignorAgreementId { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "purchamt", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "purchamt", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public decimal? PurchaseAmount { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "manifestvalue", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "purchamtextended", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
+        public decimal? PurchaseAmountExtended { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "manifestvalue", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public decimal? UnitValue { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "replacementcost", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "manifestvalueextended", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
+        public decimal? UnitValueExtended { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "replacementcost", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public decimal? ReplacementCost { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "replacementcostextended", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
+        public decimal? ReplacementCostExtended { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "responsiblepersonid", modeltype: FwDataTypes.Text)]
         public string ResponsiblePersonId { get; set; }
@@ -219,7 +228,7 @@ namespace WebApi.Modules.Reports.DealOutstandingItemsReport
                     dt = await qry.QueryToFwJsonTableAsync(false, 0);
                 }
             }
-            string[] totalFields = new string[] { "Quantity" };
+            string[] totalFields = new string[] { "Quantity", "PurchaseAmountExtended", "UnitValueExtended", "ReplacementCostExtended"};
             dt.InsertSubTotalRows("OfficeLocation", "RowType", totalFields);
             dt.InsertSubTotalRows("Customer", "RowType", totalFields);
             dt.InsertSubTotalRows("Deal", "RowType", totalFields);
