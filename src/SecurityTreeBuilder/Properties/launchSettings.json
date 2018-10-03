@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "SecurityTreeBuilder": {
+      "commandName": "Project",
+      "commandLineArgs": "--outputfile \"controllertree.generated.json\""
+    }
+  }
+}
