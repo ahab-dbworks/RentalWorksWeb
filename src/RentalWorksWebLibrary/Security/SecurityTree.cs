@@ -281,7 +281,7 @@ namespace WebLibrary.Security
             AddModule("Control",             "{B3ADDF49-64EB-4740-AB41-4327E6E56242}", lv1menuAdministrator.Id, "ControlController",        "module/control",        administratoriconbaseurl + "placeholder.png");
             AddModule("Custom Field",        "{C98C4CB4-2036-4D70-BC29-8F5A2874B178}", lv1menuAdministrator.Id, "CustomFieldController",    "module/customfield",   administratoriconbaseurl + "placeholder.png");
             AddModule("Custom Forms",        "{CB2EF8FF-2E8D-4AD0-B880-07037B839C5E}", lv1menuAdministrator.Id, "WebFormController", "module/webform", administratoriconbaseurl + "placeholder.png");
-            AddModule("Duplicate Rules",     "{2E0EA479-AC02-43B1-87FA-CCE2ABA6E934}", lv1menuAdministrator.Id, "DuplicateRulesController", "module/duplicaterules", administratoriconbaseurl + "placeholder.png");
+            AddModule("Duplicate Rules",     "{2E0EA479-AC02-43B1-87FA-CCE2ABA6E934}", lv1menuAdministrator.Id, "DuplicateRuleController",  "module/duplicaterule", administratoriconbaseurl + "placeholder.png");
             AddModule("Group",               "{9BE101B6-B406-4253-B2C6-D0571C7E5916}", lv1menuAdministrator.Id, "GroupController",          "module/group",          administratoriconbaseurl + "group.png", "USER");
             AddModule("Hotfix",              "{9D29A5D9-744F-40CE-AE3B-09219611A680}", lv1menuAdministrator.Id, "HotfixController",         "module/hotfix",         administratoriconbaseurl + "placeholder.png");
             //AddModule("Integration",         "{518B038E-F22A-4B23-AA47-F4F56709ADC3}", lv1menuAdministrator.Id, "RwIntegrationController",  "module/integration",    administratoriconbaseurl + "placeholder.png", "Integration", "quickbooks", "USER");

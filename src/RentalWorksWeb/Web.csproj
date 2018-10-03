@@ -417,8 +417,8 @@
     <Content Include="Source\Modules\Administrator\WebForm\WebFormForm.htm" />
     <Content Include="Source\Modules\Administrator\Hotfix\HotfixBrowse.htm" />
     <Content Include="Source\Modules\Administrator\Hotfix\HotfixForm.htm" />
-    <Content Include="Source\Modules\Administrator\DuplicateRules\DuplicateRulesBrowse.htm" />
-    <Content Include="Source\Modules\Administrator\DuplicateRules\DuplicateRulesForm.htm" />
+    <Content Include="Source\Modules\Administrator\DuplicateRule\DuplicateRuleBrowse.htm" />
+    <Content Include="Source\Modules\Administrator\DuplicateRule\DuplicateRuleForm.htm" />
     <Content Include="Source\Modules\Administrator\Integration\Integration.css" />
     <Content Include="Source\Modules\Administrator\Integration\RwIntegrationController.js" />
     <Content Include="Source\Modules\Administrator\Integration\IntegrationForm.htm" />
@@ -509,7 +509,7 @@
     <TypeScriptCompile Include="Source\Grids\BillingCycleEventsGrid\BillingCycleEventsGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\VehicleMakeModelGrid\VehicleMakeModelGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\GeneratorMakeModelGrid\GeneratorMakeModelGridController.ts" />
-    <TypeScriptCompile Include="Source\Modules\Administrator\DuplicateRules\DuplicateRules.ts" />
+    <TypeScriptCompile Include="Source\Modules\Administrator\DuplicateRule\DuplicateRule.ts" />
     <TypeScriptCompile Include="Source\Modules\Administrator\CustomField\CustomField.ts" />
     <TypeScriptCompile Include="Source\Modules\Administrator\Group\Group.ts" />
     <TypeScriptCompile Include="Source\Modules\Administrator\User\User.ts" />
