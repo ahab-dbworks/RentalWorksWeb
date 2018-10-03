@@ -62,6 +62,18 @@ namespace WebApi.Modules.Reports.DealOutstandingItemsReport
         [FwSqlDataField(column: "orderdesc", modeltype: FwDataTypes.Text)]
         public string OrderDescription { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "orderdate", modeltype: FwDataTypes.Date)]
+        public string OrderDate { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "contractid", modeltype: FwDataTypes.Text)]
+        public string ContractId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "contractno", modeltype: FwDataTypes.Text)]
+        public string ContractNumber { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "contractdate", modeltype: FwDataTypes.Date)]
+        public string ContractDate { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "barcode", modeltype: FwDataTypes.Text)]
         public string BarCode { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -164,6 +176,21 @@ namespace WebApi.Modules.Reports.DealOutstandingItemsReport
         [FwSqlDataField(column: "responsibleperson", modeltype: FwDataTypes.Text)]
         public string ResponsiblePerson { get; set; }
         //------------------------------------------------------------------------------------ 
+
+        [FwSqlDataField(column: "appimageid", modeltype: FwDataTypes.Text)]
+        public string ImageId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "image", modeltype: FwDataTypes.JpgDataUrl)]
+        public string Image { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "imageheight", modeltype: FwDataTypes.Integer)]
+        public int? ImageHeight { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "imagewidth", modeltype: FwDataTypes.Integer)]
+        public int? ImageWidth { get; set; }
+        //------------------------------------------------------------------------------------ 
+
+
         public async Task<FwJsonDataTable> RunReportAsync(DealOutstandingItemsReportRequest request)
         {
             FwJsonDataTable dt = null;
