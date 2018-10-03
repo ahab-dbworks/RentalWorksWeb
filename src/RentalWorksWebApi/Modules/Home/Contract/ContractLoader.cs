@@ -58,5 +58,8 @@ namespace WebApi.Modules.Home.Contract
         [FwSqlDataField(column: "sessionid", modeltype: FwDataTypes.Text)]
         public string SessionId { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
+        public string DateStamp { get; set; }
+        //------------------------------------------------------------------------------------ 
     }
 }

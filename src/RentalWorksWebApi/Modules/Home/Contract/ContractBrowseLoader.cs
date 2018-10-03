@@ -77,9 +77,6 @@ namespace WebApi.Modules.Home.Contract
         [FwSqlDataField(column: "poorderdesc", modeltype: FwDataTypes.Text)]
         public string PoOrderDescription { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
-        public string DateStamp { get; set; }
-        //------------------------------------------------------------------------------------ 
         protected override void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequest request = null)
         {
             base.SetBaseSelectQuery(select, qry, customFields, request);
