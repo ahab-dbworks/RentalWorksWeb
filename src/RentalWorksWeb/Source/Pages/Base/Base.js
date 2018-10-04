@@ -141,14 +141,35 @@ class Base {
                                                 WebUserId: responseOriginalApi.webUser.webusersid.webusersid
                                             };
                                             FwAppData.apiMethod(true, 'POST', `api/v1/webform/browse`, webformrequest, FwServices.defaultTimeout, function onSuccess(response) {
-                                                let webForms = [];
+                                                let baseFormIndex = response.ColumnIndex.BaseForm;
+                                                let activeIndex = response.ColumnIndex.Active;
+                                                let htmlIndex = response.ColumnIndex.Html;
                                                 for (let i = 0; i < response.Rows.length; i++) {
-                                                    webForms.push({
-                                                        'WebFormId': response.Rows[i][0],
-                                                        'BaseForm': response.Rows[i][1]
-                                                    });
+                                                    let webForm = response.Rows[i];
+                                                    if (webForm[activeIndex] == true) {
+                                                        let type;
+                                                        let baseform = webForm[baseFormIndex];
+                                                        if (baseform.endsWith('GridBrowse')) {
+                                                            type = 'Grid';
+                                                        }
+                                                        else if (baseform.endsWith('Browse')) {
+                                                            type = 'Browse';
+                                                        }
+                                                        else if (baseform.endsWith('Form')) {
+                                                            type = 'Form';
+                                                        }
+                                                        ;
+                                                        switch (type) {
+                                                            case 'Grid':
+                                                                jQuery(`#tmpl-grids-${baseform}`).html(webForm[htmlIndex]);
+                                                                break;
+                                                            case 'Browse':
+                                                            case 'Form':
+                                                                jQuery(`#tmpl-modules-${baseform}`).html(webForm[htmlIndex]);
+                                                                break;
+                                                        }
+                                                    }
                                                 }
-                                                sessionStorage.setItem('webform', JSON.stringify(webForms));
                                             }, function onError(response) {
                                                 FwFunc.showError(response);
                                             }, null);
