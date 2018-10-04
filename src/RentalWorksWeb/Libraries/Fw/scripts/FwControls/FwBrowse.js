@@ -1496,7 +1496,7 @@ class FwBrowseClass {
             module: '',
             searchfields: [],
             searchfieldtypes: [],
-            searchseparators: [],
+            seachseparators: [],
             searchfieldoperators: [],
             searchfieldvalues: [],
             miscfields: !$control.closest('.fwform').length ? jQuery([]) : FwModule.getFormUniqueIds($control.closest('.fwform')),
@@ -1529,6 +1529,7 @@ class FwBrowseClass {
             $txtSearch = $field.find('> div.search > input');
             value = $txtSearch.val();
             sort = $field.attr('data-sort');
+            fieldtype = $field.attr('data-browsedatatype');
             if (typeof $field.attr('data-datafield') !== 'undefined') {
                 browsedatafield = $field.attr('data-datafield');
             }

@@ -590,10 +590,10 @@ class FwSettingsClass {
                 $form.find('.highlighted').removeClass('highlighted');
                 $form.find('div[data-type="NewMenuBarButton"]').off();
                 for (var key in recordData) {
-                    for (var i = 0; i < filter.length; i++) {
+                    for (var i = 0; i < me.filter.length; i++) {
                         var highlightField = $form.find('[data-datafield="' + key + '"]');
                         var hightlightFieldTabId = highlightField.closest('.tabpage').attr('data-tabid');
-                        if (filter[i] === key) {
+                        if (me.filter[i] === key) {
                             if ($form.find('[data-datafield="' + key + '"]').attr('data-type') === 'checkbox') {
                                 $form.find('[data-datafield="' + key + '"] label').addClass('highlighted');
                             }
@@ -635,8 +635,8 @@ class FwSettingsClass {
             }
             $form.data('afterLoadCustomFields', function () {
                 for (var key in recordData) {
-                    for (var i = 0; i < filter.length; i++) {
-                        if (filter[i] === key) {
+                    for (var i = 0; i < me.filter.length; i++) {
+                        if (me.filter[i] === key) {
                             $form.find('[data-datafield="' + key + '"]').find('.fwformfield-caption').css({ 'background': 'yellow' });
                         }
                     }
