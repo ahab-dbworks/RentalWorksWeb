@@ -668,25 +668,32 @@ class PurchaseOrder {
 
         //Click Event on tabs to load grids/browses
         $form.on('click', '[data-type="tab"]', e => {
-            let tabname = jQuery(e.currentTarget).attr('id');
-            let lastIndexOfTab = tabname.lastIndexOf('tab');
+            let $tab = jQuery(e.currentTarget);
+            let tabname = $tab.attr('id');
+            let lastIndexOfTab = tabname.lastIndexOf('tab');  // for cases where "tab" is included in the name of the tab
             let tabpage = tabname.substring(0, lastIndexOfTab) + 'tabpage' + tabname.substring(lastIndexOfTab + 3);
 
             let $gridControls = $form.find(`#${tabpage} [data-type="Grid"]`);
-            if ($gridControls.length > 0) {
+            if (($tab.hasClass('tabGridsLoaded') == false) && $gridControls.length > 0) {
                 for (let i = 0; i < $gridControls.length; i++) {
-                    let $gridcontrol = jQuery($gridControls[i]);
-                    FwBrowse.search($gridcontrol);
+                    try {
+                        let $gridcontrol = jQuery($gridControls[i]);
+                        FwBrowse.search($gridcontrol);
+                    } catch (ex) {
+                        FwFunc.showError(ex);
+                    }
                 }
             }
 
             let $browseControls = $form.find(`#${tabpage} [data-type="Browse"]`);
-            if ($browseControls.length > 0) {
+            if (($tab.hasClass('tabGridsLoaded') == false) && $browseControls.length > 0) {
                 for (let i = 0; i < $browseControls.length; i++) {
                     let $browseControl = jQuery($browseControls[i]);
                     FwBrowse.search($browseControl);
                 }
             }
+
+            $tab.addClass('tabGridsLoaded');
         });
 
         $orderItemGridRental.find('.submenu-btn').filter('[data-securityid="007C4F21-7526-437C-AD1C-4BBB1030AABA"]').hide();
