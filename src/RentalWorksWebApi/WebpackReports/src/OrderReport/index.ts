@@ -21,6 +21,7 @@ export class OrderReport extends WebpackReport {
             HandlebarsHelpers.registerHelpers();
             let request = new OrderReportRequest();
             let order = new Order();
+            let controlObject: any = {}
             let isOrder = true;
             if (parameters.OrderId) {
                 request.OrderId = parameters.OrderId;
@@ -29,16 +30,25 @@ export class OrderReport extends WebpackReport {
                 isOrder = false;
             }
 
-            //load report logo here
-            //let LogoPromise = Ajax.get<ControlObject>(`${apiUrl}/api/v1/control/1`, authorizationHeader, request)
-            // controlObject.ReportLogoImage    .ReportLogoImageHeight      .ReportLogoImageWidth
+            //loads report logo
+            let LogoPromise = Ajax.get<DataTable>(`${apiUrl}/api/v1/control/1`, authorizationHeader)
+                .then((response: DataTable) => {
+                    controlObject = response;
+                })
+                .catch((ex) => {
+                    console.log('exception: ', ex)
+                });
 
             let Promise = Ajax.post<Order>(`${apiUrl}/api/v1/orderreport/runreport`, authorizationHeader, request)
                 .then((response: Order) => {
                     order = response;
                     order.Items = DataTable.toObjectList(response.Items);
                     order.PrintTime = moment().format('YYYY-MM-DD h:mm:ss A');
-                    //order.Logo = `<img class="clientlogo" src="${dataUrl}" style="margin-left: 30px; width:1.225in;" />`
+                    if (controlObject.ReportLogoImage != '') {
+                        order.Logosrc = controlObject.ReportLogoImage;
+                    } else {
+                        order.Logosrc = 'https://cdn01.4wall.com/cms/blog/images/f522f515029e93.jpg'; // temporary until control has a working base64image
+                    }
                     if (isOrder) {
                         order.Report = 'ORDER';
                     } else {
@@ -76,7 +86,7 @@ class Order {
     Report: string;
     Company: string;
     System: string;
-    Logo: string;
+    Logosrc: string;
     OrderId: string;
     OfficeLocationId: string;
     OfficeLocation: string;

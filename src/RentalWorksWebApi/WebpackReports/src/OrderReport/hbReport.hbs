@@ -1,7 +1,11 @@
 ﻿<!--Order / Quote Report-->
 <div class="rpt-flexrow" style="margin:5px 0px 0px 4px;">
   <div class="rpt-flexcolumn" style="border-bottom: 3px solid black;padding-bottom:5px;">
-    <img class="clientlogo" src="https://cdn01.4wall.com/cms/blog/images/f522f515029e93.jpg" style="width:1.225in;" />
+    {{#if Logosrc}}
+    <div style="height:130px;"><img class="clientlogo" src="{{Logosrc}}" style="display:block;width:auto;height:100%;" alt="logo"/></div>
+    {{else}}
+    <div></div>
+    {{/if}}
     <span class="header-left" style="font-weight:600">{{Company}}</span>
     <span class="header-left">{{OfficeLocationAddress1}}</span>
     <span class="header-left">{{OfficeLocationAddress2}}</span>
