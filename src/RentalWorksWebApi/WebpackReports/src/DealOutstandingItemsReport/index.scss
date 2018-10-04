@@ -4,6 +4,10 @@ tbody {
         background-color: #DCDCDC;
     }
 
+    /*tr[data-rowtype="image"]:nth-child(even) {
+        background-color: #DCDCDC;
+    }*/
+
     td:after {
         content: attr(data-value);
     }

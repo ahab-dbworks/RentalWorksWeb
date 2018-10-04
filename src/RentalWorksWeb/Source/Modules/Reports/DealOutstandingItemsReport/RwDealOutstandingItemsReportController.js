@@ -57,7 +57,7 @@ var dealOutstandingItemsTemplateFrontEnd = `
                 </div>
               </div>
             </div>
-            <div class="flexcolumn" style="max-width:475px;">
+            <div class="flexcolumn" style="max-width:355px;">
               <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Options">
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                   <div data-datafield="ShowBarcodes" data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Show Barcodes / Serial No" style="float:left;max-width:420px;"></div>
@@ -67,9 +67,6 @@ var dealOutstandingItemsTemplateFrontEnd = `
                   <div data-datafield="ShowResponsiblePerson" data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Show Responsible Person" style="float:left;max-width:420px;"></div>
                   <div data-datafield="IncludeFullImages" data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield include-full-images" data-caption="Include Full Images" style="float:left;max-width:420px;"></div>
                   <div data-datafield="IncludeThumbnailImages" data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield include-thumbnails" data-caption="Include Thumbnail Images" style="float:left;max-width:420px;"></div>
-                </div>
-                <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                  <div data-datafield="IncludeBlankPages" data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Print Blank Page When None Outstanding for Deal / Department" style="float:left;max-width:420px;"></div>
                 </div>
               </div>
             </div>
@@ -139,6 +136,9 @@ class RwDealOutstandingItemsReportClass extends FwWebApiReport {
         var request = { method: "LoadForm" };
         const department = JSON.parse(sessionStorage.getItem('department'));
         const location = JSON.parse(sessionStorage.getItem('location'));
+        FwFormField.setValueByDataField($form, 'IncludeValueCost', 'R');
+        FwFormField.setValueByDataField($form, 'ShowBarcodes', 'T');
+        FwFormField.setValueByDataField($form, 'ShowVendors', 'T');
         FwFormField.setValue($form, 'div[data-datafield="DepartmentId"]', department.departmentid, department.department);
         FwFormField.setValue($form, 'div[data-datafield="OfficeLocationId"]', location.locationid, location.location);
     }
