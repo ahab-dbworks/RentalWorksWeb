@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Dynamic;
@@ -12,16 +11,17 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using static FwStandard.Security.FwUserClaimsProvider;
 
 namespace FwCore.Controllers
 {
-    public class FwJwtController : FwController
+    public class FwJwtController : Controller
     {
         private readonly FwApplicationConfig _appConfig;
         private readonly ILogger _logger;
         //private readonly JsonSerializerSettings _serializerSettings;
         //---------------------------------------------------------------------------------------------
-        public FwJwtController(IOptions<FwApplicationConfig> appConfig, ILoggerFactory loggerFactory) : base(appConfig)
+        public FwJwtController(IOptions<FwApplicationConfig> appConfig, ILoggerFactory loggerFactory)
         {
             _appConfig = appConfig.Value;
             ThrowIfInvalidOptions(_appConfig.JwtIssuerOptions);
@@ -49,12 +49,11 @@ namespace FwCore.Controllers
                 {
                     new Claim(JwtRegisteredClaimNames.Sub, user.UserName),
                     new Claim(JwtRegisteredClaimNames.Jti, await _appConfig.JwtIssuerOptions.JtiGenerator()),
-                    new Claim(JwtRegisteredClaimNames.Iat, ToUnixEpochDate(_appConfig.JwtIssuerOptions.IssuedAt).ToString(), ClaimValueTypes.Integer64),
+                    new Claim(JwtRegisteredClaimNames.Iat, ToUnixEpochDate(_appConfig.JwtIssuerOptions.IssuedAt).ToString(), ClaimValueTypes.Integer64)
                 };
                 List<Claim> claims = new List<Claim>();
                 claims.AddRange(jwtClaims);
                 claims.AddRange(identity.Claims);
-                
 
                 // Create the JWT security token and encode it.
                 var jwt = new JwtSecurityToken(
@@ -71,6 +70,50 @@ namespace FwCore.Controllers
                 response.statuscode   = 0;
                 response.access_token = encodedJwt;
                 response.expires_in   = (int)_appConfig.JwtIssuerOptions.ValidFor.TotalSeconds;
+            }
+
+            //var json = JsonConvert.SerializeObject(response, _serializerSettings);
+            return new OkObjectResult(response);
+        }
+        //---------------------------------------------------------------------------------------------
+        protected virtual async Task<IActionResult> DoIntegrationPost([FromBody] FwStandard.Models.FwIntegration client)
+        {
+            dynamic response = new ExpandoObject();
+            var identity = await UserClaimsProvider.GetIntegrationClaimsIdentity(_appConfig.DatabaseSettings, client.client_id, client.client_secret);
+            if (identity == null)
+            {
+                response.statuscode    = 401; //Unauthorized
+                response.statusmessage = "Invalid client ID and/or secret key.";
+            }
+            else
+            {
+                var jwtClaims = new[]
+                {
+                    new Claim(JwtRegisteredClaimNames.Sub, client.client_id),
+                    new Claim(JwtRegisteredClaimNames.Jti, await _appConfig.JwtIssuerOptions.JtiGenerator()),
+                    new Claim(JwtRegisteredClaimNames.Iat, ToUnixEpochDate(_appConfig.JwtIssuerOptions.IssuedAt).ToString(), ClaimValueTypes.Integer64)
+                };
+                List<Claim> claims = new List<Claim>();
+                claims.AddRange(jwtClaims);
+                claims.AddRange(identity.Claims);
+
+                // Create the JWT security token and encode it.
+                var jwt = new JwtSecurityToken(
+                    issuer:             _appConfig.JwtIssuerOptions.Issuer,
+                    audience:           _appConfig.JwtIssuerOptions.Audience,
+                    claims:             claims,
+                    notBefore:          _appConfig.JwtIssuerOptions.NotBefore,
+                    expires:            _appConfig.JwtIssuerOptions.Expiration,
+                    signingCredentials: new SigningCredentials(new SymmetricSecurityKey(Encoding.ASCII.GetBytes(_appConfig.JwtIssuerOptions.SecretKey)), SecurityAlgorithms.HmacSha256) );
+
+                var encodedJwt = new JwtSecurityTokenHandler().WriteToken(jwt);
+
+                // Serialize and return the response
+                response.statuscode   = 0;
+                response.access_token = encodedJwt;
+                response.expires_in   = (int)_appConfig.JwtIssuerOptions.ValidFor.TotalSeconds;
+                response.dealid       = identity.FindFirst(AuthenticationClaimsTypes.DealId).Value;
+                response.campusid     = identity.FindFirst(AuthenticationClaimsTypes.CampusId).Value;
             }
 
             //var json = JsonConvert.SerializeObject(response, _serializerSettings);

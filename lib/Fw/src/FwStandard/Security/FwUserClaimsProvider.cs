@@ -1,13 +1,13 @@
 ﻿using FwStandard.Models;
 using FwStandard.SqlServer;
 using System.Security.Claims;
-using System.Security.Principal;
 using System.Threading.Tasks;
 
 namespace FwStandard.Security
 {
     public class FwUserClaimsProvider
     {
+        //---------------------------------------------------------------------------------------------
         public static async Task<ClaimsIdentity> GetClaimsIdentityAsync(SqlServerConfig dbConfig, string username, string password)
         {
             ClaimsIdentity identity = null;
@@ -56,13 +56,14 @@ namespace FwStandard.Security
                             await qry.ExecuteAsync(true);
                             if (qry.RowCount > 0)
                             {
-                                identity = new ClaimsIdentity(new GenericIdentity(username, "Token"));
+                                //identity = new ClaimsIdentity(new GenericIdentity(username, "Token"));
+                                identity = new ClaimsIdentity();
                                 if (qry.FieldNames.Contains("webusersid"))
                                 {
                                     string webusersid = qry.GetField("webusersid").ToString().TrimEnd();
                                     if (!string.IsNullOrEmpty(webusersid))
                                     {
-                                        identity.AddClaim(new Claim("http://www.dbworks.com/claims/webusersid", webusersid));
+                                        identity.AddClaim(new Claim(AuthenticationClaimsTypes.WebUsersId, webusersid));
                                     }
                                 }
                                 if (qry.FieldNames.Contains("usersid"))
@@ -70,7 +71,7 @@ namespace FwStandard.Security
                                     string usersid = qry.GetField("usersid").ToString().TrimEnd();
                                     if (!string.IsNullOrEmpty(usersid))
                                     {
-                                        identity.AddClaim(new Claim("http://www.dbworks.com/claims/usersid", usersid));
+                                        identity.AddClaim(new Claim(AuthenticationClaimsTypes.UsersId, usersid));
                                     }
                                 }
                                 if (qry.FieldNames.Contains("contactid"))
@@ -78,7 +79,7 @@ namespace FwStandard.Security
                                     string contactid = qry.GetField("contactid").ToString().TrimEnd();
                                     if (!string.IsNullOrEmpty(contactid))
                                     {
-                                        identity.AddClaim(new Claim("http://www.dbworks.com/claims/contactid", contactid));
+                                        identity.AddClaim(new Claim(AuthenticationClaimsTypes.ContactId, contactid));
                                     }
                                 }
                                 if (qry.FieldNames.Contains("groupsid"))
@@ -86,7 +87,7 @@ namespace FwStandard.Security
                                     string groupsid = qry.GetField("groupsid").ToString().TrimEnd();
                                     if (!string.IsNullOrEmpty(groupsid))
                                     {
-                                        identity.AddClaim(new Claim("http://www.dbworks.com/claims/groupsid", groupsid));
+                                        identity.AddClaim(new Claim(AuthenticationClaimsTypes.GroupsId, groupsid));
                                     }
                                 }
                                 if (qry.FieldNames.Contains("usertype"))
@@ -94,7 +95,7 @@ namespace FwStandard.Security
                                     string usertype = qry.GetField("usertype").ToString().TrimEnd();
                                     if (!string.IsNullOrEmpty(usertype))
                                     {
-                                        identity.AddClaim(new Claim("http://www.dbworks.com/claims/usertype", usertype));
+                                        identity.AddClaim(new Claim(AuthenticationClaimsTypes.UserType, usertype));
                                     }
                                 }
                                 if (qry.FieldNames.Contains("personid"))
@@ -102,7 +103,7 @@ namespace FwStandard.Security
                                     string personid = qry.GetField("personid").ToString().TrimEnd();
                                     if (!string.IsNullOrEmpty(personid))
                                     {
-                                        identity.AddClaim(new Claim("http://www.dbworks.com/claims/personid", personid));
+                                        identity.AddClaim(new Claim(AuthenticationClaimsTypes.PersonId, personid));
                                     }
                                 }
                             }
@@ -113,5 +114,55 @@ namespace FwStandard.Security
 
             return identity;
         }
+        //---------------------------------------------------------------------------------------------
+        public static async Task<ClaimsIdentity> GetIntegrationClaimsIdentity(SqlServerConfig dbConfig, string client_id, string client_secret)
+        {
+            ClaimsIdentity identity = null;
+            using (FwSqlConnection conn = new FwSqlConnection(dbConfig.ConnectionString))
+            {
+                using (FwSqlCommand qryAuthenticate = new FwSqlCommand(conn, "appintegrationauthenticate", dbConfig.QueryTimeout))
+                {
+                    qryAuthenticate.AddParameter("@clientid",     client_id);
+                    qryAuthenticate.AddParameter("@clientsecret", client_secret);
+                    qryAuthenticate.AddParameter("@dealid",       System.Data.SqlDbType.NVarChar, System.Data.ParameterDirection.Output);
+                    qryAuthenticate.AddParameter("@campusid",     System.Data.SqlDbType.NVarChar, System.Data.ParameterDirection.Output);
+                    qryAuthenticate.AddParameter("@errno",        System.Data.SqlDbType.Int,      System.Data.ParameterDirection.Output);
+                    qryAuthenticate.AddParameter("@errmsg",       System.Data.SqlDbType.NVarChar, System.Data.ParameterDirection.Output);
+                    await qryAuthenticate.ExecuteAsync(true);
+
+                    if (qryAuthenticate.GetParameter("@errno").ToInt32().Equals(0))
+                    {
+                        identity = new ClaimsIdentity();
+
+                        string dealid = qryAuthenticate.GetParameter("@dealid").ToString().TrimEnd();
+                        if (!string.IsNullOrEmpty(dealid))
+                        {
+                            identity.AddClaim(new Claim(AuthenticationClaimsTypes.DealId, dealid));
+                        }
+
+                        string campusid = qryAuthenticate.GetParameter("@campusid").ToString().TrimEnd();
+                        if (!string.IsNullOrEmpty(campusid))
+                        {
+                            identity.AddClaim(new Claim(AuthenticationClaimsTypes.CampusId, campusid));
+                        }
+                    }
+                }
+            }
+
+            return identity;
+        }
+        //---------------------------------------------------------------------------------------------
+        public static class AuthenticationClaimsTypes
+        {
+            public const string WebUsersId = "http://www.dbworks.com/claims/webusersid";
+            public const string UsersId    = "http://www.dbworks.com/claims/usersid";
+            public const string ContactId  = "http://www.dbworks.com/claims/contactid";
+            public const string GroupsId   = "http://www.dbworks.com/claims/groupsid";
+            public const string UserType   = "http://www.dbworks.com/claims/usertype";
+            public const string PersonId   = "http://www.dbworks.com/claims/personid";
+            public const string DealId     = "dealid";
+            public const string CampusId   = "campusid";
+        }
+        //---------------------------------------------------------------------------------------------
     }
 }

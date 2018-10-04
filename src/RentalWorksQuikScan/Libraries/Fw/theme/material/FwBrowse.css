@@ -351,6 +351,15 @@ html.theme-material .fwbrowse table tbody tr.editrow td .field[data-formreadonly
 html.theme-material .fwbrowse table tbody tr.editrow td .field[data-formreadonly="false"][data-formdatatype="validation"] {border:1px solid #bdbdbd;}
 html.theme-material .fwbrowse table tbody tr.editrow td .field[data-formreadonly="false"][data-formdatatype="combobox"] {border:1px solid #bdbdbd;}
 
+html.theme-material .fwbrowse[data-enabled="false"] table tbody tr:not(.selected) .field[data-formreadonly="true"][data-formdatatype="text"] {background-color:transparent;}
+html.theme-material .fwbrowse[data-enabled="false"] table tbody tr:not(.selected) .field[data-formreadonly="true"][data-formdatatype="date"] {background-color:transparent;}
+html.theme-material .fwbrowse[data-enabled="false"] table tbody tr:not(.selected) .field[data-formreadonly="true"][data-formdatatype="phone"] {background-color:transparent;}
+html.theme-material .fwbrowse[data-enabled="false"] table tbody tr:not(.selected) .field[data-formreadonly="true"][data-formdatatype="number"] {background-color:transparent;}
+html.theme-material .fwbrowse[data-enabled="false"] table tbody tr:not(.selected) .field[data-formreadonly="true"][data-formdatatype="money"] {background-color:transparent;}
+html.theme-material .fwbrowse[data-enabled="false"] table tbody tr:not(.selected) .field[data-formreadonly="true"][data-formdatatype="validation"] {background-color:transparent;}
+html.theme-material .fwbrowse[data-enabled="false"] table tbody tr:not(.selected) .field[data-formreadonly="true"][data-formdatatype="combobox"] {background-color:transparent;}
+html.theme-material .fwbrowse[data-enabled="false"] table tbody tr:not(.selected) .field[data-formreadonly="true"][data-formdatatype="note"] {background-color:transparent;}
+
 html.theme-material .fwbrowse table tbody tr:not(.selected) .field[data-formreadonly="true"][data-formdatatype="text"] {background-color: #F5F5F5;}
 html.theme-material .fwbrowse table tbody tr:not(.selected) .field[data-formreadonly="true"][data-formdatatype="date"] {background-color: #F5F5F5;}
 html.theme-material .fwbrowse table tbody tr:not(.selected) .field[data-formreadonly="true"][data-formdatatype="phone"] {background-color: #F5F5F5;}

@@ -489,6 +489,10 @@ class Order extends OrderBase {
     afterLoad($form) {
         super.afterLoad($form);
         var $orderPickListGrid;
+        var status = FwFormField.getValueByDataField($form, 'Status');
+        if (status === 'ORDERED' || status === 'CONFIRMED') {
+            FwModule.setFormReadOnly($form);
+        }
         $orderPickListGrid = $form.find('[data-name="OrderPickListGrid"]');
         var $orderStatusHistoryGrid;
         $orderStatusHistoryGrid = $form.find('[data-name="OrderStatusHistoryGrid"]');

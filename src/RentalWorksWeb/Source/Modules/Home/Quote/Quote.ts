@@ -507,6 +507,11 @@ class Quote extends OrderBase {
         super.afterLoad($form);
         var $orderStatusHistoryGrid: any;
         var $pending = $form.find('div.fwformfield[data-datafield="PendingPo"] input').prop('checked');
+        var status = FwFormField.getValueByDataField($form, 'Status');
+
+        if (status === 'ORDERED' || status === 'CONFIRMED') {
+            FwModule.setFormReadOnly($form);
+        }
 
         $orderStatusHistoryGrid = $form.find('[data-name="OrderStatusHistoryGrid"]');
         //FwBrowse.search($orderStatusHistoryGrid);

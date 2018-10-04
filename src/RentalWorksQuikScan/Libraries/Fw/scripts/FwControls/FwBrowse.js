@@ -1490,12 +1490,13 @@ var FwBrowseClass = (function () {
     FwBrowseClass.prototype.screenunload = function ($control) {
     };
     FwBrowseClass.prototype.getRequest = function ($control) {
-        var request, $fields, orderby, $field, $txtSearch, browsedatafield, value, sort, module, controller, fieldtype;
+        var request, $fields, orderby, $field, $txtSearch, browsedatafield, value, sort, module, controller, fieldtype, searchSeparator;
         orderby = [];
         request = {
             module: '',
             searchfields: [],
             searchfieldtypes: [],
+            seachseparators: [],
             searchfieldoperators: [],
             searchfieldvalues: [],
             miscfields: !$control.closest('.fwform').length ? jQuery([]) : FwModule.getFormUniqueIds($control.closest('.fwform')),
@@ -1535,9 +1536,22 @@ var FwBrowseClass = (function () {
             else if (typeof $field.attr('data-browsedatafield') !== 'undefined') {
                 browsedatafield = $field.attr('data-browsedatafield');
             }
+            if (typeof $field.attr('data-multiwordseparator') !== 'undefined') {
+                searchSeparator = $field.attr('data-multiwordseparator');
+            }
+            else {
+                searchSeparator = ",";
+            }
+            if (typeof $field.attr('data-browsedatatype') !== 'undefined') {
+                fieldtype = $field.attr('data-browsedatatype');
+            }
+            else if (typeof $field.attr('data-datatype') !== 'undefined') {
+                fieldtype = $field.attr('data-datatype');
+            }
             if (value.length > 0) {
                 request.searchfields.push(browsedatafield);
                 request.searchfieldtypes.push(fieldtype);
+                request.searchseparators.push(searchSeparator);
                 if ($field.attr('data-searchfieldoperators') === 'startswith') {
                     request.searchfieldoperators.push('startswith');
                 }

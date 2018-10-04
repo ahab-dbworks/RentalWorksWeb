@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Dynamic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
-using System.Text;
+using static FwStandard.Security.FwUserClaimsProvider;
 
 namespace FwStandard.Models
 {
@@ -21,7 +19,7 @@ namespace FwStandard.Models
         {
             get
             {
-                var claim = this.User.Claims.FirstOrDefault(x => x.Type == "http://www.dbworks.com/claims/usersid");
+                var claim = this.User.Claims.FirstOrDefault(x => x.Type == AuthenticationClaimsTypes.UsersId);
                 string usersid = (claim != null) ? claim.Value : string.Empty;
                 return usersid;
             }
@@ -31,7 +29,7 @@ namespace FwStandard.Models
         {
             get
             {
-                var claim = this.User.Claims.FirstOrDefault(x => x.Type == "http://www.dbworks.com/claims/webusersid");
+                var claim = this.User.Claims.FirstOrDefault(x => x.Type == AuthenticationClaimsTypes.WebUsersId);
                 string webusersid = (claim != null) ? claim.Value : string.Empty;
                 return webusersid;
             }
@@ -41,7 +39,7 @@ namespace FwStandard.Models
         {
             get
             {
-                var claim = this.User.Claims.FirstOrDefault(x => x.Type == "http://www.dbworks.com/claims/groupsid");
+                var claim = this.User.Claims.FirstOrDefault(x => x.Type == AuthenticationClaimsTypes.GroupsId);
                 string groupsid = (claim != null) ? claim.Value : string.Empty;
                 return groupsid;
             }
@@ -51,7 +49,7 @@ namespace FwStandard.Models
         {
             get
             {
-                var claim = this.User.Claims.FirstOrDefault(x => x.Type == "http://www.dbworks.com/claims/usertype");
+                var claim = this.User.Claims.FirstOrDefault(x => x.Type == AuthenticationClaimsTypes.UserType);
                 string usertype = (claim != null) ? claim.Value : string.Empty;
                 return usertype;
             }
@@ -61,7 +59,7 @@ namespace FwStandard.Models
         {
             get
             {
-                var claim = this.User.Claims.FirstOrDefault(x => x.Type == "http://www.dbworks.com/claims/contactid");
+                var claim = this.User.Claims.FirstOrDefault(x => x.Type == AuthenticationClaimsTypes.ContactId);
                 string contactid = (claim != null) ? claim.Value : string.Empty;
                 return contactid;
             }
@@ -71,7 +69,7 @@ namespace FwStandard.Models
         {
             get
             {
-                var claim = this.User.Claims.FirstOrDefault(x => x.Type == "http://www.dbworks.com/claims/personid");
+                var claim = this.User.Claims.FirstOrDefault(x => x.Type == AuthenticationClaimsTypes.PersonId);
                 string personid = (claim != null) ? claim.Value : string.Empty;
                 return personid;
             }

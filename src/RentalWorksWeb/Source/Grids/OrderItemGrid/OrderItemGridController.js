@@ -98,7 +98,7 @@ class OrderItemGrid {
                 }
             });
             FwBrowse.setAfterRenderFieldCallback($control, ($tr, $td, $field, dt, rowIndex, colIndex) => {
-                if ($tr.find('.order-item-lock').text() === 'true') {
+                if ($tr.find('.order-item-lock').text() === 'true' && $control.data('enabled')) {
                     $tr.find('.field-to-lock').css('background-color', "#f5f5f5");
                     $tr.find('.field-to-lock').attr('data-formreadonly', 'true');
                 }
