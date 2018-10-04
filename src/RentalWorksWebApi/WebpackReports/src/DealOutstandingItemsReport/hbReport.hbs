@@ -5,7 +5,6 @@
   </div>
   <div class="rpt-flexcolumn">
     <span class="rpt-title">{{Report}}</span>
-    <!--<span class="rpt-header-center">From: {{FromDate}} To: {{ToDate}}</span>-->
   </div>
   <div class="rpt-flexcolumn">
     <span class="rpt-header-right">{{Company}}</span>
@@ -32,17 +31,13 @@
         {{#ifEquals ShowResponsiblePerson true}}
           <th class="text">Responsible Person</th>
         {{/ifEquals}}
-        {{#ifEquals IncludeValueCost "R"}}
-          <th class="number">Replacement Cost</th>
-        {{/ifEquals}}
-        {{#ifEquals IncludeValueCost "U"}}
+        {{#ifEquals IncludeValue true}}
           <th class="number">Unit Value</th>
         {{/ifEquals}}
-        {{#ifEquals IncludeValueCost "P"}}
-          <th class="number">Purchase Amt</th>
-        {{/ifEquals}}
         {{#ifEquals ShowImages true}}
+         {{#ifEquals ../IncludeThumbnailImages true}}
           <th class="text">Image</th>
+         {{/ifEquals}}
         {{/ifEquals}}
       </tr>
     </thead>
@@ -90,10 +85,11 @@
           {{/ifEquals}}
           {{#ifEquals ../ShowImages true}}
             {{#ifEquals ../IncludeThumbnailImages true}}
-              <td><img id="base64img" src="{{Image}}" alt="image" height="50" width="50" /></td>
-            {{/ifEquals}}
-            {{#ifEquals ../IncludeFullImages true}}
-              <td><img id="base64img" src="{{Image}}" alt="image" height="{{ImageHeight}}" width="{{ImageWidth}}" /></td>
+              {{#if Image}}
+                <td><div style="width:50px;"><img id="base64img" src="{{Image}}" alt="image" style="display:block;width:100%;height:auto;"/></div>
+              {{else}}
+                <td></td>
+              {{/if}}
             {{/ifEquals}}
           {{/ifEquals}}
         {{/ifEquals}}
@@ -116,6 +112,21 @@
         {{#ifEquals RowType "grandtotal"}}
           <td colspan="7" style="font-weight:bold;text-align:right;padding-top:11px">Grand Total:&nbsp;</td>
           <td class="total-row number" data-value="{{Quantity}}"></td>
+        {{/ifEquals}}
+      </tr>
+      <tr>
+        {{#ifEquals RowType "detail"}}
+          {{#ifEquals ../ShowImages true}}
+            {{#ifEquals ../IncludeFullImages true}}
+              {{#if Image}}
+                <td colspan="7">
+                  <div style="width:250px;"><img id="base64img" src="{{Image}}" alt="image" style="display:block;width:100%;height:auto;"/></div>
+                </td>
+              {{else}}
+                <td></td>
+              {{/if}}
+            {{/ifEquals}}
+          {{/ifEquals}}
         {{/ifEquals}}
       </tr>
       {{/each}}

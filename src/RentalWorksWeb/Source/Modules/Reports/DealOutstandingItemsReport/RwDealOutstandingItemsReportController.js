@@ -65,8 +65,8 @@ var dealOutstandingItemsTemplateFrontEnd = `
                 </div>
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                   <div data-datafield="ShowResponsiblePerson" data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Show Responsible Person" style="float:left;max-width:420px;"></div>
-                  <div data-datafield="IncludeFullImages" data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Include Full Images" style="float:left;max-width:420px;"></div>
-                  <div data-datafield="IncludeThumbnailImages" data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Include Thumbnail Images" style="float:left;max-width:420px;"></div>
+                  <div data-datafield="IncludeFullImages" data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield include-full-images" data-caption="Include Full Images" style="float:left;max-width:420px;"></div>
+                  <div data-datafield="IncludeThumbnailImages" data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield include-thumbnails" data-caption="Include Thumbnail Images" style="float:left;max-width:420px;"></div>
                 </div>
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                   <div data-datafield="IncludeBlankPages" data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Print Blank Page When None Outstanding for Deal / Department" style="float:left;max-width:420px;"></div>
@@ -74,7 +74,7 @@ var dealOutstandingItemsTemplateFrontEnd = `
               </div>
             </div>
             <div class="flexcolumn" style="max-width:250px;">
-              <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Include Value / Cost">
+              <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Include Value">
                 <div data-datafield="IncludeValueCost" data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield" data-caption="">
                   <div data-value="NONE" data-caption="None"></div>
                   <div data-value="R" data-caption="Show Replacement Cost"></div>
@@ -112,6 +112,16 @@ class RwDealOutstandingItemsReportClass extends FwWebApiReport {
         $form.data('getexportrequest', request => {
             request.parameters = this.getParameters($form);
             return request;
+        });
+        $form.on('change', '.include-full-images input[type=checkbox]', e => {
+            if (FwFormField.getValueByDataField($form, 'IncludeFullImages') === true) {
+                $form.find('div[data-datafield="IncludeThumbnailImages"] input').prop('checked', false);
+            }
+        });
+        $form.on('change', '.include-thumbnails input[type=checkbox]', e => {
+            if (FwFormField.getValueByDataField($form, 'IncludeThumbnailImages') === true) {
+                $form.find('div[data-datafield="IncludeFullImages"] input').prop('checked', false);
+            }
         });
         $form.on('change', '.filter-dates input[type=checkbox]', e => {
             var isChecked = jQuery(e.currentTarget).is(':checked');

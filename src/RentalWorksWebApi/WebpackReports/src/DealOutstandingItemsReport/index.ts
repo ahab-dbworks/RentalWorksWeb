@@ -80,12 +80,15 @@ export class DealOutstandingReport extends WebpackReport {
                     }
                     if (parameters.IncludeValueCost === 'R') {
                         dealOutstanding.IncludeValueCost = 'R';
+                        dealOutstanding.IncludeValue = true;
                     }
                     if (parameters.IncludeValueCost === 'U') {
                         dealOutstanding.IncludeValueCost = 'U';
+                        dealOutstanding.IncludeValue = true;
                     }
                     if (parameters.IncludeValueCost === 'P') {
                         dealOutstanding.IncludeValueCost = 'P';
+                        dealOutstanding.IncludeValue = true;
                     }
               
                     dealOutstanding.PrintTime = moment().format('YYYY-MM-DD h:mm:ss A');
