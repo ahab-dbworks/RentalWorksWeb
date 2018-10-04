@@ -35,7 +35,7 @@
           <th class="number">Unit Value</th>
         {{/ifEquals}}
         {{#ifEquals ShowImages true}}
-         {{#ifEquals ../IncludeThumbnailImages true}}
+         {{#ifEquals IncludeThumbnailImages true}}
           <th class="text">Image</th>
          {{/ifEquals}}
         {{/ifEquals}}
@@ -114,21 +114,21 @@
           <td class="total-row number" data-value="{{Quantity}}"></td>
         {{/ifEquals}}
       </tr>
-      <tr>
         {{#ifEquals RowType "detail"}}
           {{#ifEquals ../ShowImages true}}
             {{#ifEquals ../IncludeFullImages true}}
               {{#if Image}}
-                <td colspan="7">
-                  <div style="width:250px;"><img id="base64img" src="{{Image}}" alt="image" style="display:block;width:100%;height:auto;"/></div>
-                </td>
+                <tr data-rowtype="image">
+                  <td colspan="7">
+                    <div style="width:250px;"><img id="base64img" src="{{Image}}" alt="image" style="display:block;width:100%;height:auto;"/></div>
+                  </td>
               {{else}}
-                <td></td>
+                  <td></td>
+                </tr>
               {{/if}}
             {{/ifEquals}}
           {{/ifEquals}}
         {{/ifEquals}}
-      </tr>
       {{/each}}
     </tbody>
   </table>
