@@ -521,6 +521,8 @@ namespace FwStandard.DataLayer
                         string searchFieldOperator = request.searchfieldoperators[i];
                         string searchFieldValue = request.searchfieldvalues[i];
                         string searchFieldType = "";
+                        string searchSeparators = request.searchseparators[i];
+
                         if (request.searchfieldtypes.Length > i)
                         {
                             searchFieldType = request.searchfieldtypes[i];
@@ -551,11 +553,11 @@ namespace FwStandard.DataLayer
                         string searchcondition;
                         if (searchFieldOperator.Equals("like"))
                         {
-                            if (searchFieldValue.Contains(","))
+                            if (searchFieldValue.Contains(searchSeparators))
                             {
                                 searchcondition = conditionConjunction + "(";
                                 int partialValueCounter = 0;
-                                foreach (string partialValue in searchFieldValue.Split(','))
+                                foreach (string partialValue in searchFieldValue.Split(searchSeparators[0]))
                                 {
                                     string partialParameterName = parameterName + partialValueCounter.ToString();
                                     if (partialValueCounter > 0)
