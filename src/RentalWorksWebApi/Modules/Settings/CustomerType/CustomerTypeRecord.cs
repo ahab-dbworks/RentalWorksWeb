@@ -1,4 +1,5 @@
 ﻿using FwStandard.BusinessLogic;
+using FwStandard.DataLayer;
 using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
@@ -30,7 +31,7 @@ namespace WebApi.Modules.Settings.CustomerType
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
         public string DateStamp { get; set; }
         //------------------------------------------------------------------------------------
-        protected override bool Validate(TDataRecordSaveMode saveMode, ref string validateMsg)
+        protected override bool Validate(TDataRecordSaveMode saveMode, FwDataReadWriteRecord original, ref string validateMsg)
         {
             bool isValid = true;
             if (isValid)

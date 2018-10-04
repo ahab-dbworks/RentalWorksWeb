@@ -23,11 +23,5 @@ namespace WebApi.Modules.Settings.Sound
         public string SoundColor { get; set; }
         public string DateStamp { get { return sound.DateStamp; } set { sound.DateStamp = value; } }
         //------------------------------------------------------------------------------------ 
-        //protected override bool Validate(TDataRecordSaveMode saveMode, ref string validateMsg) 
-        //{ 
-        //    //override this method on a derived class to implement custom validation logic 
-        //    bool isValid = true; 
-        //    return isValid; 
-        //} 
     }
 }

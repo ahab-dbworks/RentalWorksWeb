@@ -52,11 +52,5 @@ namespace WebApi.Modules.Home.ExchangeItem
         public string ConsignorId { get; set; }
         public string ConsignorAgreementId { get; set; }
         //------------------------------------------------------------------------------------ 
-        //protected override bool Validate(TDataRecordSaveMode saveMode, ref string validateMsg) 
-        //{ 
-        //    //override this method on a derived class to implement custom validation logic 
-        //    bool isValid = true; 
-        //    return isValid; 
-        //} 
     }
 }

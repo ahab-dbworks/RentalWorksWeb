@@ -42,14 +42,14 @@ namespace WebApi.Modules.Settings.VehicleType
             AvailFor = "V";
         }
         //------------------------------------------------------------------------------------
-        public void OnBeforeSaveCategory(object sender, BeforeSaveEventArgs e)
+        public void OnBeforeSaveCategory(object sender, BeforeSaveDataRecordEventArgs e)
         {
             Category = VehicleTypeId;  // jh removing the TEMP value here
         }
         //------------------------------------------------------------------------------------
-        public void OnAfterSaveMasterRecord(object sender, AfterSaveEventArgs e)
+        public void OnAfterSaveMasterRecord(object sender, AfterSaveDataRecordEventArgs e)
         {
-            if ((e.SaveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smUpdate) && (e.SavePerformed) && (MasterId == null))
+            if ((e.SaveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smUpdate) && (MasterId == null))
             {
                 VehicleTypeLogic l2 = new VehicleTypeLogic();
                 l2.AppConfig = masterRecord.AppConfig;
@@ -59,12 +59,12 @@ namespace WebApi.Modules.Settings.VehicleType
             }
         }
         //------------------------------------------------------------------------------------
-        public void OnAfterSaveCategory(object sender, AfterSaveEventArgs e)
+        public void OnAfterSaveCategory(object sender, AfterSaveDataRecordEventArgs e)
         {
-            if ((e.SaveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smInsert) && (e.SavePerformed) && (masterRecord.CategoryId == null))
+            if ((e.SaveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smInsert) && (masterRecord.CategoryId == null))
             {
                 masterRecord.CategoryId = inventoryCategory.CategoryId;
-                int i = masterRecord.SaveAsync().Result;
+                int i = masterRecord.SaveAsync(null).Result;
             }
         }
         //------------------------------------------------------------------------------------

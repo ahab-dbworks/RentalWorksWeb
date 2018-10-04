@@ -94,13 +94,9 @@ namespace WebApi.Modules.Home.PickList
         public string DateStamp { get { return pickList.DateStamp; } set { pickList.DateStamp = value; } }
         //------------------------------------------------------------------------------------ 
 
-        public void OnAfterSavePickList(object sender, AfterSaveEventArgs e)
+        public void OnAfterSavePickList(object sender, AfterSaveDataRecordEventArgs e)
         {
-            bool saved = false;
-            if (e.SavePerformed)
-            {
-                saved = pickList.SaveNoteASync(Note).Result;
-            }
+            bool saved = pickList.SaveNoteASync(Note).Result;
         }
         //------------------------------------------------------------------------------------
         public async Task<bool> LoadFromSession(BrowseRequest browseRequest)

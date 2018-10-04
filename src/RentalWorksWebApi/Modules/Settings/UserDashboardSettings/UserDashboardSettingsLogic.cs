@@ -1,4 +1,5 @@
-﻿using FwStandard.BusinessLogic.Attributes;
+﻿using FwStandard.BusinessLogic;
+using FwStandard.BusinessLogic.Attributes;
 using FwStandard.DataLayer;
 using FwStandard.Models;
 using FwStandard.SqlServer;
@@ -158,7 +159,7 @@ namespace WebApi.Modules.Settings.UserDashboardSettings
             return loaded;
         }
         //------------------------------------------------------------------------------------
-        public override async Task<int> SaveAsync()
+        public override async Task<int> SaveAsync(FwBusinessLogic original)
         {
             int savedCount = 0;
 
@@ -175,7 +176,7 @@ namespace WebApi.Modules.Settings.UserDashboardSettings
             webUser.SetDependencies(AppConfig, UserSession);
             webUser.WebUserId = UserId;
             webUser.DashboardWidgetsPerRow = WidgetsPerRow;
-            await webUser.SaveAsync();
+            await webUser.SaveAsync(null);
 
 
             int widgetPosition = 0;
@@ -212,7 +213,7 @@ namespace WebApi.Modules.Settings.UserDashboardSettings
                     }
                     else if (w.selected)
                     {
-                        await uw.SaveAsync();
+                        await uw.SaveAsync(null);
                     }
 
                 }

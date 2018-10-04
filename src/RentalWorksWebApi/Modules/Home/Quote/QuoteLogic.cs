@@ -58,7 +58,8 @@ namespace WebApi.Modules.Home.Quote
 
                 if (Status != null)
                 {
-                    if (!Status.Equals(lOrig.Status))
+                    //if (!Status.Equals(lOrig.Status))
+                    if (!Status.Equals(((QuoteLogic)e.Original).Status))
                     {
                         StatusDate = FwConvert.ToString(DateTime.Today);
                     }
@@ -67,27 +68,23 @@ namespace WebApi.Modules.Home.Quote
 
         }
         //------------------------------------------------------------------------------------ 
-        public override void OnAfterSaveDealOrder(object sender, AfterSaveEventArgs e)
+        public override void OnAfterSaveDealOrder(object sender, AfterSaveDataRecordEventArgs e)
         {
             base.OnAfterSaveDealOrder(sender, e);
-            if (e.SavePerformed)
+            QuoteLogic l2 = new QuoteLogic();
+            l2.SetDependencies(this.AppConfig, this.UserSession);
+            object[] pk = GetPrimaryKeys();
+            bool b = l2.LoadAsync<QuoteLogic>(pk).Result;
+            BillToAddressId = l2.BillToAddressId;
+            TaxId = l2.TaxId;
+
+
+            if ((TaxOptionId != null) && (!TaxOptionId.Equals(string.Empty)) && (TaxId != null) && (!TaxId.Equals(string.Empty)))
             {
-                QuoteLogic l2 = new QuoteLogic();
-                l2.SetDependencies(this.AppConfig, this.UserSession);
-                object[] pk = GetPrimaryKeys();
-                bool b = l2.LoadAsync<QuoteLogic>(pk).Result;
-                BillToAddressId = l2.BillToAddressId;
-                TaxId = l2.TaxId;
-
-
-                if ((TaxOptionId != null) && (!TaxOptionId.Equals(string.Empty)) && (TaxId != null) && (!TaxId.Equals(string.Empty)))
-                {
-                    b = AppFunc.UpdateTaxFromTaxOptionASync(this.AppConfig, this.UserSession, TaxOptionId, TaxId).Result;
-                }
-
-                b = dealOrder.UpdateOrderTotal().Result;
-
+                b = AppFunc.UpdateTaxFromTaxOptionASync(this.AppConfig, this.UserSession, TaxOptionId, TaxId).Result;
             }
+
+            b = dealOrder.UpdateOrderTotal().Result;
         }
         //------------------------------------------------------------------------------------    
         public async Task<OrderLogic> QuoteToOrderASync<T>()

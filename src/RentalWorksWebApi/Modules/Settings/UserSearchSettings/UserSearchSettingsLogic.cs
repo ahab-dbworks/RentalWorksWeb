@@ -1,4 +1,5 @@
-﻿using FwStandard.BusinessLogic.Attributes;
+﻿using FwStandard.BusinessLogic;
+using FwStandard.BusinessLogic.Attributes;
 using FwStandard.DataLayer;
 using FwStandard.Models;
 using FwStandard.SqlServer;
@@ -51,7 +52,7 @@ namespace WebApi.Modules.Settings.UserSearchSettings
             return loaded;
         }
         //------------------------------------------------------------------------------------
-        public override async Task<int> SaveAsync()
+        public override async Task<int> SaveAsync(FwBusinessLogic original)
         {
             int savedCount = 0;
             if ((SearchModePreference == null) || (!(SearchModePreference.Equals(RwConstants.SEARCH_MODE_PREFERENCE_LIST) || SearchModePreference.Equals(RwConstants.SEARCH_MODE_PREFERENCE_HYBRID) || SearchModePreference.Equals(RwConstants.SEARCH_MODE_PREFERENCE_GRID))))
@@ -62,7 +63,7 @@ namespace WebApi.Modules.Settings.UserSearchSettings
             webUser.SetDependencies(AppConfig, UserSession);
             webUser.WebUserId = UserId;
             webUser.SearchModePreference = SearchModePreference;
-            await webUser.SaveAsync();
+            await webUser.SaveAsync(null);
             savedCount++;
 
             return savedCount;

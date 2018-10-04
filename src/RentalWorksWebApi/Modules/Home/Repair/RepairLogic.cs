@@ -135,7 +135,7 @@ namespace WebApi.Modules.Home.Repair
         public string TaxOption { get; set; }
 
 
-        public string TaxId { get { return repair.TaxId; } set { repair.TaxId = value; } }  
+        public string TaxId { get { return repair.TaxId; } set { repair.TaxId = value; } }
         public decimal? RentalTaxRate1 { get { return tax.RentalTaxRate1; } set { tax.RentalTaxRate1 = value; } }
         public decimal? SalesTaxRate1 { get { return tax.SalesTaxRate1; } set { tax.SalesTaxRate1 = value; } }
         public decimal? LaborTaxRate1 { get { return tax.LaborTaxRate1; } set { tax.LaborTaxRate1 = value; } }
@@ -207,7 +207,7 @@ namespace WebApi.Modules.Home.Repair
             ((TaxRecord)sender).TaxId = tmpTaxId;
         }
         //------------------------------------------------------------------------------------ 
-        protected override bool Validate(TDataRecordSaveMode saveMode, ref string validateMsg)
+        protected override bool Validate(TDataRecordSaveMode saveMode, FwBusinessLogic original, ref string validateMsg)
         {
             bool isValid = true;
             if (saveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smInsert)
@@ -236,7 +236,7 @@ namespace WebApi.Modules.Home.Repair
             return isValid;
         }
         //------------------------------------------------------------------------------------
-        public void OnBeforeSaveRepair(object sender, BeforeSaveEventArgs e)
+        public void OnBeforeSaveRepair(object sender, BeforeSaveDataRecordEventArgs e)
         {
             if (e.SaveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smInsert)
             {
@@ -272,69 +272,64 @@ namespace WebApi.Modules.Home.Repair
             {
                 if ((tax.TaxId == null) || (tax.TaxId.Equals(string.Empty)))
                 {
+                    //RepairLogic l2 = new RepairLogic();
+                    //l2.SetDependencies(this.AppConfig, this.UserSession);
+                    //object[] pk = GetPrimaryKeys();
+                    //bool b = l2.LoadAsync<RepairLogic>(pk).Result;
+                    //tax.TaxId = l2.TaxId;
+                    tax.TaxId = ((RepairRecord)e.Original).TaxId;
+                }
+            }
+        }
+        //------------------------------------------------------------------------------------
+        public void OnAfterSaveRepair(object sender, AfterSaveDataRecordEventArgs e)
+        {
+            if (e.SaveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smInsert)
+            {
+                if ((ItemId != null) && (!ItemId.Equals(string.Empty)))
+                {
+                    RepairItemRecord repairItem = new RepairItemRecord();
+                    repairItem.SetDependencies(this.AppConfig, this.UserSession);
+                    repairItem.RepairId = RepairId;
+                    repairItem.ItemId = ItemId;
+                    int i = repairItem.SaveAsync(null).Result;
+                }
+            }
+
+            if (e.SaveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smUpdate)
+            {
+                if ((TaxOptionId != null) && (!TaxOptionId.Equals(string.Empty)))
+                {
                     RepairLogic l2 = new RepairLogic();
                     l2.SetDependencies(this.AppConfig, this.UserSession);
                     object[] pk = GetPrimaryKeys();
                     bool b = l2.LoadAsync<RepairLogic>(pk).Result;
-                    tax.TaxId = l2.TaxId;
-                }
-            }
-        }
-        //------------------------------------------------------------------------------------
-        public void OnAfterSaveRepair(object sender, AfterSaveEventArgs e)
-        {
-            if (e.SavePerformed)
-            {
-                if (e.SaveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smInsert)
-                {
-                    if ((ItemId != null) && (!ItemId.Equals(string.Empty)))
-                    {
-                        RepairItemRecord repairItem = new RepairItemRecord();
-                        repairItem.SetDependencies(this.AppConfig, this.UserSession);
-                        repairItem.RepairId = RepairId;
-                        repairItem.ItemId = ItemId;
-                        int i = repairItem.SaveAsync().Result;
-                    }
-                }
-
-                if (e.SaveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smUpdate)
-                {
-                    if ((TaxOptionId != null) && (!TaxOptionId.Equals(string.Empty)))
-                    {
-                        RepairLogic l2 = new RepairLogic();
-                        l2.SetDependencies(this.AppConfig, this.UserSession);
-                        object[] pk = GetPrimaryKeys();
-                        bool b = l2.LoadAsync<RepairLogic>(pk).Result;
-                        TaxId = l2.TaxId;
-
-                        if ((TaxId != null) && (!TaxId.Equals(string.Empty)))
-                        {
-                            b = AppFunc.UpdateTaxFromTaxOptionASync(this.AppConfig, this.UserSession, TaxOptionId, TaxId).Result;
-                        }
-                    }
-                }
-            }
-        }
-        //------------------------------------------------------------------------------------
-        public void OnAfterSaveTax(object sender, AfterSaveEventArgs e)
-        {
-            if (e.SavePerformed)
-            {
-                if ((TaxOptionId != null) && (!TaxOptionId.Equals(string.Empty)))
-                {
-                    if ((TaxId == null) || (TaxId.Equals(string.Empty)))
-                    {
-                        RepairLogic l2 = new RepairLogic();
-                        l2.SetDependencies(this.AppConfig, this.UserSession);
-                        object[] pk = GetPrimaryKeys();
-                        bool b = l2.LoadAsync<RepairLogic>(pk).Result;
-                        TaxId = l2.TaxId;
-                    }
+                    TaxId = l2.TaxId;
 
                     if ((TaxId != null) && (!TaxId.Equals(string.Empty)))
                     {
-                        bool b = AppFunc.UpdateTaxFromTaxOptionASync(this.AppConfig, this.UserSession, TaxOptionId, TaxId).Result;
+                        b = AppFunc.UpdateTaxFromTaxOptionASync(this.AppConfig, this.UserSession, TaxOptionId, TaxId).Result;
                     }
+                }
+            }
+        }
+        //------------------------------------------------------------------------------------
+        public void OnAfterSaveTax(object sender, AfterSaveDataRecordEventArgs e)
+        {
+            if ((TaxOptionId != null) && (!TaxOptionId.Equals(string.Empty)))
+            {
+                if ((TaxId == null) || (TaxId.Equals(string.Empty)))
+                {
+                    RepairLogic l2 = new RepairLogic();
+                    l2.SetDependencies(this.AppConfig, this.UserSession);
+                    object[] pk = GetPrimaryKeys();
+                    bool b = l2.LoadAsync<RepairLogic>(pk).Result;
+                    TaxId = l2.TaxId;
+                }
+
+                if ((TaxId != null) && (!TaxId.Equals(string.Empty)))
+                {
+                    bool b = AppFunc.UpdateTaxFromTaxOptionASync(this.AppConfig, this.UserSession, TaxOptionId, TaxId).Result;
                 }
             }
         }

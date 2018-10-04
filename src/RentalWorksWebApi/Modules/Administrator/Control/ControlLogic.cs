@@ -222,7 +222,7 @@ namespace WebApi.Modules.Administrator.Control
 
         public string DateStamp { get { return control.DateStamp; } set { control.DateStamp = value; } }
         //------------------------------------------------------------------------------------ 
-        protected override bool Validate(TDataRecordSaveMode saveMode, ref string validateMsg)
+        protected override bool Validate(TDataRecordSaveMode saveMode, FwBusinessLogic original, ref string validateMsg)
         {
             bool isValid = true;
 

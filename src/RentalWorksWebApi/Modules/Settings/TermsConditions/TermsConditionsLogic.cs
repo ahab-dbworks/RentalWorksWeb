@@ -26,13 +26,9 @@ namespace WebApi.Modules.Settings.TermsConditions
         public bool? Inactive { get { return termsConditions.Inactive; } set { termsConditions.Inactive = value; } }
         public string DateStamp { get { return termsConditions.DateStamp; } set { termsConditions.DateStamp = value; } }
         //------------------------------------------------------------------------------------
-        public void OnAfterSaveTermsConditions(object sender, AfterSaveEventArgs e)
+        public void OnAfterSaveTermsConditions(object sender, AfterSaveDataRecordEventArgs e)
         {
-            bool saved = false;
-            if (e.SavePerformed)
-            {
-                saved = termsConditions.SaveHtmlASync(Html).Result;
-            }
+            bool saved = termsConditions.SaveHtmlASync(Html).Result;
         }
         //------------------------------------------------------------------------------------
     }

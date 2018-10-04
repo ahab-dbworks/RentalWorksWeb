@@ -30,13 +30,9 @@ namespace WebApi.Modules.Home.ProjectNote
         public string Notes { get; set; }
         public string DateStamp { get { return projectNote.DateStamp; } set { projectNote.DateStamp = value; } }
         //------------------------------------------------------------------------------------ 
-        public void OnAfterSaveProjectNote(object sender, AfterSaveEventArgs e)
+        public void OnAfterSaveProjectNote(object sender, AfterSaveDataRecordEventArgs e)
         {
-            bool saved = false;
-            if (e.SavePerformed)
-            {
-                saved = projectNote.SaveNoteASync(Notes).Result;
-            }
+            bool saved = projectNote.SaveNoteASync(Notes).Result;
         }
         //------------------------------------------------------------------------------------
     }

@@ -31,7 +31,6 @@ namespace WebApi.Modules.Home.Project
             BeforeValidate += BeforeValidateProject;
             BeforeSave += OnBeforeSave;
             project.BeforeSave += OnBeforeSaveProjectRecord;
-            project.AfterSave += OnAfterSaveProjectRecord;
         }
         //------------------------------------------------------------------------------------ 
         [FwBusinessLogicField(isPrimaryKey: true)]
@@ -100,7 +99,7 @@ namespace WebApi.Modules.Home.Project
             }
         }
         //------------------------------------------------------------------------------------
-        protected override bool Validate(TDataRecordSaveMode saveMode, ref string validateMsg)
+        protected override bool Validate(TDataRecordSaveMode saveMode, FwBusinessLogic original, ref string validateMsg)
         {
             bool isValid = true;
             if (isValid)
@@ -120,7 +119,7 @@ namespace WebApi.Modules.Home.Project
             }
         }
         //------------------------------------------------------------------------------------ 
-        public void OnBeforeSaveProjectRecord(object sender, BeforeSaveEventArgs e)
+        public void OnBeforeSaveProjectRecord(object sender, BeforeSaveDataRecordEventArgs e)
         {
             if (e.SaveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smInsert)
             {
@@ -129,12 +128,12 @@ namespace WebApi.Modules.Home.Project
             }
             else
             {
-                ProjectLogic l2 = null;
-                l2 = new ProjectLogic();
-                l2.SetDependencies(this.AppConfig, this.UserSession);
-                l2.ProjectId = ProjectId;
-                bool b = l2.LoadAsync<ProjectLogic>().Result;
-                //if ((tax.TaxId == null) || (tax.TaxId.Equals(string.Empty)))
+                //ProjectLogic l2 = null;
+                //l2 = new ProjectLogic();
+                //l2.SetDependencies(this.AppConfig, this.UserSession);
+                //l2.ProjectId = ProjectId;
+                //bool b = l2.LoadAsync<ProjectLogic>().Result;
+                ////if ((tax.TaxId == null) || (tax.TaxId.Equals(string.Empty)))
                 //{
                 //    tax.TaxId = l2.TaxId;
                 //}
@@ -148,26 +147,6 @@ namespace WebApi.Modules.Home.Project
                 //}
             }
 
-        }
-        //------------------------------------------------------------------------------------        
-        public void OnAfterSaveProjectRecord(object sender, AfterSaveEventArgs e)
-        {
-            if (e.SavePerformed)
-            {
-                //OrderLogic l2 = new OrderLogic();
-                //l2.SetDependencies(this.AppConfig, this.UserSession);
-                //object[] pk = GetPrimaryKeys();
-                //bool b = l2.LoadAsync<OrderLogic>(pk).Result;
-                //BillToAddressId = l2.BillToAddressId;
-                //TaxId = l2.TaxId;
-
-
-                //if ((TaxOptionId != null) && (!TaxOptionId.Equals(string.Empty)) && (TaxId != null) && (!TaxId.Equals(string.Empty)))
-                //{
-                //    b = AppFunc.UpdateTaxFromTaxOptionASync(this.AppConfig, this.UserSession, TaxOptionId, TaxId).Result;
-                //}
-
-            }
         }
         //------------------------------------------------------------------------------------        
         public async Task<QuoteLogic> CreateQuoteAsync()

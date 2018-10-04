@@ -295,13 +295,9 @@ namespace WebApi.Modules.Home.Item
 
         public string DateStamp { get { return item.DateStamp; } set { item.DateStamp = value; } }
         //------------------------------------------------------------------------------------ 
-        public void OnAfterSaveItem(object sender, AfterSaveEventArgs e)
+        public void OnAfterSaveItem(object sender, AfterSaveDataRecordEventArgs e)
         {
-            bool saved = false;
-            if (e.SavePerformed)
-            {
-                saved = item.SaveNoteASync(ItemNotes).Result;
-            }
+            bool saved = item.SaveNoteASync(ItemNotes).Result;
         }
         //------------------------------------------------------------------------------------   
     }

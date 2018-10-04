@@ -36,14 +36,14 @@ namespace WebApi.Modules.Settings.GeneratorType
             AvailFor = "V";
         }
         //------------------------------------------------------------------------------------
-        public void OnBeforeSaveCategory(object sender, BeforeSaveEventArgs e)
+        public void OnBeforeSaveCategory(object sender, BeforeSaveDataRecordEventArgs e)
         {
             Category = GeneratorTypeId;  // jh removing the TEMP value here
         }
         //------------------------------------------------------------------------------------
-        public void OnAfterSaveMasterRecord(object sender, AfterSaveEventArgs e)
+        public void OnAfterSaveMasterRecord(object sender, AfterSaveDataRecordEventArgs e)
         {
-            if ((e.SaveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smUpdate) && (e.SavePerformed))
+            if (e.SaveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smUpdate)
             {
                 GeneratorTypeLogic l2 = new GeneratorTypeLogic();
                 l2.AppConfig = masterRecord.AppConfig;
@@ -53,12 +53,12 @@ namespace WebApi.Modules.Settings.GeneratorType
             }
         }
         //------------------------------------------------------------------------------------
-        public void OnAfterSaveCategory(object sender, AfterSaveEventArgs e)
+        public void OnAfterSaveCategory(object sender, AfterSaveDataRecordEventArgs e)
         {
-            if ((e.SaveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smInsert) && (e.SavePerformed) && (masterRecord.CategoryId == null))
+            if ((e.SaveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smInsert) && (masterRecord.CategoryId == null))
             {
                 masterRecord.CategoryId = inventoryCategory.CategoryId;
-                int i = masterRecord.SaveAsync().Result;
+                int i = masterRecord.SaveAsync(null).Result;
             }
         }
         //------------------------------------------------------------------------------------

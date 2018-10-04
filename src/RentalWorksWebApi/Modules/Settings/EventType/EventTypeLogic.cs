@@ -478,9 +478,9 @@ namespace WebApi.Modules.Settings.EventType
             OrdType = "EVENT";
         }
         //------------------------------------------------------------------------------------ 
-        public void OnAfterSaveEventType(object sender, AfterSaveEventArgs e)
+        public void OnAfterSaveEventType(object sender, AfterSaveDataRecordEventArgs e)
         {
-            if ((e.SaveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smUpdate) && (e.SavePerformed) && (rentalOrderTypeFields.OrderTypeFieldsId.Equals(string.Empty)))
+            if ((e.SaveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smUpdate) && (rentalOrderTypeFields.OrderTypeFieldsId.Equals(string.Empty)))
             {
                 EventTypeLogic l2 = new EventTypeLogic();
                 l2.AppConfig = eventType.AppConfig;
@@ -495,9 +495,9 @@ namespace WebApi.Modules.Settings.EventType
             }
         }
         //------------------------------------------------------------------------------------   
-        public void OnAfterSaveLossAndDamageFields(object sender, AfterSaveEventArgs e)
+        public void OnAfterSaveLossAndDamageFields(object sender, AfterSaveDataRecordEventArgs e)
         {
-            if ((e.SaveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smInsert) && (e.SavePerformed))
+            if (e.SaveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smInsert)
             {
                 RentalOrderTypeFieldsId = rentalOrderTypeFields.OrderTypeFieldsId;
                 SalesOrderTypeFieldsId = salesOrderTypeFields.OrderTypeFieldsId;
@@ -505,7 +505,7 @@ namespace WebApi.Modules.Settings.EventType
                 MiscOrderTypeFieldsId = miscOrderTypeFields.OrderTypeFieldsId;
                 FacilityOrderTypeFieldsId = spaceOrderTypeFields.OrderTypeFieldsId;
                 LossAndDamageOrderTypeFieldsId = lossAndDamageOrderTypeFields.OrderTypeFieldsId;
-                int i = SaveAsync().Result;
+                int i = SaveAsync(null).Result;
             }
         }
         //------------------------------------------------------------------------------------   

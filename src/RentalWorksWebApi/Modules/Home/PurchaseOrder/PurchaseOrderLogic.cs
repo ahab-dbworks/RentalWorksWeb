@@ -24,7 +24,7 @@ namespace WebApi.Modules.Home.PurchaseOrder
         PurchaseOrderBrowseLoader purchaseOrderBrowseLoader = new PurchaseOrderBrowseLoader();
 
         private string tmpTaxId = "";
-        private PurchaseOrderLogic lOrig = null;
+        //private PurchaseOrderLogic lOrig = null;
 
 
         public PurchaseOrderLogic()
@@ -192,20 +192,20 @@ namespace WebApi.Modules.Home.PurchaseOrder
         //------------------------------------------------------------------------------------ 
 
 
-        protected override bool Validate(TDataRecordSaveMode saveMode, ref string validateMsg)
+        protected override bool Validate(TDataRecordSaveMode saveMode, FwBusinessLogic original, ref string validateMsg)
         {
             bool isValid = true;
 
-            if (saveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smInsert)
-            {
-            }
-            else
-            {
-                lOrig = new PurchaseOrderLogic();
-                lOrig.SetDependencies(this.AppConfig, this.UserSession);
-                object[] pk = GetPrimaryKeys();
-                bool b = lOrig.LoadAsync<PurchaseOrderLogic>(pk).Result;
-            }
+            //if (saveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smInsert)
+            //{
+            //}
+            //else
+            //{
+            //    lOrig = new PurchaseOrderLogic();
+            //    lOrig.SetDependencies(this.AppConfig, this.UserSession);
+            //    object[] pk = GetPrimaryKeys();
+            //    bool b = lOrig.LoadAsync<PurchaseOrderLogic>(pk).Result;
+            //}
             return isValid;
         }
         //------------------------------------------------------------------------------------
@@ -229,8 +229,10 @@ namespace WebApi.Modules.Home.PurchaseOrder
             }
         }
         //------------------------------------------------------------------------------------ 
-        public void OnBeforeSavePurchaseOrder(object sender, BeforeSaveEventArgs e)
+        public void OnBeforeSavePurchaseOrder(object sender, BeforeSaveDataRecordEventArgs e)
         {
+            DealOrderRecord lOrig = ((DealOrderRecord)e.Original);
+
             if (e.SaveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smInsert)
             {
                 bool x = purchaseOrder.SetNumber().Result;
@@ -260,55 +262,48 @@ namespace WebApi.Modules.Home.PurchaseOrder
         }
         //------------------------------------------------------------------------------------
 
-        public virtual void OnAfterSavePurchaseOrder(object sender, AfterSaveEventArgs e)
+        public virtual void OnAfterSavePurchaseOrder(object sender, AfterSaveDataRecordEventArgs e)
         {
             //bool saved = false;
-            if (e.SavePerformed)
-            {
-                //billToAddress.UniqueId1 = dealOrder.OrderId;
-                //saved = dealOrder.SavePoASync(PoNumber, PoAmount).Result;
+            //billToAddress.UniqueId1 = dealOrder.OrderId;
+            //saved = dealOrder.SavePoASync(PoNumber, PoAmount).Result;
 
-                if (e.SaveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smUpdate)
-                {
-                    if ((TaxOptionId != null) && (!TaxOptionId.Equals(string.Empty)))
-                    {
-                        PurchaseOrderLogic l2 = null;
-                        l2.SetDependencies(this.AppConfig, this.UserSession);
-                        object[] pk = GetPrimaryKeys();
-                        bool b1 = l2.LoadAsync<PurchaseOrderLogic>(pk).Result;
-                        TaxId = l2.TaxId;
-
-                        if ((TaxId != null) && (!TaxId.Equals(string.Empty)))
-                        {
-                            bool b2 = AppFunc.UpdateTaxFromTaxOptionASync(this.AppConfig, this.UserSession, TaxOptionId, TaxId).Result;
-                        }
-                    }
-                }
-
-                bool b3 = purchaseOrder.UpdateOrderTotal().Result;
-
-            }
-        }
-        //------------------------------------------------------------------------------------
-        public void OnAfterSaveTax(object sender, AfterSaveEventArgs e)
-        {
-            if (e.SavePerformed)
+            if (e.SaveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smUpdate)
             {
                 if ((TaxOptionId != null) && (!TaxOptionId.Equals(string.Empty)))
                 {
-                    if ((TaxId == null) || (TaxId.Equals(string.Empty)))
-                    {
-                        PurchaseOrderLogic l2 = new PurchaseOrderLogic();
-                        l2.SetDependencies(this.AppConfig, this.UserSession);
-                        object[] pk = GetPrimaryKeys();
-                        bool b = l2.LoadAsync<PurchaseOrderLogic>(pk).Result;
-                        TaxId = l2.TaxId;
-                    }
+                    PurchaseOrderLogic l2 = null;
+                    l2.SetDependencies(this.AppConfig, this.UserSession);
+                    object[] pk = GetPrimaryKeys();
+                    bool b1 = l2.LoadAsync<PurchaseOrderLogic>(pk).Result;
+                    TaxId = l2.TaxId;
 
                     if ((TaxId != null) && (!TaxId.Equals(string.Empty)))
                     {
-                        bool b = AppFunc.UpdateTaxFromTaxOptionASync(this.AppConfig, this.UserSession, TaxOptionId, TaxId).Result;
+                        bool b2 = AppFunc.UpdateTaxFromTaxOptionASync(this.AppConfig, this.UserSession, TaxOptionId, TaxId).Result;
                     }
+                }
+            }
+
+            bool b3 = purchaseOrder.UpdateOrderTotal().Result;
+        }
+        //------------------------------------------------------------------------------------
+        public void OnAfterSaveTax(object sender, AfterSaveDataRecordEventArgs e)
+        {
+            if ((TaxOptionId != null) && (!TaxOptionId.Equals(string.Empty)))
+            {
+                if ((TaxId == null) || (TaxId.Equals(string.Empty)))
+                {
+                    PurchaseOrderLogic l2 = new PurchaseOrderLogic();
+                    l2.SetDependencies(this.AppConfig, this.UserSession);
+                    object[] pk = GetPrimaryKeys();
+                    bool b = l2.LoadAsync<PurchaseOrderLogic>(pk).Result;
+                    TaxId = l2.TaxId;
+                }
+
+                if ((TaxId != null) && (!TaxId.Equals(string.Empty)))
+                {
+                    bool b = AppFunc.UpdateTaxFromTaxOptionASync(this.AppConfig, this.UserSession, TaxOptionId, TaxId).Result;
                 }
             }
         }

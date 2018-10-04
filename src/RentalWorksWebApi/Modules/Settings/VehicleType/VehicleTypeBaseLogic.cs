@@ -1,5 +1,6 @@
 ﻿using FwStandard.BusinessLogic;
 using FwStandard.BusinessLogic.Attributes;
+using FwStandard.DataLayer;
 using Newtonsoft.Json;
 using WebApi.Logic;
 using WebApi.Modules.Home.Master;
@@ -89,7 +90,7 @@ namespace WebApi.Modules.Settings.VehicleType
         public bool? Inactive { get { return inventoryCategory.Inactive; } set { inventoryCategory.Inactive = value; } }
         public string DateStamp { get { return inventoryCategory.DateStamp; } set { inventoryCategory.DateStamp = value; } }
         //------------------------------------------------------------------------------------
-        public void OnBeforeValidateCategory(object sender, BeforeValidateEventArgs e)
+        public void OnBeforeValidateCategory(object sender, BeforeValidateDataRecordEventArgs e)
         {
             if (inventoryCategory.Category.Equals(string.Empty))
             {

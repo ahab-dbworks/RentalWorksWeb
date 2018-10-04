@@ -98,12 +98,5 @@ namespace WebApi.Modules.Home.InvoiceItem
         [FwBusinessLogicField(isReadOnly: true)]
         public decimal? QuikPayExtended { get; set; }
         //------------------------------------------------------------------------------------ 
-        //protected override bool Validate(TDataRecordSaveMode saveMode, ref string validateMsg) 
-        //{ 
-        //    //override this method on a derived class to implement custom validation logic 
-        //    bool isValid = true; 
-        //    return isValid; 
-        //} 
-        //------------------------------------------------------------------------------------ 
     }
 }

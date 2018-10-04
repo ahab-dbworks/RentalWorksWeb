@@ -28,13 +28,9 @@ namespace WebApi.Modules.Home.VendorNote
         public string NotesBy { get; set; }
         public string DateStamp { get { return vendorNoteRecord.DateStamp; } set { vendorNoteRecord.DateStamp = value; } }
         //------------------------------------------------------------------------------------
-        public void OnAfterSaveVendorNote(object sender, AfterSaveEventArgs e)
+        public void OnAfterSaveVendorNote(object sender, AfterSaveDataRecordEventArgs e)
         {
-            bool saved = false;
-            if (e.SavePerformed)
-            {
-                saved = vendorNoteRecord.SaveNoteASync(Notes).Result;
-            }
+            bool saved = vendorNoteRecord.SaveNoteASync(Notes).Result;
         }
         //------------------------------------------------------------------------------------    
     }

@@ -69,7 +69,7 @@ namespace WebApi.Modules.Home.ProjectContact
         public bool? ContactOnProject { get; set; }
         public bool? Inactive { get { return companyContact.Inactive; } set { companyContact.Inactive = value; } }
         //------------------------------------------------------------------------------------ 
-        protected override bool Validate(TDataRecordSaveMode saveMode, ref string validateMsg)
+        protected override bool Validate(TDataRecordSaveMode saveMode, FwBusinessLogic original, ref string validateMsg)
         {
             bool isValid = true;
 
@@ -104,7 +104,7 @@ namespace WebApi.Modules.Home.ProjectContact
                 l3.SetDependencies(this.AppConfig, this.UserSession);
                 l3.CompanyId = CompanyId;
                 l3.ContactId = ContactId;
-                int i = l3.SaveAsync().Result;
+                int i = l3.SaveAsync(null).Result;
                 CompanyContactId = l3.CompanyContactId; // we need this ID saved on the orderContact record
             }
         }
@@ -119,7 +119,7 @@ namespace WebApi.Modules.Home.ProjectContact
                     l4.SetDependencies(this.AppConfig, this.UserSession);
                     l4.ContactId = ContactId;
                     l4.MobilePhone = MobilePhone;
-                    int i = l4.SaveAsync().Result; // save the MobilePhone to the Contact
+                    int i = l4.SaveAsync(null).Result; // save the MobilePhone to the Contact
                 }
             }
         }

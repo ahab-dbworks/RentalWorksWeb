@@ -33,7 +33,7 @@ namespace WebApi.Modules.Home.InventorySearchPreview
         [FwSqlDataField(column: "qty", modeltype: FwDataTypes.Integer, sqltype: "numeric", precision: 12, scale: 2)]
         public decimal? Quantity { get; set; }
         //------------------------------------------------------------------------------------ 
-        public void OnBeforeSaveInventorySearchPreview(object sender, BeforeSaveEventArgs e)
+        public void OnBeforeSaveInventorySearchPreview(object sender, BeforeSaveDataRecordEventArgs e)
         {
             using (FwSqlConnection conn = new FwSqlConnection(this.AppConfig.DatabaseSettings.ConnectionString))
             {

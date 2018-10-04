@@ -35,7 +35,7 @@ namespace WebApi.Modules.Administrator.CustomField
         public int? BrowseSizeInPixels { get { return customField.BrowseSizeInPixels; } set { customField.BrowseSizeInPixels = value; } }
         public string DateStamp { get { return customField.DateStamp; } set { customField.DateStamp = value; } }
         //------------------------------------------------------------------------------------ 
-        public void OnAfterSaveCustomField(object sender, AfterSaveEventArgs e)
+        public void OnAfterSaveCustomField(object sender, AfterSaveDataRecordEventArgs e)
         {
             refreshCustomFields();
         }

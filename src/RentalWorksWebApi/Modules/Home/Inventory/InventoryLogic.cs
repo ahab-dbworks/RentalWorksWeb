@@ -143,7 +143,7 @@ namespace WebApi.Modules.Home.Inventory
         [FwBusinessLogicField(isReadOnly: true)]
         public string WardrobeDetailedDescription { get; set; }
         //------------------------------------------------------------------------------------ 
-        protected override bool Validate(TDataRecordSaveMode saveMode, ref string validateMsg)
+        protected override bool Validate(TDataRecordSaveMode saveMode, FwBusinessLogic original, ref string validateMsg)
         {
             bool isValid = true;
 
@@ -164,17 +164,11 @@ namespace WebApi.Modules.Home.Inventory
             return isValid;
         }
         //------------------------------------------------------------------------------------ 
-        public override void OnAfterSaveMaster(object sender, AfterSaveEventArgs e)
+        public override void OnAfterSaveMaster(object sender, AfterSaveDataRecordEventArgs e)
         {
             base.OnAfterSaveMaster(sender, e);
-            bool saved = false;
-            if (e.SavePerformed)
-            {
-                saved = master.SaveWardrobeDetailedDescription(WardrobeDetailedDescription).Result;
-            }
+            bool saved = master.SaveWardrobeDetailedDescription(WardrobeDetailedDescription).Result;
         }
         //------------------------------------------------------------------------------------
-
-
     }
 }

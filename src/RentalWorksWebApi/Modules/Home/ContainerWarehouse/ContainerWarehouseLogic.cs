@@ -34,7 +34,7 @@ namespace WebApi.Modules.Home.ContainerWarehouse
         [FwBusinessLogicField(isReadOnly: true)]
         public int? QuantityIncomplete { get; set; }
         //------------------------------------------------------------------------------------ 
-        protected override bool Validate(TDataRecordSaveMode saveMode, ref string validateMsg)
+        protected override bool Validate(TDataRecordSaveMode saveMode, FwBusinessLogic original, ref string validateMsg)
         {
             bool isValid = true;
             if (saveMode.Equals(TDataRecordSaveMode.smInsert))

@@ -888,9 +888,9 @@ namespace WebApi.Modules.Settings.PoType
             OrdType = "PO";
         }
         //------------------------------------------------------------------------------------ 
-        public void OnAfterSavePoType(object sender, AfterSaveEventArgs e)
+        public void OnAfterSavePoType(object sender, AfterSaveDataRecordEventArgs e)
         {
-            if ((e.SaveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smUpdate) && (e.SavePerformed) && (purchaseOrderTypeFields.OrderTypeFieldsId.Equals(string.Empty)))
+            if ((e.SaveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smUpdate) && (purchaseOrderTypeFields.OrderTypeFieldsId.Equals(string.Empty)))
             {
                 PoTypeLogic l2 = new PoTypeLogic();
                 l2.AppConfig = poType.AppConfig;
@@ -907,9 +907,9 @@ namespace WebApi.Modules.Settings.PoType
             }
         }
         //------------------------------------------------------------------------------------   
-        public void OnAfterSaveRepairFields(object sender, AfterSaveEventArgs e)
+        public void OnAfterSaveRepairFields(object sender, AfterSaveDataRecordEventArgs e)
         {
-            if ((e.SaveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smInsert) && (e.SavePerformed))
+            if (e.SaveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smInsert)
             {
                 PurchaseOrderTypeFieldsId = purchaseOrderTypeFields.OrderTypeFieldsId;
                 SubRentalOrderTypeFieldsId = subRentalOrderTypeFields.OrderTypeFieldsId;
@@ -919,7 +919,7 @@ namespace WebApi.Modules.Settings.PoType
                 MiscOrderTypeFieldsId = miscOrderTypeFields.OrderTypeFieldsId;
                 SubMiscOrderTypeFieldsId = subMiscOrderTypeFields.OrderTypeFieldsId;
                 RepairOrderTypeFieldsId = repairOrderTypeFields.OrderTypeFieldsId;
-                int i = SaveAsync().Result;
+                int i = SaveAsync(null).Result;
             }
         }
         //------------------------------------------------------------------------------------   

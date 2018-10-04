@@ -25,13 +25,9 @@ namespace WebApi.Modules.Settings.CoverLetter
         public bool? Inactive { get { return coverLetter.Inactive; } set { coverLetter.Inactive = value; } }
         public string DateStamp { get { return coverLetter.DateStamp; } set { coverLetter.DateStamp = value; } }
         //------------------------------------------------------------------------------------
-        public void OnAfterSaveCoverLetter(object sender, AfterSaveEventArgs e)
+        public void OnAfterSaveCoverLetter(object sender, AfterSaveDataRecordEventArgs e)
         {
-            bool saved = false;
-            if (e.SavePerformed)
-            {
-                saved = coverLetter.SaveHtmlASync(Html).Result;
-            }
+            bool saved = coverLetter.SaveHtmlASync(Html).Result;
         }
         //------------------------------------------------------------------------------------
     }

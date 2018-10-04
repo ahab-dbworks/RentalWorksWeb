@@ -18,18 +18,40 @@ namespace FwStandard.BusinessLogic
     public class BeforeSaveEventArgs : EventArgs
     {
         public TDataRecordSaveMode SaveMode { get; set; }
+        public FwBusinessLogic Original { get; set; }
+        public bool PerformSave { get; set; } = true;
+    }
+
+    public class BeforeSaveDataRecordEventArgs : EventArgs
+    {
+        public TDataRecordSaveMode SaveMode { get; set; }
+        public FwDataReadWriteRecord Original { get; set; }
         public bool PerformSave { get; set; } = true;
     }
 
     public class AfterSaveEventArgs : EventArgs
     {
         public TDataRecordSaveMode SaveMode { get; set; }
-        public bool SavePerformed { get; set; } = true;  //jh - I'm not sure this is necessary.  considering removing
+        public FwBusinessLogic Original { get; set; }
     }
+
+    public class AfterSaveDataRecordEventArgs : EventArgs
+    {
+        public TDataRecordSaveMode SaveMode { get; set; }
+        public FwDataReadWriteRecord Original { get; set; }
+    }
+
 
     public class BeforeValidateEventArgs : EventArgs
     {
         public TDataRecordSaveMode SaveMode { get; set; }
+        public FwBusinessLogic Original { get; set; }
+    }
+
+    public class BeforeValidateDataRecordEventArgs : EventArgs
+    {
+        public TDataRecordSaveMode SaveMode { get; set; }
+        public FwDataReadWriteRecord Original { get; set; }
     }
 
     public class BeforeDeleteEventArgs : EventArgs
@@ -490,7 +512,7 @@ namespace FwStandard.BusinessLogic
             return customFieldsLoaded;
         }
         //------------------------------------------------------------------------------------
-        protected virtual bool CheckDuplicates(TDataRecordSaveMode saveMode, ref string validateMsg)
+        protected virtual bool CheckDuplicates(TDataRecordSaveMode saveMode, FwBusinessLogic original, ref string validateMsg)
         {
             bool isValid = true;
 
@@ -711,14 +733,14 @@ namespace FwStandard.BusinessLogic
             return isValidValue;
         }
         //------------------------------------------------------------------------------------ 
-        protected virtual bool Validate(TDataRecordSaveMode saveMode, ref string validateMsg)
+        protected virtual bool Validate(TDataRecordSaveMode saveMode, FwBusinessLogic original, ref string validateMsg)
         {
             //override this method on a derived class to implement custom validation logic
             bool isValid = true;
             return isValid;
         }
         //------------------------------------------------------------------------------------
-        public virtual bool ValidateBusinessLogic(TDataRecordSaveMode saveMode, ref string validateMsg)
+        public virtual bool ValidateBusinessLogic(TDataRecordSaveMode saveMode, FwBusinessLogic original, ref string validateMsg)
         {
             bool isValid = true;
             validateMsg = "";
@@ -727,50 +749,68 @@ namespace FwStandard.BusinessLogic
             {
                 BeforeValidateEventArgs args = new BeforeValidateEventArgs();
                 args.SaveMode = saveMode;
+                args.Original = original;
                 BeforeValidate(this, args);
             }
 
             if (isValid)
             {
+                int r = 0;
                 foreach (FwDataReadWriteRecord rec in dataRecords)
                 {
-                    isValid = rec.ValidateDataRecord(saveMode, ref validateMsg);
+                    FwDataReadWriteRecord originalRec = null;
+                    if (original != null)
+                    {
+                        originalRec = original.dataRecords[r];
+                    }
+                    isValid = rec.ValidateDataRecord(saveMode, originalRec, ref validateMsg);
                     if (!isValid)
                     {
                         break;
                     }
+                    r++;
                 }
             }
             if (isValid)
             {
                 //check for duplicate Business Logic here
-                isValid = CheckDuplicates(saveMode, ref validateMsg);
+                isValid = CheckDuplicates(saveMode, original, ref validateMsg);
             }
             if (isValid)
             {
-                isValid = Validate(saveMode, ref validateMsg);
+                isValid = Validate(saveMode, original, ref validateMsg);
             }
             return isValid;
         }
         //------------------------------------------------------------------------------------
-        public virtual async Task<int> SaveAsync()
+        public virtual async Task<int> SaveAsync(FwBusinessLogic original)
         {
             int rowsAffected = 0;
             TDataRecordSaveMode saveMode = (AllPrimaryKeysHaveValues ? TDataRecordSaveMode.smUpdate : TDataRecordSaveMode.smInsert);
 
             BeforeSaveEventArgs beforeSaveArgs = new BeforeSaveEventArgs();
-            AfterSaveEventArgs afterSaveArgs = new AfterSaveEventArgs();
             beforeSaveArgs.SaveMode = saveMode;
+            beforeSaveArgs.Original = original;
+
+            AfterSaveEventArgs afterSaveArgs = new AfterSaveEventArgs();
             afterSaveArgs.SaveMode = saveMode;
+            afterSaveArgs.Original = original;
             if (BeforeSave != null)
             {
                 BeforeSave(this, beforeSaveArgs);
             }
             if (beforeSaveArgs.PerformSave)
             {
+                int r = 0;
+                FwDataReadWriteRecord originalRec = null;
                 foreach (FwDataReadWriteRecord rec in dataRecords)
                 {
-                    rowsAffected += await rec.SaveAsync();
+                    if (original != null)
+                    {
+                        originalRec = original.dataRecords[r];
+                    }
+                    rowsAffected += await rec.SaveAsync(originalRec);
+                    r++;
                 }
                 LoadCustomFields();
 
@@ -778,10 +818,13 @@ namespace FwStandard.BusinessLogic
                 {
                     await _Custom.SaveAsync(GetPrimaryKeys());
                 }
-                afterSaveArgs.SavePerformed = (rowsAffected > 0);
-                if (AfterSave != null)
+                bool savePerformed = (rowsAffected > 0);
+                if (savePerformed)
                 {
-                    AfterSave(this, afterSaveArgs);
+                    if (AfterSave != null)
+                    {
+                        AfterSave(this, afterSaveArgs);
+                    }
                 }
             }
             return rowsAffected;

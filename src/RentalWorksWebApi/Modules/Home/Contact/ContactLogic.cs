@@ -105,9 +105,9 @@ namespace WebApi.Modules.Home.Contact
             }
         }
         //------------------------------------------------------------------------------------
-        private void AfterSaveContact(object sender, AfterSaveEventArgs e)
+        private void AfterSaveContact(object sender, AfterSaveDataRecordEventArgs e)
         {
-            if ((e.SavePerformed) && (e.SaveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smUpdate))
+            if (e.SaveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smUpdate)
             {
                 if ((string.IsNullOrEmpty(WebUserId)) || (string.IsNullOrEmpty(UserId)))
                 {
@@ -127,7 +127,7 @@ namespace WebApi.Modules.Home.Contact
             }
         }
         //------------------------------------------------------------------------------------
-        private void BeforeSaveUser(object sender, BeforeSaveEventArgs e)
+        private void BeforeSaveUser(object sender, BeforeSaveDataRecordEventArgs e)
         {
             if ((e.SaveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smInsert))
             {
@@ -142,7 +142,7 @@ namespace WebApi.Modules.Home.Contact
             }
         }
         //------------------------------------------------------------------------------------
-        private void BeforeSaveWebUser(object sender, BeforeSaveEventArgs e)
+        private void BeforeSaveWebUser(object sender, BeforeSaveDataRecordEventArgs e)
         {
             if ((e.SaveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smInsert))
             {

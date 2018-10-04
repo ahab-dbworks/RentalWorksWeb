@@ -730,12 +730,12 @@ namespace WebApi.Modules.Settings.OrderType
                     if (RentalShowReservedItems == true) { showFields.Add("ReservedItemQuantity"); }
                     if (RentalShowAvailableQuantity == true || SalesShowAvailableQuantity == true) { showFields.Add("AvailableQuantity"); }
                     if (RentalShowAvailableQuantityAllWarehouses == true || SalesShowAvailableQuantityAllWarehouses == true) { showFields.Add("AvailableAllWarehousesQuantity"); }
-                    if (RentalShowConflictDate == true || SalesShowConflictDate == true) { showFields.Add("ConflictDate"); } 
+                    if (RentalShowConflictDate == true || SalesShowConflictDate == true) { showFields.Add("ConflictDate"); }
                     if (RentalShowConflictDateAllWarehouses == true || SalesShowConflictDateAllWarehouses == true) { showFields.Add("ConflictDateAllWarehouses"); }
                     if (RentalShowConsignmentConflictDate == true) { showFields.Add("ConflictDateConsignment"); }
                     if (RentalShowUnit == true || SalesShowUnit == true || MiscShowUnit == true || LaborShowUnit == true) { showFields.Add("Unit"); }
-                    if (RentalShowMarkupPercent == true ||SalesShowMarkupPercent == true) { showFields.Add("MarkupPercent"); }
-                    if (RentalShowMarginPercent == true ||SalesShowMarginPercent == true) { showFields.Add("MarginPercent"); }
+                    if (RentalShowMarkupPercent == true || SalesShowMarkupPercent == true) { showFields.Add("MarkupPercent"); }
+                    if (RentalShowMarginPercent == true || SalesShowMarginPercent == true) { showFields.Add("MarginPercent"); }
                     if (RentalShowRate == true || SalesShowRate == true || MiscShowRate == true || LaborShowRate == true) { showFields.Add("Rate"); }
                     if (RentalShowPremiumPercent == true) { showFields.Add("PremiumPercent"); }
                     if (RentalShowDaysPerWeek == true) { showFields.Add("DaysPerWeek"); }
@@ -743,7 +743,7 @@ namespace WebApi.Modules.Settings.OrderType
                     if (RentalShowUnitDiscountAmount == true || SalesShowUnitDiscountAmount == true || MiscShowUnitDiscountAmount == true || LaborShowUnitDiscountAmount == true) { showFields.Add("UnitDiscountAmount"); }
                     if (RentalShowUnitExtended == true || SalesShowUnitExtended == true || MiscShowUnitExtended == true || LaborShowUnitExtended == true) { showFields.Add("UnitExtended"); }
                     if (RentalShowWeeklyDiscountAmount == true || MiscShowWeeklyDiscountAmount == true || LaborShowWeeklyDiscountAmount == true) { showFields.Add("WeeklyDiscountAmount"); }
-                    if (RentalShowWeeklyExtended == true ||MiscShowWeeklyExtended == true || LaborShowWeeklyExtended == true) { showFields.Add("WeeklyExtended"); }
+                    if (RentalShowWeeklyExtended == true || MiscShowWeeklyExtended == true || LaborShowWeeklyExtended == true) { showFields.Add("WeeklyExtended"); }
                     if (RentalShowMonthlyDiscountAmount == true || MiscShowMonthlyDiscountAmount == true || LaborShowMonthlyDiscountAmount == true) { showFields.Add("MonthlyDiscountAmount"); }
                     if (RentalShowMonthlyExtended == true || MiscShowMonthlyExtended == true || LaborShowMonthlyExtended == true) { showFields.Add("MonthlyExtended"); }
                     if (RentalShowPeriodDiscountAmount == true || SalesShowPeriodDiscountAmount == true || MiscShowPeriodDiscountAmount == true || LaborShowPeriodDiscountAmount == true) { showFields.Add("PeriodDiscountAmount"); }
@@ -800,7 +800,7 @@ namespace WebApi.Modules.Settings.OrderType
                 if (RentalShowToTime == true) { showFields.Add("ToTime"); }
                 if (RentalShowBillablePeriods == true) { showFields.Add("BillablePeriods"); }
                 if (RentalShowSubQuantity == true) { showFields.Add("SubQuantity"); }
-                if (RentalShowConsignmentQuantity== true) { showFields.Add("ConsignQuantity"); }
+                if (RentalShowConsignmentQuantity == true) { showFields.Add("ConsignQuantity"); }
                 if (RentalShowReservedItems == true) { showFields.Add("ReservedItemQuantity"); }
                 if (RentalShowAvailableQuantity == true) { showFields.Add("AvailableQuantity"); }
                 if (RentalShowAvailableQuantityAllWarehouses == true) { showFields.Add("AvailableAllWarehousesQuantity"); }
@@ -1074,9 +1074,9 @@ namespace WebApi.Modules.Settings.OrderType
 
         public string DateStamp { get { return orderType.DateStamp; } set { orderType.DateStamp = value; } }
         //------------------------------------------------------------------------------------ 
-        public void OnAfterSaveOrderType(object sender, AfterSaveEventArgs e)
+        public void OnAfterSaveOrderType(object sender, AfterSaveDataRecordEventArgs e)
         {
-            if ((e.SaveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smUpdate) && (e.SavePerformed))// && (rentalOrderTypeFields.OrderTypeFieldsId.Equals(string.Empty)))
+            if (e.SaveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smUpdate)
             {
                 OrderTypeLogic l2 = new OrderTypeLogic();
                 l2.AppConfig = orderType.AppConfig;
@@ -1095,7 +1095,7 @@ namespace WebApi.Modules.Settings.OrderType
         //------------------------------------------------------------------------------------   
         public void OnAfterSaveOrderTypeLogic(object sender, AfterSaveEventArgs e)
         {
-            if ((e.SaveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smInsert) && (e.SavePerformed))
+            if (e.SaveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smInsert)
             {
                 RentalOrderTypeFieldsId = rentalOrderTypeFields.OrderTypeFieldsId;
                 SalesOrderTypeFieldsId = salesOrderTypeFields.OrderTypeFieldsId;
@@ -1105,7 +1105,7 @@ namespace WebApi.Modules.Settings.OrderType
                 VehicleOrderTypeFieldsId = vehicleOrderTypeFields.OrderTypeFieldsId;
                 RentalSaleOrderTypeFieldsId = rentalSaleOrderTypeFields.OrderTypeFieldsId;
                 LossAndDamageOrderTypeFieldsId = lossAndDamageOrderTypeFields.OrderTypeFieldsId;
-                int i = SaveAsync().Result;
+                int i = SaveAsync(null).Result;
             }
         }
         //------------------------------------------------------------------------------------   

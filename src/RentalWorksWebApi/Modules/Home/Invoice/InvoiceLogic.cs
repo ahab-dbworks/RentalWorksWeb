@@ -173,13 +173,6 @@ namespace WebApi.Modules.Home.Invoice
         [FwBusinessLogicField(isReadOnly: true)]
         public bool? ExportTaxAsLineItem { get; set; }
         //------------------------------------------------------------------------------------ 
-        //protected override bool Validate(TDataRecordSaveMode saveMode, ref string validateMsg) 
-        //{ 
-        //    //override this method on a derived class to implement custom validation logic 
-        //    bool isValid = true; 
-        //    return isValid; 
-        //} 
-        //------------------------------------------------------------------------------------ 
         public async Task<TSpStatusReponse> Void()
         {
             return await invoice.Void();

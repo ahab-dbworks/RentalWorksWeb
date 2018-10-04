@@ -220,7 +220,7 @@ namespace WebApi.Modules.Home.Deal
         public int? SubRentalEquipmentRebateRentalPerecent { get { return deal.SubRentalEquipmentRebateRentalPerecent; } set { deal.SubRentalEquipmentRebateRentalPerecent = value; } }
 
         //------------------------------------------------------------------------------------
-        public void OnBeforeSaveDeal(object sender, BeforeSaveEventArgs e)
+        public void OnBeforeSaveDeal(object sender, BeforeSaveDataRecordEventArgs e)
         {
             if (e.SaveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smInsert)
             {

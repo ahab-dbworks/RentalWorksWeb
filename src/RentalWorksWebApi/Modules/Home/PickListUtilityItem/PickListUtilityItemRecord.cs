@@ -43,7 +43,7 @@ namespace WebApi.Modules.Home.PickListUtilityItem
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime, sqltype: "datetime")]
         public string DateStamp { get; set; }
         //------------------------------------------------------------------------------------ 
-        public void BeforeSavePickListUtilityItem(object sender, BeforeSaveEventArgs e)
+        public void BeforeSavePickListUtilityItem(object sender, BeforeSaveDataRecordEventArgs e)
         {
             if (PickQuantity == 0)
             {

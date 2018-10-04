@@ -26,7 +26,7 @@ namespace WebApi.Modules.Settings.FacilityRate
         public string FacilityType { get; set; }
 
         //------------------------------------------------------------------------------------
-        protected override bool Validate(TDataRecordSaveMode saveMode, ref string validateMsg)
+        protected override bool Validate(TDataRecordSaveMode saveMode, FwBusinessLogic original, ref string validateMsg)
         {
             bool isValid = true;
 
@@ -38,11 +38,12 @@ namespace WebApi.Modules.Settings.FacilityRate
             {
                 if (RateType != null)
                 {
-                    FacilityRateLogic l2 = new FacilityRateLogic();
-                    l2.SetDependencies(AppConfig, UserSession);
-                    l2.RateId = RateId;
-                    bool b = l2.LoadAsync<FacilityRateLogic>().Result;
-                    if (!RateType.Equals(l2.RateType))
+                    //FacilityRateLogic l2 = new FacilityRateLogic();
+                    //l2.SetDependencies(AppConfig, UserSession);
+                    //l2.RateId = RateId;
+                    //bool b = l2.LoadAsync<FacilityRateLogic>().Result;
+                    //if (!RateType.Equals(l2.RateType))
+                    if (!RateType.Equals(((FacilityRateLogic)original).RateType))
                     {
                         isValid = false;
                         validateMsg = "Cannot change Rate Type.";

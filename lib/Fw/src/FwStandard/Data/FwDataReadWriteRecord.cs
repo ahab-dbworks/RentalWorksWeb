@@ -7,39 +7,39 @@ namespace FwStandard.DataLayer
 {
     public class FwDataReadWriteRecord : FwDataRecord
     {
-        public event EventHandler<BeforeSaveEventArgs> BeforeSave;
-        public event EventHandler<AfterSaveEventArgs> AfterSave;
-        public event EventHandler<BeforeValidateEventArgs> BeforeValidate;
+        public event EventHandler<BeforeSaveDataRecordEventArgs> BeforeSave;
+        public event EventHandler<AfterSaveDataRecordEventArgs> AfterSave;
+        public event EventHandler<BeforeValidateDataRecordEventArgs> BeforeValidate;
         public event EventHandler<BeforeDeleteEventArgs> BeforeDelete;
         public event EventHandler<AfterDeleteEventArgs> AfterDelete;
         public event EventHandler<EventArgs> AssignPrimaryKeys;
 
-        public delegate void BeforeSaveEventHandler(BeforeSaveEventArgs e);
-        public delegate void AfterSaveEventHandler(AfterSaveEventArgs e);
-        public delegate void BeforeValidateEventHandler(BeforeValidateEventArgs e);
+        public delegate void BeforeSaveEventHandler(BeforeSaveDataRecordEventArgs e);
+        public delegate void AfterSaveEventHandler(AfterSaveDataRecordEventArgs e);
+        public delegate void BeforeValidateEventHandler(BeforeValidateDataRecordEventArgs e);
         public delegate void BeforeDeleteEventHandler(BeforeDeleteEventArgs e);
         public delegate void AfterDeleteEventHandler(AfterDeleteEventArgs e);
         public delegate void AssignPrimaryKeysEventHandler(EventArgs e);
 
-        protected virtual void OnBeforeSave(BeforeSaveEventArgs e)
+        protected virtual void OnBeforeSave(BeforeSaveDataRecordEventArgs e)
         {
-            EventHandler<BeforeSaveEventArgs> handler = BeforeSave;
+            EventHandler<BeforeSaveDataRecordEventArgs> handler = BeforeSave;
             if (handler != null)
             {
                 handler(this, e);
             }
         }
-        protected virtual void OnAfterSave(AfterSaveEventArgs e)
+        protected virtual void OnAfterSave(AfterSaveDataRecordEventArgs e)
         {
-            EventHandler<AfterSaveEventArgs> handler = AfterSave;
+            EventHandler<AfterSaveDataRecordEventArgs> handler = AfterSave;
             if (handler != null)
             {
                 handler(this, e);
             }
         }
-        protected virtual void OnBeforeValidate(BeforeValidateEventArgs e)
+        protected virtual void OnBeforeValidate(BeforeValidateDataRecordEventArgs e)
         {
-            EventHandler<BeforeValidateEventArgs> handler = BeforeValidate;
+            EventHandler<BeforeValidateDataRecordEventArgs> handler = BeforeValidate;
             if (handler != null)
             {
                 handler(this, e);
@@ -74,22 +74,23 @@ namespace FwStandard.DataLayer
         //------------------------------------------------------------------------------------
         public FwDataReadWriteRecord() : base() { }
         //------------------------------------------------------------------------------------
-        protected virtual bool Validate(TDataRecordSaveMode saveMode, ref string validateMsg)
+        protected virtual bool Validate(TDataRecordSaveMode saveMode, FwDataReadWriteRecord original, ref string validateMsg)
         {
             //override this method on a derived class to implement custom validation logic
             bool isValid = true;
             return isValid;
         }
         //------------------------------------------------------------------------------------
-        public virtual bool ValidateDataRecord(TDataRecordSaveMode saveMode, ref string validateMsg)
+        public virtual bool ValidateDataRecord(TDataRecordSaveMode saveMode, FwDataReadWriteRecord original, ref string validateMsg)
         {
             bool isValid = true;
             validateMsg = "";
 
             if (BeforeValidate != null)
             {
-                BeforeValidateEventArgs args = new BeforeValidateEventArgs();
+                BeforeValidateDataRecordEventArgs args = new BeforeValidateDataRecordEventArgs();
                 args.SaveMode = saveMode;
+                args.Original = original;
                 BeforeValidate(this, args);
             }
 
@@ -99,16 +100,17 @@ namespace FwStandard.DataLayer
             }
             if (isValid)
             {
-                isValid = Validate(saveMode, ref validateMsg);
+                isValid = Validate(saveMode, original, ref validateMsg);
             }
             return isValid;
         }
         //------------------------------------------------------------------------------------
-        public virtual async Task<int> SaveAsync()
+        public virtual async Task<int> SaveAsync(FwDataReadWriteRecord original)
         {
             int rowsAffected = 0;
             using (FwSqlConnection conn = new FwSqlConnection(AppConfig.DatabaseSettings.ConnectionString))
             {
+                TDataRecordSaveMode saveMode = TDataRecordSaveMode.smInsert;
                 if (NoPrimaryKeysHaveValues)
                 {
                     //insert
@@ -121,10 +123,13 @@ namespace FwStandard.DataLayer
                         EventArgs e = new EventArgs();
                         AssignPrimaryKeys(this, e);
                     }
-                    BeforeSaveEventArgs beforeSaveArgs = new BeforeSaveEventArgs();
-                    AfterSaveEventArgs afterSaveArgs = new AfterSaveEventArgs();
-                    beforeSaveArgs.SaveMode = TDataRecordSaveMode.smInsert;
-                    afterSaveArgs.SaveMode = TDataRecordSaveMode.smInsert;
+                    BeforeSaveDataRecordEventArgs beforeSaveArgs = new BeforeSaveDataRecordEventArgs();
+                    beforeSaveArgs.SaveMode = saveMode;
+                    beforeSaveArgs.Original = original;
+
+                    AfterSaveDataRecordEventArgs afterSaveArgs = new AfterSaveDataRecordEventArgs();
+                    afterSaveArgs.SaveMode = saveMode;
+                    afterSaveArgs.Original = original;
                     if (BeforeSave != null)
                     {
                         BeforeSave(this, beforeSaveArgs);
@@ -134,10 +139,13 @@ namespace FwStandard.DataLayer
                         using (FwSqlCommand cmd = new FwSqlCommand(conn, AppConfig.DatabaseSettings.QueryTimeout))
                         {
                             rowsAffected = await cmd.InsertAsync(true, TableName, this, AppConfig.DatabaseSettings);
-                            afterSaveArgs.SavePerformed = (rowsAffected > 0);
-                            if (AfterSave != null)
+                            bool savePerformed = (rowsAffected > 0);
+                            if (savePerformed)
                             {
-                                AfterSave(this, afterSaveArgs);
+                                if (AfterSave != null)
+                                {
+                                    AfterSave(this, afterSaveArgs);
+                                }
                             }
                         }
                     }
@@ -145,10 +153,12 @@ namespace FwStandard.DataLayer
                 else if (AllPrimaryKeysHaveValues)
                 {
                     // update
-                    BeforeSaveEventArgs beforeSaveArgs = new BeforeSaveEventArgs();
-                    AfterSaveEventArgs afterSaveArgs = new AfterSaveEventArgs();
-                    beforeSaveArgs.SaveMode = TDataRecordSaveMode.smUpdate;
-                    afterSaveArgs.SaveMode = TDataRecordSaveMode.smUpdate;
+                    saveMode = TDataRecordSaveMode.smUpdate;
+                    BeforeSaveDataRecordEventArgs beforeSaveArgs = new BeforeSaveDataRecordEventArgs();
+                    AfterSaveDataRecordEventArgs afterSaveArgs = new AfterSaveDataRecordEventArgs();
+                    beforeSaveArgs.SaveMode = saveMode;
+                    beforeSaveArgs.Original = original;
+                    afterSaveArgs.SaveMode = saveMode;
                     if (BeforeSave != null)
                     {
                         BeforeSave(this, beforeSaveArgs);
@@ -160,10 +170,13 @@ namespace FwStandard.DataLayer
                             using (FwSqlCommand cmd = new FwSqlCommand(conn, AppConfig.DatabaseSettings.QueryTimeout))
                             {
                                 rowsAffected = await cmd.UpdateAsync(true, TableName, this);
-                                afterSaveArgs.SavePerformed = (rowsAffected > 0);
-                                if (AfterSave != null)
+                                bool savePerformed = (rowsAffected > 0);
+                                if (savePerformed)
                                 {
-                                    AfterSave(this, afterSaveArgs);
+                                    if (AfterSave != null)
+                                    {
+                                        AfterSave(this, afterSaveArgs);
+                                    }
                                 }
                             }
                         }

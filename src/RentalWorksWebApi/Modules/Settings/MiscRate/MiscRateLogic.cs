@@ -25,7 +25,7 @@ namespace WebApi.Modules.Settings.MiscRate
         [FwBusinessLogicField(isReadOnly: true)]
         public string MiscType { get; set; }
         //------------------------------------------------------------------------------------ 
-        protected override bool Validate(TDataRecordSaveMode saveMode, ref string validateMsg)
+        protected override bool Validate(TDataRecordSaveMode saveMode, FwBusinessLogic original, ref string validateMsg)
         {
             bool isValid = true;
 
@@ -40,11 +40,12 @@ namespace WebApi.Modules.Settings.MiscRate
             {
                 if (RateType != null)
                 {
-                    MiscRateLogic l2 = new MiscRateLogic();
-                    l2.SetDependencies(AppConfig, UserSession);
-                    l2.RateId = RateId;
-                    bool b = l2.LoadAsync<MiscRateLogic>().Result;
-                    if (!RateType.Equals(l2.RateType))
+                    //MiscRateLogic l2 = new MiscRateLogic();
+                    //l2.SetDependencies(AppConfig, UserSession);
+                    //l2.RateId = RateId;
+                    //bool b = l2.LoadAsync<MiscRateLogic>().Result;
+                    //if (!RateType.Equals(l2.RateType))
+                    if (!RateType.Equals(((MiscRateLogic)original).RateType))
                     {
                         isValid = false;
                         validateMsg = "Cannot change Rate Type.";

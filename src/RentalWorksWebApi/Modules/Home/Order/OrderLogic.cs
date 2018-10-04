@@ -38,25 +38,21 @@ namespace WebApi.Modules.Home.Order
             }
         }
         //------------------------------------------------------------------------------------ 
-        public override void OnAfterSaveDealOrder(object sender, AfterSaveEventArgs e)
+        public override void OnAfterSaveDealOrder(object sender, AfterSaveDataRecordEventArgs e)
         {
             base.OnAfterSaveDealOrder(sender, e);
-            if (e.SavePerformed)
+            OrderLogic l2 = new OrderLogic();
+            l2.SetDependencies(this.AppConfig, this.UserSession);
+            object[] pk = GetPrimaryKeys();
+            bool b = l2.LoadAsync<OrderLogic>(pk).Result;
+            BillToAddressId = l2.BillToAddressId;
+            TaxId = l2.TaxId;
+
+            if ((TaxOptionId != null) && (!TaxOptionId.Equals(string.Empty)) && (TaxId != null) && (!TaxId.Equals(string.Empty)))
             {
-                OrderLogic l2 = new OrderLogic();
-                l2.SetDependencies(this.AppConfig, this.UserSession);
-                object[] pk = GetPrimaryKeys();
-                bool b = l2.LoadAsync<OrderLogic>(pk).Result;
-                BillToAddressId = l2.BillToAddressId;
-                TaxId = l2.TaxId;
-
-
-                if ((TaxOptionId != null) && (!TaxOptionId.Equals(string.Empty)) && (TaxId != null) && (!TaxId.Equals(string.Empty)))
-                {
-                    b = AppFunc.UpdateTaxFromTaxOptionASync(this.AppConfig, this.UserSession, TaxOptionId, TaxId).Result;
-                }
-                b = dealOrder.UpdateOrderTotal().Result;
+                b = AppFunc.UpdateTaxFromTaxOptionASync(this.AppConfig, this.UserSession, TaxOptionId, TaxId).Result;
             }
+            b = dealOrder.UpdateOrderTotal().Result;
         }
         //------------------------------------------------------------------------------------    
         public async Task<OrderLogic> CancelOrderASync()

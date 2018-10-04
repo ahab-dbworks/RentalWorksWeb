@@ -25,7 +25,7 @@ namespace WebApi.Modules.Settings.Position
         [FwBusinessLogicField(isReadOnly: true)]
         public string LaborType { get; set; }
         //------------------------------------------------------------------------------------ 
-        protected override bool Validate(TDataRecordSaveMode saveMode, ref string validateMsg)
+        protected override bool Validate(TDataRecordSaveMode saveMode, FwBusinessLogic original, ref string validateMsg)
         {
             bool isValid = true;
 
@@ -37,11 +37,12 @@ namespace WebApi.Modules.Settings.Position
             {
                 if (RateType != null)
                 {
-                    PositionLogic l2 = new PositionLogic();
-                    l2.SetDependencies(AppConfig, UserSession);
-                    l2.PositionId = PositionId;
-                    bool b = l2.LoadAsync<PositionLogic>().Result;
-                    if (!RateType.Equals(l2.RateType))
+                    //PositionLogic l2 = new PositionLogic();
+                    //l2.SetDependencies(AppConfig, UserSession);
+                    //l2.PositionId = PositionId;
+                    //bool b = l2.LoadAsync<PositionLogic>().Result;
+                    //if (!RateType.Equals(l2.RateType))
+                    if (!RateType.Equals(((PositionLogic)original).RateType))
                     {
                         isValid = false;
                         validateMsg = "Cannot change Rate Type.";

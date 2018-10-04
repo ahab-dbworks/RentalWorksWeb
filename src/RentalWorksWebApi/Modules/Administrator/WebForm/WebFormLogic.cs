@@ -25,12 +25,5 @@ namespace WebApi.Modules.Administrator.WebForm
         public bool? Active { get { return webForm.Active; } set { webForm.Active = value; } }
         public string DateStamp { get { return webForm.DateStamp; } set { webForm.DateStamp = value; } }
         //------------------------------------------------------------------------------------ 
-        //protected override bool Validate(TDataRecordSaveMode saveMode, ref string validateMsg) 
-        //{ 
-        //    //override this method on a derived class to implement custom validation logic 
-        //    bool isValid = true; 
-        //    return isValid; 
-        //} 
-        //------------------------------------------------------------------------------------ 
     }
 }

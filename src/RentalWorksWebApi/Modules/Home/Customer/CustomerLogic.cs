@@ -178,7 +178,7 @@ namespace WebApi.Modules.Home.Customer
         public bool? Inactive { get; set; }
         public string DateStamp { get { return customer.DateStamp; } set { customer.DateStamp = value; } }
         //------------------------------------------------------------------------------------
-        protected override bool Validate(TDataRecordSaveMode saveMode, ref string validateMsg)
+        protected override bool Validate(TDataRecordSaveMode saveMode, FwBusinessLogic original, ref string validateMsg)
         {
             bool isValid = true;
             if (isValid)
@@ -190,7 +190,7 @@ namespace WebApi.Modules.Home.Customer
             return isValid;
         }
         //------------------------------------------------------------------------------------
-        public void OnBeforeSaveCustomer(object sender, BeforeSaveEventArgs e)
+        public void OnBeforeSaveCustomer(object sender, BeforeSaveDataRecordEventArgs e)
         {
             if (e.SaveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smInsert)
             {

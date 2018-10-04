@@ -66,7 +66,7 @@ namespace WebApi.Modules.Home.Master
         public bool? Inactive { get { return master.Inactive; } set { master.Inactive = value; } }
         public string DateStamp { get { return master.DateStamp; } set { master.DateStamp = value; } }
         //------------------------------------------------------------------------------------ 
-        public void OnBeforeSaveMaster(object sender, BeforeSaveEventArgs e)
+        public void OnBeforeSaveMaster(object sender, BeforeSaveDataRecordEventArgs e)
         {
 
             if (e.SaveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smInsert)
@@ -81,13 +81,9 @@ namespace WebApi.Modules.Home.Master
             }
         }
         //------------------------------------------------------------------------------------ 
-        public virtual void OnAfterSaveMaster(object sender, AfterSaveEventArgs e)
+        public virtual void OnAfterSaveMaster(object sender, AfterSaveDataRecordEventArgs e)
         {
-            bool saved = false;
-            if (e.SavePerformed)
-            {
-                saved = master.SaveNoteASync(Note).Result;
-            }
+            bool saved = master.SaveNoteASync(Note).Result;
         }
         //------------------------------------------------------------------------------------
     }

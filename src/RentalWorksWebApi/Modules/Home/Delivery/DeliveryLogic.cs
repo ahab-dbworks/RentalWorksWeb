@@ -85,7 +85,7 @@ namespace WebApi.Modules.Home.Delivery
         public string OnlineOrderStatus { get { return delivery.OnlineOrderStatus; } set { delivery.OnlineOrderStatus = value; } }
         public string DateStamp { get { return delivery.DateStamp; } set { delivery.DateStamp = value; } }
         //------------------------------------------------------------------------------------ 
-        protected override bool Validate(TDataRecordSaveMode saveMode, ref string validateMsg)
+        protected override bool Validate(TDataRecordSaveMode saveMode, FwBusinessLogic original, ref string validateMsg)
         {
             bool isValid = true;
             if (isValid)

@@ -34,7 +34,7 @@ namespace FwStandard.Modules.Administrator.DuplicateRule
         public bool? ConsiderBlanks { get { return duplicateRule.ConsiderBlanks; } set { duplicateRule.ConsiderBlanks = value; } }
         public string DateStamp { get { return duplicateRule.DateStamp; } set { duplicateRule.DateStamp = value; } }
         //------------------------------------------------------------------------------------ 
-        protected override bool Validate(TDataRecordSaveMode saveMode, ref string validateMsg)
+        protected override bool Validate(TDataRecordSaveMode saveMode, FwBusinessLogic original, ref string validateMsg)
         {
             bool isValid = true;
             if (saveMode == TDataRecordSaveMode.smInsert)
@@ -43,11 +43,12 @@ namespace FwStandard.Modules.Administrator.DuplicateRule
             }
             else
             {
-                DuplicateRuleLogic l2 = new DuplicateRuleLogic();
-                l2.SetDependencies(this.AppConfig, this.UserSession);
-                object[] pk = GetPrimaryKeys();
-                bool b = l2.LoadAsync<DuplicateRuleLogic>(pk).Result;
-                if (l2.SystemRule.Value)
+                //DuplicateRuleLogic l2 = new DuplicateRuleLogic();
+                //l2.SetDependencies(this.AppConfig, this.UserSession);
+                //object[] pk = GetPrimaryKeys();
+                //bool b = l2.LoadAsync<DuplicateRuleLogic>(pk).Result;
+                //if (l2.SystemRule.Value)
+                if (((DuplicateRuleLogic)original).SystemRule.GetValueOrDefault(false))
                 {
                     isValid = false;
                     validateMsg = "System Duplicate Rules Cannot be modified.";
@@ -56,7 +57,7 @@ namespace FwStandard.Modules.Administrator.DuplicateRule
             return isValid;
         }
         //------------------------------------------------------------------------------------
-        public void OnAfterSaveDuplicateRule(object sender, AfterSaveEventArgs e)
+        public void OnAfterSaveDuplicateRule(object sender, AfterSaveDataRecordEventArgs e)
         {
             bool saved = false;
             saved = duplicateRule.SaveFields(Fields).Result;

@@ -198,6 +198,7 @@ namespace FwCore.Controllers
             }
             try
             {
+                FwBusinessLogic original = null;
                 TDataRecordSaveMode saveMode = TDataRecordSaveMode.smInsert;
                 l.AppConfig = this.AppConfig;
                 l.UserSession = this.UserSession;
@@ -206,54 +207,37 @@ namespace FwCore.Controllers
                 string validateMsg = string.Empty;
                 if (l.AllPrimaryKeysHaveValues)
                 {
-                    //update
+                    //updating
                     saveMode = TDataRecordSaveMode.smUpdate;
-                    //isValid = l.ValidateBusinessLogic(TDataRecordSaveMode.smUpdate, ref validateMsg);
+
+                    //load the original record from the database
+                    original = CreateBusinessLogic(logicType, this.AppConfig, this.UserSession);
+                    original.SetPrimaryKeys(l.GetPrimaryKeys());
+                    bool exists = await original.LoadAsync<T>();
+                    if (!exists)
+                    {
+                        return NotFound();
+                    }
                 }
                 else
                 {
-                    //insert
-                    //isValid = l.ValidateBusinessLogic(TDataRecordSaveMode.smInsert, ref validateMsg);
+                    //inserting
                 }
-                isValid = l.ValidateBusinessLogic(saveMode, ref validateMsg);
+                isValid = l.ValidateBusinessLogic(saveMode, original, ref validateMsg);
 
                 if (isValid)
                 {
-                    FwBusinessLogic lOrig = null;
-                    if (saveMode.Equals(TDataRecordSaveMode.smUpdate))
+                    await l.SaveAsync(original);  
+                    if (l.ReloadOnSave)
                     {
-                        lOrig = CreateBusinessLogic(logicType, this.AppConfig, this.UserSession);
-                        lOrig.SetPrimaryKeys(l.GetPrimaryKeys());
-                        if (await lOrig.LoadAsync<T>())
-                        {
-                            await l.SaveAsync();  // should send lOrig as a parameter to this method
-                            if (l.ReloadOnSave)
-                            {
-                                await l.LoadAsync<T>();
-                            }
-                            return new OkObjectResult(l);
-                        }
-                        else
-                        {
-                            return NotFound();
-                        }
+                        await l.LoadAsync<T>();
                     }
-                    else  // inserting
-                    {
-                        await l.SaveAsync();
-                        if (l.ReloadOnSave)
-                        {
-                            await l.LoadAsync<T>();
-                        }
-                        return new OkObjectResult(l);
-                    }
+                    return new OkObjectResult(l);
                 }
                 else
                 {
                     throw new Exception(validateMsg);
                 }
-
-
             }
             catch (Exception ex)
             {
@@ -326,16 +310,16 @@ namespace FwCore.Controllers
                 if (logic.AllPrimaryKeysHaveValues)
                 {
                     //update
-                    isValid = logic.ValidateBusinessLogic(TDataRecordSaveMode.smUpdate, ref validateMsg);
+                    isValid = logic.ValidateBusinessLogic(TDataRecordSaveMode.smUpdate, null, ref validateMsg);
                 }
                 else
                 {
                     //insert
-                    isValid = logic.ValidateBusinessLogic(TDataRecordSaveMode.smInsert, ref validateMsg);
+                    isValid = logic.ValidateBusinessLogic(TDataRecordSaveMode.smInsert, null, ref validateMsg);
                 }
                 if (isValid)
                 {
-                    await logic.SaveAsync();
+                    await logic.SaveAsync(null);
                     return new OkObjectResult(logic);
                 }
                 else

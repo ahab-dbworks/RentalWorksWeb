@@ -172,22 +172,19 @@ namespace WebApi.Modules.Administrator.User
         //public string PasswordLastUpdated { get { return webUser.PasswordLastUpdated; } set { webUser.PasswordLastUpdated = value; } }
 
         //------------------------------------------------------------------------------------ 
-        private void AfterSaveUser(object sender, AfterSaveEventArgs e)
+        private void AfterSaveUser(object sender, AfterSaveDataRecordEventArgs e)
         {
-            if (e.SavePerformed)
+            if (e.SaveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smInsert)
             {
-                if (e.SaveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smInsert) 
-                {
-                    this.webUser.UserId = UserId;
-                }
-                else if (e.SaveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smUpdate) 
-                {
-                    UserLogic l2 = new UserLogic();
-                    l2.SetDependencies(AppConfig, UserSession);
-                    object[] pk = GetPrimaryKeys();
-                    bool b = l2.LoadAsync<UserLogic>(pk).Result;
-                    WebUserId = l2.WebUserId;
-                }
+                this.webUser.UserId = UserId;
+            }
+            else if (e.SaveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smUpdate)
+            {
+                UserLogic l2 = new UserLogic();
+                l2.SetDependencies(AppConfig, UserSession);
+                object[] pk = GetPrimaryKeys();
+                bool b = l2.LoadAsync<UserLogic>(pk).Result;
+                WebUserId = l2.WebUserId;
             }
         }
         //------------------------------------------------------------------------------------   

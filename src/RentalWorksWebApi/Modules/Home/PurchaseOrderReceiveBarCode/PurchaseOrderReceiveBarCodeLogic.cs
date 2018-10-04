@@ -60,12 +60,5 @@ namespace WebApi.Modules.Home.PurchaseOrderReceiveBarCode
         public bool? SerialNumberIsMixedCase { get; set; }
         public string DateStamp { get { return purchaseOrderReceiveBarCode.DateStamp; } set { purchaseOrderReceiveBarCode.DateStamp = value; } }
         //------------------------------------------------------------------------------------ 
-        //protected override bool Validate(TDataRecordSaveMode saveMode, ref string validateMsg) 
-        //{ 
-        //    //override this method on a derived class to implement custom validation logic 
-        //    bool isValid = true; 
-        //    return isValid; 
-        //} 
-        //------------------------------------------------------------------------------------ 
     }
 }
