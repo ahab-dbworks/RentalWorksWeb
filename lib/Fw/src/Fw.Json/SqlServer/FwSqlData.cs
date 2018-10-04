@@ -685,7 +685,7 @@ namespace Fw.Json.SqlServer
                 case "TIFF":
                     sp.AddParameter("@image",     FwGraphics.ConvertToJpg(file, ref width, ref height));
                     sp.AddParameter("@thumbnail", FwGraphics.GetJpgThumbnail(file));
-                    sp.AddParameter("@extension", "");
+                    sp.AddParameter("@extension", extension.ToUpper());
                     break;
                 case "PDF":
                     sp.AddParameter("@image",     file);

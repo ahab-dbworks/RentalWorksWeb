@@ -24,7 +24,7 @@ namespace RentalWorksQuikScan.Modules
             FwValidate.TestPropertyDefined(METHOD_NAME, request, "contractId");
             FwValidate.TestPropertyDefined(METHOD_NAME, request, "orderId");
             FwValidate.TestPropertyDefined(METHOD_NAME, request, "responsiblePersonId");
-            FwValidate.TestPropertyDefined(METHOD_NAME, request, "signatureImage");
+            //FwValidate.TestPropertyDefined(METHOD_NAME, request, "signatureImage");
             usersid             = session.security.webUser.usersid;
             contracttype        = request.contractType;
             contractid          = request.contractId;
@@ -38,8 +38,13 @@ namespace RentalWorksQuikScan.Modules
             // Create the contract
             response.createcontract = WebCreateContract(usersid, contracttype, contractid, orderid, responsiblepersonid, printname);
 
+            if (string.IsNullOrEmpty(contractid)) contractid = response.createcontract.contractId;
+
             // insert the signature image
-            FwSqlData.InsertAppImage(FwSqlConnection.RentalWorks, contractid, string.Empty, string.Empty, "CONTRACT_SIGNATURE", string.Empty, "JPG", request.signatureImage);
+            if (FwValidate.IsPropertyDefined(request, "signatureImage"))
+            {
+                FwSqlData.InsertAppImage(FwSqlConnection.RentalWorks, contractid, string.Empty, string.Empty, "CONTRACT_SIGNATURE", string.Empty, "JPG", request.signatureImage);
+            }
 
             if ((FwValidate.IsPropertyDefined(request, "images")) && (request.images.Length > 0))
             {
@@ -47,7 +52,8 @@ namespace RentalWorksQuikScan.Modules
                 for (int i = 0; i < request.images.Length; i++)
                 {
                     image = Convert.FromBase64String(request.images[i]);
-                    FwSqlData.InsertAppImage(FwSqlConnection.RentalWorks, contractid, string.Empty, string.Empty, "CONTRACT_IMAGE", string.Empty, "JPG", image);
+                    //FwSqlData.InsertAppImage(FwSqlConnection.RentalWorks, contractid, string.Empty, string.Empty, "CONTRACT_IMAGE", string.Empty, "JPG", image);
+                    FwSqlData.WebInsertAppDocument(FwSqlConnection.RentalWorks, contractid, string.Empty, "CONTRACT IMAGE", "", usersid, image, "JPG");
                 }
             }
 
