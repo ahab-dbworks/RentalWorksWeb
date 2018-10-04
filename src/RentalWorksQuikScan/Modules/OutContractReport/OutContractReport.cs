@@ -1,6 +1,7 @@
 ﻿using Fw.Json.Services.Common;
 using Fw.Json.SqlServer;
 using FwStandard.Models;
+using FwStandard.Reporting;
 using Newtonsoft.Json;
 using RentalWorksQuikScan.Source;
 using System;
@@ -28,6 +29,10 @@ namespace RentalWorksQuikScan.Modules
         //---------------------------------------------------------------------------------------------
         public void EmailPdf(string usersid, string webusersid, string contractid, string from, string to, string cc, string subject, string body)
         {
+            if (from.Length == 0)
+            {
+                throw new ArgumentException("From email address is required.");
+            }
             string webApiBaseUrl = Fw.Json.ValueTypes.FwApplicationConfig.CurrentSite.WebApi.Url.TrimEnd(new char[] { '/' }) + "/"; // mv 2018-06-26 
 
             HttpClient client = new HttpClient();
@@ -36,30 +41,25 @@ namespace RentalWorksQuikScan.Modules
 
             string username = string.Empty;
             string password = string.Empty;
-            string email = string.Empty;
             using (FwSqlConnection conn = FwSqlConnection.RentalWorks)
             {
                 using (FwSqlCommand qry = new FwSqlCommand(conn, FwQueryTimeouts.Default))
                 {
-                    qry.Add("select top 1 username = userloginname, password = dbo.decrypt(userpassword), email");
+                    qry.Add("select top 1 username = userloginname, password = dbo.decrypt(userpassword)");
                     qry.Add("from webusersview with (nolock)");
                     qry.Add("where webusersid = @webusersid");
                     qry.AddParameter("@webusersid", webusersid);
                     qry.Execute();
                     username = qry.GetField("username").ToString().TrimEnd();
                     password = qry.GetField("password").ToString().TrimEnd();
-                    email = qry.GetField("email").ToString().TrimEnd();
                 }
-            }
-            if (from.Length > 0)
-            {
-                email = from;
             }
 
             HttpRequestMessage requestJwtToken = new HttpRequestMessage(HttpMethod.Post, "api/v1/jwt");
             requestJwtToken.Content = new StringContent("{ \"UserName\": \"" + username + "\", \"Password\": \"" + password + "\"}", 
                                     Encoding.UTF8, 
                                     "application/json");
+
             var apiJwtResponse = client.SendAsync(requestJwtToken).Result;
 
             if (apiJwtResponse.IsSuccessStatusCode)
@@ -67,18 +67,21 @@ namespace RentalWorksQuikScan.Modules
                 var jsonJwtResponse = apiJwtResponse.Content.ReadAsStringAsync().Result;
                 var jwtResponse = JsonConvert.DeserializeObject<JwtResponse>(jsonJwtResponse);
 
-                HttpRequestMessage requestContractReport = new HttpRequestMessage(HttpMethod.Post, $"/api/v1/OutContractReport/emailpdf/{contractid}");
+                HttpRequestMessage requestContractReport = new HttpRequestMessage(HttpMethod.Post, $"/api/v1/OutContractReport/render");
                 requestContractReport.Headers.Authorization = new AuthenticationHeaderValue("Bearer", jwtResponse.access_token);
-                EmailPdfRequest emailPdfRequest = new EmailPdfRequest();
-                emailPdfRequest.from = email;
-                emailPdfRequest.to = to;
-                emailPdfRequest.cc = cc;
-                emailPdfRequest.subject = subject;
-                emailPdfRequest.body = body;
-                string strEmailPdfRequest = JsonConvert.SerializeObject(emailPdfRequest);
-                requestContractReport.Content = new StringContent(strEmailPdfRequest, Encoding.UTF8, "application/json");
+                FwReportRenderRequest renderRequest = new FwReportRenderRequest();
+                renderRequest.downloadPdfAsAttachment = false;
+                renderRequest.parameters = new System.Collections.Generic.Dictionary<string, object>();
+                renderRequest.parameters["contractid"] = contractid;
+                renderRequest.renderMode = FwReportRenderModes.Email;
+                renderRequest.email = new FwReportEmailInfo();
+                renderRequest.email.from = from;
+                renderRequest.email.to = to;
+                renderRequest.email.cc = cc;
+                renderRequest.email.subject = subject;
+                renderRequest.email.body = body;
+                requestContractReport.Content = new StringContent(JsonConvert.SerializeObject(renderRequest), Encoding.UTF8, "application/json");
                 var apiHtmlReportResponse = client.SendAsync(requestContractReport).Result;
-                
                 if (apiHtmlReportResponse.IsSuccessStatusCode)
                 {
                     var jsonContractReportResponse = apiHtmlReportResponse.Content.ReadAsStringAsync().Result;

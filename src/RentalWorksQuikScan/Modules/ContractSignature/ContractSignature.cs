@@ -59,13 +59,26 @@ namespace RentalWorksQuikScan.Modules
 
             if (contracttype == RwAppData.CONTRACT_TYPE_OUT)
             {
-                FwSqlCommand qry = new FwSqlCommand(FwSqlConnection.RentalWorks);
-                qry.Add("select orderno, orderdesc");
-                qry.Add("  from dealorder with (nolock)");
-                qry.Add(" where orderid = @orderid");
+                var qry = new FwSqlCommand(FwSqlConnection.RentalWorks);
+                qry.Add("with AgentEmail_CTE(agentemail) as (");
+                qry.Add("    select top 1 agentemail = isnull(u.email, '')");
+                qry.Add("    from ordercontract oc with (nolock)");
+                qry.Add("      left outer join dealorder o with (nolock) on (oc.orderid = o.orderid)");
+                qry.Add("      left outer join users u with (nolock) on (o.agentid = u.usersid)");
+                qry.Add("    where oc.contractid = @contractid");
+                qry.Add(")");
+                qry.Add(", Order_CTE(orderno, orderdesc) as (");
+                qry.Add("    select top 1 orderno = isnull(orderno, ''), orderdesc = isnull(orderdesc, '')");
+                qry.Add("    from dealorder with (nolock)");
+                qry.Add("    where orderid = @orderid");
+                qry.Add(")");
+                qry.Add("select ae.agentemail, o.orderno, o.orderdesc");
+                qry.Add("from AgentEmail_CTE ae, Order_CTE o");
+                qry.AddParameter("@contractid", response.createcontract.contractId);
                 qry.AddParameter("@orderid", orderid);
                 qry.Execute();
 
+                response.from = qry.GetField("agentemail").ToString().TrimEnd();
                 response.subject = qry.GetField("orderno").ToString().TrimEnd() + " - " + qry.GetField("orderdesc").ToString().TrimEnd() + " - Out Contract";
             }
         }
