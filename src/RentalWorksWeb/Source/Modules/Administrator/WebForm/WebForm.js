@@ -53,6 +53,20 @@ class WebForm {
     afterSave($form) {
         $form.attr('data-modified', 'false');
         $form.find('.btn[data-type="SaveMenuBarButton"]').addClass('disabled');
+        if (FwFormField.getValueByDataField($form, 'Active') == true) {
+            let type = $form.find('[data-datafield="BaseForm"] option:selected').attr('data-type');
+            let baseform = FwFormField.getValueByDataField($form, 'BaseForm');
+            let html = FwFormField.getValueByDataField($form, 'Html');
+            switch (type) {
+                case 'Grid':
+                    jQuery(`#tmpl-grids-${baseform}`).html(html);
+                    break;
+                case 'Browse':
+                case 'Form':
+                    jQuery(`#tmpl-modules-${baseform}`).html(html);
+                    break;
+            }
+        }
     }
     afterLoad($form) {
         this.addCodeEditor($form);
@@ -73,7 +87,6 @@ class WebForm {
         else {
             myCodeMirror.setValue(' ');
         }
-        $form.find('.CodeMirror').css('font-size', '1.1em');
         $form.find('div.modules').on('change', e => {
             let moduleName = jQuery(e.currentTarget).find(':selected').val();
             let type = jQuery(e.currentTarget).find('option:selected').attr('data-type');

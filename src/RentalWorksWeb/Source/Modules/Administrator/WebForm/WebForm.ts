@@ -71,6 +71,21 @@ class WebForm {
     afterSave($form: any) {
         $form.attr('data-modified', 'false');
         $form.find('.btn[data-type="SaveMenuBarButton"]').addClass('disabled');
+
+        if (FwFormField.getValueByDataField($form, 'Active') == true) {
+            let type = $form.find('[data-datafield="BaseForm"] option:selected').attr('data-type');
+            let baseform = FwFormField.getValueByDataField($form, 'BaseForm');
+            let html = FwFormField.getValueByDataField($form, 'Html');
+            switch (type) {
+                case 'Grid':
+                    jQuery(`#tmpl-grids-${baseform}`).html(html);
+                    break;
+                case 'Browse':
+                case 'Form':
+                    jQuery(`#tmpl-modules-${baseform}`).html(html);
+                    break;
+            }
+        }
     }
     //----------------------------------------------------------------------------------------------
     afterLoad($form: any) {
@@ -95,7 +110,6 @@ class WebForm {
         } else {
             myCodeMirror.setValue(' ');
         }
-        $form.find('.CodeMirror').css('font-size', '1.1em');
         //Select module event
         $form.find('div.modules').on('change', e => {
             let moduleName = jQuery(e.currentTarget).find(':selected').val();
@@ -169,10 +183,10 @@ class WebForm {
                     for (let i = 0; i < $grids.length; i++) {
                         let $this = jQuery($grids[i]);
                         let gridName = $this.attr('data-grid');
-                            let $gridControl = jQuery(jQuery(`#tmpl-grids-${gridName}Browse`).html());
-                            $this.empty().append($gridControl);
-                            FwBrowse.init($gridControl);
-                            FwBrowse.renderRuntimeHtml($gridControl);
+                        let $gridControl = jQuery(jQuery(`#tmpl-grids-${gridName}Browse`).html());
+                        $this.empty().append($gridControl);
+                        FwBrowse.init($gridControl);
+                        FwBrowse.renderRuntimeHtml($gridControl);
                     }
                     break;
             }
