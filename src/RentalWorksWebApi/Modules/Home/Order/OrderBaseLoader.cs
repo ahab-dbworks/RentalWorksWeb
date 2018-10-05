@@ -680,30 +680,6 @@ namespace WebApi.Modules.Home.Order
 
 
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "subrentaldaysinwk", modeltype: FwDataTypes.Decimal)]
-        public decimal? SubRentalDaysPerWeek { get; set; }
-        //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "subrentaldiscountpct", modeltype: FwDataTypes.Decimal)]
-        public decimal? SubRentalDiscountPercent { get; set; }
-        //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "weeklysubrentaltotal", modeltype: FwDataTypes.Decimal)]
-        public decimal? WeeklySubRentalTotal { get; set; }
-        //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "monthlysubrentaltotal", modeltype: FwDataTypes.Decimal)]
-        public decimal? MonthlySubRentalTotal { get; set; }
-        //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "periodsubrentaltotal", modeltype: FwDataTypes.Decimal)]
-        public decimal? PeriodSubRentalTotal { get; set; }
-        //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "weeklysubrentaltotalinctax", modeltype: FwDataTypes.Text)]
-        public string WeeklySubRentalTotalIncludesTax { get; set; }
-        //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "monthlysubrentaltotalinctax", modeltype: FwDataTypes.Text)]
-        public string MonthlySubRentalTotalIncludesTax { get; set; }
-        //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "periodsubrentaltotalinctax", modeltype: FwDataTypes.Text)]
-        public string PeriodSubRentalTotalIncludesTax { get; set; }
-        //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "rentaldaysinwk", modeltype: FwDataTypes.Decimal)]
         public decimal? RentalDaysPerWeek { get; set; }
         //------------------------------------------------------------------------------------
@@ -719,23 +695,14 @@ namespace WebApi.Modules.Home.Order
         [FwSqlDataField(column: "periodrentaltotal", modeltype: FwDataTypes.Decimal)]
         public decimal? PeriodRentalTotal { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "weeklyrentaltotalinctax", modeltype: FwDataTypes.Text)]
-        public string WeeklyRentalTotalIncludesTax { get; set; }
+        [FwSqlDataField(column: "weeklyrentaltotalinctax", modeltype: FwDataTypes.Boolean)]
+        public bool? WeeklyRentalTotalIncludesTax { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "monthlyrentaltotalinctax", modeltype: FwDataTypes.Text)]
-        public string MonthlyRentalTotalIncludesTax { get; set; }
+        [FwSqlDataField(column: "monthlyrentaltotalinctax", modeltype: FwDataTypes.Boolean)]
+        public bool? MonthlyRentalTotalIncludesTax { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "periodrentaltotalinctax", modeltype: FwDataTypes.Text)]
-        public string PeriodRentalTotalIncludesTax { get; set; }
-        //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "subsalesdiscpercent", modeltype: FwDataTypes.Decimal)]
-        public decimal? SubSalesDiscountPercent { get; set; }
-        //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "subsalestotal", modeltype: FwDataTypes.Decimal)]
-        public decimal? SubSalesTotal { get; set; }
-        //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "subsalestotalinctax", modeltype: FwDataTypes.Text)]
-        public string SubSalesTotalIncludesTax { get; set; }
+        [FwSqlDataField(column: "periodrentaltotalinctax", modeltype: FwDataTypes.Boolean)]
+        public bool? PeriodRentalTotalIncludesTax { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "salesdiscpercent", modeltype: FwDataTypes.Decimal)]
         public decimal? SalesDiscountPercent { get; set; }
@@ -743,8 +710,8 @@ namespace WebApi.Modules.Home.Order
         [FwSqlDataField(column: "salestotal", modeltype: FwDataTypes.Decimal)]
         public decimal? SalesTotal { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "salestotalinctax", modeltype: FwDataTypes.Text)]
-        public string SalesTotalIncludesTax { get; set; }
+        [FwSqlDataField(column: "salestotalinctax", modeltype: FwDataTypes.Boolean)]
+        public bool? SalesTotalIncludesTax { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "partsdiscpercent", modeltype: FwDataTypes.Decimal)]
         public decimal? PartsDiscountPercent { get; set; }
@@ -752,8 +719,8 @@ namespace WebApi.Modules.Home.Order
         [FwSqlDataField(column: "partstotal", modeltype: FwDataTypes.Decimal)]
         public decimal? PartsTotal { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "partstotalinctax", modeltype: FwDataTypes.Text)]
-        public string PartsTotalIncludesTax { get; set; }
+        [FwSqlDataField(column: "partstotalinctax", modeltype: FwDataTypes.Boolean)]
+        public bool? PartsTotalIncludesTax { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "spacedaysinwk", modeltype: FwDataTypes.Decimal)]
         public decimal? SpaceDaysPerWeek { get; set; }
@@ -773,38 +740,14 @@ namespace WebApi.Modules.Home.Order
         [FwSqlDataField(column: "periodspacetotal", modeltype: FwDataTypes.Decimal)]
         public decimal? PeriodSpaceTotal { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "weeklyspacetotalinctax", modeltype: FwDataTypes.Text)]
-        public string WeeklySpaceTotalIncludesTax { get; set; }
+        [FwSqlDataField(column: "weeklyspacetotalinctax", modeltype: FwDataTypes.Boolean)]
+        public bool? WeeklySpaceTotalIncludesTax { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "monthlyspacetotalinctax", modeltype: FwDataTypes.Text)]
-        public string MonthlySpaceTotalIncludesTax { get; set; }
+        [FwSqlDataField(column: "monthlyspacetotalinctax", modeltype: FwDataTypes.Boolean)]
+        public bool? MonthlySpaceTotalIncludesTax { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "periodspacetotalinctax", modeltype: FwDataTypes.Text)]
-        public string PeriodSpaceTotalIncludesTax { get; set; }
-        //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "subvehicledaysinwk", modeltype: FwDataTypes.Decimal)]
-        public decimal? SubVehicleDaysPerWeek { get; set; }
-        //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "subvehiclediscountpct", modeltype: FwDataTypes.Decimal)]
-        public decimal? SubvehicleDiscountPercent { get; set; }
-        //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "weeklysubvehicletotal", modeltype: FwDataTypes.Decimal)]
-        public decimal? WeeklySubVehicleTotal { get; set; }
-        //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "monthlysubvehicletotal", modeltype: FwDataTypes.Decimal)]
-        public decimal? MonthlySubVehicleTotal { get; set; }
-        //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "periodsubvehicletotal", modeltype: FwDataTypes.Decimal)]
-        public decimal? PeriodSubVehicleTotal { get; set; }
-        //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "weeklysubvehicletotalinctax", modeltype: FwDataTypes.Text)]
-        public string WeeklySubVehicleTotalIncludesTax { get; set; }
-        //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "monthlysubvehicletotalinctax", modeltype: FwDataTypes.Text)]
-        public string MonthlySubVehicleTotalIncludesTax { get; set; }
-        //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "periodsubvehicletotalinctax", modeltype: FwDataTypes.Text)]
-        public string PeriodSubVehicleTotalIncludesTax { get; set; }
+        [FwSqlDataField(column: "periodspacetotalinctax", modeltype: FwDataTypes.Boolean)]
+        public bool? PeriodSpaceTotalIncludesTax { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "vehicledaysinwk", modeltype: FwDataTypes.Decimal)]
         public decimal? VehicleDaysPerWeek { get; set; }
@@ -821,35 +764,14 @@ namespace WebApi.Modules.Home.Order
         [FwSqlDataField(column: "periodvehicletotal", modeltype: FwDataTypes.Decimal)]
         public decimal? PeriodVehicleTotal { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "weeklyvehicletotalinctax", modeltype: FwDataTypes.Text)]
-        public string WeeklyVehicleTotalIncludesTax { get; set; }
+        [FwSqlDataField(column: "weeklyvehicletotalinctax", modeltype: FwDataTypes.Boolean)]
+        public bool? WeeklyVehicleTotalIncludesTax { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "monthlyvehicletotalinctax", modeltype: FwDataTypes.Text)]
-        public string MonthlyVehicleTotalIncludesTax { get; set; }
+        [FwSqlDataField(column: "monthlyvehicletotalinctax", modeltype: FwDataTypes.Boolean)]
+        public bool? MonthlyVehicleTotalIncludesTax { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "periodvehicletotalinctax", modeltype: FwDataTypes.Text)]
-        public string PeriodVehicleTotalIncludesTax { get; set; }
-        //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "submiscdiscpercent", modeltype: FwDataTypes.Decimal)]
-        public decimal? SubMiscDiscountPercent { get; set; }
-        //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "weeklysubmisctotal", modeltype: FwDataTypes.Decimal)]
-        public decimal? WeeklySubMiscTotal { get; set; }
-        //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "monthlysubmisctotal", modeltype: FwDataTypes.Decimal)]
-        public decimal? MonthlySubMiscTotal { get; set; }
-        //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "periodsubmisctotal", modeltype: FwDataTypes.Decimal)]
-        public decimal? PeriodSubMiscTotal { get; set; }
-        //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "weeklysubmisctotalinctax", modeltype: FwDataTypes.Text)]
-        public string WeeklySubMiscTotalIncludesTax { get; set; }
-        //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "monthlysubmisctotalinctax", modeltype: FwDataTypes.Text)]
-        public string MonthlySubMiscTotalIncludesTax { get; set; }
-        //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "periodsubmisctotalinctax", modeltype: FwDataTypes.Text)]
-        public string PeriodSubMiscTotalIncludesTax { get; set; }
+        [FwSqlDataField(column: "periodvehicletotalinctax", modeltype: FwDataTypes.Boolean)]
+        public bool? PeriodVehicleTotalIncludesTax { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "miscdiscpercent", modeltype: FwDataTypes.Decimal)]
         public decimal? MiscDiscountPercent { get; set; }
@@ -863,35 +785,14 @@ namespace WebApi.Modules.Home.Order
         [FwSqlDataField(column: "periodmisctotal", modeltype: FwDataTypes.Decimal)]
         public decimal? PeriodMiscTotal { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "weeklymisctotalinctax", modeltype: FwDataTypes.Text)]
-        public string WeeklyMiscTotalIncludesTax { get; set; }
+        [FwSqlDataField(column: "weeklymisctotalinctax", modeltype: FwDataTypes.Boolean)]
+        public bool? WeeklyMiscTotalIncludesTax { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "monthlymisctotalinctax", modeltype: FwDataTypes.Text)]
-        public string MonthlyMiscTotalIncludesTax { get; set; }
+        [FwSqlDataField(column: "monthlymisctotalinctax", modeltype: FwDataTypes.Boolean)]
+        public bool? MonthlyMiscTotalIncludesTax { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "periodmisctotalinctax", modeltype: FwDataTypes.Text)]
-        public string PeriodMiscTotalIncludesTax { get; set; }
-        //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "sublabordiscpercent", modeltype: FwDataTypes.Decimal)]
-        public decimal? SubLaborDiscountPercent { get; set; }
-        //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "weeklysublabortotal", modeltype: FwDataTypes.Decimal)]
-        public decimal? WeeklySubLaborTotal { get; set; }
-        //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "monthlysublabortotal", modeltype: FwDataTypes.Decimal)]
-        public decimal? MonthlySubLaborTotal { get; set; }
-        //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "periodsublabortotal", modeltype: FwDataTypes.Decimal)]
-        public decimal? PeriodSubLaborTotal { get; set; }
-        //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "weeklysublabortotalinctax", modeltype: FwDataTypes.Text)]
-        public string WeeklySubLaborTotalIncludesTax { get; set; }
-        //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "monthlysublabortotalinctax", modeltype: FwDataTypes.Text)]
-        public string MonthlySubLaborTotalIncludesTax { get; set; }
-        //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "periodsublabortotalinctax", modeltype: FwDataTypes.Text)]
-        public string PeriodSubLaborTotalIncludesTax { get; set; }
+        [FwSqlDataField(column: "periodmisctotalinctax", modeltype: FwDataTypes.Boolean)]
+        public bool? PeriodMiscTotalIncludesTax { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "labordiscpercent", modeltype: FwDataTypes.Decimal)]
         public decimal? LaborDiscountPercent { get; set; }
@@ -905,14 +806,14 @@ namespace WebApi.Modules.Home.Order
         [FwSqlDataField(column: "periodlabortotal", modeltype: FwDataTypes.Decimal)]
         public decimal? PeriodLaborTotal { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "weeklylabortotalinctax", modeltype: FwDataTypes.Text)]
-        public string WeeklyLaborTotalIncludesTax { get; set; }
+        [FwSqlDataField(column: "weeklylabortotalinctax", modeltype: FwDataTypes.Boolean)]
+        public bool? WeeklyLaborTotalIncludesTax { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "monthlylabortotalinctax", modeltype: FwDataTypes.Text)]
-        public string MonthlyLaborTotalIncludesTax { get; set; }
+        [FwSqlDataField(column: "monthlylabortotalinctax", modeltype: FwDataTypes.Boolean)]
+        public bool? MonthlyLaborTotalIncludesTax { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "periodlabortotalinctax", modeltype: FwDataTypes.Text)]
-        public string PeriodLaborTotalIncludesTax { get; set; }
+        [FwSqlDataField(column: "periodlabortotalinctax", modeltype: FwDataTypes.Boolean)]
+        public bool? PeriodLaborTotalIncludesTax { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "rsdiscpercent", modeltype: FwDataTypes.Decimal)]
         public decimal? RentalSaleDiscountPercent { get; set; }
@@ -920,8 +821,8 @@ namespace WebApi.Modules.Home.Order
         [FwSqlDataField(column: "rstotal", modeltype: FwDataTypes.Decimal)]
         public decimal? RentalSaleTotal { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "rstotalinctax", modeltype: FwDataTypes.Text)]
-        public string RentalSaleTotalIncludesTax { get; set; }
+        [FwSqlDataField(column: "rstotalinctax", modeltype: FwDataTypes.Boolean)]
+        public bool? RentalSaleTotalIncludesTax { get; set; }
         //------------------------------------------------------------------------------------
 
 
@@ -941,14 +842,14 @@ namespace WebApi.Modules.Home.Order
         [FwSqlDataField(column: "periodrentaltotal", modeltype: FwDataTypes.Decimal)]
         public decimal? PeriodCombinedTotal { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "weeklyrentaltotalinctax", modeltype: FwDataTypes.Text)]
-        public string WeeklyCombinedTotalIncludesTax { get; set; }
+        [FwSqlDataField(column: "weeklyrentaltotalinctax", modeltype: FwDataTypes.Boolean)]
+        public bool? WeeklyCombinedTotalIncludesTax { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "monthlyrentaltotalinctax", modeltype: FwDataTypes.Text)]
-        public string MonthlyCombinedTotalIncludesTax { get; set; }
+        [FwSqlDataField(column: "monthlyrentaltotalinctax", modeltype: FwDataTypes.Boolean)]
+        public bool? MonthlyCombinedTotalIncludesTax { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "periodrentaltotalinctax", modeltype: FwDataTypes.Text)]
-        public string PeriodCombinedTotalIncludesTax { get; set; }
+        [FwSqlDataField(column: "periodrentaltotalinctax", modeltype: FwDataTypes.Boolean)]
+        public bool? PeriodCombinedTotalIncludesTax { get; set; }
         //------------------------------------------------------------------------------------
 
 

@@ -452,22 +452,6 @@ namespace WebApi.Modules.Home.Order
 
 
         [FwBusinessLogicField(isReadOnly: true)]
-        public decimal? SubRentalDaysPerWeek { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
-        public decimal? SubRentalDiscountPercent { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
-        public decimal? WeeklySubRentalTotal { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
-        public decimal? MonthlySubRentalTotal { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
-        public decimal? PeriodSubRentalTotal { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
-        public string WeeklySubRentalTotalIncludesTax { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
-        public string MonthlySubRentalTotalIncludesTax { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
-        public string PeriodSubRentalTotalIncludesTax { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
         public decimal? RentalDaysPerWeek { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
         public decimal? RentalDiscountPercent { get; set; }
@@ -478,29 +462,24 @@ namespace WebApi.Modules.Home.Order
         [FwBusinessLogicField(isReadOnly: true)]
         public decimal? PeriodRentalTotal { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
-        public string WeeklyRentalTotalIncludesTax { get; set; }
+        public bool? WeeklyRentalTotalIncludesTax { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
-        public string MonthlyRentalTotalIncludesTax { get; set; }
+        public bool? MonthlyRentalTotalIncludesTax { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
-        public string PeriodRentalTotalIncludesTax { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
-        public decimal? SubSalesDiscountPercent { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
-        public decimal? SubSalesTotal { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
-        public string SubSalesTotalIncludesTax { get; set; }
+        public bool? PeriodRentalTotalIncludesTax { get; set; }
+
         [FwBusinessLogicField(isReadOnly: true)]
         public decimal? SalesDiscountPercent { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
         public decimal? SalesTotal { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
-        public string SalesTotalIncludesTax { get; set; }
+        public bool? SalesTotalIncludesTax { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
         public decimal? PartsDiscountPercent { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
         public decimal? PartsTotal { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
-        public string PartsTotalIncludesTax { get; set; }
+        public bool? PartsTotalIncludesTax { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
         public decimal? SpaceDaysPerWeek { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
@@ -514,27 +493,12 @@ namespace WebApi.Modules.Home.Order
         [FwBusinessLogicField(isReadOnly: true)]
         public decimal? PeriodSpaceTotal { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
-        public string WeeklySpaceTotalIncludesTax { get; set; }
+        public bool? WeeklySpaceTotalIncludesTax { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
-        public string MonthlySpaceTotalIncludesTax { get; set; }
+        public bool? MonthlySpaceTotalIncludesTax { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
-        public string PeriodSpaceTotalIncludesTax { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
-        public decimal? SubVehicleDaysPerWeek { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
-        public decimal? SubvehicleDiscountPercent { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
-        public decimal? WeeklySubVehicleTotal { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
-        public decimal? MonthlySubVehicleTotal { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
-        public decimal? PeriodSubVehicleTotal { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
-        public string WeeklySubVehicleTotalIncludesTax { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
-        public string MonthlySubVehicleTotalIncludesTax { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
-        public string PeriodSubVehicleTotalIncludesTax { get; set; }
+        public bool? PeriodSpaceTotalIncludesTax { get; set; }
+
         [FwBusinessLogicField(isReadOnly: true)]
         public decimal? VehicleDaysPerWeek { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
@@ -546,25 +510,13 @@ namespace WebApi.Modules.Home.Order
         [FwBusinessLogicField(isReadOnly: true)]
         public decimal? PeriodVehicleTotal { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
-        public string WeeklyVehicleTotalIncludesTax { get; set; }
+        public bool? WeeklyVehicleTotalIncludesTax { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
-        public string MonthlyVehicleTotalIncludesTax { get; set; }
+        public bool? MonthlyVehicleTotalIncludesTax { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
-        public string PeriodVehicleTotalIncludesTax { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
-        public decimal? SubMiscDiscountPercent { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
-        public decimal? WeeklySubMiscTotal { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
-        public decimal? MonthlySubMiscTotal { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
-        public decimal? PeriodSubMiscTotal { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
-        public string WeeklySubMiscTotalIncludesTax { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
-        public string MonthlySubMiscTotalIncludesTax { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
-        public string PeriodSubMiscTotalIncludesTax { get; set; }
+        public bool? PeriodVehicleTotalIncludesTax { get; set; }
+
+
         [FwBusinessLogicField(isReadOnly: true)]
         public decimal? MiscDiscountPercent { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
@@ -574,25 +526,12 @@ namespace WebApi.Modules.Home.Order
         [FwBusinessLogicField(isReadOnly: true)]
         public decimal? PeriodMiscTotal { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
-        public string WeeklyMiscTotalIncludesTax { get; set; }
+        public bool? WeeklyMiscTotalIncludesTax { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
-        public string MonthlyMiscTotalIncludesTax { get; set; }
+        public bool? MonthlyMiscTotalIncludesTax { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
-        public string PeriodMiscTotalIncludesTax { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
-        public decimal? SubLaborDiscountPercent { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
-        public decimal? WeeklySubLaborTotal { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
-        public decimal? MonthlySubLaborTotal { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
-        public decimal? PeriodSubLaborTotal { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
-        public string WeeklySubLaborTotalIncludesTax { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
-        public string MonthlySubLaborTotalIncludesTax { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
-        public string PeriodSubLaborTotalIncludesTax { get; set; }
+        public bool? PeriodMiscTotalIncludesTax { get; set; }
+
         [FwBusinessLogicField(isReadOnly: true)]
         public decimal? LaborDiscountPercent { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
@@ -602,17 +541,17 @@ namespace WebApi.Modules.Home.Order
         [FwBusinessLogicField(isReadOnly: true)]
         public decimal? PeriodLaborTotal { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
-        public string WeeklyLaborTotalIncludesTax { get; set; }
+        public bool? WeeklyLaborTotalIncludesTax { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
-        public string MonthlyLaborTotalIncludesTax { get; set; }
+        public bool? MonthlyLaborTotalIncludesTax { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
-        public string PeriodLaborTotalIncludesTax { get; set; }
+        public bool? PeriodLaborTotalIncludesTax { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
         public decimal? RentalSaleDiscountPercent { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
         public decimal? RentalSaleTotal { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
-        public string RentalSaleTotalIncludesTax { get; set; }
+        public bool? RentalSaleTotalIncludesTax { get; set; }
 
         [FwBusinessLogicField(isReadOnly: true)]
         public decimal? CombinedDaysPerWeek { get; set; }
@@ -625,11 +564,11 @@ namespace WebApi.Modules.Home.Order
         [FwBusinessLogicField(isReadOnly: true)]
         public decimal? PeriodCombinedTotal { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
-        public string WeeklyCombinedTotalIncludesTax { get; set; }
+        public bool? WeeklyCombinedTotalIncludesTax { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
-        public string MonthlyCombinedTotalIncludesTax { get; set; }
+        public bool? MonthlyCombinedTotalIncludesTax { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
-        public string PeriodCombinedTotalIncludesTax { get; set; }
+        public bool? PeriodCombinedTotalIncludesTax { get; set; }
 
         //------------------------------------------------------------------------------------ 
 
