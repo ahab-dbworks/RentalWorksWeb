@@ -1,6 +1,7 @@
 ﻿class Control {
     Module: string = 'Control';
     apiurl: string = 'api/v1/control';
+    reportImageId: string = '';
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
         var screen, $browse;
@@ -45,6 +46,11 @@
             FwFormField.disable($form.find('.ifnew'))
         }
 
+        let request = { "uniqueid1":"1", "uniqueid2":"", "uniqueid3":"", "description":"", "rectype":"F", "requestid":"a7e0e9d6-3703-47a1-bd4f-08286bf2c86a" }
+        FwAppData.jsonPost(false, 'fwappimage.ashx?method=GetAppImages', request, FwServices.defaultTimeout, response => {
+            this.reportImageId = response.images[0].appimageid
+        }, null, $form);
+
         return $form;
     }
     //----------------------------------------------------------------------------------------------
@@ -60,6 +66,14 @@
     //----------------------------------------------------------------------------------------------
     saveForm($form: any, parameters: any) {
         FwModule.saveForm(this.Module, $form, parameters);
+
+        let request = { "uniqueid1": "1", "uniqueid2": "", "uniqueid3": "", "description": "", "rectype": "F", "requestid": "a7e0e9d6-3703-47a1-bd4f-08286bf2c86a" }
+        FwAppData.jsonPost(false, 'fwappimage.ashx?method=GetAppImages', request, FwServices.defaultTimeout, response => {
+            this.reportImageId = response.images[0].appimageid
+        }, null, $form);
+
+        FwAppData.apiMethod(true, 'GET', `api/v1/fwappimage.ashx?method=GetAppImage&appimageid=${this.reportImageId}`, null, FwServices.defaultTimeout, (response) => { console.log(response) }, null, null)
+
     }
     //----------------------------------------------------------------------------------------------
     loadAudit($form: any) {

@@ -46,9 +46,7 @@ export class OrderReport extends WebpackReport {
                     order.PrintTime = moment().format('YYYY-MM-DD h:mm:ss A');
                     if (controlObject.ReportLogoImage != '') {
                         order.Logosrc = controlObject.ReportLogoImage;
-                    } else {
-                        order.Logosrc = 'https://cdn01.4wall.com/cms/blog/images/f522f515029e93.jpg'; // temporary until control has a working base64image
-                    }
+                    } 
                     if (isOrder) {
                         order.Report = 'ORDER';
                     } else {
