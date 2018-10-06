@@ -1,7 +1,5 @@
-var FwNotification = (function () {
-    function FwNotification() {
-    }
-    FwNotification.renderNotification = function (type, message, options) {
+class FwNotification {
+    static renderNotification(type, message, options) {
         var html, $notification, maxZIndex;
         html = [];
         html.push('<div class="fwnotification');
@@ -47,13 +45,13 @@ var FwNotification = (function () {
             FwNotification.closeNotification(jQuery(this).parent());
         });
         return $notification;
-    };
+    }
     ;
-    FwNotification.closeNotification = function ($notification) {
+    static closeNotification($notification) {
         $notification.remove();
-    };
+    }
     ;
-    FwNotification.fieldNotification = function ($field, type, message) {
+    static fieldNotification($field, type, message) {
         var html, $notification, maxZIndex;
         html = [];
         html.push('<div class="fwnotification');
@@ -97,9 +95,9 @@ var FwNotification = (function () {
         });
         $notification.css('top', $field.position().top).css('left', ($field.position().left + $field.width() + 10)).css('bottom', 'auto').css('right', 'auto');
         return $notification;
-    };
+    }
     ;
-    FwNotification.renderNotificationToControl = function (type, message) {
+    static renderNotificationToControl(type, message) {
         var html, $notification, messagecount, maxZIndex;
         html = [];
         html.push('<div class="fwnotification');
@@ -144,9 +142,9 @@ var FwNotification = (function () {
             }
         });
         return $notification;
-    };
+    }
     ;
-    FwNotification.generateNotificationArea = function () {
+    static generateNotificationArea() {
         var $notificationmenu, html;
         html = [];
         html.push('<div id="notification" class="item">');
@@ -184,7 +182,6 @@ var FwNotification = (function () {
             e.stopPropagation();
         });
         return $notification;
-    };
-    return FwNotification;
-}());
+    }
+}
 //# sourceMappingURL=FwNotification.js.map

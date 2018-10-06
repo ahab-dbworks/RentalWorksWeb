@@ -1,11 +1,13 @@
 class FwSettingsClass {
     constructor() {
         this.filter = [];
+        this.customFilter = [];
         this.screen = {
             'moduleCaptions': {}
         };
     }
     init() {
+        this.screen.moduleCaptions = {};
         this.getCaptions(this.screen);
     }
     ;
@@ -164,13 +166,21 @@ class FwSettingsClass {
         var modules = FwApplicationTree.getChildrenByType(node, 'SettingsModule');
         FwAppData.apiMethod(true, 'GET', 'api/v1/customfield/', null, FwServices.defaultTimeout, function onSuccess(response) {
             for (var i = 0; i < response.length; i++) {
-                var fieldName = response[i].FieldName.replace(/\s/g, '').toUpperCase();
+                let fieldName = response[i].FieldName.replace(/\s/g, '').toUpperCase();
+                let customObject = {
+                    custom: true,
+                    datafield: response[i].FieldName,
+                    caption: response[i].FieldName,
+                    datatype: response[i].FieldType,
+                    module: response[i].ModuleName
+                };
                 if (typeof screen.moduleCaptions[fieldName] === 'undefined') {
                     screen.moduleCaptions[fieldName] = {};
                 }
                 if (typeof screen.moduleCaptions[fieldName][response[i].ModuleName] === 'undefined') {
                     screen.moduleCaptions[fieldName][response[i].ModuleName] = [];
                 }
+                screen.moduleCaptions[fieldName][response[i].ModuleName].push(customObject);
             }
             for (var idx = 0; idx < modules.length; idx++) {
                 var moduleName = modules[idx].properties.controller.slice(0, -10);
@@ -329,18 +339,19 @@ class FwSettingsClass {
         html.push('<div class="panel-group" id="' + moduleName + '" data-id="' + moduleId + '">');
         html.push('  <div class="panel panel-primary">');
         html.push('    <div data-toggle="collapse" data-target="' + moduleName + '" href="' + moduleName + '" class="panel-heading">');
-        html.push('      <h4 class="panel-title">');
-        html.push('        <a id="title" data-toggle="collapse">' + menu + ' - ' + title);
-        html.push('          <i class="material-icons arrow-selector">keyboard_arrow_down</i>');
-        html.push('        </a>');
-        html.push('        <i class="material-icons heading-menu">more_vert</i>');
+        html.push('      <div class="flexrow" style="max-width:none;">');
+        html.push('        <i class="material-icons arrow-selector">keyboard_arrow_down</i>');
+        html.push('        <h4 class="panel-title">');
+        html.push('        <a id="title" data-toggle="collapse">' + menu + ' - ' + title + '</a>');
         html.push('        <div id="myDropdown" class="dropdown-content">');
         html.push('          <a class="new-row">New Item</a>');
         html.push('          <a class="show-inactive">Show Inactive</a>');
         html.push('          <a class="hide-inactive">Hide Inactive</a>');
         html.push('          <a class="pop-out">Pop Out Module</a>');
         html.push('        </div>');
-        html.push('      </h4>');
+        html.push('        <i class="material-icons heading-menu">more_vert</i>');
+        html.push('        </h4>');
+        html.push('      </div>');
         if (description === "") {
             html.push('      <small id="searchId" style="display:none;">' + moduleName + '</small>');
             html.push('      <small id="description-text">' + moduleName + '</small>');
@@ -369,6 +380,7 @@ class FwSettingsClass {
             }
             $body = $control.find('#' + moduleName + '.panel-body');
             me.newRow($body, $control, apiurl, $modulecontainer, moduleName, $settingsPageModules);
+            jQuery(this).parent().hide();
         });
         $settingsPageModules.on('click', '.show-inactive', function (e) {
             e.stopPropagation();
@@ -464,6 +476,20 @@ class FwSettingsClass {
                             }
                         }
                     }
+                    if (me.customFilter.length > 0) {
+                        var uniqueCustomFilter = [];
+                        for (var j = 0; j < me.customFilter.length; j++) {
+                            if (uniqueCustomFilter.indexOf(me.customFilter[j]) === -1) {
+                                uniqueCustomFilter.push(me.customFilter[j]);
+                            }
+                        }
+                        for (var k = 0; k < uniqueCustomFilter.length; k++) {
+                            if (uniqueCustomFilter[k].module == $form.data('controller').slice(0, -10)) {
+                                browseData.push(uniqueCustomFilter[k]);
+                                browseKeys.push(uniqueCustomFilter[k].datafield);
+                            }
+                        }
+                    }
                     browseData.forEach(function (browseField) {
                         if (!duplicateDatafields[browseField.datafield]) {
                             withoutDuplicates.push(browseField);
@@ -534,11 +560,17 @@ class FwSettingsClass {
         })
             .on('click', '.heading-menu', function (e) {
             e.stopPropagation();
-            if (jQuery(this).next().css('display') === 'none') {
-                jQuery(this).next().css('display', 'flex');
+            let menuButton = jQuery(this);
+            if (menuButton.prev().css('display') === 'none') {
+                menuButton.prev().css('display', 'block');
+                jQuery(document).one('click', function closeMenu(e) {
+                    if (menuButton.has(e.target).length === 0) {
+                        menuButton.prev().css('display', 'none');
+                    }
+                });
             }
             else {
-                jQuery(this).next().css('display', 'none');
+                menuButton.prev().css('display', 'none');
             }
         });
         $control
@@ -558,10 +590,10 @@ class FwSettingsClass {
                 $form.find('.highlighted').removeClass('highlighted');
                 $form.find('div[data-type="NewMenuBarButton"]').off();
                 for (var key in recordData) {
-                    for (var i = 0; i < filter.length; i++) {
+                    for (var i = 0; i < me.filter.length; i++) {
                         var highlightField = $form.find('[data-datafield="' + key + '"]');
                         var hightlightFieldTabId = highlightField.closest('.tabpage').attr('data-tabid');
-                        if (filter[i] === key) {
+                        if (me.filter[i] === key) {
                             if ($form.find('[data-datafield="' + key + '"]').attr('data-type') === 'checkbox') {
                                 $form.find('[data-datafield="' + key + '"] label').addClass('highlighted');
                             }
@@ -603,8 +635,8 @@ class FwSettingsClass {
             }
             $form.data('afterLoadCustomFields', function () {
                 for (var key in recordData) {
-                    for (var i = 0; i < filter.length; i++) {
-                        if (filter[i] === key) {
+                    for (var i = 0; i < me.filter.length; i++) {
+                        if (me.filter[i] === key) {
                             $form.find('[data-datafield="' + key + '"]').find('.fwformfield-caption').css({ 'background': 'yellow' });
                         }
                     }
@@ -661,8 +693,9 @@ class FwSettingsClass {
         });
         $control.on('keypress', '#settingsSearch', function (e) {
             if (e.which === 13) {
-                var $settings, val, $module, $settingsDescriptions;
+                var $settings, val, $module, $settingsDescriptions, filter, customFilter;
                 filter = [];
+                customFilter = [];
                 $settings = jQuery('small#searchId');
                 $settingsDescriptions = jQuery('small#description-text');
                 $module = jQuery('a#title');
@@ -677,7 +710,10 @@ class FwSettingsClass {
                     for (var caption in me.screen.moduleCaptions) {
                         if (caption.indexOf(val) !== -1) {
                             for (var moduleName in me.screen.moduleCaptions[caption]) {
-                                if (me.screen.moduleCaptions[caption][moduleName][0]) {
+                                if (me.screen.moduleCaptions[caption][moduleName][0].custom) {
+                                    customFilter.push(me.screen.moduleCaptions[caption][moduleName][0]);
+                                }
+                                else {
                                     filter.push(me.screen.moduleCaptions[caption][moduleName][0].data().datafield);
                                 }
                                 results.push(moduleName.toUpperCase());
@@ -685,14 +721,26 @@ class FwSettingsClass {
                         }
                     }
                     me.filter = filter;
+                    me.customFilter = customFilter;
                     for (var i = 0; i < results.length; i++) {
                         var module = $settingsDescriptions.filter(function () {
                             return -1 != jQuery(this).text().toUpperCase().indexOf(results[i]);
                         }).closest('div.panel-group');
                         module.find('.highlighted').removeClass('highlighted');
-                        const description = module.find('small#description-text');
-                        const index = description.text().toUpperCase().indexOf(results[i]);
-                        description[0].innerHTML = description.text().substring(0, index) + '<span class="highlighted">' + description.text().substring(index, index + results[i].length) + '</span>' + description.text().substring(index + results[i].length);
+                        let description = module.find('small#description-text');
+                        let title = module.find('a#title');
+                        for (var j = 0; j < description.length; j++) {
+                            if (description[j] !== undefined) {
+                                let descriptionIndex = jQuery(description[j]).text().toUpperCase().indexOf(val);
+                                let titleIndex = jQuery(title[j]).text().toUpperCase().indexOf(val);
+                                if (descriptionIndex > -1) {
+                                    description[j].innerHTML = jQuery(description[j]).text().substring(0, descriptionIndex) + '<span class="highlighted">' + jQuery(description[j]).text().substring(descriptionIndex, descriptionIndex + val.length) + '</span>' + jQuery(description[j]).text().substring(descriptionIndex + val.length);
+                                }
+                                if (titleIndex > -1) {
+                                    title[j].innerHTML = jQuery(title[j]).text().substring(0, titleIndex) + '<span class="highlighted">' + jQuery(title[j]).text().substring(titleIndex, titleIndex + val.length) + '</span>' + jQuery(title[j]).text().substring(titleIndex + val.length);
+                                }
+                            }
+                        }
                         module.show();
                     }
                     $module.filter(function () {

@@ -56,15 +56,16 @@ class FwReportsPageClass {
         html.push('<div class="panel-group" id="' + moduleName + '" data-id="' + moduleId + '">');
         html.push('  <div class="panel panel-primary">');
         html.push('    <div data-toggle="collapse" data-target="' + moduleName + '" href="' + moduleName + '" class="panel-heading">');
-        html.push('      <h4 class="panel-title">');
-        html.push('        <a id="title" data-toggle="collapse">' + menu + ' - ' + title);
-        html.push('          <i class="material-icons arrow-selector">keyboard_arrow_down</i>');
-        html.push('        </a>');
-        html.push('        <i class="material-icons heading-menu">more_vert</i>');
-        html.push('        <div id="myDropdown" class="dropdown-content">');
-        html.push('          <a class="pop-out">Pop Out Module</a>');
-        html.push('        </div>');
+        html.push('      <div class="flexrow" style="max-width:none;">');
+        html.push('        <i class="material-icons arrow-selector">keyboard_arrow_down</i>');
+        html.push('        <h4 class="panel-title">');
+        html.push('          <a id="title" data-toggle="collapse">' + menu + ' - ' + title + '</a>');
+        html.push('          <i class="material-icons heading-menu">more_vert</i>');
+        html.push('          <div id="myDropdown" class="dropdown-content">');
+        html.push('            <a class="pop-out">Pop Out Module</a>');
+        html.push('          </div>');
         html.push('      </h4>');
+        html.push('      </div>');
         if (description === "") {
             html.push('      <small id="description" style="display:none;">' + moduleName + '</small>');
             html.push('      <small id="description-text">' + moduleName + '</small>');
@@ -159,9 +160,20 @@ class FwReportsPageClass {
                             return -1 != jQuery(this).text().toUpperCase().indexOf(results[i]);
                         }).closest('div.panel-group');
                         module.find('.highlighted').removeClass('highlighted');
-                        const description = module.find('small#description-text');
-                        const index = description.text().toUpperCase().indexOf(results[i]);
-                        description[0].innerHTML = description.text().substring(0, index) + '<span class="highlighted">' + description.text().substring(index, index + results[i].length) + '</span>' + description.text().substring(index + results[i].length);
+                        let description = module.find('small#description-text');
+                        let title = module.find('a#title');
+                        for (var j = 0; j < description.length; j++) {
+                            if (description[j] !== undefined) {
+                                let descriptionIndex = jQuery(description[j]).text().toUpperCase().indexOf(val);
+                                let titleIndex = jQuery(title[j]).text().toUpperCase().indexOf(val);
+                                if (descriptionIndex > -1) {
+                                    description[j].innerHTML = jQuery(description[j]).text().substring(0, descriptionIndex) + '<span class="highlighted">' + jQuery(description[j]).text().substring(descriptionIndex, descriptionIndex + val.length) + '</span>' + jQuery(description[j]).text().substring(descriptionIndex + val.length);
+                                }
+                                if (titleIndex > -1) {
+                                    title[j].innerHTML = jQuery(title[j]).text().substring(0, titleIndex) + '<span class="highlighted">' + jQuery(title[j]).text().substring(titleIndex, titleIndex + val.length) + '</span>' + jQuery(title[j]).text().substring(titleIndex + val.length);
+                                }
+                            }
+                        }
                         module.show();
                     }
                     $module.filter(function () {

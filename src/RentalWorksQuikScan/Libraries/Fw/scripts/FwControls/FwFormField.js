@@ -1,5 +1,5 @@
-var FwFormFieldClass = (function () {
-    function FwFormFieldClass() {
+class FwFormFieldClass {
+    constructor() {
         this.setValue = function ($parent, selector, value, text, firechangeevent) {
             var $fwformfield, data_type, keys, $inputtext, $inputvalue;
             $fwformfield = $parent.find(selector);
@@ -14,7 +14,7 @@ var FwFormFieldClass = (function () {
             }
         };
     }
-    FwFormFieldClass.prototype.init = function ($control) {
+    init($control) {
         if (typeof $control.attr('data-isuniqueid') === 'undefined') {
             $control.attr('data-isuniqueid', 'false');
         }
@@ -47,8 +47,8 @@ var FwFormFieldClass = (function () {
             var $field = jQuery(this).closest('.fwformfield');
             $field.removeClass('focused');
         });
-    };
-    FwFormFieldClass.prototype.getDroppableRegions = function (data_type) {
+    }
+    getDroppableRegions(data_type) {
         var selector;
         if ((typeof window['FwFormField_' + data_type] === 'object') &&
             (typeof window['FwFormField_' + data_type].getDroppableRegions === 'function')) {
@@ -58,8 +58,8 @@ var FwFormFieldClass = (function () {
             selector = '.fwform-fieldrow > .children';
         }
         return selector;
-    };
-    FwFormFieldClass.prototype.getHtmlTag = function (data_type) {
+    }
+    getHtmlTag(data_type) {
         var template, html, properties, i;
         if ((typeof window['FwFormField_' + data_type] === 'object') &&
             (typeof window['FwFormField_' + data_type].getHtmlTag === 'function')) {
@@ -76,8 +76,8 @@ var FwFormFieldClass = (function () {
             html = template.join('');
         }
         return html;
-    };
-    FwFormFieldClass.prototype.getDesignerProperties = function (data_type) {
+    }
+    getDesignerProperties(data_type) {
         var properties = [], propId, propClass, propDataControl, propDataType, propDataVersion, propDataCaption, propDataEnabled, propDataOriginalValue, propDataImageUrl, propDataField, propDataRequired, propDataMinValue, propDataMaxValue, propDataAutocomplete, propDataName, propWidth, propFloat;
         if ((typeof window['FwFormField_' + data_type] === 'object') &&
             (typeof window['FwFormField_' + data_type].getDesignerProperties === 'function')) {
@@ -162,8 +162,8 @@ var FwFormFieldClass = (function () {
             }
         }
         return properties;
-    };
-    FwFormFieldClass.prototype.renderDesignerHtml = function ($control) {
+    }
+    renderDesignerHtml($control) {
         var data_type = $control.attr('data-type');
         $control.attr('data-rendermode', 'designer');
         var html = [];
@@ -171,8 +171,8 @@ var FwFormFieldClass = (function () {
             (typeof window['FwFormField_' + data_type].renderDesignerHtml === 'function')) {
             window['FwFormField_' + data_type].renderDesignerHtml($control, html);
         }
-    };
-    FwFormFieldClass.prototype.renderRuntimeHtml = function ($control) {
+    }
+    renderRuntimeHtml($control) {
         var data_type = $control.attr('data-type');
         $control.attr('data-rendermode', 'runtime');
         var html = [];
@@ -182,8 +182,8 @@ var FwFormFieldClass = (function () {
         }
         $control.removeAttr('data-rendermode');
         $control.removeAttr('data-version');
-    };
-    FwFormFieldClass.prototype.renderTemplateHtml = function ($control) {
+    }
+    renderTemplateHtml($control) {
         var data_type = $control.attr('data-type');
         $control.attr('data-rendermode', 'template');
         var html = [];
@@ -198,15 +198,15 @@ var FwFormFieldClass = (function () {
                     break;
             }
         }
-    };
-    FwFormFieldClass.prototype.loadItems = function ($control, items, hideEmptyItem) {
+    }
+    loadItems($control, items, hideEmptyItem) {
         var data_type = $control.attr('data-type');
         if ((typeof window['FwFormField_' + data_type] === 'object') &&
             (typeof window['FwFormField_' + data_type].loadItems === 'function')) {
             window['FwFormField_' + data_type].loadItems($control, items, hideEmptyItem);
         }
-    };
-    FwFormFieldClass.prototype.loadForm = function ($fwformfields, model) {
+    }
+    loadForm($fwformfields, model) {
         if (typeof model._Custom !== 'undefined' && model._Custom.length > 0 && model._Custom !== undefined) {
             for (var i = 0; i < model._Custom.length; i++) {
                 model[model._Custom[i].FieldName] = model._Custom[i].FieldValue;
@@ -273,8 +273,8 @@ var FwFormFieldClass = (function () {
                 }
             }
         });
-    };
-    FwFormFieldClass.prototype.bulkGetValues = function ($controls) {
+    }
+    bulkGetValues($controls) {
         var $control, tables, value, originalvalue, datafield, datafieldArray, table, field;
         tables = {};
         $controls.each(function (index, element) {
@@ -303,16 +303,16 @@ var FwFormFieldClass = (function () {
             }
         });
         return tables;
-    };
-    FwFormFieldClass.prototype.toggle = function ($controls, isEnabled) {
+    }
+    toggle($controls, isEnabled) {
         if (isEnabled) {
             this.enable($controls);
         }
         else {
             this.disable($controls);
         }
-    };
-    FwFormFieldClass.prototype.disable = function ($controls) {
+    }
+    disable($controls) {
         $controls.each(function (index, element) {
             var $control, data_type;
             $control = jQuery(element);
@@ -326,8 +326,8 @@ var FwFormFieldClass = (function () {
                 }
             }
         });
-    };
-    FwFormFieldClass.prototype.enable = function ($controls) {
+    }
+    enable($controls) {
         $controls.each(function (index, element) {
             var $control, data_type;
             $control = jQuery(element);
@@ -341,14 +341,14 @@ var FwFormFieldClass = (function () {
                 }
             }
         });
-    };
-    FwFormFieldClass.prototype.getValue = function ($parent, selector) {
+    }
+    getValue($parent, selector) {
         var $fwformfield, value;
         $fwformfield = $parent.find(selector);
         value = this.getValue2($fwformfield);
         return value;
-    };
-    FwFormFieldClass.prototype.getValueByDataField = function ($parent, datafield) {
+    }
+    getValueByDataField($parent, datafield) {
         var selector, value;
         selector = 'div[data-datafield="' + datafield + '"]';
         try {
@@ -358,8 +358,8 @@ var FwFormFieldClass = (function () {
             throw 'this.getValueByDataField: Unable to get value for datafield: ' + datafield;
         }
         return value;
-    };
-    FwFormFieldClass.prototype.getValue2 = function ($fwformfield) {
+    }
+    getValue2($fwformfield) {
         var data_type, value, keys;
         data_type = $fwformfield.attr('data-type');
         if ($fwformfield.length === 0)
@@ -373,15 +373,15 @@ var FwFormFieldClass = (function () {
             value = window['FwFormField_' + data_type].getValue2($fwformfield);
         }
         return value;
-    };
-    FwFormFieldClass.prototype.getValue3 = function (parentselector, selector) {
+    }
+    getValue3(parentselector, selector) {
         var $parent, $fwformfield, value;
         $parent = jQuery(parentselector);
         $fwformfield = $parent.find(selector);
         value = this.getValue2($fwformfield);
         return value;
-    };
-    FwFormFieldClass.prototype.getTextByDataField = function ($parent, datafield) {
+    }
+    getTextByDataField($parent, datafield) {
         var selector, value;
         selector = 'div[data-datafield="' + datafield + '"]';
         try {
@@ -391,14 +391,14 @@ var FwFormFieldClass = (function () {
             throw 'FwFormField.getValueByDataField: Unable to get value for datafield: ' + datafield;
         }
         return value;
-    };
-    FwFormFieldClass.prototype.getText = function ($parent, selector) {
+    }
+    getText($parent, selector) {
         var $fwformfield, value;
         $fwformfield = $parent.find(selector);
         value = this.getText2($fwformfield);
         return value;
-    };
-    FwFormFieldClass.prototype.getText2 = function ($fwformfield) {
+    }
+    getText2($fwformfield) {
         var data_type, value, keys;
         data_type = $fwformfield.attr('data-type');
         if ($fwformfield.length === 0)
@@ -412,8 +412,8 @@ var FwFormFieldClass = (function () {
             value = window['FwFormField_' + data_type].getText2($fwformfield);
         }
         return value;
-    };
-    FwFormFieldClass.prototype.setValue2 = function ($fwformfield, value, text, firechangeevent) {
+    }
+    setValue2($fwformfield, value, text, firechangeevent) {
         var data_type, keys, $inputtext, $inputvalue;
         data_type = $fwformfield.attr('data-type');
         if ($fwformfield.length === 0)
@@ -424,13 +424,13 @@ var FwFormFieldClass = (function () {
             (typeof window['FwFormField_' + data_type].setValue === 'function')) {
             window['FwFormField_' + data_type].setValue($fwformfield, value, text, firechangeevent);
         }
-    };
-    FwFormFieldClass.prototype.setValueByDataField = function ($parent, datafield, value, text, firechangeevent) {
+    }
+    setValueByDataField($parent, datafield, value, text, firechangeevent) {
         var selector;
         selector = 'div[data-datafield="' + datafield + '"]';
         this.setValue($parent, selector, value, text, firechangeevent);
-    };
-    FwFormFieldClass.prototype.onRemove = function ($fwformfield) {
+    }
+    onRemove($fwformfield) {
         var data_type;
         data_type = $fwformfield.attr('data-type');
         if (typeof data_type === 'string') {
@@ -439,8 +439,8 @@ var FwFormFieldClass = (function () {
                 window['FwFormField_' + data_type].onRemove($fwformfield);
             }
         }
-    };
-    FwFormFieldClass.prototype.getControllerName = function ($fwformfield) {
+    }
+    getControllerName($fwformfield) {
         var controllername = '';
         var $form = $fwformfield.closest('.fwform');
         if ($form.length > 0) {
@@ -453,17 +453,16 @@ var FwFormFieldClass = (function () {
             }
         }
         return controllername;
-    };
-    FwFormFieldClass.prototype.getController = function ($fwformfield) {
+    }
+    getController($fwformfield) {
         var controllername = this.getControllerName($fwformfield);
         var controller = window[controllername];
         return controller;
-    };
-    FwFormFieldClass.prototype.getDataField = function ($parent, datafield) {
-        var $field = $parent.find("div[data-datafield=\"" + datafield + "\"]");
+    }
+    getDataField($parent, datafield) {
+        var $field = $parent.find(`div[data-datafield="${datafield}"]`);
         return $field;
-    };
-    return FwFormFieldClass;
-}());
+    }
+}
 var FwFormField = new FwFormFieldClass();
 //# sourceMappingURL=FwFormField.js.map

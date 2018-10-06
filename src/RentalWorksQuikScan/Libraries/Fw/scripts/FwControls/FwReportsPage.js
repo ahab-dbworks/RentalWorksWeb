@@ -1,10 +1,10 @@
-var FwReportsPageClass = (function () {
-    function FwReportsPageClass() {
+class FwReportsPageClass {
+    constructor() {
         this.filter = [];
     }
-    FwReportsPageClass.prototype.init = function () {
-    };
-    FwReportsPageClass.prototype.renderRuntimeHtml = function ($control) {
+    init() {
+    }
+    renderRuntimeHtml($control) {
         var html = [];
         html.push('<div class="fwreportsheader">');
         html.push('  <div class="input-group pull-right">');
@@ -18,8 +18,8 @@ var FwReportsPageClass = (function () {
         var reportsMenu = this.getHeaderView($control);
         $control.html(html.join(''));
         $control.find('.fwreportsheader').append(reportsMenu);
-    };
-    FwReportsPageClass.prototype.getCaptions = function (screen) {
+    }
+    getCaptions(screen) {
         var node = FwApplicationTree.getNodeById(FwApplicationTree.tree, '7FEC9D55-336E-44FE-AE01-96BF7B74074C');
         var modules = FwApplicationTree.getChildrenByType(node, 'ReportsModule');
         for (var i = 0; i < modules.length; i++) {
@@ -47,8 +47,8 @@ var FwReportsPageClass = (function () {
                 screen.moduleCaptions[caption][moduleName].push($field);
             }
         }
-    };
-    FwReportsPageClass.prototype.renderModuleHtml = function ($control, title, moduleName, description, menu, moduleId) {
+    }
+    renderModuleHtml($control, title, moduleName, description, menu, moduleId) {
         var me = this;
         var html = [], $reportsPageModules, $rowBody, $modulecontainer, $body, $form, browseKeys = [], rowId, screen = { 'moduleCaptions': {} }, filter = [];
         $modulecontainer = $control.find('#' + moduleName);
@@ -160,17 +160,17 @@ var FwReportsPageClass = (function () {
                             return -1 != jQuery(this).text().toUpperCase().indexOf(results[i]);
                         }).closest('div.panel-group');
                         module.find('.highlighted').removeClass('highlighted');
-                        var description_1 = module.find('small#description-text');
-                        var title_1 = module.find('a#title');
-                        for (var j = 0; j < description_1.length; j++) {
-                            if (description_1[j] !== undefined) {
-                                var descriptionIndex = jQuery(description_1[j]).text().toUpperCase().indexOf(val);
-                                var titleIndex = jQuery(title_1[j]).text().toUpperCase().indexOf(val);
+                        let description = module.find('small#description-text');
+                        let title = module.find('a#title');
+                        for (var j = 0; j < description.length; j++) {
+                            if (description[j] !== undefined) {
+                                let descriptionIndex = jQuery(description[j]).text().toUpperCase().indexOf(val);
+                                let titleIndex = jQuery(title[j]).text().toUpperCase().indexOf(val);
                                 if (descriptionIndex > -1) {
-                                    description_1[j].innerHTML = jQuery(description_1[j]).text().substring(0, descriptionIndex) + '<span class="highlighted">' + jQuery(description_1[j]).text().substring(descriptionIndex, descriptionIndex + val.length) + '</span>' + jQuery(description_1[j]).text().substring(descriptionIndex + val.length);
+                                    description[j].innerHTML = jQuery(description[j]).text().substring(0, descriptionIndex) + '<span class="highlighted">' + jQuery(description[j]).text().substring(descriptionIndex, descriptionIndex + val.length) + '</span>' + jQuery(description[j]).text().substring(descriptionIndex + val.length);
                                 }
                                 if (titleIndex > -1) {
-                                    title_1[j].innerHTML = jQuery(title_1[j]).text().substring(0, titleIndex) + '<span class="highlighted">' + jQuery(title_1[j]).text().substring(titleIndex, titleIndex + val.length) + '</span>' + jQuery(title_1[j]).text().substring(titleIndex + val.length);
+                                    title[j].innerHTML = jQuery(title[j]).text().substring(0, titleIndex) + '<span class="highlighted">' + jQuery(title[j]).text().substring(titleIndex, titleIndex + val.length) + '</span>' + jQuery(title[j]).text().substring(titleIndex + val.length);
                                 }
                             }
                         }
@@ -179,7 +179,7 @@ var FwReportsPageClass = (function () {
                     $module.filter(function () {
                         return -1 != jQuery(this).text().toUpperCase().indexOf(val);
                     }).closest('div.panel-group').show();
-                    var searchResults = $control.find('.panel-heading:visible');
+                    let searchResults = $control.find('.panel-heading:visible');
                     if (searchResults.length === 1 && searchResults.parent().find('.panel-body').is(':empty')) {
                         searchResults[0].click();
                     }
@@ -187,9 +187,9 @@ var FwReportsPageClass = (function () {
             }
         });
         return $reportsPageModules;
-    };
+    }
     ;
-    FwReportsPageClass.prototype.getHeaderView = function ($control) {
+    getHeaderView($control) {
         var $view;
         $view = jQuery('<div class="fwcontrol fwfilemenu" data-control="FwFileMenu" data-version="2" data-rendermode="template"></div>');
         FwControl.renderRuntimeControls($view);
@@ -236,9 +236,9 @@ var FwReportsPageClass = (function () {
             }
         }
         return $view;
-    };
+    }
     ;
-    FwReportsPageClass.prototype.generateDropDownModuleBtn = function ($menu, $control, securityid, caption, imgurl, subitems) {
+    generateDropDownModuleBtn($menu, $control, securityid, caption, imgurl, subitems) {
         var $modulebtn, $reports, btnHtml, subitemHtml, $subitem, version;
         version = $menu.closest('.fwfilemenu').attr('data-version');
         securityid = (typeof securityid === 'string') ? securityid : '';
@@ -293,9 +293,9 @@ var FwReportsPageClass = (function () {
             throw 'FwRibbon.generateDropDownModuleBtn: ' + securityid + ' caption is not defined in translation';
         }
         $menu.find('.menu').append($modulebtn);
-    };
+    }
     ;
-    FwReportsPageClass.prototype.generateStandardModuleBtn = function ($menu, $control, securityid, caption, modulenav, imgurl, moduleName) {
+    generateStandardModuleBtn($menu, $control, securityid, caption, modulenav, imgurl, moduleName) {
         var $modulebtn, btnHtml, btnId, version;
         securityid = (typeof securityid === 'string') ? securityid : '';
         $modulebtn = jQuery();
@@ -334,8 +334,7 @@ var FwReportsPageClass = (function () {
             }
         });
         $menu.find('.menu').append($modulebtn);
-    };
-    return FwReportsPageClass;
-}());
+    }
+}
 var FwReportsPage = new FwReportsPageClass();
 //# sourceMappingURL=FwReportsPage.js.map

@@ -200,9 +200,18 @@
         this.getUserControl($view);
         $view
             .on('click', '.bgothm', function () {
-                try { program.navigate('home'); } catch (ex) { FwFunc.showError(ex); }
-            })
-        ;
+                try {
+                    let userHomePage = sessionStorage.getItem('homePage');
+                    if (userHomePage != null) {
+                        program.navigate(`module/${userHomePage}`);
+                    } else {
+                        program.navigate('home');
+                    }
+                }
+                catch (ex) {
+                    FwFunc.showError(ex);
+                }
+            });
 
         return $view;
     };
