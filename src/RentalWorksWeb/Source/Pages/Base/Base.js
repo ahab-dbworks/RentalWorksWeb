@@ -108,6 +108,7 @@ class Base {
                                                 sounds.errorSoundFileName = response.ErrorSoundFileName;
                                                 sounds.notificationSoundFileName = response.NotificationSoundFileName;
                                                 sessionStorage.setItem('sounds', JSON.stringify(sounds));
+                                                sessionStorage.setItem('homePage', response.HomeMenuItem);
                                                 FwAppData.apiMethod(true, 'GET', 'api/v1/customfield/', null, FwServices.defaultTimeout, function onSuccess(response) {
                                                     var customFields = [];
                                                     var customFieldsBrowse = [];

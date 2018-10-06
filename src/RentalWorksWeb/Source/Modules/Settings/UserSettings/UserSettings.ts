@@ -84,6 +84,7 @@
                 return 1;
             return 0;
         }
+
         allModules.sort(compare);
         $defaultHomePage = $form.find('.default-home-page');
         FwFormField.loadItems($defaultHomePage, allModules, true);
@@ -139,6 +140,7 @@
         sounds.errorSoundFileName = errorSoundFileName;
         sounds.notificationSoundFileName = notificationSoundFileName;
 
+        sessionStorage.setItem('homePage', FwFormField.getValueByDataField($form, 'HomeMenuItem'));
         sessionStorage.setItem('browsedefaultrows', browseDefaultRows);
         sessionStorage.setItem('applicationtheme', applicationTheme);
         sessionStorage.setItem('sounds', JSON.stringify(sounds));
