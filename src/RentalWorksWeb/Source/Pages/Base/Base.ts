@@ -108,8 +108,7 @@ class Base {
                                                 sessionStorage.setItem('userid',             JSON.stringify(responseOriginalApi.webUser.webusersid));
                                                 jQuery('html').removeClass('theme-material');
                                         
-                                                //J.Pace 08/14/2018 user's sound settings\
-                                                //setTimeout(() => {
+                                                //J.Pace 08/14/2018 user's sound settings
                                                     FwAppData.apiMethod(true, 'GET', `api/v1/usersettings/${responseOriginalApi.webUser.webusersid.webusersid}`, null, FwServices.defaultTimeout, function onSuccess(response) {
                                                         let sounds: any = {};
                                                         sounds.successSoundFileName = response.SuccessSoundFileName;
@@ -122,6 +121,7 @@ class Base {
                                                         FwAppData.apiMethod(true, 'GET', 'api/v1/customfield/', null, FwServices.defaultTimeout, function onSuccess(response) {
                                                             var customFields = [];
                                                             var customFieldsBrowse = [];
+                                                            let userHomePage = sessionStorage.getItem('homePage');
                                                             for (var i = 0; i < response.length; i++) {
                                                                 if (customFields.indexOf(response[i].ModuleName) === -1) {
                                                                     customFields.push(response[i].ModuleName);
@@ -139,7 +139,11 @@ class Base {
                                                             }
                                                             sessionStorage.setItem('customFields', JSON.stringify(customFields));
                                                             sessionStorage.setItem('customFieldsBrowse', JSON.stringify(customFieldsBrowse));
-                                                            program.navigate('home');
+                                                            if (userHomePage != null) {
+                                                                program.navigate(`module/${userHomePage}`);
+                                                            } else {
+                                                                program.navigate('home');
+                                                            }
                                                         }, function onError(response) {
                                                             FwFunc.showError(response);
                                                             program.navigate('home');
@@ -148,7 +152,6 @@ class Base {
                                                     }, function onError(response) {
                                                         FwFunc.showError(response);
                                                     }, null);
-                                                //}, 0);
 
                                                 let webformrequest:any = {};
                                                 webformrequest.uniqueids = {
