@@ -721,35 +721,33 @@ class PurchaseOrder {
     //----------------------------------------------------------------------------------------------
     bottomLineTotalWithTaxChange($form: any, event: any) {
         // Total and With Tax for all OrderItemGrid
-        let $element, $orderItemGrid, recType, purchaseOrderId, total, includeTaxInTotal, isWithTaxCheckbox, totalType, module, isSubGrid;
+        let $element, $orderItemGrid, recType, purchaseOrderId, total, includeTaxInTotal, isWithTaxCheckbox, totalType, isSubGrid;
         let request: any = {};
 
         $element = jQuery(event.currentTarget);
-        module = this.Module;
         isWithTaxCheckbox = $element.attr('data-type') === 'checkbox';
         recType = $element.attr('data-rectype');
-        purchaseOrderId = FwFormField.getValueByDataField($form, `${module}Id`);
+        purchaseOrderId = FwFormField.getValueByDataField($form, `${this.Module}Id`);
 
         if (recType === 'R') {
             $orderItemGrid = $form.find('.rentalgrid [data-name="OrderItemGrid"]');
-            total = FwFormField.getValue($form, '.rentalOrderItemTotal:visible');
-            includeTaxInTotal = FwFormField.getValue($form, '.rentalTotalWithTax:visible');
-            totalType = $form.find('.rentalgrid .totalType input:checked').val();
+            total = FwFormField.getValueByDataField($form, 'RentalTotal');
+            includeTaxInTotal = FwFormField.getValueByDataField($form,'RentalTotalIncludesTax');
             isSubGrid = false;
-            FwFormField.setValue($form, '.rentalAdjustments .rentalOrderItemTotal:hidden', '0.00');
+            FwFormField.setValue($form, '.rental-adjustments .rentalOrderItemTotal:hidden', '0.00');
             if (!isWithTaxCheckbox) {
                 FwFormField.setValueByDataField($form, 'RentalDiscountPercent', '');
             }
             if (total === '0.00') {
-                FwFormField.disable($form.find('.rentalTotalWithTax:visible'));
+                FwFormField.disable($form.find('div[data-datafield="RentalTotalIncludesTax"]'));
             } else {
-                FwFormField.enable($form.find('.rentalTotalWithTax:visible'));
+                FwFormField.enable($form.find('div[data-datafield="RentalTotalIncludesTax"]'));
             }
         }
         if (recType === 'S') {
             $orderItemGrid = $form.find('.salesgrid [data-name="OrderItemGrid"]');
-            total = FwFormField.getValue($form, '.salesOrderItemTotal');
-            includeTaxInTotal = FwFormField.getValue($form, '.salesTotalWithTax');
+            total = FwFormField.getValueByDataField($form, 'SalesTotal');
+            includeTaxInTotal = FwFormField.getValueByDataField($form, 'SalesTotalIncludesTax');
             isSubGrid = false;
             if (!isWithTaxCheckbox) {
                 FwFormField.setValueByDataField($form, 'SalesDiscountPercent', '');
@@ -762,47 +760,48 @@ class PurchaseOrder {
         }
         if (recType === 'P') {
             $orderItemGrid = $form.find('.partgrid [data-name="OrderItemGrid"]');
-            total = FwFormField.getValue($form, '.part-order-item-total');
-            includeTaxInTotal = FwFormField.getValue($form, '.part-total-wtax');
+            total = FwFormField.getValueByDataField($form, 'PartsTotal');
+            includeTaxInTotal = FwFormField.getValueByDataField($form, 'PartsTotalIncludesTax');
+            isSubGrid = false;
            // FwFormField.setValue($form, '.laborAdjustments .laborOrderItemTotal:hidden', '0.00');
 
             if (!isWithTaxCheckbox) {
-                FwFormField.setValueByDataField($form, 'SalesDiscountPercent', '');
+                FwFormField.setValueByDataField($form, 'PartsDiscountPercent', '');
             }
             if (total === '0.00') {
-                FwFormField.disable($form.find('div[data-datafield="PartIncludesTax"]'));
+                FwFormField.disable($form.find('div[data-datafield="PartsTotalIncludesTax"]'));
             } else {
-                FwFormField.enable($form.find('div[data-datafield="PartIncludesTax"]'));
+                FwFormField.enable($form.find('div[data-datafield="PartsTotalIncludesTax"]'));
             }
         }
         if (recType === 'L') {
             $orderItemGrid = $form.find('.laborgrid [data-name="OrderItemGrid"]');
-            total = FwFormField.getValue($form, '.laborOrderItemTotal:visible');
-            includeTaxInTotal = FwFormField.getValue($form, '.laborTotalWithTax:visible');
-            totalType = $form.find('.laborgrid .totalType input:checked').val();
+            total = FwFormField.getValueByDataField($form, 'LaborTotal');
+            includeTaxInTotal = FwFormField.getValueByDataField($form, 'LaborTotalIncludesTax');
             FwFormField.setValue($form, '.laborAdjustments .laborOrderItemTotal:hidden', '0.00');
+            isSubGrid = false;
             if (!isWithTaxCheckbox) {
                 FwFormField.setValueByDataField($form, 'LaborDiscountPercent', '');
             }
             if (total === '0.00') {
-                FwFormField.disable($form.find('.laborTotalWithTax:visible'));
+                FwFormField.disable($form.find('div[data-datafield="LaborTotalIncludesTax"]'));
             } else {
-                FwFormField.enable($form.find('.laborTotalWithTax:visible'));
+                FwFormField.enable($form.find('div[data-datafield="LaborTotalIncludesTax"]'));
             }
         }
         if (recType === 'M') {
             $orderItemGrid = $form.find('.miscgrid [data-name="OrderItemGrid"]');
-            total = FwFormField.getValue($form, '.miscOrderItemTotal:visible');
-            includeTaxInTotal = FwFormField.getValue($form, '.miscTotalWithTax:visible');
-            totalType = $form.find('.miscgrid .totalType input:checked').val();
+            total = FwFormField.getValueByDataField($form, 'MiscTotal');
+            includeTaxInTotal = FwFormField.getValueByDataField($form, 'MiscTotalIncludesTax');
             FwFormField.setValue($form, '.miscAdjustments .miscOrderItemTotal:hidden', '0.00');
+            isSubGrid = false;
             if (!isWithTaxCheckbox) {
                 FwFormField.setValueByDataField($form, 'MiscDiscountPercent', '');
             }
             if (total === '0.00') {
-                FwFormField.disable($form.find('.miscTotalWithTax:visible'));
+                FwFormField.disable($form.find('div[data-datafield="MiscTotalIncludesTax"]'));
             } else {
-                FwFormField.enable($form.find('.miscTotalWithTax:visible'));
+                FwFormField.enable($form.find('div[data-datafield="MiscTotalIncludesTax"]'));
             }
         }
         if (recType === '') {
@@ -826,8 +825,9 @@ class PurchaseOrder {
         request.RecType = recType;
         request.PurchaseOrderId = purchaseOrderId;
         request.Total = +total;
+        request.Subs = isSubGrid;
 
-        FwAppData.apiMethod(true, 'POST', `api/v1/${module}/applybottomlinetotal/`, request, FwServices.defaultTimeout, function onSuccess(response) {
+        FwAppData.apiMethod(true, 'POST', `api/v1/${this.Module}/applybottomlinetotal/`, request, FwServices.defaultTimeout, function onSuccess(response) {
             FwBrowse.search($orderItemGrid);
         }, function onError(response) {
             FwFunc.showError(response);
@@ -1064,6 +1064,12 @@ class PurchaseOrder {
     };
     //----------------------------------------------------------------------------------------------
     events($form: any) {
+        let weeklyType = $form.find(".weeklyType");
+        let monthlyType = $form.find(".monthlyType");
+        let rentalDaysPerWeek = $form.find(".RentalDaysPerWeek");
+        let billingMonths = $form.find(".BillingMonths");
+        let billingWeeks = $form.find(".BillingWeeks");
+
         $form.find('div[data-datafield="VendorId"]').data('onchange', $tr => {
             FwFormField.setValue($form, 'div[data-datafield="RateType"]', $tr.find('.field[data-formdatafield="DefaultRate"]').attr('data-originalvalue'), $tr.find('.field[data-formdatafield="DefaultRate"]').attr('data-originalvalue'));
             FwFormField.setValue($form, 'div[data-datafield="BillingCycleId"]', $tr.find('.field[data-browsedatafield="BillingCycleId"]').attr('data-originalvalue'), $tr.find('.field[data-browsedatafield="BillingCycle"]').attr('data-originalvalue'));
@@ -1104,6 +1110,83 @@ class PurchaseOrder {
             }, function onError(response) {
                 FwFunc.showError(response);
             }, $form);
+        });
+
+        $form.find(".totalType input").on('change', e => {
+            let $target = jQuery(e.currentTarget),
+                gridType = $target.parents('.totalType').attr('data-gridtype'),
+                rateType = $target.val(),
+                adjustmentsPeriod = $form.find('.' + gridType + 'AdjustmentsPeriod'),
+                adjustmentsWeekly = $form.find('.' + gridType + 'AdjustmentsWeekly'),
+                adjustmentsMonthly = $form.find('.' + gridType + 'AdjustmentsMonthly');
+            switch (rateType) {
+                case 'W':
+                    adjustmentsPeriod.hide();
+                    adjustmentsWeekly.show();
+                    break;
+                case 'M':
+                    adjustmentsPeriod.hide();
+                    adjustmentsMonthly.show();
+                    break;
+                case 'P':
+                    adjustmentsWeekly.hide();
+                    adjustmentsMonthly.hide();
+                    adjustmentsPeriod.show();
+                    break;
+            }
+            let total = FwFormField.getValue($form, '.' + gridType + 'OrderItemTotal:visible');
+            if (total === '0.00') {
+                FwFormField.disable($form.find('.' + gridType + 'TotalWithTax:visible'));
+            } else {
+                FwFormField.enable($form.find('.' + gridType + 'TotalWithTax:visible'));
+            }
+            this.calculateOrderItemGridTotals($form, gridType);
+        });
+
+        $form.find('.RateType').on('change', $tr => {
+            let rateType = FwFormField.getValueByDataField($form, 'RateType');
+            switch (rateType) {
+                case 'DAILY':
+                    weeklyType.show();
+                    monthlyType.hide();
+                    rentalDaysPerWeek.show();
+                    billingMonths.hide();
+                    billingWeeks.show();
+                    $form.find('.combinedgrid [data-name="OrderItemGrid"]').parent().show();
+                    $form.find('.rentalgrid [data-name="OrderItemGrid"]').parent().show();
+                    $form.find('.salesgrid [data-name="OrderItemGrid"]').parent().show();
+                    $form.find('.laborgrid [data-name="OrderItemGrid"]').parent().show();
+                    $form.find('.miscgrid [data-name="OrderItemGrid"]').parent().show();
+                    break;
+                case 'WEEKLY':
+                    weeklyType.show();
+                    monthlyType.hide();
+                    rentalDaysPerWeek.hide();
+                    billingMonths.hide();
+                    billingWeeks.show();
+                    break;
+                case '3WEEK':
+                    weeklyType.show();
+                    monthlyType.hide();
+                    rentalDaysPerWeek.hide();
+                    billingMonths.hide();
+                    billingWeeks.show();
+                    break;
+                case 'MONTHLY':
+                    weeklyType.hide();
+                    monthlyType.show();
+                    rentalDaysPerWeek.hide();
+                    billingWeeks.hide();
+                    billingMonths.show();
+                    break;
+                default:
+                    weeklyType.show();
+                    monthlyType.hide();
+                    rentalDaysPerWeek.show();
+                    billingMonths.hide();
+                    billingWeeks.show();
+                    break;
+            }
         });
     };
 

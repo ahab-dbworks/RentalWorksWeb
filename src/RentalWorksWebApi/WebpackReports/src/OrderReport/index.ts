@@ -29,43 +29,42 @@ export class OrderReport extends WebpackReport {
                 request.OrderId = parameters.QuoteId;
                 isOrder = false;
             }
-
-            //loads report logo
-            let LogoPromise = Ajax.get<DataTable>(`${apiUrl}/api/v1/control/1`, authorizationHeader)
-                .then((response: DataTable) => {
-                    controlObject = response;
-                })
-                .catch((ex) => {
-                    console.log('exception: ', ex)
-                });
-
-            let Promise = Ajax.post<Order>(`${apiUrl}/api/v1/orderreport/runreport`, authorizationHeader, request)
-                .then((response: Order) => {
-                    order = response;
-                    order.Items = DataTable.toObjectList(response.Items);
-                    order.PrintTime = moment().format('YYYY-MM-DD h:mm:ss A');
-                    if (controlObject.ReportLogoImage != '') {
-                        order.Logosrc = controlObject.ReportLogoImage;
-                    } 
-                    if (isOrder) {
-                        order.Report = 'ORDER';
-                    } else {
-                        order.Report = 'QUOTE';
-                        document.title = 'Quote Report'
-                    }
-                    order.System = 'RENTALWORKS';
-                    order.Company = '4WALL ENTERTAINMENT';
-                    console.log('order: ', order)
-                    this.renderFooterHtml(order);
-                    if (this.action === 'Preview' || this.action === 'PrintHtml') {
-                        document.getElementById('pageFooter').innerHTML = this.footerHtml;
-                    }
-                    document.getElementById('pageBody').innerHTML = hbReport(order);
-                    this.onRenderReportCompleted();
-                })
-                .catch((ex) => {
-                    this.onRenderReportFailed(ex);
-                });
+            // Report rendering and Logo
+            (async () => {
+                let LogoPromise = Ajax.get<DataTable>(`${apiUrl}/api/v1/control/1`, authorizationHeader)
+                    .then((response: DataTable) => {
+                        controlObject = response;
+                    })
+                    .catch((ex) => {
+                        console.log('exception: ', ex)
+                    });
+                let ReportPromise = await Ajax.post<Order>(`${apiUrl}/api/v1/orderreport/runreport`, authorizationHeader, request)
+                    .then((response: Order) => {
+                        order = response;
+                        order.Items = DataTable.toObjectList(response.Items);
+                        order.PrintTime = moment().format('YYYY-MM-DD h:mm:ss A');
+                        order.System = 'RENTALWORKS';
+                        order.Company = '4WALL ENTERTAINMENT';
+                        if (controlObject.ReportLogoImage != '') {
+                            order.Logosrc = controlObject.ReportLogoImage;
+                        } 
+                        if (isOrder) {
+                            order.Report = 'ORDER';
+                        } else {
+                            order.Report = 'QUOTE';
+                            document.title = 'Quote Report'
+                        }
+                        this.renderFooterHtml(order);
+                        if (this.action === 'Preview' || this.action === 'PrintHtml') {
+                            document.getElementById('pageFooter').innerHTML = this.footerHtml;
+                        }
+                        document.getElementById('pageBody').innerHTML = hbReport(order);
+                        this.onRenderReportCompleted();
+                    })
+                    .catch((ex) => {
+                        this.onRenderReportFailed(ex);
+                    });
+            })()
         } catch (ex) {
             this.onRenderReportFailed(ex);
         }
