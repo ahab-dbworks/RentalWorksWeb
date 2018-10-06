@@ -76,6 +76,7 @@
                 }
             }
         };
+        allModules.push({ value: 'dashboard', text: 'Dashboard', apiurl: 'module/dashboard' });
         //Sort modules
         function compare(a, b) {
             if (a.text < b.text)
