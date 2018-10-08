@@ -974,6 +974,9 @@ class FwBrowseClass {
                     ;
                     html.push('</td>');
                 }
+                if (($control.attr('data-type') === 'Grid') && ($control.attr('data-flexgrid') === "true")) {
+                    html.push('<td class="flexgridspacer"></td>');
+                }
                 if ($control.attr('data-type') === 'Grid') {
                     html.push('<td class="column browsecontextmenucell" style="width:26px;"></td>');
                 }
@@ -1496,7 +1499,7 @@ class FwBrowseClass {
             module: '',
             searchfields: [],
             searchfieldtypes: [],
-            seachseparators: [],
+            searchseparators: [],
             searchfieldoperators: [],
             searchfieldvalues: [],
             miscfields: !$control.closest('.fwform').length ? jQuery([]) : FwModule.getFormUniqueIds($control.closest('.fwform')),
