@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace FwStandard.BusinessLogic
@@ -155,6 +156,8 @@ namespace FwStandard.BusinessLogic
 
         [JsonIgnore]
         public bool AuditMode { get; set; }
+
+        static Mutex CustomFieldMutex = new Mutex(true, "LoadCustomFields");
 
         public FwCustomValues _Custom = new FwCustomValues();  //todo: don't initialize here.  Instead, only initialize when custom fields exist for this module.  load custom fields in a static class.
 
@@ -486,33 +489,34 @@ namespace FwStandard.BusinessLogic
         public bool refreshCustomFields()
         {
             bool customFieldsLoaded = false;
-
-            customFields = new FwCustomFields();
-
-            using (FwSqlConnection conn = new FwSqlConnection(AppConfig.DatabaseSettings.ConnectionString))
+            if (CustomFieldMutex.WaitOne(1000, false))  //justin 10/08/2018 not sure if this is the correct solution. trying to prevent multiple threads from entering here at once and loading duplicate Custom Field lists into memory.
             {
-                using (FwSqlCommand qry = new FwSqlCommand(conn, AppConfig.DatabaseSettings.QueryTimeout))
+                customFields = new FwCustomFields();
+
+                using (FwSqlConnection conn = new FwSqlConnection(AppConfig.DatabaseSettings.ConnectionString))
                 {
-                    qry.Add("select modulename, fieldname, customtablename, customfieldname, fieldtype");
-                    qry.Add("from customfieldview with (nolock)");
-                    qry.Add("order by fieldname");
-
-                    qry.AddColumn("modulename");
-                    qry.AddColumn("fieldname");
-                    qry.AddColumn("customtablename");
-                    qry.AddColumn("customfieldname");
-                    qry.AddColumn("fieldtype");
-
-                    FwJsonDataTable table = qry.QueryToFwJsonTableAsync(true).Result;
-                    for (int r = 0; r < table.Rows.Count; r++)
+                    using (FwSqlCommand qry = new FwSqlCommand(conn, AppConfig.DatabaseSettings.QueryTimeout))
                     {
-                        FwCustomField customField = new FwCustomField(table.Rows[r][0].ToString(), table.Rows[r][1].ToString(), table.Rows[r][2].ToString(), table.Rows[r][3].ToString(), table.Rows[r][4].ToString());
-                        customFields.Add(customField);
+                        qry.Add("select modulename, fieldname, customtablename, customfieldname, fieldtype");
+                        qry.Add("from customfieldview with (nolock)");
+                        qry.Add("order by fieldname");
+
+                        qry.AddColumn("modulename");
+                        qry.AddColumn("fieldname");
+                        qry.AddColumn("customtablename");
+                        qry.AddColumn("customfieldname");
+                        qry.AddColumn("fieldtype");
+
+                        FwJsonDataTable table = qry.QueryToFwJsonTableAsync(true).Result;
+                        for (int r = 0; r < table.Rows.Count; r++)
+                        {
+                            FwCustomField customField = new FwCustomField(table.Rows[r][0].ToString(), table.Rows[r][1].ToString(), table.Rows[r][2].ToString(), table.Rows[r][3].ToString(), table.Rows[r][4].ToString());
+                            customFields.Add(customField);
+                        }
+                        customFieldsLoaded = true;
                     }
-                    customFieldsLoaded = true;
                 }
             }
-
             return customFieldsLoaded;
         }
         //------------------------------------------------------------------------------------
