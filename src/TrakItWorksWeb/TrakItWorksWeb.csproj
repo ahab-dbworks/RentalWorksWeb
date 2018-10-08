@@ -751,8 +751,8 @@
     <Folder Include="Libraries\" />
     <Folder Include="Source\Controls\" />
     <Folder Include="Source\Modules\Administrator\Control\" />
-    <Folder Include="Source\Modules\Administrator\CustomFields\" />
-    <Folder Include="Source\Modules\Administrator\DuplicateRules\" />
+    <Folder Include="Source\Modules\Administrator\CustomField\" />
+    <Folder Include="Source\Modules\Administrator\DuplicateRule\" />
     <Folder Include="Source\Modules\Administrator\Group\" />
     <Folder Include="Source\Modules\Utilities\Dashboard\" />
     <Folder Include="Source\Pages\Base\" />
