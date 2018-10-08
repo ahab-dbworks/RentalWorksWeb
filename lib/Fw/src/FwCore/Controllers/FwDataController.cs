@@ -1,9 +1,11 @@
 ﻿using FwStandard.BusinessLogic;
 using FwStandard.Models;
+using FwStandard.Modules.Administrator.WebAuditJson;
 using FwStandard.SqlServer;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -210,13 +212,16 @@ namespace FwCore.Controllers
                     //updating
                     saveMode = TDataRecordSaveMode.smUpdate;
 
-                    //load the original record from the database
-                    original = CreateBusinessLogic(logicType, this.AppConfig, this.UserSession);
-                    original.SetPrimaryKeys(l.GetPrimaryKeys());
-                    bool exists = await original.LoadAsync<T>();
-                    if (!exists)
+                    if (l.LoadOriginalBeforeSaving)
                     {
-                        return NotFound();
+                        //load the original record from the database
+                        original = CreateBusinessLogic(logicType, this.AppConfig, this.UserSession);
+                        original.SetPrimaryKeys(l.GetPrimaryKeys());
+                        bool exists = await original.LoadAsync<T>();
+                        if (!exists)
+                        {
+                            return NotFound();
+                        }
                     }
                 }
                 else
@@ -227,7 +232,31 @@ namespace FwCore.Controllers
 
                 if (isValid)
                 {
-                    await l.SaveAsync(original);  
+                    WebAuditJsonLogic audit = new WebAuditJsonLogic();
+                    audit.AppConfig = this.AppConfig;
+                    audit.UserSession = this.UserSession;
+                    JsonSerializerSettings jsonSerializerSettings = new JsonSerializerSettings();
+                    jsonSerializerSettings.NullValueHandling = NullValueHandling.Ignore;
+                    l.AuditMode = true;
+                    audit.Json = JsonConvert.SerializeObject(l, jsonSerializerSettings);
+                    l.AuditMode = false;
+                    object[] keys = l.GetPrimaryKeys();
+                    if (keys.Length > 0)
+                    {
+                        audit.UniqueId1 = keys[0].ToString();
+                    }
+                    if (keys.Length > 1)
+                    {
+                        audit.UniqueId2 = keys[1].ToString();
+                    }
+                    if (keys.Length > 2)
+                    {
+                        audit.UniqueId3 = keys[2].ToString();
+                    }
+                    audit.WebUserId = this.UserSession.WebUsersId;
+                    await audit.SaveAsync(null);
+
+                    await l.SaveAsync(original);
                     if (l.ReloadOnSave)
                     {
                         await l.LoadAsync<T>();

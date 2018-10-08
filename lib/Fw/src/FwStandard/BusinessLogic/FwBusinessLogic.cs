@@ -65,7 +65,6 @@ namespace FwStandard.BusinessLogic
     {
         private FwApplicationConfig _appConfig = null;
         private FwUserSession _userSession = null;
-        private bool _reloadOnSave = true;
 
         [JsonIgnore]
         public FwApplicationConfig AppConfig
@@ -149,8 +148,13 @@ namespace FwStandard.BusinessLogic
         public static FwCustomFields customFields = null;
 
         [JsonIgnore]
-        public bool ReloadOnSave { get { return _reloadOnSave; } set { _reloadOnSave = value; } }
+        public bool ReloadOnSave { get; set; } = true;
 
+        [JsonIgnore]
+        public bool LoadOriginalBeforeSaving { get; set; } = true;
+
+        [JsonIgnore]
+        public bool AuditMode { get; set; }
 
         public FwCustomValues _Custom = new FwCustomValues();  //todo: don't initialize here.  Instead, only initialize when custom fields exist for this module.  load custom fields in a static class.
 
@@ -908,6 +912,18 @@ namespace FwStandard.BusinessLogic
                 }
                 return title;
             }
+        }
+        //------------------------------------------------------------------------------------
+        public bool ShouldSerializeRecordTitle()
+        {
+            // don't serialize the Record Title when in auditMode
+            return (!AuditMode);
+        }
+        //------------------------------------------------------------------------------------
+        public bool ShouldSerialize_Custom()
+        {
+            // don't serialize the _Cusom property when empty
+            return (_Custom.Count > 0);
         }
         //------------------------------------------------------------------------------------
         public void LoadUserSession()
