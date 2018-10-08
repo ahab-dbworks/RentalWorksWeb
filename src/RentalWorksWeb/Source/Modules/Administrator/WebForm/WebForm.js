@@ -72,6 +72,7 @@ class WebForm {
     }
     afterLoad($form) {
         this.addCodeEditor($form);
+        $form.find('div.modules').change();
     }
     addCodeEditor($form) {
         let textArea = $form.find('#codeEditor');
@@ -80,8 +81,8 @@ class WebForm {
             mode: 'text/html',
             lineNumbers: true
         });
-        myCodeMirror.setSize(1600, 1000);
-        $form.find('.CodeMirror').css('max-width', '1650px');
+        myCodeMirror.setSize(1350, 850);
+        $form.find('.CodeMirror').css('max-width', '1350px');
         let doc = myCodeMirror.getDoc();
         if (typeof html !== 'undefined') {
             myCodeMirror.setValue(html);
@@ -93,22 +94,63 @@ class WebForm {
             let moduleName = jQuery(e.currentTarget).find(':selected').val();
             let type = jQuery(e.currentTarget).find('option:selected').attr('data-type');
             let controller = jQuery(e.currentTarget).find('option:selected').attr('data-controllername');
-            let modulehtml;
+            let apiurl = jQuery(e.currentTarget).find('option:selected').attr('data-apiurl');
+            const modulefields = $form.find('.modulefields');
+            let modulehtml, request;
+            let moduleNav = controller.slice(0, -10);
+            request = {
+                module: moduleNav,
+                top: 1
+            };
+            modulefields.empty();
             switch (type) {
                 case 'Browse':
                     modulehtml = jQuery(`#tmpl-modules-${moduleName}`).html();
+                    if (apiurl !== "undefined") {
+                        FwAppData.apiMethod(true, 'POST', `${apiurl}/browse`, request, FwServices.defaultTimeout, function onSuccess(response) {
+                            let columnNames = response.Columns;
+                            columnNames = columnNames.filter(obj => {
+                                return obj.DataField !== 'DateStamp';
+                            });
+                            for (let i = 0; i < columnNames.length; i++) {
+                                modulefields.append(`${columnNames[i].DataField}<br />`);
+                            }
+                        }, null, $form);
+                    }
                     if (typeof modulehtml == 'undefined') {
                         modulehtml = window[controller].getBrowseTemplate();
                     }
                     break;
                 case 'Form':
                     modulehtml = jQuery(`#tmpl-modules-${moduleName}`).html();
+                    if (apiurl !== "undefined") {
+                        FwAppData.apiMethod(true, 'POST', `${apiurl}/browse`, request, FwServices.defaultTimeout, function onSuccess(response) {
+                            let columnNames = response.Columns;
+                            columnNames = columnNames.filter(obj => {
+                                return obj.DataField !== 'DateStamp';
+                            });
+                            for (let i = 0; i < columnNames.length; i++) {
+                                modulefields.append(`${columnNames[i].DataField}<br />`);
+                            }
+                        }, null, $form);
+                    }
                     if (typeof modulehtml == 'undefined') {
                         modulehtml = window[controller].getFormTemplate();
                     }
                     break;
                 case 'Grid':
                     modulehtml = jQuery(`#tmpl-grids-${moduleName}`).html();
+                    if (apiurl !== "undefined") {
+                        FwAppData.apiMethod(true, 'POST', `${apiurl}/browse`, request, FwServices.defaultTimeout, function onSuccess(response) {
+                            let columnNames = response.Columns;
+                            columnNames = columnNames.filter(obj => {
+                                return obj.DataField !== 'DateStamp';
+                            });
+                            for (let i = 0; i < columnNames.length; i++) {
+                                modulefields.append(`${columnNames[i].DataField}<br />`);
+                            }
+                        }, null, $form);
+                    }
                     break;
             }
             if (typeof modulehtml !== "undefined") {
@@ -181,17 +223,24 @@ class WebForm {
         }
         ;
         function addModulesToList(module, type) {
-            let moduleNav = module.properties.controller.slice(0, -10);
+            let controller = module.properties.controller;
+            let moduleNav = controller.slice(0, -10);
             let moduleCaption = module.properties.caption;
+            let moduleUrl;
+            if (typeof window[controller] !== 'undefined') {
+                if (window[controller].hasOwnProperty('apiurl')) {
+                    moduleUrl = window[controller].apiurl;
+                }
+            }
             switch (type) {
                 case 'Browse':
-                    allModules.push({ value: `${moduleNav}Browse`, text: `${moduleCaption} Browse`, type: type, controllername: module.properties.controller });
+                    allModules.push({ value: `${moduleNav}Browse`, text: `${moduleCaption} Browse`, type: type, controllername: module.properties.controller, apiurl: moduleUrl });
                     break;
                 case 'Form':
-                    allModules.push({ value: `${moduleNav}Form`, text: `${moduleCaption} Form`, type: type, controllername: module.properties.controller });
+                    allModules.push({ value: `${moduleNav}Form`, text: `${moduleCaption} Form`, type: type, controllername: module.properties.controller, apiurl: moduleUrl });
                     break;
                 case 'Grid':
-                    allModules.push({ value: `${moduleNav}Browse`, text: `${moduleCaption} Grid`, type: type, controllername: module.properties.controller });
+                    allModules.push({ value: `${moduleNav}Browse`, text: `${moduleCaption} Grid`, type: type, controllername: module.properties.controller, apiurl: moduleUrl });
                     break;
             }
         }
