@@ -35,6 +35,7 @@ class WebForm {
         FwFormField.setValueByDataField($form, 'WebUserId', userid.webusersid);
         if (mode == 'NEW') {
             this.addCodeEditor($form);
+            FwFormField.enable($form.find('[data-datafield="BaseForm"]'));
         }
         this.loadModules($form);
         return $form;

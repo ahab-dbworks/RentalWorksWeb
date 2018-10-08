@@ -46,6 +46,7 @@ class WebForm {
 
         if (mode == 'NEW') {
             this.addCodeEditor($form);
+            FwFormField.enable($form.find('[data-datafield="BaseForm"]'));
         }
 
         this.loadModules($form);
