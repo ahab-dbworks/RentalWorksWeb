@@ -66,17 +66,17 @@
         modules = mainModules.concat(settingsModules);
         allModules = [];
         for (let i = 0; i < modules.length; i++) {
-            let moduleNav = modules[i].properties.controller.slice(0, -10)
+            let moduleNav = modules[i].properties.modulenav;
+            let moduleGUID = modules[i].id
                 , moduleCaption = modules[i].properties.caption
                 , moduleController = modules[i].properties.controller;
             if (typeof window[moduleController] !== 'undefined') {
                 if (window[moduleController].hasOwnProperty('apiurl')) {
-                    var moduleUrl = window[moduleController].apiurl;
-                    allModules.push({ value: moduleNav, text: moduleCaption, apiurl: moduleUrl });
+                    allModules.push({ value: moduleGUID, text: moduleCaption, apiurl: moduleNav });
                 }
             }
         };
-        allModules.push({ value: 'dashboard', text: 'Dashboard', apiurl: 'module/dashboard' });
+        allModules.push({ value: 'DF8111F5-F022-40B4-BAE6-23B2C6CF3705', text: 'Dashboard', apiurl: 'module/dashboard' });
         //Sort modules
         function compare(a, b) {
             if (a.text < b.text)
@@ -125,10 +125,17 @@
             notificationSound = new Audio(notificationSoundFileName);
             notificationSound.play();
         });
+        $form.find('div.default-home-page').on("change", function () {
+            let moduleUrl;
+            moduleUrl = jQuery(this).find(':selected').attr('data-apiurl')
+            console.log(moduleUrl)
+            FwFormField.setValueByDataField($form, 'HomeMenuPath', moduleUrl)
+        });
+     
     };
     //----------------------------------------------------------------------------------------------
     saveForm($form: any, parameters: any) {
-        let sounds: any = {}, browseDefaultRows, applicationTheme, successSoundFileName, errorSoundFileName, notificationSoundFileName;
+        let sounds: any = {}, browseDefaultRows, applicationTheme, successSoundFileName, errorSoundFileName, notificationSoundFileName, homePage:any = {};
         FwModule.saveForm(this.Module, $form, parameters);
 
         browseDefaultRows = jQuery($form.find('[data-datafield="BrowseDefaultRows"] select')).val().toString();
@@ -136,16 +143,16 @@
         successSoundFileName = FwFormField.getValueByDataField($form, 'SuccessSoundFileName').toString();
         errorSoundFileName = FwFormField.getValueByDataField($form, 'ErrorSoundFileName').toString();
         notificationSoundFileName = FwFormField.getValueByDataField($form, 'NotificationSoundFileName').toString();
-
+        homePage.guid = FwFormField.getValueByDataField($form, 'HomeMenuGuid');
+        homePage.path = FwFormField.getValueByDataField($form, 'HomeMenuPath');
         sounds.successSoundFileName = successSoundFileName;
         sounds.errorSoundFileName = errorSoundFileName;
         sounds.notificationSoundFileName = notificationSoundFileName;
 
-        sessionStorage.setItem('homePage', FwFormField.getValueByDataField($form, 'HomeMenuItem'));
         sessionStorage.setItem('browsedefaultrows', browseDefaultRows);
         sessionStorage.setItem('applicationtheme', applicationTheme);
         sessionStorage.setItem('sounds', JSON.stringify(sounds));
-
+        sessionStorage.setItem('homePage', JSON.stringify(homePage));
         setTimeout(function () {
             location.reload();
         }, 1000);

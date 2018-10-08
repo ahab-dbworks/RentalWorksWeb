@@ -110,18 +110,19 @@ class Base {
                                         
                                                 //J.Pace 08/14/2018 user's sound settings
                                                     FwAppData.apiMethod(true, 'GET', `api/v1/usersettings/${responseOriginalApi.webUser.webusersid.webusersid}`, null, FwServices.defaultTimeout, function onSuccess(response) {
-                                                        let sounds: any = {};
+                                                        let sounds: any = {}, homePage: any = {};
                                                         sounds.successSoundFileName = response.SuccessSoundFileName;
                                                         sounds.errorSoundFileName = response.ErrorSoundFileName;
                                                         sounds.notificationSoundFileName = response.NotificationSoundFileName;
+                                                        homePage.guid = response.HomeMenuGuid;
+                                                        homePage.path = response.HomeMenuPath;
                                                         sessionStorage.setItem('sounds', JSON.stringify(sounds));
-                                                        sessionStorage.setItem('homePage', response.HomeMenuItem);
+                                                        sessionStorage.setItem('homePage', JSON.stringify(homePage));
 
                                                         // Get custom fields and assign to session storage
                                                         FwAppData.apiMethod(true, 'GET', 'api/v1/customfield/', null, FwServices.defaultTimeout, function onSuccess(response) {
                                                             var customFields = [];
                                                             var customFieldsBrowse = [];
-                                                            let userHomePage = sessionStorage.getItem('homePage');
                                                             for (var i = 0; i < response.length; i++) {
                                                                 if (customFields.indexOf(response[i].ModuleName) === -1) {
                                                                     customFields.push(response[i].ModuleName);
@@ -139,8 +140,10 @@ class Base {
                                                             }
                                                             sessionStorage.setItem('customFields', JSON.stringify(customFields));
                                                             sessionStorage.setItem('customFieldsBrowse', JSON.stringify(customFieldsBrowse));
-                                                            if (userHomePage != null) {
-                                                                program.navigate(`module/${userHomePage}`);
+                                                            let homePagePath = JSON.parse(sessionStorage.getItem('homePage')).path;
+
+                                                            if (homePagePath !== null && homePagePath !== '') {
+                                                                program.navigate(`${homePagePath}`);
                                                             } else {
                                                                 program.navigate('home');
                                                             }

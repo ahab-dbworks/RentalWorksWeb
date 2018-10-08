@@ -30,15 +30,10 @@ export class OrderReport extends WebpackReport {
                 isOrder = false;
             }
             // Report rendering and Logo
-            (async () => {
-                let LogoPromise = Ajax.get<DataTable>(`${apiUrl}/api/v1/control/1`, authorizationHeader)
-                    .then((response: DataTable) => {
-                        controlObject = response;
-                    })
-                    .catch((ex) => {
-                        console.log('exception: ', ex)
-                    });
-                let ReportPromise = await Ajax.post<Order>(`${apiUrl}/api/v1/orderreport/runreport`, authorizationHeader, request)
+            let Promise = Ajax.get<DataTable>(`${apiUrl}/api/v1/control/1`, authorizationHeader)
+                .then((response: DataTable) => {
+                    controlObject = response;
+                    Ajax.post<Order>(`${apiUrl}/api/v1/orderreport/runreport`, authorizationHeader, request)
                     .then((response: Order) => {
                         order = response;
                         order.Items = DataTable.toObjectList(response.Items);
@@ -64,7 +59,11 @@ export class OrderReport extends WebpackReport {
                     .catch((ex) => {
                         this.onRenderReportFailed(ex);
                     });
-            })()
+                })
+                .catch((ex) => {
+                    console.log('exception: ', ex)
+                });
+
         } catch (ex) {
             this.onRenderReportFailed(ex);
         }
