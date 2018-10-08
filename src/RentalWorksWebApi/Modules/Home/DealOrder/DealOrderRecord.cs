@@ -1004,7 +1004,7 @@ public string DateStamp { get; set; }
         public async Task<bool> UpdateOrderTotal()
         {
             bool success = false;
-            if ((OrderId != null) && ((Type.Equals(RwConstants.ORDER_TYPE_QUOTE) || (Type.Equals(RwConstants.ORDER_TYPE_ORDER)))))
+            if ((OrderId != null) && ((Type.Equals(RwConstants.ORDER_TYPE_QUOTE) || (Type.Equals(RwConstants.ORDER_TYPE_ORDER) || (Type.Equals(RwConstants.ORDER_TYPE_PURCHASE_ORDER))))))
             {
                 using (FwSqlConnection conn = new FwSqlConnection(this.AppConfig.DatabaseSettings.ConnectionString))
                 {
