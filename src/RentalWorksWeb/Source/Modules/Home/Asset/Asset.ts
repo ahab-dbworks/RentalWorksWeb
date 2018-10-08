@@ -282,9 +282,9 @@ class RwAsset {
                           <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Description" data-datafield="Description" data-enabled="false" style="float:left;width:500px;"></div>
                         </div>
                         <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield ifin" data-caption="Bar Code No." data-datafield="BarCode" data-enabled="false" style="float:left;width:200px;"></div>
-                          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield ifin" data-caption="Serial No." data-datafield="SerialNumber" data-enabled="false" style="float:left;width:200px;"></div>
-                          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield ifin" data-caption="RFID" data-datafield="RfId" data-enabled="false" style="float:left;width:200px;"></div>
+                          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield ifin" data-caption="Bar Code No." data-datafield="BarCode" data-maxlength="40" data-enabled="false" style="float:left;width:200px;"></div>
+                          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield ifin" data-caption="Serial No." data-datafield="SerialNumber" data-maxlength="40" data-enabled="false" style="float:left;width:200px;"></div>
+                          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield ifin" data-caption="RFID" data-datafield="RfId" data-maxlength="24" data-enabled="false" style="float:left;width:200px;"></div>
                         </div>
                         <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                           <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Warehouse" data-datafield="Warehouse" data-enabled="false" style="float:left;width:250px;"></div>

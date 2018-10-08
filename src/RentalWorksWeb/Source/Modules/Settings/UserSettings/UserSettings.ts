@@ -71,9 +71,7 @@
                 , moduleCaption = modules[i].properties.caption
                 , moduleController = modules[i].properties.controller;
             if (typeof window[moduleController] !== 'undefined') {
-                if (window[moduleController].hasOwnProperty('apiurl')) {
                     allModules.push({ value: moduleGUID, text: moduleCaption, apiurl: moduleNav });
-                }
             }
         };
         allModules.push({ value: 'DF8111F5-F022-40B4-BAE6-23B2C6CF3705', text: 'Dashboard', apiurl: 'module/dashboard' });
@@ -126,9 +124,7 @@
             notificationSound.play();
         });
         $form.find('div.default-home-page').on("change", function () {
-            let moduleUrl;
-            moduleUrl = jQuery(this).find(':selected').attr('data-apiurl')
-            console.log(moduleUrl)
+            let moduleUrl = jQuery(this).find(':selected').attr('data-apiurl')
             FwFormField.setValueByDataField($form, 'HomeMenuPath', moduleUrl)
         });
      
