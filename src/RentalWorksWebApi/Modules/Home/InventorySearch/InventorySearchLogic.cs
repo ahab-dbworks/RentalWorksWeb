@@ -21,11 +21,13 @@ namespace WebApi.Modules.Home.InventorySearch
             dataLoader = inventorySearchLoader;
 
             ReloadOnSave = false;
-        }
-        //------------------------------------------------------------------------------------ 
+            LoadOriginalBeforeSaving = false;
 
-        //------------------------------------------------------------------------------------ 
-        [FwBusinessLogicField(isPrimaryKey: true)]
+    }
+    //------------------------------------------------------------------------------------ 
+
+    //------------------------------------------------------------------------------------ 
+    [FwBusinessLogicField(isPrimaryKey: true)]
         public string SessionId { get { return inventorySearch.SessionId; } set { inventorySearch.SessionId = value; } }
         [FwBusinessLogicField(isPrimaryKey: true)]
         public string InventoryId { get { return inventorySearch.InventoryId; } set { inventorySearch.InventoryId = value; } }
