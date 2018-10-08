@@ -70,6 +70,7 @@ class WebForm {
     }
     //----------------------------------------------------------------------------------------------
     afterSave($form: any) {
+        FwFormField.disable($form.find('[data-datafield="BaseForm"]'));
         $form.attr('data-modified', 'false');
         $form.find('.btn[data-type="SaveMenuBarButton"]').addClass('disabled');
 

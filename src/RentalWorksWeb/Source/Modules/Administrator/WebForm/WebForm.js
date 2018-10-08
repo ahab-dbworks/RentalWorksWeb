@@ -52,6 +52,7 @@ class WebForm {
         FwModule.saveForm(this.Module, $form, parameters);
     }
     afterSave($form) {
+        FwFormField.disable($form.find('[data-datafield="BaseForm"]'));
         $form.attr('data-modified', 'false');
         $form.find('.btn[data-type="SaveMenuBarButton"]').addClass('disabled');
         if (FwFormField.getValueByDataField($form, 'Active') == true) {
