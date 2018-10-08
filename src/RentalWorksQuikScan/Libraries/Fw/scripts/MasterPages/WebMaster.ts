@@ -201,9 +201,10 @@
         $view
             .on('click', '.bgothm', function () {
                 try {
-                    let userHomePage = sessionStorage.getItem('homePage');
-                    if (userHomePage != null) {
-                        program.navigate(`module/${userHomePage}`);
+                    let homePagePath = JSON.parse(sessionStorage.getItem('homePage')).path;
+
+                    if (homePagePath !== null && homePagePath !== '') {
+                        program.navigate(`${homePagePath}`);
                     } else {
                         program.navigate('home');
                     }

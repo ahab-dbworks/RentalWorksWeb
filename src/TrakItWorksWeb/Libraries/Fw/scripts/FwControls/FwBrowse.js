@@ -1496,7 +1496,7 @@ class FwBrowseClass {
             module: '',
             searchfields: [],
             searchfieldtypes: [],
-            seachseparators: [],
+            searchseparators: [],
             searchfieldoperators: [],
             searchfieldvalues: [],
             miscfields: !$control.closest('.fwform').length ? jQuery([]) : FwModule.getFormUniqueIds($control.closest('.fwform')),
