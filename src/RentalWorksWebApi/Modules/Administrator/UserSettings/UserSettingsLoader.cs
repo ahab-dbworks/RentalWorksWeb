@@ -31,7 +31,7 @@ namespace WebApi.Modules.Administrator.UserSettings
         public string HomeMenuGuid { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "homemenuitem", modeltype: FwDataTypes.Text)]
-        public string HomeMenuItem { get; set; }
+        public string HomeMenuPath { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "successsoundid", modeltype: FwDataTypes.Text)]
         public string SuccessSoundId { get; set; }
