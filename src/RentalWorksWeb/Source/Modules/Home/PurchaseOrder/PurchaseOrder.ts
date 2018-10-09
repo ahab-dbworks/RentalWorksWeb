@@ -836,54 +836,70 @@ class PurchaseOrder {
     //----------------------------------------------------------------------------------------------
     bottomLineDiscountChange($form: any, event: any) {
         // DiscountPercent for all OrderItemGrid
-        let $element, $orderItemGrid, purchaseOrderId, recType, discountPercent, module, isSubGrid;
+        let $element, $orderItemGrid, purchaseOrderId, recType, discountPercent, isSubGrid;
         let request: any = {};
-        module = this.Module;
         $element = jQuery(event.currentTarget);
         recType = $element.attr('data-rectype');
-        purchaseOrderId = FwFormField.getValueByDataField($form, `${module}Id`);
+        isSubGrid = $element.closest('[data-type="tabpage"]').find('[data-control="FwGrid"]').attr('data-issubgrid');
+        purchaseOrderId = FwFormField.getValueByDataField($form, `${this.Module}Id`);
         discountPercent = $element.find('.fwformfield-value').val().slice(0, -1);
 
         if (recType === 'R') {
-            $orderItemGrid = $form.find('.rentalgrid [data-name="OrderItemGrid"]');
-            FwFormField.setValueByDataField($form, 'RentalTotal', '');
-            FwFormField.disable($form.find('div[data-datafield="RentalTotalIncludesTax"]'));
-            isSubGrid = false;
+            if (isSubGrid === true) {
+                $orderItemGrid = $form.find('.subrentalgrid [data-name="OrderItemGrid"]');
+                FwFormField.setValueByDataField($form, 'RentalTotal', '');
+                FwFormField.disable($form.find('.subrental-total-wtax:visible'));
+            } else {
+                $orderItemGrid = $form.find('.rentalgrid [data-name="OrderItemGrid"]');
+                FwFormField.setValueByDataField($form, 'RentalTotal', '');
+                FwFormField.disable($form.find('div[data-datafield="RentalTotalIncludesTax"]'));
+            }
         }
         if (recType === 'S') {
-            $orderItemGrid = $form.find('.salesgrid [data-name="OrderItemGrid"]');
-            FwFormField.setValueByDataField($form, 'SalesTotal', '');
-            FwFormField.disable($form.find('div[data-datafield="SalesTotalIncludesTax"]'));
-            isSubGrid = false;
-        }
-        if (recType === 'P') {
-            $orderItemGrid = $form.find('.salesgrid [data-name="OrderItemGrid"]');
-            FwFormField.setValueByDataField($form, 'PartsTotal', '');
-            FwFormField.disable($form.find('div[data-datafield="PartsTotalIncludesTax"]'));
-            isSubGrid = false;
+            if (isSubGrid === true) {
+                $orderItemGrid = $form.find('.subsalesgrid [data-name="OrderItemGrid"]');
+                FwFormField.setValueByDataField($form, 'SalesTotal', '');
+                FwFormField.disable($form.find('.subsales-total-wtax:visible'));
+            } else {
+                $orderItemGrid = $form.find('.salesgrid [data-name="OrderItemGrid"]');
+                FwFormField.setValueByDataField($form, 'SalesTotal', '');
+                FwFormField.disable($form.find('div[data-datafield="SalesTotalIncludesTax"]'));
+            }
         }
         if (recType === 'L') {
-            $orderItemGrid = $form.find('.laborgrid [data-name="OrderItemGrid"]');
-            FwFormField.setValueByDataField($form, 'LaborTotal', '');
-            FwFormField.disable($form.find('div[data-datafield="LaborTotalIncludesTax"]'));
-            isSubGrid = false;
+            if (isSubGrid === true) {
+                $orderItemGrid = $form.find('.sublaborgrid [data-name="OrderItemGrid"]');
+                FwFormField.setValueByDataField($form, 'LaborTotal', '');
+                FwFormField.disable($form.find('.sublabor-total-wtax:visible'));
+            } else {
+                $orderItemGrid = $form.find('.laborgrid [data-name="OrderItemGrid"]');
+                FwFormField.setValueByDataField($form, 'LaborTotal', '');
+                FwFormField.disable($form.find('div[data-datafield="LaborTotalIncludesTax"]'));
+            }
         }
         if (recType === 'M') {
-            $orderItemGrid = $form.find('.miscgrid [data-name="OrderItemGrid"]');
-            FwFormField.setValueByDataField($form, 'MiscTotal', '');
-            FwFormField.disable($form.find('div[data-datafield="MiscTotalIncludesTax"]'));
+            if (isSubGrid === true) {
+                $orderItemGrid = $form.find('.submiscgrid [data-name="OrderItemGrid"]');
+                FwFormField.setValueByDataField($form, 'MiscTotal', '');
+                FwFormField.disable($form.find('.submisc-total-wtax:visible'));
+            } else {
+                $orderItemGrid = $form.find('.miscgrid [data-name="OrderItemGrid"]');
+                FwFormField.setValueByDataField($form, 'MiscTotal', '');
+                FwFormField.disable($form.find('div[data-datafield="MiscTotalIncludesTax"]'));
+            }
         }
-        if (recType === '') {
-            $orderItemGrid = $form.find('.combinedgrid [data-name="OrderItemGrid"]');
-            FwFormField.setValueByDataField($form, 'PeriodCombinedTotal', '');
-            FwFormField.disable($form.find('div[data-datafield="PeriodCombinedTotalIncludesTax"]'));
+        if (recType === 'P') {
+            $orderItemGrid = $form.find('.partgrid [data-name="OrderItemGrid"]');
+            FwFormField.setValueByDataField($form, 'PartsTotal', '');
+            FwFormField.disable($form.find('div[data-datafield="PartsTotalIncludesTax"]'));
         }
+      
         request.DiscountPercent = parseFloat(discountPercent);
         request.RecType = recType;
         request.PurchaseOrderId = purchaseOrderId;
         request.Subs = isSubGrid;
 
-        FwAppData.apiMethod(true, 'POST', `api/v1/${module}/applybottomlinediscountpercent/`, request, FwServices.defaultTimeout, function onSuccess(response) {
+        FwAppData.apiMethod(true, 'POST', `api/v1/${this.Module}/applybottomlinediscountpercent/`, request, FwServices.defaultTimeout, function onSuccess(response) {
             FwBrowse.search($orderItemGrid);
         }, function onError(response) {
             FwFunc.showError(response);
