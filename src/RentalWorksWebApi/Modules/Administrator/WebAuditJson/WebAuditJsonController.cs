@@ -1,3 +1,5 @@
+using FwStandard.SqlServer;
+using System.Collections.Generic;
 using FwStandard.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
@@ -15,45 +17,31 @@ namespace WebApi.Modules.Administrator.WebAuditJson
         //------------------------------------------------------------------------------------ 
         // POST api/v1/webauditjson/browse 
         [HttpPost("browse")]
-        public async Task<IActionResult> BrowseAsync([FromBody]BrowseRequest browseRequest)
+        public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/webauditjson/exportexcelxlsx/filedownloadname 
         [HttpPost("exportexcelxlsx/{fileDownloadName}")]
-        public async Task<IActionResult> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
+        public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoExportExcelXlsxFileAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
         //// GET api/v1/webauditjson 
         //[HttpGet]
-        //public async Task<IActionResult> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
+        //public aync <IEnumerable<WebAuditJsonLogic>>Task<IActionResult> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         //{
         //    return await DoGetAsync<WebAuditJsonLogic>(pageno, pagesize, sort);
         //}
         ////------------------------------------------------------------------------------------ 
         // GET api/v1/webauditjson/12345 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetOneAsync([FromRoute]string id)
+        public async Task<ActionResult<WebAuditJsonLogic>> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<WebAuditJsonLogic>(id);
         }
         //------------------------------------------------------------------------------------ 
-        //// POST api/v1/webauditjson 
-        //[HttpPost]
-        //public async Task<IActionResult> PostAsync([FromBody]WebAuditJsonLogic l)
-        //{
-        //    return await DoPostAsync<WebAuditJsonLogic>(l);
-        //}
-        ////------------------------------------------------------------------------------------ 
-        //// DELETE api/v1/webauditjson/A0000001 
-        //[HttpDelete("{id}")]
-        //public async Task<IActionResult> DeleteAsync([FromRoute]string id)
-        //{
-        //    return await DoDeleteAsync(id);
-        //}
-        ////------------------------------------------------------------------------------------ 
     }
 }

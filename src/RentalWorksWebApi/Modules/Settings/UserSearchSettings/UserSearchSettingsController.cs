@@ -42,7 +42,7 @@ namespace WebApi.Modules.Settings.UserSearchSettings
         //------------------------------------------------------------------------------------
         // POST api/v1/usersearchsettings 
         [HttpPost]
-        public async Task<IActionResult> PostAsync([FromBody]UserSearchSettingsLogic l)
+        public async Task<ActionResult<UserSearchSettingsLogic>> PostAsync([FromBody]UserSearchSettingsLogic l)
         {
             l.SetDbConfig(this.AppConfig.DatabaseSettings);
             l.SetDependencies(this.AppConfig, this.UserSession);

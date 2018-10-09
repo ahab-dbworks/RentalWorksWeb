@@ -1,3 +1,5 @@
+using FwStandard.SqlServer;
+using System.Collections.Generic;
 using FwStandard.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
@@ -17,42 +19,42 @@ namespace WebApi.Modules.Settings.Widget
         //------------------------------------------------------------------------------------ 
         // POST api/v1/widget/browse 
         [HttpPost("browse")]
-        public async Task<IActionResult> BrowseAsync([FromBody]BrowseRequest browseRequest)
+        public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest, typeof(WidgetLogic));
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
         [HttpPost("exportexcelxlsx/{fileDownloadName}")]
-        public async Task<IActionResult> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
+        public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoExportExcelXlsxFileAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
         // GET api/v1/widget 
         [HttpGet]
-        public async Task<IActionResult> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
+        public async Task<ActionResult<IEnumerable<WidgetLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
             return await DoGetAsync<WidgetLogic>(pageno, pagesize, sort, typeof(WidgetLogic));
         }
         //------------------------------------------------------------------------------------ 
         // GET api/v1/widget/A0000001 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetOneAsync([FromRoute]string id)
+        public async Task<ActionResult<WidgetLogic>> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<WidgetLogic>(id, typeof(WidgetLogic));
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/widget 
         [HttpPost]
-        public async Task<IActionResult> PostAsync([FromBody]WidgetLogic l)
+        public async Task<ActionResult<WidgetLogic>> PostAsync([FromBody]WidgetLogic l)
         {
             return await DoPostAsync<WidgetLogic>(l);
         }
         //------------------------------------------------------------------------------------ 
         // DELETE api/v1/widget/A0000001 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteAsync([FromRoute]string id)
+        public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
             return await DoDeleteAsync(id, typeof(WidgetLogic));
         }

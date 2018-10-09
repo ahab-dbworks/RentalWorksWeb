@@ -15,7 +15,7 @@ namespace WebApi.Modules.Home.OrderSummary
         //------------------------------------------------------------------------------------
         // GET api/v1/ordersummary/A0000001~P
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetOneAsync([FromRoute]string id)
+        public async Task<ActionResult<OrderSummaryLogic>> GetOneAsync([FromRoute]string id)
         {
             string[] ids = id.Split('~');
             if (ids.Length.Equals(1))

@@ -1,4 +1,5 @@
-﻿using FwStandard.Models;
+﻿using System.Collections.Generic;
+using FwStandard.Models;
 using FwStandard.SqlServer;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
@@ -16,42 +17,42 @@ namespace WebApi.Modules.Home.CustomerNote
         //------------------------------------------------------------------------------------
         // POST api/v1/customernote/browse
         [HttpPost("browse")]
-        public async Task<IActionResult> BrowseAsync([FromBody]BrowseRequest browseRequest)
+        public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest, typeof(CustomerNoteLogic));
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
         [HttpPost("exportexcelxlsx/{fileDownloadName}")]
-        public async Task<IActionResult> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
+        public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoExportExcelXlsxFileAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------
         // GET api/v1/customernote
         [HttpGet]
-        public async Task<IActionResult> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
+        public async Task<ActionResult<IEnumerable<CustomerNoteLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
             return await DoGetAsync<CustomerNoteLogic>(pageno, pagesize, sort, typeof(CustomerNoteLogic));
         }
         //------------------------------------------------------------------------------------
         // GET api/v1/customernote/A0000001
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetOneAsync([FromRoute]string id)
+        public async Task<ActionResult<CustomerNoteLogic>> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<CustomerNoteLogic>(id, typeof(CustomerNoteLogic));
         }
         //------------------------------------------------------------------------------------
         // POST api/v1/customernote
         [HttpPost]
-        public async Task<IActionResult> PostAsync([FromBody]CustomerNoteLogic l)
+        public async Task<ActionResult<CustomerNoteLogic>> PostAsync([FromBody]CustomerNoteLogic l)
         {
             return await DoPostAsync<CustomerNoteLogic>(l);
         }
         //------------------------------------------------------------------------------------
         // DELETE api/v1/customernote/A0000001
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteAsync([FromRoute]string id)
+        public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
             return await DoDeleteAsync(id, typeof(CustomerNoteLogic));
         }

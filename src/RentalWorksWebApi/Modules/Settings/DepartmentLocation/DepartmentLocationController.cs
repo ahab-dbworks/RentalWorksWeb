@@ -1,3 +1,5 @@
+using FwStandard.SqlServer;
+using System.Collections.Generic;
 using FwStandard.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
@@ -13,42 +15,42 @@ namespace WebApi.Modules.Settings.DepartmentLocation
         //------------------------------------------------------------------------------------ 
         // POST api/v1/departmentlocation/browse 
         [HttpPost("browse")]
-        public async Task<IActionResult> BrowseAsync([FromBody]BrowseRequest browseRequest)
+        public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest, typeof(DepartmentLocationLogic));
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
         [HttpPost("exportexcelxlsx/{fileDownloadName}")]
-        public async Task<IActionResult> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
+        public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoExportExcelXlsxFileAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
         // GET api/v1/departmentlocation 
         [HttpGet]
-        public async Task<IActionResult> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
+        public async Task<ActionResult<IEnumerable<DepartmentLocationLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
             return await DoGetAsync<DepartmentLocationLogic>(pageno, pagesize, sort, typeof(DepartmentLocationLogic));
         }
         //------------------------------------------------------------------------------------ 
         // GET api/v1/departmentlocation/A0000001~A0000002   (departmentid~locationid)
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetOneAsync([FromRoute]string id)
+        public async Task<ActionResult<DepartmentLocationLogic>> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<DepartmentLocationLogic>(id, typeof(DepartmentLocationLogic));
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/departmentlocation 
         [HttpPost]
-        public async Task<IActionResult> PostAsync([FromBody]DepartmentLocationLogic l)
+        public async Task<ActionResult<DepartmentLocationLogic>> PostAsync([FromBody]DepartmentLocationLogic l)
         {
             return await DoPostAsync<DepartmentLocationLogic>(l);
         }
         //------------------------------------------------------------------------------------ 
         //// DELETE api/v1/departmentlocation/A0000001
         //[HttpDelete("{id}")]
-        // public async Task<IActionResult> DeleteAsync([FromRoute]string id)
+        // public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         // {
         //     return await DoDeleteAsync(id, typeof(DepartmentLocationLogic));
         // }

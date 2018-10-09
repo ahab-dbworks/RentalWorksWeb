@@ -1,3 +1,5 @@
+using FwStandard.SqlServer;
+using System.Collections.Generic;
 using FwStandard.Models; 
 using Microsoft.AspNetCore.Mvc; 
 using Microsoft.Extensions.Options; 
@@ -13,42 +15,42 @@ namespace WebApi.Modules.Home.ProjectNote
         //------------------------------------------------------------------------------------ 
         // POST api/v1/projectnote/browse 
         [HttpPost("browse")]
-        public async Task<IActionResult> BrowseAsync([FromBody]BrowseRequest browseRequest)
+        public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest, typeof(ProjectNoteLogic));
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
         [HttpPost("exportexcelxlsx/{fileDownloadName}")]
-        public async Task<IActionResult> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
+        public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoExportExcelXlsxFileAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
         // GET api/v1/projectnote 
         [HttpGet]
-        public async Task<IActionResult> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
+        public async Task<ActionResult<IEnumerable<ProjectNoteLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
             return await DoGetAsync<ProjectNoteLogic>(pageno, pagesize, sort, typeof(ProjectNoteLogic));
         }
         //------------------------------------------------------------------------------------ 
         // GET api/v1/projectnote/A0000001
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetOneAsync([FromRoute]string id)
+        public async Task<ActionResult<ProjectNoteLogic>> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<ProjectNoteLogic>(id, typeof(ProjectNoteLogic));
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/projectnote 
         [HttpPost]
-        public async Task<IActionResult> PostAsync([FromBody]ProjectNoteLogic l)
+        public async Task<ActionResult<ProjectNoteLogic>> PostAsync([FromBody]ProjectNoteLogic l)
         {
             return await DoPostAsync<ProjectNoteLogic>(l);
         }
         //------------------------------------------------------------------------------------ 
         // DELETE api/v1/projectnote/A0000001
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteAsync([FromRoute]string id)
+        public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
             return await DoDeleteAsync(id, typeof(ProjectNoteLogic));
         }

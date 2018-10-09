@@ -1,3 +1,5 @@
+using FwStandard.SqlServer;
+using System.Collections.Generic;
 using FwStandard.Models; 
 using Microsoft.AspNetCore.Mvc; 
 using Microsoft.Extensions.Options; 
@@ -13,42 +15,42 @@ namespace WebApi.Modules.Settings.WarehouseInventoryType
         //------------------------------------------------------------------------------------ 
         // POST api/v1/warehouseinventorytype/browse 
         [HttpPost("browse")]
-        public async Task<IActionResult> BrowseAsync([FromBody]BrowseRequest browseRequest)
+        public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest, typeof(WarehouseInventoryTypeLogic));
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
         [HttpPost("exportexcelxlsx/{fileDownloadName}")]
-        public async Task<IActionResult> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
+        public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoExportExcelXlsxFileAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
         // GET api/v1/warehouseinventorytype 
         [HttpGet]
-        public async Task<IActionResult> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
+        public async Task<ActionResult<IEnumerable<WarehouseInventoryTypeLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
             return await DoGetAsync<WarehouseInventoryTypeLogic>(pageno, pagesize, sort, typeof(WarehouseInventoryTypeLogic));
         }
         //------------------------------------------------------------------------------------ 
         // GET api/v1/warehouseinventorytype/A0000001 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetOneAsync([FromRoute]string id)
+        public async Task<ActionResult<WarehouseInventoryTypeLogic>> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<WarehouseInventoryTypeLogic>(id, typeof(WarehouseInventoryTypeLogic));
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/warehouseinventorytype 
         [HttpPost]
-        public async Task<IActionResult> PostAsync([FromBody]WarehouseInventoryTypeLogic l)
+        public async Task<ActionResult<WarehouseInventoryTypeLogic>> PostAsync([FromBody]WarehouseInventoryTypeLogic l)
         {
             return await DoPostAsync<WarehouseInventoryTypeLogic>(l);
         }
         //------------------------------------------------------------------------------------ 
         //// DELETE api/v1/warehouseinventorytype/A0000001 
         //[HttpDelete("{id}")]
-        //public async Task<IActionResult> DeleteAsync([FromRoute]string id)
+        //public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         //{
         //    return await DoDeleteAsync(id, typeof(WarehouseInventoryTypeLogic));
         //}

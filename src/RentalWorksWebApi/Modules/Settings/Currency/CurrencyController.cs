@@ -1,10 +1,11 @@
-﻿using FwStandard.Models;
+﻿using FwStandard.SqlServer;
+using FwStandard.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using WebApi.Controllers;
 using System.Threading.Tasks;
-
+using System.Collections.Generic;
 namespace WebApi.Modules.Settings.Currency
 {
     [Route("api/v1/[controller]")]
@@ -16,7 +17,7 @@ namespace WebApi.Modules.Settings.Currency
         // POST api/v1/currency/browse
         [HttpPost("browse")]
         [Authorize(Policy = "")]
-        public async Task<IActionResult> BrowseAsync([FromBody]BrowseRequest browseRequest)
+        public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             System.Console.WriteLine("Currency Browse");
             return await DoBrowseAsync(browseRequest, typeof(CurrencyLogic));
@@ -24,7 +25,7 @@ namespace WebApi.Modules.Settings.Currency
         //------------------------------------------------------------------------------------ 
         // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
         [HttpPost("exportexcelxlsx/{fileDownloadName}")]
-        public async Task<IActionResult> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
+        public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoExportExcelXlsxFileAsync(browseRequest);
         }
@@ -32,7 +33,7 @@ namespace WebApi.Modules.Settings.Currency
         // GET api/v1/currency
         [HttpGet]
         [Authorize(Policy = "")]
-        public async Task<IActionResult> GetAsync(int pageno, int pagesize, string sort)
+        public async Task<ActionResult<IEnumerable<CurrencyLogic>>> GetManyAsync(int pageno, int pagesize, string sort)
         {
             return await DoGetAsync<CurrencyLogic>(pageno, pagesize, sort, typeof(CurrencyLogic));
         }
@@ -40,7 +41,7 @@ namespace WebApi.Modules.Settings.Currency
         // GET api/v1/currency/A0000001
         [HttpGet("{id}")]
         [Authorize(Policy = "")]
-        public async Task<IActionResult> GetAsync(string id)
+        public async Task<ActionResult<CurrencyLogic>> GetOneAsync(string id)
         {
             return await DoGetAsync<CurrencyLogic>(id, typeof(CurrencyLogic));
         }
@@ -48,7 +49,7 @@ namespace WebApi.Modules.Settings.Currency
         // POST api/v1/currency
         [HttpPost]
         [Authorize(Policy = "")]
-        public async Task<IActionResult> PostAsync([FromBody]CurrencyLogic l)
+        public async Task<ActionResult<CurrencyLogic>> PostAsync([FromBody]CurrencyLogic l)
         {
             return await DoPostAsync<CurrencyLogic>(l);
         }
@@ -56,7 +57,7 @@ namespace WebApi.Modules.Settings.Currency
         // DELETE api/v1/currency/A0000001
         [HttpDelete("{id}")]
         [Authorize(Policy = "")]
-        public async Task<IActionResult> DeleteAsync(string id)
+        public async Task<ActionResult<bool>> DeleteAsync(string id)
         {
             return await DoDeleteAsync(id, typeof(CurrencyLogic));
         }

@@ -1,3 +1,4 @@
+using FwStandard.SqlServer;
 using FwStandard.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
@@ -58,14 +59,14 @@ namespace WebApi.Modules.Home.PurchaseOrderReturnItem
         //------------------------------------------------------------------------------------ 
         // POST api/v1/purchaseorderreturnitem/browse 
         [HttpPost("browse")]
-        public async Task<IActionResult> BrowseAsync([FromBody]BrowseRequest browseRequest)
+        public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/purchaseorderreturnitem/exportexcelxlsx/filedownloadname 
         [HttpPost("exportexcelxlsx/{fileDownloadName}")]
-        public async Task<IActionResult> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
+        public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoExportExcelXlsxFileAsync(browseRequest);
         }

@@ -1,3 +1,5 @@
+using FwStandard.SqlServer;
+using System.Collections.Generic;
 using FwStandard.Models; 
 using Microsoft.AspNetCore.Mvc; 
 using Microsoft.Extensions.Options; 
@@ -13,42 +15,42 @@ namespace WebApi.Modules.Settings.PoApprovalStatus
         //------------------------------------------------------------------------------------ 
         // POST api/v1/poapprovalstatus/browse 
         [HttpPost("browse")]
-        public async Task<IActionResult> BrowseAsync([FromBody]BrowseRequest browseRequest)
+        public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest, typeof(PoApprovalStatusLogic));
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
         [HttpPost("exportexcelxlsx/{fileDownloadName}")]
-        public async Task<IActionResult> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
+        public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoExportExcelXlsxFileAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
         // GET api/v1/poapprovalstatus 
         [HttpGet]
-        public async Task<IActionResult> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
+        public async Task<ActionResult<IEnumerable<PoApprovalStatusLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
             return await DoGetAsync<PoApprovalStatusLogic>(pageno, pagesize, sort, typeof(PoApprovalStatusLogic));
         }
         //------------------------------------------------------------------------------------ 
         // GET api/v1/poapprovalstatus/A0000001 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetOneAsync([FromRoute]string id)
+        public async Task<ActionResult<PoApprovalStatusLogic>> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<PoApprovalStatusLogic>(id, typeof(PoApprovalStatusLogic));
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/poapprovalstatus 
         [HttpPost]
-        public async Task<IActionResult> PostAsync([FromBody]PoApprovalStatusLogic l)
+        public async Task<ActionResult<PoApprovalStatusLogic>> PostAsync([FromBody]PoApprovalStatusLogic l)
         {
             return await DoPostAsync<PoApprovalStatusLogic>(l);
         }
         //------------------------------------------------------------------------------------ 
         // DELETE api/v1/poapprovalstatus/A0000001 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteAsync([FromRoute]string id)
+        public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
             return await DoDeleteAsync(id, typeof(PoApprovalStatusLogic));
         }

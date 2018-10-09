@@ -1,4 +1,5 @@
-﻿using FwStandard.Models;
+﻿using System.Collections.Generic;
+using FwStandard.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using WebApi.Controllers;
@@ -9,6 +10,7 @@ using WebLibrary;
 using WebApi.Modules.Home.Quote;
 using WebApi.Logic;
 using System.ComponentModel.DataAnnotations;
+using FwStandard.SqlServer;
 
 namespace WebApi.Modules.Home.Order
 {
@@ -55,14 +57,14 @@ namespace WebApi.Modules.Home.Order
         //------------------------------------------------------------------------------------
         // POST api/v1/order/browse
         [HttpPost("browse")]
-        public async Task<IActionResult> Browse([FromBody]BrowseRequest browseRequest)
+        public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
         [HttpPost("exportexcelxlsx/{fileDownloadName}")]
-        public async Task<IActionResult> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
+        public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoExportExcelXlsxFileAsync(browseRequest);
         }
@@ -389,28 +391,28 @@ namespace WebApi.Modules.Home.Order
         //------------------------------------------------------------------------------------        
         // GET api/v1/order
         [HttpGet]
-        public async Task<IActionResult> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
+        public async Task<ActionResult<IEnumerable<OrderLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
             return await DoGetAsync<OrderLogic>(pageno, pagesize, sort, typeof(OrderLogic));
         }
         //------------------------------------------------------------------------------------
         // GET api/v1/order/A0000001
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetOneAsync([FromRoute]string id)
+        public async Task<ActionResult<OrderLogic>> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<OrderLogic>(id, typeof(OrderLogic));
         }
         //------------------------------------------------------------------------------------
         // POST api/v1/order
         [HttpPost]
-        public async Task<IActionResult> PostAsync([FromBody]OrderLogic l)
+        public async Task<ActionResult<OrderLogic>> PostAsync([FromBody]OrderLogic l)
         {
             return await DoPostAsync<OrderLogic>(l);
         }
         //------------------------------------------------------------------------------------
         //// DELETE api/v1/order/A0000001
         //[HttpDelete("{id}")]
-        //public async Task<IActionResult> DeleteAsync([FromRoute]string id)
+        //public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         //{
         //    return await DoDeleteAsync(id, typeof(OrderLogic));
         //}

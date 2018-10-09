@@ -28,14 +28,14 @@ namespace WebApi.Modules.Home.Contact
         [SwaggerResponse(200, Type = typeof(FwJsonDataTable))]
         [SwaggerResponse(500, Type = typeof(FwApiException))]
         //[ApiExplorerSettings(IgnoreApi=true)]
-        public async Task<IActionResult> Browse([FromBody]BrowseRequest browseRequest)
+        public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest, typeof(ContactLogic));
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
         [HttpPost("exportexcelxlsx/{fileDownloadName}")]
-        public async Task<IActionResult> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
+        public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoExportExcelXlsxFileAsync(browseRequest);
         }
@@ -51,7 +51,7 @@ namespace WebApi.Modules.Home.Contact
         [Produces(typeof(List<ContactLogic>))]
         [SwaggerResponse(200, Type = typeof(List<ContactLogic>))]
         [SwaggerResponse(500, Type = typeof(FwApiException))]
-        public async Task<IActionResult> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
+        public async Task<ActionResult<IEnumerable<ContactLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
             return await DoGetAsync<ContactLogic>(pageno, pagesize, sort, typeof(ContactLogic));
         }
@@ -60,21 +60,21 @@ namespace WebApi.Modules.Home.Contact
         [HttpGet("{id}")]
         [Produces(typeof(ContactLogic))]
         [SwaggerResponse(200, Type = typeof(ContactLogic))]
-        public async Task<IActionResult> GetOneAsync([FromRoute]string id)
+        public async Task<ActionResult<ContactLogic>> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<ContactLogic>(id, typeof(ContactLogic));
         }
         //------------------------------------------------------------------------------------
         // POST api/v1/customerstatus
         [HttpPost]
-        public async Task<IActionResult> PostAsync([FromBody]ContactLogic l)
+        public async Task<ActionResult<ContactLogic>> PostAsync([FromBody]ContactLogic l)
         {
             return await DoPostAsync<ContactLogic>(l);
         }
         //------------------------------------------------------------------------------------
         // DELETE api/v1/customerstatus/A0000001
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteAsync([FromRoute]string id)
+        public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
             return await DoDeleteAsync(id, typeof(ContactLogic));
         }

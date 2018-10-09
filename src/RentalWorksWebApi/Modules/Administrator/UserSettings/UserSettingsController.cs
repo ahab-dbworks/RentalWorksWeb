@@ -14,14 +14,14 @@ namespace WebApi.Modules.Administrator.UserSettings
         //------------------------------------------------------------------------------------ 
         // GET api/v1/usersettings/A0000001 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetOneAsync([FromRoute]string id)  //id = webusersid
+        public async Task<ActionResult<UserSettingsLogic>> GetOneAsync([FromRoute]string id)  //id = webusersid
         {
             return await DoGetAsync<UserSettingsLogic>(id, typeof(UserSettingsLogic));
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/usersettings 
         [HttpPost]
-        public async Task<IActionResult> PostAsync([FromBody]UserSettingsLogic l)
+        public async Task<ActionResult<UserSettingsLogic>> PostAsync([FromBody]UserSettingsLogic l)
         {
             return await DoPostAsync<UserSettingsLogic>(l);
         }

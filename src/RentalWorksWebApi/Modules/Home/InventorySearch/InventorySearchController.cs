@@ -101,7 +101,7 @@ namespace WebApi.Modules.Home.InventorySearch
         //------------------------------------------------------------------------------------         
         // POST api/v1/inventorysearch 
         [HttpPost]
-        public async Task<IActionResult> PostAsync([FromBody]InventorySearchLogic l)
+        public async Task<ActionResult<InventorySearchLogic>> PostAsync([FromBody]InventorySearchLogic l)
         {
             return await DoPostAsync<InventorySearchLogic>(l);
         }

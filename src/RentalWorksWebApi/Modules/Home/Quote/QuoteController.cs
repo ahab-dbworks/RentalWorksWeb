@@ -1,4 +1,5 @@
-﻿using FwStandard.Models;
+﻿using System.Collections.Generic;
+using FwStandard.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using WebApi.Controllers;
@@ -7,6 +8,7 @@ using Microsoft.AspNetCore.Http;
 using System;
 using WebLibrary;
 using WebApi.Modules.Home.Order;
+using FwStandard.SqlServer;
 
 namespace WebApi.Modules.Home.Quote
 {
@@ -19,14 +21,14 @@ namespace WebApi.Modules.Home.Quote
         //------------------------------------------------------------------------------------
         // POST api/v1/quote/browse
         [HttpPost("browse")]
-        public async Task<IActionResult> Browse([FromBody]BrowseRequest browseRequest)
+        public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest, typeof(QuoteLogic));
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
         [HttpPost("exportexcelxlsx/{fileDownloadName}")]
-        public async Task<IActionResult> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
+        public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoExportExcelXlsxFileAsync(browseRequest);
         }
@@ -309,28 +311,28 @@ namespace WebApi.Modules.Home.Quote
         //------------------------------------------------------------------------------------                
         // GET api/v1/quote
         [HttpGet]
-        public async Task<IActionResult> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
+        public async Task<ActionResult<IEnumerable<QuoteLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
             return await DoGetAsync<QuoteLogic>(pageno, pagesize, sort, typeof(QuoteLogic));
         }
         //------------------------------------------------------------------------------------
         // GET api/v1/quote/A0000001
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetOneAsync([FromRoute]string id)
+        public async Task<ActionResult<QuoteLogic>> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<QuoteLogic>(id, typeof(QuoteLogic));
         }
         //------------------------------------------------------------------------------------
         // POST api/v1/quote
         [HttpPost]
-        public async Task<IActionResult> PostAsync([FromBody]QuoteLogic l)
+        public async Task<ActionResult<QuoteLogic>> PostAsync([FromBody]QuoteLogic l)
         {
             return await DoPostAsync<QuoteLogic>(l);
         }
         //------------------------------------------------------------------------------------
         //// DELETE api/v1/quote/A0000001
         //[HttpDelete("{id}")]
-        //public async Task<IActionResult> DeleteAsync([FromRoute]string id)
+        //public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         //{
         //    return await DoDeleteAsync(id, typeof(QuoteLogic));
         //}

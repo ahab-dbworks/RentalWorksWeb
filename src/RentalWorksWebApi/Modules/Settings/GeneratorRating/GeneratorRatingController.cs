@@ -1,4 +1,6 @@
-﻿using FwStandard.Models;
+﻿using FwStandard.SqlServer;
+using System.Collections.Generic;
+using FwStandard.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
@@ -16,14 +18,14 @@ namespace WebApi.Modules.Settings.GeneratorRating
         // POST api/v1/generatorrating/browse
         [HttpPost("browse")]
         [Authorize(Policy = "{915BC77B-88C6-4DF7-9AC8-9B2CC0B2ECDB}")]
-        public async Task<IActionResult> BrowseAsync([FromBody]BrowseRequest browseRequest)
+        public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest, typeof(GeneratorRatingLogic));
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
         [HttpPost("exportexcelxlsx/{fileDownloadName}")]
-        public async Task<IActionResult> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
+        public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoExportExcelXlsxFileAsync(browseRequest);
         }
@@ -31,7 +33,7 @@ namespace WebApi.Modules.Settings.GeneratorRating
         // GET api/v1/generatorrating
         [HttpGet]
         [Authorize(Policy = "{D014CE24-1518-4022-9D66-E779DF284AB4}")]
-        public async Task<IActionResult> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
+        public async Task<ActionResult<IEnumerable<GeneratorRatingLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
             return await DoGetAsync<GeneratorRatingLogic>(pageno, pagesize, sort, typeof(GeneratorRatingLogic));
         }
@@ -39,7 +41,7 @@ namespace WebApi.Modules.Settings.GeneratorRating
         // GET api/v1/generatorrating/A0000001
         [HttpGet("{id}")]
         [Authorize(Policy = "{10B3F329-73CE-4359-8DF2-CF86DF76C9E4}")]
-        public async Task<IActionResult> GetOneAsync([FromRoute]string id)
+        public async Task<ActionResult<GeneratorRatingLogic>> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<GeneratorRatingLogic>(id, typeof(GeneratorRatingLogic));
         }
@@ -47,7 +49,7 @@ namespace WebApi.Modules.Settings.GeneratorRating
         // POST api/v1/generatorrating
         [HttpPost]
         [Authorize(Policy = "{53DD87EE-08DA-4FE5-A2CC-EE8C38DA40C8}")]
-        public async Task<IActionResult> PostAsync([FromBody]GeneratorRatingLogic l)
+        public async Task<ActionResult<GeneratorRatingLogic>> PostAsync([FromBody]GeneratorRatingLogic l)
         {
             return await DoPostAsync<GeneratorRatingLogic>(l);
         }
@@ -55,7 +57,7 @@ namespace WebApi.Modules.Settings.GeneratorRating
         // DELETE api/v1/generatorrating/A0000001
         [HttpDelete("{id}")]
         [Authorize(Policy = "{7E849D41-933F-4715-9F77-4FDB6278A138}")]
-        public async Task<IActionResult> DeleteAsync([FromRoute]string id)
+        public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
             return await DoDeleteAsync(id, typeof(GeneratorRatingLogic));
         }

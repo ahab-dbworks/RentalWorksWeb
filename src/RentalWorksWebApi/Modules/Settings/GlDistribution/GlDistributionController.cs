@@ -1,3 +1,5 @@
+using FwStandard.SqlServer;
+using System.Collections.Generic;
 using FwStandard.Models; 
 using Microsoft.AspNetCore.Mvc; 
 using Microsoft.Extensions.Options; 
@@ -13,42 +15,42 @@ namespace WebApi.Modules.Settings.GlDistribution
         //------------------------------------------------------------------------------------ 
         // POST api/v1/gldistribution/browse 
         [HttpPost("browse")]
-        public async Task<IActionResult> BrowseAsync([FromBody]BrowseRequest browseRequest)
+        public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest, typeof(GlDistributionLogic));
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
         [HttpPost("exportexcelxlsx/{fileDownloadName}")]
-        public async Task<IActionResult> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
+        public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoExportExcelXlsxFileAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
         // GET api/v1/gldistribution 
         [HttpGet]
-        public async Task<IActionResult> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
+        public async Task<ActionResult<IEnumerable<GlDistributionLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
             return await DoGetAsync<GlDistributionLogic>(pageno, pagesize, sort, typeof(GlDistributionLogic));
         }
         //------------------------------------------------------------------------------------ 
         // GET api/v1/gldistribution/A0000001 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetOneAsync([FromRoute]string id)
+        public async Task<ActionResult<GlDistributionLogic>> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<GlDistributionLogic>(id, typeof(GlDistributionLogic));
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/gldistribution 
         [HttpPost]
-        public async Task<IActionResult> PostAsync([FromBody]GlDistributionLogic l)
+        public async Task<ActionResult<GlDistributionLogic>> PostAsync([FromBody]GlDistributionLogic l)
         {
             return await DoPostAsync<GlDistributionLogic>(l);
         }
         //------------------------------------------------------------------------------------ 
         // DELETE api/v1/gldistribution/A0000001 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteAsync([FromRoute]string id)
+        public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
             return await DoDeleteAsync(id, typeof(GlDistributionLogic));
         }

@@ -1,3 +1,4 @@
+using FwStandard.SqlServer;
 using FwStandard.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
@@ -18,28 +19,28 @@ namespace WebApi.Modules.Home.PickListUtilityItem
         //------------------------------------------------------------------------------------ 
         // POST api/v1/picklistutilityitem/browse 
         [HttpPost("browse")]
-        public async Task<IActionResult> BrowseAsync([FromBody]BrowseRequest browseRequest)
+        public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest, typeof(PickListUtilityItemLogic));
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
         [HttpPost("exportexcelxlsx/{fileDownloadName}")]
-        public async Task<IActionResult> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
+        public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoExportExcelXlsxFileAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/picklistutilityitem 
         [HttpPost]
-        public async Task<IActionResult> PostAsync([FromBody]PickListUtilityItemLogic l)
+        public async Task<ActionResult<PickListUtilityItemLogic>> PostAsync([FromBody]PickListUtilityItemLogic l)
         {
             return await DoPostAsync<PickListUtilityItemLogic>(l);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/picklistutilityitem/selectall
         [HttpPost("selectall")]
-        public async Task<IActionResult> SelectAll([FromBody]BrowseRequest browseRequest)
+        public async Task<ActionResult<FwJsonDataTable>> SelectAll([FromBody]BrowseRequest browseRequest)
         {
             IDictionary<string, object> miscfields = ((IDictionary<string, object>)browseRequest.miscfields);
             miscfields.Add("SelectAll", true);
@@ -49,7 +50,7 @@ namespace WebApi.Modules.Home.PickListUtilityItem
         //------------------------------------------------------------------------------------ 
         // POST api/v1/picklistutilityitem/selectnone
         [HttpPost("selectnone")]
-        public async Task<IActionResult> SelectNone([FromBody]BrowseRequest browseRequest)
+        public async Task<ActionResult<FwJsonDataTable>> SelectNone([FromBody]BrowseRequest browseRequest)
         {
             IDictionary<string, object> miscfields = ((IDictionary<string, object>)browseRequest.miscfields);
             miscfields.Add("SelectNone", true);

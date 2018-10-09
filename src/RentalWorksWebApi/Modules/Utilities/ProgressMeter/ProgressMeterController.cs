@@ -14,7 +14,7 @@ namespace WebApi.Modules.Utilities.ProgressMeter
         //------------------------------------------------------------------------------------ 
         // GET api/v1/progressmeter/A0000001 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetOneAsync([FromRoute]string id)
+        public async Task<ActionResult<ProgressMeterLogic>> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<ProgressMeterLogic>(id, typeof(ProgressMeterLogic));
         }

@@ -1,4 +1,6 @@
-using FwStandard.Models; 
+using FwStandard.SqlServer;
+using System.Collections.Generic;
+using FwStandard.Models;
 using Microsoft.AspNetCore.Mvc; 
 using Microsoft.Extensions.Options; 
 using WebApi.Controllers; 
@@ -13,21 +15,21 @@ namespace WebApi.Modules.Administrator.CustomModule
         //------------------------------------------------------------------------------------ 
         // POST api/v1/custommodule/browse 
         [HttpPost("browse")]
-        public async Task<IActionResult> BrowseAsync([FromBody]BrowseRequest browseRequest)
+        public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest, typeof(CustomModuleLogic));
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
         [HttpPost("exportexcelxlsx/{fileDownloadName}")]
-        public async Task<IActionResult> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
+        public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoExportExcelXlsxFileAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
         // GET api/v1/custommodule 
         [HttpGet]
-        public async Task<IActionResult> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
+        public async Task<ActionResult<IEnumerable<CustomModuleLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
             return await DoGetAsync<CustomModuleLogic>(pageno, pagesize, sort, typeof(CustomModuleLogic));
         }

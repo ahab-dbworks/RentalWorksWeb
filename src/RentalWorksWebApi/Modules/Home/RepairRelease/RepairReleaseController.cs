@@ -1,3 +1,5 @@
+using FwStandard.SqlServer;
+using System.Collections.Generic;
 using FwStandard.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
@@ -13,45 +15,31 @@ namespace WebApi.Modules.Home.RepairRelease
         //------------------------------------------------------------------------------------ 
         // POST api/v1/repairrelease/browse 
         [HttpPost("browse")]
-        public async Task<IActionResult> BrowseAsync([FromBody]BrowseRequest browseRequest)
+        public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest, typeof(RepairReleaseLogic));
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
         [HttpPost("exportexcelxlsx/{fileDownloadName}")]
-        public async Task<IActionResult> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
+        public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoExportExcelXlsxFileAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
         // GET api/v1/repairrelease 
         [HttpGet]
-        public async Task<IActionResult> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
+        public async Task<ActionResult<IEnumerable<RepairReleaseLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
             return await DoGetAsync<RepairReleaseLogic>(pageno, pagesize, sort, typeof(RepairReleaseLogic));
         }
         //------------------------------------------------------------------------------------ 
         // GET api/v1/repairrelease/A0000001 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetOneAsync([FromRoute]string id)
+        public async Task<ActionResult<RepairReleaseLogic>> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<RepairReleaseLogic>(id, typeof(RepairReleaseLogic));
         }
         //------------------------------------------------------------------------------------ 
-        //// POST api/v1/repairrelease 
-        //[HttpPost]
-        //public async Task<IActionResult> PostAsync([FromBody]RepairReleaseLogic l)
-        //{
-        //    return await DoPostAsync<RepairReleaseLogic>(l);
-        //}
-        ////------------------------------------------------------------------------------------ 
-        //// DELETE api/v1/repairrelease/A0000001 
-        //[HttpDelete("{id}")]
-        //public async Task<IActionResult> DeleteAsync([FromRoute]string id)
-        //{
-        //    return await DoDeleteAsync(id, typeof(RepairReleaseLogic));
-        //}
-        ////------------------------------------------------------------------------------------ 
     }
 }

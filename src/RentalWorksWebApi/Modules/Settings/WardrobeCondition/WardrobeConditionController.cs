@@ -1,4 +1,6 @@
-﻿using FwStandard.Models;
+﻿using FwStandard.SqlServer;
+using System.Collections.Generic;
+using FwStandard.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
@@ -16,14 +18,14 @@ namespace WebApi.Modules.Settings.WardrobeCondition
         // POST api/v1/wardrobecondition/browse
         [HttpPost("browse")]
         [Authorize(Policy = "")]
-        public async Task<IActionResult> BrowseAsync([FromBody]BrowseRequest browseRequest)
+        public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest, typeof(WardrobeConditionLogic));
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
         [HttpPost("exportexcelxlsx/{fileDownloadName}")]
-        public async Task<IActionResult> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
+        public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoExportExcelXlsxFileAsync(browseRequest);
         }
@@ -31,7 +33,7 @@ namespace WebApi.Modules.Settings.WardrobeCondition
         // GET api/v1/wardrobecondition
         [HttpGet]
         [Authorize(Policy = "")]
-        public async Task<IActionResult> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
+        public async Task<ActionResult<IEnumerable<WardrobeConditionLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
             return await DoGetAsync<WardrobeConditionLogic>(pageno, pagesize, sort, typeof(WardrobeConditionLogic));
         }
@@ -39,7 +41,7 @@ namespace WebApi.Modules.Settings.WardrobeCondition
         // GET api/v1/wardrobecondition/A0000001
         [HttpGet("{id}")]
         [Authorize(Policy = "")]
-        public async Task<IActionResult> GetOneAsync([FromRoute]string id)
+        public async Task<ActionResult<WardrobeConditionLogic>> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<WardrobeConditionLogic>(id, typeof(WardrobeConditionLogic));
         }
@@ -47,7 +49,7 @@ namespace WebApi.Modules.Settings.WardrobeCondition
         // POST api/v1/wardrobecondition
         [HttpPost]
         [Authorize(Policy = "")]
-        public async Task<IActionResult> PostAsync([FromBody]WardrobeConditionLogic l)
+        public async Task<ActionResult<WardrobeConditionLogic>> PostAsync([FromBody]WardrobeConditionLogic l)
         {
             return await DoPostAsync<WardrobeConditionLogic>(l);
         }
@@ -55,7 +57,7 @@ namespace WebApi.Modules.Settings.WardrobeCondition
         // DELETE api/v1/wardrobecondition/A0000001
         [HttpDelete("{id}")]
         [Authorize(Policy = "")]
-        public async Task<IActionResult> DeleteAsync([FromRoute]string id)
+        public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
             return await DoDeleteAsync(id, typeof(WardrobeConditionLogic));
         }

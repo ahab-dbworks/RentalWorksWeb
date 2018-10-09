@@ -1,3 +1,5 @@
+using FwStandard.SqlServer;
+using System.Collections.Generic;
 using FwStandard.Models; 
 using Microsoft.AspNetCore.Mvc; 
 using Microsoft.Extensions.Options; 
@@ -13,42 +15,42 @@ namespace WebApi.Modules.Settings.BarCodeRange
         //------------------------------------------------------------------------------------ 
         // POST api/v1/barcoderange/browse 
         [HttpPost("browse")]
-        public async Task<IActionResult> BrowseAsync([FromBody]BrowseRequest browseRequest)
+        public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest, typeof(BarCodeRangeLogic));
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
         [HttpPost("exportexcelxlsx/{fileDownloadName}")]
-        public async Task<IActionResult> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
+        public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoExportExcelXlsxFileAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
         // GET api/v1/barcoderange 
         [HttpGet]
-        public async Task<IActionResult> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
+        public async Task<ActionResult<IEnumerable<BarCodeRangeLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
             return await DoGetAsync<BarCodeRangeLogic>(pageno, pagesize, sort, typeof(BarCodeRangeLogic));
         }
         //------------------------------------------------------------------------------------ 
         // GET api/v1/barcoderange/A0000001 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetOneAsync([FromRoute]string id)
+        public async Task<ActionResult<BarCodeRangeLogic>> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<BarCodeRangeLogic>(id, typeof(BarCodeRangeLogic));
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/barcoderange 
         [HttpPost]
-        public async Task<IActionResult> PostAsync([FromBody]BarCodeRangeLogic l)
+        public async Task<ActionResult<BarCodeRangeLogic>> PostAsync([FromBody]BarCodeRangeLogic l)
         {
             return await DoPostAsync<BarCodeRangeLogic>(l);
         }
         //------------------------------------------------------------------------------------ 
         // DELETE api/v1/barcoderange/A0000001 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteAsync([FromRoute]string id)
+        public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
             return await DoDeleteAsync(id, typeof(BarCodeRangeLogic));
         }

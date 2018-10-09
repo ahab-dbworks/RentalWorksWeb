@@ -1,4 +1,6 @@
-﻿using FwStandard.Models;
+﻿using FwStandard.SqlServer;
+using System.Collections.Generic;
+using FwStandard.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
@@ -16,14 +18,14 @@ namespace WebApi.Modules.Settings.DealType
         // POST api/v1/dealtype/browse
         [HttpPost("browse")]
         [Authorize(Policy = "{9B31A9CF-F852-45F4-9944-4AE386C826C7}")]
-        public async Task<IActionResult> BrowseAsync([FromBody]BrowseRequest browseRequest)
+        public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest, typeof(DealTypeLogic));
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
         [HttpPost("exportexcelxlsx/{fileDownloadName}")]
-        public async Task<IActionResult> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
+        public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoExportExcelXlsxFileAsync(browseRequest);
         }
@@ -31,7 +33,7 @@ namespace WebApi.Modules.Settings.DealType
         // GET api/v1/dealtype
         [HttpGet]
         [Authorize(Policy = "{9862D27F-0B5C-4399-A238-DD306EC7C39C}")]
-        public async Task<IActionResult> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
+        public async Task<ActionResult<IEnumerable<DealTypeLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
             return await DoGetAsync<DealTypeLogic>(pageno, pagesize, sort, typeof(DealTypeLogic));
         }
@@ -39,7 +41,7 @@ namespace WebApi.Modules.Settings.DealType
         // GET api/v1/dealtype/A0000001
         [HttpGet("{id}")]
         [Authorize(Policy = "{7B6498F1-EC58-4627-9E71-67C689FB37A8}")]
-        public async Task<IActionResult> GetOneAsync([FromRoute]string id)
+        public async Task<ActionResult<DealTypeLogic>> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<DealTypeLogic>(id, typeof(DealTypeLogic));
         }
@@ -47,7 +49,7 @@ namespace WebApi.Modules.Settings.DealType
         // POST api/v1/dealtype
         [HttpPost]
         [Authorize(Policy = "{044DC0AB-B54A-4A29-A784-648E341BDC06}")]
-        public async Task<IActionResult> Post([FromBody]DealTypeLogic l)
+        public async Task<ActionResult<DealTypeLogic>> PostAsync([FromBody]DealTypeLogic l)
         {
             return await DoPostAsync<DealTypeLogic>(l);
         }
@@ -55,11 +57,10 @@ namespace WebApi.Modules.Settings.DealType
         // DELETE api/v1/dealtype/A0000001
         [HttpDelete("{id}")]
         [Authorize(Policy = "{B9BFE8F0-BB31-40A3-9DAC-A38C4CA65F30}")]
-        public async Task<IActionResult> Delete([FromRoute]string id)
+        public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
             return await DoDeleteAsync(id, typeof(DealTypeLogic));
         }
-        //------------------------------------------------------------------------------------
         //------------------------------------------------------------------------------------
     }
 }

@@ -42,7 +42,7 @@ namespace WebApi.Modules.Settings.UserDashboardSettings
         //------------------------------------------------------------------------------------
         // POST api/v1/userdashboardsettings 
         [HttpPost]
-        public async Task<IActionResult> PostAsync([FromBody]UserDashboardSettingsLogic l)
+        public async Task<ActionResult<UserDashboardSettingsLogic>> PostAsync([FromBody]UserDashboardSettingsLogic l)
         {
             l.SetDbConfig(this.AppConfig.DatabaseSettings);
             l.SetDependencies(this.AppConfig, this.UserSession);

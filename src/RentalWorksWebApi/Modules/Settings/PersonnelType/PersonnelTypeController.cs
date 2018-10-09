@@ -1,8 +1,10 @@
-﻿using FwStandard.Models;
+﻿using FwStandard.SqlServer;
+using FwStandard.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using WebApi.Controllers;
 using System.Threading.Tasks;
+using System.Collections.Generic;
 
 namespace WebApi.Modules.Settings.PersonnelType
 {
@@ -14,42 +16,42 @@ namespace WebApi.Modules.Settings.PersonnelType
         //------------------------------------------------------------------------------------
         // POST api/v1/personneltype/browse
         [HttpPost("browse")]
-        public async Task<IActionResult> BrowseAsync([FromBody]BrowseRequest browseRequest)
+        public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest, typeof(PersonnelTypeLogic));
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
         [HttpPost("exportexcelxlsx/{fileDownloadName}")]
-        public async Task<IActionResult> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
+        public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoExportExcelXlsxFileAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------
         // GET api/v1/personneltype
         [HttpGet]
-        public async Task<IActionResult> GetAsync(int pageno, int pagesize, string sort)
+        public async Task<ActionResult<IEnumerable<PersonnelTypeLogic>>> GetManyAsync(int pageno, int pagesize, string sort)
         {
             return await DoGetAsync<PersonnelTypeLogic>(pageno, pagesize, sort, typeof(PersonnelTypeLogic));
         }
         //------------------------------------------------------------------------------------
         // GET api/v1/personneltype/A0000001
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetAsync(string id)
+        public async Task<ActionResult<PersonnelTypeLogic>> GetAsync(string id)
         {
             return await DoGetAsync<PersonnelTypeLogic>(id, typeof(PersonnelTypeLogic));
         }
         //------------------------------------------------------------------------------------
         // POST api/v1/personneltype
         [HttpPost]
-        public async Task<IActionResult> PostAsync([FromBody]PersonnelTypeLogic l)
+        public async Task<ActionResult<PersonnelTypeLogic>> PostAsync([FromBody]PersonnelTypeLogic l)
         {
             return await DoPostAsync<PersonnelTypeLogic>(l);
         }
         //------------------------------------------------------------------------------------
         // DELETE api/v1/personneltype/A0000001
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteAsync(string id)
+        public async Task<ActionResult<bool>> DeleteAsync(string id)
         {
             return await DoDeleteAsync(id, typeof(PersonnelTypeLogic));
         }

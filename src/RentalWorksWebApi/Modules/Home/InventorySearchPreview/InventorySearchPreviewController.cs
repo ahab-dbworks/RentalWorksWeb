@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using FwStandard.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
@@ -28,7 +29,7 @@ namespace WebApi.Modules.Home.InventorySearchPreview
         //------------------------------------------------------------------------------------ 
         // POST api/v1/inventorysearchpreview/browse 
         [HttpPost("browse")]
-        public async Task<IActionResult> BrowseAsync([FromBody]InventorySearchPreviewBrowseRequest browseRequest)
+        public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]InventorySearchPreviewBrowseRequest browseRequest)
         {
             if (!ModelState.IsValid)
             {
@@ -53,28 +54,28 @@ namespace WebApi.Modules.Home.InventorySearchPreview
         //------------------------------------------------------------------------------------ 
         //// GET api/v1/inventorysearchpreview 
         //[HttpGet]
-        //public async Task<IActionResult> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
+        //public aync <IEnumerable<InventorySearchPreviewLogic>>Task<IActionResult> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         //{
         //    return await DoGetAsync<InventorySearchPreviewLogic>(pageno, pagesize, sort, typeof(InventorySearchPreviewLogic));
         //}
         ////------------------------------------------------------------------------------------ 
         //// GET api/v1/inventorysearchpreview/A0000001 
         //[HttpGet("{id}")]
-        //public async Task<IActionResult> GetOneAsync([FromRoute]string id)
+        //public async Task<ActionResult<InventorySearchPreviewLogic>> GetOneAsync([FromRoute]string id)
         //{
         //    return await DoGetAsync<InventorySearchPreviewLogic>(id, typeof(InventorySearchPreviewLogic));
         //}
         ////------------------------------------------------------------------------------------ 
         // POST api/v1/inventorysearchpreview 
         [HttpPost]
-        public async Task<IActionResult> PostAsync([FromBody]InventorySearchPreviewLogic l)
+        public async Task<ActionResult<InventorySearchPreviewLogic>> PostAsync([FromBody]InventorySearchPreviewLogic l)
         {
             return await DoPostAsync<InventorySearchPreviewLogic>(l);
         }
         //------------------------------------------------------------------------------------ 
         // DELETE api/v1/inventorysearchpreview/A0000001 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteAsync([FromRoute]string id)
+        public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
             return await DoDeleteAsync(id, typeof(InventorySearchPreviewLogic));
         }
