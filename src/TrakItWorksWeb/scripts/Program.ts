@@ -169,10 +169,10 @@ routes.push({ pattern: /^module\/widget$/, action: function (match: RegExpExecAr
 routes.push({ pattern: /^module\/dashboard$/, action: function (match: RegExpExecArray) { return DashboardController.loadDashboard(); } });
 routes.push({ pattern: /^module\/contract$/, action: function (match: RegExpExecArray) { return ContractController.getModuleScreen(); } });
 
-//Reports                                             
+//Reports
 routes.push({ pattern: /^module\/invoicesummaryreport/, action: function (match: RegExpExecArray) { return InvoiceSummaryReportController.getModuleScreen(); } });
 
-//Utilities Modules                                   
+//Utilities Modules
 routes.push({ pattern: /^module\/chargeprocessing/, action: function (match: RegExpExecArray) { return ChargeProcessingController.getModuleScreen(); } });
 routes.push({ pattern: /^module\/receiptprocessing/, action: function (match: RegExpExecArray) { return ReceiptProcessingController.getModuleScreen(); } });
 routes.push({ pattern: /^module\/vendorinvoiceprocessing/, action: function (match: RegExpExecArray) { return VendorInvoiceProcessingController.getModuleScreen(); } });
