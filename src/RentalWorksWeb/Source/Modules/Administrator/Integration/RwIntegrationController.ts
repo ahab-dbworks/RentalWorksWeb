@@ -1,15 +1,13 @@
 class IntegrationControllerClass {
     Module: 'Integration';
     //----------------------------------------------------------------------------------------------
-    getModuleScreen(viewModel, properties) {
+    getModuleScreen() {
         var screen, $form;
 
         screen            = {};
         screen.$view      = FwModule.getModuleControl(this.Module + 'Controller');
-        screen.viewModel  = viewModel;
-        screen.properties = properties;
 
-        $form = RwIntegrationController.loadForm();
+        $form = this.loadForm();
 
         screen.load = function () {
             FwModule.openModuleTab($form, 'RentalWorks Integration', false, 'FORM', true);
@@ -32,7 +30,7 @@ class IntegrationControllerClass {
     loadForm() {
         var $form, request = {};
 
-        $form = RwIntegrationController.openForm('EDIT');
+        $form = this.openForm('EDIT');
 
         return $form;
     };

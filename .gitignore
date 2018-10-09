@@ -6,7 +6,7 @@
 /src/*/Properties/PublishProfiles/
 
 /TestResult.xml
-sync_RentalWorksWeb_to_TrakItWorksWeb\.ps1\.log
+sync_RentalWorksWeb_to_TrakItWorksWeb.ps1.log
 
 /lib/Fw/packages/
 /lib/Fw/.vs/
@@ -38,6 +38,8 @@ sync_RentalWorksWeb_to_TrakItWorksWeb\.ps1\.log
 /src/RentalWorksWeb/scripts/_references.js
 /src/RentalWorksWeb/Source/**/*.js
 /src/RentalWorksWeb/Source/**/*.js.map
+/src/RentalWorksWeb/Libraries/Fw/scripts/FwControls/FwReport.js.map
+/src/RentalWorksWeb/Libraries/Fw/scripts/FwControls/FwFormField.js.map
 
 /src/RwQBO/App_Data/Temp/
 /src/RwQBO/app_scripts.json
@@ -52,7 +54,7 @@ sync_RentalWorksWeb_to_TrakItWorksWeb\.ps1\.log
 /src/RwQBO/Source/Modules/Settings/**/*.js.map
 
 /src/RentalWorksWebApi/appsettings.json
-/src/RentalWorksWebApi/\.local-chromium/
+/src/RentalWorksWebApi/.local-chromium/
 /src/RentalWorksWebApi/wwwroot/temp/
 /src/RentalWorksWebApi/node_modules/
 /src/RentalWorksWebApi/wwwroot/Reports/
@@ -70,8 +72,68 @@ sync_RentalWorksWeb_to_TrakItWorksWeb\.ps1\.log
 /src/TrakItWorksWeb/Source/Modules/Home/**/*.js.map
 /src/TrakItWorksWeb/Source/Modules/Settings/**/*.js
 /src/TrakItWorksWeb/Source/Modules/Settings/**/*.js.map
+/src/TrakItWorksWeb/scripts/Program.js
+/src/TrakItWorksWeb/scripts/Program.js.map
+/src/TrakItWorksWeb/Libraries/Fw/scripts/FwControls/FwReport.js.map
+/src/TrakItWorksWeb/Libraries/Fw/scripts/FwControls/FwFormField.js.map
 
 /SecurityTreeBuilder/obj/
 /SecurityTreeBuilder/bin/
 
 .DS_Store
+
+**/Fw/scripts/FwControls/FwBrowseColumns/**/*.js
+**/Fw/scripts/FwControls/FwBrowseColumns/**/*.js.map
+**/Fw/scripts/Modules/FwGroup.js.map
+**/Fw/scripts/Modules/FwGroup.js
+**/Fw/scripts/FwControls/FwWebApiReport.js
+**/Fw/scripts/FwControls/FwWebApiReport.js.map
+**/Fw/scripts/FwControls/FwFileMenu.js
+**/Fw/scripts/FwControls/FwFileMenu.js.map
+**/Fw/scripts/FwControls/FwFormField.js
+**/Fw/scripts/FwControls/FwFormField.js.map
+**/Fw/scripts/FwControls/FwFormField.ts
+**/Fw/scripts/FwControls/FwGridMenu.js
+**/Fw/scripts/FwControls/FwGridMenu.js.map
+**/Fw/scripts/FwControls/FwModule.js
+**/Fw/scripts/FwControls/FwModule.js.map
+**/Fw/scripts/FwControls/FwMultiSelectValidation.js
+**/Fw/scripts/FwControls/FwMultiSelectValidation.js.map
+**/Fw/scripts/FwControls/FwNotification.js
+**/Fw/scripts/FwControls/FwNotification.js.map
+**/Fw/scripts/FwControls/FwOverlay.js
+**/Fw/scripts/FwControls/FwOverlay.js.map
+**/Fw/scripts/FwControls/FwPopup.js
+**/Fw/scripts/FwControls/FwPopup.js.map
+**/Fw/scripts/FwControls/FwReport.js
+**/Fw/scripts/FwControls/FwReport.js.map
+**/Fw/scripts/FwControls/FwReportsPage.js
+**/Fw/scripts/FwControls/FwReportsPage.js.map
+**/Fw/scripts/FwControls/FwRibbon.js
+**/Fw/scripts/FwControls/FwRibbon.js.map
+**/Fw/scripts/FwControls/FwSettings.js
+**/Fw/scripts/FwControls/FwSettings.js.map
+**/Fw/scripts/FwControls/FwValidation.js
+**/Fw/scripts/FwControls/FwValidation.js.map
+**/Fw/scripts/FwAppData.js
+**/Fw/scripts/FwAppData.js.map
+**/Fw/scripts/FwApplication.js
+**/Fw/scripts/FwApplication.js.map
+**/Fw/scripts/FwApplicationConfig.js
+**/Fw/scripts/FwApplicationConfig.js.map
+**/Fw/scripts/FwFunc.js
+**/Fw/scripts/FwFunc.js.map
+**/Fw/scripts/Routes.js
+**/Fw/scripts/Routes.js.map
+**/Fw/scripts/FwControls/FwAppImage.js
+**/Fw/scripts/FwControls/FwAppImage.js.map
+**/Fw/scripts/FwControls/FwApplicationTree.js
+**/Fw/scripts/FwControls/FwApplicationTree.js.map
+**/Fw/scripts/FwControls/FwBrowse.js
+**/Fw/scripts/FwControls/FwBrowse.js.map
+**/Fw/scripts/FwControls/FwConfirmation.js
+**/Fw/scripts/FwControls/FwConfirmation.js.map
+**/Fw/scripts/FwControls/FwControl.js
+**/Fw/scripts/FwControls/FwControl.js.map
+**/Fw/scripts/MasterPages/WebMaster.js
+**/Fw/scripts/MasterPages/WebMaster.js.map
