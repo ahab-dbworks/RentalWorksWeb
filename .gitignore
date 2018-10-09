@@ -92,7 +92,6 @@ sync_RentalWorksWeb_to_TrakItWorksWeb.ps1.log
 **/Fw/scripts/FwControls/FwFileMenu.js.map
 **/Fw/scripts/FwControls/FwFormField.js
 **/Fw/scripts/FwControls/FwFormField.js.map
-**/Fw/scripts/FwControls/FwFormField.ts
 **/Fw/scripts/FwControls/FwGridMenu.js
 **/Fw/scripts/FwControls/FwGridMenu.js.map
 **/Fw/scripts/FwControls/FwModule.js
