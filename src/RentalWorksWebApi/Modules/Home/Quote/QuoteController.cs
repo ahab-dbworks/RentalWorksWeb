@@ -33,9 +33,9 @@ namespace WebApi.Modules.Home.Quote
             return await DoExportExcelXlsxFileAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------
-        // POST api/v1/quote/copy/A0000001
-        [HttpPost("copy/{id}")]
-        public async Task<IActionResult> Copy([FromRoute]string id, [FromBody] QuoteOrderCopyRequest copyRequest)
+        // POST api/v1/quote/copytoquote/A0000001
+        [HttpPost("copytoquote/{id}")]
+        public async Task<ActionResult<QuoteLogic>> CopyToQuote([FromRoute]string id, [FromBody] QuoteOrderCopyRequest copyRequest)
         {
             if (!ModelState.IsValid)
             {
@@ -48,16 +48,41 @@ namespace WebApi.Modules.Home.Quote
                 l.SetDependencies(AppConfig, UserSession);
                 if (await l.LoadAsync<QuoteLogic>(ids))
                 {
-                    if (copyRequest.CopyToType.Equals(RwConstants.ORDER_TYPE_QUOTE))
-                    {
-                        QuoteLogic lCopy = (QuoteLogic)await l.CopyAsync<OrderBaseLogic>(copyRequest);
-                        return new OkObjectResult(lCopy);
-                    }
-                    else
-                    {
-                        OrderLogic lCopy = (OrderLogic)await l.CopyAsync<OrderBaseLogic>(copyRequest);
-                        return new OkObjectResult(lCopy);
-                    }
+                    QuoteLogic lCopy = await l.CopyToQuoteAsync<OrderBaseLogic>(copyRequest);
+                    return new OkObjectResult(lCopy);
+                }
+                else
+                {
+                    return NotFound();
+                }
+            }
+            catch (Exception ex)
+            {
+                FwApiException jsonException = new FwApiException();
+                jsonException.StatusCode = StatusCodes.Status500InternalServerError;
+                jsonException.Message = ex.Message;
+                jsonException.StackTrace = ex.StackTrace;
+                return StatusCode(jsonException.StatusCode, jsonException);
+            }
+        }
+        //------------------------------------------------------------------------------------        
+        // POST api/v1/quote/copytoorder/A0000001
+        [HttpPost("copytoorder/{id}")]
+        public async Task<ActionResult<OrderLogic>> CopyToOrder([FromRoute]string id, [FromBody] QuoteOrderCopyRequest copyRequest)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                string[] ids = id.Split('~');
+                QuoteLogic l = new QuoteLogic();
+                l.SetDependencies(AppConfig, UserSession);
+                if (await l.LoadAsync<QuoteLogic>(ids))
+                {
+                    OrderLogic lCopy = await l.CopyToOrderAsync<OrderBaseLogic>(copyRequest);
+                    return new OkObjectResult(lCopy);
                 }
                 else
                 {

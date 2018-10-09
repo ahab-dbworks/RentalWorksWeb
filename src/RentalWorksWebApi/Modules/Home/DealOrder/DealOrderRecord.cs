@@ -1020,7 +1020,7 @@ public string DateStamp { get; set; }
             return success;
         }
         //-------------------------------------------------------------------------------------------------------
-        public async Task<string> Copy(QuoteOrderCopyRequest copyRequest)
+        private async Task<string> Copy(QuoteOrderCopyRequest copyRequest, string copyToType)
         {
             string newId = "";
             if (OrderId != null)
@@ -1030,7 +1030,7 @@ public string DateStamp { get; set; }
                     FwSqlCommand qry = new FwSqlCommand(conn, "copyquoteorder", this.AppConfig.DatabaseSettings.QueryTimeout);
                     qry.AddParameter("@fromorderid", SqlDbType.NVarChar, ParameterDirection.Input, OrderId);
                     qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, UserSession.UsersId);
-                    qry.AddParameter("@newordertype", SqlDbType.NVarChar, ParameterDirection.Input, copyRequest.CopyToType);
+                    qry.AddParameter("@newordertype", SqlDbType.NVarChar, ParameterDirection.Input, copyToType);
                     qry.AddParameter("@ratesfrominventory", SqlDbType.NVarChar, ParameterDirection.Input, copyRequest.CopyRatesFromInventory);
                     qry.AddParameter("@combinesubs", SqlDbType.NVarChar, ParameterDirection.Input, copyRequest.CombineSubs);
                     qry.AddParameter("@copydates", SqlDbType.NVarChar, ParameterDirection.Input, copyRequest.CopyDates);
@@ -1043,6 +1043,16 @@ public string DateStamp { get; set; }
                 }
             }
             return newId;
+        }
+        //-------------------------------------------------------------------------------------------------------
+        public async Task<string> CopyToQuote(QuoteOrderCopyRequest copyRequest)
+        {
+            return await Copy(copyRequest, RwConstants.ORDER_TYPE_QUOTE);
+        }
+        //-------------------------------------------------------------------------------------------------------
+        public async Task<string> CopyToOrder(QuoteOrderCopyRequest copyRequest)
+        {
+            return await Copy(copyRequest, RwConstants.ORDER_TYPE_ORDER);
         }
         //-------------------------------------------------------------------------------------------------------
         public async Task<bool> ApplyBottomLineDaysPerWeek(ApplyBottomLineDaysPerWeekRequest request)

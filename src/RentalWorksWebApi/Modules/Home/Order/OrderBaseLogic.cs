@@ -804,28 +804,26 @@ namespace WebApi.Modules.Home.Order
             }
         }
         //------------------------------------------------------------------------------------
-        public async Task<OrderBaseLogic> CopyAsync<T>(QuoteOrderCopyRequest copyRequest)
+        public async Task<QuoteLogic> CopyToQuoteAsync<T>(QuoteOrderCopyRequest copyRequest)
         {
-            string newQuoteId = await dealOrder.Copy(copyRequest);
+            string newQuoteId = await dealOrder.CopyToQuote(copyRequest);
             string[] keys = { newQuoteId };
 
-            OrderBaseLogic lCopy = null;
-            if (copyRequest.CopyToType.Equals(RwConstants.ORDER_TYPE_QUOTE))
-            {
-                lCopy = new QuoteLogic();
-                lCopy.AppConfig = AppConfig;
-                lCopy.UserSession = UserSession;
-                bool x = await lCopy.LoadAsync<QuoteLogic>(keys);
-            }
-            else
-            {
-                lCopy = new OrderLogic();
-                lCopy.AppConfig = AppConfig;
-                lCopy.UserSession = UserSession;
-                bool x = await lCopy.LoadAsync<OrderLogic>(keys);
-            }
+            QuoteLogic lCopy = new QuoteLogic();
+            lCopy.SetDependencies(AppConfig, UserSession);
+            bool x = await lCopy.LoadAsync<QuoteLogic>(keys);
             return lCopy;
+        }
+        //------------------------------------------------------------------------------------
+        public async Task<OrderLogic> CopyToOrderAsync<T>(QuoteOrderCopyRequest copyRequest)
+        {
+            string newOrderId = await dealOrder.CopyToOrder(copyRequest);
+            string[] keys = { newOrderId };
 
+            OrderLogic lCopy = new OrderLogic();
+            lCopy.SetDependencies(AppConfig, UserSession);
+            bool x = await lCopy.LoadAsync<OrderLogic>(keys);
+            return lCopy;
         }
         //------------------------------------------------------------------------------------
         public async Task<bool> ApplyBottomLineDaysPerWeek(ApplyBottomLineDaysPerWeekRequest request)

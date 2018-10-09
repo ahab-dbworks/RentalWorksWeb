@@ -171,7 +171,6 @@ namespace WebLibrary
 
     public class QuoteOrderCopyRequest
     {
-        public string CopyToType;
         public string CopyToDealId;
         public bool CopyRatesFromInventory;
         public bool CopyDates;

@@ -341,7 +341,7 @@ class OrderBase {
             $yes.text('Copying...');
             $yes.off('click');
             var $confirmationbox = jQuery('.fwconfirmationbox');
-            FwAppData.apiMethod(true, 'POST', `api/v1/${module}/copy/${orderId}`, request, FwServices.defaultTimeout, function onSuccess(response) {
+            FwAppData.apiMethod(true, 'POST', `api/v1/${module}/copyto` + (request.CopyToType === "Q" ? "quote" : "order") + `/${orderId}`, request, FwServices.defaultTimeout, function onSuccess(response) {
                 FwNotification.renderNotification('SUCCESS', `${module} Successfully Copied`);
                 FwConfirmation.destroyConfirmation($confirmation);
 
