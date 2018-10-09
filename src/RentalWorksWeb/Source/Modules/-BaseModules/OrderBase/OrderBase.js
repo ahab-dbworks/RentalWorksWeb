@@ -110,7 +110,7 @@ class OrderBase {
     }
     ;
     activityCheckboxEvents($form, mode) {
-        let rentalTab = $form.find('[data-type="tab"][data-caption="Rental"]'), salesTab = $form.find('[data-type="tab"][data-caption="Sales"]'), miscTab = $form.find('[data-type="tab"][data-caption="Misc"]'), laborTab = $form.find('[data-type="tab"][data-caption="Labor"]'), usedSaleTab = $form.find('[data-type="tab"][data-caption="Used Sale"]');
+        let rentalTab = $form.find('[data-type="tab"][data-caption="Rental"]'), salesTab = $form.find('[data-type="tab"][data-caption="Sales"]'), miscTab = $form.find('[data-type="tab"][data-caption="Misc"]'), laborTab = $form.find('[data-type="tab"][data-caption="Labor"]'), lossDamageTab = $form.find('[data-type="tab"][data-caption="Loss and Damage"]'), usedSaleTab = $form.find('[data-type="tab"][data-caption="Used Sale"]');
         $form.find('[data-datafield="Rental"] input').on('change', e => {
             if (mode == "NEW") {
                 if (jQuery(e.currentTarget).prop('checked')) {
@@ -176,6 +176,14 @@ class OrderBase {
                         miscTab.hide();
                     }
                 }
+            }
+        });
+        $form.find('[data-datafield="LossAndDamage"] input').on('change', e => {
+            if (jQuery(e.currentTarget).prop('checked')) {
+                lossDamageTab.show();
+            }
+            else {
+                lossDamageTab.hide();
             }
         });
         $form.find('[data-datafield="Labor"] input').on('change', e => {
@@ -672,7 +680,13 @@ class OrderBase {
                 FwFormField.setValueByDataField($form, 'IssuedToZipCode', response.BillToZipCode);
                 FwFormField.setValueByDataField($form, 'IssuedToCountryId', response.BillToCountryId, response.BillToCountry);
                 FwFormField.setValueByDataField($form, 'PrintIssuedToAddressFrom', response.BillToAddressType);
+                if ($form.attr('data-mode') === 'NEW') {
+                    FwFormField.setValueByDataField($form, 'OutDeliveryDeliveryType', response.DefaultOutgoingDeliveryType);
+                    FwFormField.setValueByDataField($form, 'InDeliveryDeliveryType', response.DefaultIncomingDeliveryType);
+                }
             }, null, $form);
+        });
+        $form.find('[data-datafield="LossAndDamage"]').data('onchange', e => {
         });
         $form.find('[data-datafield="RateType"]').data('onchange', e => {
             let rateType = FwFormField.getValueByDataField($form, 'RateType');

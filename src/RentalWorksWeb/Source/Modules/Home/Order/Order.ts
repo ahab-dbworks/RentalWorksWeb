@@ -175,6 +175,7 @@ class Order extends OrderBase {
             $form.find('.ifnew').attr('data-enabled', 'true');
             $form.find('.OrderId').attr('data-hasBeenCanceled', 'false');
             $form.find('.combinedtab').hide();
+            $form.find('[data-type="tab"][data-caption="Loss and Damage"]').hide();
             $form.data('data-hasBeenCanceled', false)
             var today = FwFunc.getDate();
             var warehouse = JSON.parse(sessionStorage.getItem('warehouse'));

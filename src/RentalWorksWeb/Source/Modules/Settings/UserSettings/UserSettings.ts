@@ -71,10 +71,9 @@
                 , moduleCaption = modules[i].properties.caption
                 , moduleController = modules[i].properties.controller;
             if (typeof window[moduleController] !== 'undefined') {
-                    allModules.push({ value: moduleGUID, text: moduleCaption, apiurl: moduleNav });
+                allModules.push({ value: moduleGUID, text: moduleCaption, apiurl: moduleNav });
             }
         };
-        allModules.push({ value: 'DF8111F5-F022-40B4-BAE6-23B2C6CF3705', text: 'Dashboard', apiurl: 'module/dashboard' });
         //Sort modules
         function compare(a, b) {
             if (a.text < b.text)
