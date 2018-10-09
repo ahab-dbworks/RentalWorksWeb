@@ -17,7 +17,7 @@ namespace WebApi.Modules.Settings.Holiday
         [HttpPost("browse")]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
-            return await DoBrowseAsync(browseRequest, typeof(HolidayLogic));
+            return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
@@ -31,14 +31,14 @@ namespace WebApi.Modules.Settings.Holiday
         [HttpGet]
         public async Task<ActionResult<IEnumerable<HolidayLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
-            return await DoGetAsync<HolidayLogic>(pageno, pagesize, sort, typeof(HolidayLogic));
+            return await DoGetAsync<HolidayLogic>(pageno, pagesize, sort);
         }
         //------------------------------------------------------------------------------------ 
         // GET api/v1/holiday/A0000001 
         [HttpGet("{id}")]
         public async Task<ActionResult<HolidayLogic>> GetOneAsync([FromRoute]string id)
         {
-            return await DoGetAsync<HolidayLogic>(id, typeof(HolidayLogic));
+            return await DoGetAsync<HolidayLogic>(id);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/holiday 
@@ -52,7 +52,7 @@ namespace WebApi.Modules.Settings.Holiday
         [HttpDelete("{id}")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id, typeof(HolidayLogic));
+            return await DoDeleteAsync(id);
         }
         //------------------------------------------------------------------------------------ 
     }

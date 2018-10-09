@@ -17,7 +17,7 @@ namespace WebApi.Modules.Settings.RateLocationTax
         [HttpPost("browse")]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
-            return await DoBrowseAsync(browseRequest, typeof(RateLocationTaxLogic));
+            return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
@@ -31,14 +31,14 @@ namespace WebApi.Modules.Settings.RateLocationTax
         [HttpGet]
         public async Task<ActionResult<IEnumerable<RateLocationTaxLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
-            return await DoGetAsync<RateLocationTaxLogic>(pageno, pagesize, sort, typeof(RateLocationTaxLogic));
+            return await DoGetAsync<RateLocationTaxLogic>(pageno, pagesize, sort);
         }
         //------------------------------------------------------------------------------------ 
         // GET api/v1/ratelocationtax/A0000001 
         [HttpGet("{id}")]
         public async Task<ActionResult<RateLocationTaxLogic>> GetOneAsync([FromRoute]string id)
         {
-            return await DoGetAsync<RateLocationTaxLogic>(id, typeof(RateLocationTaxLogic));
+            return await DoGetAsync<RateLocationTaxLogic>(id);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/ratelocationtax 
@@ -52,7 +52,7 @@ namespace WebApi.Modules.Settings.RateLocationTax
         [HttpDelete("{id}")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id, typeof(RateLocationTaxLogic));
+            return await DoDeleteAsync(id);
         }
         //------------------------------------------------------------------------------------ 
     }

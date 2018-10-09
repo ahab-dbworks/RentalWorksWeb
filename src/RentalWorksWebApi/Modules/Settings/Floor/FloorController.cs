@@ -17,7 +17,7 @@ namespace WebApi.Modules.Settings.Floor
         [HttpPost("browse")]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
-            return await DoBrowseAsync(browseRequest, typeof(FloorLogic));
+            return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
@@ -31,14 +31,14 @@ namespace WebApi.Modules.Settings.Floor
         [HttpGet]
         public async Task<ActionResult<IEnumerable<FloorLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
-            return await DoGetAsync<FloorLogic>(pageno, pagesize, sort, typeof(FloorLogic));
+            return await DoGetAsync<FloorLogic>(pageno, pagesize, sort);
         }
         //------------------------------------------------------------------------------------ 
         // GET api/v1/floor/A0000001 
         [HttpGet("{id}")]
         public async Task<ActionResult<FloorLogic>> GetOneAsync([FromRoute]string id)
         {
-            return await DoGetAsync<FloorLogic>(id, typeof(FloorLogic));
+            return await DoGetAsync<FloorLogic>(id);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/floor 
@@ -52,7 +52,7 @@ namespace WebApi.Modules.Settings.Floor
         [HttpDelete("{id}")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id, typeof(FloorLogic));
+            return await DoDeleteAsync(id);
         }
         //------------------------------------------------------------------------------------ 
     }

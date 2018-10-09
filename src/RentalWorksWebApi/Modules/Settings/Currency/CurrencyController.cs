@@ -20,7 +20,7 @@ namespace WebApi.Modules.Settings.Currency
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             System.Console.WriteLine("Currency Browse");
-            return await DoBrowseAsync(browseRequest, typeof(CurrencyLogic));
+            return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
@@ -35,7 +35,7 @@ namespace WebApi.Modules.Settings.Currency
         [Authorize(Policy = "")]
         public async Task<ActionResult<IEnumerable<CurrencyLogic>>> GetManyAsync(int pageno, int pagesize, string sort)
         {
-            return await DoGetAsync<CurrencyLogic>(pageno, pagesize, sort, typeof(CurrencyLogic));
+            return await DoGetAsync<CurrencyLogic>(pageno, pagesize, sort);
         }
         //------------------------------------------------------------------------------------
         // GET api/v1/currency/A0000001
@@ -43,7 +43,7 @@ namespace WebApi.Modules.Settings.Currency
         [Authorize(Policy = "")]
         public async Task<ActionResult<CurrencyLogic>> GetOneAsync(string id)
         {
-            return await DoGetAsync<CurrencyLogic>(id, typeof(CurrencyLogic));
+            return await DoGetAsync<CurrencyLogic>(id);
         }
         //------------------------------------------------------------------------------------
         // POST api/v1/currency
@@ -59,7 +59,7 @@ namespace WebApi.Modules.Settings.Currency
         [Authorize(Policy = "")]
         public async Task<ActionResult<bool>> DeleteAsync(string id)
         {
-            return await DoDeleteAsync(id, typeof(CurrencyLogic));
+            return await DoDeleteAsync(id);
         }
         //------------------------------------------------------------------------------------
         //------------------------------------------------------------------------------------

@@ -17,7 +17,7 @@ namespace WebApi.Modules.Settings.EventType
         [HttpPost("browse")]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
-            return await DoBrowseAsync(browseRequest, typeof(EventTypeLogic));
+            return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
@@ -31,14 +31,14 @@ namespace WebApi.Modules.Settings.EventType
         [HttpGet]
         public async Task<ActionResult<IEnumerable<EventTypeLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
-            return await DoGetAsync<EventTypeLogic>(pageno, pagesize, sort, typeof(EventTypeLogic));
+            return await DoGetAsync<EventTypeLogic>(pageno, pagesize, sort);
         }
         //------------------------------------------------------------------------------------ 
         // GET api/v1/eventtype/A0000001 
         [HttpGet("{id}")]
         public async Task<ActionResult<EventTypeLogic>> GetOneAsync([FromRoute]string id)
         {
-            return await DoGetAsync<EventTypeLogic>(id, typeof(EventTypeLogic));
+            return await DoGetAsync<EventTypeLogic>(id);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/eventtype 
@@ -52,7 +52,7 @@ namespace WebApi.Modules.Settings.EventType
         [HttpDelete("{id}")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id, typeof(EventTypeLogic));
+            return await DoDeleteAsync(id);
         }
         //------------------------------------------------------------------------------------ 
     }

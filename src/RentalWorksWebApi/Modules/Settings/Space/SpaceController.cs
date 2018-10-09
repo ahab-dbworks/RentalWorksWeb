@@ -17,7 +17,7 @@ namespace WebApi.Modules.Settings.Space
         [HttpPost("browse")]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
-            return await DoBrowseAsync(browseRequest, typeof(SpaceLogic));
+            return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
@@ -31,14 +31,14 @@ namespace WebApi.Modules.Settings.Space
         [HttpGet]
         public async Task<ActionResult<IEnumerable<SpaceLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
-            return await DoGetAsync<SpaceLogic>(pageno, pagesize, sort, typeof(SpaceLogic));
+            return await DoGetAsync<SpaceLogic>(pageno, pagesize, sort);
         }
         //------------------------------------------------------------------------------------ 
         // GET api/v1/space/A0000001 
         [HttpGet("{id}")]
         public async Task<ActionResult<SpaceLogic>> GetOneAsync([FromRoute]string id)
         {
-            return await DoGetAsync<SpaceLogic>(id, typeof(SpaceLogic));
+            return await DoGetAsync<SpaceLogic>(id);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/space 
@@ -52,7 +52,7 @@ namespace WebApi.Modules.Settings.Space
         [HttpDelete("{id}")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id, typeof(SpaceLogic));
+            return await DoDeleteAsync(id);
         }
         //------------------------------------------------------------------------------------ 
     }

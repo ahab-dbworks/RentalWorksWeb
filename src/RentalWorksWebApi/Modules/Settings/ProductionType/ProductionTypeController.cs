@@ -18,7 +18,7 @@ namespace WebApi.Modules.Settings.ProductionType
         [HttpPost("browse")]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
-            return await DoBrowseAsync(browseRequest, typeof(ProductionTypeLogic));
+            return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
@@ -32,14 +32,14 @@ namespace WebApi.Modules.Settings.ProductionType
         [HttpGet]
         public async Task<ActionResult<IEnumerable<ProductionTypeLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
-            return await DoGetAsync<ProductionTypeLogic>(pageno, pagesize, sort, typeof(ProductionTypeLogic));
+            return await DoGetAsync<ProductionTypeLogic>(pageno, pagesize, sort);
         }
         //------------------------------------------------------------------------------------
         // GET api/v1/productiontype/A0000001
         [HttpGet("{id}")]
         public async Task<ActionResult<ProductionTypeLogic>> GetOneAsync([FromRoute]string id)
         {
-            return await DoGetAsync<ProductionTypeLogic>(id, typeof(ProductionTypeLogic));
+            return await DoGetAsync<ProductionTypeLogic>(id);
         }
         //------------------------------------------------------------------------------------
         // POST api/v1/productiontype
@@ -53,7 +53,7 @@ namespace WebApi.Modules.Settings.ProductionType
         [HttpDelete("{id}")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id, typeof(ProductionTypeLogic));
+            return await DoDeleteAsync(id);
         }
         //------------------------------------------------------------------------------------
     }

@@ -17,7 +17,7 @@ namespace WebApi.Modules.Home.Contract
         [HttpPost("browse")]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
-            return await DoBrowseAsync(browseRequest, typeof(ContractLogic));
+            return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
@@ -31,7 +31,7 @@ namespace WebApi.Modules.Home.Contract
         [HttpGet]
         public async Task<ActionResult<IEnumerable<ContractLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
-            return await DoGetAsync<ContractLogic>(pageno, pagesize, sort, typeof(ContractLogic));
+            return await DoGetAsync<ContractLogic>(pageno, pagesize, sort);
         }
         //------------------------------------------------------------------------------------ 
         // GET api/v1/contract/A0000001 
@@ -40,7 +40,7 @@ namespace WebApi.Modules.Home.Contract
         [ProducesResponseType(404)]
         public async Task<ActionResult<ContractLogic>> GetOneAsync([FromRoute]string id)
         {
-            return await DoGetAsync<ContractLogic>(id, typeof(ContractLogic));
+            return await DoGetAsync<ContractLogic>(id);
         }
 
         //------------------------------------------------------------------------------------ 
@@ -55,7 +55,7 @@ namespace WebApi.Modules.Home.Contract
         [HttpDelete("{id}")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id, typeof(ContractLogic));
+            return await DoDeleteAsync(id);
         }
         //------------------------------------------------------------------------------------ 
     }

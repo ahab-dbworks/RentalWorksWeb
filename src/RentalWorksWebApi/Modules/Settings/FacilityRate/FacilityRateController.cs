@@ -18,7 +18,7 @@ namespace WebApi.Modules.Settings.FacilityRate
         [HttpPost("browse")]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
-            return await DoBrowseAsync(browseRequest, typeof(FacilityRateLogic));
+            return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
@@ -32,14 +32,14 @@ namespace WebApi.Modules.Settings.FacilityRate
         [HttpGet]
         public async Task<ActionResult<IEnumerable<FacilityRateLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
-            return await DoGetAsync<FacilityRateLogic>(pageno, pagesize, sort, typeof(FacilityRateLogic));
+            return await DoGetAsync<FacilityRateLogic>(pageno, pagesize, sort);
         }
         //------------------------------------------------------------------------------------ 
         // GET api/v1/facilityrate/A0000001 
         [HttpGet("{id}")]
         public async Task<ActionResult<FacilityRateLogic>> GetOneAsync([FromRoute]string id)
         {
-            return await DoGetAsync<FacilityRateLogic>(id, typeof(FacilityRateLogic));
+            return await DoGetAsync<FacilityRateLogic>(id);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/facilityrate 
@@ -53,7 +53,7 @@ namespace WebApi.Modules.Settings.FacilityRate
         [HttpDelete("{id}")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id, typeof(FacilityRateLogic));
+            return await DoDeleteAsync(id);
         }
         //------------------------------------------------------------------------------------ 
     }

@@ -21,7 +21,7 @@ namespace WebApi.Modules.Home.Repair
         [HttpPost("browse")]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
-            return await DoBrowseAsync(browseRequest, typeof(RepairLogic));
+            return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
@@ -35,14 +35,14 @@ namespace WebApi.Modules.Home.Repair
         [HttpGet]
         public async Task<ActionResult<IEnumerable<RepairLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
-            return await DoGetAsync<RepairLogic>(pageno, pagesize, sort, typeof(RepairLogic));
+            return await DoGetAsync<RepairLogic>(pageno, pagesize, sort);
         }
         //------------------------------------------------------------------------------------ 
         // GET api/v1/repair/A0000001 
         [HttpGet("{id}")]
         public async Task<ActionResult<RepairLogic>> GetOneAsync([FromRoute]string id)
         {
-            return await DoGetAsync<RepairLogic>(id, typeof(RepairLogic));
+            return await DoGetAsync<RepairLogic>(id);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/repair 
@@ -54,7 +54,7 @@ namespace WebApi.Modules.Home.Repair
         //------------------------------------------------------------------------------------ 
         // POST api/v1/repair/estimate/A0000001
         [HttpPost("estimate/{id}")]
-        public async Task<IActionResult> Estimate([FromRoute]string id)
+        public async Task<ActionResult<RepairLogic>> Estimate([FromRoute]string id)
         {
             if (!ModelState.IsValid)
             {
@@ -96,7 +96,7 @@ namespace WebApi.Modules.Home.Repair
         //------------------------------------------------------------------------------------        
         // POST api/v1/repair/complete/A0000001
         [HttpPost("complete/{id}")]
-        public async Task<IActionResult> Complete([FromRoute]string id)
+        public async Task<ActionResult<RepairLogic>> Complete([FromRoute]string id)
         {
             if (!ModelState.IsValid)
             {
@@ -138,7 +138,7 @@ namespace WebApi.Modules.Home.Repair
         //------------------------------------------------------------------------------------        
         // POST api/v1/repair/releaseitems/A0000001/4
         [HttpPost("releaseitems/{id}/{quantity}")]
-        public async Task<IActionResult> ReleaseItems([FromRoute] string id, [FromRoute] int quantity)
+        public async Task<ActionResult<RepairLogic>> ReleaseItems([FromRoute] string id, [FromRoute] int quantity)
         {
             if (!ModelState.IsValid)
             {
@@ -180,7 +180,7 @@ namespace WebApi.Modules.Home.Repair
         //------------------------------------------------------------------------------------        
         // POST api/v1/repair/void/A0000001
         [HttpPost("void/{id}")]
-        public async Task<IActionResult> Void([FromRoute]string id)
+        public async Task<ActionResult<RepairLogic>> Void([FromRoute]string id)
         {
             if (!ModelState.IsValid)
             {
@@ -224,7 +224,7 @@ namespace WebApi.Modules.Home.Repair
         [HttpDelete("{id}")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id, typeof(RepairLogic));
+            return await DoDeleteAsync(id);
         }
         //------------------------------------------------------------------------------------ 
     }

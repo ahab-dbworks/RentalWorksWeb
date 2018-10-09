@@ -17,7 +17,7 @@ namespace WebApi.Modules.Home.InventoryCompleteKit
         [HttpPost("browse")]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
-            return await DoBrowseAsync(browseRequest, typeof(InventoryCompleteKitLogic));
+            return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
@@ -31,14 +31,14 @@ namespace WebApi.Modules.Home.InventoryCompleteKit
         [HttpGet]
         public async Task<ActionResult<IEnumerable<InventoryCompleteKitLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
-            return await DoGetAsync<InventoryCompleteKitLogic>(pageno, pagesize, sort, typeof(InventoryCompleteKitLogic));
+            return await DoGetAsync<InventoryCompleteKitLogic>(pageno, pagesize, sort);
         }
         //------------------------------------------------------------------------------------ 
         // GET api/v1/inventorycompletekit/A0000001 
         [HttpGet("{id}")]
         public async Task<ActionResult<InventoryCompleteKitLogic>> GetOneAsync([FromRoute]string id)
         {
-            return await DoGetAsync<InventoryCompleteKitLogic>(id, typeof(InventoryCompleteKitLogic));
+            return await DoGetAsync<InventoryCompleteKitLogic>(id);
         }
         //------------------------------------------------------------------------------------ 
     }

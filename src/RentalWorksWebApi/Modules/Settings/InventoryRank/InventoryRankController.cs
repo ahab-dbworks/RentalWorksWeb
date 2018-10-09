@@ -17,7 +17,7 @@ namespace WebApi.Modules.Settings.InventoryRank
         [HttpPost("browse")]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
-            return await DoBrowseAsync(browseRequest, typeof(InventoryRankLogic));
+            return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
@@ -31,14 +31,14 @@ namespace WebApi.Modules.Settings.InventoryRank
         [HttpGet]
         public async Task<ActionResult<IEnumerable<InventoryRankLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
-            return await DoGetAsync<InventoryRankLogic>(pageno, pagesize, sort, typeof(InventoryRankLogic));
+            return await DoGetAsync<InventoryRankLogic>(pageno, pagesize, sort);
         }
         //------------------------------------------------------------------------------------ 
         // GET api/v1/inventoryrank/A0000001 
         [HttpGet("{id}")]
         public async Task<ActionResult<InventoryRankLogic>> GetOneAsync([FromRoute]string id)
         {
-            return await DoGetAsync<InventoryRankLogic>(id, typeof(InventoryRankLogic));
+            return await DoGetAsync<InventoryRankLogic>(id);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/inventoryrank 
@@ -52,7 +52,7 @@ namespace WebApi.Modules.Settings.InventoryRank
         [HttpDelete("{id}")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id, typeof(InventoryRankLogic));
+            return await DoDeleteAsync(id);
         }
         //------------------------------------------------------------------------------------ 
     }

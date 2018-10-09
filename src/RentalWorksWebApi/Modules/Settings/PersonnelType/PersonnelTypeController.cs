@@ -18,7 +18,7 @@ namespace WebApi.Modules.Settings.PersonnelType
         [HttpPost("browse")]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
-            return await DoBrowseAsync(browseRequest, typeof(PersonnelTypeLogic));
+            return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
@@ -32,14 +32,14 @@ namespace WebApi.Modules.Settings.PersonnelType
         [HttpGet]
         public async Task<ActionResult<IEnumerable<PersonnelTypeLogic>>> GetManyAsync(int pageno, int pagesize, string sort)
         {
-            return await DoGetAsync<PersonnelTypeLogic>(pageno, pagesize, sort, typeof(PersonnelTypeLogic));
+            return await DoGetAsync<PersonnelTypeLogic>(pageno, pagesize, sort);
         }
         //------------------------------------------------------------------------------------
         // GET api/v1/personneltype/A0000001
         [HttpGet("{id}")]
         public async Task<ActionResult<PersonnelTypeLogic>> GetAsync(string id)
         {
-            return await DoGetAsync<PersonnelTypeLogic>(id, typeof(PersonnelTypeLogic));
+            return await DoGetAsync<PersonnelTypeLogic>(id);
         }
         //------------------------------------------------------------------------------------
         // POST api/v1/personneltype
@@ -53,7 +53,7 @@ namespace WebApi.Modules.Settings.PersonnelType
         [HttpDelete("{id}")]
         public async Task<ActionResult<bool>> DeleteAsync(string id)
         {
-            return await DoDeleteAsync(id, typeof(PersonnelTypeLogic));
+            return await DoDeleteAsync(id);
         }
         //------------------------------------------------------------------------------------
     }

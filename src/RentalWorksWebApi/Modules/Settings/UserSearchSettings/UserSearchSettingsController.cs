@@ -16,7 +16,7 @@ namespace WebApi.Modules.Settings.UserSearchSettings
         //------------------------------------------------------------------------------------
         // GET api/v1/usersearchsettings/A0000001
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetOneAsync([FromRoute]string id)
+        public async Task<ActionResult<UserSearchSettingsLogic>> GetOneAsync([FromRoute]string id)
         {
             if (!ModelState.IsValid)
             {

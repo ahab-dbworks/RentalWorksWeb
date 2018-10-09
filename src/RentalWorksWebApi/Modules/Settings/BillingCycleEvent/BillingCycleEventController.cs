@@ -20,7 +20,7 @@ namespace WebApi.Modules.Settings.BillingCycleEvent
         [Authorize(Policy = "{5973FA5B-5519-45DC-9ABF-EF6AF65471C1}")]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
-            return await DoBrowseAsync(browseRequest, typeof(BillingCycleEventLogic));
+            return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
@@ -35,7 +35,7 @@ namespace WebApi.Modules.Settings.BillingCycleEvent
         [Authorize(Policy = "{1415227E-1A40-4492-B519-462EC788CDE1}")]
         public async Task<ActionResult<IEnumerable<BillingCycleEventLogic>>> GetManyAsync(int pageno, int pagesize, string sort)
         {
-            return await DoGetAsync<BillingCycleEventLogic>(pageno, pagesize, sort, typeof(BillingCycleEventLogic));
+            return await DoGetAsync<BillingCycleEventLogic>(pageno, pagesize, sort);
         }
         //------------------------------------------------------------------------------------
         // GET api/v1/billingcycleevent/A0000001
@@ -43,7 +43,7 @@ namespace WebApi.Modules.Settings.BillingCycleEvent
         [Authorize(Policy = "{15A4DD14-CE3C-454E-B475-62B6BE30081F}")]
         public async Task<ActionResult<BillingCycleEventLogic>> GetAsync(string id)
         {
-            return await DoGetAsync<BillingCycleEventLogic>(id, typeof(BillingCycleEventLogic));
+            return await DoGetAsync<BillingCycleEventLogic>(id);
         }
         //------------------------------------------------------------------------------------
         // POST api/v1/billingcycleevent
@@ -59,7 +59,7 @@ namespace WebApi.Modules.Settings.BillingCycleEvent
         [Authorize(Policy = "{A2EC754D-B1AB-4355-8803-30DF1D42B49D}")]
         public async Task<ActionResult<bool>> DeleteAsync(string id)
         {
-            return await DoDeleteAsync(id, typeof(BillingCycleEventLogic));
+            return await DoDeleteAsync(id);
         }
         //------------------------------------------------------------------------------------
         //------------------------------------------------------------------------------------

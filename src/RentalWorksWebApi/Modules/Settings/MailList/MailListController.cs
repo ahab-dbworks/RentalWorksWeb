@@ -18,7 +18,7 @@ namespace WebApi.Modules.Settings.MailList
         [HttpPost("browse")]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
-            return await DoBrowseAsync(browseRequest, typeof(MailListLogic));
+            return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
@@ -32,14 +32,14 @@ namespace WebApi.Modules.Settings.MailList
         [HttpGet]
         public async Task<ActionResult<IEnumerable<MailListLogic>>> GetManyAsync(int pageno, int pagesize, string sort)
         {
-            return await DoGetAsync<MailListLogic>(pageno, pagesize, sort, typeof(MailListLogic));
+            return await DoGetAsync<MailListLogic>(pageno, pagesize, sort);
         }
         //------------------------------------------------------------------------------------
         // GET api/v1/maillist/A0000001
         [HttpGet("{id}")]
         public async Task<ActionResult<MailListLogic>> GetAsync(string id)
         {
-            return await DoGetAsync<MailListLogic>(id, typeof(MailListLogic));
+            return await DoGetAsync<MailListLogic>(id);
         }
         //------------------------------------------------------------------------------------
         // POST api/v1/maillist
@@ -53,7 +53,7 @@ namespace WebApi.Modules.Settings.MailList
         [HttpDelete("{id}")]
         public async Task<ActionResult<bool>> DeleteAsync(string id)
         {
-            return await DoDeleteAsync(id, typeof(MailListLogic));
+            return await DoDeleteAsync(id);
         }
         //------------------------------------------------------------------------------------
     }

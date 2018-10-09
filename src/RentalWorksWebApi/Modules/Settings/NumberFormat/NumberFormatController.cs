@@ -17,7 +17,7 @@ namespace WebApi.Modules.Settings.NumberFormat
         [HttpPost("browse")]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
-            return await DoBrowseAsync(browseRequest, typeof(NumberFormatLogic));
+            return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/numberformat/exportexcelxlsx/filedownloadname 
@@ -31,14 +31,14 @@ namespace WebApi.Modules.Settings.NumberFormat
         [HttpGet]
         public async Task<ActionResult<IEnumerable<NumberFormatLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
-            return await DoGetAsync<NumberFormatLogic>(pageno, pagesize, sort, typeof(NumberFormatLogic));
+            return await DoGetAsync<NumberFormatLogic>(pageno, pagesize, sort);
         }
         //------------------------------------------------------------------------------------ 
         // GET api/v1/numberformat/A0000001 
         [HttpGet("{id}")]
         public async Task<ActionResult<NumberFormatLogic>> GetOneAsync([FromRoute]string id)
         {
-            return await DoGetAsync<NumberFormatLogic>(id, typeof(NumberFormatLogic));
+            return await DoGetAsync<NumberFormatLogic>(id);
         }
         //------------------------------------------------------------------------------------ 
     }

@@ -17,7 +17,7 @@ namespace WebApi.Modules.Settings.RateType
         [HttpPost("browse")]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
-            return await DoBrowseAsync(browseRequest, typeof(RateTypeLogic));
+            return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
@@ -31,14 +31,14 @@ namespace WebApi.Modules.Settings.RateType
         [HttpGet]
         public async Task<ActionResult<IEnumerable<RateTypeLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
-            return await DoGetAsync<RateTypeLogic>(pageno, pagesize, sort, typeof(RateTypeLogic));
+            return await DoGetAsync<RateTypeLogic>(pageno, pagesize, sort);
         }
         //------------------------------------------------------------------------------------ 
         // GET api/v1/ratetype/A0000001 
         [HttpGet("{id}")]
         public async Task<ActionResult<RateTypeLogic>> GetOneAsync([FromRoute]string id)
         {
-            return await DoGetAsync<RateTypeLogic>(id, typeof(RateTypeLogic));
+            return await DoGetAsync<RateTypeLogic>(id);
         }
         //------------------------------------------------------------------------------------ 
     }

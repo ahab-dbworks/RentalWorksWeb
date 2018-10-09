@@ -19,7 +19,8 @@ namespace FwCore.Controllers
         {
             this.appConfig = appConfig.Value;
         }
-        protected virtual async Task<IActionResult> DoGetAsync(string fileName, string downloadAsFileName)
+        //------------------------------------------------------------------------------------
+        protected virtual async Task<ActionResult<FwSecurityTreeNode>> DoGetAsync(string fileName, string downloadAsFileName)
         {
             FwSecurityTreeNode groupTree = await FwSecurityTree.Tree.GetGroupsTreeAsync(this.UserSession.GroupsId, false);
             return new OkObjectResult(groupTree);

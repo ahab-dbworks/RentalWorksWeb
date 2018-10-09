@@ -18,7 +18,7 @@ namespace WebApi.Modules.Settings.GeneratorType
         [HttpPost("browse")]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
-            return await DoBrowseAsync(browseRequest, typeof(GeneratorTypeLogic));
+            return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
@@ -32,14 +32,14 @@ namespace WebApi.Modules.Settings.GeneratorType
         [HttpGet]
         public async Task<ActionResult<IEnumerable<GeneratorTypeLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
-            return await DoGetAsync<GeneratorTypeLogic>(pageno, pagesize, sort, typeof(GeneratorTypeLogic));
+            return await DoGetAsync<GeneratorTypeLogic>(pageno, pagesize, sort);
         }
         //------------------------------------------------------------------------------------
         // GET api/v1/generatortype/A0000001
         [HttpGet("{id}")]
         public async Task<ActionResult<GeneratorTypeLogic>> GetOneAsync([FromRoute]string id)
         {
-            return await DoGetAsync<GeneratorTypeLogic>(id, typeof(GeneratorTypeLogic));
+            return await DoGetAsync<GeneratorTypeLogic>(id);
         }
         //------------------------------------------------------------------------------------
         // POST api/v1/generatortype
@@ -53,7 +53,7 @@ namespace WebApi.Modules.Settings.GeneratorType
         [HttpDelete("{id}")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id, typeof(GeneratorTypeLogic));
+            return await DoDeleteAsync(id);
         }
         //------------------------------------------------------------------------------------
     }

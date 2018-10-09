@@ -20,7 +20,7 @@ namespace WebApi.Modules.Settings.DealClassification
         [Authorize(Policy = "{16457FA2-FB52-4FA9-A94D-3DAB697D6B21}")]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
-            return await DoBrowseAsync(browseRequest, typeof(DealClassificationLogic));
+            return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
@@ -35,7 +35,7 @@ namespace WebApi.Modules.Settings.DealClassification
         [Authorize(Policy = "{EC95C419-BD71-46CB-8BF6-17CB1164552C}")]
         public async Task<ActionResult<IEnumerable<DealClassificationLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
-            return await DoGetAsync<DealClassificationLogic>(pageno, pagesize, sort, typeof(DealClassificationLogic));
+            return await DoGetAsync<DealClassificationLogic>(pageno, pagesize, sort);
         }
         //------------------------------------------------------------------------------------
         // GET api/v1/customerstatus/A0000001
@@ -43,7 +43,7 @@ namespace WebApi.Modules.Settings.DealClassification
         [Authorize(Policy = "{73EEDAAC-6133-476A-837B-FCDAED43BDF7}")]
         public async Task<ActionResult<DealClassificationLogic>> GetOneAsync([FromRoute]string id)
         {
-            return await DoGetAsync<DealClassificationLogic>(id, typeof(DealClassificationLogic));
+            return await DoGetAsync<DealClassificationLogic>(id);
         }
         //------------------------------------------------------------------------------------
         // POST api/v1/customerstatus
@@ -59,7 +59,7 @@ namespace WebApi.Modules.Settings.DealClassification
         [Authorize(Policy = "{941CE445-FC04-44ED-A041-F9705334AE9A}")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id, typeof(DealClassificationLogic));
+            return await DoDeleteAsync(id);
         }
         //------------------------------------------------------------------------------------
         //------------------------------------------------------------------------------------

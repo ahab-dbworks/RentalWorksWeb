@@ -17,7 +17,7 @@ namespace WebApi.Modules.Home.PickList
         [HttpPost("browse")]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
-            return await DoBrowseAsync(browseRequest, typeof(PickListLogic));
+            return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
@@ -31,14 +31,14 @@ namespace WebApi.Modules.Home.PickList
         [HttpGet]
         public async Task<ActionResult<IEnumerable<PickListLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
-            return await DoGetAsync<PickListLogic>(pageno, pagesize, sort, typeof(PickListLogic));
+            return await DoGetAsync<PickListLogic>(pageno, pagesize, sort);
         }
         //------------------------------------------------------------------------------------ 
         // GET api/v1/picklist/A0000001 
         [HttpGet("{id}")]
         public async Task<ActionResult<PickListLogic>> GetOneAsync([FromRoute]string id)
         {
-            return await DoGetAsync<PickListLogic>(id, typeof(PickListLogic));
+            return await DoGetAsync<PickListLogic>(id);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/picklist 
@@ -52,7 +52,7 @@ namespace WebApi.Modules.Home.PickList
         [HttpDelete("{id}")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id, typeof(PickListLogic));
+            return await DoDeleteAsync(id);
         }
         //------------------------------------------------------------------------------------ 
     }

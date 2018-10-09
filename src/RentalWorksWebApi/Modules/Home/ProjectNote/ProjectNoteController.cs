@@ -17,7 +17,7 @@ namespace WebApi.Modules.Home.ProjectNote
         [HttpPost("browse")]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
-            return await DoBrowseAsync(browseRequest, typeof(ProjectNoteLogic));
+            return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
@@ -31,14 +31,14 @@ namespace WebApi.Modules.Home.ProjectNote
         [HttpGet]
         public async Task<ActionResult<IEnumerable<ProjectNoteLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
-            return await DoGetAsync<ProjectNoteLogic>(pageno, pagesize, sort, typeof(ProjectNoteLogic));
+            return await DoGetAsync<ProjectNoteLogic>(pageno, pagesize, sort);
         }
         //------------------------------------------------------------------------------------ 
         // GET api/v1/projectnote/A0000001
         [HttpGet("{id}")]
         public async Task<ActionResult<ProjectNoteLogic>> GetOneAsync([FromRoute]string id)
         {
-            return await DoGetAsync<ProjectNoteLogic>(id, typeof(ProjectNoteLogic));
+            return await DoGetAsync<ProjectNoteLogic>(id);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/projectnote 
@@ -52,7 +52,7 @@ namespace WebApi.Modules.Home.ProjectNote
         [HttpDelete("{id}")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id, typeof(ProjectNoteLogic));
+            return await DoDeleteAsync(id);
         }
         //------------------------------------------------------------------------------------ 
     }

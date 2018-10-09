@@ -18,7 +18,7 @@ namespace WebApi.Modules.Settings.UserStatus
         [HttpPost("browse")]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
-            return await DoBrowseAsync(browseRequest, typeof(UserStatusLogic));
+            return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
@@ -32,14 +32,14 @@ namespace WebApi.Modules.Settings.UserStatus
         [HttpGet]
         public async Task<ActionResult<IEnumerable<UserStatusLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
-            return await DoGetAsync<UserStatusLogic>(pageno, pagesize, sort, typeof(UserStatusLogic));
+            return await DoGetAsync<UserStatusLogic>(pageno, pagesize, sort);
         }
         //------------------------------------------------------------------------------------
         // GET api/v1/userstatus/A0000001
         [HttpGet("{id}")]
         public async Task<ActionResult<UserStatusLogic>> GetOneAsync([FromRoute]string id)
         {
-            return await DoGetAsync<UserStatusLogic>(id, typeof(UserStatusLogic));
+            return await DoGetAsync<UserStatusLogic>(id);
         }
         //------------------------------------------------------------------------------------
         // POST api/v1/userstatus
@@ -53,7 +53,7 @@ namespace WebApi.Modules.Settings.UserStatus
         [HttpDelete("{id}")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id, typeof(UserStatusLogic));
+            return await DoDeleteAsync(id);
         }
         //------------------------------------------------------------------------------------
     }

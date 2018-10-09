@@ -18,7 +18,7 @@ namespace WebApi.Modules.Home.DealNote
         [HttpPost("browse")]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
-            return await DoBrowseAsync(browseRequest, typeof(DealNoteLogic));
+            return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
@@ -32,14 +32,14 @@ namespace WebApi.Modules.Home.DealNote
         [HttpGet]
         public async Task<ActionResult<IEnumerable<DealNoteLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
-            return await DoGetAsync<DealNoteLogic>(pageno, pagesize, sort, typeof(DealNoteLogic));
+            return await DoGetAsync<DealNoteLogic>(pageno, pagesize, sort);
         }
         //------------------------------------------------------------------------------------
         // GET api/v1/dealnote/A0000001
         [HttpGet("{id}")]
         public async Task<ActionResult<DealNoteLogic>> GetOneAsync([FromRoute]string id)
         {
-            return await DoGetAsync<DealNoteLogic>(id, typeof(DealNoteLogic));
+            return await DoGetAsync<DealNoteLogic>(id);
         }
         //------------------------------------------------------------------------------------
         // POST api/v1/dealnote
@@ -53,7 +53,7 @@ namespace WebApi.Modules.Home.DealNote
         [HttpDelete("{id}")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id, typeof(DealNoteLogic));
+            return await DoDeleteAsync(id);
         }
         //------------------------------------------------------------------------------------
     }

@@ -21,7 +21,7 @@ namespace WebApi.Modules.Home.Pricing
         [HttpPost("browse")]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
-            return await DoBrowseAsync(browseRequest, typeof(PricingLogic));
+            return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
@@ -33,27 +33,27 @@ namespace WebApi.Modules.Home.Pricing
         //------------------------------------------------------------------------------------ 
         // GET api/v1/pricing/D00BYU6Z/B0029AY5/A001TSXJ   //masterid/warehouseid/currencyid
         [HttpGet("{masterid}/{warehouseid}/{currencyid}")]
-        public async Task<IActionResult> GetOneAsync([FromRoute]string masterid, [FromRoute]string warehouseid, [FromRoute]string currencyid)
+        public async Task<ActionResult<IEnumerable<PricingLogic>>> GetOneAsync([FromRoute]string masterid, [FromRoute]string warehouseid, [FromRoute]string currencyid)
         {
-            return await DoSpecialGetAsync<PricingLogic>(masterid, warehouseid, currencyid, typeof(PricingLogic));
+            return await DoSpecialGetAsync<PricingLogic>(masterid, warehouseid, currencyid);
 
         }
         //------------------------------------------------------------------------------------ 
         // GET api/v1/pricing/D00BYU6Z/B0029AY5   //masterid/warehouseid
         [HttpGet("{masterid}/{warehouseid}")]
-        public async Task<IActionResult> GetOneAsync([FromRoute]string masterid, [FromRoute]string warehouseid)
+        public async Task<ActionResult<IEnumerable<PricingLogic>>> GetOneAsync([FromRoute]string masterid, [FromRoute]string warehouseid)
         {
-            return await DoSpecialGetAsync<PricingLogic>(masterid, warehouseid, "", typeof(PricingLogic));
+            return await DoSpecialGetAsync<PricingLogic>(masterid, warehouseid, "");
         }
         //------------------------------------------------------------------------------------ 
         // GET api/v1/pricing/D00BYU6Z    //masterid
         [HttpGet("{masterid}")]
-        public async Task<IActionResult> GetOneAsync([FromRoute]string masterid)
+        public async Task<ActionResult<IEnumerable<PricingLogic>>> GetOneAsync([FromRoute]string masterid)
         {
-            return await DoSpecialGetAsync<PricingLogic>(masterid, "", "", typeof(PricingLogic));
+            return await DoSpecialGetAsync<PricingLogic>(masterid, "", "");
         }
         //------------------------------------------------------------------------------------ 
-        protected async Task<IActionResult> DoSpecialGetAsync<T>(string masterId, string warehouseId, string currencyId, Type type)
+        protected async Task<ActionResult<IEnumerable<T>>> DoSpecialGetAsync<T>(string masterId, string warehouseId, string currencyId)
         {
             if (!ModelState.IsValid)
             {
@@ -72,7 +72,7 @@ namespace WebApi.Modules.Home.Pricing
                 request.pagesize = 0;
                 request.orderby = string.Empty;
                 request.uniqueids = uniqueIds;
-                FwBusinessLogic l = CreateBusinessLogic(type, this.AppConfig, this.UserSession);
+                FwBusinessLogic l = CreateBusinessLogic(logicType, this.AppConfig, this.UserSession);
                 IEnumerable<T> records = await l.SelectAsync<T>(request);
                 return new OkObjectResult(records);
             }

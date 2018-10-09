@@ -17,7 +17,7 @@ namespace WebApi.Modules.Settings.WallType
         [HttpPost("browse")]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
-            return await DoBrowseAsync(browseRequest, typeof(WallTypeLogic));
+            return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
@@ -31,14 +31,14 @@ namespace WebApi.Modules.Settings.WallType
         [HttpGet]
         public async Task<ActionResult<IEnumerable<WallTypeLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
-            return await DoGetAsync<WallTypeLogic>(pageno, pagesize, sort, typeof(WallTypeLogic));
+            return await DoGetAsync<WallTypeLogic>(pageno, pagesize, sort);
         }
         //------------------------------------------------------------------------------------ 
         // GET api/v1/walltype/A0000001 
         [HttpGet("{id}")]
         public async Task<ActionResult<WallTypeLogic>> GetOneAsync([FromRoute]string id)
         {
-            return await DoGetAsync<WallTypeLogic>(id, typeof(WallTypeLogic));
+            return await DoGetAsync<WallTypeLogic>(id);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/walltype 
@@ -52,7 +52,7 @@ namespace WebApi.Modules.Settings.WallType
         [HttpDelete("{id}")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id, typeof(WallTypeLogic));
+            return await DoDeleteAsync(id);
         }
         //------------------------------------------------------------------------------------ 
     }

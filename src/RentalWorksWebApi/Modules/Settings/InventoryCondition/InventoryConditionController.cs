@@ -20,7 +20,7 @@ namespace WebApi.Modules.Settings.InventoryCondition
         [Authorize(Policy = "")]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
-            return await DoBrowseAsync(browseRequest, typeof(InventoryConditionLogic));
+            return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
@@ -35,7 +35,7 @@ namespace WebApi.Modules.Settings.InventoryCondition
         [Authorize(Policy = "")]
         public async Task<ActionResult<IEnumerable<InventoryConditionLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
-            return await DoGetAsync<InventoryConditionLogic>(pageno, pagesize, sort, typeof(InventoryConditionLogic));
+            return await DoGetAsync<InventoryConditionLogic>(pageno, pagesize, sort);
         }
         //------------------------------------------------------------------------------------
         // GET api/v1/inventorycondition/A0000001
@@ -43,7 +43,7 @@ namespace WebApi.Modules.Settings.InventoryCondition
         [Authorize(Policy = "")]
         public async Task<ActionResult<InventoryConditionLogic>> GetOneAsync([FromRoute]string id)
         {
-            return await DoGetAsync<InventoryConditionLogic>(id, typeof(InventoryConditionLogic));
+            return await DoGetAsync<InventoryConditionLogic>(id);
         }
         //------------------------------------------------------------------------------------
         // POST api/v1/inventorycondition
@@ -59,7 +59,7 @@ namespace WebApi.Modules.Settings.InventoryCondition
         [Authorize(Policy = "")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id, typeof(InventoryConditionLogic));
+            return await DoDeleteAsync(id);
         }
         //------------------------------------------------------------------------------------
     }

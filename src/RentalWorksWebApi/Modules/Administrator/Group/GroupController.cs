@@ -20,7 +20,7 @@ namespace WebApi.Modules.Administrator.Group
         [HttpPost("browse")]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
-            return await DoBrowseAsync(browseRequest, typeof(FwGroupLogic));
+            return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
@@ -34,14 +34,14 @@ namespace WebApi.Modules.Administrator.Group
         [HttpGet]
         public async Task<ActionResult<IEnumerable<FwGroupLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
-            return await DoGetAsync<FwGroupLogic>(pageno, pagesize, sort, typeof(FwGroupLogic));
+            return await DoGetAsync<FwGroupLogic>(pageno, pagesize, sort);
         }
         //------------------------------------------------------------------------------------ 
         // GET api/v1/group/A0000001 
         [HttpGet("{id}")]
         public async Task<ActionResult<FwGroupLogic>> GetOneAsync([FromRoute]string id)
         {
-            return await DoGetAsync<FwGroupLogic>(id, typeof(FwGroupLogic));
+            return await DoGetAsync<FwGroupLogic>(id);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/group 
@@ -55,13 +55,13 @@ namespace WebApi.Modules.Administrator.Group
         [HttpDelete("{id}")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id, typeof(FwGroupLogic));
+            return await DoDeleteAsync(id);
         }
         //------------------------------------------------------------------------------------ 
 
         // GET api/v1/group/applicationtree/A0000001 
         [HttpGet("applicationtree/{id}")]
-        public async Task<IActionResult> GetApplicationTree([FromRoute]string id)
+        public async Task<ActionResult<FwSecurityTreeNode>> GetApplicationTree([FromRoute]string id)
         {
             return await DoGetApplicationTree(id);
         }

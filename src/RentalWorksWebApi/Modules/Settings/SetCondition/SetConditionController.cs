@@ -20,7 +20,7 @@ namespace WebApi.Modules.Settings.SetCondition
         [Authorize(Policy = "")]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
-            return await DoBrowseAsync(browseRequest, typeof(SetConditionLogic));
+            return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
@@ -35,7 +35,7 @@ namespace WebApi.Modules.Settings.SetCondition
         [Authorize(Policy = "")]
         public async Task<ActionResult<IEnumerable<SetConditionLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
-            return await DoGetAsync<SetConditionLogic>(pageno, pagesize, sort, typeof(SetConditionLogic));
+            return await DoGetAsync<SetConditionLogic>(pageno, pagesize, sort);
         }
         //------------------------------------------------------------------------------------
         // GET api/v1/setscondition/A0000001
@@ -43,7 +43,7 @@ namespace WebApi.Modules.Settings.SetCondition
         [Authorize(Policy = "")]
         public async Task<ActionResult<SetConditionLogic>> GetOneAsync([FromRoute]string id)
         {
-            return await DoGetAsync<SetConditionLogic>(id, typeof(SetConditionLogic));
+            return await DoGetAsync<SetConditionLogic>(id);
         }
         //------------------------------------------------------------------------------------
         // POST api/v1/setscondition
@@ -59,7 +59,7 @@ namespace WebApi.Modules.Settings.SetCondition
         [Authorize(Policy = "")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id, typeof(SetConditionLogic));
+            return await DoDeleteAsync(id);
         }
         //------------------------------------------------------------------------------------
     }

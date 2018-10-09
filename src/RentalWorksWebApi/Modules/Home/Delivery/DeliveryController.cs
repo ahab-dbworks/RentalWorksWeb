@@ -17,7 +17,7 @@ namespace WebApi.Modules.Home.Delivery
         [HttpPost("browse")]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
-            return await DoBrowseAsync(browseRequest, typeof(DeliveryLogic));
+            return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
@@ -31,14 +31,14 @@ namespace WebApi.Modules.Home.Delivery
         [HttpGet]
         public async Task<ActionResult<IEnumerable<DeliveryLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
-            return await DoGetAsync<DeliveryLogic>(pageno, pagesize, sort, typeof(DeliveryLogic));
+            return await DoGetAsync<DeliveryLogic>(pageno, pagesize, sort);
         }
         //------------------------------------------------------------------------------------ 
         // GET api/v1/delivery/A0000001 
         [HttpGet("{id}")]
         public async Task<ActionResult<DeliveryLogic>> GetOneAsync([FromRoute]string id)
         {
-            return await DoGetAsync<DeliveryLogic>(id, typeof(DeliveryLogic));
+            return await DoGetAsync<DeliveryLogic>(id);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/delivery 
@@ -52,7 +52,7 @@ namespace WebApi.Modules.Home.Delivery
         [HttpDelete("{id}")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id, typeof(DeliveryLogic));
+            return await DoDeleteAsync(id);
         }
         //------------------------------------------------------------------------------------ 
     }

@@ -17,7 +17,7 @@ namespace WebApi.Modules.Administrator.CustomField
         [HttpPost("browse")]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
-            return await DoBrowseAsync(browseRequest, typeof(CustomFieldLogic));
+            return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
@@ -31,14 +31,14 @@ namespace WebApi.Modules.Administrator.CustomField
         [HttpGet]
         public async Task<ActionResult<IEnumerable<CustomFieldLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
-            return await DoGetAsync<CustomFieldLogic>(pageno, pagesize, sort, typeof(CustomFieldLogic));
+            return await DoGetAsync<CustomFieldLogic>(pageno, pagesize, sort);
         }
         //------------------------------------------------------------------------------------ 
         // GET api/v1/customfield/A0000001 
         [HttpGet("{id}")]
         public async Task<ActionResult<CustomFieldLogic>> GetOneAsync([FromRoute]string id)
         {
-            return await DoGetAsync<CustomFieldLogic>(id, typeof(CustomFieldLogic));
+            return await DoGetAsync<CustomFieldLogic>(id);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/customfield 
@@ -52,7 +52,7 @@ namespace WebApi.Modules.Administrator.CustomField
         [HttpDelete("{id}")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id, typeof(CustomFieldLogic));
+            return await DoDeleteAsync(id);
         }
         //------------------------------------------------------------------------------------ 
     }

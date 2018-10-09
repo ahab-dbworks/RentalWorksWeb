@@ -17,7 +17,7 @@ namespace WebApi.Modules.Home.RentalInventory
         [HttpPost("browse")]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
-            return await DoBrowseAsync(browseRequest, typeof(RentalInventoryLogic));
+            return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
@@ -31,14 +31,14 @@ namespace WebApi.Modules.Home.RentalInventory
         [HttpGet]
         public async Task<ActionResult<IEnumerable<RentalInventoryLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
-            return await DoGetAsync<RentalInventoryLogic>(pageno, pagesize, sort, typeof(RentalInventoryLogic));
+            return await DoGetAsync<RentalInventoryLogic>(pageno, pagesize, sort);
         }
         //------------------------------------------------------------------------------------ 
         // GET api/v1/rentalinventory/A0000001 
         [HttpGet("{id}")]
         public async Task<ActionResult<RentalInventoryLogic>> GetOneAsync([FromRoute]string id)
         {
-            return await DoGetAsync<RentalInventoryLogic>(id, typeof(RentalInventoryLogic));
+            return await DoGetAsync<RentalInventoryLogic>(id);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/rentalinventory 
@@ -52,7 +52,7 @@ namespace WebApi.Modules.Home.RentalInventory
         [HttpDelete("{id}")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id, typeof(RentalInventoryLogic));
+            return await DoDeleteAsync(id);
         }
         //------------------------------------------------------------------------------------ 
     }

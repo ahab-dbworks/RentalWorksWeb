@@ -36,7 +36,7 @@ namespace WebApi.Modules.Reports.LateReturnsReport
         //------------------------------------------------------------------------------------ 
         // POST api/v1/latereturnsreport/render 
         [HttpPost("render")]
-        public async Task<IActionResult> Render([FromBody]FwReportRenderRequest request)
+        public async Task<ActionResult<FwReportRenderResponse>> Render([FromBody]FwReportRenderRequest request)
         {
             if (!this.ModelState.IsValid) return BadRequest();
             FwReportRenderResponse response = await DoRender(request);
@@ -45,7 +45,7 @@ namespace WebApi.Modules.Reports.LateReturnsReport
         //------------------------------------------------------------------------------------ 
         // POST api/v1/latereturnsreport/browse 
         [HttpPost("browse")]
-        public async Task<IActionResult> BrowseAsync([FromBody]BrowseRequest browseRequest)
+        public async Task<ActionResult<LateReturnsReportLogic>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             if (!ModelState.IsValid)
             {

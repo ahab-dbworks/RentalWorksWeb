@@ -20,7 +20,7 @@ namespace WebApi.Modules.Settings.CoverLetter
         [Authorize(Policy = "")]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
-            return await DoBrowseAsync(browseRequest, typeof(CoverLetterLogic));
+            return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
@@ -35,7 +35,7 @@ namespace WebApi.Modules.Settings.CoverLetter
         [Authorize(Policy = "")]
         public async Task<ActionResult<IEnumerable<CoverLetterLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
-            return await DoGetAsync<CoverLetterLogic>(pageno, pagesize, sort, typeof(CoverLetterLogic));
+            return await DoGetAsync<CoverLetterLogic>(pageno, pagesize, sort);
         }
         //------------------------------------------------------------------------------------
         // GET api/v1/coverletter/A0000001
@@ -43,7 +43,7 @@ namespace WebApi.Modules.Settings.CoverLetter
         [Authorize(Policy = "")]
         public async Task<ActionResult<CoverLetterLogic>> GetOneAsync([FromRoute]string id)
         {
-            return await DoGetAsync<CoverLetterLogic>(id, typeof(CoverLetterLogic));
+            return await DoGetAsync<CoverLetterLogic>(id);
         }
         //------------------------------------------------------------------------------------
         // POST api/v1/coverletter
@@ -59,7 +59,7 @@ namespace WebApi.Modules.Settings.CoverLetter
         [Authorize(Policy = "")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id, typeof(CoverLetterLogic));
+            return await DoDeleteAsync(id);
         }
         //------------------------------------------------------------------------------------
     }

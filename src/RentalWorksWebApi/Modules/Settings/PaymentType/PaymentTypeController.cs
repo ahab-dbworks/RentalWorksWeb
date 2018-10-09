@@ -18,7 +18,7 @@ namespace WebApi.Modules.Settings.PaymentType
         [HttpPost("browse")]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
-            return await DoBrowseAsync(browseRequest, typeof(PaymentTypeLogic));
+            return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
@@ -32,14 +32,14 @@ namespace WebApi.Modules.Settings.PaymentType
         [HttpGet]
         public async Task<ActionResult<IEnumerable<PaymentTypeLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
-            return await DoGetAsync<PaymentTypeLogic>(pageno, pagesize, sort, typeof(PaymentTypeLogic));
+            return await DoGetAsync<PaymentTypeLogic>(pageno, pagesize, sort);
         }
         //------------------------------------------------------------------------------------
         // GET api/v1/paymenttype/A0000001
         [HttpGet("{id}")]
         public async Task<ActionResult<PaymentTypeLogic>> GetOneAsync([FromRoute]string id)
         {
-            return await DoGetAsync<PaymentTypeLogic>(id, typeof(PaymentTypeLogic));
+            return await DoGetAsync<PaymentTypeLogic>(id);
         }
         //------------------------------------------------------------------------------------
         // POST api/v1/paymenttype
@@ -53,7 +53,7 @@ namespace WebApi.Modules.Settings.PaymentType
         [HttpDelete("{id}")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id, typeof(PaymentTypeLogic));
+            return await DoDeleteAsync(id);
         }
         //------------------------------------------------------------------------------------
     }

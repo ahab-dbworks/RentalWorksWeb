@@ -17,7 +17,7 @@ namespace WebApi.Modules.Settings.WarehouseCatalog
         [HttpPost("browse")]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
-            return await DoBrowseAsync(browseRequest, typeof(WarehouseCatalogLogic));
+            return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
@@ -31,14 +31,14 @@ namespace WebApi.Modules.Settings.WarehouseCatalog
         [HttpGet]
         public async Task<ActionResult<IEnumerable<WarehouseCatalogLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
-            return await DoGetAsync<WarehouseCatalogLogic>(pageno, pagesize, sort, typeof(WarehouseCatalogLogic));
+            return await DoGetAsync<WarehouseCatalogLogic>(pageno, pagesize, sort);
         }
         //------------------------------------------------------------------------------------ 
         // GET api/v1/warehousecatalog/A0000001 
         [HttpGet("{id}")]
         public async Task<ActionResult<WarehouseCatalogLogic>> GetOneAsync([FromRoute]string id)
         {
-            return await DoGetAsync<WarehouseCatalogLogic>(id, typeof(WarehouseCatalogLogic));
+            return await DoGetAsync<WarehouseCatalogLogic>(id);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/warehousecatalog 
@@ -52,7 +52,7 @@ namespace WebApi.Modules.Settings.WarehouseCatalog
         [HttpDelete("{id}")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id, typeof(WarehouseCatalogLogic));
+            return await DoDeleteAsync(id);
         }
         //------------------------------------------------------------------------------------ 
     }

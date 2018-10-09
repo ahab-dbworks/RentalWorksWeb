@@ -18,7 +18,7 @@ namespace WebApi.Modules.Settings.LicenseClass
         [HttpPost("browse")]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
-            return await DoBrowseAsync(browseRequest, typeof(LicenseClassLogic));
+            return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
@@ -32,14 +32,14 @@ namespace WebApi.Modules.Settings.LicenseClass
         [HttpGet]
         public async Task<ActionResult<IEnumerable<LicenseClassLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
-            return await DoGetAsync<LicenseClassLogic>(pageno, pagesize, sort, typeof(LicenseClassLogic));
+            return await DoGetAsync<LicenseClassLogic>(pageno, pagesize, sort);
         }
         //------------------------------------------------------------------------------------
         // GET api/v1/licenseclass/A0000001
         [HttpGet("{id}")]
         public async Task<ActionResult<LicenseClassLogic>> GetOneAsync([FromRoute]string id)
         {
-            return await DoGetAsync<LicenseClassLogic>(id, typeof(LicenseClassLogic));
+            return await DoGetAsync<LicenseClassLogic>(id);
         }
         //------------------------------------------------------------------------------------
         // POST api/v1/licenseclass
@@ -53,7 +53,7 @@ namespace WebApi.Modules.Settings.LicenseClass
         [HttpDelete("{id}")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id, typeof(LicenseClassLogic));
+            return await DoDeleteAsync(id);
         }
         //------------------------------------------------------------------------------------
 }

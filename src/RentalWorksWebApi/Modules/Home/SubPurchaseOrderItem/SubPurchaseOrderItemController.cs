@@ -46,13 +46,6 @@ namespace WebApi.Modules.Home.SubPurchaseOrderItem
             return await DoExportExcelXlsxFileAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
-        //// GET api/v1/subpurchaseorderitem 
-        //[HttpGet]
-        //public aync <IEnumerable<SubPurchaseOrderItemLogic>>Task<IActionResult> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
-        //{
-        //    return await DoGetAsync<SubPurchaseOrderItemLogic>(pageno, pagesize, sort);
-        //}
-        ////------------------------------------------------------------------------------------ 
         // GET api/v1/subpurchaseorderitem/A0000001 
         [HttpGet("{id}")]
         public async Task<ActionResult<SubPurchaseOrderItemLogic>> GetOneAsync([FromRoute]string id)
@@ -76,7 +69,7 @@ namespace WebApi.Modules.Home.SubPurchaseOrderItem
         //------------------------------------------------------------------------------------ 
         // POST api/v1/subpurchaseorderitem/selectall
         [HttpPost("selectall")]
-        public async Task<IActionResult> SelectAll([FromBody] SelectAllNonePoWorksheetItemRequest request)
+        public async Task<ActionResult<SelectAllNonePoWorksheetItemResponse>> SelectAll([FromBody] SelectAllNonePoWorksheetItemRequest request)
         {
             if (!ModelState.IsValid)
             {
@@ -99,7 +92,7 @@ namespace WebApi.Modules.Home.SubPurchaseOrderItem
         //------------------------------------------------------------------------------------        
         // POST api/v1/subpurchaseorderitem/selectnone
         [HttpPost("selectnone")]
-        public async Task<IActionResult> SelectNone([FromBody] SelectAllNonePoWorksheetItemRequest request)
+        public async Task<ActionResult<SelectAllNonePoWorksheetItemResponse>> SelectNone([FromBody] SelectAllNonePoWorksheetItemRequest request)
         {
             if (!ModelState.IsValid)
             {

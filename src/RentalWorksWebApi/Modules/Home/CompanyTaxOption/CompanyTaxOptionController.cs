@@ -18,7 +18,7 @@ namespace WebApi.Modules.Home.CompanyTaxOption
         [HttpPost("browse")]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
-            return await DoBrowseAsync(browseRequest, typeof(CompanyTaxOptionLogic));
+            return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
@@ -32,14 +32,14 @@ namespace WebApi.Modules.Home.CompanyTaxOption
         [HttpGet]
         public async Task<ActionResult<IEnumerable<CompanyTaxOptionLogic>>> GetManyAsync(int pageno, int pagesize, string sort)
         {
-            return await DoGetAsync<CompanyTaxOptionLogic>(pageno, pagesize, sort, typeof(CompanyTaxOptionLogic));
+            return await DoGetAsync<CompanyTaxOptionLogic>(pageno, pagesize, sort);
         }
         //------------------------------------------------------------------------------------
         // GET api/v1/companytaxoption/A0000001
         [HttpGet("{id}")]
         public async Task<ActionResult<CompanyTaxOptionLogic>> GetOneAsync(string id)
         {
-            return await DoGetAsync<CompanyTaxOptionLogic>(id, typeof(CompanyTaxOptionLogic));
+            return await DoGetAsync<CompanyTaxOptionLogic>(id);
         }
         //------------------------------------------------------------------------------------
         // POST api/v1/companytaxoption
@@ -54,7 +54,7 @@ namespace WebApi.Modules.Home.CompanyTaxOption
         [HttpDelete("{id}")]
         public async Task<ActionResult<bool>> DeleteAsync(string id)
         {
-            return await DoDeleteAsync(id, typeof(CompanyTaxOptionLogic));
+            return await DoDeleteAsync(id);
         }
         //------------------------------------------------------------------------------------
     }

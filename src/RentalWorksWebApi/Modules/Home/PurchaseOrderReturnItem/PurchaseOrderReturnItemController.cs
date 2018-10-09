@@ -73,7 +73,7 @@ namespace WebApi.Modules.Home.PurchaseOrderReturnItem
         //------------------------------------------------------------------------------------ 
         // POST api/v1/purchaseorderreturnitem/returnitems
         [HttpPost("returnitems")]
-        public async Task<IActionResult> ReturnItems([FromBody] ReturnItemRequest request)
+        public async Task<ActionResult<ReturnItemResponse>> ReturnItems([FromBody] ReturnItemRequest request)
         {
             if (!ModelState.IsValid)
             {
@@ -108,7 +108,7 @@ namespace WebApi.Modules.Home.PurchaseOrderReturnItem
         //------------------------------------------------------------------------------------        
         // POST api/v1/purchaseorderreturnitem/selectall
         [HttpPost("selectall")]
-        public async Task<IActionResult> SelectAll([FromBody] SelectAllNoneReturnItemRequest request)
+        public async Task<ActionResult<SelectAllNoneReturnItemResponse>> SelectAll([FromBody] SelectAllNoneReturnItemRequest request)
         {
             if (!ModelState.IsValid)
             {
@@ -132,7 +132,7 @@ namespace WebApi.Modules.Home.PurchaseOrderReturnItem
 
         // POST api/v1/purchaseorderreturnitem/selectnone
         [HttpPost("selectnone")]
-        public async Task<IActionResult> SelectNone([FromBody] SelectAllNoneReturnItemRequest request)
+        public async Task<ActionResult<SelectAllNoneReturnItemResponse>> SelectNone([FromBody] SelectAllNoneReturnItemRequest request)
         {
             if (!ModelState.IsValid)
             {

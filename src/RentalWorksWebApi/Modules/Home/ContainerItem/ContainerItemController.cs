@@ -17,7 +17,7 @@ namespace WebApi.Modules.Home.ContainerItem
         [HttpPost("browse")]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
-            return await DoBrowseAsync(browseRequest, typeof(ContainerItemLogic));
+            return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/containeritem/exportexcelxlsx/filedownloadname 
@@ -31,14 +31,14 @@ namespace WebApi.Modules.Home.ContainerItem
         [HttpGet]
         public async Task<ActionResult<IEnumerable<ContainerItemLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
-            return await DoGetAsync<ContainerItemLogic>(pageno, pagesize, sort, typeof(ContainerItemLogic));
+            return await DoGetAsync<ContainerItemLogic>(pageno, pagesize, sort);
         }
         //------------------------------------------------------------------------------------ 
         // GET api/v1/containeritem/A0000001 
         [HttpGet("{id}")]
         public async Task<ActionResult<ContainerItemLogic>> GetOneAsync([FromRoute]string id)
         {
-            return await DoGetAsync<ContainerItemLogic>(id, typeof(ContainerItemLogic));
+            return await DoGetAsync<ContainerItemLogic>(id);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/containeritem 
@@ -52,7 +52,7 @@ namespace WebApi.Modules.Home.ContainerItem
         //[HttpDelete("{id}")]
         //public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         //{
-        //    return await DoDeleteAsync(id, typeof(ContainerItemLogic));
+        //    return await DoDeleteAsync(id);
         //}
         ////------------------------------------------------------------------------------------ 
     }

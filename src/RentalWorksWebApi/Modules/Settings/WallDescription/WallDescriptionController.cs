@@ -17,7 +17,7 @@ namespace WebApi.Modules.Settings.WallDescription
         [HttpPost("browse")]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
-            return await DoBrowseAsync(browseRequest, typeof(WallDescriptionLogic));
+            return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
@@ -31,14 +31,14 @@ namespace WebApi.Modules.Settings.WallDescription
         [HttpGet]
         public async Task<ActionResult<IEnumerable<WallDescriptionLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
-            return await DoGetAsync<WallDescriptionLogic>(pageno, pagesize, sort, typeof(WallDescriptionLogic));
+            return await DoGetAsync<WallDescriptionLogic>(pageno, pagesize, sort);
         }
         //------------------------------------------------------------------------------------ 
         // GET api/v1/walldescription/A0000001 
         [HttpGet("{id}")]
         public async Task<ActionResult<WallDescriptionLogic>> GetOneAsync([FromRoute]string id)
         {
-            return await DoGetAsync<WallDescriptionLogic>(id, typeof(WallDescriptionLogic));
+            return await DoGetAsync<WallDescriptionLogic>(id);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/walldescription 
@@ -52,7 +52,7 @@ namespace WebApi.Modules.Settings.WallDescription
         [HttpDelete("{id}")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id, typeof(WallDescriptionLogic));
+            return await DoDeleteAsync(id);
         }
         //------------------------------------------------------------------------------------ 
     }

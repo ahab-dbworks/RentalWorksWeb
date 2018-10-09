@@ -48,7 +48,7 @@ namespace WebApi.Modules.Home.CheckIn
         //------------------------------------------------------------------------------------ 
         // POST api/v1/checkin/startcheckincontract
         [HttpPost("startcheckincontract")]
-        public async Task<IActionResult> StartCheckInContractAsync([FromBody]CheckInContractRequest request)
+        public async Task<ActionResult<CheckInContractResponse>> StartCheckInContractAsync([FromBody]CheckInContractRequest request)
         {
             if (!ModelState.IsValid)
             {
@@ -73,7 +73,7 @@ namespace WebApi.Modules.Home.CheckIn
         //------------------------------------------------------------------------------------ 
         // POST api/v1/checkin/completecheckincontract
         [HttpPost("completecheckincontract/{id}")]
-        public async Task<IActionResult> CompleteCheckInContractAsync([FromRoute]string id)
+        public async Task<ActionResult<ContractLogic>> CompleteCheckInContractAsync([FromRoute]string id)
         {
             if (!ModelState.IsValid)
             {
@@ -115,7 +115,7 @@ namespace WebApi.Modules.Home.CheckIn
         //------------------------------------------------------------------------------------ 
         // POST api/v1/checkin/checkinitem
         [HttpPost("checkinitem")]
-        public async Task<IActionResult> CheckInItem([FromBody]CheckInItemRequest request)
+        public async Task<ActionResult<TCheckInItemReponse>> CheckInItem([FromBody]CheckInItemRequest request)
         {
             if (!ModelState.IsValid)
             {

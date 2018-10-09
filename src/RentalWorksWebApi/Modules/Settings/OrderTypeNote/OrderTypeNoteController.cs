@@ -17,7 +17,7 @@ namespace WebApi.Modules.Settings.OrderTypeNote
         [HttpPost("browse")]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
-            return await DoBrowseAsync(browseRequest, typeof(OrderTypeNoteLogic));
+            return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
@@ -31,14 +31,14 @@ namespace WebApi.Modules.Settings.OrderTypeNote
         [HttpGet]
         public async Task<ActionResult<IEnumerable<OrderTypeNoteLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
-            return await DoGetAsync<OrderTypeNoteLogic>(pageno, pagesize, sort, typeof(OrderTypeNoteLogic));
+            return await DoGetAsync<OrderTypeNoteLogic>(pageno, pagesize, sort);
         }
         //------------------------------------------------------------------------------------ 
         // GET api/v1/ordertypenote/A0000001 
         [HttpGet("{id}")]
         public async Task<ActionResult<OrderTypeNoteLogic>> GetOneAsync([FromRoute]string id)
         {
-            return await DoGetAsync<OrderTypeNoteLogic>(id, typeof(OrderTypeNoteLogic));
+            return await DoGetAsync<OrderTypeNoteLogic>(id);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/ordertypenote 
@@ -52,7 +52,7 @@ namespace WebApi.Modules.Settings.OrderTypeNote
         [HttpDelete("{id}")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id, typeof(OrderTypeNoteLogic));
+            return await DoDeleteAsync(id);
         }
         //------------------------------------------------------------------------------------ 
     }

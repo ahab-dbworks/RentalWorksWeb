@@ -20,7 +20,7 @@ namespace WebApi.Modules.Settings.DealStatus
         [Authorize(Policy = "{051A9D01-5B55-4805-931A-75937FA04F33}")]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
-            return await DoBrowseAsync(browseRequest, typeof(DealStatusLogic));
+            return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
@@ -35,7 +35,7 @@ namespace WebApi.Modules.Settings.DealStatus
         [Authorize(Policy = "{A17E8E69-1427-472E-9F15-EA4E31590ABE}")]
         public async Task<ActionResult<IEnumerable<DealStatusLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
-            return await DoGetAsync<DealStatusLogic>(pageno, pagesize, sort, typeof(DealStatusLogic));
+            return await DoGetAsync<DealStatusLogic>(pageno, pagesize, sort);
         }
         //------------------------------------------------------------------------------------
         // GET api/v1/dealstatus/A0000001
@@ -43,7 +43,7 @@ namespace WebApi.Modules.Settings.DealStatus
         [Authorize(Policy = "{A8FFA28F-E260-4B28-BB88-B4A5C2F0745B}")]
         public async Task<ActionResult<DealStatusLogic>> GetOneAsync([FromRoute]string id)
         {
-            return await DoGetAsync<DealStatusLogic>(id, typeof(DealStatusLogic));
+            return await DoGetAsync<DealStatusLogic>(id);
         }
         //------------------------------------------------------------------------------------
         // POST api/v1/dealstatus
@@ -59,7 +59,7 @@ namespace WebApi.Modules.Settings.DealStatus
         [Authorize(Policy = "{0C9DE590-155F-459E-B33E-90AEABFB5F50}")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id, typeof(DealStatusLogic));
+            return await DoDeleteAsync(id);
         }
         //------------------------------------------------------------------------------------
         //------------------------------------------------------------------------------------

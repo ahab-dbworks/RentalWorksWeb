@@ -51,7 +51,7 @@ namespace WebApi.Modules.Home.InventorySearch
         //------------------------------------------------------------------------------------ 
         // POST api/v1/inventorysearch/search
         [HttpPost("search")]
-        public async Task<IActionResult> SearchAsync([FromBody]InventorySearchRequest searchRequest)
+        public async Task<ActionResult<FwJsonDataTable>> SearchAsync([FromBody]InventorySearchRequest searchRequest)
         {
             if (!ModelState.IsValid)
             {
@@ -76,7 +76,7 @@ namespace WebApi.Modules.Home.InventorySearch
         //------------------------------------------------------------------------------------ 
         // POST api/v1/inventorysearch/accessories
         [HttpPost("accessories")]
-        public async Task<IActionResult> SearchAccessoriesAsync([FromBody]InventorySearchAccessoriesRequest searchRequest)
+        public async Task<ActionResult<FwJsonDataTable>> SearchAccessoriesAsync([FromBody]InventorySearchAccessoriesRequest searchRequest)
         {
             if (!ModelState.IsValid)
             {
@@ -108,7 +108,7 @@ namespace WebApi.Modules.Home.InventorySearch
         //------------------------------------------------------------------------------------ 
         // POST api/v1/inventorysearch/addto 
         [HttpPost("addto")]
-        public async Task<IActionResult> AddTo([FromBody]InventorySearchRequest processRequest)
+        public async Task<ActionResult<bool>> AddTo([FromBody]InventorySearchRequest processRequest)
         {
             if (!ModelState.IsValid)
             {

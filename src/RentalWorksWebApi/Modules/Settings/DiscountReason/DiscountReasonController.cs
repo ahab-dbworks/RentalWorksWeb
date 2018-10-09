@@ -20,7 +20,7 @@ namespace WebApi.Modules.Settings.DiscountReason
         [Authorize(Policy = "")]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
-            return await DoBrowseAsync(browseRequest, typeof(DiscountReasonLogic));
+            return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
@@ -35,7 +35,7 @@ namespace WebApi.Modules.Settings.DiscountReason
         [Authorize(Policy = "")]
         public async Task<ActionResult<IEnumerable<DiscountReasonLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
-            return await DoGetAsync<DiscountReasonLogic>(pageno, pagesize, sort, typeof(DiscountReasonLogic));
+            return await DoGetAsync<DiscountReasonLogic>(pageno, pagesize, sort);
         }
         //------------------------------------------------------------------------------------
         // GET api/v1/discountreason/A0000001
@@ -43,7 +43,7 @@ namespace WebApi.Modules.Settings.DiscountReason
         [Authorize(Policy = "")]
         public async Task<ActionResult<DiscountReasonLogic>> GetOneAsync([FromRoute]string id)
         {
-            return await DoGetAsync<DiscountReasonLogic>(id, typeof(DiscountReasonLogic));
+            return await DoGetAsync<DiscountReasonLogic>(id);
         }
         //------------------------------------------------------------------------------------
         // POST api/v1/discountreason
@@ -59,7 +59,7 @@ namespace WebApi.Modules.Settings.DiscountReason
         [Authorize(Policy = "")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id, typeof(DiscountReasonLogic));
+            return await DoDeleteAsync(id);
         }
         //------------------------------------------------------------------------------------
         //------------------------------------------------------------------------------------

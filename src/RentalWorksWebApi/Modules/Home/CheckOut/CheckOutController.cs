@@ -66,7 +66,7 @@ namespace WebApi.Modules.Home.CheckOut
         //------------------------------------------------------------------------------------ 
         // POST api/v1/checkout/stageitem
         [HttpPost("stageitem")]
-        public async Task<IActionResult> StageItem([FromBody]StageItemRequest request)
+        public async Task<ActionResult<StageItemReponse>> StageItem([FromBody]StageItemRequest request)
         {
             if (!ModelState.IsValid)
             {
@@ -105,7 +105,7 @@ namespace WebApi.Modules.Home.CheckOut
         //------------------------------------------------------------------------------------ 
         // POST api/v1/checkout/checkoutallstaged
         [HttpPost("checkoutallstaged")]
-        public async Task<IActionResult> CheckOutAllStaged([FromBody]CheckOutAllStagedRequest request)
+        public async Task<ActionResult<CheckOutAllStagedResponse>> CheckOutAllStaged([FromBody]CheckOutAllStagedRequest request)
         {
             if (!ModelState.IsValid)
             {
@@ -138,7 +138,7 @@ namespace WebApi.Modules.Home.CheckOut
         //------------------------------------------------------------------------------------ 
         // POST api/v1/checkout/startcheckoutcontract
         [HttpPost("startcheckoutcontract")]
-        public async Task<IActionResult> StartCheckOutContract([FromBody]CreateOutContractRequest request)
+        public async Task<ActionResult<CreateOutContractResponse>> StartCheckOutContract([FromBody]CreateOutContractRequest request)
         {
             if (!ModelState.IsValid)
             {
@@ -172,7 +172,7 @@ namespace WebApi.Modules.Home.CheckOut
         //------------------------------------------------------------------------------------ 
         // POST api/v1/checkout/movestageditemtoout
         [HttpPost("movestageditemtoout")]
-        public async Task<IActionResult> MoveStagedItemToOut([FromBody]MoveStagedItemRequest request)
+        public async Task<ActionResult<MoveStagedItemResponse>> MoveStagedItemToOut([FromBody]MoveStagedItemRequest request)
         {
             if (!ModelState.IsValid)
             {
@@ -214,7 +214,7 @@ namespace WebApi.Modules.Home.CheckOut
         //------------------------------------------------------------------------------------ 
         // POST api/v1/checkout/moveoutitemtostaged
         [HttpPost("moveoutitemtostaged")]
-        public async Task<IActionResult> MoveOutItemToStaged([FromBody]MoveStagedItemRequest request)
+        public async Task<ActionResult<MoveStagedItemResponse>> MoveOutItemToStaged([FromBody]MoveStagedItemRequest request)
         {
             if (!ModelState.IsValid)
             {
@@ -256,7 +256,7 @@ namespace WebApi.Modules.Home.CheckOut
         //------------------------------------------------------------------------------------ 
         // POST api/v1/checkout/completecheckoutcontract
         [HttpPost("completecheckoutcontract/{id}")]
-        public async Task<IActionResult> CompleteCheckOutContractAsync([FromRoute]string id)
+        public async Task<ActionResult<ContractLogic>> CompleteCheckOutContractAsync([FromRoute]string id)
         {
             if (!ModelState.IsValid)
             {

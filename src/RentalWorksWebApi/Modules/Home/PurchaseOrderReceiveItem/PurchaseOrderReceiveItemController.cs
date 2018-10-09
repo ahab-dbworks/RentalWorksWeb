@@ -73,7 +73,7 @@ namespace WebApi.Modules.Home.PurchaseOrderReceiveItem
         //------------------------------------------------------------------------------------ 
         // POST api/v1/purchaseorderreceiveitem/receiveitems
         [HttpPost("receiveitems")]
-        public async Task<IActionResult> ReceiveItems([FromBody] ReceiveItemRequest request)
+        public async Task<ActionResult<ReceiveItemResponse>> ReceiveItems([FromBody] ReceiveItemRequest request)
         {
             if (!ModelState.IsValid)
             {
@@ -103,7 +103,7 @@ namespace WebApi.Modules.Home.PurchaseOrderReceiveItem
         //------------------------------------------------------------------------------------        
         // POST api/v1/purchaseorderreceiveitem/selectall
         [HttpPost("selectall")]
-        public async Task<IActionResult> SelectAll([FromBody] SelectAllNoneReceiveItemRequest request)
+        public async Task<ActionResult<SelectAllNoneReceiveItemResponse>> SelectAll([FromBody] SelectAllNoneReceiveItemRequest request)
         {
             if (!ModelState.IsValid)
             {
@@ -127,7 +127,7 @@ namespace WebApi.Modules.Home.PurchaseOrderReceiveItem
 
         // POST api/v1/purchaseorderreceiveitem/selectnone
         [HttpPost("selectnone")]
-        public async Task<IActionResult> SelectNone([FromBody] SelectAllNoneReceiveItemRequest request)
+        public async Task<ActionResult<SelectAllNoneReceiveItemResponse>> SelectNone([FromBody] SelectAllNoneReceiveItemRequest request)
         {
             if (!ModelState.IsValid)
             {

@@ -18,7 +18,7 @@ namespace WebApi.Modules.Settings.RateWarehouse
         [HttpPost("browse")]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
-            return await DoBrowseAsync(browseRequest, typeof(RateWarehouseLogic));
+            return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
@@ -32,14 +32,14 @@ namespace WebApi.Modules.Settings.RateWarehouse
         [HttpGet]
         public async Task<ActionResult<IEnumerable<RateWarehouseLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
-            return await DoGetAsync<RateWarehouseLogic>(pageno, pagesize, sort, typeof(RateWarehouseLogic));
+            return await DoGetAsync<RateWarehouseLogic>(pageno, pagesize, sort);
         }
         //------------------------------------------------------------------------------------
         // GET api/v1/ratewarehouse/A0000001
         [HttpGet("{id}")]
         public async Task<ActionResult<RateWarehouseLogic>> GetOneAsync([FromRoute]string id)
         {
-            return await DoGetAsync<RateWarehouseLogic>(id, typeof(RateWarehouseLogic));
+            return await DoGetAsync<RateWarehouseLogic>(id);
         }
         //------------------------------------------------------------------------------------
         // POST api/v1/ratewarehouse
@@ -53,7 +53,7 @@ namespace WebApi.Modules.Settings.RateWarehouse
         [HttpDelete("{id}")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id, typeof(RateWarehouseLogic));
+            return await DoDeleteAsync(id);
         }
         //------------------------------------------------------------------------------------
     }

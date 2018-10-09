@@ -20,7 +20,7 @@ namespace WebApi.Modules.Settings.Country
         [Authorize(Policy = "")]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
-            return await DoBrowseAsync(browseRequest, typeof(CountryLogic));
+            return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
@@ -35,7 +35,7 @@ namespace WebApi.Modules.Settings.Country
         [Authorize(Policy = "")]
         public async Task<ActionResult<IEnumerable<CountryLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
-            return await DoGetAsync<CountryLogic>(pageno, pagesize, sort, typeof(CountryLogic));
+            return await DoGetAsync<CountryLogic>(pageno, pagesize, sort);
         }
         //------------------------------------------------------------------------------------
         // GET api/v1/Country/A0000001
@@ -43,7 +43,7 @@ namespace WebApi.Modules.Settings.Country
         [Authorize(Policy = "")]
         public async Task<ActionResult<CountryLogic>> GetOneAsync([FromRoute]string id)
         {
-            return await DoGetAsync<CountryLogic>(id, typeof(CountryLogic));
+            return await DoGetAsync<CountryLogic>(id);
         }
         //------------------------------------------------------------------------------------
         // POST api/v1/Country
@@ -59,7 +59,7 @@ namespace WebApi.Modules.Settings.Country
         [Authorize(Policy = "")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id, typeof(CountryLogic));
+            return await DoDeleteAsync(id);
         }
         //------------------------------------------------------------------------------------
         //------------------------------------------------------------------------------------

@@ -17,7 +17,7 @@ namespace WebApi.Modules.Home.RepairRelease
         [HttpPost("browse")]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
-            return await DoBrowseAsync(browseRequest, typeof(RepairReleaseLogic));
+            return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
@@ -31,14 +31,14 @@ namespace WebApi.Modules.Home.RepairRelease
         [HttpGet]
         public async Task<ActionResult<IEnumerable<RepairReleaseLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
-            return await DoGetAsync<RepairReleaseLogic>(pageno, pagesize, sort, typeof(RepairReleaseLogic));
+            return await DoGetAsync<RepairReleaseLogic>(pageno, pagesize, sort);
         }
         //------------------------------------------------------------------------------------ 
         // GET api/v1/repairrelease/A0000001 
         [HttpGet("{id}")]
         public async Task<ActionResult<RepairReleaseLogic>> GetOneAsync([FromRoute]string id)
         {
-            return await DoGetAsync<RepairReleaseLogic>(id, typeof(RepairReleaseLogic));
+            return await DoGetAsync<RepairReleaseLogic>(id);
         }
         //------------------------------------------------------------------------------------ 
     }

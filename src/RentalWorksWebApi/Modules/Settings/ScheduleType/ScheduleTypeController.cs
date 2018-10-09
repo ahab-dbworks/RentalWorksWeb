@@ -18,7 +18,7 @@ namespace WebApi.Modules.Settings.ScheduleType
         [HttpPost("browse")]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
-            return await DoBrowseAsync(browseRequest, typeof(ScheduleTypeLogic));
+            return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
@@ -32,14 +32,14 @@ namespace WebApi.Modules.Settings.ScheduleType
         [HttpGet]
         public async Task<ActionResult<IEnumerable<ScheduleTypeLogic>>> GetManyAsync(int pageno, int pagesize, string sort)
         {
-            return await DoGetAsync<ScheduleTypeLogic>(pageno, pagesize, sort, typeof(ScheduleTypeLogic));
+            return await DoGetAsync<ScheduleTypeLogic>(pageno, pagesize, sort);
         }
         //------------------------------------------------------------------------------------
         // GET api/v1/scheduletype/A0000001
         [HttpGet("{id}")]
         public async Task<ActionResult<ScheduleTypeLogic>> GetAsync(string id)
         {
-            return await DoGetAsync<ScheduleTypeLogic>(id, typeof(ScheduleTypeLogic));
+            return await DoGetAsync<ScheduleTypeLogic>(id);
         }
         //------------------------------------------------------------------------------------
         // POST api/v1/scheduletype
@@ -53,7 +53,7 @@ namespace WebApi.Modules.Settings.ScheduleType
         [HttpDelete("{id}")]
         public async Task<ActionResult<bool>> DeleteAsync(string id)
         {
-            return await DoDeleteAsync(id, typeof(ScheduleTypeLogic));
+            return await DoDeleteAsync(id);
         }
         //------------------------------------------------------------------------------------
     }

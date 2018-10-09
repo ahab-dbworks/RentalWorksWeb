@@ -20,7 +20,7 @@ namespace WebApi.Modules.Settings.GeneratorFuelType
         [Authorize(Policy = "{A159EF71-9F4D-40F6-8027-0AB1FC7A7CE0}")]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
-            return await DoBrowseAsync(browseRequest, typeof(GeneratorFuelTypeLogic));
+            return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
@@ -35,7 +35,7 @@ namespace WebApi.Modules.Settings.GeneratorFuelType
         [Authorize(Policy = "{9B922EC1-D8C9-492E-91F4-E234E6AFAC64}")]
         public async Task<ActionResult<IEnumerable<GeneratorFuelTypeLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
-            return await DoGetAsync<GeneratorFuelTypeLogic>(pageno, pagesize, sort, typeof(GeneratorFuelTypeLogic));
+            return await DoGetAsync<GeneratorFuelTypeLogic>(pageno, pagesize, sort);
         }
         //------------------------------------------------------------------------------------
         // GET api/v1/generatorfueltype/A0000001
@@ -43,7 +43,7 @@ namespace WebApi.Modules.Settings.GeneratorFuelType
         [Authorize(Policy = "{BC15A1F5-FAB4-4A2B-AD04-F9B7E3462560}")]
         public async Task<ActionResult<GeneratorFuelTypeLogic>> GetOneAsync([FromRoute]string id)
         {
-            return await DoGetAsync<GeneratorFuelTypeLogic>(id, typeof(GeneratorFuelTypeLogic));
+            return await DoGetAsync<GeneratorFuelTypeLogic>(id);
         }
         //------------------------------------------------------------------------------------
         // POST api/v1/generatorfueltype
@@ -59,7 +59,7 @@ namespace WebApi.Modules.Settings.GeneratorFuelType
         [Authorize(Policy = "{9AFAD4EB-3629-4524-9688-7C7E46974AA8}")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id, typeof(GeneratorFuelTypeLogic));
+            return await DoDeleteAsync(id);
         }
         //------------------------------------------------------------------------------------
         //------------------------------------------------------------------------------------

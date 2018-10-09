@@ -17,7 +17,7 @@ namespace WebApi.Modules.Home.ProjectContact
         [HttpPost("browse")]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
-            return await DoBrowseAsync(browseRequest, typeof(ProjectContactLogic));
+            return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
@@ -31,14 +31,14 @@ namespace WebApi.Modules.Home.ProjectContact
         [HttpGet]
         public async Task<ActionResult<IEnumerable<ProjectContactLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
-            return await DoGetAsync<ProjectContactLogic>(pageno, pagesize, sort, typeof(ProjectContactLogic));
+            return await DoGetAsync<ProjectContactLogic>(pageno, pagesize, sort);
         }
         //------------------------------------------------------------------------------------ 
         // GET api/v1/projectcontact/A0000001 
         [HttpGet("{id}")]
         public async Task<ActionResult<ProjectContactLogic>> GetOneAsync([FromRoute]string id)
         {
-            return await DoGetAsync<ProjectContactLogic>(id, typeof(ProjectContactLogic));
+            return await DoGetAsync<ProjectContactLogic>(id);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/projectcontact 
@@ -52,7 +52,7 @@ namespace WebApi.Modules.Home.ProjectContact
         [HttpDelete("{id}")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id, typeof(ProjectContactLogic));
+            return await DoDeleteAsync(id);
         }
         //------------------------------------------------------------------------------------ 
     }

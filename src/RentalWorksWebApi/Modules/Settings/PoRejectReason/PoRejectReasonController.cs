@@ -17,7 +17,7 @@ namespace WebApi.Modules.Settings.PoRejectReason
         [HttpPost("browse")]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
-            return await DoBrowseAsync(browseRequest, typeof(PoRejectReasonLogic));
+            return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
@@ -31,14 +31,14 @@ namespace WebApi.Modules.Settings.PoRejectReason
         [HttpGet]
         public async Task<ActionResult<IEnumerable<PoRejectReasonLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
-            return await DoGetAsync<PoRejectReasonLogic>(pageno, pagesize, sort, typeof(PoRejectReasonLogic));
+            return await DoGetAsync<PoRejectReasonLogic>(pageno, pagesize, sort);
         }
         //------------------------------------------------------------------------------------ 
         // GET api/v1/porejectreason/A0000001 
         [HttpGet("{id}")]
         public async Task<ActionResult<PoRejectReasonLogic>> GetOneAsync([FromRoute]string id)
         {
-            return await DoGetAsync<PoRejectReasonLogic>(id, typeof(PoRejectReasonLogic));
+            return await DoGetAsync<PoRejectReasonLogic>(id);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/porejectreason 
@@ -52,7 +52,7 @@ namespace WebApi.Modules.Settings.PoRejectReason
         [HttpDelete("{id}")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id, typeof(PoRejectReasonLogic));
+            return await DoDeleteAsync(id);
         }
         //------------------------------------------------------------------------------------ 
     }

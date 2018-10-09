@@ -117,7 +117,7 @@ namespace WebApi.Modules.Home.PurchaseOrder
 
         // POST api/v1/purchaseorder/applybottomlinedaysperweek
         [HttpPost("applybottomlinedaysperweek")]
-        public async Task<IActionResult> ApplyBottomLineDaysPerWeek([FromBody] ApplyBottomLineDaysPerWeekRequest request)
+        public async Task<ActionResult<bool>> ApplyBottomLineDaysPerWeek([FromBody] ApplyBottomLineDaysPerWeekRequest request)
         {
             if (!ModelState.IsValid)
             {
@@ -151,7 +151,7 @@ namespace WebApi.Modules.Home.PurchaseOrder
         //------------------------------------------------------------------------------------
         // POST api/v1/purchaseorder/applybottomlinediscountpercent
         [HttpPost("applybottomlinediscountpercent")]
-        public async Task<IActionResult> ApplyBottomLineDiscountPercent([FromBody] ApplyBottomLineDiscountPercentRequest request)
+        public async Task<ActionResult<bool>> ApplyBottomLineDiscountPercent([FromBody] ApplyBottomLineDiscountPercentRequest request)
         {
             if (!ModelState.IsValid)
             {
@@ -185,7 +185,7 @@ namespace WebApi.Modules.Home.PurchaseOrder
         //------------------------------------------------------------------------------------
         // POST api/v1/purchaseorder/applybottomlinetotal
         [HttpPost("applybottomlinetotal")]
-        public async Task<IActionResult> ApplyBottomLineTotal([FromBody] ApplyBottomLineTotalRequest request)
+        public async Task<ActionResult<bool>> ApplyBottomLineTotal([FromBody] ApplyBottomLineTotalRequest request)
         {
             if (!ModelState.IsValid)
             {
@@ -222,7 +222,7 @@ namespace WebApi.Modules.Home.PurchaseOrder
 
         // POST api/v1/purchaseorder/startreceivecontract
         [HttpPost("startreceivecontract")]
-        public async Task<IActionResult> StartReceiveContractAsync([FromBody]ReceiveContractRequest request)
+        public async Task<ActionResult<ReceiveContractResponse>> StartReceiveContractAsync([FromBody]ReceiveContractRequest request)
         {
             if (!ModelState.IsValid)
             {
@@ -257,7 +257,7 @@ namespace WebApi.Modules.Home.PurchaseOrder
         //------------------------------------------------------------------------------------ 
         // POST api/v1/purchaseorder/completereceivecontract
         [HttpPost("completereceivecontract/{id}")]
-        public async Task<IActionResult> CompleteReceiveContractAsync([FromRoute]string id, [FromBody] CompleteReceiveContractRequest request)
+        public async Task<ActionResult<List<ContractLogic>>> CompleteReceiveContractAsync([FromRoute]string id, [FromBody] CompleteReceiveContractRequest request)
         {
             if (!ModelState.IsValid)
             {
@@ -305,13 +305,9 @@ namespace WebApi.Modules.Home.PurchaseOrder
             }
         }
         //------------------------------------------------------------------------------------       
-
-
-
-
         // POST api/v1/purchaseorder/startreturncontract
         [HttpPost("startreturncontract")]
-        public async Task<IActionResult> StartReturnContractAsync([FromBody]ReturnContractRequest request)
+        public async Task<ActionResult<ReturnContractResponse>> StartReturnContractAsync([FromBody]ReturnContractRequest request)
         {
             if (!ModelState.IsValid)
             {
@@ -346,7 +342,7 @@ namespace WebApi.Modules.Home.PurchaseOrder
         //------------------------------------------------------------------------------------ 
         // POST api/v1/purchaseorder/completereturncontract
         [HttpPost("completereturncontract/{id}")]
-        public async Task<IActionResult> CompleteReturnContractAsync([FromRoute]string id)
+        public async Task<ActionResult<ContractLogic>> CompleteReturnContractAsync([FromRoute]string id)
         {
             if (!ModelState.IsValid)
             {
@@ -381,12 +377,9 @@ namespace WebApi.Modules.Home.PurchaseOrder
             }
         }
         //------------------------------------------------------------------------------------    
-
-
-
         // POST api/v1/purchaseorder/receivebarcodeadditems
         [HttpPost("receivebarcodeadditems")]
-        public async Task<IActionResult> ReceiveBarCodeAddItems([FromBody] PurchaseOrderReceiveBarCodeAddItemsRequest request)
+        public async Task<ActionResult<PurchaseOrderReceiveBarCodeAddItemsResponse>> ReceiveBarCodeAddItems([FromBody] PurchaseOrderReceiveBarCodeAddItemsRequest request)
         {
             if (!ModelState.IsValid)
             {
@@ -408,11 +401,9 @@ namespace WebApi.Modules.Home.PurchaseOrder
             }
         }
         //------------------------------------------------------------------------------------       
-
-
         // POST api/v1/purchaseorder/assignbarcodesfromreceive
         [HttpPost("assignbarcodesfromreceive")]
-        public async Task<IActionResult> AssignBarCodesFromReceive([FromBody] PurchaseOrderReceiveAssignBarCodesRequest request)
+        public async Task<ActionResult<PurchaseOrderReceiveAssignBarCodesResponse>> AssignBarCodesFromReceive([FromBody] PurchaseOrderReceiveAssignBarCodesRequest request)
         {
             if (!ModelState.IsValid)
             {

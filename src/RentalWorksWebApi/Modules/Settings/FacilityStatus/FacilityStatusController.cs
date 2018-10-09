@@ -20,7 +20,7 @@ namespace WebApi.Modules.Settings.FacilityStatus
         [Authorize(Policy = "{4CBD88A1-AF2C-4DF5-A3CE-B2BB6C40092D}")]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
-            return await DoBrowseAsync(browseRequest, typeof(FacilityStatusLogic));
+            return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
@@ -35,7 +35,7 @@ namespace WebApi.Modules.Settings.FacilityStatus
         [Authorize(Policy = "{6C73F07A-50C9-471D-84B6-3115B8495662}")]
         public async Task<ActionResult<IEnumerable<FacilityStatusLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
-            return await DoGetAsync<FacilityStatusLogic>(pageno, pagesize, sort, typeof(FacilityStatusLogic));
+            return await DoGetAsync<FacilityStatusLogic>(pageno, pagesize, sort);
         }
         //------------------------------------------------------------------------------------
         // GET api/v1/facilitystatus/A0000001
@@ -43,7 +43,7 @@ namespace WebApi.Modules.Settings.FacilityStatus
         [Authorize(Policy = "{6206FA53-91F1-4B6E-BAC9-D02490571609}")]
         public async Task<ActionResult<FacilityStatusLogic>> GetOneAsync([FromRoute]string id)
         {
-            return await DoGetAsync<FacilityStatusLogic>(id, typeof(FacilityStatusLogic));
+            return await DoGetAsync<FacilityStatusLogic>(id);
         }
         //------------------------------------------------------------------------------------
         // POST api/v1/facilitystatus
@@ -59,7 +59,7 @@ namespace WebApi.Modules.Settings.FacilityStatus
         [Authorize(Policy = "{92046B12-F2B5-4371-9448-01113F0FD496}")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id, typeof(FacilityStatusLogic));
+            return await DoDeleteAsync(id);
         }
         //------------------------------------------------------------------------------------
         //------------------------------------------------------------------------------------

@@ -17,7 +17,7 @@ namespace WebApi.Modules.Home.ItemAttributeValue
         [HttpPost("browse")]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
-            return await DoBrowseAsync(browseRequest, typeof(ItemAttributeValueLogic));
+            return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
@@ -31,14 +31,14 @@ namespace WebApi.Modules.Home.ItemAttributeValue
         [HttpGet]
         public async Task<ActionResult<IEnumerable<ItemAttributeValueLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
-            return await DoGetAsync<ItemAttributeValueLogic>(pageno, pagesize, sort, typeof(ItemAttributeValueLogic));
+            return await DoGetAsync<ItemAttributeValueLogic>(pageno, pagesize, sort);
         }
         //------------------------------------------------------------------------------------ 
         // GET api/v1/itemattributevalue/A0000001 
         [HttpGet("{id}")]
         public async Task<ActionResult<ItemAttributeValueLogic>> GetOneAsync([FromRoute]string id)
         {
-            return await DoGetAsync<ItemAttributeValueLogic>(id, typeof(ItemAttributeValueLogic));
+            return await DoGetAsync<ItemAttributeValueLogic>(id);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/itemattributevalue 
@@ -52,7 +52,7 @@ namespace WebApi.Modules.Home.ItemAttributeValue
         [HttpDelete("{id}")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id, typeof(ItemAttributeValueLogic));
+            return await DoDeleteAsync(id);
         }
         //------------------------------------------------------------------------------------ 
     }

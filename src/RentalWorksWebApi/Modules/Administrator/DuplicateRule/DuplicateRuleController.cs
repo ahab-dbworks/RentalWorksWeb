@@ -19,7 +19,7 @@ namespace WebApi.Modules.Administrator.DuplicateRule
         [HttpPost("browse")]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
-            return await DoBrowseAsync(browseRequest, typeof(DuplicateRuleLogic));
+            return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
@@ -33,14 +33,14 @@ namespace WebApi.Modules.Administrator.DuplicateRule
         [HttpGet]
         public async Task<ActionResult<IEnumerable<DuplicateRuleLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
-            return await DoGetAsync<DuplicateRuleLogic>(pageno, pagesize, sort, typeof(DuplicateRuleLogic));
+            return await DoGetAsync<DuplicateRuleLogic>(pageno, pagesize, sort);
         }
         //------------------------------------------------------------------------------------ 
         // GET api/v1/duplicaterule/A0000001 
         [HttpGet("{id}")]
         public async Task<ActionResult<DuplicateRuleLogic>> GetOneAsync([FromRoute]string id)
         {
-            return await DoGetAsync<DuplicateRuleLogic>(id, typeof(DuplicateRuleLogic));
+            return await DoGetAsync<DuplicateRuleLogic>(id);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/duplicaterule 
@@ -54,7 +54,7 @@ namespace WebApi.Modules.Administrator.DuplicateRule
         [HttpDelete("{id}")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id, typeof(DuplicateRuleLogic));
+            return await DoDeleteAsync(id);
         }
         //------------------------------------------------------------------------------------ 
     }

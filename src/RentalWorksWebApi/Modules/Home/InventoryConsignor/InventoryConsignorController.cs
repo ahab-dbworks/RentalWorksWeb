@@ -17,7 +17,7 @@ namespace WebApi.Modules.Home.InventoryConsignor
         [HttpPost("browse")]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
-            return await DoBrowseAsync(browseRequest, typeof(InventoryConsignorLogic));
+            return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
@@ -31,14 +31,14 @@ namespace WebApi.Modules.Home.InventoryConsignor
         [HttpGet]
         public async Task<ActionResult<IEnumerable<InventoryConsignorLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
-            return await DoGetAsync<InventoryConsignorLogic>(pageno, pagesize, sort, typeof(InventoryConsignorLogic));
+            return await DoGetAsync<InventoryConsignorLogic>(pageno, pagesize, sort);
         }
         //------------------------------------------------------------------------------------ 
         // GET api/v1/inventoryconsignor/A0000001 
         [HttpGet("{id}")]
         public async Task<ActionResult<InventoryConsignorLogic>> GetOneAsync([FromRoute]string id)
         {
-            return await DoGetAsync<InventoryConsignorLogic>(id, typeof(InventoryConsignorLogic));
+            return await DoGetAsync<InventoryConsignorLogic>(id);
         }
         //------------------------------------------------------------------------------------ 
     }

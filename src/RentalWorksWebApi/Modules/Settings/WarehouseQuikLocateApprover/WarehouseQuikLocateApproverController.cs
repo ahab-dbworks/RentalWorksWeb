@@ -17,7 +17,7 @@ namespace WebApi.Modules.Settings.WarehouseQuikLocateApprover
         [HttpPost("browse")]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
-            return await DoBrowseAsync(browseRequest, typeof(WarehouseQuikLocateApproverLogic));
+            return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
@@ -31,14 +31,14 @@ namespace WebApi.Modules.Settings.WarehouseQuikLocateApprover
         [HttpGet]
         public async Task<ActionResult<IEnumerable<WarehouseQuikLocateApproverLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
-            return await DoGetAsync<WarehouseQuikLocateApproverLogic>(pageno, pagesize, sort, typeof(WarehouseQuikLocateApproverLogic));
+            return await DoGetAsync<WarehouseQuikLocateApproverLogic>(pageno, pagesize, sort);
         }
         //------------------------------------------------------------------------------------ 
         // GET api/v1/warehousequiklocateapprover/A0000001 
         [HttpGet("{id}")]
         public async Task<ActionResult<WarehouseQuikLocateApproverLogic>> GetOneAsync([FromRoute]string id)
         {
-            return await DoGetAsync<WarehouseQuikLocateApproverLogic>(id, typeof(WarehouseQuikLocateApproverLogic));
+            return await DoGetAsync<WarehouseQuikLocateApproverLogic>(id);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/warehousequiklocateapprover 
@@ -52,7 +52,7 @@ namespace WebApi.Modules.Settings.WarehouseQuikLocateApprover
         [HttpDelete("{id}")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id, typeof(WarehouseQuikLocateApproverLogic));
+            return await DoDeleteAsync(id);
         }
         //------------------------------------------------------------------------------------ 
     }

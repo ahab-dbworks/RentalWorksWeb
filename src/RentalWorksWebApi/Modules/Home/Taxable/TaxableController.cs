@@ -21,7 +21,7 @@ namespace WebApi.Modules.Home.Taxable
         [HttpPost("browse")]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
-            return await DoBrowseAsync(browseRequest, typeof(TaxableLogic));
+            return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
@@ -33,20 +33,19 @@ namespace WebApi.Modules.Home.Taxable
         //------------------------------------------------------------------------------------ 
         // GET api/v1/taxable/B003MZ45/F01BQV9J   //masterid/locationid
         [HttpGet("{masterid}/{locationid}")]
-        public async Task<IActionResult> GetOneAsync([FromRoute]string masterid, [FromRoute]string locationid)
+        public async Task<ActionResult<IEnumerable<TaxableLogic>>> GetOneAsync([FromRoute]string masterid, [FromRoute]string locationid)
         {
-            return await DoSpecialGetAsync<TaxableLogic>(masterid, locationid, typeof(TaxableLogic));
-
+            return await DoSpecialGetAsync<TaxableLogic>(masterid, locationid);
         }
         //------------------------------------------------------------------------------------ 
         // GET api/v1/taxable/B003MZ45   //masterid
         [HttpGet("{masterid}")]
-        public async Task<IActionResult> GetOneAsync([FromRoute]string masterid)
+        public async Task<ActionResult<IEnumerable<TaxableLogic>>> GetOneAsync([FromRoute]string masterid)
         {
-            return await DoSpecialGetAsync<TaxableLogic>(masterid, "", typeof(TaxableLogic));
+            return await DoSpecialGetAsync<TaxableLogic>(masterid, "");
         }
         //------------------------------------------------------------------------------------ 
-        protected async Task<IActionResult> DoSpecialGetAsync<T>(string masterId, string locationId, Type type)
+        protected async Task<ActionResult<IEnumerable<T>>> DoSpecialGetAsync<T>(string masterId, string locationId)
         {
             if (!ModelState.IsValid)
             {
@@ -70,7 +69,7 @@ namespace WebApi.Modules.Home.Taxable
                 request.pagesize = 0;
                 request.orderby = string.Empty;
                 request.uniqueids = uniqueIds;
-                FwBusinessLogic l = CreateBusinessLogic(type, this.AppConfig, this.UserSession);
+                FwBusinessLogic l = CreateBusinessLogic(logicType, this.AppConfig, this.UserSession);
                 IEnumerable<T> records = await l.SelectAsync<T>(request);
                 return new OkObjectResult(records);
             }

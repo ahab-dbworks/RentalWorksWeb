@@ -52,20 +52,6 @@ namespace WebApi.Modules.Home.InventorySearchPreview
             }
         }
         //------------------------------------------------------------------------------------ 
-        //// GET api/v1/inventorysearchpreview 
-        //[HttpGet]
-        //public aync <IEnumerable<InventorySearchPreviewLogic>>Task<IActionResult> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
-        //{
-        //    return await DoGetAsync<InventorySearchPreviewLogic>(pageno, pagesize, sort, typeof(InventorySearchPreviewLogic));
-        //}
-        ////------------------------------------------------------------------------------------ 
-        //// GET api/v1/inventorysearchpreview/A0000001 
-        //[HttpGet("{id}")]
-        //public async Task<ActionResult<InventorySearchPreviewLogic>> GetOneAsync([FromRoute]string id)
-        //{
-        //    return await DoGetAsync<InventorySearchPreviewLogic>(id, typeof(InventorySearchPreviewLogic));
-        //}
-        ////------------------------------------------------------------------------------------ 
         // POST api/v1/inventorysearchpreview 
         [HttpPost]
         public async Task<ActionResult<InventorySearchPreviewLogic>> PostAsync([FromBody]InventorySearchPreviewLogic l)
@@ -77,7 +63,7 @@ namespace WebApi.Modules.Home.InventorySearchPreview
         [HttpDelete("{id}")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id, typeof(InventorySearchPreviewLogic));
+            return await DoDeleteAsync(id);
         }
         //------------------------------------------------------------------------------------ 
     }

@@ -61,7 +61,7 @@ namespace WebApi.Modules.Home.Project
         //------------------------------------------------------------------------------------ 
         // POST api/v1/project/createquote/A0000001
         [HttpPost("createquote/{id}")]
-        public async Task<IActionResult> CreateQuote([FromRoute]string id)
+        public async Task<ActionResult<QuoteLogic>> CreateQuote([FromRoute]string id)
         {
             if (!ModelState.IsValid)
             {

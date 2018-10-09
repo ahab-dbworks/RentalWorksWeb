@@ -18,7 +18,7 @@ namespace WebApi.Modules.Settings.SalesCategory
         [HttpPost("browse")]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
-            return await DoBrowseAsync(browseRequest, typeof(SalesCategoryLogic));
+            return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
@@ -32,14 +32,14 @@ namespace WebApi.Modules.Settings.SalesCategory
         [HttpGet]
         public async Task<ActionResult<IEnumerable<SalesCategoryLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
-            return await DoGetAsync<SalesCategoryLogic>(pageno, pagesize, sort, typeof(SalesCategoryLogic));
+            return await DoGetAsync<SalesCategoryLogic>(pageno, pagesize, sort);
         }
         //------------------------------------------------------------------------------------
         // GET api/v1/salescategory/A0000001
         [HttpGet("{id}")]
         public async Task<ActionResult<SalesCategoryLogic>> GetOneAsync([FromRoute]string id)
         {
-            return await DoGetAsync<SalesCategoryLogic>(id, typeof(SalesCategoryLogic));
+            return await DoGetAsync<SalesCategoryLogic>(id);
         }
         //------------------------------------------------------------------------------------
         // POST api/v1/salescategory
@@ -53,7 +53,7 @@ namespace WebApi.Modules.Settings.SalesCategory
         [HttpDelete("{id}")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id, typeof(SalesCategoryLogic));
+            return await DoDeleteAsync(id);
         }
         //------------------------------------------------------------------------------------
     }

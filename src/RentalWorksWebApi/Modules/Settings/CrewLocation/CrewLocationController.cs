@@ -17,7 +17,7 @@ namespace WebApi.Modules.Settings.CrewLocation
         [HttpPost("browse")]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
-            return await DoBrowseAsync(browseRequest, typeof(CrewLocationLogic));
+            return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
@@ -31,14 +31,14 @@ namespace WebApi.Modules.Settings.CrewLocation
         [HttpGet]
         public async Task<ActionResult<IEnumerable<CrewLocationLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
-            return await DoGetAsync<CrewLocationLogic>(pageno, pagesize, sort, typeof(CrewLocationLogic));
+            return await DoGetAsync<CrewLocationLogic>(pageno, pagesize, sort);
         }
         //------------------------------------------------------------------------------------ 
         // GET api/v1/crewlocation/A0000001 
         [HttpGet("{id}")]
         public async Task<ActionResult<CrewLocationLogic>> GetOneAsync([FromRoute]string id)
         {
-            return await DoGetAsync<CrewLocationLogic>(id, typeof(CrewLocationLogic));
+            return await DoGetAsync<CrewLocationLogic>(id);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/crewlocation 
@@ -52,7 +52,7 @@ namespace WebApi.Modules.Settings.CrewLocation
         [HttpDelete("{id}")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id, typeof(CrewLocationLogic));
+            return await DoDeleteAsync(id);
         }
         //------------------------------------------------------------------------------------ 
     }

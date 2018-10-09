@@ -82,7 +82,7 @@ namespace WebApi.Modules.Home.Exchange
         //------------------------------------------------------------------------------------ 
         // POST api/v1/exchange/exchangeitemin
         [HttpPost("exchangeitemin")]
-        public async Task<IActionResult> ExchangeItemIn([FromBody]ExchangeItemInRequest request)
+        public async Task<ActionResult<ExchangeItemInResponse>> ExchangeItemIn([FromBody]ExchangeItemInRequest request)
         {
             if (!ModelState.IsValid)
             {
@@ -149,7 +149,7 @@ namespace WebApi.Modules.Home.Exchange
         //------------------------------------------------------------------------------------ 
         // POST api/v1/exchange/exchangeitemout
         [HttpPost("exchangeitemout")]
-        public async Task<IActionResult> ExchangeItemOut([FromBody]ExchangeItemOutRequest request)
+        public async Task<ActionResult<ExchangeItemOutResponse>> ExchangeItemOut([FromBody]ExchangeItemOutRequest request)
         {
             if (!ModelState.IsValid)
             {
@@ -218,7 +218,7 @@ namespace WebApi.Modules.Home.Exchange
 
         // POST api/v1/exchange/startexchangecontract
         [HttpPost("startexchangecontract")]
-        public async Task<IActionResult> StartExchangeContractAsync([FromBody]ExchangeContractRequest request)
+        public async Task<ActionResult<ExchangeContractResponse>> StartExchangeContractAsync([FromBody]ExchangeContractRequest request)
         {
             if (!ModelState.IsValid)
             {
@@ -243,7 +243,7 @@ namespace WebApi.Modules.Home.Exchange
         //------------------------------------------------------------------------------------ 
         // POST api/v1/exchange/completeexchangecontract
         [HttpPost("completeexchangecontract/{id}")]
-        public async Task<IActionResult> CompleteExchangeContractAsync([FromRoute]string id)
+        public async Task<ActionResult<ContractLogic>> CompleteExchangeContractAsync([FromRoute]string id)
         {
             if (!ModelState.IsValid)
             {

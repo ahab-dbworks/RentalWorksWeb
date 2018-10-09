@@ -18,29 +18,28 @@ namespace WebApi.Modules.Settings.OfficeLocation
         [HttpPost("browse")]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
-            return await DoBrowseAsync(browseRequest, typeof(OfficeLocationLogic
-                ));
-        }        //------------------------------------------------------------------------------------ 
+            return await DoBrowseAsync(browseRequest);
+        }
+        //------------------------------------------------------------------------------------ 
         // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
         [HttpPost("exportexcelxlsx/{fileDownloadName}")]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoExportExcelXlsxFileAsync(browseRequest);
         }
-
         //------------------------------------------------------------------------------------
         // GET api/v1/Location
         [HttpGet]
         public async Task<ActionResult<IEnumerable<OfficeLocationLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
-            return await DoGetAsync<OfficeLocationLogic>(pageno, pagesize, sort, typeof(OfficeLocationLogic));
+            return await DoGetAsync<OfficeLocationLogic>(pageno, pagesize, sort);
         }
         //------------------------------------------------------------------------------------
         // GET api/v1/Location/A0000001
         [HttpGet("{id}")]
         public async Task<ActionResult<OfficeLocationLogic>> GetOneAsync([FromRoute]string id)
         {
-            return await DoGetAsync<OfficeLocationLogic>(id, typeof(OfficeLocationLogic));
+            return await DoGetAsync<OfficeLocationLogic>(id);
         }
         //------------------------------------------------------------------------------------
         // POST api/v1/Location
@@ -54,7 +53,7 @@ namespace WebApi.Modules.Settings.OfficeLocation
         [HttpDelete("{id}")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id, typeof(OfficeLocationLogic));
+            return await DoDeleteAsync(id);
         }
         //------------------------------------------------------------------------------------
     }

@@ -18,7 +18,7 @@ namespace WebApi.Modules.Settings.UnretiredReason
         [HttpPost("browse")]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
-            return await DoBrowseAsync(browseRequest, typeof(UnretiredReasonLogic));
+            return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
@@ -32,14 +32,14 @@ namespace WebApi.Modules.Settings.UnretiredReason
         [HttpGet]
         public async Task<ActionResult<IEnumerable<UnretiredReasonLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
-            return await DoGetAsync<UnretiredReasonLogic>(pageno, pagesize, sort, typeof(UnretiredReasonLogic));
+            return await DoGetAsync<UnretiredReasonLogic>(pageno, pagesize, sort);
         }
         //------------------------------------------------------------------------------------
         // GET api/v1/unretiredreason/A0000001
         [HttpGet("{id}")]
         public async Task<ActionResult<UnretiredReasonLogic>> GetOneAsync([FromRoute]string id)
         {
-            return await DoGetAsync<UnretiredReasonLogic>(id, typeof(UnretiredReasonLogic));
+            return await DoGetAsync<UnretiredReasonLogic>(id);
         }
         //------------------------------------------------------------------------------------
         // POST api/v1/unretiredreason
@@ -53,7 +53,7 @@ namespace WebApi.Modules.Settings.UnretiredReason
         [HttpDelete("{id}")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id, typeof(UnretiredReasonLogic));
+            return await DoDeleteAsync(id);
         }
         //------------------------------------------------------------------------------------
     }

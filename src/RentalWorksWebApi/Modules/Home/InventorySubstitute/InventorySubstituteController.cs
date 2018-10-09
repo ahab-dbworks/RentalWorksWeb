@@ -17,7 +17,7 @@ namespace WebApi.Modules.Home.InventorySubstitute
         [HttpPost("browse")]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
-            return await DoBrowseAsync(browseRequest, typeof(InventorySubstituteLogic));
+            return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
@@ -31,14 +31,14 @@ namespace WebApi.Modules.Home.InventorySubstitute
         [HttpGet]
         public async Task<ActionResult<IEnumerable<InventorySubstituteLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
-            return await DoGetAsync<InventorySubstituteLogic>(pageno, pagesize, sort, typeof(InventorySubstituteLogic));
+            return await DoGetAsync<InventorySubstituteLogic>(pageno, pagesize, sort);
         }
         //------------------------------------------------------------------------------------ 
         // GET api/v1/inventorysubstitute/A0000001 
         [HttpGet("{id}")]
         public async Task<ActionResult<InventorySubstituteLogic>> GetOneAsync([FromRoute]string id)
         {
-            return await DoGetAsync<InventorySubstituteLogic>(id, typeof(InventorySubstituteLogic));
+            return await DoGetAsync<InventorySubstituteLogic>(id);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/inventorysubstitute 
@@ -52,7 +52,7 @@ namespace WebApi.Modules.Home.InventorySubstitute
         [HttpDelete("{id}")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id, typeof(InventorySubstituteLogic));
+            return await DoDeleteAsync(id);
         }
         //------------------------------------------------------------------------------------ 
     }

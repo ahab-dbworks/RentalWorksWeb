@@ -21,7 +21,7 @@ namespace WebApi.Modules.Settings.Widget
         [HttpPost("browse")]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
-            return await DoBrowseAsync(browseRequest, typeof(WidgetLogic));
+            return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
@@ -35,14 +35,14 @@ namespace WebApi.Modules.Settings.Widget
         [HttpGet]
         public async Task<ActionResult<IEnumerable<WidgetLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
-            return await DoGetAsync<WidgetLogic>(pageno, pagesize, sort, typeof(WidgetLogic));
+            return await DoGetAsync<WidgetLogic>(pageno, pagesize, sort);
         }
         //------------------------------------------------------------------------------------ 
         // GET api/v1/widget/A0000001 
         [HttpGet("{id}")]
         public async Task<ActionResult<WidgetLogic>> GetOneAsync([FromRoute]string id)
         {
-            return await DoGetAsync<WidgetLogic>(id, typeof(WidgetLogic));
+            return await DoGetAsync<WidgetLogic>(id);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/widget 
@@ -56,17 +56,17 @@ namespace WebApi.Modules.Settings.Widget
         [HttpDelete("{id}")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id, typeof(WidgetLogic));
+            return await DoDeleteAsync(id);
         }
         //------------------------------------------------------------------------------------ 
         // GET api/v1/widget/loadbyname/ordersbystatus
         [HttpGet("loadbyname/{widgetApiName}")]
-        public async Task<IActionResult> LoadByName([FromRoute]string widgetApiName, int dataPoints, string locationId, string warehouseId, string departmentId)
+        public async Task<ActionResult<Widget>> LoadByName([FromRoute]string widgetApiName, int dataPoints, string locationId, string warehouseId, string departmentId)
         {
             return await DoGetWidget(widgetApiName, dataPoints: dataPoints, locationId: locationId);
         }
         //------------------------------------------------------------------------------------
-        private async Task<IActionResult> DoGetWidget(string widgetName, int dataPoints = 0, string locationId = "", string warehouseId = "", string departmentId = "")
+        private async Task<ActionResult<Widget>> DoGetWidget(string widgetName, int dataPoints = 0, string locationId = "", string warehouseId = "", string departmentId = "")
         {
             try
             {

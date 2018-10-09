@@ -20,7 +20,7 @@ namespace WebApi.Modules.Settings.GeneratorRating
         [Authorize(Policy = "{915BC77B-88C6-4DF7-9AC8-9B2CC0B2ECDB}")]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
-            return await DoBrowseAsync(browseRequest, typeof(GeneratorRatingLogic));
+            return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
@@ -35,7 +35,7 @@ namespace WebApi.Modules.Settings.GeneratorRating
         [Authorize(Policy = "{D014CE24-1518-4022-9D66-E779DF284AB4}")]
         public async Task<ActionResult<IEnumerable<GeneratorRatingLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
-            return await DoGetAsync<GeneratorRatingLogic>(pageno, pagesize, sort, typeof(GeneratorRatingLogic));
+            return await DoGetAsync<GeneratorRatingLogic>(pageno, pagesize, sort);
         }
         //------------------------------------------------------------------------------------
         // GET api/v1/generatorrating/A0000001
@@ -43,7 +43,7 @@ namespace WebApi.Modules.Settings.GeneratorRating
         [Authorize(Policy = "{10B3F329-73CE-4359-8DF2-CF86DF76C9E4}")]
         public async Task<ActionResult<GeneratorRatingLogic>> GetOneAsync([FromRoute]string id)
         {
-            return await DoGetAsync<GeneratorRatingLogic>(id, typeof(GeneratorRatingLogic));
+            return await DoGetAsync<GeneratorRatingLogic>(id);
         }
         //------------------------------------------------------------------------------------
         // POST api/v1/generatorrating
@@ -59,7 +59,7 @@ namespace WebApi.Modules.Settings.GeneratorRating
         [Authorize(Policy = "{7E849D41-933F-4715-9F77-4FDB6278A138}")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id, typeof(GeneratorRatingLogic));
+            return await DoDeleteAsync(id);
         }
         //------------------------------------------------------------------------------------
     //------------------------------------------------------------------------------------

@@ -18,7 +18,7 @@ namespace WebApi.Modules.Settings.Attribute
         [HttpPost("browse")]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
-            return await DoBrowseAsync(browseRequest, typeof(AttributeLogic));
+            return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
@@ -32,14 +32,14 @@ namespace WebApi.Modules.Settings.Attribute
         [HttpGet]
         public async Task<ActionResult<IEnumerable<AttributeLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
-            return await DoGetAsync<AttributeLogic>(pageno, pagesize, sort, typeof(AttributeLogic));
+            return await DoGetAsync<AttributeLogic>(pageno, pagesize, sort);
         }
         //------------------------------------------------------------------------------------
         // GET api/v1/attribute/A0000001
         [HttpGet("{id}")]
         public async Task<ActionResult<AttributeLogic>> GetOneAsync([FromRoute]string id)
         {
-            return await DoGetAsync<AttributeLogic>(id, typeof(AttributeLogic));
+            return await DoGetAsync<AttributeLogic>(id);
         }
         //------------------------------------------------------------------------------------
         // POST api/v1/attribute
@@ -53,7 +53,7 @@ namespace WebApi.Modules.Settings.Attribute
         [HttpDelete("{id}")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id, typeof(AttributeLogic));
+            return await DoDeleteAsync(id);
         }
         //------------------------------------------------------------------------------------
     }

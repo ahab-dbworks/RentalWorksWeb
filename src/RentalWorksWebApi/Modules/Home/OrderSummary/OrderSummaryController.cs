@@ -22,7 +22,7 @@ namespace WebApi.Modules.Home.OrderSummary
             {
                 id = id + "~" + RwConstants.TOTAL_TYPE_PERIOD;
             }
-            return await DoGetAsync<OrderSummaryLogic>(id, typeof(OrderSummaryLogic));
+            return await DoGetAsync<OrderSummaryLogic>(id);
         }
         //------------------------------------------------------------------------------------
    }

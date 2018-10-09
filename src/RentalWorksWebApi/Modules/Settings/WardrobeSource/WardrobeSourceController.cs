@@ -18,7 +18,7 @@ namespace WebApi.Modules.Settings.WardrobeSource
         [HttpPost("browse")]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
-            return await DoBrowseAsync(browseRequest, typeof(WardrobeSourceLogic));
+            return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
@@ -32,14 +32,14 @@ namespace WebApi.Modules.Settings.WardrobeSource
         [HttpGet]
         public async Task<ActionResult<IEnumerable<WardrobeSourceLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
-            return await DoGetAsync<WardrobeSourceLogic>(pageno, pagesize, sort, typeof(WardrobeSourceLogic));
+            return await DoGetAsync<WardrobeSourceLogic>(pageno, pagesize, sort);
         }
         //------------------------------------------------------------------------------------
         // GET api/v1/wardrobesource/A0000001
         [HttpGet("{id}")]
         public async Task<ActionResult<WardrobeSourceLogic>> GetOneAsync([FromRoute]string id)
         {
-            return await DoGetAsync<WardrobeSourceLogic>(id, typeof(WardrobeSourceLogic));
+            return await DoGetAsync<WardrobeSourceLogic>(id);
         }
         //------------------------------------------------------------------------------------
         // POST api/v1/wardrobesource
@@ -53,7 +53,7 @@ namespace WebApi.Modules.Settings.WardrobeSource
         [HttpDelete("{id}")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id, typeof(WardrobeSourceLogic));
+            return await DoDeleteAsync(id);
         }
         //------------------------------------------------------------------------------------
     }

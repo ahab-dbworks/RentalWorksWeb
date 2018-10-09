@@ -18,7 +18,7 @@ namespace WebApi.Modules.Settings.FormDesign
         [HttpPost("browse")]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
-            return await DoBrowseAsync(browseRequest, typeof(FormDesignLogic));
+            return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
@@ -32,14 +32,14 @@ namespace WebApi.Modules.Settings.FormDesign
         [HttpGet]
         public async Task<ActionResult<IEnumerable<FormDesignLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
-            return await DoGetAsync<FormDesignLogic>(pageno, pagesize, sort, typeof(FormDesignLogic));
+            return await DoGetAsync<FormDesignLogic>(pageno, pagesize, sort);
         }
         //------------------------------------------------------------------------------------
         // GET api/v1/formdesign/A0000001
         [HttpGet("{id}")]
         public async Task<ActionResult<FormDesignLogic>> GetOneAsync([FromRoute]string id)
         {
-            return await DoGetAsync<FormDesignLogic>(id, typeof(FormDesignLogic));
+            return await DoGetAsync<FormDesignLogic>(id);
         }
         //------------------------------------------------------------------------------------
         // POST api/v1/formdesign
@@ -53,7 +53,7 @@ namespace WebApi.Modules.Settings.FormDesign
         [HttpDelete("{id}")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id, typeof(FormDesignLogic));
+            return await DoDeleteAsync(id);
         }
         //------------------------------------------------------------------------------------
     }

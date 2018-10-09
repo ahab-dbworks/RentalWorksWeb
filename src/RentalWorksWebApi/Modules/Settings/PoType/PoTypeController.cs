@@ -17,7 +17,7 @@ namespace WebApi.Modules.Settings.PoType
         [HttpPost("browse")]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
-            return await DoBrowseAsync(browseRequest, typeof(PoTypeLogic));
+            return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
@@ -31,14 +31,14 @@ namespace WebApi.Modules.Settings.PoType
         [HttpGet]
         public async Task<ActionResult<IEnumerable<PoTypeLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
-            return await DoGetAsync<PoTypeLogic>(pageno, pagesize, sort, typeof(PoTypeLogic));
+            return await DoGetAsync<PoTypeLogic>(pageno, pagesize, sort);
         }
         //------------------------------------------------------------------------------------ 
         // GET api/v1/potype/A0000001 
         [HttpGet("{id}")]
         public async Task<ActionResult<PoTypeLogic>> GetOneAsync([FromRoute]string id)
         {
-            return await DoGetAsync<PoTypeLogic>(id, typeof(PoTypeLogic));
+            return await DoGetAsync<PoTypeLogic>(id);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/potype 
@@ -52,7 +52,7 @@ namespace WebApi.Modules.Settings.PoType
         [HttpDelete("{id}")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id, typeof(PoTypeLogic));
+            return await DoDeleteAsync(id);
         }
         //------------------------------------------------------------------------------------ 
     }

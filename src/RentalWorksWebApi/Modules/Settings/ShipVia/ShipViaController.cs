@@ -18,7 +18,7 @@ namespace WebApi.Modules.Settings.ShipVia
         [HttpPost("browse")]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
-            return await DoBrowseAsync(browseRequest, typeof(ShipViaLogic));
+            return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
@@ -32,14 +32,14 @@ namespace WebApi.Modules.Settings.ShipVia
         [HttpGet]
         public async Task<ActionResult<IEnumerable<ShipViaLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
-            return await DoGetAsync<ShipViaLogic>(pageno, pagesize, sort, typeof(ShipViaLogic));
+            return await DoGetAsync<ShipViaLogic>(pageno, pagesize, sort);
         }
         //------------------------------------------------------------------------------------
         // GET api/v1/shipvia/A0000001
         [HttpGet("{id}")]
         public async Task<ActionResult<ShipViaLogic>> GetOneAsync([FromRoute]string id)
         {
-            return await DoGetAsync<ShipViaLogic>(id, typeof(ShipViaLogic));
+            return await DoGetAsync<ShipViaLogic>(id);
         }
         //------------------------------------------------------------------------------------
         // POST api/v1/shipvia
@@ -53,7 +53,7 @@ namespace WebApi.Modules.Settings.ShipVia
         [HttpDelete("{id}")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id, typeof(ShipViaLogic));
+            return await DoDeleteAsync(id);
         }
         //------------------------------------------------------------------------------------
     }

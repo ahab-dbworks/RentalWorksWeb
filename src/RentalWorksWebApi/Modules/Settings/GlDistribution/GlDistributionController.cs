@@ -17,7 +17,7 @@ namespace WebApi.Modules.Settings.GlDistribution
         [HttpPost("browse")]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
-            return await DoBrowseAsync(browseRequest, typeof(GlDistributionLogic));
+            return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
@@ -31,14 +31,14 @@ namespace WebApi.Modules.Settings.GlDistribution
         [HttpGet]
         public async Task<ActionResult<IEnumerable<GlDistributionLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
-            return await DoGetAsync<GlDistributionLogic>(pageno, pagesize, sort, typeof(GlDistributionLogic));
+            return await DoGetAsync<GlDistributionLogic>(pageno, pagesize, sort);
         }
         //------------------------------------------------------------------------------------ 
         // GET api/v1/gldistribution/A0000001 
         [HttpGet("{id}")]
         public async Task<ActionResult<GlDistributionLogic>> GetOneAsync([FromRoute]string id)
         {
-            return await DoGetAsync<GlDistributionLogic>(id, typeof(GlDistributionLogic));
+            return await DoGetAsync<GlDistributionLogic>(id);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/gldistribution 
@@ -52,7 +52,7 @@ namespace WebApi.Modules.Settings.GlDistribution
         [HttpDelete("{id}")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id, typeof(GlDistributionLogic));
+            return await DoDeleteAsync(id);
         }
         //------------------------------------------------------------------------------------ 
     }

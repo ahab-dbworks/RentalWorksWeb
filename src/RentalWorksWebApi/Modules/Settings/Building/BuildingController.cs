@@ -17,7 +17,7 @@ namespace WebApi.Modules.Settings.Building
         [HttpPost("browse")]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
-            return await DoBrowseAsync(browseRequest, typeof(BuildingLogic));
+            return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
@@ -31,14 +31,14 @@ namespace WebApi.Modules.Settings.Building
         [HttpGet]
         public async Task<ActionResult<IEnumerable<BuildingLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
-            return await DoGetAsync<BuildingLogic>(pageno, pagesize, sort, typeof(BuildingLogic));
+            return await DoGetAsync<BuildingLogic>(pageno, pagesize, sort);
         }
         //------------------------------------------------------------------------------------ 
         // GET api/v1/building/A0000001 
         [HttpGet("{id}")]
         public async Task<ActionResult<BuildingLogic>> GetOneAsync([FromRoute]string id)
         {
-            return await DoGetAsync<BuildingLogic>(id, typeof(BuildingLogic));
+            return await DoGetAsync<BuildingLogic>(id);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/building 
@@ -52,7 +52,7 @@ namespace WebApi.Modules.Settings.Building
         [HttpDelete("{id}")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id, typeof(BuildingLogic));
+            return await DoDeleteAsync(id);
         }
         //------------------------------------------------------------------------------------ 
     }

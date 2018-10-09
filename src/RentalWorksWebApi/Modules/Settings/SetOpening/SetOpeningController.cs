@@ -18,7 +18,7 @@ namespace WebApi.Modules.Settings.SetOpening
         [HttpPost("browse")]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
-            return await DoBrowseAsync(browseRequest, typeof(SetOpeningLogic));
+            return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
@@ -32,14 +32,14 @@ namespace WebApi.Modules.Settings.SetOpening
         [HttpGet]
         public async Task<ActionResult<IEnumerable<SetOpeningLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
-            return await DoGetAsync<SetOpeningLogic>(pageno, pagesize, sort, typeof(SetOpeningLogic));
+            return await DoGetAsync<SetOpeningLogic>(pageno, pagesize, sort);
         }
         //------------------------------------------------------------------------------------
         // GET api/v1/setopening/A0000001
         [HttpGet("{id}")]
         public async Task<ActionResult<SetOpeningLogic>> GetOneAsync([FromRoute]string id)
         {
-            return await DoGetAsync<SetOpeningLogic>(id, typeof(SetOpeningLogic));
+            return await DoGetAsync<SetOpeningLogic>(id);
         }
         //------------------------------------------------------------------------------------
         // POST api/v1/setopening
@@ -53,7 +53,7 @@ namespace WebApi.Modules.Settings.SetOpening
         [HttpDelete("{id}")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id, typeof(SetOpeningLogic));
+            return await DoDeleteAsync(id);
         }
         //------------------------------------------------------------------------------------
     }

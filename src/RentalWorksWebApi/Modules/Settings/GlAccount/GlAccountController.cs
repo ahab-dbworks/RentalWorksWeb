@@ -18,7 +18,7 @@ namespace WebApi.Modules.Settings.GlAccount
         [HttpPost("browse")]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
-            return await DoBrowseAsync(browseRequest, typeof(GlAccountLogic));
+            return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
@@ -32,14 +32,14 @@ namespace WebApi.Modules.Settings.GlAccount
         [HttpGet]
         public async Task<ActionResult<IEnumerable<GlAccountLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
-            return await DoGetAsync<GlAccountLogic>(pageno, pagesize, sort, typeof(GlAccountLogic));
+            return await DoGetAsync<GlAccountLogic>(pageno, pagesize, sort);
         }
         //------------------------------------------------------------------------------------
         // GET api/v1/glaccount/A0000001
         [HttpGet("{id}")]
         public async Task<ActionResult<GlAccountLogic>> GetOneAsync([FromRoute]string id)
         {
-            return await DoGetAsync<GlAccountLogic>(id, typeof(GlAccountLogic));
+            return await DoGetAsync<GlAccountLogic>(id);
         }
         //------------------------------------------------------------------------------------
         // POST api/v1/glaccount
@@ -53,7 +53,7 @@ namespace WebApi.Modules.Settings.GlAccount
         [HttpDelete("{id}")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id, typeof(GlAccountLogic));
+            return await DoDeleteAsync(id);
         }
         //------------------------------------------------------------------------------------
     }

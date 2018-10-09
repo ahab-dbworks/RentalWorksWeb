@@ -20,7 +20,7 @@ namespace WebApi.Modules.Settings.WardrobeCondition
         [Authorize(Policy = "")]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
-            return await DoBrowseAsync(browseRequest, typeof(WardrobeConditionLogic));
+            return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
@@ -35,7 +35,7 @@ namespace WebApi.Modules.Settings.WardrobeCondition
         [Authorize(Policy = "")]
         public async Task<ActionResult<IEnumerable<WardrobeConditionLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
-            return await DoGetAsync<WardrobeConditionLogic>(pageno, pagesize, sort, typeof(WardrobeConditionLogic));
+            return await DoGetAsync<WardrobeConditionLogic>(pageno, pagesize, sort);
         }
         //------------------------------------------------------------------------------------
         // GET api/v1/wardrobecondition/A0000001
@@ -43,7 +43,7 @@ namespace WebApi.Modules.Settings.WardrobeCondition
         [Authorize(Policy = "")]
         public async Task<ActionResult<WardrobeConditionLogic>> GetOneAsync([FromRoute]string id)
         {
-            return await DoGetAsync<WardrobeConditionLogic>(id, typeof(WardrobeConditionLogic));
+            return await DoGetAsync<WardrobeConditionLogic>(id);
         }
         //------------------------------------------------------------------------------------
         // POST api/v1/wardrobecondition
@@ -59,7 +59,7 @@ namespace WebApi.Modules.Settings.WardrobeCondition
         [Authorize(Policy = "")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id, typeof(WardrobeConditionLogic));
+            return await DoDeleteAsync(id);
         }
         //------------------------------------------------------------------------------------
     }

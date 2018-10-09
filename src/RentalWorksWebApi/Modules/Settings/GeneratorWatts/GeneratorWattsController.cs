@@ -20,7 +20,7 @@ namespace WebApi.Modules.Settings.GeneratorWatts
         [Authorize(Policy = "")]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
-            return await DoBrowseAsync(browseRequest, typeof(GeneratorWattsLogic));
+            return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
@@ -35,7 +35,7 @@ namespace WebApi.Modules.Settings.GeneratorWatts
         [Authorize(Policy = "")]
         public async Task<ActionResult<IEnumerable<GeneratorWattsLogic>>> GetManyAsync(int pageno, int pagesize, string sort)
         {
-            return await DoGetAsync<GeneratorWattsLogic>(pageno, pagesize, sort, typeof(GeneratorWattsLogic));
+            return await DoGetAsync<GeneratorWattsLogic>(pageno, pagesize, sort);
         }
         //------------------------------------------------------------------------------------
         // GET api/v1/generatorwatts/A0000001
@@ -43,7 +43,7 @@ namespace WebApi.Modules.Settings.GeneratorWatts
         [Authorize(Policy = "")]
         public async Task<ActionResult<GeneratorWattsLogic>> GetOneAsync(string id)
         {
-            return await DoGetAsync<GeneratorWattsLogic>(id, typeof(GeneratorWattsLogic));
+            return await DoGetAsync<GeneratorWattsLogic>(id);
         }
         //------------------------------------------------------------------------------------
         // POST api/v1/generatorwatts
@@ -59,7 +59,7 @@ namespace WebApi.Modules.Settings.GeneratorWatts
         [Authorize(Policy = "")]
         public async Task<ActionResult<bool>> DeleteAsync(string id)
         {
-            return await DoDeleteAsync(id, typeof(GeneratorWattsLogic));
+            return await DoDeleteAsync(id);
         }
         //------------------------------------------------------------------------------------
         //------------------------------------------------------------------------------------

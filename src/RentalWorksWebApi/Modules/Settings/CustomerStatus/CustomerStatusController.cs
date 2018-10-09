@@ -30,7 +30,7 @@ namespace WebApi.Modules.Settings.CustomerStatus
         //[ApiExplorerSettings(IgnoreApi=true)]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
-            return await DoBrowseAsync(browseRequest, typeof(CustomerStatusLogic));
+            return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
@@ -58,7 +58,7 @@ namespace WebApi.Modules.Settings.CustomerStatus
         [SwaggerResponse(500, Type = typeof(FwApiException))]
         public async Task<ActionResult<IEnumerable<CustomerStatusLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
-            return await DoGetAsync<CustomerStatusLogic>(pageno, pagesize, sort, typeof(CustomerStatusLogic));
+            return await DoGetAsync<CustomerStatusLogic>(pageno, pagesize, sort);
         }
         //------------------------------------------------------------------------------------
         // GET api/v1/customerstatus/A0000001
@@ -68,7 +68,7 @@ namespace WebApi.Modules.Settings.CustomerStatus
         [SwaggerResponse(200, Type = typeof(CustomerStatusLogic))]
         public async Task<ActionResult<CustomerStatusLogic>> GetOneAsync([FromRoute]string id)
         {
-            return await DoGetAsync<CustomerStatusLogic>(id, typeof(CustomerStatusLogic));
+            return await DoGetAsync<CustomerStatusLogic>(id);
         }
         //------------------------------------------------------------------------------------
         // POST api/v1/customerstatus
@@ -84,7 +84,7 @@ namespace WebApi.Modules.Settings.CustomerStatus
         [Authorize(Policy = "{CDA85B7B-F766-410C-9B8E-D0DEFA313341}")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id, typeof(CustomerStatusLogic));
+            return await DoDeleteAsync(id);
         }
         //------------------------------------------------------------------------------------
     }

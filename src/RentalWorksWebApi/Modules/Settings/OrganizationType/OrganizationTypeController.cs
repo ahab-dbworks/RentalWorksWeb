@@ -18,7 +18,7 @@ namespace WebApi.Modules.Settings.OrganizationType
         [HttpPost("browse")]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
-            return await DoBrowseAsync(browseRequest, typeof(OrganizationTypeLogic));
+            return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
@@ -32,14 +32,14 @@ namespace WebApi.Modules.Settings.OrganizationType
         [HttpGet]
         public async Task<ActionResult<IEnumerable<OrganizationTypeLogic>>> GetManyAsync(int pageno, int pagesize, string sort)
         {
-            return await DoGetAsync<OrganizationTypeLogic>(pageno, pagesize, sort, typeof(OrganizationTypeLogic));
+            return await DoGetAsync<OrganizationTypeLogic>(pageno, pagesize, sort);
         }
         //------------------------------------------------------------------------------------
         // GET api/v1/organizationtype/A0000001
         [HttpGet("{id}")]
         public async Task<ActionResult<OrganizationTypeLogic>> GetAsync(string id)
         {
-            return await DoGetAsync<OrganizationTypeLogic>(id, typeof(OrganizationTypeLogic));
+            return await DoGetAsync<OrganizationTypeLogic>(id);
         }
         //------------------------------------------------------------------------------------
         // POST api/v1/organizationtype
@@ -53,7 +53,7 @@ namespace WebApi.Modules.Settings.OrganizationType
         [HttpDelete("{id}")]
         public async Task<ActionResult<bool>> DeleteAsync(string id)
         {
-            return await DoDeleteAsync(id, typeof(OrganizationTypeLogic));
+            return await DoDeleteAsync(id);
         }
         //------------------------------------------------------------------------------------
     }

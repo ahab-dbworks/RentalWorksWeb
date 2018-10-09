@@ -20,7 +20,7 @@ namespace WebApi.Modules.Settings.DocumentType
         [Authorize(Policy = "{B1C7EC8C-A38B-4B88-A635-77106140632D}")]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
-            return await DoBrowseAsync(browseRequest, typeof(DocumentTypeLogic));
+            return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
@@ -35,7 +35,7 @@ namespace WebApi.Modules.Settings.DocumentType
         [Authorize(Policy = "{C819F03A-4EE9-482C-8157-B2477DA26DBF}")]
         public async Task<ActionResult<IEnumerable<DocumentTypeLogic>>> GetManyAsync(int pageno, int pagesize, string sort)
         {
-            return await DoGetAsync<DocumentTypeLogic>(pageno, pagesize, sort, typeof(DocumentTypeLogic));
+            return await DoGetAsync<DocumentTypeLogic>(pageno, pagesize, sort);
         }
         //------------------------------------------------------------------------------------
         // GET api/v1/documenttype/A0000001
@@ -43,7 +43,7 @@ namespace WebApi.Modules.Settings.DocumentType
         [Authorize(Policy = "{64BC04C7-CE73-4124-A138-C51FC5BB064C}")]
         public async Task<ActionResult<DocumentTypeLogic>> GetAsync(string id)
         {
-            return await DoGetAsync<DocumentTypeLogic>(id, typeof(DocumentTypeLogic));
+            return await DoGetAsync<DocumentTypeLogic>(id);
         }
         //------------------------------------------------------------------------------------
         // POST api/v1/documenttype
@@ -59,7 +59,7 @@ namespace WebApi.Modules.Settings.DocumentType
         [Authorize(Policy = "{7EA7F5A5-CD3E-40E8-88B5-74690E33F0D8}")]
         public async Task<ActionResult<bool>> DeleteAsync(string id)
         {
-            return await DoDeleteAsync(id, typeof(DocumentTypeLogic));
+            return await DoDeleteAsync(id);
         }
         //------------------------------------------------------------------------------------
         //------------------------------------------------------------------------------------

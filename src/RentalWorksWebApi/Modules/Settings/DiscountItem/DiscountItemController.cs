@@ -17,7 +17,7 @@ namespace WebApi.Modules.Settings.DiscountItem
         [HttpPost("browse")]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
-            return await DoBrowseAsync(browseRequest, typeof(DiscountItemLogic));
+            return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
@@ -31,14 +31,14 @@ namespace WebApi.Modules.Settings.DiscountItem
         [HttpGet]
         public async Task<ActionResult<IEnumerable<DiscountItemLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
-            return await DoGetAsync<DiscountItemLogic>(pageno, pagesize, sort, typeof(DiscountItemLogic));
+            return await DoGetAsync<DiscountItemLogic>(pageno, pagesize, sort);
         }
         //------------------------------------------------------------------------------------ 
         // GET api/v1/discountitem/A0000001 
         [HttpGet("{id}")]
         public async Task<ActionResult<DiscountItemLogic>> GetOneAsync([FromRoute]string id)
         {
-            return await DoGetAsync<DiscountItemLogic>(id, typeof(DiscountItemLogic));
+            return await DoGetAsync<DiscountItemLogic>(id);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/discountitem 
@@ -52,7 +52,7 @@ namespace WebApi.Modules.Settings.DiscountItem
         [HttpDelete("{id}")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id, typeof(DiscountItemLogic));
+            return await DoDeleteAsync(id);
         }
         //------------------------------------------------------------------------------------ 
     }

@@ -17,7 +17,7 @@ namespace WebApi.Modules.Home.DealShipper
         [HttpPost("browse")]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
-            return await DoBrowseAsync(browseRequest, typeof(DealShipperLogic));
+            return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
@@ -31,14 +31,14 @@ namespace WebApi.Modules.Home.DealShipper
         [HttpGet]
         public async Task<ActionResult<IEnumerable<DealShipperLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
-            return await DoGetAsync<DealShipperLogic>(pageno, pagesize, sort, typeof(DealShipperLogic));
+            return await DoGetAsync<DealShipperLogic>(pageno, pagesize, sort);
         }
         //------------------------------------------------------------------------------------ 
         // GET api/v1/dealshipper/A0000001 
         [HttpGet("{id}")]
         public async Task<ActionResult<DealShipperLogic>> GetOneAsync([FromRoute]string id)
         {
-            return await DoGetAsync<DealShipperLogic>(id, typeof(DealShipperLogic));
+            return await DoGetAsync<DealShipperLogic>(id);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/dealshipper 
@@ -52,7 +52,7 @@ namespace WebApi.Modules.Home.DealShipper
         [HttpDelete("{id}")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id, typeof(DealShipperLogic));
+            return await DoDeleteAsync(id);
         }
         //------------------------------------------------------------------------------------ 
     }

@@ -17,7 +17,7 @@ namespace WebApi.Modules.Administrator.DuplicateRuleField
         [HttpPost("browse")]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
-            return await DoBrowseAsync(browseRequest, typeof(DuplicateRuleFieldLogic));
+            return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
@@ -31,14 +31,14 @@ namespace WebApi.Modules.Administrator.DuplicateRuleField
         [HttpGet]
         public async Task<ActionResult<IEnumerable<DuplicateRuleFieldLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
-            return await DoGetAsync<DuplicateRuleFieldLogic>(pageno, pagesize, sort, typeof(DuplicateRuleFieldLogic));
+            return await DoGetAsync<DuplicateRuleFieldLogic>(pageno, pagesize, sort);
         }
         //------------------------------------------------------------------------------------ 
         // GET api/v1/duplicaterulefield/A0000001 
         [HttpGet("{id}")]
         public async Task<ActionResult<DuplicateRuleFieldLogic>> GetOneAsync([FromRoute]string id)
         {
-            return await DoGetAsync<DuplicateRuleFieldLogic>(id, typeof(DuplicateRuleFieldLogic));
+            return await DoGetAsync<DuplicateRuleFieldLogic>(id);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/duplicaterulefield 
@@ -52,7 +52,7 @@ namespace WebApi.Modules.Administrator.DuplicateRuleField
         [HttpDelete("{id}")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id, typeof(DuplicateRuleFieldLogic));
+            return await DoDeleteAsync(id);
         }
         //------------------------------------------------------------------------------------ 
     }

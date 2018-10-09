@@ -18,7 +18,7 @@ namespace WebApi.Modules.Settings.MiscType
         [HttpPost("browse")]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
-            return await DoBrowseAsync(browseRequest, typeof(MiscTypeLogic));
+            return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
@@ -32,14 +32,14 @@ namespace WebApi.Modules.Settings.MiscType
         [HttpGet]
         public async Task<ActionResult<IEnumerable<MiscTypeLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
-            return await DoGetAsync<MiscTypeLogic>(pageno, pagesize, sort, typeof(MiscTypeLogic));
+            return await DoGetAsync<MiscTypeLogic>(pageno, pagesize, sort);
         }
         //------------------------------------------------------------------------------------
         // GET api/v1/misctype/A0000001
         [HttpGet("{id}")]
         public async Task<ActionResult<MiscTypeLogic>> GetOneAsync([FromRoute]string id)
         {
-            return await DoGetAsync<MiscTypeLogic>(id, typeof(MiscTypeLogic));
+            return await DoGetAsync<MiscTypeLogic>(id);
         }
         //------------------------------------------------------------------------------------
         // POST api/v1/misctype
@@ -53,7 +53,7 @@ namespace WebApi.Modules.Settings.MiscType
         [HttpDelete("{id}")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id, typeof(MiscTypeLogic));
+            return await DoDeleteAsync(id);
         }
         //------------------------------------------------------------------------------------
     }

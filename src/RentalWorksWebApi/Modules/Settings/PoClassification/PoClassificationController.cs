@@ -18,7 +18,7 @@ namespace WebApi.Modules.Settings.PoClassification
         [HttpPost("browse")]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
-            return await DoBrowseAsync(browseRequest, typeof(PoClassificationLogic));
+            return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
@@ -32,14 +32,14 @@ namespace WebApi.Modules.Settings.PoClassification
         [HttpGet]
         public async Task<ActionResult<IEnumerable<PoClassificationLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
-            return await DoGetAsync<PoClassificationLogic>(pageno, pagesize, sort, typeof(PoClassificationLogic));
+            return await DoGetAsync<PoClassificationLogic>(pageno, pagesize, sort);
         }
         //------------------------------------------------------------------------------------
         // GET api/v1/poclassification/A0000001
         [HttpGet("{id}")]
         public async Task<ActionResult<PoClassificationLogic>> GetOneAsync([FromRoute]string id)
         {
-            return await DoGetAsync<PoClassificationLogic>(id, typeof(PoClassificationLogic));
+            return await DoGetAsync<PoClassificationLogic>(id);
         }
         //------------------------------------------------------------------------------------
         // POST api/v1/poclassification
@@ -53,7 +53,7 @@ namespace WebApi.Modules.Settings.PoClassification
         [HttpDelete("{id}")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id, typeof(PoClassificationLogic));
+            return await DoDeleteAsync(id);
         }
         //------------------------------------------------------------------------------------
     }

@@ -30,7 +30,7 @@ namespace WebApi.Modules.Home.Contact
         //[ApiExplorerSettings(IgnoreApi=true)]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
-            return await DoBrowseAsync(browseRequest, typeof(ContactLogic));
+            return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
@@ -53,7 +53,7 @@ namespace WebApi.Modules.Home.Contact
         [SwaggerResponse(500, Type = typeof(FwApiException))]
         public async Task<ActionResult<IEnumerable<ContactLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
-            return await DoGetAsync<ContactLogic>(pageno, pagesize, sort, typeof(ContactLogic));
+            return await DoGetAsync<ContactLogic>(pageno, pagesize, sort);
         }
         //------------------------------------------------------------------------------------
         // GET api/v1/customerstatus/A0000001
@@ -62,7 +62,7 @@ namespace WebApi.Modules.Home.Contact
         [SwaggerResponse(200, Type = typeof(ContactLogic))]
         public async Task<ActionResult<ContactLogic>> GetOneAsync([FromRoute]string id)
         {
-            return await DoGetAsync<ContactLogic>(id, typeof(ContactLogic));
+            return await DoGetAsync<ContactLogic>(id);
         }
         //------------------------------------------------------------------------------------
         // POST api/v1/customerstatus
@@ -76,7 +76,7 @@ namespace WebApi.Modules.Home.Contact
         [HttpDelete("{id}")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id, typeof(ContactLogic));
+            return await DoDeleteAsync(id);
         }
         //------------------------------------------------------------------------------------
         //------------------------------------------------------------------------------------

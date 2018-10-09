@@ -20,7 +20,7 @@ namespace WebApi.Modules.Settings.CustomerCategory
         [Authorize(Policy = "")]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
-            return await DoBrowseAsync(browseRequest, typeof(CustomerCategoryLogic));
+            return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
@@ -35,7 +35,7 @@ namespace WebApi.Modules.Settings.CustomerCategory
         [Authorize(Policy = "")]
         public async Task<ActionResult<IEnumerable<CustomerCategoryLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
-            return await DoGetAsync<CustomerCategoryLogic>(pageno, pagesize, sort, typeof(CustomerCategoryLogic));
+            return await DoGetAsync<CustomerCategoryLogic>(pageno, pagesize, sort);
         }
         //------------------------------------------------------------------------------------
         // GET api/v1/CustomerCategory/A0000001
@@ -43,7 +43,7 @@ namespace WebApi.Modules.Settings.CustomerCategory
         [Authorize(Policy = "")]
         public async Task<ActionResult<CustomerCategoryLogic>> GetOneAsync([FromRoute]string id)
         {
-            return await DoGetAsync<CustomerCategoryLogic>(id, typeof(CustomerCategoryLogic));
+            return await DoGetAsync<CustomerCategoryLogic>(id);
         }
         //------------------------------------------------------------------------------------
         // POST api/v1/CustomerCategory
@@ -59,7 +59,7 @@ namespace WebApi.Modules.Settings.CustomerCategory
         [Authorize(Policy = "")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id, typeof(CustomerCategoryLogic));
+            return await DoDeleteAsync(id);
         }
         //------------------------------------------------------------------------------------
         //------------------------------------------------------------------------------------

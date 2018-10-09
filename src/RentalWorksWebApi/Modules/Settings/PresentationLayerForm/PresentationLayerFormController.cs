@@ -17,7 +17,7 @@ namespace WebApi.Modules.Settings.PresentationLayerForm
         [HttpPost("browse")]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
-            return await DoBrowseAsync(browseRequest, typeof(PresentationLayerFormLogic));
+            return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
@@ -31,14 +31,14 @@ namespace WebApi.Modules.Settings.PresentationLayerForm
         [HttpGet]
         public async Task<ActionResult<IEnumerable<PresentationLayerFormLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
-            return await DoGetAsync<PresentationLayerFormLogic>(pageno, pagesize, sort, typeof(PresentationLayerFormLogic));
+            return await DoGetAsync<PresentationLayerFormLogic>(pageno, pagesize, sort);
         }
         //------------------------------------------------------------------------------------ 
         // GET api/v1/presentationlayerform/A0000001 
         [HttpGet("{id}")]
         public async Task<ActionResult<PresentationLayerFormLogic>> GetOneAsync([FromRoute]string id)
         {
-            return await DoGetAsync<PresentationLayerFormLogic>(id, typeof(PresentationLayerFormLogic));
+            return await DoGetAsync<PresentationLayerFormLogic>(id);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/presentationlayerform 
@@ -52,7 +52,7 @@ namespace WebApi.Modules.Settings.PresentationLayerForm
         [HttpDelete("{id}")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id, typeof(PresentationLayerFormLogic));
+            return await DoDeleteAsync(id);
         }
         //------------------------------------------------------------------------------------ 
     }

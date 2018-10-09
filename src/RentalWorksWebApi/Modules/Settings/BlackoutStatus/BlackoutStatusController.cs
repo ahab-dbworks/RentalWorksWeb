@@ -20,7 +20,7 @@ namespace WebApi.Modules.Settings.BlackoutStatus
         [Authorize(Policy = "{3EC1D66D-A977-4A7F-8D24-5930A002E63E}")]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
-            return await DoBrowseAsync(browseRequest, typeof(BlackoutStatusLogic));
+            return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
@@ -35,7 +35,7 @@ namespace WebApi.Modules.Settings.BlackoutStatus
         [Authorize(Policy = "{C30C427F-F9DF-41D8-8569-14AD17680624}")]
         public async Task<ActionResult<IEnumerable<BlackoutStatusLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
-            return await DoGetAsync<BlackoutStatusLogic>(pageno, pagesize, sort, typeof(BlackoutStatusLogic));
+            return await DoGetAsync<BlackoutStatusLogic>(pageno, pagesize, sort);
         }
         //------------------------------------------------------------------------------------
         // GET api/v1/blackoutstatus/A0000001
@@ -43,7 +43,7 @@ namespace WebApi.Modules.Settings.BlackoutStatus
         [Authorize(Policy = "{5B6C7CAF-E5E5-45CC-88DF-0AA132F61CE0}")]
         public async Task<ActionResult<BlackoutStatusLogic>> GetOneAsync([FromRoute]string id)
         {
-            return await DoGetAsync<BlackoutStatusLogic>(id, typeof(BlackoutStatusLogic));
+            return await DoGetAsync<BlackoutStatusLogic>(id);
         }
         //------------------------------------------------------------------------------------
         // POST api/v1/blackoutstatus
@@ -59,7 +59,7 @@ namespace WebApi.Modules.Settings.BlackoutStatus
         [Authorize(Policy = "{1BA52854-4796-41B5-973D-9A9731BC4AFE}")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id, typeof(BlackoutStatusLogic));
+            return await DoDeleteAsync(id);
         }
         //------------------------------------------------------------------------------------
         //------------------------------------------------------------------------------------

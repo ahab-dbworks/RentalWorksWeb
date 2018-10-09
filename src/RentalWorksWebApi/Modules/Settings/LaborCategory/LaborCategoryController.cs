@@ -18,7 +18,7 @@ namespace WebApi.Modules.Settings.LaborCategory
         [HttpPost("browse")]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
-            return await DoBrowseAsync(browseRequest, typeof(LaborCategoryLogic));
+            return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
@@ -32,14 +32,14 @@ namespace WebApi.Modules.Settings.LaborCategory
         [HttpGet]
         public async Task<ActionResult<IEnumerable<LaborCategoryLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
-            return await DoGetAsync<LaborCategoryLogic>(pageno, pagesize, sort, typeof(LaborCategoryLogic));
+            return await DoGetAsync<LaborCategoryLogic>(pageno, pagesize, sort);
         }
         //------------------------------------------------------------------------------------
         // GET api/v1/laborcategory/A0000001
         [HttpGet("{id}")]
         public async Task<ActionResult<LaborCategoryLogic>> GetOneAsync([FromRoute]string id)
         {
-            return await DoGetAsync<LaborCategoryLogic>(id, typeof(LaborCategoryLogic));
+            return await DoGetAsync<LaborCategoryLogic>(id);
         }
         //------------------------------------------------------------------------------------
         // POST api/v1/laborcategory
@@ -53,7 +53,7 @@ namespace WebApi.Modules.Settings.LaborCategory
         [HttpDelete("{id}")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id, typeof(LaborCategoryLogic));
+            return await DoDeleteAsync(id);
         }
         //------------------------------------------------------------------------------------
     }

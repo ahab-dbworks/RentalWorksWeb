@@ -18,7 +18,7 @@ namespace WebApi.Modules.Settings.Region
         [HttpPost("browse")]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
-            return await DoBrowseAsync(browseRequest, typeof(RegionLogic));
+            return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
@@ -32,14 +32,14 @@ namespace WebApi.Modules.Settings.Region
         [HttpGet]
         public async Task<ActionResult<IEnumerable<RegionLogic>>> GetManyAsync(int pageno, int pagesize, string sort)
         {
-            return await DoGetAsync<RegionLogic>(pageno, pagesize, sort, typeof(RegionLogic));
+            return await DoGetAsync<RegionLogic>(pageno, pagesize, sort);
         }
         //------------------------------------------------------------------------------------
         // GET api/v1/region/A0000001
         [HttpGet("{id}")]
         public async Task<ActionResult<RegionLogic>> GetAsync(string id)
         {
-            return await DoGetAsync<RegionLogic>(id, typeof(RegionLogic));
+            return await DoGetAsync<RegionLogic>(id);
         }
         //------------------------------------------------------------------------------------
         // POST api/v1/region
@@ -53,7 +53,7 @@ namespace WebApi.Modules.Settings.Region
         [HttpDelete("{id}")]
         public async Task<ActionResult<bool>> DeleteAsync(string id)
         {
-            return await DoDeleteAsync(id, typeof(RegionLogic));
+            return await DoDeleteAsync(id);
         }
         //------------------------------------------------------------------------------------
     }

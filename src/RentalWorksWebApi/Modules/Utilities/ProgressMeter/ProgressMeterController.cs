@@ -16,7 +16,7 @@ namespace WebApi.Modules.Utilities.ProgressMeter
         [HttpGet("{id}")]
         public async Task<ActionResult<ProgressMeterLogic>> GetOneAsync([FromRoute]string id)
         {
-            return await DoGetAsync<ProgressMeterLogic>(id, typeof(ProgressMeterLogic));
+            return await DoGetAsync<ProgressMeterLogic>(id);
         }
         //------------------------------------------------------------------------------------ 
     }

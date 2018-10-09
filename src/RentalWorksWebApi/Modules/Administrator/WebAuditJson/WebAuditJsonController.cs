@@ -29,13 +29,6 @@ namespace WebApi.Modules.Administrator.WebAuditJson
             return await DoExportExcelXlsxFileAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
-        //// GET api/v1/webauditjson 
-        //[HttpGet]
-        //public aync <IEnumerable<WebAuditJsonLogic>>Task<IActionResult> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
-        //{
-        //    return await DoGetAsync<WebAuditJsonLogic>(pageno, pagesize, sort);
-        //}
-        ////------------------------------------------------------------------------------------ 
         // GET api/v1/webauditjson/12345 
         [HttpGet("{id}")]
         public async Task<ActionResult<WebAuditJsonLogic>> GetOneAsync([FromRoute]string id)

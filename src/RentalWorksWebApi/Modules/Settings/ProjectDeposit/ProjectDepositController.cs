@@ -17,7 +17,7 @@ namespace WebApi.Modules.Settings.ProjectDeposit
         [HttpPost("browse")]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
-            return await DoBrowseAsync(browseRequest, typeof(ProjectDepositLogic));
+            return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
@@ -31,14 +31,14 @@ namespace WebApi.Modules.Settings.ProjectDeposit
         [HttpGet]
         public async Task<ActionResult<IEnumerable<ProjectDepositLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
-            return await DoGetAsync<ProjectDepositLogic>(pageno, pagesize, sort, typeof(ProjectDepositLogic));
+            return await DoGetAsync<ProjectDepositLogic>(pageno, pagesize, sort);
         }
         //------------------------------------------------------------------------------------ 
         // GET api/v1/projectdeposit/A0000001 
         [HttpGet("{id}")]
         public async Task<ActionResult<ProjectDepositLogic>> GetOneAsync([FromRoute]string id)
         {
-            return await DoGetAsync<ProjectDepositLogic>(id, typeof(ProjectDepositLogic));
+            return await DoGetAsync<ProjectDepositLogic>(id);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/projectdeposit 
@@ -52,7 +52,7 @@ namespace WebApi.Modules.Settings.ProjectDeposit
         [HttpDelete("{id}")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id, typeof(ProjectDepositLogic));
+            return await DoDeleteAsync(id);
         }
         //------------------------------------------------------------------------------------ 
     }

@@ -17,7 +17,7 @@ namespace WebApi.Modules.Home.OrderStatusHistory
         [HttpPost("browse")]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
-            return await DoBrowseAsync(browseRequest, typeof(OrderStatusHistoryLogic));
+            return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
@@ -31,14 +31,14 @@ namespace WebApi.Modules.Home.OrderStatusHistory
         [HttpGet]
         public async Task<ActionResult<IEnumerable<OrderStatusHistoryLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
-            return await DoGetAsync<OrderStatusHistoryLogic>(pageno, pagesize, sort, typeof(OrderStatusHistoryLogic));
+            return await DoGetAsync<OrderStatusHistoryLogic>(pageno, pagesize, sort);
         }
         //------------------------------------------------------------------------------------ 
         // GET api/v1/orderstatushistory/A0000001 
         [HttpGet("{id}")]
         public async Task<ActionResult<OrderStatusHistoryLogic>> GetOneAsync([FromRoute]string id)
         {
-            return await DoGetAsync<OrderStatusHistoryLogic>(id, typeof(OrderStatusHistoryLogic));
+            return await DoGetAsync<OrderStatusHistoryLogic>(id);
         }
         //------------------------------------------------------------------------------------ 
     }

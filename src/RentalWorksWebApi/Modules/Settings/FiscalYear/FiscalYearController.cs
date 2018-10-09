@@ -17,7 +17,7 @@ namespace WebApi.Modules.Settings.FiscalYear
         [HttpPost("browse")]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
-            return await DoBrowseAsync(browseRequest, typeof(FiscalYearLogic));
+            return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
@@ -31,14 +31,14 @@ namespace WebApi.Modules.Settings.FiscalYear
         [HttpGet]
         public async Task<ActionResult<IEnumerable<FiscalYearLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
-            return await DoGetAsync<FiscalYearLogic>(pageno, pagesize, sort, typeof(FiscalYearLogic));
+            return await DoGetAsync<FiscalYearLogic>(pageno, pagesize, sort);
         }
         //------------------------------------------------------------------------------------ 
         // GET api/v1/fiscalyear/A0000001 
         [HttpGet("{id}")]
         public async Task<ActionResult<FiscalYearLogic>> GetOneAsync([FromRoute]string id)
         {
-            return await DoGetAsync<FiscalYearLogic>(id, typeof(FiscalYearLogic));
+            return await DoGetAsync<FiscalYearLogic>(id);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/fiscalyear 
@@ -52,7 +52,7 @@ namespace WebApi.Modules.Settings.FiscalYear
         [HttpDelete("{id}")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id, typeof(FiscalYearLogic));
+            return await DoDeleteAsync(id);
         }
         //------------------------------------------------------------------------------------ 
     }

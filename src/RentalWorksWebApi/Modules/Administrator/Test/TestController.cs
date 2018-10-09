@@ -17,7 +17,7 @@ namespace WebApi.Modules.Administrator.Test
         //------------------------------------------------------------------------------------ 
         // GET api/v1/test 
         //[HttpGet]
-        //public async Task<IActionResult> GetAsync()
+        //public async Task<ActionResult<FwJsonDataTable>> GetAsync()
         //{
         //    FwJsonDataTable dtDetails;
         //    try

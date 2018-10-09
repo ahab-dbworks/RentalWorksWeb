@@ -18,7 +18,7 @@ namespace WebApi.Modules.Settings.PhotographyType
         [HttpPost("browse")]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
-            return await DoBrowseAsync(browseRequest, typeof(PhotographyTypeLogic));
+            return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
@@ -32,14 +32,14 @@ namespace WebApi.Modules.Settings.PhotographyType
         [HttpGet]
         public async Task<ActionResult<IEnumerable<PhotographyTypeLogic>>> GetManyAsync(int pageno, int pagesize, string sort)
         {
-            return await DoGetAsync<PhotographyTypeLogic>(pageno, pagesize, sort, typeof(PhotographyTypeLogic));
+            return await DoGetAsync<PhotographyTypeLogic>(pageno, pagesize, sort);
         }
         //------------------------------------------------------------------------------------
         // GET api/v1/photographytype/A0000001
         [HttpGet("{id}")]
         public async Task<ActionResult<PhotographyTypeLogic>> GetOneAsync(string id)
         {
-            return await DoGetAsync<PhotographyTypeLogic>(id, typeof(PhotographyTypeLogic));
+            return await DoGetAsync<PhotographyTypeLogic>(id);
         }
         //------------------------------------------------------------------------------------
         // POST api/v1/photographytype
@@ -53,7 +53,7 @@ namespace WebApi.Modules.Settings.PhotographyType
         [HttpDelete("{id}")]
         public async Task<ActionResult<bool>> DeleteAsync(string id)
         {
-            return await DoDeleteAsync(id, typeof(PhotographyTypeLogic));
+            return await DoDeleteAsync(id);
         }
         //------------------------------------------------------------------------------------
     }

@@ -20,7 +20,7 @@ namespace WebApi.Modules.Home.RepairCost
         [HttpPost("browse")]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
-            return await DoBrowseAsync(browseRequest, typeof(RepairCostLogic));
+            return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
@@ -34,14 +34,14 @@ namespace WebApi.Modules.Home.RepairCost
         [HttpGet]
         public async Task<ActionResult<IEnumerable<RepairCostLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
-            return await DoGetAsync<RepairCostLogic>(pageno, pagesize, sort, typeof(RepairCostLogic));
+            return await DoGetAsync<RepairCostLogic>(pageno, pagesize, sort);
         }
         //------------------------------------------------------------------------------------ 
         // GET api/v1/repaircost/A0000001 
         [HttpGet("{id}")]
         public async Task<ActionResult<RepairCostLogic>> GetOneAsync([FromRoute]string id)
         {
-            return await DoGetAsync<RepairCostLogic>(id, typeof(RepairCostLogic));
+            return await DoGetAsync<RepairCostLogic>(id);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/repaircost 
@@ -55,7 +55,7 @@ namespace WebApi.Modules.Home.RepairCost
         [HttpDelete("{id}")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id, typeof(RepairCostLogic));
+            return await DoDeleteAsync(id);
         }
         //------------------------------------------------------------------------------------ 
 

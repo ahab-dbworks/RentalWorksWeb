@@ -29,7 +29,7 @@ namespace WebApi.Modules.Home.CompanyTaxResale
         //[ApiExplorerSettings(IgnoreApi=true)]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
-            return await DoBrowseAsync(browseRequest, typeof(CompanyTaxResaleLogic));
+            return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
@@ -57,7 +57,7 @@ namespace WebApi.Modules.Home.CompanyTaxResale
         [SwaggerResponse(500, Type = typeof(FwApiException))]
         public async Task<ActionResult<IEnumerable<CompanyTaxResaleLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
-            return await DoGetAsync<CompanyTaxResaleLogic>(pageno, pagesize, sort, typeof(CompanyTaxResaleLogic));
+            return await DoGetAsync<CompanyTaxResaleLogic>(pageno, pagesize, sort);
         }
         //------------------------------------------------------------------------------------
         // GET api/v1/companytaxresale/A0000001
@@ -67,7 +67,7 @@ namespace WebApi.Modules.Home.CompanyTaxResale
         [SwaggerResponse(200, Type = typeof(CompanyTaxResaleLogic))]
         public async Task<ActionResult<CompanyTaxResaleLogic>> GetOneAsync([FromRoute]string id)
         {
-            return await DoGetAsync<CompanyTaxResaleLogic>(id, typeof(CompanyTaxResaleLogic));
+            return await DoGetAsync<CompanyTaxResaleLogic>(id);
         }
         //------------------------------------------------------------------------------------
         // POST api/v1/companytaxresale
@@ -83,7 +83,7 @@ namespace WebApi.Modules.Home.CompanyTaxResale
         [Authorize(Policy = "{CDA85B7B-F766-410C-9B8E-D0DEFA313341}")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id, typeof(CompanyTaxResaleLogic));
+            return await DoDeleteAsync(id);
         }
         //------------------------------------------------------------------------------------
     }

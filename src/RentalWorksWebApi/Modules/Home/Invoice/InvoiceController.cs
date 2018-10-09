@@ -61,7 +61,7 @@ namespace WebApi.Modules.Home.Invoice
         ////------------------------------------------------------------------------------------ 
         // POST api/v1/invoice/void/A0000001
         [HttpPost("void/{id}")]
-        public async Task<IActionResult> Void([FromRoute]string id)
+        public async Task<ActionResult<InvoiceLogic>> Void([FromRoute]string id)
         {
             if (!ModelState.IsValid)
             {

@@ -17,7 +17,7 @@ namespace WebApi.Modules.Settings.SpaceRate
         [HttpPost("browse")]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
-            return await DoBrowseAsync(browseRequest, typeof(SpaceRateLogic));
+            return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
@@ -31,14 +31,14 @@ namespace WebApi.Modules.Settings.SpaceRate
         [HttpGet]
         public async Task<ActionResult<IEnumerable<SpaceRateLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
-            return await DoGetAsync<SpaceRateLogic>(pageno, pagesize, sort, typeof(SpaceRateLogic));
+            return await DoGetAsync<SpaceRateLogic>(pageno, pagesize, sort);
         }
         //------------------------------------------------------------------------------------ 
         // GET api/v1/spacerate/A0000001 
         [HttpGet("{id}")]
         public async Task<ActionResult<SpaceRateLogic>> GetOneAsync([FromRoute]string id)
         {
-            return await DoGetAsync<SpaceRateLogic>(id, typeof(SpaceRateLogic));
+            return await DoGetAsync<SpaceRateLogic>(id);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/spacerate 
@@ -52,7 +52,7 @@ namespace WebApi.Modules.Settings.SpaceRate
         [HttpDelete("{id}")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id, typeof(SpaceRateLogic));
+            return await DoDeleteAsync(id);
         }
         //------------------------------------------------------------------------------------ 
     }

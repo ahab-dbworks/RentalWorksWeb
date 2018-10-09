@@ -17,7 +17,7 @@ namespace WebApi.Modules.Home.Company
         [HttpPost("browse")]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
-            return await DoBrowseAsync(browseRequest, typeof(CompanyLogic));
+            return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
@@ -31,14 +31,14 @@ namespace WebApi.Modules.Home.Company
         [HttpGet]
         public async Task<ActionResult<IEnumerable<CompanyLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
-            return await DoGetAsync<CompanyLogic>(pageno, pagesize, sort, typeof(CompanyLogic));
+            return await DoGetAsync<CompanyLogic>(pageno, pagesize, sort);
         }
         //------------------------------------------------------------------------------------ 
         // GET api/v1/company/A0000001 
         [HttpGet("{id}")]
         public async Task<ActionResult<CompanyLogic>> GetOneAsync([FromRoute]string id)
         {
-            return await DoGetAsync<CompanyLogic>(id, typeof(CompanyLogic));
+            return await DoGetAsync<CompanyLogic>(id);
         }
         //------------------------------------------------------------------------------------ 
     }

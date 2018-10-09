@@ -18,7 +18,7 @@ namespace WebApi.Modules.Settings.PoImportance
         [HttpPost("browse")]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
-            return await DoBrowseAsync(browseRequest, typeof(PoImportanceLogic));
+            return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
@@ -32,14 +32,14 @@ namespace WebApi.Modules.Settings.PoImportance
         [HttpGet]
         public async Task<ActionResult<IEnumerable<PoImportanceLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
-            return await DoGetAsync<PoImportanceLogic>(pageno, pagesize, sort, typeof(PoImportanceLogic));
+            return await DoGetAsync<PoImportanceLogic>(pageno, pagesize, sort);
         }
         //------------------------------------------------------------------------------------
         // GET api/v1/poimportance/A0000001
         [HttpGet("{id}")]
         public async Task<ActionResult<PoImportanceLogic>> GetOneAsync([FromRoute]string id)
         {
-            return await DoGetAsync<PoImportanceLogic>(id, typeof(PoImportanceLogic));
+            return await DoGetAsync<PoImportanceLogic>(id);
         }
         //------------------------------------------------------------------------------------
         // POST api/v1/poimportance
@@ -53,7 +53,7 @@ namespace WebApi.Modules.Settings.PoImportance
         [HttpDelete("{id}")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id, typeof(PoImportanceLogic));
+            return await DoDeleteAsync(id);
         }
         //------------------------------------------------------------------------------------
     }

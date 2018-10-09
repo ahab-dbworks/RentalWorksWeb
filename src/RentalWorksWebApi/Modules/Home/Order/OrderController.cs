@@ -112,7 +112,7 @@ namespace WebApi.Modules.Home.Order
         //------------------------------------------------------------------------------------
         // POST api/v1/order/cancel/A0000001
         [HttpPost("cancel/{id}")]
-        public async Task<IActionResult> CancelOrder([FromRoute]string id)
+        public async Task<ActionResult<OrderLogic>> CancelOrder([FromRoute]string id)
         {
             if (!ModelState.IsValid)
             {
@@ -145,7 +145,7 @@ namespace WebApi.Modules.Home.Order
         //------------------------------------------------------------------------------------       
         // POST api/v1/order/uncancel/A0000001
         [HttpPost("uncancel/{id}")]
-        public async Task<IActionResult> UncancelOrder([FromRoute]string id)
+        public async Task<ActionResult<OrderLogic>> UncancelOrder([FromRoute]string id)
         {
             if (!ModelState.IsValid)
             {
@@ -178,7 +178,7 @@ namespace WebApi.Modules.Home.Order
         //------------------------------------------------------------------------------------     
         // POST api/v1/quote/createsnapshot/A0000001
         [HttpPost("createsnapshot/{id}")]
-        public async Task<IActionResult> CreateSnapshot([FromRoute]string id)
+        public async Task<ActionResult<OrderLogic>> CreateSnapshot([FromRoute]string id)
         {
             if (!ModelState.IsValid)
             {
@@ -211,7 +211,7 @@ namespace WebApi.Modules.Home.Order
         //------------------------------------------------------------------------------------        
         // POST api/v1/order/applybottomlinedaysperweek
         [HttpPost("applybottomlinedaysperweek")]
-        public async Task<IActionResult> ApplyBottomLineDaysPerWeek([FromBody] ApplyBottomLineDaysPerWeekRequest request)
+        public async Task<ActionResult<bool>> ApplyBottomLineDaysPerWeek([FromBody] ApplyBottomLineDaysPerWeekRequest request)
         {
             if (!ModelState.IsValid)
             {
@@ -245,7 +245,7 @@ namespace WebApi.Modules.Home.Order
         //------------------------------------------------------------------------------------
         // POST api/v1/order/applybottomlinediscountpercent
         [HttpPost("applybottomlinediscountpercent")]
-        public async Task<IActionResult> ApplyBottomLineDiscountPercent([FromBody] ApplyBottomLineDiscountPercentRequest request)
+        public async Task<ActionResult<bool>> ApplyBottomLineDiscountPercent([FromBody] ApplyBottomLineDiscountPercentRequest request)
         {
             if (!ModelState.IsValid)
             {
@@ -279,7 +279,7 @@ namespace WebApi.Modules.Home.Order
         //------------------------------------------------------------------------------------
         // POST api/v1/order/applybottomlinetotal
         [HttpPost("applybottomlinetotal")]
-        public async Task<IActionResult> ApplyBottomLineTotal([FromBody] ApplyBottomLineTotalRequest request)
+        public async Task<ActionResult<bool>> ApplyBottomLineTotal([FromBody] ApplyBottomLineTotalRequest request)
         {
             if (!ModelState.IsValid)
             {
@@ -314,7 +314,7 @@ namespace WebApi.Modules.Home.Order
         //------------------------------------------------------------------------------------        
         // POST api/v1/order/startpoworksheetsession
         [HttpPost("startpoworksheetsession")]
-        public async Task<IActionResult> StartPoWorksheetSession([FromBody] CreatePoWorksheetSessionRequest request)
+        public async Task<ActionResult<CreatePoWorksheetSessionResponse>> StartPoWorksheetSession([FromBody] CreatePoWorksheetSessionRequest request)
         {
             if (!ModelState.IsValid)
             {
@@ -368,7 +368,7 @@ namespace WebApi.Modules.Home.Order
         //------------------------------------------------------------------------------------        
         // POST api/v1/order/completepoworksheetsession
         [HttpPost("completepoworksheetsession")]
-        public async Task<IActionResult> CompletePoWorksheetSession([FromBody] CompletePoWorksheetSessionRequest request)
+        public async Task<ActionResult<CompletePoWorksheetSessionResponse>> CompletePoWorksheetSession([FromBody] CompletePoWorksheetSessionRequest request)
         {
             if (!ModelState.IsValid)
             {
@@ -393,14 +393,14 @@ namespace WebApi.Modules.Home.Order
         [HttpGet]
         public async Task<ActionResult<IEnumerable<OrderLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
-            return await DoGetAsync<OrderLogic>(pageno, pagesize, sort, typeof(OrderLogic));
+            return await DoGetAsync<OrderLogic>(pageno, pagesize, sort);
         }
         //------------------------------------------------------------------------------------
         // GET api/v1/order/A0000001
         [HttpGet("{id}")]
         public async Task<ActionResult<OrderLogic>> GetOneAsync([FromRoute]string id)
         {
-            return await DoGetAsync<OrderLogic>(id, typeof(OrderLogic));
+            return await DoGetAsync<OrderLogic>(id);
         }
         //------------------------------------------------------------------------------------
         // POST api/v1/order
@@ -410,12 +410,5 @@ namespace WebApi.Modules.Home.Order
             return await DoPostAsync<OrderLogic>(l);
         }
         //------------------------------------------------------------------------------------
-        //// DELETE api/v1/order/A0000001
-        //[HttpDelete("{id}")]
-        //public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
-        //{
-        //    return await DoDeleteAsync(id, typeof(OrderLogic));
-        //}
-        ////------------------------------------------------------------------------------------
     }
 }

@@ -18,7 +18,7 @@ namespace WebApi.Modules.Settings.Unit
         [HttpPost("browse")]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
-            return await DoBrowseAsync(browseRequest, typeof(UnitLogic));
+            return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
@@ -32,14 +32,14 @@ namespace WebApi.Modules.Settings.Unit
         [HttpGet]
         public async Task<ActionResult<IEnumerable<UnitLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
-            return await DoGetAsync<UnitLogic>(pageno, pagesize, sort, typeof(UnitLogic));
+            return await DoGetAsync<UnitLogic>(pageno, pagesize, sort);
         }
         //------------------------------------------------------------------------------------
         // GET api/v1/unit/A0000001
         [HttpGet("{id}")]
         public async Task<ActionResult<UnitLogic>> GetOneAsync([FromRoute]string id)
         {
-            return await DoGetAsync<UnitLogic>(id, typeof(UnitLogic));
+            return await DoGetAsync<UnitLogic>(id);
         }
         //------------------------------------------------------------------------------------
         // POST api/v1/unit
@@ -53,7 +53,7 @@ namespace WebApi.Modules.Settings.Unit
         [HttpDelete("{id}")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id, typeof(UnitLogic));
+            return await DoDeleteAsync(id);
         }
         //------------------------------------------------------------------------------------
     }

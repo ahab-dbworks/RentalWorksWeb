@@ -18,7 +18,7 @@ namespace WebApi.Modules.Administrator.Control
         [HttpPost("browse")]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
-            return await DoBrowseAsync(browseRequest, typeof(ControlLogic));
+            return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
@@ -32,14 +32,14 @@ namespace WebApi.Modules.Administrator.Control
         [HttpGet]
         public async Task<ActionResult<IEnumerable<ControlLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
-            return await DoGetAsync<ControlLogic>(pageno, pagesize, sort, typeof(ControlLogic));
+            return await DoGetAsync<ControlLogic>(pageno, pagesize, sort);
         }
         //------------------------------------------------------------------------------------ 
         // GET api/v1/control/A0000001 
         [HttpGet("{id}")]
         public async Task<ActionResult<ControlLogic>> GetOneAsync([FromRoute]string id)
         {
-            return await DoGetAsync<ControlLogic>(id, typeof(ControlLogic));
+            return await DoGetAsync<ControlLogic>(id);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/control 
@@ -53,7 +53,7 @@ namespace WebApi.Modules.Administrator.Control
         //[HttpDelete("{id}")]
         //public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         //{
-        //    return await DoDeleteAsync(id, typeof(ControlLogic));
+        //    return await DoDeleteAsync(id);
         //}
         ////------------------------------------------------------------------------------------ 
     }

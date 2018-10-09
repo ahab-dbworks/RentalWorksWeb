@@ -17,7 +17,7 @@ namespace WebApi.Modules.Settings.MarketSegmentJob
         [HttpPost("browse")]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
-            return await DoBrowseAsync(browseRequest, typeof(MarketSegmentJobLogic));
+            return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
@@ -31,14 +31,14 @@ namespace WebApi.Modules.Settings.MarketSegmentJob
         [HttpGet]
         public async Task<ActionResult<IEnumerable<MarketSegmentJobLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
-            return await DoGetAsync<MarketSegmentJobLogic>(pageno, pagesize, sort, typeof(MarketSegmentJobLogic));
+            return await DoGetAsync<MarketSegmentJobLogic>(pageno, pagesize, sort);
         }
         //------------------------------------------------------------------------------------ 
         // GET api/v1/marketsegmentjob/A0000001 
         [HttpGet("{id}")]
         public async Task<ActionResult<MarketSegmentJobLogic>> GetOneAsync([FromRoute]string id)
         {
-            return await DoGetAsync<MarketSegmentJobLogic>(id, typeof(MarketSegmentJobLogic));
+            return await DoGetAsync<MarketSegmentJobLogic>(id);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/marketsegmentjob 
@@ -52,7 +52,7 @@ namespace WebApi.Modules.Settings.MarketSegmentJob
         [HttpDelete("{id}")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id, typeof(MarketSegmentJobLogic));
+            return await DoDeleteAsync(id);
         }
         //------------------------------------------------------------------------------------ 
     }

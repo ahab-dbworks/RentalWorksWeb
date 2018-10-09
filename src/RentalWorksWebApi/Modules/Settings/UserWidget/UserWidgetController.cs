@@ -17,7 +17,7 @@ namespace WebApi.Modules.Settings.WebUserWidget
         [HttpPost("browse")]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
-            return await DoBrowseAsync(browseRequest, typeof(UserWidgetLogic));
+            return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
@@ -31,14 +31,14 @@ namespace WebApi.Modules.Settings.WebUserWidget
         [HttpGet]
         public async Task<ActionResult<IEnumerable<UserWidgetLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
-            return await DoGetAsync<UserWidgetLogic>(pageno, pagesize, sort, typeof(UserWidgetLogic));
+            return await DoGetAsync<UserWidgetLogic>(pageno, pagesize, sort);
         }
         //------------------------------------------------------------------------------------ 
         // GET api/v1/userwidget/A0000001 
         [HttpGet("{id}")]
         public async Task<ActionResult<UserWidgetLogic>> GetOneAsync([FromRoute]string id)
         {
-            return await DoGetAsync<UserWidgetLogic>(id, typeof(UserWidgetLogic));
+            return await DoGetAsync<UserWidgetLogic>(id);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/userwidget 
@@ -52,7 +52,7 @@ namespace WebApi.Modules.Settings.WebUserWidget
         [HttpDelete("{id}")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id, typeof(UserWidgetLogic));
+            return await DoDeleteAsync(id);
         }
         //------------------------------------------------------------------------------------ 
     }

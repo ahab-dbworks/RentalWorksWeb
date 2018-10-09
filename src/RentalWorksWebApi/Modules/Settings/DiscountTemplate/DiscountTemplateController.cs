@@ -17,7 +17,7 @@ namespace WebApi.Modules.Settings.DiscountTemplate
         [HttpPost("browse")]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
-            return await DoBrowseAsync(browseRequest, typeof(DiscountTemplateLogic));
+            return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
@@ -31,14 +31,14 @@ namespace WebApi.Modules.Settings.DiscountTemplate
         [HttpGet]
         public async Task<ActionResult<IEnumerable<DiscountTemplateLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
-            return await DoGetAsync<DiscountTemplateLogic>(pageno, pagesize, sort, typeof(DiscountTemplateLogic));
+            return await DoGetAsync<DiscountTemplateLogic>(pageno, pagesize, sort);
         }
         //------------------------------------------------------------------------------------ 
         // GET api/v1/discounttemplate/A0000001 
         [HttpGet("{id}")]
         public async Task<ActionResult<DiscountTemplateLogic>> GetOneAsync([FromRoute]string id)
         {
-            return await DoGetAsync<DiscountTemplateLogic>(id, typeof(DiscountTemplateLogic));
+            return await DoGetAsync<DiscountTemplateLogic>(id);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/discounttemplate 
@@ -52,7 +52,7 @@ namespace WebApi.Modules.Settings.DiscountTemplate
         [HttpDelete("{id}")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id, typeof(DiscountTemplateLogic));
+            return await DoDeleteAsync(id);
         }
         //------------------------------------------------------------------------------------ 
     }

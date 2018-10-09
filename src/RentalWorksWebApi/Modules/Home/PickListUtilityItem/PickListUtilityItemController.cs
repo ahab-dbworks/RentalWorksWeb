@@ -21,7 +21,7 @@ namespace WebApi.Modules.Home.PickListUtilityItem
         [HttpPost("browse")]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
-            return await DoBrowseAsync(browseRequest, typeof(PickListUtilityItemLogic));
+            return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
@@ -45,7 +45,7 @@ namespace WebApi.Modules.Home.PickListUtilityItem
             IDictionary<string, object> miscfields = ((IDictionary<string, object>)browseRequest.miscfields);
             miscfields.Add("SelectAll", true);
             browseRequest.miscfields = miscfields;
-            return await DoBrowseAsync(browseRequest, typeof(PickListUtilityItemLogic));
+            return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/picklistutilityitem/selectnone
@@ -55,12 +55,12 @@ namespace WebApi.Modules.Home.PickListUtilityItem
             IDictionary<string, object> miscfields = ((IDictionary<string, object>)browseRequest.miscfields);
             miscfields.Add("SelectNone", true);
             browseRequest.miscfields = miscfields;
-            return await DoBrowseAsync(browseRequest, typeof(PickListUtilityItemLogic));
+            return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/picklistutilityitem/createpicklist
         [HttpPost("createpicklist")]
-        public async Task<IActionResult> CreatePickList([FromBody]BrowseRequest browseRequest)
+        public async Task<ActionResult<PickListLogic>> CreatePickList([FromBody]BrowseRequest browseRequest)
         {
             if (!ModelState.IsValid)
             {

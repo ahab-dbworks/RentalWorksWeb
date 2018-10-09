@@ -17,7 +17,7 @@ namespace WebApi.Modules.Home.InventoryColor
         [HttpPost("browse")]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
-            return await DoBrowseAsync(browseRequest, typeof(InventoryColorLogic));
+            return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
@@ -31,14 +31,14 @@ namespace WebApi.Modules.Home.InventoryColor
         [HttpGet]
         public async Task<ActionResult<IEnumerable<InventoryColorLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
-            return await DoGetAsync<InventoryColorLogic>(pageno, pagesize, sort, typeof(InventoryColorLogic));
+            return await DoGetAsync<InventoryColorLogic>(pageno, pagesize, sort);
         }
         //------------------------------------------------------------------------------------ 
         // GET api/v1/inventorycolor/A0000001 
         [HttpGet("{id}")]
         public async Task<ActionResult<InventoryColorLogic>> GetOneAsync([FromRoute]string id)
         {
-            return await DoGetAsync<InventoryColorLogic>(id, typeof(InventoryColorLogic));
+            return await DoGetAsync<InventoryColorLogic>(id);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/inventorycolor 
@@ -52,7 +52,7 @@ namespace WebApi.Modules.Home.InventoryColor
         [HttpDelete("{id}")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id, typeof(InventoryColorLogic));
+            return await DoDeleteAsync(id);
         }
         //------------------------------------------------------------------------------------ 
     }

@@ -20,7 +20,7 @@ namespace WebApi.Modules.Settings.FacilityScheduleStatus
         [Authorize(Policy = "{EE95A8B5-B9E7-4C19-8085-286D7E85F7F9}")]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
-            return await DoBrowseAsync(browseRequest, typeof(FacilityScheduleStatusLogic));
+            return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
@@ -35,7 +35,7 @@ namespace WebApi.Modules.Settings.FacilityScheduleStatus
         [Authorize(Policy = "{196E7BFC-8E31-42E3-A776-4E8B2B66AD47}")]
         public async Task<ActionResult<IEnumerable<FacilityScheduleStatusLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
-            return await DoGetAsync<FacilityScheduleStatusLogic>(pageno, pagesize, sort, typeof(FacilityScheduleStatusLogic));
+            return await DoGetAsync<FacilityScheduleStatusLogic>(pageno, pagesize, sort);
         }
         //------------------------------------------------------------------------------------
         // GET api/v1/facilityschedulestatus/A0000001
@@ -43,7 +43,7 @@ namespace WebApi.Modules.Settings.FacilityScheduleStatus
         [Authorize(Policy = "{17E60B4C-49C0-45DB-B9A5-1E7805A05AC2}")]
         public async Task<ActionResult<FacilityScheduleStatusLogic>> GetOneAsync([FromRoute]string id)
         {
-            return await DoGetAsync<FacilityScheduleStatusLogic>(id, typeof(FacilityScheduleStatusLogic));
+            return await DoGetAsync<FacilityScheduleStatusLogic>(id);
         }
         //------------------------------------------------------------------------------------
         // POST api/v1/facilityschedulestatus
@@ -59,7 +59,7 @@ namespace WebApi.Modules.Settings.FacilityScheduleStatus
         [Authorize(Policy = "{2AC9A850-6CCF-4997-ADC7-B125A9887CAC}")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id, typeof(FacilityScheduleStatusLogic));
+            return await DoDeleteAsync(id);
         }
         //------------------------------------------------------------------------------------
         //------------------------------------------------------------------------------------

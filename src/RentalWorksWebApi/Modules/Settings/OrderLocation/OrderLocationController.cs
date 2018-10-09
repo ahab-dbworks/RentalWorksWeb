@@ -17,7 +17,7 @@ namespace WebApi.Modules.Settings.OrderLocation
         [HttpPost("browse")]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
-            return await DoBrowseAsync(browseRequest, typeof(OrderLocationLogic));
+            return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
@@ -31,14 +31,14 @@ namespace WebApi.Modules.Settings.OrderLocation
         [HttpGet]
         public async Task<ActionResult<IEnumerable<OrderLocationLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
-            return await DoGetAsync<OrderLocationLogic>(pageno, pagesize, sort, typeof(OrderLocationLogic));
+            return await DoGetAsync<OrderLocationLogic>(pageno, pagesize, sort);
         }
         //------------------------------------------------------------------------------------ 
         // GET api/v1/orderlocation/A0000001 
         [HttpGet("{id}")]
         public async Task<ActionResult<OrderLocationLogic>> GetOneAsync([FromRoute]string id)
         {
-            return await DoGetAsync<OrderLocationLogic>(id, typeof(OrderLocationLogic));
+            return await DoGetAsync<OrderLocationLogic>(id);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/orderlocation 
@@ -52,7 +52,7 @@ namespace WebApi.Modules.Settings.OrderLocation
         [HttpDelete("{id}")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id, typeof(OrderLocationLogic));
+            return await DoDeleteAsync(id);
         }
         //------------------------------------------------------------------------------------ 
     }

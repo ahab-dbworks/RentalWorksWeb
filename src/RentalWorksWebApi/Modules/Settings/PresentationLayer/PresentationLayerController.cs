@@ -17,7 +17,7 @@ namespace WebApi.Modules.Settings.PresentationLayer
         [HttpPost("browse")]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
-            return await DoBrowseAsync(browseRequest, typeof(PresentationLayerLogic));
+            return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
@@ -31,14 +31,14 @@ namespace WebApi.Modules.Settings.PresentationLayer
         [HttpGet]
         public async Task<ActionResult<IEnumerable<PresentationLayerLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
-            return await DoGetAsync<PresentationLayerLogic>(pageno, pagesize, sort, typeof(PresentationLayerLogic));
+            return await DoGetAsync<PresentationLayerLogic>(pageno, pagesize, sort);
         }
         //------------------------------------------------------------------------------------ 
         // GET api/v1/presentationlayer/A0000001 
         [HttpGet("{id}")]
         public async Task<ActionResult<PresentationLayerLogic>> GetOneAsync([FromRoute]string id)
         {
-            return await DoGetAsync<PresentationLayerLogic>(id, typeof(PresentationLayerLogic));
+            return await DoGetAsync<PresentationLayerLogic>(id);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/presentationlayer 
@@ -52,7 +52,7 @@ namespace WebApi.Modules.Settings.PresentationLayer
         [HttpDelete("{id}")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id, typeof(PresentationLayerLogic));
+            return await DoDeleteAsync(id);
         }
         //------------------------------------------------------------------------------------ 
     }

@@ -17,7 +17,7 @@ namespace WebApi.Modules.Settings.MarketSegment
         [HttpPost("browse")]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
-            return await DoBrowseAsync(browseRequest, typeof(MarketSegmentLogic));
+            return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
@@ -31,14 +31,14 @@ namespace WebApi.Modules.Settings.MarketSegment
         [HttpGet]
         public async Task<ActionResult<IEnumerable<MarketSegmentLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
-            return await DoGetAsync<MarketSegmentLogic>(pageno, pagesize, sort, typeof(MarketSegmentLogic));
+            return await DoGetAsync<MarketSegmentLogic>(pageno, pagesize, sort);
         }
         //------------------------------------------------------------------------------------ 
         // GET api/v1/marketsegment/A0000001 
         [HttpGet("{id}")]
         public async Task<ActionResult<MarketSegmentLogic>> GetOneAsync([FromRoute]string id)
         {
-            return await DoGetAsync<MarketSegmentLogic>(id, typeof(MarketSegmentLogic));
+            return await DoGetAsync<MarketSegmentLogic>(id);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/marketsegment 
@@ -52,7 +52,7 @@ namespace WebApi.Modules.Settings.MarketSegment
         [HttpDelete("{id}")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id, typeof(MarketSegmentLogic));
+            return await DoDeleteAsync(id);
         }
         //------------------------------------------------------------------------------------ 
     }

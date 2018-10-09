@@ -27,19 +27,5 @@ namespace WebApi.Modules.Home.GeneralItem
             return await DoExportExcelXlsxFileAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
-        //// GET api/v1/generalitem 
-        //[HttpGet]
-        //public aync <IEnumerable<GeneralItemLogic>>Task<IActionResult> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
-        //{
-        //    return await DoGetAsync<GeneralItemLogic>(pageno, pagesize, sort);
-        //}
-        ////------------------------------------------------------------------------------------ 
-        //// GET api/v1/generalitem/A0000001 
-        //[HttpGet("{id}")]
-        //public async Task<ActionResult<GeneralItemLogic>> GetOneAsync([FromRoute]string id)
-        //{
-        //    return await DoGetAsync<GeneralItemLogic>(id);
-        //}
-        ////------------------------------------------------------------------------------------ 
     }
 }

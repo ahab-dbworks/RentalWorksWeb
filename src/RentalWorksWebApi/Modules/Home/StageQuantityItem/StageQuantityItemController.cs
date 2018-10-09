@@ -33,7 +33,7 @@ namespace WebApi.Modules.Home.StageQuantityItem
         //------------------------------------------------------------------------------------ 
         // POST api/v1/stagequantityitem/selectall
         [HttpPost("selectall")]
-        public async Task<IActionResult> SelectAll([FromBody] SelectAllNoneStageQuantityItemRequest request)
+        public async Task<ActionResult<SelectAllNoneStageQuantityItemResponse>> SelectAll([FromBody] SelectAllNoneStageQuantityItemRequest request)
         {
             if (!ModelState.IsValid)
             {
@@ -57,7 +57,7 @@ namespace WebApi.Modules.Home.StageQuantityItem
 
         // POST api/v1/stagequantityitem/selectnone
         [HttpPost("selectnone")]
-        public async Task<IActionResult> SelectNone([FromBody] SelectAllNoneStageQuantityItemRequest request)
+        public async Task<ActionResult<SelectAllNoneStageQuantityItemResponse>> SelectNone([FromBody] SelectAllNoneStageQuantityItemRequest request)
         {
             if (!ModelState.IsValid)
             {

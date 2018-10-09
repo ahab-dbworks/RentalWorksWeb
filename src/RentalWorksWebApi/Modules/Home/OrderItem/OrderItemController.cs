@@ -21,7 +21,7 @@ namespace WebApi.Modules.Home.OrderItem
         [HttpPost("browse")]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
-            return await DoBrowseAsync(browseRequest, typeof(OrderItemLogic));
+            return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
@@ -31,18 +31,11 @@ namespace WebApi.Modules.Home.OrderItem
             return await DoExportExcelXlsxFileAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
-        //// GET api/v1/orderitem 
-        //[HttpGet]
-        //public aync <IEnumerable<OrderItemLogic>>Task<IActionResult> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
-        //{
-        //    return await DoGetAsync<OrderItemLogic>(pageno, pagesize, sort, typeof(OrderItemLogic));
-        //}
-        ////------------------------------------------------------------------------------------ 
         // GET api/v1/orderitem/A0000001
         [HttpGet("{id}")]
         public async Task<ActionResult<OrderItemLogic>> GetOneAsync([FromRoute]string id)
         {
-            return await DoGetAsync<OrderItemLogic>(id, typeof(OrderItemLogic));
+            return await DoGetAsync<OrderItemLogic>(id);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/orderitem 
@@ -56,7 +49,7 @@ namespace WebApi.Modules.Home.OrderItem
         [HttpDelete("{id}")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id, typeof(OrderItemLogic));
+            return await DoDeleteAsync(id);
         }
         //------------------------------------------------------------------------------------ 
 

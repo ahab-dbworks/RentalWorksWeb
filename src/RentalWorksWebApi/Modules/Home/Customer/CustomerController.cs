@@ -18,7 +18,7 @@ namespace WebApi.Modules.Home.Customer
         [HttpPost("browse")]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
-            return await DoBrowseAsync(browseRequest, typeof(CustomerLogic));
+            return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
@@ -32,14 +32,14 @@ namespace WebApi.Modules.Home.Customer
         [HttpGet]
         public async Task<ActionResult<IEnumerable<CustomerLogic>>> GetManyAsync(int pageno, int pagesize, string sort)
         {
-            return await DoGetAsync<CustomerLogic>(pageno, pagesize, sort, typeof(CustomerLogic));
+            return await DoGetAsync<CustomerLogic>(pageno, pagesize, sort);
         }
         //------------------------------------------------------------------------------------
         // GET api/v1/customer/A0000001
         [HttpGet("{id}")]
         public async Task<ActionResult<CustomerLogic>> GetOneAsync(string id)
         {
-            return await DoGetAsync<CustomerLogic>(id, typeof(CustomerLogic));
+            return await DoGetAsync<CustomerLogic>(id);
         }
         //------------------------------------------------------------------------------------
         // POST api/v1/customer
@@ -53,7 +53,7 @@ namespace WebApi.Modules.Home.Customer
         [HttpDelete("{id}")]
         public async Task<ActionResult<bool>> DeleteAsync(string id)
         {
-            return await DoDeleteAsync(id, typeof(CustomerLogic));
+            return await DoDeleteAsync(id);
         }
         //------------------------------------------------------------------------------------
     }

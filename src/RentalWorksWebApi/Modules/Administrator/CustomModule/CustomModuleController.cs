@@ -17,7 +17,7 @@ namespace WebApi.Modules.Administrator.CustomModule
         [HttpPost("browse")]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
-            return await DoBrowseAsync(browseRequest, typeof(CustomModuleLogic));
+            return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
@@ -31,7 +31,7 @@ namespace WebApi.Modules.Administrator.CustomModule
         [HttpGet]
         public async Task<ActionResult<IEnumerable<CustomModuleLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
-            return await DoGetAsync<CustomModuleLogic>(pageno, pagesize, sort, typeof(CustomModuleLogic));
+            return await DoGetAsync<CustomModuleLogic>(pageno, pagesize, sort);
         }
         //------------------------------------------------------------------------------------ 
 

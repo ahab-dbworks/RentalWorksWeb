@@ -17,7 +17,7 @@ namespace WebApi.Modules.Settings.OrderTypeDateType
         [HttpPost("browse")]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
-            return await DoBrowseAsync(browseRequest, typeof(OrderTypeDateTypeLogic));
+            return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
@@ -31,14 +31,14 @@ namespace WebApi.Modules.Settings.OrderTypeDateType
         [HttpGet]
         public async Task<ActionResult<IEnumerable<OrderTypeDateTypeLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
-            return await DoGetAsync<OrderTypeDateTypeLogic>(pageno, pagesize, sort, typeof(OrderTypeDateTypeLogic));
+            return await DoGetAsync<OrderTypeDateTypeLogic>(pageno, pagesize, sort);
         }
         //------------------------------------------------------------------------------------ 
         // GET api/v1/ordertypedatetype/A0000001 
         [HttpGet("{id}")]
         public async Task<ActionResult<OrderTypeDateTypeLogic>> GetOneAsync([FromRoute]string id)
         {
-            return await DoGetAsync<OrderTypeDateTypeLogic>(id, typeof(OrderTypeDateTypeLogic));
+            return await DoGetAsync<OrderTypeDateTypeLogic>(id);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/ordertypedatetype 
@@ -52,7 +52,7 @@ namespace WebApi.Modules.Settings.OrderTypeDateType
         [HttpDelete("{id}")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id, typeof(OrderTypeDateTypeLogic));
+            return await DoDeleteAsync(id);
         }
         //------------------------------------------------------------------------------------ 
     }

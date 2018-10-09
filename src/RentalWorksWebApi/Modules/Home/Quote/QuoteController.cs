@@ -23,7 +23,7 @@ namespace WebApi.Modules.Home.Quote
         [HttpPost("browse")]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
-            return await DoBrowseAsync(browseRequest, typeof(QuoteLogic));
+            return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
@@ -76,7 +76,7 @@ namespace WebApi.Modules.Home.Quote
         //------------------------------------------------------------------------------------        
         // POST api/v1/quote/createorder/A0000001
         [HttpPost("createorder/{id}")]
-        public async Task<IActionResult> CreateOrder([FromRoute]string id)
+        public async Task<ActionResult<OrderLogic>> CreateOrder([FromRoute]string id)
         {
             if (!ModelState.IsValid)
             {
@@ -110,7 +110,7 @@ namespace WebApi.Modules.Home.Quote
         //------------------------------------------------------------------------------------        
         // POST api/v1/quote/createnewversion/A0000001
         [HttpPost("createnewversion/{id}")]
-        public async Task<IActionResult> CreateNewVersion([FromRoute]string id)
+        public async Task<ActionResult<QuoteLogic>> CreateNewVersion([FromRoute]string id)
         {
             if (!ModelState.IsValid)
             {
@@ -143,7 +143,7 @@ namespace WebApi.Modules.Home.Quote
         //------------------------------------------------------------------------------------        
         // POST api/v1/quote/cancel/A0000001
         [HttpPost("cancel/{id}")]
-        public async Task<IActionResult> CancelQuote([FromRoute]string id)
+        public async Task<ActionResult<QuoteLogic>> CancelQuote([FromRoute]string id)
         {
             if (!ModelState.IsValid)
             {
@@ -176,7 +176,7 @@ namespace WebApi.Modules.Home.Quote
         //------------------------------------------------------------------------------------       
         // POST api/v1/quote/uncancel/A0000001
         [HttpPost("uncancel/{id}")]
-        public async Task<IActionResult> UncancelQuote([FromRoute]string id)
+        public async Task<ActionResult<QuoteLogic>> UncancelQuote([FromRoute]string id)
         {
             if (!ModelState.IsValid)
             {
@@ -209,7 +209,7 @@ namespace WebApi.Modules.Home.Quote
         //------------------------------------------------------------------------------------       
         // POST api/v1/order/applybottomlinedaysperweek
         [HttpPost("applybottomlinedaysperweek")]
-        public async Task<IActionResult> ApplyBottomLineDaysPerWeek([FromBody] ApplyBottomLineDaysPerWeekRequest request)
+        public async Task<ActionResult<bool>> ApplyBottomLineDaysPerWeek([FromBody] ApplyBottomLineDaysPerWeekRequest request)
         {
             if (!ModelState.IsValid)
             {
@@ -243,7 +243,7 @@ namespace WebApi.Modules.Home.Quote
         //------------------------------------------------------------------------------------
         // POST api/v1/order/applybottomlinediscountpercent
         [HttpPost("applybottomlinediscountpercent")]
-        public async Task<IActionResult> ApplyBottomLineDiscountPercent([FromBody] ApplyBottomLineDiscountPercentRequest request)
+        public async Task<ActionResult<bool>> ApplyBottomLineDiscountPercent([FromBody] ApplyBottomLineDiscountPercentRequest request)
         {
             if (!ModelState.IsValid)
             {
@@ -277,7 +277,7 @@ namespace WebApi.Modules.Home.Quote
         //------------------------------------------------------------------------------------
         // POST api/v1/order/applybottomlinetotal
         [HttpPost("applybottomlinetotal")]
-        public async Task<IActionResult> ApplyBottomLineTotal([FromBody] ApplyBottomLineTotalRequest request)
+        public async Task<ActionResult<bool>> ApplyBottomLineTotal([FromBody] ApplyBottomLineTotalRequest request)
         {
             if (!ModelState.IsValid)
             {
@@ -313,14 +313,14 @@ namespace WebApi.Modules.Home.Quote
         [HttpGet]
         public async Task<ActionResult<IEnumerable<QuoteLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
-            return await DoGetAsync<QuoteLogic>(pageno, pagesize, sort, typeof(QuoteLogic));
+            return await DoGetAsync<QuoteLogic>(pageno, pagesize, sort);
         }
         //------------------------------------------------------------------------------------
         // GET api/v1/quote/A0000001
         [HttpGet("{id}")]
         public async Task<ActionResult<QuoteLogic>> GetOneAsync([FromRoute]string id)
         {
-            return await DoGetAsync<QuoteLogic>(id, typeof(QuoteLogic));
+            return await DoGetAsync<QuoteLogic>(id);
         }
         //------------------------------------------------------------------------------------
         // POST api/v1/quote
@@ -330,12 +330,5 @@ namespace WebApi.Modules.Home.Quote
             return await DoPostAsync<QuoteLogic>(l);
         }
         //------------------------------------------------------------------------------------
-        //// DELETE api/v1/quote/A0000001
-        //[HttpDelete("{id}")]
-        //public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
-        //{
-        //    return await DoDeleteAsync(id, typeof(QuoteLogic));
-        //}
-        ////------------------------------------------------------------------------------------
     }
 }

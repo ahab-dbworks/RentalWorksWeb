@@ -17,7 +17,7 @@ namespace WebApi.Modules.Settings.WarehouseAvailabilityHour
         [HttpPost("browse")]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
-            return await DoBrowseAsync(browseRequest, typeof(WarehouseAvailabilityHourLogic));
+            return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
@@ -31,14 +31,14 @@ namespace WebApi.Modules.Settings.WarehouseAvailabilityHour
         [HttpGet]
         public async Task<ActionResult<IEnumerable<WarehouseAvailabilityHourLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
-            return await DoGetAsync<WarehouseAvailabilityHourLogic>(pageno, pagesize, sort, typeof(WarehouseAvailabilityHourLogic));
+            return await DoGetAsync<WarehouseAvailabilityHourLogic>(pageno, pagesize, sort);
         }
         //------------------------------------------------------------------------------------ 
         // GET api/v1/warehouseavailabilityhour/A0000001 
         [HttpGet("{id}")]
         public async Task<ActionResult<WarehouseAvailabilityHourLogic>> GetOneAsync([FromRoute]string id)
         {
-            return await DoGetAsync<WarehouseAvailabilityHourLogic>(id, typeof(WarehouseAvailabilityHourLogic));
+            return await DoGetAsync<WarehouseAvailabilityHourLogic>(id);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/warehouseavailabilityhour 
@@ -52,7 +52,7 @@ namespace WebApi.Modules.Settings.WarehouseAvailabilityHour
         [HttpDelete("{id}")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id, typeof(WarehouseAvailabilityHourLogic));
+            return await DoDeleteAsync(id);
         }
         //------------------------------------------------------------------------------------ 
     }

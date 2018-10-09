@@ -17,7 +17,7 @@ namespace WebApi.Modules.Settings.PresentationLayerActivityOverride
         [HttpPost("browse")]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
-            return await DoBrowseAsync(browseRequest, typeof(PresentationLayerActivityOverrideLogic));
+            return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
@@ -31,14 +31,14 @@ namespace WebApi.Modules.Settings.PresentationLayerActivityOverride
         [HttpGet]
         public async Task<ActionResult<IEnumerable<PresentationLayerActivityOverrideLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
-            return await DoGetAsync<PresentationLayerActivityOverrideLogic>(pageno, pagesize, sort, typeof(PresentationLayerActivityOverrideLogic));
+            return await DoGetAsync<PresentationLayerActivityOverrideLogic>(pageno, pagesize, sort);
         }
         //------------------------------------------------------------------------------------ 
         // GET api/v1/presentationlayeractivityoverride/A0000001 
         [HttpGet("{id}")]
         public async Task<ActionResult<PresentationLayerActivityOverrideLogic>> GetOneAsync([FromRoute]string id)
         {
-            return await DoGetAsync<PresentationLayerActivityOverrideLogic>(id, typeof(PresentationLayerActivityOverrideLogic));
+            return await DoGetAsync<PresentationLayerActivityOverrideLogic>(id);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/presentationlayeractivityoverride 
@@ -52,7 +52,7 @@ namespace WebApi.Modules.Settings.PresentationLayerActivityOverride
         [HttpDelete("{id}")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id, typeof(PresentationLayerActivityOverrideLogic));
+            return await DoDeleteAsync(id);
         }
         //------------------------------------------------------------------------------------ 
     }
