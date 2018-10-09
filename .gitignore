@@ -36,10 +36,8 @@ sync_RentalWorksWeb_to_TrakItWorksWeb\.ps1\.log
 /src/RentalWorksWeb/FwApplicationSchema.config
 /src/RentalWorksWeb/index.htm
 /src/RentalWorksWeb/scripts/_references.js
-/src/RentalWorksWeb/Source/Modules/Home/**/*.js
-/src/RentalWorksWeb/Source/Modules/Home/**/*.js.map
-/src/RentalWorksWeb/Source/Modules/Settings/**/*.js
-/src/RentalWorksWeb/Source/Modules/Settings/**/*.js.map
+/src/RentalWorksWeb/Source/**/*.js
+/src/RentalWorksWeb/Source/**/*.js.map
 
 /src/RwQBO/App_Data/Temp/
 /src/RwQBO/app_scripts.json
