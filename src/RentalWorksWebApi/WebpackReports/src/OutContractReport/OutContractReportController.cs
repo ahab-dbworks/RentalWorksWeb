@@ -45,7 +45,7 @@ namespace WebApi.Modules.Reports.ContractReport
         }
         //------------------------------------------------------------------------------------ 
         [HttpGet("{contractid}")]
-        public async Task<IActionResult> GetContract([FromRoute] string contractid)
+        public async Task<ActionResult<OutContractReport>> GetContract([FromRoute] string contractid)
         {
             OutContractReportRepository contractReportRepo = new OutContractReportRepository(this.AppConfig, this.UserSession);
             var contractReport = await contractReportRepo.Get(contractid);
