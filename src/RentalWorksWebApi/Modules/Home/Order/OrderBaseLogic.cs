@@ -115,6 +115,8 @@ namespace WebApi.Modules.Home.Order
         //------------------------------------------------------------------------------------ 
         public bool? RentalSale { get { return dealOrder.RentalSale; } set { dealOrder.RentalSale = value; } }
         //------------------------------------------------------------------------------------ 
+        public bool? LossAndDamage { get { return dealOrder.LossAndDamage; } set { dealOrder.LossAndDamage = value; } }
+        //------------------------------------------------------------------------------------ 
         [FwBusinessLogicField(isReadOnly: true)]
         public bool? HasRentalItem { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]

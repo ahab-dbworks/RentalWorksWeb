@@ -31,6 +31,9 @@ namespace WebApi.Modules.Home.Order
         [FwSqlDataField(column: "rentalsale", modeltype: FwDataTypes.Boolean)]
         public bool? RentalSale { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "finalld", modeltype: FwDataTypes.Boolean)]
+        public bool? LossAndDamage { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "hasrentalitem", modeltype: FwDataTypes.Boolean)]
         public bool? HasRentalItem { get; set; }
         //------------------------------------------------------------------------------------ 

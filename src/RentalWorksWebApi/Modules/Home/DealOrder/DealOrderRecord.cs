@@ -68,6 +68,9 @@ namespace WebApi.Modules.Home.DealOrder
         [FwSqlDataField(column: "rentalsale", modeltype: FwDataTypes.Boolean, sqltype: "char")]
         public bool? RentalSale { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "finalld", modeltype: FwDataTypes.Boolean, sqltype: "char")]
+        public bool? LossAndDamage { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "pickdate", modeltype: FwDataTypes.Date)]
         public string PickDate { get; set; }
         //------------------------------------------------------------------------------------
