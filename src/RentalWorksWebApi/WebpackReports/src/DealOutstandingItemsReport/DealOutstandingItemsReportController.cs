@@ -13,24 +13,24 @@ namespace WebApi.Modules.Reports.DealOutstandingItemsReport
 {
     public class DealOutstandingItemsReportRequest
     {
-        public DateTime? FromDate;
-        public DateTime? ToDate;
-        public string DateType;  //B-Billing Stop Date E-Estimated Rental Stop Date
-        public bool? IncludeBlankPages;
-        public bool? IncludeFullImages;
-        public bool? IncludeThumbnailImages;
-        public string OfficeLocationId;
-        public string DepartmentId;
-        public string CustomerId;
-        public string DealId;
-        public string OrderUnitId;
-        public string OrderTypeId;
-        public string OrderId;
-        public string ContractId;
-        public string InventoryTypeId;
-        public string CategoryId;
-        public string SubCategoryId;
-        public string InventoryId;
+        public DateTime? FromDate { get; set; }
+        public DateTime? ToDate { get; set; }
+        public string DateType { get; set; }  //B-Billing Stop Date E-Estimated Rental Stop Date
+        public bool? IncludeBlankPages { get; set; }
+        public bool? IncludeFullImages { get; set; }
+        public bool? IncludeThumbnailImages { get; set; }
+        public string OfficeLocationId { get; set; }
+        public string DepartmentId { get; set; }
+        public string CustomerId { get; set; }
+        public string DealId { get; set; }
+        public string OrderUnitId { get; set; }
+        public string OrderTypeId { get; set; }
+        public string OrderId { get; set; }
+        public string ContractId { get; set; }
+        public string InventoryTypeId { get; set; }
+        public string CategoryId { get; set; }
+        public string SubCategoryId { get; set; }
+        public string InventoryId { get; set; }
     }
 
     [Route("api/v1/[controller]")]

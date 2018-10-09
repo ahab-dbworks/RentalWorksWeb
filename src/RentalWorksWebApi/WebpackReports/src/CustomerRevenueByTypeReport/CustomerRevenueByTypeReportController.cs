@@ -14,15 +14,15 @@ namespace WebApi.Modules.Reports.CustomerRevenueByTypeReport
 
     public class CustomerRevenueByTypeReportRequest
     {
-        public DateTime FromDate;
-        public DateTime ToDate;
-        public string DateType;
-        public string OfficeLocationId;
-        public string DepartmentId;
-        public string CustomerId;
-        public string DealTypeId;
-        public string DealId;
-        public string OrderTypeId;
+        public DateTime FromDate { get; set; }
+        public DateTime ToDate { get; set; }
+        public string DateType { get; set; }
+        public string OfficeLocationId { get; set; }
+        public string DepartmentId { get; set; }
+        public string CustomerId { get; set; }
+        public string DealTypeId { get; set; }
+        public string DealId { get; set; }
+        public string OrderTypeId { get; set; }
     }
 
 

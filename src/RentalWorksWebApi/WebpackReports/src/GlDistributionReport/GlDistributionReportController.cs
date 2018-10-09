@@ -15,10 +15,10 @@ namespace WebApi.Modules.Reports.GlDistributionReport
 
     public class GlDistributionReportRequest
     {
-        public DateTime FromDate;
-        public DateTime ToDate;
-        public string OfficeLocationId;
-        public string GlAccountId;
+        public DateTime FromDate { get; set; }
+        public DateTime ToDate { get; set; }
+        public string OfficeLocationId { get; set; }
+        public string GlAccountId { get; set; }
     }
 
 

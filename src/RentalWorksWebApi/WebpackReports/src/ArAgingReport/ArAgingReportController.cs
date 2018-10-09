@@ -14,12 +14,12 @@ namespace WebApi.Modules.Reports.ArAgingReport
 
     public class ArAgingReportRequest
     {
-        public DateTime AsOfDate;
-        public string OfficeLocationId;
-        public string CustomerId;
-        public string DealCsrId;
-        public string DealTypeId;
-        public string DealId;
+        public DateTime AsOfDate { get; set; }
+        public string OfficeLocationId { get; set; }
+        public string CustomerId { get; set; }
+        public string DealCsrId { get; set; }
+        public string DealTypeId { get; set; }
+        public string DealId { get; set; }
     }
 
 

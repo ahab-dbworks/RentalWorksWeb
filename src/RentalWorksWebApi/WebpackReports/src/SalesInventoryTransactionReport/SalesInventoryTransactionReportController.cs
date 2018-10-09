@@ -14,14 +14,14 @@ namespace WebApi.Modules.Reports.SalesInventoryTransactionReport
 
     public class SalesInventoryTransactionReportRequest
     {
-        public DateTime FromDate;
-        public DateTime ToDate;
-        public SelectedCheckBoxListItems TransactionTypes = new SelectedCheckBoxListItems();
-        public string WarehouseId;
-        public string InventoryTypeId;
-        public string CategoryId;
-        public string SubCategoryId;
-        public string InventoryId;
+        public DateTime FromDate { get; set; }
+        public DateTime ToDate { get; set; }
+        public SelectedCheckBoxListItems TransactionTypes { get; set; } = new SelectedCheckBoxListItems();
+        public string WarehouseId { get; set; }
+        public string InventoryTypeId { get; set; }
+        public string CategoryId { get; set; }
+        public string SubCategoryId { get; set; }
+        public string InventoryId { get; set; }
     }
 
     [Route("api/v1/[controller]")]

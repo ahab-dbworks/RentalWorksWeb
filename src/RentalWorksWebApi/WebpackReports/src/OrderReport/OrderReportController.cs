@@ -13,7 +13,7 @@ namespace WebApi.Modules.Reports.OrderReport
 {
     public class OrderReportRequest
     {
-        public string OrderId;
+        public string OrderId { get; set; }
     }
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "reports-v1")]

@@ -13,21 +13,21 @@ namespace WebApi.Modules.Reports.RentalInventoryValueReport
 {
     public class RentalInventoryValueReportRequest
     {
-        public DateTime FromDate;
-        public DateTime ToDate;
-        public bool? IncludeOwned;
-        public bool? IncludeConsigned;
-        public bool? IncludeZeroQuantity;
-        public bool? GroupByICode;
-        public string SerializedValueBasedOn;
-        public SelectedCheckBoxListItems Ranks = new SelectedCheckBoxListItems();
-        public SelectedCheckBoxListItems TrackedBys = new SelectedCheckBoxListItems();
-        public bool? Summary;
-        public string WarehouseId;
-        public string InventoryTypeId;
-        public string CategoryId;
-        public string SubCategoryId;
-        public string InventoryId;
+        public DateTime FromDate { get; set; }
+        public DateTime ToDate { get; set; }
+        public bool? IncludeOwned { get; set; }
+        public bool? IncludeConsigned { get; set; }
+        public bool? IncludeZeroQuantity { get; set; }
+        public bool? GroupByICode { get; set; }
+        public string SerializedValueBasedOn { get; set; }
+        public SelectedCheckBoxListItems Ranks { get; set; } = new SelectedCheckBoxListItems();
+        public SelectedCheckBoxListItems TrackedBys { get; set; } = new SelectedCheckBoxListItems();
+        public bool? Summary { get; set; }
+        public string WarehouseId { get; set; }
+        public string InventoryTypeId { get; set; }
+        public string CategoryId { get; set; }
+        public string SubCategoryId { get; set; }
+        public string InventoryId { get; set; }
     }
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "reports-v1")]

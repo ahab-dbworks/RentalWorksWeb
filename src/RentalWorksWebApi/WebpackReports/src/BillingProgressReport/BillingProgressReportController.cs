@@ -14,17 +14,17 @@ namespace WebApi.Modules.Reports.BillingProgressReport
 
     public class BillingProgressReportRequest
     {
-        public DateTime AsOfDate;
-        public SelectedCheckBoxListItems Statuses = new SelectedCheckBoxListItems();
-        public bool? IncludeCredits;
-        public bool? ExcludeBilled100;
-        public string OfficeLocationId;
-        public string DepartmentId;
-        public string DealCsrId;
-        public string CustomerId;
-        public string DealTypeId;
-        public string DealId;
-        public string AgentId;
+        public DateTime AsOfDate { get; set; }
+        public SelectedCheckBoxListItems Statuses { get; set; } = new SelectedCheckBoxListItems();
+        public bool? IncludeCredits { get; set; }
+        public bool? ExcludeBilled100 { get; set; }
+        public string OfficeLocationId { get; set; }
+        public string DepartmentId { get; set; }
+        public string DealCsrId { get; set; }
+        public string CustomerId { get; set; }
+        public string DealTypeId { get; set; }
+        public string DealId { get; set; }
+        public string AgentId { get; set; }
     }
 
 

@@ -17,15 +17,15 @@ namespace WebApi.Modules.Reports.InvoiceSummaryReport
 
     public class InvoiceSummaryReportRequest
     {
-        public DateTime FromDate;
-        public DateTime ToDate;
-        public string DateType;
-        public bool? IncludeNoCharge;
-        public SelectedCheckBoxListItems Statuses = new SelectedCheckBoxListItems();
-        public string OfficeLocationId;
-        public string DepartmentId;
-        public string CustomerId;
-        public string DealId;
+        public DateTime FromDate { get; set; }
+        public DateTime ToDate { get; set; }
+        public string DateType { get; set; }
+        public bool? IncludeNoCharge { get; set; }
+        public SelectedCheckBoxListItems Statuses { get; set; } = new SelectedCheckBoxListItems();
+        public string OfficeLocationId { get; set; }
+        public string DepartmentId { get; set; }
+        public string CustomerId { get; set; }
+        public string DealId { get; set; }
     }
 
     [Route("api/v1/[controller]")]

@@ -13,7 +13,7 @@ namespace WebApi.Modules.Reports.PickListReport
 {
     public class PickListReportRequest
     {
-        public string PickListId;
+        public string PickListId { get; set; }
     }
 
     [Route("api/v1/[controller]")]

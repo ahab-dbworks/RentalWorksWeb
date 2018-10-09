@@ -15,7 +15,7 @@ namespace WebApi.Modules.Reports.CreditsOnAccountReport
 
     public class CreditsOnAccountReportRequest
     {
-        public bool? OnlyRemaining;
+        public bool? OnlyRemaining { get; set; }
     }
 
 

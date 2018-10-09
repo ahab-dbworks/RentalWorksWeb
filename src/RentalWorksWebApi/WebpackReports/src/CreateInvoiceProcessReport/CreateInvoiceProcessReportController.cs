@@ -14,8 +14,8 @@ namespace WebApi.Modules.Reports.CreateInvoiceProcessReport
 
     public class CreateInvoiceProcessReportRequest
     {
-        public string InvoiceCreationBatchId;
-        public bool? ExceptionsOnly;
+        public string InvoiceCreationBatchId { get; set; }
+        public bool? ExceptionsOnly { get; set; }
     }
 
 

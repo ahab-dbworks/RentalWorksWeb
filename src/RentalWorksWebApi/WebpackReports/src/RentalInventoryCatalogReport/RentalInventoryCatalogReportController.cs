@@ -14,16 +14,16 @@ namespace WebApi.Modules.Reports.RentalInventoryCatalogReport
 
     public class RentalInventoryCatalogReportRequest
     {
-        public SelectedCheckBoxListItems Classifications = new SelectedCheckBoxListItems();
-        public SelectedCheckBoxListItems TrackedBys = new SelectedCheckBoxListItems();
-        public SelectedCheckBoxListItems Ranks = new SelectedCheckBoxListItems();
-        public string WarehouseId;
-        public string InventoryTypeId;
-        public string CategoryId;
-        public string SubCategoryId;
-        public string InventoryId;
-        public string WarehouseCatalogId;
-        public bool? IncludeZeroQuantity;
+        public SelectedCheckBoxListItems Classifications { get; set; } = new SelectedCheckBoxListItems();
+        public SelectedCheckBoxListItems TrackedBys { get; set; } = new SelectedCheckBoxListItems();
+        public SelectedCheckBoxListItems Ranks { get; set; } = new SelectedCheckBoxListItems();
+        public string WarehouseId { get; set; }
+        public string InventoryTypeId { get; set; }
+        public string CategoryId { get; set; }
+        public string SubCategoryId { get; set; }
+        public string InventoryId { get; set; }
+        public string WarehouseCatalogId { get; set; }
+        public bool? IncludeZeroQuantity { get; set; }
     }
 
 

@@ -14,13 +14,13 @@ namespace WebApi.Modules.Reports.CrewSignInReport
 {
     public class CrewSignInReportRequest
     {
-        public DateTime FromDate;
-        public DateTime ToDate;
-        public string OfficeLocationId;
-        public string DepartmentId;
-        public string CustomerId;
-        public string DealId;
-        public string OrderId;
+        public DateTime FromDate { get; set; }
+        public DateTime ToDate { get; set; }
+        public string OfficeLocationId { get; set; }
+        public string DepartmentId { get; set; }
+        public string CustomerId { get; set; }
+        public string DealId { get; set; }
+        public string OrderId { get; set; }
     }
 
 
