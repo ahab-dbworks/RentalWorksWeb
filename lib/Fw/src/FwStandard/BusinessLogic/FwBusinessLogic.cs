@@ -927,7 +927,12 @@ namespace FwStandard.BusinessLogic
         public bool ShouldSerialize_Custom()
         {
             // don't serialize the _Cusom property when empty
-            return (_Custom.Count > 0);
+            bool serialize = true;
+            if (AuditMode)
+            {
+                serialize = (_Custom.Count > 0);
+            }
+            return serialize;
         }
         //------------------------------------------------------------------------------------
         public void LoadUserSession()
