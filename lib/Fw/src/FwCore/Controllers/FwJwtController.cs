@@ -33,8 +33,16 @@ namespace FwCore.Controllers
             //    Formatting = Formatting.Indented
             //};
         }
+
+        public class JwtResponseModel
+        {
+            public int statuscode { get; set; }
+            public int statusmessage { get; set; }
+            public string access_token { get; set; }
+            public int expires_in { get; set; }
+        }
         //---------------------------------------------------------------------------------------------
-        protected virtual async Task<IActionResult> DoPost([FromBody] FwStandard.Models.FwApplicationUser user)
+        protected virtual async Task<ActionResult<JwtResponseModel>> DoPost([FromBody] FwStandard.Models.FwApplicationUser user)
         {
             dynamic response = new ExpandoObject();
             var identity = await UserClaimsProvider.GetClaimsIdentity(_appConfig.DatabaseSettings, user.UserName, user.Password);
@@ -76,14 +84,25 @@ namespace FwCore.Controllers
             return new OkObjectResult(response);
         }
         //---------------------------------------------------------------------------------------------
-        protected virtual async Task<IActionResult> DoIntegrationPost([FromBody] FwStandard.Models.FwIntegration client)
+        public class IntegrationResponseModel
+        {
+            public int statuscode { get; set; }
+            public string statusmessage { get; set; }
+            public string access_token { get;set; }
+            public string expires_in { get; set; }
+            public string dealid { get; set; }
+            public string campusid { get; set; }
+
+        }
+
+        protected virtual async Task<ActionResult<IntegrationResponseModel>> DoIntegrationPost([FromBody] FwStandard.Models.FwIntegration client)
         {
             dynamic response = new ExpandoObject();
             var identity = await UserClaimsProvider.GetIntegrationClaimsIdentity(_appConfig.DatabaseSettings, client.client_id, client.client_secret);
             if (identity == null)
             {
                 response.statuscode    = 401; //Unauthorized
-                response.statusmessage = "Invalid client ID and/or secret key.";
+                response.statusmessage = "Invalid client ID and/or secret key."; 
             }
             else
             {

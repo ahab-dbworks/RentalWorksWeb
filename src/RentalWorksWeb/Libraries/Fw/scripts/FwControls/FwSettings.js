@@ -346,7 +346,7 @@ class FwSettingsClass {
         html.push('        <div id="myDropdown" class="dropdown-content">');
         html.push('          <a class="new-row">New Item</a>');
         html.push('          <a class="show-inactive">Show Inactive</a>');
-        html.push('          <a class="hide-inactive">Hide Inactive</a>');
+        html.push('          <a class="hide-inactive" style="display:none;">Hide Inactive</a>');
         html.push('          <a class="pop-out">Pop Out Module</a>');
         html.push('        </div>');
         html.push('        <i class="material-icons heading-menu">more_vert</i>');
@@ -384,12 +384,20 @@ class FwSettingsClass {
         });
         $settingsPageModules.on('click', '.show-inactive', function (e) {
             e.stopPropagation();
-            $control.find('.inactive').parent().show();
+            if (jQuery(this).closest('.panel').find('.panel-collapse').is(':visible')) {
+                jQuery(this).closest('.panel').find('.inactive').parent().show();
+                jQuery(this).hide();
+                jQuery(this).parent().find('.hide-inactive').show();
+            }
             jQuery(this).parent().hide();
         });
         $settingsPageModules.on('click', '.hide-inactive', function (e) {
             e.stopPropagation();
-            $control.find('.inactive').parent().hide();
+            if (jQuery(this).closest('.panel').find('.panel-collapse').is(':visible')) {
+                jQuery(this).closest('.panel').find('.inactive').parent().hide();
+                jQuery(this).hide();
+                jQuery(this).parent().find('.show-inactive').show();
+            }
             jQuery(this).parent().hide();
         });
         $settingsPageModules.on('click', '.pop-out', function (e) {
@@ -673,8 +681,18 @@ class FwSettingsClass {
             for (var j = 0; j < browsedatafields.length; j++) {
                 if (jQuery(this).closest('.panel-record').find('.panel-info').find('label[data-datafield="' + browsedatafields[j] + '"]')) {
                     if ($form.find('div[data-datafield="' + browsedatafields[j] + '"]').length > 0) {
-                        jQuery(this).closest('.panel-record').find('.panel-info').find('label[data-datafield="' + browsedatafields[j] + '"]').text(FwFormField.getValueByDataField($form, browsedatafields[j]));
-                        jQuery(this).closest('.panel-record').find('.panel-info').find('[data-datafield="' + browsedatafields[j] + '"]').prop('checked', FwFormField.getValueByDataField($form, browsedatafields[j]));
+                        if (browsedatafields[j] === 'Inactive') {
+                            if (FwFormField.getValueByDataField($form, browsedatafields[j])) {
+                                jQuery(this).closest('.panel-record').find('.row-heading').css('background-color', 'lightgray');
+                            }
+                            else {
+                                jQuery(this).closest('.panel-record').find('.row-heading').css('background-color', '#d9edf7');
+                            }
+                        }
+                        else {
+                            jQuery(this).closest('.panel-record').find('.panel-info').find('label[data-datafield="' + browsedatafields[j] + '"]').text(FwFormField.getValueByDataField($form, browsedatafields[j]));
+                            jQuery(this).closest('.panel-record').find('.panel-info').find('[data-datafield="' + browsedatafields[j] + '"]').prop('checked', FwFormField.getValueByDataField($form, browsedatafields[j]));
+                        }
                     }
                     else {
                         var validationValue = $form.find('div[data-displayfield="' + browsedatafields[j] + '"] input.fwformfield-text').val();
