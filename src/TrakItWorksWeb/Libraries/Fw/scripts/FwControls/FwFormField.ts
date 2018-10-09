@@ -421,7 +421,7 @@
     //---------------------------------------------------------------------------------
     // text is optional
     // firechangeevent is optional
-     setValue = function ($parent: JQuery, selector: string, value: string | number, text?: string | number, firechangeevent?: boolean) {
+     setValue = function ($parent: JQuery, selector: string, value: string | number | boolean, text?: string | number, firechangeevent?: boolean) {
         var $fwformfield, data_type, keys, $inputtext, $inputvalue;
         $fwformfield = $parent.find(selector);
         data_type = $fwformfield.attr('data-type');
@@ -433,7 +433,7 @@
         }
     }
     //---------------------------------------------------------------------------------
-     setValue2($fwformfield: JQuery, value: string | number, text?: string | number, firechangeevent?: boolean) {
+     setValue2($fwformfield: JQuery, value: string | number, text?: string | number | boolean, firechangeevent?: boolean) {
         var data_type, keys, $inputtext, $inputvalue;
         data_type = $fwformfield.attr('data-type');
         if ($fwformfield.length === 0) throw 'FwFormField.setValue2: $fwformfield is empty';
@@ -444,7 +444,7 @@
         }
     }
     //---------------------------------------------------------------------------------
-     setValueByDataField($parent: JQuery, datafield: string, value: string | number, text?: string | number, firechangeevent?: boolean) {
+     setValueByDataField($parent: JQuery, datafield: string, value: string | number | boolean, text?: string | number, firechangeevent?: boolean) {
         var selector;
         selector = 'div[data-datafield="' + datafield + '"]';
         this.setValue($parent, selector, value, text, firechangeevent);

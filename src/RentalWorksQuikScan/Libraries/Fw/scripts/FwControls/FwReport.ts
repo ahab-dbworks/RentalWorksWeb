@@ -533,7 +533,7 @@
         $form.find('.fwform-menu').append($menuObject);
     };
     //----------------------------------------------------------------------------------------------
-    getData($form: JQuery, request: any, responseFunc: () => void): void {
+    getData($form: JQuery, request: any, responseFunc: (response: any) => void): void {
         var webserviceurl;
         webserviceurl = 'services.ashx?path=/reports/' + $form.attr('data-reportname') + '/GetData';
         FwAppData.jsonPost(true, webserviceurl, request, FwServices.defaultTimeout, responseFunc, null, $form);
