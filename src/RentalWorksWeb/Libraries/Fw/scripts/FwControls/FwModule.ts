@@ -465,15 +465,16 @@ class FwModule {
         //Jason H - 10/09/2018 Replacing with new audit tab
 
         //add Audit tab to all forms
-        $formTabControl = jQuery($form.find('.fwtabs'));
-        auditTabIds = FwTabs.addTab($formTabControl, 'Audit', false, 'AUDIT', false);
-        $auditControl = jQuery(jQuery('#tmpl-grids-AuditHistoryGridBrowse').html());
-        let uniqueids = $form.data('uniqueids');
-        if (uniqueids.length !== 0) {
+
+        let $keys = $form.find('.fwformfield[data-type="key"]');
+        if ($keys.length !== 0) {
+            $formTabControl = jQuery($form.find('.fwtabs'));
+            auditTabIds = FwTabs.addTab($formTabControl, 'Audit', false, 'AUDIT', false);
+            $auditControl = jQuery(jQuery('#tmpl-grids-AuditHistoryGridBrowse').html());
             $auditControl.data('ondatabind', function (request) {
                 request.uniqueids = {};
                 for (let i = 0; i < 2; i++) {
-                    let uniqueIdValue = jQuery(uniqueids[i]).find('input').val();
+                    let uniqueIdValue = jQuery($keys[i]).find('input').val();
                     if (typeof uniqueIdValue !== 'undefined') {
                         switch (i) {
                             case 0:
