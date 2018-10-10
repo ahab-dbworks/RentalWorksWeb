@@ -37,9 +37,16 @@ namespace FwStandard.Modules.Administrator.WebAuditJson
         {
             base.SetBaseSelectQuery(select, qry, customFields, request);
             select.Parse();
-            addFilterToSelect("UniqueId1", "uniqueid1", select, request); 
-            addFilterToSelect("UniqueId2", "uniqueid2", select, request); 
-            addFilterToSelect("UniqueId3", "uniqueid3", select, request); 
+            addFilterToSelect("UniqueId1", "uniqueid1", select, request);
+            addFilterToSelect("UniqueId2", "uniqueid2", select, request);
+            addFilterToSelect("UniqueId3", "uniqueid3", select, request);
+
+            //justin 10/10/2018 prevent query from returning all data if no UniqueIds are provided.
+            if (string.IsNullOrWhiteSpace(GetUniqueIdAsString("UniqueId1", request)))
+            {
+                select.AddWhere("uniqueid1 = @bogus");
+                select.AddParameter("@bogus", "~x~x~x~x");
+            }
         }
         //------------------------------------------------------------------------------------ 
     }
