@@ -668,26 +668,27 @@ class PurchaseOrder {
             let lastIndexOfTab = tabname.lastIndexOf('tab');  // for cases where "tab" is included in the name of the tab
             let tabpage = tabname.substring(0, lastIndexOfTab) + 'tabpage' + tabname.substring(lastIndexOfTab + 3);
 
-            let $gridControls = $form.find(`#${tabpage} [data-type="Grid"]`);
-            if (($tab.hasClass('tabGridsLoaded') == false) && $gridControls.length > 0) {
-                for (let i = 0; i < $gridControls.length; i++) {
-                    try {
-                        let $gridcontrol = jQuery($gridControls[i]);
-                        FwBrowse.search($gridcontrol);
-                    } catch (ex) {
-                        FwFunc.showError(ex);
+            if ($tab.hasClass('audittab') == false) {
+                let $gridControls = $form.find(`#${tabpage} [data-type="Grid"]`);
+                if (($tab.hasClass('tabGridsLoaded') == false) && $gridControls.length > 0) {
+                    for (let i = 0; i < $gridControls.length; i++) {
+                        try {
+                            let $gridcontrol = jQuery($gridControls[i]);
+                            FwBrowse.search($gridcontrol);
+                        } catch (ex) {
+                            FwFunc.showError(ex);
+                        }
+                    }
+                }
+
+                let $browseControls = $form.find(`#${tabpage} [data-type="Browse"]`);
+                if (($tab.hasClass('tabGridsLoaded') == false) && $browseControls.length > 0) {
+                    for (let i = 0; i < $browseControls.length; i++) {
+                        let $browseControl = jQuery($browseControls[i]);
+                        FwBrowse.search($browseControl);
                     }
                 }
             }
-
-            let $browseControls = $form.find(`#${tabpage} [data-type="Browse"]`);
-            if (($tab.hasClass('tabGridsLoaded') == false) && $browseControls.length > 0) {
-                for (let i = 0; i < $browseControls.length; i++) {
-                    let $browseControl = jQuery($browseControls[i]);
-                    FwBrowse.search($browseControl);
-                }
-            }
-
             $tab.addClass('tabGridsLoaded');
         });
 
@@ -732,7 +733,7 @@ class PurchaseOrder {
         if (recType === 'R') {
             $orderItemGrid = $form.find('.rentalgrid [data-name="OrderItemGrid"]');
             total = FwFormField.getValueByDataField($form, 'RentalTotal');
-            includeTaxInTotal = FwFormField.getValueByDataField($form,'RentalTotalIncludesTax');
+            includeTaxInTotal = FwFormField.getValueByDataField($form, 'RentalTotalIncludesTax');
             isSubGrid = false;
             FwFormField.setValue($form, '.rental-adjustments .rentalOrderItemTotal:hidden', '0.00');
             if (!isWithTaxCheckbox) {
@@ -763,7 +764,7 @@ class PurchaseOrder {
             total = FwFormField.getValueByDataField($form, 'PartsTotal');
             includeTaxInTotal = FwFormField.getValueByDataField($form, 'PartsTotalIncludesTax');
             isSubGrid = false;
-           // FwFormField.setValue($form, '.laborAdjustments .laborOrderItemTotal:hidden', '0.00');
+            // FwFormField.setValue($form, '.laborAdjustments .laborOrderItemTotal:hidden', '0.00');
 
             if (!isWithTaxCheckbox) {
                 FwFormField.setValueByDataField($form, 'PartsDiscountPercent', '');
