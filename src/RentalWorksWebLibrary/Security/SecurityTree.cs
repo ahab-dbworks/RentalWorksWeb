@@ -294,7 +294,7 @@ namespace WebLibrary.Security
 
             // Add Grids
             AddGrid("Attribute Value",                        "{C11904A1-D612-469C-BFA6-E14534FC8E31}", lv1menuGrids.Id, "AttributeValueGridController");
-            AddGrid("Audit History",                          "{FA958D9E-7863-4B03-94FE-A2D2B9599FAB}", lv1menuGrids.Id, "FwAuditHistoryGridController");
+            AddGrid("Audit History",                          "{FA958D9E-7863-4B03-94FE-A2D2B9599FAB}", lv1menuGrids.Id, "AuditHistoryGridController");
             AddGrid("Billing Cycle Events",                   "{8AAD752A-74B8-410D-992F-08398131EBA7}", lv1menuGrids.Id, "BillingCycleEventsGridController");
             AddGrid("Checked-In Item",                        "{5845B960-827B-4A89-9FC4-E41108C27C21}", lv1menuGrids.Id, "CheckedInItemGridController");
             AddGrid("Checked-Out Item",                       "{48CC9E19-7B73-4BA7-9531-20BEA3780193}", lv1menuGrids.Id, "CheckedOutItemGridController");
