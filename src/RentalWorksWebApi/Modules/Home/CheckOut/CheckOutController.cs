@@ -1,7 +1,7 @@
-using FwStandard.Models; 
-using Microsoft.AspNetCore.Mvc; 
-using Microsoft.Extensions.Options; 
-using WebApi.Controllers; 
+using FwStandard.Models;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
+using WebApi.Controllers;
 using System.Threading.Tasks;
 using FwStandard.SqlServer;
 using System;
@@ -15,38 +15,39 @@ namespace WebApi.Modules.Home.CheckOut
 
     public class StageItemRequest
     {
-        public string OrderId;
-        public string OrderItemId;
-        public string Code;
-        public int? Quantity;
-        public bool? AddItemToOrder;
-        public bool? AddCompleteToOrder;
+        public string OrderId { get; set; }
+        public string OrderItemId { get; set; }
+        public string Code { get; set; }
+        public int? Quantity { get; set; }
+        public bool? UnstageItem { get; set; }
+        public bool? AddItemToOrder { get; set; }
+        public bool? AddCompleteToOrder { get; set; }
     }
 
     public class CheckOutAllStagedRequest
     {
-        public string OrderId;
+        public string OrderId { get; set; }
     }
 
     public class CreateOutContractRequest
     {
-        public string OrderId;
+        public string OrderId { get; set; }
     }
 
     public class CreateOutContractResponse : TSpStatusReponse
     {
-        public string ContractId;
+        public string ContractId { get; set; }
     }
 
 
     public class MoveStagedItemRequest
     {
-        public string OrderId;
-        public string OrderItemId;
-        public string VendorId;
-        public string ContractId;
-        public string Code;
-        public float? Quantity;
+        public string OrderId { get; set; }
+        public string OrderItemId { get; set; }
+        public string VendorId { get; set; }
+        public string ContractId { get; set; }
+        public string Code { get; set; }
+        public float? Quantity { get; set; }
     }
 
 
@@ -87,7 +88,7 @@ namespace WebApi.Modules.Home.CheckOut
                 }
                 else
                 {
-                    stageItemResponse = await CheckOutFunc.StageItem(AppConfig, UserSession, request.OrderId, request.OrderItemId, request.Code, request.Quantity, request.AddItemToOrder.GetValueOrDefault(false), request. AddCompleteToOrder.GetValueOrDefault(false));
+                    stageItemResponse = await CheckOutFunc.StageItem(AppConfig, UserSession, request);
                 }
 
                 return new OkObjectResult(stageItemResponse);
@@ -119,7 +120,8 @@ namespace WebApi.Modules.Home.CheckOut
                     checkOutAllStagedResponse.success = false;
                     checkOutAllStagedResponse.msg = "OrderId is required.";
                 }
-                else {
+                else
+                {
                     checkOutAllStagedResponse = await CheckOutFunc.CheckOutAllStaged(AppConfig, UserSession, request.OrderId);
                 }
 

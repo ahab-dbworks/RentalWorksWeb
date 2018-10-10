@@ -12,32 +12,32 @@ namespace WebApi.Modules.Home.CheckOut
 
     public class OrderInventoryStatus
     {
-        public string ICode;
-        public string Description;
-        public int QuantityOrdered;
-        public int QuantitySub;
-        public int QuantityStaged;
-        public int QuantityOut;
-        public int QuantityIn;
-        public int QuantityRemaining;
+        public string ICode{ get; set; }
+        public string Description{ get; set; }
+        public int QuantityOrdered{ get; set; }
+        public int QuantitySub{ get; set; }
+        public int QuantityStaged{ get; set; }
+        public int QuantityOut{ get; set; }
+        public int QuantityIn{ get; set; }
+        public int QuantityRemaining{ get; set; }
     }
 
     public class StageItemReponse : TSpStatusReponse
     {
-        public string InventoryId;
-        public string OrderItemId;
-        public int QuantityStaged;
+        public string InventoryId{ get; set; }
+        public string OrderItemId{ get; set; }
+        public int QuantityStaged{ get; set; }
 
-        public OrderInventoryStatus InventoryStatus = new OrderInventoryStatus();
+        public OrderInventoryStatus InventoryStatus { get; set; } = new OrderInventoryStatus();
 
-        public bool ShowAddItemToOrder;
-        public bool ShowAddCompleteToOrder;
-        public bool ShowUnstage;
+        public bool ShowAddItemToOrder{ get; set; }
+        public bool ShowAddCompleteToOrder{ get; set; }
+        public bool ShowUnstage{ get; set; }
     }
 
     public class CheckOutAllStagedResponse : TSpStatusReponse
     {
-        public string ContractId;
+        public string ContractId { get; set; }
     }
 
     public class SelectAllNoneStageQuantityItemRequest
@@ -84,21 +84,23 @@ namespace WebApi.Modules.Home.CheckOut
 
                      */
         //-------------------------------------------------------------------------------------------------------
-        public static async Task<StageItemReponse> StageItem(FwApplicationConfig appConfig, FwUserSession userSession, string orderId, string orderItemId, string code, int? quantity, bool addItemToOrder, bool addCompleteToOrder)
+        public static async Task<StageItemReponse> StageItem(FwApplicationConfig appConfig, FwUserSession userSession, StageItemRequest request)
         {
+            //.OrderId, request.OrderItemId, request.Code, request.Quantity, request.AddItemToOrder.GetValueOrDefault(false), request.AddCompleteToOrder.GetValueOrDefault(false)
             StageItemReponse response = new StageItemReponse();
             using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
             {
                 FwSqlCommand qry = new FwSqlCommand(conn, "pdastageitem", appConfig.DatabaseSettings.QueryTimeout);
-                qry.AddParameter("@orderid", SqlDbType.NVarChar, ParameterDirection.Input, orderId);
-                qry.AddParameter("@masteritemid", SqlDbType.NVarChar, ParameterDirection.InputOutput, orderItemId);
-                qry.AddParameter("@code", SqlDbType.NVarChar, ParameterDirection.Input, code);
-                if (quantity != null)
+                qry.AddParameter("@orderid", SqlDbType.NVarChar, ParameterDirection.Input, request.OrderId);
+                qry.AddParameter("@masteritemid", SqlDbType.NVarChar, ParameterDirection.InputOutput, request.OrderItemId);
+                qry.AddParameter("@code", SqlDbType.NVarChar, ParameterDirection.Input, request.Code);
+                if (request.Quantity != null)
                 {
-                    qry.AddParameter("@qty", SqlDbType.Int, ParameterDirection.Input, quantity);
+                    qry.AddParameter("@qty", SqlDbType.Int, ParameterDirection.Input, request.Quantity);
                 }
-                qry.AddParameter("@additemtoorder", SqlDbType.NVarChar, ParameterDirection.Input, (addItemToOrder ? "T" : "F"));
-                qry.AddParameter("@addcompletetoorder", SqlDbType.NVarChar, ParameterDirection.Input, (addCompleteToOrder ? "T" : "F"));
+                qry.AddParameter("@additemtoorder", SqlDbType.NVarChar, ParameterDirection.Input, (request.AddItemToOrder.GetValueOrDefault(false) ? "T" : "F"));
+                qry.AddParameter("@addcompletetoorder", SqlDbType.NVarChar, ParameterDirection.Input, (request.AddCompleteToOrder.GetValueOrDefault(false) ? "T" : "F"));
+                qry.AddParameter("@unstage", SqlDbType.NVarChar, ParameterDirection.Input, (request.UnstageItem.GetValueOrDefault(false) ? "T" : "F"));
                 qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, userSession.UsersId);
                 qry.AddParameter("@masterid", SqlDbType.NVarChar, ParameterDirection.Output);
                 //qry.AddParameter("@qtystaged", SqlDbType.Int, ParameterDirection.Output);
@@ -143,7 +145,7 @@ namespace WebApi.Modules.Home.CheckOut
                 response.success = (response.status == 0);
                 response.msg = qry.GetParameter("@msg").ToString();
 
-                if ((response.status == 0) && ((quantity == null) || (quantity == 0)) && (qry.GetParameter("@isicode").ToString().Equals("T")))
+                if ((response.status == 0) && ((request.Quantity == null) || (request.Quantity == 0)) && (qry.GetParameter("@isicode").ToString().Equals("T")))
                 {
                     response.status = 107;
                 }
