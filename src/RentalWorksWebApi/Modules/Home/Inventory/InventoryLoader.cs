@@ -29,13 +29,16 @@ namespace WebApi.Modules.Home.Inventory
         [FwSqlDataField(column: "rank", modeltype: FwDataTypes.Text)]
         public string Rank { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "partnumber", modeltype: FwDataTypes.Text)]
+        public string ManufacturerPartNumber { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "noavail", modeltype: FwDataTypes.Boolean)]
         public bool? NoAvailabilityCheck { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "availmanuallyresolveconflict", modeltype: FwDataTypes.Boolean)]
         public bool? AvailabilityManuallyResolveConflicts { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "sendavailabilityalert", modeltype: FwDataTypes.Boolean, sqltype: "char")]
+        [FwSqlDataField(column: "sendavailabilityalert", modeltype: FwDataTypes.Boolean)]
         public bool? SendAvailabilityAlert { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "primarydimensionuniqueid", modeltype: FwDataTypes.Text)]

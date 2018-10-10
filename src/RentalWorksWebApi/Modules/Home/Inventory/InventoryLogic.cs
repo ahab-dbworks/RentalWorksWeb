@@ -36,6 +36,7 @@ namespace WebApi.Modules.Home.Inventory
         public string AvailableFrom { get { return master.AvailableFrom; } set { master.AvailableFrom = value; } }
         public string TrackedBy { get { return master.TrackedBy; } set { master.TrackedBy = value; } }
         public string Rank { get { return master.Rank; } set { master.Rank = value; } }
+        public string ManufacturerPartNumber { get { return master.ManufacturerPartNumber; } set { master.ManufacturerPartNumber = value; } }
         public bool? NoAvailabilityCheck { get { return master.NoAvailabilityCheck; } set { master.NoAvailabilityCheck = value; } }
         public bool? AvailabilityManuallyResolveConflicts { get { return master.AvailabilityManuallyResolveConflicts; } set { master.AvailabilityManuallyResolveConflicts = value; } }
         public bool? SendAvailabilityAlert { get { return master.SendAvailabilityAlert; } set { master.SendAvailabilityAlert = value; } }

@@ -235,6 +235,9 @@ namespace WebApi.Modules.Home.Master
         public string ContainerPackingListBehavior { get; set; }
         //------------------------------------------------------------------------------------ 
 
+        [FwSqlDataField(column: "partnumber", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 40)]
+        public string ManufacturerPartNumber { get; set; }
+        //------------------------------------------------------------------------------------ 
 
 
         /*
@@ -294,9 +297,6 @@ namespace WebApi.Modules.Home.Master
                 //------------------------------------------------------------------------------------ 
                 [FwSqlDataField(column: "hastieredcost", modeltype: FwDataTypes.Boolean, sqltype: "char")]
                 public bool? Hastieredcost { get; set; }
-                //------------------------------------------------------------------------------------ 
-                [FwSqlDataField(column: "partnumber", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 40)]
-                public string Partnumber { get; set; }
                 //------------------------------------------------------------------------------------ 
                 [FwSqlDataField(column: "oldmanifestvalue", modeltype: FwDataTypes.Decimal, sqltype: "numeric", precision: 12, scale: 3)]
                 public decimal? Oldmanifestvalue { get; set; }
