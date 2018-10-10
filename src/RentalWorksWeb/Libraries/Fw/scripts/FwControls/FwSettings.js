@@ -309,6 +309,7 @@ class FwSettingsClass {
             newRowHtml.push('    <div class="panel panel-info container-fluid">');
             newRowHtml.push('      <div class="new-row-heading">');
             newRowHtml.push('        <label style="width:100%">New Record</label>');
+            newRowHtml.push('        <div class="pull-right close-new-row" style="padding-right:20px;"><i class="material-icons">clear</i>Close</div>');
             newRowHtml.push('        <div class="pull-right save-new-row"><i class="material-icons">save</i>Save</div>');
             newRowHtml.push('      </div>');
             newRowHtml.push('    </div>');
@@ -318,15 +319,19 @@ class FwSettingsClass {
             $form = window[controller].openForm('NEW');
             $body.prepend($form);
             $body.prepend(jQuery(newRowHtml.join('')));
-            $form.find('.buttonbar').hide();
         }
+        $body.on('click', '.close-new-row', function (e) {
+            e.stopPropagation();
+            var $form;
+            $form = jQuery(this).closest('.panel-body').find('.fwform');
+            $body.find('.new-row').remove();
+            $form.remove();
+        });
         $body.on('click', '.save-new-row', function (e) {
-            var $form, save;
+            var $form;
             e.stopPropagation();
             $form = jQuery(this).closest('.panel-body').find('.fwform');
-            save = $form.find('.btn');
             me.saveForm(window[moduleName + 'Controller'].Module, $form, false, '', $control, [], rowId, moduleName);
-            $body.find('.new-row').hide();
             $body.empty();
             me.getRows($body, $control, apiurl, $control.find('#' + moduleName), moduleName);
         });
@@ -367,8 +372,9 @@ class FwSettingsClass {
         $settingsPageModules = jQuery(html.join(''));
         $control.find('.well').append($settingsPageModules);
         $settingsPageModules.on('click', '.btn', function (e) {
-            $settingsPageModules.find('.heading-menu').next().css('display', 'none');
-            $body = $control.find('#' + moduleName + '.panel-body');
+            var $form = jQuery(this).closest('.panel-record').find('.fwform');
+            $body.empty();
+            me.getRows($body, $control, apiurl, $control.find('#' + moduleName), moduleName);
         });
         $settingsPageModules.on('click', '.new-row', function (e) {
             e.stopPropagation();
@@ -675,28 +681,30 @@ class FwSettingsClass {
             var browsedatafields = [];
             var record = jQuery(this).closest('.panel-record').find('.panel-info');
             var $form = jQuery(this).closest('.panel-record').find('.fwform');
-            for (var i = 0; i < browsedata.length; i++) {
-                browsedatafields.push(browsedata[i].datafield);
-            }
-            for (var j = 0; j < browsedatafields.length; j++) {
-                if (jQuery(this).closest('.panel-record').find('.panel-info').find('label[data-datafield="' + browsedatafields[j] + '"]')) {
-                    if ($form.find('div[data-datafield="' + browsedatafields[j] + '"]').length > 0) {
-                        if (browsedatafields[j] === 'Inactive') {
-                            if (FwFormField.getValueByDataField($form, browsedatafields[j])) {
-                                jQuery(this).closest('.panel-record').find('.row-heading').css('background-color', 'lightgray');
+            if (typeof browsedata !== 'undefined') {
+                for (var i = 0; i < browsedata.length; i++) {
+                    browsedatafields.push(browsedata[i].datafield);
+                }
+                for (var j = 0; j < browsedatafields.length; j++) {
+                    if (jQuery(this).closest('.panel-record').find('.panel-info').find('label[data-datafield="' + browsedatafields[j] + '"]')) {
+                        if ($form.find('div[data-datafield="' + browsedatafields[j] + '"]').length > 0) {
+                            if (browsedatafields[j] === 'Inactive') {
+                                if (FwFormField.getValueByDataField($form, browsedatafields[j])) {
+                                    jQuery(this).closest('.panel-record').find('.row-heading').css('background-color', 'lightgray');
+                                }
+                                else {
+                                    jQuery(this).closest('.panel-record').find('.row-heading').css('background-color', '#d9edf7');
+                                }
                             }
                             else {
-                                jQuery(this).closest('.panel-record').find('.row-heading').css('background-color', '#d9edf7');
+                                jQuery(this).closest('.panel-record').find('.panel-info').find('label[data-datafield="' + browsedatafields[j] + '"]').text(FwFormField.getValueByDataField($form, browsedatafields[j]));
+                                jQuery(this).closest('.panel-record').find('.panel-info').find('[data-datafield="' + browsedatafields[j] + '"]').prop('checked', FwFormField.getValueByDataField($form, browsedatafields[j]));
                             }
                         }
                         else {
-                            jQuery(this).closest('.panel-record').find('.panel-info').find('label[data-datafield="' + browsedatafields[j] + '"]').text(FwFormField.getValueByDataField($form, browsedatafields[j]));
-                            jQuery(this).closest('.panel-record').find('.panel-info').find('[data-datafield="' + browsedatafields[j] + '"]').prop('checked', FwFormField.getValueByDataField($form, browsedatafields[j]));
+                            var validationValue = $form.find('div[data-displayfield="' + browsedatafields[j] + '"] input.fwformfield-text').val();
+                            jQuery(this).closest('.panel-record').find('.panel-info').find('label[data-datafield="' + browsedatafields[j] + '"]').text(validationValue);
                         }
-                    }
-                    else {
-                        var validationValue = $form.find('div[data-displayfield="' + browsedatafields[j] + '"] input.fwformfield-text').val();
-                        jQuery(this).closest('.panel-record').find('.panel-info').find('label[data-datafield="' + browsedatafields[j] + '"]').text(validationValue);
                     }
                 }
             }
