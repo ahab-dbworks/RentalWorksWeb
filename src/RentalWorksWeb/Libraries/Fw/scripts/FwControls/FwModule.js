@@ -401,37 +401,42 @@ class FwModule {
         $formTabControl = jQuery($form.find('.fwtabs'));
         auditTabIds = FwTabs.addTab($formTabControl, 'Audit', false, 'AUDIT', false);
         $auditControl = jQuery(jQuery('#tmpl-grids-AuditHistoryGridBrowse').html());
-        $auditControl.data('ondatabind', function (request) {
-            let uniqueids = $form.data('uniqueids');
-            request.uniqueids = {};
-            for (let i = 0; i < 2; i++) {
-                let uniqueIdValue = jQuery(uniqueids[i]).find('input').val();
-                if (typeof uniqueIdValue !== 'undefined') {
-                    switch (i) {
-                        case 0:
-                            request.uniqueids.UniqueId1 = uniqueIdValue;
-                            break;
-                        case 1:
-                            request.uniqueids.UniqueId2 = uniqueIdValue;
-                            break;
-                        case 2:
-                            request.uniqueids.UniqueId3 = uniqueIdValue;
-                            break;
+        let uniqueids = $form.data('uniqueids');
+        if (uniqueids.length !== 0) {
+            $auditControl.data('ondatabind', function (request) {
+                request.uniqueids = {};
+                for (let i = 0; i < 2; i++) {
+                    let uniqueIdValue = jQuery(uniqueids[i]).find('input').val();
+                    if (typeof uniqueIdValue !== 'undefined') {
+                        switch (i) {
+                            case 0:
+                                request.uniqueids.UniqueId1 = uniqueIdValue;
+                                break;
+                            case 1:
+                                request.uniqueids.UniqueId2 = uniqueIdValue;
+                                break;
+                            case 2:
+                                request.uniqueids.UniqueId3 = uniqueIdValue;
+                                break;
+                        }
+                    }
+                    else {
+                        break;
                     }
                 }
-                else {
-                    break;
+            });
+            FwBrowse.init($auditControl);
+            FwBrowse.renderRuntimeHtml($auditControl);
+            $formTabControl.find('#' + auditTabIds.tabpageid).append($auditControl);
+            $formTabControl.find('#' + auditTabIds.tabid)
+                .addClass('audittab')
+                .on('click', e => {
+                if ($form.attr('data-mode') !== 'NEW') {
+                    FwBrowse.search($auditControl);
                 }
-            }
-        });
-        FwBrowse.init($auditControl);
-        FwBrowse.renderRuntimeHtml($auditControl);
-        $formTabControl.find('#' + auditTabIds.tabpageid).append($auditControl);
-        $formTabControl.find('#' + auditTabIds.tabid)
-            .addClass('audittab')
-            .on('click', e => {
-            FwBrowse.search($auditControl);
-        });
+                ;
+            });
+        }
         if (sessionStorage.getItem('customFields') !== null) {
             let customFields = JSON.parse(sessionStorage.getItem('customFields'));
             if (customFields !== null && typeof customFields.length === 'number' && customFields.length > 0) {

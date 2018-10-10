@@ -9,7 +9,10 @@
             let html: any = [];
 
             for (let change in changes) {
-                html.push(`<ul style="font-size:14px;"><span style="font-weight:bold; float:left; width:250px;">${change}:</span> <span>${changes[change]}</span></ul>`);
+                html.push(`<ul style="font-size:14px;">
+                                <span style="font-weight:bold; float:left; width:250px;">${change}:</span>
+                                <span style="white-space:pre;">${changes[change] === "" ? "&#160;" : changes[change]}</span>
+                          </ul>`);
             }
             jQuery($oldElement).replaceWith(html.join(''));
 
