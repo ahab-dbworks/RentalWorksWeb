@@ -30,16 +30,18 @@ sync_RentalWorksWeb_to_TrakItWorksWeb.ps1.log
 /src/RentalWorksTest/Application.config
 
 /src/RentalWorksWeb/App_Data/Temp/
+/src/RentalWorksWeb/Libraries/Fw/scripts/FwControls/FwReport.js.map
+/src/RentalWorksWeb/Libraries/Fw/scripts/FwControls/FwFormField.js.map
+/src/RentalWorksWeb/scripts/_references.js
+/src/RentalWorksWeb/scripts/Program.js
+/src/RentalWorksWeb/scripts/Program.js.map
+/src/RentalWorksWeb/Source/**/*.js
+/src/RentalWorksWeb/Source/**/*.js.map
 /src/RentalWorksWeb/app_scripts.json
 /src/RentalWorksWeb/Application.config
 /src/RentalWorksWeb/ApplicationConfig.js
 /src/RentalWorksWeb/FwApplicationSchema.config
 /src/RentalWorksWeb/index.htm
-/src/RentalWorksWeb/scripts/_references.js
-/src/RentalWorksWeb/Source/**/*.js
-/src/RentalWorksWeb/Source/**/*.js.map
-/src/RentalWorksWeb/Libraries/Fw/scripts/FwControls/FwReport.js.map
-/src/RentalWorksWeb/Libraries/Fw/scripts/FwControls/FwFormField.js.map
 
 /src/RwQBO/App_Data/Temp/
 /src/RwQBO/app_scripts.json

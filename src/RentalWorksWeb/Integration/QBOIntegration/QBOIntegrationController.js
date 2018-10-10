@@ -1,5 +1,5 @@
 ﻿window.onload = function() {
-    if ((typeof parent.RwIntegrationController == 'undefined') || (!parent.RwIntegrationController.verifyAuthToken())) {
+    if ((typeof parent.IntegrationController == 'undefined') || (!parent.IntegrationController.verifyAuthToken())) {
        intuit.ipp.jQuery('#qboconnect').empty();
        intuit.ipp.jQuery('#qboconnect').append('<div>Please login to use this feature.</div>');
     } else {
