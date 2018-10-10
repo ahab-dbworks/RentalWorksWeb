@@ -51,7 +51,7 @@ class IntegrationControllerClass {
     };
     //----------------------------------------------------------------------------------------------
     verifyAuthToken() {
-        return sessionStorage.authToken != '';
+        return sessionStorage.getItem('authToken') !== '';
     };
 }
 //----------------------------------------------------------------------------------------------

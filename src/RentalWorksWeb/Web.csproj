@@ -413,7 +413,7 @@
     <Content Include="Source\Grids\GeneratorMakeModelGrid\GeneratorMakeModelGridBrowse.htm" />
     <Content Include="Backup\OrderNote\OrderNoteBrowse.htm" />
     <Content Include="Backup\OrderNote\RwOrderNoteGridController.js" />
-    <TypeScriptCompile Include="Source\Modules\Administrator\Integration\RwIntegrationController.ts" />
+    <TypeScriptCompile Include="Source\Modules\Administrator\Integration\IntegrationController.ts" />
     <Content Include="Source\Modules\Administrator\WebForm\WebFormBrowse.htm" />
     <Content Include="Source\Modules\Administrator\WebForm\WebFormForm.htm" />
     <Content Include="Source\Modules\Administrator\Hotfix\HotfixBrowse.htm" />
