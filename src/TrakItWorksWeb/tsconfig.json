@@ -8,6 +8,7 @@
     "target": "es2015"
   },
   "include": [
+    "./@types/**/*.d.ts",
     "./Libraries/**/*.ts",
     "./scripts/**/*.ts",
     "./Source/**/*.ts",

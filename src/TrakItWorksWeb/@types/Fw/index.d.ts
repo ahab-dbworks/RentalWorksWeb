@@ -4,8 +4,6 @@ declare var FwAudit: any;
 declare var FwBasePages: any;
 declare var FwCharge: any;
 declare var FwMenu: any;
-declare var FwReport: any;
-declare var FwServices: any;
 declare var FwSecurity: any;
 declare var FwLanguages: any;
 declare var FwReports: any;

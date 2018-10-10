@@ -178,7 +178,6 @@
     <Content Include="Application.test.config" />
     <Content Include="packages.config" />
     <TypeScriptCompile Include="scripts\RwMaster.ts" />
-    <TypeScriptCompile Include="scripts\Global.ts" />
     <Content Include="Backup\OrderNote\OrderNoteBrowse.htm" />
     <Content Include="Backup\OrderNote\RwOrderNoteGridController.js" />
     <Content Include="Source\Modules\Administrator\Integration\Integration.css" />
