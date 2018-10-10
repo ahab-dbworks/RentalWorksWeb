@@ -634,6 +634,9 @@ class Order extends OrderBase {
         if (FwFormField.getValueByDataField($form, 'HasRentalSaleItem')) {
             FwFormField.disable(FwFormField.getDataField($form, 'RentalSale'));
         }
+        if (FwFormField.getValueByDataField($form, 'HasLossAndDamageItem')) {
+            FwFormField.disable(FwFormField.getDataField($form, 'LossAndDamage'));
+        }
 
         var rate = FwFormField.getValueByDataField($form, 'RateType');
         if (rate === '3WEEK') {
