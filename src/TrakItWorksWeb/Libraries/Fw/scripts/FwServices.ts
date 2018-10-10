@@ -8,15 +8,15 @@ class FwServicesClass {
         }
     };
     account = {
-        getAuthToken: function(request: any, $elementToBlock: JQuery, onSuccess: () => void) {
+        getAuthToken: function(request: any, $elementToBlock: JQuery, onSuccess: (response: any) => void) {
             FwAppData.jsonPost(false, 'services.ashx?path=/account/getauthtoken', request, FwServices.defaultTimeout, onSuccess, FwServices.defaultOnError, $elementToBlock);
         },
-        authPassword: function(request: any, onSuccess: () => void) {
+        authPassword: function(request: any, onSuccess: (response: any) => void) {
             FwAppData.jsonPost(false, 'services.ashx?path=/account/authpassword', request, FwServices.defaultTimeout, onSuccess, FwServices.defaultOnError, null);
         }
     };
     module = {
-        method: function(request: any, module: string, method: string, $elementToBlock: JQuery, onSuccess: () => void, onError: () => void) {
+        method: function(request: any, module: string, method: string, $elementToBlock: JQuery, onSuccess: (response: any) => void, onError?: (error: any) => void) {
             var controller = window[module + 'Controller'];
             if (typeof controller === 'undefined') {
                 throw module + 'Controller is not defined.'
@@ -56,7 +56,7 @@ class FwServicesClass {
         }
     };
     grid = {
-        method: function(request: any, module: string, method: string, $elementToBlock: JQuery, onSuccess: () => void, onError: () => void): void {
+        method: function(request: any, module: string, method: string, $elementToBlock: JQuery, onSuccess: (response: any) => void, onError?: (error: any) => void): void {
             var controller = window[module + 'Controller'];
             if (typeof controller === 'undefined') {
                 throw module + 'Controller is not defined.'
@@ -101,7 +101,7 @@ class FwServicesClass {
         }
     };
     validation = {
-        method: function(request, module, method, $control, onSuccess, onError) {
+        method: function(request: any, module: string, method: string, $control: JQuery, onSuccess: (response: any) => void, onError?: (error: any) => void) {
             var $elementToBlock = $control;
             var controller = window[module + 'Controller'];
             if (typeof controller === 'undefined') {
@@ -119,7 +119,7 @@ class FwServicesClass {
         }
     };
 
-    getholidayevents(request: any, $elementToBlock: JQuery, onSuccess: () => void, onError: () => void): void {
+    getholidayevents(request: any, $elementToBlock: JQuery, onSuccess: () => void, onError?: () => void): void {
         FwAppData.jsonPost(true, 'services.ashx?path=/fwscheduler/getholidayevents', request, FwServices.defaultTimeout, onSuccess, onError, $elementToBlock);
     }
     //----------------------------------------------------------------------------------------------
