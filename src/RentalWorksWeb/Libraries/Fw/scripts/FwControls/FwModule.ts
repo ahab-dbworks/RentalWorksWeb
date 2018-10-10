@@ -461,7 +461,7 @@ class FwModule {
         //            }
         //        }
         //        );
-        //}  
+        //}
         //Jason H - 10/09/2018 Replacing with new audit tab
 
         //add Audit tab to all forms
@@ -503,6 +503,7 @@ class FwModule {
                     };
                 });
         }
+
 
         if (sessionStorage.getItem('customFields') !== null) {
             let customFields = JSON.parse(sessionStorage.getItem('customFields'))
