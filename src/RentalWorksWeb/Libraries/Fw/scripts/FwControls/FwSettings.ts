@@ -382,14 +382,17 @@ class FwSettingsClass {
         html.push('      <div class="flexrow" style="max-width:none;">');
         html.push('        <i class="material-icons arrow-selector">keyboard_arrow_down</i>');
         html.push('        <h4 class="panel-title">');
-        html.push('        <a id="title" data-toggle="collapse">' + menu + ' - ' + title + '</a>')
-        html.push('        <div id="myDropdown" class="dropdown-content">')
+        html.push('        <a id="title" data-toggle="collapse">' + menu + ' - ' + title + '</a>');
+        html.push('        <div id="myDropdown" class="dropdown-content">');
         html.push('          <a class="new-row">New Item</a>');
         html.push('          <a class="show-inactive">Show Inactive</a>');
         html.push('          <a class="hide-inactive" style="display:none;">Hide Inactive</a>');
         html.push('          <a class="pop-out">Pop Out Module</a>');
         html.push('        </div>');
-        html.push('        <i class="material-icons heading-menu">more_vert</i>');
+        html.push('        <div style="margin-left:auto;">');
+        html.push('          <i class="material-icons refresh">cached</i>');
+        html.push('          <i class="material-icons heading-menu">more_vert</i>');
+        html.push('        </div>');
         html.push('        </h4>');
         html.push('      </div>');
         if (description === "") {
@@ -629,15 +632,23 @@ class FwSettingsClass {
             .on('click', '.heading-menu', function (e) {
                 e.stopPropagation();
                 let menuButton: any = jQuery(this);
-                if (menuButton.prev().css('display') === 'none') {
-                    menuButton.prev().css('display', 'block');
+                if (menuButton.parent().prev().css('display') === 'none') {
+                    menuButton.parent().prev().css('display', 'block');
                     jQuery(document).one('click', function closeMenu(e) {
                         if (menuButton.has(e.target).length === 0) {
-                            menuButton.prev().css('display', 'none');
+                            menuButton.parent().prev().css('display', 'none');
                         }
                     })
                 } else {
-                    menuButton.prev().css('display', 'none');
+                    menuButton.parent().prev().css('display', 'none');
+                }
+            })
+            .on('click', '.refresh', function (e) {
+                e.stopPropagation();
+                let $body = $control.find('#' + moduleName + '.panel-body');
+                if (!$body.is(':empty')) {
+                    $body.empty();
+                    me.getRows($body, $control, apiurl, $modulecontainer, moduleName);
                 }
             });
 
@@ -835,6 +846,16 @@ class FwSettingsClass {
                         searchResults[0].click();
                     }
                 }
+            }
+        });
+
+        $control.on('click', '.appmenu', function (e) {
+            let searchInput = $control.find('#settingsSearch');
+            if (searchInput.val() !== '') {
+                let event = jQuery.Event('keypress');
+                event.which = 13;
+                searchInput.val('');
+                searchInput.trigger(event);
             }
         });
 
