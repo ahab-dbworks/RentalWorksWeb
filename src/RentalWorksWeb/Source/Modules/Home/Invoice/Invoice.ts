@@ -36,7 +36,6 @@ class Invoice {
         };
         return screen;
     };
-
     //----------------------------------------------------------------------------------------------
     openBrowse() {
         var self = this;
@@ -65,7 +64,6 @@ class Invoice {
 
         return $browse;
     };
-
     //----------------------------------------------------------------------------------------------
     addBrowseMenuItems($menuObject) {
         var self = this;
@@ -152,7 +150,6 @@ class Invoice {
         $locationView = FwMenu.addViewBtn($menuObject, 'Location', viewLocation);
         return $menuObject;
     };
-
     //----------------------------------------------------------------------------------------------
     openForm(mode, parentModuleInfo?: any) {
         var $form;
@@ -185,7 +182,6 @@ class Invoice {
             FwFormField.setValue($form, 'div[data-datafield="DepartmentId"]', department.departmentid, department.department);
             //FwFormField.setValue($form, 'div[data-datafield="OfficeLocationId"]', office.locationid, office.location);
             //FwFormField.setValue($form, 'div[data-datafield="WarehouseId"]', warehouse.warehouseid, warehouse.warehouse);
-            //FwFormField.setValue($form, 'div[data-datafield="PoTypeId"]', this.DefaultPurchasePoTypeId, this.DefaultPurchasePoType);
 
             //FwFormField.disable($form.find('.frame'));
             //$form.find(".frame .add-on").children().hide();
@@ -243,7 +239,6 @@ class Invoice {
 
         return $form;
     };
-
     //----------------------------------------------------------------------------------------------
     loadForm(uniqueids: any) {
         var $form;
@@ -253,12 +248,10 @@ class Invoice {
 
         return $form;
     };
-
     //----------------------------------------------------------------------------------------------
     saveForm($form: any, parameters: any) {
         FwModule.saveForm(this.Module, $form, parameters);
     };
-
     //----------------------------------------------------------------------------------------------
     renderGrids($form) {
         const maxPageSize = 9999;
@@ -267,12 +260,13 @@ class Invoice {
         let $orderItemGridRentalControl;
         $orderItemGridRental = $form.find('.rentalgrid div[data-grid="OrderItemGrid"]');
         $orderItemGridRentalControl = jQuery(jQuery('#tmpl-grids-OrderItemGridBrowse').html());
-        $orderItemGridRentalControl.find('div[data-datafield="Price"]').attr('data-caption', 'Unit Price');
+        $orderItemGridRentalControl.find('div[data-datafield="Price"]').attr('data-caption', 'Unit Cost');
         $orderItemGridRentalControl.find('div[data-datafield="PeriodDiscountAmount"]').attr('data-caption', 'Discount Amount');
         $orderItemGridRentalControl.find('div[data-datafield="PeriodExtended"]').attr('data-caption', 'Extended');
         $orderItemGridRental.empty().append($orderItemGridRentalControl);
         $orderItemGridRentalControl.data('isSummary', false);
         $orderItemGridRental.addClass('R');
+        $orderItemGridRental.attr('data-formreadonly', 'true');
 
         $orderItemGridRentalControl.data('ondatabind', request => {
             request.uniqueids = {
@@ -299,11 +293,12 @@ class Invoice {
         let $orderItemGridSalesControl;
         $orderItemGridSales = $form.find('.salesgrid div[data-grid="OrderItemGrid"]');
         $orderItemGridSalesControl = jQuery(jQuery('#tmpl-grids-OrderItemGridBrowse').html());
-        $orderItemGridSalesControl.find('div[data-datafield="Price"]').attr('data-caption', 'Unit Price');
+        $orderItemGridSalesControl.find('div[data-datafield="Price"]').attr('data-caption', 'Unit Cost');
         $orderItemGridSalesControl.find('div[data-datafield="PeriodDiscountAmount"]').attr('data-caption', 'Discount Amount');
         $orderItemGridSalesControl.find('div[data-datafield="PeriodExtended"]').attr('data-caption', 'Extended');
         $orderItemGridSales.empty().append($orderItemGridSalesControl);
         $orderItemGridSales.addClass('S');
+        $orderItemGridSales.attr('data-formreadonly', 'true');
         $orderItemGridSalesControl.data('isSummary', false);
 
         $orderItemGridSalesControl.data('ondatabind', request => {
@@ -335,6 +330,11 @@ class Invoice {
         $orderItemGridLaborControl.find('div[data-datafield="PeriodExtended"]').attr('data-caption', 'Extended');
         $orderItemGridLabor.empty().append($orderItemGridLaborControl);
         $orderItemGridLabor.addClass('L');
+        $orderItemGridLabor.find('.PeriodExtended').attr('data-formreadonly', 'true');
+        $orderItemGridLabor.find('.ICode').attr('data-formreadonly', 'true');
+        //$orderItemGridLabor.find('.PeriodExtended').attr('data-formreadonly', 'true'); ordernumber
+        $orderItemGridLabor.find('.Taxable').attr('data-formreadonly', 'true');
+
         $orderItemGridLaborControl.data('isSummary', false);
 
         $orderItemGridLaborControl.data('ondatabind', request => {
@@ -366,6 +366,7 @@ class Invoice {
         $orderItemGridMiscControl.find('div[data-datafield="PeriodExtended"]').attr('data-caption', 'Extended');
         $orderItemGridMisc.empty().append($orderItemGridMiscControl);
         $orderItemGridMisc.addClass('M');
+        $orderItemGridMisc.find('.PeriodExtended').attr('data-formreadonly', 'true')
         $orderItemGridMiscControl.data('isSummary', false);
 
         $orderItemGridMiscControl.data('ondatabind', request => {
@@ -394,6 +395,8 @@ class Invoice {
         $orderItemGridRentalSaleControl = jQuery(jQuery('#tmpl-grids-OrderItemGridBrowse').html());
         $orderItemGridRentalSale.empty().append($orderItemGridRentalSaleControl);
         $orderItemGridRentalSale.addClass('RS');
+        $orderItemGridRentalSale.attr('data-formreadonly', 'true');
+        $orderItemGridRentalSaleControl.attr('data-formreadonly', 'true');
         $orderItemGridRentalSaleControl.data('isSummary', false);
 
         $orderItemGridRentalSaleControl.data('ondatabind', function (request) {
@@ -414,14 +417,19 @@ class Invoice {
         });
         FwBrowse.init($orderItemGridRentalSaleControl);
         FwBrowse.renderRuntimeHtml($orderItemGridRentalSaleControl);
-    };
 
+        //----------------------------------------------------------------------------------------------
+        jQuery($form.find('.rentalgrid .valtype')).attr('data-validationname', 'RentalInventoryValidation');
+        jQuery($form.find('.salesgrid .valtype')).attr('data-validationname', 'SalesInventoryValidation');
+        jQuery($form.find('.laborgrid .valtype')).attr('data-validationname', 'LaborRateValidation');
+        jQuery($form.find('.miscgrid .valtype')).attr('data-validationname', 'MiscRateValidation');
+        jQuery($form.find('.rentalsalegrid .valtype')).attr('data-validationname', 'RentalInventoryValidation');
+    };
     //----------------------------------------------------------------------------------------------
     loadAudit($form: any): void {
         let uniqueid = FwFormField.getValueByDataField($form, 'InvoiceId');
         FwModule.loadAudit($form, uniqueid);
     };
-
     //----------------------------------------------------------------------------------------------
     afterLoad($form) {
         //if (!FwFormField.getValueByDataField($form, 'Rental')) { $form.find('[data-type="tab"][data-caption="Rental"]').hide() }
@@ -471,7 +479,7 @@ class Invoice {
             }
         });
 
-        //$orderItemGridRental.find('.submenu-btn').filter('[data-securityid="007C4F21-7526-437C-AD1C-4BBB1030AABA"]').hide();
+        //$orderItemGridRental.find('.submenu-btn').filter('[data-securityid="5A3352C6-F1D5-4A8C-BD75-045AF7B9988F"]').hide();
         //$orderItemGridSales.find('.submenu-btn').filter('[data-securityid="007C4F21-7526-437C-AD1C-4BBB1030AABA"]').hide();
         //$orderItemGridPart.find('.submenu-btn').filter('[data-securityid="007C4F21-7526-437C-AD1C-4BBB1030AABA"]').hide();
         //$orderItemGridLabor.find('.submenu-btn').filter('[data-securityid="007C4F21-7526-437C-AD1C-4BBB1030AABA"]').hide();
@@ -480,24 +488,30 @@ class Invoice {
         //$orderItemGridSubSales.find('.submenu-btn').filter('[data-securityid="007C4F21-7526-437C-AD1C-4BBB1030AABA"]').hide();
         //$orderItemGridSubLabor.find('.submenu-btn').filter('[data-securityid="007C4F21-7526-437C-AD1C-4BBB1030AABA"]').hide();
         //$orderItemGridSubMisc.find('.submenu-btn').filter('[data-securityid="007C4F21-7526-437C-AD1C-4BBB1030AABA"]').hide();
-        //$orderItemGridSubRent.find('.submenu-btn').filter('[data-securityid="89AD5560-637A-4ECF-B7EA-33A462F6B137"]').hide();
-        //$orderItemGridSubSales.find('.submenu-btn').filter('[data-securityid="89AD5560-637A-4ECF-B7EA-33A462F6B137"]').hide();
-        //$orderItemGridSubLabor.find('.submenu-btn').filter('[data-securityid="89AD5560-637A-4ECF-B7EA-33A462F6B137"]').hide();
-        //$orderItemGridSubMisc.find('.submenu-btn').filter('[data-securityid="89AD5560-637A-4ECF-B7EA-33A462F6B137"]').hide();
 
         //$orderItemGridSubRent.find('.submenu-btn[data-securityid="77E511EC-5463-43A0-9C5D-B54407C97B15"]').hide();
         //$orderItemGridSubSales.find('.submenu-btn[data-securityid="77E511EC-5463-43A0-9C5D-B54407C97B15"]').hide();
         //$orderItemGridSubLabor.find('.submenu-btn[data-securityid="77E511EC-5463-43A0-9C5D-B54407C97B15"]').hide();
         //$orderItemGridSubMisc.find('.submenu-btn[data-securityid="77E511EC-5463-43A0-9C5D-B54407C97B15"]').hide();
 
-        //$orderItemGridSubRent.find('.buttonbar').hide();
-        //$orderItemGridSubSales.find('.buttonbar').hide();
-        //$orderItemGridSubLabor.find('.buttonbar').hide();
-        //$orderItemGridSubMisc.find('.buttonbar').hide();
+        // Hides DELETE grid menu item
+        $orderItemGridRental.find('.submenu-btn').filter('[data-securityid="89AD5560-637A-4ECF-B7EA-33A462F6B137"]').hide();
+        $orderItemGridSales.find('.submenu-btn').filter('[data-securityid="89AD5560-637A-4ECF-B7EA-33A462F6B137"]').hide();
+        $orderItemGridLabor.find('.submenu-btn').filter('[data-securityid="89AD5560-637A-4ECF-B7EA-33A462F6B137"]').hide();
+        $orderItemGridRentalSale.find('.submenu-btn').filter('[data-securityid="89AD5560-637A-4ECF-B7EA-33A462F6B137"]').hide();
+        // Hides row DELETE button
+        $orderItemGridRental.find('.browsecontextmenucell').hide();
+        $orderItemGridSales.find('.browsecontextmenucell').hide();
+        $orderItemGridLabor.find('.browsecontextmenucell').hide();
+        $orderItemGridRentalSale.find('.browsecontextmenucell').hide();
+        // Hides ADD button
+        $orderItemGridRental.find('.buttonbar').hide();
+        $orderItemGridSales.find('.buttonbar').hide();
+        $orderItemGridLabor.find('.buttonbar').hide();
+        $orderItemGridRentalSale.find('.buttonbar').hide();
 
-        //this.dynamicColumns($form);
+        this.dynamicColumns($form);
     };
-
     //----------------------------------------------------------------------------------------------
     activityCheckboxEvents($form, mode) {
         const rentalTab = $form.find('[data-type="tab"][data-caption="Rental"]')
@@ -538,21 +552,20 @@ class Invoice {
             jQuery(e.currentTarget).prop('checked') ? rentalSaleTab.show() : rentalSaleTab.hide();
         });
     };
-
     //----------------------------------------------------------------------------------------------
-    dynamicColumns($form) {
-        const PoType = FwFormField.getValueByDataField($form, "PoTypeId"),
-            $rentalGrid = $form.find('.rentalgrid [data-name="OrderItemGrid"]'),
+    dynamicColumns($form: any): void {
+        let $rentalGrid = $form.find('.rentalgrid [data-name="OrderItemGrid"]'),
             $salesGrid = $form.find('.salesgrid [data-name="OrderItemGrid"]'),
-            $partGrid = $form.find('.partgrid [data-name="OrderItemGrid"]'),
             $laborGrid = $form.find('.laborgrid [data-name="OrderItemGrid"]'),
             $miscGrid = $form.find('.miscgrid [data-name="OrderItemGrid"]'),
-            $subrentalGrid = $form.find('.subrentalgrid [data-name="OrderItemGrid"]'),
-            $subsalesGrid = $form.find('.subsalesgrid [data-name="OrderItemGrid"]'),
-            $sublaborGrid = $form.find('.sublaborgrid [data-name="OrderItemGrid"]'),
-            $submiscGrid = $form.find('.submiscgrid [data-name="OrderItemGrid"]'),
+            $rentalSaleGrid = $form.find('.rentalsalegrid [data-name="OrderItemGrid"]'),
             fields = jQuery($rentalGrid).find('thead tr.fieldnames > td.column > div.field'),
-            fieldNames = [];
+            fieldNames = [],
+            rentalShowFields: Array<string> = ["OrderNumber", "ICode", "Description", "QuantityOrdered", "FromDate", "ToDate", "BillablePeriods", "Price", "DaysPerWeek", "PeriodDiscountAmount", "PeriodExtended", "Taxable"],
+            salesShowFields: Array<string> = ["OrderNumber", "ICode", "Description", "QuantityOrdered", "Unit", "Price", "DiscountPercent", "PeriodDiscountAmount", "PeriodExtended", "Taxable"],
+            laborShowFields: Array<string> = ["OrderNumber", "ICode", "Description", "QuantityOrdered", "FromDate", "FromTime", "ToDate", "ToTime", "BillablePeriods", "Unit", "Rate", "Price", "PeriodDiscountAmount", "PeriodExtended", "Taxable"],
+            miscShowFields: Array<string> = ["OrderNumber", "ICode", "Description", "QuantityOrdered", "FromDate", "ToDate", "Unit", "BillablePeriods", "Rate", "Price", "DiscountPercent", "PeriodDiscountAmount","PeriodExtended", "Taxable"],
+            rentalSaleShowFields: Array<string> = ["OrderNumber", "BarCode", "SerialNumber", "ICode", "Description", "QuantityOrdered", "UnitCost", "Unit", "Rate", "PeriodDiscountAmount", "PeriodExtended", "Taxable"];
 
         for (let i = 3; i < fields.length; i++) {
             let name = jQuery(fields[i]).attr('data-mappedfield');
@@ -560,26 +573,39 @@ class Invoice {
                 fieldNames.push(name);
             }
         }
+        console.log('ALLfieldNames', fieldNames)
+        let hiddenRentals: Array<string> = fieldNames.filter(function (field) {
+            return !this.has(field)
+        }, new Set(rentalShowFields))
+        let hiddenSales = fieldNames.filter(function (field) {
+            return !this.has(field)
+        }, new Set(salesShowFields))
+        let hiddenLabor = fieldNames.filter(function (field) {
+            return !this.has(field)
+        }, new Set(laborShowFields))
+        let hiddenMisc = fieldNames.filter(function (field) {
+            return !this.has(field)
+        }, new Set(miscShowFields))
+        let hiddenRentalSale = fieldNames.filter(function (field) {
+            return !this.has(field)
+        }, new Set(rentalSaleShowFields))
 
-        FwAppData.apiMethod(true, 'GET', `api/v1/potype/${PoType}`, null, FwServices.defaultTimeout, function onSuccess(response) {
-            let hiddenFields: Array<string> = fieldNames.filter(function (field) {
-                return !this.has(field)
-            }, new Set(response.PurchaseShowFields))
-
-            for (let i = 0; i < hiddenFields.length; i++) {
-                jQuery($rentalGrid.find('[data-mappedfield="' + hiddenFields[i] + '"]')).parent().hide();
-                jQuery($salesGrid.find('[data-mappedfield="' + hiddenFields[i] + '"]')).parent().hide();
-                jQuery($partGrid.find('[data-mappedfield="' + hiddenFields[i] + '"]')).parent().hide();
-                jQuery($laborGrid.find('[data-mappedfield="' + hiddenFields[i] + '"]')).parent().hide();
-                jQuery($miscGrid.find('[data-mappedfield="' + hiddenFields[i] + '"]')).parent().hide();
-                jQuery($subrentalGrid.find('[data-mappedfield="' + hiddenFields[i] + '"]')).parent().hide();
-                jQuery($subsalesGrid.find('[data-mappedfield="' + hiddenFields[i] + '"]')).parent().hide();
-                jQuery($sublaborGrid.find('[data-mappedfield="' + hiddenFields[i] + '"]')).parent().hide();
-                jQuery($submiscGrid.find('[data-mappedfield="' + hiddenFields[i] + '"]')).parent().hide();
-            }
-        }, null, null);
+        for (let i = 0; i < hiddenRentals.length; i++) {
+            jQuery($rentalGrid.find(`[data-mappedfield="${hiddenRentals[i]}"]`)).parent().hide();
+        }
+        for (let i = 0; i < hiddenSales.length; i++) {
+            jQuery($salesGrid.find(`[data-mappedfield="${hiddenSales[i]}"]`)).parent().hide();
+        }
+        for (let i = 0; i < hiddenLabor.length; i++) {
+            jQuery($laborGrid.find(`[data-mappedfield="${hiddenLabor[i]}"]`)).parent().hide();
+        }
+        for (let i = 0; i < hiddenMisc.length; i++) {
+            jQuery($miscGrid.find(`[data-mappedfield="${hiddenMisc[i]}"]`)).parent().hide();
+        }
+        for (let i = 0; i < hiddenRentalSale.length; i++) {
+            jQuery($rentalSaleGrid.find(`[data-mappedfield="${hiddenRentalSale[i]}"]`)).parent().hide();
+        }
     };
-
     //----------------------------------------------------------------------------------------------
     calculateOrderItemGridTotals($form: any, gridType: string): void {
         let subTotal, discount, salesTax, grossTotal, total, rateType;
@@ -631,11 +657,6 @@ class Invoice {
     };
     //----------------------------------------------------------------------------------------------
     events($form: any) {
-        //$form.find('div[data-datafield="DealId"]').data('onchange', $tr => {
-        //    FwFormField.setValue($form, 'div[data-datafield="RateType"]', $tr.find('.field[data-formdatafield="DefaultRate"]').attr('data-originalvalue'), $tr.find('.field[data-formdatafield="DefaultRate"]').attr('data-originalvalue'));
-        //    FwFormField.setValue($form, 'div[data-datafield="BillingCycleId"]', $tr.find('.field[data-browsedatafield="BillingCycleId"]').attr('data-originalvalue'), $tr.find('.field[data-browsedatafield="BillingCycle"]').attr('data-originalvalue'));
-        //});
-
         //Populate tax info fields with validation
         $form.find('div[data-datafield="TaxOptionId"]').data('onchange', $tr => {
             FwFormField.setValue($form, 'div[data-datafield="RentalTaxRate1"]', $tr.find('.field[data-browsedatafield="RentalTaxRate1"]').attr('data-originalvalue'));
