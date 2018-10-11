@@ -1,4 +1,4 @@
-﻿//---------------------------------------------------------------------------------
+//---------------------------------------------------------------------------------
 var FwTabs = {};
 //---------------------------------------------------------------------------------
 FwTabs.upgrade = function($control) {
@@ -306,6 +306,7 @@ FwTabs.renderRuntimeHtml = function($control) {
     $control.attr('data-rendermode', 'runtime');
     html = [];
     html.push('<div class="tabs"></div>');
+    html.push('<div class="newtabbutton"></div>');
     html.push('<div class="tabpages"></div>');
     switch(data_rendermode) {
         case 'designer':

@@ -8,6 +8,7 @@ class FwModule {
         html.push('  <div id="moduleMaster-body">');
         html.push('    <div id="moduletabs" class="fwcontrol fwtabs" data-control="FwTabs" data-type="" data-version="1" data-rendermode="template">');
         html.push('      <div class="tabs"></div>');
+        html.push('      <div class="newtabbutton"></div>');
         html.push('      <div class="tabpages"></div>');
         html.push('    </div>');
         html.push('  </div>');
@@ -35,6 +36,18 @@ class FwModule {
         FwControl.loadControls($fwcontrols);
 
         if ($object.hasClass('fwbrowse')) {
+            if ($object.attr('data-newtab') == 'true') {
+                let html = [];
+                html.push(`<div class="addnewtab">
+                            <i class="material-icons">add</i>
+                          </div>`);
+                let $newTabButton = jQuery(html.join(''));
+                $tabControl.find('.newtabbutton').append($newTabButton);
+                $newTabButton.on('click', e => {
+                    $object.find('.buttonbar [data-type="NewMenuBarButton"]').click();
+                });
+            }
+
             var $searchbox = jQuery('.search input:visible');
             if ($searchbox.length > 0) {
                 $searchbox.eq(0).focus();
@@ -268,6 +281,8 @@ class FwModule {
                                         $menubarbutton.on('click', FwApplicationTree.clickEvents['{' + nodeMenuBarItem.id + '}']);
                                         break;
                                     case 'NewMenuBarButton':
+                                        $browse.attr('data-newtab', 'true');
+
                                         $menubarbutton = FwMenu.addStandardBtn($menu, nodeMenuBarItem.properties.caption);
                                         $menubarbutton.attr('data-type', 'NewMenuBarButton');
                                         $menubarbutton.on('click', function () {
