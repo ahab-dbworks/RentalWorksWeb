@@ -220,6 +220,10 @@ class Deal {
             FwFormField.enable($form.find('div[data-name="CompanyTaxOptionGrid"]'));
         }
 
+        if (FwFormField.getValueByDataField($form, 'UseCustomerInsurance') === true) {
+            this.getCustomerInsuranceValues($form);
+        }
+
         // Disable Tax grids on change
         $form.find('[data-datafield="UseCustomerTax"] .fwformfield-value').on('change', function () {
             if (FwFormField.getValueByDataField($form, 'UseCustomerTax') === true) {
@@ -266,9 +270,7 @@ class Deal {
         });
         // If user changes customer, update corresponding address fields in other tabs
         $form.find('div[data-datafield="CustomerId"]').data('onchange', e => {
-            //this.shippingAddressTypeChange($form);
-            //this.billingAddressTypeChange($form);
-            this.loadCustomerValues($form);
+            this.customerChange($form);
         });
         // If user updates general address info
         $form.find('.deal_address input').on('change', e => {
@@ -276,10 +278,14 @@ class Deal {
         });
         //Shipping Address Type Change
         $form.find('div[data-datafield="ShippingAddressType"]').on('change', e => {
+            var val = FwFormField.getValueByDataField($form, 'ShippingAddressType') !== 'OTHER' ? true : false;
+            this.toggleShippingAddressInfo($form, val);
             this.shippingAddressTypeChange($form);
         });
         //Billing Address Type Change
         $form.find('div[data-datafield="BillToAddressType"]').on('change', e => {
+            var val = FwFormField.getValueByDataField($form, 'BillToAddressType') !== 'OTHER' ? true : false;
+            this.toggleBillingAddressInfo($form, val);
             this.billingAddressTypeChange($form);
         });
 
@@ -292,15 +298,15 @@ class Deal {
             this.useCustomer($form, jQuery(e.currentTarget).is(':checked'));
         });
 
-        $form.on('change', '.billing-type-radio input[type=radio]', e => {
-            var val = jQuery(e.currentTarget).val() !== 'OTHER' ? true : false;
-            this.toggleBillingAddressInfo($form, val);
-        });
+        //$form.on('change', '.billing-type-radio input[type=radio]', e => {
+        //    var val = jQuery(e.currentTarget).val() !== 'OTHER' ? true : false;
+        //    this.toggleBillingAddressInfo($form, val);
+        //});
 
-        $form.on('change', '.shipping_address_type_radio input[type=radio]', e => {
-            var val = jQuery(e.currentTarget).val() !== 'OTHER' ? true : false;
-            this.toggleShippingAddressInfo($form, val);
-        });
+        //$form.on('change', '.shipping_address_type_radio input[type=radio]', e => {
+        //    var val = jQuery(e.currentTarget).val() !== 'OTHER' ? true : false;
+        //    this.toggleShippingAddressInfo($form, val);
+        //});
 
         $form.on('change', '.credit_use_customer input[type=checkbox]', e => {
             var isChecked = jQuery(e.currentTarget).is(':checked');
@@ -310,6 +316,9 @@ class Deal {
         $form.on('change', '.insurance_use_customer input[type=checkbox]', e => {
             var isChecked = jQuery(e.currentTarget).is(':checked');
             this.toggleInsurTabIfUseCustomer($form, isChecked);
+            if (isChecked) {
+                this.getCustomerInsuranceValues($form);
+            }
         });
 
         //$form.on('change', '.billing_potype input[type=radio]', (e) => {
@@ -507,27 +516,8 @@ class Deal {
     billingAddressTypeChange($form: any): void {
         if (FwFormField.getValueByDataField($form, 'BillToAddressType') === 'CUSTOMER') {
             const CUSTOMERID = FwFormField.getValueByDataField($form, 'CustomerId');
-            FwAppData.apiMethod(true, 'GET', `api/v1/customer/${CUSTOMERID}`, null, FwServices.defaultTimeout, function onSuccess(res) {
-                FwFormField.disable($form.find('div[data-datafield="BillToAttention1"]'));
-                FwFormField.disable($form.find('div[data-datafield="BillToAttention2"]'));
-                //Some values are being supplied as null so reset fields prior to setting new values
-                FwFormField.setValueByDataField($form, 'BillToAttention1', '');
-                FwFormField.setValueByDataField($form, 'BillToAttention2', '');
-                FwFormField.setValueByDataField($form, 'BillToAddress1', '');
-                FwFormField.setValueByDataField($form, 'BillToAddress2', '');
-                FwFormField.setValueByDataField($form, 'BillToCity', '');
-                FwFormField.setValueByDataField($form, 'BillToState', '');
-                FwFormField.setValueByDataField($form, 'BillToZipCode', '');
-                FwFormField.setValueByDataField($form, 'BillToCountryId', '', '');
-
-                FwFormField.setValueByDataField($form, 'BillToAttention1', res.BillToAttention1);
-                FwFormField.setValueByDataField($form, 'BillToAttention2', res.BillToAttention2);
-                FwFormField.setValueByDataField($form, 'BillToAddress1', res.BillToAddress1);
-                FwFormField.setValueByDataField($form, 'BillToAddress2', res.BillToAddress2);
-                FwFormField.setValueByDataField($form, 'BillToCity', res.BillToCity);
-                FwFormField.setValueByDataField($form, 'BillToState', res.BillToState);
-                FwFormField.setValueByDataField($form, 'BillToZipCode', res.BillToZipCode);
-                FwFormField.setValueByDataField($form, 'BillToCountryId', res.BillToCountryId, res.BillToCountry);
+            FwAppData.apiMethod(true, 'GET', `api/v1/customer/${CUSTOMERID}`, null, FwServices.defaultTimeout, response => {
+                this.loadCustomerBillingValues($form,response);
             }, null, $form);
         }
         if (FwFormField.getValueByDataField($form, 'BillToAddressType') === 'DEAL') {
@@ -549,23 +539,8 @@ class Deal {
     shippingAddressTypeChange($form: any): void {
         if (FwFormField.getValueByDataField($form, 'ShippingAddressType') === 'CUSTOMER') {
             const CUSTOMERID = FwFormField.getValueByDataField($form, 'CustomerId');
-            FwAppData.apiMethod(true, 'GET', `api/v1/customer/${CUSTOMERID}`, null, FwServices.defaultTimeout, function onSuccess(res) {
-                //Some values are being served as null so reset fields prior to setting new values
-                FwFormField.setValueByDataField($form, 'ShipAttention', '');
-                FwFormField.setValueByDataField($form, 'ShipAddress1', '');
-                FwFormField.setValueByDataField($form, 'ShipAddress2', '');
-                FwFormField.setValueByDataField($form, 'ShipCity', '');
-                FwFormField.setValueByDataField($form, 'ShipState', '');
-                FwFormField.setValueByDataField($form, 'ShipZipCode', '');
-                FwFormField.setValueByDataField($form, 'ShipCountryId', '', '');
-
-                FwFormField.setValueByDataField($form, 'ShipAttention', res.ShipAttention);
-                FwFormField.setValueByDataField($form, 'ShipAddress1', res.ShipAddress1);
-                FwFormField.setValueByDataField($form, 'ShipAddress2', res.ShipAddress2);
-                FwFormField.setValueByDataField($form, 'ShipCity', res.ShipCity);
-                FwFormField.setValueByDataField($form, 'ShipState', res.ShipState);
-                FwFormField.setValueByDataField($form, 'ShipZipCode', res.ShipZipCode);
-                FwFormField.setValueByDataField($form, 'ShipCountryId', res.ShipCountryId, res.ShipCountry);
+            FwAppData.apiMethod(true, 'GET', `api/v1/customer/${CUSTOMERID}`, null, FwServices.defaultTimeout, response => {
+                this.loadCustomerShippingValues($form, response);
             }, null, null);
         }
 
@@ -719,22 +694,23 @@ class Deal {
         FwBrowse.renderRuntimeHtml($companyContactControl);
     }
     //----------------------------------------------------------------------------------------------
-    loadCustomerValues($form: any): void {
+    customerChange($form: any): void {
         const CUSTOMERID = FwFormField.getValueByDataField($form, 'CustomerId');
         FwAppData.apiMethod(true, 'GET', `api/v1/customer/${CUSTOMERID}`, null, FwServices.defaultTimeout, response => {
-            // Only valid defaults for New Deals
-            if ($form.attr('data-mode') === 'NEW') {
-                FwFormField.setValueByDataField($form, 'Address1', response.Address1);
-                FwFormField.setValueByDataField($form, 'Address2', response.Address2);
-                FwFormField.setValueByDataField($form, 'City', response.City);
-                FwFormField.setValueByDataField($form, 'State', response.State);
-                FwFormField.setValueByDataField($form, 'ZipCode', response.ZipCode);
-                FwFormField.setValueByDataField($form, 'Phone', response.Phone);
-                FwFormField.setValueByDataField($form, 'Phone800', response.Phone800);
-                FwFormField.setValueByDataField($form, 'Fax', response.Fax);
-                FwFormField.setValueByDataField($form, 'PhoneOther', response.OtherPhone);
-                FwFormField.setValue($form, 'div[data-datafield="CountryId"]', response.CountryId, response.Country);
-                FwFormField.setValue($form, 'div[data-datafield="PaymentTermsId"]', response.PaymentTermsId, response.PaymentTerms);
+            // Deal tab
+            FwFormField.setValueByDataField($form, 'Address1', response.Address1);
+            FwFormField.setValueByDataField($form, 'Address2', response.Address2);
+            FwFormField.setValueByDataField($form, 'City', response.City);
+            FwFormField.setValueByDataField($form, 'State', response.State);
+            FwFormField.setValueByDataField($form, 'ZipCode', response.ZipCode);
+            FwFormField.setValueByDataField($form, 'Phone', response.Phone);
+            FwFormField.setValueByDataField($form, 'Phone800', response.Phone800);
+            FwFormField.setValueByDataField($form, 'Fax', response.Fax);
+            FwFormField.setValueByDataField($form, 'PhoneOther', response.OtherPhone);
+            FwFormField.setValue($form, 'div[data-datafield="CountryId"]', response.CountryId, response.Country);
+            FwFormField.setValue($form, 'div[data-datafield="PaymentTermsId"]', response.PaymentTermsId, response.PaymentTerms);
+            // Insurance tab
+            if (FwFormField.getValueByDataField($form, 'UseCustomerInsurance') === true) {
                 FwFormField.setValueByDataField($form, 'InsuranceCompanyAddress1', response.InsuranceCompanyAddress1);
                 FwFormField.setValueByDataField($form, 'InsuranceCompanyAddress2', response.InsuranceCompanyAddress2);
                 FwFormField.setValueByDataField($form, 'InsuranceCompanyCity', response.InsuranceCompanyCity);
@@ -745,45 +721,70 @@ class Deal {
                 FwFormField.setValue($form, 'div[data-datafield="InsuranceCompanyCountryId"]', response.InsuranceCompanyCountryId, response.InsuranceCompanyCountry);
                 FwFormField.setValue($form, 'div[data-datafield="InsuranceCompanyId"]', response.InsuranceCompanyId, response.InsuranceCompany);
                 FwFormField.setValueByDataField($form, 'InsuranceCompanyAgent', response.InsuranceAgent);
-            } else if ($form.attr('data-mode') === 'EDIT') {
-                // Shipping Address defaults
-                FwFormField.setValueByDataField($form, 'ShipAttention', '');
-                FwFormField.setValueByDataField($form, 'ShipAddress1', '');
-                FwFormField.setValueByDataField($form, 'ShipAddress2', '');
-                FwFormField.setValueByDataField($form, 'ShipCity', '');
-                FwFormField.setValueByDataField($form, 'ShipState', '');
-                FwFormField.setValueByDataField($form, 'ShipZipCode', '');
-                FwFormField.setValueByDataField($form, 'ShipCountryId', '', '');
-
-                FwFormField.setValueByDataField($form, 'ShipAttention', response.ShipAttention);
-                FwFormField.setValueByDataField($form, 'ShipAddress1', response.ShipAddress1);
-                FwFormField.setValueByDataField($form, 'ShipAddress2', response.ShipAddress2);
-                FwFormField.setValueByDataField($form, 'ShipCity', response.ShipCity);
-                FwFormField.setValueByDataField($form, 'ShipState', response.ShipState);
-                FwFormField.setValueByDataField($form, 'ShipZipCode', response.ShipZipCode);
-                FwFormField.setValueByDataField($form, 'ShipCountryId', response.ShipCountryId, response.ShipCountry);
-                // Billing Address defaults
-                FwFormField.disable($form.find('div[data-datafield="BillToAttention1"]'));
-                FwFormField.disable($form.find('div[data-datafield="BillToAttention2"]'));
-                //Some values are being supplied as null so reset fields prior to setting new values
-                FwFormField.setValueByDataField($form, 'BillToAttention1', '');
-                FwFormField.setValueByDataField($form, 'BillToAttention2', '');
-                FwFormField.setValueByDataField($form, 'BillToAddress1', '');
-                FwFormField.setValueByDataField($form, 'BillToAddress2', '');
-                FwFormField.setValueByDataField($form, 'BillToCity', '');
-                FwFormField.setValueByDataField($form, 'BillToState', '');
-                FwFormField.setValueByDataField($form, 'BillToZipCode', '');
-                FwFormField.setValueByDataField($form, 'BillToCountryId', '', '');
-
-                FwFormField.setValueByDataField($form, 'BillToAttention1', response.BillToAttention1);
-                FwFormField.setValueByDataField($form, 'BillToAttention2', response.BillToAttention2);
-                FwFormField.setValueByDataField($form, 'BillToAddress1', response.BillToAddress1);
-                FwFormField.setValueByDataField($form, 'BillToAddress2', response.BillToAddress2);
-                FwFormField.setValueByDataField($form, 'BillToCity', response.BillToCity);
-                FwFormField.setValueByDataField($form, 'BillToState', response.BillToState);
-                FwFormField.setValueByDataField($form, 'BillToZipCode', response.BillToZipCode);
-                FwFormField.setValueByDataField($form, 'BillToCountryId', response.BillToCountryId, response.BillToCountry);
+            } 
+            // Shipping Address tab defaults
+            if (FwFormField.getValueByDataField($form, 'ShippingAddressType') === 'CUSTOMER') {
+                this.loadCustomerShippingValues($form, response);
             }
+            if (FwFormField.getValueByDataField($form, 'BillToAddressType') === 'CUSTOMER') {
+                this.loadCustomerBillingValues($form, response);
+            }
+        }, null, null);
+    }
+    //----------------------------------------------------------------------------------------------
+    loadCustomerShippingValues($form: any, response: any): void {
+        FwFormField.setValueByDataField($form, 'ShipAttention', '');
+        FwFormField.setValueByDataField($form, 'ShipAddress1', '');
+        FwFormField.setValueByDataField($form, 'ShipAddress2', '');
+        FwFormField.setValueByDataField($form, 'ShipCity', '');
+        FwFormField.setValueByDataField($form, 'ShipState', '');
+        FwFormField.setValueByDataField($form, 'ShipZipCode', '');
+        FwFormField.setValueByDataField($form, 'ShipCountryId', '', '');
+
+        FwFormField.setValueByDataField($form, 'ShipAttention', response.ShipAttention);
+        FwFormField.setValueByDataField($form, 'ShipAddress1', response.ShipAddress1);
+        FwFormField.setValueByDataField($form, 'ShipAddress2', response.ShipAddress2);
+        FwFormField.setValueByDataField($form, 'ShipCity', response.ShipCity);
+        FwFormField.setValueByDataField($form, 'ShipState', response.ShipState);
+        FwFormField.setValueByDataField($form, 'ShipZipCode', response.ShipZipCode);
+        FwFormField.setValueByDataField($form, 'ShipCountryId', response.ShipCountryId, response.ShipCountry);
+    }
+    //----------------------------------------------------------------------------------------------
+    loadCustomerBillingValues($form: any, response: any): void {
+        FwFormField.disable($form.find('div[data-datafield="BillToAttention1"]'));
+        FwFormField.disable($form.find('div[data-datafield="BillToAttention2"]'));
+        FwFormField.setValueByDataField($form, 'BillToAttention1', '');
+        FwFormField.setValueByDataField($form, 'BillToAttention2', '');
+        FwFormField.setValueByDataField($form, 'BillToAddress1', '');
+        FwFormField.setValueByDataField($form, 'BillToAddress2', '');
+        FwFormField.setValueByDataField($form, 'BillToCity', '');
+        FwFormField.setValueByDataField($form, 'BillToState', '');
+        FwFormField.setValueByDataField($form, 'BillToZipCode', '');
+        FwFormField.setValueByDataField($form, 'BillToCountryId', '', '');
+
+        FwFormField.setValueByDataField($form, 'BillToAttention1', response.BillToAttention1);
+        FwFormField.setValueByDataField($form, 'BillToAttention2', response.BillToAttention2);
+        FwFormField.setValueByDataField($form, 'BillToAddress1', response.BillToAddress1);
+        FwFormField.setValueByDataField($form, 'BillToAddress2', response.BillToAddress2);
+        FwFormField.setValueByDataField($form, 'BillToCity', response.BillToCity);
+        FwFormField.setValueByDataField($form, 'BillToState', response.BillToState);
+        FwFormField.setValueByDataField($form, 'BillToZipCode', response.BillToZipCode);
+        FwFormField.setValueByDataField($form, 'BillToCountryId', response.BillToCountryId, response.BillToCountry);
+    }
+    //----------------------------------------------------------------------------------------------
+    getCustomerInsuranceValues($form: any): void {
+        const CUSTOMERID = FwFormField.getValueByDataField($form, 'CustomerId');
+        FwAppData.apiMethod(true, 'GET', `api/v1/customer/${CUSTOMERID}`, null, FwServices.defaultTimeout, response => {
+            FwFormField.setValueByDataField($form, 'InsuranceCompanyAddress1', response.InsuranceCompanyAddress1);
+            FwFormField.setValueByDataField($form, 'InsuranceCompanyAddress2', response.InsuranceCompanyAddress2);
+            FwFormField.setValueByDataField($form, 'InsuranceCompanyCity', response.InsuranceCompanyCity);
+            FwFormField.setValueByDataField($form, 'InsuranceCompanyState', response.InsuranceCompanyState);
+            FwFormField.setValueByDataField($form, 'InsuranceCompanyZipCode', response.InsuranceCompanyZipCode);
+            FwFormField.setValueByDataField($form, 'InsuranceCompanyFax', response.InsuranceCompanyFax);
+            FwFormField.setValueByDataField($form, 'InsuranceCompanyPhone', response.InsuranceCompanyPhone);
+            FwFormField.setValue($form, 'div[data-datafield="InsuranceCompanyCountryId"]', response.InsuranceCompanyCountryId, response.InsuranceCompanyCountry);
+            FwFormField.setValue($form, 'div[data-datafield="InsuranceCompanyId"]', response.InsuranceCompanyId, response.InsuranceCompany);
+            FwFormField.setValueByDataField($form, 'InsuranceCompanyAgent', response.InsuranceAgent);
         }, null, null);
     }
     //----------------------------------------------------------------------------------------------
