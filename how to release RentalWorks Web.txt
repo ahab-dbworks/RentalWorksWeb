@@ -5,11 +5,16 @@ GitKraken: confirm that you are on local\develop branch
 Stash any unstaged changes (or Stage, Commit, and Push)
 Modify version.txt file in the root of the Web project (save and close)
 Open command prompt at WebApi directory, run: npm run build-reports-dev
-	cd c:\project\rentalworks\rentalworksweb\src\rentalworkswebapi
+	cd %DwRentalWorksWebPath%\src\RentalWorksWebApi
 	npm run build-reports-dev
 Change build mode to Release - Any CPU
 Rebuild Solution
 Publish WebAPI:
+  Open command prompt at WebApi directory
+    cd %DwRentalWorksWebPath%\src\RentalWorksWebApi
+	npm run publish
+    
+	---old way, no longer supported---
 	Right-click WebApi project file --> Publish
 	Publish to this folder: <repo root>\build\RentalWorksWebApi
 	(The first time you do this, you need to setup the folder and define a Profile to use next time. When doing so, click "Advanced Options" and select "Remove Additional Files at Destination")
