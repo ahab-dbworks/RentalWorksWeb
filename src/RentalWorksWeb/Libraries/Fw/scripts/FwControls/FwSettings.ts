@@ -411,7 +411,6 @@ class FwSettingsClass {
         $control.find('.well').append($settingsPageModules);
 
         $settingsPageModules.on('click', '.btn', function (e) {
-            var $form = jQuery(this).closest('.panel-record').find('.fwform');
             $body.empty();
             me.getRows($body, $control, apiurl, $control.find('#' + moduleName), moduleName);
         });
@@ -669,6 +668,7 @@ class FwSettingsClass {
                     $rowBody.append($form);
                     $form.find('.highlighted').removeClass('highlighted');
                     $form.find('div[data-type="NewMenuBarButton"]').off();
+                    $form.find('.buttonbar').append('<div class="btn-delete" data-type="DeleteMenuBarButton"><i class="material-icons"></i><div class="btn-text">Delete</div></div>');
 
                     for (var key in recordData) {
                         for (var i = 0; i < me.filter.length; i++) {
@@ -858,6 +858,35 @@ class FwSettingsClass {
                 searchInput.trigger(event);
             }
         });
+
+        $control.on('click', '.btn-delete', function (e) {
+            let $form = jQuery(this).closest('.panel-record').find('.fwform');
+            let ids = {};
+            let $confirmation = FwConfirmation.renderConfirmation('Delete Record', 'Are you sure you want to delete this record?');
+            let $yes = FwConfirmation.addButton($confirmation, 'Yes');
+            FwConfirmation.addButton($confirmation, 'No');
+            $yes.on('click', function () {
+                let controller = $form.data('controller');
+                ids = FwModule.getFormUniqueIds($form);
+                let request = {
+                    module: window[controller].Module,
+                    ids: ids
+                };
+                try {
+                    FwServices.module.method(request, window[controller].Module, 'Delete', $form, function (response) {
+                        $form = FwModule.getFormByUniqueIds(ids);
+                        if ((typeof $form != 'undefined') && ($form.length > 0)) {
+                            $form.closest('.panel-record').remove();
+                        }
+                        FwNotification.renderNotification('SUCCESS', 'Record deleted.');
+                    }, function (error) {
+                        FwNotification.renderNotification('ERROR', 'Error deleting form.');
+                    });
+                } catch (ex) {
+                    FwFunc.showError(ex);
+                }
+            });
+        })
 
         return $settingsPageModules;
     };
