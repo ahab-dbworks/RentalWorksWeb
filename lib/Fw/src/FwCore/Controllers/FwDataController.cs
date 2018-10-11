@@ -31,9 +31,8 @@ namespace FwCore.Controllers
             return bl;
         }
         //------------------------------------------------------------------------------------
-        protected virtual async Task<ActionResult<FwJsonDataTable>> DoBrowseAsync(BrowseRequest browseRequest/*, Type type = null*/)
+        protected virtual async Task<ActionResult<FwJsonDataTable>> DoBrowseAsync(BrowseRequest browseRequest, Type type = null)
         {
-            Type type = null;
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
@@ -68,9 +67,8 @@ namespace FwCore.Controllers
             public string downloadUrl = "";
         }
         //------------------------------------------------------------------------------------
-        protected virtual async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> DoExportExcelXlsxFileAsync(BrowseRequest browseRequest/*, Type type = null*/, string worksheetName = "")
+        protected virtual async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> DoExportExcelXlsxFileAsync(BrowseRequest browseRequest, Type type = null, string worksheetName = "")
         {
-            Type type = null;
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
@@ -118,10 +116,8 @@ namespace FwCore.Controllers
             }
         }
         //------------------------------------------------------------------------------------
-        protected virtual async Task<ActionResult<IEnumerable<T>>> DoGetAsync<T>(int pageno, int pagesize, string sort/*, Type type = null*/)
+        protected virtual async Task<ActionResult<IEnumerable<T>>> DoGetAsync<T>(int pageno, int pagesize, string sort, Type type = null)
         {
-            Type type = null;
-
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
@@ -158,10 +154,8 @@ namespace FwCore.Controllers
             }
         }
         //------------------------------------------------------------------------------------
-        protected virtual async Task<ActionResult<T>> DoGetAsync<T>(string id/*, Type type = null*/)
+        protected virtual async Task<ActionResult<T>> DoGetAsync<T>(string id, Type type = null)
         {
-            Type type = null;
-
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
@@ -376,10 +370,8 @@ namespace FwCore.Controllers
             }
         }
         //------------------------------------------------------------------------------------
-        protected virtual async Task<ActionResult<bool>> DoDeleteAsync(string id/*, Type type = null*/)
+        protected virtual async Task<ActionResult<bool>> DoDeleteAsync(string id, Type type = null)
         {
-            Type type = null;
-
             try
             {
 
