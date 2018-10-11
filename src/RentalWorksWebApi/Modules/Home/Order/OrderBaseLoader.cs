@@ -10,6 +10,9 @@ namespace WebApi.Modules.Home.Order
     public abstract class OrderBaseLoader : OrderBaseBrowseLoader
     {
         //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "ordertype", modeltype: FwDataTypes.Text)]
+        public string Type { get; set; }
+        //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "rental", modeltype: FwDataTypes.Boolean)]
         public bool? Rental { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -63,24 +66,6 @@ namespace WebApi.Modules.Home.Order
         //------------------------------------------------------------------------------------
 
 
-        [FwSqlDataField(column: "pickdate", modeltype: FwDataTypes.Date)]
-        public string PickDate { get; set; }
-        //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "picktime", modeltype: FwDataTypes.Text)]
-        public string PickTime { get; set; }
-        //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "estrentfrom", modeltype: FwDataTypes.Date)]
-        public string EstimatedStartDate { get; set; }
-        //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "estfromtime", modeltype: FwDataTypes.Text)]
-        public string EstimatedStartTime { get; set; }
-        //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "estrentto", modeltype: FwDataTypes.Date)]
-        public string EstimatedStopDate { get; set; }
-        //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "esttotime", modeltype: FwDataTypes.Text)]
-        public string EstimatedStopTime { get; set; }
-        //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "ratetype", modeltype: FwDataTypes.Text)]
         public string RateType { get; set; }
         //------------------------------------------------------------------------------------
@@ -92,9 +77,6 @@ namespace WebApi.Modules.Home.Order
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "orderlocation", modeltype: FwDataTypes.Text)]
         public string Location { get; set; }
-        //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "refno", modeltype: FwDataTypes.Text)]
-        public string ReferenceNumber { get; set; }
         //------------------------------------------------------------------------------------
         //[FwSqlDataField(column: "ordertotal", modeltype: FwDataTypes.Decimal)]
         //public decimal? Total { get; set; }
@@ -299,12 +281,6 @@ namespace WebApi.Modules.Home.Order
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "termsconditions", modeltype: FwDataTypes.Text)]
         public string TermsConditions { get; set; }
-        //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "salesrepresentativecontactid", modeltype: FwDataTypes.Text)]
-        public string SalesRepresentativeId { get; set; }
-        //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "salesrepresentative", modeltype: FwDataTypes.Text)]
-        public string SalesRepresentative { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "markettypeid", modeltype: FwDataTypes.Text)]
         public string MarketTypeId { get; set; }

@@ -15,9 +15,6 @@ namespace WebApi.Modules.Home.Order
         [FwSqlDataField(column: "orderdesc", modeltype: FwDataTypes.Text)]
         public string Description { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "ordertype", modeltype: FwDataTypes.Text)]
-        public string Type { get; set; }
-        //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "locationid", modeltype: FwDataTypes.Text, isVisible: false)]
         public string OfficeLocationId { get; set; }
         //------------------------------------------------------------------------------------
@@ -101,6 +98,40 @@ namespace WebApi.Modules.Home.Order
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "descriptioncolor", modeltype: FwDataTypes.OleToHtmlColor)]
         public string DescriptionColor { get; set; }
+        //------------------------------------------------------------------------------------
+
+
+
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "refno", modeltype: FwDataTypes.Text)]
+        public string ReferenceNumber { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "pickdate", modeltype: FwDataTypes.Date)]
+        public string PickDate { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "picktime", modeltype: FwDataTypes.Text)]
+        public string PickTime { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "estrentfrom", modeltype: FwDataTypes.Date)]
+        public string EstimatedStartDate { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "estfromtime", modeltype: FwDataTypes.Text)]
+        public string EstimatedStartTime { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "estrentto", modeltype: FwDataTypes.Date)]
+        public string EstimatedStopDate { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "esttotime", modeltype: FwDataTypes.Text)]
+        public string EstimatedStopTime { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "salesrepresentativecontactid", modeltype: FwDataTypes.Text)]
+        public string SalesRepresentativeId { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "salesrepresentative", modeltype: FwDataTypes.Text)]
+        public string SalesRepresentative { get; set; }
+        //------------------------------------------------------------------------------------
+
+
 
         //------------------------------------------------------------------------------------
         protected override void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequest request = null)
