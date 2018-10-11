@@ -45,10 +45,20 @@ class WebForm {
         FwFormField.setValueByDataField($form, 'WebUserId', userid.webusersid);
 
         if (mode == 'NEW') {
-            this.addCodeEditor($form);
             FwFormField.enable($form.find('[data-datafield="BaseForm"]'));
         }
 
+        //Creates an instance of CodeMirror
+        let textArea = $form.find('#codeEditor');
+        var myCodeMirror = CodeMirror.fromTextArea(textArea.get(0),
+            {
+                mode: 'text/html'
+                , lineNumbers: true
+            });
+        myCodeMirror.setSize(1350, 850);
+        $form.find('.CodeMirror').css('max-width', '1350px');
+
+        this.codeMirrorEvents($form, myCodeMirror);
         this.loadModules($form);
         return $form;
     }
@@ -91,22 +101,11 @@ class WebForm {
     }
     //----------------------------------------------------------------------------------------------
     afterLoad($form: any) {
-        this.addCodeEditor($form);
-        $form.find('div.modules').change(); //triggers change event to load fields
+        $form.find('div.modules').change();
     }
     //----------------------------------------------------------------------------------------------
-    addCodeEditor($form) {
-        let textArea = $form.find('#codeEditor');
+    codeMirrorEvents($form, myCodeMirror) {
         let html = $form.find('[data-datafield="Html"] textarea').val();
-        var myCodeMirror = CodeMirror.fromTextArea(textArea.get(0),
-            {
-                mode: 'text/html'
-                , lineNumbers: true
-            });
-        myCodeMirror.setSize(1350, 850);
-        $form.find('.CodeMirror').css('max-width', '1350px');
-        let doc = myCodeMirror.getDoc();
-
         //Loads html for code editor
         if (typeof html !== 'undefined') {
             myCodeMirror.setValue(html);
@@ -115,10 +114,11 @@ class WebForm {
         }
         //Select module event
         $form.find('div.modules').on('change', e => {
-            let moduleName = jQuery(e.currentTarget).find(':selected').val();
-            let type = jQuery(e.currentTarget).find('option:selected').attr('data-type');
-            let controller: any = jQuery(e.currentTarget).find('option:selected').attr('data-controllername');
-            let apiurl = jQuery(e.currentTarget).find('option:selected').attr('data-apiurl');
+            let $this = jQuery(e.currentTarget).find('option:selected');
+            let moduleName = $this.val();
+            let type = $this.attr('data-type');
+            let controller: any = $this.attr('data-controllername');
+            let apiurl = $this.attr('data-apiurl');
             const modulefields = $form.find('.modulefields');
             let modulehtml, request: any;
            let moduleNav = controller.slice(0, -10);
@@ -172,7 +172,6 @@ class WebForm {
             } else {
                 myCodeMirror.setValue(`There is no ${type} available for this selection.`);
             }
-            doc.markClean();
         });
 
         function compare(a, b) {
@@ -182,7 +181,6 @@ class WebForm {
                 return 1;
             return 0;
         }
-
 
         //Sets form to modified upon changing code in editor
         myCodeMirror.on('change', function (cm, change) {
