@@ -26,6 +26,8 @@ sync_RentalWorksWeb_to_TrakItWorksWeb.ps1.log
 /src/RentalWorksQuikScan/ApplicationConfig.js
 /src/RentalWorksQuikScan/FwApplicationSchema.config
 /src/RentalWorksQuikScan/scripts/_references.js
+/src/RentalWorksQuikScan/scripts/Program.js
+/src/RentalWorksQuikScan/scripts/Program.js.map
 
 /src/RentalWorksTest/Application.config
 
@@ -35,6 +37,10 @@ sync_RentalWorksWeb_to_TrakItWorksWeb.ps1.log
 /src/RentalWorksWeb/scripts/_references.js
 /src/RentalWorksWeb/scripts/Program.js
 /src/RentalWorksWeb/scripts/Program.js.map
+/src/RentalWorksWeb/scripts/RwMaster.js
+/src/RentalWorksWeb/scripts/RwMaster.js.map
+/src/RentalWorksWeb/scripts/DefaultApplicationConfig.js
+/src/RentalWorksWeb/scripts/DefaultApplicationConfig.js.map
 /src/RentalWorksWeb/Source/**/*.js
 /src/RentalWorksWeb/Source/**/*.js.map
 /src/RentalWorksWeb/app_scripts.json
@@ -74,8 +80,12 @@ sync_RentalWorksWeb_to_TrakItWorksWeb.ps1.log
 /src/TrakItWorksWeb/Source/Modules/Home/**/*.js.map
 /src/TrakItWorksWeb/Source/Modules/Settings/**/*.js
 /src/TrakItWorksWeb/Source/Modules/Settings/**/*.js.map
+/src/TrakItWorksWeb/scripts/DefaultApplicationConfig.js
+/src/TrakItWorksWeb/scripts/DefaultApplicationConfig.js.map
 /src/TrakItWorksWeb/scripts/Program.js
 /src/TrakItWorksWeb/scripts/Program.js.map
+/src/TrakItWorksWeb/scripts/RwMaster.js
+/src/TrakItWorksWeb/scripts/RwMaster.js.map
 /src/TrakItWorksWeb/Libraries/Fw/scripts/FwControls/FwReport.js.map
 /src/TrakItWorksWeb/Libraries/Fw/scripts/FwControls/FwFormField.js.map
 
