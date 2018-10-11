@@ -154,8 +154,8 @@ namespace FwStandard.BusinessLogic
         [JsonIgnore]
         public bool LoadOriginalBeforeSaving { get; set; } = true;
 
-        [JsonIgnore]
-        public bool AuditMode { get; set; }
+        //[JsonIgnore]
+        //public bool AuditMode { get; set; }
 
         static Mutex CustomFieldMutex = new Mutex(true, "LoadCustomFields");
 
@@ -303,7 +303,7 @@ namespace FwStandard.BusinessLogic
             return records;
         }
         //------------------------------------------------------------------------------------
-        public virtual async Task<bool> LoadAsync<T>(object[] primaryKeyValues) 
+        public virtual async Task<bool> LoadAsync<T>(object[] primaryKeyValues)
         {
             bool blLoaded = false;
             bool recLoaded = false;
@@ -434,12 +434,12 @@ namespace FwStandard.BusinessLogic
         public virtual object[] GetPrimaryKeys()
         {
             List<PropertyInfo> pkProperties = GetPrimaryKeyProperties();
-            object[] ids                    = new object[pkProperties.Count];
+            object[] ids = new object[pkProperties.Count];
 
             for (int i = 0; i < pkProperties.Count; i++)
             {
                 PropertyInfo pkProperty = pkProperties[i];
-                ids[i]                  = pkProperty.GetValue(this);
+                ids[i] = pkProperty.GetValue(this);
             }
 
             return ids;
@@ -452,7 +452,7 @@ namespace FwStandard.BusinessLogic
             for (int i = 0; i < pkProperties.Count; i++)
             {
                 PropertyInfo pkProperty = pkProperties[i];
-                Type propertyType       = pkProperty.PropertyType;
+                Type propertyType = pkProperty.PropertyType;
 
                 if ((propertyType == typeof(int?)) || (propertyType == typeof(Int32)))
                 {
@@ -464,7 +464,7 @@ namespace FwStandard.BusinessLogic
                 }
                 else
                 {
-                    throw new Exception("Primary key property type not implemented for " +  propertyType.ToString() + ". [FwBusinessLogic.SetPrimaryKeys]");
+                    throw new Exception("Primary key property type not implemented for " + propertyType.ToString() + ". [FwBusinessLogic.SetPrimaryKeys]");
                 }
             }
         }
@@ -902,11 +902,11 @@ namespace FwStandard.BusinessLogic
                         }
                         if (propertyValue is string)
                         {
-                            title = title + (propertyValue as string).TrimEnd(); 
+                            title = title + (propertyValue as string).TrimEnd();
                         }
                         else if (propertyValue is int)
                         {
-                            title = title + ((int)propertyValue).ToString().TrimEnd(); 
+                            title = title + ((int)propertyValue).ToString().TrimEnd();
                         }
                         else
                         {
@@ -918,23 +918,23 @@ namespace FwStandard.BusinessLogic
             }
         }
         //------------------------------------------------------------------------------------
-        public bool ShouldSerializeRecordTitle()
-        {
-            // don't serialize the Record Title when in auditMode
-            return (!AuditMode);
-        }
-        //------------------------------------------------------------------------------------
-        public bool ShouldSerialize_Custom()
-        {
-            // don't serialize the _Cusom property when empty
-            bool serialize = true;
-            if (AuditMode)
-            {
-                serialize = (_Custom.Count > 0);
-            }
-            return serialize;
-        }
-        //------------------------------------------------------------------------------------
+        //public bool ShouldSerializeRecordTitle()
+        //{
+        //    // don't serialize the Record Title when in auditMode
+        //    return (!AuditMode);
+        //}
+        ////------------------------------------------------------------------------------------
+        //public bool ShouldSerialize_Custom()
+        //{
+        //    // don't serialize the _Cusom property when empty
+        //    bool serialize = true;
+        //    if (AuditMode)
+        //    {
+        //        serialize = (_Custom.Count > 0);
+        //    }
+        //    return serialize;
+        //}
+        ////------------------------------------------------------------------------------------
         public void LoadUserSession()
         {
             if (dataLoader != null)
@@ -985,6 +985,65 @@ namespace FwStandard.BusinessLogic
                     dataRecords[i].SetDependencies(appConfig, userSession);
                 }
             }
+        }
+        //------------------------------------------------------------------------------------
+        public List<FwBusinessLogicFieldDelta> GetChanges(FwBusinessLogic original)
+        {
+            List<FwBusinessLogicFieldDelta> deltas = new List<FwBusinessLogicFieldDelta>();
+            if (original != null)
+            {
+                if (original.GetType().Equals(GetType()))  // this and original must be the same type
+                {
+                    PropertyInfo[] properties = this.GetType().GetProperties();
+                    object oldValue = null;
+                    object newValue = null;
+                    foreach (PropertyInfo property in properties)
+                    {
+
+                        bool checkProperty = true;
+
+                        if (checkProperty)
+                        {
+                            if (property.IsDefined(typeof(FwBusinessLogicFieldAttribute)))
+                            {
+                                foreach (Attribute attribute in property.GetCustomAttributes())
+                                {
+                                    if (attribute.GetType() == typeof(FwBusinessLogicFieldAttribute))
+                                    {
+                                        FwBusinessLogicFieldAttribute businessLogicFieldAttribute = (FwBusinessLogicFieldAttribute)attribute;
+                                        if ((businessLogicFieldAttribute.IsPrimaryKey) || (businessLogicFieldAttribute.IsPrimaryKeyOptional))
+                                        {
+                                            checkProperty = false;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                        if (checkProperty)
+                        {
+                            if (property.Name.Equals("RecordTitle"))
+                            {
+                                checkProperty = false;
+                            }
+                        }
+
+                        if (checkProperty)
+                        {
+                            newValue = property.GetValue(this);
+                            if (newValue != null)  // property value is not null, so must be changing
+                            {
+                                oldValue = original.GetType().GetProperty(property.Name).GetValue(original, null);
+                                if (!newValue.Equals(oldValue))
+                                {
+                                    deltas.Add(new FwBusinessLogicFieldDelta(property.Name, oldValue, newValue));
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            return deltas;
         }
         //------------------------------------------------------------------------------------
     }

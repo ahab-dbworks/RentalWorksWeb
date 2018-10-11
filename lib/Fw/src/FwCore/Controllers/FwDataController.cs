@@ -235,11 +235,12 @@ namespace FwCore.Controllers
                     WebAuditJsonLogic audit = new WebAuditJsonLogic();
                     audit.AppConfig = this.AppConfig;
                     audit.UserSession = this.UserSession;
-                    JsonSerializerSettings jsonSerializerSettings = new JsonSerializerSettings();
-                    jsonSerializerSettings.NullValueHandling = NullValueHandling.Ignore;
-                    l.AuditMode = true;
-                    audit.Json = JsonConvert.SerializeObject(l, jsonSerializerSettings);
-                    l.AuditMode = false;
+                    //JsonSerializerSettings jsonSerializerSettings = new JsonSerializerSettings();
+                    //jsonSerializerSettings.NullValueHandling = NullValueHandling.Ignore;
+                    //l.AuditMode = true;
+                    //audit.Json = JsonConvert.SerializeObject(l, jsonSerializerSettings);
+                    //l.AuditMode = false;
+                    audit.Json = JsonConvert.SerializeObject(l.GetChanges(original));
                     object[] keys = l.GetPrimaryKeys();
                     if (keys.Length > 0)
                     {
