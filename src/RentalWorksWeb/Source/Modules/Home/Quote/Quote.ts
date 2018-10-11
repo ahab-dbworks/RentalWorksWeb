@@ -54,8 +54,8 @@ class Quote extends OrderBase {
             }
         });
 
-        var warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
-        self.ActiveView = 'WarehouseId=' + warehouse.warehouseid;
+        var location = JSON.parse(sessionStorage.getItem('location'));
+        self.ActiveView = 'LocationId=' + location.locationid;
 
         $browse.data('ondatabind', function (request) {
             request.activeview = self.ActiveView;
