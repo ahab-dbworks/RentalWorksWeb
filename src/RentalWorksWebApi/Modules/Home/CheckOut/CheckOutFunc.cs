@@ -10,7 +10,7 @@ using WebLibrary;
 namespace WebApi.Modules.Home.CheckOut
 {
 
-    public class OrderInventoryStatus
+    public class OrderInventoryStatusCheckOut
     {
         public string ICode{ get; set; }
         public string Description{ get; set; }
@@ -28,7 +28,7 @@ namespace WebApi.Modules.Home.CheckOut
         public string OrderItemId{ get; set; }
         public int QuantityStaged{ get; set; }
 
-        public OrderInventoryStatus InventoryStatus { get; set; } = new OrderInventoryStatus();
+        public OrderInventoryStatusCheckOut InventoryStatus = new OrderInventoryStatusCheckOut();
 
         public bool ShowAddItemToOrder{ get; set; }
         public bool ShowAddCompleteToOrder{ get; set; }

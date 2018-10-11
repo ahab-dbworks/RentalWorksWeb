@@ -9,7 +9,7 @@ using WebLibrary;
 namespace WebApi.Modules.Home.CheckIn
 {
 
-    public class OrderInventoryStatus
+    public class OrderInventoryStatusCheckIn
     {
         public string ICode;
         public string Description;
@@ -33,7 +33,7 @@ namespace WebApi.Modules.Home.CheckIn
         public string Department;
         public string InventoryId;
         public string OrderItemId;
-        public OrderInventoryStatus InventoryStatus = new OrderInventoryStatus();
+        public OrderInventoryStatusCheckIn InventoryStatus = new OrderInventoryStatusCheckIn();
         public bool ShowNewOrder;
         public bool ShowSwap;
     }
