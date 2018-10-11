@@ -132,43 +132,14 @@ class WebForm {
                 case 'Browse':
                     modulehtml = jQuery(`#tmpl-modules-${moduleName}`).html();
 
-                    //Adds valid fields for browses
-                    if (apiurl !== "undefined") {
-                        FwAppData.apiMethod(true, 'POST', `${apiurl}/browse`, request, FwServices.defaultTimeout, function onSuccess(response) {
-                            let columnNames = response.Columns;
-
-                            columnNames = columnNames.filter( obj => {
-                                return obj.DataField !== 'DateStamp';
-                            });
-
-                            for (let i = 0; i < columnNames.length; i++) {
-                                modulefields.append(`${columnNames[i].DataField}<br />`);
-                            }
-                        }, null, $form);
-                    }
-
                     //For modules where the html is in the TS file
                     if (typeof modulehtml == 'undefined') {
                         modulehtml = window[controller].getBrowseTemplate();
                     }
                     break;
+
                 case 'Form':
                     modulehtml = jQuery(`#tmpl-modules-${moduleName}`).html();
-
-                    //Adds valid fields for forms
-                    if (apiurl !== "undefined") {
-                        FwAppData.apiMethod(true, 'POST', `${apiurl}/browse`, request, FwServices.defaultTimeout, function onSuccess(response) {
-                            let columnNames = response.Columns;
-
-                            columnNames = columnNames.filter(obj => {
-                                return obj.DataField !== 'DateStamp';
-                            });
-
-                            for (let i = 0; i < columnNames.length; i++) {
-                                modulefields.append(`${columnNames[i].DataField}<br />`);
-                            }
-                        }, null, $form);
-                    }
 
                     //For modules where the html is in the TS file
                     if (typeof modulehtml == 'undefined') {
@@ -177,23 +148,25 @@ class WebForm {
                     break;
                 case 'Grid':
                     modulehtml = jQuery(`#tmpl-grids-${moduleName}`).html();
-
-                    //Adds valid fields for grids
-                    if (apiurl !== "undefined") {
-                        FwAppData.apiMethod(true, 'POST', `${apiurl}/browse`, request, FwServices.defaultTimeout, function onSuccess(response) {
-                            let columnNames = response.Columns;
-
-                            columnNames = columnNames.filter(obj => {
-                                return obj.DataField !== 'DateStamp';
-                            });
-
-                            for (let i = 0; i < columnNames.length; i++) {
-                                modulefields.append(`${columnNames[i].DataField}<br />`);
-                            }
-                        }, null, $form);
-                    }
                     break;
             }
+
+            if (apiurl !== "undefined") {
+                FwAppData.apiMethod(true, 'POST', `${apiurl}/browse`, request, FwServices.defaultTimeout, function onSuccess(response) {
+                    let columnNames = response.Columns;
+
+                    columnNames = columnNames.filter(obj => {
+                        return obj.DataField !== 'DateStamp';
+                    });
+
+                    columnNames = columnNames.sort(compare);
+
+                    for (let i = 0; i < columnNames.length; i++) {
+                        modulefields.append(`${columnNames[i].DataField}<br />`);
+                    }
+                }, null, $form);
+            }
+
             if (typeof modulehtml !== "undefined") {
                 myCodeMirror.setValue(modulehtml);
             } else {
@@ -201,6 +174,15 @@ class WebForm {
             }
             doc.markClean();
         });
+
+        function compare(a, b) {
+            if (a.DataField < b.DataField)
+                return -1;
+            if (a.DataField > b.DataField)
+                return 1;
+            return 0;
+        }
+
 
         //Sets form to modified upon changing code in editor
         myCodeMirror.on('change', function (cm, change) {
