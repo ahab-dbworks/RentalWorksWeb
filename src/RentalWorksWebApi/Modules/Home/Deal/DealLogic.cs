@@ -84,9 +84,9 @@ namespace WebApi.Modules.Home.Deal
         public string DiscountTemplateId { get { return deal.DiscountTemplateId; } set { deal.DiscountTemplateId = value; } }
         [FwBusinessLogicField(isReadOnly: true)]
         public string DiscountTemplate { get; set; }
-        public string SalesRepresentativeId { get { return deal.SalesRepresentativeId; } set { deal.SalesRepresentativeId = value; } }
+        public string OutsideSalesRepresentativeId { get { return deal.OutsideSalesRepresentativeId; } set { deal.OutsideSalesRepresentativeId = value; } }
         [FwBusinessLogicField(isReadOnly: true)]
-        public string SalesRepresentative { get; set; }
+        public string OutsideSalesRepresentative { get; set; }
         public decimal? CommissionRate { get { return deal.CommissionRate; } set { deal.CommissionRate = value; } }
         public bool? CommissionIncludesVendorItems { get { return deal.CommissionIncludesVendorItems; } set { deal.CommissionIncludesVendorItems = value; } }
         public bool? PoRequired { get { return deal.PoRequired; } set { deal.PoRequired = value; } }

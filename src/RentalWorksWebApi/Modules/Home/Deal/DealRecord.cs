@@ -109,7 +109,7 @@ namespace WebApi.Modules.Home.Deal
         public string DiscountTemplateId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "salesrepresentativeid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
-        public string SalesRepresentativeId { get; set; }
+        public string OutsideSalesRepresentativeId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "commissionrate", modeltype: FwDataTypes.Decimal, sqltype: "numeric", precision: 5, scale: 3)]
         public decimal? CommissionRate { get; set; }

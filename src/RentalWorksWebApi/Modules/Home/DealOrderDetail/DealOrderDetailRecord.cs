@@ -42,7 +42,7 @@ namespace WebApi.Modules.Home.DealOrderDetail
         public string CoverLetterId { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "salesrepresentativecontactid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 08)]
-        public string SalesRepresentativeId { get; set; }
+        public string OutsideSalesRepresentativeId { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "marketsegmentid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 08)]
         public string MarketSegmentId { get; set; }

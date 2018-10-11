@@ -290,10 +290,10 @@ namespace WebApi.Modules.Home.Order
         [FwBusinessLogicField(isReadOnly: true)]
         public string TermsConditions { get; set; }
         //------------------------------------------------------------------------------------
-        public string SalesRepresentativeId { get { return dealOrderDetail.SalesRepresentativeId; } set { dealOrderDetail.SalesRepresentativeId = value; } }
+        public string OutsideSalesRepresentativeId { get { return dealOrderDetail.OutsideSalesRepresentativeId; } set { dealOrderDetail.OutsideSalesRepresentativeId = value; } }
         //------------------------------------------------------------------------------------
         [FwBusinessLogicField(isReadOnly: true)]
-        public string SalesRepresentative { get; set; }
+        public string OutsideSalesRepresentative { get; set; }
         //------------------------------------------------------------------------------------
 
         [FwBusinessLogicField(isReadOnly: true)]

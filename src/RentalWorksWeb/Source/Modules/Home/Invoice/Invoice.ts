@@ -178,7 +178,7 @@ class Invoice {
 
             FwFormField.setValue($form, 'div[data-datafield="ProjectManagerId"]', usersid, name);
             FwFormField.setValue($form, 'div[data-datafield="AgentId"]', usersid, name);
-            FwFormField.setValue($form, 'div[data-datafield="SalesRepresentativeId"]', usersid, name);
+            FwFormField.setValue($form, 'div[data-datafield="OutsideSalesRepresentativeId"]', usersid, name);
 
             FwFormField.setValueByDataField($form, 'BillingStartDate', today);
             FwFormField.setValueByDataField($form, 'InvoiceDate', today);

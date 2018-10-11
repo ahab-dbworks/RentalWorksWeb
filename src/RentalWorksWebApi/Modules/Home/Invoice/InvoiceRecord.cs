@@ -153,7 +153,7 @@ namespace WebApi.Modules.Home.Invoice
         public decimal? QuikPayRentalTotal { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "salesrepresentativeid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
-        public string SalesRepresentativeId { get; set; }
+        public string OutsideSalesRepresentativeId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "excludeflg", modeltype: FwDataTypes.Boolean, sqltype: "char")]
         public bool? Excludeflg { get; set; }

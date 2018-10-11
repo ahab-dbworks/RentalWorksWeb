@@ -65,10 +65,10 @@ namespace WebApi.Modules.Home.Project
         public string RequestedBy { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "salesrepresentativecontactid", modeltype: FwDataTypes.Text)]
-        public string SalesRepresentativeId { get; set; }
+        public string OutsideSalesRepresentativeId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "salesrepresentative", modeltype: FwDataTypes.Text)]
-        public string SalesRepresentative { get; set; }
+        public string OutsideSalesRepresentative { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "projectdescription", modeltype: FwDataTypes.Text)]
         public string ProjectDescription { get; set; }

@@ -125,10 +125,10 @@ namespace WebApi.Modules.Home.Order
         public string EstimatedStopTime { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "salesrepresentativecontactid", modeltype: FwDataTypes.Text)]
-        public string SalesRepresentativeId { get; set; }
+        public string OutsideSalesRepresentativeId { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "salesrepresentative", modeltype: FwDataTypes.Text)]
-        public string SalesRepresentative { get; set; }
+        public string OutsideSalesRepresentative { get; set; }
         //------------------------------------------------------------------------------------
 
 

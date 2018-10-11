@@ -167,7 +167,7 @@ namespace WebApi.Modules.Home.Invoice
         public string OfficeLocationDefaultCurrencyId { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
         public string DivisionId { get; set; }
-        public string SalesRepresentativeId { get { return invoice.SalesRepresentativeId; } set { invoice.SalesRepresentativeId = value; } }
+        public string OutsideSalesRepresentativeId { get { return invoice.OutsideSalesRepresentativeId; } set { invoice.OutsideSalesRepresentativeId = value; } }
         [FwBusinessLogicField(isReadOnly: true)]
         public string SalesRepresentative { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]

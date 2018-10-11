@@ -104,10 +104,10 @@ namespace WebApi.Modules.Home.Deal
         public string DiscountTemplate { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "salesrepresentativeid", modeltype: FwDataTypes.Text)]
-        public string SalesRepresentativeId { get; set; }
+        public string OutsideSalesRepresentativeId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "salesrepresentative", modeltype: FwDataTypes.Text)]
-        public string SalesRepresentative { get; set; }
+        public string OutsideSalesRepresentative { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "commissionrate", modeltype: FwDataTypes.Decimal)]
         public decimal? CommissionRate { get; set; }

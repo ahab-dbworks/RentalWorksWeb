@@ -63,9 +63,9 @@ namespace WebApi.Modules.Home.Project
         public string PrimaryContact { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
         public string RequestedBy { get; set; }
-        public string SalesRepresentativeId { get { return projectDetail.SalesRepresentativeId; } set { projectDetail.SalesRepresentativeId = value; } }
+        public string OutsideSalesRepresentativeId { get { return projectDetail.OutsideSalesRepresentativeId; } set { projectDetail.OutsideSalesRepresentativeId = value; } }
         [FwBusinessLogicField(isReadOnly: true)]
-        public string SalesRepresentative { get; set; }
+        public string OutsideSalesRepresentative { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
         public string ProjectDescription { get { return project.FromWarehouseNotes; } set { project.FromWarehouseNotes = value; } }
         public bool? Rental { get { return project.Rental; } set { project.Rental = value; } }
