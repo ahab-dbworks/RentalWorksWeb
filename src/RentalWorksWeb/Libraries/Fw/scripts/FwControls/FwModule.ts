@@ -465,7 +465,6 @@ class FwModule {
         //Jason H - 10/09/2018 Replacing with new audit tab
 
         //add Audit tab to all forms
-
         let $keys = $form.find('.fwformfield[data-type="key"]');
         if ($keys.length !== 0) {
             $formTabControl = jQuery($form.find('.fwtabs'));

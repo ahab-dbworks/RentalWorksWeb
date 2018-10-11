@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Authorization;
+using Microsoft.AspNetCore.Routing;
 using Microsoft.DotNet.PlatformAbstractions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -20,6 +21,7 @@ using Swashbuckle.AspNetCore.SwaggerGen;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -146,7 +148,7 @@ namespace FwCore.Api
                         IssuerSigningKey = signingKey,
 
                         RequireExpirationTime = false,
-                        ValidateLifetime = false,
+                        ValidateLifetime = false
 
                         //ClockSkew = TimeSpan.Zero
                     };
@@ -239,7 +241,14 @@ namespace FwCore.Api
 
             app.UseAuthentication();
             app.UseMvc();
-            app.UseSwagger();
+            app.UseSwagger(o =>
+            {
+                o.PreSerializeFilters.Add((document, request) =>
+                {
+                    // lowercase the urls displayed in swagger
+                    document.Paths = document.Paths.ToDictionary(p => p.Key.ToLowerInvariant(), p => p.Value);
+                });
+            });
             app.UseSwaggerUI(c =>
             {
                 c.DocumentTitle = SystemName + " API";
