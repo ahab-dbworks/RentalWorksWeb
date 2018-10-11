@@ -186,6 +186,10 @@ class PurchaseOrder {
             $form.find('div[data-datafield="Parts"] input').prop('checked', true);
             $form.find('[data-type="tab"][data-caption="Misc"]').hide();
             $form.find('[data-type="tab"][data-caption="Labor"]').hide();
+            $form.find('[data-type="tab"][data-caption="Sub-Rental"]').hide();
+            $form.find('[data-type="tab"][data-caption="Sub-Sales"]').hide();
+            $form.find('[data-type="tab"][data-caption="Sub-Misc"]').hide();
+            $form.find('[data-type="tab"][data-caption="Sub-Labor"]').hide();
 
             FwFormField.setValue($form, 'div[data-datafield="ProjectManagerId"]', usersid, name);
             FwFormField.setValue($form, 'div[data-datafield="AgentId"]', usersid, name);
