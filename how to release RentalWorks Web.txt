@@ -26,6 +26,7 @@ Updating Web:
 Updating Api: 
 	find the target directory: delete all except appsettings.json, ref, and runtimes
 	Copy over the new deliverable files. (Do not copy the appsettings.json file to the target)
+	update permissions on \rentalworkswebapi\wwwroot\temp\downloads directory.  Add Modify permissions for IIS_IUSRS
 
 
 Note about 4Wall: web server is 4we-lv-rwweb
