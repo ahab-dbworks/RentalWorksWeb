@@ -741,8 +741,8 @@ class OrderBase {
 
         //Defaults Address information when user selects a deal
         $form.find('[data-datafield="DealId"]').on('change', e => {
-            let dealId = FwFormField.getValueByDataField($form, 'DealId')
-            FwAppData.apiMethod(true, 'GET', `api/v1/deal/${dealId}`, null, FwServices.defaultTimeout, function onSuccess(response) {
+            const DEALID = FwFormField.getValueByDataField($form, 'DealId')
+            FwAppData.apiMethod(true, 'GET', `api/v1/deal/${DEALID}`, null, FwServices.defaultTimeout, function onSuccess(response) {
                 FwFormField.setValueByDataField($form, 'IssuedToAttention', response.BillToAttention1);
                 FwFormField.setValueByDataField($form, 'IssuedToAttention2', response.BillToAttention2);
                 FwFormField.setValueByDataField($form, 'IssuedToAddress1', response.BillToAddress1);

@@ -340,6 +340,7 @@ namespace WebLibrary.Security
             AddGrid("Inventory Qc",                           "{C1EE89A8-2C6C-4709-AB0C-2BBC062160B5}", lv1menuGrids.Id, "InventoryQcGridController");
             AddGrid("Inventory Substitute",                   "{B715DFB4-5700-48DE-878A-F8D93F99ECA3}", lv1menuGrids.Id, "InventorySubstituteGridController");
             AddGrid("Inventory Vendor",                       "{C68281F9-0FC9-4FFE-8931-A5E501577AC3}", lv1menuGrids.Id, "InventoryVendorGridController");
+            AddGrid("Invoice Item",                           "{8D093CB9-1C37-449F-8E64-E76653488ABB}", lv1menuGrids.Id, "InvoiceItemGridController");
             AddGrid("Inventory Warehouse Staging",            "{3D9F7C07-4B47-4E4C-B573-331D694B979E}", lv1menuGrids.Id, "InventoryWarehouseStagingGridController");
             AddGrid("Sales Inventory Substitute",             "{ED6DCEB4-2BB7-4B52-915A-10E1D94B083E}", lv1menuGrids.Id, "SalesInventorySubstituteGridController");
             AddGrid("Inventory Compatibility",                "{69790C03-D7CC-4422-9122-674E2BCCA040}", lv1menuGrids.Id, "SalesInventoryCompatibilityGridController");
