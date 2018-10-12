@@ -1133,6 +1133,9 @@ class FwBrowseClass {
                     };
                     html.push('</td>');
                 }
+                if (($control.attr('data-type') === 'Grid') && ($control.attr('data-flexgrid') === "true")) {
+                    html.push('<td class="column flexgridspacer" style="display:none;"></td>'); // 10/12/18 Jason H - add invisible div for flexgrid
+                }
                 if ($control.attr('data-type') === 'Grid') {
                     html.push('<td class="column browsecontextmenucell" style="width:26px;"></td>');
                 }
