@@ -341,11 +341,13 @@ progress::-webkit-progress-value {
     max-height: 1.5em;
 }
 
-#inventoryType, #category, #subCategory {
-    max-width: 30%;
-    min-width: 30%;
+#typeName, #inventoryType, #category, #subCategory {
+    width: 190px;
     margin: 5px 0px 0px 5px;
     float: left;
+}
+#searchFormHtml .downArrowNav {
+    float:left;
 }
 
 #searchFormHtml .invviewbtn {
@@ -366,17 +368,23 @@ ul.fitText {
     margin: 2px;
 }
 
-#inventoryType ul, #category ul, #subCategory ul {
+ #inventoryType ul, #category ul, #subCategory ul {
     background-color: white;
     color: black;
     box-shadow: 0 0px 0px 0 rgba(0, 0, 0, 0.2);
 }
 
-#inventoryType ul.selected, #category ul.selected, #subCategory ul.selected {
+#searchFormHtml .inventoryTypeNav {
     background-color: #bdbdbd;
     color: white;
     box-shadow: 0 3px 7px 0 rgba(0, 0, 0, 0.2);
 }
+
+    #inventoryType ul.selected, #category ul.selected, #subCategory ul.selected {
+        background-color: #bdbdbd;
+        color: white;
+        box-shadow: 0 3px 7px 0 rgba(0, 0, 0, 0.2);
+    }
 
 #inventoryType ul:hover, #category ul:hover, #subCategory ul:hover {
     box-shadow: 0 3px 7px 0 rgba(0, 0, 0, 0.2);

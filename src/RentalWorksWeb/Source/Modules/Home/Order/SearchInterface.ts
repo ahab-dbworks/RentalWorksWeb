@@ -69,21 +69,22 @@ class SearchInterface {
         searchhtml.push(`
      </div>
       <div class="flexrow" style="min-width:100%;">
-        <div class="flexcolumn hideOnExpand" style="max-width:500px;">
+        <div class="flexcolumn hideOnExpand" style="max-width:200px;">
           <div class="flexrow">
             <div id="categorycolumns">
+              <div id="typeName"></div>
               <div id="inventoryType"></div>
               <div id="category"></div>
               <div id="subCategory"></div>
             </div>
           </div>
         </div>
-        <div class="flexcolumn formoptions" style="max-width:1150px; overflow:hidden;">
+        <div class="flexcolumn formoptions" style="max-width:1450px; overflow:hidden;">
           <div class="flexrow" style="max-width:100%;">
-            <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield fwformcontrol" data-caption="Est. Start" data-datafield="FromDate" style="flex: 0 1 125px;"></div>
-            <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield fwformcontrol" data-caption="Est. Stop" data-datafield="ToDate" style="flex: 0 1 125px;"></div>
+            <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield fwformcontrol" data-caption="Est. Start" data-datafield="FromDate" style="flex: 0 1 135px;"></div>
+            <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield fwformcontrol" data-caption="Est. Stop" data-datafield="ToDate" style="flex: 0 1 135px;"></div>
             <div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield fwformcontrol select" data-caption="Select" data-datafield="Select" style="flex: 0 1 150px;"></div>
-            <div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield fwformcontrol sortby" data-caption="Sort By" data-datafield="SortBy" style="flex: 0 1 224px;"></div>
+            <div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield fwformcontrol sortby" data-caption="Sort By" data-datafield="SortBy" style="flex: 0 1 255px;"></div>
           </div>
           <div class="flexrow" style="max-width:100%;">
             <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield fwformcontrol" data-caption="Search" data-datafield="SearchBox" style="flex: 0 1 400px;"></div>
@@ -314,7 +315,7 @@ class SearchInterface {
         let $searchpopup = jQuery('#searchpopup')
             , self = this;
 
-        $popup.find('#inventoryType, #category, #subCategory, #inventory, .type, .category, .subcategory').empty();
+        $popup.find('#typeName, #inventoryType, #category, #subCategory, #inventory, .type, .category, .subcategory').empty();
 
         FwAppData.apiMethod(true, 'POST', `api/v1/${categoryType}/browse`, inventoryTypeRequest, FwServices.defaultTimeout, function onSuccess(response) {
             let inventoryTypeIndex
@@ -358,6 +359,33 @@ class SearchInterface {
         const $searchpopup = jQuery('#searchpopup');
         let self = this;
 
+        let $typeName = $popup.find('#typeName');
+        let inventoryTypeValue = $popup.find('[data-datafield="InventoryType"] input:checked').val();
+
+        switch (inventoryTypeValue) {
+            case 'R':
+                inventoryTypeValue = "RENTAL";
+                break;
+            case 'S':
+                inventoryTypeValue = "SALES";
+                break;
+            case 'L':
+                inventoryTypeValue = "LABOR";
+                break;
+            case 'M':
+                inventoryTypeValue = "MISC";
+                break;
+            case 'P':
+                inventoryTypeValue = "PARTS";
+                break;
+
+        }
+        $typeName.append(`<ul class="inventoryTypeNav fitText" data-value="${inventoryTypeValue}"><span class="downArrowNav"><i class="material-icons">keyboard_arrow_down</i></span><span>${inventoryTypeValue}</span></ul>`);
+        //Click event for main inv type nav to refresh type list
+        $typeName.find('.inventoryTypeNav').on('click', e => {
+            $popup.find('[data-type="radio"]').change();
+        });
+
         $popup.off('click', '#inventoryType ul');
         $popup.on('click', '#inventoryType ul', e => {
             let inventoryTypeId
@@ -374,10 +402,16 @@ class SearchInterface {
             categoryBreadCrumbs = $popup.find("#breadcrumbs .category, #breadcrumbs .subcategory");
             categoryBreadCrumbs.empty();
             categoryBreadCrumbs.attr('data-value', '');
-            breadcrumb.text($this.text());
+            breadcrumb.text($this.find('span:first-of-type').text());
             breadcrumb.append('<div style="float:right;">&#160; &#160; &#47; &#160; &#160;</div>');
             inventoryTypeId = $this.attr('data-value');
             breadcrumb.attr('data-value', inventoryTypeId);
+
+            //Jason H - 10/09/18 layout changes to left-side category columns
+            $popup.find('#inventoryType ul').not('.selected').hide();
+            if ($this.find('span').hasClass('downArrowNav') == false) {
+                $this.append(`<span class="downArrowNav"><i class="material-icons">subdirectory_arrow_right</i></span>`);
+            }
 
             switch (categoryType) {
                 case 'misccategory':
@@ -455,7 +489,7 @@ class SearchInterface {
             breadcrumb = $popup.find('#breadcrumbs .category');
             $popup.find("#breadcrumbs .subcategory").empty();
             $popup.find("#breadcrumbs .subcategory").attr('data-value', '');
-            breadcrumb.text($this.text());
+            breadcrumb.text($this.find('span:first-of-type').text());
             breadcrumb.append('<div style="float:right;">&#160; &#160; &#47; &#160; &#160;</div>');
             categoryId = $this.attr('data-value');
             inventoryTypeId = $popup.find('#breadcrumbs .type').attr('data-value');
@@ -489,8 +523,6 @@ class SearchInterface {
                 if (response.Rows.length == 1) {
                     $popup.find("#subCategory > ul").trigger('click');
                 }
-                self.fitToParent('#subCategory .fitText span');
-
                 hasSubCategories = false;
                 if (response.Rows.length > 0) {
                     hasSubCategories = true;
@@ -521,7 +553,14 @@ class SearchInterface {
                     }, null, $searchpopup);
                 } else {
                     $popup.find('#inventory').empty();
+
+                    //Jason H - 10/09/18 layout changes to left-side category columns
+                    $popup.find('#category ul').not('.selected').hide();
+                    if ($this.find('span').hasClass('downArrowNav') == false) {
+                        $this.append(`<span class="downArrowNav"><i class="material-icons">subdirectory_arrow_right</i></span>`);
+                    }
                 }
+                self.fitToParent('#subCategory .fitText span');
             }, null, $searchpopup);
             this.subCategoryOnClickEvents($popup);
         });
@@ -717,7 +756,7 @@ class SearchInterface {
 
         } else {
             $searchpopup.find('.hideOnExpand').show();
-            $searchpopup.find('.formoptions').css({ 'max-width': '1150px' });
+            $searchpopup.find('.formoptions').css({ 'max-width': '1450px' });
             $searchpopup.find('.formoptions .flexrow').css({ 'padding-left': '' });
             $searchpopup.find('.expandcategorycolumns').hide();
         }
@@ -755,8 +794,8 @@ class SearchInterface {
                 quantityAvailable.css({ 'float': 'left', 'width': '8%', 'padding-top': '.5em'});
                 conflictDate.css({ 'float': 'left', 'width': expandedInventoryView ? '6%' : '10%', 'padding-top': '.5em'});
                 allWH.show();
-                allWH.css({ 'float': 'left', 'width': '6%', 'padding-top': '.5em'});
-                quantityContainer.css({ 'float': 'left', 'width': '12%' });
+                allWH.css({ 'float': 'left', 'width': expandedInventoryView ? '6%':'8%', 'padding-top': '.5em'});
+                quantityContainer.css({ 'float': 'left', 'width': expandedInventoryView ? '12%':'16%' });
                 quantityIn.css({ 'float': 'left', 'width': '50%', 'padding-top': '.5em'});
                 quantityQcRequired.css({ 'float': 'left', 'width': '50%', 'padding-top': '.5em'});
                 accessories.css({ 'float': 'left', 'padding': '', 'width': '8%', 'font-size': '.9em', 'color': 'blue' });
@@ -778,8 +817,8 @@ class SearchInterface {
                 quantityAvailable.css({ 'float': 'left', 'width': '8%', 'padding-top': '1em' });
                 conflictDate.css({ 'float': 'left', 'width': expandedInventoryView ? '6%' : '10%', 'padding-top': '1em'});
                 allWH.show();
-                allWH.css({ 'float': 'left', 'width': '6%', 'padding-top': '1em' });
-                quantityContainer.css({ 'float': 'left', 'width':'12%' });
+                allWH.css({ 'float': 'left', 'width': expandedInventoryView ? '6%' : '8%', 'padding-top': '1em' });
+                quantityContainer.css({ 'float': 'left', 'width': expandedInventoryView ? '12%' : '16%' });
                 quantityIn.css({ 'float': 'left', 'width': '50%', 'padding-top': '1em' });
                 quantityQcRequired.css({ 'float': 'left', 'width': '50%', 'padding-top': '1em' });
                 accessories.css({ 'float': 'left', 'width': '8%', 'padding': '', 'font-size': '.9em', 'color': 'blue' });
