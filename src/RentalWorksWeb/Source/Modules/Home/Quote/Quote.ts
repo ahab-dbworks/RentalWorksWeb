@@ -509,7 +509,7 @@ class Quote extends OrderBase {
         var $pending = $form.find('div.fwformfield[data-datafield="PendingPo"] input').prop('checked');
         var status = FwFormField.getValueByDataField($form, 'Status');
 
-        if (status === 'ORDERED' || status === 'CONFIRMED') {
+        if (status === 'ORDERED' || status === 'CLOSED' || status === 'CANCELLED') {
             FwModule.setFormReadOnly($form);
         }
 
