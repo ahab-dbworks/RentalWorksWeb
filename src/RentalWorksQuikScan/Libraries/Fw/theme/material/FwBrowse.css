@@ -425,12 +425,20 @@ html.theme-material .fwbrowse table tbody tr:hover td {background-color:#eeeeee;
 
     div[data-type="Grid"][data-flexgrid="true"] table tbody tr td:not(:first-child):not(:last-child) {
         width: 46%;
-        height: 1em !important;
+        height: 1em;
     }
 
     div[data-type="Grid"][data-flexgrid="true"] table tbody tr td.column:last-of-type {
         right: 0;
-        position: absolute;
+        position: absolute !important;
+    }
+
+    div[data-type="Grid"][data-flexgrid="true"] table tbody tr td.flexgridspacer {
+        height: 6.6em !important;
+        min-width: 2em;
+        width: 4% !important;
+        float: right;
+        display: unset !important;
     }
 
     div[data-type="Grid"][data-flexgrid="true"] table tbody tr td.column:first-of-type,
@@ -454,7 +462,7 @@ html.theme-material .fwbrowse table tbody tr:hover td {background-color:#eeeeee;
 
         div[data-type="Grid"][data-flexgrid="true"] tr td div[data-browsedatatype="note"] i {
             position: relative;
-            left: 5em;
+            left: 6em;
         }
 
     div[data-type="Grid"][data-flexgrid="true"] tr td.cellColor::after {

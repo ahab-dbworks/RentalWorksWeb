@@ -437,9 +437,10 @@ html.theme-material .fwbrowse table tbody tr:hover td {background-color:#eeeeee;
         height: 6.6em !important;
         min-width: 2em;
         width: 4% !important;
-        float:right;
-        display:unset !important;
+        float: right;
+        display: unset !important;
     }
+
     div[data-type="Grid"][data-flexgrid="true"] table tbody tr td.column:first-of-type,
     div[data-type="Grid"][data-flexgrid="true"] table tbody tr td.column:last-of-type {
         height: 6.6em;

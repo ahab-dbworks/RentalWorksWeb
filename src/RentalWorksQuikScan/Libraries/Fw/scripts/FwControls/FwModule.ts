@@ -479,6 +479,18 @@ class FwModule {
         //}
         //Jason H - 10/09/2018 Replacing with new audit tab
 
+        if (sessionStorage.getItem('customFields') !== null) {
+            let customFields = JSON.parse(sessionStorage.getItem('customFields'))
+            if (customFields !== null && typeof customFields.length === 'number' && customFields.length > 0) {
+                let hasCustomFields = false;
+                for (var i = 0; i < customFields.length; i++) {
+                    if (controller.slice(0, -10) === customFields[i]) {
+                        FwModule.loadCustomFields($form, customFields[i]);
+                    }
+                }
+            }
+        }
+
         //add Audit tab to all forms
         let $keys = $form.find('.fwformfield[data-type="key"]');
         if ($keys.length !== 0) {
@@ -517,19 +529,6 @@ class FwModule {
                         FwBrowse.search($auditControl);
                     };
                 });
-        }
-
-
-        if (sessionStorage.getItem('customFields') !== null) {
-            let customFields = JSON.parse(sessionStorage.getItem('customFields'))
-            if (customFields !== null && typeof customFields.length === 'number' && customFields.length > 0) {
-                let hasCustomFields = false;
-                for (var i = 0; i < customFields.length; i++) {
-                    if (controller.slice(0, -10) === customFields[i]) {
-                        FwModule.loadCustomFields($form, customFields[i]);
-                    }
-                }
-            }
         }
 
 

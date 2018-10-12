@@ -521,7 +521,7 @@ class FwModule {
             FwBrowse.init($auditControl);
             FwBrowse.renderRuntimeHtml($auditControl);
 
-            $formTabControl.find(`#${auditTabIds.tabpageid}`).append($auditControl);
+            $formTabControl.find('#' + auditTabIds.tabpageid).append($auditControl);
             $formTabControl.find('#' + auditTabIds.tabid)
                 .addClass('audittab')
                 .on('click', e => {
@@ -531,7 +531,7 @@ class FwModule {
                 });
         }
 
-      
+
         $form
             .on('change keyup', '.fwformfield[data-isuniqueid!="true"][data-enabled="true"][data-datafield!=""]', function (event) {
                 var fields, $tab, $tabpage;
