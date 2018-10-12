@@ -990,59 +990,95 @@ namespace FwStandard.BusinessLogic
         public List<FwBusinessLogicFieldDelta> GetChanges(FwBusinessLogic original)
         {
             List<FwBusinessLogicFieldDelta> deltas = new List<FwBusinessLogicFieldDelta>();
-            if (original != null)
+            if ((original == null) || (original.GetType().Equals(GetType())))  // "this" and original must be the same type.  or original can be null, which means we are Inserting a new record
             {
-                if (original.GetType().Equals(GetType()))  // this and original must be the same type
+                PropertyInfo[] properties = this.GetType().GetProperties();
+                object oldValue = null;
+                object newValue = null;
+                foreach (PropertyInfo property in properties)
                 {
-                    PropertyInfo[] properties = this.GetType().GetProperties();
-                    object oldValue = null;
-                    object newValue = null;
-                    foreach (PropertyInfo property in properties)
+                    bool checkProperty = true;
+
+                    if (checkProperty)
                     {
-
-                        bool checkProperty = true;
-
-                        if (checkProperty)
+                        if (property.IsDefined(typeof(JsonIgnoreAttribute)))
                         {
-                            if (property.IsDefined(typeof(FwBusinessLogicFieldAttribute)))
+                            checkProperty = false;
+                        }
+                    }
+
+
+                    if (checkProperty)
+                    {
+                        if (property.IsDefined(typeof(FwBusinessLogicFieldAttribute)))
+                        {
+                            foreach (Attribute attribute in property.GetCustomAttributes())
                             {
-                                foreach (Attribute attribute in property.GetCustomAttributes())
+                                if (attribute.GetType() == typeof(FwBusinessLogicFieldAttribute))
                                 {
-                                    if (attribute.GetType() == typeof(FwBusinessLogicFieldAttribute))
+                                    FwBusinessLogicFieldAttribute businessLogicFieldAttribute = (FwBusinessLogicFieldAttribute)attribute;
+                                    if ((businessLogicFieldAttribute.IsPrimaryKey) || (businessLogicFieldAttribute.IsPrimaryKeyOptional))
                                     {
-                                        FwBusinessLogicFieldAttribute businessLogicFieldAttribute = (FwBusinessLogicFieldAttribute)attribute;
-                                        if ((businessLogicFieldAttribute.IsPrimaryKey) || (businessLogicFieldAttribute.IsPrimaryKeyOptional))
-                                        {
-                                            checkProperty = false;
-                                        }
+                                        checkProperty = false;
                                     }
                                 }
                             }
                         }
+                    }
 
-                        if (checkProperty)
+                    if (checkProperty)
+                    {
+                        if (property.Name.Equals("RecordTitle"))
                         {
-                            if (property.Name.Equals("RecordTitle"))
-                            {
-                                checkProperty = false;
-                            }
+                            checkProperty = false;
                         }
-
-                        if (checkProperty)
+                        else if (property.Name.Equals("DateStamp"))
                         {
-                            newValue = property.GetValue(this);
-                            if (newValue != null)  // property value is not null, so must be changing
+                            checkProperty = false;
+                        }
+                    }
+
+                    if (checkProperty)
+                    {
+                        newValue = property.GetValue(this);
+                        if (newValue != null)  // property value is not null, so must be changing
+                        {
+                            bool valueChanged = false;
+                            Type propertyType = property.PropertyType;
+                            if (original == null) // if original is null, then "this" is an inserted record
+                            {
+                                oldValue = "";
+                                valueChanged = false;
+
+                                if ((propertyType == typeof(int?)) || (propertyType == typeof(Int32)))
+                                {
+                                    valueChanged = (Convert.ToInt32(newValue) != 0);
+                                }
+                                else if (propertyType == typeof(string))
+                                {
+                                    valueChanged = (!string.IsNullOrWhiteSpace(newValue.ToString()));
+                                }
+                                else
+                                {
+                                    valueChanged = false;
+                                }
+                            }
+                            else
                             {
                                 oldValue = original.GetType().GetProperty(property.Name).GetValue(original, null);
-                                if (!newValue.Equals(oldValue))
-                                {
-                                    deltas.Add(new FwBusinessLogicFieldDelta(property.Name, oldValue, newValue));
-                                }
+                                valueChanged = (!newValue.Equals(oldValue));
+                            }
+                            if (valueChanged)
+                            {
+                                deltas.Add(new FwBusinessLogicFieldDelta(property.Name, oldValue, newValue));
                             }
                         }
                     }
                 }
             }
+
+            deltas.Sort();
+
             return deltas;
         }
         //------------------------------------------------------------------------------------

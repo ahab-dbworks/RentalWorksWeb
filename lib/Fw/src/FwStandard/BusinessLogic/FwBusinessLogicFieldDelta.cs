@@ -4,7 +4,7 @@ using System.Text;
 
 namespace FwStandard.BusinessLogic
 {
-    public class FwBusinessLogicFieldDelta
+    public class FwBusinessLogicFieldDelta: IComparable<FwBusinessLogicFieldDelta>
     {
         public string FieldName { get; set; } = "";
         public object OldValue { get; set; } = null;
@@ -15,6 +15,11 @@ namespace FwStandard.BusinessLogic
             this.FieldName = fieldName;
             this.OldValue = oldValue;
             this.NewValue = newValue;
+        }
+
+        public int CompareTo(FwBusinessLogicFieldDelta that)
+        {
+            return this.FieldName.CompareTo(that.FieldName);
         }
     }
 }

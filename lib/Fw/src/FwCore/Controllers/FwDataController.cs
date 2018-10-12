@@ -232,15 +232,14 @@ namespace FwCore.Controllers
 
                 if (isValid)
                 {
+                    await l.SaveAsync(original);
+
                     WebAuditJsonLogic audit = new WebAuditJsonLogic();
                     audit.AppConfig = this.AppConfig;
                     audit.UserSession = this.UserSession;
-                    //JsonSerializerSettings jsonSerializerSettings = new JsonSerializerSettings();
-                    //jsonSerializerSettings.NullValueHandling = NullValueHandling.Ignore;
-                    //l.AuditMode = true;
-                    //audit.Json = JsonConvert.SerializeObject(l, jsonSerializerSettings);
-                    //l.AuditMode = false;
-                    audit.Json = JsonConvert.SerializeObject(l.GetChanges(original));
+                    JsonSerializerSettings jsonSerializerSettings = new JsonSerializerSettings();
+                    jsonSerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+                    audit.Json = JsonConvert.SerializeObject(l.GetChanges(original), jsonSerializerSettings);
                     object[] keys = l.GetPrimaryKeys();
                     if (keys.Length > 0)
                     {
@@ -257,7 +256,7 @@ namespace FwCore.Controllers
                     audit.WebUserId = this.UserSession.WebUsersId;
                     await audit.SaveAsync(null);
 
-                    await l.SaveAsync(original);
+
                     if (l.ReloadOnSave)
                     {
                         await l.LoadAsync<T>();
