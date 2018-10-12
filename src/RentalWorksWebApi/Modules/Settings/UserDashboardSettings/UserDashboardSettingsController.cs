@@ -27,7 +27,7 @@ namespace WebApi.Modules.Settings.UserDashboardSettings
                 UserDashboardSettingsLogic l = new UserDashboardSettingsLogic();
                 l.SetDbConfig(this.AppConfig.DatabaseSettings);
                 l.SetDependencies(this.AppConfig, this.UserSession);
-                await l.LoadAsync(id);
+                await l.LoadAsync<UserDashboardSettingsLogic>(new object[] { id });
                 return new OkObjectResult(l);
             }
             catch (Exception ex)

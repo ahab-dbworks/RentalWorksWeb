@@ -62,8 +62,11 @@ namespace WebApi.Modules.Settings.UserDashboardSettings
             _dbConfig = dbConfig;
         }
         //------------------------------------------------------------------------------------
-        public async Task<bool> LoadAsync(string webUsersId)
+        //public async Task<bool> LoadAsync(string webUsersId)
+        public override async Task<bool> LoadAsync<T>(object[] primaryKeyValues)
         {
+            string webUsersId = primaryKeyValues[0].ToString();
+
             bool loaded = false;
             UserId = webUsersId;
             WebUserRecord webUser = new WebUserRecord();
@@ -149,7 +152,7 @@ namespace WebApi.Modules.Settings.UserDashboardSettings
                     w.axisNumberFormatMask = axisnumberformatmask;
                     w.defaultDataNumberFormatId = defaultdatanumberformatid;
                     w.defaultDataNumberFormat = defaultdatanumberformat;
-                    w.defaultDataNumberFormatMask  = defaultdatanumberformatmask;
+                    w.defaultDataNumberFormatMask = defaultdatanumberformatmask;
                     w.dataNumberFormatId = datanumberformatid;
                     w.dataNumberFormat = datanumberformat;
                     w.dataNumberFormatMask = datanumberformatmask;
@@ -168,17 +171,20 @@ namespace WebApi.Modules.Settings.UserDashboardSettings
             UserDashboardSettingsLogic lPrev = new UserDashboardSettingsLogic();
             lPrev.SetDbConfig(_dbConfig);
             lPrev.SetDependencies(AppConfig, UserSession);
-            await lPrev.LoadAsync(UserId);
+            await lPrev.LoadAsync<UserDashboardSettingsLogic>(new object[] { UserId });
 
             UserDashboardSetting wPrev = null;
             UserWidgetLogic uw = null;
 
-            WebUserRecord webUser = new WebUserRecord();
-            webUser.SetDependencies(AppConfig, UserSession);
-            webUser.WebUserId = UserId;
-            webUser.DashboardWidgetsPerRow = WidgetsPerRow;
-            await webUser.SaveAsync(null);
+            if (WidgetsPerRow != null)
+            {
+                WebUserRecord webUser = new WebUserRecord();
+                webUser.SetDependencies(AppConfig, UserSession);
+                webUser.WebUserId = UserId;
+                webUser.DashboardWidgetsPerRow = WidgetsPerRow;
+                await webUser.SaveAsync(null);
 
+            }
 
             int widgetPosition = 0;
             foreach (UserDashboardSetting w in Widgets)
@@ -197,7 +203,7 @@ namespace WebApi.Modules.Settings.UserDashboardSettings
                 if (wPrev != null)
                 {
                     uw = new UserWidgetLogic();
-                    uw.AppConfig = AppConfig;
+                    uw.SetDependencies(AppConfig, UserSession);
                     if (!wPrev.userWidgetId.Equals(string.Empty))
                     {
                         object[] pk = { wPrev.userWidgetId };
