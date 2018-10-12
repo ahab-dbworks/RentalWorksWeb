@@ -20,13 +20,13 @@ namespace WebApi.Modules.Settings.UserDashboardSettings
             public string userWidgetId { get; set; }
             public string value { get; set; }
             public string text { get; set; }
-            public bool selected { get; set; }
+            public bool? selected { get; set; }
             public string apiname { get; set; }
             public string clickpath { get; set; }
             public string defaulttype { get; set; }
             public string widgettype { get; set; }
-            public int defaultDataPoints { get; set; }
-            public int dataPoints { get; set; }
+            public int? defaultDataPoints { get; set; }
+            public int? dataPoints { get; set; }
             public string defaultAxisNumberFormatId { get; set; }
             public string defaultAxisNumberFormat { get; set; }
             public string defaultAxisNumberFormatMask { get; set; }
@@ -46,6 +46,7 @@ namespace WebApi.Modules.Settings.UserDashboardSettings
         public UserDashboardSettingsLogic()
         {
             DashboardSettingsTitle = "Dashboard Settings";
+            LoadOriginalBeforeSaving = false;
         }
         //------------------------------------------------------------------------------------
         [FwBusinessLogicField(isPrimaryKey: true)]
@@ -207,11 +208,11 @@ namespace WebApi.Modules.Settings.UserDashboardSettings
                     uw.WidgetId = w.value;
                     uw.OrderBy = widgetPosition;
 
-                    if (wPrev.selected && (!w.selected))
+                    if (wPrev.selected.GetValueOrDefault(false) && (!w.selected.GetValueOrDefault(false)))
                     {
                         await uw.DeleteAsync();
                     }
-                    else if (w.selected)
+                    else if (w.selected.GetValueOrDefault(false))
                     {
                         await uw.SaveAsync(null);
                     }
