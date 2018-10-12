@@ -410,7 +410,7 @@ class SearchInterface {
             //Jason H - 10/09/18 layout changes to left-side category columns
             $popup.find('#inventoryType ul').not('.selected').hide();
             if ($this.find('span').hasClass('downArrowNav') == false) {
-                $this.append(`<span class="downArrowNav"><i class="material-icons">subdirectory_arrow_right</i></span>`);
+                $this.append(`<span class="downArrowNav"><i class="material-icons">keyboard_arrow_down</i></span>`);
             }
 
             switch (categoryType) {
@@ -557,7 +557,7 @@ class SearchInterface {
                     //Jason H - 10/09/18 layout changes to left-side category columns
                     $popup.find('#category ul').not('.selected').hide();
                     if ($this.find('span').hasClass('downArrowNav') == false) {
-                        $this.append(`<span class="downArrowNav"><i class="material-icons">subdirectory_arrow_right</i></span>`);
+                        $this.append(`<span class="downArrowNav"><i class="material-icons">keyboard_arrow_down</i></span>`);
                     }
                 }
                 self.fitToParent('#subCategory .fitText span');

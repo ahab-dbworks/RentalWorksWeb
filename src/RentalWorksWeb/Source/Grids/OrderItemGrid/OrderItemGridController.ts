@@ -33,10 +33,16 @@
         } else if ($grid.hasClass('A')) {
             FwBrowse.setFieldValue($grid, $tr, 'RecType', { value: 'A' });
             inventoryType = 'Combined';
+        } else if ($grid.hasClass('P')) {
+            FwBrowse.setFieldValue($grid, $tr, 'RecType', { value: 'P' });
+            inventoryType = 'Parts';
         }
 
+        let daysPerWeek;
         let discountPercent = FwFormField.getValueByDataField($form, `${inventoryType}DiscountPercent`);
-        let daysPerWeek = FwFormField.getValueByDataField($form, `${inventoryType}DaysPerWeek`);
+        if (inventoryType == 'Rental') {
+             daysPerWeek = FwFormField.getValueByDataField($form, `RentalDaysPerWeek`);
+        };
 
         if ($form[0].dataset.controller !== "TemplateController" && $form[0].dataset.controller !== "PurchaseOrderController") {
             FwBrowse.setFieldValue($grid, $tr, 'PickDate', { value: pickDate });
@@ -47,7 +53,9 @@
             FwBrowse.setFieldValue($grid, $tr, 'ToTime', { value: toTime });
             FwBrowse.setFieldValue($grid, $tr, 'DiscountPercent', { value: discountPercent });
             FwBrowse.setFieldValue($grid, $tr, 'DiscountPercentDisplay', { value: discountPercent });
-            FwBrowse.setFieldValue($grid, $tr, 'DaysPerWeek', { value: daysPerWeek });
+            if (inventoryType == 'Rental') {
+                FwBrowse.setFieldValue($grid, $tr, 'DaysPerWeek', { value: daysPerWeek });
+            };
         }
     }
 
