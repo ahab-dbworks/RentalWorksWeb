@@ -263,7 +263,7 @@ class Invoice {
         $invoiceItemGridRental.empty().append($invoiceItemGridRentalControl);
         $invoiceItemGridRentalControl.data('isSummary', false);
         $invoiceItemGridRental.addClass('R');
-        $invoiceItemGridRental.attr('data-formreadonly', 'true');
+        $invoiceItemGridRentalControl.attr('data-enabled', 'false');
 
         $invoiceItemGridRentalControl.data('ondatabind', request => {
             request.uniqueids = {
@@ -292,7 +292,7 @@ class Invoice {
         $invoiceItemGridSalesControl = jQuery(jQuery('#tmpl-grids-InvoiceItemGridBrowse').html());
         $invoiceItemGridSales.empty().append($invoiceItemGridSalesControl);
         $invoiceItemGridSales.addClass('S');
-        $invoiceItemGridSales.attr('data-formreadonly', 'true');
+        $invoiceItemGridSalesControl.attr('data-enabled', 'false');
         $invoiceItemGridSalesControl.data('isSummary', false);
 
         $invoiceItemGridSalesControl.data('ondatabind', request => {
@@ -383,8 +383,7 @@ class Invoice {
         $invoiceItemGridRentalSaleControl = jQuery(jQuery('#tmpl-grids-InvoiceItemGridBrowse').html());
         $invoiceItemGridRentalSale.empty().append($invoiceItemGridRentalSaleControl);
         $invoiceItemGridRentalSale.addClass('RS');
-        $invoiceItemGridRentalSale.attr('data-formreadonly', 'true');
-        $invoiceItemGridRentalSaleControl.attr('data-formreadonly', 'true');
+        $invoiceItemGridRentalSaleControl.attr('data-enabled', 'false');
         $invoiceItemGridRentalSaleControl.data('isSummary', false);
 
         $invoiceItemGridRentalSaleControl.data('ondatabind', function (request) {
@@ -467,21 +466,6 @@ class Invoice {
             }
         });
 
-        //$invoiceItemGridRental.find('.submenu-btn').filter('[data-securityid="5A3352C6-F1D5-4A8C-BD75-045AF7B9988F"]').hide();
-        //$invoiceItemGridSales.find('.submenu-btn').filter('[data-securityid="007C4F21-7526-437C-AD1C-4BBB1030AABA"]').hide();
-        //$invoiceItemGridPart.find('.submenu-btn').filter('[data-securityid="007C4F21-7526-437C-AD1C-4BBB1030AABA"]').hide();
-        //$invoiceItemGridLabor.find('.submenu-btn').filter('[data-securityid="007C4F21-7526-437C-AD1C-4BBB1030AABA"]').hide();
-        //$invoiceItemGridMisc.find('.submenu-btn').filter('[data-securityid="007C4F21-7526-437C-AD1C-4BBB1030AABA"]').hide();
-        //$invoiceItemGridSubRent.find('.submenu-btn').filter('[data-securityid="007C4F21-7526-437C-AD1C-4BBB1030AABA"]').hide();
-        //$invoiceItemGridSubSales.find('.submenu-btn').filter('[data-securityid="007C4F21-7526-437C-AD1C-4BBB1030AABA"]').hide();
-        //$invoiceItemGridSubLabor.find('.submenu-btn').filter('[data-securityid="007C4F21-7526-437C-AD1C-4BBB1030AABA"]').hide();
-        //$invoiceItemGridSubMisc.find('.submenu-btn').filter('[data-securityid="007C4F21-7526-437C-AD1C-4BBB1030AABA"]').hide();
-
-        //$invoiceItemGridSubRent.find('.submenu-btn[data-securityid="77E511EC-5463-43A0-9C5D-B54407C97B15"]').hide();
-        //$invoiceItemGridSubSales.find('.submenu-btn[data-securityid="77E511EC-5463-43A0-9C5D-B54407C97B15"]').hide();
-        //$invoiceItemGridSubLabor.find('.submenu-btn[data-securityid="77E511EC-5463-43A0-9C5D-B54407C97B15"]').hide();
-        //$invoiceItemGridSubMisc.find('.submenu-btn[data-securityid="77E511EC-5463-43A0-9C5D-B54407C97B15"]').hide();
-
         // Hides DELETE grid menu item
         $invoiceItemGridRental.find('.submenu-btn').filter('[data-securityid="27053421-85CC-46F4-ADB3-85CEC8A8090B"]').hide();
         $invoiceItemGridSales.find('.submenu-btn').filter('[data-securityid="27053421-85CC-46F4-ADB3-85CEC8A8090B"]').hide();
@@ -561,7 +545,6 @@ class Invoice {
                 fieldNames.push(name);
             }
         }
-        console.log('ALLfieldNames', fieldNames)
         let hiddenRentals: Array<string> = fieldNames.filter(function (field) {
             return !this.has(field)
         }, new Set(rentalShowFields))
