@@ -575,7 +575,6 @@ class OrderBase {
         $form.find('.week_or_month_field').on('change', event => {
             this.adjustBillingEndDate($form, event);
         });
-
         $form.find('[data-datafield="BillToAddressDifferentFromIssuedToAddress"] .fwformfield-value').on('change', function () {
             var $this = jQuery(this);
             if ($this.prop('checked') === true) {
@@ -741,8 +740,11 @@ class OrderBase {
 
         //Defaults Address information when user selects a deal
         $form.find('[data-datafield="DealId"]').on('change', e => {
-            const DEALID = FwFormField.getValueByDataField($form, 'DealId')
-            FwAppData.apiMethod(true, 'GET', `api/v1/deal/${DEALID}`, null, FwServices.defaultTimeout, function onSuccess(response) {
+            e.stopImmediatePropagation();
+            const DEALID = FwFormField.getValueByDataField($form, 'DealId');
+
+            FwAppData.apiMethod(true, 'GET', `api/v1/deal/${DEALID}`, null, FwServices.defaultTimeout, response => {
+                console.log('deal: ', response)
                 FwFormField.setValueByDataField($form, 'IssuedToAttention', response.BillToAttention1);
                 FwFormField.setValueByDataField($form, 'IssuedToAttention2', response.BillToAttention2);
                 FwFormField.setValueByDataField($form, 'IssuedToAddress1', response.BillToAddress1);
@@ -756,8 +758,70 @@ class OrderBase {
                 if ($form.attr('data-mode') === 'NEW') {
                     FwFormField.setValueByDataField($form, 'OutDeliveryDeliveryType', response.DefaultOutgoingDeliveryType);
                     FwFormField.setValueByDataField($form, 'InDeliveryDeliveryType', response.DefaultIncomingDeliveryType);
+
+                    if (response.DefaultOutgoingDeliveryType === 'DELIVER' || response.DefaultOutgoingDeliveryType === 'SHIP') {
+                        FwFormField.setValueByDataField($form, 'OutDeliveryAddressType', 'DEAL');
+                        this.fillDeliveryAddressFieldsforDeal($form, 'Out', response);
+                    }
+                    else if (response.DefaultOutgoingDeliveryType === 'PICK UP') {
+                        FwFormField.setValueByDataField($form, 'OutDeliveryAddressType', 'WAREHOUSE');
+                        this.getWarehouseAddress($form, 'Out');
+                    }
+
+                    if (response.DefaultIncomingDeliveryType === 'DELIVER' || response.DefaultIncomingDeliveryType === 'SHIP') {
+                        FwFormField.setValueByDataField($form, 'InDeliveryAddressType', 'WAREHOUSE');
+                        this.getWarehouseAddress($form, 'In');
+                    }
+                    else if (response.DefaultIncomingDeliveryType === 'PICK UP') {
+                        FwFormField.setValueByDataField($form, 'InDeliveryAddressType', 'DEAL');
+                        this.fillDeliveryAddressFieldsforDeal($form, 'In', response);
+                    }
                 }
-            }, null, $form);
+            }, null, null);
+        });
+        // Out / In DeliveryType radio in Deliver tab
+        $form.find('.delivery-type-radio').on('change', event => {
+            this.deliveryTypeAddresses($form, event);
+        });
+        // Stores previous value for Out / InDeliveryDeliveryType
+        $form.find('.delivery-delivery').on('click', event => {
+            let $element, newValue, prevValue;
+            $element = jQuery(event.currentTarget);
+            if ($element.attr('data-datafield') === 'OutDeliveryDeliveryType') {
+                $element.data('prevValue', FwFormField.getValueByDataField($form, 'OutDeliveryDeliveryType'))
+            } else {
+                $element.data('prevValue', FwFormField.getValueByDataField($form, 'InDeliveryDeliveryType'))
+            }
+        });
+        $form.find('.delivery-delivery').on('change', event => {
+            let $element, newValue, prevValue;
+            $element = jQuery(event.currentTarget);
+            newValue = $element.find('.fwformfield-value').val();
+            prevValue = $element.data('prevValue');
+
+            if ($element.attr('data-datafield') === 'OutDeliveryDeliveryType') {
+                if (newValue === 'DELIVER' && prevValue === 'PICK UP') {
+                    FwFormField.setValueByDataField($form, 'OutDeliveryAddressType', 'DEAL');
+                }
+                if (newValue === 'SHIP' && prevValue === 'PICK UP') {
+                    FwFormField.setValueByDataField($form, 'OutDeliveryAddressType', 'DEAL');
+                }
+                if (newValue === 'PICK UP') {
+                    FwFormField.setValueByDataField($form, 'OutDeliveryAddressType', 'WAREHOUSE');
+                }
+            }
+            else if ($element.attr('data-datafield') === 'InDeliveryDeliveryType') {
+                if (newValue === 'DELIVER' && prevValue === 'PICK UP') {
+                    FwFormField.setValueByDataField($form, 'InDeliveryAddressType', 'WAREHOUSE');
+                }
+                if (newValue === 'SHIP' && prevValue === 'PICK UP') {
+                    FwFormField.setValueByDataField($form, 'InDeliveryAddressType', 'WAREHOUSE');
+                }
+                if (newValue === 'PICK UP') {
+                    FwFormField.setValueByDataField($form, 'InDeliveryAddressType', 'DEAL');
+                }
+            }
+            $form.find('.delivery-type-radio').change();
         });
         // Loss and Damage checkbox
         $form.find('[data-datafield="LossAndDamage"]').data('onchange', e => {
@@ -1194,6 +1258,65 @@ class OrderBase {
             }, $browse);
         };
     };
+    //----------------------------------------------------------------------------------------------
+    deliveryTypeAddresses($form: any, event: any): void {
+        let $element;
+        $element = jQuery(event.currentTarget);
+        if ($element.attr('data-datafield') === 'OutDeliveryAddressType') {
+            let value = FwFormField.getValueByDataField($form, 'OutDeliveryAddressType');
+            if (value === 'WAREHOUSE') {
+                this.getWarehouseAddress($form, 'Out');
+            } else if (value === 'DEAL') {
+                this.fillDeliveryAddressFieldsforDeal($form, 'Out');
+            }
+        }
+        else if ($element.attr('data-datafield') === 'InDeliveryAddressType') {
+            let value = FwFormField.getValueByDataField($form, 'InDeliveryAddressType');
+            if (value === 'WAREHOUSE') {
+                this.getWarehouseAddress($form, 'In');
+            } else if (value === 'DEAL') {
+                this.fillDeliveryAddressFieldsforDeal($form, 'In');
+            }
+        }
+    }
+    //----------------------------------------------------------------------------------------------
+    getWarehouseAddress($form: any, prefix: string): void {
+        const WAREHOUSEID = JSON.parse(sessionStorage.getItem('warehouse')).warehouseid;
+
+        FwAppData.apiMethod(true, 'GET', `api/v1/warehouse/${WAREHOUSEID}`, null, FwServices.defaultTimeout, response => {        
+            FwFormField.setValueByDataField($form, `${prefix}DeliveryToAttention`, response.Attention);
+            FwFormField.setValueByDataField($form, `${prefix}DeliveryToAddress1`, response.Address1);
+            FwFormField.setValueByDataField($form, `${prefix}DeliveryToAddress2`, response.Address2);
+            FwFormField.setValueByDataField($form, `${prefix}DeliveryToCity`, response.City);
+            FwFormField.setValueByDataField($form, `${prefix}DeliveryToState`, response.State);
+            FwFormField.setValueByDataField($form, `${prefix}DeliveryToZipCode`, response.Zip);
+            FwFormField.setValueByDataField($form, `${prefix}DeliveryToCountryId`, response.CountryId, response.Country);
+        }, null, null);
+    }
+    //----------------------------------------------------------------------------------------------
+    fillDeliveryAddressFieldsforDeal($form: any, prefix: string, response?: any): void {
+        if (!response) {
+            const DEALID = FwFormField.getValueByDataField($form, 'DealId');
+            FwAppData.apiMethod(true, 'GET', `api/v1/deal/${DEALID}`, null, FwServices.defaultTimeout, res => {
+                response = res
+                FwFormField.setValueByDataField($form, `${prefix}DeliveryToAttention`, res.Attention);
+                FwFormField.setValueByDataField($form, `${prefix}DeliveryToAddress1`, res.Address1);
+                FwFormField.setValueByDataField($form, `${prefix}DeliveryToAddress2`, res.Address2);
+                FwFormField.setValueByDataField($form, `${prefix}DeliveryToCity`, res.City);
+                FwFormField.setValueByDataField($form, `${prefix}DeliveryToState`, res.State);
+                FwFormField.setValueByDataField($form, `${prefix}DeliveryToZipCode`, res.Zip);
+                FwFormField.setValueByDataField($form, `${prefix}DeliveryToCountryId`, res.CountryId, res.Country);
+            }, null, null);
+        } else {
+            FwFormField.setValueByDataField($form, `${prefix}DeliveryToAttention`, response.Attention);
+            FwFormField.setValueByDataField($form, `${prefix}DeliveryToAddress1`, response.Address1);
+            FwFormField.setValueByDataField($form, `${prefix}DeliveryToAddress2`, response.Address2);
+            FwFormField.setValueByDataField($form, `${prefix}DeliveryToCity`, response.City);
+            FwFormField.setValueByDataField($form, `${prefix}DeliveryToState`, response.State);
+            FwFormField.setValueByDataField($form, `${prefix}DeliveryToZipCode`, response.Zip);
+            FwFormField.setValueByDataField($form, `${prefix}DeliveryToCountryId`, response.CountryId, response.Country);
+        }
+    }
     //----------------------------------------------------------------------------------------------
     orderItemGridBoldUnbold($browse: any, event: any) {
         let orderId, $selectedCheckBoxes;
