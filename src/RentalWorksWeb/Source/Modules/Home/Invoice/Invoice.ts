@@ -264,6 +264,8 @@ class Invoice {
         $invoiceItemGridRentalControl.data('isSummary', false);
         $invoiceItemGridRental.addClass('R');
         $invoiceItemGridRentalControl.attr('data-enabled', 'false');
+        $invoiceItemGridRentalControl.find('div[data-datafield="Rate"]').attr('data-caption', 'Unit Rate');
+
 
         $invoiceItemGridRentalControl.data('ondatabind', request => {
             request.uniqueids = {
@@ -294,6 +296,8 @@ class Invoice {
         $invoiceItemGridSales.addClass('S');
         $invoiceItemGridSalesControl.attr('data-enabled', 'false');
         $invoiceItemGridSalesControl.data('isSummary', false);
+        $invoiceItemGridSalesControl.find('div[data-datafield="Rate"]').attr('data-caption', 'Unit Price');
+
 
         $invoiceItemGridSalesControl.data('ondatabind', request => {
             request.uniqueids = {
@@ -325,6 +329,8 @@ class Invoice {
         $invoiceItemGridLabor.find('.ICode').attr('data-formreadonly', 'true');
         $invoiceItemGridLabor.find('.OrderNumber').attr('data-formreadonly', 'true'); 
         $invoiceItemGridLabor.find('.Taxable').attr('data-formreadonly', 'true');
+        $invoiceItemGridLaborControl.find('div[data-datafield="Rate"]').attr('data-caption', 'Unit Rate');
+
 
         $invoiceItemGridLaborControl.data('isSummary', false);
 
@@ -356,6 +362,8 @@ class Invoice {
         $invoiceItemGridMisc.addClass('M');
         $invoiceItemGridMisc.find('.Extended').attr('data-formreadonly', 'true')
         $invoiceItemGridMiscControl.data('isSummary', false);
+        $invoiceItemGridMiscControl.find('div[data-datafield="Rate"]').attr('data-caption', 'Unit Rate');
+
 
         $invoiceItemGridMiscControl.data('ondatabind', request => {
             request.uniqueids = {
@@ -385,6 +393,8 @@ class Invoice {
         $invoiceItemGridRentalSale.addClass('RS');
         $invoiceItemGridRentalSaleControl.attr('data-enabled', 'false');
         $invoiceItemGridRentalSaleControl.data('isSummary', false);
+        $invoiceItemGridRentalSaleControl.find('div[data-datafield="Rate"]').attr('data-caption', 'Unit Price');
+
 
         $invoiceItemGridRentalSaleControl.data('ondatabind', function (request) {
             request.uniqueids = {
@@ -423,7 +433,7 @@ class Invoice {
         //if (!FwFormField.getValueByDataField($form, 'Sales')) { $form.find('[data-type="tab"][data-caption="Sales"]').hide() }
         //if (!FwFormField.getValueByDataField($form, 'Miscellaneous')) { $form.find('[data-type="tab"][data-caption="Misc"]').hide() }
         //if (!FwFormField.getValueByDataField($form, 'Labor')) { $form.find('[data-type="tab"][data-caption="Labor"]').hide() }
-        //if (!FwFormField.getValueByDataField($form, 'RentalSale')) { $form.find('[data-type="tab"][data-caption="Rental Sales"]').hide() }
+        //if (!FwFormField.getValueByDataField($form, 'RentalSale')) { $form.find('[data-type="tab"][data-caption="Rental Sale"]').hide() }
 
 
         let $invoiceItemGridRental;
@@ -491,7 +501,7 @@ class Invoice {
             , partsTab = $form.find('[data-type="tab"][data-caption="Parts"]')
             , miscTab = $form.find('[data-type="tab"][data-caption="Misc"]')
             , laborTab = $form.find('[data-type="tab"][data-caption="Labor"]')
-            , rentalSaleTab = $form.find('[data-type="tab"][data-caption="Rental Sales"]')
+            , rentalSaleTab = $form.find('[data-type="tab"][data-caption="Rental Sale"]')
 
         $form.find('[data-datafield="Rental"] input').on('change', e => {
             if (mode == "NEW") {
@@ -533,11 +543,11 @@ class Invoice {
             $rentalSaleGrid = $form.find('.rentalsalegrid [data-name="InvoiceItemGrid"]'),
             fields = jQuery($rentalGrid).find('thead tr.fieldnames > td.column > div.field'),
             fieldNames = [],
-            rentalShowFields: Array<string> = ["OrderNumber", "ICode", "Description", "Quantity", "FromDate", "ToDate", "Days", "Price", "DaysPerWeek", "DiscountAmount", "Extended", "Taxable"],
-            salesShowFields: Array<string> = ["OrderNumber", "ICode", "Description", "Quantity", "Unit", "Price", "DiscountPercent", "DiscountAmount", "Extended", "Taxable"],
-            laborShowFields: Array<string> = ["OrderNumber", "ICode", "Description", "Quantity", "FromDate", "FromTime", "ToDate", "ToTime", "Days", "Unit", "Rate", "Price", "DiscountAmount", "Extended", "Taxable"],
-            miscShowFields: Array<string> = ["OrderNumber", "ICode", "Description", "Quantity", "FromDate", "ToDate", "Unit", "Days", "Rate", "Price", "DiscountPercent", "DiscountAmount","Extended", "Taxable"],
-            rentalSaleShowFields: Array<string> = ["OrderNumber", "BarCode", "SerialNumber", "ICode", "Description", "Quantity", "Cost", "Unit", "Rate", "DiscountAmount", "Extended", "Taxable"];
+            rentalShowFields: Array<string> = ["OrderNumber", "ICode", "Description", "Quantity", "FromDate", "ToDate", "Days", "Rate", "Cost", "DaysPerWeek", "DiscountPercent", "DiscountAmount", "Extended", "Taxable"],
+            salesShowFields: Array<string> = ["OrderNumber", "ICode", "Description", "Quantity", "Unit", "Cost", "Rate", "DiscountPercent", "DiscountAmount", "Extended", "Taxable"],
+            laborShowFields: Array<string> = ["OrderNumber", "ICode", "Description", "Quantity", "FromDate", "FromTime", "ToDate", "ToTime", "Days", "Unit", "Rate", "Cost", "DiscountAmount", "Extended", "Taxable"],
+            miscShowFields: Array<string> = ["OrderNumber", "ICode", "Description", "Quantity", "FromDate", "ToDate", "Unit", "Days", "Rate", "Cost", "DiscountPercent", "DiscountAmount","Extended", "Taxable"],
+            rentalSaleShowFields: Array<string> = ["OrderNumber", "SerialNumber", "BarCode", "ICode", "Description", "Quantity", "Cost", "Unit", "Rate", "DiscountAmount", "Extended", "Taxable"];
 
         for (let i = 3; i < fields.length; i++) {
             let name = jQuery(fields[i]).attr('data-mappedfield');
@@ -545,6 +555,7 @@ class Invoice {
                 fieldNames.push(name);
             }
         }
+        console.log('fieldnames: ', fieldNames)
         let hiddenRentals: Array<string> = fieldNames.filter(function (field) {
             return !this.has(field)
         }, new Set(rentalShowFields))
