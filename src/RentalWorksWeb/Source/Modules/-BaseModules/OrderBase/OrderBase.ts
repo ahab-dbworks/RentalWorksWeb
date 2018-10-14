@@ -622,17 +622,6 @@ class OrderBase {
             FwFormField.setValue($form, 'div[data-datafield="DisableEditingUsedSaleRate"]', JSON.parse($tr.find('.field[data-browsedatafield="DisableEditingUsedSaleRate"]').attr('data-originalvalue')));
             FwFormField.setValue($form, 'div[data-datafield="DisableEditingLossAndDamageRate"]', JSON.parse($tr.find('.field[data-browsedatafield="DisableEditingLossAndDamageRate"]').attr('data-originalvalue')));
         });
-
-        $form.find('div[data-datafield="DealId"]').data('onchange', function ($tr) {
-            var type = $tr.find('.field[data-browsedatafield="DefaultRate"]').attr('data-originalvalue');
-            FwFormField.setValueByDataField($form, 'RateType', type);
-            $form.find('div[data-datafield="RateType"] input.fwformfield-text').val(type);
-            FwFormField.setValue($form, 'div[data-datafield="BillingCycleId"]', $tr.find('.field[data-browsedatafield="BillingCycleId"]').attr('data-originalvalue'), $tr.find('.field[data-browsedatafield="BillingCycle"]').attr('data-originalvalue'));
-            FwFormField.setValue($form, 'div[data-datafield="PaymentTermsId"]', $tr.find('.field[data-browsedatafield="PaymentTermsId"]').attr('data-originalvalue'), $tr.find('.field[data-browsedatafield="PaymentTerms"]').attr('data-originalvalue'));
-            FwFormField.setValue($form, 'div[data-datafield="PaymentTypeId"]', $tr.find('.field[data-browsedatafield="PaymentTypeId"]').attr('data-originalvalue'), $tr.find('.field[data-browsedatafield="PaymentType"]').attr('data-originalvalue'));
-            FwFormField.setValue($form, 'div[data-datafield="CurrencyId"]', $tr.find('.field[data-browsedatafield="CurrencyId"]').attr('data-originalvalue'), $tr.find('.field[data-browsedatafield="Currency"]').attr('data-originalvalue'));
-            FwFormField.setValue($form, 'div[data-datafield="DealNumber"]', $tr.find('.field[data-browsedatafield="DealNumber"]').attr('data-originalvalue'));
-        });
         //Open Print Order Report
         $form.find('.print').on('click', e => {
             let $report, orderNumber, orderId, recordTitle, printTab, module, hideModule;
@@ -739,12 +728,18 @@ class OrderBase {
         $form.find(".periodType input").prop('checked', true);
 
         //Defaults Address information when user selects a deal
-        $form.find('[data-datafield="DealId"]').on('change', e => {
-            e.stopImmediatePropagation();
+        $form.find('[data-datafield="DealId"]').data('onchange', $tr => {
             const DEALID = FwFormField.getValueByDataField($form, 'DealId');
+            var type = $tr.find('.field[data-browsedatafield="DefaultRate"]').attr('data-originalvalue');
+            FwFormField.setValueByDataField($form, 'RateType', type);
+            $form.find('div[data-datafield="RateType"] input.fwformfield-text').val(type);
+            FwFormField.setValue($form, 'div[data-datafield="BillingCycleId"]', $tr.find('.field[data-browsedatafield="BillingCycleId"]').attr('data-originalvalue'), $tr.find('.field[data-browsedatafield="BillingCycle"]').attr('data-originalvalue'));
+            FwFormField.setValue($form, 'div[data-datafield="PaymentTermsId"]', $tr.find('.field[data-browsedatafield="PaymentTermsId"]').attr('data-originalvalue'), $tr.find('.field[data-browsedatafield="PaymentTerms"]').attr('data-originalvalue'));
+            FwFormField.setValue($form, 'div[data-datafield="PaymentTypeId"]', $tr.find('.field[data-browsedatafield="PaymentTypeId"]').attr('data-originalvalue'), $tr.find('.field[data-browsedatafield="PaymentType"]').attr('data-originalvalue'));
+            FwFormField.setValue($form, 'div[data-datafield="CurrencyId"]', $tr.find('.field[data-browsedatafield="CurrencyId"]').attr('data-originalvalue'), $tr.find('.field[data-browsedatafield="Currency"]').attr('data-originalvalue'));
+            FwFormField.setValue($form, 'div[data-datafield="DealNumber"]', $tr.find('.field[data-browsedatafield="DealNumber"]').attr('data-originalvalue'));   
 
             FwAppData.apiMethod(true, 'GET', `api/v1/deal/${DEALID}`, null, FwServices.defaultTimeout, response => {
-                console.log('deal: ', response)
                 FwFormField.setValueByDataField($form, 'IssuedToAttention', response.BillToAttention1);
                 FwFormField.setValueByDataField($form, 'IssuedToAttention2', response.BillToAttention2);
                 FwFormField.setValueByDataField($form, 'IssuedToAddress1', response.BillToAddress1);
@@ -758,7 +753,6 @@ class OrderBase {
                 if ($form.attr('data-mode') === 'NEW') {
                     FwFormField.setValueByDataField($form, 'OutDeliveryDeliveryType', response.DefaultOutgoingDeliveryType);
                     FwFormField.setValueByDataField($form, 'InDeliveryDeliveryType', response.DefaultIncomingDeliveryType);
-
                     if (response.DefaultOutgoingDeliveryType === 'DELIVER' || response.DefaultOutgoingDeliveryType === 'SHIP') {
                         FwFormField.setValueByDataField($form, 'OutDeliveryAddressType', 'DEAL');
                         this.fillDeliveryAddressFieldsforDeal($form, 'Out', response);
@@ -793,6 +787,7 @@ class OrderBase {
                 $element.data('prevValue', FwFormField.getValueByDataField($form, 'InDeliveryDeliveryType'))
             }
         });
+        // Delivery type select field on Deliver tab
         $form.find('.delivery-delivery').on('change', event => {
             let $element, newValue, prevValue;
             $element = jQuery(event.currentTarget);
@@ -809,6 +804,7 @@ class OrderBase {
                 if (newValue === 'PICK UP') {
                     FwFormField.setValueByDataField($form, 'OutDeliveryAddressType', 'WAREHOUSE');
                 }
+                $form.find('.OutDeliveryAddressType').change();
             }
             else if ($element.attr('data-datafield') === 'InDeliveryDeliveryType') {
                 if (newValue === 'DELIVER' && prevValue === 'PICK UP') {
@@ -820,8 +816,8 @@ class OrderBase {
                 if (newValue === 'PICK UP') {
                     FwFormField.setValueByDataField($form, 'InDeliveryAddressType', 'DEAL');
                 }
+                $form.find('.InDeliveryAddressType').change();
             }
-            $form.find('.delivery-type-radio').change();
         });
         // Loss and Damage checkbox
         $form.find('[data-datafield="LossAndDamage"]').data('onchange', e => {
@@ -1282,16 +1278,42 @@ class OrderBase {
     //----------------------------------------------------------------------------------------------
     getWarehouseAddress($form: any, prefix: string): void {
         const WAREHOUSEID = JSON.parse(sessionStorage.getItem('warehouse')).warehouseid;
+        let WHresponse: any = {};
 
-        FwAppData.apiMethod(true, 'GET', `api/v1/warehouse/${WAREHOUSEID}`, null, FwServices.defaultTimeout, response => {        
-            FwFormField.setValueByDataField($form, `${prefix}DeliveryToAttention`, response.Attention);
-            FwFormField.setValueByDataField($form, `${prefix}DeliveryToAddress1`, response.Address1);
-            FwFormField.setValueByDataField($form, `${prefix}DeliveryToAddress2`, response.Address2);
-            FwFormField.setValueByDataField($form, `${prefix}DeliveryToCity`, response.City);
-            FwFormField.setValueByDataField($form, `${prefix}DeliveryToState`, response.State);
-            FwFormField.setValueByDataField($form, `${prefix}DeliveryToZipCode`, response.Zip);
-            FwFormField.setValueByDataField($form, `${prefix}DeliveryToCountryId`, response.CountryId, response.Country);
-        }, null, null);
+        if ($form.data('whAddress')) {
+            WHresponse = $form.data('whAddress');
+
+            FwFormField.setValueByDataField($form, `${prefix}DeliveryToAttention`, WHresponse.Attention);
+            FwFormField.setValueByDataField($form, `${prefix}DeliveryToAddress1`, WHresponse.Address1);
+            FwFormField.setValueByDataField($form, `${prefix}DeliveryToAddress2`, WHresponse.Address2);
+            FwFormField.setValueByDataField($form, `${prefix}DeliveryToCity`, WHresponse.City);
+            FwFormField.setValueByDataField($form, `${prefix}DeliveryToState`, WHresponse.State);
+            FwFormField.setValueByDataField($form, `${prefix}DeliveryToZipCode`, WHresponse.Zip);
+            FwFormField.setValueByDataField($form, `${prefix}DeliveryToCountryId`, WHresponse.CountryId, WHresponse.Country);
+        } else {
+            FwAppData.apiMethod(true, 'GET', `api/v1/warehouse/${WAREHOUSEID}`, null, FwServices.defaultTimeout, response => {
+                WHresponse = response;
+
+                FwFormField.setValueByDataField($form, `${prefix}DeliveryToAttention`, WHresponse.Attention);
+                FwFormField.setValueByDataField($form, `${prefix}DeliveryToAddress1`, WHresponse.Address1);
+                FwFormField.setValueByDataField($form, `${prefix}DeliveryToAddress2`, WHresponse.Address2);
+                FwFormField.setValueByDataField($form, `${prefix}DeliveryToCity`, WHresponse.City);
+                FwFormField.setValueByDataField($form, `${prefix}DeliveryToState`, WHresponse.State);
+                FwFormField.setValueByDataField($form, `${prefix}DeliveryToZipCode`, WHresponse.Zip);
+                FwFormField.setValueByDataField($form, `${prefix}DeliveryToCountryId`, WHresponse.CountryId, WHresponse.Country);
+                // Preventing unnecessary API calls once warehouse addresses have been requested once
+                $form.data('whAddress', {
+                    'Attention': response.Attention,
+                    'Address1': response.Address1,
+                    'Address2': response.Address2,
+                    'City': response.City,
+                    'State': response.State,
+                    'Zip': response.Zip,
+                    'CountryId': response.CountryId,
+                    'Country': response.Country
+                })
+            }, null, null);
+        }
     }
     //----------------------------------------------------------------------------------------------
     fillDeliveryAddressFieldsforDeal($form: any, prefix: string, response?: any): void {
