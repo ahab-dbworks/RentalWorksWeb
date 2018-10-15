@@ -110,7 +110,7 @@
 
             // Lock Fields
             FwBrowse.setAfterRenderFieldCallback($control, ($tr: JQuery, $td: JQuery, $field: JQuery, dt: FwJsonDataTable, rowIndex: number, colIndex: number) => {
-                if ($tr.find('.order-item-lock').text() === 'true' && $control.data('enabled')) {
+                if ($tr.find('.order-item-lock').text() === 'true') {
                     $tr.find('.field-to-lock').css('background-color', "#f5f5f5");
                     $tr.find('.field-to-lock').attr('data-formreadonly', 'true')
                 }

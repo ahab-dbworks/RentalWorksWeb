@@ -1201,7 +1201,7 @@ class OrderBase {
         }
     };
     //----------------------------------------------------------------------------------------------
-    orderItemGridLockUnlock($browse: any, event: any) {
+    orderItemGridLockUnlock($browse: any, event: any): void {
         let orderId, $selectedCheckBoxes;
 
         orderId = $browse.find('.selected [data-browsedatafield="OrderId"]').attr('data-originalvalue');
@@ -1213,37 +1213,20 @@ class OrderBase {
 
             if (orderId != null) {
                 if ($selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="Locked"]').attr('data-originalvalue') === 'true') {
-                    unlockItem(orderId, orderItemId);
+                    lockUnlockItem(orderId, orderItemId, false);
                 } else {
-                    lockItem(orderId, orderItemId);
+                    lockUnlockItem(orderId, orderItemId, true);
                 }
             }
         }
 
-        function lockItem(orderId, orderItemId) {
+        function lockUnlockItem(orderId: string, orderItemId: string, lockrow: boolean): void {
             let request: any = {};
 
             request = {
                 OrderId: orderId,
                 OrderItemId: orderItemId,
-                Locked: true,
-            }
-
-            FwAppData.apiMethod(true, 'POST', `api/v1/orderitem`, request, FwServices.defaultTimeout, function onSuccess(response) {
-                FwBrowse.databind($browse);
-            }, function onError(response) {
-                FwFunc.showError(response);
-                FwBrowse.databind($browse);
-            }, $browse);
-        };
-
-        function unlockItem(orderId, orderItemId) {
-            let request: any = {};
-
-            request = {
-                OrderId: orderId,
-                OrderItemId: orderItemId,
-                Locked: false,
+                Locked: lockrow,
             }
 
             FwAppData.apiMethod(true, 'POST', `api/v1/orderitem`, request, FwServices.defaultTimeout, function onSuccess(response) {
@@ -1340,7 +1323,7 @@ class OrderBase {
         }
     }
     //----------------------------------------------------------------------------------------------
-    orderItemGridBoldUnbold($browse: any, event: any) {
+    orderItemGridBoldUnbold($browse: any, event: any): void {
         let orderId, $selectedCheckBoxes;
         orderId = $browse.find('.selected [data-browsedatafield="OrderId"]').attr('data-originalvalue');
         $selectedCheckBoxes = $browse.find('.cbselectrow:checked');
@@ -1351,37 +1334,20 @@ class OrderBase {
 
             if (orderId != null) {
                 if ($selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="Bold"]').attr('data-originalvalue') === 'true') {
-                    unboldItem(orderId, orderItemId);
+                    boldUnboldItem(orderId, orderItemId, false);
                 } else {
-                    boldItem(orderId, orderItemId);
+                    boldUnboldItem(orderId, orderItemId, true);
                 }
             }
         }
 
-        function boldItem(orderId, orderItemId) {
+        function boldUnboldItem(orderId: string, orderItemId: string, boldrow: boolean): void {
             let request: any = {};
 
             request = {
                 OrderId: orderId,
                 OrderItemId: orderItemId,
-                Bold: true,
-            }
-
-            FwAppData.apiMethod(true, 'POST', `api/v1/orderitem`, request, FwServices.defaultTimeout, function onSuccess(response) {
-                FwBrowse.databind($browse);
-            }, function onError(response) {
-                FwFunc.showError(response);
-                FwBrowse.databind($browse);
-            }, $browse);
-        };
-
-        function unboldItem(orderId, orderItemId) {
-            let request: any = {};
-
-            request = {
-                OrderId: orderId,
-                OrderItemId: orderItemId,
-                Bold: false,
+                Bold: boldrow,
             }
 
             FwAppData.apiMethod(true, 'POST', `api/v1/orderitem`, request, FwServices.defaultTimeout, function onSuccess(response) {
@@ -1393,7 +1359,7 @@ class OrderBase {
         };
     };
     //----------------------------------------------------------------------------------------------
-    disableWithTaxCheckbox($form: any) {
+    disableWithTaxCheckbox($form: any): void {
         if (FwFormField.getValueByDataField($form, 'PeriodRentalTotal') === '0.00') {
             FwFormField.disable($form.find('div[data-datafield="PeriodRentalTotalIncludesTax"]'));
         } else {
