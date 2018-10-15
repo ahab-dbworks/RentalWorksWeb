@@ -2,6 +2,7 @@ routes.push({ pattern: /^module\/customform$/, action: function (match: RegExpEx
 class CustomForm {
     Module: string = 'CustomForm';
     apiurl: string = 'api/v1/customform';
+    codeMirror: any;
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
         var screen, $browse;
@@ -48,19 +49,7 @@ class CustomForm {
             FwFormField.enable($form.find('[data-datafield="BaseForm"]'));
         }
 
-        //Creates an instance of CodeMirror
-        let textArea = $form.find('#codeEditor');
-        var myCodeMirror = CodeMirror.fromTextArea(textArea.get(0),
-            {
-                mode: 'text/html'
-                , lineNumbers: true
-            });
-        myCodeMirror.setSize(1350, 850);
-        $form.find('.CodeMirror').css('max-width', '1350px');
-
-        
         this.loadModules($form);
-        this.codeMirrorEvents($form, myCodeMirror);
         return $form;
     }
     //----------------------------------------------------------------------------------------------
@@ -99,36 +88,41 @@ class CustomForm {
                     break;
             }
         }
+
     }
     //----------------------------------------------------------------------------------------------
     afterLoad($form: any) {
-        $form.find('div.modules').change();
+        //Loads html for code editor
+        let html = $form.find('[data-datafield="Html"] textarea').val();
+        if (typeof html !== 'undefined') {
+           this.codeMirror.setValue(html);
+        } else {
+            this.codeMirror.setValue('');
+        }
+        let controller: any = $form.find('[data-datafield="BaseForm"] option:selected').attr('data-controllername');
+      
+        this.addValidFields($form, controller);
     }
     //----------------------------------------------------------------------------------------------
-    codeMirrorEvents($form, myCodeMirror) {
-        let html = $form.find('[data-datafield="Html"] textarea').val();
-        //Loads html for code editor
-        if (typeof html !== 'undefined') {
-            myCodeMirror.setValue(html);
-        } else {
-            myCodeMirror.setValue(' ');
-        }
+    codeMirrorEvents($form) {
+        //Creates an instance of CodeMirror
+        let textArea = $form.find('#codeEditor');
+        var codeMirror = CodeMirror.fromTextArea(textArea.get(0),
+            {
+                mode: 'text/html'
+                , lineNumbers: true
+            });
+   
+        this.codeMirror = codeMirror;
+
         //Select module event
         $form.find('div.modules').on('change', e => {
             let $this = $form.find('[data-datafield="BaseForm"] option:selected');
             let moduleName = $this.val();
             let type = $this.attr('data-type');
             let controller: any = $this.attr('data-controllername');
-            let apiurl = $this.attr('data-apiurl');
-            const modulefields = $form.find('.modulefields');
-            let modulehtml, request: any;
-           let moduleNav = controller.slice(0, -10);
-            request = {
-                module: moduleNav,
-                top: 1
-            };
-
-            modulefields.empty();
+            let modulehtml;
+       
             switch (type) {
                 case 'Browse':
                     modulehtml = jQuery(`#tmpl-modules-${moduleName}`).html();
@@ -152,46 +146,24 @@ class CustomForm {
                     break;
             }
 
-            if (apiurl !== "undefined") {
-                FwAppData.apiMethod(true, 'POST', `${apiurl}/browse`, request, FwServices.defaultTimeout, function onSuccess(response) {
-                    let columnNames = response.Columns;
-
-                    columnNames = columnNames.filter(obj => {
-                        return obj.DataField !== 'DateStamp';
-                    });
-
-                    columnNames = columnNames.sort(compare);
-
-                    for (let i = 0; i < columnNames.length; i++) {
-                        modulefields.append(`${columnNames[i].DataField}<br />`);
-                    }
-                }, null, $form);
-            }
-
             if (typeof modulehtml !== "undefined") {
-                myCodeMirror.setValue(modulehtml);
+               codeMirror.setValue(modulehtml);
             } else {
-                myCodeMirror.setValue(`There is no ${type} available for this selection.`);
+                codeMirror.setValue(`There is no ${type} available for this selection.`);
             }
+
+            this.addValidFields($form, controller);
         });
 
-        function compare(a, b) {
-            if (a.DataField < b.DataField)
-                return -1;
-            if (a.DataField > b.DataField)
-                return 1;
-            return 0;
-        }
-
         //Sets form to modified upon changing code in editor
-        myCodeMirror.on('change', function (cm, change) {
+        codeMirror.on('change', function (cm, change) {
             $form.attr('data-modified', 'true');
             $form.find('.btn[data-type="SaveMenuBarButton"]').removeClass('disabled');
         });
 
         //Updates value for form fields
         $form.find('#codeEditor').on('change', e => {
-            myCodeMirror.save();
+            codeMirror.save();
             let html = $form.find('textarea#codeEditor').val();
             FwFormField.setValueByDataField($form, 'Html', html);
         });
@@ -228,7 +200,44 @@ class CustomForm {
                     }
                     break;
             }
+            FwFormField.disable($form.find('#previewWebForm [data-type="validation"]'));
         });
+    }
+    //----------------------------------------------------------------------------------------------
+    addValidFields($form, controller) {
+        //Get valid field names and sort them
+        const modulefields = $form.find('.modulefields');
+          let apiurl = $form.find('[data-datafield="BaseForm"] option:selected').attr('data-apiurl');
+        let request: any = {};
+        let moduleNav = controller.slice(0, -10);
+        request = {
+            module: moduleNav,
+            top: 1
+        };
+        modulefields.empty();
+        if (apiurl !== "undefined") {
+            FwAppData.apiMethod(true, 'POST', `${apiurl}/browse`, request, FwServices.defaultTimeout, function onSuccess(response) {
+                let columnNames = response.Columns;
+
+                columnNames = columnNames.filter(obj => {
+                    return obj.DataField !== 'DateStamp';
+                });
+
+                columnNames = columnNames.sort(compare);
+
+                for (let i = 0; i < columnNames.length; i++) {
+                    modulefields.append(`${columnNames[i].DataField}<br />`);
+                }
+            }, null, $form);
+        }
+
+        function compare(a, b) {
+            if (a.DataField < b.DataField)
+                return -1;
+            if (a.DataField > b.DataField)
+                return 1;
+            return 0;
+        }
     }
     //----------------------------------------------------------------------------------------------
     loadModules($form) {
@@ -300,6 +309,8 @@ class CustomForm {
 
         $moduleSelect = $form.find('.modules');
         FwFormField.loadItems($moduleSelect, allModules);
+
+        this.codeMirrorEvents($form);
     }
 };
 //----------------------------------------------------------------------------------------------
