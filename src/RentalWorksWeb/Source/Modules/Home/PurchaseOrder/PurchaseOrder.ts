@@ -625,6 +625,12 @@ class PurchaseOrder {
 
     //----------------------------------------------------------------------------------------------
     afterLoad($form) {
+        let status = FwFormField.getValueByDataField($form, 'Status');
+
+        if (status === 'VOID' || status === 'CLOSED' || status === 'SNAPSHOT') {
+            FwModule.setFormReadOnly($form);
+        }
+
         if (!FwFormField.getValueByDataField($form, 'Rental')) { $form.find('[data-type="tab"][data-caption="Rental"]').hide() }
         if (!FwFormField.getValueByDataField($form, 'Sales')) { $form.find('[data-type="tab"][data-caption="Sales"]').hide() }
         if (!FwFormField.getValueByDataField($form, 'Miscellaneous')) { $form.find('[data-type="tab"][data-caption="Misc"]').hide() }
