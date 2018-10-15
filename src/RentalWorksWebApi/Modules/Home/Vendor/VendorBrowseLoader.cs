@@ -46,6 +46,9 @@ namespace WebApi.Modules.Home.Vendor
         [FwSqlDataField(column: "phone", modeltype: FwDataTypes.Text)]
         public string Phone { get; set; }
         //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "fax", modeltype: FwDataTypes.Text)]
+        public string Fax { get; set; }
+        //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "ratetype", modeltype: FwDataTypes.Text)]
         public string DefaultRate { get; set; }
         ////------------------------------------------------------------------------------------

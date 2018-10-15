@@ -40,9 +40,6 @@ namespace WebApi.Modules.Home.Vendor
         [FwSqlDataField(column: "vendorclassid", modeltype: FwDataTypes.Text)]
         public string VendorClassId { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "fax", modeltype: FwDataTypes.Text)]
-        public string Fax { get; set; }
-        //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "phone800", modeltype: FwDataTypes.Text)]
         public string Phone800 { get; set; }
         //------------------------------------------------------------------------------------
