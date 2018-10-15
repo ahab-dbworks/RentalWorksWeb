@@ -1,6 +1,9 @@
+using FwStandard.BusinessLogic;
 using FwStandard.BusinessLogic.Attributes;
 using System.Threading.Tasks;
 using WebApi.Logic;
+using WebLibrary;
+
 namespace WebApi.Modules.Home.Invoice
 {
     public class InvoiceLogic : AppBusinessLogic
@@ -178,5 +181,33 @@ namespace WebApi.Modules.Home.Invoice
             return await invoice.Void();
         }
         //------------------------------------------------------------------------------------ 
+        protected override bool Validate(TDataRecordSaveMode saveMode, FwBusinessLogic original, ref string validateMsg)
+        {
+            bool isValid = true;
+
+            if (saveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smInsert)
+            {
+            }
+            else
+            {
+                if (original != null)
+                {
+                    InvoiceLogic lOrig = ((InvoiceLogic)original);
+
+                    if (isValid)
+                    {
+                        if (lOrig.Status.Equals(RwConstants.INVOICE_STATUS_PROCESSED) || lOrig.Status.Equals(RwConstants.INVOICE_STATUS_CLOSED) || lOrig.Status.Equals(RwConstants.INVOICE_STATUS_VOID))
+                        {
+                            isValid = false;
+                            validateMsg = "Cannot modify a " + lOrig.Status + " " + BusinessLogicModuleName  + ".";
+                        }
+                    }
+                }
+            }
+
+            return isValid;
+        }
+        //------------------------------------------------------------------------------------
+
     }
 }

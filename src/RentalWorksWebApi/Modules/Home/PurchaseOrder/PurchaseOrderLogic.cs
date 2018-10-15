@@ -315,16 +315,26 @@ namespace WebApi.Modules.Home.PurchaseOrder
         {
             bool isValid = true;
 
-            //if (saveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smInsert)
-            //{
-            //}
-            //else
-            //{
-            //    lOrig = new PurchaseOrderLogic();
-            //    lOrig.SetDependencies(this.AppConfig, this.UserSession);
-            //    object[] pk = GetPrimaryKeys();
-            //    bool b = lOrig.LoadAsync<PurchaseOrderLogic>(pk).Result;
-            //}
+            if (saveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smInsert)
+            {
+            }
+            else
+            {
+                if (original != null)
+                {
+                    PurchaseOrderLogic lOrig = ((PurchaseOrderLogic)original);
+
+                    if (isValid)
+                    {
+                        if (lOrig.Status.Equals(RwConstants.PURCHASE_ORDER_STATUS_CLOSED) || lOrig.Status.Equals(RwConstants.PURCHASE_ORDER_STATUS_SNAPSHOT) || lOrig.Status.Equals(RwConstants.PURCHASE_ORDER_STATUS_VOID))
+                        {
+                            isValid = false;
+                            validateMsg = "Cannot modify a " + lOrig.Status + " " + BusinessLogicModuleName + ".";
+                        }
+                    }
+                }
+            }
+
             return isValid;
         }
         //------------------------------------------------------------------------------------

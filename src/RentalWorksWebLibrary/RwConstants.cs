@@ -42,6 +42,7 @@ namespace WebLibrary
         public const string QUOTE_STATUS_ACTIVE = "ACTIVE";
         public const string QUOTE_STATUS_HOLD = "HOLD";
         public const string QUOTE_STATUS_ORDERED = "ORDERED";
+        public const string QUOTE_STATUS_CLOSED = "CLOSED";
         public const string QUOTE_STATUS_CANCELLED = "CANCELLED";
 
         public const string ORDER_STATUS_CONFIRMED = "CONFIRMED";
@@ -79,6 +80,12 @@ namespace WebLibrary
         //INVOICE
         public const string INVOICE_DATE_TYPE_INVOICE_DATE = "INVOICE_DATE";
         public const string INVOICE_DATE_TYPE_BILLING_START_DATE = "BILLING_START_DATE";
+        public const string INVOICE_STATUS_NEW = "NEW";
+        public const string INVOICE_STATUS_APPROVED = "APPROVED";
+        public const string INVOICE_STATUS_PROCESSED = "PROCESSED";
+        public const string INVOICE_STATUS_CLOSED = "CLOSED";
+        public const string INVOICE_STATUS_VOID = "VOID";
+
 
         public const string BATCH_TYPE_INVOICE = "INVOICE";
 

@@ -611,51 +611,53 @@ namespace WebApi.Modules.Home.Order
             }
             else  //  (updating)
             {
-                if (Type.Equals(RwConstants.ORDER_TYPE_QUOTE))
+                if (original != null)
                 {
-                    lOrig = ((QuoteLogic)original);
-                }
-                else
-                {
-                    lOrig = ((OrderLogic)original);
-                }
-
-                if (Rental.HasValue)
-                {
-                    rental = Rental.Value;
-                }
-                else
-                {
-                    rental = lOrig.Rental.Value;
-                }
-                if (RentalSale.HasValue)
-                {
-                    rentalsale = RentalSale.Value;
-                }
-                else
-                {
-                    rentalsale = lOrig.RentalSale.Value;
-                }
-
-
-                if (isValid)
-                {
-                    if ((Type.Equals(RwConstants.ORDER_TYPE_QUOTE)) && (lOrig.Status.Equals(RwConstants.QUOTE_STATUS_ORDERED) || lOrig.Status.Equals(RwConstants.QUOTE_STATUS_CANCELLED)))
+                    if (Type.Equals(RwConstants.ORDER_TYPE_QUOTE))
                     {
-                        isValid = false;
-                        validateMsg = "Cannot modify a " + lOrig.Status + " Quote.";
+                        lOrig = ((QuoteLogic)original);
+                    }
+                    else
+                    {
+                        lOrig = ((OrderLogic)original);
+                    }
+
+                    if (Rental.HasValue)
+                    {
+                        rental = Rental.Value;
+                    }
+                    else
+                    {
+                        rental = lOrig.Rental.Value;
+                    }
+                    if (RentalSale.HasValue)
+                    {
+                        rentalsale = RentalSale.Value;
+                    }
+                    else
+                    {
+                        rentalsale = lOrig.RentalSale.Value;
+                    }
+
+
+                    if (isValid)
+                    {
+                        if ((Type.Equals(RwConstants.ORDER_TYPE_QUOTE)) && (lOrig.Status.Equals(RwConstants.QUOTE_STATUS_ORDERED) || lOrig.Status.Equals(RwConstants.QUOTE_STATUS_CLOSED) || lOrig.Status.Equals(RwConstants.QUOTE_STATUS_CANCELLED)))
+                        {
+                            isValid = false;
+                            validateMsg = "Cannot modify a " + lOrig.Status + " " + BusinessLogicModuleName + ".";
+                        }
+                    }
+
+                    if (isValid)
+                    {
+                        if ((Type.Equals(RwConstants.ORDER_TYPE_ORDER)) && (lOrig.Status.Equals(RwConstants.ORDER_STATUS_CLOSED) || lOrig.Status.Equals(RwConstants.ORDER_STATUS_SNAPSHOT) || lOrig.Status.Equals(RwConstants.ORDER_STATUS_CANCELLED)))
+                        {
+                            isValid = false;
+                            validateMsg = "Cannot modify a " + lOrig.Status + " " + BusinessLogicModuleName + ".";
+                        }
                     }
                 }
-
-                if (isValid)
-                {
-                    if ((Type.Equals(RwConstants.ORDER_TYPE_ORDER)) && (lOrig.Status.Equals(RwConstants.ORDER_STATUS_CLOSED) || lOrig.Status.Equals(RwConstants.ORDER_STATUS_SNAPSHOT) || lOrig.Status.Equals(RwConstants.ORDER_STATUS_CANCELLED)))
-                    {
-                        isValid = false;
-                        validateMsg = "Cannot modify a " + lOrig.Status + " Order.";
-                    }
-                }
-
 
             }
 
@@ -664,7 +666,7 @@ namespace WebApi.Modules.Home.Order
                 if (rental && rentalsale)
                 {
                     isValid = false;
-                    validateMsg = "Cannot have both Rental and RentalSale on the same Quote/Order.";
+                    validateMsg = "Cannot have both Rental and RentalSale on the same " + BusinessLogicModuleName + ".";
                 }
             }
 
