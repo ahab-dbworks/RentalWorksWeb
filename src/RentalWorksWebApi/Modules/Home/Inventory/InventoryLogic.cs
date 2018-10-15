@@ -166,7 +166,7 @@ namespace WebApi.Modules.Home.Inventory
             return isValid;
         }
         //------------------------------------------------------------------------------------ 
-        public void OnBeforeSave(object sender, BeforeSaveEventArgs e)
+        public virtual void OnBeforeSave(object sender, BeforeSaveEventArgs e)
         {
             if (e.SaveMode.Equals(TDataRecordSaveMode.smUpdate))
             {

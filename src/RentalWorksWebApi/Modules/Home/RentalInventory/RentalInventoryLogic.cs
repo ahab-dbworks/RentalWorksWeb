@@ -1,7 +1,4 @@
 using FwStandard.BusinessLogic;
-using FwStandard.BusinessLogic.Attributes; 
-using WebApi.Logic;
-using WebApi.Modules.Home.Master;
 using WebApi.Modules.Home.Inventory;
 using WebLibrary;
 
@@ -18,8 +15,9 @@ namespace WebApi.Modules.Home.RentalInventory
             ((InventoryBrowseLoader)browseLoader).AvailFor = RwConstants.INVENTORY_AVAILABLE_FOR_RENT;
         }
         //------------------------------------------------------------------------------------ 
-        public void OnBeforeSave(object sender, BeforeSaveEventArgs e)
+        public override void OnBeforeSave(object sender, BeforeSaveEventArgs e)
         {
+            base.OnBeforeSave(sender, e);
             AvailFor = RwConstants.INVENTORY_AVAILABLE_FOR_RENT;
         }
         //------------------------------------------------------------------------------------ 
