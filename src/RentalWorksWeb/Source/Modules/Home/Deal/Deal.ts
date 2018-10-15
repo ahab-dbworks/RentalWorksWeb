@@ -457,7 +457,7 @@ class Deal {
             'InsuranceCoverageProperty',
             'InsuranceCoveragePropertyDeductible',
             'VehicleInsuranceCertification',
-            'InsuranceCompany',
+            'InsuranceCompanyId',
             'InsuranceCompanyAgent'];
 
         var $insuranceName: JQuery = jQuery('.insurance_name');
@@ -582,11 +582,11 @@ class Deal {
     }
     //----------------------------------------------------------------------------------------------
     disableFields($form: JQuery, fields: string[]): void {
-        fields.forEach((e, i) => { FwFormField.disable($form.find('[data-datafield="' + e + '"]')); });
+        fields.forEach((e, i) => { FwFormField.disable($form.find(`[data-datafield="${e}"]`)); });
     }
     //----------------------------------------------------------------------------------------------
     enableFields($form: JQuery, fields: string[]): void {
-        fields.forEach((e, i) => { FwFormField.enable($form.find('[data-datafield="' + e + '"]')); });
+        fields.forEach((e, i) => { FwFormField.enable($form.find(`[data-datafield="${e}"]`)); });
     }
     //----------------------------------------------------------------------------------------------
     updateExternalInputsWithGridValues($tr: JQuery): void {
@@ -679,7 +679,7 @@ class Deal {
 
         // ----------
         var nameCompanyContactGrid: string = 'CompanyContactGrid'
-        var $companyContactGrid: any = $companyContactGrid = $form.find('div[data-grid="' + nameCompanyContactGrid + '"]');
+        var $companyContactGrid: any = $companyContactGrid = $form.find(`div[data-grid="${nameCompanyContactGrid}"]`);
         var $companyContactControl: any = FwBrowse.loadGridFromTemplate(nameCompanyContactGrid);
         $companyContactGrid.empty().append($companyContactControl);
         $companyContactControl.data('ondatabind', function (request) {
