@@ -757,7 +757,7 @@ class OrderBase {
                         FwFormField.setValueByDataField($form, 'OutDeliveryAddressType', 'DEAL');
                         this.fillDeliveryAddressFieldsforDeal($form, 'Out', response);
                     }
-                    else if (response.DefaultOutgoingDeliveryType === 'PICK UP') {
+                    else if (response.DefaultOutgoingDeliveryType === 'PICKUP') {
                         FwFormField.setValueByDataField($form, 'OutDeliveryAddressType', 'WAREHOUSE');
                         this.getWarehouseAddress($form, 'Out');
                     }
@@ -766,7 +766,7 @@ class OrderBase {
                         FwFormField.setValueByDataField($form, 'InDeliveryAddressType', 'WAREHOUSE');
                         this.getWarehouseAddress($form, 'In');
                     }
-                    else if (response.DefaultIncomingDeliveryType === 'PICK UP') {
+                    else if (response.DefaultIncomingDeliveryType === 'PICKUP') {
                         FwFormField.setValueByDataField($form, 'InDeliveryAddressType', 'DEAL');
                         this.fillDeliveryAddressFieldsforDeal($form, 'In', response);
                     }
@@ -795,25 +795,25 @@ class OrderBase {
             prevValue = $element.data('prevValue');
 
             if ($element.attr('data-datafield') === 'OutDeliveryDeliveryType') {
-                if (newValue === 'DELIVER' && prevValue === 'PICK UP') {
+                if (newValue === 'DELIVER' && prevValue === 'PICKUP') {
                     FwFormField.setValueByDataField($form, 'OutDeliveryAddressType', 'DEAL');
                 }
-                if (newValue === 'SHIP' && prevValue === 'PICK UP') {
+                if (newValue === 'SHIP' && prevValue === 'PICKUP') {
                     FwFormField.setValueByDataField($form, 'OutDeliveryAddressType', 'DEAL');
                 }
-                if (newValue === 'PICK UP') {
+                if (newValue === 'PICKUP') {
                     FwFormField.setValueByDataField($form, 'OutDeliveryAddressType', 'WAREHOUSE');
                 }
                 $form.find('.OutDeliveryAddressType').change();
             }
             else if ($element.attr('data-datafield') === 'InDeliveryDeliveryType') {
-                if (newValue === 'DELIVER' && prevValue === 'PICK UP') {
+                if (newValue === 'DELIVER' && prevValue === 'PICKUP') {
                     FwFormField.setValueByDataField($form, 'InDeliveryAddressType', 'WAREHOUSE');
                 }
-                if (newValue === 'SHIP' && prevValue === 'PICK UP') {
+                if (newValue === 'SHIP' && prevValue === 'PICKUP') {
                     FwFormField.setValueByDataField($form, 'InDeliveryAddressType', 'WAREHOUSE');
                 }
-                if (newValue === 'PICK UP') {
+                if (newValue === 'PICKUP') {
                     FwFormField.setValueByDataField($form, 'InDeliveryAddressType', 'DEAL');
                 }
                 $form.find('.InDeliveryAddressType').change();
