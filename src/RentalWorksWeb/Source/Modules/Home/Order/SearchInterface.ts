@@ -101,6 +101,7 @@ class SearchInterface {
           <div class="flexrow" style="max-width:100%;">
             <div class="flexcolumn">
               <div id="breadcrumbs" class="fwmenu default">
+                <div class="basetype"></div>
                 <div class="type"></div>
                 <div class="category"></div>
                 <div class="subcategory"></div>
@@ -267,7 +268,9 @@ class SearchInterface {
         inventoryTypeRequest.searchfieldvalues = ["T"];
         availableFor = FwFormField.getValueByDataField($popup, 'InventoryType');
         inventoryType = $popup.find('[data-datafield="InventoryType"]');
-
+      
+        let mainTypeBreadCrumb = $popup.find('#breadcrumbs .basetype');
+       
         switch (gridInventoryType) {
             default:
             case 'Rental':
@@ -276,6 +279,7 @@ class SearchInterface {
                 }
                 categoryType = 'rentalcategory';
                 inventoryType.find('[value="R"]').prop('checked', true);
+                mainTypeBreadCrumb.text('RENTAL');
                 break;
             case 'Sales':
                 inventoryTypeRequest.uniqueids = {
@@ -283,6 +287,7 @@ class SearchInterface {
                 }
                 categoryType = 'salescategory';
                 inventoryType.find('[value="S"]').prop('checked', true);
+                mainTypeBreadCrumb.text('SALES');
                 break;
             case 'Labor':
                 inventoryTypeRequest.uniqueids = {
@@ -290,6 +295,7 @@ class SearchInterface {
                 }
                 categoryType = 'laborcategory';
                 inventoryType.find('[value="L"]').prop('checked', true);
+                mainTypeBreadCrumb.text('LABOR');
                 break;
             case 'Misc':
                 inventoryTypeRequest.uniqueids = {
@@ -297,8 +303,10 @@ class SearchInterface {
                 }
                 categoryType = 'misccategory';
                 inventoryType.find('[value="M"]').prop('checked', true);
+                mainTypeBreadCrumb.text('MISC');
                 break;
         };
+        mainTypeBreadCrumb.append('<div style="float:right;">&#160; &#160; &#47; &#160; &#160;</div>');
 
         //Hide columns based on type
         if (type === 'PurchaseOrder' || type === 'Template') {
@@ -832,6 +840,10 @@ class SearchInterface {
     };
 
     breadCrumbs($popup) {
+        $popup.on('click', '#breadcrumbs .basetype', e => {
+            $popup.find('[data-type="radio"]').change();
+        });
+
         $popup.on('click', '#breadcrumbs .type', e => {
             let inventoryTypeId = jQuery(e.currentTarget).attr('data-value');
             $popup.find(`#inventoryType ul[data-value="${inventoryTypeId}"]`).click();
@@ -874,30 +886,36 @@ class SearchInterface {
         //Inventory Type radio change events
         $popup.find('[data-type="radio"]').on('change', function () {
             availableFor = $popup.find('[data-type="radio"] input:checked').val();
+            let mainTypeBreadCrumb = $popup.find('#breadcrumbs .basetype');
+
             switch (availableFor) {
                 case 'R':
                     inventoryTypeRequest.uniqueids = {
                         Rental: true
                     }
                     categoryType = 'rentalcategory';
+                    mainTypeBreadCrumb.text('RENTAL');
                     break;
                 case 'S':
                     inventoryTypeRequest.uniqueids = {
                         Sales: true
                     }
                     categoryType = 'salescategory';
+                    mainTypeBreadCrumb.text('SALES');
                     break;
                 case 'L':
                     inventoryTypeRequest.uniqueids = {
                         Labor: true
                     }
                     categoryType = 'laborcategory';
+                    mainTypeBreadCrumb.text('LABOR');
                     break;
                 case 'M':
                     inventoryTypeRequest.uniqueids = {
                         Misc: true
                     }
                     categoryType = 'misccategory';
+                    mainTypeBreadCrumb.text('MISC');
                     break;
 
                 case 'P':
@@ -905,10 +923,12 @@ class SearchInterface {
                         Parts: true
                     }
                     categoryType = 'partscategory';
+                    mainTypeBreadCrumb.text('PARTS');
                     break;
             }
             request.AvailableFor = availableFor;
             self.populateTypeMenu($popup, inventoryTypeRequest, categoryType);
+            mainTypeBreadCrumb.append('<div style="float:right;">&#160; &#160; &#47; &#160; &#160;</div>');
 
             let searchValue = FwFormField.getValueByDataField($popup, 'SearchBox');
             let e = jQuery.Event("keydown", { keyCode: 13 });
