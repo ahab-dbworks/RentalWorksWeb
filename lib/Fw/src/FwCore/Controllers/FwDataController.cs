@@ -232,31 +232,33 @@ namespace FwCore.Controllers
 
                 if (isValid)
                 {
-                    await l.SaveAsync(original);
+                    int rowsAffected = await l.SaveAsync(original);
 
-                    WebAuditJsonLogic audit = new WebAuditJsonLogic();
-                    audit.AppConfig = this.AppConfig;
-                    audit.UserSession = this.UserSession;
-                    audit.ModuleName = l.BusinessLogicModuleName;
-                    JsonSerializerSettings jsonSerializerSettings = new JsonSerializerSettings();
-                    jsonSerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
-                    audit.Json = JsonConvert.SerializeObject(l.GetChanges(original), jsonSerializerSettings);
-                    object[] keys = l.GetPrimaryKeys();
-                    if (keys.Length > 0)
+                    if (rowsAffected > 0)
                     {
-                        audit.UniqueId1 = keys[0].ToString();
+                        WebAuditJsonLogic audit = new WebAuditJsonLogic();
+                        audit.AppConfig = this.AppConfig;
+                        audit.UserSession = this.UserSession;
+                        audit.ModuleName = l.BusinessLogicModuleName;
+                        JsonSerializerSettings jsonSerializerSettings = new JsonSerializerSettings();
+                        jsonSerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+                        audit.Json = JsonConvert.SerializeObject(l.GetChanges(original), jsonSerializerSettings);
+                        object[] keys = l.GetPrimaryKeys();
+                        if (keys.Length > 0)
+                        {
+                            audit.UniqueId1 = keys[0].ToString();
+                        }
+                        if (keys.Length > 1)
+                        {
+                            audit.UniqueId2 = keys[1].ToString();
+                        }
+                        if (keys.Length > 2)
+                        {
+                            audit.UniqueId3 = keys[2].ToString();
+                        }
+                        audit.WebUserId = this.UserSession.WebUsersId;
+                        await audit.SaveAsync(null);
                     }
-                    if (keys.Length > 1)
-                    {
-                        audit.UniqueId2 = keys[1].ToString();
-                    }
-                    if (keys.Length > 2)
-                    {
-                        audit.UniqueId3 = keys[2].ToString();
-                    }
-                    audit.WebUserId = this.UserSession.WebUsersId;
-                    await audit.SaveAsync(null);
-
 
                     if (l.ReloadOnSave)
                     {
