@@ -12,6 +12,9 @@ namespace FwStandard.Modules.Administrator.WebAuditJson
         [FwSqlDataField(column: "webauditid", modeltype: FwDataTypes.Integer, isPrimaryKey: true)]
         public int? WebAuditId { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "modulename", modeltype: FwDataTypes.Text)]
+        public string ModuleName { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "uniqueid1", modeltype: FwDataTypes.Text)]
         public string UniqueId1 { get; set; }
         //------------------------------------------------------------------------------------ 

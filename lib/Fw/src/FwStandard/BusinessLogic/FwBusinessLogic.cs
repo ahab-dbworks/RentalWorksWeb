@@ -127,7 +127,7 @@ namespace FwStandard.BusinessLogic
         }
 
         [JsonIgnore]
-        protected string BusinessLogicModuleName
+        public string BusinessLogicModuleName
         {
             get { return GetType().Name.Replace("Logic", ""); }
         }
@@ -997,18 +997,19 @@ namespace FwStandard.BusinessLogic
                 object newValue = null;
                 foreach (PropertyInfo property in properties)
                 {
-                    bool checkProperty = true;
+                    bool auditProperty = true;
+                    bool isAuditMasked = false;
 
-                    if (checkProperty)
+                    if (auditProperty)
                     {
                         if (property.IsDefined(typeof(JsonIgnoreAttribute)))
                         {
-                            checkProperty = false;
+                            auditProperty = false;
                         }
                     }
 
 
-                    if (checkProperty)
+                    if (auditProperty)
                     {
                         if (property.IsDefined(typeof(FwBusinessLogicFieldAttribute)))
                         {
@@ -1019,29 +1020,30 @@ namespace FwStandard.BusinessLogic
                                     FwBusinessLogicFieldAttribute businessLogicFieldAttribute = (FwBusinessLogicFieldAttribute)attribute;
                                     if ((businessLogicFieldAttribute.IsPrimaryKey) || (businessLogicFieldAttribute.IsPrimaryKeyOptional))
                                     {
-                                        checkProperty = false;
+                                        auditProperty = false;
                                     }
+                                    isAuditMasked = businessLogicFieldAttribute.IsAuditMasked;
                                 }
                             }
                         }
                     }
 
-                    if (checkProperty)
+                    if (auditProperty)
                     {
                         if (property.Name.Equals("RecordTitle"))
                         {
-                            checkProperty = false;
+                            auditProperty = false;
                         }
                         else if (property.Name.Equals("DateStamp"))
                         {
-                            checkProperty = false;
+                            auditProperty = false;
                         }
                     }
 
-                    if (checkProperty)
+                    if (auditProperty)
                     {
                         newValue = property.GetValue(this);
-                        if (newValue != null)  // property value is not null, so must be changing
+                        if (newValue != null)  // property value is not null, so it was supplied with the Post and probably changing
                         {
                             bool valueChanged = false;
                             Type propertyType = property.PropertyType;
@@ -1070,11 +1072,39 @@ namespace FwStandard.BusinessLogic
                             }
                             if (valueChanged)
                             {
+                                if (isAuditMasked)
+                                {
+                                    oldValue = "##########";
+                                    newValue = "##########";
+                                }
                                 deltas.Add(new FwBusinessLogicFieldDelta(property.Name, oldValue, newValue));
                             }
                         }
                     }
                 }
+            }
+
+            //remove "id" fields where the corresponding display field is also in the list if fields
+            List<int> removeIndexes = new List<int>();
+            int index = 0;
+            foreach (FwBusinessLogicFieldDelta delta in deltas)
+            {
+                if (delta.FieldName.ToLower().EndsWith("id"))
+                {
+                    foreach (FwBusinessLogicFieldDelta delta2 in deltas)
+                    {
+                        if ((delta2.FieldName.ToLower() + "id").Equals(delta.FieldName.ToLower()))
+                        {
+                            removeIndexes.Add(index);
+                        }
+                    }
+                }
+                index++;
+            }
+
+            for (int i = removeIndexes.Count - 1; i>= 0; i--)
+            {
+                deltas.RemoveAt(removeIndexes[i]);
             }
 
             deltas.Sort();

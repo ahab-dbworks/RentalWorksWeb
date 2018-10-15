@@ -108,12 +108,25 @@ namespace FwStandard.DataLayer
         public virtual async Task<int> SaveAsync(FwDataReadWriteRecord original)
         {
             int rowsAffected = 0;
+            TDataRecordSaveMode saveMode = TDataRecordSaveMode.smInsert;
+
+            if (NoPrimaryKeysHaveValues)
+            {
+                saveMode = TDataRecordSaveMode.smInsert;
+            }
+            else if (AllPrimaryKeysHaveValues)
+            {
+                saveMode = TDataRecordSaveMode.smUpdate;
+            }
+            else
+            {
+                throw new Exception("Values were not supplied for all primary keys.");
+            }
+
             using (FwSqlConnection conn = new FwSqlConnection(AppConfig.DatabaseSettings.ConnectionString))
             {
-                TDataRecordSaveMode saveMode = TDataRecordSaveMode.smInsert;
-                if (NoPrimaryKeysHaveValues)
+                if (saveMode.Equals(TDataRecordSaveMode.smInsert))
                 {
-                    //insert
                     if (AssignPrimaryKeys == null)
                     {
                         await SetPrimaryKeyIdsForInsertAsync(conn);
@@ -123,22 +136,35 @@ namespace FwStandard.DataLayer
                         EventArgs e = new EventArgs();
                         AssignPrimaryKeys(this, e);
                     }
-                    BeforeSaveDataRecordEventArgs beforeSaveArgs = new BeforeSaveDataRecordEventArgs();
-                    beforeSaveArgs.SaveMode = saveMode;
-                    beforeSaveArgs.Original = original;
+                }
 
-                    AfterSaveDataRecordEventArgs afterSaveArgs = new AfterSaveDataRecordEventArgs();
-                    afterSaveArgs.SaveMode = saveMode;
-                    afterSaveArgs.Original = original;
-                    if (BeforeSave != null)
-                    {
-                        BeforeSave(this, beforeSaveArgs);
-                    }
-                    if (beforeSaveArgs.PerformSave)
+                BeforeSaveDataRecordEventArgs beforeSaveArgs = new BeforeSaveDataRecordEventArgs();
+                beforeSaveArgs.SaveMode = saveMode;
+                beforeSaveArgs.Original = original;
+
+                AfterSaveDataRecordEventArgs afterSaveArgs = new AfterSaveDataRecordEventArgs();
+                afterSaveArgs.SaveMode = saveMode;
+                afterSaveArgs.Original = original;
+
+                if (BeforeSave != null)
+                {
+                    BeforeSave(this, beforeSaveArgs);
+                }
+
+                if (beforeSaveArgs.PerformSave)
+                {
+                    if ((saveMode.Equals(TDataRecordSaveMode.smInsert)) || ForceSave || IsModified(original))  // don't proceed with db activity if nothing changed
                     {
                         using (FwSqlCommand cmd = new FwSqlCommand(conn, AppConfig.DatabaseSettings.QueryTimeout))
                         {
-                            rowsAffected = await cmd.InsertAsync(true, TableName, this, AppConfig.DatabaseSettings);
+                            if (saveMode.Equals(TDataRecordSaveMode.smInsert))
+                            {
+                                rowsAffected = await cmd.InsertAsync(true, TableName, this, AppConfig.DatabaseSettings);
+                            }
+                            else
+                            {
+                                rowsAffected = await cmd.UpdateAsync(true, TableName, this);
+                            }
                             bool savePerformed = (rowsAffected > 0);
                             if (savePerformed)
                             {
@@ -149,42 +175,6 @@ namespace FwStandard.DataLayer
                             }
                         }
                     }
-                }
-                else if (AllPrimaryKeysHaveValues)
-                {
-                    // update
-                    saveMode = TDataRecordSaveMode.smUpdate;
-                    BeforeSaveDataRecordEventArgs beforeSaveArgs = new BeforeSaveDataRecordEventArgs();
-                    AfterSaveDataRecordEventArgs afterSaveArgs = new AfterSaveDataRecordEventArgs();
-                    beforeSaveArgs.SaveMode = saveMode;
-                    beforeSaveArgs.Original = original;
-                    afterSaveArgs.SaveMode = saveMode;
-                    if (BeforeSave != null)
-                    {
-                        BeforeSave(this, beforeSaveArgs);
-                    }
-                    if (beforeSaveArgs.PerformSave)
-                    {
-                        if ((ForceSave) || (HasAtLeastOneNonNullValue))
-                        {
-                            using (FwSqlCommand cmd = new FwSqlCommand(conn, AppConfig.DatabaseSettings.QueryTimeout))
-                            {
-                                rowsAffected = await cmd.UpdateAsync(true, TableName, this);
-                                bool savePerformed = (rowsAffected > 0);
-                                if (savePerformed)
-                                {
-                                    if (AfterSave != null)
-                                    {
-                                        AfterSave(this, afterSaveArgs);
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-                else
-                {
-                    throw new Exception("Primary key values were not supplied for all primary keys.");
                 }
             }
             return rowsAffected;

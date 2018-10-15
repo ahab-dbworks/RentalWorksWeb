@@ -237,6 +237,7 @@ namespace FwCore.Controllers
                     WebAuditJsonLogic audit = new WebAuditJsonLogic();
                     audit.AppConfig = this.AppConfig;
                     audit.UserSession = this.UserSession;
+                    audit.ModuleName = l.BusinessLogicModuleName;
                     JsonSerializerSettings jsonSerializerSettings = new JsonSerializerSettings();
                     jsonSerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
                     audit.Json = JsonConvert.SerializeObject(l.GetChanges(original), jsonSerializerSettings);

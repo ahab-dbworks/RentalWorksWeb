@@ -16,6 +16,7 @@ namespace FwStandard.Modules.Administrator.WebAuditJson
         //------------------------------------------------------------------------------------ 
         [FwBusinessLogicField(isPrimaryKey: true)]
         public int? WebAuditId { get { return webAuditJson.WebAuditId; } set { webAuditJson.WebAuditId = value; } }
+        public string ModuleName { get { return webAuditJson.ModuleName; } set { webAuditJson.ModuleName = value; } }
         public string UniqueId1 { get { return webAuditJson.UniqueId1; } set { webAuditJson.UniqueId1 = value; } }
         public string UniqueId2 { get { return webAuditJson.UniqueId2; } set { webAuditJson.UniqueId2 = value; } }
         public string UniqueId3 { get { return webAuditJson.UniqueId3; } set { webAuditJson.UniqueId3 = value; } }

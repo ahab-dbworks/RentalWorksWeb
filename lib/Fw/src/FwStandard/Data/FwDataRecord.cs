@@ -23,11 +23,12 @@ namespace FwStandard.DataLayer
         private bool reloadOnSave = true;
         protected bool useWithNoLock = true;
         private string tableAlias = "t";
-        protected bool forceSave = true;
+        //protected bool forceSave = true;
 
 
         [JsonIgnore]
-        public bool ForceSave { get { return forceSave; } set { forceSave = value; } }
+        //public bool ForceSave { get { return forceSave; } set { forceSave = value; } }
+        public bool ForceSave { get; set; } = false;
 
         [JsonIgnore]
         public bool ReloadOnSave { get { return reloadOnSave; } set { reloadOnSave = value; } }
@@ -87,17 +88,7 @@ namespace FwStandard.DataLayer
                         if (attribute.GetType() == typeof(FwSqlDataFieldAttribute))
                         {
                             FwSqlDataFieldAttribute dataFieldAttribute = (FwSqlDataFieldAttribute)attribute;
-                            //if (dataFieldAttribute.IsPrimaryKey)  
-                            //{
-                            //    primaryKeyProperties.Add(property);
-                            //}
-                            //if (dataFieldAttribute.IsCustomPrimaryKey)
-                            //{
-                            //    primaryKeyProperties.Add(property);
-                            //}
-
-                            //justin 02/12/2018
-                            if ((dataFieldAttribute.IsPrimaryKey) /*|| (dataFieldAttribute.IsCustomPrimaryKey)*/ || (dataFieldAttribute.IsPrimaryKeyOptional))
+                            if ((dataFieldAttribute.IsPrimaryKey) || (dataFieldAttribute.IsPrimaryKeyOptional))
                             {
                                 primaryKeyProperties.Add(property);
                             }
@@ -200,43 +191,62 @@ namespace FwStandard.DataLayer
             }
         }
         //------------------------------------------------------------------------------------
-        [JsonIgnore]
-        public virtual bool HasAtLeastOneNonNullValue
+        public virtual bool IsModified(FwDataRecord original)
         {
-            get
+            bool isModified = false;
+            if (original == null)
             {
-                bool hasNonNullValue = false;
+                isModified = true;
+            }
+            else
+            {
                 PropertyInfo[] properties = this.GetType().GetProperties();
                 foreach (PropertyInfo property in properties)
                 {
                     if (property.IsDefined(typeof(FwSqlDataFieldAttribute)))
                     {
-                        bool isPk = false;
-                        foreach (Attribute attribute in property.GetCustomAttributes())
+                        bool checkProperty = true;
+                        if (checkProperty)
                         {
-                            if (attribute.GetType() == typeof(FwSqlDataFieldAttribute))
+                            foreach (Attribute attribute in property.GetCustomAttributes())
                             {
-                                FwSqlDataFieldAttribute dataFieldAttribute = (FwSqlDataFieldAttribute)attribute;
-                                if ((dataFieldAttribute.IsPrimaryKey) || (dataFieldAttribute.IsPrimaryKeyOptional))
+                                if (attribute.GetType() == typeof(FwSqlDataFieldAttribute))
                                 {
-                                    isPk = true;
+                                    FwSqlDataFieldAttribute dataFieldAttribute = (FwSqlDataFieldAttribute)attribute;
+                                    if ((dataFieldAttribute.IsPrimaryKey) || (dataFieldAttribute.IsPrimaryKeyOptional))
+                                    {
+                                        checkProperty = false;
+                                    }
                                 }
                             }
                         }
 
-                        if (!isPk)
+                        if (checkProperty)
                         {
-                            object propertyValue = property.GetValue(this);
-                            if (propertyValue != null)
+                            if (property.Name.ToLower().Equals("datestamp"))
                             {
-                                hasNonNullValue = true;
-                                break;
+                                checkProperty = false;
+                            }
+                        }
+
+                        if (checkProperty)
+                        {
+                            object newValue = property.GetValue(this);
+                            if (newValue != null)
+                            {
+                                object oldValue = original.GetType().GetProperty(property.Name).GetValue(original, null);
+
+                                isModified = ((oldValue == null) || (!newValue.Equals(oldValue)));
+                                if (isModified)
+                                {
+                                    break;
+                                }
                             }
                         }
                     }
                 }
-                return hasNonNullValue;
             }
+            return isModified;
         }
         //------------------------------------------------------------------------------------
         public virtual bool AllFieldsValid(TDataRecordSaveMode saveMode, ref string validateMsg)
@@ -328,13 +338,12 @@ namespace FwStandard.DataLayer
             List<PropertyInfo> primaryKeyProperties = GetPrimaryKeyProperties();
             foreach (PropertyInfo primaryKeyProperty in primaryKeyProperties)
             {
-
                 foreach (Attribute attribute in primaryKeyProperty.GetCustomAttributes())
                 {
                     if (attribute.GetType() == typeof(FwSqlDataFieldAttribute))
                     {
                         FwSqlDataFieldAttribute dataFieldAttribute = (FwSqlDataFieldAttribute)attribute;
-                        if ((!dataFieldAttribute.IsPrimaryKeyOptional) && (!dataFieldAttribute.Identity)/* && (!dataFieldAttribute.IsCustomPrimaryKey)*/)
+                        if ((!dataFieldAttribute.IsPrimaryKeyOptional) && (!dataFieldAttribute.Identity))
                         {
                             string id = await FwSqlData.GetNextIdAsync(conn, AppConfig.DatabaseSettings);
                             if (primaryKeyProperty.GetValue(this) is string)
@@ -342,11 +351,6 @@ namespace FwStandard.DataLayer
                                 primaryKeyProperties[0].SetValue(this, id);
                             }
                         }
-                        //else if (dataFieldAttribute.IsCustomPrimaryKey)
-                        //{
-                        //    object id = await GetCustomPrimaryKey(conn, AppConfig.DatabaseSettings);
-                        //    primaryKeyProperties[0].SetValue(this, id);
-                        //}
                     }
                 }
             }
