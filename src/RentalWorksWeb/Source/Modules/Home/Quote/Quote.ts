@@ -286,6 +286,7 @@ class Quote extends OrderBase {
         var $orderStatusHistoryGrid: any;
         var $orderStatusHistoryGridControl: any;
         var max = 9999;
+        let self = this;
 
         $orderStatusHistoryGrid = $form.find('div[data-grid="OrderStatusHistoryGrid"]');
         $orderStatusHistoryGridControl = jQuery(jQuery('#tmpl-grids-OrderStatusHistoryGridBrowse').html());
@@ -494,6 +495,17 @@ class Quote extends OrderBase {
         });
         FwBrowse.init($orderContactGridControl);
         FwBrowse.renderRuntimeHtml($orderContactGridControl);
+
+        let itemGrids = [$orderItemGridRental, $orderItemGridSales, $orderItemGridLabor, $orderItemGridMisc];
+        if ($form.attr('data-mode') === 'NEW') {
+            for (var i = 0; i < itemGrids.length; i++) {
+                itemGrids[i].find('.btn').filter(function () { return jQuery(this).data('type') === 'NewButton' })
+                    .off()
+                    .on('click', function () {
+                        self.saveForm($form, { closetab: false });
+                    })
+            }
+        }
 
         jQuery($form.find('.rentalgrid .valtype')).attr('data-validationname', 'RentalInventoryValidation');
         jQuery($form.find('.salesgrid .valtype')).attr('data-validationname', 'SalesInventoryValidation');
@@ -726,6 +738,11 @@ FwApplicationTree.clickEvents['{BC3B1A5E-7270-4547-8FD1-4D14F505D452}'] = functi
     let search, $form, quoteId, $popup;
     $form = jQuery(this).closest('.fwform');
     quoteId = FwFormField.getValueByDataField($form, 'QuoteId');
+
+    if ($form.attr('data-mode') === 'NEW') {
+        OrderController.saveForm($form, { closetab: false });
+        return;
+    }
 
     if (quoteId == "") {
         FwNotification.renderNotification('WARNING', 'Save the record before performing this function');

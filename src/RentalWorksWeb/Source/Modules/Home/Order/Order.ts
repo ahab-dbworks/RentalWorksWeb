@@ -301,6 +301,7 @@ class Order extends OrderBase {
         var $orderPickListGrid;
         var $orderPickListGridControl;
         var max = 9999;
+        var self = this;
 
         $orderPickListGrid = $form.find('div[data-grid="OrderPickListGrid"]');
         $orderPickListGridControl = jQuery(jQuery('#tmpl-grids-OrderPickListGridBrowse').html());
@@ -543,6 +544,17 @@ class Order extends OrderBase {
         FwBrowse.init($orderContactGridControl);
         FwBrowse.renderRuntimeHtml($orderContactGridControl);
 
+        let itemGrids = [$orderItemGridRental, $orderItemGridSales, $orderItemGridLabor, $orderItemGridMisc];
+        if ($form.attr('data-mode') === 'NEW') {
+            for (var i = 0; i < itemGrids.length; i++) {                
+                itemGrids[i].find('.btn').filter(function () { return jQuery(this).data('type') === 'NewButton' })
+                    .off()
+                    .on('click', function() {
+                        self.saveForm($form, { closetab: false });
+                    })
+            }
+        }
+
         jQuery($form.find('.rentalgrid .valtype')).attr('data-validationname', 'RentalInventoryValidation');
         jQuery($form.find('.salesgrid .valtype')).attr('data-validationname', 'SalesInventoryValidation');
         jQuery($form.find('.laborgrid .valtype')).attr('data-validationname', 'LaborRateValidation');
@@ -679,21 +691,21 @@ class Order extends OrderBase {
             FwFormField.enable($form.find('[data-datafield="NoChargeReason"]'));
         }
 
-        // Display weeks or month field in billing tab
-        if (FwFormField.getValueByDataField($form, 'RateType') === 'MONTHLY') {
-            $form.find(".BillingWeeks").hide();
-            $form.find(".BillingMonths").show();
-        } else {
-            $form.find(".BillingMonths").hide();
-            $form.find(".BillingWeeks").show();
-        }
+        //// Display weeks or month field in billing tab | Commented out because code is redundant and repeated above (O.W. 10/15/18)
+        //if (FwFormField.getValueByDataField($form, 'RateType') === 'MONTHLY') {
+        //    $form.find(".BillingWeeks").hide();
+        //    $form.find(".BillingMonths").show();
+        //} else {
+        //    $form.find(".BillingMonths").hide();
+        //    $form.find(".BillingWeeks").show();
+        //}
 
-        // Display D/W field in rental
-        if (FwFormField.getValueByDataField($form, 'RateType') === 'DAILY') {
-            $form.find(".RentalDaysPerWeek").show();
-        } else {
-            $form.find(".RentalDaysPerWeek").hide();
-        }
+        //// Display D/W field in rental
+        //if (FwFormField.getValueByDataField($form, 'RateType') === 'DAILY') {
+        //    $form.find(".RentalDaysPerWeek").show();
+        //} else {
+        //    $form.find(".RentalDaysPerWeek").hide();
+        //}
         // Disable withTax checkboxes if Total field is 0.00
         this.disableWithTaxCheckbox($form);
 
@@ -976,6 +988,11 @@ FwApplicationTree.clickEvents['{B2D127C6-A1C2-4697-8F3B-9A678F3EAEEE}'] = functi
     let search, $form, orderId, $popup;
     $form = jQuery(this).closest('.fwform');
     orderId = FwFormField.getValueByDataField($form, 'OrderId');
+
+    if ($form.attr('data-mode') === 'NEW') {
+        OrderController.saveForm($form, { closetab: false });
+        return;
+    }
 
     if (orderId == "") {
         FwNotification.renderNotification('WARNING', 'Save the record before performing this function');

@@ -82,9 +82,13 @@ class OrderBase {
             if (response.CombineActivityTabs === true) {
                 $form.find('.notcombined').css('display', 'none');
                 $form.find('.notcombinedtab').css('display', 'none');
+                $form.find('.combined').show();
+                $form.find('.combinedtab').show();
             } else {
                 $form.find('.combined').css('display', 'none');
                 $form.find('.combinedtab').css('display', 'none');
+                $form.find('.notcombined').show();
+                $form.find('.notcombinedtab').show();
             }
             var hiddenRentals: Array<string> = fieldNames.filter(function (field) {
                 return !this.has(field)
