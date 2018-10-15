@@ -69,7 +69,7 @@ class SearchInterface {
         searchhtml.push(`
      </div>
       <div class="flexrow" style="min-width:100%;">
-        <div class="flexcolumn hideOnExpand" style="max-width:200px;">
+        <div class="flexcolumn hideOnExpand" style="max-width:210px;">
           <div class="flexrow">
             <div id="categorycolumns">
               <div id="typeName"></div>
@@ -216,7 +216,7 @@ class SearchInterface {
         let userId = JSON.parse(sessionStorage.getItem('userid'));
         let $inventoryView = $popup.find('#inventoryView');
         FwAppData.apiMethod(true, 'GET', `api/v1/usersearchsettings/${userId.webusersid}`, null, FwServices.defaultTimeout, function onSuccess(response) {
-            if (response.SearchModePreference != "") {
+            if (response.Mode != null) {
                 $inventoryView.val(response.Mode)
             } else {
                 $inventoryView.val('GRID');

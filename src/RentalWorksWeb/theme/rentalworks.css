@@ -342,12 +342,13 @@ progress::-webkit-progress-value {
 }
 
 #typeName, #inventoryType, #category, #subCategory {
-    width: 190px;
+    width: 200px;
     margin: 5px 0px 0px 5px;
     float: left;
 }
 #searchFormHtml .downArrowNav {
-    float:left;
+    position: absolute;
+    left: 10px;
 }
 
 #searchFormHtml .invviewbtn {
@@ -364,8 +365,12 @@ progress::-webkit-progress-value {
 
 ul.fitText {
     cursor: pointer;
-    padding: 5px 5px 5px 10px;
     margin: 2px;
+}
+
+ul.fitText span:not(.downArrowNav){
+    left:-10px;
+    position:relative;
 }
 
  #inventoryType ul, #category ul, #subCategory ul {
