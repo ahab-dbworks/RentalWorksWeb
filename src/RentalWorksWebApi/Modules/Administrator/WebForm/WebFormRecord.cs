@@ -2,14 +2,14 @@ using FwStandard.BusinessLogic;
 using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
-namespace WebApi.Modules.Administrator.WebForm
+namespace WebApi.Modules.Administrator.CustomForm
 {
     [FwSqlTable("webform")]
-    public class WebFormRecord : AppDataReadWriteRecord
+    public class CustomFormRecord : AppDataReadWriteRecord
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "webformid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8, isPrimaryKey: true)]
-        public string WebFormId { get; set; } = "";
+        public string CustomFormId { get; set; } = "";
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "baseform", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 255, required: false)]
         public string BaseForm { get; set; }

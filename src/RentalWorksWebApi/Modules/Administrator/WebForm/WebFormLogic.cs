@@ -1,29 +1,29 @@
 using FwStandard.BusinessLogic.Attributes;
 using WebApi.Logic;
-namespace WebApi.Modules.Administrator.WebForm
+namespace WebApi.Modules.Administrator.CustomForm
 {
-    public class WebFormLogic : AppBusinessLogic
+    public class CustomFormLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------ 
-        WebFormRecord webForm = new WebFormRecord();
-        WebFormLoader webFormLoader = new WebFormLoader();
-        public WebFormLogic()
+        CustomFormRecord customForm = new CustomFormRecord();
+        CustomFormLoader customFormLoader = new CustomFormLoader();
+        public CustomFormLogic()
         {
-            dataRecords.Add(webForm);
-            dataLoader = webFormLoader;
+            dataRecords.Add(customForm);
+            dataLoader = customFormLoader;
         }
         //------------------------------------------------------------------------------------ 
         [FwBusinessLogicField(isPrimaryKey: true)]
-        public string WebFormId { get { return webForm.WebFormId; } set { webForm.WebFormId = value; } }
-        public string WebUserId { get { return webForm.WebUserId; } set { webForm.WebUserId = value; } }
+        public string CustomFormId { get { return customForm.CustomFormId; } set { customForm.CustomFormId = value; } }
+        public string WebUserId { get { return customForm.WebUserId; } set { customForm.WebUserId = value; } }
         [FwBusinessLogicField(isReadOnly: true)]
         public string UserName { get; set; }
-        public string BaseForm { get { return webForm.BaseForm; } set { webForm.BaseForm = value; } }
+        public string BaseForm { get { return customForm.BaseForm; } set { customForm.BaseForm = value; } }
         [FwBusinessLogicField(isRecordTitle: true)]
-        public string Description { get { return webForm.Description; } set { webForm.Description= value; } }
-        public string Html { get { return webForm.Html; } set { webForm.Html = value; } }
-        public bool? Active { get { return webForm.Active; } set { webForm.Active = value; } }
-        public string DateStamp { get { return webForm.DateStamp; } set { webForm.DateStamp = value; } }
+        public string Description { get { return customForm.Description; } set { customForm.Description= value; } }
+        public string Html { get { return customForm.Html; } set { customForm.Html = value; } }
+        public bool? Active { get { return customForm.Active; } set { customForm.Active = value; } }
+        public string DateStamp { get { return customForm.DateStamp; } set { customForm.DateStamp = value; } }
         //------------------------------------------------------------------------------------ 
     }
 }

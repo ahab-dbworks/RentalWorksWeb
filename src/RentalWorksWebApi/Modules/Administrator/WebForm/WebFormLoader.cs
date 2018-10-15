@@ -6,14 +6,14 @@ using WebApi.Data;
 using System.Collections.Generic;
 using System;
 using WebLibrary;
-namespace WebApi.Modules.Administrator.WebForm
+namespace WebApi.Modules.Administrator.CustomForm
 {
     [FwSqlTable("webformview")]
-    public class WebFormLoader : AppDataLoadRecord
+    public class CustomFormLoader : AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "webformid", modeltype: FwDataTypes.Text, isPrimaryKey: true)]
-        public string WebFormId { get; set; } = "";
+        public string CustomFormId { get; set; } = "";
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "baseform", modeltype: FwDataTypes.Text)]
         public string BaseForm { get; set; }
