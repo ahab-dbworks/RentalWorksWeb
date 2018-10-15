@@ -174,6 +174,9 @@ namespace WebApi.Modules.Home.Master
         [FwSqlDataField(column: "primarydimensionid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
         public string PrimaryDimensionId { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "secondarydimensionid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
+        public string SecondayDimensionId { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "warehousespecific", modeltype: FwDataTypes.Boolean, sqltype: "char")]
         public bool? WarehouseSpecificPackage { get; set; }
         //------------------------------------------------------------------------------------ 

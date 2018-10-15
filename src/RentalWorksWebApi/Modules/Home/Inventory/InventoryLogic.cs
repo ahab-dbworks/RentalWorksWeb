@@ -22,6 +22,7 @@ namespace WebApi.Modules.Home.Inventory
             dataRecords.Add(primaryDimension);
             dataRecords.Add(secondaryDimension);
             browseLoader = inventoryBrowseLoader;
+            BeforeSave += OnBeforeSave;
             master.AfterSave += OnAfterSaveMaster;
         }
         //------------------------------------------------------------------------------------ 
@@ -40,7 +41,7 @@ namespace WebApi.Modules.Home.Inventory
         public bool? NoAvailabilityCheck { get { return master.NoAvailabilityCheck; } set { master.NoAvailabilityCheck = value; } }
         public bool? AvailabilityManuallyResolveConflicts { get { return master.AvailabilityManuallyResolveConflicts; } set { master.AvailabilityManuallyResolveConflicts = value; } }
         public bool? SendAvailabilityAlert { get { return master.SendAvailabilityAlert; } set { master.SendAvailabilityAlert = value; } }
-        public string PrimaryDimensionUniqueId { get { return primaryDimension.UniqueId; } set { primaryDimension.UniqueId = value; } }
+        public string PrimaryDimensionUniqueId { get { return master.PrimaryDimensionId; } set { master.PrimaryDimensionId = value; primaryDimension.UniqueId = value; } }
         public string PrimaryDimensionDescription { get { return primaryDimension.Description; } set { primaryDimension.Description = value; } }
         public int? PrimaryDimensionShipWeightLbs { get { return primaryDimension.ShipWeightLbs; } set { primaryDimension.ShipWeightLbs = value; } }
         public int? PrimaryDimensionShipWeightOz { get { return primaryDimension.ShipWeightOz; } set { primaryDimension.ShipWeightOz = value; } }
@@ -62,7 +63,7 @@ namespace WebApi.Modules.Home.Inventory
         public int? PrimaryDimensionHeightCm { get { return primaryDimension.HeightCm; } set { primaryDimension.HeightCm = value; } }
         public int? PrimaryDimensionLengthM { get { return primaryDimension.LengthM; } set { primaryDimension.LengthM = value; } }
         public int? PrimaryDimensionLengthCm { get { return primaryDimension.LengthCm; } set { primaryDimension.LengthCm = value; } }
-        public string SecondaryDimensionUniqueId { get { return secondaryDimension.UniqueId; } set { secondaryDimension.UniqueId = value; } }
+        public string SecondaryDimensionUniqueId { get { return master.SecondayDimensionId; } set { master.SecondayDimensionId = value; secondaryDimension.UniqueId = value; } }
         public string SecondaryDimensionDescription { get { return secondaryDimension.Description; } set { secondaryDimension.Description = value; } }
         public int? SecondaryDimensionShipWeightLbs { get { return secondaryDimension.ShipWeightLbs; } set { secondaryDimension.ShipWeightLbs = value; } }
         public int? SecondaryDimensionShipWeightOz { get { return secondaryDimension.ShipWeightOz; } set { secondaryDimension.ShipWeightOz = value; } }
@@ -165,6 +166,16 @@ namespace WebApi.Modules.Home.Inventory
             return isValid;
         }
         //------------------------------------------------------------------------------------ 
+        public void OnBeforeSave(object sender, BeforeSaveEventArgs e)
+        {
+            if (e.SaveMode.Equals(TDataRecordSaveMode.smUpdate))
+            {
+                InventoryLogic orig = ((InventoryLogic)e.Original);
+                PrimaryDimensionUniqueId = orig.PrimaryDimensionUniqueId;
+                SecondaryDimensionUniqueId = orig.SecondaryDimensionUniqueId;
+            }
+        }
+        //------------------------------------------------------------------------------------
         public override void OnAfterSaveMaster(object sender, AfterSaveDataRecordEventArgs e)
         {
             base.OnAfterSaveMaster(sender, e);
