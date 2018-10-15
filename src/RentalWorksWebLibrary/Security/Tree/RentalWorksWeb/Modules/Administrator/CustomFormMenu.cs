@@ -2,10 +2,10 @@
 
 namespace WebLibrary.Security.Tree.RentalWorksWeb.Modules.Settings
 {
-    public class WebFormMenu : FwSecurityTreeBranch
+    public class CustomFormMenu : FwSecurityTreeBranch
     {
         //---------------------------------------------------------------------------------------------
-        public WebFormMenu() : base("{CB2EF8FF-2E8D-4AD0-B880-07037B839C5E}") { }
+        public CustomFormMenu() : base("{CB2EF8FF-2E8D-4AD0-B880-07037B839C5E}") { }
         //---------------------------------------------------------------------------------------------
         public override void BuildBranch(FwSecurityTree tree)
         {

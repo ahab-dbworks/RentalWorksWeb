@@ -156,20 +156,20 @@ class Base {
                                                         FwFunc.showError(response);
                                                     }, null);
 
-                                                let webformrequest:any = {};
-                                                webformrequest.uniqueids = {
+                                                let customformrequest:any = {};
+                                                customformrequest.uniqueids = {
                                                     WebUserId: responseOriginalApi.webUser.webusersid.webusersid
                                                 };
                                                 
-                                                FwAppData.apiMethod(true, 'POST', `api/v1/webform/browse`, webformrequest, FwServices.defaultTimeout, function onSuccess(response) {
+                                                FwAppData.apiMethod(true, 'POST', `api/v1/customform/browse`, customformrequest, FwServices.defaultTimeout, function onSuccess(response) {
                                                     let baseFormIndex = response.ColumnIndex.BaseForm;
                                                     let activeIndex = response.ColumnIndex.Active;
                                                     let htmlIndex = response.ColumnIndex.Html;
                                                     for (let i = 0; i < response.Rows.length; i++) {
-                                                        let webForm = response.Rows[i];
-                                                        if (webForm[activeIndex] == true) {
+                                                        let customForm = response.Rows[i];
+                                                        if (customForm[activeIndex] == true) {
                                                             let type;
-                                                            let baseform = webForm[baseFormIndex];
+                                                            let baseform = customForm[baseFormIndex];
                                                             if (baseform.endsWith('GridBrowse')) {
                                                                 type = 'Grid';
                                                             } else if (baseform.endsWith('Browse')) {
@@ -180,11 +180,11 @@ class Base {
 
                                                             switch (type) {
                                                                 case 'Grid':
-                                                                    jQuery(`#tmpl-grids-${baseform}`).html(webForm[htmlIndex]);
+                                                                    jQuery(`#tmpl-grids-${baseform}`).html(customForm[htmlIndex]);
                                                                     break;
                                                                 case 'Browse':
                                                                 case 'Form':
-                                                                    jQuery(`#tmpl-modules-${baseform}`).html(webForm[htmlIndex]);
+                                                                    jQuery(`#tmpl-modules-${baseform}`).html(customForm[htmlIndex]);
                                                                     break;
                                                             }
                                                         }

@@ -1,7 +1,7 @@
-routes.push({ pattern: /^module\/webform$/, action: function (match: RegExpExecArray) { return WebFormController.getModuleScreen(); } });
-class WebForm {
-    Module: string = 'WebForm';
-    apiurl: string = 'api/v1/webform';
+routes.push({ pattern: /^module\/customform$/, action: function (match: RegExpExecArray) { return CustomFormController.getModuleScreen(); } });
+class CustomForm {
+    Module: string = 'CustomForm';
+    apiurl: string = 'api/v1/customform';
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
         var screen, $browse;
@@ -14,7 +14,7 @@ class WebForm {
         $browse = this.openBrowse();
 
         screen.load = function () {
-            FwModule.openModuleTab($browse, 'Web Form', false, 'BROWSE', true);
+            FwModule.openModuleTab($browse, 'Custom Form', false, 'BROWSE', true);
             FwBrowse.databind($browse);
             FwBrowse.screenload($browse);
         };
@@ -58,8 +58,9 @@ class WebForm {
         myCodeMirror.setSize(1350, 850);
         $form.find('.CodeMirror').css('max-width', '1350px');
 
-        this.codeMirrorEvents($form, myCodeMirror);
+        
         this.loadModules($form);
+        this.codeMirrorEvents($form, myCodeMirror);
         return $form;
     }
     //----------------------------------------------------------------------------------------------
@@ -67,7 +68,7 @@ class WebForm {
         var $form;
 
         $form = this.openForm('EDIT');
-        $form.find('div.fwformfield[data-datafield="WebFormId"] input').val(uniqueids.WebFormId);
+        $form.find('div.fwformfield[data-datafield="CustomFormId"] input').val(uniqueids.CustomFormId);
         FwModule.loadForm(this.Module, $form);
 
         return $form;
@@ -114,7 +115,7 @@ class WebForm {
         }
         //Select module event
         $form.find('div.modules').on('change', e => {
-            let $this = jQuery(e.currentTarget).find('option:selected');
+            let $this = $form.find('[data-datafield="BaseForm"] option:selected');
             let moduleName = $this.val();
             let type = $this.attr('data-type');
             let controller: any = $this.attr('data-controllername');
@@ -302,4 +303,4 @@ class WebForm {
     }
 };
 //----------------------------------------------------------------------------------------------
-var WebFormController = new WebForm();
+var CustomFormController = new CustomForm();
