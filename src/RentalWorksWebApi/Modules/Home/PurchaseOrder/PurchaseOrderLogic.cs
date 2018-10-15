@@ -23,10 +23,6 @@ namespace WebApi.Modules.Home.PurchaseOrder
         PurchaseOrderLoader purchaseOrderLoader = new PurchaseOrderLoader();
         PurchaseOrderBrowseLoader purchaseOrderBrowseLoader = new PurchaseOrderBrowseLoader();
 
-        private string tmpTaxId = "";
-        //private PurchaseOrderLogic lOrig = null;
-
-
         public PurchaseOrderLogic()
         {
             dataRecords.Add(purchaseOrder);
@@ -36,11 +32,9 @@ namespace WebApi.Modules.Home.PurchaseOrder
             browseLoader = purchaseOrderBrowseLoader;
 
             BeforeSave += OnBeforeSave;
+            AfterSave += OnAfterSave;
             purchaseOrder.BeforeSave += OnBeforeSavePurchaseOrder;
             purchaseOrder.AfterSave += OnAfterSavePurchaseOrder;
-
-
-            tax.AssignPrimaryKeys += TaxAssignPrimaryKeys;
             tax.AfterSave += OnAfterSaveTax;
 
             Type = RwConstants.ORDER_TYPE_PURCHASE_ORDER;
@@ -335,12 +329,6 @@ namespace WebApi.Modules.Home.PurchaseOrder
         }
         //------------------------------------------------------------------------------------
 
-        public void TaxAssignPrimaryKeys(object sender, EventArgs e)
-        {
-            ((TaxRecord)sender).TaxId = tmpTaxId;
-        }
-        //------------------------------------------------------------------------------------ 
-
 
         public void OnBeforeSave(object sender, BeforeSaveEventArgs e)
         {
@@ -354,10 +342,20 @@ namespace WebApi.Modules.Home.PurchaseOrder
             }
         }
         //------------------------------------------------------------------------------------ 
+        public void OnAfterSave(object sender, AfterSaveEventArgs e)
+        {
+            if (e.SaveMode.Equals(TDataRecordSaveMode.smInsert))
+            {
+                // this is a new Quote/Order.  OutDeliveryId, InDeliveryId, and TaxId were not known at time of insert.  Need to re-update the data with the known ID's
+                //purchaseOrder.OutDeliveryId = outDelivery.DeliveryId;
+                //purchaseOrder.InDeliveryId = inDelivery.DeliveryId;
+                purchaseOrder.TaxId = tax.TaxId;
+                int i = purchaseOrder.SaveAsync(null).Result;
+            }
+        }
+        //------------------------------------------------------------------------------------
         public void OnBeforeSavePurchaseOrder(object sender, BeforeSaveDataRecordEventArgs e)
         {
-            DealOrderRecord lOrig = ((DealOrderRecord)e.Original);
-
             if (e.SaveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smInsert)
             {
                 bool x = purchaseOrder.SetNumber().Result;
@@ -366,23 +364,18 @@ namespace WebApi.Modules.Home.PurchaseOrder
                 {
                     TaxOptionId = AppFunc.GetLocation(AppConfig, UserSession, OfficeLocationId, "taxoptionid").Result;
                 }
-                tmpTaxId = AppFunc.GetNextIdAsync(AppConfig).Result;
-                TaxId = tmpTaxId;
             }
             else
             {
-                if ((tax.TaxId == null) || (tax.TaxId.Equals(string.Empty)))
+                if (e.Original != null)
                 {
-                    tax.TaxId = lOrig.TaxId;
+                    DealOrderRecord lOrig = ((DealOrderRecord)e.Original);
+
+                    if ((tax.TaxId == null) || (tax.TaxId.Equals(string.Empty)))
+                    {
+                        tax.TaxId = lOrig.TaxId;
+                    }
                 }
-                //if (string.IsNullOrEmpty(OutDeliveryId))
-                //{
-                //    OutDeliveryId = lOrig.OutDeliveryId;
-                //}
-                //if (string.IsNullOrEmpty(InDeliveryId))
-                //{
-                //    InDeliveryId = lOrig.InDeliveryId;
-                //}
             }
         }
         //------------------------------------------------------------------------------------
@@ -397,11 +390,11 @@ namespace WebApi.Modules.Home.PurchaseOrder
             {
                 if ((TaxOptionId != null) && (!TaxOptionId.Equals(string.Empty)))
                 {
-                    PurchaseOrderLogic l2 = null;
-                    l2.SetDependencies(this.AppConfig, this.UserSession);
-                    object[] pk = GetPrimaryKeys();
-                    bool b1 = l2.LoadAsync<PurchaseOrderLogic>(pk).Result;
-                    TaxId = l2.TaxId;
+
+                    if (e.Original != null)
+                    {
+                        TaxId = ((DealOrderRecord)e.Original).TaxId;
+                    }
 
                     if ((TaxId != null) && (!TaxId.Equals(string.Empty)))
                     {
@@ -419,11 +412,11 @@ namespace WebApi.Modules.Home.PurchaseOrder
             {
                 if ((TaxId == null) || (TaxId.Equals(string.Empty)))
                 {
-                    PurchaseOrderLogic l2 = new PurchaseOrderLogic();
-                    l2.SetDependencies(this.AppConfig, this.UserSession);
-                    object[] pk = GetPrimaryKeys();
-                    bool b = l2.LoadAsync<PurchaseOrderLogic>(pk).Result;
-                    TaxId = l2.TaxId;
+                    //PurchaseOrderLogic l2 = new PurchaseOrderLogic();
+                    //l2.SetDependencies(this.AppConfig, this.UserSession);
+                    //object[] pk = GetPrimaryKeys();
+                    //bool b = l2.LoadAsync<PurchaseOrderLogic>(pk).Result;
+                    //TaxId = l2.TaxId;
                 }
 
                 if ((TaxId != null) && (!TaxId.Equals(string.Empty)))

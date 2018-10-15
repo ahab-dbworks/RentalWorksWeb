@@ -6,6 +6,7 @@ using WebLibrary;
 using WebApi.Logic;
 using FwStandard.SqlServer;
 using System.Threading.Tasks;
+using WebApi.Modules.Home.DealOrder;
 
 namespace WebApi.Modules.Home.Quote
 {
@@ -29,8 +30,9 @@ namespace WebApi.Modules.Home.Quote
         public string QuoteDate { get { return dealOrder.OrderDate; } set { dealOrder.OrderDate = value; } }
         public int? VersionNumber { get { return dealOrder.VersionNumber; } set { dealOrder.VersionNumber = value; } }
         //------------------------------------------------------------------------------------
-        public void OnBeforeSave(object sender, BeforeSaveEventArgs e)
+        public override void OnBeforeSave(object sender, BeforeSaveEventArgs e)
         {
+            base.OnBeforeSave(sender, e);
             if (e.SaveMode == TDataRecordSaveMode.smInsert)
             {
                 StatusDate = FwConvert.ToString(DateTime.Today);
@@ -39,11 +41,6 @@ namespace WebApi.Modules.Home.Quote
             }
             else // (updating)
             {
-                //QuoteLogic l2 = new QuoteLogic();
-                //l2.SetDependencies(AppConfig, UserSession);
-                //l2.QuoteId = QuoteId;
-                //bool b = l2.LoadAsync<QuoteLogic>().Result;
-
                 if (DealId != null) // user has modified the Deal value in this update request
                 {
                     if (DealId.Equals(string.Empty))
@@ -58,8 +55,7 @@ namespace WebApi.Modules.Home.Quote
 
                 if (Status != null)
                 {
-                    //if (!Status.Equals(lOrig.Status))
-                    if (!Status.Equals(((QuoteLogic)e.Original).Status))
+                    if ((e.Original != null) && (!Status.Equals(((QuoteLogic)e.Original).Status)))
                     {
                         StatusDate = FwConvert.ToString(DateTime.Today);
                     }
@@ -71,20 +67,19 @@ namespace WebApi.Modules.Home.Quote
         public override void OnAfterSaveDealOrder(object sender, AfterSaveDataRecordEventArgs e)
         {
             base.OnAfterSaveDealOrder(sender, e);
-            QuoteLogic l2 = new QuoteLogic();
-            l2.SetDependencies(this.AppConfig, this.UserSession);
-            object[] pk = GetPrimaryKeys();
-            bool b = l2.LoadAsync<QuoteLogic>(pk).Result;
-            BillToAddressId = l2.BillToAddressId;
-            TaxId = l2.TaxId;
-
-
-            if ((TaxOptionId != null) && (!TaxOptionId.Equals(string.Empty)) && (TaxId != null) && (!TaxId.Equals(string.Empty)))
+            if (e.SaveMode.Equals(TDataRecordSaveMode.smUpdate))
             {
-                b = AppFunc.UpdateTaxFromTaxOptionASync(this.AppConfig, this.UserSession, TaxOptionId, TaxId).Result;
-            }
+                if (e.Original != null)
+                {
+                    TaxId = ((DealOrderRecord)e.Original).TaxId;
+                }
 
-            b = dealOrder.UpdateOrderTotal().Result;
+                if ((TaxOptionId != null) && (!TaxOptionId.Equals(string.Empty)) && (TaxId != null) && (!TaxId.Equals(string.Empty)))
+                {
+                    bool b1 = AppFunc.UpdateTaxFromTaxOptionASync(this.AppConfig, this.UserSession, TaxOptionId, TaxId).Result;
+                }
+            }
+            bool b2 = dealOrder.UpdateOrderTotal().Result;
         }
         //------------------------------------------------------------------------------------    
         public async Task<OrderLogic> QuoteToOrderASync<T>()

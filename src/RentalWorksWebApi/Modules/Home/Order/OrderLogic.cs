@@ -4,6 +4,7 @@ using FwStandard.SqlServer;
 using System;
 using System.Threading.Tasks;
 using WebApi.Logic;
+using WebApi.Modules.Home.DealOrder;
 using WebLibrary;
 
 namespace WebApi.Modules.Home.Order
@@ -29,8 +30,9 @@ namespace WebApi.Modules.Home.Order
         //------------------------------------------------------------------------------------
         public string OrderDate { get { return dealOrder.OrderDate; } set { dealOrder.OrderDate = value; } }
         //------------------------------------------------------------------------------------
-        public void OnBeforeSave(object sender, BeforeSaveEventArgs e)
+        public override void OnBeforeSave(object sender, BeforeSaveEventArgs e)
         {
+            base.OnBeforeSave(sender, e);
             if (e.SaveMode == TDataRecordSaveMode.smInsert)
             {
                 Status = RwConstants.ORDER_STATUS_CONFIRMED;
@@ -41,18 +43,19 @@ namespace WebApi.Modules.Home.Order
         public override void OnAfterSaveDealOrder(object sender, AfterSaveDataRecordEventArgs e)
         {
             base.OnAfterSaveDealOrder(sender, e);
-            OrderLogic l2 = new OrderLogic();
-            l2.SetDependencies(this.AppConfig, this.UserSession);
-            object[] pk = GetPrimaryKeys();
-            bool b = l2.LoadAsync<OrderLogic>(pk).Result;
-            BillToAddressId = l2.BillToAddressId;
-            TaxId = l2.TaxId;
-
-            if ((TaxOptionId != null) && (!TaxOptionId.Equals(string.Empty)) && (TaxId != null) && (!TaxId.Equals(string.Empty)))
+            if (e.SaveMode.Equals(TDataRecordSaveMode.smUpdate))
             {
-                b = AppFunc.UpdateTaxFromTaxOptionASync(this.AppConfig, this.UserSession, TaxOptionId, TaxId).Result;
+                if (e.Original != null)
+                {
+                    TaxId = ((DealOrderRecord)e.Original).TaxId;
+                }
+
+                if ((TaxOptionId != null) && (!TaxOptionId.Equals(string.Empty)) && (TaxId != null) && (!TaxId.Equals(string.Empty)))
+                {
+                    bool b1 = AppFunc.UpdateTaxFromTaxOptionASync(this.AppConfig, this.UserSession, TaxOptionId, TaxId).Result;
+                }
             }
-            b = dealOrder.UpdateOrderTotal().Result;
+            bool b2 = dealOrder.UpdateOrderTotal().Result;
         }
         //------------------------------------------------------------------------------------    
         public async Task<OrderLogic> CancelOrderASync()
