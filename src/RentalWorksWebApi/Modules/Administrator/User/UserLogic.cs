@@ -1,5 +1,5 @@
 using FwStandard.BusinessLogic;
-using FwStandard.BusinessLogic.Attributes; 
+using FwStandard.BusinessLogic.Attributes;
 using WebApi.Logic;
 namespace WebApi.Modules.Administrator.User
 {
@@ -10,6 +10,8 @@ namespace WebApi.Modules.Administrator.User
         WebUserRecord webUser = new WebUserRecord();
         UserLoader userLoader = new UserLoader();
         UserBrowseLoader userBrowseLoader = new UserBrowseLoader();
+        private bool? passwordChanged = false;
+
         public UserLogic()
         {
             dataRecords.Add(user);
@@ -32,13 +34,22 @@ namespace WebApi.Modules.Administrator.User
         public string LoginName { get { return user.LoginName; } set { user.LoginName = value; } }
         [FwBusinessLogicField(isRecordTitle: true, isReadOnly: true)]
         public string FullName { get; set; }
-
         public string FirstName { get { return user.FirstName; } set { user.FirstName = value; } }
         public string MiddleInitial { get { return user.MiddleInitial; } set { user.MiddleInitial = value; } }
         public string LastName { get { return user.LastName; } set { user.LastName = value; } }
-        //public string LoginName { get { return user.LoginName; } set { user.LoginName = value; } }
-        [FwBusinessLogicField(isReadOnly: true)]
-        public string Password { get { return "?????????"; }  set { user.Password = value; } }
+        public string Password
+        {
+            get { return "?????????"; }
+            set
+            {
+                if (value != null)
+                {
+                    passwordChanged = true;
+                }
+                user.Password = value;
+            }
+        }
+        public bool? PasswordChanged { get { return passwordChanged; } }
         public string GroupId { get { return user.GroupId; } set { user.GroupId = value; } }
         [FwBusinessLogicField(isReadOnly: true)]
         public string GroupName { get; set; }
