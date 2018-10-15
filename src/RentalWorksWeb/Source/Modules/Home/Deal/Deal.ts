@@ -553,9 +553,9 @@ class Deal {
             FwFormField.setValueByDataField($form, 'ShipCountryId', FwFormField.getValueByDataField($form, 'CountryId'), FwFormField.getTextByDataField($form, 'CountryId'));
         }
 
-        if (FwFormField.getValueByDataField($form, 'ShippingAddressType') === 'OTHER') {
-            FwFormField.enable($form.find('div[data-datafield="ShipToAttention"]'));
-        }
+        //if (FwFormField.getValueByDataField($form, 'ShippingAddressType') === 'OTHER') {
+        //    FwFormField.enable($form.find('div[data-datafield="ShipToAttention"]'));
+        //}
     }
     //----------------------------------------------------------------------------------------------
     transferDealAddressValues($form: any): void {
@@ -733,7 +733,6 @@ class Deal {
     }
     //----------------------------------------------------------------------------------------------
     loadCustomerShippingValues($form: any, response: any): void {
-        FwFormField.setValueByDataField($form, 'ShipAttention', '');
         FwFormField.setValueByDataField($form, 'ShipAddress1', '');
         FwFormField.setValueByDataField($form, 'ShipAddress2', '');
         FwFormField.setValueByDataField($form, 'ShipCity', '');
@@ -741,7 +740,6 @@ class Deal {
         FwFormField.setValueByDataField($form, 'ShipZipCode', '');
         FwFormField.setValueByDataField($form, 'ShipCountryId', '', '');
 
-        FwFormField.setValueByDataField($form, 'ShipAttention', response.ShipAttention);
         FwFormField.setValueByDataField($form, 'ShipAddress1', response.ShipAddress1);
         FwFormField.setValueByDataField($form, 'ShipAddress2', response.ShipAddress2);
         FwFormField.setValueByDataField($form, 'ShipCity', response.ShipCity);
