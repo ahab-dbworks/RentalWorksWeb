@@ -1127,7 +1127,7 @@ class SearchInterface {
 
             userId = JSON.parse(sessionStorage.getItem('userid'));
             viewrequest = {};
-            viewrequest.UserId = userId.webusersid;
+            viewrequest.WebUserId = userId.webusersid;
             viewrequest.SearchModePreference = view;
             FwAppData.apiMethod(true, 'POST', "api/v1/usersearchsettings/", viewrequest, FwServices.defaultTimeout, function onSuccess(response) {
             }, null, null);
