@@ -3,10 +3,8 @@ using FwStandard.Models;
 using FwStandard.SqlServer; 
 using FwStandard.SqlServer.Attributes; 
 using WebApi.Data; 
-using System.Collections.Generic;
-using Newtonsoft.Json;
 
-namespace WebApi.Modules.Administrator.UserSettings
+namespace WebApi.Modules.Settings.UserSettings
 {
     [FwSqlTable("dbo.funcwebusersettings2(@webusersid)")]
     public class UserSettingsLoader : AppDataLoadRecord

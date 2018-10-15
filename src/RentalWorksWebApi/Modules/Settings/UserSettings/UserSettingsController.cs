@@ -4,7 +4,7 @@ using Microsoft.Extensions.Options;
 using WebApi.Controllers; 
 using System.Threading.Tasks;
 
-namespace WebApi.Modules.Administrator.UserSettings
+namespace WebApi.Modules.Settings.UserSettings
 {
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "administrator-v1")]

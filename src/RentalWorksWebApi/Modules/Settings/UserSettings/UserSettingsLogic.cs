@@ -2,7 +2,7 @@ using FwStandard.BusinessLogic;
 using FwStandard.BusinessLogic.Attributes;
 using System.Text;
 using WebApi.Logic;
-namespace WebApi.Modules.Administrator.UserSettings
+namespace WebApi.Modules.Settings.UserSettings
 {
     public class UserSettingsLogic : AppBusinessLogic
     {
@@ -10,15 +10,11 @@ namespace WebApi.Modules.Administrator.UserSettings
         UserSettingsRecord userSettings = new UserSettingsRecord();
         UserSettingsLoader userSettingsLoader = new UserSettingsLoader();
 
-        //private UserSettingsLogic lOrig = null;
-
         public UserSettingsLogic()
         {
             dataRecords.Add(userSettings);
             dataLoader = userSettingsLoader;
             BeforeSave += OnBeforeSaveUserSettings;
-
-
         }
         //------------------------------------------------------------------------------------ 
         [FwBusinessLogicField(isPrimaryKey: true)]
@@ -40,22 +36,6 @@ namespace WebApi.Modules.Administrator.UserSettings
         public string NotificationSoundFileName { get; set; }
         public string DateStamp { get { return userSettings.DateStamp; } set { userSettings.DateStamp = value; } }
         //------------------------------------------------------------------------------------ 
-        //protected override bool Validate(TDataRecordSaveMode saveMode, FwBusinessLogic original, ref string validateMsg)
-        //{
-        //    bool isValid = true;
-
-        //    lOrig = new UserSettingsLogic();
-
-        //    if (saveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smUpdate)
-        //    {
-        //        lOrig.SetDependencies(this.AppConfig, this.UserSession);
-        //        object[] pk = GetPrimaryKeys();
-        //        bool b = lOrig.LoadAsync<UserSettingsLogic>(pk).Result;
-        //    }
-
-        //    return isValid;
-        //}
-        //-------------------------------------------------------------------------------------------------------   
         public void OnBeforeSaveUserSettings(object sender, BeforeSaveEventArgs e)
         {
             //userSettings.Settings = "<settings><settings></settings><browsedefaultrows>" + BrowseDefaultRows + "</browsedefaultrows><applicationtheme>" + ApplicationTheme + "</applicationtheme></settings>";

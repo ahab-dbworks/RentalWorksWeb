@@ -1,14 +1,12 @@
-using FwStandard.BusinessLogic; 
 using FwStandard.SqlServer; 
 using FwStandard.SqlServer.Attributes; 
 using WebApi.Data;
 
-namespace WebApi.Modules.Administrator.UserSettings
+namespace WebApi.Modules.Settings.UserSettings
 {
     [FwSqlTable("webusers")]
     public class UserSettingsRecord : AppDataReadWriteRecord
     {
-        //public UserSettingsRecord() : base() { }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "webusersid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8, isPrimaryKey: true)]
         public string UserId { get; set; } = "";
