@@ -216,7 +216,7 @@ class SearchInterface {
         let $inventoryView = $popup.find('#inventoryView');
         FwAppData.apiMethod(true, 'GET', `api/v1/usersearchsettings/${userId.webusersid}`, null, FwServices.defaultTimeout, function onSuccess(response) {
             if (response.SearchModePreference != "") {
-                $inventoryView.val(response.SearchModePreference)
+                $inventoryView.val(response.Mode)
             } else {
                 $inventoryView.val('GRID');
             }
@@ -1128,7 +1128,7 @@ class SearchInterface {
             userId = JSON.parse(sessionStorage.getItem('userid'));
             viewrequest = {};
             viewrequest.WebUserId = userId.webusersid;
-            viewrequest.SearchModePreference = view;
+            viewrequest.Mode = view;
             FwAppData.apiMethod(true, 'POST', "api/v1/usersearchsettings/", viewrequest, FwServices.defaultTimeout, function onSuccess(response) {
             }, null, null);
         });

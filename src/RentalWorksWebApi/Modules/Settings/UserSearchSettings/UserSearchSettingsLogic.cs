@@ -8,31 +8,32 @@ namespace WebApi.Modules.Settings.UserSearchSettings
 {
     public class UserSearchSettingsLogic : AppBusinessLogic
     {
-        WebUserRecord webUser = new WebUserRecord();
+        UserSearchSettingsRecord userSearchSettings = new UserSearchSettingsRecord();
 
         //------------------------------------------------------------------------------------
         public UserSearchSettingsLogic()
         {
-            dataRecords.Add(webUser);
+            dataRecords.Add(userSearchSettings);
+            LoadOriginalBeforeSaving = false;
         }
         //------------------------------------------------------------------------------------
         [FwBusinessLogicField(isPrimaryKey: true)]
-        public string WebUserId { get { return webUser.WebUserId; } set { webUser.WebUserId = value; } }
-        public string SearchModePreference { get { return webUser.SearchModePreference; } set { webUser.SearchModePreference = value; } }
+        public string WebUserId { get { return userSearchSettings.WebUserId; } set { userSearchSettings.WebUserId = value; } }
+        public string Mode { get { return userSearchSettings.Mode; } set { userSearchSettings.Mode = value; } }
+        public string ResultFields { get { return userSearchSettings.ResultFields; } set { userSearchSettings.ResultFields = value; } }
+        public bool? DisableAccessoryAutoExpand { get { return userSearchSettings.DisableAccessoryAutoExpand; } set { userSearchSettings.DisableAccessoryAutoExpand = value; } }
         //------------------------------------------------------------------------------------
         protected override bool Validate(TDataRecordSaveMode saveMode, FwBusinessLogic original, ref string validateMsg)
         {
             bool isValid = true;
 
-            if ((SearchModePreference == null) || (!(SearchModePreference.Equals(RwConstants.SEARCH_MODE_PREFERENCE_LIST) || SearchModePreference.Equals(RwConstants.SEARCH_MODE_PREFERENCE_HYBRID) || SearchModePreference.Equals(RwConstants.SEARCH_MODE_PREFERENCE_GRID))))
+            if ((Mode == null) || (!(Mode.Equals(RwConstants.SEARCH_MODE_PREFERENCE_LIST) || Mode.Equals(RwConstants.SEARCH_MODE_PREFERENCE_HYBRID) || Mode.Equals(RwConstants.SEARCH_MODE_PREFERENCE_GRID))))
             {
-                SearchModePreference = RwConstants.SEARCH_MODE_PREFERENCE_LIST;
+                Mode = RwConstants.SEARCH_MODE_PREFERENCE_LIST;
             }
 
             return isValid;
         }
         //------------------------------------------------------------------------------------
-
-
     }
 }
