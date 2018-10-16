@@ -655,11 +655,17 @@ namespace WebApi.Modules.Home.OrderItem
                 //    }
                 //}
             }
+
+            if (Notes != null)
+            {
+                bool saved = orderItem.SaveNoteASync(Notes).Result;
+            }
+
         }
         //------------------------------------------------------------------------------------
         public void OnAfterSaveOrderItem(object sender, AfterSaveDataRecordEventArgs e)
         {
-            bool saved = orderItem.SaveNoteASync(Notes).Result;
+            //bool saved = orderItem.SaveNoteASync(Notes).Result;
         }
         //------------------------------------------------------------------------------------
     }
