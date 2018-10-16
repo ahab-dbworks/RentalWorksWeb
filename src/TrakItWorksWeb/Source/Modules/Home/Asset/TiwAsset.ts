@@ -211,4 +211,4 @@ class TiwAsset extends RwAsset {
 
 }
 
-(<any>window).AssetController = new TiwAsset();
+var TiwAssetController = new TiwAsset();

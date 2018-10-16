@@ -534,11 +534,11 @@ namespace WebLibrary.Security
             //AddModule("Contract",         "{6BBB8A0A-53FA-4E1D-89B3-8B184B233DEA}", lv1menuModules.Id, "ContractController",        "module/contract",        homeiconbaseurl + "placeholder.png");
             //AddModule("Customer",         "{214C6242-AA91-4498-A4CC-E0F3DCCCE71E}", lv1menuModules.Id, "CustomerController",        "module/customer",        homeiconbaseurl + "placeholder.png");
             AddModule("Deal",             "{393DE600-2911-4753-85FD-ABBC4F0B1407}", lv1menuModules.Id, "DealController",            "module/deal",            homeiconbaseurl + "placeholder.png");
-            //AddModule("Order",            "{64C46F51-5E00-48FA-94B6-FC4EF53FEA20}", lv1menuModules.Id, "OrderController",           "module/order",           homeiconbaseurl + "placeholder.png");
+            AddModule("Order", "{68B3710E-FE07-4461-9EFD-04E0DBDAF5EA}", lv1menuModules.Id, "OrderController", "module/order", homeiconbaseurl + "placeholder.png");
             //AddModule("Order Status",     "{F6AE5BC1-865D-467B-A201-95C93F8E8D0B}", lv1menuModules.Id, "OrderStatusController",     "module/orderstatus",     homeiconbaseurl + "placeholder.png");
             //AddModule("Parts Inventory",  "{351B8A09-7778-4F06-A6A2-ED0920A5C360}", lv1menuModules.Id, "PartsInventoryController",  "module/partsinventory",  homeiconbaseurl + "placeholder.png");
             //AddModule("Pick List",        "{7B04E5D4-D079-4F3A-9CB0-844F293569ED}", lv1menuModules.Id, "PickListController",        "module/picklist",        homeiconbaseurl + "placeholder.png");
-            //AddModule("Quote",            "{4D785844-BE8A-4C00-B1FA-2AA5B05183E5}", lv1menuModules.Id, "QuoteController",           "module/quote",           homeiconbaseurl + "placeholder.png");
+            AddModule("Quote", "{9213AF53-6829-4276-9DF9-9DAA704C2CCF}", lv1menuModules.Id, "QuoteController", "module/quote", homeiconbaseurl + "placeholder.png");
             //AddModule("Rental Inventory", "{FCDB4C86-20E7-489B-A8B7-D22EE6F85C06}", lv1menuModules.Id, "RentalInventoryController", "module/rentalinventory", homeiconbaseurl + "placeholder.png");
             //AddModule("Repair Order",     "{2BD0DC82-270E-4B86-A9AA-DD0461A0186A}", lv1menuModules.Id, "RepairController",          "module/repair",          homeiconbaseurl + "placeholder.png");
             //AddModule("Sales Inventory",  "{B0CF2E66-CDF8-4E58-8006-49CA68AE38C2}", lv1menuModules.Id, "SalesInventoryController",  "module/salesinventory",  homeiconbaseurl + "placeholder.png");

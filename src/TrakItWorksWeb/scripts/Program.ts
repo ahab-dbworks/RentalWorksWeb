@@ -19,8 +19,8 @@ jQuery(function () {
 //---------------------------------------------------------------------------------
 //---------------------------------------------------------------------------------
 //Home Modules
-//routes.push({ pattern: /^module\/quote$/, action: function (match: RegExpExecArray) { return RwQuoteController.getModuleScreen(); } });
-//routes.push({ pattern: /^module\/order$/,                  action: function(match: RegExpExecArray) { return RwOrderController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/quote$/, action: function (match: RegExpExecArray) { return QuoteController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/order$/,                  action: function(match: RegExpExecArray) { return OrderController.getModuleScreen(); } });
 //routes.push({ pattern: /^module\/customer$/,               action: function(match: RegExpExecArray) { return RwCustomerController.getModuleScreen(); } });
 //routes.push({ pattern: /^module\/deal$/,                   action: function(match: RegExpExecArray) { return RwDealController.getModuleScreen(); } });
 
@@ -32,6 +32,7 @@ jQuery(function () {
 //routes.push({ pattern: /^module\/repair$/,            action: function(match: RegExpExecArray) { return RwRepairController.getModuleScreen(); } });
 
 //Settings Modules
+routes.push({ pattern: /^module\/asset/, action: function (match: RegExpExecArray) { return TiwAssetController.getModuleScreen(); } });
 routes.push({ pattern: /^module\/country$/, action: function (match: RegExpExecArray) { return CountryController.getModuleScreen(); } });
 routes.push({ pattern: /^module\/state$/, action: function (match: RegExpExecArray) { return StateController.getModuleScreen(); } });
 routes.push({ pattern: /^module\/customerstatus$/, action: function (match: RegExpExecArray) { return CustomerStatusController.getModuleScreen(); } });
