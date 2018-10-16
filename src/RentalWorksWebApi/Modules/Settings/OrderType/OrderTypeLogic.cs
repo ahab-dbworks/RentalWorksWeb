@@ -1045,7 +1045,7 @@ namespace WebApi.Modules.Settings.OrderType
             {
                 List<string> showFields = new List<string>();
 
-                if (LossAndDamageShowOrderNumber == true) { showFields.Add("OrderNumber"); }
+                if (LossAndDamageShowOrderNumber == true) { showFields.Add("LossAndDamageOrderNumber"); }
                 if (LossAndDamageShowBarCode == true) { showFields.Add("BarCode"); }
                 if (LossAndDamageShowSerialNumber == true) { showFields.Add("SerialNumber"); }
                 if (LossAndDamageShowICode == true) { showFields.Add("ICode"); }
