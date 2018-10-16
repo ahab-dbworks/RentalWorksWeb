@@ -499,9 +499,10 @@ html.theme-material .fwformcontrol[data-type="button"].pressed {
 }
 
 /* Audit History Grid */
-html.theme-material [data-name="AuditHistoryGrid"] tbody td ul:not(.auditHeader):nth-child(even) {
+html.theme-material [data-name="AuditHistoryGrid"] tbody td ul:not(.auditHeader):nth-child(even) span:not(.auditSpacer) {
     background-color: #F5F5F5;
 }
-html.theme-material [data-name="AuditHistoryGrid"] tbody tr.selected td ul:not(.auditHeader):nth-child(even) {
+
+html.theme-material [data-name="AuditHistoryGrid"] tbody tr.selected td ul:not(.auditHeader):nth-child(even) span:not(.auditSpacer){
     background-color: #0087f3 !important;
 }

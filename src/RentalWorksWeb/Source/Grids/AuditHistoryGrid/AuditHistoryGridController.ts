@@ -18,8 +18,9 @@
                 html.push(`<ul style="font-size:14px; word-wrap:break-word; display:flex;">
                                 <span style="font-weight:bold; float:left; width:225px; padding-right:1em;">${changes[i].FieldName}:</span>
                                 <span style="width:200px; padding-right:1em;">${changes[i].OldValue === "" ? "&#160;" : changes[i].OldValue}</span>
-                                <span style="width:200px;">${changes[i].NewValue === "" ? "&#160;" : changes[i].NewValue}</span>
-                          </ul>`);
+                                <span style="width:200px; padding-right:4em;">${changes[i].NewValue === "" ? "&#160;" : changes[i].NewValue}</span>
+                                <span class="auditSpacer" style="flex:1 1 0"></span>            
+                           </ul>`);
             }
             jQuery($oldElement).replaceWith(html.join(''));
 
