@@ -16,6 +16,7 @@ html.theme-material .fwmenu.grid .submenubutton .submenu .submenu-column .submen
 html.theme-material .fwmenu.grid .submenubutton .submenu .submenu-column .submenu-group > .caption {font-weight:bold;color:#000077;border-bottom:solid 2px #000077;}
 html.theme-material .fwmenu.grid .submenubutton .submenu .submenu-column .submenu-group .submenu-btn {cursor:pointer;padding:3px;border:solid 1px transparent;}
 html.theme-material .fwmenu.grid .submenubutton .submenu .submenu-column .submenu-group .submenu-btn:hover {background: rgba(213,221,229,1);color: #1a2631;border: 1px solid rgba(41,77,133,1);}
+html.theme-material .fwbrowse[data-enabled="false"] .fwmenu.grid .buttonbar .btn {background:grey;}
 /*#endregion FwMenu Grid*/
 
 /*#region FwMenu: (Browses/Forms)*/
