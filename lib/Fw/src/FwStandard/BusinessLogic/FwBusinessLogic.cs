@@ -1031,6 +1031,10 @@ namespace FwStandard.BusinessLogic
                                     {
                                         auditProperty = false;
                                     }
+                                    if (businessLogicFieldAttribute.IsNotAudited)
+                                    {
+                                        auditProperty = false;
+                                    }
                                     isAuditMasked = businessLogicFieldAttribute.IsAuditMasked;
                                 }
                             }
@@ -1043,7 +1047,7 @@ namespace FwStandard.BusinessLogic
                         {
                             auditProperty = false;
                         }
-                        else if (property.Name.Equals("DateStamp"))
+                        else if (property.Name.Contains("DateStamp"))
                         {
                             auditProperty = false;
                         }
