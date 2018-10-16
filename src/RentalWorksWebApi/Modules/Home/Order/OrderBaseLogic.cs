@@ -677,11 +677,14 @@ namespace WebApi.Modules.Home.Order
         {
             if (e.SaveMode.Equals(TDataRecordSaveMode.smUpdate))
             {
-                OrderBaseLogic orig = ((OrderBaseLogic)e.Original);
-                OutDeliveryId = orig.OutDeliveryId;
-                InDeliveryId = orig.InDeliveryId;
-                BillToAddressId = orig.BillToAddressId;
-                TaxId = orig.TaxId;
+                if (e.Original != null)
+                {
+                    OrderBaseLogic orig = ((OrderBaseLogic)e.Original);
+                    OutDeliveryId = orig.OutDeliveryId;
+                    InDeliveryId = orig.InDeliveryId;
+                    BillToAddressId = orig.BillToAddressId;
+                    TaxId = orig.TaxId;
+                }
             }
         }
         //------------------------------------------------------------------------------------

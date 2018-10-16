@@ -37,9 +37,10 @@ namespace WebApi.Modules.Settings.OrderType
             dataLoader = orderTypeLoader;
             browseLoader = orderTypeBrowseLoader;
 
-            orderType.AfterSave += OnAfterSaveOrderType;
+            //orderType.AfterSave += OnAfterSaveOrderType;
 
-            AfterSave += OnAfterSaveOrderTypeLogic;
+            BeforeSave += OnBeforeSave;
+            AfterSave += OnAfterSave;
 
         }
         //------------------------------------------------------------------------------------ 
@@ -682,7 +683,7 @@ namespace WebApi.Modules.Settings.OrderType
         public bool? Inactive { get { return orderType.Inactive; } set { orderType.Inactive = value; } }
 
 
-        [FwBusinessLogicField(isReadOnly: true)]
+        [FwBusinessLogicField(isReadOnly: true, isNotAudited: true)]
         public List<string> CombinedShowFields
         {
             get
@@ -760,7 +761,7 @@ namespace WebApi.Modules.Settings.OrderType
         }
 
 
-        [FwBusinessLogicField(isReadOnly: true)]
+        [FwBusinessLogicField(isReadOnly: true, isNotAudited: true)]
         public List<string> RentalShowFields
         {
             get
@@ -833,7 +834,7 @@ namespace WebApi.Modules.Settings.OrderType
             set { }
         }
 
-        [FwBusinessLogicField(isReadOnly: true)]
+        [FwBusinessLogicField(isReadOnly: true, isNotAudited: true)]
         public List<string> SalesShowFields
         {
             get
@@ -890,7 +891,7 @@ namespace WebApi.Modules.Settings.OrderType
         }
 
 
-        [FwBusinessLogicField(isReadOnly: true)]
+        [FwBusinessLogicField(isReadOnly: true, isNotAudited: true)]
         public List<string> MiscShowFields
         {
             get
@@ -947,7 +948,7 @@ namespace WebApi.Modules.Settings.OrderType
 
 
 
-        [FwBusinessLogicField(isReadOnly: true)]
+        [FwBusinessLogicField(isReadOnly: true, isNotAudited: true)]
         public List<string> LaborShowFields
         {
             get
@@ -1001,7 +1002,7 @@ namespace WebApi.Modules.Settings.OrderType
             set { }
         }
 
-        [FwBusinessLogicField(isReadOnly: true)]
+        [FwBusinessLogicField(isReadOnly: true, isNotAudited: true)]
         public List<string> RentalSaleShowFields
         {
             get
@@ -1038,7 +1039,7 @@ namespace WebApi.Modules.Settings.OrderType
 
 
 
-        [FwBusinessLogicField(isReadOnly: true)]
+        [FwBusinessLogicField(isReadOnly: true, isNotAudited: true)]
         public List<string> LossAndDamageShowFields
         {
             get
@@ -1074,26 +1075,26 @@ namespace WebApi.Modules.Settings.OrderType
 
         public string DateStamp { get { return orderType.DateStamp; } set { orderType.DateStamp = value; } }
         //------------------------------------------------------------------------------------ 
-        public void OnAfterSaveOrderType(object sender, AfterSaveDataRecordEventArgs e)
+        public virtual void OnBeforeSave(object sender, BeforeSaveEventArgs e)
         {
-            if (e.SaveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smUpdate)
+            if (e.SaveMode.Equals(TDataRecordSaveMode.smUpdate))
             {
-                OrderTypeLogic l2 = new OrderTypeLogic();
-                l2.AppConfig = orderType.AppConfig;
-                object[] pk = GetPrimaryKeys();
-                bool b = l2.LoadAsync<OrderTypeLogic>(pk).Result;
-                rentalOrderTypeFields.OrderTypeFieldsId = l2.RentalOrderTypeFieldsId;
-                salesOrderTypeFields.OrderTypeFieldsId = l2.SalesOrderTypeFieldsId;
-                laborOrderTypeFields.OrderTypeFieldsId = l2.LaborOrderTypeFieldsId;
-                miscOrderTypeFields.OrderTypeFieldsId = l2.MiscOrderTypeFieldsId;
-                spaceOrderTypeFields.OrderTypeFieldsId = l2.FacilityOrderTypeFieldsId;
-                vehicleOrderTypeFields.OrderTypeFieldsId = l2.VehicleOrderTypeFieldsId;
-                rentalSaleOrderTypeFields.OrderTypeFieldsId = l2.RentalSaleOrderTypeFieldsId;
-                lossAndDamageOrderTypeFields.OrderTypeFieldsId = l2.LossAndDamageOrderTypeFieldsId;
+                if (e.Original != null)
+                {
+                    OrderTypeLogic orig = ((OrderTypeLogic)e.Original);
+                    rentalOrderTypeFields.OrderTypeFieldsId = orig.RentalOrderTypeFieldsId;
+                    salesOrderTypeFields.OrderTypeFieldsId = orig.SalesOrderTypeFieldsId;
+                    laborOrderTypeFields.OrderTypeFieldsId = orig.LaborOrderTypeFieldsId;
+                    miscOrderTypeFields.OrderTypeFieldsId = orig.MiscOrderTypeFieldsId;
+                    spaceOrderTypeFields.OrderTypeFieldsId = orig.FacilityOrderTypeFieldsId;
+                    vehicleOrderTypeFields.OrderTypeFieldsId = orig.VehicleOrderTypeFieldsId;
+                    rentalSaleOrderTypeFields.OrderTypeFieldsId = orig.RentalSaleOrderTypeFieldsId;
+                    lossAndDamageOrderTypeFields.OrderTypeFieldsId = orig.LossAndDamageOrderTypeFieldsId;
+                }
             }
         }
-        //------------------------------------------------------------------------------------   
-        public void OnAfterSaveOrderTypeLogic(object sender, AfterSaveEventArgs e)
+        //------------------------------------------------------------------------------------
+        public void OnAfterSave(object sender, AfterSaveEventArgs e)
         {
             if (e.SaveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smInsert)
             {
