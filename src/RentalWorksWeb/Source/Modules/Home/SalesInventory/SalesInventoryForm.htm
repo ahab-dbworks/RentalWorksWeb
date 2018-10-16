@@ -47,7 +47,7 @@
       <!-- SALES ITEM TAB -->
       <div data-type="tabpage" id="salesitemtabpage" class="tabpage" data-tabid="salesitemtab">
         <div class="flexpage">
-          <div class="flexrow">
+          <div class="wideflexrow">
             <!-- Item Details -->
             <div class="flexcolumn" style="flex:1 1 750px;">
               <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Sales Inventory">
@@ -73,22 +73,7 @@
                 </div>
               </div>
             </div>
-            <!-- Image -->
-            <div class="flexcolumn" style="flex:1 1 300px;">
-              <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Image">
-                <div data-control="FwAppImage" data-type="" class="fwcontrol fwappimage contactphoto" data-caption="" data-uniqueid1field="InventoryId" data-description="" data-rectype="F" style="overflow:hidden;"></div>
-              </div>
-            </div>
-          </div>
-          <div class="wideflexrow">
-            <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Warehouse Pricing / Inventory">
-              <div class="flexrow">
-                <div data-control="FwGrid" data-grid="SalesInventoryWarehouseGrid" data-securitycaption="Sales Inventory Warehouse"></div>
-              </div>
-            </div>
-          </div>
-          <div class="formrow">
-            <div class="formcolumn" style="width:350px;padding-left:1px;">
+            <div class="flexcolumn" style="flex:0 1 350px;">
               <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Classification">
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                   <div data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield class-tracked-radio" data-caption="" data-datafield="Classification" data-enabled="false" style="width:280px;">
@@ -102,7 +87,7 @@
                 </div>
               </div>
             </div>
-            <div class="formcolumn tracked-by-column" style="width:350px;padding-left:1px;">
+            <div class="flexcolumn tracked-by-column" style="flex:0 1 350px;">
               <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Tracked By">
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                   <div data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield class-tracked-radio" data-caption="" data-datafield="TrackedBy" style="width:280px;">
@@ -113,6 +98,17 @@
                   </div>
                 </div>
               </div>
+            </div>
+            <!-- Image -->
+            <div class="flexcolumn" style="flex:1 1 350px;">
+              <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Image">
+                <div data-control="FwAppImage" data-type="" class="fwcontrol fwappimage contactphoto" data-caption="" data-uniqueid1field="InventoryId" data-description="" data-rectype="F" style="overflow:hidden;"></div>
+              </div>
+            </div>
+          </div>
+          <div class="wideflexrow">
+            <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Warehouse Pricing / Inventory">
+              <div data-control="FwGrid" data-grid="SalesInventoryWarehouseGrid" data-securitycaption="Sales Inventory Warehouse"></div>
             </div>
           </div>
         </div>
