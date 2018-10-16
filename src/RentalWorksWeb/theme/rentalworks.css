@@ -496,3 +496,11 @@ ul.fitText span:not(.downArrowNav){
 html.theme-material .fwformcontrol[data-type="button"].pressed {
     background-color: #1E88EF;
 }
+
+/* Audit History Grid */
+html.theme-material [data-name="AuditHistoryGrid"] tbody td ul:not(.auditHeader):nth-child(even) {
+    background-color: #F5F5F5;
+}
+html.theme-material [data-name="AuditHistoryGrid"] tbody tr.selected td ul:not(.auditHeader):nth-child(even) {
+    background-color: #0087f3 !important;
+}
