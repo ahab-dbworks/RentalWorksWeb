@@ -164,7 +164,7 @@ class SearchInterface {
             { value: 'ICODE', text: 'I-Code' },
             { value: 'DESCRIPTION', text: 'Description' },
             { value: 'PARTNO', text: 'Part No.' }], true);
-          
+
 
         //Build preview tab
         previewhtml = [];
@@ -257,6 +257,13 @@ class SearchInterface {
         }
         FwAppData.apiMethod(true, 'POST', "api/v1/inventorysearchpreview/browse", previewrequest, FwServices.defaultTimeout, function onSuccess(response) {
             FwBrowse.databindcallback($previewGrid, response);
+
+            if (response.Rows.length !== 0) {
+                $popup.find('.tab[data-caption="Preview"] .caption').text(`Preview (${response.Rows.length})`);
+
+                FwNotification.renderNotification('WARNING', 'There are items from a previous Search session that have not been added.  Click the Preview tab to view.');
+
+            }
         }, null, $previewTabControl);
 
         //Load Type list
@@ -270,9 +277,9 @@ class SearchInterface {
         inventoryTypeRequest.searchfieldvalues = ["T"];
         availableFor = FwFormField.getValueByDataField($popup, 'InventoryType');
         inventoryType = $popup.find('[data-datafield="InventoryType"]');
-      
+
         let mainTypeBreadCrumb = $popup.find('#breadcrumbs .basetype');
-       
+
         switch (gridInventoryType) {
             default:
             case 'Rental':
@@ -703,7 +710,7 @@ class SearchInterface {
                         <div data-control="FwFormField" data-type="number" data-digits="2" data-datafield="DailyRate" data-caption="Rate" class="fwcontrol fwformfield rate" data-enabled="false" style="text-align:center"><span>Rate</span><br />${rate}</div>
                   </div>
             `);
-             if (response.Rows[i][classificationIndex] == "K" || response.Rows[i][classificationIndex] == "C") {
+            if (response.Rows[i][classificationIndex] == "K" || response.Rows[i][classificationIndex] == "C") {
                 html.push(`<div class="accContainer" data-classification="${response.Rows[i][classificationIndex]}" style="float:left; width:95%; display:none"></div>`);
             }
             html.push(`</div>`);
@@ -798,22 +805,22 @@ class SearchInterface {
                 $searchpopup.find('.accColumns').hide();
                 $inventory.find('span, br').hide();
                 $inventory.css({ 'cursor': 'pointer', 'width': '95%', 'height': 'auto', 'float': 'left', 'padding': '5px', 'margin': '5px', 'position': 'relative' });
-                descContainer.css({ 'width': expandedInventoryView?'28%':'38%', 'float': '' });
+                descContainer.css({ 'width': expandedInventoryView ? '28%' : '38%', 'float': '' });
                 description.css({ 'float': 'left', 'width': '100%', 'padding-bottom': '', 'padding-top': '.5em' });
                 imageFrame.hide();
-                quantityAvailable.css({ 'float': 'left', 'width': '8%', 'padding-top': '.5em'});
-                conflictDate.css({ 'float': 'left', 'width': expandedInventoryView ? '6%' : '10%', 'padding-top': '.5em'});
+                quantityAvailable.css({ 'float': 'left', 'width': '8%', 'padding-top': '.5em' });
+                conflictDate.css({ 'float': 'left', 'width': expandedInventoryView ? '6%' : '10%', 'padding-top': '.5em' });
                 allWH.show();
-                allWH.css({ 'float': 'left', 'width': expandedInventoryView ? '6%':'8%', 'padding-top': '.5em'});
-                quantityContainer.css({ 'float': 'left', 'width': expandedInventoryView ? '12%':'16%' });
-                quantityIn.css({ 'float': 'left', 'width': '50%', 'padding-top': '.5em'});
-                quantityQcRequired.css({ 'float': 'left', 'width': '50%', 'padding-top': '.5em'});
+                allWH.css({ 'float': 'left', 'width': expandedInventoryView ? '6%' : '8%', 'padding-top': '.5em' });
+                quantityContainer.css({ 'float': 'left', 'width': expandedInventoryView ? '12%' : '16%' });
+                quantityIn.css({ 'float': 'left', 'width': '50%', 'padding-top': '.5em' });
+                quantityQcRequired.css({ 'float': 'left', 'width': '50%', 'padding-top': '.5em' });
                 accessories.css({ 'float': 'left', 'padding': '', 'width': '8%', 'font-size': '.9em', 'color': 'blue' });
-                rate.css({ 'float': 'left', 'width': expandedInventoryView ? '6%' : '8%', 'position': '', 'bottom': '', 'right': '', 'padding-top': '.5em'  });
-                quantity.css({ 'float': 'left', 'width': expandedInventoryView ? '6%' : '10%', 'position': '', 'bottom': '', 'right': '', 'padding-top': '.5em'});
-                invType.css({ 'float': 'left', 'width': '9%', 'min-height': '1px', 'padding-top': '.5em'});
-                category.css({ 'float': 'left', 'width': '9%', 'min-height': '1px', 'padding-top': '.5em'});
-                subCategory.css({ 'float': 'left', 'width': '9%', 'min-height': '1px', 'padding-top': '.5em'});
+                rate.css({ 'float': 'left', 'width': expandedInventoryView ? '6%' : '8%', 'position': '', 'bottom': '', 'right': '', 'padding-top': '.5em' });
+                quantity.css({ 'float': 'left', 'width': expandedInventoryView ? '6%' : '10%', 'position': '', 'bottom': '', 'right': '', 'padding-top': '.5em' });
+                invType.css({ 'float': 'left', 'width': '9%', 'min-height': '1px', 'padding-top': '.5em' });
+                category.css({ 'float': 'left', 'width': '9%', 'min-height': '1px', 'padding-top': '.5em' });
+                subCategory.css({ 'float': 'left', 'width': '9%', 'min-height': '1px', 'padding-top': '.5em' });
                 break;
             case 'HYBRID':
                 $inventory.find('span, br').hide();
@@ -825,17 +832,17 @@ class SearchInterface {
                 imageFrame.css({ 'float': 'left', 'width': '25%', 'height': '4em', 'line-height': '4em', 'display': 'inline-block', 'position': 'relative' });
                 image.css({ 'max-height': '100%', 'max-width': '100%', 'width': 'auto', 'height': 'auto', 'position': 'absolute', 'top': '0', 'bottom': '0', 'left': '0', 'right': '0', 'margin': 'auto' });
                 quantityAvailable.css({ 'float': 'left', 'width': '8%', 'padding-top': '1em' });
-                conflictDate.css({ 'float': 'left', 'width': expandedInventoryView ? '6%' : '10%', 'padding-top': '1em'});
+                conflictDate.css({ 'float': 'left', 'width': expandedInventoryView ? '6%' : '10%', 'padding-top': '1em' });
                 allWH.show();
                 allWH.css({ 'float': 'left', 'width': expandedInventoryView ? '6%' : '8%', 'padding-top': '1em' });
                 quantityContainer.css({ 'float': 'left', 'width': expandedInventoryView ? '12%' : '16%' });
                 quantityIn.css({ 'float': 'left', 'width': '50%', 'padding-top': '1em' });
                 quantityQcRequired.css({ 'float': 'left', 'width': '50%', 'padding-top': '1em' });
                 accessories.css({ 'float': 'left', 'width': '8%', 'padding': '', 'font-size': '.9em', 'color': 'blue' });
-                rate.css({ 'float': 'left', 'width': expandedInventoryView ?'6%':'8%', 'position': '', 'bottom': '', 'right': '', 'padding-top': '1em' });
+                rate.css({ 'float': 'left', 'width': expandedInventoryView ? '6%' : '8%', 'position': '', 'bottom': '', 'right': '', 'padding-top': '1em' });
                 quantity.css({ 'float': 'left', 'width': expandedInventoryView ? '6%' : '10%', 'position': '', 'bottom': '', 'right': '', 'padding-top': '1em' });
                 invType.css({ 'float': 'left', 'width': '9%', 'min-height': '1px', 'padding-top': '1em' });
-                category.css({ 'float': 'left', 'width': '9%', 'min-height': '1px', 'padding-top': '1em'});
+                category.css({ 'float': 'left', 'width': '9%', 'min-height': '1px', 'padding-top': '1em' });
                 subCategory.css({ 'float': 'left', 'width': '9%', 'min-height': '1px', 'padding-top': '1em' });
                 break;
         }
@@ -1324,6 +1331,10 @@ class SearchInterface {
         FwAppData.apiMethod(true, 'POST', "api/v1/inventorysearchpreview/browse", previewrequest, FwServices.defaultTimeout, function onSuccess(response) {
             let $grid = $popup.find('[data-name="SearchPreviewGrid"]');
             FwBrowse.databindcallback($grid, response);
+
+            if (response.Rows.length !== 0) {
+                $popup.find('.tab[data-caption="Preview"] .caption').text(`Preview (${response.Rows.length})`);
+            }
         }, null, $searchpopup);
     };
 
