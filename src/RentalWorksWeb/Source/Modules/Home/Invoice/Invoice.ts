@@ -431,7 +431,7 @@ class Invoice {
     afterLoad($form) {
         const STATUS = FwFormField.getValueByDataField($form, 'Status');
 
-        if (STATUS === 'CLOSED' || STATUS === 'CANCELLED' || STATUS === 'SNAPSHOT') {
+        if (STATUS === 'CLOSED' || STATUS === 'PROCESSED' || STATUS === 'VOID') {
             FwModule.setFormReadOnly($form);
         }
         //if (!FwFormField.getValueByDataField($form, 'HasRentalItem')) { $form.find('[data-type="tab"][data-caption="Rental"]').hide() }
