@@ -201,6 +201,19 @@ namespace WebApi.Modules.Home.OrderItem
 
         //------------------------------------------------------------------------------------ 
 
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string LossAndDamageOrderId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string LossAndDamageOrderItemId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string LossAndDamageOrderNumber { get; set; }
+        //------------------------------------------------------------------------------------ 
+
+
+
+
         //[FwBusinessLogicField(isReadOnly: true)]
         //public string NotesmasteritemId { get; set; }
         //public string PrimarymasteritemId { get { return orderItem.PrimarymasteritemId; } set { orderItem.PrimarymasteritemId = value; } }

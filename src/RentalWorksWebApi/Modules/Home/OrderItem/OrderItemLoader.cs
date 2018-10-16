@@ -313,6 +313,17 @@ namespace WebApi.Modules.Home.OrderItem
         //------------------------------------------------------------------------------------ 
 
 
+        [FwSqlDataField(column: "ldorderid", modeltype: FwDataTypes.Text)]
+        public string LossAndDamageOrderId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "ldmasteritemid", modeltype: FwDataTypes.Text)]
+        public string LossAndDamageOrderItemId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "ldorderno", modeltype: FwDataTypes.Text)]
+        public string LossAndDamageOrderNumber { get; set; }
+        //------------------------------------------------------------------------------------ 
+
+
 
 
 
@@ -424,12 +435,6 @@ namespace WebApi.Modules.Home.OrderItem
         //[FwSqlDataField(column: "optioncolor", modeltype: FwDataTypes.Boolean)]
         //public bool? Optioncolor { get; set; }
         ////------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "ldorderid", modeltype: FwDataTypes.Text)]
-        //public string LdorderId { get; set; }
-        ////------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "ldmasteritemid", modeltype: FwDataTypes.Text)]
-        //public string LdmasteritemId { get; set; }
-        ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "ldoutcontractid", modeltype: FwDataTypes.Text)]
         //public string LdoutcontractId { get; set; }
         ////------------------------------------------------------------------------------------ 
@@ -483,9 +488,6 @@ namespace WebApi.Modules.Home.OrderItem
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "recurringratetype", modeltype: FwDataTypes.Boolean)]
         //public bool? Recurringratetype { get; set; }
-        ////------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "ldorderno", modeltype: FwDataTypes.Text)]
-        //public string Ldorderno { get; set; }
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "repairorderno", modeltype: FwDataTypes.Text)]
         //public string Repairorderno { get; set; }
