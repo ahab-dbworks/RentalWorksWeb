@@ -45,11 +45,13 @@ class SearchInterface {
           <div data-value="R" data-caption="Rental"></div>
           <div data-value="S" data-caption="Sales"></div>
           <div data-value="L" data-caption="Labor"></div>
-          <div data-value="M" data-caption="Misc"></div>
-          <div data-value="P" data-caption="Parts"></div>
-        </div>
+          <div data-value="M" data-caption="Misc"></div>`);
 
-            `);
+        if (type === 'PurchaseOrder') {
+            searchhtml.push(`<div data-value="P" data-caption="Parts"></div>`);
+        }
+        searchhtml.push(`</div>`);
+
         let addToButton;
         switch (type) {
             case 'Order':
