@@ -38,10 +38,12 @@
             inventoryType = 'Parts';
         }
 
-        let daysPerWeek;
-        let discountPercent = FwFormField.getValueByDataField($form, `${inventoryType}DiscountPercent`);
+        let daysPerWeek, discountPercent;
+        if (inventoryType !== 'RentalSales') {
+            discountPercent = FwFormField.getValueByDataField($form, `${inventoryType}DiscountPercent`);
+        }
         if (inventoryType == 'Rental') {
-             daysPerWeek = FwFormField.getValueByDataField($form, `RentalDaysPerWeek`);
+            daysPerWeek = FwFormField.getValueByDataField($form, `RentalDaysPerWeek`);
         };
 
         if ($form[0].dataset.controller !== "TemplateController" && $form[0].dataset.controller !== "PurchaseOrderController") {
@@ -51,8 +53,10 @@
             FwBrowse.setFieldValue($grid, $tr, 'FromTime', { value: fromTime });
             FwBrowse.setFieldValue($grid, $tr, 'ToDate', { value: toDate });
             FwBrowse.setFieldValue($grid, $tr, 'ToTime', { value: toTime });
-            FwBrowse.setFieldValue($grid, $tr, 'DiscountPercent', { value: discountPercent });
-            FwBrowse.setFieldValue($grid, $tr, 'DiscountPercentDisplay', { value: discountPercent });
+            if (inventoryType !== 'RentalSales') {
+                FwBrowse.setFieldValue($grid, $tr, 'DiscountPercent', { value: discountPercent });
+                FwBrowse.setFieldValue($grid, $tr, 'DiscountPercentDisplay', { value: discountPercent });
+            }
             if (inventoryType == 'Rental') {
                 FwBrowse.setFieldValue($grid, $tr, 'DaysPerWeek', { value: daysPerWeek });
             };
@@ -139,30 +143,13 @@
                 $generatedtr.find('.field[data-browsedatafield="ItemId"] input').val('');
                 $generatedtr.find('.field[data-browsedatafield="Description"] input').val($tr.find('.field[data-browsedatafield="Description"]').attr('data-originalvalue'));
 
-                switch (inventoryType) {
-                    case 'RentalInventoryValidation':
-                        discountPercent = FwFormField.getValueByDataField($form, 'RentalDiscountPercent');
-                        daysPerWeek = FwFormField.getValueByDataField($form, `RentalDaysPerWeek`);
-                        break;
-                    case 'SalesInventoryValidation':
-                        discountPercent = FwFormField.getValueByDataField($form, 'SalesDiscountPercent');
-                        daysPerWeek = FwFormField.getValueByDataField($form, `SalesDaysPerWeek`);
-                        break;
-                    case 'LaborRateValidation':
-                        discountPercent = FwFormField.getValueByDataField($form, 'LaborDiscountPercent');
-                        daysPerWeek = FwFormField.getValueByDataField($form, `LaborDaysPerWeek`);
-                        break;
-                    case 'MiscRateValidation':
-                        discountPercent = FwFormField.getValueByDataField($form, 'MiscDiscountPercent');
-                        daysPerWeek = FwFormField.getValueByDataField($form, `MiscDaysPerWeek`);
-                        break;
+                if (inventoryType === 'RentalInventoryValidation') {
+                    discountPercent = FwFormField.getValueByDataField($form, 'RentalDiscountPercent');
+                    daysPerWeek = FwFormField.getValueByDataField($form, `RentalDaysPerWeek`);
+                    FwBrowse.setFieldValue($control, $generatedtr, 'DiscountPercent', { value: discountPercent });
+                    FwBrowse.setFieldValue($control, $generatedtr, 'DiscountPercentDisplay', { value: discountPercent });
+                    FwBrowse.setFieldValue($control, $generatedtr, 'DaysPerWeek', { value: daysPerWeek });
                 }
-
-          
-                FwBrowse.setFieldValue($control, $generatedtr, 'DiscountPercent', { value: discountPercent });
-                FwBrowse.setFieldValue($control, $generatedtr, 'DiscountPercentDisplay', { value: discountPercent });
-                FwBrowse.setFieldValue($control, $generatedtr, 'DaysPerWeek', { value: daysPerWeek });
-       
 
                 if ($generatedtr.hasClass("newmode")) {
                     FwAppData.apiMethod(true, 'GET', "api/v1/pricing/" + inventoryId + "/" + warehouseId, null, FwServices.defaultTimeout, function onSuccess(response) {
