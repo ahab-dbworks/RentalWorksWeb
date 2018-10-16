@@ -826,8 +826,16 @@ namespace FwStandard.BusinessLogic
                 {
                     await _Custom.SaveAsync(GetPrimaryKeys());
                 }
-                //bool savePerformed = (rowsAffected > 0);
-                bool savePerformed = ((rowsAffected > 0) || (GetType().GetProperty("Notes").GetValue(original, null) != null));  //justin 10/16/2018 CAS-23961-WQNG temporary fix to make the AfterSave fire whenever notes are supplied.  Notes are currently saved outside of this framework
+                bool savePerformed = (rowsAffected > 0);
+
+                if (!savePerformed)
+                {
+                    PropertyInfo p = this.GetType().GetProperty("Notes");
+                    if (p != null)
+                    {
+                        savePerformed = (p.GetValue(this, null) != null);  //justin 10/16/2018 CAS-23961-WQNG temporary fix to make the AfterSave fire whenever notes are supplied.  Notes are currently saved outside of this framework
+                    }
+                }
                 if (savePerformed)
                 {
                     if (AfterSave != null)
