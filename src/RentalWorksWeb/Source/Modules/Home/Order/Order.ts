@@ -511,6 +511,40 @@ class Order extends OrderBase {
         FwBrowse.init($combinedOrderItemGridControl);
         FwBrowse.renderRuntimeHtml($combinedOrderItemGridControl);
 
+        var $orderItemGridLossDamage;
+        var $orderItemGridLossDamageControl;
+        $orderItemGridLossDamage = $form.find('.lossdamagegrid div[data-grid="OrderItemGrid"]');
+        $orderItemGridLossDamageControl = jQuery(jQuery('#tmpl-grids-OrderItemGridBrowse').html());
+        $orderItemGridLossDamage.empty().append($orderItemGridLossDamageControl);
+        $orderItemGridLossDamageControl.data('isSummary', false);
+        $orderItemGridLossDamage.addClass('LD');
+        $orderItemGridLossDamage.find('.ICode').attr('data-formreadonly', 'true');
+        $orderItemGridLossDamage.find('.OrderNumber').attr('data-formreadonly', 'true'); 
+        $orderItemGridLossDamage.find('.Description').attr('data-formreadonly', 'true');
+        $orderItemGridLossDamage.find('.BarCode').attr('data-formreadonly', 'true');
+
+        $orderItemGridLossDamageControl.data('ondatabind', function (request) {
+            request.uniqueids = {
+                OrderId: FwFormField.getValueByDataField($form, 'OrderId'),
+                RecType: 'LD'
+            };
+            request.pagesize = max;
+        });
+        $orderItemGridLossDamageControl.data('beforesave', function (request) {
+            request.OrderId = FwFormField.getValueByDataField($form, 'OrderId');
+            request.RecType = 'LD';
+        }
+        );
+        //FwBrowse.addEventHandler($orderItemGridLossDamageControl, 'afterdatabindcallback', () => {
+        //    this.calculateOrderItemGridTotals($form, 'rental');
+
+        //    let rentalItems = $form.find('.rentalgrid tbody').children();
+        //    rentalItems.length > 0 ? FwFormField.disable($form.find('[data-datafield="Rental"]')) : FwFormField.enable($form.find('[data-datafield="Rental"]'));
+        //});
+
+        FwBrowse.init($orderItemGridLossDamageControl);
+        FwBrowse.renderRuntimeHtml($orderItemGridLossDamageControl);
+
         var $orderNoteGrid;
         var $orderNoteGridControl;
         $orderNoteGrid = $form.find('div[data-grid="OrderNoteGrid"]');
@@ -608,6 +642,19 @@ class Order extends OrderBase {
         var $orderItemGridUsedSale;
         $orderItemGridUsedSale = $form.find('.usedsalegrid [data-name="OrderItemGrid"]');
         //FwBrowse.search($orderItemGridUsedSale);
+        var $orderItemGridLossDamage;
+        $orderItemGridLossDamage = $form.find('.lossdamagegrid [data-name="OrderItemGrid"]');
+        //FwBrowse.search($orderItemGridLossDamage);
+
+        // Hides Add, Search, and Sub-Worksheet buttons on grid
+        $orderItemGridLossDamage.find('.submenu-btn').filter('[data-securityid="77E511EC-5463-43A0-9C5D-B54407C97B15"], [data-securityid="007C4F21-7526-437C-AD1C-4BBB1030AABA"]').hide();
+        $orderItemGridLossDamage.find('.buttonbar').hide();
+        // Hides Loss and Damage menu item from non-LD grids
+        $orderItemGridRental.find('.submenu-btn').filter('[data-securityid="427FCDFE-7E42-4081-A388-150D3D7FAE36"]').hide();
+        $orderItemGridSales.find('.submenu-btn').filter('[data-securityid="427FCDFE-7E42-4081-A388-150D3D7FAE36"]').hide();
+        $orderItemGridLabor.find('.submenu-btn').filter('[data-securityid="427FCDFE-7E42-4081-A388-150D3D7FAE36"]').hide();
+        $orderItemGridMisc.find('.submenu-btn').filter('[data-securityid="427FCDFE-7E42-4081-A388-150D3D7FAE36"]').hide();
+        $orderItemGridUsedSale.find('.submenu-btn').filter('[data-securityid="427FCDFE-7E42-4081-A388-150D3D7FAE36"]').hide();
 
         if (FwFormField.getValueByDataField($form, 'DisableEditingUsedSaleRate')) {
             $orderItemGridUsedSale.find('.rates').attr('data-formreadonly', true);

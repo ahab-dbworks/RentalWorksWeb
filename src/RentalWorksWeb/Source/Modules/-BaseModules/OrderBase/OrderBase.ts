@@ -53,6 +53,7 @@ class OrderBase {
             $laborGrid = $form.find('.laborgrid [data-name="OrderItemGrid"]'),
             $miscGrid = $form.find('.miscgrid [data-name="OrderItemGrid"]'),
             $usedSaleGrid = $form.find('.usedsalegrid [data-name="OrderItemGrid"]'),
+            $lossDamageGrid = $form.find('.lossdamagegrid [data-name="OrderItemGrid"]'),
             $combinedGrid = $form.find('.combinedgrid [data-name="OrderItemGrid"]'),
             fields = jQuery($rentalGrid).find('thead tr.fieldnames > td.column > div.field'),
             fieldNames = [];
@@ -70,6 +71,7 @@ class OrderBase {
                 , miscTab = $form.find('[data-type="tab"][data-caption="Misc"]')
                 , laborTab = $form.find('[data-type="tab"][data-caption="Labor"]')
                 , usedSaleTab = $form.find('[data-type="tab"][data-caption="Used Sale"]')
+                , lossDamageTab = $form.find('[data-type="tab"][data-caption="Loss and Damage"]')
                 , rate = FwFormField.getValueByDataField($form, 'RateType');
 
             if (response.CombineActivityTabs === false) {
@@ -105,6 +107,9 @@ class OrderBase {
             var hiddenUsedSale = fieldNames.filter(function (field) {
                 return !this.has(field)
             }, new Set(response.RentalSaleShowFields))
+            var hiddenLossDamage = fieldNames.filter(function (field) {
+                return !this.has(field)
+            }, new Set(response.LossAndDamageShowFields))
             var hiddenCombined = fieldNames.filter(function (field) {
                 return !this.has(field)
             }, new Set(response.CombinedShowFields))
@@ -123,8 +128,11 @@ class OrderBase {
             for (var l = 0; l < hiddenUsedSale.length; l++) {
                 jQuery($usedSaleGrid.find('[data-mappedfield="' + hiddenUsedSale[l] + '"]')).parent().hide();
             }
-            for (var l = 0; l < hiddenCombined.length; l++) {
-                jQuery($combinedGrid.find('[data-mappedfield="' + hiddenCombined[l] + '"]')).parent().hide();
+            for (let i = 0; i < hiddenLossDamage.length; i++) {
+                jQuery($lossDamageGrid.find(`[data-mappedfield="${hiddenLossDamage[i]}"]`)).parent().hide();
+            }
+            for (let i = 0; i < hiddenCombined.length; i++) {
+                jQuery($combinedGrid.find('[data-mappedfield="' + hiddenCombined[i] + '"]')).parent().hide();
             }
             if (hiddenRentals.indexOf('WeeklyExtended') === -1 && rate === '3WEEK') {
                 $rentalGrid.find('.3weekextended').parent().show();
@@ -140,7 +148,11 @@ class OrderBase {
             , miscTab = $form.find('[data-type="tab"][data-caption="Misc"]')
             , laborTab = $form.find('[data-type="tab"][data-caption="Labor"]')
             , lossDamageTab = $form.find('[data-type="tab"][data-caption="Loss and Damage"]')
-            , usedSaleTab = $form.find('[data-type="tab"][data-caption="Used Sale"]');
+            , usedSaleTab = $form.find('[data-type="tab"][data-caption="Used Sale"]')
+            , rentalVal = FwFormField.getValueByDataField($form, 'Rental')
+            , salesVal = FwFormField.getValueByDataField($form, 'Sales')
+            , usedSaleVal = FwFormField.getValueByDataField($form, 'RentalSale');
+
         $form.find('[data-datafield="Rental"] input').on('change', e => {
             if (mode == "NEW") {
                 if (jQuery(e.currentTarget).prop('checked')) {
@@ -202,8 +214,14 @@ class OrderBase {
         $form.find('[data-datafield="LossAndDamage"] input').on('change', e => {
             if (jQuery(e.currentTarget).prop('checked')) {
                 lossDamageTab.show();
+                FwFormField.disable($form.find('[data-datafield="Rental"]'));
+                FwFormField.disable($form.find('[data-datafield="Sales"]'));
+                FwFormField.disable($form.find('[data-datafield="RentalSale"]'));
             } else {
                 lossDamageTab.hide();
+                FwFormField.enable($form.find('[data-datafield="Rental"]'));
+                FwFormField.enable($form.find('[data-datafield="Sales"]'));
+                FwFormField.enable($form.find('[data-datafield="RentalSale"]'));
             }
         });
         $form.find('[data-datafield="Labor"] input').on('change', e => {
@@ -245,6 +263,14 @@ class OrderBase {
                         FwFormField.enable($form.find('[data-datafield="Rental"]'));
                     }
                 }
+            }
+        });
+        // Loss and Damage disable against Rental, Sales, Used Sale
+        $form.find('.anti-LD').on('change', e => {
+            if (rentalVal === true || salesVal === true || usedSaleVal === true) {
+                FwFormField.disable($form.find('[data-datafield="LossAndDamage"]'));
+            } else if (rentalVal === false && salesVal === false && usedSaleVal === false) {
+                FwFormField.enable($form.find('[data-datafield="LossAndDamage"]'));
             }
         });
     }

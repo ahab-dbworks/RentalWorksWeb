@@ -20,6 +20,7 @@ namespace WebLibrary.Security.Tree.RentalWorksWeb.Grids
             tree.AddSubMenuItem("Lock / Unlock Selected", "{BC467EF9-F255-4F51-A6F2-57276D8824A3}", nodeBrowseOptions.Id);
             tree.AddSubMenuItem("Bold / Unbold Selected", "{E2DF5CB4-CD18-42A0-AE7C-18C18E6C4646}", nodeBrowseOptions.Id);
             tree.AddSubMenuItem("Sub Worksheet", "{007C4F21-7526-437C-AD1C-4BBB1030AABA}", nodeBrowseOptions.Id);
+            tree.AddSubMenuItem("Add Loss and Damage Items", "{427FCDFE-7E42-4081-A388-150D3D7FAE36}", nodeBrowseOptions.Id);
             tree.AddNewMenuBarButton("{5A3352C6-F1D5-4A8C-BD75-045AF7B9988F}", nodeGridMenuBar.Id);
             tree.AddEditMenuBarButton("{4113AFA5-29EA-4026-831E-685B904C5ADD}", nodeGridMenuBar.Id);
             tree.AddDeleteMenuBarButton("{89AD5560-637A-4ECF-B7EA-33A462F6B137}", nodeGridMenuBar.Id);
