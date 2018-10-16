@@ -1,5 +1,5 @@
 using FwStandard.BusinessLogic;
-using FwStandard.BusinessLogic.Attributes; 
+using FwStandard.BusinessLogic.Attributes;
 using WebApi.Modules.Home.ItemDimension;
 using WebApi.Modules.Home.Master;
 using WebApi.Logic;
@@ -12,7 +12,7 @@ namespace WebApi.Modules.Home.InventorySearch
     public class InventorySearchLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------ 
-        protected InventorySearchRecord inventorySearch= new InventorySearchRecord();
+        protected InventorySearchRecord inventorySearch = new InventorySearchRecord();
         protected InventorySearchLoader inventorySearchLoader = new InventorySearchLoader();
 
         public InventorySearchLogic() : base()
@@ -23,11 +23,11 @@ namespace WebApi.Modules.Home.InventorySearch
             ReloadOnSave = false;
             LoadOriginalBeforeSaving = false;
 
-    }
-    //------------------------------------------------------------------------------------ 
+        }
+        //------------------------------------------------------------------------------------ 
 
-    //------------------------------------------------------------------------------------ 
-    [FwBusinessLogicField(isPrimaryKey: true)]
+        //------------------------------------------------------------------------------------ 
+        [FwBusinessLogicField(isPrimaryKey: true)]
         public string SessionId { get { return inventorySearch.SessionId; } set { inventorySearch.SessionId = value; } }
         [FwBusinessLogicField(isPrimaryKey: true)]
         public string InventoryId { get { return inventorySearch.InventoryId; } set { inventorySearch.InventoryId = value; } }
@@ -35,6 +35,9 @@ namespace WebApi.Modules.Home.InventorySearch
         public string WarehouseId { get { return inventorySearch.WarehouseId; } set { inventorySearch.WarehouseId = value; } }
         public string ParentId { get { return inventorySearch.ParentId; } set { inventorySearch.ParentId = value; } }
         public decimal? Quantity { get { return inventorySearch.Quantity; } set { inventorySearch.Quantity = value; } }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public decimal? TotalQuantityInSession { get { return inventorySearch.TotalQuantityInSession; } }
+
         //------------------------------------------------------------------------------------
         public async Task<FwJsonDataTable> SearchAsync(InventorySearchRequest request)
         {

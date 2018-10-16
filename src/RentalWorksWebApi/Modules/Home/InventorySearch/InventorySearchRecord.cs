@@ -4,6 +4,7 @@ using FwStandard.SqlServer.Attributes;
 using System.Data;
 using System.Threading.Tasks;
 using WebApi.Data;
+using WebApi.Logic;
 
 namespace WebApi.Modules.Home.InventorySearch
 {
@@ -30,17 +31,34 @@ namespace WebApi.Modules.Home.InventorySearch
         [FwSqlDataField(column: "qty", modeltype: FwDataTypes.Integer, sqltype: "numeric", precision: 12, scale: 2)]
         public decimal? Quantity { get; set; }
         //------------------------------------------------------------------------------------ 
+        // this property is only used to hold the return value in the overridden save method below
+        public decimal? TotalQuantityInSession { get; set; }
+        //------------------------------------------------------------------------------------ 
         public void OnBeforeSaveInventorySearch(object sender, BeforeSaveDataRecordEventArgs e)
         {
             using (FwSqlConnection conn = new FwSqlConnection(this.AppConfig.DatabaseSettings.ConnectionString))
             {
+                TSpStatusReponse response = new TSpStatusReponse();
+
                 FwSqlCommand qry = new FwSqlCommand(conn, "savetmpsearchsession", this.AppConfig.DatabaseSettings.QueryTimeout);
                 qry.AddParameter("@sessionid", SqlDbType.NVarChar, ParameterDirection.Input, SessionId);
                 qry.AddParameter("@parentid", SqlDbType.NVarChar, ParameterDirection.Input, ParentId);
                 qry.AddParameter("@masterid", SqlDbType.NVarChar, ParameterDirection.Input, InventoryId);
                 qry.AddParameter("@warehouseid", SqlDbType.NVarChar, ParameterDirection.Input, WarehouseId);
                 qry.AddParameter("@qty", SqlDbType.Float, ParameterDirection.Input, Quantity);
+                qry.AddParameter("@totalqtyinsession", SqlDbType.Float, ParameterDirection.Output);
+                qry.AddParameter("@status", SqlDbType.Int, ParameterDirection.Output);
+                qry.AddParameter("@msg", SqlDbType.NVarChar, ParameterDirection.Output);
                 int i = qry.ExecuteNonQueryAsync(true).Result;
+                TotalQuantityInSession = qry.GetParameter("@totalqtyinsession").ToDecimal();
+                response.status = qry.GetParameter("@status").ToInt32();
+                response.success = (response.status == 0);
+                response.msg = qry.GetParameter("@msg").ToString();
+
+                if (!response.success)
+                {
+                    throw new System.Exception("Cannot save search quantity: " + response.msg);
+                }
             }
             e.PerformSave = false;
         }
