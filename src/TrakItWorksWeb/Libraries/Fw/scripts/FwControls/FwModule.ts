@@ -8,6 +8,7 @@ class FwModule {
         html.push('  <div id="moduleMaster-body">');
         html.push('    <div id="moduletabs" class="fwcontrol fwtabs" data-control="FwTabs" data-type="" data-version="1" data-rendermode="template">');
         html.push('      <div class="tabs"></div>');
+        html.push('      <div class="newtabbutton"></div>');
         html.push('      <div class="tabpages"></div>');
         html.push('    </div>');
         html.push('  </div>');
@@ -35,6 +36,18 @@ class FwModule {
         FwControl.loadControls($fwcontrols);
 
         if ($object.hasClass('fwbrowse')) {
+            if ($object.attr('data-newtab') == 'true') {
+                let html = [];
+                html.push(`<div class="addnewtab">
+                            <i class="material-icons">add</i>
+                          </div>`);
+                let $newTabButton = jQuery(html.join(''));
+                $tabControl.find('.newtabbutton').append($newTabButton);
+                $newTabButton.on('click', e => {
+                    $object.find('.buttonbar [data-type="NewMenuBarButton"]').click();
+                });
+            }
+
             var $searchbox = jQuery('.search input:visible');
             if ($searchbox.length > 0) {
                 $searchbox.eq(0).focus();
@@ -268,6 +281,8 @@ class FwModule {
                                         $menubarbutton.on('click', FwApplicationTree.clickEvents['{' + nodeMenuBarItem.id + '}']);
                                         break;
                                     case 'NewMenuBarButton':
+                                        $browse.attr('data-newtab', 'true');
+
                                         $menubarbutton = FwMenu.addStandardBtn($menu, nodeMenuBarItem.properties.caption);
                                         $menubarbutton.attr('data-type', 'NewMenuBarButton');
                                         $menubarbutton.on('click', function () {
@@ -464,16 +479,28 @@ class FwModule {
         //}
         //Jason H - 10/09/2018 Replacing with new audit tab
 
+        if (sessionStorage.getItem('customFields') !== null) {
+            let customFields = JSON.parse(sessionStorage.getItem('customFields'))
+            if (customFields !== null && typeof customFields.length === 'number' && customFields.length > 0) {
+                let hasCustomFields = false;
+                for (var i = 0; i < customFields.length; i++) {
+                    if (controller.slice(0, -10) === customFields[i]) {
+                        FwModule.loadCustomFields($form, customFields[i]);
+                    }
+                }
+            }
+        }
+
         //add Audit tab to all forms
-        $formTabControl = jQuery($form.find('.fwtabs'));
-        auditTabIds = FwTabs.addTab($formTabControl, 'Audit', false, 'AUDIT', false);
-        $auditControl = jQuery(jQuery('#tmpl-grids-AuditHistoryGridBrowse').html());
-        let uniqueids = $form.data('uniqueids');
-        if (uniqueids.length !== 0) {
+        let $keys = $form.find('.fwformfield[data-type="key"]');
+        if ($keys.length !== 0) {
+            $formTabControl = jQuery($form.find('.fwtabs'));
+            auditTabIds = FwTabs.addTab($formTabControl, 'Audit', false, 'AUDIT', false);
+            $auditControl = jQuery(jQuery('#tmpl-grids-AuditHistoryGridBrowse').html());
             $auditControl.data('ondatabind', function (request) {
                 request.uniqueids = {};
                 for (let i = 0; i < 2; i++) {
-                    let uniqueIdValue = jQuery(uniqueids[i]).find('input').val();
+                    let uniqueIdValue = jQuery($keys[i]).find('input').val();
                     if (typeof uniqueIdValue !== 'undefined') {
                         switch (i) {
                             case 0:
@@ -502,19 +529,6 @@ class FwModule {
                         FwBrowse.search($auditControl);
                     };
                 });
-        }
-
-
-        if (sessionStorage.getItem('customFields') !== null) {
-            let customFields = JSON.parse(sessionStorage.getItem('customFields'))
-            if (customFields !== null && typeof customFields.length === 'number' && customFields.length > 0) {
-                let hasCustomFields = false;
-                for (var i = 0; i < customFields.length; i++) {
-                    if (controller.slice(0, -10) === customFields[i]) {
-                        FwModule.loadCustomFields($form, customFields[i]);
-                    }
-                }
-            }
         }
 
 

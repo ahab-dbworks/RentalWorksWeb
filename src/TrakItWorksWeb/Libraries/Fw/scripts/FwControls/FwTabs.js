@@ -306,6 +306,7 @@ FwTabs.renderRuntimeHtml = function($control) {
     $control.attr('data-rendermode', 'runtime');
     html = [];
     html.push('<div class="tabs"></div>');
+    html.push('<div class="newtabbutton"></div>');
     html.push('<div class="tabpages"></div>');
     switch(data_rendermode) {
         case 'designer':
@@ -404,8 +405,13 @@ FwTabs.addTab = function($control, caption, hasClose, tabType, setActive) {
     newtabids = {};
     version   = $control.attr('data-version');
     try {
-        newtabids.tabid     = FwControl.generateControlId('tab');
-        newtabids.tabpageid = FwControl.generateControlId('tabpage');
+        if (tabType === 'AUDIT') {
+            newtabids.tabid     = FwControl.generateControlId('audittab');
+            newtabids.tabpageid = FwControl.generateControlId('audittabpage');
+        } else {
+            newtabids.tabid     = FwControl.generateControlId('tab');
+            newtabids.tabpageid = FwControl.generateControlId('tabpage');
+        }
         tabHtml             = [];
         tabHtml.push('<div data-type="tab" id="' + newtabids.tabid + '" class="tab inactive" data-tabpageid="' + newtabids.tabpageid + '" data-caption="' + caption + '" data-tabtype="' + tabType + '">');
             if (version == '2') tabHtml.push('<div class="border"></div>');

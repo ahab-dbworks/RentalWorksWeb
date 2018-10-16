@@ -34,14 +34,9 @@ FwFormField_validation.renderRuntimeHtml = function ($control, html) {
 
     // push hidden spinning loader
     html.push('<div class="sk-fading-circle validation-loader"><div class="sk-circle1 sk-circle"></div><div class="sk-circle2 sk-circle"></div><div class="sk-circle3 sk-circle"></div><div class="sk-circle4 sk-circle"></div><div class="sk-circle5 sk-circle"></div><div class="sk-circle6 sk-circle"></div><div class="sk-circle7 sk-circle"></div><div class="sk-circle8 sk-circle"></div><div class="sk-circle9 sk-circle"></div><div class="sk-circle10 sk-circle"></div><div class="sk-circle11 sk-circle"></div><div class="sk-circle12 sk-circle"></div></div>');
-
-    //if ($control.attr('data-validationpeek') === 'true') {
-    //    html.push('<i class="material-icons btnpeek">more_horiz</i>')
-    //}
     
     //jh 02/02/2018 uses applicationConfig.defaultPeek to determine whether or not to show the "..." by default.  Dev can override per control
-    //jh 02/12/2018 added code back again.  Please do not delete
-    showPeek = false;
+    let showPeek = false;
     if (applicationConfig.defaultPeek === true) {
         showPeek = (!($control.attr('data-validationpeek') === 'false'));
     }

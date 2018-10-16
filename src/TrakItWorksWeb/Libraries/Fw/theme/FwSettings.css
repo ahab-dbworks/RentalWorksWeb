@@ -14,7 +14,8 @@
 .fwsettings div.well div.panel-group div.panel-primary div.panel-heading { color: #fff; background-color: #428bca; border-color: #428bca; border-bottom: 0; padding: 10px 15px; border-bottom: 1px solid transparent; border-top-left-radius: 3px; border-top-right-radius: 3px; }
 .fwsettings div.well div.panel-group div.panel-primary div.panel-heading i.material-icons { flex:0; float: left; margin-right: .3em; font-size: 38px; width: 50px; }
 .fwsettings div.well div.panel-group div.panel-primary div.panel-heading i.material-icons.heading-menu { margin-left:auto; display: inline; font-size: 38px; }
-.fwsettings div.well div.panel-group div.panel-primary div.panel-heading i.heading-menu { cursor: pointer; } 
+.fwsettings div.well div.panel-group div.panel-primary div.panel-heading h4.panel-title div i.refresh { cursor: pointer; } 
+.fwsettings div.well div.panel-group div.panel-primary div.panel-heading h4.panel-title div i.heading-menu { cursor: pointer; } 
 .fwsettings div.well div.panel-group div.panel-primary div.panel-heading h4.panel-title { display:flex; margin-top: 0; margin-bottom: 0; font-size: 20px; color: inherit; margin-left:8px}
 .fwsettings div.well div.panel-group div.panel-primary div.panel-heading h4.panel-title .highlighted { color:yellow; }
 .fwsettings div.well div.panel-group div.panel-primary div.panel-heading h4.panel-title div.dropdown-content { float:right; display: none; position:absolute; right:80px; background-color: #f9f9f9; min-width: 160px; box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2); border-radius:4px; z-index: 1; } 
@@ -52,6 +53,9 @@
 .fwsettings div.well div.panel-group div.panel-primary div.panel-body div.panel-record div.panel-body div.container ul.nav-pills { list-style: none; }
 .fwsettings div.well div.panel-group div.panel-primary div.panel-body div.panel-record div.panel-body div.container ul.nav-pills a { color: #fff; background-color: #428bca; position: relative; display: block; padding: 10px 15px; border-radius: 4px; }
 .fwsettings div.well div.panel-group div.panel-primary div.panel-body div.panel-record div.panel-body div.container div.tab-content label { display: inline-block; max-width: 100%; margin-bottom: 5px; font-weight: 700; margin-right:15px; margin-left:15px; }
+.fwsettings div.well div.panel-group div.panel-primary div.panel-body div.panel-record div.panel-body .buttonbar .btn:hover:not(.disabled) {border-top:.25em solid #00BFFF;}
+.fwsettings div.well div.panel-group div.panel-primary div.panel-body div.panel-record div.panel-body .buttonbar .btn-delete:hover:not(.disabled) {border-top:.25em solid #00BFFF;}
+.fwsettings div.well div.panel-group div.panel-primary div.panel-body div.panel-record div.panel-body .buttonbar .btn-delete { cursor: pointer;padding: 0 10px .25em 10px;display: flex;align-items: center;height: 100%;box-sizing: border-box;border-top: .25em solid transparent;transition: .3s;outline: 0; }
 
 .fwreports { margin-top:50px;font-family: "Helvetica Neue",Helvetica,Arial,sans-serif; font-size: 14px; line-height: 1.42857143; color: #333; background-color: #fff;}
 .fwreports div.fwreportsheader div.input-group { position: relative; display: -ms-flexbox; display: flex; border-collapse: separate;}

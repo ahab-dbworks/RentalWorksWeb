@@ -34,7 +34,7 @@ class FwSettingsClass {
         $control.find('.fwsettingsheader').append(settingsMenu);
     };
     //----------------------------------------------------------------------------------------------
-    saveForm(module, $form, closetab, navigationpath, $control, browseKeys, rowId, moduleName) {
+    saveForm(module, $form, closetab, navigationpath, $control, browseKeys, rowId, moduleName, emptyRows?, getRows?) {
         var $tabpage, fields, ids, mode, isValid, $tab, request, controllername, controller;
         mode = $form.attr('data-mode');
         $tabpage = $form.parent();
@@ -172,6 +172,8 @@ class FwSettingsClass {
                         FwNotification.renderNotification('ERROR', 'There is an error on the form.');
                     }
                 }
+                emptyRows();
+                getRows();
             });
         }
     };
@@ -338,8 +340,7 @@ class FwSettingsClass {
             newRowHtml.push('    <div class="panel panel-info container-fluid">');
             newRowHtml.push('      <div class="new-row-heading">');
             newRowHtml.push('        <label style="width:100%">New Record</label>');
-            newRowHtml.push('        <div class="pull-right close-new-row" style="padding-right:20px;"><i class="material-icons">clear</i>Close</div>');
-            newRowHtml.push('        <div class="pull-right save-new-row"><i class="material-icons">save</i>Save</div>');
+            newRowHtml.push('        <div class="pull-right close-new-row" style="padding-right:20px;"><i class="material-icons">clear</i>Cancel</div>');
             newRowHtml.push('      </div>');
             newRowHtml.push('    </div>');
             newRowHtml.push('  </div>');
@@ -363,9 +364,8 @@ class FwSettingsClass {
             var $form;
             e.stopPropagation();
             $form = jQuery(this).closest('.panel-body').find('.fwform');
-            me.saveForm(window[moduleName + 'Controller'].Module, $form, false, '', $control, [], rowId, moduleName);
-            $body.empty();
-            me.getRows($body, $control, apiurl, $control.find('#' + moduleName), moduleName);
+            me.saveForm(window[moduleName + 'Controller'].Module, $form, false, '', $control, [], rowId, moduleName, me.getRows($body, $control, apiurl, $control.find('#' + moduleName), moduleName), $body.empty());
+
         });
     }
     //---------------------------------------------------------------------------------------------- 
@@ -382,14 +382,17 @@ class FwSettingsClass {
         html.push('      <div class="flexrow" style="max-width:none;">');
         html.push('        <i class="material-icons arrow-selector">keyboard_arrow_down</i>');
         html.push('        <h4 class="panel-title">');
-        html.push('        <a id="title" data-toggle="collapse">' + menu + ' - ' + title + '</a>')
-        html.push('        <div id="myDropdown" class="dropdown-content">')
-        html.push('          <a class="new-row">New Item</a>');
+        html.push('        <a id="title" data-toggle="collapse">' + menu + ' - ' + title + '</a>');
+        html.push('        <div id="myDropdown" class="dropdown-content">');
+        html.push('          <a class="new-row-menu">New Item</a>');
         html.push('          <a class="show-inactive">Show Inactive</a>');
         html.push('          <a class="hide-inactive" style="display:none;">Hide Inactive</a>');
         html.push('          <a class="pop-out">Pop Out Module</a>');
         html.push('        </div>');
-        html.push('        <i class="material-icons heading-menu">more_vert</i>');
+        html.push('        <div style="margin-left:auto;">');
+        html.push('          <i class="material-icons refresh">cached</i>');
+        html.push('          <i class="material-icons heading-menu">more_vert</i>');
+        html.push('        </div>');
         html.push('        </h4>');
         html.push('      </div>');
         if (description === "") {
@@ -408,12 +411,11 @@ class FwSettingsClass {
         $control.find('.well').append($settingsPageModules);
 
         $settingsPageModules.on('click', '.btn', function (e) {
-            var $form = jQuery(this).closest('.panel-record').find('.fwform');
             $body.empty();
             me.getRows($body, $control, apiurl, $control.find('#' + moduleName), moduleName);
         });
 
-        $settingsPageModules.on('click', '.new-row', function (e) {
+        $settingsPageModules.on('click', '.new-row-menu', function (e) {
             e.stopPropagation();
             if (jQuery(this).parent().find('.hidden').length === 0) {
                 jQuery(this).parent().find('div[data-mode="NEW"]').addClass('hidden').hide('fast');
@@ -428,7 +430,8 @@ class FwSettingsClass {
         $settingsPageModules.on('click', '.show-inactive', function (e) {
             e.stopPropagation();
             if (jQuery(this).closest('.panel').find('.panel-collapse').is(':visible')) {
-                jQuery(this).closest('.panel').find('.inactive').parent().show();
+                jQuery(this).closest('.panel').find('.inactive-panel').closest('.panel-record').show();
+                jQuery(this).closest('.panel').find('.inactive-panel').parent().show();
                 jQuery(this).hide();
                 jQuery(this).parent().find('.hide-inactive').show();
             }
@@ -438,7 +441,8 @@ class FwSettingsClass {
         $settingsPageModules.on('click', '.hide-inactive', function (e) {
             e.stopPropagation();
             if (jQuery(this).closest('.panel').find('.panel-collapse').is(':visible')) {
-                jQuery(this).closest('.panel').find('.inactive').parent().hide();
+                jQuery(this).closest('.panel').find('.inactive-panel').closest('.panel-record').hide();
+                jQuery(this).closest('.panel').find('.inactive-panel').parent().hide();
                 jQuery(this).hide();
                 jQuery(this).parent().find('.show-inactive').show();
             }
@@ -573,7 +577,7 @@ class FwSettingsClass {
                             for (var j = 0; j < browseData.length; j++) {
                                 if (browseData[j]['caption'] === 'Inactive' && response[i][browseData[j]['caption']] === true) {
                                     html[1] = '<div class="panel panel-info container-fluid" style="display:none;">';
-                                    html[2] = '<div class="inactive row-heading" style="background-color:lightgray;">';
+                                    html[2] = '<div class="inactive-panel row-heading" style="background-color:lightgray;">';
                                 }
                                 if (browseData[j]['caption'] !== 'Inactive' && browseData[j]['caption'] !== 'Color' && !browseData[j]['hidden']) {
                                     html.push('      <div style="width:100%;padding-left: inherit;">');
@@ -629,15 +633,23 @@ class FwSettingsClass {
             .on('click', '.heading-menu', function (e) {
                 e.stopPropagation();
                 let menuButton: any = jQuery(this);
-                if (menuButton.prev().css('display') === 'none') {
-                    menuButton.prev().css('display', 'block');
+                if (menuButton.parent().prev().css('display') === 'none') {
+                    menuButton.parent().prev().css('display', 'block');
                     jQuery(document).one('click', function closeMenu(e) {
                         if (menuButton.has(e.target).length === 0) {
-                            menuButton.prev().css('display', 'none');
+                            menuButton.parent().prev().css('display', 'none');
                         }
                     })
                 } else {
-                    menuButton.prev().css('display', 'none');
+                    menuButton.parent().prev().css('display', 'none');
+                }
+            })
+            .on('click', '.refresh', function (e) {
+                e.stopPropagation();
+                let $body = $control.find('#' + moduleName + '.panel-body');
+                if (!$body.is(':empty')) {
+                    $body.empty();
+                    me.getRows($body, $control, apiurl, $modulecontainer, moduleName);
                 }
             });
 
@@ -658,6 +670,7 @@ class FwSettingsClass {
                     $rowBody.append($form);
                     $form.find('.highlighted').removeClass('highlighted');
                     $form.find('div[data-type="NewMenuBarButton"]').off();
+                    $form.find('.buttonbar').append('<div class="btn-delete" data-type="DeleteMenuBarButton"><i class="material-icons"></i><div class="btn-text">Delete</div></div>');
 
                     for (var key in recordData) {
                         for (var i = 0; i < me.filter.length; i++) {
@@ -747,9 +760,9 @@ class FwSettingsClass {
                             if ($form.find('div[data-datafield="' + browsedatafields[j] + '"]').length > 0) {
                                 if (browsedatafields[j] === 'Inactive') {
                                     if (FwFormField.getValueByDataField($form, browsedatafields[j])) {
-                                        jQuery(this).closest('.panel-record').find('.row-heading').css('background-color', 'lightgray');
+                                        jQuery(this).closest('.panel-record').find('.row-heading').addClass('inactive-panel').css('background-color', 'lightgray');
                                     } else {
-                                        jQuery(this).closest('.panel-record').find('.row-heading').css('background-color', '#d9edf7');
+                                        jQuery(this).closest('.panel-record').find('.row-heading').removeClass('inactive-panel').css('background-color', '#d9edf7');
                                     }
                                 } else {
                                     jQuery(this).closest('.panel-record').find('.panel-info').find('label[data-datafield="' + browsedatafields[j] + '"]').text(FwFormField.getValueByDataField($form, browsedatafields[j]));
@@ -837,6 +850,45 @@ class FwSettingsClass {
                 }
             }
         });
+
+        $control.on('click', '.appmenu', function (e) {
+            let searchInput = $control.find('#settingsSearch');
+            if (searchInput.val() !== '') {
+                let event = jQuery.Event('keypress');
+                event.which = 13;
+                searchInput.val('');
+                searchInput.trigger(event);
+            }
+        });
+
+        $control.on('click', '.btn-delete', function (e) {
+            let $form = jQuery(this).closest('.panel-record').find('.fwform');
+            let ids = {};
+            let $confirmation = FwConfirmation.renderConfirmation('Delete Record', 'Are you sure you want to delete this record?');
+            let $yes = FwConfirmation.addButton($confirmation, 'Yes');
+            FwConfirmation.addButton($confirmation, 'No');
+            $yes.on('click', function () {
+                let controller = $form.data('controller');
+                ids = FwModule.getFormUniqueIds($form);
+                let request = {
+                    module: window[controller].Module,
+                    ids: ids
+                };
+                try {
+                    FwServices.module.method(request, window[controller].Module, 'Delete', $form, function (response) {
+                        $form = FwModule.getFormByUniqueIds(ids);
+                        if ((typeof $form != 'undefined') && ($form.length > 0)) {
+                            $form.closest('.panel-record').remove();
+                        }
+                        FwNotification.renderNotification('SUCCESS', 'Record deleted.');
+                    }, function (error) {
+                        FwNotification.renderNotification('ERROR', 'Error deleting form.');
+                    });
+                } catch (ex) {
+                    FwFunc.showError(ex);
+                }
+            });
+        })
 
         return $settingsPageModules;
     };

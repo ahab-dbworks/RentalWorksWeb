@@ -1,6 +1,6 @@
 ﻿/*#region data-version="1" */
 html.theme-material .fwtabs[data-version="1"] {}
-html.theme-material .fwtabs[data-version="1"] > .tabs {box-sizing:border-box;min-height:1em;overflow:hidden;padding:1em 0 0 0;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;}
+html.theme-material .fwtabs[data-version="1"] > .tabs {float:left;box-sizing:border-box;min-height:1em;overflow:hidden;padding:1em 0 0 0;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;}
 html.theme-material .fwtabs[data-version="1"] > .tabs .tab {display:flex;align-items: center;font-weight:bold;float:left;box-sizing:border-box;margin:0 0 0 .3125em;padding:0 .3125em 0 .3125em;line-height:2em;cursor:pointer;border-top-left-radius:0;border-top-right-radius:0;transition: all 0.25s ease;background-color:rgba(150,150,150,.5);border-top:solid 1px #777;border-right:solid 1px #777;border-left:solid 1px #777;}
 html.theme-material .fwtabs[data-version="1"] > .tabs .tab.submodule {margin-left:0;border-left:none;}
 html.theme-material .fwtabs[data-version="1"] > .tabpage .tab {height:2.25em;line-height:2.25em;margin:0 .1875em 0 0px;padding:0 .3125em 0 .3125em;}
@@ -18,7 +18,11 @@ html.theme-material .fwtabs[data-version="1"] > .tabs .tab .delete:active {color
 html.theme-material .fwtabs[data-version="1"] > .tabs .tab .delete i {font-size:.875em;}
 html.theme-material .fwtabs[data-version="1"] > .tabs .tab .submodule-caption {float:left;}
 html.theme-material .fwtabs[data-version="1"] > .tabs .tab .submodule-caption .form-caption {float:left;}
-html.theme-material .fwtabs[data-version="1"] > .tabpages {}
+html.theme-material .fwtabs[data-version="1"] > .tabpages {clear:left;}
+html.theme-material .fwtabs[data-version="1"] > .newtabbutton {float:left; padding:22px 0 0 10px;}
+html.theme-material .fwtabs[data-version="1"] > .newtabbutton .addnewtab i {cursor:pointer;color:black;background-color:#eeeeee;border-radius:50%;}
+html.theme-material .fwtabs[data-version="1"] > .newtabbutton .addnewtab i:hover {background-color:#dcdcdc;}
+
 /*#endregion data-version="1" */
 
 /*#region data-version="2" */
