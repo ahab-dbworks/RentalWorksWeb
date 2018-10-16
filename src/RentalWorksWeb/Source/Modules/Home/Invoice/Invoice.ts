@@ -325,12 +325,11 @@ class Invoice {
         $invoiceItemGridLaborControl = jQuery(jQuery('#tmpl-grids-InvoiceItemGridBrowse').html());
         $invoiceItemGridLabor.empty().append($invoiceItemGridLaborControl);
         $invoiceItemGridLabor.addClass('L');
-        $invoiceItemGridLabor.find('.Extended').attr('data-formreadonly', 'true');
-        $invoiceItemGridLabor.find('.ICode').attr('data-formreadonly', 'true');
-        $invoiceItemGridLabor.find('.OrderNumber').attr('data-formreadonly', 'true'); 
-        $invoiceItemGridLabor.find('.Taxable').attr('data-formreadonly', 'true');
+        $invoiceItemGridLabor.find('div[data-datafield="Extended"]').attr('data-formreadonly', 'true');
+        $invoiceItemGridLabor.find('div[data-datafield="InventoryId"]').attr('data-formreadonly', 'true');
+        $invoiceItemGridLabor.find('div[data-datafield="OrderNumber"]').attr('data-formreadonly', 'true'); 
+        $invoiceItemGridLabor.find('div[data-datafield="Taxable"]').attr('data-formreadonly', 'true');
         $invoiceItemGridLaborControl.find('div[data-datafield="Rate"]').attr('data-caption', 'Unit Rate');
-
 
         $invoiceItemGridLaborControl.data('isSummary', false);
 
@@ -360,7 +359,7 @@ class Invoice {
         $invoiceItemGridMiscControl = jQuery(jQuery('#tmpl-grids-InvoiceItemGridBrowse').html());
         $invoiceItemGridMisc.empty().append($invoiceItemGridMiscControl);
         $invoiceItemGridMisc.addClass('M');
-        $invoiceItemGridMisc.find('.Extended').attr('data-formreadonly', 'true')
+        $invoiceItemGridMisc.find('div[data-datafield="Extended"]').attr('data-formreadonly', 'true')
         $invoiceItemGridMiscControl.data('isSummary', false);
         $invoiceItemGridMiscControl.find('div[data-datafield="Rate"]').attr('data-caption', 'Unit Rate');
 

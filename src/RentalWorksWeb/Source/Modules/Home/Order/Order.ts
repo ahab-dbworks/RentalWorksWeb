@@ -518,10 +518,9 @@ class Order extends OrderBase {
         $orderItemGridLossDamage.empty().append($orderItemGridLossDamageControl);
         $orderItemGridLossDamageControl.data('isSummary', false);
         $orderItemGridLossDamage.addClass('LD');
-        $orderItemGridLossDamage.find('.ICode').attr('data-formreadonly', 'true');
-        $orderItemGridLossDamage.find('.OrderNumber').attr('data-formreadonly', 'true'); 
-        $orderItemGridLossDamage.find('.Description').attr('data-formreadonly', 'true');
-        $orderItemGridLossDamage.find('.BarCode').attr('data-formreadonly', 'true');
+        $orderItemGridLossDamage.find('div[data-datafield="ItemId"]').attr('data-formreadonly', 'true'); 
+        $orderItemGridLossDamage.find('div[data-datafield="Description"]').attr('data-formreadonly', 'true');
+        $orderItemGridLossDamage.find('div[data-datafield="ItemId"]').attr('data-formreadonly', 'true');
 
         $orderItemGridLossDamageControl.data('ondatabind', function (request) {
             request.uniqueids = {

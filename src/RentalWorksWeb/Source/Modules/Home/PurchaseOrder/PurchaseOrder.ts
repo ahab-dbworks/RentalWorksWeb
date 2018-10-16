@@ -307,6 +307,9 @@ class PurchaseOrder {
         $orderItemGridRentalControl.find('div[data-datafield="Price"]').attr('data-caption', 'Unit Price');
         $orderItemGridRentalControl.find('div[data-datafield="PeriodDiscountAmount"]').attr('data-caption', 'Discount Amount');
         $orderItemGridRentalControl.find('div[data-datafield="PeriodExtended"]').attr('data-caption', 'Extended');
+        $orderItemGridRentalControl.find('div[data-datafield="PeriodExtended"]').attr('data-formreadonly', 'true');
+
+
         $orderItemGridRental.empty().append($orderItemGridRentalControl);
         $orderItemGridRentalControl.data('isSummary', false);
         $orderItemGridRental.addClass('R');
