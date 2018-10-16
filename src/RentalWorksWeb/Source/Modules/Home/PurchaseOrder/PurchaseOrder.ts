@@ -701,6 +701,12 @@ class PurchaseOrder {
             }
             $tab.addClass('tabGridsLoaded');
         });
+        // Display D/W field in subrental tab
+        if (FwFormField.getValueByDataField($form, 'RateType') === 'DAILY') {
+            $form.find(".subRentalDaysPerWeek").show();
+        } else {
+            $form.find(".subRentalDaysPerWeek").hide();
+        }
 
         $orderItemGridRental.find('.submenu-btn').filter('[data-securityid="007C4F21-7526-437C-AD1C-4BBB1030AABA"]').hide();
         $orderItemGridSales.find('.submenu-btn').filter('[data-securityid="007C4F21-7526-437C-AD1C-4BBB1030AABA"]').hide();
@@ -1080,7 +1086,7 @@ class PurchaseOrder {
 
     //----------------------------------------------------------------------------------------------
     calculateOrderItemGridTotals($form: any, gridType: string): void {
-        let subTotal, discount, salesTax, grossTotal, total, rateType, needsRateType;
+        let subTotal, discount, salesTax, grossTotal, total, rateType;
         let extendedTotal = new Decimal(0);
         let discountTotal = new Decimal(0);
         let taxTotal = new Decimal(0);
@@ -1132,7 +1138,7 @@ class PurchaseOrder {
     events($form: any) {
         let weeklyType = $form.find(".weeklyType");
         let monthlyType = $form.find(".monthlyType");
-        let rentalDaysPerWeek = $form.find(".RentalDaysPerWeek");
+        let subRentalDaysPerWeek = $form.find(".subRentalDaysPerWeek");
         let billingMonths = $form.find(".BillingMonths");
         let billingWeeks = $form.find(".BillingWeeks");
 
@@ -1218,7 +1224,7 @@ class PurchaseOrder {
                 case 'DAILY':
                     weeklyType.show();
                     monthlyType.hide();
-                    rentalDaysPerWeek.show();
+                    subRentalDaysPerWeek.show();
                     billingMonths.hide();
                     billingWeeks.show();
                     $form.find('.combinedgrid [data-name="OrderItemGrid"]').parent().show();
@@ -1230,28 +1236,28 @@ class PurchaseOrder {
                 case 'WEEKLY':
                     weeklyType.show();
                     monthlyType.hide();
-                    rentalDaysPerWeek.hide();
+                    subRentalDaysPerWeek.hide();
                     billingMonths.hide();
                     billingWeeks.show();
                     break;
                 case '3WEEK':
                     weeklyType.show();
                     monthlyType.hide();
-                    rentalDaysPerWeek.hide();
+                    subRentalDaysPerWeek.hide();
                     billingMonths.hide();
                     billingWeeks.show();
                     break;
                 case 'MONTHLY':
                     weeklyType.hide();
                     monthlyType.show();
-                    rentalDaysPerWeek.hide();
+                    subRentalDaysPerWeek.hide();
                     billingWeeks.hide();
                     billingMonths.show();
                     break;
                 default:
                     weeklyType.show();
                     monthlyType.hide();
-                    rentalDaysPerWeek.show();
+                    subRentalDaysPerWeek.show();
                     billingMonths.hide();
                     billingWeeks.show();
                     break;

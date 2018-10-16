@@ -429,11 +429,16 @@ class Invoice {
     };
     //----------------------------------------------------------------------------------------------
     afterLoad($form) {
-        //if (!FwFormField.getValueByDataField($form, 'Rental')) { $form.find('[data-type="tab"][data-caption="Rental"]').hide() }
-        //if (!FwFormField.getValueByDataField($form, 'Sales')) { $form.find('[data-type="tab"][data-caption="Sales"]').hide() }
-        //if (!FwFormField.getValueByDataField($form, 'Miscellaneous')) { $form.find('[data-type="tab"][data-caption="Misc"]').hide() }
-        //if (!FwFormField.getValueByDataField($form, 'Labor')) { $form.find('[data-type="tab"][data-caption="Labor"]').hide() }
-        //if (!FwFormField.getValueByDataField($form, 'RentalSale')) { $form.find('[data-type="tab"][data-caption="Rental Sale"]').hide() }
+        const STATUS = FwFormField.getValueByDataField($form, 'Status');
+
+        if (STATUS === 'CLOSED' || STATUS === 'CANCELLED' || STATUS === 'SNAPSHOT') {
+            FwModule.setFormReadOnly($form);
+        }
+        //if (!FwFormField.getValueByDataField($form, 'HasRentalItem')) { $form.find('[data-type="tab"][data-caption="Rental"]').hide() }
+        //if (!FwFormField.getValueByDataField($form, 'HasSalesItem')) { $form.find('[data-type="tab"][data-caption="Sales"]').hide() }
+        //if (!FwFormField.getValueByDataField($form, 'HasMiscellaneousItem')) { $form.find('[data-type="tab"][data-caption="Misc"]').hide() }
+        //if (!FwFormField.getValueByDataField($form, 'HasLaborItem')) { $form.find('[data-type="tab"][data-caption="Labor"]').hide() }
+        //if (!FwFormField.getValueByDataField($form, 'HasRentalSaleItem')) { $form.find('[data-type="tab"][data-caption="Rental Sale"]').hide() }
 
 
         let $invoiceItemGridRental;
