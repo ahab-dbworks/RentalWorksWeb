@@ -1298,7 +1298,7 @@ class Deal {
                   <div data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield" data-caption="" data-datafield="DefaultOutgoingDeliveryType" style="flex:1 1 265px;">
                     <div data-value="DELIVER" data-caption="Deliver to Customer" style="margin-top:-15px;"></div>
                     <div data-value="SHIP" data-caption="Ship to Customer"></div>
-                    <div data-value="PICKUP" data-caption="Customer Pick Up"></div>
+                    <div data-value="PICK UP" data-caption="Customer Pick Up"></div>
                   </div>
                 </div>
               </div>
@@ -1308,7 +1308,7 @@ class Deal {
                   <div data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield" data-caption="" data-datafield="DefaultIncomingDeliveryType" style="flex:1 1 265px;">
                     <div data-value="DELIVER" data-caption="Customer Deliver" style="margin-top:-15px;"></div>
                     <div data-value="SHIP" data-caption="Customer Ship"></div>
-                    <div data-value="PICKUP" data-caption="Pick Up from Customer"></div>
+                    <div data-value="PICK UP" data-caption="Pick Up from Customer"></div>
                   </div>
                 </div>
               </div>
