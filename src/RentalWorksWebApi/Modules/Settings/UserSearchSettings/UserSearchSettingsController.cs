@@ -10,7 +10,7 @@ namespace WebApi.Modules.Settings.UserSearchSettings
     [ApiExplorerSettings(GroupName = "settings-v1")]
     public class UserSearchSettingsController : AppDataController
     {
-        public UserSearchSettingsController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(UserSearchSettingsLogic); }
+        public UserSearchSettingsController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(UserSearchSettingsLogic); return404IfGetNotFound = false; }
         //------------------------------------------------------------------------------------
         // GET api/v1/usersearchsettings/A0000001  (id = webusersid)
         [HttpGet("{id}")]
