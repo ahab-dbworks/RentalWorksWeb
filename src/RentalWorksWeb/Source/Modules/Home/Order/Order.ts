@@ -227,13 +227,13 @@ class Order extends OrderBase {
         FwFormField.loadItems($form.find('.outtype'), [
             { value: 'DELIVER', text: 'Deliver to Customer' },
             { value: 'SHIP', text: 'Ship to Customer' },
-            { value: 'PICKUP', text: 'Customer Pick Up' }
+            { value: 'PICK UP', text: 'Customer Pick Up' }
         ], true);
 
         FwFormField.loadItems($form.find('.intype'), [
             { value: 'DELIVER', text: 'Customer Deliver' },
             { value: 'SHIP', text: 'Customer Ship' },
-            { value: 'PICKUP', text: 'Pick Up from Customer' }
+            { value: 'PICK UP', text: 'Pick Up from Customer' }
         ], true);
 
         FwFormField.loadItems($form.find('.online'), [
