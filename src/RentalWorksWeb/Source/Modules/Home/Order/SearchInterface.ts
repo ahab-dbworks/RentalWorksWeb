@@ -81,7 +81,7 @@ class SearchInterface {
             </div>
           </div>
         </div>
-        <div class="flexcolumn formoptions" style="max-width:1450px; overflow:hidden;">
+        <div class="flexcolumn formoptions" style="max-width:1450px; overflow:hidden; min-height:490px;">
           <div class="flexrow" style="max-width:100%;">
             <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield fwformcontrol" data-caption="Est. Start" data-datafield="FromDate" style="flex: 0 1 135px;"></div>
             <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield fwformcontrol" data-caption="Est. Stop" data-datafield="ToDate" style="flex: 0 1 135px;"></div>
@@ -96,7 +96,13 @@ class SearchInterface {
             <div class="optiontoggle fwformcontrol" data-type="button">
               Options &#8675;
               <div class="options" style="display:none;">
-                <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield fwformcontrol toggleAccessories" data-caption="Disable Auto-Expansion of Accessories" style="width:290px;"></div>
+                <div class="flexcolumn">
+                    <div data-datafield="Columns" data-control="FwFormField" data-type="checkboxlist" class="fwcontrol fwformfield columnOrder" data-caption="Select columns to display in Results" data-sortable="true" data-orderby="true" style="margin-top: 10px"></div>
+                    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield fwformcontrol toggleAccessories" data-caption="Disable Auto-Expansion of Accessories" data-datafield="DisableAccessoryAutoExpand"></div>
+                    <div>
+                       <div data-type="button" class="fwformcontrol applyOptions" style="width:45px; float:right; margin:10px;">Apply</div>
+                    </div>
+                </div>
               </div>
             </div>
           </div>
@@ -218,6 +224,42 @@ class SearchInterface {
         let userId = JSON.parse(sessionStorage.getItem('userid'));
         let $inventoryView = $popup.find('#inventoryView');
         FwAppData.apiMethod(true, 'GET', `api/v1/usersearchsettings/${userId.webusersid}`, null, FwServices.defaultTimeout, function onSuccess(response) {
+            let columns;
+
+            //Render options sortable column list
+            if (response.ResultFields) {
+                columns = JSON.parse(response.ResultFields);
+
+                FwFormField.loadItems($popup.find('div[data-datafield="Columns"]'), columns);
+                var columnSort = Sortable.create($popup.find('div[data-datafield="Columns"]'), {
+                    onEnd: function (evt) {
+                        $form.attr('data-modified', 'true');
+                        $form.find('.btn[data-type="SaveMenuBarButton"]').removeClass('disabled');
+                    }
+                })
+            } else {
+                FwFormField.loadItems($popup.find('div[data-datafield="Columns"]'),
+                    [{ value: 'Description', text: 'Description', selected: 'T' },
+                    { value: 'Quantity', text: 'Quantity', selected: 'T' },
+                    { value: 'Available', text: 'Available', selected: 'T' },
+                    { value: 'ConflictDate', text: 'ConflictDate', selected: 'T' },
+                    { value: 'AllWh', text: 'AllWh', selected: 'T' },
+                    { value: 'In', text: 'In', selected: 'T' },
+                    { value: 'QC', text: 'QC', selected: 'T' },
+                    { value: 'Rate', text: 'Rate', selected: 'T' }]);
+            }
+
+
+            //if (response.Rows.length !== 0) {
+            //    $popup.find('.tab[data-caption="Preview"] .caption').text(`Preview (${response.Rows.length})`);
+
+            //    FwNotification.renderNotification('WARNING', 'There are items from a previous Search session that have not been added.  Click the Preview tab to view.');
+
+            //}
+            if (response.DisableAccessoryAutoExpand) {
+                FwFormField.setValueByDataField($popup, 'DisableAccessoryAutoExpand', true);
+            }
+
             if (response.Mode != null) {
                 $inventoryView.val(response.Mode)
             } else {
@@ -227,10 +269,7 @@ class SearchInterface {
 
         //Render preview grid
         let $previewGrid
-            , $previewGridControl
-            , previewrequest: any
-            , toDate
-            , fromDate;
+            , $previewGridControl;
         $previewGrid = $previewTabControl.find('[data-grid="SearchPreviewGrid"]');
         $previewGridControl = jQuery(jQuery('#tmpl-grids-SearchPreviewGridBrowse').html());
         $previewGrid.empty().append($previewGridControl);
@@ -239,32 +278,6 @@ class SearchInterface {
         });
         FwBrowse.init($previewGridControl);
         FwBrowse.renderRuntimeHtml($previewGridControl);
-
-        toDate = FwFormField.getValueByDataField($popup, 'ToDate');
-        fromDate = FwFormField.getValueByDataField($popup, 'FromDate');
-
-        previewrequest = {};
-        previewrequest = {
-            SessionId: id,
-            ShowAvailablity: true,
-            ShowImages: true
-        };
-        if (fromDate != "") {
-            previewrequest.FromDate = fromDate;
-        }
-        if (toDate != "") {
-            previewrequest.ToDate = toDate;
-        }
-        FwAppData.apiMethod(true, 'POST', "api/v1/inventorysearchpreview/browse", previewrequest, FwServices.defaultTimeout, function onSuccess(response) {
-            FwBrowse.databindcallback($previewGrid, response);
-
-            if (response.Rows.length !== 0) {
-                $popup.find('.tab[data-caption="Preview"] .caption').text(`Preview (${response.Rows.length})`);
-
-                FwNotification.renderNotification('WARNING', 'There are items from a previous Search session that have not been added.  Click the Preview tab to view.');
-
-            }
-        }, null, $previewTabControl);
 
         //Load Type list
         let inventoryTypeRequest: any
@@ -872,7 +885,10 @@ class SearchInterface {
             , availableFor
             , inventoryTypeRequest: any = {}
             , categoryType
-            , $searchpopup;
+            , $searchpopup
+            , userId;
+
+        userId = JSON.parse(sessionStorage.getItem('userid'));
         hasItemInGrids = false;
         warehouseId = FwFormField.getValueByDataField($form, 'WarehouseId');
         request = {};
@@ -884,14 +900,50 @@ class SearchInterface {
             jQuery(document).find('.fwpopup').off('click');
             jQuery(document).off('keydown');
         });
-        //Toggle Options
+
+        //Toggle Options menu
         $popup.on('click', '.optiontoggle', e => {
             e.stopPropagation();
-            $popup.find('.options').toggle();
+            if ($popup.find('.options').css('display') === 'none') {
+                $popup.find('.options').css('display', 'flex');
+            } else {
+                $popup.find('.options').css('display', 'none');
+            }
+
+            //hides options when clicked outside of div
             jQuery(document).one('click', function closeMenu(e) {
-                $popup.find('.options').toggle();
-            });
+                $popup.find('.options').css('display', 'none');
+            })
         });
+
+        //Apply options and close options menu
+        $popup.on('click', '.applyOptions', e => {
+            const $options = $popup.find('.options');
+            let request: any = {};
+            let expandAccessories = FwFormField.getValue2($popup.find('[data-datafield="DisableAccessoryAutoExpand"]'));
+            expandAccessories == "T" ? expandAccessories = true : expandAccessories = false;
+            let columns = FwFormField.getValueByDataField($popup, 'Columns');
+
+            
+            request.WebUserId = userId.webusersid;
+            request.DisableAccessoryAutoExpand = expandAccessories;
+            FwAppData.apiMethod(true, 'POST', "api/v1/usersearchsettings/", request, FwServices.defaultTimeout, function onSuccess(response) {
+
+                if (expandAccessories) {
+                    $popup.find('.accContainer').css('display', 'none');
+                }
+                $options.css('display', 'none');
+            }, null, $searchpopup);
+        });
+
+        //Disable Accessory Refresh checkbox
+        //$popup.on('click', '.toggleAccessories input', function () {
+        //    let accessoryRefresh = $popup.find('.toggleAccessories input').prop('checked');
+        //    if (accessoryRefresh) {
+        //        $popup.find('.accContainer').css('display', 'none');
+        //    }
+        //});
+
         //Inventory Type radio change events
         $popup.find('[data-type="radio"]').on('change', function () {
             availableFor = $popup.find('[data-type="radio"] input:checked').val();
@@ -1056,6 +1108,9 @@ class SearchInterface {
                         self.refreshAccessoryQuantity($popup, id, warehouseId, inventoryId, e);
                     }
                 }
+
+                //Updates Preview tab with total # of items
+                $popup.find('.tab[data-caption="Preview"] .caption').text(`Preview (${response.TotalQuantityInSession})`);
             }, null, $searchpopup);
         });
 
@@ -1143,8 +1198,7 @@ class SearchInterface {
         $popup.on('click', '.listbutton, .listgridbutton, .gridbutton', e => {
             let view = $popup.find('#inventoryView').val()
                 , $this = jQuery(e.currentTarget)
-                , viewrequest: any
-                , userId;
+                , viewrequest: any;
             if ($this.hasClass('listbutton')) {
                 view = "LIST";
             } else if ($this.hasClass('listgridbutton')) {
@@ -1154,7 +1208,6 @@ class SearchInterface {
             };
             $popup.find('#inventoryView').val(view);
 
-            userId = JSON.parse(sessionStorage.getItem('userid'));
             viewrequest = {};
             viewrequest.WebUserId = userId.webusersid;
             viewrequest.Mode = view;
@@ -1181,6 +1234,8 @@ class SearchInterface {
             quantity != "0" ? element.addClass('lightBlue') : element.removeClass('lightBlue');
 
             FwAppData.apiMethod(true, 'POST', "api/v1/inventorysearch", accRequest, FwServices.defaultTimeout, function onSuccess(response) {
+                //Updates preview tab with total # of items
+                $popup.find('.tab[data-caption="Preview"] .caption').text(`Preview (${response.TotalQuantityInSession})`);
             }, null, null);
         });
 
@@ -1226,14 +1281,6 @@ class SearchInterface {
                 $popup.find('#inventory').empty();
                 self.renderInventory($popup, response);
             }, null, $searchpopup);
-        });
-
-        //Disable Accessory Refresh checkbox
-        $popup.on('click', '.toggleAccessories input', function () {
-            let accessoryRefresh = $popup.find('.toggleAccessories input').prop('checked');
-            if (accessoryRefresh) {
-                $popup.find('.accContainer').css('display', 'none');
-            }
         });
 
         //Expand Categories button
@@ -1332,9 +1379,6 @@ class SearchInterface {
             let $grid = $popup.find('[data-name="SearchPreviewGrid"]');
             FwBrowse.databindcallback($grid, response);
 
-            if (response.Rows.length !== 0) {
-                $popup.find('.tab[data-caption="Preview"] .caption').text(`Preview (${response.Rows.length})`);
-            }
         }, null, $searchpopup);
     };
 
