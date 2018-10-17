@@ -19,6 +19,7 @@ namespace FwCore.Controllers
     public abstract class FwDataController : FwController
     {
         protected Type logicType = null;
+        protected bool return404IfGetNotFound = true;
         //------------------------------------------------------------------------------------
         public FwDataController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
         //------------------------------------------------------------------------------------
@@ -169,13 +170,22 @@ namespace FwCore.Controllers
 
                 string[] ids = id.Split('~');
                 FwBusinessLogic l = CreateBusinessLogic(type, this.AppConfig, this.UserSession);
-                if (await l.LoadAsync<T>(ids))
+                //if (await l.LoadAsync<T>(ids))
+                //{
+                //    return new OkObjectResult(l);
+                //}
+                //else
+                //{
+                //    return NotFound();
+                //}
+                bool found = await l.LoadAsync<T>(ids);
+                if ((!found) && return404IfGetNotFound)
                 {
-                    return new OkObjectResult(l);
+                    return NotFound();
                 }
                 else
                 {
-                    return NotFound();
+                    return new OkObjectResult(l);
                 }
             }
             catch (Exception ex)
