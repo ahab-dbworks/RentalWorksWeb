@@ -378,6 +378,11 @@
         isSubGrid = $element.closest('[data-grid="OrderItemGrid"]').attr('data-issubgrid');
         orderId = FwFormField.getValueByDataField($form, `${module}Id`);
 
+        //combined grid logic -- rec type should be removed from request and not A.
+        if (recType === 'A') {
+            recType = undefined;
+        }
+
         //if (recType === 'R') {
         //    $orderItemGrid = $form.find('.rentalgrid [data-name="OrderItemGrid"]');
         //}
