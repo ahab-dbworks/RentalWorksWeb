@@ -38,15 +38,15 @@
             inventoryType = 'Parts';
         }
 
-        let daysPerWeek, discountPercent;
-        if (inventoryType !== 'RentalSales') {
-            discountPercent = FwFormField.getValueByDataField($form, `${inventoryType}DiscountPercent`);
-        }
-        if (inventoryType == 'Rental') {
-            daysPerWeek = FwFormField.getValueByDataField($form, `RentalDaysPerWeek`);
-        };
-
         if ($form[0].dataset.controller !== "TemplateController" && $form[0].dataset.controller !== "PurchaseOrderController") {
+            let daysPerWeek, discountPercent;
+            if (inventoryType !== 'RentalSales') {
+                discountPercent = FwFormField.getValueByDataField($form, `${inventoryType}DiscountPercent`);
+            }
+            if (inventoryType == 'Rental') {
+                daysPerWeek = FwFormField.getValueByDataField($form, `RentalDaysPerWeek`);
+            };
+
             FwBrowse.setFieldValue($grid, $tr, 'PickDate', { value: pickDate });
             FwBrowse.setFieldValue($grid, $tr, 'PickTime', { value: pickTime });
             FwBrowse.setFieldValue($grid, $tr, 'FromDate', { value: fromDate });
@@ -134,21 +134,22 @@
                 let inventoryId = $generatedtr.find('div[data-browsedatafield="InventoryId"] input').val();
                 let officeLocationId = FwFormField.getValueByDataField($form, 'OfficeLocationId');
                 let rateType = $form.find('[data-datafield="RateType"] input').val();
-                let inventoryType = $generatedtr.find('[data-browsedatafield="InventoryId"]').attr('data-validationname');
                 $generatedtr.find('.field[data-browsedatafield="Description"] input').val($tr.find('.field[data-browsedatafield="Description"]').attr('data-originalvalue'));
                 $generatedtr.find('.field[data-browsedatafield="QuantityOrdered"] input').val("1");
                 let discountPercent;
                 let daysPerWeek;
-
+                let isRentalGrid = jQuery($control).parent('[data-grid="OrderItemGrid"]').hasClass('R');
                 $generatedtr.find('.field[data-browsedatafield="ItemId"] input').val('');
                 $generatedtr.find('.field[data-browsedatafield="Description"] input').val($tr.find('.field[data-browsedatafield="Description"]').attr('data-originalvalue'));
 
-                if (inventoryType === 'RentalInventoryValidation') {
+                if ($form[0].dataset.controller !== "TemplateController" && $form[0].dataset.controller !== "PurchaseOrderController") {
                     discountPercent = FwFormField.getValueByDataField($form, 'RentalDiscountPercent');
-                    daysPerWeek = FwFormField.getValueByDataField($form, `RentalDaysPerWeek`);
                     FwBrowse.setFieldValue($control, $generatedtr, 'DiscountPercent', { value: discountPercent });
                     FwBrowse.setFieldValue($control, $generatedtr, 'DiscountPercentDisplay', { value: discountPercent });
-                    FwBrowse.setFieldValue($control, $generatedtr, 'DaysPerWeek', { value: daysPerWeek });
+                    if (isRentalGrid === true) {
+                        daysPerWeek = FwFormField.getValueByDataField($form, `RentalDaysPerWeek`);
+                        FwBrowse.setFieldValue($control, $generatedtr, 'DaysPerWeek', { value: daysPerWeek });
+                    }
                 }
 
                 if ($generatedtr.hasClass("newmode")) {
