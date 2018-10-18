@@ -1,6 +1,6 @@
 ﻿routes.push({
     pattern: /^reports\/invoicesummaryreport/, action: function (match: RegExpExecArray) {
-        return InvoiceSummaryReportController.getModuleScreen();
+        return RwInvoiceSummaryReportController.getModuleScreen();
     }
 });
 
@@ -72,7 +72,7 @@ var invoiceSummaryTemplateFrontEnd = `
 </div>`;
 
 //----------------------------------------------------------------------------------------------
-class InvoiceSummaryReportClass extends FwWebApiReport {
+class RwInvoiceSummaryReportClass extends FwWebApiReport {
     //----------------------------------------------------------------------------------------------
     constructor() {
         super('InvoiceSummaryReport', 'api/v1/invoicesummaryreport', invoiceSummaryTemplateFrontEnd);
@@ -146,5 +146,5 @@ class InvoiceSummaryReportClass extends FwWebApiReport {
     //----------------------------------------------------------------------------------------------
 };
 
-var InvoiceSummaryReportController = new InvoiceSummaryReportClass();
+var RwInvoiceSummaryReportController: any = new RwInvoiceSummaryReportClass();
 //----------------------------------------------------------------------------------------------
