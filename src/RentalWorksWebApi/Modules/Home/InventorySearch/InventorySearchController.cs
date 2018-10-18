@@ -3,13 +3,24 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using WebApi.Controllers;
 using System.Threading.Tasks;
-using WebApi.Modules.Home.PickList;
 using System;
 using Microsoft.AspNetCore.Http;
 using FwStandard.SqlServer;
+using WebApi.Logic;
 
 namespace WebApi.Modules.Home.InventorySearch
 {
+    //------------------------------------------------------------------------------------ 
+    public class InventorySearchGetTotalRequest
+    {
+        public string SessionId;
+        public string OrderId;
+    }
+    public class InventorySearchGetTotalResponse: TSpStatusReponse
+    {
+        public decimal? TotalQuantityInSession;
+    }
+
     //------------------------------------------------------------------------------------ 
     public class InventorySearchRequest
     {
@@ -41,6 +52,13 @@ namespace WebApi.Modules.Home.InventorySearch
         public bool ShowImages;
     }
     //------------------------------------------------------------------------------------ 
+    public class InventorySearchAddToRequest
+    {
+        public string SessionId;
+        public string OrderId;
+    }
+    //------------------------------------------------------------------------------------ 
+
 
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "home-v1")]
@@ -106,9 +124,36 @@ namespace WebApi.Modules.Home.InventorySearch
             return await DoPostAsync<InventorySearchLogic>(l);
         }
         //------------------------------------------------------------------------------------ 
+        // POST api/v1/inventorysearch/gettotal
+        [HttpGet("gettotal/{sessionid}")]
+        public async Task<ActionResult<InventorySearchGetTotalResponse>> GetTotal([FromRoute]string sessionId)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                InventorySearchGetTotalRequest request = new InventorySearchGetTotalRequest();
+                request.SessionId = sessionId;
+                InventorySearchLogic l = new InventorySearchLogic();
+                l.SetDependencies(this.AppConfig, this.UserSession);
+                InventorySearchGetTotalResponse response = await l.GetTotalAsync(request);
+                return new OkObjectResult(response);
+            }
+            catch (Exception ex)
+            {
+                FwApiException jsonException = new FwApiException();
+                jsonException.StatusCode = StatusCodes.Status500InternalServerError;
+                jsonException.Message = ex.Message;
+                jsonException.StackTrace = ex.StackTrace;
+                return StatusCode(jsonException.StatusCode, jsonException);
+            }
+        }
+        //------------------------------------------------------------------------------------ 
         // POST api/v1/inventorysearch/addto 
         [HttpPost("addto")]
-        public async Task<ActionResult<bool>> AddTo([FromBody]InventorySearchRequest processRequest)
+        public async Task<ActionResult<bool>> AddTo([FromBody]InventorySearchAddToRequest processRequest)
         {
             if (!ModelState.IsValid)
             {

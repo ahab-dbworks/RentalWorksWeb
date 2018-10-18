@@ -63,7 +63,26 @@ namespace WebApi.Modules.Home.InventorySearch
             e.PerformSave = false;
         }
         //-------------------------------------------------------------------------------------------------------   
-        public async Task<bool> AddToAsync(InventorySearchRequest request)
+        public async Task<InventorySearchGetTotalResponse> GetTotalAsync(InventorySearchGetTotalRequest request)
+        {
+            InventorySearchGetTotalResponse response = new InventorySearchGetTotalResponse();
+            using (FwSqlConnection conn = new FwSqlConnection(this.AppConfig.DatabaseSettings.ConnectionString))
+            {
+                FwSqlCommand qry = new FwSqlCommand(conn, "tmpsearchsessiongettotal", this.AppConfig.DatabaseSettings.QueryTimeout);
+                qry.AddParameter("@sessionid", SqlDbType.NVarChar, ParameterDirection.Input, request.SessionId);
+                qry.AddParameter("@totalqtyinsession", SqlDbType.Float, ParameterDirection.Output);
+                qry.AddParameter("@status", SqlDbType.Int, ParameterDirection.Output);
+                qry.AddParameter("@msg", SqlDbType.NVarChar, ParameterDirection.Output);
+                int i = await qry.ExecuteNonQueryAsync(true);
+                response.TotalQuantityInSession = qry.GetParameter("@totalqtyinsession").ToDecimal();
+                response.status = qry.GetParameter("@status").ToInt32();
+                response.success = (response.status == 0);
+                response.msg = qry.GetParameter("@msg").ToString();
+            }
+            return response;
+        }
+        //-------------------------------------------------------------------------------------------------------   
+        public async Task<bool> AddToAsync(InventorySearchAddToRequest request)
         {
             bool b = false;
             using (FwSqlConnection conn = new FwSqlConnection(this.AppConfig.DatabaseSettings.ConnectionString))

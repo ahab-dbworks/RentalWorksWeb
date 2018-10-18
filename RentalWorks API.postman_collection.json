@@ -20334,6 +20334,42 @@
 					"response": []
 				},
 				{
+					"name": "Inventory Search Utility: Get Total",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"SessionId\": \"123\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/inventorysearch/gettotal/I00008O9",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"inventorysearch",
+								"gettotal",
+								"I00008O9"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "Inventory Search Utility: Add To [Order]",
 					"request": {
 						"method": "POST",
@@ -43317,7 +43353,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"_Custom\": [],\n    \"UserId\": \"B00294F7\",\n    \"SearchModePreference\": \"GRID\",\n    \"RecordTitle\": \"Search Settings\"\n}"
+							"raw": "{\n    \"_Custom\": [],\n    \"WebUserId\": \"B00294F7\",\n    \"Mode\": \"GRID\"\n}"
 						},
 						"url": {
 							"raw": "http://localhost:57949/api/v1/usersearchsettings",
