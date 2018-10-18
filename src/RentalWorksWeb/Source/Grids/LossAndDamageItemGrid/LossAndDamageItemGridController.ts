@@ -19,7 +19,6 @@
             let html: any = [];
             let $grid = $tr.parents('[data-grid="LossAndDamageItemGrid"]');
             let sessionId = $grid.data('sessionId');
-            let orderId = $grid.data('orderId');
 
             if (trackedByValue === 'QUANTITY' && itemClassValue !== 'K') {
                 html.push('<button class="decrementQuantity" tabindex="-1" style="padding: 5px 0px; float:left; width:25%; border:none;">-</button>');
@@ -72,6 +71,7 @@
                     let request: any = {},
                         code = $tr.find('[data-browsedatafield="ICode"]').attr('data-originalvalue'),
                         orderItemId = $tr.find('[data-browsedatafield="OrderItemId"]').attr('data-originalvalue'),
+                        orderId = $tr.find('[data-browsedatafield="OrderId"]').attr('data-originalvalue'),
                         newValue = jQuery(e.currentTarget).val(),
                         oldValue = $tr.find('[data-browsedatafield="Quantity"]').attr('data-originalvalue'),
                         quantity = Number(newValue) - Number(oldValue);
@@ -90,7 +90,7 @@
                                 errormsg.html('');
                                 if (response.success) {
                                     $tr.find('[data-browsedatafield="Quantity"]').attr('data-originalvalue', Number(newValue));
-                                    FwBrowse.setFieldValue($grid, $tr, 'QuantityOut', { value: response.NewQuantity });
+                                    //FwBrowse.setFieldValue($grid, $tr, 'QuantityOut', { value: response.NewQuantity });
                                 } else {
                                     errorSound.play();
                                     errormsg.html(`<div style="margin:0px 0px 0px 8px;"><span style="padding:0px 4px 0px 4px;font-size:22px;border-radius:2px;background-color:red;color:white;">${response.msg}</span></div>`);
