@@ -116,7 +116,11 @@
             FwBrowse.setAfterRenderFieldCallback($control, ($tr: JQuery, $td: JQuery, $field: JQuery, dt: FwJsonDataTable, rowIndex: number, colIndex: number) => {
                 if ($tr.find('.order-item-lock').text() === 'true') {
                     $tr.find('.field-to-lock').css('background-color', "#f5f5f5");
-                    $tr.find('.field-to-lock').attr('data-formreadonly', 'true')
+                    $tr.find('.field-to-lock').attr('data-formreadonly', 'true');
+                    // disabled grids were rendering with different shade background color
+                    if (!$control.data('enabled')) {
+                        $tr.find('.field-to-lock').css('background-color', 'transparent');
+                    }
                 }
             });
 
@@ -443,6 +447,11 @@ FwApplicationTree.clickEvents['{77E511EC-5463-43A0-9C5D-B54407C97B15}'] = functi
     let search, $form, orderId, quoteId, purchaseOrderId, templateId, $popup;
     $form = jQuery(this).closest('.fwform');
 
+    if ($form.attr('data-mode') === 'NEW') {
+        OrderController.saveForm($form, { closetab: false });
+        return;
+    }
+
     let gridInventoryType;
 
     if (grid.hasClass('R')) {
@@ -545,6 +554,23 @@ FwApplicationTree.clickEvents['{D27AD4E7-E924-47D1-AF6E-992B92F5A647}'] = functi
         FwFunc.showError(ex);
     }
 };
-
+//----------------------------------------------------------------------------------------------
+FwApplicationTree.clickEvents['{294E08C6-8992-47A7-B403-C07DD539AEE9}'] = function (e) {
+    let $grid = jQuery(e.currentTarget).parents('[data-control="FwGrid"]');
+    $grid.find('.primary').parent().hide();
+    $grid.find('.secondary').parent().show();
+};
+//----------------------------------------------------------------------------------------------
+FwApplicationTree.clickEvents['{D7DD3803-3AFF-4723-96FC-BDF3CD3AA997}'] = function (e) {
+    let $grid = jQuery(e.currentTarget).parents('[data-control="FwGrid"]');
+    $grid.find('.primary').parent().show();
+    $grid.find('.secondary').parent().hide();
+};
+//----------------------------------------------------------------------------------------------
+FwApplicationTree.clickEvents['{1A977BFE-E5FB-4791-AD9A-42576160B6C3}'] = function (e) {
+    let $grid = jQuery(e.currentTarget).parents('[data-control="FwGrid"]');
+    $grid.find('.primary').parent().show();
+    $grid.find('.secondary').parent().show();
+};
 //----------------------------------------------------------------------------------------------
 var OrderItemGridController = new OrderItemGrid();
