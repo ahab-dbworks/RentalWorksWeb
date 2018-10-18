@@ -6,6 +6,8 @@ class Order extends OrderBase {
     apiurl: string = 'api/v1/order';
     caption: string = 'Order';
     lossDamageSessionId: string = '';
+    successSoundFileName: string;
+    errorSoundFileName: string;
     //-----------------------------------------------------------------------------------------------
     getModuleScreen(filter?: any) {
         var screen: any = {};
@@ -249,6 +251,7 @@ class Order extends OrderBase {
         }
 
         this.events($form);
+        this.getSoundUrls($form);
         this.activityCheckboxEvents($form, mode);
         return $form;
     };
@@ -518,7 +521,7 @@ class Order extends OrderBase {
         $orderItemGridLossDamageControl = jQuery(jQuery('#tmpl-grids-OrderItemGridBrowse').html());
         $orderItemGridLossDamage.empty().append($orderItemGridLossDamageControl);
         $orderItemGridLossDamageControl.data('isSummary', false);
-        $orderItemGridLossDamage.addClass('LD');
+        $orderItemGridLossDamage.addClass('F');
         $orderItemGridLossDamage.find('div[data-datafield="ItemId"]').attr('data-formreadonly', 'true'); 
         $orderItemGridLossDamage.find('div[data-datafield="Description"]').attr('data-formreadonly', 'true');
         $orderItemGridLossDamage.find('div[data-datafield="BarCode"]').attr('data-formreadonly', 'true');
@@ -526,13 +529,13 @@ class Order extends OrderBase {
         $orderItemGridLossDamageControl.data('ondatabind', function (request) {
             request.uniqueids = {
                 OrderId: FwFormField.getValueByDataField($form, 'OrderId'),
-                RecType: 'LD'
+                RecType: 'F'
             };
             request.pagesize = max;
         });
         $orderItemGridLossDamageControl.data('beforesave', function (request) {
             request.OrderId = FwFormField.getValueByDataField($form, 'OrderId');
-            request.RecType = 'LD';
+            request.RecType = 'F';
         }
         );
         //FwBrowse.addEventHandler($orderItemGridLossDamageControl, 'afterdatabindcallback', () => {
@@ -774,6 +777,11 @@ class Order extends OrderBase {
         }
     };
     //----------------------------------------------------------------------------------------------
+    getSoundUrls = ($form): void => {
+        this.successSoundFileName = JSON.parse(sessionStorage.getItem('sounds')).successSoundFileName;
+        this.errorSoundFileName = JSON.parse(sessionStorage.getItem('sounds')).errorSoundFileName;
+    }
+    //----------------------------------------------------------------------------------------------
     cancelPickList(pickListId, pickListNumber, $form) {
         var $confirmation, $yes, $no;
         var orderId = FwFormField.getValueByDataField($form, 'OrderId');
@@ -832,6 +840,9 @@ class Order extends OrderBase {
         let HTML: Array<string> = [], $popupHtml, $popup, $orderBrowse, sessionId, userWarehouseId, dealId, $lossAndDamageItemGridControl;
         userWarehouseId = JSON.parse(sessionStorage.getItem('warehouse')).warehouseid;
         dealId = FwFormField.getValueByDataField($form, 'DealId');
+        let errorSound, successSound;
+        errorSound = new Audio(this.errorSoundFileName);
+        successSound = new Audio(this.successSoundFileName);
         HTML.push(
             `<div id="searchpopup" class="fwcontrol fwcontainer fwform" data-control="FwContainer" data-type="form" data-caption="Add Loss and Damage Items">
               <div id="lossdamageform-tabcontrol" class="fwcontrol fwtabs" data-control="FwTabs" data-type="">
@@ -842,7 +853,8 @@ class Order extends OrderBase {
                       <div class="formrow">
                         <div class="formcolumn summaryview" style="width:100%;margin-top:50px;">
                           <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                            <div class="fwform-section-title" style="margin-bottom:10px;">Loss and Damage Items</div>
+                            <div class="fwform-section-title" style="margin-bottom:20px;">Loss and Damage Items</div>
+                            <div class="formrow error-msg"></div>
                             <div data-control="FwGrid" class="container"></div>
                           </div>
                         </div>
@@ -851,10 +863,13 @@ class Order extends OrderBase {
                         <div class="select-items fwformcontrol" data-type="button" style="float:right;">Select Items</div>
                       </div>
                       <div class="formrow session-buttons" style="display:none;">
-                        <div class="option fwformcontrol" data-type="button" style="float:left">Options &#8675;</div>
+                        <div class="options-button fwformcontrol" data-type="button" style="float:left">Options &#8675;</div>
                         <div class="selectall fwformcontrol" data-type="button" style="float:left; margin-left:10px;">Select All</div>
                         <div class="selectnone fwformcontrol" data-type="button" style="float:left; margin-left:10px;">Select None</div>
                         <div class="complete-session fwformcontrol" data-type="button" style="float:right;">Add To Order</div>
+                      </div>
+                      <div class="formrow option-list" style="display:none;">
+                        <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Placeholder..." data-datafield=""></div>
                       </div>
                     </div>
                   </div>
@@ -902,7 +917,7 @@ class Order extends OrderBase {
                     sessionId = response.SessionId
                     this.lossDamageSessionId = sessionId;
                     if (sessionId) {
-                        $popup.find('.container').html('<div style="max-width:1400px;"class="flexrow"><div data-control="FwGrid" data-grid="LossAndDamageItemGrid" data-securitycaption=""></div></div>');
+                        $popup.find('.container').html('<div class="formrow"><div data-control="FwGrid" data-grid="LossAndDamageItemGrid" data-securitycaption=""></div></div>');
                         $popup.find('.add-button').hide();
                         $popup.find('.session-buttons').show();
                         let $lossAndDamageItemGrid;
@@ -950,6 +965,48 @@ class Order extends OrderBase {
                         FwConfirmation.renderConfirmation('ERROR', 'Error')
                     }
                 }, null, null);
+            });
+            // Select All
+            $popup.find('.selectall').on('click', e => {
+                let request: any = {};
+                const orderId = FwFormField.getValueByDataField($form, 'OrderId');
+
+                request.OrderId = orderId;
+                FwAppData.apiMethod(true, 'POST', `api/v1/lossanddamage/selectall`, request, FwServices.defaultTimeout, function onSuccess(response) {
+                    $popup.find('.error-msg').html('');
+                    if (response.success === false) {
+                        errorSound.play();
+                        $popup.find('div.error-msg').html(`<div style="margin:0px 0px 0px 8px;"><span style="padding:0px 4px 0px 4px;font-size:22px;border-radius:2px;background-color:red;color:white;">${response.msg}</span></div>`);
+                    } else {
+                        successSound.play();
+                        FwBrowse.search($lossAndDamageItemGridControl);
+                    }
+                }, function onError(response) {
+                    FwFunc.showError(response);
+                }, $popup);
+            });
+            // Select None
+            $popup.find('.selectnone').on('click', e => {
+                let request: any = {};
+                const orderId = FwFormField.getValueByDataField($form, 'OrderId');
+
+                request.OrderId = orderId;
+                FwAppData.apiMethod(true, 'POST', `api/v1/lossanddamage/selectnone`, request, FwServices.defaultTimeout, function onSuccess(response) {
+                    $popup.find('.error-msg').html('');
+                    if (response.success === false) {
+                        errorSound.play();
+                        $popup.find('div.error-msg').html(`<div style="margin:0px 0px 0px 8px;"><span style="padding:0px 4px 0px 4px;font-size:22px;border-radius:2px;background-color:red;color:white;">${response.msg}</span></div>`);
+                    } else {
+                        successSound.play();
+                        FwBrowse.search($lossAndDamageItemGridControl);
+                    }
+                }, function onError(response) {
+                    FwFunc.showError(response);
+                }, $popup);
+            });
+            //Options button
+            $popup.find('.options-button').on('click', e => {
+                $popup.find('.option-list').toggle();
             });
         }
         $popupHtml = HTML.join('');

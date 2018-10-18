@@ -73,7 +73,6 @@ class OrderBase {
                 , usedSaleTab = $form.find('[data-type="tab"][data-caption="Used Sale"]')
                 , lossDamageTab = $form.find('[data-type="tab"][data-caption="Loss and Damage"]')
                 , rate = FwFormField.getValueByDataField($form, 'RateType');
-            console.log(response)
             if (response.CombineActivityTabs === false) {
                 $form.find('[data-datafield="Rental"] input').prop('checked') ? rentalTab.show() : rentalTab.hide();
                 $form.find('[data-datafield="Sales"] input').prop('checked') ? salesTab.show() : salesTab.hide();
