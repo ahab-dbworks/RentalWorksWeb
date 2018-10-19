@@ -51,6 +51,7 @@ RwOrderController.getContactSignatureScreen = function(viewModel, properties) {
                             }
                             RwServices.callMethod('ContractSignature', 'CreateContract', request, function (response) {
                                 if (response.createcontract.status === 0) {
+                                    properties.contract.contractId = response.createcontract.contractId;
                                     var $confirmation = FwConfirmation.renderConfirmation('Message', response.createcontract.msg);
                                     var $ok           = FwConfirmation.addButton($confirmation, 'OK', true);
                                     var $email = FwConfirmation.addButton($confirmation, 'E-Mail', true);

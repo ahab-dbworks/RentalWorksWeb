@@ -1,18 +1,12 @@
-using FwStandard.Models; 
-using Microsoft.AspNetCore.Mvc; 
-using Microsoft.Extensions.Options; 
-using WebApi.Controllers; 
-using System.Threading.Tasks;
-using System.IO;
-using FwCore.Controllers;
-using System;
-using System.Diagnostics;
+using FwStandard.Models;
 using FwStandard.Reporting;
-using System.Dynamic;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 using PuppeteerSharp;
-using PuppeteerSharp.Media;
+using System.Threading.Tasks;
+using WebApi.Controllers;
 
-namespace WebApi.Modules.Reports.ContractReport
+namespace WebApi.Modules.Reports.OutContractReport
 {
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "reports-v1")]
@@ -33,7 +27,7 @@ namespace WebApi.Modules.Reports.ContractReport
         //------------------------------------------------------------------------------------ 
         protected override string GetUniqueId(FwReportRenderRequest request)
         {
-            return request.parameters["contractid"].ToString().TrimEnd();
+            return request.parameters["ContractId"].ToString().TrimEnd();
         }
         //------------------------------------------------------------------------------------ 
         [HttpPost("render")]
@@ -47,7 +41,7 @@ namespace WebApi.Modules.Reports.ContractReport
         [HttpGet("{contractid}")]
         public async Task<ActionResult<OutContractReport>> GetContract([FromRoute] string contractid)
         {
-            OutContractReportRepository contractReportRepo = new OutContractReportRepository(this.AppConfig, this.UserSession);
+            OutContractReportLogic contractReportRepo = new OutContractReportLogic(this.AppConfig, this.UserSession);
             var contractReport = await contractReportRepo.Get(contractid);
             return new OkObjectResult(contractReport);
         }

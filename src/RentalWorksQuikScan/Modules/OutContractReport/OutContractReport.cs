@@ -72,8 +72,8 @@ namespace RentalWorksQuikScan.Modules
                 FwReportRenderRequest renderRequest = new FwReportRenderRequest();
                 renderRequest.downloadPdfAsAttachment = false;
                 renderRequest.parameters = new System.Collections.Generic.Dictionary<string, object>();
-                renderRequest.parameters["contractid"] = contractid;
-                renderRequest.renderMode = FwReportRenderModes.Email;
+                renderRequest.parameters["ContractId"] = contractid;
+                renderRequest.renderMode = "Email";
                 renderRequest.email = new FwReportEmailInfo();
                 renderRequest.email.from = from;
                 renderRequest.email.to = to;

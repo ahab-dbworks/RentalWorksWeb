@@ -6,13 +6,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WebApi.Modules.Reports.ContractReport
+namespace WebApi.Modules.Reports.OutContractReport
 {
-    public class OutContractReportRepository
+    public class OutContractReportLogic
     {
         private FwApplicationConfig _appConfig = null;
         private FwUserSession _userSession = null;
-        public OutContractReportRepository(FwApplicationConfig appConfig, FwUserSession userSession)
+        public OutContractReportLogic(FwApplicationConfig appConfig, FwUserSession userSession)
         {
             this._appConfig = appConfig;
             this._userSession = userSession;
@@ -136,6 +136,10 @@ namespace WebApi.Modules.Reports.ContractReport
             }
 
             OutContractReport report = taskContract.Result;
+            if (report == null)
+            {
+                throw new Exception($"Unable to find contractid: {contractid}.  Please verify that the calling application is connected to the same database as the API.");
+            }
             List<OutContractItem> rentalItems = new List<OutContractItem>();
             List<OutContractItem> salesItems = new List<OutContractItem>();
             Dictionary<string, List<OutContractItem>> groupRentalContractItemByMasterItemId = new Dictionary<string, List<OutContractItem>>();
