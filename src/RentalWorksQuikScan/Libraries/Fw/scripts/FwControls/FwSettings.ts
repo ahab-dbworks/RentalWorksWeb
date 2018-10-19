@@ -234,21 +234,27 @@ class FwSettingsClass {
         FwAppData.apiMethod(true, 'GET', applicationConfig.appbaseurl + applicationConfig.appvirtualdirectory + apiurl, null, null, function onSuccess(response) {
             let keys, browseKeys = [], rowId;
             let me = this;
-            let $browse = jQuery(jQuery('#tmpl-modules-' + moduleName + 'Browse').html());
+            let $browse = window[moduleName + 'Controller'].openBrowse();
             let colors = [];
             let browseData = [];
 
             FwBrowse.loadCustomBrowseFields($browse, moduleName);
 
             keys = $browse.find('.field');
-            rowId = jQuery(keys[0]).attr('data-datafield');
+            rowId = jQuery(keys[0]).attr('data-browsedatafield');
+
+            //append legend
+            if ($browse.find('.legend').length > 0) {
+                $body.append($browse.find('.legend')[0]);
+            }
+
             for (var i = 1; i < keys.length; i++) {
-                var Key = jQuery(keys[i]).attr('data-datafield');
-                var cellColor = $browse.find('div[data-datafield="' + Key + '"]').data('cellcolor')
+                var Key = jQuery(keys[i]).attr('data-browsedatafield');
+                var cellColor = $browse.find('div[data-browsedatafield="' + Key + '"]').data('cellcolor')
                 browseKeys.push(Key);
                 var fieldData = {};
-                if ($browse.find('div[data-datafield="' + Key + '"]').data('caption') !== undefined) {
-                    fieldData['caption'] = $browse.find('div[data-datafield="' + Key + '"]').data('caption');
+                if ($browse.find('div[data-browsedatafield="' + Key + '"]').data('caption') !== undefined) {
+                    fieldData['caption'] = $browse.find('div[data-browsedatafield="' + Key + '"]').data('caption');
                 } else {
                     fieldData['caption'] = Key;
                 };
@@ -260,7 +266,7 @@ class FwSettingsClass {
                     }
                 }
 
-                fieldData['datatype'] = $browse.find('div[data-datafield="' + Key + '"]').data('datatype');
+                fieldData['datatype'] = $browse.find('div[data-browsedatafield="' + Key + '"]').data('datatype');
                 fieldData['datafield'] = Key
                 browseData.push(fieldData)
 
@@ -514,7 +520,7 @@ class FwSettingsClass {
 
                 $this = jQuery(this);
                 moduleName = $this.closest('.panel-group').attr('id');
-                $browse = jQuery(jQuery('#tmpl-modules-' + moduleName + 'Browse').html());
+                $browse = window[moduleName + 'Controller'].openBrowse();
                 $modulecontainer = $control.find('#' + moduleName);
                 apiurl = window[moduleName + 'Controller'].apiurl;
                 $body = $control.find('#' + moduleName + '.panel-body');
@@ -523,19 +529,25 @@ class FwSettingsClass {
 
                 FwBrowse.loadCustomBrowseFields($browse, moduleName);
 
+
                 if ($body.is(':empty')) {
+                    //append legend
+                    if ($browse.find('.legend').length > 0) {
+                        $body.append($browse.find('.legend')[0]);
+                    }
+
                     FwAppData.apiMethod(true, 'GET', applicationConfig.appbaseurl + applicationConfig.appvirtualdirectory + apiurl, null, null, function onSuccess(response) {
                         $form = jQuery(jQuery('#tmpl-modules-' + moduleName + 'Form').html());
                         keys = $browse.find('.field');
-                        rowId = jQuery(keys[0]).attr('data-datafield');
+                        rowId = jQuery(keys[0]).attr('data-browsedatafield');
 
                         for (var i = 1; i < keys.length; i++) {
-                            var Key = jQuery(keys[i]).attr('data-datafield');
-                            var cellColor = $browse.find('div[data-datafield="' + Key + '"]').data('cellcolor')
+                            var Key = jQuery(keys[i]).attr('data-browsedatafield');
+                            var cellColor = $browse.find('div[data-browsedatafield="' + Key + '"]').data('cellcolor')
                             browseKeys.push(Key);
                             var fieldData = {};
-                            if ($browse.find('div[data-datafield="' + Key + '"]').data('caption') !== undefined) {
-                                fieldData['caption'] = $browse.find('div[data-datafield="' + Key + '"]').data('caption');
+                            if ($browse.find('div[data-browsedatafield="' + Key + '"]').data('caption') !== undefined) {
+                                fieldData['caption'] = $browse.find('div[data-browsedatafield="' + Key + '"]').data('caption');
                             } else {
                                 fieldData['caption'] = Key;
                             };
@@ -547,11 +559,11 @@ class FwSettingsClass {
                                 }
                             }
 
-                            fieldData['datatype'] = $browse.find('div[data-datafield="' + Key + '"]').data('datatype');
+                            fieldData['datatype'] = $browse.find('div[data-browsedatafield="' + Key + '"]').data('datatype');
                             fieldData['datafield'] = Key
                             browseData.push(fieldData)
 
-                            if (i === 1 && Key !== 'Inactive' || i === 2 && jQuery(keys[1]).attr('data-datafield') === 'Inactive') {
+                            if (i === 1 && Key !== 'Inactive' || i === 2 && jQuery(keys[1]).attr('data-browsedatafield') === 'Inactive') {
                                 for (var k = 0; k < response.length - 1; k++) {
                                     for (var l = 0, sorted; l < response.length - 1; l++) {
                                         if (response[l][Key].toLowerCase() > response[l + 1][Key].toLowerCase()) {

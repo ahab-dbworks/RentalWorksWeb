@@ -24,6 +24,10 @@
 .fwsettings div.well div.panel-group div.panel-primary div.panel-body { padding: 15px; border-top: 1px solid #ddd; border-top-color: #428bca;}
 
 .fwsettings div.well div.panel-group div.panel-primary div.panel-body { padding: 15px; border-top: 1px solid #ddd; border-top-color: #428bca;} 
+.fwsettings div.well div.panel-group div.panel-primary div.panel-body div.legend {padding:2px;overflow:hidden;background-color:#efefef;margin-bottom:20px;}
+.fwsettings div.well div.panel-group div.panel-primary div.panel-body div.legend div.legenditem {float:left;margin:0 5px 0 5px;}
+.fwsettings div.well div.panel-group div.panel-primary div.panel-body div.legend div.legenditem div.color {width:20px; height: 14px;float:left;}
+.fwsettings div.well div.panel-group div.panel-primary div.panel-body div.legend div.legenditem div.caption {float:left; margin: 0 0 0 5px;font-size:12px; font-weight:bold;cursor:default;}
 .fwsettings div.well div.panel-group div.panel-primary div.panel-body div.panel .panel-group { margin-bottom: 0; border-radius: 4px; } 
 .fwsettings div.well div.panel-group div.panel-primary div.panel-body div.panel-info { border-color: #bce8f1 } 
 .fwsettings div.well div.panel-group div.panel-primary div.panel-body div.panel-info div.row-heading { color: #31708f; background-color: #d9edf7; border-color: #bce8f1; padding: 10px 15px; display: flex; justify-content: space-between; } 
