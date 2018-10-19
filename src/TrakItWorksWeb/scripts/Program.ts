@@ -171,7 +171,7 @@ routes.push({ pattern: /^module\/dashboard$/, action: function (match: RegExpExe
 routes.push({ pattern: /^module\/contract$/, action: function (match: RegExpExecArray) { return ContractController.getModuleScreen(); } });
 
 //Reports
-routes.push({ pattern: /^module\/invoicesummaryreport/, action: function (match: RegExpExecArray) { return InvoiceSummaryReportController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/invoicesummaryreport/, action: function (match: RegExpExecArray) { return RwInvoiceSummaryReportController.getModuleScreen(); } });
 
 //Utilities Modules
 routes.push({ pattern: /^module\/chargeprocessing/, action: function (match: RegExpExecArray) { return ChargeProcessingController.getModuleScreen(); } });
