@@ -12,15 +12,14 @@
 
         FwBrowse.setAfterRenderRowCallback($control, ($tr: JQuery, dt: FwJsonDataTable, rowIndex: number) => {
             let originalquantity = $tr.find('[data-browsedatafield="Quantity"]').attr('data-originalvalue');
-            let trackedByValue = $tr.find('[data-browsedatafield="TrackedBy"]').attr('data-originalvalue');
-            let itemClassValue = $tr.find('[data-browsedatafield="ItemClass"]').attr('data-originalvalue');
+            let quantityOutValue = +$tr.find('[data-browsedatafield="QuantityOut"]').attr('data-originalvalue');
             let preventBubble = true;
             let $oldElement = $quantityColumn.find('div');
             let html: any = [];
             let $grid = $tr.parents('[data-grid="LossAndDamageItemGrid"]');
             let sessionId = $grid.data('sessionId');
 
-            if (trackedByValue === 'QUANTITY' && itemClassValue !== 'K') {
+            if (quantityOutValue !== 0) {
                 html.push('<button class="decrementQuantity" tabindex="-1" style="padding: 5px 0px; float:left; width:25%; border:none;">-</button>');
                 html.push('<div style="position:relative">');
                 html.push(`     <input class="fieldvalue" type="number" style="height:1.5em; width:40px; text-align:center;" value="${originalquantity}">`);
@@ -105,7 +104,7 @@
             } else {
                 $tr.find('.quantity').text('');
                 $tr.find('[data-browsedatafield="Quantity"]').attr('data-formreadonly', 'true');
-            } //end of trackedBy conditional
+            } //end of quantityOut conditional
         });
     }
 }

@@ -612,6 +612,7 @@ class Order extends OrderBase {
         if (status === 'CLOSED' || status === 'CANCELLED' || status === 'SNAPSHOT') {
             FwModule.setFormReadOnly($form);
         }
+
         var $orderPickListGrid = $form.find('[data-name="OrderPickListGrid"]');
         //FwBrowse.search($orderPickListGrid);
         var $orderStatusHistoryGrid;

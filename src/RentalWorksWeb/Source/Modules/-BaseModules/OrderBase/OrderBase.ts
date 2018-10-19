@@ -147,10 +147,7 @@ class OrderBase {
             , miscTab = $form.find('[data-type="tab"][data-caption="Misc"]')
             , laborTab = $form.find('[data-type="tab"][data-caption="Labor"]')
             , lossDamageTab = $form.find('[data-type="tab"][data-caption="Loss and Damage"]')
-            , usedSaleTab = $form.find('[data-type="tab"][data-caption="Used Sale"]')
-            , rentalVal = FwFormField.getValueByDataField($form, 'Rental')
-            , salesVal = FwFormField.getValueByDataField($form, 'Sales')
-            , usedSaleVal = FwFormField.getValueByDataField($form, 'RentalSale');
+            , usedSaleTab = $form.find('[data-type="tab"][data-caption="Used Sale"]');
 
         $form.find('[data-datafield="Rental"] input').on('change', e => {
             if (mode == "NEW") {
@@ -210,19 +207,36 @@ class OrderBase {
                 }
             }
         });
-        $form.find('[data-datafield="LossAndDamage"] input').on('change', e => {
-            if (jQuery(e.currentTarget).prop('checked')) {
-                lossDamageTab.show();
-                FwFormField.disable($form.find('[data-datafield="Rental"]'));
-                FwFormField.disable($form.find('[data-datafield="Sales"]'));
-                FwFormField.disable($form.find('[data-datafield="RentalSale"]'));
-            } else {
-                lossDamageTab.hide();
-                FwFormField.enable($form.find('[data-datafield="Rental"]'));
-                FwFormField.enable($form.find('[data-datafield="Sales"]'));
-                FwFormField.enable($form.find('[data-datafield="RentalSale"]'));
-            }
-        });
+        //$form.find('[data-datafield="LossAndDamage"] input').on('change', e => {
+        //    if (jQuery(e.currentTarget).prop('checked')) {
+        //        lossDamageTab.show();
+        //        FwFormField.disable($form.find('[data-datafield="Rental"]'));
+        //        FwFormField.disable($form.find('[data-datafield="Sales"]'));
+        //        FwFormField.disable($form.find('[data-datafield="RentalSale"]'));
+        //    } else {
+        //        lossDamageTab.hide();
+        //        console.log($form.data('anti-ld-checkboxes'))
+        //        FwFormField.enable($form.find('[data-datafield="Rental"]'));
+        //        FwFormField.enable($form.find('[data-datafield="Sales"]'));
+        //        FwFormField.enable($form.find('[data-datafield="RentalSale"]'));
+        //        $form.data('anti-ld-checkboxes', null)
+        //        console.log($form.data('anti-ld-checkboxes'))
+        //    }
+        //});
+        //// Determine previous values for enabled / disabled checkboxes
+        //$form.find('[data-datafield="LossAndDamage"]').click(e => {
+        //    let LossAndDamageVal = FwFormField.getValueByDataField($form, 'LossAndDamage')
+        //    if (LossAndDamageVal === false) {
+        //        let salesEnabled = $form.find('[data-datafield="Sales"]').attr('data-enabled');
+        //        let rentalEnabled = $form.find('[data-datafield="Rental"]').attr('data-enabled');
+        //        let rentalSalesEnabled = $form.find('[data-datafield="RentalSale"]').attr('data-enabled');
+        //        $form.data('anti-ld-checkboxes', {
+        //            "salesEnabled": salesEnabled,
+        //            "rentalEnabled": rentalEnabled,
+        //            "rentalSalesEnabled": rentalSalesEnabled
+        //        });
+        //    }
+        //});
         $form.find('[data-datafield="Labor"] input').on('change', e => {
             if (mode == "NEW") {
                 if (jQuery(e.currentTarget).prop('checked')) {
@@ -265,7 +279,11 @@ class OrderBase {
             }
         });
         // Loss and Damage disable against Rental, Sales, Used Sale
+        // Also in AfterLoad
         $form.find('.anti-LD').on('change', e => {
+            let rentalVal = FwFormField.getValueByDataField($form, 'Rental');
+            let salesVal = FwFormField.getValueByDataField($form, 'Sales');
+            let usedSaleVal = FwFormField.getValueByDataField($form, 'RentalSale');
             if (rentalVal === true || salesVal === true || usedSaleVal === true) {
                 FwFormField.disable($form.find('[data-datafield="LossAndDamage"]'));
             } else if (rentalVal === false && salesVal === false && usedSaleVal === false) {
@@ -1541,7 +1559,15 @@ class OrderBase {
             }
             $tab.addClass('tabGridsLoaded');
         });
-
+        // LD Disable checkbox in Order form
+        //let rentalVal = FwFormField.getValueByDataField($form, 'Rental');
+        //let salesVal = FwFormField.getValueByDataField($form, 'Sales');
+        //let usedSaleVal = FwFormField.getValueByDataField($form, 'RentalSale');
+        //if (rentalVal === true || salesVal === true || usedSaleVal === true) {
+        //    FwFormField.disable($form.find('[data-datafield="LossAndDamage"]'));
+        //} else if (rentalVal === false && salesVal === false && usedSaleVal === false) {
+        //    FwFormField.enable($form.find('[data-datafield="LossAndDamage"]'));
+        //}
         //Show/hide summary buttons based on rate type
         $form.find('.summaryperiod').addClass('pressed');
         let rateType = FwFormField.getValueByDataField($form, 'RateType');
