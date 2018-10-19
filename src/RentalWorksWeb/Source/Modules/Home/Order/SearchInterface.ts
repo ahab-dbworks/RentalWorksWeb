@@ -34,6 +34,7 @@ class SearchInterface {
   <div class="flexpage">
     <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield fwformcontrol" data-datafield="ParentFormId" style="display:none"></div>
     <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield fwformcontrol" data-datafield="WarehouseId" style="display:none"></div>
+    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield fwformcontrol" data-datafield="ColumnsToHide" style="display:none"></div>
     <div id="inventoryView" style="display:none"></div>
     <div id="type" style="display:none">${type}</div>
     <div class="fwmenu default">
@@ -88,7 +89,7 @@ class SearchInterface {
             <div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield fwformcontrol select" data-caption="Select" data-datafield="Select" style="flex: 0 1 150px;"></div>
             <div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield fwformcontrol sortby" data-caption="Sort By" data-datafield="SortBy" style="flex: 0 1 255px;"></div>
           </div>
-          <div class="flexrow" style="max-width:100%;">
+          <div class="flexrow" style="max-width:100%; z-index:2;">
             <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield fwformcontrol" data-caption="Search" data-datafield="SearchBox" style="flex: 0 1 400px;"></div>
             <div data-type="button" class="invviewbtn fwformcontrol listbutton"><i class="material-icons" style="margin-top: 5px;">&#xE8EE;</i></div>
             <div data-type="button" class="invviewbtn fwformcontrol listgridbutton"><i class="material-icons" style="margin-top: 5px;">&#xE8EF;</i></div>
@@ -98,7 +99,7 @@ class SearchInterface {
               <div class="options" style="display:none;">
                 <div class="flexcolumn">
                     <div data-datafield="Columns" data-control="FwFormField" data-type="checkboxlist" class="fwcontrol fwformfield columnOrder" data-caption="Select columns to display in Results" data-sortable="true" data-orderby="true" style="margin-top: 10px"></div>
-                    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield fwformcontrol toggleAccessories" data-caption="Disable Auto-Expansion of Accessories" data-datafield="DisableAccessoryAutoExpand"></div>
+                    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield fwformcontrol toggleAccessories" data-caption="Disable Auto-Expansion of Complete/Kit Accessories" data-datafield="DisableAccessoryAutoExpand"></div>
                     <div>
                        <div data-type="button" class="fwformcontrol applyOptions" style="width:45px; float:right; margin:10px;">Apply</div>
                     </div>
@@ -119,7 +120,7 @@ class SearchInterface {
                 <div style="width:10%">Qty</div>
                 <div class="hideColumns" style="width:8%;">Available</div>
                 <div class="hideColumns" style="width:10%;">Conflict <div>Date</div></div>
-                <div class="hideColumns" style="width:8%;">All WH</div>
+                <div class="hideColumns" style="width:8%;">All Wh</div>
                 <div class="hideColumns" style="width:8%;">In</div>
                 <div class="hideColumns" style="width:8%;">QC</div>
                 <div style="width:8%;">Rate</div>
@@ -132,7 +133,7 @@ class SearchInterface {
                 <div style="width:9%;">Sub Category</div>
                 <div class="hideColumns" style="width:8%;">Available</div>
                 <div class="hideColumns" style="width:6%;">Conflict <div>Date</div></div>
-                <div class="hideColumns" style="width:6%;">All WH</div>
+                <div class="hideColumns" style="width:6%;">All Wh</div>
                 <div class="hideColumns" style="width:6%;">In</div>
                 <div class="hideColumns" style="width:6%;">QC</div>
                 <div style="width:6%;">Rate</div>
@@ -229,14 +230,16 @@ class SearchInterface {
             //Render options sortable column list
             if (response.ResultFields) {
                 columns = JSON.parse(response.ResultFields);
-
                 FwFormField.loadItems($popup.find('div[data-datafield="Columns"]'), columns);
-                var columnSort = Sortable.create($popup.find('div[data-datafield="Columns"]'), {
-                    onEnd: function (evt) {
-                        $form.attr('data-modified', 'true');
-                        $form.find('.btn[data-type="SaveMenuBarButton"]').removeClass('disabled');
+
+                let columnsToHide = [];
+                for (let i = 0; i < columns.length; i++) {
+                    let $this = columns[i];
+                    if ($this.selected == 'F') {
+                        columnsToHide.push($this.value);
                     }
-                })
+                }
+                FwFormField.setValueByDataField($popup, 'ColumnsToHide', columnsToHide.join(','));
             } else {
                 FwFormField.loadItems($popup.find('div[data-datafield="Columns"]'),
                     [{ value: 'Description', text: 'Description', selected: 'T' },
@@ -249,13 +252,6 @@ class SearchInterface {
                     { value: 'Rate', text: 'Rate', selected: 'T' }]);
             }
 
-
-            //if (response.Rows.length !== 0) {
-            //    $popup.find('.tab[data-caption="Preview"] .caption').text(`Preview (${response.Rows.length})`);
-
-            //    FwNotification.renderNotification('WARNING', 'There are items from a previous Search session that have not been added.  Click the Preview tab to view.');
-
-            //}
             if (response.DisableAccessoryAutoExpand) {
                 FwFormField.setValueByDataField($popup, 'DisableAccessoryAutoExpand', true);
             }
@@ -329,6 +325,17 @@ class SearchInterface {
                 break;
         };
         mainTypeBreadCrumb.append('<div style="float:right;">&#160; &#160; &#47; &#160; &#160;</div>');
+
+        //Display # of items from previous session in preview tab
+        FwAppData.apiMethod(true, 'GET', `api/v1/inventorysearch/gettotal/${id}`, null, FwServices.defaultTimeout, function onSuccess(response) {
+             if (response.TotalQuantityInSession) {
+                 $popup.find('.tab[data-caption="Preview"] .caption').text(`Preview (${response.TotalQuantityInSession})`);
+
+                FwNotification.renderNotification('WARNING', 'There are items from a previous Search session that have not been added.  Click the Preview tab to view.');
+
+            }
+        }, null, null);
+
 
         //Hide columns based on type
         if (type === 'PurchaseOrder' || type === 'Template') {
@@ -710,7 +717,7 @@ class SearchInterface {
                     <div data-control="FwFormField" data-type="text" data-datafield="SubCategory" data-caption="Type" class="showWhenExpanded fwcontrol fwformfield" data-enabled="false" style="display:none;text-align:center"><span>Sub Category</span><br />${response.Rows[i][subCategoryIndex]}</div>
                     <div data-control="FwFormField" data-type="number" data-datafield="QuantityAvailable" data-caption="Available" class="hideColumns fwcontrol fwformfield" data-enabled="false" style="text-align:center"><span>Available</span><br />${response.Rows[i][quantityAvailable]}</div>
                     <div data-control="FwFormField" data-type="text" data-caption="Conflict Date" data-datafield="ConflictDate" class="hideColumns fwcontrol fwformfield" data-enabled="false" style="text-align:center"><span>Conflict</span><br />${response.Rows[i][conflictDate] ? response.Rows[i][conflictDate] : "N/A"}</div>
-                    <div data-control="FwFormField" data-type="text" data-caption="All WH" data-datafield="AllWH" class="hideColumns fwcontrol fwformfield" data-enabled="false" style="white-space:pre"><span>All WH</span><br />&#160;</div>
+                    <div data-control="FwFormField" data-type="text" data-caption="All Wh" data-datafield="AllWH" class="hideColumns fwcontrol fwformfield" data-enabled="false" style="white-space:pre"><span>All Wh</span><br />&#160;</div>
                     <div class="quantitycontainer">
                       <div data-control="FwFormField" data-type="number" data-datafield="QuantityIn" data-caption="In" class="hideColumns fwcontrol fwformfield" data-enabled="false" style="text-align:center"><span>In</span><br />${response.Rows[i][quantityIn]}</div>
                       <div data-control="FwFormField" data-type="number" data-datafield="QuantityQcRequired" data-caption="QC" class="hideColumns fwcontrol fwformfield" data-enabled="false" style="text-align:center"><span>QC</span><br />${response.Rows[i][quantityQcRequired]}</div>
@@ -776,6 +783,7 @@ class SearchInterface {
             subCategory = $inventory.find('[data-datafield="SubCategory"]'),
             $searchpopup = jQuery('#searchpopup'),
             expandedInventoryView = $searchpopup.find('#inventory').hasClass('expandedInventoryView');
+
         if (expandedInventoryView) {
             $searchpopup.find('.hideOnExpand').hide();
             $searchpopup.find('.formoptions').css({ 'max-width': '1650px' });
@@ -859,6 +867,12 @@ class SearchInterface {
                 subCategory.css({ 'float': 'left', 'width': '9%', 'min-height': '1px', 'padding-top': '1em' });
                 break;
         }
+
+        let columnsToHide = FwFormField.getValueByDataField($searchpopup, 'ColumnsToHide').split(',');
+    
+        for (let i = 0; i < columnsToHide.length; i++) {
+            $searchpopup.find(`[data-datafield="${columnsToHide[i]}"]`).hide();
+        };
     };
 
     breadCrumbs($popup) {
@@ -888,6 +902,7 @@ class SearchInterface {
             , $searchpopup
             , userId;
 
+        const $options = $popup.find('.options');
         userId = JSON.parse(sessionStorage.getItem('userid'));
         hasItemInGrids = false;
         warehouseId = FwFormField.getValueByDataField($form, 'WarehouseId');
@@ -913,26 +928,54 @@ class SearchInterface {
             //hides options when clicked outside of div
             jQuery(document).one('click', function closeMenu(e) {
                 $popup.find('.options').css('display', 'none');
-            })
+            });
+
+            $options.on('click', e => {
+                if (!jQuery(e.target).is('div.applyOptions')) {
+                    e.stopPropagation();
+                }
+            });
         });
 
         //Apply options and close options menu
         $popup.on('click', '.applyOptions', e => {
-            const $options = $popup.find('.options');
             let request: any = {};
             let expandAccessories = FwFormField.getValue2($popup.find('[data-datafield="DisableAccessoryAutoExpand"]'));
             expandAccessories == "T" ? expandAccessories = true : expandAccessories = false;
-            let columns = FwFormField.getValueByDataField($popup, 'Columns');
+            let $columns = $popup.find('[data-datafield="Columns"] li');
+            let selectedColumns = [];
+            let notSelectedColumns = [];
 
-            
+            for (let i = 0; i < $columns.length; i++) {
+                let $this = jQuery($columns[i]);
+                let column: any = {};
+                if ($this.attr('data-selected') == 'T') {
+                    column.value = $this.attr('data-value');
+                    column.text = $this.attr('data-value');
+                    column.selected = 'T';
+                    selectedColumns.push(column);
+                } else {
+                    column.value = $this.attr('data-value');
+                    column.text = $this.attr('data-value');
+                    column.selected = 'F';
+                    notSelectedColumns.push(column);
+                }
+            }
+            Array.prototype.push.apply(selectedColumns, notSelectedColumns);
+
+            request.ResultFields = JSON.stringify(selectedColumns);
             request.WebUserId = userId.webusersid;
             request.DisableAccessoryAutoExpand = expandAccessories;
             FwAppData.apiMethod(true, 'POST', "api/v1/usersearchsettings/", request, FwServices.defaultTimeout, function onSuccess(response) {
+                let columnsToHide = notSelectedColumns.map(a => a.value);
+                FwFormField.setValueByDataField($popup, 'ColumnsToHide', columnsToHide.join(','));
 
+                let $inventory = $popup.find('div.card');
+                let gridView = $popup.find('#inventoryView').val();
                 if (expandAccessories) {
                     $popup.find('.accContainer').css('display', 'none');
                 }
-                $options.css('display', 'none');
+                self.listGridView($inventory, gridView);
             }, null, $searchpopup);
         });
 
@@ -1411,7 +1454,7 @@ class SearchInterface {
             html.push('     <div style="float:left; width:10%;">Qty</div>');
             html.push('     <div style="float:left; width:8%;" class="hideColumns">Available</div>');
             html.push('     <div style="float:left; width:10%;" class="hideColumns">Conflict Date</div>');
-            html.push('     <div style="float:left; width:8%;" class="hideColumns">All WH</div>');
+            html.push('     <div style="float:left; width:8%;" class="hideColumns">All Wh</div>');
             html.push('     <div style="float:left; width:8%;" class="hideColumns">In</div>');
             html.push('     <div style="float:left; width:8%;" class="hideColumns">QC</div>');
             html.push('     <div style="float:left; width:8%;">Rate</div>');
