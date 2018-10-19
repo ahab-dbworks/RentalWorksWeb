@@ -904,11 +904,13 @@ class Order extends OrderBase {
             let orderId, $selectedCheckBoxes: any, orderIds: string = '', request: any = {};
             $selectedCheckBoxes = $browse.find('.cbselectrow:checked');
             if ($selectedCheckBoxes.length !== 0) { 
-                for (let i = 1; i < $selectedCheckBoxes.length; i++) {
+                for (let i = 0; i < $selectedCheckBoxes.length; i++) {
                     orderId = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="OrderId"]').attr('data-originalvalue');
-                    orderIds = orderIds.concat(', ', orderId);
+                    if (orderId) {
+                        orderIds = orderIds.concat(', ', orderId);
+                    }
                 }
-                orderIds = orderIds.substring(1);
+                orderIds = orderIds.substring(2);
 
                 request.OrderIds = orderIds;
                 request.DealId = dealId;
