@@ -266,6 +266,7 @@ namespace WebLibrary.Security
 
             var lv2menuSalesInventoryReports  = AddReportsMenu("Sales Inventory Reports",               "{63978CEE-0A14-4926-AB15-88378B2F3A7A}", lv1menuReports.Id,                                                                                                          reportsiconbaseurl + "placeholder.png");
                                                        AddReportsModule("Sales Inventory Transactions", "{DEC28EAB-7D64-4A8C-ACBB-CB72706B818F}", lv2menuSalesInventoryReports.Id,  "RwSalesInventoryTransactionReportController",  "module/salesinventorytransactionreport", reportsiconbaseurl + "placeholder.png", "Sales Inventory Transactions", "", "", description: "List all Sales Inventory Transactions, including Cost and Price, over a specific date range.");
+                                                       AddReportsModule("Sales Inventory Reorder",      "{7F0AF306-CA9A-489C-9F91-86AEF0FC75EB}", lv2menuSalesInventoryReports.Id,  "RwSalesInventoryReorderReportController",      "module/salesinventoryreorderreport",     reportsiconbaseurl + "placeholder.png", "Sales Inventory Reorder", "", "", description: "");
 
             AddModule("Print Order",           "{8B69F4A5-5617-45D1-84BB-E5ED6B2F031D}", null, "RwPrintOrderController", "module/printorder", homeiconbaseurl + "placeholder.png", "Print Order", "", "");
 
