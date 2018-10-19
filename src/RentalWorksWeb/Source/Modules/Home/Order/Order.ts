@@ -885,6 +885,17 @@ class Order extends OrderBase {
             $browse.attr('data-hasmultirowselect', 'true');
             $browse.attr('data-type', 'Grid');
             $browse.attr('data-showsearch', 'false');
+            FwBrowse.setAfterRenderRowCallback($browse, function ($tr, dt, rowIndex) {
+                if (dt.Rows[rowIndex][dt.ColumnIndex['Status']] === 'CANCELLED') {
+                    $tr.css('color', '#aaaaaa');
+                }
+            });
+            //var location = JSON.parse(sessionStorage.getItem('location'));
+            //self.ActiveView = 'LocationId=' + location.locationid;
+
+            //$browse.data('ondatabind', function (request) {
+            //    request.activeview = self.ActiveView;
+            //});
             $browse = FwModule.openBrowse($browse);
 
             $browse.data('ondatabind', function (request) {
