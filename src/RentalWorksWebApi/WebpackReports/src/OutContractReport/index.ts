@@ -23,7 +23,7 @@ export class OutContractReport extends WebpackReport {
             let contract = new OutContract();
 
             // get the Contract
-            let contractPromise = Ajax.get<OutContract>(`${apiUrl}/api/v1/outcontractreport/${parameters.contractid}`, authorizationHeader)
+            let contractPromise = Ajax.get<OutContract>(`${apiUrl}/api/v1/outcontractreport/${parameters.ContractId}`, authorizationHeader)
                 .then((response: OutContract) => {
                     contract = response;
                     contract.PrintTime = moment().format('YYYY-MM-DD h:mm:ss A');
