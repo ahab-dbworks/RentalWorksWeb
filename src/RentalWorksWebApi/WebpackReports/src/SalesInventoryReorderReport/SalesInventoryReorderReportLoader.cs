@@ -3,52 +3,39 @@ using FwStandard.Models;
 using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
-using System.Collections.Generic;
-using System;
-using WebLibrary;
 using System.Threading.Tasks;
 using System.Data;
 using System.Reflection;
-namespace WebApi.Modules.Reports.RentalInventoryValueReport
+using WebLibrary;
+
+namespace WebApi.Modules.Reports.SalesInventoryReorderReport
 {
-    public class RentalInventoryValueReportLoader : AppDataLoadRecord
+    public class SalesInventoryReorderReportLoader : AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "rowtype", modeltype: FwDataTypes.Text)]
         public string RowType { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "masterid", modeltype: FwDataTypes.Text)]
+        public string InventoryId { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "warehouseid", modeltype: FwDataTypes.Text)]
         public string WarehouseId { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "warehouse", modeltype: FwDataTypes.Text)]
-        public string Warehouse { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "whcode", modeltype: FwDataTypes.Text)]
         public string WarehouseCode { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "inventorydepartmentid", modeltype: FwDataTypes.Text)]
-        public string InventoryTypeId { get; set; }
+        [FwSqlDataField(column: "warehouse", modeltype: FwDataTypes.Text)]
+        public string Warehouse { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "inventorydepartment", modeltype: FwDataTypes.Text)]
         public string InventoryType { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "categoryid", modeltype: FwDataTypes.Text)]
-        public string CategoryId { get; set; }
-        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "category", modeltype: FwDataTypes.Text)]
         public string Category { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "subcategoryid", modeltype: FwDataTypes.Text)]
-        public string SubCategoryId { get; set; }
-        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "subcategory", modeltype: FwDataTypes.Text)]
         public string SubCategory { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "categorysubcategory", modeltype: FwDataTypes.Text)]
-        public string CategorySubCategory { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "masterid", modeltype: FwDataTypes.Text)]
-        public string InventoryId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "masterno", modeltype: FwDataTypes.Text)]
         public string ICode { get; set; }
@@ -56,42 +43,61 @@ namespace WebApi.Modules.Reports.RentalInventoryValueReport
         [FwSqlDataField(column: "master", modeltype: FwDataTypes.Text)]
         public string Description { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "changedate", modeltype: FwDataTypes.Date)]
-        public string ChangeDate { get; set; }
+        [FwSqlDataField(column: "trackedby", modeltype: FwDataTypes.Text)]
+        public string TrackedBy { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "changetype", modeltype: FwDataTypes.Text)]
-        public string ChangeType { get; set; }
+        [FwSqlDataField(column: "unit", modeltype: FwDataTypes.Text)]
+        public string Unit { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "changedesc", modeltype: FwDataTypes.Text)]
-        public string ChangeDescription { get; set; }
+        [FwSqlDataField(column: "unitcost", modeltype: FwDataTypes.Decimal)]
+        public decimal? UnitCost { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "qty", modeltype: FwDataTypes.Decimal)]
         public decimal? Quantity { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "value", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
-        public decimal? UnitValue { get; set; }
+        [FwSqlDataField(column: "qtyallocated", modeltype: FwDataTypes.Decimal)]
+        public decimal? QuantityAllocated { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "extendedvalue", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
-        public decimal? ExtendedValue { get; set; }
+        [FwSqlDataField(column: "qtystaged", modeltype: FwDataTypes.Decimal)]
+        public decimal? QuantityStaged { get; set; }
         //------------------------------------------------------------------------------------ 
-        public async Task<FwJsonDataTable> RunReportAsync(RentalInventoryValueReportRequest request)
+        [FwSqlDataField(column: "qtyintransit", modeltype: FwDataTypes.Decimal)]
+        public decimal? QuantityInTransit { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "qtyonpo", modeltype: FwDataTypes.Decimal)]
+        public decimal? QuantityOnPo { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "reorderpoint", modeltype: FwDataTypes.Decimal)]
+        public decimal? ReorderPoint { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "reorderqty", modeltype: FwDataTypes.Decimal)]
+        public decimal? ReorderQuantity { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "lastpurchasedate", modeltype: FwDataTypes.Date)]
+        public string LastPurchaseDate { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "lastpurchaseqty", modeltype: FwDataTypes.Decimal)]
+        public decimal? LastPurchaseQuantity { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "lastpurchasevendor", modeltype: FwDataTypes.Text)]
+        public string LastPurchaseVendor { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "lastsaledate", modeltype: FwDataTypes.Date)]
+        public string LastSaleDate { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "orderby", modeltype: FwDataTypes.Text)]
+        public string OrderBy { get; set; }
+        //------------------------------------------------------------------------------------ 
+        public async Task<FwJsonDataTable> RunReportAsync(SalesInventoryReorderReportRequest request)
         {
             FwJsonDataTable dt = null;
             using (FwSqlConnection conn = new FwSqlConnection(AppConfig.DatabaseSettings.ConnectionString))
             {
-                using (FwSqlCommand qry = new FwSqlCommand(conn, "getinventoryvaluerpt", this.AppConfig.DatabaseSettings.QueryTimeout))
+                using (FwSqlCommand qry = new FwSqlCommand(conn, "getinventoryreorderrpt", this.AppConfig.DatabaseSettings.QueryTimeout))
                 {
-                    qry.AddParameter("@availfor", SqlDbType.Text, ParameterDirection.Input, RwConstants.INVENTORY_AVAILABLE_FOR_RENT);
-                    qry.AddParameter("@fromdate", SqlDbType.Date, ParameterDirection.Input, request.FromDate);
-                    qry.AddParameter("@todate", SqlDbType.Date, ParameterDirection.Input, request.ToDate);
-                    qry.AddParameter("@includeowned", SqlDbType.Text, ParameterDirection.Input, request.IncludeOwned.GetValueOrDefault(false) ? "T" : "F");
-                    qry.AddParameter("@includeconsigned", SqlDbType.Text, ParameterDirection.Input, request.IncludeConsigned.GetValueOrDefault(false) ? "T" : "F");
-                    qry.AddParameter("@includezeroqty", SqlDbType.Text, ParameterDirection.Input, request.IncludeZeroQuantity.GetValueOrDefault(false) ? "T" : "F");
-                    qry.AddParameter("@groupbyicode", SqlDbType.Text, ParameterDirection.Input, request.GroupByICode.GetValueOrDefault(false) ? "T" : "F");
-                    qry.AddParameter("@serializedvaluebasedon", SqlDbType.Text, ParameterDirection.Input, request.SerializedValueBasedOn);
-                    qry.AddParameter("@ranks", SqlDbType.Text, ParameterDirection.Input, request.Ranks.ToString());
-                    qry.AddParameter("@trackedbys", SqlDbType.Text, ParameterDirection.Input, request.TrackedBys.ToString());
-                    qry.AddParameter("@summary", SqlDbType.Text, ParameterDirection.Input, request.Summary.GetValueOrDefault(false) ? "T" : "F");
+                    qry.AddParameter("@availfor", SqlDbType.Text, ParameterDirection.Input, RwConstants.INVENTORY_AVAILABLE_FOR_SALE);
+                    qry.AddParameter("@mode", SqlDbType.Text, ParameterDirection.Input, request.ReorderPointMode);
+                    qry.AddParameter("@includezeroreorderpoint", SqlDbType.Text, ParameterDirection.Input, request.IncludeZeroReorderPoint.GetValueOrDefault(false) ? "T" : "F");
                     qry.AddParameter("@warehouseid", SqlDbType.Text, ParameterDirection.Input, request.WarehouseId);
                     qry.AddParameter("@inventorydepartmentid", SqlDbType.Text, ParameterDirection.Input, request.InventoryTypeId);
                     qry.AddParameter("@categoryid", SqlDbType.Text, ParameterDirection.Input, request.CategoryId);
@@ -101,16 +107,11 @@ namespace WebApi.Modules.Reports.RentalInventoryValueReport
                     dt = await qry.QueryToFwJsonTableAsync(false, 0);
                 }
             }
-
-            string[] totalFields = new string[] { "Quantity", "ExtendedValue" };
+            string[] totalFields = new string[] { "Quantity", "QuantityAllocated", "QuantityStaged", "QuantityInTransit", "QuantityOnPo", "LastPurchaseQuantity" };
             dt.InsertSubTotalRows("Warehouse", "RowType", totalFields);
             dt.InsertSubTotalRows("InventoryType", "RowType", totalFields);
             dt.InsertSubTotalRows("Category", "RowType", totalFields);
-            dt.InsertSubTotalRows("SubCategory", "RowType", totalFields);
-            if (!request.Summary.GetValueOrDefault(false))
-            {
-                dt.InsertSubTotalRows("ICode", "RowType", totalFields);
-            }
+            dt.InsertSubTotalRows("ICode", "RowType", totalFields);
             dt.InsertTotalRow("RowType", "detail", "grandtotal", totalFields);
             return dt;
         }

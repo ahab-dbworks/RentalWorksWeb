@@ -304,7 +304,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"FromDate\": \"01/01/2018\",\r\n  \"ToDate\": \"12/31/2018\",\r\n  \"DateType\": \"E\",                        \"DateTypeComment\": \"B-Billing Stop Date E-Estimated Rental Stop Date\",\r\n  \"IncludeBlankPages\": false,\r\n  \"IncludeFullImages\": true,\r\n  \"IncludeThumbnailImages\": false,\r\n  \"OfficeLocationId\": \"B001WH00\",\r\n  \"DepartmentId\": \"\",\r\n  \"CustomerId\": \"\",\r\n  \"DealId\": \"\",\r\n  \"OrderUnitId\": \"\",\r\n  \"OrderTypeId\": \"\",\r\n  \"OrderId\": \"\",\r\n  \"ContractId\": \"\",\r\n  \"InventoryTypeId\": \"\",\r\n  \"CategoryId\": \"\",\r\n  \"SubCategoryId\": \"\",\r\n  \"InventoryId\": \"\"\r\n}"
+							"raw": "{\r\n  \"FromDate\": \"01/01/2018\",\r\n  \"ToDate\": \"12/31/2018\",\r\n  \"DateType\": \"E\",                        \"DateTypeComment\": \"B-Billing Stop Date E-Estimated Rental Stop Date\",\r\n  \"IncludeBlankPages\": false,\r\n  \"IncludeFullImages\": false,\r\n  \"IncludeThumbnailImages\": false,\r\n  \"OfficeLocationId\": \"B001WH00\",\r\n  \"DepartmentId\": \"\",\r\n  \"CustomerId\": \"\",\r\n  \"DealId\": \"\",\r\n  \"OrderUnitId\": \"\",\r\n  \"OrderTypeId\": \"\",\r\n  \"OrderId\": \"\",\r\n  \"ContractId\": \"\",\r\n  \"InventoryTypeId\": \"\",\r\n  \"CategoryId\": \"\",\r\n  \"SubCategoryId\": \"\",\r\n  \"InventoryId\": \"\"\r\n}"
 						},
 						"url": {
 							"raw": "http://localhost:57949/api/v1/dealoutstandingitemsreport/runreport",
@@ -637,6 +637,46 @@
 								"api",
 								"v1",
 								"rentalinventoryvaluereport",
+								"runreport"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Sales Inventory Reorder Report",
+			"item": [
+				{
+					"name": "Sales Inventory Reorder Report: Run Report",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "\t{\n    \t\t\"ReorderPointMode\": \"LTE\",             \"ReorderPointModeComment\": \" LT  - quantity less than reorder point\n                                                                                LTE - quantity less than or equal to reorder point\n                                                                                E   - quantity equal to reorder point\n                                                                                GT  - quantity greater than reorder point\n                                                                                GTE - quantity greater than or equal to reorder point\n                                                                                ALL - all items regardless of quantity or reorder point\",\n    \t\t\"IncludeZeroReorderPoint\": false,\n    \t\t\"WarehouseId\": \"B0029AY5\",\n    \t\t\"InventoryTypeId\": \"\",\n    \t\t\"CategoryId\": \"\",\n    \t\t\"SubCategoryId\": \"\",\n    \t\t\"InventoryId\": \"\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/salesinventoryreorderreport/runreport",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"salesinventoryreorderreport",
 								"runreport"
 							]
 						}
