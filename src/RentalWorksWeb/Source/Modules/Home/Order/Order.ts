@@ -920,7 +920,7 @@ class Order extends OrderBase {
                         $popup.find('.container').html('<div class="formrow"><div data-control="FwGrid" data-grid="LossAndDamageItemGrid" data-securitycaption=""></div></div>');
                         $popup.find('.add-button').hide();
                         $popup.find('.session-buttons').show();
-                        let $lossAndDamageItemGrid;
+                        let $lossAndDamageItemGrid
                         $lossAndDamageItemGrid = $popup.find('div[data-grid="LossAndDamageItemGrid"]');
                         $lossAndDamageItemGridControl = jQuery(jQuery('#tmpl-grids-LossAndDamageItemGridBrowse').html());
                         $lossAndDamageItemGrid.data('sessionId', sessionId);
@@ -960,7 +960,8 @@ class Order extends OrderBase {
                 FwAppData.apiMethod(true, 'POST', `api/v1/lossanddamage/completesession`, request, FwServices.defaultTimeout, function onSuccess(response) {
                     if (response.success === true) {
                         FwPopup.destroyPopup($popup);
-                        FwBrowse.search($lossAndDamageItemGridControl);
+                        let $orderItemGridLossDamage = $form.find('.lossdamagegrid [data-name="OrderItemGrid"]');
+                        FwBrowse.search($orderItemGridLossDamage);
                     } else {
                         FwConfirmation.renderConfirmation('ERROR', 'Error')
                     }
@@ -983,7 +984,7 @@ class Order extends OrderBase {
                     }
                 }, function onError(response) {
                     FwFunc.showError(response);
-                }, $popup);
+                }, null);
             });
             // Select None
             $popup.find('.selectnone').on('click', e => {
@@ -995,14 +996,14 @@ class Order extends OrderBase {
                     $popup.find('.error-msg').html('');
                     if (response.success === false) {
                         errorSound.play();
+                        FwBrowse.search($lossAndDamageItemGridControl);
                         $popup.find('div.error-msg').html(`<div style="margin:0px 0px 0px 8px;"><span style="padding:0px 4px 0px 4px;font-size:22px;border-radius:2px;background-color:red;color:white;">${response.msg}</span></div>`);
                     } else {
                         successSound.play();
-                        FwBrowse.search($lossAndDamageItemGridControl);
                     }
                 }, function onError(response) {
                     FwFunc.showError(response);
-                }, $popup);
+                }, null);
             });
             //Options button
             $popup.find('.options-button').on('click', e => {
