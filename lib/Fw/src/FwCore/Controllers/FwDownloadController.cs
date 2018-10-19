@@ -26,7 +26,10 @@ namespace FwCore.Controllers
         public static string GetDownloadsDirectory()
         {
             string directory = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot" + Path.DirectorySeparatorChar + "temp" + Path.DirectorySeparatorChar + "downloads");
-            Directory.CreateDirectory(directory);
+            if (!Directory.Exists(directory))
+            {
+                Directory.CreateDirectory(directory);
+            }
             return directory;
         }
         //------------------------------------------------------------------------------------

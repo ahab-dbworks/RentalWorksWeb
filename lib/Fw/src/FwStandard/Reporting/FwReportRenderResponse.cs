@@ -8,8 +8,7 @@ namespace FwStandard.Reporting
 {
     public class FwReportRenderResponse
     {
-        [JsonConverter(typeof(StringEnumConverter))]
-        public FwReportRenderModes renderMode { get; set; }
+        public string renderMode { get; set; }
         public string htmlReportUrl { get; set; }
         public string pdfReportUrl { get; set; }
         public string consoleOutput { get; set; }

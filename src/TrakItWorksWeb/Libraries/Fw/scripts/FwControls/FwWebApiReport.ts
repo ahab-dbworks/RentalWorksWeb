@@ -153,12 +153,13 @@ class FwWebApiReport {
                     request.renderMode = 'Pdf';
                     request.downloadPdfAsAttachment = false;
                     request.parameters = this.getParameters($form);
+                    var win = window.open('about:blank', 'newtab');
                     FwAppData.apiMethod(true, 'POST', me.apiurl + '/render', request, timeout,
                         (successResponse: RenderResponse) => {
                             try {
-                                let win = window.open(successResponse.pdfReportUrl);
-                                let startTime = new Date();
-                                let setWindowTitle = () => {
+                                win.location.href = successResponse.pdfReportUrl;
+                                if (win == null) throw 'Unable to open the report in a new window.  Please check your popupblocker.'
+                                var setWindowTitle = () => {
                                     if (win.document) // If loaded
                                     {
                                         win.document.title = "Report (PDF)";

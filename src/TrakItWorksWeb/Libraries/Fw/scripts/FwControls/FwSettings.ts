@@ -232,57 +232,116 @@ class FwSettingsClass {
     //---------------------------------------------------------------------------------------------- 
     getRows($body, $control, apiurl, $modulecontainer, moduleName) {
         FwAppData.apiMethod(true, 'GET', applicationConfig.appbaseurl + applicationConfig.appvirtualdirectory + apiurl, null, null, function onSuccess(response) {
-            var $settings, keys, browseKeys = [], rowId;
-            var me = this;
-            $settings = jQuery(jQuery('#tmpl-modules-' + moduleName + 'Browse').html());
+            let keys, browseKeys = [], rowId;
+            let me = this;
+            let $browse = window[moduleName + 'Controller'].openBrowse();
+            let colors = [];
+            let browseData = [];
 
-            FwBrowse.loadCustomBrowseFields($settings, moduleName);
+            FwBrowse.loadCustomBrowseFields($browse, moduleName);
 
-            keys = $settings.find('.field');
-            rowId = jQuery(keys[0]).attr('data-datafield');
-            for (var i = 1; i < keys.length; i++) {
-                browseKeys.push(jQuery(keys[i]).attr('data-datafield'));
+            keys = $browse.find('.field');
+            rowId = jQuery(keys[0]).attr('data-browsedatafield');
+
+            //append legend
+            if ($browse.find('.legend').length > 0) {
+                $body.append($browse.find('.legend')[0]);
             }
-            for (var i = 0; i < response.length; i++) {
-                var html = [], $moduleRows;
-                html.push('<div class="panel-record">')
-                html.push('  <div class="panel panel-info container-fluid">');
-                html.push('    <div class="row-heading">');
-                html.push('      <i class="material-icons record-selector">keyboard_arrow_down</i>')
-                //html.push('<label>' + moduleName + '</label>')
-                //html.push('<label>' + row[moduleName] + '</label>');
-                for (var j = 0; j < browseKeys.length; j++) {
-                    if (browseKeys[j] === 'Inactive' && response[i][browseKeys[j]] === true) {
-                        html.unshift('<div style="display:none;">');
-                    }
-                    if (browseKeys[j] === 'Inactive' || browseKeys[j] === 'Color') {
 
-                    } else {
-                        html.push('      <div style="width:100%;padding-left: inherit;">');
-                        html.push('        <div class="fwcontrol fwcontainer fwform-fieldrow" data-type="fieldrow">');
-                        html.push('          <label style="font-weight:800;">' + browseKeys[j] + '</label>');
-                        html.push('        </div>');
-                        html.push('        <div class="fwcontrol fwcontainer fwform-fieldrow" data-type="fieldrow">');
-                        html.push('          <label>' + response[i][browseKeys[j]] + '</label>');
-                        html.push('        </div>');
-                        html.push('      </div>');
-                        if (browseKeys[j] === 'Inactive' && response[i][browseKeys[j]] === true) {
-                            html.push('</div>');
+            for (var i = 1; i < keys.length; i++) {
+                var Key = jQuery(keys[i]).attr('data-browsedatafield');
+                var cellColor = $browse.find('div[data-browsedatafield="' + Key + '"]').data('cellcolor')
+                browseKeys.push(Key);
+                var fieldData = {};
+                if ($browse.find('div[data-browsedatafield="' + Key + '"]').data('caption') !== undefined) {
+                    fieldData['caption'] = $browse.find('div[data-browsedatafield="' + Key + '"]').data('caption');
+                } else {
+                    fieldData['caption'] = Key;
+                };
+
+                if (cellColor) {
+                    fieldData['color'] = true;
+                    for (var i = 0; i < response.length; i++) {
+                        colors.push(response[i].cellColor);
+                    }
+                }
+
+                fieldData['datatype'] = $browse.find('div[data-browsedatafield="' + Key + '"]').data('datatype');
+                fieldData['datafield'] = Key
+                browseData.push(fieldData)
+
+                if (i === 1 && Key !== 'Inactive' || i === 2 && jQuery(keys[1]).attr('data-datafield') === 'Inactive') {
+                    for (var k = 0; k < response.length - 1; k++) {
+                        for (var l = 0, sorted; l < response.length - 1; l++) {
+                            if (response[l][Key].toLowerCase() > response[l + 1][Key].toLowerCase()) {
+                                sorted = response[l + 1];
+                                response[l + 1] = response[l];
+                                response[l] = sorted;
+                            }
                         }
                     }
                 }
+            };
+
+            for (var i = 0; i < response.length; i++) {
+                var html = [], $moduleRows;
+
+                response[i]['_Custom'].forEach((customField) => {
+                    response[i][customField.FieldName] = customField.FieldValue
+                });
+
+                html.push('<div class="panel-record">');
+                html.push('  <div class="panel panel-info container-fluid">');
+                html.push('    <div class="row-heading">');
+                html.push('      <i class="material-icons record-selector">keyboard_arrow_down</i>');
+
+                for (var j = 0; j < browseData.length; j++) {
+                    if (browseData[j]['caption'] === 'Inactive' && response[i][browseData[j]['caption']] === true) {
+                        html[1] = '<div class="panel panel-info container-fluid" style="display:none;">';
+                        html[2] = '<div class="inactive-panel row-heading" style="background-color:lightgray;">';
+                    }
+                    if (browseData[j]['caption'] !== 'Inactive' && browseData[j]['caption'] !== 'Color' && !browseData[j]['hidden']) {
+                        html.push('      <div style="width:100%;padding-left: inherit;">');
+                        html.push('        <div class="fwcontrol fwcontainer fwform-fieldrow" data-type="fieldrow">');
+                        html.push('          <label style="font-weight:800;">' + browseData[j]['caption'] + '</label>');
+                        html.push('        </div>');
+
+                        if (browseData[j]['datatype'] === 'checkbox') {
+                            html.push('        <div class="fwcontrol fwcontainer fwform-fieldrow" data-type="fieldrow" style="width:50px;">');
+                            if (response[i][browseKeys[j]]) {
+                                html.push('<div class="checkboxwrapper"><input class="value" data-datafield="' + browseData[j]['datafield'] + '" type="checkbox" disabled="disabled" style="box-sizing:border-box;pointer-events:none;" checked><label></label></div>');
+                            } else {
+                                html.push('<div class="checkboxwrapper"><input class="value" data-datafield="' + browseData[j]['datafield'] + '" type="checkbox" disabled="disabled" style="box-sizing:border-box;pointer-events:none;"><label></label></div>');
+                            }
+                        } else {
+                            if (browseData[j]['color'] && response[i][cellColor] !== '') {
+                                html.push('    <div class="fwcontrol fwcontainer fwform-fieldrow" data-type="fieldrow" style="color:' + response[i][cellColor] + ';width:8em;white-space:nowrap;height: 0;display:flex;border-bottom: 20px solid transparent;border-top: 20px solid;">');
+                            } else {
+                                html.push('    <div class="fwcontrol fwcontainer fwform-fieldrow" data-type="fieldrow">');
+                            }
+                            html.push('    <label data-datafield=' + browseData[j]['datafield'] + ' style="color:#31708f">' + response[i][browseKeys[j]] + '</label>');
+                        }
+                        html.push('        </div>');
+                        html.push('      </div>');
+                        //if (browseKeys[j] === 'Inactive' && response[i][browseKeys[j]] === true) {
+                        //    html.push('</div>');
+                        //}
+                    }
+                }
+                //html.push('      <div class="pull-right save"><i class="material-icons">save</i>Save</div>'); 
                 html.push('    </div>');
                 html.push('  </div>');
-                html.push('  <div class="panel-body header-content" style="display:none;" id="' + response[i][rowId] + '"></div>');
+                html.push('  <div class="panel-body data-panel" style="display:none;" id="' + response[i][rowId] + '" data-type="settings-row"></div>');
                 html.push('</div>');
                 $moduleRows = jQuery(html.join(''));
                 $moduleRows.data('recorddata', response[i]);
+                $moduleRows.data('browsedata', browseData);
                 $body.append($moduleRows);
             }
 
             $control
                 .on('click', '.row-heading', function (e) {
-                    var formKeys = [], formData = [], recordData, $rowBody, $form, controller;
+                    var recordData, $rowBody, $form, controller;
                     e.stopPropagation();
                     recordData = jQuery(this).parent().parent().data('recorddata');
                     $rowBody = $control.find('#' + recordData[moduleName + 'Id'] + '.panel-body');
@@ -461,7 +520,7 @@ class FwSettingsClass {
 
                 $this = jQuery(this);
                 moduleName = $this.closest('.panel-group').attr('id');
-                $browse = jQuery(jQuery('#tmpl-modules-' + moduleName + 'Browse').html());
+                $browse = window[moduleName + 'Controller'].openBrowse();
                 $modulecontainer = $control.find('#' + moduleName);
                 apiurl = window[moduleName + 'Controller'].apiurl;
                 $body = $control.find('#' + moduleName + '.panel-body');
@@ -470,19 +529,25 @@ class FwSettingsClass {
 
                 FwBrowse.loadCustomBrowseFields($browse, moduleName);
 
+
                 if ($body.is(':empty')) {
+                    //append legend
+                    if ($browse.find('.legend').length > 0) {
+                        $body.append($browse.find('.legend')[0]);
+                    }
+
                     FwAppData.apiMethod(true, 'GET', applicationConfig.appbaseurl + applicationConfig.appvirtualdirectory + apiurl, null, null, function onSuccess(response) {
                         $form = jQuery(jQuery('#tmpl-modules-' + moduleName + 'Form').html());
                         keys = $browse.find('.field');
-                        rowId = jQuery(keys[0]).attr('data-datafield');
+                        rowId = jQuery(keys[0]).attr('data-browsedatafield');
 
                         for (var i = 1; i < keys.length; i++) {
-                            var Key = jQuery(keys[i]).attr('data-datafield');
-                            var cellColor = $browse.find('div[data-datafield="' + Key + '"]').data('cellcolor')
+                            var Key = jQuery(keys[i]).attr('data-browsedatafield');
+                            var cellColor = $browse.find('div[data-browsedatafield="' + Key + '"]').data('cellcolor')
                             browseKeys.push(Key);
                             var fieldData = {};
-                            if ($browse.find('div[data-datafield="' + Key + '"]').data('caption') !== undefined) {
-                                fieldData['caption'] = $browse.find('div[data-datafield="' + Key + '"]').data('caption');
+                            if ($browse.find('div[data-browsedatafield="' + Key + '"]').data('caption') !== undefined) {
+                                fieldData['caption'] = $browse.find('div[data-browsedatafield="' + Key + '"]').data('caption');
                             } else {
                                 fieldData['caption'] = Key;
                             };
@@ -494,11 +559,11 @@ class FwSettingsClass {
                                 }
                             }
 
-                            fieldData['datatype'] = $browse.find('div[data-datafield="' + Key + '"]').data('datatype');
+                            fieldData['datatype'] = $browse.find('div[data-browsedatafield="' + Key + '"]').data('datatype');
                             fieldData['datafield'] = Key
                             browseData.push(fieldData)
 
-                            if (i === 1 && Key !== 'Inactive' || i === 2 && jQuery(keys[1]).attr('data-datafield') === 'Inactive') {
+                            if (i === 1 && Key !== 'Inactive' || i === 2 && jQuery(keys[1]).attr('data-browsedatafield') === 'Inactive') {
                                 for (var k = 0; k < response.length - 1; k++) {
                                     for (var l = 0, sorted; l < response.length - 1; l++) {
                                         if (response[l][Key].toLowerCase() > response[l + 1][Key].toLowerCase()) {
@@ -650,6 +715,12 @@ class FwSettingsClass {
                 if (!$body.is(':empty')) {
                     $body.empty();
                     me.getRows($body, $control, apiurl, $modulecontainer, moduleName);
+                }
+                if ($settingsPageModules.find('.panel-collapse').css('display') === 'none') {
+                    $body.empty();
+                    me.getRows($body, $control, apiurl, $modulecontainer, moduleName);
+                    $settingsPageModules.find('.arrow-selector').html('keyboard_arrow_up')
+                    $settingsPageModules.find('.panel-collapse').show("fast");
                 }
             });
 

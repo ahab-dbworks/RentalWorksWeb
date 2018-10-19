@@ -1165,12 +1165,13 @@ class FwModule {
     }
     //----------------------------------------------------------------------------------------------
     static getFormFields($form: JQuery, getAllFieldsOverride: boolean) {
-        var $fwformfields, fields, field;
+        var $fwformfields, fields, field, displayField;
 
         fields = {};
         $fwformfields = typeof $form.data('fields') !== 'undefined' ? $form.data('fields') : jQuery([]);
         $fwformfields.each(function (index, element) {
-            var $fwformfield, originalValue, dataField, value, isValidDataField, getAllFields, isBlank, isCalculatedField;
+            var $fwformfield, originalValue, dataField, value, isValidDataField, getAllFields, isBlank, isCalculatedField,
+                validationDisplayField, validationDisplayValue;
 
             $fwformfield = jQuery(element);
             originalValue = $fwformfield.attr('data-originalvalue');
@@ -1211,6 +1212,15 @@ class FwModule {
                     fields[dataField] = field;
                 }
 
+                if ($fwformfield.attr('data-type') === 'validation') {
+                    validationDisplayField = $fwformfield.attr('data-displayfield');
+                    validationDisplayValue = FwFormField.getText2($fwformfield);
+                    displayField = {
+                        datafield: validationDisplayField,
+                        value: validationDisplayValue
+                    }
+                    fields[validationDisplayField] = displayField;
+                }
             }
         });
 

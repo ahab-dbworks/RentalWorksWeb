@@ -27,23 +27,23 @@ namespace FwCore.Controllers
             string baseFileName = $"{this.GetReportFileName()}{this.UserSession.WebUsersId}_{guid}";
             string htmlFileName = $"{baseFileName}.html";
             //string pathHtmlReport = Path.Combine(FwDownloadController.GetDownloadsDirectory(), htmlFileName);
-            string urlHtmlReport = $"{baseUrl}/Reports/{this.GetReportFileName()}/index.html";
+            string urlHtmlReport = $"{baseUrl}/Reports/{this.GetReportFileName()}/index.html?nocache={Guid.NewGuid().ToString().Replace("-", "")}";
             Console.WriteLine($"urlHtmlReport: {urlHtmlReport}");
             //string urlHtmlReport = $"{baseUrl}/temp/downloads/{htmlFileName}";
             string authorizationHeader = HttpContext.Request.Headers["Authorization"];
             response.renderMode = request.renderMode;
-            if (request.renderMode == FwReportRenderModes.Html)
+            if (request.renderMode == "Html")
             {
                 response.htmlReportUrl = urlHtmlReport;
             }
-            else if (request.renderMode == FwReportRenderModes.Pdf || request.renderMode == FwReportRenderModes.Email)
+            else if (request.renderMode == "Pdf" || request.renderMode == "Email")
             {
                 string pdfFileName = $"{baseFileName}.pdf";
                 string pathPdfReport = Path.Combine(FwDownloadController.GetDownloadsDirectory(), pdfFileName);
                 response.pdfReportUrl = $"{baseUrl}/temp/downloads/{pdfFileName}";
                 response.consoleOutput = await FwReport.GeneratePdfFromUrlAsync(baseUrl, urlHtmlReport, pathPdfReport, authorizationHeader, request.parameters, GetPdfOptions());
 
-                if (request.renderMode == FwReportRenderModes.Email)
+                if (request.renderMode == "Email")
                 {
                     if (System.IO.File.Exists(pathPdfReport))
                     {

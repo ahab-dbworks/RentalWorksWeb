@@ -40,7 +40,7 @@ namespace FwCore.Controllers
                 appPath = string.Format("{0}://{1}{2}{3}",
                             HttpContext.Request.Scheme,
                             HttpContext.Request.Host.Host,
-                            HttpContext.Request.Host.Port == 80 ? string.Empty : ":" + HttpContext.Request.Host.Port,
+                            (HttpContext.Request.Host.Port == null || (HttpContext.Request.Scheme == "http" && HttpContext.Request.Host.Port == 80) || (HttpContext.Request.Scheme == "https" && HttpContext.Request.Host.Port == 443)) ? string.Empty : ":" + HttpContext.Request.Host.Port,
                             this.AppConfig.VirtualDirectory);
             }
             if (appPath.EndsWith("/"))
