@@ -212,6 +212,7 @@ class Order extends OrderBase {
             FwFormField.disable($form.find('[data-datafield="RentalSale"]'));
             FwFormField.disable($form.find('[data-datafield="PoNumber"]'));
             FwFormField.disable($form.find('[data-datafield="PoAmount"]'));
+            FwFormField.disable($form.find('[data-datafield="LossAndDamage"]'));
 
             FwFormField.setValue($form, 'div[data-datafield="OrderTypeId"]', this.DefaultOrderTypeId, this.DefaultOrderType);
 
@@ -522,9 +523,11 @@ class Order extends OrderBase {
         $orderItemGridLossDamage.empty().append($orderItemGridLossDamageControl);
         $orderItemGridLossDamageControl.data('isSummary', false);
         $orderItemGridLossDamage.addClass('F');
-        $orderItemGridLossDamage.find('div[data-datafield="ItemId"]').attr('data-formreadonly', 'true'); 
+        $orderItemGridLossDamage.find('div[data-datafield="InventoryId"]').attr('data-formreadonly', 'true'); 
         $orderItemGridLossDamage.find('div[data-datafield="Description"]').attr('data-formreadonly', 'true');
         $orderItemGridLossDamage.find('div[data-datafield="BarCode"]').attr('data-formreadonly', 'true');
+        $orderItemGridLossDamage.find('div[data-datafield="Price"]').attr('data-digits', '3'); 
+        $orderItemGridLossDamage.find('div[data-datafield="Price"]').attr('data-digitsoptional', 'false'); 
 
         $orderItemGridLossDamageControl.data('ondatabind', function (request) {
             request.uniqueids = {
@@ -538,12 +541,12 @@ class Order extends OrderBase {
             request.RecType = 'F';
         }
         );
-        //FwBrowse.addEventHandler($orderItemGridLossDamageControl, 'afterdatabindcallback', () => {
-        //    this.calculateOrderItemGridTotals($form, 'rental');
+        FwBrowse.addEventHandler($orderItemGridLossDamageControl, 'afterdatabindcallback', () => {
+            this.calculateOrderItemGridTotals($form, 'lossdamage');
 
-        //    let rentalItems = $form.find('.rentalgrid tbody').children();
-        //    rentalItems.length > 0 ? FwFormField.disable($form.find('[data-datafield="Rental"]')) : FwFormField.enable($form.find('[data-datafield="Rental"]'));
-        //});
+            let lossDamageItems = $form.find('.lossdamagegrid tbody').children();
+            lossDamageItems.length > 0 ? FwFormField.disable($form.find('[data-datafield="LossAndDamage"]')) : FwFormField.enable($form.find('[data-datafield="LossAndDamage"]'));
+        });
 
         FwBrowse.init($orderItemGridLossDamageControl);
         FwBrowse.renderRuntimeHtml($orderItemGridLossDamageControl);
@@ -845,23 +848,24 @@ class Order extends OrderBase {
         errorSound = new Audio(this.errorSoundFileName);
         successSound = new Audio(this.successSoundFileName);
         HTML.push(
-            `<div id="searchpopup" class="fwcontrol fwcontainer fwform" data-control="FwContainer" data-type="form" data-caption="Add Loss and Damage Items">
+            `<div id="searchpopup" class="fwcontrol fwcontainer fwform" data-control="FwContainer" data-type="form" data-caption="Loss and Damage">
               <div id="lossdamageform-tabcontrol" class="fwcontrol fwtabs" data-control="FwTabs" data-type="">
                 <div style="float:right;" class="close-modal"><i class="material-icons">clear</i><div class="btn-text">Close</div></div>
                 <div class="tabpages">
                   <div class="formpage">
-                    <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Add Loss and Damage Items">
+                    <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Loss and Damage">
                       <div class="formrow">
                         <div class="formcolumn summaryview" style="width:100%;margin-top:50px;">
                           <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                            <div class="fwform-section-title" style="margin-bottom:20px;">Loss and Damage Items</div>
+                            <div class="fwform-section-title" style="margin-bottom:20px;">Loss and Damage</div>
                             <div class="formrow error-msg"></div>
+                            <div class="formrow sub-header" style="margin-left:8px;font-size:16px;"><span>Select one or more Orders with Lost or Damaged items, then click “Continue”</span></div>
                             <div data-control="FwGrid" class="container"></div>
                           </div>
                         </div>
                       </div>
                       <div class="formrow add-button">
-                        <div class="select-items fwformcontrol" data-type="button" style="float:right;">Select Items</div>
+                        <div class="select-items fwformcontrol" data-type="button" style="float:right;">Continue</div>
                       </div>
                       <div class="formrow session-buttons" style="display:none;">
                         <div class="options-button fwformcontrol" data-type="button" style="float:left">Options &#8675;</div>
@@ -933,6 +937,7 @@ class Order extends OrderBase {
                     if (sessionId) {
                         $popup.find('.container').html('<div class="formrow"><div data-control="FwGrid" data-grid="LossAndDamageItemGrid" data-securitycaption=""></div></div>');
                         $popup.find('.add-button').hide();
+                        $popup.find('.sub-header').hide();
                         $popup.find('.session-buttons').show();
                         let $lossAndDamageItemGrid
                         $lossAndDamageItemGrid = $popup.find('div[data-grid="LossAndDamageItemGrid"]');
@@ -979,7 +984,7 @@ class Order extends OrderBase {
                     } else {
                         FwConfirmation.renderConfirmation('ERROR', 'Error')
                     }
-                }, null, null);
+                }, null, $form);
             });
             // Select All
             $popup.find('.selectall').on('click', e => {
