@@ -71,6 +71,7 @@ namespace WebLibrary
         public const string RECTYPE_SALE = "S";
         public const string RECTYPE_MISCELLANEOUS = "M";
         public const string RECTYPE_LABOR = "L";
+        public const string RECTYPE_LOSS_AND_DAMAGE = "F";
 
         public const string TOTAL_TYPE_WEEKLY = "W";
         public const string TOTAL_TYPE_MONTHLY = "M";
