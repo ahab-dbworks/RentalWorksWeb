@@ -14,6 +14,8 @@ namespace WebApi.Modules.Home.LossAndDamageItem
         [FwBusinessLogicField(isReadOnly: true)]
         public string OrderId { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
+        public string OrderNumber { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
         public string BarCode { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
         public string ICodeDisplay { get; set; }
