@@ -200,7 +200,7 @@ class CustomForm {
                     }
                     break;
             }
-            FwFormField.disable($form.find('#previewWebForm [data-type="validation"]'));
+            FwFormField.disable($form.find('#previewWebForm [data-type="validation"], [data-control="FwAppImage"]'));
         });
     }
     //----------------------------------------------------------------------------------------------
