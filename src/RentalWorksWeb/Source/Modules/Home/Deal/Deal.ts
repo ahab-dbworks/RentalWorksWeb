@@ -544,7 +544,7 @@ class Deal {
             }, null, null);
         }
 
-        if (FwFormField.getValueByDataField($form, 'ShippingAddressType') === 'PROJECT') {
+        if (FwFormField.getValueByDataField($form, 'ShippingAddressType') === 'DEAL') {
             FwFormField.setValueByDataField($form, 'ShipAddress1', FwFormField.getValueByDataField($form, 'Address1'));
             FwFormField.setValueByDataField($form, 'ShipAddress2', FwFormField.getValueByDataField($form, 'Address2'));
             FwFormField.setValueByDataField($form, 'ShipCity', FwFormField.getValueByDataField($form, 'City'));
@@ -570,7 +570,7 @@ class Deal {
                 FwFormField.setValueByDataField($form, 'BillToCountryId', FwFormField.getValueByDataField($form, 'CountryId'), FwFormField.getTextByDataField($form, 'CountryId'));
             }
             // Shipping Tab
-            if (FwFormField.getValueByDataField($form, 'ShippingAddressType') === 'PROJECT') {
+            if (FwFormField.getValueByDataField($form, 'ShippingAddressType') === 'DEAL') {
                 FwFormField.setValueByDataField($form, 'ShipAddress1', FwFormField.getValueByDataField($form, 'Address1'));
                 FwFormField.setValueByDataField($form, 'ShipAddress2', FwFormField.getValueByDataField($form, 'Address2'));
                 FwFormField.setValueByDataField($form, 'ShipCity', FwFormField.getValueByDataField($form, 'City'));
@@ -1287,7 +1287,7 @@ class Deal {
                 <div class="flexrow">
                   <div data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield shipping_address_type_radio" data-caption="" data-datafield="ShippingAddressType" style="flex:1 1 265px;">
                     <div data-value="CUSTOMER" data-caption="Use Customer" style="margin-top:-15px;"></div>
-                    <div data-value="PROJECT" data-caption="Use Deal"></div>
+                    <div data-value="DEAL" data-caption="Use Deal"></div>
                     <div data-value="OTHER" data-caption="Use Other"></div>
                   </div>
                 </div>
