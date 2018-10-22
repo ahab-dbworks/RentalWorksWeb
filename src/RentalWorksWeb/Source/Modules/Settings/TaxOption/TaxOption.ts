@@ -1,16 +1,12 @@
 ﻿class TaxOption {
-    Module: string;
-    apiurl: string;
-
-    // testing commit
+    Module: string = 'TaxOption';
+    apiurl: string = 'api/v1/taxoption';
 
     constructor() {
-        this.Module = 'TaxOption';
-        this.apiurl = 'api/v1/taxoption';
         var self = this;
 
         //Sends confirmation for forcing tax rate
-        FwApplicationTree.clickEvents['{CE1AEA95-F022-4CF5-A4FA-81CE32523344}'] = function (event) {
+        FwApplicationTree.clickEvents['{CE1AEA95-F022-4CF5-A4FA-81CE32523344}'] = function (e) {
             var $form, taxOptionId;
             try {
                 $form = jQuery(this).closest('.fwform');

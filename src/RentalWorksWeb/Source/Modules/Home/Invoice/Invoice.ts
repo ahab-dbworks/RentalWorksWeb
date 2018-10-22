@@ -433,11 +433,16 @@ class Invoice {
         if (STATUS === 'CLOSED' || STATUS === 'PROCESSED' || STATUS === 'VOID') {
             FwModule.setFormReadOnly($form);
         }
-        //if (!FwFormField.getValueByDataField($form, 'HasRentalItem')) { $form.find('[data-type="tab"][data-caption="Rental"]').hide() }
-        //if (!FwFormField.getValueByDataField($form, 'HasSalesItem')) { $form.find('[data-type="tab"][data-caption="Sales"]').hide() }
-        //if (!FwFormField.getValueByDataField($form, 'HasMiscellaneousItem')) { $form.find('[data-type="tab"][data-caption="Misc"]').hide() }
-        //if (!FwFormField.getValueByDataField($form, 'HasLaborItem')) { $form.find('[data-type="tab"][data-caption="Labor"]').hide() }
-        //if (!FwFormField.getValueByDataField($form, 'HasRentalSaleItem')) { $form.find('[data-type="tab"][data-caption="Rental Sale"]').hide() }
+        if (!FwFormField.getValueByDataField($form, 'HasRentalItem')) { $form.find('[data-type="tab"][data-caption="Rental"]').hide() }
+        if (!FwFormField.getValueByDataField($form, 'HasSalesItem')) { $form.find('[data-type="tab"][data-caption="Sales"]').hide() }
+        if (!FwFormField.getValueByDataField($form, 'HasMiscellaneousItem')) { $form.find('[data-type="tab"][data-caption="Misc"]').hide() }
+        if (!FwFormField.getValueByDataField($form, 'HasLaborItem')) { $form.find('[data-type="tab"][data-caption="Labor"]').hide() }
+        if (!FwFormField.getValueByDataField($form, 'HasRentalSaleItem')) { $form.find('[data-type="tab"][data-caption="Rental Sale"]').hide() }
+        if (!FwFormField.getValueByDataField($form, 'HasFacilityItem')) { $form.find('[data-type="tab"][data-caption="Facilities"]').hide() }
+        if (!FwFormField.getValueByDataField($form, 'HasMeterItem')) { $form.find('[data-type="tab"][data-caption="Meter"]').hide() }
+        if (!FwFormField.getValueByDataField($form, 'HasTransportationItem')) { $form.find('[data-type="tab"][data-caption="Transportation"]').hide() }
+
+
 
 
         let $invoiceItemGridRental;
