@@ -220,13 +220,13 @@ namespace WebApi.Modules.Home.Invoice
         public bool? HasMeterItem { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "hassaleitem", modeltype: FwDataTypes.Boolean)]
-        public bool? HasSaleItem { get; set; }
+        public bool? HasSalesItem { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "haslaboritem", modeltype: FwDataTypes.Boolean)]
         public bool? HasLaborItem { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "hasmiscitem", modeltype: FwDataTypes.Boolean)]
-        public bool? HasMiscItem { get; set; }
+        public bool? HasMiscellaneousItem { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "hasspaceitem", modeltype: FwDataTypes.Boolean)]
         public bool? HasFacilityItem { get; set; }
