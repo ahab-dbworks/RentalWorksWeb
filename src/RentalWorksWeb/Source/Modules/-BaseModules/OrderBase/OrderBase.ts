@@ -113,25 +113,25 @@ class OrderBase {
                 return !this.has(field)
             }, new Set(response.CombinedShowFields))
             for (var i = 0; i < hiddenRentals.length; i++) {
-                jQuery($rentalGrid.find('[data-mappedfield="' + hiddenRentals[i] + '"]')).parent().remove();
+                jQuery($rentalGrid.find('[data-mappedfield="' + hiddenRentals[i] + '"]')).parent().hide();
             }
             for (var j = 0; j < hiddenSales.length; j++) {
-                jQuery($salesGrid.find('[data-mappedfield="' + hiddenSales[j] + '"]')).parent().remove();
+                jQuery($salesGrid.find('[data-mappedfield="' + hiddenSales[j] + '"]')).parent().hide();
             }
             for (var k = 0; k < hiddenLabor.length; k++) {
-                jQuery($laborGrid.find('[data-mappedfield="' + hiddenLabor[k] + '"]')).parent().remove();
+                jQuery($laborGrid.find('[data-mappedfield="' + hiddenLabor[k] + '"]')).parent().hide();
             }
             for (var l = 0; l < hiddenMisc.length; l++) {
-                jQuery($miscGrid.find('[data-mappedfield="' + hiddenMisc[l] + '"]')).parent().remove();
+                jQuery($miscGrid.find('[data-mappedfield="' + hiddenMisc[l] + '"]')).parent().hide();
             }
             for (var l = 0; l < hiddenUsedSale.length; l++) {
-                jQuery($usedSaleGrid.find('[data-mappedfield="' + hiddenUsedSale[l] + '"]')).parent().remove();
+                jQuery($usedSaleGrid.find('[data-mappedfield="' + hiddenUsedSale[l] + '"]')).parent().hide();
             }
             for (let i = 0; i < hiddenLossDamage.length; i++) {
-                jQuery($lossDamageGrid.find(`[data-mappedfield="${hiddenLossDamage[i]}"]`)).parent().remove();
+                jQuery($lossDamageGrid.find(`[data-mappedfield="${hiddenLossDamage[i]}"]`)).parent().hide();
             }
             for (let i = 0; i < hiddenCombined.length; i++) {
-                jQuery($combinedGrid.find('[data-mappedfield="' + hiddenCombined[i] + '"]')).parent().remove();
+                jQuery($combinedGrid.find('[data-mappedfield="' + hiddenCombined[i] + '"]')).parent().hide();
             }
             if (hiddenRentals.indexOf('WeeklyExtended') === -1 && rate === '3WEEK') {
                 $rentalGrid.find('.3weekextended').parent().show();
