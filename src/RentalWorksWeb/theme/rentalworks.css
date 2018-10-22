@@ -401,6 +401,10 @@ ul.fitText span:not(.downArrowNav){
     transition: 0.3s;
 }
 
+#inventory > .cardContainer > .card.selected {
+    box-shadow: 0 6px 10px 0 rgba(0,0,153,0.2);
+}
+
 .card:hover {
     box-shadow: 0 5px 9px 0 rgba(0, 0, 0, 0.2);
 }
