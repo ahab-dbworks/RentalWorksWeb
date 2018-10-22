@@ -72,14 +72,14 @@ namespace WebApi.Modules.Home.Invoice
         public bool? HasLockedTotal { get; set; }
         public bool? IsAlteredDates { get { return invoice.IsAlteredDates; } set { invoice.IsAlteredDates = value; } }
         public string LocationId { get { return invoice.LocationId; } set { invoice.LocationId = value; } }
-        public string InvoiceBatchId { get { return invoice.InvoiceBatchId; } set { invoice.InvoiceBatchId = value; } }
+        public string InvoiceCreationBatchId { get { return invoice.InvoiceCreationBatchId; } set { invoice.InvoiceCreationBatchId = value; } }
         [FwBusinessLogicField(isReadOnly: true)]
-        public int? InvoiceBatchNumber { get; set; }
+        public int? InvoiceCreationBatchNumber { get; set; }
         public string InvoiceGroupNumber { get { return invoice.InvoiceGroupNumber; } set { invoice.InvoiceGroupNumber = value; } }
-        [FwBusinessLogicField(isReadOnly: true)]
-        public string CrfId { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
-        public int? Crfno { get; set; }
+        //[FwBusinessLogicField(isReadOnly: true)]
+        //public string CrfId { get; set; }
+        //[FwBusinessLogicField(isReadOnly: true)]
+        //public int? Crfno { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
         public bool? RentalSale { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
@@ -94,7 +94,6 @@ namespace WebApi.Modules.Home.Invoice
         public string OrderType { get; set; }
         public string RebateCustomerId { get { return invoice.RebateCustomerId; } set { invoice.RebateCustomerId = value; } }
         [FwBusinessLogicField(isReadOnly: true)]
-        public bool? BillingNumbersAreDefined { get; set; }
         public string Orbitsapchgmajor { get { return invoice.Orbitsapchgmajor; } set { invoice.Orbitsapchgmajor = value; } }
         public string Orbitsapchgsub { get { return invoice.Orbitsapchgsub; } set { invoice.Orbitsapchgsub = value; } }
         public string Orbitsapchgdetail { get { return invoice.Orbitsapchgdetail; } set { invoice.Orbitsapchgdetail = value; } }
@@ -172,9 +171,29 @@ namespace WebApi.Modules.Home.Invoice
         public string DivisionId { get; set; }
         public string OutsideSalesRepresentativeId { get { return invoice.OutsideSalesRepresentativeId; } set { invoice.OutsideSalesRepresentativeId = value; } }
         [FwBusinessLogicField(isReadOnly: true)]
-        public string SalesRepresentative { get; set; }
+        public string OutsideSalesRepresentative { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
         public bool? ExportTaxAsLineItem { get; set; }
+
+
+
+        [FwBusinessLogicField(isReadOnly: true)]
+        public bool? HasRentalItem { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public bool? HasMeterItem { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public bool? HasSaleItem { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public bool? HasLaborItem { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public bool? HasMiscItem { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public bool? HasFacilityItem { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public bool? HasTransportationItem { get; set; }
+
+
+
         //------------------------------------------------------------------------------------ 
         public async Task<TSpStatusReponse> Void()
         {

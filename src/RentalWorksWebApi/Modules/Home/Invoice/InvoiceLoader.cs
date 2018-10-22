@@ -1,14 +1,8 @@
-using FwStandard.DataLayer;
-using FwStandard.Models;
 using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
-using WebApi.Data;
-using System.Collections.Generic;
-using System;
-using WebLibrary;
 namespace WebApi.Modules.Home.Invoice
 {
-    [FwSqlTable("invoiceview")]
+    [FwSqlTable("invoicewebview")]
     public class InvoiceLoader : InvoiceBrowseLoader
     {
         //------------------------------------------------------------------------------------ 
@@ -49,20 +43,20 @@ namespace WebApi.Modules.Home.Invoice
         public int? EpisodeNumber { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "invoicebatchid", modeltype: FwDataTypes.Text)]
-        public string InvoiceBatchId { get; set; }
+        public string InvoiceCreationBatchId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "batchno", modeltype: FwDataTypes.Integer)]
-        public int? InvoiceBatchNumber { get; set; }
+        public int? InvoiceCreationBatchNumber { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "invgroupno", modeltype: FwDataTypes.Text)]
         public string InvoiceGroupNumber { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "crfid", modeltype: FwDataTypes.Text)]
-        public string CrfId { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "crfno", modeltype: FwDataTypes.Integer)]
-        public int? Crfno { get; set; }
-        //------------------------------------------------------------------------------------ 
+        //[FwSqlDataField(column: "crfid", modeltype: FwDataTypes.Text)]
+        //public string CrfId { get; set; }
+        ////------------------------------------------------------------------------------------ 
+        //[FwSqlDataField(column: "crfno", modeltype: FwDataTypes.Integer)]
+        //public int? Crfno { get; set; }
+        ////------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "rentalsale", modeltype: FwDataTypes.Boolean)]
         public bool? RentalSale { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -83,9 +77,6 @@ namespace WebApi.Modules.Home.Invoice
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "rebatecustomerid", modeltype: FwDataTypes.Text)]
         public string RebateCustomerId { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "billingnumbersdefined", modeltype: FwDataTypes.Boolean)]
-        public bool? BillingNumbersAreDefined { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "orbitsapchgmajor", modeltype: FwDataTypes.Text)]
         public string Orbitsapchgmajor { get; set; }
@@ -129,24 +120,6 @@ namespace WebApi.Modules.Home.Invoice
         [FwSqlDataField(column: "invoicetax", modeltype: FwDataTypes.Decimal)]
         public decimal? InvoiceTax { get; set; }
         //------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "invoicetotal", modeltype: FwDataTypes.Decimal)]
-        //public decimal? InvoiceTotal { get; set; }
-        ////------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "refno", modeltype: FwDataTypes.Text)]
-        //public string ReferenceNumber { get; set; }
-        ////------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "agentid", modeltype: FwDataTypes.Text)]
-        //public string AgentId { get; set; }
-        ////------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "agent", modeltype: FwDataTypes.Text)]
-        //public string Agent { get; set; }
-        ////------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "projectmanagerid", modeltype: FwDataTypes.Text)]
-        //public string ProjectManagerId { get; set; }
-        ////------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "projectmanager", modeltype: FwDataTypes.Text)]
-        //public string ProjectManager { get; set; }
-        ////------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "billtoadd1", modeltype: FwDataTypes.Text)]
         public string BillToAddress1 { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -240,5 +213,27 @@ namespace WebApi.Modules.Home.Invoice
         [FwSqlDataField(column: "exporttaxaslineitem", modeltype: FwDataTypes.Boolean)]
         public bool? ExportTaxAsLineItem { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "hasrentalitem", modeltype: FwDataTypes.Boolean)]
+        public bool? HasRentalItem { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "hasmeteritem", modeltype: FwDataTypes.Boolean)]
+        public bool? HasMeterItem { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "hassaleitem", modeltype: FwDataTypes.Boolean)]
+        public bool? HasSaleItem { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "haslaboritem", modeltype: FwDataTypes.Boolean)]
+        public bool? HasLaborItem { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "hasmiscitem", modeltype: FwDataTypes.Boolean)]
+        public bool? HasMiscItem { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "hasspaceitem", modeltype: FwDataTypes.Boolean)]
+        public bool? HasFacilityItem { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "hasvehicleitem", modeltype: FwDataTypes.Boolean)]
+        public bool? HasTransportationItem { get; set; }
+        //------------------------------------------------------------------------------------ 
+
     }
 }

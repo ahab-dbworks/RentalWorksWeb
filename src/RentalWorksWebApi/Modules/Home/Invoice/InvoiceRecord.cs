@@ -42,7 +42,7 @@ namespace WebApi.Modules.Home.Invoice
         public string PaytypeId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "invoicebatchid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
-        public string InvoiceBatchId { get; set; }
+        public string InvoiceCreationBatchId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "approverid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
         public string ApproverId { get; set; }

@@ -8,7 +8,7 @@ using System;
 using WebLibrary;
 namespace WebApi.Modules.Home.Invoice
 {
-    [FwSqlTable("invoiceview")]
+    [FwSqlTable("invoicewebbrowseview")]
     public class InvoiceBrowseLoader : AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------ 
