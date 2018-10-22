@@ -821,7 +821,10 @@ namespace WebApi.Modules.Home.OrderItem
             {
                 if (!string.IsNullOrEmpty(OrderItemId))
                 {
-                    OrderId = AppFunc.GetStringDataAsync(AppConfig, "masteritem", "masteritemid", OrderItemId, "orderid").Result;
+                    //                    OrderId = AppFunc.GetStringDataAsync(AppConfig, "masteritem", "masteritemid", OrderItemId, "orderid").Result;
+                    string[] values = AppFunc.GetStringDataAsync(AppConfig, "masteritem", new string[] { "masteritemid" }, new string[] { OrderItemId }, new string[] { "orderid", "poorderid" }).Result;
+                    OrderId = values[0];
+                    subs = (!values[1].Equals(""));
                 }
             }
 
@@ -854,7 +857,7 @@ namespace WebApi.Modules.Home.OrderItem
                 select.AddWhere(summaryWhere.ToString());
             }
 
-            select.AddWhere("poorderid " + (subs?">":"=") + "''");
+            select.AddWhere("poorderid " + (subs ? ">" : "=") + "''");
 
 
             addFilterToSelect("OrderId", "orderid", select, request);
