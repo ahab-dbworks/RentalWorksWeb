@@ -1,14 +1,14 @@
 using FwStandard.BusinessLogic.Attributes;
 using WebApi.Logic;
-namespace WebApi.Modules.Home.StagingException
+namespace WebApi.Modules.Home.CheckOutPendingItem
 {
-    public class StagingExceptionLogic : AppBusinessLogic
+    public class CheckOutPendingItemLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------ 
-        StagingExceptionLoader stagingExceptionLoader = new StagingExceptionLoader();
-        public StagingExceptionLogic()
+        CheckOutPendingItemLoader checkOutPendingItemLoader = new CheckOutPendingItemLoader();
+        public CheckOutPendingItemLogic()
         {
-            dataLoader = stagingExceptionLoader;
+            dataLoader = checkOutPendingItemLoader;
         }
         //------------------------------------------------------------------------------------ 
         [FwBusinessLogicField(isReadOnly: true)]

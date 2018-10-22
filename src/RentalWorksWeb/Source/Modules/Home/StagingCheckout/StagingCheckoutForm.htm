@@ -3,7 +3,6 @@
     <div class="tabs">
       <div data-type="tab" id="stagingtab" class="tab staging-tab" data-tabpageid="stagingtabpage" data-caption="Staging"></div>
       <div data-type="tab" id="quantityitemtab" class="tab quantity-items-tab" data-tabpageid="quantityitemtabpage" data-caption="Quantity Items"></div>
-      <!--<div data-type="tab" id="exceptionstab" class="tab exceptions-tab" data-tabpageid="exceptionstabpage" data-caption="Exceptions"></div>-->
     </div>
     <div class="tabpages">
       <div data-type="tabpage" id="stagingtabpage" class="tabpage" data-tabid="stagingtab">
@@ -42,7 +41,7 @@
                       <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield clearable" data-caption="Remaining" data-enabled="false" data-datafield="QuantityRemaining" style="flex:0 1 100px;"></div>
                       <div data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield grid-view-radio" data-caption="" data-datafield="GridView" style="flex:1 1 250px;">
                         <div data-value="STAGE" class="staged-view" data-caption="View Staged" style="margin-top:-5px;"></div>
-                        <div data-value="EXCEPTION" class="exception-view" data-caption="View Exceptions" style="margin-top:-4px;"></div>
+                        <div data-value="PENDING" class="pending-item-view" data-caption="View Pending Items" style="margin-top:-4px;"></div>
                       </div>
                     </div>
                   </div>
@@ -55,8 +54,8 @@
                   <div class="flexrow staged-item-grid">
                       <div data-control="FwGrid" data-grid="StagedItemGrid" data-securitycaption="Staged Items"></div>
                     </div>
-                    <div class="flexrow exception-grid">
-                      <div class="exception-grid" data-control="FwGrid" data-grid="StagingExceptionGrid" data-securitycaption=""></div>
+                    <div class="flexrow pending-item-grid">
+                      <div class="pending-item-grid" data-control="FwGrid" data-grid="CheckOutPendingItemGrid" data-securitycaption=""></div>
                   </div>
                   <div class="flexrow original-buttons" style="display:flex;justify-content:space-between;">
                     <div class="orderstatus fwformcontrol" data-type="button" style="flex:0 1 109px; margin-left:8px;">Order Status</div>
@@ -99,15 +98,6 @@
           </div>
         </div>
       </div>
-      <!--Exceptions Page-->
-      <!--<div data-type="tabpage" id="exceptionstabpage" class="tabpage" data-tabid="exceptionstab">
-        <div class="flexpage">
-          <div class="flexrow error-msg-qty"></div>
-          <div class="flexrow">
-            <div data-control="FwGrid" data-grid="StagingExceptionGrid" data-securitycaption=""></div>
-          </div>
-        </div>
-      </div>-->
     </div>
   </div>
 </div>

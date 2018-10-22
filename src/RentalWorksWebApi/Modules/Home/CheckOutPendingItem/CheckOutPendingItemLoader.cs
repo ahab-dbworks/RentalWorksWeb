@@ -6,10 +6,10 @@ using WebApi.Data;
 using System.Collections.Generic;
 using System;
 using WebLibrary;
-namespace WebApi.Modules.Home.StagingException
+namespace WebApi.Modules.Home.CheckOutPendingItem
 {
     [FwSqlTable("dbo.funccheckoutexception2(@orderid, @warehouseid, @contractid)")]
-    public class StagingExceptionLoader : AppDataLoadRecord
+    public class CheckOutPendingItemLoader : AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "orderid", modeltype: FwDataTypes.Text)]

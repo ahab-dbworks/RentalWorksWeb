@@ -7,7 +7,7 @@ class StagingCheckout {
     errorSoundFileName: string;
     notificationSoundFileName: string;
     contractId: string;
-    isExceptionGridView: boolean = false;
+    isPendingItemGridView: boolean = false;
 
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
@@ -46,7 +46,7 @@ class StagingCheckout {
         $form.find('[data-datafield="WarehouseId"]').hide();
 
         $form.find('.partial-contract').hide();
-        $form.find('.exception-grid').hide();
+        $form.find('.pending-item-grid').hide();
         $form.find('.grid-view-radio').hide();
 
         FwFormField.setValue($form, 'div[data-datafield="WarehouseId"]', warehouse.warehouseid, warehouse.warehouse);
@@ -64,12 +64,6 @@ class StagingCheckout {
             jQuery($form.find('[data-datafield="OrderId"]')).trigger('change');
         }
 
-        //$form.find('.rentalview').hide();
-        //$form.find('.salesview').hide();
-
-        //$form.find('div[data-datafield="TaxOptionId"]').data('onchange', function ($tr) {
-        //    FwFormField.setValue($form, 'div[data-datafield=""]', $tr.find('.field[data-browsedatafield="RentalTaxRate1"]').attr('data-originalvalue'));
-        //});
         $form.find('div[data-datafield="OrderId"] input').focus();
         this.events($form);
         return $form;
@@ -195,7 +189,7 @@ class StagingCheckout {
             $form.find('[data-caption="Items"]').hide();
             $form.find('.partial-contract').show();
             $form.find('.flexrow').css('max-width', '2200px');
-            $form.find('.exception-grid').hide();
+            $form.find('.pending-item-grid').hide();
             $form.find('.staged-item-grid').show();
             FwAppData.apiMethod(true, 'POST', `api/v1/checkout/startcheckoutcontract`, requestBody, FwServices.defaultTimeout, response => {
                 try {
@@ -430,7 +424,7 @@ class StagingCheckout {
                     FwFormField.enable($form.find('div[data-datafield="OrderId"]'));
                     // Clear out all grids
                     $form.find('div[data-name="StagedItemGrid"] tr.viewmode').empty();
-                    $form.find('div[data-name="StagingExceptionGrid"] tr.viewmode').empty();
+                    $form.find('div[data-name="CheckOutPendingItemGrid"] tr.viewmode').empty();
                     $form.find('div[data-name="CheckedOutItemGrid"] tr.viewmode').empty();
                     $form.find('div[data-name="StageQuantityItemGrid"] tr.viewmode').empty();
                     $form.find('div[data-datafield="OrderId"]').focus();
@@ -472,10 +466,10 @@ class StagingCheckout {
                     $form.find('[data-datafield="Code"] input').select();
                     // Clear out all grids
                     $form.find('div[data-name="StagedItemGrid"] tr.viewmode').empty();
-                    $form.find('div[data-name="StagingExceptionGrid"] tr.viewmode').empty();
+                    $form.find('div[data-name="CheckOutPendingItemGrid"] tr.viewmode').empty();
                     $form.find('div[data-name="CheckedOutItemGrid"] tr.viewmode').empty();
                     $form.find('div[data-name="StageQuantityItemGrid"] tr.viewmode').empty();
-                    $form.find('.exception-grid').hide();
+                    $form.find('.pending-item-grid').hide();
                     $form.find('.staged-item-grid').show();
                 }
                 if (response.success === false) {
@@ -493,7 +487,7 @@ class StagingCheckout {
         let $stagedItemGrid: any, $stagedItemGridControl: any;
         let $checkedOutItemGrid: any, $checkedOutItemGridControl: any;
         let $stageQuantityItemGrid: any, $stageQuantityItemGridControl: any;
-        let $stagingExceptionGrid: any, $stagingExceptionGridControl: any;
+        let $checkOutPendingItemGrid: any, $checkOutPendingItemGridControl: any;
 
         //----------------------------------------------------------------------------------------------
         $stagedItemGrid = $form.find('div[data-grid="StagedItemGrid"]');
@@ -535,10 +529,10 @@ class StagingCheckout {
         FwBrowse.init($stageQuantityItemGridControl);
         FwBrowse.renderRuntimeHtml($stageQuantityItemGridControl);
         //----------------------------------------------------------------------------------------------
-        $stagingExceptionGrid = $form.find('div[data-grid="StagingExceptionGrid"]');
-        $stagingExceptionGridControl = jQuery(jQuery('#tmpl-grids-StagingExceptionGridBrowse').html());
-        $stagingExceptionGrid.empty().append($stagingExceptionGridControl);
-        $stagingExceptionGridControl.data('ondatabind', function (request) {
+        $checkOutPendingItemGrid = $form.find('div[data-grid="CheckOutPendingItemGrid"]');
+        $checkOutPendingItemGridControl = jQuery(jQuery('#tmpl-grids-CheckOutPendingItemGridBrowse').html());
+        $checkOutPendingItemGrid.empty().append($checkOutPendingItemGridControl);
+        $checkOutPendingItemGridControl.data('ondatabind', function (request) {
             request.uniqueids = {
                 OrderId: FwFormField.getValueByDataField($form, 'OrderId'),
                 WarehouseId: FwFormField.getValueByDataField($form, 'WarehouseId')
@@ -547,22 +541,21 @@ class StagingCheckout {
             request.pagesize = 999;
             request.orderby = 'ItemOrder';
         });
-        FwBrowse.init($stagingExceptionGridControl);
-        FwBrowse.renderRuntimeHtml($stagingExceptionGridControl);
+        FwBrowse.init($checkOutPendingItemGridControl);
+        FwBrowse.renderRuntimeHtml($checkOutPendingItemGridControl);
         //----------------------------------------------------------------------------------------------
-        //this.addLegend($form, $stagedItemGrid);
     };
     //----------------------------------------------------------------------------------------------
     afterLoad($form: any): void {
-        let $stagedItemGrid, $stageQuantityItemGrid, $stagingExceptionGrid;
+        let $stagedItemGrid, $stageQuantityItemGrid, $checkOutPendingItemGrid;
         $stagedItemGrid = $form.find('[data-name="StagedItemGrid"]');
         FwBrowse.search($stagedItemGrid);
         //----------------------------------------------------------------------------------------------
         $stageQuantityItemGrid = $form.find('[data-name="StageQuantityItemGrid"]');
         FwBrowse.search($stageQuantityItemGrid);
         //----------------------------------------------------------------------------------------------
-        $stagingExceptionGrid = $form.find('[data-name="StagingExceptionGrid"]');
-        FwBrowse.search($stagingExceptionGrid);
+        $checkOutPendingItemGrid = $form.find('[data-name="CheckOutPendingItemGrid"]');
+        FwBrowse.search($checkOutPendingItemGrid);
     };
     //----------------------------------------------------------------------------------------------
     addItemFieldValues($form: any, response: any): void {
@@ -603,14 +596,14 @@ class StagingCheckout {
         // BarCode / I-Code change
         $form.find('[data-datafield="Code"] input').on('keydown', e => {
             if (e.which == 9 || e.which == 13) {
-                let code, orderId, $stagedItemGrid, $stagingExceptionGrid, request: any = {};
+                let code, orderId, $stagedItemGrid, $checkOutPendingItemGrid, request: any = {};
 
                 $form.find('.error-msg').html('');
                 $form.find('div.AddItemToOrder').html('');
                 orderId = FwFormField.getValueByDataField($form, 'OrderId');
                 code = FwFormField.getValueByDataField($form, 'Code');
                 $stagedItemGrid = $form.find('[data-name="StagedItemGrid"]');
-                $stagingExceptionGrid = $form.find('[data-name="StagingExceptionGrid"]');
+                $checkOutPendingItemGrid = $form.find('[data-name="CheckOutPendingItemGrid"]');
 
                 request = {
                     OrderId: orderId,
@@ -622,10 +615,10 @@ class StagingCheckout {
                         successSound.play();
                         this.addItemFieldValues($form, response);
 
-                        if (this.isExceptionGridView === false) {
+                        if (this.isPendingItemGridView === false) {
                             FwBrowse.search($stagedItemGrid);
                         } else {
-                            FwBrowse.search($stagingExceptionGrid);
+                            FwBrowse.search($checkOutPendingItemGrid);
                         }
                         $form.find('[data-datafield="Code"] input').select();
                     } if (response.status === 107) {
@@ -665,7 +658,7 @@ class StagingCheckout {
             if (this.showAddItemToOrder != true) {
                 if (e.which == 9 || e.which == 13) {
                     e.preventDefault();
-                    let code, orderId, quantity, $stagedItemGrid, $stagingExceptionGrid;
+                    let code, orderId, quantity, $stagedItemGrid, $checkOutPendingItemGrid;
 
                     $form.find('.error-msg').html('');
                     $form.find('div.AddItemToOrder').html('');
@@ -673,7 +666,7 @@ class StagingCheckout {
                     code = FwFormField.getValueByDataField($form, 'Code');
                     quantity = +FwFormField.getValueByDataField($form, 'Quantity');
                     $stagedItemGrid = $form.find('[data-name="StagedItemGrid"]');
-                    $stagingExceptionGrid = $form.find('[data-name="StagingExceptionGrid"]');
+                    $checkOutPendingItemGrid = $form.find('[data-name="CheckOutPendingItemGrid"]');
 
                     let request: any = {};
                     request = {
@@ -686,10 +679,10 @@ class StagingCheckout {
                             successSound.play();
                             this.addItemFieldValues($form, response);
 
-                            if (this.isExceptionGridView === false) {
+                            if (this.isPendingItemGridView === false) {
                                 FwBrowse.search($stagedItemGrid);
                             } else {
-                                FwBrowse.search($stagingExceptionGrid);
+                                FwBrowse.search($checkOutPendingItemGrid);
                             }
                             FwFormField.setValueByDataField($form, 'Quantity', 0)
                             $form.find('[data-datafield="Code"] input').select();
@@ -775,23 +768,23 @@ class StagingCheckout {
             let $target = jQuery(e.currentTarget),
                 gridView = $target.val(),
                 stagedItemGridContainer = $form.find('.staged-item-grid'),
-                stagedExceptionGridContainier = $form.find('.exception-grid'),
+                checkOutPendingItemGridContainier = $form.find('.pending-item-grid'),
                 $stagedItemGrid = $form.find('[data-name="StagedItemGrid"]'),
-                $stagingExceptionGrid = $form.find('[data-name="StagingExceptionGrid"]'),
+                $checkOutPendingItemGrid = $form.find('[data-name="CheckOutPendingItemGrid"]'),
                 orderId = FwFormField.getValueByDataField($form, 'OrderId');
             if (orderId !== '') {
                 switch (gridView) {
                     case 'STAGE':
-                        stagedExceptionGridContainier.hide();
+                        checkOutPendingItemGridContainier.hide();
                         stagedItemGridContainer.show();
                         FwBrowse.search($stagedItemGrid);
-                        this.isExceptionGridView = false;
+                        this.isPendingItemGridView = false;
                         break;
-                    case 'EXCEPTION':
+                    case 'PENDING':
                         stagedItemGridContainer.hide();
-                        stagedExceptionGridContainier.show();
-                        FwBrowse.search($stagingExceptionGrid);
-                        this.isExceptionGridView = true;
+                        checkOutPendingItemGridContainier.show();
+                        FwBrowse.search($checkOutPendingItemGrid);
+                        this.isPendingItemGridView = true;
                         break;
                 }
             } else {
@@ -873,13 +866,13 @@ class StagingCheckout {
     //----------------------------------------------------------------------------------------------
     addItemToOrder(element: any): void {
         this.showAddItemToOrder = false;
-        let code, $form, $element, orderId, quantity, $stagedItemGrid, $stagingExceptionGrid, successSound, request: any = {};
+        let code, $form, $element, orderId, quantity, $stagedItemGrid, $checkOutPendingItemGrid, successSound, request: any = {};
         $element = jQuery(element);
         $form = jQuery($element).closest('.fwform');
         orderId = FwFormField.getValueByDataField($form, 'OrderId');
         code = FwFormField.getValueByDataField($form, 'Code');
         $stagedItemGrid = $form.find('[data-name="StagedItemGrid"]');
-        $stagingExceptionGrid = $form.find('[data-name="StagingExceptionGrid"]');
+        $checkOutPendingItemGrid = $form.find('[data-name="CheckOutPendingItemGrid"]');
         quantity = +FwFormField.getValueByDataField($form, 'Quantity');
         successSound = new Audio(this.successSoundFileName);
 
@@ -900,10 +893,10 @@ class StagingCheckout {
 
         FwAppData.apiMethod(true, 'POST', `api/v1/checkout/stageitem`, request, FwServices.defaultTimeout, response => {
             try {
-                if (this.isExceptionGridView === false) {
+                if (this.isPendingItemGridView === false) {
                     FwBrowse.search($stagedItemGrid);
                 } else {
-                    FwBrowse.search($stagingExceptionGrid);
+                    FwBrowse.search($checkOutPendingItemGrid);
                 }
                 $form.find('.error-msg').html('');
                 $form.find('div.AddItemToOrder').html('');
@@ -918,13 +911,13 @@ class StagingCheckout {
     //----------------------------------------------------------------------------------------------
     unstageItem(element: any): void {
         this.showAddItemToOrder = false;
-        let code, $form, $element, orderId, $stagedItemGrid, $stagingExceptionGrid, successSound, request: any = {};
+        let code, $form, $element, orderId, $stagedItemGrid, $checkOutPendingItemGrid, successSound, request: any = {};
         $element = jQuery(element);
         $form = jQuery($element).closest('.fwform');
         orderId = FwFormField.getValueByDataField($form, 'OrderId');
         code = FwFormField.getValueByDataField($form, 'Code');
         $stagedItemGrid = $form.find('[data-name="StagedItemGrid"]');
-        $stagingExceptionGrid = $form.find('[data-name="StagingExceptionGrid"]');
+        $checkOutPendingItemGrid = $form.find('[data-name="CheckOutPendingItemGrid"]');
         successSound = new Audio(this.successSoundFileName);
 
         request = {
@@ -935,10 +928,10 @@ class StagingCheckout {
 
         FwAppData.apiMethod(true, 'POST', `api/v1/checkout/stageitem`, request, FwServices.defaultTimeout, response => {
             try {
-                if (this.isExceptionGridView === false) {
+                if (this.isPendingItemGridView === false) {
                     FwBrowse.search($stagedItemGrid);
                 } else {
-                    FwBrowse.search($stagingExceptionGrid);
+                    FwBrowse.search($checkOutPendingItemGrid);
                 }
                 $form.find('.error-msg').html('');
                 $form.find('div.AddItemToOrder').html('');
@@ -953,13 +946,13 @@ class StagingCheckout {
     //----------------------------------------------------------------------------------------------
     addCompleteToOrder(element: any): void {
         this.showAddItemToOrder = false;
-        let code, $form, $element, orderId, quantity, $stagedItemGrid, $stagingExceptionGrid, successSound, request: any = {};
+        let code, $form, $element, orderId, quantity, $stagedItemGrid, $checkOutPendingItemGrid, successSound, request: any = {};
         $element = jQuery(element);
         $form = jQuery($element).closest('.fwform');
         orderId = FwFormField.getValueByDataField($form, 'OrderId');
         code = FwFormField.getValueByDataField($form, 'Code');
         $stagedItemGrid = $form.find('[data-name="StagedItemGrid"]');
-        $stagingExceptionGrid = $form.find('[data-name="StagingExceptionGrid"]');
+        $checkOutPendingItemGrid = $form.find('[data-name="CheckOutPendingItemGrid"]');
         successSound = new Audio(this.successSoundFileName);
 
         if (quantity != 0) {
@@ -979,10 +972,10 @@ class StagingCheckout {
 
         FwAppData.apiMethod(true, 'POST', `api/v1/checkout/stageitem`, request, FwServices.defaultTimeout, response => {
             try {
-                if (this.isExceptionGridView === false) {
+                if (this.isPendingItemGridView === false) {
                     FwBrowse.search($stagedItemGrid);
                 } else {
-                    FwBrowse.search($stagingExceptionGrid);
+                    FwBrowse.search($checkOutPendingItemGrid);
                 }
                 $form.find('.error-msg').html('');
                 $form.find('div.AddItemToOrder').html('');
