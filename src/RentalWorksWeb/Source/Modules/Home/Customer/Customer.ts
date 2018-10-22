@@ -6,7 +6,7 @@ class Customer {
     apiurl: string = 'api/v1/customer';
     caption: string = 'Customer';
     thisModule: Customer;
-
+    //----------------------------------------------------------------------------------------------
     getModuleScreen(filter?: { datafield: string, search: string }) {
         var self = this;
         var screen: any = {};
@@ -37,7 +37,7 @@ class Customer {
 
         return screen;
     }
-
+    //----------------------------------------------------------------------------------------------
     events($form: JQuery): void {
         $form.find('[data-name="CompanyTaxOptionGrid"]').data('onselectedrowchanged', ($control: JQuery, $tr: JQuery) => {
             try {
@@ -82,7 +82,7 @@ class Customer {
             }
         });
     }
-
+    //----------------------------------------------------------------------------------------------
     openBrowse() {
         var $browse: any = FwBrowse.loadBrowseFromTemplate(this.Module);
         $browse = FwModule.openBrowse($browse);
@@ -104,10 +104,49 @@ class Customer {
 
         return $browse;
     }
-
+    //----------------------------------------------------------------------------------------------
     openForm(mode: string) {
         var $form: any = FwModule.loadFormFromTemplate(this.Module);
         $form = FwModule.openForm($form, mode);
+
+        let $submoduleQuoteBrowse = this.openQuoteBrowse($form);
+        $form.find('.quote-page').append($submoduleQuoteBrowse);
+        let $submoduleOrderBrowse = this.openOrderBrowse($form);
+        $form.find('.order-page').append($submoduleOrderBrowse);
+
+        $submoduleQuoteBrowse.find('div.btn[data-type="NewMenuBarButton"]').off('click');
+        $submoduleQuoteBrowse.find('div.btn[data-type="NewMenuBarButton"]').on('click', function () {
+            var $quoteForm, controller, $browse, quoteFormData: any = {};
+            $browse = jQuery(this).closest('.fwbrowse');
+            controller = $browse.attr('data-controller');
+            quoteFormData.DealId = FwFormField.getValueByDataField($form, 'DealId');
+            quoteFormData.Deal = FwFormField.getValueByDataField($form, 'Deal');
+            quoteFormData.RateTypeId = FwFormField.getValueByDataField($form, 'DefaultRate');
+            quoteFormData.RateType = FwFormField.getTextByDataField($form, 'DefaultRate');
+            quoteFormData.BillingCycleId = FwFormField.getValueByDataField($form, 'BillingCycleId');
+            quoteFormData.BillingCycle = FwFormField.getTextByDataField($form, 'BillingCycleId');
+            if (typeof window[controller] !== 'object') throw 'Missing javascript module: ' + controller;
+            if (typeof window[controller]['openForm'] !== 'function') throw 'Missing javascript function: ' + controller + '.openForm';
+            $quoteForm = window[controller]['openForm']('NEW', quoteFormData);
+            FwModule.openSubModuleTab($browse, $quoteForm);
+        });
+
+        $submoduleOrderBrowse.find('div.btn[data-type="NewMenuBarButton"]').off('click');
+        $submoduleOrderBrowse.find('div.btn[data-type="NewMenuBarButton"]').on('click', function () {
+            var $orderForm, controller, $browse, orderFormData: any = {};
+            $browse = jQuery(this).closest('.fwbrowse');
+            controller = $browse.attr('data-controller');
+            orderFormData.DealId = FwFormField.getValueByDataField($form, 'DealId');
+            orderFormData.Deal = FwFormField.getValueByDataField($form, 'Deal');
+            orderFormData.RateTypeId = FwFormField.getValueByDataField($form, 'DefaultRate');
+            orderFormData.RateType = FwFormField.getTextByDataField($form, 'DefaultRate');
+            orderFormData.BillingCycleId = FwFormField.getValueByDataField($form, 'BillingCycleId');
+            orderFormData.BillingCycle = FwFormField.getTextByDataField($form, 'BillingCycleId');
+            if (typeof window[controller] !== 'object') throw 'Missing javascript module: ' + controller;
+            if (typeof window[controller]['openForm'] !== 'function') throw 'Missing javascript function: ' + controller + '.openForm';
+            $orderForm = window[controller]['openForm']('NEW', orderFormData);
+            FwModule.openSubModuleTab($browse, $orderForm);
+        });
 
         if (mode === 'NEW') {
             let officeLocation = JSON.parse(sessionStorage.getItem('location'));
@@ -156,21 +195,7 @@ class Customer {
 
         return $form;
     };
-
-    openDealBrowse($form) {
-        var $browse;
-
-        $browse = DealController.openBrowse();
-
-        $browse.data('ondatabind', function (request) {
-            request.uniqueids = {
-                CustomerId: $form.find('[data-datafield="CustomerId"] input.fwformfield-value').val()
-            }
-        });
-
-        return $browse;
-    }
-
+    //----------------------------------------------------------------------------------------------
     loadForm(uniqueids: any) {
         var $form: any = this.openForm('EDIT');
         FwFormField.setValueByDataField($form, 'CustomerId', uniqueids.CustomerId);
@@ -178,16 +203,16 @@ class Customer {
 
         return $form;
     }
-
+    //----------------------------------------------------------------------------------------------
     saveForm($form: any, parameters: any) {
         FwModule.saveForm(this.Module, $form, parameters);
     }
-
+    //----------------------------------------------------------------------------------------------
     loadAudit($form: any) {
         var uniqueid: string = FwFormField.getValueByDataField($form, 'CustomerId');
         FwModule.loadAudit($form, uniqueid);
     }
-
+    //----------------------------------------------------------------------------------------------
     renderGrids($form: any) {
         // ----------
         var nameCustomerResaleGrid: string = 'CompanyResaleGrid';
@@ -251,7 +276,7 @@ class Customer {
         FwBrowse.init($companyContactControl);
         FwBrowse.renderRuntimeHtml($companyContactControl);
     }
-    //--------------------
+    //----------------------------------------------------------------------------------------------
     beforeValidateInsuranceVendor($browse, $grid, request) {
         var $form;
         $form = $grid.closest('.fwform');
@@ -260,7 +285,7 @@ class Customer {
             Insurance: true
         }
     }
-    //--------------------
+    //----------------------------------------------------------------------------------------------
     afterLoad($form: any) {
         var $customerResaleGrid: any = $form.find('[data-name="CompanyResaleGrid"]');
         //FwBrowse.search($customerResaleGrid);
@@ -274,16 +299,20 @@ class Customer {
         var $companyContactGrid: any = $form.find('[data-name="CompanyContactGrid"]');
         //FwBrowse.search($companyContactGrid);
 
-        var $dealBrowse = $form.find('#DealBrowse');
+        let $dealBrowse = $form.find('#DealBrowse');
         FwBrowse.search($dealBrowse);
+        let $orderBrowse = $form.find('#OrderBrowse');
+        FwBrowse.search($orderBrowse);
+        let $quoteBrowse = $form.find('#QuoteBrowse');
+        FwBrowse.search($quoteBrowse);
 
         if (FwFormField.getValue($form, 'div[data-datafield="UseDiscountTemplate"]') === true) {
             FwFormField.enable($form.find('.discount-validation'));
         };
 
-        //open deal browse submodule
-        var $submoduleDealBrowse = this.openDealBrowse($form);
-        $form.find('.deal').append($submoduleDealBrowse);
+        //open Deal browse submodule
+        let $submoduleDealBrowse = this.openDealBrowse($form);
+        $form.find('.deal-page').append($submoduleDealBrowse);
         $submoduleDealBrowse.find('div.btn[data-type="NewMenuBarButton"]').off('click');
         $submoduleDealBrowse.find('div.btn[data-type="NewMenuBarButton"]').on('click', function () {
             var $dealForm, controller, $browse, dealFormData: any = {};
@@ -295,6 +324,36 @@ class Customer {
             if (typeof window[controller]['openForm'] !== 'function') throw 'Missing javascript function: ' + controller + '.openForm';
             $dealForm = window[controller]['openForm']('NEW', dealFormData);
             FwModule.openSubModuleTab($browse, $dealForm);
+        });
+         // Open Quote submodule browse
+        let $submoduleQuoteBrowse = this.openQuoteBrowse($form);
+        $form.find('.quote-page').append($submoduleQuoteBrowse);
+        $submoduleQuoteBrowse.find('div.btn[data-type="NewMenuBarButton"]').off('click');
+        $submoduleQuoteBrowse.find('div.btn[data-type="NewMenuBarButton"]').on('click', function () {
+            var $quoteForm, controller, $browse, quoteFormData: any = {};
+            $browse = jQuery(this).closest('.fwbrowse');
+            controller = $browse.attr('data-controller');
+            quoteFormData.CustomerId = FwFormField.getValueByDataField($form, 'CustomerId');
+            quoteFormData.Customer = FwFormField.getValueByDataField($form, 'Customer');
+            if (typeof window[controller] !== 'object') throw 'Missing javascript module: ' + controller;
+            if (typeof window[controller]['openForm'] !== 'function') throw 'Missing javascript function: ' + controller + '.openForm';
+            $quoteForm = window[controller]['openForm']('NEW', quoteFormData);
+            FwModule.openSubModuleTab($browse, $quoteForm);
+        });
+        // Open Order submodule browse
+        let $submoduleOrderBrowse = this.openOrderBrowse($form);
+        $form.find('.order-page').append($submoduleOrderBrowse);
+        $submoduleOrderBrowse.find('div.btn[data-type="NewMenuBarButton"]').off('click');
+        $submoduleOrderBrowse.find('div.btn[data-type="NewMenuBarButton"]').on('click', function () {
+            var $orderForm, controller, $browse, orderFormData: any = {};
+            $browse = jQuery(this).closest('.fwbrowse');
+            controller = $browse.attr('data-controller');
+            orderFormData.CustomerId = FwFormField.getValueByDataField($form, 'CustomerId');
+            orderFormData.Customer = FwFormField.getValueByDataField($form, 'Customer');
+            if (typeof window[controller] !== 'object') throw 'Missing javascript module: ' + controller;
+            if (typeof window[controller]['openForm'] !== 'function') throw 'Missing javascript function: ' + controller + '.openForm';
+            $orderForm = window[controller]['openForm']('NEW', orderFormData);
+            FwModule.openSubModuleTab($browse, $orderForm);
         });
 
         //Click Event on tabs to load grids/browses
@@ -322,7 +381,7 @@ class Customer {
 
         this.addressTypeChange($form);
     }
-
+    //----------------------------------------------------------------------------------------------
     addressTypeChange($form) {
         if (FwFormField.getValue($form, '.billing_address_type') === 'CUSTOMER') {
             // Values from Customer fields in general tab
@@ -355,5 +414,47 @@ class Customer {
             FwFormField.enable($form.find('.shippingaddress'));
         };
     }
+    //----------------------------------------------------------------------------------------------
+    openDealBrowse($form) {
+        var $browse;
+
+        $browse = DealController.openBrowse();
+
+        $browse.data('ondatabind', function (request) {
+            request.uniqueids = {
+                CustomerId: $form.find('[data-datafield="CustomerId"] input.fwformfield-value').val()
+            }
+        });
+
+        return $browse;
+    }
+    //----------------------------------------------------------------------------------------------
+    openQuoteBrowse($form) {
+        var $browse;
+        $browse = QuoteController.openBrowse();
+
+        $browse.data('ondatabind', function (request) {
+            request.ActiveView = QuoteController.ActiveView;
+            request.uniqueids = {
+                CustomerId: $form.find('[data-datafield="CustomerId"] input.fwformfield-value').val()
+            }
+        });
+
+        return $browse;
+    };
+    //----------------------------------------------------------------------------------------------
+    openOrderBrowse($form) {
+        var $browse;
+        $browse = OrderController.openBrowse();
+
+        $browse.data('ondatabind', function (request) {
+            request.ActiveView = OrderController.ActiveView;
+            request.uniqueids = {
+                CustomerId: $form.find('[data-datafield="CustomerId"] input.fwformfield-value').val()
+            }
+        });
+
+        return $browse;
+    };
 }
 var CustomerController = new Customer();
