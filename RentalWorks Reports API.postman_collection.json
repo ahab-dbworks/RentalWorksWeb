@@ -486,6 +486,46 @@
 			]
 		},
 		{
+			"name": "Parts Inventory Reorder Report",
+			"item": [
+				{
+					"name": "Parts Inventory Reorder Report: Run Report",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "\t{\n    \t\t\"ReorderPointMode\": \"LTE\",             \"ReorderPointModeComment\": \" LT  - quantity less than reorder point\n                                                                                LTE - quantity less than or equal to reorder point\n                                                                                E   - quantity equal to reorder point\n                                                                                GT  - quantity greater than reorder point\n                                                                                GTE - quantity greater than or equal to reorder point\n                                                                                ALL - all items regardless of quantity or reorder point\",\n    \t\t\"IncludeZeroReorderPoint\": true,\n    \t\t\"WarehouseId\": \"B0029AY5\",\n    \t\t\"InventoryTypeId\": \"\",\n    \t\t\"CategoryId\": \"\",\n    \t\t\"SubCategoryId\": \"\",\n    \t\t\"InventoryId\": \"\"\n}\n\n\n"
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/partsinventoryreorderreport/runreport",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"partsinventoryreorderreport",
+								"runreport"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
 			"name": "Pick List Report",
 			"item": [
 				{
@@ -664,7 +704,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "\t{\n    \t\t\"ReorderPointMode\": \"LTE\",             \"ReorderPointModeComment\": \" LT  - quantity less than reorder point\n                                                                                LTE - quantity less than or equal to reorder point\n                                                                                E   - quantity equal to reorder point\n                                                                                GT  - quantity greater than reorder point\n                                                                                GTE - quantity greater than or equal to reorder point\n                                                                                ALL - all items regardless of quantity or reorder point\",\n    \t\t\"IncludeZeroReorderPoint\": false,\n    \t\t\"WarehouseId\": \"B0029AY5\",\n    \t\t\"InventoryTypeId\": \"\",\n    \t\t\"CategoryId\": \"\",\n    \t\t\"SubCategoryId\": \"\",\n    \t\t\"InventoryId\": \"\"\n}"
+							"raw": "\t{\n    \t\t\"ReorderPointMode\": \"LTE\",             \"ReorderPointModeComment\": \" LT  - quantity less than reorder point\n                                                                                LTE - quantity less than or equal to reorder point\n                                                                                E   - quantity equal to reorder point\n                                                                                GT  - quantity greater than reorder point\n                                                                                GTE - quantity greater than or equal to reorder point\n                                                                                ALL - all items regardless of quantity or reorder point\",\n    \t\t\"IncludeZeroReorderPoint\": false,\n    \t\t\"WarehouseId\": \"B0029AY5\",\n    \t\t\"InventoryTypeId\": \"\",\n    \t\t\"CategoryId\": \"\",\n    \t\t\"SubCategoryId\": \"\",\n    \t\t\"InventoryId\": \"\"\n}\n\n\n"
 						},
 						"url": {
 							"raw": "http://localhost:57949/api/v1/salesinventoryreorderreport/runreport",
