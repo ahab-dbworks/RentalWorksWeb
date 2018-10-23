@@ -95,12 +95,12 @@ class CustomForm {
         //Loads html for code editor
         let html = $form.find('[data-datafield="Html"] textarea').val();
         if (typeof html !== 'undefined') {
-           this.codeMirror.setValue(html);
+            this.codeMirror.setValue(html);
         } else {
             this.codeMirror.setValue('');
         }
         let controller: any = $form.find('[data-datafield="BaseForm"] option:selected').attr('data-controllername');
-      
+
         this.addValidFields($form, controller);
     }
     //----------------------------------------------------------------------------------------------
@@ -112,7 +112,7 @@ class CustomForm {
                 mode: 'text/html'
                 , lineNumbers: true
             });
-   
+
         this.codeMirror = codeMirror;
 
         //Select module event
@@ -122,7 +122,8 @@ class CustomForm {
             let type = $this.attr('data-type');
             let controller: any = $this.attr('data-controllername');
             let modulehtml;
-       
+
+            //get the html from the template and set it as codemirror's value
             switch (type) {
                 case 'Browse':
                     modulehtml = jQuery(`#tmpl-modules-${moduleName}`).html();
@@ -147,7 +148,7 @@ class CustomForm {
             }
 
             if (typeof modulehtml !== "undefined") {
-               codeMirror.setValue(modulehtml);
+                codeMirror.setValue(modulehtml);
             } else {
                 codeMirror.setValue(`There is no ${type} available for this selection.`);
             }
@@ -207,34 +208,57 @@ class CustomForm {
     addValidFields($form, controller) {
         //Get valid field names and sort them
         const modulefields = $form.find('.modulefields');
-          let apiurl = $form.find('[data-datafield="BaseForm"] option:selected').attr('data-apiurl');
-        let request: any = {};
+        let moduleType = $form.find('[data-datafield="BaseForm"] option:selected').attr('data-type');
         let moduleNav = controller.slice(0, -10);
-        request = {
-            module: moduleNav,
-            top: 1
-        };
+        let apiurl = $form.find('[data-datafield="BaseForm"] option:selected').attr('data-apiurl');
         modulefields.empty();
-        if (apiurl !== "undefined") {
-            FwAppData.apiMethod(true, 'POST', `${apiurl}/browse`, request, FwServices.defaultTimeout, function onSuccess(response) {
-                let columnNames = response.Columns;
+        switch (moduleType) {
+            case 'Grid':
+            case 'Browse':
+                let request: any = {};
+                request = {
+                    module: moduleNav,
+                    top: 1
+                };
+                if (apiurl !== "undefined") {
+                    FwAppData.apiMethod(true, 'POST', `${apiurl}/browse`, request, FwServices.defaultTimeout, function onSuccess(response) {
+                        let columnNames = response.Columns;
+                        columnNames = columnNames.map(obj => {
+                            return obj.DataField;
+                        })
+                        columnNames = columnNames.sort(compare);
 
-                columnNames = columnNames.filter(obj => {
-                    return obj.DataField !== 'DateStamp';
-                });
-
-                columnNames = columnNames.sort(compare);
-
-                for (let i = 0; i < columnNames.length; i++) {
-                    modulefields.append(`${columnNames[i].DataField}<br />`);
+                        for (let i = 0; i < columnNames.length; i++) {
+                            modulefields.append(`${columnNames[i]}<br />`);
+                        }
+                    }, null, $form);
                 }
-            }, null, $form);
+                break;
+            case 'Form':
+                FwAppData.apiMethod(true, 'GET', `${apiurl}/emptyobject`, null, FwServices.defaultTimeout, function onSuccess(response) {
+                    let columnNames = Object.keys(response);
+                    let customFields = response._Custom.map(obj => obj.FieldName);
+                    for (let i = 0; i < customFields.length; i++) {
+                        columnNames.push(`${customFields[i]} [Custom]`);
+                    }
+                    columnNames = columnNames.sort(compare);
+
+                    for (let i = 0; i < columnNames.length; i++) {
+                        if (columnNames[i] != 'DateStamp' && columnNames[i] != 'RecordTitle' && columnNames[i] != '_Custom') {
+                            modulefields.append(`
+                                <div data-iscustomfield=${customFields.indexOf(columnNames[i]) === -1 ? false : true}>
+                                ${columnNames[i]}</div>
+                                `);
+                        }
+                    }
+                }, null, $form);
+                break;
         }
 
         function compare(a, b) {
-            if (a.DataField < b.DataField)
+            if (a < b)
                 return -1;
-            if (a.DataField > b.DataField)
+            if (a > b)
                 return 1;
             return 0;
         }
