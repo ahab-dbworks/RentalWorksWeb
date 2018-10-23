@@ -208,6 +208,7 @@ class DuplicateRule {
     }
     //----------------------------------------------------------------------------------------------
     afterLoad($form: any) {
+        $form.find('div.modules').change();
         if (FwFormField.getValueByDataField($form, 'SystemRule') === 'true') {
             FwFormField.toggle($form.find('.SystemRuleTRUE'), false);
         }
