@@ -168,24 +168,23 @@ namespace FwCore.Controllers
                     type = logicType;
                 }
 
-                string[] ids = id.Split('~');
                 FwBusinessLogic l = CreateBusinessLogic(type, this.AppConfig, this.UserSession);
-                //if (await l.LoadAsync<T>(ids))
-                //{
-                //    return new OkObjectResult(l);
-                //}
-                //else
-                //{
-                //    return NotFound();
-                //}
-                bool found = await l.LoadAsync<T>(ids);
-                if ((!found) && return404IfGetNotFound)
+                if (id.Equals("emptyobject")) //justin 10/23/2018 temporary solution for listing Fields on Custom Forms and Duplicate Rules.  Will be replaced with a front-end solution to traverse the Security Tree (once ready)
                 {
-                    return NotFound();
+                    return new OkObjectResult(l);
                 }
                 else
                 {
-                    return new OkObjectResult(l);
+                    string[] ids = id.Split('~');
+                    bool found = await l.LoadAsync<T>(ids);
+                    if ((!found) && return404IfGetNotFound)
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        return new OkObjectResult(l);
+                    }
                 }
             }
             catch (Exception ex)
