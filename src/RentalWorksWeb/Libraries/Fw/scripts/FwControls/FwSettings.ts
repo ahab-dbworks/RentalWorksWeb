@@ -237,8 +237,8 @@ class FwSettingsClass {
             let $browse = window[moduleName + 'Controller'].openBrowse();
             let colors = [];
             let browseData = [];
-
-            FwBrowse.loadCustomBrowseFields($browse, moduleName);
+            let duplicateDatafields = {};
+            let withoutDuplicates = [];
 
             keys = $browse.find('.field');
             rowId = jQuery(keys[0]).attr('data-browsedatafield');
@@ -249,7 +249,11 @@ class FwSettingsClass {
             }
 
             for (var i = 1; i < keys.length; i++) {
-                var Key = jQuery(keys[i]).attr('data-browsedatafield');
+                if (jQuery(keys[i]).attr('data-datafield')) {
+                    var Key = jQuery(keys[i]).attr('data-datafield');
+                } else if (jQuery(keys[i]).attr('data-browsedatafield')) {
+                    var Key = jQuery(keys[i]).attr('data-browsedatafield');
+                }
                 var cellColor = $browse.find('div[data-browsedatafield="' + Key + '"]').data('cellcolor')
                 browseKeys.push(Key);
                 var fieldData = {};
@@ -270,7 +274,7 @@ class FwSettingsClass {
                 fieldData['datafield'] = Key
                 browseData.push(fieldData)
 
-                if (i === 1 && Key !== 'Inactive' || i === 2 && jQuery(keys[1]).attr('data-datafield') === 'Inactive') {
+                if (i === 1 && Key !== 'Inactive' || i === 2 && jQuery(keys[1]).attr('data-browsedatafield') === 'Inactive') {
                     for (var k = 0; k < response.length - 1; k++) {
                         for (var l = 0, sorted; l < response.length - 1; l++) {
                             if (response[l][Key].toLowerCase() > response[l + 1][Key].toLowerCase()) {
@@ -282,6 +286,14 @@ class FwSettingsClass {
                     }
                 }
             };
+
+            browseData.forEach(function (browseField) {
+                if (!duplicateDatafields[browseField.datafield]) {
+                    withoutDuplicates.push(browseField);
+                    duplicateDatafields[browseField.datafield] = true;
+                }
+            });
+            browseData = withoutDuplicates;
 
             for (var i = 0; i < response.length; i++) {
                 var html = [], $moduleRows;
@@ -527,9 +539,6 @@ class FwSettingsClass {
                 duplicateDatafields = {};
                 var withoutDuplicates = [];
 
-                FwBrowse.loadCustomBrowseFields($browse, moduleName);
-
-
                 if ($body.is(':empty')) {
                     //append legend
                     if ($browse.find('.legend').length > 0) {
@@ -542,7 +551,11 @@ class FwSettingsClass {
                         rowId = jQuery(keys[0]).attr('data-browsedatafield');
 
                         for (var i = 1; i < keys.length; i++) {
-                            var Key = jQuery(keys[i]).attr('data-browsedatafield');
+                            if (jQuery(keys[i]).attr('data-datafield')) {
+                                var Key = jQuery(keys[i]).attr('data-datafield');
+                            } else if (jQuery(keys[i]).attr('data-browsedatafield')) {
+                                var Key = jQuery(keys[i]).attr('data-browsedatafield');
+                            }
                             var cellColor = $browse.find('div[data-browsedatafield="' + Key + '"]').data('cellcolor')
                             browseKeys.push(Key);
                             var fieldData = {};
@@ -560,8 +573,8 @@ class FwSettingsClass {
                             }
 
                             fieldData['datatype'] = $browse.find('div[data-browsedatafield="' + Key + '"]').data('datatype');
-                            fieldData['datafield'] = Key
-                            browseData.push(fieldData)
+                            fieldData['datafield'] = Key;
+                            browseData.push(fieldData);
 
                             if (i === 1 && Key !== 'Inactive' || i === 2 && jQuery(keys[1]).attr('data-browsedatafield') === 'Inactive') {
                                 for (var k = 0; k < response.length - 1; k++) {
@@ -908,10 +921,11 @@ class FwSettingsClass {
                             }
                         }
                         module.show();
+
+                        $module.filter(function () {
+                            return -1 != jQuery(this).text().toUpperCase().split(' ').join('').indexOf(results[i]);
+                        }).closest('div.panel-group').show();
                     }
-                    $module.filter(function () {
-                        return -1 != jQuery(this).text().toUpperCase().indexOf(val);
-                    }).closest('div.panel-group').show();
 
                     let searchResults = $control.find('.panel-heading:visible');
 
