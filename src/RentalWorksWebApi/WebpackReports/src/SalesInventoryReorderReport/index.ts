@@ -16,6 +16,7 @@ export class SalesInventoryReorderReportRequest {
     CategoryId: string;
     SubCategoryId: string;
     InventoryId: string;
+    IncludeZeroReorderPoint: boolean;
 }
 
 export class SalesInventoryReorderReport extends WebpackReport {
@@ -32,6 +33,7 @@ export class SalesInventoryReorderReport extends WebpackReport {
             request.CategoryId = parameters.CategoryId;
             request.SubCategoryId = parameters.SubCategoryId;
             request.InventoryId = parameters.InventoryId;
+            request.IncludeZeroReorderPoint = parameters.IncludeZeroReorderPoint;
 
             let salesInventoryReorder: any = {};
 

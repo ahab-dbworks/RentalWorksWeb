@@ -43,6 +43,13 @@ var partsInventoryReorderFrontEnd = `
                 </div>
               </div>
             </div>
+            <div class="flexcolumn" style="max-width:300px;">
+              <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Options">
+                <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                  <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Include Items with Reorder Point of Zero" data-datafield="IncludeZeroReorderPoint" style="float:left;max-width:300px;"></div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
