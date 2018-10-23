@@ -109,7 +109,7 @@ class CustomForm {
         let textArea = $form.find('#codeEditor');
         var codeMirror = CodeMirror.fromTextArea(textArea.get(0),
             {
-                mode: 'text/html'
+                mode: 'xml'
                 , lineNumbers: true
             });
 
