@@ -1,11 +1,11 @@
 ﻿routes.push({
-    pattern: /^reports\/salesinventoryreorderreport/, action: function (match: RegExpExecArray) {
-        return RwSalesInventoryReorderReportController.getModuleScreen();
+    pattern: /^reports\/partsinventoryreorderreport/, action: function (match: RegExpExecArray) {
+        return RwPartsInventoryReorderReportController.getModuleScreen();
     }
 });
 
-var salesInventoryReorderFrontEnd = `
-<div class="fwcontrol fwcontainer fwform fwreport salesinventoryreorderreport" data-control="FwContainer" data-type="form" data-version="1" data-caption="Invoice Summary" data-rendermode="template" data-mode="" data-hasaudit="false" data-controller="RwSalesInventoryReorderReportController">
+var partsInventoryReorderFrontEnd = `
+<div class="fwcontrol fwcontainer fwform fwreport partsinventoryreorderreport" data-control="FwContainer" data-type="form" data-version="1" data-caption="Invoice Summary" data-rendermode="template" data-mode="" data-hasaudit="false" data-controller="RwPartsInventoryReorderReportController">
   <div class="fwcontrol fwtabs" data-control="FwTabs" data-type="">
     <div class="tabs" style="margin-right:10px;">
       <div id="generaltab" class="tab" data-tabpageid="generaltabpage" data-caption="General"></div>
@@ -33,13 +33,13 @@ var salesInventoryReorderFrontEnd = `
                   <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Inventory Type" data-datafield="InventoryTypeId" data-displayfield="InventoryType" data-formbeforevalidate="beforeValidate" data-validationname="InventoryTypeValidation" style="float:left;max-width:300px;"></div>
                 </div>
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                  <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Category" data-datafield="CategoryId" data-displayfield="Category" data-formbeforevalidate="beforeValidate" data-validationname="SalesCategoryValidation" style="float:left;max-width:300px;"></div>
+                  <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Category" data-datafield="CategoryId" data-displayfield="Category" data-formbeforevalidate="beforeValidate" data-validationname="PartsCategoryValidation" style="float:left;max-width:300px;"></div>
                 </div>
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                   <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Sub-Category" data-datafield="SubCategoryId" data-formbeforevalidate="beforeValidate" data-displayfield="SubCategory" data-validationname="SubCategoryValidation" style="float:left;max-width:300px;"></div>
                 </div>
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                  <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="I-Code" data-datafield="InventoryId" data-formbeforevalidate="beforeValidate" data-displayfield="ICode" data-validationname="SalesInventoryValidation" style="float:left;max-width:300px;"></div>
+                  <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="I-Code" data-datafield="InventoryId" data-formbeforevalidate="beforeValidate" data-displayfield="ICode" data-validationname="PartsInventoryValidation" style="float:left;max-width:300px;"></div>
                 </div>
               </div>
             </div>
@@ -51,10 +51,10 @@ var salesInventoryReorderFrontEnd = `
 </div>`;
 
 //----------------------------------------------------------------------------------------------
-class RwSalesInventoryReorderClass extends FwWebApiReport {
+class RwPartsInventoryReorderClass extends FwWebApiReport {
     //----------------------------------------------------------------------------------------------
     constructor() {
-        super('SalesInventoryReorderReport', 'api/v1/salesinventoryreorderreport', salesInventoryReorderFrontEnd);
+        super('PartsInventoryReorderReport', 'api/v1/partsinventoryreorderreport', partsInventoryReorderFrontEnd);
         //this.reportOptions.HasDownloadExcel = true;
     }
     //----------------------------------------------------------------------------------------------
@@ -101,15 +101,15 @@ class RwSalesInventoryReorderClass extends FwWebApiReport {
 
             switch (validationName) {
                 case 'InventoryTypeValidation':
-                    request.uniqueids.Sales = true;
+                    request.uniqueids.Parts = true;
                     break;
-                case 'SalesCategoryValidation':
+                case 'PartsCategoryValidation':
                     if (inventoryTypeId !== "") {
                         request.uniqueids.InventoryTypeId = inventoryTypeId;
                     }
                     break;
                 case 'SubCategoryValidation':
-                    request.uniqueids.Sales = true;
+                    request.uniqueids.Parts = true;
                     if (inventoryTypeId !== "") {
                         request.uniqueids.InventoryTypeId = inventoryTypeId;
                     }
@@ -117,7 +117,7 @@ class RwSalesInventoryReorderClass extends FwWebApiReport {
                         request.uniqueids.CategoryId = categoryId;
                     }
                     break;
-                case 'SalesInventoryValidation':
+                case 'PartsInventoryValidation':
                     if (inventoryTypeId !== "") {
                         request.uniqueids.InventoryTypeId = inventoryTypeId;
                     };
@@ -134,5 +134,5 @@ class RwSalesInventoryReorderClass extends FwWebApiReport {
     //----------------------------------------------------------------------------------------------
 };
 
-var RwSalesInventoryReorderReportController: any = new RwSalesInventoryReorderClass();
+var RwPartsInventoryReorderReportController: any = new RwPartsInventoryReorderClass();
 //----------------------------------------------------------------------------------------------
