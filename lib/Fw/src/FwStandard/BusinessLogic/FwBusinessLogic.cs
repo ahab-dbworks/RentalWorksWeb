@@ -154,9 +154,6 @@ namespace FwStandard.BusinessLogic
         [JsonIgnore]
         public bool LoadOriginalBeforeSaving { get; set; } = true;
 
-        //[JsonIgnore]
-        //public bool AuditMode { get; set; }
-
         static Mutex CustomFieldMutex = new Mutex(true, "LoadCustomFields");
 
         public FwCustomValues _Custom = new FwCustomValues();  //todo: don't initialize here.  Instead, only initialize when custom fields exist for this module.  load custom fields in a static class.
@@ -232,14 +229,13 @@ namespace FwStandard.BusinessLogic
                     _Custom.CustomFields.Add(f);
                 }
             }
-
         }
         //------------------------------------------------------------------------------------
         public async Task<FwJsonDataTable> BrowseAsync(BrowseRequest request)
         {
             FwJsonDataTable browse = null;
 
-            LoadCustomFields();
+            //LoadCustomFields();
 
             if (browseLoader != null)
             {
@@ -265,7 +261,7 @@ namespace FwStandard.BusinessLogic
         //------------------------------------------------------------------------------------
         public virtual async Task<List<T>> SelectAsync<T>(BrowseRequest request)
         {
-            LoadCustomFields();
+            //LoadCustomFields();
 
             List<T> records = null;
             if (dataLoader == null)
@@ -310,7 +306,7 @@ namespace FwStandard.BusinessLogic
             FwApplicationConfig tmpAppConfig = AppConfig;
             FwUserSession tmpUserSession = UserSession;
 
-            LoadCustomFields();
+            //LoadCustomFields();
 
             if (dataLoader == null)
             {
@@ -617,7 +613,7 @@ namespace FwStandard.BusinessLogic
 
                             if (!propertyFound)  // property not found, check Custom Fields
                             {
-                                LoadCustomFields();
+                                //LoadCustomFields();
 
                                 foreach (FwCustomField customField in _Custom.CustomFields)
                                 {
@@ -820,7 +816,7 @@ namespace FwStandard.BusinessLogic
                     rowsAffected += await rec.SaveAsync(originalRec);
                     r++;
                 }
-                LoadCustomFields();
+                //LoadCustomFields();
 
                 if (_Custom.Count > 0)
                 {
@@ -927,23 +923,6 @@ namespace FwStandard.BusinessLogic
             }
         }
         //------------------------------------------------------------------------------------
-        //public bool ShouldSerializeRecordTitle()
-        //{
-        //    // don't serialize the Record Title when in auditMode
-        //    return (!AuditMode);
-        //}
-        ////------------------------------------------------------------------------------------
-        //public bool ShouldSerialize_Custom()
-        //{
-        //    // don't serialize the _Cusom property when empty
-        //    bool serialize = true;
-        //    if (AuditMode)
-        //    {
-        //        serialize = (_Custom.Count > 0);
-        //    }
-        //    return serialize;
-        //}
-        ////------------------------------------------------------------------------------------
         public void LoadUserSession()
         {
             if (dataLoader != null)
@@ -968,6 +947,8 @@ namespace FwStandard.BusinessLogic
         {
             AppConfig = appConfig;
             UserSession = userSession;
+
+            LoadCustomFields();
 
             if (dataLoader != null)
             {

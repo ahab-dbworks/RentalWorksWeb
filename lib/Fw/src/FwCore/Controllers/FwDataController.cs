@@ -1,4 +1,5 @@
 ﻿using FwStandard.BusinessLogic;
+using FwStandard.DataLayer;
 using FwStandard.Models;
 using FwStandard.Modules.Administrator.WebAuditJson;
 using FwStandard.SqlServer;
@@ -171,6 +172,17 @@ namespace FwCore.Controllers
                 FwBusinessLogic l = CreateBusinessLogic(type, this.AppConfig, this.UserSession);
                 if (id.Equals("emptyobject")) //justin 10/23/2018 temporary solution for listing Fields on Custom Forms and Duplicate Rules.  Will be replaced with a front-end solution to traverse the Security Tree (once ready)
                 {
+
+                    if ((l._Custom.CustomFields != null) && (l._Custom.CustomFields.Count > 0))
+                    {
+                        FwCustomValues customValues = new FwCustomValues();
+                        foreach (FwCustomField customField in l._Custom.CustomFields)
+                        {
+                            customValues.AddCustomValue(customField.FieldName, null, customField.FieldType);
+                        }
+                        l._Custom = customValues;
+                    }
+
                     return new OkObjectResult(l);
                 }
                 else
