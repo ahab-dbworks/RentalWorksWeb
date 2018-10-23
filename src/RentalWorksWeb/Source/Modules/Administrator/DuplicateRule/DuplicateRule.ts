@@ -142,6 +142,7 @@ class DuplicateRule {
     }
     //----------------------------------------------------------------------------------------------
     getFields($form: JQuery): void {
+        let self = this;
         $form.find('div.modules').on("change", function () {
             let moduleName, moduleUrl, request;
             moduleName = jQuery(this).find(':selected').val();
@@ -151,54 +152,50 @@ class DuplicateRule {
                 top: 1
             };
 
-            FwAppData.apiMethod(true, 'POST', `${moduleUrl}/browse`, request, FwServices.defaultTimeout, function onSuccess(response) {
-                var fieldColumns = response.Columns;
+            FwAppData.apiMethod(true, 'GET', `${moduleUrl}/emptyobject`, request, FwServices.defaultTimeout, function onSuccess(response) {
+                let fieldColumns = Object.keys(response);
+                let customFields = response._Custom.map(obj => obj.FieldName);
+                for (let i = 0; i < customFields.length; i++) {
+                    fieldColumns.push(`${customFields[i]}`);
+                }
+                fieldColumns = fieldColumns.sort(self.compare);
 
-                var filteredColumns = fieldColumns.filter(function (obj) {
-                    return obj.DataField !== 'DateStamp';
-                });
-
-                var fieldNamesOnly = filteredColumns.map(a => a.DataField).sort();
-                var sortedFields = fieldNamesOnly.sort(function (a, b) {
-                    return a.toLowerCase().localeCompare(b.toLowerCase());
-                });
-
-                var fieldsHtml = [];
-                var $fields = $form.find('.fields');
-                for (var i = 0; i < sortedFields.length; i++) {
-                    var uniqueId = FwApplication.prototype.uniqueId(10);
-                    fieldsHtml.push('<div data-control="FwFormField"');
-                    fieldsHtml.push(' data-type="checkbox"');
-                    fieldsHtml.push(' class="fwcontrol fwformfield"');
-                    fieldsHtml.push(' data-enabled="true"');
-                    fieldsHtml.push(` data-caption="${sortedFields[i]}"`);
-                    fieldsHtml.push(` data-value="${sortedFields[i]}"`);
-                    fieldsHtml.push(' style="float:left;width:300px; padding: 10px; 0px;"');
-                    fieldsHtml.push('>');
-                    fieldsHtml.push(`<input id="${uniqueId}" class="fwformfield-control fwformfield-value" type="checkbox" name= "${sortedFields[i]}"`);
-                    fieldsHtml.push(' />');
-                    fieldsHtml.push(`<label class="fwformfield-caption" for="${uniqueId}">${sortedFields[i]}</label>`);
-                    fieldsHtml.push('</div>');
+                let fieldsHtml = [];
+                let $fields = $form.find('.fields');
+                for (var i = 0; i < fieldColumns.length; i++) {
+                    if (fieldColumns[i] != 'DateStamp' && fieldColumns[i] != 'RecordTitle' && fieldColumns[i] != '_Custom') {
+                        let uniqueId = FwApplication.prototype.uniqueId(10);
+                        fieldsHtml.push(`<div data-control="FwFormField"
+                                data-iscustomfield=${customFields.indexOf(fieldColumns[i]) === -1 ? false : true}
+                                data-type="checkbox"
+                                class="fwcontrol fwformfield check SystemRuleTRUE"
+                                data-enabled="true"
+                                data-caption="${fieldColumns[i]}"
+                                data-value="${fieldColumns[i]}"
+                                style="float:left;width:320px; padding: 10px; 0px;">
+                                <input id="${uniqueId}" class="fwformfield-control fwformfield-value" type="checkbox" name="${fieldColumns[i]}"/>
+                                <label class="fwformfield-caption" for="${uniqueId}">${fieldColumns[i]}</label>
+                                </div>
+                       `);
+                    }
                 }
                 $fields.empty().append(fieldsHtml.join('')).html();
 
-                var fields = $form.find('[data-datafield="Fields"]').attr('data-originalvalue');
-                var separateFields = fields.split(",");
+
+                let fields = $form.find('[data-datafield="Fields"]').attr('data-originalvalue');
+                let separateFields = fields.split(",");
                 jQuery.each(separateFields, function (i, val) {
                     jQuery(`input[name="${val}"]`).prop("checked", true)
                 });
 
                 $form.on('change', '[type="checkbox"]', e => {
-                    var field = jQuery(e.currentTarget).attr('name');
+                    let field = jQuery(e.currentTarget).attr('name');
                     if (separateFields.indexOf(field) === -1) {
                         separateFields.push(field);
                     } else {
                         separateFields = separateFields.filter(item => { return item !== field })
                     }
-                    //if (separateFields.length !== 1) {
-                    //    throw 'Expected 1 element, but got: ' + separateFields.length;
-                    //}
-                    var joinFields = separateFields.join(',');
+                    let joinFields = separateFields.join(',');
                     FwFormField.setValueByDataField($form, 'Fields', joinFields);
                 });
             }, null, $form);
@@ -210,60 +207,18 @@ class DuplicateRule {
     }
     //----------------------------------------------------------------------------------------------
     afterLoad($form: any) {
-        var moduleName = $form.find('.modules').attr('data-originalvalue');
-        var moduleUrl = $form.find(`select option[value="${moduleName}"]`).attr('data-apiurl');
-        var request = {
-            module: moduleName
-        };
-
-        FwAppData.apiMethod(true, 'POST', `${moduleUrl}/browse`, request, FwServices.defaultTimeout, function onSuccess(response) {
-            var fieldColumns = response.Columns;
-
-            var filteredColumns = fieldColumns.filter(function (obj) {
-                return obj.DataField !== 'DateStamp';
-            });
-
-            var fieldNamesOnly = filteredColumns.map(a => a.DataField).sort();
-            var sortedFields = fieldNamesOnly.sort(function (a, b) {
-                return a.toLowerCase().localeCompare(b.toLowerCase());
-            });
-
-            var fieldsHtml = [];
-            var $fields = $form.find('.fields');
-
-            for (var i = 0; i < sortedFields.length; i++) {
-                let uniqueId = FwApplication.prototype.uniqueId(10);
-                fieldsHtml.push(`<div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield check SystemRuleTRUE" data-enabled="true" data-datafield="${sortedFields[i]}" data-value="${sortedFields[i]}" data-caption="${sortedFields[i]}" style="float:left;width:300px;padding:10px;0px;">`);
-                fieldsHtml.push(`<input id="${uniqueId}" class="fwformfield-control fwformfield-value" type="checkbox" name="${sortedFields[i]}"/>`);
-                fieldsHtml.push(`<label class="fwformfield-caption" data-value="${sortedFields[i]}" for="${uniqueId}">${sortedFields[i]}</label></div>`);
-            }
-
-            $fields.empty().append(fieldsHtml.join(''));
-
-            let fields = $form.find('[data-datafield="Fields"]').attr('data-originalvalue');
-            var separateFields = fields.split(",");
-            //for (let i = 0; i < separateFields.length; i++) {
-            //    FwFormField.setValue($form, `div[data-datafield=${separateFields[i]}]`, 'true');
-            //}
-            jQuery.each(separateFields, function (i, val) {
-                jQuery(`input[name="${val}"]`).prop("checked", true);
-            });
-
-            $form.on('change', '[type="checkbox"]', e => {
-                let field = jQuery(e.currentTarget).attr('name');
-                if (separateFields.indexOf(field) === -1) {
-                    separateFields.push(field);
-                } else {
-                    separateFields = separateFields.filter(item => { return item !== field })
-                }
-                let joinFields = separateFields.join(',');
-                FwFormField.setValueByDataField($form, 'Fields', joinFields);
-            });
-
-            if (FwFormField.getValueByDataField($form, 'SystemRule') === 'true') { FwFormField.toggle($form.find('.SystemRuleTRUE'), false); }
-        }, null, $form);
+        if (FwFormField.getValueByDataField($form, 'SystemRule') === 'true') {
+            FwFormField.toggle($form.find('.SystemRuleTRUE'), false);
+        }
     }
     //----------------------------------------------------------------------------------------------
+    compare(a, b) {
+        if (a < b)
+            return -1;
+        if (a > b)
+            return 1;
+        return 0;
+    }
 }
 //----------------------------------------------------------------------------------------------
 var DuplicateRuleController = new DuplicateRule();

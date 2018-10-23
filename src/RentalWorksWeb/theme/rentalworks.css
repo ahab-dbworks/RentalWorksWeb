@@ -510,3 +510,9 @@ html.theme-material [data-name="AuditHistoryGrid"] tbody td ul:not(.auditHeader)
 html.theme-material [data-name="AuditHistoryGrid"] tbody tr.selected td ul:not(.auditHeader):nth-child(even) span:not(.auditSpacer){
     background-color: #0087f3 !important;
 }
+
+/* Custom fields marker in duplicate rules and custom forms */
+[data-iscustomfield="true"]::after {
+    content: "[Custom]";
+    font-size: .9em;
+}
