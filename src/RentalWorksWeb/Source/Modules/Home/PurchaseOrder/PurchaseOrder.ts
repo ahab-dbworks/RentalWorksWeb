@@ -1032,7 +1032,7 @@ class PurchaseOrder {
         if (FwFormField.getValueByDataField($form, 'HasLaborItem')) {
             FwFormField.disable(FwFormField.getDataField($form, 'Labor'));
         }
-        //if (FwFormField.getValueByDataField($form, 'HasRentalSaleItem')) {
+        //if (FwFormField.getValueByDataField($form, 'HasRentalSaleItem')) {              // These fields are being served but no corresponding tab or checkbox at the moment
         //    FwFormField.disable(FwFormField.getDataField($form, 'RentalSale'));
         //}
         //if (FwFormField.getValueByDataField($form, 'HasLossAndDamageItem')) {
@@ -1043,46 +1043,50 @@ class PurchaseOrder {
         //}
     }
     //----------------------------------------------------------------------------------------------
-    dynamicColumns($form) {
-        const PoType = FwFormField.getValueByDataField($form, "PoTypeId"),
+    dynamicColumns($form: any): void {
+        const POTYPE = FwFormField.getValueByDataField($form, "PoTypeId"),
             $rentalGrid = $form.find('.rentalgrid [data-name="OrderItemGrid"]'),
             $salesGrid = $form.find('.salesgrid [data-name="OrderItemGrid"]'),
             $partGrid = $form.find('.partgrid [data-name="OrderItemGrid"]'),
             $laborGrid = $form.find('.laborgrid [data-name="OrderItemGrid"]'),
             $miscGrid = $form.find('.miscgrid [data-name="OrderItemGrid"]'),
-            $subrentalGrid = $form.find('.subrentalgrid [data-name="OrderItemGrid"]'),
-            $subsalesGrid = $form.find('.subsalesgrid [data-name="OrderItemGrid"]'),
-            $sublaborGrid = $form.find('.sublaborgrid [data-name="OrderItemGrid"]'),
-            $submiscGrid = $form.find('.submiscgrid [data-name="OrderItemGrid"]'),
-            fields = jQuery($rentalGrid).find('thead tr.fieldnames > td.column > div.field'),
-            fieldNames = [];
+            $subRentalGrid = $form.find('.subrentalgrid [data-name="OrderItemGrid"]'),
+            $subSaleGrid = $form.find('.subsalesgrid [data-name="OrderItemGrid"]'),
+            $subLaborGrid = $form.find('.sublaborgrid [data-name="OrderItemGrid"]'),
+            $subMiscGrid = $form.find('.submiscgrid [data-name="OrderItemGrid"]'),
+            fields = jQuery($rentalGrid).find('thead tr.fieldnames > td.column > div.field');
+            let fieldNames: Array<string> = [];
 
         for (let i = 3; i < fields.length; i++) {
             let name = jQuery(fields[i]).attr('data-mappedfield');
-            if (name != "QuantityOrdered") {
+            if (name !== "QuantityOrdered") {
                 fieldNames.push(name);
             }
         }
 
-        FwAppData.apiMethod(true, 'GET', `api/v1/potype/${PoType}`, null, FwServices.defaultTimeout, function onSuccess(response) {
-            let hiddenFields: Array<string> = fieldNames.filter(function (field) {
-                return !this.has(field)
-            }, new Set(response.PurchaseShowFields))
-
-            for (let i = 0; i < hiddenFields.length; i++) {
-                jQuery($rentalGrid.find('[data-mappedfield="' + hiddenFields[i] + '"]')).parent().hide();
-                jQuery($salesGrid.find('[data-mappedfield="' + hiddenFields[i] + '"]')).parent().hide();
-                jQuery($partGrid.find('[data-mappedfield="' + hiddenFields[i] + '"]')).parent().hide();
-                jQuery($laborGrid.find('[data-mappedfield="' + hiddenFields[i] + '"]')).parent().hide();
-                jQuery($miscGrid.find('[data-mappedfield="' + hiddenFields[i] + '"]')).parent().hide();
-                jQuery($subrentalGrid.find('[data-mappedfield="' + hiddenFields[i] + '"]')).parent().hide();
-                jQuery($subsalesGrid.find('[data-mappedfield="' + hiddenFields[i] + '"]')).parent().hide();
-                jQuery($sublaborGrid.find('[data-mappedfield="' + hiddenFields[i] + '"]')).parent().hide();
-                jQuery($submiscGrid.find('[data-mappedfield="' + hiddenFields[i] + '"]')).parent().hide();
+        FwAppData.apiMethod(true, 'GET', `api/v1/potype/${POTYPE}`, null, FwServices.defaultTimeout, function onSuccess(response) {
+            let hiddenPurchase: Array<string> = fieldNames.filter(function (field) { return !this.has(field) }, new Set(response.PurchaseShowFields));
+            let hiddenMisc: Array<string> = fieldNames.filter(function (field) { return !this.has(field) }, new Set(response.MiscShowFields));
+            let hiddenLabor: Array<string> = fieldNames.filter(function (field) { return !this.has(field) }, new Set(response.LaborShowFields));
+            let hiddenSubRental: Array<string> = fieldNames.filter(function (field) { return !this.has(field) }, new Set(response.SubRentalShowFields));
+            let hiddenSubSale: Array<string> = fieldNames.filter(function (field) { return !this.has(field) }, new Set(response.SubSaleShowFields));
+            let hiddenSubMisc: Array<string> = fieldNames.filter(function (field) { return !this.has(field) }, new Set(response.SubMiscShowFields));
+            let hiddenSubLabor: Array<string> = fieldNames.filter(function (field) { return !this.has(field) }, new Set(response.SubLaborShowFields));
+            // Non-specific showfields
+            for (let i = 0; i < hiddenPurchase.length; i++) {
+                jQuery($rentalGrid.find(`[data-mappedfield="${hiddenPurchase[i]}"]`)).parent().hide();
+                jQuery($salesGrid.find(`[data-mappedfield="${hiddenPurchase[i]}"]`)).parent().hide();
+                jQuery($partGrid.find(`[data-mappedfield="${hiddenPurchase[i]}"]`)).parent().hide();
             }
+            // Specific showfields
+            for (let i = 0; i < hiddenMisc.length; i++) { jQuery($miscGrid.find(`[data-mappedfield="${hiddenMisc[i]}"]`)).parent().hide(); }
+            for (let i = 0; i < hiddenLabor.length; i++) { jQuery($laborGrid.find(`[data-mappedfield="${hiddenLabor[i]}"]`)).parent().hide(); }
+            for (let i = 0; i < hiddenSubSale.length; i++) { jQuery($subSaleGrid.find(`[data-mappedfield="${hiddenSubSale[i]}"]`)).parent().hide(); }
+            for (let i = 0; i < hiddenSubRental.length; i++) { jQuery($subRentalGrid.find(`[data-mappedfield="${hiddenSubRental[i]}"]`)).parent().hide(); }
+            for (let i = 0; i < hiddenSubLabor.length; i++) { jQuery($subLaborGrid.find(`[data-mappedfield="${hiddenSubLabor[i]}"]`)).parent().hide(); }
+            for (let i = 0; i < hiddenSubMisc.length; i++) { jQuery($subMiscGrid.find(`[data-mappedfield="${hiddenSubMisc[i]}"]`)).parent().hide(); }
         }, null, null);
     };
-
     //----------------------------------------------------------------------------------------------
     calculateOrderItemGridTotals($form: any, gridType: string): void {
         let subTotal, discount, salesTax, grossTotal, total, rateType;
@@ -1134,7 +1138,7 @@ class PurchaseOrder {
         $form.find(`.${gridType}-totals [data-totalfield="Total"] input`).val(total);
     };
     //----------------------------------------------------------------------------------------------
-    events($form: any) {
+    events($form: any): void {
         let weeklyType = $form.find(".weeklyType");
         let monthlyType = $form.find(".monthlyType");
         let subRentalDaysPerWeek = $form.find(".subRentalDaysPerWeek");

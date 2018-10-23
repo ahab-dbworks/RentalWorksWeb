@@ -564,7 +564,6 @@ class Invoice {
                 fieldNames.push(name);
             }
         }
-        console.log('fieldnames: ', fieldNames)
         let hiddenRentals: Array<string> = fieldNames.filter(function (field) {
             return !this.has(field)
         }, new Set(rentalShowFields))
