@@ -226,7 +226,7 @@ class OrderBase {
         });
         // Determine previous values for enabled / disabled checkboxes
         $form.find('[data-datafield="LossAndDamage"]').click(e => {
-            e.stopImmediatePropagation()
+            // e.stopImmediatePropagation()
             let LossAndDamageVal = FwFormField.getValueByDataField($form, 'LossAndDamage')
             console.log('losdamageval', LossAndDamageVal)
             if (LossAndDamageVal === false) {
@@ -1577,6 +1577,12 @@ class OrderBase {
             }
             $tab.addClass('tabGridsLoaded');
         });
+        // show / hide tabs
+        if (!FwFormField.getValueByDataField($form, 'Rental')) { $form.find('[data-type="tab"][data-caption="Rental"]').hide() }
+        if (!FwFormField.getValueByDataField($form, 'Sales')) { $form.find('[data-type="tab"][data-caption="Sales"]').hide() }
+        if (!FwFormField.getValueByDataField($form, 'Miscellaneous')) { $form.find('[data-type="tab"][data-caption="Miscellaneous"]').hide() }
+        if (!FwFormField.getValueByDataField($form, 'Labor')) { $form.find('[data-type="tab"][data-caption="Labor"]').hide() }
+        if (!FwFormField.getValueByDataField($form, 'RentalSale')) { $form.find('[data-type="tab"][data-caption="Used Sale"]').hide() }
         // LD Disable checkbox in Order form
         let rentalVal = FwFormField.getValueByDataField($form, 'Rental');
         let salesVal = FwFormField.getValueByDataField($form, 'Sales');

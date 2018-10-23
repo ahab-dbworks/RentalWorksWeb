@@ -178,7 +178,6 @@ class Order extends OrderBase {
             $form.find('.ifnew').attr('data-enabled', 'true');
             $form.find('.OrderId').attr('data-hasBeenCanceled', 'false');
             $form.find('.combinedtab').hide();
-            $form.find('[data-type="tab"][data-caption="Loss and Damage"]').hide();
             $form.data('data-hasBeenCanceled', false)
             var today = FwFunc.getDate();
             var warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
@@ -209,6 +208,7 @@ class Order extends OrderBase {
             $form.find('div[data-datafield="Sales"] input').prop('checked', true);
             $form.find('div[data-datafield="Miscellaneous"] input').prop('checked', true);
             $form.find('div[data-datafield="Labor"] input').prop('checked', true);
+            $form.find('[data-type="tab"][data-caption="Loss and Damage"]').hide();
             FwFormField.disable($form.find('[data-datafield="RentalSale"]'));
             FwFormField.disable($form.find('[data-datafield="PoNumber"]'));
             FwFormField.disable($form.find('[data-datafield="PoAmount"]'));
@@ -702,6 +702,9 @@ class Order extends OrderBase {
         if (FwFormField.getValueByDataField($form, 'HasLossAndDamageItem')) {
             FwFormField.disable(FwFormField.getDataField($form, 'LossAndDamage'));
         }
+        if (!FwFormField.getValueByDataField($form, 'LossAndDamage')) { $form.find('[data-type="tab"][data-caption="Loss And Damage"]').hide() }
+
+
 
         var rate = FwFormField.getValueByDataField($form, 'RateType');
         if (rate === '3WEEK') {
@@ -1026,7 +1029,7 @@ class Order extends OrderBase {
             });
             //Options button
             $popup.find('.options-button').on('click', e => {
-                $popup.find('.option-list').toggle();
+                $popup.find('div.formrow.option-list').toggle();
             });
         }
         $popupHtml = HTML.join('');
