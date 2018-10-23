@@ -1,3 +1,4 @@
+routes.push({ pattern: /^module\/duplicaterule/, action: function (match: RegExpExecArray) { return DuplicateRuleController.getModuleScreen(); } });
 class DuplicateRule {
     Module: string = 'DuplicateRule';
     apiurl: string = 'api/v1/duplicaterule';
