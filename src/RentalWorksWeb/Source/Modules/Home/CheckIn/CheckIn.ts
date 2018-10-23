@@ -128,9 +128,15 @@ class CheckIn {
     //----------------------------------------------------------------------------------------------
     beforeValidateSpecificOrder($browse: any, $form: any, request: any) {
         let dealId = FwFormField.getValueByDataField($form, 'DealId');
+        let warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
+        let warehouseId = warehouse.warehouseid;
         request.uniqueids = {
             DealId: dealId
-        } 
+        }
+        request.miscfields = {
+            CheckIn: true,
+            CheckInWarehouseId: warehouseId
+        }
     }
     //----------------------------------------------------------------------------------------------
     getSoundUrls($form): void {
@@ -289,7 +295,6 @@ class CheckIn {
             if (specificOrder.prop('checked')) {
                 FwFormField.enable(specificOrderValidation);
                 allActiveOrders.prop('checked', false);
-                FwBrowse.search($checkInQuantityItemsGridControl);
             } else {
                 FwFormField.disable(specificOrderValidation);
                 allActiveOrders.prop('checked', true);
