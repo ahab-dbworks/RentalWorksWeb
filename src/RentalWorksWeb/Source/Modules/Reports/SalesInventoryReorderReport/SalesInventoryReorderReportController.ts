@@ -17,11 +17,11 @@ var salesInventoryReorderFrontEnd = `
             <div class="flexcolumn" style="max-width:200px;">
                 <div data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield class-tracked-radio" data-caption="Reorder Point" data-datafield="ReorderPointMode" data-enabled="true">
                     <div data-value="ALL" data-caption="All" style="margin-top:15px;"></div>
-                    <div data-value="LT" data-caption="Items < Reorder Print"></div>
-                    <div data-value="LTE" data-caption="Items &le; Reorder Print"></div>
-                    <div data-value="E" data-caption="Items = Reorder Print"></div>
-                    <div data-value="GT" data-caption="Items > Reorder Print"></div>
-                    <div data-value="GTE" data-caption="Items &ge; Reorder Print"></div>
+                    <div data-value="LT" data-caption="Items < Reorder Point"></div>
+                    <div data-value="LTE" data-caption="Items &le; Reorder Point"></div>
+                    <div data-value="E" data-caption="Items = Reorder Point"></div>
+                    <div data-value="GT" data-caption="Items > Reorder Point"></div>
+                    <div data-value="GTE" data-caption="Items &ge; Reorder Point"></div>
                 </div>
             </div>            
             <div class="flexcolumn" style="max-width:300px;">
