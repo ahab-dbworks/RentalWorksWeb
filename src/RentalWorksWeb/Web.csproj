@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="12.0" DefaultTargets="Build;FwDebugTarget;FwPublishTarget" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
@@ -845,7 +845,7 @@
     <Content Include="Source\Validations\ContactEventValidation\ContactEventValidationBrowse.htm" />
     <Content Include="Source\Validations\ContactTitleValidation\ContactTitleValidationBrowse.htm" />
     <Content Include="Source\Validations\BarCodeRangeValidation\BarCodeRangeValidationBrowse.htm" />
-    <Content Include="Source\Validations\POrderTypeValidation\POrderTypeValidationBrowse.htm" />
+    <Content Include="Source\Validations\POTypeValidation\POTypeValidationBrowse.htm" />
     <Content Include="Source\Validations\PurchaseOrderValidation\PurchaseOrderValidationBrowse.htm" />
     <Content Include="Source\Validations\RankValidation\RankValidationBrowse.htm" />
     <Content Include="Source\Validations\MarketSegmentJobValidation\MarketSegmentJobValidationBrowse.htm" />
@@ -1091,7 +1091,6 @@
     <Compile Include="Source\Validations\BatchVendorInvoiceValidation\BatchVendorInvoiceValidation.cs" />
     <Compile Include="Source\Validations\CompanyDepartmentValidation\CompanyDepartmentValidation.cs" />
     <Compile Include="Source\Validations\ICodeValidation\ICodeValidation.cs" />
-    <Compile Include="Source\Validations\POrderTypeValidation\POrderTypeValidation.cs" />
     <Compile Include="Source\Validations\PersonnelTypeValidation\PersonnelTypeValidation.cs" />
     <Compile Include="Source\Validations\OrderUnitValidation\OrderUnitValidation.cs" />
     <Compile Include="Source\Validations\EventValidation\EventValidation.cs" />
