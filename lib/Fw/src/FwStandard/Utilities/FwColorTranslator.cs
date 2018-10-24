@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Drawing;
 using System.Globalization;
 
 namespace FwStandard.Utilities
@@ -15,11 +16,12 @@ namespace FwStandard.Utilities
             int blue = 0;
             if (htmlColor.StartsWith("#"))
             {
-                red   = Convert.ToInt32(htmlColor[1] + htmlColor[2]);
-                green = Convert.ToInt32(htmlColor[3] + htmlColor[4]);
-                blue  = Convert.ToInt32(htmlColor[5] + htmlColor[6]);
+                red = Convert.ToInt32(htmlColor.Substring(1, 2), 16);
+                green = Convert.ToInt32(htmlColor.Substring(3, 2), 16);
+                blue = Convert.ToInt32(htmlColor.Substring(5, 2), 16);
             }
-            return (int)red | (int)green << 8 | (int)blue << 16;
+            Color c = Color.FromArgb(red, green, blue);
+            return BitConverter.ToInt32(new byte[] { c.R, c.G, c.B, 0x00 }, 0);
         }
 
         public static string OleColorToHtmlColor(int oleColor)
