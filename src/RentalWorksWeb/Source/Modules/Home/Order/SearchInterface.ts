@@ -102,6 +102,7 @@ class SearchInterface {
                     <div data-datafield="Columns" data-control="FwFormField" data-type="checkboxlist" class="fwcontrol fwformfield columnOrder" data-caption="Select columns to display in Results" data-sortable="true" data-orderby="true" style="margin-top: 10px"></div>
                     <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield fwformcontrol toggleAccessories" data-caption="Disable Auto-Expansion of Complete/Kit Accessories" data-datafield="DisableAccessoryAutoExpand"></div>
                     <div>
+                       <div data-type="button" class="fwformcontrol restoreDefaults" style="width:45px; float:left; margin:10px;">Reset</div>
                        <div data-type="button" class="fwformcontrol applyOptions" style="width:45px; float:right; margin:10px;">Apply</div>
                     </div>
                 </div>
@@ -946,7 +947,7 @@ class SearchInterface {
             });
 
             $options.on('click', e => {
-                if (!jQuery(e.target).is('div.applyOptions')) {
+                if (!jQuery(e.target).is('div.applyOptions, div.restoreDefaults')) {
                     e.stopPropagation();
                 }
             });
@@ -997,6 +998,28 @@ class SearchInterface {
                 }
                 self.listGridView($inventory, gridView);
             }, null, $searchpopup);
+        });
+
+
+        //Reset options to defaults
+        $popup.on('click', '.restoreDefaults', e => {
+            FwFormField.loadItems($popup.find('div[data-datafield="Columns"]'),
+                [{ value: 'Description', text: 'Description', selected: 'T' },
+                { value: 'Quantity', text: 'Quantity', selected: 'T' },
+                { value: 'Type', text: 'Type', selected: 'F' },
+                { value: 'Category', text: 'Category', selected: 'F' },
+                { value: 'SubCategory', text: 'Sub Category', selected: 'F' }
+                { value: 'Available', text: 'Available Quantity', selected: 'T' },
+                { value: 'ConflictDate', text: 'Conflict Date', selected: 'T' },
+                { value: 'AllWh', text: 'Available Quantity (All Warehouses)', selected: 'T' },
+                { value: 'In', text: 'In Quantity', selected: 'T' },
+                { value: 'QC', text: 'QC Required Quantity', selected: 'T' },
+                { value: 'Rate', text: 'Rate', selected: 'T' }]);
+
+            FwFormField.setValueByDataField($popup, 'DisableAccessoryAutoExpand', false);
+            let gridView = $popup.find('#inventoryView').val();
+            let $inventory = $popup.find('div.card');
+            self.listGridView($inventory, gridView);
         });
 
         //Inventory Type radio change events
