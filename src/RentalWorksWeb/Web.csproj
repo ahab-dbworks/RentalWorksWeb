@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="12.0" DefaultTargets="Build;FwDebugTarget;FwPublishTarget" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
@@ -442,6 +442,7 @@
     <TypeScriptCompile Include="Source\Modules\Home\AssignBarCodes\AssignBarCodes.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\Exchange\Exchange.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\CheckIn\CheckIn.ts" />
+    <TypeScriptCompile Include="Source\Modules\Home\VendorInvoice\VendorInvoice.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\Invoice\Invoice.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\SubWorksheet\SubWorksheet.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\Order\Worksheet.ts" />
@@ -483,6 +484,8 @@
     <Content Include="Source\Modules\Home\AssignBarCodes\AssignBarCodesForm.htm" />
     <Content Include="Source\Modules\Home\Exchange\ExchangeForm.htm" />
     <Content Include="Source\Modules\Home\CheckIn\CheckInForm.htm" />
+    <Content Include="Source\Modules\Home\VendorInvoice\VendorInvoiceBrowse.htm" />
+    <Content Include="Source\Modules\Home\VendorInvoice\VendorInvoiceForm.htm" />
     <Content Include="Source\Modules\Home\Invoice\InvoiceBrowse.htm" />
     <Content Include="Source\Modules\Home\Invoice\InvoiceForm.htm" />
     <Content Include="Source\Modules\Home\SubWorksheet\SubWorksheetForm.htm" />
