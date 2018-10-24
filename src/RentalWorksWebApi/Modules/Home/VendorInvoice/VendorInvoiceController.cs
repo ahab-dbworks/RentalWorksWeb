@@ -1,0 +1,59 @@
+using FwStandard.Models; 
+using Microsoft.AspNetCore.Mvc; 
+using Microsoft.Extensions.Options; 
+using WebApi.Controllers; 
+using System.Threading.Tasks; 
+using FwStandard.SqlServer; 
+using System.Collections.Generic; 
+namespace WebApi.Modules.Home.VendorInvoice 
+{ 
+[Route("api/v1/[controller]")] 
+[ApiExplorerSettings(GroupName = "home-v1")] 
+public class VendorInvoiceController : AppDataController 
+{ 
+public VendorInvoiceController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(VendorInvoiceLogic);} 
+//------------------------------------------------------------------------------------ 
+// POST api/v1/vendorinvoice/browse 
+[HttpPost("browse")] 
+public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest) 
+{ 
+return await DoBrowseAsync(browseRequest); 
+} 
+//------------------------------------------------------------------------------------ 
+// POST api/v1/vendorinvoice/exportexcelxlsx/filedownloadname 
+[HttpPost("exportexcelxlsx/{fileDownloadName}")] 
+public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest) 
+{ 
+return await DoExportExcelXlsxFileAsync(browseRequest); 
+} 
+//------------------------------------------------------------------------------------ 
+// GET api/v1/vendorinvoice 
+[HttpGet] 
+public async Task<ActionResult<IEnumerable<VendorInvoiceLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort) 
+{ 
+return await DoGetAsync<VendorInvoiceLogic>(pageno, pagesize, sort); 
+} 
+//------------------------------------------------------------------------------------ 
+// GET api/v1/vendorinvoice/A0000001 
+[HttpGet("{id}")] 
+public async Task<ActionResult<VendorInvoiceLogic>> GetOneAsync([FromRoute]string id) 
+{ 
+return await DoGetAsync<VendorInvoiceLogic>(id); 
+} 
+//------------------------------------------------------------------------------------ 
+// POST api/v1/vendorinvoice 
+[HttpPost] 
+public async Task<ActionResult<VendorInvoiceLogic>> PostAsync([FromBody]VendorInvoiceLogic l) 
+{ 
+return await DoPostAsync<VendorInvoiceLogic>(l); 
+} 
+//------------------------------------------------------------------------------------ 
+// DELETE api/v1/vendorinvoice/A0000001 
+[HttpDelete("{id}")] 
+public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id) 
+{ 
+return await DoDeleteAsync(id); 
+} 
+//------------------------------------------------------------------------------------ 
+} 
+} 
