@@ -40,7 +40,7 @@ export class SalesInventoryReorderReport extends WebpackReport {
             let Promise = Ajax.post<DataTable>(`${apiUrl}/api/v1/salesinventoryreorderreport/runreport`, authorizationHeader, request)
                 .then((response: DataTable) => {
                     salesInventoryReorder = DataTable.toObjectList(response);
-                    salesInventoryReorder.PrintDate = moment().format('YYYY-MM-DD');
+                    salesInventoryReorder.PrintDate = moment().format('MM/DD/YYYY');
                     salesInventoryReorder.PrintTime = moment().format('YYYY-MM-DD h:mm:ss A');
                     salesInventoryReorder.FromDate = parameters.FromDate;
                     salesInventoryReorder.ToDate = parameters.ToDate;

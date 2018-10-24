@@ -14,15 +14,24 @@ var salesInventoryReorderFrontEnd = `
       <div data-type="tabpage" id="generaltabpage" class="tabpage" data-tabid="generaltab">
         <div class="formpage">
           <div class="row" style="display:flex;flex-wrap:wrap;">
-            <div class="flexcolumn" style="max-width:200px;">
+            <div class="flexcolumn" style="max-width:300px;">
+              <div class="row" style="display:flex;flex-wrap:wrap;">
                 <div data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield class-tracked-radio" data-caption="Reorder Point" data-datafield="ReorderPointMode" data-enabled="true">
-                    <div data-value="ALL" data-caption="All" style="margin-top:15px;"></div>
+                    <div data-value="ALL" data-caption="All" style="margin-top:5px;"></div>
                     <div data-value="LT" data-caption="Items < Reorder Point"></div>
                     <div data-value="LTE" data-caption="Items &le; Reorder Point"></div>
                     <div data-value="E" data-caption="Items = Reorder Point"></div>
                     <div data-value="GT" data-caption="Items > Reorder Point"></div>
                     <div data-value="GTE" data-caption="Items &ge; Reorder Point"></div>
                 </div>
+              </div>
+              <div class="row" style="display:flex;flex-wrap:wrap;">
+                <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Options" style="margin-top:15px">
+                  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Include Items with Reorder Point of Zero" data-datafield="IncludeZeroReorderPoint" style="float:left;max-width:300px;"></div>
+                  </div>
+                </div>
+              </div>
             </div>            
             <div class="flexcolumn" style="max-width:300px;">
               <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Filters">
@@ -40,13 +49,6 @@ var salesInventoryReorderFrontEnd = `
                 </div>
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                   <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="I-Code" data-datafield="InventoryId" data-formbeforevalidate="beforeValidate" data-displayfield="ICode" data-validationname="SalesInventoryValidation" style="float:left;max-width:300px;"></div>
-                </div>
-              </div>
-            </div>
-            <div class="flexcolumn" style="max-width:300px;">
-              <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Options">
-                <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                  <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Include Items with Reorder Point of Zero" data-datafield="IncludeZeroReorderPoint" style="float:left;max-width:300px;"></div>
                 </div>
               </div>
             </div>

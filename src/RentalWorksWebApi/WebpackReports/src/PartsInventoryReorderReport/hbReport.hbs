@@ -51,7 +51,7 @@
         <td class="number" data-value="{{QuantityInTransit}}"></td>
         <td class="number" data-value="{{QuantityOnPo}}"></td>
         <td class="number" data-value="{{ReorderPoint}}"></td>
-        <td class="number" data-value="{{ReorderPointQuantity}}"></td>
+        <td class="number" data-value="{{ReorderQuantity}}"></td>
         <td class="number" data-value="{{LastPurchaseQuantity}}"></td>
         <td class="number" data-value="{{LastPurchaseDate}}"></td>
         <td class="number" data-value="{{LastSaleDate}}"></td>
@@ -59,26 +59,26 @@
         {{#ifEquals RowType "Categoryfooter"}}
         <td class="text"></td>
         <td class="text footer" colspan="3" data-value="{{Category}}"></td>
-        <td class="number" data-value="{{Quantity}}"></td>
-        <td class="number" data-value="{{QuantityAllocated}}"></td>
-        <td class="number" data-value="{{QuantityStaged}}"></td>
-        <td class="number" data-value="{{QuantityInTransit}}"></td>
-        <td class="number" data-value="{{QuantityOnPo}}"></td>
-        <td class="number"></td>
-        <td class="number"></td>
-        <td class="number" data-value="{{LastPurchaseQuantity}}"></td>
+        <td class="number subtotal" data-value="{{Quantity}}"></td>
+        <td class="number subtotal" data-value="{{QuantityAllocated}}"></td>
+        <td class="number subtotal" data-value="{{QuantityStaged}}"></td>
+        <td class="number subtotal" data-value="{{QuantityInTransit}}"></td>
+        <td class="number subtotal" data-value="{{QuantityOnPo}}"></td>
+        <td class="number subtotal"></td>
+        <td class="number subtotal"></td>
+        <td class="number subtotal" data-value="{{LastPurchaseQuantity}}"></td>
         {{/ifEquals}}
         {{#ifEquals RowType "Warehousefooter"}}
         <td class="text"></td>
         <td class="text footer" colspan="3" data-value="{{Warehouse}}"></td>
-        <td class="number" data-value="{{Quantity}}"></td>
-        <td class="number" data-value="{{QuantityAllocated}}"></td>
-        <td class="number" data-value="{{QuantityStaged}}"></td>
-        <td class="number" data-value="{{QuantityInTransit}}"></td>
-        <td class="number" data-value="{{QuantityOnPo}}"></td>
-        <td class="number"></td>
-        <td class="number"></td>
-        <td class="number" data-value="{{LastPurchaseQuantity}}"></td>
+        <td class="number subtotal" data-value="{{Quantity}}"></td>
+        <td class="number subtotal" data-value="{{QuantityAllocated}}"></td>
+        <td class="number subtotal" data-value="{{QuantityStaged}}"></td>
+        <td class="number subtotal" data-value="{{QuantityInTransit}}"></td>
+        <td class="number subtotal" data-value="{{QuantityOnPo}}"></td>
+        <td class="number subtotal"></td>
+        <td class="number subtotal"></td>
+        <td class="number subtotal" data-value="{{LastPurchaseQuantity}}"></td>
         {{/ifEquals}}
       </tr>
       {{/each}}

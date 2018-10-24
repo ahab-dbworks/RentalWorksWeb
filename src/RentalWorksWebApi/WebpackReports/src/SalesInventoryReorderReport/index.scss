@@ -1,4 +1,4 @@
-﻿/*Sales Inventory Transaction Report*/
+﻿/*Sales Inventory Reorder Report*/
 tbody {
     tr[data-rowtype=detail]:nth-child(odd) {
         background-color: #DCDCDC;
@@ -8,21 +8,26 @@ tbody {
         padding-top: .8em;
         padding-bottom: .8em;
         font-weight: bold;
-        font-size: 1.5em;
+        font-size: 1.2em;
         text-decoration: underline;
     }
 
     td.category-header {
         padding-bottom: .8em;
         font-weight: bold;
-        text-decoration: underline;
         padding-left: 20px;
+        text-decoration: underline;
     }
 
     td.footer {
         padding-bottom: .8em;
         font-weight: bold;
-        text-decoration: underline;
+        text-align: right;
+    }
+
+    td.subtotal {
+        border-top: 2px solid black;
+        font-weight: bold;
     }
 
     td:after {
