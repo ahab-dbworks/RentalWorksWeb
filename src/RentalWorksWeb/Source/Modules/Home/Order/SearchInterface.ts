@@ -1008,7 +1008,7 @@ class SearchInterface {
                 { value: 'Quantity', text: 'Quantity', selected: 'T' },
                 { value: 'Type', text: 'Type', selected: 'F' },
                 { value: 'Category', text: 'Category', selected: 'F' },
-                { value: 'SubCategory', text: 'Sub Category', selected: 'F' }
+                { value: 'SubCategory', text: 'Sub Category', selected: 'F' },
                 { value: 'Available', text: 'Available Quantity', selected: 'T' },
                 { value: 'ConflictDate', text: 'Conflict Date', selected: 'T' },
                 { value: 'AllWh', text: 'Available Quantity (All Warehouses)', selected: 'T' },
