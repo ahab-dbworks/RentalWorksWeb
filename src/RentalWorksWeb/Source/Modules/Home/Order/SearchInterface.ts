@@ -1003,6 +1003,7 @@ class SearchInterface {
 
         //Reset options to defaults
         $popup.on('click', '.restoreDefaults', e => {
+            e.stopPropagation();
             FwFormField.loadItems($popup.find('div[data-datafield="Columns"]'),
                 [{ value: 'Description', text: 'Description', selected: 'T' },
                 { value: 'Quantity', text: 'Quantity', selected: 'T' },
