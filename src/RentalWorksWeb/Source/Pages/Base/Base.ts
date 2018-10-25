@@ -17,12 +17,11 @@ class Base {
                     FwFunc.showError(ex);
                 }
             })
-            //.find('#programlogo').attr('src', 'theme/images/rentalworkslogo.png');
             .find('.programlogo').empty().html('<div class="bgothm">Rental<span class="rwpurple">Works<span></div>')
         ;
 
         return screen;
-    };
+    }
     //----------------------------------------------------------------------------------------------
     getLoginScreen() {
         var viewModel = {
@@ -48,11 +47,10 @@ class Base {
 
         screen.$view
             .on('click', '.btnLogin', function(e) {
-                var $email, $password, exception, $loginWindow;
                 try {
-                    $loginWindow = screen.$view.find('.login-container');
-                    $email       = screen.$view.find('#email');
-                    $password    = screen.$view.find('#password');
+                    var $loginWindow = screen.$view.find('.login-container');
+                    var $email       = screen.$view.find('#email');
+                    var $password    = screen.$view.find('#password');
                     $email.parent().removeClass('error');
                     $password.parent().removeClass('error');
                     if ($email.val() == '') {
@@ -61,7 +59,6 @@ class Base {
                         $password.parent().addClass('error');
                     } else {
                         sessionStorage.clear();
-
                         // get a token to connect to RentalWorksWebApi
                         var apiRequest = {
                             UserName: $email.val(),
@@ -79,10 +76,8 @@ class Base {
                                     try {
                                         if (typeof responseOriginalApi.exception !== 'undefined') {
                                             if (applicationConfig.debugMode) {
-                                                //throw new Error(responseOriginalApi.exception + responseOriginalApi.stacktrace);
                                                 $loginWindow.find('.errormessage').html('').html(responseOriginalApi.exception + responseOriginalApi.stacktrace).show();
                                             } else {
-                                                //throw new Error(responseOriginalApi.exception);
                                                 $loginWindow.find('.errormessage').html('').html(responseOriginalApi.exception).show();
                                             }
                                         } else {
@@ -109,52 +104,52 @@ class Base {
                                                 jQuery('html').removeClass('theme-material');
                                         
                                                 //J.Pace 08/14/2018 user's sound settings
-                                                    FwAppData.apiMethod(true, 'GET', `api/v1/usersettings/${responseOriginalApi.webUser.webusersid.webusersid}`, null, FwServices.defaultTimeout, function onSuccess(response) {
-                                                        let sounds: any = {}, homePage: any = {};
-                                                        sounds.successSoundFileName = response.SuccessSoundFileName;
-                                                        sounds.errorSoundFileName = response.ErrorSoundFileName;
-                                                        sounds.notificationSoundFileName = response.NotificationSoundFileName;
-                                                        homePage.guid = response.HomeMenuGuid;
-                                                        homePage.path = response.HomeMenuPath;
-                                                        sessionStorage.setItem('sounds', JSON.stringify(sounds));
-                                                        sessionStorage.setItem('homePage', JSON.stringify(homePage));
+                                                FwAppData.apiMethod(true, 'GET', `api/v1/usersettings/${responseOriginalApi.webUser.webusersid.webusersid}`, null, FwServices.defaultTimeout, function onSuccess(response) {
+                                                    let sounds: any = {}, homePage: any = {};
+                                                    sounds.successSoundFileName      = response.SuccessSoundFileName;
+                                                    sounds.errorSoundFileName        = response.ErrorSoundFileName;
+                                                    sounds.notificationSoundFileName = response.NotificationSoundFileName;
+                                                    homePage.guid = response.HomeMenuGuid;
+                                                    homePage.path = response.HomeMenuPath;
+                                                    sessionStorage.setItem('sounds', JSON.stringify(sounds));
+                                                    sessionStorage.setItem('homePage', JSON.stringify(homePage));
 
-                                                        // Get custom fields and assign to session storage
-                                                        FwAppData.apiMethod(true, 'GET', 'api/v1/customfield/', null, FwServices.defaultTimeout, function onSuccess(response) {
-                                                            var customFields = [];
-                                                            var customFieldsBrowse = [];
-                                                            for (var i = 0; i < response.length; i++) {
-                                                                if (customFields.indexOf(response[i].ModuleName) === -1) {
-                                                                    customFields.push(response[i].ModuleName);
-                                                                }
-                                                                if (response[i].ShowInBrowse && customFieldsBrowse.indexOf(response[i].ModuleName) === -1) {
-                                                                    var customFieldObject = {
-                                                                        'moduleName': response[i].ModuleName,
-                                                                        'fieldName': response[i].FieldName,
-                                                                        'browsewidth': response[i].BrowseSizeInPixels,
-                                                                        'digits': response[i].FloatDecimalDigits,
-                                                                        'datatype': response[i].ControlType
-                                                                    };
-                                                                    customFieldsBrowse.push(customFieldObject);
-                                                                }
+                                                    // Get custom fields and assign to session storage
+                                                    FwAppData.apiMethod(true, 'GET', 'api/v1/customfield/', null, FwServices.defaultTimeout, function onSuccess(response) {
+                                                        var customFields = [];
+                                                        var customFieldsBrowse = [];
+                                                        for (var i = 0; i < response.length; i++) {
+                                                            if (customFields.indexOf(response[i].ModuleName) === -1) {
+                                                                customFields.push(response[i].ModuleName);
                                                             }
-                                                            sessionStorage.setItem('customFields', JSON.stringify(customFields));
-                                                            sessionStorage.setItem('customFieldsBrowse', JSON.stringify(customFieldsBrowse));
-                                                            let homePagePath = JSON.parse(sessionStorage.getItem('homePage')).path;
+                                                            if (response[i].ShowInBrowse && customFieldsBrowse.indexOf(response[i].ModuleName) === -1) {
+                                                                var customFieldObject = {
+                                                                    'moduleName':  response[i].ModuleName,
+                                                                    'fieldName':   response[i].FieldName,
+                                                                    'browsewidth': response[i].BrowseSizeInPixels,
+                                                                    'digits':      response[i].FloatDecimalDigits,
+                                                                    'datatype':    response[i].ControlType
+                                                                };
+                                                                customFieldsBrowse.push(customFieldObject);
+                                                            }
+                                                        }
+                                                        sessionStorage.setItem('customFields', JSON.stringify(customFields));
+                                                        sessionStorage.setItem('customFieldsBrowse', JSON.stringify(customFieldsBrowse));
+                                                        let homePagePath = JSON.parse(sessionStorage.getItem('homePage')).path;
 
-                                                            if (homePagePath !== null && homePagePath !== '') {
-                                                                program.navigate(`${homePagePath}`);
-                                                            } else {
-                                                                program.navigate('home');
-                                                            }
-                                                        }, function onError(response) {
-                                                            FwFunc.showError(response);
+                                                        if (homePagePath !== null && homePagePath !== '') {
+                                                            program.navigate(`${homePagePath}`);
+                                                        } else {
                                                             program.navigate('home');
-                                                        }, null);
-
+                                                        }
                                                     }, function onError(response) {
                                                         FwFunc.showError(response);
+                                                        program.navigate('home');
                                                     }, null);
+
+                                                }, function onError(response) {
+                                                    FwFunc.showError(response);
+                                                }, null);
 
                                                 let customformrequest:any = {};
                                                 customformrequest.uniqueids = {
@@ -163,46 +158,29 @@ class Base {
                                                 
                                                 FwAppData.apiMethod(true, 'POST', `api/v1/customform/browse`, customformrequest, FwServices.defaultTimeout, function onSuccess(response) {
                                                     let baseFormIndex = response.ColumnIndex.BaseForm;
-                                                    let activeIndex = response.ColumnIndex.Active;
-                                                    let htmlIndex = response.ColumnIndex.Html;
+                                                    let activeIndex   = response.ColumnIndex.Active;
+                                                    let htmlIndex     = response.ColumnIndex.Html;
                                                     for (let i = 0; i < response.Rows.length; i++) {
                                                         let customForm = response.Rows[i];
                                                         if (customForm[activeIndex] == true) {
-                                                            let type;
                                                             let baseform = customForm[baseFormIndex];
                                                             if (baseform.endsWith('GridBrowse')) {
-                                                                type = 'Grid';
-                                                            } else if (baseform.endsWith('Browse')) {
-                                                                type = 'Browse';
-                                                            } else if (baseform.endsWith('Form')) {
-                                                                type = 'Form';
-                                                            };
-
-                                                            switch (type) {
-                                                                case 'Grid':
-                                                                    jQuery(`#tmpl-grids-${baseform}`).html(customForm[htmlIndex]);
-                                                                    break;
-                                                                case 'Browse':
-                                                                case 'Form':
-                                                                    jQuery(`#tmpl-modules-${baseform}`).html(customForm[htmlIndex]);
-                                                                    break;
+                                                                jQuery(`#tmpl-grids-${baseform}`).html(customForm[htmlIndex]);
+                                                            } else if ((baseform.endsWith('Browse')) || (baseform.endsWith('Form'))) {
+                                                                jQuery(`#tmpl-modules-${baseform}`).html(customForm[htmlIndex]);
                                                             }
                                                         }
                                                     }
-                                                   
                                                 }, function onError(response) {
                                                     FwFunc.showError(response);
                                                 }, null);
 
                                             } else if (responseOriginalApi.errNo !== 0) {
-                                                //throw new Error(responseOriginalApi.errMsg);
                                                 $loginWindow.find('.errormessage').html('').html(responseOriginalApi.errMsg).show();
                                             } else if (typeof responseOriginalApi.authToken === 'undefined') {
                                                 if (applicationConfig.debugMode) {
-                                                    //throw new Error('FwServices.account.getAuthToken: responseOriginalApi.authToken is undefined.');
                                                     $loginWindow.find('.errormessage').html('').html('FwServices.account.getAuthToken: responseOriginalApi.authToken is undefined.').show();
                                                 } else {
-                                                    //throw new Error(responseOriginalApi.exception);
                                                     $loginWindow.find('.errormessage').html('').html('There is an issue with the authorization token.').show();
                                                 }
                                             }
@@ -227,9 +205,8 @@ class Base {
                     FwFunc.showError(ex);
                 }
             })
-            //.find('#programlogo').attr('src', 'theme/images/rentalworkslogo.png');
             .find('.programlogo').empty().html('<div class="bgothm">Rental<span class="rwpurple">Works<span></div>')
-            ;
+        ;
 
         screen.load = function () {
             setTimeout(function () {
@@ -242,7 +219,7 @@ class Base {
         };
 
         return screen;
-    };
+    }
     //----------------------------------------------------------------------------------------------
     getAboutScreen() {
         var viewModel = {};
@@ -255,7 +232,7 @@ class Base {
             .find('#programlogo').attr('src', 'theme/images/rentalworkslogo.png');
         ;
         return screen;
-    };
+    }
     //----------------------------------------------------------------------------------------------
     getSupportScreen() {
         var viewModel = {};
@@ -265,7 +242,7 @@ class Base {
         screen.viewModel = viewModel;
         screen.properties = properties;
         return screen;
-    };
+    }
     //----------------------------------------------------------------------------------------------
     getPasswordRecoveryScreen() {
         var viewModel = {};
@@ -275,7 +252,7 @@ class Base {
         screen.viewModel = viewModel;
         screen.properties = properties;
         return screen;
-    };
+    }
     //----------------------------------------------------------------------------------------------
 }
 var RwBaseController = new Base();
