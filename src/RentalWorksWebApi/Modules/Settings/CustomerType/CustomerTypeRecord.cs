@@ -25,6 +25,9 @@ namespace WebApi.Modules.Settings.CustomerType
         [FwSqlDataField(column: "defaultspacediscountpct", modeltype: FwDataTypes.Decimal, precision: 5, scale: 2)]
         public decimal? DefaultFacilitiesDiscountPercent { get; set; }
         //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "color", modeltype: FwDataTypes.OleToHtmlColor)]
+        public string Color { get; set; }
+        //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "inactive", modeltype: FwDataTypes.Boolean)]
         public bool? Inactive { get; set; }
         //------------------------------------------------------------------------------------

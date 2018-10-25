@@ -131,8 +131,8 @@ namespace WebApi.Modules.Settings.Warehouse
         [FwSqlDataField(column: "regionid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
         public string RegionId { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "dwbackgroundcolor", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 40)]
-        public string DataWarehouseBackgroundColor { get; set; }
+        [FwSqlDataField(column: "color", modeltype: FwDataTypes.OleToHtmlColor, sqltype: "int")]
+        public string Color { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "availlatedays", modeltype: FwDataTypes.Integer, sqltype: "int")]
         public int? AvailabilityLateDays { get; set; }

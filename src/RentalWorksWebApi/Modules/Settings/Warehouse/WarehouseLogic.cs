@@ -86,7 +86,7 @@ namespace WebApi.Modules.Settings.Warehouse
         public string RegionId { get { return warehouse.RegionId; } set { warehouse.RegionId = value; } }
         [FwBusinessLogicField(isReadOnly: true)]
         public string Region { get; set; }
-        public string DataWarehouseBackgroundColor { get { return warehouse.DataWarehouseBackgroundColor; } set { warehouse.DataWarehouseBackgroundColor = value; } }
+        public string Color { get { return warehouse.Color; } set { warehouse.Color = value; } }
         public int? AvailabilityLateDays { get { return warehouse.AvailabilityLateDays; } set { warehouse.AvailabilityLateDays = value; } }
         public bool? UseBarCodeLabelDesigner { get { return warehouse.UseBarCodeLabelDesigner; } set { warehouse.UseBarCodeLabelDesigner = value; } }
         public string InventoryLabelDesignId { get { return warehouse.InventoryLabelDesignId; } set { warehouse.InventoryLabelDesignId = value; } }

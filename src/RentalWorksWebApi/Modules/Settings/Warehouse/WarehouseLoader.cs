@@ -169,8 +169,8 @@ namespace WebApi.Modules.Settings.Warehouse
         [FwSqlDataField(column: "region", modeltype: FwDataTypes.Text)]
         public string Region { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "dwbackgroundcolor", modeltype: FwDataTypes.Text)]
-        public string DataWarehouseBackgroundColor { get; set; }
+        [FwSqlDataField(column: "color", modeltype: FwDataTypes.OleToHtmlColor)]
+        public string Color { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "availlatedays", modeltype: FwDataTypes.Integer)]
         public int? AvailabilityLateDays { get; set; }

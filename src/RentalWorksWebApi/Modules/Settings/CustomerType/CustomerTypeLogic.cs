@@ -19,6 +19,7 @@ namespace WebApi.Modules.Settings.CustomerType
         public decimal? DefaultRentalDiscountPercent { get { return customerType.DefaultRentalDiscountPercent; } set { customerType.DefaultRentalDiscountPercent = value; } }
         public decimal? DefaultSalesDiscountPercent { get { return customerType.DefaultSalesDiscountPercent; } set { customerType.DefaultSalesDiscountPercent = value; } }
         public decimal? DefaultFacilitiesDiscountPercent { get { return customerType.DefaultFacilitiesDiscountPercent; } set { customerType.DefaultFacilitiesDiscountPercent = value; } }
+        public string Color { get { return customerType.Color; } set { customerType.Color = value; } }
         public bool? Inactive { get { return customerType.Inactive; } set { customerType.Inactive = value; } }
         public string DateStamp { get { return customerType.DateStamp; } set { customerType.DateStamp = value; } }
         //------------------------------------------------------------------------------------
