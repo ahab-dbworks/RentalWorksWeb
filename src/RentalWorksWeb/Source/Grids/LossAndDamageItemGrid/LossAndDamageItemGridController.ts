@@ -45,25 +45,14 @@
 
                 if (jQuery('html').hasClass('desktop')) {
                     $quantityColumn
-                        .on('mousedown', '.incrementQuantity', function () {
+                        .on('click', '.incrementQuantity', function () {
                             $quantityColumn.data('increment')();
-                            $quantityColumn.data('interval', setInterval(function () { $quantityColumn.data('increment')(); }, 200));
-                        })
-                        .on('mouseup', '.incrementQuantity, .decrementQuantity', function () {
-                            preventBubble = false;
-                            clearInterval($quantityColumn.data('interval'));
                             $quantityColumn.find('.fieldvalue').change();
                         })
-                        .on('mousedown', '.decrementQuantity', function () {
+                        .on('click', '.decrementQuantity', function () {
                             $quantityColumn.data('decrement')();
-                            $quantityColumn.data('interval', setInterval(function () { $quantityColumn.data('decrement')(); }, 200));
+                            $quantityColumn.find('.fieldvalue').change();
                         })
-                        .on('mouseleave', '.incrementQuantity, .decrementQuantity', function () {
-                            clearInterval($quantityColumn.data('interval'));
-                            if (preventBubble) {
-                                $quantityColumn.find('.fieldvalue').change();
-                            }
-                        });
                 };
 
                 $quantityColumn.on('change', '.fieldvalue', e => {
@@ -88,13 +77,13 @@
                                 let errormsg = $form.find('.error-msg');
                                 errormsg.html('');
                                 if (response.success) {
-                                    $tr.find('[data-browsedatafield="Quantity"]').attr('data-originalvalue', +response.NewQuantity);
+                                    $tr.find('[data-browsedatafield="Quantity"]').attr('data-originalvalue', Number(newValue));
+                                    $tr.find('[data-browsedatafield="Quantity"] .fieldvalue').val(+response.NewQuantity);
                                 } else {
                                     errorSound.play();
                                     errormsg.html(`<div style="margin:0px 0px 0px 8px;"><span style="padding:0px 4px 0px 4px;font-size:22px;border-radius:2px;background-color:red;color:white;">${response.msg}</span></div>`);
-                                    $tr.find('[data-browsedatafield="Quantity"] input').val(Number(oldValue));
+                                    $tr.find('[data-browsedatafield="Quantity"] .fieldvalue').val(+response.NewQuantity);
                                 }
-                                preventBubble = true;
                             },
                             function onError(response) {
                                 $tr.find('[data-browsedatafield="Quantity"] input').val(Number(oldValue));
