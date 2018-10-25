@@ -516,3 +516,9 @@ html.theme-material [data-name="AuditHistoryGrid"] tbody tr.selected td ul:not(.
     content: "[Custom]";
     font-size: .9em;
 }
+
+/* Custom Forms */
+#designerContent [data-control="FwFormField"]:hover {
+box-shadow: 0 5px 9px 0 rgba(0, 0, 0, 0.2);
+cursor: pointer;
+}

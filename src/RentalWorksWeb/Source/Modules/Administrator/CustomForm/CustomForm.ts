@@ -53,6 +53,7 @@ class CustomForm {
         }
 
         this.loadModules($form);
+        this.events($form);
         return $form;
     }
     //----------------------------------------------------------------------------------------------
@@ -170,41 +171,6 @@ class CustomForm {
             codeMirror.save();
             let html = $form.find('textarea#codeEditor').val();
             FwFormField.setValueByDataField($form, 'Html', html);
-        });
-
-        //Load preview on click
-        $form.on('click', '[data-type="tab"][data-caption="Preview"]', e => {
-            //Updates values from editor
-            $form.find('#codeEditor').change();
-
-            let type = $form.find('[data-datafield="BaseForm"] option:selected').attr('data-type');
-            $form.find('#previewWebForm').empty();
-            let html = FwFormField.getValueByDataField($form, 'Html');
-            $form.find('#previewWebForm').append(html);
-
-            switch (type) {
-                case 'Browse':
-                case 'Form':
-                case 'Grid':
-                    //render forms (doesn't render grids)
-                    let $previewForm = $form.find('#previewWebForm');
-                    let $fwcontrols = $previewForm.find('.fwcontrol');
-                    FwControl.init($fwcontrols);
-                    FwControl.renderRuntimeHtml($fwcontrols);
-
-                    //render grids
-                    let $grids = $previewForm.find('[data-control="FwGrid"]');
-                    for (let i = 0; i < $grids.length; i++) {
-                        let $this = jQuery($grids[i]);
-                        let gridName = $this.attr('data-grid');
-                        let $gridControl = jQuery(jQuery(`#tmpl-grids-${gridName}Browse`).html());
-                        $this.empty().append($gridControl);
-                        FwBrowse.init($gridControl);
-                        FwBrowse.renderRuntimeHtml($gridControl);
-                    }
-                    break;
-            }
-            FwFormField.disable($form.find('#previewWebForm [data-type="validation"], [data-control="FwAppImage"]'));
         });
     }
     //----------------------------------------------------------------------------------------------
@@ -338,6 +304,83 @@ class CustomForm {
         FwFormField.loadItems($moduleSelect, allModules);
 
         this.codeMirrorEvents($form);
+    }
+    //----------------------------------------------------------------------------------------------
+    events($form) {
+        //Load preview on click
+        $form.on('click', '[data-type="tab"][data-caption="Preview"]', e => {
+            this.renderTab($form, 'Preview');
+        });
+
+        //Load Design Tab
+        $form.on('click', '[data-type="tab"][data-caption="Design"]', e => {
+            this.renderTab($form, 'Design');
+        });
+    }
+    //----------------------------------------------------------------------------------------------
+    renderTab($form, tabName: string) {
+        let renderFormHere;
+        $form.find('#codeEditor').change();     // 10/25/2018 Jason H - updates the textarea formfield with the code editor html
+
+        tabName === 'Design' ? renderFormHere = 'designerContent' : renderFormHere = 'previewWebForm';
+
+        let html = FwFormField.getValueByDataField($form, 'Html');
+        $form.find(`#${renderFormHere}`).empty().append(html);
+
+        //render forms
+        let $customForm = $form.find(`#${renderFormHere}`);
+        let $fwcontrols = $customForm.find('.fwcontrol');
+        FwControl.init($fwcontrols);
+        FwControl.renderRuntimeHtml($fwcontrols);
+
+        //render grids
+        let $grids = $customForm.find('[data-control="FwGrid"]');
+        for (let i = 0; i < $grids.length; i++) {
+            let $this = jQuery($grids[i]);
+            let gridName = $this.attr('data-grid');
+            let $gridControl = jQuery(jQuery(`#tmpl-grids-${gridName}Browse`).html());
+            $this.empty().append($gridControl);
+            FwBrowse.init($gridControl);
+            FwBrowse.renderRuntimeHtml($gridControl);
+        }
+        FwFormField.disable($form.find(`#${renderFormHere} [data-type="validation"], [data-control="FwAppImage"]`));
+
+        //Design mode borders & events
+        if (tabName == 'Design') {
+            $form.find('#controlProperties')
+                .empty();  //clear properties upon loading design tab
+
+
+            $form.find('#designerContent .tabpages .formpage').css('overflow', 'auto');
+            $fwcontrols
+                .not('[data-control="FwContainer"], [data-control="FwTabs"]')
+                .css('border', '1px solid #dcdcdc')
+                .on('click', e => {
+                    let properties = e.currentTarget.attributes;
+                    let html: any = [];
+                    html.push(`
+                        <div style="border: 1px solid #bbbbbb; word-break: break-word;">
+                            <div style="text-indent:5px;">
+                                <div style="font-weight:bold; background-color:#dcdcdc; width:50%; float:left;">Name</div>
+                                <div style="font-weight:bold; background-color:#dcdcdc; width:50%; float:left;">Value</div>
+                            </div>
+                        `);
+
+                    for (let i = 0; i < properties.length; i++) {
+                        html.push(`<div class="properties" style="width:100%; display:flex;">
+                                      <div class="propname" style="border:.5px solid #efefef; width:50%; float:left;">${properties[i].name === "" ? "&#160;" : properties[i].name}</div>
+                                      <div class="propval" style="border:.5px solid #efefef; width:50%; float:left;">${properties[i].value === "" ? "&#160;" : properties[i].value}</div>
+                                   </div>
+                                  `);
+                    }
+                    html.push(`</div>`);
+                    $form.find('#controlProperties')
+                        .empty()
+                        .append(html.join(''))
+                        .find('.properties:even')
+                            .css('background-color', '#f7f7f7');
+            });
+        }
     }
 };
 //----------------------------------------------------------------------------------------------
