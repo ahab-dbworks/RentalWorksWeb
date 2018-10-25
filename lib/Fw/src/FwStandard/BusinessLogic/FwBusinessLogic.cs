@@ -306,7 +306,7 @@ namespace FwStandard.BusinessLogic
             FwApplicationConfig tmpAppConfig = AppConfig;
             FwUserSession tmpUserSession = UserSession;
 
-            LoadCustomFields();
+            //LoadCustomFields();
 
             if (dataLoader == null)
             {
@@ -816,7 +816,7 @@ namespace FwStandard.BusinessLogic
                     rowsAffected += await rec.SaveAsync(originalRec);
                     r++;
                 }
-                LoadCustomFields();
+                //LoadCustomFields();
 
                 if (_Custom.Count > 0)
                 {

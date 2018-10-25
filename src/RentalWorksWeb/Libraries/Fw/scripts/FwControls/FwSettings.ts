@@ -243,9 +243,11 @@ class FwSettingsClass {
             keys = $browse.find('.field');
             rowId = jQuery(keys[0]).attr('data-browsedatafield');
 
+            $body.append('<div class="legend"><span class="input-group-addon search"><i class="material-icons">search</i></span><input type="text" id="recordSearch" class="form-control" placeholder="Record Search" autofocus></div>');
+
             //append legend
             if ($browse.find('.legend').length > 0) {
-                $body.append($browse.find('.legend')[0]);
+                $body.append($browse.find('.legend'));
             }
 
             for (var i = 1; i < keys.length; i++) {
@@ -302,7 +304,7 @@ class FwSettingsClass {
                     response[i][customField.FieldName] = customField.FieldValue
                 });
 
-                html.push('<div class="panel-record">');
+                html.push('<div class="panel-record" id="' + response[i][rowId] + '">');
                 html.push('  <div class="panel panel-info container-fluid">');
                 html.push('    <div class="row-heading">');
                 html.push('      <i class="material-icons record-selector">keyboard_arrow_down</i>');
@@ -349,7 +351,33 @@ class FwSettingsClass {
                 $moduleRows.data('recorddata', response[i]);
                 $moduleRows.data('browsedata', browseData);
                 $body.append($moduleRows);
+                $body.find('#recordSearch').focus();
             }
+
+            $body.find('#recordSearch').on('keypress', function (e) {
+                if (e.which === 13) {
+                    let dataKeys = [];
+                    let query = jQuery.trim(this.value).toUpperCase();
+                    let matches = [];
+                    let $panelBody = jQuery(this).closest('.panel-body')
+                    for (var key in response[0]) {
+                        if (key !== 'DateStamp' && key !== 'RecordTitle' && key !== '_Custom' && key !== 'Inactive' && key !== rowId) {
+                            dataKeys.push(key)
+                        }
+                    }
+                    for (var i = 0; i < dataKeys.length; i++) {
+                        for (var j = 0; j < response.length; j++) {
+                            if (typeof response[j][dataKeys[i]] === 'string' && response[j][dataKeys[i]].toUpperCase().indexOf(query) !== -1) {
+                                matches.push(response[j][rowId]);
+                            }
+                        }
+                    }
+                    $panelBody.find('.panel-record').hide();
+                    for (var k = 0; k < matches.length; k++) {
+                        $panelBody.find('#' + matches[k]).show();
+                    }
+                }
+            })
 
             $control
                 .on('click', '.row-heading', function (e) {
@@ -540,9 +568,11 @@ class FwSettingsClass {
                 var withoutDuplicates = [];
 
                 if ($body.is(':empty')) {
+
                     //append legend
+                    $body.append('<div class="legend"><span class="input-group-addon search"><i class="material-icons">search</i></span><input type="text" id="recordSearch" class="form-control" placeholder="Record Search" autofocus></div>');
                     if ($browse.find('.legend').length > 0) {
-                        $body.append($browse.find('.legend')[0]);
+                        $body.append($browse.find('.legend'));
                     }
 
                     FwAppData.apiMethod(true, 'GET', applicationConfig.appbaseurl + applicationConfig.appvirtualdirectory + apiurl, null, null, function onSuccess(response) {
@@ -647,7 +677,7 @@ class FwSettingsClass {
                                 response[i][customField.FieldName] = customField.FieldValue
                             });
 
-                            html.push('<div class="panel-record">');
+                            html.push('<div class="panel-record" id="' + response[i][rowId] + '">');
                             html.push('  <div class="panel panel-info container-fluid">');
                             html.push('    <div class="row-heading">');
                             html.push('      <i class="material-icons record-selector">keyboard_arrow_down</i>');
@@ -694,9 +724,33 @@ class FwSettingsClass {
                             $moduleRows.data('recorddata', response[i]);
                             $moduleRows.data('browsedata', browseData);
                             $body.append($moduleRows);
+                            $body.find('#recordSearch').focus();
                         }
 
-
+                        $body.find('#recordSearch').on('keypress', function (e) {
+                            if (e.which === 13) {
+                                let dataKeys = [];
+                                let query = jQuery.trim(this.value).toUpperCase();
+                                let matches = [];
+                                let $panelBody = jQuery(this).closest('.panel-body')
+                                for (var key in response[0]) {
+                                    if (key !== 'DateStamp' && key !== 'RecordTitle' && key !== '_Custom' && key !== 'Inactive' && key !== rowId) {
+                                        dataKeys.push(key)
+                                    }
+                                }
+                                for (var i = 0; i < dataKeys.length; i++) {
+                                    for (var j = 0; j < response.length; j++) {
+                                        if (typeof response[j][dataKeys[i]] === 'string' && response[j][dataKeys[i]].toUpperCase().indexOf(query) !== -1) {
+                                            matches.push(response[j][rowId]);
+                                        }
+                                    }
+                                }
+                                $panelBody.find('.panel-record').hide();
+                                for (var k = 0; k < matches.length; k++) {
+                                    $panelBody.find('#' + matches[k]).show();
+                                }
+                            }
+                        })
                     }, null, $modulecontainer);
                 }
 
@@ -973,7 +1027,7 @@ class FwSettingsClass {
                     FwFunc.showError(ex);
                 }
             });
-        })
+        });
 
         return $settingsPageModules;
     };

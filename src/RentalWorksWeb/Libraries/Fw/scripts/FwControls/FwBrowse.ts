@@ -771,7 +771,7 @@ class FwBrowseClass {
                     $form = window[$control.attr('data-controller')].loadForm(browseuniqueids);
                     issubmodule = $control.closest('.tabpage').hasClass('submodule');
                     if (!issubmodule) {
-                        FwModule.openModuleTab($form, `${$form.attr('data-caption')} (loading)`, true, 'FORM', true);
+                        FwModule.openModuleTab($form, 'New ' + $form.attr('data-caption'), true, 'FORM', true);
                     } else {
                         FwModule.openSubModuleTab($control, $form);
                     }
