@@ -6,6 +6,8 @@ class Repair {
     Module: string = 'Repair';
     apiurl: string = 'api/v1/repair';
     caption: string = 'Repair Order';
+    nav: string = 'module/repair';
+    id: string = '2BD0DC82-270E-4B86-A9AA-DD0461A0186A';
     ActiveView: string = 'ALL';
 
     getModuleScreen = (filter?: { datafield: string, search: string }) => {

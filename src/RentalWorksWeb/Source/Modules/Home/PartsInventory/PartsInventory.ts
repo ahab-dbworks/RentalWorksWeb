@@ -4,6 +4,8 @@ class PartsInventory extends InventoryBase {
     Module: string = 'PartsInventory';
     apiurl: string = 'api/v1/partsinventory';
     caption: string = 'Parts Inventory';
+    nav: string = 'module/partsinventory';
+    id: string = '351B8A09-7778-4F06-A6A2-ED0920A5C360';
     AvailableFor: string = "P";
     //----------------------------------------------------------------------------------------------
     renderGrids($form: any) {

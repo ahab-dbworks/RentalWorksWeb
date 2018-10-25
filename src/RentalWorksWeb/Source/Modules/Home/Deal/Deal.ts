@@ -2,6 +2,8 @@ class Deal {
     Module: string = 'Deal';
     apiurl: string = 'api/v1/deal';
     caption: string = 'Deal';
+    nav: string = 'module/deal';
+    id: string = 'C67AD425-5273-4F80-A452-146B2008B41C';
     //----------------------------------------------------------------------------------------------
     getModuleScreen(filter?: { datafield: string, search: string }) {
         var screen, $browse;

@@ -2,6 +2,8 @@ class Contract {
     Module: string = 'Contract';
     apiurl: string = 'api/v1/contract';
     caption: string = 'Contract';
+    nav: string = 'module/contract';
+    id: string = '6BBB8A0A-53FA-4E1D-89B3-8B184B233DEA';
     ActiveView: string = 'ALL';
 
     getModuleScreen = () => {

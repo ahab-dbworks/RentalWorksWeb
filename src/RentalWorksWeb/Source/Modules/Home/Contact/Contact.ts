@@ -4,6 +4,8 @@ class Contact {
     Module: string = 'Contact';
     apiurl: string = 'api/v1/contact';
     caption: string = 'Contact';
+    nav: string = 'module/contact';
+    id: string = '3F803517-618A-41C0-9F0B-2C96B8BDAFC4';
     ActiveView: string = 'ALL';
 
     getModuleScreen() {

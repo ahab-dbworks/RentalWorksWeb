@@ -5,6 +5,8 @@ class Customer {
     Module: string = 'Customer';
     apiurl: string = 'api/v1/customer';
     caption: string = 'Customer';
+    nav: string = 'module/customer';
+    id: string = '214C6242-AA91-4498-A4CC-E0F3DCCCE71E';
     thisModule: Customer;
     //----------------------------------------------------------------------------------------------
     getModuleScreen(filter?: { datafield: string, search: string }) {

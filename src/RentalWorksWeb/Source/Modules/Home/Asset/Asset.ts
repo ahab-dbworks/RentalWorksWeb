@@ -4,6 +4,8 @@ class RwAsset {
     Module: string = 'Asset';
     apiurl: string = 'api/v1/item';
     caption: string = 'Asset';
+    nav: string = 'module/item';
+    id: string = '1C45299E-F8DB-4AE4-966F-BE142295E3D6';
     nameItemAttributeValueGrid: string = 'ItemAttributeValueGrid';
     nameItemQcGrid: string = 'ItemQcGrid';
     ActiveView: string = 'ALL';

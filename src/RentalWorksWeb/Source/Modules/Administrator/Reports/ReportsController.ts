@@ -1,5 +1,8 @@
 ﻿class Reports {
     Module: string = 'Reports';
+    caption: string = 'Reports';
+    nav: string = 'module/reports';
+    id: string = '3C5C7603-9E7B-47AB-A722-B29CA09B3B8C';
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
         var combinedViewModel: any;

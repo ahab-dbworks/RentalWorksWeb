@@ -3,6 +3,9 @@
 class PickList {
     Module: string = 'PickList';
     apiurl: string = 'api/v1/picklist';
+    caption: string = 'Pick List';
+    nav: string = 'module/picklist';
+    id: string = '7B04E5D4-D079-4F3A-9CB0-844F293569ED';
     ActiveView: string = 'ALL';
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {

@@ -4,8 +4,10 @@ routes.push({ pattern: /^module\/purchaseorder\/(\w+)\/(\S+)/, action: function 
 //----------------------------------------------------------------------------------------------
 class PurchaseOrder {
     Module: string = 'PurchaseOrder';
-    apiurl: string = 'api/v1/PurchaseOrder';
+    apiurl: string = 'api/v1/purchaseorder';
     caption: string = 'Purchase Order';
+    nav: string = 'module/purchaseorder';
+    id: string = '67D8C8BB-CF55-4231-B4A2-BB308ADF18F0';
     ActiveView: string = 'ALL';
     DefaultPurchasePoType: string;
     DefaultPurchasePoTypeId: string;

@@ -1,5 +1,8 @@
 ﻿class Settings {
     Module: string = 'Settings';
+    caption: string = 'Settings';
+    nav: string = 'module/settings';
+    id: string = '57150967-486A-42DE-978D-A2B0F843341A';
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
         var combinedViewModel: any;

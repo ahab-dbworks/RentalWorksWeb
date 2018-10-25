@@ -1,13 +1,11 @@
 ﻿routes.push({ pattern: /^module\/dashboardsettings$/, action: function (match: RegExpExecArray) { return DashboardSettingsController.getModuleScreen(); } });
 
 class DashboardSettings {
-    Module: string;
-    apiurl: string;
-
-    constructor() {
-        this.Module = 'DashboardSettings';
-        this.apiurl = 'api/v1/userdashboardsettings';
-    }
+    Module: string = 'DashboardSettings';
+    apiurl: string = 'api/v1/userdashboardsettings';
+    caption: string = 'Dashboard Settings';
+    nav: string = 'module/dashboardsettings';
+    id: string = '1B40C62A-1FA0-402E-BE52-9CBFDB30AD3F';
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
         var screen: any = {};

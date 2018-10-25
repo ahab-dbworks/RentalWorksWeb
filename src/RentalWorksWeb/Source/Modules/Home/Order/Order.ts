@@ -5,6 +5,8 @@ class Order extends OrderBase {
     Module = 'Order';
     apiurl: string = 'api/v1/order';
     caption: string = 'Order';
+    nav: string = 'module/order';
+    id: string = '64C46F51-5E00-48FA-94B6-FC4EF53FEA20';
     lossDamageSessionId: string = '';
     successSoundFileName: string;
     errorSoundFileName: string;
@@ -862,7 +864,7 @@ class Order extends OrderBase {
                           <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                             <div class="fwform-section-title" style="margin-bottom:20px;">Loss and Damage</div>
                             <div class="formrow error-msg"></div>
-                            <div class="formrow sub-header" style="margin-left:8px;font-size:16px;"><span>Select one or more Orders with Lost or Damaged items, then click “Continue”</span></div>
+                            <div class="formrow sub-header" style="margin-left:8px;font-size:16px;"><span>Select one or more Orders with Lost or Damaged items, then click ï¿½Continueï¿½</span></div>
                             <div data-control="FwGrid" class="container"></div>
                           </div>
                         </div>

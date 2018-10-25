@@ -2,6 +2,8 @@ class User {
     Module: string = 'User';
     apiurl: string = 'api/v1/user';
     caption: string = 'User';
+    nav: string = 'module/user';
+    id: string = '79E93B21-8638-483C-B377-3F4D561F1243';
     ActiveView: string = 'ALL';
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {

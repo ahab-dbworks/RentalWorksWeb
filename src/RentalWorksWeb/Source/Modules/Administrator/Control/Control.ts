@@ -1,6 +1,9 @@
 ﻿class Control {
     Module: string = 'Control';
     apiurl: string = 'api/v1/control';
+    caption: string = 'Control';
+    nav: string = 'module/control';
+    id: string = 'B3ADDF49-64EB-4740-AB41-4327E6E56242';
     reportImageId: string = '';
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {

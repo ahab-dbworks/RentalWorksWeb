@@ -4,6 +4,8 @@ class Container {
     Module: string = 'Container';
     apiurl: string = 'api/v1/containeritem';
     caption: string = 'Container';
+    nav: string = 'module/container';
+    id: string = '28A49328-FFBD-42D5-A492-EDF540DF7011';
     nameItemAttributeValueGrid: string = 'ItemAttributeValueGrid';
     nameItemQcGrid: string = 'ItemQcGrid';
     ActiveView: string = 'ALL';

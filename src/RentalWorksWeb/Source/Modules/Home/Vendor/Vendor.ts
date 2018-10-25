@@ -4,6 +4,8 @@ class Vendor {
     Module: string = 'Vendor';
     apiurl: string = 'api/v1/vendor';
     caption: string = 'Vendor';
+    nav: string = 'module/vendor';
+    id: string = 'AE4884F4-CB21-4D10-A0B5-306BD0883F19';
     //---------------------------------------------------------------------------------
     getModuleScreen() {
         var screen, $browse;

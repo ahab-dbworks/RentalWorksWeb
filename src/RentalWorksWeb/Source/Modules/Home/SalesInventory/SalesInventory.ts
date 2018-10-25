@@ -2,6 +2,8 @@ class SalesInventory extends InventoryBase {
     Module: string = 'SalesInventory';
     apiurl: string = 'api/v1/salesinventory';
     caption: string = 'Sales Inventory';
+    nav: string = 'module/salesinventory';
+    id: string = 'B0CF2E66-CDF8-4E58-8006-49CA68AE38C2';
     AvailableFor: string = "S";
     //----------------------------------------------------------------------------------------------
     renderGrids($form: any) {

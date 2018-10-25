@@ -2,6 +2,8 @@ class RentalInventory extends InventoryBase {
     Module: string = 'RentalInventory';
     apiurl: string = 'api/v1/rentalinventory';
     caption: string = 'Rental Inventory';
+    nav: string = 'module/rentalinventory';
+    id: string = 'FCDB4C86-20E7-489B-A8B7-D22EE6F85C06';
     AvailableFor: string = "R";
     //----------------------------------------------------------------------------------------------
     openFormInventory($form: any) {

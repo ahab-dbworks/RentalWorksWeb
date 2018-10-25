@@ -6,6 +6,8 @@ class Invoice {
     Module: string = 'Invoice';
     apiurl: string = 'api/v1/invoice';
     caption: string = 'Invoice';
+    nav: string = 'module/invoice';
+    id: string = '9B79D7D8-08A1-4F6B-AC0A-028DFA9FE10F';
     ActiveView: string = 'ALL';
 
     //----------------------------------------------------------------------------------------------

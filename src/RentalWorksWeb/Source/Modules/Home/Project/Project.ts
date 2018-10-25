@@ -5,6 +5,8 @@ class Project {
     Module: string = 'Project';
     apiurl: string = 'api/v1/project';
     caption: string = 'Project';
+    nav: string = 'module/project';
+    id: string = 'C6C8167A-C3B5-4915-8290-4520AF7EDB35';
     ActiveView: string = 'ALL';
 
     getModuleScreen = (filter?: { datafield: string, search: string }) => {

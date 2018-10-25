@@ -2,6 +2,9 @@
 
 class ReceiveFromVendor {
     Module: string = 'ReceiveFromVendor';
+    caption: string = 'Receive From Vendor';
+    nav: string = 'module/receivefromvendor';
+    id: string = '00539824-6489-4377-A291-EBFE26325FAD';
     successSoundFileName: string;
     errorSoundFileName: string;
     notificationSoundFileName: string;

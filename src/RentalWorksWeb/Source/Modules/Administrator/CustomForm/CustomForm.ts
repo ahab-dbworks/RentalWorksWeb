@@ -2,6 +2,9 @@ routes.push({ pattern: /^module\/customform$/, action: function (match: RegExpEx
 class CustomForm {
     Module: string = 'CustomForm';
     apiurl: string = 'api/v1/customform';
+    caption: string = 'Custom Forms';
+    nav: string = 'module/customform';
+    id: string = 'CB2EF8FF-2E8D-4AD0-B880-07037B839C5E';
     codeMirror: any;
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {

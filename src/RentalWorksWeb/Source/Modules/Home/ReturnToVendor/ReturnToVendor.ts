@@ -2,6 +2,9 @@
 
 class ReturnToVendor {
     Module: string = 'ReturnToVendor';
+    caption: string = 'Return To Vendor';
+    nav: string = 'module/returntovendor';
+    id: string = 'D54EAA01-A710-4F78-A1EE-5FC9EE9150D8';
     successSoundFileName: string;
     errorSoundFileName: string;
     notificationSoundFileName: string;

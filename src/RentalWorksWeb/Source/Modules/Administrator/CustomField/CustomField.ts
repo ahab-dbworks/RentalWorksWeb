@@ -1,6 +1,9 @@
 class CustomField {
     Module: string = 'CustomField';
     apiurl: string = 'api/v1/customfield';
+    caption: string = 'Custom Fields';
+    nav: string = 'module/customfield';
+    id: string = 'C98C4CB4-2036-4D70-BC29-8F5A2874B178';
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
         var screen, $browse;

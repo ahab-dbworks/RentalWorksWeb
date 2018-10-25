@@ -5,6 +5,9 @@ routes.push({ pattern: /^module\/quote\/(\S+)\/(\S+)/, action: function (match: 
 class Quote extends OrderBase {
     Module: string = 'Quote';
     apiurl: string = 'api/v1/quote';
+    caption: string = 'Quote';
+    nav: string = 'module/quote';
+    id: string = '4D785844-BE8A-4C00-B1FA-2AA5B05183E5';
     //----------------------------------------------------------------------------------------------
     getModuleScreen(filter?: { datafield: string, search: string }) {
         var screen, $browse;

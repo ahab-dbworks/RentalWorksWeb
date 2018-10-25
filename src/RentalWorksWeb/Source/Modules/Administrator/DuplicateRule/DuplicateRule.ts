@@ -2,6 +2,9 @@ routes.push({ pattern: /^module\/duplicaterule/, action: function (match: RegExp
 class DuplicateRule {
     Module: string = 'DuplicateRule';
     apiurl: string = 'api/v1/duplicaterule';
+    caption: string = 'Duplicate Rules';
+    nav: string = 'module/duplicaterule';
+    id: string = '2E0EA479-AC02-43B1-87FA-CCE2ABA6E934';
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
         var screen, $browse;
