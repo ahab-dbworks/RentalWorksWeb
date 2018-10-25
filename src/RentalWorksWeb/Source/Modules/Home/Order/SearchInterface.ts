@@ -887,7 +887,7 @@ class SearchInterface {
                 break;
         }
 
-        $searchpopup.find('.card:even').css('background-color', '#EFEFEF');
+        $searchpopup.find('.card:even').css('background-color', '#F9F9F9');
 
     };
 
@@ -1603,7 +1603,7 @@ class SearchInterface {
                     $popup.find(`.accContainer [data-column="${columnOrder[i]}"]`).css('order', i);
                 };
               
-                $popup.find('.accItem:even').css('background-color', '#EFEFEF');
+                $popup.find('.accItem:even').css('background-color', '#F9F9F9');
             }
         }, null, null);
     }
