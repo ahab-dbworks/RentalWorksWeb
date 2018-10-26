@@ -9,12 +9,24 @@ import './index.scss';
 var hbReport = require("./hbReport.hbs"); 
 var hbFooter = require("./hbFooter.hbs"); 
 
+export class LateReturnsReportRequest {
+    ReportType: string;
+    Days: any;
+    DueBack: Date;
+    OfficeLocationId: string;
+    DepartmentId: string;
+    CustomerId: string;
+    DealId: string;
+    InventoryTypeId: string;
+    OrderedByContactId: string;
+}
+
 export class LateReturnDueBackReport extends WebpackReport {
 
     renderReport(apiUrl: string, authorizationHeader: string, parameters: any): void {
         try {
             super.renderReport(apiUrl, authorizationHeader, parameters);
-            let request = new BrowseRequest();
+            let request = new LateReturnsReportRequest();
             let globals:any = {};
        
             HandlebarsHelpers.registerHelpers();
@@ -22,39 +34,39 @@ export class LateReturnDueBackReport extends WebpackReport {
             let headerText: string;
             let headerNode: HTMLDivElement = document.createElement('div');
 
-            request.uniqueids.IsSummary = false;
-            request.uniqueids.DueBack = parameters.DueBackDate;
+            //request.uniqueids.IsSummary = false;
+            request.DueBack = parameters.DueBackDate;
             if (parameters.LateReturns) {
                 globals.Type = 'PASTDUE'
-                request.uniqueids.ReportType = 'PAST_DUE';
-                request.uniqueids.Days = parameters.DaysPastDue;
+                request.ReportType = 'PAST_DUE';
+                request.Days = parameters.DaysPastDue;
                 headerText = parameters.DaysPastDue + ' Days Past Due'
 
             }
             if (parameters.DueBack) {
                 globals.Type = 'DUEBACK'
-                request.uniqueids.ReportType = 'DUE_IN';
-                request.uniqueids.Days = parameters.DueBackFewer;
+                request.ReportType = 'DUE_IN';
+                request.Days = parameters.DueBackFewer;
                 headerText = 'Due Back in ' + parameters.DueBackFewer + ' Days'
             }
             if (parameters.DueBackOn) {
                 globals.Type = 'DUEBACK'
-                request.uniqueids.ReportType = 'DUE_DATE';
-                request.uniqueids.DueBack = parameters.DueBackDate;
+                request.ReportType = 'DUE_DATE';
+                request.DueBack = parameters.DueBackDate;
                 headerText = 'Due Back on ' + parameters.DueBackDate;
             }
-            if (parameters.ContactId !== '') { request.uniqueids.ContactId = parameters.ContactId };
-            if (parameters.OfficeLocationId !== '') { request.uniqueids.OfficeLocationId = parameters.OfficeLocationId };
-            if (parameters.DepartmentId !== '') { request.uniqueids.DepartmentId = parameters.DepartmentId };
-            if (parameters.CustomerId !== '') { request.uniqueids.CustomerId = parameters.CustomerId };
-            if (parameters.DealId !== '') { request.uniqueids.DealId = parameters.DealId };
-            if (parameters.InventoryTypeId !== '') { request.uniqueids.InventoryTypeId = parameters.InventoryTypeId };
+            request.OrderedByContactId = parameters.ContactId;
+            request.OfficeLocationId = parameters.OfficeLocationId ;
+            request.DepartmentId = parameters.DepartmentId ;
+            request.CustomerId = parameters.CustomerId ;
+            request.DealId = parameters.DealId ;
+            request.InventoryTypeId = parameters.InventoryTypeId ;
             if (parameters.ShowUnit) { globals.ShowUnit = 'true' };
             if (parameters.ShowReplacement) { globals.ShowReplacement = 'true' };
             if (parameters.ShowBarCode) { globals.ShowBarCode = 'true' };
             if (parameters.ShowSerial) { globals.ShowSerial = 'true' };
 
-            let Promise = Ajax.post<DataTable>(`${apiUrl}/api/v1/latereturnsreport/browse`, authorizationHeader, request)
+            let Promise = Ajax.post<DataTable>(`${apiUrl}/api/v1/latereturnsreport/runreport`, authorizationHeader, request)
                 .then((response: DataTable) => {
                     lateReturnDueBack = DataTable.toObjectList(response); 
                     

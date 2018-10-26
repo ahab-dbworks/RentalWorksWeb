@@ -11,6 +11,23 @@ using FwStandard.SqlServer;
 using Microsoft.AspNetCore.Http;
 namespace WebApi.Modules.Reports.LateReturnsReport
 {
+
+
+    public class LateReturnsReportRequest
+    {
+        public string ReportType { get; set; }
+        public int? Days{ get; set; }
+        public DateTime DueBack { get; set; }
+        public string OfficeLocationId { get; set; }
+        public string DepartmentId { get; set; }
+        public string CustomerId { get; set; }
+        public string DealId { get; set; }
+        public string InventoryTypeId { get; set; }
+        public string OrderedByContactId { get; set; }
+    }
+
+       
+
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "reports-v1")]
     public class LateReturnsReportController : AppReportController
@@ -43,9 +60,9 @@ namespace WebApi.Modules.Reports.LateReturnsReport
             return new OkObjectResult(response);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/latereturnsreport/browse 
-        [HttpPost("browse")]
-        public async Task<ActionResult<LateReturnsReportLogic>> BrowseAsync([FromBody]BrowseRequest browseRequest)
+        // POST api/v1/latereturnsreport/runreport 
+        [HttpPost("runreport")]
+        public async Task<ActionResult<FwJsonDataTable>> RunReport([FromBody]LateReturnsReportRequest request)
         {
             if (!ModelState.IsValid)
             {
@@ -53,9 +70,9 @@ namespace WebApi.Modules.Reports.LateReturnsReport
             }
             try
             {
-                LateReturnsReportLogic l = new LateReturnsReportLogic();
+                LateReturnsReportLoader l = new LateReturnsReportLoader();
                 l.SetDependencies(this.AppConfig, this.UserSession);
-                FwJsonDataTable dt = await l.BrowseAsync(browseRequest);
+                FwJsonDataTable dt = await l.RunReportAsync(request);
                 return new OkObjectResult(dt);
             }
             catch (Exception ex)

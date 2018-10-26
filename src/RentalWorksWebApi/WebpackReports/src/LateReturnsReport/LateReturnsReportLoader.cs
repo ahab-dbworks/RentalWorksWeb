@@ -175,83 +175,120 @@ namespace WebApi.Modules.Reports.LateReturnsReport
         //public decimal? OrderReplacementCost { get; set; }
         ////------------------------------------------------------------------------------------ 
 
-        public override async Task<FwJsonDataTable> BrowseAsync(BrowseRequest request, FwCustomFields customFields = null)
+        //public override async Task<FwJsonDataTable> BrowseAsync(BrowseRequest request, FwCustomFields customFields = null)
+        //{
+        //    string reportType = "";
+        //    int days = 0;
+        //    DateTime dueBack = DateTime.MinValue;
+
+        //    string locationId = "";
+        //    string departmentId = "";
+        //    string customerId = "";
+        //    string dealId = "";
+        //    string inventoryTypeId = "";
+        //    string orderedByContactId = "";
+
+        //    if (request != null)
+        //    {
+        //        if (request.uniqueids != null)
+        //        {
+        //            IDictionary<string, object> uniqueIds = ((IDictionary<string, object>)request.uniqueids);
+
+
+        //            if (uniqueIds.ContainsKey("ReportType"))
+        //            {
+        //                reportType = uniqueIds["ReportType"].ToString();
+        //            }
+        //            if (uniqueIds.ContainsKey("Days"))
+        //            {
+        //                days = FwConvert.ToInt32(uniqueIds["Days"].ToString());
+        //            }
+        //            if (uniqueIds.ContainsKey("DueBack"))
+        //            {
+        //                dueBack = FwConvert.ToDateTime(uniqueIds["DueBack"].ToString());
+        //            }
+        //            if (uniqueIds.ContainsKey("LocationId"))
+        //            {
+        //                locationId = uniqueIds["LocationId"].ToString();
+        //            }
+        //            if (uniqueIds.ContainsKey("DepartmentId"))
+        //            {
+        //                departmentId = uniqueIds["DepartmentId"].ToString();
+        //            }
+        //            if (uniqueIds.ContainsKey("CustomerId"))
+        //            {
+        //                customerId = uniqueIds["CustomerId"].ToString();
+        //            }
+        //            if (uniqueIds.ContainsKey("DealId"))
+        //            {
+        //                dealId = uniqueIds["DealId"].ToString();
+        //            }
+        //            if (uniqueIds.ContainsKey("InventoryTypeId"))
+        //            {
+        //                inventoryTypeId = uniqueIds["InventoryTypeId"].ToString();
+        //            }
+        //            if (uniqueIds.ContainsKey("ContactId"))
+        //            {
+        //                orderedByContactId = uniqueIds["ContactId"].ToString();
+        //            }
+        //        }
+        //    }
+
+        //    FwJsonDataTable dt = null;
+
+        //    using (FwSqlConnection conn = new FwSqlConnection(this.AppConfig.DatabaseSettings.ConnectionString))
+        //    {
+        //        using (FwSqlCommand qry = new FwSqlCommand(conn, "getlatereturnsrpt", this.AppConfig.DatabaseSettings.QueryTimeout))
+        //        {
+        //            qry.AddParameter("@reporttype", SqlDbType.Text, ParameterDirection.Input, reportType);
+        //            qry.AddParameter("@days", SqlDbType.Int, ParameterDirection.Input, days);
+        //            if (dueBack != DateTime.MinValue)
+        //            {
+        //                qry.AddParameter("@dueback", SqlDbType.Date, ParameterDirection.Input, dueBack);
+        //            }
+        //            qry.AddParameter("@locationid", SqlDbType.Text, ParameterDirection.Input, locationId);
+        //            qry.AddParameter("@departmentid", SqlDbType.Text, ParameterDirection.Input, departmentId);
+        //            qry.AddParameter("@customerid", SqlDbType.Text, ParameterDirection.Input, customerId);
+        //            qry.AddParameter("@dealid", SqlDbType.Text, ParameterDirection.Input, dealId);
+        //            qry.AddParameter("@inventorydepartmentid", SqlDbType.Text, ParameterDirection.Input, inventoryTypeId);
+        //            qry.AddParameter("@orderdbycontactid", SqlDbType.Text, ParameterDirection.Input, orderedByContactId);
+        //            AddPropertiesAsQueryColumns(qry);
+        //            dt = await qry.QueryToFwJsonTableAsync(false, 0);
+        //        }
+        //    }
+
+        //    string[] totalFields = new string[] { "Quantity", "ItemUnitValueExtended", "ItemReplacementCostExtended" };
+        //    dt.InsertSubTotalRows("OfficeLocation", "RowType", totalFields);
+        //    dt.InsertSubTotalRows("Deal", "RowType", totalFields);
+        //    dt.InsertSubTotalRows("OrderNumber", "RowType", totalFields);
+
+
+        //    return dt;
+
+
+        //}
+        ////------------------------------------------------------------------------------------
+
+
+        public async Task<FwJsonDataTable> RunReportAsync(LateReturnsReportRequest request)
         {
-            string reportType = "";
-            int days = 0;
-            DateTime dueBack = DateTime.MinValue;
-
-            string locationId = "";
-            string departmentId = "";
-            string customerId = "";
-            string dealId = "";
-            string inventoryTypeId = "";
-            string orderedByContactId = "";
-
-            if (request != null)
-            {
-                if (request.uniqueids != null)
-                {
-                    IDictionary<string, object> uniqueIds = ((IDictionary<string, object>)request.uniqueids);
-
-
-                    if (uniqueIds.ContainsKey("ReportType"))
-                    {
-                        reportType = uniqueIds["ReportType"].ToString();
-                    }
-                    if (uniqueIds.ContainsKey("Days"))
-                    {
-                        days = FwConvert.ToInt32(uniqueIds["Days"].ToString());
-                    }
-                    if (uniqueIds.ContainsKey("DueBack"))
-                    {
-                        dueBack = FwConvert.ToDateTime(uniqueIds["DueBack"].ToString());
-                    }
-                    if (uniqueIds.ContainsKey("LocationId"))
-                    {
-                        locationId = uniqueIds["LocationId"].ToString();
-                    }
-                    if (uniqueIds.ContainsKey("DepartmentId"))
-                    {
-                        departmentId = uniqueIds["DepartmentId"].ToString();
-                    }
-                    if (uniqueIds.ContainsKey("CustomerId"))
-                    {
-                        customerId = uniqueIds["CustomerId"].ToString();
-                    }
-                    if (uniqueIds.ContainsKey("DealId"))
-                    {
-                        dealId = uniqueIds["DealId"].ToString();
-                    }
-                    if (uniqueIds.ContainsKey("InventoryTypeId"))
-                    {
-                        inventoryTypeId = uniqueIds["InventoryTypeId"].ToString();
-                    }
-                    if (uniqueIds.ContainsKey("ContactId"))
-                    {
-                        orderedByContactId = uniqueIds["ContactId"].ToString();
-                    }
-                }
-            }
-
             FwJsonDataTable dt = null;
-
             using (FwSqlConnection conn = new FwSqlConnection(this.AppConfig.DatabaseSettings.ConnectionString))
             {
                 using (FwSqlCommand qry = new FwSqlCommand(conn, "getlatereturnsrpt", this.AppConfig.DatabaseSettings.QueryTimeout))
                 {
-                    qry.AddParameter("@reporttype", SqlDbType.Text, ParameterDirection.Input, reportType);
-                    qry.AddParameter("@days", SqlDbType.Int, ParameterDirection.Input, days);
-                    if (dueBack != DateTime.MinValue)
+                    qry.AddParameter("@reporttype", SqlDbType.Text, ParameterDirection.Input, request.ReportType);
+                    qry.AddParameter("@days", SqlDbType.Int, ParameterDirection.Input, request.Days);
+                    if (request.DueBack != DateTime.MinValue)
                     {
-                        qry.AddParameter("@dueback", SqlDbType.Date, ParameterDirection.Input, dueBack);
+                        qry.AddParameter("@dueback", SqlDbType.Date, ParameterDirection.Input, request.DueBack);
                     }
-                    qry.AddParameter("@locationid", SqlDbType.Text, ParameterDirection.Input, locationId);
-                    qry.AddParameter("@departmentid", SqlDbType.Text, ParameterDirection.Input, departmentId);
-                    qry.AddParameter("@customerid", SqlDbType.Text, ParameterDirection.Input, customerId);
-                    qry.AddParameter("@dealid", SqlDbType.Text, ParameterDirection.Input, dealId);
-                    qry.AddParameter("@inventorydepartmentid", SqlDbType.Text, ParameterDirection.Input, inventoryTypeId);
-                    qry.AddParameter("@orderdbycontactid", SqlDbType.Text, ParameterDirection.Input, orderedByContactId);
+                    qry.AddParameter("@locationid", SqlDbType.Text, ParameterDirection.Input, request.OfficeLocationId);
+                    qry.AddParameter("@departmentid", SqlDbType.Text, ParameterDirection.Input, request.DepartmentId);
+                    qry.AddParameter("@customerid", SqlDbType.Text, ParameterDirection.Input, request.CustomerId);
+                    qry.AddParameter("@dealid", SqlDbType.Text, ParameterDirection.Input, request.DealId);
+                    qry.AddParameter("@inventorydepartmentid", SqlDbType.Text, ParameterDirection.Input, request.InventoryTypeId);
+                    qry.AddParameter("@orderdbycontactid", SqlDbType.Text, ParameterDirection.Input, request.OrderedByContactId);
                     AddPropertiesAsQueryColumns(qry);
                     dt = await qry.QueryToFwJsonTableAsync(false, 0);
                 }
@@ -262,11 +299,9 @@ namespace WebApi.Modules.Reports.LateReturnsReport
             dt.InsertSubTotalRows("Deal", "RowType", totalFields);
             dt.InsertSubTotalRows("OrderNumber", "RowType", totalFields);
 
-
             return dt;
-
-
         }
-        //------------------------------------------------------------------------------------
+        //------------------------------------------------------------------------------------    
+
     }
 }
