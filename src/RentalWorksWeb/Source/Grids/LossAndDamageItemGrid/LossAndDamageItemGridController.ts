@@ -45,11 +45,11 @@
 
                 if (jQuery('html').hasClass('desktop')) {
                     $quantityColumn
-                        .on('click', '.incrementQuantity', function () {
+                        .on('click', '.incrementQuantity', () => {
                             $quantityColumn.data('increment')();
                             $quantityColumn.find('.fieldvalue').change();
                         })
-                        .on('click', '.decrementQuantity', function () {
+                        .on('click', '.decrementQuantity', () => {
                             $quantityColumn.data('decrement')();
                             $quantityColumn.find('.fieldvalue').change();
                         })

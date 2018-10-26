@@ -38,7 +38,7 @@
                 <div class="flexrow">
                   <div class="flexcolumn" style="flex:1 1 616px;">
                     <div class="flexrow">
-                      <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Deal No." data-datafield="DealNumber"  data-enabled="false" style="flex:0 1 100px;"></div>
+                      <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Deal No." data-datafield="DealNumber" data-enabled="false" style="flex:0 1 100px;"></div>
                       <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Deal" data-datafield="DealId" data-displayfield="Deal" data-validationname="DealValidation" data-formbeforevalidate="beforeValidate" data-required="true" style="flex:1 1 400px;"></div>
                       <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="Invoice Date" data-datafield="InvoiceDate" style="flex:1 1 100px;"></div>
                       <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Creation Batch Number" data-datafield="InvoiceCreationBatchId" data-displayfield="InvoiceCreationBatchNumber" data-validationname="InvoiceCreationBatchValidation" data-validationpeek="false" data-enabled="false" style="flex:1 1 100px;"></div>
@@ -50,6 +50,18 @@
                       <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Customer Type" data-datafield="CustomerTypeId" data-displayfield="CustomerType" data-validationname="CustomerTypeValidation" data-validationpeek="false" data-enabled="false" style="flex:1 1 200px;"></div>
                       <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield RateType" data-caption="Rate" data-datafield="RateType" data-displayfield="RateType" data-validationname="RateTypeValidation" data-validationpeek="false" data-required="true" style="flex:1 1 175px;"></div>
                     </div>
+                  </div>
+                  <!--Hidden field for determining whether tabs should be shown / hidden-->
+                  <div class="flexrow" style="display:none;">
+                    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="HasFacilityItem" data-datafield="HasFacilityItem" style="flex:1 1 100px;"></div>
+                    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="HasLaborItem" data-datafield="HasLaborItem" style="flex:1 1 100px;"></div>
+                    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="HasMiscellaneousItem" data-datafield="HasMiscellaneousItem" style="flex:1 1 125px;"></div>
+                    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="HasRentalItem" data-datafield="HasRentalItem" style="flex:1 1 100px;"></div>
+                    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="HasSalesItem" data-datafield="HasSalesItem" style="flex:1 1 100px;"></div>
+                    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="HasMeterItem" data-datafield="HasMeterItem" style="flex:1 1 100px;"></div>
+                    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="HasTransportationItem" data-datafield="HasTransportationItem" style="flex:1 1 100px;"></div>
+                    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="HasLockedTotal" data-datafield="HasLockedTotal" style="flex:1 1 100px;"></div>
+                    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="HasRentalSaleItem" data-datafield="HasRentalSaleItem" style="flex:1 1 100px;"></div>
                   </div>
                 </div>
               </div>
