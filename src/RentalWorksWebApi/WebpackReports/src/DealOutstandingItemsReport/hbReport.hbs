@@ -163,11 +163,11 @@
           {{/ifEquals}}
         {{/ifEquals}}
       </tr>
-        <!--{{#ifEquals RowType "detail"}}
+        {{#ifEquals RowType "detail"}}
           {{#ifEquals ../ShowImages true}}
             {{#ifEquals ../IncludeFullImages true}}
               {{#if Image}}
-                <tr data-rowtype="image">
+                <tr class="fullimage" data-rowtype="fullimage">
                   <td colspan="13">
                     <div style="width:250px;"><img id="base64img" src="{{Image}}" alt="image" style="display:block;width:100%;height:auto;"/></div>
                   </td>
@@ -177,7 +177,7 @@
               {{/if}}
             {{/ifEquals}}
           {{/ifEquals}}
-        {{/ifEquals}}-->
+        {{/ifEquals}}
       {{/each}}
     </tbody>
   </table>
