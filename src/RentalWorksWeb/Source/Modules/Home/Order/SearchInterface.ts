@@ -818,7 +818,7 @@ class SearchInterface {
                 imageFrame.css({ 'float': 'left', 'width': '125px', 'height': '175px', 'line-height': '175px', 'display': 'inline-block', 'position': 'relative' });
                 image.css({ 'max-height': '100%', 'max-width': '100%', 'width': 'auto', 'height': 'auto', 'position': 'absolute', 'top': '0', 'bottom': '0', 'left': '0', 'right': '0', 'margin': 'auto' });
                 //quantity
-                quantity.css({ 'float': 'right', 'width': '90px', 'position': 'absolute', 'bottom': '10px', 'right': '10px' });
+                quantity.css({ 'float': 'right', 'width': '90px', 'position': 'absolute', 'bottom': '10px', 'right': '10px', 'padding-bottom': '' });
 
                 quantityAvailable.css({ 'float': 'right', 'width': '90px' });
                 conflictDate.css({ 'float': 'right', 'width': '90px' });
@@ -837,7 +837,7 @@ class SearchInterface {
                 description.css({ 'float': 'left', 'width': '100%', 'padding-bottom': '', 'padding-top': '.5em', 'text-indent': '10px' });
                 imageFrame.hide();
                 //quantity
-                quantity.css({ 'float': 'left', 'flex': '0 0 90px', 'position': '', 'bottom': '', 'right': '', 'padding-top': '.5em' });
+                quantity.css({ 'float': 'left', 'flex': '0 0 90px', 'position': '', 'bottom': '', 'right': '', 'padding-top': '0.4em', 'padding-bottom': '0.4em' });
                 //type cat sub
                 invType.css({ 'float': 'left', 'flex': '1 0 100px', 'min-height': '1px', 'padding-top': '.5em' });
                 category.css({ 'float': 'left', 'flex': '1 0 100px', 'min-height': '1px', 'padding-top': '.5em' });
