@@ -31,7 +31,7 @@ Master
 #master-footer {text-align:center;font-size:12px;margin-bottom:10px;}
 #master-footer #dbworkslink {cursor:pointer;}
 
-.homepage .programlogo {text-align:center;width:100%;height:80vh;}
+.homepage .programlogo {}
 /***************************
 GroupController
 ***************************/

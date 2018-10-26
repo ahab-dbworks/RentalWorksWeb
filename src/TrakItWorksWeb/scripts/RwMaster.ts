@@ -1,9 +1,69 @@
 ﻿class RwMaster extends WebMaster {
     //----------------------------------------------------------------------------------------------
+    navigation: any;
+    //----------------------------------------------------------------------------------------------
+    initMainMenu() {
+        this.navigation = [
+            {
+                caption: 'TrakItWorks',
+                id: 'B05953D7-DC85-486C-B9A4-7743875DFABC',
+                children: [TiwAssetController, /*QuoteController, OrderController, CustomerController, DealController, VendorController, ContactController, PurchaseOrderController, ProjectController*/]
+            },
+            {
+                caption: 'Settings',
+                id: 'CA7EDF90-F08A-4E5C-BA6B-87DB6A14D485',
+                children: [/*RentalInventoryController, SalesInventoryController, PartsInventoryController, ContainerController, RepairController*/]
+            },
+            {
+                caption: 'Reports',
+                id: 'F62D2B01-E4C4-4E97-BFAB-6CF2B872A4E4',
+                children: [/*OrderStatusController, PickListController, ContractController, StagingCheckoutController, ExchangeController, CheckInController, ReceiveFromVendorController, ReturnToVendorController, AssignBarCodesController*/]
+            },
+            {
+                caption: 'Utilities',
+                id: '293A157D-EA8E-48F6-AE97-15F9DE53041A',
+                children: [/*InvoiceController*/]
+            },
+            {
+                caption: 'Administator',
+                id: 'A3EE3EE9-4C98-4315-B08D-2FAD67C04E07',
+                children: [/*ControlController, CustomFieldController, CustomFormController, DuplicateRuleController, GroupController, HotfixController, UserController, SettingsController, ReportsController*/]
+            }
+        ];
+    }
+    //----------------------------------------------------------------------------------------------
+    buildMainMenu($view: JQuery) {
+        this.initMainMenu();
+        var nodeApplication;
+        var nodeSystem = FwApplicationTree.getMyTree();
+        for (var appno = 0; appno < nodeSystem.children.length; appno++) {
+            if (nodeSystem.children[appno].id === FwApplicationTree.currentApplicationId) {
+                nodeApplication = nodeSystem.children[appno];
+            }
+        }
+        if (nodeApplication === null) {
+            sessionStorage.clear();
+            window.location.reload(true);
+        }
+
+        for (var i = 0; i < this.navigation.length; i++) {
+            var categorySecurityObject = FwFunc.getObjects(nodeApplication, 'id', this.navigation[i].id);
+            if (categorySecurityObject[0].properties.visible === 'T') {
+                var $menu = FwFileMenu.addMenu($view, this.navigation[i].caption);
+                for (var j = 0; j < this.navigation[i].children.length; j++) {
+                    var moduleSecurityObject = FwFunc.getObjects(nodeApplication, 'id', this.navigation[i].children[j].id);
+                    if (moduleSecurityObject[0].properties.visible === 'T') {
+                        FwFileMenu.generateStandardModuleBtn($menu, this.navigation[i].children[j].id, this.navigation[i].children[j].caption, this.navigation[i].children[j].nav, '');
+                    }
+                }
+            }
+        }
+    }
+    //----------------------------------------------------------------------------------------------
     getUserControl($context: JQuery) {
         var $usercontrol = FwFileMenu.UserControl_render($context);
 
-        this.buildDashboard($context);
+        this.buildSystemBar($context);
         this.buildOfficeLocation($context);
 
         // Add SystemBarControl: User Name
@@ -37,168 +97,70 @@
         });
     }
     //----------------------------------------------------------------------------------------------
-    buildOfficeLocationClassic($userControl: JQuery) {
-        var userlocation = JSON.parse(sessionStorage.getItem('location'));
-        var userwarehouse = JSON.parse(sessionStorage.getItem('warehouse'));
-        var userdepartment = JSON.parse(sessionStorage.getItem('department'));
-
-        var $officelocation = jQuery('<div id="officelocation" class="item"><div class="caption">Office Location:</div><div class="value"></div></div>');
-        $userControl.append($officelocation);
-
-        $officelocation.find('.value').html(userlocation.location);
-        $officelocation.css('background-color', userlocation.locationcolor);
-
-        $officelocation.on('click', function () {
-            try {
-                var $confirmation = FwConfirmation.renderConfirmation('Select an Office Location', '');
-                var $select       = FwConfirmation.addButton($confirmation, 'Select', false);
-                var $cancel       = FwConfirmation.addButton($confirmation, 'Cancel', true);
-
-                var html = [];
-                html.push('<div class="fwform" data-controller="none" style="background-color: transparent;">');
-                html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
-                html.push('    <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Office Location" data-datafield="Location" data-validationname="OfficeLocationValidation"></div>');
-                html.push('  </div>');
-                html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
-                html.push('    <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Warehouse" data-datafield="Warehouse" data-validationname="WarehouseValidation" data-boundfields="Location"></div>');
-                html.push('  </div>');
-                html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
-                html.push('    <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Department" data-datafield="Department" data-validationname="DepartmentValidation"></div>');
-                html.push('  </div>');
-                html.push('</div>');
-
-                FwConfirmation.addControls($confirmation, html.join(''));
-
-                $confirmation.find('div[data-datafield="Location"] input.fwformfield-text').val(userlocation.location);
-                $confirmation.find('div[data-datafield="Location"] input.fwformfield-value').val(userlocation.locationid);
-                $confirmation.find('div[data-datafield="Warehouse"] input.fwformfield-text').val(userwarehouse.warehouse);
-                $confirmation.find('div[data-datafield="Warehouse"] input.fwformfield-value').val(userwarehouse.warehouseid);
-                $confirmation.find('div[data-datafield="Department"] input.fwformfield-text').val(userdepartment.department);
-                $confirmation.find('div[data-datafield="Department"] input.fwformfield-value').val(userdepartment.departmentid);
-
-                $select.on('click', function() {
-                    try {
-                        var valid = true, request;
-                        var location  = $confirmation.find('div[data-datafield="Location"] .fwformfield-value').val();
-                        var warehouse = $confirmation.find('div[data-datafield="Warehouse"] .fwformfield-value').val();
-                        var department = $confirmation.find('div[data-datafield="Department"] .fwformfield-value').val();
-                        if (location == '') {
-                            $confirmation.find('div[data-datafield="Location"]').addClass('error');
-                            valid = false;
-                        }
-                        if (warehouse == '') {
-                            $confirmation.find('div[data-datafield="Warehouse"]').addClass('error');
-                            valid = false;
-                        }
-                        if (department == '') {
-                            $confirmation.find('div[data-datafield="Department"]').addClass('error');
-                            valid = false;
-                        }
-                        if (valid) {
-                            request = {
-                                location:  location,
-                                warehouse: warehouse,
-                                department: department
-                            };
-                            RwServices.session.updatelocation(request, function (response) {
-                                try {
-                                    //-- Updates session storage
-                                    sessionStorage.setItem('authToken', response.authToken);
-                                    sessionStorage.setItem('location', JSON.stringify(response.location));
-                                    sessionStorage.setItem('warehouse', JSON.stringify(response.warehouse));
-                                    sessionStorage.setItem('department', JSON.stringify(response.department));
-                                    sessionStorage.setItem('userid', JSON.stringify(response.webusersid));
-                                    $officelocation.find('.value').html(response.location.location);
-                                    $officelocation.css('background-color', response.location.locationcolor);
-                                    FwConfirmation.destroyConfirmation($confirmation);
-                                    program.navigate('home');
-                                } catch (ex) {
-                                    FwFunc.showError(ex);
-                                }
-                            });
-                        }
-                    } catch (ex) {
-                        FwFunc.showError(ex);
-                    }
-                });
-            } catch (ex) {
-                FwFunc.showError(ex);
-            }
-        });
-    }
-    //----------------------------------------------------------------------------------------------
     buildOfficeLocation($usercontrol: JQuery<HTMLElement>) {
         var userlocation = JSON.parse(sessionStorage.getItem('location'));
-        var userwarehouse = JSON.parse(sessionStorage.getItem('warehouse'));
-        var userdepartment = JSON.parse(sessionStorage.getItem('department'));
-        var userid = JSON.parse(sessionStorage.getItem('userid'));
+        var userid       = JSON.parse(sessionStorage.getItem('userid'));
 
+        var $officelocation = jQuery(`<div class="officelocation">
+                                        <div class="locationcolor" style="background-color:${userlocation.locationcolor}"></div>
+                                        <div class="value">${userlocation.location}</div>
+                                      </div>`);
 
-        var html = [];
-        html.push('<div class="officelocation">');
-        html.push(`  <div class="locationcolor" style= "background-color:${userlocation.locationcolor}" > </div>`);
-        html.push(`  <div class="value">${userlocation.location}</div>`);
-        html.push('</div>');
-        var $officelocation = jQuery(html.join('\n'));
         FwFileMenu.UserControl_addSystemBarControl('officelocation', $officelocation, $usercontrol);
 
-        //$officelocation = jQuery('<div class="item officelocationbtn">Office Location</div>');
-        //$userControl.find('.user-dropdown').prepend($officelocation);
         $officelocation.on('click', function () {
             try {
-                var userlocation = JSON.parse(sessionStorage.getItem('location'));
-                var userwarehouse = JSON.parse(sessionStorage.getItem('warehouse'));
+                var userlocation   = JSON.parse(sessionStorage.getItem('location'));
+                var userwarehouse  = JSON.parse(sessionStorage.getItem('warehouse'));
                 var userdepartment = JSON.parse(sessionStorage.getItem('department'));
-                var $confirmation = FwConfirmation.renderConfirmation('Select an Office Location', '');
-                var $select = FwConfirmation.addButton($confirmation, 'Select', false);
-                var $cancel = FwConfirmation.addButton($confirmation, 'Cancel', true);
+                var $confirmation  = FwConfirmation.renderConfirmation('Select an Office Location', '');
+                var $select        = FwConfirmation.addButton($confirmation, 'Select', false);
+                var $cancel        = FwConfirmation.addButton($confirmation, 'Cancel', true);
 
-                var html = [];
-                html.push('<div class="fwform" data-controller="none" style="background-color: transparent;">');
-                html.push('<div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
-                html.push('  <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Office Location" data-datafield="Location" data-validationname="OfficeLocationValidation"></div>');
-                html.push('</div>');
-                html.push('<div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
-                html.push('  <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Warehouse" data-datafield="Warehouse" data-validationname="WarehouseValidation" data-boundfields="Location"></div>');
-                html.push('</div>');
-                html.push('<div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
-                html.push('  <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Department" data-datafield="Department" data-validationname="DepartmentValidation" data-boundfields="Location"></div>');
-                html.push('</div>');
-                html.push('</div>');
+                FwConfirmation.addControls($confirmation, `<div class="fwform" data-controller="UserController" style="background-color: transparent;">
+                                                             <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                                                               <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Office Location" data-datafield="OfficeLocationId" data-validationname="OfficeLocationValidation"></div>
+                                                             </div>
+                                                             <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                                                               <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Warehouse" data-formbeforevalidate="beforeValidateWarehouse" data-datafield="WarehouseId" data-validationname="WarehouseValidation" data-boundfields="OfficeLocationId"></div>
+                                                             </div>
+                                                             <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                                                               <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Department" data-datafield="Department" data-validationname="DepartmentValidation" data-boundfields="WarehouseId"></div>
+                                                             </div>
+                                                           </div>`);
 
-                FwConfirmation.addControls($confirmation, html.join(''));
+                FwFormField.setValue($confirmation, 'div[data-datafield="OfficeLocationId"]', userlocation.locationid, userlocation.location);
+                FwFormField.setValue($confirmation, 'div[data-datafield="WarehouseId"]', userwarehouse.warehouseid, userwarehouse.warehouse);
+                FwFormField.setValue($confirmation, 'div[data-datafield="Department"]', userdepartment.departmentid, userdepartment.department);
 
-                $confirmation.find('div[data-datafield="Location"] input.fwformfield-text').val(userlocation.location);
-                $confirmation.find('div[data-datafield="Location"] input.fwformfield-value').val(userlocation.locationid);
-                $confirmation.find('div[data-datafield="Warehouse"] input.fwformfield-text').val(userwarehouse.warehouse);
-                $confirmation.find('div[data-datafield="Warehouse"] input.fwformfield-value').val(userwarehouse.warehouseid);
-                $confirmation.find('div[data-datafield="Department"] input.fwformfield-text').val(userdepartment.department);
-                $confirmation.find('div[data-datafield="Department"] input.fwformfield-value').val(userdepartment.departmentid);
+                $confirmation.find('[data-datafield="OfficeLocationId"]').data('onchange', e => {
+                    FwFormField.setValue($confirmation, 'div[data-datafield="WarehouseId"]', '', '');
+                });
 
                 $select.on('click', function () {
                     try {
-                        var valid = true;
-                        var location = $confirmation.find('div[data-datafield="Location"] .fwformfield-value').val();
-                        var warehouse = $confirmation.find('div[data-datafield="Warehouse"] .fwformfield-value').val();
-                        var department = $confirmation.find('div[data-datafield="Department"] .fwformfield-value').val();
-                        if (location == '') {
-                            $confirmation.find('div[data-datafield="Location"]').addClass('error');
+                        var valid      = true;
+                        var location   = FwFormField.getValue($confirmation, 'div[data-datafield="OfficeLocationId"]');
+                        var warehouse  = FwFormField.getValue($confirmation, 'div[data-datafield="WarehouseId"]');
+                        var department = FwFormField.getValue($confirmation, 'div[data-datafield="Department"]');
+                        if (location === '') {
+                            $confirmation.find('div[data-datafield="OfficeLocationId"]').addClass('error');
                             valid = false;
                         }
-                        if (warehouse == '') {
-                            $confirmation.find('div[data-datafield="Warehouse"]').addClass('error');
+                        if (warehouse === '') {
+                            $confirmation.find('div[data-datafield="WarehouseId"]').addClass('error');
                             valid = false;
                         }
-                        if (department == '') {
+                        if (department === '') {
                             $confirmation.find('div[data-datafield="Department"]').addClass('error');
                             valid = false;
                         }
                         if (valid) {
                             var request = {
-                                location: location,
-                                warehouse: warehouse,
+                                location:   location,
+                                warehouse:  warehouse,
                                 department: department,
-                                userid: userid.webusersid
+                                userid:     userid.webusersid
                             };
                             RwServices.session.updatelocation(request, function (response) {
                                 sessionStorage.setItem('authToken', response.authToken);
@@ -223,16 +185,24 @@
         });
     }
     //----------------------------------------------------------------------------------------------
-    buildDashboard($usercontrol: JQuery<HTMLElement>) {
-        var $dashboard, $userControl;
-    
-        $dashboard = jQuery('<i class="material-icons dashboard">insert_chart</i>');
-
+    buildSystemBar($usercontrol: JQuery<HTMLElement>) {
+        var $dashboard = jQuery('<i class="material-icons dashboard">insert_chart</i>');
         $dashboard.on('click', function () {
             try { program.navigate('home'); } catch (ex) { FwFunc.showError(ex); }
         });
-
         FwFileMenu.UserControl_addSystemBarControl('dashboard', $dashboard, $usercontrol)
+
+        var $settings  = jQuery('<i class="material-icons dashboard">settings</i>');
+        $settings.on('click', function () {
+            try { program.navigate('module/settings'); } catch (ex) { FwFunc.showError(ex); }
+        });
+        FwFileMenu.UserControl_addSystemBarControl('dashboard', $settings, $usercontrol)
+
+        var $reports   = jQuery('<i class="material-icons dashboard">assignment</i>');
+        $reports.on('click', function () {
+            try { program.navigate('module/reports'); } catch (ex) { FwFunc.showError(ex); }
+        });
+        FwFileMenu.UserControl_addSystemBarControl('dashboard', $reports, $usercontrol)
     }
     //----------------------------------------------------------------------------------------------
 }

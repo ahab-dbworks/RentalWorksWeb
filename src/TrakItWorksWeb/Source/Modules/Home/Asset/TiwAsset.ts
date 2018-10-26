@@ -1,4 +1,9 @@
 class TiwAsset extends RwAsset {
+
+    constructor() {
+        super();
+        this.id = 'E1366299-0008-429C-93CC-B8ED8969B180';
+    }
     //browseModel: any = {};
 
     //getBrowseTemplate(): void {
