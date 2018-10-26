@@ -235,7 +235,7 @@ namespace FwStandard.BusinessLogic
         {
             FwJsonDataTable browse = null;
 
-            //LoadCustomFields();
+            LoadCustomFields();
 
             if (browseLoader != null)
             {
@@ -261,7 +261,7 @@ namespace FwStandard.BusinessLogic
         //------------------------------------------------------------------------------------
         public virtual async Task<List<T>> SelectAsync<T>(BrowseRequest request)
         {
-            //LoadCustomFields();
+            LoadCustomFields();
 
             List<T> records = null;
             if (dataLoader == null)
@@ -306,7 +306,7 @@ namespace FwStandard.BusinessLogic
             FwApplicationConfig tmpAppConfig = AppConfig;
             FwUserSession tmpUserSession = UserSession;
 
-            //LoadCustomFields();
+            LoadCustomFields();
 
             if (dataLoader == null)
             {
@@ -613,7 +613,7 @@ namespace FwStandard.BusinessLogic
 
                             if (!propertyFound)  // property not found, check Custom Fields
                             {
-                                //LoadCustomFields();
+                                LoadCustomFields();
 
                                 foreach (FwCustomField customField in _Custom.CustomFields)
                                 {
@@ -816,7 +816,7 @@ namespace FwStandard.BusinessLogic
                     rowsAffected += await rec.SaveAsync(originalRec);
                     r++;
                 }
-                //LoadCustomFields();
+                LoadCustomFields();
 
                 if (_Custom.Count > 0)
                 {
