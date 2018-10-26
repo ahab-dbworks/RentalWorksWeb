@@ -31,8 +31,8 @@ namespace WebApi.Modules.Administrator.CustomField
         public int? FieldSizeInPixels { get { return customField.FieldSizeInPixels; } set { customField.FieldSizeInPixels = value; } }
         public int? StringLength { get { return customField.StringLength; } set { customField.StringLength = value; } }
         public int? FloatDecimalDigits { get { return customField.FloatDecimalDigits; } set { customField.FloatDecimalDigits = value; } }
-        public bool? ShowInBrowse { get { return customField.ShowInBrowse; } set { customField.ShowInBrowse = value; } }
-        public int? BrowseSizeInPixels { get { return customField.BrowseSizeInPixels; } set { customField.BrowseSizeInPixels = value; } }
+        //public bool? ShowInBrowse { get { return customField.ShowInBrowse; } set { customField.ShowInBrowse = value; } }
+        //public int? BrowseSizeInPixels { get { return customField.BrowseSizeInPixels; } set { customField.BrowseSizeInPixels = value; } }
         public string DateStamp { get { return customField.DateStamp; } set { customField.DateStamp = value; } }
         //------------------------------------------------------------------------------------ 
         public void OnAfterSaveCustomField(object sender, AfterSaveDataRecordEventArgs e)

@@ -40,12 +40,12 @@ namespace WebApi.Modules.Administrator.CustomField
         [FwSqlDataField(column: "floatdecimaldigits", modeltype: FwDataTypes.Integer)]
         public int? FloatDecimalDigits { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "showinbrowse", modeltype: FwDataTypes.Boolean)]
-        public bool? ShowInBrowse { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "browsesizepx", modeltype: FwDataTypes.Integer)]
-        public int? BrowseSizeInPixels { get; set; }
-        //------------------------------------------------------------------------------------ 
+        //[FwSqlDataField(column: "showinbrowse", modeltype: FwDataTypes.Boolean)]
+        //public bool? ShowInBrowse { get; set; }
+        ////------------------------------------------------------------------------------------ 
+        //[FwSqlDataField(column: "browsesizepx", modeltype: FwDataTypes.Integer)]
+        //public int? BrowseSizeInPixels { get; set; }
+        ////------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
         public string DateStamp { get; set; }
         //------------------------------------------------------------------------------------ 

@@ -117,24 +117,24 @@ class Base {
                                                     // Get custom fields and assign to session storage
                                                     FwAppData.apiMethod(true, 'GET', 'api/v1/customfield/', null, FwServices.defaultTimeout, function onSuccess(response) {
                                                         var customFields = [];
-                                                        var customFieldsBrowse = [];
+                                                        //var customFieldsBrowse = [];
                                                         for (var i = 0; i < response.length; i++) {
                                                             if (customFields.indexOf(response[i].ModuleName) === -1) {
                                                                 customFields.push(response[i].ModuleName);
                                                             }
-                                                            if (response[i].ShowInBrowse && customFieldsBrowse.indexOf(response[i].ModuleName) === -1) {
-                                                                var customFieldObject = {
-                                                                    'moduleName':  response[i].ModuleName,
-                                                                    'fieldName':   response[i].FieldName,
-                                                                    'browsewidth': response[i].BrowseSizeInPixels,
-                                                                    'digits':      response[i].FloatDecimalDigits,
-                                                                    'datatype':    response[i].ControlType
-                                                                };
-                                                                customFieldsBrowse.push(customFieldObject);
-                                                            }
+                                                            //if (response[i].ShowInBrowse && customFieldsBrowse.indexOf(response[i].ModuleName) === -1) {
+                                                            //    var customFieldObject = {
+                                                            //        'moduleName':  response[i].ModuleName,
+                                                            //        'fieldName':   response[i].FieldName,
+                                                            //        'browsewidth': response[i].BrowseSizeInPixels,
+                                                            //        'digits':      response[i].FloatDecimalDigits,
+                                                            //        'datatype':    response[i].ControlType
+                                                            //    };
+                                                            //    customFieldsBrowse.push(customFieldObject);
+                                                            //}
                                                         }
                                                         sessionStorage.setItem('customFields', JSON.stringify(customFields));
-                                                        sessionStorage.setItem('customFieldsBrowse', JSON.stringify(customFieldsBrowse));
+                                                        //sessionStorage.setItem('customFieldsBrowse', JSON.stringify(customFieldsBrowse));
                                                         let homePagePath = JSON.parse(sessionStorage.getItem('homePage')).path;
 
                                                         if (homePagePath !== null && homePagePath !== '') {
