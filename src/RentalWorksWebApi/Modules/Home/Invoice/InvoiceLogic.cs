@@ -191,6 +191,8 @@ namespace WebApi.Modules.Home.Invoice
         public bool? HasFacilityItem { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
         public bool? HasTransportationItem { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public bool? HasRentalSaleItem { get; set; }
 
 
 

@@ -234,6 +234,9 @@ namespace WebApi.Modules.Home.Invoice
         [FwSqlDataField(column: "hasvehicleitem", modeltype: FwDataTypes.Boolean)]
         public bool? HasTransportationItem { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "hasrentalsaleitem", modeltype: FwDataTypes.Boolean)]
+        public bool? HasRentalSaleItem { get; set; }
+        //------------------------------------------------------------------------------------ 
 
     }
 }
