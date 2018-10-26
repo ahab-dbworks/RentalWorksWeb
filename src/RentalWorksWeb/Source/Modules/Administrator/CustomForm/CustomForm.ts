@@ -343,19 +343,28 @@ class CustomForm {
             FwBrowse.init($gridControl);
             FwBrowse.renderRuntimeHtml($gridControl);
         }
-        FwFormField.disable($form.find(`#${renderFormHere} [data-type="validation"], [data-control="FwAppImage"]`));
+        //disable controls 
+        FwFormField.disable($customForm.find(`[data-type="validation"], [data-control="FwAppImage"]`));
+        $customForm.find('[data-type="Browse"], [data-type="Grid"]').find('.pager').hide();
+        FwFormField.disable($customForm.find('[data-type="Browse"], [data-type="Grid"]'));
+        $customForm.find('tr.fieldnames .column >').off('click');
 
         //Design mode borders & events
         if (tabName == 'Design') {
             $form.find('#controlProperties')
                 .empty();  //clear properties upon loading design tab
 
+            $customForm.find('.tabpages .formpage').css('overflow', 'auto');
 
-            $form.find('#designerContent .tabpages .formpage').css('overflow', 'auto');
+            let $tableHeaders = $customForm.find('[data-type="Browse"], [data-type="Grid"]')
+                .find('thead tr.fieldnames .column >');
+
             $fwcontrols
                 .not('[data-control="FwContainer"], [data-control="FwTabs"]')
                 .css('border', '1px solid #dcdcdc')
+                .add($tableHeaders)
                 .on('click', e => {
+                    e.stopPropagation();
                     let properties = e.currentTarget.attributes;
                     let html: any = [];
                     html.push(`
@@ -367,9 +376,11 @@ class CustomForm {
                         `);
 
                     for (let i = 0; i < properties.length; i++) {
+                        let value = properties[i].value;
+                        value = value.replace('focused', '');
                         html.push(`<div class="properties" style="width:100%; display:flex;">
                                       <div class="propname" style="border:.5px solid #efefef; width:50%; float:left;">${properties[i].name === "" ? "&#160;" : properties[i].name}</div>
-                                      <div class="propval" style="border:.5px solid #efefef; width:50%; float:left;">${properties[i].value === "" ? "&#160;" : properties[i].value}</div>
+                                      <div class="propval" style="border:.5px solid #efefef; width:50%; float:left;">${value === "" ? "&#160;" : value}</div>
                                    </div>
                                   `);
                     }
