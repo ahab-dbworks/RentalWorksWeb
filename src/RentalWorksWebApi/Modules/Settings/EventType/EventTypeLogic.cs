@@ -33,10 +33,8 @@ namespace WebApi.Modules.Settings.EventType
             dataLoader = eventTypeLoader;
             browseLoader = eventTypeBrowseLoader;
 
-            eventType.AfterSave += OnAfterSaveEventType;
-            lossAndDamageOrderTypeFields.AfterSave += OnAfterSaveLossAndDamageFields;
             BeforeSave += OnBeforeSave;
-
+            AfterSave += OnAfterSave;
         }
         //------------------------------------------------------------------------------------ 
         [FwBusinessLogicField(isPrimaryKey: true)]
@@ -473,29 +471,25 @@ namespace WebApi.Modules.Settings.EventType
         public bool? Inactive { get { return eventType.Inactive; } set { eventType.Inactive = value; } }
         public string DateStamp { get { return eventType.DateStamp; } set { eventType.DateStamp = value; } }
         //------------------------------------------------------------------------------------ 
-        public void OnBeforeSave(object sender, BeforeSaveEventArgs e)
+        public virtual void OnBeforeSave(object sender, BeforeSaveEventArgs e)
         {
             OrdType = "EVENT";
-        }
-        //------------------------------------------------------------------------------------ 
-        public void OnAfterSaveEventType(object sender, AfterSaveDataRecordEventArgs e)
-        {
-            if ((e.SaveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smUpdate) && (rentalOrderTypeFields.OrderTypeFieldsId.Equals(string.Empty)))
+            if (e.SaveMode.Equals(TDataRecordSaveMode.smUpdate))
             {
-                EventTypeLogic l2 = new EventTypeLogic();
-                l2.AppConfig = eventType.AppConfig;
-                object[] pk = GetPrimaryKeys();
-                bool b = l2.LoadAsync<EventTypeLogic>(pk).Result;
-                rentalOrderTypeFields.OrderTypeFieldsId = l2.RentalOrderTypeFieldsId;
-                salesOrderTypeFields.OrderTypeFieldsId = l2.SalesOrderTypeFieldsId;
-                laborOrderTypeFields.OrderTypeFieldsId = l2.LaborOrderTypeFieldsId;
-                miscOrderTypeFields.OrderTypeFieldsId = l2.MiscOrderTypeFieldsId;
-                spaceOrderTypeFields.OrderTypeFieldsId = l2.FacilityOrderTypeFieldsId;
-                lossAndDamageOrderTypeFields.OrderTypeFieldsId = l2.LossAndDamageOrderTypeFieldsId;
+                if (e.Original != null)
+                {
+                    EventTypeLogic orig = ((EventTypeLogic)e.Original);
+                    rentalOrderTypeFields.OrderTypeFieldsId = orig.RentalOrderTypeFieldsId;
+                    salesOrderTypeFields.OrderTypeFieldsId = orig.SalesOrderTypeFieldsId;
+                    laborOrderTypeFields.OrderTypeFieldsId = orig.LaborOrderTypeFieldsId;
+                    miscOrderTypeFields.OrderTypeFieldsId = orig.MiscOrderTypeFieldsId;
+                    spaceOrderTypeFields.OrderTypeFieldsId = orig.FacilityOrderTypeFieldsId;
+                    lossAndDamageOrderTypeFields.OrderTypeFieldsId = orig.LossAndDamageOrderTypeFieldsId;
+                }
             }
         }
         //------------------------------------------------------------------------------------   
-        public void OnAfterSaveLossAndDamageFields(object sender, AfterSaveDataRecordEventArgs e)
+        public void OnAfterSave(object sender, AfterSaveEventArgs e)
         {
             if (e.SaveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smInsert)
             {

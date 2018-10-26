@@ -37,8 +37,6 @@ namespace WebApi.Modules.Settings.OrderType
             dataLoader = orderTypeLoader;
             browseLoader = orderTypeBrowseLoader;
 
-            //orderType.AfterSave += OnAfterSaveOrderType;
-
             BeforeSave += OnBeforeSave;
             AfterSave += OnAfterSave;
 

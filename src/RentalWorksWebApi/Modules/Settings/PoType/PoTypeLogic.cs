@@ -38,9 +38,8 @@ namespace WebApi.Modules.Settings.PoType
             dataLoader = poTypeLoader;
             browseLoader = poTypeBrowseLoader;
 
-            poType.AfterSave += OnAfterSavePoType;
-            repairOrderTypeFields.AfterSave += OnAfterSaveRepairFields;
             BeforeSave += OnBeforeSave;
+            AfterSave += OnAfterSave;
         }
         //------------------------------------------------------------------------------------ 
         [FwBusinessLogicField(isPrimaryKey: true)]
@@ -883,31 +882,27 @@ namespace WebApi.Modules.Settings.PoType
 
 
         //------------------------------------------------------------------------------------ 
-        public void OnBeforeSave(object sender, BeforeSaveEventArgs e)
+        public virtual void OnBeforeSave(object sender, BeforeSaveEventArgs e)
         {
             OrdType = "PO";
-        }
-        //------------------------------------------------------------------------------------ 
-        public void OnAfterSavePoType(object sender, AfterSaveDataRecordEventArgs e)
-        {
-            if ((e.SaveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smUpdate) && (purchaseOrderTypeFields.OrderTypeFieldsId.Equals(string.Empty)))
+            if (e.SaveMode.Equals(TDataRecordSaveMode.smUpdate))
             {
-                PoTypeLogic l2 = new PoTypeLogic();
-                l2.AppConfig = poType.AppConfig;
-                object[] pk = GetPrimaryKeys();
-                bool b = l2.LoadAsync<PoTypeLogic>(pk).Result;
-                purchaseOrderTypeFields.OrderTypeFieldsId = l2.PurchaseOrderTypeFieldsId;
-                subRentalOrderTypeFields.OrderTypeFieldsId = l2.SubRentalOrderTypeFieldsId;
-                subSaleOrderTypeFields.OrderTypeFieldsId = l2.SubSaleOrderTypeFieldsId;
-                laborOrderTypeFields.OrderTypeFieldsId = l2.LaborOrderTypeFieldsId;
-                subLaborOrderTypeFields.OrderTypeFieldsId = l2.SubLaborOrderTypeFieldsId;
-                miscOrderTypeFields.OrderTypeFieldsId = l2.MiscOrderTypeFieldsId;
-                subMiscOrderTypeFields.OrderTypeFieldsId = l2.SubMiscOrderTypeFieldsId;
-                repairOrderTypeFields.OrderTypeFieldsId = l2.RepairOrderTypeFieldsId;
+                if (e.Original != null)
+                {
+                    PoTypeLogic orig = ((PoTypeLogic)e.Original);
+                    purchaseOrderTypeFields.OrderTypeFieldsId = orig.PurchaseOrderTypeFieldsId;
+                    subRentalOrderTypeFields.OrderTypeFieldsId = orig.SubRentalOrderTypeFieldsId;
+                    subSaleOrderTypeFields.OrderTypeFieldsId = orig.SubSaleOrderTypeFieldsId;
+                    laborOrderTypeFields.OrderTypeFieldsId = orig.LaborOrderTypeFieldsId;
+                    subLaborOrderTypeFields.OrderTypeFieldsId = orig.SubLaborOrderTypeFieldsId;
+                    miscOrderTypeFields.OrderTypeFieldsId = orig.MiscOrderTypeFieldsId;
+                    subMiscOrderTypeFields.OrderTypeFieldsId = orig.SubMiscOrderTypeFieldsId;
+                    repairOrderTypeFields.OrderTypeFieldsId = orig.RepairOrderTypeFieldsId;
+                }
             }
         }
         //------------------------------------------------------------------------------------   
-        public void OnAfterSaveRepairFields(object sender, AfterSaveDataRecordEventArgs e)
+        public void OnAfterSave(object sender, AfterSaveEventArgs e)
         {
             if (e.SaveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smInsert)
             {
