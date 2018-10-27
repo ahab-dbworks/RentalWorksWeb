@@ -527,7 +527,7 @@ class Order extends OrderBase {
         $orderItemGridLossDamage.addClass('F');
         $orderItemGridLossDamage.find('div[data-datafield="InventoryId"]').attr('data-formreadonly', 'true'); 
         $orderItemGridLossDamage.find('div[data-datafield="Description"]').attr('data-formreadonly', 'true');
-        $orderItemGridLossDamage.find('div[data-datafield="BarCode"]').attr('data-formreadonly', 'true');
+        $orderItemGridLossDamage.find('div[data-datafield="ItemId"]').attr('data-formreadonly', 'true');
         $orderItemGridLossDamage.find('div[data-datafield="Price"]').attr('data-digits', '3'); 
         $orderItemGridLossDamage.find('div[data-datafield="Price"]').attr('data-digitsoptional', 'false'); 
 
@@ -864,7 +864,7 @@ class Order extends OrderBase {
                           <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                             <div class="fwform-section-title" style="margin-bottom:20px;">Loss and Damage</div>
                             <div class="formrow error-msg"></div>
-                            <div class="formrow sub-header" style="margin-left:8px;font-size:16px;"><span>Select one or more Orders with Lost or Damaged items, then click �Continue�</span></div>
+                            <div class="formrow sub-header" style="margin-left:8px;font-size:16px;"><span>Select one or more Orders with Lost or Damaged items, then click Continue</span></div>
                             <div data-control="FwGrid" class="container"></div>
                           </div>
                         </div>
@@ -989,7 +989,7 @@ class Order extends OrderBase {
                     } else {
                         FwConfirmation.renderConfirmation('ERROR', 'Error')
                     }
-                }, null, $form);
+                }, null, $popup);
             });
             // Select All
             $popup.find('.selectall').on('click', e => {
@@ -1106,12 +1106,15 @@ class Order extends OrderBase {
 FwApplicationTree.clickEvents['{427FCDFE-7E42-4081-A388-150D3D7FAE36}'] = function (event) {
     let $form;
     $form = jQuery(this).closest('.fwform');
-
-    try {
-        OrderController.addLossDamage($form, event);
-    }
-    catch (ex) {
-        FwFunc.showError(ex);
+    if ($form.attr('data-mode') !== 'NEW') {
+        try {
+            OrderController.addLossDamage($form, event);
+        }
+        catch (ex) {
+            FwFunc.showError(ex);
+        }
+    } else {
+        FwNotification.renderNotification('WARNING', 'Save the record before performing this function');
     }
 };
 

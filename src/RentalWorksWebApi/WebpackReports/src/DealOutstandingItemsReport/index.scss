@@ -3,12 +3,12 @@ tbody {
     tr[data-rowtype="detail"]:nth-child(odd) {
         background-color: #DCDCDC;
     }
-    /*tr[data-rowtype="fullimage"]:nth-child(odd) {
-        background-color: #DCDCDC;
-    }*/
-    tr.fullimage:nth-child(even) {
+    tr[data-rowtype="fullimage"]:nth-child(odd) {
         background-color: #DCDCDC;
     }
+    /*tr.fullimage:even {
+        background-color: #DCDCDC;
+    }*/
 
     td:after {
         content: attr(data-value);
