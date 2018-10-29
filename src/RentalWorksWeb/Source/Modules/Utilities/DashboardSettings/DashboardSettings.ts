@@ -26,7 +26,6 @@ class DashboardSettings {
     //----------------------------------------------------------------------------------------------
     openForm(mode: string) {
         var $form;
-        var widgets = [];
         var userId = JSON.parse(sessionStorage.getItem('userid'));
 
         $form = FwModule.loadFormFromTemplate(this.Module);
@@ -40,7 +39,7 @@ class DashboardSettings {
                 $form.attr('data-modified', 'true');
                 $form.find('.btn[data-type="SaveMenuBarButton"]').removeClass('disabled');
             }
-        })
+        });
 
         return $form;
     }
