@@ -834,7 +834,7 @@ class SearchInterface {
                 $inventory.css({ 'cursor': 'pointer', 'width': '98%', 'height': 'auto', 'float': 'left', 'padding': '5px', 'margin': '5px', 'position': 'relative' });
                 //description columns
                 descContainer.css({ 'flex': '1 0 250px', 'float': '' });
-                description.css({ 'float': 'left', 'width': '100%', 'padding-bottom': '', 'padding-top': '.5em', 'text-indent': '10px' });
+                description.css({ 'float': 'left', 'width': '100%', 'padding-bottom': '', 'padding-top': '.5em', 'text-indent': '' });
                 imageFrame.hide();
                 //quantity
                 quantity.css({ 'float': 'left', 'flex': '0 0 90px', 'position': '', 'bottom': '', 'right': '', 'padding-top': '0.4em', 'padding-bottom': '0.4em' });
@@ -862,7 +862,7 @@ class SearchInterface {
                 $inventory.css({ 'cursor': 'pointer', 'width': '98%', 'height': 'auto', 'float': 'left', 'padding': '5px', 'margin': '5px', 'position': 'relative' });
                 //description columns
                 descContainer.css({ 'flex': '1 0 250px', 'float': '' });
-                description.css({ 'float': 'right', 'padding-top': '1em', 'width': '75%', 'padding-bottom': '', 'text-indent': '10px' });
+                description.css({ 'float': 'right', 'padding-top': '1em', 'width': '75%', 'padding-bottom': '', 'text-indent': '' });
                 imageFrame.show();
                 imageFrame.css({ 'float': 'left', 'width': '25%', 'height': '4em', 'line-height': '4em', 'display': 'inline-block', 'position': 'relative' });
                 image.css({ 'max-height': '100%', 'max-width': '100%', 'width': 'auto', 'height': 'auto', 'position': 'absolute', 'top': '0', 'bottom': '0', 'left': '0', 'right': '0', 'margin': 'auto' });
@@ -1528,7 +1528,7 @@ class SearchInterface {
                 <div class="accItem" style="width:100%; float:left; padding:5px 0px;">
                      <div data-control="FwFormField" data-type="key" data-datafield="InventoryId" data-caption="InventoryId" class="fwcontrol fwformfield" data-isuniqueid="true" data-enabled="false" style="display:none">
                         <input value="${response.Rows[i][inventoryIdIndex]}"></input></div>
-                     <div data-column="Description" class="columnorder" style="float:left; flex: 1 0 250px; position:relative; text-indent:1em;"><div class="descriptionColor"></div>${response.Rows[i][descriptionIndex]}</div>
+                     <div data-column="Description" class="columnorder" style="float:left; flex: 1 0 250px; position:relative;"><div class="descriptionColor"></div>${response.Rows[i][descriptionIndex]}</div>
                      <div data-control="FwFormField" data-column="Quantity" data-type="number" data-datafield="AccQuantity" data-caption="Qty" class="columnorder fwcontrol fwformfield" style="position:relative; text-align:center; float:left; flex: 0 0 90px;">
                          <div style="float:left; border:1px solid #bdbdbd;">
                              <button class="decrementQuantity" tabindex="-1" style="padding: 5px 0px; float:left; width:25%; border:none;">-</button>
