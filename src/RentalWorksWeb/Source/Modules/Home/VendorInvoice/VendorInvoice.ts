@@ -3,7 +3,9 @@ routes.push({ pattern: /^module\/vendorinvoice$/, action: function (match: RegEx
 class VendorInvoice {
     Module: string = 'VendorInvoice';
     apiurl: string = 'api/v1/vendorinvoice';
-    caption: string = 'VendorInvoice';
+    caption: string = 'Vendor Invoice';
+    nav: string = 'module/vendorinvoice';
+    id: string = '854B3C59-7040-47C4-A8A3-8A336FC970FE';
 
     //----------------------------------------------------------------------------------------------
     getModuleScreen(filter?: any) {
