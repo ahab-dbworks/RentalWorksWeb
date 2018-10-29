@@ -606,6 +606,46 @@
 			]
 		},
 		{
+			"name": "Rental Inventory Attributes Report",
+			"item": [
+				{
+					"name": "Rental Inventory Attributes Report: Run Report",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \t\t\"SortBy\": \"\",\n    \t\t\"InventoryTypeId\": \"\",\n    \t\t\"CategoryId\": \"\",\n    \t\t\"SubCategoryId\": \"\",\n    \t\t\"InventoryId\": \"\",\n    \t\t\"AttributeId\": \"\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/rentalinventoryattributesreport/runreport",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"rentalinventoryattributesreport",
+								"runreport"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
 			"name": "Rental Inventory Catalog Report",
 			"item": [
 				{
