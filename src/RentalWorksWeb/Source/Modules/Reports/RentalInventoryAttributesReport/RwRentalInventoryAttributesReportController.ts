@@ -17,7 +17,7 @@ var rentalInventoryAttributesTemplateFrontEnd = `
             <div class="flexcolumn" style="max-width:210px;">
               <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Sort By">
                   <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                    <div data-datafield="SortFields" data-control="FwFormField" data-checkboxlist="persist" data-type="checkboxlist" class="fwcontrol fwformfield widgetorder" data-caption="" data-sortable="true" data-orderby="true" style="float:left;width:500px;margin-top: 10px"></div>
+                    <div data-datafield="SortBy" data-control="FwFormField" data-checkboxlist="persist" data-type="checkboxlist" class="fwcontrol fwformfield" data-caption="" data-sortable="true" data-orderby="true" style="float:left;width:500px;margin-top: 10px"></div>
                   </div>
               </div>
             </div>
@@ -129,7 +129,7 @@ class RwRentalInventoryAttributesReportClass extends FwWebApiReport {
     };
     //----------------------------------------------------------------------------------------------
     loadLists($form: JQuery): void {
-        FwFormField.loadItems($form.find('div[data-datafield="SortFields"]'),
+        FwFormField.loadItems($form.find('div[data-datafield="SortBy"]'),
             [
                 { value: "INVENTORY TYPE", text: "Inventory Type", selected: "T" },
                 { value: "CATEGORY", text: "Category", selected: "T" },
