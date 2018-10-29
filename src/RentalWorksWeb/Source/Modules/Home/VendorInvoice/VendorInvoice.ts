@@ -6,7 +6,7 @@ class VendorInvoice {
     caption: string = 'Vendor Invoice';
     nav: string = 'module/vendorinvoice';
     id: string = '854B3C59-7040-47C4-A8A3-8A336FC970FE';
-
+    ActiveView: string = 'ALL';
     //----------------------------------------------------------------------------------------------
     getModuleScreen(filter?: any) {
         var self = this;
@@ -32,9 +32,39 @@ class VendorInvoice {
         var $browse = FwBrowse.loadBrowseFromTemplate(this.Module);
         $browse = FwModule.openBrowse($browse);
 
+        var location = JSON.parse(sessionStorage.getItem('location'));
+        self.ActiveView = 'LocationId=' + location.locationid;
+
+        $browse.data('ondatabind', function (request) {
+            request.activeview = self.ActiveView;
+        });
+
         return $browse;
     };
-
+    //----------------------------------------------------------------------------------------------
+    addBrowseMenuItems($menuObject) {
+        var self = this;
+        //Location Filter
+        var location = JSON.parse(sessionStorage.getItem('location'));
+        var $allLocations = FwMenu.generateDropDownViewBtn('ALL Locations', false);
+        var $userLocation = FwMenu.generateDropDownViewBtn(location.location, true);
+        $allLocations.on('click', function () {
+            var $browse;
+            $browse = jQuery(this).closest('.fwbrowse');
+            self.ActiveView = 'LocationId=ALL';
+            FwBrowse.search($browse);
+        });
+        $userLocation.on('click', function () {
+            var $browse;
+            $browse = jQuery(this).closest('.fwbrowse');
+            self.ActiveView = 'LocationId=' + location.locationid;
+            FwBrowse.search($browse);
+        });
+        var viewLocation = [];
+        viewLocation.push($userLocation, $allLocations);
+        FwMenu.addViewBtn($menuObject, 'Location', viewLocation);
+        return $menuObject;
+    };
     //----------------------------------------------------------------------------------------------
     openForm(mode, parentModuleInfo?: any) {
         var $form;

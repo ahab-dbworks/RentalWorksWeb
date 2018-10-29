@@ -9,26 +9,8 @@ namespace WebApi.Modules.Home.VendorInvoice
     public class VendorInvoiceLoader : AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "vendorinvoiceid", modeltype: FwDataTypes.Text, isPrimaryKey: true)]
-        public string VendorInvoiceId { get; set; } = "";
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "orderid", modeltype: FwDataTypes.Text)]
-        public string PurchaseOrderId { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "pono", modeltype: FwDataTypes.Text)]
-        public string PurchaseOrderNumber { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "requisitionno", modeltype: FwDataTypes.Text)]
-        public string RequistionNumber { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "vendor", modeltype: FwDataTypes.Text)]
-        public string Vendor { get; set; }
-        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "vendorno", modeltype: FwDataTypes.Text)]
         public string VendorNumber { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "vendorid", modeltype: FwDataTypes.Text)]
-        public string VendorId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "invoicebatchid", modeltype: FwDataTypes.Text)]
         public string InvoiceBatchId { get; set; }
@@ -42,35 +24,8 @@ namespace WebApi.Modules.Home.VendorInvoice
         [FwSqlDataField(column: "inputuser", modeltype: FwDataTypes.Text)]
         public string Inputuser { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "invno", modeltype: FwDataTypes.Text)]
-        public string InvoiceNumber { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "invdate", modeltype: FwDataTypes.Date)]
-        public string InvoiceDate { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "invoiceduedate", modeltype: FwDataTypes.Date)]
-        public string InvoiceDueDate { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "billingstart", modeltype: FwDataTypes.Date)]
-        public string BillingStart { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "billingend", modeltype: FwDataTypes.Date)]
-        public string BillingEnd { get; set; }
-        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "billingstartend", modeltype: FwDataTypes.Text)]
         public string BillingStartEnd { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "status", modeltype: FwDataTypes.Text)]
-        public string Status { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "orderdesc", modeltype: FwDataTypes.Text)]
-        public string OrderDescription { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "departmentid", modeltype: FwDataTypes.Text)]
-        public string DepartmentId { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "department", modeltype: FwDataTypes.Text)]
-        public string Department { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "poorderno", modeltype: FwDataTypes.Text)]
         public string OrderNumber { get; set; }
@@ -90,20 +45,11 @@ namespace WebApi.Modules.Home.VendorInvoice
         [FwSqlDataField(column: "approveddate", modeltype: FwDataTypes.Date)]
         public string ApprovedDate { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "locationid", modeltype: FwDataTypes.Text)]
-        public string LocationId { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "location", modeltype: FwDataTypes.Text)]
-        public string Location { get; set; }
-        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "warehouseid", modeltype: FwDataTypes.Text)]
         public string WarehouseId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "warehouse", modeltype: FwDataTypes.Text)]
         public string Warehouse { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "invoicetotal", modeltype: FwDataTypes.Decimal)]
-        public decimal? InvoiceTotal { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "billtoadd1", modeltype: FwDataTypes.Text)]
         public string BillToAddress1 { get; set; }

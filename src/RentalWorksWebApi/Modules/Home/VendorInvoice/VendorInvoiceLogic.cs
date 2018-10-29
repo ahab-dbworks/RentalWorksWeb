@@ -7,10 +7,12 @@ namespace WebApi.Modules.Home.VendorInvoice
         //------------------------------------------------------------------------------------ 
         VendorInvoiceRecord vendorInvoice = new VendorInvoiceRecord();
         VendorInvoiceLoader vendorInvoiceLoader = new VendorInvoiceLoader();
+        VendorInvoiceBrowseLoader vendorInvoiceBrowseLoader = new VendorInvoiceBrowseLoader();
         public VendorInvoiceLogic()
         {
             dataRecords.Add(vendorInvoice);
             dataLoader = vendorInvoiceLoader;
+            browseLoader = vendorInvoiceBrowseLoader;
         }
         //------------------------------------------------------------------------------------ 
         [FwBusinessLogicField(isPrimaryKey: true)]
