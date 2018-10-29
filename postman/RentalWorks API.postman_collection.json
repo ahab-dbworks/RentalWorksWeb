@@ -992,7 +992,7 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "http://localhost:57949/api/v1/billingcycle/A0003IJU",
+							"raw": "http://localhost:57949/api/v1/billingcycle/emptyobject",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -1002,7 +1002,7 @@
 								"api",
 								"v1",
 								"billingcycle",
-								"A0003IJU"
+								"emptyobject"
 							]
 						}
 					},
@@ -5839,7 +5839,7 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "http://localhost:57949/api/v1/crew/00002WPC",
+							"raw": "http://localhost:57949/api/v1/crew/ABCDEFGH",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -5849,7 +5849,7 @@
 								"api",
 								"v1",
 								"crew",
-								"00002WPC"
+								"ABCDEFGH"
 							]
 						}
 					},
@@ -20407,6 +20407,46 @@
 			]
 		},
 		{
+			"name": "Inventory Availability Date",
+			"item": [
+				{
+					"name": "Inventory Availability Date: Browse",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": [],\n    \t\"uniqueids\": {\n    \t\t\"InventoryId\": \"F010F3BN\",\n    \t\t\"WarehouseId\": \"B0029AY5\",\n    \t\t\"FromDate\": \"10/29/2018\",\n    \t\t\"ToDate\": \"11/10/2018\"\n    \t}\n\t\n}\n\n"
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/inventoryavailabilitydate/browse",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"inventoryavailabilitydate",
+								"browse"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
 			"name": "Inventory Search Preview",
 			"item": [
 				{
@@ -24687,7 +24727,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"ItemOrder\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": [],\n    \t\"uniqueids\": {\n    \t\t\"OrderId\":\"I00006XO\", \n    \t\t\"RecType\":\"R\",            \"RecTypeComment\": \"R=Rental, S=Sale, M=Miscellaneous, L=Labor, RS=RentalSale\",\n    \t\t\"Summary\": true,\n    \t\t\"Subs\": true,             \"SubsComment\": \"Send 'true' when requesting sub items of a Purchase Order (ie. Sub-Rental, or Sub-Sale)\"\n    \t}\n}\n\n"
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"ItemOrder\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": [],\n    \t\"uniqueids\": {\n    \t\t\"OrderId\":\"I00008PE\", \n    \t\t\"RecType\":\"F\",            \"RecTypeComment\": \"R=Rental, S=Sale, M=Miscellaneous, L=Labor, RS=RentalSale\",\n    \t\t\"Summary\": false,\n    \t\t\"Subs\": false,             \"SubsComment\": \"Send 'true' when requesting sub items of a Purchase Order (ie. Sub-Rental, or Sub-Sale)\"\n    \t}\n}\n\n"
 						},
 						"url": {
 							"raw": "http://localhost:57949/api/v1/orderitem/browse",
