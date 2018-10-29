@@ -106,6 +106,8 @@ class CustomForm {
         let controller: any = $form.find('[data-datafield="BaseForm"] option:selected').attr('data-controllername');
 
         this.addValidFields($form, controller);
+
+        this.renderTab($form, 'Designer');
     }
     //----------------------------------------------------------------------------------------------
     codeMirrorEvents($form) {
@@ -158,6 +160,8 @@ class CustomForm {
             }
 
             this.addValidFields($form, controller);
+
+            this.renderTab($form, 'Designer');
         });
 
         //Sets form to modified upon changing code in editor
@@ -313,16 +317,22 @@ class CustomForm {
         });
 
         //Load Design Tab
-        $form.on('click', '[data-type="tab"][data-caption="Design"]', e => {
-            this.renderTab($form, 'Design');
+        $form.on('click', '[data-type="tab"][data-caption="Designer"]', e => {
+            this.renderTab($form, 'Designer');
         });
+
+        //Refreshes and shows CodeMirror upon clicking HTML tab
+        $form.on('click', '[data-type="tab"][data-caption="HTML"]', e => {
+            this.codeMirror.refresh();
+        });
+
     }
     //----------------------------------------------------------------------------------------------
     renderTab($form, tabName: string) {
         let renderFormHere;
         $form.find('#codeEditor').change();     // 10/25/2018 Jason H - updates the textarea formfield with the code editor html
 
-        tabName === 'Design' ? renderFormHere = 'designerContent' : renderFormHere = 'previewWebForm';
+        tabName === 'Designer' ? renderFormHere = 'designerContent' : renderFormHere = 'previewWebForm';
 
         let html = FwFormField.getValueByDataField($form, 'Html');
         $form.find(`#${renderFormHere}`).empty().append(html);
@@ -350,7 +360,7 @@ class CustomForm {
         $customForm.find('tr.fieldnames .column >').off('click');
 
         //Design mode borders & events
-        if (tabName == 'Design') {
+        if (tabName == 'Designer') {
             $form.find('#controlProperties')
                 .empty();  //clear properties upon loading design tab
 
@@ -359,11 +369,17 @@ class CustomForm {
             let $tableHeaders = $customForm.find('[data-type="Browse"], [data-type="Grid"]')
                 .find('thead tr.fieldnames .column >');
 
-            $fwcontrols
-                .not('[data-control="FwContainer"], [data-control="FwTabs"]')
-                .css('border', '1px solid #dcdcdc')
-                .add($tableHeaders)
-                .on('click', e => {
+            let $fwContainers = $customForm.find('.fwform-body [data-control="FwContainer"]')
+                .css({ 'border': '1px solid darkblue', 'margin': '10px' });
+
+            let $flexContainers = $customForm.find('div.flexrow, div.flexcolumn')
+                .css({ 'border': '1px solid lightblue', 'margin': '10px' });
+
+            let $fwformfields = $customForm.find('[data-control="FwFormField"]')
+                .css({ 'border': '1px solid #dcdcdc', 'margin': '10px' });
+
+            $customForm
+                .on('click', '[data-control="FwContainer"], [data-control="FwFormField"], div.flexrow, div.flexcolumn', e => {
                     e.stopPropagation();
                     let properties = e.currentTarget.attributes;
                     let html: any = [];
@@ -374,12 +390,17 @@ class CustomForm {
                                 <div style="font-weight:bold; background-color:#dcdcdc; width:50%; float:left;">Value</div>
                             </div>
                         `);
-
                     for (let i = 0; i < properties.length; i++) {
                         let value = properties[i].value;
+                        let name = properties[i].name;
+
+                        if (name == "data-originalvalue") {
+                            break;
+                        }
+
                         value = value.replace('focused', '');
                         html.push(`<div class="properties" style="width:100%; display:flex;">
-                                      <div class="propname" style="border:.5px solid #efefef; width:50%; float:left;">${properties[i].name === "" ? "&#160;" : properties[i].name}</div>
+                                      <div class="propname" style="border:.5px solid #efefef; width:50%; float:left;">${name === "" ? "&#160;" : name}</div>
                                       <div class="propval" style="border:.5px solid #efefef; width:50%; float:left;">${value === "" ? "&#160;" : value}</div>
                                    </div>
                                   `);
@@ -389,7 +410,7 @@ class CustomForm {
                         .empty()
                         .append(html.join(''))
                         .find('.properties:even')
-                            .css('background-color', '#f7f7f7');
+                        .css('background-color', '#f7f7f7');
             });
         }
     }
