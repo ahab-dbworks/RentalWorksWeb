@@ -543,8 +543,9 @@ namespace WebLibrary.Security
             AddModule("Contract",           "{F6D42CC1-FAC6-49A9-9BF2-F370FE408F7B}", lv1menuModules.Id, "ContractController",          "module/contract",          homeiconbaseurl + "placeholder.png");
             AddModule("Customer",           "{8237418B-923D-4044-951F-98938C1EC3DE}", lv1menuModules.Id, "CustomerController",          "module/customer",          homeiconbaseurl + "placeholder.png");
             AddModule("Deal",               "{393DE600-2911-4753-85FD-ABBC4F0B1407}", lv1menuModules.Id, "DealController",              "module/deal",              homeiconbaseurl + "placeholder.png");
+            AddModule("Exchange",           "{76A62932-CBBA-403E-8BF2-0C2283BBAD8D}", lv1menuModules.Id, "ExchangeController",          "module/exchange",          homeiconbaseurl + "placeholder.png");
             AddModule("Order",              "{68B3710E-FE07-4461-9EFD-04E0DBDAF5EA}", lv1menuModules.Id, "OrderController",             "module/order",             homeiconbaseurl + "placeholder.png");
-            //AddModule("Order Status",     "{F6AE5BC1-865D-467B-A201-95C93F8E8D0B}", lv1menuModules.Id, "OrderStatusController",       "module/orderstatus",       homeiconbaseurl + "placeholder.png");
+            AddModule("Order Status",     "{7BB8BB8C-8041-41F6-A2FA-E9FA107FF5ED}", lv1menuModules.Id, "OrderStatusController",       "module/orderstatus",       homeiconbaseurl + "placeholder.png");
             //AddModule("Parts Inventory",  "{351B8A09-7778-4F06-A6A2-ED0920A5C360}", lv1menuModules.Id, "PartsInventoryController",    "module/partsinventory",    homeiconbaseurl + "placeholder.png");
             AddModule("Pick List",          "{744B371E-5478-42F9-9852-E143A1EC5DDA}", lv1menuModules.Id, "PickListController",          "module/picklist",          homeiconbaseurl + "placeholder.png");
             AddModule("Purchase Order",     "{DA900327-CEAC-4CB0-9911-CAA2C67059C2}", lv1menuModules.Id, "PurchaseOrderController",     "module/purchaseorder",     homeiconbaseurl + "placeholder.png");

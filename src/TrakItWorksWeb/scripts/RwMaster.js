@@ -14,7 +14,7 @@ class RwMaster extends WebMaster {
             {
                 caption: 'Warehouse',
                 id: '293A157D-EA8E-48F6-AE97-15F9DE53041A',
-                children: [TiwAssignBarCodesController]
+                children: [TiwOrderStatusController, TiwAssignBarCodesController, TiwExchangeController]
             },
             {
                 caption: 'Reports',

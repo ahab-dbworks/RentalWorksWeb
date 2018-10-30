@@ -186,6 +186,7 @@
     <Content Include="Source\Modules\Administrator\User\UserForm.htm" />
     <Content Include="Source\Modules\Home\AssignBarCodes\AssignBarCodesForm.htm" />
     <Content Include="Source\Modules\Home\CreatePickList\CreatePickListForm.htm" />
+    <Content Include="Source\Modules\Home\Exchange\ExchangeForm.htm" />
     <Content Include="Source\Modules\Home\Order\OrderBrowse.htm" />
     <Content Include="Source\Modules\Home\Order\OrderForm.htm" />
     <Content Include="Source\Modules\Home\PurchaseOrder\PurchaseOrderBrowse.htm" />
@@ -685,6 +686,8 @@
     <TypeScriptCompile Include="Source\Modules\Home\Contract\TiwContract.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\Customer\TiwCustomer.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\Deal\TiwDeal.ts" />
+    <TypeScriptCompile Include="Source\Modules\Home\Exchange\TiwExchange.ts" />
+    <TypeScriptCompile Include="Source\Modules\Home\OrderStatus\TiwOrderStatus.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\Order\TiwOrder.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\PickList\TiwPickList.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\PurchaseOrder\TiwPurchaseOrder.ts" />
