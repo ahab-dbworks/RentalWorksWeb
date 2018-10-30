@@ -535,21 +535,22 @@ namespace WebLibrary.Security
             var lv1menuGrids         = AddLv1GridsMenu("Grids",            "{154C8BA7-275E-4DDB-B019-0C8633FA8B59}", application.Id);
 
             //RentalWorks
-            AddModule("Asset",            "{E1366299-0008-429C-93CC-B8ED8969B180}", lv1menuModules.Id, "AssetController",           "module/asset",           homeiconbaseurl + "placeholder.png");
-            //AddModule("Contact",          "{3F803517-618A-41C0-9F0B-2C96B8BDAFC4}", lv1menuModules.Id, "ContactController",         "module/contact",         homeiconbaseurl + "placeholder.png");
-            //AddModule("Create Pick List", "{5013C4FF-FC42-4EFE-AE9D-AAF6857F17B8}", null,                  "CreatePickListController",  "module/createpicklist",  homeiconbaseurl + "placeholder.png");
-            //AddModule("Contract",         "{6BBB8A0A-53FA-4E1D-89B3-8B184B233DEA}", lv1menuModules.Id, "ContractController",        "module/contract",        homeiconbaseurl + "placeholder.png");
-            //AddModule("Customer",         "{214C6242-AA91-4498-A4CC-E0F3DCCCE71E}", lv1menuModules.Id, "CustomerController",        "module/customer",        homeiconbaseurl + "placeholder.png");
-            AddModule("Deal",             "{393DE600-2911-4753-85FD-ABBC4F0B1407}", lv1menuModules.Id, "DealController",            "module/deal",            homeiconbaseurl + "placeholder.png");
-            AddModule("Order", "{68B3710E-FE07-4461-9EFD-04E0DBDAF5EA}", lv1menuModules.Id, "OrderController", "module/order", homeiconbaseurl + "placeholder.png");
-            //AddModule("Order Status",     "{F6AE5BC1-865D-467B-A201-95C93F8E8D0B}", lv1menuModules.Id, "OrderStatusController",     "module/orderstatus",     homeiconbaseurl + "placeholder.png");
-            //AddModule("Parts Inventory",  "{351B8A09-7778-4F06-A6A2-ED0920A5C360}", lv1menuModules.Id, "PartsInventoryController",  "module/partsinventory",  homeiconbaseurl + "placeholder.png");
-            //AddModule("Pick List",        "{7B04E5D4-D079-4F3A-9CB0-844F293569ED}", lv1menuModules.Id, "PickListController",        "module/picklist",        homeiconbaseurl + "placeholder.png");
-            AddModule("Quote", "{9213AF53-6829-4276-9DF9-9DAA704C2CCF}", lv1menuModules.Id, "QuoteController", "module/quote", homeiconbaseurl + "placeholder.png");
-            //AddModule("Rental Inventory", "{FCDB4C86-20E7-489B-A8B7-D22EE6F85C06}", lv1menuModules.Id, "RentalInventoryController", "module/rentalinventory", homeiconbaseurl + "placeholder.png");
-            //AddModule("Repair Order",     "{2BD0DC82-270E-4B86-A9AA-DD0461A0186A}", lv1menuModules.Id, "RepairController",          "module/repair",          homeiconbaseurl + "placeholder.png");
-            //AddModule("Sales Inventory",  "{B0CF2E66-CDF8-4E58-8006-49CA68AE38C2}", lv1menuModules.Id, "SalesInventoryController",  "module/salesinventory",  homeiconbaseurl + "placeholder.png");
-            //AddModule("Vendor",           "{AE4884F4-CB21-4D10-A0B5-306BD0883F19}", lv1menuModules.Id, "VendorController",          "module/vendor",          homeiconbaseurl + "placeholder.png");
+            AddModule("Asset",              "{E1366299-0008-429C-93CC-B8ED8969B180}", lv1menuModules.Id, "AssetController",             "module/asset",             homeiconbaseurl + "placeholder.png");
+            AddModule("Contact",            "{9DC167B7-3313-4783-8A97-03C55B6AD5F2}", lv1menuModules.Id, "ContactController",           "module/contact",           homeiconbaseurl + "placeholder.png");
+            //AddModule("Create Pick List", "{5013C4FF-FC42-4EFE-AE9D-AAF6857F17B8}", null,              "CreatePickListController",    "module/createpicklist",    homeiconbaseurl + "placeholder.png");
+            //AddModule("Contract",         "{6BBB8A0A-53FA-4E1D-89B3-8B184B233DEA}", lv1menuModules.Id, "ContractController",          "module/contract",          homeiconbaseurl + "placeholder.png");
+            AddModule("Customer",           "{8237418B-923D-4044-951F-98938C1EC3DE}", lv1menuModules.Id, "CustomerController",          "module/customer",          homeiconbaseurl + "placeholder.png");
+            AddModule("Deal",               "{393DE600-2911-4753-85FD-ABBC4F0B1407}", lv1menuModules.Id, "DealController",              "module/deal",              homeiconbaseurl + "placeholder.png");
+            AddModule("Order",              "{68B3710E-FE07-4461-9EFD-04E0DBDAF5EA}", lv1menuModules.Id, "OrderController",             "module/order",             homeiconbaseurl + "placeholder.png");
+            //AddModule("Order Status",     "{F6AE5BC1-865D-467B-A201-95C93F8E8D0B}", lv1menuModules.Id, "OrderStatusController",       "module/orderstatus",       homeiconbaseurl + "placeholder.png");
+            //AddModule("Parts Inventory",  "{351B8A09-7778-4F06-A6A2-ED0920A5C360}", lv1menuModules.Id, "PartsInventoryController",    "module/partsinventory",    homeiconbaseurl + "placeholder.png");
+            AddModule("Pick List",          "{744B371E-5478-42F9-9852-E143A1EC5DDA}", lv1menuModules.Id, "PickListController",          "module/picklist",          homeiconbaseurl + "placeholder.png");
+            AddModule("Purchase Order",     "{DA900327-CEAC-4CB0-9911-CAA2C67059C2}", lv1menuModules.Id, "PurchaseOrderController",     "module/purchaseorder",     homeiconbaseurl + "placeholder.png");
+            AddModule("Quote",              "{9213AF53-6829-4276-9DF9-9DAA704C2CCF}", lv1menuModules.Id, "QuoteController",             "module/quote",             homeiconbaseurl + "placeholder.png");
+            //AddModule("Rental Inventory", "{FCDB4C86-20E7-489B-A8B7-D22EE6F85C06}", lv1menuModules.Id, "RentalInventoryController",   "module/rentalinventory",   homeiconbaseurl + "placeholder.png");
+            //AddModule("Repair Order",     "{2BD0DC82-270E-4B86-A9AA-DD0461A0186A}", lv1menuModules.Id, "RepairController",            "module/repair",            homeiconbaseurl + "placeholder.png");
+            //AddModule("Sales Inventory",  "{B0CF2E66-CDF8-4E58-8006-49CA68AE38C2}", lv1menuModules.Id, "SalesInventoryController",    "module/salesinventory",    homeiconbaseurl + "placeholder.png");
+            AddModule("Vendor",             "{92E6B1BE-C9E1-46BD-91A0-DF257A5F909A}", lv1menuModules.Id, "VendorController",            "module/vendor",            homeiconbaseurl + "placeholder.png");
 
 
 

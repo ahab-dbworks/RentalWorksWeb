@@ -7,7 +7,7 @@
             {
                 caption: 'TrakItWorks',
                 id: 'B05953D7-DC85-486C-B9A4-7743875DFABC',
-                children: [TiwAssetController, /*QuoteController, OrderController, CustomerController, DealController, VendorController, ContactController, PurchaseOrderController, ProjectController*/]
+            children: [TiwAssetController, /*QuoteController,*/TiwOrderController, TiwCustomerController,/*, DealController, */TiwVendorController, TiwContactController, TiwPurchaseOrderController/*, ProjectController*/]
             },
             {
                 caption: 'Settings',
@@ -17,7 +17,7 @@
             {
                 caption: 'Reports',
                 id: 'F62D2B01-E4C4-4E97-BFAB-6CF2B872A4E4',
-                children: [/*OrderStatusController, PickListController, ContractController, StagingCheckoutController, ExchangeController, CheckInController, ReceiveFromVendorController, ReturnToVendorController, AssignBarCodesController*/]
+                children: [/*OrderStatusController, */TiwPickListController/*, ContractController, StagingCheckoutController, ExchangeController, CheckInController, ReceiveFromVendorController, ReturnToVendorController, AssignBarCodesController*/]
             },
             {
                 caption: 'Utilities',

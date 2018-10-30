@@ -187,6 +187,8 @@
     <Content Include="Source\Modules\Home\CreatePickList\CreatePickListForm.htm" />
     <Content Include="Source\Modules\Home\Order\OrderBrowse.htm" />
     <Content Include="Source\Modules\Home\Order\OrderForm.htm" />
+    <Content Include="Source\Modules\Home\PurchaseOrder\PurchaseOrderBrowse.htm" />
+    <Content Include="Source\Modules\Home\PurchaseOrder\PurchaseOrderForm.htm" />
     <Content Include="Source\Modules\Home\Quote\QuoteBrowse.htm" />
     <Content Include="Source\Modules\Home\Quote\QuoteForm.htm" />
     <Content Include="Source\Modules\Home\Repair\RepairBrowse.htm" />
@@ -677,7 +679,13 @@
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
+    <TypeScriptCompile Include="Source\Modules\Home\Contact\TiwContact.ts" />
+    <TypeScriptCompile Include="Source\Modules\Home\Customer\TiwCustomer.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\Deal\TiwDeal.ts" />
+    <TypeScriptCompile Include="Source\Modules\Home\Order\TiwOrder.ts" />
+    <TypeScriptCompile Include="Source\Modules\Home\PickList\TiwPickList.ts" />
+    <TypeScriptCompile Include="Source\Modules\Home\PurchaseOrder\TiwPurchaseOrder.ts" />
+    <TypeScriptCompile Include="Source\Modules\Home\Vendor\TiwVendor.ts" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Global.asax.cs">

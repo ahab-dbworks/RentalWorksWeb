@@ -1,30 +1,30 @@
 ﻿using FwStandard.Security;
 
-namespace WebLibrary.Security.Tree.RentalWorksWeb.Modules.Settings
+namespace WebLibrary.Security.Tree.TrakItWorksWeb.Modules.Settings
 {
     public class ContactMenu : FwSecurityTreeBranch
     {
         //---------------------------------------------------------------------------------------------
-        public ContactMenu() : base("{3F803517-618A-41C0-9F0B-2C96B8BDAFC4}") { }
+        public ContactMenu() : base("{9DC167B7-3313-4783-8A97-03C55B6AD5F2}") { }
         //---------------------------------------------------------------------------------------------
         public override void BuildBranch(FwSecurityTree tree)
         {
             // Browse
-            var nodeBrowse = tree.AddBrowse("{0D6D4B2A-B26A-47B1-9DF3-8E9586D53473}", MODULEID);
-                var nodeBrowseMenuBar = tree.AddMenuBar("{95DD35BC-70BD-4D55-8BA9-C83F209B0E80}", nodeBrowse.Id);
-                    var nodeBrowseSubMenu = tree.AddSubMenu("{A2CEAA51-0579-4F68-A3CF-3CB9FE58EEF2}", nodeBrowseMenuBar.Id);
-                        var nodeBrowseExport = tree.AddSubMenuGroup("Export", "{43F394E9-F558-45A1-AFF9-56D21BF78BE9}", nodeBrowseSubMenu.Id);
-                            tree.AddDownloadExcelSubMenuItem("{49CE0DC0-7620-45D2-95BC-D722F1AEF9B9}", nodeBrowseExport.Id);
-                    tree.AddNewMenuBarButton("{CC517F36-90F9-4F50-99A5-68434C0331A6}",    nodeBrowseMenuBar.Id);
-                    tree.AddViewMenuBarButton("{3F3D1696-A1AC-46BA-B5B7-DB28FA9778AD}",   nodeBrowseMenuBar.Id);
-                    tree.AddEditMenuBarButton("{84A03BB6-113F-4C8B-921F-83C366E646FB}",   nodeBrowseMenuBar.Id);
-                    tree.AddDeleteMenuBarButton("{FBF75550-FB1C-4DE1-921E-326E038F3BF5}", nodeBrowseMenuBar.Id);
+            var nodeBrowse = tree.AddBrowse("{CFCBDC18-8217-46FD-8324-E4995A19E6AC}", MODULEID);
+                var nodeBrowseMenuBar = tree.AddMenuBar("{57A6B891-0F49-4DA1-A583-CA0A3F3E73FE}", nodeBrowse.Id);
+                    var nodeBrowseSubMenu = tree.AddSubMenu("{460EEFE3-C08B-4347-807B-0AF79E3C97BD}", nodeBrowseMenuBar.Id);
+                        var nodeBrowseExport = tree.AddSubMenuGroup("Export", "{BC4BADA7-1891-4481-841A-E5E8E23238D8}", nodeBrowseSubMenu.Id);
+                            tree.AddDownloadExcelSubMenuItem("{5B1C6ED4-8190-4B3F-9363-1E2E66DB0E28}", nodeBrowseExport.Id);
+                    tree.AddNewMenuBarButton("{ED3FFCE5-6344-4E42-9C58-AC2589D96962}",    nodeBrowseMenuBar.Id);
+                    tree.AddViewMenuBarButton("{1D37AB5D-66FC-47FD-B838-9CC32C07AA29}",   nodeBrowseMenuBar.Id);
+                    tree.AddEditMenuBarButton("{C9672F64-D5EB-4FD9-A612-6B5DD9A8CBD8}",   nodeBrowseMenuBar.Id);
+                    tree.AddDeleteMenuBarButton("{A6810213-4490-4865-A335-1565B8C50061}", nodeBrowseMenuBar.Id);
 
             // Form
-            var nodeForm = tree.AddForm("{02ECA7B9-2D14-4314-9CF7-77B9B63923CF}", MODULEID);
-                var nodeFormMenuBar = tree.AddMenuBar("{97111756-8629-471D-90A0-5C6F4534CD11}", nodeForm.Id);
-                    //tree.AddSubMenu("{D3028487-10D8-4447-937A-E157FC20BC41}",           nodeFormMenuBar.Id);
-                    tree.AddSaveMenuBarButton("{5BC7C19A-BF07-4DEE-BEBA-C22BFDE79757}", nodeFormMenuBar.Id);
+            var nodeForm = tree.AddForm("{B91748C3-9B82-4327-A949-13F56DB7BF9C}", MODULEID);
+                var nodeFormMenuBar = tree.AddMenuBar("{0834FFE1-CAB9-48D9-9A45-06CB73737916}", nodeForm.Id);
+                    //tree.AddSubMenu("{656A78A8-94C4-4E27-B4F2-BA130FBF084B}",           nodeFormMenuBar.Id);
+                    tree.AddSaveMenuBarButton("{47384883-38DD-4C63-A7CE-E0DDDA990071}", nodeFormMenuBar.Id);
         }
         //---------------------------------------------------------------------------------------------
     }
