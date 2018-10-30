@@ -1,0 +1,127 @@
+﻿routes.push({ pattern: /^module\/receipt$/, action: function (match: RegExpExecArray) { return ReceiptController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/receipt\/(\S+)\/(\S+)/, action: function (match: RegExpExecArray) { var filter = { 'datafield': match[1], 'search': match[2].replace(/%20/g, ' ').replace(/%2f/g, '/') }; return ReceiptController.getModuleScreen(filter); } });
+
+class Receipt {
+    Module: string = 'Receipt';
+    apiurl: string = 'api/v1/receipt';
+    caption: string = 'Receipts';
+    nav: string = 'module/receipt';
+    id: string = '57E34535-1B9F-4223-AD82-981CA34A6DEC';
+    thisModule: Receipt;
+    //----------------------------------------------------------------------------------------------
+    getModuleScreen(filter?: { datafield: string, search: string }) {
+        var self = this;
+        var screen: any = {};
+        screen.$view = FwModule.getModuleControl(this.Module + 'Controller');
+        screen.viewModel = {};
+        screen.properties = {};
+
+        var $browse: any = this.openBrowse();
+
+        screen.load = function () {
+            FwModule.openModuleTab($browse, self.caption, false, 'BROWSE', true);
+
+            if (typeof filter !== 'undefined') {
+                var datafields = filter.datafield.split('%20');
+                for (var i = 0; i < datafields.length; i++) {
+                    datafields[i] = datafields[i].charAt(0).toUpperCase() + datafields[i].substr(1);
+                }
+                filter.datafield = datafields.join('')
+                $browse.find('div[data-browsedatafield="' + filter.datafield + '"]').find('input').val(filter.search);
+            }
+
+            FwBrowse.databind($browse);
+            FwBrowse.screenload($browse);
+        };
+        screen.unload = function () {
+            FwBrowse.screenunload($browse);
+        };
+
+        return screen;
+    }
+    //----------------------------------------------------------------------------------------------
+    openBrowse() {
+        var $browse: any = FwBrowse.loadBrowseFromTemplate(this.Module);
+        $browse = FwModule.openBrowse($browse);
+
+        return $browse;
+    }
+    //----------------------------------------------------------------------------------------------
+    openForm(mode: string) {
+        var $form: any = FwModule.loadFormFromTemplate(this.Module);
+        $form = FwModule.openForm($form, mode);
+
+        if (mode === 'NEW') {
+
+        }
+
+        this.events($form);
+
+        return $form;
+    };
+    //----------------------------------------------------------------------------------------------
+    loadForm(uniqueids: any) {
+        var $form: any = this.openForm('EDIT');
+        FwFormField.setValueByDataField($form, 'ReceiptId', uniqueids.ReceiptId);
+        FwModule.loadForm(this.Module, $form);
+
+        return $form;
+    }
+    //----------------------------------------------------------------------------------------------
+    saveForm($form: any, parameters: any) {
+        FwModule.saveForm(this.Module, $form, parameters);
+    }
+    //----------------------------------------------------------------------------------------------
+    loadAudit($form: any) {
+        var uniqueid: string = FwFormField.getValueByDataField($form, 'ReceiptId');
+        FwModule.loadAudit($form, uniqueid);
+    }
+    //----------------------------------------------------------------------------------------------
+    renderGrids($form: any): void {
+        // ----------
+
+
+        // ----------
+
+
+        // ----------
+
+
+        // ----------
+
+    }
+    //----------------------------------------------------------------------------------------------
+    afterLoad($form: any): void {
+        // let $customerResaleGrid: any = $form.find('[data-name="CompanyResaleGrid"]');
+        // FwBrowse.search($customerResaleGrid);
+
+        // Click Event on tabs to load grids/browses
+        $form.on('click', '[data-type="tab"]', e => {
+            let tabname = jQuery(e.currentTarget).attr('id');
+            let lastIndexOfTab = tabname.lastIndexOf('tab');
+            let tabpage = tabname.substring(0, lastIndexOfTab) + 'tabpage' + tabname.substring(lastIndexOfTab + 3);
+
+            let $gridControls = $form.find(`#${tabpage} [data-type="Grid"]`);
+            if ($gridControls.length > 0) {
+                for (let i = 0; i < $gridControls.length; i++) {
+                    let $gridcontrol = jQuery($gridControls[i]);
+                    FwBrowse.search($gridcontrol);
+                }
+            }
+
+            let $browseControls = $form.find(`#${tabpage} [data-type="Browse"]`);
+            if ($browseControls.length > 0) {
+                for (let i = 0; i < $browseControls.length; i++) {
+                    let $browseControl = jQuery($browseControls[i]);
+                    FwBrowse.search($browseControl);
+                }
+            }
+        });
+    }
+    //----------------------------------------------------------------------------------------------
+    events($form: JQuery): void {
+
+    }
+}
+//----------------------------------------------------------------------------------------------
+var ReceiptController = new Receipt();

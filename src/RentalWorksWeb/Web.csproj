@@ -440,6 +440,7 @@
     <TypeScriptCompile Include="Source\Modules\Administrator\Reports\ReportsController.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\Container\Container.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\AssignBarCodes\AssignBarCodes.ts" />
+    <TypeScriptCompile Include="Source\Modules\Home\Receipt\Receipt.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\Exchange\Exchange.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\CheckIn\CheckIn.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\VendorInvoice\VendorInvoice.ts" />
@@ -483,6 +484,8 @@
     <TypeScriptCompile Include="Source\Modules\Home\Quote\Quote.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\Repair\Repair.ts" />
     <Content Include="Source\Modules\Home\AssignBarCodes\AssignBarCodesForm.htm" />
+    <Content Include="Source\Modules\Home\Receipt\ReceiptBrowse.htm" />
+    <Content Include="Source\Modules\Home\Receipt\ReceiptForm.htm" />
     <Content Include="Source\Modules\Home\Exchange\ExchangeForm.htm" />
     <Content Include="Source\Modules\Home\CheckIn\CheckInForm.htm" />
     <Content Include="Source\Modules\Home\VendorInvoice\VendorInvoiceBrowse.htm" />

@@ -19,7 +19,7 @@ class RwMaster extends WebMaster {
             {
                 caption: 'Billing',
                 id: '9BC99BDA-4C94-4D7D-8C22-31CA5205B1AA',
-                children: [InvoiceController, VendorInvoiceController]
+                children: [InvoiceController, ReceiptController, VendorInvoiceController]
             },
             {
                 caption: 'Utilities',

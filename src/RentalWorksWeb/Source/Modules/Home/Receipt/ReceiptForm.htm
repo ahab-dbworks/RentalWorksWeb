@@ -1,0 +1,93 @@
+﻿<div id="receiptform" class="fwcontrol fwcontainer fwform" data-control="FwContainer" data-type="form" data-version="1" data-caption="Receipt" data-rendermode="template" data-mode="" data-hasaudit="false" data-controller="ReceiptController">
+  <div data-control="FwFormField" data-type="key" class="fwcontrol fwformfield" data-isuniqueid="true" data-saveorder="1" data-caption="" data-datafield="ReceiptId"></div>
+  <div id="receiptform-tabcontrol" class="fwcontrol fwtabs" data-control="FwTabs" data-type="">
+    <div class="tabs">
+      <div data-type="tab" id="receipttab" class="tab" data-tabpageid="receipttabpage" data-caption="Receipt"></div>
+    </div>
+    <div class="tabpages">
+      <!-- RECEIPT TAB -->
+      <div data-type="tabpage" id="receipttabpage" class="tabpage" data-tabid="receipttab">
+        <div class="flexpage">
+          <div class="flexrow">
+            <div class="flexcolumn" style="flex:1 1 850px;">
+              <!-- Customer section -->
+              <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Receipt">
+                <div class="flexrow">
+                  <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Name" data-datafield="Customer" style="flex:1 1 450px;"></div>
+                  <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Payment Type" data-datafield="PaymentTypeId" data-displayfield="PaymentType" data-validationname="PayTypeValidation" style="flex:1 1 225px;" data-required="true"></div>
+                  <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Deal" data-datafield="DealId" data-displayfield="Deal" data-validationname="DealValidation" style="flex:1 1 225px;" data-required="true"></div>
+                </div>
+                <div class="flexrow">
+                  <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Managing Department" data-datafield="DepartmentId" data-displayfield="Department" data-validationname="DepartmentValidation" style="flex:1 1 225px;"></div>
+                  <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Type" data-datafield="CustomerTypeId" data-displayfield="CustomerType" data-validationname="CustomerTypeValidation" data-required="true" style="flex:1 1 225px;"></div>
+                  <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Customer Category" data-datafield="CustomerCategoryId" data-displayfield="CustomerCategory" data-validationname="CustomerCategoryValidation" style="flex:1 1 225px;"></div>
+                </div>
+                <div class="flexrow">
+                  <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Parent Customer" data-datafield="ParentCustomerId" data-displayfield="ParentCustomer" data-validationname="CustomerValidation" data-validationpeek="true" style="flex:1 1 350px;"></div>
+                </div>
+              </div>
+            </div>
+            <div class="flexcolumn" style="flex:1 1 225px;">
+              <!-- Status section -->
+              <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Status">
+                <div class="flexrow">
+                  <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Status" data-datafield="CustomerStatusId" data-displayfield="CustomerStatus" data-validationname="CustomerStatusValidation" data-required="true" style="flex:1 1 175px;"></div>
+                </div>
+                <div class="flexrow">
+                  <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Status Date" data-datafield="StatusAsOf" data-enabled="false" style="flex:1 1 100px;"></div>
+                </div>
+                <div class="flexrow">
+                  <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Terms and Conditions on File" data-datafield="TermsAndConditionsOnFile" style="flex:1 1 175px;"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="flexrow">
+            <div class="flexcolumn" style="flex:1 1 550px;">
+              <!-- Address section -->
+              <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Address">
+                <div class="flexrow">
+                  <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield customer_address" data-caption="Address 1" data-datafield="Address1" style="flex:1 1 275px;"></div>
+                  <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield customer_address" data-caption="Address 2" data-datafield="Address2" style="flex:1 1 250px;"></div>
+                </div>
+                <div class="flexrow">
+                  <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield customer_address" data-caption="City" data-datafield="City" style="flex:1 1 275px;"></div>
+                  <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield customer_address" data-caption="State" data-datafield="State" style="flex:1 1 150px;"></div>
+                  <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield customer_address" data-caption="Zip/Postal" data-datafield="ZipCode" style="flex:1 1 100px;"></div>
+                </div>
+                <div class="flexrow">
+                  <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield customer_address" data-caption="Country" data-datafield="CountryId" data-displayfield="Country" data-validationname="CountryValidation" style="flex:1 1 175px;"></div>
+                </div>
+              </div>
+            </div>
+            <div class="flexcolumn" style="flex:1 1 300px;">
+              <!-- Contact Numbers section -->
+              <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Contact Numbers">
+                <div class="flexrow">
+                  <div data-control="FwFormField" data-type="phone" class="fwcontrol fwformfield" data-caption="Main" data-datafield="Phone" style="flex:1 1 125px;"></div>
+                  <div data-control="FwFormField" data-type="phone" class="fwcontrol fwformfield" data-caption="Fax" data-datafield="Fax" style="flex:1 1 125px;"></div>
+                </div>
+                <div class="flexrow">
+                  <div data-control="FwFormField" data-type="phone" class="fwcontrol fwformfield" data-caption="800 Phone" data-datafield="Phone800" style="flex:1 1 125px;"></div>
+                  <div data-control="FwFormField" data-type="phone" class="fwcontrol fwformfield" data-caption="Other" data-datafield="OtherPhone" style="flex:1 1 125px;"></div>
+                </div>
+              </div>
+            </div>
+            <div class="flexcolumn" style="flex:1 1 250px;">
+              <!-- Web Address section -->
+              <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Internet">
+                <div class="flexrow">
+                  <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Web Address" data-datafield="WebAddress" style="flex:1 1 225px;"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="flexrow">
+            <div class="flexcolumn" style="flex:1 1 275px;">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

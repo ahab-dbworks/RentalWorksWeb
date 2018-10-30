@@ -74,7 +74,8 @@ namespace WebLibrary.Security
             AddModule("Return To Vendor",    "{D54EAA01-A710-4F78-A1EE-5FC9EE9150D8}", lv1menuWarehouse.Id, "ReturnToVendorController", "module/returntovendor", homeiconbaseurl + "placeholder.png");
             AddModule("Assign Bar Codes",    "{4B9C17DE-7FC0-4C33-B953-26FC90F32EA0}", lv1menuWarehouse.Id, "AssignBarCodesController", "module/assignbarcodes", homeiconbaseurl + "placeholder.png");
             // Billing
-            AddModule("Invoice",             "{9B79D7D8-08A1-4F6B-AC0A-028DFA9FE10F}", lv1menuBilling.Id, "InvoiceController", "module/invoice", homeiconbaseurl + "placeholder.png");
+            AddModule("Invoice",             "{9B79D7D8-08A1-4F6B-AC0A-028DFA9FE10F}", lv1menuBilling.Id, "InvoiceController",       "module/invoice",       homeiconbaseurl + "placeholder.png");
+            AddModule("Receipts",            "{57E34535-1B9F-4223-AD82-981CA34A6DEC}", lv1menuBilling.Id, "ReceiptController",       "module/receipt",       homeiconbaseurl + "placeholder.png");
             AddModule("Vendor Invoice",      "{854B3C59-7040-47C4-A8A3-8A336FC970FE}", lv1menuBilling.Id, "VendorInvoiceController", "module/vendorinvoice", homeiconbaseurl + "placeholder.png");
 
 
