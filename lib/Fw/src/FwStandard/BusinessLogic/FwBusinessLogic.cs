@@ -216,17 +216,20 @@ namespace FwStandard.BusinessLogic
         private void LoadCustomFields()
         {
             //string moduleName = GetType().Name.Replace("Logic", "");
-            if (customFields == null)
+            if (!BusinessLogicModuleName.Equals("CustomField"))
             {
-                refreshCustomFields();
-            }
-
-            _Custom.CustomFields.Clear();
-            foreach (FwCustomField f in customFields)
-            {
-                if (f.ModuleName.Equals(this.BusinessLogicModuleName))
+                if (customFields == null)
                 {
-                    _Custom.CustomFields.Add(f);
+                    refreshCustomFields();
+                }
+
+                _Custom.CustomFields.Clear();
+                foreach (FwCustomField f in customFields)
+                {
+                    if (f.ModuleName.Equals(this.BusinessLogicModuleName))
+                    {
+                        _Custom.CustomFields.Add(f);
+                    }
                 }
             }
         }
@@ -485,34 +488,37 @@ namespace FwStandard.BusinessLogic
         public bool refreshCustomFields()
         {
             bool customFieldsLoaded = false;
-            if (CustomFieldMutex.WaitOne(1000, false))  //justin 10/08/2018 not sure if this is the correct solution. trying to prevent multiple threads from entering here at once and loading duplicate Custom Field lists into memory.
-            {
-                customFields = new FwCustomFields();
-
-                using (FwSqlConnection conn = new FwSqlConnection(AppConfig.DatabaseSettings.ConnectionString))
+            //if (!BusinessLogicModuleName.Equals("CustomField"))
+            //{
+                if (CustomFieldMutex.WaitOne(1000, false))  //justin 10/08/2018 not sure if this is the correct solution. trying to prevent multiple threads from entering here at once and loading duplicate Custom Field lists into memory.
                 {
-                    using (FwSqlCommand qry = new FwSqlCommand(conn, AppConfig.DatabaseSettings.QueryTimeout))
+                    customFields = new FwCustomFields();
+
+                    using (FwSqlConnection conn = new FwSqlConnection(AppConfig.DatabaseSettings.ConnectionString))
                     {
-                        qry.Add("select modulename, fieldname, customtablename, customfieldname, fieldtype");
-                        qry.Add("from customfieldview with (nolock)");
-                        qry.Add("order by fieldname");
-
-                        qry.AddColumn("modulename");
-                        qry.AddColumn("fieldname");
-                        qry.AddColumn("customtablename");
-                        qry.AddColumn("customfieldname");
-                        qry.AddColumn("fieldtype");
-
-                        FwJsonDataTable table = qry.QueryToFwJsonTableAsync(true).Result;
-                        for (int r = 0; r < table.Rows.Count; r++)
+                        using (FwSqlCommand qry = new FwSqlCommand(conn, AppConfig.DatabaseSettings.QueryTimeout))
                         {
-                            FwCustomField customField = new FwCustomField(table.Rows[r][0].ToString(), table.Rows[r][1].ToString(), table.Rows[r][2].ToString(), table.Rows[r][3].ToString(), table.Rows[r][4].ToString());
-                            customFields.Add(customField);
+                            qry.Add("select modulename, fieldname, customtablename, customfieldname, fieldtype");
+                            qry.Add("from customfieldview with (nolock)");
+                            qry.Add("order by fieldname");
+
+                            qry.AddColumn("modulename");
+                            qry.AddColumn("fieldname");
+                            qry.AddColumn("customtablename");
+                            qry.AddColumn("customfieldname");
+                            qry.AddColumn("fieldtype");
+
+                            FwJsonDataTable table = qry.QueryToFwJsonTableAsync(true).Result;
+                            for (int r = 0; r < table.Rows.Count; r++)
+                            {
+                                FwCustomField customField = new FwCustomField(table.Rows[r][0].ToString(), table.Rows[r][1].ToString(), table.Rows[r][2].ToString(), table.Rows[r][3].ToString(), table.Rows[r][4].ToString());
+                                customFields.Add(customField);
+                            }
+                            customFieldsLoaded = true;
                         }
-                        customFieldsLoaded = true;
                     }
                 }
-            }
+            //}
             return customFieldsLoaded;
         }
         //------------------------------------------------------------------------------------
