@@ -1030,7 +1030,6 @@ class FwSettingsClass {
                                 return -1 != jQuery(this).text().toUpperCase().split(' ').join('').indexOf(results[i]);
                             }).html(titleHtml).closest('div.panel-group').show();
                         }
-                    }
 
                         $module.filter(function () {
                             return -1 != jQuery(this).text().toUpperCase().split(' ').join('').indexOf(results[i]);
