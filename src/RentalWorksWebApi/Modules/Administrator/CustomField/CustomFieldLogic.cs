@@ -35,6 +35,17 @@ namespace WebApi.Modules.Administrator.CustomField
         //public int? BrowseSizeInPixels { get { return customField.BrowseSizeInPixels; } set { customField.BrowseSizeInPixels = value; } }
         public string DateStamp { get { return customField.DateStamp; } set { customField.DateStamp = value; } }
         //------------------------------------------------------------------------------------ 
+        protected override bool Validate(TDataRecordSaveMode saveMode, FwBusinessLogic original, ref string validateMsg)
+        {
+            bool isValid = true;
+            if (ModuleName.Equals("CustomField"))
+            {
+                isValid = false;
+                validateMsg = "Cannot add Custom Fields to the CustomField module.";
+            }
+            return isValid;
+        }
+        //------------------------------------------------------------------------------------ 
         public void OnAfterSaveCustomField(object sender, AfterSaveDataRecordEventArgs e)
         {
             refreshCustomFields();
