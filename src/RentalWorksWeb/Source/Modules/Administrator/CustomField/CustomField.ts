@@ -75,6 +75,9 @@ class CustomField {
         for (var i = 0; i < modules.length; i++) {
             var moduleNav = modules[i].properties.controller.slice(0, -10);
             var moduleCaption = modules[i].properties.caption
+            if (moduleNav == 'CustomField') {
+                break;
+            }
             allModules.push({ value: moduleNav, text: moduleCaption });
         };
         for (var i = 0; i < settingsModules.length; i++) {
