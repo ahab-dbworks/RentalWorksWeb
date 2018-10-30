@@ -3118,30 +3118,30 @@ class FwBrowseClass {
     loadBrowseFromTemplate(modulename: string) {
         var $control = jQuery(jQuery('#tmpl-modules-' + modulename + 'Browse').html());
 
-        FwBrowse.loadCustomBrowseFields($control, modulename)
+        //FwBrowse.loadCustomBrowseFields($control, modulename)
 
         return $control;
     }
     //---------------------------------------------------------------------------------
-    loadCustomBrowseFields($control: JQuery, modulename: string) {
-        if (sessionStorage.getItem('customFieldsBrowse') !== null) {
-            var customBrowse = JSON.parse(sessionStorage.getItem('customFieldsBrowse'));
-            var customBrowseHtml = [];
+    //loadCustomBrowseFields($control: JQuery, modulename: string) {
+    //    if (sessionStorage.getItem('customFieldsBrowse') !== null) {
+    //        var customBrowse = JSON.parse(sessionStorage.getItem('customFieldsBrowse'));
+    //        var customBrowseHtml = [];
 
-            if (customBrowse !== 'undefined' && customBrowse.length > 0) {
-                for (var i = 0; i < customBrowse.length; i++) {
-                    if (modulename === customBrowse[i].moduleName) {
-                        customBrowseHtml.push(`<div class="column" data-width="${customBrowse[i].browsewidth}px" data-visible="true"><div class="field" data-caption="${customBrowse[i].fieldName}" data-datafield="${customBrowse[i].fieldName}" data-digits="${customBrowse[i].digits}" data-datatype="${customBrowse[i].datatype}" data-browsedatatype="${customBrowse[i].datatype}" data-sort="off"></div></div>`);
-                    }
-                }
-            }
-            if ($control.find('.spacer').length > 0) {
-                jQuery(customBrowseHtml.join('')).insertBefore($control.find('.spacer'));
-            } else {
-                $control.append(customBrowseHtml.join(''));
-            }
-        }
-    }
+    //        if (customBrowse !== 'undefined' && customBrowse.length > 0) {
+    //            for (var i = 0; i < customBrowse.length; i++) {
+    //                if (modulename === customBrowse[i].moduleName) {
+    //                    customBrowseHtml.push(`<div class="column" data-width="${customBrowse[i].browsewidth}px" data-visible="true"><div class="field" data-caption="${customBrowse[i].fieldName}" data-datafield="${customBrowse[i].fieldName}" data-digits="${customBrowse[i].digits}" data-datatype="${customBrowse[i].datatype}" data-browsedatatype="${customBrowse[i].datatype}" data-sort="off"></div></div>`);
+    //                }
+    //            }
+    //        }
+    //        if ($control.find('.spacer').length > 0) {
+    //            jQuery(customBrowseHtml.join('')).insertBefore($control.find('.spacer'));
+    //        } else {
+    //            $control.append(customBrowseHtml.join(''));
+    //        }
+    //    }
+    //}
     //---------------------------------------------------------------------------------
     loadGridFromTemplate(modulename: string) {
         var $control = jQuery(jQuery('#tmpl-grids-' + modulename + 'Browse').html());
