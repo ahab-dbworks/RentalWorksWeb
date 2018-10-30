@@ -1,12 +1,12 @@
 class Base {
     //----------------------------------------------------------------------------------------------
     getDefaultScreen() {
-        var viewModel = {
+        let viewModel = {
             captionProgramTitle: 'RentalWorks',
             valueYear:           new Date().getFullYear(),
             valueVersion:        applicationConfig.version
         };
-        var screen: any = {};
+        let screen: any = {};
         screen = FwBasePages.getDefaultScreen(viewModel);
 
         screen.$view
@@ -17,14 +17,13 @@ class Base {
                     FwFunc.showError(ex);
                 }
             })
-            .find('.programlogo').empty().html('<div class="bgothm">Rental<span class="rwpurple">Works<span><span style="font-size:16px;vertical-align:super;">&#174;</span></div>')
-        ;
+            .find('.programlogo').empty().html('<div class="bgothm">Rental<span class="rwpurple">Works<span><span style="font-size:14px;vertical-align:super;">&#174;</span></div>');
 
         return screen;
     }
     //----------------------------------------------------------------------------------------------
     getLoginScreen() {
-        var viewModel = {
+        let viewModel = {
             captionPanelLogin:       'RentalWorks Login',
             captionEmail:            RwLanguages.translate('E-mail / Username'),
             valueEmail:              (localStorage.getItem('email') ? localStorage.getItem('email') : ''),
@@ -38,9 +37,9 @@ class Base {
             valueYear:               new Date().getFullYear(),
             valueVersion:            applicationConfig.version
         };
-        var screen: any = {};
+        let screen: any = {};
         if ((typeof applicationConfig.customLogin != 'undefined') && (applicationConfig.customLogin == true)) {
-            screen = window['Rw' + applicationConfig.client + 'Controller']['getLoginScreen']();
+            screen = window[`Rw${applicationConfig.client}Controller`]['getLoginScreen']();
         } else {
             screen = FwBasePages.getLoginScreen(viewModel);
         }
@@ -118,7 +117,7 @@ class Base {
                                                     FwAppData.apiMethod(true, 'GET', 'api/v1/customfield/', null, FwServices.defaultTimeout, function onSuccess(response) {
                                                         var customFields = [];
                                                         //var customFieldsBrowse = [];
-                                                        for (var i = 0; i < response.length; i++) {
+                                                        for (let i = 0; i < response.length; i++) {
                                                             if (customFields.indexOf(response[i].ModuleName) === -1) {
                                                                 customFields.push(response[i].ModuleName);
                                                             }
@@ -205,7 +204,7 @@ class Base {
                     FwFunc.showError(ex);
                 }
             })
-            .find('.programlogo').empty().html('<div class="bgothm">Rental<span class="rwpurple">Works<span><span style="font-size:16px;vertical-align:super;">&#174;</span></div>');
+            .find('.programlogo').empty().html('<div class="bgothm">Rental<span class="rwpurple">Works<span><span style="font-size:14px;vertical-align:super;">&#174;</span></div>');
 
         screen.load = function () {
             setTimeout(function () {
@@ -221,9 +220,9 @@ class Base {
     }
     //----------------------------------------------------------------------------------------------
     getAboutScreen() {
-        var viewModel = {};
-        var properties = {};
-        var screen: any = {};
+        let viewModel = {};
+        let properties = {};
+        let screen: any = {};
         screen = FwBasePages.getAboutScreen(viewModel);
         screen.viewModel = viewModel;
         screen.properties = properties;
@@ -234,9 +233,9 @@ class Base {
     }
     //----------------------------------------------------------------------------------------------
     getSupportScreen() {
-        var viewModel = {};
-        var properties = {};
-        var screen: any = {};
+        let viewModel = {};
+        let properties = {};
+        let screen: any = {};
         screen = FwBasePages.getSupportScreen(viewModel);
         screen.viewModel = viewModel;
         screen.properties = properties;
@@ -244,9 +243,9 @@ class Base {
     }
     //----------------------------------------------------------------------------------------------
     getPasswordRecoveryScreen() {
-        var viewModel = {};
-        var properties = {};
-        var screen: any = {};
+        let viewModel = {};
+        let properties = {};
+        let screen: any = {};
         screen = FwBasePages.getPasswordRecoveryScreen(viewModel);
         screen.viewModel = viewModel;
         screen.properties = properties;
