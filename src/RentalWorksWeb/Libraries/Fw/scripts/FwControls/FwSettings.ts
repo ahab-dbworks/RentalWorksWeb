@@ -240,6 +240,7 @@ class FwSettingsClass {
             let duplicateDatafields = {};
             let withoutDuplicates = [];
 
+            let $form = jQuery(jQuery('#tmpl-modules-' + moduleName + 'Form').html());
             keys = $browse.find('.field');
             rowId = jQuery(keys[0]).attr('data-browsedatafield');
 
@@ -288,6 +289,49 @@ class FwSettingsClass {
                     }
                 }
             };
+
+            if (FwSettings.filter.length > 0) {
+                var uniqueFilters = [];
+                for (var j = 0; j < FwSettings.filter.length; j++) {
+                    if (uniqueFilters.indexOf(FwSettings.filter[j]) === -1) {
+                        uniqueFilters.push(FwSettings.filter[j]);
+                    }
+                }
+
+                for (var i = 0; i < uniqueFilters.length; i++) {
+                    var filterField = $form.find(`div[data-datafield="${uniqueFilters[i]}"]`);
+                    if (filterField.length > 0 && filterField.attr('data-type') !== 'key') {
+                        var filterData = {};
+                        if (filterField.attr('data-type') === 'validation') {
+                            filterData['datafield'] = filterField.attr('data-displayfield');
+                            browseKeys.push(filterField.attr('data-displayfield'));
+                        } else {
+                            filterData['datafield'] = uniqueFilters[i];
+                            browseKeys.push(uniqueFilters[i]);
+                        }
+                        filterData['caption'] = filterField.attr('data-caption');
+                        filterData['datatype'] = filterField.attr('data-type');
+                        if (filterField.css('visibility') === 'hidden' || filterField.css('display') === 'none') {
+                            filterData['hidden'] = true;
+                        }
+                        browseData.push(filterData);
+                    }
+                }
+            }
+            if (FwSettings.customFilter.length > 0) {
+                var uniqueCustomFilter = [];
+                for (var j = 0; j < FwSettings.customFilter.length; j++) {
+                    if (uniqueCustomFilter.indexOf(FwSettings.customFilter[j]) === -1) {
+                        uniqueCustomFilter.push(FwSettings.customFilter[j]);
+                    }
+                }
+                for (var k = 0; k < uniqueCustomFilter.length; k++) {
+                    if (uniqueCustomFilter[k].module == $form.data('controller').slice(0, -10)) {
+                        browseData.push(uniqueCustomFilter[k]);
+                        browseKeys.push(uniqueCustomFilter[k].datafield);
+                    }
+                }
+            }
 
             browseData.forEach(function (browseField) {
                 if (!duplicateDatafields[browseField.datafield]) {
@@ -940,7 +984,7 @@ class FwSettingsClass {
                     results.push(val);
                     $settings.closest('div.panel-group').hide();
                     for (var caption in me.screen.moduleCaptions) {
-                        if (caption.indexOf(val) !== -1) {
+                        if (caption.indexOf(val) !== -1 || caption.indexOf(val.split(' ').join('')) !== -1) {
                             for (var moduleName in me.screen.moduleCaptions[caption]) {
                                 if (me.screen.moduleCaptions[caption][moduleName][0].custom) {
                                     customFilter.push(me.screen.moduleCaptions[caption][moduleName][0]);
@@ -976,9 +1020,16 @@ class FwSettingsClass {
                         }
                         module.show();
 
-                        $module.filter(function () {
-                            return -1 != jQuery(this).text().toUpperCase().split(' ').join('').indexOf(results[i]);
-                        }).closest('div.panel-group').show();
+                        if ($module.filter(function () { return -1 != jQuery(this).text().toUpperCase().indexOf(val) }).length > 0) {
+                            let titleHtml = $module.filter(function () {
+                                return -1 != jQuery(this).text().toUpperCase().indexOf(val);
+                            }).html();
+                            let titleHtmlIndex = titleHtml.indexOf(val);
+                            titleHtml = titleHtml.slice(0, titleHtmlIndex) + '<span class="highlighted">' + titleHtml.slice(titleHtmlIndex, titleHtmlIndex + val.length) + '</span>' + titleHtml.slice(titleHtmlIndex + val.length);
+                            $module.filter(function () {
+                                return -1 != jQuery(this).text().toUpperCase().split(' ').join('').indexOf(results[i]);
+                            }).html(titleHtml).closest('div.panel-group').show();
+                        }
                     }
 
                     let searchResults = $control.find('.panel-heading:visible');
