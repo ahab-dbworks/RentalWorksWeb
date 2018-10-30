@@ -184,6 +184,7 @@
     <Content Include="Source\Modules\Administrator\Integration\IntegrationForm.htm" />
     <Content Include="Source\Modules\Administrator\User\UserBrowse.htm" />
     <Content Include="Source\Modules\Administrator\User\UserForm.htm" />
+    <Content Include="Source\Modules\Home\AssignBarCodes\AssignBarCodesForm.htm" />
     <Content Include="Source\Modules\Home\CreatePickList\CreatePickListForm.htm" />
     <Content Include="Source\Modules\Home\Order\OrderBrowse.htm" />
     <Content Include="Source\Modules\Home\Order\OrderForm.htm" />
@@ -679,6 +680,7 @@
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
+    <TypeScriptCompile Include="Source\Modules\Home\AssignBarCodes\TiwAssignBarCodes.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\Contact\TiwContact.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\Contract\TiwContract.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\Customer\TiwCustomer.ts" />
@@ -686,6 +688,7 @@
     <TypeScriptCompile Include="Source\Modules\Home\Order\TiwOrder.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\PickList\TiwPickList.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\PurchaseOrder\TiwPurchaseOrder.ts" />
+    <TypeScriptCompile Include="Source\Modules\Home\Repair\TiwRepair.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\Vendor\TiwVendor.ts" />
   </ItemGroup>
   <ItemGroup>

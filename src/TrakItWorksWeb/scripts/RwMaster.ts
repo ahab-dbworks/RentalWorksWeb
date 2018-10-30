@@ -7,22 +7,22 @@
             {
                 caption: 'TrakItWorks',
                 id: 'B05953D7-DC85-486C-B9A4-7743875DFABC',
-            children: [TiwAssetController, /*QuoteController,*/TiwOrderController, TiwCustomerController,/*, DealController, */TiwVendorController, TiwContactController, TiwPurchaseOrderController/*, ProjectController*/]
+                children: [/*TiwAssetController, QuoteController,*/TiwOrderController, TiwCustomerController,/*, DealController, */TiwVendorController, TiwContactController, TiwPurchaseOrderController/*, ProjectController*/]
             },
             {
-                caption: 'Settings',
-                id: 'CA7EDF90-F08A-4E5C-BA6B-87DB6A14D485',
-                children: [/*RentalInventoryController, SalesInventoryController, PartsInventoryController, ContainerController, RepairController*/]
+                caption: 'Inventory',
+              id: 'CA7EDF90-F08A-4E5C-BA6B-87DB6A14D485',
+              children: [TiwAssetController, TiwRepairController/*, RentalInventoryController, SalesInventoryController, PartsInventoryController, ContainerController*/]
+          },
+            {
+                caption: 'Warehouse',
+                id: '293A157D-EA8E-48F6-AE97-15F9DE53041A',
+                children: [TiwAssignBarCodesController/*,InvoiceController*/]
             },
             {
                 caption: 'Reports',
                 id: 'F62D2B01-E4C4-4E97-BFAB-6CF2B872A4E4',
                 children: [/*OrderStatusController, */TiwPickListController, TiwContractController/*, StagingCheckoutController, ExchangeController, CheckInController, ReceiveFromVendorController, ReturnToVendorController, AssignBarCodesController*/]
-            },
-            {
-                caption: 'Utilities',
-                id: '293A157D-EA8E-48F6-AE97-15F9DE53041A',
-                children: [/*InvoiceController*/]
             },
             {
                 caption: 'Administator',
