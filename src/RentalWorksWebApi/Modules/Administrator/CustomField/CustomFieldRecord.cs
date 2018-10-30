@@ -13,13 +13,13 @@ namespace WebApi.Modules.Administrator.CustomField
         [FwSqlDataField(column: "customfieldid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8, isPrimaryKey: true)]
         public string CustomFieldId { get; set; } = "";
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "modulename", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 255)]
+        [FwSqlDataField(column: "modulename", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 255, required: true)]
         public string ModuleName { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "fieldname", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 255)]
+        [FwSqlDataField(column: "fieldname", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 255, required: true)]
         public string FieldName { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "customtablename", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 255)]
+        [FwSqlDataField(column: "customtablename", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 255, required: true)]
         public string CustomTableName { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "customfieldname", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 255)]

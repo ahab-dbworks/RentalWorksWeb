@@ -38,10 +38,13 @@ namespace WebApi.Modules.Administrator.CustomField
         protected override bool Validate(TDataRecordSaveMode saveMode, FwBusinessLogic original, ref string validateMsg)
         {
             bool isValid = true;
-            if (ModuleName.Equals("CustomField"))
+            if ((saveMode.Equals(TDataRecordSaveMode.smInsert)) || (saveMode.Equals(TDataRecordSaveMode.smUpdate) && (ModuleName != null)))
             {
-                isValid = false;
-                validateMsg = "Cannot add Custom Fields to the CustomField module.";
+                if (ModuleName.Equals("CustomField"))
+                {
+                    isValid = false;
+                    validateMsg = "Cannot add Custom Fields to the CustomField module.";
+                }
             }
             return isValid;
         }
