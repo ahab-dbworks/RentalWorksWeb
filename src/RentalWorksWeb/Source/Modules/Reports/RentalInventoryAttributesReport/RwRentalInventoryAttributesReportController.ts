@@ -131,7 +131,7 @@ class RwRentalInventoryAttributesReportClass extends FwWebApiReport {
     loadLists($form: JQuery): void {
         FwFormField.loadItems($form.find('div[data-datafield="SortBy"]'),
             [
-                { value: "INVENTORY TYPE", text: "Inventory Type", selected: "T" },
+                { value: "INVENTORYTYPE", text: "Inventory Type", selected: "T" },
                 { value: "CATEGORY", text: "Category", selected: "T" },
                 { value: "SUBCATEGORY", text: "Sub-Category", selected: "T" },
                 { value: "ICODE", text: "I-Code", selected: "T" },

@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Data;
 using System.Reflection;
 using WebLibrary;
+using System.Text;
 
 namespace WebApi.Modules.Reports.RentalInventoryAttributesReport
 {
@@ -93,7 +94,32 @@ namespace WebApi.Modules.Reports.RentalInventoryAttributesReport
                     addStringFilterToSelect("masterid", request.InventoryId, select);
                     addStringFilterToSelect("attributeid", request.AttributeId, select);
 
-                    select.AddOrderBy("inventorydepartmentorderby, categoryorderby, subcategoryorderby, masterorderby, masterno");
+                    StringBuilder orderBy = new StringBuilder();
+                    if (request.SortBy.Count.Equals(0))
+                    {
+                        orderBy.Append("inventorydepartmentorderby, categoryorderby, subcategoryorderby, masterorderby, masterno");
+                    }
+                    else
+                    {
+                        foreach (CheckBoxListItem item in request.SortBy)
+                        {
+                            if (item.selected.GetValueOrDefault(false))
+                            {
+                                if (!orderBy.ToString().Equals(string.Empty))
+                                {
+                                    orderBy.Append(",");
+                                }
+                                orderBy.Append(item.value.Equals("INVENTORYTYPE") ? "inventorydepartmentorderby" : "");
+                                orderBy.Append(item.value.Equals("CATEGORY") ? "categoryorderby" : "");
+                                orderBy.Append(item.value.Equals("SUBCATEGORY") ? "subcategoryorderby" : "");
+                                orderBy.Append(item.value.Equals("ICODE") ? "masterno" : "");
+                                orderBy.Append(item.value.Equals("ATTRIBUTE") ? "attribute,attributevalue" : "");
+                            }
+                        }
+
+                    }
+                    select.AddOrderBy(orderBy.ToString());
+
                     dt = await qry.QueryToFwJsonTableAsync(select, false);
                 }
             }

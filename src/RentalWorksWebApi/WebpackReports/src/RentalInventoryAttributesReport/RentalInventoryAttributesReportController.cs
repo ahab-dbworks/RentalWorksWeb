@@ -13,7 +13,7 @@ namespace WebApi.Modules.Reports.RentalInventoryAttributesReport
 {
     public class RentalInventoryAttributesReportRequest
     {
-        public string SortBy { get; set; }
+        public CheckBoxListItems SortBy { get; set; } = new CheckBoxListItems();
         public string InventoryTypeId { get; set; }
         public string CategoryId { get; set; }
         public string SubCategoryId { get; set; }
