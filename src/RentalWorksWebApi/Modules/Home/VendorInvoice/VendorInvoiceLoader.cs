@@ -6,7 +6,7 @@ using WebApi.Data;
 namespace WebApi.Modules.Home.VendorInvoice
 {
     [FwSqlTable("vendorinvoiceview")]
-    public class VendorInvoiceLoader : AppDataLoadRecord
+    public class VendorInvoiceLoader : VendorInvoiceBrowseLoader
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "vendorno", modeltype: FwDataTypes.Text)]
@@ -146,20 +146,6 @@ namespace WebApi.Modules.Home.VendorInvoice
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "dealbilledextended", modeltype: FwDataTypes.Decimal)]
         public decimal? DealBilledExtended { get; set; }
-        //------------------------------------------------------------------------------------ 
-        protected override void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequest request = null)
-        {
-            //string paramString = GetUniqueIdAsString("ParamString", request) ?? ""; 
-            //DateTime paramDate = GetUniqueIdAsDateTime("ParamDate", request) ?? DateTime.MinValue; 
-            //bool paramBoolean = GetUniqueIdAsBoolean("ParamBoolean", request) ?? false; 
-            base.SetBaseSelectQuery(select, qry, customFields, request);
-            select.Parse();
-            //select.AddWhere("(xxxtype = 'ABCDEF')"); 
-            //addFilterToSelect("UniqueId", "uniqueid", select, request); 
-            //select.AddParameter("@paramstring", paramString); 
-            //select.AddParameter("@paramdate", paramDate); 
-            //select.AddParameter("@paramboolean", paramBoolean); 
-        }
         //------------------------------------------------------------------------------------ 
     }
 }
