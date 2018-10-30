@@ -377,7 +377,7 @@ class FwSettingsClass {
                             } else {
                                 html.push('    <div class="fwcontrol fwcontainer fwform-fieldrow" data-type="fieldrow">');
                             }
-                            html.push('    <label data-datafield=' + browseData[j]['datafield'] + ' style="color:#31708f">' + response[i][browseKeys[j]] + '</label>');
+                            html.push('    <label data-datafield="' + browseData[j]['datafield'] + '" style="color:#31708f">' + response[i][browseKeys[j]] + '</label>');
                         }
                         html.push('        </div>');
                         html.push('      </div>');
@@ -750,7 +750,7 @@ class FwSettingsClass {
                                         } else {
                                             html.push('    <div class="fwcontrol fwcontainer fwform-fieldrow" data-type="fieldrow">');
                                         }
-                                        html.push('    <label data-datafield=' + browseData[j]['datafield'] + ' style="color:#31708f">' + response[i][browseKeys[j]] + '</label>');
+                                        html.push('    <label data-datafield="' + browseData[j]['datafield'] + '" style="color:#31708f">' + response[i][browseKeys[j]] + '</label>');
                                     }
                                     html.push('        </div>');
                                     html.push('      </div>');
@@ -984,7 +984,7 @@ class FwSettingsClass {
                     results.push(val);
                     $settings.closest('div.panel-group').hide();
                     for (var caption in me.screen.moduleCaptions) {
-                        if (caption.indexOf(val) !== -1) {
+                        if (caption.indexOf(val) !== -1 || caption.indexOf(val.split(' ').join('')) !== -1) {
                             for (var moduleName in me.screen.moduleCaptions[caption]) {
                                 if (me.screen.moduleCaptions[caption][moduleName][0].custom) {
                                     customFilter.push(me.screen.moduleCaptions[caption][moduleName][0]);

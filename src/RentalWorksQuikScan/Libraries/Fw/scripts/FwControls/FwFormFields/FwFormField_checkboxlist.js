@@ -104,11 +104,7 @@ FwFormField_checkboxlist.loadForm = function ($fwformfield, table, field, value,
             html.push(value[i].value);
             html.push('" data-selected="');
             html.push(value[i].selected.toString());
-            html.push('"');
-            html.push(' data-userWidgetId="');
-            html.push(value[i].userWidgetId);
-            html.push('"');
-            html.push('>');
+            html.push('">');
             html.push('<div class="wrapper">');
             html.push('<div class="handle">::</div>');
             html.push('<input class="checkbox" type="checkbox" id="');
