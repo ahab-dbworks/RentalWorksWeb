@@ -75,6 +75,9 @@ class Attribute {
                 AttributeId: $form.find('div.fwformfield[data-datafield="AttributeId"] input').val()
             };
         });
+        $attributeValueGridControl.data('beforesave', function (request) {
+            request.AttributeId = $form.find('div.fwformfield[data-datafield="AttributeId"] input').val()
+        });
         FwBrowse.init($attributeValueGridControl);
         FwBrowse.renderRuntimeHtml($attributeValueGridControl);
     }
