@@ -201,7 +201,7 @@
                         var titleHtmlIndex = titleHtml.indexOf(val);
                         titleHtml = titleHtml.slice(0, titleHtmlIndex) + '<span class="highlighted">' + titleHtml.slice(titleHtmlIndex, titleHtmlIndex + val.length) + '</span>' + titleHtml.slice(titleHtmlIndex + val.length);
                     }
-                    
+
                     $module.filter(function () {
                         return -1 != jQuery(this).text().toUpperCase().indexOf(val);
                     }).html(titleHtml).closest('div.panel-group').show();

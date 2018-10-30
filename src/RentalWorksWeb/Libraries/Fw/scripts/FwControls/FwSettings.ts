@@ -984,7 +984,7 @@ class FwSettingsClass {
                     results.push(val);
                     $settings.closest('div.panel-group').hide();
                     for (var caption in me.screen.moduleCaptions) {
-                        if (caption.indexOf(val) !== -1 || caption.indexOf(val.split(' ').join('')) !== -1) {
+                        if (caption.indexOf(val) !== -1) {
                             for (var moduleName in me.screen.moduleCaptions[caption]) {
                                 if (me.screen.moduleCaptions[caption][moduleName][0].custom) {
                                     customFilter.push(me.screen.moduleCaptions[caption][moduleName][0]);
@@ -1030,6 +1030,11 @@ class FwSettingsClass {
                                 return -1 != jQuery(this).text().toUpperCase().split(' ').join('').indexOf(results[i]);
                             }).html(titleHtml).closest('div.panel-group').show();
                         }
+                    }
+
+                        $module.filter(function () {
+                            return -1 != jQuery(this).text().toUpperCase().split(' ').join('').indexOf(results[i]);
+                        }).closest('div.panel-group').show();
                     }
 
                     let searchResults = $control.find('.panel-heading:visible');

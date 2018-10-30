@@ -2,10 +2,16 @@
     export class FwGroup {
         Module: string;
         apiurl: string;
+        caption: string;
+        id: string;
+        nav: string;
 
         constructor() {
             this.Module = 'Group';
             this.apiurl = 'api/v1/group';
+            this.caption = 'Group';
+            this.id = '9BE101B6-B406-4253-B2C6-D0571C7E5916';
+            this.nav = 'module/group';
         }
 
         getModuleScreen() {
