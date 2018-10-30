@@ -6,6 +6,7 @@ class CustomForm {
     nav: string = 'module/customform';
     id: string = 'CB2EF8FF-2E8D-4AD0-B880-07037B839C5E';
     codeMirror: any;
+    doc: any;
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
         var screen, $browse;
@@ -120,6 +121,7 @@ class CustomForm {
             });
 
         this.codeMirror = codeMirror;
+        this.doc = codeMirror.getDoc();
 
         //Select module event
         $form.find('div.modules').on('change', e => {
@@ -365,22 +367,26 @@ class CustomForm {
                 .empty();  //clear properties upon loading design tab
 
             $customForm.find('.tabpages .formpage').css('overflow', 'auto');
-
+            //element borders
             let $tableHeaders = $customForm.find('[data-type="Browse"], [data-type="Grid"]')
                 .find('thead tr.fieldnames .column >');
 
             let $fwContainers = $customForm.find('.fwform-body [data-control="FwContainer"]')
-                .css({ 'border': '1px solid darkblue', 'margin': '10px' });
+                .css({ 'border': '1px solid darkblue', 'margin': '5px' });
 
             let $flexContainers = $customForm.find('div.flexrow, div.flexcolumn')
-                .css({ 'border': '1px solid lightblue', 'margin': '10px' });
+                .css({ 'border': '1px solid lightblue', 'margin': '5px' });
 
             let $fwformfields = $customForm.find('[data-control="FwFormField"]')
-                .css({ 'border': '1px solid #dcdcdc', 'margin': '10px' });
+                .css({ 'border': '1px solid #dcdcdc', 'margin': '5px' });
+
+            let originalHtml;
 
             $customForm
                 .on('click', '[data-control="FwContainer"], [data-control="FwFormField"], div.flexrow, div.flexcolumn', e => {
                     e.stopPropagation();
+                    originalHtml = e.currentTarget;
+
                     let properties = e.currentTarget.attributes;
                     let html: any = [];
                     html.push(`
@@ -401,7 +407,7 @@ class CustomForm {
                         value = value.replace('focused', '');
                         html.push(`<div class="properties" style="width:100%; display:flex;">
                                       <div class="propname" style="border:.5px solid #efefef; width:50%; float:left;">${name === "" ? "&#160;" : name}</div>
-                                      <div class="propval" style="border:.5px solid #efefef; width:50%; float:left;">${value === "" ? "&#160;" : value}</div>
+                                      <div class="propval" style="border:.5px solid #efefef; width:50%; float:left;"><input value="${value}"></div>
                                    </div>
                                   `);
                     }
@@ -411,7 +417,37 @@ class CustomForm {
                         .append(html.join(''))
                         .find('.properties:even')
                         .css('background-color', '#f7f7f7');
-            });
+                });
+
+            $form
+                .on('keydown', '#controlProperties .propval', e => {
+                    if (e.which === 13) {
+                        let attribute = jQuery(e.currentTarget).siblings('.propname').text();
+                        let value = jQuery(e.currentTarget).find('input').val();
+
+
+                    
+                        ////remove children added by the FW to get the original html
+                        //let removeChildrenFromOriginal = jQuery.extend({}, originalHtml);
+                        //while (removeChildrenFromOriginal.firstChild) {
+                        //    removeChildrenFromOriginal.removeChild(removeChildrenFromOriginal.firstChild);
+                        //}
+
+                        jQuery(originalHtml).attr(`${attribute}`, `${value}`);
+
+                        ////remove children from the modified to get replacement html
+                        //let removeChildrenFromModified = jQuery.extend({}, originalHtml);
+                        //while (removeChildrenFromModified.firstChild) {
+                        //    removeChildrenFromModified.removeChild(removeChildrenFromModified.firstChild);
+                        //}
+
+                        //let test2 = html.replace(removeChildrenFromOriginal.outerHTML, removeChildrenFromModified.outerHTML);
+
+                        //need to move border styling to rentalworks.css 
+                    }
+                });
+
+
         }
     }
 };
