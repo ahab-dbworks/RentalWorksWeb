@@ -341,6 +341,19 @@ class CustomForm {
 
         //render forms
         let $customForm = $form.find(`#${renderFormHere}`);
+        let $customFormClone;
+
+        //add indexes for all divs
+        if (tabName == 'Designer') {
+            let $divs = $customForm.find('div');
+            for (let i = 0; i < $divs.length; i++) {
+                let div = jQuery($divs[i]);
+                div.attr('data-index', i);
+            }
+
+            $customFormClone = $customForm.get(0).cloneNode(true);
+        }
+
         let $fwcontrols = $customForm.find('.fwcontrol');
         FwControl.init($fwcontrols);
         FwControl.renderRuntimeHtml($fwcontrols);
@@ -364,80 +377,111 @@ class CustomForm {
         //Design mode borders & events
         if (tabName == 'Designer') {
             let originalHtml;
+
             $form.find('#controlProperties')
                 .empty();  //clear properties upon loading design tab
 
             $customForm.find('.tabpages .formpage').css('overflow', 'auto');
 
             $customForm
+                //buiild properties section
                 .on('click',
-                '[data-type="Browse"] thead tr.fieldnames .column >, [data-type="Grid"] thead tr.fieldnames .column >, [data-control="FwContainer"], [data-control="FwFormField"], div.flexrow, div.flexcolumn',
+                    '[data-type="Grid"], [data-type="Browse"] thead tr.fieldnames .column >, [data-type="Grid"] thead tr.fieldnames .column >, [data-control="FwContainer"], [data-control="FwFormField"], div.flexrow, div.flexcolumn',
                     e => {
-                    e.stopPropagation();
-                    originalHtml = e.currentTarget;
+                        e.stopPropagation();
+                        originalHtml = e.currentTarget;
 
-                    let properties = e.currentTarget.attributes;
-                    let html: any = [];
-                    html.push(`
+                        let properties = e.currentTarget.attributes;
+                        let html: any = [];
+                        html.push(`
                         <div style="border: 1px solid #bbbbbb; word-break: break-word;">
                             <div style="text-indent:5px;">
                                 <div style="font-weight:bold; background-color:#dcdcdc; width:50%; float:left;">Name</div>
                                 <div style="font-weight:bold; background-color:#dcdcdc; width:50%; float:left;">Value</div>
                             </div>
                         `);
-                    for (let i = 0; i < properties.length; i++) {
-                        let value = properties[i].value;
-                        let name = properties[i].name;
+                        for (let i = 0; i < properties.length; i++) {
+                            let value = properties[i].value;
+                            let name = properties[i].name;
 
-                        if (name == "data-originalvalue") {
-                            break;
-                        }
+                            let a = 0;
+                            a += (name == "data-originalvalue") ? 1 : 0;
+                            a += (name == "data-index") ? 1 : 0;
+                            a += (name == "data-rendermode") ? 1 : 0;
+                            a += (name == "data-version") ? 1 : 0;
+                            if (a) {
+                                break;
+                            }
 
-                        value = value.replace('focused', '');
-                        html.push(`<div class="properties" style="width:100%; display:flex;">
+                            value = value.replace('focused', '');
+                            html.push(`<div class="properties" style="width:100%; display:flex;">
                                       <div class="propname" style="border:.5px solid #efefef; width:50%; float:left;">${name === "" ? "&#160;" : name}</div>
                                       <div class="propval" style="border:.5px solid #efefef; width:50%; float:left;"><input value="${value}"></div>
                                    </div>
                                   `);
-                    }
-                    html.push(`</div>`);
-                    $form.find('#controlProperties')
-                        .empty()
-                        .append(html.join(''))
-                        .find('.properties:even')
-                        .css('background-color', '#f7f7f7');
-                });
+                        }
+                        html.push(`</div>`);
+                        $form.find('#controlProperties')
+                            .empty()
+                            .append(html.join(''))
+                            .find('.properties:even')
+                            .css('background-color', '#f7f7f7');
+                    });
 
             $form
-                .on('keydown', '#controlProperties .propval', e => {
-                    if (e.which === 13) {
+                //updates designer content with new attributes and updates code editor
+                .on('change', '#controlProperties .propval', e => {
+                    e.stopPropagation();
                         let attribute = jQuery(e.currentTarget).siblings('.propname').text();
                         let value = jQuery(e.currentTarget).find('input').val();
-
-                        let originalClone = originalHtml.cloneNode(true);
-                        jQuery(originalClone).removeAttr('data-version data-rendermode');
-                        originalClone.innerHTML = "";
-                        originalClone = originalClone.outerHTML;
-                        originalClone = originalClone.substring(0, originalClone.length - 6);
-                       
+                        let index = jQuery(originalHtml).attr('data-index');
+                        let controlType = jQuery(originalHtml).attr('data-control');
+                        jQuery($customFormClone).find(`div[data-index="${index}"]`).attr(`${attribute}`, `${value}`);
                         jQuery(originalHtml).attr(`${attribute}`, `${value}`);
 
-                        let modifiedClone = originalHtml.cloneNode(true);
-                        jQuery(modifiedClone).removeAttr('data-version data-rendermode');
-                        modifiedClone.innerHTML = "";
-                        modifiedClone = modifiedClone.outerHTML;
-                        modifiedClone = modifiedClone.substring(0, modifiedClone.length - 6);
+                        jQuery($customFormClone).find('div').removeAttr('data-index');
+                        FwFormField.setValueByDataField($form, 'Html', $customFormClone.outerHTML);
 
-                        let newHtml = html.replace(originalClone, modifiedClone);
+                        let a = 0;
+                        a += (controlType == 'FwFormField') ? 1 : 0;
+                        a += (controlType == 'FwContainer') ? 1 : 0;
+                        if (a) {
+                            FwControl.init(jQuery(originalHtml));
+                            FwControl.renderRuntimeHtml(jQuery(originalHtml));
+                        }
 
-                        FwControl.init(jQuery(originalHtml));
-                        FwControl.renderRuntimeHtml(jQuery(originalHtml));
+                        this.codeMirror.setValue($customFormClone.outerHTML);
+                        //let originalClone = originalHtml.cloneNode(true);
+                        //jQuery(originalClone).removeAttr('data-version data-rendermode');
+                        //originalClone.innerHTML = "";
+                        //originalClone = originalClone.outerHTML;
+                        //originalClone = originalClone.substring(0, originalClone.length - 6);
 
-                        FwFormField.setValueByDataField($form, 'Html', newHtml);
-                        this.codeMirror.setValue(newHtml);
+                        //jQuery(originalHtml).attr(`${attribute}`, `${value}`);
+
+                        //let modifiedClone = originalHtml.cloneNode(true);
+                        //jQuery(modifiedClone).removeAttr('data-version data-rendermode');
+                        //modifiedClone.innerHTML = "";
+                        //modifiedClone = modifiedClone.outerHTML;
+                        //modifiedClone = modifiedClone.substring(0, modifiedClone.length - 6);
+
+                        //let newHtml = html.replace(originalClone, modifiedClone);
+                        //FwFormField.setValueByDataField($form, 'Html', newHtml);
+
+                        //FwControl.init(jQuery(originalHtml));
+                        //FwControl.renderRuntimeHtml(jQuery(originalHtml));
+
+                        //this.codeMirror.setValue(newHtml);
+
+                        //fwcontainer = data-version data-rendermode
+
+                })
+                .on('keydown', '#controlProperties .propval', e => {
+                    e.stopPropagation();
+                    if (e.which === 13 || e.keyCode === 13) {
+                        jQuery(e.currentTarget).trigger('change');
                     }
-                });
-
+                })
 
         }
     }
