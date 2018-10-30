@@ -14,7 +14,7 @@ class RwMaster extends WebMaster {
             {
                 caption: 'Reports',
                 id: 'F62D2B01-E4C4-4E97-BFAB-6CF2B872A4E4',
-                children: [TiwPickListController]
+                children: [TiwPickListController, TiwContractController]
             },
             {
                 caption: 'Utilities',

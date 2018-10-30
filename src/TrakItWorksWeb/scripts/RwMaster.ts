@@ -17,7 +17,7 @@
             {
                 caption: 'Reports',
                 id: 'F62D2B01-E4C4-4E97-BFAB-6CF2B872A4E4',
-                children: [/*OrderStatusController, */TiwPickListController/*, ContractController, StagingCheckoutController, ExchangeController, CheckInController, ReceiveFromVendorController, ReturnToVendorController, AssignBarCodesController*/]
+                children: [/*OrderStatusController, */TiwPickListController, TiwContractController/*, StagingCheckoutController, ExchangeController, CheckInController, ReceiveFromVendorController, ReturnToVendorController, AssignBarCodesController*/]
             },
             {
                 caption: 'Utilities',
