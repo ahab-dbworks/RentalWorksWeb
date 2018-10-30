@@ -470,7 +470,7 @@ ul.fitText span:not(.downArrowNav){
     border-right: 20px solid transparent;
     border-bottom: 20px solid transparent;
     left: 25%;
-    top: 0;
+    top: 1px;
     height: 0;
     width: 0;
     position: absolute;
@@ -518,7 +518,11 @@ html.theme-material [data-name="AuditHistoryGrid"] tbody tr.selected td ul:not(.
 }
 
 /* Custom Forms */
-#designerContent [data-control="FwFormField"]:hover {
-box-shadow: 0 5px 9px 0 rgba(0, 0, 0, 0.2);
-cursor: pointer;
+#designerContent [data-control="FwFormField"]:hover,
+#designerContent [data-control="FwContainer"]:hover,
+#designerContent div.flexrow:hover,
+#designerContent div.flexcolumn:hover
+{
+    box-shadow: 0 5px 9px 0 rgba(0, 0, 0, 0.2);
+    cursor: pointer;
 }
