@@ -363,27 +363,16 @@ class CustomForm {
 
         //Design mode borders & events
         if (tabName == 'Designer') {
+            let originalHtml;
             $form.find('#controlProperties')
                 .empty();  //clear properties upon loading design tab
 
             $customForm.find('.tabpages .formpage').css('overflow', 'auto');
-            //element borders
-            let $tableHeaders = $customForm.find('[data-type="Browse"], [data-type="Grid"]')
-                .find('thead tr.fieldnames .column >');
-
-            let $fwContainers = $customForm.find('.fwform-body [data-control="FwContainer"]')
-                .css({ 'border': '1px solid darkblue', 'margin': '5px' });
-
-            let $flexContainers = $customForm.find('div.flexrow, div.flexcolumn')
-                .css({ 'border': '1px solid lightblue', 'margin': '5px' });
-
-            let $fwformfields = $customForm.find('[data-control="FwFormField"]')
-                .css({ 'border': '1px solid #dcdcdc', 'margin': '5px' });
-
-            let originalHtml;
 
             $customForm
-                .on('click', '[data-control="FwContainer"], [data-control="FwFormField"], div.flexrow, div.flexcolumn', e => {
+                .on('click',
+                '[data-type="Browse"] thead tr.fieldnames .column >, [data-type="Grid"] thead tr.fieldnames .column >, [data-control="FwContainer"], [data-control="FwFormField"], div.flexrow, div.flexcolumn',
+                    e => {
                     e.stopPropagation();
                     originalHtml = e.currentTarget;
 
@@ -425,25 +414,27 @@ class CustomForm {
                         let attribute = jQuery(e.currentTarget).siblings('.propname').text();
                         let value = jQuery(e.currentTarget).find('input').val();
 
-
-                    
-                        ////remove children added by the FW to get the original html
-                        //let removeChildrenFromOriginal = jQuery.extend({}, originalHtml);
-                        //while (removeChildrenFromOriginal.firstChild) {
-                        //    removeChildrenFromOriginal.removeChild(removeChildrenFromOriginal.firstChild);
-                        //}
-
+                        let originalClone = originalHtml.cloneNode(true);
+                        jQuery(originalClone).removeAttr('data-version data-rendermode');
+                        originalClone.innerHTML = "";
+                        originalClone = originalClone.outerHTML;
+                        originalClone = originalClone.substring(0, originalClone.length - 6);
+                       
                         jQuery(originalHtml).attr(`${attribute}`, `${value}`);
 
-                        ////remove children from the modified to get replacement html
-                        //let removeChildrenFromModified = jQuery.extend({}, originalHtml);
-                        //while (removeChildrenFromModified.firstChild) {
-                        //    removeChildrenFromModified.removeChild(removeChildrenFromModified.firstChild);
-                        //}
+                        let modifiedClone = originalHtml.cloneNode(true);
+                        jQuery(modifiedClone).removeAttr('data-version data-rendermode');
+                        modifiedClone.innerHTML = "";
+                        modifiedClone = modifiedClone.outerHTML;
+                        modifiedClone = modifiedClone.substring(0, modifiedClone.length - 6);
 
-                        //let test2 = html.replace(removeChildrenFromOriginal.outerHTML, removeChildrenFromModified.outerHTML);
+                        let newHtml = html.replace(originalClone, modifiedClone);
 
-                        //need to move border styling to rentalworks.css 
+                        FwControl.init(jQuery(originalHtml));
+                        FwControl.renderRuntimeHtml(jQuery(originalHtml));
+
+                        FwFormField.setValueByDataField($form, 'Html', newHtml);
+                        this.codeMirror.setValue(newHtml);
                     }
                 });
 

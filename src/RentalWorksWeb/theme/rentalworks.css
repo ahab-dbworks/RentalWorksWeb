@@ -526,3 +526,23 @@ html.theme-material [data-name="AuditHistoryGrid"] tbody tr.selected td ul:not(.
     box-shadow: 0 5px 9px 0 rgba(0, 0, 0, 0.2);
     cursor: pointer;
 }
+
+#designerContent .fwform-body [data-control="FwContainer"],
+#designerContent div.flexrow,
+#designerContent div.flexcolumn,
+#designerContent [data-control="FwFormField"]{
+    margin:5px;
+}
+
+#designerContent .fwform-body [data-control="FwContainer"] {
+    border: 1px solid darkblue;
+}
+
+#designerContent div.flexrow,
+#designerContent div.flexcolumn{
+    border: 1px solid lightblue;
+}
+
+#designerContent [data-control="FwFormField"]{
+    border: 1px solid #dcdcdc;
+}
