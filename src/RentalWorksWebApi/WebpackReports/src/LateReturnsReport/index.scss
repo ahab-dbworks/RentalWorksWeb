@@ -83,15 +83,15 @@ html.pdf {
             }
         }
 
-            tr.columnheadings {
-                td {
-                    font-weight: bold;
-                    padding: 5px;
-                    white-space: nowrap;
-                    border-top: 1px solid #000000;
-                    border-bottom: 1px solid #000000;
-                }
+        tr.columnheadings {
+            td {
+                font-weight: bold;
+                padding: 5px;
+                white-space: nowrap;
+                border-top: 1px solid #000000;
+                border-bottom: 1px solid #000000;
             }
+        }
 
         tbody {
             tr[data-rowtype="detail"]:nth-child(even) {
@@ -118,6 +118,23 @@ html.pdf {
                 font-weight: bold;
                 padding-left: 40px;
                 padding-top: 2em;
+            }
+
+            td.first-order-icode {
+                padding-bottom: .8em;
+                font-weight: bold;
+                padding-left: 40px;
+                position: relative
+            }
+
+            td.first-order-icode:after {
+                position: absolute;
+                content: '';
+                border-bottom: 1px solid #000000;
+                width: 80%;
+                transform: translateX(-50%);
+                bottom: -1px;
+                left: 60%;
             }
 
             td.order-columnheadings {
