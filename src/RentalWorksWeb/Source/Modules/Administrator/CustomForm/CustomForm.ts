@@ -315,7 +315,9 @@ class CustomForm {
     events($form) {
         //Load preview on click
         $form.on('click', '[data-type="tab"][data-caption="Preview"]', e => {
-            this.renderTab($form, 'Preview');
+            if ($form.attr('data-propertieschanged') !== "true") {
+                this.renderTab($form, 'Preview');
+            }
         });
 
         //Load Design Tab
@@ -332,6 +334,7 @@ class CustomForm {
     //----------------------------------------------------------------------------------------------
     renderTab($form, tabName: string) {
         let renderFormHere;
+        let type = $form.find('[data-datafield="BaseForm"] option:selected').attr('data-type');
         $form.find('#codeEditor').change();     // 10/25/2018 Jason H - updates the textarea formfield with the code editor html
 
         tabName === 'Designer' ? renderFormHere = 'designerContent' : renderFormHere = 'previewWebForm';
@@ -355,7 +358,9 @@ class CustomForm {
         }
 
         let $fwcontrols = $customForm.find('.fwcontrol');
-        FwControl.init($fwcontrols);
+        if (type === 'Form' || type === 'Browse') {
+            FwControl.init($fwcontrols);
+        }
         FwControl.renderRuntimeHtml($fwcontrols);
 
         //render grids
@@ -368,11 +373,14 @@ class CustomForm {
             FwBrowse.init($gridControl);
             FwBrowse.renderRuntimeHtml($gridControl);
         }
-        //disable controls 
-        FwFormField.disable($customForm.find(`[data-type="validation"], [data-control="FwAppImage"]`));
-        $customForm.find('[data-type="Browse"], [data-type="Grid"]').find('.pager').hide();
-        FwFormField.disable($customForm.find('[data-type="Browse"], [data-type="Grid"]'));
-        $customForm.find('tr.fieldnames .column >').off('click');
+
+        function disableControls() {
+            FwFormField.disable($customForm.find(`[data-type="validation"], [data-control="FwAppImage"]`));
+            $customForm.find('[data-type="Browse"], [data-type="Grid"]').find('.pager').hide();
+            FwFormField.disable($customForm.find('[data-type="Browse"], [data-type="Grid"]'));
+            $customForm.find('tr.fieldnames .column >').off('click');
+        }
+        disableControls();
 
         //Design mode borders & events
         if (tabName == 'Designer') {
@@ -386,11 +394,10 @@ class CustomForm {
             $customForm
                 //buiild properties section
                 .on('click',
-                    '[data-type="Grid"], [data-type="Browse"] thead tr.fieldnames .column >, [data-type="Grid"] thead tr.fieldnames .column >, [data-control="FwContainer"], [data-control="FwFormField"], div.flexrow, div.flexcolumn',
+                    '[data-control="FwGrid"], [data-type="Browse"] thead tr.fieldnames .column >, [data-type="Grid"] thead tr.fieldnames .column >, [data-control="FwContainer"], [data-control="FwFormField"], div.flexrow, div.flexcolumn',
                     e => {
                         e.stopPropagation();
                         originalHtml = e.currentTarget;
-
                         let properties = e.currentTarget.attributes;
                         let html: any = [];
                         html.push(`
@@ -410,7 +417,7 @@ class CustomForm {
                             a += (name == "data-rendermode") ? 1 : 0;
                             a += (name == "data-version") ? 1 : 0;
                             if (a) {
-                                break;
+                                continue;
                             }
 
                             value = value.replace('focused', '');
@@ -426,54 +433,77 @@ class CustomForm {
                             .append(html.join(''))
                             .find('.properties:even')
                             .css('background-color', '#f7f7f7');
+
+
+                        if (type === 'Form') {
+                            let isGrid = jQuery(originalHtml).parents('[data-type="Grid"]');
+                            //let controlType = jQuery(originalHtml).attr('data-control');
+                            if (isGrid.length !== 0 /*|| controlType === 'FwGrid'*/) {
+                                $form.find('#controlProperties .propval input').attr('disabled', 'disabled');
+                            }
+                        }
+
                     });
 
             $form
                 //updates designer content with new attributes and updates code editor
                 .on('change', '#controlProperties .propval', e => {
                     e.stopPropagation();
-                        let attribute = jQuery(e.currentTarget).siblings('.propname').text();
-                        let value = jQuery(e.currentTarget).find('input').val();
-                        let index = jQuery(originalHtml).attr('data-index');
-                        let controlType = jQuery(originalHtml).attr('data-control');
-                        jQuery($customFormClone).find(`div[data-index="${index}"]`).attr(`${attribute}`, `${value}`);
-                        jQuery(originalHtml).attr(`${attribute}`, `${value}`);
 
-                        jQuery($customFormClone).find('div').removeAttr('data-index');
-                        FwFormField.setValueByDataField($form, 'Html', $customFormClone.outerHTML);
+                    let attribute = jQuery(e.currentTarget).siblings('.propname').text();
+                    let value = jQuery(e.currentTarget).find('input').val();
+                    let index = jQuery(originalHtml).attr('data-index');
+                    jQuery($customFormClone).find(`div[data-index="${index}"]`).attr(`${attribute}`, `${value}`);
+                    jQuery(originalHtml).attr(`${attribute}`, `${value}`);
 
-                        let a = 0;
-                        a += (controlType == 'FwFormField') ? 1 : 0;
-                        a += (controlType == 'FwContainer') ? 1 : 0;
-                        if (a) {
-                            FwControl.init(jQuery(originalHtml));
-                            FwControl.renderRuntimeHtml(jQuery(originalHtml));
-                        }
+                    let controlType = jQuery(originalHtml).attr('data-control');
 
-                        this.codeMirror.setValue($customFormClone.outerHTML);
-                        //let originalClone = originalHtml.cloneNode(true);
-                        //jQuery(originalClone).removeAttr('data-version data-rendermode');
-                        //originalClone.innerHTML = "";
-                        //originalClone = originalClone.outerHTML;
-                        //originalClone = originalClone.substring(0, originalClone.length - 6);
+                    switch (type) {
+                        case 'Form': let a = 0;
+                            a += (controlType == 'FwFormField') ? 1 : 0;
+                            a += (controlType == 'FwContainer') ? 1 : 0;
 
-                        //jQuery(originalHtml).attr(`${attribute}`, `${value}`);
+                            if (a) {
+                                FwControl.init(jQuery(originalHtml));
+                                FwControl.renderRuntimeHtml(jQuery(originalHtml));
+                            }
+                            break;
+                        case 'Browse':
+                        case 'Grid':
+                            let $control = $customFormClone.cloneNode(true);
+                            $control = jQuery($control).find('.fwcontrol.fwbrowse');
+                            $customForm
+                                .empty()
+                                .append($control);
+                            FwControl.renderRuntimeHtml($control);
+                            disableControls();
+                            break;
+                    }
 
-                        //let modifiedClone = originalHtml.cloneNode(true);
-                        //jQuery(modifiedClone).removeAttr('data-version data-rendermode');
-                        //modifiedClone.innerHTML = "";
-                        //modifiedClone = modifiedClone.outerHTML;
-                        //modifiedClone = modifiedClone.substring(0, modifiedClone.length - 6);
+                    $form.attr('data-propertieschanged', true);
+                    //let originalClone = originalHtml.cloneNode(true);
+                    //jQuery(originalClone).removeAttr('data-version data-rendermode');
+                    //originalClone.innerHTML = "";
+                    //originalClone = originalClone.outerHTML;
+                    //originalClone = originalClone.substring(0, originalClone.length - 6);
 
-                        //let newHtml = html.replace(originalClone, modifiedClone);
-                        //FwFormField.setValueByDataField($form, 'Html', newHtml);
+                    //jQuery(originalHtml).attr(`${attribute}`, `${value}`);
 
-                        //FwControl.init(jQuery(originalHtml));
-                        //FwControl.renderRuntimeHtml(jQuery(originalHtml));
+                    //let modifiedClone = originalHtml.cloneNode(true);
+                    //jQuery(modifiedClone).removeAttr('data-version data-rendermode');
+                    //modifiedClone.innerHTML = "";
+                    //modifiedClone = modifiedClone.outerHTML;
+                    //modifiedClone = modifiedClone.substring(0, modifiedClone.length - 6);
 
-                        //this.codeMirror.setValue(newHtml);
+                    //let newHtml = html.replace(originalClone, modifiedClone);
+                    //FwFormField.setValueByDataField($form, 'Html', newHtml);
 
-                        //fwcontainer = data-version data-rendermode
+                    //FwControl.init(jQuery(originalHtml));
+                    //FwControl.renderRuntimeHtml(jQuery(originalHtml));
+
+                    //this.codeMirror.setValue(newHtml);
+
+                    //fwcontainer = data-version data-rendermode
 
                 })
                 .on('keydown', '#controlProperties .propval', e => {
@@ -482,6 +512,20 @@ class CustomForm {
                         jQuery(e.currentTarget).trigger('change');
                     }
                 })
+                //removes indexes and sets the code editor html
+                .on('click', '[data-type="tab"][data-caption="HTML"], [data-type="tab"][data-caption="Preview"]', e => {
+                    if ($form.attr('data-propertieschanged') == "true") {
+                        jQuery($customFormClone).find('div').removeAttr('data-index');
+                        FwFormField.setValueByDataField($form, 'Html', $customFormClone.innerHTML);
+
+                        this.codeMirror.setValue($customFormClone.innerHTML);
+
+                        if (jQuery(e.currentTarget).attr('data-caption') === "Preview") {
+                            this.renderTab($form, 'Preview');
+                        }
+                    }
+                });
+
 
         }
     }
