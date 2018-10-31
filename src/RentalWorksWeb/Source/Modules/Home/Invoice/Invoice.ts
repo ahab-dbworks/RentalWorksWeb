@@ -191,53 +191,7 @@ class Invoice {
             FwFormField.disable($form.find('.ifnew'));
         }
 
-        //$form.find('[data-datafield="BillToAddressDifferentFromIssuedToAddress"] .fwformfield-value').on('change', function () {
-        //    var $this = jQuery(this);
-        //    if ($this.prop('checked') === true) {
-        //        FwFormField.enable($form.find('.differentaddress'));
-        //    }
-        //    else {
-        //        FwFormField.disable($form.find('.differentaddress'));
-        //    }
-        //});
-
-        //$form.find('div[data-datafield="OrderTypeId"]').data('onchange', function ($tr) {
-        //    self.CombineActivity = $tr.find('.field[data-browsedatafield="CombineActivityTabs"]').attr('data-originalvalue');
-        //    $form.find('[data-datafield="CombineActivity"] input').val(self.CombineActivity);
-
-        //    const rentalTab = $form.find('[data-type="tab"][data-caption="Rental"]')
-        //        , salesTab = $form.find('[data-type="tab"][data-caption="Sales"]')
-        //        , miscTab = $form.find('[data-type="tab"][data-caption="Misc"]')
-        //        , laborTab = $form.find('[data-type="tab"][data-caption="Labor"]');
-        //    let combineActivity = $form.find('[data-datafield="CombineActivity"] input').val();
-        //    if (combineActivity == "true") {
-        //        $form.find('.notcombinedtab').hide();
-        //        $form.find('.combinedtab').show();
-        //    } else if (combineActivity == "false") {
-        //        $form.find('.combinedtab').hide();
-        //        $form.find('[data-datafield="Rental"] input').prop('checked') ? rentalTab.show() : rentalTab.hide();
-        //        $form.find('[data-datafield="Sales"] input').prop('checked') ? salesTab.show() : salesTab.hide();
-        //        $form.find('[data-datafield="Miscellaneous"] input').prop('checked') ? miscTab.show() : miscTab.hide();
-        //        $form.find('[data-datafield="Labor"] input').prop('checked') ? laborTab.show() : laborTab.hide();
-        //    }
-        //});
-
-        //$form.find('[data-datafield="NoCharge"] .fwformfield-value').on('change', function () {
-        //    var $this = jQuery(this);
-
-        //    if ($this.prop('checked') === true) {
-        //        FwFormField.enable($form.find('[data-datafield="NoChargeReason"]'));
-        //    } else {
-        //        FwFormField.disable($form.find('[data-datafield="NoChargeReason"]'));
-        //    }
-        //});
-
-        //FwFormField.disable($form.find('[data-datafield="RentalTaxRate1"]'));
-        //FwFormField.disable($form.find('[data-datafield="SalesTaxRate1"]'));
-        //FwFormField.disable($form.find('[data-datafield="LaborTaxRate1"]'));
-
         this.events($form);
-        //this.activityCheckboxEvents($form, mode);
 
         return $form;
     };
@@ -267,7 +221,6 @@ class Invoice {
         $invoiceItemGridRental.addClass('R');
         $invoiceItemGridRentalControl.attr('data-enabled', 'false');
         $invoiceItemGridRentalControl.find('div[data-datafield="Rate"]').attr('data-caption', 'Unit Rate');
-
 
         $invoiceItemGridRentalControl.data('ondatabind', request => {
             request.uniqueids = {
@@ -299,7 +252,6 @@ class Invoice {
         $invoiceItemGridSalesControl.attr('data-enabled', 'false');
         $invoiceItemGridSalesControl.data('isSummary', false);
         $invoiceItemGridSalesControl.find('div[data-datafield="Rate"]').attr('data-caption', 'Unit Price');
-
 
         $invoiceItemGridSalesControl.data('ondatabind', request => {
             request.uniqueids = {
@@ -365,7 +317,6 @@ class Invoice {
         $invoiceItemGridMiscControl.data('isSummary', false);
         $invoiceItemGridMiscControl.find('div[data-datafield="Rate"]').attr('data-caption', 'Unit Rate');
 
-
         $invoiceItemGridMiscControl.data('ondatabind', request => {
             request.uniqueids = {
                 InvoiceId: FwFormField.getValueByDataField($form, 'InvoiceId'),
@@ -386,8 +337,8 @@ class Invoice {
         FwBrowse.init($invoiceItemGridMiscControl);
         FwBrowse.renderRuntimeHtml($invoiceItemGridMiscControl);
         //----------------------------------------------------------------------------------------------
-        var $invoiceItemGridRentalSale;
-        var $invoiceItemGridRentalSaleControl;
+        let $invoiceItemGridRentalSale;
+        let $invoiceItemGridRentalSaleControl;
         $invoiceItemGridRentalSale = $form.find('.rentalsalegrid div[data-grid="InvoiceItemGrid"]');
         $invoiceItemGridRentalSaleControl = jQuery(jQuery('#tmpl-grids-InvoiceItemGridBrowse').html());
         $invoiceItemGridRentalSale.empty().append($invoiceItemGridRentalSaleControl);
@@ -395,7 +346,6 @@ class Invoice {
         $invoiceItemGridRentalSaleControl.attr('data-enabled', 'false');
         $invoiceItemGridRentalSaleControl.data('isSummary', false);
         $invoiceItemGridRentalSaleControl.find('div[data-datafield="Rate"]').attr('data-caption', 'Unit Price');
-
 
         $invoiceItemGridRentalSaleControl.data('ondatabind', function (request) {
             request.uniqueids = {
@@ -444,9 +394,6 @@ class Invoice {
         if (!FwFormField.getValueByDataField($form, 'HasTransportationItem')) { $form.find('[data-type="tab"][data-caption="Transportation"]').hide() }
         if (!FwFormField.getValueByDataField($form, 'HasRentalSaleItem')) { $form.find('[data-type="tab"][data-caption="Rental Sale"]').hide() }
 
-
-
-
         let $invoiceItemGridRental;
         $invoiceItemGridRental = $form.find('.rentalgrid [data-name="InvoiceItemGrid"]');
         //FwBrowse.search($invoiceItemGridRental);
@@ -461,8 +408,7 @@ class Invoice {
         //FwBrowse.search($invoiceItemGridMisc);
         let $invoiceItemGridRentalSale;
         $invoiceItemGridRentalSale = $form.find('.rentalsalegrid [data-name="InvoiceItemGrid"]');
-        ////FwBrowse.search($invoiceItemGridRentalSale);
-
+        //FwBrowse.search($invoiceItemGridRentalSale);
 
         //Click Event on tabs to load grids/browses
         $form.on('click', '[data-type="tab"]', e => {
