@@ -49,24 +49,13 @@
 
             if (jQuery('html').hasClass('desktop')) {
                 $quantityColumn
-                    .on('mousedown', '.incrementQuantity', function () {
+                    .on('click', '.incrementQuantity', function () {
                         $quantityColumn.data('increment')();
-                        $quantityColumn.data('interval', setInterval(function () { $quantityColumn.data('increment')(); }, 200));
-                    })
-                    .on('mouseup', '.incrementQuantity, .decrementQuantity', function () {
-                        preventBubble = false;
-                        clearInterval($quantityColumn.data('interval'));
                         $quantityColumn.find('.fieldvalue').change();
                     })
-                    .on('mousedown', '.decrementQuantity', function () {
+                    .on('click', '.decrementQuantity', function () {
                         $quantityColumn.data('decrement')();
-                        $quantityColumn.data('interval', setInterval(function () { $quantityColumn.data('decrement')(); }, 200));
-                    })
-                    .on('mouseleave', '.incrementQuantity, .decrementQuantity', function () {
-                        clearInterval($quantityColumn.data('interval'));
-                        if (preventBubble) {
-                            $quantityColumn.find('.fieldvalue').change();
-                        }
+                        $quantityColumn.find('.fieldvalue').change();
                     });
             };
 
