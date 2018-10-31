@@ -3141,7 +3141,7 @@ class FwBrowseClass {
         // Close modal if click outside
         jQuery(document).one('click', e => {
             if (!jQuery(e.target).closest('#searchpopup').length) {
-                $popup.hide();
+                FwPopup.destroyPopup($popup);
             }
         });
     }
