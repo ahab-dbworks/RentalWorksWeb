@@ -2060,14 +2060,14 @@ class Order extends OrderBase {
         errorSound = new Audio(this.errorSoundFileName);
         successSound = new Audio(this.successSoundFileName);
         HTML.push(
-            `<div id="searchpopup" class="fwcontrol fwcontainer fwform" data-control="FwContainer" data-type="form" data-caption="Loss and Damage">
-              <div id="lossdamageform-tabcontrol" class="fwcontrol fwtabs" data-control="FwTabs" data-type="">
+            `<div class="fwcontrol fwcontainer fwform popup" data-control="FwContainer" data-type="form" data-caption="Loss and Damage">
+              <div class="fwcontrol fwtabs" data-control="FwTabs" data-type="">
                 <div style="float:right;" class="close-modal"><i class="material-icons">clear</i><div class="btn-text">Close</div></div>
                 <div class="tabpages">
                   <div class="formpage">
                     <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Loss and Damage">
                       <div class="formrow">
-                        <div class="formcolumn summaryview" style="width:100%;margin-top:50px;">
+                        <div class="formcolumn" style="width:100%;margin-top:50px;">
                           <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                             <div class="fwform-section-title" style="margin-bottom:20px;">Loss and Damage</div>
                             <div class="formrow error-msg"></div>
