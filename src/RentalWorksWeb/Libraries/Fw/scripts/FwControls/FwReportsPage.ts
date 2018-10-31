@@ -180,6 +180,13 @@
 
                         let description = module.find('small#description-text');
                         let title = module.find('a#title');
+                        let panel = $module.filter(function () { return -1 != jQuery(this).text().toUpperCase().indexOf(results[i]) }).closest('div.panel-group');
+
+                        if (panel.length > 0) {
+                            description = panel.find('small#description-text');
+                            title = panel.find('a#title');
+                            panel.show();
+                        }
                         for (var j = 0; j < description.length; j++) {
                             if (description[j] !== undefined) {
                                 let descriptionIndex = jQuery(description[j]).text().toUpperCase().indexOf(val);
@@ -194,17 +201,6 @@
                         }
                         module.show();
                     }
-                    if ($module.filter(function () { return -1 != jQuery(this).text().toUpperCase().indexOf(val) }).length > 0) {
-                        var titleHtml = $module.filter(function () {
-                            return -1 != jQuery(this).text().toUpperCase().indexOf(val);
-                        }).html();
-                        var titleHtmlIndex = titleHtml.indexOf(val);
-                        titleHtml = titleHtml.slice(0, titleHtmlIndex) + '<span class="highlighted">' + titleHtml.slice(titleHtmlIndex, titleHtmlIndex + val.length) + '</span>' + titleHtml.slice(titleHtmlIndex + val.length);
-                    }
-
-                    $module.filter(function () {
-                        return -1 != jQuery(this).text().toUpperCase().indexOf(val);
-                    }).html(titleHtml).closest('div.panel-group').show();
                     let searchResults = $control.find('.panel-heading:visible');
 
                     if (searchResults.length === 1 && searchResults.parent().find('.panel-body').is(':empty')) {

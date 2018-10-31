@@ -373,7 +373,7 @@ class FwSettingsClass {
                             }
                         } else {
                             if (browseData[j]['color'] && response[i][cellColor] !== '') {
-                                html.push('    <div class="fwcontrol fwcontainer fwform-fieldrow" data-type="fieldrow" style="color:' + response[i][cellColor] + ';width:8em;white-space:nowrap;height: 0;display:flex;border-bottom: 20px solid transparent;border-top: 20px solid;">');
+                                html.push('    <div class="fwcontrol fwcontainer fwform-fieldrow color" data-type="fieldrow" style="color:' + response[i][cellColor] + ';width:8em;white-space:nowrap;height: 0;display:flex;border-bottom: 20px solid transparent;border-top: 20px solid;">');
                             } else {
                                 html.push('    <div class="fwcontrol fwcontainer fwform-fieldrow" data-type="fieldrow">');
                             }
@@ -746,7 +746,7 @@ class FwSettingsClass {
                                         }
                                     } else {
                                         if (browseData[j]['color'] && response[i][cellColor] !== '') {
-                                            html.push('    <div class="fwcontrol fwcontainer fwform-fieldrow" data-type="fieldrow" style="color:' + response[i][cellColor] + ';width:8em;white-space:nowrap;height: 0;display:flex;border-bottom: 20px solid transparent;border-top: 20px solid;">');
+                                            html.push('    <div class="fwcontrol fwcontainer fwform-fieldrow color" data-type="fieldrow" style="color:' + response[i][cellColor] + ';width:8em;white-space:nowrap;height: 0;display:flex;border-bottom: 20px solid transparent;border-top: 20px solid;">');
                                         } else {
                                             html.push('    <div class="fwcontrol fwcontainer fwform-fieldrow" data-type="fieldrow">');
                                         }
@@ -949,6 +949,10 @@ class FwSettingsClass {
                                 } else {
                                     jQuery(this).closest('.panel-record').find('.panel-info').find('label[data-datafield="' + browsedatafields[j] + '"]').text(FwFormField.getValueByDataField($form, browsedatafields[j]));
                                     jQuery(this).closest('.panel-record').find('.panel-info').find('[data-datafield="' + browsedatafields[j] + '"]').prop('checked', FwFormField.getValueByDataField($form, browsedatafields[j]));
+                                    if (jQuery(this).closest('.panel-record').find('.panel-info').find('label[data-datafield="' + browsedatafields[j] + '"]').parent().hasClass('color')) {
+                                        let newColor: any = $form.find('div[data-type="color"] input').val();
+                                        jQuery(this).closest('.panel-record').find('.panel-info').find('label[data-datafield="' + browsedatafields[j] + '"]').parent().css('color', newColor)
+                                    }
                                 }
                             } else {
                                 var validationValue: any = $form.find('div[data-displayfield="' + browsedatafields[j] + '"] input.fwformfield-text').val()
@@ -1006,6 +1010,14 @@ class FwSettingsClass {
 
                         let description = module.find('small#description-text');
                         let title = module.find('a#title');
+                        let panel = $module.filter(function () { return -1 != jQuery(this).text().toUpperCase().indexOf(results[i]) }).closest('div.panel-group');
+
+                        if (panel.length > 0) {
+                            description = panel.find('small#description-text');
+                            title = panel.find('a#title');
+                            panel.show();
+                        }
+
                         for (var j = 0; j < description.length; j++) {
                             if (description[j] !== undefined) {
                                 let descriptionIndex = jQuery(description[j]).text().toUpperCase().indexOf(val);
@@ -1018,22 +1030,14 @@ class FwSettingsClass {
                                 }
                             }
                         }
+
+                        if (module.length === 0) {
+                            $settings.filter(function () {
+                                return -1 != jQuery(this).text().toUpperCase().indexOf(results[i]);
+                            }).closest('div.panel-group').show();
+                        }
                         module.show();
 
-                        if ($module.filter(function () { return -1 != jQuery(this).text().toUpperCase().indexOf(val) }).length > 0) {
-                            let titleHtml = $module.filter(function () {
-                                return -1 != jQuery(this).text().toUpperCase().indexOf(val);
-                            }).html();
-                            let titleHtmlIndex = titleHtml.indexOf(val);
-                            titleHtml = titleHtml.slice(0, titleHtmlIndex) + '<span class="highlighted">' + titleHtml.slice(titleHtmlIndex, titleHtmlIndex + val.length) + '</span>' + titleHtml.slice(titleHtmlIndex + val.length);
-                            $module.filter(function () {
-                                return -1 != jQuery(this).text().toUpperCase().split(' ').join('').indexOf(results[i]);
-                            }).html(titleHtml).closest('div.panel-group').show();
-                        }
-
-                        $module.filter(function () {
-                            return -1 != jQuery(this).text().toUpperCase().split(' ').join('').indexOf(results[i]);
-                        }).closest('div.panel-group').show();
                     }
 
                     let searchResults = $control.find('.panel-heading:visible');
