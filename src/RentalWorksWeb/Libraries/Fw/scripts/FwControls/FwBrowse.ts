@@ -2129,6 +2129,15 @@ class FwBrowseClass {
                             //$contextmenu.data('beforedestroy', function () {
                             //    me.unselectRow($control, $tr);
                             //});
+                            //---------------------------------------------------------------------------------
+                            FwContextMenu.addMenuItem($contextmenu, 'Audit History', () => {
+                                try {
+                                    let $tr = jQuery(this).closest('tr');
+                                    me.renderAuditHistoryPopup($tr);
+                                } catch (ex) {
+                                    FwFunc.showError(ex);
+                                }
+                            });
                             var controller = $control.attr('data-controller');
                             if (typeof controller === 'undefined') {
                                 throw 'Attribute data-controller is not defined on Browse control.'
@@ -3080,6 +3089,61 @@ class FwBrowseClass {
         });
 
         return fields;
+    }
+    //---------------------------------------------------------------------------------
+    renderAuditHistoryPopup($tr: JQuery): void {
+        let HTML: Array<string> = [], $popupHtml, $popup, $auditHistoryGrid, $auditHistoryGridControl, uniqueId;
+        uniqueId = $tr.find('[data-browsedatatype="key"]').attr('data-originalvalue');
+
+        HTML.push(
+            `<div id="searchpopup" class="fwcontrol fwcontainer fwform" data-control="FwContainer" data-type="form" data-caption="Audit History">
+              <div id="lossdamageform-tabcontrol" class="fwcontrol fwtabs" data-control="FwTabs" data-type="">
+                <div style="float:right;" class="close-modal"><i class="material-icons">clear</i><div class="btn-text">Close</div></div>
+                <div class="tabpages">
+                  <div class="formpage">
+                    <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Audit History">
+                      <div class="formrow">
+                        <div class="formcolumn summaryview" style="width:100%;margin-top:50px;">
+                          <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                            <div class="fwform-section-title" style="margin-bottom:20px;">Audit History</div>
+                            <div data-control="FwGrid" class="container">
+                              <div class="formrow"><div data-control="FwGrid" data-grid="AuditHistoryGrid" data-securitycaption=""></div></div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>`);
+        $popupHtml = HTML.join('');
+        $popup = FwPopup.renderPopup(jQuery($popupHtml), { ismodal: true });
+        FwPopup.showPopup($popup);
+
+        $auditHistoryGrid = $popup.find('div[data-grid="AuditHistoryGrid"]');
+        $auditHistoryGridControl = jQuery(jQuery('#tmpl-grids-AuditHistoryGridBrowse').html());
+        $auditHistoryGrid.empty().append($auditHistoryGridControl);
+        $auditHistoryGridControl.data('ondatabind', request => {
+            request.uniqueids = {
+                UniqueId1: uniqueId
+            };
+        });
+        FwBrowse.init($auditHistoryGridControl);
+        FwBrowse.renderRuntimeHtml($auditHistoryGridControl);
+        FwBrowse.search($auditHistoryGridControl);
+        // Close modal
+        $popup.find('.close-modal').one('click', e => {
+            FwPopup.destroyPopup($popup);
+            jQuery(document).find('.fwpopup').off('click');
+            jQuery(document).off('keydown');
+        });
+        // Close modal if click outside
+        jQuery(document).one('click', e => {
+            if (!jQuery(e.target).closest('#searchpopup').length) {
+                $popup.hide();
+            }
+        });
     }
     //----------------------------------------------------------------------------------------------
     getValidationData($object: JQuery, request: any, responseFunc: Function) {
