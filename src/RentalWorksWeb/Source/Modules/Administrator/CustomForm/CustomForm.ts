@@ -69,7 +69,7 @@ class CustomForm {
     }
     //----------------------------------------------------------------------------------------------
     saveForm($form: any, parameters: any) {
-        $form.find('#codeEditor').change();
+        //$form.find('#codeEditor').change();
 
         FwModule.saveForm(this.Module, $form, parameters);
     }
@@ -105,10 +105,14 @@ class CustomForm {
             this.codeMirror.setValue('');
         }
         let controller: any = $form.find('[data-datafield="BaseForm"] option:selected').attr('data-controllername');
-
         this.addValidFields($form, controller);
-
         this.renderTab($form, 'Designer');
+
+        //Sets form to modified upon changing code in editor
+        this.codeMirror.on('change', function (codeMirror, change) {
+            $form.attr('data-modified', 'true');
+            $form.find('.btn[data-type="SaveMenuBarButton"]').removeClass('disabled');
+        });
     }
     //----------------------------------------------------------------------------------------------
     codeMirrorEvents($form) {
@@ -162,14 +166,7 @@ class CustomForm {
             }
 
             this.addValidFields($form, controller);
-
             this.renderTab($form, 'Designer');
-        });
-
-        //Sets form to modified upon changing code in editor
-        codeMirror.on('change', function (cm, change) {
-            $form.attr('data-modified', 'true');
-            $form.find('.btn[data-type="SaveMenuBarButton"]').removeClass('disabled');
         });
 
         //Updates value for form fields
@@ -178,6 +175,7 @@ class CustomForm {
             let html = $form.find('textarea#codeEditor').val();
             FwFormField.setValueByDataField($form, 'Html', html);
         });
+
     }
     //----------------------------------------------------------------------------------------------
     addValidFields($form, controller) {
@@ -315,9 +313,9 @@ class CustomForm {
     events($form) {
         //Load preview on click
         $form.on('click', '[data-type="tab"][data-caption="Preview"]', e => {
-            if ($form.attr('data-propertieschanged') !== "true") {
+            //if ($form.attr('data-propertieschanged') !== "true") {
                 this.renderTab($form, 'Preview');
-            }
+            //}
         });
 
         //Load Design Tab
@@ -334,6 +332,7 @@ class CustomForm {
     //----------------------------------------------------------------------------------------------
     renderTab($form, tabName: string) {
         let renderFormHere;
+        let self = this;
         let type = $form.find('[data-datafield="BaseForm"] option:selected').attr('data-type');
         $form.find('#codeEditor').change();     // 10/25/2018 Jason H - updates the textarea formfield with the code editor html
 
@@ -475,36 +474,22 @@ class CustomForm {
                             $customForm
                                 .empty()
                                 .append($control);
+                            if (type === 'Browse') {
+                                FwControl.init($control);
+                            }
                             FwControl.renderRuntimeHtml($control);
                             disableControls();
                             break;
                     }
 
                     $form.attr('data-propertieschanged', true);
-                    //let originalClone = originalHtml.cloneNode(true);
-                    //jQuery(originalClone).removeAttr('data-version data-rendermode');
-                    //originalClone.innerHTML = "";
-                    //originalClone = originalClone.outerHTML;
-                    //originalClone = originalClone.substring(0, originalClone.length - 6);
+                    $form.attr('data-modified', 'true');
+                    $form.find('.btn[data-type="SaveMenuBarButton"]').removeClass('disabled');
 
-                    //jQuery(originalHtml).attr(`${attribute}`, `${value}`);
-
-                    //let modifiedClone = originalHtml.cloneNode(true);
-                    //jQuery(modifiedClone).removeAttr('data-version data-rendermode');
-                    //modifiedClone.innerHTML = "";
-                    //modifiedClone = modifiedClone.outerHTML;
-                    //modifiedClone = modifiedClone.substring(0, modifiedClone.length - 6);
-
-                    //let newHtml = html.replace(originalClone, modifiedClone);
-                    //FwFormField.setValueByDataField($form, 'Html', newHtml);
-
-                    //FwControl.init(jQuery(originalHtml));
-                    //FwControl.renderRuntimeHtml(jQuery(originalHtml));
-
-                    //this.codeMirror.setValue(newHtml);
-
-                    //fwcontainer = data-version data-rendermode
-
+                    let $modifiedClone = $customFormClone.cloneNode(true);
+                    jQuery($modifiedClone).find('div').removeAttr('data-index');
+                    FwFormField.setValueByDataField($form, 'Html', $modifiedClone.innerHTML);
+                    this.codeMirror.setValue($modifiedClone.innerHTML);
                 })
                 .on('keydown', '#controlProperties .propval', e => {
                     e.stopPropagation();
@@ -513,18 +498,16 @@ class CustomForm {
                     }
                 })
                 //removes indexes and sets the code editor html
-                .on('click', '[data-type="tab"][data-caption="HTML"], [data-type="tab"][data-caption="Preview"]', e => {
-                    if ($form.attr('data-propertieschanged') == "true") {
-                        jQuery($customFormClone).find('div').removeAttr('data-index');
-                        FwFormField.setValueByDataField($form, 'Html', $customFormClone.innerHTML);
-
-                        this.codeMirror.setValue($customFormClone.innerHTML);
-
-                        if (jQuery(e.currentTarget).attr('data-caption') === "Preview") {
-                            this.renderTab($form, 'Preview');
-                        }
-                    }
-                });
+                //.on('click', '[data-type="tab"][data-caption="HTML"], [data-type="tab"][data-caption="Preview"]', e => {
+                //    if ($form.attr('data-propertieschanged') == "true") {
+                //        jQuery($customFormClone).find('div').removeAttr('data-index');
+                //        FwFormField.setValueByDataField($form, 'Html', $customFormClone.innerHTML);
+                //        this.codeMirror.setValue($customFormClone.innerHTML);
+                //        if (jQuery(e.currentTarget).attr('data-caption') === "Preview") {
+                //            this.renderTab($form, 'Preview');
+                //        }
+                //    }
+                //});
 
 
         }
