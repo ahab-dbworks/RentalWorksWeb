@@ -37,10 +37,10 @@ namespace WebApi.Modules.Home.VendorInvoice
         public string InvoiceDueDate { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "billingstart", modeltype: FwDataTypes.Date)]
-        public string BillingStart { get; set; }
+        public string BillingStartDate { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "billingend", modeltype: FwDataTypes.Date)]
-        public string BillingEnd { get; set; }
+        public string BillingEndDate { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "status", modeltype: FwDataTypes.Text)]
         public string Status { get; set; }

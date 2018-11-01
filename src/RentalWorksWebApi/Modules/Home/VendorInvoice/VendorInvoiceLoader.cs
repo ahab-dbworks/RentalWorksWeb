@@ -5,7 +5,7 @@ using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
 namespace WebApi.Modules.Home.VendorInvoice
 {
-    [FwSqlTable("vendorinvoiceview")]
+    [FwSqlTable("vendorinvoicewebview")]
     public class VendorInvoiceLoader : VendorInvoiceBrowseLoader
     {
         //------------------------------------------------------------------------------------ 
@@ -15,17 +15,8 @@ namespace WebApi.Modules.Home.VendorInvoice
         [FwSqlDataField(column: "invoicebatchid", modeltype: FwDataTypes.Text)]
         public string InvoiceBatchId { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "inputdate", modeltype: FwDataTypes.Date)]
-        public string InputDate { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "inputusersid", modeltype: FwDataTypes.Text)]
-        public string InputUsersId { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "inputuser", modeltype: FwDataTypes.Text)]
-        public string Inputuser { get; set; }
-        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "billingstartend", modeltype: FwDataTypes.Text)]
-        public string BillingStartEnd { get; set; }
+        public string BillingStartAndEndDates { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "poorderno", modeltype: FwDataTypes.Text)]
         public string OrderNumber { get; set; }
@@ -96,30 +87,6 @@ namespace WebApi.Modules.Home.VendorInvoice
         [FwSqlDataField(column: "notes", modeltype: FwDataTypes.Text)]
         public string Notes { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "paymentrequestno", modeltype: FwDataTypes.Text)]
-        public string PaymentRequestNumber { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "paymentrequeststatus", modeltype: FwDataTypes.Text)]
-        public string PaymentRequestStatus { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "paymentrequestrundate", modeltype: FwDataTypes.Date)]
-        public string PaymentRequestRunDate { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "sapdocumentno", modeltype: FwDataTypes.Text)]
-        public string SapDocumentNumber { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "sapdocumentdate", modeltype: FwDataTypes.Date)]
-        public string SapDocumentDate { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "sapdocumentamount", modeltype: FwDataTypes.Decimal)]
-        public decimal? SapDocumentAmount { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "sapvendorinvoicestatus", modeltype: FwDataTypes.Text)]
-        public string SapVendorInvoiceStatus { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "checkno", modeltype: FwDataTypes.Text)]
-        public string CheckNumber { get; set; }
-        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "billedhiatus", modeltype: FwDataTypes.Boolean)]
         public bool? BilledHiatus { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -131,9 +98,6 @@ namespace WebApi.Modules.Home.VendorInvoice
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "projectmanagerid", modeltype: FwDataTypes.Text)]
         public string ProjectManagerId { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "i35includepoprefix", modeltype: FwDataTypes.Boolean)]
-        public bool? I35IncludePoPrefix { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "currencyid", modeltype: FwDataTypes.Text)]
         public string CurrencyId { get; set; }

@@ -28,18 +28,15 @@ namespace WebApi.Modules.Home.VendorInvoice
         public string VendorNumber { get; set; }
         public string VendorId { get { return vendorInvoice.VendorId; } set { vendorInvoice.VendorId = value; } }
         public string InvoiceBatchId { get { return vendorInvoice.InvoiceBatchId; } set { vendorInvoice.InvoiceBatchId = value; } }
-        public string InputDate { get { return vendorInvoice.InputDate; } set { vendorInvoice.InputDate = value; } }
-        public string InputUsersId { get { return vendorInvoice.InputUsersId; } set { vendorInvoice.InputUsersId = value; } }
-        [FwBusinessLogicField(isReadOnly: true)]
-        public string Inputuser { get; set; }
+        [FwBusinessLogicField(isRecordTitle: true)]
         public string InvoiceNumber { get { return vendorInvoice.InvoiceNumber; } set { vendorInvoice.InvoiceNumber = value; } }
         public string InvoiceDate { get { return vendorInvoice.InvoiceDate; } set { vendorInvoice.InvoiceDate = value; } }
         [FwBusinessLogicField(isReadOnly: true)]
         public string InvoiceDueDate { get; set; }
-        public string BillingStart { get { return vendorInvoice.BillingStart; } set { vendorInvoice.BillingStart = value; } }
-        public string BillingEnd { get { return vendorInvoice.BillingEnd; } set { vendorInvoice.BillingEnd = value; } }
+        public string BillingStartDate { get { return vendorInvoice.BillingStartDate; } set { vendorInvoice.BillingStartDate = value; } }
+        public string BillingEndDate { get { return vendorInvoice.BillingEndDate; } set { vendorInvoice.BillingEndDate = value; } }
         [FwBusinessLogicField(isReadOnly: true)]
-        public string BillingStartEnd { get; set; }
+        public string BillingStartAndEndDates { get; set; }
         public string Status { get { return vendorInvoice.Status; } set { vendorInvoice.Status = value; } }
         [FwBusinessLogicField(isReadOnly: true)]
         public string OrderDescription { get; set; }
@@ -83,7 +80,7 @@ namespace WebApi.Modules.Home.VendorInvoice
         [FwBusinessLogicField(isReadOnly: true)]
         public bool? PrintNotes { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
-        public bool? Payterms { get; set; }
+        public bool? PaymentTerms { get; set; }
         public string TaxId { get { return vendorInvoice.TaxId; } set { vendorInvoice.TaxId = value; } }
         [FwBusinessLogicField(isReadOnly: true)]
         public string TaxOptionId { get; set; }
@@ -91,23 +88,12 @@ namespace WebApi.Modules.Home.VendorInvoice
         public string TaxItemCode { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
         public string Notes { get; set; }
-        public string PaymentRequestNumber { get { return vendorInvoice.PaymentRequestNumber; } set { vendorInvoice.PaymentRequestNumber = value; } }
-        public string PaymentRequestStatus { get { return vendorInvoice.PaymentRequestStatus; } set { vendorInvoice.PaymentRequestStatus = value; } }
-        public string PaymentRequestRunDate { get { return vendorInvoice.PaymentRequestRunDate; } set { vendorInvoice.PaymentRequestRunDate = value; } }
-        public string SapDocumentNumber { get { return vendorInvoice.SapDocumentNumber; } set { vendorInvoice.SapDocumentNumber = value; } }
-        public string SapDocumentDate { get { return vendorInvoice.SapDocumentDate; } set { vendorInvoice.SapDocumentDate = value; } }
-        public decimal? SapDocumentAmount { get { return vendorInvoice.SapDocumentAmount; } set { vendorInvoice.SapDocumentAmount = value; } }
-        [FwBusinessLogicField(isReadOnly: true)]
-        public string SapVendorInvoiceStatus { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
-        public string CheckNumber { get; set; }
         public bool? BilledHiatus { get { return vendorInvoice.BilledHiatus; } set { vendorInvoice.BilledHiatus = value; } }
         public string InvoiceType { get { return vendorInvoice.InvoiceType; } set { vendorInvoice.InvoiceType = value; } }
         [FwBusinessLogicField(isReadOnly: true)]
         public string AgentId { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
         public string ProjectManagerId { get; set; }
-        public bool? I35IncludePoPrefix { get { return vendorInvoice.I35IncludePoPrefix; } set { vendorInvoice.I35IncludePoPrefix = value; } }
         public string CurrencyId { get { return vendorInvoice.CurrencyId; } set { vendorInvoice.CurrencyId = value; } }
         [FwBusinessLogicField(isReadOnly: true)]
         public string CurrencyCode { get; set; }
