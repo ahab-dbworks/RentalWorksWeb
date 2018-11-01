@@ -2113,7 +2113,7 @@ class FwBrowseClass {
                 });
                 $control.find('tbody .browsecontextmenu').on('click', function (e: JQuery.Event) {
                     try {
-                        e.stopPropagation();
+                        //e.stopPropagation();
                         let $browse = jQuery(this).closest('.fwbrowse');
                         if ($browse.attr('data-enabled') !== 'false') {
                             let $fwcontextmenus = $browse.find('tbody .fwcontextmenu');
@@ -2122,22 +2122,12 @@ class FwBrowseClass {
                             }
                             var menuItemCount = 0;
                             var $browsecontextmenu = jQuery(this);
-                            var $tr = $browsecontextmenu.closest('tr');
                             //me.unselectAllRows($control);
                             //me.selectRow($control, $tr, true);
                             var $contextmenu = FwContextMenu.render('Options', 'bottomleft', $browsecontextmenu);
                             //$contextmenu.data('beforedestroy', function () {
                             //    me.unselectRow($control, $tr);
                             //});
-                            //---------------------------------------------------------------------------------
-                            FwContextMenu.addMenuItem($contextmenu, 'Audit History', () => {
-                                try {
-                                    let $tr = jQuery(this).closest('tr');
-                                    me.renderAuditHistoryPopup($tr);
-                                } catch (ex) {
-                                    FwFunc.showError(ex);
-                                }
-                            });
                             var controller = $control.attr('data-controller');
                             if (typeof controller === 'undefined') {
                                 throw 'Attribute data-controller is not defined on Browse control.'
@@ -2160,6 +2150,16 @@ class FwBrowseClass {
                                     menuItemCount++;
                                 }
                             }
+                            //---------------------------------------------------------------------------------
+                            FwContextMenu.addMenuItem($contextmenu, 'Audit History', () => {
+                                try {
+                                    let $tr = jQuery(this).closest('tr');
+                                    me.renderAuditHistoryPopup($tr);
+                                } catch (ex) {
+                                    FwFunc.showError(ex);
+                                }
+                            });
+                            menuItemCount++;
                             if (menuItemCount === 0) {
                                 FwContextMenu.destroy($contextmenu);
                             }
@@ -3096,14 +3096,14 @@ class FwBrowseClass {
         uniqueId = $tr.find('[data-browsedatatype="key"]').attr('data-originalvalue');
 
         HTML.push(
-            `<div id="searchpopup" class="fwcontrol fwcontainer fwform" data-control="FwContainer" data-type="form" data-caption="Audit History">
-              <div id="lossdamageform-tabcontrol" class="fwcontrol fwtabs" data-control="FwTabs" data-type="">
+            `<div class="fwcontrol fwcontainer fwform popup" data-control="FwContainer" data-type="form" data-caption="Audit History">
+              <div class="fwcontrol fwtabs" data-control="FwTabs" data-type="">
                 <div style="float:right;" class="close-modal"><i class="material-icons">clear</i><div class="btn-text">Close</div></div>
                 <div class="tabpages">
                   <div class="formpage">
                     <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Audit History">
                       <div class="formrow">
-                        <div class="formcolumn summaryview" style="width:100%;margin-top:50px;">
+                        <div class="formcolumn" style="width:100%;margin-top:50px;">
                           <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                             <div class="fwform-section-title" style="margin-bottom:20px;">Audit History</div>
                             <div data-control="FwGrid" class="container">
@@ -3139,8 +3139,8 @@ class FwBrowseClass {
             jQuery(document).off('keydown');
         });
         // Close modal if click outside
-        jQuery(document).one('click', e => {
-            if (!jQuery(e.target).closest('#searchpopup').length) {
+        jQuery(document).on('click', e => {
+            if (!jQuery(e.target).closest('.popup').length) {
                 FwPopup.destroyPopup($popup);
             }
         });
