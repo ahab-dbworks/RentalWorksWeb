@@ -93,8 +93,6 @@ namespace WebApi.Modules.Home.VendorInvoice
                     select.AddParameter("@locid", locId);
                 }
             }
-
-
         }
         //------------------------------------------------------------------------------------ 
     }

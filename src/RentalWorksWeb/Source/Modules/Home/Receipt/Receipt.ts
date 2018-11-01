@@ -7,6 +7,7 @@ class Receipt {
     caption: string = 'Receipts';
     nav: string = 'module/receipt';
     id: string = '57E34535-1B9F-4223-AD82-981CA34A6DEC';
+    ActiveView: string = 'ALL';
     thisModule: Receipt;
     //----------------------------------------------------------------------------------------------
     getModuleScreen(filter?: { datafield: string, search: string }) {
@@ -41,13 +42,44 @@ class Receipt {
     }
     //----------------------------------------------------------------------------------------------
     openBrowse() {
-        var $browse: any = FwBrowse.loadBrowseFromTemplate(this.Module);
+        let $browse: any = FwBrowse.loadBrowseFromTemplate(this.Module);
         $browse = FwModule.openBrowse($browse);
+
+        let location = JSON.parse(sessionStorage.getItem('location'));
+        this.ActiveView = 'LocationId=' + location.locationid;
+
+        $browse.data('ondatabind', request => {
+            request.activeview = this.ActiveView;
+        });
 
         return $browse;
     }
     //----------------------------------------------------------------------------------------------
-    openForm(mode: string) {
+    addBrowseMenuItems($menuObject) {
+        var self = this;
+        //Location Filter
+        var location = JSON.parse(sessionStorage.getItem('location'));
+        var $allLocations = FwMenu.generateDropDownViewBtn('ALL Locations', false);
+        var $userLocation = FwMenu.generateDropDownViewBtn(location.location, true);
+        $allLocations.on('click', function () {
+            var $browse;
+            $browse = jQuery(this).closest('.fwbrowse');
+            self.ActiveView = 'LocationId=ALL';
+            FwBrowse.search($browse);
+        });
+        $userLocation.on('click', function () {
+            var $browse;
+            $browse = jQuery(this).closest('.fwbrowse');
+            self.ActiveView = 'LocationId=' + location.locationid;
+            FwBrowse.search($browse);
+        });
+        var viewLocation = [];
+        viewLocation.push($userLocation, $allLocations);
+        FwMenu.addViewBtn($menuObject, 'Location', viewLocation);
+        return $menuObject;
+    };
+    //----------------------------------------------------------------------------------------------
+    openForm(mode: string, parentModuleInfo?: any) {
         var $form: any = FwModule.loadFormFromTemplate(this.Module);
         $form = FwModule.openForm($form, mode);
 

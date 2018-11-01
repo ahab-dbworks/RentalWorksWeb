@@ -46,5 +46,36 @@ namespace WebApi.Modules.Home.Receipt
         [FwSqlDataField(column: "currencycode", modeltype: FwDataTypes.Text)]
         public string CurrencyCode { get; set; }
         //------------------------------------------------------------------------------------ 
+        protected override void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequest request = null)
+        {
+            //string paramString = GetUniqueIdAsString("ParamString", request) ?? ""; 
+            //DateTime paramDate = GetUniqueIdAsDateTime("ParamDate", request) ?? DateTime.MinValue; 
+            //bool paramBoolean = GetUniqueIdAsBoolean("ParamBoolean", request) ?? false; 
+            base.SetBaseSelectQuery(select, qry, customFields, request);
+            select.Parse();
+            //select.AddWhere("(xxxtype = 'ABCDEF')"); 
+            //addFilterToSelect("UniqueId", "uniqueid", select, request); 
+            //select.AddParameter("@paramstring", paramString); 
+            //select.AddParameter("@paramdate", paramDate); 
+            //select.AddParameter("@paramboolean", paramBoolean); 
+
+            if ((request != null) && (request.activeview != null))
+            {
+                string locId = "ALL";
+                if (request.activeview.Contains("OfficeLocationId="))
+                {
+                    locId = request.activeview.Replace("OfficeLocationId=", "");
+                }
+                else if (request.activeview.Contains("LocationId="))
+                {
+                    locId = request.activeview.Replace("LocationId=", "");
+                }
+                if (!locId.Equals("ALL"))
+                {
+                    select.AddWhere("(locationid = @locid)");
+                    select.AddParameter("@locid", locId);
+                }
+            }
+        }
     }
 }
