@@ -53,11 +53,11 @@
 
         for (var i = 0; i < this.navigation.length; i++) {
             var categorySecurityObject = FwFunc.getObjects(nodeApplication, 'id', this.navigation[i].id);
-            if (categorySecurityObject[0].properties.visible === 'T') {
+            if (categorySecurityObject !== undefined && categorySecurityObject.length > 0 && categorySecurityObject[0].properties.visible === 'T') {
                 var $menu = FwFileMenu.addMenu($view, this.navigation[i].caption);
                 for (var j = 0; j < this.navigation[i].children.length; j++) {
                     var moduleSecurityObject = FwFunc.getObjects(nodeApplication, 'id', this.navigation[i].children[j].id);
-                    if (moduleSecurityObject[0].properties.visible === 'T') {
+                    if (moduleSecurityObject !== undefined && moduleSecurityObject.length > 0 && moduleSecurityObject[0].properties.visible === 'T') {
                         FwFileMenu.generateStandardModuleBtn($menu, this.navigation[i].children[j].id, this.navigation[i].children[j].caption, this.navigation[i].children[j].nav, '');
                     }
                 }
