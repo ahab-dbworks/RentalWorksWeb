@@ -11,7 +11,10 @@
         html.push('<div class="fwreportsheader">');
         html.push('  <div class="input-group pull-right">');
         html.push('    <input type="text" id="reportsSearch" class="form-control" placeholder="Search..." autofocus>');
-        html.push('    <span class="input-group-addon">');
+        html.push('    <span class="input-group-clear">');
+        html.push('      <i class="material-icons">clear</i>');
+        html.push('    </span>');
+        html.push('    <span class="input-group-search">');
         html.push('      <i class="material-icons">search</i>');
         html.push('    </span>');
         html.push('  </div>');
@@ -139,15 +142,21 @@
                 } else {
                     jQuery(this).next().css('display', 'none');
                 }
-            })
-            ;
+            });
 
+        $control.on('click', '.input-group-clear', function (e) {
+            let event = jQuery.Event('keypress');
+            event.which = 13;
+            jQuery(this).parent().find('#reportsSearch').val('').trigger(event);
+            jQuery(this).css('display', 'none');
+        });
 
         $control.on('keypress', '#reportsSearch', function (e) {
             if (e.which === 13) {
                 e.stopImmediatePropagation();
                 jQuery(this).closest('.fwreports').find('.data-panel:parent').parent().find('.row-heading').click();
                 jQuery(this).closest('.fwreports').find('.data-panel:parent').empty();
+                jQuery(this).parent().find('.input-group-clear').css('display', 'table-cell');
 
                 var $reports, val, $module;
 
@@ -157,6 +166,8 @@
                 $module = jQuery('a#title');
                 val = jQuery.trim(this.value).toUpperCase();
                 if (val === "") {
+                    jQuery(this).parent().find('.input-group-clear').css('display', 'none');
+                    $control.find('.highlighted').removeClass('highlighted');
                     $reports.closest('div.panel-group').show();
                 } else {
                     var results = [];
