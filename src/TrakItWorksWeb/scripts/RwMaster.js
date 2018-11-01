@@ -4,7 +4,7 @@ class RwMaster extends WebMaster {
             {
                 caption: 'TrakItWorks',
                 id: 'B05953D7-DC85-486C-B9A4-7743875DFABC',
-                children: [TiwOrderController, TiwCustomerController, TiwVendorController, TiwContactController, TiwPurchaseOrderController]
+                children: [TiwAssetController, TiwOrderController, TiwCustomerController, TiwVendorController, TiwContactController, TiwPurchaseOrderController]
             },
             {
                 caption: 'Inventory',
@@ -14,12 +14,12 @@ class RwMaster extends WebMaster {
             {
                 caption: 'Warehouse',
                 id: '293A157D-EA8E-48F6-AE97-15F9DE53041A',
-                children: [TiwOrderStatusController, TiwAssignBarCodesController, TiwExchangeController]
+                children: [TiwAssignBarCodesController, TiwCheckInController, TiwExchangeController, TiwOrderStatusController, TiwPickListController, TiwReceiveFromVendorController, TiwReturnToVendorController, TiwStagingCheckoutController]
             },
             {
                 caption: 'Reports',
                 id: 'F62D2B01-E4C4-4E97-BFAB-6CF2B872A4E4',
-                children: [TiwPickListController, TiwContractController]
+                children: [TiwCreatePickListController, TiwContractController]
             },
             {
                 caption: 'Administator',

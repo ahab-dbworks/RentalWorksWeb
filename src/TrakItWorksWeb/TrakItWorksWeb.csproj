@@ -185,6 +185,7 @@
     <Content Include="Source\Modules\Administrator\User\UserBrowse.htm" />
     <Content Include="Source\Modules\Administrator\User\UserForm.htm" />
     <Content Include="Source\Modules\Home\AssignBarCodes\AssignBarCodesForm.htm" />
+    <Content Include="Source\Modules\Home\CheckIn\CheckInForm.htm" />
     <Content Include="Source\Modules\Home\CreatePickList\CreatePickListForm.htm" />
     <Content Include="Source\Modules\Home\Exchange\ExchangeForm.htm" />
     <Content Include="Source\Modules\Home\Order\OrderBrowse.htm" />
@@ -193,6 +194,7 @@
     <Content Include="Source\Modules\Home\PurchaseOrder\PurchaseOrderForm.htm" />
     <Content Include="Source\Modules\Home\Quote\QuoteBrowse.htm" />
     <Content Include="Source\Modules\Home\Quote\QuoteForm.htm" />
+    <Content Include="Source\Modules\Home\ReceiveFromVendor\ReceiveFromVendorForm.htm" />
     <Content Include="Source\Modules\Home\Repair\RepairBrowse.htm" />
     <Content Include="Source\Modules\Home\Repair\RepairForm.htm" />
     <Content Include="Source\Modules\Home\PickList\PickListBrowse.htm" />
@@ -206,11 +208,13 @@
     <Content Include="Source\Modules\Home\RentalInventory\RentalInventoryForm.htm" />
     <Content Include="Source\Modules\Home\PartsInventory\PartsInventoryBrowse.htm" />
     <Content Include="Source\Modules\Home\PartsInventory\PartsInventoryForm.htm" />
+    <Content Include="Source\Modules\Home\ReturnToVendor\ReturnToVendorForm.htm" />
     <Content Include="Source\Modules\Home\SalesInventory\SalesInventoryBrowse.htm" />
     <Content Include="Source\Modules\Home\SalesInventory\SalesInventoryForm.htm" />
     <Content Include="Source\Modules\Home\OrderStatus\OrderStatusForm.htm" />
     <Content Include="Source\Modules\Home\Contract\ContractBrowse.htm" />
     <Content Include="Source\Modules\Home\Contract\ContractForm.htm" />
+    <Content Include="Source\Modules\Home\StagingCheckout\StagingCheckoutForm.htm" />
     <Content Include="Source\Modules\Home\Vendor\VendorBrowse.htm" />
     <Content Include="Source\Modules\Home\Vendor\VendorForm.htm" />
     <Content Include="Source\Modules\Administrator\SettingsPage\SettingsPage.css" />
@@ -682,8 +686,10 @@
       <SubType>Designer</SubType>
     </Content>
     <TypeScriptCompile Include="Source\Modules\Home\AssignBarCodes\TiwAssignBarCodes.ts" />
+    <TypeScriptCompile Include="Source\Modules\Home\CheckIn\TiwCheckIn.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\Contact\TiwContact.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\Contract\TiwContract.ts" />
+    <TypeScriptCompile Include="Source\Modules\Home\CreatePickList\TiwCreatePickList.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\Customer\TiwCustomer.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\Deal\TiwDeal.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\Exchange\TiwExchange.ts" />
@@ -691,7 +697,10 @@
     <TypeScriptCompile Include="Source\Modules\Home\Order\TiwOrder.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\PickList\TiwPickList.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\PurchaseOrder\TiwPurchaseOrder.ts" />
+    <TypeScriptCompile Include="Source\Modules\Home\ReceiveFromVendor\TiwReceiveFromVendor.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\Repair\TiwRepair.ts" />
+    <TypeScriptCompile Include="Source\Modules\Home\ReturnToVendor\TiwReturnToVendor.ts" />
+    <TypeScriptCompile Include="Source\Modules\Home\StagingCheckout\TiwStagingCheckout.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\Vendor\TiwVendor.ts" />
   </ItemGroup>
   <ItemGroup>

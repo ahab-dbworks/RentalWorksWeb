@@ -7,7 +7,7 @@
             {
                 caption: 'TrakItWorks',
                 id: 'B05953D7-DC85-486C-B9A4-7743875DFABC',
-                children: [/*TiwAssetController, QuoteController,*/TiwOrderController, TiwCustomerController,/*, DealController, */TiwVendorController, TiwContactController, TiwPurchaseOrderController/*, ProjectController*/]
+                children: [TiwAssetController, /*QuoteController,*/TiwOrderController, TiwCustomerController,/*, DealController, */TiwVendorController, TiwContactController, TiwPurchaseOrderController/*, ProjectController*/]
             },
             {
                 caption: 'Inventory',
@@ -16,13 +16,13 @@
           },
             {
                 caption: 'Warehouse',
-                id: '293A157D-EA8E-48F6-AE97-15F9DE53041A',
-                children: [TiwOrderStatusController, TiwAssignBarCodesController, TiwExchangeController/*,InvoiceController*/]
+              id: '293A157D-EA8E-48F6-AE97-15F9DE53041A',
+              children: [TiwAssignBarCodesController, TiwCheckInController, TiwExchangeController, TiwOrderStatusController, TiwPickListController, TiwReceiveFromVendorController, TiwReturnToVendorController, TiwStagingCheckoutController/*, InvoiceController*/]
             },
             {
                 caption: 'Reports',
                 id: 'F62D2B01-E4C4-4E97-BFAB-6CF2B872A4E4',
-                children: [TiwPickListController, TiwContractController/*, StagingCheckoutController, CheckInController, ReceiveFromVendorController, ReturnToVendorController, AssignBarCodesController*/]
+                children: [TiwCreatePickListController, TiwContractController/*, StagingCheckoutController, CheckInController, ReceiveFromVendorController, ReturnToVendorController, AssignBarCodesController*/]
             },
             {
                 caption: 'Administator',
