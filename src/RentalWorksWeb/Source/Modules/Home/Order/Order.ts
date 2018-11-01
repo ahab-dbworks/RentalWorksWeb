@@ -2173,6 +2173,9 @@ class Order extends OrderBase {
             }
         }
         const events = () => {
+            let $lossAndDamageItemGrid = $popup.find('div[data-grid="LossAndDamageItemGrid"]');
+            let $orderItemGridLossDamage = $form.find('.lossdamagegrid [data-name="OrderItemGrid"]');
+            $lossAndDamageItemGrid = jQuery($lossAndDamageItemGrid);
             //Close the popup
             $popup.find('.close-modal').one('click', e => {
                 FwPopup.destroyPopup($popup);
@@ -2191,12 +2194,11 @@ class Order extends OrderBase {
                 FwAppData.apiMethod(true, 'POST', `api/v1/lossanddamage/completesession`, request, FwServices.defaultTimeout, function onSuccess(response) {
                     if (response.success === true) {
                         FwPopup.destroyPopup($popup);
-                        let $orderItemGridLossDamage = $form.find('.lossdamagegrid [data-name="OrderItemGrid"]');
                         FwBrowse.search($orderItemGridLossDamage);
                     } else {
                         FwConfirmation.renderConfirmation('ERROR', 'Error')
                     }
-                }, null, $popup);
+                }, null, $lossAndDamageItemGrid);
             });
             // Select All
             $popup.find('.selectall').on('click', e => {
@@ -2215,7 +2217,7 @@ class Order extends OrderBase {
                     }
                 }, function onError(response) {
                     FwFunc.showError(response);
-                }, null);
+                    }, $lossAndDamageItemGrid);
             });
             // Select None
             $popup.find('.selectnone').on('click', e => {
@@ -2234,7 +2236,7 @@ class Order extends OrderBase {
                     }
                 }, function onError(response) {
                     FwFunc.showError(response);
-                }, null);
+                    }, $lossAndDamageItemGrid);
             });
             //Options button
             $popup.find('.options-button').on('click', e => {
