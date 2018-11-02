@@ -528,7 +528,7 @@ class Quote extends OrderBase {
         }
 
         if (status === 'ACTIVE') {
-            FwTabs.setTabColor($form.find('.billingtab'), 'green');
+            FwTabs.setTabColor($form.find('.billingtab'), '#228B22');
         }
 
         var $orderStatusHistoryGrid = $form.find('[data-name="OrderStatusHistoryGrid"]');

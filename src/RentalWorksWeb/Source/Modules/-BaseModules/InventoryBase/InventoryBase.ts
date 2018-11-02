@@ -50,9 +50,35 @@
     };
     //----------------------------------------------------------------------------------------------
     openForm(mode: string) {
-        var $form, controller;
+        var $form, controller, $calendar;
         $form = FwModule.loadFormFromTemplate(this.Module);
         $form = FwModule.openForm($form, mode);
+
+        $calendar = $form.find('.calendar');
+        $calendar
+            .data('ongetevents', function (request) {
+                FwScheduler.loadEventsCallback($calendar, [{ id: '1', name: '' }], [{
+                    backColor: '#FFFFFF',
+                    end: '2018-11-10 10:00:00',
+                    html: '<div style="color:#000000">MISC CHARGES   Total 0.00</div>',
+                    id: '00000000-0000-0000-0000-000000000000',
+                    resource: '1',
+                    start: '2018-11-01 09:00:000'
+                }]);
+            })
+            .data('ontimerangedoubleclicked', function (event) {
+                try {
+                    var date;
+                    date = event.start.toString('MM/dd/yyyy');
+                    FwScheduler.setSelectedDay($calendar, date);
+                    //DriverController.openTicket($form);
+                    $form.find('div[data-type="Browse"][data-name="Schedule"] .browseDate .fwformfield-value').val(date).change();
+                    $form.find('div.tab.schedule').click();
+                } catch (ex) {
+                    FwFunc.showError(ex);
+                }
+            });
+
 
         if (mode === 'NEW') {
             this.setupNewMode($form);
@@ -68,11 +94,24 @@
     };
     //----------------------------------------------------------------------------------------------
     loadForm(uniqueids: any) {
-        var $form;
+        var $form, $calendar, schddate;
 
         $form = this.openForm('EDIT');
         $form.find('div.fwformfield[data-datafield="InventoryId"] input').val(uniqueids.InventoryId);
         FwModule.loadForm(this.Module, $form);
+
+        $calendar = $form.find('.calendar');
+        if ($calendar.length > 0) {
+            setTimeout(function () {
+                if (FwSecurity.isUser()) {
+                    schddate = FwFormField.getValue3('#moduletabs', 'div[data-datafield="workingstatusdate"]');
+                } else {
+                    schddate = FwScheduler.getTodaysDate();
+                }
+                FwScheduler.navigate($calendar, schddate);
+                FwScheduler.refresh($calendar);
+            }, 1);
+        }
 
         return $form;
     };

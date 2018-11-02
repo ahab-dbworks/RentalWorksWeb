@@ -6,3 +6,4 @@ declare var FwLanguages: any;
 declare var FwMenu: any;
 declare var FwMobileMasterController: any;
 declare var FwSecurity: any;
+declare var DayPilot: any;

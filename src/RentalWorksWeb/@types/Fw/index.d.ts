@@ -10,3 +10,4 @@ declare var RwLanguages: any;
 declare var FwContextMenu: any;
 declare var FwFormField_checkboxlist: any;
 declare var Sortable: any;
+declare var DayPilot: any;
