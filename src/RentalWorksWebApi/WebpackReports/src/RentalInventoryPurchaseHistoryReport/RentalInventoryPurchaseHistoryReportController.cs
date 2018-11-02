@@ -17,6 +17,8 @@ namespace WebApi.Modules.Reports.RentalInventoryPurchaseHistoryReport
         public DateTime? PurchasedToDate { get; set; }
         public DateTime? ReceivedFromDate { get; set; }
         public DateTime? ReceivedToDate { get; set; }
+        public SelectedCheckBoxListItems TrackedBys { get; set; } = new SelectedCheckBoxListItems();
+        public SelectedCheckBoxListItems Ranks { get; set; } = new SelectedCheckBoxListItems();
         public string WarehouseId { get; set; }
         public string InventoryTypeId { get; set; }
         public string CategoryId { get; set; }

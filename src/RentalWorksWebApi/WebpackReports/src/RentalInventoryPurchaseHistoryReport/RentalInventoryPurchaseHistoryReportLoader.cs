@@ -127,6 +127,9 @@ namespace WebApi.Modules.Reports.RentalInventoryPurchaseHistoryReport
                     addStringFilterToSelect("subcategoryid", request.SubCategoryId, select);
                     addStringFilterToSelect("masterid", request.InventoryId, select);
 
+                    select.AddWhereIn("and", "trackedby", request.TrackedBys.ToString(), false);
+                    select.AddWhereIn("and", "rank", request.Ranks.ToString(), false);
+
                     select.AddOrderBy("warehouse, inventorydepartment, category, subcategory, masterno, purchasedate, receivedate");
                     dt = await qry.QueryToFwJsonTableAsync(select, false);
                 }
