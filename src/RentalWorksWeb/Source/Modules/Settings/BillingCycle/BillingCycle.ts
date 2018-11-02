@@ -76,7 +76,7 @@
         var $billingCycleEventsGrid: any;
         var $billingCycleEventsGridControl: any;
 
-        // load AttributeValue Grid
+        // load Billing Cycle Event Grid
         $billingCycleEventsGrid = $form.find('div[data-grid="BillingCycleEventsGrid"]');
         $billingCycleEventsGridControl = jQuery(jQuery('#tmpl-grids-BillingCycleEventsGridBrowse').html());
         $billingCycleEventsGrid.empty().append($billingCycleEventsGridControl);
