@@ -340,8 +340,8 @@
                 tabHtml = [];
                 if (data_version == '2' && tabcolor) {
                     tabHtml.push('<div class="border" style="background-color:' + tabcolor + '"></div>');
-                } else if (data_version == '2' && !tabcolor) { 
-                     tabHtml.push('<div class="border"></div>');
+                } else if (data_version == '2' && !tabcolor) {
+                    tabHtml.push('<div class="border"></div>');
                 }
                 tabHtml.push('<div class="caption">' + $tab.attr('data-caption') + '</div>');
                 tabHtml = tabHtml.join('');
@@ -522,8 +522,7 @@
     };
     //---------------------------------------------------------------------------------
     setTabColor($tab, color) {
-        $tab.attr('data-color', color);
-        $tab.find('.border').addClass(color);
+        $tab.find('.border').css('background-color', color);
     };
     //---------------------------------------------------------------------------------
 

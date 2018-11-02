@@ -1294,7 +1294,7 @@ namespace FwStandard.DataLayer
             return await GetAsync<T>(customFields);
         }
         //------------------------------------------------------------------------------------
-        public virtual async Task<dynamic> GetAsync<T>(FwCustomFields customFields = null, Func<FwSqlSelect, Task> beforeExecuteQuery = null)
+        public virtual async Task<dynamic> GetAsync<T>(FwCustomFields customFields = null)
         {
             //if (AllPrimaryKeysHaveValues)
             if (PrimaryKeyCount > 0)
@@ -1307,37 +1307,48 @@ namespace FwStandard.DataLayer
                         using (FwSqlCommand qry = new FwSqlCommand(conn, AppConfig.DatabaseSettings.QueryTimeout))
                         {
                             SetBaseSelectQuery(select, qry, customFields);
-                            if (!select.Parsed)
-                            {
-                                select.Parse();
-                            }
+                            select.SetQuery(qry);
+
+
+
                             List<PropertyInfo> primaryKeyProperties = GetPrimaryKeyProperties();
+                            int k = 0;
                             foreach (PropertyInfo primaryKeyProperty in primaryKeyProperties)
                             {
-                                FwSqlDataFieldAttribute sqlDataFieldAttribute = primaryKeyProperty.GetCustomAttribute<FwSqlDataFieldAttribute>();
-                                if (string.IsNullOrEmpty(sqlDataFieldAttribute.ColumnName))
+                                //if (k == 0)
+                                if ((k == 0) && (select.SelectStatements[0].Where.Count == 0))
                                 {
-                                    throw new Exception($"In FwDataRecord: {this.GetType().FullName } the property: {primaryKeyProperty.Name} requires FwSqlDataField's ColumnName to be set.");
+                                    qry.Add("where ");
                                 }
-                                string sqlColumnName = sqlDataFieldAttribute.ColumnName;;
-                                string paramName = "@" + sqlColumnName + ShortId.Generate(true, false, 7);
-                                select.AddWhere($"{sqlColumnName} = {paramName}");
-                                select.AddParameter(paramName, primaryKeyProperty.GetValue(this));
+                                else
+                                {
+                                    qry.Add("and ");
+                                }
+                                FwSqlDataFieldAttribute sqlDataFieldAttribute = primaryKeyProperty.GetCustomAttribute<FwSqlDataFieldAttribute>();
+                                string sqlColumnName = primaryKeyProperty.Name;
+                                if (!string.IsNullOrEmpty(sqlDataFieldAttribute.ColumnName))
+                                {
+                                    sqlColumnName = sqlDataFieldAttribute.ColumnName;
+                                }
+                                qry.Add(sqlColumnName);
+                                qry.Add(" = @keyvalue" + k.ToString());
+                                k++;
                             }
-                            if (beforeExecuteQuery != null)
+                            k = 0;
+                            foreach (PropertyInfo primaryKeyProperty in primaryKeyProperties)
                             {
-                                await beforeExecuteQuery(select);
+                                qry.AddParameter("@keyvalue" + k.ToString(), primaryKeyProperty.GetValue(this));
+                                k++;
                             }
-                            select.SetQuery(qry);
-                            MethodInfo method = typeof(FwSqlCommand).GetMethod("GetManyAsync");
+                            MethodInfo method = typeof(FwSqlCommand).GetMethod("SelectAsync");
                             MethodInfo generic = method.MakeGenericMethod(this.GetType());
                             object openAndCloseConnection = true;
-                            dynamic taskGetMany = generic.Invoke(qry, new object[] { openAndCloseConnection, customFields });
-                            dynamic getManyResponse = await taskGetMany;
+                            dynamic result = generic.Invoke(qry, new object[] { openAndCloseConnection, customFields });
+                            dynamic records = await result;
                             dynamic record = null;
-                            if (getManyResponse.Items.Count > 0)
+                            if (records.Count > 0)
                             {
-                                record = getManyResponse.Items[0];
+                                record = records[0];
                             }
                             return record;
                         }

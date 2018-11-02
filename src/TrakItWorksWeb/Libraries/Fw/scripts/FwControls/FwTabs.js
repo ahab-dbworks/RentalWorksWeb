@@ -515,8 +515,7 @@ class FwTabsClass {
     }
     ;
     setTabColor($tab, color) {
-        $tab.attr('data-color', color);
-        $tab.find('.border').addClass(color);
+        $tab.find('.border').css('background-color', color);
     }
     ;
 }

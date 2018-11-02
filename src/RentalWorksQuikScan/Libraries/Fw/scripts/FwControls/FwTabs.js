@@ -517,8 +517,7 @@ var FwTabsClass = (function () {
     };
     ;
     FwTabsClass.prototype.setTabColor = function ($tab, color) {
-        $tab.attr('data-color', color);
-        $tab.find('.border').addClass(color);
+        $tab.find('.border').css('background-color', color);
     };
     ;
     return FwTabsClass;

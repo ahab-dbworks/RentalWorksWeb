@@ -307,7 +307,7 @@ namespace WebApi.Modules.Home.OrderSummary
         [FwSqlDataField(column: "caseweightgr", modeltype: FwDataTypes.Integer)]
         public int? WeightInCaseGrams { get; set; }
         //------------------------------------------------------------------------------------
-        public override async Task<dynamic> GetAsync<T>(FwCustomFields customFields = null, Func<FwSqlSelect, Task> beforeExecuteQuery = null)
+        public override async Task<dynamic> GetAsync<T>(FwCustomFields customFields = null)
         {
             if (string.IsNullOrEmpty(OrderId))
             {
