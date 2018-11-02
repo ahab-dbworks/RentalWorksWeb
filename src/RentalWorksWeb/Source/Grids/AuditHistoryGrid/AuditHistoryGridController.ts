@@ -19,12 +19,28 @@
                 for (let i = 0; i < changes.length; i++) {
                     if (typeof changes[i].OldValue === 'string') {
                         if (changes[i].OldValue.substring(0, 4) !== 'rgb(') { // For color related fields
-                            html.push(`<ul style="font-size:14px; word-wrap:break-word; display:flex;">
+                            if (changes[i].FieldName === 'Html') {
+                                html.push(`<ul style="font-size:14px; word-wrap:break-word; display:flex;">
+                                                <span style="font-weight:bold; float:left; width:225px; padding-right:1em;">${changes[i].FieldName}:</span>
+                                                <span class="oldHtml" style="width:200px; padding-right:1em;">
+                                                    <textarea class="value" style="display:none;" readonly>${changes[i].OldValue}</textarea>
+                                                    <i class="material-icons" style="cursor:pointer; display:contents;">code</i>
+                                                </span>
+                                                <span class="newHtml" style="width:200px; padding-right:4em;">
+                                                    <textarea class="value" style="display:none;">${changes[i].NewValue}</textarea>
+                                                    <i class="material-icons" style="cursor:pointer; display:contents;" readonly>code</i>
+                                                </span>
+                                                <span class="auditSpacer" style="flex:1 1 0"></span>
+                                           </ul>`);
+
+                            } else {
+                                html.push(`<ul style="font-size:14px; word-wrap:break-word; display:flex;">
                                          <span style="font-weight:bold; float:left; width:225px; padding-right:1em;">${changes[i].FieldName}:</span>
                                          <span style="width:200px; padding-right:1em;">${changes[i].OldValue === "" ? "&#160;" : changes[i].OldValue}</span>
                                          <span style="width:200px; padding-right:4em;">${changes[i].NewValue === "" ? "&#160;" : changes[i].NewValue}</span>
                                          <span class="auditSpacer" style="flex:1 1 0"></span>
                                        </ul>`);
+                            }
                         } else {
                             html.push(`<ul style="font-size:14px; word-wrap:break-word; display:flex;">
                                          <span style="font-weight:bold; float:left; width:225px; padding-right:1em;">${changes[i].FieldName}:</span>
@@ -43,7 +59,27 @@
                     }
                 }
             }
-            jQuery($oldElement).replaceWith(html.join(''));
+            let $newElement = jQuery(html.join(''));
+            jQuery($oldElement).replaceWith($newElement);
+
+            $newElement.on('click', '.oldHtml i, .newHtml i', e => {
+                e.stopPropagation();
+                let $confirmation, $close, controlhtml;
+                let $htmlChanges = jQuery(e.currentTarget).siblings('textarea.value')[0].textContent;
+                $confirmation = FwConfirmation.renderConfirmation('HTML', '');
+                $close = FwConfirmation.addButton($confirmation, 'Close', true);
+                controlhtml = [];
+                controlhtml.push('<div data-control="FwFormField" data-type="textarea" class="fwcontrol fwformfield html" data-caption="HTML" data-enabled="false" data-datafield=""></div>');
+                FwConfirmation.addControls($confirmation, controlhtml.join('\n'));
+                FwFormField.setValue($confirmation, '.html', $htmlChanges);
+                $confirmation.find('.html textarea')
+                    .css({
+                        'width': '1200px',
+                        'max-width': '1500px',
+                        'height': '700px',
+                        'resize': 'both'
+                    });
+            });
         });
     }
 }
