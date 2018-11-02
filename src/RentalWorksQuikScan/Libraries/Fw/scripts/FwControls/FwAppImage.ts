@@ -43,8 +43,8 @@
                                     function (imageUri) {
                                         var img, request, $images, i;
                                         try {
-                                            if ((typeof window.screen !== 'undefined') && (typeof window.screen.lockOrientation === 'function')) {
-                                                window.screen.lockOrientation('portrait-primary');
+                                            if ((typeof window.screen !== 'undefined') && (typeof (<any>window).screen.lockOrientation === 'function')) {
+                                                (<any>window).screen.lockOrientation('portrait-primary');
                                             };
                                             var $image = jQuery(FwAppImage.getAddImageHtml($control));
                                             var dataUrl = 'data:image/jpeg;base64,' + imageUri;
@@ -62,8 +62,8 @@
                                     //error
                                     , function (message) {
                                         try {
-                                            if ((typeof window.screen !== 'undefined') && (typeof window.screen.lockOrientation === 'function')) {
-                                                window.screen.lockOrientation('portrait-primary');
+                                            if ((typeof window.screen !== 'undefined') && (typeof (<any>window).screen.lockOrientation === 'function')) {
+                                                (<any>window).screen.lockOrientation('portrait-primary');
                                             }
                                             //FwFunc.showError('Failed because: ' + message);
                                         } catch (ex) {
