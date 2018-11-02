@@ -7,7 +7,7 @@
             {
                 caption: 'TrakItWorks',
                 id: 'B05953D7-DC85-486C-B9A4-7743875DFABC',
-                children: [TiwAssetController, /*QuoteController,*/TiwOrderController, TiwCustomerController,/*, DealController, */TiwVendorController, TiwContactController, TiwPurchaseOrderController/*, ProjectController*/]
+                children: [TiwContactController, TiwCustomerController, TiwDealController, TiwOrderController, TiwPurchaseOrderController, TiwVendorController/*, ProjectController*/]
             },
             {
                 caption: 'Inventory',
@@ -27,7 +27,7 @@
             {
                 caption: 'Administator',
                 id: 'A3EE3EE9-4C98-4315-B08D-2FAD67C04E07',
-                children: [TiwUserController, TiwUserSettingsController /*ControlController, CustomFieldController, CustomFormController, DuplicateRuleController, GroupController, HotfixController, SettingsController, ReportsController*/]
+                children: [TiwUserController/*ControlController, CustomFieldController, CustomFormController, DuplicateRuleController, GroupController, HotfixController, SettingsController, ReportsController*/]
             }
         ];
     }

@@ -4,7 +4,7 @@ class RwMaster extends WebMaster {
             {
                 caption: 'TrakItWorks',
                 id: 'B05953D7-DC85-486C-B9A4-7743875DFABC',
-                children: [TiwAssetController, TiwOrderController, TiwCustomerController, TiwVendorController, TiwContactController, TiwPurchaseOrderController]
+                children: [TiwContactController, TiwCustomerController, TiwDealController, TiwOrderController, TiwPurchaseOrderController, TiwVendorController]
             },
             {
                 caption: 'Inventory',
@@ -24,7 +24,7 @@ class RwMaster extends WebMaster {
             {
                 caption: 'Administator',
                 id: 'A3EE3EE9-4C98-4315-B08D-2FAD67C04E07',
-                children: [TiwUserController, TiwUserSettingsController]
+                children: [TiwUserController]
             }
         ];
     }
