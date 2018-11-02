@@ -104,16 +104,17 @@ class VendorInvoice {
         $form.find('[data-datafield="PurchaseOrderId"] input').on('change', e => {
             let purchaseOrderId = FwFormField.getValueByDataField($form, 'PurchaseOrderId');
             FwAppData.apiMethod(true, 'GET', `api/v1/purchaseorder/${purchaseOrderId}`, null, FwServices.defaultTimeout, function onSuccess(response) {
-                FwFormField.setValueByDataField($form, 'PurchaseOrderDate', response.PurchaseOrderDate);
                 FwFormField.setValueByDataField($form, 'Vendor', response.Vendor);
-                FwFormField.setValueByDataField($form, 'BillingCycle', response.BillingCycle);
-                FwFormField.setValueByDataField($form, 'Description', response.Description);
                 FwFormField.setValueByDataField($form, 'DepartmentId', response.DepartmentId, response.Department);
                 FwFormField.setValueByDataField($form, 'WarehouseId', response.WarehouseId, response.Warehouse);
-                FwFormField.setValueByDataField($form, 'EstimatedStartDate', response.EstimatedStartDate);
-                FwFormField.setValueByDataField($form, 'EstimatedStopDate', response.EstimatedStopDate);
                 FwFormField.setValueByDataField($form, 'PaymentTerms', response.PaymentTerms);
                 FwFormField.setValueByDataField($form, 'InvoiceDueDate', response.InvoiceDueDate);
+                FwFormField.setValue($form, $form.find('[data-caption="PO Date"]'), response.PurchaseOrderDate);
+                FwFormField.setValue($form, $form.find('[data-caption="Billing Cycle"]'), response.BillingCycleId, response.BillingCycle);
+                FwFormField.setValue($form, $form.find('[data-caption="Description"]'), response.Description);
+                FwFormField.setValue($form, $form.find('[data-caption="PO Estimated Rental Period"] [data-caption="From"]'), response.EstimatedStartDate);
+                FwFormField.setValue($form, $form.find('[data-caption="PO Estimated Rental Period"] [data-caption="To"]'), response.EstimatedStopDate);
+
             }, null, $form);
         });
     };
