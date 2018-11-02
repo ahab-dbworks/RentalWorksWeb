@@ -23,12 +23,12 @@
                                 html.push(`<ul style="font-size:14px; word-wrap:break-word; display:flex;">
                                                 <span style="font-weight:bold; float:left; width:225px; padding-right:1em;">${changes[i].FieldName}:</span>
                                                 <span class="oldHtml" style="width:200px; padding-right:1em;">
-                                                    <textarea class="value" style="display:none;" readonly>${changes[i].OldValue}</textarea>
-                                                    <i class="material-icons" style="cursor:pointer; display:contents;">code</i>
+                                                    <textarea class="value" style="display:none;">${changes[i].OldValue}</textarea>
+                                                    <span style="font-weight:bolder; font-size:17px; cursor:pointer; display:contents;"> < ... > </span>
                                                 </span>
                                                 <span class="newHtml" style="width:200px; padding-right:4em;">
                                                     <textarea class="value" style="display:none;">${changes[i].NewValue}</textarea>
-                                                    <i class="material-icons" style="cursor:pointer; display:contents;" readonly>code</i>
+                                                    <span style="font-weight:bolder; font-size:17px;cursor:pointer; display:contents;"> < ... > </span>
                                                 </span>
                                                 <span class="auditSpacer" style="flex:1 1 0"></span>
                                            </ul>`);
@@ -62,7 +62,7 @@
             let $newElement = jQuery(html.join(''));
             jQuery($oldElement).replaceWith($newElement);
 
-            $newElement.on('click', '.oldHtml i, .newHtml i', e => {
+            $newElement.on('click', '.oldHtml span, .newHtml span', e => {
                 e.stopPropagation();
                 let $confirmation, $close, controlhtml;
                 let $htmlChanges = jQuery(e.currentTarget).siblings('textarea.value')[0].textContent;
