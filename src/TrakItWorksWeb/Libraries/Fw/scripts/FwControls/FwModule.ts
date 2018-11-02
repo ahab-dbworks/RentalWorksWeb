@@ -1214,12 +1214,14 @@ class FwModule {
 
                 if ($fwformfield.attr('data-type') === 'validation') {
                     validationDisplayField = $fwformfield.attr('data-displayfield');
-                    validationDisplayValue = FwFormField.getText2($fwformfield);
-                    displayField = {
-                        datafield: validationDisplayField,
-                        value: validationDisplayValue
+                    if (validationDisplayField != dataField) {
+                        validationDisplayValue = FwFormField.getText2($fwformfield);
+                        displayField = {
+                            datafield: validationDisplayField,
+                            value: validationDisplayValue
+                        }
+                        fields[validationDisplayField] = displayField;
                     }
-                    fields[validationDisplayField] = displayField;
                 }
             }
         });

@@ -4,7 +4,7 @@ FwContextMenu.render = function(title, position, $appendto) {
     var html=[], $control;
 
     if (typeof position !== 'string') {
-        position = 'center'
+        position = 'center';
     }
     if (typeof $appendto === 'undefined') {
         $appendto = jQuery('#application');
@@ -39,14 +39,14 @@ FwContextMenu.render = function(title, position, $appendto) {
     });
     setTimeout(function () {
         jQuery('body').one('click', function (event) {
-        try {
-            event.stopPropagation();
-            FwContextMenu.destroy($control);
-        } catch (ex) {
-            FwFunc.showError(ex);
-        }
-    });
-    }, 0)
+            try {
+                // event.stopPropagation();
+                FwContextMenu.destroy($control);
+            } catch (ex) {
+                FwFunc.showError(ex);
+            }
+        });
+    }, 0);
 
     return $control;
 };

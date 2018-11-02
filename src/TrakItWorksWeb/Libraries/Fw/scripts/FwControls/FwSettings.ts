@@ -19,7 +19,10 @@ class FwSettingsClass {
         //html.push('</div>')
         html.push('  <div class="input-group pull-right">');
         html.push('    <input type="text" id="settingsSearch" class="form-control" placeholder="Search..." autofocus>');
-        html.push('    <span class="input-group-addon">');
+        html.push('    <span class="input-group-clear">');
+        html.push('      <i class="material-icons">clear</i>');
+        html.push('    </span>');
+        html.push('    <span class="input-group-search">');
         html.push('      <i class="material-icons">search</i>');
         html.push('    </span>');
         html.push('  </div>');
@@ -237,19 +240,26 @@ class FwSettingsClass {
             let $browse = window[moduleName + 'Controller'].openBrowse();
             let colors = [];
             let browseData = [];
+            let duplicateDatafields = {};
+            let withoutDuplicates = [];
 
-            FwBrowse.loadCustomBrowseFields($browse, moduleName);
-
+            let $form = jQuery(jQuery('#tmpl-modules-' + moduleName + 'Form').html());
             keys = $browse.find('.field');
             rowId = jQuery(keys[0]).attr('data-browsedatafield');
 
+            $body.append('<div class="legend"><span class="input-group-addon search"><i class="material-icons">search</i></span><input type="text" id="recordSearch" class="form-control" placeholder="Record Search" autofocus></div>');
+
             //append legend
             if ($browse.find('.legend').length > 0) {
-                $body.append($browse.find('.legend')[0]);
+                $body.append($browse.find('.legend'));
             }
 
             for (var i = 1; i < keys.length; i++) {
-                var Key = jQuery(keys[i]).attr('data-browsedatafield');
+                if (jQuery(keys[i]).attr('data-datafield')) {
+                    var Key = jQuery(keys[i]).attr('data-datafield');
+                } else if (jQuery(keys[i]).attr('data-browsedatafield')) {
+                    var Key = jQuery(keys[i]).attr('data-browsedatafield');
+                }
                 var cellColor = $browse.find('div[data-browsedatafield="' + Key + '"]').data('cellcolor')
                 browseKeys.push(Key);
                 var fieldData = {};
@@ -270,7 +280,7 @@ class FwSettingsClass {
                 fieldData['datafield'] = Key
                 browseData.push(fieldData)
 
-                if (i === 1 && Key !== 'Inactive' || i === 2 && jQuery(keys[1]).attr('data-datafield') === 'Inactive') {
+                if (i === 1 && Key !== 'Inactive' || i === 2 && jQuery(keys[1]).attr('data-browsedatafield') === 'Inactive') {
                     for (var k = 0; k < response.length - 1; k++) {
                         for (var l = 0, sorted; l < response.length - 1; l++) {
                             if (response[l][Key].toLowerCase() > response[l + 1][Key].toLowerCase()) {
@@ -283,6 +293,57 @@ class FwSettingsClass {
                 }
             };
 
+            if (FwSettings.filter.length > 0) {
+                var uniqueFilters = [];
+                for (var j = 0; j < FwSettings.filter.length; j++) {
+                    if (uniqueFilters.indexOf(FwSettings.filter[j]) === -1) {
+                        uniqueFilters.push(FwSettings.filter[j]);
+                    }
+                }
+
+                for (var i = 0; i < uniqueFilters.length; i++) {
+                    var filterField = $form.find(`div[data-datafield="${uniqueFilters[i]}"]`);
+                    if (filterField.length > 0 && filterField.attr('data-type') !== 'key') {
+                        var filterData = {};
+                        if (filterField.attr('data-type') === 'validation') {
+                            filterData['datafield'] = filterField.attr('data-displayfield');
+                            browseKeys.push(filterField.attr('data-displayfield'));
+                        } else {
+                            filterData['datafield'] = uniqueFilters[i];
+                            browseKeys.push(uniqueFilters[i]);
+                        }
+                        filterData['caption'] = filterField.attr('data-caption');
+                        filterData['datatype'] = filterField.attr('data-type');
+                        if (filterField.css('visibility') === 'hidden' || filterField.css('display') === 'none') {
+                            filterData['hidden'] = true;
+                        }
+                        browseData.push(filterData);
+                    }
+                }
+            }
+            if (FwSettings.customFilter.length > 0) {
+                var uniqueCustomFilter = [];
+                for (var j = 0; j < FwSettings.customFilter.length; j++) {
+                    if (uniqueCustomFilter.indexOf(FwSettings.customFilter[j]) === -1) {
+                        uniqueCustomFilter.push(FwSettings.customFilter[j]);
+                    }
+                }
+                for (var k = 0; k < uniqueCustomFilter.length; k++) {
+                    if (uniqueCustomFilter[k].module == $form.data('controller').slice(0, -10)) {
+                        browseData.push(uniqueCustomFilter[k]);
+                        browseKeys.push(uniqueCustomFilter[k].datafield);
+                    }
+                }
+            }
+
+            browseData.forEach(function (browseField) {
+                if (!duplicateDatafields[browseField.datafield]) {
+                    withoutDuplicates.push(browseField);
+                    duplicateDatafields[browseField.datafield] = true;
+                }
+            });
+            browseData = withoutDuplicates;
+
             for (var i = 0; i < response.length; i++) {
                 var html = [], $moduleRows;
 
@@ -290,7 +351,7 @@ class FwSettingsClass {
                     response[i][customField.FieldName] = customField.FieldValue
                 });
 
-                html.push('<div class="panel-record">');
+                html.push('<div class="panel-record" id="' + response[i][rowId] + '">');
                 html.push('  <div class="panel panel-info container-fluid">');
                 html.push('    <div class="row-heading">');
                 html.push('      <i class="material-icons record-selector">keyboard_arrow_down</i>');
@@ -315,11 +376,11 @@ class FwSettingsClass {
                             }
                         } else {
                             if (browseData[j]['color'] && response[i][cellColor] !== '') {
-                                html.push('    <div class="fwcontrol fwcontainer fwform-fieldrow" data-type="fieldrow" style="color:' + response[i][cellColor] + ';width:8em;white-space:nowrap;height: 0;display:flex;border-bottom: 20px solid transparent;border-top: 20px solid;">');
+                                html.push('    <div class="fwcontrol fwcontainer fwform-fieldrow color" data-type="fieldrow" style="color:' + response[i][cellColor] + ';width:8em;white-space:nowrap;height: 0;display:flex;border-bottom: 20px solid transparent;border-top: 20px solid;">');
                             } else {
                                 html.push('    <div class="fwcontrol fwcontainer fwform-fieldrow" data-type="fieldrow">');
                             }
-                            html.push('    <label data-datafield=' + browseData[j]['datafield'] + ' style="color:#31708f">' + response[i][browseKeys[j]] + '</label>');
+                            html.push('    <label data-datafield="' + browseData[j]['datafield'] + '" style="color:#31708f">' + response[i][browseKeys[j]] + '</label>');
                         }
                         html.push('        </div>');
                         html.push('      </div>');
@@ -337,7 +398,33 @@ class FwSettingsClass {
                 $moduleRows.data('recorddata', response[i]);
                 $moduleRows.data('browsedata', browseData);
                 $body.append($moduleRows);
+                $body.find('#recordSearch').focus();
             }
+
+            $body.find('#recordSearch').on('keypress', function (e) {
+                if (e.which === 13) {
+                    let dataKeys = [];
+                    let query = jQuery.trim(this.value).toUpperCase();
+                    let matches = [];
+                    let $panelBody = jQuery(this).closest('.panel-body')
+                    for (var key in response[0]) {
+                        if (key !== 'DateStamp' && key !== 'RecordTitle' && key !== '_Custom' && key !== 'Inactive' && key !== rowId) {
+                            dataKeys.push(key)
+                        }
+                    }
+                    for (var i = 0; i < dataKeys.length; i++) {
+                        for (var j = 0; j < response.length; j++) {
+                            if (typeof response[j][dataKeys[i]] === 'string' && response[j][dataKeys[i]].toUpperCase().indexOf(query) !== -1) {
+                                matches.push(response[j][rowId]);
+                            }
+                        }
+                    }
+                    $panelBody.find('.panel-record').hide();
+                    for (var k = 0; k < matches.length; k++) {
+                        $panelBody.find('#' + matches[k]).show();
+                    }
+                }
+            })
 
             $control
                 .on('click', '.row-heading', function (e) {
@@ -527,13 +614,12 @@ class FwSettingsClass {
                 duplicateDatafields = {};
                 var withoutDuplicates = [];
 
-                FwBrowse.loadCustomBrowseFields($browse, moduleName);
-
-
                 if ($body.is(':empty')) {
+
                     //append legend
+                    $body.append('<div class="legend"><span class="input-group-addon search"><i class="material-icons">search</i></span><input type="text" id="recordSearch" class="form-control" placeholder="Record Search" autofocus></div>');
                     if ($browse.find('.legend').length > 0) {
-                        $body.append($browse.find('.legend')[0]);
+                        $body.append($browse.find('.legend'));
                     }
 
                     FwAppData.apiMethod(true, 'GET', applicationConfig.appbaseurl + applicationConfig.appvirtualdirectory + apiurl, null, null, function onSuccess(response) {
@@ -542,7 +628,11 @@ class FwSettingsClass {
                         rowId = jQuery(keys[0]).attr('data-browsedatafield');
 
                         for (var i = 1; i < keys.length; i++) {
-                            var Key = jQuery(keys[i]).attr('data-browsedatafield');
+                            if (jQuery(keys[i]).attr('data-datafield')) {
+                                var Key = jQuery(keys[i]).attr('data-datafield');
+                            } else if (jQuery(keys[i]).attr('data-browsedatafield')) {
+                                var Key = jQuery(keys[i]).attr('data-browsedatafield');
+                            }
                             var cellColor = $browse.find('div[data-browsedatafield="' + Key + '"]').data('cellcolor')
                             browseKeys.push(Key);
                             var fieldData = {};
@@ -560,8 +650,8 @@ class FwSettingsClass {
                             }
 
                             fieldData['datatype'] = $browse.find('div[data-browsedatafield="' + Key + '"]').data('datatype');
-                            fieldData['datafield'] = Key
-                            browseData.push(fieldData)
+                            fieldData['datafield'] = Key;
+                            browseData.push(fieldData);
 
                             if (i === 1 && Key !== 'Inactive' || i === 2 && jQuery(keys[1]).attr('data-browsedatafield') === 'Inactive') {
                                 for (var k = 0; k < response.length - 1; k++) {
@@ -634,7 +724,7 @@ class FwSettingsClass {
                                 response[i][customField.FieldName] = customField.FieldValue
                             });
 
-                            html.push('<div class="panel-record">');
+                            html.push('<div class="panel-record" id="' + response[i][rowId] + '">');
                             html.push('  <div class="panel panel-info container-fluid">');
                             html.push('    <div class="row-heading">');
                             html.push('      <i class="material-icons record-selector">keyboard_arrow_down</i>');
@@ -659,11 +749,11 @@ class FwSettingsClass {
                                         }
                                     } else {
                                         if (browseData[j]['color'] && response[i][cellColor] !== '') {
-                                            html.push('    <div class="fwcontrol fwcontainer fwform-fieldrow" data-type="fieldrow" style="color:' + response[i][cellColor] + ';width:8em;white-space:nowrap;height: 0;display:flex;border-bottom: 20px solid transparent;border-top: 20px solid;">');
+                                            html.push('    <div class="fwcontrol fwcontainer fwform-fieldrow color" data-type="fieldrow" style="color:' + response[i][cellColor] + ';width:8em;white-space:nowrap;height: 0;display:flex;border-bottom: 20px solid transparent;border-top: 20px solid;">');
                                         } else {
                                             html.push('    <div class="fwcontrol fwcontainer fwform-fieldrow" data-type="fieldrow">');
                                         }
-                                        html.push('    <label data-datafield=' + browseData[j]['datafield'] + ' style="color:#31708f">' + response[i][browseKeys[j]] + '</label>');
+                                        html.push('    <label data-datafield="' + browseData[j]['datafield'] + '" style="color:#31708f">' + response[i][browseKeys[j]] + '</label>');
                                     }
                                     html.push('        </div>');
                                     html.push('      </div>');
@@ -681,9 +771,33 @@ class FwSettingsClass {
                             $moduleRows.data('recorddata', response[i]);
                             $moduleRows.data('browsedata', browseData);
                             $body.append($moduleRows);
+                            $body.find('#recordSearch').focus();
                         }
 
-
+                        $body.find('#recordSearch').on('keypress', function (e) {
+                            if (e.which === 13) {
+                                let dataKeys = [];
+                                let query = jQuery.trim(this.value).toUpperCase();
+                                let matches = [];
+                                let $panelBody = jQuery(this).closest('.panel-body')
+                                for (var key in response[0]) {
+                                    if (key !== 'DateStamp' && key !== 'RecordTitle' && key !== '_Custom' && key !== 'Inactive' && key !== rowId) {
+                                        dataKeys.push(key)
+                                    }
+                                }
+                                for (var i = 0; i < dataKeys.length; i++) {
+                                    for (var j = 0; j < response.length; j++) {
+                                        if (typeof response[j][dataKeys[i]] === 'string' && response[j][dataKeys[i]].toUpperCase().indexOf(query) !== -1) {
+                                            matches.push(response[j][rowId]);
+                                        }
+                                    }
+                                }
+                                $panelBody.find('.panel-record').hide();
+                                for (var k = 0; k < matches.length; k++) {
+                                    $panelBody.find('#' + matches[k]).show();
+                                }
+                            }
+                        })
                     }, null, $modulecontainer);
                 }
 
@@ -838,6 +952,10 @@ class FwSettingsClass {
                                 } else {
                                     jQuery(this).closest('.panel-record').find('.panel-info').find('label[data-datafield="' + browsedatafields[j] + '"]').text(FwFormField.getValueByDataField($form, browsedatafields[j]));
                                     jQuery(this).closest('.panel-record').find('.panel-info').find('[data-datafield="' + browsedatafields[j] + '"]').prop('checked', FwFormField.getValueByDataField($form, browsedatafields[j]));
+                                    if (jQuery(this).closest('.panel-record').find('.panel-info').find('label[data-datafield="' + browsedatafields[j] + '"]').parent().hasClass('color')) {
+                                        let newColor: any = $form.find('div[data-type="color"] input').val();
+                                        jQuery(this).closest('.panel-record').find('.panel-info').find('label[data-datafield="' + browsedatafields[j] + '"]').parent().css('color', newColor)
+                                    }
                                 }
                             } else {
                                 var validationValue: any = $form.find('div[data-displayfield="' + browsedatafields[j] + '"] input.fwformfield-text').val()
@@ -855,7 +973,12 @@ class FwSettingsClass {
                 $body.empty();
                 me.getRows($body, $control, apiurl, $modulecontainer, moduleName);
             });
-
+        $control.on('click', '.input-group-clear', function (e) {
+            let event = jQuery.Event('keypress');
+            event.which = 13;
+            jQuery(this).parent().find('#settingsSearch').val('').trigger(event);
+            jQuery(this).css('display', 'none');
+        })
         $control.on('keypress', '#settingsSearch', function (e) {
             if (e.which === 13) {
                 var $settings, val, $module, $settingsDescriptions, filter, customFilter;
@@ -867,13 +990,16 @@ class FwSettingsClass {
                 $module = jQuery('a#title');
                 val = jQuery.trim(this.value).toUpperCase();
                 if (val === "") {
+                    jQuery(this).parent().find('.input-group-clear').css('display', 'none');
+                    $control.find('.highlighted').removeClass('highlighted');
                     $settings.closest('div.panel-group').show();
                 } else {
                     var results = [];
                     results.push(val);
+                    jQuery(this).parent().find('.input-group-clear').css('display', 'table-cell');
                     $settings.closest('div.panel-group').hide();
                     for (var caption in me.screen.moduleCaptions) {
-                        if (caption.indexOf(val) !== -1) {
+                        if (caption.indexOf(val) !== -1 || caption.indexOf(val.split(' ').join('')) !== -1) {
                             for (var moduleName in me.screen.moduleCaptions[caption]) {
                                 if (me.screen.moduleCaptions[caption][moduleName][0].custom) {
                                     customFilter.push(me.screen.moduleCaptions[caption][moduleName][0]);
@@ -895,6 +1021,14 @@ class FwSettingsClass {
 
                         let description = module.find('small#description-text');
                         let title = module.find('a#title');
+                        let panel = $module.filter(function () { return -1 != jQuery(this).text().toUpperCase().indexOf(results[i]) }).closest('div.panel-group');
+
+                        if (panel.length > 0) {
+                            description = panel.find('small#description-text');
+                            title = panel.find('a#title');
+                            panel.show();
+                        }
+
                         for (var j = 0; j < description.length; j++) {
                             if (description[j] !== undefined) {
                                 let descriptionIndex = jQuery(description[j]).text().toUpperCase().indexOf(val);
@@ -907,11 +1041,15 @@ class FwSettingsClass {
                                 }
                             }
                         }
+
+                        if (module.length === 0) {
+                            $settings.filter(function () {
+                                return -1 != jQuery(this).text().toUpperCase().indexOf(results[i]);
+                            }).closest('div.panel-group').show();
+                        }
                         module.show();
+
                     }
-                    $module.filter(function () {
-                        return -1 != jQuery(this).text().toUpperCase().indexOf(val);
-                    }).closest('div.panel-group').show();
 
                     let searchResults = $control.find('.panel-heading:visible');
 
@@ -959,7 +1097,7 @@ class FwSettingsClass {
                     FwFunc.showError(ex);
                 }
             });
-        })
+        });
 
         return $settingsPageModules;
     };

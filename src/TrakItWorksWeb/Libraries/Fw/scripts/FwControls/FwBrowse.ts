@@ -771,7 +771,7 @@ class FwBrowseClass {
                     $form = window[$control.attr('data-controller')].loadForm(browseuniqueids);
                     issubmodule = $control.closest('.tabpage').hasClass('submodule');
                     if (!issubmodule) {
-                        FwModule.openModuleTab($form, 'New ' + $form.attr('data-caption'), true, 'FORM', true);
+                        FwModule.openModuleTab($form, `${$form.attr('data-caption')} (loading)`, true, 'FORM', true);
                     } else {
                         FwModule.openSubModuleTab($control, $form);
                     }
@@ -2113,7 +2113,7 @@ class FwBrowseClass {
                 });
                 $control.find('tbody .browsecontextmenu').on('click', function (e: JQuery.Event) {
                     try {
-                        e.stopPropagation();
+                        //e.stopPropagation();
                         let $browse = jQuery(this).closest('.fwbrowse');
                         if ($browse.attr('data-enabled') !== 'false') {
                             let $fwcontextmenus = $browse.find('tbody .fwcontextmenu');
@@ -2122,7 +2122,6 @@ class FwBrowseClass {
                             }
                             var menuItemCount = 0;
                             var $browsecontextmenu = jQuery(this);
-                            var $tr = $browsecontextmenu.closest('tr');
                             //me.unselectAllRows($control);
                             //me.selectRow($control, $tr, true);
                             var $contextmenu = FwContextMenu.render('Options', 'bottomleft', $browsecontextmenu);
@@ -2151,6 +2150,16 @@ class FwBrowseClass {
                                     menuItemCount++;
                                 }
                             }
+                            //---------------------------------------------------------------------------------
+                            FwContextMenu.addMenuItem($contextmenu, 'Audit History', () => {
+                                try {
+                                    let $tr = jQuery(this).closest('tr');
+                                    me.renderAuditHistoryPopup($tr);
+                                } catch (ex) {
+                                    FwFunc.showError(ex);
+                                }
+                            });
+                            menuItemCount++;
                             if (menuItemCount === 0) {
                                 FwContextMenu.destroy($contextmenu);
                             }
@@ -3081,6 +3090,61 @@ class FwBrowseClass {
 
         return fields;
     }
+    //---------------------------------------------------------------------------------
+    renderAuditHistoryPopup($tr: JQuery): void {
+        let HTML: Array<string> = [], $popupHtml, $popup, $auditHistoryGrid, $auditHistoryGridControl, uniqueId;
+        uniqueId = $tr.find('[data-browsedatatype="key"]').attr('data-originalvalue');
+
+        HTML.push(
+            `<div class="fwcontrol fwcontainer fwform popup" data-control="FwContainer" data-type="form" data-caption="Audit History">
+              <div class="fwcontrol fwtabs" data-control="FwTabs" data-type="">
+                <div style="float:right;" class="close-modal"><i class="material-icons">clear</i><div class="btn-text">Close</div></div>
+                <div class="tabpages">
+                  <div class="formpage">
+                    <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Audit History">
+                      <div class="formrow">
+                        <div class="formcolumn" style="width:100%;margin-top:50px;">
+                          <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                            <div class="fwform-section-title" style="margin-bottom:20px;">Audit History</div>
+                            <div data-control="FwGrid" class="container">
+                              <div class="formrow"><div data-control="FwGrid" data-grid="AuditHistoryGrid" data-securitycaption=""></div></div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>`);
+        $popupHtml = HTML.join('');
+        $popup = FwPopup.renderPopup(jQuery($popupHtml), { ismodal: true });
+        FwPopup.showPopup($popup);
+
+        $auditHistoryGrid = $popup.find('div[data-grid="AuditHistoryGrid"]');
+        $auditHistoryGridControl = jQuery(jQuery('#tmpl-grids-AuditHistoryGridBrowse').html());
+        $auditHistoryGrid.empty().append($auditHistoryGridControl);
+        $auditHistoryGridControl.data('ondatabind', request => {
+            request.uniqueids = {
+                UniqueId1: uniqueId
+            };
+        });
+        FwBrowse.init($auditHistoryGridControl);
+        FwBrowse.renderRuntimeHtml($auditHistoryGridControl);
+        FwBrowse.search($auditHistoryGridControl);
+        // Close modal
+        $popup.find('.close-modal').one('click', e => {
+            FwPopup.destroyPopup($popup);
+            jQuery(document).find('.fwpopup').off('click');
+            jQuery(document).off('keydown');
+        });
+        // Close modal if click outside
+        jQuery(document).on('click', e => {
+            if (!jQuery(e.target).closest('.popup').length) {
+                FwPopup.destroyPopup($popup);
+            }
+        });
+    }
     //----------------------------------------------------------------------------------------------
     getValidationData($object: JQuery, request: any, responseFunc: Function) {
         var webserviceurl, controller, module;
@@ -3118,30 +3182,30 @@ class FwBrowseClass {
     loadBrowseFromTemplate(modulename: string) {
         var $control = jQuery(jQuery('#tmpl-modules-' + modulename + 'Browse').html());
 
-        FwBrowse.loadCustomBrowseFields($control, modulename)
+        //FwBrowse.loadCustomBrowseFields($control, modulename)
 
         return $control;
     }
     //---------------------------------------------------------------------------------
-    loadCustomBrowseFields($control: JQuery, modulename: string) {
-        if (sessionStorage.getItem('customFieldsBrowse') !== null) {
-            var customBrowse = JSON.parse(sessionStorage.getItem('customFieldsBrowse'));
-            var customBrowseHtml = [];
+    //loadCustomBrowseFields($control: JQuery, modulename: string) {
+    //    if (sessionStorage.getItem('customFieldsBrowse') !== null) {
+    //        var customBrowse = JSON.parse(sessionStorage.getItem('customFieldsBrowse'));
+    //        var customBrowseHtml = [];
 
-            if (customBrowse !== 'undefined' && customBrowse.length > 0) {
-                for (var i = 0; i < customBrowse.length; i++) {
-                    if (modulename === customBrowse[i].moduleName) {
-                        customBrowseHtml.push(`<div class="column" data-width="${customBrowse[i].browsewidth}px" data-visible="true"><div class="field" data-caption="${customBrowse[i].fieldName}" data-datafield="${customBrowse[i].fieldName}" data-digits="${customBrowse[i].digits}" data-datatype="${customBrowse[i].datatype}" data-browsedatatype="${customBrowse[i].datatype}" data-sort="off"></div></div>`);
-                    }
-                }
-            }
-            if ($control.find('.spacer').length > 0) {
-                jQuery(customBrowseHtml.join('')).insertBefore($control.find('.spacer'));
-            } else {
-                $control.append(customBrowseHtml.join(''));
-            }
-        }
-    }
+    //        if (customBrowse !== 'undefined' && customBrowse.length > 0) {
+    //            for (var i = 0; i < customBrowse.length; i++) {
+    //                if (modulename === customBrowse[i].moduleName) {
+    //                    customBrowseHtml.push(`<div class="column" data-width="${customBrowse[i].browsewidth}px" data-visible="true"><div class="field" data-caption="${customBrowse[i].fieldName}" data-datafield="${customBrowse[i].fieldName}" data-digits="${customBrowse[i].digits}" data-datatype="${customBrowse[i].datatype}" data-browsedatatype="${customBrowse[i].datatype}" data-sort="off"></div></div>`);
+    //                }
+    //            }
+    //        }
+    //        if ($control.find('.spacer').length > 0) {
+    //            jQuery(customBrowseHtml.join('')).insertBefore($control.find('.spacer'));
+    //        } else {
+    //            $control.append(customBrowseHtml.join(''));
+    //        }
+    //    }
+    //}
     //---------------------------------------------------------------------------------
     loadGridFromTemplate(modulename: string) {
         var $control = jQuery(jQuery('#tmpl-grids-' + modulename + 'Browse').html());

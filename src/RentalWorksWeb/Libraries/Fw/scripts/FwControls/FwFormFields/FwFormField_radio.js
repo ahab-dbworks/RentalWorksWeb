@@ -44,9 +44,7 @@ FwFormField_radio.renderRuntimeHtml = function($control, html) {
         child.push('<label for="' + uniqueId + '">' + $children.eq(i).attr('data-caption') + '</label>');
         $children.eq(i).html(child.join(''));
     }
-    if ($control.attr('data-caption')) {  //justin 11/02/2018 don't generate this Div if the caption is blank
-        html.push('<div class="fwformfield-caption">' + $control.attr('data-caption') + '</div>');
-    }
+    html.push('<div class="fwformfield-caption">' + $control.attr('data-caption') + '</div>');
     html.push('<div class="fwformfield-control"></div>');
     $control.html(html.join(''));
     $control.find('.fwformfield-control').append($children);
