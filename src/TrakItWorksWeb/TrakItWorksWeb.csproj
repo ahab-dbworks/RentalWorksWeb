@@ -214,7 +214,9 @@
     <Content Include="Source\Modules\Home\OrderStatus\OrderStatusForm.htm" />
     <Content Include="Source\Modules\Home\Contract\ContractBrowse.htm" />
     <Content Include="Source\Modules\Home\Contract\ContractForm.htm" />
+    <Content Include="Source\Modules\Home\StagingCheckout\StagingCheckout.js" />
     <Content Include="Source\Modules\Home\StagingCheckout\StagingCheckoutForm.htm" />
+    <Content Include="Source\Modules\Home\StagingCheckout\TiwStagingCheckout.js" />
     <Content Include="Source\Modules\Home\Vendor\VendorBrowse.htm" />
     <Content Include="Source\Modules\Home\Vendor\VendorForm.htm" />
     <Content Include="Source\Modules\Administrator\SettingsPage\SettingsPage.css" />
@@ -702,6 +704,8 @@
     <TypeScriptCompile Include="Source\Modules\Home\ReturnToVendor\TiwReturnToVendor.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\StagingCheckout\TiwStagingCheckout.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\Vendor\TiwVendor.ts" />
+    <TypeScriptCompile Include="Source\Modules\Administrator\User\TiwUser.ts" />
+    <TypeScriptCompile Include="Source\Modules\Settings\UserSettings\TiwUserSettings.ts" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Global.asax.cs">
@@ -748,6 +752,8 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="tsconfig.json" />
+    <Content Include="Source\Modules\Home\StagingCheckout\StagingCheckout.js.map" />
+    <Content Include="Source\Modules\Home\StagingCheckout\TiwStagingCheckout.js.map" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

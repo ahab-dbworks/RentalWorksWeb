@@ -24,7 +24,7 @@ class RwMaster extends WebMaster {
             {
                 caption: 'Administator',
                 id: 'A3EE3EE9-4C98-4315-B08D-2FAD67C04E07',
-                children: []
+                children: [TiwUserController, TiwUserSettingsController]
             }
         ];
     }

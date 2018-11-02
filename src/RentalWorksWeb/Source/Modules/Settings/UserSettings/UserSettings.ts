@@ -1,6 +1,8 @@
 ﻿class UserSettings {
     Module: string = 'UserSettings';
     apiurl: string = 'api/v1/usersettings';
+    id: string = '510F9B3F-601F-4912-833B-56E649962B0D';
+
 
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {

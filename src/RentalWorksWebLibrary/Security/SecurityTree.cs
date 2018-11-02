@@ -521,10 +521,10 @@ namespace WebLibrary.Security
         private void BuildTrakItWorksWebTree(FwSecurityTreeNode system)
         {
             string homeiconbaseurl          = "theme/images/icons/home/";
-            //string settingsiconbaseurl      = "theme/images/icons/settings/";
+            string settingsiconbaseurl      = "theme/images/icons/settings/";
             //string reportsiconbaseurl       = "theme/images/icons/reports/";
             //string utilitiesiconbaseurl     = "theme/images/icons/utilities/";
-            //string administratoriconbaseurl = "theme/images/icons/administrator/";
+            string administratoriconbaseurl = "theme/images/icons/administrator/";
 
             var application          = AddApplication("TrakItWorks Web",   "{D901DE93-EC22-45A1-BB4A-DD282CAF59FB}", system.Id);
             var lv1menuModules       = AddLv1ModuleMenu("TrakItWorks",     "{B05953D7-DC85-486C-B9A4-7743875DFABC}", application.Id);
@@ -555,7 +555,7 @@ namespace WebLibrary.Security
             AddModule("Receive From Vendor",    "{EC4052D5-664E-4C34-8802-78E086920628}", lv1menuModules.Id, "ReceiveFromVendorController", "module/receivefromvendor", homeiconbaseurl + "placeholder.png");
             //AddModule("Rental Inventory",     "{FCDB4C86-20E7-489B-A8B7-D22EE6F85C06}", lv1menuModules.Id, "RentalInventoryController",   "module/rentalinventory",   homeiconbaseurl + "placeholder.png");
             AddModule("Repair Order",           "{D567EC42-E74C-47AB-9CA8-764DC0F02D3B}", lv1menuModules.Id, "RepairController",            "module/repair",            homeiconbaseurl + "placeholder.png");
-            AddModule("Return To Vendor",       "{79EAD1AF-3206-42F2-A62B-DA1C44092A7F}", lv1menuModules.Id, "ReturnToVendorController",    "module/returntovendor", homeiconbaseurl + "placeholder.png");
+            AddModule("Return To Vendor",       "{79EAD1AF-3206-42F2-A62B-DA1C44092A7F}", lv1menuModules.Id, "ReturnToVendorController",    "module/returntovendor",    homeiconbaseurl + "placeholder.png");
             //AddModule("Sales Inventory",      "{B0CF2E66-CDF8-4E58-8006-49CA68AE38C2}", lv1menuModules.Id, "SalesInventoryController",    "module/salesinventory",    homeiconbaseurl + "placeholder.png");
             AddModule("Vendor",                 "{92E6B1BE-C9E1-46BD-91A0-DF257A5F909A}", lv1menuModules.Id, "VendorController",            "module/vendor",            homeiconbaseurl + "placeholder.png");
 
@@ -686,7 +686,7 @@ namespace WebLibrary.Security
             //                                         AddModule("Source",                      "{6D6165D1-51F2-4616-A67C-DCC803B549AF}", lv1menuSettings.Id,             "SourceController",                    "module/source",                    settingsiconbaseurl + "placeholder.png");
             //                                         AddModule("Tax Option",                  "{5895CA39-5EF8-405B-9E97-2FEB83939EE5}", lv1menuSettings.Id,             "TaxOptionController",                 "module/taxoption",                 settingsiconbaseurl + "placeholder.png");
             //                                         AddModule("Template",                    "{BDDB1439-F128-4AB7-9657-B1CDFFA12721}", lv1menuSettings.Id,             "TemplateController",                  "module/template",                  settingsiconbaseurl + "placeholder.png");
-            //var lv2menuUserSettings         = AddLv2ModuleMenu("User Settings",               "{13E1A9A9-1096-447E-B4AE-E538BEF5BCB5}", lv1menuSettings.Id,                                                                                        settingsiconbaseurl + "placeholder.png");
+            //var lv2menuUserSettings         = AddLv2ModuleMenu("User Settings",               "{2563927C-8D51-43C4-9243-6F69A52E2657}", lv1menuSettings.Id,                                                                                        settingsiconbaseurl + "placeholder.png");
             //                                         AddModule("User Status",                 "{E19916C6-A844-4BD1-A338-FAB0F278122C}", lv2menuUserSettings.Id,         "UserStatusController",                "module/userstatus",                settingsiconbaseurl + "placeholder.png");
             //var lv2menuVehicleSettings      = AddLv2ModuleMenu("Vehicle Settings",            "{6081E168-E3BF-439E-82B0-34AF3680C444}", lv1menuSettings.Id,                                                                                        settingsiconbaseurl + "placeholder.png");
             //                                         AddModule("License Class",               "{422F777F-B57F-43DF-8485-F12F3F7BF662}", lv2menuVehicleSettings.Id,      "LicenseClassController",              "module/licenseclass",              settingsiconbaseurl + "placeholder.png");
@@ -738,16 +738,17 @@ namespace WebLibrary.Security
             ////                                    AddModule("Process Vendor Invoices", "{4FA8A060-F2DF-4E59-8F9D-4A6A62A0D240}", lv2menuChargeProcessing.Id, "RwVendorInvoiceProcessingController", "module/vendorinvoiceprocessing", utilitiesiconbaseurl + "placeholder.png", "", "", "");
 
             // Add Administrator 
-            //AddModule("Control",             "{B3ADDF49-64EB-4740-AB41-4327E6E56242}", lv1menuAdministrator.Id, "ControlController",        "module/control",        administratoriconbaseurl + "placeholder.png");
-            //AddModule("Custom Fields",       "{C98C4CB4-2036-4D70-BC29-8F5A2874B178}", lv1menuAdministrator.Id, "CustomFieldsController",   "module/customfields",   administratoriconbaseurl + "placeholder.png");
-            //AddModule("Duplicate Rules",     "{2E0EA479-AC02-43B1-87FA-CCE2ABA6E934}", lv1menuAdministrator.Id, "DuplicateRulesController", "module/duplicaterules", administratoriconbaseurl + "placeholder.png");
-            //AddModule("Group",               "{9BE101B6-B406-4253-B2C6-D0571C7E5916}", lv1menuAdministrator.Id, "GroupController",          "module/group",          administratoriconbaseurl + "group.png",                                    "USER");
-            ////AddModule("Integration",         "{518B038E-F22A-4B23-AA47-F4F56709ADC3}", lv1menuAdministrator.Id, "IntegrationController",  "module/integration",    administratoriconbaseurl + "placeholder.png", "Integration", "quickbooks", "USER");
-            //AddModule("User",                "{79E93B21-8638-483C-B377-3F4D561F1243}", lv1menuAdministrator.Id, "UserController",           "module/user",           administratoriconbaseurl + "user.png",                                     "USER");
-            //AddModule("Settings Page",       "{57150967-486A-42DE-978D-A2B0F843341A}", lv1menuAdministrator.Id, "SettingsPageController",   "module/settingspage",   administratoriconbaseurl + "placeholder.png");
-            //AddModule("Designer",            "{CB2EF8FF-2E8D-4AD0-B880-07037B839C5E}", lv1menuAdministrator.Id, "DesignerController",       "module/designer",       administratoriconbaseurl + "placeholder.png");
+            //AddModule("Control",          "{B3ADDF49-64EB-4740-AB41-4327E6E56242}", lv1menuAdministrator.Id, "ControlController",         "module/control",        administratoriconbaseurl + "placeholder.png");
+            //AddModule("Custom Fields",    "{C98C4CB4-2036-4D70-BC29-8F5A2874B178}", lv1menuAdministrator.Id, "CustomFieldsController",    "module/customfields",   administratoriconbaseurl + "placeholder.png");
+            //AddModule("Duplicate Rules",  "{2E0EA479-AC02-43B1-87FA-CCE2ABA6E934}", lv1menuAdministrator.Id, "DuplicateRulesController",  "module/duplicaterules", administratoriconbaseurl + "placeholder.png");
+            //AddModule("Group",            "{9BE101B6-B406-4253-B2C6-D0571C7E5916}", lv1menuAdministrator.Id, "GroupController",           "module/group",          administratoriconbaseurl + "group.png",                                    "USER");
+            //AddModule("Integration",      "{518B038E-F22A-4B23-AA47-F4F56709ADC3}", lv1menuAdministrator.Id, "IntegrationController",     "module/integration",    administratoriconbaseurl + "placeholder.png", "Integration", "quickbooks", "USER");
+            AddModule("User",               "{CE9E187C-288F-44AB-A54A-27A8CFF6FF53}", lv1menuAdministrator.Id, "UserController",            "module/user",           administratoriconbaseurl + "user.png",                                     "USER");
+            //AddModule("Settings Page",    "{57150967-486A-42DE-978D-A2B0F843341A}", lv1menuAdministrator.Id, "SettingsPageController",    "module/settingspage",   administratoriconbaseurl + "placeholder.png");
+            //AddModule("Designer",         "{CB2EF8FF-2E8D-4AD0-B880-07037B839C5E}", lv1menuAdministrator.Id, "DesignerController",        "module/designer",       administratoriconbaseurl + "placeholder.png");
+           
             //// Add Submodules
-            //AddSubModule("User Settings", "{A6704904-01E1-4C6B-B75A-C1D3FCB50C01}", lv1menuSubModules.Id, "UserSettingsController");
+            AddSubModule("User Settings",   "{2563927C-8D51-43C4-9243-6F69A52E2657}", lv1menuSubModules.Id, "UserSettingsController");
 
             // Add Grids
             //AddGrid("Attribute Value",                        "{C11904A1-D612-469C-BFA6-E14534FC8E31}", lv1menuGrids.Id, "AttributeValueGridController");

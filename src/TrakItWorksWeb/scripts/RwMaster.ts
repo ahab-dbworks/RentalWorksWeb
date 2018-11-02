@@ -11,13 +11,13 @@
             },
             {
                 caption: 'Inventory',
-              id: 'CA7EDF90-F08A-4E5C-BA6B-87DB6A14D485',
-              children: [TiwAssetController, TiwRepairController/*, RentalInventoryController, SalesInventoryController, PartsInventoryController, ContainerController*/]
+                id: 'CA7EDF90-F08A-4E5C-BA6B-87DB6A14D485',
+                children: [TiwAssetController, TiwRepairController/*, RentalInventoryController, SalesInventoryController, PartsInventoryController, ContainerController*/]
           },
             {
                 caption: 'Warehouse',
-              id: '293A157D-EA8E-48F6-AE97-15F9DE53041A',
-              children: [TiwAssignBarCodesController, TiwCheckInController, TiwExchangeController, TiwOrderStatusController, TiwPickListController, TiwReceiveFromVendorController, TiwReturnToVendorController, TiwStagingCheckoutController/*, InvoiceController*/]
+                id: '293A157D-EA8E-48F6-AE97-15F9DE53041A',
+                children: [TiwAssignBarCodesController, TiwCheckInController, TiwExchangeController, TiwOrderStatusController, TiwPickListController, TiwReceiveFromVendorController, TiwReturnToVendorController, TiwStagingCheckoutController/*, InvoiceController*/]
             },
             {
                 caption: 'Reports',
@@ -27,7 +27,7 @@
             {
                 caption: 'Administator',
                 id: 'A3EE3EE9-4C98-4315-B08D-2FAD67C04E07',
-                children: [/*ControlController, CustomFieldController, CustomFormController, DuplicateRuleController, GroupController, HotfixController, UserController, SettingsController, ReportsController*/]
+                children: [TiwUserController, TiwUserSettingsController /*ControlController, CustomFieldController, CustomFormController, DuplicateRuleController, GroupController, HotfixController, SettingsController, ReportsController*/]
             }
         ];
     }
