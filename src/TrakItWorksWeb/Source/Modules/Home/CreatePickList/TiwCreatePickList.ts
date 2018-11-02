@@ -1,7 +1,8 @@
 ﻿class TiwCreatePickList extends CreatePickList {
+  id = '1407A536-B5C9-4363-8B54-A56DB8CE902D';
+
   constructor() {
     super();
-    this.id = '1407A536-B5C9-4363-8B54-A56DB8CE902D';
   }
   //browseModel: any = {};
 
