@@ -2,6 +2,7 @@
 using RentalWorksAPI.api.v2.Models;
 using RentalWorksAPI.api.v2.Models.InventoryModels.ItemStatus;
 using RentalWorksAPI.api.v2.Models.InventoryModels.WarehouseAddToOrder;
+using System;
 using System.Collections.Generic;
 using System.Dynamic;
 
@@ -97,7 +98,11 @@ namespace RentalWorksAPI.api.v2.Data
                 qryresult = qry.QueryToDynamicObject2();
             }
 
-            if (qryresult.masterid != "")
+            if (Object.ReferenceEquals(null, qryresult))
+            {
+                result.status = "Item not found.";
+            }
+            else if (qryresult.masterid != "")
             {
                 result.rentalitemid = qryresult.rentalitemid;
                 result.masterid     = qryresult.masterid;
