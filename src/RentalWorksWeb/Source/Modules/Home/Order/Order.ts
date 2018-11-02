@@ -255,6 +255,14 @@ class Order extends OrderBase {
             FwFormField.setValue($form, 'div[data-datafield="BillingCycleId"]', parentModuleInfo.BillingCycleId, parentModuleInfo.BillingCycle);
         }
 
+        var $orderItemGridLossDamage;
+        $orderItemGridLossDamage = $form.find('.lossdamagegrid [data-name="OrderItemGrid"]');
+        //FwBrowse.search($orderItemGridLossDamage);
+
+        // Hides Add, Search, and Sub-Worksheet buttons on grid
+        $orderItemGridLossDamage.find('.submenu-btn').filter('[data-securityid="77E511EC-5463-43A0-9C5D-B54407C97B15"], [data-securityid="007C4F21-7526-437C-AD1C-4BBB1030AABA"]').hide();
+        $orderItemGridLossDamage.find('.buttonbar').hide();
+
         this.events($form);
         this.getSoundUrls($form);
         this.activityCheckboxEvents($form, mode);
@@ -656,9 +664,6 @@ class Order extends OrderBase {
         $orderItemGridLossDamage = $form.find('.lossdamagegrid [data-name="OrderItemGrid"]');
         //FwBrowse.search($orderItemGridLossDamage);
 
-        // Hides Add, Search, and Sub-Worksheet buttons on grid
-        $orderItemGridLossDamage.find('.submenu-btn').filter('[data-securityid="77E511EC-5463-43A0-9C5D-B54407C97B15"], [data-securityid="007C4F21-7526-437C-AD1C-4BBB1030AABA"]').hide();
-        $orderItemGridLossDamage.find('.buttonbar').hide();
         // Hides Loss and Damage menu item from non-LD grids
         $orderItemGridRental.find('.submenu-btn').filter('[data-securityid="427FCDFE-7E42-4081-A388-150D3D7FAE36"]').hide();
         $orderItemGridSales.find('.submenu-btn').filter('[data-securityid="427FCDFE-7E42-4081-A388-150D3D7FAE36"]').hide();
