@@ -193,8 +193,8 @@
                             function (imageData) {
                                 var $image;
                                 try {
-                                    if ((typeof window.screen === 'object') && (typeof window.screen.lockOrientation === 'function')) {
-                                        window.screen.lockOrientation('portrait-primary');
+                                    if ((typeof window.screen === 'object') && (typeof (<any>window).screen.lockOrientation === 'function')) {
+                                        (<any>window).screen.lockOrientation('portrait-primary');
                                     }
                                     $image = jQuery('<img>')
                                         .attr('src', 'data:image/jpeg;base64,' + imageData)
@@ -209,8 +209,8 @@
                             //error
                             function (message) {
                                 try {
-                                    if ((typeof window.screen === 'object') && (typeof window.screen.lockOrientation === 'function')) {
-                                        window.screen.lockOrientation('portrait-primary');
+                                    if ((typeof window.screen === 'object') && (typeof (<any>window).screen.lockOrientation === 'function')) {
+                                        (<any>window).screen.lockOrientation('portrait-primary');
                                     }
                                     FwNotification.renderNotification('ERROR', message);
                                 } catch (ex) {
