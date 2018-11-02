@@ -7,7 +7,6 @@ declare var FwMenu: any;
 declare var FwSecurity: any;
 declare var FwLanguages: any;
 declare var FwReports: any;
-declare var FwTabs: any;
 declare var RwLanguages: any;
 declare var FwContextMenu: any;
 declare var FwValidation: any;
