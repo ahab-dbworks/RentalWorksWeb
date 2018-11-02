@@ -32,6 +32,8 @@ namespace FwStandard.SqlServer
         public string Sql { get { return sql.ToString(); } }
         //------------------------------------------------------------------------------------
         public int RowCount { get; private set; }
+        public int PageNo { get; set; } = 0;
+        public int PageSize { get; set; } = 0;
         public List<string> FieldNames { get { return new List<string>(fields.Keys); } }
         public SqlParameterCollection Parameters { get { return this.sqlCommand.Parameters; } }
         public SqlTransaction Transaction { get { return this.sqlCommand.Transaction; } set { this.sqlCommand.Transaction = value; } }
@@ -1905,6 +1907,131 @@ namespace FwStandard.SqlServer
             }
             
             return results;
+        }
+        //------------------------------------------------------------------------------------
+        public async Task<GetManyResponse<T>> GetManyAsync<T>(bool openAndCloseConnection, FwCustomFields customFields = null) where T: FwDataRecord
+        {
+            string methodName = "GetManyAsync";
+            string usefulLinesFromStackTrace = GetUsefulLinesFromStackTrace(methodName);
+
+            GetManyResponse<T> response = new GetManyResponse<T>();
+            response.PageNo = this.PageNo;
+            response.PageSize = this.PageSize;
+            //this.Add("order by " + orderByColumn + " " + orderByDirection.ToString());
+            //this.Add("offset @offsetrows rows fetch next @fetchsize rows only");
+            //this.Add("for json path");
+            //this.AddParameter("@offsetrows", (pageNo - 1) * pageSize);
+            //this.AddParameter("@fetchsize", pageSize);
+            if (openAndCloseConnection)
+            {
+                await this.sqlCommand.Connection.OpenAsync();
+            }
+
+            PropertyInfo[] propertyInfos = typeof(T).GetProperties();
+            Dictionary<string, PropertyInfo> sqlDataFieldPropertyInfos = new Dictionary<string, PropertyInfo>();
+            Dictionary<string, FwSqlDataFieldAttribute> sqlDataFieldAttributes = new Dictionary<string, FwSqlDataFieldAttribute>();
+            Dictionary<string, int> columnIndex = new Dictionary<string, int>();
+            foreach (PropertyInfo propertyInfo in propertyInfos)
+            {
+                FwSqlDataFieldAttribute sqlDataFieldAttribute = propertyInfo.GetCustomAttribute<FwSqlDataFieldAttribute>();
+                if (sqlDataFieldAttribute != null)
+                {
+                    sqlDataFieldPropertyInfos[propertyInfo.Name] = propertyInfo;
+                    sqlDataFieldAttributes[propertyInfo.Name] = sqlDataFieldAttribute;
+                }
+            }
+            this.sqlCommand.CommandText = this.qryText.ToString();
+
+            try
+            {
+                this.sqlLogEntry = new FwSqlLogEntry(this.sqlCommand, usefulLinesFromStackTrace);
+                this.sqlLogEntry.Start();
+                using (SqlDataReader reader = await this.sqlCommand.ExecuteReaderAsync())
+                {
+                    for (int fieldno = 0; fieldno < reader.FieldCount; fieldno++)
+                    {
+                        columnIndex[reader.GetName(fieldno)] = fieldno;
+                    }
+                    bool hasColTotalRows = false;
+                    foreach (DataRow row in reader.GetSchemaTable().Rows) { 
+                        if (row["ColumnName"].ToString() == "totalrows") 
+                            hasColTotalRows = true; 
+                    }
+                    bool needsTotalRows = hasColTotalRows;
+                    while (await reader.ReadAsync())
+                    {
+                        T obj = Activator.CreateInstance<T>();
+
+                        foreach (KeyValuePair<string, FwSqlDataFieldAttribute> attribute in sqlDataFieldAttributes)
+                        {
+                            int i = -1;
+
+                            //first, attempt to find the column index by the Key name (logical name)
+                            if (i < 0)
+                            {
+                                i = columnIndex.ContainsKey(attribute.Key) ? columnIndex[attribute.Key] : -1;
+                            }
+
+                            //second, attempt to find the column index by the ColumnName (physical name)
+                            if (i < 0)
+                            {
+                                i = columnIndex.ContainsKey(attribute.Value.ColumnName) ? columnIndex[attribute.Value.ColumnName] : -1;
+                            }
+
+                            //if neither fields are found, give a meaningful error message
+                            if (i < 0)
+                            {
+                                throw new Exception("Invalid field name: " + attribute.Key + " or " + attribute.Value.ColumnName);
+                            }
+                            FwDatabaseField field = new FwDatabaseField(reader.GetValue(i));
+                            object data = FormatReaderData(attribute.Value.ModelType, i, reader);
+                            sqlDataFieldPropertyInfos[attribute.Key].SetValue(obj, data);
+                        }
+
+                        if ((customFields != null) && (customFields.Count > 0))
+                        {
+                            FwCustomValues customValues = null;
+                            customValues = new FwCustomValues();
+                            foreach (FwCustomField customField in customFields)
+                            {
+                                FwDatabaseField field = new FwDatabaseField(reader.GetValue(columnIndex[customField.FieldName]));
+                                object data = FormatReaderData(FwDataTypes.Text, columnIndex[customField.FieldName], reader); //todo: support different data types
+                                string str = data.ToString();
+                                customValues.AddCustomValue(customField.FieldName, str, customField.FieldType); 
+                            }
+                            obj._Custom = customValues;
+                        }
+
+                        if (needsTotalRows && hasColTotalRows)
+                        {
+                            int colTotalRows = reader.GetOrdinal("TotalRows");
+                            if (colTotalRows >= 0)
+                            {
+                                response.TotalRows = reader.GetInt32(colTotalRows);
+                            }
+                            needsTotalRows = false;
+                        }
+
+                        response.Items.Add(obj);
+                    }
+                }
+            }
+            catch
+            {
+                Console.WriteLine(this.QryTextDebug);
+                throw;
+            }
+            finally
+            {
+                this.sqlLogEntry.Stop();
+            }
+
+            if (openAndCloseConnection)
+            {
+                this.sqlCommand.Connection.Close();
+            }
+            
+            return response;
         }
         //------------------------------------------------------------------------------------
 

@@ -13,11 +13,11 @@ namespace FwStandard.Models
         public int top { get; set; } = 0;
         public int pageno { get; set; } = 0;
         public int pagesize { get; set; } = 0;
-        public string[] searchfieldoperators { get; set; } = new string[0];
-        public string[] searchfields { get; set; } = new string[0];
-        public string[] searchfieldvalues { get; set; } = new string[0];
-        public string[] searchfieldtypes { get; set; } = new string[0];
-        public string[] searchseparators { get; set; } = new string[0];
+        public List<string> searchfieldoperators { get; set; } = new List<string>();
+        public List<string> searchfields { get; set; } = new List<string>();
+        public List<string> searchfieldvalues { get; set; } = new List<string>();
+        public List<string> searchfieldtypes { get; set; } = new List<string>();
+        public List<string> searchseparators { get; set; } = new List<string>();
         public dynamic uniqueids { get; set; } = new ExpandoObject();
         public dynamic boundids { get; set; } = new ExpandoObject();
         public Dictionary<string, string> filterfields { get; set; } = new Dictionary<string, string>();

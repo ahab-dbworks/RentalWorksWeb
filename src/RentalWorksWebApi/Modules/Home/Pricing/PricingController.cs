@@ -33,7 +33,7 @@ namespace WebApi.Modules.Home.Pricing
         //------------------------------------------------------------------------------------ 
         // GET api/v1/pricing/D00BYU6Z/B0029AY5/A001TSXJ   //masterid/warehouseid/currencyid
         [HttpGet("{masterid}/{warehouseid}/{currencyid}")]
-        public async Task<ActionResult<IEnumerable<PricingLogic>>> GetOneAsync([FromRoute]string masterid, [FromRoute]string warehouseid, [FromRoute]string currencyid)
+        public async Task<ActionResult<IEnumerable<PricingLogic>>> GetManyByMasterIdAndWarehouseIdAndCurrencyIdAsync([FromRoute]string masterid, [FromRoute]string warehouseid, [FromRoute]string currencyid)
         {
             return await DoSpecialGetAsync<PricingLogic>(masterid, warehouseid, currencyid);
 
@@ -41,14 +41,14 @@ namespace WebApi.Modules.Home.Pricing
         //------------------------------------------------------------------------------------ 
         // GET api/v1/pricing/D00BYU6Z/B0029AY5   //masterid/warehouseid
         [HttpGet("{masterid}/{warehouseid}")]
-        public async Task<ActionResult<IEnumerable<PricingLogic>>> GetOneAsync([FromRoute]string masterid, [FromRoute]string warehouseid)
+        public async Task<ActionResult<IEnumerable<PricingLogic>>> GetManyByMasterIdAndWarehouseIdAsync([FromRoute]string masterid, [FromRoute]string warehouseid)
         {
             return await DoSpecialGetAsync<PricingLogic>(masterid, warehouseid, "");
         }
         //------------------------------------------------------------------------------------ 
         // GET api/v1/pricing/D00BYU6Z    //masterid
         [HttpGet("{masterid}")]
-        public async Task<ActionResult<IEnumerable<PricingLogic>>> GetOneAsync([FromRoute]string masterid)
+        public async Task<ActionResult<IEnumerable<PricingLogic>>> GetManyByMasterIdAsync([FromRoute]string masterid)
         {
             return await DoSpecialGetAsync<PricingLogic>(masterid, "", "");
         }
@@ -72,17 +72,14 @@ namespace WebApi.Modules.Home.Pricing
                 request.pagesize = 0;
                 request.orderby = string.Empty;
                 request.uniqueids = uniqueIds;
-                FwBusinessLogic l = CreateBusinessLogic(logicType, this.AppConfig, this.UserSession);
+                FwBusinessLogic l = FwBusinessLogic.CreateBusinessLogic(logicType, this.AppConfig, this.UserSession);
                 IEnumerable<T> records = await l.SelectAsync<T>(request);
+
                 return new OkObjectResult(records);
             }
             catch (Exception ex)
             {
-                FwApiException jsonException = new FwApiException();
-                jsonException.StatusCode = StatusCodes.Status500InternalServerError;
-                jsonException.Message = ex.Message;
-                jsonException.StackTrace = ex.StackTrace;
-                return StatusCode(jsonException.StatusCode, jsonException);
+                return GetApiExceptionResult(ex);
             }
         }
         //------------------------------------------------------------------------------------

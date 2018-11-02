@@ -52,15 +52,7 @@ namespace FwCore.Controllers
             }
             catch (Exception ex)
             {
-                FwApiException jsonException = new FwApiException();
-                jsonException.StatusCode = StatusCodes.Status500InternalServerError;
-                jsonException.Message = ex.Message;
-                if (ex.InnerException != null)
-                {
-                    jsonException.Message += $"\n\nInnerException: \n{ex.InnerException.Message}";
-                }
-                jsonException.StackTrace = ex.StackTrace;
-                return StatusCode(jsonException.StatusCode, jsonException);
+                return GetApiExceptionResult(ex);
             }
         }
         //------------------------------------------------------------------------------------
@@ -106,15 +98,7 @@ namespace FwCore.Controllers
             }
             catch (Exception ex)
             {
-                FwApiException jsonException = new FwApiException();
-                jsonException.StatusCode = StatusCodes.Status500InternalServerError;
-                jsonException.Message = ex.Message;
-                if (ex.InnerException != null)
-                {
-                    jsonException.Message += $"\n\nInnerException: \n{ex.InnerException.Message}";
-                }
-                jsonException.StackTrace = ex.StackTrace;
-                return StatusCode(jsonException.StatusCode, jsonException);
+                return GetApiExceptionResult(ex);
             }
         }
         //------------------------------------------------------------------------------------
@@ -156,6 +140,7 @@ namespace FwCore.Controllers
             }
         }
         //------------------------------------------------------------------------------------
+
         protected virtual async Task<ActionResult<T>> DoGetAsync<T>(string id, Type type = null)
         {
             if (!ModelState.IsValid)
@@ -201,15 +186,29 @@ namespace FwCore.Controllers
             }
             catch (Exception ex)
             {
-                FwApiException jsonException = new FwApiException();
-                jsonException.StatusCode = StatusCodes.Status500InternalServerError;
-                jsonException.Message = ex.Message;
-                if (ex.InnerException != null)
+                return GetApiExceptionResult(ex);
+            }
+        }
+        //------------------------------------------------------------------------------------
+        protected virtual async Task<ActionResult<GetManyResponse<T>>> DoGetManyAsync<T>(GetManyRequest request, Type type = null)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                if (type == null)
                 {
-                    jsonException.Message += $"\n\nInnerException: \n{ex.InnerException.Message}";
+                    type = logicType;
                 }
-                jsonException.StackTrace = ex.StackTrace;
-                return StatusCode(jsonException.StatusCode, jsonException);
+                FwBusinessLogic l = FwBusinessLogic.CreateBusinessLogic(type, this.AppConfig, this.UserSession);
+                GetManyResponse<T> response = await l.GetManyAsync<T>(request);
+                return new OkObjectResult(response);
+            }
+            catch (Exception ex)
+            {
+                return GetApiExceptionResult(ex);
             }
         }
         //------------------------------------------------------------------------------------
@@ -236,7 +235,7 @@ namespace FwCore.Controllers
                     if (l.LoadOriginalBeforeSaving)
                     {
                         //load the original record from the database
-                        original = CreateBusinessLogic(logicType, this.AppConfig, this.UserSession);
+                        original = FwBusinessLogic.CreateBusinessLogic(logicType, this.AppConfig, this.UserSession);
                         original.SetPrimaryKeys(l.GetPrimaryKeys());
                         bool exists = await original.LoadAsync<T>();
                         if (!exists)
@@ -294,15 +293,7 @@ namespace FwCore.Controllers
             }
             catch (Exception ex)
             {
-                FwApiException jsonException = new FwApiException();
-                jsonException.StatusCode = StatusCodes.Status500InternalServerError;
-                jsonException.Message = ex.Message;
-                if (ex.InnerException != null)
-                {
-                    jsonException.Message += $"\n\nInnerException: \n{ex.InnerException.Message}";
-                }
-                jsonException.StackTrace = ex.StackTrace;
-                return StatusCode(jsonException.StatusCode, jsonException);
+                return GetApiExceptionResult(ex);
             }
         }
         //------------------------------------------------------------------------------------
@@ -320,7 +311,7 @@ namespace FwCore.Controllers
                     type = logicType;
                 }
 
-                FwBusinessLogic logic = CreateBusinessLogic(type, this.AppConfig, this.UserSession);
+                FwBusinessLogic logic = FwBusinessLogic.CreateBusinessLogic(type, this.AppConfig, this.UserSession);
 
                 //populate the parent formfields from the request
                 IDictionary<string, dynamic> miscfields = request.miscfields;
@@ -382,15 +373,7 @@ namespace FwCore.Controllers
             }
             catch (Exception ex)
             {
-                FwApiException jsonException = new FwApiException();
-                jsonException.StatusCode = StatusCodes.Status500InternalServerError;
-                jsonException.Message = ex.Message;
-                if (ex.InnerException != null)
-                {
-                    jsonException.Message += $"\n\nInnerException: \n{ex.InnerException.Message}";
-                }
-                jsonException.StackTrace = ex.StackTrace;
-                return StatusCode(jsonException.StatusCode, jsonException);
+                return GetApiExceptionResult(ex);
             }
         }
         //------------------------------------------------------------------------------------
@@ -405,22 +388,14 @@ namespace FwCore.Controllers
                 }
 
                 string[] ids = id.Split('~');
-                FwBusinessLogic l = CreateBusinessLogic(type, this.AppConfig, this.UserSession);
+                FwBusinessLogic l = FwBusinessLogic.CreateBusinessLogic(type, this.AppConfig, this.UserSession);
                 l.SetPrimaryKeys(ids);
                 bool success = await l.DeleteAsync();
                 return new OkObjectResult(success);
             }
             catch (Exception ex)
             {
-                FwApiException jsonException = new FwApiException();
-                jsonException.StatusCode = StatusCodes.Status500InternalServerError;
-                jsonException.Message = ex.Message;
-                if (ex.InnerException != null)
-                {
-                    jsonException.Message += $"\n\nInnerException: \n{ex.InnerException.Message}";
-                }
-                jsonException.StackTrace = ex.StackTrace;
-                return StatusCode(jsonException.StatusCode, jsonException);
+                return GetApiExceptionResult(ex);
             }
         }
         //------------------------------------------------------------------------------------
@@ -429,6 +404,19 @@ namespace FwCore.Controllers
             IActionResult result = new OkObjectResult(true);
             await Task.CompletedTask; // get rid of the no async call warning
             return result;
+        }
+        //------------------------------------------------------------------------------------
+        protected ObjectResult GetApiExceptionResult(Exception ex)
+        {
+            FwApiException jsonException = new FwApiException();
+            jsonException.StatusCode = StatusCodes.Status500InternalServerError;
+            jsonException.Message = ex.Message;
+            if (ex.InnerException != null)
+            {
+                jsonException.Message += $"\n\nInnerException: \n{ex.InnerException.Message}";
+            }
+            jsonException.StackTrace = ex.StackTrace;
+            return StatusCode(jsonException.StatusCode, jsonException);
         }
         //------------------------------------------------------------------------------------
     }

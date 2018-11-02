@@ -529,8 +529,6 @@
     <TypeScriptCompile Include="Source\Modules\Administrator\Group\Group.ts" />
     <TypeScriptCompile Include="Source\Modules\Administrator\User\User.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\Contact\Contact.ts" />
-    <Content Include="Source\Modules\Home\Customer\CustomerBrowse.htm" />
-    <Content Include="Source\Modules\Home\Customer\CustomerForm.htm" />
     <TypeScriptCompile Include="Source\Modules\Home\PickList\PickList.ts" />
     <Content Include="Source\Modules\Home\RentalInventory\RentalInventoryBrowse.htm" />
     <Content Include="Source\Modules\Home\RentalInventory\RentalInventoryForm.htm" />

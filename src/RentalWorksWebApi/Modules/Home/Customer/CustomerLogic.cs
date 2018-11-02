@@ -1,7 +1,13 @@
 ﻿using FwStandard.BusinessLogic;
 using FwStandard.BusinessLogic.Attributes;
+using FwStandard.Models;
+using FwStandard.SqlServer;
+using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
+using System.Threading.Tasks;
 using WebApi.Logic;
+using WebApi.Modules.Settings.OfficeLocation;
 using WebLibrary;
 
 namespace WebApi.Modules.Home.Customer
@@ -204,8 +210,6 @@ namespace WebApi.Modules.Home.Customer
             }
         }
         //------------------------------------------------------------------------------------
-
-
         //justin WIP
         //public void BeforeSaveCustomer(object sender, BeforeSaveEventArgs e)
         //{
@@ -220,6 +224,14 @@ namespace WebApi.Modules.Home.Customer
         //        BillToZipCode = ZipCode;
         //    }
         //}
+        //------------------------------------------------------------------------------------
+        public async Task<GetManyResponse<GetManyOfficeLocationModel>> GetOfficeLocationsAsync(GetManyOfficeLocationRequest request)
+        {
+            var officeLocationLogic = CreateBusinessLogic<OfficeLocationLogic>(this.AppConfig, this.UserSession);
+            request.filters["Inactive"] = new GetManyRequestFilter("Inactive", "eq", "true", false);
+            var result = await officeLocationLogic.GetManyAsync<GetManyOfficeLocationModel>(request);
+            return result;
+        }
         //------------------------------------------------------------------------------------ 
     }
 }

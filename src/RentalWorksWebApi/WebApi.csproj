@@ -13,6 +13,9 @@
     <RootNamespace>WebApi</RootNamespace>
     <TypeScriptToolsVersion>3.0</TypeScriptToolsVersion>
     <TypeScriptCompileBlocked>true</TypeScriptCompileBlocked>
+    <Company>Database Works, Inc</Company>
+    <Product>RentalWorks WebApi</Product>
+    <PackageId>RentalWorksWebApi</PackageId>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

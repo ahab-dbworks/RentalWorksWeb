@@ -111,6 +111,9 @@ class Customer {
         let $form = jQuery(this.getFormTemplate());
         $form = FwModule.openForm($form, mode);
 
+        // example: setting validation getapiurl functions
+        //FwFormField.getDataField($form, 'OfficeLocationId').data('getapiurl', () => 'api/v1/customer/lookup/officelocations');
+        
         if (mode === 'NEW') {
             let officeLocation = JSON.parse(sessionStorage.getItem('location'));
             let customerStatus = JSON.parse(sessionStorage.getItem('controldefaults'));

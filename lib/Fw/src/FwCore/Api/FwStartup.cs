@@ -15,6 +15,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
+using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
 using Swashbuckle.AspNetCore.Swagger;
 using Swashbuckle.AspNetCore.SwaggerGen;
@@ -75,6 +76,7 @@ namespace FwCore.Api
                 .AddJsonOptions(options =>
                 {
                     options.SerializerSettings.ContractResolver = new FwContractResolver();
+                    options.SerializerSettings.Converters.Add(new StringEnumConverter());
                 })
             ;
 
@@ -158,6 +160,7 @@ namespace FwCore.Api
 
             services.AddSwaggerGen(c =>
             {
+                c.DescribeAllEnumsAsStrings();
                 c.SwaggerDoc("accountservices-v1", new Info { Title = SystemName + " Account Services API v1", Version = "v1" });
                 c.SwaggerDoc("home-v1", new Info { Title = SystemName + " Home API v1", Version = "v1" });
                 c.SwaggerDoc("settings-v1", new Info { Title = SystemName + " Settings API v1", Version = "v1" });
@@ -254,7 +257,11 @@ namespace FwCore.Api
                 c.DocumentTitle = SystemName + " API";
                 if (File.Exists(Path.Combine(HostingEnvironment.ContentRootPath, "swagger-ui/custom.css")))
                 {
-                    c.InjectStylesheet("/swagger-ui/custom.css");
+                    c.InjectStylesheet("/swagger-ui/custom.css", "all");
+                }
+                if (File.Exists(Path.Combine(HostingEnvironment.ContentRootPath, "swagger-ui/custom.js")))
+                {
+                    c.InjectJavascript("/swagger-ui/custom.js", "text/javascript");
                 }
                 c.DocExpansion(DocExpansion.None);
                 c.SwaggerEndpoint(Configuration["ApplicationConfig:VirtualDirectory"] + "/swagger/accountservices-v1/swagger.json", SystemName + " Account Services API v1");

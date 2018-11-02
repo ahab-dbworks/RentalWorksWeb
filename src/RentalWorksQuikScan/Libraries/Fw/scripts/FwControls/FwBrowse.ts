@@ -1705,22 +1705,22 @@ class FwBrowseClass {
 
     }
     //---------------------------------------------------------------------------------
-    getRequest($control) {
-        var request, $fields, orderby, $field, $txtSearch, browsedatafield, value, sort, module, controller, fieldtype, searchSeparator;
+    getRequest($control: JQuery): BrowseRequest {
+        var $fields, orderby, $field, $txtSearch, browsedatafield, value, sort, module, controller, fieldtype, searchSeparator;
         orderby = [];
-        request = {
-            module: '',
-            searchfields: [],
-            searchfieldtypes: [],
-            searchseparators: [],
-            searchfieldoperators: [],
-            searchfieldvalues: [],
-            miscfields: !$control.closest('.fwform').length ? jQuery([]) : FwModule.getFormUniqueIds($control.closest('.fwform')),
-            orderby: '',
-            pageno: parseInt($control.attr('data-pageno')),
-            pagesize: parseInt($control.attr('data-pagesize')),
-            options: this.getOptions($control)
-        };
+        let request = new BrowseRequest();
+        request.module = '';
+        request.searchfields = [];
+        request.searchfieldtypes = [];
+        request.searchseparators = [];
+        request.searchfieldoperators = [];
+        request.searchfieldvalues = [];
+        request.miscfields = !$control.closest('.fwform').length ? jQuery([]) : FwModule.getFormUniqueIds($control.closest('.fwform'));
+        request.orderby = '';
+        request.pageno = parseInt($control.attr('data-pageno'));
+        request.pagesize = parseInt($control.attr('data-pagesize'));
+        request.options = this.getOptions($control);
+
         if ($control.attr('data-type') === 'Grid') {
             request.module = $control.attr('data-name');
         } else if ($control.attr('data-type') === 'Validation') {
@@ -1734,7 +1734,7 @@ class FwBrowseClass {
         }
         controller = window[request.module + 'Controller'];
         if (typeof controller === 'undefined' && ($control.attr('data-type') === 'Grid' || $control.attr('data-type') === 'Browse')) {
-            throw module + 'Controller is not defined.'
+            throw request.module + 'Controller is not defined.'
         }
         $fields = $control.find('.runtime thead > tr.fieldnames > td.column > div.field');
         $fields.each(function (index, element) {
@@ -1774,7 +1774,7 @@ class FwBrowseClass {
                 request.searchfieldvalues.push(value);
             }
             if (sort === 'asc') {
-                orderby.push(browsedatafield);
+                orderby.push(browsedatafield + ' asc');
             }
             if (sort === 'desc') {
                 orderby.push(browsedatafield + ' desc');
@@ -1820,87 +1820,206 @@ class FwBrowseClass {
         return request;
     }
     //---------------------------------------------------------------------------------
-    databind($control): Promise<any> {
+    getManyRequest($control: JQuery): GetManyRequest {
+        let request = new GetManyRequest();
+        request.pageno = parseInt($control.attr('data-pageno'));
+        request.pagesize = parseInt($control.attr('data-pagesize'));
+        //request.options = this.getOptions($control);
+        let orderby: any = [];
+        let module = '';
+        if ($control.attr('data-type') === 'Grid') {
+            module = $control.attr('data-name');
+        } else if ($control.attr('data-type') === 'Validation') {
+            module = $control.attr('data-name');
+        } else if ($control.attr('data-type') === 'Browse') {
+            if (typeof $control.attr('data-name') !== 'undefined') {
+                module = $control.attr('data-name');
+            } else {
+                module = window[$control.attr('data-controller')].Module;
+            }
+        }
+        let controller = window[module + 'Controller'];
+        if (typeof controller === 'undefined' && ($control.attr('data-type') === 'Grid' || $control.attr('data-type') === 'Browse')) {
+            throw module + 'Controller is not defined.'
+        }
+        let $fields = $control.find('.runtime thead > tr.fieldnames > td.column > div.field');
+        $fields.each(function (index, element) {
+            let $field = jQuery(element);
+            let $txtSearch = $field.find('> div.search > input');
+            let value = $txtSearch.val().toString();
+            let sort = $field.attr('data-sort');
+            let fieldtype = $field.attr('data-browsedatatype');
+            let browsedatafield: string = '';
+            let searchSeparator = ',';
+            if (typeof $field.attr('data-datafield') !== 'undefined') {
+                browsedatafield = $field.attr('data-datafield');
+            }
+            else if (typeof $field.attr('data-browsedatafield') !== 'undefined') {
+                browsedatafield = $field.attr('data-browsedatafield');
+            }
+            if (typeof $field.attr('data-multiwordseparator') !== 'undefined') {
+                searchSeparator = $field.attr('data-multiwordseparator');
+            } else {
+                searchSeparator = ",";
+            }
+            if (typeof $field.attr('data-browsedatatype') !== 'undefined') {
+                fieldtype = $field.attr('data-browsedatatype');
+            } else if (typeof $field.attr('data-datatype') !== 'undefined') {
+                fieldtype = $field.attr('data-datatype');
+            }
+            if (value.length > 0) {
+                let filter = new GetManyFilter();
+                filter.fieldName = browsedatafield;
+                filter.comparisonOperator = (typeof $field.attr('data-comparisonoperator') !== 'undefined') ? $field.attr('data-comparisonoperator') : 'co';
+                filter.fieldValue = value;
+                filter.searchSeparator = searchSeparator;
+                filter.fieldType = fieldtype;
+                request.filters.push(filter);
+            }
+            if (sort === 'asc') {
+                orderby.push(browsedatafield + ':asc');
+            }
+            if (sort === 'desc') {
+                orderby.push(browsedatafield + ':desc');
+            }
+        });
+        if (typeof $control.attr('data-hasinactive') === 'string' && $control.attr('data-hasinactive') === 'true') {
+            if (typeof $control.attr('data-activeinactiveview') !== 'string') {
+                $control.attr('data-activeinactiveview', 'active');
+            }
+            var activeinactiveview = $control.attr('data-activeinactiveview');
+            switch (activeinactiveview) {
+                case 'all':
+                    break;
+                case 'active': {
+                    let filter = new GetManyFilter();
+                    filter.fieldName = 'Inactive';
+                    filter.comparisonOperator = 'ne';
+                    filter.fieldValue = 'T';
+                    request.filters.push(filter);
+                    break;
+                }
+                case 'inactive': {
+                    let filter = new GetManyFilter();
+                    filter.fieldName = 'Inactive';
+                    filter.comparisonOperator = 'eq';
+                    filter.fieldValue = 'T';
+                    request.filters.push(filter);
+                    break;
+                }
+            }
+        }
+        orderby = orderby.join(',');
+        request.sort = orderby;
+        if (typeof $control.data('beforegetmany') === 'function') {
+            $control.data('beforegetmany')(request);  // you can attach an ondatabind function to the browse control if you need to add custom parameters to the request
+        }
+        return request;
+    }
+    //---------------------------------------------------------------------------------
+    async databind($control): Promise<any> {
         let me = this;
-        return new Promise((resolve, reject) => {
-            jQuery(window).off('click.FwBrowse'); // remove the auto-save click event from window
+        return new Promise<any>(async (resolve, reject) => {
+            try {
+                jQuery(window).off('click.FwBrowse'); // remove the auto-save click event from window
 
-            // save the rows in editmode
-            //let $trsEditMode = $control.find('tbody tr.editmode')
-            //$control.data('$trseditmode', $trsEditMode);
-            ////if ($tr.hasClass('newmode')) {
-            ////    FwBrowse.setSelectedRowMode($control, 'new');
-            ////} else if ($tr.hasClass('editmode')) {
-            ////    FwBrowse.setSelectedRowMode($control, 'edit');
-            ////} else if ($tr.hasClass('viewmode')) {
-            ////    FwBrowse.setSelectedRowMode($control, 'view');
-            ////}
-
-            var request, caption;
-            if ($control.length > 0) {
-                request = this.getRequest($control);
-                if (typeof $control.data('calldatabind') === 'function') {
-                    $control.data('calldatabind')(request, function (response) {
-                        resolve();
-                    });
-                } else {
-                    if ($control.attr('data-type') === 'Grid') {
-                        FwServices.grid.method(request, request.module, 'Browse', $control, function (response) {
-                            try {
-                                me.beforeDataBindCallBack($control, request, response);
-                                resolve();
-                            } catch (ex) {
-                                //FwFunc.showError(ex);
-                                reject(ex);
-                            }
-                        });
-                    } else if ($control.attr('data-type') === 'Validation') {
-                        FwServices.validation.method(request, request.module, 'Browse', $control, function (response) {
-                            // replace spinner with search again
-                            $control.data('$control').find('.validation-loader').hide();
-                            $control.data('$btnvalidate').show();
-                            try {
-                                me.beforeDataBindCallBack($control, request, response);
-                                resolve();
-                            } catch (ex) {
-                                //FwFunc.showError(ex);
-                                reject(ex);
-                            }
-                        });
-                    } else if ($control.attr('data-type') === 'Browse') {
-                        FwServices.module.method(request, request.module, 'Browse', $control, function (response) {
-                            try {
-                                me.beforeDataBindCallBack($control, request, response);
-                                resolve();
-                            } catch (ex) {
-                                //FwFunc.showError(ex);
-                                reject(ex);
-                            }
+                if ($control.length > 0) {
+                    let request = this.getRequest($control);
+                    if (typeof $control.data('calldatabind') === 'function') {
+                        $control.data('calldatabind')(request, function (response) {
+                            resolve();
                         });
                     } else {
-                        reject('Unknown Browse Control type.');
+                        if ($control.attr('data-type') === 'Grid') {
+                            FwServices.grid.method(request, request.module, 'Browse', $control, function (response) {
+                                try {
+                                    me.beforeDataBindCallBack($control, request, response);
+                                    resolve();
+                                } catch (ex) {
+                                    //FwFunc.showError(ex);
+                                    reject(ex);
+                                }
+                            });
+                        } else if ($control.attr('data-type') === 'Validation') {
+                            let validationmode = $control.data('validationmode');
+                            if (validationmode !== undefined && validationmode === 2) {
+                                try {
+                                    try {
+                                        let getManyRequest = this.getManyRequest($control);
+                                        let url = Array<string>();
+                                        url.push(`${applicationConfig.apiurl}${$control.attr('data-apiurl')}?`);
+                                        url.push(`&pageno=${getManyRequest.pageno}`);
+                                        url.push(`&pagesize=${getManyRequest.pagesize}`);
+                                        url.push(`&sort=${getManyRequest.sort}`);
+                                        for (let filterno = 0; filterno < getManyRequest.filters.length; filterno++) {
+                                            let filter = getManyRequest.filters[filterno];
+                                            url.push(`&${filter.fieldName}=${filter.comparisonOperator}:${filter.fieldValue}`);
+                                        }
+                                        let request = new FwAjaxRequest();
+                                        request.httpMethod = 'GET';
+                                        request.url = encodeURI(url.join(''));
+                                        request.timeout = 15000;
+                                        request.$elementToBlock = $control.data('$control');
+                                        request.addAuthorizationHeader = true;
+                                        let getManyResponse = await FwAjax.callWebApi<GetManyModel<any>>(request);
+                                        let dt = DataTable.objectListToDataTable(getManyResponse);
+                                        me.beforeDataBindCallBack($control, request, dt);
+                                        resolve();
+                                    } catch (ex) {
+                                        reject(ex);
+                                    }
+                                } catch (ex) {
+                                    //FwFunc.showError(ex);
+                                    reject(ex);
+                                }
+                            } else {
+                                FwServices.validation.method(request, request.module, 'Browse', $control, function (response) {
+                                    // replace spinner with search again
+                                    //$control.data('$control').find('.validation-loader').hide();
+                                    //$control.data('$btnvalidate').show();
+                                    try {
+                                        me.beforeDataBindCallBack($control, request, response);
+                                        resolve();
+                                    } catch (ex) {
+                                        //FwFunc.showError(ex);
+                                        reject(ex);
+                                    }
+                                });
+                            }
+                        } else if ($control.attr('data-type') === 'Browse') {
+                            FwServices.module.method(request, request.module, 'Browse', $control, function (response) {
+                                try {
+                                    me.beforeDataBindCallBack($control, request, response);
+                                    resolve();
+                                } catch (ex) {
+                                    //FwFunc.showError(ex);
+                                    reject(ex);
+                                }
+                            });
+                        } else {
+                            reject('Unknown Browse Control type.');
+                        }
                     }
                 }
+            } catch (ex) {
+                FwFunc.showError(ex);
             }
         });
     }
     //---------------------------------------------------------------------------------
     beforeDataBindCallBack($control: JQuery, request: any, response: any) {
-        var controller = window[request.module + 'Controller'];
-        if (typeof controller === 'undefined') {
-            throw request.module + 'Controller is not defined.'
-        }
+        //var controller = window[request.module + 'Controller'];
+        //if (typeof controller === 'undefined') {
+        //    throw request.module + 'Controller is not defined.'
+        //}
         this.databindcallback($control, response);
     }
     //---------------------------------------------------------------------------------
     databindcallback($control, dt: FwJsonDataTable) {
         let me = this;
-        var i, $tbody, htmlPager, columnIndex, dtCol, rowIndex, scrollerCol, rowClass, columns, onrowdblclick, $ths, $pager, pageSize, controlType, $fields;
         try {
-            //FwOverlay.hideOverlay($control);
-
             this.setGridBrowseMode($control);
-            pageSize = this.getPageSize($control);
+            let pageSize = this.getPageSize($control);
             this.setTotalPages($control, dt.TotalPages);
             $control.data('totalRowCount', dt.TotalRows);
 
@@ -1912,15 +2031,15 @@ class FwBrowseClass {
                 return (node.properties.nodetype === 'EditMenuBarButton');
             });
 
-            onrowdblclick = $control.data('onrowdblclick');
+            let onrowdblclick = $control.data('onrowdblclick');
             dt.ColumnIndex = {};
-            for (i = 0; i < dt.Columns.length; i++) {
-                dtCol = dt.Columns[i];
+            for (let i = 0; i < dt.Columns.length; i++) {
+                let dtCol = dt.Columns[i];
                 dt.ColumnIndex[dtCol.DataField] = i;
             }
-            $tbody = $control.find('.runtime tbody');
+            let $tbody = $control.find('.runtime tbody');
             $tbody.empty();
-            for (rowIndex = 0; rowIndex < dt.Rows.length; rowIndex++) {
+            for (let rowIndex = 0; rowIndex < dt.Rows.length; rowIndex++) {
                 var $tr;
                 $tr = this.generateRow($control);
                 if ($control.attr('data-type') === 'Browse' || $control.attr('data-type') === 'Validation') {
@@ -1928,7 +2047,7 @@ class FwBrowseClass {
                 }
                 $tr.addClass('viewmode');
 
-                $fields = $tr.find('.field');
+                let $fields = $tr.find('.field');
                 for (var j = 0; j < $fields.length; j++) {
                     var $field, dtColIndex, dtRow, dtCellValue, $td;
                     $field = jQuery($fields[j]);
@@ -3258,8 +3377,108 @@ interface IFwBrowseColumn {
     setFieldEditMode($browse: JQuery, $tr: JQuery, $field: JQuery): void;
 }
 
-
 class FwBrowse_SetFieldValueData {
     value: any;
     text?: string;
+}
+
+class DataTable {
+    ColumnIndex: any = {};
+    Columns: Array<DataTableColumn> = [];
+    Rows: Array<Array<any>> = [];
+    PageNo: number = 0;
+    PageSize:	number = 15;
+    TotalPages:	number = 0;
+    TotalRows:	number = 0;
+    ColumnNameByIndex: any = {};
+
+    static toObjectList<T>(dt: DataTable): Array<T> {
+        let objects = [];
+        for (let rowno = 0; rowno < dt.Rows.length; rowno++) {
+            let row = dt.Rows[rowno];
+            let object: any = {};
+            for (let colno = 0; colno < dt.Columns.length; colno++) {
+                let column = dt.Columns[colno];
+                object[dt.Columns[colno].DataField] = row[colno];
+            }
+            objects.push(object);
+        }
+        return objects;
+    }
+
+    static objectListToDataTable<T>(getManyModel: GetManyModel<T>): DataTable {
+        let dt = new DataTable();
+        dt.PageNo = getManyModel.PageNo;
+        dt.PageSize = getManyModel.PageSize;
+        dt.TotalRows = getManyModel.TotalRows;
+        if (getManyModel.Items.length > 0) {
+            let record = getManyModel.Items[0];
+            let colno = 0;
+            for (let key in record) {
+                // build the ColumnIndexs
+                dt.ColumnIndex[key] = colno;
+                dt.ColumnNameByIndex[colno] = key;
+
+                // add the Column
+                let column = new DataTableColumn();
+                column.Name = key;
+                column.DataField = key;
+                dt.Columns.push(column);
+            }
+        }
+        for (let recno = 0; recno < getManyModel.Items.length; recno++) {
+            let record = getManyModel.Items[recno];
+            let row = new Array<any>();
+            for (let key in record) {
+                let cellValue = record[key];
+                row.push(cellValue);
+            }
+            dt.Rows.push(row);
+        }
+        return dt;
+    }
+}
+
+class DataTableColumn {
+    Name: string = '';
+    DataField: string = '';
+    DataType: number = 0;
+    IsUniqueId: boolean = false;
+    IsVisible: boolean = true;
+}
+
+class BrowseRequest {
+    miscfields: any = {};
+    module: string = '';
+    options: any = {};
+    orderby: string = '';
+    orderbydirection: string = '';
+    top: number = 0;
+    pageno: number = 0;
+    pagesize: number = 0;
+    searchfieldoperators: Array<string> = [];
+    searchfields: Array<string> = [];
+    searchfieldvalues: Array<string> = [];
+    searchfieldtypes: Array<string> = [];
+    searchseparators: Array<string> = [];
+    uniqueids: any = {};
+    boundids: any = {};
+    filterfields: any = {};
+    activeview: string = '';
+}
+
+class GetManyRequest {
+    pageno: number = 0;
+    pagesize: number = 0;
+    sort: string = '';
+    //options: this.getOptions($control);
+    filters: Array<GetManyFilter> = [];
+}
+
+class GetManyFilter {
+    fieldName: string;
+    comparisonOperator: string;
+    fieldValue: string;
+    searchSeparator: string;
+    fieldType: string;
 }

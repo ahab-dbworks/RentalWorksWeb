@@ -5,6 +5,12 @@ using Microsoft.Extensions.Options;
 using WebApi.Controllers;
 using System.Threading.Tasks;
 using System.Collections.Generic;
+using WebApi.Modules.Settings.OfficeLocation;
+using System.Linq;
+using System;
+using FwStandard.BusinessLogic;
+using WebApi.Modules.Settings.Customer;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace WebApi.Modules.Home.Customer
 {
@@ -30,9 +36,9 @@ namespace WebApi.Modules.Home.Customer
         //------------------------------------------------------------------------------------
         // GET api/v1/customer
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<CustomerLogic>>> GetManyAsync(int pageno, int pagesize, string sort)
+        public async Task<ActionResult<GetManyResponse<GetManyCustomerResponse>>> GetManyAsync([FromQuery]GetManyCustomerRequest request)
         {
-            return await DoGetAsync<CustomerLogic>(pageno, pagesize, sort);
+            return await DoGetManyAsync<GetManyCustomerResponse>(request);
         }
         //------------------------------------------------------------------------------------
         // GET api/v1/customer/A0000001
@@ -56,5 +62,145 @@ namespace WebApi.Modules.Home.Customer
             return await DoDeleteAsync(id);
         }
         //------------------------------------------------------------------------------------
+        // GET api/v1/customer/lookup/officelocations
+        [HttpGet("lookup/officelocations")]
+        public async Task<ActionResult<GetManyResponse<GetManyOfficeLocationModel>>> GetOfficeLocationsAsync([FromQuery]GetManyOfficeLocationRequest request)
+        {
+            //return await DoGetManyAsync<GetManyOfficeLocationModel>(request, typeof(OfficeLocationLogic));
+            try
+            {
+                var customer = FwBusinessLogic.CreateBusinessLogic<CustomerLogic>(this.AppConfig, this.UserSession);
+                var officeLocations = await customer.GetOfficeLocationsAsync(request);
+                if (officeLocations == null)
+                {
+                    return NotFound();
+                }
+                return officeLocations;
+            }
+            catch(Exception ex)
+            {
+                return this.GetApiExceptionResult(ex);
+            }
+        }
+        //------------------------------------------------------------------------------------
+        // GET api/v1/customer/validations/managingdepartments
+        //[HttpGet("validations/managingdepartments")]
+        //public async Task<ActionResult<GetManyResponse<GetManyDepartmentsValidationModel>>> GetManagingDepartmentsAsync([FromQuery]GetManyDepartmentsRequest request)
+        //{
+        //    try
+        //    {
+        //        var customer = FwBusinessLogic.CreateBusinessLogic<CustomerLogic>(this.AppConfig, this.UserSession);
+        //        var officeLocations = await customer.GetOfficeLocationsAsync(request);
+        //        if (officeLocations == null)
+        //        {
+        //            return NotFound();
+        //        }
+        //        return officeLocations;
+        //    }
+        //    catch(Exception ex)
+        //    {
+        //        return this.GetApiExceptionResult(ex);
+        //    }
+        //}
+        //------------------------------------------------------------------------------------
+
+            /*
+            {
+                "caption": "Office Location",
+                "validationname": "OfficeLocationValidation",
+                "datafield": "OfficeLocationId",
+                "displayfield": "OfficeLocation"
+            },
+            {
+                "caption": "Managing Department",
+                "validationname": "DepartmentValidation",
+                "datafield": "DepartmentId",
+                "displayfield": "Department"
+            },
+            {
+                "caption": "Type",
+                "validationname": "CustomerTypeValidation",
+                "datafield": "CustomerTypeId",
+                "displayfield": "CustomerType"
+            },
+            {
+                "caption": "Customer Category",
+                "validationname": "CustomerCategoryValidation",
+                "datafield": "CustomerCategoryId",
+                "displayfield": "CustomerCategory"
+            },
+            {
+                "caption": "Parent Customer",
+                "validationname": "CustomerValidation",
+                "datafield": "ParentCustomerId",
+                "displayfield": "ParentCustomer"
+            },
+            {
+                "caption": "Status",
+                "validationname": "CustomerStatusValidation",
+                "datafield": "CustomerStatusId",
+                "displayfield": "CustomerStatus"
+            },
+            {
+                "caption": "Country",
+                "validationname": "CountryValidation",
+                "datafield": "CountryId",
+                "displayfield": "Country"
+            },
+            {
+                "caption": "Payment Terms",
+                "validationname": "PaymentTermsValidation",
+                "datafield": "PaymentTermsId",
+                "displayfield": "PaymentTerms"
+            },
+            {
+                "caption": "Template",
+                "validationname": "DiscountTemplateValidation",
+                "datafield": "DiscountTemplateId",
+                "displayfield": "DiscountTemplate"
+            },
+            {
+                "caption": "Country",
+                "validationname": "CountryValidation",
+                "datafield": "BillToCountryId",
+                "displayfield": "BillToCountry"
+            },
+            {
+                "caption": "Status",
+                "validationname": "CreditStatusValidation",
+                "datafield": "CreditStatusId",
+                "displayfield": "CreditStatus"
+            },
+            {
+                "caption": "Name",
+                "validationname": "VendorValidation",
+                "datafield": "InsuranceCompanyId",
+                "displayfield": "InsuranceCompany"
+            },
+            {
+                "caption": "Country",
+                "validationname": "CountryValidation",
+                "datafield": "InsuranceCompanyCountryId",
+                "displayfield": "InsuranceCompanyCountry"
+            },
+            {
+                "caption": "State of Incorporation",
+                "validationname": "StateValidation",
+                "datafield": "TaxStateOfIncorporationId",
+                "displayfield": "TaxStateOfIncorporation"
+            },
+            {
+                "caption": "Tax Option",
+                "validationname": "CustomerValidation",
+                "datafield": "",
+                "displayfield": "Customer"
+            },
+            {
+                "caption": "Country",
+                "validationname": "CountryValidation",
+                "datafield": "ShipCountryId",
+                "displayfield": "ShipCountry"
+            }
+            */
     }
 }

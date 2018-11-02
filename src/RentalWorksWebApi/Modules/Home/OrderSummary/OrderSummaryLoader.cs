@@ -1,4 +1,5 @@
 ﻿using FwStandard.DataLayer;
+using FwStandard.Models;
 using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
 using System;
@@ -306,7 +307,7 @@ namespace WebApi.Modules.Home.OrderSummary
         [FwSqlDataField(column: "caseweightgr", modeltype: FwDataTypes.Integer)]
         public int? WeightInCaseGrams { get; set; }
         //------------------------------------------------------------------------------------
-        public override async Task<dynamic> GetAsync<T>(FwCustomFields customFields = null)
+        public override async Task<dynamic> GetAsync<T>(FwCustomFields customFields = null, Func<FwSqlSelect, Task> beforeExecuteQuery = null)
         {
             if (string.IsNullOrEmpty(OrderId))
             {
@@ -320,19 +321,13 @@ namespace WebApi.Modules.Home.OrderSummary
                 }
                 using (FwSqlConnection conn = new FwSqlConnection(this.AppConfig.DatabaseSettings.ConnectionString))
                 {
-                    FwSqlSelect select = new FwSqlSelect();
                     using (FwSqlCommand qry = new FwSqlCommand(conn, this.AppConfig.DatabaseSettings.QueryTimeout))
                     {
                         qry.Clear();
                         qry.Add("exec getordersummaryasresultset @orderid = @orderid, @totaltype = @totaltype");
                         qry.AddParameter("@orderid", OrderId);
                         qry.AddParameter("@totaltype", TotalType);
-
-                        MethodInfo method = typeof(FwSqlCommand).GetMethod("SelectAsync");
-                        MethodInfo generic = method.MakeGenericMethod(this.GetType());
-                        object openAndCloseConnection = true;
-                        dynamic result = generic.Invoke(qry, new object[] { openAndCloseConnection, customFields });
-                        dynamic records = await result;
+                        dynamic records = await qry.SelectAsync<OrderSummaryLoader>(true, customFields);
                         dynamic record = null;
                         if (records.Count > 0)
                         {

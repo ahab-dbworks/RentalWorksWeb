@@ -213,6 +213,24 @@ namespace FwStandard.BusinessLogic
         //------------------------------------------------------------------------------------
         public FwBusinessLogic() { }
         //------------------------------------------------------------------------------------
+        public static FwBusinessLogic CreateBusinessLogic(Type type, FwApplicationConfig appConfig, FwUserSession userSession)
+        {
+            FwBusinessLogic bl = (FwBusinessLogic)Activator.CreateInstance(type);
+            bl.AppConfig = appConfig;
+            bl.UserSession = userSession;
+            bl.SetDependencies(appConfig, userSession);
+            return bl;
+        }
+        //------------------------------------------------------------------------------------
+        public static T CreateBusinessLogic<T>(FwApplicationConfig appConfig, FwUserSession userSession) where T : FwBusinessLogic
+        {
+            T bl = (T)Activator.CreateInstance(typeof(T));
+            bl.AppConfig = appConfig;
+            bl.UserSession = userSession;
+            bl.SetDependencies(appConfig, userSession);
+            return bl;
+        }
+        //------------------------------------------------------------------------------------
         private void LoadCustomFields()
         {
             //string moduleName = GetType().Name.Replace("Logic", "");
@@ -273,9 +291,8 @@ namespace FwStandard.BusinessLogic
                 {
                     MethodInfo method = dataRecords[0].GetType().GetMethod("SelectAsync");
                     MethodInfo generic = method.MakeGenericMethod(dataRecords[0].GetType());
-                    BrowseRequest browseRequest = request;
                     FwCustomFields customFields = _Custom.CustomFields;
-                    dynamic result = generic.Invoke(dataRecords[0], new object[] { browseRequest, customFields });
+                    dynamic result = generic.Invoke(dataRecords[0], new object[] { request, customFields });
                     dynamic dataRecordsResults = await result;
                     records = new List<T>(dataRecordsResults.Count);
                     Mapper.Map((object)dataRecordsResults, records, opts =>
@@ -288,9 +305,8 @@ namespace FwStandard.BusinessLogic
             {
                 MethodInfo method = dataLoader.GetType().GetMethod("SelectAsync");
                 MethodInfo generic = method.MakeGenericMethod(dataLoader.GetType());
-                BrowseRequest browseRequest = request;
                 FwCustomFields customFields = _Custom.CustomFields;
-                dynamic result = generic.Invoke(dataLoader, new object[] { browseRequest, customFields });
+                dynamic result = generic.Invoke(dataLoader, new object[] { request, customFields });
                 dynamic dataLoaderResults = await result;
                 records = new List<T>(dataLoaderResults.Count);
                 //Mapper.Map(dataLoaderResults, records);
@@ -300,6 +316,55 @@ namespace FwStandard.BusinessLogic
                 });
             }
             return records;
+        }
+        //------------------------------------------------------------------------------------
+        public virtual async Task<GetManyResponse<T>> GetManyAsync<T>(GetManyRequest request, Func<FwSqlSelect, Task> beforeExecuteQuery = null)
+        {
+            LoadCustomFields();
+
+            GetManyResponse<T> response = new GetManyResponse<T>();
+            if (dataLoader == null)
+            {
+                if (dataRecords.Count > 0)
+                {
+                    MethodInfo method = dataRecords[0].GetType().GetMethod("GetManyAsync");
+                    MethodInfo generic = method.MakeGenericMethod(dataRecords[0].GetType());
+                    FwCustomFields customFields = _Custom.CustomFields;
+                    dynamic taskGetManyAsync = generic.Invoke(dataRecords[0], new object[] { request, customFields, beforeExecuteQuery});
+                    var result = await taskGetManyAsync;
+                    if (result != null)
+                    {
+                        response.PageNo = result.PageNo;
+                        response.PageSize = result.PageSize;
+                        response.TotalRows = result.TotalRows;
+                        response.Items = new List<T>(result.Items.Count);
+                        Mapper.Map((object)result.Items, response.Items, opts =>
+                        {
+                            opts.ConfigureMap(MemberList.None);
+                        });
+                    }
+                }
+            }
+            else
+            {
+                MethodInfo method = dataLoader.GetType().GetMethod("GetManyAsync");
+                MethodInfo generic = method.MakeGenericMethod(dataLoader.GetType());
+                FwCustomFields customFields = _Custom.CustomFields;
+                dynamic taskGetManyAsync = generic.Invoke(dataLoader, new object[] { request, customFields, beforeExecuteQuery});
+                var result = await taskGetManyAsync;
+                if (result != null)
+                {
+                    response.PageNo = result.PageNo;
+                    response.PageSize = result.PageSize;
+                    response.TotalRows = result.TotalRows;
+                    response.Items = new List<T>(result.Items.Count);
+                    Mapper.Map((object)result.Items, response.Items, opts =>
+                    {
+                        opts.ConfigureMap(MemberList.None);
+                    });
+                }
+            }
+            return response;
         }
         //------------------------------------------------------------------------------------
         public virtual async Task<bool> LoadAsync<T>(object[] primaryKeyValues)
@@ -669,9 +734,9 @@ namespace FwStandard.BusinessLogic
                             }
 
                         }
-                        browseRequest2.searchfields = updatedFieldList.ToArray();
-                        browseRequest2.searchfieldoperators = searchOperators.ToArray();
-                        browseRequest2.searchfieldvalues = searchFieldVals.ToArray();
+                        browseRequest2.searchfields = updatedFieldList;
+                        browseRequest2.searchfieldoperators = searchOperators;
+                        browseRequest2.searchfieldvalues = searchFieldVals;
                         FwBusinessLogic l3 = (FwBusinessLogic)Activator.CreateInstance(type);
                         l3.AppConfig = dataRecords[0].AppConfig;
                         FwJsonDataTable dt = l3.BrowseAsync(browseRequest2).Result;

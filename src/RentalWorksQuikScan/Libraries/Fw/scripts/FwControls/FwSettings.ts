@@ -228,9 +228,7 @@ class FwSettingsClass {
                     screen.moduleCaptions[caption][moduleName].push($field);
                 }
             }
-        }, function onError(response) {
-            FwFunc.showError(response);
-        }, null);
+        }, null, null);
     }
     //---------------------------------------------------------------------------------------------- 
     getRows($body, $control, apiurl, $modulecontainer, moduleName) {

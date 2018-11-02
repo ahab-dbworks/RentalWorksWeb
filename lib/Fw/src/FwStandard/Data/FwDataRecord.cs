@@ -4,9 +4,11 @@ using FwStandard.Models;
 using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
 using Newtonsoft.Json;
+using shortid;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
@@ -504,10 +506,10 @@ namespace FwStandard.DataLayer
 
             if (request != null)
             {
-                if (request.searchfields.Length > 0)
+                if (request.searchfields.Count > 0)
                 {
                     select.Add("where");
-                    for (int i = 0; i < request.searchfields.Length; i++)
+                    for (int i = 0; i < request.searchfields.Count; i++)
                     {
                         if (!columns.ContainsKey(request.searchfields[i]))
                         {
@@ -527,11 +529,11 @@ namespace FwStandard.DataLayer
                         string searchFieldType = "";
                         char searchSeparator = ',';
 
-                        if (request.searchfieldtypes.Length > i)
+                        if (request.searchfieldtypes.Count > i)
                         {
                             searchFieldType = request.searchfieldtypes[i];
                         }
-                        if (request.searchseparators.Length > i)
+                        if (request.searchseparators.Count > i)
                         {
                             searchSeparator = request.searchseparators[i][0];
                             if (searchSeparator.Equals(' '))
@@ -711,6 +713,498 @@ namespace FwStandard.DataLayer
             }
         }
         //------------------------------------------------------------------------------------
+        protected virtual void SetBaseGetManyQuery(FwSqlSelect select, FwSqlCommand qry, GetManyRequest request, FwCustomFields customFields = null)
+        {
+            if (select == null) throw new ArgumentException("Argument 'select' cannot be null.");
+            if (qry == null) throw new ArgumentException("Argument 'qry' cannot be null.");
+            if (request == null) throw new ArgumentException("Argument 'request' cannot be null.");
+            request.Parse();
+            select.EnablePaging = request.pagesize > 0;
+            select.PageNo = request.pageno;
+            select.PageSize = request.pagesize;
+            StringBuilder sb = new StringBuilder();
+            sb.Append("select");
+
+            // Get all the Properties of this Record
+            PropertyInfo[] recordProperties = this.GetType().GetTypeInfo().GetProperties();
+            int colNo = 0;
+            Dictionary<string, string> columns = new Dictionary<string, string>();
+            string fullFieldName = "";
+
+            // compute the maxFieldNameLength for formatting the SQL statement
+            int maxFieldNameLength = 0;
+            foreach (PropertyInfo property in recordProperties)
+            {
+                if (property.IsDefined(typeof(FwSqlDataFieldAttribute)))
+                {
+                    FwSqlDataFieldAttribute sqlDataFieldAttribute = property.GetCustomAttribute<FwSqlDataFieldAttribute>();
+                    string sqlColumnName = property.Name;
+                    columns[sqlColumnName] = sqlDataFieldAttribute.ColumnName;
+                    if (!string.IsNullOrEmpty(sqlDataFieldAttribute.ColumnName))
+                    {
+                        sqlColumnName = sqlDataFieldAttribute.ColumnName;
+                    }
+                    fullFieldName = "[" + TableAlias + "].[" + sqlColumnName + "]";
+                    maxFieldNameLength = (maxFieldNameLength > fullFieldName.Length ? maxFieldNameLength : fullFieldName.Length);
+                }
+            }
+
+
+            colNo = 0;
+            foreach (PropertyInfo property in recordProperties)
+            {
+                if (property.IsDefined(typeof(FwSqlDataFieldAttribute)))
+                {
+                    FwSqlDataFieldAttribute sqlDataFieldAttribute = property.GetCustomAttribute<FwSqlDataFieldAttribute>();
+                    string sqlColumnName = property.Name;
+                    columns[sqlColumnName] = sqlDataFieldAttribute.ColumnName;
+                    if (!string.IsNullOrEmpty(sqlDataFieldAttribute.ColumnName))
+                    {
+                        sqlColumnName = sqlDataFieldAttribute.ColumnName;
+                    }
+                    string prefix = "";
+                    if (colNo > 0)
+                    {
+                        prefix = ",\n      ";
+                    }
+                    qry.AddColumn(property.Name, property.Name, sqlDataFieldAttribute.ModelType, sqlDataFieldAttribute.IsVisible, sqlDataFieldAttribute.IsPrimaryKey, false);
+                    fullFieldName = "[" + TableAlias + "].[" + sqlColumnName + "]";
+                    sb.Append(prefix + " " + fullFieldName.PadRight(maxFieldNameLength, ' ') + " as [" + property.Name + "]");
+
+                    colNo++;
+                }
+            }
+
+            List<FwCustomTable> customTables = new List<FwCustomTable>();
+            if ((customFields != null) && (customFields.Count > 0))
+            {
+                int customTableIndex = 1;
+                int customFieldIndex = 1;
+                sb.Append(",\n");
+                sb.Append("       --//---------- begin custom fields ------------------\n");
+
+                maxFieldNameLength = 0;
+                foreach (FwCustomField customField in customFields)
+                {
+                    fullFieldName = "[" + customField.FieldName + "]";
+                    maxFieldNameLength = (maxFieldNameLength > fullFieldName.Length ? maxFieldNameLength : fullFieldName.Length);
+                }
+
+                colNo = 0;
+                foreach (FwCustomField customField in customFields)
+                {
+                    //columns[customField.FieldName] = customField.FieldName;
+                    bool customTableInQuery = false;
+                    string customTableAlias = "";
+                    foreach (FwCustomTable customTable in customTables)
+                    {
+                        if (customTable.TableName.Equals(customField.CustomTableName))
+                        {
+                            customTableInQuery = true;
+                            customTableAlias = customTable.Alias;
+                            break;
+                        }
+                    }
+                    if (!customTableInQuery)
+                    {
+                        customTableAlias = "customtable" + customTableIndex.ToString().PadLeft(2, '0');
+                        customTables.Add(new FwCustomTable(customField.CustomTableName, customTableAlias));
+                        customTableIndex++;
+                    }
+                    string customSqlFieldName = "[" + customTableAlias + "].[" + customField.CustomFieldName + "]";
+                    columns[customField.FieldName] = customSqlFieldName;
+
+                    qry.AddColumn(customField.FieldName, customField.FieldName, FwDataTypes.Text, true, false, false);
+                    if (colNo > 0)
+                    {
+                        sb.Append(",\n");
+                    }
+                    sb.Append("       ");
+                    fullFieldName = "[" + customField.FieldName + "]";
+                    sb.Append(fullFieldName.PadRight(maxFieldNameLength, ' ') + " = " + customSqlFieldName);
+
+                    customFieldIndex++;
+                    colNo++;
+                }
+                sb.Append("\n       --//---------- end custom fields --------------------");
+            }
+            select.Add(sb.ToString());
+
+            string withNoLock = string.Empty;
+            if (useWithNoLock)
+            {
+                withNoLock = " with (nolock)";
+            }
+            select.Add("from " + TableName + " [" + TableAlias + "]" + withNoLock);
+
+            if ((customFields != null) && (customFields.Count > 0))
+            {
+                List<PropertyInfo> primaryKeyProperties = GetPrimaryKeyProperties();
+
+                select.Add("           --//---------- begin custom tables ------------------");
+                foreach (FwCustomTable customTable in customTables)
+                {
+                    select.Add("           left outer join [" + customTable.TableName + "] [" + customTable.Alias + "] with (nolock) on ");
+                    select.Add("                       ( ");
+
+                    int k = 1;
+                    foreach (PropertyInfo primaryKeyProperty in primaryKeyProperties)
+                    {
+                        FwSqlDataFieldAttribute sqlDataFieldAttribute = primaryKeyProperty.GetCustomAttribute<FwSqlDataFieldAttribute>();
+                        string sqlColumnName = primaryKeyProperty.Name;
+                        if (!string.IsNullOrEmpty(sqlDataFieldAttribute.ColumnName))
+                        {
+                            sqlColumnName = sqlDataFieldAttribute.ColumnName;
+                        }
+                        string customUniqueIdField = "uniqueid" + k.ToString().PadLeft(2, '0');
+                        select.Add("                       [" + TableAlias + "].[" + sqlColumnName + "] = [" + customTable.Alias + "].[" + customUniqueIdField + "]");
+                        if (k < primaryKeyProperties.Count)
+                        {
+                            select.Add(" and ");
+                        }
+                        k++;
+                    }
+                    select.Add("                       ) ");
+                }
+                select.Add("           --//---------- end custom tables --------------------");
+            }
+
+            if (request.filters.Count > 0)
+            {
+                var needsWhere = true;
+                var conjunction = string.Empty;
+                foreach (var filter in request.filters)
+                {
+                    var propInfo = recordProperties.Where<PropertyInfo>(p => p.Name == filter.Key).FirstOrDefault<PropertyInfo>();
+                    if (filter.Value.ValidateFilter && propInfo == null)
+                    {
+                        throw new ArgumentException($"Invalid filter: '{filter.Key}'.");
+                    }
+                    else
+                    {
+                        var sqlFieldName = filter.Value.FieldName;
+                        var sqlDataFieldAttribute = propInfo.GetCustomAttribute<FwSqlDataFieldAttribute>();
+                        sqlFieldName = sqlDataFieldAttribute.ColumnName;
+                        var parameterName = "@" + sqlFieldName + ShortId.Generate(true, false, 7);
+                        var fieldSqlValue = filter.Value.FieldValue;
+                        switch (sqlDataFieldAttribute.ModelType)
+                        {
+                            case FwDataTypes.Boolean:
+                                switch(filter.Value.FieldValue.ToLower())
+                                {
+                                    case "true":
+                                        fieldSqlValue = "T";
+                                        break;
+                                    case "false":
+                                        fieldSqlValue = "F";
+                                        break;
+                                    default:
+                                        throw new ArgumentException($"An invalid filter value: '{filter.Value.FieldValue}' was supplied for the field: {filter.Value.FieldName}");
+                                }
+                                break;
+                            default:
+                                break;
+                        }
+                        switch (filter.Value.ComparisonOperator)
+                        {
+                            case "eq":
+                                if (needsWhere)
+                                {
+                                    select.Add("where");
+                                    needsWhere = false;
+                                }
+                                select.Add($"  {conjunction}{sqlFieldName} = {parameterName}");
+                                select.AddParameter("{parameterName}", fieldSqlValue);
+                                break;
+                            case "ne":
+                                if (needsWhere)
+                                {
+                                    select.Add("where");
+                                    needsWhere = false;
+                                }
+                                select.Add($"  {conjunction}{sqlFieldName} <> {parameterName}");
+                                select.AddParameter("{parameterName}", fieldSqlValue);
+                                break;
+                            case "in":
+                            case "ni":
+                                {
+                                    string filterValue = fieldSqlValue;
+                                    bool inAQuote = false;
+                                    bool inAFilterValue = false;
+                                    List<string> filterValues = new List<string>();
+                                    StringBuilder currentFilter = new StringBuilder();
+                                    for (int i = 0; i < filterValue.Length; i++)
+                                    {
+                                        bool isAtTheEndOfTheFilter = (i >= filterValue.Length - 1);
+                                        char c = filterValue[i];
+                                        if (c == ',' && !inAQuote && inAFilterValue)
+                                        {
+                                            filterValues.Add(currentFilter.ToString());
+                                            currentFilter = new StringBuilder();
+                                            inAFilterValue = false;
+                                        }
+                                        else if (c == ',' && !inAQuote && !inAFilterValue)
+                                        {
+                                                
+                                        }
+                                        else
+                                        {
+                                            if (c == '\"')
+                                            {
+                                                if (inAFilterValue)
+                                                {
+                                                    if (inAQuote)
+                                                    {
+                                                        if (!isAtTheEndOfTheFilter)
+                                                        {
+                                                            //if (filterValue[i + 1] == '\"')
+                                                            //{
+                                                            //    currentFilter.Append(c);
+                                                            //}
+                                                            if (filterValue[i + 1] == ',')
+                                                            {
+                                                                filterValues.Add(currentFilter.ToString());
+                                                                inAQuote = false;
+                                                                inAFilterValue = false;
+                                                                currentFilter = new StringBuilder();
+                                                                i++;
+                                                            }
+                                                            else
+                                                            {
+                                                                inAQuote = false;
+                                                                inAFilterValue = false;
+                                                            }
+                                                        }
+                                                    }
+                                                    else
+                                                    {
+                                                        throw new ArgumentException($"In filter expression for: {propInfo.Name}, double quote (character: {i+1}) must be escaped with a double quote.");
+                                                        //if (isAtTheEndOfTheFilter)
+                                                        //{
+                                                        //    throw new ArgumentException($"In filter expression for: {propInfo.Name}, double quote (character: {i+1}) must be escaped with a double quote.");
+                                                        //}
+                                                        //else
+                                                        //{
+                                                        //    if (filterValue[i + 1] == '\"')
+                                                        //    {
+                                                        //        currentFilter.Append(c);
+                                                        //        i++;
+                                                        //    }
+                                                        //    else
+                                                        //    {
+                                                        //        throw new ArgumentException($"In filter expression for: {propInfo.Name}, double quote (character: {i+1}) must be escaped with a double quote.");
+                                                        //    }
+                                                        //}
+                                                    }
+                                                }
+                                                else if (!inAFilterValue && !inAQuote && filterValue[i + 1] == '\"')
+                                                {
+                                                    currentFilter.Append(c);
+                                                    i++;
+                                                    inAFilterValue = true;
+                                                }
+                                                else
+                                                {
+                                                    inAQuote = true;
+                                                    inAFilterValue = true;
+                                                }
+                                            }
+                                            else if (c == '\\')
+                                            {
+                                                if (!isAtTheEndOfTheFilter)
+                                                {
+                                                    if (filterValue[i + 1] == '\"')
+                                                    {
+                                                        currentFilter.Append(c);
+                                                        currentFilter.Append(filterValue[i + 1]);
+                                                        i += 2;
+                                                    }
+                                                }
+                                            }
+                                            else
+                                            {
+                                                inAFilterValue = true;
+                                                currentFilter.Append(c);
+                                            }
+                                            if (isAtTheEndOfTheFilter)
+                                            {
+                                                inAQuote = false;
+                                                inAFilterValue = false;
+                                                filterValues.Add(currentFilter.ToString());
+                                                currentFilter = new StringBuilder();
+                                                break;
+                                            }
+                                        }
+                                    }
+                                    if (filterValues.Count > 0)
+                                    {
+                                        if (needsWhere)
+                                        {
+                                            select.Add("where");
+                                            needsWhere = false;
+                                        }
+                                        StringBuilder filterExpression = new StringBuilder();
+                                        filterExpression.Append($"  {conjunction}{sqlFieldName} ");
+                                        if (filter.Value.ComparisonOperator == "ni")
+                                        {
+                                            filterExpression.Append("not ");
+                                        }
+                                        filterExpression.Append("in (");
+                                        bool firstParameter = true;
+                                        foreach (var parameterValue in filterValues)
+                                        {
+                                            parameterName = '@' + sqlFieldName + ShortId.Generate(true, false, 7);
+                                            if (!firstParameter)
+                                            {
+                                                filterExpression.Append(", ");
+                                            }
+                                            filterExpression.Append(parameterName);
+                                            select.AddParameter(parameterName, parameterValue);
+                                            firstParameter = false;
+                                        }
+                                        filterExpression.Append(")");
+                                        select.Add(filterExpression.ToString());
+                                    }
+                                    break;
+                                }
+                            case "sw":
+                                if (needsWhere)
+                                {
+                                    select.Add("where");
+                                    needsWhere = false;
+                                }
+                                select.Add($"  {conjunction}{sqlFieldName} like {parameterName}");
+                                select.AddParameter("{parameterName}", $"%{fieldSqlValue}");
+                                break;
+                            case "ew":
+                                if (needsWhere)
+                                {
+                                    select.Add("where");
+                                    needsWhere = false;
+                                }
+                                select.Add($"  {conjunction}{sqlFieldName} like {parameterName}");
+                                select.AddParameter("{parameterName}", $"%{fieldSqlValue}");
+                                break;
+                            case "co":
+                                if (needsWhere)
+                                {
+                                    select.Add("where");
+                                    needsWhere = false;
+                                }
+                                select.Add($"  {conjunction}{sqlFieldName} like {parameterName}");
+                                select.AddParameter("{parameterName}", $"%{fieldSqlValue}%");
+                                break;
+                            case "dnc":
+                                if (needsWhere)
+                                {
+                                    select.Add("where");
+                                    needsWhere = false;
+                                }
+                                select.Add($"  {conjunction}{sqlFieldName} not like {parameterName}");
+                                select.AddParameter("{parameterName}", $"%{fieldSqlValue}%");
+                                break;
+                            case "gt":
+                                if (needsWhere)
+                                {
+                                    select.Add("where");
+                                    needsWhere = false;
+                                }
+                                select.Add($"  {conjunction}{sqlFieldName} > {parameterName}");
+                                select.AddParameter("{parameterName}", $"%{fieldSqlValue}%");
+                                break;
+                            case "gte":
+                                if (needsWhere)
+                                {
+                                    select.Add("where");
+                                    needsWhere = false;
+                                }
+                                select.Add($"  {conjunction}{sqlFieldName} >= {parameterName}");
+                                select.AddParameter(parameterName, $"%{fieldSqlValue}%");
+                                break;
+                            case "lt":
+                                if (needsWhere)
+                                {
+                                    select.Add("where");
+                                    needsWhere = false;
+                                }
+                                select.Add($"  {conjunction}{sqlFieldName} < {parameterName}");
+                                select.AddParameter(parameterName, $"%{fieldSqlValue}%");
+                                break;
+                            case "lte":
+                                if (needsWhere)
+                                {
+                                    select.Add("where");
+                                    needsWhere = false;
+                                }
+                                select.Add($"  {conjunction}{sqlFieldName} <= {parameterName}");
+                                select.AddParameter(parameterName, $"%{fieldSqlValue}%");
+                                break;
+                        }
+                        if (conjunction == string.Empty)
+                        {
+                            conjunction = " and ";
+                        }
+                    }
+                }
+            }
+
+            if (request.sort.Length > 0)
+            {
+                var sqlSortExpression = string.Empty;
+                var sortArray = request.sort.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+                foreach (var sortExpression in sortArray)
+                {
+                    var sortExpressionParts = sortExpression.Split(new char[] { ':' });
+
+                    var sortField = "";
+                    var sortDirection = "";
+                    if (sortExpressionParts.Length > 0)
+                    {
+                        sortField = sortExpressionParts[0];
+                    }
+                    if (sortExpressionParts.Length > 1)
+                    {
+                        // validate the user submitted data to protect against SQL injection attacks
+                        if (sortExpressionParts[1] == "asc" || sortExpressionParts[1] == "desc")
+                        {
+                            sortDirection = " " + sortExpressionParts[1];
+                        }
+                        else if (sortExpressionParts[1] == "")
+                        {
+                            // do nothing
+                        }
+                        else
+                        {
+                            throw new ArgumentException($"Invalid sort direction: '{sortExpressionParts[1]}'");
+                        }
+                    }
+
+                    // validates and translate the Field Name
+                    var recordPropInfo = recordProperties.Where<PropertyInfo>(p => p.Name == sortField).FirstOrDefault<PropertyInfo>();
+                    var requestPropInfo = request.GetType().GetProperties()
+                        .Where<PropertyInfo>(
+                            p => p.Name == sortField && 
+                            p.GetCustomAttribute<GetManyRequestPropertyAttribute>() != null && 
+                            p.GetCustomAttribute<GetManyRequestPropertyAttribute>().EnableSorting == true)
+                        .FirstOrDefault<PropertyInfo>();
+                    if (recordPropInfo == null && requestPropInfo == null)
+                    {
+                        throw new ArgumentException($"Invalid column name: '{sortField}' in sort expression.");
+                    }
+                    else
+                    {
+                        var sqlDataFieldAttribute = recordPropInfo.GetCustomAttribute<FwSqlDataFieldAttribute>();
+                        if (sqlSortExpression.Length > 0)
+                        {
+                            sqlSortExpression += ", ";
+                        }
+                        sqlSortExpression += sqlDataFieldAttribute.ColumnName + sortDirection;
+                    }
+                }
+                select.Add("order by " + sqlSortExpression);
+            }
+        }
+        //------------------------------------------------------------------------------------
         public virtual async Task<FwJsonDataTable> BrowseAsync(BrowseRequest request, FwCustomFields customFields = null)
         {
             FwJsonDataTable dt = null;
@@ -749,6 +1243,33 @@ namespace FwStandard.DataLayer
             }
         }
         //------------------------------------------------------------------------------------
+        public virtual async Task<GetManyResponse<T>> GetManyAsync<T>(GetManyRequest request, FwCustomFields customFields = null, Func<FwSqlSelect, Task> beforeExecuteQuery = null)
+        {
+            using (FwSqlConnection conn = new FwSqlConnection(AppConfig.DatabaseSettings.ConnectionString))
+            {
+                bool openAndCloseConnection = true;
+                FwSqlSelect select = new FwSqlSelect();
+                using (FwSqlCommand qry = new FwSqlCommand(conn, AppConfig.DatabaseSettings.QueryTimeout))
+                {
+                    SetBaseGetManyQuery(select, qry, request, customFields);
+                    select.Parse();
+                    if (beforeExecuteQuery != null)
+                    {
+                        await beforeExecuteQuery(select);
+                    }
+                    select.SetQuery(qry);
+
+                    // call the generic method SelectAsync<T> on the qry using reflection
+                    MethodInfo method = typeof(FwSqlCommand).GetMethod("GetManyAsync");
+                    MethodInfo generic = method.MakeGenericMethod(this.GetType());
+                    Task<GetManyResponse<T>> result = (Task<GetManyResponse<T>>)generic.Invoke(qry, new object[] { openAndCloseConnection, customFields });
+                    var response = await result;
+                    return response;
+                }
+            }
+            
+        }
+        //------------------------------------------------------------------------------------
         public virtual async Task<dynamic> GetAsync<T>(object[] primaryKeyValues, FwCustomFields customFields = null)
         {
             List<PropertyInfo> primaryKeyProperties = GetPrimaryKeyProperties();
@@ -773,7 +1294,7 @@ namespace FwStandard.DataLayer
             return await GetAsync<T>(customFields);
         }
         //------------------------------------------------------------------------------------
-        public virtual async Task<dynamic> GetAsync<T>(FwCustomFields customFields = null)
+        public virtual async Task<dynamic> GetAsync<T>(FwCustomFields customFields = null, Func<FwSqlSelect, Task> beforeExecuteQuery = null)
         {
             //if (AllPrimaryKeysHaveValues)
             if (PrimaryKeyCount > 0)
@@ -786,48 +1307,37 @@ namespace FwStandard.DataLayer
                         using (FwSqlCommand qry = new FwSqlCommand(conn, AppConfig.DatabaseSettings.QueryTimeout))
                         {
                             SetBaseSelectQuery(select, qry, customFields);
-                            select.SetQuery(qry);
-
-
-
+                            if (!select.Parsed)
+                            {
+                                select.Parse();
+                            }
                             List<PropertyInfo> primaryKeyProperties = GetPrimaryKeyProperties();
-                            int k = 0;
                             foreach (PropertyInfo primaryKeyProperty in primaryKeyProperties)
                             {
-                                //if (k == 0)
-                                if ((k == 0) && (select.SelectStatements[0].Where.Count == 0))
-                                {
-                                    qry.Add("where ");
-                                }
-                                else
-                                {
-                                    qry.Add("and ");
-                                }
                                 FwSqlDataFieldAttribute sqlDataFieldAttribute = primaryKeyProperty.GetCustomAttribute<FwSqlDataFieldAttribute>();
-                                string sqlColumnName = primaryKeyProperty.Name;
-                                if (!string.IsNullOrEmpty(sqlDataFieldAttribute.ColumnName))
+                                if (string.IsNullOrEmpty(sqlDataFieldAttribute.ColumnName))
                                 {
-                                    sqlColumnName = sqlDataFieldAttribute.ColumnName;
+                                    throw new Exception($"In FwDataRecord: {this.GetType().FullName } the property: {primaryKeyProperty.Name} requires FwSqlDataField's ColumnName to be set.");
                                 }
-                                qry.Add(sqlColumnName);
-                                qry.Add(" = @keyvalue" + k.ToString());
-                                k++;
+                                string sqlColumnName = sqlDataFieldAttribute.ColumnName;;
+                                string paramName = "@" + sqlColumnName + ShortId.Generate(true, false, 7);
+                                select.AddWhere($"{sqlColumnName} = {paramName}");
+                                select.AddParameter(paramName, primaryKeyProperty.GetValue(this));
                             }
-                            k = 0;
-                            foreach (PropertyInfo primaryKeyProperty in primaryKeyProperties)
+                            if (beforeExecuteQuery != null)
                             {
-                                qry.AddParameter("@keyvalue" + k.ToString(), primaryKeyProperty.GetValue(this));
-                                k++;
+                                await beforeExecuteQuery(select);
                             }
-                            MethodInfo method = typeof(FwSqlCommand).GetMethod("SelectAsync");
+                            select.SetQuery(qry);
+                            MethodInfo method = typeof(FwSqlCommand).GetMethod("GetManyAsync");
                             MethodInfo generic = method.MakeGenericMethod(this.GetType());
                             object openAndCloseConnection = true;
-                            dynamic result = generic.Invoke(qry, new object[] { openAndCloseConnection, customFields });
-                            dynamic records = await result;
+                            dynamic taskGetMany = generic.Invoke(qry, new object[] { openAndCloseConnection, customFields });
+                            dynamic getManyResponse = await taskGetMany;
                             dynamic record = null;
-                            if (records.Count > 0)
+                            if (getManyResponse.Items.Count > 0)
                             {
-                                record = records[0];
+                                record = getManyResponse.Items[0];
                             }
                             return record;
                         }

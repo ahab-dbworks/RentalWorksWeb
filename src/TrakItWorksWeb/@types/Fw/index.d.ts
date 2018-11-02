@@ -9,6 +9,5 @@ declare var FwLanguages: any;
 declare var FwReports: any;
 declare var RwLanguages: any;
 declare var FwContextMenu: any;
-declare var FwValidation: any;
 declare var FwFormField_checkboxlist: any;
 declare var Sortable: any;

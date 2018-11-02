@@ -27,7 +27,7 @@ namespace Fw.Json.SqlServer
         //------------------------------------------------------------------------------------                
         public string Sql {get{return sql.ToString();}}
         //------------------------------------------------------------------------------------                
-        public int RowCount { get; private set; }
+        public int RowCount { get; private set; } = 0;
         public List<string> FieldNames { get { return new List<string>(fields.Keys); } }
         public SqlParameterCollection Parameters {get { return this.sqlCommand.Parameters; }}
         public SqlTransaction Transaction { get{return this.sqlCommand.Transaction;} set{this.sqlCommand.Transaction = value;} }

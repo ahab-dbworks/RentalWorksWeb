@@ -242,12 +242,16 @@ namespace FwStandard.SqlServer
                 AddParameter("@fwrownostart", rowNoStart);
                 AddParameter("@fwrownoend", rowNoEnd);
                 sb.AppendLine(";with main_cte as(");
+                cmd.PageNo = PageNo;
+                cmd.PageSize = PageSize;
             }
             if (EnablePaging && PagingCompatibility == PagingCompatibilities.Sql2012)
             {
                 AddParameter("@fwpageno", PageNo);
                 AddParameter("@fwpagesize", PageSize);
                 sb.AppendLine(";with main_cte as(");
+                cmd.PageNo = PageNo;
+                cmd.PageSize = PageSize;
             }
             foreach (FwSqlSelectStatement selectStatement in SelectStatements)
             {

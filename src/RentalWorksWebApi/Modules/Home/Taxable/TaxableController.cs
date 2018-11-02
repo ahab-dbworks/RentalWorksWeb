@@ -33,14 +33,14 @@ namespace WebApi.Modules.Home.Taxable
         //------------------------------------------------------------------------------------ 
         // GET api/v1/taxable/B003MZ45/F01BQV9J   //masterid/locationid
         [HttpGet("{masterid}/{locationid}")]
-        public async Task<ActionResult<IEnumerable<TaxableLogic>>> GetOneAsync([FromRoute]string masterid, [FromRoute]string locationid)
+        public async Task<ActionResult<IEnumerable<TaxableLogic>>> GetManyAsync([FromRoute]string masterid, [FromRoute]string locationid)
         {
             return await DoSpecialGetAsync<TaxableLogic>(masterid, locationid);
         }
         //------------------------------------------------------------------------------------ 
         // GET api/v1/taxable/B003MZ45   //masterid
         [HttpGet("{masterid}")]
-        public async Task<ActionResult<IEnumerable<TaxableLogic>>> GetOneAsync([FromRoute]string masterid)
+        public async Task<ActionResult<IEnumerable<TaxableLogic>>> GetManyAsync([FromRoute]string masterid)
         {
             return await DoSpecialGetAsync<TaxableLogic>(masterid, "");
         }
@@ -69,17 +69,13 @@ namespace WebApi.Modules.Home.Taxable
                 request.pagesize = 0;
                 request.orderby = string.Empty;
                 request.uniqueids = uniqueIds;
-                FwBusinessLogic l = CreateBusinessLogic(logicType, this.AppConfig, this.UserSession);
+                FwBusinessLogic l = FwBusinessLogic.CreateBusinessLogic(logicType, this.AppConfig, this.UserSession);
                 IEnumerable<T> records = await l.SelectAsync<T>(request);
                 return new OkObjectResult(records);
             }
             catch (Exception ex)
             {
-                FwApiException jsonException = new FwApiException();
-                jsonException.StatusCode = StatusCodes.Status500InternalServerError;
-                jsonException.Message = ex.Message;
-                jsonException.StackTrace = ex.StackTrace;
-                return StatusCode(jsonException.StatusCode, jsonException);
+                return GetApiExceptionResult(ex);
             }
         }
         //------------------------------------------------------------------------------------
