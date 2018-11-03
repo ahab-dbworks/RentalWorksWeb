@@ -118,7 +118,7 @@
                     $tr.find('.field-to-lock').css('background-color', "#f5f5f5");
                     $tr.find('.field-to-lock').attr('data-formreadonly', 'true');
                     // disabled grids were rendering with different shade background color
-                    if (!$control.data('enabled')) {
+                    if ($control.attr('data-enabled') === 'false') {
                         $tr.find('.field-to-lock').css('background-color', 'transparent');
                     }
                 }
