@@ -69,7 +69,7 @@ class CustomForm {
     }
     //----------------------------------------------------------------------------------------------
     saveForm($form: any, parameters: any) {
-        //$form.find('#codeEditor').change();
+        $form.find('#codeEditor').change();
 
         FwModule.saveForm(this.Module, $form, parameters);
     }
