@@ -7,49 +7,57 @@
     <div class="tabpages">
       <!-- VENDOR INVOICE TAB -->
       <div data-type="tabpage" id="generaltabpage" class="tabpage" data-tabid="generaltab">
-        <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Vendor Invoice">
-          <div class="flexrow">
-            <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="PO No." data-datafield="PurchaseOrderId" data-displayfield="PurchaseOrderNumber" data-validationname="PurchaseOrderValidation" style="flex:1 1 100px;"></div>
-            <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="PO Date" data-datafield="" data-enabled="false" style="flex:1 1 50px;"></div>
-            <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Vendor" data-datafield="Vendor" data-enabled="false" style="flex:1 1 250px;"></div>
-            <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Billing Cycle" data-datafield="" data-enabled="false" style="flex:1 1 80px;"></div>
-            <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Status" data-datafield="Status" data-enabled="false" style="flex:1 1 80px;"></div>
-            <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="As Of" data-datafield="" data-enabled="false" style="flex:1 1 50px;"></div>
+        <div class="flexrow">
+          <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Vendor Invoice">
+            <div class="flexcolumn">
+              <div class="flexrow">
+                <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="PO No." data-datafield="PurchaseOrderId" data-displayfield="PurchaseOrderNumber" data-validationname="PurchaseOrderValidation" style="flex:1 1 100px;"></div>
+                <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="PO Date" data-datafield="" data-enabled="false" style="flex:1 1 50px;"></div>
+                <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Vendor" data-displayfield="Vendor" data-validationname="VendorValidation" data-datafield="Vendor" data-enabled="false" style="flex:1 1 250px;"></div>
+                <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Billing Cycle" data-displayfield="BillingCycle" data-validationname="BillingCycleValidation" data-datafield="" data-enabled="false" style="flex:1 1 80px;"></div>
+              </div>
+              <div class="flexrow">
+                <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Description" data-datafield="" data-enabled="false" style="flex:1 1 300px;"></div>
+                <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Department" data-datafield="DepartmentId" data-displayfield="Department" data-validationname="DepartmentValidation" data-enabled="false" style="flex:1 1 100px;"></div>
+                <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Warehouse" data-datafield="WarehouseId" data-displayfield="Warehouse" data-validationname="WarehouseValidation" data-enabled="false" style="flex:1 1 100px;"></div>
+              </div>
+            </div>
           </div>
-          <div class="flexrow">
-            <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Description" data-datafield="" data-enabled="false" style="flex:1 1 300px;"></div>
-            <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Department" data-datafield="DepartmentId" data-displayfield="Department" data-validationname="DepartmentValidation" data-enabled="false" style="flex:1 1 100px;"></div>
-            <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Warehouse" data-datafield="WarehouseId" data-displayfield="Warehouse" data-validationname="WarehouseValidation" data-enabled="false" style="flex:1 1 100px;"></div>
+          <div class="flexcolumn" style="max-width:180px;">
+            <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Status">
+              <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Status" data-datafield="Status" data-enabled="false" style="flex:1 1 80px;"></div>
+              <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="As Of" data-datafield="StatusDate" data-enabled="false" style="flex:1 1 50px;"></div>
+            </div>
           </div>
-          <div class="flexrow">
-            <div class="flexcolumn">
-              <div class="flexrow" style="margin-top:37px;">
-                <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Invoice No." data-datafield="InvoiceNumber" style="flex:1 1 100px;"></div>
-                <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="Invoice Date" data-datafield="InvoiceDate" style="flex:1 1 50px;"></div>
+        </div>
+        <div class="flexrow">
+          <div class="flexcolumn">
+            <div class="flexrow" style="margin-top:37px;">
+              <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Invoice No." data-datafield="InvoiceNumber" data-required="true" style="flex:1 1 100px;"></div>
+              <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="Invoice Date" data-datafield="InvoiceDate" data-required="true" style="flex:1 1 50px;"></div>
+            </div>
+          </div>
+          <div class="flexcolumn">
+            <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Invoice Billing Period">
+              <div class="flexrow">
+                <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="From" data-datafield="BillingStartDate" style="flex:1 1 50px;"></div>
+                <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="To" data-datafield="BillingEndDate" style="flex:1 1 50px;"></div>
               </div>
             </div>
-            <div class="flexcolumn">
-              <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Invoice Billing Period">
-                <div class="flexrow">
-                  <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="From" data-datafield="BillingStartDate" style="flex:1 1 50px;"></div>
-                  <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="To" data-datafield="BillingEndDate" style="flex:1 1 50px;"></div>
-                </div>
+          </div>
+          <div class="flexcolumn">
+            <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="PO Estimated Rental Period">
+              <div class="flexrow">
+                <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="From" data-datafield="" data-enabled="false" style="flex:1 1 50px;"></div>
+                <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="To" data-datafield="" data-enabled="false" style="flex:1 1 50px;"></div>
               </div>
             </div>
-            <div class="flexcolumn">
-              <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="PO Estimated Rental Period">
-                <div class="flexrow">
-                  <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="From" data-datafield="" data-enabled="false" style="flex:1 1 50px;"></div>
-                  <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="To" data-datafield="" data-enabled="false" style="flex:1 1 50px;"></div>
-                </div>
-              </div>
-            </div>
-            <div class="flexcolumn">
-              <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Payment Terms">
-                <div class="flexrow">
-                  <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Payment Terms" data-datafield="PaymentTerms" style="flex:1 1 100px;"></div>
-                  <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="Due Date" data-datafield="InvoiceDueDate" style="flex:1 1 50px;"></div>
-                </div>
+          </div>
+          <div class="flexcolumn">
+            <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Payment Terms">
+              <div class="flexrow">
+                <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Payment Terms" data-datafield="PaymentTerms" style="flex:1 1 100px;"></div>
+                <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="Due Date" data-datafield="InvoiceDueDate" style="flex:1 1 50px;"></div>
               </div>
             </div>
           </div>

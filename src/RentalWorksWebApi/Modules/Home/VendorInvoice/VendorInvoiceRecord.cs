@@ -16,10 +16,10 @@ namespace WebApi.Modules.Home.VendorInvoice
         [FwSqlDataField(column: "modusersid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
         public string ModUsersId { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "invno", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 15)]
+        [FwSqlDataField(column: "invno", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 15, required: true)]
         public string InvoiceNumber { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "invdate", modeltype: FwDataTypes.Date, sqltype: "smalldatetime")]
+        [FwSqlDataField(column: "invdate", modeltype: FwDataTypes.Date, sqltype: "smalldatetime", required: true)]
         public string InvoiceDate { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "status", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 10)]

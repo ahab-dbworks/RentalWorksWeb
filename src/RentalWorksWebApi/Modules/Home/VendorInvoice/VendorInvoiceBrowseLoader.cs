@@ -70,7 +70,7 @@ namespace WebApi.Modules.Home.VendorInvoice
             //bool paramBoolean = GetUniqueIdAsBoolean("ParamBoolean", request) ?? false; 
             base.SetBaseSelectQuery(select, qry, customFields, request);
             select.Parse();
-            //select.AddWhere("(xxxtype = 'ABCDEF')"); 
+            select.AddWhere("(invno <> 'ACCRUAL')");
             //addFilterToSelect("UniqueId", "uniqueid", select, request); 
             //select.AddParameter("@paramstring", paramString); 
             //select.AddParameter("@paramdate", paramDate); 

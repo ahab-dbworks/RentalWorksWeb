@@ -95,16 +95,19 @@ class VendorInvoice {
     };
     //----------------------------------------------------------------------------------------------
     afterLoad($form) {
+        FwFormField.disable($form.find('[data-datafield="PurchaseOrderId"]'));
+        $form.find('[data-datafield="PurchaseOrderId"] input').change();
     };
     //----------------------------------------------------------------------------------------------
-    afterSave($form) { };
+    afterSave($form) {
+    };
   
     //----------------------------------------------------------------------------------------------
     events($form) {
         $form.find('[data-datafield="PurchaseOrderId"] input').on('change', e => {
             let purchaseOrderId = FwFormField.getValueByDataField($form, 'PurchaseOrderId');
             FwAppData.apiMethod(true, 'GET', `api/v1/purchaseorder/${purchaseOrderId}`, null, FwServices.defaultTimeout, function onSuccess(response) {
-                FwFormField.setValueByDataField($form, 'Vendor', response.Vendor);
+                FwFormField.setValueByDataField($form, 'Vendor', response.VendorId, response.Vendor);
                 FwFormField.setValueByDataField($form, 'DepartmentId', response.DepartmentId, response.Department);
                 FwFormField.setValueByDataField($form, 'WarehouseId', response.WarehouseId, response.Warehouse);
                 FwFormField.setValueByDataField($form, 'PaymentTerms', response.PaymentTerms);

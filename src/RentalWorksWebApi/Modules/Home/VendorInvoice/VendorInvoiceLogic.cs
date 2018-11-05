@@ -1,5 +1,10 @@
+using FwStandard.BusinessLogic;
 using FwStandard.BusinessLogic.Attributes;
+using FwStandard.SqlServer;
+using System;
 using WebApi.Logic;
+using WebLibrary;
+
 namespace WebApi.Modules.Home.VendorInvoice
 {
     public class VendorInvoiceLogic : AppBusinessLogic
@@ -13,6 +18,7 @@ namespace WebApi.Modules.Home.VendorInvoice
             dataRecords.Add(vendorInvoice);
             dataLoader = vendorInvoiceLoader;
             browseLoader = vendorInvoiceBrowseLoader;
+            BeforeSave += OnBeforeSave;
         }
         //------------------------------------------------------------------------------------ 
         [FwBusinessLogicField(isPrimaryKey: true)]
@@ -38,6 +44,7 @@ namespace WebApi.Modules.Home.VendorInvoice
         [FwBusinessLogicField(isReadOnly: true)]
         public string BillingStartAndEndDates { get; set; }
         public string Status { get { return vendorInvoice.Status; } set { vendorInvoice.Status = value; } }
+        public string StatusDate { get { return vendorInvoice.StatusDate; } set { vendorInvoice.StatusDate = value; } }
         [FwBusinessLogicField(isReadOnly: true)]
         public string OrderDescription { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
@@ -109,5 +116,22 @@ namespace WebApi.Modules.Home.VendorInvoice
         //    return isValid; 
         //} 
         //------------------------------------------------------------------------------------ 
+        public void OnBeforeSave(object sender, BeforeSaveEventArgs e)
+        {
+            if (e.SaveMode == TDataRecordSaveMode.smInsert)
+            {
+                Status = RwConstants.INVOICE_STATUS_NEW;
+                StatusDate = FwConvert.ToString(DateTime.Today);
+            }
+
+            if (e.SaveMode.Equals(TDataRecordSaveMode.smUpdate))
+            {
+                if (PurchaseOrderId != null)
+                {
+                        PurchaseOrderId = "";
+                }
+            }
+
+        }
     }
 }
