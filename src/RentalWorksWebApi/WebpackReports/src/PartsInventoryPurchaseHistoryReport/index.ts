@@ -9,7 +9,7 @@ import './index.scss';
 var hbReport = require("./hbReport.hbs");
 var hbFooter = require("./hbFooter.hbs");
 
-export class RentalInventoryPurchaseHistoryRequest {
+export class PartsInventoryPurchaseHistoryRequest {
     PurchasedFromDate: Date;
     PurchasedToDate: Date;
     ReceivedFromDate: Date;
@@ -23,14 +23,14 @@ export class RentalInventoryPurchaseHistoryRequest {
     InventoryId: string;
 }
 
-export class RentalInventoryPurchaseHistoryReport extends WebpackReport {
+export class PartsInventoryPurchaseHistoryReport extends WebpackReport {
     renderReport(apiUrl: string, authorizationHeader: string, parameters: any): void {
         console.log('parameters: ', parameters)
         try {
             super.renderReport(apiUrl, authorizationHeader, parameters);
 
             HandlebarsHelpers.registerHelpers();
-            let request = new RentalInventoryPurchaseHistoryRequest();
+            let request = new PartsInventoryPurchaseHistoryRequest();
 
             request.PurchasedFromDate = parameters.PurchasedFromDate;
             request.PurchasedToDate = parameters.PurchasedToDate;
@@ -44,45 +44,45 @@ export class RentalInventoryPurchaseHistoryReport extends WebpackReport {
             request.SubCategoryId = parameters.SubCategoryId;
             request.InventoryId = parameters.InventoryId;
 
-            let rentalInventoryPurchaseHistory: any = {};
+            let partsInventoryPurchaseHistory: any = {};
 
-            let Promise = Ajax.post<DataTable>(`${apiUrl}/api/v1/rentalinventorypurchasehistoryreport/runreport`, authorizationHeader, request)
+            let Promise = Ajax.post<DataTable>(`${apiUrl}/api/v1/partsinventorypurchasehistoryreport/runreport`, authorizationHeader, request)
                 .then((response: DataTable) => {
-                    rentalInventoryPurchaseHistory = DataTable.toObjectList(response);
-                    rentalInventoryPurchaseHistory.PrintTime = moment().format('YYYY-MM-DD h:mm:ss A');
-                    rentalInventoryPurchaseHistory.PurchasedFromDate = parameters.PurchasedFromDate;
-                    rentalInventoryPurchaseHistory.PurchasedToDate = parameters.PurchasedToDate;
-                    rentalInventoryPurchaseHistory.ReceivedFromDate = parameters.ReceivedFromDate;
-                    rentalInventoryPurchaseHistory.ReceivedToDate = parameters.ReceivedToDate;
-                    rentalInventoryPurchaseHistory.Report = 'Rental Inventory Purchase History Report';
-                    rentalInventoryPurchaseHistory.System = 'RENTALWORKS';
-                    rentalInventoryPurchaseHistory.Company = '4WALL ENTERTAINMENT';
+                    partsInventoryPurchaseHistory = DataTable.toObjectList(response);
+                    partsInventoryPurchaseHistory.PrintTime = moment().format('YYYY-MM-DD h:mm:ss A');
+                    partsInventoryPurchaseHistory.PurchasedFromDate = parameters.PurchasedFromDate;
+                    partsInventoryPurchaseHistory.PurchasedToDate = parameters.PurchasedToDate;
+                    partsInventoryPurchaseHistory.ReceivedFromDate = parameters.ReceivedFromDate;
+                    partsInventoryPurchaseHistory.ReceivedToDate = parameters.ReceivedToDate;
+                    partsInventoryPurchaseHistory.Report = 'Parts Inventory Purchase History Report';
+                    partsInventoryPurchaseHistory.System = 'RENTALWORKS';
+                    partsInventoryPurchaseHistory.Company = '4WALL ENTERTAINMENT';
 
                     if (parameters.PurchasedFromDate !== '' || parameters.PurchasedToDate !== '') {
-                        rentalInventoryPurchaseHistory.showPurchaseDates = true;
+                        partsInventoryPurchaseHistory.showPurchaseDates = true;
                         if (parameters.PurchasedFromDate === '') {
-                            rentalInventoryPurchaseHistory.PurchasedFromDate = '(no date)';
+                            partsInventoryPurchaseHistory.PurchasedFromDate = '(no date)';
                         }
                         if (parameters.PurchasedToDate === '') {
-                            rentalInventoryPurchaseHistory.PurchasedToDate = '(no date)';
+                            partsInventoryPurchaseHistory.PurchasedToDate = '(no date)';
                         }
                     }
                     if (parameters.ReceivedFromDate !== '' || parameters.ReceivedToDate !== '') {
-                        rentalInventoryPurchaseHistory.showReceiveDates = true;
+                        partsInventoryPurchaseHistory.showReceiveDates = true;
                         if (parameters.ReceivedFromDate === '') {
-                            rentalInventoryPurchaseHistory.ReceivedFromDate = '(no date)';
+                            partsInventoryPurchaseHistory.ReceivedFromDate = '(no date)';
                         }
                         if (parameters.ReceivedToDate === '') {
-                            rentalInventoryPurchaseHistory.ReceivedToDate = '(no date)';
+                            partsInventoryPurchaseHistory.ReceivedToDate = '(no date)';
                         }
                     }
 
-                    this.renderFooterHtml(rentalInventoryPurchaseHistory);
+                    this.renderFooterHtml(partsInventoryPurchaseHistory);
                     if (this.action === 'Preview' || this.action === 'PrintHtml') {
                         document.getElementById('pageFooter').innerHTML = this.footerHtml;
                     }
-                    document.getElementById('pageBody').innerHTML = hbReport(rentalInventoryPurchaseHistory);
-                    console.log('rentalInventoryPurchaseHistory: ', rentalInventoryPurchaseHistory)
+                    document.getElementById('pageBody').innerHTML = hbReport(partsInventoryPurchaseHistory);
+                    console.log('partsInventoryPurchaseHistory: ', partsInventoryPurchaseHistory)
                     this.onRenderReportCompleted();
                 })
                 .catch((ex) => {
@@ -99,4 +99,4 @@ export class RentalInventoryPurchaseHistoryReport extends WebpackReport {
     }
 }
 
-(<any>window).report = new RentalInventoryPurchaseHistoryReport();
+(<any>window).report = new PartsInventoryPurchaseHistoryReport();
