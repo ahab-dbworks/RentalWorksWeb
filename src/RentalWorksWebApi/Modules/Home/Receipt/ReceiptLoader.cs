@@ -42,9 +42,6 @@ namespace WebApi.Modules.Home.Receipt
         [FwSqlDataField(column: "modby", modeltype: FwDataTypes.Text)]
         public string ModifiedBy { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "rectype", modeltype: FwDataTypes.Boolean)]
-        public bool? RecType { get; set; }
-        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "chgbatchid", modeltype: FwDataTypes.Text)]
         public string ChargeBatchId { get; set; }
         //------------------------------------------------------------------------------------ 

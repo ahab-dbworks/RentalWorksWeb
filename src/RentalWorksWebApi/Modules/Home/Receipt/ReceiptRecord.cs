@@ -10,13 +10,13 @@ namespace WebApi.Modules.Home.Receipt
         [FwSqlDataField(column: "arid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8, isPrimaryKey: true)]
         public string ReceiptId { get; set; } = "";
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "paytypeid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
+        [FwSqlDataField(column: "paytypeid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8, required: true)]
         public string PaymentTypeId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "customerid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
         public string CustomerId { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "dealid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
+        [FwSqlDataField(column: "dealid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8, required: true)]
         public string DealId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "ardate", modeltype: FwDataTypes.Date, sqltype: "smalldatetime")]
@@ -30,6 +30,9 @@ namespace WebApi.Modules.Home.Receipt
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "rectype", modeltype: FwDataTypes.Boolean, sqltype: "char")]
         public bool? RecType { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "rectypecolor", modeltype: FwDataTypes.OleToHtmlColor)]
+        public string RecTypeColor { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "crcno", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 20)]
         public string CreditCardNumber { get; set; }

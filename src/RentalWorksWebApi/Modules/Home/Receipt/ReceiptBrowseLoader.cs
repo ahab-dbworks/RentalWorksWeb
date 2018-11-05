@@ -30,6 +30,12 @@ namespace WebApi.Modules.Home.Receipt
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "paytype", modeltype: FwDataTypes.Text)]
         public string PaymentType { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "rectype", modeltype: FwDataTypes.Boolean)]
+        public bool? RecType { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "rectypecolor", modeltype: FwDataTypes.OleToHtmlColor)]
+        public string RecTypeColor { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "appliedby", modeltype: FwDataTypes.Text)]
         public string AppliedBy { get; set; }

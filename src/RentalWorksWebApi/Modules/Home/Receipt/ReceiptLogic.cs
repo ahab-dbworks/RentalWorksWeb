@@ -1,5 +1,9 @@
+using FwStandard.BusinessLogic;
 using FwStandard.BusinessLogic.Attributes;
+using System.Reflection;
 using WebApi.Logic;
+using WebLibrary;
+
 namespace WebApi.Modules.Home.Receipt
 {
     public class ReceiptLogic : AppBusinessLogic
@@ -11,6 +15,7 @@ namespace WebApi.Modules.Home.Receipt
         {
             dataRecords.Add(receipt);
             dataLoader = receiptLoader;
+            BeforeSave += OnBeforeSave;
         }
         //------------------------------------------------------------------------------------ 
         [FwBusinessLogicField(isPrimaryKey: true)]
@@ -57,12 +62,34 @@ namespace WebApi.Modules.Home.Receipt
         [FwBusinessLogicField(isReadOnly: true)]
         public string LocationDefaultCurrencyId { get; set; }
         //------------------------------------------------------------------------------------ 
-        //protected override bool Validate(TDataRecordSaveMode saveMode, ref string validateMsg) 
-        //{ 
-        //    //override this method on a derived class to implement custom validation logic 
-        //    bool isValid = true; 
-        //    return isValid; 
-        //} 
-        //------------------------------------------------------------------------------------ 
+        protected override bool Validate(TDataRecordSaveMode saveMode, FwBusinessLogic original, ref string validateMsg)
+        {
+            bool isValid = true;
+            if (isValid)
+            {
+                PropertyInfo property = typeof(ReceiptLogic).GetProperty(nameof(ReceiptLogic.PaymentBy));
+                string[] acceptableValues = { RwConstants.RECEIPT_PAYMENT_BY_CUSTOMER, RwConstants.RECEIPT_PAYMENT_BY_DEAL };
+                isValid = IsValidStringValue(property, acceptableValues, ref validateMsg);
+            }
+            return isValid;
+        }
+        //------------------------------------------------------------------------------------
+        public void OnBeforeSave(object sender, BeforeSaveEventArgs e)
+        {
+            if (e.SaveMode.Equals(TDataRecordSaveMode.smUpdate))
+            {
+                if (PaymentBy != null)
+                {
+                    if (PaymentBy.Equals(RwConstants.RECEIPT_PAYMENT_BY_CUSTOMER))
+                    {
+                        DealId = "";
+                    }
+                    else if (PaymentBy.Equals(RwConstants.RECEIPT_PAYMENT_BY_DEAL))
+                    {
+                        CustomerId = "";
+                    }
+                }
+            }
+        }
     }
 }

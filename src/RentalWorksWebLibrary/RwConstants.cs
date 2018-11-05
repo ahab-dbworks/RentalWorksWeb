@@ -31,7 +31,7 @@ namespace WebLibrary
         public const string MODULE_PURCHASE_ORDER = "PO";
         
 
-        //QOTE/ORDER
+        //QUOTE/ORDER
         public const string ORDER_TYPE_QUOTE = "Q";
         public const string ORDER_TYPE_ORDER = "O";
         public const string ORDER_TYPE_PROJECT = "PROJECT";
@@ -110,14 +110,15 @@ namespace WebLibrary
         public const string PURCHASE_ORDER_STATUS_VOID = "VOID";
         public const string PURCHASE_ORDER_STATUS_SNAPSHOT = "SNAPSHOT";
 
+        //RECEIPT
+        public const string RECEIPT_PAYMENT_BY_DEAL = "DEAL";
+        public const string RECEIPT_PAYMENT_BY_CUSTOMER = "CUSTOMER";
 
         //REPAIR
         public const string REPAIR_STATUS_NEW = "NEW";
-
         public const string REPAIR_PRIORITY_HIGH = "HIG";
         public const string REPAIR_PRIORITY_MEDIUM = "MED";
         public const string REPAIR_PRIORITY_LOW = "LOW";
-
         public const string REPAIR_TYPE_OWNED = "OWNED";
         public const string REPAIR_TYPE_CONSIGNED = "CONSIGNED";
         public const string REPAIR_TYPE_OUTSIDE = "OUTSIDE";
@@ -137,7 +138,6 @@ namespace WebLibrary
         public const string INVENTORY_CLASSIFICATION_ITEM = "I";
         public const string INVENTORY_CLASSIFICATION_ACCESSORY = "A";
         public const string INVENTORY_CLASSIFICATION_MISCELLAENOUS = "M";
-        
 
         public const string INVENTORY_SORT_BY_ICODE = "ICODE";
         public const string INVENTORY_SORT_BY_DESCRIPTION = "DESCRIPTION";
