@@ -24,11 +24,11 @@
                                                 <span style="font-weight:bold; float:left; width:225px; padding-right:1em;">${changes[i].FieldName}:</span>
                                                 <span class="oldHtml" style="width:200px; padding-right:1em;">
                                                     <textarea class="value" style="display:none;">${changes[i].OldValue}</textarea>
-                                                    <span style="font-weight:bolder; font-size:17px; cursor:pointer; display:contents;"> < ... > </span>
+                                                    <span style="font-weight:bolder; cursor:pointer; display:contents;"> < <a style="color:blue;">HTML</a> > </span>
                                                 </span>
                                                 <span class="newHtml" style="width:200px; padding-right:4em;">
                                                     <textarea class="value" style="display:none;">${changes[i].NewValue}</textarea>
-                                                    <span style="font-weight:bolder; font-size:17px;cursor:pointer; display:contents;"> < ... > </span>
+                                                    <span style="font-weight:bolder; cursor:pointer; display:contents;"> < <a style="color:blue;">HTML</a> > </span>
                                                 </span>
                                                 <span class="auditSpacer" style="flex:1 1 0"></span>
                                            </ul>`);
