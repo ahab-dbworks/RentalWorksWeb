@@ -12,7 +12,7 @@ FwFormField_radio.renderDesignerHtml = function($control, html) {
         html.push(' disabled="disabled"');
     }
     if (typeof $control.attr('data-name') !== 'undefined') {
-        html.push(' name="' + $control.attr('data-name') + '"');
+        html.push(` name="${$control.attr('data-name')}"`);
     }
     html.push(' />');
     html.push('</div>');
@@ -28,26 +28,28 @@ FwFormField_radio.renderRuntimeHtml = function($control, html) {
     for (var i = 0; i < $children.length; i++) {
         uniqueId = FwApplication.prototype.uniqueId(10);
         child = [];
-        child.push('<input id="' + uniqueId + '" class="fwformfield-value" type="radio"');
+        child.push(`<input id="${uniqueId}" class="fwformfield-value" type="radio"`);
         if ($children.eq(i).attr('data-value') != '') {
-            child.push(' value="' + $children.eq(i).attr('data-value') + '"');
+            child.push(` value="${$children.eq(i).attr('data-value')}"`);
         }
         child.push(' name="' + name + '"'); //MY 5/22/2014: Radio groups cannot have the same name across forms.
         if ($control.attr('data-enabled') === 'false') {
             child.push(' disabled');
         }
-        if (i == 0)
-        {
+        if (i == 0) {
             child.push(' checked');
         }
         child.push(' />');
-        child.push('<label for="' + uniqueId + '">' + $children.eq(i).attr('data-caption') + '</label>');
+        child.push(`<label for="${uniqueId}">${$children.eq(i).attr('data-caption')}</label>`);
         $children.eq(i).html(child.join(''));
     }
     if ($control.attr('data-caption')) {  //justin 11/02/2018 don't generate this Div if the caption is blank
-        html.push('<div class="fwformfield-caption">' + $control.attr('data-caption') + '</div>');
+        html.push(`<div class="fwformfield-caption">${$control.attr('data-caption')}</div>`);
+        html.push('<div class="fwformfield-control"></div>');
     }
-    html.push('<div class="fwformfield-control"></div>');
+    else {
+        html.push('<div style="padding:1px;" class="fwformfield-control"></div>');
+    }
     $control.html(html.join(''));
     $control.find('.fwformfield-control').append($children);
 };
