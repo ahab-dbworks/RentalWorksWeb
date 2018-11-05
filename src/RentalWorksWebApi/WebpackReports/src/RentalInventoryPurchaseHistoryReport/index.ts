@@ -58,6 +58,13 @@ export class RentalInventoryPurchaseHistoryReport extends WebpackReport {
                     rentalInventoryPurchaseHistory.System = 'RENTALWORKS';
                     rentalInventoryPurchaseHistory.Company = '4WALL ENTERTAINMENT';
 
+                    if (parameters.PurchasedFromDate !== '' && parameters.PurchasedToDate !== '') {
+                        rentalInventoryPurchaseHistory.showPurchaseDates = true;
+                    }
+                    if (parameters.ReceivedFromDate !== '' && parameters.ReceivedToDate !== '') {
+                        rentalInventoryPurchaseHistory.showReceiveDates = true;
+                    }
+
                     this.renderFooterHtml(rentalInventoryPurchaseHistory);
                     if (this.action === 'Preview' || this.action === 'PrintHtml') {
                         document.getElementById('pageFooter').innerHTML = this.footerHtml;

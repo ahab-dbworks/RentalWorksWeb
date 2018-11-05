@@ -9,7 +9,6 @@ import './index.scss';
 var hbReport = require("./hbReport.hbs");
 var hbFooter = require("./hbFooter.hbs");
 
-
 export class CustomerRevenueByTypeReportRequest {
     FromDate: Date;
     ToDate: Date;
