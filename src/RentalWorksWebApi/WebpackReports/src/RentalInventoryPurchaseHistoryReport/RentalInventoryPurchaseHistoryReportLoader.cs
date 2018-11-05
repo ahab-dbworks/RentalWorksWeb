@@ -89,10 +89,10 @@ namespace WebApi.Modules.Reports.RentalInventoryPurchaseHistoryReport
         [FwSqlDataField(column: "qty", modeltype: FwDataTypes.Integer)]
         public int? Quantity { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "unitcost", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "unitcost", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public decimal? UnitCost { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "extendedcost", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "extendedcost", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public decimal? ExtendedCost { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "barcode", modeltype: FwDataTypes.Text)]
