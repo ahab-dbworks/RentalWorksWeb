@@ -1,14 +1,14 @@
 using WebLibrary;
 using WebApi.Modules.Reports.InventoryPurchaseHistoryReport;
 
-namespace WebApi.Modules.Reports.RentalInventoryPurchaseHistoryReport
+namespace WebApi.Modules.Reports.SalesInventoryPurchaseHistoryReport
 {
-    public class RentalInventoryPurchaseHistoryReportLoader : InventoryPurchaseHistoryReportLoader
+    public class SalesInventoryPurchaseHistoryReportLoader : InventoryPurchaseHistoryReportLoader
     {
         //------------------------------------------------------------------------------------ 
-        public RentalInventoryPurchaseHistoryReportLoader()
+        public SalesInventoryPurchaseHistoryReportLoader()
         {
-            AvailableForFilter = RwConstants.INVENTORY_AVAILABLE_FOR_RENT;
+            AvailableForFilter = RwConstants.INVENTORY_AVAILABLE_FOR_SALE;
         }
         //------------------------------------------------------------------------------------ 
     }

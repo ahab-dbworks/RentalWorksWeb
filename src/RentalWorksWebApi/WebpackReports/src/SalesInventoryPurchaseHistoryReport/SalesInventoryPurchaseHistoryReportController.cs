@@ -11,9 +11,9 @@ using FwStandard.SqlServer;
 using Microsoft.AspNetCore.Http;
 using WebApi.Modules.Reports.InventoryPurchaseHistoryReport;
 
-namespace WebApi.Modules.Reports.RentalInventoryPurchaseHistoryReport
+namespace WebApi.Modules.Reports.SalesInventoryPurchaseHistoryReport
 {
-    //public class RentalInventoryPurchaseHistoryReportRequest
+    //public class SalesInventoryPurchaseHistoryReportRequest
     //{
     //    public DateTime? PurchasedFromDate { get; set; }
     //    public DateTime? PurchasedToDate { get; set; }
@@ -29,12 +29,12 @@ namespace WebApi.Modules.Reports.RentalInventoryPurchaseHistoryReport
     //}
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "reports-v1")]
-    public class RentalInventoryPurchaseHistoryReportController : AppReportController
+    public class SalesInventoryPurchaseHistoryReportController : AppReportController
     {
-        public RentalInventoryPurchaseHistoryReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
-        protected override string GetReportFileName() { return "RentalInventoryPurchaseHistoryReport"; }
+        public SalesInventoryPurchaseHistoryReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
+        protected override string GetReportFileName() { return "SalesInventoryPurchaseHistoryReport"; }
         //------------------------------------------------------------------------------------ 
-        protected override string GetReportFriendlyName() { return "Rental Inventory Purchase History Report"; }
+        protected override string GetReportFriendlyName() { return "Sales Inventory Purchase History Report"; }
         //------------------------------------------------------------------------------------ 
         protected override PdfOptions GetPdfOptions()
         {
@@ -47,10 +47,10 @@ namespace WebApi.Modules.Reports.RentalInventoryPurchaseHistoryReport
         protected override string GetUniqueId(FwReportRenderRequest request)
         {
             //return request.parameters["xxxxid"].ToString().TrimEnd(); 
-            return "RentalInventoryPurchaseHistoryReport";
+            return "SalesInventoryPurchaseHistoryReport";
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/rentalinventorypurchasehistoryreport/render 
+        // POST api/v1/salesinventorypurchasehistoryreport/render 
         [HttpPost("render")]
         public async Task<ActionResult<FwReportRenderResponse>> Render([FromBody]FwReportRenderRequest request)
         {
@@ -59,7 +59,7 @@ namespace WebApi.Modules.Reports.RentalInventoryPurchaseHistoryReport
             return new OkObjectResult(response);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/rentalinventorypurchasehistoryreport/runreport 
+        // POST api/v1/salesinventorypurchasehistoryreport/runreport 
         [HttpPost("runreport")]
         public async Task<ActionResult<FwJsonDataTable>> RunReportAsync([FromBody]InventoryPurchaseHistoryReportRequest request)
         {
@@ -69,7 +69,7 @@ namespace WebApi.Modules.Reports.RentalInventoryPurchaseHistoryReport
             }
             try
             {
-                RentalInventoryPurchaseHistoryReportLoader l = new RentalInventoryPurchaseHistoryReportLoader();
+                SalesInventoryPurchaseHistoryReportLoader l = new SalesInventoryPurchaseHistoryReportLoader();
                 l.SetDependencies(this.AppConfig, this.UserSession);
                 FwJsonDataTable dt = await l.RunReportAsync(request);
                 return new OkObjectResult(dt);
