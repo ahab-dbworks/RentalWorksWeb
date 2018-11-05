@@ -117,13 +117,14 @@ class CustomForm {
     //----------------------------------------------------------------------------------------------
     codeMirrorEvents($form) {
         //Creates an instance of CodeMirror
-        let textArea = $form.find('#codeEditor');
-        var codeMirror = CodeMirror.fromTextArea(textArea.get(0),
+        let textArea = $form.find('#codeEditor').get(0);
+        var codeMirror = CodeMirror.fromTextArea(textArea,
             {
                 mode: 'xml'
                 , lineNumbers: true
+                , foldGutter: true
+                , gutters: ["CodeMirror-linenumbers", "CodeMirror-foldgutter"]
             });
-
         this.codeMirror = codeMirror;
         this.doc = codeMirror.getDoc();
 
