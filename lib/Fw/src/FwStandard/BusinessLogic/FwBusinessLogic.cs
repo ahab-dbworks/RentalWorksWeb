@@ -984,6 +984,10 @@ namespace FwStandard.BusinessLogic
                         {
                             title = title + ((int)propertyValue).ToString().TrimEnd();
                         }
+                        else if (propertyValue is decimal)
+                        {
+                            title = title + ((decimal)propertyValue).ToString().TrimEnd();
+                        }
                         else
                         {
                             throw new Exception("Property type " + propertyValue.GetType().ToString() + " needs to be implemented! [FwBusinessLogic.RecordTitle]");
