@@ -630,6 +630,7 @@ namespace WebApi.Modules.Home.Order
                     {
                         rental = lOrig.Rental.Value;
                     }
+
                     if (RentalSale.HasValue)
                     {
                         rentalsale = RentalSale.Value;
@@ -639,6 +640,21 @@ namespace WebApi.Modules.Home.Order
                         rentalsale = lOrig.RentalSale.Value;
                     }
 
+                    if (DealId != null)
+                    {
+                        if (lOrig.DealId == null)
+                        {
+                            lOrig.DealId = "";
+                        }
+                        if (!DealId.Equals(lOrig.DealId))  // changing the Deal on this Quote/Order
+                        {
+                            if (lOrig.HasLossAndDamageItem.GetValueOrDefault(false))
+                            {
+                                isValid = false;
+                                validateMsg = "Cannot change the Deal on this " + BusinessLogicModuleName + " because Loss and Damage items have already been added.";
+                            }
+                        }
+                    }
 
                     if (isValid)
                     {
