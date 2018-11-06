@@ -2178,9 +2178,8 @@ class Order extends OrderBase {
             }
         }
         const events = () => {
-            let $lossAndDamageItemGrid = $popup.find('div[data-grid="LossAndDamageItemGrid"]');
             let $orderItemGridLossDamage = $form.find('.lossdamagegrid [data-name="OrderItemGrid"]');
-            $lossAndDamageItemGrid = jQuery($lossAndDamageItemGrid);
+            let gridContainer = $popup.find('.container');
             //Close the popup
             $popup.find('.close-modal').one('click', e => {
                 FwPopup.destroyPopup($popup);
@@ -2193,6 +2192,8 @@ class Order extends OrderBase {
             });
             // Complete Session
             $popup.find('.complete-session').on('click', event => {
+            let $lossAndDamageItemGrid = $popup.find('div[data-grid="LossAndDamageItemGrid"]');
+            $lossAndDamageItemGrid = jQuery($lossAndDamageItemGrid);
                 let request: any = {};
                 request.SourceOrderId = FwFormField.getValueByDataField($form, 'OrderId');
                 request.SessionId = this.lossDamageSessionId
@@ -2203,11 +2204,13 @@ class Order extends OrderBase {
                     } else {
                         FwConfirmation.renderConfirmation('ERROR', 'Error')
                     }
-                }, null, $lossAndDamageItemGrid);
+                }, null, $lossAndDamageItemGrid)
             });
             // Select All
             $popup.find('.selectall').on('click', e => {
                 let request: any = {};
+                let $lossAndDamageItemGrid = $popup.find('div[data-grid="LossAndDamageItemGrid"]');
+                $lossAndDamageItemGrid = jQuery($lossAndDamageItemGrid);
                 const orderId = FwFormField.getValueByDataField($form, 'OrderId');
 
                 request.OrderId = orderId;
@@ -2227,6 +2230,8 @@ class Order extends OrderBase {
             // Select None
             $popup.find('.selectnone').on('click', e => {
                 let request: any = {};
+                let $lossAndDamageItemGrid = $popup.find('div[data-grid="LossAndDamageItemGrid"]');
+                $lossAndDamageItemGrid = jQuery($lossAndDamageItemGrid);
                 const orderId = FwFormField.getValueByDataField($form, 'OrderId');
 
                 request.OrderId = orderId;
