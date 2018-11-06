@@ -519,6 +519,7 @@ class FwSettingsClass {
         $modulecontainer = $control.find('#' + moduleName);
         apiurl = window[moduleName + 'Controller'].apiurl;
         $form = jQuery(jQuery('#tmpl-modules-' + moduleName + 'Form').html());
+        $body = $control.find('#' + moduleName + '.panel-body');
 
         html.push('<div class="panel-group" id="' + moduleName + '" data-id="' + moduleId + '">');
         html.push('  <div class="panel panel-primary">');
@@ -554,9 +555,12 @@ class FwSettingsClass {
 
         $control.find('.well').append($settingsPageModules);
 
+        //saving form
         $settingsPageModules.on('click', '.btn', function (e) {
-            $body.empty();
-            me.getRows($body, $control, apiurl, $control.find('#' + moduleName), moduleName);
+            if (FwModule.validateForm(jQuery(this).closest('.fwform'))) {
+                $body.empty();
+                me.getRows($body, $control, apiurl, $control.find('#' + moduleName), moduleName);
+            }
         });
 
         $settingsPageModules.on('click', '.new-row-menu', function (e) {
@@ -853,7 +857,7 @@ class FwSettingsClass {
                     $rowBody.append($form);
                     $form.find('.highlighted').removeClass('highlighted');
                     $form.find('div[data-type="NewMenuBarButton"]').off();
-                    $form.find('.buttonbar').append('<div class="btn-delete" data-type="DeleteMenuBarButton"><i class="material-icons"></i><div class="btn-text">Delete</div></div>');
+                    $form.find('div.fwform-menu > .buttonbar').append('<div class="btn-delete" data-type="DeleteMenuBarButton"><i class="material-icons"></i><div class="btn-text">Delete</div></div>');
 
                     for (var key in recordData) {
                         for (var i = 0; i < me.filter.length; i++) {

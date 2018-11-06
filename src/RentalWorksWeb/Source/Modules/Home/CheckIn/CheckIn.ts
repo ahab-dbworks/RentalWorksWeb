@@ -296,6 +296,17 @@ class CheckIn {
 
         specificOrder.on('change', e => {
             if (specificOrder.prop('checked')) {
+                if (specificOrderValidation.find('input').val() !== '') {
+                    $checkInQuantityItemsGridControl.data('ondatabind', function (request) {
+                        request.uniqueids = {
+                            ContractId: FwFormField.getValueByDataField($form, 'ContractId'),
+                            AllOrdersForDeal: FwFormField.getValueByDataField($form, 'AllOrdersForDeal'),
+                            OrderId: FwFormField.getValueByDataField($form, 'SpecificOrderId'),
+                            OutOnly: FwFormField.getValueByDataField($form, 'ShowQuantityOut')
+                        }
+                    });
+                    FwBrowse.search($checkInQuantityItemsGridControl);
+                }
                 FwFormField.enable(specificOrderValidation);
                 allActiveOrders.prop('checked', false);
             } else {
@@ -317,6 +328,11 @@ class CheckIn {
             })
             FwBrowse.search($checkInQuantityItemsGridControl);
         });
+        specificOrderValidation.focusout(function () {
+            if (jQuery(this).find('input.fwformfield-text').val() === '') {
+                FwFormField.setValueByDataField($form, 'SpecificDescription', '');
+            }
+        })
 
         $form.find('[data-datafield="ShowQuantityOut"] input').on('change', e => {
             FwBrowse.search($checkInQuantityItemsGridControl);
