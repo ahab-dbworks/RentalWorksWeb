@@ -228,7 +228,7 @@ namespace WebApi.Modules.Home.Customer
         public async Task<GetManyResponse<GetManyOfficeLocationModel>> GetOfficeLocationsAsync(GetManyOfficeLocationRequest request)
         {
             var officeLocationLogic = CreateBusinessLogic<OfficeLocationLogic>(this.AppConfig, this.UserSession);
-            request.filters["Inactive"] = new GetManyRequestFilter("Inactive", "eq", "true", false);
+            request.filters["Inactive"] = new GetManyRequestFilter("Inactive", "ne", "true", false);
             var result = await officeLocationLogic.GetManyAsync<GetManyOfficeLocationModel>(request);
             return result;
         }

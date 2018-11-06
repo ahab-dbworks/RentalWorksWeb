@@ -349,29 +349,29 @@ class Customer {
     }
     //----------------------------------------------------------------------------------------------
     getBrowseTemplate(): string {
-    return `
-      <div data-name="Customer" data-control="FwBrowse" data-type="Browse" id="CustomerBrowse" class="fwcontrol fwbrowse" data-orderby="" data-controller="CustomerController" data-hasinactive="true">
-      <div class="column" data-width="0" data-visible="false">
-        <div class="field" data-isuniqueid="true" data-datafield="CustomerId" data-browsedatatype="key" ></div>
-      </div>
-      <div class="column" data-width="300px" data-visible="true">
-        <div class="field" data-caption="Customer" data-datafield="Customer" data-browsedatatype="text" data-sort="asc"></div>
-      </div>
-      <div class="column" data-width="200px" data-visible="true">
-        <div class="field" data-caption="No." data-datafield="CustomerNumber" data-browsedatatype="text" data-sort="off"></div>
-      </div>
-      <div class="column" data-width="200px" data-visible="true">
-        <div class="field" data-caption="Type" data-datafield="CustomerType" data-browsedatatype="text" data-sort="off"></div>
-      </div>
-      <div class="column" data-width="200px" data-visible="true">
-        <div class="field" data-caption="Status" data-datafield="CustomerStatus" data-browsedatatype="text" data-sort="off"></div>
-      </div>
-      <div class="column spacer" data-width="auto" data-visible="true"></div>
-    </div>`;
-  }
+        return `
+          <div data-name="Customer" data-control="FwBrowse" data-type="Browse" id="CustomerBrowse" class="fwcontrol fwbrowse" data-orderby="" data-controller="CustomerController" data-hasinactive="true">
+          <div class="column" data-width="0" data-visible="false">
+            <div class="field" data-isuniqueid="true" data-datafield="CustomerId" data-browsedatatype="key" ></div>
+          </div>
+          <div class="column" data-width="300px" data-visible="true">
+            <div class="field" data-caption="Customer" data-datafield="Customer" data-browsedatatype="text" data-sort="asc"></div>
+          </div>
+          <div class="column" data-width="200px" data-visible="true">
+            <div class="field" data-caption="No." data-datafield="CustomerNumber" data-browsedatatype="text" data-sort="off"></div>
+          </div>
+          <div class="column" data-width="200px" data-visible="true">
+            <div class="field" data-caption="Type" data-datafield="CustomerType" data-browsedatatype="text" data-sort="off"></div>
+          </div>
+          <div class="column" data-width="200px" data-visible="true">
+            <div class="field" data-caption="Status" data-datafield="CustomerStatus" data-browsedatatype="text" data-sort="off"></div>
+          </div>
+          <div class="column spacer" data-width="auto" data-visible="true"></div>
+        </div>`;
+    }
     //----------------------------------------------------------------------------------------------
     getFormTemplate(): string {
-      return `
+        return `
         <div id="customerform" class="fwcontrol fwcontainer fwform" data-control="FwContainer" data-type="form" data-version="1" data-caption="Customer" data-rendermode="template" data-mode="" data-hasaudit="false" data-controller="CustomerController">
           <div data-control="FwFormField" data-type="key" class="fwcontrol fwformfield" data-isuniqueid="true" data-saveorder="1" data-caption="" data-datafield="CustomerId"></div>
           <div id="customerform-tabcontrol" class="fwcontrol fwtabs" data-control="FwTabs" data-type="">
@@ -1701,7 +1701,7 @@ class Customer {
             </div>
           </div>
 `;
-  };
+    };
     //----------------------------------------------------------------------------------------------
     addressTypeChange($form) {
         if (FwFormField.getValue($form, '.billing_address_type') === 'CUSTOMER') {
