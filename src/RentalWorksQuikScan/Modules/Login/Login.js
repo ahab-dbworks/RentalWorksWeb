@@ -27,12 +27,12 @@ RwAccountController.getLoginScreen = function(viewModel, properties) {
 
     if (applicationConfig.demoMode) {
         //screen.$view.find('#loginView-btnRefresh').hide();
-        screen.$view.find('#loginView-txtEmail')
+        screen.$view.find('.mobilelogin-email-value')
             .addClass('readonly')
             .prop('readonly', true)
             .val(applicationConfig.demoEmail)
         ;
-        screen.$view.find('#loginView-txtPassword')
+        screen.$view.find('.mobilelogin-password-value')
             .addClass('readonly')
             .prop('readonly', true)
             .val(applicationConfig.demoPassword)

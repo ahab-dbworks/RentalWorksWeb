@@ -24,8 +24,11 @@ RwRFID.registerEvents = function(callbackfunction) {
             FwNotification.renderNotification('SUCCESS', 'RFID Reader Connected');
         });
         window.TslReader.registerListener('deviceDisconnected', 'deviceDisconnected_rwrfidjs', function() {
+            // this seems to fire when Linea Pros get disconnected from power also, so only fire if connected
+            if (RwRFID.isConnected === true) {
+                FwNotification.renderNotification('ERROR', 'RFID Reader Disconnected');
+            }
             RwRFID.isConnected = false;
-            FwNotification.renderNotification('ERROR', 'RFID Reader Disconnected');
         });
         window.TslReader.registerListener('epcsReceived', 'epcsReceived_rwrfidjs', function (epcs) {
             RwRFID.isConnected = true;
