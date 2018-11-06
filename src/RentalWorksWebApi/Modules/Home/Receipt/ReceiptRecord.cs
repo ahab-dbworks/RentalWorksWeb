@@ -25,7 +25,7 @@ namespace WebApi.Modules.Home.Receipt
         [FwSqlDataField(column: "pmtamt", modeltype: FwDataTypes.Decimal, sqltype: "numeric", precision: 9, scale: 2)]
         public decimal? PaymentAmount { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "checkno", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 10)]
+        [FwSqlDataField(column: "checkno", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 10, required: true)]
         public string CheckNumber { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "rectype", modeltype: FwDataTypes.Boolean, sqltype: "char")]
@@ -46,7 +46,7 @@ namespace WebApi.Modules.Home.Receipt
         [FwSqlDataField(column: "pmtmemo", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 255)]
         public string PaymentMemo { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "appliedbyid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
+        [FwSqlDataField(column: "appliedbyid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8, required: true)]
         public string AppliedById { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "overpaymentid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]

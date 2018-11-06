@@ -52,6 +52,13 @@ class Receipt {
             request.activeview = this.ActiveView;
         });
 
+        FwBrowse.addLegend($browse, 'Overpayment', '#80FFFF');
+        FwBrowse.addLegend($browse, 'Depleting Deposit', '#37D303'); // no color in res
+        FwBrowse.addLegend($browse, 'Refund Check', '#FF8888');
+        FwBrowse.addLegend($browse, 'NSF Adjustment', '#6F6FFF');
+        FwBrowse.addLegend($browse, 'Write Off', '#D6E180'); // no color in res
+        FwBrowse.addLegend($browse, 'Credit Memo', '#D6ABAB');
+
         return $browse;
     }
     //----------------------------------------------------------------------------------------------
@@ -84,7 +91,10 @@ class Receipt {
         $form = FwModule.openForm($form, mode);
 
         if (mode === 'NEW') {
+            const usersid = sessionStorage.getItem('usersid');  // J. Pace 7/09/18  C4E0E7F6-3B1C-4037-A50C-9825EDB47F44
+            const name = sessionStorage.getItem('name');
 
+            FwFormField.setValue($form, 'div[data-datafield="AppliedById"]', usersid, name);
         }
 
         this.events($form);
