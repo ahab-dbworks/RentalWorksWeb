@@ -352,8 +352,16 @@ class CustomForm {
             for (let i = 0; i < $divs.length; i++) {
                 let div = jQuery($divs[i]);
                 div.attr('data-index', i);
-            }
 
+                //add browse and grid column container attributes
+                if (type === 'Grid' || type === 'Browse') {
+                    if (div.hasClass('column')) {
+                        let isVisible = div.attr('data-visible');
+                        let width = div.attr('data-width');
+                        div.find('.field').attr({ 'data-visible': isVisible, 'data-width': width });
+                    }
+                }
+            }
             $customFormClone = $customForm.get(0).cloneNode(true);
         }
 
@@ -377,6 +385,7 @@ class CustomForm {
         function disableControls() {
             FwFormField.disable($customForm.find(`[data-type="validation"], [data-control="FwAppImage"]`));
             $customForm.find('[data-type="Browse"], [data-type="Grid"]').find('.pager').hide();
+            $customForm.find('[data-type="Browse"] tbody, [data-type="Browse"] tfoot, [data-type="Grid"] tbody, [data-type="Grid"] tfoot').hide();
             FwFormField.disable($customForm.find('[data-type="Browse"], [data-type="Grid"]'));
             $customForm.find('tr.fieldnames .column >').off('click');
         }
@@ -391,8 +400,35 @@ class CustomForm {
 
             $customForm.find('.tabpages .formpage').css('overflow', 'auto');
 
+            function showHiddenColumns($control) {
+                let hiddenColumns = $control.find('td[data-visible="false"]');
+                for (let i = 0; i < hiddenColumns.length; i++) {
+                    let self = jQuery(hiddenColumns[i]);
+                    let caption = self.find('.caption')[0].textContent;
+
+                    if (caption !== 'undefined') {
+                        self.find('.caption')[0].textContent = `${caption} [Hidden]`;
+                    } else {
+                        if (type === 'Grid') {
+                            let datafield = self.find('.field').attr('data-datafield');
+                            self.find('.caption')[0].textContent = `${datafield} [Hidden]`;
+                        } else if (type === 'Browse') {
+                            let datafield = self.find('.field').attr('data-browsedatafield');
+                            self.find('.caption')[0].textContent = `${datafield} [Hidden]`;
+                        }
+                    }
+
+                    self.find('.fieldcaption').css(`background-color`, `#f9f9f9`);
+                    self.css('display', 'table-cell');
+                    self.find('.caption').css('color', 'red');
+                }
+            }
+            if (type === 'Grid' || type === 'Browse') {
+                showHiddenColumns($customForm);
+            };
+
             $customForm
-                //buiild properties section
+                //build properties section
                 .on('click',
                     '[data-control="FwGrid"], [data-type="Browse"] thead tr.fieldnames .column >, [data-type="Grid"] thead tr.fieldnames .column >, [data-control="FwContainer"], [data-control="FwFormField"], div.flexrow, div.flexcolumn',
                     e => {
@@ -426,6 +462,20 @@ class CustomForm {
                                       <div class="propval" style="border:.5px solid #efefef; width:50%; float:left;"><input value="${value}"></div>
                                    </div>
                                   `);
+
+                            //if (type === 'Grid' || type === 'Browse') {
+                            //    let containingDivAttrs = jQuery(e.currentTarget).parents('.column')[0].attributes;
+
+                            //    for (let j = 0; j < containingDivAttrs.length; j++) {
+                            //        let value = containingDivAttrs[i].value;
+                            //        let name = containingDivAttrs[i].name;
+                            //        html.push(`<div class="containerproperties" style="width:100%; display:flex;">
+                            //          <div class="containerpropname" style="border:.5px solid #efefef; width:50%; float:left;">${name === "" ? "&#160;" : name}</div>
+                            //          <div class="containerpropval" style="border:.5px solid #efefef; width:50%; float:left;"><input value="${value}"></div>
+                            //       </div>
+                            //      `);
+                            //    }
+                            //}
                         }
 
                         html.push(`<div class="addproperties" style="width:100%; display:flex;">
@@ -460,10 +510,26 @@ class CustomForm {
                     let index = jQuery(originalHtml).attr('data-index');
                     let controlType = jQuery(originalHtml).attr('data-control');
                     if (value) {
-                        jQuery($customFormClone).find(`div[data-index="${index}"]`).attr(`${attribute}`, `${value}`);
-                        jQuery(originalHtml).attr(`${attribute}`, `${value}`);
+                        if (type === 'Grid' || type === 'Browse') {
+                            if (attribute === 'data-visible') {
+                                if (value === 'false') {
+                                    jQuery(originalHtml).parent('.column').attr('style', 'display:none;');
+                                } else {
+                                    jQuery(originalHtml).parent('.column').removeAttr(`style`);
+                                }
+                                jQuery(originalHtml).attr(`${attribute}`, `${value}`);
+                                jQuery($customFormClone).find(`div[data-index="${index}"]`).parent('.column').attr(`${attribute}`, `${value}`);
+                            }
+                            if (attribute === 'data-width') {
+                                jQuery(originalHtml).find('.fieldcaption').attr(`style`, `min-width:${value}`);
+                                jQuery($customFormClone).find(`div[data-index="${index}"]`).parent('.column').attr(`${attribute}`, `${value}`);
+                            }
+                        } else {
+                            jQuery($customFormClone).find(`div[data-index="${index}"]`).attr(`${attribute}`, `${value}`);
+                            jQuery(originalHtml).attr(`${attribute}`, `${value}`);
+                        }
                     } else {
-                        jQuery(e.currentTarget).parents('.properties').hide(); //.remove triggers the if statement to run again (not sure why)
+                        jQuery(e.currentTarget).parents('.properties').hide(); //.remove() triggers the if statement to run again (not sure why)
                         jQuery($customFormClone).find(`div[data-index="${index}"]`).removeAttr(`${attribute}`);
                         jQuery(originalHtml).removeAttr(`${attribute}`);
                         //FwConfirmation.renderConfirmation('Remove Property', 'Remove property?');
@@ -491,6 +557,7 @@ class CustomForm {
                             }
                             FwControl.renderRuntimeHtml($control);
                             disableControls();
+                            showHiddenColumns($control);
                             break;
                     }
 
