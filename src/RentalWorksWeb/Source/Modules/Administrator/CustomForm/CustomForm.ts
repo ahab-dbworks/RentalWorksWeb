@@ -401,7 +401,7 @@ class CustomForm {
                         let properties = e.currentTarget.attributes;
                         let html: any = [];
                         html.push(`
-                        <div style="border: 1px solid #bbbbbb; word-break: break-word;">
+                        <div class="propertyContainer" style="border: 1px solid #bbbbbb; word-break: break-word;">
                             <div style="text-indent:5px;">
                                 <div style="font-weight:bold; background-color:#dcdcdc; width:50%; float:left;">Name</div>
                                 <div style="font-weight:bold; background-color:#dcdcdc; width:50%; float:left;">Value</div>
@@ -427,7 +427,13 @@ class CustomForm {
                                    </div>
                                   `);
                         }
-                        html.push(`</div>`);
+
+                        html.push(`<div class="addproperties" style="width:100%; display:flex;">
+                                      <div class="addpropname" style="border:.5px solid #efefef; width:50%; float:left;"><input placeholder="Add a new property" ></div>
+                                      <div class="addpropval" style="border:.5px solid #efefef; width:50%; float:left;"><input placeholder="Add property values" ></div>
+                                   </div>
+
+                                    </div>`);
                         $form.find('#controlProperties')
                             .empty()
                             .append(html.join(''))
@@ -442,11 +448,11 @@ class CustomForm {
                                 $form.find('#controlProperties .propval input').attr('disabled', 'disabled');
                             }
                         }
-
                     });
 
             $form
                 //updates designer content with new attributes and updates code editor
+                .off('change', '#controlProperties .propval')
                 .on('change', '#controlProperties .propval', e => {
                     e.stopPropagation();
 
@@ -492,24 +498,48 @@ class CustomForm {
                     FwFormField.setValueByDataField($form, 'Html', $modifiedClone.innerHTML);
                     this.codeMirror.setValue($modifiedClone.innerHTML);
                 })
+                .off('keydown', '#controlProperties.propval')
                 .on('keydown', '#controlProperties .propval', e => {
                     e.stopPropagation();
                     if (e.which === 13 || e.keyCode === 13) {
                         jQuery(e.currentTarget).trigger('change');
                     }
                 })
-                //removes indexes and sets the code editor html
-                //.on('click', '[data-type="tab"][data-caption="HTML"], [data-type="tab"][data-caption="Preview"]', e => {
-                //    if ($form.attr('data-propertieschanged') == "true") {
-                //        jQuery($customFormClone).find('div').removeAttr('data-index');
-                //        FwFormField.setValueByDataField($form, 'Html', $customFormClone.innerHTML);
-                //        this.codeMirror.setValue($customFormClone.innerHTML);
-                //        if (jQuery(e.currentTarget).attr('data-caption') === "Preview") {
-                //            this.renderTab($form, 'Preview');
-                //        }
-                //    }
-                //});
+                //Add new properties 
+                .off('change', '#controlProperties .addpropval')
+                .on('change', '#controlProperties .addpropval', e => {
+                    e.stopImmediatePropagation();
+                    let newProp = jQuery(e.currentTarget).siblings('.addpropname').find('input').val();
+                    let newPropVal = jQuery(e.currentTarget).find('input').val();
+                    let index = jQuery(originalHtml).attr('data-index');
+                    if (newProp !== '') {
+                        let html: any = [];
+                        html.push(` 
+                                    <div class="properties" style="width:100%; display:flex;">
+                                      <div class="propname" style="border:.5px solid #efefef; width:50%; float:left;">${newProp}</div>
+                                      <div class="propval" style="border:.5px solid #efefef; width:50%; float:left;"><input value="${newPropVal}"></div>
+                                   </div>
+                        `);
+                        $form.find('#controlProperties .addproperties').before(html.join(''));
 
+                        jQuery(originalHtml).attr(`${newProp}`, `${newPropVal}`);
+                        jQuery($customFormClone).find(`div[data-index="${index}"]`).attr(`${newProp}`, `${newPropVal}`);
+                        jQuery(e.currentTarget).siblings('.addpropname').find('input').val('');
+                        jQuery(e.currentTarget).find('input').val('');
+
+                        let $modifiedClone = $customFormClone.cloneNode(true);
+                        jQuery($modifiedClone).find('div').removeAttr('data-index');
+                        FwFormField.setValueByDataField($form, 'Html', $modifiedClone.innerHTML);
+                        this.codeMirror.setValue($modifiedClone.innerHTML);
+                    }
+                })
+                .off('keydown', '#controlProperties .addpropval')
+                .on('keydown', '#controlProperties .addpropval', e => {
+                    e.stopPropagation();
+                    if (e.which === 13 || e.keyCode === 13) {
+                        jQuery(e.currentTarget).trigger('change');
+                    }
+                });
 
         }
     }
