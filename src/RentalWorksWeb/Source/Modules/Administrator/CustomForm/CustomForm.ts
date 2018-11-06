@@ -315,7 +315,7 @@ class CustomForm {
         //Load preview on click
         $form.on('click', '[data-type="tab"][data-caption="Preview"]', e => {
             //if ($form.attr('data-propertieschanged') !== "true") {
-                this.renderTab($form, 'Preview');
+            this.renderTab($form, 'Preview');
             //}
         });
 
@@ -430,7 +430,7 @@ class CustomForm {
 
                         html.push(`<div class="addproperties" style="width:100%; display:flex;">
                                       <div class="addpropname" style="border:.5px solid #efefef; width:50%; float:left;"><input placeholder="Add a new property" ></div>
-                                      <div class="addpropval" style="border:.5px solid #efefef; width:50%; float:left;"><input placeholder="Add property values" ></div>
+                                      <div class="addpropval" style="border:.5px solid #efefef; width:50%; float:left;"><input placeholder="Add value" ></div>
                                    </div>
 
                                     </div>`);
@@ -454,15 +454,20 @@ class CustomForm {
                 //updates designer content with new attributes and updates code editor
                 .off('change', '#controlProperties .propval')
                 .on('change', '#controlProperties .propval', e => {
-                    e.stopPropagation();
-
+                    e.stopImmediatePropagation();
                     let attribute = jQuery(e.currentTarget).siblings('.propname').text();
                     let value = jQuery(e.currentTarget).find('input').val();
                     let index = jQuery(originalHtml).attr('data-index');
-                    jQuery($customFormClone).find(`div[data-index="${index}"]`).attr(`${attribute}`, `${value}`);
-                    jQuery(originalHtml).attr(`${attribute}`, `${value}`);
-
                     let controlType = jQuery(originalHtml).attr('data-control');
+                    if (value) {
+                        jQuery($customFormClone).find(`div[data-index="${index}"]`).attr(`${attribute}`, `${value}`);
+                        jQuery(originalHtml).attr(`${attribute}`, `${value}`);
+                    } else {
+                        jQuery(e.currentTarget).parents('.properties').hide(); //.remove triggers the if statement to run again (not sure why)
+                        jQuery($customFormClone).find(`div[data-index="${index}"]`).removeAttr(`${attribute}`);
+                        jQuery(originalHtml).removeAttr(`${attribute}`);
+                        //FwConfirmation.renderConfirmation('Remove Property', 'Remove property?');
+                    }
 
                     switch (type) {
                         case 'Form': let a = 0;
@@ -500,19 +505,26 @@ class CustomForm {
                 })
                 .off('keydown', '#controlProperties.propval')
                 .on('keydown', '#controlProperties .propval', e => {
-                    e.stopPropagation();
+                    e.stopImmediatePropagation();
                     if (e.which === 13 || e.keyCode === 13) {
+                        e.preventDefault();
                         jQuery(e.currentTarget).trigger('change');
                     }
                 })
                 //Add new properties 
                 .off('change', '#controlProperties .addpropval')
-                .on('change', '#controlProperties .addpropval', e => {
+                .on('change', '#controlProperties .addpropval, #controlProperties .addpropname', e => {
                     e.stopImmediatePropagation();
-                    let newProp = jQuery(e.currentTarget).siblings('.addpropname').find('input').val();
-                    let newPropVal = jQuery(e.currentTarget).find('input').val();
+                    let newProp, newPropVal;
+                    if (jQuery(e.currentTarget).hasClass('addpropval')) {
+                        newProp = jQuery(e.currentTarget).siblings('.addpropname').find('input').val();
+                        newPropVal = jQuery(e.currentTarget).find('input').val();
+                    } else {
+                        newProp = jQuery(e.currentTarget).find('input').val();
+                        newPropVal = jQuery(e.currentTarget).siblings('.addpropval').find('input').val();
+                    }
                     let index = jQuery(originalHtml).attr('data-index');
-                    if (newProp !== '') {
+                    if (newProp && newPropVal) {
                         let html: any = [];
                         html.push(` 
                                     <div class="properties" style="width:100%; display:flex;">
@@ -535,7 +547,7 @@ class CustomForm {
                 })
                 .off('keydown', '#controlProperties .addpropval')
                 .on('keydown', '#controlProperties .addpropval', e => {
-                    e.stopPropagation();
+                    e.stopImmediatePropagation();
                     if (e.which === 13 || e.keyCode === 13) {
                         jQuery(e.currentTarget).trigger('change');
                     }
