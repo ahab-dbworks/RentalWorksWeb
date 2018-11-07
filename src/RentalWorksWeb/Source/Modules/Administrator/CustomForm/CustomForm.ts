@@ -29,7 +29,6 @@ class CustomForm {
         };
 
         return screen;
-
     }
     //----------------------------------------------------------------------------------------------
     openBrowse() {
@@ -398,12 +397,14 @@ class CustomForm {
         //Design mode borders & events
         if (tabName == 'Designer') {
             let originalHtml;
+            let controlType;
 
             $form.find('#controlProperties')
                 .empty();  //clear properties upon loading design tab
 
             $customForm.find('.tabpages .formpage').css('overflow', 'auto');
 
+            //displays hidden columns in grids/browses
             function showHiddenColumns($control) {
                 let hiddenColumns = $control.find('td[data-visible="false"]');
                 for (let i = 0; i < hiddenColumns.length; i++) {
@@ -427,17 +428,31 @@ class CustomForm {
                     self.find('.caption').css('color', 'red');
                 }
             }
+
             if (type === 'Grid' || type === 'Browse') {
+                $form.find('#controlProperties .addColumn').show();
                 showHiddenColumns($customForm);
+            } else {
+                $form.find('#controlProperties .addColumn').hide();
             };
+
+            //updates information for HTML tab
+            function updateHtml() {
+                let $modifiedClone = $customFormClone.cloneNode(true);
+                jQuery($modifiedClone).find('div').removeAttr('data-index');
+                FwFormField.setValueByDataField($form, 'Html', $modifiedClone.innerHTML);
+                self.codeMirror.setValue($modifiedClone.innerHTML);
+            }
 
             $customForm
                 //build properties section
+                .off('click')
                 .on('click',
                     '[data-control="FwGrid"], [data-type="Browse"] thead tr.fieldnames .column >, [data-type="Grid"] thead tr.fieldnames .column >, [data-control="FwContainer"], [data-control="FwFormField"], div.flexrow, div.flexcolumn',
                     e => {
                         e.stopPropagation();
                         originalHtml = e.currentTarget;
+                        controlType = jQuery(originalHtml).attr('data-control');
                         let properties = e.currentTarget.attributes;
                         let html: any = [];
                         html.push(`
@@ -469,25 +484,25 @@ class CustomForm {
                             value = value.replace('focused', '');
                             if (name !== 'data-datafield' && name !== 'data-browsedatafield') {
                                 html.push(`<div class="properties" style="width:100%; display:flex;">
-                                      <div class="propname" style="border:.5px solid #efefef; width:50%; float:left;">${name === "" ? "&#160;" : name}</div>
-                                      <div class="propval" style="border:.5px solid #efefef; width:50%; float:left;"><input value="${value}"></div>
+                                      <div class="propname" style="border:.5px solid #efefef; width:50%; float:left; font-size:.9em;">${name === "" ? "&#160;" : name}</div>
+                                      <div class="propval" style="border:.5px solid #efefef; width:50%; float:left; font-size:.9em;"><input value="${value}"></div>
                                    </div>
                                   `);
                             } else {
                                 html.push(`<div class="properties" style="width:100%; display:flex;">
-                                      <div class="propname" style="border:.5px solid #efefef; width:50%; float:left;">${name === "" ? "&#160;" : name}</div>
-                                      <div class="propval" style="border:.5px solid #efefef; width:50%; float:left;"><select style="width:94%" class="datafields" value="${value}"></select></div>
+                                      <div class="propname" style="border:.5px solid #efefef; width:50%; float:left; font-size:.9em;">${name === "" ? "&#160;" : name}</div>
+                                      <div class="propval" style="border:.5px solid #efefef; width:50%; float:left; font-size:.9em;"><select style="width:94%" class="datafields" value="${value}"></select></div>
                                    </div>
                                   `);
                             }
                         }
 
+                        //add new properties
                         html.push(`<div class="addproperties" style="width:100%; display:flex;">
-                                      <div class="addpropname" style="border:.5px solid #efefef; width:50%; float:left;"><input placeholder="Add new property" ></div>
-                                      <div class="addpropval" style="border:.5px solid #efefef; width:50%; float:left;"><input placeholder="Add value" ></div>
+                                      <div class="addpropname" style="border:.5px solid #efefef; width:50%; float:left; font-size:.9em;"><input placeholder="Add new property" ></div>
+                                      <div class="addpropval" style="border:.5px solid #efefef; width:50%; float:left; font-size:.9em;"><input placeholder="Add value" ></div>
                                    </div>
-
-                                    </div>`);
+                        </div>`); //closing div for propertyContainer
                         $form.find('#controlProperties')
                             .empty()
                             .append(html.join(''))
@@ -504,10 +519,12 @@ class CustomForm {
                             jQuery(datafieldOptions).find(`option[value=${value}]`).prop('selected', true);
                         }
 
+                        //delete object
+                        $form.find('#controlProperties').append('<div class="fwformcontrol deleteObject" data-type="button" style="margin-left:40%; margin-top:10px;">Delete</div>')
+
                         //disables grids and browses in forms
                         if (type === 'Form') {
                             let isGrid = jQuery(originalHtml).parents('[data-type="Grid"]');
-                            //let controlType = jQuery(originalHtml).attr('data-control');
                             if (isGrid.length !== 0 /*|| controlType === 'FwGrid'*/) {
                                 $form.find('#controlProperties .propval input').attr('disabled', 'disabled');
                             }
@@ -527,9 +544,8 @@ class CustomForm {
                         value = jQuery(e.currentTarget).find('input').val();
                     }
 
-                 
                     let index = jQuery(originalHtml).attr('data-index');
-                    let controlType = jQuery(originalHtml).attr('data-control');
+                  
                     if (value) {
                         if (type === 'Grid' || type === 'Browse') {
                             switch (attribute) {
@@ -595,10 +611,7 @@ class CustomForm {
                     $form.attr('data-modified', 'true');
                     $form.find('.btn[data-type="SaveMenuBarButton"]').removeClass('disabled');
 
-                    let $modifiedClone = $customFormClone.cloneNode(true);
-                    jQuery($modifiedClone).find('div').removeAttr('data-index');
-                    FwFormField.setValueByDataField($form, 'Html', $modifiedClone.innerHTML);
-                    this.codeMirror.setValue($modifiedClone.innerHTML);
+                    updateHtml();
                 })
                 .off('keydown', '#controlProperties.propval')
                 .on('keydown', '#controlProperties .propval', e => {
@@ -608,6 +621,7 @@ class CustomForm {
                         jQuery(e.currentTarget).trigger('change');
                     }
                 })
+
                 //Add new properties 
                 .off('change', '#controlProperties .addpropval')
                 .on('change', '#controlProperties .addpropval, #controlProperties .addpropname', e => {
@@ -636,10 +650,7 @@ class CustomForm {
                         jQuery(e.currentTarget).siblings('.addpropname').find('input').val('');
                         jQuery(e.currentTarget).find('input').val('');
 
-                        let $modifiedClone = $customFormClone.cloneNode(true);
-                        jQuery($modifiedClone).find('div').removeAttr('data-index');
-                        FwFormField.setValueByDataField($form, 'Html', $modifiedClone.innerHTML);
-                        this.codeMirror.setValue($modifiedClone.innerHTML);
+                        updateHtml();
                     }
                 })
                 .off('keydown', '#controlProperties .addpropval')
@@ -648,8 +659,22 @@ class CustomForm {
                     if (e.which === 13 || e.keyCode === 13) {
                         jQuery(e.currentTarget).trigger('change');
                     }
-                });
+                })
+                .off('click', '.deleteObject')
+                .on('click', '.deleteObject', e => {
+                    let $confirmation = FwConfirmation.renderConfirmation('Delete', 'Delete this object?');
+                    let $yes = FwConfirmation.addButton($confirmation, 'Delete', false);
+                    let $no = FwConfirmation.addButton($confirmation, 'Cancel');
 
+                    $yes.off('click');
+                    $yes.on('click', e => {
+                        let index = jQuery(originalHtml).attr('data-index');
+                        FwConfirmation.destroyConfirmation($confirmation);
+                        jQuery($customFormClone).find(`div[data-index="${index}"]`).remove();
+                        jQuery($customForm).find(`div[data-index="${index}"]`).remove();
+                        updateHtml();
+                    });
+                });
         }
     }
 };
