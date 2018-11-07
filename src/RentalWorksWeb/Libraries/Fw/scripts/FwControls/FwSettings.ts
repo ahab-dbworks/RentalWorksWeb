@@ -27,14 +27,17 @@ class FwSettingsClass {
         html.push('    </span>');
         html.push('  </div>');
         html.push('</div>');
-        html.push('<div class="well"></div>');
+        html.push('<div class="flexrow settings-content">');
+        html.push('  <div class="navigation"></div>');
+        html.push('  <div class="well"></div>');
+        html.push('</div>');
         //< div class="input-group pull-right" > <input type="text" class="form-control" placeholder="Settings..."><span class="input-group-addon"><i class="material-icons">search</i></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 
         var settingsMenu = this.getHeaderView($control);
 
         $control.html(html.join(''));
 
-        $control.find('.fwsettingsheader').append(settingsMenu);
+        $control.find('.navigation').append(settingsMenu);
     };
     //----------------------------------------------------------------------------------------------
     saveForm(module, $form, closetab, navigationpath, $control, browseKeys, rowId, moduleName, emptyRows?, getRows?) {
@@ -1108,9 +1111,7 @@ class FwSettingsClass {
     getHeaderView($control) {
         var $view, me = this;
 
-        $view = jQuery('<div class="fwcontrol fwfilemenu" data-control="FwFileMenu" data-version="2" data-rendermode="template"></div>');
-
-        FwControl.renderRuntimeControls($view);
+        $view = jQuery('<div class="menu-container" data-control="FwFileMenu" data-version="2" data-rendermode="template"><div class="menu"></div></div>');
 
         var nodeApplications, nodeApplication = null, baseiconurl, $menu, ribbonItem, dropDownMenuItems, caption;
         nodeApplications = FwApplicationTree.getMyTree();
@@ -1129,7 +1130,6 @@ class FwSettingsClass {
             if (nodeLv1MenuItem.properties.visible === 'T' && nodeLv1MenuItem.properties.caption === 'Settings') {
                 switch (nodeLv1MenuItem.properties.nodetype) {
                     case 'Lv1SettingsMenu':
-                        $menu = FwFileMenu.addMenu($view, nodeLv1MenuItem.properties.caption)
                         for (var lv2childno = 0; lv2childno < nodeLv1MenuItem.children.length; lv2childno++) {
                             var nodeLv2MenuItem = nodeLv1MenuItem.children[lv2childno];
                             if (nodeLv2MenuItem.properties.visible === 'T') {
@@ -1142,10 +1142,10 @@ class FwSettingsClass {
                                                 dropDownMenuItems.push({ id: nodeLv3MenuItem.id, caption: nodeLv3MenuItem.properties.caption, modulenav: nodeLv3MenuItem.properties.modulenav, imgurl: nodeLv3MenuItem.properties.iconurl, moduleName: nodeLv3MenuItem.properties.controller.slice(0, -10) });
                                             }
                                         }
-                                        me.generateDropDownModuleBtn($menu, $control, nodeLv2MenuItem.id, nodeLv2MenuItem.properties.caption, nodeLv2MenuItem.properties.iconurl, dropDownMenuItems);
+                                        me.generateDropDownModuleBtn($view, $control, nodeLv2MenuItem.id, nodeLv2MenuItem.properties.caption, nodeLv2MenuItem.properties.iconurl, dropDownMenuItems);
                                         break;
                                     case 'SettingsModule':
-                                        me.generateStandardModuleBtn($menu, $control, nodeLv2MenuItem.id, nodeLv2MenuItem.properties.caption, nodeLv2MenuItem.properties.modulenav, nodeLv2MenuItem.properties.iconurl, nodeLv2MenuItem.properties.controller.slice(0, -10));
+                                        me.generateStandardModuleBtn($view, $control, nodeLv2MenuItem.id, nodeLv2MenuItem.properties.caption, nodeLv2MenuItem.properties.modulenav, nodeLv2MenuItem.properties.iconurl, nodeLv2MenuItem.properties.controller.slice(0, -10));
                                         break;
                                 }
                             }
@@ -1167,7 +1167,7 @@ class FwSettingsClass {
         if ((caption !== '') && (typeof caption !== 'undefined')) {
             try {
                 btnHtml = [];
-                btnHtml.push('<div id="btnModule' + securityid + '" class="ddmodulebtn" data-securityid="' + securityid + '">');
+                btnHtml.push('<div id="btnModule' + securityid + '" class="ddmodulebtn menu-tab" data-securityid="' + securityid + '">');
                 btnHtml.push('<div class="ddmodulebtn-caption">');
                 btnHtml.push('<div class="ddmodulebtn-text">');
                 btnHtml.push(caption);
@@ -1184,6 +1184,9 @@ class FwSettingsClass {
                 subitemHtml.push('<div class="ddmodulebtn-dropdown-btn-text"></div>');
                 subitemHtml.push('</div>');
                 jQuery.each(subitems, function (index, value) {
+                    if (index === 0) {
+                        $modulebtn.data('firstmodule', subitems[index].moduleName);
+                    }
                     $subitem = jQuery(subitemHtml.join(''));
                     $subitem.attr('data-securityid', subitems[index].id);
                     $subitem.find('.ddmodulebtn-dropdown-btn-text').html(value.caption);
@@ -1209,6 +1212,24 @@ class FwSettingsClass {
         } else {
             throw 'FwRibbon.generateDropDownModuleBtn: ' + securityid + ' caption is not defined in translation';
         }
+        $modulebtn
+            .on('click', function () {
+                try {
+                    let moduleName = $modulebtn.data('firstmodule');
+                    if (moduleName != '') {
+                        $control.find('.selected').removeClass('selected');
+                        jQuery(this).addClass('selected');
+                        if ($control.find('#' + moduleName + ' > div > div.panel-collapse').is(':hidden')) {
+                            $control.find('#' + moduleName + ' > div > div.panel-heading').click();
+                        }
+                        jQuery('html, body').animate({
+                            scrollTop: $control.find('#' + moduleName).offset().top + $control.find('.well').scrollTop()
+                        }, 1);
+                    }
+                } catch (ex) {
+                    FwFunc.showError(ex);
+                }
+            })
 
         $menu.find('.menu').append($modulebtn);
     };
@@ -1221,7 +1242,7 @@ class FwSettingsClass {
             try {
                 btnId = 'btnModule' + securityid;
                 btnHtml = [];
-                btnHtml.push('<div id="' + btnId + '" class="modulebtn" data-securityid="' + securityid + '">');
+                btnHtml.push('<div id="' + btnId + '" class="modulebtn menu-tab" data-securityid="' + securityid + '">');
                 btnHtml.push('<div class="modulebtn-text">');
                 btnHtml.push(caption);
                 btnHtml.push('</div>');
@@ -1238,11 +1259,13 @@ class FwSettingsClass {
             .on('click', function () {
                 try {
                     if (modulenav != '') {
+                        $control.find('.selected').removeClass('selected');
+                        jQuery(this).addClass('selected');
                         if ($control.find('#' + moduleName + ' > div > div.panel-collapse').is(':hidden')) {
                             $control.find('#' + moduleName + ' > div > div.panel-heading').click();
                         }
                         jQuery('html, body').animate({
-                            scrollTop: $control.find('#' + moduleName).offset().top
+                            scrollTop: $control.find('#' + moduleName).offset().top + $control.find('.well').scrollTop()
                         }, 1);
                     }
                 } catch (ex) {
