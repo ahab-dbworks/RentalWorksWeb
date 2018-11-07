@@ -7,6 +7,7 @@ class CustomForm {
     id: string = 'CB2EF8FF-2E8D-4AD0-B880-07037B839C5E';
     codeMirror: any;
     doc: any;
+    datafields: string[];
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
         var screen, $browse;
@@ -180,6 +181,7 @@ class CustomForm {
     }
     //----------------------------------------------------------------------------------------------
     addValidFields($form, controller) {
+        let self = this;
         //Get valid field names and sort them
         const modulefields = $form.find('.modulefields');
         let moduleType = $form.find('[data-datafield="BaseForm"] option:selected').attr('data-type');
@@ -201,7 +203,7 @@ class CustomForm {
                             return obj.DataField;
                         })
                         columnNames = columnNames.sort(compare);
-
+                        self.datafields = columnNames;
                         for (let i = 0; i < columnNames.length; i++) {
                             modulefields.append(`${columnNames[i]}<br />`);
                         }
@@ -212,6 +214,8 @@ class CustomForm {
                 FwAppData.apiMethod(true, 'GET', `${apiurl}/emptyobject`, null, FwServices.defaultTimeout, function onSuccess(response) {
                     let columnNames = Object.keys(response);
                     let customFields = response._Custom.map(obj => obj.FieldName);
+                    self.datafields = columnNames.concat(customFields).sort(compare);
+
                     for (let i = 0; i < customFields.length; i++) {
                         columnNames.push(`${customFields[i]} [Custom]`);
                     }
@@ -452,34 +456,34 @@ class CustomForm {
                             a += (name == "data-index") ? 1 : 0;
                             a += (name == "data-rendermode") ? 1 : 0;
                             a += (name == "data-version") ? 1 : 0;
+
+                            if (type === 'Browse') {
+                                a += (name == "data-formdatafield") ? 1 : 0;
+                                a += (name == "data-cssclass") ? 1 : 0;
+                            }
+
                             if (a) {
                                 continue;
                             }
 
                             value = value.replace('focused', '');
-                            html.push(`<div class="properties" style="width:100%; display:flex;">
+                            if (name !== 'data-datafield' && name !== 'data-browsedatafield') {
+                                html.push(`<div class="properties" style="width:100%; display:flex;">
                                       <div class="propname" style="border:.5px solid #efefef; width:50%; float:left;">${name === "" ? "&#160;" : name}</div>
                                       <div class="propval" style="border:.5px solid #efefef; width:50%; float:left;"><input value="${value}"></div>
                                    </div>
                                   `);
-
-                            //if (type === 'Grid' || type === 'Browse') {
-                            //    let containingDivAttrs = jQuery(e.currentTarget).parents('.column')[0].attributes;
-
-                            //    for (let j = 0; j < containingDivAttrs.length; j++) {
-                            //        let value = containingDivAttrs[i].value;
-                            //        let name = containingDivAttrs[i].name;
-                            //        html.push(`<div class="containerproperties" style="width:100%; display:flex;">
-                            //          <div class="containerpropname" style="border:.5px solid #efefef; width:50%; float:left;">${name === "" ? "&#160;" : name}</div>
-                            //          <div class="containerpropval" style="border:.5px solid #efefef; width:50%; float:left;"><input value="${value}"></div>
-                            //       </div>
-                            //      `);
-                            //    }
-                            //}
+                            } else {
+                                html.push(`<div class="properties" style="width:100%; display:flex;">
+                                      <div class="propname" style="border:.5px solid #efefef; width:50%; float:left;">${name === "" ? "&#160;" : name}</div>
+                                      <div class="propval" style="border:.5px solid #efefef; width:50%; float:left;"><select style="width:94%" class="datafields" value="${value}"></select></div>
+                                   </div>
+                                  `);
+                            }
                         }
 
                         html.push(`<div class="addproperties" style="width:100%; display:flex;">
-                                      <div class="addpropname" style="border:.5px solid #efefef; width:50%; float:left;"><input placeholder="Add a new property" ></div>
+                                      <div class="addpropname" style="border:.5px solid #efefef; width:50%; float:left;"><input placeholder="Add new property" ></div>
                                       <div class="addpropval" style="border:.5px solid #efefef; width:50%; float:left;"><input placeholder="Add value" ></div>
                                    </div>
 
@@ -490,7 +494,17 @@ class CustomForm {
                             .find('.properties:even')
                             .css('background-color', '#f7f7f7');
 
+                        //adds select options for datafields
+                        let datafieldOptions = $form.find('#controlProperties .propval .datafields');
+                        for (let i = 0; i < self.datafields.length; i++) {
+                            if (self.datafields[i] !== '_Custom') {
+                                datafieldOptions.append(`<option value="${self.datafields[i]}">${self.datafields[i]}</option>`);
+                            }
+                            let value = jQuery(datafieldOptions).attr('value');
+                            jQuery(datafieldOptions).find(`option[value=${value}]`).prop('selected', true);
+                        }
 
+                        //disables grids and browses in forms
                         if (type === 'Form') {
                             let isGrid = jQuery(originalHtml).parents('[data-type="Grid"]');
                             //let controlType = jQuery(originalHtml).attr('data-control');
@@ -506,23 +520,39 @@ class CustomForm {
                 .on('change', '#controlProperties .propval', e => {
                     e.stopImmediatePropagation();
                     let attribute = jQuery(e.currentTarget).siblings('.propname').text();
-                    let value = jQuery(e.currentTarget).find('input').val();
+                    let value;
+                    if (attribute === 'data-datafield' || attribute === 'data-browsedatafield') {
+                        value = jQuery(e.currentTarget).find('select').val();
+                    } else {
+                        value = jQuery(e.currentTarget).find('input').val();
+                    }
+
+                 
                     let index = jQuery(originalHtml).attr('data-index');
                     let controlType = jQuery(originalHtml).attr('data-control');
                     if (value) {
                         if (type === 'Grid' || type === 'Browse') {
-                            if (attribute === 'data-visible') {
-                                if (value === 'false') {
-                                    jQuery(originalHtml).parent('.column').attr('style', 'display:none;');
-                                } else {
-                                    jQuery(originalHtml).parent('.column').removeAttr(`style`);
-                                }
-                                jQuery(originalHtml).attr(`${attribute}`, `${value}`);
-                                jQuery($customFormClone).find(`div[data-index="${index}"]`).parent('.column').attr(`${attribute}`, `${value}`);
-                            }
-                            if (attribute === 'data-width') {
-                                jQuery(originalHtml).find('.fieldcaption').attr(`style`, `min-width:${value}`);
-                                jQuery($customFormClone).find(`div[data-index="${index}"]`).parent('.column').attr(`${attribute}`, `${value}`);
+                            switch (attribute) {
+                                case 'data-visible':
+                                    if (value === 'false') {
+                                        jQuery(originalHtml).parent('.column').attr('style', 'display:none;');
+                                    } else {
+                                        jQuery(originalHtml).parent('.column').removeAttr(`style`);
+                                    }
+                                    jQuery(originalHtml).attr(`${attribute}`, `${value}`);
+                                    jQuery($customFormClone).find(`div[data-index="${index}"]`).parent('.column').attr(`${attribute}`, `${value}`);
+                                    break;
+                                case 'data-width':
+                                    jQuery(originalHtml).find('.fieldcaption').attr(`style`, `min-width:${value}`);
+                                    jQuery($customFormClone).find(`div[data-index="${index}"]`).parent('.column').attr(`${attribute}`, `${value}`);
+                                    break;
+                                case 'data-browsedatafield':
+                                    jQuery($customFormClone).find(`div[data-index="${index}"]`).attr(`data-datafield`, `${value}`);
+                                    jQuery(originalHtml).attr(`${attribute}`, `${value}`);
+                                    break;
+                                default:
+                                    jQuery($customFormClone).find(`div[data-index="${index}"]`).attr(`${attribute}`, `${value}`);
+                                    jQuery(originalHtml).attr(`${attribute}`, `${value}`);
                             }
                         } else {
                             jQuery($customFormClone).find(`div[data-index="${index}"]`).attr(`${attribute}`, `${value}`);
