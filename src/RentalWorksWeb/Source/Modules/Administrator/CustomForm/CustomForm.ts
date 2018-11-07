@@ -422,7 +422,6 @@ class CustomForm {
                             self.find('.caption')[0].textContent = `${datafield} [Hidden]`;
                         }
                     }
-
                     self.find('.fieldcaption').css(`background-color`, `#f9f9f9`);
                     self.css('display', 'table-cell');
                     self.find('.caption').css('color', 'red');
@@ -430,10 +429,10 @@ class CustomForm {
             }
 
             if (type === 'Grid' || type === 'Browse') {
-                $form.find('#controlProperties .addColumn').show();
+                $form.find('.addColumn').show();
                 showHiddenColumns($customForm);
             } else {
-                $form.find('#controlProperties .addColumn').hide();
+                $form.find('.addColumn').hide();
             };
 
             //updates information for HTML tab
@@ -442,7 +441,39 @@ class CustomForm {
                 jQuery($modifiedClone).find('div').removeAttr('data-index');
                 FwFormField.setValueByDataField($form, 'Html', $modifiedClone.innerHTML);
                 self.codeMirror.setValue($modifiedClone.innerHTML);
-            }
+            };
+
+            //adds select options for datafields
+            function addDatafields() {
+                let datafieldOptions = $form.find('#controlProperties .propval .datafields');
+                datafieldOptions.append(`<option value="" disabled>Select Datafield</option>`)
+                for (let i = 0; i < self.datafields.length; i++) {
+                    if (self.datafields[i] !== '_Custom') {
+                        datafieldOptions.append(`<option value="${self.datafields[i]}">${self.datafields[i]}</option>`);
+                    }
+                }
+                let value = jQuery(datafieldOptions).attr('value');
+                if (value) {
+                    jQuery(datafieldOptions).find(`option[value=${value}]`).prop('selected', true);
+                } else {
+                    jQuery(datafieldOptions).find(`option[disabled]`).prop('selected', true);
+                };
+            };
+
+            let propertyContainerHtml =
+                `<div class="propertyContainer" style="border: 1px solid #bbbbbb; word-break: break-word;">
+                     <div style="text-indent:5px;">
+                         <div style="font-weight:bold; background-color:#dcdcdc; width:50%; float:left;">Name</div>
+                         <div style="font-weight:bold; background-color:#dcdcdc; width:50%; float:left;">Value</div>
+                     </div>
+                        `;
+
+            let addPropertiesHtml =
+                `   <div class="addproperties" style = "width:100%; display:flex;" >
+                        <div class="addpropname" style = "border:.5px solid #efefef; width:50%; float:left; font-size:.9em;" > <input placeholder="Add new property" > </div>
+                        <div class="addpropval" style = "border:.5px solid #efefef; width:50%; float:left; font-size:.9em;" > <input placeholder="Add value" > </div>
+                    </div>
+                 </div>`; //closing div for propertyContainer
 
             $customForm
                 //build properties section
@@ -455,13 +486,7 @@ class CustomForm {
                         controlType = jQuery(originalHtml).attr('data-control');
                         let properties = e.currentTarget.attributes;
                         let html: any = [];
-                        html.push(`
-                        <div class="propertyContainer" style="border: 1px solid #bbbbbb; word-break: break-word;">
-                            <div style="text-indent:5px;">
-                                <div style="font-weight:bold; background-color:#dcdcdc; width:50%; float:left;">Name</div>
-                                <div style="font-weight:bold; background-color:#dcdcdc; width:50%; float:left;">Value</div>
-                            </div>
-                        `);
+                        html.push(propertyContainerHtml);
                         for (let i = 0; i < properties.length; i++) {
                             let value = properties[i].value;
                             let name = properties[i].name;
@@ -497,27 +522,14 @@ class CustomForm {
                             }
                         }
 
-                        //add new properties
-                        html.push(`<div class="addproperties" style="width:100%; display:flex;">
-                                      <div class="addpropname" style="border:.5px solid #efefef; width:50%; float:left; font-size:.9em;"><input placeholder="Add new property" ></div>
-                                      <div class="addpropval" style="border:.5px solid #efefef; width:50%; float:left; font-size:.9em;"><input placeholder="Add value" ></div>
-                                   </div>
-                        </div>`); //closing div for propertyContainer
+                        html.push(addPropertiesHtml);
                         $form.find('#controlProperties')
                             .empty()
                             .append(html.join(''))
                             .find('.properties:even')
                             .css('background-color', '#f7f7f7');
 
-                        //adds select options for datafields
-                        let datafieldOptions = $form.find('#controlProperties .propval .datafields');
-                        for (let i = 0; i < self.datafields.length; i++) {
-                            if (self.datafields[i] !== '_Custom') {
-                                datafieldOptions.append(`<option value="${self.datafields[i]}">${self.datafields[i]}</option>`);
-                            }
-                            let value = jQuery(datafieldOptions).attr('value');
-                            jQuery(datafieldOptions).find(`option[value=${value}]`).prop('selected', true);
-                        }
+                        addDatafields();
 
                         //delete object
                         $form.find('#controlProperties').append('<div class="fwformcontrol deleteObject" data-type="button" style="margin-left:40%; margin-top:10px;">Delete</div>')
@@ -545,7 +557,7 @@ class CustomForm {
                     }
 
                     let index = jQuery(originalHtml).attr('data-index');
-                  
+
                     if (value) {
                         if (type === 'Grid' || type === 'Browse') {
                             switch (attribute) {
@@ -670,10 +682,69 @@ class CustomForm {
                     $yes.on('click', e => {
                         let index = jQuery(originalHtml).attr('data-index');
                         FwConfirmation.destroyConfirmation($confirmation);
-                        jQuery($customFormClone).find(`div[data-index="${index}"]`).remove();
-                        jQuery($customForm).find(`div[data-index="${index}"]`).remove();
+
+                        if (type === 'Grid' || type === 'Browse') {
+                            jQuery($customFormClone).find(`div[data-index="${index}"]`).parent('div').remove();
+                            jQuery($customForm).find(`div[data-index="${index}"]`).parent('td').remove();
+                        } else {
+                            jQuery($customFormClone).find(`div[data-index="${index}"]`).remove();
+                            jQuery($customForm).find(`div[data-index="${index}"]`).remove();
+                        }
+                        $form.find('#controlProperties').empty();
                         updateHtml();
                     });
+                })
+                .off('click', '.addColumn')
+                .on('click', '.addColumn', e => {
+                    let $control = jQuery($customFormClone).find(`[data-type="${type}"]`);
+                    let lastIndex = Number($control.find('div:last').attr('data-index'));
+                    //build column base
+                    let html: any = [];
+                    html.push
+                        (`<div class="column" data-index="${++lastIndex}">
+    <div class="field" data-index="${++lastIndex}"></div>
+  </div>
+`); //needs to be formatted this way so it looks nice in the code editor
+                    let newColumn = jQuery(html.join(''));
+                    $control.append(newColumn);
+
+                    originalHtml = newColumn.find('.field');
+
+                    //build properties column
+                    let propertyHtml: any = [];
+                    let fields: any = [];
+
+                    propertyHtml.push(propertyContainerHtml);
+                    fields.push('data-width', 'data-visible', 'data-caption', 'data-datafield', 'data-datatype', 'data-sort');
+                    for (let i = 0; i < fields.length; i++) {
+                        propertyHtml.push(
+                            `<div class="properties" style="width:100%; display:flex;">
+                                <div class="propname" style="border:.5px solid #efefef; width:50%; float:left; font-size:.9em;">${fields[i]}</div>
+                                <div class="propval" style="border:.5px solid #efefef; width:50%; float:left; font-size:.9em;"><input value=""></div>
+                             </div>
+                             `);
+                    };
+                    propertyHtml.push(addPropertiesHtml);
+
+                    $form.find('#controlProperties')
+                        .empty()
+                        .append(propertyHtml.join(''))
+                        .find('.properties:even')
+                        .css('background-color', '#f7f7f7');
+
+                    //replace input field with select
+                    $form.find('#controlProperties .propname:contains("data-datafield")')
+                        .siblings('.propval')
+                        .find('input')
+                        .replaceWith(`<select style="width:94%" class="datafields" value="">`);
+                    
+                    addDatafields();
+
+                    $form.find('#controlProperties .propname:contains("data-caption")')
+                        .siblings('.propval')
+                        .find('input')
+                        .val('New Column')
+                        .change();
                 });
         }
     }
