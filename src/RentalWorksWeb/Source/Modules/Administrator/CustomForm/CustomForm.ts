@@ -698,6 +698,7 @@ class CustomForm {
                 .on('click', '.addColumn', e => {
                     let $control = jQuery($customFormClone).find(`[data-type="${type}"]`);
                     let lastIndex = Number($control.find('div:last').attr('data-index'));
+                    let hasSpacer = $control.find('div:last').hasClass('spacer');
                     //build column base
                     let html: any = [];
                     html.push
@@ -706,8 +707,9 @@ class CustomForm {
   </div>
 `); //needs to be formatted this way so it looks nice in the code editor
                     let newColumn = jQuery(html.join(''));
-                    $control.append(newColumn);
 
+                    hasSpacer === true ? newColumn.insertBefore($control.find('div.spacer')): $control.append(newColumn);
+                
                     originalHtml = newColumn.find('.field');
 
                     //build properties column
