@@ -18,6 +18,7 @@ class Receipt {
         screen.properties = {};
 
         var $browse: any = this.openBrowse();
+        const today = FwFunc.getDate();
 
         screen.load = function () {
             FwModule.openModuleTab($browse, self.caption, false, 'BROWSE', true);
@@ -29,6 +30,10 @@ class Receipt {
                 }
                 filter.datafield = datafields.join('')
                 $browse.find('div[data-browsedatafield="' + filter.datafield + '"]').find('input').val(filter.search);
+            } else {
+                // if no filter passed in, default view to today's date
+                $browse.find('div[data-browsedatafield="ReceiptDate"]').find('input').val(today);
+                $browse.find('div[data-browsedatafield="ReceiptDate"]').find('input').change();
             }
 
             FwBrowse.databind($browse);
@@ -119,10 +124,10 @@ class Receipt {
         FwModule.loadAudit($form, uniqueid);
     }
     //----------------------------------------------------------------------------------------------
-    renderGrids($form: any): void {
+    renderGrids($form: JQuery): void {
+
         // ----------
-
-
+        
         // ----------
 
 
@@ -133,7 +138,7 @@ class Receipt {
 
     }
     //----------------------------------------------------------------------------------------------
-    afterLoad($form: any): void {
+    afterLoad($form: JQuery): void {
         // let $customerResaleGrid: any = $form.find('[data-name="CompanyResaleGrid"]');
         // FwBrowse.search($customerResaleGrid);
 
@@ -159,11 +164,29 @@ class Receipt {
                 }
             }
         });
+        this.paymentByRadioBehavior($form);
     }
     //----------------------------------------------------------------------------------------------
     events($form: JQuery): void {
-
+        $form.find('div[data-datafield="PaymentBy"]').change(() => {
+            this.paymentByRadioBehavior($form);
+        })
     }
+    //----------------------------------------------------------------------------------------------
+    paymentByRadioBehavior($form: JQuery): void {
+        if (FwFormField.getValueByDataField($form, 'PaymentBy') === 'DEAL') {
+            $form.find('div[data-datafield="CustomerId"]').hide();
+            $form.find('div[data-datafield="CustomerId"]').attr('data-required', 'false');
+            $form.find('div[data-datafield="DealId"]').show();
+            $form.find('div[data-datafield="DealId"]').attr('data-required', 'true');
+        } else {
+            $form.find('div[data-datafield="CustomerId"]').show();
+            $form.find('div[data-datafield="CustomerId"]').attr('data-required', 'true');
+            $form.find('div[data-datafield="DealId"]').hide();
+            $form.find('div[data-datafield="DealId"]').attr('data-required', 'false');
+        }
+    }
+    //----------------------------------------------------------------------------------------------
 }
 //----------------------------------------------------------------------------------------------
 var ReceiptController = new Receipt();
