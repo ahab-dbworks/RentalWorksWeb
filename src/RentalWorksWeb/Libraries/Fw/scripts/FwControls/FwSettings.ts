@@ -2,6 +2,8 @@
 class FwSettingsClass {
     filter: Array<any> = [];
     customFilter: Array<any> = [];
+    sectionFilter: Array<any> = [];
+    searchValue: string;
     screen: any = {
         'moduleCaptions': {}
     }
@@ -206,17 +208,18 @@ class FwSettingsClass {
                 }
                 screen.moduleCaptions[fieldName][response[i].ModuleName].push(customObject);
             }
-            for (var idx = 0; idx < modules.length; idx++) {
-                var moduleName = modules[idx].properties.controller.slice(0, -10);
-                var $form = jQuery(jQuery('#tmpl-modules-' + moduleName + 'Form').html());
-                var $fwformfields = $form.find('.fwformfield[data-caption]');
-                for (var j = 0; j < $fwformfields.length; j++) {
-                    var $field = $fwformfields.eq(j);
-                    var caption = $field.attr('data-caption').toUpperCase();
+            for (let idx = 0; idx < modules.length; idx++) {
+                let moduleName = modules[idx].properties.controller.slice(0, -10);
+                let $form = jQuery(jQuery('#tmpl-modules-' + moduleName + 'Form').html());
+                let $fwformfields = $form.find('.fwformfield[data-caption]');
+                let $fwformsectionfields = $form.find('.fwform-section');
+                for (let j = 0; j < $fwformfields.length; j++) {
+                    let $field = $fwformfields.eq(j);
+                    let caption = $field.attr('data-caption').toUpperCase();
                     if ($field.attr('data-type') === 'radio') {
-                        var radioCaptions = $field.find('div');
-                        for (var k = 0; k < radioCaptions.length; k++) {
-                            var radioCaption = jQuery(radioCaptions[k]).attr('data-caption').toUpperCase()
+                        let radioCaptions = $field.find('div');
+                        for (let k = 0; k < radioCaptions.length; k++) {
+                            let radioCaption = jQuery(radioCaptions[k]).attr('data-caption').toUpperCase()
                             screen.moduleCaptions[radioCaption] = {};
                             screen.moduleCaptions[radioCaption][moduleName] = [];
                             screen.moduleCaptions[radioCaption][moduleName].push($field);
@@ -229,6 +232,17 @@ class FwSettingsClass {
                         screen.moduleCaptions[caption][moduleName] = [];
                     }
                     screen.moduleCaptions[caption][moduleName].push($field);
+                }
+                for (let k = 0; k < $fwformsectionfields.length; k++) {
+                    let $section = $fwformsectionfields.eq(k);
+                    let sectionCaption = $section.attr('data-caption').toUpperCase();
+                    if (typeof screen.moduleCaptions[sectionCaption] === 'undefined') {
+                        screen.moduleCaptions[sectionCaption] = {};
+                    }
+                    if (typeof screen.moduleCaptions[sectionCaption][moduleName] === 'undefined') {
+                        screen.moduleCaptions[sectionCaption][moduleName] = [];
+                    }
+                    screen.moduleCaptions[sectionCaption][moduleName].push($section);
                 }
             }
         }, null, null);
@@ -846,7 +860,7 @@ class FwSettingsClass {
         $control
             .unbind().on('click', '.row-heading', function (e) {
                 e.stopPropagation();
-                var formKeys = [], formData = [], recordData, $rowBody, $form, moduleName, moduleId, controller, uniqueids = {};
+                var formKeys = [], formData = [], recordData, $rowBody, $form, moduleName, moduleId, controller, uniqueids = {}, $formSections;
                 recordData = jQuery(this).parent().parent().data('recorddata');
                 moduleName = jQuery(this).closest('div.panel-group')[0].id;
                 $form = jQuery(jQuery('#tmpl-modules-' + moduleName + 'Form').html());
@@ -858,21 +872,21 @@ class FwSettingsClass {
                 if ($rowBody.is(':empty')) {
                     $form = window[controller].openForm('EDIT');
                     $rowBody.append($form);
+                    $formSections = $form.find('.fwform-section-title');
                     $form.find('.highlighted').removeClass('highlighted');
                     $form.find('div[data-type="NewMenuBarButton"]').off();
                     $form.find('div.fwform-menu > .buttonbar').append('<div class="btn-delete" data-type="DeleteMenuBarButton"><i class="material-icons"></i><div class="btn-text">Delete</div></div>');
 
                     for (var key in recordData) {
                         for (var i = 0; i < me.filter.length; i++) {
-                            var highlightField = $form.find('[data-datafield="' + key + '"]');
-                            var hightlightFieldTabId = highlightField.closest('.tabpage').attr('data-tabid');
                             if (me.filter[i] === key) {
+                                var highlightField = $form.find('[data-datafield="' + key + '"]');
+                                var hightlightFieldTabId = highlightField.closest('.tabpage').attr('data-tabid');
                                 if ($form.find('[data-datafield="' + key + '"]').attr('data-type') === 'checkbox') {
                                     $form.find('[data-datafield="' + key + '"] label').addClass('highlighted');
                                 } else {
                                     highlightField.find('.fwformfield-caption').addClass('highlighted');
                                     highlightField.parents('.fwtabs .fwcontrol').find('#' + hightlightFieldTabId).addClass('highlighted');
-
                                 }
                             }
                         };
@@ -887,6 +901,17 @@ class FwSettingsClass {
                                 FwFormField.setValue($form, '[data-datafield="' + key + '"]', value);
                             }
                         }
+                    }
+                    for (var j = 0; j < $formSections.length; j++) {
+                        for (var k = 0; k < me.sectionFilter.length; k++) {
+                            let sectionCaption = jQuery($formSections[j]).html();
+                            if (jQuery($formSections[j]).html() === me.sectionFilter[k]) {
+                                let startIndex = sectionCaption.toUpperCase().indexOf(me.searchValue);
+                                let endIndex = startIndex + me.searchValue.length;
+                                jQuery($formSections[j]).html(sectionCaption.substring(0, startIndex) + '<span class="highlighted">' + sectionCaption.substring(startIndex, endIndex) + '</span>' + sectionCaption.substring(endIndex));
+                            }
+                        }
+
                     }
                     FwModule.loadForm(moduleName, $form);
                 }
@@ -986,11 +1011,12 @@ class FwSettingsClass {
         })
         $control.on('keypress', '#settingsSearch', function (e) {
             if (e.which === 13) {
-                var $settings, val, $module, $settingsTitles, $settingsDescriptions, filter, customFilter;
+                var $settings, val, $module, $settingsTitles, $settingsDescriptions, filter, customFilter, sectionFilter;
                 $control.find('.selected').removeClass('selected');
 
                 filter = [];
                 customFilter = [];
+                sectionFilter = [];
                 $settings = jQuery('small#searchId');
                 $settingsTitles = $control.find('a#title');
                 $settingsDescriptions = jQuery('small#description-text');
@@ -1010,15 +1036,19 @@ class FwSettingsClass {
                             for (var moduleName in me.screen.moduleCaptions[caption]) {
                                 if (me.screen.moduleCaptions[caption][moduleName][0].custom) {
                                     customFilter.push(me.screen.moduleCaptions[caption][moduleName][0]);
+                                } else if (me.screen.moduleCaptions[caption][moduleName][0].data('type') === 'section') {
+                                    sectionFilter.push(me.screen.moduleCaptions[caption][moduleName][0].data('caption'));
                                 } else {
-                                    filter.push(me.screen.moduleCaptions[caption][moduleName][0].data().datafield);
+                                    filter.push(me.screen.moduleCaptions[caption][moduleName][0].data('datafield'));
                                 }
                                 results.push(moduleName.toUpperCase());
                             }
                         }
                     }
                     me.filter = filter;
+                    me.sectionFilter = sectionFilter;
                     me.customFilter = customFilter;
+                    me.searchValue = val;
                     for (var i = 0; i < results.length; i++) {
                         //check descriptions for match
                         var module: any = [];
