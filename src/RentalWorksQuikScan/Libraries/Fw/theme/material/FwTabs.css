@@ -22,6 +22,12 @@ html.theme-material .fwtabs[data-version="1"] > .tabpages {clear:left;}
 html.theme-material .fwtabs[data-version="1"] > .newtabbutton {float:left; padding:22px 0 0 10px;}
 html.theme-material .fwtabs[data-version="1"] > .newtabbutton .addnewtab i {cursor:pointer;color:black;background-color:#eeeeee;border-radius:50%;}
 html.theme-material .fwtabs[data-version="1"] > .newtabbutton .addnewtab i:hover {background-color:#dcdcdc;}
+html.theme-material .fwtabs[data-version="1"] > .closetabbutton {float:left; padding:22px 0 0 10px;}
+html.theme-material .fwtabs[data-version="1"] > .closetabbutton .closetab i {cursor:pointer;color:black;background-color:#eeeeee;border-radius:50%;}
+html.theme-material .fwtabs[data-version="1"] > .closetabbutton .closetab i:hover {background-color:#dcdcdc;}
+html.theme-material .fwtabs[data-version="1"] > .closetabbutton .closetab .close-dialog {display:none;position:fixed;z-index:1;background-color:#dcdcdc;float:right;border-radius:2px;height:40px;width:176px;}
+html.theme-material .fwtabs[data-version="1"] > .closetabbutton .closetab .leave-current:hover {display:block;background-color:#bbbaba;}
+html.theme-material .fwtabs[data-version="1"] > .closetabbutton .closetab .close-all:hover {display:block;background-color:#bbbaba;}
 
 /*#endregion data-version="1" */
 

@@ -516,7 +516,7 @@ class FwSettingsClass {
         });
     }
     //---------------------------------------------------------------------------------------------- 
-    renderModuleHtml($control, title, moduleName, description, menu, moduleId) {
+    renderModuleHtml($control, title, moduleName, description, menu, menuCaption, moduleId) {
         var html = [], $settingsPageModules, $rowBody, $modulecontainer, apiurl, $body, $form, browseKeys = [], rowId, filter = [], me = this;
 
         $modulecontainer = $control.find('#' + moduleName);
@@ -524,7 +524,7 @@ class FwSettingsClass {
         $form = jQuery(jQuery('#tmpl-modules-' + moduleName + 'Form').html());
         $body = $control.find('#' + moduleName + '.panel-body');
 
-        html.push('<div class="panel-group" id="' + moduleName + '" data-id="' + moduleId + '">');
+        html.push('<div class="panel-group" id="' + moduleName + '" data-id="' + moduleId + '" data-navigation="' + menuCaption + '">');
         html.push('  <div class="panel panel-primary">');
         html.push('    <div data-toggle="collapse" data-target="' + moduleName + '" href="' + moduleName + '" class="panel-heading">');
         html.push('      <div class="flexrow" style="max-width:none;">');
@@ -986,17 +986,19 @@ class FwSettingsClass {
         })
         $control.on('keypress', '#settingsSearch', function (e) {
             if (e.which === 13) {
-                var $settings, val, $module, $settingsDescriptions, filter, customFilter;
+                var $settings, val, $module, $settingsTitles, $settingsDescriptions, filter, customFilter;
+                $control.find('.selected').removeClass('selected');
 
                 filter = [];
                 customFilter = [];
                 $settings = jQuery('small#searchId');
+                $settingsTitles = $control.find('a#title');
                 $settingsDescriptions = jQuery('small#description-text');
-                $module = jQuery('a#title');
+                $module = jQuery('.panel-group');
+                $module.find('.highlighted').removeClass('highlighted');
                 val = jQuery.trim(this.value).toUpperCase();
                 if (val === "") {
                     jQuery(this).parent().find('.input-group-clear').css('display', 'none');
-                    $control.find('.highlighted').removeClass('highlighted');
                     $settings.closest('div.panel-group').show();
                 } else {
                     var results = [];
@@ -1019,20 +1021,25 @@ class FwSettingsClass {
                     me.customFilter = customFilter;
                     for (var i = 0; i < results.length; i++) {
                         //check descriptions for match
-                        var module = $settingsDescriptions.filter(function () {
-                            return -1 != jQuery(this).text().toUpperCase().indexOf(results[i]);
-                        }).closest('div.panel-group');
-                        module.find('.highlighted').removeClass('highlighted');
+                        var module: any = [];
+                        for (var k = 0; k < $module.length; k++) {
+                            // match results
+                            if ($module.eq(k).attr('id').toUpperCase() === results[i]) {
+                                module.push($module.eq(k)[0]);
+                            }
+                            // search titles
+                            if ($settingsTitles.eq(k).text().toUpperCase().indexOf(val) !== -1) {
+                                module.push($settingsTitles.eq(k).closest('.panel-group')[0]);
+                            }
+                            // search descriptions
+                            if ($settingsDescriptions.eq(k).text().toUpperCase().indexOf(val) !== -1) {
+                                module.push($settingsDescriptions.eq(k).closest('.panel-group')[0]);
+                            }
+                        }
+                        module = jQuery(module);
 
                         let description = module.find('small#description-text');
                         let title = module.find('a#title');
-                        let panel = $module.filter(function () { return -1 != jQuery(this).text().toUpperCase().indexOf(results[i]) }).closest('div.panel-group');
-
-                        if (panel.length > 0) {
-                            description = panel.find('small#description-text');
-                            title = panel.find('a#title');
-                            panel.show();
-                        }
 
                         for (var j = 0; j < description.length; j++) {
                             if (description[j] !== undefined) {
@@ -1052,8 +1059,7 @@ class FwSettingsClass {
                                 return -1 != jQuery(this).text().toUpperCase().indexOf(results[i]);
                             }).closest('div.panel-group').show();
                         }
-                        module.show();
-
+                        module.show().find('#searchId').hide();;
                     }
 
                     let searchResults = $control.find('.panel-heading:visible');
@@ -1167,7 +1173,7 @@ class FwSettingsClass {
         if ((caption !== '') && (typeof caption !== 'undefined')) {
             try {
                 btnHtml = [];
-                btnHtml.push('<div id="btnModule' + securityid + '" class="ddmodulebtn menu-tab" data-securityid="' + securityid + '">');
+                btnHtml.push('<div id="btnModule' + securityid + '" class="ddmodulebtn menu-tab" data-securityid="' + securityid + '" data-navigation="' + caption + '">');
                 btnHtml.push('<div class="ddmodulebtn-caption">');
                 btnHtml.push('<div class="ddmodulebtn-text">');
                 btnHtml.push(caption);
@@ -1191,19 +1197,6 @@ class FwSettingsClass {
                     $subitem.attr('data-securityid', subitems[index].id);
                     $subitem.find('.ddmodulebtn-dropdown-btn-text').html(value.caption);
 
-                    $subitem.on('click', function () {
-                        try {
-                            if ($control.find('#' + value.moduleName + ' > div > div.panel-collapse').is(':hidden')) {
-                                $control.find('#' + value.moduleName + ' > div > div.panel-heading').click();
-                            }
-                            jQuery('html, body').animate({
-                                scrollTop: $control.find('#' + value.moduleName).offset().top
-                            }, 1);
-                        } catch (ex) {
-                            FwFunc.showError(ex);
-                        }
-                    });
-
                     $modulebtn.find('.ddmodulebtn-dropdown').append($subitem);
                 });
             } catch (ex) {
@@ -1215,16 +1208,25 @@ class FwSettingsClass {
         $modulebtn
             .on('click', function () {
                 try {
-                    let moduleName = $modulebtn.data('firstmodule');
-                    if (moduleName != '') {
+                    let navigationCaption = $modulebtn.data('navigation');
+                    let panels = $control.find('.panel-group');
+                    if (navigationCaption != '') {
                         $control.find('.selected').removeClass('selected');
+                        $control.find('#settingsSearch').val('')
                         jQuery(this).addClass('selected');
-                        if ($control.find('#' + moduleName + ' > div > div.panel-collapse').is(':hidden')) {
-                            $control.find('#' + moduleName + ' > div > div.panel-heading').click();
+                        //if ($control.find('#' + moduleName + ' > div > div.panel-collapse').is(':hidden')) {
+                        //    $control.find('#' + moduleName + ' > div > div.panel-heading').click();
+                        //}
+                        //jQuery('html, body').animate({
+                        //    scrollTop: $control.find('#' + moduleName).offset().top + $control.find('.well').scrollTop()
+                        //}, 1);
+                        for (var i = 0; i < panels.length; i++) {
+                            if (jQuery(panels[i]).data('navigation') !== navigationCaption) {
+                                jQuery(panels[i]).hide();
+                            } else {
+                                jQuery(panels[i]).show();
+                            }
                         }
-                        jQuery('html, body').animate({
-                            scrollTop: $control.find('#' + moduleName).offset().top + $control.find('.well').scrollTop()
-                        }, 1);
                     }
                 } catch (ex) {
                     FwFunc.showError(ex);
@@ -1259,14 +1261,21 @@ class FwSettingsClass {
             .on('click', function () {
                 try {
                     if (modulenav != '') {
+                        let panels = $control.find('.panel-group');
                         $control.find('.selected').removeClass('selected');
+                        $control.find('#settingsSearch').val('')
                         jQuery(this).addClass('selected');
+                        for (var i = 0; i < panels.length; i++) {
+                            if (jQuery(panels[i]).attr('id') !== moduleName) {
+                                jQuery(panels[i]).hide();
+                            } else {
+                                jQuery(panels[i]).show();
+                            }
+
+                        }
                         if ($control.find('#' + moduleName + ' > div > div.panel-collapse').is(':hidden')) {
                             $control.find('#' + moduleName + ' > div > div.panel-heading').click();
                         }
-                        jQuery('html, body').animate({
-                            scrollTop: $control.find('#' + moduleName).offset().top + $control.find('.well').scrollTop()
-                        }, 1);
                     }
                 } catch (ex) {
                     FwFunc.showError(ex);

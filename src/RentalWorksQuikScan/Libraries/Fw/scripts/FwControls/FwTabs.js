@@ -166,12 +166,12 @@ var FwTabsClass = (function () {
         })
             .off('click', '> .tabs > .tab .delete')
             .on('click', '> .tabs > .tab .delete', function (event) {
-            var $tab, $tabs, $newactivetab, isactivetab, $form;
+            var $tab, $tabControl, $newactivetab, isactivetab, $form;
             try {
                 event.stopPropagation();
                 $tab = jQuery(this).closest('.tab');
-                $tabs = $tab.closest('.tabs');
                 $form = jQuery('#' + $tab.attr('data-tabpageid')).find('.fwform');
+                $tabControl = jQuery('#moduletabs');
                 if (typeof $form !== 'undefined') {
                     FwModule.closeForm($form, $tab);
                 }
@@ -182,6 +182,9 @@ var FwTabsClass = (function () {
                     if (isactivetab) {
                         FwTabs.setActiveTab($control, $newactivetab);
                     }
+                }
+                if ($tabControl.find('.tab').length < 2) {
+                    $tabControl.find('.closetabbutton').html('');
                 }
             }
             catch (ex) {
@@ -306,6 +309,7 @@ var FwTabsClass = (function () {
         html = [];
         html.push('<div class="tabs"></div>');
         html.push('<div class="newtabbutton"></div>');
+        html.push('<div class="closetabbutton"></div>');
         html.push('<div class="tabpages"></div>');
         switch (data_rendermode) {
             case 'designer':
