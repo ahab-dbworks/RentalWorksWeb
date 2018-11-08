@@ -5,9 +5,9 @@ using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
 using System.Collections.Generic;
 using System;
-using WebLibrary;
 using System.Threading.Tasks;
 using System.Data;
+using System.Reflection;
 
 namespace WebApi.Modules.Home.InventoryAvailabilityDate
 {
@@ -20,32 +20,25 @@ namespace WebApi.Modules.Home.InventoryAvailabilityDate
         [FwSqlDataField(column: "warehouseid", modeltype: FwDataTypes.Text)]
         public string WarehouseId { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "availdate", modeltype: FwDataTypes.Date)]
-        public string AvailabilityDate { get; set; }
+        [FwSqlDataField(column: "fromdate", modeltype: FwDataTypes.Date)]
+        public string start { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "qtyavailable", modeltype: FwDataTypes.Decimal)]
-        public decimal? QuantityAvailable { get; set; }
+        [FwSqlDataField(column: "todate", modeltype: FwDataTypes.Date)]
+        public string end { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "availablecolor", modeltype: FwDataTypes.OleToHtmlColor)]
-        public string AvailableColor { get; set; }
+        [FwSqlDataField(column: "description", modeltype: FwDataTypes.Text)]
+        public string html { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "qtylate", modeltype: FwDataTypes.Decimal)]
-        public decimal? QuantityLate { get; set; }
+        [FwSqlDataField(column: "color", modeltype: FwDataTypes.OleToHtmlColor)]
+        public string backColor { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "latecolor", modeltype: FwDataTypes.OleToHtmlColor)]
-        public string LateColor { get; set; }
+        [FwSqlDataField(column: "textcolor", modeltype: FwDataTypes.OleToHtmlColor)]
+        public string textColor { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "qtyreserved", modeltype: FwDataTypes.Decimal)]
-        public decimal? QuantityReserved { get; set; }
+        public string id { get; set; } = "";
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "reservedcolor", modeltype: FwDataTypes.OleToHtmlColor)]
-        public string ReservedColor { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "qtyreturning", modeltype: FwDataTypes.Decimal)]
-        public decimal? QuantityReturning { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "returningcolor", modeltype: FwDataTypes.OleToHtmlColor)]
-        public string ReturningColor { get; set; }
+        [FwSqlDataField(column: "id", modeltype: FwDataTypes.Text)]
+        public string resource { get; set; }
         //------------------------------------------------------------------------------------ 
         //protected override void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequest request = null)
         //{
@@ -61,6 +54,35 @@ namespace WebApi.Modules.Home.InventoryAvailabilityDate
         //    //select.AddParameter("@paramboolean", paramBoolean); 
         //}
         ////------------------------------------------------------------------------------------ 
+
+        public override async Task<List<T>> SelectAsync<T>(BrowseRequest request, FwCustomFields customFields = null)
+        {
+            string inventoryId = GetUniqueIdAsString("InventoryId", request) ?? "";
+            string warehouseId = GetUniqueIdAsString("WarehouseId", request) ?? "";
+            DateTime fromDate = GetUniqueIdAsDate("FromDate", request) ?? DateTime.MinValue;
+            DateTime toDate = GetUniqueIdAsDate("ToDate", request) ?? DateTime.MinValue;
+
+            using (FwSqlConnection conn = new FwSqlConnection(this.AppConfig.DatabaseSettings.ConnectionString))
+            {
+                using (FwSqlCommand qry = new FwSqlCommand(conn, "getavaildata", this.AppConfig.DatabaseSettings.QueryTimeout))
+                {
+                    qry.AddParameter("@masterid", SqlDbType.NVarChar, ParameterDirection.Input, inventoryId);
+                    qry.AddParameter("@warehouseid", SqlDbType.NVarChar, ParameterDirection.Input, warehouseId);
+                    qry.AddParameter("@fromdate", SqlDbType.Date, ParameterDirection.Input, fromDate);
+                    qry.AddParameter("@todate", SqlDbType.Date, ParameterDirection.Input, toDate);
+                    qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, UserSession.UsersId);
+                    AddPropertiesAsQueryColumns(qry);
+
+                    bool openAndCloseConnection = true;
+                    MethodInfo method = typeof(FwSqlCommand).GetMethod("SelectAsync");
+                    MethodInfo generic = method.MakeGenericMethod(this.GetType());
+                    dynamic result = generic.Invoke(qry, new object[] { openAndCloseConnection, customFields });
+                    dynamic records = await result;
+                    return records;
+                }
+            }
+        }
+        //------------------------------------------------------------------------------------
 
 
         public override async Task<FwJsonDataTable> BrowseAsync(BrowseRequest request, FwCustomFields customFields = null)

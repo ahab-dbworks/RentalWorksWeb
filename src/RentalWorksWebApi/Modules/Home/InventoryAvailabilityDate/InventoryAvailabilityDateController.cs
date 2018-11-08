@@ -5,6 +5,8 @@ using WebApi.Controllers;
 using System.Threading.Tasks;
 using FwStandard.SqlServer;
 using System.Collections.Generic;
+using System;
+using Microsoft.AspNetCore.Http;
 
 namespace WebApi.Modules.Home.InventoryAvailabilityDate
 {
@@ -35,13 +37,63 @@ namespace WebApi.Modules.Home.InventoryAvailabilityDate
         //    return await DoGetAsync<InventoryAvailabilityDateLogic>(pageno, pagesize, sort);
         //}
         ////------------------------------------------------------------------------------------ 
-        //// GET api/v1/inventoryavailabilitydate/A0000001 
-        //[HttpGet("{id}")]
-        //public async Task<ActionResult<InventoryAvailabilityDateLogic>> GetOneAsync([FromRoute]string id)
-        //{
-        //    return await DoGetAsync<InventoryAvailabilityDateLogic>(id);
-        //}
-        ////------------------------------------------------------------------------------------ 
+        // GET api/v1/inventoryavailabilitydate?InventoryId=F010F3BN&WarehouseId=B0029AY5&FromDate=11/01/2018&Todate=11/30/2018
+        [HttpGet("")]
+        public async Task<ActionResult<InventoryAvailabilityDateLogic>> GetCalendarAsync(string InventoryId, string WarehouseId, DateTime FromDate, DateTime ToDate)
+        {
+            //return await DoGetAsync<InventoryAvailabilityDateLogic>(id);
+
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                BrowseRequest request = new BrowseRequest();
+                request.pageno = 0;
+                request.pagesize = 0;
+                request.orderby = string.Empty;
+
+                IDictionary<string, object> uniqueIds = new Dictionary<string, object>();
+                if (!string.IsNullOrEmpty(InventoryId))
+                {
+                    uniqueIds.Add("InventoryId", InventoryId);
+                }
+                if (!string.IsNullOrEmpty(WarehouseId))
+                {
+                    uniqueIds.Add("WarehouseId", WarehouseId);
+                }
+                if (FromDate != null)
+                {
+                    uniqueIds.Add("FromDate", FromDate);
+                }
+                if (ToDate != null)
+                {
+                    uniqueIds.Add("ToDate", ToDate);
+                }
+                request.uniqueids = uniqueIds;
+
+                InventoryAvailabilityDateLogic l = new InventoryAvailabilityDateLogic();
+                l.SetDependencies(this.AppConfig, this.UserSession);
+                IEnumerable<InventoryAvailabilityDateLogic> records = await l.SelectAsync<InventoryAvailabilityDateLogic>(request);
+                return new OkObjectResult(records);
+            }
+            catch (Exception ex)
+            {
+                FwApiException jsonException = new FwApiException();
+                jsonException.StatusCode = StatusCodes.Status500InternalServerError;
+                jsonException.Message = ex.Message;
+                if (ex.InnerException != null)
+                {
+                    jsonException.Message += $"\n\nInnerException: \n{ex.InnerException.Message}";
+                }
+                jsonException.StackTrace = ex.StackTrace;
+                return StatusCode(jsonException.StatusCode, jsonException);
+            }
+
+        }
+        //------------------------------------------------------------------------------------ 
         //// POST api/v1/inventoryavailabilitydate 
         //[HttpPost]
         //public async Task<ActionResult<InventoryAvailabilityDateLogic>> PostAsync([FromBody]InventoryAvailabilityDateLogic l)

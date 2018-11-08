@@ -1,5 +1,5 @@
-using FwStandard.BusinessLogic.Attributes;
 using WebApi.Logic;
+
 namespace WebApi.Modules.Home.InventoryAvailabilityDate
 {
     public class InventoryAvailabilityDateLogic : AppBusinessLogic
@@ -13,15 +13,13 @@ namespace WebApi.Modules.Home.InventoryAvailabilityDate
         //------------------------------------------------------------------------------------ 
         public string InventoryId { get; set; }
         public string WarehouseId { get; set; }
-        public string AvailabilityDate { get; set; }
-        public decimal? QuantityAvailable { get; set; }
-        public string AvailableColor { get; set; }
-        public decimal? QuantityLate { get; set; }
-        public string LateColor { get; set; }
-        public decimal? QuantityReserved { get; set; }
-        public string ReservedColor { get; set; }
-        public decimal? QuantityReturning { get; set; }
-        public string ReturningColor { get; set; }
+        public string start { get; set; }
+        public string end { get; set; }
+        public string html { get; set; }
+        public string backColor { get; set; }
+        public string textColor { get; set; }
+        public string id { get; set; } = "";
+        public string resource { get; set; }
         //------------------------------------------------------------------------------------ 
     }
 }

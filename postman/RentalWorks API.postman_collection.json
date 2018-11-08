@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "505e303c-5153-4286-984f-9730409e3232",
+		"_postman_id": "ff90ba39-56a0-4ae5-b031-98b669d3337c",
 		"name": "RentalWorks API",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -20425,7 +20425,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": [],\n    \t\"uniqueids\": {\n    \t\t\"InventoryId\": \"F010F3BN\",\n    \t\t\"WarehouseId\": \"B0029AY5\",\n    \t\t\"FromDate\": \"10/29/2018\",\n    \t\t\"ToDate\": \"11/10/2018\"\n    \t}\n\t\n}\n\n"
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": [],\n    \t\"uniqueids\": {\n    \t\t\"InventoryId\": \"F010F3BN\",\n    \t\t\"WarehouseId\": \"B0029AY5\",\n    \t\t\"FromDate\": \"11/01/2018\",\n    \t\t\"ToDate\": \"11/30/2018\"\n    \t}\n\t\n}\n\n"
 						},
 						"url": {
 							"raw": "http://localhost:57949/api/v1/inventoryavailabilitydate/browse",
@@ -20439,6 +20439,58 @@
 								"v1",
 								"inventoryavailabilitydate",
 								"browse"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Inventory Availability Date: Get",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": [],\n    \t\"uniqueids\": {\n    \t\t\"InventoryId\": \"F010F3BN\",\n    \t\t\"WarehouseId\": \"B0029AY5\",\n    \t\t\"FromDate\": \"10/29/2018\",\n    \t\t\"ToDate\": \"11/10/2018\"\n    \t}\n\t\n}\n\n"
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/inventoryavailabilitydate?InventoryId=F010F3BN&WarehouseId=B0029AY5&FromDate=11/01/2018&ToDate=11/30/2018",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"inventoryavailabilitydate"
+							],
+							"query": [
+								{
+									"key": "InventoryId",
+									"value": "F010F3BN"
+								},
+								{
+									"key": "WarehouseId",
+									"value": "B0029AY5"
+								},
+								{
+									"key": "FromDate",
+									"value": "11/01/2018"
+								},
+								{
+									"key": "ToDate",
+									"value": "11/30/2018"
+								}
 							]
 						}
 					},
