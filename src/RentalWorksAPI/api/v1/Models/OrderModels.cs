@@ -99,6 +99,7 @@ namespace RentalWorksAPI.api.v1.Models
     //----------------------------------------------------------------------------------------------------
     public class OrderDeal
     {
+        [Required]
         public string dealid          { get; set; }
         public string customer        { get; set; }
         public string customerid      { get; set; }

@@ -194,6 +194,10 @@ namespace RentalWorksAPI.api.v1.Data
             {
                 sp_processquote.AddParameter("@dealid",         orderdata.deal.dealid);
             }
+            else
+            {
+                sp_processquote.AddParameter("@dealid",         orderdata.deal.dealid);
+            }
             sp_processquote.AddParameter("@pono",               orderdata.pono);
             sp_processquote.AddParameter("@status",             orderdata.status);
             sp_processquote.AddParameter("@ordertype",          orderdata.ordertype);
