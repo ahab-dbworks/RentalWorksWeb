@@ -196,7 +196,7 @@ namespace RentalWorksAPI.api.v1.Data
             }
             else
             {
-                sp_processquote.AddParameter("@dealid",         orderdata.deal.dealid);
+                sp_processquote.AddParameter("@dealid",         "");
             }
             sp_processquote.AddParameter("@pono",               orderdata.pono);
             sp_processquote.AddParameter("@status",             orderdata.status);
