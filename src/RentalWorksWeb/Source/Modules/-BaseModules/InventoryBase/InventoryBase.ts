@@ -104,7 +104,7 @@
         if ($calendar.length > 0) {
             setTimeout(function () {
                 if (FwSecurity.isUser()) {
-                    schddate = FwFormField.getValue3('#moduletabs', 'div[data-datafield="workingstatusdate"]');
+                    //schddate = FwFormField.getValue3('#moduletabs', 'div[data-datafield="workingstatusdate"]');
                 } else {
                     schddate = FwScheduler.getTodaysDate();
                 }
