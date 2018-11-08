@@ -1701,7 +1701,7 @@ class Customer {
             </div>
           </div>
 `;
-    };
+    }
     //----------------------------------------------------------------------------------------------
     addressTypeChange($form) {
         if (FwFormField.getValue($form, '.billing_address_type') === 'CUSTOMER') {
