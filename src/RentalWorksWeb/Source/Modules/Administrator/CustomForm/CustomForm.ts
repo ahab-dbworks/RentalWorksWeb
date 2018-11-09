@@ -473,11 +473,47 @@ class CustomForm {
                         `;
 
             let addPropertiesHtml =
-                `   <div class="addproperties" style = "width:100%; display:flex;" >
-                        <div class="addpropname" style = "border:.5px solid #efefef; width:50%; float:left; font-size:.9em;" > <input placeholder="Add new property" > </div>
-                        <div class="addpropval" style = "border:.5px solid #efefef; width:50%; float:left; font-size:.9em;" > <input placeholder="Add value" > </div>
+                `   <div class="addproperties" style="width:100%; display:flex;">
+                        <div class="addpropname" style="border:.5px solid #efefef; width:50%; float:left; font-size:.9em;"><input placeholder="Add new property"></div>
+                        <div class="addpropval" style="border:.5px solid #efefef; width:50%; float:left; font-size:.9em;"><input placeholder="Add value"></div>
                     </div>
                  </div>`; //closing div for propertyContainer
+
+            //drag and drop
+            if (type === 'Grid' || type === 'Browse') {
+                let $dragContainer = $customForm.find('tr.fieldnames');
+                $dragContainer.find('td.column:not(.tdselectrow):not(.browsecontextmenucell) .field').attr('draggable', 'true');
+                $dragContainer
+                    .off('dragstart', 'td.column:not(.tdselectrow):not(.browsecontextmenucell) .field')
+                    .on('dragstart', 'td.column:not(.tdselectrow):not(.browsecontextmenucell) .field', e => {
+                        //jQuery(e.currentTarget).addClass('drag');
+                        e.originalEvent.dataTransfer.setData("index", jQuery(e.currentTarget).attr('data-index'));
+                    })
+                    .off('dragover', 'td.column:not(.tdselectrow):not(.browsecontextmenucell) .field')
+                    .on('dragover', 'td.column:not(.tdselectrow):not(.browsecontextmenucell) .field', e => {
+                        e.preventDefault();
+                        //jQuery(e.target).addClass('drop');
+                    })
+                    .off('drop', 'td.column:not(.tdselectrow):not(.browsecontextmenucell) .field')
+                    .on('drop', 'td.column:not(.tdselectrow):not(.browsecontextmenucell) .field', e => {
+                        let index = e.originalEvent.dataTransfer.getData("index");
+
+                        let $draggingElem = $dragContainer.find('td.column:not(.tdselectrow):not(.browsecontextmenucell) .field')
+                            .filter(function () {
+                                return jQuery(this).attr("data-index") === index;
+                            });
+                        $draggingElem = $draggingElem.parent();  //workaround to get to the parent td due to framework structure
+                        let $this = jQuery(e.currentTarget).parent();
+                        let indexDrag = $draggingElem.index();
+                        let indexDrop = $this.index();
+
+                        if (indexDrag < indexDrop) {
+                            $draggingElem.insertAfter($this);
+                        } else if (indexDrag > indexDrop) {
+                            $draggingElem.insertBefore($this);
+                        }
+                    });
+            }
 
             $customForm
                 //build properties section
