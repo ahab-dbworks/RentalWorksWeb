@@ -486,31 +486,41 @@ class CustomForm {
                 $dragContainer
                     .off('dragstart', 'td.column:not(.tdselectrow):not(.browsecontextmenucell) .field')
                     .on('dragstart', 'td.column:not(.tdselectrow):not(.browsecontextmenucell) .field', e => {
-                        //jQuery(e.currentTarget).addClass('drag');
+
                         e.originalEvent.dataTransfer.setData("index", jQuery(e.currentTarget).attr('data-index'));
                     })
                     .off('dragover', 'td.column:not(.tdselectrow):not(.browsecontextmenucell) .field')
                     .on('dragover', 'td.column:not(.tdselectrow):not(.browsecontextmenucell) .field', e => {
                         e.preventDefault();
-                        //jQuery(e.target).addClass('drop');
                     })
                     .off('drop', 'td.column:not(.tdselectrow):not(.browsecontextmenucell) .field')
                     .on('drop', 'td.column:not(.tdselectrow):not(.browsecontextmenucell) .field', e => {
                         let index = e.originalEvent.dataTransfer.getData("index");
+                        let targetHtmlIndex = jQuery(e.currentTarget).attr('data-index');
 
+                        if (index !== targetHtmlIndex) {
                         let $draggingElem = $dragContainer.find('td.column:not(.tdselectrow):not(.browsecontextmenucell) .field')
                             .filter(function () {
                                 return jQuery(this).attr("data-index") === index;
                             });
-                        $draggingElem = $draggingElem.parent();  //workaround to get to the parent td due to framework structure
+                        $draggingElem = $draggingElem.parent();  //need to get to the parent td due to the framework's structure
                         let $this = jQuery(e.currentTarget).parent();
                         let indexDrag = $draggingElem.index();
                         let indexDrop = $this.index();
 
+                        //for updating the formfield and codemirror
+                        let firstColumn = jQuery($customFormClone).find(`[data-index="${index}"]`).parent();
+                        let secondColumn = jQuery($customFormClone).find(`[data-index="${targetHtmlIndex}"]`).parent();
+
                         if (indexDrag < indexDrop) {
                             $draggingElem.insertAfter($this);
+                            firstColumn.insertAfter(secondColumn);
+
                         } else if (indexDrag > indexDrop) {
                             $draggingElem.insertBefore($this);
+                            firstColumn.insertBefore(secondColumn);
+                        }
+                            updateHtml();
                         }
                     });
             }
