@@ -49,22 +49,31 @@
         return $browse;
     };
     //----------------------------------------------------------------------------------------------
-    openForm(mode: string) {
+    openForm(mode: string, uniqueids) {
         var $form, controller, $calendar;
         $form = FwModule.loadFormFromTemplate(this.Module);
         $form = FwModule.openForm($form, mode);
 
+        let warehouseId = JSON.parse(sessionStorage.warehouse).warehouseid;
+        let inventoryId = uniqueids.InventoryId;
+        const startOfMonth = moment().startOf('month').format('MM/DD/YYYY');
+        const endOfMonth = moment().endOf('month').format('MM/DD/YYYY');
         $calendar = $form.find('.calendar');
         $calendar
-            .data('ongetevents', function (request) {
-                FwScheduler.loadEventsCallback($calendar, [{ id: '1', name: '' }], [{
-                    backColor: '#FFFFFF',
-                    end: '2018-11-10 10:00:00',
-                    html: '<div style="color:#000000">MISC CHARGES   Total 0.00</div>',
-                    id: '00000000-0000-0000-0000-000000000000',
-                    resource: '1',
-                    start: '2018-11-01 09:00:000'
-                }]);
+            .data('ongetevents', function () {
+                FwAppData.apiMethod(true, 'GET', `api/v1/inventoryavailabilitydate?InventoryId=${inventoryId}&WarehouseId=${warehouseId}&FromDate=${startOfMonth}&ToDate=${endOfMonth}`, null, FwServices.defaultTimeout, function onSuccess(response) {
+                    FwScheduler.loadEventsCallback($calendar, [{ id: '1', name: '' }], response);
+                    //FwScheduler.loadEventsCallback($calendar, [{ id: '1', name: '' }], [{
+                    //    backColor: '#FFFFFF',
+                    //    end: '2018-11-10 10:00:00',
+                    //    html: '<div style="color:#000000">MISC CHARGES   Total 0.00</div>',
+                    //    id: '00000000-0000-0000-0000-000000000000',
+                    //    resource: '1',
+                    //    start: '2018-11-01 09:00:000'
+                    //}]);
+                }, function onError(response) {
+                    FwFunc.showError(response);
+                }, $calendar)
             })
             .data('ontimerangedoubleclicked', function (event) {
                 try {
@@ -96,7 +105,7 @@
     loadForm(uniqueids: any) {
         var $form, $calendar, schddate;
 
-        $form = this.openForm('EDIT');
+        $form = this.openForm('EDIT', uniqueids);
         $form.find('div.fwformfield[data-datafield="InventoryId"] input').val(uniqueids.InventoryId);
         FwModule.loadForm(this.Module, $form);
 

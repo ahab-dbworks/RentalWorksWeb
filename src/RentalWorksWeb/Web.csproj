@@ -1144,7 +1144,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\Temp\Downloads\" />
-    <Folder Include="Libraries\" />
+    <Folder Include="Libraries\Fw\scripts\moment\" />
     <Folder Include="Source\Controls\" />
     <Folder Include="theme\fwaudio\" />
     <Folder Include="theme\fwcursors\" />

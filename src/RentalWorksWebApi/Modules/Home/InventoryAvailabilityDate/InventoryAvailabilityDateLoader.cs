@@ -20,10 +20,10 @@ namespace WebApi.Modules.Home.InventoryAvailabilityDate
         [FwSqlDataField(column: "warehouseid", modeltype: FwDataTypes.Text)]
         public string WarehouseId { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "fromdate", modeltype: FwDataTypes.Date)]
+        [FwSqlDataField(column: "fromdate", modeltype: FwDataTypes.DateTime)]
         public string start { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "todate", modeltype: FwDataTypes.Date)]
+        [FwSqlDataField(column: "todate", modeltype: FwDataTypes.DateTime)]
         public string end { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "description", modeltype: FwDataTypes.Text)]
