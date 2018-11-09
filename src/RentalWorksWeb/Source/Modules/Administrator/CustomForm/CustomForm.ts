@@ -364,6 +364,10 @@ class CustomForm {
                         div.find('.field').attr({ 'data-visible': isVisible, 'data-width': width });
                     }
                 }
+                
+                if ((div.hasClass('flexrow') || div.hasClass('flexcolumn')) && div.children().length === 0) {
+                    div.css('min-height', '50px');
+                }
             }
             $customFormClone = $customForm.get(0).cloneNode(true);
         }
@@ -625,7 +629,7 @@ class CustomForm {
 
                     updateHtml();
                 })
-                .off('keydown', '#controlProperties.propval')
+                .off('keydown', '#controlProperties .propval')
                 .on('keydown', '#controlProperties .propval', e => {
                     e.stopImmediatePropagation();
                     if (e.which === 13 || e.keyCode === 13) {
@@ -683,12 +687,17 @@ class CustomForm {
                         let index = jQuery(originalHtml).attr('data-index');
                         FwConfirmation.destroyConfirmation($confirmation);
 
+                        let $element = jQuery($customForm).find(`div[data-index="${index}"]`);
+                        let $elementClone = jQuery($customFormClone).find(`div[data-index="${index}"]`);
                         if (type === 'Grid' || type === 'Browse') {
-                            jQuery($customFormClone).find(`div[data-index="${index}"]`).parent('div').remove();
-                            jQuery($customForm).find(`div[data-index="${index}"]`).parent('td').remove();
+                            $elementClone.parent('div').remove();
+                            $element.parent('td').remove();
                         } else {
-                            jQuery($customFormClone).find(`div[data-index="${index}"]`).remove();
-                            jQuery($customForm).find(`div[data-index="${index}"]`).remove();
+                            if ($element.siblings().length === 0 && $element.parent().hasClass('flexrow' || 'flexcolumn')) {
+                                $element.parent().css('min-height', '50px');
+                            }
+                            $elementClone.remove();
+                            $element.remove();
                         }
                         $form.find('#controlProperties').empty();
                         updateHtml();
