@@ -251,6 +251,7 @@
     <Content Include="Modules\Support\Support.js" />
     <Content Include="Modules\TransferInMenu\TransferInMenu.css" />
     <Content Include="Modules\TransferInMenu\TransferInMenu.js" />
+    <Content Include="privacypolicy.html" />
     <Content Include="scripts\Rw.js" />
     <Content Include="scripts\RwRFID.js" />
     <Content Include="Source\Validations\SetNoValidation\SetNoValidationBrowse.htm" />
@@ -570,6 +571,7 @@
     <Exec Command="xcopy &quot;$(FwFrontEndLibraryPath)\theme\fwimages&quot; &quot;$(FwDeploymentDirectory)\theme\fwimages&quot; /e" ContinueOnError="false" IgnoreExitCode="false" />
     <Exec Command="xcopy &quot;$(FwApplicationDirectory)\theme\images&quot; &quot;$(FwDeploymentDirectory)\theme\images&quot; /e" ContinueOnError="false" IgnoreExitCode="false" />
     <Copy SourceFiles="$(FwApplicationDirectory)\index.htm" DestinationFiles="$(FwDeploymentDirectory)\index.htm" />
+    <Copy SourceFiles="$(FwApplicationDirectory)\privacypolicy.html" DestinationFiles="$(FwDeploymentDirectory)\privacypolicy.html" />
     <Copy SourceFiles="$(FwApplicationDirectory)\index.js" DestinationFiles="$(FwDeploymentDirectory)\index.js" />
     <Copy SourceFiles="$(FwApplicationDirectory)\Application.sample.config" DestinationFiles="$(FwDeploymentDirectory)\Application.sample.config" />
     <Copy SourceFiles="$(FwApplicationDirectory)\Global.asax" DestinationFiles="$(FwDeploymentDirectory)\Global.asax" />
