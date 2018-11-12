@@ -45,6 +45,7 @@ namespace WebApi.Modules.Settings.AttributeValue
             //select.AddWhere("attributeid = @attributeid");
             //select.AddParameter("@attributeid", request.miscfields.AttributeId.value);
             AddFilterFieldToSelect("AttributeId", "attributeid", select, request);
+            addFilterToSelect("AttributeId", "attributeid", select, request);
         }
         //------------------------------------------------------------------------------------
 

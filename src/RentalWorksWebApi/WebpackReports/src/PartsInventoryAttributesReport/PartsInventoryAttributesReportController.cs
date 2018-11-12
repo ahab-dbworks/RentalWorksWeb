@@ -6,20 +6,21 @@ using System.Threading.Tasks;
 using System;
 using FwStandard.Reporting;
 using PuppeteerSharp;
+using PuppeteerSharp.Media;
 using FwStandard.SqlServer;
 using Microsoft.AspNetCore.Http;
 using WebApi.Modules.Reports.InventoryAttributesReport;
 
-namespace WebApi.Modules.Reports.RentalInventoryAttributesReport
+namespace WebApi.Modules.Reports.PartsInventoryAttributesReport
 {
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "reports-v1")]
-    public class RentalInventoryAttributesReportController : AppReportController
+    public class PartsInventoryAttributesReportController : AppReportController
     {
-        public RentalInventoryAttributesReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
-        protected override string GetReportFileName() { return "RentalInventoryAttributesReport"; }
+        public PartsInventoryAttributesReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
+        protected override string GetReportFileName() { return "PartsInventoryAttributesReport"; }
         //------------------------------------------------------------------------------------ 
-        protected override string GetReportFriendlyName() { return "Rental Inventory Attributes Report"; }
+        protected override string GetReportFriendlyName() { return "Parts Inventory Attributes Report"; }
         //------------------------------------------------------------------------------------ 
         protected override PdfOptions GetPdfOptions()
         {
@@ -32,7 +33,7 @@ namespace WebApi.Modules.Reports.RentalInventoryAttributesReport
         protected override string GetUniqueId(FwReportRenderRequest request)
         {
             //return request.parameters["xxxxid"].ToString().TrimEnd(); 
-            return "RentalInventoryAttributesReport";
+            return "PartsInventoryAttributesReport";
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/rentalinventoryattributesreport/render 
@@ -54,7 +55,7 @@ namespace WebApi.Modules.Reports.RentalInventoryAttributesReport
             }
             try
             {
-                RentalInventoryAttributesReportLoader l = new RentalInventoryAttributesReportLoader();
+                PartsInventoryAttributesReportLoader l = new PartsInventoryAttributesReportLoader();
                 l.SetDependencies(this.AppConfig, this.UserSession);
                 FwJsonDataTable dt = await l.RunReportAsync(request);
                 return new OkObjectResult(dt);
