@@ -520,15 +520,16 @@ class Quote extends OrderBase {
     //----------------------------------------------------------------------------------------------
     afterLoad($form: any) {
         super.afterLoad($form);
-        var $pending = $form.find('div.fwformfield[data-datafield="PendingPo"] input').prop('checked');
-        var status = FwFormField.getValueByDataField($form, 'Status');
+        let $pending = $form.find('div.fwformfield[data-datafield="PendingPo"] input').prop('checked');
+        let status = FwFormField.getValueByDataField($form, 'Status');
+        let hasNotes = FwFormField.getValueByDataField($form, 'HasNotes');
 
         if (status === 'ORDERED' || status === 'CLOSED' || status === 'CANCELLED') {
             FwModule.setFormReadOnly($form);
         }
 
-        if (status === 'ACTIVE') {
-            FwTabs.setTabColor($form.find('.billingtab'), '#228B22');
+        if (hasNotes) {
+            FwTabs.setTabColor($form.find('.notestab'), '#FFFF00');
         }
 
         var $orderStatusHistoryGrid = $form.find('[data-name="OrderStatusHistoryGrid"]');

@@ -622,10 +622,15 @@ class Order extends OrderBase {
     //----------------------------------------------------------------------------------------------
     afterLoad($form) {
         super.afterLoad($form);
-        var status = FwFormField.getValueByDataField($form, 'Status');
+        let status = FwFormField.getValueByDataField($form, 'Status');
+        let hasNotes = FwFormField.getValueByDataField($form, 'HasNotes');
 
         if (status === 'CLOSED' || status === 'CANCELLED' || status === 'SNAPSHOT') {
             FwModule.setFormReadOnly($form);
+        }
+
+        if (hasNotes) {
+            FwTabs.setTabColor($form.find('.notestab'), '#FFFF00');
         }
 
         var $orderPickListGrid = $form.find('[data-name="OrderPickListGrid"]');
