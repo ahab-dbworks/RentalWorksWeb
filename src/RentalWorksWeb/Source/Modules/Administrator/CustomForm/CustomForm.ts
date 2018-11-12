@@ -450,7 +450,7 @@ class CustomForm {
             //adds select options for datafields
             function addDatafields() {
                 let datafieldOptions = $form.find('#controlProperties .propval .datafields');
-                datafieldOptions.append(`<option value="" disabled>Select Datafield</option>`)
+                datafieldOptions.append(`<option value="" disabled>Select field</option>`)
                 for (let i = 0; i < self.datafields.length; i++) {
                     if (self.datafields[i] !== '_Custom') {
                         datafieldOptions.append(`<option value="${self.datafields[i]}">${self.datafields[i]}</option>`);
@@ -478,6 +478,8 @@ class CustomForm {
                         <div class="addpropval" style="border:.5px solid #efefef; width:50%; float:left; font-size:.9em;"><input placeholder="Add value"></div>
                     </div>
                  </div>`; //closing div for propertyContainer
+
+            let deleteComponentHtml = '<div class="fwformcontrol deleteObject" data-type="button" style="margin-left:27%; margin-top:15px;">Delete Component</div>'
 
             //drag and drop
             if (type === 'Grid' || type === 'Browse') {
@@ -546,7 +548,8 @@ class CustomForm {
                             a += (name == "data-index") ? 1 : 0;
                             a += (name == "data-rendermode") ? 1 : 0;
                             a += (name == "data-version") ? 1 : 0;
-
+                            a += (name == "draggable") ? 1 : 0;
+                            a += (name == "data-noduplicate") ? 1 : 0;
                             if (type === 'Browse') {
                                 a += (name == "data-formdatafield") ? 1 : 0;
                                 a += (name == "data-cssclass") ? 1 : 0;
@@ -571,7 +574,6 @@ class CustomForm {
                                   `);
                             }
                         }
-
                         html.push(addPropertiesHtml);
                         $form.find('#controlProperties')
                             .empty()
@@ -582,13 +584,14 @@ class CustomForm {
                         addDatafields();
 
                         //delete object
-                        $form.find('#controlProperties').append('<div class="fwformcontrol deleteObject" data-type="button" style="margin-left:40%; margin-top:10px;">Delete</div>')
+                        $form.find('#controlProperties').append(deleteComponentHtml);
 
                         //disables grids and browses in forms
                         if (type === 'Form') {
                             let isGrid = jQuery(originalHtml).parents('[data-type="Grid"]');
                             if (isGrid.length !== 0 /*|| controlType === 'FwGrid'*/) {
-                                $form.find('#controlProperties .propval input').attr('disabled', 'disabled');
+                                $form.find('#controlProperties .propval >').attr('disabled', 'disabled');
+                                $form.find('#controlProperties .addproperties, #controlProperties .deleteObject').remove();
                             }
                         }
                     });
@@ -772,20 +775,45 @@ class CustomForm {
                     let fields: any = [];
 
                     propertyHtml.push(propertyContainerHtml);
-                    fields.push('data-width', 'data-visible', 'data-caption', 'data-datafield', 'data-datatype', 'data-sort');
+                    fields = [ 'data-datafield', 'data-datatype', 'data-sort', 'data-width', 'data-visible', 'data-caption' ];
                     for (let i = 0; i < fields.length; i++) {
+                        var value;
+                        var field = fields[i];
+                        switch (field) {
+                            case 'data-datafield':
+                                value = ""
+                                break;
+                            case 'data-datatype':
+                                value = "text"
+                                break;
+                            case 'data-sort':
+                                value = "off"
+                                break;
+                            case 'data-width':
+                                value = "100px"
+                                break;
+                            case 'data-visible':
+                                value = "true"
+                                break;
+                            case 'data-caption':
+                                value = "New Column"
+                                break;
+                        }
                         propertyHtml.push(
                             `<div class="properties" style="width:100%; display:flex;">
-                                <div class="propname" style="border:.5px solid #efefef; width:50%; float:left; font-size:.9em;">${fields[i]}</div>
-                                <div class="propval" style="border:.5px solid #efefef; width:50%; float:left; font-size:.9em;"><input value=""></div>
+                                <div class="propname" style="border:.5px solid #efefef; width:50%; float:left; font-size:.9em;">${field}</div>
+                                <div class="propval" style="border:.5px solid #efefef; width:50%; float:left; font-size:.9em;"><input value="${value}"></div>
                              </div>
                              `);
+
+                        jQuery(originalHtml).attr(`${field}`, `${value}`);
                     };
                     propertyHtml.push(addPropertiesHtml);
 
-                    $form.find('#controlProperties')
+                    let newProperties = $form.find('#controlProperties');
+                    newProperties
                         .empty()
-                        .append(propertyHtml.join(''))
+                        .append(propertyHtml.join(''), deleteComponentHtml)
                         .find('.properties:even')
                         .css('background-color', '#f7f7f7');
 
@@ -794,14 +822,10 @@ class CustomForm {
                         .siblings('.propval')
                         .find('input')
                         .replaceWith(`<select style="width:94%" class="datafields" value="">`);
-                    
+                   
                     addDatafields();
 
-                    $form.find('#controlProperties .propname:contains("data-caption")')
-                        .siblings('.propval')
-                        .find('input')
-                        .val('New Column')
-                        .change();
+                    $form.find('#controlProperties input').change();
                 });
         }
     }
