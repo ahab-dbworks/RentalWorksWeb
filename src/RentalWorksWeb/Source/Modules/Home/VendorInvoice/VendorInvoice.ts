@@ -73,7 +73,10 @@ class VendorInvoice {
         $form = FwModule.openForm($form, mode);
 
         this.events($form);
-
+        if (mode === 'NEW') {
+            let today = FwFunc.getDate();
+            FwFormField.setValueByDataField($form, 'InvoiceDate', today);
+        }
         return $form;
     };
     //----------------------------------------------------------------------------------------------
