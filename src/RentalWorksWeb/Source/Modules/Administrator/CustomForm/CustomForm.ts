@@ -364,7 +364,7 @@ class CustomForm {
                         div.find('.field').attr({ 'data-visible': isVisible, 'data-width': width });
                     }
                 }
-                
+
                 if ((div.hasClass('flexrow') || div.hasClass('flexcolumn')) && div.children().length === 0) {
                     div.css('min-height', '50px');
                 }
@@ -402,7 +402,6 @@ class CustomForm {
         if (tabName == 'Designer') {
             let originalHtml;
             let controlType;
-
             $form.find('#controlProperties')
                 .empty();  //clear properties upon loading design tab
 
@@ -450,19 +449,43 @@ class CustomForm {
             //adds select options for datafields
             function addDatafields() {
                 let datafieldOptions = $form.find('#controlProperties .propval .datafields');
-                datafieldOptions.append(`<option value="" disabled>Select field</option>`)
-                for (let i = 0; i < self.datafields.length; i++) {
-                    if (self.datafields[i] !== '_Custom') {
-                        datafieldOptions.append(`<option value="${self.datafields[i]}">${self.datafields[i]}</option>`);
+                for (let z = 0; z < datafieldOptions.length; z++) {
+                    let field = jQuery(datafieldOptions[z]);
+                    field.append(`<option value="" disabled>Select field</option>`)
+                    for (let i = 0; i < self.datafields.length; i++) {
+                        if (self.datafields[i] !== '_Custom') {
+                            field.append(`<option value="${self.datafields[i]}">${self.datafields[i]}</option>`);
+                        }
                     }
+                    let value = jQuery(field).attr('value');
+                    if (value) {
+                        jQuery(field).find(`option[value=${value}]`).prop('selected', true);
+                    } else {
+                        jQuery(field).find(`option[disabled]`).prop('selected', true);
+                    };
                 }
-                let value = jQuery(datafieldOptions).attr('value');
-                if (value) {
-                    jQuery(datafieldOptions).find(`option[value=${value}]`).prop('selected', true);
-                } else {
-                    jQuery(datafieldOptions).find(`option[disabled]`).prop('selected', true);
-                };
             };
+
+            //limit values that can be selected for certain fields
+            function addValueOptions() {
+                let addOptionsHere = $form.find('#controlProperties .propval .valueOptions');
+                for (let z = 0; z < addOptionsHere.length; z++) {
+                    let $this = jQuery(addOptionsHere[z]);
+                    let fieldName = jQuery(addOptionsHere[z]).parents('.propval').siblings('.propname').text();
+                    let valueOptions = self.getValueOptions(fieldName);
+
+                    $this.append(`<option value="" disabled>Select value</option>`);
+                    for (let i = 0; i < valueOptions.length; i++) {
+                        $this.append(`<option value="${valueOptions[i]}">${valueOptions[i]}</option>`);
+                    }
+                    let value = jQuery($this).attr('value');
+                    if (value) {
+                        jQuery($this).find(`option[value=${value}]`).prop('selected', true);
+                    } else {
+                        jQuery($this).find(`option[disabled]`).prop('selected', true);
+                    };
+                }
+            }
 
             let propertyContainerHtml =
                 `<div class="propertyContainer" style="border: 1px solid #bbbbbb; word-break: break-word;">
@@ -501,27 +524,27 @@ class CustomForm {
                         let targetHtmlIndex = jQuery(e.currentTarget).attr('data-index');
 
                         if (index !== targetHtmlIndex) {
-                        let $draggingElem = $dragContainer.find('td.column:not(.tdselectrow):not(.browsecontextmenucell) .field')
-                            .filter(function () {
-                                return jQuery(this).attr("data-index") === index;
-                            });
-                        $draggingElem = $draggingElem.parent();  //need to get to the parent td due to the framework's structure
-                        let $this = jQuery(e.currentTarget).parent();
-                        let indexDrag = $draggingElem.index();
-                        let indexDrop = $this.index();
+                            let $draggingElem = $dragContainer.find('td.column:not(.tdselectrow):not(.browsecontextmenucell) .field')
+                                .filter(function () {
+                                    return jQuery(this).attr("data-index") === index;
+                                });
+                            $draggingElem = $draggingElem.parent();  //need to get to the parent td due to the framework's structure
+                            let $this = jQuery(e.currentTarget).parent();
+                            let indexDrag = $draggingElem.index();
+                            let indexDrop = $this.index();
 
-                        //for updating the formfield and codemirror
-                        let firstColumn = jQuery($customFormClone).find(`[data-index="${index}"]`).parent();
-                        let secondColumn = jQuery($customFormClone).find(`[data-index="${targetHtmlIndex}"]`).parent();
+                            //for updating the formfield and codemirror
+                            let firstColumn = jQuery($customFormClone).find(`[data-index="${index}"]`).parent();
+                            let secondColumn = jQuery($customFormClone).find(`[data-index="${targetHtmlIndex}"]`).parent();
 
-                        if (indexDrag < indexDrop) {
-                            $draggingElem.insertAfter($this);
-                            firstColumn.insertAfter(secondColumn);
+                            if (indexDrag < indexDrop) {
+                                $draggingElem.insertAfter($this);
+                                firstColumn.insertAfter(secondColumn);
 
-                        } else if (indexDrag > indexDrop) {
-                            $draggingElem.insertBefore($this);
-                            firstColumn.insertBefore(secondColumn);
-                        }
+                            } else if (indexDrag > indexDrop) {
+                                $draggingElem.insertBefore($this);
+                                firstColumn.insertBefore(secondColumn);
+                            }
                             updateHtml();
                         }
                     });
@@ -560,16 +583,37 @@ class CustomForm {
                             }
 
                             value = value.replace('focused', '');
-                            if (name !== 'data-datafield' && name !== 'data-browsedatafield') {
+                            let b = 0;
+                            b += (name == "data-datafield") ? 1 : 0;
+                            b += (name == "data-browsedatafield") ? 1 : 0;
+                            b += (name == "data-displayfield") ? 1 : 0;
+                            b += (name == "data-browsedisplayfield") ? 1 : 0;
+
+                            let c = 0;
+                            c += (name == "data-browsedatatype") ? 1 : 0;
+                            c += (name == "data-formdatatype") ? 1 : 0;
+                            c += (name == "data-datatype") ? 1 : 0;
+                            c += (name == "data-sort") ? 1 : 0;
+                            c += (name == "data-visible") ? 1 : 0;
+                            c += (name == "data-formreadonly") ? 1 : 0;
+                            c += (name == "data-isuniqueid") ? 1 : 0;
+
+                            if (b) {
                                 html.push(`<div class="properties" style="width:100%; display:flex;">
                                       <div class="propname" style="border:.5px solid #efefef; width:50%; float:left; font-size:.9em;">${name === "" ? "&#160;" : name}</div>
-                                      <div class="propval" style="border:.5px solid #efefef; width:50%; float:left; font-size:.9em;"><input value="${value}"></div>
+                                      <div class="propval" style="border:.5px solid #efefef; width:50%; float:left; font-size:.9em;"><select style="width:94%" class="datafields" value="${value}"></select></div>
+                                   </div>
+                                  `);
+                            } else if (c) {
+                                html.push(`<div class="properties" style="width:100%; display:flex;">
+                                      <div class="propname" style="border:.5px solid #efefef; width:50%; float:left; font-size:.9em;">${name === "" ? "&#160;" : name}</div>
+                                      <div class="propval" style="border:.5px solid #efefef; width:50%; float:left; font-size:.9em;"><select style="width:94%" class="valueOptions" value="${value}"></select></div>
                                    </div>
                                   `);
                             } else {
                                 html.push(`<div class="properties" style="width:100%; display:flex;">
                                       <div class="propname" style="border:.5px solid #efefef; width:50%; float:left; font-size:.9em;">${name === "" ? "&#160;" : name}</div>
-                                      <div class="propval" style="border:.5px solid #efefef; width:50%; float:left; font-size:.9em;"><select style="width:94%" class="datafields" value="${value}"></select></div>
+                                      <div class="propval" style="border:.5px solid #efefef; width:50%; float:left; font-size:.9em;"><input value="${value}"></div>
                                    </div>
                                   `);
                             }
@@ -581,7 +625,10 @@ class CustomForm {
                             .find('.properties:even')
                             .css('background-color', '#f7f7f7');
 
+                        $form.find('#controlProperties input').css('text-indent', '3px');
+
                         addDatafields();
+                        addValueOptions();
 
                         //delete object
                         $form.find('#controlProperties').append(deleteComponentHtml);
@@ -603,7 +650,8 @@ class CustomForm {
                     e.stopImmediatePropagation();
                     let attribute = jQuery(e.currentTarget).siblings('.propname').text();
                     let value;
-                    if (attribute === 'data-datafield' || attribute === 'data-browsedatafield') {
+                    let $this = jQuery(e.currentTarget);
+                    if ($this.find('select').hasClass('datafields') || $this.find('select').hasClass('valueOptions')) {
                         value = jQuery(e.currentTarget).find('select').val();
                     } else {
                         value = jQuery(e.currentTarget).find('input').val();
@@ -688,7 +736,7 @@ class CustomForm {
                 })
 
                 //Add new properties 
-                .off('change', '#controlProperties .addpropval')
+                .off('change', '#controlProperties .addpropval, #controlProperties .addpropname')
                 .on('change', '#controlProperties .addpropval, #controlProperties .addpropname', e => {
                     e.stopImmediatePropagation();
                     let newProp, newPropVal;
@@ -766,8 +814,8 @@ class CustomForm {
 `); //needs to be formatted this way so it looks nice in the code editor
                     let newColumn = jQuery(html.join(''));
 
-                    hasSpacer === true ? newColumn.insertBefore($control.find('div.spacer')): $control.append(newColumn);
-                
+                    hasSpacer === true ? newColumn.insertBefore($control.find('div.spacer')) : $control.append(newColumn);
+
                     originalHtml = newColumn.find('.field');
 
                     //build properties column
@@ -775,7 +823,7 @@ class CustomForm {
                     let fields: any = [];
 
                     propertyHtml.push(propertyContainerHtml);
-                    fields = [ 'data-datafield', 'data-datatype', 'data-sort', 'data-width', 'data-visible', 'data-caption' ];
+                    fields = ['data-datafield', 'data-datatype', 'data-sort', 'data-width', 'data-visible', 'data-caption'];
                     for (let i = 0; i < fields.length; i++) {
                         var value;
                         var field = fields[i];
@@ -822,12 +870,52 @@ class CustomForm {
                         .siblings('.propval')
                         .find('input')
                         .replaceWith(`<select style="width:94%" class="datafields" value="">`);
-                   
+
                     addDatafields();
 
                     $form.find('#controlProperties input').change();
                 });
         }
+    }
+    getValueOptions(fieldname) {
+        var values: any = [];
+        switch (fieldname) {
+            case 'data-browsedatatype':
+            case 'data-formdatatype':
+            case 'data-datatype':
+                values = [
+                    'checkbox'
+                    , 'checkboxlist'
+                    , 'color'
+                    , 'combobox'
+                    , 'date'
+                    , 'datetime'
+                    , 'email'
+                    , 'key'
+                    , 'money'
+                    , 'number'
+                    , 'percent'
+                    , 'phone'
+                    , 'radio'
+                    , 'searchbox'
+                    , 'select'
+                    , 'text'
+                    , 'textarea'
+                    , 'time'
+                    , 'timepicker'
+                    , 'validation'
+                ];
+                break;
+            case 'data-sort':
+                values = ['asc', 'desc', 'off'];
+                break;
+            case 'data-visible':
+            case 'data-formreadonly':
+            case 'data-isuniqueid':
+                values = ['true', 'false'];
+                break;
+        }
+        return values;
     }
 };
 //----------------------------------------------------------------------------------------------
