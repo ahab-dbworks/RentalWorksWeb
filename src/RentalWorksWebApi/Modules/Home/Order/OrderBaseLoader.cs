@@ -851,6 +851,9 @@ namespace WebApi.Modules.Home.Order
         public bool? DisableEditingLossAndDamageRate { get; set; }
         //------------------------------------------------------------------------------------ 
 
+        [FwSqlDataField(column: "hasnotes", modeltype: FwDataTypes.Boolean)]
+        public bool? HasNotes { get; set; }
+        //------------------------------------------------------------------------------------ 
 
 
         [FwSqlDataField(column: "quoteordertitle", modeltype: FwDataTypes.Text)]

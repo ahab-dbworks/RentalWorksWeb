@@ -582,6 +582,8 @@ namespace WebApi.Modules.Home.Order
 
 
 
+        [FwBusinessLogicField(isReadOnly: true)]
+        public bool? HasNotes { get; set; }
 
 
         [FwBusinessLogicField(isReadOnly: true, isRecordTitle: true)]
