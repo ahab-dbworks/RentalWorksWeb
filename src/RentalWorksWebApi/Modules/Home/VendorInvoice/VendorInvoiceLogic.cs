@@ -109,12 +109,23 @@ namespace WebApi.Modules.Home.VendorInvoice
         [FwBusinessLogicField(isReadOnly: true)]
         public decimal? DealBilledExtended { get; set; }
         //------------------------------------------------------------------------------------ 
-        //protected override bool Validate(TDataRecordSaveMode saveMode, ref string validateMsg) 
-        //{ 
-        //    //override this method on a derived class to implement custom validation logic 
-        //    bool isValid = true; 
-        //    return isValid; 
-        //} 
+        protected override bool Validate(TDataRecordSaveMode saveMode, FwBusinessLogic original, ref string validateMsg)
+        {
+            bool isValid = true;
+
+            if (saveMode.Equals(TDataRecordSaveMode.smUpdate))
+            {
+                VendorInvoiceLogic orig = (VendorInvoiceLogic)original;
+                
+                if ((orig.PurchaseOrderId != null) && (PurchaseOrderId != null) && (!orig.PurchaseOrderId.Equals(PurchaseOrderId)))
+                {
+                    validateMsg = "Cannot change the Purchase Order for an existing Vendor Invoice.";
+                    isValid = false;
+                }
+            }
+
+            return isValid;
+        } 
         //------------------------------------------------------------------------------------ 
         public void OnBeforeSave(object sender, BeforeSaveEventArgs e)
         {
@@ -124,14 +135,15 @@ namespace WebApi.Modules.Home.VendorInvoice
                 StatusDate = FwConvert.ToString(DateTime.Today);
             }
 
-            if (e.SaveMode.Equals(TDataRecordSaveMode.smUpdate))
-            {
-                if (PurchaseOrderId != null)
-                {
-                        PurchaseOrderId = "";
-                }
-            }
+            //if (e.SaveMode.Equals(TDataRecordSaveMode.smUpdate))
+            //{
+            //    if (PurchaseOrderId != null)
+            //    {
+            //            PurchaseOrderId = "";
+            //    }
+            //}
 
         }
+        //------------------------------------------------------------------------------------ 
     }
 }
