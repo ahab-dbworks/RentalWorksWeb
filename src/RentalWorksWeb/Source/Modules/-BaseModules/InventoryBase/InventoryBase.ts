@@ -54,7 +54,8 @@
         $form = FwModule.loadFormFromTemplate(this.Module);
         $form = FwModule.openForm($form, mode);
 
-        let warehouseId = JSON.parse(sessionStorage.warehouse).warehouseid;
+        //let warehouseId = JSON.parse(sessionStorage.warehouse).warehouseid;
+        let warehouseId = JSON.parse(sessionStorage.getItem('warehouse')).warehouseid;   //justin 11/11/2018 fixing build error
         let inventoryId = uniqueids.InventoryId;
         const startOfMonth = moment().startOf('month').format('MM/DD/YYYY');
         const endOfMonth = moment().endOf('month').format('MM/DD/YYYY');
