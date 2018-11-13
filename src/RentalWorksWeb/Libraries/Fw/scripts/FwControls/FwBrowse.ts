@@ -30,28 +30,31 @@ class FwBrowseClass {
         $columns = $control.find('div.column');
         for (var colno = 0; colno < $columns.length; colno++) {
             var $column = $columns.eq(colno);
-            var $field = $column.find('div.field');
-            if (typeof $field.attr('data-isuniqueid') === 'undefined') {
-                $field.attr('data-isuniqueid', 'false');
-            }
-            if (typeof $field.attr('data-sort') === 'undefined') {
-                $field.attr('data-sort', 'off');
-            }
-            if (typeof $field.attr('data-formreadonly') === 'undefined') {
-                $field.attr('data-formreadonly', 'false');
-            }
-            if (typeof $field.attr('data-datafield') !== 'undefined') {
-                $field.attr('data-browsedatafield', $field.attr('data-datafield'));
-                $field.attr('data-formdatafield', $field.attr('data-datafield'));
-                $field.removeAttr('data-datafield');
-            }
-            if (typeof $field.attr('data-datatype') !== 'undefined') {
-                $field.attr('data-browsedatatype', $field.attr('data-datatype'));
-                $field.attr('data-formdatatype', $field.attr('data-datatype'));
-                $field.removeAttr('data-datatype');
-            }
-            if (typeof $field.attr('data-cssclass') === 'undefined') {
-                $field.attr('data-cssclass', $field.attr('data-browsedatafield'));
+            var $fields = $column.find('div.field');
+            for (let i = 0; i < $fields.length; i++) {
+                let $field = $fields.eq(i);
+                if (typeof $field.attr('data-isuniqueid') === 'undefined') {
+                    $field.attr('data-isuniqueid', 'false');
+                }
+                if (typeof $field.attr('data-sort') === 'undefined') {
+                    $field.attr('data-sort', 'off');
+                }
+                if (typeof $field.attr('data-formreadonly') === 'undefined') {
+                    $field.attr('data-formreadonly', 'false');
+                }
+                if (typeof $field.attr('data-datafield') !== 'undefined') {
+                    $field.attr('data-browsedatafield', $field.attr('data-datafield'));
+                    $field.attr('data-formdatafield', $field.attr('data-datafield'));
+                    $field.removeAttr('data-datafield');
+                }
+                if (typeof $field.attr('data-datatype') !== 'undefined') {
+                    $field.attr('data-browsedatatype', $field.attr('data-datatype'));
+                    $field.attr('data-formdatatype', $field.attr('data-datatype'));
+                    $field.removeAttr('data-datatype');
+                }
+                if (typeof $field.attr('data-cssclass') === 'undefined') {
+                    $field.attr('data-cssclass', $field.attr('data-browsedatafield'));
+                }
             }
         }
 
