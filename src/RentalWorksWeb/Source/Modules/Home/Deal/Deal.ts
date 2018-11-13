@@ -985,7 +985,7 @@ class Deal {
                       <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Billing Address">
                         <div class="flexrow">
                           <div data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield billing-type-radio" data-caption="" data-datafield="BillToAddressType" style="flex:1 1 250px;">
-                            <div data-value="CUSTOMER" data-caption="Use Customer" style="margin-top:-15px;"></div>
+                            <div data-value="CUSTOMER" data-caption="Use Customer"></div>
                             <div data-value="DEAL" data-caption="Use Deal"></div>
                             <div data-value="OTHER" data-caption="Use Other"></div>
                           </div>
@@ -1288,7 +1288,7 @@ class Deal {
                       <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Shipping Address">
                         <div class="flexrow">
                           <div data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield shipping_address_type_radio" data-caption="" data-datafield="ShippingAddressType" style="flex:1 1 265px;">
-                            <div data-value="CUSTOMER" data-caption="Use Customer" style="margin-top:-15px;"></div>
+                            <div data-value="CUSTOMER" data-caption="Use Customer"></div>
                             <div data-value="DEAL" data-caption="Use Deal"></div>
                             <div data-value="OTHER" data-caption="Use Other"></div>
                           </div>
@@ -1298,7 +1298,7 @@ class Deal {
                       <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Default Outgoing Delivery" style="margin-top:13px;">
                         <div class="flexrow">
                           <div data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield" data-caption="" data-datafield="DefaultOutgoingDeliveryType" style="flex:1 1 265px;">
-                            <div data-value="DELIVER" data-caption="Deliver to Customer" style="margin-top:-15px;"></div>
+                            <div data-value="DELIVER" data-caption="Deliver to Customer"></div>
                             <div data-value="SHIP" data-caption="Ship to Customer"></div>
                             <div data-value="PICK UP" data-caption="Customer Pick Up"></div>
                           </div>
@@ -1308,7 +1308,7 @@ class Deal {
                       <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Default Incoming Delivery" style="margin-top:12px;">
                         <div class="flexrow">
                           <div data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield" data-caption="" data-datafield="DefaultIncomingDeliveryType" style="flex:1 1 265px;">
-                            <div data-value="DELIVER" data-caption="Customer Deliver" style="margin-top:-15px;"></div>
+                            <div data-value="DELIVER" data-caption="Customer Deliver"></div>
                             <div data-value="SHIP" data-caption="Customer Ship"></div>
                             <div data-value="PICK UP" data-caption="Pick Up from Customer"></div>
                           </div>

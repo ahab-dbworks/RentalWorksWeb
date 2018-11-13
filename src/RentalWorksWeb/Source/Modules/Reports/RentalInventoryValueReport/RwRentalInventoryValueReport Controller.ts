@@ -33,7 +33,7 @@ var templateRentalInventoryValueFrontEnd = `
               </div>
               <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Bar Code Value Based On">
                 <div data-datafield="SerializedValueBasedOn" data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield" data-caption="">
-                  <div data-value="C" data-caption="Unit Cost"></div>
+                  <div data-value="C" data-caption="Unit Cost""></div>
                   <div data-value="P" data-caption="Purchase Price"></div>
                 </div>
               </div>

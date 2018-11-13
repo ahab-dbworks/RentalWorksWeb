@@ -1093,8 +1093,8 @@ class PurchaseOrder {
                           <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals" data-caption="Tax" data-datafield="" data-enabled="false" data-totalfield="Tax" style="flex:1 1 75px;"></div>
                           <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals" data-caption="Total" data-datafield="" data-enabled="false" data-totalfield="Total" style="flex:1 1 100px;"></div>
                           <div data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield totals totalType" data-caption="" data-gridtype="subrental" data-datafield="" style="flex:1 1 250px;">
-                            <div data-value="W" class="weeklyType" data-caption="Weekly" style="margin-top:-15px;"></div>
-                            <div data-value="M" class="monthlyType" data-caption="Monthly" style="margin-top:-15px;"></div>
+                            <div data-value="W" class="weeklyType" data-caption="Weekly" style="margin-top:5px;"></div>
+                            <div data-value="M" class="monthlyType" data-caption="Monthly" style="margin-top:5px;"></div>
                             <div data-value="P" class="periodType" data-caption="Period"></div>
                           </div>
                         </div>
@@ -1164,8 +1164,8 @@ class PurchaseOrder {
                           <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals" data-caption="Tax" data-datafield="" data-enabled="false" data-totalfield="Tax" style="flex:1 1 75px;"></div>
                           <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals" data-caption="Total" data-datafield="" data-enabled="false" data-totalfield="Total" style="flex:1 1 100px;"></div>
                           <div data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield totals totalType" data-caption="" data-gridtype="submisc" data-datafield="" style="flex:1 1 250px;">
-                            <div data-value="W" class="weeklyType" data-caption="Weekly" style="margin-top:-15px;"></div>
-                            <div data-value="M" class="monthlyType" data-caption="Monthly" style="margin-top:-15px;"></div>
+                            <div data-value="W" class="weeklyType" data-caption="Weekly" style="margin-top:5px;"></div>
+                            <div data-value="M" class="monthlyType" data-caption="Monthly" style="margin-top:5px;"></div>
                             <div data-value="P" class="periodType" data-caption="Period"></div>
                           </div>
                         </div>
@@ -1204,8 +1204,8 @@ class PurchaseOrder {
                           <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals" data-caption="Tax" data-datafield="" data-enabled="false" data-totalfield="Tax" style="flex:1 1 75px;"></div>
                           <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals" data-caption="Total" data-datafield="" data-enabled="false" data-totalfield="Total" style="flex:1 1 100px;"></div>
                           <div data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield totals totalType" data-caption="" data-gridtype="sublabor" data-datafield="" style="flex:1 1 250px;">
-                            <div data-value="W" class="weeklyType" data-caption="Weekly" style="margin-top:-15px;"></div>
-                            <div data-value="M" class="monthlyType" data-caption="Monthly" style="margin-top:-15px;"></div>
+                            <div data-value="W" class="weeklyType" data-caption="Weekly" style="margin-top:5px;"></div>
+                            <div data-value="M" class="monthlyType" data-caption="Monthly" style="margin-top:5px;"></div>
                             <div data-value="P" class="periodType" data-caption="Period"></div>
                           </div>
                         </div>
@@ -1280,7 +1280,7 @@ class PurchaseOrder {
                     <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Determine Quantities to Bill Based on">
                       <div class="flexrow">
                         <div data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield" data-caption="" data-datafield="DetermineQuantitiesToBillBasedOn" style="flex:1 1 250px;">
-                          <div data-value="CONTRACT" data-caption="Contract Activity" style="margin-top:-15px;"></div>
+                          <div data-value="CONTRACT" data-caption="Contract Activity"></div>
                           <div data-value="ORDER" data-caption="Order Quantity"></div>
                         </div>
                       </div>
@@ -1293,7 +1293,7 @@ class PurchaseOrder {
                     <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Labor Prep Fees">
                       <div class="flexrow">
                         <div data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield" data-caption="" data-datafield="IncludePrepFeesInRentalRate" style="flex:1 1 400px;">
-                          <div data-value="false" data-caption="Add Prep Fees as Labor Charges" style="margin-top:-15px;"></div>
+                          <div data-value="false" data-caption="Add Prep Fees as Labor Charges"></div>
                           <div data-value="true" data-caption="Add Prep Fees into the Rental Item Rate"></div>
                         </div>
                       </div>
@@ -1331,7 +1331,7 @@ class PurchaseOrder {
                       <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Hiatus Schedule">
                         <div class="flexrow">
                           <div data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield" data-caption="" data-datafield="HiatusDiscountFrom" style="flex:1 1 200px;">
-                            <div data-value="DEAL" data-caption="Deal" style="flex:1 1 100px;margin-top:-15px;"></div>
+                            <div data-value="DEAL" data-caption="Deal" style="flex:1 1 100px;"></div>
                             <div data-value="ORDER" data-caption="This Order" style="flex:1 1 100px;"></div>
                           </div>
                         </div>
@@ -1355,7 +1355,7 @@ class PurchaseOrder {
                       <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Quote Address">
                         <div class="flexrow">
                           <div data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield" data-caption="" data-datafield="PrintIssuedToAddressFrom" style="flex:1 1 150px;">
-                            <div data-value="DEAL" data-caption="Deal" style="flex:1 1 100px;margin-top:-15px;"></div>
+                            <div data-value="DEAL" data-caption="Deal" style="flex:1 1 100px;"></div>
                             <div data-value="CUSTOMER" data-caption="Customer" style="flex:1 1 100px;"></div>
                             <div data-value="ORDER" data-caption="Order" style="flex:1 1 100px;"></div>
                           </div>

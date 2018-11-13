@@ -433,7 +433,7 @@ class RwAsset {
                   <div class="formrow">
                     <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Item Description" style="width:525px;">
                       <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                        <div data-control="FwFormField" data-type="textarea" class="fwcontrol fwformfield" data-caption="" data-datafield="ItemDescription" style="float:left;width:500px;margin-top:-15px;"></div>
+                        <div data-control="FwFormField" data-type="textarea" class="fwcontrol fwformfield" data-caption="" data-datafield="ItemDescription" style="float:left;width:500px;"></div>
                       </div>
                     </div>
                   </div>

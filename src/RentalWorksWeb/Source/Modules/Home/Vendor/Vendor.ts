@@ -270,7 +270,7 @@ class Vendor {
                     <!-- Vendor -->
                     <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Vendor">
                       <div class="flexrow">
-                        <div data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield vendertyperadio" data-caption="" data-datafield="VendorNameType" style="flex:0 1 125px;margin-top:-15px;">
+                        <div data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield vendertyperadio" data-caption="" data-datafield="VendorNameType" style="flex:0 1 125px;">
                           <div data-value="COMPANY" data-caption="Company"></div>
                           <div data-value="PERSON"  data-caption="Person"></div>
                         </div>
@@ -490,7 +490,7 @@ class Vendor {
                     <div class="flexrow">
                       <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Default Delivery">
                         <div data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield" data-caption="" data-datafield="DefaultIncomingDeliveryType" style="flex: 1 1 265px;">
-                          <div data-value="DELIVER" data-caption="Vendor Deliver" style="margin-top:-15px;"></div>
+                          <div data-value="DELIVER" data-caption="Vendor Deliver"></div>
                           <div data-value="SHIP" data-caption="Ship"></div>
                           <div data-value="PICK UP" data-caption="Pick Up"></div>
                         </div>
@@ -501,7 +501,7 @@ class Vendor {
                     <div class="flexrow">
                       <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Default Return Delivery" style="padding-left:1px;">
                         <div data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield" data-caption="" data-datafield="DefaultOutgoingDeliveryType" style="flex: 1 1 265px;">
-                          <div data-value="DELIVER" data-caption="Deliver" style="margin-top:-15px;"></div>
+                          <div data-value="DELIVER" data-caption="Deliver"></div>
                           <div data-value="SHIP" data-caption="Ship"></div>
                           <div data-value="PICK UP" data-caption="Vendor Pick Up"></div>
                         </div>

@@ -783,7 +783,7 @@ class Customer {
                         <div class="flexcolumn" style="flex:0 1 150px;">
                           <div class="flexrow">
                             <div data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield billing_address_type" data-caption="" data-datafield="BillingAddressType" style="flex:1 1 125px;">
-                              <div data-value="CUSTOMER" data-caption="Use Customer" style="margin-top:-15px;"></div>
+                              <div data-value="CUSTOMER" data-caption="Use Customer"></div>
                               <div data-value="OTHER" data-caption="Use Other"></div>
                             </div>
                           </div>
@@ -1338,7 +1338,7 @@ class Customer {
                       <!-- Tax section -->
                       <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Tax Status">
                         <div data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield" data-caption="" data-datafield="Taxable">
-                          <div data-value="true" data-caption="Taxable" style="margin-top:-15px;"></div>
+                          <div data-value="true" data-caption="Taxable"></div>
                           <div data-value="false" data-caption="Non-Taxable"></div>
                         </div>
                       </div>
@@ -1401,7 +1401,7 @@ class Customer {
                       <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Shipping Address">
                         <div class="flexrow">
                           <div data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield shipping_address_type" data-caption="" data-datafield="ShippingAddressType">
-                            <div data-value="CUSTOMER" data-caption="Use Customer" style="margin-top:-15px;"></div>
+                            <div data-value="CUSTOMER" data-caption="Use Customer"></div>
                             <div data-value="OTHER" data-caption="Use Other"></div>
                           </div>
                         </div>

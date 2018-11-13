@@ -48,7 +48,7 @@ FwFormField_radio.renderRuntimeHtml = function($control, html) {
         html.push('<div class="fwformfield-control"></div>');
     }
     else {
-        html.push('<div style="padding:1px;" class="fwformfield-control"></div>');
+        html.push('<div class="fwformfield-control"></div>');
     }
     $control.html(html.join(''));
     $control.find('.fwformfield-control').append($children);
