@@ -2324,6 +2324,7 @@ class Order extends OrderBase {
             $form.find('.notcombinedtab').css('display', 'flex');
             $form.find('.generaltab').click();
         }
+        this.renderGrids($form);
     }
 };
 //---------------------------------------------------------------------------------

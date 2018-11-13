@@ -10,40 +10,41 @@ class OrderBase {
         let id = FwFormField.getValueByDataField($form, `${this.Module}Id`);
         $form.find('.frame input').css('width', '100%');
 
-        if (typeof period !== 'undefined') {
-            id = `${id}~${period}`
-        }
-
-        FwAppData.apiMethod(true, 'GET', `api/v1/ordersummary/${id}`, null, FwServices.defaultTimeout, function onSuccess(response) {
-            var key;
-            for (key in response) {
-                if (response.hasOwnProperty(key)) {
-                    $form.find(`[data-framedatafield="${key}"] input`).val(response[key]);
-                    $form.find(`[data-framedatafield="${key}"]`).attr('data-originalvalue', response[key]);
-                }
+        if (id !== '') {
+            if (typeof period !== 'undefined') {
+                id = `${id}~${period}`
             }
-
-            var $profitFrames = $form.find('.profitframes .frame');
-            $profitFrames.each(function () {
-                var profit = parseFloat(jQuery(this).attr('data-originalvalue'));
-                if (profit > 0) {
-                    jQuery(this).find('input').css('background-color', '#A6D785');
-                } else if (profit < 0) {
-                    jQuery(this).find('input').css('background-color', '#ff9999');
+            FwAppData.apiMethod(true, 'GET', `api/v1/ordersummary/${id}`, null, FwServices.defaultTimeout, function onSuccess(response) {
+                var key;
+                for (key in response) {
+                    if (response.hasOwnProperty(key)) {
+                        $form.find(`[data-framedatafield="${key}"] input`).val(response[key]);
+                        $form.find(`[data-framedatafield="${key}"]`).attr('data-originalvalue', response[key]);
+                    }
                 }
-            });
 
-            var $totalFrames = $form.find('.totalColors input');
-            $totalFrames.each(function () {
-                var total = jQuery(this).val();
-                if (total != 0) {
-                    jQuery(this).css('background-color', '#ffffe5');
-                }
-            })
-        }, null, $form);
+                var $profitFrames = $form.find('.profitframes .frame');
+                $profitFrames.each(function () {
+                    var profit = parseFloat(jQuery(this).attr('data-originalvalue'));
+                    if (profit > 0) {
+                        jQuery(this).find('input').css('background-color', '#A6D785');
+                    } else if (profit < 0) {
+                        jQuery(this).find('input').css('background-color', '#ff9999');
+                    }
+                });
 
-        FwFormField.disable($form.find('.frame'));
-        $form.find(".frame .add-on").children().hide();
+                var $totalFrames = $form.find('.totalColors input');
+                $totalFrames.each(function () {
+                    var total = jQuery(this).val();
+                    if (total != 0) {
+                        jQuery(this).css('background-color', '#ffffe5');
+                    }
+                })
+            }, null, $form);
+
+            FwFormField.disable($form.find('.frame'));
+            $form.find(".frame .add-on").children().hide();
+        }        
     };
     //----------------------------------------------------------------------------------------------
     dynamicColumns($form) {
