@@ -98,7 +98,9 @@ class Receipt {
         if (mode === 'NEW') {
             const usersid = sessionStorage.getItem('usersid');  // J. Pace 7/09/18  C4E0E7F6-3B1C-4037-A50C-9825EDB47F44
             const name = sessionStorage.getItem('name');
-
+            FwFormField.enable($form.find('div[data-datafield="PaymentBy"]'));
+            FwFormField.enable($form.find('div[data-datafield="DealId"]'));
+            FwFormField.enable($form.find('div[data-datafield="CustomerId"]'));
             FwFormField.setValue($form, 'div[data-datafield="AppliedById"]', usersid, name);
         }
 
@@ -117,6 +119,9 @@ class Receipt {
     //----------------------------------------------------------------------------------------------
     saveForm($form: any, parameters: any) {
         FwModule.saveForm(this.Module, $form, parameters);
+        FwFormField.disable($form.find('div[data-datafield="PaymentBy"]'));
+        FwFormField.disable($form.find('div[data-datafield="DealId"]'));
+        FwFormField.disable($form.find('div[data-datafield="CustomerId"]'));
     }
     //----------------------------------------------------------------------------------------------
     loadAudit($form: any) {
@@ -180,10 +185,10 @@ class Receipt {
             $form.find('div[data-datafield="DealId"]').show();
             $form.find('div[data-datafield="DealId"]').attr('data-required', 'true');
         } else {
-            $form.find('div[data-datafield="CustomerId"]').show();
-            $form.find('div[data-datafield="CustomerId"]').attr('data-required', 'true');
             $form.find('div[data-datafield="DealId"]').hide();
             $form.find('div[data-datafield="DealId"]').attr('data-required', 'false');
+            $form.find('div[data-datafield="CustomerId"]').show();
+            $form.find('div[data-datafield="CustomerId"]').attr('data-required', 'true');
         }
     }
     //----------------------------------------------------------------------------------------------

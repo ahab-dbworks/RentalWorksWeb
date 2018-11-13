@@ -16,7 +16,7 @@ namespace WebApi.Modules.Home.Receipt
         [FwSqlDataField(column: "customerid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
         public string CustomerId { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "dealid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8, required: true)]
+        [FwSqlDataField(column: "dealid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
         public string DealId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "ardate", modeltype: FwDataTypes.Date, sqltype: "smalldatetime")]
