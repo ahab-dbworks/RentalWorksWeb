@@ -15,6 +15,7 @@ export class RentalInventoryAttributesReportRequest {
     CategoryId: string;
     SubCategoryId: string;
     InventoryId: string;
+    SortBy: Array<any>;
 }
 
 export class RentalInventoryAttributesReport extends WebpackReport {
@@ -26,8 +27,8 @@ export class RentalInventoryAttributesReport extends WebpackReport {
 
             HandlebarsHelpers.registerHelpers();
             let request = new RentalInventoryAttributesReportRequest();
-            //request.SortBy = parameters.SortBy;
-            request.AttributeId = parameters.WarehouseId;
+            request.SortBy = parameters.SortBy;
+            request.AttributeId = parameters.AttributeId;
             request.InventoryTypeId = parameters.InventoryTypeId;
             request.CategoryId = parameters.CategoryId;
             request.SubCategoryId = parameters.SubCategoryId;
