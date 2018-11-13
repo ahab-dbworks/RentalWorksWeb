@@ -22,7 +22,7 @@ class FwSettingsClass {
         html.push('  <div class="input-group pull-right">');
         html.push('    <input type="text" id="settingsSearch" class="form-control" placeholder="Search..." autofocus>');
         html.push('    <span class="input-group-clear">');
-        html.push('      <i class="material-icons">clear</i>');
+        html.push('      <i class="material-icons clear-search">clear</i>');
         html.push('    </span>');
         html.push('    <span class="input-group-search">');
         html.push('      <i class="material-icons">search</i>');
@@ -1006,8 +1006,8 @@ class FwSettingsClass {
         $control.on('click', '.input-group-clear', function (e) {
             let event = jQuery.Event('keypress');
             event.which = 13;
-            jQuery(this).parent().find('#settingsSearch').val('').trigger(event);
-            jQuery(this).css('display', 'none');
+            jQuery(this).parent().find('#settingsSearch').val('').trigger(event).focus();
+            jQuery(this).find('.clear-search').css('visibility', 'hidden');
         })
         $control.on('keypress', '#settingsSearch', function (e) {
             if (e.which === 13) {
@@ -1024,12 +1024,12 @@ class FwSettingsClass {
                 $module.find('.highlighted').removeClass('highlighted');
                 val = jQuery.trim(this.value).toUpperCase();
                 if (val === "") {
-                    jQuery(this).parent().find('.input-group-clear').css('display', 'none');
+                    jQuery(this).parent().find('.clear-search').css('visibility', 'hidden');
                     $settings.closest('div.panel-group').show();
                 } else {
                     var results = [];
                     results.push(val);
-                    jQuery(this).parent().find('.input-group-clear').css('display', 'table-cell');
+                    jQuery(this).parent().find('.clear-search').css('visibility', 'visible');
                     $settings.closest('div.panel-group').hide();
                     for (var caption in me.screen.moduleCaptions) {
                         if (caption.indexOf(val) !== -1 || caption.indexOf(val.split(' ').join('')) !== -1) {

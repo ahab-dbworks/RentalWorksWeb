@@ -34,6 +34,43 @@ class FwModule {
 
         $fwcontrols = $object.find('.fwcontrol');
         FwControl.loadControls($fwcontrols);
+        // Close tab button
+        if ($tabControl.find('.tab').length > 1) {
+            $tabControl.find('.closetabbutton').html('');
+            let iconHtml = [];
+            iconHtml.push(`<div class="closetab">
+                            <i class="material-icons">more_horiz</i>
+                            <div style="display:none;" class="close-dialog">
+                              <div class="leave-current">
+                                <span>Close All but Current Tab </span>
+                              </div>
+                              <div class="close-all">
+                                <span>Close All Tabs</span>
+                              </div>
+                            </div>
+                          </div>`);
+            let $newTabButton = jQuery(iconHtml.join(''));
+            $tabControl.find('.closetabbutton').append($newTabButton);
+        } else {
+            $tabControl.find('.closetabbutton').html('');
+        }
+        $tabControl.find('.closetab').click(() => {
+            $object.find('.close-dialog').html('')
+            $tabControl.find('.close-dialog').toggle();
+        })
+        $tabControl.find('.leave-all').click(() => {
+            console.log('tabafter1:', $tabControl.find('.tab')[1])
+        })
+        $tabControl.find('.close-all').click(() => {
+            //while ($tabControl.find('.tab').length > 1) {
+            //let tabLength = 
+            let $tab = $tabControl.find('div[data-tabpageid="tabpage2"]')
+            let $newactivetab = (($tab.next().length > 0) ? $tab.next() : $tab.prev());
+            FwTabs.removeTab($tab);
+            FwTabs.setActiveTab($tabControl, $newactivetab);
+            //}
+        })
+        $object.find('.closetabbutton').html('')
 
         if ($object.hasClass('fwbrowse')) {
             if ($object.attr('data-newtab') == 'true') {

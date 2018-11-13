@@ -2,6 +2,8 @@
 class FwSettingsClass {
     filter: Array<any> = [];
     customFilter: Array<any> = [];
+    sectionFilter: Array<any> = [];
+    searchValue: string;
     screen: any = {
         'moduleCaptions': {}
     }
@@ -20,21 +22,24 @@ class FwSettingsClass {
         html.push('  <div class="input-group pull-right">');
         html.push('    <input type="text" id="settingsSearch" class="form-control" placeholder="Search..." autofocus>');
         html.push('    <span class="input-group-clear">');
-        html.push('      <i class="material-icons">clear</i>');
+        html.push('      <i class="material-icons clear-search">clear</i>');
         html.push('    </span>');
         html.push('    <span class="input-group-search">');
         html.push('      <i class="material-icons">search</i>');
         html.push('    </span>');
         html.push('  </div>');
         html.push('</div>');
-        html.push('<div class="well"></div>');
+        html.push('<div class="flexrow settings-content">');
+        html.push('  <div class="navigation"></div>');
+        html.push('  <div class="well"></div>');
+        html.push('</div>');
         //< div class="input-group pull-right" > <input type="text" class="form-control" placeholder="Settings..."><span class="input-group-addon"><i class="material-icons">search</i></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 
         var settingsMenu = this.getHeaderView($control);
 
         $control.html(html.join(''));
 
-        $control.find('.fwsettingsheader').append(settingsMenu);
+        $control.find('.navigation').append(settingsMenu);
     };
     //----------------------------------------------------------------------------------------------
     saveForm(module, $form, closetab, navigationpath, $control, browseKeys, rowId, moduleName, emptyRows?, getRows?) {
@@ -203,17 +208,18 @@ class FwSettingsClass {
                 }
                 screen.moduleCaptions[fieldName][response[i].ModuleName].push(customObject);
             }
-            for (var idx = 0; idx < modules.length; idx++) {
-                var moduleName = modules[idx].properties.controller.slice(0, -10);
-                var $form = jQuery(jQuery('#tmpl-modules-' + moduleName + 'Form').html());
-                var $fwformfields = $form.find('.fwformfield[data-caption]');
-                for (var j = 0; j < $fwformfields.length; j++) {
-                    var $field = $fwformfields.eq(j);
-                    var caption = $field.attr('data-caption').toUpperCase();
+            for (let idx = 0; idx < modules.length; idx++) {
+                let moduleName = modules[idx].properties.controller.slice(0, -10);
+                let $form = jQuery(jQuery('#tmpl-modules-' + moduleName + 'Form').html());
+                let $fwformfields = $form.find('.fwformfield[data-caption]');
+                let $fwformsectionfields = $form.find('.fwform-section');
+                for (let j = 0; j < $fwformfields.length; j++) {
+                    let $field = $fwformfields.eq(j);
+                    let caption = $field.attr('data-caption').toUpperCase();
                     if ($field.attr('data-type') === 'radio') {
-                        var radioCaptions = $field.find('div');
-                        for (var k = 0; k < radioCaptions.length; k++) {
-                            var radioCaption = jQuery(radioCaptions[k]).attr('data-caption').toUpperCase()
+                        let radioCaptions = $field.find('div');
+                        for (let k = 0; k < radioCaptions.length; k++) {
+                            let radioCaption = jQuery(radioCaptions[k]).attr('data-caption').toUpperCase()
                             screen.moduleCaptions[radioCaption] = {};
                             screen.moduleCaptions[radioCaption][moduleName] = [];
                             screen.moduleCaptions[radioCaption][moduleName].push($field);
@@ -226,6 +232,17 @@ class FwSettingsClass {
                         screen.moduleCaptions[caption][moduleName] = [];
                     }
                     screen.moduleCaptions[caption][moduleName].push($field);
+                }
+                for (let k = 0; k < $fwformsectionfields.length; k++) {
+                    let $section = $fwformsectionfields.eq(k);
+                    let sectionCaption = $section.attr('data-caption').toUpperCase();
+                    if (typeof screen.moduleCaptions[sectionCaption] === 'undefined') {
+                        screen.moduleCaptions[sectionCaption] = {};
+                    }
+                    if (typeof screen.moduleCaptions[sectionCaption][moduleName] === 'undefined') {
+                        screen.moduleCaptions[sectionCaption][moduleName] = [];
+                    }
+                    screen.moduleCaptions[sectionCaption][moduleName].push($section);
                 }
             }
         }, null, null);
@@ -513,14 +530,15 @@ class FwSettingsClass {
         });
     }
     //---------------------------------------------------------------------------------------------- 
-    renderModuleHtml($control, title, moduleName, description, menu, moduleId) {
+    renderModuleHtml($control, title, moduleName, description, menu, menuCaption, moduleId) {
         var html = [], $settingsPageModules, $rowBody, $modulecontainer, apiurl, $body, $form, browseKeys = [], rowId, filter = [], me = this;
 
         $modulecontainer = $control.find('#' + moduleName);
         apiurl = window[moduleName + 'Controller'].apiurl;
         $form = jQuery(jQuery('#tmpl-modules-' + moduleName + 'Form').html());
+        $body = $control.find('#' + moduleName + '.panel-body');
 
-        html.push('<div class="panel-group" id="' + moduleName + '" data-id="' + moduleId + '">');
+        html.push('<div class="panel-group" id="' + moduleName + '" data-id="' + moduleId + '" data-navigation="' + menuCaption + '">');
         html.push('  <div class="panel panel-primary">');
         html.push('    <div data-toggle="collapse" data-target="' + moduleName + '" href="' + moduleName + '" class="panel-heading">');
         html.push('      <div class="flexrow" style="max-width:none;">');
@@ -554,9 +572,12 @@ class FwSettingsClass {
 
         $control.find('.well').append($settingsPageModules);
 
+        //saving form
         $settingsPageModules.on('click', '.btn', function (e) {
-            $body.empty();
-            me.getRows($body, $control, apiurl, $control.find('#' + moduleName), moduleName);
+            if (FwModule.validateForm(jQuery(this).closest('.fwform'))) {
+                $body.empty();
+                me.getRows($body, $control, apiurl, $control.find('#' + moduleName), moduleName);
+            }
         });
 
         $settingsPageModules.on('click', '.new-row-menu', function (e) {
@@ -839,7 +860,7 @@ class FwSettingsClass {
         $control
             .unbind().on('click', '.row-heading', function (e) {
                 e.stopPropagation();
-                var formKeys = [], formData = [], recordData, $rowBody, $form, moduleName, moduleId, controller, uniqueids = {};
+                var formKeys = [], formData = [], recordData, $rowBody, $form, moduleName, moduleId, controller, uniqueids = {}, $formSections;
                 recordData = jQuery(this).parent().parent().data('recorddata');
                 moduleName = jQuery(this).closest('div.panel-group')[0].id;
                 $form = jQuery(jQuery('#tmpl-modules-' + moduleName + 'Form').html());
@@ -851,21 +872,21 @@ class FwSettingsClass {
                 if ($rowBody.is(':empty')) {
                     $form = window[controller].openForm('EDIT');
                     $rowBody.append($form);
+                    $formSections = $form.find('.fwform-section-title');
                     $form.find('.highlighted').removeClass('highlighted');
                     $form.find('div[data-type="NewMenuBarButton"]').off();
-                    $form.find('.buttonbar').append('<div class="btn-delete" data-type="DeleteMenuBarButton"><i class="material-icons"></i><div class="btn-text">Delete</div></div>');
+                    $form.find('div.fwform-menu > .buttonbar').append('<div class="btn-delete" data-type="DeleteMenuBarButton"><i class="material-icons"></i><div class="btn-text">Delete</div></div>');
 
                     for (var key in recordData) {
                         for (var i = 0; i < me.filter.length; i++) {
-                            var highlightField = $form.find('[data-datafield="' + key + '"]');
-                            var hightlightFieldTabId = highlightField.closest('.tabpage').attr('data-tabid');
                             if (me.filter[i] === key) {
+                                var highlightField = $form.find('[data-datafield="' + key + '"]');
+                                var hightlightFieldTabId = highlightField.closest('.tabpage').attr('data-tabid');
                                 if ($form.find('[data-datafield="' + key + '"]').attr('data-type') === 'checkbox') {
                                     $form.find('[data-datafield="' + key + '"] label').addClass('highlighted');
                                 } else {
                                     highlightField.find('.fwformfield-caption').addClass('highlighted');
                                     highlightField.parents('.fwtabs .fwcontrol').find('#' + hightlightFieldTabId).addClass('highlighted');
-
                                 }
                             }
                         };
@@ -880,6 +901,17 @@ class FwSettingsClass {
                                 FwFormField.setValue($form, '[data-datafield="' + key + '"]', value);
                             }
                         }
+                    }
+                    for (var j = 0; j < $formSections.length; j++) {
+                        for (var k = 0; k < me.sectionFilter.length; k++) {
+                            let sectionCaption = jQuery($formSections[j]).html();
+                            if (jQuery($formSections[j]).html() === me.sectionFilter[k]) {
+                                let startIndex = sectionCaption.toUpperCase().indexOf(me.searchValue);
+                                let endIndex = startIndex + me.searchValue.length;
+                                jQuery($formSections[j]).html(sectionCaption.substring(0, startIndex) + '<span class="highlighted">' + sectionCaption.substring(startIndex, endIndex) + '</span>' + sectionCaption.substring(endIndex));
+                            }
+                        }
+
                     }
                     FwModule.loadForm(moduleName, $form);
                 }
@@ -974,58 +1006,70 @@ class FwSettingsClass {
         $control.on('click', '.input-group-clear', function (e) {
             let event = jQuery.Event('keypress');
             event.which = 13;
-            jQuery(this).parent().find('#settingsSearch').val('').trigger(event);
-            jQuery(this).css('display', 'none');
+            jQuery(this).parent().find('#settingsSearch').val('').trigger(event).focus();
+            jQuery(this).find('.clear-search').css('visibility', 'hidden');
         })
         $control.on('keypress', '#settingsSearch', function (e) {
             if (e.which === 13) {
-                var $settings, val, $module, $settingsDescriptions, filter, customFilter;
+                var $settings, val, $module, $settingsTitles, $settingsDescriptions, filter, customFilter, sectionFilter;
+                $control.find('.selected').removeClass('selected');
 
                 filter = [];
                 customFilter = [];
+                sectionFilter = [];
                 $settings = jQuery('small#searchId');
+                $settingsTitles = $control.find('a#title');
                 $settingsDescriptions = jQuery('small#description-text');
-                $module = jQuery('a#title');
+                $module = jQuery('.panel-group');
+                $module.find('.highlighted').removeClass('highlighted');
                 val = jQuery.trim(this.value).toUpperCase();
                 if (val === "") {
-                    jQuery(this).parent().find('.input-group-clear').css('display', 'none');
-                    $control.find('.highlighted').removeClass('highlighted');
+                    jQuery(this).parent().find('.clear-search').css('visibility', 'hidden');
                     $settings.closest('div.panel-group').show();
                 } else {
                     var results = [];
                     results.push(val);
-                    jQuery(this).parent().find('.input-group-clear').css('display', 'table-cell');
+                    jQuery(this).parent().find('.clear-search').css('visibility', 'visible');
                     $settings.closest('div.panel-group').hide();
                     for (var caption in me.screen.moduleCaptions) {
                         if (caption.indexOf(val) !== -1 || caption.indexOf(val.split(' ').join('')) !== -1) {
                             for (var moduleName in me.screen.moduleCaptions[caption]) {
                                 if (me.screen.moduleCaptions[caption][moduleName][0].custom) {
                                     customFilter.push(me.screen.moduleCaptions[caption][moduleName][0]);
+                                } else if (me.screen.moduleCaptions[caption][moduleName][0].data('type') === 'section') {
+                                    sectionFilter.push(me.screen.moduleCaptions[caption][moduleName][0].data('caption'));
                                 } else {
-                                    filter.push(me.screen.moduleCaptions[caption][moduleName][0].data().datafield);
+                                    filter.push(me.screen.moduleCaptions[caption][moduleName][0].data('datafield'));
                                 }
                                 results.push(moduleName.toUpperCase());
                             }
                         }
                     }
                     me.filter = filter;
+                    me.sectionFilter = sectionFilter;
                     me.customFilter = customFilter;
+                    me.searchValue = val;
                     for (var i = 0; i < results.length; i++) {
                         //check descriptions for match
-                        var module = $settingsDescriptions.filter(function () {
-                            return -1 != jQuery(this).text().toUpperCase().indexOf(results[i]);
-                        }).closest('div.panel-group');
-                        module.find('.highlighted').removeClass('highlighted');
+                        var module: any = [];
+                        for (var k = 0; k < $module.length; k++) {
+                            // match results
+                            if ($module.eq(k).attr('id').toUpperCase() === results[i]) {
+                                module.push($module.eq(k)[0]);
+                            }
+                            // search titles
+                            if ($settingsTitles.eq(k).text().toUpperCase().indexOf(val) !== -1) {
+                                module.push($settingsTitles.eq(k).closest('.panel-group')[0]);
+                            }
+                            // search descriptions
+                            if ($settingsDescriptions.eq(k).text().toUpperCase().indexOf(val) !== -1) {
+                                module.push($settingsDescriptions.eq(k).closest('.panel-group')[0]);
+                            }
+                        }
+                        module = jQuery(module);
 
                         let description = module.find('small#description-text');
                         let title = module.find('a#title');
-                        let panel = $module.filter(function () { return -1 != jQuery(this).text().toUpperCase().indexOf(results[i]) }).closest('div.panel-group');
-
-                        if (panel.length > 0) {
-                            description = panel.find('small#description-text');
-                            title = panel.find('a#title');
-                            panel.show();
-                        }
 
                         for (var j = 0; j < description.length; j++) {
                             if (description[j] !== undefined) {
@@ -1045,8 +1089,7 @@ class FwSettingsClass {
                                 return -1 != jQuery(this).text().toUpperCase().indexOf(results[i]);
                             }).closest('div.panel-group').show();
                         }
-                        module.show();
-
+                        module.show().find('#searchId').hide();;
                     }
 
                     let searchResults = $control.find('.panel-heading:visible');
@@ -1104,9 +1147,7 @@ class FwSettingsClass {
     getHeaderView($control) {
         var $view, me = this;
 
-        $view = jQuery('<div class="fwcontrol fwfilemenu" data-control="FwFileMenu" data-version="2" data-rendermode="template"></div>');
-
-        FwControl.renderRuntimeControls($view);
+        $view = jQuery('<div class="menu-container" data-control="FwFileMenu" data-version="2" data-rendermode="template"><div class="menu"></div></div>');
 
         var nodeApplications, nodeApplication = null, baseiconurl, $menu, ribbonItem, dropDownMenuItems, caption;
         nodeApplications = FwApplicationTree.getMyTree();
@@ -1125,7 +1166,6 @@ class FwSettingsClass {
             if (nodeLv1MenuItem.properties.visible === 'T' && nodeLv1MenuItem.properties.caption === 'Settings') {
                 switch (nodeLv1MenuItem.properties.nodetype) {
                     case 'Lv1SettingsMenu':
-                        $menu = FwFileMenu.addMenu($view, nodeLv1MenuItem.properties.caption)
                         for (var lv2childno = 0; lv2childno < nodeLv1MenuItem.children.length; lv2childno++) {
                             var nodeLv2MenuItem = nodeLv1MenuItem.children[lv2childno];
                             if (nodeLv2MenuItem.properties.visible === 'T') {
@@ -1138,10 +1178,10 @@ class FwSettingsClass {
                                                 dropDownMenuItems.push({ id: nodeLv3MenuItem.id, caption: nodeLv3MenuItem.properties.caption, modulenav: nodeLv3MenuItem.properties.modulenav, imgurl: nodeLv3MenuItem.properties.iconurl, moduleName: nodeLv3MenuItem.properties.controller.slice(0, -10) });
                                             }
                                         }
-                                        me.generateDropDownModuleBtn($menu, $control, nodeLv2MenuItem.id, nodeLv2MenuItem.properties.caption, nodeLv2MenuItem.properties.iconurl, dropDownMenuItems);
+                                        me.generateDropDownModuleBtn($view, $control, nodeLv2MenuItem.id, nodeLv2MenuItem.properties.caption, nodeLv2MenuItem.properties.iconurl, dropDownMenuItems);
                                         break;
                                     case 'SettingsModule':
-                                        me.generateStandardModuleBtn($menu, $control, nodeLv2MenuItem.id, nodeLv2MenuItem.properties.caption, nodeLv2MenuItem.properties.modulenav, nodeLv2MenuItem.properties.iconurl, nodeLv2MenuItem.properties.controller.slice(0, -10));
+                                        me.generateStandardModuleBtn($view, $control, nodeLv2MenuItem.id, nodeLv2MenuItem.properties.caption, nodeLv2MenuItem.properties.modulenav, nodeLv2MenuItem.properties.iconurl, nodeLv2MenuItem.properties.controller.slice(0, -10));
                                         break;
                                 }
                             }
@@ -1163,7 +1203,7 @@ class FwSettingsClass {
         if ((caption !== '') && (typeof caption !== 'undefined')) {
             try {
                 btnHtml = [];
-                btnHtml.push('<div id="btnModule' + securityid + '" class="ddmodulebtn" data-securityid="' + securityid + '">');
+                btnHtml.push('<div id="btnModule' + securityid + '" class="ddmodulebtn menu-tab" data-securityid="' + securityid + '" data-navigation="' + caption + '">');
                 btnHtml.push('<div class="ddmodulebtn-caption">');
                 btnHtml.push('<div class="ddmodulebtn-text">');
                 btnHtml.push(caption);
@@ -1180,22 +1220,12 @@ class FwSettingsClass {
                 subitemHtml.push('<div class="ddmodulebtn-dropdown-btn-text"></div>');
                 subitemHtml.push('</div>');
                 jQuery.each(subitems, function (index, value) {
+                    if (index === 0) {
+                        $modulebtn.data('firstmodule', subitems[index].moduleName);
+                    }
                     $subitem = jQuery(subitemHtml.join(''));
                     $subitem.attr('data-securityid', subitems[index].id);
                     $subitem.find('.ddmodulebtn-dropdown-btn-text').html(value.caption);
-
-                    $subitem.on('click', function () {
-                        try {
-                            if ($control.find('#' + value.moduleName + ' > div > div.panel-collapse').is(':hidden')) {
-                                $control.find('#' + value.moduleName + ' > div > div.panel-heading').click();
-                            }
-                            jQuery('html, body').animate({
-                                scrollTop: $control.find('#' + value.moduleName).offset().top
-                            }, 1);
-                        } catch (ex) {
-                            FwFunc.showError(ex);
-                        }
-                    });
 
                     $modulebtn.find('.ddmodulebtn-dropdown').append($subitem);
                 });
@@ -1205,6 +1235,33 @@ class FwSettingsClass {
         } else {
             throw 'FwRibbon.generateDropDownModuleBtn: ' + securityid + ' caption is not defined in translation';
         }
+        $modulebtn
+            .on('click', function () {
+                try {
+                    let navigationCaption = $modulebtn.data('navigation');
+                    let panels = $control.find('.panel-group');
+                    if (navigationCaption != '') {
+                        $control.find('.selected').removeClass('selected');
+                        $control.find('#settingsSearch').val('')
+                        jQuery(this).addClass('selected');
+                        //if ($control.find('#' + moduleName + ' > div > div.panel-collapse').is(':hidden')) {
+                        //    $control.find('#' + moduleName + ' > div > div.panel-heading').click();
+                        //}
+                        //jQuery('html, body').animate({
+                        //    scrollTop: $control.find('#' + moduleName).offset().top + $control.find('.well').scrollTop()
+                        //}, 1);
+                        for (var i = 0; i < panels.length; i++) {
+                            if (jQuery(panels[i]).data('navigation') !== navigationCaption) {
+                                jQuery(panels[i]).hide();
+                            } else {
+                                jQuery(panels[i]).show();
+                            }
+                        }
+                    }
+                } catch (ex) {
+                    FwFunc.showError(ex);
+                }
+            })
 
         $menu.find('.menu').append($modulebtn);
     };
@@ -1217,7 +1274,7 @@ class FwSettingsClass {
             try {
                 btnId = 'btnModule' + securityid;
                 btnHtml = [];
-                btnHtml.push('<div id="' + btnId + '" class="modulebtn" data-securityid="' + securityid + '">');
+                btnHtml.push('<div id="' + btnId + '" class="modulebtn menu-tab" data-securityid="' + securityid + '">');
                 btnHtml.push('<div class="modulebtn-text">');
                 btnHtml.push(caption);
                 btnHtml.push('</div>');
@@ -1234,12 +1291,21 @@ class FwSettingsClass {
             .on('click', function () {
                 try {
                     if (modulenav != '') {
+                        let panels = $control.find('.panel-group');
+                        $control.find('.selected').removeClass('selected');
+                        $control.find('#settingsSearch').val('')
+                        jQuery(this).addClass('selected');
+                        for (var i = 0; i < panels.length; i++) {
+                            if (jQuery(panels[i]).attr('id') !== moduleName) {
+                                jQuery(panels[i]).hide();
+                            } else {
+                                jQuery(panels[i]).show();
+                            }
+
+                        }
                         if ($control.find('#' + moduleName + ' > div > div.panel-collapse').is(':hidden')) {
                             $control.find('#' + moduleName + ' > div > div.panel-heading').click();
                         }
-                        jQuery('html, body').animate({
-                            scrollTop: $control.find('#' + moduleName).offset().top
-                        }, 1);
                     }
                 } catch (ex) {
                     FwFunc.showError(ex);

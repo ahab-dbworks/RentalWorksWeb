@@ -2886,11 +2886,14 @@ class FwBrowseClass {
         let fields: any = {};
         let $fields = $tr.find('> td.column > div.field[data-formdatafield][data-formdatafield!=""]');
         $fields.each(function (index, element) {
-            var $field = jQuery(element);
-            var formdatafield = (typeof $field.attr('data-formdatafield') === 'string') ? $field.attr('data-formdatafield') : '';
-            var formdatatype = (typeof $field.attr('data-formdatatype') === 'string') ? $field.attr('data-formdatatype') : '';
-            var originalvalue = (typeof $field.attr('data-originalvalue') === 'string') ? $field.attr('data-originalvalue') : '';
-            var field = {
+            let $field = jQuery(element);
+            let formdatafield = (typeof $field.attr('data-formdatafield') === 'string') ? $field.attr('data-formdatafield') : '';
+            let formdatatype = (typeof $field.attr('data-formdatatype') === 'string') ? $field.attr('data-formdatatype') : '';
+            let originalvalue = (typeof $field.attr('data-originalvalue') === 'string') ? $field.attr('data-originalvalue') : '';
+            let validationDisplayField = (typeof $field.attr('data-browsedisplayfield') === 'string') ? $field.attr('data-browsedisplayfield') : '';
+            let validationDisplayValue = $tr.find(`.field[data-browsedatafield="${formdatafield}"] input.text`).val();
+
+            let field = {
                 datafield: formdatafield,
                 value: originalvalue
             };
@@ -2900,6 +2903,12 @@ class FwBrowseClass {
                 }
             }
             fields[formdatafield] = field.value;
+
+            if (formdatatype === 'validation') {
+                if (validationDisplayField != formdatafield) {
+                    fields[validationDisplayField] = validationDisplayValue; // 11/09/2018 CAS-24077-PDIB adding display field here for audit history
+                }
+            }
         });
         return fields;
     }
