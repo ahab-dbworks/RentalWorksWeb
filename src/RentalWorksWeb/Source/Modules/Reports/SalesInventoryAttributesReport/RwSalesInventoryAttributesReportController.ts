@@ -1,11 +1,11 @@
 ﻿routes.push({
-    pattern: /^reports\/rentalinventoryattributesreport/, action: function (match: RegExpExecArray) {
-        return RwRentalInventoryAttributesReportController.getModuleScreen();
+    pattern: /^reports\/salesinventoryattributesreport/, action: function (match: RegExpExecArray) {
+        return RwSalesInventoryAttributesReportController.getModuleScreen();
     }
 });
 
-var rentalInventoryAttributesTemplateFrontEnd = `
-<div class="fwcontrol fwcontainer fwform fwreport" data-control="FwContainer" data-type="form" data-version="1" data-caption="Rental Inventory Attributes Report" data-rendermode="template" data-mode="" data-hasaudit="false" data-controller="RwRentalInventoryAttributesReportController">
+var salesInventoryAttributesTemplateFrontEnd = `
+<div class="fwcontrol fwcontainer fwform fwreport" data-control="FwContainer" data-type="form" data-version="1" data-caption="Sales Inventory Attributes Report" data-rendermode="template" data-mode="" data-hasaudit="false" data-controller="RwSalesInventoryAttributesReportController">
   <div class="fwcontrol fwtabs" data-control="FwTabs" data-type="">
     <div class="tabs" style="margin-right:10px;">
       <div id="generaltab" class="tab" data-tabpageid="generaltabpage" data-caption="General"></div>
@@ -27,13 +27,13 @@ var rentalInventoryAttributesTemplateFrontEnd = `
                   <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Inventory Type" data-datafield="InventoryTypeId" data-displayfield="InventoryType" data-formbeforevalidate="beforeValidate" data-validationname="InventoryTypeValidation" data-required="false" style="max-width:300px;"></div>
                 </div>
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                  <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Category" data-datafield="CategoryId" data-displayfield="Category" data-formbeforevalidate="beforeValidate" data-validationname="RentalCategoryValidation" data-required="false" style="max-width:300px;"></div>
+                  <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Category" data-datafield="CategoryId" data-displayfield="Category" data-formbeforevalidate="beforeValidate" data-validationname="SalesCategoryValidation" data-required="false" style="max-width:300px;"></div>
                 </div>
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                   <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Sub Category" data-datafield="SubCategoryId" data-displayfield="SubCategory" data-formbeforevalidate="beforeValidate" data-validationname="SubCategoryValidation" data-required="false" style="max-width:300px;"></div>
                 </div>
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                  <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="I-Code" data-datafield="InventoryId" data-displayfield="ICode" data-formbeforevalidate="beforeValidate" data-validationname="RentalInventoryValidation" data-required="false" style="max-width:300px;"></div>
+                  <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="I-Code" data-datafield="InventoryId" data-displayfield="ICode" data-formbeforevalidate="beforeValidate" data-validationname="SalesInventoryValidation" data-required="false" style="max-width:300px;"></div>
                 </div>
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                   <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Attribute" data-datafield="AttributeId" data-displayfield="Attribute" data-validationname="AttributeValidation" style="max-width:300px;" data-required="false"></div>
@@ -48,10 +48,10 @@ var rentalInventoryAttributesTemplateFrontEnd = `
 </div>`;
 
 //----------------------------------------------------------------------------------------------
-class RwRentalInventoryAttributesReportClass extends FwWebApiReport {
+class RwSalesInventoryAttributesReportClass extends FwWebApiReport {
     //----------------------------------------------------------------------------------------------
     constructor() {
-        super('RentalInventoryAttributesReport', 'api/v1/rentalinventoryattributesreport', rentalInventoryAttributesTemplateFrontEnd);
+        super('SalesInventoryAttributesReport', 'api/v1/salesinventoryattributesreport', salesInventoryAttributesTemplateFrontEnd);
         //this.reportOptions.HasDownloadExcel = true;
     }
     //----------------------------------------------------------------------------------------------
@@ -97,15 +97,15 @@ class RwRentalInventoryAttributesReportClass extends FwWebApiReport {
 
         switch (validationName) {
             case 'InventoryTypeValidation':
-                request.uniqueids.Rental = true;
+                request.uniqueids.Sales = true;
                 break;
-            case 'RentalCategoryValidation':
+            case 'SalesCategoryValidation':
                 if (inventoryTypeId !== "") {
                     request.uniqueids.InventoryTypeId = inventoryTypeId;
                     break;
                 }
             case 'SubCategoryValidation':
-                request.uniqueids.Rental = true;
+                request.uniqueids.Sales = true;
 
                 if (inventoryTypeId !== "") {
                     request.uniqueids.TypeId = inventoryTypeId;
@@ -114,7 +114,7 @@ class RwRentalInventoryAttributesReportClass extends FwWebApiReport {
                     request.uniqueids.CategoryId = categoryId;
                 }
                 break;
-            case 'RentalInventoryValidation':
+            case 'SalesInventoryValidation':
                 if (inventoryTypeId !== "") {
                     request.uniqueids.InventoryTypeId = inventoryTypeId;
                 }
@@ -141,5 +141,5 @@ class RwRentalInventoryAttributesReportClass extends FwWebApiReport {
     //----------------------------------------------------------------------------------------------
 };
 
-var RwRentalInventoryAttributesReportController: any = new RwRentalInventoryAttributesReportClass();
+var RwSalesInventoryAttributesReportController: any = new RwSalesInventoryAttributesReportClass();
 //----------------------------------------------------------------------------------------------
