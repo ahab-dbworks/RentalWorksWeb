@@ -563,3 +563,25 @@ html.theme-material [data-name="AuditHistoryGrid"] tbody tr.selected td ul:not(.
 #designerContent [data-control="FwFormField"]{
     border: 1px solid #dcdcdc;
 }
+
+#designerContent [data-control="FwBrowse"] td.column:not(.tdselectrow):not(.browsecontextmenucell) .field *{
+    pointer-events: none;
+}
+
+#controlProperties .propertyContainer div.properties {
+    width: 100%;
+    display: flex;
+    padding-bottom: 3px;
+}
+
+    #controlProperties .propertyContainer div.properties div {
+        width: 50%;
+        font-size: .9em;
+    }
+
+#controlProperties .propertyContainer div input:disabled {
+    background-color: whitesmoke;
+    border-color: inherit;
+    border-style: solid;
+}
+

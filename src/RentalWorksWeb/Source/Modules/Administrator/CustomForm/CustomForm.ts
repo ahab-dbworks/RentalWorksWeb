@@ -506,47 +506,77 @@ class CustomForm {
 
             //drag and drop
             if (type === 'Grid' || type === 'Browse') {
+                let index;
+                let indexDrag;
+                let indexDrop;
+                let $elementDragged;
+                let $draggableElements;
                 let $dragContainer = $customForm.find('tr.fieldnames');
-                $dragContainer.find('td.column:not(.tdselectrow):not(.browsecontextmenucell) .field').attr('draggable', 'true');
+                $draggableElements = $dragContainer.find('td.column:not(.tdselectrow):not(.browsecontextmenucell)');
+                $draggableElements.attr('draggable', 'true');
+                //$dragContainer.find('td.column:not(.tdselectrow):not(.browsecontextmenucell)').addClass('droppable');
                 $dragContainer
-                    .off('dragstart', 'td.column:not(.tdselectrow):not(.browsecontextmenucell) .field')
-                    .on('dragstart', 'td.column:not(.tdselectrow):not(.browsecontextmenucell) .field', e => {
-
-                        e.originalEvent.dataTransfer.setData("index", jQuery(e.currentTarget).attr('data-index'));
+                    .off('dragstart', 'td.column:not(.tdselectrow):not(.browsecontextmenucell)')
+                    .on('dragstart', 'td.column:not(.tdselectrow):not(.browsecontextmenucell)', e => {
+                        index = jQuery(e.currentTarget).children('.field').attr('data-index');
+                        e.originalEvent.dataTransfer.setData("index", index);
+                        $elementDragged = $draggableElements
+                            .find('.field')
+                            .filter(function () {
+                                return jQuery(this).attr("data-index") === index;
+                            });
                     })
-                    .off('dragover', 'td.column:not(.tdselectrow):not(.browsecontextmenucell) .field')
-                    .on('dragover', 'td.column:not(.tdselectrow):not(.browsecontextmenucell) .field', e => {
+                    .off('dragenter', 'td.column:not(.tdselectrow):not(.browsecontextmenucell)')
+                    .on('dragenter', 'td.column:not(.tdselectrow):not(.browsecontextmenucell)', e => {
+                        let $this = jQuery(e.currentTarget);
+                        console.log($elementDragged, 'element');
+                        indexDrag = $elementDragged.parents('td').index();
+                        indexDrop = $this.index();
+                        console.log(indexDrop, "drop");
+                        console.log(indexDrag, "drag");
+                        if (indexDrag > indexDrop) {
+                            e.currentTarget.style.borderLeft = "2px dashed gray";
+                        } else if (indexDrag < indexDrop) {
+                            e.currentTarget.style.borderRight = "2px dashed gray";
+                        } else if (indexDrag == indexDrop) {
+                            e.currentTarget.style.borderRight = "2px dashed gray";
+                            e.currentTarget.style.borderLeft = "2px dashed gray";
+                        }
+                    })
+                    .off('dragleave', 'td.column:not(.tdselectrow):not(.browsecontextmenucell)')
+                    .on('dragleave', 'td.column:not(.tdselectrow):not(.browsecontextmenucell)', e => {
+                            e.currentTarget.style.borderLeft = "";
+                            e.currentTarget.style.borderRight = "";
+                    })
+                    .off('dragover', 'td.column:not(.tdselectrow):not(.browsecontextmenucell)')
+                    .on('dragover', 'td.column:not(.tdselectrow):not(.browsecontextmenucell)', e => {
                         e.preventDefault();
                     })
-                    .off('drop', 'td.column:not(.tdselectrow):not(.browsecontextmenucell) .field')
-                    .on('drop', 'td.column:not(.tdselectrow):not(.browsecontextmenucell) .field', e => {
+                    .off('drop', 'td.column:not(.tdselectrow):not(.browsecontextmenucell)')
+                    .on('drop', 'td.column:not(.tdselectrow):not(.browsecontextmenucell)', e => {
+                        let $this = jQuery(e.currentTarget);
                         let index = e.originalEvent.dataTransfer.getData("index");
-                        let targetHtmlIndex = jQuery(e.currentTarget).attr('data-index');
-
-                        if (index !== targetHtmlIndex) {
-                            let $draggingElem = $dragContainer.find('td.column:not(.tdselectrow):not(.browsecontextmenucell) .field')
-                                .filter(function () {
-                                    return jQuery(this).attr("data-index") === index;
-                                });
-                            $draggingElem = $draggingElem.parent();  //need to get to the parent td due to the framework's structure
-                            let $this = jQuery(e.currentTarget).parent();
-                            let indexDrag = $draggingElem.index();
+                        let dropTargetHtmlIndex = $this.children('.field').attr('data-index');
+                        if (index !== dropTargetHtmlIndex) {
+                            let indexDrag = $elementDragged.parents('td').index();
                             let indexDrop = $this.index();
 
                             //for updating the formfield and codemirror
                             let firstColumn = jQuery($customFormClone).find(`[data-index="${index}"]`).parent();
-                            let secondColumn = jQuery($customFormClone).find(`[data-index="${targetHtmlIndex}"]`).parent();
+                            let secondColumn = jQuery($customFormClone).find(`[data-index="${dropTargetHtmlIndex}"]`).parent();
 
                             if (indexDrag < indexDrop) {
-                                $draggingElem.insertAfter($this);
+                                $elementDragged.parents('td').insertAfter($this);
                                 firstColumn.insertAfter(secondColumn);
 
                             } else if (indexDrag > indexDrop) {
-                                $draggingElem.insertBefore($this);
+                                $elementDragged.parents('td').insertBefore($this);
                                 firstColumn.insertBefore(secondColumn);
                             }
                             updateHtml();
                         }
+                        e.currentTarget.style.borderRight = "";
+                        e.currentTarget.style.borderLeft = "";
                     });
             }
 
@@ -599,21 +629,21 @@ class CustomForm {
                             c += (name == "data-isuniqueid") ? 1 : 0;
 
                             if (b) {
-                                html.push(`<div class="properties" style="width:100%; display:flex;">
-                                      <div class="propname" style="border:.5px solid #efefef; width:50%; float:left; font-size:.9em;">${name === "" ? "&#160;" : name}</div>
-                                      <div class="propval" style="border:.5px solid #efefef; width:50%; float:left; font-size:.9em;"><select style="width:94%" class="datafields" value="${value}"></select></div>
+                                html.push(`<div class="properties">
+                                      <div class="propname">${name === "" ? "&#160;" : name}</div>
+                                      <div class="propval"><select style="width:94%" class="datafields" value="${value}"></select></div>
                                    </div>
                                   `);
                             } else if (c) {
-                                html.push(`<div class="properties" style="width:100%; display:flex;">
-                                      <div class="propname" style="border:.5px solid #efefef; width:50%; float:left; font-size:.9em;">${name === "" ? "&#160;" : name}</div>
-                                      <div class="propval" style="border:.5px solid #efefef; width:50%; float:left; font-size:.9em;"><select style="width:94%" class="valueOptions" value="${value}"></select></div>
+                                html.push(`<div class="properties">
+                                      <div class="propname">${name === "" ? "&#160;" : name}</div>
+                                      <div class="propval"><select style="width:94%" class="valueOptions" value="${value}"></select></div>
                                    </div>
                                   `);
                             } else {
-                                html.push(`<div class="properties" style="width:100%; display:flex;">
-                                      <div class="propname" style="border:.5px solid #efefef; width:50%; float:left; font-size:.9em;">${name === "" ? "&#160;" : name}</div>
-                                      <div class="propval" style="border:.5px solid #efefef; width:50%; float:left; font-size:.9em;"><input value="${value}"></div>
+                                html.push(`<div class="properties">
+                                      <div class="propname">${name === "" ? "&#160;" : name}</div>
+                                      <div class="propval"><input value="${value}"></div>
                                    </div>
                                   `);
                             }
@@ -751,9 +781,9 @@ class CustomForm {
                     if (newProp && newPropVal) {
                         let html: any = [];
                         html.push(` 
-                                    <div class="properties" style="width:100%; display:flex;">
-                                      <div class="propname" style="border:.5px solid #efefef; width:50%; float:left;">${newProp}</div>
-                                      <div class="propval" style="border:.5px solid #efefef; width:50%; float:left;"><input value="${newPropVal}"></div>
+                                    <div class="properties">
+                                      <div class="propname">${newProp}</div>
+                                      <div class="propval"><input value="${newPropVal}"></div>
                                    </div>
                         `);
                         $form.find('#controlProperties .addproperties').before(html.join(''));
@@ -812,6 +842,7 @@ class CustomForm {
     <div class="field" data-index="${++lastIndex}"></div>
   </div>
 `); //needs to be formatted this way so it looks nice in the code editor
+
                     let newColumn = jQuery(html.join(''));
 
                     hasSpacer === true ? newColumn.insertBefore($control.find('div.spacer')) : $control.append(newColumn);
@@ -823,7 +854,7 @@ class CustomForm {
                     let fields: any = [];
 
                     propertyHtml.push(propertyContainerHtml);
-                    fields = ['data-datafield', 'data-datatype', 'data-sort', 'data-width', 'data-visible', 'data-caption'];
+                    fields = ['data-datafield', 'data-datatype', 'data-sort', 'data-width', 'data-visible', 'data-caption', 'class'];
                     for (let i = 0; i < fields.length; i++) {
                         var value;
                         var field = fields[i];
@@ -846,11 +877,13 @@ class CustomForm {
                             case 'data-caption':
                                 value = "New Column"
                                 break;
+                            case 'class':
+                                value = 'field';
                         }
                         propertyHtml.push(
-                            `<div class="properties" style="width:100%; display:flex;">
-                                <div class="propname" style="border:.5px solid #efefef; width:50%; float:left; font-size:.9em;">${field}</div>
-                                <div class="propval" style="border:.5px solid #efefef; width:50%; float:left; font-size:.9em;"><input value="${value}"></div>
+                            `<div class="properties">
+                                <div class="propname" style="border:.5px solid #efefef;">${field}</div>
+                                <div class="propval" style="border:.5px solid #efefef;"><input value="${value}"></div>
                              </div>
                              `);
 
