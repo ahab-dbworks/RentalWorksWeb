@@ -567,6 +567,9 @@ html.theme-material [data-name="AuditHistoryGrid"] tbody tr.selected td ul:not(.
 #designerContent [data-control="FwBrowse"] td.column:not(.tdselectrow):not(.browsecontextmenucell) .field *{
     pointer-events: none;
 }
+#designerContent [data-type="tabpage"] div.fwformfield * {
+    pointer-events: none;
+}
 
 #controlProperties .propertyContainer div.properties {
     width: 100%;

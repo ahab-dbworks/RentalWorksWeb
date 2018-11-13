@@ -514,7 +514,6 @@ class CustomForm {
                 let $dragContainer = $customForm.find('tr.fieldnames');
                 $draggableElements = $dragContainer.find('td.column:not(.tdselectrow):not(.browsecontextmenucell)');
                 $draggableElements.attr('draggable', 'true');
-                //$dragContainer.find('td.column:not(.tdselectrow):not(.browsecontextmenucell)').addClass('droppable');
                 $dragContainer
                     .off('dragstart', 'td.column:not(.tdselectrow):not(.browsecontextmenucell)')
                     .on('dragstart', 'td.column:not(.tdselectrow):not(.browsecontextmenucell)', e => {
@@ -529,11 +528,8 @@ class CustomForm {
                     .off('dragenter', 'td.column:not(.tdselectrow):not(.browsecontextmenucell)')
                     .on('dragenter', 'td.column:not(.tdselectrow):not(.browsecontextmenucell)', e => {
                         let $this = jQuery(e.currentTarget);
-                        console.log($elementDragged, 'element');
                         indexDrag = $elementDragged.parents('td').index();
                         indexDrop = $this.index();
-                        console.log(indexDrop, "drop");
-                        console.log(indexDrag, "drag");
                         if (indexDrag > indexDrop) {
                             e.currentTarget.style.borderLeft = "2px dashed gray";
                         } else if (indexDrag < indexDrop) {
@@ -545,8 +541,8 @@ class CustomForm {
                     })
                     .off('dragleave', 'td.column:not(.tdselectrow):not(.browsecontextmenucell)')
                     .on('dragleave', 'td.column:not(.tdselectrow):not(.browsecontextmenucell)', e => {
-                            e.currentTarget.style.borderLeft = "";
-                            e.currentTarget.style.borderRight = "";
+                        e.currentTarget.style.borderLeft = "";
+                        e.currentTarget.style.borderRight = "";
                     })
                     .off('dragover', 'td.column:not(.tdselectrow):not(.browsecontextmenucell)')
                     .on('dragover', 'td.column:not(.tdselectrow):not(.browsecontextmenucell)', e => {
@@ -577,6 +573,72 @@ class CustomForm {
                         }
                         e.currentTarget.style.borderRight = "";
                         e.currentTarget.style.borderLeft = "";
+                    });
+            } else if (type === 'Form') {
+                let index;
+                let indexDrag;
+                let indexDrop;
+                let $elementDragged;
+                let $draggableElements;
+                let placeholderIndex;
+                let $dragContainer = $customForm.find('div.flexpage');
+                $draggableElements = $dragContainer.find('div.fwformfield');
+                $draggableElements.attr('draggable', 'true');
+                $dragContainer
+                    .off('dragstart', 'div.fwformfield')
+                    .on('dragstart', 'div.fwformfield', e => {
+                        index = jQuery(e.currentTarget).attr('data-index');
+                        e.originalEvent.dataTransfer.setData("index", index);
+                        $elementDragged = $draggableElements
+                            .filter(function () {
+                                return jQuery(this).attr("data-index") === index;
+                            });
+                    })
+                    .off('dragenter', 'div.fwformfield')
+                    .on('dragenter', 'div.fwformfield', e => {
+                        let $this = jQuery(e.currentTarget);
+                        //where it is doesn't matter, just insertBefore for all?  cases for the first and last items.. insert before or after?
+                        indexDrag = $elementDragged.index();
+                        indexDrop = $this.index();
+                        $dragContainer.find('div.placeholder').remove();
+                        if (indexDrag !== indexDrop) {
+                            let $preview = jQuery(`<div class="placeholder" style="min-height:50px; line-height:50px; vertical-align:middle; font-weight:bold; text-align:center; flex:1 1 100px; border: 2px dashed #4caf50">Drop here</div>`);
+                            placeholderIndex = $this.attr('data-index');
+                            if (indexDrag > indexDrop) {
+                                $preview.insertBefore($this);
+                            } else if (indexDrag < indexDrop) {
+                                $preview.insertAfter($this);
+                            }
+                        }
+                    })
+                    .off('dragleave', 'div.fwformfield')
+                    .on('dragleave', 'div.fwformfield', e => {
+                    })
+                    .off('dragover', 'div.fwformfield')
+                    .on('dragover', 'div.fwformfield', e => {
+                        e.preventDefault();
+                    })
+                    .off('drop', 'div.placeholder')
+                    .on('drop', 'div.placeholder', e => {
+                        let $this = jQuery(e.currentTarget);
+                        let index = e.originalEvent.dataTransfer.getData("index");
+                        //for updating the formfield and codemirror
+                        let firstColumn = jQuery($customFormClone).find(`[data-index="${index}"]`);
+                        let secondColumn = jQuery($customFormClone).find(`[data-index="${placeholderIndex}"]`);
+
+                        $this.replaceWith($elementDragged);
+
+                        if (indexDrag > indexDrop) {
+                            firstColumn.insertAfter(secondColumn);
+                        } else if (indexDrag < indexDrop) {
+                            firstColumn.insertBefore(secondColumn);
+                        }
+                        updateHtml();
+                        e.currentTarget.style.border = "";
+                    })
+                    .off('drop', 'div.fwformfield')
+                    .on('drop', 'div.fwformfield', e => {
+                        $dragContainer.find('div.placeholder').remove();
                     });
             }
 
