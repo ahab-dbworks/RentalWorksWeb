@@ -1,7 +1,8 @@
-using FwStandard.BusinessLogic.Attributes; 
+using FwStandard.AppManager;
 using WebApi.Logic;
 namespace WebApi.Modules.Settings.OrderLocation
 {
+    [FwLogic(Id:"s1JjHpmTfUF1")]
     public class OrderLocationLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------ 
@@ -13,15 +14,24 @@ namespace WebApi.Modules.Settings.OrderLocation
             dataLoader = orderLocationLoader;
         }
         //------------------------------------------------------------------------------------ 
-        [FwBusinessLogicField(isPrimaryKey: true)]
+        [FwLogicProperty(Id:"lv3EgzBTOZi1", IsPrimaryKey:true)]
         public string OrderLocationId { get { return orderLocation.OrderLocationId; } set { orderLocation.OrderLocationId = value; } }
-        [FwBusinessLogicField(isRecordTitle: true)]
+
+        [FwLogicProperty(Id:"oDoqmEFWKPIN", IsRecordTitle:true)]
         public string Description { get { return orderLocation.Description; } set { orderLocation.Description = value; } }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"lv3EgzBTOZi1", IsReadOnly:true)]
         public string Location { get; set; }
+
+        [FwLogicProperty(Id:"3arTV7tsn65")]
         public string LocationId { get { return orderLocation.LocationId; } set { orderLocation.LocationId = value; } }
+
+        [FwLogicProperty(Id:"PfRacWpAVTI")]
         public bool? Inactive { get { return orderLocation.Inactive; } set { orderLocation.Inactive = value; } }
+
+        [FwLogicProperty(Id:"ISHfpvMAiQ2")]
         public string DateStamp { get { return orderLocation.DateStamp; } set { orderLocation.DateStamp = value; } }
+
         //------------------------------------------------------------------------------------ 
     }
 }

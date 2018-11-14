@@ -1,8 +1,9 @@
-﻿using FwStandard.BusinessLogic.Attributes;
+using FwStandard.AppManager;
 using WebApi.Logic;
 
 namespace WebApi.Modules.Settings.OfficeLocation
 {
+    [FwLogic(Id:"SsvsPskrsl1v")]
     public class OfficeLocationLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------
@@ -15,15 +16,27 @@ namespace WebApi.Modules.Settings.OfficeLocation
             dataLoader = locationLoader;
         }
         //------------------------------------------------------------------------------------
-        [FwBusinessLogicField(isPrimaryKey: true)]
+        [FwLogicProperty(Id:"0Hj1fA4EoP7P", IsPrimaryKey:true)]
         public string LocationId { get { return location.LocationId; } set { location.LocationId = value; } }
-        [FwBusinessLogicField(isRecordTitle: true)]
+
+        [FwLogicProperty(Id:"0Hj1fA4EoP7P", IsRecordTitle:true)]
         public string Location { get { return location.Location; } set { location.Location = value; } }
+
+        [FwLogicProperty(Id:"s72vwwq6Bvd")]
         public string LocationCode { get { return location.LocationCode; } set { location.LocationCode = value; } }
+
+        [FwLogicProperty(Id:"iU02kRoiKzq")]
         public string DefaultPurchasePoTypeId { get { return location.DefaultPurchasePoTypeId; } set { location.DefaultPurchasePoTypeId = value; } }
+
+        [FwLogicProperty(Id:"BuPhPT7D3XD")]
         public string DefaultPurchasePoType { get; set; }
+
+        [FwLogicProperty(Id:"GDXu3A4umCh")]
         public bool? Inactive { get { return location.Inactive; } set { location.Inactive = value; } }
+
+        [FwLogicProperty(Id:"TWUrrSVl5Ll")]
         public string DateStamp { get { return location.DateStamp; } set { location.DateStamp = value; } }
+
         //------------------------------------------------------------------------------------
     }
 

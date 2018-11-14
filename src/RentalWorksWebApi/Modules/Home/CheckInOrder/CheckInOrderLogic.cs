@@ -1,7 +1,8 @@
-using FwStandard.BusinessLogic.Attributes;
+using FwStandard.AppManager;
 using WebApi.Logic;
 namespace WebApi.Modules.Home.CheckInOrder
 {
+    [FwLogic(Id:"kggWpyZEEdbV")]
     public class CheckInOrderLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------ 
@@ -11,34 +12,48 @@ namespace WebApi.Modules.Home.CheckInOrder
             dataLoader = checkInOrderLoader;
         }
         //------------------------------------------------------------------------------------ 
-        [FwBusinessLogicField(isPrimaryKey: true, isReadOnly: true)]
+        [FwLogicProperty(Id:"8qAD2usxRhoo", IsPrimaryKey:true, IsReadOnly:true)]
         public string ContractId { get; set; }
-        [FwBusinessLogicField(isPrimaryKey: true, isReadOnly: true)]
+
+        [FwLogicProperty(Id:"7jZyMNnEJCFw", IsPrimaryKey:true, IsReadOnly:true)]
         public string OrderId { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"rt3qyI0oSkIA", IsReadOnly:true)]
         public string OrderNumber { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"AKj7BlC2f0M3", IsReadOnly:true)]
         public string OrderDescription { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"GAkKZiJI1NHf", IsReadOnly:true)]
         public int? Priority { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"q9sF0ePFI7rD", IsReadOnly:true)]
         public bool? IncludeInCheckInSession { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"QlVGEFN28diu", IsReadOnly:true)]
         public string OrderDate { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"mTK9JUI1K9lX", IsReadOnly:true)]
         public string EstimatedStartDate { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"oIDyurOWIjpX", IsReadOnly:true)]
         public string EstimatedStopDate { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"5qoEsjH9PBx5", IsReadOnly:true)]
         public string Status { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"5qoEsjH9PBx5", IsReadOnly:true)]
         public string StatusDate { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"2RfJjKAWmRFD", IsReadOnly:true)]
         public string DealId { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"Rvqswudm97Oe", IsReadOnly:true)]
         public string DepartmentId { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"ub1j73UPYPuX", IsReadOnly:true)]
         public string WarehouseCode { get; set; }
+
         //------------------------------------------------------------------------------------ 
     }
 }

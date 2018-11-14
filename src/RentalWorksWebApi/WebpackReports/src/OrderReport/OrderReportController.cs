@@ -1,3 +1,4 @@
+using FwStandard.AppManager;
 using FwStandard.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
@@ -17,6 +18,7 @@ namespace WebApi.Modules.Reports.OrderReport
     }
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "reports-v1")]
+    [FwController(Id:"Q89Ni6FvVL92")]
     public class OrderReportController : AppReportController
     {
         public OrderReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
@@ -40,6 +42,7 @@ namespace WebApi.Modules.Reports.OrderReport
         //------------------------------------------------------------------------------------ 
         // POST api/v1/orderreport/render 
         [HttpPost("render")]
+        [FwControllerMethod(Id:"T8c0DKhRVZhF")]
         public async Task<ActionResult<FwReportRenderResponse>> Render([FromBody]FwReportRenderRequest request)
         {
             if (!this.ModelState.IsValid) return BadRequest();
@@ -49,6 +52,7 @@ namespace WebApi.Modules.Reports.OrderReport
         //------------------------------------------------------------------------------------ 
         // POST api/v1/orderreport/runreport 
         [HttpPost("runreport")]
+        [FwControllerMethod(Id:"lZEgjy5NkBDm")]
         public async Task<ActionResult<OrderReportLoader>> RunReportAsync([FromBody]OrderReportRequest request)
         {
             if (!ModelState.IsValid)

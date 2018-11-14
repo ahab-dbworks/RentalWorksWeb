@@ -1,11 +1,12 @@
+using FwStandard.AppManager;
 using FwStandard.BusinessLogic;
-using FwStandard.BusinessLogic.Attributes;
 using System.Reflection;
 using WebApi.Logic;
 using WebLibrary;
 
 namespace WebApi.Modules.Home.Receipt
 {
+    [FwLogic(Id:"5XIpJJ8C7Ywx")]
     public class ReceiptLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------ 
@@ -18,49 +19,87 @@ namespace WebApi.Modules.Home.Receipt
             BeforeSave += OnBeforeSave;
         }
         //------------------------------------------------------------------------------------ 
-        [FwBusinessLogicField(isPrimaryKey: true)]
+        [FwLogicProperty(Id:"hcdYkju05r4e", IsPrimaryKey:true)]
         public string ReceiptId { get { return receipt.ReceiptId; } set { receipt.ReceiptId = value; } }
-        [FwBusinessLogicField(isRecordTitle: true)]
+
+        [FwLogicProperty(Id:"7ucLS5wlvWpI", IsRecordTitle:true)]
         public string ReceiptDate { get { return receipt.ReceiptDate; } set { receipt.ReceiptDate = value; } }
+
+        [FwLogicProperty(Id:"Bf2y9PcBnUwj")]
         public string LocationId { get { return receipt.LocationId; } set { receipt.LocationId = value; } }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"RUgIsdJa9FQn", IsReadOnly:true)]
         public string LocationCode { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"NSh9WWPHVJDa", IsReadOnly:true)]
         public string Location { get; set; }
+
+        [FwLogicProperty(Id:"DN9elEbrZ1dr")]
         public string CustomerId { get { return receipt.CustomerId; } set { receipt.CustomerId = value; } }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"MedLHg9WuGie", IsReadOnly:true)]
         public string Customer { get; set; }
+
+        [FwLogicProperty(Id:"dhYQSaHyHNiW")]
         public string DealId { get { return receipt.DealId; } set { receipt.DealId = value; } }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"eeTo238ihgT9", IsReadOnly:true)]
         public string Deal { get; set; }
+
+        [FwLogicProperty(Id:"Hq9VCTVD1PKv")]
         public string PaymentBy { get { return receipt.PaymentBy; } set { receipt.PaymentBy = value; } }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"TaJJBwxOCui6", IsReadOnly:true)]
         public string CustomerDeal { get; set; }
+
+        [FwLogicProperty(Id:"cAyFNYEDmOWD")]
         public string PaymentTypeId { get { return receipt.PaymentTypeId; } set { receipt.PaymentTypeId = value; } }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"kXK17zt5j8sU", IsReadOnly:true)]
         public string PaymentType { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"ME2oFmB4u32U", IsReadOnly:true)]
         public string PaymentTypeExportPaymentMethod { get; set; }
-        [FwBusinessLogicField(isRecordTitle: true)]
+
+        [FwLogicProperty(Id:"myzLVs0a6vfu", IsRecordTitle:true)]
         public string CheckNumber { get { return receipt.CheckNumber; } set { receipt.CheckNumber = value; } }
+
+        [FwLogicProperty(Id:"KwEgI2DXXnXD")]
         public decimal? PaymentAmount { get { return receipt.PaymentAmount; } set { receipt.PaymentAmount = value; } }
+
+        [FwLogicProperty(Id:"XfMr9D8sR6DZ")]
         public string AppliedById { get { return receipt.AppliedById; } set { receipt.AppliedById = value; } }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"L8bFfvReiecw", IsReadOnly:true)]
         public string AppliedBy { get; set; }
+
+        [FwLogicProperty(Id:"A3RNw0AYVNSC")]
         public string ModifiedById { get { return receipt.ModifiedById; } set { receipt.ModifiedById = value; } }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"qupXWj36ne07", IsReadOnly:true)]
         public string ModifiedBy { get; set; }
+
+        [FwLogicProperty(Id:"mat3c7KQ0iNn")]
         public string PaymentMemo { get { return receipt.PaymentMemo; } set { receipt.PaymentMemo = value; } }
+
+        [FwLogicProperty(Id:"TpuozxIakrza")]
         public bool? RecType { get { return receipt.RecType; } set { receipt.RecType = value; } }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"0uxt3Kj2zTdS", IsReadOnly:true)]
         public string ChargeBatchId { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"3uY1f5SblA5d", IsReadOnly:true)]
         public string ChargeBatchNumber { get; set; }
+
+        [FwLogicProperty(Id:"HL5mbYr6nUYx")]
         public string CurrencyId { get { return receipt.CurrencyId; } set { receipt.CurrencyId = value; } }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"D7LZaFqbzDWI", IsReadOnly:true)]
         public string CurrencyCode { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"DFYUuxYiQR5I", IsReadOnly:true)]
         public string LocationDefaultCurrencyId { get; set; }
+
         //------------------------------------------------------------------------------------ 
         protected override bool Validate(TDataRecordSaveMode saveMode, FwBusinessLogic original, ref string validateMsg)
         {

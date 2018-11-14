@@ -1,3 +1,4 @@
+using FwStandard.AppManager;
 ﻿using FwStandard.SqlServer;
 using System.Collections.Generic;
 using FwStandard.Models;
@@ -11,6 +12,7 @@ namespace WebApi.Modules.Settings.CrewScheduleStatus
 {
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "settings-v1")]
+    [FwController(Id:"c0X4YfdKCp06")]
     public class CrewScheduleStatusController : AppDataController
     {
         public CrewScheduleStatusController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(CrewScheduleStatusLogic); }
@@ -18,6 +20,7 @@ namespace WebApi.Modules.Settings.CrewScheduleStatus
         // POST api/v1/crewschedulestatus/browse
         [HttpPost("browse")]
         [Authorize(Policy = "")]
+        [FwControllerMethod(Id:"h7Q7ljTeHbzr")]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest);
@@ -25,6 +28,7 @@ namespace WebApi.Modules.Settings.CrewScheduleStatus
         //------------------------------------------------------------------------------------ 
         // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
         [HttpPost("exportexcelxlsx/{fileDownloadName}")]
+        [FwControllerMethod(Id:"h8UKza6Klxiw")]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoExportExcelXlsxFileAsync(browseRequest);
@@ -33,6 +37,7 @@ namespace WebApi.Modules.Settings.CrewScheduleStatus
         // GET api/v1/crewschedulestatus
         [HttpGet]
         [Authorize(Policy = "")]
+        [FwControllerMethod(Id:"Hxhe4I8NGRO4")]
         public async Task<ActionResult<IEnumerable<CrewScheduleStatusLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
             return await DoGetAsync<CrewScheduleStatusLogic>(pageno, pagesize, sort);
@@ -41,6 +46,7 @@ namespace WebApi.Modules.Settings.CrewScheduleStatus
         // GET api/v1/crewschedulestatus/A0000001
         [HttpGet("{id}")]
         [Authorize(Policy = "")]
+        [FwControllerMethod(Id:"bpOKuEY7KQtq")]
         public async Task<ActionResult<CrewScheduleStatusLogic>> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<CrewScheduleStatusLogic>(id);
@@ -49,6 +55,7 @@ namespace WebApi.Modules.Settings.CrewScheduleStatus
         // POST api/v1/crewschedulestatus
         [HttpPost]
         [Authorize(Policy = "")]
+        [FwControllerMethod(Id:"23CHs7ehlnO4")]
         public async Task<ActionResult<CrewScheduleStatusLogic>> PostAsync([FromBody]CrewScheduleStatusLogic l)
         {
             return await DoPostAsync<CrewScheduleStatusLogic>(l);
@@ -57,6 +64,7 @@ namespace WebApi.Modules.Settings.CrewScheduleStatus
         // DELETE api/v1/crewschedulestatus/A0000001
         [HttpDelete("{id}")]
         [Authorize(Policy = "")]
+        [FwControllerMethod(Id:"3NiOzPjrgVcd")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
             return await DoDeleteAsync(id);

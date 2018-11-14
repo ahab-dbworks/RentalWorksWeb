@@ -1,3 +1,4 @@
+using FwStandard.AppManager;
 using FwStandard.SqlServer;
 using System.Collections.Generic;
 using FwStandard.Models;
@@ -9,12 +10,14 @@ namespace WebApi.Modules.Home.OrderSnapshot
 {
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "home-v1")]
+    [FwController(Id:"YZQzEHG7tTUP")]
     public class OrderSnapshotController : AppDataController
     {
         public OrderSnapshotController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(OrderSnapshotLogic); }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/ordersnapshot/browse 
         [HttpPost("browse")]
+        [FwControllerMethod(Id:"wcYDActzOkRI")]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest);
@@ -22,6 +25,7 @@ namespace WebApi.Modules.Home.OrderSnapshot
         //------------------------------------------------------------------------------------ 
         // POST api/v1/ordersnapshot/exportexcelxlsx/filedownloadname 
         [HttpPost("exportexcelxlsx/{fileDownloadName}")]
+        [FwControllerMethod(Id:"ETnQNky8w4tK")]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoExportExcelXlsxFileAsync(browseRequest);

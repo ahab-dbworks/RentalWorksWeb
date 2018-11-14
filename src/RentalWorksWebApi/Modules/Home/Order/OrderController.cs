@@ -1,3 +1,4 @@
+using FwStandard.AppManager;
 ﻿using System.Collections.Generic;
 using FwStandard.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -51,12 +52,14 @@ namespace WebApi.Modules.Home.Order
 
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "home-v1")]
+    [FwController(Id:"U8Zlahz3ke9i")]
     public class OrderController : AppDataController
     {
         public OrderController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(OrderLogic); }
         //------------------------------------------------------------------------------------
         // POST api/v1/order/browse
         [HttpPost("browse")]
+        [FwControllerMethod(Id:"5ceamSTDb0ao")]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest);
@@ -64,6 +67,7 @@ namespace WebApi.Modules.Home.Order
         //------------------------------------------------------------------------------------ 
         // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
         [HttpPost("exportexcelxlsx/{fileDownloadName}")]
+        [FwControllerMethod(Id:"5ceamSTDb0ao")]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoExportExcelXlsxFileAsync(browseRequest);
@@ -71,6 +75,7 @@ namespace WebApi.Modules.Home.Order
         //------------------------------------------------------------------------------------ 
         // POST api/v1/order/copytoquote/A0000001
         [HttpPost("copytoquote/{id}")]
+        [FwControllerMethod(Id:"I5BjXCxr9HqC")]
         public async Task<ActionResult<QuoteLogic>> CopyToQuote([FromRoute]string id, [FromBody] QuoteOrderCopyRequest copyRequest)
         {
             if (!ModelState.IsValid)
@@ -104,6 +109,7 @@ namespace WebApi.Modules.Home.Order
         //------------------------------------------------------------------------------------
         // POST api/v1/order/copytoorder/A0000001
         [HttpPost("copytoorder/{id}")]
+        [FwControllerMethod(Id:"I5BjXCxr9HqC")]
         public async Task<ActionResult<OrderLogic>> CopyToOrder([FromRoute]string id, [FromBody] QuoteOrderCopyRequest copyRequest)
         {
             if (!ModelState.IsValid)
@@ -137,6 +143,7 @@ namespace WebApi.Modules.Home.Order
         //------------------------------------------------------------------------------------
         // POST api/v1/order/cancel/A0000001
         [HttpPost("cancel/{id}")]
+        [FwControllerMethod(Id:"b8eSiRATn80I")]
         public async Task<ActionResult<OrderLogic>> CancelOrder([FromRoute]string id)
         {
             if (!ModelState.IsValid)
@@ -170,6 +177,7 @@ namespace WebApi.Modules.Home.Order
         //------------------------------------------------------------------------------------       
         // POST api/v1/order/uncancel/A0000001
         [HttpPost("uncancel/{id}")]
+        [FwControllerMethod(Id:"XDBoHNmP6jzE")]
         public async Task<ActionResult<OrderLogic>> UncancelOrder([FromRoute]string id)
         {
             if (!ModelState.IsValid)
@@ -203,6 +211,7 @@ namespace WebApi.Modules.Home.Order
         //------------------------------------------------------------------------------------     
         // POST api/v1/quote/createsnapshot/A0000001
         [HttpPost("createsnapshot/{id}")]
+        [FwControllerMethod(Id:"q7jExMRUzP6G")]
         public async Task<ActionResult<OrderLogic>> CreateSnapshot([FromRoute]string id)
         {
             if (!ModelState.IsValid)
@@ -236,6 +245,7 @@ namespace WebApi.Modules.Home.Order
         //------------------------------------------------------------------------------------        
         // POST api/v1/order/applybottomlinedaysperweek
         [HttpPost("applybottomlinedaysperweek")]
+        [FwControllerMethod(Id:"VUTqN1ZvB7l7")]
         public async Task<ActionResult<bool>> ApplyBottomLineDaysPerWeek([FromBody] ApplyBottomLineDaysPerWeekRequest request)
         {
             if (!ModelState.IsValid)
@@ -270,6 +280,7 @@ namespace WebApi.Modules.Home.Order
         //------------------------------------------------------------------------------------
         // POST api/v1/order/applybottomlinediscountpercent
         [HttpPost("applybottomlinediscountpercent")]
+        [FwControllerMethod(Id:"3unCMsILlPMW")]
         public async Task<ActionResult<bool>> ApplyBottomLineDiscountPercent([FromBody] ApplyBottomLineDiscountPercentRequest request)
         {
             if (!ModelState.IsValid)
@@ -304,6 +315,7 @@ namespace WebApi.Modules.Home.Order
         //------------------------------------------------------------------------------------
         // POST api/v1/order/applybottomlinetotal
         [HttpPost("applybottomlinetotal")]
+        [FwControllerMethod(Id:"UPTvT6dmADf9")]
         public async Task<ActionResult<bool>> ApplyBottomLineTotal([FromBody] ApplyBottomLineTotalRequest request)
         {
             if (!ModelState.IsValid)
@@ -339,6 +351,7 @@ namespace WebApi.Modules.Home.Order
         //------------------------------------------------------------------------------------        
         // POST api/v1/order/startpoworksheetsession
         [HttpPost("startpoworksheetsession")]
+        [FwControllerMethod(Id:"R0PUscxxQIGy")]
         public async Task<ActionResult<CreatePoWorksheetSessionResponse>> StartPoWorksheetSession([FromBody] CreatePoWorksheetSessionRequest request)
         {
             if (!ModelState.IsValid)
@@ -393,6 +406,7 @@ namespace WebApi.Modules.Home.Order
         //------------------------------------------------------------------------------------        
         // POST api/v1/order/completepoworksheetsession
         [HttpPost("completepoworksheetsession")]
+        [FwControllerMethod(Id:"D2UdqmBoUarE")]
         public async Task<ActionResult<CompletePoWorksheetSessionResponse>> CompletePoWorksheetSession([FromBody] CompletePoWorksheetSessionRequest request)
         {
             if (!ModelState.IsValid)
@@ -416,6 +430,7 @@ namespace WebApi.Modules.Home.Order
         //------------------------------------------------------------------------------------        
         // GET api/v1/order
         [HttpGet]
+        [FwControllerMethod(Id:"proTzh4yd7gn")]
         public async Task<ActionResult<IEnumerable<OrderLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
             return await DoGetAsync<OrderLogic>(pageno, pagesize, sort);
@@ -423,6 +438,7 @@ namespace WebApi.Modules.Home.Order
         //------------------------------------------------------------------------------------
         // GET api/v1/order/A0000001
         [HttpGet("{id}")]
+        [FwControllerMethod(Id:"Va6jzxcGVll8")]
         public async Task<ActionResult<OrderLogic>> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<OrderLogic>(id);
@@ -430,6 +446,7 @@ namespace WebApi.Modules.Home.Order
         //------------------------------------------------------------------------------------
         // POST api/v1/order
         [HttpPost]
+        [FwControllerMethod(Id:"iK5RRY2gSg8d")]
         public async Task<ActionResult<OrderLogic>> PostAsync([FromBody]OrderLogic l)
         {
             return await DoPostAsync<OrderLogic>(l);

@@ -1,3 +1,4 @@
+using FwStandard.AppManager;
 using FwStandard.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
@@ -29,6 +30,7 @@ namespace WebApi.Modules.Reports.PartsInventoryPurchaseHistoryReport
     //}
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "reports-v1")]
+    [FwController(Id:"s3JHeEZYfEu")]
     public class PartsInventoryPurchaseHistoryReportController : AppReportController
     {
         public PartsInventoryPurchaseHistoryReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
@@ -52,6 +54,7 @@ namespace WebApi.Modules.Reports.PartsInventoryPurchaseHistoryReport
         //------------------------------------------------------------------------------------ 
         // POST api/v1/partsinventorypurchasehistoryreport/render 
         [HttpPost("render")]
+        [FwControllerMethod(Id:"QIwOjkOEpsT")]
         public async Task<ActionResult<FwReportRenderResponse>> Render([FromBody]FwReportRenderRequest request)
         {
             if (!this.ModelState.IsValid) return BadRequest();
@@ -61,6 +64,7 @@ namespace WebApi.Modules.Reports.PartsInventoryPurchaseHistoryReport
         //------------------------------------------------------------------------------------ 
         // POST api/v1/partsinventorypurchasehistoryreport/runreport 
         [HttpPost("runreport")]
+        [FwControllerMethod(Id:"XDUx1o9P7Ow")]
         public async Task<ActionResult<FwJsonDataTable>> RunReportAsync([FromBody]InventoryPurchaseHistoryReportRequest request)
         {
             if (!ModelState.IsValid)

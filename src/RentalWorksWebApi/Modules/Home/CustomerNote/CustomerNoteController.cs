@@ -1,3 +1,4 @@
+using FwStandard.AppManager;
 ﻿using System.Collections.Generic;
 using FwStandard.Models;
 using FwStandard.SqlServer;
@@ -11,12 +12,14 @@ namespace WebApi.Modules.Home.CustomerNote
 {
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "home-v1")]
+    [FwController(Id:"6AHfzr9WBEW9")]
     public class CustomerNoteController : AppDataController
     {
         public CustomerNoteController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(CustomerNoteLogic); }
         //------------------------------------------------------------------------------------
         // POST api/v1/customernote/browse
         [HttpPost("browse")]
+        [FwControllerMethod(Id:"DpFKT80eBP5e")]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest);
@@ -24,6 +27,7 @@ namespace WebApi.Modules.Home.CustomerNote
         //------------------------------------------------------------------------------------ 
         // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
         [HttpPost("exportexcelxlsx/{fileDownloadName}")]
+        [FwControllerMethod(Id:"6aVb9v4Oev3j")]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoExportExcelXlsxFileAsync(browseRequest);
@@ -31,6 +35,7 @@ namespace WebApi.Modules.Home.CustomerNote
         //------------------------------------------------------------------------------------
         // GET api/v1/customernote
         [HttpGet]
+        [FwControllerMethod(Id:"fA2W8CUbB7H8")]
         public async Task<ActionResult<IEnumerable<CustomerNoteLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
             return await DoGetAsync<CustomerNoteLogic>(pageno, pagesize, sort);
@@ -38,6 +43,7 @@ namespace WebApi.Modules.Home.CustomerNote
         //------------------------------------------------------------------------------------
         // GET api/v1/customernote/A0000001
         [HttpGet("{id}")]
+        [FwControllerMethod(Id:"RlJM6t7oBWcK")]
         public async Task<ActionResult<CustomerNoteLogic>> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<CustomerNoteLogic>(id);
@@ -45,6 +51,7 @@ namespace WebApi.Modules.Home.CustomerNote
         //------------------------------------------------------------------------------------
         // POST api/v1/customernote
         [HttpPost]
+        [FwControllerMethod(Id:"TPzmtyJRciRO")]
         public async Task<ActionResult<CustomerNoteLogic>> PostAsync([FromBody]CustomerNoteLogic l)
         {
             return await DoPostAsync<CustomerNoteLogic>(l);
@@ -52,6 +59,7 @@ namespace WebApi.Modules.Home.CustomerNote
         //------------------------------------------------------------------------------------
         // DELETE api/v1/customernote/A0000001
         [HttpDelete("{id}")]
+        [FwControllerMethod(Id:"acHd3VbO3Ei5")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
             return await DoDeleteAsync(id);

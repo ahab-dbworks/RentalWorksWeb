@@ -1,7 +1,8 @@
-using FwStandard.BusinessLogic.Attributes; 
+using FwStandard.AppManager;
 using WebApi.Logic;
 namespace WebApi.Modules.Settings.ProjectCommissioning
 {
+    [FwLogic(Id:"qpj0egEFyvLP5")]
     public class ProjectCommissioningLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------ 
@@ -11,12 +12,18 @@ namespace WebApi.Modules.Settings.ProjectCommissioning
             dataRecords.Add(projectCommissioning);
         }
         //------------------------------------------------------------------------------------ 
-        [FwBusinessLogicField(isPrimaryKey: true)]
+        [FwLogicProperty(Id:"U1JbNod3dpRSe", IsPrimaryKey:true)]
         public string ProjectCommissioningId { get { return projectCommissioning.ProjectCommissioningId; } set { projectCommissioning.ProjectCommissioningId = value; } }
-        [FwBusinessLogicField(isRecordTitle: true)]
+
+        [FwLogicProperty(Id:"U1JbNod3dpRSe", IsRecordTitle:true)]
         public string ProjectCommissioning { get { return projectCommissioning.ProjectCommissioning; } set { projectCommissioning.ProjectCommissioning = value; } }
+
+        [FwLogicProperty(Id:"ju0sRYmzgTjL")]
         public bool? Inactive { get { return projectCommissioning.Inactive; } set { projectCommissioning.Inactive = value; } }
+
+        [FwLogicProperty(Id:"npbOuCjyimXD")]
         public string DateStamp { get { return projectCommissioning.DateStamp; } set { projectCommissioning.DateStamp = value; } }
+
         //------------------------------------------------------------------------------------ 
     }
 }

@@ -1,3 +1,4 @@
+using FwStandard.AppManager;
 using FwStandard.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
@@ -24,6 +25,7 @@ namespace WebApi.Modules.Reports.GlDistributionReport
 
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "reports-v1")]
+    [FwController(Id:"ClMQ5QkZq4PY")]
     public class GlDistributionReportController : AppReportController
     {
         //------------------------------------------------------------------------------------ 
@@ -49,6 +51,7 @@ namespace WebApi.Modules.Reports.GlDistributionReport
         //------------------------------------------------------------------------------------ 
         // POST api/v1/gldistributionreport/render 
         [HttpPost("render")]
+        [FwControllerMethod(Id:"rV3HPxEFt02l")]
         public async Task<ActionResult<FwReportRenderResponse>> Render([FromBody]FwReportRenderRequest request)
         {
             if (!this.ModelState.IsValid) return BadRequest();
@@ -58,6 +61,7 @@ namespace WebApi.Modules.Reports.GlDistributionReport
         //------------------------------------------------------------------------------------ 
         // POST api/v1/gldistributionreport/runreport 
         [HttpPost("runreport")]
+        [FwControllerMethod(Id:"qCURx0Zt8fVW")]
         public async Task<ActionResult<FwJsonDataTable>> RunReportAsync([FromBody]GlDistributionReportRequest request)
         {
             if (!ModelState.IsValid)

@@ -1,7 +1,8 @@
-using FwStandard.BusinessLogic.Attributes; 
+using FwStandard.AppManager;
 using WebApi.Logic; 
 namespace WebApi.Modules.Settings.AppReportDesigner 
 { 
+[FwLogic(Id:"erUz2vPGJgg")]
 public class AppReportDesignerLogic : AppBusinessLogic 
 { 
 //------------------------------------------------------------------------------------ 
@@ -13,12 +14,18 @@ dataRecords.Add(appReportDesigner);
 dataLoader = appReportDesignerLoader; 
 } 
 //------------------------------------------------------------------------------------ 
-[FwBusinessLogicField(isPrimaryKey: true)] 
+[FwLogicProperty(Id:"aYsJokYBvyh", IsPrimaryKey:true)]
 public string AppReportDesignerId { get { return appReportDesigner.AppReportDesignerId; } set { appReportDesigner.AppReportDesignerId = value; } } 
+
+[FwLogicProperty(Id:"xMbiWXWdMXzr")]
 public string Category { get { return appReportDesigner.Category; } set { appReportDesigner.Category = value; } } 
-[FwBusinessLogicField(isRecordTitle: true)] 
+
+[FwLogicProperty(Id:"c6dxbw7nB7G", IsRecordTitle:true)]
 public string Description { get { return appReportDesigner.Description; } set { appReportDesigner.Description = value; } } 
+
+[FwLogicProperty(Id:"rsaVo3BCrpVP")]
 public bool? Inactive { get { return appReportDesigner.Inactive; } set { appReportDesigner.Inactive = value; } } 
+
 //------------------------------------------------------------------------------------ 
 } 
 } 

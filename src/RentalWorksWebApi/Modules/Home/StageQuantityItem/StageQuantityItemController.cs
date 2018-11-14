@@ -1,3 +1,4 @@
+using FwStandard.AppManager;
 using FwStandard.SqlServer;
 using FwStandard.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -13,12 +14,14 @@ namespace WebApi.Modules.Home.StageQuantityItem
 
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "home-v1")]
+    [FwController(Id:"0m0QMviBYWVYm")]
     public class StageQuantityItemController : AppDataController
     {
         public StageQuantityItemController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(StageQuantityItemLogic); }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/stagequantityitem/browse 
         [HttpPost("browse")]
+        [FwControllerMethod(Id:"uUlS77AJ2aviZ")]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest);
@@ -26,6 +29,7 @@ namespace WebApi.Modules.Home.StageQuantityItem
         //------------------------------------------------------------------------------------ 
         // POST api/v1/stagequantityitem/exportexcelxlsx/filedownloadname 
         [HttpPost("exportexcelxlsx/{fileDownloadName}")]
+        [FwControllerMethod(Id:"Sj7c8TbywPDKs")]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoExportExcelXlsxFileAsync(browseRequest);
@@ -33,6 +37,7 @@ namespace WebApi.Modules.Home.StageQuantityItem
         //------------------------------------------------------------------------------------ 
         // POST api/v1/stagequantityitem/selectall
         [HttpPost("selectall")]
+        [FwControllerMethod(Id:"khDDULtg1hwsQ")]
         public async Task<ActionResult<SelectAllNoneStageQuantityItemResponse>> SelectAll([FromBody] SelectAllNoneStageQuantityItemRequest request)
         {
             if (!ModelState.IsValid)
@@ -57,6 +62,7 @@ namespace WebApi.Modules.Home.StageQuantityItem
 
         // POST api/v1/stagequantityitem/selectnone
         [HttpPost("selectnone")]
+        [FwControllerMethod(Id:"khDDULtg1hwsQ")]
         public async Task<ActionResult<SelectAllNoneStageQuantityItemResponse>> SelectNone([FromBody] SelectAllNoneStageQuantityItemRequest request)
         {
             if (!ModelState.IsValid)

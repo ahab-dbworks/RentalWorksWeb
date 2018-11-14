@@ -1,4 +1,4 @@
-using FwStandard.BusinessLogic.Attributes; 
+using FwStandard.AppManager;
 using WebApi.Logic;
 using WebApi.Modules.Home.MasterLocation;
 
@@ -14,7 +14,9 @@ namespace WebApi.Modules.Home.InventoryLocationTax
             dataLoader = inventoryLocationTaxLoader;
         }
         //------------------------------------------------------------------------------------ 
+        [FwLogicProperty(Id:"IMmoLO9RDAvj")]
         public string InventoryId { get { return masterLocation.MasterId; } set { masterLocation.MasterId = value; } }
+
         //------------------------------------------------------------------------------------ 
     }
 }

@@ -1,7 +1,8 @@
-using FwStandard.BusinessLogic.Attributes; 
+using FwStandard.AppManager;
 using WebApi.Logic;
 namespace WebApi.Modules.Home.InventoryColor
 {
+    [FwLogic(Id:"p0SWxIjeGBV3")]
     public class InventoryColorLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------ 
@@ -13,13 +14,21 @@ namespace WebApi.Modules.Home.InventoryColor
             dataLoader = inventoryColorLoader;
         }
         //------------------------------------------------------------------------------------ 
-        [FwBusinessLogicField(isPrimaryKey: true)]
+        [FwLogicProperty(Id:"WzPynD4Ol3FD", IsPrimaryKey:true)]
         public string InventoryColorId { get { return inventoryColor.InventoryColorId; } set { inventoryColor.InventoryColorId = value; } }
+
+        [FwLogicProperty(Id:"jwc0zJzaXkVq")]
         public string InventoryId { get { return inventoryColor.InventoryId; } set { inventoryColor.InventoryId = value; } }
+
+        [FwLogicProperty(Id:"lZQviXr1W3sy")]
         public string ColorId { get { return inventoryColor.ColorId; } set { inventoryColor.ColorId = value; } }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"WzPynD4Ol3FD", IsReadOnly:true)]
         public string Color { get; set; }
+
+        [FwLogicProperty(Id:"vPKx2LyZrbpl")]
         public string DateStamp { get { return inventoryColor.DateStamp; } set { inventoryColor.DateStamp = value; } }
+
         //------------------------------------------------------------------------------------ 
     }
 }

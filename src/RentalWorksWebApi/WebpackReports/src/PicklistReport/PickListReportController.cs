@@ -1,3 +1,4 @@
+using FwStandard.AppManager;
 using FwStandard.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
@@ -18,6 +19,7 @@ namespace WebApi.Modules.Reports.PickListReport
 
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "reports-v1")]
+    [FwController(Id:"Rk38wHmvgXTg")]
     public class PickListReportController : AppReportController
     {
         public PickListReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
@@ -41,6 +43,7 @@ namespace WebApi.Modules.Reports.PickListReport
         //------------------------------------------------------------------------------------ 
         // POST api/v1/picklistreport/render 
         [HttpPost("render")]
+        [FwControllerMethod(Id:"9Cxmjc8ym2oy")]
         public async Task<ActionResult<FwReportRenderResponse>> Render([FromBody]FwReportRenderRequest request)
         {
             if (!this.ModelState.IsValid) return BadRequest();
@@ -50,6 +53,7 @@ namespace WebApi.Modules.Reports.PickListReport
         //------------------------------------------------------------------------------------ 
         // POST api/v1/picklistreport/runreport 
         [HttpPost("runreport")]
+        [FwControllerMethod(Id:"bfAeFhKAd4iP")]
         public async Task<ActionResult<PickListReportLoader>> RunReportAsync([FromBody]PickListReportRequest request)
         {
             if (!ModelState.IsValid)

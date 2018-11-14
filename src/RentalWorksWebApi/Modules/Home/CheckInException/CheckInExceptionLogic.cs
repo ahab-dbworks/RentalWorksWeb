@@ -1,7 +1,8 @@
-using FwStandard.BusinessLogic.Attributes;
+using FwStandard.AppManager;
 using WebApi.Logic;
 namespace WebApi.Modules.Home.CheckInException
 {
+    [FwLogic(Id:"C9kbK8ewnVnj")]
     public class CheckInExceptionLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------ 
@@ -11,74 +12,108 @@ namespace WebApi.Modules.Home.CheckInException
             dataLoader = checkInExceptionLoader;
         }
         //------------------------------------------------------------------------------------ 
-        [FwBusinessLogicField(isReadOnly: true)]
+        [FwLogicProperty(Id:"aJf1G9IJZwnR", IsReadOnly:true)]
         public string OrderId { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"zVeWXB8rnUg5", IsReadOnly:true)]
         public string InventoryId { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"1Li6kNlMR3IQ", IsReadOnly:true)]
         public string ParentId { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"Sw2HOtHX9k7K", IsReadOnly:true)]
         public string OrderItemId { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"M02ALLSxsPOa", IsReadOnly:true)]
         public bool? IsException { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"AVo4VPQ5q86F", IsReadOnly:true)]
         public bool? SomeItemsIn { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"66KT6Ig9lDlK", IsReadOnly:true)]
         public string ICode { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"IaLq9Uah441M", IsReadOnly:true)]
         public string Description { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"iaFFQbkgOfhX", IsReadOnly:true)]
         public string Vendor { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"iaFFQbkgOfhX", IsReadOnly:true)]
         public string VendorId { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"7zewecFuPvs4", IsReadOnly:true)]
         public decimal? QuantityOrdered { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"2KE6hQJcNt6E", IsReadOnly:true)]
         public decimal? QuantityStagedAndOut { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"A49l3bpcZI68", IsReadOnly:true)]
         public decimal? QuantityOut { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"BPQ3D7KhAbSm", IsReadOnly:true)]
         public decimal? SubQuantity { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"2KE6hQJcNt6E", IsReadOnly:true)]
         public decimal? SubQuantityStagedAndOut { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"A49l3bpcZI68", IsReadOnly:true)]
         public decimal? SubQuantityOut { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"60r501hZivHr", IsReadOnly:true)]
         public decimal? QuantityIn { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"kUxCQ6KlqIfO", IsReadOnly:true)]
         public decimal? QuantityStillOut { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"BDlOxcgFVm5d", IsReadOnly:true)]
         public bool? IsMissing { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"a5srn6SHCmxY", IsReadOnly:true)]
         public decimal? MissingQuantity { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"RrajHtE1k9A6", IsReadOnly:true)]
         public string TrackedBy { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"PgzTIPYUwdC2", IsReadOnly:true)]
         public string RecType { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"2RkL3D937Nho", IsReadOnly:true)]
         public string ItemClass { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"kTGxMYMpcpOF", IsReadOnly:true)]
         public string ItemOrder { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"PyUrPl6c164M", IsReadOnly:true)]
         public string OrderBy { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"ZeuapNS9Vdwh", IsReadOnly:true)]
         public bool? OptionColor { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"WsXQ5OJUYfZr", IsReadOnly:true)]
         public string WarehouseId { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"m6goIx4brh2u", IsReadOnly:true)]
         public string WarehouseCode { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"Zpe1wyYwkHtQ", IsReadOnly:true)]
         public string OrderNumber { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"TllxbuixXnZf", IsReadOnly:true)]
         public bool? IsBarCode { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"tbmXxAAtrnHz", IsReadOnly:true)]
         public string ContractId { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"I4pUDTcAejdm", IsReadOnly:true)]
         public bool? IsSub { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"ClNXqBp5AePD", IsReadOnly:true)]
         public string NestedOrderItemId { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"t1ygWA4dbJOh", IsReadOnly:true)]
         public bool? IsConsignor { get; set; }
+
         //------------------------------------------------------------------------------------ 
     }
 }

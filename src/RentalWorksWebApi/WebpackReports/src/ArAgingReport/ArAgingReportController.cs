@@ -1,3 +1,4 @@
+using FwStandard.AppManager;
 using FwStandard.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
@@ -26,6 +27,7 @@ namespace WebApi.Modules.Reports.ArAgingReport
 
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "reports-v1")]
+    [FwController(Id:"KHw5yX5TubQ")]
     public class ArAgingReportController : AppReportController
     {
         public ArAgingReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
@@ -49,6 +51,7 @@ namespace WebApi.Modules.Reports.ArAgingReport
         //------------------------------------------------------------------------------------ 
         // POST api/v1/aragingreport/render 
         [HttpPost("render")]
+        [FwControllerMethod(Id:"7vZrn15t6u1")]
         public async Task<ActionResult<FwReportRenderResponse>> Render([FromBody]FwReportRenderRequest request)
         {
             if (!this.ModelState.IsValid) return BadRequest();
@@ -58,6 +61,7 @@ namespace WebApi.Modules.Reports.ArAgingReport
         //------------------------------------------------------------------------------------ 
         // POST api/v1/aragingreport/runreport 
         [HttpPost("runreport")]
+        [FwControllerMethod(Id:"4Q6hNH42lCg")]
         public async Task<ActionResult<FwJsonDataTable>> RunReportAsync([FromBody]ArAgingReportRequest request)
         {
             if (!ModelState.IsValid)

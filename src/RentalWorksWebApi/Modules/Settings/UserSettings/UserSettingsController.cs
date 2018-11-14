@@ -1,3 +1,4 @@
+using FwStandard.AppManager;
 using FwStandard.Models; 
 using Microsoft.AspNetCore.Mvc; 
 using Microsoft.Extensions.Options; 
@@ -8,12 +9,14 @@ namespace WebApi.Modules.Settings.UserSettings
 {
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "settings-v1")]
+    [FwController(Id:"xCMUamQmbO0yh")]
     public class UserSettingsController : AppDataController
     {
         public UserSettingsController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(UserSettingsLogic); }
         //------------------------------------------------------------------------------------ 
         // GET api/v1/usersettings/A0000001 
         [HttpGet("{id}")]
+        [FwControllerMethod(Id:"dODYJZuvVxum5")]
         public async Task<ActionResult<UserSettingsLogic>> GetOneAsync([FromRoute]string id)  //id = webusersid
         {
             return await DoGetAsync<UserSettingsLogic>(id);
@@ -21,6 +24,7 @@ namespace WebApi.Modules.Settings.UserSettings
         //------------------------------------------------------------------------------------ 
         // POST api/v1/usersettings 
         [HttpPost]
+        [FwControllerMethod(Id:"nuWsJOCX1jpvm")]
         public async Task<ActionResult<UserSettingsLogic>> PostAsync([FromBody]UserSettingsLogic l)
         {
             return await DoPostAsync<UserSettingsLogic>(l);

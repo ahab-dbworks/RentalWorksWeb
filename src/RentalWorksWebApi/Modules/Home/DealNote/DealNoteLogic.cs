@@ -1,10 +1,11 @@
+using FwStandard.AppManager;
 ﻿using FwStandard.BusinessLogic;
-using FwStandard.BusinessLogic.Attributes;
 using WebApi.Logic;
 using static FwStandard.DataLayer.FwDataReadWriteRecord;
 
 namespace WebApi.Modules.Home.DealNote
 {
+    [FwLogic(Id:"jpUztkxP5VNI")]
     public class DealNoteLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------
@@ -17,19 +18,33 @@ namespace WebApi.Modules.Home.DealNote
             dealNote.AfterSave += OnAfterSaveDealNote;
         }
         //------------------------------------------------------------------------------------
-        [FwBusinessLogicField(isPrimaryKey: true)]
+        [FwLogicProperty(Id:"XnGRG8WE0enx", IsPrimaryKey:true)]
         public string DealNoteId { get { return dealNote.DealNoteId; } set { dealNote.DealNoteId = value; } }
+
+        [FwLogicProperty(Id:"OUnOINEIDSxV")]
         public string DealId { get { return dealNote.DealId; } set { dealNote.DealId = value; } }
+
+        [FwLogicProperty(Id:"6Re5VmoJHAUv")]
         public string NoteDate { get { return dealNote.NoteDate; } set { dealNote.NoteDate = value; } }
+
+        [FwLogicProperty(Id:"qckL2miPYhpB")]
         public string NotesById { get { return dealNote.NotesById; } set { dealNote.NotesById = value; } }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"W5tF7QLIrVlz", IsReadOnly:true)]
         public string NotesBy { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"I4WBrxLF409I", IsReadOnly:true)]
         public string Description { get { return dealNote.Description; } set { dealNote.Description = value; } }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"W5tF7QLIrVlz", IsReadOnly:true)]
         public string Notes { get; set; }
+
+        [FwLogicProperty(Id:"E7SmVtBKdyxM")]
         public bool? Notify { get { return dealNote.Notify; } set { dealNote.Notify = value; } }
+
+        [FwLogicProperty(Id:"F3NJ2sr3UmX3")]
         public string DateStamp { get { return dealNote.DateStamp; } set { dealNote.DateStamp = value; } }
+
         //------------------------------------------------------------------------------------
         public void OnAfterSaveDealNote(object sender, AfterSaveDataRecordEventArgs e)
         {

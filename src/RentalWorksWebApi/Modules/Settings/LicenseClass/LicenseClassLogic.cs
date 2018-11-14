@@ -1,8 +1,9 @@
-﻿using FwStandard.BusinessLogic.Attributes;
+using FwStandard.AppManager;
 using WebApi.Logic;
 
 namespace WebApi.Modules.Settings.LicenseClass
 {
+    [FwLogic(Id:"uJNJ7jNfJekd")]
     public class LicenseClassLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------
@@ -12,14 +13,24 @@ namespace WebApi.Modules.Settings.LicenseClass
             dataRecords.Add(licenseClass);
         }
         //------------------------------------------------------------------------------------
-        [FwBusinessLogicField(isPrimaryKey: true)]
+        [FwLogicProperty(Id:"mMIx1SON44hp", IsPrimaryKey:true)]
         public string LicenseClassId { get { return licenseClass.LicenseClassId; } set { licenseClass.LicenseClassId = value; } }
-        [FwBusinessLogicField(isRecordTitle: true)]
+
+        [FwLogicProperty(Id:"mMIx1SON44hp", IsRecordTitle:true)]
         public string LicenseClass { get { return licenseClass.LicenseClass; } set { licenseClass.LicenseClass = value; } }
+
+        [FwLogicProperty(Id:"UPnTcDQ63jL")]
         public string Description { get { return licenseClass.Description; } set { licenseClass.Description = value; } }
+
+        [FwLogicProperty(Id:"gYKmI7gXt38")]
         public bool? Regulated { get { return licenseClass.Regulated; } set { licenseClass.Regulated = value; } }
+
+        [FwLogicProperty(Id:"KR1IYHuJRNI")]
         public bool? Inactive { get { return licenseClass.Inactive; } set { licenseClass.Inactive = value; } }
+
+        [FwLogicProperty(Id:"vrIY7CoPOEz")]
         public string DateStamp { get { return licenseClass.DateStamp; } set { licenseClass.DateStamp = value; } }
+
         //------------------------------------------------------------------------------------
     }
 

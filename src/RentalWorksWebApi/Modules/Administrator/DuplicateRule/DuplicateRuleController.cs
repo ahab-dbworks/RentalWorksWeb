@@ -1,3 +1,4 @@
+using FwStandard.AppManager;
 using FwStandard.SqlServer;
 using System.Collections.Generic;
 using FwStandard.Models; 
@@ -11,12 +12,14 @@ namespace WebApi.Modules.Administrator.DuplicateRule
 {
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "administrator-v1")]
+    [FwController(Id:"v7oBspDLjli8")]
     public class DuplicateRuleController : AppDataController
     {
         public DuplicateRuleController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(DuplicateRuleLogic); }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/duplicaterule/browse 
         [HttpPost("browse")]
+        [FwControllerMethod(Id:"TNoZJqqWtCtX")]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest);
@@ -24,6 +27,7 @@ namespace WebApi.Modules.Administrator.DuplicateRule
         //------------------------------------------------------------------------------------ 
         // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
         [HttpPost("exportexcelxlsx/{fileDownloadName}")]
+        [FwControllerMethod(Id:"6pO4GGkY7kq5")]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoExportExcelXlsxFileAsync(browseRequest);
@@ -31,6 +35,7 @@ namespace WebApi.Modules.Administrator.DuplicateRule
         //------------------------------------------------------------------------------------ 
         // GET api/v1/duplicaterule 
         [HttpGet]
+        [FwControllerMethod(Id:"kbxYnSe1o9a6")]
         public async Task<ActionResult<IEnumerable<DuplicateRuleLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
             return await DoGetAsync<DuplicateRuleLogic>(pageno, pagesize, sort);
@@ -38,6 +43,7 @@ namespace WebApi.Modules.Administrator.DuplicateRule
         //------------------------------------------------------------------------------------ 
         // GET api/v1/duplicaterule/A0000001 
         [HttpGet("{id}")]
+        [FwControllerMethod(Id:"DGrrSsT7QH96")]
         public async Task<ActionResult<DuplicateRuleLogic>> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<DuplicateRuleLogic>(id);
@@ -45,6 +51,7 @@ namespace WebApi.Modules.Administrator.DuplicateRule
         //------------------------------------------------------------------------------------ 
         // POST api/v1/duplicaterule 
         [HttpPost]
+        [FwControllerMethod(Id:"9r5DmjZNOwQK")]
         public async Task<ActionResult<DuplicateRuleLogic>> PostAsync([FromBody]DuplicateRuleLogic l)
         {
             return await DoPostAsync<DuplicateRuleLogic>(l);
@@ -52,6 +59,7 @@ namespace WebApi.Modules.Administrator.DuplicateRule
         //------------------------------------------------------------------------------------ 
         // DELETE api/v1/duplicaterule/A0000001 
         [HttpDelete("{id}")]
+        [FwControllerMethod(Id:"odX2t317pvT1")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
             return await DoDeleteAsync(id);

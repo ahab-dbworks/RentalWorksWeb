@@ -1,10 +1,11 @@
-﻿using FwStandard.BusinessLogic.Attributes;
+using FwStandard.AppManager;
 using Newtonsoft.Json;
 using WebApi.Logic;
 using WebApi.Modules.Settings.VehicleModel;
 
 namespace WebApi.Modules.Settings.GeneratorModel
 {
+    [FwLogic(Id:"vEXoCFBfuq7j")]
     public class GeneratorModelLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------
@@ -16,16 +17,25 @@ namespace WebApi.Modules.Settings.GeneratorModel
             dataLoader = generatorModelLoader;
         }
         //------------------------------------------------------------------------------------
-        [FwBusinessLogicField(isPrimaryKey: true)]
+        [FwLogicProperty(Id:"XW6CwzyD2UT0", IsPrimaryKey:true)]
         public string GeneratorModelId { get { return vehicleModel.VehicleModelId; } set { vehicleModel.VehicleModelId = value; } }
-        [FwBusinessLogicField(isRecordTitle: true)]
+
+        [FwLogicProperty(Id:"XW6CwzyD2UT0", IsRecordTitle:true)]
         public string GeneratorModel { get { return vehicleModel.VehicleModel; } set { vehicleModel.VehicleModel = value; } }
+
+        [FwLogicProperty(Id:"Z5RL4RFxqAL")]
         public string GeneratorMakeId { get { return vehicleModel.VehicleMakeId; } set { vehicleModel.VehicleMakeId = value; } }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"s4qFDuaDN2gQ", IsReadOnly:true)]
         public string GeneratorMake { get; set; }
+
         [JsonIgnore]
+        [FwLogicProperty(Id:"wPkdEHjK313")]
         public string RowType { get; set; }
+
+        [FwLogicProperty(Id:"0f0MtB7ytxt")]
         public string DateStamp { get { return vehicleModel.DateStamp; } set { vehicleModel.DateStamp = value; } }
+
         //------------------------------------------------------------------------------------
     }
 

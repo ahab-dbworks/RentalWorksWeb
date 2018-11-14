@@ -1,9 +1,10 @@
-﻿using FwStandard.BusinessLogic.Attributes;
+using FwStandard.AppManager;
 using WebApi.Logic;
 using WebLibrary;
 
 namespace WebApi.Modules.Home.OrderSummary
 {
+    [FwLogic(Id:"LQK47SJHMJB8")]
     public class OrderSummaryLogic : AppBusinessLogic
     {
         protected OrderSummaryLoader orderSummaryLoader = new OrderSummaryLoader();
@@ -13,209 +14,313 @@ namespace WebApi.Modules.Home.OrderSummary
             dataLoader = orderSummaryLoader;
         }
         //------------------------------------------------------------------------------------
-        [FwBusinessLogicField(isPrimaryKey: true)]
+        [FwLogicProperty(Id:"8QeMacC8sq7O", IsPrimaryKey:true)]
         public string OrderId { get; set; } = "";
+
         //------------------------------------------------------------------------------------
-        [FwBusinessLogicField(isPrimaryKey: true)]
+        [FwLogicProperty(Id:"A5OqoF4jWmfT", IsPrimaryKey:true)]
         public string TotalType { get; set; } = RwConstants.TOTAL_TYPE_PERIOD;
+
         //------------------------------------------------------------------------------------
-        [FwBusinessLogicField(isReadOnly: true)]
+        [FwLogicProperty(Id:"Bhb54uUXNEXe", IsReadOnly:true)]
         public decimal? RentalPrice { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"ogYhHL2WLtUL", IsReadOnly:true)]
         public decimal? RentalDiscount { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"xT99IGXj2Aq7", IsReadOnly:true)]
         public decimal? RentalCost { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"pBtQndYQBNuF", IsReadOnly:true)]
         public decimal? RentalProfit { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"OrrYjdAgQEzH", IsReadOnly:true)]
         public decimal? RentalMarkup { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"tkk1F35ngcrF", IsReadOnly:true)]
         public decimal? RentalMargin { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"RVX5G6rKWBrq", IsReadOnly:true)]
         public decimal? RentalSubTotal { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"xA8zLQMQSUKY", IsReadOnly:true)]
         public decimal? RentalTax { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"S7Wieic7pqqF", IsReadOnly:true)]
         public decimal? RentalTotal { get; set; }
+
         //------------------------------------------------------------------------------------
-        [FwBusinessLogicField(isReadOnly: true)]
+        [FwLogicProperty(Id:"racijrxcKRG0", IsReadOnly:true)]
         public decimal? SalesPrice { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"NUW1YdQZO13Z", IsReadOnly:true)]
         public decimal? SalesDiscount { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"vfLRDbi62QQa", IsReadOnly:true)]
         public decimal? SalesCost { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"k8NygIY4lD9Z", IsReadOnly:true)]
         public decimal? SalesProfit { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"UVAnUR9pJZPl", IsReadOnly:true)]
         public decimal? SalesMarkup { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"YSTh7UHSoNvs", IsReadOnly:true)]
         public decimal? SalesMargin { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"JI7mMMqn44Pl", IsReadOnly:true)]
         public decimal? SalesSubTotal { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"cG4FEcfVVIgO", IsReadOnly:true)]
         public decimal? SalesTax { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"JC4r7Dpjulue", IsReadOnly:true)]
         public decimal? SalesTotal { get; set; }
+
         //------------------------------------------------------------------------------------
-        [FwBusinessLogicField(isReadOnly: true)]
+        [FwLogicProperty(Id:"vjRlB0HLBJRu", IsReadOnly:true)]
         public decimal? PartsPrice { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"yXuuXF0Hvng1", IsReadOnly:true)]
         public decimal? PartsDiscount { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"liAcc0rYYkcd", IsReadOnly:true)]
         public decimal? PartsCost { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"ml71WQjA7opz", IsReadOnly:true)]
         public decimal? PartsProfit { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"xtb8TWpRHKMo", IsReadOnly:true)]
         public decimal? PartsMarkup { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"bh674sDcdfQT", IsReadOnly:true)]
         public decimal? PartsMargin { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"nm0uGIJ4MDGp", IsReadOnly:true)]
         public decimal? PartsSubTotal { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"enjLik4tIpaI", IsReadOnly:true)]
         public decimal? PartsTax { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"gaV3wEhVaC00", IsReadOnly:true)]
         public decimal? PartsTotal { get; set; }
+
         //------------------------------------------------------------------------------------
-        [FwBusinessLogicField(isReadOnly: true)]
+        [FwLogicProperty(Id:"IKxHbcBKQQZQ", IsReadOnly:true)]
         public decimal? FacilitiesPrice { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"rlhLtCpGZo4F", IsReadOnly:true)]
         public decimal? FacilitiesDiscount { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"lfsqqFwnAFjx", IsReadOnly:true)]
         public decimal? FacilitiesCost { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"a6Joc4bpi4LP", IsReadOnly:true)]
         public decimal? FacilitiesProfit { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"aMRIy7SQKtVe", IsReadOnly:true)]
         public decimal? FacilitiesMarkup { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"GJsr15cMT1iH", IsReadOnly:true)]
         public decimal? FacilitiesMargin { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"6klobOcKh0Xf", IsReadOnly:true)]
         public decimal? FacilitiesSubTotal { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"FjYP0DFxnbrj", IsReadOnly:true)]
         public decimal? FacilitiesTax { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"uLXLVwn3VwWv", IsReadOnly:true)]
         public decimal? FacilitiesTotal { get; set; }
+
         //------------------------------------------------------------------------------------
-        [FwBusinessLogicField(isReadOnly: true)]
+        [FwLogicProperty(Id:"iMaXNwks7TBj", IsReadOnly:true)]
         public decimal? TransportationPrice { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"kSMDieDUJbsG", IsReadOnly:true)]
         public decimal? TransportationDiscount { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"lS09ALan7E7L", IsReadOnly:true)]
         public decimal? TransportationCost { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"we21dPYfT77z", IsReadOnly:true)]
         public decimal? TransportationProfit { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"MIRwGaQAuT3W", IsReadOnly:true)]
         public decimal? TransportationMarkup { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"44xek7bsGu72", IsReadOnly:true)]
         public decimal? TransportationMargin { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"Sx0dIojgroUz", IsReadOnly:true)]
         public decimal? TransportationSubTotal { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"TXZyTQGtPnN5", IsReadOnly:true)]
         public decimal? TransportationTax { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"Whx6OQF7rZBz", IsReadOnly:true)]
         public decimal? TransportationTotal { get; set; }
+
         //------------------------------------------------------------------------------------
-        [FwBusinessLogicField(isReadOnly: true)]
+        [FwLogicProperty(Id:"dlGUo3W3pJcX", IsReadOnly:true)]
         public decimal? LaborPrice { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"P6xWWEemij02", IsReadOnly:true)]
         public decimal? LaborDiscount { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"sT43fJDCQjua", IsReadOnly:true)]
         public decimal? LaborCost { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"jvO1haLLc0ud", IsReadOnly:true)]
         public decimal? LaborProfit { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"dn5iaR13E3r6", IsReadOnly:true)]
         public decimal? LaborMarkup { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"xr1BkOvoMS0P", IsReadOnly:true)]
         public decimal? LaborMargin { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"BbbxGkoHqNkz", IsReadOnly:true)]
         public decimal? LaborSubTotal { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"MF0w6TApD6PG", IsReadOnly:true)]
         public decimal? LaborTax{ get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"mDPfs9cdkCuk", IsReadOnly:true)]
         public decimal? LaborTotal { get; set; }
+
         //------------------------------------------------------------------------------------
-        [FwBusinessLogicField(isReadOnly: true)]
+        [FwLogicProperty(Id:"PRmsR984DfX9", IsReadOnly:true)]
         public decimal? MiscPrice { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"82lswENXSEcp", IsReadOnly:true)]
         public decimal? MiscDiscount { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"JszMDrKPZDUN", IsReadOnly:true)]
         public decimal? MiscCost { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"2KqHDhkLVnxJ", IsReadOnly:true)]
         public decimal? MiscProfit { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"5vpp4R6NfUS7", IsReadOnly:true)]
         public decimal? MiscMarkup { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"23j5mAwZfq0K", IsReadOnly:true)]
         public decimal? MiscMargin { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"Ny336RasJ3hi", IsReadOnly:true)]
         public decimal? MiscSubTotal { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"bnWLJum9O3rl", IsReadOnly:true)]
         public decimal? MiscTax { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"eeLGeRvMZq7l", IsReadOnly:true)]
         public decimal? MiscTotal { get; set; }
+
         //------------------------------------------------------------------------------------
-        [FwBusinessLogicField(isReadOnly: true)]
+        [FwLogicProperty(Id:"q63xO0waEYBl", IsReadOnly:true)]
         public decimal? RentalSalePrice { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"hzPs5mlQBSTi", IsReadOnly:true)]
         public decimal? RentalSaleDiscount { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"cWtFoBGfB2Wv", IsReadOnly:true)]
         public decimal? RentalSaleCost { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"GG0hIr4lySjb", IsReadOnly:true)]
         public decimal? RentalSaleProfit { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"5cNpIEQrnR9x", IsReadOnly:true)]
         public decimal? RentalSaleMarkup { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"7hqQPO48DpIW", IsReadOnly:true)]
         public decimal? RentalSaleMargin { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"vq06htZN6N14", IsReadOnly:true)]
         public decimal? RentalSaleSubTotal { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"1IwsUdYoAmmR", IsReadOnly:true)]
         public decimal? RentalSaleTax { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"8pHGmh8PnMh1", IsReadOnly:true)]
         public decimal? RentalSaleTotal { get; set; }
+
         //------------------------------------------------------------------------------------
-        [FwBusinessLogicField(isReadOnly: true)]
+        [FwLogicProperty(Id:"sU1tYRoz2OH0", IsReadOnly:true)]
         public decimal? TotalPrice { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"5fb6ZFoiad4p", IsReadOnly:true)]
         public decimal? TotalDiscount { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"kuLexAACY5AA", IsReadOnly:true)]
         public decimal? TotalCost { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"VspOjV8tInQV", IsReadOnly:true)]
         public decimal? TotalProfit { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"m81AvsYkXRco", IsReadOnly:true)]
         public decimal? TotalMarkup { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"cpn4pbpLgS01", IsReadOnly:true)]
         public decimal? TotalMargin { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"O6PZDJnGTiyN", IsReadOnly:true)]
         public decimal? TotalSubTotal { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"ldlGFzcfmrlO", IsReadOnly:true)]
         public decimal? TotalTax{ get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"Rk8WH9SbHdQ3", IsReadOnly:true)]
         public decimal? TotalTotal { get; set; }
+
         //------------------------------------------------------------------------------------
-        [FwBusinessLogicField(isReadOnly: true)]
+        [FwLogicProperty(Id:"GbQz7DYBRKsI", IsReadOnly:true)]
         public decimal? TaxCost { get; set; }
+
         //------------------------------------------------------------------------------------
+        [FwLogicProperty(Id:"Rrg2lGJkDt6d")]
         public decimal? ReplacementCostTotal { get; set; }
+
+        [FwLogicProperty(Id:"v0g0Pe1QNN3g")]
         public decimal? ValueTotal { get; set; }
+
+        [FwLogicProperty(Id:"yNHX6gbQ8Hdu")]
         public decimal? ReplacementCostOwned { get; set; }
+
+        [FwLogicProperty(Id:"xbcFLmpHFQzh")]
         public decimal? ValueOwned { get; set; }
+
+        [FwLogicProperty(Id:"sK7vCogcAGdo")]
         public decimal? ReplacementCostSubs { get; set; }
+
+        [FwLogicProperty(Id:"r9KR8TBAqS6b")]
         public decimal? ValueSubs { get; set; }
+
         //------------------------------------------------------------------------------------
-        [FwBusinessLogicField(isReadOnly: true)]
+        [FwLogicProperty(Id:"xKit9ryIpnjG", IsReadOnly:true)]
         public int? WeightPounds { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"EThMJBm8UKmV", IsReadOnly:true)]
         public int? WeightOunces { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"SVxdnMqoyuqI", IsReadOnly:true)]
         public int? WeightKilograms { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"57rJAJKNGjcu", IsReadOnly:true)]
         public int? WeightGrams { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"ufW2Ikp3Wq3q", IsReadOnly:true)]
         public int? WeightInCasePounds { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"IZ9n1jbvRSFO", IsReadOnly:true)]
         public int? WeightInCaseOunces { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"jk3dnV1IxSKU", IsReadOnly:true)]
         public int? WeightInCaseKilograms { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"8iVXIZxQmT5O", IsReadOnly:true)]
         public int? WeightInCaseGrams { get; set; }
+
         //------------------------------------------------------------------------------------
     }
 }

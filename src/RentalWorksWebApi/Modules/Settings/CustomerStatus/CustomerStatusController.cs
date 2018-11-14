@@ -1,3 +1,4 @@
+using FwStandard.AppManager;
 ﻿using FwStandard.Models;
 using FwStandard.SqlServer;
 using Microsoft.AspNetCore.Authorization;
@@ -14,6 +15,7 @@ namespace WebApi.Modules.Settings.CustomerStatus
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "settings-v1")]
     //[ApiExplorerSettings(GroupName = "v1")]
+    [FwController(Id:"ZbZ8bywECnnE")]
     public class CustomerStatusController : AppDataController
     {
         public CustomerStatusController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(CustomerStatusLogic); }
@@ -28,6 +30,7 @@ namespace WebApi.Modules.Settings.CustomerStatus
         [HttpPost("browse")]
         [Authorize(Policy = "{33F721F5-0D91-464C-AFA7-FA46622CE3C0}")]
         //[ApiExplorerSettings(IgnoreApi=true)]
+        [FwControllerMethod(Id:"15HQTKcymqtl")]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest);
@@ -35,6 +38,7 @@ namespace WebApi.Modules.Settings.CustomerStatus
         //------------------------------------------------------------------------------------ 
         // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
         [HttpPost("exportexcelxlsx/{fileDownloadName}")]
+        [FwControllerMethod(Id:"15HQTKcymqtl")]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoExportExcelXlsxFileAsync(browseRequest);
@@ -56,6 +60,7 @@ namespace WebApi.Modules.Settings.CustomerStatus
         [SwaggerResponse(401, Type = typeof(string))]
         [SwaggerResponse(403, Type = typeof(string))]
         [SwaggerResponse(500, Type = typeof(FwApiException))]
+        [FwControllerMethod(Id:"Im04uc86spWS")]
         public async Task<ActionResult<IEnumerable<CustomerStatusLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
             return await DoGetAsync<CustomerStatusLogic>(pageno, pagesize, sort);
@@ -66,6 +71,7 @@ namespace WebApi.Modules.Settings.CustomerStatus
         [Authorize(Policy = "{FF697F23-9150-4252-8C58-A0063419B88E}")]
         [Produces(typeof(CustomerStatusLogic))]
         [SwaggerResponse(200, Type = typeof(CustomerStatusLogic))]
+        [FwControllerMethod(Id:"YcelqqpvPUE9")]
         public async Task<ActionResult<CustomerStatusLogic>> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<CustomerStatusLogic>(id);
@@ -74,6 +80,7 @@ namespace WebApi.Modules.Settings.CustomerStatus
         // POST api/v1/customerstatus
         [HttpPost]
         [Authorize(Policy = "{0178C657-4473-4889-945A-A2F88B3D31C0}")]
+        [FwControllerMethod(Id:"H9LlejpZEsrD")]
         public async Task<ActionResult<CustomerStatusLogic>> PostAsync([FromBody]CustomerStatusLogic l)
         {
             return await DoPostAsync<CustomerStatusLogic>(l);
@@ -82,6 +89,7 @@ namespace WebApi.Modules.Settings.CustomerStatus
         // DELETE api/v1/customerstatus/A0000001
         [HttpDelete("{id}")]
         [Authorize(Policy = "{CDA85B7B-F766-410C-9B8E-D0DEFA313341}")]
+        [FwControllerMethod(Id:"2g1IOr0BjKFm")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
             return await DoDeleteAsync(id);

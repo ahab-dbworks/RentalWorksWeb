@@ -1,3 +1,4 @@
+using FwStandard.AppManager;
 using FwStandard.Models; 
 using Microsoft.AspNetCore.Mvc; 
 using Microsoft.Extensions.Options; 
@@ -40,6 +41,7 @@ namespace WebApi.Modules.Home.CheckIn
 
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "home-v1")]
+    [FwController(Id:"krnJWTUs4n5U")]
     public class CheckInController : AppDataController
     {
         public CheckInController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
@@ -48,6 +50,7 @@ namespace WebApi.Modules.Home.CheckIn
         //------------------------------------------------------------------------------------ 
         // POST api/v1/checkin/startcheckincontract
         [HttpPost("startcheckincontract")]
+        [FwControllerMethod(Id:"Ns64DDLG1CGr")]
         public async Task<ActionResult<CheckInContractResponse>> StartCheckInContractAsync([FromBody]CheckInContractRequest request)
         {
             if (!ModelState.IsValid)
@@ -73,6 +76,7 @@ namespace WebApi.Modules.Home.CheckIn
         //------------------------------------------------------------------------------------ 
         // POST api/v1/checkin/completecheckincontract
         [HttpPost("completecheckincontract/{id}")]
+        [FwControllerMethod(Id:"RAiuwADDxuoJ")]
         public async Task<ActionResult<ContractLogic>> CompleteCheckInContractAsync([FromRoute]string id)
         {
             if (!ModelState.IsValid)
@@ -115,6 +119,7 @@ namespace WebApi.Modules.Home.CheckIn
         //------------------------------------------------------------------------------------ 
         // POST api/v1/checkin/checkinitem
         [HttpPost("checkinitem")]
+        [FwControllerMethod(Id:"H0hnbimbsrSh")]
         public async Task<ActionResult<TCheckInItemReponse>> CheckInItem([FromBody]CheckInItemRequest request)
         {
             if (!ModelState.IsValid)

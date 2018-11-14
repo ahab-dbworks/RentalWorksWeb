@@ -1,3 +1,4 @@
+html.theme-material .fwcontextmenu .fwcontextmenuitem {font-weight:400;}
 /* data-position="center" */
 html.theme-material .fwcontextmenu[data-position="center"] {position:fixed;top:0;left:0;width:100%;height:100%;}
 html.theme-material.no-flexbox .fwcontextmenu[data-position="center"] {-webkit-transform-style:flat;-moz-transform-style:flat;transform-style:flat;}

@@ -1,7 +1,8 @@
-using FwStandard.BusinessLogic.Attributes;
+using FwStandard.AppManager;
 using WebApi.Logic;
 namespace WebApi.Modules.Home.OrderSnapshot
 {
+    [FwLogic(Id:"9wiaAZUoRsKs")]
     public class OrderSnapshotLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------ 
@@ -11,30 +12,42 @@ namespace WebApi.Modules.Home.OrderSnapshot
             dataLoader = orderSnapshotLoader;
         }
         //------------------------------------------------------------------------------------ 
-        [FwBusinessLogicField(isReadOnly: true)]
+        [FwLogicProperty(Id:"kyjl0bAYf1d5", IsReadOnly:true)]
         public string SnapshotId { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"YKo8d3FnjSXv", IsReadOnly:true)]
         public string OrderId { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"6GLGlOLFkTwz", IsReadOnly:true)]
         public string OrderNumber { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"VwvIJpEDhzXF", IsReadOnly:true)]
         public string OrderDate { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"eai7F8t49MSE", IsReadOnly:true)]
         public string OrderDescription { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"Y7VtHW19ji1v", IsReadOnly:true)]
         public string Status { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"YzrDmM68CH4k", IsReadOnly:true)]
         public string DealId { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"YzrDmM68CH4k", IsReadOnly:true)]
         public string Deal { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"loZsUYuUnWXm", IsReadOnly:true)]
         public string AgentId { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"loZsUYuUnWXm", IsReadOnly:true)]
         public string Agent { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"DfCu10i8vgPu", IsReadOnly:true)]
         public string InputById { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"wynsysk4DeUt", IsReadOnly:true)]
         public decimal? OrderTotal { get; set; }
+
         //------------------------------------------------------------------------------------ 
     }
 }

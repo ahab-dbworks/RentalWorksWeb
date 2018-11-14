@@ -1,3 +1,4 @@
+using FwStandard.AppManager;
 using FwStandard.SqlServer;
 using FwStandard.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -13,12 +14,14 @@ namespace WebApi.Modules.Home.PickListUtilityItem
 {
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "home-v1")]
+    [FwController(Id:"DOnlknWuWfYS")]
     public class PickListUtilityItemController : AppDataController
     {
         public PickListUtilityItemController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(PickListUtilityItemLogic); }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/picklistutilityitem/browse 
         [HttpPost("browse")]
+        [FwControllerMethod(Id:"odmnB0Sdaau0")]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest);
@@ -26,6 +29,7 @@ namespace WebApi.Modules.Home.PickListUtilityItem
         //------------------------------------------------------------------------------------ 
         // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
         [HttpPost("exportexcelxlsx/{fileDownloadName}")]
+        [FwControllerMethod(Id:"O3BNoaLPlQXn")]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoExportExcelXlsxFileAsync(browseRequest);
@@ -33,6 +37,7 @@ namespace WebApi.Modules.Home.PickListUtilityItem
         //------------------------------------------------------------------------------------ 
         // POST api/v1/picklistutilityitem 
         [HttpPost]
+        [FwControllerMethod(Id:"DklEUpjtmhxA")]
         public async Task<ActionResult<PickListUtilityItemLogic>> PostAsync([FromBody]PickListUtilityItemLogic l)
         {
             return await DoPostAsync<PickListUtilityItemLogic>(l);
@@ -40,6 +45,7 @@ namespace WebApi.Modules.Home.PickListUtilityItem
         //------------------------------------------------------------------------------------ 
         // POST api/v1/picklistutilityitem/selectall
         [HttpPost("selectall")]
+        [FwControllerMethod(Id:"7spGz1CdWYwR")]
         public async Task<ActionResult<FwJsonDataTable>> SelectAll([FromBody]BrowseRequest browseRequest)
         {
             IDictionary<string, object> miscfields = ((IDictionary<string, object>)browseRequest.miscfields);
@@ -50,6 +56,7 @@ namespace WebApi.Modules.Home.PickListUtilityItem
         //------------------------------------------------------------------------------------ 
         // POST api/v1/picklistutilityitem/selectnone
         [HttpPost("selectnone")]
+        [FwControllerMethod(Id:"GTeOy9BAsQOD")]
         public async Task<ActionResult<FwJsonDataTable>> SelectNone([FromBody]BrowseRequest browseRequest)
         {
             IDictionary<string, object> miscfields = ((IDictionary<string, object>)browseRequest.miscfields);
@@ -60,6 +67,7 @@ namespace WebApi.Modules.Home.PickListUtilityItem
         //------------------------------------------------------------------------------------ 
         // POST api/v1/picklistutilityitem/createpicklist
         [HttpPost("createpicklist")]
+        [FwControllerMethod(Id:"LzGhicy7Mgje")]
         public async Task<ActionResult<PickListLogic>> CreatePickList([FromBody]BrowseRequest browseRequest)
         {
             if (!ModelState.IsValid)

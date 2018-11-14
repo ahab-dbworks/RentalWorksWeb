@@ -1,3 +1,4 @@
+using FwStandard.AppManager;
 using FwStandard.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
@@ -35,6 +36,7 @@ namespace WebApi.Modules.Reports.DealOutstandingItemsReport
 
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "reports-v1")]
+    [FwController(Id:"i5RTw0gXIWhU")]
     public class DealOutstandingItemsReportController : AppReportController
     {
         public DealOutstandingItemsReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
@@ -58,6 +60,7 @@ namespace WebApi.Modules.Reports.DealOutstandingItemsReport
         //------------------------------------------------------------------------------------ 
         // POST api/v1/dealoutstandingitemsreport/render 
         [HttpPost("render")]
+        [FwControllerMethod(Id:"IBgzqnQsCjsL")]
         public async Task<ActionResult<FwReportRenderResponse>> Render([FromBody]FwReportRenderRequest request)
         {
             if (!this.ModelState.IsValid) return BadRequest();
@@ -67,6 +70,7 @@ namespace WebApi.Modules.Reports.DealOutstandingItemsReport
         //------------------------------------------------------------------------------------ 
         // POST api/v1/dealoutstandingitemsreport/runreport 
         [HttpPost("runreport")]
+        [FwControllerMethod(Id:"10HXwUpM2KVZ")]
         public async Task<ActionResult<FwJsonDataTable>> RunReportAsync([FromBody]DealOutstandingItemsReportRequest request)
         {
             if (!ModelState.IsValid)

@@ -1,7 +1,8 @@
-using FwStandard.BusinessLogic.Attributes; 
+using FwStandard.AppManager;
 using WebApi.Logic;
 namespace WebApi.Modules.Settings.WarehouseDepartment
 {
+    [FwLogic(Id:"xK8lK5QlO5NBr")]
     public class WarehouseDepartmentLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------ 
@@ -13,24 +14,39 @@ namespace WebApi.Modules.Settings.WarehouseDepartment
             dataLoader = warehouseDepartmentLoader;
         }
         //------------------------------------------------------------------------------------ 
-        [FwBusinessLogicField(isPrimaryKey: true)]
+        [FwLogicProperty(Id:"rUq1oh6YVMB0X", IsPrimaryKey:true)]
         public string WarehouseId { get { return warehouseDepartment.WarehouseId; } set { warehouseDepartment.WarehouseId = value; } }
-        [FwBusinessLogicField(isPrimaryKey: true)]
+
+        [FwLogicProperty(Id:"rUq1oh6YVMB0X", IsPrimaryKey:true)]
         public string DepartmentId { get { return warehouseDepartment.DepartmentId; } set { warehouseDepartment.DepartmentId = value; } }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"rUq1oh6YVMB0X", IsReadOnly:true)]
         public string Department { get; set; }
+
+        [FwLogicProperty(Id:"lgt7H3c4sSA")]
         public string RentalBarCodeRangeId { get { return warehouseDepartment.RentalBarCodeRangeId; } set { warehouseDepartment.RentalBarCodeRangeId = value; } }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"pa3mFYkL9crYl", IsReadOnly:true)]
         public string RentalBarCodeRange { get; set; }
+
+        [FwLogicProperty(Id:"T7wDn9mcJ1L")]
         public string SalesBarCodeRangeId { get { return warehouseDepartment.SalesBarCodeRangeId; } set { warehouseDepartment.SalesBarCodeRangeId = value; } }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"kZQtESJtlpVd8", IsReadOnly:true)]
         public string SalesBarCodeRange { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"pf2dGrF0o8zV9", IsReadOnly:true)]
         public string OrderBy { get; set; }
+
+        [FwLogicProperty(Id:"yAhP7vkVI7k")]
         public string RequestToId { get { return warehouseDepartment.RequestToId; } set { warehouseDepartment.RequestToId = value; } }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"21TJNwE8K9NVm", IsReadOnly:true)]
         public string RequestTo { get; set; }
+
+        [FwLogicProperty(Id:"3TZFJyCE8zY")]
         public string DateStamp { get { return warehouseDepartment.DateStamp; } set { warehouseDepartment.DateStamp = value; } }
+
 
         //------------------------------------------------------------------------------------ 
     }

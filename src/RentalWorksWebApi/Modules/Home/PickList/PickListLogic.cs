@@ -1,5 +1,5 @@
+using FwStandard.AppManager;
 using FwStandard.BusinessLogic;
-using FwStandard.BusinessLogic.Attributes;
 using FwStandard.Models;
 using System.Threading.Tasks;
 using WebApi.Logic;
@@ -7,6 +7,7 @@ using static FwStandard.DataLayer.FwDataReadWriteRecord;
 
 namespace WebApi.Modules.Home.PickList
 {
+    [FwLogic(Id:"5FhsIXWKwx14")]
     public class PickListLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------ 
@@ -21,77 +22,126 @@ namespace WebApi.Modules.Home.PickList
             pickList.AfterSave += OnAfterSavePickList;
         }
         //------------------------------------------------------------------------------------ 
-        [FwBusinessLogicField(isPrimaryKey: true)]
+        [FwLogicProperty(Id:"2E6750mRpWk5", IsPrimaryKey:true)]
         public string PickListId { get { return pickList.PickListId; } set { pickList.PickListId = value; } }
-        [FwBusinessLogicField(isRecordTitle: true)]
+
+        [FwLogicProperty(Id:"YY87Fs5rhX9H", IsRecordTitle:true)]
         public string PickListNumber { get { return pickList.PickListNumber; } set { pickList.PickListNumber = value; } }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"LaIWBayQ0abj", IsReadOnly:true)]
         public string PickType { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"u4wBnF2iUCad", IsReadOnly:true)]
         public string PickDate { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"Nv85nhFf6RSY", IsReadOnly:true)]
         public string PickTime { get; set; }
+
+        [FwLogicProperty(Id:"VfyIlQfa56Rc")]
         public string Status { get { return pickList.Status; } set { pickList.Status = value; } }
+
+        [FwLogicProperty(Id:"8zwOhuBJ2xjM")]
         public bool? Completed { get { return pickList.Completed; } set { pickList.Completed = value; } }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"TKvx8alO52AF", IsReadOnly:true)]
         public string OfficeLocationId { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"CYz4ySY1AMOf", IsReadOnly:true)]
         public string DepartmentId { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"CYz4ySY1AMOf", IsReadOnly:true)]
         public string Department { get; set; }
+
+        [FwLogicProperty(Id:"YoZyvgdhYuFq")]
         public string WarehouseId { get { return pickList.WarehouseId; } set { pickList.WarehouseId = value; } }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"MAtBYxOG1KKX", IsReadOnly:true)]
         public string WarehouseCode { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"MAtBYxOG1KKX", IsReadOnly:true)]
         public string Warehouse { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"wCvA1O65BA6o", IsReadOnly:true)]
         public string DeliverType { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"HF2Pr8qryk9V", IsReadOnly:true)]
         public string DeliverDate { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"fk33vpH9QU5g", IsReadOnly:true)]
         public string DeliverTime { get; set; }
+
+        [FwLogicProperty(Id:"zcWv6Cl68aqR")]
         public string OrderId { get { return pickList.OrderId; } set { pickList.OrderId = value; } }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"nLYHIVhecSFx", IsReadOnly:true)]
         public string OrderNumber { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"08KwhrLgLnpg", IsReadOnly:true)]
         public string OrderDescription { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"vjo12eGxMY3p", IsReadOnly:true)]
         public string OrderType { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"v8psCXdzuD93", IsReadOnly:true)]
         public string SubmittedDate { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"x0yfRnOWZaMo", IsReadOnly:true)]
         public string SubmittedTime { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"v8psCXdzuD93", IsReadOnly:true)]
         public string SubmittedDateTime { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"VbVkWxJtYkPf", IsReadOnly:true)]
         public string OrderedBy { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"VbVkWxJtYkPf", IsReadOnly:true)]
         public string OrderedById { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"buCb09p6H0XN", IsReadOnly:true)]
         public string RequestedBy { get; set; }
+
+        [FwLogicProperty(Id:"zQtwMNgrvr0S")]
         public string InputDate { get { return pickList.InputDate; } set { pickList.InputDate = value; } }
+
+        [FwLogicProperty(Id:"PK0Ga6VvU8ZG")]
         public string InputTime { get { return pickList.InputTime; } set { pickList.InputTime = value; } }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"9rbWOicDniot", IsReadOnly:true)]
         public string InputDateTime { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"5PxlEy5XvCuw", IsReadOnly:true)]
         public int? TotalItemQuantity { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"s85diE9Xg9RQ", IsReadOnly:true)]
         public string DealId { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"s85diE9Xg9RQ", IsReadOnly:true)]
         public string Deal { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"KJRfbCc8mmiB", IsReadOnly:true)]
         public string AgentId { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"KJRfbCc8mmiB", IsReadOnly:true)]
         public string Agent { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"TKdQYECGNE9e", IsReadOnly:true)]
         public string AssignedToId { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"TKdQYECGNE9e", IsReadOnly:true)]
         public string AssignedTo { get; set; }
+
+        [FwLogicProperty(Id:"PhDScLVUsd9z")]
         public string DueDate { get { return pickList.DueDate; } set { pickList.DueDate = value; } }
+
+        [FwLogicProperty(Id:"rz3J2xjSD681")]
         public string DueTime { get { return pickList.DueTime; } set { pickList.DueTime = value; } }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"E99iOwMkqRex", IsReadOnly:true)]
         public string Note { get; set; }
+
+        [FwLogicProperty(Id:"H8LBhnIHTXRc")]
         public string DateStamp { get { return pickList.DateStamp; } set { pickList.DateStamp = value; } }
+
         //------------------------------------------------------------------------------------ 
 
         public void OnAfterSavePickList(object sender, AfterSaveDataRecordEventArgs e)

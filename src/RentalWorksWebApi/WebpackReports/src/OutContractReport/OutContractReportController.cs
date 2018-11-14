@@ -1,3 +1,4 @@
+using FwStandard.AppManager;
 using FwStandard.Models;
 using FwStandard.Reporting;
 using Microsoft.AspNetCore.Mvc;
@@ -10,6 +11,7 @@ namespace WebApi.Modules.Reports.OutContractReport
 {
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "reports-v1")]
+    [FwController(Id:"p2tH0HSDc930")]
     public class OutContractReportController : AppReportController
     {
         //------------------------------------------------------------------------------------ 
@@ -31,6 +33,7 @@ namespace WebApi.Modules.Reports.OutContractReport
         }
         //------------------------------------------------------------------------------------ 
         [HttpPost("render")]
+        [FwControllerMethod(Id:"LtlWdMVpDoe4")]
         public async Task<ActionResult<FwReportRenderResponse>> Render([FromBody]FwReportRenderRequest request)
         {
             if (!this.ModelState.IsValid) return BadRequest();
@@ -39,6 +42,7 @@ namespace WebApi.Modules.Reports.OutContractReport
         }
         //------------------------------------------------------------------------------------ 
         [HttpGet("{contractid}")]
+        [FwControllerMethod(Id:"HCPKa35FPjMY")]
         public async Task<ActionResult<OutContractReport>> GetContract([FromRoute] string contractid)
         {
             OutContractReportLogic contractReportRepo = new OutContractReportLogic(this.AppConfig, this.UserSession);

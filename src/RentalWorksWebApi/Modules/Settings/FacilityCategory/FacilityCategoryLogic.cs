@@ -1,5 +1,5 @@
+using FwStandard.AppManager;
 ﻿using FwStandard.BusinessLogic;
-using FwStandard.BusinessLogic.Attributes;
 using WebApi.Modules.Settings.Category;
 
 namespace WebApi.Modules.Settings.FacilityCategory
@@ -15,9 +15,12 @@ namespace WebApi.Modules.Settings.FacilityCategory
         }
         //------------------------------------------------------------------------------------
 
+        [FwLogicProperty(Id:"Z25aqO0uQegN")]
         public string FacilityTypeId { get { return inventoryCategory.TypeId; } set { inventoryCategory.TypeId = value; } }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"JVi56cSPVrC", IsReadOnly:true)]
         public string FacilityType { get; set; }
+
         //------------------------------------------------------------------------------------
         public void OnBeforeSave(object sender, BeforeSaveEventArgs e)
         {

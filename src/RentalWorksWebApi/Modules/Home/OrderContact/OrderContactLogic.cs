@@ -1,11 +1,12 @@
+using FwStandard.AppManager;
 using FwStandard.BusinessLogic;
-using FwStandard.BusinessLogic.Attributes;
 using WebApi.Logic;
 using WebApi.Modules.Home.CompanyContact;
 using WebApi.Modules.Home.Contact;
 
 namespace WebApi.Modules.Home.OrderContact
 {
+    [FwLogic(Id:"WtDwr1IbNTRF")]
     public class OrderContactLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------ 
@@ -26,47 +27,90 @@ namespace WebApi.Modules.Home.OrderContact
             ReloadOnSave = false;
         }
         //------------------------------------------------------------------------------------ 
-        [FwBusinessLogicField(isPrimaryKey: true)]
+        [FwLogicProperty(Id:"fTd0q2QfSild", IsPrimaryKey:true)]
         public string OrderContactId { get { return orderContact.OrderContactId; } set { orderContact.OrderContactId = value; } }
+
+        [FwLogicProperty(Id:"uPwx0eLFLp5n")]
         public string OrderId { get { return orderContact.OrderId; } set { orderContact.OrderId = value; } }
+
+        [FwLogicProperty(Id:"puHqtoi3cUij")]
         public string ContactId { get { return orderContact.ContactId; } set { orderContact.ContactId = value; companyContact.ContactId = value; } }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"2wY1J3oobLfy", IsReadOnly:true)]
         public string NameFml { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"VfLCgWs7r0ap", IsReadOnly:true)]
         public string NameLfm { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"Ni0pEkwFvjva", IsReadOnly:true)]
         public string Person { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"Ni0pEkwFvjva", IsReadOnly:true)]
         public string PersonColor { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"HVkp6Hg37NaD", IsReadOnly:true)]
         public string FirstName { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"GMh4Hg5SSApq", IsReadOnly:true)]
         public string MiddleInitial { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"4SYuVDEB54PW", IsReadOnly:true)]
         public string LastName { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"vSbzuTj8eH8L", IsReadOnly:true)]
         public string ContactTitle { get; set; }
+
+        [FwLogicProperty(Id:"9GViUNrOcBzb")]
         public string OfficePhone { get { return companyContact.OfficePhone; } set { companyContact.OfficePhone = value; } }
+
+        [FwLogicProperty(Id:"jgT2ggh7SoJx")]
         public string OfficeExtension { get { return companyContact.OfficeExtension; } set { companyContact.OfficeExtension = value; } }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"Ft6XnJJU02zu", IsReadOnly:true)]
         public string MobilePhone { get; set; }
+
+        [FwLogicProperty(Id:"xIjazwTSAQGy")]
         public string Email { get { return companyContact.Email; } set { companyContact.Email = value; } }
+
+        [FwLogicProperty(Id:"3AuTiuF6doqh")]
         public string Pager { get { return companyContact.Pager; } set { companyContact.Pager = value; } }
+
+        [FwLogicProperty(Id:"RmEVddZXKpNX")]
         public string PagerPin { get { return companyContact.PagerPin; } set { companyContact.PagerPin = value; } }
+
+        [FwLogicProperty(Id:"DAMzyFirUtX0")]
         public string JobTitle { get { return companyContact.JobTitle; } set { companyContact.JobTitle = value; } }
+
+        [FwLogicProperty(Id:"I5vTBz4Xmg3h")]
         public string ContactTitleId { get { return companyContact.ContactTitleId; } set { companyContact.ContactTitleId = value; } }
+
+        [FwLogicProperty(Id:"XvFhx0B7j5Vz")]
         public string CompanyContactId { get { return orderContact.CompanyContactId; } set { orderContact.CompanyContactId = value; companyContact.CompanyContactId = value; } }
+
+        [FwLogicProperty(Id:"kzCqQFzAkb2T")]
         public string CompanyId { get { return orderContact.CompanyId; } set { orderContact.CompanyId = value; companyContact.CompanyId = value; } }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"mZ2FD66LZwab", IsReadOnly:true)]
         public bool? IsPrimary { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"iAxcopiF0pTG", IsReadOnly:true)]
         public string CountryId { get; set; }
+
+        [FwLogicProperty(Id:"AsKl4tk7iFZ7")]
         public bool? IsOrderedBy { get { return orderContact.IsOrderedBy; } set { orderContact.IsOrderedBy = value; } }
+
+        [FwLogicProperty(Id:"hJ3pZWm8kXoX")]
         public bool? IsProductionContact { get { return orderContact.IsProductionContact; } set { orderContact.IsProductionContact = value; } }
+
+        [FwLogicProperty(Id:"tWJXc9P75ABA")]
         public bool? IsPrintable { get { return orderContact.IsPrintable; } set { orderContact.IsPrintable = value; } }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"agdjDWDiZDW2", IsReadOnly:true)]
         public bool? ContactOnOrder { get; set; }
+
+        [FwLogicProperty(Id:"iauqIr8Ph8s9")]
         public bool? Inactive { get { return companyContact.Inactive; } set { companyContact.Inactive = value; } }
+
         //------------------------------------------------------------------------------------ 
         protected override bool Validate(TDataRecordSaveMode saveMode, FwBusinessLogic original, ref string validateMsg)
         {

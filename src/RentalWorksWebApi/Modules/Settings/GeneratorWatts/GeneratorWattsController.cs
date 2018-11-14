@@ -1,3 +1,4 @@
+using FwStandard.AppManager;
 ﻿using FwStandard.SqlServer;
 using FwStandard.Models;
 using Microsoft.AspNetCore.Authorization;
@@ -11,6 +12,7 @@ namespace WebApi.Modules.Settings.GeneratorWatts
 {
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "settings-v1")]
+    [FwController(Id:"D2Z3jlFgx8Es")]
     public class GeneratorWattsController : AppDataController
     {
         public GeneratorWattsController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(GeneratorWattsLogic); }
@@ -18,6 +20,7 @@ namespace WebApi.Modules.Settings.GeneratorWatts
         // POST api/v1/generatorwatts/browse
         [HttpPost("browse")]
         [Authorize(Policy = "")]
+        [FwControllerMethod(Id:"UJxdD5U2Icro")]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest);
@@ -25,6 +28,7 @@ namespace WebApi.Modules.Settings.GeneratorWatts
         //------------------------------------------------------------------------------------ 
         // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
         [HttpPost("exportexcelxlsx/{fileDownloadName}")]
+        [FwControllerMethod(Id:"1DlwGvDKOO9J")]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoExportExcelXlsxFileAsync(browseRequest);
@@ -33,6 +37,7 @@ namespace WebApi.Modules.Settings.GeneratorWatts
         // GET api/v1/generatorwatts
         [HttpGet]
         [Authorize(Policy = "")]
+        [FwControllerMethod(Id:"btedXKcu5gNo")]
         public async Task<ActionResult<IEnumerable<GeneratorWattsLogic>>> GetManyAsync(int pageno, int pagesize, string sort)
         {
             return await DoGetAsync<GeneratorWattsLogic>(pageno, pagesize, sort);
@@ -41,6 +46,7 @@ namespace WebApi.Modules.Settings.GeneratorWatts
         // GET api/v1/generatorwatts/A0000001
         [HttpGet("{id}")]
         [Authorize(Policy = "")]
+        [FwControllerMethod(Id:"TzMA0Db3S0my")]
         public async Task<ActionResult<GeneratorWattsLogic>> GetOneAsync(string id)
         {
             return await DoGetAsync<GeneratorWattsLogic>(id);
@@ -49,6 +55,7 @@ namespace WebApi.Modules.Settings.GeneratorWatts
         // POST api/v1/generatorwatts
         [HttpPost]
         [Authorize(Policy = "")]
+        [FwControllerMethod(Id:"HE0oB0KwhLkP")]
         public async Task<ActionResult<GeneratorWattsLogic>> PostAsync([FromBody]GeneratorWattsLogic l)
         {
             return await DoPostAsync<GeneratorWattsLogic>(l);
@@ -57,6 +64,7 @@ namespace WebApi.Modules.Settings.GeneratorWatts
         // DELETE api/v1/generatorwatts/A0000001
         [HttpDelete("{id}")]
         [Authorize(Policy = "")]
+        [FwControllerMethod(Id:"MJm1LT5dsNWQ")]
         public async Task<ActionResult<bool>> DeleteAsync(string id)
         {
             return await DoDeleteAsync(id);

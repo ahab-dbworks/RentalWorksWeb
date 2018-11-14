@@ -1,3 +1,4 @@
+using FwStandard.AppManager;
 using FwStandard.SqlServer;
 using System.Collections.Generic;
 using FwStandard.Models; 
@@ -9,12 +10,14 @@ namespace WebApi.Modules.Settings.WarehouseBarCodeSkip
 {
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "settings-v1")]
+    [FwController(Id:"LE9T9VOvHT73I")]
     public class WarehouseBarCodeSkipController : AppDataController
     {
         public WarehouseBarCodeSkipController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(WarehouseBarCodeSkipLogic); }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/warehousebarcodeskip/browse 
         [HttpPost("browse")]
+        [FwControllerMethod(Id:"qYitIFvZ6dOYy")]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest);
@@ -22,6 +25,7 @@ namespace WebApi.Modules.Settings.WarehouseBarCodeSkip
         //------------------------------------------------------------------------------------ 
         // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
         [HttpPost("exportexcelxlsx/{fileDownloadName}")]
+        [FwControllerMethod(Id:"3coBD9NkS0yeh")]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoExportExcelXlsxFileAsync(browseRequest);
@@ -29,6 +33,7 @@ namespace WebApi.Modules.Settings.WarehouseBarCodeSkip
         //------------------------------------------------------------------------------------ 
         // GET api/v1/warehousebarcodeskip 
         [HttpGet]
+        [FwControllerMethod(Id:"Jwr2X3DfTcE85")]
         public async Task<ActionResult<IEnumerable<WarehouseBarCodeSkipLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
             return await DoGetAsync<WarehouseBarCodeSkipLogic>(pageno, pagesize, sort);
@@ -36,6 +41,7 @@ namespace WebApi.Modules.Settings.WarehouseBarCodeSkip
         //------------------------------------------------------------------------------------ 
         // GET api/v1/warehousebarcodeskip/A0000001 
         [HttpGet("{id}")]
+        [FwControllerMethod(Id:"UIMbXMvHjeRhO")]
         public async Task<ActionResult<WarehouseBarCodeSkipLogic>> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<WarehouseBarCodeSkipLogic>(id);
@@ -43,6 +49,7 @@ namespace WebApi.Modules.Settings.WarehouseBarCodeSkip
         //------------------------------------------------------------------------------------ 
         // POST api/v1/warehousebarcodeskip 
         [HttpPost]
+        [FwControllerMethod(Id:"GoBjMr4iIcTgi")]
         public async Task<ActionResult<WarehouseBarCodeSkipLogic>> PostAsync([FromBody]WarehouseBarCodeSkipLogic l)
         {
             return await DoPostAsync<WarehouseBarCodeSkipLogic>(l);
@@ -50,6 +57,7 @@ namespace WebApi.Modules.Settings.WarehouseBarCodeSkip
         //------------------------------------------------------------------------------------ 
         // DELETE api/v1/warehousebarcodeskip/A0000001 
         [HttpDelete("{id}")]
+        [FwControllerMethod(Id:"OGUaAxnmf1Xv4")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
             return await DoDeleteAsync(id);

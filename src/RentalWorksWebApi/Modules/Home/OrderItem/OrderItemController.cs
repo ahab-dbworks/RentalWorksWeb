@@ -1,3 +1,4 @@
+using FwStandard.AppManager;
 using FwStandard.SqlServer;
 using System.Collections.Generic;
 using FwStandard.Models;
@@ -13,12 +14,14 @@ namespace WebApi.Modules.Home.OrderItem
 {
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "home-v1")]
+    [FwController(Id:"RFgCJpybXoEb")]
     public class OrderItemController : AppDataController
     {
         public OrderItemController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(OrderItemLogic); }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/orderitem/browse 
         [HttpPost("browse")]
+        [FwControllerMethod(Id:"Yx7zfT0uv9r4")]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest);
@@ -26,6 +29,7 @@ namespace WebApi.Modules.Home.OrderItem
         //------------------------------------------------------------------------------------ 
         // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
         [HttpPost("exportexcelxlsx/{fileDownloadName}")]
+        [FwControllerMethod(Id:"1hyN9Ooa1Jzs")]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoExportExcelXlsxFileAsync(browseRequest);
@@ -33,6 +37,7 @@ namespace WebApi.Modules.Home.OrderItem
         //------------------------------------------------------------------------------------ 
         // GET api/v1/orderitem/A0000001
         [HttpGet("{id}")]
+        [FwControllerMethod(Id:"g4Z0ZkzW6VM7")]
         public async Task<ActionResult<OrderItemLogic>> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<OrderItemLogic>(id);
@@ -40,6 +45,7 @@ namespace WebApi.Modules.Home.OrderItem
         //------------------------------------------------------------------------------------ 
         // POST api/v1/orderitem 
         [HttpPost]
+        [FwControllerMethod(Id:"DbB7badcbBLq")]
         public async Task<ActionResult<OrderItemLogic>> PostAsync([FromBody]OrderItemLogic l)
         {
             return await DoPostAsync<OrderItemLogic>(l);
@@ -47,6 +53,7 @@ namespace WebApi.Modules.Home.OrderItem
         //------------------------------------------------------------------------------------ 
         // DELETE api/v1/orderitem/A0000001
         [HttpDelete("{id}")]
+        [FwControllerMethod(Id:"042zT8NJ4EW8")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
             return await DoDeleteAsync(id);
@@ -414,6 +421,7 @@ namespace WebApi.Modules.Home.OrderItem
         //------------------------------------------------------------------------------------ 
         // GET api/v1/orderitem/calculateextended
         [HttpGet("calculateextended")]
+        [FwControllerMethod(Id:"Ef2C7Iuxu0tA")]
         public IActionResult CalculateExtended(string RateType, string RecType, DateTime? FromDate, DateTime? ToDate, DateTime? BillingFromDate, DateTime? BillingToDate, Decimal? Quantity, Decimal? Rate, Decimal? Rate2, Decimal? Rate3, Decimal? Rate4, Decimal? Rate5, Decimal? DaysPerWeek, Decimal? DiscountPercent)
         {
             try
@@ -449,6 +457,7 @@ namespace WebApi.Modules.Home.OrderItem
 
         // GET api/v1/orderitem/calculatediscountpercent
         [HttpGet("calculatediscountpercent")]
+        [FwControllerMethod(Id:"lhAMnv7k6hlY")]
         public IActionResult CalculateDiscountPercent(string RateType, string RecType, DateTime? FromDate, DateTime? ToDate, DateTime? BillingFromDate, DateTime? BillingToDate, Decimal? Quantity, Decimal? Rate, Decimal? Rate2, Decimal? Rate3, Decimal? Rate4, Decimal? Rate5, Decimal? DaysPerWeek, Decimal? DiscountPercent,
                                                       Decimal? UnitDiscountAmount, Decimal? UnitExtended, Decimal? WeeklyDiscountAmount, Decimal? WeeklyExtended, Decimal? MonthlyDiscountAmount, Decimal? MonthlyExtended, Decimal? PeriodDiscountAmount, Decimal? PeriodExtended)
         {

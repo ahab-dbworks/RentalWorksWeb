@@ -1,8 +1,9 @@
+using FwStandard.AppManager;
 using FwStandard.BusinessLogic;
-using FwStandard.BusinessLogic.Attributes; 
 using WebApi.Logic;
 namespace WebApi.Modules.Administrator.CustomModule
 {
+    [FwLogic(Id:"sq2JvMWQ7Gku")]
     public class CustomModuleLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------ 
@@ -12,8 +13,9 @@ namespace WebApi.Modules.Administrator.CustomModule
             dataLoader = customModuleLoader;
         }
         //------------------------------------------------------------------------------------ 
-        [FwBusinessLogicField(isRecordTitle: true, isReadOnly: true)]
+        [FwLogicProperty(Id:"7HaUiDzsTkQ9", IsRecordTitle:true, IsReadOnly:true)]
         public string ModuleName { get; set; }
+
         //------------------------------------------------------------------------------------ 
      }
 }

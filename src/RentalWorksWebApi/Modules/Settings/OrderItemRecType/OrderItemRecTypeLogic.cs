@@ -1,7 +1,8 @@
-using FwStandard.BusinessLogic.Attributes; 
+using FwStandard.AppManager;
 using WebApi.Logic;
 namespace WebApi.Modules.Settings.OrderItemRecType
 {
+    [FwLogic(Id:"0bsLSqyuMBSy")]
     public class OrderItemRecTypeLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------ 
@@ -11,10 +12,12 @@ namespace WebApi.Modules.Settings.OrderItemRecType
             dataLoader = orderItemRecTypeLoader;
         }
         //------------------------------------------------------------------------------------ 
-        [FwBusinessLogicField(isReadOnly: true, isPrimaryKey: true)]
+        [FwLogicProperty(Id:"ZIHcidO9f0un", IsPrimaryKey:true, IsReadOnly:true)]
         public string RecType { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"ZIHcidO9f0un", IsReadOnly:true)]
         public string RecTypeDisplay { get; set; }
+
         //------------------------------------------------------------------------------------ 
     }
 }

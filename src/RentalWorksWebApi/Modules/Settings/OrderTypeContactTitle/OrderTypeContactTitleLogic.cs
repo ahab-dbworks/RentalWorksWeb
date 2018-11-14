@@ -1,7 +1,8 @@
-using FwStandard.BusinessLogic.Attributes; 
+using FwStandard.AppManager;
 using WebApi.Logic;
 namespace WebApi.Modules.Settings.OrderTypeContactTitle
 {
+    [FwLogic(Id:"42Nwtr4rZFIu")]
     public class OrderTypeContactTitleLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------ 
@@ -13,13 +14,21 @@ namespace WebApi.Modules.Settings.OrderTypeContactTitle
             dataLoader = orderTypeContactTitleLoader;
         }
         //------------------------------------------------------------------------------------ 
-        [FwBusinessLogicField(isPrimaryKey: true)]
+        [FwLogicProperty(Id:"4NZL4Dvt625g", IsPrimaryKey:true)]
         public string OrderTypeContactTitleId { get { return orderTypeContactTitle.OrderTypeContactTitleId; } set { orderTypeContactTitle.OrderTypeContactTitleId = value; } }
+
+        [FwLogicProperty(Id:"KirgoBFsywG")]
         public string OrderTypeId { get { return orderTypeContactTitle.OrderTypeId; } set { orderTypeContactTitle.OrderTypeId = value; } }
+
+        [FwLogicProperty(Id:"gr8Bmx1RlG3")]
         public string ContactTitleId { get { return orderTypeContactTitle.ContactTitleId; } set { orderTypeContactTitle.ContactTitleId = value; } }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"4NZL4Dvt625g", IsReadOnly:true)]
         public string ContactTitle { get; set; }
+
+        [FwLogicProperty(Id:"Q1pe6yKvWwg")]
         public string DateStamp { get { return orderTypeContactTitle.DateStamp; } set { orderTypeContactTitle.DateStamp = value; } }
+
         //------------------------------------------------------------------------------------ 
     }
 }

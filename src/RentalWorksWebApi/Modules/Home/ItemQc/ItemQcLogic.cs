@@ -1,7 +1,8 @@
-using FwStandard.BusinessLogic.Attributes; 
+using FwStandard.AppManager;
 using WebApi.Logic;
 namespace WebApi.Modules.Home.ItemQc
 {
+    [FwLogic(Id:"tcgJS4ex1aKW")]
     public class ItemQcLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------ 
@@ -13,35 +14,60 @@ namespace WebApi.Modules.Home.ItemQc
             dataLoader = itemQcLoader;
         }
         //------------------------------------------------------------------------------------ 
-        [FwBusinessLogicField(isPrimaryKey: true)]
+        [FwLogicProperty(Id:"sQ6qQBvPoKq2", IsPrimaryKey:true)]
         public string ItemQcId { get { return itemQc.ItemQcId; } set { itemQc.ItemQcId = value; } }
+
+        [FwLogicProperty(Id:"kPHOj2sxYzOF")]
         public string ItemId { get { return itemQc.ItemId; } set { itemQc.ItemId = value; } }
+
+        [FwLogicProperty(Id:"HVKS7DefHth5")]
         public string QcRequiredAsOf { get { return itemQc.QcRequiredAsOf; } set { itemQc.QcRequiredAsOf = value; } }
+
+        [FwLogicProperty(Id:"HTzIbGsLVYtW")]
         public string QcByUsersId { get { return itemQc.QcByUsersId; } set { itemQc.QcByUsersId = value; } }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"kZzlwuL39SUL", IsReadOnly:true)]
         public string QcByUser { get; set; }
+
+        [FwLogicProperty(Id:"yZOnbnZI9LSO")]
         public string QcDateTime { get { return itemQc.QcDateTime; } set { itemQc.QcDateTime = value; } }
+
+        [FwLogicProperty(Id:"kMdh7XQVmj1K")]
         public string LastOrderId { get { return itemQc.LastOrderId; } set { itemQc.LastOrderId = value; } }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"P15og1we7155", IsReadOnly:true)]
         public string LastOrderNumber { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"IldXZzkWmGGf", IsReadOnly:true)]
         public string LastOrderDescription { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"Ha2gtN6m39N2", IsReadOnly:true)]
         public string LastDealId { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"Ha2gtN6m39N2", IsReadOnly:true)]
         public string LastDealNumber { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"Ha2gtN6m39N2", IsReadOnly:true)]
         public string LastDeal { get; set; }
+
+        [FwLogicProperty(Id:"OPmqmvzhgXS7")]
         public string ConditionId { get { return itemQc.ConditionId; } set { itemQc.ConditionId = value; } }
+
+        [FwLogicProperty(Id:"t3QeEbMh9o2p")]
         public string InContractId { get { return itemQc.InContractId; } set { itemQc.InContractId = value; } }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"qFP7fqj0Ik0i", IsReadOnly:true)]
         public string Condition { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"cMQ8wcsKa3FJ", IsReadOnly:true)]
         public string Note { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"LhM3v7hesjuO", IsReadOnly:true)]
         public bool? HasImage { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"bBt0lDIjW2VM", IsReadOnly:true)]
         public string Datstamp { get; set; }
+
         //------------------------------------------------------------------------------------ 
     }
 }

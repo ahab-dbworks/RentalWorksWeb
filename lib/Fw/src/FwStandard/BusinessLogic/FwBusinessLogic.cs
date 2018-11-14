@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using FwStandard.BusinessLogic.Attributes;
+using FwStandard.AppManager;
 using FwStandard.DataLayer;
 using FwStandard.Models;
 using FwStandard.Modules.Administrator.DuplicateRule;
@@ -429,13 +429,13 @@ namespace FwStandard.BusinessLogic
             PropertyInfo[] properties = this.GetType().GetProperties();
             foreach (PropertyInfo property in properties)
             {
-                if (property.IsDefined(typeof(FwBusinessLogicFieldAttribute)))
+                if (property.IsDefined(typeof(FwLogicPropertyAttribute)))
                 {
                     foreach (Attribute attribute in property.GetCustomAttributes())
                     {
-                        if (attribute.GetType() == typeof(FwBusinessLogicFieldAttribute))
+                        if (attribute.GetType() == typeof(FwLogicPropertyAttribute))
                         {
-                            FwBusinessLogicFieldAttribute businessLogicFieldAttribute = (FwBusinessLogicFieldAttribute)attribute;
+                            FwLogicPropertyAttribute businessLogicFieldAttribute = (FwLogicPropertyAttribute)attribute;
                             if ((businessLogicFieldAttribute.IsPrimaryKey) || (businessLogicFieldAttribute.IsPrimaryKeyOptional))
                             {
                                 primaryKeyProperties.Add(property);
@@ -460,9 +460,9 @@ namespace FwStandard.BusinessLogic
 
                     foreach (Attribute attribute in property.GetCustomAttributes())
                     {
-                        if (attribute.GetType() == typeof(FwBusinessLogicFieldAttribute))
+                        if (attribute.GetType() == typeof(FwLogicPropertyAttribute))
                         {
-                            FwBusinessLogicFieldAttribute businessLogicFieldAttribute = (FwBusinessLogicFieldAttribute)attribute;
+                            FwLogicPropertyAttribute businessLogicFieldAttribute = (FwLogicPropertyAttribute)attribute;
                             if (businessLogicFieldAttribute.IsPrimaryKeyOptional)
                             {
                                 optionalPrimaryKey = true;
@@ -943,13 +943,13 @@ namespace FwStandard.BusinessLogic
             PropertyInfo[] properties = this.GetType().GetProperties();
             foreach (PropertyInfo property in properties)
             {
-                if (property.IsDefined(typeof(FwBusinessLogicFieldAttribute)))
+                if (property.IsDefined(typeof(FwLogicPropertyAttribute)))
                 {
                     foreach (Attribute attribute in property.GetCustomAttributes())
                     {
-                        if (attribute.GetType() == typeof(FwBusinessLogicFieldAttribute))
+                        if (attribute.GetType() == typeof(FwLogicPropertyAttribute))
                         {
-                            FwBusinessLogicFieldAttribute businessLogicFieldAttribute = (FwBusinessLogicFieldAttribute)attribute;
+                            FwLogicPropertyAttribute businessLogicFieldAttribute = (FwLogicPropertyAttribute)attribute;
                             if (businessLogicFieldAttribute.IsRecordTitle)
                             {
                                 recordTitleProperties.Add(property);
@@ -1076,13 +1076,13 @@ namespace FwStandard.BusinessLogic
 
                     if (auditProperty)
                     {
-                        if (property.IsDefined(typeof(FwBusinessLogicFieldAttribute)))
+                        if (property.IsDefined(typeof(FwLogicPropertyAttribute)))
                         {
                             foreach (Attribute attribute in property.GetCustomAttributes())
                             {
-                                if (attribute.GetType() == typeof(FwBusinessLogicFieldAttribute))
+                                if (attribute.GetType() == typeof(FwLogicPropertyAttribute))
                                 {
-                                    FwBusinessLogicFieldAttribute businessLogicFieldAttribute = (FwBusinessLogicFieldAttribute)attribute;
+                                    FwLogicPropertyAttribute businessLogicFieldAttribute = (FwLogicPropertyAttribute)attribute;
                                     if ((businessLogicFieldAttribute.IsPrimaryKey) || (businessLogicFieldAttribute.IsPrimaryKeyOptional))
                                     {
                                         auditProperty = false;

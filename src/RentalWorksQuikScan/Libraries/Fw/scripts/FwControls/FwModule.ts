@@ -30,18 +30,19 @@ class FwModule {
             jQuery('title').html(caption);
         }
         newtabids = FwTabs.addTab($tabControl, caption, tabHasClose, tabType, setTabActive);
-        $tabControl.find('#' + newtabids.tabpageid).append($object);
+        $tabControl.find(`#${newtabids.tabpageid}`).append($object);
 
         $fwcontrols = $object.find('.fwcontrol');
         FwControl.loadControls($fwcontrols);
+
         // Close tab button
         if ($tabControl.find('.tab').length > 1) {
+            let iconHtml: Array<string> = [], $newTabButton;
             $tabControl.find('.closetabbutton').html('');
-            let iconHtml = [];
             iconHtml.push(`<div class="closetab">
                             <i class="material-icons">more_horiz</i>
                             <div style="display:none;" class="close-dialog">
-                              <div class="leave-current">
+                              <div class="leave-active">
                                 <span>Close All but Current Tab </span>
                               </div>
                               <div class="close-all">
@@ -49,28 +50,53 @@ class FwModule {
                               </div>
                             </div>
                           </div>`);
-            let $newTabButton = jQuery(iconHtml.join(''));
-            $tabControl.find('.closetabbutton').append($newTabButton);
+            $newTabButton = jQuery(iconHtml.join(''));
+            $tabControl.find('.closetabbutton:first').append($newTabButton);
         } else {
             $tabControl.find('.closetabbutton').html('');
         }
+        // Toggle button dialog
         $tabControl.find('.closetab').click(() => {
-            $object.find('.close-dialog').html('')
-            $tabControl.find('.close-dialog').toggle();
-        })
-        $tabControl.find('.leave-all').click(() => {
-            console.log('tabafter1:', $tabControl.find('.tab')[1])
-        })
+            $object.find('.close-dialog').html('');
+            $tabControl.find('.close-dialog:first').toggle();
+        });
+        // Close all tabs but active tab
+        $tabControl.find('.leave-active').click(() => {
+            let $bodyContainer, $openForms, $form, $tab, $activeTab, $activeTabId, $tabId;
+            $activeTab = $tabControl.find('div[data-tabtype="FORM"].tab.active');
+            $activeTabId = $activeTab.attr('data-tabpageid');
+            $bodyContainer = jQuery('#master-body');
+            $openForms = $bodyContainer.find('div[data-type="form"]');
+
+            for (let i = 0; i < $openForms.length; i++) {
+                $form = jQuery($openForms[i]);
+                $tab = jQuery(`#${$form.parent().attr('data-tabid')}`);
+                $tabId = $tab.attr('data-tabpageid');
+                if ($tabId !== $activeTabId) {
+                    $tab.click();
+                    FwModule.closeForm($form, $tab);
+                }
+            }
+
+            FwTabs.setActiveTab($tabControl, $activeTab);
+        });
+        // Close all tabs
         $tabControl.find('.close-all').click(() => {
-            //while ($tabControl.find('.tab').length > 1) {
-            //let tabLength = 
-            let $tab = $tabControl.find('div[data-tabpageid="tabpage2"]')
-            let $newactivetab = (($tab.next().length > 0) ? $tab.next() : $tab.prev());
-            FwTabs.removeTab($tab);
-            FwTabs.setActiveTab($tabControl, $newactivetab);
-            //}
-        })
-        $object.find('.closetabbutton').html('')
+            let $rootTab, $bodyContainer, $openForms, $form, $tab;
+            $rootTab = $tabControl.find('div[data-tabpageid="tabpage1"]');
+            $bodyContainer = jQuery('#master-body');
+            $openForms = $bodyContainer.find('div[data-type="form"]');
+
+            for (let i = 0; i < $openForms.length; i++) {
+                $form = jQuery($openForms[i]);
+                $tab = jQuery(`#${$form.parent().attr('data-tabid')}`);
+                $tab.click();
+                FwModule.closeForm($form, $tab);
+            }
+
+            FwTabs.setActiveTab($tabControl, $rootTab);
+            $tabControl.find('.closetabbutton').html('');
+        });
 
         if ($object.hasClass('fwbrowse')) {
             if ($object.attr('data-newtab') == 'true') {

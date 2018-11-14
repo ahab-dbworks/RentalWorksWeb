@@ -1,3 +1,4 @@
+using FwStandard.AppManager;
 using FwStandard.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
@@ -30,6 +31,7 @@ namespace WebApi.Modules.Reports.BillingProgressReport
 
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "reports-v1")]
+    [FwController(Id:"Y5ssGcXnxL2")]
     public class BillingProgressReportController : AppReportController
     {
         public BillingProgressReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
@@ -53,6 +55,7 @@ namespace WebApi.Modules.Reports.BillingProgressReport
         //------------------------------------------------------------------------------------ 
         // POST api/v1/billingprogressreport/render 
         [HttpPost("render")]
+        [FwControllerMethod(Id:"XD5izGut00O")]
         public async Task<ActionResult<FwReportRenderResponse>> Render([FromBody]FwReportRenderRequest request)
         {
             if (!this.ModelState.IsValid) return BadRequest();
@@ -62,6 +65,7 @@ namespace WebApi.Modules.Reports.BillingProgressReport
         //------------------------------------------------------------------------------------ 
         // POST api/v1/billingprogressreport/runreport 
         [HttpPost("runreport")]
+        [FwControllerMethod(Id:"AOjPM7jV7pi")]
         public async Task<ActionResult<FwJsonDataTable>> RunReportAsync([FromBody]BillingProgressReportRequest request)
         {
             if (!ModelState.IsValid)

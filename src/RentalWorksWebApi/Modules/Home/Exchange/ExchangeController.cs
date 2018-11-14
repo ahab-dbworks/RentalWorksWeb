@@ -1,3 +1,4 @@
+using FwStandard.AppManager;
 using FwStandard.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
@@ -74,6 +75,7 @@ namespace WebApi.Modules.Home.Exchange
 
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "home-v1")]
+    [FwController(Id:"IQS4rxzIVFl")]
     public class ExchangeController : AppDataController
     {
         public ExchangeController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
@@ -82,6 +84,7 @@ namespace WebApi.Modules.Home.Exchange
         //------------------------------------------------------------------------------------ 
         // POST api/v1/exchange/exchangeitemin
         [HttpPost("exchangeitemin")]
+        [FwControllerMethod(Id:"XOvqlNHRQs3")]
         public async Task<ActionResult<ExchangeItemInResponse>> ExchangeItemIn([FromBody]ExchangeItemInRequest request)
         {
             if (!ModelState.IsValid)
@@ -149,6 +152,7 @@ namespace WebApi.Modules.Home.Exchange
         //------------------------------------------------------------------------------------ 
         // POST api/v1/exchange/exchangeitemout
         [HttpPost("exchangeitemout")]
+        [FwControllerMethod(Id:"5QUCeNc5L0u")]
         public async Task<ActionResult<ExchangeItemOutResponse>> ExchangeItemOut([FromBody]ExchangeItemOutRequest request)
         {
             if (!ModelState.IsValid)
@@ -218,6 +222,7 @@ namespace WebApi.Modules.Home.Exchange
 
         // POST api/v1/exchange/startexchangecontract
         [HttpPost("startexchangecontract")]
+        [FwControllerMethod(Id:"m7wzxum9Fjk")]
         public async Task<ActionResult<ExchangeContractResponse>> StartExchangeContractAsync([FromBody]ExchangeContractRequest request)
         {
             if (!ModelState.IsValid)
@@ -243,6 +248,7 @@ namespace WebApi.Modules.Home.Exchange
         //------------------------------------------------------------------------------------ 
         // POST api/v1/exchange/completeexchangecontract
         [HttpPost("completeexchangecontract/{id}")]
+        [FwControllerMethod(Id:"ETE3Ab2TsnT")]
         public async Task<ActionResult<ContractLogic>> CompleteExchangeContractAsync([FromRoute]string id)
         {
             if (!ModelState.IsValid)

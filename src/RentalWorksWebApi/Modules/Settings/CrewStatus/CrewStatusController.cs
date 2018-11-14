@@ -1,3 +1,4 @@
+using FwStandard.AppManager;
 ﻿using FwStandard.SqlServer;
 using System.Collections.Generic;
 using FwStandard.Models;
@@ -11,6 +12,7 @@ namespace WebApi.Modules.Settings.CrewStatus
 {
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "settings-v1")]
+    [FwController(Id:"uW0hAqUv6mDL")]
     public class CrewStatusController : AppDataController
     {
         public CrewStatusController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(CrewStatusLogic); }
@@ -18,6 +20,7 @@ namespace WebApi.Modules.Settings.CrewStatus
         // POST api/v1/crewstatus/browse
         [HttpPost("browse")]
         [Authorize(Policy = "")]
+        [FwControllerMethod(Id:"jytxyhG31DQI")]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest);
@@ -25,6 +28,7 @@ namespace WebApi.Modules.Settings.CrewStatus
         //------------------------------------------------------------------------------------ 
         // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
         [HttpPost("exportexcelxlsx/{fileDownloadName}")]
+        [FwControllerMethod(Id:"cpAG3T8cl9SM")]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoExportExcelXlsxFileAsync(browseRequest);
@@ -33,6 +37,7 @@ namespace WebApi.Modules.Settings.CrewStatus
         // GET api/v1/crewstatus
         [HttpGet]
         [Authorize(Policy = "")]
+        [FwControllerMethod(Id:"9mz0YTiM9Okm")]
         public async Task<ActionResult<IEnumerable<CrewStatusLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
             return await DoGetAsync<CrewStatusLogic>(pageno, pagesize, sort);
@@ -41,6 +46,7 @@ namespace WebApi.Modules.Settings.CrewStatus
         // GET api/v1/crewstatus/A0000001
         [HttpGet("{id}")]
         [Authorize(Policy = "")]
+        [FwControllerMethod(Id:"AixVcuKCOKHy")]
         public async Task<ActionResult<CrewStatusLogic>> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<CrewStatusLogic>(id);
@@ -49,6 +55,7 @@ namespace WebApi.Modules.Settings.CrewStatus
         // POST api/v1/crewstatus
         [HttpPost]
         [Authorize(Policy = "")]
+        [FwControllerMethod(Id:"zCrvul9cmmdC")]
         public async Task<ActionResult<CrewStatusLogic>> PostAsync([FromBody]CrewStatusLogic l)
         {
             return await DoPostAsync<CrewStatusLogic>(l);
@@ -57,6 +64,7 @@ namespace WebApi.Modules.Settings.CrewStatus
         // DELETE api/v1/crewstatus/A0000001
         [HttpDelete("{id}")]
         [Authorize(Policy = "")]
+        [FwControllerMethod(Id:"qCpoTdJ5J4TX")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
             return await DoDeleteAsync(id);

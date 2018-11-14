@@ -1,5 +1,5 @@
+using FwStandard.AppManager;
 using FwStandard.BusinessLogic;
-using FwStandard.BusinessLogic.Attributes; 
 using WebApi.Modules.Home.ItemDimension;
 using WebApi.Modules.Home.Master;
 using WebApi.Logic;
@@ -11,6 +11,7 @@ using static WebApi.Modules.Home.InventorySearchPreview.InventorySearchPreviewCo
 
 namespace WebApi.Modules.Home.InventorySearchPreview
 {
+    [FwLogic(Id:"JInOSUX6vwnT")]
     public class InventorySearchPreviewLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------ 
@@ -27,13 +28,24 @@ namespace WebApi.Modules.Home.InventorySearchPreview
         //------------------------------------------------------------------------------------ 
 
         //------------------------------------------------------------------------------------ 
-        [FwBusinessLogicField(isPrimaryKey: true)]
+        [FwLogicProperty(Id:"cEmyG9vzCFKP", IsPrimaryKey:true)]
         public string Id { get { return inventorySearch.Id; } set { inventorySearch.Id = value; } }
+
+        [FwLogicProperty(Id:"2RbZVy6pxUdB")]
         public string SessionId { get { return inventorySearch.SessionId; } set { inventorySearch.SessionId = value; } }
+
+        [FwLogicProperty(Id:"3kb1jZvduWpJ")]
         public string ParentId { get { return inventorySearch.ParentId; } set { inventorySearch.ParentId = value; } }
+
+        [FwLogicProperty(Id:"gP4EPlMaB5jj")]
         public string InventoryId { get { return inventorySearch.InventoryId; } set { inventorySearch.InventoryId = value; } }
+
+        [FwLogicProperty(Id:"oEGSiGBusdOO")]
         public string WarehouseId { get { return inventorySearch.WarehouseId; } set { inventorySearch.WarehouseId = value; } }
+
+        [FwLogicProperty(Id:"ZHcLSUe3362K")]
         public decimal? Quantity { get { return inventorySearch.Quantity; } set { inventorySearch.Quantity = value; } }
+
         //------------------------------------------------------------------------------------
         public async Task<FwJsonDataTable> PreviewAsync(InventorySearchPreviewBrowseRequest request)
         {

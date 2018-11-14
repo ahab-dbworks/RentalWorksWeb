@@ -1,7 +1,8 @@
-using FwStandard.BusinessLogic.Attributes; 
+using FwStandard.AppManager;
 using WebApi.Logic;
 namespace WebApi.Modules.Settings.MarketType
 {
+    [FwLogic(Id:"ntJtKUqrb9fy")]
     public class MarketTypeLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------ 
@@ -13,12 +14,18 @@ namespace WebApi.Modules.Settings.MarketType
             dataLoader = marketTypeLoader;
         }
         //------------------------------------------------------------------------------------ 
-        [FwBusinessLogicField(isPrimaryKey: true)]
+        [FwLogicProperty(Id:"nifjEyvBYGbP", IsPrimaryKey:true)]
         public string MarketTypeId { get { return marketType.MarketTypeId; } set { marketType.MarketTypeId = value; } }
-        [FwBusinessLogicField(isRecordTitle: true)]
+
+        [FwLogicProperty(Id:"nifjEyvBYGbP", IsRecordTitle:true)]
         public string MarketType { get { return marketType.MarketType; } set { marketType.MarketType = value; } }
+
+        [FwLogicProperty(Id:"e5euUtECYjY")]
         public bool? Inactive { get { return marketType.Inactive; } set { marketType.Inactive = value; } }
+
+        [FwLogicProperty(Id:"Xut2hGyMK0A")]
         public string DateStamp { get { return marketType.DateStamp; } set { marketType.DateStamp = value; } }
+
         //------------------------------------------------------------------------------------ 
     }
 }

@@ -1,8 +1,9 @@
-﻿using FwStandard.BusinessLogic.Attributes;
+using FwStandard.AppManager;
 using WebApi.Logic;
 
 namespace WebApi.Modules.Settings.CustomerCategory
 {
+    [FwLogic(Id:"eyMpRjUk88li")]
     public class CustomerCategoryLogic : AppBusinessLogic
     {
         CustomerCategoryRecord customerCat = new CustomerCategoryRecord();
@@ -11,12 +12,18 @@ namespace WebApi.Modules.Settings.CustomerCategory
             dataRecords.Add(customerCat); 
         }
 
-        [FwBusinessLogicField(isPrimaryKey: true)]
+        [FwLogicProperty(Id:"24Fl2k3pNfhP", IsPrimaryKey:true)]
         public string CustomerCategoryId { get { return customerCat.CustomerCategoryId; } set { customerCat.CustomerCategoryId = value; } }
-        [FwBusinessLogicField(isRecordTitle: true)]
+
+        [FwLogicProperty(Id:"24Fl2k3pNfhP", IsRecordTitle:true)]
         public string CustomerCategory { get { return customerCat.CustomerCategory; } set { customerCat.CustomerCategory = value; } }
+
+        [FwLogicProperty(Id:"yBOb76pNm01e")]
         public string DateStamp { get { return customerCat.DateStamp; } set { customerCat.DateStamp = value; } }
+
+        [FwLogicProperty(Id:"gYWfo069zL1w")]
         public bool? Inactive { get { return customerCat.Inactive; } set { customerCat.Inactive = value; } }
+
 
 
     }

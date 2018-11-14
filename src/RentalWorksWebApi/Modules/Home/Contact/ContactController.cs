@@ -1,3 +1,4 @@
+using FwStandard.AppManager;
 ﻿using FwStandard.Models;
 using FwStandard.SqlServer;
 using Microsoft.AspNetCore.Mvc;
@@ -12,6 +13,7 @@ namespace WebApi.Modules.Home.Contact
 {
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "home-v1")]
+    [FwController(Id:"9ykTwUXTet46")]
     public class ContactController : AppDataController
     {
         public ContactController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(ContactLogic); }
@@ -28,6 +30,7 @@ namespace WebApi.Modules.Home.Contact
         [SwaggerResponse(200, Type = typeof(FwJsonDataTable))]
         [SwaggerResponse(500, Type = typeof(FwApiException))]
         //[ApiExplorerSettings(IgnoreApi=true)]
+        [FwControllerMethod(Id:"nhBg3nFWSLBS")]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest);
@@ -35,6 +38,7 @@ namespace WebApi.Modules.Home.Contact
         //------------------------------------------------------------------------------------ 
         // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
         [HttpPost("exportexcelxlsx/{fileDownloadName}")]
+        [FwControllerMethod(Id:"nhBg3nFWSLBS")]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoExportExcelXlsxFileAsync(browseRequest);
@@ -51,6 +55,7 @@ namespace WebApi.Modules.Home.Contact
         [Produces(typeof(List<ContactLogic>))]
         [SwaggerResponse(200, Type = typeof(List<ContactLogic>))]
         [SwaggerResponse(500, Type = typeof(FwApiException))]
+        [FwControllerMethod(Id:"tGV9key7gxD6")]
         public async Task<ActionResult<IEnumerable<ContactLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
             return await DoGetAsync<ContactLogic>(pageno, pagesize, sort);
@@ -60,6 +65,7 @@ namespace WebApi.Modules.Home.Contact
         [HttpGet("{id}")]
         [Produces(typeof(ContactLogic))]
         [SwaggerResponse(200, Type = typeof(ContactLogic))]
+        [FwControllerMethod(Id:"6EMCklyR6Ltw")]
         public async Task<ActionResult<ContactLogic>> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<ContactLogic>(id);
@@ -67,6 +73,7 @@ namespace WebApi.Modules.Home.Contact
         //------------------------------------------------------------------------------------
         // POST api/v1/customerstatus
         [HttpPost]
+        [FwControllerMethod(Id:"3qX4qzUxUYlL")]
         public async Task<ActionResult<ContactLogic>> PostAsync([FromBody]ContactLogic l)
         {
             return await DoPostAsync<ContactLogic>(l);
@@ -74,6 +81,7 @@ namespace WebApi.Modules.Home.Contact
         //------------------------------------------------------------------------------------
         // DELETE api/v1/customerstatus/A0000001
         [HttpDelete("{id}")]
+        [FwControllerMethod(Id:"8PPmwft0gjJw")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
             return await DoDeleteAsync(id);

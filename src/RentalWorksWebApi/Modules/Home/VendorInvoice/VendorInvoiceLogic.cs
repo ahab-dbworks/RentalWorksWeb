@@ -1,5 +1,5 @@
+using FwStandard.AppManager;
 using FwStandard.BusinessLogic;
-using FwStandard.BusinessLogic.Attributes;
 using FwStandard.SqlServer;
 using System;
 using WebApi.Logic;
@@ -7,6 +7,7 @@ using WebLibrary;
 
 namespace WebApi.Modules.Home.VendorInvoice
 {
+    [FwLogic(Id:"pfsVSz8PrlUI")]
     public class VendorInvoiceLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------ 
@@ -21,93 +22,165 @@ namespace WebApi.Modules.Home.VendorInvoice
             BeforeSave += OnBeforeSave;
         }
         //------------------------------------------------------------------------------------ 
-        [FwBusinessLogicField(isPrimaryKey: true)]
+        [FwLogicProperty(Id:"S2jBvP6ya0tp", IsPrimaryKey:true)]
         public string VendorInvoiceId { get { return vendorInvoice.VendorInvoiceId; } set { vendorInvoice.VendorInvoiceId = value; } }
+
+        [FwLogicProperty(Id:"56AMOQD5lQf8")]
         public string PurchaseOrderId { get { return vendorInvoice.PurchaseOrderId; } set { vendorInvoice.PurchaseOrderId = value; } }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"BWgU1hFaxksh", IsReadOnly:true)]
         public string PurchaseOrderNumber { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"cqBjiMNbok04", IsReadOnly:true)]
         public string RequistionNumber { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"DSdY8dEIISL4", IsReadOnly:true)]
         public string Vendor { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"5OjlJUmk2rju", IsReadOnly:true)]
         public string VendorNumber { get; set; }
+
+        [FwLogicProperty(Id:"TrfsW9WTmwzN")]
         public string VendorId { get { return vendorInvoice.VendorId; } set { vendorInvoice.VendorId = value; } }
+
+        [FwLogicProperty(Id:"TNEZCloHOwi4")]
         public string InvoiceBatchId { get { return vendorInvoice.InvoiceBatchId; } set { vendorInvoice.InvoiceBatchId = value; } }
-        [FwBusinessLogicField(isRecordTitle: true)]
+
+        [FwLogicProperty(Id:"TAsEhqdwaEos", IsRecordTitle:true)]
         public string InvoiceNumber { get { return vendorInvoice.InvoiceNumber; } set { vendorInvoice.InvoiceNumber = value; } }
+
+        [FwLogicProperty(Id:"UtYo18YqYzpw")]
         public string InvoiceDate { get { return vendorInvoice.InvoiceDate; } set { vendorInvoice.InvoiceDate = value; } }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"EEu0kqcEV1B6", IsReadOnly:true)]
         public string InvoiceDueDate { get; set; }
+
+        [FwLogicProperty(Id:"PQbf0GLvV6PV")]
         public string BillingStartDate { get { return vendorInvoice.BillingStartDate; } set { vendorInvoice.BillingStartDate = value; } }
+
+        [FwLogicProperty(Id:"2Y7as3SDnyBG")]
         public string BillingEndDate { get { return vendorInvoice.BillingEndDate; } set { vendorInvoice.BillingEndDate = value; } }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"I4nqAJPzhgDV", IsReadOnly:true)]
         public string BillingStartAndEndDates { get; set; }
+
+        [FwLogicProperty(Id:"3Z558g3cC1Tl")]
         public string Status { get { return vendorInvoice.Status; } set { vendorInvoice.Status = value; } }
+
+        [FwLogicProperty(Id:"hS6DjWdIrRdg")]
         public string StatusDate { get { return vendorInvoice.StatusDate; } set { vendorInvoice.StatusDate = value; } }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"2gIjGGRWiyRU", IsReadOnly:true)]
         public string OrderDescription { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"WiEZTOSP16lW", IsReadOnly:true)]
         public string DepartmentId { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"1qg4eux9mj7I", IsReadOnly:true)]
         public string Department { get; set; }
+
+        [FwLogicProperty(Id:"XUT1BHUBqYoK")]
         public string OrderNumber { get { return vendorInvoice.OrderNumber; } set { vendorInvoice.OrderNumber = value; } }
+
+        [FwLogicProperty(Id:"lHvxzPFzwB7r")]
         public string PurchaseOrderDealId { get { return vendorInvoice.PurchaseOrderDealId; } set { vendorInvoice.PurchaseOrderDealId = value; } }
+
+        [FwLogicProperty(Id:"GTVHuLXK8oY9")]
         public string PurchaseOrderDealNumber { get { return vendorInvoice.PurchaseOrderDealNumber; } set { vendorInvoice.PurchaseOrderDealNumber = value; } }
+
+        [FwLogicProperty(Id:"bMw7tvr1WUxa")]
         public string PurchaseOrderDeal { get { return vendorInvoice.PurchaseOrderDeal; } set { vendorInvoice.PurchaseOrderDeal = value; } }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"igqkGeIV82n8", IsReadOnly:true)]
         public string PurchaseOrderDealNumberDeal { get; set; }
+
+        [FwLogicProperty(Id:"r3ZPOUz3dSaZ")]
         public string ApprovedDate { get { return vendorInvoice.ApprovedDate; } set { vendorInvoice.ApprovedDate = value; } }
+
+        [FwLogicProperty(Id:"t9PRHkZMhPw9")]
         public string LocationId { get { return vendorInvoice.LocationId; } set { vendorInvoice.LocationId = value; } }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"Eg3SV7Rfta0u", IsReadOnly:true)]
         public string Location { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"jVswGAeWvveN", IsReadOnly:true)]
         public string WarehouseId { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"TqcDyE0azhQ3", IsReadOnly:true)]
         public string Warehouse { get; set; }
+
+        [FwLogicProperty(Id:"pdlflzfcPDLf")]
         public decimal? InvoiceTotal { get { return vendorInvoice.InvoiceTotal; } set { vendorInvoice.InvoiceTotal = value; } }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"uJFiJVc9owxf", IsReadOnly:true)]
         public string BillToAddress1 { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"tVjytewEwwjo", IsReadOnly:true)]
         public string BillToAddress2 { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"9CKL3t1os6mt", IsReadOnly:true)]
         public string BillToCity { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"grhjU6GqlzzY", IsReadOnly:true)]
         public string BillToState { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"860rQzIiTBuV", IsReadOnly:true)]
         public string BillToZipCode { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"2AvoYT9KXyNt", IsReadOnly:true)]
         public string BillToCountry { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"o0hhgZYFDx3a", IsReadOnly:true)]
         public string VendorPhone { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"Hh228JHkOgRk", IsReadOnly:true)]
         public string VendorFax { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"buvpUufNde7W", IsReadOnly:true)]
         public bool? InvoiceClass { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"MyL1YZCwCafI", IsReadOnly:true)]
         public bool? PrintNotes { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"RNBDNCR4prQc", IsReadOnly:true)]
         public bool? PaymentTerms { get; set; }
+
+        [FwLogicProperty(Id:"PULgmE963dDY")]
         public string TaxId { get { return vendorInvoice.TaxId; } set { vendorInvoice.TaxId = value; } }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"WnaRWLQ8BWsh", IsReadOnly:true)]
         public string TaxOptionId { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"4dw1Z2OPALPa", IsReadOnly:true)]
         public string TaxItemCode { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"XVUfyJk6KrnN", IsReadOnly:true)]
         public string Notes { get; set; }
+
+        [FwLogicProperty(Id:"OxpdKhWqAZf0")]
         public bool? BilledHiatus { get { return vendorInvoice.BilledHiatus; } set { vendorInvoice.BilledHiatus = value; } }
+
+        [FwLogicProperty(Id:"DVWaSPTM4J38")]
         public string InvoiceType { get { return vendorInvoice.InvoiceType; } set { vendorInvoice.InvoiceType = value; } }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"nzBzbxhhvxWm", IsReadOnly:true)]
         public string AgentId { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"eR73ZSW5CwY4", IsReadOnly:true)]
         public string ProjectManagerId { get; set; }
+
+        [FwLogicProperty(Id:"jYUSibN11hDX")]
         public string CurrencyId { get { return vendorInvoice.CurrencyId; } set { vendorInvoice.CurrencyId = value; } }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"EyxG6pYsKq5S", IsReadOnly:true)]
         public string CurrencyCode { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"xI4mRlnfFgfn", IsReadOnly:true)]
         public string LocationDefaultCurrencyId { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"dQsRxjFq1bqk", IsReadOnly:true)]
         public decimal? DealBilledExtended { get; set; }
+
         //------------------------------------------------------------------------------------ 
         protected override bool Validate(TDataRecordSaveMode saveMode, FwBusinessLogic original, ref string validateMsg)
         {

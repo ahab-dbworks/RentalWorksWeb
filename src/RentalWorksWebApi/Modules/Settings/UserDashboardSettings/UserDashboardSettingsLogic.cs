@@ -1,5 +1,5 @@
+using FwStandard.AppManager;
 ﻿using FwStandard.BusinessLogic;
-using FwStandard.BusinessLogic.Attributes;
 using FwStandard.DataLayer;
 using FwStandard.Models;
 using FwStandard.SqlServer;
@@ -13,32 +13,77 @@ using WebApi.Modules.Settings.WebUserWidget;
 
 namespace WebApi.Modules.Settings.UserDashboardSettings
 {
+    [FwLogic(Id:"4wHzCi9ODcIR9")]
     public class UserDashboardSettingsLogic : AppBusinessLogic
     {
         public class UserDashboardSetting
         {
+            [FwLogicProperty(Id:"uoiTLL0jYwA8")]
             public string userWidgetId { get; set; }
+
+            [FwLogicProperty(Id:"Kp2dJDkbPTpu")]
             public string value { get; set; }
+
+            [FwLogicProperty(Id:"NXRy8pQDQqwN")]
             public string text { get; set; }
+
+            [FwLogicProperty(Id:"4MxlimAYESIg")]
             public bool? selected { get; set; }
+
+            [FwLogicProperty(Id:"PetDFdwX7FQS")]
             public string apiname { get; set; }
+
+            [FwLogicProperty(Id:"DJ6nwgtnXfty")]
             public string clickpath { get; set; }
+
+            [FwLogicProperty(Id:"5AfOVvSNfeDR")]
             public string defaulttype { get; set; }
+
+            [FwLogicProperty(Id:"1N8BnB9e2h1r")]
             public string widgettype { get; set; }
+
+            [FwLogicProperty(Id:"8w5PYsX24XtS")]
             public int? defaultDataPoints { get; set; }
+
+            [FwLogicProperty(Id:"tEWTlewmof8c")]
             public int? dataPoints { get; set; }
+
+            [FwLogicProperty(Id:"fhepRMTIoPrB")]
             public string defaultAxisNumberFormatId { get; set; }
+
+            [FwLogicProperty(Id:"F8fBb6m5STcB")]
             public string defaultAxisNumberFormat { get; set; }
+
+            [FwLogicProperty(Id:"cs50aoSnCLpm")]
             public string defaultAxisNumberFormatMask { get; set; }
+
+            [FwLogicProperty(Id:"bzY2uJN3Z7Mv")]
             public string axisNumberFormatId { get; set; }
+
+            [FwLogicProperty(Id:"OFnRIsGuJ7IG")]
             public string axisNumberFormat { get; set; }
+
+            [FwLogicProperty(Id:"d7HaW4Rygrgw")]
             public string axisNumberFormatMask { get; set; }
+
+            [FwLogicProperty(Id:"7nr6tRwCANkM")]
             public string defaultDataNumberFormatId { get; set; }
+
+            [FwLogicProperty(Id:"pjLvL61Nk8xv")]
             public string defaultDataNumberFormat { get; set; }
+
+            [FwLogicProperty(Id:"9ZeYdh0eAfbB")]
             public string defaultDataNumberFormatMask { get; set; }
+
+            [FwLogicProperty(Id:"36nz45tfs4pp")]
             public string dataNumberFormatId { get; set; }
+
+            [FwLogicProperty(Id:"XuRq6NemRtVJ")]
             public string dataNumberFormat { get; set; }
+
+            [FwLogicProperty(Id:"kRpwFBx8w0iV")]
             public string dataNumberFormatMask { get; set; }
+
         }
 
         protected SqlServerConfig _dbConfig { get; set; }
@@ -49,13 +94,19 @@ namespace WebApi.Modules.Settings.UserDashboardSettings
             LoadOriginalBeforeSaving = false;
         }
         //------------------------------------------------------------------------------------
-        [FwBusinessLogicField(isPrimaryKey: true)]
+        [FwLogicProperty(Id:"766wAbVOC8nt5", IsPrimaryKey:true)]
         public string UserId { get; set; }
+
+        [FwLogicProperty(Id:"sinlv4VG74o9")]
         public int? WidgetsPerRow { get; set; }
-        [FwBusinessLogicField(isRecordTitle: true)]
+
         [JsonIgnore]
+        [FwLogicProperty(Id:"0D4rUx4DvdRG", IsRecordTitle:true)]
         public string DashboardSettingsTitle { get; set; }
+
+        [FwLogicProperty(Id:"oZMIf4l1CVS5")]
         public List<UserDashboardSetting> Widgets { get; set; }
+
         //------------------------------------------------------------------------------------
         public void SetDbConfig(SqlServerConfig dbConfig)
         {

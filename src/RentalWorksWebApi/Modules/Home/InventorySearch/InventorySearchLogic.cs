@@ -1,5 +1,5 @@
+using FwStandard.AppManager;
 using FwStandard.BusinessLogic;
-using FwStandard.BusinessLogic.Attributes;
 using WebApi.Modules.Home.ItemDimension;
 using WebApi.Modules.Home.Master;
 using WebApi.Logic;
@@ -9,6 +9,7 @@ using FwStandard.SqlServer;
 
 namespace WebApi.Modules.Home.InventorySearch
 {
+    [FwLogic(Id:"FBvu8xJVylI4")]
     public class InventorySearchLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------ 
@@ -27,16 +28,24 @@ namespace WebApi.Modules.Home.InventorySearch
         //------------------------------------------------------------------------------------ 
 
         //------------------------------------------------------------------------------------ 
-        [FwBusinessLogicField(isPrimaryKey: true)]
+        [FwLogicProperty(Id:"1QMq6pJO92DC", IsPrimaryKey:true)]
         public string SessionId { get { return inventorySearch.SessionId; } set { inventorySearch.SessionId = value; } }
-        [FwBusinessLogicField(isPrimaryKey: true)]
+
+        [FwLogicProperty(Id:"mQT7dLv4mKg6", IsPrimaryKey:true)]
         public string InventoryId { get { return inventorySearch.InventoryId; } set { inventorySearch.InventoryId = value; } }
-        [FwBusinessLogicField(isPrimaryKey: true)]
+
+        [FwLogicProperty(Id:"qSFRDKnn1Dnv", IsPrimaryKey:true)]
         public string WarehouseId { get { return inventorySearch.WarehouseId; } set { inventorySearch.WarehouseId = value; } }
+
+        [FwLogicProperty(Id:"s66OgVvyAPW4")]
         public string ParentId { get { return inventorySearch.ParentId; } set { inventorySearch.ParentId = value; } }
+
+        [FwLogicProperty(Id:"UG7rknSx0rbh")]
         public decimal? Quantity { get { return inventorySearch.Quantity; } set { inventorySearch.Quantity = value; } }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"tvd6AqBMrgc4", IsReadOnly:true)]
         public decimal? TotalQuantityInSession { get { return inventorySearch.TotalQuantityInSession; } }
+
 
         //------------------------------------------------------------------------------------
         public async Task<FwJsonDataTable> SearchAsync(InventorySearchRequest request)

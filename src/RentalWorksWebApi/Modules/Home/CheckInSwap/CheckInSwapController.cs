@@ -1,3 +1,4 @@
+using FwStandard.AppManager;
 using FwStandard.SqlServer;
 using FwStandard.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -8,12 +9,14 @@ namespace WebApi.Modules.Home.CheckInSwap
 {
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "home-v1")]
+    [FwController(Id:"hA3FE9ProwUn")]
     public class CheckInSwapController : AppDataController
     {
         public CheckInSwapController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(CheckInSwapLogic); }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/checkinswap/browse 
         [HttpPost("browse")]
+        [FwControllerMethod(Id:"iWeyxAeVf8sx")]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest);
@@ -21,6 +24,7 @@ namespace WebApi.Modules.Home.CheckInSwap
         //------------------------------------------------------------------------------------ 
         // POST api/v1/checkinswap/exportexcelxlsx/filedownloadname 
         [HttpPost("exportexcelxlsx/{fileDownloadName}")]
+        [FwControllerMethod(Id:"NOwmjAGeTZjH")]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoExportExcelXlsxFileAsync(browseRequest);

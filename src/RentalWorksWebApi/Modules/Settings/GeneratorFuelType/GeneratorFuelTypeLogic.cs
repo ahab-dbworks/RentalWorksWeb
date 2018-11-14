@@ -1,5 +1,5 @@
+using FwStandard.AppManager;
 ﻿using FwStandard.BusinessLogic;
-using FwStandard.BusinessLogic.Attributes;
 using Newtonsoft.Json;
 using WebApi.Logic;
 using WebApi.Modules.Settings.FuelType;
@@ -7,6 +7,7 @@ using WebLibrary;
 
 namespace WebApi.Modules.Settings.GeneratorFuelType
 {
+    [FwLogic(Id:"1cUb9tSvxnwU")]
     public class GeneratorFuelTypeLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------
@@ -19,14 +20,22 @@ namespace WebApi.Modules.Settings.GeneratorFuelType
             RowType = RwConstants.VEHICLE_TYPE_GENERATOR;
         }
         //------------------------------------------------------------------------------------
-        [FwBusinessLogicField(isPrimaryKey: true)]
+        [FwLogicProperty(Id:"Y6onKswpB9V4", IsPrimaryKey:true)]
         public string GeneratorFuelTypeId { get { return fuelType.FuelTypeId; } set { fuelType.FuelTypeId = value; } }
-        [FwBusinessLogicField(isRecordTitle: true)]
+
+        [FwLogicProperty(Id:"Y6onKswpB9V4", IsRecordTitle:true)]
         public string GeneratorFuelType { get { return fuelType.FuelType; } set { fuelType.FuelType = value; } }
+
         [JsonIgnore]
+        [FwLogicProperty(Id:"eT2wZb2EYaW")]
         public string RowType { get { return fuelType.RowType; } set { fuelType.RowType = value; } }
+
+        [FwLogicProperty(Id:"stltqKHw6Z2")]
         public bool? Inactive { get { return fuelType.Inactive; } set { fuelType.Inactive = value; } }
+
+        [FwLogicProperty(Id:"4xYiku7JWPX")]
         public string DateStamp { get { return fuelType.DateStamp; } set { fuelType.DateStamp = value; } }
+
         //------------------------------------------------------------------------------------
     }
 }

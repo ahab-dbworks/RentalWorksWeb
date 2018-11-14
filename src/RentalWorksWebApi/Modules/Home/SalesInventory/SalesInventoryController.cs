@@ -1,3 +1,4 @@
+using FwStandard.AppManager;
 using FwStandard.SqlServer;
 using System.Collections.Generic;
 using FwStandard.Models; 
@@ -10,12 +11,14 @@ namespace WebApi.Modules.Home.SalesInventory
 {
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "home-v1")]
+    [FwController(Id:"ShjGAzM2Pq3kk")]
     public class SalesInventoryController : AppDataController
     {
         public SalesInventoryController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(SalesInventoryLogic); }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/salesinventory/browse 
         [HttpPost("browse")]
+        [FwControllerMethod(Id:"dSuCVYOLVhygM")]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest);
@@ -23,6 +26,7 @@ namespace WebApi.Modules.Home.SalesInventory
         //------------------------------------------------------------------------------------ 
         // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
         [HttpPost("exportexcelxlsx/{fileDownloadName}")]
+        [FwControllerMethod(Id:"PXI94ha4SwIXU")]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoExportExcelXlsxFileAsync(browseRequest);
@@ -30,6 +34,7 @@ namespace WebApi.Modules.Home.SalesInventory
         //------------------------------------------------------------------------------------ 
         // GET api/v1/salesinventory 
         [HttpGet]
+        [FwControllerMethod(Id:"uYKsUb9hxZNkn")]
         public async Task<ActionResult<IEnumerable<SalesInventoryLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
             return await DoGetAsync<SalesInventoryLogic>(pageno, pagesize, sort);
@@ -37,6 +42,7 @@ namespace WebApi.Modules.Home.SalesInventory
         //------------------------------------------------------------------------------------ 
         // GET api/v1/salesinventory/A0000001 
         [HttpGet("{id}")]
+        [FwControllerMethod(Id:"BHKilcPFXm9Lr")]
         public async Task<ActionResult<SalesInventoryLogic>> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<SalesInventoryLogic>(id);
@@ -44,6 +50,7 @@ namespace WebApi.Modules.Home.SalesInventory
         //------------------------------------------------------------------------------------ 
         // POST api/v1/salesinventory 
         [HttpPost]
+        [FwControllerMethod(Id:"odAO7uIqwgBsc")]
         public async Task<ActionResult<SalesInventoryLogic>> PostAsync([FromBody]SalesInventoryLogic l)
         {
             return await DoPostAsync<SalesInventoryLogic>(l);
@@ -51,6 +58,7 @@ namespace WebApi.Modules.Home.SalesInventory
         //------------------------------------------------------------------------------------ 
         // DELETE api/v1/salesinventory/A0000001 
         [HttpDelete("{id}")]
+        [FwControllerMethod(Id:"pOFZu9oVTFwHf")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
             return await DoDeleteAsync(id);

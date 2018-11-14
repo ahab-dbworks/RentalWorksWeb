@@ -1,3 +1,4 @@
+using FwStandard.AppManager;
 using FwStandard.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
@@ -55,12 +56,14 @@ namespace WebApi.Modules.Home.LossAndDamage
 
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "home-v1")]
+    [FwController(Id:"BqFEiztXXexb")]
     public class LossAndDamageController : AppDataController
     {
         public LossAndDamageController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/lossanddamage/startsession
         [HttpPost("startsession")]
+        [FwControllerMethod(Id:"ZScJnowrNcdU")]
         public async Task<ActionResult<StartLossAndDamageSessionResponse>> StartSession([FromBody]StartLossAndDamageSessionRequest request)
         {
             if (!ModelState.IsValid)
@@ -101,6 +104,7 @@ namespace WebApi.Modules.Home.LossAndDamage
 
         // POST api/v1/lossanddamage/updateitem
         [HttpPost("updateitem")]
+        [FwControllerMethod(Id:"ZScJnowrNcdU")]
         public async Task<ActionResult<UpdateLossAndDamageItemResponse>> StartSession([FromBody]UpdateLossAndDamageItemRequest request)
         {
             if (!ModelState.IsValid)
@@ -145,6 +149,7 @@ namespace WebApi.Modules.Home.LossAndDamage
         //------------------------------------------------------------------------------------ 
         // POST api/v1/lossanddamage/completesession
         [HttpPost("completesession")]
+        [FwControllerMethod(Id:"tQvfBhyuXk7i")]
         public async Task<ActionResult<CompleteLossAndDamageSessionResponse>> CompleteSession([FromBody]CompleteLossAndDamageSessionRequest request)
         {
             if (!ModelState.IsValid)

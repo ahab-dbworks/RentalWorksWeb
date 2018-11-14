@@ -1,7 +1,8 @@
-using FwStandard.BusinessLogic.Attributes; 
+using FwStandard.AppManager;
 using WebApi.Logic;
 namespace WebApi.Modules.Settings.FiscalYear
 {
+    [FwLogic(Id:"plXY1qJr6w0b")]
     public class FiscalYearLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------ 
@@ -11,11 +12,15 @@ namespace WebApi.Modules.Settings.FiscalYear
             dataRecords.Add(fiscalYear);
         }
         //------------------------------------------------------------------------------------ 
-        [FwBusinessLogicField(isPrimaryKey: true)]
+        [FwLogicProperty(Id:"Isxe2FbWa0DF", IsPrimaryKey:true)]
         public string FiscalYearId { get { return fiscalYear.FiscalYearId; } set { fiscalYear.FiscalYearId = value; } }
-        [FwBusinessLogicField(isRecordTitle: true)]
+
+        [FwLogicProperty(Id:"XL5yT3xMaaPf", IsRecordTitle:true)]
         public string Year { get { return fiscalYear.Year; } set { fiscalYear.Year = value; } }
+
+        [FwLogicProperty(Id:"6eZUjCpmbZP3")]
         public string DateStamp { get { return fiscalYear.DateStamp; } set { fiscalYear.DateStamp = value; } }
+
         //------------------------------------------------------------------------------------ 
     }
 }

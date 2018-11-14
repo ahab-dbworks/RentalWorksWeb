@@ -1,3 +1,4 @@
+using FwStandard.AppManager;
 using FwStandard.SqlServer;
 using System.Collections.Generic;
 using FwStandard.Models;
@@ -13,12 +14,14 @@ namespace WebApi.Modules.Home.Repair
 {
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "home-v1")]
+    [FwController(Id:"t4gfyzLkSZhyc")]
     public class RepairController : AppDataController
     {
         public RepairController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(RepairLogic); }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/repair/browse 
         [HttpPost("browse")]
+        [FwControllerMethod(Id:"kPJdOLE1mzSJ3")]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest);
@@ -26,6 +29,7 @@ namespace WebApi.Modules.Home.Repair
         //------------------------------------------------------------------------------------ 
         // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
         [HttpPost("exportexcelxlsx/{fileDownloadName}")]
+        [FwControllerMethod(Id:"b0WeUj4bhtKca")]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoExportExcelXlsxFileAsync(browseRequest);
@@ -33,6 +37,7 @@ namespace WebApi.Modules.Home.Repair
         //------------------------------------------------------------------------------------ 
         // GET api/v1/repair 
         [HttpGet]
+        [FwControllerMethod(Id:"InQYyqMA8dBUA")]
         public async Task<ActionResult<IEnumerable<RepairLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
             return await DoGetAsync<RepairLogic>(pageno, pagesize, sort);
@@ -40,6 +45,7 @@ namespace WebApi.Modules.Home.Repair
         //------------------------------------------------------------------------------------ 
         // GET api/v1/repair/A0000001 
         [HttpGet("{id}")]
+        [FwControllerMethod(Id:"aK7x7PAZ4fwCT")]
         public async Task<ActionResult<RepairLogic>> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<RepairLogic>(id);
@@ -47,6 +53,7 @@ namespace WebApi.Modules.Home.Repair
         //------------------------------------------------------------------------------------ 
         // POST api/v1/repair 
         [HttpPost]
+        [FwControllerMethod(Id:"qd2ObhYdTAPPI")]
         public async Task<ActionResult<RepairLogic>> PostAsync([FromBody]RepairLogic l)
         {
             return await DoPostAsync<RepairLogic>(l);
@@ -54,6 +61,7 @@ namespace WebApi.Modules.Home.Repair
         //------------------------------------------------------------------------------------ 
         // POST api/v1/repair/estimate/A0000001
         [HttpPost("estimate/{id}")]
+        [FwControllerMethod(Id:"V6R1MLai1R7Fw")]
         public async Task<ActionResult<RepairLogic>> Estimate([FromRoute]string id)
         {
             if (!ModelState.IsValid)
@@ -96,6 +104,7 @@ namespace WebApi.Modules.Home.Repair
         //------------------------------------------------------------------------------------        
         // POST api/v1/repair/complete/A0000001
         [HttpPost("complete/{id}")]
+        [FwControllerMethod(Id:"PgeX6is7sKrYI")]
         public async Task<ActionResult<RepairLogic>> Complete([FromRoute]string id)
         {
             if (!ModelState.IsValid)
@@ -138,6 +147,7 @@ namespace WebApi.Modules.Home.Repair
         //------------------------------------------------------------------------------------        
         // POST api/v1/repair/releaseitems/A0000001/4
         [HttpPost("releaseitems/{id}/{quantity}")]
+        [FwControllerMethod(Id:"PpSdBovye5sNv")]
         public async Task<ActionResult<RepairLogic>> ReleaseItems([FromRoute] string id, [FromRoute] int quantity)
         {
             if (!ModelState.IsValid)
@@ -180,6 +190,7 @@ namespace WebApi.Modules.Home.Repair
         //------------------------------------------------------------------------------------        
         // POST api/v1/repair/void/A0000001
         [HttpPost("void/{id}")]
+        [FwControllerMethod(Id:"AxRbFcXeLZS0a")]
         public async Task<ActionResult<RepairLogic>> Void([FromRoute]string id)
         {
             if (!ModelState.IsValid)
@@ -222,6 +233,7 @@ namespace WebApi.Modules.Home.Repair
         //------------------------------------------------------------------------------------        
         // DELETE api/v1/repair/A0000001 
         [HttpDelete("{id}")]
+        [FwControllerMethod(Id:"gT2Vr5OjOUHwK")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
             return await DoDeleteAsync(id);

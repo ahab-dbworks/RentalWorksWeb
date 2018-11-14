@@ -1,7 +1,8 @@
-using FwStandard.BusinessLogic.Attributes;
+using FwStandard.AppManager;
 using WebApi.Logic;
 namespace WebApi.Modules.Settings.MarketSegmentJob
 {
+    [FwLogic(Id:"yKORQFX7fRRy")]
     public class MarketSegmentJobLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------ 
@@ -13,18 +14,27 @@ namespace WebApi.Modules.Settings.MarketSegmentJob
             dataLoader = marketSegmentJobLoader;
         }
         //------------------------------------------------------------------------------------ 
-        [FwBusinessLogicField(isPrimaryKey: true)]
+        [FwLogicProperty(Id:"S2SK1AQNa1YM", IsPrimaryKey:true)]
         public string MarketSegmentJobId { get { return marketSegmentJob.MarketSegmentJobId; } set { marketSegmentJob.MarketSegmentJobId = value; } }
-        [FwBusinessLogicField(isRecordTitle: true)]
+
+        [FwLogicProperty(Id:"S2SK1AQNa1YM", IsRecordTitle:true)]
         public string MarketSegmentJob { get { return marketSegmentJob.MarketSegmentJob; } set { marketSegmentJob.MarketSegmentJob = value; } }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"48K1B3mFKDUh", IsReadOnly:true)]
         public string MarketTypeId { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"48K1B3mFKDUh", IsReadOnly:true)]
         public string MarketType { get; set; }
+
+        [FwLogicProperty(Id:"kq92JfVctCT")]
         public string MarketSegmentId { get { return marketSegmentJob.MarketSegmentId; } set { marketSegmentJob.MarketSegmentId = value; } }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"S2SK1AQNa1YM", IsReadOnly:true)]
         public string MarketSegment { get; set; }
+
+        [FwLogicProperty(Id:"KaNRCBX5vGL")]
         public string DateStamp { get { return marketSegmentJob.DateStamp; } set { marketSegmentJob.DateStamp = value; } }
+
         //------------------------------------------------------------------------------------ 
     }
 }

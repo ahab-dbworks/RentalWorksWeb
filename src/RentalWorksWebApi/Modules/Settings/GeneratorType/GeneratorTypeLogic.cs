@@ -1,5 +1,5 @@
+using FwStandard.AppManager;
 ﻿using FwStandard.BusinessLogic;
-using FwStandard.BusinessLogic.Attributes;
 using Newtonsoft.Json;
 using WebApi.Modules.Settings.VehicleType;
 
@@ -18,13 +18,19 @@ namespace WebApi.Modules.Settings.GeneratorType
             BeforeSave += OnBeforeSave;
         }
         //------------------------------------------------------------------------------------
-        [FwBusinessLogicField(isPrimaryKey: true)]
+        [FwLogicProperty(Id:"PgUSszjdYyKw", IsPrimaryKey:true)]
         public string GeneratorTypeId { get { return masterRecord.MasterId; } set {masterRecord.MasterId = value; } }
-        [FwBusinessLogicField(isRecordTitle: true)]
+
+        [FwLogicProperty(Id:"PgUSszjdYyKw", IsRecordTitle:true)]
         public string GeneratorType { get { return masterRecord.Description; } set { masterRecord.Description = value; } }
+
+        [FwLogicProperty(Id:"N6OMYhFREJs")]
         public int? PreventiveMaintenanceCycleHours { get { return inventoryCategory.PreventiveMaintenanceCyclePeriod; } set { inventoryCategory.PreventiveMaintenanceCyclePeriod = value; } }
+
         [JsonIgnore]
+        [FwLogicProperty(Id:"pkQ8bO3iIy1")]
         public string CategoryId { get { return inventoryCategory.CategoryId; } set { inventoryCategory.CategoryId = value; } }
+
         //------------------------------------------------------------------------------------
         public void OnBeforeSave(object sender, BeforeSaveEventArgs e)
         {

@@ -1,3 +1,4 @@
+using FwStandard.AppManager;
 using FwStandard.Models; 
 using Microsoft.AspNetCore.Mvc; 
 using Microsoft.Extensions.Options; 
@@ -11,12 +12,14 @@ namespace WebApi.Modules.Utilities.DateFunctions
 {
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "utilities-v1")]
+    [FwController(Id:"Fe6C5BAHC7r2")]
     public class DateFunctionsController : AppDataController
     {
         public DateFunctionsController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
         //------------------------------------------------------------------------------------ 
         // GET api/v1/datefunctions/adddays
         [HttpGet("adddays")]
+        [FwControllerMethod(Id:"lhlW1yhlcggq")]
         public IActionResult AddDays(DateTime date, int Days)
         {
             try
@@ -37,6 +40,7 @@ namespace WebApi.Modules.Utilities.DateFunctions
         //------------------------------------------------------------------------------------ 
         // GET api/v1/datefunctions/addmonths 
         [HttpGet("addmonths")]
+        [FwControllerMethod(Id:"D22HgC7vhAKU")]
         public IActionResult AddMonths(DateTime date, int Months)
         {
             try
@@ -57,6 +61,7 @@ namespace WebApi.Modules.Utilities.DateFunctions
         //------------------------------------------------------------------------------------ 
         // GET api/v1/datefunctions/numberofmonths 
         [HttpGet("numberofmonths")]
+        [FwControllerMethod(Id:"wNu87lSHEd8F")]
         public IActionResult NumberOfMonths(DateTime fromDate, DateTime toDate)
         {
             try

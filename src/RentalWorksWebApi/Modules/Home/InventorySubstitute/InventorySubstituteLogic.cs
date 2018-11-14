@@ -1,7 +1,8 @@
-using FwStandard.BusinessLogic.Attributes; 
+using FwStandard.AppManager;
 using WebApi.Logic;
 namespace WebApi.Modules.Home.InventorySubstitute
 {
+    [FwLogic(Id:"6qtbmpyyZxAS")]
     public class InventorySubstituteLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------ 
@@ -13,21 +14,33 @@ namespace WebApi.Modules.Home.InventorySubstitute
             dataLoader = inventorySubstituteLoader;
         }
         //------------------------------------------------------------------------------------ 
-        [FwBusinessLogicField(isPrimaryKey: true)]
+        [FwLogicProperty(Id:"kIgc9N0v6BHv", IsPrimaryKey:true)]
         public string InventorySubstituteId { get { return inventorySubstitute.InventorySubstituteId; } set { inventorySubstitute.InventorySubstituteId = value; } }
+
+        [FwLogicProperty(Id:"brwDf1xWbCvQ")]
         public string InventoryId { get { return inventorySubstitute.InventoryId; } set { inventorySubstitute.InventoryId = value; } }
+
+        [FwLogicProperty(Id:"m6pY0JdiHVVy")]
         public string SubstituteInventoryId { get { return inventorySubstitute.SubstituteInventoryId; } set { inventorySubstitute.SubstituteInventoryId = value; } }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"vxsL8CkW9OSz", IsReadOnly:true)]
         public string ICode { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"OI6pULGzP0wl", IsReadOnly:true)]
         public string Description { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"9GOs2j8LWlrJ", IsReadOnly:true)]
         public string ManufacturerId { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"9GOs2j8LWlrJ", IsReadOnly:true)]
         public string Manufacturer { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"gP4KHJ7GkXfb", IsReadOnly:true)]
         public decimal? Rate { get; set; }
+
+        [FwLogicProperty(Id:"OCCrfHc1cPC7")]
         public string DateStamp { get { return inventorySubstitute.DateStamp; } set { inventorySubstitute.DateStamp = value; } }
+
         //------------------------------------------------------------------------------------ 
     }
 }

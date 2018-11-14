@@ -1,3 +1,4 @@
+using FwStandard.AppManager;
 using FwStandard.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
@@ -62,6 +63,7 @@ namespace WebApi.Modules.Home.InventorySearch
 
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "home-v1")]
+    [FwController(Id:"i4xC0FYgT9qo")]
     public class InventorySearchController : AppDataController
     {
         //------------------------------------------------------------------------------------ 
@@ -69,6 +71,7 @@ namespace WebApi.Modules.Home.InventorySearch
         //------------------------------------------------------------------------------------ 
         // POST api/v1/inventorysearch/search
         [HttpPost("search")]
+        [FwControllerMethod(Id:"obY8YJeiKDfb")]
         public async Task<ActionResult<FwJsonDataTable>> SearchAsync([FromBody]InventorySearchRequest searchRequest)
         {
             if (!ModelState.IsValid)
@@ -94,6 +97,7 @@ namespace WebApi.Modules.Home.InventorySearch
         //------------------------------------------------------------------------------------ 
         // POST api/v1/inventorysearch/accessories
         [HttpPost("accessories")]
+        [FwControllerMethod(Id:"h6KcF18iVMSP")]
         public async Task<ActionResult<FwJsonDataTable>> SearchAccessoriesAsync([FromBody]InventorySearchAccessoriesRequest searchRequest)
         {
             if (!ModelState.IsValid)
@@ -119,6 +123,7 @@ namespace WebApi.Modules.Home.InventorySearch
         //------------------------------------------------------------------------------------         
         // POST api/v1/inventorysearch 
         [HttpPost]
+        [FwControllerMethod(Id:"pIzlx22ziLGg")]
         public async Task<ActionResult<InventorySearchLogic>> PostAsync([FromBody]InventorySearchLogic l)
         {
             return await DoPostAsync<InventorySearchLogic>(l);
@@ -126,6 +131,7 @@ namespace WebApi.Modules.Home.InventorySearch
         //------------------------------------------------------------------------------------ 
         // POST api/v1/inventorysearch/gettotal
         [HttpGet("gettotal/{sessionid}")]
+        [FwControllerMethod(Id:"Sn1Xo2Zd4M")]
         public async Task<ActionResult<InventorySearchGetTotalResponse>> GetTotal([FromRoute]string sessionId)
         {
             if (!ModelState.IsValid)
@@ -153,6 +159,7 @@ namespace WebApi.Modules.Home.InventorySearch
         //------------------------------------------------------------------------------------ 
         // POST api/v1/inventorysearch/addto 
         [HttpPost("addto")]
+        [FwControllerMethod(Id:"bB1lEAjR2sZy")]
         public async Task<ActionResult<bool>> AddTo([FromBody]InventorySearchAddToRequest processRequest)
         {
             if (!ModelState.IsValid)

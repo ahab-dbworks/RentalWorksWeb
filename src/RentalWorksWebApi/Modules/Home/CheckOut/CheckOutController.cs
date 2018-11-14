@@ -1,3 +1,4 @@
+using FwStandard.AppManager;
 using FwStandard.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
@@ -61,12 +62,14 @@ namespace WebApi.Modules.Home.CheckOut
 
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "home-v1")]
+    [FwController(Id:"H0sf3MFhL0VK")]
     public class CheckOutController : AppDataController
     {
         public CheckOutController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/checkout/stageitem
         [HttpPost("stageitem")]
+        [FwControllerMethod(Id:"cjSZS0HLutCV")]
         public async Task<ActionResult<StageItemReponse>> StageItem([FromBody]StageItemRequest request)
         {
             if (!ModelState.IsValid)
@@ -106,6 +109,7 @@ namespace WebApi.Modules.Home.CheckOut
         //------------------------------------------------------------------------------------ 
         // POST api/v1/checkout/checkoutallstaged
         [HttpPost("checkoutallstaged")]
+        [FwControllerMethod(Id:"3Ocr6r5He3xF")]
         public async Task<ActionResult<CheckOutAllStagedResponse>> CheckOutAllStaged([FromBody]CheckOutAllStagedRequest request)
         {
             if (!ModelState.IsValid)
@@ -140,6 +144,7 @@ namespace WebApi.Modules.Home.CheckOut
         //------------------------------------------------------------------------------------ 
         // POST api/v1/checkout/startcheckoutcontract
         [HttpPost("startcheckoutcontract")]
+        [FwControllerMethod(Id:"O6ibb6WOwzzg")]
         public async Task<ActionResult<CreateOutContractResponse>> StartCheckOutContract([FromBody]CreateOutContractRequest request)
         {
             if (!ModelState.IsValid)
@@ -174,6 +179,7 @@ namespace WebApi.Modules.Home.CheckOut
         //------------------------------------------------------------------------------------ 
         // POST api/v1/checkout/movestageditemtoout
         [HttpPost("movestageditemtoout")]
+        [FwControllerMethod(Id:"fbWJYkPbqpBE")]
         public async Task<ActionResult<MoveStagedItemResponse>> MoveStagedItemToOut([FromBody]MoveStagedItemRequest request)
         {
             if (!ModelState.IsValid)
@@ -216,6 +222,7 @@ namespace WebApi.Modules.Home.CheckOut
         //------------------------------------------------------------------------------------ 
         // POST api/v1/checkout/moveoutitemtostaged
         [HttpPost("moveoutitemtostaged")]
+        [FwControllerMethod(Id:"b705dpUOY3rJ")]
         public async Task<ActionResult<MoveStagedItemResponse>> MoveOutItemToStaged([FromBody]MoveStagedItemRequest request)
         {
             if (!ModelState.IsValid)
@@ -258,6 +265,7 @@ namespace WebApi.Modules.Home.CheckOut
         //------------------------------------------------------------------------------------ 
         // POST api/v1/checkout/completecheckoutcontract
         [HttpPost("completecheckoutcontract/{id}")]
+        [FwControllerMethod(Id:"b1UmILugTF0F")]
         public async Task<ActionResult<ContractLogic>> CompleteCheckOutContractAsync([FromRoute]string id)
         {
             if (!ModelState.IsValid)

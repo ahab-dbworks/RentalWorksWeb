@@ -1,3 +1,4 @@
+using FwStandard.AppManager;
 using FwStandard.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
@@ -28,6 +29,7 @@ namespace WebApi.Modules.Reports.SalesRepresentativeBillingReport
 
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "reports-v1")]
+    [FwController(Id:"SgF8AMJVjKARN")]
     public class SalesRepresentativeBillingReportController : AppReportController
     {
         //------------------------------------------------------------------------------------ 
@@ -53,6 +55,7 @@ namespace WebApi.Modules.Reports.SalesRepresentativeBillingReport
         //------------------------------------------------------------------------------------ 
         // POST api/v1/salesrepresentativebillingreport/render 
         [HttpPost("render")]
+        [FwControllerMethod(Id:"EsTDsoD2wwzjJ")]
         public async Task<ActionResult<FwReportRenderResponse>> Render([FromBody]FwReportRenderRequest request)
 
         {
@@ -63,6 +66,7 @@ namespace WebApi.Modules.Reports.SalesRepresentativeBillingReport
         //------------------------------------------------------------------------------------ 
         // POST api/v1/salesrepresentativebillingreport/runreport 
         [HttpPost("runreport")]
+        [FwControllerMethod(Id:"ot8i27Z2PZZCV")]
         public async Task<ActionResult<FwJsonDataTable>> RunReportAsync([FromBody]SalesRepresentativeBillingReportRequest request)
         {
             if (!ModelState.IsValid)

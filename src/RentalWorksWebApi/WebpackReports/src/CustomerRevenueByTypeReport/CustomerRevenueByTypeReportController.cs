@@ -1,3 +1,4 @@
+using FwStandard.AppManager;
 using FwStandard.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
@@ -29,6 +30,7 @@ namespace WebApi.Modules.Reports.CustomerRevenueByTypeReport
 
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "reports-v1")]
+    [FwController(Id:"mIieqY1nHrJP")]
     public class CustomerRevenueByTypeReportController : AppReportController
     {
         public CustomerRevenueByTypeReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
@@ -52,6 +54,7 @@ namespace WebApi.Modules.Reports.CustomerRevenueByTypeReport
         //------------------------------------------------------------------------------------ 
         // POST api/v1/customerrevenuebytypereport/render 
         [HttpPost("render")]
+        [FwControllerMethod(Id:"Vn78OJzbD0kJ")]
         public async Task<ActionResult<FwReportRenderResponse>> Render([FromBody]FwReportRenderRequest request)
         {
             if (!this.ModelState.IsValid) return BadRequest();
@@ -61,6 +64,7 @@ namespace WebApi.Modules.Reports.CustomerRevenueByTypeReport
         //------------------------------------------------------------------------------------ 
         // POST api/v1/customerrevenuebytypereport/runreport 
         [HttpPost("runreport")]
+        [FwControllerMethod(Id:"YbGP2l61lTkk")]
         public async Task<ActionResult<FwJsonDataTable>> RunReportAsync([FromBody]CustomerRevenueByTypeReportRequest request)
         {
             if (!ModelState.IsValid)

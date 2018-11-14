@@ -1,3 +1,4 @@
+using FwStandard.AppManager;
 using FwStandard.SqlServer;
 using FwStandard.Models; 
 using Microsoft.AspNetCore.Mvc; 
@@ -9,12 +10,14 @@ namespace WebApi.Modules.Administrator.Person
 {
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "administrator-v1")]
+    [FwController(Id:"QYnmz8hDWsdN")]
     public class PersonController : AppDataController
     {
         public PersonController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(PersonLogic); }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/person/browse 
         [HttpPost("browse")]
+        [FwControllerMethod(Id:"P8raQCMIUKFK")]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest);
@@ -22,6 +25,7 @@ namespace WebApi.Modules.Administrator.Person
         //------------------------------------------------------------------------------------ 
         // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
         [HttpPost("exportexcelxlsx/{fileDownloadName}")]
+        [FwControllerMethod(Id:"dwJPzkosTBv2")]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoExportExcelXlsxFileAsync(browseRequest);

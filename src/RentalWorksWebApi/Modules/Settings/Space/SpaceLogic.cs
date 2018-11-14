@@ -1,4 +1,4 @@
-using FwStandard.BusinessLogic.Attributes;
+using FwStandard.AppManager;
 using Newtonsoft.Json;
 using WebApi.Logic;
 using WebApi.Modules.Home.ItemDimension;
@@ -6,6 +6,7 @@ using WebApi.Modules.Home.Master;
 
 namespace WebApi.Modules.Settings.Space
 {
+    [FwLogic(Id:"aDT4UhktuYRZR")]
     public class SpaceLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------ 
@@ -19,61 +20,109 @@ namespace WebApi.Modules.Settings.Space
             dataLoader = spaceLoader;
         }
         //------------------------------------------------------------------------------------ 
-        //[FwBusinessLogicField(isReadOnly: true)]
+        //[FwLogicProperty(Id:"mjmdglazt8ON")]
         //public string LocationId { get; set; }
-        [FwBusinessLogicField(isPrimaryKey: true)]
+
+        [FwLogicProperty(Id:"zQ37HDeuluPmi", IsPrimaryKey:true)]
         public string SpaceId { get { return space.MasterId; } set { space.MasterId = value; } }
+
+        [FwLogicProperty(Id:"lWckKy7QRCQL")]
         public string BuildingId { get { return space.BuildingId; } set { space.BuildingId = value; } }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"29lLg77Mxt0LC", IsReadOnly:true)]
         public string Building { get; set; }
+
         [JsonIgnore]
+        [FwLogicProperty(Id:"EU3Zrr4kdZDv")]
         public string BuildingType { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"H742wg6DygUJA", IsReadOnly:true)]
         public string FloorId { get { return space.FloorId; } set { space.FloorId = value; } }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"H742wg6DygUJA", IsReadOnly:true)]
         public string Floor { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"zQ37HDeuluPmi", IsReadOnly:true)]
         public string Space { get { return space.Description; } set { space.Description = value; } }
+
+        [FwLogicProperty(Id:"3gha3cuXVUJM")]
         public int? OrderBy { get { return space.OrderBy; } set { space.OrderBy = value; } }
+
+        [FwLogicProperty(Id:"bEy07igAy6Ht")]
         public string BuildingSpace { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"29lLg77Mxt0LC", IsReadOnly:true)]
         public string BuildingFloorSpace { get; set; }
+
+        [FwLogicProperty(Id:"OCstCrqSFO3k")]
         public decimal? SquareFeet { get { return space.SquareFeet; } set { space.SquareFeet = value; } }
+
+        [FwLogicProperty(Id:"Zlru0E6xFewN")]
         public string SpaceFromDate { get { return space.SpaceFromDate; } set { space.SpaceFromDate = value; } }
+
+        [FwLogicProperty(Id:"4NVdqQuUI6KQ")]
         public string SpaceToDate { get { return space.SpaceToDate; } set { space.SpaceToDate = value; } }
+
+        [FwLogicProperty(Id:"oNMbZc3ksrcn")]
         public bool? CommonSquareFeet { get { return space.CommonSquareFeet; } set { space.CommonSquareFeet = value; } }
+
+        [FwLogicProperty(Id:"Yn51Ota6FXYl")]
         public string PrimaryDimensionId { get { return space.PrimaryDimensionId; } set { space.PrimaryDimensionId = value; } }
+
+        [FwLogicProperty(Id:"Df5qAvNeqNoV")]
         public int? WidthFt { get { return primaryDimension.WidthFt; } set { primaryDimension.WidthFt = value; } }
+
+        [FwLogicProperty(Id:"dxA57W4IhJVg")]
         public int? HeightFt { get { return primaryDimension.HeightFt; } set { primaryDimension.HeightFt = value; } }
+
+        [FwLogicProperty(Id:"4ynGBbcOwYkc")]
         public int? LengthFt { get { return primaryDimension.LengthFt; } set { primaryDimension.LengthFt = value; } }
+
+        [FwLogicProperty(Id:"esu3jqzoohrO")]
         public int? Occupancy { get { return space.Occupancy; } set { space.Occupancy = value; } }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        //[FwLogicProperty(Id:"zwlWAkApMeoo")]
         //public string Chg1 { get; set; }
-        //[FwBusinessLogicField(isReadOnly: true)]
+
+        //[FwLogicProperty(Id:"AisUt7zxHrn9")]
         //public string Chg2 { get; set; }
-        //[FwBusinessLogicField(isReadOnly: true)]
+
+        //[FwLogicProperty(Id:"w1jqoEq4CSsG")]
         //public string Chg3 { get; set; }
-        //[FwBusinessLogicField(isReadOnly: true)]
+
+        //[FwLogicProperty(Id:"3TCtUAkPpf3m")]
         //public string Chg4 { get; set; }
-        //[FwBusinessLogicField(isReadOnly: true)]
+
+        //[FwLogicProperty(Id:"RvpJauulRe3T")]
         //public string Chg5 { get; set; }
-        //[FwBusinessLogicField(isReadOnly: true)]
+
+        //[FwLogicProperty(Id:"DKTP1amovOCH")]
         //public string Chg6 { get; set; }
-        //[FwBusinessLogicField(isReadOnly: true)]
+
+        //[FwLogicProperty(Id:"PBJZwbHsioZ8")]
         //public string Chg7 { get; set; }
-        //[FwBusinessLogicField(isReadOnly: true)]
+
+        //[FwLogicProperty(Id:"U7ANtpDAolZF")]
         //public string Chg8 { get; set; }
-        //[FwBusinessLogicField(isReadOnly: true)]
+
+        //[FwLogicProperty(Id:"HHJY90fQQN4Q")]
         //public string Chg9 { get; set; }
-        //[FwBusinessLogicField(isReadOnly: true)]
+
+        //[FwLogicProperty(Id:"AicXBm6LbXEq")]
         //public string Chg10 { get; set; }
-        //[FwBusinessLogicField(isReadOnly: true)]
+
+        //[FwLogicProperty(Id:"dAdiuBeke5lK")]
         //public int? Orderbybuilding { get; set; }
-        //[FwBusinessLogicField(isReadOnly: true)]
+
+        //[FwLogicProperty(Id:"Mfepo1XAKtxV")]
         //public int? Orderbyfloor { get; set; }
-        //[FwBusinessLogicField(isReadOnly: true)]
+
+        //[FwLogicProperty(Id:"jW5nYlqJT010")]
         //public int? Orderbyroom { get; set; }
+
+        [FwLogicProperty(Id:"HCP3RPU2WDt2")]
         public bool? Inactive { get { return space.Inactive; } set { space.Inactive = value; } }
+
         //------------------------------------------------------------------------------------ 
     }
 }

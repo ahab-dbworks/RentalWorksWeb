@@ -1,5 +1,5 @@
+using FwStandard.AppManager;
 ﻿using FwStandard.BusinessLogic;
-using FwStandard.BusinessLogic.Attributes;
 using WebApi.Modules.Home.Order;
 using System;
 using WebLibrary;
@@ -24,11 +24,18 @@ namespace WebApi.Modules.Home.Quote
             dealOrder.AfterSave += OnAfterSaveDealOrder;
         }
         //------------------------------------------------------------------------------------
-        [FwBusinessLogicField(isPrimaryKey: true)]
+        [FwLogicProperty(Id:"PZaTT296KqnzM", IsPrimaryKey:true)]
         public string QuoteId { get { return dealOrder.OrderId; } set { dealOrder.OrderId = value; dealOrderDetail.OrderId = value; } }
+
+        [FwLogicProperty(Id:"kwFYukQcQp9o")]
         public string QuoteNumber { get { return dealOrder.OrderNumber; } set { dealOrder.OrderNumber = value; } }
+
+        [FwLogicProperty(Id:"aN8TGE6a4YFv")]
         public string QuoteDate { get { return dealOrder.OrderDate; } set { dealOrder.OrderDate = value; } }
+
+        [FwLogicProperty(Id:"cVKvrBbjaH2B")]
         public int? VersionNumber { get { return dealOrder.VersionNumber; } set { dealOrder.VersionNumber = value; } }
+
         //------------------------------------------------------------------------------------
         public override void OnBeforeSave(object sender, BeforeSaveEventArgs e)
         {

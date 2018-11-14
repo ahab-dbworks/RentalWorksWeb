@@ -1,3 +1,4 @@
+using FwStandard.AppManager;
 using FwStandard.SqlServer;
 using System.Collections.Generic;
 using FwStandard.Models;
@@ -9,12 +10,14 @@ namespace WebApi.Modules.Home.CheckedInItem
 {
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "home-v1")]
+    [FwController(Id:"RanTH3xgxNy")]
     public class CheckedInItemController : AppDataController
     {
         public CheckedInItemController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(CheckedInItemLogic); }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/stageditem/browse 
         [HttpPost("browse")]
+        [FwControllerMethod(Id:"oVapNGEi7I4")]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest);
@@ -22,6 +25,7 @@ namespace WebApi.Modules.Home.CheckedInItem
         //------------------------------------------------------------------------------------ 
         // POST api/v1/stageditem/exportexcelxlsx/filedownloadname 
         [HttpPost("exportexcelxlsx/{fileDownloadName}")]
+        [FwControllerMethod(Id:"Yw6wRAPx056")]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoExportExcelXlsxFileAsync(browseRequest);

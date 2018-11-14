@@ -1,3 +1,4 @@
+using FwStandard.AppManager;
 ﻿using FwStandard.SqlServer;
 using System.Collections.Generic;
 using FwStandard.Models;
@@ -11,6 +12,7 @@ namespace WebApi.Modules.Settings.InventoryCondition
 {
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "settings-v1")]
+    [FwController(Id:"JL0j4lk1KfBY")]
     public class InventoryConditionController : AppDataController
     {
         public InventoryConditionController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(InventoryConditionLogic); }
@@ -18,6 +20,7 @@ namespace WebApi.Modules.Settings.InventoryCondition
         // POST api/v1/inventorycondition/browse
         [HttpPost("browse")]
         [Authorize(Policy = "")]
+        [FwControllerMethod(Id:"jDQ5tPlefkH4")]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest);
@@ -25,6 +28,7 @@ namespace WebApi.Modules.Settings.InventoryCondition
         //------------------------------------------------------------------------------------ 
         // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
         [HttpPost("exportexcelxlsx/{fileDownloadName}")]
+        [FwControllerMethod(Id:"Sxx4UVfhRBYu")]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoExportExcelXlsxFileAsync(browseRequest);
@@ -33,6 +37,7 @@ namespace WebApi.Modules.Settings.InventoryCondition
         // GET api/v1/inventorycondition
         [HttpGet]
         [Authorize(Policy = "")]
+        [FwControllerMethod(Id:"zgai4Qixt3Iv")]
         public async Task<ActionResult<IEnumerable<InventoryConditionLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
             return await DoGetAsync<InventoryConditionLogic>(pageno, pagesize, sort);
@@ -41,6 +46,7 @@ namespace WebApi.Modules.Settings.InventoryCondition
         // GET api/v1/inventorycondition/A0000001
         [HttpGet("{id}")]
         [Authorize(Policy = "")]
+        [FwControllerMethod(Id:"z0xLp0pb1Js1")]
         public async Task<ActionResult<InventoryConditionLogic>> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<InventoryConditionLogic>(id);
@@ -49,6 +55,7 @@ namespace WebApi.Modules.Settings.InventoryCondition
         // POST api/v1/inventorycondition
         [HttpPost]
         [Authorize(Policy = "")]
+        [FwControllerMethod(Id:"uwuXm3smW48v")]
         public async Task<ActionResult<InventoryConditionLogic>> PostAsync([FromBody]InventoryConditionLogic l)
         {
             return await DoPostAsync<InventoryConditionLogic>(l);
@@ -57,6 +64,7 @@ namespace WebApi.Modules.Settings.InventoryCondition
         // DELETE api/v1/inventorycondition/A0000001
         [HttpDelete("{id}")]
         [Authorize(Policy = "")]
+        [FwControllerMethod(Id:"DHTyby6tWicz")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
             return await DoDeleteAsync(id);

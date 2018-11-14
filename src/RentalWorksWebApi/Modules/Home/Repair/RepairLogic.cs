@@ -1,5 +1,5 @@
+using FwStandard.AppManager;
 using FwStandard.BusinessLogic;
-using FwStandard.BusinessLogic.Attributes;
 using FwStandard.SqlServer;
 using System;
 using System.Threading.Tasks;
@@ -10,6 +10,7 @@ using WebLibrary;
 
 namespace WebApi.Modules.Home.Repair
 {
+    [FwLogic(Id:"eQEPZrRi01LzW")]
     public class RepairLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------ 
@@ -34,173 +35,315 @@ namespace WebApi.Modules.Home.Repair
             tax.AfterSave += OnAfterSaveTax;
         }
         //------------------------------------------------------------------------------------ 
-        [FwBusinessLogicField(isPrimaryKey: true)]
+        [FwLogicProperty(Id:"mD3GkEIjJcjlt", IsPrimaryKey:true)]
         public string RepairId { get { return repair.RepairId; } set { repair.RepairId = value; } }
+
+        [FwLogicProperty(Id:"PW1aZC7K768Z")]
         public string LocationId { get { return repair.LocationId; } set { repair.LocationId = value; } }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"gM13Bzg7LAand", IsReadOnly:true)]
         public string Location { get; set; }
+
+        [FwLogicProperty(Id:"XZLC4i4T7cZ1")]
         public string BillingLocationId { get { return repair.BillingLocationId; } set { repair.BillingLocationId = value; } }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"qQVibe5BCbKDw", IsReadOnly:true)]
         public string BillingLocation { get; set; }
+
+        [FwLogicProperty(Id:"xhKzfNoDKAdj")]
         public string WarehouseId { get { return repair.WarehouseId; } set { repair.WarehouseId = value; } }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"7q34E1LMVlwM2", IsReadOnly:true)]
         public string ItemWarehouseId { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"U9VuLeZofY9ow", IsReadOnly:true)]
         public string Warehouse { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"U9VuLeZofY9ow", IsReadOnly:true)]
         public string WarehouseCode { get; set; }
+
+        [FwLogicProperty(Id:"e9G3UV2AaJaw")]
         public string BillingWarehouseId { get { return repair.BillingWarehouseId; } set { repair.BillingWarehouseId = value; } }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"uUysNzdfUCio5", IsReadOnly:true)]
         public string BillingWarehouse { get; set; }
+
+        [FwLogicProperty(Id:"Klsqbpd9hLvt")]
         public string DepartmentId { get { return repair.DepartmentId; } set { repair.DepartmentId = value; } }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"fmet9QfVZ71yH", IsReadOnly:true)]
         public string Department { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"5Pe7MAe4ydezV", IsReadOnly:true)]
         public string InventoryTypeId { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"5Pe7MAe4ydezV", IsReadOnly:true)]
         public string InventoryType { get; set; }
+
+        [FwLogicProperty(Id:"ToBTTYQUnNZE")]
         public bool? PendingRepair { get { return repair.PendingRepair; } set { repair.PendingRepair = value; } }
-        [FwBusinessLogicField(isRecordTitle: true)]
+
+        [FwLogicProperty(Id:"QWRGXatCbG6fh", IsRecordTitle:true)]
         public string RepairNumber { get { return repair.RepairNumber; } set { repair.RepairNumber = value; } }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"QWRGXatCbG6fh", IsReadOnly:true)]
         public string RepairNumberColor { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"wSax3slfYElkq", IsReadOnly:true)]
         public string RepairDate { get { return repair.RepairDate; } set { repair.RepairDate = value; } }
+
+        [FwLogicProperty(Id:"8vz9Y16dL0L7")]
         public bool? OutsideRepair { get { return repair.OutsideRepair; } set { repair.OutsideRepair = value; } }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"2fMiHJ1D3LBdc", IsReadOnly:true)]
         public string OutsideRepairPoNumber { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"jhQu8TxBrZxki", IsReadOnly:true)]
         public string ItemId { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"Nn3y6NWfMy7Ue", IsReadOnly:true)]
         public string BarCode { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"MNnQ2k8XeJHCI", IsReadOnly:true)]
         public string SerialNumber { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"w8v4Vccf7BmdS", IsReadOnly:true)]
         public string RfId { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"Nn3y6NWfMy7Ue", IsReadOnly:true)]
         public string BarCodeColor { get; set; }
+
+        [FwLogicProperty(Id:"2NTKfwOlDBqv")]
         public string InventoryId { get { return repair.InventoryId; } set { repair.InventoryId = value; } }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"iE29lhAK4GVi2", IsReadOnly:true)]
         public string AvailFor { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"iE29lhAK4GVi2", IsReadOnly:true)]
         public string AvailForDisplay { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"Yp4gljsVCsqUB", IsReadOnly:true)]
         public string ICode { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"Yp4gljsVCsqUB", IsReadOnly:true)]
         public string ICodeColor { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"pxcaM2UGEmS7s", IsReadOnly:true)]
         public string ItemDescription { get; set; }
+
+        [FwLogicProperty(Id:"cujeKfMv8h88")]
         public int? Quantity { get { return repair.Quantity; } set { repair.Quantity = value; } }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"AaD37MCZAdWrB", IsReadOnly:true)]
         public string QuantityColor { get; set; }
+
+        [FwLogicProperty(Id:"KgYqHIsiGpEP")]
         public string DamageDealId { get { return repair.DamageDealId; } set { repair.DamageDealId = value; } }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"0CdtPTkIudcIv", IsReadOnly:true)]
         public string DamageDeal { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"0CdtPTkIudcIv", IsReadOnly:true)]
         public string DamageDealColor { get; set; }
+
+        [FwLogicProperty(Id:"XXMO3UIFjWT1")]
         public string DamageOrderId { get { return repair.DamageOrderId; } set { repair.DamageOrderId = value; } }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"0CdtPTkIudcIv", IsReadOnly:true)]
         public string DamageOrderNumber { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"0CdtPTkIudcIv", IsReadOnly:true)]
         public string DamageOrderDescription { get; set; }
+
+        [FwLogicProperty(Id:"UkOYhmfJQiXw")]
         public string DamageContractId { get { return repair.DamageContractId; } set { repair.DamageContractId = value; } }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"0CdtPTkIudcIv", IsReadOnly:true)]
         public string DamageContractNumber { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"0CdtPTkIudcIv", IsReadOnly:true)]
         public string DamageContractDate { get; set; }
 
+
+        [FwLogicProperty(Id:"0nj5Sn8BL2Qa")]
         public string DamageScannedById { get { return repair.DamageScannedById; } set { repair.DamageScannedById = value; } }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"0CdtPTkIudcIv", IsReadOnly:true)]
         public string DamageScannedBy { get; set; }
 
+
+        [FwLogicProperty(Id:"vxeQn1bPPPHf")]
         public string LossAndDamageOrderId { get { return repair.LossAndDamageOrderId; } set { repair.LossAndDamageOrderId = value; } }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"0CdtPTkIudcIv", IsReadOnly:true)]
         public string LossAndDamageOrderNumber { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"0CdtPTkIudcIv", IsReadOnly:true)]
         public string LossAndDamageOrderDescription { get; set; }
+
+        [FwLogicProperty(Id:"alcyA7N2tOdR")]
         public string ChargeOrderId { get { return repair.ChargeOrderId; } set { repair.ChargeOrderId = value; } }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"wsLiVL8YCJkmz", IsReadOnly:true)]
         public string ChargeOrderNumber { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"dGQoc0psmkHU2", IsReadOnly:true)]
         public string ChargeOrderDescription { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"UrugZmDw9KkgV", IsReadOnly:true)]
         public string ChargeInvoiceId { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"ERfYjekONDwjP", IsReadOnly:true)]
         public string ChargeInvoiceNumber { get; set; }
+
+        [FwLogicProperty(Id:"zjm001TpOyfr")]
         public string ChargeInvoiceDescription { get; set; }
 
 
+
+        [FwLogicProperty(Id:"HO9l1ejOjqXR")]
         public string TaxOptionId { get { return tax.TaxOptionId; } set { tax.TaxOptionId = value; } }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"FDlNVc3vLrWba", IsReadOnly:true)]
         public string TaxOption { get; set; }
 
 
+
+        [FwLogicProperty(Id:"qtqhN6tF6Wy4")]
         public string TaxId { get { return repair.TaxId; } set { repair.TaxId = value; } }
+
+        [FwLogicProperty(Id:"vltcbayDnlgb")]
         public decimal? RentalTaxRate1 { get { return tax.RentalTaxRate1; } set { tax.RentalTaxRate1 = value; } }
+
+        [FwLogicProperty(Id:"48a5oNfTvqPI")]
         public decimal? SalesTaxRate1 { get { return tax.SalesTaxRate1; } set { tax.SalesTaxRate1 = value; } }
+
+        [FwLogicProperty(Id:"p5qOVJkHXZPE")]
         public decimal? LaborTaxRate1 { get { return tax.LaborTaxRate1; } set { tax.LaborTaxRate1 = value; } }
+
+        [FwLogicProperty(Id:"fVgitcpaSHGC")]
         public decimal? RentalTaxRate2 { get { return tax.RentalTaxRate2; } set { tax.RentalTaxRate2 = value; } }
+
+        [FwLogicProperty(Id:"oZPKEZRZv4cI")]
         public decimal? SalesTaxRate2 { get { return tax.SalesTaxRate2; } set { tax.SalesTaxRate2 = value; } }
+
+        [FwLogicProperty(Id:"kNlVTpBVGeft")]
         public decimal? LaborTaxRate2 { get { return tax.LaborTaxRate2; } set { tax.LaborTaxRate2 = value; } }
 
+
+        [FwLogicProperty(Id:"7gBhhI2LZZSZ")]
         public string Status { get { return repair.Status; } set { repair.Status = value; } }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"xFJ3ZADD2bQ8n", IsReadOnly:true)]
         public string StatusColor { get; set; }
+
+        [FwLogicProperty(Id:"fxjvsvnm47Pp")]
         public string StatusDate { get { return repair.StatusDate; } set { repair.StatusDate = value; } }
+
+        [FwLogicProperty(Id:"47EzD22tiJRH")]
         public bool? Billable { get { return repair.Billable; } set { repair.Billable = value; } }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"QQStv6rW4I5ya", IsReadOnly:true)]
         public string BillableDisplay { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"2POLShGKSuzuU", IsReadOnly:true)]
         public bool? NotBilled { get; set; }
+
+        [FwLogicProperty(Id:"nW0oQ6g6nYMP")]
         public string Priority { get { return repair.Priority; } set { repair.Priority = value; } }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"xE6Ea4j4Zk7es", IsReadOnly:true)]
         public string PriorityDescription { get; set; }
+
+        [FwLogicProperty(Id:"QlQrje6jVNpI")]
         public string PriorityColor { get; set; }
 
+
+        [FwLogicProperty(Id:"Y4eEMAM9iP2S")]
         public string RepairType { get { return repair.RepairType; } set { repair.RepairType = value; } }
+
+        [FwLogicProperty(Id:"gXVmyyn4Xlpx")]
         public bool? PoPending { get { return repair.PoPending; } set { repair.PoPending = value; } }
+
+        [FwLogicProperty(Id:"NIcbhQGJd9Dn")]
         public string PoNumber { get { return repair.PoNumber; } set { repair.PoNumber = value; } }
+
+        [FwLogicProperty(Id:"PJ0jEXCv5BxJ")]
         public string Damage { get { return repair.Damage; } set { repair.Damage = value; } }
+
+        [FwLogicProperty(Id:"fQS7qSHiQaff")]
         public string Correction { get { return repair.Correction; } set { repair.Correction = value; } }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"azWydrWk4ItAW", IsReadOnly:true)]
         public bool? Released { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"AaD37MCZAdWrB", IsReadOnly:true)]
         public decimal? ReleasedQuantity { get; set; }
+
+        [FwLogicProperty(Id:"fl7PO8fhDrW7")]
         public string TransferId { get { return repair.TransferId; } set { repair.TransferId = value; } }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"4XA6LePF7djx1", IsReadOnly:true)]
         public string TransferredFromWarehouseId { get; set; }
+
+        [FwLogicProperty(Id:"qgrmpM970GY2")]
         public string DueDate { get { return repair.DueDate; } set { repair.DueDate = value; } }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"HIGUSAxOZhOBm", IsReadOnly:true)]
         public string EstimateByUserId { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"HIGUSAxOZhOBm", IsReadOnly:true)]
         public string EstimateBy { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"3zPBvLv1jjHNf", IsReadOnly:true)]
         public string EstimateDate { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"cAdqIY19xpl7q", IsReadOnly:true)]
         public string CompleteByUserId { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"cAdqIY19xpl7q", IsReadOnly:true)]
         public string CompleteBy { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"ZkciVYs6kaYpg", IsReadOnly:true)]
         public string CompleteDate { get; set; }
+
+        [FwLogicProperty(Id:"TzVNoAJt0SQu")]
         public string InputDate { get { return repair.InputDate; } set { repair.InputDate = value; } }
+
+        [FwLogicProperty(Id:"lO1hQfPUDV8g")]
         public string InputByUserId { get { return repair.InputByUserId; } set { repair.InputByUserId = value; } }
+
+        [FwLogicProperty(Id:"yzJCkR3FnNtX")]
         public string RepairItemStatusId { get { return repair.RepairItemStatusId; } set { repair.RepairItemStatusId = value; } }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"0V4CiBp0rbpq5", IsReadOnly:true)]
         public string RepairItemStatus { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"1aV2Kr7OFOHQx", IsReadOnly:true)]
         public decimal? Cost { get; set; }
+
+        [FwLogicProperty(Id:"Yag1fTKZ5BSB")]
         public string CurrencyId { get { return repair.CurrencyId; } set { repair.CurrencyId = value; } }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"iqmM0bBU3XGhJ", IsReadOnly:true)]
         public string LocationDefaultCurrencyId { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"FNMEbmfeCtmwr", IsReadOnly:true)]
         public string CurrencyCode { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"hUwDMUDvHLNnC", IsReadOnly:true)]
         public string CurrencyColor { get; set; }
 
+
+        [FwLogicProperty(Id:"I70kSMt2dxPB")]
         public string Notes { get { return repair.Notes; } set { repair.Notes = value; } }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"oIvhtpVN4x8oz", IsReadOnly:true)]
         public bool? Inactive { get; set; }
+
+        [FwLogicProperty(Id:"UuN9hsMjftqY")]
         public string DateStamp { get { return repair.DateStamp; } set { repair.DateStamp = value; } }
+
         //------------------------------------------------------------------------------------ 
         public void TaxAssignPrimaryKeys(object sender, EventArgs e)
         {

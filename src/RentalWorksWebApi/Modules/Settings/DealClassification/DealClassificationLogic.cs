@@ -1,8 +1,9 @@
-﻿using FwStandard.BusinessLogic.Attributes;
+using FwStandard.AppManager;
 using WebApi.Logic;
 
 namespace WebApi.Modules.Settings.DealClassification
 {
+    [FwLogic(Id:"XkxUij23lfCa")]
     public class DealClassificationLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------
@@ -12,12 +13,18 @@ namespace WebApi.Modules.Settings.DealClassification
             dataRecords.Add(dealClassification);
         }
         //------------------------------------------------------------------------------------
-        [FwBusinessLogicField(isPrimaryKey: true)]
+        [FwLogicProperty(Id:"ZDZOyqjTiBbu", IsPrimaryKey:true)]
         public string DealClassificationId { get { return dealClassification.DealClassificationId; } set { dealClassification.DealClassificationId = value; } }
-        [FwBusinessLogicField(isRecordTitle: true)]
+
+        [FwLogicProperty(Id:"ZDZOyqjTiBbu", IsRecordTitle:true)]
         public string DealClassification { get { return dealClassification.DealClassification; } set { dealClassification.DealClassification = value; } }
+
+        [FwLogicProperty(Id:"d67s0Uk2OOBx")]
         public bool? Inactive { get { return dealClassification.Inactive; } set { dealClassification.Inactive = value; } }
+
+        [FwLogicProperty(Id:"zGrNUoeiiQxF")]
         public string DateStamp { get { return dealClassification.DateStamp; } set { dealClassification.DateStamp = value; } }
+
         //------------------------------------------------------------------------------------
     }
 

@@ -1,3 +1,4 @@
+using FwStandard.AppManager;
 ﻿using FwCore.Controllers;
 using FwStandard.Models;
 using Microsoft.AspNetCore.Authorization;
@@ -19,6 +20,7 @@ namespace WebApi.Controllers
 
         [HttpPost]
         [AllowAnonymous]
+        [FwControllerMethod(Id:"v3gVmSi29OUI")]
         public async Task<ActionResult<JwtResponseModel>> Post([FromBody] FwApplicationUser user)
         {
             return await DoPost(user);

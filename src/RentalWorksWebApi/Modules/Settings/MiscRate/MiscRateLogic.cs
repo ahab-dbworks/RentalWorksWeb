@@ -1,5 +1,5 @@
+using FwStandard.AppManager;
 using FwStandard.BusinessLogic;
-using FwStandard.BusinessLogic.Attributes; 
 using WebApi.Logic;
 using WebApi.Modules.Home.Master;
 using WebApi.Modules.Home.Inventory;
@@ -18,12 +18,15 @@ namespace WebApi.Modules.Settings.MiscRate
             BeforeSave += OnBeforeSave;
         }
         //------------------------------------------------------------------------------------ 
-        [FwBusinessLogicField(isPrimaryKey: true)]
+        [FwLogicProperty(Id:"362a7iGn1v2N", IsPrimaryKey:true)]
         public string RateId { get { return master.MasterId; } set { master.MasterId = value; } }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"SxwWlK63QDdQ", IsReadOnly:true)]
         public string MiscTypeId { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"SxwWlK63QDdQ", IsReadOnly:true)]
         public string MiscType { get; set; }
+
         //------------------------------------------------------------------------------------ 
         protected override bool Validate(TDataRecordSaveMode saveMode, FwBusinessLogic original, ref string validateMsg)
         {

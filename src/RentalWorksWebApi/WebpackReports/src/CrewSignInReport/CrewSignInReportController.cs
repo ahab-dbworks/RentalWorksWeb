@@ -1,3 +1,4 @@
+using FwStandard.AppManager;
 using FwStandard.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
@@ -26,6 +27,7 @@ namespace WebApi.Modules.Reports.CrewSignInReport
 
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "reports-v1")]
+    [FwController(Id:"kvDH1delOiUT")]
     public class CrewSignInReportController : AppReportController
     {
         //------------------------------------------------------------------------------------ 
@@ -50,6 +52,7 @@ namespace WebApi.Modules.Reports.CrewSignInReport
         //------------------------------------------------------------------------------------ 
         // POST api/v1/crewsigninreport/render 
         [HttpPost("render")]
+        [FwControllerMethod(Id:"aOiK050HXPgX")]
         public async Task<ActionResult<FwReportRenderResponse>> Render([FromBody]FwReportRenderRequest request)
         {
             if (!this.ModelState.IsValid) return BadRequest();
@@ -59,6 +62,7 @@ namespace WebApi.Modules.Reports.CrewSignInReport
         //------------------------------------------------------------------------------------ 
         // POST api/v1/crewsigninreport/runreport 
         [HttpPost("runreport")]
+        [FwControllerMethod(Id:"rQVKJ0Cz2uKH")]
         public async Task<ActionResult<FwJsonDataTable>> RunReportAsync([FromBody]CrewSignInReportRequest request)
         {
             if (!ModelState.IsValid)

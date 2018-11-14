@@ -1,3 +1,4 @@
+using FwStandard.AppManager;
 using FwStandard.SqlServer;
 using System.Collections.Generic;
 using FwStandard.Models; 
@@ -9,12 +10,14 @@ namespace WebApi.Modules.Settings.OrderTypeContactTitle
 {
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "settings-v1")]
+    [FwController(Id:"HzNQkWcZ8vEC")]
     public class OrderTypeContactTitleController : AppDataController
     {
         public OrderTypeContactTitleController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(OrderTypeContactTitleLogic); }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/ordertypecontacttitle/browse 
         [HttpPost("browse")]
+        [FwControllerMethod(Id:"onGTTWgPn1s6")]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest);
@@ -22,6 +25,7 @@ namespace WebApi.Modules.Settings.OrderTypeContactTitle
         //------------------------------------------------------------------------------------ 
         // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
         [HttpPost("exportexcelxlsx/{fileDownloadName}")]
+        [FwControllerMethod(Id:"j8wo9i4qoUcw")]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoExportExcelXlsxFileAsync(browseRequest);
@@ -29,6 +33,7 @@ namespace WebApi.Modules.Settings.OrderTypeContactTitle
         //------------------------------------------------------------------------------------ 
         // GET api/v1/ordertypecontacttitle 
         [HttpGet]
+        [FwControllerMethod(Id:"Jqurgl51UXmw")]
         public async Task<ActionResult<IEnumerable<OrderTypeContactTitleLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
             return await DoGetAsync<OrderTypeContactTitleLogic>(pageno, pagesize, sort);
@@ -36,6 +41,7 @@ namespace WebApi.Modules.Settings.OrderTypeContactTitle
         //------------------------------------------------------------------------------------ 
         // GET api/v1/ordertypecontacttitle/A0000001 
         [HttpGet("{id}")]
+        [FwControllerMethod(Id:"J1a6akO7xfdI")]
         public async Task<ActionResult<OrderTypeContactTitleLogic>> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<OrderTypeContactTitleLogic>(id);
@@ -43,6 +49,7 @@ namespace WebApi.Modules.Settings.OrderTypeContactTitle
         //------------------------------------------------------------------------------------ 
         // POST api/v1/ordertypecontacttitle 
         [HttpPost]
+        [FwControllerMethod(Id:"HNDpfC8rLGbL")]
         public async Task<ActionResult<OrderTypeContactTitleLogic>> PostAsync([FromBody]OrderTypeContactTitleLogic l)
         {
             return await DoPostAsync<OrderTypeContactTitleLogic>(l);
@@ -50,6 +57,7 @@ namespace WebApi.Modules.Settings.OrderTypeContactTitle
         //------------------------------------------------------------------------------------ 
         // DELETE api/v1/ordertypecontacttitle/A0000001 
         [HttpDelete("{id}")]
+        [FwControllerMethod(Id:"bioOTk84ufl2")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
             return await DoDeleteAsync(id);

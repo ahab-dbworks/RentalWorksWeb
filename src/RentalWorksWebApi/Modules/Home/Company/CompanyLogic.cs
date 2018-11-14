@@ -1,7 +1,8 @@
-using FwStandard.BusinessLogic.Attributes; 
+using FwStandard.AppManager;
 using WebApi.Logic;
 namespace WebApi.Modules.Home.Company
 {
+    [FwLogic(Id:"pZaHjHLzMJNF")]
     public class CompanyLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------ 
@@ -11,16 +12,21 @@ namespace WebApi.Modules.Home.Company
             dataLoader = companyLoader;
         }
         //------------------------------------------------------------------------------------ 
-        [FwBusinessLogicField(isReadOnly: true, isPrimaryKey: true)]
+        [FwLogicProperty(Id:"DhHKJgrYVy6E", IsPrimaryKey:true, IsReadOnly:true)]
         public string CompanyId { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"DhHKJgrYVy6E", IsReadOnly:true)]
         public string CompanyNumber { get; set; }
-        [FwBusinessLogicField(isReadOnly: true, isRecordTitle: true)]
+
+        [FwLogicProperty(Id:"DhHKJgrYVy6E", IsRecordTitle:true, IsReadOnly:true)]
         public string Company { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"DhHKJgrYVy6E", IsReadOnly:true)]
         public string CompanyType { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"DhHKJgrYVy6E", IsReadOnly:true)]
         public string CompanyTypeColor { get; set; }
+
         //------------------------------------------------------------------------------------ 
     }
 }

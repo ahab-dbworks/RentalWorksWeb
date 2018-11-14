@@ -1,3 +1,4 @@
+using FwStandard.AppManager;
 using FwStandard.SqlServer;
 using System.Collections.Generic;
 using FwStandard.Models; 
@@ -9,12 +10,14 @@ namespace WebApi.Modules.Home.ProjectNote
 {
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "home-v1")]
+    [FwController(Id:"tR09bf745p0YU")]
     public class ProjectNoteController : AppDataController
     {
         public ProjectNoteController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(ProjectNoteLogic); }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/projectnote/browse 
         [HttpPost("browse")]
+        [FwControllerMethod(Id:"HEdjwSofRHntv")]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest);
@@ -22,6 +25,7 @@ namespace WebApi.Modules.Home.ProjectNote
         //------------------------------------------------------------------------------------ 
         // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
         [HttpPost("exportexcelxlsx/{fileDownloadName}")]
+        [FwControllerMethod(Id:"1axc1alQaCGzb")]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoExportExcelXlsxFileAsync(browseRequest);
@@ -29,6 +33,7 @@ namespace WebApi.Modules.Home.ProjectNote
         //------------------------------------------------------------------------------------ 
         // GET api/v1/projectnote 
         [HttpGet]
+        [FwControllerMethod(Id:"RbubmqKBKoYjM")]
         public async Task<ActionResult<IEnumerable<ProjectNoteLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
             return await DoGetAsync<ProjectNoteLogic>(pageno, pagesize, sort);
@@ -36,6 +41,7 @@ namespace WebApi.Modules.Home.ProjectNote
         //------------------------------------------------------------------------------------ 
         // GET api/v1/projectnote/A0000001
         [HttpGet("{id}")]
+        [FwControllerMethod(Id:"KRiE0myEU4TCb")]
         public async Task<ActionResult<ProjectNoteLogic>> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<ProjectNoteLogic>(id);
@@ -43,6 +49,7 @@ namespace WebApi.Modules.Home.ProjectNote
         //------------------------------------------------------------------------------------ 
         // POST api/v1/projectnote 
         [HttpPost]
+        [FwControllerMethod(Id:"gcu7B3GMMDxeI")]
         public async Task<ActionResult<ProjectNoteLogic>> PostAsync([FromBody]ProjectNoteLogic l)
         {
             return await DoPostAsync<ProjectNoteLogic>(l);
@@ -50,6 +57,7 @@ namespace WebApi.Modules.Home.ProjectNote
         //------------------------------------------------------------------------------------ 
         // DELETE api/v1/projectnote/A0000001
         [HttpDelete("{id}")]
+        [FwControllerMethod(Id:"tzzdkC2n8TiFa")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
             return await DoDeleteAsync(id);

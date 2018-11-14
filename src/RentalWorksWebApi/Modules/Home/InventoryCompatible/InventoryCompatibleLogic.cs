@@ -1,7 +1,8 @@
-using FwStandard.BusinessLogic.Attributes; 
+using FwStandard.AppManager;
 using WebApi.Logic;
 namespace WebApi.Modules.Home.InventoryCompatible
 {
+    [FwLogic(Id:"qDPKspOKwKal")]
     public class InventoryCompatibleLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------ 
@@ -13,21 +14,33 @@ namespace WebApi.Modules.Home.InventoryCompatible
             dataLoader = inventoryCompatibleLoader;
         }
         //------------------------------------------------------------------------------------ 
-        [FwBusinessLogicField(isPrimaryKey: true)]
+        [FwLogicProperty(Id:"5SqyfprKuJo5", IsPrimaryKey:true)]
         public string InventoryCompatibleId { get { return inventoryCompatible.InventoryCompatibleId; } set { inventoryCompatible.InventoryCompatibleId = value; } }
+
+        [FwLogicProperty(Id:"cyMTo3i9DaIa")]
         public string InventoryId { get { return inventoryCompatible.InventoryId; } set { inventoryCompatible.InventoryId = value; } }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"xOn3wWM6ZXKt", IsReadOnly:true)]
         public string ICode { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"jaXJ6OkPgIjc", IsReadOnly:true)]
         public string Description { get; set; }
+
+        [FwLogicProperty(Id:"wW8Fn10loUZu")]
         public string CompatibleWithInventoryId { get { return inventoryCompatible.CompatibleWithInventoryId; } set { inventoryCompatible.CompatibleWithInventoryId = value; } }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"eppnqCBjhqn9", IsReadOnly:true)]
         public string CompatibleWithICode { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"ufbJKG4apzdU", IsReadOnly:true)]
         public string CompatibleWithDescription { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"fnR3VAFdT53L", IsReadOnly:true)]
         public string CompatibleWithClassification { get; set; }
+
+        [FwLogicProperty(Id:"zRRZTRLucoPX")]
         public string DateStamp { get { return inventoryCompatible.DateStamp; } set { inventoryCompatible.DateStamp = value; } }
+
         //------------------------------------------------------------------------------------ 
     }
 }

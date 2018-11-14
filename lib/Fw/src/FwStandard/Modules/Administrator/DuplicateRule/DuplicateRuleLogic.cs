@@ -1,11 +1,9 @@
+using FwStandard.AppManager;
 using FwStandard.BusinessLogic;
-using FwStandard.BusinessLogic.Attributes; 
-//using WebApi.Logic;
-using static FwStandard.DataLayer.FwDataReadWriteRecord;
-
 
 namespace FwStandard.Modules.Administrator.DuplicateRule
 {
+    [FwLogic(Id:"Bf3mlgqUR")]
     public class DuplicateRuleLogic : FwBusinessLogic
     {
         //------------------------------------------------------------------------------------ 
@@ -21,17 +19,31 @@ namespace FwStandard.Modules.Administrator.DuplicateRule
             duplicateRule.AfterDelete += OnAfterDeleteDuplicateRule;
         }
         //------------------------------------------------------------------------------------ 
-        [FwBusinessLogicField(isPrimaryKey: true)]
+        [FwLogicProperty(Id:"pV8NXgtRYZ", IsPrimaryKey:true)]
         public string DuplicateRuleId { get { return duplicateRule.DuplicateRuleId; } set { duplicateRule.DuplicateRuleId = value; } }
+
+        [FwLogicProperty(Id:"rtRIa3bNGB")]
         public string ModuleName { get { return duplicateRule.ModuleName; } set { duplicateRule.ModuleName = value; } }
-        [FwBusinessLogicField(isRecordTitle: true)]
+
+        [FwLogicProperty(Id:"b496ihKUJC", IsRecordTitle:true)]
         public string RuleName { get { return duplicateRule.RuleName; } set { duplicateRule.RuleName = value; } }
+
+        [FwLogicProperty(Id:"RH2PTu1cys")]
         public bool? CaseSensitive { get { return duplicateRule.CaseSensitive; } set { duplicateRule.CaseSensitive = value; } }
+
+        [FwLogicProperty(Id:"O1JBkVitjv")]
         public bool? SystemRule { get { return duplicateRule.SystemRule; } set { duplicateRule.SystemRule = value; } }
+
+        [FwLogicProperty(Id:"dec9t7gTVh")]
         public string Fields { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"7cT78TG6mD", IsReadOnly:true)]
         public string RuleNameColor { get; set; }
+
+        [FwLogicProperty(Id:"v5uQTIhnkQ")]
         public bool? ConsiderBlanks { get { return duplicateRule.ConsiderBlanks; } set { duplicateRule.ConsiderBlanks = value; } }
+
+        [FwLogicProperty(Id:"Ox792PKBkv")]
         public string DateStamp { get { return duplicateRule.DateStamp; } set { duplicateRule.DateStamp = value; } }
         //------------------------------------------------------------------------------------ 
         protected override bool Validate(TDataRecordSaveMode saveMode, FwBusinessLogic original, ref string validateMsg)

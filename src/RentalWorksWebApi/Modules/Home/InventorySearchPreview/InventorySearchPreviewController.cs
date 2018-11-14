@@ -1,3 +1,4 @@
+using FwStandard.AppManager;
 using System.Collections.Generic;
 using FwStandard.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -12,6 +13,7 @@ namespace WebApi.Modules.Home.InventorySearchPreview
 {
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "home-v1")]
+    [FwController(Id:"JLDAuUcvHEx1")]
     public class InventorySearchPreviewController : AppDataController
     {
 
@@ -29,6 +31,7 @@ namespace WebApi.Modules.Home.InventorySearchPreview
         //------------------------------------------------------------------------------------ 
         // POST api/v1/inventorysearchpreview/browse 
         [HttpPost("browse")]
+        [FwControllerMethod(Id:"3WWbSkyMDadG")]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]InventorySearchPreviewBrowseRequest browseRequest)
         {
             if (!ModelState.IsValid)
@@ -54,6 +57,7 @@ namespace WebApi.Modules.Home.InventorySearchPreview
         //------------------------------------------------------------------------------------ 
         // POST api/v1/inventorysearchpreview 
         [HttpPost]
+        [FwControllerMethod(Id:"dGL92Uyu642J")]
         public async Task<ActionResult<InventorySearchPreviewLogic>> PostAsync([FromBody]InventorySearchPreviewLogic l)
         {
             return await DoPostAsync<InventorySearchPreviewLogic>(l);
@@ -61,6 +65,7 @@ namespace WebApi.Modules.Home.InventorySearchPreview
         //------------------------------------------------------------------------------------ 
         // DELETE api/v1/inventorysearchpreview/A0000001 
         [HttpDelete("{id}")]
+        [FwControllerMethod(Id:"OkVc9qhIP2sl")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
             return await DoDeleteAsync(id);

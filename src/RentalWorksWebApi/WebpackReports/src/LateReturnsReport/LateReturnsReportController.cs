@@ -1,3 +1,4 @@
+using FwStandard.AppManager;
 using FwStandard.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
@@ -30,6 +31,7 @@ namespace WebApi.Modules.Reports.LateReturnsReport
 
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "reports-v1")]
+    [FwController(Id:"gOtEnqxlXIOt")]
     public class LateReturnsReportController : AppReportController
     {
         public LateReturnsReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
@@ -53,6 +55,7 @@ namespace WebApi.Modules.Reports.LateReturnsReport
         //------------------------------------------------------------------------------------ 
         // POST api/v1/latereturnsreport/render 
         [HttpPost("render")]
+        [FwControllerMethod(Id:"CM0Y0pZoY03N")]
         public async Task<ActionResult<FwReportRenderResponse>> Render([FromBody]FwReportRenderRequest request)
         {
             if (!this.ModelState.IsValid) return BadRequest();
@@ -62,6 +65,7 @@ namespace WebApi.Modules.Reports.LateReturnsReport
         //------------------------------------------------------------------------------------ 
         // POST api/v1/latereturnsreport/runreport 
         [HttpPost("runreport")]
+        [FwControllerMethod(Id:"qhOSjA6KYh")]
         public async Task<ActionResult<FwJsonDataTable>> RunReport([FromBody]LateReturnsReportRequest request)
         {
             if (!ModelState.IsValid)

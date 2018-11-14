@@ -1,3 +1,4 @@
+using FwStandard.AppManager;
 using FwStandard.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
@@ -30,6 +31,7 @@ namespace WebApi.Modules.Reports.InvoiceSummaryReport
 
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "reports-v1")]
+    [FwController(Id:"LeLwkS6yUBfV")]
     public class InvoiceSummaryReportController : AppReportController
     {
         public InvoiceSummaryReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
@@ -53,6 +55,7 @@ namespace WebApi.Modules.Reports.InvoiceSummaryReport
         //------------------------------------------------------------------------------------ 
         // POST api/v1/invoicesummaryreport/render 
         [HttpPost("render")]
+        [FwControllerMethod(Id:"WOX6IuhVMSRA")]
         public async Task<ActionResult<FwReportRenderResponse>> Render([FromBody]FwReportRenderRequest request)
         {
             if (!this.ModelState.IsValid) return BadRequest();
@@ -62,6 +65,7 @@ namespace WebApi.Modules.Reports.InvoiceSummaryReport
         //------------------------------------------------------------------------------------ 
         // POST api/v1/invoicesummaryreport/runreport 
         [HttpPost("runreport")]
+        [FwControllerMethod(Id:"5deElRqBmsbq")]
         public async Task<ActionResult<FwJsonDataTable>> RunReportAsync([FromBody]InvoiceSummaryReportRequest request)
         {
             if (!ModelState.IsValid)

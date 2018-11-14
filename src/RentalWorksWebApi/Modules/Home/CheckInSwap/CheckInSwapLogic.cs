@@ -1,7 +1,8 @@
-using FwStandard.BusinessLogic.Attributes;
+using FwStandard.AppManager;
 using WebApi.Logic;
 namespace WebApi.Modules.Home.CheckInSwap
 {
+    [FwLogic(Id:"2p0cIg8YiIgx")]
     public class CheckInSwapLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------ 
@@ -11,22 +12,30 @@ namespace WebApi.Modules.Home.CheckInSwap
             dataLoader = checkInSwapLoader;
         }
         //------------------------------------------------------------------------------------ 
-        [FwBusinessLogicField(isReadOnly: true)]
+        [FwLogicProperty(Id:"D7qlxMqTDYOp", IsReadOnly:true)]
         public int? OrderTranId { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"UuNHfjp41ynp", IsReadOnly:true)]
         public string InternalChar { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"m9QcmYBFcI1m", IsReadOnly:true)]
         public string ICode { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"zA1dde4V3qmw", IsReadOnly:true)]
         public string Description { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"vzNb9POnVpVU", IsReadOnly:true)]
         public string OutOrderNumber { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"fd7ndetxNcyE", IsReadOnly:true)]
         public string OutBarCode { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"wRopWrAdDqv4", IsReadOnly:true)]
         public string InOrderNumber { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"HftZQIaXAbvs", IsReadOnly:true)]
         public string InBarCode { get; set; }
+
         //------------------------------------------------------------------------------------ 
     }
 }

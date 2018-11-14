@@ -1,3 +1,4 @@
+using FwStandard.AppManager;
 using FwStandard.SqlServer;
 using System.Collections.Generic;
 using FwStandard.Models; 
@@ -9,12 +10,14 @@ namespace WebApi.Modules.Settings.ProjectDropShipItems
 {
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "settings-v1")]
+    [FwController(Id:"XzUwxCWh64FDw")]
     public class ProjectDropShipItemsController : AppDataController
     {
         public ProjectDropShipItemsController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(ProjectDropShipItemsLogic); }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/projectdropshipitems/browse 
         [HttpPost("browse")]
+        [FwControllerMethod(Id:"bj5zorxSUs4m4")]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest);
@@ -22,6 +25,7 @@ namespace WebApi.Modules.Settings.ProjectDropShipItems
         //------------------------------------------------------------------------------------ 
         // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
         [HttpPost("exportexcelxlsx/{fileDownloadName}")]
+        [FwControllerMethod(Id:"JlyjAxKr8otNJ")]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoExportExcelXlsxFileAsync(browseRequest);
@@ -29,6 +33,7 @@ namespace WebApi.Modules.Settings.ProjectDropShipItems
         //------------------------------------------------------------------------------------ 
         // GET api/v1/projectdropshipitems 
         [HttpGet]
+        [FwControllerMethod(Id:"AHyS98ZqsnYxT")]
         public async Task<ActionResult<IEnumerable<ProjectDropShipItemsLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
             return await DoGetAsync<ProjectDropShipItemsLogic>(pageno, pagesize, sort);
@@ -36,6 +41,7 @@ namespace WebApi.Modules.Settings.ProjectDropShipItems
         //------------------------------------------------------------------------------------ 
         // GET api/v1/projectdropshipitems/A0000001 
         [HttpGet("{id}")]
+        [FwControllerMethod(Id:"jVopV1lXdCOYG")]
         public async Task<ActionResult<ProjectDropShipItemsLogic>> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<ProjectDropShipItemsLogic>(id);
@@ -43,6 +49,7 @@ namespace WebApi.Modules.Settings.ProjectDropShipItems
         //------------------------------------------------------------------------------------ 
         // POST api/v1/projectdropshipitems 
         [HttpPost]
+        [FwControllerMethod(Id:"VA7QK3to62gfK")]
         public async Task<ActionResult<ProjectDropShipItemsLogic>> PostAsync([FromBody]ProjectDropShipItemsLogic l)
         {
             return await DoPostAsync<ProjectDropShipItemsLogic>(l);
@@ -50,6 +57,7 @@ namespace WebApi.Modules.Settings.ProjectDropShipItems
         //------------------------------------------------------------------------------------ 
         // DELETE api/v1/projectdropshipitems/A0000001 
         [HttpDelete("{id}")]
+        [FwControllerMethod(Id:"DTCFk58g3G2Lv")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
             return await DoDeleteAsync(id);

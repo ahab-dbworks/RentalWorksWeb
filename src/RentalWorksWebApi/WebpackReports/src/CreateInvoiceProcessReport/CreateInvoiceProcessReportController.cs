@@ -1,3 +1,4 @@
+using FwStandard.AppManager;
 using FwStandard.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
@@ -21,6 +22,7 @@ namespace WebApi.Modules.Reports.CreateInvoiceProcessReport
 
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "reports-v1")]
+    [FwController(Id:"qhb1dkFRrS6T")]
     public class CreateInvoiceProcessReportController : AppReportController
     {
         public CreateInvoiceProcessReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
@@ -44,6 +46,7 @@ namespace WebApi.Modules.Reports.CreateInvoiceProcessReport
         //------------------------------------------------------------------------------------ 
         // POST api/v1/createinvoiceprocessreport/render 
         [HttpPost("render")]
+        [FwControllerMethod(Id:"2ZwDxRu7WuaI")]
         public async Task<ActionResult<FwReportRenderResponse>> Render([FromBody]FwReportRenderRequest request)
         {
             if (!this.ModelState.IsValid) return BadRequest();
@@ -53,6 +56,7 @@ namespace WebApi.Modules.Reports.CreateInvoiceProcessReport
         //------------------------------------------------------------------------------------ 
         // POST api/v1/createinvoiceprocessreport/runreport 
         [HttpPost("runreport")]
+        [FwControllerMethod(Id:"I3gMmg5S5PlA")]
         public async Task<ActionResult<FwJsonDataTable>> RunReportAsync([FromBody]CreateInvoiceProcessReportRequest request)
         {
             if (!ModelState.IsValid)

@@ -1,9 +1,10 @@
-using FwStandard.BusinessLogic.Attributes; 
+using FwStandard.AppManager;
 using WebApi.Logic;
 using WebApi.Modules.Home.MasterItem;
 
 namespace WebApi.Modules.Home.InventoryContainerItem
 {
+    [FwLogic(Id:"rUeTflFjXQNj")]
     public class InventoryContainerItemLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------ 
@@ -15,25 +16,45 @@ namespace WebApi.Modules.Home.InventoryContainerItem
             dataLoader = inventoryContainerItemLoader;
         }
         //------------------------------------------------------------------------------------ 
-        [FwBusinessLogicField(isPrimaryKey: true)]
+        [FwLogicProperty(Id:"9vChfDlvCfnM", IsPrimaryKey:true)]
         public string ContainerItemId { get { return masterItem.MasterItemId; } set { masterItem.MasterItemId = value; } }
+
+        [FwLogicProperty(Id:"eDeYeUyiy5qT")]
         public string PackageId { get; set; }
+
+        [FwLogicProperty(Id:"1JvuxCM2rTRE")]
         public string ContainerId { get { return masterItem.OrderId; } set { masterItem.OrderId = value; } }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"n9IYOvuQffsH", IsReadOnly:true)]
         public int? RowNumber { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"JKc0ePPcemlr", IsReadOnly:true)]
         public string ICode { get; set; }
-        [FwBusinessLogicField(isRecordTitle: true)]
+
+        [FwLogicProperty(Id:"85Nnh6YlNuG9", IsRecordTitle:true)]
         public string Description { get { return masterItem.Description; } set { masterItem.Description = value; } }
+
+        [FwLogicProperty(Id:"MmqhWNq9Y0aQ")]
         public decimal? QuantityOrdered { get { return masterItem.QuantityOrdered; } set { masterItem.QuantityOrdered = value; } }
+
+        [FwLogicProperty(Id:"EMUSaJWxAQXv")]
         public decimal? Price { get { return masterItem.Price; } set { masterItem.Price = value; } }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"SsgBQIZaohMm", IsReadOnly:true)]
         public string Notes { get; set; }
+
+        [FwLogicProperty(Id:"LwuxXYr1z9ha")]
         public string InventoryId { get { return masterItem.InventoryId; } set { masterItem.InventoryId = value; } }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"MZz6DHCiiZvO", IsReadOnly:true)]
         public int? Ident { get; set; }
+
+        //[FwLogicProperty(Id:"PBhsoRms9ShK")]
         //public string RecType { get { return masterItem.RecType; } set { masterItem.RecType = value; } }
+
+        [FwLogicProperty(Id:"1tQrPSqV8e7n")]
         public string DateStamp { get { return masterItem.DateStamp; } set { masterItem.DateStamp = value; } }
+
         //------------------------------------------------------------------------------------ 
     }
 }

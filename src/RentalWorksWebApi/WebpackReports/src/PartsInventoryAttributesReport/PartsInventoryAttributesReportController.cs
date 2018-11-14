@@ -1,3 +1,4 @@
+using FwStandard.AppManager;
 using FwStandard.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
@@ -15,6 +16,7 @@ namespace WebApi.Modules.Reports.PartsInventoryAttributesReport
 {
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "reports-v1")]
+    [FwController(Id:"qyi6CvOObXr")]
     public class PartsInventoryAttributesReportController : AppReportController
     {
         public PartsInventoryAttributesReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
@@ -38,6 +40,7 @@ namespace WebApi.Modules.Reports.PartsInventoryAttributesReport
         //------------------------------------------------------------------------------------ 
         // POST api/v1/rentalinventoryattributesreport/render 
         [HttpPost("render")]
+        [FwControllerMethod(Id:"oyK7EnzOO8z")]
         public async Task<ActionResult<FwReportRenderResponse>> Render([FromBody]FwReportRenderRequest request)
         {
             if (!this.ModelState.IsValid) return BadRequest();
@@ -47,6 +50,7 @@ namespace WebApi.Modules.Reports.PartsInventoryAttributesReport
         //------------------------------------------------------------------------------------ 
         // POST api/v1/rentalinventoryattributesreport/runreport 
         [HttpPost("runreport")]
+        [FwControllerMethod(Id:"0pE4aN83tQ9")]
         public async Task<ActionResult<FwJsonDataTable>> RunReportAsync([FromBody]InventoryAttributesReportRequest request)
         {
             if (!ModelState.IsValid)

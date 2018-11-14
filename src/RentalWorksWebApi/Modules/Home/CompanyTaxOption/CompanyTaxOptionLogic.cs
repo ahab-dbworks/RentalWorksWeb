@@ -1,8 +1,9 @@
-﻿using FwStandard.BusinessLogic.Attributes;
+using FwStandard.AppManager;
 using WebApi.Logic;
 
 namespace WebApi.Modules.Home.CompanyTaxOption
 {
+    [FwLogic(Id:"xRpX57VC8ejQ")]
     public class CompanyTaxOptionLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------
@@ -14,40 +15,63 @@ namespace WebApi.Modules.Home.CompanyTaxOption
             dataLoader = companyTaxOptionLoader;
         }
         //------------------------------------------------------------------------------------
-        [FwBusinessLogicField(isPrimaryKey: true)]
+        [FwLogicProperty(Id:"4sEmvebo4HYt", IsPrimaryKey:true)]
         public string Id { get { return dealLocation.Id; } set { dealLocation.Id = value; } }
-        [FwBusinessLogicField(isPrimaryKey: true)]
+
+        [FwLogicProperty(Id:"RsGFhHbhQ2a0", IsPrimaryKey:true)]
         public string InternalChar { get { return dealLocation.InternalChar; } set { dealLocation.InternalChar = value; } }
+
+        [FwLogicProperty(Id:"54gaHwbVfPx")]
         public string CompanyId { get { return dealLocation.CompanyId; } set { dealLocation.CompanyId = value; } }
+
+        [FwLogicProperty(Id:"kzCHnDTWBT9")]
         public string LocationId { get { return dealLocation.LocationId; } set { dealLocation.LocationId = value; } }
-        [FwBusinessLogicField(isReadOnly: true, isRecordTitle: true)]
+
+        [FwLogicProperty(Id:"WzdYTFjDyq8M", IsRecordTitle:true, IsReadOnly:true)]
         public string Location { get; set; }
+
+        [FwLogicProperty(Id:"mLhOtQdg8dU")]
         public string TaxOptionId { get { return dealLocation.TaxOptionId; } set { dealLocation.TaxOptionId = value; } }
-        [FwBusinessLogicField(isReadOnly: true, isRecordTitle: true)]
+
+        [FwLogicProperty(Id:"ajSRpSTVvKG8", IsRecordTitle:true, IsReadOnly:true)]
         public string TaxOption { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"2fcmryKXd03J", IsReadOnly:true)]
         public string TaxCountry { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"mb3O98t4JcoY", IsReadOnly:true)]
         public string TaxRule { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"0HIewOodviyg", IsReadOnly:true)]
         public decimal? RentalTaxRate1 { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"XVcdzuuSpFYZ", IsReadOnly:true)]
         public decimal? RentalTaxRate2 { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"sKP7i7P6qFr7", IsReadOnly:true)]
         public bool? RentalExempt { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"eKeiHJSzgrrg", IsReadOnly:true)]
         public decimal? SalesTaxRate1 { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"ttSFy2sK14ZL", IsReadOnly:true)]
         public decimal? SalesTaxRate2 { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"r1w9NybUhGO8", IsReadOnly:true)]
         public bool? SalesExempt { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"LFjmIzmsjAQ0", IsReadOnly:true)]
         public decimal? LaborTaxRate1 { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"W1LX1fQK3jMd", IsReadOnly:true)]
         public decimal? LaborTaxRate2 { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"EffEZhvjbY9O", IsReadOnly:true)]
         public bool? LaborExempt { get; set; }
+
+        [FwLogicProperty(Id:"FsMCJPisgLs")]
         public string DateStamp { get { return dealLocation.DateStamp; } set { dealLocation.DateStamp = value; } }
+
         //------------------------------------------------------------------------------------
     }
 

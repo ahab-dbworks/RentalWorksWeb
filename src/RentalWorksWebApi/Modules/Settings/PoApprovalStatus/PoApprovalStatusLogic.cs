@@ -1,7 +1,8 @@
-using FwStandard.BusinessLogic.Attributes; 
+using FwStandard.AppManager;
 using WebApi.Logic;
 namespace WebApi.Modules.Settings.PoApprovalStatus
 {
+    [FwLogic(Id:"iM7o82nMTHn3")]
     public class PoApprovalStatusLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------ 
@@ -11,13 +12,21 @@ namespace WebApi.Modules.Settings.PoApprovalStatus
             dataRecords.Add(poApprovalStatus);
         }
         //------------------------------------------------------------------------------------ 
-        [FwBusinessLogicField(isPrimaryKey: true)]
+        [FwLogicProperty(Id:"gX42aERrbFNX", IsPrimaryKey:true)]
         public string PoApprovalStatusId { get { return poApprovalStatus.PoApprovalStatusId; } set { poApprovalStatus.PoApprovalStatusId = value; } }
-        [FwBusinessLogicField(isRecordTitle: true)]
+
+        [FwLogicProperty(Id:"gX42aERrbFNX", IsRecordTitle:true)]
         public string PoApprovalStatus { get { return poApprovalStatus.PoApprovalStatus; } set { poApprovalStatus.PoApprovalStatus = value; } }
+
+        [FwLogicProperty(Id:"PBfoa9kMkVag")]
         public string PoApprovalStatusType { get { return poApprovalStatus.PoApprovalStatusType; } set { poApprovalStatus.PoApprovalStatusType = value; } }
+
+        [FwLogicProperty(Id:"2TkVB2XcsOvE")]
         public bool? Inactive { get { return poApprovalStatus.Inactive; } set { poApprovalStatus.Inactive = value; } }
+
+        [FwLogicProperty(Id:"ZPiPjivMrVwR")]
         public string DateStamp { get { return poApprovalStatus.DateStamp; } set { poApprovalStatus.DateStamp = value; } }
+
         //------------------------------------------------------------------------------------ 
     }
 }

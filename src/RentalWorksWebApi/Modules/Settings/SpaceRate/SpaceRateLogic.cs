@@ -1,7 +1,8 @@
-using FwStandard.BusinessLogic.Attributes; 
+using FwStandard.AppManager;
 using WebApi.Logic;
 namespace WebApi.Modules.Settings.SpaceRate
 {
+    [FwLogic(Id:"MBZE43UrSuKEs")]
     public class SpaceRateLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------ 
@@ -13,52 +14,84 @@ namespace WebApi.Modules.Settings.SpaceRate
             dataLoader = spaceRateLoader;
         }
         //------------------------------------------------------------------------------------ 
-        [FwBusinessLogicField(isPrimaryKey: true)]
+        [FwLogicProperty(Id:"gtglfgcowWii4", IsPrimaryKey:true)]
         public string SpaceRateId { get { return spaceRate.SpaceRateId; } set { spaceRate.SpaceRateId = value; } }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"GU1x8WWnvn2Zx", IsReadOnly:true)]
         public string BuildingId { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"plRnVK7Q3PjhJ", IsReadOnly:true)]
         public string FloorId { get; set; }
+
+        [FwLogicProperty(Id:"UUu6qsPYK2Cp")]
         public string SpaceId { get { return spaceRate.SpaceId; } set { spaceRate.SpaceId = value; } }
+
+        [FwLogicProperty(Id:"mCQY7gm4GkIi")]
         public string FacilityTypeId { get { return spaceRate.FacilityTypeId; } set { spaceRate.FacilityTypeId = value; } }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"oFI3JmxphBUFm", IsReadOnly:true)]
         public string FacilityType { get; set; }
+
+        [FwLogicProperty(Id:"Rkw9oUQVfuHV")]
         public string SpaceTypeId { get { return spaceRate.SpaceTypeId; } set { spaceRate.SpaceTypeId = value; } }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"HUqYYtwM6nOF6", IsReadOnly:true)]
         public string SpaceType { get; set; }
+
+        [FwLogicProperty(Id:"8hVzEjbOcekE")]
         public string RateId { get { return spaceRate.RateId; } set { spaceRate.RateId = value; } }
-        //[FwBusinessLogicField(isReadOnly: true)]
+
+        //[FwLogicProperty(Id:"U4aBddaArtPo")]
         //public string WarehouseId { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"rfBfV69HjVUzH", IsReadOnly:true)]
         public string ICode { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"aGqltNZXxDNNh", IsReadOnly:true)]
         public string Description { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"UXzoJDAIqrzuV", IsReadOnly:true)]
         public decimal? Price { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"dCl6CYBB5vJOZ", IsReadOnly:true)]
         public decimal? HourlyRate { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"EXQ1mbKXXMAzD", IsReadOnly:true)]
         public decimal? DailyRate { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"qk1loAJw4h1Pw", IsReadOnly:true)]
         public decimal? WeeklyRate { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"P06JR5HLfymYH", IsReadOnly:true)]
         public decimal? Week2Rate { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"fZNKSb1sZGgFK", IsReadOnly:true)]
         public decimal? Week3Rate { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"cpI78hrjA4RRp", IsReadOnly:true)]
         public decimal? Week4Rate { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"qMIcIINynHlon", IsReadOnly:true)]
         public decimal? Week5Rate { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"Ueac7AVduZXmX", IsReadOnly:true)]
         public decimal? MonthlyRate { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"M2KEhSHUOYGDl", IsReadOnly:true)]
         public bool? StageScheduling { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"uHlhrvC6a3nSk", IsReadOnly:true)]
         public string UnitId { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"HUqYYtwM6nOF6", IsReadOnly:true)]
         public string SpaceTypeClassification { get; set; }
+
+        [FwLogicProperty(Id:"rZHWVUXwlXUn")]
         public int? OrderBy { get { return spaceRate.OrderBy; } set { spaceRate.OrderBy = value; } }
+
+        [FwLogicProperty(Id:"1TCi2YiBJNgU")]
         public string DateStamp { get { return spaceRate.DateStamp; } set { spaceRate.DateStamp = value; } }
+
         //------------------------------------------------------------------------------------ 
     }
 }

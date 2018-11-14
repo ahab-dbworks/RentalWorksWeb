@@ -1,3 +1,4 @@
+using FwStandard.AppManager;
 using FwStandard.SqlServer;
 using System.Collections.Generic;
 using FwStandard.Models;
@@ -13,12 +14,14 @@ namespace WebApi.Modules.Home.Invoice
 {
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "home-v1")]
+    [FwController(Id:"cZ9Z8aGEiDDw")]
     public class InvoiceController : AppDataController
     {
         public InvoiceController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(InvoiceLogic); }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/invoice/browse 
         [HttpPost("browse")]
+        [FwControllerMethod(Id:"QHbwnxEN2Ud9")]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest);
@@ -26,6 +29,7 @@ namespace WebApi.Modules.Home.Invoice
         //------------------------------------------------------------------------------------ 
         // POST api/v1/invoice/exportexcelxlsx/filedownloadname 
         [HttpPost("exportexcelxlsx/{fileDownloadName}")]
+        [FwControllerMethod(Id:"uWXaeVXku2ry")]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoExportExcelXlsxFileAsync(browseRequest);
@@ -33,6 +37,7 @@ namespace WebApi.Modules.Home.Invoice
         //------------------------------------------------------------------------------------ 
         // GET api/v1/invoice 
         [HttpGet]
+        [FwControllerMethod(Id:"IRyboGiUWku1")]
         public async Task<ActionResult<IEnumerable<InvoiceLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
             return await DoGetAsync<InvoiceLogic>(pageno, pagesize, sort);
@@ -40,6 +45,7 @@ namespace WebApi.Modules.Home.Invoice
         //------------------------------------------------------------------------------------ 
         // GET api/v1/invoice/A0000001 
         [HttpGet("{id}")]
+        [FwControllerMethod(Id:"o6y4PTxCqILC")]
         public async Task<ActionResult<InvoiceLogic>> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<InvoiceLogic>(id);
@@ -47,6 +53,7 @@ namespace WebApi.Modules.Home.Invoice
         //------------------------------------------------------------------------------------ 
         // POST api/v1/invoice 
         [HttpPost]
+        [FwControllerMethod(Id:"bgrJjmFPGAtE")]
         public async Task<ActionResult<InvoiceLogic>> PostAsync([FromBody]InvoiceLogic l)
         {
             return await DoPostAsync<InvoiceLogic>(l);
@@ -54,6 +61,7 @@ namespace WebApi.Modules.Home.Invoice
         //------------------------------------------------------------------------------------ 
         //// DELETE api/v1/invoice/A0000001 
         //[HttpDelete("{id}")]
+        //[FwControllerMethod(Id:"TPgslKxFR6")]
         //public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         //{
         //    return await DoDeleteAsync(id);
@@ -61,6 +69,7 @@ namespace WebApi.Modules.Home.Invoice
         ////------------------------------------------------------------------------------------ 
         // POST api/v1/invoice/void/A0000001
         [HttpPost("void/{id}")]
+        [FwControllerMethod(Id:"xEo3YJ6FHSYE")]
         public async Task<ActionResult<InvoiceLogic>> Void([FromRoute]string id)
         {
             if (!ModelState.IsValid)

@@ -1,3 +1,4 @@
+using FwStandard.AppManager;
 using FwStandard.SqlServer;
 using System.Collections.Generic;
 using FwStandard.Models;
@@ -9,12 +10,14 @@ namespace WebApi.Modules.Home.ExchangeItem
 {
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "home-v1")]
+    [FwController(Id:"Azkpehs1tvl")]
     public class ExchangeItemController : AppDataController
     {
         public ExchangeItemController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(ExchangeItemLogic); }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/exchangeitem/browse 
         [HttpPost("browse")]
+        [FwControllerMethod(Id:"ESm9Cw30r3m")]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest);
@@ -22,6 +25,7 @@ namespace WebApi.Modules.Home.ExchangeItem
         //------------------------------------------------------------------------------------ 
         // POST api/v1/exchangeitem/exportexcelxlsx/filedownloadname 
         [HttpPost("exportexcelxlsx/{fileDownloadName}")]
+        [FwControllerMethod(Id:"aYzxhc3i8TY")]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoExportExcelXlsxFileAsync(browseRequest);

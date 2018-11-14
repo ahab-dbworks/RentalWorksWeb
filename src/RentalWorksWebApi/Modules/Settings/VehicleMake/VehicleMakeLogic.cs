@@ -1,11 +1,12 @@
+using FwStandard.AppManager;
 ﻿using FwStandard.BusinessLogic;
-using FwStandard.BusinessLogic.Attributes;
 using Newtonsoft.Json;
 using WebApi.Logic;
 using WebLibrary;
 
 namespace WebApi.Modules.Settings.VehicleMake
 {
+    [FwLogic(Id:"MHET6iyz5fgcM")]
     public class VehicleMakeLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------
@@ -18,14 +19,22 @@ namespace WebApi.Modules.Settings.VehicleMake
             RowType = RwConstants.VEHICLE_TYPE_VEHICLE;
         }
         //------------------------------------------------------------------------------------
-        [FwBusinessLogicField(isPrimaryKey: true)]
+        [FwLogicProperty(Id:"iNP6eCYTXtVMG", IsPrimaryKey:true)]
         public string VehicleMakeId { get { return vehicleMake.VehicleMakeId; } set { vehicleMake.VehicleMakeId = value; } }
-        [FwBusinessLogicField(isRecordTitle: true)]
+
+        [FwLogicProperty(Id:"iNP6eCYTXtVMG", IsRecordTitle:true)]
         public string VehicleMake { get { return vehicleMake.VehicleMake; } set { vehicleMake.VehicleMake = value; } }
+
         [JsonIgnore]
+        [FwLogicProperty(Id:"Q86CWIozSXvY")]
         public string RowType { get { return vehicleMake.RowType; } set { vehicleMake.RowType = value; } }
+
+        [FwLogicProperty(Id:"5CD4GAuiaLqX")]
         public bool? Inactive { get { return vehicleMake.Inactive; } set { vehicleMake.Inactive = value; } }
+
+        [FwLogicProperty(Id:"tDaALNpyYcXr")]
         public string DateStamp { get { return vehicleMake.DateStamp; } set { vehicleMake.DateStamp = value; } }
+
         //------------------------------------------------------------------------------------
     }
 

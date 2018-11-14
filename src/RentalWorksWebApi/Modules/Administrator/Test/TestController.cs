@@ -1,3 +1,4 @@
+using FwStandard.AppManager;
 using FwStandard.Models; 
 using Microsoft.AspNetCore.Mvc; 
 using Microsoft.Extensions.Options; 
@@ -14,12 +15,14 @@ namespace WebApi.Modules.Administrator.Test
 {
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "administrator-v1")]
+    [FwController(Id:"597yNUa6Pwigw")]
     public class TestController : AppDataController
     {
         public TestController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
         //------------------------------------------------------------------------------------ 
         // GET api/v1/test 
         //[HttpGet]
+        //[FwControllerMethod(Id:"ASFnZeLx3A")]
         //public async Task<ActionResult<FwJsonDataTable>> GetAsync()
         //{
         //    FwJsonDataTable dtDetails;

@@ -1,3 +1,4 @@
+using FwStandard.AppManager;
 ﻿using FwCore.Controllers;
 using FwStandard.Models;
 using Microsoft.AspNetCore.Authorization;
@@ -17,6 +18,7 @@ namespace WebApi.Modules.Utilities.Download
         //------------------------------------------------------------------------------------
         // GET api/v1/download/filename
         [HttpGet("{filename}")]
+        [FwControllerMethod(Id:"bUOZ0KtICvIm")]
         public async Task<ActionResult<FileStreamResult>> GetOneAsync([FromRoute] string filename, [FromQuery]string downloadasfilename)
         {
             return await base.DoGetAsync(filename, downloadasfilename);

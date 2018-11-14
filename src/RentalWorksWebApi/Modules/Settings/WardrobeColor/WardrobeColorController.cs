@@ -1,3 +1,4 @@
+using FwStandard.AppManager;
 ﻿using FwStandard.SqlServer;
 using System.Collections.Generic;
 using FwStandard.Models;
@@ -10,12 +11,14 @@ namespace WebApi.Modules.Settings.WardrobeColor
 {
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "settings-v1")]
+    [FwController(Id:"Kc77x9j3t1Cf8")]
     public class WardrobeColorController : AppDataController
     {
         public WardrobeColorController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(WardrobeColorLogic); }
         //------------------------------------------------------------------------------------
         // POST api/v1/wardrobecolor/browse
         [HttpPost("browse")]
+        [FwControllerMethod(Id:"FCCugQbzWWdIV")]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest);
@@ -23,6 +26,7 @@ namespace WebApi.Modules.Settings.WardrobeColor
         //------------------------------------------------------------------------------------ 
         // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
         [HttpPost("exportexcelxlsx/{fileDownloadName}")]
+        [FwControllerMethod(Id:"IK2bgXjSg2HEl")]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoExportExcelXlsxFileAsync(browseRequest);
@@ -30,6 +34,7 @@ namespace WebApi.Modules.Settings.WardrobeColor
         //------------------------------------------------------------------------------------
         // GET api/v1/wardrobecolor
         [HttpGet]
+        [FwControllerMethod(Id:"MhDjti6lUxLc1")]
         public async Task<ActionResult<IEnumerable<WardrobeColorLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
             return await DoGetAsync<WardrobeColorLogic>(pageno, pagesize, sort);
@@ -37,6 +42,7 @@ namespace WebApi.Modules.Settings.WardrobeColor
         //------------------------------------------------------------------------------------
         // GET api/v1/wardrobecolor/A0000001
         [HttpGet("{id}")]
+        [FwControllerMethod(Id:"7ggdyMax75deO")]
         public async Task<ActionResult<WardrobeColorLogic>> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<WardrobeColorLogic>(id);
@@ -44,6 +50,7 @@ namespace WebApi.Modules.Settings.WardrobeColor
         //------------------------------------------------------------------------------------
         // POST api/v1/wardrobecolor
         [HttpPost]
+        [FwControllerMethod(Id:"P4eQpbWzy9QlR")]
         public async Task<ActionResult<WardrobeColorLogic>> PostAsync([FromBody]WardrobeColorLogic l)
         {
             return await DoPostAsync<WardrobeColorLogic>(l);
@@ -51,6 +58,7 @@ namespace WebApi.Modules.Settings.WardrobeColor
         //------------------------------------------------------------------------------------
         // DELETE api/v1/wardrobecolor/A0000001
         [HttpDelete("{id}")]
+        [FwControllerMethod(Id:"OovUuyOuWClQV")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
             return await DoDeleteAsync(id);

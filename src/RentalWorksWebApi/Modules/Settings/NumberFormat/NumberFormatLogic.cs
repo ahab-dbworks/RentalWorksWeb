@@ -1,7 +1,8 @@
-using FwStandard.BusinessLogic.Attributes; 
+using FwStandard.AppManager;
 using WebApi.Logic;
 namespace WebApi.Modules.Settings.NumberFormat
 {
+    [FwLogic(Id:"lSSjVLCR9bnP")]
     public class NumberFormatLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------ 
@@ -11,12 +12,15 @@ namespace WebApi.Modules.Settings.NumberFormat
             dataLoader = nmberFormatLoader;
         }
         //------------------------------------------------------------------------------------ 
-        [FwBusinessLogicField(isReadOnly: true, isPrimaryKey: true)]
+        [FwLogicProperty(Id:"cZj1qhBbOoKk", IsPrimaryKey:true, IsReadOnly:true)]
         public string NumberFormatId { get; set; }
-        [FwBusinessLogicField(isReadOnly: true, isRecordTitle: true)]
+
+        [FwLogicProperty(Id:"cZj1qhBbOoKk", IsRecordTitle:true, IsReadOnly:true)]
         public string NumberFormat { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"hGAuv8NEgGbi", IsReadOnly:true)]
         public string Mask { get; set; }
+
         //------------------------------------------------------------------------------------ 
     }
 }

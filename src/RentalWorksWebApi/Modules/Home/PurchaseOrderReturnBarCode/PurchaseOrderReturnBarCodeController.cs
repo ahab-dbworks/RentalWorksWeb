@@ -1,3 +1,4 @@
+using FwStandard.AppManager;
 using FwStandard.SqlServer;
 using System.Collections.Generic;
 using FwStandard.Models;
@@ -9,12 +10,14 @@ namespace WebApi.Modules.Home.PurchaseOrderReturnBarCode
 {
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "home-v1")]
+    [FwController(Id:"JkwkAFQ4tL7q0")]
     public class PurchaseOrderReturnBarCodeController : AppDataController
     {
         public PurchaseOrderReturnBarCodeController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(PurchaseOrderReturnBarCodeLogic); }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/purchaseorderreceivebarcode/browse 
         [HttpPost("browse")]
+        [FwControllerMethod(Id:"wr19b3MDUa0IB")]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest);
@@ -22,6 +25,7 @@ namespace WebApi.Modules.Home.PurchaseOrderReturnBarCode
         //------------------------------------------------------------------------------------ 
         // POST api/v1/purchaseorderreceivebarcode/exportexcelxlsx/filedownloadname 
         [HttpPost("exportexcelxlsx/{fileDownloadName}")]
+        [FwControllerMethod(Id:"DPl3TW16tsVTk")]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoExportExcelXlsxFileAsync(browseRequest);
@@ -29,6 +33,7 @@ namespace WebApi.Modules.Home.PurchaseOrderReturnBarCode
         //------------------------------------------------------------------------------------ 
         // GET api/v1/purchaseorderreceivebarcode 
         [HttpGet]
+        [FwControllerMethod(Id:"Cd7MeD6DIgfCm")]
         public async Task<ActionResult<IEnumerable<PurchaseOrderReturnBarCodeLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
             return await DoGetAsync<PurchaseOrderReturnBarCodeLogic>(pageno, pagesize, sort);
@@ -36,6 +41,7 @@ namespace WebApi.Modules.Home.PurchaseOrderReturnBarCode
         //------------------------------------------------------------------------------------ 
         // GET api/v1/purchaseorderreceivebarcode/A0000001 
         [HttpGet("{id}")]
+        [FwControllerMethod(Id:"Td095DqnZkar7")]
         public async Task<ActionResult<PurchaseOrderReturnBarCodeLogic>> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<PurchaseOrderReturnBarCodeLogic>(id);

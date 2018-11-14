@@ -1,11 +1,12 @@
+using FwStandard.AppManager;
 ﻿using FwStandard.BusinessLogic;
-using FwStandard.BusinessLogic.Attributes;
 using WebApi.Logic;
 using WebApi.Modules.Administrator.User;
 using WebLibrary;
 
 namespace WebApi.Modules.Settings.UserSearchSettings
 {
+    [FwLogic(Id:"LM4r9tSP6Zw8h")]
     public class UserSearchSettingsLogic : AppBusinessLogic
     {
         UserSearchSettingsRecord userSearchSettings = new UserSearchSettingsRecord();
@@ -17,11 +18,18 @@ namespace WebApi.Modules.Settings.UserSearchSettings
             LoadOriginalBeforeSaving = false;
         }
         //------------------------------------------------------------------------------------
-        [FwBusinessLogicField(isPrimaryKey: true)]
+        [FwLogicProperty(Id:"ULR6GjS4FL8zv", IsPrimaryKey:true)]
         public string WebUserId { get { return userSearchSettings.WebUserId; } set { userSearchSettings.WebUserId = value; } }
+
+        [FwLogicProperty(Id:"xCSEykR3CX4M")]
         public string Mode { get { return userSearchSettings.Mode; } set { userSearchSettings.Mode = value; } }
+
+        [FwLogicProperty(Id:"vbTKbyhDvUsi")]
         public string ResultFields { get { return userSearchSettings.ResultFields; } set { userSearchSettings.ResultFields = value; } }
+
+        [FwLogicProperty(Id:"6p0D6azvkZIA")]
         public bool? DisableAccessoryAutoExpand { get { return userSearchSettings.DisableAccessoryAutoExpand; } set { userSearchSettings.DisableAccessoryAutoExpand = value; } }
+
         //------------------------------------------------------------------------------------
         protected override bool Validate(TDataRecordSaveMode saveMode, FwBusinessLogic original, ref string validateMsg)
         {

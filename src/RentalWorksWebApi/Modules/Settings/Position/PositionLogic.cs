@@ -1,5 +1,5 @@
+using FwStandard.AppManager;
 using FwStandard.BusinessLogic;
-using FwStandard.BusinessLogic.Attributes; 
 using WebApi.Logic;
 using WebApi.Modules.Home.Master;
 using WebApi.Modules.Home.Inventory;
@@ -18,12 +18,15 @@ namespace WebApi.Modules.Settings.Position
             BeforeSave += OnBeforeSave;
         }
         //------------------------------------------------------------------------------------ 
-        [FwBusinessLogicField(isPrimaryKey: true)]
+        [FwLogicProperty(Id:"Vm9HgzMRYu3Vm", IsPrimaryKey:true)]
         public string PositionId { get { return master.MasterId; } set { master.MasterId = value; } }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"NFdp6gLfofZWw", IsReadOnly:true)]
         public string LaborTypeId { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"NFdp6gLfofZWw", IsReadOnly:true)]
         public string LaborType { get; set; }
+
         //------------------------------------------------------------------------------------ 
         protected override bool Validate(TDataRecordSaveMode saveMode, FwBusinessLogic original, ref string validateMsg)
         {

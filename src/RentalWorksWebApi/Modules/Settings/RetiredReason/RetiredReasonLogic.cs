@@ -1,8 +1,9 @@
-﻿using FwStandard.BusinessLogic.Attributes;
+using FwStandard.AppManager;
 using WebApi.Logic;
 
 namespace WebApi.Modules.Settings.RetiredReason
 {
+    [FwLogic(Id:"RPnS7h6MxuiQO")]
     public class RetiredReasonLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------
@@ -12,13 +13,21 @@ namespace WebApi.Modules.Settings.RetiredReason
             dataRecords.Add(retiredReason);
         }
         //------------------------------------------------------------------------------------
-        [FwBusinessLogicField(isPrimaryKey: true)]
+        [FwLogicProperty(Id:"MdeFcGn9lIGI1", IsPrimaryKey:true)]
         public string RetiredReasonId { get { return retiredReason.RetiredReasonId; } set { retiredReason.RetiredReasonId = value; } }
-        [FwBusinessLogicField(isRecordTitle: true)]
+
+        [FwLogicProperty(Id:"MdeFcGn9lIGI1", IsRecordTitle:true)]
         public string RetiredReason { get { return retiredReason.RetiredReason; } set { retiredReason.RetiredReason = value; } }
+
+        [FwLogicProperty(Id:"sTkBgW10jDww")]
         public string ReasonType { get { return retiredReason.ReasonType; } set { retiredReason.ReasonType = value; } }
+
+        [FwLogicProperty(Id:"jpZFdA8s9eRN")]
         public bool? Inactive { get { return retiredReason.Inactive; } set { retiredReason.Inactive = value; } }
+
+        [FwLogicProperty(Id:"o3yNplTga0dl")]
         public string DateStamp { get { return retiredReason.DateStamp; } set { retiredReason.DateStamp = value; } }
+
         //------------------------------------------------------------------------------------
     }
 

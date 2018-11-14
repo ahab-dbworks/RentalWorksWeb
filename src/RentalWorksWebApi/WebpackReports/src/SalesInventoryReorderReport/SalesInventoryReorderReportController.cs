@@ -1,3 +1,4 @@
+using FwStandard.AppManager;
 using FwStandard.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
@@ -23,6 +24,7 @@ namespace WebApi.Modules.Reports.SalesInventoryReorderReport
     }
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "reports-v1")]
+    [FwController(Id:"h1ag1lcZCgd")]
     public class SalesInventoryReorderReportController : AppReportController
     {
         public SalesInventoryReorderReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
@@ -46,6 +48,7 @@ namespace WebApi.Modules.Reports.SalesInventoryReorderReport
         //------------------------------------------------------------------------------------ 
         // POST api/v1/salesinventoryreorderreport/render 
         [HttpPost("render")]
+        [FwControllerMethod(Id:"IEHn1oJLFF9")]
         public async Task<ActionResult<FwReportRenderResponse>> Render([FromBody]FwReportRenderRequest request)
         {
             if (!this.ModelState.IsValid) return BadRequest();
@@ -55,6 +58,7 @@ namespace WebApi.Modules.Reports.SalesInventoryReorderReport
         //------------------------------------------------------------------------------------ 
         // POST api/v1/salesinventoryreorderreport/runreport 
         [HttpPost("runreport")]
+        [FwControllerMethod(Id:"MdMlbYAqc5y")]
         public async Task<ActionResult<FwJsonDataTable>> RunReportAsync([FromBody]SalesInventoryReorderReportRequest request)
         {
             if (!ModelState.IsValid)

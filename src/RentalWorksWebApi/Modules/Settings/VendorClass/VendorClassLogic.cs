@@ -1,8 +1,9 @@
-﻿using FwStandard.BusinessLogic.Attributes;
+using FwStandard.AppManager;
 using WebApi.Logic;
 
 namespace WebApi.Modules.Settings.VendorClass
 {
+    [FwLogic(Id:"NzMdrsSZhaSld")]
     public class VendorClassLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------
@@ -12,12 +13,18 @@ namespace WebApi.Modules.Settings.VendorClass
             dataRecords.Add(vendorClass);
         }
         //------------------------------------------------------------------------------------
-        [FwBusinessLogicField(isPrimaryKey: true)]
+        [FwLogicProperty(Id:"a1PXXauTkAcxa", IsPrimaryKey:true)]
         public string VendorClassId { get { return vendorClass.VendorClassId; } set { vendorClass.VendorClassId = value; } }
-        [FwBusinessLogicField(isRecordTitle: true)]
+
+        [FwLogicProperty(Id:"a1PXXauTkAcxa", IsRecordTitle:true)]
         public string VendorClass { get { return vendorClass.VendorClass; } set { vendorClass.VendorClass = value; } }
+
+        [FwLogicProperty(Id:"vKiQryGX6YLX")]
         public bool? Inactive { get { return vendorClass.Inactive; } set { vendorClass.Inactive = value; } }
+
+        [FwLogicProperty(Id:"vRLcskFNgV0y")]
         public string DateStamp { get { return vendorClass.DateStamp; } set { vendorClass.DateStamp = value; } }
+
         //------------------------------------------------------------------------------------
     }
 

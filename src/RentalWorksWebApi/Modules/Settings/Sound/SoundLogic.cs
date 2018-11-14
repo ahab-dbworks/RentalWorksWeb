@@ -1,7 +1,8 @@
-using FwStandard.BusinessLogic.Attributes;
+using FwStandard.AppManager;
 using WebApi.Logic;
 namespace WebApi.Modules.Settings.Sound
 {
+    [FwLogic(Id:"BaBkE3l3wT0PS")]
     public class SoundLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------ 
@@ -14,14 +15,24 @@ namespace WebApi.Modules.Settings.Sound
             dataLoader = soundLoader;
         }
         //------------------------------------------------------------------------------------ 
-        [FwBusinessLogicField(isPrimaryKey: true)]
+        [FwLogicProperty(Id:"BxnmypNOOR1km", IsPrimaryKey:true)]
         public string SoundId { get { return sound.SoundId; } set { sound.SoundId = value; } }
-        [FwBusinessLogicField(isRecordTitle: true)]
+
+        [FwLogicProperty(Id:"BxnmypNOOR1km", IsRecordTitle:true)]
         public string Sound { get { return sound.Sound; } set { sound.Sound = value; } }
+
+        [FwLogicProperty(Id:"eATtkRbvm9BL")]
         public string FileName { get { return sound.FileName; } set { sound.FileName = value; } }
+
+        [FwLogicProperty(Id:"ZsajC9EwX1lp")]
         public bool? SystemSound { get { return sound.SystemSound; } set { sound.SystemSound = value; } }
+
+        [FwLogicProperty(Id:"Bo7JeC3jrWzI")]
         public string SoundColor { get; set; }
+
+        [FwLogicProperty(Id:"Go76mPvD6yLP")]
         public string DateStamp { get { return sound.DateStamp; } set { sound.DateStamp = value; } }
+
         //------------------------------------------------------------------------------------ 
     }
 }

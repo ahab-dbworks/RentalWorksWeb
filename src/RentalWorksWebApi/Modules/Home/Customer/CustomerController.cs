@@ -1,3 +1,4 @@
+using FwStandard.AppManager;
 ﻿using FwStandard.SqlServer;
 using FwStandard.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -16,12 +17,14 @@ namespace WebApi.Modules.Home.Customer
 {
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "home-v1")]
+    [FwController(Id:"InSfo1f2lbFV")]
     public class CustomerController : AppDataController
     {
         public CustomerController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(CustomerLogic); }
         //------------------------------------------------------------------------------------
         // POST api/v1/customer/browse
         [HttpPost("browse")]
+        [FwControllerMethod(Id:"7MoaoXPK0VIP")]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest);
@@ -29,6 +32,7 @@ namespace WebApi.Modules.Home.Customer
         //------------------------------------------------------------------------------------ 
         // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
         [HttpPost("exportexcelxlsx/{fileDownloadName}")]
+        [FwControllerMethod(Id:"Pl5KjtaY6zH0")]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoExportExcelXlsxFileAsync(browseRequest);
@@ -36,6 +40,7 @@ namespace WebApi.Modules.Home.Customer
         //------------------------------------------------------------------------------------
         // GET api/v1/customer
         [HttpGet]
+        [FwControllerMethod(Id:"a48vy0bxduhl")]
         public async Task<ActionResult<GetManyResponse<GetManyCustomerResponse>>> GetManyAsync([FromQuery]GetManyCustomerRequest request)
         {
             return await DoGetManyAsync<GetManyCustomerResponse>(request);
@@ -43,6 +48,7 @@ namespace WebApi.Modules.Home.Customer
         //------------------------------------------------------------------------------------
         // GET api/v1/customer/A0000001
         [HttpGet("{id}")]
+        [FwControllerMethod(Id:"yTB8kNFPBPSr")]
         public async Task<ActionResult<CustomerLogic>> GetOneAsync(string id)
         {
             return await DoGetAsync<CustomerLogic>(id);
@@ -50,6 +56,7 @@ namespace WebApi.Modules.Home.Customer
         //------------------------------------------------------------------------------------
         // POST api/v1/customer
         [HttpPost]
+        [FwControllerMethod(Id:"toRko5a4O4n1")]
         public async Task<ActionResult<CustomerLogic>> PostAsync([FromBody]CustomerLogic l)
         {
             return await DoPostAsync<CustomerLogic>(l);
@@ -57,6 +64,7 @@ namespace WebApi.Modules.Home.Customer
         //------------------------------------------------------------------------------------
         // DELETE api/v1/customer/A0000001
         [HttpDelete("{id}")]
+        [FwControllerMethod(Id:"6p5DKezU9DgN")]
         public async Task<ActionResult<bool>> DeleteAsync(string id)
         {
             return await DoDeleteAsync(id);
@@ -64,6 +72,7 @@ namespace WebApi.Modules.Home.Customer
         //------------------------------------------------------------------------------------
         // GET api/v1/customer/lookup/officelocations
         [HttpGet("lookup/officelocations")]
+        [FwControllerMethod(Id:"ydamcE1E1G9P")]
         public async Task<ActionResult<GetManyResponse<GetManyOfficeLocationModel>>> GetOfficeLocationsAsync([FromQuery]GetManyOfficeLocationRequest request)
         {
             //return await DoGetManyAsync<GetManyOfficeLocationModel>(request, typeof(OfficeLocationLogic));
@@ -85,6 +94,7 @@ namespace WebApi.Modules.Home.Customer
         //------------------------------------------------------------------------------------
         // GET api/v1/customer/validations/managingdepartments
         //[HttpGet("validations/managingdepartments")]
+        //[FwControllerMethod(Id:"EQB3smR5TUZ4")]
         //public async Task<ActionResult<GetManyResponse<GetManyDepartmentsValidationModel>>> GetManagingDepartmentsAsync([FromQuery]GetManyDepartmentsRequest request)
         //{
         //    try

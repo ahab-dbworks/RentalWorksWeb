@@ -1,7 +1,8 @@
-using FwStandard.BusinessLogic.Attributes; 
+using FwStandard.AppManager;
 using WebApi.Logic;
 namespace WebApi.Modules.Settings.WardrobeMaterial
 {
+    [FwLogic(Id:"HNVO8LUd28ca3")]
     public class WardrobeMaterialLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------ 
@@ -11,12 +12,18 @@ namespace WebApi.Modules.Settings.WardrobeMaterial
             dataRecords.Add(wardrobeMaterial);
         }
         //------------------------------------------------------------------------------------ 
-        [FwBusinessLogicField(isPrimaryKey: true)]
+        [FwLogicProperty(Id:"eMbJIUGZuWcTT", IsPrimaryKey:true)]
         public string WardrobeMaterialId { get { return wardrobeMaterial.WardrobeMaterialId; } set { wardrobeMaterial.WardrobeMaterialId = value; } }
-        [FwBusinessLogicField(isRecordTitle: true)]
+
+        [FwLogicProperty(Id:"eMbJIUGZuWcTT", IsRecordTitle:true)]
         public string WardrobeMaterial { get { return wardrobeMaterial.WardrobeMaterial; } set { wardrobeMaterial.WardrobeMaterial = value; } }
+
+        [FwLogicProperty(Id:"9CUEYvgOnV")]
         public bool? Inactive { get { return wardrobeMaterial.Inactive; } set { wardrobeMaterial.Inactive = value; } }
+
+        [FwLogicProperty(Id:"4nGXLklP26")]
         public string DateStamp { get { return wardrobeMaterial.DateStamp; } set { wardrobeMaterial.DateStamp = value; } }
+
         //------------------------------------------------------------------------------------ 
     }
 }

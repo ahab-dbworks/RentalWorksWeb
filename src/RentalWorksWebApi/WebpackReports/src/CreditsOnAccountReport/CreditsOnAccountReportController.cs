@@ -1,3 +1,4 @@
+using FwStandard.AppManager;
 using FwStandard.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
@@ -21,6 +22,7 @@ namespace WebApi.Modules.Reports.CreditsOnAccountReport
 
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "reports-v1")]
+    [FwController(Id:"9JCPjgemNM8D")]
     public class CreditsOnAccountReportController : AppReportController
     {
         public CreditsOnAccountReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
@@ -44,6 +46,7 @@ namespace WebApi.Modules.Reports.CreditsOnAccountReport
         //------------------------------------------------------------------------------------ 
         // POST api/v1/creditsonaccount/render 
         [HttpPost("render")]
+        [FwControllerMethod(Id:"11WQfeFM3RBp")]
         public async Task<ActionResult<FwReportRenderResponse>> Render([FromBody]FwReportRenderRequest request)
         {
             if (!this.ModelState.IsValid) return BadRequest();
@@ -53,6 +56,7 @@ namespace WebApi.Modules.Reports.CreditsOnAccountReport
         //------------------------------------------------------------------------------------ 
         // POST api/v1/creditsonaccount/runreport 
         [HttpPost("runreport")]
+        [FwControllerMethod(Id:"IKvvPD6VZArB")]
         public async Task<ActionResult<FwJsonDataTable>> RunReportAsync([FromBody]CreditsOnAccountReportRequest request)
         {
             if (!ModelState.IsValid)

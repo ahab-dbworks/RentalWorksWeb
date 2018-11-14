@@ -1,7 +1,8 @@
-using FwStandard.BusinessLogic.Attributes; 
+using FwStandard.AppManager;
 using WebApi.Logic;
 namespace WebApi.Modules.Settings.WarehouseQuikLocateApprover
 {
+    [FwLogic(Id:"qy2NNcY3i5sJZ")]
     public class WarehouseQuikLocateApproverLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------ 
@@ -13,28 +14,45 @@ namespace WebApi.Modules.Settings.WarehouseQuikLocateApprover
             dataLoader = warehouseQuikLocateApproverLoader;
         }
         //------------------------------------------------------------------------------------ 
-        [FwBusinessLogicField(isPrimaryKey: true)]
+        [FwLogicProperty(Id:"UVh4eE5ixK8v5", IsPrimaryKey:true)]
         public string WarehouseQuikLocateApproverId { get { return warehouseQuikLocateApprover.WarehouseQuikLocateApproverId; } set { warehouseQuikLocateApprover.WarehouseQuikLocateApproverId = value; } }
+
+        [FwLogicProperty(Id:"27oyC4GCgv3")]
         public string WarehouseId { get { return warehouseQuikLocateApprover.WarehouseId; } set { warehouseQuikLocateApprover.WarehouseId = value; } }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"UVh4eE5ixK8v5", IsReadOnly:true)]
         public string Warehouse { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"UVh4eE5ixK8v5", IsReadOnly:true)]
         public string WarehouseCode { get; set; }
+
+        [FwLogicProperty(Id:"gYslKt7D4nl")]
         public string UsersId { get { return warehouseQuikLocateApprover.UsersId; } set { warehouseQuikLocateApprover.UsersId = value; } }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"y4HVOWfjLW1Yz", IsReadOnly:true)]
         public string UserName { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"6BOStHvACcA8R", IsReadOnly:true)]
         public string OfficePhone { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"t90OiQchwi6XC", IsReadOnly:true)]
         public string PhoneExtension { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"ktgAhzprQxyqR", IsReadOnly:true)]
         public string Cellular { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"CIrQgmKK1Pg7J", IsReadOnly:true)]
         public string DirectPhone { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+
+        [FwLogicProperty(Id:"zhpNFA3S8kT34", IsReadOnly:true)]
         public string Email { get; set; }
+
+        [FwLogicProperty(Id:"Au6HyfQtW7h")]
         public bool? SendEmail { get { return warehouseQuikLocateApprover.SendEmail; } set { warehouseQuikLocateApprover.SendEmail = value; } }
+
+        [FwLogicProperty(Id:"SBq4TZYWisv")]
         public string DateStamp { get { return warehouseQuikLocateApprover.DateStamp; } set { warehouseQuikLocateApprover.DateStamp = value; } }
+
         //------------------------------------------------------------------------------------ 
     }
 }
