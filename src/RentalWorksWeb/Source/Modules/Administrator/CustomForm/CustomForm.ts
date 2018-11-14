@@ -975,6 +975,7 @@ class CustomForm {
             case 'data-browsedatatype':
             case 'data-formdatatype':
             case 'data-datatype':
+            case 'data-type':
                 values = [
                     'checkbox'
                     , 'checkboxlist'
@@ -1001,6 +1002,9 @@ class CustomForm {
             case 'data-sort':
                 values = ['asc', 'desc', 'off'];
                 break;
+            case 'data-formrequired':
+            case 'data-required':
+            case 'data-enabled':
             case 'data-visible':
             case 'data-formreadonly':
             case 'data-isuniqueid':
