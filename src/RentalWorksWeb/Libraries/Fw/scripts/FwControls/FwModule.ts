@@ -23,7 +23,7 @@ class FwModule {
     }
     //----------------------------------------------------------------------------------------------
     static openModuleTab($object: JQuery, caption: string, tabHasClose: boolean, tabType: string, setTabActive: boolean) {
-        var $tabControl, newtabids, $fwcontrols, controller;
+        let $tabControl, newtabids, $fwcontrols, controller;
 
         $tabControl = jQuery('#moduletabs');
         if ($tabControl.find('.tab').length === 0) {
@@ -34,9 +34,8 @@ class FwModule {
 
         $fwcontrols = $object.find('.fwcontrol');
         FwControl.loadControls($fwcontrols);
-
         // Close tab button
-        if ($tabControl.find('.tab').length > 1) {
+        if ($tabControl.find('div[data-tabtype="FORM"]').length > 2) {
             let iconHtml: Array<string> = [], $newTabButton;
             $tabControl.find('.closetabbutton').html('');
             iconHtml.push(`<div class="closetab">
@@ -77,8 +76,8 @@ class FwModule {
                     FwModule.closeForm($form, $tab);
                 }
             }
-
             FwTabs.setActiveTab($tabControl, $activeTab);
+            $tabControl.find('.closetabbutton').html('');
         });
         // Close all tabs
         $tabControl.find('.close-all').click(() => {
@@ -111,7 +110,7 @@ class FwModule {
                 });
             }
 
-            var $searchbox = jQuery('.search input:visible');
+            let $searchbox = jQuery('.search input:visible');
             if ($searchbox.length > 0) {
                 $searchbox.eq(0).focus();
             }
