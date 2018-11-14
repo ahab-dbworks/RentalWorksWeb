@@ -505,18 +505,18 @@ class CustomForm {
             let deleteComponentHtml = '<div class="fwformcontrol deleteObject" data-type="button" style="margin-left:27%; margin-top:15px;">Delete Component</div>'
 
             //drag and drop
+            let $draggableElements;
             if (type === 'Grid' || type === 'Browse') {
                 let index;
                 let indexDrag;
                 let indexDrop;
                 let $elementDragged;
-                let $draggableElements;
-                let $dragContainer = $customForm.find('tr.fieldnames');
-                $draggableElements = $dragContainer.find('td.column:not(.tdselectrow):not(.browsecontextmenucell)');
+                $draggableElements = $customForm.find('tr.fieldnames td.column:not(.tdselectrow):not(.browsecontextmenucell)');
                 $draggableElements.attr('draggable', 'true');
-                $dragContainer
+                $customForm
                     .off('dragstart', 'td.column:not(.tdselectrow):not(.browsecontextmenucell)')
                     .on('dragstart', 'td.column:not(.tdselectrow):not(.browsecontextmenucell)', e => {
+                        $draggableElements = $customForm.find('tr.fieldnames td.column:not(.tdselectrow):not(.browsecontextmenucell)');
                         index = jQuery(e.currentTarget).children('.field').attr('data-index');
                         e.originalEvent.dataTransfer.setData("index", index);
                         $elementDragged = $draggableElements
@@ -575,40 +575,35 @@ class CustomForm {
                         e.currentTarget.style.borderLeft = "";
                     });
             } else if (type === 'Form') {
-                let index;
                 let indexDrag;
                 let indexDrop;
                 let $elementDragged;
-                let $draggableElements;
                 let placeholderIndex;
-                let $dragContainer = $customForm.find('div.flexpage');
-                $draggableElements = $dragContainer.find('div.fwformfield');
+                $draggableElements = $customForm.find('div.fwformfield');  
                 $draggableElements.attr('draggable', 'true');
-                $dragContainer
+                $customForm
                     .off('dragstart', 'div.fwformfield')
                     .on('dragstart', 'div.fwformfield', e => {
-                        index = jQuery(e.currentTarget).attr('data-index');
-                        e.originalEvent.dataTransfer.setData("index", index);
+                        let $this = jQuery(e.currentTarget);
+                        e.currentTarget.style.border = "2px dashed #4caf50";
+                        indexDrag = $this.attr('data-index');
+                        e.originalEvent.dataTransfer.setData("index", indexDrag);
                         $elementDragged = $draggableElements
                             .filter(function () {
-                                return jQuery(this).attr("data-index") === index;
+                                return jQuery(this).attr("data-index") === indexDrag;
                             });
                     })
                     .off('dragenter', 'div.fwformfield')
                     .on('dragenter', 'div.fwformfield', e => {
                         let $this = jQuery(e.currentTarget);
-                        //where it is doesn't matter, just insertBefore for all?  cases for the first and last items.. insert before or after?
-                        indexDrag = $elementDragged.index();
-                        indexDrop = $this.index();
-                        $dragContainer.find('div.placeholder').remove();
+
+                        indexDrop = $this.attr('data-index');
+                        console.log(`${indexDrag}: drag, ${indexDrop}: drop`);
+                        $customForm.find('div.placeholder').remove();
                         if (indexDrag !== indexDrop) {
                             let $preview = jQuery(`<div class="placeholder" style="min-height:50px; line-height:50px; vertical-align:middle; font-weight:bold; text-align:center; flex:1 1 100px; border: 2px dashed #4caf50">Drop here</div>`);
                             placeholderIndex = $this.attr('data-index');
-                            if (indexDrag > indexDrop) {
-                                $preview.insertBefore($this);
-                            } else if (indexDrag < indexDrop) {
-                                $preview.insertAfter($this);
-                            }
+                            $preview.insertBefore($this);
                         }
                     })
                     .off('dragleave', 'div.fwformfield')
@@ -621,24 +616,21 @@ class CustomForm {
                     .off('drop', 'div.placeholder')
                     .on('drop', 'div.placeholder', e => {
                         let $this = jQuery(e.currentTarget);
-                        let index = e.originalEvent.dataTransfer.getData("index");
+                      
                         //for updating the formfield and codemirror
-                        let firstColumn = jQuery($customFormClone).find(`[data-index="${index}"]`);
+                        let firstColumn = jQuery($customFormClone).find(`[data-index="${indexDrag}"]`);
                         let secondColumn = jQuery($customFormClone).find(`[data-index="${placeholderIndex}"]`);
 
                         $this.replaceWith($elementDragged);
+                        firstColumn.insertAfter(secondColumn);
 
-                        if (indexDrag > indexDrop) {
-                            firstColumn.insertAfter(secondColumn);
-                        } else if (indexDrag < indexDrop) {
-                            firstColumn.insertBefore(secondColumn);
-                        }
                         updateHtml();
                         e.currentTarget.style.border = "";
+                        $elementDragged.css('border', '');
                     })
                     .off('drop', 'div.fwformfield')
                     .on('drop', 'div.fwformfield', e => {
-                        $dragContainer.find('div.placeholder').remove();
+                        $customForm.find('div.placeholder').remove();
                     });
             }
 
@@ -809,6 +801,9 @@ class CustomForm {
                             FwControl.renderRuntimeHtml($control);
                             disableControls();
                             showHiddenColumns($control);
+                            //have to reinitialize after adding a new column
+                            $draggableElements = $customForm.find('tr.fieldnames td.column:not(.tdselectrow):not(.browsecontextmenucell)');
+                            $draggableElements.attr('draggable', 'true');
                             break;
                     }
 
@@ -897,18 +892,20 @@ class CustomForm {
                     let $control = jQuery($customFormClone).find(`[data-type="${type}"]`);
                     let lastIndex = Number($control.find('div:last').attr('data-index'));
                     let hasSpacer = $control.find('div:last').hasClass('spacer');
+                    let newTdIndex = lastIndex+1;
+                    let newFieldIndex = newTdIndex+1;
                     //build column base
                     let html: any = [];
                     html.push
-                        (`<div class="column" data-index="${++lastIndex}">
-    <div class="field" data-index="${++lastIndex}"></div>
+                        (`<div class="column" data-index="${newTdIndex}">
+    <div class="field" data-index="${newFieldIndex}"></div>
   </div>
 `); //needs to be formatted this way so it looks nice in the code editor
 
                     let newColumn = jQuery(html.join(''));
-
+       
                     hasSpacer === true ? newColumn.insertBefore($control.find('div.spacer')) : $control.append(newColumn);
-
+                  
                     originalHtml = newColumn.find('.field');
 
                     //build properties column
