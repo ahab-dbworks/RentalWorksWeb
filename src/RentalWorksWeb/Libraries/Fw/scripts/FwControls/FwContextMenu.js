@@ -11,7 +11,7 @@ FwContextMenu.render = function(title, position, $appendto) {
     }
 
     html.push('<div class="fwcontextmenu"');
-    html.push(' data-position="' + position + '"');
+    html.push(` data-position="${position}"`);
     html.push('>');
     html.push('  <div class="fwcontextmenubox">');
     //if ((typeof title === 'string') && (title.length > 0)) {
@@ -65,9 +65,9 @@ FwContextMenu.render = function(title, position, $appendto) {
 //};
 //----------------------------------------------------------------------------------------------
 FwContextMenu.addMenuItem = function($control, text, onclick) {
-    var $menuitem;
+    let $menuitem;
     
-    $menuitem = jQuery('<div class="responsive fwcontextmenuitem">' + text + '</div>');
+    $menuitem = jQuery(`<div class="responsive fwcontextmenuitem">${text}</div>`);
     $control.find('.fwcontextmenuitems').append($menuitem);
     if (typeof onclick === 'function') {
         $menuitem.on('click', onclick);
