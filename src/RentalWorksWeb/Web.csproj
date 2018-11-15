@@ -173,6 +173,7 @@
     <TypeScriptCompile Include="%40types\Web\index.d.ts" />
     <TypeScriptCompile Include="scripts\DefaultApplicationConfig.ts" />
     <TypeScriptCompile Include="scripts\Program.ts" />
+    <Content Include="Libraries\Fw\scripts\moment\moment.min.js" />
     <Content Include="scripts\RwLanguages.js" />
     <Content Include="scripts\RwServices.js" />
     <Content Include="Application.dev.config" />
@@ -1146,7 +1147,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\Temp\Downloads\" />
-    <Folder Include="Libraries\Fw\scripts\moment\" />
     <Folder Include="Source\Controls\" />
     <Folder Include="theme\fwaudio\" />
     <Folder Include="theme\fwcursors\" />

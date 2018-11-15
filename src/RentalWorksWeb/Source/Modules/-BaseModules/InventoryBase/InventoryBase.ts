@@ -59,6 +59,7 @@
         let inventoryId = uniqueids.InventoryId;
         const startOfMonth = moment().startOf('month').format('MM/DD/YYYY');
         const endOfMonth = moment().endOf('month').format('MM/DD/YYYY');
+
         $calendar = $form.find('.calendar');
         $calendar
             .data('ongetevents', function () {
