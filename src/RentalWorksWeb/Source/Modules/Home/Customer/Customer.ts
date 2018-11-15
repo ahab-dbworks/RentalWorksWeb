@@ -75,14 +75,17 @@ class Customer {
     }
 
     updateExternalInputsWithGridValues($tr: JQuery): void {
+        let TaxOption = $tr.find('.field[data-browsedatafield="TaxOptionId"]').attr('data-originaltext');
+
         $tr.find('.column > .field').each((i, e) => {
-            var $column = jQuery(e), id = $column.attr('data-browsedatafield'), value = $column.attr('data-originalvalue');
+            let $column = jQuery(e), id = $column.attr('data-browsedatafield'), value = $column.attr('data-originalvalue');
             if (value === undefined || null) {
-                jQuery('.' + id).find(':input').val(0);
+                jQuery(`.${id}`).find(':input').val(0);
             } else {
-                jQuery('.' + id).find(':input').val(value);
+                jQuery(`.${id}`).find(':input').val(value);
             }
         });
+        jQuery('.TaxOption').find(':input').val(TaxOption);
     }
     //----------------------------------------------------------------------------------------------
     openBrowse() {
@@ -1375,7 +1378,7 @@ class Customer {
                       <!-- Tax Rates section -->
                       <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Tax Rates">
                         <div class="flexrow">
-                          <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield TaxOption" data-caption="Tax Option" data-enabled="false" data-datafield="" data-displayfield="Customer" data-validationname="CustomerValidation" style="flex:1 1 300px;"></div>
+                          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield TaxOption" data-caption="Tax Option" data-enabled="false" data-displayfield="" data-datafield="" style="flex:1 1 300px;"></div>
                           <div data-control="FwFormField" data-digits="4" data-type="percent" class="fwcontrol fwformfield RentalTaxRate1" data-caption="Rental %" data-datafield="" data-displayfield="" data-enabled="false" style="flex:1 1 100px;"></div>
                           <div data-control="FwFormField" data-digits="4" data-type="percent" class="fwcontrol fwformfield SalesTaxRate1" data-caption="Sales %" data-datafield="" data-displayfield="" data-enabled="false" style="flex:1 1 100px;"></div>
                           <div data-control="FwFormField" data-digits="4" data-type="percent" class="fwcontrol fwformfield LaborTaxRate1" data-caption="Labor %" data-datafield="" data-displayfield="" data-enabled="false" style="flex:1 1 100px;"></div>
