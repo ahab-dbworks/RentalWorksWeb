@@ -507,102 +507,103 @@ class CustomForm {
             //drag and drop
             let $draggableElements;
             if (type === 'Grid' || type === 'Browse') {
-                let index;
                 let indexDrag;
                 let indexDrop;
                 let $elementDragged;
+                let $preview;
+                let domIndexDrag;
+                let domIndexDrop;
                 $draggableElements = $customForm.find('tr.fieldnames td.column:not(.tdselectrow):not(.browsecontextmenucell)');
                 $draggableElements.attr('draggable', 'true');
                 $customForm
                     .off('dragstart', 'td.column:not(.tdselectrow):not(.browsecontextmenucell)')
                     .on('dragstart', 'td.column:not(.tdselectrow):not(.browsecontextmenucell)', e => {
+                        let $this = jQuery(e.currentTarget);
                         $draggableElements = $customForm.find('tr.fieldnames td.column:not(.tdselectrow):not(.browsecontextmenucell)');
-                        index = jQuery(e.currentTarget).children('.field').attr('data-index');
-                        e.originalEvent.dataTransfer.setData("index", index);
+                        indexDrag = $this.find('.field').attr('data-index');
                         $elementDragged = $draggableElements
                             .find('.field')
                             .filter(function () {
-                                return jQuery(this).attr("data-index") === index;
+                                return jQuery(this).attr("data-index") === indexDrag;
                             });
+                        domIndexDrag = $this.index();
                     })
                     .off('dragenter', 'td.column:not(.tdselectrow):not(.browsecontextmenucell)')
                     .on('dragenter', 'td.column:not(.tdselectrow):not(.browsecontextmenucell)', e => {
                         let $this = jQuery(e.currentTarget);
-                        indexDrag = $elementDragged.parents('td').index();
-                        indexDrop = $this.index();
-                        if (indexDrag > indexDrop) {
-                            e.currentTarget.style.borderLeft = "2px dashed gray";
-                        } else if (indexDrag < indexDrop) {
-                            e.currentTarget.style.borderRight = "2px dashed gray";
-                        } else if (indexDrag == indexDrop) {
-                            e.currentTarget.style.borderRight = "2px dashed gray";
-                            e.currentTarget.style.borderLeft = "2px dashed gray";
+                        domIndexDrop = $this.index();
+                        indexDrop = $this.find('.field').attr('data-index');
+                        $customForm.find('td.placeholder').remove();
+                        if (domIndexDrag !== domIndexDrop) {
+                            $preview = jQuery(`<td class="placeholder" style="min-height:50px; line-height:50px; vertical-align:middle; font-weight:bold; text-align:center; flex:1 1 50px; border: 2px dashed gray">Drop here</td>`);
+                            if (domIndexDrag > domIndexDrop) {
+                                $preview.insertBefore($this);
+                                //e.currentTarget.style.borderLeft = "2px dashed gray";
+                            } else if (domIndexDrag < domIndexDrop) {
+                                $preview.insertAfter($this);
+                                //e.currentTarget.style.borderRight = "2px dashed gray";
+                            }
                         }
                     })
                     .off('dragleave', 'td.column:not(.tdselectrow):not(.browsecontextmenucell)')
                     .on('dragleave', 'td.column:not(.tdselectrow):not(.browsecontextmenucell)', e => {
-                        e.currentTarget.style.borderLeft = "";
-                        e.currentTarget.style.borderRight = "";
                     })
                     .off('dragover', 'td.column:not(.tdselectrow):not(.browsecontextmenucell)')
                     .on('dragover', 'td.column:not(.tdselectrow):not(.browsecontextmenucell)', e => {
                         e.preventDefault();
                     })
+                    .off('drop', 'td.placeholder')
+                    .on('drop', 'td.placeholder', e => {
+                        let $this = jQuery(e.currentTarget);
+
+                        //for updating the formfield and codemirror
+                        let firstColumn = jQuery($customFormClone).find(`[data-index="${indexDrag}"]`).parent();
+                        let secondColumn = jQuery($customFormClone).find(`[data-index="${indexDrop}"]`).parent();
+                        $this.replaceWith($elementDragged.parent());
+                        if (domIndexDrag < domIndexDrop) {
+                            //$elementDragged.parents('td').insertAfter($elementDropped);
+                            firstColumn.insertAfter(secondColumn);
+                        } else if (domIndexDrag > domIndexDrop) {
+                            //$elementDragged.parents('td').insertBefore($elementDropped);
+                            firstColumn.insertBefore(secondColumn);
+                        }
+                        updateHtml();
+                    })
                     .off('drop', 'td.column:not(.tdselectrow):not(.browsecontextmenucell)')
                     .on('drop', 'td.column:not(.tdselectrow):not(.browsecontextmenucell)', e => {
-                        let $this = jQuery(e.currentTarget);
-                        let index = e.originalEvent.dataTransfer.getData("index");
-                        let dropTargetHtmlIndex = $this.children('.field').attr('data-index');
-                        if (index !== dropTargetHtmlIndex) {
-                            let indexDrag = $elementDragged.parents('td').index();
-                            let indexDrop = $this.index();
-
-                            //for updating the formfield and codemirror
-                            let firstColumn = jQuery($customFormClone).find(`[data-index="${index}"]`).parent();
-                            let secondColumn = jQuery($customFormClone).find(`[data-index="${dropTargetHtmlIndex}"]`).parent();
-
-                            if (indexDrag < indexDrop) {
-                                $elementDragged.parents('td').insertAfter($this);
-                                firstColumn.insertAfter(secondColumn);
-
-                            } else if (indexDrag > indexDrop) {
-                                $elementDragged.parents('td').insertBefore($this);
-                                firstColumn.insertBefore(secondColumn);
-                            }
-                            updateHtml();
-                        }
-                        e.currentTarget.style.borderRight = "";
-                        e.currentTarget.style.borderLeft = "";
+                        $customForm.find('td.placeholder').remove();
+                    })
+                    .off('dragend')
+                    .on('dragend', e => {
+                        $customForm.find('td.placeholder').remove();
                     });
             } else if (type === 'Form') {
                 let indexDrag;
                 let indexDrop;
                 let $elementDragged;
-                let placeholderIndex;
-                $draggableElements = $customForm.find('div.fwformfield');  
+                let $preview;
+                let draggedParentIndex;
+                $draggableElements = $customForm.find('div.fwformfield');
                 $draggableElements.attr('draggable', 'true');
                 $customForm
                     .off('dragstart', 'div.fwformfield')
                     .on('dragstart', 'div.fwformfield', e => {
                         let $this = jQuery(e.currentTarget);
-                        e.currentTarget.style.border = "2px dashed #4caf50";
+                        //e.currentTarget.style.border = "2px dashed #4caf50";
                         indexDrag = $this.attr('data-index');
-                        e.originalEvent.dataTransfer.setData("index", indexDrag);
                         $elementDragged = $draggableElements
                             .filter(function () {
                                 return jQuery(this).attr("data-index") === indexDrag;
                             });
+                        $elementDragged.parent().css('min-height', '50px');
                     })
                     .off('dragenter', 'div.fwformfield')
                     .on('dragenter', 'div.fwformfield', e => {
                         let $this = jQuery(e.currentTarget);
-
                         indexDrop = $this.attr('data-index');
-                        console.log(`${indexDrag}: drag, ${indexDrop}: drop`);
                         $customForm.find('div.placeholder').remove();
                         if (indexDrag !== indexDrop) {
-                            let $preview = jQuery(`<div class="placeholder" style="min-height:50px; line-height:50px; vertical-align:middle; font-weight:bold; text-align:center; flex:1 1 100px; border: 2px dashed #4caf50">Drop here</div>`);
-                            placeholderIndex = $this.attr('data-index');
+                            $preview = jQuery(`<div class="placeholder" style="min-height:50px; line-height:50px; vertical-align:middle; font-weight:bold; text-align:center; flex:1 1 100px; border: 2px dashed #4caf50">Drop here</div>`);
                             $preview.insertBefore($this);
                         }
                     })
@@ -616,20 +617,21 @@ class CustomForm {
                     .off('drop', 'div.placeholder')
                     .on('drop', 'div.placeholder', e => {
                         let $this = jQuery(e.currentTarget);
-                      
+
                         //for updating the formfield and codemirror
                         let firstColumn = jQuery($customFormClone).find(`[data-index="${indexDrag}"]`);
-                        let secondColumn = jQuery($customFormClone).find(`[data-index="${placeholderIndex}"]`);
+                        let secondColumn = jQuery($customFormClone).find(`[data-index="${indexDrop}"]`);
 
                         $this.replaceWith($elementDragged);
-                        firstColumn.insertAfter(secondColumn);
-
+                        firstColumn.insertBefore(secondColumn);
                         updateHtml();
-                        e.currentTarget.style.border = "";
-                        $elementDragged.css('border', '');
                     })
                     .off('drop', 'div.fwformfield')
                     .on('drop', 'div.fwformfield', e => {
+                        $customForm.find('div.placeholder').remove();
+                    })
+                    .off('dragend')
+                    .on('dragend', e => {
                         $customForm.find('div.placeholder').remove();
                     });
             }
@@ -650,52 +652,47 @@ class CustomForm {
                             let value = properties[i].value;
                             let name = properties[i].name;
 
-                            let a = 0;
-                            a += (name == "data-originalvalue") ? 1 : 0;
-                            a += (name == "data-index") ? 1 : 0;
-                            a += (name == "data-rendermode") ? 1 : 0;
-                            a += (name == "data-version") ? 1 : 0;
-                            a += (name == "draggable") ? 1 : 0;
-                            a += (name == "data-noduplicate") ? 1 : 0;
-                            if (type === 'Browse') {
-                                a += (name == "data-formdatafield") ? 1 : 0;
-                                a += (name == "data-cssclass") ? 1 : 0;
-                            }
-
-                            if (a) {
-                                continue;
-                            }
-
-                            value = value.replace('focused', '');
-                            let b = 0;
-                            b += (name == "data-datafield") ? 1 : 0;
-                            b += (name == "data-browsedatafield") ? 1 : 0;
-                            b += (name == "data-displayfield") ? 1 : 0;
-                            b += (name == "data-browsedisplayfield") ? 1 : 0;
-
-                            let c = 0;
-                            c += (name == "data-browsedatatype") ? 1 : 0;
-                            c += (name == "data-formdatatype") ? 1 : 0;
-                            c += (name == "data-datatype") ? 1 : 0;
-                            c += (name == "data-sort") ? 1 : 0;
-                            c += (name == "data-visible") ? 1 : 0;
-                            c += (name == "data-formreadonly") ? 1 : 0;
-                            c += (name == "data-isuniqueid") ? 1 : 0;
-
-                            if (b) {
-                                html.push(`<div class="properties">
+                            switch (name) {
+                                case "data-originalvalue":
+                                case "data-index":
+                                case "data-rendermode":
+                                case "data-version":
+                                case "draggable":
+                                case "data-noduplicate":
+                                case "data-formdatafield":
+                                case "data-cssclass":
+                                    continue;
+                                case "data-datafield":
+                                case "data-browsedatafield":
+                                case "data-displayfield":
+                                case "data-browsedisplayfield":
+                                    html.push(`<div class="properties">
                                       <div class="propname">${name === "" ? "&#160;" : name}</div>
                                       <div class="propval"><select style="width:94%" class="datafields" value="${value}"></select></div>
                                    </div>
                                   `);
-                            } else if (c) {
-                                html.push(`<div class="properties">
+                                    break;
+                                case "data-browsedatatype":
+                                case "data-formdatatype":
+                                case "data-datatype":
+                                case "data-sort":
+                                case "data-visible":
+                                case "data-formreadonly":
+                                case "data-isuniqueid":
+                                case "data-type":
+                                case "data-formrequired":
+                                case "data-required":
+                                case "data-enabled":
+                                    html.push(`<div class="properties">
                                       <div class="propname">${name === "" ? "&#160;" : name}</div>
                                       <div class="propval"><select style="width:94%" class="valueOptions" value="${value}"></select></div>
                                    </div>
                                   `);
-                            } else {
-                                html.push(`<div class="properties">
+                                    break;
+                                case "class":
+                                    value = value.replace('focused', '');
+                                default:
+                                    html.push(`<div class="properties">
                                       <div class="propname">${name === "" ? "&#160;" : name}</div>
                                       <div class="propval"><input value="${value}"></div>
                                    </div>
@@ -720,7 +717,7 @@ class CustomForm {
                         //disables grids and browses in forms
                         if (type === 'Form') {
                             let isGrid = jQuery(originalHtml).parents('[data-type="Grid"]');
-                            if (isGrid.length !== 0 /*|| controlType === 'FwGrid'*/) {
+                            if (isGrid.length !== 0) {
                                 $form.find('#controlProperties .propval >').attr('disabled', 'disabled');
                                 $form.find('#controlProperties .addproperties, #controlProperties .deleteObject').remove();
                             }
@@ -772,10 +769,9 @@ class CustomForm {
                             jQuery(originalHtml).attr(`${attribute}`, `${value}`);
                         }
                     } else {
-                        jQuery(e.currentTarget).parents('.properties').hide(); //.remove() triggers the if statement to run again (not sure why)
+                        jQuery(e.currentTarget).parents('.properties').hide();
                         jQuery($customFormClone).find(`div[data-index="${index}"]`).removeAttr(`${attribute}`);
                         jQuery(originalHtml).removeAttr(`${attribute}`);
-                        //FwConfirmation.renderConfirmation('Remove Property', 'Remove property?');
                     }
 
                     switch (type) {
@@ -860,6 +856,7 @@ class CustomForm {
                         jQuery(e.currentTarget).trigger('change');
                     }
                 })
+                //delete button
                 .off('click', '.deleteObject')
                 .on('click', '.deleteObject', e => {
                     let $confirmation = FwConfirmation.renderConfirmation('Delete', 'Delete this object?');
@@ -887,13 +884,14 @@ class CustomForm {
                         updateHtml();
                     });
                 })
+                //add new columnn button
                 .off('click', '.addColumn')
                 .on('click', '.addColumn', e => {
                     let $control = jQuery($customFormClone).find(`[data-type="${type}"]`);
                     let lastIndex = Number($control.find('div:last').attr('data-index'));
                     let hasSpacer = $control.find('div:last').hasClass('spacer');
-                    let newTdIndex = lastIndex+1;
-                    let newFieldIndex = newTdIndex+1;
+                    let newTdIndex = lastIndex + 1;
+                    let newFieldIndex = newTdIndex + 1;
                     //build column base
                     let html: any = [];
                     html.push
@@ -903,9 +901,9 @@ class CustomForm {
 `); //needs to be formatted this way so it looks nice in the code editor
 
                     let newColumn = jQuery(html.join(''));
-       
+
                     hasSpacer === true ? newColumn.insertBefore($control.find('div.spacer')) : $control.append(newColumn);
-                  
+
                     originalHtml = newColumn.find('.field');
 
                     //build properties column
@@ -969,7 +967,7 @@ class CustomForm {
                 });
         }
     }
-    getValueOptions(fieldname) {
+    getValueOptions(fieldname: string) {
         var values: any = [];
         switch (fieldname) {
             case 'data-browsedatatype':
