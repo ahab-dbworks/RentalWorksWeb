@@ -37,7 +37,7 @@ class FwSchedulerClass {
         html.push('      <div id="' + navmonthid + '"></div>');
         html.push('    </div>');
         html.push('  </div>');
-        html.push('  <div class="fourweekcontainer" style="display:none;">');
+        html.push('  <div class="fiveweekcontainer" style="display:none;">');
         html.push('    <div class="dpmonthcontainer">');
         html.push('      <div id="' + dp5weekid + '" class="dp5week"></div>');
         html.push('    </div>');
@@ -253,7 +253,7 @@ class FwSchedulerClass {
     loadControl($control) {
         FwScheduler.loadNavCalendar($control);
         FwScheduler.loadNavMonth($control);
-        FwScheduler.loadNav4Week($control);
+        FwScheduler.loadNav5Week($control);
         FwScheduler.loadNavScheduler($control);
         FwScheduler.loadCalendar($control);
         FwScheduler.loadMonth($control);
@@ -286,7 +286,7 @@ class FwSchedulerClass {
         navcalendar.init();
     }
     ;
-    loadNav4Week($control) {
+    loadNav5Week($control) {
         var nav5week;
         nav5week = new DayPilot.Navigator($control.attr('data-nav5weekid'));
         $control.data('nav5week', nav5week);
@@ -513,10 +513,12 @@ class FwSchedulerClass {
             case '5 Week':
                 nav5week = $control.data('nav5week');
                 nav5week.select(date);
+                nav5week._timeRangeSelectedDispatch();
                 break;
             case 'Month':
                 navmonth = $control.data('navmonth');
                 navmonth.select(date);
+                navmonth._timeRangeSelectedDispatch();
                 break;
             case 'Schedule':
                 navscheduler = $control.data('navscheduler');
@@ -533,7 +535,7 @@ class FwSchedulerClass {
         dpcalendar = $control.data('dpcalendar');
         dpcalendar.viewType = "Day";
         dpcalendar.update();
-        $control.find('.fourweekcontainer').hide();
+        $control.find('.fiveweekcontainer').hide();
         $control.find('.monthcontainer').hide();
         $control.find('.schedulercontainer').hide();
         $control.find('.calendarcontainer').show();
@@ -553,7 +555,7 @@ class FwSchedulerClass {
         dpcalendar = $control.data('dpcalendar');
         dpcalendar.viewType = "Week";
         dpcalendar.update();
-        $control.find('.fourweekcontainer').hide();
+        $control.find('.fiveweekcontainer').hide();
         $control.find('.monthcontainer').hide();
         $control.find('.schedulercontainer').hide();
         $control.find('.calendarcontainer').show();
@@ -570,7 +572,7 @@ class FwSchedulerClass {
         navcalendar = $control.data('navcalendar');
         navcalendar.selectMode = "week";
         navcalendar.update();
-        $control.find('.fourweekcontainer').show();
+        $control.find('.fiveweekcontainer').show();
         $control.find('.calendarcontainer').hide();
         $control.find('.schedulercontainer').hide();
         $control.find('.monthcontainer').hide();
@@ -590,7 +592,7 @@ class FwSchedulerClass {
         dpcalendar = $control.data('dpcalendar');
         dpcalendar.viewType = "Month";
         dpcalendar.update();
-        $control.find('.fourweekcontainer').hide();
+        $control.find('.fiveweekcontainer').hide();
         $control.find('.calendarcontainer').hide();
         $control.find('.schedulercontainer').hide();
         $control.find('.monthcontainer').show();
@@ -760,6 +762,11 @@ class FwSchedulerClass {
             case 'Week':
                 firstdayofweek = date.firstDayOfWeek();
                 lastdayofweek = firstdayofweek.addDays(6);
+                $datecallout.html(monthnames[firstdayofweek.getMonth()] + ' ' + firstdayofweek.getDay() + ' - ' + monthnames[lastdayofweek.getMonth()] + ' ' + lastdayofweek.getDay() + ', ' + lastdayofweek.getYear());
+                break;
+            case '5 Week':
+                firstdayofweek = date.firstDayOfWeek();
+                lastdayofweek = firstdayofweek.addDays(34);
                 $datecallout.html(monthnames[firstdayofweek.getMonth()] + ' ' + firstdayofweek.getDay() + ' - ' + monthnames[lastdayofweek.getMonth()] + ' ' + lastdayofweek.getDay() + ', ' + lastdayofweek.getYear());
                 break;
             case 'Month':

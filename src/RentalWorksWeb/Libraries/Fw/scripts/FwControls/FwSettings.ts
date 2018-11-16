@@ -875,7 +875,7 @@ class FwSettingsClass {
                     $formSections = $form.find('.fwform-section-title');
                     $form.find('.highlighted').removeClass('highlighted');
                     $form.find('div[data-type="NewMenuBarButton"]').off();
-                    $form.find('div.fwform-menu > .buttonbar').append('<div class="btn-delete" data-type="DeleteMenuBarButton"><i class="material-icons"></i><div class="btn-text">Delete</div></div>');
+                    $form.find('div.fwmenu > .buttonbar').append('<div class="btn-delete" data-type="DeleteMenuBarButton"><i class="material-icons"></i><div class="btn-text">Delete</div></div>');
 
                     for (var key in recordData) {
                         for (var i = 0; i < me.filter.length; i++) {

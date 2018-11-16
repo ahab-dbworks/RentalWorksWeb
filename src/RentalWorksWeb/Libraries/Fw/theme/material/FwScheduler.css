@@ -11,9 +11,9 @@ html.theme-material .fwscheduler .dpcalendarcontainer {float:left;width:1200px;}
 html.theme-material .fwscheduler .monthcontainer {overflow:hidden;}
 html.theme-material .fwscheduler .navmonthcontainer {float:left;width:145px;}
 html.theme-material .fwscheduler .dpmonthcontainer {float:left;width:1200px;}
-html.theme-material .fwscheduler .fourweekcontainer {overflow:hidden;}
-html.theme-material .fwscheduler .nav4weekcontainer {float:left;width:145px;}
-html.theme-material .fwscheduler .dp4weekcontainer {float:left;width:1200px;}
+html.theme-material .fwscheduler .fiveweekcontainer {overflow:hidden;}
+html.theme-material .fwscheduler .nav5weekcontainer {float:left;width:145px;}
+html.theme-material .fwscheduler .dp5weekcontainer {float:left;width:1200px;}
 html.theme-material .fwscheduler .schedulercontainer {overflow:hidden;}
 html.theme-material .fwscheduler .navschedulercontainer {float:left;width:145px;}
 html.theme-material .fwscheduler .dpschedulercontainer {float:left;width:1200px;}
