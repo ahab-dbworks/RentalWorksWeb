@@ -2246,7 +2246,7 @@ class FwBrowseClass {
                             var $browsecontextmenu = jQuery(this);
                             //me.unselectAllRows($control);
                             //me.selectRow($control, $tr, true);
-                            var $contextmenu = FwContextMenu.render('Options', 'bottomleft', $browsecontextmenu);
+                            var $contextmenu = FwContextMenu.render('Options', 'bottomleft', $browsecontextmenu, e);
                             //$contextmenu.data('beforedestroy', function () {
                             //    me.unselectRow($control, $tr);
                             //});
