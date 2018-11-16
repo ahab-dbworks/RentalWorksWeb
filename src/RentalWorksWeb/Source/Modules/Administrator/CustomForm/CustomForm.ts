@@ -839,7 +839,8 @@ class CustomForm {
                                       <div class="propval"><input value="${newPropVal}"></div>
                                    </div>
                         `);
-                        $form.find('#controlProperties .addproperties').before(html.join(''));
+                        $form.find('#controlProperties .addproperties')
+                            .before(html.join(''));
 
                         jQuery(originalHtml).attr(`${newProp}`, `${newPropVal}`);
                         jQuery($customFormClone).find(`div[data-index="${index}"]`).attr(`${newProp}`, `${newPropVal}`);
@@ -847,6 +848,9 @@ class CustomForm {
                         jQuery(e.currentTarget).find('input').val('');
 
                         updateHtml();
+
+                        $form.find('#controlProperties .properties:even')
+                            .css('background-color', '#f7f7f7');
                     }
                 })
                 .off('keydown', '#controlProperties .addpropval')
@@ -984,6 +988,7 @@ class CustomForm {
                     , 'email'
                     , 'key'
                     , 'money'
+                    , 'note'
                     , 'number'
                     , 'percent'
                     , 'phone'
