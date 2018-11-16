@@ -1,20 +1,20 @@
 class FwSchedulerClass {
     renderRuntimeHtml($control) {
-        var html, $daypilotcontrol, dp, nav, navcalendarid, dpcalendarid, navmonthid, nav4weekid, dpmonthid, dp4weekid, navschedulerid, dpschedulerid, viewCount, schedulerbtns, $schedulerbtns, $calendarmenu, $menucontrol, $form, controller;
+        var html, $daypilotcontrol, dp, nav, navcalendarid, dpcalendarid, navmonthid, nav5weekid, dpmonthid, dp5weekid, navschedulerid, dpschedulerid, viewCount, schedulerbtns, $schedulerbtns, $calendarmenu, $menucontrol, $form, controller;
         navcalendarid = FwControl.generateControlId('navcalendar');
         dpcalendarid = FwControl.generateControlId('dpcalendar');
         navmonthid = FwControl.generateControlId('navmonth');
         dpmonthid = FwControl.generateControlId('dpmonth');
-        nav4weekid = FwControl.generateControlId('nav4week');
-        dp4weekid = FwControl.generateControlId('dp4weekid');
+        nav5weekid = FwControl.generateControlId('nav5week');
+        dp5weekid = FwControl.generateControlId('dp5weekid');
         navschedulerid = FwControl.generateControlId('navscheduler');
         dpschedulerid = FwControl.generateControlId('dpscheduler');
         $control.attr('data-navcalendarid', navcalendarid);
         $control.attr('data-dpcalendarid', dpcalendarid);
         $control.attr('data-navmonthid', navmonthid);
         $control.attr('data-dpmonthid', dpmonthid);
-        $control.attr('data-nav4weekid', nav4weekid);
-        $control.attr('data-dp4weekid', dp4weekid);
+        $control.attr('data-nav5weekid', nav5weekid);
+        $control.attr('data-dp5weekid', dp5weekid);
         $control.attr('data-navschedulerid', navschedulerid);
         $control.attr('data-dpschedulerid', dpschedulerid);
         html = [];
@@ -39,10 +39,10 @@ class FwSchedulerClass {
         html.push('  </div>');
         html.push('  <div class="fourweekcontainer" style="display:none;">');
         html.push('    <div class="dpmonthcontainer">');
-        html.push('      <div id="' + dp4weekid + '" class="dp4week"></div>');
+        html.push('      <div id="' + dp5weekid + '" class="dp5week"></div>');
         html.push('    </div>');
-        html.push('    <div class="nav4weekcontainer">');
-        html.push('      <div id="' + nav4weekid + '"></div>');
+        html.push('    <div class="nav5weekcontainer">');
+        html.push('      <div id="' + nav5weekid + '"></div>');
         html.push('    </div>');
         html.push('  </div>');
         html.push('  <div class="schedulercontainer" style="display:none;">');
@@ -64,7 +64,7 @@ class FwSchedulerClass {
         schedulerbtns.push('  <div class="toggleView">');
         schedulerbtns.push('    <div class="changeview btnDay">Day</div>');
         schedulerbtns.push('    <div class="changeview btnWeek">Week</div>');
-        schedulerbtns.push('    <div class="changeview btn4Week">4 Week</div>');
+        schedulerbtns.push('    <div class="changeview btn4Week">5 Week</div>');
         schedulerbtns.push('    <div class="changeview btnMonth">Month</div>');
         schedulerbtns.push('    <div class="changeview btnSchedule">Schedule</div>');
         schedulerbtns.push('  </div>');
@@ -98,7 +98,7 @@ class FwSchedulerClass {
     }
     ;
     init($control) {
-        $control.on('mousewheel', '.navcalendarcontainer,.navmonthcontainer, .nav4weekcontainer, .navschedulercontainer', function (event) {
+        $control.on('mousewheel', '.navcalendarcontainer,.navmonthcontainer, .nav5weekcontainer, .navschedulercontainer', function (event) {
             if (jQuery('.pleasewait').length === 0) {
                 if (event.deltaY < 0) {
                     $control.find('.btnNext').click();
@@ -159,7 +159,7 @@ class FwSchedulerClass {
             }
         });
         $control.on('click', '.btnNext', function () {
-            var currentDay, nextDay, nextWeek, next4Week, nextMonth, navcalendar, navmonth, navscheduler;
+            var currentDay, nextDay, nextWeek, next4Week, nextMonth, navcalendar, nav5week, navmonth, navscheduler;
             try {
                 if ($control.find('.btnDay').attr('data-selected') === 'true') {
                     navcalendar = $control.data('navcalendar');
@@ -174,9 +174,9 @@ class FwSchedulerClass {
                     FwScheduler.navigate($control, nextWeek);
                 }
                 else if ($control.find('.btn4Week').attr('data-selected') === 'true') {
-                    navmonth = $control.data('navmonth');
-                    currentDay = navcalendar.selectionStart;
-                    next4Week = navmonth.addDays(28);
+                    nav5week = $control.data('nav5week');
+                    currentDay = nav5week.selectionDay;
+                    next4Week = currentDay.addDays(35);
                     FwScheduler.navigate($control, next4Week);
                 }
                 else if ($control.find('.btnMonth').attr('data-selected') === 'true') {
@@ -197,7 +197,7 @@ class FwSchedulerClass {
             }
         });
         $control.on('click', '.btnPrev', function () {
-            var currentDay, previousDay, previousWeek, previous4Week, previousMonth, navcalendar, navmonth, navscheduler;
+            var currentDay, previousDay, previousWeek, previous4Week, previousMonth, nav5week, navcalendar, navmonth, navscheduler;
             try {
                 if ($control.find('.btnDay').attr('data-selected') === 'true') {
                     navcalendar = $control.data('navcalendar');
@@ -212,9 +212,9 @@ class FwSchedulerClass {
                     FwScheduler.navigate($control, previousWeek);
                 }
                 else if ($control.find('.btn4Week').attr('data-selected') === 'true') {
-                    navmonth = $control.data('navmonth');
-                    currentDay = navmonth.selectionStart;
-                    previous4Week = currentDay.addDays(-28);
+                    nav5week = $control.data('nav5week');
+                    currentDay = nav5week.selectionDay;
+                    previous4Week = currentDay.addDays(-35);
                     FwScheduler.navigate($control, previous4Week);
                 }
                 else if ($control.find('.btnMonth').attr('data-selected') === 'true') {
@@ -287,27 +287,27 @@ class FwSchedulerClass {
     }
     ;
     loadNav4Week($control) {
-        var nav4week;
-        nav4week = new DayPilot.Navigator($control.attr('data-nav4weekid'));
-        $control.data('nav4week', nav4week);
-        nav4week.showMonths = 3;
-        nav4week.skipMonths = 3;
-        nav4week.selectMode = "month";
-        nav4week.weekStarts = 0;
-        nav4week.onTimeRangeSelected = function (args) {
-            var dp4week;
+        var nav5week;
+        nav5week = new DayPilot.Navigator($control.attr('data-nav5weekid'));
+        $control.data('nav5week', nav5week);
+        nav5week.showMonths = 3;
+        nav5week.skipMonths = 3;
+        nav5week.selectMode = "month";
+        nav5week.weekStarts = 0;
+        nav5week.onTimeRangeSelected = function (args) {
+            var dp5week;
             try {
-                dp4week = $control.data('dp4week');
-                dp4week.startDate = args.start;
-                dp4week.days = args.days;
+                dp5week = $control.data('dp5week');
+                dp5week.startDate = args.start;
+                dp5week.days = args.days;
                 FwScheduler.loadEvents($control);
-                dp4week.update();
+                dp5week.update();
             }
             catch (ex) {
                 FwFunc.showError(ex);
             }
         };
-        nav4week.init();
+        nav5week.init();
     }
     ;
     loadNavMonth($control) {
@@ -424,28 +424,28 @@ class FwSchedulerClass {
     }
     ;
     load4Week($control) {
-        var dp4week;
-        dp4week = new DayPilot.Month($control.attr('data-dp4weekid'));
-        $control.data('dp4week', dp4week);
-        dp4week.cellWidth = 40;
-        dp4week.eventHeight = 25;
-        dp4week.headerHeight = 25;
-        dp4week.rowHeaderWidth = 200;
-        dp4week.weekStarts = 0;
-        dp4week.eventClickHandling = 'Disabled';
-        dp4week.eventMoveHandling = 'Disabled';
-        dp4week.eventResizeHandling = 'Disabled';
-        dp4week.viewType = 'Weeks';
-        dp4week.weeks = 4;
-        dp4week.onTimeRangeSelected = function (args) {
+        var dp5week;
+        dp5week = new DayPilot.Month($control.attr('data-dp5weekid'));
+        $control.data('dp5week', dp5week);
+        dp5week.cellWidth = 40;
+        dp5week.eventHeight = 25;
+        dp5week.headerHeight = 25;
+        dp5week.rowHeaderWidth = 200;
+        dp5week.weekStarts = 0;
+        dp5week.eventClickHandling = 'Disabled';
+        dp5week.eventMoveHandling = 'Disabled';
+        dp5week.eventResizeHandling = 'Disabled';
+        dp5week.viewType = 'Weeks';
+        dp5week.weeks = 5;
+        dp5week.onTimeRangeSelected = function (args) {
             $control.data('selectedstartdate', args.start);
             $control.data('selectedenddate', args.end.addSeconds(-1));
-            dp4week.clearSelection();
-            dp4week.update();
+            dp5week.clearSelection();
+            dp5week.update();
         };
         if (typeof $control.data('ontimerangedoubleclicked') === 'function')
-            dp4week.onTimeRangeDoubleClicked = $control.data('ontimerangedoubleclicked');
-        dp4week.onBeforeCellRender = function (args) {
+            dp5week.onTimeRangeDoubleClicked = $control.data('ontimerangedoubleclicked');
+        dp5week.onBeforeCellRender = function (args) {
             var selectedstartdate, selectedenddate;
             args.cell.backColor = ((args.cell.start.getMonth() % 2) === 0) ? "#f0f0f0" : "#e2e2e2";
             if (args.cell.start.getDatePart().getTime() === new DayPilot.Date().getDatePart().getTime()) {
@@ -459,11 +459,11 @@ class FwSchedulerClass {
                 }
             }
         };
-        dp4week.bubble = new DayPilot.Bubble({
+        dp5week.bubble = new DayPilot.Bubble({
             cssOnly: true,
             cssClassPrefix: "bubble_default"
         });
-        dp4week.init();
+        dp5week.init();
     }
     ;
     loadScheduler($control) {
@@ -498,7 +498,7 @@ class FwSchedulerClass {
     }
     ;
     navigate($control, date) {
-        var navcalendar, nav4week, navmonth, navscheduler, $changeview, dpmonth;
+        var navcalendar, nav5week, navmonth, navscheduler, $changeview, dpmonth;
         if (typeof date === 'string') {
             date = DayPilot.Date(new Date(date).toISOString(), true).getDatePart();
         }
@@ -510,15 +510,13 @@ class FwSchedulerClass {
                 navcalendar = $control.data('navcalendar');
                 navcalendar.select(date);
                 break;
-            case '4 Week':
-                nav4week = $control.data('nav4week');
-                nav4week.select(date);
-                dpmonth = $control.data('dp4week');
+            case '5 Week':
+                nav5week = $control.data('nav5week');
+                nav5week.select(date);
                 break;
             case 'Month':
                 navmonth = $control.data('navmonth');
                 navmonth.select(date);
-                dpmonth = $control.data('dpmonth');
                 break;
             case 'Schedule':
                 navscheduler = $control.data('navscheduler');
@@ -625,9 +623,9 @@ class FwSchedulerClass {
     }
     ;
     loadEvents($control) {
-        var ongetevents, request, dpcalendar, dp4week, dpmonth, dpscheduler, start, days;
+        var ongetevents, request, dpcalendar, dp5week, dpmonth, dpscheduler, start, days;
         dpcalendar = $control.data('dpcalendar');
-        dp4week = $control.data('dp4week');
+        dp5week = $control.data('dp5week');
         dpmonth = $control.data('dpmonth');
         dpscheduler = $control.data('dpscheduler');
         if (typeof $control.data('ongetevents') === 'function') {
@@ -638,9 +636,9 @@ class FwSchedulerClass {
                     start = dpcalendar.startDate.addDays(-dpmonth.startDate.dayOfWeek());
                     days = dpcalendar.days + dpmonth.startDate.dayOfWeek() + (6 - dpmonth.startDate.addDays(dpmonth.days).dayOfWeek());
                     break;
-                case '4 Week':
-                    start = dpcalendar.startDate.addDays(-dp4week.startDate.dayOfWeek());
-                    days = dp4week.days + dp4week.startDate.dayOfWeek() + (6 - dp4week.startDate.addDays(dp4week.days).dayOfWeek());
+                case '5 Week':
+                    start = dp5week.startDate.addDays(-dp5week.startDate.dayOfWeek());
+                    days = dp5week.days + dp5week.startDate.dayOfWeek() + (6 - dp5week.startDate.addDays(dp5week.days).dayOfWeek());
                     break;
                 case 'Month':
                     start = dpmonth.startDate.addDays(-dpmonth.startDate.dayOfWeek());
@@ -664,9 +662,9 @@ class FwSchedulerClass {
     }
     ;
     loadEventsCallback($control, resources, events) {
-        var dpcalendar, dp4week, dpmonth, dpscheduler, start, end, request;
+        var dpcalendar, dp5week, dpmonth, dpscheduler, start, end, request;
         dpcalendar = $control.data('dpcalendar');
-        dp4week = $control.data('dp4week');
+        dp5week = $control.data('dp5week');
         dpmonth = $control.data('dpmonth');
         dpscheduler = $control.data('dpscheduler');
         if ((typeof dpcalendar !== 'undefined') && (typeof dpmonth !== 'undefined') && (typeof dpscheduler !== 'undefined')) {
@@ -677,8 +675,8 @@ class FwSchedulerClass {
                 case 'Week':
                     FwScheduler.setDateCallout($control, dpcalendar.startDate);
                     break;
-                case '4 Week':
-                    FwScheduler.setDateCallout($control, dp4week.startDate);
+                case '5 Week':
+                    FwScheduler.setDateCallout($control, dp5week.startDate);
                     break;
                 case 'Month':
                     FwScheduler.setDateCallout($control, dpmonth.startDate);
@@ -690,9 +688,9 @@ class FwSchedulerClass {
             dpcalendar.resources = resources;
             dpcalendar.events.list = events;
             dpcalendar.update();
-            dp4week.resources = resources;
-            dp4week.events.list = events;
-            dp4week.update();
+            dp5week.resources = resources;
+            dp5week.events.list = events;
+            dp5week.update();
             dpmonth.resources = resources;
             dpmonth.events.list = events;
             dpmonth.update();

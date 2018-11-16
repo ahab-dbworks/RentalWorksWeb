@@ -57,22 +57,17 @@
         //let warehouseId = JSON.parse(sessionStorage.warehouse).warehouseid;
         let warehouseId = JSON.parse(sessionStorage.getItem('warehouse')).warehouseid;   //justin 11/11/2018 fixing build error
         let inventoryId = uniqueids.InventoryId;
-        const startOfMonth = moment().startOf('month').format('MM/DD/YYYY');
-        const endOfMonth = moment().endOf('month').format('MM/DD/YYYY');
+        let startOfMonth = moment().startOf('month').format('MM/DD/YYYY');
+        let endOfMonth = moment().endOf('month').format('MM/DD/YYYY');
 
         $calendar = $form.find('.calendar');
         $calendar
-            .data('ongetevents', function () {
+            .data('ongetevents', function (request) {
+                startOfMonth = moment(request.start.value).format('MM/DD/YYYY');
+                endOfMonth = moment(request.start.value).add(request.days, 'd').format('MM/DD/YYYY');
+
                 FwAppData.apiMethod(true, 'GET', `api/v1/inventoryavailabilitydate?InventoryId=${inventoryId}&WarehouseId=${warehouseId}&FromDate=${startOfMonth}&ToDate=${endOfMonth}`, null, FwServices.defaultTimeout, function onSuccess(response) {
                     FwScheduler.loadEventsCallback($calendar, [{ id: '1', name: '' }], response);
-                    //FwScheduler.loadEventsCallback($calendar, [{ id: '1', name: '' }], [{
-                    //    backColor: '#FFFFFF',
-                    //    end: '2018-11-10 10:00:00',
-                    //    html: '<div style="color:#000000">MISC CHARGES   Total 0.00</div>',
-                    //    id: '00000000-0000-0000-0000-000000000000',
-                    //    resource: '1',
-                    //    start: '2018-11-01 09:00:000'
-                    //}]);
                 }, function onError(response) {
                     FwFunc.showError(response);
                 }, $calendar)
