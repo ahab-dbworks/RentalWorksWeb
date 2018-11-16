@@ -29,6 +29,65 @@ class Vendor {
         return screen;
     }
     //---------------------------------------------------------------------------------
+    openBrowse() {
+        //var $browse;
+
+        //$browse = FwBrowse.loadBrowseFromTemplate(this.Module);
+        let $browse = jQuery(this.getBrowseTemplate());
+        $browse = FwModule.openBrowse($browse);
+
+        return $browse;
+    }
+    //---------------------------------------------------------------------------------
+    openForm(mode: string) {
+        //var $form;
+
+        //$form = FwModule.loadFormFromTemplate(this.Module);
+        let $form = jQuery(this.getFormTemplate());
+        $form = FwModule.openForm($form, mode);
+
+        this.events($form);
+
+        if (mode == 'NEW') {
+            this.toggleRequiredFields($form);
+            FwFormField.setValueByDataField($form, 'DefaultSubRentDaysPerWeek', 0);
+            FwFormField.setValueByDataField($form, 'DefaultSubRentDiscountPercent', 0);
+            FwFormField.setValueByDataField($form, 'DefaultSubSaleDiscountPercent', 0);
+        }
+
+        return $form;
+    }
+    //---------------------------------------------------------------------------------
+    loadForm(uniqueids: any) {
+        var $form = this.openForm('EDIT');
+        FwFormField.setValueByDataField($form, 'VendorId', uniqueids.VendorId);
+        FwModule.loadForm(this.Module, $form);
+
+        return $form;
+    }
+    //---------------------------------------------------------------------------------
+    saveForm($form: any, parameters: any) {
+        FwModule.saveForm(this.Module, $form, parameters);
+    }
+    //---------------------------------------------------------------------------------
+    loadAudit($form: any) {
+        var uniqueid = FwFormField.getValueByDataField($form, 'VendorId');
+        FwModule.loadAudit($form, uniqueid);
+    }
+    //---------------------------------------------------------------------------------
+    afterLoad($form: any) {
+        var $companyTaxOptionGrid = $form.find('[data-name="CompanyTaxOptionGrid"]');
+        FwBrowse.search($companyTaxOptionGrid);
+
+        var $vendorNoteGrid = $form.find('[data-name="VendorNoteGrid"]');
+        FwBrowse.search($vendorNoteGrid);
+
+        var $companyContactGrid: any = $form.find('[data-name="CompanyContactGrid"]');
+        FwBrowse.search($companyContactGrid);
+
+        this.setupEvents($form);
+    }
+    //---------------------------------------------------------------------------------
     setupEvents($form: JQuery): void {
         this.toggleRequiredFields($form.find('.tabpages'));
         this.togglePanels($form, FwFormField.getValueByDataField($form, 'VendorNameType'));
@@ -97,14 +156,17 @@ class Vendor {
     }
     //---------------------------------------------------------------------------------
     updateExternalInputsWithGridValues($tr: JQuery): void {
+        let TaxOption = $tr.find('.field[data-browsedatafield="TaxOptionId"]').attr('data-originaltext');
+
         $tr.find('.column > .field').each((i, e) => {
-            var $column = jQuery(e), id = $column.attr('data-browsedatafield'), value = $column.attr('data-originalvalue');
-            if (value == undefined || null) {
-                jQuery('.' + id).find(':input').val(0);
+            let $column = jQuery(e), id = $column.attr('data-browsedatafield'), value = $column.attr('data-originalvalue');
+            if (value === undefined || null) {
+                jQuery(`.${id}`).find(':input').val(0);
             } else {
-                jQuery('.' + id).find(':input').val(value);
+                jQuery(`.${id}`).find(':input').val(value);
             }
         });
+        jQuery('.TaxOption').find(':input').val(TaxOption);
     }
     //---------------------------------------------------------------------------------
     renderGrids($form: JQuery) {
@@ -152,67 +214,6 @@ class Vendor {
         });
         FwBrowse.init($companyContactControl);
         FwBrowse.renderRuntimeHtml($companyContactControl);
-    }
-    //---------------------------------------------------------------------------------
-    openBrowse() {
-        //var $browse;
-
-        //$browse = FwBrowse.loadBrowseFromTemplate(this.Module);
-        let $browse = jQuery(this.getBrowseTemplate());
-        $browse = FwModule.openBrowse($browse);
-
-        return $browse;
-    }
-    //---------------------------------------------------------------------------------
-    openForm(mode: string) {
-        //var $form;
-
-        //$form = FwModule.loadFormFromTemplate(this.Module);
-        let $form = jQuery(this.getFormTemplate());
-        $form = FwModule.openForm($form, mode);
-
-        this.events($form);
-
-        if (mode == 'NEW') {
-            this.toggleRequiredFields($form);
-            FwFormField.setValueByDataField($form, 'DefaultSubRentDaysPerWeek', 0);
-            FwFormField.setValueByDataField($form, 'DefaultSubRentDiscountPercent', 0);
-            FwFormField.setValueByDataField($form, 'DefaultSubSaleDiscountPercent', 0);
-        }
-
-        return $form;
-    }
-    //---------------------------------------------------------------------------------
-    loadForm(uniqueids: any) {
-        var $form = this.openForm('EDIT');
-        FwFormField.setValueByDataField($form, 'VendorId', uniqueids.VendorId);
-        FwModule.loadForm(this.Module, $form);
-
-        return $form;
-    }
-    //---------------------------------------------------------------------------------
-    saveForm($form: any, parameters: any) {
-        FwModule.saveForm(this.Module, $form, parameters);
-    }
-    //---------------------------------------------------------------------------------
-    loadAudit($form: any) {
-        var uniqueid = FwFormField.getValueByDataField($form, 'VendorId');
-        FwModule.loadAudit($form, uniqueid);
-    }
-    //---------------------------------------------------------------------------------
-    afterLoad($form: any) {
-        var $companyTaxOptionGrid = $form.find('[data-name="CompanyTaxOptionGrid"]');
-        FwBrowse.search($companyTaxOptionGrid);
-
-        var $vendorNoteGrid = $form.find('[data-name="VendorNoteGrid"]');
-        FwBrowse.search($vendorNoteGrid);
-
-        var $companyContactGrid: any = $form.find('[data-name="CompanyContactGrid"]');
-        FwBrowse.search($companyContactGrid);
-
-        //this.events($form);
-
-        this.setupEvents($form);
     }
     //---------------------------------------------------------------------------------
     getBrowseTemplate(): string {

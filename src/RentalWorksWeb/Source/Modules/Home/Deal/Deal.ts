@@ -592,14 +592,17 @@ class Deal {
     }
     //----------------------------------------------------------------------------------------------
     updateExternalInputsWithGridValues($tr: JQuery): void {
+        let TaxOption = $tr.find('.field[data-browsedatafield="TaxOptionId"]').attr('data-originaltext');
+
         $tr.find('.column > .field').each((i, e) => {
-            var $column = jQuery(e), id = $column.attr('data-browsedatafield'), value = $column.attr('data-originalvalue');
-            if (value == undefined || null) {
+            let $column = jQuery(e), id = $column.attr('data-browsedatafield'), value = $column.attr('data-originalvalue');
+            if (value === undefined || null) {
                 jQuery(`.${id}`).find(':input').val(0);
             } else {
                 jQuery(`.${id}`).find(':input').val(value);
             }
         });
+        jQuery('.TaxOption').find(':input').val(TaxOption);
     }
     //----------------------------------------------------------------------------------------------
     renderGrids($form: any) {

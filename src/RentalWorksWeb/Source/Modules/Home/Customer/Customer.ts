@@ -40,54 +40,6 @@ class Customer {
         return screen;
     }
     //----------------------------------------------------------------------------------------------
-    events($form: JQuery): void {
-        $form.find('[data-name="CompanyTaxOptionGrid"]').data('onselectedrowchanged', ($control: JQuery, $tr: JQuery) => {
-            try {
-                this.updateExternalInputsWithGridValues($tr);
-            } catch (ex) {
-                FwFunc.showError(ex);
-            }
-        });
-        //Billing Address Type Change
-        $form.find('.billing_address_type').on('change', () => {
-            this.addressTypeChange($form);
-        });
-        //Shipping Address Type Change
-        $form.find('.shipping_address_type').on('change', () => {
-            this.addressTypeChange($form);
-        });
-        //Customer Address Change
-        $form.find('.customer_address input').on('change', () => {
-            this.addressTypeChange($form);
-        });
-        // Insurance Vendor validation
-        $form.find('div[data-datafield="InsuranceCompanyId"]').data('onchange', $tr => {
-            FwFormField.setValueByDataField($form, 'InsuranceAgent', $tr.find('.field[data-formdatafield="PrimaryContact"]').attr('data-originalvalue'));
-            FwFormField.setValueByDataField($form, 'InsuranceCompanyAddress1', $tr.find('.field[data-formdatafield="Address1"]').attr('data-originalvalue'));
-            FwFormField.setValueByDataField($form, 'InsuranceCompanyAddress2', $tr.find('.field[data-formdatafield="Address2"]').attr('data-originalvalue'));
-            FwFormField.setValueByDataField($form, 'InsuranceCompanyCity', $tr.find('.field[data-formdatafield="City"]').attr('data-originalvalue'));
-            FwFormField.setValueByDataField($form, 'InsuranceCompanyState', $tr.find('.field[data-formdatafield="State"]').attr('data-originalvalue'));
-            FwFormField.setValueByDataField($form, 'InsuranceCompanyZipCode', $tr.find('.field[data-formdatafield="ZipCode"]').attr('data-originalvalue'));
-            FwFormField.setValueByDataField($form, 'InsuranceCompanyFax', $tr.find('.field[data-formdatafield="Fax"]').attr('data-originalvalue'));
-            FwFormField.setValueByDataField($form, 'InsuranceCompanyPhone', $tr.find('.field[data-formdatafield="Phone"]').attr('data-originalvalue'));
-            FwFormField.setValue($form, 'div[data-datafield="InsuranceCompanyCountryId"]', $tr.find('.field[data-formdatafield="CountryId"]').attr('data-originalvalue'), $tr.find('.field[data-formdatafield="Country"]').attr('data-originalvalue'));
-        });
-    }
-
-    updateExternalInputsWithGridValues($tr: JQuery): void {
-        let TaxOption = $tr.find('.field[data-browsedatafield="TaxOptionId"]').attr('data-originaltext');
-
-        $tr.find('.column > .field').each((i, e) => {
-            let $column = jQuery(e), id = $column.attr('data-browsedatafield'), value = $column.attr('data-originalvalue');
-            if (value === undefined || null) {
-                jQuery(`.${id}`).find(':input').val(0);
-            } else {
-                jQuery(`.${id}`).find(':input').val(value);
-            }
-        });
-        jQuery('.TaxOption').find(':input').val(TaxOption);
-    }
-    //----------------------------------------------------------------------------------------------
     openBrowse() {
         let $browse = jQuery(this.getBrowseTemplate());
         $browse = FwModule.openBrowse($browse);
@@ -349,6 +301,54 @@ class Customer {
         });
 
         this.addressTypeChange($form);
+    }
+    //----------------------------------------------------------------------------------------------
+    events($form: JQuery): void {
+        $form.find('[data-name="CompanyTaxOptionGrid"]').data('onselectedrowchanged', ($control: JQuery, $tr: JQuery) => {
+            try {
+                this.updateExternalInputsWithGridValues($tr);
+            } catch (ex) {
+                FwFunc.showError(ex);
+            }
+        });
+        //Billing Address Type Change
+        $form.find('.billing_address_type').on('change', () => {
+            this.addressTypeChange($form);
+        });
+        //Shipping Address Type Change
+        $form.find('.shipping_address_type').on('change', () => {
+            this.addressTypeChange($form);
+        });
+        //Customer Address Change
+        $form.find('.customer_address input').on('change', () => {
+            this.addressTypeChange($form);
+        });
+        // Insurance Vendor validation
+        $form.find('div[data-datafield="InsuranceCompanyId"]').data('onchange', $tr => {
+            FwFormField.setValueByDataField($form, 'InsuranceAgent', $tr.find('.field[data-formdatafield="PrimaryContact"]').attr('data-originalvalue'));
+            FwFormField.setValueByDataField($form, 'InsuranceCompanyAddress1', $tr.find('.field[data-formdatafield="Address1"]').attr('data-originalvalue'));
+            FwFormField.setValueByDataField($form, 'InsuranceCompanyAddress2', $tr.find('.field[data-formdatafield="Address2"]').attr('data-originalvalue'));
+            FwFormField.setValueByDataField($form, 'InsuranceCompanyCity', $tr.find('.field[data-formdatafield="City"]').attr('data-originalvalue'));
+            FwFormField.setValueByDataField($form, 'InsuranceCompanyState', $tr.find('.field[data-formdatafield="State"]').attr('data-originalvalue'));
+            FwFormField.setValueByDataField($form, 'InsuranceCompanyZipCode', $tr.find('.field[data-formdatafield="ZipCode"]').attr('data-originalvalue'));
+            FwFormField.setValueByDataField($form, 'InsuranceCompanyFax', $tr.find('.field[data-formdatafield="Fax"]').attr('data-originalvalue'));
+            FwFormField.setValueByDataField($form, 'InsuranceCompanyPhone', $tr.find('.field[data-formdatafield="Phone"]').attr('data-originalvalue'));
+            FwFormField.setValue($form, 'div[data-datafield="InsuranceCompanyCountryId"]', $tr.find('.field[data-formdatafield="CountryId"]').attr('data-originalvalue'), $tr.find('.field[data-formdatafield="Country"]').attr('data-originalvalue'));
+        });
+    }
+    //----------------------------------------------------------------------------------------------
+    updateExternalInputsWithGridValues($tr: JQuery): void {
+        let TaxOption = $tr.find('.field[data-browsedatafield="TaxOptionId"]').attr('data-originaltext');
+
+        $tr.find('.column > .field').each((i, e) => {
+            let $column = jQuery(e), id = $column.attr('data-browsedatafield'), value = $column.attr('data-originalvalue');
+            if (value === undefined || null) {
+                jQuery(`.${id}`).find(':input').val(0);
+            } else {
+                jQuery(`.${id}`).find(':input').val(value);
+            }
+        });
+        jQuery('.TaxOption').find(':input').val(TaxOption);
     }
     //----------------------------------------------------------------------------------------------
     getBrowseTemplate(): string {
