@@ -98,6 +98,9 @@ class Receipt {
         if (mode === 'NEW') {
             const usersid = sessionStorage.getItem('usersid');  // J. Pace 7/09/18  C4E0E7F6-3B1C-4037-A50C-9825EDB47F44
             const name = sessionStorage.getItem('name');
+            const today = FwFunc.getDate();
+
+            FwFormField.setValueByDataField($form, 'ReceiptDate', today);
             FwFormField.enable($form.find('div[data-datafield="PaymentBy"]'));
             FwFormField.enable($form.find('div[data-datafield="DealId"]'));
             FwFormField.enable($form.find('div[data-datafield="CustomerId"]'));
