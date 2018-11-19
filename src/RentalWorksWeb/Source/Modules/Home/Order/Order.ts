@@ -2110,7 +2110,7 @@ class Order extends OrderBase {
             let $browse;
             $browse = FwBrowse.loadBrowseFromTemplate(this.Module);
             $browse.attr('data-hasmultirowselect', 'true');
-            $browse.attr('data-type', 'Grid');
+            $browse.attr('data-type', 'Browse');
             $browse.attr('data-showsearch', 'false');
             FwBrowse.setAfterRenderRowCallback($browse, function ($tr, dt, rowIndex) {
                 if (dt.Rows[rowIndex][dt.ColumnIndex['Status']] === 'CANCELLED') {
@@ -2124,6 +2124,7 @@ class Order extends OrderBase {
             //    request.activeview = self.ActiveView;
             //});
             $browse = FwModule.openBrowse($browse);
+            $browse.find('.fwbrowse-menu').hide();
 
             $browse.data('ondatabind', function (request) {
                 request.ActiveView = OrderController.ActiveView;
