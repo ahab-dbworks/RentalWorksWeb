@@ -20460,7 +20460,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": [],\n    \t\"uniqueids\": {\n    \t\t\"InventoryId\": \"F010F3BN\",\n    \t\t\"WarehouseId\": \"B0029AY5\",\n    \t\t\"FromDate\": \"10/29/2018\",\n    \t\t\"ToDate\": \"11/10/2018\"\n    \t}\n\t\n}\n\n"
+							"raw": ""
 						},
 						"url": {
 							"raw": "http://localhost:57949/api/v1/inventoryavailabilitydate?InventoryId=F010F3BN&WarehouseId=B0029AY5&FromDate=11/01/2018&ToDate=11/30/2018",
@@ -36553,6 +36553,46 @@
 								"v1",
 								"receipt",
 								"00003EOV"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Receipt Invoice",
+			"item": [
+				{
+					"name": "Receipt Invoice: Browse",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"InvoiceDate, InvoiceNumber\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": [],\n    \t\"uniqueids\": {\n    \t\t\"OfficeLocationId\": \"B0027KVM\",\n    \t\t\"ReceiptId\": \"\",\n    \t\t\"ReceiptDate\": \"11/18/2018\",\n    \t\t\"CustomerId\": \"D00FLH2T\",     \"xComment\": \"or DealId\"\n    \t}\n}\n\n"
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/receiptinvoice/browse",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"receiptinvoice",
+								"browse"
 							]
 						}
 					},
