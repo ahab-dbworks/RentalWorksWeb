@@ -10,6 +10,8 @@ using PuppeteerSharp;
 using PuppeteerSharp.Media;
 using FwStandard.SqlServer;
 using Microsoft.AspNetCore.Http;
+using static FwCore.Controllers.FwDataController;
+
 namespace WebApi.Modules.Reports.CreditsOnAccountReport
 {
 
@@ -54,6 +56,23 @@ namespace WebApi.Modules.Reports.CreditsOnAccountReport
             return new OkObjectResult(response);
         }
         //------------------------------------------------------------------------------------ 
+
+
+
+
+        //justin wip
+        // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
+        [HttpPost("exportexcelxlsx/{fileDownloadName}")]
+        [FwControllerMethod(Id: "dJal7v67Fx4")]
+        public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]CreditsOnAccountReportRequest request)
+        {
+            ActionResult<FwJsonDataTable> actionResult = await RunReportAsync(request);
+            FwJsonDataTable dt = (FwJsonDataTable)((OkObjectResult)(actionResult.Result)).Value ;
+            return await DoExportExcelXlsxFileAsync(dt);
+        }
+        //------------------------------------------------------------------------------------
+
+
         // POST api/v1/creditsonaccount/runreport 
         [HttpPost("runreport")]
         [FwControllerMethod(Id:"IKvvPD6VZArB")]
