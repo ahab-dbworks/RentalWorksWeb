@@ -561,10 +561,8 @@ class CustomForm {
                         let secondColumn = jQuery($customFormClone).find(`[data-index="${indexDrop}"]`).parent();
                         $this.replaceWith($elementDragged.parent());
                         if (domIndexDrag < domIndexDrop) {
-                            //$elementDragged.parents('td').insertAfter($elementDropped);
                             firstColumn.insertAfter(secondColumn);
                         } else if (domIndexDrag > domIndexDrop) {
-                            //$elementDragged.parents('td').insertBefore($elementDropped);
                             firstColumn.insertBefore(secondColumn);
                         }
                         updateHtml();
@@ -582,9 +580,19 @@ class CustomForm {
                 let indexDrop;
                 let $elementDragged;
                 let $preview;
-                let draggedParentIndex;
+                let $parent;
                 $draggableElements = $customForm.find('div.fwformfield');
                 $draggableElements.attr('draggable', 'true');
+
+                //find empty flexrows and add min-heights and allow dropping into
+                let flexRows = $customForm.find('div.flexrow');
+                for (let t = 0; t < flexRows.length; t++) {
+                    let $thisContainer = jQuery(flexRows[t]);
+                    if ($thisContainer.children().length === 0) {
+                        $thisContainer.css('min-height:50px;');
+                        $thisContainer.addClass('emptyContainer');
+                    }
+                }
                 $customForm
                     .off('dragstart', 'div.fwformfield')
                     .on('dragstart', 'div.fwformfield', e => {
@@ -595,17 +603,10 @@ class CustomForm {
                             .filter(function () {
                                 return jQuery(this).attr("data-index") === indexDrag;
                             });
-                        $elementDragged.parent().css('min-height', '50px');
+                        $parent = $elementDragged.parent();
                     })
                     .off('dragenter', 'div.fwformfield')
                     .on('dragenter', 'div.fwformfield', e => {
-                        let $this = jQuery(e.currentTarget);
-                        indexDrop = $this.attr('data-index');
-                        $customForm.find('div.placeholder').remove();
-                        if (indexDrag !== indexDrop) {
-                            $preview = jQuery(`<div class="placeholder" style="min-height:50px; line-height:50px; vertical-align:middle; font-weight:bold; text-align:center; flex:1 1 100px; border: 2px dashed #4caf50">Drop here</div>`);
-                            $preview.insertBefore($this);
-                        }
                     })
                     .off('dragleave', 'div.fwformfield')
                     .on('dragleave', 'div.fwformfield', e => {
@@ -613,6 +614,34 @@ class CustomForm {
                     .off('dragover', 'div.fwformfield')
                     .on('dragover', 'div.fwformfield', e => {
                         e.preventDefault();
+
+                        let $this = jQuery(e.currentTarget);
+                        indexDrop = $this.attr('data-index');
+                        $customForm.find('div.placeholder').remove();
+                        $preview = jQuery(`<div class="placeholder" style="min-height:50px; line-height:50px; vertical-align:middle; font-weight:bold; text-align:center; flex:1 1 100px; border: 2px dashed #4caf50">Drop here</div>`);
+
+                        let offset = $this.offset();
+                        let halfElementWidth = e.currentTarget.offsetWidth / 2;
+                        let x = e.pageX - offset.left;
+                        if (indexDrag !== indexDrop) {
+                            if (x < halfElementWidth) {
+                                $preview.insertBefore($this);
+                                $preview.addClass('addedBefore');
+                            } else if (x > halfElementWidth) {
+                                $preview.insertAfter($this);
+                                $preview.addClass('addedAfter');
+                            }
+                        }
+                    })
+                    .off('dragover', 'div.emptyContainer')
+                    .on('dragover', 'div.emptyContainer', e => {
+                        let $this = jQuery(e.currentTarget);
+                        $preview = jQuery(`<div class="placeholder" style="min-height:50px; line-height:50px; vertical-align:middle; font-weight:bold; text-align:center; flex:1 1 100px; border: 2px dashed #4caf50">Drop here</div>`);
+                        if ($this.children().length === 0) {
+                            $customForm.find('div.placeholder').remove();
+                            $this.append($preview);
+                            indexDrop = $this.attr('data-index');
+                        }
                     })
                     .off('drop', 'div.placeholder')
                     .on('drop', 'div.placeholder', e => {
@@ -622,8 +651,24 @@ class CustomForm {
                         let firstColumn = jQuery($customFormClone).find(`[data-index="${indexDrag}"]`);
                         let secondColumn = jQuery($customFormClone).find(`[data-index="${indexDrop}"]`);
 
+                        //check to see if dropping into empty div
+                        if ($this.parent().hasClass('emptyContainer')) {
+                            secondColumn.append(firstColumn);
+                            $this.parent().removeClass('emptyContainer');
+                        } else {
+                            if ($this.hasClass('addedBefore')) {
+                                firstColumn.insertBefore(secondColumn);
+                            } else if ($this.hasClass('addedAfter')) {
+                                firstColumn.insertAfter(secondColumn);
+                            }
+                        };
+
                         $this.replaceWith($elementDragged);
-                        firstColumn.insertBefore(secondColumn);
+
+                        if ($parent.children().length === 0) {
+                            $parent.css('min-height', '50px');
+                            $parent.addClass('emptyContainer');
+                        }
                         updateHtml();
                     })
                     .off('drop', 'div.fwformfield')
