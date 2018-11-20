@@ -432,10 +432,14 @@ class CustomForm {
             }
 
             if (type === 'Grid' || type === 'Browse') {
-                $form.find('.addColumn').show();
                 showHiddenColumns($customForm);
-            } else {
-                $form.find('.addColumn').hide();
+                $form.find('.addColumn')
+                    .css('margin-left', '27%')
+                    .text('Add New Column');
+            } else if (type === 'Form') {
+                $form.find('.addColumn')
+                    .css('margin-left', '31%')
+                    .text('Add New Field');
             };
 
             //updates information for HTML tab
@@ -502,7 +506,9 @@ class CustomForm {
                     </div>
                  </div>`; //closing div for propertyContainer
 
-            let deleteComponentHtml = '<div class="fwformcontrol deleteObject" data-type="button" style="margin-left:27%; margin-top:15px;">Delete Component</div>'
+            let deleteComponentHtml = '<div class="fwformcontrol deleteObject" data-type="button" style="margin-left:27%; margin-top:15px;">Delete Component</div>';
+
+            let lastIndex = Number(jQuery($customFormClone).find('div:last').attr('data-index'));
 
             //drag and drop
             let $draggableElements;
@@ -809,14 +815,19 @@ class CustomForm {
                                     jQuery($customFormClone).find(`div[data-index="${index}"]`).attr(`${attribute}`, `${value}`);
                                     jQuery(originalHtml).attr(`${attribute}`, `${value}`);
                             }
-                        } else {
+                        } else if (type === 'Form') {
                             jQuery($customFormClone).find(`div[data-index="${index}"]`).attr(`${attribute}`, `${value}`);
                             jQuery(originalHtml).attr(`${attribute}`, `${value}`);
                         }
                     } else {
-                        jQuery(e.currentTarget).parents('.properties').hide();
-                        jQuery($customFormClone).find(`div[data-index="${index}"]`).removeAttr(`${attribute}`);
-                        jQuery(originalHtml).removeAttr(`${attribute}`);
+                        if (attribute !== "data-datafield") { //for adding new fields
+                            jQuery(e.currentTarget).parents('.properties').hide();
+                            jQuery($customFormClone).find(`div[data-index="${index}"]`).removeAttr(`${attribute}`);
+                            jQuery(originalHtml).removeAttr(`${attribute}`);
+                        } else {
+                            jQuery($customFormClone).find(`div[data-index="${index}"]`).attr(`${attribute}`, `${value}`);
+                            jQuery(originalHtml).attr(`${attribute}`, `${value}`);
+                        }
                     }
 
                     switch (type) {
@@ -933,86 +944,163 @@ class CustomForm {
                         updateHtml();
                     });
                 })
-                //add new columnn button
+                //add new column/field button
                 .off('click', '.addColumn')
                 .on('click', '.addColumn', e => {
-                    let $control = jQuery($customFormClone).find(`[data-type="${type}"]`);
-                    let lastIndex = Number($control.find('div:last').attr('data-index'));
-                    let hasSpacer = $control.find('div:last').hasClass('spacer');
-                    let newTdIndex = lastIndex + 1;
-                    let newFieldIndex = newTdIndex + 1;
-                    //build column base
-                    let html: any = [];
-                    html.push
-                        (`<div class="column" data-index="${newTdIndex}">
+                    if (type === 'Browse' || type === 'Grid') {
+                        let $control = jQuery($customFormClone).find(`[data-type="${type}"]`);
+                        let hasSpacer = $control.find('div:last').hasClass('spacer');
+                        let newTdIndex = lastIndex + 1;
+                        let newFieldIndex = newTdIndex + 1;
+                        //build column base
+                        let html: any = [];
+                        html.push
+                            (`<div class="column" data-index="${newTdIndex}">
     <div class="field" data-index="${newFieldIndex}"></div>
   </div>
 `); //needs to be formatted this way so it looks nice in the code editor
 
-                    let newColumn = jQuery(html.join(''));
+                        let newColumn = jQuery(html.join(''));
 
-                    hasSpacer === true ? newColumn.insertBefore($control.find('div.spacer')) : $control.append(newColumn);
+                        hasSpacer === true ? newColumn.insertBefore($control.find('div.spacer')) : $control.append(newColumn);
 
-                    originalHtml = newColumn.find('.field');
+                        originalHtml = newColumn.find('.field');
 
-                    //build properties column
-                    let propertyHtml: any = [];
-                    let fields: any = [];
+                        //build properties column
+                        let propertyHtml: any = [];
+                        let fields: any = [];
 
-                    propertyHtml.push(propertyContainerHtml);
-                    fields = ['data-datafield', 'data-datatype', 'data-sort', 'data-width', 'data-visible', 'data-caption', 'class'];
-                    for (let i = 0; i < fields.length; i++) {
-                        var value;
-                        var field = fields[i];
-                        switch (field) {
-                            case 'data-datafield':
-                                value = ""
-                                break;
-                            case 'data-datatype':
-                                value = "text"
-                                break;
-                            case 'data-sort':
-                                value = "off"
-                                break;
-                            case 'data-width':
-                                value = "100px"
-                                break;
-                            case 'data-visible':
-                                value = "true"
-                                break;
-                            case 'data-caption':
-                                value = "New Column"
-                                break;
-                            case 'class':
-                                value = 'field';
-                        }
-                        propertyHtml.push(
-                            `<div class="properties">
+                        propertyHtml.push(propertyContainerHtml);
+                        fields = ['data-datafield', 'data-datatype', 'data-sort', 'data-width', 'data-visible', 'data-caption', 'class'];
+                        for (let i = 0; i < fields.length; i++) {
+                            var value;
+                            var field = fields[i];
+                            switch (field) {
+                                case 'data-datafield':
+                                    value = ""
+                                    break;
+                                case 'data-datatype':
+                                    value = "text"
+                                    break;
+                                case 'data-sort':
+                                    value = "off"
+                                    break;
+                                case 'data-width':
+                                    value = "100px"
+                                    break;
+                                case 'data-visible':
+                                    value = "true"
+                                    break;
+                                case 'data-caption':
+                                    value = "New Column"
+                                    break;
+                                case 'class':
+                                    value = 'field';
+                            }
+                            propertyHtml.push(
+                                `<div class="properties">
                                 <div class="propname" style="border:.5px solid #efefef;">${field}</div>
                                 <div class="propval" style="border:.5px solid #efefef;"><input value="${value}"></div>
                              </div>
                              `);
 
-                        jQuery(originalHtml).attr(`${field}`, `${value}`);
-                    };
-                    propertyHtml.push(addPropertiesHtml);
+                            jQuery(originalHtml).attr(`${field}`, `${value}`);
+                        };
+                        propertyHtml.push(addPropertiesHtml);
 
-                    let newProperties = $form.find('#controlProperties');
-                    newProperties
-                        .empty()
-                        .append(propertyHtml.join(''), deleteComponentHtml)
-                        .find('.properties:even')
-                        .css('background-color', '#f7f7f7');
+                        let newProperties = $form.find('#controlProperties');
+                        newProperties
+                            .empty()
+                            .append(propertyHtml.join(''), deleteComponentHtml)
+                            .find('.properties:even')
+                            .css('background-color', '#f7f7f7');
 
-                    //replace input field with select
-                    $form.find('#controlProperties .propname:contains("data-datafield")')
-                        .siblings('.propval')
-                        .find('input')
-                        .replaceWith(`<select style="width:94%" class="datafields" value="">`);
+                        //replace input field with select
+                        $form.find('#controlProperties .propname:contains("data-datafield")')
+                            .siblings('.propval')
+                            .find('input')
+                            .replaceWith(`<select style="width:94%" class="datafields" value="">`);
 
-                    addDatafields();
+                        addDatafields();
 
-                    $form.find('#controlProperties input').change();
+                        $form.find('#controlProperties input').change();
+
+                        lastIndex = newFieldIndex
+                    } else if (type === 'Form') {
+                        let $tabpage = $customForm.find('[data-type="tabpage"]:visible');
+                        let tabpageIndex = $tabpage.attr('data-index');
+
+                        let newFieldIndex = lastIndex + 1;
+                        let html: any = [];
+                        html.push(`<div data-index="${newFieldIndex}"></div>`);
+
+                        originalHtml = jQuery(html.join(''));
+
+                        //build properties column
+                        let propertyHtml: any = [];
+                        let fields: any = [];
+
+                        propertyHtml.push(propertyContainerHtml);
+                        fields = ['data-datafield', 'data-type', 'data-caption', 'class', 'data-control'];
+                        for (let i = 0; i < fields.length; i++) {
+                            var value;
+                            var field = fields[i];
+                            switch (field) {
+                                case 'data-datafield':
+                                    value = ""
+                                    break;
+                                case 'data-control':
+                                    value = "FwFormField"
+                                    break;
+                                case 'data-type':
+                                    value = "text"
+                                    break;
+                                case 'data-caption':
+                                    value = "New Field"
+                                    break;
+                                case 'class':
+                                    value = 'fwcontrol fwformfield';
+                            }
+                            propertyHtml.push(
+                                `<div class="properties">
+                                <div class="propname" style="border:.5px solid #efefef;">${field}</div>
+                                <div class="propval" style="border:.5px solid #efefef;"><input value="${value}"></div>
+                             </div>
+                             `);
+
+                            jQuery(originalHtml).attr(`${field}`, `${value}`);
+                        };
+                        propertyHtml.push(addPropertiesHtml);
+
+                        let newProperties = $form.find('#controlProperties');
+                        newProperties
+                            .empty()
+                            .append(propertyHtml.join(''), deleteComponentHtml)
+                            .find('.properties:even')
+                            .css('background-color', '#f7f7f7');
+
+                        //replace input field with select
+                        $form.find('#controlProperties .propname:contains("data-datafield")')
+                            .siblings('.propval')
+                            .find('input')
+                            .replaceWith(`<select style="width:94%" class="datafields" value="">`);
+
+                        addDatafields();
+
+                        $form.find('#controlProperties .propname:contains("data-type")')
+                            .siblings('.propval')
+                            .find('input')
+                            .replaceWith(`<select style="width:94%" class="valueOptions" value="text">`);
+
+                        addValueOptions();
+                        lastIndex = newFieldIndex;
+                        jQuery($customForm).find(`[data-index=${tabpageIndex}]`).append(originalHtml);
+                        jQuery($customFormClone).find(`[data-index=${tabpageIndex}]`).append(originalHtml[0].cloneNode(true));
+                        controlType = jQuery(originalHtml).attr('data-control');
+                        $draggableElements = $customForm.find('div.fwformfield');
+                        $draggableElements.attr('draggable', 'true');
+                        $form.find('#controlProperties input').change();
+                    }
                 });
         }
     }
