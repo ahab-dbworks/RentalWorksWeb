@@ -32,8 +32,8 @@ var templateCreditsOnAccountFrontEnd = `
 class RwCreditsOnAccountReport extends FwWebApiReport {
     //----------------------------------------------------------------------------------------------
     constructor() {
-        super('CreditsOnAccountReport', 'api/v1/creditsonaccountreport', templateCreditsOnAccountFrontEnd);
-        //this.reportOptions.HasDownloadExcel = true;
+        super('CreditsOnAccount', 'api/v1/creditsonaccountreport', templateCreditsOnAccountFrontEnd);
+        this.reportOptions.HasDownloadExcel = true;
     }
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
