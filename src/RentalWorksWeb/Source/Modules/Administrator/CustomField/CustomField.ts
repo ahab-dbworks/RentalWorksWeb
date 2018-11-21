@@ -86,6 +86,29 @@ class CustomField {
             allModules.push({ value: settingsModuleNav, text: settingsModuleCaption });
         };
 
+        const gridNode = FwApplicationTree.getNodeById(FwApplicationTree.tree, '43765919-4291-49DD-BE76-F69AA12B13E8');
+        let gridModules = FwApplicationTree.getChildrenByType(gridNode, 'Grid');
+        for (let i = 0; i < gridModules.length; i++) { //Traverse security tree and only add grids with 'New' or 'Edit' options 
+            let gridChildren = gridModules[i].children;
+            let menuBarNodePosition = gridChildren.map(function (x) { return x.properties.nodetype; }).indexOf('MenuBar');
+            if (menuBarNodePosition != -1) {
+                let menuBarChildren = gridChildren[menuBarNodePosition].children;
+                let newMenuBarButtonPosition = menuBarChildren.map(function (x) { return x.properties.nodetype; }).indexOf('NewMenuBarButton');
+                let editMenuBarButtonPosition = menuBarChildren.map(function (x) { return x.properties.nodetype; }).indexOf('EditMenuBarButton');
+                if (newMenuBarButtonPosition != -1 || editMenuBarButtonPosition != -1) {
+                    let moduleNav = gridModules[i].properties.controller.slice(0, -14)
+                        , moduleCaption = gridModules[i].properties.caption
+                        , moduleController = gridModules[i].properties.controller;
+                    if (typeof window[moduleController] !== 'undefined') {
+                        if (window[moduleController].hasOwnProperty('apiurl')) {
+                            let moduleUrl = window[moduleController].apiurl;
+                            allModules.push({ value: moduleNav, text: moduleCaption, apiurl: moduleUrl });
+                        }
+                    }
+                }
+            }
+        };
+
         //Sort modules
         function compare(a, b) {
             if (a.text < b.text)
