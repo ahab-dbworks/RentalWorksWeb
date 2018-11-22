@@ -7,7 +7,7 @@
             let $oldElement = $tr.find('[data-browsedatafield="Json"]');
             let changes = JSON.parse($oldElement.attr('data-originalvalue'));
             let html: Array<string> = [];
-
+            let htmlAnchor = `< <a style="color:blue;">HTML</a> >`; 
             html.push(`<ul class="auditHeader" style="font-size:14px; display:flex;">
                          <span style="font-weight:bold; float:left; width:225px; text-decoration:underline; padding-right:1em;">Field Name</span>
                          <span style="font-weight:bold; float:left; width:200px; text-decoration:underline; padding-right:1em;">Old Value</span>
@@ -19,16 +19,22 @@
                 for (let i = 0; i < changes.length; i++) {
                     if (typeof changes[i].OldValue === 'string') {
                         if (changes[i].OldValue.substring(0, 4) !== 'rgb(') { // For color related fields
-                            if (changes[i].FieldName === 'Html') {
+                            if (changes[i].FieldName === 'Html') { // add anchor tag with HTML
+                                if (changes[i].NewValue === " ") {
+                                    changes[i].NewValue = "";
+                                }
+                                if (changes[i].OldValue === " ") {
+                                    changes[i].OldValue = "";
+                                }
                                 html.push(`<ul style="font-size:14px; word-wrap:break-word; display:flex;">
                                                 <span style="font-weight:bold; float:left; width:225px; padding-right:1em;">${changes[i].FieldName}:</span>
                                                 <span class="oldHtml" style="width:200px; padding-right:1em;">
                                                     <textarea class="value" style="display:none;">${changes[i].OldValue}</textarea>
-                                                    <span style="font-weight:bolder; cursor:pointer; display:contents;"> < <a style="color:blue;">HTML</a> > </span>
+                                                    <span style="font-weight:bolder; cursor:pointer; display:contents;">${changes[i].OldValue === "" ? "&#160;" : htmlAnchor}</span>
                                                 </span>
                                                 <span class="newHtml" style="width:200px; padding-right:4em;">
                                                     <textarea class="value" style="display:none;">${changes[i].NewValue}</textarea>
-                                                    <span style="font-weight:bolder; cursor:pointer; display:contents;"> < <a style="color:blue;">HTML</a> > </span>
+                                                    <span style="font-weight:bolder; cursor:pointer; display:contents;">${changes[i].NewValue === "" ? "&#160;" : htmlAnchor}</span>
                                                 </span>
                                                 <span class="auditSpacer" style="flex:1 1 0"></span>
                                            </ul>`);
