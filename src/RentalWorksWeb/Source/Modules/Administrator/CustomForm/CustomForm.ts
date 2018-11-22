@@ -639,6 +639,18 @@ class CustomForm {
                             }
                         }
                     })
+                    .off('dragover', '[data-type="tab"]')
+                    .on('dragover', '[data-type="tab"]', e => {
+                        let $displayedTab = $customForm.find('.active[data-type="tab"]');
+                        let displayedTabId = $displayedTab.attr('data-tabpageid');
+                        let tabToDisplayId = e.currentTarget.getAttribute('data-tabpageid');
+                        if (displayedTabId !== tabToDisplayId) {
+                            $displayedTab.removeClass('active').addClass('inactive');
+                            $customForm.find(`#${displayedTabId}`).removeClass('active').addClass('inactive').hide();
+                            jQuery(e.currentTarget).removeClass('inactive').addClass('active');
+                            $customForm.find(`#${tabToDisplayId}`).removeClass('inactive').addClass('active').show();
+                        }
+                    })
                     .off('dragover', 'div.emptyContainer')
                     .on('dragover', 'div.emptyContainer', e => {
                         let $this = jQuery(e.currentTarget);
