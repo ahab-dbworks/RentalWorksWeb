@@ -206,6 +206,19 @@ progress::-webkit-progress-value {
     border-radius: 5px;
     background-size: 35px 20px, 100% 100%, 100% 100%;
 }
+
+
+/***************************
+Form tables
+***************************/
+.form-table {  border-collapse: collapse; }
+.form-table th { border: .75px solid black; }
+.form-table td { border: .75px solid black;box-shadow: 1px 2px 2px 0px rgba(200,200,200,.6); }
+.form-table td .text { text-align:right; }
+.form-table td .decimal { text-align:left; }
+.form-table input { height:auto;width:auto; }
+
+
 /* Removes default up and down arrows in input[type="number"] */
 #inventory input[type="number"]::-webkit-outer-spin-button, #inventory input[type="number"]::-webkit-inner-spin-button {
     -webkit-appearance: none;

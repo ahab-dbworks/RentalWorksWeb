@@ -107,6 +107,7 @@ class Receipt {
             FwFormField.setValue($form, 'div[data-datafield="AppliedById"]', usersid, name);
         }
 
+
         this.events($form);
 
         return $form;
@@ -173,12 +174,38 @@ class Receipt {
             }
         });
         this.paymentByRadioBehavior($form);
+        this.loadReceiptInvoiceGrid($form);
     }
     //----------------------------------------------------------------------------------------------
     events($form: JQuery): void {
         $form.find('div[data-datafield="PaymentBy"]').change(() => {
             this.paymentByRadioBehavior($form);
         })
+    }
+    loadReceiptInvoiceGrid($form: JQuery) {
+        let request: any = {};
+        let officeLocationId = JSON.parse(sessionStorage.getItem('location')).locationid;
+        let receiptId = FwFormField.getValueByDataField($form, 'ReceiptId');
+        let receiptDate = FwFormField.getValueByDataField($form, 'ReceiptDate');
+        let dealId = FwFormField.getValueByDataField($form, 'DealId');
+        let customerId = FwFormField.getValueByDataField($form, 'CustomerId');
+
+        request.uniqueids = {
+            OfficeLocationId: officeLocationId,
+            ReceiptId: receiptId,
+            ReceiptDate: receiptDate,
+            DealId: dealId
+        }
+        FwAppData.apiMethod(true, 'POST', 'api/v1/receiptinvoice/browse', request, FwServices.defaultTimeout, function onSuccess(res) {
+            console.log('res', res.Columns)
+            let rows = res.Rows;
+            let html: Array<string> = [];
+            for (let i = 0; i < rows.length; i++) {
+                html.push(`<tr class="row"><td class="text">${rows[i][8]}</td><td class="text">${rows[i][1]}</td><td class="text">${rows[i][2]}</td><td class="text">${rows[i][6]}</td><td class="text">${rows[i][3]}</td><td class="decimal">${rows[i][9]}</td><td class="decimal">${rows[i][12]}</td><td class="decimal">${rows[i][14]}</td><td class="decimal"><input class="decimal" type="number" value="${rows[i][13]}"></td></tr>`)
+            }
+            let formTable = jQuery(html.join(''))
+            $form.find('.form-table').append(formTable);
+        }, null, null);
     }
     //----------------------------------------------------------------------------------------------
     paymentByRadioBehavior($form: JQuery): void {
