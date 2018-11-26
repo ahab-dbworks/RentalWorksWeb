@@ -23,7 +23,7 @@ class FwWebApiReport {
             HasEmailHtml: true,
             HasEmailPdf: true,
             HasEmailMePdf: true,
-            HasDownloadExcel: false
+            HasDownloadExcel: true
         };
     }
     //----------------------------------------------------------------------------------------------
@@ -141,7 +141,43 @@ class FwWebApiReport {
             });
         }
         FwMenu.addVerticleSeparator($menuObject);
-
+        // Download Excel button
+        if ((typeof reportOptions.HasDownloadExcel === 'undefined') || (reportOptions.HasDownloadExcel === true)) {
+            var $btnDownloadExcel = FwMenu.addStandardBtn($menuObject, 'Download Excel');
+            $btnDownloadExcel.on('click', (event) => {
+                try {
+                    let $notification = FwNotification.renderNotification('PERSISTENTINFO', 'Preparing Report...');
+                    let request = me.getRenderRequest($form);
+                    // request.renderMode = 'excel';
+                    request.downloadPdfAsAttachment = true;
+                    FwAppData.apiMethod(true, 'POST', `${this.apiurl}/exportexcelxlsx/${this.reportName}`, request, timeout,
+                        (successResponse) => {
+                            try {
+                                let $iframe = jQuery('<iframe style="display:none;" />');
+                                $iframe.attr('src', `${applicationConfig.apiurl}${successResponse.downloadUrl}`);
+                                jQuery('#application').append($iframe);
+                                setTimeout(function () {
+                                    $iframe.remove();
+                                }, 500);
+                                // window.location.assign(`${applicationConfig.apiurl}${successResponse.downloadUrl}`);
+                            } catch (ex) {
+                                FwFunc.showError(ex);
+                            } finally {
+                                FwNotification.closeNotification($notification);
+                            }
+                        },
+                        (errorResponse) => {
+                            FwNotification.closeNotification($notification);
+                            if (errorResponse !== 'abort') {
+                                FwFunc.showError(errorResponse);
+                            }
+                        }, null);
+                } catch (ex) {
+                    FwFunc.showError(ex);
+                }
+            });
+        }
+        FwMenu.addVerticleSeparator($menuObject);
         // View PDF button
         if ((typeof reportOptions.HasExportPdf === 'undefined') || (reportOptions.HasExportPdf === true)) {
             let $btnOpenPdf = FwMenu.addStandardBtn($menuObject, 'View PDF');
@@ -188,7 +224,6 @@ class FwWebApiReport {
                 }
             });
         }
-
         // Download PDF button
         if ((typeof reportOptions.HasExportPdf === 'undefined') || (reportOptions.HasExportPdf === true)) {
             let $btnDownloadPdf = FwMenu.addStandardBtn($menuObject, 'Download PDF');
@@ -233,9 +268,7 @@ class FwWebApiReport {
                 }
             });
         }
-
         FwMenu.addVerticleSeparator($menuObject);
-
         // E-mail (to me)
         if ((typeof reportOptions.HasEmailMePdf === 'undefined') || (reportOptions.HasEmailMePdf === true)) {
             let $btnEmailMePdf = FwMenu.addStandardBtn($menuObject, 'E-mail (to me)');
@@ -253,7 +286,6 @@ class FwWebApiReport {
                     FwAppData.apiMethod(true, 'POST', me.apiurl + '/render', request, timeout,
                         (successResponse: RenderResponse) => {
                             try {
-
                             } catch (ex) {
                                 FwFunc.showError(ex);
                             } finally {
@@ -271,7 +303,7 @@ class FwWebApiReport {
                 }
             });
         }
-
+        FwMenu.addVerticleSeparator($menuObject);
         // E-mail button
         if ((typeof reportOptions.HasEmailPdf === 'undefined') || (reportOptions.HasEmailPdf === true)) {
             let $btnEmailPdf = FwMenu.addStandardBtn($menuObject, 'E-mail');
@@ -311,12 +343,12 @@ class FwWebApiReport {
                         try {
                             let $notification = FwNotification.renderNotification('PERSISTENTINFO', 'Preparing Report...');
                             let requestEmailPdf = me.getRenderRequest($form);
-                                requestEmailPdf.renderMode = 'Email';
-                                requestEmailPdf.email.to = '[me]';
-                                requestEmailPdf.email.cc = '';
-                                requestEmailPdf.email.subject = '[reportname]';
-                                requestEmailPdf.email.body = '';
-                                requestEmailPdf.parameters = this.getParameters($form);
+                            requestEmailPdf.renderMode = 'Email';
+                            requestEmailPdf.email.to = '[me]';
+                            requestEmailPdf.email.cc = '';
+                            requestEmailPdf.email.subject = '[reportname]';
+                            requestEmailPdf.email.body = '';
+                            requestEmailPdf.parameters = this.getParameters($form);
                             FwAppData.apiMethod(true, 'POST', this.apiurl + '/render', requestEmailPdf, timeout,
                                 (successResponse) => {
                                     try {
@@ -368,43 +400,6 @@ class FwWebApiReport {
                     //            }, null, null);
                     //    }
                     //);
-                } catch (ex) {
-                    FwFunc.showError(ex);
-                }
-            });
-        }
-
-        // Download Excel button
-        FwMenu.addVerticleSeparator($menuObject);
-        if ((typeof reportOptions.HasDownloadExcel === 'undefined') || (reportOptions.HasDownloadExcel === true)) {
-            var $btnDownloadExcel = FwMenu.addStandardBtn($menuObject, 'Download Excel');
-            $btnDownloadExcel.on('click', (event) => {
-                try {
-                    let $notification = FwNotification.renderNotification('PERSISTENTINFO', 'Preparing Report...');
-                    let request = me.getRenderRequest($form);
-                    //request.renderMode = 'excel';
-                    request.downloadPdfAsAttachment = true;
-                    FwAppData.apiMethod(true, 'POST', this.apiurl + '/render', request, timeout,
-                        (successResponse) => {
-                            try {
-                                let $iframe = jQuery('<iframe style="display:none;" />');
-                                jQuery('.application').append($iframe);
-                                $iframe.attr('src', successResponse.downloadurl);
-                                setTimeout(function () {
-                                    $iframe.remove();
-                                }, 500);
-                            } catch (ex) {
-                                FwFunc.showError(ex);
-                            } finally {
-                                FwNotification.closeNotification($notification);
-                            }
-                        },
-                        (errorResponse) => {
-                            FwNotification.closeNotification($notification);
-                            if (errorResponse !== 'abort') {
-                                FwFunc.showError(errorResponse);
-                            }
-                        }, null);
                 } catch (ex) {
                     FwFunc.showError(ex);
                 }
@@ -467,8 +462,8 @@ class FwWebApiReport {
     //----------------------------------------------------------------------------------------------
 }
 
-type ActionType =  'None' | 'Preview' | 'PrintHtml';
-type RenderMode =  'Html' | 'Pdf' | 'Email';
+type ActionType = 'None' | 'Preview' | 'PrintHtml';
+type RenderMode = 'Html' | 'Pdf' | 'Email';
 
 class ReportPageMessage {
     action: ActionType = 'None';
@@ -498,4 +493,3 @@ class EmailInfo {
     subject: string = '';
     body: string = '';
 }
-

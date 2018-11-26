@@ -40,7 +40,7 @@ class FwBrowseClass {
                     $field.attr('data-sort', 'off');
                 }
                 if (typeof $field.attr('data-formreadonly') === 'undefined') {
-                    $field.attr('data-formreadonly', 'false');
+                    $field.attr('data-formreadonly', 'true');
                 }
                 if (typeof $field.attr('data-datafield') !== 'undefined') {
                     $field.attr('data-browsedatafield', $field.attr('data-datafield'));
@@ -1978,8 +1978,8 @@ class FwBrowseClass {
                             } else {
                                 FwServices.validation.method(request, request.module, 'Browse', $control, function (response) {
                                     // replace spinner with search again
-                                    //$control.data('$control').find('.validation-loader').hide();
-                                    //$control.data('$btnvalidate').show();
+                                    $control.data('$control').find('.validation-loader').hide();
+                                    $control.data('$btnvalidate').show();
                                     try {
                                         me.beforeDataBindCallBack($control, request, response);
                                         resolve();
@@ -2273,15 +2273,17 @@ class FwBrowseClass {
                                 }
                             }
                             //---------------------------------------------------------------------------------
-                            FwContextMenu.addMenuItem($contextmenu, 'Audit History', () => {
-                                try {
-                                    let $tr = jQuery(this).closest('tr');
-                                    me.renderAuditHistoryPopup($tr);
-                                } catch (ex) {
-                                    FwFunc.showError(ex);
-                                }
-                            });
-                            menuItemCount++;
+                            if ($browse.attr('data-hasaudithistory') !== 'false') {
+                                FwContextMenu.addMenuItem($contextmenu, 'Audit History', () => {
+                                    try {
+                                        let $tr = jQuery(this).closest('tr');
+                                        me.renderAuditHistoryPopup($tr);
+                                    } catch (ex) {
+                                        FwFunc.showError(ex);
+                                    }
+                                });
+                                menuItemCount++;
+                            }
                             if (menuItemCount === 0) {
                                 FwContextMenu.destroy($contextmenu);
                             }
@@ -2708,6 +2710,7 @@ class FwBrowseClass {
         let rowIndex = $tr.index();
         this.beforeNewOrEditRow($control, $tr)
             .then(() => {
+                if (($control.attr('data-type') == 'Grid') && (typeof $control.attr('data-controller') !== 'undefined') && ($control.attr('data-controller') !== '')) {
                 $tr = $control.find('tbody tr').eq(rowIndex);
                 $control.attr('data-mode', 'EDIT');
                 $tr.removeClass('viewmode').addClass('editmode').addClass('editrow');
@@ -2715,7 +2718,6 @@ class FwBrowseClass {
                 //$control.find('.gridmenu .buttonbar div[data-type="EditButton"]').hide();
                 //$control.find('.gridmenu .buttonbar div[data-type="DeleteButton"]').hide();
 
-                if (($control.attr('data-type') == 'Grid') && (typeof $control.attr('data-controller') !== 'undefined') && ($control.attr('data-controller') !== '')) {
                     var controller;
                     controller = $control.attr('data-controller');
                     if (typeof window[controller] === 'undefined') throw 'Missing javascript module: ' + controller;

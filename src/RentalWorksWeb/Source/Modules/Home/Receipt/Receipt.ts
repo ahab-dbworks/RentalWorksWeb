@@ -182,6 +182,7 @@ class Receipt {
             this.paymentByRadioBehavior($form);
         })
     }
+    //----------------------------------------------------------------------------------------------
     loadReceiptInvoiceGrid($form: JQuery) {
         let request: any = {};
         let officeLocationId = JSON.parse(sessionStorage.getItem('location')).locationid;

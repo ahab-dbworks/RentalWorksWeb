@@ -71,7 +71,7 @@ class FwSchedulerClass {
         schedulerbtns.push('  <div class="toggleView">');
         schedulerbtns.push('    <div class="changeview btnDay">Day</div>');
         schedulerbtns.push('    <div class="changeview btnWeek">Week</div>');
-        schedulerbtns.push('    <div class="changeview btn4Week">5 Week</div>');
+        schedulerbtns.push('    <div class="changeview btn5Week">5 Week</div>');
         schedulerbtns.push('    <div class="changeview btnMonth">Month</div>');
         schedulerbtns.push('    <div class="changeview btnSchedule">Schedule</div>');
         schedulerbtns.push('  </div>');
@@ -97,7 +97,7 @@ class FwSchedulerClass {
         $control.find('.toggleView').toggle(viewCount > 1);
         $control.find('.btnDay').toggle($control.attr('data-hidedayview') !== 'true');
         $control.find('.btnWeek').toggle($control.attr('data-hideweekview') !== 'true');
-        $control.find('.btn4Week').toggle($control.attr('data-hidemonthview') !== 'true');
+        $control.find('.btn5Week').toggle($control.attr('data-hidemonthview') !== 'true');
         $control.find('.btnMonth').toggle($control.attr('data-hidemonthview') !== 'true');
         $control.find('.btnSchedule').toggle($control.attr('data-showeventview') == 'true');
     };
@@ -136,9 +136,9 @@ class FwSchedulerClass {
                 FwFunc.showError(ex);
             }
         });
-        $control.on('click', '.btn4Week', function () {
+        $control.on('click', '.btn5Week', function () {
             try {
-                FwScheduler.show4WeekView($control);
+                FwScheduler.show5WeekView($control);
             } catch (ex) {
                 FwFunc.showError(ex);
             }
@@ -158,7 +158,7 @@ class FwSchedulerClass {
             }
         });
         $control.on('click', '.btnNext', function () {
-            var currentDay, nextDay, nextWeek, next4Week, nextMonth, navcalendar, nav5week, navmonth, navscheduler;
+            var currentDay, nextDay, nextWeek, next5Week, nextMonth, navcalendar, nav5week, navmonth, navscheduler;
             try {
                 if ($control.find('.btnDay').attr('data-selected') === 'true') {
                     navcalendar = $control.data('navcalendar');
@@ -170,11 +170,11 @@ class FwSchedulerClass {
                     currentDay = navcalendar.selectionStart;
                     nextWeek = currentDay.addDays(7);
                     FwScheduler.navigate($control, nextWeek);
-                } else if ($control.find('.btn4Week').attr('data-selected') === 'true') {
+                } else if ($control.find('.btn5Week').attr('data-selected') === 'true') {
                     nav5week = $control.data('nav5week');
                     currentDay = nav5week.selectionDay;
-                    next4Week = currentDay.addDays(35);
-                    FwScheduler.navigate($control, next4Week);
+                    next5Week = currentDay.addDays(35);
+                    FwScheduler.navigate($control, next5Week);
                 } else if ($control.find('.btnMonth').attr('data-selected') === 'true') {
                     navmonth = $control.data('navmonth');
                     currentDay = navmonth.selectionStart;
@@ -191,7 +191,7 @@ class FwSchedulerClass {
             }
         });
         $control.on('click', '.btnPrev', function () {
-            var currentDay, previousDay, previousWeek, previous4Week, previousMonth, nav5week, navcalendar, navmonth, navscheduler;
+            var currentDay, previousDay, previousWeek, previous5Week, previousMonth, nav5week, navcalendar, navmonth, navscheduler;
             try {
                 if ($control.find('.btnDay').attr('data-selected') === 'true') {
                     navcalendar = $control.data('navcalendar');
@@ -203,11 +203,11 @@ class FwSchedulerClass {
                     currentDay = navcalendar.selectionStart;
                     previousWeek = currentDay.addDays(-7);
                     FwScheduler.navigate($control, previousWeek);
-                } else if ($control.find('.btn4Week').attr('data-selected') === 'true') {
+                } else if ($control.find('.btn5Week').attr('data-selected') === 'true') {
                     nav5week = $control.data('nav5week');
                     currentDay = nav5week.selectionDay;
-                    previous4Week = currentDay.addDays(-35);
-                    FwScheduler.navigate($control, previous4Week);
+                    previous5Week = currentDay.addDays(-35);
+                    FwScheduler.navigate($control, previous5Week);
                 } else if ($control.find('.btnMonth').attr('data-selected') === 'true') {
                     navmonth = $control.data('navmonth');
                     currentDay = navmonth.selectionStart;
@@ -245,10 +245,10 @@ class FwSchedulerClass {
         FwScheduler.loadNavScheduler($control);
         FwScheduler.loadCalendar($control);
         FwScheduler.loadMonth($control);
-        FwScheduler.load4Week($control);
+        FwScheduler.load5Week($control);
         FwScheduler.loadScheduler($control);
         //FwScheduler.loadEvents($control);
-        FwScheduler.showMonthView($control);
+        FwScheduler.show5WeekView($control);
     };
     //---------------------------------------------------------------------------------
     loadNavCalendar($control) {
@@ -286,8 +286,8 @@ class FwSchedulerClass {
             var dp5week;
             try {
                 dp5week = $control.data('dp5week');
-                dp5week.startDate = args.start;
-                dp5week.days = args.days;
+                dp5week.startDate = args.day;
+                dp5week.days = 34;
                 FwScheduler.loadEvents($control);
                 dp5week.update();
             } catch (ex) {
@@ -423,7 +423,7 @@ class FwSchedulerClass {
         dpmonth.init();
     };
     //---------------------------------------------------------------------------------
-    load4Week($control) {
+    load5Week($control) {
         var dp5week;
         dp5week = new DayPilot.Month($control.attr('data-dp5weekid'));
         $control.data('dp5week', dp5week);
@@ -585,7 +585,7 @@ class FwSchedulerClass {
         }
     };
     //---------------------------------------------------------------------------------
-    show4WeekView($control) {
+    show5WeekView($control) {
         var navcalendar, dpcalendar, selectedstartdate;
         navcalendar = $control.data('navcalendar');
         navcalendar.selectMode = "week";
@@ -595,7 +595,7 @@ class FwSchedulerClass {
         $control.find('.schedulercontainer').hide();
         $control.find('.monthcontainer').hide();
         $control.find('.changeview').attr('data-selected', 'false');
-        $control.find('.btn4Week').attr('data-selected', 'true');
+        $control.find('.btn5Week').attr('data-selected', 'true');
         if (typeof $control.data('selectedstartdate') !== 'undefined') {
             selectedstartdate = $control.data('selectedstartdate');
             FwScheduler.navigate($control, selectedstartdate);
