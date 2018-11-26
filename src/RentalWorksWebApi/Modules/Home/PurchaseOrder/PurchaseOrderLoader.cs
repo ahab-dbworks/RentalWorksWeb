@@ -171,6 +171,15 @@ namespace WebApi.Modules.Home.PurchaseOrder
         [FwSqlDataField(column: "billperiod", modeltype: FwDataTypes.Text)]
         public string BillingCycle { get; set; }
         //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "paytermsid", modeltype: FwDataTypes.Text)]
+        public string PaymentTermsId { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "payterms", modeltype: FwDataTypes.Text)]
+        public string PaymentTerms { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "paytermsdays", modeltype: FwDataTypes.Integer)]
+        public int? PaymentTermsDueInDays { get; set; }
+        //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "invoicedamount", modeltype: FwDataTypes.Decimal)]
         public decimal? InvoicedAmount { get; set; }
         //------------------------------------------------------------------------------------ 

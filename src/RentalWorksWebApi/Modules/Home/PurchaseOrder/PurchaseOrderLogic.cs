@@ -265,6 +265,14 @@ namespace WebApi.Modules.Home.PurchaseOrder
         [FwLogicProperty(Id:"QRNhl3XsQMUmi", IsReadOnly:true)]
         public string BillingCycle { get; set; }
 
+        [FwLogicProperty(Id: "XfP2lmt73Pt")]
+        public string PaymentTermsId { get { return purchaseOrder.PaymentTermsId; } set { purchaseOrder.PaymentTermsId = value; } }
+
+        [FwLogicProperty(Id: "oivJq1BqYTc", IsReadOnly: true)]
+        public string PaymentTerms { get; set; }
+
+        [FwLogicProperty(Id: "r0nQNfNwLAu", IsReadOnly: true)]
+        public int? PaymentTermsDueInDays { get; set; }
 
 
         [FwLogicProperty(Id:"D60yNs4DNU1R")]
