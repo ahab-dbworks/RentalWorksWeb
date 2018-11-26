@@ -95,7 +95,7 @@ class RwAsset {
 
         //Tracked By Filter
         var $trackAll = FwMenu.generateDropDownViewBtn('ALL', true);
-        var $trackBarcode = FwMenu.generateDropDownViewBtn('Barcode', false);
+        var $trackBarcode = FwMenu.generateDropDownViewBtn('Bar Code', false);
         var $trackSerialNumber = FwMenu.generateDropDownViewBtn('Serial Number', false);
         var $trackRFID = FwMenu.generateDropDownViewBtn('RFID', false);
 
@@ -230,10 +230,10 @@ class RwAsset {
             <div class="field" data-isuniqueid="true" data-datafield="ItemId" data-browsedatatype="key"></div>
           </div>
           <div class="column flexcolumn" max-width="250px" data-visible="true">
-            <div class="field" data-caption="Barcode No." data-datafield="BarCode" data-browsedatatype="text" data-sort="asc"></div>
+            <div class="field" data-caption="Bar Code" data-datafield="BarCode" data-browsedatatype="text" data-sort="asc"></div>
           </div>
           <div class="column flexcolumn" max-width="250px" data-visible="true">
-            <div class="field" data-caption="Serial No." data-datafield="SerialNumber" data-browsedatatype="text" data-sort="off"></div>
+            <div class="field" data-caption="Serial Number" data-datafield="SerialNumber" data-browsedatatype="text" data-sort="off"></div>
           </div>
           <div class="column flexcolumn" max-width="150px" data-visible="true">
             <div class="field" data-caption="I-Code" data-datafield="ICode" data-browsedatatype="text" data-sort="off"></div>
@@ -249,6 +249,9 @@ class RwAsset {
           </div>
           <div class="column flexcolumn" max-width="250px" data-visible="true">
             <div class="field" data-caption="Location" data-datafield="CurrentLocation" data-browsedatatype="text" data-sort="off"></div>
+          </div>
+          <div class="column flexcolumn" max-width="100px" data-visible="true">
+            <div class="field" data-caption="RFID" data-datafield="RfId" data-browsedatatype="text" data-sort="off"></div>
           </div>
           <div class="column flexcolumn" data-width="0" data-visible="false">
             <div class="field" data-datafield="Inactive" data-browsedatatype="text" data-visible="false"></div>
@@ -284,8 +287,8 @@ class RwAsset {
                           <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Description" data-datafield="Description" data-enabled="false" style="float:left;width:500px;"></div>
                         </div>
                         <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield ifin" data-caption="Bar Code No." data-datafield="BarCode" data-maxlength="40" data-enabled="false" style="float:left;width:200px;"></div>
-                          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield ifin" data-caption="Serial No." data-datafield="SerialNumber" data-maxlength="40" data-enabled="false" style="float:left;width:200px;"></div>
+                          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield ifin" data-caption="Bar Code" data-datafield="BarCode" data-maxlength="40" data-enabled="false" style="float:left;width:200px;"></div>
+                          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield ifin" data-caption="Serial Number" data-datafield="SerialNumber" data-maxlength="40" data-enabled="false" style="float:left;width:200px;"></div>
                           <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield ifin" data-caption="RFID" data-datafield="RfId" data-maxlength="24" data-enabled="false" style="float:left;width:200px;"></div>
                         </div>
                         <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
