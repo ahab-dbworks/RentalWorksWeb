@@ -380,7 +380,8 @@ namespace WebApi.Modules.Administrator.User
 
             if (Password != null)
             {
-                Password = AppFunc.EncryptAsync(AppConfig, Password).Result;
+                //Password = AppFunc.EncryptAsync(AppConfig, Password).Result;
+                Password = AppFunc.EncryptAsync(AppConfig, Password.ToUpper()).Result;  //justin 11/25/2018 CAS-24166-YQWC
             }
         }
         //-------------------------------------------------------------------------------------------------------   
