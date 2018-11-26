@@ -20,7 +20,7 @@ namespace WebApi.Modules.Home.VendorInvoice
             dataLoader = vendorInvoiceLoader;
             browseLoader = vendorInvoiceBrowseLoader;
             BeforeSave += OnBeforeSave;
-            afterSave += OnAfterSave;
+            AfterSave += OnAfterSave;
         }
         //------------------------------------------------------------------------------------ 
         [FwLogicProperty(Id: "S2jBvP6ya0tp", IsPrimaryKey: true)]
