@@ -300,7 +300,7 @@ class CheckIn {
                     $checkInQuantityItemsGridControl.data('ondatabind', function (request) {
                         request.uniqueids = {
                             ContractId: FwFormField.getValueByDataField($form, 'ContractId'),
-                            AllOrdersForDeal: FwFormField.getValueByDataField($form, 'AllOrdersForDeal'),
+                            AllOrdersForDeal: 'F',
                             OrderId: FwFormField.getValueByDataField($form, 'SpecificOrderId'),
                             OutOnly: FwFormField.getValueByDataField($form, 'ShowQuantityOut')
                         }
