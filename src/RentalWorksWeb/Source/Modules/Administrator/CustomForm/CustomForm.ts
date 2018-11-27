@@ -406,7 +406,7 @@ class CustomForm {
             $customForm.find('[data-type="Browse"], [data-type="Grid"]').find('.pager').hide();
             $customForm.find('[data-type="Browse"] tbody, [data-type="Browse"] tfoot, [data-type="Grid"] tbody, [data-type="Grid"] tfoot').hide();
             FwFormField.disable($customForm.find('[data-type="Browse"], [data-type="Grid"]'));
-            $customForm.find('tr.fieldnames .column >').off('click');
+            $customForm.find('tr.fieldnames .column >, .submenu-btn').off('click');
         }
         disableControls();
 
