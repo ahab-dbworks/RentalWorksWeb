@@ -1,4 +1,4 @@
-﻿routes.push({ pattern: /^module\/contact$/, action: function (match: RegExpExecArray) { return ContactController.getModuleScreen(); } });
+﻿//routes.push({ pattern: /^module\/contact$/, action: function (match: RegExpExecArray) { return ContactController.getModuleScreen(); } });
 
 class Contact {
     Module: string = 'Contact';
@@ -349,7 +349,8 @@ class Contact {
                   <div class="flexcolumn" style="flex:0 1 405px">
                     <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Personal Event">
                       <div class="flexrow">
-                        <div data-control="FwGrid" data-grid="ContactPersonalEventGrid" data-securitycaption="Contact Notes"></div>                </div>
+                        <div data-control="FwGrid" data-grid="ContactPersonalEventGrid" data-securitycaption="Contact Notes"></div>                
+                      </div>
                     </div>
                   </div>
                 </div>

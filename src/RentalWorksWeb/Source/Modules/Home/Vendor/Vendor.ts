@@ -1,4 +1,4 @@
-routes.push({ pattern: /^module\/vendor$/, action: function (match: RegExpExecArray) { return VendorController.getModuleScreen(); } });
+//routes.push({ pattern: /^module\/vendor$/, action: function (match: RegExpExecArray) { return VendorController.getModuleScreen(); } });
 //---------------------------------------------------------------------------------
 class Vendor {
     Module: string = 'Vendor';

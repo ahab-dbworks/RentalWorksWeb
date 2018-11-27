@@ -1,5 +1,5 @@
-routes.push({ pattern: /^module\/purchaseorder$/, action: function (match: RegExpExecArray) { return PurchaseOrderController.getModuleScreen(); } });
-routes.push({ pattern: /^module\/purchaseorder\/(\w+)\/(\S+)/, action: function (match: RegExpExecArray) { var filter = { datafield: match[1], search: match[2] }; return PurchaseOrderController.getModuleScreen(filter); } });
+//routes.push({ pattern: /^module\/purchaseorder$/, action: function (match: RegExpExecArray) { return PurchaseOrderController.getModuleScreen(); } });
+//routes.push({ pattern: /^module\/purchaseorder\/(\w+)\/(\S+)/, action: function (match: RegExpExecArray) { var filter = { datafield: match[1], search: match[2] }; return PurchaseOrderController.getModuleScreen(filter); } });
 
 //----------------------------------------------------------------------------------------------
 class PurchaseOrder {
@@ -1436,6 +1436,7 @@ class PurchaseOrder {
                     </div>
                   </div>-->
                 </div>
+
                 <!-- DELIVER/SHIP TAB -->
                 <!--<div data-type="tabpage" id="delivershiptabpage" class="tabpage" data-tabid="delivershiptab">
                   <div class="flexpage">

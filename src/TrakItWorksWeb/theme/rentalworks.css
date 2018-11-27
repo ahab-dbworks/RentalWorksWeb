@@ -71,4 +71,28 @@ div[data-controller="GroupController"] .grouptree li[data-property-id="apptree"]
 div[data-controller="GroupController"] .grouptree li[data-property-id="apptree"] > .content > .iconeditable {display:none;}
 
 /* need to override the framework values here to make things responsive */
-.formpage {min-width:0;display:block;} 
+.formpage {min-width:0;display:block;}
+
+.flexrow {
+  display: flex;
+  flex-wrap: wrap;
+  max-width: 1200px; /*max-width:60em;*/
+}
+
+.flexrow > * {
+  flex: 1 1 0;
+  min-width: 25px; /*min-width:16em;max-width:24em;*/
+}
+
+.contactform .flexcolumn {
+  max-width:1200px;
+}
+
+html.theme-material .fwbrowse table tbody tr.editrow .field[data-formdatatype="timepicker"] input.value {
+  font-size: .9em;
+}
+
+html.theme-material .fwbrowse table thead tr td .field .fieldcaption .caption {
+  font-size: .7em;
+  padding: 0 .4em;
+}
