@@ -603,7 +603,7 @@ class CustomForm {
                 let $elementDragged;
                 let $preview;
                 let $parent;
-                $draggableElements = $customForm.find('div.fwformfield');
+                $draggableElements = $customForm.find('div.fwformfield, div.flexrow, div.flexcolumn, div[data-type="tab"]');
                 $draggableElements.attr('draggable', 'true');
 
                 //find empty flexrows and add min-heights and allow dropping into
@@ -616,10 +616,10 @@ class CustomForm {
                     }
                 }
                 $customForm
-                    .off('dragstart', 'div.fwformfield')
-                    .on('dragstart', 'div.fwformfield', e => {
+                    .off('dragstart', 'div.fwformfield, div.flexrow, div.flexcolumn')
+                    .on('dragstart', 'div.fwformfield, div.flexrow, div.flexcolumn', e => {
+                        e.stopPropagation();
                         let $this = jQuery(e.currentTarget);
-                        //e.currentTarget.style.border = "2px dashed #4caf50";
                         indexDrag = $this.attr('data-index');
                         $elementDragged = $draggableElements
                             .filter(function () {
@@ -636,35 +636,55 @@ class CustomForm {
                     .off('dragover', 'div.fwformfield')
                     .on('dragover', 'div.fwformfield', e => {
                         e.preventDefault();
+                        if ($elementDragged.attr('data-type') !== "tab") {
+                            let $this = jQuery(e.currentTarget);
+                            indexDrop = $this.attr('data-index');
+                            $customForm.find('div.placeholder').remove();
+                            $preview = jQuery(`<div class="placeholder" style="min-height:50px; line-height:50px; vertical-align:middle; font-weight:bold; text-align:center; flex:1 1 100px; border: 2px dashed #4caf50">Drop here</div>`);
 
-                        let $this = jQuery(e.currentTarget);
-                        indexDrop = $this.attr('data-index');
-                        $customForm.find('div.placeholder').remove();
-                        $preview = jQuery(`<div class="placeholder" style="min-height:50px; line-height:50px; vertical-align:middle; font-weight:bold; text-align:center; flex:1 1 100px; border: 2px dashed #4caf50">Drop here</div>`);
-
-                        let offset = $this.offset();
-                        let halfElementWidth = e.currentTarget.offsetWidth / 2;
-                        let x = e.pageX - offset.left;
-                        if (indexDrag !== indexDrop) {
-                            if (x < halfElementWidth) {
-                                $preview.insertBefore($this);
-                                $preview.addClass('addedBefore');
-                            } else if (x > halfElementWidth) {
-                                $preview.insertAfter($this);
-                                $preview.addClass('addedAfter');
+                            let offset = $this.offset();
+                            let halfElementWidth = e.currentTarget.offsetWidth / 2;
+                            let x = e.pageX - offset.left;
+                            if (indexDrag !== indexDrop) {
+                                if (x < halfElementWidth) {
+                                    $preview.insertBefore($this);
+                                    $preview.addClass('addedBefore');
+                                } else if (x > halfElementWidth) {
+                                    $preview.insertAfter($this);
+                                    $preview.addClass('addedAfter');
+                                }
                             }
                         }
                     })
                     .off('dragover', '[data-type="tab"]')
                     .on('dragover', '[data-type="tab"]', e => {
-                        let $displayedTab = $customForm.find('.active[data-type="tab"]');
-                        let displayedTabId = $displayedTab.attr('data-tabpageid');
-                        let tabToDisplayId = e.currentTarget.getAttribute('data-tabpageid');
-                        if (displayedTabId !== tabToDisplayId) {
-                            $displayedTab.removeClass('active').addClass('inactive');
-                            $customForm.find(`#${displayedTabId}`).removeClass('active').addClass('inactive').hide();
-                            jQuery(e.currentTarget).removeClass('inactive').addClass('active');
-                            $customForm.find(`#${tabToDisplayId}`).removeClass('inactive').addClass('active').show();
+                        if ($elementDragged.attr('data-type') === "tab") {
+                            let $this = jQuery(e.currentTarget);
+                            indexDrop = $this.attr('data-index');
+                            $customForm.find('div.placeholder').remove();
+                            $preview = jQuery(`<div class="placeholder" style="min-height:40px; line-height:40px; vertical-align:middle; font-weight:bold; text-align:center; flex:1 1 100px; border: 2px dashed #4caf50">Drop here</div>`);
+                            let offset = $this.offset();
+                            let halfElementHeight = e.currentTarget.offsetHeight / 2;
+                            let y = e.pageY - offset.top;
+                            if (indexDrag !== indexDrop) {
+                                if (y < halfElementHeight) {
+                                    $preview.insertBefore($this);
+                                    $preview.addClass('addedBefore');
+                                } else if (y > halfElementHeight) {
+                                    $preview.insertAfter($this);
+                                    $preview.addClass('addedAfter');
+                                }
+                            }
+                        } else {
+                            let $displayedTab = $customForm.find('.active[data-type="tab"]');
+                            let displayedTabId = $displayedTab.attr('data-tabpageid');
+                            let tabToDisplayId = e.currentTarget.getAttribute('data-tabpageid');
+                            if (displayedTabId !== tabToDisplayId) {
+                                $displayedTab.removeClass('active').addClass('inactive');
+                                $customForm.find(`#${displayedTabId}`).removeClass('active').addClass('inactive').hide();
+                                jQuery(e.currentTarget).removeClass('inactive').addClass('active');
+                                $customForm.find(`#${tabToDisplayId}`).removeClass('inactive').addClass('active').show();
+                            }
                         }
                     })
                     .off('dragover', 'div.emptyContainer')
@@ -699,9 +719,11 @@ class CustomForm {
 
                         $this.replaceWith($elementDragged);
 
-                        if ($parent.children().length === 0) {
-                            $parent.css('min-height', '50px');
-                            $parent.addClass('emptyContainer');
+                        if ($elementDragged.attr('data-type') !== "tab") {
+                            if ($parent.children().length === 0) {
+                                $parent.css('min-height', '50px');
+                                $parent.addClass('emptyContainer');
+                            }
                         }
                         updateHtml();
                     })
@@ -712,6 +734,17 @@ class CustomForm {
                     .off('dragend')
                     .on('dragend', e => {
                         $customForm.find('div.placeholder').remove();
+                    })
+                    .off('dragstart', 'div[data-type="tab"]')
+                    .on('dragstart', 'div[data-type="tab"]', e => {
+                        e.stopPropagation();
+                        let $this = jQuery(e.currentTarget);
+
+                        indexDrag = $this.attr('data-index');
+                        $elementDragged = $draggableElements
+                            .filter(function () {
+                                return jQuery(this).attr("data-index") === indexDrag;
+                            });
                     });
             }
 
@@ -719,7 +752,7 @@ class CustomForm {
                 //build properties section
                 .off('click')
                 .on('click',
-                    '[data-control="FwGrid"], [data-type="Browse"] thead tr.fieldnames .column >, [data-type="Grid"] thead tr.fieldnames .column >, [data-control="FwContainer"], [data-control="FwFormField"], div.flexrow, div.flexcolumn',
+                    '[data-control="FwGrid"], [data-type="Browse"] thead tr.fieldnames .column >, [data-type="Grid"] thead tr.fieldnames .column >, [data-control="FwContainer"], [data-control="FwFormField"], div.flexrow, div.flexcolumn, div[data-type="tab"]',
                     e => {
                         e.stopPropagation();
                         originalHtml = e.currentTarget;
@@ -976,6 +1009,15 @@ class CustomForm {
                             }
                             $elementClone.remove();
                             $element.remove();
+
+                            //remove tabpages when tabs are removed
+                            if (jQuery(originalHtml).attr('data-type') === "tab") {
+                                let tabPageId = jQuery(originalHtml).attr('data-tabpageid');
+                                let tabPage = $customForm.find(`#${tabPageId}`);
+                                let tabPageIndex = tabPage.attr('data-index');
+                                jQuery($customForm).find(`div[data-index="${tabPageIndex}"]`).remove();
+                                jQuery($customFormClone).find(`div[data-index="${tabPageIndex}"]`).remove();
+                            }
                         }
                         $form.find('#controlProperties').empty();
                         updateHtml();
@@ -1193,8 +1235,8 @@ class CustomForm {
                     lastIndex = newContainerIndex;
                     jQuery($customForm).find(`[data-index=${tabpageIndex}]`).append(originalHtml);
                     jQuery($customFormClone).find(`[data-index=${tabpageIndex}]`).append(originalHtml[0].cloneNode(true));
-                    //$draggableElements = $customForm.find('div.fwformfield');
-                    //$draggableElements.attr('draggable', 'true');
+                    $draggableElements = $customForm.find('div.fwformfield, div.flexrow, div.flexcolumn, div[data-type="tab"]');
+                    $draggableElements.attr('draggable', 'true');
                     $form.find('#controlProperties input').change();
                 })
                 .off('click', '.addNewTab')
@@ -1208,7 +1250,7 @@ class CustomForm {
                     let newTabIds = FwTabs.addTab($tabControl, 'New Tab', '', '', true); //contains tabid and tabpageid
 
                     originalHtml = $customForm.find(`#${newTabIds.tabid}`);
-                    originalHtml.attr({ 'data-index': newIndex, 'draggable': 'true' });
+                    originalHtml.attr('data-index', newIndex);
 
                     originalHtml.click();
 
@@ -1216,7 +1258,7 @@ class CustomForm {
                     html.push(`<div class="flexrow" data-index="${++newIndex}" style="min-height:50px;"></div>`);
 
                     let newTabPage = $customForm.find(`#${newTabIds.tabpageid}`);
-                    newTabPage.attr({ 'data-index': ++newIndex, 'draggable': 'true' });
+                    newTabPage.attr('data-index', ++newIndex);
                     newTabPage.append(html.join(''));
 
                     //update html for code editor
@@ -1227,9 +1269,8 @@ class CustomForm {
                     lastIndex = newIndex;
                     updateHtml();
 
-                    //$draggableElements = $customForm.find('div.fwformfield');
-                    //$draggableElements.attr('draggable', 'true');
-
+                    $draggableElements = $customForm.find('div.fwformfield, div.flexrow, div.flexcolumn, div[data-type="tab"]');
+                    $draggableElements.attr('draggable', 'true');
                 });
 
 
