@@ -358,16 +358,18 @@ html.theme-material .fwbrowse[data-enabled="false"] table tbody tr:not(.selected
 html.theme-material .fwbrowse[data-enabled="false"] table tbody tr:not(.selected) .field[data-formreadonly="true"][data-formdatatype="money"] {background-color:transparent;}
 html.theme-material .fwbrowse[data-enabled="false"] table tbody tr:not(.selected) .field[data-formreadonly="true"][data-formdatatype="validation"] {background-color:transparent;}
 html.theme-material .fwbrowse[data-enabled="false"] table tbody tr:not(.selected) .field[data-formreadonly="true"][data-formdatatype="combobox"] {background-color:transparent;}
+html.theme-material .fwbrowse[data-enabled="false"] table tbody tr:not(.selected) .field[data-formreadonly="true"][data-formdatatype="checkbox"] {background-color:transparent;}
 html.theme-material .fwbrowse[data-enabled="false"] table tbody tr:not(.selected) .field[data-formreadonly="true"][data-formdatatype="note"] {background-color:transparent;}
 
-html.theme-material .fwbrowse table tbody tr:not(.selected) .field[data-formreadonly="true"][data-formdatatype="text"] {background-color: #F5F5F5;}
-html.theme-material .fwbrowse table tbody tr:not(.selected) .field[data-formreadonly="true"][data-formdatatype="date"] {background-color: #F5F5F5;}
-html.theme-material .fwbrowse table tbody tr:not(.selected) .field[data-formreadonly="true"][data-formdatatype="phone"] {background-color: #F5F5F5;}
-html.theme-material .fwbrowse table tbody tr:not(.selected) .field[data-formreadonly="true"][data-formdatatype="number"] {background-color: #F5F5F5;}
-html.theme-material .fwbrowse table tbody tr:not(.selected) .field[data-formreadonly="true"][data-formdatatype="money"] {background-color: #F5F5F5;}
-html.theme-material .fwbrowse table tbody tr:not(.selected) .field[data-formreadonly="true"][data-formdatatype="validation"] {background-color: #F5F5F5;}
-html.theme-material .fwbrowse table tbody tr:not(.selected) .field[data-formreadonly="true"][data-formdatatype="combobox"] {background-color: #F5F5F5;}
-html.theme-material .fwbrowse table tbody tr:not(.selected) .field[data-formreadonly="true"][data-formdatatype="note"] {background-color: #F5F5F5;}
+html.theme-material .fwbrowse[data-type="Grid"] table tbody tr:not(.selected) .field[data-formreadonly="true"][data-formdatatype="text"] {background-color: #F5F5F5;}
+html.theme-material .fwbrowse[data-type="Grid"] table tbody tr:not(.selected) .field[data-formreadonly="true"][data-formdatatype="date"] {background-color: #F5F5F5;}
+html.theme-material .fwbrowse[data-type="Grid"] table tbody tr:not(.selected) .field[data-formreadonly="true"][data-formdatatype="phone"] {background-color: #F5F5F5;}
+html.theme-material .fwbrowse[data-type="Grid"] table tbody tr:not(.selected) .field[data-formreadonly="true"][data-formdatatype="number"] {background-color: #F5F5F5;}
+html.theme-material .fwbrowse[data-type="Grid"] table tbody tr:not(.selected) .field[data-formreadonly="true"][data-formdatatype="money"] {background-color: #F5F5F5;}
+html.theme-material .fwbrowse[data-type="Grid"] table tbody tr:not(.selected) .field[data-formreadonly="true"][data-formdatatype="validation"] {background-color: #F5F5F5;}
+html.theme-material .fwbrowse[data-type="Grid"] table tbody tr:not(.selected) .field[data-formreadonly="true"][data-formdatatype="combobox"] {background-color: #F5F5F5;}
+html.theme-material .fwbrowse[data-type="Grid"] table tbody tr:not(.selected) .field[data-formreadonly="true"][data-formdatatype="checkbox"] {background-color: #F5F5F5;}
+html.theme-material .fwbrowse[data-type="Grid"] table tbody tr:not(.selected) .field[data-formreadonly="true"][data-formdatatype="note"] {background-color: #F5F5F5;}
 
 html.theme-material .fwbrowse table tbody tr.editrow td .field[data-formreadonly="true"][data-formdatatype="text"] {padding: 0 10px;}
 html.theme-material .fwbrowse table tbody tr.editrow td .field[data-formreadonly="true"][data-formdatatype="date"] {padding: 0 10px;}

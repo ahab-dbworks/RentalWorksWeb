@@ -39,7 +39,10 @@ class FwBrowseClass {
                 if (typeof $field.attr('data-sort') === 'undefined') {
                     $field.attr('data-sort', 'off');
                 }
-                if (typeof $field.attr('data-formreadonly') === 'undefined') {
+                if (typeof $field.attr('data-formreadonly') === 'undefined' && $control.attr('data-type') === 'Grid') {
+                    $field.attr('data-formreadonly', 'false');
+                }
+                if (typeof $field.attr('data-formreadonly') === 'undefined' && $control.attr('data-type') === 'Browse') {
                     $field.attr('data-formreadonly', 'true');
                 }
                 if (typeof $field.attr('data-datafield') !== 'undefined') {
@@ -2710,9 +2713,9 @@ class FwBrowseClass {
         let rowIndex = $tr.index();
         this.beforeNewOrEditRow($control, $tr)
             .then(() => {
-                if (($control.attr('data-type') == 'Grid') && (typeof $control.attr('data-controller') !== 'undefined') && ($control.attr('data-controller') !== '')) {
                 $tr = $control.find('tbody tr').eq(rowIndex);
                 $control.attr('data-mode', 'EDIT');
+                if (($control.attr('data-type') == 'Grid') && (typeof $control.attr('data-controller') !== 'undefined') && ($control.attr('data-controller') !== '')) {
                 $tr.removeClass('viewmode').addClass('editmode').addClass('editrow');
                 $control.find('.gridmenu .buttonbar div[data-type="NewButton"]').hide();
                 //$control.find('.gridmenu .buttonbar div[data-type="EditButton"]').hide();

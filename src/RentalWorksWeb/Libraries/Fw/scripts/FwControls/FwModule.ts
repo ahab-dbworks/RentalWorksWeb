@@ -81,20 +81,17 @@ class FwModule {
         });
         // Close all tabs
         $tabControl.find('.close-all').click(() => {
-            let $rootTab, $bodyContainer, $openForms, $form, $tab;
+            let $rootTab, $bodyContainer, $openForms, moduleNav, controller;
             $rootTab = $tabControl.find('div[data-tabpageid="tabpage1"]');
             $bodyContainer = jQuery('#master-body');
             $openForms = $bodyContainer.find('div[data-type="form"]');
+            controller = $rootTab.closest('#moduleMaster').attr('data-module');
+            moduleNav = window[`${controller}`].nav;
+            program.getModule(moduleNav);
 
-            for (let i = 0; i < $openForms.length; i++) {
-                $form = jQuery($openForms[i]);
-                $tab = jQuery(`#${$form.parent().attr('data-tabid')}`);
-                $tab.click();
-                FwModule.closeForm($form, $tab);
+            if ($openForms.length < 2) {
+                $tabControl.find('.closetabbutton').html('');
             }
-
-            FwTabs.setActiveTab($tabControl, $rootTab);
-            $tabControl.find('.closetabbutton').html('');
         });
 
         if ($object.hasClass('fwbrowse')) {
@@ -230,7 +227,7 @@ class FwModule {
                                                                 $submenuitem = FwMenu.addSubMenuBtn($submenugroup, nodeSubMenuItem.properties.caption, nodeSubMenuItem.id);
                                                                 $submenuitem.on('click', function () {
                                                                     try {
-                                                                        let $confirmation, $yes, $no, totalNumberofRows, totalPages, pageSize, userDefinedNumberofRows;
+                                                                        let $confirmation, $yes, $no, totalNumberofRows, totalNumberofRowsStr, totalPages, pageSize, userDefinedNumberofRows;
                                                                         let module = window[controller].Module;
                                                                         let apiurl = window[controller].apiurl;
                                                                         let request = FwBrowse.getRequest($browse);
@@ -238,13 +235,13 @@ class FwModule {
                                                                         $confirmation = FwConfirmation.renderConfirmation('Download Excel Workbook', '');
                                                                         $confirmation.find('.fwconfirmationbox').css('width', '450px');
                                                                         totalNumberofRows = FwBrowse.getTotalRowCount($browse);
-                                                                        totalNumberofRows = totalNumberofRows.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                                                                        totalNumberofRowsStr = totalNumberofRows.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 
 
                                                                         let html = [];
                                                                         html.push('<div class="fwform" data-controller="none" style="background-color: transparent;">');
                                                                         html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
-                                                                        html.push(`    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield all-records" data-caption="Download all ${totalNumberofRows} Records" data-datafield="" style="float:left;width:100px;"></div>`);
+                                                                        html.push(`    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield all-records" data-caption="Download all ${totalNumberofRowsStr} Records" data-datafield="" style="float:left;width:100px;"></div>`);
                                                                         html.push('  </div>');
                                                                         html.push(' <div class="formrow" style="width:100%;display:flex;align-content:flex-start; align-items:center">');
                                                                         html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
@@ -302,18 +299,9 @@ class FwModule {
 
                                                                             FwAppData.apiMethod(true, 'POST', `${apiurl}/exportexcelxlsx/${module}`, request, FwServices.defaultTimeout, function (response) {
                                                                                 try {
-                                                                                    //var $a = jQuery('<a>download</a>');
-                                                                                    //$a.attr('href', applicationConfig.apiurl + response.downloadUrl);
-                                                                                    //$a.hide();
-                                                                                    //jQuery('.application').append($a);
-                                                                                    //setTimeout(function () {
-                                                                                    //    $a.click();
-                                                                                    //    $a.remove();
-                                                                                    //}, 500);
-
-                                                                                    //var $iframe = jQuery('<iframe style="display:none;" />');
+                                                                                    //let $iframe = jQuery('<iframe style="display:none;" />');
                                                                                     //jQuery('.application').append($iframe);
-                                                                                    //$iframe.attr('src', applicationConfig.apiurl + response.downloadUrl);
+                                                                                    //$iframe.attr('src', `${applicationConfig.apiurl}${response.downloadUrl}`);
                                                                                     //setTimeout(function () {
                                                                                     //    $iframe.remove();
                                                                                     //}, 500);
@@ -808,7 +796,7 @@ class FwModule {
         }
     }
     //----------------------------------------------------------------------------------------------
-    static saveForm(module: string, $form: JQuery, parameters: { closetab?: boolean; afterCloseForm?: Function; closeparent?: boolean; navigationpath?: string; }) {
+    static saveForm(module: string, $form: JQuery, parameters: { closetab?: boolean; afterCloseForm?: Function; closeparent?: boolean; navigationpath?: string; refreshRootTab?: boolean }) {
         var $tabpage, $tab, isValid, request, controllername, controller;
         $tabpage = $form.parent();
         $tab = jQuery('#' + $tabpage.attr('data-tabid'));
@@ -863,7 +851,7 @@ class FwModule {
                             $parenttab = jQuery('#' + $tab.data('parenttabid'));
                         }
                         FwModule.beforeCloseForm($form);
-                        FwModule.closeFormTab($tab);
+                        FwModule.closeFormTab($tab, parameters.refreshRootTab);
                         if (typeof parameters.afterCloseForm === 'function') {
                             parameters.afterCloseForm();
                         }
@@ -910,7 +898,7 @@ class FwModule {
                             $parenttab = jQuery('#' + $tab.data('parenttabid'));
                         }
                         FwModule.beforeCloseForm($form);
-                        FwModule.closeFormTab($tab);
+                        FwModule.closeFormTab($tab, parameters.refreshRootTab);
                         if (typeof parameters.afterCloseForm === 'function') {
                             parameters.afterCloseForm();
                         }
@@ -956,7 +944,7 @@ class FwModule {
                         $form = FwModule.getFormByUniqueIds(ids);
                         if ((typeof $form != 'undefined') && ($form.length > 0)) {
                             $tab = jQuery('#' + $form.closest('div.tabpage').attr('data-tabid'));
-                            FwModule.closeFormTab($tab);
+                            FwModule.closeFormTab($tab, true);
                         }
                         FwBrowse.databind($browse);
                     });
@@ -1136,12 +1124,12 @@ class FwModule {
                     controller = $form.attr('data-controller');
                     if (typeof window[controller] === 'undefined') throw 'Missing javascript module controller: ' + controller;
                     if (typeof window[controller]['saveForm'] === 'function') {
-                        window[controller]['saveForm']($form, { closetab: true, navigationpath: navigationpath, closeparent: closeParent, afterCloseForm: afterCloseForm });
+                        window[controller]['saveForm']($form, { closetab: true, navigationpath: navigationpath, closeparent: closeParent, afterCloseForm: afterCloseForm, refreshRootTab: true });
                     }
                 });
                 $dontsave.on('click', function () {
                     FwModule.beforeCloseForm($form);
-                    FwModule.closeFormTab($tab);
+                    FwModule.closeFormTab($tab, false);
                     if (typeof afterCloseForm === 'function') {
                         afterCloseForm();
                     }
@@ -1155,7 +1143,7 @@ class FwModule {
                 });
             } else {
                 FwModule.beforeCloseForm($form);
-                FwModule.closeFormTab($tab);
+                FwModule.closeFormTab($tab, false);
                 if (typeof afterCloseForm === 'function') {
                     afterCloseForm();
                 }
@@ -1166,15 +1154,15 @@ class FwModule {
         }
     }
     //----------------------------------------------------------------------------------------------
-    static closeFormTab($tab: JQuery) {
-        var $browse, $form, $newTab, newTabType, tabIsActive, $tabcontrol, $tabpage, isSubModule;
+    static closeFormTab($tab: JQuery, refreshRootTab?: boolean) {
+        var $browse, $newTab, newTabType, tabIsActive, $tabcontrol, $tabpage, isSubModule;
         $tabcontrol = $tab.closest('.fwtabs');
         $tabpage = $tabcontrol.find('#' + $tab.attr('data-tabpageid'));
         isSubModule = $tab.hasClass('submodule');
 
         if (isSubModule) {
             var $parenttab, subtabids;
-            $parenttab = jQuery('#' + $tab.data('parenttabid'));
+            $parenttab = jQuery(`#${$tab.data('parenttabid')}`);
             if ($parenttab.length > 0) {
                 subtabids = $parenttab.data('subtabids');
                 subtabids = jQuery.grep(subtabids, function (value) {
@@ -1191,9 +1179,11 @@ class FwModule {
             FwTabs.setActiveTab($tabcontrol, $newTab);
             newTabType = $newTab.attr('data-tabtype');
             if (newTabType === 'BROWSE') {
-                $tabpage = $tabcontrol.find('#' + $newTab.attr('data-tabpageid'));
+                $tabpage = $tabcontrol.find(`#${$newTab.attr('data-tabpageid')}`);
                 $browse = $tabpage.find('.fwbrowse[data-type="Browse"]');
-                FwBrowse.databind($browse);
+                if (refreshRootTab) {
+                    FwBrowse.databind($browse);
+                }
             }
         }
     }
