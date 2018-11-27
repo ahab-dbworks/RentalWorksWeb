@@ -241,6 +241,17 @@ class CustomForm {
         }
     }
     //----------------------------------------------------------------------------------------------
+    addButtonMenu($form) {
+        let $buttonmenu = $form.find('.addColumn[data-type="btnmenu"]');
+        let $addContainer = FwMenu.generateButtonMenuOption('ADD NEW CONTAINER')
+            , $addTab = FwMenu.generateButtonMenuOption('ADD NEW TAB');
+
+        let menuOptions = [];
+        menuOptions.push($addContainer, $addTab);
+
+        FwMenu.addButtonMenuOptions($buttonmenu, menuOptions);
+    }
+    //----------------------------------------------------------------------------------------------
     loadModules($form) {
         let $moduleSelect
             , node
@@ -433,13 +444,17 @@ class CustomForm {
 
             if (type === 'Grid' || type === 'Browse') {
                 showHiddenColumns($customForm);
-                $form.find('.addColumn')
+                $form.find('.addColumn[data-type="button"]')
                     .css('margin-left', '27%')
-                    .text('Add New Column');
+                    .show();
+                $form.find('.addColumn[data-type="btnmenu"]').hide();
             } else if (type === 'Form') {
-                $form.find('.addColumn')
-                    .css('margin-left', '31%')
-                    .text('Add New Field');
+                $form.find('.addColumn[data-type="btnmenu"]')
+                    .css({ 'width': '177px', 'margin-left': '27%' })
+                    .show();
+                $form.find('.addColumn[data-type="button"]').hide();
+                $form.find('.addColumn .btnmenuoption:contains("ADD NEW CONTAINER")').addClass('addNewContainer');
+                $form.find('.addColumn .btnmenuoption:contains("ADD NEW TAB")').addClass('addNewTab');
             };
 
             //updates information for HTML tab
@@ -724,6 +739,7 @@ class CustomForm {
                                 case "data-noduplicate":
                                 case "data-formdatafield":
                                 case "data-cssclass":
+                                case "data-mode":
                                     continue;
                                 case "data-datafield":
                                 case "data-browsedatafield":
@@ -959,6 +975,7 @@ class CustomForm {
                 //add new column/field button
                 .off('click', '.addColumn')
                 .on('click', '.addColumn', e => {
+                    e.stopPropagation();
                     if (type === 'Browse' || type === 'Grid') {
                         let $control = jQuery($customFormClone).find(`[data-type="${type}"]`);
                         let hasSpacer = $control.find('div:last').hasClass('spacer');
@@ -1113,7 +1130,133 @@ class CustomForm {
                         $draggableElements.attr('draggable', 'true');
                         $form.find('#controlProperties input').change();
                     }
+                })
+                .off('click', '.addNewContainer')
+                .on('click', '.addNewContainer', e => {
+                      //closes the menu w/ event listener add when creating button menu
+                    jQuery(document).trigger('click');
+
+                    e.stopPropagation();
+                    let $tabpage = $customForm.find('[data-type="tabpage"]:visible');
+                    let tabpageIndex = $tabpage.attr('data-index');
+
+                    let newContainerIndex = lastIndex + 1;
+                    let html: any = [];
+                    html.push(`<div data-index="${newContainerIndex}"></div>`);
+
+                    originalHtml = jQuery(html.join(''));
+
+                    //build properties column
+                    let propertyHtml: any = [];
+                    let fields: any = [];
+
+                    propertyHtml.push(propertyContainerHtml);
+                    fields = ['class', 'style'];
+                    for (let i = 0; i < fields.length; i++) {
+                        var value;
+                        var field = fields[i];
+                        switch (field) {
+                            case 'style':
+                                value = 'min-height:50px';
+                                break;
+                            case 'class':
+                                value = 'flexrow emptyContainer';
+                                break;
+                        }
+                        propertyHtml.push(
+                            `<div class="properties">
+                                <div class="propname" style="border:.5px solid #efefef;">${field}</div>
+                                <div class="propval" style="border:.5px solid #efefef;"><input value="${value}"></div>
+                             </div>
+                             `);
+
+                        jQuery(originalHtml).attr(`${field}`, `${value}`);
+                    };
+                    propertyHtml.push(addPropertiesHtml);
+
+                    let newProperties = $form.find('#controlProperties');
+                    newProperties
+                        .empty()
+                        .append(propertyHtml.join(''), deleteComponentHtml)
+                        .find('.properties:even')
+                        .css('background-color', '#f7f7f7');
+
+                    lastIndex = newContainerIndex;
+                    jQuery($customForm).find(`[data-index=${tabpageIndex}]`).append(originalHtml);
+                    jQuery($customFormClone).find(`[data-index=${tabpageIndex}]`).append(originalHtml[0].cloneNode(true));
+                    //$draggableElements = $customForm.find('div.fwformfield');
+                    //$draggableElements.attr('draggable', 'true');
+                    $form.find('#controlProperties input').change();
+                })
+                .off('click', '.addNewTab')
+                .on('click', '.addNewTab', e => {
+                    e.stopPropagation();
+                    //closes the menu w/ event listener add when creating button menu
+                    jQuery(document).trigger('click');
+
+                    let newIndex = lastIndex + 1;
+                    let html: any = [];
+                    html.push(`<div data-type="tab" id="newtab" class="tab" data-tabpageid="newtabpage" data-index="${newIndex}"></div>`);
+                    originalHtml = jQuery(html.join(''));
+
+                    //build properties column
+                    let propertyHtml: any = [];
+                    let fields: any = [];
+
+                    propertyHtml.push(propertyContainerHtml);
+                    fields = ['data-caption'];
+                    for (let i = 0; i < fields.length; i++) {
+                        var value;
+                        var field = fields[i];
+                        switch (field) {
+                            case 'data-caption':
+                                value = 'New Tab';
+                                break;
+       
+                        }
+                        propertyHtml.push(
+                            `<div class="properties">
+                                <div class="propname" style="border:.5px solid #efefef;">${field}</div>
+                                <div class="propval" style="border:.5px solid #efefef;"><input value="${value}"></div>
+                             </div>
+                             `);
+
+                        jQuery(originalHtml).attr(`${field}`, `${value}`);
+                    };
+                    propertyHtml.push(addPropertiesHtml);
+
+                    let newProperties = $form.find('#controlProperties');
+                    newProperties
+                        .empty()
+                        .append(propertyHtml.join(''), deleteComponentHtml)
+                        .find('.properties:even')
+                        .css('background-color', '#f7f7f7');
+
+                    //update html for code editor
+                    jQuery($customFormClone).find('.tabs').append(originalHtml[0].cloneNode(true));
+
+                    //manually add rendering and append to designer
+                    let tabHtml: any = [];
+                    tabHtml.push(`<div class="border"></div>
+                                <div class="caption">New Tab</div>`);
+                    originalHtml.append(tabHtml.join(''));
+                    $customForm.find('.tabs').append(originalHtml);
+
+                    let newTabPageIndex = newIndex + 1;
+                    //add a tabpage for newly created tab
+                    let newTabPageHtml: any = jQuery(`<div data-type="tabpage" id="newtabpage" class="tabpage inactive" data-tabid="newtabpage" data-index="${newTabPageIndex}"></div>`);
+
+                    jQuery($customFormClone).find('.tabpages').append(newTabPageHtml[0].cloneNode(true));
+                    $customForm.find('.tabpages').append(newTabPageHtml);
+
+                    lastIndex = newTabPageIndex;
+
+                    //$draggableElements = $customForm.find('div.fwformfield');
+                    //$draggableElements.attr('draggable', 'true');
+                    $form.find('#controlProperties input').change();
                 });
+
+
         }
     }
     getValueOptions(fieldname: string) {
