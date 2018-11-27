@@ -378,6 +378,7 @@ class CustomForm {
 
                 if ((div.hasClass('flexrow') || div.hasClass('flexcolumn')) && div.children().length === 0) {
                     div.css('min-height', '50px');
+                    div.addClass('emptyContainer');
                 }
             }
             $customFormClone = $customForm.get(0).cloneNode(true);
@@ -740,6 +741,7 @@ class CustomForm {
                                 case "data-formdatafield":
                                 case "data-cssclass":
                                 case "data-mode":
+                                case "data-tabtype":
                                     continue;
                                 case "data-datafield":
                                 case "data-browsedatafield":
@@ -844,8 +846,15 @@ class CustomForm {
                                     jQuery(originalHtml).attr(`${attribute}`, `${value}`);
                             }
                         } else if (type === 'Form') {
+                            let isTab = jQuery(originalHtml).attr('data-type');
+                            if (isTab === "tab") {
+                                //for changing tab captions
+                                jQuery(originalHtml).find('.caption').text(value);
+                            } else {
+                                jQuery(originalHtml).attr(`${attribute}`, `${value}`);
+                            };
                             jQuery($customFormClone).find(`div[data-index="${index}"]`).attr(`${attribute}`, `${value}`);
-                            jQuery(originalHtml).attr(`${attribute}`, `${value}`);
+
                         }
                     } else {
                         if (attribute !== "data-datafield") { //for adding new fields
@@ -1133,7 +1142,7 @@ class CustomForm {
                 })
                 .off('click', '.addNewContainer')
                 .on('click', '.addNewContainer', e => {
-                      //closes the menu w/ event listener add when creating button menu
+                    //closes the menu w/ event listener add when creating button menu
                     jQuery(document).trigger('click');
 
                     e.stopPropagation();
@@ -1195,65 +1204,32 @@ class CustomForm {
                     jQuery(document).trigger('click');
 
                     let newIndex = lastIndex + 1;
+                    let $tabControl = $customForm.find('[data-control="FwTabs"]');
+                    let newTabIds = FwTabs.addTab($tabControl, 'New Tab', '', '', true); //contains tabid and tabpageid
+
+                    originalHtml = $customForm.find(`#${newTabIds.tabid}`);
+                    originalHtml.attr({ 'data-index': newIndex, 'draggable': 'true' });
+
+                    originalHtml.click();
+
                     let html: any = [];
-                    html.push(`<div data-type="tab" id="newtab" class="tab" data-tabpageid="newtabpage" data-index="${newIndex}"></div>`);
-                    originalHtml = jQuery(html.join(''));
+                    html.push(`<div class="flexrow" data-index="${++newIndex}" style="min-height:50px;"></div>`);
 
-                    //build properties column
-                    let propertyHtml: any = [];
-                    let fields: any = [];
-
-                    propertyHtml.push(propertyContainerHtml);
-                    fields = ['data-caption'];
-                    for (let i = 0; i < fields.length; i++) {
-                        var value;
-                        var field = fields[i];
-                        switch (field) {
-                            case 'data-caption':
-                                value = 'New Tab';
-                                break;
-       
-                        }
-                        propertyHtml.push(
-                            `<div class="properties">
-                                <div class="propname" style="border:.5px solid #efefef;">${field}</div>
-                                <div class="propval" style="border:.5px solid #efefef;"><input value="${value}"></div>
-                             </div>
-                             `);
-
-                        jQuery(originalHtml).attr(`${field}`, `${value}`);
-                    };
-                    propertyHtml.push(addPropertiesHtml);
-
-                    let newProperties = $form.find('#controlProperties');
-                    newProperties
-                        .empty()
-                        .append(propertyHtml.join(''), deleteComponentHtml)
-                        .find('.properties:even')
-                        .css('background-color', '#f7f7f7');
+                    let newTabPage = $customForm.find(`#${newTabIds.tabpageid}`);
+                    newTabPage.attr({ 'data-index': ++newIndex, 'draggable': 'true' });
+                    newTabPage.append(html.join(''));
 
                     //update html for code editor
-                    jQuery($customFormClone).find('.tabs').append(originalHtml[0].cloneNode(true));
-
-                    //manually add rendering and append to designer
-                    let tabHtml: any = [];
-                    tabHtml.push(`<div class="border"></div>
-                                <div class="caption">New Tab</div>`);
-                    originalHtml.append(tabHtml.join(''));
-                    $customForm.find('.tabs').append(originalHtml);
-
-                    let newTabPageIndex = newIndex + 1;
-                    //add a tabpage for newly created tab
-                    let newTabPageHtml: any = jQuery(`<div data-type="tabpage" id="newtabpage" class="tabpage inactive" data-tabid="newtabpage" data-index="${newTabPageIndex}"></div>`);
-
-                    jQuery($customFormClone).find('.tabpages').append(newTabPageHtml[0].cloneNode(true));
-                    $customForm.find('.tabpages').append(newTabPageHtml);
-
-                    lastIndex = newTabPageIndex;
+                    let tabClone = originalHtml.cloneNode(true);
+                    jQuery(tabClone).empty();
+                    jQuery($customFormClone).find('.tabs').append(tabClone);
+                    jQuery($customFormClone).find('.tabpages').append(newTabPage[0].cloneNode(true));
+                    lastIndex = newIndex;
+                    updateHtml();
 
                     //$draggableElements = $customForm.find('div.fwformfield');
                     //$draggableElements.attr('draggable', 'true');
-                    $form.find('#controlProperties input').change();
+
                 });
 
 
@@ -1283,6 +1259,7 @@ class CustomForm {
                     , 'radio'
                     , 'searchbox'
                     , 'select'
+                    , 'tab'
                     , 'text'
                     , 'textarea'
                     , 'time'
