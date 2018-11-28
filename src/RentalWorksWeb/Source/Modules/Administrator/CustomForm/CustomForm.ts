@@ -541,6 +541,7 @@ class CustomForm {
                     .off('dragstart', 'td.column:not(.tdselectrow):not(.browsecontextmenucell)')
                     .on('dragstart', 'td.column:not(.tdselectrow):not(.browsecontextmenucell)', e => {
                         let $this = jQuery(e.currentTarget);
+                        e.originalEvent.dataTransfer.effectAllowed = "move";
                         $draggableElements = $customForm.find('tr.fieldnames td.column:not(.tdselectrow):not(.browsecontextmenucell)');
                         indexDrag = $this.find('.field').attr('data-index');
                         $elementDragged = $draggableElements
@@ -567,12 +568,16 @@ class CustomForm {
                             }
                         }
                     })
-                    .off('dragleave', 'td.column:not(.tdselectrow):not(.browsecontextmenucell)')
-                    .on('dragleave', 'td.column:not(.tdselectrow):not(.browsecontextmenucell)', e => {
-                    })
-                    .off('dragover', 'td.column:not(.tdselectrow):not(.browsecontextmenucell)')
-                    .on('dragover', 'td.column:not(.tdselectrow):not(.browsecontextmenucell)', e => {
+                    .off('dragover')
+                    .on('dragover', e => {
                         e.preventDefault();
+                        e.originalEvent.dataTransfer.dropEffect = "none";
+                    })
+                    .off('dragover', 'td.placeholder')
+                    .on('dragover','td.placeholder', e => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        e.originalEvent.dataTransfer.dropEffect = "move";
                     })
                     .off('drop', 'td.placeholder')
                     .on('drop', 'td.placeholder', e => {
@@ -619,6 +624,7 @@ class CustomForm {
                     .off('dragstart', 'div.fwformfield, div.flexrow, div.flexcolumn')
                     .on('dragstart', 'div.fwformfield, div.flexrow, div.flexcolumn', e => {
                         e.stopPropagation();
+                        e.originalEvent.dataTransfer.effectAllowed = "move";
                         let $this = jQuery(e.currentTarget);
                         indexDrag = $this.attr('data-index');
                         $elementDragged = $draggableElements
@@ -627,11 +633,10 @@ class CustomForm {
                             });
                         $parent = $elementDragged.parent();
                     })
-                    .off('dragenter', 'div.fwformfield')
-                    .on('dragenter', 'div.fwformfield', e => {
-                    })
-                    .off('dragleave', 'div.fwformfield')
-                    .on('dragleave', 'div.fwformfield', e => {
+                    .off('dragover')
+                    .on('dragover', e => {
+                        e.preventDefault();
+                        e.originalEvent.dataTransfer.dropEffect = "none";
                     })
                     .off('dragover', 'div.fwformfield')
                     .on('dragover', 'div.fwformfield', e => {
@@ -656,8 +661,15 @@ class CustomForm {
                             }
                         }
                     })
+                    .off('dragover', 'div.placeholder')
+                    .on('dragover', 'div.placeholder', e => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        e.originalEvent.dataTransfer.dropEffect = "move";
+                    })
                     .off('dragover', '[data-type="tab"]')
                     .on('dragover', '[data-type="tab"]', e => {
+                        e.originalEvent.dataTransfer.dropEffect = "none";
                         if ($elementDragged.attr('data-type') === "tab") {
                             let $this = jQuery(e.currentTarget);
                             indexDrop = $this.attr('data-index');
