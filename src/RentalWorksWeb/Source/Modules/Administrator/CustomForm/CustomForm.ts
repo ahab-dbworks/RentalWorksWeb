@@ -462,6 +462,7 @@ class CustomForm {
             function updateHtml() {
                 let $modifiedClone = $customFormClone.cloneNode(true);
                 jQuery($modifiedClone).find('div').removeAttr('data-index');
+                jQuery($modifiedClone).find('.emptyContainer').removeClass('emptyContainer');
                 FwFormField.setValueByDataField($form, 'Html', $modifiedClone.innerHTML);
                 self.codeMirror.setValue($modifiedClone.innerHTML);
             };
@@ -558,20 +559,13 @@ class CustomForm {
                         indexDrop = $this.find('.field').attr('data-index');
                         $customForm.find('td.placeholder').remove();
                         if (domIndexDrag !== domIndexDrop) {
-                            $preview = jQuery(`<td class="placeholder" style="min-height:50px; line-height:50px; vertical-align:middle; font-weight:bold; text-align:center; flex:1 1 50px; border: 2px dashed gray">Drop here</td>`);
+                            $preview = jQuery(`<td class="placeholder" style="min-width:100px; min-height:50px; line-height:50px; vertical-align:middle; font-weight:bold; text-align:center; flex:1 1 50px; border: 2px dashed gray">Drop here</td>`);
                             if (domIndexDrag > domIndexDrop) {
                                 $preview.insertBefore($this);
-                                //e.currentTarget.style.borderLeft = "2px dashed gray";
                             } else if (domIndexDrag < domIndexDrop) {
                                 $preview.insertAfter($this);
-                                //e.currentTarget.style.borderRight = "2px dashed gray";
                             }
                         }
-                    })
-                    .off('dragover')
-                    .on('dragover', e => {
-                        e.preventDefault();
-                        e.originalEvent.dataTransfer.dropEffect = "none";
                     })
                     .off('dragover', 'td.placeholder')
                     .on('dragover','td.placeholder', e => {
@@ -759,6 +753,13 @@ class CustomForm {
                             });
                     });
             }
+            //changes cursor when element is dragged anywhere in the document
+            let $page: any = jQuery(document);
+            $page
+                .off('dragover')
+                .on('dragover', e => {
+                    e.originalEvent.dataTransfer.dropEffect = "none";
+                });
 
             $customForm
                 //build properties section
@@ -1029,6 +1030,8 @@ class CustomForm {
                                 let tabPageIndex = tabPage.attr('data-index');
                                 jQuery($customForm).find(`div[data-index="${tabPageIndex}"]`).remove();
                                 jQuery($customFormClone).find(`div[data-index="${tabPageIndex}"]`).remove();
+                                let firstTab = $customForm.find('.tabs [data-type="tab"]:first');
+                                FwTabs.setActiveTab($customForm, firstTab);
                             }
                         }
                         $form.find('#controlProperties').empty();
@@ -1205,7 +1208,7 @@ class CustomForm {
 
                     let newContainerIndex = lastIndex + 1;
                     let html: any = [];
-                    html.push(`<div data-index="${newContainerIndex}"></div>`);
+                    html.push(`<div class="emptyContainer" data-index="${newContainerIndex}"></div>`);
 
                     originalHtml = jQuery(html.join(''));
 
@@ -1223,7 +1226,7 @@ class CustomForm {
                                 value = 'min-height:50px';
                                 break;
                             case 'class':
-                                value = 'flexrow emptyContainer';
+                                value = 'flexrow';
                                 break;
                         }
                         propertyHtml.push(
@@ -1267,7 +1270,7 @@ class CustomForm {
                     originalHtml.click();
 
                     let html: any = [];
-                    html.push(`<div class="flexrow" data-index="${++newIndex}" style="min-height:50px;"></div>`);
+                    html.push(`<div class="flexrow emptyContainer" data-index="${++newIndex}" style="min-height:50px;"></div>`);
 
                     let newTabPage = $customForm.find(`#${newTabIds.tabpageid}`);
                     newTabPage.attr('data-index', ++newIndex);
