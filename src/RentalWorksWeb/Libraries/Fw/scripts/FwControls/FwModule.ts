@@ -178,6 +178,78 @@ class FwModule {
         FwControl.renderRuntimeControls($browse.find('.fwcontrol').addBack());
         FwModule.addBrowseMenu($browse);
 
+        let fields = FwModule.loadFormFromTemplate($browse.data('name')).find('.fwformfield');
+        let findFields = [];
+        let $find = jQuery(`
+            <div class="btn" tabindex="0">
+                <i class="material-icons">search</i>
+                <div class="btn-text">Find</div>
+                <div class="findbutton-dropdown">
+                    <div class="query">
+                        <div class="flexrow queryrow" style="align-items: center;">
+                            <div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield datafieldselect" data-caption="Datafield" data-datafield="Datafield" style="flex:1 1 auto;"></div>
+                            <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="" data-datafield="DatafieldQuery" style="flex:1 1 auto;"></div>
+                            <i class="material-icons add-query">add_circle_outline</i>
+                        </div>
+                    </div>
+                    <div class="flexrow">
+                        <div class="find fwformcontrol" data-type="button" style="flex:0 1 50px;margin:15px 15px 10px 10px;margin-left:auto;">Apply</div>
+                    </div>
+                </div>
+            </div>`);
+        FwControl.renderRuntimeHtml($find.find('.fwcontrol'));
+        $find.on('click', function (e) {
+            let maxZIndex;
+            let $this = jQuery(this);
+            e.preventDefault();
+
+            if (!$this.hasClass('active')) {
+                maxZIndex = FwFunc.getMaxZ('*');
+                $this.find('.findbutton-dropdown').css('z-index', maxZIndex + 1);
+                $this.addClass('active');
+
+                jQuery(document).one('click', function closeMenu(e: any) {
+                    if (($this.has(e.target).length === 0) && ($this.parent().has(e.target).length === 0)) {
+                        $this.removeClass('active');
+                        $this.find('.findbutton-dropdown').css('z-index', '0');
+                    } else if ($this.hasClass('active')) {
+                        $this.one('click', closeMenu);
+                    }
+                });
+            } else {
+                //$this.removeClass('active');
+                //$this.find('.findbutton-dropdown').css('z-index', '0');
+            }
+        });
+        $find.find('.findbutton-dropdown').off()
+
+        for (var i = 0; i < fields.length; i++) {
+            if (jQuery(fields[i]).data('type') === 'validation') {
+                findFields.push({
+                    'value': jQuery(fields[i]).attr('data-displayfield'),
+                    'text': jQuery(fields[i]).attr('data-displayfield')
+                });
+            } else if (jQuery(fields[i]).data('type') !== 'key') {
+                findFields.push({
+                    'value': jQuery(fields[i]).attr('data-datafield'),
+                    'text': jQuery(fields[i]).attr('data-datafield')
+                });
+            }
+        }
+        window['FwFormField_select'].loadItems($find.find('.datafieldselect'), findFields, false);
+
+        if ($browse.find('.buttonbar').find('.vr').length === 0) {
+            $browse.find('.buttonbar').append($find)
+        } else {
+            $browse.find('.buttonbar').find('.vr:first').before($find);
+        }
+
+        $find.find('.add-query').on('click', function cloneRow() {
+            let newRow = jQuery(this).closest('.queryrow').clone();
+            newRow.find('.add-query').on('click', cloneRow);
+            newRow.appendTo($find.find('.query'));
+        })
+
         return $browse;
     }
     //----------------------------------------------------------------------------------------------
