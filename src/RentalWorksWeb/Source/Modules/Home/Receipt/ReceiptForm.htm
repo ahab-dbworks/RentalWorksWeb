@@ -33,10 +33,11 @@
           <div class="flexrow">
             <div class="flexcolumn">
               <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                <div class="flexrow tablewrapper" style="text-align: center;border: 1px solid #1f1f1f;height:auto;max-width:1180px;">
+                <div class="flexrow tablewrapper fwbrowse" style="text-align:center;border:1px solid #1f1f1f;height:auto;margin-left:20px;max-width:1160px;">
                   <table class="form-table">
                     <tr class="header">
                       <th class="text">Deal</th>
+                      <th class="text" style="display:none;" data-headerfield="InvoiceId">InvoiceId</th>
                       <th class="text">Invoice No.</th>
                       <th class="text">Invoice Date</th>
                       <th class="text">Order No.</th>
@@ -44,7 +45,7 @@
                       <th class="decimal">Total</th>
                       <th class="decimal">Applied</th>
                       <th class="decimal">Due</th>
-                      <th class="decimal">Amount</th>
+                      <th class="decimal" data-headerfield="Amount">Amount</th>
                     </tr>
                   </table>
                 </div>

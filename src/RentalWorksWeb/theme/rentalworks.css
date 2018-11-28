@@ -214,8 +214,8 @@ Form tables
 .form-table {  border-collapse: collapse; }
 .form-table th { border: .75px solid black; }
 .form-table td { border: .75px solid black;box-shadow: 1px 2px 2px 0px rgba(200,200,200,.6); }
-.form-table td .text { text-align:right; }
-.form-table td .decimal { text-align:left; }
+.form-table td .text { text-align:left; }
+.form-table td .decimal { text-align:right; }
 .form-table input { height:auto;width:auto; }
 
 

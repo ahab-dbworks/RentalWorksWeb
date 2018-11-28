@@ -108,8 +108,6 @@ class Receipt {
         }
 
 
-        this.events($form);
-
         return $form;
     };
     //----------------------------------------------------------------------------------------------
@@ -126,6 +124,7 @@ class Receipt {
         FwFormField.disable($form.find('div[data-datafield="PaymentBy"]'));
         FwFormField.disable($form.find('div[data-datafield="DealId"]'));
         FwFormField.disable($form.find('div[data-datafield="CustomerId"]'));
+        this.getFormTableData($form);
     }
     //----------------------------------------------------------------------------------------------
     loadAudit($form: any) {
@@ -175,38 +174,79 @@ class Receipt {
         });
         this.paymentByRadioBehavior($form);
         this.loadReceiptInvoiceGrid($form);
+        this.events($form);
+
     }
     //----------------------------------------------------------------------------------------------
     events($form: JQuery): void {
         $form.find('div[data-datafield="PaymentBy"]').change(() => {
             this.paymentByRadioBehavior($form);
-        })
+        });
     }
     //----------------------------------------------------------------------------------------------
-    loadReceiptInvoiceGrid($form: JQuery) {
-        let request: any = {};
-        let officeLocationId = JSON.parse(sessionStorage.getItem('location')).locationid;
-        let receiptId = FwFormField.getValueByDataField($form, 'ReceiptId');
-        let receiptDate = FwFormField.getValueByDataField($form, 'ReceiptDate');
-        let dealId = FwFormField.getValueByDataField($form, 'DealId');
-        let customerId = FwFormField.getValueByDataField($form, 'CustomerId');
+    loadReceiptInvoiceGrid($form: JQuery): void {
+        if (!$form.data('formtable')) {
+            let request: any = {};
+            let officeLocationId = JSON.parse(sessionStorage.getItem('location')).locationid;
+            let receiptId = FwFormField.getValueByDataField($form, 'ReceiptId');
+            let receiptDate = FwFormField.getValueByDataField($form, 'ReceiptDate');
+            let dealId = FwFormField.getValueByDataField($form, 'DealId');
+            let customerId = FwFormField.getValueByDataField($form, 'CustomerId'); // send visible field
 
-        request.uniqueids = {
-            OfficeLocationId: officeLocationId,
-            ReceiptId: receiptId,
-            ReceiptDate: receiptDate,
-            DealId: dealId
-        }
-        FwAppData.apiMethod(true, 'POST', 'api/v1/receiptinvoice/browse', request, FwServices.defaultTimeout, function onSuccess(res) {
-            console.log('res', res.Columns)
-            let rows = res.Rows;
-            let html: Array<string> = [];
-            for (let i = 0; i < rows.length; i++) {
-                html.push(`<tr class="row"><td class="text">${rows[i][8]}</td><td class="text">${rows[i][1]}</td><td class="text">${rows[i][2]}</td><td class="text">${rows[i][6]}</td><td class="text">${rows[i][3]}</td><td class="decimal">${rows[i][9]}</td><td class="decimal">${rows[i][12]}</td><td class="decimal">${rows[i][14]}</td><td class="decimal"><input class="decimal" type="number" value="${rows[i][13]}"></td></tr>`)
+            request.uniqueids = {
+                OfficeLocationId: officeLocationId,
+                ReceiptId: receiptId,
+                ReceiptDate: receiptDate,
+                DealId: dealId
             }
-            let formTable = jQuery(html.join(''))
-            $form.find('.form-table').append(formTable);
-        }, null, null);
+            FwAppData.apiMethod(true, 'POST', 'api/v1/receiptinvoice/browse', request, FwServices.defaultTimeout, function onSuccess(res) {
+                console.log('res', res.Columns)
+                let rows = res.Rows;
+                let html: Array<string> = [];
+                for (let i = 0; i < rows.length; i++) {
+                    html.push(`<tr class="row"><td class="text">${rows[i][8]}</td><td class="text InvoiceId" style="display:none;">${rows[i][0]}</td><td class="text">${rows[i][1]}</td><td class="text">${rows[i][2]}</td><td class="text">${rows[i][6]}</td><td class="text">${rows[i][3]}</td><td class="decimal">${rows[i][9]}</td><td class="decimal">${rows[i][12]}</td><td class="decimal">${rows[i][14]}</td><td class="decimal invoice-amount"><input class="decimal invoice-amount fwformfield" type="number" min="0" step=".01" pattern="^\d+(?:\.\d{1,2})?$" data-datatype="money" value="${rows[i][13]}"></td></tr>`)
+                }
+                let formTable = jQuery(html.join(''))
+                $form.find('.form-table').append(formTable);
+                
+                $form.find('.invoice-amount input').on('change', (e) => {
+                    let $tab, $tabpage;
+                    e.stopPropagation();
+
+                    $tabpage = $form.parent();
+                    $tab = jQuery('#' + $tabpage.attr('data-tabid'));
+                    $tab.find('.modified').html('*');
+                    $form.attr('data-modified', 'true');
+                    $form.find('.btn[data-type="SaveMenuBarButton"]').removeClass('disabled');
+                });
+                
+                //$form.find('.invoice-amount input').inputmask("numeric", {
+                //    radixPoint: ".",
+                //    groupSeparator: ",",
+                //    digits: 2,
+                //    autoGroup: true,
+                //    prefix: '$ ', //Space after $, this will not truncate the first character.
+                //    rightAlign: false,
+                //    oncleared: function () { self.Value(''); }
+                //});
+                $form.data('formtable', true)
+            }, null, null);
+        }
+    }
+    //----------------------------------------------------------------------------------------------
+    getFormTableData($form: JQuery): void {
+        let invoiceIdFields = jQuery($form.find('.InvoiceId'));
+        let amountFields = jQuery($form.find('.invoice-amount input'));
+        let tableData: any =[];
+        for(let i = 0; i <invoiceIdFields.length; i++) {
+            let fields: any = {}
+            let invoiceId = jQuery(invoiceIdFields[i]).text();
+            let amount = jQuery(amountFields[i]).val();
+            fields.InvoiceId = invoiceId;
+            fields.Amount = +amount;
+            tableData.push(fields)
+        }
+        console.log('tableData: ', tableData);
     }
     //----------------------------------------------------------------------------------------------
     paymentByRadioBehavior($form: JQuery): void {
