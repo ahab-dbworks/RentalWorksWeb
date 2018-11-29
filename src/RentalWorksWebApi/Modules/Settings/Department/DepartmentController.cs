@@ -19,7 +19,6 @@ namespace WebApi.Modules.Settings.Department
         //------------------------------------------------------------------------------------
         // POST api/v1/customertype/browse
         [HttpPost("browse")]
-        [Authorize(Policy = "{EE8AEB08-C76C-4C7A-BC44-701306F7EDE2}")]
         [FwControllerMethod(Id:"QaW0TKeQvrCL")]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
@@ -36,7 +35,6 @@ namespace WebApi.Modules.Settings.Department
         //------------------------------------------------------------------------------------
         // GET api/v1/customertype
         [HttpGet]
-        [Authorize(Policy = "{FA2F2119-F187-4F94-A6BA-62EF1DE5892B}")]
         [FwControllerMethod(Id:"nOw1UydiCIXJ")]
         public async Task<ActionResult<IEnumerable<DepartmentLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
@@ -45,7 +43,6 @@ namespace WebApi.Modules.Settings.Department
         //------------------------------------------------------------------------------------
         // GET api/v1/customertype/A0000001
         [HttpGet("{id}")]
-        [Authorize(Policy = "{562375F5-18F6-4A11-8B91-F9185988358B}")]
         [FwControllerMethod(Id:"U96afbggW7oC")]
         public async Task<ActionResult<DepartmentLogic>> GetOneAsync([FromRoute]string id)
         {
@@ -54,7 +51,6 @@ namespace WebApi.Modules.Settings.Department
         //------------------------------------------------------------------------------------
         // POST api/v1/customertype
         [HttpPost]
-        [Authorize(Policy = "{032B5C1D-B986-47F2-BE91-FC3FBF63319A}")]
         [FwControllerMethod(Id:"LiekypeTCzjc")]
         public async Task<ActionResult<DepartmentLogic>> PostAsync([FromBody]DepartmentLogic l)
         {
@@ -63,7 +59,6 @@ namespace WebApi.Modules.Settings.Department
         //------------------------------------------------------------------------------------
         // DELETE api/v1/customertype/A0000001
         [HttpDelete("{id}")]
-        [Authorize(Policy = "{A5FB724E-DCC6-49C8-B15F-625C902303ED}")]
         [FwControllerMethod(Id:"3pAiXb2NT6gG")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {

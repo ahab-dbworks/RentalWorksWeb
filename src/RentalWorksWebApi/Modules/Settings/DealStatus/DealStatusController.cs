@@ -19,7 +19,6 @@ namespace WebApi.Modules.Settings.DealStatus
         //------------------------------------------------------------------------------------
         // POST api/v1/dealstatus/browse
         [HttpPost("browse")]
-        [Authorize(Policy = "{051A9D01-5B55-4805-931A-75937FA04F33}")]
         [FwControllerMethod(Id:"xe3Iuv5gJEBg")]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
@@ -36,7 +35,6 @@ namespace WebApi.Modules.Settings.DealStatus
         //------------------------------------------------------------------------------------
         // GET api/v1/dealstatus
         [HttpGet]
-        [Authorize(Policy = "{A17E8E69-1427-472E-9F15-EA4E31590ABE}")]
         [FwControllerMethod(Id:"XuLVm4no7I01")]
         public async Task<ActionResult<IEnumerable<DealStatusLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
@@ -45,7 +43,6 @@ namespace WebApi.Modules.Settings.DealStatus
         //------------------------------------------------------------------------------------
         // GET api/v1/dealstatus/A0000001
         [HttpGet("{id}")]
-        [Authorize(Policy = "{A8FFA28F-E260-4B28-BB88-B4A5C2F0745B}")]
         [FwControllerMethod(Id:"M75TRmwTWZOg")]
         public async Task<ActionResult<DealStatusLogic>> GetOneAsync([FromRoute]string id)
         {
@@ -54,7 +51,6 @@ namespace WebApi.Modules.Settings.DealStatus
         //------------------------------------------------------------------------------------
         // POST api/v1/dealstatus
         [HttpPost]
-        [Authorize(Policy = "{C0DAAFEF-B169-4153-A6D4-C3B6D3C07F94}")]
         [FwControllerMethod(Id:"k4ajzXtOBUUj")]
         public async Task<ActionResult<DealStatusLogic>> PostAsync([FromBody]DealStatusLogic l)
         {
@@ -63,7 +59,6 @@ namespace WebApi.Modules.Settings.DealStatus
         //------------------------------------------------------------------------------------
         // DELETE api/v1/dealstatus/A0000001
         [HttpDelete("{id}")]
-        [Authorize(Policy = "{0C9DE590-155F-459E-B33E-90AEABFB5F50}")]
         [FwControllerMethod(Id:"IA0YUXIK11X7")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {

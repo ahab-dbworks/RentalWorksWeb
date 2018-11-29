@@ -19,7 +19,6 @@ namespace WebApi.Modules.Settings.Country
         //------------------------------------------------------------------------------------
         // POST api/v1/Country/browse
         [HttpPost("browse")]
-        [Authorize(Policy = "")]
         [FwControllerMethod(Id:"bsEsUDi9WpvA")]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
@@ -36,7 +35,6 @@ namespace WebApi.Modules.Settings.Country
         //------------------------------------------------------------------------------------
         // GET api/v1/Country
         [HttpGet]
-        [Authorize(Policy = "")]
         [FwControllerMethod(Id:"Uez8sugmBG3i")]
         public async Task<ActionResult<IEnumerable<CountryLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
@@ -45,7 +43,6 @@ namespace WebApi.Modules.Settings.Country
         //------------------------------------------------------------------------------------
         // GET api/v1/Country/A0000001
         [HttpGet("{id}")]
-        [Authorize(Policy = "")]
         [FwControllerMethod(Id:"G7CCMgm7lSbT")]
         public async Task<ActionResult<CountryLogic>> GetOneAsync([FromRoute]string id)
         {
@@ -54,7 +51,6 @@ namespace WebApi.Modules.Settings.Country
         //------------------------------------------------------------------------------------
         // POST api/v1/Country
         [HttpPost]
-        [Authorize(Policy = "")]
         [FwControllerMethod(Id:"T6ij8RURX6JI")]
         public async Task<ActionResult<CountryLogic>> PostAsync([FromBody]CountryLogic l)
         {
@@ -63,7 +59,6 @@ namespace WebApi.Modules.Settings.Country
         //------------------------------------------------------------------------------------
         // DELETE api/v1/Country/A0000001
         [HttpDelete("{id}")]
-        [Authorize(Policy = "")]
         [FwControllerMethod(Id:"643Hwtc5kewd")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {

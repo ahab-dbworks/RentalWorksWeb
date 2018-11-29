@@ -19,7 +19,6 @@ namespace WebApi.Modules.Settings.FacilityScheduleStatus
         //------------------------------------------------------------------------------------
         // POST api/v1/facilityschedulestatus/browse
         [HttpPost("browse")]
-        [Authorize(Policy = "{EE95A8B5-B9E7-4C19-8085-286D7E85F7F9}")]
         [FwControllerMethod(Id:"ssoioXCBXvv")]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
@@ -36,7 +35,6 @@ namespace WebApi.Modules.Settings.FacilityScheduleStatus
         //------------------------------------------------------------------------------------
         // GET api/v1/facilityschedulestatus
         [HttpGet]
-        [Authorize(Policy = "{196E7BFC-8E31-42E3-A776-4E8B2B66AD47}")]
         [FwControllerMethod(Id:"FeVOPc3rVWl")]
         public async Task<ActionResult<IEnumerable<FacilityScheduleStatusLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
@@ -45,7 +43,6 @@ namespace WebApi.Modules.Settings.FacilityScheduleStatus
         //------------------------------------------------------------------------------------
         // GET api/v1/facilityschedulestatus/A0000001
         [HttpGet("{id}")]
-        [Authorize(Policy = "{17E60B4C-49C0-45DB-B9A5-1E7805A05AC2}")]
         [FwControllerMethod(Id:"4hMPg1cyEfR")]
         public async Task<ActionResult<FacilityScheduleStatusLogic>> GetOneAsync([FromRoute]string id)
         {
@@ -54,7 +51,6 @@ namespace WebApi.Modules.Settings.FacilityScheduleStatus
         //------------------------------------------------------------------------------------
         // POST api/v1/facilityschedulestatus
         [HttpPost]
-        [Authorize(Policy = "{260ECC71-B40A-4626-9B3C-F6FBA00F4EBF}")]
         [FwControllerMethod(Id:"aSfogjb33RJ")]
         public async Task<ActionResult<FacilityScheduleStatusLogic>> PostAsync([FromBody]FacilityScheduleStatusLogic l)
         {
@@ -63,7 +59,6 @@ namespace WebApi.Modules.Settings.FacilityScheduleStatus
         //------------------------------------------------------------------------------------
         // DELETE api/v1/facilityschedulestatus/A0000001
         [HttpDelete("{id}")]
-        [Authorize(Policy = "{2AC9A850-6CCF-4997-ADC7-B125A9887CAC}")]
         [FwControllerMethod(Id:"kIqN9KW23ul")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {

@@ -19,7 +19,6 @@ namespace WebApi.Modules.Settings.WardrobeCondition
         //------------------------------------------------------------------------------------
         // POST api/v1/wardrobecondition/browse
         [HttpPost("browse")]
-        [Authorize(Policy = "")]
         [FwControllerMethod(Id:"QpF7nSd3RVJc0")]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
@@ -36,7 +35,6 @@ namespace WebApi.Modules.Settings.WardrobeCondition
         //------------------------------------------------------------------------------------
         // GET api/v1/wardrobecondition
         [HttpGet]
-        [Authorize(Policy = "")]
         [FwControllerMethod(Id:"nqGDq0R3JfueX")]
         public async Task<ActionResult<IEnumerable<WardrobeConditionLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
@@ -45,7 +43,6 @@ namespace WebApi.Modules.Settings.WardrobeCondition
         //------------------------------------------------------------------------------------
         // GET api/v1/wardrobecondition/A0000001
         [HttpGet("{id}")]
-        [Authorize(Policy = "")]
         [FwControllerMethod(Id:"l98oi2bBoOEuM")]
         public async Task<ActionResult<WardrobeConditionLogic>> GetOneAsync([FromRoute]string id)
         {
@@ -54,7 +51,6 @@ namespace WebApi.Modules.Settings.WardrobeCondition
         //------------------------------------------------------------------------------------
         // POST api/v1/wardrobecondition
         [HttpPost]
-        [Authorize(Policy = "")]
         [FwControllerMethod(Id:"7bBp8QOJInowP")]
         public async Task<ActionResult<WardrobeConditionLogic>> PostAsync([FromBody]WardrobeConditionLogic l)
         {
@@ -63,7 +59,6 @@ namespace WebApi.Modules.Settings.WardrobeCondition
         //------------------------------------------------------------------------------------
         // DELETE api/v1/wardrobecondition/A0000001
         [HttpDelete("{id}")]
-        [Authorize(Policy = "")]
         [FwControllerMethod(Id:"w5ucDy2Vka3rx")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {

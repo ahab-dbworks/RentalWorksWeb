@@ -18,7 +18,6 @@ namespace WebApi.Modules.Settings.ContactTitle
         //------------------------------------------------------------------------------------
         // POST api/v1/contacttitle/browse
         [HttpPost("browse")]
-        [Authorize(Policy = "{ADCFFDE3-E33B-4BE8-9B9C-B040617A332E}")]
         [FwControllerMethod(Id:"YyKb7wZVkPdW")]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
@@ -35,7 +34,6 @@ namespace WebApi.Modules.Settings.ContactTitle
         //------------------------------------------------------------------------------------
         // GET api/v1/contacttitle
         [HttpGet]
-        [Authorize(Policy = "{9E71C0F1-70A3-494B-A871-FFE69100BBB3}")]
         [FwControllerMethod(Id:"g4sA2cFUleeL")]
         public async Task<ActionResult<IEnumerable<ContactTitleLogic>>> GetManyAsync(int pageno, int pagesize, string sort)
         {
@@ -44,7 +42,6 @@ namespace WebApi.Modules.Settings.ContactTitle
         //------------------------------------------------------------------------------------
         // GET api/v1/contacttitle/A0000001
         [HttpGet("{id}")]
-        [Authorize(Policy = "{470B79CB-242D-4104-AF97-6416283CBCA8}")]
         [FwControllerMethod(Id:"QGGFZ82cpZdR")]
         public async Task<ActionResult<ContactTitleLogic>> GetOneAsync(string id)
         {
@@ -53,7 +50,6 @@ namespace WebApi.Modules.Settings.ContactTitle
         //------------------------------------------------------------------------------------
         // POST api/v1/contacttitle
         [HttpPost]
-        [Authorize(Policy = "{194C54FA-A4AC-4CD9-9B23-16BB87B0B214}")]
         [FwControllerMethod(Id:"KQlmrxaeUb6R")]
         public async Task<ActionResult<ContactTitleLogic>> PostAsync([FromBody]ContactTitleLogic l)
         {
@@ -62,7 +58,6 @@ namespace WebApi.Modules.Settings.ContactTitle
         //------------------------------------------------------------------------------------
         // DELETE api/v1/contacttitle/A0000001
         [HttpDelete("{id}")]
-        [Authorize(Policy = "{16D7F840-B67F-497B-804B-F806B413F806}")]
         [FwControllerMethod(Id:"2ovTDXxx0TEI")]
         public async Task<ActionResult<bool>> DeleteAsync(string id)
         {

@@ -19,7 +19,6 @@ namespace WebApi.Modules.Settings.BlackoutStatus
         //------------------------------------------------------------------------------------
         // POST api/v1/blackoutstatus/browse
         [HttpPost("browse")]
-        [Authorize(Policy = "{3EC1D66D-A977-4A7F-8D24-5930A002E63E}")]
         [FwControllerMethod(Id:"bxy3ONGlSyk")]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
@@ -36,7 +35,6 @@ namespace WebApi.Modules.Settings.BlackoutStatus
         //------------------------------------------------------------------------------------
         // GET api/v1/blackoutstatus
         [HttpGet]
-        [Authorize(Policy = "{C30C427F-F9DF-41D8-8569-14AD17680624}")]
         [FwControllerMethod(Id:"tYnzcntGlqo")]
         public async Task<ActionResult<IEnumerable<BlackoutStatusLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
@@ -45,7 +43,6 @@ namespace WebApi.Modules.Settings.BlackoutStatus
         //------------------------------------------------------------------------------------
         // GET api/v1/blackoutstatus/A0000001
         [HttpGet("{id}")]
-        [Authorize(Policy = "{5B6C7CAF-E5E5-45CC-88DF-0AA132F61CE0}")]
         [FwControllerMethod(Id:"bRtTdiTku8N")]
         public async Task<ActionResult<BlackoutStatusLogic>> GetOneAsync([FromRoute]string id)
         {
@@ -54,7 +51,6 @@ namespace WebApi.Modules.Settings.BlackoutStatus
         //------------------------------------------------------------------------------------
         // POST api/v1/blackoutstatus
         [HttpPost]
-        [Authorize(Policy = "{9B53148A-781B-4CAE-B4F3-AFAAA749A65A}")]
         [FwControllerMethod(Id:"TasAvZCSso8")]
         public async Task<ActionResult<BlackoutStatusLogic>> PostAsync([FromBody]BlackoutStatusLogic l)
         {
@@ -63,7 +59,6 @@ namespace WebApi.Modules.Settings.BlackoutStatus
         //------------------------------------------------------------------------------------
         // DELETE api/v1/blackoutstatus/A0000001
         [HttpDelete("{id}")]
-        [Authorize(Policy = "{1BA52854-4796-41B5-973D-9A9731BC4AFE}")]
         [FwControllerMethod(Id:"95GiHb7P2C7")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {

@@ -21,15 +21,7 @@ namespace WebApi.Modules.Settings.CustomerStatus
         public CustomerStatusController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(CustomerStatusLogic); }
         //------------------------------------------------------------------------------------
         // POST api/v1/customerstatus/browse
-        /// <summary>
-        /// Retrieves a list of records
-        /// </summary>
-        /// <remarks>Use the pageno and pagesize query string parameters to limit the result set and improve performance.</remarks>
-        /// <response code="200">Successfully retrieved records.</response>
-        /// <response code="500">Error in the webapi or database.</response>
         [HttpPost("browse")]
-        [Authorize(Policy = "{33F721F5-0D91-464C-AFA7-FA46622CE3C0}")]
-        //[ApiExplorerSettings(IgnoreApi=true)]
         [FwControllerMethod(Id:"15HQTKcymqtl")]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
@@ -45,21 +37,7 @@ namespace WebApi.Modules.Settings.CustomerStatus
         }
         //------------------------------------------------------------------------------------
         // GET api/v1/customerstatus
-        /// <summary>
-        /// REST: Retrieves a list of records
-        /// </summary>
-        /// <remarks>Use the pageno and pagesize query string parameters to limit the result set and improve performance.</remarks>
-        /// <response code="200">Successfully retrieved records.</response>
-        /// <response code="401">Unauthorized - A valid JWT Bearer Token must be provided in the header.</response>
-        /// <response code="403">Forbidden - User is authenticated but does not have permission to access this resource.</response>
-        /// <response code="500">Error in the webapi or database.</response>
         [HttpGet]
-        [Authorize(Policy = "{D1CECF78-CC21-4B3C-8F16-11D31B996032}")]
-        [Produces(typeof(List<CustomerStatusLogic>))]
-        [SwaggerResponse(200, Type = typeof(List<CustomerStatusLogic>))]
-        [SwaggerResponse(401, Type = typeof(string))]
-        [SwaggerResponse(403, Type = typeof(string))]
-        [SwaggerResponse(500, Type = typeof(FwApiException))]
         [FwControllerMethod(Id:"Im04uc86spWS")]
         public async Task<ActionResult<IEnumerable<CustomerStatusLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
@@ -68,7 +46,6 @@ namespace WebApi.Modules.Settings.CustomerStatus
         //------------------------------------------------------------------------------------
         // GET api/v1/customerstatus/A0000001
         [HttpGet("{id}")]
-        [Authorize(Policy = "{FF697F23-9150-4252-8C58-A0063419B88E}")]
         [Produces(typeof(CustomerStatusLogic))]
         [SwaggerResponse(200, Type = typeof(CustomerStatusLogic))]
         [FwControllerMethod(Id:"YcelqqpvPUE9")]
@@ -79,7 +56,6 @@ namespace WebApi.Modules.Settings.CustomerStatus
         //------------------------------------------------------------------------------------
         // POST api/v1/customerstatus
         [HttpPost]
-        [Authorize(Policy = "{0178C657-4473-4889-945A-A2F88B3D31C0}")]
         [FwControllerMethod(Id:"H9LlejpZEsrD")]
         public async Task<ActionResult<CustomerStatusLogic>> PostAsync([FromBody]CustomerStatusLogic l)
         {
@@ -88,7 +64,6 @@ namespace WebApi.Modules.Settings.CustomerStatus
         //------------------------------------------------------------------------------------
         // DELETE api/v1/customerstatus/A0000001
         [HttpDelete("{id}")]
-        [Authorize(Policy = "{CDA85B7B-F766-410C-9B8E-D0DEFA313341}")]
         [FwControllerMethod(Id:"2g1IOr0BjKFm")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {

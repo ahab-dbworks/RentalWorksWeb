@@ -20,7 +20,6 @@ namespace WebApi.Controllers
 
         [HttpPost]
         [AllowAnonymous]
-        [FwControllerMethod(Id:"v3gVmSi29OUI")]
         public async Task<ActionResult<JwtResponseModel>> Post([FromBody] FwApplicationUser user)
         {
             return await DoPost(user);

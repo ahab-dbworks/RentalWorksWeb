@@ -19,7 +19,6 @@ namespace WebApi.Modules.Settings.GeneratorWatts
         //------------------------------------------------------------------------------------
         // POST api/v1/generatorwatts/browse
         [HttpPost("browse")]
-        [Authorize(Policy = "")]
         [FwControllerMethod(Id:"UJxdD5U2Icro")]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
@@ -36,7 +35,6 @@ namespace WebApi.Modules.Settings.GeneratorWatts
         //------------------------------------------------------------------------------------
         // GET api/v1/generatorwatts
         [HttpGet]
-        [Authorize(Policy = "")]
         [FwControllerMethod(Id:"btedXKcu5gNo")]
         public async Task<ActionResult<IEnumerable<GeneratorWattsLogic>>> GetManyAsync(int pageno, int pagesize, string sort)
         {
@@ -45,7 +43,6 @@ namespace WebApi.Modules.Settings.GeneratorWatts
         //------------------------------------------------------------------------------------
         // GET api/v1/generatorwatts/A0000001
         [HttpGet("{id}")]
-        [Authorize(Policy = "")]
         [FwControllerMethod(Id:"TzMA0Db3S0my")]
         public async Task<ActionResult<GeneratorWattsLogic>> GetOneAsync(string id)
         {
@@ -54,7 +51,6 @@ namespace WebApi.Modules.Settings.GeneratorWatts
         //------------------------------------------------------------------------------------
         // POST api/v1/generatorwatts
         [HttpPost]
-        [Authorize(Policy = "")]
         [FwControllerMethod(Id:"HE0oB0KwhLkP")]
         public async Task<ActionResult<GeneratorWattsLogic>> PostAsync([FromBody]GeneratorWattsLogic l)
         {
@@ -63,7 +59,6 @@ namespace WebApi.Modules.Settings.GeneratorWatts
         //------------------------------------------------------------------------------------
         // DELETE api/v1/generatorwatts/A0000001
         [HttpDelete("{id}")]
-        [Authorize(Policy = "")]
         [FwControllerMethod(Id:"MJm1LT5dsNWQ")]
         public async Task<ActionResult<bool>> DeleteAsync(string id)
         {

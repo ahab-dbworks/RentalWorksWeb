@@ -21,7 +21,6 @@ namespace WebApi.Modules.Settings.TaxOption
         //------------------------------------------------------------------------------------
         // POST api/v1/taxoption/browse
         [HttpPost("browse")]
-        [Authorize(Policy = "{051A9D01-5B55-4805-931A-75937FA04F33}")]
         [FwControllerMethod(Id:"8n3uk1wkv7Aty")]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
@@ -38,7 +37,6 @@ namespace WebApi.Modules.Settings.TaxOption
         //------------------------------------------------------------------------------------
         // GET api/v1/taxoption
         [HttpGet]
-        [Authorize(Policy = "{A17E8E69-1427-472E-9F15-EA4E31590ABE}")]
         [FwControllerMethod(Id:"HVUYo1siIIJDq")]
         public async Task<ActionResult<IEnumerable<TaxOptionLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
@@ -47,7 +45,6 @@ namespace WebApi.Modules.Settings.TaxOption
         //------------------------------------------------------------------------------------
         // GET api/v1/taxoption/A0000001
         [HttpGet("{id}")]
-        [Authorize(Policy = "{A8FFA28F-E260-4B28-BB88-B4A5C2F0745B}")]
         [FwControllerMethod(Id:"uGhPTfsN06ODS")]
         public async Task<ActionResult<TaxOptionLogic>> GetOneAsync([FromRoute]string id)
         {
@@ -56,7 +53,6 @@ namespace WebApi.Modules.Settings.TaxOption
         //------------------------------------------------------------------------------------
         // POST api/v1/taxoption
         [HttpPost]
-        [Authorize(Policy = "{C0DAAFEF-B169-4153-A6D4-C3B6D3C07F94}")]
         [FwControllerMethod(Id:"C7hnOuTsEeLr1")]
         public async Task<ActionResult<TaxOptionLogic>> PostAsync([FromBody]TaxOptionLogic l)
         {
@@ -65,7 +61,6 @@ namespace WebApi.Modules.Settings.TaxOption
         //------------------------------------------------------------------------------------
         // DELETE api/v1/taxoption/A0000001
         [HttpDelete("{id}")]
-        [Authorize(Policy = "{0C9DE590-155F-459E-B33E-90AEABFB5F50}")]
         [FwControllerMethod(Id:"lE3Ob6a7tDCKi")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {

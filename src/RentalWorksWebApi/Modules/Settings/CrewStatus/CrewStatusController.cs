@@ -19,7 +19,6 @@ namespace WebApi.Modules.Settings.CrewStatus
         //------------------------------------------------------------------------------------
         // POST api/v1/crewstatus/browse
         [HttpPost("browse")]
-        [Authorize(Policy = "")]
         [FwControllerMethod(Id:"jytxyhG31DQI")]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
@@ -36,7 +35,6 @@ namespace WebApi.Modules.Settings.CrewStatus
         //------------------------------------------------------------------------------------
         // GET api/v1/crewstatus
         [HttpGet]
-        [Authorize(Policy = "")]
         [FwControllerMethod(Id:"9mz0YTiM9Okm")]
         public async Task<ActionResult<IEnumerable<CrewStatusLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
@@ -45,7 +43,6 @@ namespace WebApi.Modules.Settings.CrewStatus
         //------------------------------------------------------------------------------------
         // GET api/v1/crewstatus/A0000001
         [HttpGet("{id}")]
-        [Authorize(Policy = "")]
         [FwControllerMethod(Id:"AixVcuKCOKHy")]
         public async Task<ActionResult<CrewStatusLogic>> GetOneAsync([FromRoute]string id)
         {
@@ -54,7 +51,6 @@ namespace WebApi.Modules.Settings.CrewStatus
         //------------------------------------------------------------------------------------
         // POST api/v1/crewstatus
         [HttpPost]
-        [Authorize(Policy = "")]
         [FwControllerMethod(Id:"zCrvul9cmmdC")]
         public async Task<ActionResult<CrewStatusLogic>> PostAsync([FromBody]CrewStatusLogic l)
         {
@@ -63,7 +59,6 @@ namespace WebApi.Modules.Settings.CrewStatus
         //------------------------------------------------------------------------------------
         // DELETE api/v1/crewstatus/A0000001
         [HttpDelete("{id}")]
-        [Authorize(Policy = "")]
         [FwControllerMethod(Id:"qCpoTdJ5J4TX")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {

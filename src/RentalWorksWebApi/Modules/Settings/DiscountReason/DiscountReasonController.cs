@@ -19,7 +19,6 @@ namespace WebApi.Modules.Settings.DiscountReason
         //------------------------------------------------------------------------------------
         // POST api/v1/discountreason/browse
         [HttpPost("browse")]
-        [Authorize(Policy = "")]
         [FwControllerMethod(Id:"W4UD9aC3FbTQ")]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
@@ -36,7 +35,6 @@ namespace WebApi.Modules.Settings.DiscountReason
         //------------------------------------------------------------------------------------
         // GET api/v1/discountreason
         [HttpGet]
-        [Authorize(Policy = "")]
         [FwControllerMethod(Id:"ghvyQxS9Gfyg")]
         public async Task<ActionResult<IEnumerable<DiscountReasonLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
@@ -45,7 +43,6 @@ namespace WebApi.Modules.Settings.DiscountReason
         //------------------------------------------------------------------------------------
         // GET api/v1/discountreason/A0000001
         [HttpGet("{id}")]
-        [Authorize(Policy = "")]
         [FwControllerMethod(Id:"PAPcb9pRoBJh")]
         public async Task<ActionResult<DiscountReasonLogic>> GetOneAsync([FromRoute]string id)
         {
@@ -54,7 +51,6 @@ namespace WebApi.Modules.Settings.DiscountReason
         //------------------------------------------------------------------------------------
         // POST api/v1/discountreason
         [HttpPost]
-        [Authorize(Policy = "")]
         [FwControllerMethod(Id:"ezsv35PM7URv")]
         public async Task<ActionResult<DiscountReasonLogic>> PostAsync([FromBody]DiscountReasonLogic l)
         {
@@ -63,7 +59,6 @@ namespace WebApi.Modules.Settings.DiscountReason
         //------------------------------------------------------------------------------------
         // DELETE api/v1/discountreason/A0000001
         [HttpDelete("{id}")]
-        [Authorize(Policy = "")]
         [FwControllerMethod(Id:"PIrEeU16N38D")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {

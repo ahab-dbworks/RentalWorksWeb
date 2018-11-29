@@ -19,7 +19,6 @@ namespace WebApi.Modules.Settings.InventoryCondition
         //------------------------------------------------------------------------------------
         // POST api/v1/inventorycondition/browse
         [HttpPost("browse")]
-        [Authorize(Policy = "")]
         [FwControllerMethod(Id:"jDQ5tPlefkH4")]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
@@ -36,7 +35,6 @@ namespace WebApi.Modules.Settings.InventoryCondition
         //------------------------------------------------------------------------------------
         // GET api/v1/inventorycondition
         [HttpGet]
-        [Authorize(Policy = "")]
         [FwControllerMethod(Id:"zgai4Qixt3Iv")]
         public async Task<ActionResult<IEnumerable<InventoryConditionLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
@@ -45,7 +43,6 @@ namespace WebApi.Modules.Settings.InventoryCondition
         //------------------------------------------------------------------------------------
         // GET api/v1/inventorycondition/A0000001
         [HttpGet("{id}")]
-        [Authorize(Policy = "")]
         [FwControllerMethod(Id:"z0xLp0pb1Js1")]
         public async Task<ActionResult<InventoryConditionLogic>> GetOneAsync([FromRoute]string id)
         {
@@ -54,7 +51,6 @@ namespace WebApi.Modules.Settings.InventoryCondition
         //------------------------------------------------------------------------------------
         // POST api/v1/inventorycondition
         [HttpPost]
-        [Authorize(Policy = "")]
         [FwControllerMethod(Id:"uwuXm3smW48v")]
         public async Task<ActionResult<InventoryConditionLogic>> PostAsync([FromBody]InventoryConditionLogic l)
         {
@@ -63,7 +59,6 @@ namespace WebApi.Modules.Settings.InventoryCondition
         //------------------------------------------------------------------------------------
         // DELETE api/v1/inventorycondition/A0000001
         [HttpDelete("{id}")]
-        [Authorize(Policy = "")]
         [FwControllerMethod(Id:"DHTyby6tWicz")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {

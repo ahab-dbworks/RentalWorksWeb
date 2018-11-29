@@ -18,7 +18,6 @@ namespace WebApi.Modules.Settings.Currency
         //------------------------------------------------------------------------------------
         // POST api/v1/currency/browse
         [HttpPost("browse")]
-        [Authorize(Policy = "")]
         [FwControllerMethod(Id:"kVgA6o6jUXxb")]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
@@ -36,7 +35,6 @@ namespace WebApi.Modules.Settings.Currency
         //------------------------------------------------------------------------------------
         // GET api/v1/currency
         [HttpGet]
-        [Authorize(Policy = "")]
         [FwControllerMethod(Id:"57JBRqWtA9aq")]
         public async Task<ActionResult<IEnumerable<CurrencyLogic>>> GetManyAsync(int pageno, int pagesize, string sort)
         {
@@ -45,7 +43,6 @@ namespace WebApi.Modules.Settings.Currency
         //------------------------------------------------------------------------------------
         // GET api/v1/currency/A0000001
         [HttpGet("{id}")]
-        [Authorize(Policy = "")]
         [FwControllerMethod(Id:"7GnJkw2izlDA")]
         public async Task<ActionResult<CurrencyLogic>> GetOneAsync(string id)
         {
@@ -54,7 +51,6 @@ namespace WebApi.Modules.Settings.Currency
         //------------------------------------------------------------------------------------
         // POST api/v1/currency
         [HttpPost]
-        [Authorize(Policy = "")]
         [FwControllerMethod(Id:"33zNZpmbNDuH")]
         public async Task<ActionResult<CurrencyLogic>> PostAsync([FromBody]CurrencyLogic l)
         {
@@ -63,7 +59,6 @@ namespace WebApi.Modules.Settings.Currency
         //------------------------------------------------------------------------------------
         // DELETE api/v1/currency/A0000001
         [HttpDelete("{id}")]
-        [Authorize(Policy = "")]
         [FwControllerMethod(Id:"fC8wVsWf2bpt")]
         public async Task<ActionResult<bool>> DeleteAsync(string id)
         {

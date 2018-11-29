@@ -19,7 +19,6 @@ namespace WebApi.Modules.Settings.CustomerCategory
         //------------------------------------------------------------------------------------
         // POST api/v1/CustomerCategory/browse
         [HttpPost("browse")]
-        [Authorize(Policy = "")]
         [FwControllerMethod(Id:"u6qC8PTeZOah")]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
@@ -36,7 +35,6 @@ namespace WebApi.Modules.Settings.CustomerCategory
         //------------------------------------------------------------------------------------
         // GET api/v1/CustomerCategory
         [HttpGet]
-        [Authorize(Policy = "")]
         [FwControllerMethod(Id:"7UihvqInYfBA")]
         public async Task<ActionResult<IEnumerable<CustomerCategoryLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
@@ -45,7 +43,6 @@ namespace WebApi.Modules.Settings.CustomerCategory
         //------------------------------------------------------------------------------------
         // GET api/v1/CustomerCategory/A0000001
         [HttpGet("{id}")]
-        [Authorize(Policy = "")]
         [FwControllerMethod(Id:"MA2bPlOhFORN")]
         public async Task<ActionResult<CustomerCategoryLogic>> GetOneAsync([FromRoute]string id)
         {
@@ -54,7 +51,6 @@ namespace WebApi.Modules.Settings.CustomerCategory
         //------------------------------------------------------------------------------------
         // POST api/v1/CustomerCategory
         [HttpPost]
-        [Authorize(Policy = "")]
         [FwControllerMethod(Id:"5gVFRyFJVL0D")]
         public async Task<ActionResult<CustomerCategoryLogic>> PostAsync([FromBody]CustomerCategoryLogic l)
         {
@@ -63,7 +59,6 @@ namespace WebApi.Modules.Settings.CustomerCategory
         //------------------------------------------------------------------------------------
         // DELETE api/v1/CustomerCategory/A0000001
         [HttpDelete("{id}")]
-        [Authorize(Policy = "")]
         [FwControllerMethod(Id:"SPtVH2HGBgMe")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {

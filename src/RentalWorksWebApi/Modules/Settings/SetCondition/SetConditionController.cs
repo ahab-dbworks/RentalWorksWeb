@@ -19,7 +19,6 @@ namespace WebApi.Modules.Settings.SetCondition
         //------------------------------------------------------------------------------------
         // POST api/v1/setscondition/browse
         [HttpPost("browse")]
-        [Authorize(Policy = "")]
         [FwControllerMethod(Id:"dqMMuPwDBIc9r")]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
@@ -36,7 +35,6 @@ namespace WebApi.Modules.Settings.SetCondition
         //------------------------------------------------------------------------------------
         // GET api/v1/setscondition
         [HttpGet]
-        [Authorize(Policy = "")]
         [FwControllerMethod(Id:"ol4O4CHC8wO2C")]
         public async Task<ActionResult<IEnumerable<SetConditionLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
@@ -45,7 +43,6 @@ namespace WebApi.Modules.Settings.SetCondition
         //------------------------------------------------------------------------------------
         // GET api/v1/setscondition/A0000001
         [HttpGet("{id}")]
-        [Authorize(Policy = "")]
         [FwControllerMethod(Id:"dcwh7ytveaoOj")]
         public async Task<ActionResult<SetConditionLogic>> GetOneAsync([FromRoute]string id)
         {
@@ -54,7 +51,6 @@ namespace WebApi.Modules.Settings.SetCondition
         //------------------------------------------------------------------------------------
         // POST api/v1/setscondition
         [HttpPost]
-        [Authorize(Policy = "")]
         [FwControllerMethod(Id:"NT9tDh51JEXtK")]
         public async Task<ActionResult<SetConditionLogic>> PostAsync([FromBody]SetConditionLogic l)
         {
@@ -63,7 +59,6 @@ namespace WebApi.Modules.Settings.SetCondition
         //------------------------------------------------------------------------------------
         // DELETE api/v1/setscondition/A0000001
         [HttpDelete("{id}")]
-        [Authorize(Policy = "")]
         [FwControllerMethod(Id:"4qIpX6lADEW0L")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {

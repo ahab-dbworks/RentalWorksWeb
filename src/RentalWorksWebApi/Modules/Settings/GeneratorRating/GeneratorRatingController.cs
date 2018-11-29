@@ -19,7 +19,6 @@ namespace WebApi.Modules.Settings.GeneratorRating
         //------------------------------------------------------------------------------------
         // POST api/v1/generatorrating/browse
         [HttpPost("browse")]
-        [Authorize(Policy = "{915BC77B-88C6-4DF7-9AC8-9B2CC0B2ECDB}")]
         [FwControllerMethod(Id:"I481QnyX57Xx")]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
@@ -36,7 +35,6 @@ namespace WebApi.Modules.Settings.GeneratorRating
         //------------------------------------------------------------------------------------
         // GET api/v1/generatorrating
         [HttpGet]
-        [Authorize(Policy = "{D014CE24-1518-4022-9D66-E779DF284AB4}")]
         [FwControllerMethod(Id:"03fxxP1iuQBc")]
         public async Task<ActionResult<IEnumerable<GeneratorRatingLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
@@ -45,7 +43,6 @@ namespace WebApi.Modules.Settings.GeneratorRating
         //------------------------------------------------------------------------------------
         // GET api/v1/generatorrating/A0000001
         [HttpGet("{id}")]
-        [Authorize(Policy = "{10B3F329-73CE-4359-8DF2-CF86DF76C9E4}")]
         [FwControllerMethod(Id:"C6ypz6FwV7il")]
         public async Task<ActionResult<GeneratorRatingLogic>> GetOneAsync([FromRoute]string id)
         {
@@ -54,7 +51,6 @@ namespace WebApi.Modules.Settings.GeneratorRating
         //------------------------------------------------------------------------------------
         // POST api/v1/generatorrating
         [HttpPost]
-        [Authorize(Policy = "{53DD87EE-08DA-4FE5-A2CC-EE8C38DA40C8}")]
         [FwControllerMethod(Id:"WXbrUWfWD4gs")]
         public async Task<ActionResult<GeneratorRatingLogic>> PostAsync([FromBody]GeneratorRatingLogic l)
         {
@@ -63,7 +59,6 @@ namespace WebApi.Modules.Settings.GeneratorRating
         //------------------------------------------------------------------------------------
         // DELETE api/v1/generatorrating/A0000001
         [HttpDelete("{id}")]
-        [Authorize(Policy = "{7E849D41-933F-4715-9F77-4FDB6278A138}")]
         [FwControllerMethod(Id:"8NNpylgBHqIL")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
