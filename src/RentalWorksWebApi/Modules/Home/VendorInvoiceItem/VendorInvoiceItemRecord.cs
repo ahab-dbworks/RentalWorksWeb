@@ -14,7 +14,7 @@ namespace WebApi.Modules.Home.VendorInvoiceItem
         public decimal? Quantity { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "masterid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
-        public string MasterId { get; set; }
+        public string InventoryId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "vendorinvoiceid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
         public string VendorInvoiceId { get; set; }
@@ -38,7 +38,7 @@ namespace WebApi.Modules.Home.VendorInvoiceItem
         public string PurchaseOrderId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "masteritemid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
-        public string MasterItemId { get; set; }
+        public string OrderItemId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "fromdate", modeltype: FwDataTypes.Date, sqltype: "datetime")]
         public string FromDate { get; set; }

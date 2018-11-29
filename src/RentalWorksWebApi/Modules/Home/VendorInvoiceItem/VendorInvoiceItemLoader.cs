@@ -16,19 +16,19 @@ namespace WebApi.Modules.Home.VendorInvoiceItem
         public string PurchaseOrderId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "masteritemid", modeltype: FwDataTypes.Text)]
-        public string MasterItemId { get; set; }
+        public string OrderItemId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "nestedmasteritemid", modeltype: FwDataTypes.Text)]
-        public string NestedMasterItemId { get; set; }
+        public string NestedOrderItemId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "masterid", modeltype: FwDataTypes.Text)]
-        public string MasterId { get; set; }
+        public string InventoryId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "masterno", modeltype: FwDataTypes.Text)]
-        public string MasterNumber { get; set; }
+        public string ICode { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "masternodisplay", modeltype: FwDataTypes.Text)]
-        public string MasterNumberDisplay { get; set; }
+        public string ICodeDisplay { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "categoryid", modeltype: FwDataTypes.Text)]
         public string CategoryId { get; set; }
@@ -109,7 +109,7 @@ namespace WebApi.Modules.Home.VendorInvoiceItem
         public string GlAccountId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "glno", modeltype: FwDataTypes.Text)]
-        public string GlNumber { get; set; }
+        public string GlAccountNo { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "incomeaccountid", modeltype: FwDataTypes.Text)]
         public string IncomeAccountId { get; set; }
@@ -121,10 +121,10 @@ namespace WebApi.Modules.Home.VendorInvoiceItem
         public decimal? DealBilledExtended { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "poorderid", modeltype: FwDataTypes.Text)]
-        public string PurchaseOrderOrderId { get; set; }
+        public string OrderId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "pomasteritemid", modeltype: FwDataTypes.Text)]
-        public string PurchaseOrderMasterItemId { get; set; }
+        public string OrderOrderItemId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "pono", modeltype: FwDataTypes.Text)]
         public string PurchaseOrderNumber { get; set; }
@@ -142,7 +142,7 @@ namespace WebApi.Modules.Home.VendorInvoiceItem
         public string DealTypeId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "ordertypeid", modeltype: FwDataTypes.Text)]
-        public string OrdertypeId { get; set; }
+        public string OrderTypeId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "qtyordered", modeltype: FwDataTypes.Decimal)]
         public decimal? QuantityOrdered { get; set; }
@@ -181,13 +181,13 @@ namespace WebApi.Modules.Home.VendorInvoiceItem
         public string WarehouseCode { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "chargetype", modeltype: FwDataTypes.Text)]
-        public string Chargetype { get; set; }
+        public string ChargeType { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "pibillingstart", modeltype: FwDataTypes.Date)]
-        public string Pibillingstart { get; set; }
+        public string PoItemBillingStartDate { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "pibillingend", modeltype: FwDataTypes.Date)]
-        public string Pibillingend { get; set; }
+        public string PoItemBillingEndDate { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "vendorinvoiceid", modeltype: FwDataTypes.Text)]
         public string VendorInvoiceId { get; set; }

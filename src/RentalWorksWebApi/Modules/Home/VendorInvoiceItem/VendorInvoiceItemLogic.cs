@@ -26,19 +26,19 @@ namespace WebApi.Modules.Home.VendorInvoiceItem
         public string PurchaseOrderId { get { return vendorInvoiceItem.PurchaseOrderId; } set { vendorInvoiceItem.PurchaseOrderId = value; } }
 
         [FwLogicProperty(Id: "myI8T0ywwoG")]
-        public string MasterItemId { get { return vendorInvoiceItem.MasterItemId; } set { vendorInvoiceItem.MasterItemId = value; } }
+        public string OrderItemId { get { return vendorInvoiceItem.OrderItemId; } set { vendorInvoiceItem.OrderItemId = value; } }
 
         [FwLogicProperty(Id: "s1AWG9Ol0gU", IsReadOnly: true)]
-        public string NestedMasterItemId { get; set; }
+        public string NestedOrderItemId { get; set; }
 
         [FwLogicProperty(Id: "ji0t7AxVEyc")]
-        public string MasterId { get { return vendorInvoiceItem.MasterId; } set { vendorInvoiceItem.MasterId = value; } }
+        public string InventoryId { get { return vendorInvoiceItem.InventoryId; } set { vendorInvoiceItem.InventoryId = value; } }
 
         [FwLogicProperty(Id: "OQ2oxmDFUe2", IsReadOnly: true)]
-        public string MasterNumber { get; set; }
+        public string ICode { get; set; }
 
         [FwLogicProperty(Id: "3aPrWgxrSjQ", IsReadOnly: true)]
-        public string MasterNumberDisplay { get; set; }
+        public string ICodeDisplay { get; set; }
 
         [FwLogicProperty(Id: "UiAlpEWj7Qj", IsReadOnly: true)]
         public string CategoryId { get; set; }
@@ -119,7 +119,7 @@ namespace WebApi.Modules.Home.VendorInvoiceItem
         public string GlAccountId { get { return vendorInvoiceItem.GlAccountId; } set { vendorInvoiceItem.GlAccountId = value; } }
 
         [FwLogicProperty(Id: "Zq24XT8UZFJ", IsReadOnly: true)]
-        public string GlNumber { get; set; }
+        public string GlAccountNo { get; set; }
 
         [FwLogicProperty(Id: "BJIG0rBWxK5", IsReadOnly: true)]
         public string IncomeAccountId { get; set; }
@@ -131,10 +131,10 @@ namespace WebApi.Modules.Home.VendorInvoiceItem
         public decimal? DealBilledExtended { get; set; }
 
         [FwLogicProperty(Id: "D3fdBPUW1Mp", IsReadOnly: true)]
-        public string PurchaseOrderOrderId { get; set; }
+        public string OrderId { get; set; }
 
         [FwLogicProperty(Id: "o0DrrB8ByfN", IsReadOnly: true)]
-        public string PurchaseOrderMasterItemId { get; set; }
+        public string OrderOrderItemId { get; set; }
 
         [FwLogicProperty(Id: "CBfBuK4AUqL", IsReadOnly: true)]
         public string PurchaseOrderNumber { get; set; }
@@ -152,7 +152,7 @@ namespace WebApi.Modules.Home.VendorInvoiceItem
         public string DealTypeId { get; set; }
 
         [FwLogicProperty(Id: "aKAKBStfBs9", IsReadOnly: true)]
-        public string OrdertypeId { get; set; }
+        public string OrderTypeId { get; set; }
 
         [FwLogicProperty(Id: "jXMR7AGCb4I", IsReadOnly: true)]
         public decimal? QuantityOrdered { get; set; }
@@ -191,13 +191,13 @@ namespace WebApi.Modules.Home.VendorInvoiceItem
         public string WarehouseCode { get; set; }
 
         [FwLogicProperty(Id: "Dn9ktvrm5hE", IsReadOnly: true)]
-        public string Chargetype { get; set; }
+        public string ChargeType { get; set; }
 
         [FwLogicProperty(Id: "AsvuOnFf6zW", IsReadOnly: true)]
-        public string Pibillingstart { get; set; }
+        public string PoItemBillingStartDate { get; set; }
 
         [FwLogicProperty(Id: "4CfoI1oHwyp", IsReadOnly: true)]
-        public string Pibillingend { get; set; }
+        public string PoItemBillingEndDate { get; set; }
 
         [FwLogicProperty(Id: "HltCLNfSZfa")]
         public string VendorInvoiceId { get { return vendorInvoiceItem.VendorInvoiceId; } set { vendorInvoiceItem.VendorInvoiceId = value; } }

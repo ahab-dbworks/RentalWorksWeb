@@ -128,16 +128,25 @@ class VendorInvoice {
                 FwFormField.setValueByDataField($form, 'DepartmentId', response.DepartmentId, response.Department);
                 FwFormField.setValueByDataField($form, 'WarehouseId', response.WarehouseId, response.Warehouse);
                 FwFormField.setValueByDataField($form, 'PurchaseOrderPaymentTermsId', response.PaymentTermsId, response.PaymentTerms);
+                FwFormField.setValueByDataField($form, 'OrderDescription', response.Description);
+                FwFormField.setValueByDataField($form, 'PurchaseOrderBillingCycleId', response.BillingCycleId, response.BillingCycle);
+                FwFormField.setValueByDataField($form, 'PurchaseOrderDate', response.PurchaseOrderDate);
+                FwFormField.setValueByDataField($form, 'PurchaseOrderEstimatedStartDate', response.EstimatedStartDate);
+                FwFormField.setValueByDataField($form, 'PurchaseOrderEstimatedStopDate', response.EstimatedStopDate);
 
                 //add days to date to get invoice due date
                 let invoiceDate = FwFormField.getValueByDataField($form, 'InvoiceDate');
-                invoiceDate = new Date(invoiceDate);
-                let dueDate = moment(invoiceDate).add(response.PaymentTermsDueInDays, 'days').calendar();
-                FwFormField.setValueByDataField($form, 'InvoiceDueDate', dueDate);
+                if (response.PaymentTermsDueInDays != 0) {
+                    invoiceDate = new Date(invoiceDate);
+                    let dueDate = moment(invoiceDate).add(response.PaymentTermsDueInDays, 'days').calendar();
+                    FwFormField.setValueByDataField($form, 'InvoiceDueDate', dueDate);
+                } else {
+                    FwFormField.setValueByDataField($form, 'InvoiceDueDate', invoiceDate);
+                }
             }, null, $form);
         });
 
-        $form.find('[data-datafield="PaymentTermsId"]').data('onchange', $tr => {
+        $form.find('[data-datafield="PurchaseOrderPaymentTermsId"]').data('onchange', $tr => {
             let invoiceDate = FwFormField.getValueByDataField($form, 'InvoiceDate');
             invoiceDate = new Date(invoiceDate);
             let dueInDays = $tr.find('[data-browsedatafield="DueInDays"]').attr('data-originalvalue'); 
