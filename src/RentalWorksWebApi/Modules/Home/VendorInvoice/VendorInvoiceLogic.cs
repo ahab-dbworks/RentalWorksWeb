@@ -95,6 +95,27 @@ namespace WebApi.Modules.Home.VendorInvoice
         [FwLogicProperty(Id: "igqkGeIV82n8", IsReadOnly: true)]
         public string PurchaseOrderDealNumberDeal { get; set; }
 
+        [FwLogicProperty(Id: "64ZW2YPy5Gv", IsReadOnly: true)]
+        public string PurchaseOrderDate { get; set; }
+
+        [FwLogicProperty(Id: "YmeGNtMeXXF", IsReadOnly: true)]
+        public string PurchaseOrderEstimatedStopDate { get; set; }
+
+        [FwLogicProperty(Id: "pSNJePtSl5S", IsReadOnly: true)]
+        public string PurchaseOrderEstimatedStartDate { get; set; }
+
+        [FwLogicProperty(Id: "sawG1EfUbCz", IsReadOnly: true)]
+        public string PurchaseOrderBillingCycleId { get; set; }
+
+        [FwLogicProperty(Id: "WVL9pUKdqre", IsReadOnly: true)]
+        public string PurchaseOrderBillingCycle { get; set; }
+
+        [FwLogicProperty(Id: "FDC3i66l8C4", IsReadOnly: true)]
+        public string PurchaseOrderPaymentTermsId { get; set; }
+
+        [FwLogicProperty(Id: "Oa4U4uhNvtb", IsReadOnly: true)]
+        public string PurchaseOrderPaymentTerms { get; set; }
+
         [FwLogicProperty(Id: "r3ZPOUz3dSaZ")]
         public string ApprovedDate { get { return vendorInvoice.ApprovedDate; } set { vendorInvoice.ApprovedDate = value; } }
 

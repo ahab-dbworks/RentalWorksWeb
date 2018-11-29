@@ -1,8 +1,5 @@
-using FwStandard.DataLayer;
-using FwStandard.Models;
 using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
-using WebApi.Data;
 namespace WebApi.Modules.Home.VendorInvoice
 {
     [FwSqlTable("vendorinvoicewebview")]
@@ -32,6 +29,27 @@ namespace WebApi.Modules.Home.VendorInvoice
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "podealnodeal", modeltype: FwDataTypes.Text)]
         public string PurchaseOrderDealNumberDeal { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "podate", modeltype: FwDataTypes.Date)]
+        public string PurchaseOrderDate { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "poestrentfrom", modeltype: FwDataTypes.Date)]
+        public string PurchaseOrderEstimatedStopDate { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "poestrentto", modeltype: FwDataTypes.Date)]
+        public string PurchaseOrderEstimatedStartDate { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "pobillperiodid", modeltype: FwDataTypes.Text)]
+        public string PurchaseOrderBillingCycleId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "pobillperiod", modeltype: FwDataTypes.Text)]
+        public string PurchaseOrderBillingCycle { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "popaytermsid", modeltype: FwDataTypes.Text)]
+        public string PurchaseOrderPaymentTermsId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "popayterms", modeltype: FwDataTypes.Text)]
+        public string PurchaseOrderPaymentTerms { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "approveddate", modeltype: FwDataTypes.Date)]
         public string ApprovedDate { get; set; }
