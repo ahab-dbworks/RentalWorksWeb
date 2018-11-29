@@ -21,7 +21,7 @@ namespace RentalWorksAPI.api.v1
         /// </summary>
         /// <returns></returns>
         [HttpPost]
-        [Route("v1/quote")]
+        [Route("quote")]
         public HttpResponseMessage GetQuotes([FromBody]OrderParameters request)
         {
             List<Order> result = new List<Order>();
