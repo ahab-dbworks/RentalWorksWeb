@@ -1,3 +1,4 @@
 ﻿interface JQuery {
     colResizable();
+    inputmask;
 }

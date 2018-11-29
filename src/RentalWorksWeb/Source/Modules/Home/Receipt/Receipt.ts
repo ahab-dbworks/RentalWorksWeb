@@ -107,7 +107,6 @@ class Receipt {
             FwFormField.setValue($form, 'div[data-datafield="AppliedById"]', usersid, name);
         }
 
-
         return $form;
     };
     //----------------------------------------------------------------------------------------------
@@ -120,11 +119,11 @@ class Receipt {
     }
     //----------------------------------------------------------------------------------------------
     saveForm($form: any, parameters: any) {
+        this.getSetFormTableData($form);
         FwModule.saveForm(this.Module, $form, parameters);
         FwFormField.disable($form.find('div[data-datafield="PaymentBy"]'));
         FwFormField.disable($form.find('div[data-datafield="DealId"]'));
         FwFormField.disable($form.find('div[data-datafield="CustomerId"]'));
-        this.getFormTableData($form);
     }
     //----------------------------------------------------------------------------------------------
     loadAudit($form: any) {
@@ -175,7 +174,6 @@ class Receipt {
         this.paymentByRadioBehavior($form);
         this.loadReceiptInvoiceGrid($form);
         this.events($form);
-
     }
     //----------------------------------------------------------------------------------------------
     events($form: JQuery): void {
@@ -200,16 +198,16 @@ class Receipt {
                 DealId: dealId
             }
             FwAppData.apiMethod(true, 'POST', 'api/v1/receiptinvoice/browse', request, FwServices.defaultTimeout, function onSuccess(res) {
-                console.log('res', res.Columns)
                 let rows = res.Rows;
                 let html: Array<string> = [];
                 for (let i = 0; i < rows.length; i++) {
-                    html.push(`<tr class="row"><td class="text">${rows[i][8]}</td><td class="text InvoiceId" style="display:none;">${rows[i][0]}</td><td class="text">${rows[i][1]}</td><td class="text">${rows[i][2]}</td><td class="text">${rows[i][6]}</td><td class="text">${rows[i][3]}</td><td class="decimal">${rows[i][9]}</td><td class="decimal">${rows[i][12]}</td><td class="decimal">${rows[i][14]}</td><td class="decimal invoice-amount"><input class="decimal invoice-amount fwformfield" type="number" min="0" step=".01" pattern="^\d+(?:\.\d{1,2})?$" data-datatype="money" value="${rows[i][13]}"></td></tr>`)
+                    html.push(`<tr class="row"><td class="text">${rows[i][8]}</td><td class="text InvoiceId" style="display:none;">${rows[i][0]}</td><td class="text">${rows[i][1]}</td><td class="text">${rows[i][2]}</td><td class="text">${rows[i][6]}</td><td class="text">${rows[i][3]}</td><td class="decimal">${rows[i][9]}</td><td class="decimal">${rows[i][12]}</td><td class="decimal">${rows[i][14]}</td><td class="decimal invoice-amount"><input class="decimal fwformfield" type="text" autocapitalize="none" value="${rows[i][13]}"></td></tr>`)
                 }
                 let formTable = jQuery(html.join(''))
                 $form.find('.form-table').append(formTable);
+                $form.find('.invoice-amount input').inputmask({ alias: "currency", prefix: '' });
                 
-                $form.find('.invoice-amount input').on('change', (e) => {
+                $form.find('.invoice-amount input').on('change', e => {
                     let $tab, $tabpage;
                     e.stopPropagation();
 
@@ -219,34 +217,27 @@ class Receipt {
                     $form.attr('data-modified', 'true');
                     $form.find('.btn[data-type="SaveMenuBarButton"]').removeClass('disabled');
                 });
-                
-                //$form.find('.invoice-amount input').inputmask("numeric", {
-                //    radixPoint: ".",
-                //    groupSeparator: ",",
-                //    digits: 2,
-                //    autoGroup: true,
-                //    prefix: '$ ', //Space after $, this will not truncate the first character.
-                //    rightAlign: false,
-                //    oncleared: function () { self.Value(''); }
-                //});
+
                 $form.data('formtable', true)
             }, null, null);
         }
     }
     //----------------------------------------------------------------------------------------------
-    getFormTableData($form: JQuery): void {
+    getSetFormTableData($form: JQuery): void {
         let invoiceIdFields = jQuery($form.find('.InvoiceId'));
         let amountFields = jQuery($form.find('.invoice-amount input'));
-        let tableData: any =[];
+        let InvoiceDataList: any =[];
         for(let i = 0; i <invoiceIdFields.length; i++) {
             let fields: any = {}
             let invoiceId = jQuery(invoiceIdFields[i]).text();
             let amount = jQuery(amountFields[i]).val();
             fields.InvoiceId = invoiceId;
-            fields.Amount = +amount;
-            tableData.push(fields)
+            fields.Amount = amount;
+            InvoiceDataList.push(fields)
         }
-        console.log('tableData: ', tableData);
+        InvoiceDataList = JSON.stringify(InvoiceDataList)
+        FwFormField.setValue($form, 'div[data-datafield="InvoiceDataList"]', InvoiceDataList);
+        console.log('InvoiceDataList: ', InvoiceDataList);
     }
     //----------------------------------------------------------------------------------------------
     paymentByRadioBehavior($form: JQuery): void {
