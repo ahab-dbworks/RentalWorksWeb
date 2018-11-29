@@ -76,6 +76,7 @@ class VendorInvoice {
         if (mode === 'NEW') {
             let today = FwFunc.getDate();
             FwFormField.setValueByDataField($form, 'InvoiceDate', today);
+            $form.find('.continue').show();
         }
         return $form;
     };
@@ -94,34 +95,58 @@ class VendorInvoice {
     };
     //----------------------------------------------------------------------------------------------
     renderGrids($form) {
-     
+        let $vendorInvoiceItemGrid: any,
+            $vendorInvoiceItemGridControl: any;
+
+        $vendorInvoiceItemGrid = $form.find('div[data-grid="VendorInvoiceItemGrid"]');
+        $vendorInvoiceItemGridControl = jQuery(jQuery('#tmpl-grids-VendorInvoiceItemGridBrowse').html());
+        $vendorInvoiceItemGrid.empty().append($vendorInvoiceItemGridControl);
+        $vendorInvoiceItemGridControl.data('ondatabind', function (request) {
+            request.uniqueids = {
+                VendorInvoiceId: FwFormField.getValueByDataField($form, 'VendorInvoiceId')
+            }
+        })
+        FwBrowse.init($vendorInvoiceItemGridControl);
+        FwBrowse.renderRuntimeHtml($vendorInvoiceItemGridControl);
     };
     //----------------------------------------------------------------------------------------------
     afterLoad($form) {
         FwFormField.disable($form.find('[data-datafield="PurchaseOrderId"]'));
-        $form.find('[data-datafield="PurchaseOrderId"] input').change();
+        let $vendorInvoiceItemGridControl = $form.find('[data-name="VendorInvoiceItemGrid"]');
+        FwBrowse.search($vendorInvoiceItemGridControl);
     };
     //----------------------------------------------------------------------------------------------
     afterSave($form) {
     };
-  
     //----------------------------------------------------------------------------------------------
     events($form) {
+        //populate fields with PO info
         $form.find('[data-datafield="PurchaseOrderId"] input').on('change', e => {
             let purchaseOrderId = FwFormField.getValueByDataField($form, 'PurchaseOrderId');
             FwAppData.apiMethod(true, 'GET', `api/v1/purchaseorder/${purchaseOrderId}`, null, FwServices.defaultTimeout, function onSuccess(response) {
-                FwFormField.setValueByDataField($form, 'Vendor', response.VendorId, response.Vendor);
+                FwFormField.setValueByDataField($form, 'VendorId', response.VendorId, response.Vendor);
                 FwFormField.setValueByDataField($form, 'DepartmentId', response.DepartmentId, response.Department);
                 FwFormField.setValueByDataField($form, 'WarehouseId', response.WarehouseId, response.Warehouse);
-                FwFormField.setValueByDataField($form, 'PaymentTerms', response.PaymentTerms);
-                FwFormField.setValueByDataField($form, 'InvoiceDueDate', response.InvoiceDueDate);
-                FwFormField.setValue($form, $form.find('[data-caption="PO Date"]'), response.PurchaseOrderDate);
-                FwFormField.setValue($form, $form.find('[data-caption="Billing Cycle"]'), response.BillingCycleId, response.BillingCycle);
-                FwFormField.setValue($form, $form.find('[data-caption="Description"]'), response.Description);
-                FwFormField.setValue($form, $form.find('[data-caption="PO Estimated Rental Period"] [data-caption="From"]'), response.EstimatedStartDate);
-                FwFormField.setValue($form, $form.find('[data-caption="PO Estimated Rental Period"] [data-caption="To"]'), response.EstimatedStopDate);
+                FwFormField.setValueByDataField($form, 'PurchaseOrderPaymentTermsId', response.PaymentTermsId, response.PaymentTerms);
 
+                //add days to date to get invoice due date
+                let invoiceDate = FwFormField.getValueByDataField($form, 'InvoiceDate');
+                invoiceDate = new Date(invoiceDate);
+                let dueDate = moment(invoiceDate).add(response.PaymentTermsDueInDays, 'days').calendar();
+                FwFormField.setValueByDataField($form, 'InvoiceDueDate', dueDate);
             }, null, $form);
+        });
+
+        $form.find('[data-datafield="PaymentTermsId"]').data('onchange', $tr => {
+            let invoiceDate = FwFormField.getValueByDataField($form, 'InvoiceDate');
+            invoiceDate = new Date(invoiceDate);
+            let dueInDays = $tr.find('[data-browsedatafield="DueInDays"]').attr('data-originalvalue'); 
+            let dueDate = moment(invoiceDate).add(dueInDays, 'days').calendar();
+            FwFormField.setValueByDataField($form, 'InvoiceDueDate', dueDate);
+        });
+
+        $form.on('click', '.continue', e => {
+            $form.find('.btn[data-type="SaveMenuBarButton"]').click();
         });
     };
 };
