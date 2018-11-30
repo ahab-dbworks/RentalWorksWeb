@@ -31,7 +31,7 @@ namespace WebApi.Modules.Home.VendorInvoice
             using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
             {
                 FwSqlCommand qry = new FwSqlCommand(conn, "updatevendorinvoiceitem", appConfig.DatabaseSettings.QueryTimeout);
-                qry.AddParameter("@vendorinvoiceid", SqlDbType.NVarChar, ParameterDirection.InputOutput, request.VendorInvoiceId);
+                qry.AddParameter("@vendorinvoiceid", SqlDbType.NVarChar, ParameterDirection.Input, request.VendorInvoiceId);
                 qry.AddParameter("@orderid", SqlDbType.NVarChar, ParameterDirection.Input, request.PurchaseOrderId);
                 qry.AddParameter("@billingstart", SqlDbType.Date, ParameterDirection.Input, request.BillingStartDate);
                 qry.AddParameter("@billingend", SqlDbType.Date, ParameterDirection.Input, request.BillingEndDate);
