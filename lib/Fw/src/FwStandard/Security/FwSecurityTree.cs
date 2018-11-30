@@ -53,14 +53,14 @@ namespace FwStandard.Security
             return result;
         }
         //--------------------------------------------------------------------------------------------- 
-        private FwSecurityTreeNode Add(string parentid, string id, string caption, FwSecurityTreeNodeTypes nodeType)
+        private FwSecurityTreeNode Add(string parentid, string id, string caption, FwSecurityTreeNodeTypes nodeType, bool allowonnewform = false)
         {
             FwSecurityTreeNode parentNode = null, node;
             id = StripId(id);
             parentid = StripId(parentid);
             if (this.Nodes.ContainsKey(id)) throw new Exception("Application Tree already contains node id: " + id);
             if ((parentid != null) && (!this.Nodes.ContainsKey(parentid) && !this.ExcludedNodes.ContainsKey(parentid))) throw new Exception("Application Tree does not contain parent node id: " + parentid);
-            node = new FwSecurityTreeNode(id, caption, nodeType);
+            node = new FwSecurityTreeNode(id, caption, nodeType, allowonnewform);
             this.Nodes[id] = node;
             if (parentid != null)
             {
@@ -637,13 +637,13 @@ namespace FwStandard.Security
             return node;
         }
         //--------------------------------------------------------------------------------------------- 
-        public FwSecurityTreeNode AddSubMenuItem(string caption, string id, string parentid)
+        public FwSecurityTreeNode AddSubMenuItem(string caption, string id, string parentid, bool allowonnewform = false)
         {
             FwSecurityTreeNode node;
 
             id = StripId(id);
             parentid = StripId(parentid);
-            node = Add(parentid, id, caption, FwSecurityTreeNodeTypes.SubMenuItem);
+            node = Add(parentid, id, caption, FwSecurityTreeNodeTypes.SubMenuItem, allowonnewform);
 
             return node;
         }

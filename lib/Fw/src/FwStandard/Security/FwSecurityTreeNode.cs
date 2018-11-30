@@ -35,7 +35,7 @@ namespace FwStandard.Security
             this.Properties = new Dictionary<string, string>();
         }
         //---------------------------------------------------------------------------------------------
-        public FwSecurityTreeNode(string id, string caption, FwSecurityTreeNodeTypes nodeType) : this()
+        public FwSecurityTreeNode(string id, string caption, FwSecurityTreeNodeTypes nodeType, bool allowonnewform = false) : this()
         {
             this.Id = id;
             this.Properties["caption"] = caption;
@@ -60,6 +60,9 @@ namespace FwStandard.Security
             {
                 case FwSecurityTreeNodeTypes.Field:
                     this.Properties["editable"] = "T";
+                    break;
+                case FwSecurityTreeNodeTypes.SubMenuItem:
+                    this.Properties["allowonnewform"] = allowonnewform.ToString();
                     break;
             }
         }

@@ -1510,6 +1510,11 @@ class FwBrowseClass {
                                                         FwFunc.showError(ex);
                                                     }
                                                 });
+                                                let $form = $control.closest('.fwform');
+                                                let mode = $form.attr('data-mode');
+                                                if (gridSubMenuItem.properties.allowonnewform === 'False' && mode === 'NEW') {
+                                                    $submenuitem.css({ 'pointerEvents': 'none', 'color': 'lightgray' });
+                                                }
                                             }
                                         }
                                     }
