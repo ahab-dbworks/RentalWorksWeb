@@ -531,7 +531,7 @@ namespace RentalWorksAPI.api.v1.Data
             Error response = new Error();
             FwSqlCommand sp;
 
-            sp = new FwSqlCommand(FwSqlConnection.RentalWorks, "dbo.apiwebdeletemasteritem");
+            sp = new FwSqlCommand(FwSqlConnection.RentalWorks, "dbo.apirest_processmasteritemdelete");
             sp.AddParameter("@orderid",      orderid);
             sp.AddParameter("@masteritemid", masteritemid);
             sp.AddParameter("@errno",        SqlDbType.Int,     ParameterDirection.Output, 4);
