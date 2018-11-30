@@ -32,7 +32,6 @@ routes.push({ pattern: /^module\/order$/, action: function (match: RegExpExecArr
 routes.push({ pattern: /^module\/order\/(\w+)\/(\S+)/, action: function (match: RegExpExecArray) { var filter = { datafield: match[1], search: match[2] }; return TiwOrderController.getModuleScreen(filter); } });
 routes.push({ pattern: /^module\/orderstatus$/, action: function (match: RegExpExecArray) { return TiwOrderStatusController.getModuleScreen(); } });
 routes.push({ pattern: /^module\/picklist$/, action: function (match: RegExpExecArray) { return TiwPickListController.getModuleScreen(); } });
-routes.push({ pattern: /^module\/picklist\/(\w+)\/(\S+)/, action: function (match: RegExpExecArray) { var filter = { datafield: match[1], search: match[2] }; return TiwPickListController.getModuleScreen(filter); } });
 routes.push({ pattern: /^module\/purchaseorder$/, action: function (match: RegExpExecArray) { return TiwPurchaseOrderController.getModuleScreen(); } });
 routes.push({ pattern: /^module\/purchaseorder\/(\w+)\/(\S+)/, action: function (match: RegExpExecArray) { var filter = { datafield: match[1], search: match[2] }; return TiwPurchaseOrderController.getModuleScreen(filter); } });
 routes.push({ pattern: /^module\/repair$/, action: function (match: RegExpExecArray) { return TiwRepairController.getModuleScreen(); } });
