@@ -17,8 +17,8 @@ namespace RentalWorksAPI.api.v1.Data
             DataTable dt = new DataTable();
 
             qry = new FwSqlCommand(FwSqlConnection.RentalWorks);
-            qry.Add("select a.*, m.inactive");
-            qry.Add("  from apirest_rentalinventoryview a with (nolock) join master m with (nolock) on (a.masterid = m.masterid)");     // 2016-11-22: apirest_rentalinventoryview needs to be updated to include inactive column instead of doing this
+            qry.Add("select a.*");
+            qry.Add("  from apirest_rentalinventoryview a with (nolock)");
             qry.Add(" where a.datestamp > @asofdate");
             //qry.Add("order by inventorydepartmentorderby, categoryorderby, subcategoryorderby"); //2016-09-28: Ahab: need to remove
             qry.AddParameter("@asofdate", asofdate.GetSqlDate());
@@ -125,6 +125,7 @@ namespace RentalWorksAPI.api.v1.Data
                 newItem.masterid                   = dt.Rows[i]["masterid"].ToString().TrimEnd();
                 newItem.masterno                   = dt.Rows[i]["masterno"].ToString().TrimEnd();
                 newItem.master                     = dt.Rows[i]["master"].ToString().TrimEnd();
+                newItem.inactive                   = new FwDatabaseField(dt.Rows[i]["inactive"]).ToBoolean();
                 newItem.availfor                   = dt.Rows[i]["availfor"].ToString().TrimEnd();
                 newItem.availfrom                  = dt.Rows[i]["availfrom"].ToString().TrimEnd();
                 newItem.manufacturer               = dt.Rows[i]["manufacturer"].ToString().TrimEnd();
