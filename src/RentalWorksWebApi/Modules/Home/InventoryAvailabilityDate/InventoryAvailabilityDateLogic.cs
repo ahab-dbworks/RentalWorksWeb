@@ -26,7 +26,7 @@ namespace WebApi.Modules.Home.InventoryAvailabilityDate
         public string end { get; set; }
 
         [FwLogicProperty(Id:"1Yg9RYcsdgby")]
-        public string html { get; set; }
+        public string text { get; set; }
 
         [FwLogicProperty(Id:"tMLqaXxtEHUT")]
         public string backColor { get; set; }

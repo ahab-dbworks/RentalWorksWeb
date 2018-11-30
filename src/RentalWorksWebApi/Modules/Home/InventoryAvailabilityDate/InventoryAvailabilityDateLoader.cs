@@ -27,7 +27,7 @@ namespace WebApi.Modules.Home.InventoryAvailabilityDate
         public string end { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "description", modeltype: FwDataTypes.Text)]
-        public string html { get; set; }
+        public string text { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "color", modeltype: FwDataTypes.OleToHtmlColor)]
         public string backColor { get; set; }
@@ -85,31 +85,31 @@ namespace WebApi.Modules.Home.InventoryAvailabilityDate
         //------------------------------------------------------------------------------------
 
 
-        public override async Task<FwJsonDataTable> BrowseAsync(BrowseRequest request, FwCustomFields customFields = null)
-        {
-            FwJsonDataTable dt = null;
+        //public override async Task<FwJsonDataTable> BrowseAsync(BrowseRequest request, FwCustomFields customFields = null)
+        //{
+        //    FwJsonDataTable dt = null;
 
-            string inventoryId = GetUniqueIdAsString("InventoryId", request) ?? "";
-            string warehouseId = GetUniqueIdAsString("WarehouseId", request) ?? "";
-            DateTime fromDate = GetUniqueIdAsDate("FromDate", request) ?? DateTime.MinValue; 
-            DateTime toDate = GetUniqueIdAsDate("ToDate", request) ?? DateTime.MinValue; 
+        //    string inventoryId = GetUniqueIdAsString("InventoryId", request) ?? "";
+        //    string warehouseId = GetUniqueIdAsString("WarehouseId", request) ?? "";
+        //    DateTime fromDate = GetUniqueIdAsDate("FromDate", request) ?? DateTime.MinValue; 
+        //    DateTime toDate = GetUniqueIdAsDate("ToDate", request) ?? DateTime.MinValue; 
 
 
-            using (FwSqlConnection conn = new FwSqlConnection(this.AppConfig.DatabaseSettings.ConnectionString))
-            {
-                using (FwSqlCommand qry = new FwSqlCommand(conn, "getavaildata", this.AppConfig.DatabaseSettings.QueryTimeout))
-                {
-                    qry.AddParameter("@masterid", SqlDbType.NVarChar, ParameterDirection.Input, inventoryId);
-                    qry.AddParameter("@warehouseid", SqlDbType.NVarChar, ParameterDirection.Input, warehouseId);
-                    qry.AddParameter("@fromdate", SqlDbType.Date, ParameterDirection.Input, fromDate);
-                    qry.AddParameter("@todate", SqlDbType.Date, ParameterDirection.Input, toDate);
-                    qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, UserSession.UsersId);
-                    AddPropertiesAsQueryColumns(qry);
-                    dt = await qry.QueryToFwJsonTableAsync(false, 0);
-                }
-            }
-            return dt;
-        }
+        //    using (FwSqlConnection conn = new FwSqlConnection(this.AppConfig.DatabaseSettings.ConnectionString))
+        //    {
+        //        using (FwSqlCommand qry = new FwSqlCommand(conn, "getavaildata", this.AppConfig.DatabaseSettings.QueryTimeout))
+        //        {
+        //            qry.AddParameter("@masterid", SqlDbType.NVarChar, ParameterDirection.Input, inventoryId);
+        //            qry.AddParameter("@warehouseid", SqlDbType.NVarChar, ParameterDirection.Input, warehouseId);
+        //            qry.AddParameter("@fromdate", SqlDbType.Date, ParameterDirection.Input, fromDate);
+        //            qry.AddParameter("@todate", SqlDbType.Date, ParameterDirection.Input, toDate);
+        //            qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, UserSession.UsersId);
+        //            AddPropertiesAsQueryColumns(qry);
+        //            dt = await qry.QueryToFwJsonTableAsync(false, 0);
+        //        }
+        //    }
+        //    return dt;
+        //}
         //------------------------------------------------------------------------------------
 
 
