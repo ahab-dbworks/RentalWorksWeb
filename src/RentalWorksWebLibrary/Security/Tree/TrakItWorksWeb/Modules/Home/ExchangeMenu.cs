@@ -5,13 +5,13 @@ namespace WebLibrary.Security.Tree.TrakItWorksWeb.Modules.Settings
     public class ExchangeMenu : FwSecurityTreeBranch
     {
         //---------------------------------------------------------------------------------------------
-        public ExchangeMenu() : base("{76A62932-CBBA-403E-8BF2-0C2283BBAD8D}") { }
+        public ExchangeMenu() : base("{F9012ABC-B97E-433B-A604-F1DADFD6D7B7}") { }
         //---------------------------------------------------------------------------------------------
         public override void BuildBranch(FwSecurityTree tree)
         {
             // Form
-            var nodeForm = tree.AddForm("{388D6E84-BC78-46B4-9BFB-1C29984CE541}", MODULEID);
-                var nodeFormMenuBar = tree.AddMenuBar("{A55816DB-A398-4899-A278-F587ECB5FD5A}", nodeForm.Id);
+            var nodeForm = tree.AddForm("{9D1AEEEC-52AD-4AAE-8C20-8BAE6A6571E0}", MODULEID);
+                var nodeFormMenuBar = tree.AddMenuBar("{FAB65378-FF61-4DB6-841B-824ECC169000}", nodeForm.Id);
         }
         //---------------------------------------------------------------------------------------------
     }

@@ -1,4 +1,4 @@
-﻿routes.push({ pattern: /^module\/assignbarcodes$/, action: function (match: RegExpExecArray) { return AssignBarCodesController.getModuleScreen(); } });
+﻿//routes.push({ pattern: /^module\/assignbarcodes$/, action: function (match: RegExpExecArray) { return AssignBarCodesController.getModuleScreen(); } });
 
 class AssignBarCodes {
     Module: string = 'AssignBarCodes';

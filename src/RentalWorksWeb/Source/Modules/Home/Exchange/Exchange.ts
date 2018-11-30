@@ -1,4 +1,4 @@
-﻿routes.push({ pattern: /^module\/exchange$/, action: function (match: RegExpExecArray) { return ExchangeController.getModuleScreen(); } });
+﻿//routes.push({ pattern: /^module\/exchange$/, action: function (match: RegExpExecArray) { return ExchangeController.getModuleScreen(); } });
 
 class Exchange {
     Module: string = 'Exchange';

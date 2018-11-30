@@ -19,24 +19,25 @@ jQuery(function () {
 //---------------------------------------------------------------------------------
 //---------------------------------------------------------------------------------
 //Home Modules
+routes.push({ pattern: /^module\/assignbarcodes$/, action: function (match: RegExpExecArray) { return TiwAssignBarCodesController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/checkin$/, action: function (match: RegExpExecArray) { return TiwCheckInController.getModuleScreen(); } });
 routes.push({ pattern: /^module\/contact$/, action: function (match: RegExpExecArray) { return TiwContactController.getModuleScreen(); } });
-
 routes.push({ pattern: /^module\/customer$/, action: function (match: RegExpExecArray) { return TiwCustomerController.getModuleScreen(); } });
 routes.push({ pattern: /^module\/customer\/(\S+)\/(\S+)/, action: function (match: RegExpExecArray) { var filter = { 'datafield': match[1], 'search': match[2].replace(/%20/g, ' ').replace(/%2f/g, '/') }; return TiwCustomerController.getModuleScreen(filter); } });
 routes.push({ pattern: /^module\/deal$/, action: function (match: RegExpExecArray) { return TiwDealController.getModuleScreen(); } });
 routes.push({ pattern: /^module\/deal\/(\w+)\/(\S+)/, action: function (match: RegExpExecArray) { var filter = { datafield: match[1], search: match[2] }; return TiwDealController.getModuleScreen(filter); } });
+routes.push({ pattern: /^module\/exchange$/, action: function (match: RegExpExecArray) { return TiwExchangeController.getModuleScreen(); } });
 routes.push({ pattern: /^module\/item$/, action: function (match: RegExpExecArray) { return TiwAssetController.getModuleScreen(); } });
 routes.push({ pattern: /^module\/order$/, action: function (match: RegExpExecArray) { return TiwOrderController.getModuleScreen(); } });
 routes.push({ pattern: /^module\/order\/(\w+)\/(\S+)/, action: function (match: RegExpExecArray) { var filter = { datafield: match[1], search: match[2] }; return TiwOrderController.getModuleScreen(filter); } });
+routes.push({ pattern: /^module\/orderstatus$/, action: function (match: RegExpExecArray) { return TiwOrderStatusController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/picklist$/, action: function (match: RegExpExecArray) { return TiwPickListController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/picklist\/(\w+)\/(\S+)/, action: function (match: RegExpExecArray) { var filter = { datafield: match[1], search: match[2] }; return TiwPickListController.getModuleScreen(filter); } });
 routes.push({ pattern: /^module\/purchaseorder$/, action: function (match: RegExpExecArray) { return TiwPurchaseOrderController.getModuleScreen(); } });
 routes.push({ pattern: /^module\/purchaseorder\/(\w+)\/(\S+)/, action: function (match: RegExpExecArray) { var filter = { datafield: match[1], search: match[2] }; return TiwPurchaseOrderController.getModuleScreen(filter); } });
 routes.push({ pattern: /^module\/repair$/, action: function (match: RegExpExecArray) { return TiwRepairController.getModuleScreen(); } });
 routes.push({ pattern: /^module\/repair\/(\w+)\/(\S+)/, action: function (match: RegExpExecArray) { var filter = { datafield: match[1], search: match[2] }; return TiwRepairController.getModuleScreen(filter); } });
 routes.push({ pattern: /^module\/vendor$/, action: function (match: RegExpExecArray) { return TiwVendorController.getModuleScreen(); } });
-
-
-
-
 routes.push({ pattern: /^module\/quote$/, action: function (match: RegExpExecArray) { return QuoteController.getModuleScreen(); } });
 //routes.push({ pattern: /^module\/vendor$/,                 action: function(match: RegExpExecArray) { return RwVendorController.getModuleScreen(); } });
 //routes.push({ pattern: /^module\/rentalinventory$/,        action: function(match: RegExpExecArray) { return RwRentalInventoryController.getModuleScreen(); } });

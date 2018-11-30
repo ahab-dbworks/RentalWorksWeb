@@ -1,4 +1,4 @@
-﻿routes.push({ pattern: /^module\/picklist$/, action: function (match: RegExpExecArray) { return PickListController.getModuleScreen(); } });
+﻿//routes.push({ pattern: /^module\/picklist$/, action: function (match: RegExpExecArray) { return PickListController.getModuleScreen(); } });
 
 class PickList {
     Module: string = 'PickList';

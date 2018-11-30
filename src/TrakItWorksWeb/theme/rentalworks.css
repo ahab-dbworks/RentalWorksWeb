@@ -96,3 +96,7 @@ html.theme-material .fwbrowse table thead tr td .field .fieldcaption .caption {
   font-size: .7em;
   padding: 0 .4em;
 }
+
+.notabs {
+  margin:25px;
+}
