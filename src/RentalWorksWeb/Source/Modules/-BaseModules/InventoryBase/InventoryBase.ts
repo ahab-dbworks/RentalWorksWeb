@@ -90,6 +90,8 @@
             this.setupNewMode($form);
         }
 
+        this.loadScheduler($form);
+
         controller = $form.attr('data-controller');
         if (typeof window[controller]['openFormInventory'] === 'function') {
             window[controller]['openFormInventory']($form);
@@ -171,6 +173,194 @@
                 $form.find('.asset-submodule').hide();
             }
         });
+    }
+    //----------------------------------------------------------------------------------------------
+    loadScheduler($form) {
+
+        var dp = new DayPilot.Scheduler($form.find('#gantt')[0]);
+
+        // behavior and appearance
+        dp.cellWidth = 40;
+        dp.eventHeight = 30;
+        dp.headerHeight = 25;
+
+        // view
+        dp.startDate = moment().format('YYYY-MM-DD');  // or just dp.startDate = "2013-03-25";
+        dp.days = 31;
+        dp.scale = "Day";
+        dp.timeHeaders = [
+            { groupBy: "Month" },
+            { groupBy: "Day", format: "d" }
+        ];
+        dp.treeEnabled = true;
+        dp.resources = [
+            {
+                name: "200002-024", id: "A", expanded: true, children: [
+                    { name: "A", id: "A.1" },
+                    { name: "B", id: "A.2" }
+                ]
+            },
+            { name: "L300044", id: "B" },
+            { name: "L300230", id: "C" },
+            { name: "L300962", id: "D" }
+        ];
+        dp.events.list = [
+            {
+                start: "2018-11-30T00:00:00",
+                end: "2018-12-10T00:00:00",
+                id: "1",
+                resource: "A",
+                text: "200002-024 PENDING EXCHANGE (DED RENTALS)",
+                orderNumber: "200002-024",
+                orderStatus: "CONFIRMED",
+                deal: "Testing"
+            },
+            {
+                start: "2018-12-13T00:00:00",
+                end: "2018-12-27T00:00:00",
+                id: "6",
+                resource: "A",
+                text: "200002-024 PENDING EXCHANGE (DED RENTALS)",
+                orderNumber: "200002-024",
+                orderStatus: "CONFIRMED",
+                deal: "Testing"
+            },
+            {
+                start: "2018-11-30T00:00:00",
+                end: "2018-12-27T00:00:00",
+                id: "2",
+                resource: "B",
+                text: "L300044 SUB-RENTAL REPORT - SUBS (THE MOVIE HOUSE - 2014 RENTALS)",
+                orderNumber: "L300044",
+                orderStatus: "CONFIRMED",
+                deal: "Testing"
+            },
+            {
+                start: "2018-11-30T00:00:00",
+                end: "2018-12-27T00:00:00",
+                id: "2",
+                resource: "C",
+                text: "L300230 CROSS I-CODE EXCHANGE TEST (FELD RENTALS)",
+                orderNumber: "L300230",
+                orderStatus: "CONFIRMED",
+                deal: "Testing"
+            },
+            {
+                start: "2018-11-30T00:00:00",
+                end: "2018-12-27T00:00:00",
+                id: "2",
+                resource: "D",
+                text: "L300962 ORDER FOR STAGING A CONTAINER (ENDLESS3)",
+                orderNumber: "L300962",
+                orderStatus: "CONFIRMED",
+                deal: "Testing"
+            }
+        ];
+
+        dp.bubble = new DayPilot.Bubble({
+            cssClassPrefix: "bubble_default",
+            onLoad: function (args) {
+                var ev = args.source;
+                args.async = true;  // notify manually using .loaded()
+
+                // simulating slow server-side load
+                    args.html = "<div style='font-weight:bold'>" + ev.text() + "</div><div>Order Number: " + ev.data.orderNumber + "</div><div>Order Status: " + ev.data.orderStatus + "</div><div>Deal: " + ev.data.deal + "</div><div>Start: " + ev.start().toString("MM/dd/yyyy HH:mm") + "</div><div>End: " + ev.end().toString("MM/dd/yyyy HH:mm") + "</div><div>Id: " + ev.id() + "</div>";
+                    args.loaded();
+
+            }
+        });
+
+        dp.init();
+
+        //dp.onBeforeEventRender = function (args) {
+        //    args.data.html = '123';
+        //    args.data.backColor = "#ffc0c0";
+        //};
+        //dp.update();
+    }
+    //----------------------------------------------------------------------------------------------
+    loadGantt($form) {
+        var dp = new DayPilot.Gantt($form.find('#gantt')[0]);
+        dp.startDate = moment().format('YYYY-MM-DD');
+        dp.days = 31;
+        dp.init();
+        dp.onBeforeRowHeaderRender = function (args) {
+            args.row.backColor = 'coral';
+        };
+        dp.onBeforeCellRender = function (args) {
+            args.cell.backColor = 'coral';
+        };
+
+        dp.tasks.list = [
+            {
+                "id": "1",
+                "text": "200002-024",
+                "start": "2018-11-30T00:00:00",
+                "end": "2018-12-15T00:00:00",
+                "complete": "200002-024 PENDING EXCHANGE (DED RENTALS)",
+                "box": {
+                    "bubbleHtml": "Task details (box): <br/>Task 0<br>Starting on November 21, 2018",
+                    "html": "200002-024 PENDING EXCHANGE (DED RENTALS)",
+                    "htmlRight": "200002-024"
+                },
+            },
+            {
+                "id": "2",
+                "text": "L300044",
+                "start": "2018-11-30T00:00:00",
+                "end": "2018-12-30T00:00:00",
+                "complete": "L300044 SUB-RENTAL REPORT - SUBS (THE MOVIE HOUSE - 2014 RENTALS)",
+                "box": {
+                    "bubbleHtml": "Task details (box): <br/>Task 0<br>Starting on November 21, 2018",
+                    "html": "L300044 SUB-RENTAL REPORT - SUBS (THE MOVIE HOUSE - 2014 RENTALS)",
+                    "htmlRight": "L300044"
+                },
+            },
+            {
+                "id": "5",
+                "text": "L300044",
+                "start": "2018-12-16T00:00:00",
+                "end": "2018-12-30T00:00:00",
+                "complete": "L300044 SUB-RENTAL REPORT - SUBS (THE MOVIE HOUSE - 2014 RENTALS)",
+                "box": {
+                    "bubbleHtml": "Task details (box): <br/>Task 0<br>Starting on November 21, 2018",
+                    "html": "L300044 SUB-RENTAL REPORT - SUBS (THE MOVIE HOUSE - 2014 RENTALS)",
+                    "htmlRight": "L300044"
+                },
+            },
+            {
+                "id": "3",
+                "text": "L300230",
+                "start": "2018-11-30T00:00:00",
+                "end": "2018-12-30T00:00:00",
+                "complete": "L300230 CROSS I-CODE EXCHANGE TEST (FELD RENTALS)",
+                "title": "hello",
+                "box": {
+                    "bubbleHtml": "Task details (box): <br/>Task 0<br>Starting on November 21, 2018",
+                    "html": "L300230 CROSS I-CODE EXCHANGE TEST (FELD RENTALS)",
+                    "title": "L300230 CROSS I-CODE EXCHANGE TEST (FELD RENTALS)",
+                    "htmlRight": "L300230"
+                },
+            },
+            {
+                "id": "4",
+                "text": "L300962",
+                "start": "2018-11-30T00:00:00",
+                "end": "2018-12-02T00:00:00",
+                "complete": "",
+                "title": "hello",
+                "box": {
+                    "bubbleHtml": "Task details (box): <br/>Task 0<br>Starting on November 21, 2018",
+                    "html": "L300962 ORDER FOR STAGING A CONTAINER (ENDLESS3)",
+                    "title": "L300962 ORDER FOR STAGING A CONTAINER (ENDLESS3)",
+                    "htmlRight": "L300962"
+                },
+                "row": {
+                    "bubbleHtml": "Task details (row): <br/>Task 0<br>Starting on November 21, 2018"
+                }
+            },
+        ]
+        dp.update();
     }
     //----------------------------------------------------------------------------------------------
     addBrowseMenuItems($menuObject: any) {
