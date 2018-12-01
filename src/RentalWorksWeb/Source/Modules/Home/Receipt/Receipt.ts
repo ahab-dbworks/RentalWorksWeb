@@ -201,7 +201,7 @@ class Receipt {
                 let rows = res.Rows;
                 let html: Array<string> = [];
                 for (let i = 0; i < rows.length; i++) {
-                    html.push(`<tr class="row"><td class="text">${rows[i][8]}</td><td class="text InvoiceId" style="display:none;">${rows[i][0]}</td><td class="text">${rows[i][1]}</td><td class="text">${rows[i][2]}</td><td class="text">${rows[i][6]}</td><td class="text">${rows[i][3]}</td><td class="decimal">${rows[i][9]}</td><td class="decimal">${rows[i][12]}</td><td class="decimal">${rows[i][14]}</td><td class="decimal invoice-amount"><input class="decimal fwformfield" type="text" autocapitalize="none" value="${rows[i][13]}"></td></tr>`)
+                    html.push(`<tr class="row"><td class="text">${rows[i][8]}</td><td class="text InvoiceId" style="display:none;">${rows[i][0]}</td><td class="text">${rows[i][1]}</td><td class="text">${rows[i][2]}</td><td class="text">${rows[i][6]}</td><td class="text">${rows[i][3]}</td><td style="text-align:right;" class="decimal">${rows[i][9]}</td><td style="text-align:right;" class="decimal">${rows[i][12]}</td><td style="text-align:right;" class="decimal">${rows[i][14]}</td><td class="decimal  invoice-amount"><input class="decimal fwformfield-value" style="font-size:inherit" type="text" autocapitalize="none" value="${rows[i][13]}"></td></tr>`)
                 }
                 let formTable = jQuery(html.join(''))
                 $form.find('.form-table').append(formTable);
