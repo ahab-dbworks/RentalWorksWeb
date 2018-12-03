@@ -192,8 +192,9 @@ class CustomForm {
             case 'Browse':
                 let request: any = {};
                 request = {
-                    module: moduleNav,
-                    top: 1
+                    //module: moduleNav,
+                    //top: 1
+                    emptyobject: true
                 };
                 if (apiurl !== "undefined") {
                     FwAppData.apiMethod(true, 'POST', `${apiurl}/browse`, request, FwServices.defaultTimeout, function onSuccess(response) {
