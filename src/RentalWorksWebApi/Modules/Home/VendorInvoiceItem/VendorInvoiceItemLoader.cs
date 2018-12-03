@@ -30,11 +30,17 @@ namespace WebApi.Modules.Home.VendorInvoiceItem
         [FwSqlDataField(column: "masternodisplay", modeltype: FwDataTypes.Text)]
         public string ICodeDisplay { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "masternocolor", modeltype: FwDataTypes.Text)]
+        public string ICodeColor { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "categoryid", modeltype: FwDataTypes.Text)]
         public string CategoryId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "description", modeltype: FwDataTypes.Text)]
         public string Description { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "descriptioncolor", modeltype: FwDataTypes.Text)]
+        public string DescriptionColor { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "fromdate", modeltype: FwDataTypes.Date)]
         public string FromDate { get; set; }
@@ -86,6 +92,9 @@ namespace WebApi.Modules.Home.VendorInvoiceItem
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "rectype", modeltype: FwDataTypes.Text)]
         public string RecType { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "rectypedisplay", modeltype: FwDataTypes.Text)]
+        public string RecTypeDisplay { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "invno", modeltype: FwDataTypes.Text)]
         public string InvoiceNumber { get; set; }
@@ -176,6 +185,9 @@ namespace WebApi.Modules.Home.VendorInvoiceItem
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "warehouseid", modeltype: FwDataTypes.Text)]
         public string WarehouseId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "warehouse", modeltype: FwDataTypes.Text)]
+        public string Warehouse { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "whcode", modeltype: FwDataTypes.Text)]
         public string WarehouseCode { get; set; }

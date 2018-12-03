@@ -40,11 +40,17 @@ namespace WebApi.Modules.Home.VendorInvoiceItem
         [FwLogicProperty(Id: "3aPrWgxrSjQ", IsReadOnly: true)]
         public string ICodeDisplay { get; set; }
 
+        [FwLogicProperty(Id: "JEqTbwni7NP", IsReadOnly: true)]
+        public string ICodeColor { get; set; }
+
         [FwLogicProperty(Id: "UiAlpEWj7Qj", IsReadOnly: true)]
         public string CategoryId { get; set; }
 
         [FwLogicProperty(Id: "LNRxcEoyy0E")]
         public string Description { get { return vendorInvoiceItem.Description; } set { vendorInvoiceItem.Description = value; } }
+
+        [FwLogicProperty(Id: "qiIE8SBIIuA", IsReadOnly: true)]
+        public string DescriptionColor { get; set; }
 
         [FwLogicProperty(Id: "JTCA9XizihT")]
         public string FromDate { get { return vendorInvoiceItem.FromDate; } set { vendorInvoiceItem.FromDate = value; } }
@@ -96,6 +102,9 @@ namespace WebApi.Modules.Home.VendorInvoiceItem
 
         [FwLogicProperty(Id: "exXkaY5oxqK")]
         public string RecType { get { return vendorInvoiceItem.RecType; } set { vendorInvoiceItem.RecType = value; } }
+
+        [FwLogicProperty(Id: "Mesu7KoBYLI", IsReadOnly: true)]
+        public string RecTypeDisplay { get; set; }
 
         [FwLogicProperty(Id: "JgcJ7hw4Wgn", IsReadOnly: true)]
         public string InvoiceNumber { get; set; }
@@ -186,6 +195,9 @@ namespace WebApi.Modules.Home.VendorInvoiceItem
 
         [FwLogicProperty(Id: "4zF26ClTntC", IsReadOnly: true)]
         public string WarehouseId { get; set; }
+
+        [FwLogicProperty(Id: "RWyGFnBb5Pm", IsReadOnly: true)]
+        public string Warehouse { get; set; }
 
         [FwLogicProperty(Id: "qCGYmLVWoFa", IsReadOnly: true)]
         public string WarehouseCode { get; set; }
