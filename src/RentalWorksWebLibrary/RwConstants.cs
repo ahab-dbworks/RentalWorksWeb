@@ -118,6 +118,12 @@ namespace WebLibrary
         public const string PURCHASE_ORDER_STATUS_VOID = "VOID";
         public const string PURCHASE_ORDER_STATUS_SNAPSHOT = "SNAPSHOT";
 
+
+
+        //VENDOR INVOICE
+        public const string VENDOR_INVOICE_NUMBER_ACCRUAL = "ACCRUAL";
+
+
         //RECEIPT
         public const string RECEIPT_PAYMENT_BY_DEAL = "DEAL";
         public const string RECEIPT_PAYMENT_BY_CUSTOMER = "CUSTOMER";

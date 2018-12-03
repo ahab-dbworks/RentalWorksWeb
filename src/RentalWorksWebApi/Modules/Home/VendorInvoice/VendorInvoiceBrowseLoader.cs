@@ -3,6 +3,8 @@ using FwStandard.Models;
 using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
+using WebLibrary;
+
 namespace WebApi.Modules.Home.VendorInvoice
 {
     [FwSqlTable("vendorinvoicewebbrowseview")]
@@ -70,8 +72,8 @@ namespace WebApi.Modules.Home.VendorInvoice
             //bool paramBoolean = GetUniqueIdAsBoolean("ParamBoolean", request) ?? false; 
             base.SetBaseSelectQuery(select, qry, customFields, request);
             select.Parse();
-            select.AddWhere("(invno <> 'ACCRUAL')");
-            //addFilterToSelect("UniqueId", "uniqueid", select, request); 
+            select.AddWhere("(invno <> '" + RwConstants.VENDOR_INVOICE_NUMBER_ACCRUAL + "')");
+            addFilterToSelect("PurchaseOrderId", "orderid", select, request); 
             //select.AddParameter("@paramstring", paramString); 
             //select.AddParameter("@paramdate", paramDate); 
             //select.AddParameter("@paramboolean", paramBoolean); 
