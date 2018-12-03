@@ -4,6 +4,7 @@ using System.Data;
 using System.Threading.Tasks;
 using WebApi.Logic;
 using WebApi.Modules.Home.PurchaseOrder;
+using WebLibrary;
 
 namespace WebApi.Modules.Home.Contract
 {
@@ -67,6 +68,26 @@ namespace WebApi.Modules.Home.Contract
                 response.msg = qry.GetParameter("@msg").ToString();
             }
             return response;
+        }
+        //------------------------------------------------------------------------------------------------------- 
+        public static async Task<bool> SuspendedSessionsExist(FwApplicationConfig appConfig, FwUserSession userSession, string sessionType, string orderType = "")
+        {
+            bool suspendedSessionsExist = false;
+            if (orderType.Equals(""))
+            {
+                orderType = RwConstants.ORDER_TYPE_ORDER;
+            }
+            using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
+            {
+                FwSqlCommand qry = new FwSqlCommand(conn, "suspendedsessionsexist", appConfig.DatabaseSettings.QueryTimeout);
+                qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, userSession.UsersId);
+                qry.AddParameter("@sessiontype", SqlDbType.NVarChar, ParameterDirection.Input, sessionType);
+                qry.AddParameter("@ordertype", SqlDbType.NVarChar, ParameterDirection.Input, orderType);
+                qry.AddParameter("@sessionsexist", SqlDbType.NVarChar, ParameterDirection.Output);
+                await qry.ExecuteNonQueryAsync(true);
+                suspendedSessionsExist = qry.GetParameter("@sessionsexist").ToString().Equals("T");
+            }
+            return suspendedSessionsExist;
         }
         //------------------------------------------------------------------------------------------------------- 
     }

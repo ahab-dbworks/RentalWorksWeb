@@ -1753,6 +1753,44 @@
 			"name": "Check-Out / Staging",
 			"item": [
 				{
+					"name": "Check-Out: Suspended Sessions Exist",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/checkout/suspendedsessionsexist",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"checkout",
+								"suspendedsessionsexist"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "Check-Out: Stage Item (barcode)",
 					"request": {
 						"method": "POST",
@@ -2213,6 +2251,44 @@
 		{
 			"name": "Check-In",
 			"item": [
+				{
+					"name": "Check-In: Suspended Sessions Exist",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/checkin/suspendedsessionsexist",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"checkin",
+								"suspendedsessionsexist"
+							]
+						}
+					},
+					"response": []
+				},
 				{
 					"name": "Check-In: Start Check-In Session",
 					"request": {
@@ -10913,6 +10989,44 @@
 		{
 			"name": "Exchange",
 			"item": [
+				{
+					"name": "Exchange: Suspended Sessions Exist",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/exchange/suspendedsessionsexist",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"exchange",
+								"suspendedsessionsexist"
+							]
+						}
+					},
+					"response": []
+				},
 				{
 					"name": "Exchange: Start Exchange Contract",
 					"request": {
@@ -34433,6 +34547,44 @@
 					"response": []
 				},
 				{
+					"name": "Purchase Order: Receive Suspended Sessions Exist",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/purchaseorder/receivesuspendedsessionsexist",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"purchaseorder",
+								"receivesuspendedsessionsexist"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "Purchase Order: Start Receive Contract",
 					"request": {
 						"method": "POST",
@@ -34568,6 +34720,44 @@
 								"v1",
 								"purchaseorder",
 								"receivebarcodeadditems"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Purchase Order: Return Suspended Sessions Exist",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/purchaseorder/returnsuspendedsessionsexist",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"purchaseorder",
+								"returnsuspendedsessionsexist"
 							]
 						}
 					},
@@ -42077,6 +42267,46 @@
 			]
 		},
 		{
+			"name": "Suspended Session",
+			"item": [
+				{
+					"name": "Suspended Session: Browse",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"SessionNumber\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": [],\n    \t\"uniqueids\": {\n    \t\t\"OfficeLocationId\": \"B001WH00\",\n    \t\t\"SessionType\": \"OUT\",         \"xSessionTypeComment\": \"RECEIVE, OUT, EXCHANGE, IN, RETURN\",\n    \t\t\"OrderType\": \"O\",             \"xOrderTypeComment\": \"O = Order, C = Purchase Order\"\n    \t}\n}\n\n\n\n"
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/suspendedsession/browse",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"suspendedsession",
+								"browse"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
 			"name": "Tax Option",
 			"item": [
 				{
@@ -46492,7 +46722,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"Description\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": [],\n    \t\"uniqueids\": {\"IdField\": \"value\"}\n\t\n}"
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"Vendor\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": [],\n    \t\"uniqueids\": {\"IdField\": \"value\"}\n\t\n}"
 						},
 						"url": {
 							"raw": "http://localhost:57949/api/v1/vendorinvoice/browse",

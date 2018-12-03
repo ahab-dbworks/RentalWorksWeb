@@ -78,6 +78,14 @@ namespace WebLibrary
         public const string TOTAL_TYPE_EPISODIC = "E";
         public const string TOTAL_TYPE_PERIOD = "P";
 
+
+        //CONTRACT
+        public const string CONTRACT_TYPE_RECEIVE = "RECEIVE";
+        public const string CONTRACT_TYPE_OUT = "OUT";
+        public const string CONTRACT_TYPE_EXCHANGE = "EXCHANGE";
+        public const string CONTRACT_TYPE_IN = "IN";
+        public const string CONTRACT_TYPE_RETURN = "RETURN";
+
         //INVOICE
         public const string INVOICE_DATE_TYPE_INVOICE_DATE = "INVOICE_DATE";
         public const string INVOICE_DATE_TYPE_BILLING_START_DATE = "BILLING_START_DATE";

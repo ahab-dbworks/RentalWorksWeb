@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Http;
 //using WebApi.Home.CheckIn;
 using WebApi.Logic;
 using WebApi.Modules.Home.Contract;
+using WebLibrary;
 
 namespace WebApi.Modules.Home.CheckIn
 {
@@ -47,6 +48,31 @@ namespace WebApi.Modules.Home.CheckIn
         public CheckInController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
 
 
+
+        //------------------------------------------------------------------------------------ 
+
+        // GET api/v1/checkin/suspendedsessionsexist
+        [HttpGet("suspendedsessionsexist")]
+        [FwControllerMethod(Id: "gqnWo60RWZUkA")]
+        public async Task<ActionResult<bool>> SuspendedSessionsExist()
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                return await ContractFunc.SuspendedSessionsExist(AppConfig, UserSession, RwConstants.CONTRACT_TYPE_IN, RwConstants.ORDER_TYPE_ORDER);
+            }
+            catch (Exception ex)
+            {
+                FwApiException jsonException = new FwApiException();
+                jsonException.StatusCode = StatusCodes.Status500InternalServerError;
+                jsonException.Message = ex.Message;
+                jsonException.StackTrace = ex.StackTrace;
+                return StatusCode(jsonException.StatusCode, jsonException);
+            }
+        }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/checkin/startcheckincontract
         [HttpPost("startcheckincontract")]

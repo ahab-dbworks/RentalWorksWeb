@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Http;
 //using WebApi.Home.CheckOut;
 using WebApi.Logic;
 using WebApi.Modules.Home.Contract;
+using WebLibrary;
 
 namespace WebApi.Modules.Home.CheckOut
 {
@@ -66,6 +67,31 @@ namespace WebApi.Modules.Home.CheckOut
     public class CheckOutController : AppDataController
     {
         public CheckOutController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
+
+
+        //------------------------------------------------------------------------------------ 
+        // GET api/v1/checkout/suspendedsessionsexist
+        [HttpGet("suspendedsessionsexist")]
+        [FwControllerMethod(Id: "bcGmOQgVzeDpc")]
+        public async Task<ActionResult<bool>> SuspendedSessionsExist()
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                return await ContractFunc.SuspendedSessionsExist(AppConfig, UserSession, RwConstants.CONTRACT_TYPE_OUT, RwConstants.ORDER_TYPE_ORDER);
+            }
+            catch (Exception ex)
+            {
+                FwApiException jsonException = new FwApiException();
+                jsonException.StatusCode = StatusCodes.Status500InternalServerError;
+                jsonException.Message = ex.Message;
+                jsonException.StackTrace = ex.StackTrace;
+                return StatusCode(jsonException.StatusCode, jsonException);
+            }
+        }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/checkout/stageitem
         [HttpPost("stageitem")]

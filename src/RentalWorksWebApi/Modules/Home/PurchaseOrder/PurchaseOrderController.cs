@@ -231,6 +231,31 @@ namespace WebApi.Modules.Home.PurchaseOrder
         //------------------------------------------------------------------------------------       
 
 
+        // GET api/v1/purchaseorder/receivesuspendedsessionsexist
+        [HttpGet("receivesuspendedsessionsexist")]
+        [FwControllerMethod(Id: "RyFgNYsAQk5p9")]
+        public async Task<ActionResult<bool>> RecevieSuspendedSessionsExist()
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                return await ContractFunc.SuspendedSessionsExist(AppConfig, UserSession, RwConstants.CONTRACT_TYPE_RECEIVE, RwConstants.ORDER_TYPE_PURCHASE_ORDER);
+            }
+            catch (Exception ex)
+            {
+                FwApiException jsonException = new FwApiException();
+                jsonException.StatusCode = StatusCodes.Status500InternalServerError;
+                jsonException.Message = ex.Message;
+                jsonException.StackTrace = ex.StackTrace;
+                return StatusCode(jsonException.StatusCode, jsonException);
+            }
+        }
+        //------------------------------------------------------------------------------------ 
+
+
         // POST api/v1/purchaseorder/startreceivecontract
         [HttpPost("startreceivecontract")]
         [FwControllerMethod(Id:"Xs4EV6zXN8jsa")]
@@ -318,6 +343,34 @@ namespace WebApi.Modules.Home.PurchaseOrder
             }
         }
         //------------------------------------------------------------------------------------       
+
+
+        // GET api/v1/purchaseorder/returnsuspendedsessionsexist
+        [HttpGet("returnsuspendedsessionsexist")]
+        [FwControllerMethod(Id: "zPuvlEmQXvmog")]
+        public async Task<ActionResult<bool>> ReturnSuspendedSessionsExist()
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                return await ContractFunc.SuspendedSessionsExist(AppConfig, UserSession, RwConstants.CONTRACT_TYPE_RETURN, RwConstants.ORDER_TYPE_PURCHASE_ORDER);
+            }
+            catch (Exception ex)
+            {
+                FwApiException jsonException = new FwApiException();
+                jsonException.StatusCode = StatusCodes.Status500InternalServerError;
+                jsonException.Message = ex.Message;
+                jsonException.StackTrace = ex.StackTrace;
+                return StatusCode(jsonException.StatusCode, jsonException);
+            }
+        }
+        //------------------------------------------------------------------------------------ 
+
+
+
         // POST api/v1/purchaseorder/startreturncontract
         [HttpPost("startreturncontract")]
         [FwControllerMethod(Id:"IHQC7YuIlyflM")]
