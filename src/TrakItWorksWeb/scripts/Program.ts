@@ -167,32 +167,32 @@ routes.push({ pattern: /^module\/projectasbuild$/, action: function (match: RegE
 routes.push({ pattern: /^module\/projectitemsordered$/, action: function (match: RegExpExecArray) { return ProjectItemsOrderedController.getModuleScreen(); } });
 routes.push({ pattern: /^module\/deal$/, action: function (match: RegExpExecArray) { return DealController.getModuleScreen(); } });
 routes.push({ pattern: /^module\/deal\/(\S+)\/(\S+)/, action: function (match: RegExpExecArray) { var filter = { 'datafield': match[1], 'search': match[2].replace(/%20/g, ' ').replace(/%2f/g, '/') }; return DealController.getModuleScreen(filter); } });
-routes.push({ pattern: /^module\/vehicletype$/, action: function (match: RegExpExecArray) { return VehicleTypeController.getModuleScreen(); } });
-routes.push({ pattern: /^module\/laborcategory$/, action: function (match: RegExpExecArray) { return LaborCategoryController.getModuleScreen(); } });
-routes.push({ pattern: /^module\/misccategory$/, action: function (match: RegExpExecArray) { return MiscCategoryController.getModuleScreen(); } });
-routes.push({ pattern: /^module\/generatortype$/, action: function (match: RegExpExecArray) { return GeneratorTypeController.getModuleScreen(); } });
-routes.push({ pattern: /^module\/miscrate$/, action: function (match: RegExpExecArray) { return MiscRateController.getModuleScreen(); } });
-routes.push({ pattern: /^module\/laborrate$/, action: function (match: RegExpExecArray) { return LaborRateController.getModuleScreen(); } });
+//routes.push({ pattern: /^module\/vehicletype$/, action: function (match: RegExpExecArray) { return VehicleTypeController.getModuleScreen(); } });
+//routes.push({ pattern: /^module\/laborcategory$/, action: function (match: RegExpExecArray) { return LaborCategoryController.getModuleScreen(); } });
+//routes.push({ pattern: /^module\/misccategory$/, action: function (match: RegExpExecArray) { return MiscCategoryController.getModuleScreen(); } });
+//routes.push({ pattern: /^module\/generatortype$/, action: function (match: RegExpExecArray) { return GeneratorTypeController.getModuleScreen(); } });
+//routes.push({ pattern: /^module\/miscrate$/, action: function (match: RegExpExecArray) { return MiscRateController.getModuleScreen(); } });
+//routes.push({ pattern: /^module\/laborrate$/, action: function (match: RegExpExecArray) { return LaborRateController.getModuleScreen(); } });
 routes.push({ pattern: /^module\/holiday$/, action: function (match: RegExpExecArray) { return HolidayController.getModuleScreen(); } });
-routes.push({ pattern: /^module\/discounttemplate$/, action: function (match: RegExpExecArray) { return DiscountTemplateController.getModuleScreen(); } });
-routes.push({ pattern: /^module\/spacetype$/, action: function (match: RegExpExecArray) { return SpaceTypeController.getModuleScreen(); } });
+//routes.push({ pattern: /^module\/discounttemplate$/, action: function (match: RegExpExecArray) { return DiscountTemplateController.getModuleScreen(); } });
+//routes.push({ pattern: /^module\/spacetype$/, action: function (match: RegExpExecArray) { return SpaceTypeController.getModuleScreen(); } });
 routes.push({ pattern: /^module\/inventoryrank$/, action: function (match: RegExpExecArray) { return InventoryRankController.getModuleScreen(); } });
-routes.push({ pattern: /^module\/laborposition$/, action: function (match: RegExpExecArray) { return LaborPositionController.getModuleScreen(); } });
+//routes.push({ pattern: /^module\/laborposition$/, action: function (match: RegExpExecArray) { return LaborPositionController.getModuleScreen(); } });
 routes.push({ pattern: /^module\/eventtype$/, action: function (match: RegExpExecArray) { return EventTypeController.getModuleScreen(); } });
 routes.push({ pattern: /^module\/template$/, action: function (match: RegExpExecArray) { return TemplateController.getModuleScreen(); } });
-routes.push({ pattern: /^module\/gldistribution$/, action: function (match: RegExpExecArray) { return GlDistributionController.getModuleScreen(); } });
-routes.push({ pattern: /^module\/crew$/, action: function (match: RegExpExecArray) { return CrewController.getModuleScreen(); } });
-routes.push({ pattern: /^module\/quote$/, action: function (match: RegExpExecArray) { return QuoteController.getModuleScreen(); } });
+//routes.push({ pattern: /^module\/gldistribution$/, action: function (match: RegExpExecArray) { return GlDistributionController.getModuleScreen(); } });
+//routes.push({ pattern: /^module\/crew$/, action: function (match: RegExpExecArray) { return CrewController.getModuleScreen(); } });
+//routes.push({ pattern: /^module\/quote$/, action: function (match: RegExpExecArray) { return QuoteController.getModuleScreen(); } });
 routes.push({ pattern: /^module\/widget$/, action: function (match: RegExpExecArray) { return WidgetController.getModuleScreen(); } });
 routes.push({ pattern: /^module\/dashboard$/, action: function (match: RegExpExecArray) { return DashboardController.loadDashboard(); } });
-routes.push({ pattern: /^module\/contract$/, action: function (match: RegExpExecArray) { return ContractController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/contract$/, action: function (match: RegExpExecArray) { return TiwContractController.getModuleScreen(); } });
 
 //Reports
-routes.push({ pattern: /^module\/invoicesummaryreport/, action: function (match: RegExpExecArray) { return RwInvoiceSummaryReportController.getModuleScreen(); } });
+//routes.push({ pattern: /^module\/invoicesummaryreport/, action: function (match: RegExpExecArray) { return RwInvoiceSummaryReportController.getModuleScreen(); } });
 
 //Utilities Modules
-routes.push({ pattern: /^module\/chargeprocessing/, action: function (match: RegExpExecArray) { return ChargeProcessingController.getModuleScreen(); } });
-routes.push({ pattern: /^module\/receiptprocessing/, action: function (match: RegExpExecArray) { return ReceiptProcessingController.getModuleScreen(); } });
+//routes.push({ pattern: /^module\/chargeprocessing/, action: function (match: RegExpExecArray) { return ChargeProcessingController.getModuleScreen(); } });
+////routes.push({ pattern: /^module\/receiptprocessing/, action: function (match: RegExpExecArray) { return ReceiptProcessingController.getModuleScreen(); } });
 routes.push({ pattern: /^module\/vendorinvoiceprocessing/, action: function (match: RegExpExecArray) { return VendorInvoiceProcessingController.getModuleScreen(); } });
 
 //Administrator

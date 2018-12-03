@@ -17,12 +17,12 @@
             {
                 caption: 'Warehouse',
                 id: '293A157D-EA8E-48F6-AE97-15F9DE53041A',
-                children: [TiwAssignBarCodesController, TiwCheckInController, TiwExchangeController, TiwOrderStatusController, TiwPickListController, TiwReceiveFromVendorController, TiwReturnToVendorController, TiwStagingCheckoutController/*, InvoiceController*/]
+              children: [TiwAssignBarCodesController, TiwCheckInController, TiwContractController, TiwExchangeController, TiwOrderStatusController, TiwPickListController, TiwReceiveFromVendorController, TiwReturnToVendorController, TiwStagingCheckoutController/*, InvoiceController*/]
             },
             {
                 caption: 'Reports',
                 id: 'F62D2B01-E4C4-4E97-BFAB-6CF2B872A4E4',
-                children: [TiwCreatePickListController, TiwContractController/*, StagingCheckoutController, CheckInController, ReceiveFromVendorController, ReturnToVendorController, AssignBarCodesController*/]
+                children: [TiwCreatePickListController/*, StagingCheckoutController, CheckInController, ReceiveFromVendorController, ReturnToVendorController, AssignBarCodesController*/]
             },
             {
                 caption: 'Administator',
