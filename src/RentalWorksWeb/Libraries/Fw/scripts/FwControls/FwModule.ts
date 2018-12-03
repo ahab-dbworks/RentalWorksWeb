@@ -905,7 +905,7 @@ class FwModule {
                         if ($form.attr('data-mode') === 'NEW') {
                             $form.attr('data-mode', 'EDIT');
                             $formfields = jQuery().add($form.data('uniqueids')).add($form.data('fields'));
-                            $form.find('.submenu-btn').css({'pointer-events': 'auto', 'color': ''});
+                            $form.find('.submenu-btn').css({ 'pointer-events': 'auto', 'color': '' });
                         } else {
                             $formfields = $form.data('fields');
                         }
