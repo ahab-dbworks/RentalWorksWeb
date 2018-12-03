@@ -19,6 +19,7 @@ namespace WebApi.Modules.Home.CheckOut
     {
         public string OrderId { get; set; }
         public string OrderItemId { get; set; }
+        public string VendorId { get; set; }
         public string Code { get; set; }
         public int? Quantity { get; set; }
         public bool? UnstageItem { get; set; }

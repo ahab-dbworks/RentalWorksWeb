@@ -94,6 +94,7 @@ namespace WebApi.Modules.Home.CheckOut
                 qry.AddParameter("@orderid", SqlDbType.NVarChar, ParameterDirection.Input, request.OrderId);
                 qry.AddParameter("@masteritemid", SqlDbType.NVarChar, ParameterDirection.InputOutput, request.OrderItemId);
                 qry.AddParameter("@code", SqlDbType.NVarChar, ParameterDirection.Input, request.Code);
+                qry.AddParameter("@vendorid", SqlDbType.NVarChar, ParameterDirection.Input, request.VendorId);
                 if (request.Quantity != null)
                 {
                     qry.AddParameter("@qty", SqlDbType.Int, ParameterDirection.Input, request.Quantity);
