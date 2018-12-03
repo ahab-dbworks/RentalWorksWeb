@@ -221,6 +221,10 @@ class PurchaseOrder {
             //$form.find(".frame .add-on").children().hide();
         };
 
+        let $submoduleVendorInvoiceBrowse = this.openVendorInvoiceBrowse($form);
+        $form.find('.vendorinvoice').append($submoduleVendorInvoiceBrowse);
+
+
         //$form.find('[data-datafield="BillToAddressDifferentFromIssuedToAddress"] .fwformfield-value').on('change', function () {
         //    var $this = jQuery(this);
         //    if ($this.prop('checked') === true) {
@@ -262,6 +266,7 @@ class PurchaseOrder {
         //    }
         //});
 
+
         FwFormField.disable($form.find('[data-datafield="RentalTaxRate1"]'));
         FwFormField.disable($form.find('[data-datafield="SalesTaxRate1"]'));
         FwFormField.disable($form.find('[data-datafield="LaborTaxRate1"]'));
@@ -282,6 +287,20 @@ class PurchaseOrder {
         return $form;
     };
 
+    //----------------------------------------------------------------------------------------------
+    openVendorInvoiceBrowse($form) {
+        var $browse;
+        $browse = VendorInvoiceController.openBrowse();
+
+        $browse.data('ondatabind', function (request) {
+            request.ActiveView = VendorInvoiceController.ActiveView;
+            request.uniqueids = {
+                PurchaseOrderId: FwFormField.getValueByDataField($form, 'PurchaseOrderId')
+            }
+        });
+
+        return $browse;
+    };
     //----------------------------------------------------------------------------------------------
     saveForm($form: any, parameters: any) {
         FwModule.saveForm(this.Module, $form, parameters);
@@ -740,7 +759,7 @@ class PurchaseOrder {
     };
     //----------------------------------------------------------------------------------------------
     getBrowseTemplate(): string {
-      return `
+        return `
           <div data-name="PurchaseOrder" data-control="FwBrowse" data-type="Browse" id="PurchaseOrderBrowse" class="fwcontrol fwbrowse" data-orderby="PurchaseOrderNumber" data-controller="PurchaseOrderController" data-hasinactive="false">
             <div class="column" data-width="0" data-visible="false">
               <div class="field" data-isuniqueid="true" data-datafield="PurchaseOrderId" data-browsedatatype="key"></div>
@@ -779,7 +798,7 @@ class PurchaseOrder {
     }
     //----------------------------------------------------------------------------------------------
     getFormTemplate(): string {
-      return `
+        return `
           <div id="purchaseorderform" class="fwcontrol fwcontainer fwform" data-control="FwContainer" data-type="form" data-version="1" data-caption="Purchase Order" data-rendermode="template" data-mode="" data-hasaudit="false" data-controller="PurchaseOrderController">
             <div data-control="FwFormField" data-type="key" class="fwcontrol fwformfield" data-isuniqueid="true" data-saveorder="1" data-caption="" data-datafield="PurchaseOrderId"></div>
             <div id="purchaseorderform-tabcontrol" class="fwcontrol fwtabs" data-control="FwTabs" data-type="">
@@ -798,7 +817,8 @@ class PurchaseOrder {
                 <!--<div data-type="tab" id="alltab" class="combinedtab tab" data-tabpageid="alltabpage" data-caption="Items"></div>
                 <div data-type="tab" id="contracttab" class="tab submodule" data-tabpageid="contracttabpage" data-caption="Contract"></div>-->
                 <div data-type="tab" id="billingtab" class="tab" data-tabpageid="billingtabpage" data-caption="Billing"></div>
-                <div data-type="tab" id="contactstab" class="tab" data-tabpageid="contactstabpage" data-caption="Contacts"></div>
+                  <div data-type="tab" id="vendorinvoicetab" class="tab" data-tabpageid="vendorinvoicetabpage" data-caption="Vendor Invoice"></div>
+<div data-type="tab" id="contactstab" class="tab" data-tabpageid="contactstabpage" data-caption="Contacts"></div>
                 <div data-type="tab" id="delivershiptab" class="tab" data-tabpageid="delivershiptabpage" data-caption="Deliver/Ship"></div>
                 <div data-type="tab" id="notetab" class="tab" data-tabpageid="notetabpage" data-caption="Notes"></div>
                 <div data-type="tab" id="historytab" class="tab" data-tabpageid="historytabpage" data-caption="History"></div>
@@ -1573,6 +1593,10 @@ class PurchaseOrder {
                     </div>
                   </div>
                 </div>-->
+    <!-- VENDOR INVOICE TAB-->
+      <div data-type="tabpage" id="vendorinvoicetabpage" class="tabpage submodule vendorinvoice" data-tabid="vendorinvoicetab">
+
+      </div>
                 <!-- CONTACTS TAB -->
                 <div data-type="tabpage" id="contactstabpage" class="tabpage" data-tabid="contactstab">
                   <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Contacts">
@@ -1814,7 +1838,7 @@ class PurchaseOrder {
             FwFormField.setValueByDataField($form, 'PartsTotal', '');
             FwFormField.disable($form.find('div[data-datafield="PartsTotalIncludesTax"]'));
         }
-      
+
         request.DiscountPercent = parseFloat(discountPercent);
         request.RecType = recType;
         request.PurchaseOrderId = purchaseOrderId;
@@ -1922,7 +1946,7 @@ class PurchaseOrder {
             $subLaborGrid = $form.find('.sublaborgrid [data-name="OrderItemGrid"]'),
             $subMiscGrid = $form.find('.submiscgrid [data-name="OrderItemGrid"]'),
             fields = jQuery($rentalGrid).find('thead tr.fieldnames > td.column > div.field');
-            let fieldNames: Array<string> = [];
+        let fieldNames: Array<string> = [];
 
         for (let i = 3; i < fields.length; i++) {
             let name = jQuery(fields[i]).attr('data-mappedfield');
@@ -2041,9 +2065,9 @@ class PurchaseOrder {
         // SubRentalDaysPerWeek for Sub-Rental OrderItemGrid
         $form.find('div[data-datafield="SubRentalDaysPerWeek"]').on('change', '.fwformfield-text, .fwformfield-value', event => {
             let request: any = {},
-            $orderItemGridRental = $form.find('.subrentalgrid [data-name="OrderItemGrid"]'),
-            purchaseOrderId = FwFormField.getValueByDataField($form, `${this.Module}Id`),
-            daysperweek = FwFormField.getValueByDataField($form, 'SubRentalDaysPerWeek');
+                $orderItemGridRental = $form.find('.subrentalgrid [data-name="OrderItemGrid"]'),
+                purchaseOrderId = FwFormField.getValueByDataField($form, `${this.Module}Id`),
+                daysperweek = FwFormField.getValueByDataField($form, 'SubRentalDaysPerWeek');
 
             request.DaysPerWeek = parseFloat(daysperweek);
             request.RecType = 'R';
