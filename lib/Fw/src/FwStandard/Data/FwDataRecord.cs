@@ -1208,17 +1208,36 @@ namespace FwStandard.DataLayer
         public virtual async Task<FwJsonDataTable> BrowseAsync(BrowseRequest request, FwCustomFields customFields = null)
         {
             FwJsonDataTable dt = null;
-            using (FwSqlConnection conn = new FwSqlConnection(AppConfig.DatabaseSettings.ConnectionString))
+            if (request.emptyobject)
             {
-                FwSqlSelect select = new FwSqlSelect();
-                select.EnablePaging = request.pageno != 0 || request.pagesize > 0;
-                select.PageNo = request.pageno;
-                select.PageSize = request.pagesize;
-                select.Top = request.top;
-                using (FwSqlCommand qry = new FwSqlCommand(conn, AppConfig.DatabaseSettings.QueryTimeout))
+                dt = new FwJsonDataTable();
+                PropertyInfo[] propertyInfos = this.GetType().GetProperties();
+                int i = 0;
+                foreach (PropertyInfo propertyInfo in propertyInfos)
                 {
-                    SetBaseSelectQuery(select, qry, customFields: customFields, request: request);
-                    dt = await qry.QueryToFwJsonTableAsync(select, false);
+                    if (propertyInfo.IsDefined(typeof(FwSqlDataFieldAttribute)))
+                    {
+                        FwSqlDataFieldAttribute sqlDataFieldAttribute = propertyInfo.GetCustomAttribute<FwSqlDataFieldAttribute>();
+                        dt.Columns.Add(new FwJsonDataTableColumn(propertyInfo.Name, propertyInfo.Name, sqlDataFieldAttribute.ModelType));
+                        dt.ColumnIndex[propertyInfo.Name] = i;
+                        i++;
+                    }
+                }
+            }
+            else
+            {
+                using (FwSqlConnection conn = new FwSqlConnection(AppConfig.DatabaseSettings.ConnectionString))
+                {
+                    FwSqlSelect select = new FwSqlSelect();
+                    select.EnablePaging = request.pageno != 0 || request.pagesize > 0;
+                    select.PageNo = request.pageno;
+                    select.PageSize = request.pagesize;
+                    select.Top = request.top;
+                    using (FwSqlCommand qry = new FwSqlCommand(conn, AppConfig.DatabaseSettings.QueryTimeout))
+                    {
+                        SetBaseSelectQuery(select, qry, customFields: customFields, request: request);
+                        dt = await qry.QueryToFwJsonTableAsync(select, false);
+                    }
                 }
             }
             return dt;

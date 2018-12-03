@@ -22,6 +22,7 @@ namespace FwStandard.Models
         public dynamic boundids { get; set; } = new ExpandoObject();
         public Dictionary<string, string> filterfields { get; set; } = new Dictionary<string, string>();
         public string activeview { get; set; } = string.Empty;
+        public bool emptyobject;  // send emptyobject=true to get a browse response with structure only, no data
 
         public BrowseRequest()
         {
