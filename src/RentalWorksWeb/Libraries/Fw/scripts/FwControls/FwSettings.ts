@@ -847,16 +847,23 @@ class FwSettingsClass {
             })
             .on('click', '.heading-menu', function (e) {
                 e.stopPropagation();
-                let menuButton: any = jQuery(this);
-                if (menuButton.parent().prev().css('display') === 'none') {
-                    menuButton.parent().prev().css('display', 'block');
+                let activeMenu = $control.find('.active-menu');
+                let $this: any = jQuery(this);
+                if ($this.parent().prev().css('display') === 'none') {
+                    $this.parent().prev().css('display', 'block').addClass('active-menu');
                     jQuery(document).one('click', function closeMenu(e) {
-                        if (menuButton.has(e.target).length === 0) {
-                            menuButton.parent().prev().css('display', 'none');
+                        if ($this.has(e.target).length === 0) {
+                            $this.parent().prev().removeClass('active-menu').css('display', 'none');
+                        } else {
+                            $this.parent().prev().css('display', 'block');
                         }
                     })
                 } else {
-                    menuButton.parent().prev().css('display', 'none');
+                    $this.parent().prev().removeClass('active-menu').css('display', 'none');
+                }
+
+                if (activeMenu.length > 0) {
+                    activeMenu.removeClass('active-menu').hide();
                 }
             })
             .on('click', '.refresh', function (e) {
