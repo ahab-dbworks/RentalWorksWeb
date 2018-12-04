@@ -1,14 +1,74 @@
 ﻿using FwStandard.Models;
 using FwStandard.SqlServer;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Threading.Tasks;
+using WebApi.Logic;
 using WebApi.Modules.Home.PurchaseOrderReceiveItem;
 using WebApi.Modules.Home.PurchaseOrderReturnItem;
 using WebLibrary;
 
 namespace WebApi.Modules.Home.PurchaseOrder
 {
+
+
+
+    public class ReceiveContractRequest
+    {
+        public string PurchaseOrderId;
+    }
+
+    public class ReceiveContractResponse
+    {
+        public string ContractId;
+    }
+
+    public class CompleteReceiveContractRequest
+    {
+        public bool? CreateOutContracts;
+    }
+
+
+    public class ReturnContractRequest
+    {
+        public string PurchaseOrderId;
+    }
+
+    public class ReturnContractResponse
+    {
+        public string ContractId;
+    }
+
+    public class PurchaseOrderReceiveBarCodeAddItemsRequest
+    {
+        public string PurchaseOrderId;
+        public string ContractId;
+    }
+
+    public class PurchaseOrderReceiveBarCodeAddItemsResponse : TSpStatusReponse
+    {
+        public int ItemsAdded;
+    }
+
+    public class PurchaseOrderReceiveAssignBarCodesRequest
+    {
+        public string PurchaseOrderId;
+        public string ContractId;
+    }
+
+    public class PurchaseOrderReceiveAssignBarCodesResponse : TSpStatusReponse
+    {
+    }
+
+
+
+    public class NextVendorInvoiceDefaultDatesReponse : TSpStatusReponse
+    {
+        public DateTime? BillingStartDate { get; set; }
+        public DateTime? BillingEndDate { get; set; }
+    }
+
 
     public static class PurchaseOrderFunc
     {
@@ -158,5 +218,27 @@ namespace WebApi.Modules.Home.PurchaseOrder
             return contractIds;
         }
         //-------------------------------------------------------------------------------------------------------            
+        public static async Task<NextVendorInvoiceDefaultDatesReponse> GetNextVendorInvoiceDefaultDates(FwApplicationConfig appConfig, FwUserSession userSession, string purchaseOrderId)
+        {
+            NextVendorInvoiceDefaultDatesReponse response = new NextVendorInvoiceDefaultDatesReponse();
+            using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
+            {
+                FwSqlCommand qry = new FwSqlCommand(conn, "getnextvendorinvoicedefaultdates", appConfig.DatabaseSettings.QueryTimeout);
+                qry.AddParameter("@poid", SqlDbType.NVarChar, ParameterDirection.Input, purchaseOrderId);
+                qry.AddParameter("@billingstart", SqlDbType.Date, ParameterDirection.Output);
+                qry.AddParameter("@billingend", SqlDbType.Date, ParameterDirection.Output);
+                //qry.AddParameter("@status", SqlDbType.Int, ParameterDirection.Output);
+                //qry.AddParameter("@msg", SqlDbType.NVarChar, ParameterDirection.Output);
+                await qry.ExecuteNonQueryAsync(true);
+                response.BillingStartDate = qry.GetParameter("@billingstart").ToDateTime();
+                response.BillingEndDate = qry.GetParameter("@billingend").ToDateTime();
+                //response.status = qry.GetParameter("@status").ToInt32();
+                //response.success = (response.status == 0);
+                //response.msg = qry.GetParameter("@msg").ToString();
+                response.success = true;
+            }
+            return response;
+        }
+        //-------------------------------------------------------------------------------------------------------    
     }
 }

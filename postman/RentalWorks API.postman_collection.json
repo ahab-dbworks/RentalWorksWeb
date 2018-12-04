@@ -2245,6 +2245,41 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "Stage Holding Item: Browse",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"ItemOrder\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": [],\n    \t\"uniqueids\": {\n    \t\t\"OrderId\": \"I00007TC\"\n    \t}\n}\n\n"
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/stageholdingitem/browse",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"stageholdingitem",
+								"browse"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
@@ -5877,7 +5912,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"Description\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": []\n\t\n}"
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"CrewId\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": [],\n    \t\"xemptyobject\": true\n\t\n}"
 						},
 						"url": {
 							"raw": "http://localhost:57949/api/v1/crew/browse",
@@ -34938,6 +34973,45 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "Purchase Order: Next Vendor Invoice Default Billing Dates",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/purchaseorder/nextvendorinvoicedefaultdates/I00005EL",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"purchaseorder",
+								"nextvendorinvoicedefaultdates",
+								"I00005EL"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
@@ -46794,7 +46868,7 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "http://localhost:57949/api/v1/vendorinvoice/00002WPC",
+							"raw": "http://localhost:57949/api/v1/vendorinvoice/F00CO2AS",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -46804,7 +46878,7 @@
 								"api",
 								"v1",
 								"vendorinvoice",
-								"00002WPC"
+								"F00CO2AS"
 							]
 						}
 					},

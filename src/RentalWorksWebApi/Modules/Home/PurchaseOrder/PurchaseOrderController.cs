@@ -14,58 +14,6 @@ using WebLibrary;
 
 namespace WebApi.Modules.Home.PurchaseOrder
 {
-
-
-    public class ReceiveContractRequest
-    {
-        public string PurchaseOrderId;
-    }
-
-    public class ReceiveContractResponse
-    {
-        public string ContractId;
-    }
-
-    public class CompleteReceiveContractRequest
-    {
-        public bool? CreateOutContracts;
-    }
-
-
-    public class ReturnContractRequest
-    {
-        public string PurchaseOrderId;
-    }
-
-    public class ReturnContractResponse
-    {
-        public string ContractId;
-    }
-
-    public class PurchaseOrderReceiveBarCodeAddItemsRequest
-    {
-        public string PurchaseOrderId;
-        public string ContractId;
-    }
-
-    public class PurchaseOrderReceiveBarCodeAddItemsResponse : TSpStatusReponse
-    {
-        public int ItemsAdded;
-    }
-
-    public class PurchaseOrderReceiveAssignBarCodesRequest
-    {
-        public string PurchaseOrderId;
-        public string ContractId;
-    }
-
-    public class PurchaseOrderReceiveAssignBarCodesResponse : TSpStatusReponse
-    {
-    }
-
-    
-
-
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "home-v1")]
     [FwController(Id:"9a0xOMvBM7Uh9")]
@@ -495,6 +443,29 @@ namespace WebApi.Modules.Home.PurchaseOrder
             }
         }
         //------------------------------------------------------------------------------------       
-
+        // GET api/v1/purchaseorder/nextvendorinvoicedefaultdates/A0000001
+        [HttpGet("nextvendorinvoicedefaultdates/{PurchaseOrderId}")]
+        [FwControllerMethod(Id: "e4lReUTArJ5Kg")]
+        public async Task<ActionResult<NextVendorInvoiceDefaultDatesReponse>> GetNextVendorInvoiceDefaultDates([FromRoute] string PurchaseOrderId)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                NextVendorInvoiceDefaultDatesReponse response = await PurchaseOrderFunc.GetNextVendorInvoiceDefaultDates(AppConfig, UserSession, PurchaseOrderId);
+                return new OkObjectResult(response);
+            }
+            catch (Exception ex)
+            {
+                FwApiException jsonException = new FwApiException();
+                jsonException.StatusCode = StatusCodes.Status500InternalServerError;
+                jsonException.Message = ex.Message;
+                jsonException.StackTrace = ex.StackTrace;
+                return StatusCode(jsonException.StatusCode, jsonException);
+            }
+        }
+        //------------------------------------------------------------------------------------       
     }
 }
