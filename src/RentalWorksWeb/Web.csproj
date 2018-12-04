@@ -446,6 +446,7 @@
     <TypeScriptCompile Include="Source\Modules\Home\Receipt\Receipt.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\Exchange\Exchange.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\CheckIn\CheckIn.ts" />
+    <TypeScriptCompile Include="Source\Modules\Home\SuspendedSession\SuspendedSession.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\VendorInvoice\VendorInvoice.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\Invoice\Invoice.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\SubWorksheet\SubWorksheet.ts" />
@@ -496,6 +497,7 @@
     <Content Include="Source\Modules\Home\Receipt\ReceiptForm.htm" />
     <Content Include="Source\Modules\Home\Exchange\ExchangeForm.htm" />
     <Content Include="Source\Modules\Home\CheckIn\CheckInForm.htm" />
+    <Content Include="Source\Modules\Home\SuspendedSession\SuspendedSessionBrowse.htm" />
     <Content Include="Source\Modules\Home\VendorInvoice\VendorInvoiceBrowse.htm" />
     <Content Include="Source\Modules\Home\VendorInvoice\VendorInvoiceForm.htm" />
     <Content Include="Source\Modules\Home\Invoice\InvoiceBrowse.htm" />

@@ -80,6 +80,7 @@ namespace WebLibrary.Security
 
 
             AddModule("Create Pick List",        "{5013C4FF-FC42-4EFE-AE9D-AAF6857F17B8}", null, "CreatePickListController", "module/createpicklist", homeiconbaseurl + "placeholder.png");
+            AddModule("Suspended Session",       "{5FBE7FF8-3770-48C5-855C-4320C961D95A}", null, "SuspendedSessionController", "module/suspendedsession", homeiconbaseurl + "placeholder.png");
 
             //Settings 
             var lv2menuAccountingSettings   = AddSettingsMenu("Accounting Settings",         "{BAF9A442-BA44-4DD1-9119-905C1A8FF199}", lv1menuSettings.Id,                                                                                        settingsiconbaseurl + "placeholder.png");
