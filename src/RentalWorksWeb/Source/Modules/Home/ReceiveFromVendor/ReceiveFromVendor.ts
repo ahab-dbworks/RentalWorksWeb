@@ -47,13 +47,58 @@ class ReceiveFromVendor {
             FwFormField.setValueByDataField($form, 'PurchaseOrderId', parentmoduleinfo.PurchaseOrderId, parentmoduleinfo.PurchaseOrderNumber);
             $form.find('[data-datafield="PurchaseOrderId"] input').change();
         }
+
+        this.getSuspendedSessions($form);
         this.getSoundUrls($form);
         this.getItems($form);
         this.events($form);
-
         return $form;
     };
     //----------------------------------------------------------------------------------------------
+    getSuspendedSessions($form) {
+        FwAppData.apiMethod(true, 'GET', 'api/v1/purchaseorder/receivesuspendedsessionsexist', null, FwServices.defaultTimeout, function onSuccess(response) {
+            $form.find('.buttonbar').append(`<div class="fwformcontrol suspendedsession" data-type="button" style="float:left;">Suspended Sessions</div>`);
+        }, null, $form);
+
+        $form.on('click', '.suspendedsession', e => {
+            let html = `<div>
+                 <div style="background-color:white; padding-right:10px; text-align:right;" class="close-modal"><i style="cursor:pointer;" class="material-icons">clear</i></div>
+<div id="suspendedSessions" style="max-width:1400px; max-height:750px; overflow:auto;"></div>
+            </div>`;
+
+            let $popup = FwPopup.renderPopup(jQuery(html), { ismodal: true });
+
+            let $browse = SuspendedSessionController.openBrowse();
+            let officeLocationId = JSON.parse(sessionStorage.getItem('location'));
+            officeLocationId = officeLocationId.locationid;
+            $browse.data('ondatabind', function (request) {
+                request.uniqueids = {
+                    OfficeLocationId: officeLocationId
+                    , SessionType: 'RECEIVE'
+                    , OrderType: 'C'
+                }
+            });
+
+            FwPopup.showPopup($popup);
+            jQuery('#suspendedSessions').append($browse);
+            FwBrowse.search($browse);
+
+            $popup.find('.close-modal > i').one('click', function (e) {
+                FwPopup.destroyPopup($popup);
+                jQuery(document).find('.fwpopup').off('click');
+                jQuery(document).off('keydown');
+            });
+
+            $browse.on('dblclick', 'tr.viewmode', e => {
+                //populate fields
+
+                FwPopup.destroyPopup($popup);
+            });
+
+        });
+    }
+    //----------------------------------------------------------------------------------------------
+
     getItems($form) {
         $form.find('[data-datafield="PurchaseOrderId"]').data('onchange', $tr => {
             FwFormField.disable($form.find('[data-datafield="PurchaseOrderId"]'));
