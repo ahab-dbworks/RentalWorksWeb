@@ -211,12 +211,13 @@ progress::-webkit-progress-value {
 /***************************
 Form tables
 ***************************/
-.form-table {  border-collapse: collapse; }
+.form-table {  border-collapse: collapse; font-size:.8em;}
+.form-table .header { background-color: #E0E0E0;}
 .form-table th { border: .75px solid black;padding:5px; }
 .form-table td { border: .75px solid black;padding:5px;margin:0; }
 .form-table td .text { text-align:left; }
 .form-table td .decimal { text-align:right; }
-.form-table input { height:100%;width:100%;border:0;padding:0;}
+.form-table input { height:100%;width:97%;padding:0;font-family:inherit;}
 
 
 /* Removes default up and down arrows in input[type="number"] */

@@ -188,38 +188,42 @@ class Receipt {
             let officeLocationId = JSON.parse(sessionStorage.getItem('location')).locationid;
             let receiptId = FwFormField.getValueByDataField($form, 'ReceiptId');
             let receiptDate = FwFormField.getValueByDataField($form, 'ReceiptDate');
-            let dealId = FwFormField.getValueByDataField($form, 'DealId');
-            let customerId = FwFormField.getValueByDataField($form, 'CustomerId'); // send visible field
+            let dealCustomer = FwFormField.getValue($form, '.deal-customer:visible'); // send visible field
 
             request.uniqueids = {
                 OfficeLocationId: officeLocationId,
                 ReceiptId: receiptId,
                 ReceiptDate: receiptDate,
-                DealId: dealId
+                DealId: dealCustomer
             }
             FwAppData.apiMethod(true, 'POST', 'api/v1/receiptinvoice/browse', request, FwServices.defaultTimeout, function onSuccess(res) {
                 let rows = res.Rows;
-                let html: Array<string> = [];
-                for (let i = 0; i < rows.length; i++) {
-                    html.push(`<tr class="row"><td class="text">${rows[i][8]}</td><td class="text InvoiceId" style="display:none;">${rows[i][0]}</td><td class="text">${rows[i][1]}</td><td class="text">${rows[i][2]}</td><td class="text">${rows[i][6]}</td><td class="text">${rows[i][3]}</td><td style="text-align:right;" class="decimal">${rows[i][9]}</td><td style="text-align:right;" class="decimal">${rows[i][12]}</td><td style="text-align:right;" class="decimal">${rows[i][14]}</td><td class="decimal  invoice-amount"><input class="decimal fwformfield-value" style="font-size:inherit" type="text" autocapitalize="none" value="${rows[i][13]}"></td></tr>`)
-                }
-                let formTable = jQuery(html.join(''))
-                $form.find('.form-table').append(formTable);
-                $form.find('.invoice-amount input').inputmask({ alias: "currency", prefix: '' });
-                
-                $form.find('.invoice-amount input').on('change', e => {
-                    let $tab, $tabpage;
-                    e.stopPropagation();
+                let htmlRows: Array<string> = [];
+                if (rows.length) {
+                    for (let i = 0; i < rows.length; i++) {
+                        htmlRows.push(`<tr class="row"><td class="text">${rows[i][8]}</td><td class="text InvoiceId" style="display:none;">${rows[i][0]}</td><td class="text">${rows[i][1]}</td><td class="text">${rows[i][2]}</td><td class="text">${rows[i][6]}</td>
+                                       <td class="text">${rows[i][3]}</td><td style="text-align:right;" class="decimal static-amount">${rows[i][9]}</td><td style="text-align:right;" class="decimal static-amount">${rows[i][12]}</td><td style="text-align:right;" class="decimal static-amount">${rows[i][14]}</td>
+                                       <td class="decimal invoice-amount"><input class="decimal fwformfield-value" style="font-size:inherit" type="text" autocapitalize="none" value="${rows[i][13]}"></td></tr>`
+                                      );
+                    }
+                    $form.find('.table-rows').html(htmlRows.join(''));
+                    $form.find('.invoice-amount input').inputmask({ alias: "currency", prefix: '' });
+                    $form.find('.static-amount:not(input)').inputmask({ alias: "currency", prefix: '' });
+                    $form.find('.table-rows input').eq(0).focus();
+                    $form.find('.invoice-amount input').on('change', e => {
+                        let $tab, $tabpage;
+                        e.stopPropagation();
 
-                    $tabpage = $form.parent();
-                    $tab = jQuery('#' + $tabpage.attr('data-tabid'));
-                    $tab.find('.modified').html('*');
-                    $form.attr('data-modified', 'true');
-                    $form.find('.btn[data-type="SaveMenuBarButton"]').removeClass('disabled');
-                });
+                        $tabpage = $form.parent();
+                        $tab = jQuery('#' + $tabpage.attr('data-tabid'));
+                        $tab.find('.modified').html('*');
+                        $form.attr('data-modified', 'true');
+                        $form.find('.btn[data-type="SaveMenuBarButton"]').removeClass('disabled');
+                    });
 
-                $form.data('formtable', true)
-            }, null, null);
+                    $form.data('formtable', true);
+                } 
+            }, null, $form);
         }
     }
     //----------------------------------------------------------------------------------------------

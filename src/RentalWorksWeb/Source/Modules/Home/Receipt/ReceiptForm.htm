@@ -18,8 +18,8 @@
                     <div data-value="DEAL" data-caption="Deal"></div>
                     <div data-value="CUSTOMER" data-caption="Customer"></div>
                   </div>
-                  <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Deal" data-datafield="DealId" data-displayfield="Deal" data-validationname="DealValidation" data-enabled="false" style="flex:1 1 225px;" data-required="true"></div>
-                  <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Customer" data-datafield="CustomerId" data-displayfield="Customer" data-validationname="CustomerValidation" data-enabled="false" style="flex:1 1 225px;display:none"></div>
+                  <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield deal-customer" data-caption="Deal" data-datafield="DealId" data-displayfield="Deal" data-validationname="DealValidation" data-enabled="false" style="flex:1 1 225px;" data-required="true"></div>
+                  <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield deal-customer" data-caption="Customer" data-datafield="CustomerId" data-displayfield="Customer" data-validationname="CustomerValidation" data-enabled="false" style="flex:1 1 225px;display:none"></div>
                   <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Receipt Date" data-datafield="ReceiptDate" data-enabled="false" style="flex:1 1 100px;"></div>
                 </div>
                 <div class="flexrow">
@@ -47,6 +47,10 @@
                       <th class="decimal">Due</th>
                       <th class="decimal" style="width:105px;" data-headerfield="Amount">Amount</th>
                     </tr>
+                    <tbody class="table-rows">
+                      <!--<tr class="row" style="height:33px;"><td class="text"></td><td class="text InvoiceId" style="display:none;"></td><td class="text"></td><td class="text"></td><td class="text"></td><td class="text"></td><td style="text-align:right;" class="decimal static-amount"></td><td style="text-align:right;" class="decimal static-amount"></td><td style="text-align:right;" class="decimal static-amount"></td><td class="decimal invoice-amount"></td></tr>-->
+                      <tr style="height:33px;"><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+                    </tbody>
                   </table>
                 </div>
               </div>
