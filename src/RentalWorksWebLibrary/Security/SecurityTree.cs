@@ -406,6 +406,7 @@ namespace WebLibrary.Security
             AddGrid("Space Rate",                             "{F0A6AFE7-3A31-4D2D-BC37-702D785C3734}", lv1menuGrids.Id, "SpaceRateGridController");
             AddGrid("Space Warehouse Rate",                   "{0F264871-A72C-48F7-9A6C-891208F52AD1}", lv1menuGrids.Id, "SpaceWarehouseRateGridController");
             AddGrid("Staged Items",                           "{132DEBAB-45F6-4977-A1A8-BAE5AC152780}", lv1menuGrids.Id, "StagedItemGridController");
+            AddGrid("Stage Holding Items",                    "{48D4A52C-0B47-4C85-BAB7-8B0A20DF895F}", lv1menuGrids.Id, "StageHoldingItemGridController");
             AddGrid("Stage Quantity Items",                   "{3CCB3EB0-983F-4974-9F7F-8B12A8C7DDE9}", lv1menuGrids.Id, "StageQuantityItemGridController");
             AddGrid("Pending Items",                          "{28DA22B8-D429-4751-B97D-8210D78C9402}", lv1menuGrids.Id, "CheckOutPendingItemGridController");
             AddGrid("Sub Category",                           "{070EBAE0-903E-48CE-9285-BDC3ECC07C68}", lv1menuGrids.Id, "SubCategoryGridController");

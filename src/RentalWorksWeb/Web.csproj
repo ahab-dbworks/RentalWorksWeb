@@ -183,6 +183,7 @@
     <Content Include="Source\Grids\CheckedOutItemGrid\CheckedOutItemGridBrowse.htm" />
     <Content Include="Source\Grids\CheckInQuantityItemsGrid\CheckInQuantityItemsGridBrowse.htm" />
     <Content Include="Source\Grids\AuditHistoryGrid\AuditHistoryGridBrowse.htm" />
+    <Content Include="Source\Grids\StageHoldingItemGrid\StageHoldingItemGridBrowse.htm" />
     <Content Include="Source\Grids\VendorInvoiceItemGrid\VendorInvoiceItemGridBrowse.htm" />
     <Content Include="Source\Grids\OrderItemGrid\OrderItemGridBrowse.htm" />
     <Content Include="Source\Grids\POReceiveBarCodeGrid\POReceiveBarCodeGridBrowse.htm" />
@@ -305,6 +306,7 @@
     <TypeScriptCompile Include="Source\Grids\CheckedOutItemGrid\CheckedOutItemGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\CheckInQuantityItemsGrid\CheckInQuantityItemsGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\AuditHistoryGrid\AuditHistoryGridController.ts" />
+    <TypeScriptCompile Include="Source\Grids\StageHoldingItemGrid\StageHoldingItemGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\VendorInvoiceItemGrid\VendorInvoiceItemGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\OrderItemGrid\OrderItemGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\POReceiveBarCodeGrid\POReceiveBarCodeGridController.ts" />
@@ -446,7 +448,6 @@
     <TypeScriptCompile Include="Source\Modules\Home\Receipt\Receipt.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\Exchange\Exchange.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\CheckIn\CheckIn.ts" />
-    <TypeScriptCompile Include="Source\Modules\Home\SuspendedSession\SuspendedSession.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\VendorInvoice\VendorInvoice.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\Invoice\Invoice.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\SubWorksheet\SubWorksheet.ts" />
@@ -497,7 +498,6 @@
     <Content Include="Source\Modules\Home\Receipt\ReceiptForm.htm" />
     <Content Include="Source\Modules\Home\Exchange\ExchangeForm.htm" />
     <Content Include="Source\Modules\Home\CheckIn\CheckInForm.htm" />
-    <Content Include="Source\Modules\Home\SuspendedSession\SuspendedSessionBrowse.htm" />
     <Content Include="Source\Modules\Home\VendorInvoice\VendorInvoiceBrowse.htm" />
     <Content Include="Source\Modules\Home\VendorInvoice\VendorInvoiceForm.htm" />
     <Content Include="Source\Modules\Home\Invoice\InvoiceBrowse.htm" />

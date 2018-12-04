@@ -540,6 +540,7 @@ class StagingCheckout {
         let $stagedItemGrid: any, $stagedItemGridControl: any;
         let $checkedOutItemGrid: any, $checkedOutItemGridControl: any;
         let $stageQuantityItemGrid: any, $stageQuantityItemGridControl: any;
+        let $stageHoldingItemGrid: any, $stageHoldingItemGridControl: any;
         let $checkOutPendingItemGrid: any, $checkOutPendingItemGridControl: any;
 
         //----------------------------------------------------------------------------------------------
@@ -582,6 +583,20 @@ class StagingCheckout {
         FwBrowse.init($stageQuantityItemGridControl);
         FwBrowse.renderRuntimeHtml($stageQuantityItemGridControl);
         //----------------------------------------------------------------------------------------------
+        $stageHoldingItemGrid = $form.find('div[data-grid="StageHoldingItemGrid"]');
+        $stageHoldingItemGridControl = jQuery(jQuery('#tmpl-grids-StageHoldingItemGridBrowse').html());
+        $stageHoldingItemGrid.empty().append($stageHoldingItemGridControl);
+        $stageHoldingItemGridControl.data('ondatabind', function (request) {
+            request.uniqueids = {
+                OrderId: FwFormField.getValueByDataField($form, 'OrderId'),
+                IncludeZeroRemaining: FwFormField.getValueByDataField($form, 'IncludeZeroRemaining')
+            };
+            request.pagesize = 10;
+            request.orderby = 'ItemOrder';
+        });
+        FwBrowse.init($stageHoldingItemGridControl);
+        FwBrowse.renderRuntimeHtml($stageHoldingItemGridControl);
+        //----------------------------------------------------------------------------------------------
         $checkOutPendingItemGrid = $form.find('div[data-grid="CheckOutPendingItemGrid"]');
         $checkOutPendingItemGridControl = jQuery(jQuery('#tmpl-grids-CheckOutPendingItemGridBrowse').html());
         $checkOutPendingItemGrid.empty().append($checkOutPendingItemGridControl);
@@ -600,9 +615,12 @@ class StagingCheckout {
     };
     //----------------------------------------------------------------------------------------------
     afterLoad($form: any): void {
-        let $stagedItemGrid, $stageQuantityItemGrid, $checkOutPendingItemGrid;
+        let $stagedItemGrid, $stageQuantityItemGrid, $stageHoldingItemGrid, $checkOutPendingItemGrid;
         $stagedItemGrid = $form.find('[data-name="StagedItemGrid"]');
         FwBrowse.search($stagedItemGrid);
+        //----------------------------------------------------------------------------------------------
+        $stageHoldingItemGrid = $form.find('[data-name="StageHoldingItemGrid"]');
+        FwBrowse.search($stageHoldingItemGrid);
         //----------------------------------------------------------------------------------------------
         $stageQuantityItemGrid = $form.find('[data-name="StageQuantityItemGrid"]');
         FwBrowse.search($stageQuantityItemGrid);
@@ -632,6 +650,17 @@ class StagingCheckout {
             if (orderId !== '') {
                 let $stageQuantityItemGrid = $form.find('[data-name="StageQuantityItemGrid"]');
                 FwBrowse.search($stageQuantityItemGrid);
+            } else {
+                e.stopPropagation();
+                FwNotification.renderNotification('WARNING', 'Select an Order.')
+            }
+        });
+        $form.find('div.holding-items-tab').on('click', e => {
+            //Disable clicking Quantity Items tab w/o an OrderId
+            let orderId = FwFormField.getValueByDataField($form, 'OrderId');
+            if (orderId !== '') {
+                let $stageHoldingItemGrid = $form.find('[data-name="StageHoldingItemGrid"]');
+                FwBrowse.search($stageHoldingItemGrid);
             } else {
                 e.stopPropagation();
                 FwNotification.renderNotification('WARNING', 'Select an Order.')
@@ -1062,6 +1091,7 @@ class StagingCheckout {
             <div class="tabs">
               <div data-type="tab" id="stagingtab" class="tab staging-tab" data-tabpageid="stagingtabpage" data-caption="Staging"></div>
               <div data-type="tab" id="quantityitemtab" class="tab quantity-items-tab" data-tabpageid="quantityitemtabpage" data-caption="Quantity Items"></div>
+              <div data-type="tab" id="holdingitemtab" class="tab holding-items-tab" data-tabpageid="holdingitemtabpage" data-caption="Holding"></div>
             </div>
             <div class="tabpages">
               <div data-type="tabpage" id="stagingtabpage" class="tabpage" data-tabid="stagingtab">
@@ -1155,6 +1185,23 @@ class StagingCheckout {
                   </div>
                   <div class="formrow option-list" style="display:none;">
                     <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Show items with zero Remaining" data-datafield="IncludeZeroRemaining"></div>
+                  </div>
+                </div>
+              </div>
+              <!--HOLDING TAB-->
+              <div data-type="tabpage" id="holdingitemtabpage" class="tabpage" data-tabid="holdingitemtab">
+                <div class="flexpage">
+                  <div class="flexrow error-msg-qty"></div>
+                  <div class="flexrow">
+                    <div data-control="FwGrid" data-grid="StageHoldingItemGrid" data-securitycaption=""></div>
+                  </div>
+                  <div class="formrow">
+                    <div class="fwformcontrol options-button-holding" data-type="button" style="float:left; margin-left:10px;">Options &#8675;</div>
+                    <div class="fwformcontrol selectall-holding" data-type="button" style="float:left; margin-left:10px;">Select All</div>
+                    <div class="fwformcontrol selectnone-holding" data-type="button" style="float:left; margin-left:10px;">Select None</div>
+                  </div>
+                  <div class="formrow option-list-holding" style="display:none;">
+                    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Show ..." data-datafield=""></div>
                   </div>
                 </div>
               </div>
