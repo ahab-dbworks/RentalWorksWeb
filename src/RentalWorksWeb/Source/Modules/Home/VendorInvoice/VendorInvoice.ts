@@ -144,18 +144,28 @@ class VendorInvoice {
                     FwFormField.setValueByDataField($form, 'InvoiceDueDate', invoiceDate);
                 }
             }, null, $form);
+
+            if ($form.attr('data-mode') === "NEW") {
+                FwAppData.apiMethod(true, 'GET', `api/v1/purchaseorder/nextvendorinvoicedefaultdates/${purchaseOrderId}`, null, FwServices.defaultTimeout, function onSuccess(response) {
+                    FwFormField.setValueByDataField($form, 'BillingStartDate', response.BillingStartDate);
+                    FwFormField.setValueByDataField($form, 'BillingEndDate', response.BillingEndDate);
+                }, null, $form);
+            }
         });
 
         $form.find('[data-datafield="PurchaseOrderPaymentTermsId"]').data('onchange', $tr => {
             let invoiceDate = FwFormField.getValueByDataField($form, 'InvoiceDate');
             invoiceDate = new Date(invoiceDate);
-            let dueInDays = $tr.find('[data-browsedatafield="DueInDays"]').attr('data-originalvalue'); 
+            let dueInDays = $tr.find('[data-browsedatafield="DueInDays"]').attr('data-originalvalue');
             let dueDate = moment(invoiceDate).add(dueInDays, 'days').calendar();
             FwFormField.setValueByDataField($form, 'InvoiceDueDate', dueDate);
         });
 
         $form.on('click', '.continue', e => {
-            $form.find('.btn[data-type="SaveMenuBarButton"]').click();
+            let isValid = FwModule.validateForm($form);
+            if (isValid) {
+                $form.find('.btn[data-type="SaveMenuBarButton"]').click();
+            };
         });
     };
 };
