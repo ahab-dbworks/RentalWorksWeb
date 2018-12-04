@@ -7,7 +7,7 @@ class CustomForm {
     id: string = 'CB2EF8FF-2E8D-4AD0-B880-07037B839C5E';
     codeMirror: any;
     doc: any;
-    datafields: string[];
+    datafields: any;
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
         var screen, $browse;
@@ -192,8 +192,6 @@ class CustomForm {
             case 'Browse':
                 let request: any = {};
                 request = {
-                    //module: moduleNav,
-                    //top: 1
                     emptyobject: true
                 };
                 if (apiurl !== "undefined") {
@@ -214,29 +212,38 @@ class CustomForm {
                 FwAppData.apiMethod(true, 'GET', `${apiurl}/emptyobject`, null, FwServices.defaultTimeout, function onSuccess(response) {
                     let columnNames = Object.keys(response);
                     let customFields = response._Custom.map(obj => obj.FieldName);
-                    self.datafields = columnNames.concat(customFields).sort(compare);
-
-                    for (let i = 0; i < customFields.length; i++) {
-                        columnNames.push(`${customFields[i]} [Custom]`);
-                    }
-                    columnNames = columnNames.sort(compare);
-
+                    let allValidFields:any =[];
                     for (let i = 0; i < columnNames.length; i++) {
                         if (columnNames[i] != 'DateStamp' && columnNames[i] != 'RecordTitle' && columnNames[i] != '_Custom') {
-                            modulefields.append(`
-                                <div data-iscustomfield=${customFields.indexOf(columnNames[i]) === -1 ? false : true}>
-                                ${columnNames[i]}</div>
-                                `);
+                            allValidFields.push({
+                                'Field': columnNames[i]
+                                , 'IsCustom': 'false'
+                            });
                         }
+                    }
+
+                    for (let i = 0; i < customFields.length; i++) {
+                        allValidFields.push({
+                            'Field': customFields[i]
+                            , 'IsCustom': 'true'
+                        });
+                    }
+
+                    self.datafields = allValidFields.sort(compare);
+
+                    for (let i = 0; i < allValidFields.length; i++) {
+                        modulefields.append(`
+                                <div data-iscustomfield=${allValidFields[i].IsCustom}>${allValidFields[i].Field}</div>
+                                `);
                     }
                 }, null, $form);
                 break;
         }
 
         function compare(a, b) {
-            if (a < b)
+            if (a.Field < b.Field)
                 return -1;
-            if (a > b)
+            if (a.Field > b.Field)
                 return 1;
             return 0;
         }
@@ -475,9 +482,8 @@ class CustomForm {
                     let field = jQuery(datafieldOptions[z]);
                     field.append(`<option value="" disabled>Select field</option>`)
                     for (let i = 0; i < self.datafields.length; i++) {
-                        if (self.datafields[i] !== '_Custom') {
-                            field.append(`<option value="${self.datafields[i]}">${self.datafields[i]}</option>`);
-                        }
+                        let $this = self.datafields[i];
+                        field.append(`<option data-iscustomfield=${$this.IsCustom} value="${$this.Field}">${$this.Field}</option>`);
                     }
                     let value = jQuery(field).attr('value');
                     if (value) {
@@ -560,7 +566,7 @@ class CustomForm {
                         indexDrop = $this.find('.field').attr('data-index');
                         $customForm.find('td.placeholder').remove();
                         if (domIndexDrag !== domIndexDrop) {
-                            $preview = jQuery(`<td class="placeholder" style="min-width:100px; min-height:50px; line-height:50px; vertical-align:middle; font-weight:bold; text-align:center; flex:1 1 50px; border: 2px dashed gray">Drop here</td>`);
+                            $preview = jQuery(`<td class="placeholder" style="min-width:100px; min-height:30px; line-height:50px; vertical-align:middle; font-weight:bold; text-align:center; flex:1 1 50px; border: 2px dashed gray">Drop here</td>`);
                             if (domIndexDrag > domIndexDrop) {
                                 $preview.insertBefore($this);
                             } else if (domIndexDrag < domIndexDrop) {
@@ -857,8 +863,9 @@ class CustomForm {
                 .off('change', '#controlProperties .propval')
                 .on('change', '#controlProperties .propval', e => {
                     e.stopImmediatePropagation();
-                    let attribute = jQuery(e.currentTarget).siblings('.propname').text();
                     let value;
+                    let isCustomField;
+                    let attribute = jQuery(e.currentTarget).siblings('.propname').text();
                     let $this = jQuery(e.currentTarget);
                     if ($this.find('select').hasClass('datafields') || $this.find('select').hasClass('valueOptions')) {
                         value = jQuery(e.currentTarget).find('select').val();
@@ -893,6 +900,15 @@ class CustomForm {
                                     jQuery(originalHtml).attr(`${attribute}`, `${value}`);
                             }
                         } else if (type === 'Form') {
+                            if (attribute === 'data-datafield') {
+                                isCustomField = $form.find(`option[value=${value}]`).attr('data-iscustomfield');
+
+                                if (isCustomField === "true") {
+                                    jQuery(originalHtml).attr('data-customfield', 'true');
+                                    jQuery($customFormClone).find(`div[data-index="${index}"]`).attr('data-customfield', 'true');
+                                }
+                            }
+
                             let isTab = jQuery(originalHtml).attr('data-type');
                             if (isTab === "tab") {
                                 //for changing tab captions
