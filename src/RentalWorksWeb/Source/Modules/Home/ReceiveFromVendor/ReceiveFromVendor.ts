@@ -140,6 +140,8 @@ class ReceiveFromVendor {
                     $form.find('[data-datafield="AutomaticallyCreateCheckOut"] input').prop('checked', false);
                 }
             }, null, null);
+
+            $form.find('.suspendedsession').hide();
         });
     }
     //----------------------------------------------------------------------------------------------

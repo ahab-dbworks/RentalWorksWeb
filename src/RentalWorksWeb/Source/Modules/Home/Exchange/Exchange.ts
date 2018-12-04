@@ -169,6 +169,7 @@ class Exchange {
             } catch (ex) {
                 FwFunc.showError(ex);
             }
+            $form.find('.suspendedsession').hide();
         });
         // Check-Out
         $form.find('.out').on('keypress', function (e) {

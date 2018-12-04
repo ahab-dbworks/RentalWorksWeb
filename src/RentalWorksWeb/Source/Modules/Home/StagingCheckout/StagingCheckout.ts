@@ -203,6 +203,7 @@ class StagingCheckout {
             $form.find('.createcontract').show();
             $form.find('.original-buttons').show();
             $form.find('[data-datafield="Code"] input').focus();
+            $form.find('.suspendedsession').hide();
         });
     };
     //----------------------------------------------------------------------------------------------

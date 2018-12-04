@@ -137,6 +137,8 @@ class ReturnToVendor {
                 })
                 FwBrowse.search($pOReturnItemGridControl);
             }, null, null);
+
+            $form.find('.suspendedsession').hide();
         });
     };
     //----------------------------------------------------------------------------------------------

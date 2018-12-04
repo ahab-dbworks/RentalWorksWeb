@@ -230,6 +230,8 @@ class CheckIn {
                 FwFormField.setValueByDataField($form, 'ContractId', response.ContractId);
                 $form.find('[data-datafield="BarCode"] input').focus();
             }, null, null);
+
+            $form.find('.suspendedsession').hide();
         });
         //Deal selection
         $form.find('[data-datafield="DealId"]').data('onchange', $tr => {
