@@ -1,11 +1,22 @@
 using FwStandard.AppManager;
 using FwStandard.BusinessLogic;
+using System.Collections.Generic;
 using System.Reflection;
 using WebApi.Logic;
 using WebLibrary;
 
 namespace WebApi.Modules.Home.Receipt
 {
+
+
+    //public class ReceiptInvoice
+    //{
+    //    string InvoiceId;
+    //    decimal? Amount;
+    //    //int? someValue;
+    //}
+
+
     [FwLogic(Id:"5XIpJJ8C7Ywx")]
     public class ReceiptLogic : AppBusinessLogic
     {
@@ -99,6 +110,11 @@ namespace WebApi.Modules.Home.Receipt
 
         [FwLogicProperty(Id:"DFYUuxYiQR5I", IsReadOnly:true)]
         public string LocationDefaultCurrencyId { get; set; }
+
+
+        //[FwLogicProperty(Id: "XXXXX")]
+        //public List<ReceiptInvoice> InvoiceDataList { get; set; }
+
 
         //------------------------------------------------------------------------------------ 
         protected override bool Validate(TDataRecordSaveMode saveMode, FwBusinessLogic original, ref string validateMsg)
