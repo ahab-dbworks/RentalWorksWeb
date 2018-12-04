@@ -84,7 +84,6 @@
                                     errormsg.html(`<div style="margin:0px 0px 0px 8px;"><span style="padding:0px 4px 0px 4px;font-size:22px;border-radius:2px;background-color:red;color:white;">${response.msg}</span></div>`);
                                     $tr.find('[data-browsedatafield="Quantity"] input').val(Number(oldValue));
                                 }
-                                preventBubble = true;
                             },
                             function onError(response) {
                                 $tr.find('[data-browsedatafield="Quantity"] input').val(Number(oldValue));
