@@ -22,17 +22,26 @@ Navigate to the "api" directory: RentalWorksWebApi, Delete appsettings.json file
 zip the RentalWorksWeb and RentalWorksWebApi directories together (7zip).  (File naming convention: RentalWorksWeb_2018_001_12.zip)
 Upload zip file to ftp or web server.
 	4Wall web server is 4we-lv-rwweb
-	DatabaseWorks demo is: TSDEMO01
-		webdemo.rentalworks.net
-		webapidemo.rentalworks.net
+	DatabaseWorks demo is: TSWEBDEMO01
+		web2018demo.rentalworks.net
+		webapi2018demo.rentalworks.net
 
 
 Updating Web: 
-	find the target directory, delete all except App_Data directory, Application.config, and ApplicationConfig.js.
+	find the target directory
+	delete all except:
+		.well-known (directory)
+		App_Data (directory)
+		Application.config
+		ApplicationConfig.js.
 	Copy over the new deliverable files. (Do not copy the App_Data directory to the target.)
 Updating Api: 
-	find the target directory: delete all except appsettings.json
+	find the target directory
+	delete all except:
+		.local-chromium (directory)
+		.well-known (directory)
+		appsettings.json
 	Copy over the new deliverable files. 
-	??update permissions on \rentalworkswebapi\wwwroot\temp\downloads directory.  Add Modify permissions for IIS_IUSRS
+	??update permissions on \wwwroot\temp\downloads directory.  Add Modify permissions for IIS_IUSRS
 
 
