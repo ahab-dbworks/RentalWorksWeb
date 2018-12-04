@@ -4,6 +4,7 @@
   <div id="partsinventoryform-tabcontrol" class="fwcontrol fwtabs" data-control="FwTabs" data-type="">
     <div class="tabs">
       <div data-type="tab" id="partsitemtab" class="tab" data-tabpageid="partsitemtabpage" data-caption="Parts Inventory"></div>
+      <div data-type="tab" id="availabilitycalendartab" class="tab" data-tabpageid="availabilitycalendartabpage" data-caption="Availability Calendar"></div>
       <div data-type="tab" id="kittab" class="kittab tab" data-tabpageid="kittabpage" data-caption="Kit" style="display:none;"></div>
       <div data-type="tab" id="completetab" class="completetab tab" data-tabpageid="completetabpage" data-caption="Complete" style="display:none;"></div>
       <div data-type="tab" id="completeskitstab" class="completeskitstab tab" data-tabpageid="completeskitstabpage" data-caption="Completes / Kits"></div>
@@ -34,9 +35,9 @@
                 </div>
                 <div class="flexrow">
                   <!--
-                  <div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield" data-caption="Classification" data-datafield="Classification" style="flex:1 1 150px;"></div>
-                  <div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield" data-caption="Tracked By" data-datafield="TrackedBy" style="flex:1 1 150px;"></div>
-                  -->
+              <div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield" data-caption="Classification" data-datafield="Classification" style="flex:1 1 150px;"></div>
+              <div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield" data-caption="Tracked By" data-datafield="TrackedBy" style="flex:1 1 150px;"></div>
+              -->
                   <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Unit" data-datafield="UnitId" data-displayfield="Unit" data-validationname="UnitValidation" data-required="true" style="flex:1 1 75px;"></div>
                   <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Rank" data-datafield="Rank" data-displayfield="Rank" data-validationname="RankValidation" style="flex:1 1 75px;"></div>
                   <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Manufacturer Part Number" data-datafield="ManufacturerPartNumber" style="flex:1 1 100px;"></div>
@@ -78,6 +79,14 @@
               <div data-control="FwGrid" data-grid="SalesInventoryWarehouseGrid" data-securitycaption="Parts Inventory Warehouse"></div>
             </div>
           </div>
+        </div>
+      </div>
+      <!-- Availability Calendar tab -->
+      <div data-type="tabpage" id="availabilitycalendartabpage" class="tabpage" data-tabid="availabilitycalendartab">
+        <div class="formpage" style="width:auto;">
+          <div data-control="FwScheduler" class="fwcontrol fwscheduler calendar"></div>
+          <!--<div data-control="FwGantt" class="fwcontrol fwscheduler calendar"></div>-->
+          <div id="gantt"></div>
         </div>
       </div>
       <!-- COMPLETES / KITS TAB -->
