@@ -82,9 +82,18 @@ class CheckIn {
             });
 
             $browse.on('dblclick', 'tr.viewmode', e => {
-                //populate fields
-
+                let $this = jQuery(e.currentTarget);
+                let id = $this.find(`[data-browsedatafield="OrderId"]`).attr('data-originalvalue');
+                let orderNumber = $this.find(`[data-browsedatafield="OrderNumber"]`).attr('data-originalvalue');
+                let dealId = $this.find(`[data-browsedatafield="DealId"]`).attr('data-originalvalue');
+                let dealNumber = $this.find(`[data-browsedatafield="DealNumber"]`).attr('data-originalvalue');
+                if (dealId !== "") {
+                    FwFormField.setValueByDataField($form, 'DealId', dealId, dealNumber);
+                }
+                FwFormField.setValueByDataField($form, 'OrderId', id, orderNumber);
                 FwPopup.destroyPopup($popup);
+                $form.find('[data-datafield="OrderId"] input').change();
+                $form.find('.suspendedsession').hide();
             });
 
         });
