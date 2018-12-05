@@ -444,7 +444,7 @@ namespace RentalWorksAPI.api.v1.Data
             select.Add("  from apirest_ordernoteview");
             select.Add(" where orderid = @orderid");
             select.Add("order by notedate");
-            select.AddParameter("@orderid", orderid);
+            select.AddParameter("@orderid", SqlDbType.VarChar, ParameterDirection.Input, 8, orderid);
 
             dt = qry.QueryToFwJsonTable(select, true);
 

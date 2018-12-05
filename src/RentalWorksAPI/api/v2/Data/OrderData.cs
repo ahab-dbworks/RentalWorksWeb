@@ -5,6 +5,7 @@ using RentalWorksAPI.api.v2.Models;
 using RentalWorksAPI.api.v2.Models.OrderModels.CsrsDeals;
 using RentalWorksAPI.api.v2.Models.OrderModels.OrderStatusDetail;
 using System.Collections.Generic;
+using System.Data;
 using System.Dynamic;
 using System.Linq;
 
@@ -209,7 +210,7 @@ namespace RentalWorksAPI.api.v2.Data
             qry.Add("  from apirest_ordernoteview");
             qry.Add(" where orderid = @orderid");
             qry.Add("order by notedate");
-            qry.AddParameter("@orderid", orderid);
+            qry.AddParameter("@orderid", SqlDbType.VarChar, ParameterDirection.Input, orderid);
 
             qryresult = qry.QueryToDynamicList2();
 
