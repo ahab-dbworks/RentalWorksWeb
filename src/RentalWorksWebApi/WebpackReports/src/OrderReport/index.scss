@@ -64,12 +64,19 @@ body {
 
 thead {
     th {
-        border-top: 2px solid #000000;
-        border-bottom: 2px solid #000000;
         font-weight: bold;
         padding: 5px;
         white-space: nowrap;
     }
+    th:not(.sub) {
+        border-top: 2px solid #000000;
+        border-bottom: 2px solid #000000;
+    }
+}
+.sub {
+    border-top: 2px solid #027cc5;
+    border-bottom: 2px solid #027cc5;
+    background-color: #DCDCDC;
 }
 
 .header-row {
