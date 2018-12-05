@@ -591,6 +591,30 @@ class Invoice {
         $form.find('.billing-date-validation').on('changeDate', event => {
             this.checkBillingDateRange($form, event);
         });
+        //Open Print Invoice Report
+        $form.find('.print-invoice').on('click', e => {
+            let $report, invoiceNumber, invoiceId, recordTitle, printTab, module, hideModule;
+            module = this.Module;
+            try {
+                invoiceNumber = $form.find(`div.fwformfield[data-datafield="${module}Number"] input`).val();
+                invoiceId = $form.find(`div.fwformfield[data-datafield="${module}Id"] input`).val();
+                recordTitle = jQuery('.tabs .active[data-tabtype="FORM"] .caption').text();
+                $report = RwInvoiceReportController.openForm();
+                
+                FwModule.openSubModuleTab($form, $report);
+
+                $report.find(`div.fwformfield[data-datafield="${module}Id"] input`).val(invoiceId);
+                $report.find(`div.fwformfield[data-datafield="${module}Id"] .fwformfield-text`).val(invoiceNumber);
+                jQuery('.tab.submodule.active').find('.caption').html(`Print ${module}`);
+
+                printTab = jQuery('.tab.submodule.active');
+                printTab.find('.caption').html(`Print ${module}`);
+                printTab.attr('data-caption', `${module} ${recordTitle}`);
+            }
+            catch (ex) {
+                FwFunc.showError(ex);
+            }
+        });
     };
     //----------------------------------------------------------------------------------------------
     afterSave($form) { };
@@ -714,6 +738,17 @@ FwApplicationTree.clickEvents['{DACF4B06-DE63-4867-A684-4C77199D6961}'] = functi
         } else {
             FwNotification.renderNotification('WARNING', 'Select an Invoice to void.');
         }
+    }
+    catch (ex) {
+        FwFunc.showError(ex);
+    }
+};
+//-----------------------------------------------------------------------------------------------------
+//Print Invoice menu item
+FwApplicationTree.clickEvents['{3A693D4E-3B9B-4749-A9B6-C8302F1EDE6A}'] = function (e) {
+    try {
+        var $form = jQuery(this).closest('.fwform');
+        $form.find('.print-invoice').trigger('click');
     }
     catch (ex) {
         FwFunc.showError(ex);

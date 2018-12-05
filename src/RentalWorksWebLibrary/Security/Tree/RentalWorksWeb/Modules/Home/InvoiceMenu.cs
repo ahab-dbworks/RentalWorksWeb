@@ -27,6 +27,7 @@ namespace WebLibrary.Security.Tree.RentalWorksWeb.Modules.Settings
             var nodeFormOptions = tree.AddSubMenuGroup("Options", "{6D8A13F3-3E21-4286-89D0-0A6B62003A0E}", nodeFormSubMenu.Id);
             tree.AddSaveMenuBarButton("{FB73E264-2087-4ED5-9184-B625A69C2AD7}", nodeFormMenuBar.Id);
             tree.AddSubMenuItem("Void", "{DF6B0708-EC5A-475F-8EFB-B52E30BACAA3}", nodeFormOptions.Id);
+            tree.AddSubMenuItem("Print Invoice", "{3A693D4E-3B9B-4749-A9B6-C8302F1EDE6A}", nodeFormOptions.Id);
         }
         //---------------------------------------------------------------------------------------------
     }

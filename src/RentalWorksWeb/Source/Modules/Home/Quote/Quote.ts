@@ -759,7 +759,6 @@ FwApplicationTree.clickEvents['{BC3B1A5E-7270-4547-8FD1-4D14F505D452}'] = functi
         $popup = search.renderSearchPopup($form, quoteId, 'Quote');
     }
 };
-
 //-----------------------------------------------------------------------------------------------------
 //Print Quote
 FwApplicationTree.clickEvents['{B20DDE47-A5D7-49A9-B980-8860CADBF7F6}'] = function (e) {
@@ -771,7 +770,6 @@ FwApplicationTree.clickEvents['{B20DDE47-A5D7-49A9-B980-8860CADBF7F6}'] = functi
         FwFunc.showError(ex);
     }
 };
-
 //----------------------------------------------------------------------------------------------
 FwApplicationTree.clickEvents['{F79F8C21-66DF-4458-BBEB-E19B2BFCAEAA}'] = function (event) {
     let $form;
@@ -784,7 +782,6 @@ FwApplicationTree.clickEvents['{F79F8C21-66DF-4458-BBEB-E19B2BFCAEAA}'] = functi
         FwFunc.showError(ex);
     }
 };
-
 //----------------------------------------------------------------------------------------------
 //Form Cancel Option
 FwApplicationTree.clickEvents['{BF633873-8A40-4BD6-8ED8-3EAC27059C84}'] = function (event) {
@@ -798,7 +795,6 @@ FwApplicationTree.clickEvents['{BF633873-8A40-4BD6-8ED8-3EAC27059C84}'] = functi
         FwFunc.showError(ex);
     }
 };
-
 //-----------------------------------------------------------------------------------------------------
 FwApplicationTree.clickEvents['{E265DFD0-380F-4E8C-BCFD-FA5DCBA4A654}'] = function (event) {
     let $form, quoteNumber;
@@ -836,7 +832,6 @@ FwApplicationTree.clickEvents['{E265DFD0-380F-4E8C-BCFD-FA5DCBA4A654}'] = functi
         }, null, $confirmationbox);
     }
 };
-
 //---------------------------------------------------------------------------------
 //Browse Cancel Option
 FwApplicationTree.clickEvents['{78ACB73C-23DD-46F0-B179-0571BAD3A17D}'] = function (event) {

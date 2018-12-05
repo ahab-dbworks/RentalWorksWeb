@@ -458,6 +458,7 @@
     <TypeScriptCompile Include="Source\Modules\Home\Project\Project.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\StagingCheckout\StagingCheckout.ts" />
     <TypeScriptCompile Include="Source\Modules\Reports\DealOutstandingItemsReport\RwDealOutstandingItemsReportController.ts" />
+    <TypeScriptCompile Include="Source\Modules\Reports\InvoiceReport\RwInvoiceReportController.ts" />
     <TypeScriptCompile Include="Source\Modules\Reports\PartsInventoryAttributesReport\RwPartsInventoryAttributesReportController.ts" />
     <TypeScriptCompile Include="Source\Modules\Reports\SalesInventoryAttributesReport\RwSalesInventoryAttributesReportController.ts" />
     <TypeScriptCompile Include="Source\Modules\Reports\SalesInventoryPurchaseHistoryReport\SalesInventoryPurchaseHistoryReportController.ts" />
@@ -850,6 +851,7 @@
     <Content Include="Source\Validations\AssetValidation\AssetValidationBrowse.htm" />
     <Content Include="Source\Validations\CompanyContactValidation\CompanyContactValidationBrowse.htm" />
     <Content Include="Source\Validations\InvoiceCreationBatchValidation\InvoiceCreationBatchValidationBrowse.htm" />
+    <Content Include="Source\Validations\InvoiceValidation\InvoiceValidationBrowse.htm" />
     <Content Include="Source\Validations\WidgetNumberFormatValidation\WidgetNumberFormatValidationBrowse.htm" />
     <Content Include="Source\Validations\SoundValidation\SoundValidationBrowse.htm" />
     <Content Include="Source\Validations\CompanyValidation\CompanyValidationBrowse.htm" />
