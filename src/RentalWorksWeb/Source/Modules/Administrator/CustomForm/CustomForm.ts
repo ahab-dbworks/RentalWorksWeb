@@ -200,10 +200,22 @@ class CustomForm {
                         columnNames = columnNames.map(obj => {
                             return obj.DataField;
                         })
-                        columnNames = columnNames.sort(compare);
-                        self.datafields = columnNames;
+
+                        let allValidFields: any = [];
                         for (let i = 0; i < columnNames.length; i++) {
-                            modulefields.append(`${columnNames[i]}<br />`);
+                            if (columnNames[i] != 'DateStamp' && columnNames[i] != 'RecordTitle' && columnNames[i] != '_Custom') {
+                                allValidFields.push({
+                                    'Field': columnNames[i]
+                                    , 'IsCustom': 'false'
+                                });
+                            }
+                        }
+                        self.datafields = allValidFields.sort(compare);
+
+                        for (let i = 0; i < allValidFields.length; i++) {
+                            modulefields.append(`
+                                <div data-iscustomfield=${allValidFields[i].IsCustom}>${allValidFields[i].Field}</div>
+                                `);
                         }
                     }, null, $form);
                 }

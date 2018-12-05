@@ -157,18 +157,24 @@ class Base {
                                                 
                                                 FwAppData.apiMethod(true, 'POST', `api/v1/customform/browse`, customformrequest, FwServices.defaultTimeout, function onSuccess(response) {
                                                     let baseFormIndex = response.ColumnIndex.BaseForm;
-                                                    let activeIndex   = response.ColumnIndex.Active;
-                                                    let htmlIndex     = response.ColumnIndex.Html;
+                                                    let activeIndex = response.ColumnIndex.Active;
+                                                    let customFormIdIndex = response.ColumnIndex.CustomFormId;
+                                                    let htmlIndex = response.ColumnIndex.Html;
+                                                    let activeCustomForms: any = [];
                                                     for (let i = 0; i < response.Rows.length; i++) {
                                                         let customForm = response.Rows[i];
                                                         if (customForm[activeIndex] == true) {
                                                             let baseform = customForm[baseFormIndex];
+                                                            activeCustomForms.push({ 'BaseForm': baseform, 'CustomFormId': customForm[customFormIdIndex]});
                                                             if (baseform.endsWith('GridBrowse')) {
                                                                 jQuery(`#tmpl-grids-${baseform}`).html(customForm[htmlIndex]);
                                                             } else if ((baseform.endsWith('Browse')) || (baseform.endsWith('Form'))) {
                                                                 jQuery(`#tmpl-modules-${baseform}`).html(customForm[htmlIndex]);
                                                             }
                                                         }
+                                                    }
+                                                    if (activeCustomForms.length > 0) {
+                                                        sessionStorage.setItem('customForms', JSON.stringify(activeCustomForms));
                                                     }
                                                 }, function onError(response) {
                                                     FwFunc.showError(response);
