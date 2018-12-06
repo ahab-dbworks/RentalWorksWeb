@@ -59,6 +59,24 @@ namespace WebApi.Modules.Settings.Widget
         [FwLogicProperty(Id:"xwOVJMoqThM3X", IsReadOnly:true)]
         public string DefaultDataNumberFormatMask { get; set; }
 
+        [FwLogicProperty(Id: "KnTWzyiSxwqYP")]
+        public string DefaultDateBehavior { get { return widget.DefaultDateBehavior; } set { widget.DefaultDateBehavior = value; } }
+
+        [FwLogicProperty(Id: "cJiQf1cRTGl7V")]
+        public string DateFieldDisplayNames { get { return widget.DateFieldDisplayNames; } set { widget.DateFieldDisplayNames = value; } }
+
+        [FwLogicProperty(Id: "KvpOTH3VvRfSz")]
+        public string DateFields { get { return widget.DateFields; } set { widget.DateFields = value; } }
+
+        [FwLogicProperty(Id: "epLRO6hZEsbID")]
+        public string DefaultDateField { get { return widget.DefaultDateField; } set { widget.DefaultDateField = value; } }
+
+        [FwLogicProperty(Id: "SQ5yzlxwFl4b0")]
+        public string DefaultFromDate { get { return widget.DefaultFromDate; } set { widget.DefaultFromDate = value; } }
+
+        [FwLogicProperty(Id: "csSIjXVFEkh0a")]
+        public string DefaultToDate { get { return widget.DefaultToDate; } set { widget.DefaultToDate = value; } }
+
         [FwLogicProperty(Id:"ukHI6jdx08K")]
         public string DateStamp { get { return widget.DateStamp; } set { widget.DateStamp = value; } }
 

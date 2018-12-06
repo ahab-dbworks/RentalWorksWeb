@@ -55,6 +55,24 @@ namespace WebApi.Modules.Settings.Widget
         [FwSqlDataField(column: "defaultdatanumberformatmask", modeltype: FwDataTypes.Text)]
         public string DefaultDataNumberFormatMask { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "defaultdatebehavior", modeltype: FwDataTypes.Text)]
+        public string DefaultDateBehavior { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "datefielddisplaynames", modeltype: FwDataTypes.Text)]
+        public string DateFieldDisplayNames { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "datefields", modeltype: FwDataTypes.Text)]
+        public string DateFields { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "defaultdatefield", modeltype: FwDataTypes.Text)]
+        public string DefaultDateField { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "defaultfromdate", modeltype: FwDataTypes.Date)]
+        public string DefaultFromDate { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "defaulttodate", modeltype: FwDataTypes.Date)]
+        public string DefaultToDate { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
         public string DateStamp { get; set; }
         //------------------------------------------------------------------------------------ 

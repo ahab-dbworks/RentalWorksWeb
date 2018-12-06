@@ -73,8 +73,40 @@ namespace WebApi.Modules.Settings.WebUserWidget
         [FwSqlDataField(column: "datanumberformatmask", modeltype: FwDataTypes.Text)]
         public string DataNumberFormatMask { get; set; }
         //------------------------------------------------------------------------------------ 
+
+        [FwSqlDataField(column: "defaultdatebehavior", modeltype: FwDataTypes.Text)]
+        public string DefaultDateBehavior { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "datebehavior", modeltype: FwDataTypes.Text)]
+        public string DateBehavior { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "datefielddisplaynames", modeltype: FwDataTypes.Text)]
+        public string DateFieldDisplayNames { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "datefields", modeltype: FwDataTypes.Text)]
+        public string DateFields { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "defaultdatefield", modeltype: FwDataTypes.Text)]
+        public string DefaultDateField { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "datefield", modeltype: FwDataTypes.Text)]
+        public string DateField { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "defaultfromdate", modeltype: FwDataTypes.Date)]
+        public string DefaultFromDate { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "fromdate", modeltype: FwDataTypes.Date)]
+        public string FromDate { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "defaulttodate", modeltype: FwDataTypes.Date)]
+        public string DefaultToDate { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "todate", modeltype: FwDataTypes.Date)]
+        public string ToDate { get; set; }
+        //------------------------------------------------------------------------------------ 
+
         [FwSqlDataField(column: "settings", modeltype: FwDataTypes.Text)]
-        public string Settings { get; set; }
+         public string Settings { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "disabled", modeltype: FwDataTypes.Boolean)]
         public bool? Disabled { get; set; }
@@ -90,8 +122,8 @@ namespace WebApi.Modules.Settings.WebUserWidget
             base.SetBaseSelectQuery(select, qry, customFields, request);
             select.Parse();
             //select.AddWhere("(xxxtype = 'ABCDEF')"); 
-            addFilterToSelect("WidgetId", "widgetid", select, request); 
-            addFilterToSelect("UserId", "webusersid", select, request); 
+            addFilterToSelect("WidgetId", "widgetid", select, request);
+            addFilterToSelect("UserId", "webusersid", select, request);
         }
         //------------------------------------------------------------------------------------ 
     }

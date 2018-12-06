@@ -11,13 +11,13 @@ namespace WebApi.Modules.Settings.Widget
     public class WidgetDataSet
     {
         public string label { get; set; }
-        public List<int> data { get; set; }
+        public List<decimal> data { get; set; }
         public List<string> backgroundColor { get; set; }
         public List<string> borderColor { get; set; }
         public int borderWidth { get; set; }
         public WidgetDataSet()
         {
-            data = new List<int>();
+            data = new List<decimal>();
             backgroundColor = new List<string>();
             borderColor = new List<string>();
             borderWidth = 1;
@@ -124,6 +124,12 @@ namespace WebApi.Modules.Settings.Widget
         public string warehouseId = "";
         public string departmentId = "";
 
+        //date values
+        public string dateBehavior = "";
+        public string dateField = "";
+        public DateTime? fromDate = null;
+        public DateTime? toDate = null;
+
         public Widget()
         {
             data = new WidgetData();
@@ -145,7 +151,7 @@ namespace WebApi.Modules.Settings.Widget
         public virtual async Task<bool> LoadAsync()
         {
             bool loaded = false;
-            List<int> dataList = new List<int>();
+            List<decimal> dataList = new List<decimal>();
             List<string> backgroundColor = new List<string>();
             List<string> borderColor = new List<string>();
 
@@ -199,6 +205,50 @@ namespace WebApi.Modules.Settings.Widget
                     paramsAdded = true;
                 }
 
+                if (!string.IsNullOrEmpty(dateBehavior))
+                {
+                    if (paramsAdded)
+                    {
+                        qry.Add(",");
+                    }
+                    qry.Add(" @datebehavior = @datebehavior");
+                    qry.AddParameter("@datebehavior", dateBehavior);
+                    paramsAdded = true;
+                }
+
+                if (!string.IsNullOrEmpty(dateField))
+                {
+                    if (paramsAdded)
+                    {
+                        qry.Add(",");
+                    }
+                    qry.Add(" @datefield = @datefield");
+                    qry.AddParameter("@datefield", dateField);
+                    paramsAdded = true;
+                }
+
+                if (fromDate != null)
+                {
+                    if (paramsAdded)
+                    {
+                        qry.Add(",");
+                    }
+                    qry.Add(" @fromdate = @fromdate");
+                    qry.AddParameter("@fromdate", fromDate);
+                    paramsAdded = true;
+                }
+
+                if (toDate != null)
+                {
+                    if (paramsAdded)
+                    {
+                        qry.Add(",");
+                    }
+                    qry.Add(" @todate = @todate");
+                    qry.AddParameter("@todate", toDate);
+                    paramsAdded = true;
+                }
+
                 qry.AddColumn(counterFieldName);
                 qry.AddColumn(labelFieldName);
                 qry.AddColumn(backgroundColorFieldName);
@@ -206,15 +256,27 @@ namespace WebApi.Modules.Settings.Widget
                 FwJsonDataTable table = await qry.QueryToFwJsonTableAsync(true);
                 for (int r = 0; r < table.Rows.Count; r++)
                 {
-                    int statusCount = Convert.ToInt32(table.Rows[r][0]);
-                    string quoteStatus = table.Rows[r][1].ToString();
-                    int statusColorInt = Convert.ToInt32(table.Rows[r][2]);
-                    string statusColorStr = FwConvert.OleColorToHtmlColor(statusColorInt, opacity);
-                    string borderColorStr = FwConvert.OleColorToHtmlColor(statusColorInt, 1);
+                    //int statusCount = Convert.ToInt32(table.Rows[r][0]);
+                    //string quoteStatus = table.Rows[r][1].ToString();
+                    //int statusColorInt = Convert.ToInt32(table.Rows[r][2]);
+                    //string statusColorStr = FwConvert.OleColorToHtmlColor(statusColorInt, opacity);
+                    //string borderColorStr = FwConvert.OleColorToHtmlColor(statusColorInt, 1);
 
-                    data.labels.Add(quoteStatus);
-                    dataList.Add(statusCount);
-                    backgroundColor.Add(statusColorStr);
+                    //data.labels.Add(quoteStatus);
+                    //dataList.Add(statusCount);
+                    //backgroundColor.Add(statusColorStr);
+                    //borderColor.Add(borderColorStr);
+
+
+                    decimal value = Convert.ToDecimal(table.Rows[r][0]);
+                    string label = table.Rows[r][1].ToString();
+                    int colorInt = Convert.ToInt32(table.Rows[r][2]);
+                    string colorStr = FwConvert.OleColorToHtmlColor(colorInt, opacity);
+                    string borderColorStr = FwConvert.OleColorToHtmlColor(colorInt, 1);
+
+                    data.labels.Add(label);
+                    dataList.Add(value);
+                    backgroundColor.Add(colorStr);
                     borderColor.Add(borderColorStr);
 
                     loaded = true;

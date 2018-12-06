@@ -102,6 +102,8 @@ namespace WebApi.Modules.Settings.Widget
                 w.SetDbConfig(this.AppConfig.DatabaseSettings);
                 w.dataPoints = dataPoints;
                 w.locationId = locationId;
+                w.warehouseId = warehouseId;
+                w.departmentId = departmentId;
                 bool b = w.LoadAsync().Result;
                 return new OkObjectResult(w);
             }
