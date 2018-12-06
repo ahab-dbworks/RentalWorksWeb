@@ -109,6 +109,7 @@ namespace RentalWorksAPI.api.v1.Models
         public string taxable             { get; set; }
         public string inactive            { get; set; }
         public string itemorder           { get; set; }
+        public string packageitemid       { get; set; }
     }
     //----------------------------------------------------------------------------------------------------
     public class HighlyUsedItem

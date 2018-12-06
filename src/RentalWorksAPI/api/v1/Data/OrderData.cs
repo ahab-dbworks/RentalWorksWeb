@@ -389,14 +389,15 @@ namespace RentalWorksAPI.api.v1.Data
             dynamic result = new ExpandoObject();
 
             sp = new FwSqlCommand(FwSqlConnection.RentalWorks, "apirest_processmasteritem");
-            sp.AddParameter("@orderid",      orderid);
-            sp.AddParameter("@masterid",     orderitem.masterid);
-            sp.AddParameter("@qtyordered",   orderitem.qtyordered);
-            sp.AddParameter("@note",         orderitem.notes);
-            sp.AddParameter("@parentid",     orderitem.parentid);
-            sp.AddParameter("@masteritemid", System.Data.SqlDbType.Char,     System.Data.ParameterDirection.InputOutput, orderitem.masteritemid);
-            sp.AddParameter("@errno",        System.Data.SqlDbType.Int,      System.Data.ParameterDirection.Output, 0);
-            sp.AddParameter("@errmsg",       System.Data.SqlDbType.VarChar,  System.Data.ParameterDirection.Output, 255);
+            sp.AddParameter("@orderid",       orderid);
+            sp.AddParameter("@masterid",      orderitem.masterid);
+            sp.AddParameter("@qtyordered",    orderitem.qtyordered);
+            sp.AddParameter("@note",          orderitem.notes);
+            sp.AddParameter("@parentid",      orderitem.parentid);
+            sp.AddParameter("@packageitemid", orderitem.packageitemid);
+            sp.AddParameter("@masteritemid",  System.Data.SqlDbType.Char,     System.Data.ParameterDirection.InputOutput, orderitem.masteritemid);
+            sp.AddParameter("@errno",         System.Data.SqlDbType.Int,      System.Data.ParameterDirection.Output, 0);
+            sp.AddParameter("@errmsg",        System.Data.SqlDbType.VarChar,  System.Data.ParameterDirection.Output, 255);
             sp.Execute();
 
             result.masteritemid = sp.GetParameter("@masteritemid").ToString().TrimEnd();
