@@ -1,4 +1,6 @@
-﻿namespace FwStandard.DataLayer
+﻿using FwStandard.SqlServer;
+
+namespace FwStandard.DataLayer
 {
     public class FwCustomField
     {
@@ -17,6 +19,34 @@
             this.CustomTableName = customTableName;
             this.CustomFieldName = customFieldName;
             this.FieldType = fieldType;
+        }
+        //------------------------------------------------------------------------------------
+        public FwDataTypes FwDataType {
+            get
+            {
+                FwDataTypes t = FwDataTypes.Text;
+                if (FieldType.Equals("Text"))
+                {
+                    t = FwDataTypes.Text;
+                }
+                else if (FieldType.Equals("Integer"))
+                {
+                    t = FwDataTypes.Integer;
+                }
+                else if (FieldType.Equals("Float"))
+                {
+                    t = FwDataTypes.Decimal;
+                }
+                else if (FieldType.Equals("Date"))
+                {
+                    t = FwDataTypes.Date;
+                }
+                else if (FieldType.Equals("True/False"))
+                {
+                    t = FwDataTypes.Boolean;
+                }
+                return t;
+            }
         }
         //------------------------------------------------------------------------------------
     }

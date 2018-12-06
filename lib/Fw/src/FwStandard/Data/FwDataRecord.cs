@@ -449,7 +449,7 @@ namespace FwStandard.DataLayer
                     string customSqlFieldName = "[" + customTableAlias + "].[" + customField.CustomFieldName + "]";
                     columns[customField.FieldName] = customSqlFieldName;
 
-                    qry.AddColumn(customField.FieldName, customField.FieldName, FwDataTypes.Text, true, false, false);
+                    qry.AddColumn(customField.FieldName, customField.FieldName, customField.FwDataType, true, false, false);
                     if (colNo > 0)
                     {
                         sb.Append(",\n");
@@ -1220,6 +1220,16 @@ namespace FwStandard.DataLayer
                         FwSqlDataFieldAttribute sqlDataFieldAttribute = propertyInfo.GetCustomAttribute<FwSqlDataFieldAttribute>();
                         dt.Columns.Add(new FwJsonDataTableColumn(propertyInfo.Name, propertyInfo.Name, sqlDataFieldAttribute.ModelType));
                         dt.ColumnIndex[propertyInfo.Name] = i;
+                        i++;
+                    }
+                }
+
+                if ((customFields != null) && (customFields.Count > 0))
+                {
+                    foreach (FwCustomField customField in customFields)
+                    {
+                        dt.Columns.Add(new FwJsonDataTableColumn(customField.FieldName, customField.FieldName, customField.FwDataType));
+                        dt.ColumnIndex[customField.FieldName] = i;
                         i++;
                     }
                 }
