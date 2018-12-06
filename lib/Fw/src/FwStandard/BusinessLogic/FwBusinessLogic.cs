@@ -154,7 +154,8 @@ namespace FwStandard.BusinessLogic
         [JsonIgnore]
         public bool LoadOriginalBeforeSaving { get; set; } = true;
 
-        static Mutex CustomFieldMutex = new Mutex(true, "LoadCustomFields");
+        //static Mutex CustomFieldMutex = new Mutex(false, "LoadCustomFields");
+        static Mutex CustomFieldMutex = new Mutex();
 
         public FwCustomValues _Custom = new FwCustomValues();  //todo: don't initialize here.  Instead, only initialize when custom fields exist for this module.  load custom fields in a static class.
 
@@ -330,7 +331,7 @@ namespace FwStandard.BusinessLogic
                     MethodInfo method = dataRecords[0].GetType().GetMethod("GetManyAsync");
                     MethodInfo generic = method.MakeGenericMethod(dataRecords[0].GetType());
                     FwCustomFields customFields = _Custom.CustomFields;
-                    dynamic taskGetManyAsync = generic.Invoke(dataRecords[0], new object[] { request, customFields, beforeExecuteQuery});
+                    dynamic taskGetManyAsync = generic.Invoke(dataRecords[0], new object[] { request, customFields, beforeExecuteQuery });
                     var result = await taskGetManyAsync;
                     if (result != null)
                     {
@@ -350,7 +351,7 @@ namespace FwStandard.BusinessLogic
                 MethodInfo method = dataLoader.GetType().GetMethod("GetManyAsync");
                 MethodInfo generic = method.MakeGenericMethod(dataLoader.GetType());
                 FwCustomFields customFields = _Custom.CustomFields;
-                dynamic taskGetManyAsync = generic.Invoke(dataLoader, new object[] { request, customFields, beforeExecuteQuery});
+                dynamic taskGetManyAsync = generic.Invoke(dataLoader, new object[] { request, customFields, beforeExecuteQuery });
                 var result = await taskGetManyAsync;
                 if (result != null)
                 {
@@ -553,37 +554,39 @@ namespace FwStandard.BusinessLogic
         public bool refreshCustomFields()
         {
             bool customFieldsLoaded = false;
-            //if (!BusinessLogicModuleName.Equals("CustomField"))
-            //{
-                if (CustomFieldMutex.WaitOne(1000, false))  //justin 10/08/2018 not sure if this is the correct solution. trying to prevent multiple threads from entering here at once and loading duplicate Custom Field lists into memory.
+
+            // this is a protected area. we don't want two threads trying to manage the static "customFields" array
+            CustomFieldMutex.WaitOne();  
+
+            customFields = new FwCustomFields();
+
+            using (FwSqlConnection conn = new FwSqlConnection(AppConfig.DatabaseSettings.ConnectionString))
+            {
+                using (FwSqlCommand qry = new FwSqlCommand(conn, AppConfig.DatabaseSettings.QueryTimeout))
                 {
-                    customFields = new FwCustomFields();
+                    qry.Add("select modulename, fieldname, customtablename, customfieldname, fieldtype");
+                    qry.Add("from customfieldview with (nolock)");
+                    qry.Add("order by fieldname");
 
-                    using (FwSqlConnection conn = new FwSqlConnection(AppConfig.DatabaseSettings.ConnectionString))
+                    qry.AddColumn("modulename");
+                    qry.AddColumn("fieldname");
+                    qry.AddColumn("customtablename");
+                    qry.AddColumn("customfieldname");
+                    qry.AddColumn("fieldtype");
+
+                    FwJsonDataTable table = qry.QueryToFwJsonTableAsync(true).Result;
+                    for (int r = 0; r < table.Rows.Count; r++)
                     {
-                        using (FwSqlCommand qry = new FwSqlCommand(conn, AppConfig.DatabaseSettings.QueryTimeout))
-                        {
-                            qry.Add("select modulename, fieldname, customtablename, customfieldname, fieldtype");
-                            qry.Add("from customfieldview with (nolock)");
-                            qry.Add("order by fieldname");
-
-                            qry.AddColumn("modulename");
-                            qry.AddColumn("fieldname");
-                            qry.AddColumn("customtablename");
-                            qry.AddColumn("customfieldname");
-                            qry.AddColumn("fieldtype");
-
-                            FwJsonDataTable table = qry.QueryToFwJsonTableAsync(true).Result;
-                            for (int r = 0; r < table.Rows.Count; r++)
-                            {
-                                FwCustomField customField = new FwCustomField(table.Rows[r][0].ToString(), table.Rows[r][1].ToString(), table.Rows[r][2].ToString(), table.Rows[r][3].ToString(), table.Rows[r][4].ToString());
-                                customFields.Add(customField);
-                            }
-                            customFieldsLoaded = true;
-                        }
+                        FwCustomField customField = new FwCustomField(table.Rows[r][0].ToString(), table.Rows[r][1].ToString(), table.Rows[r][2].ToString(), table.Rows[r][3].ToString(), table.Rows[r][4].ToString());
+                        customFields.Add(customField);
                     }
+                    customFieldsLoaded = true;
                 }
-            //}
+            }
+
+            // end protected area.
+            CustomFieldMutex.ReleaseMutex();
+
             return customFieldsLoaded;
         }
         //------------------------------------------------------------------------------------
@@ -1171,7 +1174,7 @@ namespace FwStandard.BusinessLogic
                 index++;
             }
 
-            for (int i = removeIndexes.Count - 1; i>= 0; i--)
+            for (int i = removeIndexes.Count - 1; i >= 0; i--)
             {
                 deltas.RemoveAt(removeIndexes[i]);
             }
