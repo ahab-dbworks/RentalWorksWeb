@@ -1,4 +1,4 @@
-class FwModule {
+﻿class FwModule {
     //----------------------------------------------------------------------------------------------
     static getModuleControl(moduleControllerName: string) {
         var html, $view, $actionView;
@@ -180,74 +180,103 @@ class FwModule {
 
         let fields = FwModule.loadFormFromTemplate($browse.data('name')).find('.fwformfield');
         let findFields = [];
-        let $find = jQuery(`
-            <div class="btn" tabindex="0">
-                <i class="material-icons">search</i>
-                <div class="btn-text">Find</div>
-                <div class="findbutton-dropdown">
-                    <div class="query">
-                        <div class="flexrow queryrow" style="align-items: center;">
-                            <div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield datafieldselect" data-caption="Datafield" data-datafield="Datafield" style="flex:1 1 auto;"></div>
-                            <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="" data-datafield="DatafieldQuery" style="flex:1 1 auto;"></div>
-                            <i class="material-icons add-query">add_circle_outline</i>
-                        </div>
-                    </div>
-                    <div class="flexrow">
-                        <div class="find fwformcontrol" data-type="button" style="flex:0 1 50px;margin:15px 15px 10px 10px;margin-left:auto;">Apply</div>
-                    </div>
-                </div>
-            </div>`);
-        FwControl.renderRuntimeHtml($find.find('.fwcontrol'));
-        $find.on('click', function (e) {
-            let maxZIndex;
-            let $this = jQuery(this);
-            e.preventDefault();
-
-            if (!$this.hasClass('active')) {
-                maxZIndex = FwFunc.getMaxZ('*');
-                $this.find('.findbutton-dropdown').css('z-index', maxZIndex + 1);
-                $this.addClass('active');
-
-                jQuery(document).one('click', function closeMenu(e: any) {
-                    if (($this.has(e.target).length === 0) && ($this.parent().has(e.target).length === 0)) {
-                        $this.removeClass('active');
-                        $this.find('.findbutton-dropdown').css('z-index', '0');
-                    } else if ($this.hasClass('active')) {
-                        $this.one('click', closeMenu);
-                    }
-                });
-            } else {
-                //$this.removeClass('active');
-                //$this.find('.findbutton-dropdown').css('z-index', '0');
-            }
-        });
-        $find.find('.findbutton-dropdown').off()
+        let textComparisonFields = [
+            { value: 'Contains', text: 'Contains' },
+            { value: 'StartsWith', text: 'Starts With' },
+            { value: 'EndsWith', text: 'Ends With' },
+            { value: 'Equals', text: 'Equals' },
+            { value: 'DoesNotContain', text: 'Does Not Contain' },
+            { value: 'DoesNotEqual', text: 'Does Not Equal' }
+        ];
+        let numericComparisonFields = [
+            { value: 'Equals', text: '=' },
+            { value: 'GreaterThan', text: '>' },
+            { value: 'GreaterThanEqual', text: '≥' },
+            { value: 'LessThan', text: '<' },
+            { value: 'LessThanEqual', text: '≤' },
+            { value: 'NotEqual', text: '≠' },
+        ];
+        let booleanComparisonFields = [
+            { value: 'Equals', text: 'Equals' },
+            { value: 'DoesNotEqual', text: 'Does Not Equal' }
+        ];
+        let dateComparisonFields = [
+            { value: 'Equals', text: 'Equals' },
+            { value: 'PriorTo', text: 'Prior To' },
+            { value: 'PriorToEquals', text: 'Prior To or Equals' },
+            { value: 'LaterThan', text: 'Later Than' },
+            { value: 'LaterThanEquals', text: 'Later Than or Equals' },
+            { value: 'NotEqual', text: 'Does Not Equal' },
+        ];
 
         for (var i = 0; i < fields.length; i++) {
             if (jQuery(fields[i]).data('type') === 'validation') {
                 findFields.push({
                     'value': jQuery(fields[i]).attr('data-displayfield'),
-                    'text': jQuery(fields[i]).attr('data-displayfield')
+                    'text': jQuery(fields[i]).attr('data-displayfield'),
+                    'type': 'validation'
                 });
             } else if (jQuery(fields[i]).data('type') !== 'key') {
                 findFields.push({
                     'value': jQuery(fields[i]).attr('data-datafield'),
-                    'text': jQuery(fields[i]).attr('data-datafield')
+                    'text': jQuery(fields[i]).attr('data-datafield'),
+                    'type': jQuery(fields[i]).data('type')
                 });
             }
         }
-        window['FwFormField_select'].loadItems($find.find('.datafieldselect'), findFields, false);
 
-        if ($browse.find('.buttonbar').find('.vr').length === 0) {
-            $browse.find('.buttonbar').append($find)
-        } else {
-            $browse.find('.buttonbar').find('.vr:first').before($find);
-        }
+        window['FwFormField_select'].loadItems($browse.find('.datafieldselect'), findFields, false);
+        window['FwFormField_select'].loadItems($browse.find('.andor'), [{ value: 'And', text: 'And' }, { value: 'Or', text: 'Or' }], true);
 
-        $find.find('.add-query').on('click', function cloneRow() {
+        $browse.find('.datafieldselect').on('change', function () {
+            let datatype = jQuery(this).find(':selected').data('type');
+            switch (datatype) {
+                case 'text':
+                    window['FwFormField_select'].loadItems($browse.find('.datafieldcomparison'), textComparisonFields, true);
+                    break;
+                case 'number':
+                    window['FwFormField_select'].loadItems($browse.find('.datafieldcomparison'), numericComparisonFields, true);
+                    break;
+                case 'checkbox':
+                    window['FwFormField_select'].loadItems($browse.find('.datafieldcomparison'), booleanComparisonFields, true);
+                    break;
+                case 'date':
+                    window['FwFormField_select'].loadItems($browse.find('.datafieldcomparison'), dateComparisonFields, true);
+                    break;
+            }
+        })
+
+        $browse.find('.add-query').on('click', function cloneRow() {
             let newRow = jQuery(this).closest('.queryrow').clone();
+
+            newRow.find('.datafieldselect').on('change', function () {
+                let datatype = jQuery(this).find(':selected').data('type');
+                switch (datatype) {
+                    case 'text':
+                        window['FwFormField_select'].loadItems(newRow.find('.datafieldcomparison'), textComparisonFields, true);
+                        break;
+                    case 'number':
+                        window['FwFormField_select'].loadItems(newRow.find('.datafieldcomparison'), numericComparisonFields, true);
+                        break;
+                    case 'checkbox':
+                        window['FwFormField_select'].loadItems(newRow.find('.datafieldcomparison'), booleanComparisonFields, true);
+                        break;
+                    case 'date':
+                        window['FwFormField_select'].loadItems(newRow.find('.datafieldcomparison'), dateComparisonFields, true);
+                        break;
+                }
+            })
+            newRow.find('.delete-query').on('click', function () {
+                if (newRow.find('.add-query').css('visibility') === 'visible') {
+                    newRow.prev().find('.add-query').css('visibility', 'visible');
+                }
+                newRow.remove();
+            }).css('visibility', 'visible');
+            newRow.find('.andor').css('visibility', 'visible');
             newRow.find('.add-query').on('click', cloneRow);
-            newRow.appendTo($find.find('.query'));
+            newRow.appendTo($browse.find('.query'));
+            jQuery(this).css('cursor', 'default');
+            jQuery(this).css('visibility', 'hidden');
         })
 
         return $browse;
@@ -269,6 +298,14 @@ class FwModule {
                 if (nodeBrowseMenuBar !== null) {
                     if (nodeBrowseMenuBar.properties.visible === 'T') {
                         $browse.find('.fwbrowse-menu').append($menu);
+                        nodeBrowseMenuBar.children.push({
+                            id: '303DF0E5-1410-4894-8379-6D2995132DA9',
+                            properties: {
+                                caption: 'Find',
+                                nodetype: 'FindMenuBarButton',
+                                visible: 'T'
+                            }
+                        })
                         for (var menubaritemno = 0; menubaritemno < nodeBrowseMenuBar.children.length; menubaritemno++) {
                             var nodeMenuBarItem = nodeBrowseMenuBar.children[menubaritemno];
                             if (nodeMenuBarItem.properties.visible === 'T') {
@@ -403,7 +440,6 @@ class FwModule {
                                         $menubarbutton.on('click', FwApplicationTree.clickEvents['{' + nodeMenuBarItem.id + '}']);
                                         break;
                                     case 'NewMenuBarButton':
-                                        $browse.attr('data-newtab', 'true');
 
                                         $menubarbutton = FwMenu.addStandardBtn($menu, nodeMenuBarItem.properties.caption);
                                         $menubarbutton.attr('data-type', 'NewMenuBarButton');
@@ -411,6 +447,7 @@ class FwModule {
                                             var $form, controller, $browse, issubmodule;
                                             try {
                                                 $browse = jQuery(this).closest('.fwbrowse');
+                                                $browse.attr('data-newtab', 'true');
                                                 controller = $browse.attr('data-controller');
                                                 issubmodule = $browse.closest('.tabpage').hasClass('submodule');
                                                 if (typeof window[controller] === 'undefined') throw 'Missing javascript module: ' + controller;
@@ -480,9 +517,59 @@ class FwModule {
                                             }
                                         });
                                         break;
+                                    case 'FindMenuBarButton':
+                                        $menubarbutton = FwMenu.addStandardBtn($menu, nodeMenuBarItem.properties.caption);
+                                        let $browse: any = $menubarbutton.closest('.fwbrowse');
+
+                                        $menubarbutton.attr('data-type', 'FindMenuBarButton');
+                                        $menubarbutton.append(`
+                                        <div class="findbutton-dropdown">
+                                            <div class="query">
+                                                <div class="flexrow queryrow" style="align-items: center;">
+                                                    <div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield andor" data-caption="" data-datafield="AndOr" style="flex:1 1 auto;"></div>
+                                                    <div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield datafieldselect" data-caption="Datafield" data-datafield="Datafield" style="flex:1 1 auto;"></div>
+                                                    <div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield datafieldcomparison" data-caption="" data-datafield="DatafieldComparison" style="flex:1 1 auto;"></div>
+                                                    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="" data-datafield="DatafieldQuery" style="flex:1 1 auto;"></div>
+                                                    <i class="material-icons delete-query">delete_outline</i>
+                                                    <i class="material-icons add-query">add_circle_outline</i>
+                                                </div>
+                                            </div>
+                                            <div class="flexrow queryrow">
+                                                <div class="find fwformcontrol" data-type="button" style="flex:0 1 50px;margin:15px 15px 10px 10px;margin-left:auto;">Apply</div>
+                                            </div>
+                                        </div>`);
+                                        FwControl.renderRuntimeHtml($menubarbutton.find('.fwcontrol'));
+
+                                        $menubarbutton.on('click', function (e) {
+                                            controller = $browse.attr('data-controller');
+                                            let maxZIndex;
+                                            let $this = jQuery(this);
+                                            e.preventDefault();
+
+                                            if (!$this.hasClass('active')) {
+                                                maxZIndex = FwFunc.getMaxZ('*');
+                                                $this.find('.findbutton-dropdown').css('z-index', maxZIndex + 1);
+                                                $this.addClass('active');
+
+                                                jQuery(document).one('click', function closeMenu(e: any) {
+                                                    if (($this.has(e.target).length === 0) && ($this.parent().has(e.target).length === 0) && !jQuery(e.target).hasClass('delete-query')) {
+                                                        $this.removeClass('active');
+                                                        $this.find('.findbutton-dropdown').css('z-index', '0');
+                                                    } else if ($this.hasClass('active')) {
+                                                        $this.one('click', closeMenu);
+                                                    }
+                                                });
+                                            } else {
+                                                //$this.removeClass('active');
+                                                //$this.find('.findbutton-dropdown').css('z-index', '0');
+                                            }
+                                        });
+                                        $menubarbutton.find('.findbutton-dropdown').off();
+                                        break;
                                 }
                             }
                         }
+                        nodeBrowseMenuBar.children.splice(nodeBrowseMenuBar.children.length - 1, 1);
                     }
                 }
             }
