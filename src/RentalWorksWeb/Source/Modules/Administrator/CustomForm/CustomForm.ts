@@ -190,17 +190,14 @@ class CustomForm {
         switch (moduleType) {
             case 'Grid':
             case 'Browse':
-                let request: any = {};
-                request = {
-                    emptyobject: true
-                };
+                //let request: any = {};
+                //request = {
+                //    emptyobject: true
+                //};
                 if (apiurl !== "undefined") {
-                    FwAppData.apiMethod(true, 'POST', `${apiurl}/browse`, request, FwServices.defaultTimeout, function onSuccess(response) {
-                        let columnNames = response.Columns;
-                        columnNames = columnNames.map(obj => {
-                            return obj.DataField;
-                        })
-
+                    FwAppData.apiMethod(true, 'GET', `${apiurl}/emptyobject`, /*request*/null , FwServices.defaultTimeout, function onSuccess(response) {
+                        let columnNames = Object.keys(response);
+                        let customFields = response._Custom.map(obj => ({ fieldname: obj.FieldName, fieldtype: obj.FieldType }));
                         let allValidFields: any = [];
                         for (let i = 0; i < columnNames.length; i++) {
                             if (columnNames[i] != 'DateStamp' && columnNames[i] != 'RecordTitle' && columnNames[i] != '_Custom') {
@@ -210,6 +207,15 @@ class CustomForm {
                                 });
                             }
                         }
+
+                        for (let i = 0; i < customFields.length; i++) {
+                            allValidFields.push({
+                                'Field': customFields[i].fieldname
+                                , 'IsCustom': 'true'
+                                , 'FieldType': customFields[i].fieldtype.toLowerCase()
+                            });
+                        }
+
                         self.datafields = allValidFields.sort(compare);
 
                         for (let i = 0; i < allValidFields.length; i++) {
@@ -223,7 +229,7 @@ class CustomForm {
             case 'Form':
                 FwAppData.apiMethod(true, 'GET', `${apiurl}/emptyobject`, null, FwServices.defaultTimeout, function onSuccess(response) {
                     let columnNames = Object.keys(response);
-                    let customFields = response._Custom.map(obj => obj.FieldName);
+                    let customFields = response._Custom.map(obj => ({ fieldname: obj.FieldName, fieldtype: obj.FieldType}));
                     let allValidFields:any =[];
                     for (let i = 0; i < columnNames.length; i++) {
                         if (columnNames[i] != 'DateStamp' && columnNames[i] != 'RecordTitle' && columnNames[i] != '_Custom') {
@@ -236,8 +242,9 @@ class CustomForm {
 
                     for (let i = 0; i < customFields.length; i++) {
                         allValidFields.push({
-                            'Field': customFields[i]
+                            'Field': customFields[i].fieldname
                             , 'IsCustom': 'true'
+                            , 'FieldType': customFields[i].fieldtype.toLowerCase()
                         });
                     }
 
@@ -495,7 +502,7 @@ class CustomForm {
                     field.append(`<option value="" disabled>Select field</option>`)
                     for (let i = 0; i < self.datafields.length; i++) {
                         let $this = self.datafields[i];
-                        field.append(`<option data-iscustomfield=${$this.IsCustom} value="${$this.Field}">${$this.Field}</option>`);
+                        field.append(`<option data-iscustomfield=${$this.IsCustom} value="${$this.Field}" data-type="${$this.FieldType}">${$this.Field}</option>`);
                     }
                     let value = jQuery(field).attr('value');
                     if (value) {
@@ -807,6 +814,7 @@ class CustomForm {
                                 case "data-cssclass":
                                 case "data-mode":
                                 case "data-tabtype":
+                                case "data-customfield":
                                     continue;
                                 case "data-datafield":
                                 case "data-browsedatafield":
@@ -903,9 +911,36 @@ class CustomForm {
                                     jQuery(originalHtml).find('.fieldcaption').attr(`style`, `min-width:${value}`);
                                     jQuery($customFormClone).find(`div[data-index="${index}"]`).parent('.column').attr(`${attribute}`, `${value}`);
                                     break;
+                                case 'data-datafield':
                                 case 'data-browsedatafield':
-                                    jQuery($customFormClone).find(`div[data-index="${index}"]`).attr(`data-datafield`, `${value}`);
+                                    jQuery($customFormClone).find(`div[data-index="${index}"]`).attr(`${attribute}`, `${value}`);
                                     jQuery(originalHtml).attr(`${attribute}`, `${value}`);
+                                    //update caption and datatypes
+                                    let datatype = $form.find(`option[value=${value}]`).attr('data-type');
+                                    switch (datatype) {
+                                        case 'integer':
+                                            datatype = "number";
+                                            break;
+                                        case 'float':
+                                            datatype = "decimal";
+                                            break;
+                                        case 'date':
+                                            datatype = "date";
+                                            break;
+                                        case 'true/false':
+                                            datatype = "checkbox";
+                                            break;
+                                        default:
+                                            datatype = "text";
+                                            break;
+                                    }
+                                    jQuery($customFormClone).find(`div[data-index="${index}"]`).attr(`data-caption`, `${value}`);
+                                    jQuery(originalHtml).attr(`data-caption`, `${value}`);
+                                    $form.find(`#controlProperties .propname:contains('data-caption')`).siblings('.propval').find('input').val(value);
+                                    jQuery($customFormClone).find(`div[data-index="${index}"]`).attr(`data-datatype`, datatype);
+                                    jQuery(originalHtml).attr(`data-datatype`, datatype);
+                                    $form.find(`#controlProperties .propname:contains('data-datatype')`).siblings('.propval').find('select').val(datatype);
+
                                     break;
                                 default:
                                     jQuery($customFormClone).find(`div[data-index="${index}"]`).attr(`${attribute}`, `${value}`);
@@ -915,10 +950,37 @@ class CustomForm {
                             if (attribute === 'data-datafield') {
                                 isCustomField = $form.find(`option[value=${value}]`).attr('data-iscustomfield');
 
+                                //update caption when datafield is changed
+                                jQuery(originalHtml).attr('data-caption', value);
+                                $form.find(`#controlProperties .propname:contains('data-caption')`).siblings('.propval').find('input').val(value);
+
                                 if (isCustomField === "true") {
+                                    //update datatype
+                                    let datatype = $form.find(`option[value=${value}]`).attr('data-type');
+                                    switch (datatype) {
+                                        case 'integer':
+                                            datatype = "number";
+                                            break;
+                                        case 'float':
+                                            datatype = "decimal";
+                                            break;
+                                        case 'date':
+                                            datatype = "date";
+                                            break;
+                                        case 'true/false':
+                                            datatype = "checkbox";
+                                            break;
+                                        default:
+                                            datatype = "text";
+                                            break;
+                                    }
+                                    jQuery(originalHtml).attr('data-type', datatype);
+                                    $form.find(`#controlProperties .propname:contains('data-type')`).siblings('.propval').find('select').val(datatype);
+
                                     jQuery(originalHtml).attr('data-customfield', 'true');
                                     jQuery($customFormClone).find(`div[data-index="${index}"]`).attr('data-customfield', 'true');
                                 }
+                                jQuery($customFormClone).find(`div[data-index="${index}"]`).attr(`data-caption`, `${value}`);
                             }
 
                             let isTab = jQuery(originalHtml).attr('data-type');
@@ -928,6 +990,7 @@ class CustomForm {
                             } else {
                                 jQuery(originalHtml).attr(`${attribute}`, `${value}`);
                             };
+
                             jQuery($customFormClone).find(`div[data-index="${index}"]`).attr(`${attribute}`, `${value}`);
 
                         }
@@ -1147,6 +1210,13 @@ class CustomForm {
 
                         addDatafields();
 
+                        $form.find('#controlProperties .propname:contains("data-datatype")')
+                            .siblings('.propval')
+                            .find('input')
+                            .replaceWith(`<select style="width:94%" class="valueOptions" value="text">`);
+
+                        addValueOptions();
+
                         $form.find('#controlProperties input').change();
 
                         lastIndex = newFieldIndex
@@ -1334,6 +1404,7 @@ class CustomForm {
                     , 'combobox'
                     , 'date'
                     , 'datetime'
+                    , 'decimal'
                     , 'email'
                     , 'key'
                     , 'money'
