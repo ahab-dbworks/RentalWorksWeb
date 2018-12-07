@@ -45,6 +45,39 @@ class Widget {
         $form = FwModule.loadFormFromTemplate(this.Module);
         $form = FwModule.openForm($form, mode);
 
+        $form.find('div[data-datafield="DefaultDateBehavior"]').on('change', function() {
+            let selected = FwFormField.getValue2(jQuery(this));
+            let dateField = $form.find('.date-field');
+            let specificDate = $form.find('.specific-date');
+            let fromDate = $form.find('.from-date');
+            let toDate = $form.find('.to-date');
+            let fromDateField = $form.find('div[data-datafield="DefaultFromDate"] > .fwformfield-caption')
+
+            if (selected === 'NONE') {
+                dateField.hide();
+                specificDate.hide();
+                fromDate.hide();
+                toDate.hide();
+            } else if (selected === 'SINGLE DATE - YESTERDAY' || selected === 'SINGLE DATE - TODAY' || selected === 'SINGLE DATE - TOMORROW' || selected === 'DATE RANGE - PRIOR WEEK' || selected === 'DATE RANGE - CURRENT WEEK' || selected === 'DATE RANGE - NEXT WEEK' || selected === 'DATE RANGE - PRIOR MONTH' || selected === 'DATE RANGE - CURRENT MONTH' || selected === 'DATE RANGE - NEXT MONTH' || selected === 'DATE RANGE - PRIOR YEAR' || selected === 'DATE RANGE - CURRENT YEAR' || selected === 'DATE RANGE - NEXT YEAR' || selected === 'DATE RANGE - YEAR TO DATE') {
+                dateField.show();
+                specificDate.hide();
+                fromDate.hide();
+                toDate.hide();
+            } else if (selected === 'SINGLE DATE - SPECIFIC DATE') {
+                dateField.show();
+                specificDate.show();
+                fromDateField.text('Date');
+                fromDate.show();
+                toDate.hide();
+            } else if (selected === 'DATE RANGE - SPECIFIC DATES') {
+                dateField.show();
+                specificDate.show();
+                fromDateField.text('From Date');
+                fromDate.show();
+                toDate.show();
+            }
+        })
+
         return $form;
     }
 
@@ -70,6 +103,20 @@ class Widget {
 
     afterLoad($form: any) {
         FwFormField.disable($form.find('[data-datafield="ApiName"]'));
+        let dateSelectField = $form.find('.datefield');
+        let dateSelected = FwFormField.getValue2(dateSelectField);
+        let dateFieldDisplay = FwFormField.getValueByDataField($form, 'DateFieldDisplayNames').split(',');
+        let dateFieldValues = FwFormField.getValueByDataField($form, 'DateFields').split(',');
+        let selectArray = [];
+
+        for (var i = 0; i < dateFieldDisplay.length; i++) {
+            selectArray.push({
+                'value': dateFieldValues[i],
+                'text': dateFieldDisplay[i]
+            })
+        }
+        window['FwFormField_select'].loadItems(dateSelectField, selectArray, true);
+        window['FwFormField_select'].setValue(dateSelectField, dateSelected);
     }
 }
 
