@@ -195,7 +195,7 @@ class CustomForm {
                 //    emptyobject: true
                 //};
                 if (apiurl !== "undefined") {
-                    FwAppData.apiMethod(true, 'GET', `${apiurl}/emptyobject`, /*request*/null , FwServices.defaultTimeout, function onSuccess(response) {
+                    FwAppData.apiMethod(true, 'GET', `${apiurl}/emptyobject`, /*request*/null, FwServices.defaultTimeout, function onSuccess(response) {
                         let columnNames = Object.keys(response);
                         let customFields = response._Custom.map(obj => ({ fieldname: obj.FieldName, fieldtype: obj.FieldType }));
                         let allValidFields: any = [];
@@ -229,8 +229,8 @@ class CustomForm {
             case 'Form':
                 FwAppData.apiMethod(true, 'GET', `${apiurl}/emptyobject`, null, FwServices.defaultTimeout, function onSuccess(response) {
                     let columnNames = Object.keys(response);
-                    let customFields = response._Custom.map(obj => ({ fieldname: obj.FieldName, fieldtype: obj.FieldType}));
-                    let allValidFields:any =[];
+                    let customFields = response._Custom.map(obj => ({ fieldname: obj.FieldName, fieldtype: obj.FieldType }));
+                    let allValidFields: any = [];
                     for (let i = 0; i < columnNames.length; i++) {
                         if (columnNames[i] != 'DateStamp' && columnNames[i] != 'RecordTitle' && columnNames[i] != '_Custom') {
                             allValidFields.push({
@@ -594,7 +594,7 @@ class CustomForm {
                         }
                     })
                     .off('dragover', 'td.placeholder')
-                    .on('dragover','td.placeholder', e => {
+                    .on('dragover', 'td.placeholder', e => {
                         e.preventDefault();
                         e.stopPropagation();
                         e.originalEvent.dataTransfer.dropEffect = "move";
@@ -915,32 +915,37 @@ class CustomForm {
                                 case 'data-browsedatafield':
                                     jQuery($customFormClone).find(`div[data-index="${index}"]`).attr(`${attribute}`, `${value}`);
                                     jQuery(originalHtml).attr(`${attribute}`, `${value}`);
-                                    //update caption and datatypes
-                                    let datatype = $form.find(`option[value=${value}]`).attr('data-type');
-                                    switch (datatype) {
-                                        case 'integer':
-                                            datatype = "number";
-                                            break;
-                                        case 'float':
-                                            datatype = "decimal";
-                                            break;
-                                        case 'date':
-                                            datatype = "date";
-                                            break;
-                                        case 'true/false':
-                                            datatype = "checkbox";
-                                            break;
-                                        default:
-                                            datatype = "text";
-                                            break;
-                                    }
-                                    jQuery($customFormClone).find(`div[data-index="${index}"]`).attr(`data-caption`, `${value}`);
-                                    jQuery(originalHtml).attr(`data-caption`, `${value}`);
-                                    $form.find(`#controlProperties .propname:contains('data-caption')`).siblings('.propval').find('input').val(value);
-                                    jQuery($customFormClone).find(`div[data-index="${index}"]`).attr(`data-datatype`, datatype);
-                                    jQuery(originalHtml).attr(`data-datatype`, datatype);
-                                    $form.find(`#controlProperties .propname:contains('data-datatype')`).siblings('.propval').find('select').val(datatype);
 
+                                    isCustomField = $form.find(`option[value=${value}]`).attr('data-iscustomfield');
+                                    if (isCustomField === "true") {
+                                        //update caption and datatypes
+                                        let datatype = $form.find(`option[value=${value}]`).attr('data-type');
+                                        switch (datatype) {
+                                            case 'integer':
+                                                datatype = "number";
+                                                break;
+                                            case 'float':
+                                                datatype = "decimal";
+                                                break;
+                                            case 'date':
+                                                datatype = "date";
+                                                break;
+                                            case 'true/false':
+                                                datatype = "checkbox";
+                                                break;
+                                            default:
+                                                datatype = "text";
+                                                break;
+                                        }
+                                        jQuery(originalHtml).attr('data-customfield', 'true');
+                                        jQuery($customFormClone).find(`div[data-index="${index}"]`).attr('data-customfield', 'true');
+                                        jQuery($customFormClone).find(`div[data-index="${index}"]`).attr(`data-caption`, `${value}`);
+                                        jQuery(originalHtml).attr(`data-caption`, `${value}`);
+                                        $form.find(`#controlProperties .propname:contains('data-caption')`).siblings('.propval').find('input').val(value);
+                                        jQuery($customFormClone).find(`div[data-index="${index}"]`).attr(`data-datatype`, datatype);
+                                        jQuery(originalHtml).attr(`data-datatype`, datatype);
+                                        $form.find(`#controlProperties .propname:contains('data-datatype')`).siblings('.propval').find('select').val(datatype);
+                                    }
                                     break;
                                 default:
                                     jQuery($customFormClone).find(`div[data-index="${index}"]`).attr(`${attribute}`, `${value}`);
