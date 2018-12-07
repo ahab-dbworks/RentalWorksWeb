@@ -2906,16 +2906,34 @@ class FwBrowseClass {
             let validationDisplayField = (typeof $field.attr('data-browsedisplayfield') === 'string') ? $field.attr('data-browsedisplayfield') : '';
             let validationDisplayValue = $tr.find(`.field[data-browsedatafield="${formdatafield}"] input.text`).val();
 
-            let field = {
-                datafield: formdatafield,
-                value: originalvalue
-            };
+            let field: any = {};
+
+            if ($field.data('customfield') !== undefined && $field.data('customfield') === true) {
+                if (typeof fields._Custom === 'undefined') {
+                    fields._Custom = [];
+                }
+            } else {
+                field = {
+                    datafield: formdatafield,
+                    value: originalvalue
+                };
+            }
+
             if (typeof window['FwBrowseColumn_' + formdatatype] !== 'undefined') {
                 if (typeof window['FwBrowseColumn_' + formdatatype].getFieldValue === 'function') {
                     window['FwBrowseColumn_' + formdatatype].getFieldValue($control, $tr, $field, field, originalvalue);
                 }
             }
-            fields[formdatafield] = field.value;
+
+            if ($field.data('customfield') !== undefined && $field.data('customfield') === true) {
+                field = {
+                    FieldName: formdatafield,
+                    FieldValue: field.value
+                }
+                fields._Custom.push(field);
+            } else {
+                fields[formdatafield] = field.value;
+            }
 
             if (formdatatype === 'validation') {
                 if (validationDisplayField != formdatafield) {
