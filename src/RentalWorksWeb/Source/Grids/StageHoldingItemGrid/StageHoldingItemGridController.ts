@@ -58,7 +58,7 @@
                     let request: any = {},
                         code = $tr.find('[data-browsedatafield="BarCode"]').attr('data-originalvalue'),
                         orderItemId = $tr.find('[data-browsedatafield="OrderItemId"]').attr('data-originalvalue'),
-                        vendor = $tr.find('[data-browsedatafield="Vendor"]').attr('data-originalvalue'),
+                        vendorId = $tr.find('[data-browsedatafield="VendorId"]').attr('data-originalvalue'),
                         orderId = FwFormField.getValueByDataField($form, 'OrderId'),
                         newValue = jQuery(e.currentTarget).val(),
                         oldValue = $tr.find('[data-browsedatafield="Quantity"]').attr('data-originalvalue'),
@@ -69,7 +69,7 @@
                         Code: code,
                         Quantity: quantity,
                         OrderItemId: orderItemId,
-                        Vendor: vendor
+                        VendorId: vendorId
                     }
                     if (quantity != 0) {
                         FwAppData.apiMethod(true, 'POST', "api/v1/checkout/stageitem", request, FwServices.defaultTimeout,
