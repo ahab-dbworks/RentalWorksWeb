@@ -150,11 +150,11 @@ class Base {
                                                     FwFunc.showError(response);
                                                 }, null);
 
-                                                let customformrequest:any = {};
+                                                let customformrequest: any = {};
                                                 customformrequest.uniqueids = {
                                                     WebUserId: responseOriginalApi.webUser.webusersid.webusersid
                                                 };
-                                                
+
                                                 FwAppData.apiMethod(true, 'POST', `api/v1/customform/browse`, customformrequest, FwServices.defaultTimeout, function onSuccess(response) {
                                                     let baseFormIndex = response.ColumnIndex.BaseForm;
                                                     let activeIndex = response.ColumnIndex.Active;
@@ -165,12 +165,8 @@ class Base {
                                                         let customForm = response.Rows[i];
                                                         if (customForm[activeIndex] == true) {
                                                             let baseform = customForm[baseFormIndex];
-                                                            activeCustomForms.push({ 'BaseForm': baseform, 'CustomFormId': customForm[customFormIdIndex]});
-                                                            if (baseform.endsWith('GridBrowse')) {
-                                                                jQuery(`#tmpl-grids-${baseform}`).html(customForm[htmlIndex]);
-                                                            } else if ((baseform.endsWith('Browse')) || (baseform.endsWith('Form'))) {
-                                                                jQuery(`#tmpl-modules-${baseform}`).html(customForm[htmlIndex]);
-                                                            }
+                                                            activeCustomForms.push({ 'BaseForm': baseform, 'CustomFormId': customForm[customFormIdIndex] });
+                                                            jQuery('head').append(`<template id="tmpl-custom-${baseform}">${customForm[htmlIndex]}</template>`);
                                                         }
                                                     }
                                                     if (activeCustomForms.length > 0) {

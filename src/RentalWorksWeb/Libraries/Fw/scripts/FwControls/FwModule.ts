@@ -1,4 +1,4 @@
-﻿class FwModule {
+class FwModule {
     //----------------------------------------------------------------------------------------------
     static getModuleControl(moduleControllerName: string) {
         var html, $view, $actionView;
@@ -633,8 +633,19 @@
     }
     //----------------------------------------------------------------------------------------------
     static openForm($form: JQuery, mode: string) {
-        var $fwcontrols, formid, $formTabControl, auditTabIds, $auditControl, controller, customTabIds, $customControl,
+        var $fwcontrols, formid, $formTabControl, auditTabIds, $auditControl, controller,
             nodeModule, nodeForm, nodeTabs, nodeTab, $tabs, nodeField, $fields, nodeGrid, $grids, $tabcontrol, args;
+
+        controller = $form.attr('data-controller');
+
+        if (sessionStorage.getItem('customForms') !== null) {
+            let customForms = JSON.parse(sessionStorage.getItem('customForms'));
+            var baseForm = controller.replace('Controller', 'Form');
+            customForms = customForms.filter(a => a.BaseForm == baseForm);
+            if (customForms.length > 0) {
+                $form = jQuery(jQuery(`#tmpl-custom-${baseForm}`)[0].innerHTML);
+            }
+        }
 
         nodeModule = FwApplicationTree.getNodeByController($form.attr('data-controller'));
         args = {};
@@ -656,7 +667,6 @@
         $form.data('uniqueids', $form.find('.fwformfield[data-isuniqueid="true"]'));
         $form.data('fields', $form.find('.fwformfield[data-isuniqueid!="true"]'));
 
-        controller = $form.attr('data-controller');
         $form.attr('data-modified', 'false');
         if (typeof window[controller]['renderGrids'] === 'function') {
             window[controller]['renderGrids']($form);
@@ -670,35 +680,17 @@
             window[controller]['addButtonMenu']($form);
         }
 
-        //if ($form.attr('data-hasaudit') === 'true') {
-        //    $formTabControl = jQuery($form.find('.fwtabs'));
-        //    auditTabIds = FwTabs.addTab($formTabControl, 'Audit', false, 'AUDIT', false);
-
-        //    $auditControl = jQuery('<div data-control="FwAudit" class="fwcontrol fwaudit" data-version="1" data-rendermode="template"></div>');
-        //    FwControl.renderRuntimeControls($auditControl.find('.fwcontrol').addBack());
-
-        //    $formTabControl.find('#' + auditTabIds.tabpageid).append($auditControl);
-        //    $formTabControl.find('#' + auditTabIds.tabid)
-        //        .on('click', function (e) {
-        //            if (typeof window[controller]['loadAudit'] === 'function') {
-        //                window[controller]['loadAudit']($form);
+        //if (sessionStorage.getItem('customFields') !== null) {
+        //    let customFields = JSON.parse(sessionStorage.getItem('customFields'))
+        //    if (customFields !== null && typeof customFields.length === 'number' && customFields.length > 0) {
+        //        let hasCustomFields = false;
+        //        for (var i = 0; i < customFields.length; i++) {
+        //            if (controller.slice(0, -10) === customFields[i]) {
+        //                FwModule.loadCustomFields($form, customFields[i]);
         //            }
         //        }
-        //        );
-        //}
-        //Jason H - 10/09/2018 Replacing with new audit tab
-
-        if (sessionStorage.getItem('customFields') !== null) {
-            let customFields = JSON.parse(sessionStorage.getItem('customFields'))
-            if (customFields !== null && typeof customFields.length === 'number' && customFields.length > 0) {
-                let hasCustomFields = false;
-                for (var i = 0; i < customFields.length; i++) {
-                    if (controller.slice(0, -10) === customFields[i]) {
-                        FwModule.loadCustomFields($form, customFields[i]);
-                    }
-                }
-            }
-        }
+        //    }
+        //}   -- Jason Hoang 12/10/2018 removed custom fields tab
 
         //add Audit tab to all forms
         let $keys = $form.find('.fwformfield[data-type="key"]');

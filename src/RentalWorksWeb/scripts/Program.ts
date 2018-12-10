@@ -14,7 +14,8 @@ var program: Program = new Program();
 jQuery(function () {
     function start() {
         program.load();
-        program.loadDefaultPage();
+        program.updateTemplatesWithCustomForms(program.loadDefaultPage);
+        //program.loadDefaultPage();
     }
     if (applicationConfig.debugMode) {
         setTimeout(function () {
@@ -22,6 +23,7 @@ jQuery(function () {
         }, 1000);
     } else {
         start();
+ 
     }
 });
 //---------------------------------------------------------------------------------
