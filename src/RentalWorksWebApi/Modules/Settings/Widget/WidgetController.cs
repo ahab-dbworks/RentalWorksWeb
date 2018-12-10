@@ -72,10 +72,10 @@ namespace WebApi.Modules.Settings.Widget
         [FwControllerMethod(Id:"CSCjPzhW5pIbB")]
         public async Task<ActionResult<Widget>> LoadByName([FromRoute]string widgetApiName, int dataPoints, string locationId, string warehouseId, string departmentId, DateTime fromDate, DateTime toDate)
         {
-            return await DoGetWidget(widgetApiName, dataPoints: dataPoints, locationId: locationId, fromDate: fromDate, toDate: toDate);
+            return await DoGetWidget(widgetApiName, fromDate: fromDate, toDate: toDate, dataPoints: dataPoints, locationId: locationId);
         }
         //------------------------------------------------------------------------------------
-        private async Task<ActionResult<Widget>> DoGetWidget(string widgetName, int dataPoints = 0, string locationId = "", string warehouseId = "", string departmentId = "", DateTime fromDate = null, DateTime toDate = null)
+        private async Task<ActionResult<Widget>> DoGetWidget(string widgetName, DateTime fromDate, DateTime toDate, int dataPoints = 0, string locationId = "", string warehouseId = "", string departmentId = "")
         {
             try
             {
