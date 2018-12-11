@@ -175,6 +175,17 @@ class FwModule {
     }
     //----------------------------------------------------------------------------------------------
     static openBrowse($browse: JQuery) {
+        let controller = $browse.attr('data-controller');
+
+        if (sessionStorage.getItem('customForms') !== null) {
+            let customForms = JSON.parse(sessionStorage.getItem('customForms'));
+            var baseForm = controller.replace('Controller', 'Browse');
+            customForms = customForms.filter(a => a.BaseForm == baseForm);
+            if (customForms.length > 0) {
+                $browse = jQuery(jQuery(`#tmpl-custom-${baseForm}`)[0].innerHTML);
+            }
+        }
+
         FwControl.renderRuntimeControls($browse.find('.fwcontrol').addBack());
         FwModule.addBrowseMenu($browse);
 

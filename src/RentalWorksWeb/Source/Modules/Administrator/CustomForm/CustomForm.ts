@@ -79,20 +79,21 @@ class CustomForm {
         $form.attr('data-modified', 'false');
         $form.find('.btn[data-type="SaveMenuBarButton"]').addClass('disabled');
 
-        if (FwFormField.getValueByDataField($form, 'Active') == true) {
-            let type = $form.find('[data-datafield="BaseForm"] option:selected').attr('data-type');
-            let baseform = FwFormField.getValueByDataField($form, 'BaseForm');
-            let html = FwFormField.getValueByDataField($form, 'Html');
-            switch (type) {
-                case 'Grid':
-                    jQuery(`#tmpl-grids-${baseform}`).html(html);
-                    break;
-                case 'Browse':
-                case 'Form':
-                    jQuery(`#tmpl-modules-${baseform}`).html(html);
-                    break;
-            }
-        }
+
+        //if (FwFormField.getValueByDataField($form, 'Active') == true) {
+        //    let type = $form.find('[data-datafield="BaseForm"] option:selected').attr('data-type');
+        //    let baseform = FwFormField.getValueByDataField($form, 'BaseForm');
+        //    let html = FwFormField.getValueByDataField($form, 'Html');
+        //    switch (type) {
+        //        case 'Grid':
+        //            jQuery(`#tmpl-grids-${baseform}`).html(html);
+        //            break;
+        //        case 'Browse':
+        //        case 'Form':
+        //            jQuery(`#tmpl-modules-${baseform}`).html(html);
+        //            break;
+        //    }
+        //}  
 
     }
     //----------------------------------------------------------------------------------------------

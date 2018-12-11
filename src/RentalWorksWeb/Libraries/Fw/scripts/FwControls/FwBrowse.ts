@@ -3367,7 +3367,15 @@ class FwBrowseClass {
     //}
     //---------------------------------------------------------------------------------
     loadGridFromTemplate(modulename: string) {
-        var $control = jQuery(jQuery('#tmpl-grids-' + modulename + 'Browse').html());
+        if (sessionStorage.getItem('customForms') !== null) {
+            let customGrids = JSON.parse(sessionStorage.getItem('customForms'));
+            customGrids = customGrids.filter(a => a.BaseForm == `${modulename}Browse`);
+            if (customGrids.length > 0) {
+                $control = jQuery(jQuery(`#tmpl-custom-${modulename}Browse`)[0].innerHTML);
+            } else {
+                var $control = jQuery(jQuery('#tmpl-grids-' + modulename + 'Browse').html());
+            }
+        } 
         return $control;
     }
     //---------------------------------------------------------------------------------
