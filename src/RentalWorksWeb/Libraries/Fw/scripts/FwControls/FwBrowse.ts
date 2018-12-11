@@ -2907,7 +2907,6 @@ class FwBrowseClass {
             let validationDisplayValue = $tr.find(`.field[data-browsedatafield="${formdatafield}"] input.text`).val();
 
             let field: any = {};
-
             if ($field.data('customfield') !== undefined && $field.data('customfield') === true) {
                 if (typeof fields._Custom === 'undefined') {
                     fields._Custom = [];

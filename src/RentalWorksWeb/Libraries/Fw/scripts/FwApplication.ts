@@ -1,4 +1,4 @@
-class FwApplication {
+﻿class FwApplication {
     name:  string;
     screens: any[] = [];
     audioMode: string;
@@ -323,9 +323,10 @@ class FwApplication {
             loadDefaultPage.call(me);
         }
     }
-     //---------------------------------------------------------------------------------
+    //---------------------------------------------------------------------------------
     navigateHashChange(path) {
         var screen: any, $appendToContainer: any;
+
         FwPopup.destroy(jQuery('.FwPopup-divPopup,.FwPopup-divOverlay')); //mv 2018-02-21 - not sure if this is still needed.  Appears to be cleanup code
         FwAppData.abortAllRequests();
 

@@ -1,4 +1,4 @@
-class FwModule {
+﻿class FwModule {
     //----------------------------------------------------------------------------------------------
     static getModuleControl(moduleControllerName: string) {
         var html, $view, $actionView;
@@ -690,6 +690,7 @@ class FwModule {
         if (typeof window[controller]['addButtonMenu'] === 'function') {
             window[controller]['addButtonMenu']($form);
         }
+
 
         //if (sessionStorage.getItem('customFields') !== null) {
         //    let customFields = JSON.parse(sessionStorage.getItem('customFields'))
