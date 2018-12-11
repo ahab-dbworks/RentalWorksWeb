@@ -275,6 +275,8 @@ html.theme-material .fwbrowse .field[data-browsedatatype="appdocumentimage"] .vi
 html.theme-material .fwbrowse .field[data-browsedatatype="appdocumentimage"] .viewcell .col2 {flex: 0 0 16px;}
 html.theme-material .fwbrowse .field[data-browsedatatype="appdocumentimage"] .viewcell .col2 i {cursor:pointer;color:#F44336;font-size:16px;vertical-align:middle;}
 
+html.theme-material .fwbrowse table tbody tr.editrow td.flexgridspacer{min-width:26px;float:right;display:block !important;}
+html.theme-material .fwbrowse table tbody tr.editrow td.browsecontextmenucell{position:absolute;right:0px;}
 /********************
 Theme
 ********************/
