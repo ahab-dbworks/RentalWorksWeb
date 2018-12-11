@@ -87,6 +87,16 @@
 .fwreports div.fwreportsheader div.input-group span.input-group-search i.material-icons { font-family: 'Material Icons'; font-weight: normal; font-style: normal; display: inline-block; width: 1em; height: 1em; line-height: 1; text-transform: none; letter-spacing: normal; font-size: 30px; -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; -moz-osx-font-smoothing: grayscale; font-feature-settings: 'liga'; }
 
 .fwreports div.fwreportsheader { min-height: 20px; padding: 19px; margin-bottom: 20px; background-color: #f5f5f5; border: 1px solid #e3e3e3; border-radius: 4px; display: flow-root; -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.05); box-shadow: inset 0 1px 1px rgba(0,0,0,.05); }
+.fwreports div.reports-content { max-width:unset; }
+.fwreports div.reports-content div.menu-expand {flex:0 0 auto; position:sticky;}
+.fwreports div.reports-content div.menu-expand i.material-icons {cursor:pointer;min-height: 20px;padding: 19px;margin-bottom: 20px;background-color: #f5f5f5;border: 1px solid #e3e3e3;border-radius: 4px;-webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.05);box-shadow: inset 0 1px 1px rgba(0,0,0,.05);}
+.fwreports div.reports-content div.navigation {flex:0 0 auto; position:sticky; display:none;}
+.fwreports div.reports-content div.navigation div.menu-container {min-height: 20px; padding: 19px; margin-bottom: 20px; background-color: #f5f5f5; border: 1px solid #e3e3e3; border-radius: 4px; -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.05); box-shadow: inset 0 1px 1px rgba(0,0,0,.05);}
+.fwreports div.reports-content div.navigation div.menu-collapse {padding-left : 20px;}
+.fwreports div.reports-content div.navigation div.menu-collapse i.material-icons {cursor:pointer;}
+.fwreports div.reports-content div.navigation div.menu { flex: 0 0 auto; }
+.fwreports div.reports-content div.navigation div.menu div.menu-tab {cursor:pointer;}
+.fwreports div.reports-content div.navigation div.menu div.menu-tab.selected {font-weight:bold;}
 .fwreports div.well { min-height: 20px; padding: 19px; margin-bottom: 20px; background-color: #f5f5f5; border: 1px solid #e3e3e3; border-radius: 4px; -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.05); box-shadow: inset 0 1px 1px rgba(0,0,0,.05); }
 .fwreports div.well div.panel-group { display: block; }
 .fwreports div.well div.panel-group div.panel { margin-bottom: 0; border-radius: 4px; margin-bottom: 20px; background-color: #fff; border: 1px solid transparent; border-radius: 4px; -webkit-box-shadow: 0 1px 1px rgba(0,0,0,.05); box-shadow: 0 1px 1px rgba(0,0,0,.05); }

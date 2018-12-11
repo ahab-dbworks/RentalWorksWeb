@@ -8,7 +8,6 @@
         var combinedViewModel: any;
         var screen: any = {};
         var $reports: any = {};
-        var self = this;
 
         combinedViewModel = {
             captionPageTitle: "Reports"
@@ -21,10 +20,6 @@
         screen.load = function () {
             FwModule.openModuleTab($reports, 'Reports', false, 'REPORTS', true)
             var node = FwApplicationTree.getNodeById(FwApplicationTree.tree, '7FEC9D55-336E-44FE-AE01-96BF7B74074C');
-            var modules = FwApplicationTree.getChildrenByType(node, 'Module');
-            var moduleMenu = FwApplicationTree.getChildrenByType(node, 'Lv2ModuleMenu');
-
-            var moduleTemplates = {};
             var moduleArray = [];
 
             for (var i = 0; i < node.children.length; i++) {
@@ -35,15 +30,15 @@
                 } else {
                     for (var j = 0; j < node.children[i].children.length; j++) {
                         var moduleObj = [];
-                        moduleObj.push(node.children[i].children[j].properties.caption, node.children[i].children[j].properties.controller.slice(0, -10), node.children[i].properties.caption, node.children[i].children[j].properties.description);
+                        moduleObj.push(node.children[i].children[j].properties.caption, node.children[i].children[j].properties.controller.slice(0, -10), node.children[i].properties.caption, node.children[i].children[j].properties.description, node.children[i].properties.caption);
                         moduleArray.push(moduleObj);
                     }
                 }
             }
 
             for (var k = 0; k < moduleArray.length; k++) {
-                moduleArray[k][4] = moduleArray[k][1] + 'Id';
-                FwReportsPage.renderModuleHtml($reports.find(".fwreports"), moduleArray[k][0], moduleArray[k][1], moduleArray[k][3], moduleArray[k][2], moduleArray[k][4]);
+                moduleArray[k][5] = moduleArray[k][1] + 'Id';
+                FwReportsPage.renderModuleHtml($reports.find(".fwreports"), moduleArray[k][0], moduleArray[k][1], moduleArray[k][3], moduleArray[k][2], moduleArray[k][4], moduleArray[k][5]);
             }
 
             $reports.find('#reportsSearch').focus();
