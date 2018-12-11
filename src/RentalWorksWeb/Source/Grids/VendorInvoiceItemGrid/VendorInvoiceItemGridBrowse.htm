@@ -2,8 +2,11 @@
   <div class="column" data-width="0" data-visible="false">
     <div class="field" data-datafield="VendorInvoiceItemId" data-datatype="key" data-formreadonly="true" data-sort="off"></div>
   </div>
+  <div class="column" data-width="0" data-visible="false">
+    <div class="field" data-datafield="ItemOrder" data-datatype="text" data-formreadonly="true" data-sort="asc"></div>
+  </div>
   <div class="column" data-width="auto" data-visible="true">
-    <div class="field" data-caption="Order No." data-datafield="OrderNumber" data-datatype="text" data-sort="asc" data-formreadonly="true"></div>
+    <div class="field" data-caption="Order No." data-datafield="OrderNumber" data-datatype="text" data-sort="off" data-formreadonly="true"></div>
   </div>
   <div class="column" data-width="auto" data-visible="true">
     <div class="field" data-caption="I-Code" data-datafield="ICodeDisplay" data-fullcellcolor="ICodeColor" data-datatype="text" data-sort="off" data-formreadonly="true"></div>
@@ -12,7 +15,7 @@
     <div class="field" data-caption="Description" data-datafield="Description" data-halfcellcolor="DescriptionColor" data-datatype="text" data-sort="off" data-formreadonly="true"></div>
   </div>
   <div class="column" data-width="auto" data-visible="true">
-    <div class="field" data-caption="Type" data-datafield="RecType" data-browsedisplayfield="RecTypeDisplay" data-datatype="text" data-sort="off" data-formreadonly="true"></div>
+    <div class="field" data-caption="Type" data-datafield="RecType" data-browsedisplayfield="RecTypeDisplay" data-datatype="validation" data-validationpeek="false" data-validationname="RecTypeValidation" data-sort="off" data-formreadonly="true"></div>
   </div>
   <div class="column" data-width="auto" data-visible="true">
     <div class="field" data-caption="Warehouse" data-datafield="WarehouseId" data-datatype="validation" data-validationname="WarehouseValidation" data-browsedisplayfield="Warehouse" data-sort="off" data-formreadonly="true"></div>
@@ -30,7 +33,7 @@
     <div class="field" data-caption="Approved" data-datafield="QuantityApproved" data-datatype="number" data-sort="off" data-formreadonly="true"></div>
   </div>
   <div class="column" data-width="auto" data-visible="true">
-    <div class="field" data-caption="Unit Cost" data-datafield="Cost" data-datatype="money" data-sort="off" data-formreadonly="true"></div>
+    <div class="field" data-caption="Unit Cost" data-datafield="Cost" data-datatype="number" data-digits="3" data-sort="off" data-formreadonly="true"></div>
   </div>
   <div class="column" data-width="auto" data-visible="true">
     <div class="field" data-caption="Disc %" data-datafield="PurchaseOrderDiscountPercent" data-datatype="number" data-sort="off" data-formreadonly="true"></div>
@@ -54,7 +57,7 @@
     <div class="field" data-caption="Approve" data-datafield="Quantity" data-datatype="number" data-sort="off" data-formreadonly="false"></div>
   </div>
   <div class="column" data-width="auto" data-visible="true">
-    <div class="field" data-caption="Unit Cost" data-datafield="Cost" data-datatype="number" data-sort="off" data-formreadonly="false"></div>
+    <div class="field" data-caption="Unit Cost" data-datafield="Cost" data-datatype="number" data-digits="3" data-sort="off" data-formreadonly="false"></div>
   </div>
   <div class="column" data-width="auto" data-visible="true">
     <div class="field" data-caption="G/L Acct." data-datafield="GlAccountId" data-browsedisplayfield="GlAccountNo" data-validationname="GlAccountValidation" data-datatype="validation" data-sort="off" data-formreadonly="false"></div>

@@ -78,6 +78,10 @@ class VendorInvoice {
             FwFormField.setValueByDataField($form, 'InvoiceDate', today);
             $form.find('.continue').show();
         }
+
+        let location = JSON.parse(sessionStorage.getItem('location'));
+        FwFormField.setValueByDataField($form, 'LocationId', location.locationid, location.location);
+
         return $form;
     };
     //----------------------------------------------------------------------------------------------

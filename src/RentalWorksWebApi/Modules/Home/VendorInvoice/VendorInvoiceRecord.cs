@@ -49,7 +49,7 @@ namespace WebApi.Modules.Home.VendorInvoice
         [FwSqlDataField(column: "vendorinvoicenumber", modeltype: FwDataTypes.Integer, sqltype: "numeric")]
         public int? VendorInvoiceNumber { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "locationid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
+        [FwSqlDataField(column: "locationid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8, required: true)]
         public string LocationId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "invoicetotal", modeltype: FwDataTypes.Decimal, sqltype: "numeric", precision: 12, scale: 2)]
