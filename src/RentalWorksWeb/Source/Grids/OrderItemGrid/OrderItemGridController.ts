@@ -443,13 +443,19 @@
 
 FwApplicationTree.clickEvents['{77E511EC-5463-43A0-9C5D-B54407C97B15}'] = function (e) {
     let grid = jQuery(e.currentTarget).parents('[data-control="FwGrid"]');
-
     let search, $form, orderId, quoteId, purchaseOrderId, templateId, $popup;
+
     $form = jQuery(this).closest('.fwform');
+    let controllerName = $form.attr('data-controller');
 
     if ($form.attr('data-mode') === 'NEW') {
-        OrderController.saveForm($form, { closetab: false });
-        return;
+        if (controllerName === "OrderController") {
+            OrderController.saveForm($form, { closetab: false });
+            return;
+        } else if (controllerName === "QuoteController"){
+            QuoteController.saveForm($form, { closetab: false });
+            return;
+        }
     }
 
     let gridInventoryType;
@@ -472,7 +478,7 @@ FwApplicationTree.clickEvents['{77E511EC-5463-43A0-9C5D-B54407C97B15}'] = functi
 
     search = new SearchInterface();
 
-    let controllerName = $form.attr('data-controller');
+   
     switch (controllerName) {
         case 'OrderController':
             orderId = FwFormField.getValueByDataField($form, 'OrderId');
