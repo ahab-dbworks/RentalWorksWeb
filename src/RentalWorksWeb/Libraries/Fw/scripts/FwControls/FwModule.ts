@@ -34,9 +34,9 @@
 
         $fwcontrols = $object.find('.fwcontrol');
         FwControl.loadControls($fwcontrols);
-        // Close tab button
+        // START CLOSE TAB
         if ($tabControl.find('div[data-tabtype="FORM"]').length > 2) {
-            let iconHtml: Array<string> = [], $newTabButton;
+            let iconHtml: Array<string> = [], $closeTabButton;
             $tabControl.find('.closetabbutton').html('');
             iconHtml.push(`<div class="closetab">
                             <i class="material-icons">more_horiz</i>
@@ -49,26 +49,70 @@
                               </div>
                             </div>
                           </div>`);
-            $newTabButton = jQuery(iconHtml.join(''));
-            $tabControl.find('.closetabbutton:first').append($newTabButton);
+            $closeTabButton = jQuery(iconHtml.join(''));
+            $tabControl.find('.closetabbutton:first').append($closeTabButton);
         } else {
             $tabControl.find('.closetabbutton').html('');
         }
-        // Toggle button dialog
+        //Toggle button dialog
         $tabControl.find('.closetab').click(() => {
             $object.find('.close-dialog').html('');
             $tabControl.find('.close-dialog:first').toggle();
         });
-        // Close all tabs but active tab
-        $tabControl.find('.leave-active').click(() => {
-            let $bodyContainer, $openForms, $form, $tab, $activeTab, $activeTabId, $tabId;
-            $activeTab = $tabControl.find('div[data-tabtype="FORM"].tab.active');
-            $activeTabId = $activeTab.attr('data-tabpageid');
+
+        function closeModifiedForms() {
+            let $bodyContainer, $openForms, modifiedForms, $form, $tab, $activeTabId, $tabId;
+            $activeTabId = jQuery('body').data('activeTabId');
             $bodyContainer = jQuery('#master-body');
+            modifiedForms = $bodyContainer.find('div[data-modified="true"]');
             $openForms = $bodyContainer.find('div[data-type="form"]');
 
-            for (let i = 0; i < $openForms.length; i++) {
-                $form = jQuery($openForms[i]);
+            for (let i = 0; i < modifiedForms.length; i++) {
+                let tabId = jQuery(modifiedForms[i]).closest('div[data-type="tabpage"]').attr('id')
+                if (tabId === $activeTabId) {
+                    modifiedForms.splice(i, 1)
+                }
+            }
+
+            if (modifiedForms) {
+                $form = jQuery(modifiedForms[0]);
+                $tab = jQuery(`#${$form.parent().attr('data-tabid')}`);
+                $tabId = $tab.attr('data-tabpageid');
+
+                if ($tabId !== $activeTabId) {
+                    $tab.click();
+                    FwModule.closeForm($form, $tab);
+                    modifiedForms.splice(1);
+                }
+            }
+            if ($openForms.length < 2) {
+                $tabControl.find('.closetabbutton').html('');
+            }
+        }
+        // Close all tabs but active tab
+        $tabControl.find('.leave-active').click(() => {
+            let $bodyContainer, $openForms, modifiedForms, unmodifiedForms, $form, $tab, $activeTab, $activeTabId, $tabId;
+
+            jQuery('body').off('click');
+            jQuery('body').click(e => {
+                if (e.target.className === 'fwconfirmation-button default') {
+                    if (e.target.innerHTML !== 'Cancel') {
+                        closeModifiedForms();
+                    }
+                }
+            });
+
+            $activeTab = $tabControl.find('div[data-tabtype="FORM"].tab.active');
+            $activeTabId = $activeTab.attr('data-tabpageid');
+            jQuery('body').data('activeTabId', $activeTabId)
+            $bodyContainer = jQuery('#master-body');
+            $openForms = $bodyContainer.find('div[data-type="form"]');
+            $bodyContainer = jQuery('#master-body');
+            modifiedForms = $bodyContainer.find('div[data-modified="true"]');
+            unmodifiedForms = $bodyContainer.find('div[data-modified="false"]');
+
+            for (let i = 0; i < unmodifiedForms.length; i++) {
+                $form = jQuery(unmodifiedForms[i]);
                 $tab = jQuery(`#${$form.parent().attr('data-tabid')}`);
                 $tabId = $tab.attr('data-tabpageid');
                 if ($tabId !== $activeTabId) {
@@ -76,15 +120,23 @@
                     FwModule.closeForm($form, $tab);
                 }
             }
-            FwTabs.setActiveTab($tabControl, $activeTab);
-            $tabControl.find('.closetabbutton').html('');
+            if (modifiedForms.length >= 1) {
+                closeModifiedForms();
+            }
+
+            if ($openForms.length < 2) {
+                $tabControl.find('.closetabbutton').html('');
+                jQuery('body').off('click');
+            }
         });
         // Close all tabs
         $tabControl.find('.close-all').click(() => {
-            let $rootTab, $bodyContainer, $openForms, moduleNav, controller;
+            let $rootTab, $bodyContainer, $openForms, moduleNav, controller, modifiedForms, unmodifiedForms, $form, $tab, $tabId;
             $rootTab = $tabControl.find('div[data-tabpageid="tabpage1"]');
             $bodyContainer = jQuery('#master-body');
             $openForms = $bodyContainer.find('div[data-type="form"]');
+            modifiedForms = $bodyContainer.find('div[data-modified="true"]');
+            unmodifiedForms = $bodyContainer.find('div[data-modified="false"]');
             controller = $rootTab.closest('#moduleMaster').attr('data-module');
             moduleNav = window[`${controller}`].nav;
             program.getModule(moduleNav);
@@ -93,6 +145,7 @@
                 $tabControl.find('.closetabbutton').html('');
             }
         });
+        // END CLOSE TAB
 
         if ($object.hasClass('fwbrowse')) {
             if ($object.attr('data-newtab') == 'true') {

@@ -3374,7 +3374,7 @@ class FwBrowseClass {
             } else {
                 var $control = jQuery(jQuery('#tmpl-grids-' + modulename + 'Browse').html());
             }
-        } 
+        }
         return $control;
     }
     //---------------------------------------------------------------------------------
