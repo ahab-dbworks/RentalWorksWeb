@@ -117,6 +117,7 @@ class VendorInvoice {
     };
     //----------------------------------------------------------------------------------------------
     afterSave($form) {
+        $form.find('.continue').hide();
     };
     //----------------------------------------------------------------------------------------------
     events($form) {
@@ -147,8 +148,10 @@ class VendorInvoice {
 
             if ($form.attr('data-mode') === "NEW") {
                 FwAppData.apiMethod(true, 'GET', `api/v1/purchaseorder/nextvendorinvoicedefaultdates/${purchaseOrderId}`, null, FwServices.defaultTimeout, function onSuccess(response) {
-                    FwFormField.setValueByDataField($form, 'BillingStartDate', response.BillingStartDate);
-                    FwFormField.setValueByDataField($form, 'BillingEndDate', response.BillingEndDate);
+                    let startDate = moment(response.BillingStartDate).format('MM-DD-YYYY');
+                    let endDate = moment(response.BillingEndDate).format('MM-DD-YYYY');
+                    FwFormField.setValueByDataField($form, 'BillingStartDate', startDate);
+                    FwFormField.setValueByDataField($form, 'BillingEndDate', endDate);
                 }, null, $form);
             }
         });
