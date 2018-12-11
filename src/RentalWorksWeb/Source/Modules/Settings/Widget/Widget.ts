@@ -45,6 +45,12 @@ class Widget {
         $form = FwModule.loadFormFromTemplate(this.Module);
         $form = FwModule.openForm($form, mode);
 
+        FwFormField.loadItems($form.find('.datefield'), [
+            { value: 'SOMEOTHERDATE', text: 'Some Other Date' },
+            { value: 'INVOICEDATE', text: 'Invoice Date' },
+            { value: 'BILLINGSTARTDATE', text: 'Billing Start Date' }
+        ], true);
+
         $form.find('div[data-datafield="DefaultDateBehavior"]').on('change', function() {
             let selected = FwFormField.getValue2(jQuery(this));
             let dateField = $form.find('.date-field');
@@ -107,7 +113,28 @@ class Widget {
         let dateSelected = FwFormField.getValue2(dateSelectField);
         let dateFieldDisplay = FwFormField.getValueByDataField($form, 'DateFieldDisplayNames').split(',');
         let dateFieldValues = FwFormField.getValueByDataField($form, 'DateFields').split(',');
+        let defaultDayBehavior = FwFormField.getValueByDataField($form, 'DefaultDateBehavior');
+        let dateField = $form.find('.date-field');
+        let specificDate = $form.find('.specific-date');
+        let fromDate = $form.find('.from-date');
+        let toDate = $form.find('.to-date');
+        let fromDateField = $form.find('div[data-datafield="DefaultFromDate"] > .fwformfield-caption')
         let selectArray = [];
+
+        if (defaultDayBehavior === 'SINGLE DATE - YESTERDAY' || defaultDayBehavior === 'SINGLE DATE - TODAY' || defaultDayBehavior === 'SINGLE DATE - TOMORROW' || defaultDayBehavior === 'DATE RANGE - PRIOR WEEK' || defaultDayBehavior === 'DATE RANGE - CURRENT WEEK' || defaultDayBehavior === 'DATE RANGE - NEXT WEEK' || defaultDayBehavior === 'DATE RANGE - PRIOR MONTH' || defaultDayBehavior === 'DATE RANGE - CURRENT MONTH' || defaultDayBehavior === 'DATE RANGE - NEXT MONTH' || defaultDayBehavior === 'DATE RANGE - PRIOR YEAR' || defaultDayBehavior === 'DATE RANGE - CURRENT YEAR' || defaultDayBehavior === 'DATE RANGE - NEXT YEAR' || defaultDayBehavior === 'DATE RANGE - YEAR TO DATE') {
+            dateField.show();
+        } else if (defaultDayBehavior === 'SINGLE DATE - SPECIFIC DATE') {
+            dateField.show();
+            specificDate.show();
+            fromDateField.text('Date');
+            fromDate.show();
+        } else if (defaultDayBehavior === 'DATE RANGE - SPECIFIC DATES') {
+            dateField.show();
+            specificDate.show();
+            fromDateField.text('From Date');
+            fromDate.show();
+            toDate.show();
+        }
 
         for (var i = 0; i < dateFieldDisplay.length; i++) {
             selectArray.push({
@@ -115,6 +142,7 @@ class Widget {
                 'text': dateFieldDisplay[i]
             })
         }
+
         window['FwFormField_select'].loadItems(dateSelectField, selectArray, true);
         window['FwFormField_select'].setValue(dateSelectField, dateSelected);
     }
