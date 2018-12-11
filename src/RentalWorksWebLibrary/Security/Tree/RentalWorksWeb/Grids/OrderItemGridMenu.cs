@@ -19,7 +19,7 @@ namespace WebLibrary.Security.Tree.RentalWorksWeb.Grids
             tree.AddSubMenuItem("Full View", "{1A977BFE-E5FB-4791-AD9A-42576160B6C3}", nodeBrowseOptions.Id);
             tree.AddSubMenuItem("Primary View", "{D7DD3803-3AFF-4723-96FC-BDF3CD3AA997}", nodeBrowseOptions.Id);
             tree.AddSubMenuItem("Secondary View", "{294E08C6-8992-47A7-B403-C07DD539AEE9}", nodeBrowseOptions.Id);
-            tree.AddSubMenuItem("Search", "{77E511EC-5463-43A0-9C5D-B54407C97B15}", nodeBrowseOptions.Id);
+            tree.AddSubMenuItem("Search", "{77E511EC-5463-43A0-9C5D-B54407C97B15}", nodeBrowseOptions.Id, true);
             tree.AddSubMenuItem("Lock / Unlock Selected", "{BC467EF9-F255-4F51-A6F2-57276D8824A3}", nodeBrowseOptions.Id);
             tree.AddSubMenuItem("Bold / Unbold Selected", "{E2DF5CB4-CD18-42A0-AE7C-18C18E6C4646}", nodeBrowseOptions.Id);
             tree.AddSubMenuItem("Sub Worksheet", "{007C4F21-7526-437C-AD1C-4BBB1030AABA}", nodeBrowseOptions.Id);
