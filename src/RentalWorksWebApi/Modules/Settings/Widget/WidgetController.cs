@@ -70,12 +70,12 @@ namespace WebApi.Modules.Settings.Widget
         // GET api/v1/widget/loadbyname/ordersbystatus
         [HttpGet("loadbyname/{widgetApiName}")]
         [FwControllerMethod(Id:"CSCjPzhW5pIbB")]
-        public async Task<ActionResult<Widget>> LoadByName([FromRoute]string widgetApiName, int dataPoints, string locationId, string warehouseId, string departmentId, DateTime fromDate, DateTime toDate)
+        public async Task<ActionResult<Widget>> LoadByName([FromRoute]string widgetApiName, int dataPoints, string locationId, string warehouseId, string departmentId, DateTime? fromDate, DateTime? toDate)
         {
-            return await DoGetWidget(widgetApiName, fromDate: fromDate, toDate: toDate, dataPoints: dataPoints, locationId: locationId);
+            return await DoGetWidget(widgetApiName, dataPoints: dataPoints, locationId: locationId, fromDate: fromDate, toDate: toDate);
         }
         //------------------------------------------------------------------------------------
-        private async Task<ActionResult<Widget>> DoGetWidget(string widgetName, DateTime fromDate, DateTime toDate, int dataPoints = 0, string locationId = "", string warehouseId = "", string departmentId = "")
+        private async Task<ActionResult<Widget>> DoGetWidget(string widgetName, int dataPoints = 0, string locationId = "", string warehouseId = "", string departmentId = "", DateTime? fromDate = null, DateTime? toDate = null)
         {
             try
             {
