@@ -451,7 +451,7 @@
                                         $menubarbutton.on('click', FwApplicationTree.clickEvents['{' + nodeMenuBarItem.id + '}']);
                                         break;
                                     case 'NewMenuBarButton':
-
+                                        $browse.attr('data-newtab', 'true');
                                         $menubarbutton = FwMenu.addStandardBtn($menu, nodeMenuBarItem.properties.caption);
                                         $menubarbutton.attr('data-type', 'NewMenuBarButton');
                                         $menubarbutton.on('click', function () {
@@ -530,7 +530,7 @@
                                         break;
                                     case 'FindMenuBarButton':
                                         $menubarbutton = FwMenu.addStandardBtn($menu, nodeMenuBarItem.properties.caption);
-                                        let $browse: any = $menubarbutton.closest('.fwbrowse');
+                                        $browse = $menubarbutton.closest('.fwbrowse');
 
                                         $menubarbutton.attr('data-type', 'FindMenuBarButton');
                                         $menubarbutton.append(`
