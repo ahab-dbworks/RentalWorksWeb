@@ -49,8 +49,18 @@ class DashboardSettings {
         FwModule.saveForm(this.Module, $form, parameters);
     }
     //----------------------------------------------------------------------------------------------
-    //afterLoad($form: any) {
-    //}
+    afterLoad($form: any) {
+        //$form.find('.defaultwidget').find('ol').sortable({
+        //    connectWith: ".connectedSortable",
+        //    remove: function (event, ui) {
+        //        ui.item.clone().appendTo('#sortable2');
+        //        $(this).sortable('cancel');
+        //    }
+        //}).disableSelection();
+        //$form.find('.widget.order').find('ol').sortable({
+        //    connectWith: ".connectedSortable"
+        //}).disableSelection();
+    }
     //----------------------------------------------------------------------------------------------
 }
 var DashboardSettingsController = new DashboardSettings();

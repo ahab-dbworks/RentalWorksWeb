@@ -126,6 +126,8 @@ namespace WebApi.Modules.Settings.UserDashboardSettings
 
         [FwLogicProperty(Id: "oZMIf4l1CVS5")]
         public List<UserDashboardSetting> Widgets { get; set; }
+        [FwLogicProperty(Id: "lqNWOoaHp83RB")]
+        public List<UserDashboardSetting> DefaultWidgets { get; set; }
 
         //------------------------------------------------------------------------------------
         public void SetDbConfig(SqlServerConfig dbConfig)
@@ -151,6 +153,7 @@ namespace WebApi.Modules.Settings.UserDashboardSettings
             }
 
             Widgets = new List<UserDashboardSetting>();
+            DefaultWidgets = new List<UserDashboardSetting>();
 
             using (FwSqlConnection conn = new FwSqlConnection(_dbConfig.ConnectionString))
             {
@@ -279,6 +282,7 @@ namespace WebApi.Modules.Settings.UserDashboardSettings
                     w.toDate = todate;
 
                     Widgets.Add(w);
+                    DefaultWidgets.Add(w);
                     loaded = true;
                 }
             }

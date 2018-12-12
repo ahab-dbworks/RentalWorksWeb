@@ -5,18 +5,31 @@ FwFormField_checkboxlist.renderDesignerHtml = function ($control, html) {
 };
 //---------------------------------------------------------------------------------
 FwFormField_checkboxlist.renderRuntimeHtml = function ($control, html) {
+    let options = {};
     html.push('<div class="fwformfield-caption">' + $control.attr('data-caption') + '</div>');;
     html.push('<div class="fwformfield-control">');
     html.push('  <ol>');
     html.push('  </ol>');
     html.push('</div>');
     $control.html(html.join(''));
+    if ($control.attr('data-share') === 'true') {
+        options.group = 'shared';
+    }
+    if ($control.attr('data-cloneonly') === 'true') {
+        options.sort = false;
+        options.group = {
+            name: 'shared',
+            pull: 'clone',
+            put: false,
+            revertClone: true
+        }
+    }
     if ($control.attr('data-sortable') === 'true') {
         $control.find('ol').addClass('sortable');
         var ol = $control.find('ol');
         if (ol.length > 0) {
             ol = ol.get(0);
-            Sortable.create(ol);
+            Sortable.create(ol, options);
         }
     }
 };
@@ -107,13 +120,15 @@ FwFormField_checkboxlist.loadForm = function ($fwformfield, table, field, value,
             html.push('">');
             html.push('<div class="wrapper">');
             html.push('<div class="handle">::</div>');
-            html.push('<input class="checkbox" type="checkbox" id="');
-            html.push(checkboxid);
-            html.push('"');
-            if (value[i].selected === 'T') {
-                html.push(' checked="checked"');
+            if ($fwformfield.attr('data-cloneonly') !== 'true') {
+                html.push('<input class="checkbox" type="checkbox" id="');
+                html.push(checkboxid);
+                html.push('"');
+                if (value[i].selected === 'T') {
+                    html.push(' checked="checked"');
+                }
+                html.push('/>');
             }
-            html.push('/>');
             html.push('<label for="');
             html.push(checkboxid);
             html.push('">');
