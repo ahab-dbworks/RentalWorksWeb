@@ -107,6 +107,10 @@ class Receipt {
             FwFormField.setValue($form, 'div[data-datafield="AppliedById"]', usersid, name);
         }
 
+        $form.data('beforesave', request => {
+            request.InvoiceDataList = this.getFormTableData($form);
+        });
+
         return $form;
     };
     //----------------------------------------------------------------------------------------------
@@ -119,7 +123,6 @@ class Receipt {
     }
     //----------------------------------------------------------------------------------------------
     saveForm($form: any, parameters: any) {
-        this.getSetFormTableData($form);
         FwModule.saveForm(this.Module, $form, parameters);
         FwFormField.disable($form.find('div[data-datafield="PaymentBy"]'));
         FwFormField.disable($form.find('div[data-datafield="DealId"]'));
@@ -227,21 +230,22 @@ class Receipt {
         }
     }
     //----------------------------------------------------------------------------------------------
-    getSetFormTableData($form: JQuery): void {
-        let invoiceIdFields = jQuery($form.find('.InvoiceId'));
-        let amountFields = jQuery($form.find('.invoice-amount input'));
-        let InvoiceDataList: any =[];
-        for(let i = 0; i <invoiceIdFields.length; i++) {
+    getFormTableData($form: JQuery) {
+        let $invoiceIdFields = $form.find('.InvoiceId');
+        let $amountFields = $form.find('.invoice-amount input');
+        let InvoiceDataList: any = [];
+        for (let i = 0; i < $invoiceIdFields.length; i++) {
             let fields: any = {}
-            let invoiceId = jQuery(invoiceIdFields[i]).text();
-            let amount = jQuery(amountFields[i]).val();
+            let invoiceId = $invoiceIdFields.eq(i).text();
+            let amount: any = $amountFields.eq(i).val();
+            amount = amount.replace(/,/g, '');
+           
             fields.InvoiceId = invoiceId;
-            fields.Amount = amount;
-            InvoiceDataList.push(fields)
+            fields.Amount = +amount;
+            InvoiceDataList.push(fields);
         }
-        InvoiceDataList = JSON.stringify(InvoiceDataList)
-        FwFormField.setValue($form, 'div[data-datafield="InvoiceDataList"]', InvoiceDataList);
-        console.log('InvoiceDataList: ', InvoiceDataList);
+
+        return InvoiceDataList;
     }
     //----------------------------------------------------------------------------------------------
     paymentByRadioBehavior($form: JQuery): void {
