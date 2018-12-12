@@ -447,19 +447,9 @@ FwApplicationTree.clickEvents['{77E511EC-5463-43A0-9C5D-B54407C97B15}'] = functi
 
     $form = jQuery(this).closest('.fwform');
     let controllerName = $form.attr('data-controller');
-
-    if ($form.attr('data-mode') === 'NEW') {
-        if (controllerName === "OrderController") {
-            OrderController.saveForm($form, { closetab: false });
-            return;
-        } else if (controllerName === "QuoteController"){
-            QuoteController.saveForm($form, { closetab: false });
-            return;
-        }
-    }
+    search = new SearchInterface();
 
     let gridInventoryType;
-
     if (grid.hasClass('R')) {
         gridInventoryType = 'Rental';
     }
@@ -476,9 +466,24 @@ FwApplicationTree.clickEvents['{77E511EC-5463-43A0-9C5D-B54407C97B15}'] = functi
         gridInventoryType = 'Parts';
     }
 
-    search = new SearchInterface();
+    if ($form.attr('data-mode') === 'NEW') {
+        if (controllerName === "OrderController") {
+            OrderController.saveForm($form, { closetab: false });
+            let isValid = FwModule.validateForm($form);
+            if (isValid) {
+                search.renderSearchPopup($form, orderId, 'Order', gridInventoryType);
+            }
+            return;
+        } else if (controllerName === "QuoteController"){
+            QuoteController.saveForm($form, { closetab: false });
+            let isValid = FwModule.validateForm($form);
+            if (isValid) {
+                search.renderSearchPopup($form, quoteId, 'Quote', gridInventoryType);
+            }
+            return;
+        }
+    }
 
-   
     switch (controllerName) {
         case 'OrderController':
             orderId = FwFormField.getValueByDataField($form, 'OrderId');
