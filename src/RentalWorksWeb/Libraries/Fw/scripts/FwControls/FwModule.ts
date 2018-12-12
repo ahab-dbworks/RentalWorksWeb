@@ -586,6 +586,28 @@
                                         $browse = $menubarbutton.closest('.fwbrowse');
 
                                         $menubarbutton.attr('data-type', 'FindMenuBarButton');
+
+                                        $menubarbutton.on('click', function (e) {
+                                            controller = $browse.attr('data-controller');
+                                            let maxZIndex;
+                                            let $this = jQuery(this);
+                                            e.preventDefault();
+
+                                            if (!$this.hasClass('active')) {
+                                                maxZIndex = FwFunc.getMaxZ('*');
+                                                $this.find('.findbutton-dropdown').css('z-index', maxZIndex + 1);
+                                                $this.addClass('active');
+
+                                                jQuery(document).on('click', function closeMenu(e: any) {
+                                                    if ($menubarbutton.has(e.target).length === 0 && !jQuery(e.target).hasClass('delete-query')) {
+                                                        $this.removeClass('active');
+                                                        $this.find('.findbutton-dropdown').css('z-index', '0');
+                                                        jQuery(document).off('click');
+                                                    }
+                                                });
+                                            }
+                                        });
+
                                         $menubarbutton.append(`
                                         <div class="findbutton-dropdown">
                                             <div class="query">
@@ -603,32 +625,6 @@
                                             </div>
                                         </div>`);
                                         FwControl.renderRuntimeHtml($menubarbutton.find('.fwcontrol'));
-
-                                        $menubarbutton.on('click', function (e) {
-                                            controller = $browse.attr('data-controller');
-                                            let maxZIndex;
-                                            let $this = jQuery(this);
-                                            e.preventDefault();
-
-                                            if (!$this.hasClass('active')) {
-                                                maxZIndex = FwFunc.getMaxZ('*');
-                                                $this.find('.findbutton-dropdown').css('z-index', maxZIndex + 1);
-                                                $this.addClass('active');
-
-                                                jQuery(document).one('click', function closeMenu(e: any) {
-                                                    if (($this.has(e.target).length === 0) && ($this.parent().has(e.target).length === 0) && !jQuery(e.target).hasClass('delete-query')) {
-                                                        $this.removeClass('active');
-                                                        $this.find('.findbutton-dropdown').css('z-index', '0');
-                                                    } else if ($this.hasClass('active')) {
-                                                        $this.one('click', closeMenu);
-                                                    }
-                                                });
-                                            } else {
-                                                //$this.removeClass('active');
-                                                //$this.find('.findbutton-dropdown').css('z-index', '0');
-                                            }
-                                        });
-                                        $menubarbutton.find('.findbutton-dropdown').off();
                                         break;
                                 }
                             }
