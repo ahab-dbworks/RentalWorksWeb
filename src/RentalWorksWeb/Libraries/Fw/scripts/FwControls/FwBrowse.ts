@@ -1090,6 +1090,7 @@ class FwBrowseClass {
                 if (($control.attr('data-type') === 'Grid') || (($control.attr('data-type') === 'Browse') && ($control.attr('data-hasmultirowselect') === 'true'))) {
                     var cbuniqueId = FwApplication.prototype.uniqueId(10);
                     html.push('<td class="column tdselectrow" style="width:20px;"><div class="divselectrow"><input id="' + cbuniqueId + '" type="checkbox" class="cbselectrow"/><label for="' + cbuniqueId + '" class="lblselectrow"></label></div></td>');
+                    html.push('<td class="column gridspacer" style="display:none;"></td>');
                 }
                 for (var colno = 0; colno < $columns.length; colno++) {
                     var $column = $columns.eq(colno);
