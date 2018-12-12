@@ -467,21 +467,19 @@ FwApplicationTree.clickEvents['{77E511EC-5463-43A0-9C5D-B54407C97B15}'] = functi
     }
 
     if ($form.attr('data-mode') === 'NEW') {
-        if (controllerName === "OrderController") {
-            OrderController.saveForm($form, { closetab: false });
-            let isValid = FwModule.validateForm($form);
-            if (isValid) {
-                search.renderSearchPopup($form, orderId, 'Order', gridInventoryType);
+        let isValid = FwModule.validateForm($form);
+        if (isValid == "true") {
+            let activeTabId = jQuery($form.find('[data-type="tab"].active')).attr('id');
+            if (controllerName === "OrderController") {
+                OrderController.saveForm($form, { closetab: false });
+            } else if (controllerName === "QuoteController") {
+                QuoteController.saveForm($form, { closetab: false });
             }
-            return;
-        } else if (controllerName === "QuoteController"){
-            QuoteController.saveForm($form, { closetab: false });
-            let isValid = FwModule.validateForm($form);
-            if (isValid) {
-                search.renderSearchPopup($form, quoteId, 'Quote', gridInventoryType);
-            }
-            return;
+            $form.attr('data-opensearch', 'true');
+            $form.attr('data-searchtype', gridInventoryType);
+            $form.attr('data-activetabid', activeTabId);
         }
+        return;
     }
 
     switch (controllerName) {

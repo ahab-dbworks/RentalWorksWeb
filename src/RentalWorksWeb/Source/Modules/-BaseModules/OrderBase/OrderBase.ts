@@ -139,6 +139,26 @@ class OrderBase {
             } else if (hiddenRentals.indexOf('WeeklyExtended') === -1 && rate !== '3WEEK') {
                 $rentalGrid.find('.weekextended').parent().show();
             }
+
+
+            //sets active tab and opens search interface from a newly saved record 
+            //12-12-18 moved here from afterSave Jason H 
+            let openSearch = $form.attr('data-opensearch');
+            let searchType = $form.attr('data-searchtype');
+            let activeTabId = $form.attr('data-activetabid');
+            let search = new SearchInterface();
+            if (openSearch === "true") {
+                //FwTabs.setActiveTab($form, $tab); //this method doesn't seem to be working correctly
+                let $newTab = $form.find(`#${activeTabId}`);
+                $newTab.click();
+                if ($form.attr('data-controller') === "OrderController") {
+                    search.renderSearchPopup($form, FwFormField.getValueByDataField($form, 'OrderId'), 'Order', searchType);
+                } else if ($form.attr('data-controller') === "QuoteController") {
+                    search.renderSearchPopup($form, FwFormField.getValueByDataField($form, 'QuoteId'), 'Quote', searchType);
+                }
+                $form.removeAttr('data-opensearch data-searchtype data-activetabid');
+            }
+
         }, null, null);
     };
     //----------------------------------------------------------------------------------------------
