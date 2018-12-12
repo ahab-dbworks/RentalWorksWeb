@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using WebApi.Logic;
 using WebApi.Modules.Administrator.User;
 using WebApi.Modules.Settings.WebUserWidget;
+using WebApi.Modules.Settings.Widget;
 
 namespace WebApi.Modules.Settings.UserDashboardSettings
 {
@@ -106,6 +107,17 @@ namespace WebApi.Modules.Settings.UserDashboardSettings
             public DateTime? toDate { get; set; }
         }
 
+        public class AvailableWidget : WidgetLogic
+        {
+
+            [FwLogicProperty(Id: "3nSLO6CTowZlO")]
+            public string value { get { return WidgetId; } }
+
+            [FwLogicProperty(Id: "wNIy6uz4ptVYw")]
+            public string text { get { return Widget; } }
+
+        }
+
         protected SqlServerConfig _dbConfig { get; set; }
         //------------------------------------------------------------------------------------
         public UserDashboardSettingsLogic()
@@ -124,10 +136,10 @@ namespace WebApi.Modules.Settings.UserDashboardSettings
         [FwLogicProperty(Id: "0D4rUx4DvdRG", IsRecordTitle: true)]
         public string DashboardSettingsTitle { get; set; }
 
-        [FwLogicProperty(Id: "oZMIf4l1CVS5")]
-        public List<UserDashboardSetting> Widgets { get; set; }
         [FwLogicProperty(Id: "lqNWOoaHp83RB")]
-        public List<UserDashboardSetting> DefaultWidgets { get; set; }
+        public List<AvailableWidget> AvailableWidgets { get; set; }
+        [FwLogicProperty(Id: "oZMIf4l1CVS5")]
+        public List<UserDashboardSetting> UserWidgets { get; set; }
 
         //------------------------------------------------------------------------------------
         public void SetDbConfig(SqlServerConfig dbConfig)
@@ -135,7 +147,6 @@ namespace WebApi.Modules.Settings.UserDashboardSettings
             _dbConfig = dbConfig;
         }
         //------------------------------------------------------------------------------------
-        //public async Task<bool> LoadAsync(string webUsersId)
         public override async Task<bool> LoadAsync<T>(object[] primaryKeyValues)
         {
             string webUsersId = primaryKeyValues[0].ToString();
@@ -152,8 +163,19 @@ namespace WebApi.Modules.Settings.UserDashboardSettings
                 WidgetsPerRow = 2;
             }
 
-            Widgets = new List<UserDashboardSetting>();
-            DefaultWidgets = new List<UserDashboardSetting>();
+            UserWidgets = new List<UserDashboardSetting>();
+
+
+
+            BrowseRequest request = new BrowseRequest();
+            request.pageno = 0;
+            request.pagesize = 0;
+            request.orderby = string.Empty;
+
+            AvailableWidget l = new AvailableWidget();
+            l.SetDependencies(AppConfig, UserSession);
+            AvailableWidgets = await l.SelectAsync<AvailableWidget>(request);
+
 
             using (FwSqlConnection conn = new FwSqlConnection(_dbConfig.ConnectionString))
             {
@@ -281,8 +303,7 @@ namespace WebApi.Modules.Settings.UserDashboardSettings
                     w.defaultToDate = defaulttodate;
                     w.toDate = todate;
 
-                    Widgets.Add(w);
-                    DefaultWidgets.Add(w);
+                    UserWidgets.Add(w);
                     loaded = true;
                 }
             }
@@ -293,15 +314,6 @@ namespace WebApi.Modules.Settings.UserDashboardSettings
         {
             int savedCount = 0;
 
-            // can remove all this "prev" stuff if Dashboard Settings form can send back the actual "userWidgetId"
-            UserDashboardSettingsLogic lPrev = new UserDashboardSettingsLogic();
-            lPrev.SetDbConfig(_dbConfig);
-            lPrev.SetDependencies(AppConfig, UserSession);
-            await lPrev.LoadAsync<UserDashboardSettingsLogic>(new object[] { UserId });
-
-            UserDashboardSetting wPrev = null;
-            UserWidgetLogic uw = null;
-
             if (WidgetsPerRow != null)
             {
                 WebUserRecord webUser = new WebUserRecord();
@@ -309,47 +321,33 @@ namespace WebApi.Modules.Settings.UserDashboardSettings
                 webUser.WebUserId = UserId;
                 webUser.DashboardWidgetsPerRow = WidgetsPerRow;
                 await webUser.SaveAsync(null);
-
             }
 
             int widgetPosition = 0;
-            foreach (UserDashboardSetting w in Widgets)
+            foreach (UserDashboardSetting w in UserWidgets)
             {
-                wPrev = null;
-
-                foreach (UserDashboardSetting wPrevTest in lPrev.Widgets)
+                UserWidgetLogic uw = new UserWidgetLogic();
+                uw.SetDependencies(AppConfig, UserSession);
+                if (!string.IsNullOrEmpty(w.userWidgetId))
                 {
-                    if (wPrevTest.text.Equals(w.text))
-                    {
-                        wPrev = wPrevTest;
-                        break;
-                    }
-                }
-
-                if (wPrev != null)
-                {
-                    uw = new UserWidgetLogic();
+                    object[] pk = { w.userWidgetId };
+                    await uw.LoadAsync<UserWidgetLogic>(pk);
                     uw.SetDependencies(AppConfig, UserSession);
-                    if (!wPrev.userWidgetId.Equals(string.Empty))
-                    {
-                        object[] pk = { wPrev.userWidgetId };
-                        await uw.LoadAsync<UserWidgetLogic>(pk);
-                        uw.AppConfig = AppConfig;
-                    }
-                    uw.UserId = UserId;
-                    uw.WidgetId = w.value;
-                    uw.OrderBy = widgetPosition;
-
-                    if (wPrev.selected.GetValueOrDefault(false) && (!w.selected.GetValueOrDefault(false)))
-                    {
-                        await uw.DeleteAsync();
-                    }
-                    else if (w.selected.GetValueOrDefault(false))
-                    {
-                        await uw.SaveAsync(null);
-                    }
-
                 }
+                uw.UserId = UserId;
+                uw.WidgetId = w.value;
+                uw.OrderBy = widgetPosition;
+                uw.LoadOriginalBeforeSaving = false;
+
+                if (w.selected.GetValueOrDefault(false))
+                {
+                    await uw.SaveAsync(null);
+                }
+                else 
+                {
+                    await uw.DeleteAsync();
+                }
+
                 widgetPosition++;
                 savedCount++;
             }
