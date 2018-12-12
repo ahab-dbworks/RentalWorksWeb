@@ -1139,11 +1139,10 @@ class FwBrowseClass {
                     };
                     html.push('</td>');
                 }
-                //if (($control.attr('data-type') === 'Grid') && ($control.attr('data-flexgrid') === "true")) {
-                //    html.push('<td class="column flexgridspacer" style="display:none;"></td>'); // 10/12/18 Jason H - add invisible div for flexgrid
-                //}
+                if (($control.attr('data-type') === 'Grid') && ($control.attr('data-flexgrid') === "true")) {
+                    html.push('<td class="column flexgridspacer" style="display:none;"></td>'); // 10/12/18 Jason H - add invisible div for flexgrid
+                }
                 if ($control.attr('data-type') === 'Grid') {
-                    html.push('<td class="column flexgridspacer" style="display:none;"></td>'); // 12/11/18 adds spacer to prevent browsecontextmenu from overlapping with grid content 
                     html.push('<td class="column browsecontextmenucell" style="width:26px;"></td>');
                 }
                 html.push('</tr>');

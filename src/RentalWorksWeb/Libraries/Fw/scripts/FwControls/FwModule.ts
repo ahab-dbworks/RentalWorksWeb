@@ -1530,18 +1530,21 @@
     }
     //----------------------------------------------------------------------------------------------
     static getFormModel($form: JQuery, getAllFieldsOverride: boolean) {
-        var uniqueids = FwModule.getFormUniqueIds($form);
-        var fields = FwModule.getFormFields($form, getAllFieldsOverride);
-        var request = {};
-        for (var key in uniqueids) {
+        let uniqueids = FwModule.getFormUniqueIds($form);
+        let fields = FwModule.getFormFields($form, getAllFieldsOverride);
+        let request = {};
+        for (let key in uniqueids) {
             request[key] = uniqueids[key].value;
         }
-        for (var key in fields) {
+        for (let key in fields) {
             if (key === '_Custom') {
                 request[key] = fields[key];
             } else {
                 request[key] = fields[key].value;
             }
+        }
+        if (typeof $form.data('beforesave') === 'function') {
+            $form.data('beforesave')(request);
         }
         return request;
     }
