@@ -468,7 +468,7 @@ FwApplicationTree.clickEvents['{77E511EC-5463-43A0-9C5D-B54407C97B15}'] = functi
 
     if ($form.attr('data-mode') === 'NEW') {
         let isValid = FwModule.validateForm($form);
-        if (isValid == "true") {
+        if (isValid) {
             let activeTabId = jQuery($form.find('[data-type="tab"].active')).attr('id');
             if (controllerName === "OrderController") {
                 OrderController.saveForm($form, { closetab: false });
