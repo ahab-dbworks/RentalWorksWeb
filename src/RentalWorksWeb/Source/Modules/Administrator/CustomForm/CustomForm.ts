@@ -78,23 +78,6 @@ class CustomForm {
         FwFormField.disable($form.find('[data-datafield="BaseForm"]'));
         $form.attr('data-modified', 'false');
         $form.find('.btn[data-type="SaveMenuBarButton"]').addClass('disabled');
-
-
-        //if (FwFormField.getValueByDataField($form, 'Active') == true) {
-        //    let type = $form.find('[data-datafield="BaseForm"] option:selected').attr('data-type');
-        //    let baseform = FwFormField.getValueByDataField($form, 'BaseForm');
-        //    let html = FwFormField.getValueByDataField($form, 'Html');
-        //    switch (type) {
-        //        case 'Grid':
-        //            jQuery(`#tmpl-grids-${baseform}`).html(html);
-        //            break;
-        //        case 'Browse':
-        //        case 'Form':
-        //            jQuery(`#tmpl-modules-${baseform}`).html(html);
-        //            break;
-        //    }
-        //}  
-
     }
     //----------------------------------------------------------------------------------------------
     afterLoad($form: any) {
@@ -356,9 +339,7 @@ class CustomForm {
     events($form) {
         //Load preview on click
         $form.on('click', '[data-type="tab"][data-caption="Preview"]', e => {
-            //if ($form.attr('data-propertieschanged') !== "true") {
             this.renderTab($form, 'Preview');
-            //}
         });
 
         //Load Design Tab
@@ -507,7 +488,7 @@ class CustomForm {
                     }
                     let value = jQuery(field).attr('value');
                     if (value) {
-                        jQuery(field).find(`option[value=${value}]`).prop('selected', true);
+                        jQuery(field).find(`option[value="${value}"]`).prop('selected', true);
                     } else {
                         jQuery(field).find(`option[disabled]`).prop('selected', true);
                     };
@@ -917,10 +898,10 @@ class CustomForm {
                                     jQuery($customFormClone).find(`div[data-index="${index}"]`).attr(`${attribute}`, `${value}`);
                                     jQuery(originalHtml).attr(`${attribute}`, `${value}`);
 
-                                    isCustomField = $form.find(`option[value=${value}]`).attr('data-iscustomfield');
+                                    isCustomField = $form.find(`option[value="${value}"]`).attr('data-iscustomfield');
                                     if (isCustomField === "true") {
                                         //update caption and datatypes
-                                        let datatype = $form.find(`option[value=${value}]`).attr('data-type');
+                                        let datatype = $form.find(`option[value="${value}"]`).attr('data-type');
                                         switch (datatype) {
                                             case 'integer':
                                                 datatype = "number";
