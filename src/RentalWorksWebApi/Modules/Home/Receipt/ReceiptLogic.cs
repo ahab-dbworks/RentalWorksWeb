@@ -1,5 +1,6 @@
 using FwStandard.AppManager;
 using FwStandard.BusinessLogic;
+using System;
 using System.Collections.Generic;
 using System.Reflection;
 using WebApi.Logic;
@@ -9,12 +10,12 @@ namespace WebApi.Modules.Home.Receipt
 {
 
 
-    //public class ReceiptInvoice
-    //{
-    //    string InvoiceId;
-    //    decimal? Amount;
-    //    //int? someValue;
-    //}
+    public class ReceiptInvoice
+    {
+        public string InvoiceId { get; set; }
+        public decimal Amount { get; set; }
+        //int? someValue;
+    }
 
 
     [FwLogic(Id:"5XIpJJ8C7Ywx")]
@@ -112,20 +113,31 @@ namespace WebApi.Modules.Home.Receipt
         public string LocationDefaultCurrencyId { get; set; }
 
 
-        //[FwLogicProperty(Id: "XXXXX")]
-        //public List<ReceiptInvoice> InvoiceDataList { get; set; }
+        [FwLogicProperty(Id: "XXXXX")]
+        public List<ReceiptInvoice> InvoiceDataList { get; set; }
 
 
         //------------------------------------------------------------------------------------ 
         protected override bool Validate(TDataRecordSaveMode saveMode, FwBusinessLogic original, ref string validateMsg)
         {
             bool isValid = true;
+            decimal invoiceAmountTotal = 0;
             if (isValid)
             {
                 PropertyInfo property = typeof(ReceiptLogic).GetProperty(nameof(ReceiptLogic.PaymentBy));
                 string[] acceptableValues = { RwConstants.RECEIPT_PAYMENT_BY_CUSTOMER, RwConstants.RECEIPT_PAYMENT_BY_DEAL };
                 isValid = IsValidStringValue(property, acceptableValues, ref validateMsg);
             }
+            foreach (var invoice in InvoiceDataList)
+            {
+                invoiceAmountTotal += invoice.Amount;
+            }
+            if (invoiceAmountTotal != PaymentAmount)
+            {
+                isValid = false;
+                validateMsg = "Amount to Apply does not match Invoice Amounts provided.";
+            }
+
             return isValid;
         }
         //------------------------------------------------------------------------------------
