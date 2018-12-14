@@ -20,8 +20,10 @@ FwFormField_checkboxlist.renderRuntimeHtml = function ($control, html) {
         options.group = {
             name: 'shared',
             pull: 'clone',
-            put: false,
             revertClone: true
+        }
+        options.onAdd = function (evt) {
+            this.el.removeChild(evt.item);
         }
     }
     if ($control.attr('data-sortable') === 'true') {

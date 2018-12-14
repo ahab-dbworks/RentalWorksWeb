@@ -200,13 +200,14 @@
         FwAppData.apiMethod(true, 'GET', 'api/v1/userdashboardsettings/' + userId, null, FwServices.defaultTimeout, function onSuccess(response) {
             let hiddenCounter = 0;
             let dashboardButton = '<div class="flexrow" style="max-width:none;justify-content:center"><div class="fwformcontrol dashboardsettings" data-type="button" style="flex:0 1 350px;margin:75px 0 0 10px;text-align:center;">You have no widgets yet - Add some now!</div></div>';
-            for (var i = 0; i < response.Widgets.length; i++) {
-                if (response.Widgets[i].selected) {
-                    self.renderWidget($dashboard, response.Widgets[i].apiname, response.Widgets[i].widgettype, response.Widgets[i].clickpath, response.Widgets[i].userWidgetId, Math.floor(100 / response.WidgetsPerRow).toString() + '%', response.Widgets[i].text, response.Widgets[i].dataPoints, response.Widgets[i].axisNumberFormatId, response.Widgets[i].dataNumberFormatId, response.Widgets[i].fromDate, response.Widgets[i].toDate)
+            for (var i = 0; i < response.UserWidgets.length; i++) {
+                if (response.UserWidgets[i].selected) {
+                    // to do - clean up this function with an object instead of tons of variables 
+                    self.renderWidget($dashboard, response.UserWidgets[i].apiname, response.UserWidgets[i].widgettype, response.UserWidgets[i].clickpath, response.UserWidgets[i].userWidgetId, Math.floor(100 / response.WidgetsPerRow).toString() + '%', response.UserWidgets[i].text, response.UserWidgets[i].dataPoints, response.UserWidgets[i].axisNumberFormatId, response.UserWidgets[i].dataNumberFormatId, response.UserWidgets[i].fromDate, response.UserWidgets[i].toDate)
                 } else {
                     hiddenCounter++;
                 }
-                if (hiddenCounter === response.Widgets.length) {
+                if (hiddenCounter === response.UserWidgets.length) {
                     jQuery($control).append(dashboardButton);
                     jQuery($control).find('.dashboardsettings').on('click', e => {
                         program.navigate('module/dashboardsettings');
@@ -218,19 +219,19 @@
 
     renderWidget($control, apiname, type, chartpath, userWidgetId, width, text, dataPoints, axisFormat, dataFormat, fromDate, toDate) {
         var self = this;
-        var refresh = '<i id="' + apiname + 'refresh" class="chart-refresh material-icons">refresh</i>';
-        var settings = '<i id="' + apiname + 'settings" class="chart-settings material-icons">settings</i>';
-        var fullscreen = '<i id="' + apiname + 'fullscreen" class="chart-settings material-icons">fullscreen</i>';
+        var refresh = '<i id="' + userWidgetId + 'refresh" class="chart-refresh material-icons">refresh</i>';
+        var settings = '<i id="' + userWidgetId + 'settings" class="chart-settings material-icons">settings</i>';
+        var fullscreen = '<i id="' + userWidgetId + 'fullscreen" class="chart-settings material-icons">fullscreen</i>';
         var dataPointCount = 0;
 
-        jQuery($control).append('<div data-chart="' + apiname + '" class="chart-container" style="height:' + width + ';width:' + width + ';"><canvas style="display:inline-block;width:100%;padding:5px;" id="' + apiname + '"></canvas><div class="toolbar">' + fullscreen + refresh + settings + '</div></div>');
-        self.buildWidgetSettings(jQuery($control).find('#' + apiname + 'settings'), userWidgetId);
+        jQuery($control).append('<div data-chart="' + apiname + '" class="chart-container" style="height:' + width + ';width:' + width + ';"><canvas style="display:inline-block;width:100%;padding:5px;" id="' + userWidgetId + '"></canvas><div class="toolbar">' + fullscreen + refresh + settings + '</div></div>');
+        self.buildWidgetSettings(jQuery($control).find('#' + userWidgetId + 'settings'), userWidgetId);
 
         if (dataPoints > 0) {
             dataPointCount = dataPoints
         }
 
-        jQuery($control).on('click', '#' + apiname + 'refresh', function () {
+        jQuery($control).on('click', '#' + userWidgetId + 'refresh', function () {
             FwAppData.apiMethod(true, 'GET', `api/v1/widget/loadbyname/${apiname}?dataPoints=${dataPointCount}&locationId=${JSON.parse(sessionStorage.getItem('location')).locationid}&warehouseId=${JSON.parse(sessionStorage.getItem('warehouse')).warehouseid}&departmentId=${JSON.parse(sessionStorage.getItem('department')).departmentid}&fromDate=${fromDate}&toDate=${toDate}`, {}, FwServices.defaultTimeout, function onSuccess(response) {
                 try {
                     if (axisFormat === 'TWODGDEC') {
@@ -281,9 +282,9 @@
             }, null, jQuery(widgetcanvas));
         });
 
-        var widgetcanvas = $control.find('#' + apiname);   
+        var widgetcanvas = $control.find('#' + userWidgetId);   
 
-        jQuery($control).on('click', '#' + apiname + 'fullscreen', function () {
+        jQuery($control).on('click', '#' + userWidgetId + 'fullscreen', function () {
             try {
                 var $confirmation = FwConfirmation.renderConfirmation(text, '');
                 var $cancel = FwConfirmation.addButton($confirmation, 'Close', true);
