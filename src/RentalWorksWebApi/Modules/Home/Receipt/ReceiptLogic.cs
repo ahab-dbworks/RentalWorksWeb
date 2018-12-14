@@ -128,9 +128,9 @@ namespace WebApi.Modules.Home.Receipt
                 string[] acceptableValues = { RwConstants.RECEIPT_PAYMENT_BY_CUSTOMER, RwConstants.RECEIPT_PAYMENT_BY_DEAL };
                 isValid = IsValidStringValue(property, acceptableValues, ref validateMsg);
             }
-            foreach (var invoice in InvoiceDataList)
+            foreach (var ReceiptInvoice in InvoiceDataList)
             {
-                invoiceAmountTotal += invoice.Amount;
+                invoiceAmountTotal += ReceiptInvoice.Amount;
             }
             if (invoiceAmountTotal != PaymentAmount)
             {
