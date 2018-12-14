@@ -8,12 +8,15 @@ FwFormField_checkboxlist.renderRuntimeHtml = function ($control, html) {
     let options = {};
     html.push('<div class="fwformfield-caption">' + $control.attr('data-caption') + '</div>');;
     html.push('<div class="fwformfield-control">');
-    html.push('  <ol>');
+    html.push('  <ol style="min-height:500px;min-width:150px;">');
     html.push('  </ol>');
     html.push('</div>');
     $control.html(html.join(''));
     if ($control.attr('data-share') === 'true') {
         options.group = 'shared';
+        options.onAdd = function (evt) {
+            jQuery(evt.item).find('.checkbox').prop('checked',true).show();
+        }
     }
     if ($control.attr('data-cloneonly') === 'true') {
         options.sort = false;
@@ -118,19 +121,30 @@ FwFormField_checkboxlist.loadForm = function ($fwformfield, table, field, value,
             html.push('<li data-value="');
             html.push(value[i].value);
             html.push('" data-selected="');
-            html.push(value[i].selected.toString());
+            if ($fwformfield.attr('data-cloneonly') === 'true') {
+                html.push('T')
+            } else {
+                html.push(value[i].selected.toString());
+            }
+            html.push('" data-userwidgetid="');
+            if ($fwformfield.attr('data-cloneonly') === 'true') {
+                html.push(value[i].WidgetId);
+            } else {
+                html.push(value[i].userWidgetId);
+            }
             html.push('">');
             html.push('<div class="wrapper">');
             html.push('<div class="handle">::</div>');
-            if ($fwformfield.attr('data-cloneonly') !== 'true') {
-                html.push('<input class="checkbox" type="checkbox" id="');
-                html.push(checkboxid);
-                html.push('"');
-                if (value[i].selected === 'T') {
-                    html.push(' checked="checked"');
-                }
-                html.push('/>');
+            html.push('<input class="checkbox" type="checkbox" id="');
+            html.push(checkboxid);
+            html.push('"');
+            if ($fwformfield.attr('data-cloneonly') === 'true') {
+                html.push(' style="display:none" ');
             }
+            if (value[i].selected === 'T') {
+                html.push(' checked="checked"');
+            }
+            html.push('/>');
             html.push('<label for="');
             html.push(checkboxid);
             html.push('">');
