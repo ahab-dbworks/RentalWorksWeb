@@ -1,6 +1,5 @@
 using FwStandard.AppManager;
 using FwStandard.BusinessLogic;
-using FwStandard.DataLayer;
 using FwStandard.Models;
 using FwStandard.SqlServer;
 using Newtonsoft.Json;
@@ -115,10 +114,8 @@ namespace WebApi.Modules.Settings.UserDashboardSettings
 
             [FwLogicProperty(Id: "wNIy6uz4ptVYw")]
             public string text { get { return Widget; } }
-
         }
 
-        protected SqlServerConfig _dbConfig { get; set; }
         //------------------------------------------------------------------------------------
         public UserDashboardSettingsLogic()
         {
@@ -142,11 +139,6 @@ namespace WebApi.Modules.Settings.UserDashboardSettings
         public List<UserDashboardSetting> UserWidgets { get; set; }
 
         //------------------------------------------------------------------------------------
-        public void SetDbConfig(SqlServerConfig dbConfig)
-        {
-            _dbConfig = dbConfig;
-        }
-        //------------------------------------------------------------------------------------
         public override async Task<bool> LoadAsync<T>(object[] primaryKeyValues)
         {
             string webUsersId = primaryKeyValues[0].ToString();
@@ -157,15 +149,16 @@ namespace WebApi.Modules.Settings.UserDashboardSettings
             webUser.SetDependencies(AppConfig, UserSession);
             webUser.WebUserId = webUsersId;
             webUser = await webUser.GetAsync<WebUserRecord>();
-            WidgetsPerRow = webUser.DashboardWidgetsPerRow;
+            if (webUser != null)
+            {
+                WidgetsPerRow = webUser.DashboardWidgetsPerRow;
+            }
             if ((WidgetsPerRow == null) || (WidgetsPerRow <= 0))
             {
                 WidgetsPerRow = 2;
             }
 
             UserWidgets = new List<UserDashboardSetting>();
-
-
 
             BrowseRequest request = new BrowseRequest();
             request.pageno = 0;
@@ -177,9 +170,9 @@ namespace WebApi.Modules.Settings.UserDashboardSettings
             AvailableWidgets = await l.SelectAsync<AvailableWidget>(request);
 
 
-            using (FwSqlConnection conn = new FwSqlConnection(_dbConfig.ConnectionString))
+            using (FwSqlConnection conn = new FwSqlConnection(AppConfig.DatabaseSettings.ConnectionString))
             {
-                FwSqlCommand qry = new FwSqlCommand(conn, _dbConfig.QueryTimeout);
+                FwSqlCommand qry = new FwSqlCommand(conn, AppConfig.DatabaseSettings.QueryTimeout);
                 qry.Add("exec getwebuserdashboardsettings @webusersid ");
                 qry.AddColumn("webuserswidgetid");              //00
                 qry.AddColumn("widgetid");                      //01
@@ -313,6 +306,10 @@ namespace WebApi.Modules.Settings.UserDashboardSettings
         public override async Task<int> SaveAsync(FwBusinessLogic original)
         {
             int savedCount = 0;
+            UserDashboardSettingsLogic orig = new UserDashboardSettingsLogic();
+            orig.SetDependencies(AppConfig, UserSession);
+            orig.UserId = UserId;
+            await orig.LoadAsync<UserDashboardSettingsLogic>();
 
             if (WidgetsPerRow != null)
             {
@@ -330,8 +327,8 @@ namespace WebApi.Modules.Settings.UserDashboardSettings
                 uw.SetDependencies(AppConfig, UserSession);
                 if (!string.IsNullOrEmpty(w.userWidgetId))
                 {
-                    object[] pk = { w.userWidgetId };
-                    await uw.LoadAsync<UserWidgetLogic>(pk);
+                    uw.UserWidgetId = w.userWidgetId;
+                    await uw.LoadAsync<UserWidgetLogic>();
                     uw.SetDependencies(AppConfig, UserSession);
                 }
                 uw.UserId = UserId;
@@ -343,7 +340,7 @@ namespace WebApi.Modules.Settings.UserDashboardSettings
                 {
                     await uw.SaveAsync(null);
                 }
-                else 
+                else
                 {
                     await uw.DeleteAsync();
                 }
@@ -351,6 +348,29 @@ namespace WebApi.Modules.Settings.UserDashboardSettings
                 widgetPosition++;
                 savedCount++;
             }
+
+            //delete any widgets not included in the save list
+            foreach (UserDashboardSetting wOrig in orig.UserWidgets)
+            {
+                bool exists = false;
+                foreach (UserDashboardSetting w in UserWidgets)
+                {
+                    if (w.userWidgetId.Equals(wOrig.userWidgetId))
+                    {
+                        exists = true;
+                    }
+                }
+                if (!exists)
+                {
+                    UserWidgetLogic uw = new UserWidgetLogic();
+                    uw.SetDependencies(AppConfig, UserSession);
+                    uw.UserWidgetId = wOrig.userWidgetId;
+                    await uw.LoadAsync<UserWidgetLogic>();
+                    uw.SetDependencies(AppConfig, UserSession);
+                    await uw.DeleteAsync();
+                }
+            }
+
             return savedCount;
         }
         //------------------------------------------------------------------------------------
