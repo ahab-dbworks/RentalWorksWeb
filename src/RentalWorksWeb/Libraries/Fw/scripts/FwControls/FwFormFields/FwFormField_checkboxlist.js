@@ -6,6 +6,7 @@ FwFormField_checkboxlist.renderDesignerHtml = function ($control, html) {
 //---------------------------------------------------------------------------------
 FwFormField_checkboxlist.renderRuntimeHtml = function ($control, html) {
     let options = {};
+    let $form = $control.closest('.fwform');
     html.push('<div class="fwformfield-caption">' + $control.attr('data-caption') + '</div>');;
     html.push('<div class="fwformfield-control">');
     html.push('  <ol style="min-height:500px;min-width:150px;">');
@@ -27,6 +28,8 @@ FwFormField_checkboxlist.renderRuntimeHtml = function ($control, html) {
         }
         options.onAdd = function (evt) {
             this.el.removeChild(evt.item);
+            $form.attr('data-modified', 'true');
+            $form.find('.btn[data-type="SaveMenuBarButton"]').removeClass('disabled');
         }
     }
     if ($control.attr('data-sortable') === 'true') {
