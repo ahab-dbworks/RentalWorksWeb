@@ -123,13 +123,10 @@ FwFormField_checkboxlist.loadForm = function ($fwformfield, table, field, value,
             html.push('" data-selected="');
             if ($fwformfield.attr('data-cloneonly') === 'true') {
                 html.push('T')
+                html.push('" data-userwidgetid="');
             } else {
                 html.push(value[i].selected.toString());
-            }
-            html.push('" data-userwidgetid="');
-            if ($fwformfield.attr('data-cloneonly') === 'true') {
-                html.push(value[i].WidgetId);
-            } else {
+                html.push('" data-userwidgetid="');
                 html.push(value[i].userWidgetId);
             }
             html.push('">');
