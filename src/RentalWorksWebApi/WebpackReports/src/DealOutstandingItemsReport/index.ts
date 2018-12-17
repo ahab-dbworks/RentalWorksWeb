@@ -6,7 +6,7 @@ import { HandlebarsHelpers } from '../../lib/FwReportLibrary/src/scripts/Handleb
 import * as moment from 'moment';
 import '../../lib/FwReportLibrary/src/theme/webpackReports.scss';
 import './index.scss';
-var hbReport = require("./hbReport.hbs");
+var hbReport = require("./hbReport2.hbs");
 var hbFooter = require("./hbFooter.hbs");
 
 export class DealOutstandingReportRequest {
@@ -54,6 +54,7 @@ export class DealOutstandingReport extends WebpackReport {
             request.CategoryId = parameters.CategoryId;
 
             let dealOutstanding: any = {};
+            dealOutstanding.IncludeFullImages = false;
 
             let Promise = Ajax.post<DataTable>(`${apiUrl}/api/v1/dealoutstandingitemsreport/runreport`, authorizationHeader, request)
                 .then((response: DataTable) => {
