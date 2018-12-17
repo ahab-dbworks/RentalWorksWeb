@@ -128,14 +128,17 @@ namespace WebApi.Modules.Home.Receipt
                 string[] acceptableValues = { RwConstants.RECEIPT_PAYMENT_BY_CUSTOMER, RwConstants.RECEIPT_PAYMENT_BY_DEAL };
                 isValid = IsValidStringValue(property, acceptableValues, ref validateMsg);
             }
-            foreach (var ReceiptInvoice in InvoiceDataList)
+            if (isValid)
             {
-                invoiceAmountTotal += ReceiptInvoice.Amount;
-            }
-            if (invoiceAmountTotal != PaymentAmount)
-            {
-                isValid = false;
-                validateMsg = "Amount to Apply does not match Invoice Amounts provided.";
+                foreach (ReceiptInvoice i in InvoiceDataList)
+                {
+                    invoiceAmountTotal += i.Amount;
+                }
+                if (invoiceAmountTotal != PaymentAmount)
+                {
+                    isValid = false;
+                    validateMsg = "Amount to Apply does not match Invoice Amounts provided.";
+                }
             }
 
             return isValid;
