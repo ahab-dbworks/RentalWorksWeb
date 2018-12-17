@@ -1,6 +1,5 @@
 using FwStandard.AppManager;
-﻿using FwStandard.BusinessLogic;
-using FwStandard.DataLayer;
+using FwStandard.BusinessLogic;
 using FwStandard.Models;
 using FwStandard.SqlServer;
 using Newtonsoft.Json;
@@ -10,83 +9,113 @@ using System.Threading.Tasks;
 using WebApi.Logic;
 using WebApi.Modules.Administrator.User;
 using WebApi.Modules.Settings.WebUserWidget;
+using WebApi.Modules.Settings.Widget;
 
 namespace WebApi.Modules.Settings.UserDashboardSettings
 {
-    [FwLogic(Id:"4wHzCi9ODcIR9")]
+    [FwLogic(Id: "4wHzCi9ODcIR9")]
     public class UserDashboardSettingsLogic : AppBusinessLogic
     {
         public class UserDashboardSetting
         {
-            [FwLogicProperty(Id:"uoiTLL0jYwA8")]
+            [FwLogicProperty(Id: "uoiTLL0jYwA8")]
             public string userWidgetId { get; set; }
 
-            [FwLogicProperty(Id:"Kp2dJDkbPTpu")]
+            [FwLogicProperty(Id: "Kp2dJDkbPTpu")]
             public string value { get; set; }
 
-            [FwLogicProperty(Id:"NXRy8pQDQqwN")]
+            [FwLogicProperty(Id: "NXRy8pQDQqwN")]
             public string text { get; set; }
 
-            [FwLogicProperty(Id:"4MxlimAYESIg")]
+            [FwLogicProperty(Id: "4MxlimAYESIg")]
             public bool? selected { get; set; }
 
-            [FwLogicProperty(Id:"PetDFdwX7FQS")]
+            [FwLogicProperty(Id: "PetDFdwX7FQS")]
             public string apiname { get; set; }
 
-            [FwLogicProperty(Id:"DJ6nwgtnXfty")]
+            [FwLogicProperty(Id: "DJ6nwgtnXfty")]
             public string clickpath { get; set; }
 
-            [FwLogicProperty(Id:"5AfOVvSNfeDR")]
+            [FwLogicProperty(Id: "5AfOVvSNfeDR")]
             public string defaulttype { get; set; }
 
-            [FwLogicProperty(Id:"1N8BnB9e2h1r")]
+            [FwLogicProperty(Id: "1N8BnB9e2h1r")]
             public string widgettype { get; set; }
 
-            [FwLogicProperty(Id:"8w5PYsX24XtS")]
+            [FwLogicProperty(Id: "8w5PYsX24XtS")]
             public int? defaultDataPoints { get; set; }
 
-            [FwLogicProperty(Id:"tEWTlewmof8c")]
+            [FwLogicProperty(Id: "tEWTlewmof8c")]
             public int? dataPoints { get; set; }
 
-            [FwLogicProperty(Id:"fhepRMTIoPrB")]
+            [FwLogicProperty(Id: "fhepRMTIoPrB")]
             public string defaultAxisNumberFormatId { get; set; }
 
-            [FwLogicProperty(Id:"F8fBb6m5STcB")]
+            [FwLogicProperty(Id: "F8fBb6m5STcB")]
             public string defaultAxisNumberFormat { get; set; }
 
-            [FwLogicProperty(Id:"cs50aoSnCLpm")]
+            [FwLogicProperty(Id: "cs50aoSnCLpm")]
             public string defaultAxisNumberFormatMask { get; set; }
 
-            [FwLogicProperty(Id:"bzY2uJN3Z7Mv")]
+            [FwLogicProperty(Id: "bzY2uJN3Z7Mv")]
             public string axisNumberFormatId { get; set; }
 
-            [FwLogicProperty(Id:"OFnRIsGuJ7IG")]
+            [FwLogicProperty(Id: "OFnRIsGuJ7IG")]
             public string axisNumberFormat { get; set; }
 
-            [FwLogicProperty(Id:"d7HaW4Rygrgw")]
+            [FwLogicProperty(Id: "d7HaW4Rygrgw")]
             public string axisNumberFormatMask { get; set; }
 
-            [FwLogicProperty(Id:"7nr6tRwCANkM")]
+            [FwLogicProperty(Id: "7nr6tRwCANkM")]
             public string defaultDataNumberFormatId { get; set; }
 
-            [FwLogicProperty(Id:"pjLvL61Nk8xv")]
+            [FwLogicProperty(Id: "pjLvL61Nk8xv")]
             public string defaultDataNumberFormat { get; set; }
 
-            [FwLogicProperty(Id:"9ZeYdh0eAfbB")]
+            [FwLogicProperty(Id: "9ZeYdh0eAfbB")]
             public string defaultDataNumberFormatMask { get; set; }
 
-            [FwLogicProperty(Id:"36nz45tfs4pp")]
+            [FwLogicProperty(Id: "36nz45tfs4pp")]
             public string dataNumberFormatId { get; set; }
 
-            [FwLogicProperty(Id:"XuRq6NemRtVJ")]
+            [FwLogicProperty(Id: "XuRq6NemRtVJ")]
             public string dataNumberFormat { get; set; }
 
-            [FwLogicProperty(Id:"kRpwFBx8w0iV")]
+            [FwLogicProperty(Id: "kRpwFBx8w0iV")]
             public string dataNumberFormatMask { get; set; }
 
+            [FwLogicProperty(Id: "DcfKXn0BmpO0l")]
+            public string defaultDateBehavior { get; set; }
+            [FwLogicProperty(Id: "SVfGQzuLNjj8j")]
+            public string dateBehavior { get; set; }
+            [FwLogicProperty(Id: "NX6Ds8RkWf3pw")]
+            public string dateFieldDisplayNames { get; set; }
+            [FwLogicProperty(Id: "F2dTkVfmGlyla")]
+            public string dateFields { get; set; }
+            [FwLogicProperty(Id: "mN6MzNVwHusuS")]
+            public string defaultDateField { get; set; }
+            [FwLogicProperty(Id: "rZTRLc5UXHPvp")]
+            public string dateField { get; set; }
+            [FwLogicProperty(Id: "ddDKpCrfFdRcs")]
+            public DateTime? defaultFromDate { get; set; }
+            [FwLogicProperty(Id: "1FwqriE388QFk")]
+            public DateTime? fromDate { get; set; }
+            [FwLogicProperty(Id: "HhvTT4MNPVsu7")]
+            public DateTime? defaultToDate { get; set; }
+            [FwLogicProperty(Id: "hRvFdpdIUPtbM")]
+            public DateTime? toDate { get; set; }
         }
 
-        protected SqlServerConfig _dbConfig { get; set; }
+        public class AvailableWidget : WidgetLogic
+        {
+
+            [FwLogicProperty(Id: "3nSLO6CTowZlO")]
+            public string value { get { return WidgetId; } }
+
+            [FwLogicProperty(Id: "wNIy6uz4ptVYw")]
+            public string text { get { return Widget; } }
+        }
+
         //------------------------------------------------------------------------------------
         public UserDashboardSettingsLogic()
         {
@@ -94,26 +123,22 @@ namespace WebApi.Modules.Settings.UserDashboardSettings
             LoadOriginalBeforeSaving = false;
         }
         //------------------------------------------------------------------------------------
-        [FwLogicProperty(Id:"766wAbVOC8nt5", IsPrimaryKey:true)]
+        [FwLogicProperty(Id: "766wAbVOC8nt5", IsPrimaryKey: true)]
         public string UserId { get; set; }
 
-        [FwLogicProperty(Id:"sinlv4VG74o9")]
+        [FwLogicProperty(Id: "sinlv4VG74o9")]
         public int? WidgetsPerRow { get; set; }
 
         [JsonIgnore]
-        [FwLogicProperty(Id:"0D4rUx4DvdRG", IsRecordTitle:true)]
+        [FwLogicProperty(Id: "0D4rUx4DvdRG", IsRecordTitle: true)]
         public string DashboardSettingsTitle { get; set; }
 
-        [FwLogicProperty(Id:"oZMIf4l1CVS5")]
-        public List<UserDashboardSetting> Widgets { get; set; }
+        [FwLogicProperty(Id: "lqNWOoaHp83RB")]
+        public List<AvailableWidget> AvailableWidgets { get; set; }
+        [FwLogicProperty(Id: "oZMIf4l1CVS5")]
+        public List<UserDashboardSetting> UserWidgets { get; set; }
 
         //------------------------------------------------------------------------------------
-        public void SetDbConfig(SqlServerConfig dbConfig)
-        {
-            _dbConfig = dbConfig;
-        }
-        //------------------------------------------------------------------------------------
-        //public async Task<bool> LoadAsync(string webUsersId)
         public override async Task<bool> LoadAsync<T>(object[] primaryKeyValues)
         {
             string webUsersId = primaryKeyValues[0].ToString();
@@ -124,17 +149,30 @@ namespace WebApi.Modules.Settings.UserDashboardSettings
             webUser.SetDependencies(AppConfig, UserSession);
             webUser.WebUserId = webUsersId;
             webUser = await webUser.GetAsync<WebUserRecord>();
-            WidgetsPerRow = webUser.DashboardWidgetsPerRow;
+            if (webUser != null)
+            {
+                WidgetsPerRow = webUser.DashboardWidgetsPerRow;
+            }
             if ((WidgetsPerRow == null) || (WidgetsPerRow <= 0))
             {
                 WidgetsPerRow = 2;
             }
 
-            Widgets = new List<UserDashboardSetting>();
+            UserWidgets = new List<UserDashboardSetting>();
 
-            using (FwSqlConnection conn = new FwSqlConnection(_dbConfig.ConnectionString))
+            BrowseRequest request = new BrowseRequest();
+            request.pageno = 0;
+            request.pagesize = 0;
+            request.orderby = string.Empty;
+
+            AvailableWidget l = new AvailableWidget();
+            l.SetDependencies(AppConfig, UserSession);
+            AvailableWidgets = await l.SelectAsync<AvailableWidget>(request);
+
+
+            using (FwSqlConnection conn = new FwSqlConnection(AppConfig.DatabaseSettings.ConnectionString))
             {
-                FwSqlCommand qry = new FwSqlCommand(conn, _dbConfig.QueryTimeout);
+                FwSqlCommand qry = new FwSqlCommand(conn, AppConfig.DatabaseSettings.QueryTimeout);
                 qry.Add("exec getwebuserdashboardsettings @webusersid ");
                 qry.AddColumn("webuserswidgetid");              //00
                 qry.AddColumn("widgetid");                      //01
@@ -157,7 +195,19 @@ namespace WebApi.Modules.Settings.UserDashboardSettings
                 qry.AddColumn("datanumberformatid");            //18
                 qry.AddColumn("datanumberformat");              //19
                 qry.AddColumn("datanumberformatmask");          //20
-                qry.AddColumn("orderby");                       //21
+
+                qry.AddColumn("defaultdatebehavior");           //21
+                qry.AddColumn("datebehavior");                  //22
+                qry.AddColumn("datefielddisplaynames");         //23
+                qry.AddColumn("datefields");                    //24
+                qry.AddColumn("defaultdatefield");              //25
+                qry.AddColumn("datefield");                     //26
+                qry.AddColumn("defaultfromdate");               //27
+                qry.AddColumn("fromdate");                      //28
+                qry.AddColumn("defaulttodate");                 //29
+                qry.AddColumn("todate");                        //30
+
+                qry.AddColumn("orderby");                       //31
                 qry.AddParameter("@webusersid", UserId);
                 FwJsonDataTable table = await qry.QueryToFwJsonTableAsync(true);
                 for (int r = 0; r < table.Rows.Count; r++)
@@ -185,6 +235,33 @@ namespace WebApi.Modules.Settings.UserDashboardSettings
                     string datanumberformat = table.Rows[r][19].ToString();
                     string datanumberformatmask = table.Rows[r][20].ToString();
 
+                    string defaultdatebehavior = table.Rows[r][21].ToString();
+                    string datebehavior = table.Rows[r][22].ToString();
+                    string datefielddisplaynames = table.Rows[r][23].ToString();
+                    string datefields = table.Rows[r][24].ToString();
+                    string defaultdatefield = table.Rows[r][25].ToString();
+                    string datefield = table.Rows[r][26].ToString();
+                    DateTime? defaultfromdate = null;
+                    DateTime? fromdate = null;
+                    DateTime? defaulttodate = null;
+                    DateTime? todate = null;
+                    if (!table.Rows[r][27].ToString().Equals(""))
+                    {
+                        defaultfromdate = FwConvert.ToDateTime(table.Rows[r][27].ToString());
+                    }
+                    if (!table.Rows[r][28].ToString().Equals(""))
+                    {
+                        fromdate = FwConvert.ToDateTime(table.Rows[r][28].ToString());
+                    }
+                    if (!table.Rows[r][29].ToString().Equals(""))
+                    {
+                        defaulttodate = FwConvert.ToDateTime(table.Rows[r][29].ToString());
+                    }
+                    if (!table.Rows[r][30].ToString().Equals(""))
+                    {
+                        todate = FwConvert.ToDateTime(table.Rows[r][30].ToString());
+                    }
+
                     w.userWidgetId = UserWidgetId;
                     w.value = widgetId;
                     w.text = widgetName;
@@ -207,7 +284,19 @@ namespace WebApi.Modules.Settings.UserDashboardSettings
                     w.dataNumberFormatId = datanumberformatid;
                     w.dataNumberFormat = datanumberformat;
                     w.dataNumberFormatMask = datanumberformatmask;
-                    Widgets.Add(w);
+
+                    w.defaultDateBehavior = defaultdatebehavior;
+                    w.dateBehavior = datebehavior;
+                    w.dateFieldDisplayNames = datefielddisplaynames;
+                    w.dateFields = datefields;
+                    w.defaultDateField = defaultdatefield;
+                    w.dateField = datefield;
+                    w.defaultFromDate = defaultfromdate;
+                    w.fromDate = fromdate;
+                    w.defaultToDate = defaulttodate;
+                    w.toDate = todate;
+
+                    UserWidgets.Add(w);
                     loaded = true;
                 }
             }
@@ -217,15 +306,10 @@ namespace WebApi.Modules.Settings.UserDashboardSettings
         public override async Task<int> SaveAsync(FwBusinessLogic original)
         {
             int savedCount = 0;
-
-            // can remove all this "prev" stuff if Dashboard Settings form can send back the actual "userWidgetId"
-            UserDashboardSettingsLogic lPrev = new UserDashboardSettingsLogic();
-            lPrev.SetDbConfig(_dbConfig);
-            lPrev.SetDependencies(AppConfig, UserSession);
-            await lPrev.LoadAsync<UserDashboardSettingsLogic>(new object[] { UserId });
-
-            UserDashboardSetting wPrev = null;
-            UserWidgetLogic uw = null;
+            UserDashboardSettingsLogic orig = new UserDashboardSettingsLogic();
+            orig.SetDependencies(AppConfig, UserSession);
+            orig.UserId = UserId;
+            await orig.LoadAsync<UserDashboardSettingsLogic>();
 
             if (WidgetsPerRow != null)
             {
@@ -234,50 +318,59 @@ namespace WebApi.Modules.Settings.UserDashboardSettings
                 webUser.WebUserId = UserId;
                 webUser.DashboardWidgetsPerRow = WidgetsPerRow;
                 await webUser.SaveAsync(null);
-
             }
 
             int widgetPosition = 0;
-            foreach (UserDashboardSetting w in Widgets)
+            foreach (UserDashboardSetting w in UserWidgets)
             {
-                wPrev = null;
-
-                foreach (UserDashboardSetting wPrevTest in lPrev.Widgets)
+                UserWidgetLogic uw = new UserWidgetLogic();
+                uw.SetDependencies(AppConfig, UserSession);
+                if (!string.IsNullOrEmpty(w.userWidgetId))
                 {
-                    if (wPrevTest.text.Equals(w.text))
-                    {
-                        wPrev = wPrevTest;
-                        break;
-                    }
-                }
-
-                if (wPrev != null)
-                {
-                    uw = new UserWidgetLogic();
+                    uw.UserWidgetId = w.userWidgetId;
+                    await uw.LoadAsync<UserWidgetLogic>();
                     uw.SetDependencies(AppConfig, UserSession);
-                    if (!wPrev.userWidgetId.Equals(string.Empty))
-                    {
-                        object[] pk = { wPrev.userWidgetId };
-                        await uw.LoadAsync<UserWidgetLogic>(pk);
-                        uw.AppConfig = AppConfig;
-                    }
-                    uw.UserId = UserId;
-                    uw.WidgetId = w.value;
-                    uw.OrderBy = widgetPosition;
-
-                    if (wPrev.selected.GetValueOrDefault(false) && (!w.selected.GetValueOrDefault(false)))
-                    {
-                        await uw.DeleteAsync();
-                    }
-                    else if (w.selected.GetValueOrDefault(false))
-                    {
-                        await uw.SaveAsync(null);
-                    }
-
                 }
+                uw.UserId = UserId;
+                uw.WidgetId = w.value;
+                uw.OrderBy = widgetPosition;
+                uw.LoadOriginalBeforeSaving = false;
+
+                if (w.selected.GetValueOrDefault(false))
+                {
+                    await uw.SaveAsync(null);
+                }
+                else
+                {
+                    await uw.DeleteAsync();
+                }
+
                 widgetPosition++;
                 savedCount++;
             }
+
+            //delete any widgets not included in the save list
+            foreach (UserDashboardSetting wOrig in orig.UserWidgets)
+            {
+                bool exists = false;
+                foreach (UserDashboardSetting w in UserWidgets)
+                {
+                    if (w.userWidgetId.Equals(wOrig.userWidgetId))
+                    {
+                        exists = true;
+                    }
+                }
+                if (!exists)
+                {
+                    UserWidgetLogic uw = new UserWidgetLogic();
+                    uw.SetDependencies(AppConfig, UserSession);
+                    uw.UserWidgetId = wOrig.userWidgetId;
+                    await uw.LoadAsync<UserWidgetLogic>();
+                    uw.SetDependencies(AppConfig, UserSession);
+                    await uw.DeleteAsync();
+                }
+            }
+
             return savedCount;
         }
         //------------------------------------------------------------------------------------

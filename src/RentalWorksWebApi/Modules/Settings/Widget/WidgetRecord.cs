@@ -1,6 +1,6 @@
-using FwStandard.BusinessLogic; 
-using FwStandard.SqlServer; 
-using FwStandard.SqlServer.Attributes; 
+using FwStandard.BusinessLogic;
+using FwStandard.SqlServer;
+using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
 namespace WebApi.Modules.Settings.Widget
 {
@@ -40,6 +40,24 @@ namespace WebApi.Modules.Settings.Widget
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "defaultdatanumberformatid", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 8)]
         public string DefaultDataNumberFormatId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "defaultdatebehavior", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 50)]
+        public string DefaultDateBehavior { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "datefielddisplaynames", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 255)]
+        public string DateFieldDisplayNames { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "datefields", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 255)]
+        public string DateFields { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "defaultdatefield", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 50)]
+        public string DefaultDateField { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "defaultfromdate", modeltype: FwDataTypes.Date, sqltype: "datetime")]
+        public string DefaultFromDate { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "defaulttodate", modeltype: FwDataTypes.Date, sqltype: "datetime")]
+        public string DefaultToDate { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime, sqltype: "datetime")]
         public string DateStamp { get; set; }

@@ -65,7 +65,7 @@ namespace WebApi.Modules.Settings.Widget
                     string statusColorStr = FwConvert.OleColorToHtmlColor(statusColorInt, opacity);
                     string borderColorStr = FwConvert.OleColorToHtmlColor(statusColorInt, 1);
 
-                    List<int> dataList = new List<int>();
+                    List<decimal> dataList = new List<decimal>();
                     List<string> backgroundColor = new List<string>();
                     List<string> borderColor = new List<string>();
 

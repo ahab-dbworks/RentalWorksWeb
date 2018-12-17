@@ -77,6 +77,36 @@ namespace WebApi.Modules.Settings.WebUserWidget
         [FwLogicProperty(Id:"HlDA4Oq6XPJlV", IsReadOnly:true)]
         public string DataNumberFormatMask { get; set; }
 
+        [FwLogicProperty(Id: "qDChYGxR0e3DO", IsReadOnly:true)]
+        public string DefaultDateBehavior { get; set; }
+
+        [FwLogicProperty(Id: "2MExrJsp8Dqx0")]
+        public string DateBehavior { get { return userWidget.DateBehavior; } set { userWidget.DateBehavior = value; } }
+
+        [FwLogicProperty(Id: "LEwhr5fCzYgFD", IsReadOnly:true)]
+        public string DateFieldDisplayNames { get; set; }
+
+        [FwLogicProperty(Id: "rJD7VxzM0nRUL", IsReadOnly:true)]
+        public string DateFields { get; set; }
+
+        [FwLogicProperty(Id: "NKJA1Ps4yJncP", IsReadOnly:true)]
+        public string DefaultDateField { get; set; }
+
+        [FwLogicProperty(Id: "iHKW9xVnzWzS3")]
+        public string DateField { get { return userWidget.DateField; } set { userWidget.DateField = value; } }
+
+        [FwLogicProperty(Id: "qHbFvPszfYCIx", IsReadOnly:true)]
+        public string DefaultFromDate { get; set; }
+
+        [FwLogicProperty(Id: "XWzqyIKachLYb")]
+        public string FromDate { get { return userWidget.FromDate; } set { userWidget.FromDate = value; } }
+
+        [FwLogicProperty(Id: "2mdNqnFpiYwwO", IsReadOnly:true)]
+        public string DefaultToDate { get; set; }
+
+        [FwLogicProperty(Id: "Zmd1iFAogjrN6")]
+        public string ToDate { get { return userWidget.ToDate; } set { userWidget.ToDate = value; } }
+
         [FwLogicProperty(Id:"xUe2AinjCmIg")]
         public string Settings { get { return userWidget.Settings; } set { userWidget.Settings = value; } }
 

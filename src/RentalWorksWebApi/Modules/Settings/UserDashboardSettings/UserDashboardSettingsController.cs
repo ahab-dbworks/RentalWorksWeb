@@ -28,7 +28,6 @@ namespace WebApi.Modules.Settings.UserDashboardSettings
             try
             {
                 UserDashboardSettingsLogic l = new UserDashboardSettingsLogic();
-                l.SetDbConfig(this.AppConfig.DatabaseSettings);
                 l.SetDependencies(this.AppConfig, this.UserSession);
                 await l.LoadAsync<UserDashboardSettingsLogic>(new object[] { id });
                 return new OkObjectResult(l);
@@ -48,7 +47,6 @@ namespace WebApi.Modules.Settings.UserDashboardSettings
         [FwControllerMethod(Id:"c9DKCtKZ05H2T")]
         public async Task<ActionResult<UserDashboardSettingsLogic>> PostAsync([FromBody]UserDashboardSettingsLogic l)
         {
-            l.SetDbConfig(this.AppConfig.DatabaseSettings);
             l.SetDependencies(this.AppConfig, this.UserSession);
             return await DoPostAsync<UserDashboardSettingsLogic>(l);
         }

@@ -7,29 +7,76 @@
     <div class="tabpages">
       <div data-type="tabpage" id="generaltabpage" class="tabpage" data-tabid="generaltab">
         <div class="formpage">
-          <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Widget">
-            <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-              <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Widget" data-datafield="Widget" style="float:left;width:200px;"></div>
-              <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="API Name" data-datafield="ApiName" style="float:left;width:200px;"></div>
-            </div>
-          </div>
-          <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Default Type">
-            <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-              <div data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield" data-caption="" data-datafield="DefaultType" data-enabled="true" style="width:280px;">
-                <div data-value="horizontalBar" class="radio_horizontalbar" data-caption="Horizontal Bar"></div>
-                <div data-value="bar" class="radio_bar" data-caption="Bar"></div>
-                <div data-value="pie" class="radio_pie" data-caption="Pie"></div>
+          <div class="flexrow">
+            <div class="flexcolumn">
+              <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Widget">
+                <div class="flexrow">
+                  <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Widget" data-datafield="Widget" style="float:left;width:200px;"></div>
+                  <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="API Name" data-datafield="ApiName" style="float:left;width:200px;"></div>
+                </div>
+              </div>
+              <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Default Type">
+                <div class="flexrow">
+                  <div data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield" data-caption="" data-datafield="DefaultType" data-enabled="true" style="width:280px;">
+                    <div data-value="horizontalBar" class="radio_horizontalbar" data-caption="Horizontal Bar"></div>
+                    <div data-value="bar" class="radio_bar" data-caption="Bar"></div>
+                    <div data-value="pie" class="radio_pie" data-caption="Pie"></div>
+                  </div>
+                </div>
+              </div>
+              <div class="flexrow">
+                <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield" data-caption="Default Number of Data Points" data-datafield="DefaultDataPoints" style="float:left;width:200px;"></div>
+              </div>
+              <div class="flexrow">
+                <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Axis Number Format" data-datafield="DefaultAxisNumberFormatId" data-displayfield="DefaultAxisNumberFormat" data-validationname="WidgetNumberFormatValidation" style="float:left;width:250px;"></div>
+              </div>
+              <div class="flexrow">
+                <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Data Number Format" data-datafield="DefaultDataNumberFormatId" data-displayfield="DefaultDataNumberFormat" data-validationname="WidgetNumberFormatValidation" style="float:left;width:250px;"></div>
               </div>
             </div>
-          </div>
-          <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-            <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield" data-caption="Default Number of Data Points" data-datafield="DefaultDataPoints" style="float:left;width:200px;"></div>
-          </div>
-          <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-            <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Axis Number Format" data-datafield="DefaultAxisNumberFormatId" data-displayfield="DefaultAxisNumberFormat" data-validationname="WidgetNumberFormatValidation" style="float:left;width:250px;"></div>
-          </div>
-          <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-            <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Data Number Format" data-datafield="DefaultDataNumberFormatId" data-displayfield="DefaultDataNumberFormat" data-validationname="WidgetNumberFormatValidation" style="float:left;width:250px;"></div>
+            <div class="flexcolumn">
+              <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Date Behavior">
+                <div class="flexrow">
+                  <div data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield" data-caption="" data-datafield="DefaultDateBehavior" data-enabled="true" style="flex:1 1 280px;">
+                    <div data-value="NONE" class="" data-caption="None"></div>
+                    <div data-value="SINGLE DATE - YESTERDAY" class="" data-caption="Single Date - Yesterday"></div>
+                    <div data-value="SINGLE DATE - TODAY" class="" data-caption="Single Date - Today"></div>
+                    <div data-value="SINGLE DATE - TOMORROW" class="" data-caption="Single Date - Tomorrow"></div>
+                    <div data-value="SINGLE DATE - SPECIFIC DATE" class="" data-caption="Single Date - Specific Date"></div>
+                    <div data-value="DATE RANGE - PRIOR WEEK" class="" data-caption="Date Range - Prior Week"></div>
+                    <div data-value="DATE RANGE - CURRENT WEEK" class="" data-caption="Date Range - Current Week"></div>
+                    <div data-value="DATE RANGE - NEXT WEEK" class="" data-caption="Date Range - Next Week"></div>
+                    <div data-value="DATE RANGE - PRIOR MONTH" class="" data-caption="Date Range - Prior Month"></div>
+                    <div data-value="DATE RANGE - CURRENT MONTH" class="" data-caption="Date Range - Current Month"></div>
+                    <div data-value="DATE RANGE - NEXT MONTH" class="" data-caption="Date Range - Next Month"></div>
+                    <div data-value="DATE RANGE - PRIOR YEAR" class="" data-caption="Date Range - Prior Year"></div>
+                    <div data-value="DATE RANGE - CURRENT YEAR" class="" data-caption="Date Range - Current Year"></div>
+                    <div data-value="DATE RANGE - YEAR TO DATE" class="" data-caption="Date Range - Year To Date"></div>
+                    <div data-value="DATE RANGE - NEXT YEAR" class="" data-caption="Date Range - Next Year"></div>
+                    <div data-value="DATE RANGE - SPECIFIC DATES" class="" data-caption="Date Range - Specific Dates"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="flexcolumn">
+              <div class="flexrow">
+                <div class="fwcontrol fwcontainer fwform-section date-field" data-control="FwContainer" data-type="section" data-caption="Date Field" style="display:none;">
+                  <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="API Name" data-datafield="DateFieldDisplayNames" style="display:none;"></div>
+                  <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="API Name" data-datafield="DateFields" style="display:none;"></div>
+                  <div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield datefield" data-caption="Date Field" data-datafield="DefaultDateField" style="flex:1 1 110px;"></div>
+                </div>
+              </div>
+              <div class="flexrow">
+                <div class="fwcontrol fwcontainer fwform-section specific-date" data-control="FwContainer" data-type="section" data-caption="Specific Dates" style="display:none;">
+                  <div class="flexrow">
+                    <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield from-date" data-caption="From Date" data-datafield="DefaultFromDate" style="display:none;float:left;width:200px;"></div>
+                  </div>
+                  <div class="flexrow">
+                    <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield to-date" data-caption="To Date" data-datafield="DefaultToDate" style="display:none;float:left;width:200px;"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
