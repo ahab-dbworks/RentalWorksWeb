@@ -61,28 +61,28 @@
         });
 
         function closeModifiedForms() {
-            let $bodyContainer, $openForms, modifiedForms, $form, $tab, $activeTabId, $tabId;
+            let $bodyContainer, $openForms, $modifiedForms, $form, $tab, $activeTabId, $tabId;
             $activeTabId = jQuery('body').data('activeTabId');
             $bodyContainer = jQuery('#master-body');
-            modifiedForms = $bodyContainer.find('div[data-modified="true"]');
+            $modifiedForms = $bodyContainer.find('div[data-modified="true"]');
             $openForms = $bodyContainer.find('div[data-type="form"]');
 
-            for (let i = 0; i < modifiedForms.length; i++) {
-                let tabId = jQuery(modifiedForms[i]).closest('div[data-type="tabpage"]').attr('id')
-                if (tabId === $activeTabId) {
-                    modifiedForms.splice(i, 1)
+            for (let i = 0; i < $modifiedForms.length; i++) {
+                let $tabId = jQuery($modifiedForms[i]).closest('div[data-type="tabpage"]').attr('id');
+                if ($tabId === $activeTabId) {
+                    $modifiedForms.splice(i, 1);
                 }
             }
 
-            if (modifiedForms) {
-                $form = jQuery(modifiedForms[0]);
+            if ($modifiedForms) {
+                $form = jQuery($modifiedForms[0]);
                 $tab = jQuery(`#${$form.parent().attr('data-tabid')}`);
                 $tabId = $tab.attr('data-tabpageid');
 
                 if ($tabId !== $activeTabId) {
                     $tab.click();
                     FwModule.closeForm($form, $tab);
-                    modifiedForms.splice(1);
+                    $modifiedForms.splice(1);
                 }
             }
             if ($openForms.length < 2) {
@@ -91,7 +91,7 @@
         }
         // Close all tabs but active tab
         $tabControl.find('.leave-active').click(() => {
-            let $bodyContainer, $openForms, modifiedForms, unmodifiedForms, $form, $tab, $activeTab, $activeTabId, $tabId;
+            let $bodyContainer, $openForms, $modifiedForms, $unmodifiedForms, $form, $tab, $activeTab, $activeTabId, $tabId;
 
             jQuery('body').off('click');
             jQuery('body').click(e => {
@@ -104,15 +104,15 @@
 
             $activeTab = $tabControl.find('div[data-tabtype="FORM"].tab.active');
             $activeTabId = $activeTab.attr('data-tabpageid');
-            jQuery('body').data('activeTabId', $activeTabId)
+            jQuery('body').data('activeTabId', $activeTabId);
             $bodyContainer = jQuery('#master-body');
             $openForms = $bodyContainer.find('div[data-type="form"]');
             $bodyContainer = jQuery('#master-body');
-            modifiedForms = $bodyContainer.find('div[data-modified="true"]');
-            unmodifiedForms = $bodyContainer.find('div[data-modified="false"]');
+            $modifiedForms = $bodyContainer.find('div[data-modified="true"]');
+            $unmodifiedForms = $bodyContainer.find('div[data-modified="false"]');
 
-            for (let i = 0; i < unmodifiedForms.length; i++) {
-                $form = jQuery(unmodifiedForms[i]);
+            for (let i = 0; i < $unmodifiedForms.length; i++) {
+                $form = jQuery($unmodifiedForms[i]);
                 $tab = jQuery(`#${$form.parent().attr('data-tabid')}`);
                 $tabId = $tab.attr('data-tabpageid');
                 if ($tabId !== $activeTabId) {
@@ -120,7 +120,7 @@
                     FwModule.closeForm($form, $tab);
                 }
             }
-            if (modifiedForms.length >= 1) {
+            if ($modifiedForms.length >= 1) {
                 closeModifiedForms();
             }
 
@@ -131,12 +131,10 @@
         });
         // Close all tabs
         $tabControl.find('.close-all').click(() => {
-            let $rootTab, $bodyContainer, $openForms, moduleNav, controller, modifiedForms, unmodifiedForms, $form, $tab, $tabId;
+            let $rootTab, $bodyContainer, $openForms, moduleNav, controller;
             $rootTab = $tabControl.find('div[data-tabpageid="tabpage1"]');
             $bodyContainer = jQuery('#master-body');
             $openForms = $bodyContainer.find('div[data-type="form"]');
-            modifiedForms = $bodyContainer.find('div[data-modified="true"]');
-            unmodifiedForms = $bodyContainer.find('div[data-modified="false"]');
             controller = $rootTab.closest('#moduleMaster').attr('data-module');
             moduleNav = window[`${controller}`].nav;
             program.getModule(moduleNav);
