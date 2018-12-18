@@ -79,6 +79,10 @@ namespace WebApi.Modules.Home.Vendor
             select.Parse();
             addFilterToSelect("Insurance", "insurance", select, request);
             addFilterToSelect("Freight", "freight", select, request);
+            addFilterToSelect("SubRent", "subrent", select, request);
+            addFilterToSelect("SubSale", "subsales", select, request);
+            addFilterToSelect("SubMisc", "submisc", select, request);
+            addFilterToSelect("SubLabor", "sublabor", select, request);
         }
         //------------------------------------------------------------------------------------
     }
