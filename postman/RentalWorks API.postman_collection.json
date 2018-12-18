@@ -10720,7 +10720,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n        \"ModuleName\": \"Department\",\n        \"RuleName\": \"Department with the same name\",\n        \"Fields\": \"Department\",\n}"
+							"raw": "{\n        \"ModuleName\": \"Department\",\n        \"RuleName\": \"Department with the same name and Code\",\n        \"Fields\": \"Department,DepartmentCode\",\n        \"FieldTypes\": \"Text,Text\"\n}"
 						},
 						"url": {
 							"raw": "http://localhost:57949/api/v1/duplicaterule",
@@ -21174,6 +21174,218 @@
 								"v1",
 								"invoiceitem",
 								"00003EOV"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Invoice Receipt",
+			"item": [
+				{
+					"name": "Invoice Receipt: Browse",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"Description\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": [],\n    \t\"uniqueids\": {\"IdField\": \"value\"}\n\t\n}"
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/invoicereceipt/browse",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"invoicereceipt",
+								"browse"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Invoice Receipt: Get Many",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/invoicereceipt",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"invoicereceipt"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Invoice Receipt: Get One",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/invoicereceipt/238",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"invoicereceipt",
+								"238"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Invoice Receipt: Insert",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n   \"InvoiceId\": \"B003OIRR\",\n   \"ReceiptId\": \"X\",\n   \"Amount\": 0.01\n}"
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/invoicereceipt",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"invoicereceipt"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Invoice Receipt: Update",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t \"InvoiceReceiptId\":\"00002WPC\",\n\t \"Field1\":\"1\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/invoicereceipt",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"invoicereceipt"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Invoice Receipt: Delete",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/invoicereceipt/324876",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"invoicereceipt",
+								"324876"
 							]
 						}
 					},
