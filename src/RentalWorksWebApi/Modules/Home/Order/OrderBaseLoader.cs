@@ -803,6 +803,16 @@ namespace WebApi.Modules.Home.Order
         [FwSqlDataField(column: "rstotalinctax", modeltype: FwDataTypes.Boolean)]
         public bool? RentalSaleTotalIncludesTax { get; set; }
         //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "lddiscpercent", modeltype: FwDataTypes.Decimal)]
+        public decimal? LossAndDamageDiscountPercent { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "ldtotal", modeltype: FwDataTypes.Decimal)]
+        public decimal? LossAndDamageTotal { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "ldtotalinctax", modeltype: FwDataTypes.Boolean)]
+        public bool? LossAndDamageTotalIncludesTax { get; set; }
+        //------------------------------------------------------------------------------------ 
+
 
 
 

@@ -1017,6 +1017,13 @@ namespace WebApi.Modules.Home.Order
         [FwLogicProperty(Id:"EnasDA0n1YlB", IsReadOnly:true)]
         public bool? RentalSaleTotalIncludesTax { get; set; }
 
+        [FwLogicProperty(Id: "Ppf5bjmGdJHmv", IsReadOnly: true)]
+        public decimal? LossAndDamageDiscountPercent { get; set; }
+        [FwLogicProperty(Id: "4AkawJGwm8gSR", IsReadOnly: true)]
+        public decimal? LossAndDamageTotal { get; set; }
+        [FwLogicProperty(Id: "umrLp5PI5ZSOc", IsReadOnly: true)]
+        public bool? LossAndDamageTotalIncludesTax { get; set; }
+
 
         [FwLogicProperty(Id:"Xawkh0awo9VR", IsReadOnly:true)]
         public decimal? CombinedDaysPerWeek { get; set; }
