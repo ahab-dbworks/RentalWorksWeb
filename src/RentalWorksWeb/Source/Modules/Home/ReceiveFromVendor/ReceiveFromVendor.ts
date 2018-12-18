@@ -43,9 +43,11 @@ class ReceiveFromVendor {
         FwFormField.setValueByDataField($form, 'Date', currentDate);
         FwFormField.setValueByDataField($form, 'Time', currentTime);
 
+
         if (typeof parentmoduleinfo !== 'undefined') {
             FwFormField.setValueByDataField($form, 'PurchaseOrderId', parentmoduleinfo.PurchaseOrderId, parentmoduleinfo.PurchaseOrderNumber);
             $form.find('[data-datafield="PurchaseOrderId"] input').change();
+            $form.attr('data-showsuspendedsessions', 'false');
         }
 
         this.getSuspendedSessions($form);
@@ -56,49 +58,53 @@ class ReceiveFromVendor {
     };
     //----------------------------------------------------------------------------------------------
     getSuspendedSessions($form) {
-        FwAppData.apiMethod(true, 'GET', 'api/v1/purchaseorder/receivesuspendedsessionsexist', null, FwServices.defaultTimeout, function onSuccess(response) {
-            $form.find('.buttonbar').append(`<div class="fwformcontrol suspendedsession" data-type="button" style="float:left;">Suspended Sessions</div>`);
-        }, null, $form);
+        let showSuspendedSessions = $form.attr('data-showsuspendedsessions');
 
-        $form.on('click', '.suspendedsession', e => {
-            let html = `<div>
+        if (showSuspendedSessions != "false") {
+            FwAppData.apiMethod(true, 'GET', 'api/v1/purchaseorder/receivesuspendedsessionsexist', null, FwServices.defaultTimeout, function onSuccess(response) {
+                $form.find('.buttonbar').append(`<div class="fwformcontrol suspendedsession" data-type="button" style="float:left;">Suspended Sessions</div>`);
+            }, null, $form);
+
+            $form.on('click', '.suspendedsession', e => {
+                let html = `<div>
                  <div style="background-color:white; padding-right:10px; text-align:right;" class="close-modal"><i style="cursor:pointer;" class="material-icons">clear</i></div>
 <div id="suspendedSessions" style="max-width:1400px; max-height:750px; overflow:auto;"></div>
             </div>`;
 
-            let $popup = FwPopup.renderPopup(jQuery(html), { ismodal: true });
+                let $popup = FwPopup.renderPopup(jQuery(html), { ismodal: true });
 
-            let $browse = SuspendedSessionController.openBrowse();
-            let officeLocationId = JSON.parse(sessionStorage.getItem('location'));
-            officeLocationId = officeLocationId.locationid;
-            $browse.data('ondatabind', function (request) {
-                request.uniqueids = {
-                    OfficeLocationId: officeLocationId
-                    , SessionType: 'RECEIVE'
-                    , OrderType: 'C'
-                }
+                let $browse = SuspendedSessionController.openBrowse();
+                let officeLocationId = JSON.parse(sessionStorage.getItem('location'));
+                officeLocationId = officeLocationId.locationid;
+                $browse.data('ondatabind', function (request) {
+                    request.uniqueids = {
+                        OfficeLocationId: officeLocationId
+                        , SessionType: 'RECEIVE'
+                        , OrderType: 'C'
+                    }
+                });
+
+                FwPopup.showPopup($popup);
+                jQuery('#suspendedSessions').append($browse);
+                FwBrowse.search($browse);
+
+                $popup.find('.close-modal > i').one('click', function (e) {
+                    FwPopup.destroyPopup($popup);
+                    jQuery(document).find('.fwpopup').off('click');
+                    jQuery(document).off('keydown');
+                });
+
+                $browse.on('dblclick', 'tr.viewmode', e => {
+                    let $this = jQuery(e.currentTarget);
+                    let id = $this.find(`[data-browsedatafield="OrderId"]`).attr('data-originalvalue');
+                    let orderNumber = $this.find(`[data-browsedatafield="OrderNumber"]`).attr('data-originalvalue');
+                    FwFormField.setValueByDataField($form, 'PurchaseOrderId', id, orderNumber);
+                    FwPopup.destroyPopup($popup);
+                    $form.find('[data-datafield="PurchaseOrderId"] input').change();
+                    $form.find('.suspendedsession').hide();
+                });
             });
-
-            FwPopup.showPopup($popup);
-            jQuery('#suspendedSessions').append($browse);
-            FwBrowse.search($browse);
-
-            $popup.find('.close-modal > i').one('click', function (e) {
-                FwPopup.destroyPopup($popup);
-                jQuery(document).find('.fwpopup').off('click');
-                jQuery(document).off('keydown');
-            });
-
-            $browse.on('dblclick', 'tr.viewmode', e => {
-                let $this = jQuery(e.currentTarget);
-                let id = $this.find(`[data-browsedatafield="OrderId"]`).attr('data-originalvalue');
-                let orderNumber = $this.find(`[data-browsedatafield="OrderNumber"]`).attr('data-originalvalue');
-                FwFormField.setValueByDataField($form, 'PurchaseOrderId', id, orderNumber);
-                FwPopup.destroyPopup($popup);
-                $form.find('[data-datafield="PurchaseOrderId"] input').change();
-                $form.find('.suspendedsession').hide();
-            });
-        });
+        }
     }
     //----------------------------------------------------------------------------------------------
 
