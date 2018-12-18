@@ -67,10 +67,11 @@ class ReturnToVendor {
             }, null, $form);
 
             $form.on('click', '.suspendedsession', e => {
-                let html = `<div>
-                 <div style="background-color:white; padding-right:10px; text-align:right;" class="close-modal"><i style="cursor:pointer;" class="material-icons">clear</i></div>
-<div id="suspendedSessions" style="max-width:1400px; max-height:750px; overflow:auto;"></div>
-            </div>`;
+                let html = 
+                  `<div>
+                     <div style="background-color:white; padding-right:10px; text-align:right;" class="close-modal"><i style="cursor:pointer;" class="material-icons">clear</i></div>
+                     <div id="suspendedSessions" style="max-width:1400px; max-height:750px; overflow:auto;"></div>
+                   </div>`;
 
                 let $popup = FwPopup.renderPopup(jQuery(html), { ismodal: true });
 
@@ -144,13 +145,6 @@ class ReturnToVendor {
 
             $form.find('.suspendedsession').hide();
         });
-    };
-    //----------------------------------------------------------------------------------------------
-    afterLoad($form: any) {
-        //console.log('po', $form.find('div[data-datafield="PurchaseOrderId"] input'))
-        //$form.find('div[data-datafield="PurchaseOrderId"] fwformfield-control input').focus();
-        //$form.find('div[data-datafield="PurchaseOrderId"] fwformfield-control ').focus();
-        //$form.find('div[data-datafield="PurchaseOrderId"] input').focus();
     };
     //----------------------------------------------------------------------------------------------
     getSoundUrls($form): void {

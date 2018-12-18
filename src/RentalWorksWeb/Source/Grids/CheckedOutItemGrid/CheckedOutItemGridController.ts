@@ -5,6 +5,8 @@
     generateRow($control, $generatedtr) {
         //----------------------------------------------------------------------------------------------
         FwBrowse.setAfterRenderRowCallback($control, ($tr: JQuery, dt: FwJsonDataTable, rowIndex: number) => {
+            $tr.find('.browsecontextmenucell').css('pointer-events', 'none'); // disables contextmenu on grid row
+
             $tr.dblclick(() => {
                 moveOutItemToStaged($control, $tr);
             })

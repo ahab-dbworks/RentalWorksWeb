@@ -298,17 +298,16 @@ class Exchange {
         });
     };
     //----------------------------------------------------------------------------------------------
-    renderGrids($form: any) {
+    renderGrids($form: any): void {
         let $exchangeItemGrid: any;
         let $exchangeItemGridControl: any;
-        let self = this;
 
         $exchangeItemGrid = $form.find('div[data-grid="ExchangeItemGrid"]');
         $exchangeItemGridControl = jQuery(jQuery('#tmpl-grids-ExchangeItemGridBrowse').html());
         $exchangeItemGrid.empty().append($exchangeItemGridControl);
-        $exchangeItemGridControl.data('ondatabind', function (request) {
+        $exchangeItemGridControl.data('ondatabind', request => {
             request.uniqueids = {
-                ContractId: self.ContractId
+                ContractId: this.ContractId
             };
         })
         FwBrowse.init($exchangeItemGridControl);

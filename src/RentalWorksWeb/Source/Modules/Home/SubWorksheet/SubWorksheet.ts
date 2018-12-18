@@ -284,8 +284,5 @@ class SubWorksheet {
         FwBrowse.renderRuntimeHtml($subPurchaseOrderItemGridControl);
     }
     //----------------------------------------------------------------------------------------------
-    afterLoad($form: any) {
-    }
-    //----------------------------------------------------------------------------------------------
 }
 var SubWorksheetController = new SubWorksheet();
