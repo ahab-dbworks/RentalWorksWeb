@@ -155,6 +155,17 @@
                     FwFunc.showError(ex);
                 }
             })
+            .on('keydown', 'input[type="text"]', e => {
+                let code = e.keyCode || e.which;
+                try {
+                    if (code === 13) { //Enter Key
+                        e.preventDefault();
+                        this.validate(validationName, $valuefield, $searchfield, $btnvalidate, $popup, $browse, true);
+                    }
+                } catch (ex) {
+                    FwFunc.showError(ex);
+                }
+            })
         ;
 
         $browse.data('onrowdblclick', function () {
