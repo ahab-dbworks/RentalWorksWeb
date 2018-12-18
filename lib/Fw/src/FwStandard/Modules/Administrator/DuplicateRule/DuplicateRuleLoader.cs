@@ -28,6 +28,9 @@ namespace FwStandard.Modules.Administrator.DuplicateRule
         [FwSqlDataField(column: "fields", modeltype: FwDataTypes.Text)]
         public string Fields { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "fieldtypes", modeltype: FwDataTypes.Text)]
+        public string FieldTypes { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "rulenamecolor", modeltype: FwDataTypes.OleToHtmlColor)]
         public string RuleNameColor { get; set; }
         //------------------------------------------------------------------------------------ 

@@ -33,7 +33,7 @@ namespace FwStandard.Modules.Administrator.DuplicateRule
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime, sqltype: "datetime")]
         public string DateStamp { get; set; }
         //------------------------------------------------------------------------------------ 
-        public async Task<bool> SaveFields(string Fields)
+        public async Task<bool> SaveFields(string Fields, string FieldTypes)
         {
             bool saved = false;
             if (Fields != null)
@@ -43,6 +43,7 @@ namespace FwStandard.Modules.Administrator.DuplicateRule
                     FwSqlCommand qry = new FwSqlCommand(conn, "updateduplicaterulefields", AppConfig.DatabaseSettings.QueryTimeout);
                     qry.AddParameter("@duplicateruleid", SqlDbType.NVarChar, ParameterDirection.Input, DuplicateRuleId);
                     qry.AddParameter("@fields", SqlDbType.NVarChar, ParameterDirection.Input, Fields);
+                    qry.AddParameter("@fieldtypes", SqlDbType.NVarChar, ParameterDirection.Input, FieldTypes);
                     await qry.ExecuteNonQueryAsync(true);
                     saved = true;
                 }

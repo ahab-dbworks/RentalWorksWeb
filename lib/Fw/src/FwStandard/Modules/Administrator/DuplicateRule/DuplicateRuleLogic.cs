@@ -37,6 +37,9 @@ namespace FwStandard.Modules.Administrator.DuplicateRule
         [FwLogicProperty(Id:"dec9t7gTVh")]
         public string Fields { get; set; }
 
+        [FwLogicProperty(Id: "k8u3IXggRyaYx")]
+        public string FieldTypes { get; set; }
+
         [FwLogicProperty(Id:"7cT78TG6mD", IsReadOnly:true)]
         public string RuleNameColor { get; set; }
 
@@ -72,7 +75,7 @@ namespace FwStandard.Modules.Administrator.DuplicateRule
         public void OnAfterSaveDuplicateRule(object sender, AfterSaveDataRecordEventArgs e)
         {
             bool saved = false;
-            saved = duplicateRule.SaveFields(Fields).Result;
+            saved = duplicateRule.SaveFields(Fields, FieldTypes).Result;
             refreshDuplicateRules();
         }
         //------------------------------------------------------------------------------------ 
