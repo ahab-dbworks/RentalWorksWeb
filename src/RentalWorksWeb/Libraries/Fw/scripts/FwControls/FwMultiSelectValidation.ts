@@ -157,6 +157,18 @@
             })
         ;
 
+        $browse.data('onrowdblclick', function () {
+            let $tr, $selectedRows;
+            $tr = jQuery(this);
+            try {
+                $selectedRows = [];
+                $selectedRows.push($tr);
+                FwMultiSelectValidation.select($control, $selectedRows, validationName, $valuefield, $searchfield, $btnvalidate, $popup, $browse, controller);
+            } catch (ex) {
+                FwFunc.showError(ex);
+            }
+        });
+
         $browse.data('afterdatabindcallback', function() {
             var $trs, $tr, selectedrows, uniqueids;
             if (typeof $browse.data('selectedrows') !== 'undefined') {
@@ -207,6 +219,9 @@
                 throw 'FwMultiSelectValidation: Validation is not setup correctly. Missing validation display field.';
             }
         }
+        $browse.data('$btnvalidate', $btnvalidate);
+        $btnvalidate.hide();
+        $browse.data('$control').find('.validation-loader').show();
         FwBrowse.search($browse)
         FwPopup.show($popup);
     };
