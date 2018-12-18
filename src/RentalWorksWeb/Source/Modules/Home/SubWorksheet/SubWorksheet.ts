@@ -4,6 +4,7 @@ class SubWorksheet {
     Module: string = 'SubWorksheet';
     OrderId: string;
     SessionId: string;
+    RecType: string;
 
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
@@ -29,6 +30,7 @@ class SubWorksheet {
     openForm(mode: string, parentmoduleinfo?) {
         let $form, me = this, worksheetRequest, createNew, modifyExisting, newPo, existingPo;
         this.OrderId = parentmoduleinfo.OrderId;
+        this.RecType = parentmoduleinfo.RecType;
 
         $form = FwModule.loadFormFromTemplate(this.Module);
         $form = FwModule.openForm($form, mode);
@@ -261,6 +263,26 @@ class SubWorksheet {
         const vendorId = jQuery($grid.find('[data-validationname="VendorValidation"] input')).val();
         request.uniqueIds = {
             CompanyId: vendorId
+        }
+    }
+    //----------------------------------------------------------------------------------------------
+    beforeValidateVendor($browse, $grid, request) {
+        const vendorId = jQuery($grid.find('[data-validationname="VendorValidation"] input')).val();
+        request.uniqueIds = {
+        }
+        switch (this.RecType) {
+            case 'R':
+                request.uniqueIds['SubRent'] = true;
+                break;
+            case 'S':
+                request.uniqueIds['SubSale'] = true;
+                break;
+            case 'M':
+                request.uniqueIds['SubMisc'] = true;
+                break;
+            case 'L':
+                request.uniqueIds['SubLabor'] = true;
+                break;
         }
     }
     //----------------------------------------------------------------------------------------------
