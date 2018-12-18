@@ -46,6 +46,9 @@ namespace WebApi.Modules.Home.StageHoldingItem
         [FwLogicProperty(Id: "KcWmbhBhfa4tw")]
         public string DescriptionColor { get; set; }
 
+        [FwLogicProperty(Id: "fyVNEiGd2ODdN")]
+        public string VendorId { get; set; }
+
         [FwLogicProperty(Id: "sDsETHGjofHaZ")]
         public string Vendor { get; set; }
 

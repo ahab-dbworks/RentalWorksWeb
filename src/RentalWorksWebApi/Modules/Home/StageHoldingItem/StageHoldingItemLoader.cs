@@ -47,6 +47,9 @@ namespace WebApi.Modules.Home.StageHoldingItem
         [FwSqlDataField(column: "descriptioncolor", modeltype: FwDataTypes.OleToHtmlColor)]
         public string DescriptionColor { get; set; }
         //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "vendorid", modeltype: FwDataTypes.Text)]
+        public string VendorId { get; set; }
+        //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "vendor", modeltype: FwDataTypes.Text)]
         public string Vendor { get; set; }
         //------------------------------------------------------------------------------------ 
