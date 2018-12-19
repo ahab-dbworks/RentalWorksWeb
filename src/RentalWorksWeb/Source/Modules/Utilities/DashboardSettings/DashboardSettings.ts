@@ -41,6 +41,30 @@ class DashboardSettings {
             }
         });
 
+        FwFormField.loadItems($form.find('.widgettype'), [
+            { value: 'bar', text: 'Bar' },
+            { value: 'horizontalBar', text: 'Horizontal Bar' },
+            { value: 'pie', text: 'Pie' }
+        ], true);
+
+        FwFormField.loadItems($form.find('.datebehavior'), [
+            { value: 'NONE', text: 'None' },
+            { value: 'SINGLE DATE - YESTERDAY', text: 'Single Date - Yesterday' },
+            { value: 'SINGLE DATE - TODAY', text: 'Single Date - Today' },
+            { value: 'SINGLE DATE - TOMORROW', text: 'Single Date - Tomorrow' },
+            { value: 'SINGLE DATE - SPECIFIC DATE', text: 'Single Date - Specific Date' },
+            { value: 'DATE RANGE - PRIOR WEEK', text: 'Date Range - Prior Week' },
+            { value: 'DATE RANGE - CURRENT WEEK', text: 'Date Range - Current Week' },
+            { value: 'DATE RANGE - PRIOR MONTH', text: 'Date Range - Prior Month' },
+            { value: 'DATE RANGE - CURRENT MONTH', text: 'Date Range - Current Month' },
+            { value: 'DATE RANGE - NEXT MONTH', text: 'Date Range - Next Week' },
+            { value: 'DATE RANGE - PRIOR YEAR', text: 'Date Range - Prior Year' },
+            { value: 'DATE RANGE - CURRENT YEAR', text: 'Date Range - Current Year' },
+            { value: 'DATE RANGE - YEAR TO DATE', text: 'Date Range - Year To Date' },
+            { value: 'DATE RANGE - NEXT YEAR', text: 'Date Range - Next Year' },
+            { value: 'DATE RANGE - SPECIFIC DATES', text: 'Date Range - Specific Dates' }
+        ], true);
+
         return $form;
     }
     //----------------------------------------------------------------------------------------------
@@ -50,16 +74,12 @@ class DashboardSettings {
     }
     //----------------------------------------------------------------------------------------------
     afterLoad($form: any) {
-        //$form.find('.defaultwidget').find('ol').sortable({
-        //    connectWith: ".connectedSortable",
-        //    remove: function (event, ui) {
-        //        ui.item.clone().appendTo('#sortable2');
-        //        $(this).sortable('cancel');
-        //    }
-        //}).disableSelection();
-        //$form.find('.widget.order').find('ol').sortable({
-        //    connectWith: ".connectedSortable"
-        //}).disableSelection();
+        $form.find('.settings').on('click', function () {
+            let widgetId = jQuery(this).closest('li').data('value');
+            let userWidgetId = jQuery(this).closest('li').data('userwidgetid');
+
+
+        })
     }
     //----------------------------------------------------------------------------------------------
 }
