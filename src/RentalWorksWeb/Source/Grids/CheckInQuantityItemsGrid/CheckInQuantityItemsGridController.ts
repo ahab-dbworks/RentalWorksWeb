@@ -14,7 +14,6 @@
             let $grid = $tr.parents('[data-grid="CheckInQuantityItemsGrid"]');
             let $oldElement = $quantityColumn.find('div');
             let preventBubble = true;
-            $tr.find('.browsecontextmenucell').css('pointer-events', 'none'); // disables contextmenu on grid row
 
             let html: any = [];
             html.push('<button class="decrementQuantity" tabindex="-1" style="padding: 5px 0px; float:left; width:25%; border:none;">-</button>');

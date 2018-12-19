@@ -11,7 +11,6 @@
             let $grid = $tr.parents('[data-grid="POReturnItemGrid"]');
 
             let $oldElement = $quantityColumn.find('div');
-            $tr.find('.browsecontextmenucell').css('pointer-events', 'none'); // disables contextmenu on grid row
             let html = [];
             html.push('<button class="decrementQuantity" tabindex="-1" style="padding: 5px 0px; float:left; width:25%; border:none;">-</button>');
             html.push('<input class="fieldvalue" type="number" style="height:1.5em; width:40px; text-align:center;" value="' + originalquantity + '">');
