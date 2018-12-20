@@ -56,11 +56,13 @@
         $form = FwModule.openForm($form, mode);
 
         //let warehouseId = JSON.parse(sessionStorage.warehouse).warehouseid;
+        let self = this;
         let warehouseId = JSON.parse(sessionStorage.getItem('warehouse')).warehouseid;   //justin 11/11/2018 fixing build error
         let inventoryId = uniqueids.InventoryId;
         let startOfMonth = moment().startOf('month').format('MM/DD/YYYY');
         let endOfMonth = moment().endOf('month').format('MM/DD/YYYY');
 
+        self.calculateYearly();
         $calendar = $form.find('.calendar');
         $calendar
             .data('ongetevents', function (request) {
@@ -68,10 +70,17 @@
                 endOfMonth = moment(request.start.value).add(request.days, 'd').format('MM/DD/YYYY');
 
                 FwAppData.apiMethod(true, 'GET', `api/v1/inventoryavailabilitydate?InventoryId=${inventoryId}&WarehouseId=${warehouseId}&FromDate=${startOfMonth}&ToDate=${endOfMonth}`, null, FwServices.defaultTimeout, function onSuccess(response) {
+                    FwScheduler.loadYearEventsCallback($calendar, [{ id: '1', name: '' }], self.yearlyEvents);
                     FwScheduler.loadEventsCallback($calendar, [{ id: '1', name: '' }], response);
                 }, function onError(response) {
                     FwFunc.showError(response);
-                }, $calendar)
+                    }, $calendar)
+
+                //FwAppData.apiMethod(true, 'GET', `api/v1/inventoryavailabilitydate?InventoryId=${inventoryId}&WarehouseId=${warehouseId}&FromDate=${moment().startOf('year').format('MM/DD/YYYY')}&ToDate=${moment().endOf('year').format('MM/DD/YYYY')}`, null, FwServices.defaultTimeout, function onSuccess(response) {
+                    
+                //}, function onError(response) {
+                //    FwFunc.showError(response);
+                //}, $calendar)
             })
             .data('ontimerangedoubleclicked', function (event) {
                 try {
@@ -92,7 +101,6 @@
         }
 
         this.loadScheduler($form);
-        this.loadYearAvailability($form);
         controller = $form.attr('data-controller');
         if (typeof window[controller]['openFormInventory'] === 'function') {
             window[controller]['openFormInventory']($form);
@@ -282,61 +290,6 @@
                 dp.update();
             }
         })
-        dp.init();
-
-        //dp.onBeforeEventRender = function (args) {
-        //    args.data.html = '123';
-        //    args.data.backColor = "#ffc0c0";
-        //};
-        //dp.update();
-    }
-    //----------------------------------------------------------------------------------------------
-    loadYearAvailability($form) {
-
-        var dp = new DayPilot.Scheduler($form.find('#yearavailability')[0]);
-
-        // behavior and appearance
-        dp.cellWidth = 50;
-        dp.eventHeight = 30;
-        dp.headerHeight = 25;
-
-        // view
-        dp.startDate = moment('2018-04-01T00:00:00').format('YYYY-MM-DD');  // or just dp.startDate = "2013-03-25";
-        dp.days = 37;
-        dp.scale = "Day";
-        dp.timeHeaders = [
-            { groupBy: "Day", format: "dddd" }
-        ];
-        dp.treeEnabled = true;
-        dp.resources = [
-            { name: "January", id: "A" },
-            { name: "February", id: "B" },
-            { name: "March", id: "C" },
-            { name: "April", id: "D" },
-            { name: "May", id: "E" },
-            { name: "June", id: "F" },
-            { name: "July", id: "G" },
-            { name: "August", id: "H" },
-            { name: "September", id: "I" },
-            { name: "October", id: "J" },
-            { name: "November", id: "K" },
-            { name: "December", id: "L" }
-        ];
-        dp.events.list = this.yearlyEvents;
-        this.calculateYearly();
-        dp.bubble = new DayPilot.Bubble({
-            cssClassPrefix: "bubble_default",
-            onLoad: function (args) {
-                var ev = args.source;
-                args.async = true;  // notify manually using .loaded()
-
-                // simulating slow server-side load
-                args.html = "<div style='font-weight:bold'>" + ev.text() + "</div><div>Order Number: " + ev.data.orderNumber + "</div><div>Order Status: " + ev.data.orderStatus + "</div><div>Deal: " + ev.data.deal + "</div><div>Start: " + ev.data.realStart + "</div><div>End: " + ev.data.realEnd + "</div><div>Id: " + ev.id() + "</div>";
-                args.loaded();
-
-            }
-        });
-
         dp.init();
 
         //dp.onBeforeEventRender = function (args) {
