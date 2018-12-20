@@ -19,7 +19,7 @@ FwFormField_checkboxlist.renderRuntimeHtml = function ($control, html) {
             jQuery(evt.item).find('.checkbox').prop('checked',true).show();
         }
     }
-    if ($control.attr('data-cloneonly') === 'true') {
+    if ($control.attr('data-listtype') === 'cloneonly') {
         options.sort = false;
         options.group = {
             name: 'shared',
@@ -124,13 +124,15 @@ FwFormField_checkboxlist.loadForm = function ($fwformfield, table, field, value,
             html.push('<li data-value="');
             html.push(value[i].value);
             html.push('" data-selected="');
-            if ($fwformfield.attr('data-cloneonly') === 'true') {
+            if ($fwformfield.attr('data-listtype') === 'cloneonly') {
                 html.push('T')
                 html.push('" data-userwidgetid="');
-            } else {
+            } else if ($fwformfield.attr('data-listtype') === 'standard') {
                 html.push(value[i].selected.toString());
                 html.push('" data-userwidgetid="');
                 html.push(value[i].userWidgetId);
+            } else {
+                html.push(value[i].selected.toString());
             }
             html.push('">');
             html.push('<div class="wrapper">');
@@ -138,7 +140,7 @@ FwFormField_checkboxlist.loadForm = function ($fwformfield, table, field, value,
             html.push('<input class="checkbox" type="checkbox" id="');
             html.push(checkboxid);
             html.push('"');
-            if ($fwformfield.attr('data-cloneonly') === 'true') {
+            if ($fwformfield.attr('data-listtype') === 'cloneonly') {
                 html.push(' style="display:none" ');
             }
             if (value[i].selected === 'T') {
@@ -150,6 +152,9 @@ FwFormField_checkboxlist.loadForm = function ($fwformfield, table, field, value,
             html.push('">');
             html.push(value[i].text);
             html.push('</label>');
+            if ($fwformfield.attr('data-listtype') === 'standard') {
+                html.push('<div class="settings"><i class="material-icons">settings</i></div>')
+            }
             if (hasorderby) {
                 html.push('<div class="orderbydirection"></div>');
             }
@@ -194,6 +199,8 @@ FwFormField_checkboxlist.getValue2 = function ($fwformfield) {
             item.text = $li.find('label').text();
             item.userWidgetId = $li.attr('data-userwidgetid');
             item.selected = 'true'
+            console.log($li.data('request'));
+            jQuery.extend(item, $li.data('request'));
             value.push(item);
         });
         $fwformfield.find('li[data-selected="F"]').each(function (index, element) {
