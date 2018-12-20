@@ -1294,7 +1294,7 @@ class CustomForm {
 
                     let newContainerIndex = lastIndex + 1;
                     let html: any = [];
-                    html.push(`<div class="emptyContainer" data-index="${newContainerIndex}"></div>`);
+                    html.push(`<div data-index="${newContainerIndex}"></div>`);
 
                     originalHtml = jQuery(html.join(''));
 
@@ -1312,7 +1312,7 @@ class CustomForm {
                                 value = 'min-height:50px';
                                 break;
                             case 'class':
-                                value = 'flexrow';
+                                value = 'flexrow emptyContainer';
                                 break;
                         }
                         propertyHtml.push(
@@ -1395,6 +1395,7 @@ class CustomForm {
                     , 'email'
                     , 'key'
                     , 'money'
+                    , 'multiselectvalidation'
                     , 'note'
                     , 'number'
                     , 'percent'
