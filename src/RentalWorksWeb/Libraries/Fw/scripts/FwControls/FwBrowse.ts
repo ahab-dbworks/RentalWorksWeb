@@ -1187,6 +1187,12 @@ class FwBrowseClass {
                     if ($control.attr('data-allownew') !== 'false') {
                         html.push('<div class="fwbrowsebutton btnNew">New</div>');
                     }
+                    html.push(`<div class="multiSelectDisplay" style="font-size:.9em; font-weight:bold; margin:0px 10px; display:none;">
+                                    <div class="fwformfield-caption">Display Field</div>
+                                    <div class="fwformfield-control">
+                                    <select class="fwformfield-value"></select>
+                                    </div>
+                            </div>`);
                     $customvalidationbuttons = $control.find('.customvalidationbuttons');
                     if ($customvalidationbuttons.length > 0) {
                         FwControl.renderRuntimeControls($customvalidationbuttons.find('.fwcontrol'));

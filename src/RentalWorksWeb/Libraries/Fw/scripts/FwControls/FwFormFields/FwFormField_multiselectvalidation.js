@@ -4,12 +4,13 @@ FwFormField_multiselectvalidation.renderDesignerHtml = function($control, html) 
     html.push(FwControl.generateDesignerHandle($control.attr('data-type'), $control.attr('id')));
     html.push('<div class="fwformfield-caption">' + $control.attr('data-caption') + '</div>');
     html.push('<div class="fwformfield-control">');
+        html.push(`<div class="multiselectitems"></div>`);
         html.push('<input class="fwformfield-value" type="hidden" />');
         html.push('<input class="fwformfield-value" type="text" readonly="true"');
         if ($control.attr('data-enabled') === 'false') {
             html.push(' disabled="disabled"');
         }
-        html.push(' />');
+        html.push('style="display:none" />');
         html.push('<div class="btnvalidate"><i class="material-icons">search</i></div>');
     html.push('</div>');
     $control.html(html.join(''));
@@ -20,12 +21,13 @@ FwFormField_multiselectvalidation.renderRuntimeHtml = function($control, html) {
 
     html.push('<div class="fwformfield-caption">' + $control.attr('data-caption') + '</div>');
     html.push('<div class="fwformfield-control">');
+        html.push(`<div class="multiselectitems"></div>`);
         html.push('<input class="fwformfield-value" type="hidden" />');
         html.push('<input class="fwformfield-text" type="text" readonly="true"');
         if ($control.attr('data-enabled') === 'false') {
             html.push(' disabled="disabled"');
         }
-        html.push(' />');
+        html.push('style="display:none" />');
         html.push('<div class="btnvalidate"><i class="material-icons">search</i></div>');
     html.push('</div>');
     $control.html(html.join(''));
@@ -39,6 +41,22 @@ FwFormField_multiselectvalidation.renderRuntimeHtml = function($control, html) {
 FwFormField_multiselectvalidation.loadItems = function($control, items, hideEmptyItem) {
 
 };
+//---------------------------------------------------------------------------------
+FwFormField_multiselectvalidation.loadDisplayFields = function ($control) {
+    const $multiSelectDisplay = $control.find('.multiSelectDisplay');
+    const $displayFields = $control.find('.fieldnames td[data-visible="true"]');
+    let html = [];
+    if ($displayFields.length !== 0) {
+        for (let i = 0; i < $displayFields.length; i++) {
+            let $field = $displayFields[i];
+            let caption = jQuery($field).find('div.field').attr('data-caption');
+            let datafield = jQuery($field).find('div.field').attr('data-browsedatafield');
+            html.push(`<option data-datafield="${datafield}" value="${caption}">${caption}</option>`);
+        }
+    }
+    $multiSelectDisplay.find('select').append(html.join(''));
+    $multiSelectDisplay.css('display', 'inline-block');
+}
 //---------------------------------------------------------------------------------
 FwFormField_multiselectvalidation.loadForm = function($fwformfield, table, field, value, text) {
     $fwformfield

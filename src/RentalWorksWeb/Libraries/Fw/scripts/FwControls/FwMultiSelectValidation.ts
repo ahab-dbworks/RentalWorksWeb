@@ -74,6 +74,10 @@
             $browse.find('.btnSelectAll').css('display', 'inline-block');
         }
         $browse.find('.btnViewSelection').css('display', 'inline-block');
+
+        //adds display field select options
+        window['FwFormField_multiselectvalidation'].loadDisplayFields($browse);
+
         $popup = FwPopup.attach($browse);
         $searchfield.on('change', function() {
             try {
@@ -196,6 +200,30 @@
         
         });
 
+        $control
+            .on('click', '.multiselectitems i', e => {
+                let $this = jQuery(e.currentTarget);
+                try {
+                    let $item = $this.parent('div.multiitem');
+                    let itemvalue = $item.attr('data-multivalue');
+                    let value:any = $valuefield.val();
+                    value = value
+                        .split(',')
+                        .filter((value) => {
+                            return value !== itemvalue;
+                        })
+                        .join(',');
+                    $valuefield.val(value);
+                    $item.remove();
+                    let $selectedRows = $browse.data('selectedrows');
+                    if (typeof $selectedRows[itemvalue] !== 'undefined') {
+                        delete $selectedRows[itemvalue];
+                    }
+                } catch (ex) {
+                    FwFunc.showError(ex);
+                }
+            });
+
         //$control.find('.fwformfield.value').on('change', function () {
             
         //});
@@ -252,21 +280,31 @@
     //---------------------------------------------------------------------------------
     select($control, $selectedRows: Array<JQuery>, validationName: string, $valuefield: JQuery, $searchfield: JQuery, $btnvalidate: JQuery, $popup: JQuery, $browse: JQuery, controller: string): void {
         var $validationUniqueIdField, uniqueid, $validationSearchField, text, $keyfields, $displayfields;
-
         uniqueid = [];
-        text     = [];
+        text = [];
+        let multiselectfield = jQuery($valuefield).siblings('.multiselectitems');
+        let fieldToDisplay = $browse.find('.multiSelectDisplay select option:selected').attr('data-datafield');
+
+        multiselectfield.empty();
         for (var i = 0; i < $selectedRows.length; i++) {
             var $tr;
             $tr = $selectedRows[i];
-            uniqueid.push(FwMultiSelectValidation.getUniqueIds($tr));
-            $displayfields = $tr.find('div.field[data-isuniqueid="false"]');
-            $displayfields.each(function(index, element) {
-                var $displayfield;
-                if (index == 0) {
-                    $displayfield = jQuery(element);
-                    text.push($displayfield.text());
-                }
-            });
+            let uniqueIdValue = FwMultiSelectValidation.getUniqueIds($tr);
+            uniqueid.push(uniqueIdValue);
+            //$displayfields = $tr.find('div.field[data-isuniqueid="false"]');
+            //$displayfields.each(function(index, element) {
+            //    var $displayfield;
+            //    if (index == 0) {
+            //        $displayfield = jQuery(element);
+            //        text.push($displayfield.text());
+            //    }
+            //});
+            let textValue = $tr.find(`[data-browsedatafield="${fieldToDisplay}"]`).attr('data-originalvalue');
+            multiselectfield.append(`
+                <div class="multiitem" data-multivalue="${uniqueIdValue}">
+                    <i class="material-icons">clear</i>
+                    <span>${textValue}</span>
+                </div>`);
         }
         $validationUniqueIdField = $tr.find('.field[data-browsedatatype="key"]');
         uniqueid = uniqueid.join(',');
