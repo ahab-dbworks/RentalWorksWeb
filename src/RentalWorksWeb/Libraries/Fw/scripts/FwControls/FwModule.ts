@@ -59,13 +59,11 @@
             $object.find('.close-dialog').html('');
             $tabControl.find('.close-dialog:first').toggle();
         });
-
         function closeModifiedForms() {
             let $bodyContainer, $openForms, $modifiedForms, $form, $tab, $activeTabId, $tabId;
             $activeTabId = jQuery('body').data('activeTabId');
             $bodyContainer = jQuery('#master-body');
             $modifiedForms = $bodyContainer.find('div[data-modified="true"]');
-            $openForms = $bodyContainer.find('div[data-type="form"]');
 
             for (let i = 0; i < $modifiedForms.length; i++) {
                 let $tabId = jQuery($modifiedForms[i]).closest('div[data-type="tabpage"]').attr('id');
@@ -85,6 +83,7 @@
                     $modifiedForms.splice(1);
                 }
             }
+            $openForms = $bodyContainer.find('div[data-type="form"]');
             if ($openForms.length < 2) {
                 $tabControl.find('.closetabbutton').html('');
             }
@@ -106,7 +105,6 @@
             $activeTabId = $activeTab.attr('data-tabpageid');
             jQuery('body').data('activeTabId', $activeTabId);
             $bodyContainer = jQuery('#master-body');
-            $openForms = $bodyContainer.find('div[data-type="form"]');
             $bodyContainer = jQuery('#master-body');
             $modifiedForms = $bodyContainer.find('div[data-modified="true"]');
             $unmodifiedForms = $bodyContainer.find('div[data-modified="false"]');
@@ -123,7 +121,7 @@
             if ($modifiedForms.length >= 1) {
                 closeModifiedForms();
             }
-
+            $openForms = $bodyContainer.find('div[data-type="form"]');
             if ($openForms.length < 2) {
                 $tabControl.find('.closetabbutton').html('');
                 jQuery('body').off('click');

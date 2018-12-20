@@ -206,7 +206,7 @@
                 try {
                     let $item = $this.parent('div.multiitem');
                     let itemvalue = $item.attr('data-multivalue');
-                    let value:any = $valuefield.val();
+                    let value: any = $valuefield.val();
                     value = value
                         .split(',')
                         .filter((value) => {
@@ -309,10 +309,10 @@
         $validationUniqueIdField = $tr.find('.field[data-browsedatatype="key"]');
         uniqueid = uniqueid.join(',');
         $valuefield.val(uniqueid).change();
-    
+
 
         $validationSearchField = $tr.find('.field[data-validationdisplayfield="true"]');
-        text                     = text.join(',');
+        text = text.join(',');
         $searchfield.val(text);
         if ((typeof controller === 'string') && (typeof window[controller] !== 'undefined') && (typeof window[controller]['loadRelatedValidationFields'] === 'function')) {
             window[controller]['loadRelatedValidationFields'](validationName, $valuefield, $tr);
