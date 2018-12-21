@@ -550,7 +550,7 @@ namespace FwStandard.DataLayer
                         {
                             doUpper = false;
                         }
-                        if ((searchFieldType.Equals("date")) || (searchFieldType.Equals("number")))
+                        if ((searchFieldType.Equals("date")) || (searchFieldType.Equals("number")) || (searchFieldType.Equals("integer")))
                         {
                             doUpper = false;
                             if (searchFieldOperator.Equals("like"))
@@ -558,7 +558,6 @@ namespace FwStandard.DataLayer
                                 searchFieldOperator = "=";
                             }
                         }
-
                         if (doUpper)
                         {
                             searchField = "upper(" + searchField + ")";

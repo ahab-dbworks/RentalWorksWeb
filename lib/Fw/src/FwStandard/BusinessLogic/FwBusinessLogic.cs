@@ -635,15 +635,17 @@ namespace FwStandard.BusinessLogic
 
                     foreach (List<object> rule in rulesList)
                     {
-                        bool considerBlanks = (bool)rule[7];
-                        string searchFields = rule[5].ToString();
-                        string[] fields = searchFields.Split(',').ToArray();
-
+                        bool considerBlanks = (bool)rule[8];
+                        string[] fields = rule[5].ToString().Split(',').ToArray();
+                        string[] datatypes = rule[6].ToString().Split(',').ToArray();
+                      
                         BrowseRequest browseRequest2 = new BrowseRequest();
                         browseRequest2.module = this.BusinessLogicModuleName;
 
                         List<string> searchOperators = new List<string>();
                         List<string> searchFieldVals = new List<string>();
+                        List<string> searchFieldTypes = new List<string>();
+
                         var updatedFieldList = fields.ToList();
 
                         for (int i = 0; i < fields.Count(); i++)
@@ -672,6 +674,8 @@ namespace FwStandard.BusinessLogic
                                         {
                                             searchFieldVals.Add(value.ToString());
                                             searchOperators.Add("=");
+                                            int datatypeIndex = Array.IndexOf(fields, fieldName);
+                                            searchFieldTypes.Add(datatypes[datatypeIndex].ToLower());
                                         }
                                         else
                                         {
@@ -719,6 +723,8 @@ namespace FwStandard.BusinessLogic
                                         {
                                             searchFieldVals.Add(value.ToString());
                                             searchOperators.Add("=");
+                                            int datatypeIndex = Array.IndexOf(fields, fieldName);
+                                            searchFieldTypes.Add(datatypes[datatypeIndex]);
                                         }
                                         else
                                         {
@@ -746,8 +752,8 @@ namespace FwStandard.BusinessLogic
                                     }
                                 }
                             }
-
                         }
+                        browseRequest2.searchfieldtypes = searchFieldTypes;
                         browseRequest2.searchfields = updatedFieldList;
                         browseRequest2.searchfieldoperators = searchOperators;
                         browseRequest2.searchfieldvalues = searchFieldVals;

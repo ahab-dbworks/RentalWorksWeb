@@ -184,7 +184,7 @@ class CustomForm {
                         let customFields = response._Custom.map(obj => ({ fieldname: obj.FieldName, fieldtype: obj.FieldType }));
                         let allValidFields: any = [];
                         for (let i = 0; i < columnNames.length; i++) {
-                            if (columnNames[i] != 'DateStamp' && columnNames[i] != 'RecordTitle' && columnNames[i] != '_Custom') {
+                            if (columnNames[i] != 'DateStamp' && columnNames[i] != 'RecordTitle' && columnNames[i] != '_Custom' && columnNames[i] != '_Fields') {
                                 allValidFields.push({
                                     'Field': columnNames[i]
                                     , 'IsCustom': 'false'
@@ -216,7 +216,7 @@ class CustomForm {
                     let customFields = response._Custom.map(obj => ({ fieldname: obj.FieldName, fieldtype: obj.FieldType }));
                     let allValidFields: any = [];
                     for (let i = 0; i < columnNames.length; i++) {
-                        if (columnNames[i] != 'DateStamp' && columnNames[i] != 'RecordTitle' && columnNames[i] != '_Custom') {
+                        if (columnNames[i] != 'DateStamp' && columnNames[i] != 'RecordTitle' && columnNames[i] != '_Custom' && columnNames[i] != '_Fields') {
                             allValidFields.push({
                                 'Field': columnNames[i]
                                 , 'IsCustom': 'false'
