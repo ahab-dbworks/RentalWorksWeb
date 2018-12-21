@@ -14,6 +14,7 @@ namespace WebApi.Modules.Home.SubPurchaseOrderItem
             dataLoader = subPurchaseOrderItemLoader;
 
             ReloadOnSave = false;
+            LoadOriginalBeforeSaving = false;
 
         }
         //------------------------------------------------------------------------------------ 
