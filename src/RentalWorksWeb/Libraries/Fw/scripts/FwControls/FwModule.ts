@@ -269,42 +269,39 @@
             { value: 'NotEqual', text: 'Does Not Equal' },
         ];
 
-        for (var i = 0; i < fields.length; i++) {
-            if (jQuery(fields[i]).data('type') === 'validation') {
+        FwAppData.apiMethod(true, 'GET', 'api/v1/' + $browse.data('name') + '/emptyobject', null, FwServices.defaultTimeout, function onSuccess(response) {
+            for (var i = 0; i < response._Fields.length; i++) {
                 findFields.push({
-                    'value': jQuery(fields[i]).attr('data-displayfield'),
-                    'text': jQuery(fields[i]).attr('data-displayfield'),
-                    'type': 'validation'
-                });
-            } else if (jQuery(fields[i]).data('type') !== 'key') {
-                findFields.push({
-                    'value': jQuery(fields[i]).attr('data-datafield'),
-                    'text': jQuery(fields[i]).attr('data-datafield'),
-                    'type': jQuery(fields[i]).data('type')
-                });
+                    'value': response._Fields[i].Name,
+                    'text': response._Fields[i].Name,
+                    'type': response._Fields[i].DataType
+                })
             }
-        }
+            window['FwFormField_select'].loadItems($browse.find('.datafieldselect'), findFields, false);
+            window['FwFormField_select'].loadItems($browse.find('.andor'), [{ value: 'And', text: 'And' }, { value: 'Or', text: 'Or' }], true);
+            $browse.find('.datafieldselect').on('change', function () {
+                let datatype = jQuery(this).find(':selected').data('type');
+                switch (datatype) {
+                    case 'Text':
+                        window['FwFormField_select'].loadItems($browse.find('.datafieldcomparison'), textComparisonFields, true);
+                        break;
+                    case 'Number':
+                        window['FwFormField_select'].loadItems($browse.find('.datafieldcomparison'), numericComparisonFields, true);
+                        break;
+                    case 'Checkbox':
+                        window['FwFormField_select'].loadItems($browse.find('.datafieldcomparison'), booleanComparisonFields, true);
+                        break;
+                    case 'Date':
+                        window['FwFormField_select'].loadItems($browse.find('.datafieldcomparison'), dateComparisonFields, true);
+                        break;
+                }
+            })
+        }, function onError(response) {
+            FwFunc.showError(response);
+        }, null);
 
-        window['FwFormField_select'].loadItems($browse.find('.datafieldselect'), findFields, false);
-        window['FwFormField_select'].loadItems($browse.find('.andor'), [{ value: 'And', text: 'And' }, { value: 'Or', text: 'Or' }], true);
 
-        $browse.find('.datafieldselect').on('change', function () {
-            let datatype = jQuery(this).find(':selected').data('type');
-            switch (datatype) {
-                case 'text':
-                    window['FwFormField_select'].loadItems($browse.find('.datafieldcomparison'), textComparisonFields, true);
-                    break;
-                case 'number':
-                    window['FwFormField_select'].loadItems($browse.find('.datafieldcomparison'), numericComparisonFields, true);
-                    break;
-                case 'checkbox':
-                    window['FwFormField_select'].loadItems($browse.find('.datafieldcomparison'), booleanComparisonFields, true);
-                    break;
-                case 'date':
-                    window['FwFormField_select'].loadItems($browse.find('.datafieldcomparison'), dateComparisonFields, true);
-                    break;
-            }
-        })
+        
 
         $browse.find('.add-query').on('click', function cloneRow() {
             let newRow = jQuery(this).closest('.queryrow').clone();
@@ -338,6 +335,13 @@
             jQuery(this).css('cursor', 'default');
             jQuery(this).css('visibility', 'hidden');
         })
+
+        //$browse.find('.search').on('click', function () {
+        //    let request = FwBrowse.getRequest($browse);
+        //    request.searchfieldoperators.unshift('like');
+        //    console.log(FwFormField.bulkGetValues($browse.find('div[data-datafield="DatafieldQuery"]')));
+
+        //})
 
         return $browse;
     }
@@ -617,7 +621,7 @@
                                                 </div>
                                             </div>
                                             <div class="flexrow queryrow">
-                                                <div class="find fwformcontrol" data-type="button" style="flex:0 1 50px;margin:15px 15px 10px 10px;margin-left:auto;">Apply</div>
+                                                <div class="find fwformcontrol search" data-type="button" style="flex:0 1 50px;margin:15px 15px 10px 10px;margin-left:auto;">Apply</div>
                                             </div>
                                         </div>`);
                                         FwControl.renderRuntimeHtml($menubarbutton.find('.fwcontrol'));
