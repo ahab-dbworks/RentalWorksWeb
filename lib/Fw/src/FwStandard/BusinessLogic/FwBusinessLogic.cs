@@ -4,6 +4,7 @@ using FwStandard.DataLayer;
 using FwStandard.Models;
 using FwStandard.Modules.Administrator.DuplicateRule;
 using FwStandard.SqlServer;
+using FwStandard.SqlServer.Attributes;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -61,6 +62,16 @@ namespace FwStandard.BusinessLogic
     }
 
     public class AfterDeleteEventArgs : EventArgs { }
+
+
+    //---------------------------------------------------------------------------------------------
+    public class FwBusinessLogicFieldDefinition
+    {
+        public string Name { get; set; } = string.Empty;
+        public FwDataTypes DataType { get; set; } = FwDataTypes.Text;
+    }
+    //---------------------------------------------------------------------------------------------
+
 
     public class FwBusinessLogic
     {
@@ -556,7 +567,7 @@ namespace FwStandard.BusinessLogic
             bool customFieldsLoaded = false;
 
             // this is a protected area. we don't want two threads trying to manage the static "customFields" array
-            CustomFieldMutex.WaitOne();  
+            CustomFieldMutex.WaitOne();
 
             customFields = new FwCustomFields();
 
@@ -1184,5 +1195,53 @@ namespace FwStandard.BusinessLogic
             return deltas;
         }
         //------------------------------------------------------------------------------------
+
+        [JsonIgnore]
+        public bool IsEmptyObject = false;
+
+        public List<FwBusinessLogicFieldDefinition> _Fields
+        {
+            get
+            {
+                List<FwBusinessLogicFieldDefinition> fields = null;
+                if (IsEmptyObject)
+                {
+                    fields = new List<FwBusinessLogicFieldDefinition>();
+
+                    PropertyInfo[] properties = null;
+                    if (dataLoader == null)
+                    {
+                        properties = dataRecords[0].GetType().GetProperties();
+                    }
+                    else
+                    {
+                        properties = dataLoader.GetType().GetProperties();
+                    }
+
+                    foreach (PropertyInfo property in properties)
+                    {
+                        if (property.IsDefined(typeof(FwSqlDataFieldAttribute)))
+                        {
+                            FwSqlDataFieldAttribute sqlDataFieldAttribute = property.GetCustomAttribute<FwSqlDataFieldAttribute>();
+                            FwBusinessLogicFieldDefinition field = new FwBusinessLogicFieldDefinition();
+                            field.Name = property.Name;
+                            field.DataType = sqlDataFieldAttribute.ModelType;
+                            fields.Add(field);
+                        }
+                    }
+                }
+                return fields;
+            }
+        }
+
+        public bool ShouldSerialize_Fields()
+        {
+            // only serialize the _Fields property when this IsEmptyObject
+            return IsEmptyObject;
+        }
+        //------------------------------------------------------------------------------------
+
+
+
     }
 }

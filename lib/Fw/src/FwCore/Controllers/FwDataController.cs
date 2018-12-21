@@ -157,6 +157,7 @@ namespace FwCore.Controllers
                 FwBusinessLogic l = CreateBusinessLogic(type, this.AppConfig, this.UserSession);
                 if (id.Equals("emptyobject")) //justin 10/23/2018 temporary solution for listing Fields on Custom Forms and Duplicate Rules.  Will be replaced with a front-end solution to traverse the Security Tree (once ready)
                 {
+                    l.IsEmptyObject = true;
 
                     if ((l._Custom.CustomFields != null) && (l._Custom.CustomFields.Count > 0))
                     {
