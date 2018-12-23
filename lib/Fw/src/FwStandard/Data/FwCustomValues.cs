@@ -126,15 +126,30 @@ namespace FwStandard.DataLayer
                                 }
                                 else if (f.FieldType.Equals("Integer"))
                                 {
-                                    qry.AddParameter(paramName, SqlDbType.Int, ParameterDirection.Input, value.FieldValue);
+                                    Int32? i = 0;
+                                    if (!string.IsNullOrEmpty(value.FieldValue))
+                                    {
+                                        i = FwConvert.ToInt32(value.FieldValue);
+                                    }
+                                    qry.AddParameter(paramName, SqlDbType.Int, ParameterDirection.Input, i);
                                 }
                                 else if (f.FieldType.Equals("Float"))
                                 {
-                                    qry.AddParameter(paramName, SqlDbType.Decimal, ParameterDirection.Input, value.FieldValue);
+                                    Decimal? d = 0;
+                                    if (!string.IsNullOrEmpty(value.FieldValue))
+                                    {
+                                        d = FwConvert.ToDecimal(value.FieldValue);
+                                    }
+                                    qry.AddParameter(paramName, SqlDbType.Decimal, ParameterDirection.Input, d);
                                 }
                                 else if (f.FieldType.Equals("Date"))
                                 {
-                                    qry.AddParameter(paramName, SqlDbType.DateTime, ParameterDirection.Input, value.FieldValue);
+                                    DateTime? dt = null;
+                                    if (!string.IsNullOrEmpty(value.FieldValue))
+                                    {
+                                        dt = FwConvert.ToDateTime(value.FieldValue);
+                                    }
+                                    qry.AddParameter(paramName, SqlDbType.DateTime, ParameterDirection.Input, dt);
                                 }
                             }
                         }
