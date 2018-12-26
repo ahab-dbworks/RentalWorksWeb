@@ -304,16 +304,16 @@
             request.uniqueids = {
                 WebUserId: WebUserId
             };
-            FwAppData.apiMethod(true, 'POST', `api/v1/customform/browse`, request, FwServices.defaultTimeout, function onSuccess(response) {
+            FwAppData.apiMethod(true, 'POST', `api/v1/assignedcustomform/browse`, request, FwServices.defaultTimeout, function onSuccess(response) {
                 let baseFormIndex = response.ColumnIndex.BaseForm;
-                let activeIndex = response.ColumnIndex.Active;
+                //let activeIndex = response.ColumnIndex.Active;
                 let htmlIndex = response.ColumnIndex.Html;
                 for (let i = 0; i < response.Rows.length; i++) {
                     let customForm = response.Rows[i];
-                    if (customForm[activeIndex] == true) {
+                    //if (customForm[activeIndex] == true) {
                         let baseform = customForm[baseFormIndex];
                         jQuery('head').append(`<template id="tmpl-custom-${baseform}">${customForm[htmlIndex]}</template>`);
-                    }
+                    //}
                 }
                 loadDefaultPage.call(me);
             }, function onError(response) {

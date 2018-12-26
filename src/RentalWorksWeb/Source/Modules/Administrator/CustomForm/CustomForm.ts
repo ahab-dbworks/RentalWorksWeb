@@ -51,6 +51,7 @@ class CustomForm {
 
         if (mode == 'NEW') {
             FwFormField.enable($form.find('[data-datafield="BaseForm"]'));
+            $form.find('.userGrid, .groupGrid').hide();
         }
 
         this.loadModules($form);
@@ -81,6 +82,22 @@ class CustomForm {
     }
     //----------------------------------------------------------------------------------------------
     afterLoad($form: any) {
+        //toggles "Assign To" grids
+        let assignTo = FwFormField.getValueByDataField($form, 'AssignTo');
+        switch (assignTo) {
+            case 'GROUPS':
+                $form.find('.groupGrid').show();
+                $form.find('.userGrid').hide();
+                break;
+            case 'USERS':
+                $form.find('.groupGrid').hide();
+                $form.find('.userGrid').show();
+                break;
+            case 'ALL':
+                $form.find('.groupGrid').hide();
+                $form.find('.userGrid').hide();
+        }
+
         //Loads html for code editor
         let html = $form.find('[data-datafield="Html"] textarea').val();
         if (typeof html !== 'undefined') {
@@ -336,6 +353,40 @@ class CustomForm {
         this.codeMirrorEvents($form);
     }
     //----------------------------------------------------------------------------------------------
+    renderGrids($form) {
+        let $customFormGroupGrid;
+        let $customFormGroupGridControl;
+        $customFormGroupGrid = $form.find('div[data-grid="CustomFormGroupGrid"]');
+        $customFormGroupGridControl = FwBrowse.loadGridFromTemplate('CustomFormGroupGrid');
+        $customFormGroupGrid.empty().append($customFormGroupGridControl);
+        $customFormGroupGridControl.data('ondatabind', function (request) {
+            request.uniqueids = {
+                CustomFormId: FwFormField.getValueByDataField($form, 'CustomFormId')
+            };
+        });
+        $customFormGroupGridControl.data('beforesave', function (request) {
+            request.CustomFormId = FwFormField.getValueByDataField($form, 'CustomFormId')
+        });
+        FwBrowse.init($customFormGroupGridControl);
+        FwBrowse.renderRuntimeHtml($customFormGroupGridControl);
+
+        let $customFormUserGrid;
+        let $customFormUserGridControl;
+        $customFormUserGrid = $form.find('div[data-grid="CustomFormUserGrid"]');
+        $customFormUserGridControl = FwBrowse.loadGridFromTemplate('CustomFormUserGrid');
+        $customFormUserGrid.empty().append($customFormUserGridControl);
+        $customFormUserGridControl.data('ondatabind', function (request) {
+            request.uniqueids = {
+                CustomFormId: FwFormField.getValueByDataField($form, 'CustomFormId')
+            };
+        });
+        $customFormUserGridControl.data('beforesave', function (request) {
+            request.CustomFormId = FwFormField.getValueByDataField($form, 'CustomFormId')
+        });
+        FwBrowse.init($customFormUserGridControl);
+        FwBrowse.renderRuntimeHtml($customFormUserGridControl);
+    }
+    //----------------------------------------------------------------------------------------------
     events($form) {
         //Load preview on click
         $form.on('click', '[data-type="tab"][data-caption="Preview"]', e => {
@@ -352,6 +403,29 @@ class CustomForm {
             this.codeMirror.refresh();
         });
 
+        $form.find('[data-datafield="AssignTo"]').on('change', e => {
+            let assignTo = FwFormField.getValueByDataField($form, 'AssignTo');
+            let $gridControl;
+            switch (assignTo) {
+                case 'GROUPS':
+                    $form.find('.groupGrid').show();
+                    $form.find('.userGrid').hide();
+                    $gridControl = $form.find('[data-name="CustomFormGroupGrid"]');
+                    FwBrowse.search($gridControl);
+                    break;
+                case 'USERS':
+                    $form.find('.userGrid').show();
+                    $form.find('.groupGrid').hide();
+                    $gridControl = $form.find('[data-name="CustomFormUserGrid"]');
+                    FwBrowse.search($gridControl);
+                    break;
+                case 'ALL':
+                default:
+                    $form.find('.userGrid').hide();
+                    $form.find('.groupGrid').hide();
+                    break;
+            }
+        });
     }
     //----------------------------------------------------------------------------------------------
     renderTab($form, tabName: string) {
