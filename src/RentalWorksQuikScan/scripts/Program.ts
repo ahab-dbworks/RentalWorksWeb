@@ -419,6 +419,9 @@ class Program extends FwApplication {
                 setTimeout(function () { }, 100);
             });
         }
+        if (typeof (<any>window).plugins === 'object' && typeof (<any>window).plugins.NativeAudio === 'object') {
+            this.setAudioMode('NativeAudio');
+        }
     };
     //---------------------------------------------------------------------------------
     setDeviceConnectionState(connectionState: string) {

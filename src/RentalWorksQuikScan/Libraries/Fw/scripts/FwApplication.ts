@@ -1,4 +1,4 @@
-﻿class FwApplication {
+class FwApplication {
     name:  string;
     screens: any[] = [];
     audioMode: string;
@@ -109,18 +109,33 @@
         }
     }
    //---------------------------------------------------------------------------------
-    setAudioMode(mode: 'none' | 'html5' | 'DTDevices'): void {
-        switch(mode) {
+    setAudioMode(mode: 'none' | 'html5' | 'DTDevices' | 'NativeAudio'): void {
+        this.audioMode = mode;
+        switch (mode) {
             case 'DTDevices':
-                this.audioMode = 'DTDevices';
                 this.audioSuccessArray = [1200, 300];
                 this.audioErrorArray = [800, 200, 600, 200];
                 break;
-            case 'html5':
-                this.audioMode = 'html5';
+            case 'html5':;
                 if (typeof this.audioSuccess === 'undefined') {
                     this.audioSuccess = new Audio('theme/fwaudio/success2.wav');
                     this.audioError = new Audio('theme/fwaudio/error2.wav');
+                }
+                break;
+            case 'NativeAudio':
+                if( (<any>window).plugins && (<any>window).plugins.NativeAudio ) {
+                    // Preload audio resources
+                    if (typeof (<any>window).plugins.NativeAudio.preloadedSounds !== 'boolean') {
+                        (<any>window).plugins.NativeAudio.preloadedSounds = true;
+                        (<any>window).plugins.NativeAudio.preloadSimple('success', 'audio/success2.wav', function (msg) {
+                        }, function(msg){
+                            FwFunc.showError(msg);
+                        });
+                        (<any>window).plugins.NativeAudio.preloadSimple( 'error', 'audio/error2.wav', function(msg){
+                        }, function(msg){
+                            FwFunc.showError(msg);
+                        });
+                    }
                 }
                 break;
         }
@@ -136,6 +151,9 @@
                     this.audioSuccess.currentTime = 0;
                     this.audioSuccess.play();
                     break;
+                case 'NativeAudio':
+                    (<any>window).plugins.NativeAudio.play('success');
+                    break;
             }
         } else {
             switch(this.audioMode) {
@@ -145,6 +163,9 @@
                 case 'html5':
                     this.audioError.currentTime = 0;
                     this.audioError.play(); 
+                    break;
+                case 'NativeAudio':
+                    (<any>window).plugins.NativeAudio.play('error');
                     break;
             }
         }
