@@ -54,6 +54,46 @@
 			]
 		},
 		{
+			"name": "Assigned Custom Form",
+			"item": [
+				{
+					"name": "Assigned Custom Form: Browse",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"Description\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": [],\n    \t\"uniqueids\": {\"WebUsersId\": \"B00294F7\"}\n\t\n}\n\n\n"
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/assignedcustomform/browse",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"assignedcustomform",
+								"browse"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
 			"name": "Attribute",
 			"item": [
 				{
@@ -37055,7 +37095,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"InvoiceDate, InvoiceNumber\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": [],\n    \t\"uniqueids\": {\n    \t\t\"OfficeLocationId\": \"B0027KVM\",\n    \t\t\"ReceiptId\": \"\",\n    \t\t\"ReceiptDate\": \"11/18/2018\",\n    \t\t\"CustomerId\": \"D00FLH2T\",     \"xComment\": \"or DealId\"\n    \t}\n}\n\n"
+							"raw": "{\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"InvoiceDate, InvoiceNumber\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": [],\n    \t\"uniqueids\": {\n    \t\t\"OfficeLocationId\": \"B001WH00\",\n    \t\t\"ReceiptId\": \"\",\n    \t\t\"ReceiptDate\": \"12/26/2018\",\n    \t\t\"xCustomerId\": \"D00FLH2T\",     \n    \t\t\"DealId\": \"B003KRY7\"\n    \t}\n}\n\n"
 						},
 						"url": {
 							"raw": "http://localhost:57949/api/v1/receiptinvoice/browse",

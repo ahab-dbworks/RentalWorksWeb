@@ -35,6 +35,9 @@ namespace WebApi.Modules.Administrator.CustomForm
         [FwLogicProperty(Id:"c6F1RZmuMJWBa")]
         public bool? Active { get { return customForm.Active; } set { customForm.Active = value; } }
 
+        [FwLogicProperty(Id: "175LODTpQS8xn")]
+        public string AssignTo { get { return customForm.AssignTo; } set { customForm.AssignTo = value; } }
+
         [FwLogicProperty(Id:"RV8DGIfZ7ITeu")]
         public string DateStamp { get { return customForm.DateStamp; } set { customForm.DateStamp = value; } }
 

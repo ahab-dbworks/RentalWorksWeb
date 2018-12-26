@@ -3,38 +3,26 @@ using FwStandard.Models;
 using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
-using System.Collections.Generic;
-using System;
-using WebLibrary;
-namespace WebApi.Modules.Administrator.CustomForm
+namespace WebApi.Modules.Administrator.CustomFormGroup
 {
-    [FwSqlTable("webformview")]
-    public class CustomFormLoader : AppDataLoadRecord
+    [FwSqlTable("webformgroupsview")]
+    public class CustomFormGroupLoader : AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "webformid", modeltype: FwDataTypes.Text, isPrimaryKey: true)]
-        public string CustomFormId { get; set; } = "";
+        [FwSqlDataField(column: "webformgroupsid", modeltype: FwDataTypes.Text, isPrimaryKey: true)]
+        public string CustomFormGroupId { get; set; } = "";
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "baseform", modeltype: FwDataTypes.Text)]
-        public string BaseForm { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "webusersid", modeltype: FwDataTypes.Text)]
-        public string WebUserId { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "username", modeltype: FwDataTypes.Text)]
-        public string UserName { get; set; }
+        [FwSqlDataField(column: "webformid", modeltype: FwDataTypes.Text)]
+        public string CustomFormId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "description", modeltype: FwDataTypes.Text)]
-        public string Description { get; set; }
+        public string CustomFormDescription { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "html", modeltype: FwDataTypes.Text)]
-        public string Html { get; set; }
+        [FwSqlDataField(column: "groupsid", modeltype: FwDataTypes.Text)]
+        public string GroupId { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "active", modeltype: FwDataTypes.Boolean)]
-        public bool? Active { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "assignto", modeltype: FwDataTypes.Text)]
-        public string AssignTo { get; set; }
+        [FwSqlDataField(column: "groupname", modeltype: FwDataTypes.Text)]
+        public string GroupName { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
         public string DateStamp { get; set; }
@@ -47,8 +35,8 @@ namespace WebApi.Modules.Administrator.CustomForm
             base.SetBaseSelectQuery(select, qry, customFields, request);
             select.Parse();
             //select.AddWhere("(xxxtype = 'ABCDEF')"); 
-            addFilterToSelect("BaseForm", "baseform", select, request); 
-            addFilterToSelect("WebUserId", "webusersid", select, request); 
+            addFilterToSelect("CustomFormId", "webformid", select, request); 
+            addFilterToSelect("GroupId", "groupsid", select, request); 
             //select.AddParameter("@paramstring", paramString); 
             //select.AddParameter("@paramdate", paramDate); 
             //select.AddParameter("@paramboolean", paramBoolean); 
