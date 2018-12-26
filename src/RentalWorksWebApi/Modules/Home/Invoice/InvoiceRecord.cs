@@ -33,13 +33,13 @@ namespace WebApi.Modules.Home.Invoice
         public string DealId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "paytermsid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
-        public string PaytermsId { get; set; }
+        public string PaymentTermsId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "departmentid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
         public string DepartmentId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "paytypeid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
-        public string PaytypeId { get; set; }
+        public string PaymentTypeId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "invoicebatchid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
         public string InvoiceCreationBatchId { get; set; }

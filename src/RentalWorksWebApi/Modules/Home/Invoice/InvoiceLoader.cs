@@ -144,8 +144,17 @@ namespace WebApi.Modules.Home.Invoice
         [FwSqlDataField(column: "printnotes", modeltype: FwDataTypes.Text)]
         public string PrintNotes { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "paytermsid", modeltype: FwDataTypes.Text)]
+        public string PaymentTermsId { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "payterms", modeltype: FwDataTypes.Text)]
         public string PaymentTerms { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "paytypeid", modeltype: FwDataTypes.Text)]
+        public string PaymentTypeId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "paytype", modeltype: FwDataTypes.Text)]
+        public string PaymentType { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "taxid", modeltype: FwDataTypes.Text)]
         public string TaxId { get; set; }

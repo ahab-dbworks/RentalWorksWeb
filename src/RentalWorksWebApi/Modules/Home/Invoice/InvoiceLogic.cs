@@ -242,8 +242,20 @@ namespace WebApi.Modules.Home.Invoice
         [FwLogicProperty(Id:"0nKdiFtH7Atq", IsReadOnly:true)]
         public string PrintNotes { get; set; }
 
+
+        [FwLogicProperty(Id: "fMBviWLkZudRV")]
+        public string PaymentTermsId { get { return invoice.PaymentTermsId; } set { invoice.PaymentTermsId = value; } }
+
         [FwLogicProperty(Id:"Hr94ZKAyt5CP", IsReadOnly:true)]
         public string PaymentTerms { get; set; }
+
+
+        [FwLogicProperty(Id: "RwKCZSEa720Vv")]
+        public string PaymentTypeId { get { return invoice.PaymentTypeId; } set { invoice.PaymentTypeId = value; } }
+
+        [FwLogicProperty(Id: "NRs7x9yVZ3qdM", IsReadOnly: true)]
+        public string PaymentType { get; set; }
+
 
         [FwLogicProperty(Id:"578Sa5Ns8Ute")]
         public string TaxId { get { return invoice.TaxId; } set { invoice.TaxId = value; } }
