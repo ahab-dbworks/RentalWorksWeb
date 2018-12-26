@@ -10,7 +10,7 @@ namespace WebApi.Modules.Administrator.AssignedCustomForm
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "webformid", modeltype: FwDataTypes.Text)]
-        public string CustomrFormId { get; set; }
+        public string CustomFormId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "baseform", modeltype: FwDataTypes.Text)]
         public string BaseForm { get; set; }
