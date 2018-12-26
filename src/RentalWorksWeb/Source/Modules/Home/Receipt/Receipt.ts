@@ -105,8 +105,12 @@ class Receipt {
             FwFormField.enable($form.find('div[data-datafield="DealId"]'));
             FwFormField.enable($form.find('div[data-datafield="CustomerId"]'));
             FwFormField.setValue($form, 'div[data-datafield="AppliedById"]', usersid, name);
+            $form.find('.deal-customer').change(() => {
+                this.loadReceiptInvoiceGrid($form);
+            });
+            this.events($form);
         }
-
+        // Adds receipt invoice datatable to request
         $form.data('beforesave', request => {
             request.InvoiceDataList = this.getFormTableData($form);
         });
@@ -183,9 +187,14 @@ class Receipt {
         $form.find('div[data-datafield="PaymentBy"]').change(() => {
             this.paymentByRadioBehavior($form);
         });
+ 
     }
     //----------------------------------------------------------------------------------------------
     loadReceiptInvoiceGrid($form: JQuery): void {
+        // called every save since in afterload but only refresh grid in if NEW
+        // currently only loads for first time but needs to distinguish if new and after
+        // shade amount if not 0
+        // add peek?
         if (!$form.data('formtable')) {
             let request: any = {};
             let officeLocationId = JSON.parse(sessionStorage.getItem('location')).locationid;
@@ -204,9 +213,9 @@ class Receipt {
                 let htmlRows: Array<string> = [];
                 if (rows.length) {
                     for (let i = 0; i < rows.length; i++) {
-                        htmlRows.push(`<tr class="row"><td class="text">${rows[i][8]}</td><td class="text InvoiceId" style="display:none;">${rows[i][0]}</td><td class="text">${rows[i][1]}</td><td class="text">${rows[i][2]}</td><td class="text">${rows[i][6]}</td>
-                                       <td class="text">${rows[i][3]}</td><td style="text-align:right;" class="decimal static-amount">${rows[i][9]}</td><td style="text-align:right;" class="decimal static-amount">${rows[i][12]}</td><td style="text-align:right;" class="decimal static-amount">${rows[i][14]}</td>
-                                       <td class="decimal invoice-amount"><input class="decimal fwformfield-value" style="font-size:inherit" type="text" autocapitalize="none" value="${rows[i][13]}"></td></tr>`
+                        htmlRows.push(`<tr class="row"><td class="text">${rows[i][res.ColumnIndex.Deal]}<i class="material-icons btnpeek">more_horiz</i></td><td class="text InvoiceId" style="display:none;">${rows[i][res.ColumnIndex.InvoiceId]}</td><td class="text">${rows[i][res.ColumnIndex.InvoiceNumber]}</td><td class="text">${rows[i][res.ColumnIndex.InvoiceDate]}</td><td class="text">${rows[i][res.ColumnIndex.OrderNumber]}</td>
+                                       <td class="text">${rows[i][res.ColumnIndex.Description]}</td><td style="text-align:right;" class="decimal static-amount">${rows[i][res.ColumnIndex.Total]}</td><td style="text-align:right;" class="decimal static-amount">${rows[i][res.ColumnIndex.Applied]}</td><td style="text-align:right;" class="decimal static-amount">${rows[i][res.ColumnIndex.Due]}</td>
+                                       <td class="decimal invoice-amount"><input class="decimal fwformfield-value" style="font-size:inherit" type="text" autocapitalize="none" value="${rows[i][res.ColumnIndex.Amount]}"></td></tr>`
                                       );
                     }
                     $form.find('.table-rows').html(htmlRows.join(''));
