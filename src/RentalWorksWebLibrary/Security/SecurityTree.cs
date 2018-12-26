@@ -328,6 +328,8 @@ namespace WebLibrary.Security
             AddGrid("Crew Location",                          "{FFF47B06-017C-417B-A05B-AD8670126E06}", lv1menuGrids.Id, "CrewLocationGridController");
             AddGrid("Crew Position",                          "{C87470C4-6D8A-4040-A7EF-E9B393B583CA}", lv1menuGrids.Id, "CrewPositionGridController");
             AddGrid("Customer Note",                          "{50EB024E-6D9A-440A-8161-458A2E89EFB8}", lv1menuGrids.Id, "CustomerNoteGridController");
+            AddGrid("Custom Form Group",                      "{2D12FA3B-2BC3-4838-9B79-05303F7D3120}", lv1menuGrids.Id, "CustomFormGroupGridController");
+            AddGrid("Custom Form User",                       "{FAAAE8F2-F68F-4B26-97E3-D143A80D1C18}", lv1menuGrids.Id, "CustomFormUserGridController");
             AddGrid("Company Resale",                         "{571F090C-D7EC-4D95-BA7B-84D09B609F39}", lv1menuGrids.Id, "CompanyResaleGridController");
             AddGrid("Discount Item Labor",                    "{B65A5839-0226-4BAD-99F9-64FA9D1C1E33}", lv1menuGrids.Id, "DiscountItemLaborGridController");
             AddGrid("Discount Item Misc",                     "{5974DBEF-1D45-4B11-BA85-CB05B725F54C}", lv1menuGrids.Id, "DiscountItemMiscGridController");

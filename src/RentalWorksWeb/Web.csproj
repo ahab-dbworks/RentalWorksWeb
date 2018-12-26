@@ -183,6 +183,8 @@
     <Content Include="Source\Grids\CheckedOutItemGrid\CheckedOutItemGridBrowse.htm" />
     <Content Include="Source\Grids\CheckInQuantityItemsGrid\CheckInQuantityItemsGridBrowse.htm" />
     <Content Include="Source\Grids\AuditHistoryGrid\AuditHistoryGridBrowse.htm" />
+    <Content Include="Source\Grids\CustomFormUserGrid\CustomFormUserGridBrowse.htm" />
+    <Content Include="Source\Grids\CustomFormGroupGrid\CustomFormGroupGridBrowse.htm" />
     <Content Include="Source\Grids\StageHoldingItemGrid\StageHoldingItemGridBrowse.htm" />
     <Content Include="Source\Grids\VendorInvoiceItemGrid\VendorInvoiceItemGridBrowse.htm" />
     <Content Include="Source\Grids\OrderItemGrid\OrderItemGridBrowse.htm" />
@@ -306,6 +308,8 @@
     <TypeScriptCompile Include="Source\Grids\CheckedOutItemGrid\CheckedOutItemGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\CheckInQuantityItemsGrid\CheckInQuantityItemsGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\AuditHistoryGrid\AuditHistoryGridController.ts" />
+    <TypeScriptCompile Include="Source\Grids\CustomFormUserGrid\CustomFormUserGridController.ts" />
+    <TypeScriptCompile Include="Source\Grids\CustomFormGroupGrid\CustomFormGroupGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\StageHoldingItemGrid\StageHoldingItemGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\VendorInvoiceItemGrid\VendorInvoiceItemGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\OrderItemGrid\OrderItemGridController.ts" />
