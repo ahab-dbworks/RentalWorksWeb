@@ -5,14 +5,14 @@ namespace WebApi.Modules.Home.ReceiptInvoice
     public class ReceiptInvoiceLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------ 
-        //ReceiptInvoiceRecord receiptInvoice = new ReceiptInvoiceRecord();
         ReceiptInvoiceLoader receiptInvoiceLoader = new ReceiptInvoiceLoader();
         public ReceiptInvoiceLogic()
         {
-            //dataRecords.Add(receiptInvoice);
             dataLoader = receiptInvoiceLoader;
         }
         //------------------------------------------------------------------------------------ 
+        [FwLogicProperty(Id: "Or3xalP9frqi2")]
+        public string InvoiceReceiptId { get; set; } = "";
         [FwLogicProperty(Id: "W3AB8Dojf")]
         public string InvoiceId { get; set; }
         [FwLogicProperty(Id: "9ZQiE6WwE3")]
@@ -55,13 +55,6 @@ namespace WebApi.Modules.Home.ReceiptInvoice
         public string CurrencyId { get; set; }
         [FwLogicProperty(Id: "zTPlBz9HAqq")]
         public string CurrencyCode { get; set; }
-        //------------------------------------------------------------------------------------ 
-        //protected override bool Validate(TDataRecordSaveMode saveMode, FwBusinessLogic original, ref string validateMsg) 
-        //{ 
-        //    //override this method on a derived class to implement custom validation logic 
-        //    bool isValid = true; 
-        //    return isValid; 
-        //} 
         //------------------------------------------------------------------------------------ 
     }
 }

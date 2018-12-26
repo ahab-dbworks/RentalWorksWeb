@@ -10,6 +10,9 @@ namespace WebApi.Modules.Home.ReceiptInvoice
     public class ReceiptInvoiceLoader : AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "id", modeltype: FwDataTypes.Text, isPrimaryKey: true)]
+        public string InvoiceReceiptId { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "invoiceid", modeltype: FwDataTypes.Text)]
         public string InvoiceId { get; set; }
         //------------------------------------------------------------------------------------ 
