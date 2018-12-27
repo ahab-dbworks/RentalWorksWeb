@@ -269,7 +269,7 @@
             { value: 'NotEqual', text: 'Does Not Equal' },
         ];
 
-        FwAppData.apiMethod(true, 'GET', 'api/v1/' + $browse.data('name') + '/emptyobject', null, FwServices.defaultTimeout, function onSuccess(response) {
+        FwAppData.apiMethod(true, 'GET', window[controller].apiurl + '/emptyobject', null, FwServices.defaultTimeout, function onSuccess(response) {
             for (var i = 0; i < response._Fields.length; i++) {
                 findFields.push({
                     'value': response._Fields[i].Name,
@@ -300,9 +300,6 @@
             FwFunc.showError(response);
         }, null);
 
-
-
-
         $browse.find('.add-query').on('click', function cloneRow() {
             let newRow = jQuery(this).closest('.queryrow').clone();
 
@@ -322,26 +319,50 @@
                         window['FwFormField_select'].loadItems(newRow.find('.datafieldcomparison'), dateComparisonFields, true);
                         break;
                 }
-            })
+            });
             newRow.find('.delete-query').on('click', function () {
                 if (newRow.find('.add-query').css('visibility') === 'visible') {
                     newRow.prev().find('.add-query').css('visibility', 'visible');
                 }
+                if (newRow.find('.andor').css('visibility') === 'hidden') {
+                    newRow.next().find('.andor').css('visibility', 'hidden');
+                }
+                if ($browse.find('.query').find('.queryrow').length === 2) {
+                    newRow.next().find('.delete-query').removeAttr('style').css('visibility', 'hidden');
+                }
+
                 newRow.remove();
             }).css('visibility', 'visible');
             newRow.find('.andor').css('visibility', 'visible');
             newRow.find('.add-query').on('click', cloneRow);
+            newRow.find('input').val('')
             newRow.appendTo($browse.find('.query'));
+            if ($browse.find('.query').find('.queryrow').length > 1) {
+                jQuery($browse.find('.query').find('.queryrow')[0]).find('.delete-query').on('click', function () {
+                    jQuery(this).closest('.queryrow').next().find('.andor').css('visibility', 'hidden');
+                    jQuery(this).closest('.queryrow').remove();
+                }).css('visibility', 'visible');
+            }
             jQuery(this).css('cursor', 'default');
             jQuery(this).css('visibility', 'hidden');
         })
 
-        //$browse.find('.search').on('click', function () {
-        //    let request = FwBrowse.getRequest($browse);
-        //    request.searchfieldoperators.unshift('like');
-        //    console.log(FwFormField.bulkGetValues($browse.find('div[data-datafield="DatafieldQuery"]')));
+        $browse.find('.search').on('click', function () {
+            let request = FwBrowse.getRequest($browse);
+            request.searchfieldoperators.unshift('like');
+            request.searchfields.unshift(FwFormField.getValue2($browse.find('div[data-datafield="Datafield"]')));
+            request.searchfieldvalues.unshift(FwFormField.getValue2($browse.find('div[data-datafield="DatafieldQuery"]')));
+            request.searchseparators.unshift(',');
 
-        //})
+            FwServices.module.method(request, request.module, 'Browse', $browse, function (response) {
+                try {
+                    FwBrowse.beforeDataBindCallBack($browse, request, response);
+                } catch (ex) {
+                    FwFunc.showError(ex);
+                }
+            })
+
+        })
 
         return $browse;
     }
@@ -1747,7 +1768,7 @@
                         customHtml.push('</div>');
                     }
                 }
-                customHtml.push('</div>')
+                customHtml.push('</div>');
 
                 var $customControl = jQuery(customHtml.join(''));
                 FwControl.renderRuntimeControls($customControl.find('.fwcontrol').addBack());
